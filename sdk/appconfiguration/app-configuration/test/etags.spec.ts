@@ -24,8 +24,10 @@ describe("etags", () => {
     });
   });
 
-  afterEach(async () => {
-    await deleteKeyCompletely([key], client);
+  afterEach(async function() {
+    if (!this.currentTest?.isPending()) {
+      await deleteKeyCompletely([key], client);
+    }
   });
 
   // etag usage is 'opt-in' via the onlyIfChanged/onlyIfUnchanged options for certain calls

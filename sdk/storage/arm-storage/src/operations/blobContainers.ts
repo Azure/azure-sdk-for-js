@@ -81,10 +81,11 @@ export class BlobContainers {
    * container names must be between 3 and 63 characters in length and use numbers, lower-case
    * letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by
    * a letter or number.
+   * @param blobContainer Properties of the blob container to create.
    * @param [options] The optional parameters
    * @returns Promise<Models.BlobContainersCreateResponse>
    */
-  create(resourceGroupName: string, accountName: string, containerName: string, options?: Models.BlobContainersCreateOptionalParams): Promise<Models.BlobContainersCreateResponse>;
+  create(resourceGroupName: string, accountName: string, containerName: string, blobContainer: Models.BlobContainer, options?: msRest.RequestOptionsBase): Promise<Models.BlobContainersCreateResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -95,9 +96,10 @@ export class BlobContainers {
    * container names must be between 3 and 63 characters in length and use numbers, lower-case
    * letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by
    * a letter or number.
+   * @param blobContainer Properties of the blob container to create.
    * @param callback The callback
    */
-  create(resourceGroupName: string, accountName: string, containerName: string, callback: msRest.ServiceCallback<Models.BlobContainer>): void;
+  create(resourceGroupName: string, accountName: string, containerName: string, blobContainer: Models.BlobContainer, callback: msRest.ServiceCallback<Models.BlobContainer>): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -108,16 +110,18 @@ export class BlobContainers {
    * container names must be between 3 and 63 characters in length and use numbers, lower-case
    * letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by
    * a letter or number.
+   * @param blobContainer Properties of the blob container to create.
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(resourceGroupName: string, accountName: string, containerName: string, options: Models.BlobContainersCreateOptionalParams, callback: msRest.ServiceCallback<Models.BlobContainer>): void;
-  create(resourceGroupName: string, accountName: string, containerName: string, options?: Models.BlobContainersCreateOptionalParams | msRest.ServiceCallback<Models.BlobContainer>, callback?: msRest.ServiceCallback<Models.BlobContainer>): Promise<Models.BlobContainersCreateResponse> {
+  create(resourceGroupName: string, accountName: string, containerName: string, blobContainer: Models.BlobContainer, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BlobContainer>): void;
+  create(resourceGroupName: string, accountName: string, containerName: string, blobContainer: Models.BlobContainer, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BlobContainer>, callback?: msRest.ServiceCallback<Models.BlobContainer>): Promise<Models.BlobContainersCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         accountName,
         containerName,
+        blobContainer,
         options
       },
       createOperationSpec,
@@ -136,10 +140,11 @@ export class BlobContainers {
    * container names must be between 3 and 63 characters in length and use numbers, lower-case
    * letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by
    * a letter or number.
+   * @param blobContainer Properties to update for the blob container.
    * @param [options] The optional parameters
    * @returns Promise<Models.BlobContainersUpdateResponse>
    */
-  update(resourceGroupName: string, accountName: string, containerName: string, options?: Models.BlobContainersUpdateOptionalParams): Promise<Models.BlobContainersUpdateResponse>;
+  update(resourceGroupName: string, accountName: string, containerName: string, blobContainer: Models.BlobContainer, options?: msRest.RequestOptionsBase): Promise<Models.BlobContainersUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -150,9 +155,10 @@ export class BlobContainers {
    * container names must be between 3 and 63 characters in length and use numbers, lower-case
    * letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by
    * a letter or number.
+   * @param blobContainer Properties to update for the blob container.
    * @param callback The callback
    */
-  update(resourceGroupName: string, accountName: string, containerName: string, callback: msRest.ServiceCallback<Models.BlobContainer>): void;
+  update(resourceGroupName: string, accountName: string, containerName: string, blobContainer: Models.BlobContainer, callback: msRest.ServiceCallback<Models.BlobContainer>): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -163,16 +169,18 @@ export class BlobContainers {
    * container names must be between 3 and 63 characters in length and use numbers, lower-case
    * letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by
    * a letter or number.
+   * @param blobContainer Properties to update for the blob container.
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, accountName: string, containerName: string, options: Models.BlobContainersUpdateOptionalParams, callback: msRest.ServiceCallback<Models.BlobContainer>): void;
-  update(resourceGroupName: string, accountName: string, containerName: string, options?: Models.BlobContainersUpdateOptionalParams | msRest.ServiceCallback<Models.BlobContainer>, callback?: msRest.ServiceCallback<Models.BlobContainer>): Promise<Models.BlobContainersUpdateResponse> {
+  update(resourceGroupName: string, accountName: string, containerName: string, blobContainer: Models.BlobContainer, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BlobContainer>): void;
+  update(resourceGroupName: string, accountName: string, containerName: string, blobContainer: Models.BlobContainer, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BlobContainer>, callback?: msRest.ServiceCallback<Models.BlobContainer>): Promise<Models.BlobContainersUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         accountName,
         containerName,
+        blobContainer,
         options
       },
       updateOperationSpec,
@@ -424,12 +432,10 @@ export class BlobContainers {
    * container names must be between 3 and 63 characters in length and use numbers, lower-case
    * letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by
    * a letter or number.
-   * @param immutabilityPeriodSinceCreationInDays The immutability period for the blobs in the
-   * container since the policy creation, in days.
    * @param [options] The optional parameters
    * @returns Promise<Models.BlobContainersCreateOrUpdateImmutabilityPolicyResponse>
    */
-  createOrUpdateImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, immutabilityPeriodSinceCreationInDays: number, options?: Models.BlobContainersCreateOrUpdateImmutabilityPolicyOptionalParams): Promise<Models.BlobContainersCreateOrUpdateImmutabilityPolicyResponse>;
+  createOrUpdateImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, options?: Models.BlobContainersCreateOrUpdateImmutabilityPolicyOptionalParams): Promise<Models.BlobContainersCreateOrUpdateImmutabilityPolicyResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -440,11 +446,9 @@ export class BlobContainers {
    * container names must be between 3 and 63 characters in length and use numbers, lower-case
    * letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by
    * a letter or number.
-   * @param immutabilityPeriodSinceCreationInDays The immutability period for the blobs in the
-   * container since the policy creation, in days.
    * @param callback The callback
    */
-  createOrUpdateImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, immutabilityPeriodSinceCreationInDays: number, callback: msRest.ServiceCallback<Models.ImmutabilityPolicy>): void;
+  createOrUpdateImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, callback: msRest.ServiceCallback<Models.ImmutabilityPolicy>): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -455,19 +459,16 @@ export class BlobContainers {
    * container names must be between 3 and 63 characters in length and use numbers, lower-case
    * letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by
    * a letter or number.
-   * @param immutabilityPeriodSinceCreationInDays The immutability period for the blobs in the
-   * container since the policy creation, in days.
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdateImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, immutabilityPeriodSinceCreationInDays: number, options: Models.BlobContainersCreateOrUpdateImmutabilityPolicyOptionalParams, callback: msRest.ServiceCallback<Models.ImmutabilityPolicy>): void;
-  createOrUpdateImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, immutabilityPeriodSinceCreationInDays: number, options?: Models.BlobContainersCreateOrUpdateImmutabilityPolicyOptionalParams | msRest.ServiceCallback<Models.ImmutabilityPolicy>, callback?: msRest.ServiceCallback<Models.ImmutabilityPolicy>): Promise<Models.BlobContainersCreateOrUpdateImmutabilityPolicyResponse> {
+  createOrUpdateImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, options: Models.BlobContainersCreateOrUpdateImmutabilityPolicyOptionalParams, callback: msRest.ServiceCallback<Models.ImmutabilityPolicy>): void;
+  createOrUpdateImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, options?: Models.BlobContainersCreateOrUpdateImmutabilityPolicyOptionalParams | msRest.ServiceCallback<Models.ImmutabilityPolicy>, callback?: msRest.ServiceCallback<Models.ImmutabilityPolicy>): Promise<Models.BlobContainersCreateOrUpdateImmutabilityPolicyResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         accountName,
         containerName,
-        immutabilityPeriodSinceCreationInDays,
         options
       },
       createOrUpdateImmutabilityPolicyOperationSpec,
@@ -677,12 +678,10 @@ export class BlobContainers {
    * @param ifMatch The entity state (ETag) version of the immutability policy to update. A value of
    * "*" can be used to apply the operation only if the immutability policy already exists. If
    * omitted, this operation will always be applied.
-   * @param immutabilityPeriodSinceCreationInDays The immutability period for the blobs in the
-   * container since the policy creation, in days.
    * @param [options] The optional parameters
    * @returns Promise<Models.BlobContainersExtendImmutabilityPolicyResponse>
    */
-  extendImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, ifMatch: string, immutabilityPeriodSinceCreationInDays: number, options?: msRest.RequestOptionsBase): Promise<Models.BlobContainersExtendImmutabilityPolicyResponse>;
+  extendImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, ifMatch: string, options?: Models.BlobContainersExtendImmutabilityPolicyOptionalParams): Promise<Models.BlobContainersExtendImmutabilityPolicyResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -696,11 +695,9 @@ export class BlobContainers {
    * @param ifMatch The entity state (ETag) version of the immutability policy to update. A value of
    * "*" can be used to apply the operation only if the immutability policy already exists. If
    * omitted, this operation will always be applied.
-   * @param immutabilityPeriodSinceCreationInDays The immutability period for the blobs in the
-   * container since the policy creation, in days.
    * @param callback The callback
    */
-  extendImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, ifMatch: string, immutabilityPeriodSinceCreationInDays: number, callback: msRest.ServiceCallback<Models.ImmutabilityPolicy>): void;
+  extendImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, ifMatch: string, callback: msRest.ServiceCallback<Models.ImmutabilityPolicy>): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -714,20 +711,17 @@ export class BlobContainers {
    * @param ifMatch The entity state (ETag) version of the immutability policy to update. A value of
    * "*" can be used to apply the operation only if the immutability policy already exists. If
    * omitted, this operation will always be applied.
-   * @param immutabilityPeriodSinceCreationInDays The immutability period for the blobs in the
-   * container since the policy creation, in days.
    * @param options The optional parameters
    * @param callback The callback
    */
-  extendImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, ifMatch: string, immutabilityPeriodSinceCreationInDays: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ImmutabilityPolicy>): void;
-  extendImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, ifMatch: string, immutabilityPeriodSinceCreationInDays: number, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ImmutabilityPolicy>, callback?: msRest.ServiceCallback<Models.ImmutabilityPolicy>): Promise<Models.BlobContainersExtendImmutabilityPolicyResponse> {
+  extendImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, ifMatch: string, options: Models.BlobContainersExtendImmutabilityPolicyOptionalParams, callback: msRest.ServiceCallback<Models.ImmutabilityPolicy>): void;
+  extendImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, ifMatch: string, options?: Models.BlobContainersExtendImmutabilityPolicyOptionalParams | msRest.ServiceCallback<Models.ImmutabilityPolicy>, callback?: msRest.ServiceCallback<Models.ImmutabilityPolicy>): Promise<Models.BlobContainersExtendImmutabilityPolicyResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         accountName,
         containerName,
         ifMatch,
-        immutabilityPeriodSinceCreationInDays,
         options
       },
       extendImmutabilityPolicyOperationSpec,
@@ -864,16 +858,7 @@ const createOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   requestBody: {
-    parameterPath: {
-      publicAccess: [
-        "options",
-        "publicAccess"
-      ],
-      metadata: [
-        "options",
-        "metadata"
-      ]
-    },
+    parameterPath: "blobContainer",
     mapper: {
       ...Mappers.BlobContainer,
       required: true
@@ -909,16 +894,7 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   requestBody: {
-    parameterPath: {
-      publicAccess: [
-        "options",
-        "publicAccess"
-      ],
-      metadata: [
-        "options",
-        "metadata"
-      ]
-    },
+    parameterPath: "blobContainer",
     mapper: {
       ...Mappers.BlobContainer,
       required: true
@@ -1075,7 +1051,14 @@ const createOrUpdateImmutabilityPolicyOperationSpec: msRest.OperationSpec = {
   ],
   requestBody: {
     parameterPath: {
-      immutabilityPeriodSinceCreationInDays: "immutabilityPeriodSinceCreationInDays"
+      immutabilityPeriodSinceCreationInDays: [
+        "options",
+        "immutabilityPeriodSinceCreationInDays"
+      ],
+      allowProtectedAppendWrites: [
+        "options",
+        "allowProtectedAppendWrites"
+      ]
     },
     mapper: Mappers.ImmutabilityPolicy
   },
@@ -1195,7 +1178,14 @@ const extendImmutabilityPolicyOperationSpec: msRest.OperationSpec = {
   ],
   requestBody: {
     parameterPath: {
-      immutabilityPeriodSinceCreationInDays: "immutabilityPeriodSinceCreationInDays"
+      immutabilityPeriodSinceCreationInDays: [
+        "options",
+        "immutabilityPeriodSinceCreationInDays"
+      ],
+      allowProtectedAppendWrites: [
+        "options",
+        "allowProtectedAppendWrites"
+      ]
     },
     mapper: Mappers.ImmutabilityPolicy
   },

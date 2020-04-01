@@ -28,7 +28,8 @@ import {
   BlobStartCopyFromURLResponse,
   BlobAbortCopyFromURLResponse,
   BlobCopyFromURLResponse,
-  BlobSetTierResponse
+  BlobSetTierResponse,
+  ContainerEncryptionScope
 } from "./generatedModels";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { BlobDownloadResponse } from "./BlobDownloadResponse";
@@ -54,11 +55,10 @@ import {
   extractConnectionStringParts,
   appendToURLPath
 } from "./utils/utils.common";
-import { readStreamToLocalFile } from "./utils/utils.node";
+import { fsStat, readStreamToLocalFile, streamToBuffer } from "./utils/utils.node";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { Batch } from "./utils/Batch";
-import { streamToBuffer } from "./utils/utils.node";
 import { createSpan } from "./utils/tracing";
 import { HttpRequestBody } from "@azure/core-http";
 import {
@@ -83,7 +83,6 @@ import {
 import { BlockBlob } from "./generated/src/operations";
 import { Range } from "./Range";
 import { generateBlockID } from "./utils/utils.common";
-import { fsStat } from "./utils/utils.node";
 import {
   BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES,
   BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES,
@@ -136,7 +135,6 @@ import { ETagNone } from "./utils/constants";
 import { truncatedISO8061Date } from "./utils/utils.common";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { getCachedDefaultHttpClient } from "./utils/cache";
 
 /**
  * Options to configure the {@link BlobClient.beginCopyFromURL} operation.
@@ -442,6 +440,16 @@ export interface BlobSetMetadataOptions extends CommonOptions {
    * @memberof BlobSetMetadataOptions
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   *
+   * @type {string}
+   * @memberof BlobSetMetadataOptions
+   */
+  encryptionScope?: string;
 }
 
 /**
@@ -600,6 +608,16 @@ export interface BlobCreateSnapshotOptions extends CommonOptions {
    * @memberof BlobCreateSnapshotOptions
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   *
+   * @type {string}
+   * @memberof BlobCreateSnapshotOptions
+   */
+  encryptionScope?: string;
 }
 
 /**
@@ -717,6 +735,13 @@ export interface BlobSyncCopyFromURLOptions extends CommonOptions {
    * @memberof BlobSyncCopyFromURLOptions
    */
   sourceConditions?: ModifiedAccessConditions;
+  /**
+   * Specify the md5 calculated for the range of bytes that must be read from the copy source.
+   *
+   * @type {Uint8Array}
+   * @memberof BlobSyncCopyFromURLOptions
+   */
+  sourceContentMD5?: Uint8Array;
 }
 
 /**
@@ -923,13 +948,7 @@ export class BlobClient extends StorageClient {
     blobNameOrOptions?: string | StoragePipelineOptions,
     options?: StoragePipelineOptions
   ) {
-    // when options.httpClient is not specified, passing in a DefaultHttpClient instance to
-    // avoid each client creating its own http client.
-    const newOptions: StoragePipelineOptions = {
-      httpClient: getCachedDefaultHttpClient(),
-      ...options
-    };
-
+    options = options || {};
     let pipeline: Pipeline;
     let url: string;
     if (credentialOrPipelineOrContainerName instanceof Pipeline) {
@@ -943,13 +962,8 @@ export class BlobClient extends StorageClient {
     ) {
       // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       url = urlOrConnectionString;
-      // when options.httpClient is not specified, passing in a DefaultHttpClient instance to
-      // avoid each client creating its own http client.
-      const newOptions: StoragePipelineOptions = {
-        httpClient: getCachedDefaultHttpClient(),
-        ...(blobNameOrOptions as StoragePipelineOptions)
-      };
-      pipeline = newPipeline(credentialOrPipelineOrContainerName, newOptions);
+      options = blobNameOrOptions as StoragePipelineOptions;
+      pipeline = newPipeline(credentialOrPipelineOrContainerName, options);
     } else if (
       !credentialOrPipelineOrContainerName &&
       typeof credentialOrPipelineOrContainerName !== "string"
@@ -957,7 +971,7 @@ export class BlobClient extends StorageClient {
       // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       // The second parameter is undefined. Use anonymous credential.
       url = urlOrConnectionString;
-      pipeline = newPipeline(new AnonymousCredential(), newOptions);
+      pipeline = newPipeline(new AnonymousCredential(), options);
     } else if (
       credentialOrPipelineOrContainerName &&
       typeof credentialOrPipelineOrContainerName === "string" &&
@@ -980,8 +994,8 @@ export class BlobClient extends StorageClient {
             encodeURIComponent(blobName)
           );
 
-          newOptions.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
-          pipeline = newPipeline(sharedKeyCredential, newOptions);
+          options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
+          pipeline = newPipeline(sharedKeyCredential, options);
         } else {
           throw new Error("Account connection string is only supported in Node.js environment");
         }
@@ -993,7 +1007,7 @@ export class BlobClient extends StorageClient {
           ) +
           "?" +
           extractedCreds.accountSas;
-        pipeline = newPipeline(new AnonymousCredential(), newOptions);
+        pipeline = newPipeline(new AnonymousCredential(), options);
       } else {
         throw new Error(
           "Connection string must be either an Account connection string or a SAS connection string"
@@ -1432,6 +1446,7 @@ export class BlobClient extends StorageClient {
         metadata,
         modifiedAccessConditions: options.conditions,
         cpkInfo: options.customerProvidedKey,
+        encryptionScope: options.encryptionScope,
         spanOptions
       });
     } catch (e) {
@@ -1477,6 +1492,7 @@ export class BlobClient extends StorageClient {
         metadata: options.metadata,
         modifiedAccessConditions: options.conditions,
         cpkInfo: options.customerProvidedKey,
+        encryptionScope: options.encryptionScope,
         spanOptions
       });
     } catch (e) {
@@ -1495,7 +1511,8 @@ export class BlobClient extends StorageClient {
    * This method returns a long running operation poller that allows you to wait
    * indefinitely until the copy is completed.
    * You can also cancel a copy before it is completed by calling `cancelOperation` on the poller.
-   * Note that attempting to cancel a completed copy will result in an error being thrown.
+   * Note that the onProgress callback will not be invoked if the operation completes in the first
+   * request, and attempting to cancel a completed copy will result in an error being thrown.
    *
    * In version 2012-02-12 and later, the source for a Copy Blob operation can be
    * a committed blob in any Azure storage account.
@@ -1650,6 +1667,7 @@ export class BlobClient extends StorageClient {
           sourceIfNoneMatch: options.sourceConditions.ifNoneMatch,
           sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince
         },
+        sourceContentMD5: options.sourceContentMD5,
         spanOptions
       });
     } catch (e) {
@@ -2061,6 +2079,16 @@ export interface AppendBlobCreateOptions extends CommonOptions {
    * @memberof AppendBlobCreateOptions
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   *
+   * @type {string}
+   * @memberof AppendBlobCreateOptions
+   */
+  encryptionScope?: string;
 }
 
 /**
@@ -2119,6 +2147,16 @@ export interface AppendBlobAppendBlockOptions extends CommonOptions {
    * @memberof AppendBlobAppendBlockOptions
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   *
+   * @type {string}
+   * @memberof AppendBlobAppendBlockOptions
+   */
+  encryptionScope?: string;
 }
 
 /**
@@ -2179,6 +2217,16 @@ export interface AppendBlobAppendBlockFromURLOptions extends CommonOptions {
    * @memberof AppendBlobAppendBlockFromURLOptions
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   *
+   * @type {string}
+   * @memberof AppendBlobAppendBlockFromURLOptions
+   */
+  encryptionScope?: string;
 }
 
 /**
@@ -2372,6 +2420,13 @@ export class AppendBlobClient extends BlobClient {
    * @param {AppendBlobCreateOptions} [options] Options to the Append Block Create operation.
    * @returns {Promise<AppendBlobCreateResponse>}
    * @memberof AppendBlobClient
+   *
+   * Example usage:
+   *
+   * ```js
+   * const appendBlobClient = containerClient.getAppendBlobClient("<blob name>");
+   * await appendBlobClient.create();
+   * ```
    */
   public async create(options: AppendBlobCreateOptions = {}): Promise<AppendBlobCreateResponse> {
     const { span, spanOptions } = createSpan("AppendBlobClient-create", options.tracingOptions);
@@ -2386,6 +2441,7 @@ export class AppendBlobClient extends BlobClient {
         metadata: options.metadata,
         modifiedAccessConditions: options.conditions,
         cpkInfo: options.customerProvidedKey,
+        encryptionScope: options.encryptionScope,
         spanOptions
       });
     } catch (e) {
@@ -2408,6 +2464,21 @@ export class AppendBlobClient extends BlobClient {
    * @param {AppendBlobAppendBlockOptions} [options] Options to the Append Block operation.
    * @returns {Promise<AppendBlobAppendBlockResponse>}
    * @memberof AppendBlobClient
+   *
+   * Example usage:
+   *
+   * ```js
+   * const content = "Hello World!";
+   *
+   * // Create a new append blob and append data to the blob.
+   * const newAppendBlobClient = containerClient.getAppendBlobClient("<blob name>");
+   * await newAppendBlobClient.create();
+   * await newAppendBlobClient.appendBlock(content, content.length);
+   *
+   * // Append data to an existing append blob.
+   * const existingAppendBlobClient = containerClient.getAppendBlobClient("<blob name>");
+   * await existingAppendBlobClient.appendBlock(content, content.length);
+   * ```
    */
   public async appendBlock(
     body: HttpRequestBody,
@@ -2431,6 +2502,7 @@ export class AppendBlobClient extends BlobClient {
         transactionalContentMD5: options.transactionalContentMD5,
         transactionalContentCrc64: options.transactionalContentCrc64,
         cpkInfo: options.customerProvidedKey,
+        encryptionScope: options.encryptionScope,
         spanOptions
       });
     } catch (e) {
@@ -2490,6 +2562,7 @@ export class AppendBlobClient extends BlobClient {
           sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince
         },
         cpkInfo: options.customerProvidedKey,
+        encryptionScope: options.encryptionScope,
         spanOptions
       });
     } catch (e) {
@@ -2554,6 +2627,16 @@ export interface BlockBlobUploadOptions extends CommonOptions {
    * @memberof BlockBlobUploadOptions
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   *
+   * @type {string}
+   * @memberof BlockBlobUploadOptions
+   */
+  encryptionScope?: string;
   /**
    * Access tier.
    * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
@@ -2622,6 +2705,16 @@ export interface BlockBlobStageBlockOptions extends CommonOptions {
    * @memberof BlockBlobStageBlockOptions
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   *
+   * @type {string}
+   * @memberof BlockBlobStageBlockOptions
+   */
+  encryptionScope?: string;
 }
 
 /**
@@ -2683,6 +2776,16 @@ export interface BlockBlobStageBlockFromURLOptions extends CommonOptions {
    * @memberof BlockBlobStageBlockFromURLOptions
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   *
+   * @type {string}
+   * @memberof BlockBlobStageBlockFromURLOptions
+   */
+  encryptionScope?: string;
 }
 
 /**
@@ -2728,6 +2831,16 @@ export interface BlockBlobCommitBlockListOptions extends CommonOptions {
    * @memberof BlockBlobCommitBlockListOptions
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   *
+   * @type {string}
+   * @memberof BlockBlobCommitBlockListOptions
+   */
+  encryptionScope?: string;
   /**
    * Access tier.
    * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
@@ -2810,6 +2923,17 @@ export interface BlockBlobUploadStreamOptions extends CommonOptions {
    * @memberof BlockBlobUploadStreamOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
+
+  /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   *
+   * @type {string}
+   * @memberof BlockBlobUploadStreamOptions
+   */
+  encryptionScope?: string;
 }
 /**
  * Option interface for {@link BlockBlobClient.uploadFile} and {@link BlockBlobClient.uploadSeekableStream}.
@@ -2885,6 +3009,17 @@ export interface BlockBlobParallelUploadOptions extends CommonOptions {
    * @memberof BlockBlobParallelUploadOptions
    */
   concurrency?: number;
+
+  /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   *
+   * @type {string}
+   * @memberof BlockBlobParallelUploadOptions
+   */
+  encryptionScope?: string;
 }
 
 /**
@@ -3132,6 +3267,7 @@ export class BlockBlobClient extends BlobClient {
         modifiedAccessConditions: options.conditions,
         onUploadProgress: options.onProgress,
         cpkInfo: options.customerProvidedKey,
+        encryptionScope: options.encryptionScope,
         tier: toAccessTier(options.tier),
         spanOptions
       });
@@ -3174,6 +3310,7 @@ export class BlockBlobClient extends BlobClient {
         transactionalContentMD5: options.transactionalContentMD5,
         transactionalContentCrc64: options.transactionalContentCrc64,
         cpkInfo: options.customerProvidedKey,
+        encryptionScope: options.encryptionScope,
         spanOptions
       });
     } catch (e) {
@@ -3229,6 +3366,7 @@ export class BlockBlobClient extends BlobClient {
         sourceContentCrc64: options.sourceContentCrc64,
         sourceRange: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
         cpkInfo: options.customerProvidedKey,
+        encryptionScope: options.encryptionScope,
         spanOptions
       });
     } catch (e) {
@@ -3275,6 +3413,7 @@ export class BlockBlobClient extends BlobClient {
           metadata: options.metadata,
           modifiedAccessConditions: options.conditions,
           cpkInfo: options.customerProvidedKey,
+          encryptionScope: options.encryptionScope,
           tier: toAccessTier(options.tier),
           spanOptions
         }
@@ -3478,6 +3617,7 @@ export class BlockBlobClient extends BlobClient {
             await this.stageBlock(blockID, blobFactory(start, contentLength), contentLength, {
               abortSignal: options.abortSignal,
               conditions: options.conditions,
+              encryptionScope: options.encryptionScope,
               tracingOptions: { ...options!.tracingOptions, spanOptions }
             });
             // Update progress after block is successfully uploaded to server, in case of block trying
@@ -3602,6 +3742,7 @@ export class BlockBlobClient extends BlobClient {
 
           await this.stageBlock(blockID, buffer, buffer.length, {
             conditions: options.conditions,
+            encryptionScope: options.encryptionScope,
             tracingOptions: { ...options!.tracingOptions, spanOptions }
           });
 
@@ -3738,6 +3879,7 @@ export class BlockBlobClient extends BlobClient {
               {
                 abortSignal: options.abortSignal,
                 conditions: options.conditions,
+                encryptionScope: options.encryptionScope,
                 tracingOptions: { ...options!.tracingOptions, spanOptions }
               }
             );
@@ -3819,6 +3961,16 @@ export interface PageBlobCreateOptions extends CommonOptions {
    */
   customerProvidedKey?: CpkInfo;
   /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   *
+   * @type {string}
+   * @memberof PageBlobCreateOptions
+   */
+  encryptionScope?: string;
+  /**
    * Access tier.
    * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
    *
@@ -3884,6 +4036,16 @@ export interface PageBlobUploadPagesOptions extends CommonOptions {
    * @memberof PageBlobUploadPagesOptions
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   *
+   * @type {string}
+   * @memberof PageBlobUploadPagesOptions
+   */
+  encryptionScope?: string;
 }
 
 /**
@@ -3915,6 +4077,16 @@ export interface PageBlobClearPagesOptions extends CommonOptions {
    * @memberof PageBlobClearPagesOptions
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   *
+   * @type {string}
+   * @memberof PageBlobClearPagesOptions
+   */
+  encryptionScope?: string;
 }
 
 /**
@@ -3994,6 +4166,16 @@ export interface PageBlobResizeOptions extends CommonOptions {
    * @memberof PageBlobResizeOptions
    */
   conditions?: BlobRequestConditions;
+  /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   *
+   * @type {string}
+   * @memberof PageBlobResizeOptions
+   */
+  encryptionScope?: string;
 }
 
 /**
@@ -4102,6 +4284,16 @@ export interface PageBlobUploadPagesFromURLOptions extends CommonOptions {
    * @memberof PageBlobUploadPagesFromURLOptions
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   *
+   * @type {string}
+   * @memberof PageBlobUploadPagesFromURLOptions
+   */
+  encryptionScope?: string;
 }
 
 /**
@@ -4306,6 +4498,7 @@ export class PageBlobClient extends BlobClient {
         metadata: options.metadata,
         modifiedAccessConditions: options.conditions,
         cpkInfo: options.customerProvidedKey,
+        encryptionScope: options.encryptionScope,
         tier: toAccessTier(options.tier),
         spanOptions
       });
@@ -4351,6 +4544,7 @@ export class PageBlobClient extends BlobClient {
         transactionalContentMD5: options.transactionalContentMD5,
         transactionalContentCrc64: options.transactionalContentCrc64,
         cpkInfo: options.customerProvidedKey,
+        encryptionScope: options.encryptionScope,
         spanOptions
       });
     } catch (e) {
@@ -4411,6 +4605,7 @@ export class PageBlobClient extends BlobClient {
             sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince
           },
           cpkInfo: options.customerProvidedKey,
+          encryptionScope: options.encryptionScope,
           spanOptions
         }
       );
@@ -4450,6 +4645,7 @@ export class PageBlobClient extends BlobClient {
         range: rangeToString({ offset, count }),
         sequenceNumberAccessConditions: options.conditions,
         cpkInfo: options.customerProvidedKey,
+        encryptionScope: options.encryptionScope,
         spanOptions
       });
     } catch (e) {
@@ -4526,6 +4722,7 @@ export class PageBlobClient extends BlobClient {
       "PageBlobClient-getPageRangesDiff",
       options.tracingOptions
     );
+
     try {
       return await this.pageBlobContext
         .getPageRangesDiff({
@@ -4533,6 +4730,51 @@ export class PageBlobClient extends BlobClient {
           leaseAccessConditions: options.conditions,
           modifiedAccessConditions: options.conditions,
           prevsnapshot: prevSnapshot,
+          range: rangeToString({ offset, count }),
+          spanOptions
+        })
+        .then(rangeResponseFromModel);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Gets the collection of page ranges that differ between a specified snapshot and this page blob for managed disks.
+   * @see https://docs.microsoft.com/rest/api/storageservices/get-page-ranges
+   *
+   * @param {number} offset Starting byte position of the page blob
+   * @param {number} count Number of bytes to get ranges diff.
+   * @param {string} prevSnapshotUrl URL of snapshot to retrive the difference.
+   * @param {PageBlobGetPageRangesDiffOptions} [options] Options to the Page Blob Get Page Ranges Diff operation.
+   * @returns {Promise<PageBlobGetPageRangesDiffResponse>} Response data for the Page Blob Get Page Range Diff operation.
+   * @memberof PageBlobClient
+   */
+  public async getPageRangesDiffForManagedDisks(
+    offset: number,
+    count: number,
+    prevSnapshotUrl: string,
+    options: PageBlobGetPageRangesDiffOptions = {}
+  ): Promise<PageBlobGetPageRangesDiffResponse> {
+    options.conditions = options.conditions || {};
+    const { span, spanOptions } = createSpan(
+      "PageBlobClient-GetPageRangesDiffForManagedDisks",
+      options.tracingOptions
+    );
+
+    try {
+      return await this.pageBlobContext
+        .getPageRangesDiff({
+          abortSignal: options.abortSignal,
+          leaseAccessConditions: options.conditions,
+          modifiedAccessConditions: options.conditions,
+          prevSnapshotUrl,
           range: rangeToString({ offset, count }),
           spanOptions
         })
@@ -4568,6 +4810,7 @@ export class PageBlobClient extends BlobClient {
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
+        encryptionScope: options.encryptionScope,
         spanOptions
       });
     } catch (e) {
@@ -5018,6 +5261,13 @@ export interface ContainerCreateOptions extends CommonOptions {
    * @memberof ContainerCreateOptions
    */
   access?: PublicAccessType;
+  /**
+   * Container encryption scope info.
+   *
+   * @type {ContainerEncryptionScope}
+   * @memberof ContainerCreateOptions
+   */
+  containerEncryptionScope?: ContainerEncryptionScope;
 }
 
 /**
@@ -5163,7 +5413,7 @@ export interface SignedIdentifier {
      * @member {string} permissions The permissions for the acl policy
      * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-container-acl
      */
-    permissions: string;
+    permissions?: string;
   };
 }
 
@@ -5171,7 +5421,7 @@ export interface SignedIdentifier {
  * Contains response data for the {@link ContainerClient.getAccessPolicy} operation.
  */
 export declare type ContainerGetAccessPolicyResponse = {
-  signedIdentifiers: SignedIdentifierModel[];
+  signedIdentifiers: SignedIdentifier[];
 } & ContainerGetAccessPolicyHeaders & {
     /**
      * The underlying HTTP response.
@@ -5520,13 +5770,7 @@ export class ContainerClient extends StorageClient {
   ) {
     let pipeline: Pipeline;
     let url: string;
-    // when options.httpClient is not specified, passing in a DefaultHttpClient instance to
-    // avoid each client creating its own http client.
-    const newOptions: StoragePipelineOptions = {
-      httpClient: getCachedDefaultHttpClient(),
-      ...options
-    };
-
+    options = options || {};
     if (credentialOrPipelineOrContainerName instanceof Pipeline) {
       // (url: string, pipeline: Pipeline)
       url = urlOrConnectionString;
@@ -5538,7 +5782,7 @@ export class ContainerClient extends StorageClient {
     ) {
       // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       url = urlOrConnectionString;
-      pipeline = newPipeline(credentialOrPipelineOrContainerName, newOptions);
+      pipeline = newPipeline(credentialOrPipelineOrContainerName, options);
     } else if (
       !credentialOrPipelineOrContainerName &&
       typeof credentialOrPipelineOrContainerName !== "string"
@@ -5546,7 +5790,7 @@ export class ContainerClient extends StorageClient {
       // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       // The second parameter is undefined. Use anonymous credential.
       url = urlOrConnectionString;
-      pipeline = newPipeline(new AnonymousCredential(), newOptions);
+      pipeline = newPipeline(new AnonymousCredential(), options);
     } else if (
       credentialOrPipelineOrContainerName &&
       typeof credentialOrPipelineOrContainerName === "string"
@@ -5562,8 +5806,8 @@ export class ContainerClient extends StorageClient {
             extractedCreds.accountKey
           );
           url = appendToURLPath(extractedCreds.url, encodeURIComponent(containerName));
-          newOptions.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
-          pipeline = newPipeline(sharedKeyCredential, newOptions);
+          options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
+          pipeline = newPipeline(sharedKeyCredential, options);
         } else {
           throw new Error("Account connection string is only supported in Node.js environment");
         }
@@ -5572,7 +5816,7 @@ export class ContainerClient extends StorageClient {
           appendToURLPath(extractedCreds.url, encodeURIComponent(containerName)) +
           "?" +
           extractedCreds.accountSas;
-        pipeline = newPipeline(new AnonymousCredential(), newOptions);
+        pipeline = newPipeline(new AnonymousCredential(), options);
       } else {
         throw new Error(
           "Connection string must be either an Account connection string or a SAS connection string"
@@ -5910,16 +6154,19 @@ export class ContainerClient extends StorageClient {
       };
 
       for (const identifier of response) {
-        const accessPolicy: any = {
-          permissions: identifier.accessPolicy.permissions
-        };
+        let accessPolicy: any = undefined;
+        if (identifier.accessPolicy) {
+          accessPolicy = {
+            permissions: identifier.accessPolicy.permissions
+          };
 
-        if (identifier.accessPolicy.expiresOn) {
-          accessPolicy.expiresOn = new Date(identifier.accessPolicy.expiresOn);
-        }
+          if (identifier.accessPolicy.expiresOn) {
+            accessPolicy.expiresOn = new Date(identifier.accessPolicy.expiresOn);
+          }
 
-        if (identifier.accessPolicy.startsOn) {
-          accessPolicy.startsOn = new Date(identifier.accessPolicy.startsOn);
+          if (identifier.accessPolicy.startsOn) {
+            accessPolicy.startsOn = new Date(identifier.accessPolicy.startsOn);
+          }
         }
 
         res.signedIdentifiers.push({
@@ -5947,6 +6194,10 @@ export class ContainerClient extends StorageClient {
    * When you set permissions for a container, the existing permissions are replaced.
    * If no access or containerAcl provided, the existing container ACL will be
    * removed.
+   *
+   * When you establish a stored access policy on a container, it may take up to 30 seconds to take effect.
+   * During this interval, a shared access signature that is associated with the stored access policy will
+   * fail with status code 403 (Forbidden), until the access policy becomes active.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-container-acl
    *
    * @param {PublicAccessType} [access] The level of public access to data in the container.

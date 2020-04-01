@@ -14,20 +14,21 @@ jobs:
   - template: ../../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
     parameters:
       PackageName: "@azure/service-bus"
+      ResourceServiceDirectory: servicebus
+      TimeoutInMinutes: 180
       # Use a more simple matrix because these tests run for a long time
       Matrix:
         Linux_Node10:
           OSVmImage: "ubuntu-16.04"
           TestType: "node"
+          PublishCodeCoverage: true
         Browser_Windows_Node10:
           OSVmImage: "windows-2019"
           TestType: "browser"
+          PublishCodeCoverage: true
       EnvVars:
-        AAD_CLIENT_ID: $(aad-azure-sdk-test-client-id)
-        AAD_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
-        AAD_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)
+        AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
+        AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
+        AZURE_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)
         AZURE_SUBSCRIPTION_ID: $(test-subscription-id)
-        CLEAN_NAMESPACE: "true"
-        RESOURCE_GROUP: $(service-bus-test-resource-group)
         SERVICEBUS_CONNECTION_STRING: $(service-bus-test-connection-string)
-        SERVICEBUS_CONNECTION_STRING_BROWSER: $(service-bus-test-connection-string-browser)

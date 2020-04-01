@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import * as assert from "assert";
 import { SecretClient, DeletedSecret } from "../src";
-import { isNode } from "@azure/core-http";
-import { isPlayingBack, testPollerProperties } from "./utils/recorderUtils";
-import { env } from "@azure/test-utils-recorder";
+import { testPollerProperties } from "./utils/recorderUtils";
+import { env, Recorder } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { PollerStoppedError } from "@azure/core-lro";
@@ -16,7 +15,7 @@ describe("Secrets client - Long Running Operations - delete", () => {
   let secretSuffix: string;
   let client: SecretClient;
   let testClient: TestClient;
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     const authentication = await authenticate(this);
@@ -86,16 +85,15 @@ describe("Secrets client - Long Running Operations - delete", () => {
     await testClient.purgeSecret(secretName);
   });
 
-  if (isNode && !isPlayingBack) {
-    // On playback mode, the tests happen too fast for the timeout to work
-    it("can attempt to delete a secret with requestOptions timeout", async function() {
-      const secretName = testClient.formatName(
-        `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
-      );
-      await client.setSecret(secretName, "value");
-      await assertThrowsAbortError(async () => {
-        await client.beginDeleteSecret(secretName, { requestOptions: { timeout: 1 } });
-      });
+  // On playback mode, the tests happen too fast for the timeout to work
+  it("can attempt to delete a secret with requestOptions timeout", async function() {
+    recorder.skip(undefined, "Timeout tests don't work on playback mode.");
+    const secretName = testClient.formatName(
+      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+    );
+    await client.setSecret(secretName, "value");
+    await assertThrowsAbortError(async () => {
+      await client.beginDeleteSecret(secretName, { requestOptions: { timeout: 1 } });
     });
-  }
+  });
 });

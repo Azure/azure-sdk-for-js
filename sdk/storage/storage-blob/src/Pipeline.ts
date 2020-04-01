@@ -4,6 +4,7 @@
 import {
   BaseRequestPolicy,
   deserializationPolicy,
+  disableResponseDecompressionPolicy,
   HttpClient as IHttpClient,
   HttpHeaders,
   HttpOperationResponse,
@@ -38,6 +39,7 @@ import {
   StorageBlobLoggingAllowedQueryParameters
 } from "./utils/constants";
 import { TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
+import { getCachedDefaultHttpClient } from "./utils/cache";
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient
@@ -107,7 +109,12 @@ export class Pipeline {
    */
   constructor(factories: RequestPolicyFactory[], options: PipelineOptions = {}) {
     this.factories = factories;
-    this.options = options;
+    // when options.httpClient is not specified, passing in a DefaultHttpClient instance to
+    // avoid each client creating its own http client.
+    this.options = {
+      ...options,
+      httpClient: options.httpClient || getCachedDefaultHttpClient()
+    };
   }
 
   /**
@@ -200,8 +207,9 @@ export function newPipeline(
   ];
 
   if (isNode) {
-    // ProxyPolicy is only avaiable in Node.js runtime, not in browsers
+    // policies only avaiable in Node.js runtime, not in browsers
     factories.push(proxyPolicy(pipelineOptions.proxyOptions));
+    factories.push(disableResponseDecompressionPolicy());
   }
   factories.push(
     isTokenCredential(credential)
@@ -209,7 +217,5 @@ export function newPipeline(
       : credential
   );
 
-  return new Pipeline(factories, {
-    httpClient: pipelineOptions.httpClient
-  });
+  return new Pipeline(factories, pipelineOptions);
 }

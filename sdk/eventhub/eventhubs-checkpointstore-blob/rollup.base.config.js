@@ -20,9 +20,10 @@ const production = process.env.NODE_ENV === "production";
 
 export function nodeConfig(test = false) {
   const externalNodeBuiltins = ["events", "util", "os"];
+  const additionalExternals = ["keytar"];
   const baseConfig = {
     input: input,
-    external: depNames.concat(externalNodeBuiltins),
+    external: depNames.concat(externalNodeBuiltins, additionalExternals),
     output: { file: "dist/index.js", format: "cjs", sourcemap: true },
     preserveSymlinks: false,
     plugins: [
@@ -90,7 +91,7 @@ export function browserConfig(test = false) {
     input: input,
     external: ["ms-rest-js"],
     output: {
-      file: "browser/eventhubs-checkpointstore-blob.js",
+      file: "dist-browser/eventhubs-checkpointstore-blob.js",
       format: "umd",
       name: "Azure.Messaging.EventHubs.CheckpointStore.Blob",
       sourcemap: true,

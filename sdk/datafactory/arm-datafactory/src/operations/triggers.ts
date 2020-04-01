@@ -60,6 +60,42 @@ export class Triggers {
   }
 
   /**
+   * Query triggers.
+   * @param resourceGroupName The resource group name.
+   * @param factoryName The factory name.
+   * @param filterParameters Parameters to filter the triggers.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.TriggersQueryByFactoryResponse>
+   */
+  queryByFactory(resourceGroupName: string, factoryName: string, filterParameters: Models.TriggerFilterParameters, options?: msRest.RequestOptionsBase): Promise<Models.TriggersQueryByFactoryResponse>;
+  /**
+   * @param resourceGroupName The resource group name.
+   * @param factoryName The factory name.
+   * @param filterParameters Parameters to filter the triggers.
+   * @param callback The callback
+   */
+  queryByFactory(resourceGroupName: string, factoryName: string, filterParameters: Models.TriggerFilterParameters, callback: msRest.ServiceCallback<Models.TriggerQueryResponse>): void;
+  /**
+   * @param resourceGroupName The resource group name.
+   * @param factoryName The factory name.
+   * @param filterParameters Parameters to filter the triggers.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  queryByFactory(resourceGroupName: string, factoryName: string, filterParameters: Models.TriggerFilterParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TriggerQueryResponse>): void;
+  queryByFactory(resourceGroupName: string, factoryName: string, filterParameters: Models.TriggerFilterParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TriggerQueryResponse>, callback?: msRest.ServiceCallback<Models.TriggerQueryResponse>): Promise<Models.TriggersQueryByFactoryResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        factoryName,
+        filterParameters,
+        options
+      },
+      queryByFactoryOperationSpec,
+      callback) as Promise<Models.TriggersQueryByFactoryResponse>;
+  }
+
+  /**
    * Creates or updates a trigger.
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -172,6 +208,68 @@ export class Triggers {
   }
 
   /**
+   * Subscribe event trigger to events.
+   * @param resourceGroupName The resource group name.
+   * @param factoryName The factory name.
+   * @param triggerName The trigger name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.TriggersSubscribeToEventsResponse>
+   */
+  subscribeToEvents(resourceGroupName: string, factoryName: string, triggerName: string, options?: msRest.RequestOptionsBase): Promise<Models.TriggersSubscribeToEventsResponse> {
+    return this.beginSubscribeToEvents(resourceGroupName,factoryName,triggerName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.TriggersSubscribeToEventsResponse>;
+  }
+
+  /**
+   * Get a trigger's event subscription status.
+   * @param resourceGroupName The resource group name.
+   * @param factoryName The factory name.
+   * @param triggerName The trigger name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.TriggersGetEventSubscriptionStatusResponse>
+   */
+  getEventSubscriptionStatus(resourceGroupName: string, factoryName: string, triggerName: string, options?: msRest.RequestOptionsBase): Promise<Models.TriggersGetEventSubscriptionStatusResponse>;
+  /**
+   * @param resourceGroupName The resource group name.
+   * @param factoryName The factory name.
+   * @param triggerName The trigger name.
+   * @param callback The callback
+   */
+  getEventSubscriptionStatus(resourceGroupName: string, factoryName: string, triggerName: string, callback: msRest.ServiceCallback<Models.TriggerSubscriptionOperationStatus>): void;
+  /**
+   * @param resourceGroupName The resource group name.
+   * @param factoryName The factory name.
+   * @param triggerName The trigger name.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getEventSubscriptionStatus(resourceGroupName: string, factoryName: string, triggerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TriggerSubscriptionOperationStatus>): void;
+  getEventSubscriptionStatus(resourceGroupName: string, factoryName: string, triggerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TriggerSubscriptionOperationStatus>, callback?: msRest.ServiceCallback<Models.TriggerSubscriptionOperationStatus>): Promise<Models.TriggersGetEventSubscriptionStatusResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        factoryName,
+        triggerName,
+        options
+      },
+      getEventSubscriptionStatusOperationSpec,
+      callback) as Promise<Models.TriggersGetEventSubscriptionStatusResponse>;
+  }
+
+  /**
+   * Unsubscribe event trigger from events.
+   * @param resourceGroupName The resource group name.
+   * @param factoryName The factory name.
+   * @param triggerName The trigger name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.TriggersUnsubscribeFromEventsResponse>
+   */
+  unsubscribeFromEvents(resourceGroupName: string, factoryName: string, triggerName: string, options?: msRest.RequestOptionsBase): Promise<Models.TriggersUnsubscribeFromEventsResponse> {
+    return this.beginUnsubscribeFromEvents(resourceGroupName,factoryName,triggerName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.TriggersUnsubscribeFromEventsResponse>;
+  }
+
+  /**
    * Starts a trigger.
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -195,6 +293,46 @@ export class Triggers {
   stop(resourceGroupName: string, factoryName: string, triggerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
     return this.beginStop(resourceGroupName,factoryName,triggerName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * Subscribe event trigger to events.
+   * @param resourceGroupName The resource group name.
+   * @param factoryName The factory name.
+   * @param triggerName The trigger name.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginSubscribeToEvents(resourceGroupName: string, factoryName: string, triggerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        factoryName,
+        triggerName,
+        options
+      },
+      beginSubscribeToEventsOperationSpec,
+      options);
+  }
+
+  /**
+   * Unsubscribe event trigger from events.
+   * @param resourceGroupName The resource group name.
+   * @param factoryName The factory name.
+   * @param triggerName The trigger name.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginUnsubscribeFromEvents(resourceGroupName: string, factoryName: string, triggerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        factoryName,
+        triggerName,
+        options
+      },
+      beginUnsubscribeFromEventsOperationSpec,
+      options);
   }
 
   /**
@@ -293,6 +431,38 @@ const listByFactoryOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const queryByFactoryOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/querytriggers",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.factoryName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "filterParameters",
+    mapper: {
+      ...Mappers.TriggerFilterParameters,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.TriggerQueryResponse
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}",
@@ -373,6 +543,86 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {},
     204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const getEventSubscriptionStatusOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}/getEventSubscriptionStatus",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.factoryName,
+    Parameters.triggerName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.TriggerSubscriptionOperationStatus
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginSubscribeToEventsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}/subscribeToEvents",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.factoryName,
+    Parameters.triggerName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.TriggerSubscriptionOperationStatus
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginUnsubscribeFromEventsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}/unsubscribeFromEvents",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.factoryName,
+    Parameters.triggerName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.TriggerSubscriptionOperationStatus
+    },
+    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }

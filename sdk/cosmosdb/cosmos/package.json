@@ -1,6 +1,6 @@
 {
   "name": "@azure/cosmos",
-  "version": "3.5.3",
+  "version": "3.6.3",
   "description": "Microsoft Azure Cosmos DB Service Node.js SDK for SQL API",
   "sdk-type": "client",
   "keywords": [
@@ -28,32 +28,39 @@
     "changelog.md",
     "dist/",
     "dist-esm/",
-    "LICENSE",
-    "src/",
-    "tsconfig.json"
+    "README.md",
+    "LICENSE"
   ],
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/cosmosdb/cosmos#readme",
   "sideEffects": false,
-  "types": "./dist/index.d.ts",
+  "types": "./dist/types/latest/index.d.ts",
+  "typesVersions": {
+    "<3.6": {
+      "*": [
+        "./dist/types/3.1/index.d.ts"
+      ]
+    }
+  },
   "engine": {
     "node": ">=8.0.0"
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build:samples": "tsc -b samples",
+    "build:samples": "node prep-samples.js && tsc -b samples",
     "build:src": "echo Using TypeScript && tsc --version && tsc -b --pretty",
     "build:test": "tsc -b src test --verbose",
-    "build": "npm run clean && tslint --project ./src/tsconfig.json && npm run extract-api && node writeSDKVersion.js && npm run bundle",
+    "build:types": "downlevel-dts dist/types/latest dist/types/3.1",
+    "build": "npm run clean && tslint --project ./src/tsconfig.json && npm run extract-api && npm run build:types && node writeSDKVersion.js && npm run bundle",
     "bundle": "rollup -c",
     "bundle-types": "node bundle-types.js",
     "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm temp types *.tgz *.html *.log *.tsbuildinfo test/**/*.{js,js.map,d.ts}",
     "docs": "typedoc --tsconfig ./src/tsconfig.json --excludePrivate --mode file --out ./dist/docs ./src",
-    "execute:samples": "cd samples && npm run all-samples",
+    "execute:samples": " cd samples && npm run all-samples",
     "extract-api": "npm run build:src && api-extractor run --local",
     "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
-    "integration-test:node": "mocha -r esm -r dotenv/config -r ./test/common/setup.js \"./test/**/*.spec.js\" --timeout 100000 --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=-",
+    "integration-test:node": "mocha -r esm -r dotenv/config -r ./test/common/setup.js \"./test/**/*.spec.js\" --timeout 100000 --reporter ../../../common/tools/mocha-multi-reporter.js",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint package.json tsconfig.json src test samples --ext .ts --fix",
     "lint": "eslint package.json tsconfig.json src test samples --ext .ts -f html -o cosmos-lintReport.html || exit 0",
@@ -61,7 +68,6 @@
     "prebuild": "npm run clean",
     "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
-    "test-browser": "karma start ./karma.config.js --single-run",
     "test-consumer": "node consumer-test.js 2>&1",
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
     "test:signoff": "mocha -r esm -r dotenv/config -r ./test/common/setup.js \"./test/**/*.spec.js\" --timeout 100000 --grep \"#nosignoff\" --invert",
@@ -92,7 +98,7 @@
     "@rollup/plugin-json": "^4.0.0",
     "@rollup/plugin-multi-entry": "^3.0.0",
     "@types/fast-json-stable-stringify": "^2.0.0",
-    "@types/mocha": "^5.2.5",
+    "@types/mocha": "^7.0.2",
     "@types/node": "^8.0.0",
     "@types/node-fetch": "^2.5.0",
     "@types/priorityqueuejs": "^1.0.1",
@@ -106,6 +112,7 @@
     "@typescript-eslint/parser": "^2.0.0",
     "cross-env": "^6.0.3",
     "dotenv": "^8.2.0",
+    "downlevel-dts": "~0.4.0",
     "eslint": "^6.1.0",
     "eslint-config-prettier": "^6.0.0",
     "eslint-plugin-no-null": "^1.0.2",
@@ -113,18 +120,8 @@
     "eslint-plugin-promise": "^4.1.1",
     "esm": "^3.2.18",
     "execa": "^3.3.0",
-    "karma": "^4.0.1",
-    "karma-chrome-launcher": "^3.0.0",
-    "karma-cli": "^2.0.0",
-    "karma-firefox-launcher": "^1.1.0",
-    "karma-mocha": "^1.3.0",
-    "karma-mocha-reporter": "^2.2.5",
-    "karma-requirejs": "^1.1.0",
-    "karma-sourcemap-loader": "^0.3.7",
-    "karma-webpack": "^4.0.2",
-    "mocha": "^6.2.2",
+    "mocha": "^7.1.1",
     "mocha-junit-reporter": "^1.18.0",
-    "mocha-multi": "^1.1.3",
     "prettier": "^1.16.4",
     "proxy-agent": "^3.1.1",
     "requirejs": "^2.3.5",
@@ -138,7 +135,6 @@
     "tslint": "^5.0.0",
     "tslint-config-prettier": "^1.14.0",
     "typedoc": "^0.15.0",
-    "typescript": "~3.6.4",
-    "webpack": "^4.16.3"
+    "typescript": "~3.7.5"
   }
 }

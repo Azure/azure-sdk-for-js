@@ -9,15 +9,13 @@ import {
   getBrowserFile,
   getBSU,
   isIE,
-  setupEnvironment
+  recorderEnvSetup
 } from "../utils/index.browser";
 import { record, Recorder } from "@azure/test-utils-recorder";
-import { ContainerClient, BlobClient, BlockBlobClient } from "../../src";
+import { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../../src";
 
 // tslint:disable:no-empty
 describe("Highlevel", () => {
-  setupEnvironment();
-  const blobServiceClient = getBSU();
   let containerName: string;
   let containerClient: ContainerClient;
   let blobName: string;
@@ -30,8 +28,10 @@ describe("Highlevel", () => {
 
   let recorder: Recorder;
 
+  let blobServiceClient: BlobServiceClient;
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
@@ -41,12 +41,14 @@ describe("Highlevel", () => {
   });
 
   afterEach(async function() {
-    await containerClient.delete();
-    recorder.stop();
+    if (!this.currentTest?.isPending()) {
+      await containerClient.delete();
+      recorder.stop();
+    }
   });
 
   before(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
     tempFile1 = getBrowserFile(recorder.getUniqueName("browserfile"), tempFile1Length);
     tempFile2 = getBrowserFile(recorder.getUniqueName("browserfile"), tempFile2Length);
     recorder.stop();

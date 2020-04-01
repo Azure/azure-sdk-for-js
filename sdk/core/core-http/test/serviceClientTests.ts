@@ -2,21 +2,21 @@
 // Licensed under the MIT License.
 
 import { assert } from "chai";
-import { HttpClient } from "../lib/httpClient";
-import { QueryCollectionFormat } from "../lib/queryCollectionFormat";
+import { HttpClient } from "../src/httpClient";
+import { QueryCollectionFormat } from "../src/queryCollectionFormat";
 import {
   DictionaryMapper,
   MapperType,
   Serializer,
   Mapper,
   CompositeMapper
-} from "../lib/serializer";
+} from "../src/serializer";
 import {
   serializeRequestBody,
   ServiceClient,
   getOperationArgumentValueFromParameterPath
-} from "../lib/serviceClient";
-import { WebResource } from "../lib/webResource";
+} from "../src/serviceClient";
+import { WebResource } from "../src/webResource";
 import {
   OperationArguments,
   HttpHeaders,
@@ -24,8 +24,8 @@ import {
   RestResponse,
   isNode,
   OperationSpec
-} from "../lib/coreHttp";
-import { ParameterPath } from "../lib/operationParameter";
+} from "../src/coreHttp";
+import { ParameterPath } from "../src/operationParameter";
 
 describe("ServiceClient", function() {
   it("should serialize headerCollectionPrefix", async function() {
@@ -571,6 +571,34 @@ describe("ServiceClient", function() {
           responses: { 200: {} },
           serializer: new Serializer(),
           isXML: true
+        }
+      );
+      assert.strictEqual(httpRequest.body, "body value");
+    });
+
+    it("should serialize a string send to a text/plain endpoint as just a string", () => {
+      const httpRequest = new WebResource();
+      serializeRequestBody(
+        new ServiceClient(),
+        httpRequest,
+        {
+          bodyArg: "body value"
+        },
+        {
+          httpMethod: "POST",
+          contentType: "text/plain; charset=UTF-8",
+          requestBody: {
+            parameterPath: "bodyArg",
+            mapper: {
+              required: true,
+              serializedName: "bodyArg",
+              type: {
+                name: MapperType.String
+              }
+            }
+          },
+          responses: { 200: {} },
+          serializer: new Serializer()
         }
       );
       assert.strictEqual(httpRequest.body, "body value");

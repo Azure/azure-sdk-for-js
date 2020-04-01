@@ -1,5 +1,21 @@
 # Release History
 
+## 12.1.2 (Unreleased)
+
+
+## 12.1.1 (2020-03-10)
+
+- Fixed unexpected hang issue when uploading empty body. Fixed bug [6904](https://github.com/Azure/azure-sdk-for-js/issues/6904).
+
+## 12.1.0 (2020-02-11)
+
+- Updated Azure Storage Service API version to 2019-07-07.
+- A new type `ShareLeaseClient` is added to manage leases.
+- New SMB parameters for file copy.
+- Force Close Handles Response now includes the number of handles that failed to close.
+- `ShareProperties` now has 4 additional properties for premium file shares.
+- Fixed a bug where the package didn't work as expected when bundling web applications. [PR #7298](https://github.com/Azure/azure-sdk-for-js/pull/7298)
+
 ## 12.0.1 (2020.01)
 
 - Bug fix - Name properties on clients now support more kinds of endpoints(IPv4/v6 hosts, single word domains). [PR #6755](https://github.com/Azure/azure-sdk-for-js/pull/6755)

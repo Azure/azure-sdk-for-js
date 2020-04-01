@@ -36,6 +36,7 @@ import { AbortError } from "@azure/abort-controller";
 import { FakeSubscriptionEventHandlers } from "./utils/fakeSubscriptionEventHandlers";
 import sinon from "sinon";
 import { isLatestPosition } from "../src/eventPosition";
+import { AbortController } from "@azure/abort-controller";
 const env = getEnvVars();
 
 describe("Event Processor", function(): void {
@@ -298,13 +299,16 @@ describe("Event Processor", function(): void {
         }
       );
 
-      await eventProcessor["_claimOwnership"]({
-        consumerGroup: "cgname",
-        eventHubName: "ehname",
-        fullyQualifiedNamespace: "fqdn",
-        ownerId: "owner",
-        partitionId: "0"
-      });
+      await eventProcessor["_claimOwnership"](
+        {
+          consumerGroup: "cgname",
+          eventHubName: "ehname",
+          fullyQualifiedNamespace: "fqdn",
+          ownerId: "owner",
+          partitionId: "0"
+        },
+        new AbortController().signal
+      );
 
       // when we fail to claim a partition we should _definitely_
       // not attempt to start a pump.
@@ -371,7 +375,7 @@ describe("Event Processor", function(): void {
       // pick up an extra surprise partition
       //
       // This particular behavior is really specific to the FairPartitionLoadBalancer but that's okay for now.
-      const numTimesAbortedIsCheckedInLoop = 3;
+      const numTimesAbortedIsCheckedInLoop = 4;
       await ep["_runLoopWithLoadBalancing"](
         ep["_processingTarget"] as PartitionLoadBalancer,
         triggerAbortedSignalAfterNumCalls(partitionIds.length * numTimesAbortedIsCheckedInLoop)
@@ -1059,8 +1063,7 @@ describe("Event Processor", function(): void {
         { events: string[]; initialized: boolean; closeReason?: CloseReason }
       >();
       partitionIds.forEach((id) => partitionResultsMap.set(id, { events: [], initialized: false }));
-      let didError = false;
-      let errorName = "";
+      let didGetReceiverDisconnectedError = false;
 
       // The partitionProcess will need to add events to the partitionResultsMap as they are received
       class FooPartitionProcessor implements Required<SubscriptionEventHandlers> {
@@ -1079,8 +1082,10 @@ describe("Event Processor", function(): void {
         }
         async processError(err: Error, context: PartitionContext) {
           loggerForTest(`processError(${context.partitionId})`);
-          didError = true;
-          errorName = (err as any).code;
+          const errorName = (err as any).code;
+          if (errorName === "ReceiverDisconnectedError") {
+            didGetReceiverDisconnectedError = true;
+          }
         }
       }
 
@@ -1092,65 +1097,104 @@ describe("Event Processor", function(): void {
         await producer.close();
       }
 
+      const processor1LoadBalancingInterval = {
+        loopIntervalInMs: 1000
+      };
+
+      // working around a potential deadlock - this allows `processor-2` to more
+      // aggressively pursue getting its required partitions and avoid being in
+      // lockstep with `processor-1`
+      const processor2LoadBalancingInterval = {
+        loopIntervalInMs: processor1LoadBalancingInterval.loopIntervalInMs / 2
+      };
+
       processorByName[`processor-1`] = new EventProcessor(
         EventHubClient.defaultConsumerGroupName,
         client,
         new FooPartitionProcessor(),
         checkpointStore,
-        { ...defaultOptions, startPosition: earliestEventPosition }
+        {
+          ...defaultOptions,
+          startPosition: earliestEventPosition,
+          ...processor1LoadBalancingInterval
+        }
       );
 
       processorByName[`processor-1`].start();
 
-      while (partitionOwnershipArr.size !== partitionIds.length) {
-        loggerForTest("Waiting for partition ownership");
-        await delay(5000);
-      }
+      await loopUntil({
+        name: "All partitions are owned",
+        maxTimes: 60,
+        timeBetweenRunsMs: 1000,
+        until: async () => partitionOwnershipArr.size === partitionIds.length,
+        errorMessageFn: () => `${partitionOwnershipArr.size}/${partitionIds.length}`
+      });
 
       processorByName[`processor-2`] = new EventProcessor(
         EventHubClient.defaultConsumerGroupName,
         client,
         new FooPartitionProcessor(),
         checkpointStore,
-        { ...defaultOptions, startPosition: earliestEventPosition }
+        {
+          ...defaultOptions,
+          startPosition: earliestEventPosition,
+          ...processor2LoadBalancingInterval
+        }
       );
 
       partitionOwnershipArr.size.should.equal(partitionIds.length);
       processorByName[`processor-2`].start();
 
-      loggerForTest(`Just before the big arbitrary delay`);
-      await delay(12000);
-      loggerForTest(`Just after the big arbitrary delay`);
+      await loopUntil({
+        name: "Processors are balanced",
+        maxTimes: 60,
+        timeBetweenRunsMs: 1000,
+        until: async () => {
+          // it should be impossible for 'processor-2' to have obtained the number of
+          // partitions it needed without having stolen some from 'processor-1'
+          // so if we haven't see any `ReceiverDisconnectedError`'s then that stealing
+          // hasn't occurred yet.
+          if (!didGetReceiverDisconnectedError) {
+            return false;
+          }
 
-      // map of ownerId as a key and partitionIds as a value
-      const partitionOwnershipMap: Map<string, string[]> = new Map();
+          const partitionOwnership = await checkpointStore.listOwnership(
+            client.fullyQualifiedNamespace,
+            client.eventHubName,
+            EventHubClient.defaultConsumerGroupName
+          );
 
-      const partitionOwnership = await checkpointStore.listOwnership(
-        client.fullyQualifiedNamespace,
-        client.eventHubName,
-        EventHubClient.defaultConsumerGroupName
-      );
+          // map of ownerId as a key and partitionIds as a value
+          const partitionOwnershipMap: Map<string, string[]> = ownershipListToMap(
+            partitionOwnership
+          );
+
+          // if stealing has occurred we just want to make sure that _all_
+          // the stealing has completed.
+          const isBalanced = (friendlyName: string) => {
+            const n = Math.floor(partitionIds.length / 2);
+            const numPartitions = partitionOwnershipMap.get(processorByName[friendlyName].id)!
+              .length;
+            return numPartitions == n || numPartitions == n + 1;
+          };
+
+          if (!isBalanced(`processor-1`) || !isBalanced(`processor-2`)) {
+            return false;
+          }
+
+          return true;
+        }
+      });
 
       for (const processor in processorByName) {
         await processorByName[processor].stop();
       }
 
-      for (const ownership of partitionOwnership) {
-        if (!partitionOwnershipMap.has(ownership.ownerId)) {
-          partitionOwnershipMap.set(ownership.ownerId, [ownership.partitionId]);
-        } else {
-          let arr = partitionOwnershipMap.get(ownership.ownerId);
-          arr!.push(ownership.partitionId);
-          partitionOwnershipMap.set(ownership.ownerId, arr!);
-        }
-      }
-
-      didError.should.be.true;
-      errorName.should.equal("ReceiverDisconnectedError");
-      const n = Math.floor(partitionIds.length / 2);
-      partitionOwnershipMap.get(processorByName[`processor-1`].id)!.length.should.oneOf([n, n + 1]);
-      partitionOwnershipMap.get(processorByName[`processor-2`].id)!.length.should.oneOf([n, n + 1]);
-
+      // now that all the dust has settled let's make sure that
+      // a. we received some events from each partition (doesn't matter which processor)
+      //    did the work
+      // b. each partition was initialized
+      // c. each partition should have received at least one shutdown event
       for (const partitionId of partitionIds) {
         const results = partitionResultsMap.get(partitionId)!;
         results.events.length.should.be.gte(1);
@@ -1243,12 +1287,17 @@ describe("Event Processor", function(): void {
       const checkpointStore = new InMemoryCheckpointStore();
       const claimedPartitionsMap = {} as { [eventProcessorId: string]: Set<string> };
 
+      const partitionOwnershipHistory: string[] = [];
+
       let allPartitionsClaimed = false;
       let thrashAfterSettling = false;
       const handlers: SubscriptionEventHandlers = {
         async processInitialize(context) {
           const eventProcessorId: string = (context as any).eventProcessorId;
           const partitionId = context.partitionId;
+
+          partitionOwnershipHistory.push(`${eventProcessorId}: init ${partitionId}`);
+
           loggerForTest(`[${eventProcessorId}] Claimed partition ${partitionId}`);
           if (allPartitionsClaimed) {
             thrashAfterSettling = true;
@@ -1311,28 +1360,57 @@ describe("Event Processor", function(): void {
 
       // loop until all partitions are claimed
       try {
+        let lastLoopError: Record<string, any> = {};
+
         await loopUntil({
           name: "partitionOwnership",
           maxTimes: 30,
           timeBetweenRunsMs: 10000,
+
+          errorMessageFn: () => JSON.stringify(lastLoopError, undefined, "  "),
           until: async () => {
             // Ensure the partition ownerships are balanced.
             const eventProcessorIds = Object.keys(claimedPartitionsMap);
 
             // There are 2 processors, so we should see 2 entries.
             if (eventProcessorIds.length !== 2) {
+              lastLoopError = {
+                reason: "Not all event processors have shown up",
+                eventProcessorIds,
+                partitionOwnershipHistory
+              };
               return false;
             }
 
             const aProcessorPartitions = claimedPartitionsMap[eventProcessorIds[0]];
             const bProcessorPartitions = claimedPartitionsMap[eventProcessorIds[1]];
+
             // The delta between number of partitions each processor owns can't be more than 1.
             if (Math.abs(aProcessorPartitions.size - bProcessorPartitions.size) > 1) {
+              lastLoopError = {
+                reason: "Delta between partitions is greater than 1",
+                a: Array.from(aProcessorPartitions),
+                b: Array.from(bProcessorPartitions),
+                partitionOwnershipHistory
+              };
               return false;
             }
 
             // All partitions must be claimed.
-            return aProcessorPartitions.size + bProcessorPartitions.size === partitionIds.length;
+            const allPartitionsClaimed =
+              aProcessorPartitions.size + bProcessorPartitions.size === partitionIds.length;
+
+            if (!allPartitionsClaimed) {
+              lastLoopError = {
+                reason: "All partitions not claimed",
+                partitionIds,
+                a: Array.from(aProcessorPartitions),
+                b: Array.from(bProcessorPartitions),
+                partitionOwnershipHistory
+              };
+            }
+
+            return allPartitionsClaimed;
           }
         });
       } catch (err) {
@@ -1431,6 +1509,22 @@ describe("Event Processor", function(): void {
     });
   });
 }).timeout(90000);
+
+function ownershipListToMap(partitionOwnership: PartitionOwnership[]): Map<string, string[]> {
+  const partitionOwnershipMap: Map<string, string[]> = new Map();
+
+  for (const ownership of partitionOwnership) {
+    if (!partitionOwnershipMap.has(ownership.ownerId)) {
+      partitionOwnershipMap.set(ownership.ownerId, [ownership.partitionId]);
+    } else {
+      let arr = partitionOwnershipMap.get(ownership.ownerId);
+      arr!.push(ownership.partitionId);
+      partitionOwnershipMap.set(ownership.ownerId, arr!);
+    }
+  }
+
+  return partitionOwnershipMap;
+}
 
 function triggerAbortedSignalAfterNumCalls(maxCalls: number): AbortSignal {
   let count = 0;

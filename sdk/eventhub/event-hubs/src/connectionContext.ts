@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { logger } from "./log";
-import * as os from "os";
+import { getRuntimeInfo } from "./util/runtimeInfo";
 import { packageJsonInfo } from "./util/constants";
 import { EventHubReceiver } from "./eventHubReceiver";
 import { EventHubSender } from "./eventHubSender";
@@ -15,7 +15,7 @@ import {
   SharedKeyCredential
 } from "@azure/core-amqp";
 import { ManagementClient, ManagementClientOptions } from "./managementClient";
-import { EventHubClientOptions } from "./impl/eventHubClient";
+import { EventHubClientOptions } from "./models/public";
 import { Dictionary, OnAmqpEvent, EventContext, ConnectionEvents } from "rhea-promise";
 
 /**
@@ -69,9 +69,9 @@ export namespace ConnectionContext {
    * @property userAgent The user agent string for the EventHubs client.
    * See guideline at https://github.com/Azure/azure-sdk/blob/master/docs/design/Telemetry.mdk
    */
-  const userAgent: string = `azsdk-js-azureeventhubs/${packageJsonInfo.version} (NODE-VERSION ${
-    process.version
-  }; ${os.type()} ${os.release()})`;
+  const userAgent: string = `azsdk-js-azureeventhubs/${
+    packageJsonInfo.version
+  } (${getRuntimeInfo()})`;
 
   export function getUserAgent(options: ConnectionContextOptions): string {
     const finalUserAgent = options.userAgent ? `${userAgent},${options.userAgent}` : userAgent;

@@ -11,6 +11,8 @@ import {
   IndexingPolicy,
   IndexKind
 } from "../../dist-esm/documents";
+import { SpatialType } from "../../dist-esm/documents/IndexingPolicy";
+import { GeospatialType } from "../../dist-esm/documents/GeospatialType";
 import { getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
 
 describe("Containers", function() {
@@ -64,6 +66,19 @@ describe("Containers", function() {
 
       // Replacing indexing policy is allowed.
       containerDef.indexingPolicy.indexingMode = IndexingMode.lazy;
+      containerDef.indexingPolicy.spatialIndexes = [
+        {
+          path: "/region/?",
+          types: [SpatialType.Polygon],
+          boundingBox: {
+            xmin: 0,
+            ymin: 0,
+            xmax: 10,
+            ymax: 10
+          }
+        }
+      ];
+      containerDef.geospatialConfig.type = GeospatialType.Geometry;
       const { resource: replacedContainer } = await container.replace(containerDef);
       assert.equal("lazy", replacedContainer.indexingPolicy.indexingMode);
 

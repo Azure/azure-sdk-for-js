@@ -3,7 +3,7 @@
 
 export const packageJsonInfo = {
   name: "@azure/service-bus",
-  version: "1.1.2"
+  version: "7.0.0-preview.1"
 };
 
 export const messageDispositionTimeout = 20000;
@@ -129,12 +129,6 @@ export const AUTO_DELETE_ON_IDLE = "AutoDeleteOnIdle";
 export const STATUS = "Status";
 
 /**
- * The entity path
- *
- */
-export const PATH = "Path";
-
-/**
  * The URL of Service Bus entity to forward messages to.
  *
  */
@@ -197,24 +191,6 @@ export const DEAD_LETTERING_ON_FILTER_EVALUATION_EXCEPTIONS =
  * This is specified in ISO-8601 duration format such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
  */
 export const DUPLICATE_DETECTION_HISTORY_TIME_WINDOW = "DuplicateDetectionHistoryTimeWindow";
-
-/**
- * The maximum number of subscriptions per topic.
- *
- */
-export const MAX_SUBSCRIPTIONS_PER_TOPIC = "MaxSubscriptionsPerTopic";
-
-/**
- * The maximum amount of sql filters per topic.
- *
- */
-export const MAX_SQL_FILTERS_PER_TOPIC = "MaxSqlFiltersPerTopic";
-
-/**
- * The maximum amount of correlation filters per topic.
- *
- */
-export const MAX_CORRELATION_FILTERS_PER_TOPIC = "MaxCorrelationFiltersPerTopic";
 
 /**
  * The maximum delivery count of messages after which if it is still not settled, gets moved to the dead-letter sub-queue.
@@ -297,17 +273,49 @@ export const XML_VALUE_MARKER = "_";
  */
 export const ATOM_METADATA_MARKER = "_";
 
+/**
+ * Known HTTP status codes as documented and referenced in ATOM based management API feature
+ * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+ */
 export const HttpResponseCodes = {
+  100: "Continue",
+  101: "SwitchingProtocols",
   200: "Ok",
   201: "Created",
   202: "Accepted",
+  203: "NonAuthoritativeInformation",
   204: "NoContent",
+  205: "ResetContent",
   206: "PartialContent",
+  300: "MultipleChoices",
+  301: "Moved",
+  302: "Redirect",
+  303: "RedirectMethod",
+  304: "NotModified",
+  305: "UseProxy",
+  306: "Unused",
   400: "BadRequest",
   401: "Unauthorized",
+  402: "PaymentRequired",
   403: "Forbidden",
   404: "NotFound",
+  405: "MethodNotAllowed",
+  406: "NotAcceptable",
+  407: "ProxyAuthenticationRequired",
   409: "Conflict",
+  410: "Gone",
   411: "LengthRequired",
-  412: "PreconditionFailed"
+  412: "PreconditionFailed",
+  413: "RequestEntityTooLarge",
+  414: "RequestUriTooLong",
+  415: "UnsupportedMediaType",
+  416: "RequestRangeNotSatisfiable",
+  417: "ExpectationFailed",
+  426: "UpgradeRequired",
+  500: "InternalServerError",
+  501: "NotImplemented",
+  502: "BadGateway",
+  503: "ServiceUnavailable",
+  504: "GatewayTimeout",
+  505: "HttpVersionNotSupported"
 };

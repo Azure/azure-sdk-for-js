@@ -156,6 +156,10 @@ export interface FileAndDirectorySetPropertiesCommonOptions {
  */
 export interface CloseHandlesInfo {
   closedHandlesCount: number;
+  /**
+   * Contains count of number of handles that failed to close.
+   */
+  closeFailureCount?: number;
 }
 
 export function validateFilePermissionOptions(filePermission?: string, filePermissionKey?: string) {

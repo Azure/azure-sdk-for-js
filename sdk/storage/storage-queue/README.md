@@ -16,16 +16,6 @@ Use the client libraries in this package to:
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue/samples) |
 [Azure Storage Queue REST APIs](https://docs.microsoft.com/rest/api/storageservices/queue-service-rest-api)
 
-## Key concepts
-
-A Queue is a data store within an Azure Storage Queue service account for sending/receiving messages
-between connected clients.
-
-Key data types in our library related to these services are:
-
-- A `QueueServiceClient` represents a connection (via a URL) to a given storage account in the Azure Storage Queue service and provides APIs for manipulating its queues. It is authenticated to the service and can be used to create `QueueClient` objects, as well as create, delete, list queues from the service.
-- A `QueueClient` represents a single queue in the storage acccount. It can be used to manipulate the queue's messages, for example to send, receive, and peek messages in the queue.
-
 ## Getting started
 
 **Prerequisites**: You must have an [Azure subscription](https://azure.microsoft.com/free/) and a [Storage Account](https://docs.microsoft.com/azure/storage/queues/storage-quickstart-queues-portal) to use this package. If you are using this package in a Node.js application, then Node.js version 8.0.0 or higher is required.
@@ -38,9 +28,17 @@ The preferred way to install the Azure Storage Queue client library for JavaScri
 npm install @azure/storage-queue
 ```
 
-### Authenticating with Azure Active Directory
+### Authenticate the client
 
-The Azure Queue Storage service supports the use of Azure Active Directory to authenticate requests to its APIs. The [`@azure/identity`](https://www.npmjs.com/package/@azure/identity) package provides a variety of credential types that your application can use to do this. The [README for `@azure/identity`](/sdk/identity/identity/README.md) provides more details and samples to get you started.
+Azure Storage supports several ways to authenticate. In order to interact with the Azure Queue Storage service you'll need to create an instance of a Storage client - `QueueServiceClient` or `QueueClient` for example. See [samples for creating the `QueueServiceClient`](#create-the-queue-service-client) to learn more about authentication.
+
+- [Azure Active Directory](#with-defaultazurecredential-from-azureidentity-package)
+- [Shared Key](#with-storagesharedkeycredential)
+- [Shared access signatures](#with-sas-token)
+
+#### Azure Active Directory
+
+The Azure Queue Storage service supports the use of Azure Active Directory to authenticate requests to its APIs. The [`@azure/identity`](https://www.npmjs.com/package/@azure/identity) package provides a variety of credential types that your application can use to do this. Please see the [README for `@azure/identity`](/sdk/identity/identity/README.md) for more details and samples to get you started.
 
 ### Compatibility
 
@@ -62,6 +60,7 @@ This library depends on following ES features which need external polyfills load
 - `Object.assign`
 - `Object.keys` (Override IE11's `Object.keys` with ES6 polyfill forcely to enable [ES6 behavior](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/keys#Notes))
 - `Symbol`
+- `Symbol.iterator`
 
 #### Differences between Node.js and browsers
 
@@ -91,6 +90,16 @@ For example, you can create following CORS settings for debugging. But please cu
 - Exposed headers: \*
 - Maximum age (seconds): 86400
 
+## Key concepts
+
+A Queue is a data store within an Azure Storage Queue service account for sending/receiving messages
+between connected clients.
+
+Key data types in our library related to these services are:
+
+- A `QueueServiceClient` represents a connection (via a URL) to a given _storage account_ in the Azure Storage Queue service and provides APIs for manipulating its queues. It is authenticated to the service and can be used to create `QueueClient` objects, as well as create, delete, list queues from the service.
+- A `QueueClient` represents a single _queue_ in the storage acccount. It can be used to manipulate the queue's messages, for example to send, receive, and peek messages in the queue.
+
 ## Examples
 
 ### Import the package
@@ -109,10 +118,11 @@ const { QueueServiceClient, StorageSharedKeyCredential } = require("@azure/stora
 
 ### Create the queue service client
 
-The `QueueServiceClient` requires a URL to the queue service and an access credential. It also
-optionally accepts some settings in the `options` parameter.
+The `QueueServiceClient` requires an URL to the queue service and an access credential. It also optionally accepts some settings in the `options` parameter.
 
-- **Recommended way to instantiate a `QueueServiceClient` - with `DefaultAzureCredential` from `@azure/identity` package**
+#### with `DefaultAzureCredential` from `@azure/identity` package
+
+**Recommended way to instantiate a `QueueServiceClient`**
 
   Setup : Reference - Authorize access to blobs and queues with Azure Active Directory from a client application - https://docs.microsoft.com/azure/storage/common/storage-auth-aad-app
 
@@ -146,7 +156,9 @@ optionally accepts some settings in the `options` parameter.
 
   [Note - Above steps are only for Node.js]
 
-- Alternatively, you instantiate a `QueueServiceClient` with a `StorageSharedKeyCredential` by passing account-name and account-key as arguments. (account-name and account-key can be obtained from the azure portal)
+#### with `StorageSharedKeyCredential`
+
+Alternatively, you instantiate a `QueueServiceClient` with a `StorageSharedKeyCredential` by passing account-name and account-key as arguments. (The account-name and account-key can be obtained from the azure portal.)
   [ONLY AVAILABLE IN NODE.JS RUNTIME]
 
   ```javascript
@@ -169,6 +181,19 @@ optionally accepts some settings in the `options` parameter.
     }
   );
   ```
+
+#### with SAS Token
+
+Also, You can instantiate a `QueueServiceClient` with a shared access signatures (SAS). You can get the SAS token from the Azure Portal or generate one using `generateAccountSASQueryParameters()`.
+
+```javascript
+const { QueueServiceClient } = require("@azure/storage-queue");
+const account = "<account name>";
+const sas = "<service Shared Access Signature Token>";
+const queueServiceClient = new QueueServiceClient(
+    `https://${account}.queue.core.windows.net${sas}`,
+);
+```
 
 ### List queues in this account
 

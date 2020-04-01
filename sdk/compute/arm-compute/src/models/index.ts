@@ -218,6 +218,16 @@ export interface AvailabilitySetUpdate extends UpdateResource {
 }
 
 /**
+ * An interface representing SubResourceWithColocationStatus.
+ */
+export interface SubResourceWithColocationStatus extends SubResource {
+  /**
+   * Describes colocation status of a resource in the Proximity Placement Group.
+   */
+  colocationStatus?: InstanceViewStatus;
+}
+
+/**
  * Specifies information about the proximity placement group.
  */
 export interface ProximityPlacementGroup extends Resource {
@@ -231,17 +241,21 @@ export interface ProximityPlacementGroup extends Resource {
    * A list of references to all virtual machines in the proximity placement group.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly virtualMachines?: SubResource[];
+  readonly virtualMachines?: SubResourceWithColocationStatus[];
   /**
    * A list of references to all virtual machine scale sets in the proximity placement group.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly virtualMachineScaleSets?: SubResource[];
+  readonly virtualMachineScaleSets?: SubResourceWithColocationStatus[];
   /**
    * A list of references to all availability sets in the proximity placement group.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly availabilitySets?: SubResource[];
+  readonly availabilitySets?: SubResourceWithColocationStatus[];
+  /**
+   * Describes colocation status of the Proximity Placement Group.
+   */
+  colocationStatus?: InstanceViewStatus;
 }
 
 /**
@@ -913,6 +927,13 @@ export interface ImageReference extends SubResource {
    * even if a new version becomes available.
    */
   version?: string;
+  /**
+   * Specifies in decimal numbers, the version of platform image or marketplace image used to
+   * create the virtual machine. This readonly field differs from 'version', only if the value
+   * specified in 'version' field is 'latest'.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly exactVersion?: string;
 }
 
 /**
@@ -1218,7 +1239,7 @@ export interface AdditionalUnattendContent {
  */
 export interface WinRMListener {
   /**
-   * Specifies the protocol of listener. <br><br> Possible values are: <br>**http** <br><br>
+   * Specifies the protocol of WinRM listener. <br><br> Possible values are: <br>**http** <br><br>
    * **https**. Possible values include: 'Http', 'Https'
    */
   protocol?: ProtocolTypes;
@@ -1261,7 +1282,11 @@ export interface WindowsConfiguration {
    */
   enableAutomaticUpdates?: boolean;
   /**
-   * Specifies the time zone of the virtual machine. e.g. "Pacific Standard Time"
+   * Specifies the time zone of the virtual machine. e.g. "Pacific Standard Time". <br><br>
+   * Possible values can be
+   * [TimeZoneInfo.Id](https://docs.microsoft.com/en-us/dotnet/api/system.timezoneinfo.id?#System_TimeZoneInfo_Id)
+   * value from time zones returned by
+   * [TimeZoneInfo.GetSystemTimeZones](https://docs.microsoft.com/en-us/dotnet/api/system.timezoneinfo.getsystemtimezones).
    */
   timeZone?: string;
   /**
@@ -1368,7 +1393,8 @@ export interface VaultSecretGroup {
 }
 
 /**
- * Specifies the operating system settings for the virtual machine.
+ * Specifies the operating system settings for the virtual machine. Some of the settings cannot be
+ * changed once VM is provisioned.
  */
 export interface OSProfile {
   /**
@@ -1380,14 +1406,15 @@ export interface OSProfile {
    */
   computerName?: string;
   /**
-   * Specifies the name of the administrator account. <br><br> **Windows-only restriction:** Cannot
-   * end in "." <br><br> **Disallowed values:** "administrator", "admin", "user", "user1", "test",
-   * "user2", "test1", "user3", "admin1", "1", "123", "a", "actuser", "adm", "admin2", "aspnet",
-   * "backup", "console", "david", "guest", "john", "owner", "root", "server", "sql", "support",
-   * "support_388945a0", "sys", "test2", "test3", "user4", "user5". <br><br> **Minimum-length
-   * (Linux):** 1  character <br><br> **Max-length (Linux):** 64 characters <br><br> **Max-length
-   * (Windows):** 20 characters  <br><br><li> For root access to the Linux VM, see [Using root
-   * privileges on Linux virtual machines in
+   * Specifies the name of the administrator account. <br><br> This property cannot be updated
+   * after the VM is created. <br><br> **Windows-only restriction:** Cannot end in "." <br><br>
+   * **Disallowed values:** "administrator", "admin", "user", "user1", "test", "user2", "test1",
+   * "user3", "admin1", "1", "123", "a", "actuser", "adm", "admin2", "aspnet", "backup", "console",
+   * "david", "guest", "john", "owner", "root", "server", "sql", "support", "support_388945a0",
+   * "sys", "test2", "test3", "user4", "user5". <br><br> **Minimum-length (Linux):** 1  character
+   * <br><br> **Max-length (Linux):** 64 characters <br><br> **Max-length (Windows):** 20
+   * characters  <br><br><li> For root access to the Linux VM, see [Using root privileges on Linux
+   * virtual machines in
    * Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-use-root-privileges?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)<br><li>
    * For a list of built-in system users on Linux that should not be used in this field, see
    * [Selecting User Names for Linux on
@@ -1413,8 +1440,13 @@ export interface OSProfile {
   /**
    * Specifies a base-64 encoded string of custom data. The base-64 encoded string is decoded to a
    * binary array that is saved as a file on the Virtual Machine. The maximum length of the binary
-   * array is 65535 bytes. <br><br> For using cloud-init for your VM, see [Using cloud-init to
-   * customize a Linux VM during
+   * array is 65535 bytes. <br><br> **Note: Do not pass any secrets or passwords in customData
+   * property** <br><br> This property cannot be updated after the VM is created. <br><br>
+   * customData is passed to the VM to be saved as a file, for more information see [Custom Data on
+   * Azure
+   * VMs](https://azure.microsoft.com/en-us/blog/custom-data-and-cloud-init-on-windows-azure/)
+   * <br><br> For using cloud-init for your Linux VM, see [Using cloud-init to customize a Linux VM
+   * during
    * creation](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-using-cloud-init?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
    */
   customData?: string;
@@ -1440,7 +1472,8 @@ export interface OSProfile {
    */
   allowExtensionOperations?: boolean;
   /**
-   * Specifies whether the guest provision signal is required from the virtual machine.
+   * Specifies whether the guest provision signal is required to infer provision success of the
+   * virtual machine.
    */
   requireGuestProvisionSignal?: boolean;
 }
@@ -1457,15 +1490,10 @@ export interface AutomaticRepairsPolicy {
   /**
    * The amount of time for which automatic repairs are suspended due to a state change on VM. The
    * grace time starts after the state change has completed. This helps avoid premature or
-   * accidental repairs. The time duration should be specified in ISO 8601 format. The default
-   * value is 5 minutes (PT5M).
+   * accidental repairs. The time duration should be specified in ISO 8601 format. The minimum
+   * allowed grace period is 30 minutes (PT30M), which is also the default value.
    */
   gracePeriod?: string;
-  /**
-   * The percentage (capacity of scaleset) of virtual machines that will be simultaneously
-   * repaired. The default value is 20%.
-   */
-  maxInstanceRepairsPercent?: number;
 }
 
 /**
@@ -1519,22 +1547,21 @@ export interface DiagnosticsProfile {
 }
 
 /**
- * Specifies the billing related details of a low priority VM or VMSS. <br><br>Minimum api-version:
+ * Specifies the billing related details of a Azure Spot VM or VMSS. <br><br>Minimum api-version:
  * 2019-03-01.
  */
 export interface BillingProfile {
   /**
-   * Specifies the maximum price you are willing to pay for a low priority VM/VMSS. This price is
-   * in US Dollars. <br><br> This price will be compared with the current low priority price for
-   * the VM size. Also, the prices are compared at the time of create/update of low priority
-   * VM/VMSS and the operation will only succeed if  the maxPrice is greater than the current low
-   * priority price. <br><br> The maxPrice will also be used for evicting a low priority VM/VMSS if
-   * the current low priority price goes beyond the maxPrice after creation of VM/VMSS. <br><br>
-   * Possible values are: <br><br> - Any decimal value greater than zero. Example: $0.01538
-   * <br><br> -1 – indicates default price to be up-to on-demand. <br><br> You can set the maxPrice
-   * to -1 to indicate that the low priority VM/VMSS should not be evicted for price reasons. Also,
-   * the default max price is -1 if it is not provided by you. <br><br>Minimum api-version:
-   * 2019-03-01.
+   * Specifies the maximum price you are willing to pay for a Azure Spot VM/VMSS. This price is in
+   * US Dollars. <br><br> This price will be compared with the current Azure Spot price for the VM
+   * size. Also, the prices are compared at the time of create/update of Azure Spot VM/VMSS and the
+   * operation will only succeed if  the maxPrice is greater than the current Azure Spot price.
+   * <br><br> The maxPrice will also be used for evicting a Azure Spot VM/VMSS if the current Azure
+   * Spot price goes beyond the maxPrice after creation of VM/VMSS. <br><br> Possible values are:
+   * <br><br> - Any decimal value greater than zero. Example: 0.01538 <br><br> -1 – indicates
+   * default price to be up-to on-demand. <br><br> You can set the maxPrice to -1 to indicate that
+   * the Azure Spot VM/VMSS should not be evicted for price reasons. Also, the default max price is
+   * -1 if it is not provided by you. <br><br>Minimum api-version: 2019-03-01.
    */
   maxPrice?: number;
 }
@@ -1783,7 +1810,8 @@ export interface VirtualMachine extends Resource {
    */
   additionalCapabilities?: AdditionalCapabilities;
   /**
-   * Specifies the operating system settings for the virtual machine.
+   * Specifies the operating system settings used while creating the virtual machine. Some of the
+   * settings cannot be changed once VM is provisioned.
    */
   osProfile?: OSProfile;
   /**
@@ -1803,9 +1831,10 @@ export interface VirtualMachine extends Resource {
    * <br><br> For more information on Azure planned maintenance, see [Planned maintenance for
    * virtual machines in
    * Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-planned-maintenance?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json)
-   * <br><br> Currently, a VM can only be added to availability set at creation time. An existing
-   * VM cannot be added to an availability set. <br><br>This property cannot exist along with a
-   * non-null properties.virtualMachineScaleSet reference.
+   * <br><br> Currently, a VM can only be added to availability set at creation time. The
+   * availability set to which the VM is being added should be under the same resource group as the
+   * availability set resource. An existing VM cannot be added to an availability set. <br><br>This
+   * property cannot exist along with a non-null properties.virtualMachineScaleSet reference.
    */
   availabilitySet?: SubResource;
   /**
@@ -1824,17 +1853,19 @@ export interface VirtualMachine extends Resource {
   proximityPlacementGroup?: SubResource;
   /**
    * Specifies the priority for the virtual machine. <br><br>Minimum api-version: 2019-03-01.
-   * Possible values include: 'Regular', 'Low'
+   * Possible values include: 'Regular', 'Low', 'Spot'
    */
   priority?: VirtualMachinePriorityTypes;
   /**
-   * Specifies the eviction policy for the low priority virtual machine. Only supported value is
-   * 'Deallocate'. <br><br>Minimum api-version: 2019-03-01. Possible values include: 'Deallocate',
-   * 'Delete'
+   * Specifies the eviction policy for the Azure Spot virtual machine and Azure Spot scale set.
+   * <br><br>For Azure Spot virtual machines, the only supported value is 'Deallocate' and the
+   * minimum api-version is 2019-03-01. <br><br>For Azure Spot scale sets, both 'Deallocate' and
+   * 'Delete' are supported and the minimum api-version is 2017-10-30-preview. Possible values
+   * include: 'Deallocate', 'Delete'
    */
   evictionPolicy?: VirtualMachineEvictionPolicyTypes;
   /**
-   * Specifies the billing related details of a low priority virtual machine. <br><br>Minimum
+   * Specifies the billing related details of a Azure Spot virtual machine. <br><br>Minimum
    * api-version: 2019-03-01.
    */
   billingProfile?: BillingProfile;
@@ -1909,7 +1940,8 @@ export interface VirtualMachineUpdate extends UpdateResource {
    */
   additionalCapabilities?: AdditionalCapabilities;
   /**
-   * Specifies the operating system settings for the virtual machine.
+   * Specifies the operating system settings used while creating the virtual machine. Some of the
+   * settings cannot be changed once VM is provisioned.
    */
   osProfile?: OSProfile;
   /**
@@ -1929,9 +1961,10 @@ export interface VirtualMachineUpdate extends UpdateResource {
    * <br><br> For more information on Azure planned maintenance, see [Planned maintenance for
    * virtual machines in
    * Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-planned-maintenance?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json)
-   * <br><br> Currently, a VM can only be added to availability set at creation time. An existing
-   * VM cannot be added to an availability set. <br><br>This property cannot exist along with a
-   * non-null properties.virtualMachineScaleSet reference.
+   * <br><br> Currently, a VM can only be added to availability set at creation time. The
+   * availability set to which the VM is being added should be under the same resource group as the
+   * availability set resource. An existing VM cannot be added to an availability set. <br><br>This
+   * property cannot exist along with a non-null properties.virtualMachineScaleSet reference.
    */
   availabilitySet?: SubResource;
   /**
@@ -1950,17 +1983,19 @@ export interface VirtualMachineUpdate extends UpdateResource {
   proximityPlacementGroup?: SubResource;
   /**
    * Specifies the priority for the virtual machine. <br><br>Minimum api-version: 2019-03-01.
-   * Possible values include: 'Regular', 'Low'
+   * Possible values include: 'Regular', 'Low', 'Spot'
    */
   priority?: VirtualMachinePriorityTypes;
   /**
-   * Specifies the eviction policy for the low priority virtual machine. Only supported value is
-   * 'Deallocate'. <br><br>Minimum api-version: 2019-03-01. Possible values include: 'Deallocate',
-   * 'Delete'
+   * Specifies the eviction policy for the Azure Spot virtual machine and Azure Spot scale set.
+   * <br><br>For Azure Spot virtual machines, the only supported value is 'Deallocate' and the
+   * minimum api-version is 2019-03-01. <br><br>For Azure Spot scale sets, both 'Deallocate' and
+   * 'Delete' are supported and the minimum api-version is 2017-10-30-preview. Possible values
+   * include: 'Deallocate', 'Delete'
    */
   evictionPolicy?: VirtualMachineEvictionPolicyTypes;
   /**
-   * Specifies the billing related details of a low priority virtual machine. <br><br>Minimum
+   * Specifies the billing related details of a Azure Spot virtual machine. <br><br>Minimum
    * api-version: 2019-03-01.
    */
   billingProfile?: BillingProfile;
@@ -2881,6 +2916,11 @@ export interface VirtualMachineScaleSetExtension extends SubResourceReadOnly {
    */
   name?: string;
   /**
+   * Resource type
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
    * If a value is provided and is different from the previous value, the extension handler will be
    * forced to update even if the extension configuration has not changed.
    */
@@ -2892,7 +2932,64 @@ export interface VirtualMachineScaleSetExtension extends SubResourceReadOnly {
   /**
    * Specifies the type of the extension; an example is "CustomScriptExtension".
    */
-  type?: string;
+  type1?: string;
+  /**
+   * Specifies the version of the script handler.
+   */
+  typeHandlerVersion?: string;
+  /**
+   * Indicates whether the extension should use a newer minor version if one is available at
+   * deployment time. Once deployed, however, the extension will not upgrade minor versions unless
+   * redeployed, even with this property set to true.
+   */
+  autoUpgradeMinorVersion?: boolean;
+  /**
+   * Json formatted public settings for the extension.
+   */
+  settings?: any;
+  /**
+   * The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no
+   * protected settings at all.
+   */
+  protectedSettings?: any;
+  /**
+   * The provisioning state, which only appears in the response.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * Collection of extension names after which this extension needs to be provisioned.
+   */
+  provisionAfterExtensions?: string[];
+}
+
+/**
+ * Describes a Virtual Machine Scale Set Extension.
+ */
+export interface VirtualMachineScaleSetExtensionUpdate extends SubResourceReadOnly {
+  /**
+   * The name of the extension.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Resource type
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * If a value is provided and is different from the previous value, the extension handler will be
+   * forced to update even if the extension configuration has not changed.
+   */
+  forceUpdateTag?: string;
+  /**
+   * The name of the extension handler publisher.
+   */
+  publisher?: string;
+  /**
+   * Specifies the type of the extension; an example is "CustomScriptExtension".
+   */
+  type1?: string;
   /**
    * Specifies the version of the script handler.
    */
@@ -2996,17 +3093,19 @@ export interface VirtualMachineScaleSetVMProfile {
   licenseType?: string;
   /**
    * Specifies the priority for the virtual machines in the scale set. <br><br>Minimum api-version:
-   * 2017-10-30-preview. Possible values include: 'Regular', 'Low'
+   * 2017-10-30-preview. Possible values include: 'Regular', 'Low', 'Spot'
    */
   priority?: VirtualMachinePriorityTypes;
   /**
-   * Specifies the eviction policy for virtual machines in a low priority scale set.
-   * <br><br>Minimum api-version: 2017-10-30-preview. Possible values include: 'Deallocate',
-   * 'Delete'
+   * Specifies the eviction policy for the Azure Spot virtual machine and Azure Spot scale set.
+   * <br><br>For Azure Spot virtual machines, the only supported value is 'Deallocate' and the
+   * minimum api-version is 2019-03-01. <br><br>For Azure Spot scale sets, both 'Deallocate' and
+   * 'Delete' are supported and the minimum api-version is 2017-10-30-preview. Possible values
+   * include: 'Deallocate', 'Delete'
    */
   evictionPolicy?: VirtualMachineEvictionPolicyTypes;
   /**
-   * Specifies the billing related details of a low priority VMSS. <br><br>Minimum api-version:
+   * Specifies the billing related details of a Azure Spot VMSS. <br><br>Minimum api-version:
    * 2019-03-01.
    */
   billingProfile?: BillingProfile;
@@ -3045,7 +3144,7 @@ export interface VirtualMachineScaleSetUpdateVMProfile {
    */
   licenseType?: string;
   /**
-   * Specifies the billing related details of a low priority VMSS. <br><br>Minimum api-version:
+   * Specifies the billing related details of a Azure Spot VMSS. <br><br>Minimum api-version:
    * 2019-03-01.
    */
   billingProfile?: BillingProfile;
@@ -3211,6 +3310,11 @@ export interface VirtualMachineScaleSetUpdate extends UpdateResource {
    * a Virtual Machine Scale Set is scaled-in.
    */
   scaleInPolicy?: ScaleInPolicy;
+  /**
+   * Specifies information about the proximity placement group that the virtual machine scale set
+   * should be assigned to. <br><br>Minimum api-version: 2018-04-01.
+   */
+  proximityPlacementGroup?: SubResource;
   /**
    * The identity of the virtual machine scale set, if configured.
    */
@@ -4254,15 +4358,19 @@ export interface CreationData {
    */
   createOption: DiskCreateOption;
   /**
-   * If createOption is Import, the Azure Resource Manager identifier of the storage account
-   * containing the blob to import as a disk. Required only if the blob is in a different
-   * subscription
+   * Required if createOption is Import. The Azure Resource Manager identifier of the storage
+   * account containing the blob to import as a disk.
    */
   storageAccountId?: string;
   /**
    * Disk source information.
    */
   imageReference?: ImageDiskReference;
+  /**
+   * Required if creating from a Gallery Image. The id of the ImageDiskReference will be the ARM id
+   * of the shared galley image version from which to create a disk.
+   */
+  galleryImageReference?: ImageDiskReference;
   /**
    * If createOption is Import, this is the URI of a blob to be imported into a managed disk.
    */
@@ -4374,7 +4482,18 @@ export interface Encryption {
    * The type of key used to encrypt the data of the disk. Possible values include:
    * 'EncryptionAtRestWithPlatformKey', 'EncryptionAtRestWithCustomerKey'
    */
-  type: EncryptionType;
+  type?: EncryptionType;
+}
+
+/**
+ * An interface representing ShareInfoElement.
+ */
+export interface ShareInfoElement {
+  /**
+   * A relative URI containing the ID of the VM that has the disk attached.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly vmUri?: string;
 }
 
 /**
@@ -4386,6 +4505,12 @@ export interface Disk extends Resource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly managedBy?: string;
+  /**
+   * List of relative URIs containing the IDs of the VMs that have the disk attached. maxShares
+   * should be set to a value greater than one for disks to allow attaching them to multiple VMs.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly managedByExtended?: string[];
   sku?: DiskSku;
   /**
    * The Logical zone list for Disk.
@@ -4448,6 +4573,17 @@ export interface Disk extends Resource {
    */
   diskMBpsReadWrite?: number;
   /**
+   * The total number of IOPS that will be allowed across all VMs mounting the shared disk as
+   * ReadOnly. One operation can transfer between 4k and 256k bytes.
+   */
+  diskIOPSReadOnly?: number;
+  /**
+   * The total throughput (MBps) that will be allowed across all VMs mounting the shared disk as
+   * ReadOnly. MBps means millions of bytes per second - MB here uses the ISO notation, of powers
+   * of 10.
+   */
+  diskMBpsReadOnly?: number;
+  /**
    * The state of the disk. Possible values include: 'Unattached', 'Attached', 'Reserved',
    * 'ActiveSAS', 'ReadyToUpload', 'ActiveUpload'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -4458,6 +4594,17 @@ export interface Disk extends Resource {
    * managed keys.
    */
   encryption?: Encryption;
+  /**
+   * The maximum number of VMs that can attach to the disk at the same time. Value greater than one
+   * indicates a disk that can be mounted on multiple VMs at the same time.
+   */
+  maxShares?: number;
+  /**
+   * Details of the list of all VMs that have the disk attached. maxShares should be set to a value
+   * greater than one for disks to allow attaching them to multiple VMs.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly shareInfo?: ShareInfoElement[];
 }
 
 /**
@@ -4490,6 +4637,27 @@ export interface DiskUpdate {
    * bytes per second - MB here uses the ISO notation, of powers of 10.
    */
   diskMBpsReadWrite?: number;
+  /**
+   * The total number of IOPS that will be allowed across all VMs mounting the shared disk as
+   * ReadOnly. One operation can transfer between 4k and 256k bytes.
+   */
+  diskIOPSReadOnly?: number;
+  /**
+   * The total throughput (MBps) that will be allowed across all VMs mounting the shared disk as
+   * ReadOnly. MBps means millions of bytes per second - MB here uses the ISO notation, of powers
+   * of 10.
+   */
+  diskMBpsReadOnly?: number;
+  /**
+   * The maximum number of VMs that can attach to the disk at the same time. Value greater than one
+   * indicates a disk that can be mounted on multiple VMs at the same time.
+   */
+  maxShares?: number;
+  /**
+   * Encryption property can be used to encrypt data at rest with customer managed keys or platform
+   * managed keys.
+   */
+  encryption?: Encryption;
   /**
    * Resource tags
    */
@@ -4626,6 +4794,11 @@ export interface SnapshotUpdate {
    */
   encryptionSettingsCollection?: EncryptionSettingsCollection;
   /**
+   * Encryption property can be used to encrypt data at rest with customer managed keys or platform
+   * managed keys.
+   */
+  encryption?: Encryption;
+  /**
    * Resource tags
    */
   tags?: { [propertyName: string]: string };
@@ -4721,10 +4894,86 @@ export interface Gallery extends Resource {
 }
 
 /**
+ * The Update Resource model definition.
+ */
+export interface UpdateResourceDefinition extends BaseResource {
+  /**
+   * Resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Resource name
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Resource type
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Resource tags
+   */
+  tags?: { [propertyName: string]: string };
+}
+
+/**
+ * Specifies information about the Shared Image Gallery that you want to update.
+ */
+export interface GalleryUpdate extends UpdateResourceDefinition {
+  /**
+   * The description of this Shared Image Gallery resource. This property is updatable.
+   */
+  description?: string;
+  identifier?: GalleryIdentifier;
+  /**
+   * The current state of the gallery. The provisioning state, which only appears in the response.
+   * Possible values include: 'Creating', 'Updating', 'Failed', 'Succeeded', 'Deleting',
+   * 'Migrating'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/**
  * Specifies information about the gallery Application Definition that you want to create or
  * update.
  */
 export interface GalleryApplication extends Resource {
+  /**
+   * The description of this gallery Application Definition resource. This property is updatable.
+   */
+  description?: string;
+  /**
+   * The Eula agreement for the gallery Application Definition.
+   */
+  eula?: string;
+  /**
+   * The privacy statement uri.
+   */
+  privacyStatementUri?: string;
+  /**
+   * The release note uri.
+   */
+  releaseNoteUri?: string;
+  /**
+   * The end of life date of the gallery Application Definition. This property can be used for
+   * decommissioning purposes. This property is updatable.
+   */
+  endOfLifeDate?: Date;
+  /**
+   * This property allows you to specify the supported type of the OS that application is built
+   * for. <br><br> Possible values are: <br><br> **Windows** <br><br> **Linux**. Possible values
+   * include: 'Windows', 'Linux'
+   */
+  supportedOSType: OperatingSystemTypes;
+}
+
+/**
+ * Specifies information about the gallery Application Definition that you want to update.
+ */
+export interface GalleryApplicationUpdate extends UpdateResourceDefinition {
   /**
    * The description of this gallery Application Definition resource. This property is updatable.
    */
@@ -4883,6 +5132,24 @@ export interface GalleryApplicationVersion extends Resource {
 }
 
 /**
+ * Specifies information about the gallery Application Version that you want to update.
+ */
+export interface GalleryApplicationVersionUpdate extends UpdateResourceDefinition {
+  publishingProfile: GalleryApplicationVersionPublishingProfile;
+  /**
+   * The current state of the gallery Application Version. The provisioning state, which only
+   * appears in the response. Possible values include: 'Creating', 'Updating', 'Failed',
+   * 'Succeeded', 'Deleting', 'Migrating'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState1;
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly replicationStatus?: ReplicationStatus;
+}
+
+/**
  * This is the gallery Image Definition identifier.
  */
 export interface GalleryImageIdentifier {
@@ -4955,6 +5222,60 @@ export interface ImagePurchasePlan {
  * Specifies information about the gallery Image Definition that you want to create or update.
  */
 export interface GalleryImage extends Resource {
+  /**
+   * The description of this gallery Image Definition resource. This property is updatable.
+   */
+  description?: string;
+  /**
+   * The Eula agreement for the gallery Image Definition.
+   */
+  eula?: string;
+  /**
+   * The privacy statement uri.
+   */
+  privacyStatementUri?: string;
+  /**
+   * The release note uri.
+   */
+  releaseNoteUri?: string;
+  /**
+   * This property allows you to specify the type of the OS that is included in the disk when
+   * creating a VM from a managed image. <br><br> Possible values are: <br><br> **Windows**
+   * <br><br> **Linux**. Possible values include: 'Windows', 'Linux'
+   */
+  osType: OperatingSystemTypes;
+  /**
+   * This property allows the user to specify whether the virtual machines created under this image
+   * are 'Generalized' or 'Specialized'. Possible values include: 'Generalized', 'Specialized'
+   */
+  osState: OperatingSystemStateTypes;
+  /**
+   * The hypervisor generation of the Virtual Machine. Applicable to OS disks only. Possible values
+   * include: 'V1', 'V2'
+   */
+  hyperVGeneration?: HyperVGeneration;
+  /**
+   * The end of life date of the gallery Image Definition. This property can be used for
+   * decommissioning purposes. This property is updatable.
+   */
+  endOfLifeDate?: Date;
+  identifier: GalleryImageIdentifier;
+  recommended?: RecommendedMachineConfiguration;
+  disallowed?: Disallowed;
+  purchasePlan?: ImagePurchasePlan;
+  /**
+   * The current state of the gallery Image Definition. The provisioning state, which only appears
+   * in the response. Possible values include: 'Creating', 'Updating', 'Failed', 'Succeeded',
+   * 'Deleting', 'Migrating'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState2;
+}
+
+/**
+ * Specifies information about the gallery Image Definition that you want to update.
+ */
+export interface GalleryImageUpdate extends UpdateResourceDefinition {
   /**
    * The description of this gallery Image Definition resource. This property is updatable.
    */
@@ -5089,6 +5410,65 @@ export interface GalleryImageVersion extends Resource {
 }
 
 /**
+ * Specifies information about the gallery Image Version that you want to update.
+ */
+export interface GalleryImageVersionUpdate extends UpdateResourceDefinition {
+  publishingProfile?: GalleryImageVersionPublishingProfile;
+  /**
+   * The current state of the gallery Image Version. The provisioning state, which only appears in
+   * the response. Possible values include: 'Creating', 'Updating', 'Failed', 'Succeeded',
+   * 'Deleting', 'Migrating'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState3;
+  storageProfile: GalleryImageVersionStorageProfile;
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly replicationStatus?: ReplicationStatus;
+}
+
+/**
+ * This is the disk image encryption base class.
+ */
+export interface DiskImageEncryption {
+  /**
+   * A relative URI containing the resource ID of the disk encryption set.
+   */
+  diskEncryptionSetId?: string;
+}
+
+/**
+ * Contains encryption settings for an OS disk image.
+ */
+export interface OSDiskImageEncryption extends DiskImageEncryption {
+}
+
+/**
+ * Contains encryption settings for a data disk image.
+ */
+export interface DataDiskImageEncryption extends DiskImageEncryption {
+  /**
+   * This property specifies the logical unit number of the data disk. This value is used to
+   * identify data disks within the Virtual Machine and therefore must be unique for each data disk
+   * attached to the Virtual Machine.
+   */
+  lun: number;
+}
+
+/**
+ * Optional. Allows users to provide customer managed keys for encrypting the OS and data disks in
+ * the gallery artifact.
+ */
+export interface EncryptionImages {
+  osDiskImage?: OSDiskImageEncryption;
+  /**
+   * A list of encryption specifications for data disk images.
+   */
+  dataDiskImages?: DataDiskImageEncryption[];
+}
+
+/**
  * Describes the target region information.
  */
 export interface TargetRegion {
@@ -5106,6 +5486,7 @@ export interface TargetRegion {
    * updatable. Possible values include: 'Standard_LRS', 'Standard_ZRS'
    */
   storageAccountType?: StorageAccountType;
+  encryption?: EncryptionImages;
 }
 
 /**
@@ -5348,6 +5729,17 @@ export interface AvailabilitySetsListBySubscriptionOptionalParams extends msRest
 /**
  * Optional Parameters.
  */
+export interface ProximityPlacementGroupsGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * includeColocationStatus=true enables fetching the colocation status of all the resources in
+   * the proximity placement group.
+   */
+  includeColocationStatus?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
 export interface DedicatedHostsGetOptionalParams extends msRest.RequestOptionsBase {
   /**
    * The expand expression to apply on the operation. Possible values include: 'instanceView'
@@ -5392,9 +5784,9 @@ export interface VirtualMachineExtensionsListOptionalParams extends msRest.Reque
  */
 export interface VirtualMachineImagesListOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * The filter to apply on the operation.
+   * The expand expression to apply on the operation.
    */
-  filter?: string;
+  expand?: string;
   top?: number;
   orderby?: string;
 }
@@ -6264,6 +6656,22 @@ export type SettingNames = 'AutoLogon' | 'FirstLogonCommands';
 export type ProtocolTypes = 'Http' | 'Https';
 
 /**
+ * Defines values for VirtualMachinePriorityTypes.
+ * Possible values include: 'Regular', 'Low', 'Spot'
+ * @readonly
+ * @enum {string}
+ */
+export type VirtualMachinePriorityTypes = 'Regular' | 'Low' | 'Spot';
+
+/**
+ * Defines values for VirtualMachineEvictionPolicyTypes.
+ * Possible values include: 'Deallocate', 'Delete'
+ * @readonly
+ * @enum {string}
+ */
+export type VirtualMachineEvictionPolicyTypes = 'Deallocate' | 'Delete';
+
+/**
  * Defines values for ResourceIdentityType.
  * Possible values include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned, UserAssigned',
  * 'None'
@@ -6287,22 +6695,6 @@ export type MaintenanceOperationResultCodeTypes = 'None' | 'RetryLater' | 'Maint
  * @enum {string}
  */
 export type HyperVGenerationType = 'V1' | 'V2';
-
-/**
- * Defines values for VirtualMachinePriorityTypes.
- * Possible values include: 'Regular', 'Low'
- * @readonly
- * @enum {string}
- */
-export type VirtualMachinePriorityTypes = 'Regular' | 'Low';
-
-/**
- * Defines values for VirtualMachineEvictionPolicyTypes.
- * Possible values include: 'Deallocate', 'Delete'
- * @readonly
- * @enum {string}
- */
-export type VirtualMachineEvictionPolicyTypes = 'Deallocate' | 'Delete';
 
 /**
  * Defines values for UpgradeMode.
@@ -8358,6 +8750,26 @@ export type VirtualMachineScaleSetExtensionsCreateOrUpdateResponse = VirtualMach
 };
 
 /**
+ * Contains response data for the update operation.
+ */
+export type VirtualMachineScaleSetExtensionsUpdateResponse = VirtualMachineScaleSetExtension & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualMachineScaleSetExtension;
+    };
+};
+
+/**
  * Contains response data for the get operation.
  */
 export type VirtualMachineScaleSetExtensionsGetResponse = VirtualMachineScaleSetExtension & {
@@ -8401,6 +8813,26 @@ export type VirtualMachineScaleSetExtensionsListResponse = VirtualMachineScaleSe
  * Contains response data for the beginCreateOrUpdate operation.
  */
 export type VirtualMachineScaleSetExtensionsBeginCreateOrUpdateResponse = VirtualMachineScaleSetExtension & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualMachineScaleSetExtension;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type VirtualMachineScaleSetExtensionsBeginUpdateResponse = VirtualMachineScaleSetExtension & {
   /**
    * The underlying HTTP response.
    */
@@ -9558,6 +9990,26 @@ export type GalleriesCreateOrUpdateResponse = Gallery & {
 };
 
 /**
+ * Contains response data for the update operation.
+ */
+export type GalleriesUpdateResponse = Gallery & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Gallery;
+    };
+};
+
+/**
  * Contains response data for the get operation.
  */
 export type GalleriesGetResponse = Gallery & {
@@ -9638,6 +10090,26 @@ export type GalleriesBeginCreateOrUpdateResponse = Gallery & {
 };
 
 /**
+ * Contains response data for the beginUpdate operation.
+ */
+export type GalleriesBeginUpdateResponse = Gallery & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Gallery;
+    };
+};
+
+/**
  * Contains response data for the listByResourceGroupNext operation.
  */
 export type GalleriesListByResourceGroupNextResponse = GalleryList & {
@@ -9681,6 +10153,26 @@ export type GalleriesListNextResponse = GalleryList & {
  * Contains response data for the createOrUpdate operation.
  */
 export type GalleryImagesCreateOrUpdateResponse = GalleryImage & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: GalleryImage;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type GalleryImagesUpdateResponse = GalleryImage & {
   /**
    * The underlying HTTP response.
    */
@@ -9758,6 +10250,26 @@ export type GalleryImagesBeginCreateOrUpdateResponse = GalleryImage & {
 };
 
 /**
+ * Contains response data for the beginUpdate operation.
+ */
+export type GalleryImagesBeginUpdateResponse = GalleryImage & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: GalleryImage;
+    };
+};
+
+/**
  * Contains response data for the listByGalleryNext operation.
  */
 export type GalleryImagesListByGalleryNextResponse = GalleryImageList & {
@@ -9781,6 +10293,26 @@ export type GalleryImagesListByGalleryNextResponse = GalleryImageList & {
  * Contains response data for the createOrUpdate operation.
  */
 export type GalleryImageVersionsCreateOrUpdateResponse = GalleryImageVersion & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: GalleryImageVersion;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type GalleryImageVersionsUpdateResponse = GalleryImageVersion & {
   /**
    * The underlying HTTP response.
    */
@@ -9858,6 +10390,26 @@ export type GalleryImageVersionsBeginCreateOrUpdateResponse = GalleryImageVersio
 };
 
 /**
+ * Contains response data for the beginUpdate operation.
+ */
+export type GalleryImageVersionsBeginUpdateResponse = GalleryImageVersion & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: GalleryImageVersion;
+    };
+};
+
+/**
  * Contains response data for the listByGalleryImageNext operation.
  */
 export type GalleryImageVersionsListByGalleryImageNextResponse = GalleryImageVersionList & {
@@ -9881,6 +10433,26 @@ export type GalleryImageVersionsListByGalleryImageNextResponse = GalleryImageVer
  * Contains response data for the createOrUpdate operation.
  */
 export type GalleryApplicationsCreateOrUpdateResponse = GalleryApplication & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: GalleryApplication;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type GalleryApplicationsUpdateResponse = GalleryApplication & {
   /**
    * The underlying HTTP response.
    */
@@ -9958,6 +10530,26 @@ export type GalleryApplicationsBeginCreateOrUpdateResponse = GalleryApplication 
 };
 
 /**
+ * Contains response data for the beginUpdate operation.
+ */
+export type GalleryApplicationsBeginUpdateResponse = GalleryApplication & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: GalleryApplication;
+    };
+};
+
+/**
  * Contains response data for the listByGalleryNext operation.
  */
 export type GalleryApplicationsListByGalleryNextResponse = GalleryApplicationList & {
@@ -9981,6 +10573,26 @@ export type GalleryApplicationsListByGalleryNextResponse = GalleryApplicationLis
  * Contains response data for the createOrUpdate operation.
  */
 export type GalleryApplicationVersionsCreateOrUpdateResponse = GalleryApplicationVersion & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: GalleryApplicationVersion;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type GalleryApplicationVersionsUpdateResponse = GalleryApplicationVersion & {
   /**
    * The underlying HTTP response.
    */
@@ -10041,6 +10653,26 @@ export type GalleryApplicationVersionsListByGalleryApplicationResponse = Gallery
  * Contains response data for the beginCreateOrUpdate operation.
  */
 export type GalleryApplicationVersionsBeginCreateOrUpdateResponse = GalleryApplicationVersion & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: GalleryApplicationVersion;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type GalleryApplicationVersionsBeginUpdateResponse = GalleryApplicationVersion & {
   /**
    * The underlying HTTP response.
    */

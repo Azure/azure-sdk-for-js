@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import * as assert from "assert";
 import { KeyClient } from "../src";
 import { isNode } from "@azure/core-http";
-import { isPlayingBack, testPollerProperties } from "./utils/recorderUtils";
+import { testPollerProperties } from "./utils/recorderUtils";
 import { retry } from "./utils/recorderUtils";
-import { env } from "@azure/test-utils-recorder";
+import { env, Recorder } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { assertThrowsAbortError } from "./utils/utils.common";
@@ -16,7 +16,7 @@ describe("Keys client - restore keys and recover backups", () => {
   let keySuffix: string;
   let client: KeyClient;
   let testClient: TestClient;
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     const authentication = await authenticate(this);
@@ -79,14 +79,13 @@ describe("Keys client - restore keys and recover backups", () => {
     await testClient.flushKey(keyName);
   });
 
-  if (isNode && !isPlayingBack) {
-    // On playback mode, the tests happen too fast for the timeout to work
-    it("can generate a backup of a key with requestOptions timeout", async function() {
-      await assertThrowsAbortError(async () => {
-        await client.backupKey("doesntmatter", { requestOptions: { timeout: 1 } });
-      });
+  // On playback mode, the tests happen too fast for the timeout to work
+  it("can generate a backup of a key with requestOptions timeout", async function() {
+    recorder.skip(undefined, "Timeout tests don't work on playback mode.");
+    await assertThrowsAbortError(async () => {
+      await client.backupKey("doesntmatter", { requestOptions: { timeout: 1 } });
     });
-  }
+  });
 
   it("fails to generate a backup of a non-existing key", async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
@@ -111,19 +110,18 @@ describe("Keys client - restore keys and recover backups", () => {
     await testClient.flushKey(keyName);
   });
 
-  if (isNode && !isPlayingBack) {
-    // On playback mode, the tests happen too fast for the timeout to work
-    it("can restore a key with requestOptions timeout", async function() {
-      const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
-      await client.createKey(keyName, "RSA");
-      const backup = await client.backupKey(keyName);
-      await testClient.flushKey(keyName);
+  // On playback mode, the tests happen too fast for the timeout to work
+  it("can restore a key with requestOptions timeout", async function() {
+    recorder.skip(undefined, "Timeout tests don't work on playback mode.");
+    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    await client.createKey(keyName, "RSA");
+    const backup = await client.backupKey(keyName);
+    await testClient.flushKey(keyName);
 
-      await assertThrowsAbortError(async () => {
-        await client.restoreKeyBackup(backup!, { requestOptions: { timeout: 1 } });
-      });
+    await assertThrowsAbortError(async () => {
+      await client.restoreKeyBackup(backup!, { requestOptions: { timeout: 1 } });
     });
-  }
+  });
 
   it("fails to restore a key with a malformed backup", async function() {
     const backup = new Uint8Array(8693);

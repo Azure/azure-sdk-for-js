@@ -3,22 +3,21 @@ import { AbortController } from "@azure/abort-controller";
 
 import { QueueClient } from "../src/QueueClient";
 import { getQSU } from "./utils";
-import { record, Recorder } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
-import { setupEnvironment } from "./utils/testutils.common";
+import { recorderEnvSetup } from "./utils/testutils.common";
+import { Recorder, record } from "@azure/test-utils-recorder";
 dotenv.config({ path: "../.env" });
 
 // tslint:disable:no-empty
 describe("Aborter", () => {
-  setupEnvironment();
-  const queueServiceClient = getQSU();
   let queueName: string;
   let queueClient: QueueClient;
 
   let recorder: Recorder;
 
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    const queueServiceClient = getQSU();
     queueName = recorder.getUniqueName("queue");
     queueClient = queueServiceClient.getQueueClient(queueName);
   });

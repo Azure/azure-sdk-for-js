@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft corporation.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
 const { SecretClient } = require("@azure/keyvault-secrets");
@@ -18,8 +18,9 @@ async function main() {
   const url = `https://${vaultName}.vault.azure.net`;
   const client = new SecretClient(url, credential);
 
-  const bankAccountSecretName = "secretListOperations1";
-  const storageAccountSecretName = "secretListOperations2";
+  const uniqueString = new Date().getTime();
+  const bankAccountSecretName = `bankSecret${uniqueString}`;
+  const storageAccountSecretName = `storageSecret${uniqueString}`;
 
   // Create our secrets
   await client.setSecret(bankAccountSecretName, "ABC123");
@@ -35,8 +36,10 @@ async function main() {
     }
 
     for (const secretProperties of value) {
-      const secret = await client.getSecret(secretProperties.name);
-      console.log("secret: ", secret);
+      if (secretProperties.enabled) {
+        const secret = await client.getSecret(secretProperties.name);
+        console.log("secret: ", secret);
+      }
     }
     console.log("--page--");
   }
@@ -50,8 +53,10 @@ async function main() {
       break;
     }
 
-    const secret = await client.getSecret(value.name);
-    console.log("secret: ", secret);
+    if (value.enabled) {
+      const secret = await client.getSecret(value.name);
+      console.log("secret: ", secret);
+    }
   }
 
   await client.setSecret(bankAccountSecretName, "ABC567");

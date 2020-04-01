@@ -141,11 +141,9 @@ export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
       return value.name.toLowerCase().startsWith(HeaderConstants.PREFIX_FOR_STORAGE);
     });
 
-    headersArray.sort(
-      (a, b): number => {
-        return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
-      }
-    );
+    headersArray.sort((a, b): number => {
+      return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+    });
 
     // Remove duplicate headers
     headersArray = headersArray.filter((value, index, array) => {

@@ -1,4 +1,4 @@
-import { env } from "./utils";
+import { isRecordMode } from "./utils";
 import fs from "fs-extra";
 
 // - jsonToFileReporter filters the JSON strings in console.logs.
@@ -27,7 +27,7 @@ export const jsonRecordingFilterFunction = function(browserRecordingJsonObject: 
   path: string;
   content: string;
 }) {
-  if (env.TEST_MODE === "record") {
+  if (isRecordMode()) {
     if (browserRecordingJsonObject.writeFile) {
       // Create the directories recursively incase they don't exist
       try {

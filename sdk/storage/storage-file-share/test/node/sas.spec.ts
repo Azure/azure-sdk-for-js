@@ -16,17 +16,16 @@ import { generateFileSASQueryParameters } from "../../src/FileSASSignatureValues
 import { newPipeline } from "../../src/Pipeline";
 import { ShareClient } from "../../src/ShareClient";
 import { ShareSASPermissions } from "../../src/ShareSASPermissions";
-import { getBSU, setupEnvironment } from "../utils";
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { getBSU, recorderEnvSetup } from "../utils";
+import { delay, record, Recorder } from "@azure/test-utils-recorder";
 
 describe("Shared Access Signature (SAS) generation Node.js only", () => {
-  setupEnvironment();
-  const serviceClient = getBSU();
-
   let recorder: Recorder;
+  let serviceClient: ShareServiceClient;
 
   beforeEach(function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    serviceClient = getBSU();
   });
 
   afterEach(function() {
@@ -64,10 +63,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       newPipeline(new AnonymousCredential())
     );
 
-    (await serviceClientWithSAS
-      .listShares()
-      .byPage()
-      .next()).value;
+    (
+      await serviceClientWithSAS
+        .listShares()
+        .byPage()
+        .next()
+    ).value;
   });
 
   it("generateAccountSASQueryParameters should not work with invalid permission", async () => {
@@ -201,10 +202,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const shareClientwithSAS = new ShareClient(sasURL);
 
     const dirURLwithSAS = shareClientwithSAS.getDirectoryClient("");
-    (await dirURLwithSAS
-      .listFilesAndDirectories()
-      .byPage()
-      .next()).value;
+    (
+      await dirURLwithSAS
+        .listFilesAndDirectories()
+        .byPage()
+        .next()
+    ).value;
 
     await shareClient.delete();
   });
@@ -307,6 +310,15 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       }
     ]);
 
+    /*
+     * When you establish a stored access policy on a share, it may take up to 30 seconds to take effect.
+     * During this interval, a shared access signature that is associated with the stored access policy will
+     * fail with status code 403 (Forbidden), until the access policy becomes active.
+     * More details: https://docs.microsoft.com/en-us/rest/api/storageservices/set-share-acl
+     * Note: delay in recorder module only take effect in live and recording mode.
+     */
+    await delay(30 * 1000);
+
     const shareSAS = generateFileSASQueryParameters(
       {
         identifier: id,
@@ -319,10 +331,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const shareClientwithSAS = new ShareClient(sasURL, newPipeline(new AnonymousCredential()));
 
     const dirClientwithSAS = shareClientwithSAS.getDirectoryClient("");
-    (await dirClientwithSAS
-      .listFilesAndDirectories()
-      .byPage()
-      .next()).value;
+    (
+      await dirClientwithSAS
+        .listFilesAndDirectories()
+        .byPage()
+        .next()
+    ).value;
     await shareClient.delete();
   });
 });

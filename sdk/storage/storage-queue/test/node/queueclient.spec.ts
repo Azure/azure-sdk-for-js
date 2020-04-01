@@ -4,18 +4,17 @@ import { record, Recorder } from "@azure/test-utils-recorder";
 import { newPipeline, QueueClient, StorageSharedKeyCredential } from "../../src";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
-import { setupEnvironment } from "../utils/testutils.common";
+import { recorderEnvSetup } from "../utils/testutils.common";
 
 describe("QueueClient Node.js only", () => {
-  setupEnvironment();
-  const queueServiceClient = getQSU();
   let queueName: string;
   let queueClient: QueueClient;
 
   let recorder: Recorder;
 
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    const queueServiceClient = getQSU();
     queueName = recorder.getUniqueName("queue");
     queueClient = queueServiceClient.getQueueClient(queueName);
     await queueClient.create();
@@ -49,6 +48,30 @@ describe("QueueClient Node.js only", () => {
     await queueClient.setAccessPolicy(queueAcl);
     const result = await queueClient.getAccessPolicy();
     assert.deepEqual(result.signedIdentifiers, queueAcl);
+  });
+
+  it("setAccessPolicy should work when permissions, expiry and start undefined", async () => {
+    const queueAcl = [
+      {
+        accessPolicy: {
+          permissions: "raup"
+        },
+        id: "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI="
+      }
+    ];
+    await queueClient.setAccessPolicy(queueAcl);
+    const result = await queueClient.getAccessPolicy();
+    assert.deepEqual(result.signedIdentifiers, queueAcl);
+
+    const queueAclEmpty = [
+      {
+        accessPolicy: {},
+        id: "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI="
+      }
+    ];
+    await queueClient.setAccessPolicy(queueAclEmpty);
+    const resultEmpty = await queueClient.getAccessPolicy();
+    assert.deepEqual(resultEmpty.signedIdentifiers[0].accessPolicy, undefined);
   });
 
   it("can be created with a url and a credential", async () => {

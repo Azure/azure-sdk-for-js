@@ -1,262 +1,467 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import * as log from "./log";
-
+import { generate_uuid } from "rhea-promise";
+import { isTokenCredential, TokenCredential } from "@azure/core-amqp";
 import {
-  ApplicationTokenCredentials,
-  DeviceTokenCredentials,
-  UserTokenCredentials,
-  MSITokenCredentials
-} from "@azure/ms-rest-nodeauth";
-
-import { WebSocketImpl } from "rhea-promise";
+  ServiceBusClientOptions,
+  createConnectionContextForTokenCredential,
+  createConnectionContextForConnectionString
+} from "./constructorHelpers";
 import { ConnectionContext } from "./connectionContext";
-import { QueueClient } from "./queueClient";
-import { TopicClient } from "./topicClient";
+import { ClientEntityContext } from "./clientEntityContext";
+import { ClientType } from "./client";
+import { SenderImpl, Sender } from "./sender";
 import {
-  ConnectionConfig,
-  DataTransformer,
-  TokenProvider,
-  AadTokenProvider,
-  SasTokenProvider
-} from "@azure/amqp-common";
-import { SubscriptionClient } from "./subscriptionClient";
-import { isNode } from "./util/utils";
+  GetSessionReceiverOptions,
+  GetReceiverOptions,
+  GetSenderOptions,
+  GetSubscriptionRuleManagerOptions
+} from "./models";
+import { Receiver, ReceiverImpl } from "./receivers/receiver";
+import { SessionReceiver, SessionReceiverImpl } from "./receivers/sessionReceiver";
+import { ReceivedMessageWithLock, ReceivedMessage } from "./serviceBusMessage";
+import {
+  SubscriptionRuleManagerImpl,
+  SubscriptionRuleManager
+} from "./receivers/subscriptionRuleManager";
 
 /**
- * Describes the options that can be provided while creating the ServiceBusClient.
- * @interface ServiceBusClientOptions
+ * A client that can create Sender instances for sending messages to queues and
+ * topics as well as Receiver instances to receive messages from queues and subscriptions.
  */
-export interface ServiceBusClientOptions {
+export class ServiceBusClient {
+  private _connectionContext: ConnectionContext;
+  private _clientOptions: ServiceBusClientOptions;
+
   /**
-   * @property The data transformer that will be used to encode
-   * and decode the sent and received messages respectively. If not provided then we will use the
-   * DefaultDataTransformer. The default transformer should handle majority of the cases. This
-   * option needs to be used only for specialized scenarios.
+   *
+   * @param connectionString A connection string for Azure Service Bus.
+   * NOTE: this connection string can contain an EntityPath, which is ignored.
+   * @param options Options for the service bus client.
    */
-  dataTransformer?: DataTransformer;
+  constructor(connectionString: string, options?: ServiceBusClientOptions);
   /**
-   * @property The WebSocket constructor used to create an AMQP connection
-   * over a WebSocket. In browsers, the built-in WebSocket will be  used by default. In Node, a
-   * TCP socket will be used if a WebSocket constructor is not provided.
+   *
+   * @param host The hostname of your Azure Service Bus.
+   * @param tokenCredential A valid TokenCredential for Service Bus or a
+   * Service Bus entity.
+   * @param options Options for the service bus client.
    */
-  webSocket?: WebSocketImpl;
+  constructor(
+    hostName: string,
+    tokenCredential: TokenCredential,
+    options?: ServiceBusClientOptions
+  );
+  constructor(
+    connectionStringOrHostName1: string,
+    tokenCredentialOrServiceBusOptions2?: TokenCredential | ServiceBusClientOptions,
+    options3?: ServiceBusClientOptions
+  ) {
+    if (isTokenCredential(tokenCredentialOrServiceBusOptions2)) {
+      const hostName: string = connectionStringOrHostName1;
+      const tokenCredential: TokenCredential = tokenCredentialOrServiceBusOptions2;
+      this._clientOptions = options3 || {};
+
+      this._connectionContext = createConnectionContextForTokenCredential(
+        tokenCredential,
+        hostName,
+        this._clientOptions
+      );
+    } else {
+      const connectionString: string = connectionStringOrHostName1;
+      this._clientOptions = tokenCredentialOrServiceBusOptions2 || {};
+
+      this._connectionContext = createConnectionContextForConnectionString(
+        connectionString,
+        this._clientOptions
+      );
+    }
+  }
+
   /**
-   * @property Options to be passed to the WebSocket constructor
+   * Creates a receiver for an Azure Service Bus queue.
+   *
+   * @param queueName The name of the queue to receive from.
+   * @param receiveMode The receive mode to use (defaults to PeekLock)
+   * @param options Options for the receiver itself.
    */
-  webSocketConstructorOptions?: any;
+  getReceiver(
+    queueName: string,
+    receiveMode: "peekLock",
+    options?: GetReceiverOptions
+  ): Receiver<ReceivedMessageWithLock>;
+  /**
+   * Creates a receiver for an Azure Service Bus queue.
+   *
+   * @param queueName The name of the queue to receive from.
+   * @param receiveMode The receive mode to use (defaults to PeekLock)
+   * @param options Options for the receiver itself.
+   */
+  getReceiver(
+    queueName: string,
+    receiveMode: "receiveAndDelete",
+    options?: GetReceiverOptions
+  ): Receiver<ReceivedMessage>;
+  /**
+   * Creates a receiver for an Azure Service Bus subscription.
+   *
+   * @param topicName Name of the topic for the subscription we want to receive from.
+   * @param subscriptionName Name of the subscription (under the `topic`) that we want to receive from.
+   * @param receiveMode The receive mode to use (defaults to PeekLock)
+   * @param options Options for the receiver itself.
+   */
+  getReceiver(
+    topicName: string,
+    subscriptionName: string,
+    receiveMode: "peekLock",
+    options?: GetReceiverOptions
+  ): Receiver<ReceivedMessageWithLock>;
+  /**
+   * Creates a receiver for an Azure Service Bus subscription.
+   *
+   * @param topicName Name of the topic for the subscription we want to receive from.
+   * @param subscriptionName Name of the subscription (under the `topic`) that we want to receive from.
+   * @param receiveMode The receive mode to use (defaults to PeekLock)
+   * @param options Options for the receiver itself.
+   */
+  getReceiver(
+    topicName: string,
+    subscriptionName: string,
+    receiveMode: "receiveAndDelete",
+    options?: GetReceiverOptions
+  ): Receiver<ReceivedMessage>;
+  getReceiver(
+    queueOrTopicName1: string,
+    receiveModeOrSubscriptionName2: "peekLock" | "receiveAndDelete" | string,
+    receiveModeOrOptions3?: "peekLock" | "receiveAndDelete" | GetReceiverOptions,
+    options4?: GetReceiverOptions
+  ): Receiver<ReceivedMessageWithLock> | Receiver<ReceivedMessage> {
+    // NOTE: we don't currently have any options for this kind of receiver but
+    // when we do make sure you pass them in and extract them.
+    const { entityPath, receiveMode, options } = extractReceiverArguments(
+      this._connectionContext.config.entityPath,
+      queueOrTopicName1,
+      receiveModeOrSubscriptionName2,
+      receiveModeOrOptions3,
+      options4
+    );
+
+    const clientEntityContext = ClientEntityContext.create(
+      entityPath,
+      ClientType.ServiceBusReceiverClient,
+      this._connectionContext,
+      `${entityPath}/${generate_uuid()}`
+    );
+
+    if (receiveMode === "peekLock") {
+      return new ReceiverImpl<ReceivedMessageWithLock>(clientEntityContext, receiveMode, {
+        ...options,
+        retryOptions: options?.retryOptions ?? this._clientOptions.retryOptions
+      });
+    } else {
+      return new ReceiverImpl<ReceivedMessage>(clientEntityContext, receiveMode, {
+        ...options,
+        retryOptions: options?.retryOptions ?? this._clientOptions.retryOptions
+      });
+    }
+  }
+
+  /**
+   * Creates a receiver for an Azure Service Bus queue.
+   *
+   * @param queueName The name of the queue to receive from.
+   * @param receiveMode The receive mode to use (defaults to PeekLock)
+   * @param options Options for the receiver itself.
+   */
+  getSessionReceiver(
+    queueName: string,
+    receiveMode: "peekLock",
+    options?: GetSessionReceiverOptions
+  ): SessionReceiver<ReceivedMessageWithLock>;
+  /**
+   * Creates a receiver for an Azure Service Bus queue.
+   *
+   * @param queueName The name of the queue to receive from.
+   * @param receiveMode The receive mode to use (defaults to PeekLock)
+   * @param options Options for the receiver itself.
+   */
+  getSessionReceiver(
+    queueName: string,
+    receiveMode: "receiveAndDelete",
+    options?: GetSessionReceiverOptions
+  ): SessionReceiver<ReceivedMessage>;
+  /**
+   * Creates a receiver for an Azure Service Bus subscription.
+   *
+   * @param topicName Name of the topic for the subscription we want to receive from.
+   * @param subscriptionName Name of the subscription (under the `topic`) that we want to receive from.
+   * @param receiveMode The receive mode to use (defaults to PeekLock)
+   * @param options Options for the receiver itself.
+   */
+  getSessionReceiver(
+    topicName: string,
+    subscriptionName: string,
+    receiveMode: "peekLock",
+    options?: GetSessionReceiverOptions
+  ): SessionReceiver<ReceivedMessageWithLock>;
+  /**
+   * Creates a receiver for an Azure Service Bus subscription.
+   *
+   * @param topicName Name of the topic for the subscription we want to receive from.
+   * @param subscriptionName Name of the subscription (under the `topic`) that we want to receive from.
+   * @param receiveMode The receive mode to use (defaults to PeekLock)
+   * @param options Options for the receiver itself.
+   */
+  getSessionReceiver(
+    topicName: string,
+    subscriptionName: string,
+    receiveMode: "receiveAndDelete",
+    options?: GetSessionReceiverOptions
+  ): SessionReceiver<ReceivedMessage>;
+  getSessionReceiver(
+    queueOrTopicName1: string,
+    receiveModeOrSubscriptionName2: "peekLock" | "receiveAndDelete" | string,
+    receiveModeOrOptions3?: "peekLock" | "receiveAndDelete" | GetSessionReceiverOptions,
+    options4?: GetSessionReceiverOptions
+  ): SessionReceiver<ReceivedMessage> | SessionReceiver<ReceivedMessageWithLock> {
+    const { entityPath, receiveMode, options } = extractReceiverArguments(
+      this._connectionContext.config.entityPath,
+      queueOrTopicName1,
+      receiveModeOrSubscriptionName2,
+      receiveModeOrOptions3,
+      options4
+    );
+
+    const clientEntityContext = ClientEntityContext.create(
+      entityPath,
+      ClientType.ServiceBusReceiverClient,
+      this._connectionContext,
+      `${entityPath}/${generate_uuid()}`
+    );
+
+    // TODO: .NET actually tries to open the session here so we'd need to be async for that.
+    return new SessionReceiverImpl(clientEntityContext, receiveMode, {
+      sessionId: options?.sessionId,
+      maxSessionAutoRenewLockDurationInSeconds: options?.maxSessionAutoRenewLockDurationInSeconds,
+      retryOptions: options?.retryOptions ?? this._clientOptions.retryOptions
+    });
+  }
+
+  /**
+   * Creates a Sender which can be used to send messages, schedule messages to be sent at a later time
+   * and cancel such scheduled messages.
+   */
+  getSender(queueOrTopicName: string, options?: GetSenderOptions): Sender {
+    validateEntityNamesMatch(this._connectionContext.config.entityPath, queueOrTopicName, "sender");
+
+    const clientEntityContext = ClientEntityContext.create(
+      queueOrTopicName,
+      ClientType.ServiceBusReceiverClient,
+      this._connectionContext,
+      `${queueOrTopicName}/${generate_uuid()}`
+    );
+    return new SenderImpl(clientEntityContext, {
+      ...options,
+      retryOptions: options?.retryOptions ?? this._clientOptions.retryOptions
+    });
+  }
+
+  /**
+   * Gets a SubscriptionRuleManager, which allows you to manage Service Bus subscription rules.
+   * More information about subscription rules can be found here: https://docs.microsoft.com/en-us/azure/service-bus-messaging/topic-filters
+   * @param topic The topic for the subscription.
+   * @param subscription The subscription.
+   */
+  getSubscriptionRuleManager(
+    topic: string,
+    subscription: string,
+    options?: GetSubscriptionRuleManagerOptions
+  ): SubscriptionRuleManager {
+    const entityPath = `${topic}/Subscriptions/${subscription}`;
+    const clientEntityContext = ClientEntityContext.create(
+      entityPath,
+      ClientType.ServiceBusReceiverClient, // TODO:what are these names for? We can make one for management client...
+      this._connectionContext,
+      `${entityPath}/${generate_uuid()}`
+    );
+
+    return new SubscriptionRuleManagerImpl(clientEntityContext, {
+      ...options,
+      retryOptions: options?.retryOptions ?? this._clientOptions.retryOptions
+    });
+  }
+
+  /**
+   * Creates a receiver for an Azure Service Bus queue's dead letter queue.
+   *
+   * @param queueName The name of the queue to receive from.
+   * @param receiveMode The receive mode to use (defaults to PeekLock)
+   * @param options Options for the receiver itself.
+   */
+  getDeadLetterReceiver(
+    queueName: string,
+    receiveMode: "peekLock",
+    options?: GetReceiverOptions
+  ): Receiver<ReceivedMessageWithLock>;
+  /**
+   * Creates a receiver for an Azure Service Bus queue's dead letter queue.
+   *
+   * @param queueName The name of the queue to receive from.
+   * @param receiveMode The receive mode to use (defaults to PeekLock)
+   * @param options Options for the receiver itself.
+   */
+  getDeadLetterReceiver(
+    queueName: string,
+    receiveMode: "receiveAndDelete",
+    options?: GetReceiverOptions
+  ): Receiver<ReceivedMessage>;
+  /**
+   * Creates a receiver for an Azure Service Bus subscription's dead letter queue.
+   *
+   * @param topicName Name of the topic for the subscription we want to receive from.
+   * @param subscriptionName Name of the subscription (under the `topic`) that we want to receive from.
+   * @param receiveMode The receive mode to use (defaults to PeekLock)
+   * @param options Options for the receiver itself.
+   */
+  getDeadLetterReceiver(
+    topicName: string,
+    subscriptionName: string,
+    receiveMode: "peekLock",
+    options?: GetReceiverOptions
+  ): Receiver<ReceivedMessageWithLock>;
+  /**
+   * Creates a receiver for an Azure Service Bus subscription's dead letter queue.
+   *
+   * @param topicName Name of the topic for the subscription we want to receive from.
+   * @param subscriptionName Name of the subscription (under the `topic`) that we want to receive from.
+   * @param receiveMode The receive mode to use (defaults to PeekLock)
+   * @param options Options for the receiver itself.
+   */
+  getDeadLetterReceiver(
+    topicName: string,
+    subscriptionName: string,
+    receiveMode: "receiveAndDelete",
+    options?: GetReceiverOptions
+  ): Receiver<ReceivedMessage>;
+  getDeadLetterReceiver(
+    queueOrTopicName1: string,
+    receiveModeOrSubscriptionName2: "peekLock" | "receiveAndDelete" | string,
+    receiveModeOrOptions3?: "peekLock" | "receiveAndDelete" | GetReceiverOptions,
+    options4?: GetReceiverOptions
+  ): Receiver<ReceivedMessageWithLock> | Receiver<ReceivedMessage> {
+    // NOTE: we don't currently have any options for this kind of receiver but
+    // when we do make sure you pass them in and extract them.
+    const { entityPath, receiveMode, options } = extractReceiverArguments(
+      this._connectionContext.config.entityPath,
+      queueOrTopicName1,
+      receiveModeOrSubscriptionName2,
+      receiveModeOrOptions3,
+      options4
+    );
+
+    const deadLetterEntityPath = `${entityPath}/$DeadLetterQueue`;
+
+    if (receiveMode === "peekLock") {
+      return this.getReceiver(deadLetterEntityPath, receiveMode, options);
+    } else {
+      return this.getReceiver(deadLetterEntityPath, receiveMode, options);
+    }
+  }
+
+  /**
+   * Closes the underlying AMQP connection.
+   * NOTE: this will also disconnect any Receiver or Sender instances created from this
+   * instance.
+   */
+  close(): Promise<void> {
+    return ConnectionContext.close(this._connectionContext);
+  }
+}
+
+function isReceiveMode(mode: any): mode is "peekLock" | "receiveAndDelete" {
+  return mode && typeof mode === "string" && (mode === "peekLock" || mode === "receiveAndDelete");
 }
 
 /**
- * Describes the client that allows interacting with a Service Bus instance.
- * Holds the AMQP connection to the Service Bus Namespace and is the entry point for using Queues,
- * Topics and Subscriptions.
+ * Helper to validate and extract the common arguments from both the get*Receiver() overloads that
+ * have this pattern:
+ *
+ * queue, lockmode, options
+ * topic, subscription, lockmode, options
+ *
+ * @internal
+ * @ignore
  */
-export class ServiceBusClient {
-  /**
-   * @readonly
-   * @property The name of the Service Bus Namespace.
-   */
-  readonly name: string;
-  /**
-   * @property Describes the amqp connection context for the Namespace.
-   * @private
-   */
-  private _context: ConnectionContext;
+export function extractReceiverArguments<OptionsT>(
+  connectionStringEntityName: string | undefined,
+  queueOrTopicName1: string,
+  receiveModeOrSubscriptionName2: "peekLock" | "receiveAndDelete" | string,
+  receiveModeOrOptions3: "peekLock" | "receiveAndDelete" | OptionsT,
+  definitelyOptions4: OptionsT
+): {
+  entityPath: string;
+  receiveMode: "peekLock" | "receiveAndDelete";
+  options?: OptionsT;
+} {
+  if (isReceiveMode(receiveModeOrOptions3)) {
+    const topic = queueOrTopicName1;
+    const subscription = receiveModeOrSubscriptionName2;
 
-  /**
-   * Instantiates a ServiceBusClient to interact with a Service Bus Namespace.
-   *
-   * @constructor
-   * @param {ConnectionConfig} config - The connection configuration needed to connect to the
-   * Service Bus Namespace.
-   * @param {TokenProvider} [tokenProvider] - The token provider that provides the token for
-   * authentication.
-   * @param {ServiceBusClientOptions} - Options to control ways to interact with the Service Bus
-   * Namespace.
-   */
-  private constructor(
-    config: ConnectionConfig,
-    tokenProvider: TokenProvider,
-    options?: ServiceBusClientOptions
-  ) {
-    if (!options) options = {};
-    this.name = config.endpoint;
-    this._context = ConnectionContext.create(config, tokenProvider, options);
+    validateEntityNamesMatch(connectionStringEntityName, topic, "receiver-topic");
+
+    return {
+      entityPath: `${topic}/Subscriptions/${subscription}`,
+      receiveMode: receiveModeOrOptions3,
+      options: definitelyOptions4
+    };
+  } else if (isReceiveMode(receiveModeOrSubscriptionName2)) {
+    validateEntityNamesMatch(connectionStringEntityName, queueOrTopicName1, "receiver-queue");
+
+    return {
+      entityPath: queueOrTopicName1,
+      receiveMode: receiveModeOrSubscriptionName2,
+      options: receiveModeOrOptions3
+    };
+  } else {
+    throw new TypeError("Invalid receiveMode provided");
+  }
+}
+
+/**
+ * @internal
+ * @ignore
+ */
+export function validateEntityNamesMatch(
+  connectionStringEntityName: string | undefined,
+  queueOrTopicName: string,
+  senderOrReceiverType: "receiver-topic" | "receiver-queue" | "sender"
+) {
+  if (!connectionStringEntityName) {
+    return;
   }
 
-  /**
-   * Creates a QueueClient for an existing Service Bus Queue.
-   * @param {string} queueName The queue name.
-   * @returns QueueClient.
-   * @throws Error if the underlying connection is closed.
-   */
-  createQueueClient(queueName: string): QueueClient {
-    const client = new QueueClient(queueName, this._context);
-    log.ns("Created the QueueClient for Queue: %s", queueName);
-    return client;
-  }
+  if (queueOrTopicName !== connectionStringEntityName) {
+    let entityType;
+    let senderOrReceiver;
 
-  /**
-   * Creates a TopicClient for an existing Service Bus Topic.
-   * @param {string} topicName The topic name.
-   * @returns TopicClient.
-   * @throws
-   * @throws Error if the underlying connection is closed.
-   */
-  createTopicClient(topicName: string): TopicClient {
-    const client = new TopicClient(topicName, this._context);
-    log.ns("Created the TopicClient for Topic: %s", topicName);
-    return client;
-  }
+    switch (senderOrReceiverType) {
+      case "receiver-queue":
+        entityType = "queue";
+        senderOrReceiver = "Receiver";
+        break;
+      case "receiver-topic":
+        entityType = "topic";
+        senderOrReceiver = "Receiver";
+        break;
+      case "sender":
+        entityType = "queue/topic";
+        senderOrReceiver = "Sender";
+        break;
+    }
 
-  /**
-   * Creates a SubscriptionClient for an existing Service Bus Subscription.
-   * @param {string} topicName The topic name.
-   * @param {string} subscriptionName The subscription name.
-   * @returns SubscriptionClient.
-   * @throws Error if the underlying connection is closed.
-   */
-  createSubscriptionClient(topicName: string, subscriptionName: string): SubscriptionClient {
-    const client = new SubscriptionClient(topicName, subscriptionName, this._context);
-    log.ns(
-      "Created the SubscriptionClient for Topic: %s and Subscription: %s",
-      topicName,
-      subscriptionName
+    throw new Error(
+      `The connection string for this ServiceBusClient had an EntityPath of '${connectionStringEntityName}' which doesn't match the name of the ${entityType} for this ${senderOrReceiver} ('${queueOrTopicName}')`
     );
-    return client;
-  }
-
-  /**
-   * Closes the AMQP connection created by this ServiceBusClient along with AMQP links for
-   * sender/receivers created by the queue/topic/subscription clients created by this
-   * ServiceBusClient.
-   * Once closed,
-   * - the clients created by this ServiceBusClient cannot be used to send/receive messages anymore.
-   * - this ServiceBusClient cannot be used to create any new queues/topics/subscriptions clients.
-   * @returns {Promise<any>}
-   */
-  async close(): Promise<any> {
-    try {
-      if (this._context.connection.isOpen()) {
-        log.ns("Closing the amqp connection '%s' on the client.", this._context.connectionId);
-
-        // Close all the clients.
-        for (const id of Object.keys(this._context.clientContexts)) {
-          const clientContext = this._context.clientContexts[id];
-          await clientContext.close();
-        }
-        await this._context.cbsSession.close();
-
-        await this._context.connection.close();
-        this._context.wasConnectionCloseCalled = true;
-        log.ns("Closed the amqp connection '%s' on the client.", this._context.connectionId);
-      }
-    } catch (err) {
-      const errObj = err instanceof Error ? err : new Error(JSON.stringify(err));
-      log.error(
-        `An error occurred while closing the connection "${this._context.connectionId}":\n${errObj}`
-      );
-      throw errObj;
-    }
-  }
-
-  /**
-   * Creates a ServiceBusClient for the Service Bus Namespace represented in the given connection
-   * string.
-   * @param {string} connectionString - Connection string of the form
-   * 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key'
-   * @param {ServiceBusClientOptions} [options] Options to control ways to interact with the
-   * Service Bus Namespace.
-   * @returns {ServiceBusClient}
-   */
-  static createFromConnectionString(
-    connectionString: string,
-    options?: ServiceBusClientOptions
-  ): ServiceBusClient {
-    const config = ConnectionConfig.create(connectionString);
-
-    config.webSocket = options && options.webSocket;
-    config.webSocketEndpointPath = "$servicebus/websocket";
-    config.webSocketConstructorOptions = options && options.webSocketConstructorOptions;
-
-    ConnectionConfig.validate(config);
-    const tokenProvider = new SasTokenProvider(
-      config.endpoint,
-      config.sharedAccessKeyName,
-      config.sharedAccessKey
-    );
-    return new ServiceBusClient(config, tokenProvider, options);
-  }
-
-  /**
-   * Creates a ServiceBusClient for the Service Bus Namespace represented by the given host using
-   * the given TokenProvider.
-   * @param {string} host - Fully qualified domain name for Servicebus. Most likely,
-   * `<yournamespace>.servicebus.windows.net`.
-   * @param {TokenProvider} tokenProvider - Your custom implementation of the {@link https://github.com/Azure/amqp-common-js/blob/master/lib/auth/token.ts Token Provider}
-   * interface.
-   * @param {ServiceBusClientOptions} options - Options to control ways to interact with the
-   * Service Bus Namespace.
-   * @returns {ServiceBusClient}
-   */
-  static createFromTokenProvider(
-    host: string,
-    tokenProvider: TokenProvider,
-    options?: ServiceBusClientOptions
-  ): ServiceBusClient {
-    host = String(host);
-    if (!tokenProvider) {
-      throw new TypeError('Missing parameter "tokenProvider"');
-    }
-    if (!host.endsWith("/")) host += "/";
-    const connectionString =
-      `Endpoint=sb://${host};SharedAccessKeyName=defaultKeyName;` +
-      `SharedAccessKey=defaultKeyValue`;
-    const config = ConnectionConfig.create(connectionString);
-
-    config.webSocket = options && options.webSocket;
-    config.webSocketEndpointPath = "$servicebus/websocket";
-    config.webSocketConstructorOptions = options && options.webSocketConstructorOptions;
-
-    ConnectionConfig.validate(config);
-    return new ServiceBusClient(config, tokenProvider, options);
-  }
-
-  /**
-   * Creates a ServiceBusClient for the Service Bus Namespace represented by the given host using
-   * the TokenCredentials generated using the `@azure/ms-rest-nodeauth` library.
-   * @param {string} host - Fully qualified domain name for ServiceBus.
-   * Most likely, {yournamespace}.servicebus.windows.net
-   * @param {ServiceClientCredentials} credentials - The Token credentials generated by using the
-   * `@azure/ms-rest-nodeauth` library. It can be one of the following:
-   *  - ApplicationTokenCredentials
-   *  - UserTokenCredentials
-   *  - DeviceTokenCredentials
-   *  - MSITokenCredentials
-   * Token audience (or resource in case of MSI based credentials) to use when creating the credentials is https://servicebus.azure.net/
-   * @param {ServiceBusClientOptions} options - Options to control ways to interact with the
-   * Service Bus Namespace.
-   * @returns {ServiceBusClient}
-   * @throws Error if `createFromAadTokenCredentials` is accessed in browser context, as AAD support is not present in browser.
-   */
-  static createFromAadTokenCredentials(
-    host: string,
-    credentials:
-      | ApplicationTokenCredentials
-      | UserTokenCredentials
-      | DeviceTokenCredentials
-      | MSITokenCredentials,
-    options?: ServiceBusClientOptions
-  ): ServiceBusClient {
-    if (!isNode) {
-      throw new Error(
-        "`createFromAadTokenCredentials` cannot be used to create ServiceBusClient as AAD support is not present in browser."
-      );
-    }
-    host = String(host);
-    const tokenProvider = new AadTokenProvider(credentials);
-    return ServiceBusClient.createFromTokenProvider(host, tokenProvider, options);
   }
 }

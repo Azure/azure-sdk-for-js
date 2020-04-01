@@ -83,11 +83,6 @@ export async function streamToBuffer2(
 
   return new Promise<number>((resolve, reject) => {
     stream.on("readable", () => {
-      if (pos >= bufferSize) {
-        reject(new Error(`Stream exceeds buffer size. Buffer size: ${bufferSize}`));
-        return;
-      }
-
       let chunk = stream.read();
       if (!chunk) {
         return;
@@ -96,11 +91,13 @@ export async function streamToBuffer2(
         chunk = Buffer.from(chunk, encoding);
       }
 
-      // How much data needed in this chunk
-      const chunkLength = pos + chunk.length > bufferSize ? bufferSize - pos : chunk.length;
+      if (pos + chunk.length > bufferSize) {
+        reject(new Error(`Stream exceeds buffer size. Buffer size: ${bufferSize}`));
+        return;
+      }
 
-      buffer.fill(chunk.slice(0, chunkLength), pos, pos + chunkLength);
-      pos += chunkLength;
+      buffer.fill(chunk, pos, pos + chunk.length);
+      pos += chunk.length;
     });
 
     stream.on("end", () => {

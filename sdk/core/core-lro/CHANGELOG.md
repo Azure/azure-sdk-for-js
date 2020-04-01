@@ -1,6 +1,12 @@
 # Release History
 
-## 1.0.1 (Unreleased)
+## 1.0.2 (Unreleased)
+
+
+## 1.0.1 (2020-02-28)
+
+- `getOperationState()` now returns `TState`.
+- `TState` of `PollerLike` can be a subset of `TState` of `Poller`,
 
 ## 1.0.0 (2019-10-29)
 

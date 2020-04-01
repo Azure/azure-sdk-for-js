@@ -2,17 +2,17 @@
 // Licensed under the MIT license.
 
 import {
-  makeTextAnalysisResult,
+  makeTextAnalyticsSuccessResult,
   TextAnalyticsSuccessResult,
   TextAnalyticsErrorResult,
-  makeTextAnalysisErrorResult
+  makeTextAnalyticsErrorResult
 } from "./textAnalyticsResult";
 import {
   TextDocumentStatistics,
   TextAnalyticsError,
-  DocumentSentimentValue,
+  DocumentSentimentLabel,
   SentenceSentiment,
-  SentimentConfidenceScorePerLabel
+  SentimentConfidenceScores
 } from "./generated/models";
 
 /**
@@ -29,11 +29,11 @@ export interface AnalyzeSentimentSuccessResult extends TextAnalyticsSuccessResul
    * Predicted sentiment for document. Possible values
    * include: 'positive', 'neutral', 'negative', 'mixed'
    */
-  sentiment: DocumentSentimentValue;
+  sentiment: DocumentSentimentLabel;
   /**
    * Document level sentiment confidence scores between 0 and 1 for each sentiment class.
    */
-  documentScores: SentimentConfidenceScorePerLabel;
+  confidenceScores: SentimentConfidenceScores;
   /**
    * The predicted sentiment for each sentence in the corresponding document.
    */
@@ -43,19 +43,19 @@ export interface AnalyzeSentimentSuccessResult extends TextAnalyticsSuccessResul
 /**
  * An error result from the analyze sentiment operation on a single document.
  */
-export interface AnalyzeSentimentErrorResult extends TextAnalyticsErrorResult {}
+export type AnalyzeSentimentErrorResult = TextAnalyticsErrorResult;
 
 export function makeAnalyzeSentimentResult(
   id: string,
-  sentiment: DocumentSentimentValue,
-  documentScores: SentimentConfidenceScorePerLabel,
+  sentiment: DocumentSentimentLabel,
+  confidenceScores: SentimentConfidenceScores,
   sentences: SentenceSentiment[],
   statistics?: TextDocumentStatistics
 ): AnalyzeSentimentSuccessResult {
   return {
-    ...makeTextAnalysisResult(id, statistics),
+    ...makeTextAnalyticsSuccessResult(id, statistics),
     sentiment,
-    documentScores,
+    confidenceScores,
     sentences
   };
 }
@@ -64,5 +64,5 @@ export function makeAnalyzeSentimentErrorResult(
   id: string,
   error: TextAnalyticsError
 ): AnalyzeSentimentErrorResult {
-  return makeTextAnalysisErrorResult(id, error);
+  return makeTextAnalyticsErrorResult(id, error);
 }

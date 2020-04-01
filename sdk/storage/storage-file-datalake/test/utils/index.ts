@@ -122,6 +122,9 @@ export async function bodyToString(
     });
 
     response.readableStreamBody!.on("error", reject);
+    response.readableStreamBody!.on("end", () => {
+      resolve("");
+    });
   });
 }
 

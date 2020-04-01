@@ -2,11 +2,10 @@ import * as assert from "assert";
 import * as dotenv from "dotenv";
 import { extractConnectionStringParts } from "../../src/utils/utils.common";
 import { record, Recorder } from "@azure/test-utils-recorder";
-import { setupEnvironment } from "../utils";
+import { recorderEnvSetup } from "../utils";
 dotenv.config({ path: "../.env" });
 
 describe("Utility Helpers Node.js only", () => {
-  setupEnvironment();
   let recorder: Recorder;
   const protocol = "https";
   const endpointSuffix = "core.windows.net";
@@ -34,7 +33,7 @@ describe("Utility Helpers Node.js only", () => {
   }
 
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
   });
 
   afterEach(async function() {

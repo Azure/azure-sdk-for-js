@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { delay, RequestOptionsBase } from "@azure/core-http";
 import { Poller } from "@azure/core-lro";
@@ -26,6 +26,7 @@ export interface CreateCertificatePollerOptions {
 
 /**
  * Class that deletes a poller that waits until a certificate finishes being deleted
+ * @internal
  */
 export class CreateCertificatePoller extends Poller<
   CreateCertificatePollOperationState,

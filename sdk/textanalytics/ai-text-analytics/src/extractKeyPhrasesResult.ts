@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import {
-  makeTextAnalysisResult,
+  makeTextAnalyticsSuccessResult,
   TextAnalyticsSuccessResult,
   TextAnalyticsErrorResult,
-  makeTextAnalysisErrorResult
+  makeTextAnalyticsErrorResult
 } from "./textAnalyticsResult";
 import { TextDocumentStatistics, TextAnalyticsError } from "./generated/models";
 
@@ -29,7 +29,7 @@ export interface ExtractKeyPhrasesSuccessResult extends TextAnalyticsSuccessResu
 /**
  * An error result from the extract key phrases operation on a single document.
  */
-export interface ExtractKeyPhrasesErrorResult extends TextAnalyticsErrorResult {}
+export type ExtractKeyPhrasesErrorResult = TextAnalyticsErrorResult
 
 export function makeExtractKeyPhrasesResult(
   id: string,
@@ -37,7 +37,7 @@ export function makeExtractKeyPhrasesResult(
   statistics?: TextDocumentStatistics
 ): ExtractKeyPhrasesSuccessResult {
   return {
-    ...makeTextAnalysisResult(id, statistics),
+    ...makeTextAnalyticsSuccessResult(id, statistics),
     keyPhrases
   };
 }
@@ -46,5 +46,5 @@ export function makeExtractKeyPhrasesErrorResult(
   id: string,
   error: TextAnalyticsError
 ): ExtractKeyPhrasesErrorResult {
-  return makeTextAnalysisErrorResult(id, error);
+  return makeTextAnalyticsErrorResult(id, error);
 }

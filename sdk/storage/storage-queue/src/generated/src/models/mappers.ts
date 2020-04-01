@@ -17,7 +17,6 @@ export const AccessPolicy: coreHttp.CompositeMapper = {
     modelProperties: {
       startsOn: {
         xmlName: "Start",
-        required: true,
         serializedName: "Start",
         type: {
           name: "String"
@@ -25,7 +24,6 @@ export const AccessPolicy: coreHttp.CompositeMapper = {
       },
       expiresOn: {
         xmlName: "Expiry",
-        required: true,
         serializedName: "Expiry",
         type: {
           name: "String"
@@ -33,7 +31,6 @@ export const AccessPolicy: coreHttp.CompositeMapper = {
       },
       permissions: {
         xmlName: "Permission",
-        required: true,
         serializedName: "Permission",
         type: {
           name: "String"

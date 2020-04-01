@@ -1,7 +1,7 @@
 import * as assert from "assert";
 
 import { AbortController } from "@azure/abort-controller";
-import { getBSU, setupEnvironment } from "./utils";
+import { getBSU, recorderEnvSetup } from "./utils";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
 import { ShareClient } from "../src";
@@ -9,15 +9,14 @@ dotenv.config({ path: "../.env" });
 
 // tslint:disable:no-empty
 describe("Aborter", () => {
-  setupEnvironment();
-  const serviceClient = getBSU();
   let shareName: string;
   let shareClient: ShareClient;
 
   let recorder: Recorder;
 
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    const serviceClient = getBSU();
     shareName = recorder.getUniqueName("share");
     shareClient = serviceClient.getShareClient(shareName);
   });

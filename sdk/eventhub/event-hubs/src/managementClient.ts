@@ -11,7 +11,8 @@ import {
   retry,
   RetryConfig,
   RetryOptions,
-  RetryOperationType
+  RetryOperationType,
+  SharedKeyCredential
 } from "@azure/core-amqp";
 import {
   Message,
@@ -25,7 +26,7 @@ import {
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import { logger, logErrorStackTrace } from "./log";
-import { getRetryAttemptTimeoutInMs } from "./impl/eventHubClient";
+import { getRetryAttemptTimeoutInMs } from "./util/retries";
 import { AbortSignalLike, AbortError } from "@azure/abort-controller";
 /**
  * Describes the runtime information of an Event Hub.
@@ -133,6 +134,28 @@ export class ManagementClient extends LinkEntity {
   }
 
   /**
+   * Gets the security token for the management application properties.
+   * @ignore
+   * @internal
+   */
+  async getSecurityToken() {
+    if (this._context.tokenCredential instanceof SharedKeyCredential) {
+      // the security_token has the $management address removed from the end of the audience
+      // expected audience: sb://fully.qualified.namespace/event-hub-name/$management
+      const audienceParts = this.audience.split("/");
+      // for management links, address should be '$management'
+      if (audienceParts[audienceParts.length - 1] === this.address) {
+        audienceParts.pop();
+      }
+      const audience = audienceParts.join("/");
+      return this._context.tokenCredential.getToken(audience);
+    }
+
+    // aad credentials use the aad scope
+    return this._context.tokenCredential.getToken(Constants.aadEventHubsScope);
+  }
+
+  /**
    * Provides the eventhub runtime information.
    * @ignore
    * @param connection - The established amqp connection
@@ -145,6 +168,7 @@ export class ManagementClient extends LinkEntity {
     if (!options) {
       options = {};
     }
+    const securityToken = await this.getSecurityToken();
     const request: Message = {
       body: Buffer.from(JSON.stringify([])),
       message_id: uuid(),
@@ -152,7 +176,8 @@ export class ManagementClient extends LinkEntity {
       application_properties: {
         operation: Constants.readOperation,
         name: this.entityPath as string,
-        type: `${Constants.vendorString}:${Constants.eventHub}`
+        type: `${Constants.vendorString}:${Constants.eventHub}`,
+        security_token: securityToken?.token
       }
     };
 
@@ -193,6 +218,7 @@ export class ManagementClient extends LinkEntity {
     if (!options) {
       options = {};
     }
+    const securityToken = await this.getSecurityToken();
     const request: Message = {
       body: Buffer.from(JSON.stringify([])),
       message_id: uuid(),
@@ -201,7 +227,8 @@ export class ManagementClient extends LinkEntity {
         operation: Constants.readOperation,
         name: this.entityPath as string,
         type: `${Constants.vendorString}:${Constants.partition}`,
-        partition: `${partitionId}`
+        partition: `${partitionId}`,
+        security_token: securityToken?.token
       }
     };
 
@@ -411,15 +438,11 @@ export class ManagementClient extends LinkEntity {
             resolve(result);
           } catch (err) {
             err = translate(err);
-            const address =
-              this._mgmtReqResLink || this._mgmtReqResLink!.sender.address
-                ? "address"
-                : this._mgmtReqResLink!.sender.address;
             logger.warning(
               "[%s] An error occurred during send on management request-response link with address " +
                 "'%s': %O",
               this._context.connectionId,
-              address,
+              this.address,
               err
             );
             logErrorStackTrace(err);

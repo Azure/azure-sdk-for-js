@@ -12,7 +12,7 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/storage-dataplane-preview/specification/storage/data-plane/Microsoft.BlobStorage/preview/2019-02-02/blob.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/storage-dataplane-preview/specification/storage/data-plane/Microsoft.BlobStorage/preview/2019-07-07/blob.json
 model-date-time-as-string: true
 optional-response-headers: true
 ```
@@ -362,6 +362,35 @@ directive:
     transform: >
       $.Start["x-ms-client-name"] = "startsOn";
       $.Expiry["x-ms-client-name"] = "expiresOn";
+
+```
+
+### Un-group encryptionScope 
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.EncryptionScope
+    transform: >
+      const grouping = $["x-ms-parameter-grouping"];
+      if (grouping) {
+        delete $["x-ms-parameter-grouping"];
+      }
+
+```
+
+### Rename ContainerCpkScopeInfo -> ContainerEncryptionScope
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.DefaultEncryptionScope
+    transform: >
+      $["x-ms-parameter-grouping"]["name"] = "container-encryption-scope";
+  - from: swagger-document
+    where: $.parameters.DenyEncryptionScopeOverride
+    transform: >
+      $["x-ms-parameter-grouping"]["name"] = "container-encryption-scope";
 
 ```
 

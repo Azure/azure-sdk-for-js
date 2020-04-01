@@ -55,6 +55,7 @@ export class Spanner<TClient> {
       ...options.spanOptions,
       kind: SpanKind.INTERNAL
     });
+    span.setAttribute("az.namespace", "Microsoft.AppConfiguration");
 
     let newOptions = options;
 
@@ -83,12 +84,17 @@ export class Spanner<TClient> {
     return err instanceof RestError;
   }
 
-  static addParentToOptions<T extends Spannable>(options: T, span: Span) {
+  static addParentToOptions<T extends Spannable>(options: T, span: Span): T {
+    const spanOptions = options.spanOptions || {};
     return {
       ...options,
       spanOptions: {
-        ...options.spanOptions,
-        parent: span
+        ...spanOptions,
+        parent: span,
+        attributes: {
+          ...spanOptions.attributes,
+          "az.namespace": "Microsoft.AppConfiguration"
+        }
       }
     };
   }

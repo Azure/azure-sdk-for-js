@@ -67,7 +67,7 @@ const packageName = "azsdk-js-app-configuration";
  * @internal
  * @ignore
  */
-export const packageVersion = "1.0.0";
+export const packageVersion = "1.0.2";
 const apiVersion = "1.0";
 const ConnectionStringRegex = /Endpoint=(.*);Id=(.*);Secret=(.*)/;
 const deserializationContentTypes = {
@@ -540,8 +540,8 @@ export function getGeneratedClientOptions(
       tracingPolicy({ userAgent }),
       syncTokenPolicy(syncTokens),
       ...retryPolicies,
-      ...defaults,
-    ],    
+      ...defaults
+    ],
     generateClientRequestIdHeader: true,
     userAgentHeaderName: getUserAgentHeaderName(internalAppConfigOptions.isNodeOverride),
     userAgent

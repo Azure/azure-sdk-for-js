@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
 import { PollOperationState, PollOperation } from "@azure/core-lro";
@@ -19,6 +19,7 @@ export type CreateCertificateState = PollOperationState<KeyVaultCertificateWithP
 
 /**
  * An interface representing the state of a create certificate's poll operation
+ * @internal
  */
 export interface CreateCertificatePollOperationState
   extends PollOperationState<KeyVaultCertificateWithPolicy> {
@@ -50,13 +51,17 @@ export interface CreateCertificatePollOperationState
 
 /**
  * An interface representing a create certificate's poll operation
+ * @internal
  */
-export interface CreateCertificatePollOperation
-  extends PollOperation<CreateCertificatePollOperationState, KeyVaultCertificateWithPolicy> {}
+export type CreateCertificatePollOperation = PollOperation<
+  CreateCertificatePollOperationState,
+  KeyVaultCertificateWithPolicy
+>;
 
 /**
  * @summary Reaches to the service and updates the create certificate's poll operation.
  * @param [options] The optional parameters, which are an abortSignal from @azure/abort-controller and a function that triggers the poller's onProgress function.
+ * @internal
  */
 async function update(
   this: CreateCertificatePollOperation,
@@ -106,6 +111,7 @@ async function update(
 /**
  * @summary Reaches to the service and cancels the certificate's operation, also updating the certificate's poll operation
  * @param [options] The optional parameters, which is only an abortSignal from @azure/abort-controller
+ * @internal
  */
 async function cancel(
   this: CreateCertificatePollOperation,
@@ -132,6 +138,7 @@ async function cancel(
 
 /**
  * @summary Serializes the create certificate's poll operation
+ * @internal
  */
 function toString(this: CreateCertificatePollOperation): string {
   return JSON.stringify({
@@ -142,6 +149,7 @@ function toString(this: CreateCertificatePollOperation): string {
 /**
  * @summary Builds a create certificate's poll operation
  * @param [state] A poll operation's state, in case the new one is intended to follow up where the previous one was left.
+ * @internal
  */
 export function makeCreateCertificatePollOperation(
   state: CreateCertificatePollOperationState

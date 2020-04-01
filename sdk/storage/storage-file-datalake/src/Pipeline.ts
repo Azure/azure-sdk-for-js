@@ -2,6 +2,7 @@ import {
   BaseRequestPolicy,
   bearerTokenAuthenticationPolicy,
   deserializationPolicy,
+  disableResponseDecompressionPolicy,
   generateClientRequestIdPolicy,
   HttpClient as IHttpClient,
   HttpHeaders,
@@ -36,6 +37,7 @@ import {
   StorageDataLakeLoggingAllowedQueryParameters,
   StorageOAuthScopes
 } from "./utils/constants";
+import { getCachedDefaultHttpClient } from "./utils/cache";
 
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
@@ -109,7 +111,12 @@ export class Pipeline extends BlobPipeline {
   constructor(factories: RequestPolicyFactory[], options: PipelineOptions = {}) {
     super(factories, options);
     this.factories = factories;
-    this.options = options;
+    // when options.httpClient is not specified, passing in a DefaultHttpClient instance to
+    // avoid each client creating its own http client.
+    this.options = {
+      ...options,
+      httpClient: options.httpClient || getCachedDefaultHttpClient()
+    };
   }
 
   /**
@@ -202,8 +209,9 @@ export function newPipeline(
   ];
 
   if (isNode) {
-    // ProxyPolicy is only avaiable in Node.js runtime, not in browsers
+    // policies only avaiable in Node.js runtime, not in browsers
     factories.push(proxyPolicy(pipelineOptions.proxyOptions));
+    factories.push(disableResponseDecompressionPolicy());
   }
   factories.push(
     isTokenCredential(credential)
@@ -211,7 +219,5 @@ export function newPipeline(
       : credential
   );
 
-  return new Pipeline(factories, {
-    httpClient: pipelineOptions.httpClient
-  });
+  return new Pipeline(factories, pipelineOptions);
 }

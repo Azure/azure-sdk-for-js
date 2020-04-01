@@ -1,34 +1,36 @@
 import * as assert from "assert";
+import * as zlib from "zlib";
 
 import {
   bodyToString,
   getBSU,
   getConnectionStringFromEnvironment,
-  setupEnvironment
+  recorderEnvSetup
 } from "../utils";
 import {
   BlockBlobClient,
   newPipeline,
   StorageSharedKeyCredential,
   BlobClient,
-  ContainerClient
+  ContainerClient,
+  BlobServiceClient
 } from "../../src";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
-import { record } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure/test-utils-recorder";
 
 describe("BlockBlobClient Node.js only", () => {
-  setupEnvironment();
-  const blobServiceClient = getBSU();
   let containerName: string;
   let containerClient: ContainerClient;
   let blobName: string;
   let blobClient: BlobClient;
   let blockBlobClient: BlockBlobClient;
-  let recorder: any;
+  let recorder: Recorder;
 
+  let blobServiceClient: BlobServiceClient;
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
@@ -38,8 +40,10 @@ describe("BlockBlobClient Node.js only", () => {
   });
 
   afterEach(async function() {
-    await containerClient.delete();
-    recorder.stop();
+    if (!this.currentTest?.isPending()) {
+      await containerClient.delete();
+      recorder.stop();
+    }
   });
 
   it("upload with Readable stream body and default parameters", async () => {
@@ -149,5 +153,20 @@ describe("BlockBlobClient Node.js only", () => {
     await newClient.upload(body, body.length);
     const result = await newClient.download(0);
     assert.deepStrictEqual(await bodyToString(result, body.length), body);
+  });
+
+  it("should not decompress during downloading", async () => {
+    const body: string = "hello world body string!";
+    const deflated = zlib.deflateSync(body);
+
+    await blockBlobClient.upload(deflated, deflated.byteLength, {
+      blobHTTPHeaders: {
+        blobContentEncoding: "deflate",
+        blobContentType: "text/plain"
+      }
+    });
+
+    const downloaded = await blockBlobClient.downloadToBuffer();
+    assert.deepStrictEqual(downloaded, deflated);
   });
 });

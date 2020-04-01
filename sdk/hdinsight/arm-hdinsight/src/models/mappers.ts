@@ -778,6 +778,12 @@ export const ClusterCreateProperties: msRest.CompositeMapper = {
           name: "Composite",
           className: "DiskEncryptionProperties"
         }
+      },
+      minSupportedTlsVersion: {
+        serializedName: "minSupportedTlsVersion",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -1112,6 +1118,12 @@ export const ClusterGetProperties: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "DiskEncryptionProperties"
+        }
+      },
+      minSupportedTlsVersion: {
+        serializedName: "minSupportedTlsVersion",
+        type: {
+          name: "String"
         }
       }
     }

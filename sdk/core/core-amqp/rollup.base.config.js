@@ -88,7 +88,7 @@ export function browserConfig(test = false) {
   const baseConfig = {
     input: input,
     output: {
-      file: "browser/index.js",
+      file: "dist-browser/index.js",
       format: "umd",
       name: "Azure.AMQPCommon",
       sourcemap: true
@@ -107,21 +107,13 @@ export function browserConfig(test = false) {
         }
       }),
 
-      // fs, net, and tls are used by rhea and need to be shimmed
-      // TODO: get these into rhea's pkg.browser field
       // dotenv doesn't work in the browser, so replace it with a no-op function
+      // os and path are shimmed by bundlers (e.g. webpack, parcel) automatically,
+      // but needs to be configured in rollup.
       shim({
-        fs: `export default {}`,
-        net: `export default {}`,
-        tls: `export default {}`,
         dotenv: `export function config() { }`,
-        os: `
-          export function arch() { return "javascript" }
-          export function type() { return "Browser" }
-          export function release() { typeof navigator === 'undefined' ? '' : navigator.appVersion }
-        `,
-        path: `export default {}`,
-        dns: `export function resolve() { }`
+        os: `export default { }`,
+        path: `export default { }`
       }),
 
       nodeResolve({

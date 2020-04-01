@@ -11,9 +11,10 @@ import {
   CreateConnectionContextBaseParameters,
   Dictionary,
   delay,
-  TokenProvider
-} from "@azure/amqp-common";
-import { ServiceBusClientOptions } from "./serviceBusClient";
+  TokenCredential,
+  SharedKeyCredential
+} from "@azure/core-amqp";
+import { ServiceBusClientOptions } from "./constructorHelpers";
 import { ClientEntityContext } from "./clientEntityContext";
 import { OnAmqpEvent, EventContext, ConnectionEvents } from "rhea-promise";
 
@@ -21,7 +22,7 @@ import { OnAmqpEvent, EventContext, ConnectionEvents } from "rhea-promise";
  * @internal
  * @interface ConnectionContext
  * Provides contextual information like the underlying amqp connection, cbs session, management session,
- * tokenProvider, senders, receivers, etc. about the ServiceBus client.
+ * tokenCredential, senders, receivers, etc. about the ServiceBus client.
  */
 export interface ConnectionContext extends ConnectionContextBase {
   /**
@@ -45,14 +46,15 @@ export namespace ConnectionContext {
 
   export function create(
     config: ConnectionConfig,
-    tokenProvider: TokenProvider,
+    tokenCredential: SharedKeyCredential | TokenCredential,
     options?: ServiceBusClientOptions
   ): ConnectionContext {
     if (!options) options = {};
     const parameters: CreateConnectionContextBaseParameters = {
       config: config,
-      tokenProvider: tokenProvider,
-      dataTransformer: options.dataTransformer,
+      tokenCredential: tokenCredential,
+      // re-enabling this will be a post-GA discussion similar to event-hubs.
+      // dataTransformer: options.dataTransformer,
       isEntityPathRequired: false,
       connectionProperties: {
         product: "MSJSClient",
@@ -192,5 +194,39 @@ export namespace ConnectionContext {
     );
 
     return connectionContext;
+  }
+
+  /**
+   * Closes the AMQP connection created by this ServiceBusClient along with AMQP links for
+   * sender/receivers created by the queue/topic/subscription clients created by this
+   * ServiceBusClient.
+   * Once closed,
+   * - the clients created by this ServiceBusClient cannot be used to send/receive messages anymore.
+   * - this ServiceBusClient cannot be used to create any new queues/topics/subscriptions clients.
+   * @returns {Promise<any>}
+   */
+  export async function close(context: ConnectionContext): Promise<void> {
+    try {
+      if (context.connection.isOpen()) {
+        log.ns("Closing the amqp connection '%s' on the client.", context.connectionId);
+
+        // Close all the clients.
+        for (const id of Object.keys(context.clientContexts)) {
+          const clientContext = context.clientContexts[id];
+          await clientContext.close();
+        }
+        await context.cbsSession.close();
+
+        await context.connection.close();
+        context.wasConnectionCloseCalled = true;
+        log.ns("Closed the amqp connection '%s' on the client.", context.connectionId);
+      }
+    } catch (err) {
+      const errObj = err instanceof Error ? err : new Error(JSON.stringify(err));
+      log.error(
+        `An error occurred while closing the connection "${context.connectionId}":\n${errObj}`
+      );
+      throw errObj;
+    }
   }
 }

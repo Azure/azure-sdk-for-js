@@ -3,16 +3,15 @@ import * as assert from "assert";
 import * as dotenv from "dotenv";
 
 import { DataLakeServiceClient, ServiceListFileSystemsSegmentResponse } from "../src";
-import { getDataLakeServiceClient, getTokenDataLakeServiceClient, setupEnvironment } from "./utils";
+import { getDataLakeServiceClient, getTokenDataLakeServiceClient, recorderEnvSetup } from "./utils";
 
 dotenv.config({ path: "../.env" });
 
 describe("DataLakeServiceClient", () => {
-  setupEnvironment();
   let recorder: Recorder;
 
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
   });
 
   afterEach(async function() {

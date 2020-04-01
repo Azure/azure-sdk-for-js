@@ -8,5 +8,5 @@
   },
   "compileOnSave": true,
   "exclude": ["node_modules"],
-  "include": ["./lib/**/*.ts", "./test/**/*.ts"]
+  "include": ["./src/**/*.ts", "./test/**/*.ts"]
 }

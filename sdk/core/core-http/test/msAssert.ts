@@ -2,17 +2,6 @@
 // Licensed under the MIT License.
 
 import { assert } from "chai";
-import { SuiteFunction, PendingSuiteFunction, TestFunction, PendingTestFunction } from "mocha";
-import { isNode } from "../lib/util/utils";
-
-export const nodeIt: TestFunction | PendingTestFunction = !isNode ? it.skip : it;
-export const browserIt: TestFunction | PendingTestFunction = isNode ? it.skip : it;
-export const nodeDescribe: SuiteFunction | PendingSuiteFunction = !isNode
-  ? describe.skip
-  : describe;
-export const browserDescribe: SuiteFunction | PendingSuiteFunction = isNode
-  ? describe.skip
-  : describe;
 
 /**
  * Assert that the provided syncFunction throws an Error. If the expectedError is undefined, then

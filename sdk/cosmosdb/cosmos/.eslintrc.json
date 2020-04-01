@@ -1,6 +1,6 @@
 {
   "plugins": ["@azure/azure-sdk", "@typescript-eslint/tslint"],
-  "extends": ["../../.eslintrc.json", "plugin:@azure/azure-sdk/recommended"],
+  "extends": ["../../.eslintrc.old.json", "plugin:@azure/azure-sdk/recommended"],
   "parserOptions": {
     "createDefaultProgram": true
   },

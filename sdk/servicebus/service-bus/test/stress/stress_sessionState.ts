@@ -13,7 +13,8 @@ For running this test, connection string of the Service Bus namespace and queue 
 must be supplied.
 */
 
-import { ServiceBusClient, delay, ReceiveMode } from "../../src";
+import { delay, ReceiveMode } from "../../src";
+import { ServiceBusClient } from "../../src/old/serviceBusClient";
 
 const connectionString = "";
 const queueName = "";
@@ -25,7 +26,7 @@ async function main(): Promise<void> {
 }
 
 async function setGetSessionState(sessionId: string): Promise<void> {
-  const ns = ServiceBusClient.createFromConnectionString(connectionString);
+  const ns = new ServiceBusClient(connectionString);
   const client = ns.createQueueClient(queueName);
 
   try {

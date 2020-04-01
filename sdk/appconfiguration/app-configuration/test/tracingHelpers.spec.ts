@@ -9,7 +9,7 @@ import * as assert from "assert";
 
 interface FakeOptions {
   name: string;
-  spanOptions?: SpanOptions;
+  spanOptions: SpanOptions;
 }
 
 describe("tracingHelpers", () => {
@@ -17,7 +17,10 @@ describe("tracingHelpers", () => {
     const fakeOptions: FakeOptions = {
       name: "fakeName",
       spanOptions: {
-        kind: SpanKind.PRODUCER
+        kind: SpanKind.PRODUCER,
+        attributes: {
+          testAttribute: "testAttributeValue"
+        }
       }
     };
 
@@ -30,6 +33,11 @@ describe("tracingHelpers", () => {
     assert.equal("fakeName", newOptions.name);
     assert.equal(parentSpan, newOptions.spanOptions.parent);
     assert.equal(SpanKind.PRODUCER, newOptions.spanOptions.kind);
+    assert.ok(newOptions.spanOptions.attributes, "Should have attributes set");
+    if (newOptions.spanOptions.attributes) {
+      assert.equal("Microsoft.AppConfiguration", newOptions.spanOptions.attributes["az.namespace"]);
+      assert.equal("testAttributeValue", newOptions.spanOptions.attributes["testAttribute"]);
+    }
   });
 
   it("getCanonicalCode", () => {

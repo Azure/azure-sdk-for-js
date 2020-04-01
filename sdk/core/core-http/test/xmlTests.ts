@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { parseXML, stringifyXML } from "../lib/util/xml";
+import { parseXML, stringifyXML } from "../src/util/xml";
 import { assert } from "chai";
 import * as msAssert from "./msAssert";
 

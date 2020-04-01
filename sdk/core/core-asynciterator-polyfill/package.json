@@ -19,9 +19,8 @@
   "main": "./dist-esm/index.js",
   "files": [
     "dist-esm/**/*.js",
-    "LICENSE",
     "README.md",
-    "ThirdPartyNotices.txt"
+    "LICENSE"
   ],
   "license": "MIT",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/core-asynciterator-polyfill",
@@ -43,8 +42,8 @@
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint": "eslint -c ../../.eslintrc.json src --ext .ts -f html -o template-lintReport.html || exit 0",
-    "lint:fix": "eslint \"src/**/*.ts\" -c ../../.eslintrc.json --fix --fix-type [problem,suggestion]",
+    "lint": "eslint -c ../../.eslintrc.old.json src --ext .ts -f html -o template-lintReport.html || exit 0",
+    "lint:fix": "eslint \"src/**/*.ts\" -c ../../.eslintrc.old.json --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
@@ -66,6 +65,6 @@
     "eslint-plugin-no-only-tests": "^2.3.0",
     "eslint-plugin-promise": "^4.1.1",
     "prettier": "^1.16.4",
-    "typescript": "~3.6.4"
+    "typescript": "~3.7.5"
   }
 }

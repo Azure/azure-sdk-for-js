@@ -89,6 +89,47 @@ describe("EventData #RunnableInBrowser", function(): void {
         testEventData.systemProperties!["x-iot-foo-prop"] = extraAnnotations["x-iot-foo-prop"];
         testEventData.systemProperties!["x-iot-bar-prop"] = extraAnnotations["x-iot-bar-prop"];
       });
+
+      it("returns systemProperties for special known properties", function(): void {
+        const testEventData = fromAmqpMessage({
+          body: testBody,
+          application_properties: applicationProperties,
+          message_annotations: testAnnotations,
+          message_id: "messageId",
+          user_id: "userId",
+          to: "to",
+          subject: "subject",
+          reply_to: "replyTo",
+          reply_to_group_id: "replyToGroupId",
+          content_encoding: "utf-8",
+          content_type: "application/json",
+          correlation_id: "id2",
+          absolute_expiry_time: 0,
+          creation_time: 0,
+          group_id: "groupId",
+          group_sequence: 1
+        });
+
+        testEventData
+          .enqueuedTimeUtc!.getTime()
+          .should.equal(testAnnotations["x-opt-enqueued-time"]);
+        testEventData.offset!.should.equal(testAnnotations["x-opt-offset"]);
+        testEventData.sequenceNumber!.should.equal(testAnnotations["x-opt-sequence-number"]);
+        testEventData.partitionKey!.should.equal(testAnnotations["x-opt-partition-key"]);
+        testEventData.systemProperties!["messageId"].should.equal("messageId");
+        testEventData.systemProperties!["userId"].should.equal("userId");
+        testEventData.systemProperties!["to"].should.equal("to");
+        testEventData.systemProperties!["subject"].should.equal("subject");
+        testEventData.systemProperties!["replyTo"].should.equal("replyTo");
+        testEventData.systemProperties!["replyToGroupId"].should.equal("replyToGroupId");
+        testEventData.systemProperties!["contentEncoding"].should.equal("utf-8");
+        testEventData.systemProperties!["contentType"].should.equal("application/json");
+        testEventData.systemProperties!["correlationId"].should.equal("id2");
+        testEventData.systemProperties!["absoluteExpiryTime"].should.equal(0);
+        testEventData.systemProperties!["creationTime"].should.equal(0);
+        testEventData.systemProperties!["groupId"].should.equal("groupId");
+        testEventData.systemProperties!["groupSequence"].should.equal(1);
+      });
     });
   });
 

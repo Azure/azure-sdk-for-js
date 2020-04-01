@@ -5,7 +5,8 @@ import {
   TokenCredential,
   isTokenCredential,
   isNode,
-  getDefaultProxySettings} from "@azure/core-http";
+  getDefaultProxySettings
+} from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/types";
 import {
   ListQueuesIncludeType,
@@ -29,7 +30,6 @@ import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCreden
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { createSpan } from "./utils/tracing";
 import { QueueClient, QueueCreateOptions, QueueDeleteOptions } from "./QueueClient";
-import { getCachedDefaultHttpClient } from "./utils/cache";
 
 /**
  * Options to configure {@link QueueServiceClient.getProperties} operation
@@ -176,12 +176,7 @@ export class QueueServiceClient extends StorageClient {
     connectionString: string,
     options?: StoragePipelineOptions
   ): QueueServiceClient {
-    // when options.httpClient is not specified, passing in a DefaultHttpClient instance to
-    // avoid each client creating its own http client.
-    const newOptions: StoragePipelineOptions = {
-      httpClient: getCachedDefaultHttpClient(),
-      ...options
-    };
+    options = options || {};
     const extractedCreds = extractConnectionStringParts(connectionString);
     if (extractedCreds.kind === "AccountConnString") {
       if (isNode) {
@@ -189,14 +184,14 @@ export class QueueServiceClient extends StorageClient {
           extractedCreds.accountName!,
           extractedCreds.accountKey
         );
-        newOptions.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
-        const pipeline = newPipeline(sharedKeyCredential, newOptions);
+        options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
+        const pipeline = newPipeline(sharedKeyCredential, options);
         return new QueueServiceClient(extractedCreds.url, pipeline);
       } else {
         throw new Error("Account connection string is only supported in Node.js environment");
       }
     } else if (extractedCreds.kind === "SASConnString") {
-      const pipeline = newPipeline(new AnonymousCredential(), newOptions);
+      const pipeline = newPipeline(new AnonymousCredential(), options);
       return new QueueServiceClient(extractedCreds.url + "?" + extractedCreds.accountSas, pipeline);
     } else {
       throw new Error(
@@ -279,13 +274,6 @@ export class QueueServiceClient extends StorageClient {
       | Pipeline,
     options?: StoragePipelineOptions
   ) {
-    // when options.httpClient is not specified, passing in a DefaultHttpClient instance to
-    // avoid each client creating its own http client.
-    const newOptions: StoragePipelineOptions = {
-      httpClient: getCachedDefaultHttpClient(),
-      ...options
-    };
-
     let pipeline: Pipeline;
     if (credentialOrPipeline instanceof Pipeline) {
       pipeline = credentialOrPipeline;
@@ -294,10 +282,10 @@ export class QueueServiceClient extends StorageClient {
       credentialOrPipeline instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipeline)
     ) {
-      pipeline = newPipeline(credentialOrPipeline, newOptions);
+      pipeline = newPipeline(credentialOrPipeline, options);
     } else {
       // The second paramter is undefined. Use anonymous credential.
-      pipeline = newPipeline(new AnonymousCredential(), newOptions);
+      pipeline = newPipeline(new AnonymousCredential(), options);
     }
     super(url, pipeline);
     this.serviceContext = new Service(this.storageClientContext);

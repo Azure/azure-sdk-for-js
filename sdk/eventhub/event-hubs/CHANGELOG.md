@@ -1,5 +1,28 @@
 # Release History
 
+## 5.1.0 (Unreleased)
+
+- Addresses [issue #7801](https://github.com/Azure/azure-sdk-for-js/pull/7973) by moving known AMQP message properties to received events' `systemProperties`.
+  ([PR #7973](https://github.com/Azure/azure-sdk-for-js/pull/7973))
+
+## 5.0.2 (2020-03-09)
+
+- Fixes an issue that caused the `getPartitionIds`, `getEventHubProperties`,
+  and `getPartitionProperties` methods to throw an error when run against an
+  Event Hub in Azure Stack due to missing security token on the outgoing request.
+  ([PR #7463](https://github.com/Azure/azure-sdk-for-js/pull/7463))
+
+## 5.0.1 (2020-02-11)
+
+- Fixed a potential issue with deadlock where greedy consumers could
+  starve out other consumers, preventing us from properly balancing.
+- Fixed an issue where calling `subscription.close()` immediately
+  after calling `subscribe` would cause events to still be read.
+- Updated to use the latest version of the `@azure/core-amqp` package which in
+  turn uses the latest version of the `rhea` package.
+  This update improves support for [bundling](https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/Bundling.md) this library.
+  ([Pull Request](https://github.com/amqp/rhea/pull/274))
+
 ## 5.0.0 (2020-01-09)
 
 - This release marks the general availability of the `@azure/event-hubs` package.
