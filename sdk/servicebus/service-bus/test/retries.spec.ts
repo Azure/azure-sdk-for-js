@@ -345,7 +345,7 @@ describe("Retries - MessageSender", () => {
   });
 });
 
-describe("Retries - Receiver", () => {
+describe("Retries - Receive methods", () => {
   let receiverClient: Receiver<ReceivedMessageWithLock>;
   let serviceBusClient: ServiceBusClientForTests;
   let defaultMaxRetries = 2;
