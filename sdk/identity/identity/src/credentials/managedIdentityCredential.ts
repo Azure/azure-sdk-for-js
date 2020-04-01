@@ -11,7 +11,7 @@ import {
 } from "@azure/core-http";
 import { IdentityClient, TokenCredentialOptions } from "../client/identityClient";
 import { createSpan } from "../util/tracing";
-import { AuthenticationErrorName } from "../client/errors";
+import { AuthenticationErrorName, AuthenticationError } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/types";
 import { logger } from "../util/logging";
 
@@ -321,6 +321,10 @@ export class ManagedIdentityCredential implements TokenCredential {
         // endpoints are available.  In this case, don't try them in future
         // requests.
         this.isEndpointUnavailable = result === null;
+        throw new AuthenticationError(
+          400,
+          "ManagedIdentityCredential authentication unavailable, no managed identity endpoint found."
+        );
       }
 
       return result;

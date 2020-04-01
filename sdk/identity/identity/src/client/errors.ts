@@ -118,12 +118,9 @@ export class AuthenticationError extends Error {
       };
     }
 
+    let errorAll = JSON.parse(JSON.stringify(errorResponse, null, "  "));
     super(
-      `An error was returned while authenticating to Azure Active Directory (status code ${statusCode}).\n\nMore details:\n\n${JSON.stringify(
-        errorResponse,
-        null,
-        "  "
-      )}`
+      `${errorAll.error}(status code ${statusCode}).\nMore details:\n${errorAll.errorDescription}`
     );
     this.statusCode = statusCode;
     this.errorResponse = errorResponse;
@@ -149,10 +146,8 @@ export class AggregateAuthenticationError extends Error {
    */
   public errors: any[];
 
-  constructor(errors: any[]) {
-    super(
-      `Authentication failed to complete due to the following errors:\n\n${errors.join("\n\n")}`
-    );
+  constructor(errors: any[], errMsg?: string) {
+    super(`${errMsg}:\n\n${errors.join("\n\n")}`);
     this.errors = errors;
 
     // Ensure that this type reports the correct name

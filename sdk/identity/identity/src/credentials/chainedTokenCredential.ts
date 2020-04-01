@@ -5,12 +5,17 @@ import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http"
 import { AggregateAuthenticationError } from "../client/errors";
 import { createSpan } from "../util/tracing";
 import { CanonicalCode } from "@opentelemetry/types";
+import { ifError } from "assert";
 
 /**
  * Enables multiple `TokenCredential` implementations to be tried in order
  * until one of the getToken methods returns an access token.
  */
 export class ChainedTokenCredential implements TokenCredential {
+  protected AuthenticationFailedExceptionMessage: string =
+    "ChainedTokenCredential authentication failed";
+  protected UnavailableExceptionMessage: string =
+    "ChainedTokenCredential failed to retrieve a token from the included credentials";
   private _sources: TokenCredential[] = [];
 
   /**
@@ -57,7 +62,19 @@ export class ChainedTokenCredential implements TokenCredential {
     }
 
     if (!token && errors.length > 0) {
-      const err = new AggregateAuthenticationError(errors);
+      let allAvailable = "true";
+      errors.forEach((error) => {
+        if (
+          error.errorResponse != undefined &&
+          error.errorResponse.error.match("authentication unavailable")
+        ) {
+          allAvailable = "false";
+        }
+      });
+      if (allAvailable == "true") {
+        throw new AggregateAuthenticationError(errors, this.AuthenticationFailedExceptionMessage);
+      }
+      const err = new AggregateAuthenticationError(errors, this.UnavailableExceptionMessage);
       span.setStatus({
         code: CanonicalCode.UNAUTHENTICATED,
         message: err.message

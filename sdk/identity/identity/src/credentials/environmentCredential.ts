@@ -136,8 +136,9 @@ export class EnvironmentCredential implements TokenCredential {
     span.setStatus({ code: CanonicalCode.UNAUTHENTICATED });
     span.end();
     throw new AuthenticationError(400, {
-      error: "missing_environment_variables",
-      error_description: `EnvironmentCredential cannot return a token because one or more of the following environment variables is missing:
+      error:
+        "EnvironmentCredential authentication unavailable, environment variables are not fully configured.",
+      error_description: `one or more of the following environment variables is missing:
 
 ${this._environmentVarsMissing.join("\n")}
 

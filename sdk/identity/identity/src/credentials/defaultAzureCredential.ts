@@ -20,6 +20,7 @@ import { VSCodeCredential } from "./vscodeCredential";
  * on how they attempt authentication.
  */
 export class DefaultAzureCredential extends ChainedTokenCredential {
+  // public UnhandledExceptionMessage = "DefaultAzureCredential authentication failed";
   /**
    * Creates an instance of the DefaultAzureCredential class.
    *
@@ -30,13 +31,16 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
     credentials.push(new EnvironmentCredential(tokenCredentialOptions));
     credentials.push(new ManagedIdentityCredential(tokenCredentialOptions));
     if (process.env.AZURE_CLIENT_ID) {
-      credentials.push(new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID, tokenCredentialOptions));
+      credentials.push(
+        new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID, tokenCredentialOptions)
+      );
     }
     credentials.push(new AzureCliCredential());
     credentials.push(new VSCodeCredential(tokenCredentialOptions));
 
-    super(
-      ...credentials
-    );
+    super(...credentials);
+    this.AuthenticationFailedExceptionMessage = "DefaultAzureCredential authentication failed";
+    this.UnavailableExceptionMessage =
+      "DefaultAzureCredential failed to retrieve a token from the included credentials";
   }
 }
