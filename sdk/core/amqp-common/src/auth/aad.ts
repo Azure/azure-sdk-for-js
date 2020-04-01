@@ -18,7 +18,7 @@ export class AadTokenProvider implements TokenProvider {
    * @property {(ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials)} credentials - The credentials object after successful authentication with AAD.
    * This property matches what was passed into the constructor.
    */
-  credentials: {
+  private _credentials: {
     getToken(): Promise<{
       tokenType: string;
       accessToken: string;
@@ -53,7 +53,7 @@ export class AadTokenProvider implements TokenProvider {
           "ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials."
       );
     }
-    this.credentials = credentials;
+    this._credentials = credentials;
   }
 
   /**
@@ -63,7 +63,7 @@ export class AadTokenProvider implements TokenProvider {
    */
   async getToken(audience?: string): Promise<TokenInfo> {
     const self = this;
-    const result = await self.credentials.getToken();
+    const result = await self._credentials.getToken();
     let expiresOn = Date.now();
     if (result.expiresOn && result.expiresOn instanceof Date) {
       // TODO: Fix issue where expiry time for MSI based credentials' tokens are returned in seconds and not milliseconds
