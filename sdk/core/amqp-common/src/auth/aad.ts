@@ -1,28 +1,30 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import {
-  ApplicationTokenCredentials,
-  DeviceTokenCredentials,
-  UserTokenCredentials,
-  MSITokenCredentials
-} from "@azure/ms-rest-nodeauth";
 import { TokenInfo, TokenType, TokenProvider } from "./token";
 import * as Constants from "../util/constants";
 
 /**
  * Defines the AAD (Azure ActiveDirectory) TokenProvider.
+ * This accepts the following credentials from the `@azure/ms-rest-nodeauth` package:
+ *  - ApplicationTokenCredentials
+ *  - UserTokenCredentials
+ *  - DeviceTokenCredentials
+ *  - MSITokenCredentials (MSIVmTokenCredentials)
  * @class AadTokenProvider
  */
 export class AadTokenProvider implements TokenProvider {
   /**
    * @property {(ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials)} credentials - The credentials object after successful authentication with AAD.
+   * This property matches what was passed into the constructor.
    */
-  credentials:
-    | ApplicationTokenCredentials
-    | UserTokenCredentials
-    | DeviceTokenCredentials
-    | MSITokenCredentials;
+  private _credentials: {
+    getToken(): Promise<{
+      tokenType: string;
+      accessToken: string;
+      expiresOn?: Date | string;
+    }>;
+  };
   /**
    * @property {number} tokenRenewalMarginInSeconds - The number of seconds within which it is
    * good to renew the token. The constant is set to 270 seconds (4.5 minutes).
@@ -38,20 +40,20 @@ export class AadTokenProvider implements TokenProvider {
    */
   readonly tokenValidTimeInSeconds: number = 3599;
 
-  constructor(
-    credentials:
-      | ApplicationTokenCredentials
-      | UserTokenCredentials
-      | DeviceTokenCredentials
-      | MSITokenCredentials
-  ) {
-    if (!credentials || typeof credentials.getToken !== "function" ) {
+  constructor(credentials: {
+    getToken(): Promise<{
+      tokenType: string;
+      accessToken: string;
+      expiresOn?: Date | string;
+    }>;
+  }) {
+    if (!credentials || typeof credentials.getToken !== "function") {
       throw new TypeError(
         "'credentials' is a required parameter and must be an instance of " +
           "ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials."
       );
     }
-    this.credentials = credentials;
+    this._credentials = credentials;
   }
 
   /**
@@ -61,7 +63,7 @@ export class AadTokenProvider implements TokenProvider {
    */
   async getToken(audience?: string): Promise<TokenInfo> {
     const self = this;
-    const result = await self.credentials.getToken();
+    const result = await self._credentials.getToken();
     let expiresOn = Date.now();
     if (result.expiresOn && result.expiresOn instanceof Date) {
       // TODO: Fix issue where expiry time for MSI based credentials' tokens are returned in seconds and not milliseconds

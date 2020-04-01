@@ -130,15 +130,15 @@ jobs:
           NodeVersion: "12.x"
         macOS_Node8:
           OSName: "macOS"
-          OSVmImage: "macOS-10.13"
+          OSVmImage: "macOS-10.15"
           NodeVersion: "8.x"
         macOS_Node10:
           OSName: "macOS"
-          OSVmImage: "macOS-10.13"
+          OSVmImage: "macOS-10.15"
           NodeVersion: "10.x"
         macOS_Node12:
           OSName: "macOS"
-          OSVmImage: "macOS-10.13"
+          OSVmImage: "macOS-10.15"
           NodeVersion: "12.x"
         Windows_Node8:
           OSName: "Windows"
