@@ -37,11 +37,11 @@ jobs:
     variables:
       - template: ../../eng/pipelines/templates/variables/globals.yml
       - name: azureCloudArmParameters
-        value: "@{ storageEndpointSuffix = 'core.windows.net'; authorityHostAlias = 'AzureCloud'; }"
+        value: "@{ storageEndpointSuffix = 'core.windows.net'; azureCloud = 'AzureCloud'; }"
       - name: azureUSGovernmentArmParameters
-        value: "@{ storageEndpointSuffix = 'core.usgovcloudapi.net'; authorityHostAlias = 'AzureUSGovernment'; }"
+        value: "@{ storageEndpointSuffix = 'core.usgovcloudapi.net'; azureCloud = 'AzureUSGovernment'; }"
       - name: azureChinaCloudArmParameters
-        value: "@{ storageEndpointSuffix = 'core.chinacloudapi.cn'; authorityHostAlias = 'AzureChinaCloud'; }"
+        value: "@{ storageEndpointSuffix = 'core.chinacloudapi.cn'; azureCloud = 'AzureChinaCloud'; }"
 
     steps:
       - task: NodeTool@0
