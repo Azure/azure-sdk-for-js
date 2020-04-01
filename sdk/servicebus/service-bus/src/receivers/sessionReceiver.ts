@@ -529,15 +529,23 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
 
-    await this._createMessageSessionIfDoesntExist();
+    const receiveBatchOperationPromise = async () => {
+      await this._createMessageSessionIfDoesntExist();
 
-    const receivedMessages = await this._messageSession!.receiveMessages(
-      maxMessageCount,
-      options?.maxWaitTimeSeconds,
-      this._sessionReceiverOptions.retryOptions
-    );
+      const receivedMessages = await this._messageSession!.receiveMessages(
+        maxMessageCount,
+        options?.maxWaitTimeSeconds
+      );
 
-    return (receivedMessages as any) as ReceivedMessageT[];
+      return (receivedMessages as any) as ReceivedMessageT[];
+    };
+    const config: RetryConfig<ReceivedMessageT[]> = {
+      operation: receiveBatchOperationPromise,
+      connectionId: this._context.namespace.connectionId,
+      operationType: RetryOperationType.receiveMessage,
+      retryOptions: this._sessionReceiverOptions.retryOptions
+    };
+    return retry<ReceivedMessageT[]>(config);
   }
 
   subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SubscribeOptions): void {
