@@ -6,12 +6,12 @@ This is the core HTTP pipeline for Azure SDK JavaScript libraries which work in 
 
 ### Requirements
 
-- Node.js version > 6.x
+- [Node.js](https://nodejs.org) version > 8.x
 - npm install -g typescript
 
 ### Installation
 
-- After cloning the repo, execute `npm install`
+This package is not meant to be consumed directly by end users.
 
 ## Key concepts
 
@@ -23,14 +23,26 @@ Examples can be found in the `samples` folder.
 
 ## Next steps
 
+First obtain an access token to the management service used in the sample code
+
+One easy way to get the token using Azure CLI (https://docs.microsoft.com/cli/azure/?view=azure-cli-latest)
+
+1. `az login` using the above subscription
+2. `az account set -s <subscription id>`
+3. `az account get-access-token --resource=https://management.azure.com`
+
 ### Node.js
 
-- Set the subscriptionId and token
-- Run `node samples/node-sample.js`
+- Set the subscriptionId and token environment variables
+- Change directory to samples folder `cd samples`
+- Compile the TypeScript code `tsc node-sample.ts`
+- Run `node node-sample.js`
 
 ### In the browser
 
-- Set the subscriptionId and token and then run
+- Change directory to samples folder `cd samples`
+- Set the subscriptionId and token in `index.js`
+- Follow the guide at https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/Bundling.md#using-parcel
 - Open index.html file in the browser. It should show the response from GET request on the storage account. From Chrome type Ctrl + Shift + I and you can see the logs in console.
 
 ## Troubleshooting
