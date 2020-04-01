@@ -12,7 +12,7 @@ Resources for the v5.0.0-preview.1 of `@azure/service-bus`:
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus) | [Package (npm)](https://www.npmjs.com/package/@azure/service-bus) | [API Reference Documentation](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.1/index.html) | [Product documentation](https://azure.microsoft.com/en-us/services/service-bus/) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples)
 
 > **NOTE**: This document has instructions, links and code snippets for the **preview** of the next version of the `@azure/service-bus` package
-which has different APIs than the stable version. To use the stable version of the library use the below resources.
+> which has different APIs than the stable version. To use the stable version of the library use the below resources.
 
 [Source code or Readme for v1.1.5](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus) |
 [Package for v1.1.5 (npm)](https://www.npmjs.com/package/@azure/service-bus/v/1.1.5) |
@@ -27,7 +27,9 @@ Install the preview version for the Azure Service Bus client library using npm
 
 `npm install @azure/service-bus@next`
 
-**Prerequisites**: You must have an [Azure subscription](https://azure.microsoft.com/free/) and a
+### Prerequisites
+
+You must have an [Azure subscription](https://azure.microsoft.com/free/) and a
 [Service Bus Namespace](https://docs.microsoft.com/en-us/azure/service-bus-messaging/) to use this package.
 If you are using this package in a Node.js application, then use Node.js 8.x or higher.
 
