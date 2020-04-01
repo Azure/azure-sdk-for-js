@@ -60,6 +60,9 @@ export type SearchIndexClientOptions = PipelineOptions;
  * adding, updating, and removing them.
  */
 export class SearchIndexClient<T> {
+  /// Maintenance note: when updating supported API versions,
+  /// the ContinuationToken logic will need to be updated below.
+
   /**
    * The API version to use when communicating with the service.
    */
