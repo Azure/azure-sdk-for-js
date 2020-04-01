@@ -318,10 +318,10 @@
       "packageName": "@azure/abort-controller",
       "projectFolder": "sdk/core/abort-controller"
     },
-    {
-      "packageName": "@azure/core-http",
-      "projectFolder": "sdk/core/core-http"
-    },
+    // {
+    //   "packageName": "@azure/core-http",
+    //   "projectFolder": "sdk/core/core-http"
+    // },
     {
       "packageName": "@azure/core-paging",
       "projectFolder": "sdk/core/core-paging"
