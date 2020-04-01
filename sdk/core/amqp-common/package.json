@@ -33,6 +33,7 @@
     "stream": "stream-browserify"
   },
   "devDependencies": {
+    "@azure/ms-rest-nodeauth": "^0.9.2",
     "@types/chai": "^4.1.6",
     "@types/chai-as-promised": "^7.1.0",
     "@types/debug": "^0.0.31",
