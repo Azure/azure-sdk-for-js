@@ -64,12 +64,11 @@ You can instantiate this class using its constructors:
 
 ### Key concepts
 
-Once you have initialized the [ServiceBusClient][sbclient] class, you will create a sender or receiver
-based on whether you want to send or receive messages to interact with existing Service Bus entities.
+Once you have initialized the [ServiceBusClient][sbclient] class you will be able to:
 
-- To send messages, to a queue or topic, you'll use an instance of [`Sender`][sender] which
-  you can get using [`ServiceBusClient.getSender()`][sbclient_getsender].
-- To receive messages, from either a queue or a subscription, you'll use an instance of [`Receiver`][receiver] (or, if using sessions: [`SessionReceiver`][sessionreceiver]).
+- Send messages, to a queue or topic, using a [`Sender`][sender] created using [`ServiceBusClient.getSender()`][sbclient_getsender].
+- Receive messages, from either a queue or a subscription, using a [`Receiver`][receiver] created using [`ServiceBusClient.getReceiver()`][sbclient_getreceiver].
+- Receive messages, from session enabled queues or subscriptions, using a [`SessionReceiver`][sessionreceiver] created using [`ServiceBusClient.getSessionReceiver()`][sbclient_getsessionreceiver].
 
 Please note that the Queues, Topics and Subscriptions should be created prior to using this library.
 
