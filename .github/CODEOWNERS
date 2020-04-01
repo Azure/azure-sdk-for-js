@@ -24,8 +24,8 @@
 /sdk/batch/ @xingwu1 @matthchr @bgklein
 /sdk/cosmosdb/ @southpolesteve
 
-/sdk/eventhub/ @ramya-rao-a @chradek @richardpark-msft
-/sdk/servicebus/ @ramya-rao-a @chradek @richardpark-msft
+/sdk/eventhub/ @ramya-rao-a @chradek @richardpark-msft 
+/sdk/servicebus/ @ramya-rao-a @chradek @richardpark-msft @HarshaNalluru  
 
 /sdk/identity/ @schaabs @daviwil @jonathandturner
 /sdk/keyvault/ @jonathandturner @sadasant
