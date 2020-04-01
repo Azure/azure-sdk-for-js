@@ -6,7 +6,8 @@ import {
   TokenCredential,
   ConnectionConfig,
   SharedKeyCredential,
-  WebSocketOptions
+  WebSocketOptions,
+  RetryOptions
 } from "@azure/core-amqp";
 import { ConnectionContext } from "./connectionContext";
 
@@ -15,6 +16,12 @@ import { ConnectionContext } from "./connectionContext";
  * @interface ServiceBusClientOptions
  */
 export interface ServiceBusClientOptions {
+  /**
+   * Retry policy options that determine the mode, number of retries, retry interval etc.
+   *
+   * @type {RetryOptions}
+   */
+  retryOptions?: RetryOptions;
   /**
    * @property
    * Options to configure the channelling of the AMQP connection over Web Sockets.

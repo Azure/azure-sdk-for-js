@@ -14,7 +14,9 @@ import {
   throwTypeErrorIfParameterNotLongArray
 } from "./util/errors";
 import { ServiceBusMessageBatch } from "./serviceBusMessageBatch";
-import { CreateBatchOptions } from "./models";
+import { CreateBatchOptions, GetSenderOptions } from "./models";
+import { retry, RetryOperationType, RetryConfig } from "@azure/core-amqp";
+import { getRetryAttemptTimeoutInMs } from "./util/utils";
 
 /**
  * A Sender can be used to send messages, schedule messages to be sent at a later time
@@ -144,6 +146,7 @@ export class SenderImpl implements Sender {
    * @property Describes the amqp connection context for the Client.
    */
   private _context: ClientEntityContext;
+  private _senderOptions: GetSenderOptions;
   /**
    * @property Denotes if close() was called on this sender
    */
@@ -154,10 +157,11 @@ export class SenderImpl implements Sender {
    * @internal
    * @throws Error if the underlying connection is closed.
    */
-  constructor(context: ClientEntityContext) {
+  constructor(context: ClientEntityContext, options: GetSenderOptions) {
     throwErrorIfConnectionClosed(context.namespace);
     this._context = context;
-    this._sender = MessageSender.create(this._context);
+    this._sender = MessageSender.create(this._context, options);
+    this._senderOptions = options;
   }
 
   private _throwIfSenderOrConnectionClosed(): void {
@@ -230,12 +234,27 @@ export class SenderImpl implements Sender {
     );
     throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "message", message);
 
+    const retryOptions = this._senderOptions.retryOptions || {};
+    retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
+
     const messages = [message];
-    const result = await this._context.managementClient!.scheduleMessages(
-      scheduledEnqueueTimeUtc,
-      messages
-    );
-    return result[0];
+
+    const scheduleMessageOperationPromise = async () => {
+      const result = await this._context.managementClient!.scheduleMessages(
+        scheduledEnqueueTimeUtc,
+        messages,
+        retryOptions.timeoutInMs!
+      );
+      return result[0];
+    };
+
+    const config: RetryConfig<Long.Long> = {
+      operation: scheduleMessageOperationPromise,
+      connectionId: this._context.namespace.connectionId,
+      operationType: RetryOperationType.management,
+      retryOptions: retryOptions
+    };
+    return retry<Long.Long>(config);
   }
 
   async scheduleMessages(
@@ -253,7 +272,23 @@ export class SenderImpl implements Sender {
       messages = [messages];
     }
 
-    return this._context.managementClient!.scheduleMessages(scheduledEnqueueTimeUtc, messages);
+    const retryOptions = this._senderOptions.retryOptions || {};
+    retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
+
+    const scheduleMessageOperationPromise = async () => {
+      return this._context.managementClient!.scheduleMessages(
+        scheduledEnqueueTimeUtc,
+        messages,
+        retryOptions.timeoutInMs!
+      );
+    };
+    const config: RetryConfig<Long.Long[]> = {
+      operation: scheduleMessageOperationPromise,
+      connectionId: this._context.namespace.connectionId,
+      operationType: RetryOperationType.management,
+      retryOptions: retryOptions
+    };
+    return retry<Long.Long[]>(config);
   }
 
   async cancelScheduledMessage(sequenceNumber: Long): Promise<void> {
@@ -269,7 +304,22 @@ export class SenderImpl implements Sender {
       sequenceNumber
     );
 
-    return this._context.managementClient!.cancelScheduledMessages([sequenceNumber]);
+    const retryOptions = this._senderOptions.retryOptions || {};
+    retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
+
+    const cancelSchedulesMessagesOperationPromise = async () => {
+      return this._context.managementClient!.cancelScheduledMessages(
+        [sequenceNumber],
+        retryOptions.timeoutInMs!
+      );
+    };
+    const config: RetryConfig<void> = {
+      operation: cancelSchedulesMessagesOperationPromise,
+      connectionId: this._context.namespace.connectionId,
+      operationType: RetryOperationType.management,
+      retryOptions: retryOptions
+    };
+    return retry<void>(config);
   }
 
   async cancelScheduledMessages(sequenceNumbers: Long[]): Promise<void> {
@@ -288,7 +338,22 @@ export class SenderImpl implements Sender {
       sequenceNumbers
     );
 
-    return this._context.managementClient!.cancelScheduledMessages(sequenceNumbers);
+    const retryOptions = this._senderOptions.retryOptions || {};
+    retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
+
+    const cancelSchedulesMessagesOperationPromise = async () => {
+      return this._context.managementClient!.cancelScheduledMessages(
+        sequenceNumbers,
+        retryOptions.timeoutInMs!
+      );
+    };
+    const config: RetryConfig<void> = {
+      operation: cancelSchedulesMessagesOperationPromise,
+      connectionId: this._context.namespace.connectionId,
+      operationType: RetryOperationType.management,
+      retryOptions: retryOptions
+    };
+    return retry<void>(config);
   }
 
   async close(): Promise<void> {
