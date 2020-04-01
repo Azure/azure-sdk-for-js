@@ -1,12 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import {
-  ApplicationTokenCredentials,
-  DeviceTokenCredentials,
-  UserTokenCredentials,
-  MSITokenCredentials
-} from "@azure/ms-rest-nodeauth";
 import { TokenInfo, TokenType, TokenProvider } from "./token";
 import * as Constants from "../util/constants";
 
@@ -18,11 +12,13 @@ export class AadTokenProvider implements TokenProvider {
   /**
    * @property {(ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials)} credentials - The credentials object after successful authentication with AAD.
    */
-  credentials:
-    | ApplicationTokenCredentials
-    | UserTokenCredentials
-    | DeviceTokenCredentials
-    | MSITokenCredentials;
+  credentials: {
+    getToken(): Promise<{
+      tokenType: string;
+      accessToken: string;
+      [x: string]: any;
+    }>;
+  };
   /**
    * @property {number} tokenRenewalMarginInSeconds - The number of seconds within which it is
    * good to renew the token. The constant is set to 270 seconds (4.5 minutes).
@@ -38,14 +34,14 @@ export class AadTokenProvider implements TokenProvider {
    */
   readonly tokenValidTimeInSeconds: number = 3599;
 
-  constructor(
-    credentials:
-      | ApplicationTokenCredentials
-      | UserTokenCredentials
-      | DeviceTokenCredentials
-      | MSITokenCredentials
-  ) {
-    if (!credentials || typeof credentials.getToken !== "function" ) {
+  constructor(credentials: {
+    getToken(): Promise<{
+      tokenType: string;
+      accessToken: string;
+      [x: string]: any;
+    }>;
+  }) {
+    if (!credentials || typeof credentials.getToken !== "function") {
       throw new TypeError(
         "'credentials' is a required parameter and must be an instance of " +
           "ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials."

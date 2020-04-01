@@ -1,3 +1,8 @@
+### 2020-04-01 1.0.0-preview.12
+
+- Removes the `@azure/ms-rest-nodeauth` dependency.
+  This allows users to use any version of `@azure/ms-rest-nodeauth` directly with `@azure/amqp-common` without TypeScript compilation errors.
+
 ### 2020-03-16 1.0.0-preview.11
 
 - Increase the default timeout for the authorization requests sent to the service from 10s to 60s to avoid frequent timeout errors during the CBS claim negotiation.
