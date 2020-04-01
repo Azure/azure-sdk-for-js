@@ -6,11 +6,17 @@ import * as Constants from "../util/constants";
 
 /**
  * Defines the AAD (Azure ActiveDirectory) TokenProvider.
+ * This accepts the following credentials from the `@azure/ms-rest-nodeauth` package:
+ *  - ApplicationTokenCredentials
+ *  - UserTokenCredentials
+ *  - DeviceTokenCredentials
+ *  - MSITokenCredentials (MSIVmTokenCredentials)
  * @class AadTokenProvider
  */
 export class AadTokenProvider implements TokenProvider {
   /**
    * @property {(ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials)} credentials - The credentials object after successful authentication with AAD.
+   * This property matches what was passed into the constructor.
    */
   credentials: {
     getToken(): Promise<{
