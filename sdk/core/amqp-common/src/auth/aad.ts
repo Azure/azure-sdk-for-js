@@ -22,7 +22,7 @@ export class AadTokenProvider implements TokenProvider {
     getToken(): Promise<{
       tokenType: string;
       accessToken: string;
-      [x: string]: any;
+      expiresOn?: Date | string;
     }>;
   };
   /**
@@ -44,7 +44,7 @@ export class AadTokenProvider implements TokenProvider {
     getToken(): Promise<{
       tokenType: string;
       accessToken: string;
-      [x: string]: any;
+      expiresOn?: Date | string;
     }>;
   }) {
     if (!credentials || typeof credentials.getToken !== "function") {
