@@ -8,7 +8,6 @@ import { CanonicalCode } from "@opentelemetry/types";
 import { logger } from "../util/logging";
 
 import * as child_process from "child_process";
-import { ENGINE_METHOD_DIGESTS } from "constants";
 
 function getSafeWorkingDir(): string {
   if (process.platform === "win32") {

@@ -20,7 +20,6 @@ import { VSCodeCredential } from "./vscodeCredential";
  * on how they attempt authentication.
  */
 export class DefaultAzureCredential extends ChainedTokenCredential {
-  // public UnhandledExceptionMessage = "DefaultAzureCredential authentication failed";
   /**
    * Creates an instance of the DefaultAzureCredential class.
    *
