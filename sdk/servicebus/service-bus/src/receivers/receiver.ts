@@ -306,8 +306,8 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
 
     const receivedMessages = await this._context.batchingReceiver.receive(
       maxMessageCount,
-      options?.maxWaitTimeSeconds
-      // this._receiverOptions - No need to pass?
+      options?.maxWaitTimeSeconds,
+      this._receiverOptions.retryOptions
     );
 
     return (receivedMessages as unknown) as ReceivedMessageT[];
@@ -326,11 +326,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
    * @throws MessagingError if the service returns an error while receiving messages.
    */
   getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<ReceivedMessageT> {
-    return getMessageIterator(
-      this,
-      options
-      // this._receiverOptions - No need to pass?
-    );
+    return getMessageIterator(this, options);
   }
 
   /**
