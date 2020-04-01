@@ -296,21 +296,29 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
 
-    if (!this._context.batchingReceiver || !this._context.batchingReceiver.isOpen()) {
-      const options: ReceiveOptions = {
-        maxConcurrentCalls: 0,
-        receiveMode: convertToInternalReceiveMode(this.receiveMode)
-      };
-      this._context.batchingReceiver = BatchingReceiver.create(this._context, options);
-    }
-
-    const receivedMessages = await this._context.batchingReceiver.receive(
-      maxMessageCount,
-      options?.maxWaitTimeSeconds,
-      this._receiverOptions.retryOptions
-    );
-
-    return (receivedMessages as unknown) as ReceivedMessageT[];
+    const receiveMessages = async () => {
+      if (!this._context.batchingReceiver || !this._context.batchingReceiver.isOpen()) {
+        const options: ReceiveOptions = {
+          maxConcurrentCalls: 0,
+          receiveMode: convertToInternalReceiveMode(this.receiveMode)
+        };
+        this._context.batchingReceiver = BatchingReceiver.create(this._context, options);
+      }
+      const receivedMessages = await this._context.batchingReceiver.receive(
+        maxMessageCount,
+        options?.maxWaitTimeSeconds
+      );
+      return (receivedMessages as unknown) as ReceivedMessageT[];
+    };
+    const config: RetryConfig<ReceivedMessageT[]> = {
+      connectionHost: this._context.namespace.config.host,
+      connectionId: this._context.namespace.connectionId,
+      operation: receiveMessages,
+      operationType: RetryOperationType.receiveMessage,
+      abortSignal: undefined,
+      retryOptions: this._receiverOptions.retryOptions
+    };
+    return retry<ReceivedMessageT[]>(config);
   }
 
   /**
