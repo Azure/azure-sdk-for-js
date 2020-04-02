@@ -79,11 +79,12 @@ export class PrivateEndpointConnections {
    * @param parentName The name of the parent resource (namely, either, the topic name or domain
    * name).
    * @param privateEndpointConnectionName The name of the private endpoint connection connection.
+   * @param privateEndpointConnection The private endpoint connection object to update.
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateEndpointConnectionsUpdateResponse>
    */
-  update(resourceGroupName: string, parentType: string, parentName: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateEndpointConnectionsUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,parentType,parentName,privateEndpointConnectionName,options)
+  update(resourceGroupName: string, parentType: string, parentName: string, privateEndpointConnectionName: string, privateEndpointConnection: Models.PrivateEndpointConnection, options?: msRest.RequestOptionsBase): Promise<Models.PrivateEndpointConnectionsUpdateResponse> {
+    return this.beginUpdate(resourceGroupName,parentType,parentName,privateEndpointConnectionName,privateEndpointConnection,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.PrivateEndpointConnectionsUpdateResponse>;
   }
 
@@ -151,16 +152,18 @@ export class PrivateEndpointConnections {
    * @param parentName The name of the parent resource (namely, either, the topic name or domain
    * name).
    * @param privateEndpointConnectionName The name of the private endpoint connection connection.
+   * @param privateEndpointConnection The private endpoint connection object to update.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, parentType: string, parentName: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(resourceGroupName: string, parentType: string, parentName: string, privateEndpointConnectionName: string, privateEndpointConnection: Models.PrivateEndpointConnection, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
         parentType,
         parentName,
         privateEndpointConnectionName,
+        privateEndpointConnection,
         options
       },
       beginUpdateOperationSpec,
@@ -294,6 +297,13 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
   headerParameters: [
     Parameters.acceptLanguage
   ],
+  requestBody: {
+    parameterPath: "privateEndpointConnection",
+    mapper: {
+      ...Mappers.PrivateEndpointConnection,
+      required: true
+    }
+  },
   responses: {
     200: {
       bodyMapper: Mappers.PrivateEndpointConnection

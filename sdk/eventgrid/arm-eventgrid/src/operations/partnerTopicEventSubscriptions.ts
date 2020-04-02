@@ -164,7 +164,7 @@ export class PartnerTopicEventSubscriptions {
    * @param [options] The optional parameters
    * @returns Promise<Models.PartnerTopicEventSubscriptionsListByPartnerTopicResponse>
    */
-  listByPartnerTopic(resourceGroupName: string, partnerTopicName: string, options?: msRest.RequestOptionsBase): Promise<Models.PartnerTopicEventSubscriptionsListByPartnerTopicResponse>;
+  listByPartnerTopic(resourceGroupName: string, partnerTopicName: string, options?: Models.PartnerTopicEventSubscriptionsListByPartnerTopicOptionalParams): Promise<Models.PartnerTopicEventSubscriptionsListByPartnerTopicResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param partnerTopicName Name of the partner topic.
@@ -177,8 +177,8 @@ export class PartnerTopicEventSubscriptions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByPartnerTopic(resourceGroupName: string, partnerTopicName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
-  listByPartnerTopic(resourceGroupName: string, partnerTopicName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventSubscriptionsListResult>, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.PartnerTopicEventSubscriptionsListByPartnerTopicResponse> {
+  listByPartnerTopic(resourceGroupName: string, partnerTopicName: string, options: Models.PartnerTopicEventSubscriptionsListByPartnerTopicOptionalParams, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
+  listByPartnerTopic(resourceGroupName: string, partnerTopicName: string, options?: Models.PartnerTopicEventSubscriptionsListByPartnerTopicOptionalParams | msRest.ServiceCallback<Models.EventSubscriptionsListResult>, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.PartnerTopicEventSubscriptionsListByPartnerTopicResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -260,6 +260,35 @@ export class PartnerTopicEventSubscriptions {
       beginUpdateOperationSpec,
       options);
   }
+
+  /**
+   * List event subscriptions that belong to a specific partner topic.
+   * @summary List event subscriptions of a partner topic.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PartnerTopicEventSubscriptionsListByPartnerTopicNextResponse>
+   */
+  listByPartnerTopicNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PartnerTopicEventSubscriptionsListByPartnerTopicNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listByPartnerTopicNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listByPartnerTopicNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
+  listByPartnerTopicNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventSubscriptionsListResult>, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.PartnerTopicEventSubscriptionsListByPartnerTopicNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listByPartnerTopicNextOperationSpec,
+      callback) as Promise<Models.PartnerTopicEventSubscriptionsListByPartnerTopicNextResponse>;
+  }
 }
 
 // Operation Specifications
@@ -325,7 +354,9 @@ const listByPartnerTopicOperationSpec: msRest.OperationSpec = {
     Parameters.partnerTopicName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.top
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -424,6 +455,27 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
   responses: {
     201: {
       bodyMapper: Mappers.EventSubscription
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listByPartnerTopicNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.EventSubscriptionsListResult
     },
     default: {
       bodyMapper: Mappers.CloudError
