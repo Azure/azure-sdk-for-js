@@ -159,7 +159,7 @@ export class ServiceBusTestHelpers {
       receivedMsgs = await receiverClient.receiveBatch(sentMessages.length, {
         // To Do - Maybe change the maxWaitTime
         // Currently set same as numberOfMessages being received
-        maxWaitTimeInMs: sentMessages.length
+        maxWaitTimeInMs: sentMessages.length * 1000
       });
       await receiverClient.close();
     } else {
@@ -184,8 +184,8 @@ export class ServiceBusTestHelpers {
         });
         const msgs = await receiverClient.receiveBatch(numOfMsgsWithSessionId[id], {
           // Since we know the exact number of messages to be received per session-id,
-          //   a higher `maxWaitTimeSeconds` is not a problem
-          maxWaitTimeInMs: 5 * numOfMsgsWithSessionId[id]
+          //   a higher `maxWaitTimeInMs` is not a problem
+          maxWaitTimeInMs: 5000 * numOfMsgsWithSessionId[id]
         });
         should.equal(
           msgs.length,
