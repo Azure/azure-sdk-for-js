@@ -15,6 +15,7 @@ import {
   FileSystemCreateResponse,
   FileSystemDeleteOptions,
   FileSystemDeleteResponse,
+  FileSystemExistsOptions,
   FileSystemGetAccessPolicyOptions,
   FileSystemGetAccessPolicyResponse,
   FileSystemGetPropertiesOptions,
@@ -190,6 +191,38 @@ export class DataLakeFileSystemClient extends StorageClient {
         ...options,
         access: toContainerPublicAccessType(options.access),
         tracingOptions: { ...options.tracingOptions, spanOptions }
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Returns true if the File system represented by this client exists; false otherwise.
+   *
+   * NOTE: use this function with care since an existing file system might be deleted by other clients or
+   * applications. Vice versa new file system with the same name might be added by other clients or
+   * applications after this function completes.
+   *
+   * @param {FileSystemExistsOptions} [options={}]
+   * @returns {Promise<boolean>}
+   * @memberof DataLakeFileSystemClient
+   */
+  public async exists(options: FileSystemExistsOptions = {}): Promise<boolean> {
+    const { span, spanOptions } = createSpan(
+      "DataLakeFileSystemClient-exists",
+      options.tracingOptions
+    );
+    try {
+      return await this.blobContainerClient.exists({
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
       });
     } catch (e) {
       span.setStatus({

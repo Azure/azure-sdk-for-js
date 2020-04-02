@@ -31,9 +31,10 @@ const production = process.env.NODE_ENV === "production";
 
 export function nodeConfig(test = false) {
   const externalNodeBuiltins = ["crypto", "fs", "os", "url", "assert"];
+  const additionalExternals = ["keytar"];
   const baseConfig = {
     input: "dist-esm/src/index.js",
-    external: depNames.concat(externalNodeBuiltins),
+    external: depNames.concat(externalNodeBuiltins, additionalExternals),
     output: {
       file: "dist/index.js",
       format: "cjs",

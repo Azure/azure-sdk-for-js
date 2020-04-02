@@ -179,4 +179,4 @@ export async function readStreamToLocalFile(
  *
  * Promisified version of fs.stat().
  */
-export const fsStat = util.promisify(isNode ? fs.stat : function stat() { });
+export const fsStat = util.promisify(isNode ? fs.stat : function stat() {});

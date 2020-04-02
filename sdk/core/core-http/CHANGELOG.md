@@ -1,14 +1,26 @@
 # Release History
 
-## 1.0.4 (Unreleased)
+## 1.1.1 (Unreleased)
+
+
+## 1.1.0 (2020-03-31)
+
+- A new interface `WebResourceLike` was introduced to avoid a direct dependency on the class `WebResource` in public interfaces. `HttpHeadersLike` was also added to replace references to `HttpHeaders`. This should improve cross-version compatibility for core-http. [PR #7873](https://github.com/Azure/azure-sdk-for-js/pull/7873)
+
+- Add support to disable response decompression in `node-fetch` Http client. [PR #7878](https://github.com/Azure/azure-sdk-for-js/pull/7878)
+
+## 1.0.4 (2020-03-03)
 
 - When an operation times out based on the `timeout` configured in the `OperationRequestOptions`, it gets terminated with an error. In this update, the error that is thrown in browser for such cases is updated to match what is thrown in node i.e an `AbortError` is thrown instead of the previous `RestError`. [PR #7159](https://github.com/Azure/azure-sdk-for-js/pull/7159)
+- Support for username and password in the proxy url [PR #7211](https://github.com/Azure/azure-sdk-for-js/pull/7211)
+- Removed dependency on `lib.dom.d.ts` so TypeScript users no longer need `lib: ["dom"]` in their tsconfig.json file to use this library. [PR #7500](https://github.com/Azure/azure-sdk-for-js/pull/7500)
 
 ## 1.0.3 (2020-01-02)
+
 - Added `x-ms-useragent` to the list of allowed headers in request logs.
 - Fix issue of data being pushed twice when reporting progress ([PR #6427](https://github.com/Azure/azure-sdk-for-js/issues/6427))
 - Move `getDefaultProxySettings()` calls into `proxyPolicy` so that libraries that don't use the PipelineOptions or createDefaultRequestPolicyFactories from core-http can use this behavior without duplicating code. ([PR #6478](https://github.com/Azure/azure-sdk-for-js/issues/6478))
-- Fix tracingPolicy() to set standard span attributes ([PR #6565](https://github.com/Azure/azure-sdk-for-js/pull/6565)).  Now the following are set correctly for the spans
+- Fix tracingPolicy() to set standard span attributes ([PR #6565](https://github.com/Azure/azure-sdk-for-js/pull/6565)). Now the following are set correctly for the spans
   - `http.method`
   - `http.url`
   - `http.user_agent`

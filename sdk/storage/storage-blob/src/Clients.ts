@@ -29,7 +29,7 @@ import {
   BlobAbortCopyFromURLResponse,
   BlobCopyFromURLResponse,
   BlobSetTierResponse,
-  ContainerEncryptionScope,
+  ContainerEncryptionScope
 } from "./generatedModels";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { BlobDownloadResponse } from "./BlobDownloadResponse";
@@ -48,7 +48,7 @@ import {
   DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS,
   URLConstants,
   DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES,
-  DEFAULT_BLOCK_BUFFER_SIZE_BYTES,
+  DEFAULT_BLOCK_BUFFER_SIZE_BYTES
 } from "./utils/constants";
 import {
   setURLParameter,
@@ -177,7 +177,7 @@ export interface BlobBeginCopyFromURLOptions extends BlobStartCopyFromURLOptions
  * @export
  * @interface BlobBeginCopyFromURLResponse
  */
-export interface BlobBeginCopyFromURLResponse extends BlobStartCopyFromURLResponse { }
+export interface BlobBeginCopyFromURLResponse extends BlobStartCopyFromURLResponse {}
 
 /**
  * Options to configure the {@link BlobClient.download} operation.
@@ -737,7 +737,7 @@ export interface BlobSyncCopyFromURLOptions extends CommonOptions {
   sourceConditions?: ModifiedAccessConditions;
   /**
    * Specify the md5 calculated for the range of bytes that must be read from the copy source.
-   * 
+   *
    * @type {Uint8Array}
    * @memberof BlobSyncCopyFromURLOptions
    */
@@ -3597,7 +3597,7 @@ export class BlockBlobClient extends BlobClient {
       if (numBlocks > BLOCK_BLOB_MAX_BLOCKS) {
         throw new RangeError(
           `The buffer's size is too big or the BlockSize is too small;` +
-          `the number of blocks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`
+            `the number of blocks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`
         );
       }
 
@@ -3855,7 +3855,7 @@ export class BlockBlobClient extends BlobClient {
       if (numBlocks > BLOCK_BLOB_MAX_BLOCKS) {
         throw new RangeError(
           `The buffer's size is too big or the BlockSize is too small;` +
-          `the number of blocks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`
+            `the number of blocks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`
         );
       }
 
@@ -4746,16 +4746,16 @@ export class PageBlobClient extends BlobClient {
   }
 
   /**
-  * Gets the collection of page ranges that differ between a specified snapshot and this page blob for managed disks.
-  * @see https://docs.microsoft.com/rest/api/storageservices/get-page-ranges
-  *
-  * @param {number} offset Starting byte position of the page blob
-  * @param {number} count Number of bytes to get ranges diff.
-  * @param {string} prevSnapshotUrl URL of snapshot to retrive the difference.
-  * @param {PageBlobGetPageRangesDiffOptions} [options] Options to the Page Blob Get Page Ranges Diff operation.
-  * @returns {Promise<PageBlobGetPageRangesDiffResponse>} Response data for the Page Blob Get Page Range Diff operation.
-  * @memberof PageBlobClient
-  */
+   * Gets the collection of page ranges that differ between a specified snapshot and this page blob for managed disks.
+   * @see https://docs.microsoft.com/rest/api/storageservices/get-page-ranges
+   *
+   * @param {number} offset Starting byte position of the page blob
+   * @param {number} count Number of bytes to get ranges diff.
+   * @param {string} prevSnapshotUrl URL of snapshot to retrive the difference.
+   * @param {PageBlobGetPageRangesDiffOptions} [options] Options to the Page Blob Get Page Ranges Diff operation.
+   * @returns {Promise<PageBlobGetPageRangesDiffResponse>} Response data for the Page Blob Get Page Range Diff operation.
+   * @memberof PageBlobClient
+   */
   public async getPageRangesDiffForManagedDisks(
     offset: number,
     count: number,
@@ -5263,7 +5263,7 @@ export interface ContainerCreateOptions extends CommonOptions {
   access?: PublicAccessType;
   /**
    * Container encryption scope info.
-   * 
+   *
    * @type {ContainerEncryptionScope}
    * @memberof ContainerCreateOptions
    */
@@ -5423,24 +5423,24 @@ export interface SignedIdentifier {
 export declare type ContainerGetAccessPolicyResponse = {
   signedIdentifiers: SignedIdentifier[];
 } & ContainerGetAccessPolicyHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpResponse & {
     /**
-     * The parsed HTTP response headers.
+     * The underlying HTTP response.
      */
-    parsedHeaders: ContainerGetAccessPolicyHeaders;
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SignedIdentifierModel[];
+    _response: HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ContainerGetAccessPolicyHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SignedIdentifierModel[];
+    };
   };
-};
 
 /**
  * Options to configure {@link ContainerClient.setAccessPolicy} operation.
@@ -6194,6 +6194,10 @@ export class ContainerClient extends StorageClient {
    * When you set permissions for a container, the existing permissions are replaced.
    * If no access or containerAcl provided, the existing container ACL will be
    * removed.
+   *
+   * When you establish a stored access policy on a container, it may take up to 30 seconds to take effect.
+   * During this interval, a shared access signature that is associated with the stored access policy will
+   * fail with status code 403 (Forbidden), until the access policy becomes active.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-container-acl
    *
    * @param {PublicAccessType} [access] The level of public access to data in the container.
@@ -6524,7 +6528,7 @@ export class ContainerClient extends StorageClient {
    *
    * // Gets next marker
    * let marker = response.continuationToken;
-   * 
+   *
    * // Passing next marker as continuationToken
    *
    * iterator = containerClient.listBlobsFlat().byPage({ continuationToken: marker, maxPageSize: 10 });

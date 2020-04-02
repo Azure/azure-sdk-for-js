@@ -1,6 +1,14 @@
 # Release History
 
-## 1.0.2 (Unreleased)
+## 1.1.2 (Unreleased)
+
+
+## 1.1.1 (2020-03-31)
+
+- Removes direct dependency on `@azure/identity` as it is not used directly by this package.
+  [PR 7669](https://github.com/Azure/azure-sdk-for-js/pull/7669)
+
+## 1.1.0 (2020-02-28)
 
 - Exports `WebSocketOptions` interface to configure the channelling of the AMQP connection over Web Sockets. [PR 7368](https://github.com/Azure/azure-sdk-for-js/pull/7368)
 

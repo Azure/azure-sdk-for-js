@@ -4,9 +4,9 @@ Azure Key Vault is a Microsoft-managed service providing cloud keys, secrets, an
 
 This project provides client libraries in JavaScript that makes it easy to consume Microsoft Azure Key Vault service.
 
-- [Source Code - Keys](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys)
-- [Source Code - Secrets](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets)
-- [Source Code - Certificates](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates)
+- [Source Code - Keys](./keyvault-keys)
+- [Source Code - Secrets](./keyvault-secrets)
+- [Source Code - Certificates](./keyvault-certificates)
 - [Product documentation](https://docs.microsoft.com/en-us/azure/key-vault)
 - @azure/keyvault-keys [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-keys)
 - @azure/keyvault-secrets [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-secrets)
@@ -20,37 +20,23 @@ This project provides client libraries in JavaScript that makes it easy to consu
 
 - Key Vault Keys
   - Create keys using elliptic curve or RSA encryption, optionally backed by Hardware Security Modules (HSM).
-  - Import keys.
-  - Delete keys.
-  - Update keys.
-  - Get one or more keys.
-  - Get one or more deleted keys.
-  - Recover a deleted key.
-  - Restore a backed up key.
-  - Get the versions of a key.
-  - As well as obtaining the attributes of a key.
-  - Encrypting
-  - Decrypting
-  - Signing
-  - Verifying
-  - Wrapping keys
-  - Unwrapping keys
+  - Import, delete and update keys.
+  - Get one or more keys and deleted keys.
+  - Recover a deleted key and restore a backed up key.
+  - Get the versions and the attributes of a key.
+  - Encrypting, decrypting, signing, verifying, wrapping and unwrapping data with keys.
 - Key Vault Secrets
   - Get, set and delete a secret.
   - Update a secret and it's attributes.
   - Backup and restore a secret.
   - Get, purge or recover a deleted secret.
-  - Get all the versions of a secret.
-  - Get all secrets.
-  - Get all deleted secrets.
+  - Get all the versions of a secret, or secrets, or deleted secrets.
 - Key Vault Certificates
   - Get, set and delete a certificate.
   - Update a certificate, its attributes, issuer, policy, operation and contacts.
   - Backup and restore a certificate.
   - Get, purge or recover a deleted certificate.
-  - Get all the versions of a certificate.
-  - Get all certificates.
-  - Get all deleted certificates.
+  - Get all the versions of a certificate, or certificates, or deleted certificates.
 
 ### Compatibility
 
@@ -99,70 +85,15 @@ const KeyVaultSecrets = require("@azure/keyvault-secrets");
 
 ## Code Samples
 
-```typescript
-import { SecretClient } from "@azure/keyvault-secrets";
-import { DefaultAzureCredential } from "@azure/identity";
-
-async function main(): Promise<void> {
-  // DefaultAzureCredential expects the following three environment variables:
-  // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
-  // - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
-  // - AZURE_CLIENT_SECRET: The client secret for the registered application
-  const credential = new DefaultAzureCredential();
-
-  const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>";
-  const url = `https://${vaultName}.vault.azure.net`;
-
-  const client = new SecretClient(url, credential);
-
-  // Create a secret
-  const secretName = "MySecretName";
-  const result = await client.setSecret(secretName, "MySecretValue");
-  console.log("result: ", result);
-
-  // Read the secret we created
-  const secret = await client.getSecret(secretName);
-  console.log("secret: ", secret);
-
-  // Update the secret with different attributes
-  const updatedSecret = await client.updateSecretProperties(
-    secretName,
-    result.properties.version!,
-    {
-      enabled: false
-    }
-  );
-  console.log("updated secret: ", updatedSecret);
-
-  // Delete the secret
-  // If we don't want to purge the secret later, we don't need to wait until this finishes
-  await client.beginDeleteSecret(secretName);
-}
-
-main().catch((err) => {
-  console.log("error code: ", err.code);
-  console.log("error message: ", err.message);
-  console.log("error stack: ", err.stack);
-});
-```
-
-## Troubleshooting
-
-Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
-
-```javascript
-import { setLogLevel } from "@azure/logger";
-
-setLogLevel("info");
-```
-
-## Next steps
-
-More samples
-
-- [Key Vault Keys Examples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys/samples)
-- [Key Vault Secrets Examples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets/samples)
-- [Key Vault Certificates Examples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates/samples)
+- [KeyVault Keys Samples (JavaScript)](./keyvault-keys/samples/javascript)
+- [KeyVault Keys Samples (TypeScript)](./keyvault-keys/samples/typescript)
+- [KeyVault Keys Test Cases](./keyvault-keys/test/)
+- [KeyVault Secrets Samples (JavaScript)](./keyvault-secrets/samples/javascript)
+- [KeyVault Secrets Samples (TypeScript)](./keyvault-secrets/samples/typescript)
+- [KeyVault Secrets Test Cases](./keyvault-secrets/test/)
+- [KeyVault Certificates Samples (JavaScript)](./keyvault-certificates/samples/javascript)
+- [KeyVault Certificates Samples (TypeScript)](./keyvault-certificates/samples/typescript)
+- [KeyVault Certificates Test Cases](./keyvault-certificates/test/)
 
 ## Contributing
 

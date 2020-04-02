@@ -16,7 +16,7 @@ Use the client library for Azure Key Vault Certificates in your Node.js applicat
 - Get all certificates.
 - Get all deleted certificates.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates) | [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-certificates) | [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/keyvault-certificates) | [Product documentation](https://azure.microsoft.com/en-us/services/key-vault/) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates/samples)
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates) | [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-certificates) | [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/keyvault-certificates) | [Product documentation](https://azure.microsoft.com/en-us/services/key-vault/) | [Samples](./samples)
 
 ## Getting started
 
@@ -24,9 +24,13 @@ Use the client library for Azure Key Vault Certificates in your Node.js applicat
 [Key Vault resource](https://docs.microsoft.com/en-us/azure/key-vault/quick-create-portal) to use this package.
 If you are using this package in a Node.js application, then use Node.js 6.x or higher.
 
-To quickly create the needed Key Vault resources in Azure and to receive a connection string for them, you can deploy our sample template by clicking:
+You can deploy our sample template for Key Vault resources in Azure by clicking here:
 
 [![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsdk%2Fkeyvault%2Ftest-resources.json)
+
+Deploying these resources constitutes a purchase of Azure services that will be billed to your active account.
+
+To read more information about how this form works, and how to fill it, please read our [TEST_RESOURCES_README.md guide](../TEST_RESOURCES_README.md).
 
 ### Install the package
 
@@ -145,9 +149,11 @@ The following sections provide code snippets that cover some of the common
 tasks using Azure Key Vault Certificates. The scenarios that are covered here consist of:
 
 - [Creating and setting a certificate](#creating-and-setting-a-certificate).
-- [Getting a certificate](#get-a-certificate).
-- [Getting the versions of a certificate](#list-all-versions-of-a-certificate).
-- [Listing all the available certificates](#list-all-certificates).
+- [Getting a Key Vault certificate](#getting-a-key-vault-certificate).
+- [Getting the full information of a certificate](#getting-the-full-information-of-a-certificate).
+- [Certificates in PEM format](#certificates-in-pem-format).
+- [List all versions of a certificate](#list-all-versions-of-a-certificate).
+- [List all certificates](#list-all-certificates).
 - [Updating a certificate](#updating-a-certificate).
 - [Deleting a certificate](#deleting-a-certificate).
 - [Iterating lists of certificates](#iterating-lists-of-certificates).
@@ -297,7 +303,7 @@ async function main() {
 main();
 ```
 
-### Get a certificate
+### Getting a Key Vault certificate
 
 The simplest way to read certificates back from the vault is to get a
 certificate by name. `getCertificate` will retrieve the most recent
@@ -335,31 +341,97 @@ async function main() {
 main();
 ```
 
-### List all versions of a certificate
+### Getting the full information of a certificate
 
-`listPropertiesOfCertificateVersions` will list versions of the given certificate.
+Azure's KeyVault's design makes sharp distinctions between Keys,
+Secrets and Certificates. The Key Vault service's Certificates
+features were designed making use of it's Keys and Secrets capabilities.
+Let's evaluate the composition of a Key Vault Certificate:
 
-```javascript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { CertificateClient } = require("@azure/keyvault-certificates");
+> When a Key Vault certificate is created, an addressable key
+> and secret are also created with the same name. The Key Vault
+> key allows key operations and the Key Vault secret allows retrieval
+> of the certificate value as a secret. A Key Vault certificate
+> also contains public x509 certificate metadata.  
+> _Source: [Composition of a Certificate][Composition-of-a-Certificate]._
 
-const credential = new DefaultAzureCredential();
+Knowing that the private key is stored in a Key Vault Secret,
+with the public certificate included, we can retrieve it
+by using the [KeyVault Secrets client][KeyVault-Secrets-client].
 
-const vaultName = "<YOUR KEYVAULT NAME>";
-const url = `https://${vaultName}.vault.azure.net`;
+```ts
+// Using the same credential object we used before,
+// and the same keyVaultUrl,
+// let's create a SecretClient
+const secretClient = new SecretClient(keyVaultUrl, credential);
 
-const client = new CertificateClient(url, credential);
+// Assuming you've already created a Key Vault certificate,
+// and that certificateName contains the name of your certificate
+const certificateSecret = await secretClient.getSecret(certificateName);
 
-const certificateName = "MyCertificateName";
+// Here we can find both the private key and the public certificate, in PKCS 12 format:
+const PKCS12Certificate = certificateSecret.value!;
 
-async function main() {
-  for await (let certificateProperties of client.listPropertiesOfCertificateVersions(certificateName)) {
-    console.log("version: ", certificateProperties.version);
-  }
-}
-
-main();
+// You can write this into a file:
+fs.writeFileSync("myCertificate.p12", PKCS12Certificate);
 ```
+
+Note that, by default, the content type of the certificates
+is [PKCS 12][PKCS_12]. By specifying the content type
+of your certificate, you'll be able to retrieve it in PEM format.
+Before showing how to create PEM certificates,
+let's first explore how to retrieve a PEM secret key
+from a PKCS 12 certificate first.
+
+Using `openssl`, you can retrieve the public certificate in
+PEM format by using the following command:
+
+```
+openssl pkcs12 -in myCertificate.p12 -out myCertificate.crt.pem -clcerts -nokeys
+```
+
+You can also use `openssl` to retrieve the private key, as follows:
+
+```
+openssl pkcs12 -in myCertificate.p12 -out myCertificate.key.pem -nocerts -nodes
+```
+
+Note that in both cases, openssl will ask you for the
+password used to create the certificate. The sample code we've used
+so far hasn't specified a password, so you can append ` -passin 'pass:' `
+to the end of each command.
+
+### Certificates in PEM format
+
+If you want to work with certificates in PEM format,
+you can tell Azure's Key Vault service to create and manage your
+certificates in PEM format by providing the `contentType` property
+at the moment of creating the certificates.
+
+The following example shows how to create and retrieve
+the public and the private parts of a PEM formatted certificate
+using the Key Vault clients for Certificates and Secrets:
+
+```ts
+// Creating the certificate
+const certificateName = "MyCertificate";
+const createPoller = await client.beginCreateCertificate(certificateName, {
+  issuerName: "Self",
+  subject: "cn=MyCert",
+  contentType: "application/x-pem-file" // Here you specify you want to work with PEM certificates.
+});
+const keyVaultCertificate = await createPoller.pollUntilDone();
+
+// Getting the PEM formatted private key and public certificate:
+const certificateSecret = await secretClient.getSecret(certificateName);
+const PEMPair = certificateSecret.value!;
+
+console.log(PEMPair);
+```
+
+Keep in mind that your public certificate will
+be in the same blob of content as your private key.
+You can use the PEM headers to extract them accordingly.
 
 ### List all certificates
 
@@ -484,7 +556,7 @@ async function main() {
   // const recoverPoller = await client.beginRecoverDeletedCertificate(certificateName);
   // await recoverPoller.pollUntilDone();
 
-  // If a certificate is done and the KeyVault has soft-delete enabled, the certificate can be purged with:
+  // If a certificate is done and the Key Vault has soft-delete enabled, the certificate can be purged with:
   await client.purgeDeletedCertificate(certificateName);
 }
 
@@ -578,21 +650,21 @@ main();
 
 ## Troubleshooting
 
-### Enable logs
+Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-You can set the following environment variable to get the debug logs when using this library.
+```javascript
+import { setLogLevel } from "@azure/logger";
 
-- Getting debug logs from the Key Vault Certificates SDK
-
-```bash
-export DEBUG=azure*
+setLogLevel("info");
 ```
 
 ## Next steps
 
-Please take a look at the
-[samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates/samples)
-directory for detailed examples on how to use this library.
+You can find more code samples through the following links:
+
+- [KeyVault Certificates Samples (JavaScript)](./samples/javascript)
+- [KeyVault Certificates Samples (TypeScript)](./samples/typescript)
+- [KeyVault Certificates Test Cases](./test/)
 
 ## Testing
 

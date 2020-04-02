@@ -3,10 +3,10 @@
 
 import * as assert from "assert";
 import { CertificateClient } from "../src";
-import { env, isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
+import { env, isPlaybackMode, Recorder, delay } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
-import { testPollerProperties, retry } from "./utils/recorderUtils";
+import { testPollerProperties } from "./utils/recorderUtils";
 import { assertThrowsAbortError } from "./utils/utils.common";
 import { isNode } from "@azure/core-http";
 
@@ -85,7 +85,16 @@ describe("Certificates client - restore certificates and recover backups", () =>
     );
     const backup = await client.backupCertificate(certificateName);
     await testClient.flushCertificate(certificateName);
-    await retry(async () => client.restoreCertificateBackup(backup!));
+    while (true) {
+      try {
+        await client.restoreCertificateBackup(backup as Uint8Array);
+        break;
+      } catch (e) {
+        console.log("Can't restore the certificate since it's not fully deleted:", e.message);
+        console.log("Retrying in one second...");
+        await delay(1000);
+      }
+    }
     const getResult = await client.getCertificate(certificateName);
     assert.equal(
       getResult.properties.name,

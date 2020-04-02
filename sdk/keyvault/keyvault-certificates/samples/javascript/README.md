@@ -22,7 +22,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [listCertificates.js][listcertificates]         | lists previously created certificates in a single chunk and by page, then changes one of them and lists all the versions of that certificate, then deletes them and lists the deleted certificates.    |
 | [mergeCertificate.js][mergecertificate]         | creates a certificate with an Unknown issuer, then signs this certificate using a fake certificate authority and the mergeCertificate API method                                                       |
 | [operations.js][operations]                     | creates, updates and deletes a certificate's operation                                                                                                                                                 |
-| [purgeAllCertificates.js][purgeAllCertificates] | purges all the certificates of a KeyVault (useful for repeated tests)                                                                                                                                  |
+| [purgeAllCertificates.js][purgeAllCertificates] | purges all the certificates of a Key Vault (useful for repeated tests)                                                                                                                                  |
 
 ## Prerequisites
 
@@ -66,17 +66,17 @@ npx cross-env KEYVAULT_NAME="<key vault name>" AZURE_TENANT_ID="<AAD tenant id>"
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[backupandrestore]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates/samples/javascript/backupAndRestore.js
-[contacts]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates/samples/javascript/contacts.js
-[deleteandrecover]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates/samples/javascript/deleteAndRecover.js
-[helloworld]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates/samples/javascript/helloWorld.js
-[issuers]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates/samples/javascript/issuers.js
-[listcertificates]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates/samples/javascript/listCertificates.js
-[mergecertificate]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates/samples/javascript/mergeCertificate.js
-[operations]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates/samples/javascript/operations.js
-[purgeAllCertificates]: purgeAllCertificates.js
+[backupandrestore]: ./backupAndRestore.js
+[contacts]: ./contacts.js
+[deleteandrecover]: ./deleteAndRecover.js
+[helloworld]: ./helloWorld.js
+[issuers]: ./issuers.js
+[listcertificates]: ./listCertificates.js
+[mergecertificate]: ./mergeCertificate.js
+[operations]: ./operations.js
+[purgeAllCertificates]: ./purgeAllCertificates.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/keyvault-certificates
 [azkeyvault]: https://docs.microsoft.com/azure/key-vault/quick-create-portal
 [kvsoftdelete]: https://docs.microsoft.com/azure/key-vault/key-vault-soft-delete-cli
 [freesub]: https://azure.microsoft.com/free/
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates/README.md
+[package]: ../README.md

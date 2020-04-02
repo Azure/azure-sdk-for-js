@@ -23,7 +23,7 @@ describe("Highlevel Node.js only", () => {
   let tempFileLarge: string;
   let tempFileLargeLength: number;
   const tempFolderPath = "temp";
-  const timeoutForLargeFileUploadingTest = 10 * 60 * 1000;
+  const timeoutForLargeFileUploadingTest = 20 * 60 * 1000;
 
   let recorder: Recorder;
 
@@ -41,8 +41,10 @@ describe("Highlevel Node.js only", () => {
   });
 
   afterEach(async function() {
-    await shareClient.delete();
-    recorder.stop();
+    if (!this.currentTest?.isPending()) {
+      await shareClient.delete();
+      recorder.stop();
+    }
   });
 
   before(async () => {

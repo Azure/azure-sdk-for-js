@@ -37,7 +37,9 @@ describe("Emulator Tests", () => {
   });
 
   afterEach(async function() {
-    await containerClient.delete();
+    if (!this.currentTest?.isPending()) {
+      await containerClient.delete();
+    }
   });
 
   it("BlobClient can be created with a connection string", async () => {

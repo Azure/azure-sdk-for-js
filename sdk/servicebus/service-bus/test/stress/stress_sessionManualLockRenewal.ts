@@ -12,15 +12,15 @@ must be supplied.
 */
 
 import {
-  ServiceBusClient,
   SendableMessageInfo,
   OnMessage,
   OnError,
   delay,
   ReceiveMode,
-  ServiceBusMessage,
-  SessionReceiver
+  ServiceBusMessage
 } from "../../src";
+import { InternalSessionReceiver } from "../../src/internalReceivers";
+import { ServiceBusClient } from "../../src/old/serviceBusClient";
 
 const connectionString = "";
 const queueName = "";
@@ -61,7 +61,7 @@ async function receiveMessage(sessionId: string): Promise<void> {
   const client = ns.createQueueClient(queueName);
 
   try {
-    const receiver = <SessionReceiver>client.createReceiver(ReceiveMode.peekLock, {
+    const receiver = <InternalSessionReceiver>client.createReceiver(ReceiveMode.peekLock, {
       sessionId: sessionId,
       maxSessionAutoRenewLockDurationInSeconds: 0
     });

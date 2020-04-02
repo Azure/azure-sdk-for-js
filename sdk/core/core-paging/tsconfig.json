@@ -6,6 +6,7 @@
     "declaration": false,
     "declarationMap": false,
     "sourceMap": false,
+    "inlineSources": false,
     "outDir": "./dist-esm",
     "resolveJsonModule": true
   },

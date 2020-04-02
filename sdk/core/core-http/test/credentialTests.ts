@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import "chai/register-should";
-import * as msRest from "../lib/coreHttp";
-import * as base64 from "../lib/util/base64";
+import * as msRest from "../src/coreHttp";
+import * as base64 from "../src/util/base64";
 const BasicAuthenticationCredentials = msRest.BasicAuthenticationCredentials;
 const ApiKeyCredentials = msRest.ApiKeyCredentials;
 const fakeScheme = "fake-auth-scheme";

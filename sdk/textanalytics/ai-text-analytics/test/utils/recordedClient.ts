@@ -9,7 +9,7 @@ import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure/test-uti
 import { TokenCredential, ClientSecretCredential } from "@azure/identity";
 import { isNode } from "@azure/core-http";
 
-import { TextAnalyticsApiKeyCredential, TextAnalyticsClient } from "../../src/index";
+import { AzureKeyCredential, TextAnalyticsClient } from "../../src/index";
 
 if (isNode) {
   dotenv.config({ path: path.join(__dirname, "..", ".env") });
@@ -55,11 +55,11 @@ export const environmentSetup: RecorderEnvironmentSetup = {
 
 export function createRecordedClient(
   context: Context,
-  apiKey?: TextAnalyticsApiKeyCredential
+  apiKey?: AzureKeyCredential
 ): RecordedClient {
   const recorder = record(context, environmentSetup);
 
-  let credential: TextAnalyticsApiKeyCredential | TokenCredential;
+  let credential: AzureKeyCredential | TokenCredential;
   if (apiKey !== undefined) {
     credential = apiKey;
   } else {

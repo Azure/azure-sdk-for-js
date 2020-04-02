@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { assert } from "chai";
-import { URLTokenizer, URLToken, URLBuilder, URLQuery } from "../lib/url";
+import { URLTokenizer, URLToken, URLBuilder, URLQuery } from "../src/url";
 
 describe("URLQuery", () => {
   it(`constructor()`, () => {

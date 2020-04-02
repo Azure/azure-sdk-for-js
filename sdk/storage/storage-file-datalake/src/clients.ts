@@ -17,14 +17,18 @@ import {
   FileCreateResponse,
   FileFlushOptions,
   FileFlushResponse,
+  FileParallelUploadOptions,
   FileReadOptions,
   FileReadResponse,
+  FileReadToBufferOptions,
+  FileUploadResponse,
   Metadata,
   PathAccessControlItem,
   PathCreateOptions,
   PathCreateResponse,
   PathDeleteOptions,
   PathDeleteResponse,
+  PathExistsOptions,
   PathGetAccessControlOptions,
   PathGetAccessControlResponse,
   PathGetPropertiesAction,
@@ -55,6 +59,19 @@ import {
 } from "./transforms";
 import { createSpan } from "./utils/tracing";
 import { appendToURLPath, setURLPath } from "./utils/utils.common";
+import { Readable } from "stream";
+import {
+  DEFAULT_HIGH_LEVEL_CONCURRENCY,
+  FILE_MAX_SINGLE_UPLOAD_THRESHOLD,
+  FILE_UPLOAD_MAX_CHUNK_SIZE,
+  FILE_MAX_SIZE_BYTES,
+  FILE_UPLOAD_DEFAULT_CHUNK_SIZE,
+  BLOCK_BLOB_MAX_BLOCKS
+} from "./utils/constants";
+import { BufferScheduler } from "./utils/BufferScheduler";
+import { Batch } from "./utils/Batch";
+import { fsStat } from "./utils/utils.node";
+import * as fs from "fs";
 
 /**
  * A DataLakePathClient represents a URL to the Azure Storage path (directory or file).
@@ -214,6 +231,35 @@ export class DataLakePathClient extends StorageClient {
         modifiedAccessConditions: options.conditions,
         properties: toProperties(options.metadata),
         spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Returns true if the Data Lake file represented by this client exists; false otherwise.
+   *
+   * NOTE: use this function with care since an existing file might be deleted by other clients or
+   * applications. Vice versa new files might be added by other clients or applications after this
+   * function completes.
+   *
+   * @param {PathExistsOptions} [options] options to Exists operation.
+   * @returns {Promise<boolean>}
+   * @memberof DataLakePathClient
+   */
+  public async exists(options: PathExistsOptions = {}): Promise<boolean> {
+    const { span, spanOptions } = createSpan("DataLakeFileClient-exists", options.tracingOptions);
+    try {
+      return await this.blobClient.exists({
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
       });
     } catch (e) {
       span.setStatus({
@@ -934,7 +980,7 @@ export class DataLakeFileClient extends DataLakePathClient {
    *
    * @param {HttpRequestBody} body Content to be uploaded.
    * @param {number} offset Append offset in bytes.
-   * @param {number} length Length of content to append.
+   * @param {number} length Length of content to append in bytes.
    * @param {FileAppendOptions} [options={}] Optional. Options when appending data.
    * @returns {Promise<FileAppendResponse>}
    * @memberof DataLakeFileClient
@@ -994,6 +1040,464 @@ export class DataLakeFileClient extends DataLakePathClient {
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
         spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  // high level functions
+
+  /**
+   * ONLY AVAILABLE IN NODE.JS RUNTIME.
+   *
+   * Uploads a local file to a Data Lake file.
+   *
+   * @param {string} filePath Full path of the local file
+   * @param {FileParallelUploadOptions} [options]
+   * @returns {(Promise<FileUploadResponse>)}
+   * @memberof DataLakeFileClient
+   */
+  public async uploadFile(
+    filePath: string,
+    options: FileParallelUploadOptions = {}
+  ): Promise<FileUploadResponse> {
+    const { span, spanOptions } = createSpan(
+      "DataLakeFileClient-uploadFile",
+      options.tracingOptions
+    );
+    try {
+      const size = (await fsStat(filePath)).size;
+      return await this.uploadData(
+        (offset: number, size: number) => {
+          return () =>
+            fs.createReadStream(filePath, {
+              autoClose: true,
+              end: offset + size - 1,
+              start: offset
+            });
+        },
+        size,
+        { ...options, tracingOptions: { ...options!.tracingOptions, spanOptions } }
+      );
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Uploads a Buffer(Node.js)/Blob/ArrayBuffer/ArrayBufferView to a File.
+   *
+   * @param {Buffer | Blob | ArrayBuffer | ArrayBufferView} data Buffer(Node), Blob, ArrayBuffer or ArrayBufferView
+   * @param {FileParallelUploadOptions} [options]
+   * @returns {Promise<FileUploadResponse>}
+   * @memberof DataLakeFileClient
+   */
+  public async upload(
+    data: Buffer | Blob | ArrayBuffer | ArrayBufferView,
+    options: FileParallelUploadOptions = {}
+  ): Promise<FileUploadResponse> {
+    const { span, spanOptions } = createSpan("DataLakeFileClient-upload", options.tracingOptions);
+    try {
+      if (isNode && data instanceof Buffer) {
+        return this.uploadData(
+          (offset: number, size: number): Buffer => {
+            return data.slice(offset, offset + size);
+          },
+          data.length,
+          { ...options, tracingOptions: { ...options!.tracingOptions, spanOptions } }
+        );
+      } else {
+        const browserBlob = new Blob([data]);
+        return this.uploadData(
+          (offset: number, size: number): Blob => {
+            return browserBlob.slice(offset, offset + size);
+          },
+          browserBlob.size,
+          { ...options, tracingOptions: { ...options!.tracingOptions, spanOptions } }
+        );
+      }
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  private async uploadData(
+    contentFactory:
+      | ((offset: number, size: number) => Buffer)
+      | ((offset: number, size: number) => Blob)
+      | ((offset: number, size: number) => () => NodeJS.ReadableStream),
+    size: number,
+    options: FileParallelUploadOptions = {}
+  ): Promise<FileUploadResponse> {
+    const { span, spanOptions } = createSpan(
+      "DataLakeFileClient-uploadData",
+      options.tracingOptions
+    );
+    try {
+      if (size > FILE_MAX_SIZE_BYTES) {
+        throw new RangeError(`size must be <= ${FILE_MAX_SIZE_BYTES}.`);
+      }
+
+      // Create the file.
+      const createRes = this.create({
+        abortSignal: options.abortSignal,
+        metadata: options.metadata,
+        permissions: options.permissions,
+        umask: options.umask,
+        conditions: options.conditions,
+        pathHttpHeaders: options.pathHttpHeaders,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
+      // append() with empty data would return error, so do not continue
+      if (size === 0) {
+        return await createRes;
+      } else {
+        await createRes;
+      }
+
+      // After the File is Create, Lease ID is the only valid request parameter.
+      options.conditions = { leaseId: options.conditions?.leaseId };
+
+      if (!options.chunkSize) {
+        options.chunkSize = Math.ceil(size / BLOCK_BLOB_MAX_BLOCKS);
+        if (options.chunkSize < FILE_UPLOAD_DEFAULT_CHUNK_SIZE) {
+          options.chunkSize = FILE_UPLOAD_DEFAULT_CHUNK_SIZE;
+        }
+      }
+      if (options.chunkSize < 1 || options.chunkSize > FILE_UPLOAD_MAX_CHUNK_SIZE) {
+        throw new RangeError(`chunkSize option must be >= 1 and <= ${FILE_UPLOAD_MAX_CHUNK_SIZE}`);
+      }
+
+      if (!options.maxConcurrency) {
+        options.maxConcurrency = DEFAULT_HIGH_LEVEL_CONCURRENCY;
+      }
+      if (options.maxConcurrency <= 0) {
+        throw new RangeError(`maxConcurrency must be > 0.`);
+      }
+
+      if (!options.singleUploadThreshold) {
+        options.singleUploadThreshold = FILE_MAX_SINGLE_UPLOAD_THRESHOLD;
+      }
+      if (
+        options.singleUploadThreshold < 1 ||
+        options.singleUploadThreshold > FILE_MAX_SINGLE_UPLOAD_THRESHOLD
+      ) {
+        throw new RangeError(
+          `singleUploadThreshold option must be >= 1 and <= ${FILE_MAX_SINGLE_UPLOAD_THRESHOLD}`
+        );
+      }
+
+      // When buffer length <= singleUploadThreshold, this method will use one append/flush call to finish the upload.
+      if (size <= options.singleUploadThreshold) {
+        await this.append(contentFactory(0, size), 0, size, {
+          abortSignal: options.abortSignal,
+          conditions: options.conditions,
+          onProgress: options.onProgress,
+          tracingOptions: { ...options!.tracingOptions, spanOptions }
+        });
+
+        return await this.flush(size, {
+          abortSignal: options.abortSignal,
+          conditions: options.conditions,
+          close: options.close,
+          pathHttpHeaders: options.pathHttpHeaders,
+          tracingOptions: { ...options!.tracingOptions, spanOptions }
+        });
+      }
+
+      const numBlocks: number = Math.floor((size - 1) / options.chunkSize) + 1;
+      if (numBlocks > BLOCK_BLOB_MAX_BLOCKS) {
+        throw new RangeError(
+          `The data's size is too big or the chunkSize is too small;` +
+            `the number of chunks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`
+        );
+      }
+
+      let transferProgress: number = 0;
+      const batch = new Batch(options.maxConcurrency);
+
+      for (let i = 0; i < numBlocks; i++) {
+        batch.addOperation(
+          async (): Promise<any> => {
+            const start = options.chunkSize! * i;
+            const end = i === numBlocks - 1 ? size : start + options.chunkSize!;
+            const contentLength = end - start;
+            await this.append(contentFactory(start, contentLength), start, contentLength, {
+              abortSignal: options.abortSignal,
+              conditions: options.conditions,
+              tracingOptions: { ...options!.tracingOptions, spanOptions }
+            });
+
+            transferProgress += contentLength;
+            if (options.onProgress) {
+              options.onProgress({ loadedBytes: transferProgress });
+            }
+          }
+        );
+      }
+      await batch.do();
+
+      return await this.flush(size, {
+        abortSignal: options.abortSignal,
+        conditions: options.conditions,
+        close: options.close,
+        pathHttpHeaders: options.pathHttpHeaders,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * ONLY AVAILABLE IN NODE.JS RUNTIME.
+   *
+   * Uploads a Node.js Readable stream into a Data Lake file.
+   * This method will try to create a file, then starts uploading chunk by chunk.
+   * Please make sure potential size of stream doesn't exceed FILE_MAX_SIZE_BYTES and
+   * potential number of chunks doesn't exceed BLOCK_BLOB_MAX_BLOCKS.
+   *
+   * PERFORMANCE IMPROVEMENT TIPS:
+   * * Input stream highWaterMark is better to set a same value with options.chunkSize
+   *   parameter, which will avoid Buffer.concat() operations.
+   *
+   * @param {Readable} stream Node.js Readable stream.
+   * @param {FileParallelUploadOptions} [options]
+   * @returns {Promise<FileUploadResponse>}
+   * @memberof DataLakeFileClient
+   */
+  public async uploadStream(
+    stream: Readable,
+    options: FileParallelUploadOptions = {}
+  ): Promise<FileUploadResponse> {
+    const { span, spanOptions } = createSpan(
+      "DataLakeFileClient-uploadStream",
+      options.tracingOptions
+    );
+    try {
+      // Create the file
+      await this.create({
+        abortSignal: options.abortSignal,
+        metadata: options.metadata,
+        permissions: options.permissions,
+        umask: options.umask,
+        conditions: options.conditions,
+        pathHttpHeaders: options.pathHttpHeaders,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
+
+      // After the File is Create, Lease ID is the only valid request parameter.
+      options.conditions = { leaseId: options.conditions?.leaseId };
+
+      if (!options.chunkSize) {
+        options.chunkSize = FILE_UPLOAD_DEFAULT_CHUNK_SIZE;
+      }
+      if (options.chunkSize < 1 || options.chunkSize > FILE_UPLOAD_MAX_CHUNK_SIZE) {
+        throw new RangeError(`chunkSize option must be >= 1 and <= ${FILE_UPLOAD_MAX_CHUNK_SIZE}`);
+      }
+      if (!options.maxConcurrency) {
+        options.maxConcurrency = DEFAULT_HIGH_LEVEL_CONCURRENCY;
+      }
+      if (options.maxConcurrency <= 0) {
+        throw new RangeError(`maxConcurrency must be > 0.`);
+      }
+
+      let transferProgress: number = 0;
+      const scheduler = new BufferScheduler(
+        stream,
+        options.chunkSize,
+        options.maxConcurrency,
+        async (buffer: Buffer, offset?: number) => {
+          await this.append(buffer, offset!, buffer.length, {
+            abortSignal: options.abortSignal,
+            conditions: options.conditions,
+            tracingOptions: { ...options!.tracingOptions, spanOptions }
+          });
+
+          // Update progress after block is successfully uploaded to server, in case of block trying
+          transferProgress += buffer.length;
+          if (options.onProgress) {
+            options.onProgress({ loadedBytes: transferProgress });
+          }
+        },
+        // concurrency should set a smaller value than maxConcurrency, which is helpful to
+        // reduce the possibility when a outgoing handler waits for stream data, in
+        // this situation, outgoing handlers are blocked.
+        // Outgoing queue shouldn't be empty.
+        Math.ceil((options.maxConcurrency / 4) * 3)
+      );
+      await scheduler.do();
+
+      return await this.flush(transferProgress, {
+        abortSignal: options.abortSignal,
+        conditions: options.conditions,
+        close: options.close,
+        pathHttpHeaders: options.pathHttpHeaders,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * ONLY AVAILABLE IN NODE.JS RUNTIME.
+   *
+   * Reads a Data Lake file in parallel to a buffer.
+   * Offset and count are optional, pass 0 for both to read the entire file.
+   *
+   * Warning: Buffers can only support files up to about one gigabyte on 32-bit systems or about two
+   * gigabytes on 64-bit systems due to limitations of Node.js/V8. For files larger than this size,
+   * consider {@link readToFile}.
+   *
+   * @param {Buffer} buffer Buffer to be fill, must have length larger than count
+   * @param {number} offset From which position of the Data Lake file to read
+   * @param {number} [count] How much data to be read. Will read to the end when passing undefined
+   * @param {FileReadToBufferOptions} [options]
+   * @returns {Promise<Buffer>}
+   * @memberof DataLakeFileClient
+   */
+  public async readToBuffer(
+    buffer: Buffer,
+    offset?: number,
+    count?: number,
+    options?: FileReadToBufferOptions
+  ): Promise<Buffer>;
+
+  /**
+   * ONLY AVAILABLE IN NODE.JS RUNTIME
+   *
+   * Reads a Data Lake file in parallel to a buffer.
+   * Offset and count are optional, pass 0 for both to read the entire file
+   *
+   * Warning: Buffers can only support files up to about one gigabyte on 32-bit systems or about two
+   * gigabytes on 64-bit systems due to limitations of Node.js/V8. For files larger than this size,
+   * consider {@link readToFile}.
+   *
+   * @param {number} offset From which position of the Data Lake file to read(in bytes)
+   * @param {number} [count] How much data(in bytes) to be read. Will read to the end when passing undefined
+   * @param {FileReadToBufferOptions} [options]
+   * @returns {Promise<Buffer>}
+   * @memberof DataLakeFileClient
+   */
+  public async readToBuffer(
+    offset?: number,
+    count?: number,
+    options?: FileReadToBufferOptions
+  ): Promise<Buffer>;
+
+  public async readToBuffer(
+    bufferOrOffset?: Buffer | number,
+    offsetOrCount?: number,
+    countOrOptions?: FileReadToBufferOptions | number,
+    optOptions: FileReadToBufferOptions = {}
+  ): Promise<Buffer> {
+    let buffer: Buffer | undefined = undefined;
+    let offset = 0;
+    let count = 0;
+    let options = optOptions;
+    if (bufferOrOffset instanceof Buffer) {
+      buffer = bufferOrOffset;
+      offset = offsetOrCount || 0;
+      count = typeof countOrOptions === "number" ? countOrOptions : 0;
+    } else {
+      offset = typeof bufferOrOffset === "number" ? bufferOrOffset : 0;
+      count = typeof offsetOrCount === "number" ? offsetOrCount : 0;
+      options = (countOrOptions as FileReadToBufferOptions) || {};
+    }
+    const { span, spanOptions } = createSpan(
+      "DataLakeFileClient-readToBuffer",
+      options.tracingOptions
+    );
+    try {
+      if (buffer) {
+        return await this.blobClientInternal.downloadToBuffer(buffer, offset, count, {
+          ...options,
+          maxRetryRequestsPerBlock: options.maxRetryRequestsPerChunk,
+          blockSize: options.chunkSize,
+          tracingOptions: { ...options!.tracingOptions, spanOptions }
+        });
+      } else {
+        return await this.blobClientInternal.downloadToBuffer(offset, count, {
+          ...options,
+          maxRetryRequestsPerBlock: options.maxRetryRequestsPerChunk,
+          blockSize: options.chunkSize,
+          tracingOptions: { ...options!.tracingOptions, spanOptions }
+        });
+      }
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * ONLY AVAILABLE IN NODE.JS RUNTIME.
+   *
+   * Downloads a Data Lake file to a local file.
+   * Fails if the the given file path already exits.
+   * Offset and count are optional, pass 0 and undefined respectively to download the entire file.
+   *
+   * @param {string} filePath
+   * @param {number} [offset] From which position of the file to download.
+   * @param {number} [count] How much data to be downloaded. Will download to the end when passing undefined.
+   * @param {FileReadOptions} [options] Options to read Data Lake file.
+   * @returns {Promise<FileReadResponse>} The response data for file read operation,
+   *                                      but with readableStreamBody set to undefined since its
+   *                                      content is already read and written into a local file
+   *                                      at the specified path.
+   * @memberof DataLakeFileClient
+   */
+  public async readToFile(
+    filePath: string,
+    offset: number = 0,
+    count?: number,
+    options: FileReadOptions = {}
+  ): Promise<FileReadResponse> {
+    const { span, spanOptions } = createSpan(
+      "DataLakeFileClient-readToFile",
+      options.tracingOptions
+    );
+    try {
+      return await this.blobClientInternal.downloadToFile(filePath, offset, count, {
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
       });
     } catch (e) {
       span.setStatus({

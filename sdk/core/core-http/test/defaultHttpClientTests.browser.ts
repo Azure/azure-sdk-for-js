@@ -3,8 +3,8 @@
 
 import "chai/register-should";
 
-import { DefaultHttpClient } from "../lib/defaultHttpClient";
-import { WebResource, TransferProgressEvent } from "../lib/webResource";
+import { DefaultHttpClient } from "../src/defaultHttpClient";
+import { WebResource, TransferProgressEvent } from "../src/webResource";
 import { getHttpMock, HttpMockFacade } from "./mockHttp";
 
 describe("defaultHttpClient (browser)", function() {

@@ -5,12 +5,13 @@ import fs from "fs";
 import childProcess from "child_process";
 import { CertificateClient } from "../src";
 import { testPollerProperties } from "./utils/recorderUtils";
-import { isNode } from "@azure/core-http";
 import { env, Recorder } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { SecretClient } from "@azure/keyvault-secrets";
 import { ClientSecretCredential } from "@azure/identity";
+import { base64ToUint8Array, stringToUint8Array } from "../src/utils";
+import { isNode } from "@azure/core-http";
 
 describe("Certificates client - merge and import certificates", () => {
   const prefix = `merge${env.CERTIFICATE_NAME || "CertificateName"}`;
@@ -39,6 +40,30 @@ describe("Certificates client - merge and import certificates", () => {
 
   // The tests follow
 
+  it("can import a certificate from a certificate's non base64 secret value", async function() {
+    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+    const certificateNames = [`${certificateName}0`, `${certificateName}1`];
+    const createPoller = await client.beginCreateCertificate(
+      certificateNames[0],
+      {
+        issuerName: "Self",
+        subject: "cn=MyCert"
+      },
+      testPollerProperties
+    );
+    await createPoller.pollUntilDone();
+    const certificateSecret = await secretClient.getSecret(certificateNames[0]);
+    const base64EncodedCertificate = certificateSecret.value!;
+
+    const buffer = base64ToUint8Array(base64EncodedCertificate);
+
+    await client.importCertificate(certificateNames[1], buffer);
+
+    for (const name of certificateNames) {
+      await testClient.flushCertificate(name);
+    }
+  });
+
   it("can import a certificate from a certificate's base64 secret value", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     const certificateNames = [`${certificateName}0`, `${certificateName}1`];
@@ -54,15 +79,14 @@ describe("Certificates client - merge and import certificates", () => {
     const certificateSecret = await secretClient.getSecret(certificateNames[0]);
     const base64EncodedCertificate = certificateSecret.value!;
 
-    let buffer: Uint8Array;
+    const buffer = stringToUint8Array(base64EncodedCertificate);
 
-    if (isNode) {
-      buffer = Buffer.from(base64EncodedCertificate, "base64");
-    } else {
-      buffer = Uint8Array.from(atob(base64EncodedCertificate), (c) => c.charCodeAt(0));
-    }
-
-    await client.importCertificate(certificateNames[1], buffer);
+    await client.importCertificate(certificateNames[1], buffer, {
+      policy: {
+        subject: "a conceptual policy, so that we can pass the contentType",
+        contentType: "application/x-pem-file"
+      }
+    });
 
     for (const name of certificateNames) {
       await testClient.flushCertificate(name);

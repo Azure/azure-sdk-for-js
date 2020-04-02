@@ -1,0 +1,17 @@
+{
+  "name": "kubernetestest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "yargs": "15.1.0",
+    "@types/yargs": "15.0.3",
+    "@azure/identity": "1.1.0-preview.2",
+    "@azure/keyvault-secrets": "^4.0.2"
+  }
+}

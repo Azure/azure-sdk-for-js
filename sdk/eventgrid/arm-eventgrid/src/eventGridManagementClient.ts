@@ -19,9 +19,19 @@ class EventGridManagementClient extends EventGridManagementClientContext {
   // Operation groups
   domains: operations.Domains;
   domainTopics: operations.DomainTopics;
+  eventChannels: operations.EventChannels;
   eventSubscriptions: operations.EventSubscriptions;
+  systemTopicEventSubscriptions: operations.SystemTopicEventSubscriptions;
+  partnerTopicEventSubscriptions: operations.PartnerTopicEventSubscriptions;
   operations: operations.Operations;
+  partnerNamespaces: operations.PartnerNamespaces;
+  partnerRegistrations: operations.PartnerRegistrations;
+  partnerTopics: operations.PartnerTopics;
+  privateEndpointConnections: operations.PrivateEndpointConnections;
+  privateLinkResources: operations.PrivateLinkResources;
+  systemTopics: operations.SystemTopics;
   topics: operations.Topics;
+  extensionTopics: operations.ExtensionTopics;
   topicTypes: operations.TopicTypes;
 
   /**
@@ -35,9 +45,19 @@ class EventGridManagementClient extends EventGridManagementClientContext {
     super(credentials, subscriptionId, options);
     this.domains = new operations.Domains(this);
     this.domainTopics = new operations.DomainTopics(this);
+    this.eventChannels = new operations.EventChannels(this);
     this.eventSubscriptions = new operations.EventSubscriptions(this);
+    this.systemTopicEventSubscriptions = new operations.SystemTopicEventSubscriptions(this);
+    this.partnerTopicEventSubscriptions = new operations.PartnerTopicEventSubscriptions(this);
     this.operations = new operations.Operations(this);
+    this.partnerNamespaces = new operations.PartnerNamespaces(this);
+    this.partnerRegistrations = new operations.PartnerRegistrations(this);
+    this.partnerTopics = new operations.PartnerTopics(this);
+    this.privateEndpointConnections = new operations.PrivateEndpointConnections(this);
+    this.privateLinkResources = new operations.PrivateLinkResources(this);
+    this.systemTopics = new operations.SystemTopics(this);
     this.topics = new operations.Topics(this);
+    this.extensionTopics = new operations.ExtensionTopics(this);
     this.topicTypes = new operations.TopicTypes(this);
   }
 }

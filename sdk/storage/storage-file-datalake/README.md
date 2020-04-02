@@ -15,44 +15,11 @@ Use the client libraries in this package to:
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-datalake/samples) |
 [Azure Storage Data Lake REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/data-lake-storage-gen2)
 
-## Key concepts
-
-Azure Data Lake Storage Gen2 was designed to:
-
-- Service multiple petabytes of information while sustaining hundreds of gigabits of throughput
-- Allow you to easily manage massive amounts of data
-
-Key Features of DataLake Storage Gen2 include:
-
-- Hadoop compatible access
-- A super set of POSIX permissions
-- Cost effective in terms of low-cost storage capacity and transactions
-- Optimized driver for big data analytics
-
-A fundamental part of Data Lake Storage Gen2 is the addition of a hierarchical namespace to Blob storage. The hierarchical namespace organizes objects/files into a hierarchy of directories for efficient data access.
-
-In the past, cloud-based analytics had to compromise in areas of performance, management, and security. Data Lake Storage Gen2 addresses each of these aspects in the following ways:
-- Performance is optimized because you do not need to copy or transform data as a prerequisite for analysis. The hierarchical namespace greatly improves the performance of directory management operations, which improves overall job performance.
-- Management is easier because you can organize and manipulate files through directories and subdirectories.
-- Security is enforceable because you can define POSIX permissions on directories or individual files.
-- Cost effectiveness is made possible as Data Lake Storage Gen2 is built on top of the low-cost Azure Blob storage. The additional features further lower the total cost of ownership for running big data analytics on Azure.
-
-Data lake storage offers three types of resources:
-
-- The _storage account_ used via `DataLakeServiceClient`
-- A _file system_ in the storage account used via `DataLakeFileSystemClient`
-- A _path_ in a file system used via `DataLakeDirectoryClient` or `DataLakeFileClient`
-
-|Azure DataLake Gen2 	      | Blob       |
-| --------------------------| ---------- |
-|Filesystem                 | Container  | 
-|Path (File or Directory)   | Blob       |
-
-> Note: This client library does not support hierarchical namespace (HNS) disabled storage accounts.
-
 ## Getting started
 
 **Prerequisites**: You must have an [Azure subscription](https://azure.microsoft.com/free/) and a [Storage Account](https://docs.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-quickstart-create-account?toc=%2Fazure%2Fstorage%2Fblobs%2Ftoc.json#create-an-account-using-the-azure-portal) to use this package. If you are using this package in a Node.js application, then Node.js version 8.0.0 or higher is required.
+
+### Install the package
 
 The preferred way to install the Azure Storage Data Lake client library for JavaScript is to use the npm package manager. Type the following into a terminal window:
 
@@ -60,9 +27,17 @@ The preferred way to install the Azure Storage Data Lake client library for Java
 npm install @azure/storage-file-datalake
 ```
 
-### Authenticating with Azure Active Directory
+### Authenticate the client
 
-The Azure Data Lake Storage service supports the use of Azure Active Directory to authenticate requests to its APIs. The [`@azure/identity`](https://www.npmjs.com/package/@azure/identity) package provides a variety of credential types that your application can use to do this. The [README for `@azure/identity`](/sdk/identity/identity/README.md) provides more details and samples to get you started.
+Azure Storage supports several ways to authenticate. In order to interact with the Azure Data Lake Storage service you'll need to create an instance of a Storage client - `DataLakeServiceClient`, `DataLakeFileSystemClient`, or `DataLakePathClient` for example. See [samples for creating the `DataLakeServiceClient`](#create-the-data-lake-service-client) to learn more about authentication.
+
+- [Azure Active Directory](#with-defaultazurecredential-from-azureidentity-package)
+- [Shared Key](#with-storagesharedkeycredential)
+- [Shared access signatures](#with-sas-token)
+
+#### Azure Active Directory
+
+The Azure Data Lake Storage service supports the use of Azure Active Directory to authenticate requests to its APIs. The [`@azure/identity`](https://www.npmjs.com/package/@azure/identity) package provides a variety of credential types that your application can use to do this. Please see the [README for `@azure/identity`](/sdk/identity/identity/README.md) for more details and samples to get you started.
 
 ### Compatibility
 
@@ -84,10 +59,13 @@ This library depends on following ES features which need external polyfills load
 - `Object.assign`
 - `Object.keys` (Override IE11's `Object.keys` with ES6 polyfill forcely to enable [ES6 behavior](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/keys#Notes))
 - `Symbol`
+- `Symbol.iterator`
 
 #### Differences between Node.js and browsers
 
 There are differences between Node.js and browsers runtime. When getting started with this library, pay attention to APIs or classes marked with _"ONLY AVAILABLE IN NODE.JS RUNTIME"_ or _"ONLY AVAILABLE IN BROWSERS"_.
+
+- If a file holds compressed data in `gzip` or `deflate` format and its content encoding is set accordingly, downloading behavior is different between Node.js and browsers. In Node.js storage clients will download the file in its compressed format, while in browsers the data will be downloaded in de-compressed format.
 
 ##### Features, interfaces, classes or functions only available in Node.js
 
@@ -119,6 +97,41 @@ For example, you can create following CORS settings for debugging. But please cu
 
 > Notice: Data Lake currently shares CORS settings for blob service.
 
+## Key concepts
+
+Azure Data Lake Storage Gen2 was designed to:
+
+- Serve multiple petabytes of information while sustaining hundreds of gigabits of throughput
+- Allow you to easily manage massive amounts of data
+
+Key Features of DataLake Storage Gen2 include:
+
+- Hadoop compatible access
+- A super set of POSIX permissions
+- Cost effective in terms of low-cost storage capacity and transactions
+- Optimized driver for big data analytics
+
+A fundamental part of Data Lake Storage Gen2 is the addition of a hierarchical namespace to Blob storage. The hierarchical namespace organizes objects/files into a hierarchy of directories for efficient data access.
+
+In the past, cloud-based analytics had to compromise in areas of performance, management, and security. Data Lake Storage Gen2 addresses each of these aspects in the following ways:
+- Performance is optimized because you do not need to copy or transform data as a prerequisite for analysis. The hierarchical namespace greatly improves the performance of directory management operations, which improves overall job performance.
+- Management is easier because you can organize and manipulate files through directories and subdirectories.
+- Security is enforceable because you can define POSIX permissions on directories or individual files.
+- Cost effectiveness is made possible as Data Lake Storage Gen2 is built on top of the low-cost Azure Blob storage. The additional features further lower the total cost of ownership for running big data analytics on Azure.
+
+Data Lake storage offers three types of resources:
+
+- The _storage account_ used via `DataLakeServiceClient`
+- A _file system_ in the storage account used via `DataLakeFileSystemClient`
+- A _path_ in a file system used via `DataLakeDirectoryClient` or `DataLakeFileClient`
+
+|Azure DataLake Gen2 	      | Blob       |
+| --------------------------| ---------- |
+|Filesystem                 | Container  | 
+|Path (File or Directory)   | Blob       |
+
+> Note: This client library only supports storage accounts with hierarchical namespace (HNS) enabled.
+
 ## Examples
 
 ### Import the package
@@ -137,9 +150,11 @@ const { DataLakeServiceClient, StorageSharedKeyCredential } = require("@azure/st
 
 ### Create the data lake service client
 
-Use the constructor to create a instance of `DataLakeServiceClient`.
+The `DataLakeServiceClient` requires an URL to the data lake service and an access credential. It also optionally accepts some settings in the `options` parameter.
 
-- **Recommended way to instantiate a `DataLakeServiceClient` - with `DefaultAzureCredential` from `@azure/identity` package**
+#### with `DefaultAzureCredential` from `@azure/identity` package
+
+**Recommended way to instantiate a `DataLakeServiceClient`**
 
 > Notice. Azure Data Lake currently reuses blob related roles like "Storage Blob Data Owner" during following AAD OAuth authentication.
 
@@ -178,7 +193,9 @@ Use the constructor to create a instance of `DataLakeServiceClient`.
 
   [Note - Above steps are only for Node.js]
 
-- Alternatively, you instantiate a `DataLakeServiceClient` with a `StorageSharedKeyCredential` by passing account-name and account-key as arguments. (account-name and account-key can be obtained from the azure portal)
+#### with `StorageSharedKeyCredential`
+
+Alternatively, you instantiate a `DataLakeServiceClient` with a `StorageSharedKeyCredential` by passing account-name and account-key as arguments. (The account-name and account-key can be obtained from the azure portal.)
   [ONLY AVAILABLE IN NODE.JS RUNTIME]
 
   ```javascript
@@ -196,6 +213,20 @@ Use the constructor to create a instance of `DataLakeServiceClient`.
     sharedKeyCredential
   );
   ```
+
+#### with SAS Token
+
+Also, You can instantiate a `DataLakeServiceClient` with a shared access signatures (SAS). You can get the SAS token from the Azure Portal or generate one using `generateAccountSASQueryParameters()`.
+
+```javascript
+const { DataLakeServiceClient } = require("@azure/storage-file-datalake");
+
+const account = "<account name>";
+const sas = "<service Shared Access Signature Token>";
+const serviceClientWithSAS = new DataLakeServiceClient(
+  `https://${account}.dfs.core.windows.net${sas}`
+);
+```
 
 ### Create a new file system
 

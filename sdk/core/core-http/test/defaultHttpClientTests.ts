@@ -5,9 +5,9 @@ import { assert, AssertionError } from "chai";
 import { AbortController } from "@azure/abort-controller";
 import "chai/register-should";
 
-import { DefaultHttpClient } from "../lib/defaultHttpClient";
-import { RestError } from "../lib/restError";
-import { WebResource, TransferProgressEvent } from "../lib/webResource";
+import { DefaultHttpClient } from "../src/defaultHttpClient";
+import { RestError } from "../src/restError";
+import { WebResource, TransferProgressEvent } from "../src/webResource";
 import { getHttpMock, HttpMockFacade } from "./mockHttp";
 
 describe("defaultHttpClient", function() {
