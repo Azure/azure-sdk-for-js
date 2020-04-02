@@ -405,15 +405,11 @@ for (const result of updateResult.results) {
 You could use the following code to create and authenticate a `SearchServiceClient`. 
 
 ```js
-import { SearchServiceClient, SearchApiKeyCredential }  from "@azure/search";
+const { SearchServiceClient, SearchApiKeyCredential } = require("@azure/search");
 
-const endPoint: string = "<endpoint>";
-const apiKey: string = "<apikey>";
-
-const credential: SearchApiKeyCredential = new SearchApiKeyCredential(apiKey);
-const client: SearchServiceClient = new SearchServiceClient(
-  endPoint,
-  credential
+const client = new SearchServiceClient(
+  "<endpoint>",
+  new SearchApiKeyCredential("<apikey>")
 );
 ```
 
@@ -422,68 +418,124 @@ const client: SearchServiceClient = new SearchServiceClient(
 #### Get a list of existing indexes in the service
 
 ```js
-let indexes:Index[] = [];
-indexes = await client.listIndexes();
-indexes.forEach(idx => {
-  console.log(idx.name);
-  idx.fields.forEach(idxField => {
-    console.log(idxField.name);
-  });
-});
+const { SearchServiceClient, SearchApiKeyCredential } = require("@azure/search");
+
+async function main() {
+  const client = new SearchServiceClient(
+    "<endpoint>",
+    new SearchApiKeyCredential("<apikey>")
+  );
+  
+  const listOfIndexes = await client.listIndexes();
+  for(let index of listOfIndexes) {
+    console.log(index.name);
+    for(let field of index.fields) {
+      console.log(`Field: ${field.name}`);
+    }
+  }  
+}
+
+main();
 ```
 
 #### Get a list of existing skillsets in the service
 ```js
-let skillsets:Skillset[] = [];
-skillsets = await client.listSkillsets();
-skillsets.forEach(set => {
-  console.log(`Name: ${set.name}`);
-  console.log(`Desc: ${set.description}`);
-  console.log(`Skills`);
-  set.skills.forEach(skill => {
-    console.log(`  odatatype: ${skill.odatatype}`)
-    console.log(`  Name: ${skill.name}`)
-    console.log(`  Description: ${skill.description}`)
-  });
-});
+const { SearchServiceClient, SearchApiKeyCredential } = require("@azure/search");
+
+async function main() {
+  const client = new SearchServiceClient(
+    "<endpoint>",
+    new SearchApiKeyCredential("<apikey>")
+  );
+  
+  const listOfSkillSets = await client.listSkillsets();
+  for(let skillset of listOfSkillSets) {
+    console.log(`Name: ${skillset.name}`);
+    console.log(`Description: ${skillset.description}`);
+    console.log(`Skills`);
+    for(let skill of skillset.skills) {
+      console.log(`\tOdatatype: ${skill.odatatype}`);
+      console.log(`\tName: ${skill.name}`);
+      console.log(`\tDescription: ${skill.description}`);
+    }
+  }
+}
+
+main();
 ```
 
 #### Get a list of existing synonymMaps in the service
 ```js
-let sms:SynonymMap[] = [];
-sms = await client.listSynonymMaps();
-sms.forEach(elem => {
-  console.log(elem.name);
-});
+const { SearchServiceClient, SearchApiKeyCredential } = require("@azure/search");
+
+async function main() {
+  const client = new SearchServiceClient(
+    "<endpoint>",
+    new SearchApiKeyCredential("<apikey>")
+  );
+  
+  const listOfSynonymMaps = await client.listSynonymMaps();
+  for(let synonymMap of listOfSynonymMaps) {
+    console.log(`Name: ${synonymMap.name}`);
+    console.log(`Synonyms`);
+    for(let synonym of synonymMap.synonyms) {
+      console.log(`Synonym: ${synonym}`)
+    }
+  }
+}
+
+main();
 ```
 
 #### Create an Index
 ```js
-const idxCreated:Index = await client.createIndex({
-  analyzers: [],
-  charFilters: [],
-  defaultScoringProfile: "",
-  scoringProfiles: [],
-  suggesters: [],
-  tokenFilters: [],
-  tokenizers: [],
-  name: `azureblob-index998`,
-  fields: [{
-    name: "content",
-    type: "Edm.String",
-    key: true
-  }],
-});
+const { SearchServiceClient, SearchApiKeyCredential } = require("@azure/search");
+
+async function main() {
+  const client = new SearchServiceClient(
+    "<endpoint>",
+    new SearchApiKeyCredential("<apikey>")
+  );
+  
+  const index = await client.createIndex({
+    name: `my-new-index`,
+    suggesters: [{ 
+      name: "my-new-sg",
+      sourceFields: ["id"]        
+    }],
+    analyzers: [
+      {
+        odatatype: "#Microsoft.Azure.Search.CustomAnalyzer",
+        name: "tagsAnalyzer",
+        charFilters: [ "html_strip" ],	
+        tokenizer: "standard_v2"
+      }
+    ],
+    fields: [{
+      name: "id",
+      type: "Edm.String",
+      key: true
+    }]
+  });
+}
+
+main();
 ```
 
 #### Create a Skillset
 ```js
-// Create SkillSets
-const skillSet:Skillset = await client.createSkillset({
-  name: `azureblob-skillset-2`,
-  description: `Dummy Description`,
-  skills: [
-    {
+const { SearchServiceClient, SearchApiKeyCredential } = require("@azure/search");
+
+async function main() {
+  const client = new SearchServiceClient(
+    "<endpoint>",
+    new SearchApiKeyCredential("<apikey>")
+  );
+  
+  const skillset = await client.createSkillset({
+    name: `my-azureblob-skillset`,
+    description: `Skillset description`,
+    skills: [{
       odatatype: "#Microsoft.Skills.Text.EntityRecognitionSkill",
       inputs: [{
         name: "text",
@@ -503,16 +555,33 @@ const skillSet:Skillset = await client.createSkillset({
         targetName: "locations"
       }]
     }
-  ]
-});
+    ]
+  });
+}
+
+main();
 ```
 
 ### Create a SynonymMap
 ```js
-const smMap:SynonymMap = await client.createSynonymMap({
-  name: `samplename`,
-  synonyms: "United States, United States of America, USA Washington, Wash. => WA"
-});
+const { SearchServiceClient, SearchApiKeyCredential } = require("@azure/search");
+
+async function main() {
+  const client = new SearchServiceClient(
+    "<endpoint>",
+    new SearchApiKeyCredential("<apikey>")
+  );
+  
+  const synonymMap = await client.createSynonymMap({
+    name: `my-sysnonymmap`,
+    synonyms: [
+      "United States, United States of America => USA",
+      "Washington, Wash. => WA"
+    ]
+  });
+}
+
+main();
 ```
 
 ## Troubleshooting

@@ -3,6 +3,10 @@
 
 import { IndexDocumentsAction } from "./indexModels";
 
+/**
+ * Class used to perform batch operations
+ * with multiple documents to the index.
+ */
 export class IndexDocumentsBatch<T> {
   /**
    * The set of actions taken in this batch.

@@ -33,7 +33,7 @@ export interface AnalyzeResult {
     tokens: TokenInfo[];
 }
 
-// @public (undocumented)
+// @public
 export type AnalyzeTextOptions = OperationOptions & AnalyzeRequest;
 
 // @public
@@ -103,6 +103,18 @@ export interface ClassicTokenizer {
 }
 
 // @public
+export type CognitiveServicesAccount = DefaultCognitiveServicesAccount | CognitiveServicesAccountKey;
+
+// @public
+export interface CognitiveServicesAccountKey {
+    // (undocumented)
+    description?: string;
+    // (undocumented)
+    key: string;
+    odatatype: "#Microsoft.Azure.Search.CognitiveServicesByKey";
+}
+
+// @public
 export interface CommonGramTokenFilter {
     commonWords: string[];
     ignoreCase?: boolean;
@@ -122,6 +134,16 @@ export interface ComplexField {
 }
 
 // @public
+export interface ConditionalSkill {
+    context?: string;
+    description?: string;
+    inputs: InputFieldMappingEntry[];
+    name?: string;
+    odatatype: "#Microsoft.Skills.Util.ConditionalSkill";
+    outputs: OutputFieldMappingEntry[];
+}
+
+// @public
 export interface CorsOptions {
     allowedOrigins: string[];
     maxAgeInSeconds?: number;
@@ -130,24 +152,24 @@ export interface CorsOptions {
 // @public
 export type CountDocumentsOptions = OperationOptions;
 
-// @public (undocumented)
+// @public
 export type CreateIndexOptions = OperationOptions;
 
-// @public (undocumented)
+// @public
 export interface CreateOrUpdateIndexOptions extends OperationOptions, ETagOperationOptions {
     allowIndexDowntime?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export type CreateOrUpdateSkillsetOptions = OperationOptions & ETagOperationOptions;
 
-// @public (undocumented)
+// @public
 export type CreateOrUpdateSynonymMapOptions = OperationOptions & ETagOperationOptions;
 
-// @public (undocumented)
+// @public
 export type CreateSkillsetOptions = OperationOptions;
 
-// @public (undocumented)
+// @public
 export type CreateSynonymMapOptions = OperationOptions;
 
 // @public
@@ -160,15 +182,22 @@ export interface CustomAnalyzer {
 }
 
 // @public
+export interface DefaultCognitiveServicesAccount {
+    // (undocumented)
+    description?: string;
+    odatatype: "#Microsoft.Azure.Search.DefaultCognitiveServices";
+}
+
+// @public
 export type DeleteDocumentsOptions = IndexDocuments;
 
-// @public (undocumented)
+// @public
 export type DeleteIndexOptions = OperationOptions & ETagOperationOptions;
 
-// @public (undocumented)
+// @public
 export type DeleteSkillsetOptions = OperationOptions & ETagOperationOptions;
 
-// @public (undocumented)
+// @public
 export type DeleteSynonymMapOptions = OperationOptions & ETagOperationOptions;
 
 // @public
@@ -242,7 +271,27 @@ export interface EncryptionKey {
     keyVaultUri: string;
 }
 
-// @public (undocumented)
+// @public
+export type EntityCategory = 'location' | 'organization' | 'person' | 'quantity' | 'datetime' | 'url' | 'email';
+
+// @public
+export interface EntityRecognitionSkill {
+    categories?: EntityCategory[];
+    context?: string;
+    defaultLanguageCode?: EntityRecognitionSkillLanguage;
+    description?: string;
+    includeTypelessEntities?: boolean;
+    inputs: InputFieldMappingEntry[];
+    minimumPrecision?: number;
+    name?: string;
+    odatatype: "#Microsoft.Skills.Text.EntityRecognitionSkill";
+    outputs: OutputFieldMappingEntry[];
+}
+
+// @public
+export type EntityRecognitionSkillLanguage = 'ar' | 'cs' | 'zh-Hans' | 'zh-Hant' | 'da' | 'nl' | 'en' | 'fi' | 'fr' | 'de' | 'el' | 'hu' | 'it' | 'ja' | 'ko' | 'no' | 'pl' | 'pt-PT' | 'pt-BR' | 'ru' | 'es' | 'sv' | 'tr';
+
+// @public
 export interface ETagOperationOptions {
     accessCondition?: AccessCondition;
 }
@@ -283,10 +332,10 @@ export interface GetDocumentOptions<Fields> extends OperationOptions {
     selectedFields?: Fields[];
 }
 
-// @public (undocumented)
+// @public
 export type GetIndexOptions = OperationOptions;
 
-// @public (undocumented)
+// @public
 export type GetIndexStatisticsOptions = OperationOptions;
 
 // @public
@@ -295,11 +344,30 @@ export interface GetIndexStatisticsResult {
     readonly storageSize: number;
 }
 
-// @public (undocumented)
+// @public
 export type GetSkillSetOptions = OperationOptions;
 
-// @public (undocumented)
+// @public
 export type GetSynonymMapsOptions = OperationOptions;
+
+// @public
+export interface ImageAnalysisSkill {
+    context?: string;
+    defaultLanguageCode?: ImageAnalysisSkillLanguage;
+    description?: string;
+    details?: ImageDetail[];
+    inputs: InputFieldMappingEntry[];
+    name?: string;
+    odatatype: "#Microsoft.Skills.Vision.ImageAnalysisSkill";
+    outputs: OutputFieldMappingEntry[];
+    visualFeatures?: VisualFeature[];
+}
+
+// @public
+export type ImageAnalysisSkillLanguage = 'en' | 'es' | 'ja' | 'pt' | 'zh';
+
+// @public
+export type ImageDetail = 'celebrities' | 'landmarks';
 
 // @public
 export interface Index {
@@ -330,7 +398,7 @@ export type IndexDocumentsAction<T> = {
     __actionType: IndexActionType;
 } & Partial<T>;
 
-// @public (undocumented)
+// @public
 export class IndexDocumentsBatch<T> {
     constructor(actions?: IndexDocumentsAction<T>[]);
     readonly actions: IndexDocumentsAction<T>[];
@@ -354,12 +422,35 @@ export interface IndexingResult {
 }
 
 // @public
+export interface InputFieldMappingEntry {
+    inputs?: InputFieldMappingEntry[];
+    name: string;
+    source?: string;
+    sourceContext?: string;
+}
+
+// @public
 export interface KeepTokenFilter {
     keepWords: string[];
     lowerCaseKeepWords?: boolean;
     name: string;
     odatatype: "#Microsoft.Azure.Search.KeepTokenFilter";
 }
+
+// @public
+export interface KeyPhraseExtractionSkill {
+    context?: string;
+    defaultLanguageCode?: KeyPhraseExtractionSkillLanguage;
+    description?: string;
+    inputs: InputFieldMappingEntry[];
+    maxKeyPhraseCount?: number;
+    name?: string;
+    odatatype: "#Microsoft.Skills.Text.KeyPhraseExtractionSkill";
+    outputs: OutputFieldMappingEntry[];
+}
+
+// @public
+export type KeyPhraseExtractionSkillLanguage = 'da' | 'nl' | 'en' | 'fi' | 'fr' | 'de' | 'it' | 'ja' | 'ko' | 'no' | 'pl' | 'pt-PT' | 'pt-BR' | 'ru' | 'es' | 'sv';
 
 // @public
 export interface KeywordMarkerTokenFilter {
@@ -541,6 +632,16 @@ export enum KnownTokenizerNames {
 }
 
 // @public
+export interface LanguageDetectionSkill {
+    context?: string;
+    description?: string;
+    inputs: InputFieldMappingEntry[];
+    name?: string;
+    odatatype: "#Microsoft.Skills.Text.LanguageDetectionSkill";
+    outputs: OutputFieldMappingEntry[];
+}
+
+// @public
 export interface LengthTokenFilter {
     max?: number;
     min?: number;
@@ -568,9 +669,7 @@ export interface ListSearchResultsPageSettings {
 }
 
 // @public
-export interface ListSkillsetsOptions extends OperationOptions {
-    select?: string[];
-}
+export type ListSkillsetsOptions = OperationOptions;
 
 // @public
 export interface ListSynonymMapsOptions extends OperationOptions {
@@ -605,6 +704,18 @@ export type MergeDocumentsOptions = IndexDocuments;
 
 // @public
 export type MergeOrUploadDocumentsOptions = IndexDocuments;
+
+// @public
+export interface MergeSkill {
+    context?: string;
+    description?: string;
+    inputs: InputFieldMappingEntry[];
+    insertPostTag?: string;
+    insertPreTag?: string;
+    name?: string;
+    odatatype: "#Microsoft.Skills.Text.MergeSkill";
+    outputs: OutputFieldMappingEntry[];
+}
 
 // @public
 export interface MicrosoftLanguageStemmingTokenizer {
@@ -656,7 +767,29 @@ export interface NGramTokenizer {
 }
 
 // @public
+export interface OcrSkill {
+    context?: string;
+    defaultLanguageCode?: OcrSkillLanguage;
+    description?: string;
+    inputs: InputFieldMappingEntry[];
+    name?: string;
+    odatatype: "#Microsoft.Skills.Vision.OcrSkill";
+    outputs: OutputFieldMappingEntry[];
+    shouldDetectOrientation?: boolean;
+    textExtractionAlgorithm?: TextExtractionAlgorithm;
+}
+
+// @public
+export type OcrSkillLanguage = 'zh-Hans' | 'zh-Hant' | 'cs' | 'da' | 'nl' | 'en' | 'fi' | 'fr' | 'de' | 'el' | 'hu' | 'it' | 'ja' | 'ko' | 'nb' | 'pl' | 'pt' | 'ru' | 'es' | 'sv' | 'tr' | 'ar' | 'ro' | 'sr-Cyrl' | 'sr-Latn' | 'sk';
+
+// @public
 export function odata(strings: TemplateStringsArray, ...values: unknown[]): string;
+
+// @public
+export interface OutputFieldMappingEntry {
+    name: string;
+    targetName?: string;
+}
 
 // @public
 export interface PathHierarchyTokenizerV2 {
@@ -774,14 +907,14 @@ export class SearchApiKeyCredential implements ServiceClientCredentials {
     updateKey(apiKey: string): void;
 }
 
-// @public (undocumented)
+// @public
 export interface SearchDocumentsPageResult<T> extends SearchDocumentsResultBase {
     readonly nextLink?: string;
     readonly nextPageParameters?: RawSearchRequest;
     readonly results: SearchResult<T>[];
 }
 
-// @public (undocumented)
+// @public
 export interface SearchDocumentsResult<T> extends SearchDocumentsResultBase {
     readonly results: SearchIterator<T>;
 }
@@ -854,7 +987,7 @@ export type SearchResult<T> = {
     };
 } & T;
 
-// @public (undocumented)
+// @public
 export class SearchServiceClient {
     constructor(endpoint: string, credential: SearchApiKeyCredential, options?: SearchServiceClientOptions);
     analyzeText(indexName: string, options: AnalyzeTextOptions): Promise<AnalyzeResult>;
@@ -876,10 +1009,34 @@ export class SearchServiceClient {
     listIndexes(options?: ListIndexesOptions): Promise<Index[]>;
     listSkillsets(options?: ListSkillsetsOptions): Promise<Skillset[]>;
     listSynonymMaps(options?: ListSynonymMapsOptions): Promise<SynonymMap[]>;
-    }
+}
 
 // @public
 export type SearchServiceClientOptions = PipelineOptions;
+
+// @public
+export interface SentimentSkill {
+    context?: string;
+    defaultLanguageCode?: SentimentSkillLanguage;
+    description?: string;
+    inputs: InputFieldMappingEntry[];
+    name?: string;
+    odatatype: "#Microsoft.Skills.Text.SentimentSkill";
+    outputs: OutputFieldMappingEntry[];
+}
+
+// @public
+export type SentimentSkillLanguage = 'da' | 'nl' | 'en' | 'fi' | 'fr' | 'de' | 'el' | 'it' | 'no' | 'pl' | 'pt-PT' | 'ru' | 'es' | 'sv' | 'tr';
+
+// @public
+export interface ShaperSkill {
+    context?: string;
+    description?: string;
+    inputs: InputFieldMappingEntry[];
+    name?: string;
+    odatatype: "#Microsoft.Skills.Util.ShaperSkill";
+    outputs: OutputFieldMappingEntry[];
+}
 
 // @public
 export interface ShingleTokenFilter {
@@ -913,13 +1070,14 @@ export interface SimpleField {
 }
 
 // @public
+export type Skill = ConditionalSkill | KeyPhraseExtractionSkill | OcrSkill | ImageAnalysisSkill | LanguageDetectionSkill | ShaperSkill | MergeSkill | EntityRecognitionSkill | SentimentSkill | SplitSkill | TextTranslationSkill | WebApiSkill;
+
+// @public
 export interface Skillset {
-    // Warning: (ae-forgotten-export) The symbol "CognitiveServicesAccount" needs to be exported by the entry point index.d.ts
     cognitiveServicesAccount?: CognitiveServicesAccount;
     description: string;
     etag?: string;
     name: string;
-    // Warning: (ae-forgotten-export) The symbol "Skill" needs to be exported by the entry point index.d.ts
     skills: Skill[];
 }
 
@@ -932,6 +1090,22 @@ export interface SnowballTokenFilter {
 
 // @public
 export type SnowballTokenFilterLanguage = 'armenian' | 'basque' | 'catalan' | 'danish' | 'dutch' | 'english' | 'finnish' | 'french' | 'german' | 'german2' | 'hungarian' | 'italian' | 'kp' | 'lovins' | 'norwegian' | 'porter' | 'portuguese' | 'romanian' | 'russian' | 'spanish' | 'swedish' | 'turkish';
+
+// @public
+export interface SplitSkill {
+    context?: string;
+    defaultLanguageCode?: SplitSkillLanguage;
+    description?: string;
+    inputs: InputFieldMappingEntry[];
+    maximumPageLength?: number;
+    name?: string;
+    odatatype: "#Microsoft.Skills.Text.SplitSkill";
+    outputs: OutputFieldMappingEntry[];
+    textSplitMode?: TextSplitMode;
+}
+
+// @public
+export type SplitSkillLanguage = 'da' | 'de' | 'en' | 'es' | 'fi' | 'fr' | 'it' | 'ko' | 'pt';
 
 // @public
 export interface StandardAnalyzer {
@@ -1032,7 +1206,7 @@ export interface SynonymMap {
     encryptionKey?: EncryptionKey;
     etag?: string;
     name: string;
-    synonyms: string;
+    synonyms: string[];
 }
 
 // @public
@@ -1057,6 +1231,28 @@ export interface TagScoringFunction {
 export interface TagScoringParameters {
     tagsParameter: string;
 }
+
+// @public
+export type TextExtractionAlgorithm = 'printed' | 'handwritten';
+
+// @public
+export type TextSplitMode = 'pages' | 'sentences';
+
+// @public
+export interface TextTranslationSkill {
+    context?: string;
+    defaultFromLanguageCode?: TextTranslationSkillLanguage;
+    defaultToLanguageCode: TextTranslationSkillLanguage;
+    description?: string;
+    inputs: InputFieldMappingEntry[];
+    name?: string;
+    odatatype: "#Microsoft.Skills.Text.TranslationSkill";
+    outputs: OutputFieldMappingEntry[];
+    suggestedFrom?: TextTranslationSkillLanguage;
+}
+
+// @public
+export type TextTranslationSkillLanguage = 'af' | 'ar' | 'bn' | 'bs' | 'bg' | 'yue' | 'ca' | 'zh-Hans' | 'zh-Hant' | 'hr' | 'cs' | 'da' | 'nl' | 'en' | 'et' | 'fj' | 'fil' | 'fi' | 'fr' | 'de' | 'el' | 'ht' | 'he' | 'hi' | 'mww' | 'hu' | 'is' | 'id' | 'it' | 'ja' | 'sw' | 'tlh' | 'ko' | 'lv' | 'lt' | 'mg' | 'ms' | 'mt' | 'nb' | 'fa' | 'pl' | 'pt' | 'otq' | 'ro' | 'ru' | 'sm' | 'sr-Cyrl' | 'sr-Latn' | 'sk' | 'sl' | 'es' | 'sv' | 'ty' | 'ta' | 'te' | 'th' | 'to' | 'tr' | 'uk' | 'ur' | 'vi' | 'cy' | 'yua';
 
 // @public
 export interface TextWeights {
@@ -1105,6 +1301,27 @@ export interface UniqueTokenFilter {
 
 // @public
 export type UploadDocumentsOptions = IndexDocuments;
+
+// @public
+export type VisualFeature = 'adult' | 'brands' | 'categories' | 'description' | 'faces' | 'objects' | 'tags';
+
+// @public
+export interface WebApiSkill {
+    batchSize?: number;
+    context?: string;
+    degreeOfParallelism?: number;
+    description?: string;
+    httpHeaders?: {
+        [propertyName: string]: string;
+    };
+    httpMethod?: string;
+    inputs: InputFieldMappingEntry[];
+    name?: string;
+    odatatype: "#Microsoft.Skills.Custom.WebApiSkill";
+    outputs: OutputFieldMappingEntry[];
+    timeout?: string;
+    uri: string;
+}
 
 // @public
 export interface WordDelimiterTokenFilter {

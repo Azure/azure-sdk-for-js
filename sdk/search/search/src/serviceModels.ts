@@ -75,14 +75,7 @@ import {
 /**
  * Options for a list skillsets operation.
  */
-export interface ListSkillsetsOptions extends OperationOptions {
-  /**
-   * Selects which top-level properties of the skillsets to retrieve. Specified as a
-   * comma-separated list of JSON property names, or '*' for all properties. The default is all
-   * properties.
-   */
-  select?: string[];
-}
+export type ListSkillsetsOptions = OperationOptions;
 
 /**
  * Options for a list synonymMaps operation.
@@ -108,20 +101,44 @@ export interface ListIndexesOptions extends OperationOptions {
   select?: string[];
 }
 
+/**
+ * Options for get index operation.
+ */
 export type GetIndexOptions = OperationOptions;
 
+/**
+ * Options for get skillset operation.
+ */
 export type GetSkillSetOptions = OperationOptions;
 
+/**
+ * Options for get synonymmaps operation.
+ */
 export type GetSynonymMapsOptions = OperationOptions;
 
+/**
+ * Options for get index statistics operation.
+ */
 export type GetIndexStatisticsOptions = OperationOptions;
 
+/**
+ * Options for create index operation.
+ */
 export type CreateIndexOptions = OperationOptions;
 
+/**
+ * Options for create skillset operation.
+ */
 export type CreateSkillsetOptions = OperationOptions;
 
+/**
+ * Options for create synonymmap operation.
+ */
 export type CreateSynonymMapOptions = OperationOptions;
 
+/**
+ * Options for all operations with etag parameters.
+ */
 export interface ETagOperationOptions {
   /**
    * ETag parameters
@@ -129,6 +146,9 @@ export interface ETagOperationOptions {
   accessCondition?: AccessCondition;
 }
 
+/**
+ * Options for create/update index operation.
+ */
 export interface CreateOrUpdateIndexOptions extends OperationOptions, ETagOperationOptions {
   /**
    * Allows new analyzers, tokenizers, token filters, or char filters to be added to an index by
@@ -139,16 +159,34 @@ export interface CreateOrUpdateIndexOptions extends OperationOptions, ETagOperat
   allowIndexDowntime?: boolean;
 }
 
+/**
+ * Options for create/update skillset operation.
+ */
 export type CreateOrUpdateSkillsetOptions = OperationOptions & ETagOperationOptions;
 
+/**
+ * Options for create/update synonymmap operation.
+ */
 export type CreateOrUpdateSynonymMapOptions = OperationOptions & ETagOperationOptions;
 
+/**
+ * Options for delete index operation.
+ */
 export type DeleteIndexOptions = OperationOptions & ETagOperationOptions;
 
+/**
+ * Options for delete skillset operaion.
+ */
 export type DeleteSkillsetOptions = OperationOptions & ETagOperationOptions;
 
+/**
+ * Options for delete synonymmap operation.
+ */
 export type DeleteSynonymMapOptions = OperationOptions & ETagOperationOptions;
 
+/**
+ * Options for analyze text operation.
+ */
 export type AnalyzeTextOptions = OperationOptions & AnalyzeRequest;
 
 // BEGIN manually modified generated interfaces
@@ -479,6 +517,35 @@ export interface ComplexField {
    * A list of sub-fields.
    */
   fields: Field[];
+}
+
+/**
+ * Represents a synonym map definition.
+ */
+export interface SynonymMap {
+  /**
+   * The name of the synonym map.
+   */
+  name: string;
+  /**
+   * An array of synonym rules in the specified synonym map format.
+   */
+  synonyms: string[];
+  /**
+   * A description of an encryption key that you create in Azure Key Vault. This key is used to
+   * provide an additional level of encryption-at-rest for your data when you want full assurance
+   * that no one, not even Microsoft, can decrypt your data in Azure Cognitive Search. Once you
+   * have encrypted your data, it will always remain encrypted. Azure Cognitive Search will ignore
+   * attempts to set this property to null. You can change this property as needed if you want to
+   * rotate your encryption key; Your data will be unaffected. Encryption with customer-managed
+   * keys is not available for free search services, and is only available for paid services
+   * created on or after January 1, 2019.
+   */
+  encryptionKey?: EncryptionKey;
+  /**
+   * The ETag of the synonym map.
+   */
+  etag?: string;
 }
 
 /**

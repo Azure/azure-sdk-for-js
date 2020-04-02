@@ -64,7 +64,10 @@ export {
   SimpleField,
   ComplexField,
   SimpleDataType,
-  ComplexDataType
+  ComplexDataType,
+  CognitiveServicesAccount,
+  Skill,
+  SynonymMap
 } from "./serviceModels";
 export { SearchApiKeyCredential } from "./searchApiKeyCredential";
 export { default as GeographyPoint } from "./geographyPoint";
@@ -154,5 +157,32 @@ export {
   GetIndexStatisticsResult,
   TokenInfo,
   AccessCondition,
-  SynonymMap
+  ConditionalSkill,
+  KeyPhraseExtractionSkill,
+  OcrSkill,
+  ImageAnalysisSkill,
+  LanguageDetectionSkill,
+  ShaperSkill,
+  MergeSkill,
+  EntityRecognitionSkill,
+  SentimentSkill,
+  SplitSkill,
+  TextTranslationSkill,
+  WebApiSkill,
+  SentimentSkillLanguage,
+  SplitSkillLanguage,
+  TextSplitMode,
+  TextTranslationSkillLanguage,
+  DefaultCognitiveServicesAccount,
+  CognitiveServicesAccountKey,
+  InputFieldMappingEntry,
+  OutputFieldMappingEntry,
+  EntityCategory,
+  EntityRecognitionSkillLanguage,
+  ImageAnalysisSkillLanguage,
+  ImageDetail,
+  VisualFeature,
+  KeyPhraseExtractionSkillLanguage,
+  OcrSkillLanguage,
+  TextExtractionAlgorithm
 } from "./generated/service/models";

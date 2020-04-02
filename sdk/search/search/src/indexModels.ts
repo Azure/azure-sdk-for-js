@@ -246,6 +246,9 @@ export interface SearchDocumentsResultBase {
   readonly facets?: { [propertyName: string]: FacetResult[] };
 }
 
+/**
+ * Response containing search results from an index.
+ */
 export interface SearchDocumentsResult<T> extends SearchDocumentsResultBase {
   /**
    * The sequence of results returned by the query.
@@ -254,6 +257,9 @@ export interface SearchDocumentsResult<T> extends SearchDocumentsResultBase {
   readonly results: SearchIterator<T>;
 }
 
+/**
+ * Response containing search page results from an index.
+ */
 export interface SearchDocumentsPageResult<T> extends SearchDocumentsResultBase {
   /**
    * The sequence of results returned by the query.
