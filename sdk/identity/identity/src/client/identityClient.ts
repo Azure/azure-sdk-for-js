@@ -38,7 +38,7 @@ export class IdentityClient extends ServiceClient {
   public authorityHost: string;
 
   constructor(options?: TokenCredentialOptions) {
-    options = options || IdentityClient.getEnvironmentOptions() || IdentityClient.getDefaultOptions();
+    options = options || IdentityClient.getDefaultOptions();
     super(
       undefined,
       createPipelineFromOptions({
@@ -181,15 +181,15 @@ export class IdentityClient extends ServiceClient {
 
   static getDefaultOptions(): TokenCredentialOptions {
     return {
-      authorityHost: DefaultAuthorityHost
+      authorityHost: process.env.AZURE_AUTHORITY_HOST || DefaultAuthorityHost
     };
   }
 
-  static getEnvironmentOptions(): TokenCredentialOptions {
-    return {
-      authorityHost: process.env.AZURE_AUTHORITY_HOST
-    };
-  }
+  // static getEnvironmentOptions(): TokenCredentialOptions {
+  //   return {
+  //     authorityHost: process.env.AZURE_AUTHORITY_HOST
+  //   };
+  // }
 }
 
 /**
