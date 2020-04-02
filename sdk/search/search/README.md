@@ -403,11 +403,11 @@ for (const result of updateResult.results) {
 You could use the following code to create and authenticate a `SearchServiceClient`. 
 
 ```js
-const { SearchServiceClient, SearchApiKeyCredential } = require("@azure/search");
+const { SearchServiceClient, AzureKeyCredential } = require("@azure/search");
 
 const client = new SearchServiceClient(
   "<endpoint>",
-  new SearchApiKeyCredential("<apikey>")
+  new AzureKeyCredential("<apikey>")
 );
 ```
 
@@ -416,12 +416,12 @@ const client = new SearchServiceClient(
 #### Get a list of existing indexes in the service
 
 ```js
-const { SearchServiceClient, SearchApiKeyCredential } = require("@azure/search");
+const { SearchServiceClient, AzureKeyCredential } = require("@azure/search");
 
 async function main() {
   const client = new SearchServiceClient(
     "<endpoint>",
-    new SearchApiKeyCredential("<apikey>")
+    new AzureKeyCredential("<apikey>")
   );
   
   const listOfIndexes = await client.listIndexes();
@@ -438,12 +438,12 @@ main();
 
 #### Get a list of existing skillsets in the service
 ```js
-const { SearchServiceClient, SearchApiKeyCredential } = require("@azure/search");
+const { SearchServiceClient, AzureKeyCredential } = require("@azure/search");
 
 async function main() {
   const client = new SearchServiceClient(
     "<endpoint>",
-    new SearchApiKeyCredential("<apikey>")
+    new AzureKeyCredential("<apikey>")
   );
   
   const listOfSkillSets = await client.listSkillsets();
@@ -464,12 +464,12 @@ main();
 
 #### Get a list of existing synonymMaps in the service
 ```js
-const { SearchServiceClient, SearchApiKeyCredential } = require("@azure/search");
+const { SearchServiceClient, AzureKeyCredential } = require("@azure/search");
 
 async function main() {
   const client = new SearchServiceClient(
     "<endpoint>",
-    new SearchApiKeyCredential("<apikey>")
+    new AzureKeyCredential("<apikey>")
   );
   
   const listOfSynonymMaps = await client.listSynonymMaps();
@@ -487,12 +487,12 @@ main();
 
 #### Create an Index
 ```js
-const { SearchServiceClient, SearchApiKeyCredential } = require("@azure/search");
+const { SearchServiceClient, AzureKeyCredential } = require("@azure/search");
 
 async function main() {
   const client = new SearchServiceClient(
     "<endpoint>",
-    new SearchApiKeyCredential("<apikey>")
+    new AzureKeyCredential("<apikey>")
   );
   
   const index = await client.createIndex({
@@ -522,12 +522,12 @@ main();
 
 #### Create a Skillset
 ```js
-const { SearchServiceClient, SearchApiKeyCredential } = require("@azure/search");
+const { SearchServiceClient, AzureKeyCredential } = require("@azure/search");
 
 async function main() {
   const client = new SearchServiceClient(
     "<endpoint>",
-    new SearchApiKeyCredential("<apikey>")
+    new AzureKeyCredential("<apikey>")
   );
   
   const skillset = await client.createSkillset({
@@ -562,12 +562,12 @@ main();
 
 ### Create a SynonymMap
 ```js
-const { SearchServiceClient, SearchApiKeyCredential } = require("@azure/search");
+const { SearchServiceClient, AzureKeyCredential } = require("@azure/search");
 
 async function main() {
   const client = new SearchServiceClient(
     "<endpoint>",
-    new SearchApiKeyCredential("<apikey>")
+    new AzureKeyCredential("<apikey>")
   );
   
   const synonymMap = await client.createSynonymMap({
