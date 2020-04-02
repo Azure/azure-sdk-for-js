@@ -535,7 +535,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
 
       const receivedMessages = await this._messageSession!.receiveMessages(
         maxMessageCount,
-        options?.maxWaitTimeInMs || Constants.defaultOperationTimeoutInMs
+        options?.maxWaitTimeInMs ?? Constants.defaultOperationTimeoutInMs
       );
 
       return (receivedMessages as any) as ReceivedMessageT[];

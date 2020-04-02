@@ -307,7 +307,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       }
       const receivedMessages = await this._context.batchingReceiver.receive(
         maxMessageCount,
-        options?.maxWaitTimeInMs || Constants.defaultOperationTimeoutInMs
+        options?.maxWaitTimeInMs ?? Constants.defaultOperationTimeoutInMs
       );
       return (receivedMessages as unknown) as ReceivedMessageT[];
     };
