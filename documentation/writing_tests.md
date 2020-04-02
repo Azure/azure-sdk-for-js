@@ -521,8 +521,8 @@ async function callsClientMethodA(client) {
   await client.A();
 }
 
-describe("a set of tests", function() {
-  it("can effectively call the client's method A", function() {
+describe("a set of tests", async function() {
+  it("can effectively call the client's method A", async function() {
     const client = null; // Let's say we actually have a client here.
 
     // The function invoked below hides exactly what we want to test.
@@ -535,7 +535,7 @@ Instead, this code should be written inside of the test case, as follows:
 
 ```ts
 describe("a set of tests", function() {
-  it("can effectively call the client's method A", function() {
+  it("can effectively call the client's method A", async function() {
     const client = null; // Let's say we actually have a client here.
     await client.A(); // Method "A" is clearly invoked inside of this test.
   });
@@ -556,7 +556,7 @@ async function doSomePriorWork(client) {
 }
 
 describe("a set of tests", function() {
-  it("can call client's method A with some prior work", function() {
+  it("can call client's method A with some prior work", async function() {
     const client = null; // Let's say we actually have a client here.
     await doSomePriorWork(client); // No other test case uses "doSomePriorWork".
     await client.A();
@@ -568,7 +568,7 @@ Code that is intended to do preparations that are only specific for a single tes
 
 ```ts
 describe("a set of tests", function() {
-  it("can call client's method A with some prior work", function() {
+  it("can call client's method A with some prior work", async function() {
     const client = null; // Let's say we actually have a client here.
 
     // Prior work goes here...
@@ -633,7 +633,7 @@ describe("some group of functionalities", function() {
     recorder.stop();
   });
 
-  it("should test A with a proper setup", function() {
+  it("should test A with a proper setup", async function() {
     client.prepare({
       propertyA: 1,
       propertyB: 2,
@@ -645,7 +645,7 @@ describe("some group of functionalities", function() {
     assert.ok(result.value);
   });
 
-  it("should test B with a proper setup", function() {
+  it("should test B with a proper setup", async function() {
     client.prepare({
       propertyA: 1,
       propertyB: 2,
@@ -683,13 +683,13 @@ describe("some group of functionalities", function() {
     });
   }
 
-  it("should test A with a proper setup", function() {
+  it("should test A with a proper setup", async function() {
     defaultPrepareClient(client);
     const result = await client.A();
     assert.ok(result.value);
   });
 
-  it("should test B with a proper setup", function() {
+  it("should test B with a proper setup", async function() {
     defaultPrepareClient(client);
     const result = await client.B();
     assert.ok(result.value);
@@ -777,12 +777,12 @@ describe("testing the client's basic methods", function() {
     assert.ok(client.expectedPublicProperty);
   });
 
-  it("should test A", function() {
+  it("should test A", async function() {
     const result = await client.A();
     assert.ok(result.value);
   });
 
-  it("should test AB", function() {
+  it("should test AB", async function() {
     const resultA = await client.A();
     const resultAB = await client.AB(resultA.value);
     assert.ok(resultAB.value);
@@ -830,7 +830,7 @@ describe("testing the client's basic methods", function() {
     recorder.stop();
   });
 
-  it("should test A", function() {
+  it("should test A", async function() {
     const result = await client.A();
     assert.ok(result.value);
     assert.ok(result.createdAt instanceof Date);
