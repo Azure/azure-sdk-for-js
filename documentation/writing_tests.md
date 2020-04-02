@@ -1,23 +1,33 @@
 # Writing tests for the Azure SDK for JS/TS
 
+The Azure SDK for JavaScript and TypeScript allows users to communicate and control their Azure resources. The development of the Azure SDK should be taken with uttermost care, not only to provide the best API clients to our customers, but also to ensure that the software is reliable through stable, succinct and comprehensible tests. For that purpose, we've made this document to define how tests should be written. 
+
 ## Index
 
-- [Introduction](#introduction)
 - [Engineering setup](#engineering-setup)
 - [Recommended tools](#recommended-tools)
-  - [Mocha](#mocha)
-  - [Chai](#chai)
-  - [Rollup](#rollup)
-  - [Karma](#karma)
-  - [Recorder](#recorder)
+    - [Mocha](#mocha)
+    - [Chai](#chai)
+    - [Rollup](#rollup)
+    - [Karma](#karma)
+    - [Recorder](#recorder)
 - [Test folder structure](#test-folder-structure)
-  - [Testing cloud resources](#testing-cloud-resources).
-  - [Public or internal tests](#public-or-internal-tests).
-  - [Testing API functionalities](#testing-api-functionalities).
+    - [Testing cloud resources](#testing-cloud-resources)
+    - [Public or internal tests](#public-or-internal-tests)
+    - [Testing API functionalities](#testing-api-functionalities)
 - [Shared and reusable code](#shared-and-reusable-code)
-- [Individual tests](#individual-tests)
-
-## Introduction
+    - [Preparing all of the test cases](#preparing-all-of-the-test-cases)
+    - [Preparing some of the test cases](#preparing-some-of-the-test-cases)
+    - [Universal utilities](#universal-utilities)
+- [Writing test cases](#writing-test-cases)
+    - [What a test is actually testing](#what-a-test-is-actually-testing)
+    - [Test titles](#test-titles)
+    - [Inner parts of a test](#inner-parts-of-a-test)
+    - [Using conditionals](#using-conditionals)
+    - [Using delays](#using-delays)
+    - [Exceptions and edge cases](#exceptions-and-edge-cases)
+    - [How tests should look](#how-tests-should-look)
+- [Getting feedback](#getting-feedback)
 
 ## Engineering setup
 
@@ -25,14 +35,14 @@
 
 Writing tests for JavaScript and TypeScript requires testing tools, such as a test framework, an assertion library, and a way to bundle and run these tests in various environments. The JavaScript community has many overlapping tools that one could pick to fulfill any of these tasks. To ensure that the testing experience across the Azure SDK for JS/TS is consistent and reliable, we've picked the following external testing tools:
 
-- [Mocha](https://www.npmjs.com/package/mocha), which offers us a well known and stable test framework for both NodeJS and browser tests.
+- [Mocha](https://www.npmjs.com/package/mocha), which offers a well known and stable test framework for both NodeJS and the browser.
 - [Chai](https://www.npmjs.com/package/chai), a well known assertion library for Node and the browser.
 - [Rollup](https://www.npmjs.com/package/rollup), to bundle JavaScript for different environments, which helps us write a single TypeScript source and trust it will compile correctly for Node and the browser.
 - [Karma](https://www.npmjs.com/package/karma), which allows us to run our tests in multiple browsers.
 
 We've also come up with our own internal tools:
 
-- The [Recorder](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/test-utils/recorder) is a tool that helps us run our live tests against static recordings obtained from a previous successful run, which aims to ensure that our code hasn't changed while benefitting from not having to reach out to real live services.
+- The [Recorder](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/test-utils/recorder) is a tool that helps us run our live tests against static recordings obtained from a previous successful run, which aims to ensure that our code hasn't changed while benefitting from not having to reach out to live services.
 
 Now, let's see how we're using the mentioned tools.
 
@@ -50,10 +60,10 @@ Since we're using [Rush](https://rushjs.io/), we're forced to use the same versi
 rush add --dev -p mocha
 ```
 
-To enhance the `mocha` experience, we're using the following packages:
+We're using the following Mocha plugins and related dependencies:
 
-- [`@types/mocha`](https://www.npmjs.com/package/@types/mocha), the type definitions for mocha.
-- [`mocha-multi`](https://www.npmjs.com/package/mocha-multi), a way to get multiple reporters working with mocha.
+- [`@types/mocha`](https://www.npmjs.com/package/@types/mocha) provides the type definitions for mocha.
+- [`mocha-multi`](https://www.npmjs.com/package/mocha-multi) to let Mocha use multiple reporters.
 - [`mocha-junit-reporter`](https://www.npmjs.com/package/mocha-junit-reporter), which produces JUnit-style XML test results.
 - [`nyc`](https://www.npmjs.com/package/nyc) is [Istanbul](https://istanbul.js.org/)'s command line interface.
 - [`esm`](https://www.npmjs.com/package/esm), a popular ECMAScript module loader.
@@ -64,8 +74,6 @@ A full `rush add` command that includes `mocha` and all of the previous dependen
 ```
 rush add --dev -p mocha @types/mocha mocha-multi mocha-junit-reporter nyc esm source-map-support
 ```
-
-We'll explore how we use these dependencies up next.
 
 #### Configuring Mocha
 
@@ -170,7 +178,7 @@ assert.lengthOf(beverages.tea, 3, 'beverages has 3 types of tea');
 
 #### Chai in our dependencies
 
-Since we're using [Rush](https://rushjs.io/), we're forced to use the same version of our packages in each one of the projects inside of this repository. If you want to add `chai` as a dev dependency to a new project inside of this repository, first make sure you are in the root folder of that project, then you can run the following command:
+Since we're using [Rush](https://rushjs.io/), we have to use the same version of our packages in each one of the projects inside of this repository. If you want to add `chai` as a dev dependency to a new project inside of this repository, first make sure you are in the root folder of that project, then you can run the following command:
 
 ```
 rush add --dev -p chai
@@ -717,7 +725,7 @@ export async function retry<T>(
 }
 ```
 
-This code is clearly not specifically related to any of our projects. Moving it out into a common project will help it's discoverability, not only for other developers to find it, but also to avoid having to upload this code at all, if there happens to be an already existing tool that can be used for the same purpose.
+This code is clearly not specifically related to any of our projects. Moving it out into a common project will help it be more easily discovered, not only for other developers to find it, but also to avoid having to upload this code at all, if there happens to be an already existing tool that can be used for the same purpose.
 
 ## Writing test cases
 
@@ -729,6 +737,7 @@ In this section we will be examining our recommendations of:
 - [Test titles](#test-titles), where we will examine how to properly phrase what each test is doing, and how to make them easier to discover through pattern matching.
 - [Inner parts of a test](#inner-parts-of-a-test), where we will go through how the bodies of each test case should generally be.
 - [Using conditionals](#using-conditionals), in which we will focus on minimizing the possibility of having tests that might run differently depending on external factors.
+- [Using delays](#using-delays).
 - [Exceptions and edge cases](#exceptions-and-edge-cases), where will examine how to address all of the possible exceptions and edge cases (which might be too many to test).
 - [How tests should look](#how-tests-should-look), in which we will focus on what would be the aesthetic goal of our tests, to develop an inner sense of measure of how far we might be from our common goal.
 
@@ -881,6 +890,48 @@ describe("testing the client's basic methods", function() {
 
 In case conditionals might appear to be necessary in other scenarios, consider separating the test case into as many test cases as necessary first.
 
+### Using delays
+
+The API methods that we provide should always provide a way for users to know when an operation finishes. For this reason, any method that doesn't immediately respond with a completed operation should use our [Long Running Operations strategy (core-lro)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/core-lro).
+
+If any method can't use `core-lro` within reasonable time, and thus we are inclined to use a different delay strategy, we should always wait until the next possible operation is can be fulfilled.
+
+For example, in KeyVault-Keys we provide a method to purge keys that has not been moved to use `core-lro`. To check that it has finished, we do a while loop where we try to make the next operation until it passes:
+
+```ts
+import { delay } from "@azure/test-utils-recorder";
+// ...
+
+describe("Keys client - restore keys and recover backups", () => {
+  // ...
+  it("can restore a key with a given backup", async function() {
+    // ...
+    await client.createKey(keyName, "RSA");
+    const backup = await client.backupKey(keyName);
+    await client.purgeDeletedKey(keyName);
+    while (true) {
+      try {
+        await client.restoreKeyBackup(backup as Uint8Array);
+        break;
+      } catch (e) {
+        console.log("Can't restore the key since it's not fully deleted:", e.message);
+        console.log("Retrying in one second...");
+        // This delay method comes from the recorder
+        await delay(1000);
+      }
+    }
+    const getResult = await client.getKey(keyName);
+    assert.equal(getResult.name, keyName, "Unexpected key name in result from getKey().");
+    // ...
+  });
+  // ...
+});
+```
+
+Keep in mind that Mocha will have a timeout configuration that will prevent this to run up forever.
+
+The specific `delay` method used in the code above comes from the [Recorder](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/test-utils/recorder), so that in playback, there will be no delay at all, and tests will pass as soon as possible.
+
 ### Exceptions and edge cases
 
 While testing the Azure SDK clients for JavaScript and TypeScript, we should document each client method exceptions through the use of `@throws` in the TypeDoc documentation, and avoid writing test cases for exceptions. Test cases should focus on demonstrating the functionalities of the client, in relation to the functionalities of the service. Exceptions should be in principle documented.
@@ -892,3 +943,7 @@ As a final note on this regard, as we develop clients for the SDKs, we will enco
 ### How tests should look
 
 In general, the tests of the Azure SDK for JavaScript and TypeScript should be considered useful resources that demonstrate how to use the functionalities that our clients offer, and how these are expected to behave. Our test cases should assert that we are providing well constructed features to our users, and our users should be able to go through our tests, understand them with minimal effort, and use our test code to their advantage. Our tests should therefore be _empowering everyone_.
+
+## Getting feedback
+
+Writing tests the right way can be quite challenging. Make sure to make pull request throughout the process and ask for feedback from your team. Ask them questions about how easy is to follow through, from the perspective of a new user. Once you write them, monitor how they behave through our Engineering Systems. Don't be afraid to ask our Engineering Systems team about feedback to your tests. Making your tests constantly better is your responsibility as a developer, but you have all of your team at your back. Together, we can make our tests are as good as they can possibly be.
