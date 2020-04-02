@@ -80,6 +80,12 @@ export interface ReceiveOptions extends MessageHandlerOptions {
    * Default: ReceiveMode.peekLock
    */
   receiveMode?: ReceiveMode;
+  /**
+   * Retry policy options that determine the mode, number of retries, retry interval etc.
+   *
+   * @type {RetryOptions}
+   */
+  retryOptions?: RetryOptions;
 }
 
 /**
@@ -250,18 +256,13 @@ export class MessageReceiver extends LinkEntity {
    * @protected
    */
   protected _clearAllMessageLockRenewTimers: () => void;
-  constructor(
-    context: ClientEntityContext,
-    receiverType: ReceiverType,
-    options?: ReceiveOptions,
-    retryOptions?: RetryOptions
-  ) {
+  constructor(context: ClientEntityContext, receiverType: ReceiverType, options?: ReceiveOptions) {
     super(context.entityPath, context, {
       address: context.entityPath,
       audience: `${context.namespace.config.endpoint}${context.entityPath}`
     });
     if (!options) options = {};
-    this._retryOptions = retryOptions || {};
+    this._retryOptions = options.retryOptions || {};
     this.wasCloseInitiated = false;
     this.receiverType = receiverType;
     this.receiveMode = options.receiveMode || ReceiveMode.peekLock;
