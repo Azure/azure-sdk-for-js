@@ -896,7 +896,7 @@ The API methods that we provide should always provide a way for users to know wh
 
 If any method can't use `core-lro` within reasonable time, and thus we are inclined to use a different delay strategy, we should always wait until the next possible operation is can be fulfilled.
 
-For example, in KeyVault-Keys we provide a method to purge keys that has not been moved to use `core-lro`. To check that it has finished, we do a while loop where we try to make the next operation until it passes:
+For example, in `@azure/keyvault-keys` we provide a method to purge keys that has not been moved to use `core-lro`. To check that it has finished, we do a while loop where we try to make the next operation until it passes:
 
 ```ts
 import { delay } from "@azure/test-utils-recorder";
