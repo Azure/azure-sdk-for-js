@@ -53,7 +53,7 @@ export class IdentityClient extends ServiceClient {
       })
     );
 
-    this.baseUri = this.authorityHost = options.authorityHost  || DefaultAuthorityHost;
+    this.baseUri = this.authorityHost = options.authorityHost || DefaultAuthorityHost;
 
     if (!this.baseUri.startsWith("https:")) {
       throw new Error("The authorityHost address must use the 'https' protocol.");
