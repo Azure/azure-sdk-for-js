@@ -398,6 +398,190 @@ for (const result of updateResult.results) {
 }
 ```
 
+### 3. Create and authenticate a `SearchServiceClient`
+
+You could use the following code to create and authenticate a `SearchServiceClient`. 
+
+```js
+const { SearchServiceClient, AzureKeyCredential } = require("@azure/search");
+
+const client = new SearchServiceClient(
+  "<endpoint>",
+  new AzureKeyCredential("<apikey>")
+);
+```
+
+#### Examples
+
+#### Get a list of existing indexes in the service
+
+```js
+const { SearchServiceClient, AzureKeyCredential } = require("@azure/search");
+
+async function main() {
+  const client = new SearchServiceClient(
+    "<endpoint>",
+    new AzureKeyCredential("<apikey>")
+  );
+  
+  const listOfIndexes = await client.listIndexes();
+  for(let index of listOfIndexes) {
+    console.log(index.name);
+    for(let field of index.fields) {
+      console.log(`Field: ${field.name}`);
+    }
+  }  
+}
+
+main();
+```
+
+#### Get a list of existing skillsets in the service
+```js
+const { SearchServiceClient, AzureKeyCredential } = require("@azure/search");
+
+async function main() {
+  const client = new SearchServiceClient(
+    "<endpoint>",
+    new AzureKeyCredential("<apikey>")
+  );
+  
+  const listOfSkillSets = await client.listSkillsets();
+  for(let skillset of listOfSkillSets) {
+    console.log(`Name: ${skillset.name}`);
+    console.log(`Description: ${skillset.description}`);
+    console.log(`Skills`);
+    for(let skill of skillset.skills) {
+      console.log(`\tOdatatype: ${skill.odatatype}`);
+      console.log(`\tName: ${skill.name}`);
+      console.log(`\tDescription: ${skill.description}`);
+    }
+  }
+}
+
+main();
+```
+
+#### Get a list of existing synonymMaps in the service
+```js
+const { SearchServiceClient, AzureKeyCredential } = require("@azure/search");
+
+async function main() {
+  const client = new SearchServiceClient(
+    "<endpoint>",
+    new AzureKeyCredential("<apikey>")
+  );
+  
+  const listOfSynonymMaps = await client.listSynonymMaps();
+  for(let synonymMap of listOfSynonymMaps) {
+    console.log(`Name: ${synonymMap.name}`);
+    console.log(`Synonyms`);
+    for(let synonym of synonymMap.synonyms) {
+      console.log(`Synonym: ${synonym}`)
+    }
+  }
+}
+
+main();
+```
+
+#### Create an Index
+```js
+const { SearchServiceClient, AzureKeyCredential } = require("@azure/search");
+
+async function main() {
+  const client = new SearchServiceClient(
+    "<endpoint>",
+    new AzureKeyCredential("<apikey>")
+  );
+  
+  const index = await client.createIndex({
+    name: `my-new-index`,
+    suggesters: [{ 
+      name: "my-new-sg",
+      sourceFields: ["id"]        
+    }],
+    analyzers: [
+      {
+        odatatype: "#Microsoft.Azure.Search.CustomAnalyzer",
+        name: "tagsAnalyzer",
+        charFilters: [ "html_strip" ],	
+        tokenizer: "standard_v2"
+      }
+    ],
+    fields: [{
+      name: "id",
+      type: "Edm.String",
+      key: true
+    }]
+  });
+}
+
+main();
+```
+
+#### Create a Skillset
+```js
+const { SearchServiceClient, AzureKeyCredential } = require("@azure/search");
+
+async function main() {
+  const client = new SearchServiceClient(
+    "<endpoint>",
+    new AzureKeyCredential("<apikey>")
+  );
+  
+  const skillset = await client.createSkillset({
+    name: `my-azureblob-skillset`,
+    description: `Skillset description`,
+    skills: [{
+      odatatype: "#Microsoft.Skills.Text.EntityRecognitionSkill",
+      inputs: [{
+        name: "text",
+        source: "/document/merged_content"
+      },{
+        name: "languageCode",
+        source: "/document/language"
+      }],
+      outputs: [{
+        name: "persons",
+        targetName: "people"
+      },{
+        name: "organizations",
+        targetName: "organizations"
+      },{
+        name: "locations",
+        targetName: "locations"
+      }]
+    }
+    ]
+  });
+}
+
+main();
+```
+
+### Create a SynonymMap
+```js
+const { SearchServiceClient, AzureKeyCredential } = require("@azure/search");
+
+async function main() {
+  const client = new SearchServiceClient(
+    "<endpoint>",
+    new AzureKeyCredential("<apikey>")
+  );
+  
+  const synonymMap = await client.createSynonymMap({
+    name: `my-sysnonymmap`,
+    synonyms: [
+      "United States, United States of America => USA",
+      "Washington, Wash. => WA"
+    ]
+  });
+}
+
+main();
+```
+
 ## Troubleshooting
 
 ### Enable logs
