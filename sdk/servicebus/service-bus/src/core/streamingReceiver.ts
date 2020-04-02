@@ -80,7 +80,6 @@ export class StreamingReceiver extends MessageReceiver {
     throwErrorIfConnectionClosed(context.namespace);
     if (!options) options = {};
     if (options.autoComplete == null) options.autoComplete = true;
-
     const sReceiver = new StreamingReceiver(context, options);
 
     const config: RetryConfig<void> = {
@@ -92,7 +91,6 @@ export class StreamingReceiver extends MessageReceiver {
       retryOptions: options.retryOptions
     };
     await retry<void>(config);
-
     context.streamingReceiver = sReceiver;
     return sReceiver;
   }
