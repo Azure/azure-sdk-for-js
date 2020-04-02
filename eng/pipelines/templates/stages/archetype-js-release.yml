@@ -124,8 +124,7 @@ stages:
                         displayName: Install versioning tool dependencies
                         
                       - bash: |
-                          node ./increment.js --artifact-name ${{ artifact.name }} --repo-root .
-                        workingDirectory: ./eng/tools/versioning
+                          node ./eng/tools/versioning/increment.js --artifact-name ${{ artifact.name }} --repo-root .
                         displayName: Increment package version
 
                       - template: /eng/common/pipelines/templates/steps/create-pull-request.yml
