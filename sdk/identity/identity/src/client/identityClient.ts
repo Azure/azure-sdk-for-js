@@ -183,7 +183,7 @@ export class IdentityClient extends ServiceClient {
 
   static getDefaultOptions(): TokenCredentialOptions {
     return {
-      authorityHost: EnvAuthorityHost || DefaultAuthorityHost
+      authorityHost: DefaultAuthorityHost
     };
   }
 
