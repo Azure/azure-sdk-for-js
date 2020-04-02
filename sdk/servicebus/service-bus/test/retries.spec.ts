@@ -18,7 +18,6 @@ import { MessagingError } from "@azure/core-amqp";
 import Long from "long";
 import { RetryOptions } from "@azure/core-amqp";
 import { BatchingReceiver } from "../src/core/batchingReceiver";
-import { MessageSession } from "../src/session/messageSession";
 
 describe("Retries - ManagementClient", () => {
   let senderClient: Sender;
@@ -37,7 +36,6 @@ describe("Retries - ManagementClient", () => {
         retryDelayInMs: 0
       }
     });
-    1;
   });
 
   after(() => {
@@ -346,7 +344,7 @@ describe("Retries - MessageSender", () => {
   });
 });
 
-describe("Retries - Receiver", () => {
+describe("Retries - Receive methods", () => {
   let receiverClient: Receiver<ReceivedMessageWithLock>;
   let serviceBusClient: ServiceBusClientForTests;
   let defaultMaxRetries = 2;
@@ -386,7 +384,7 @@ describe("Retries - Receiver", () => {
     batchingReceiver.isOpen = () => true;
     batchingReceiver.receive = fakeFunction;
     // Mocking session creation to throw the error and fail
-    MessageSession.create = fakeFunction;
+    (receiverClient as any)._createMessageSessionIfDoesntExist = fakeFunction;
   }
 
   async function mockReceiveAndVerifyRetries(func: Function) {
