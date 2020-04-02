@@ -964,10 +964,10 @@ export class MessageSession extends LinkEntity {
       // Action to be performed after the max wait time is over.
       const actionAfterWaitTimeout: Func<void, void> = (): void => {
         log.batching(
-          "[%s] Batching Receiver '%s'  max wait time in seconds %d over.",
+          "[%s] Batching Receiver '%s'  max wait time in milliseconds %d over.",
           this._context.namespace.connectionId,
           this.name,
-          maxWaitTimeInMs / 1000
+          maxWaitTimeInMs
         );
         return finalAction();
       };
@@ -1103,9 +1103,9 @@ export class MessageSession extends LinkEntity {
         // be of size upto maxMessageCount. Then the user needs to accordingly dispose
         // (complete,/abandon/defer/deadletter) the messages from the array.
         this._receiver!.addCredit(maxMessageCount);
-        let msg: string = "[%s] Setting the wait timer for %d seconds for receiver '%s'.";
+        let msg: string = "[%s] Setting the wait timer for %d milliseconds for receiver '%s'.";
         if (reuse) msg += " Receiver link already present, hence reusing it.";
-        log.batching(msg, this._context.namespace.connectionId, maxWaitTimeInMs / 1000, this.name);
+        log.batching(msg, this._context.namespace.connectionId, maxWaitTimeInMs, this.name);
         totalWaitTimer = setTimeout(actionAfterWaitTimeout, maxWaitTimeInMs);
       };
 
