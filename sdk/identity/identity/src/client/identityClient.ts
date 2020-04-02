@@ -40,7 +40,7 @@ export class IdentityClient extends ServiceClient {
   public authorityHost: string;
 
   constructor(options?: TokenCredentialOptions) {
-    options = options  || IdentityClient.getDefaultOptions();
+    options = options || IdentityClient.getDefaultOptions();
     super(
       undefined,
       createPipelineFromOptions({
