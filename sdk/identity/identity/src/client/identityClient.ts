@@ -18,6 +18,8 @@ import { logger } from "../util/logging";
 
 const DefaultAuthorityHost = "https://login.microsoftonline.com";
 
+const EnvAuthorityHost = "https://login.microsoftonline.com";
+
 /**
  * An internal type used to communicate details of a token request's
  * response that should not be sent back as part of the access token.
@@ -38,7 +40,7 @@ export class IdentityClient extends ServiceClient {
   public authorityHost: string;
 
   constructor(options?: TokenCredentialOptions) {
-    options = options || IdentityClient.getDefaultOptions();
+    options = options || IdentityClient.getEnvironmentOptions() || IdentityClient.getDefaultOptions();
     super(
       undefined,
       createPipelineFromOptions({
@@ -51,7 +53,7 @@ export class IdentityClient extends ServiceClient {
       })
     );
 
-    this.baseUri = this.authorityHost = options.authorityHost ||  process.env.AZURE_AUTHORITY_HOST || DefaultAuthorityHost;
+    this.baseUri = this.authorityHost = options.authorityHost ||  EnvAuthorityHost || DefaultAuthorityHost;
 
     if (!this.baseUri.startsWith("https:")) {
       throw new Error("The authorityHost address must use the 'https' protocol.");
@@ -181,15 +183,14 @@ export class IdentityClient extends ServiceClient {
 
   static getDefaultOptions(): TokenCredentialOptions {
     return {
-      authorityHost: process.env.AZURE_AUTHORITY_HOST || DefaultAuthorityHost
+      authorityHost: DefaultAuthorityHost
     };
   }
 
-  // static getEnvironmentOptions(): TokenCredentialOptions {
-  //   return {
-  //     authorityHost: process.env.AZURE_AUTHORITY_HOST
-  //   };
-  // }
+  static getEnvironmentOptions(): TokenCredentialOptions {
+    return {
+      authorityHost: EnvAuthorityHost
+  }
 }
 
 /**
