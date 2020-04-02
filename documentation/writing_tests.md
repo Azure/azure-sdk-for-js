@@ -934,7 +934,7 @@ The specific `delay` method used in the code above comes from the [Recorder](htt
 
 ### Exceptions and edge cases
 
-While testing the Azure SDK clients for JavaScript and TypeScript, we should document each client method exceptions through the use of `@throws` in the TypeDoc documentation, and avoid writing test cases for exceptions. Test cases should focus on demonstrating the functionalities of the client, in relation to the functionalities of the service. Exceptions should be in principle documented.
+While testing the Azure SDK clients for JavaScript and TypeScript, we should document each client method exceptions through the use of `@throws` in the TypeDoc documentation, and avoid writing test cases for exceptions. Test cases should focus on demonstrating the public API of the service. Exceptions should be documented.
 
 Similarly, the public API surface of our clients will contain a large set of properties resulting from any of the methods that our clients implement. Tests should not focus on verifying that each property of of our clients exist. While tests can check that the values of properties are expected, they should include only as many properties as it can be relevant for the use case that each test case is representing. For this purpose we should also take advantage of strict types. If our types can be descriptive and thorough, and our internal code is not skipping through the types (through the use of `any`), we will be able to trust that our API is behaving reasonably well.
 
