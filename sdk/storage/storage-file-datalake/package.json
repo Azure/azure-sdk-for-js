@@ -99,7 +99,7 @@
     "@azure/core-paging": "^1.1.0",
     "@azure/core-tracing": "1.0.0-preview.7",
     "@azure/logger": "^1.0.0",
-    "@azure/storage-blob": "^12.0.0",
+    "@azure/storage-blob": "^12.0.2",
     "events": "^3.0.0",
     "tslib": "^1.10.0"
   },
