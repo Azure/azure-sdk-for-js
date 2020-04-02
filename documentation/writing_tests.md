@@ -428,9 +428,9 @@ You can read more about the recorder in its readme: https://github.com/Azure/azu
 
 ## Engineering setup
 
-While writing tests for the Azure SDK works both as a way to verify that our code is correct, and a way to share how to use our code with our customers, we must keep in mind that tests also triggered by automatic systems that generate nightly builds of our packages, that verify that our commits are correct, and that help us have a better level of confidence before releasing anything to the public. 
+The Azure SDK tests are valuable due to many factors. They work as a way to verify that our code is correct, just as much as a way to share how to use our code with our customers. To monitor that our tests are working correctly, they are triggered by automatic systems that help us verify that our commits are correct, or check that the services we're targeting don't show unexpected behaviors, all of which help us have a better level of confidence before releasing anything to the public. 
 
-For our Engineering Systems to pick up our tests appropriately, our packages must be configured according to their guidelines, and our tests must be thought to address their needs. In this section we will go through some of these concepts, and provide links that expand them in detail. We will be covering:
+For our Engineering Systems to pick up our tests appropriately, our packages must be configured according to their guidelines. In this section we will go through some of these concepts, and provide links that expand them in detail. We will be covering:
 
 - [Engineering goals](#engineering-goals).
 - [CI configuration files](#ci-configuration-files).
@@ -441,9 +441,11 @@ For our Engineering Systems to pick up our tests appropriately, our packages mus
 
 Though the tests for the Azure SDK for JavaScript and TypeScript must target live resources, we should make sure they only do so when necessary. For this purpose, we must keep in mind the following guidelines:
 
-- Tests should not be flaky. Tests should pass regardless of who's executing it, when it is running, and how many times does it run.
-- While writing tests, use static resources for your tests when possible to avoid repeatedly incurring delays for setting up and tearing down resources. Once tests are pushed into the repository, the pipelines will create these resources for us. We'll examine how to set this up in the following sections.
-- Avoid calling to timed delays (like `setTimeout`) to assert that a change happened in the live resources. Also avoid locking the main thread until the resource responds.
+- Tests should not be flaky. Tests should pass regardless of who's executing it, when they are running, and how many times they run.
+- Tests should create the resources they are testing.
+- While writing tests, use static resources only for setting up the context in which each test will create their own resources. For example, it is valid to have a static KeyVault while writing KeyVault tests, and then a given test can create a KeyVault Key before validating any of the functionalities of the KeyVault Key.
+- Any static resource used must be defined in an ARM template, so that anyone can build a copy of the resources. This ARM template will be used by the CI pipelines during builds. We'll examine how to set this up in the following sections.
+- Avoid calling to timed delays (like `setTimeout`) to assert that a change happened in the live resources. Also avoid locking the main thread until the resource responds. You can read more about [_using delays_ in this section](#using-delays).
 - The resources created in the tests should be unique. Running the same test in parallel, multiple times, should not break them.
 
 You can read more recommendations through the following link: [Best Practices for writing tests that target live resources](https://dev.azure.com/azure-sdk/internal/_wiki/wikis/internal.wiki/51/Testing-Guidelines).
@@ -452,20 +454,20 @@ You can read more recommendations through the following link: [Best Practices fo
 
 To ensure that our tests are executed in the test [Azure DevOps pipelines](https://azure.microsoft.com/en-us/services/devops/pipelines/) that have been previously configured by our team, some configuration files are necessary:
 
-- A file named `ci.yml` will be automatically generated at the common parent of the clients of a specific service (let's say, at the `keyvault/` level of `keyvault/keyvault-keys`).
-- A `test-resources.json` file, also at the common parent of the clients of a service, which will contain an [ARM template](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/overview) of the resources needed to run all of the tests of these clients.
-- And a `tests.yml` file located at the folder of each one of the clients, which is in charge of specifying what package to run, what environments to use to run the tests, and how to run the tests.
+- A file named `ci.yml` should be added by the Engineering Systems team at the service level (the common parent of the clients of a specific service), for example at the `keyvault/` level of `keyvault/keyvault-keys`.
+- A `test-resources.json` file must exist, either at the package folder level, or at the service level, which will contain an [ARM template](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/overview) of the resources needed to run all of the tests of these clients. All of the `test-resources.json` files inside of the service folder will be used to deploy resources on every build.
+- And a `tests.yml` file located at the package folder, which is in charge of specifying when to run the tests for this package, what environments to use to run the tests, and how to run the tests.
 
-To explore how to write these files, we recommend going through the guide: [Creating live tests](https://dev.azure.com/azure-sdk/internal/_wiki/wikis/internal.wiki/48/Create-a-new-Live-Test-pipeline?anchor=creating-live-tests).
+You can learn how to write these files by following the guide: [Creating live tests](https://dev.azure.com/azure-sdk/internal/_wiki/wikis/internal.wiki/48/Create-a-new-Live-Test-pipeline?anchor=creating-live-tests).
 
 ### Activating test pipelines
 
-When adding a new client to our repository, you must report to the _Engineering Systems_ team what client are you adding. They will make sure that the pipelines are running for your project, though you can take more time to finish up your live test setup. After following up with them, once you've merged your tests' code and the configuration files needed, the pipelines will be almost ready to run these test. The next step is to adjust them to send the correct information to your tests.
+When adding a new client to our repository, you must report to the _Engineering Systems_ team about what client are you adding. They will make sure that the pipelines are running for your project. After following up with them, once you've merged your tests' code and the configuration files needed, the pipelines will need to be adjusted to send credentials and other necessary information to your tests.
 
-Test pipelines will send environment variables for your tests, and will make other distinctions between tests that are supposed to verify the integrity of the package, or tests that will check if the code is correct against live resources as a last measure before releasing the package (either for nightly builds or for manual releases). To specify which one you want to run, you must pick one of the following variable groups:
+The test pipelines make distinctions between tests that are supposed to verify the integrity of the package and tests that will check if the code is correct against live resources. To specify which one you want to run, you must pick one of the following variable groups:
 
-- `Secrets for Resource Provisioner`: Use this to allow your builds to send the information necessary to run tests on your pull requests.
-- `Release Secrets for GitHub`: Use this to allow your builds to release your packages. This is used for CI pipelines like `js - eventhub` or `js - keyvault`.
+- `Secrets for Resource Provisioner`: Use this to allow your builds to send the information necessary to run tests on your pull requests, which is intended to verify the integrity of a package. This is used for test pipelines like `js - event-hubs - tests` or `js - keyvault-keys - tests`.
+- `Release Secrets for GitHub`: Use this to allow your builds to run tests against live resources as a last measure before releasing the packages. This is used for CI pipelines like `js - eventhub` or `js - keyvault`.
 
 To add any of these groups, you must go to https://dev.azure.com/azure-sdk/ and look for the builds that have been configured to target your project, then:
 
