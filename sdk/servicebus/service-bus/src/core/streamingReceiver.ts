@@ -30,8 +30,8 @@ export class StreamingReceiver extends MessageReceiver {
    * @param {ClientEntityContext} context                      The client entity context.
    * @param {ReceiveOptions} [options]                         Options for how you'd like to connect.
    */
-  constructor(context: ClientEntityContext, options?: ReceiveOptions) {
-    super(context, ReceiverType.streaming, options);
+  constructor(context: ClientEntityContext, options?: ReceiveOptions, retryOptions?: RetryOptions) {
+    super(context, ReceiverType.streaming, options, retryOptions);
 
     this.resetTimerOnNewMessageReceived = () => {
       if (this._newMessageReceivedTimer) clearTimeout(this._newMessageReceivedTimer);
@@ -82,7 +82,7 @@ export class StreamingReceiver extends MessageReceiver {
     if (!options) options = {};
     if (options.autoComplete == null) options.autoComplete = true;
 
-    const sReceiver = new StreamingReceiver(context, options);
+    const sReceiver = new StreamingReceiver(context, options, retryOptions);
 
     const config: RetryConfig<void> = {
       operation: async () => {

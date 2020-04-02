@@ -255,10 +255,14 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       throw new TypeError("The parameter 'onError' must be of type 'function'.");
     }
 
-    StreamingReceiver.create(this._context, {
-      ...options,
-      receiveMode: convertToInternalReceiveMode(this.receiveMode)
-    })
+    StreamingReceiver.create(
+      this._context,
+      {
+        ...options,
+        receiveMode: convertToInternalReceiveMode(this.receiveMode)
+      },
+      this._receiverOptions.retryOptions
+    )
       .then(async (sReceiver) => {
         if (!sReceiver) {
           return;
@@ -303,7 +307,11 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
           maxConcurrentCalls: 0,
           receiveMode: convertToInternalReceiveMode(this.receiveMode)
         };
-        this._context.batchingReceiver = BatchingReceiver.create(this._context, options);
+        this._context.batchingReceiver = BatchingReceiver.create(
+          this._context,
+          options,
+          this._receiverOptions.retryOptions
+        );
       }
       const receivedMessages = await this._context.batchingReceiver.receive(
         maxMessageCount,
