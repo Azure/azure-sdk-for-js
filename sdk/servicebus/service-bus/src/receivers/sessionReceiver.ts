@@ -14,7 +14,7 @@ import { GetMessageIteratorOptions, GetSessionReceiverOptions } from "../models"
 import { MessageSession } from "../session/messageSession";
 import {
   throwErrorIfConnectionClosed,
-  getOpenReceiverErrorMsg,
+  getOpenSessionReceiverErrorMsg,
   getReceiverClosedErrorMsg,
   getAlreadyReceivingErrorMsg,
   throwTypeErrorIfParameterMissing,
@@ -161,8 +161,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
         this._context.messageSessions[this._sessionOptions.sessionId] &&
         this._context.messageSessions[this._sessionOptions.sessionId].isOpen()
       ) {
-        const errorMessage = getOpenReceiverErrorMsg(
-          this._context.clientType,
+        const errorMessage = getOpenSessionReceiverErrorMsg(
           this._context.entityPath,
           this._sessionOptions.sessionId
         );
@@ -178,7 +177,6 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     if (this.isClosed) {
       const errorMessage = getReceiverClosedErrorMsg(
         this._context.entityPath,
-        this._context.clientType,
         this._context.isClosed,
         this.sessionId!
       );
