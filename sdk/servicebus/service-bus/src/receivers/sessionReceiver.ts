@@ -28,7 +28,7 @@ import { convertToInternalReceiveMode } from "../constructorHelpers";
 import { Receiver } from "./receiver";
 import Long from "long";
 import { ServiceBusMessageImpl, ReceivedMessageWithLock } from "../serviceBusMessage";
-import { RetryConfig, RetryOperationType, retry } from "@azure/core-amqp";
+import { RetryConfig, RetryOperationType, retry, Constants } from "@azure/core-amqp";
 import { getRetryAttemptTimeoutInMs } from "../util/utils";
 
 /**
@@ -535,7 +535,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
 
       const receivedMessages = await this._messageSession!.receiveMessages(
         maxMessageCount,
-        options?.maxWaitTimeSeconds
+        options?.maxWaitTimeInMs || Constants.defaultOperationTimeoutInMs
       );
 
       return (receivedMessages as any) as ReceivedMessageT[];

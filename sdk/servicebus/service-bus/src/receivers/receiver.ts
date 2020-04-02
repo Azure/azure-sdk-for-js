@@ -29,7 +29,7 @@ import { assertValidMessageHandlers, getMessageIterator } from "./shared";
 import { convertToInternalReceiveMode } from "../constructorHelpers";
 import Long from "long";
 import { ServiceBusMessageImpl, ReceivedMessageWithLock } from "../serviceBusMessage";
-import { RetryConfig, RetryOperationType, retry } from "@azure/core-amqp";
+import { RetryConfig, RetryOperationType, retry, Constants } from "@azure/core-amqp";
 import { getRetryAttemptTimeoutInMs } from "../util/utils";
 
 /**
@@ -307,7 +307,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       }
       const receivedMessages = await this._context.batchingReceiver.receive(
         maxMessageCount,
-        options?.maxWaitTimeSeconds
+        options?.maxWaitTimeInMs || Constants.defaultOperationTimeoutInMs
       );
       return (receivedMessages as unknown) as ReceivedMessageT[];
     };

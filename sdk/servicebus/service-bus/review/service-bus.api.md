@@ -253,7 +253,7 @@ export { TokenType }
 
 // @public
 export interface WaitTimeOptions {
-    maxWaitTimeSeconds: number;
+    maxWaitTimeInMs: number;
 }
 
 export { WebSocketImpl }

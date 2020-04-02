@@ -924,19 +924,14 @@ export class MessageSession extends LinkEntity {
    * from a Queue/Subscription.
    *
    * @param maxMessageCount      The maximum number of messages to receive from Queue/Subscription.
-   * @param maxWaitTimeInSeconds The total wait time in seconds until which the receiver will attempt to receive specified number of messages.
+   * @param maxWaitTimeInMs The total wait time in milliseconds until which the receiver will attempt to receive specified number of messages.
    * If this time elapses before the `maxMessageCount` is reached, then messages collected till then will be returned to the user.
-   * - **Default**: `60` seconds.
    * @returns Promise<ServiceBusMessage[]> A promise that resolves with an array of Message objects.
    */
   async receiveMessages(
     maxMessageCount: number,
-    maxWaitTimeInSeconds?: number
+    maxWaitTimeInMs: number
   ): Promise<ServiceBusMessageImpl[]> {
-    if (maxWaitTimeInSeconds == null) {
-      maxWaitTimeInSeconds = Constants.defaultOperationTimeoutInMs / 1000;
-    }
-
     const brokeredMessages: ServiceBusMessageImpl[] = [];
     this.isReceivingMessages = true;
 
@@ -972,7 +967,7 @@ export class MessageSession extends LinkEntity {
           "[%s] Batching Receiver '%s'  max wait time in seconds %d over.",
           this._context.namespace.connectionId,
           this.name,
-          maxWaitTimeInSeconds
+          maxWaitTimeInMs / 1000
         );
         return finalAction();
       };
@@ -1110,11 +1105,8 @@ export class MessageSession extends LinkEntity {
         this._receiver!.addCredit(maxMessageCount);
         let msg: string = "[%s] Setting the wait timer for %d seconds for receiver '%s'.";
         if (reuse) msg += " Receiver link already present, hence reusing it.";
-        log.batching(msg, this._context.namespace.connectionId, maxWaitTimeInSeconds, this.name);
-        totalWaitTimer = setTimeout(
-          actionAfterWaitTimeout,
-          (maxWaitTimeInSeconds as number) * 1000
-        );
+        log.batching(msg, this._context.namespace.connectionId, maxWaitTimeInMs / 1000, this.name);
+        totalWaitTimer = setTimeout(actionAfterWaitTimeout, maxWaitTimeInMs);
       };
 
       if (this.isOpen()) {
