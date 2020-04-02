@@ -901,7 +901,7 @@ export interface ScoringProfile {
     textWeights?: TextWeights;
 }
 
-// @public (undocumented)
+// @public
 export interface SearchDocumentsPageResult<T> extends SearchDocumentsResultBase {
     continuationToken?: string;
     readonly results: SearchResult<T>[];

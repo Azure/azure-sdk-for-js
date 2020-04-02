@@ -9,6 +9,7 @@ import {
   PipelineOptions,
   ServiceClientCredentials
 } from "@azure/core-http";
+import { CanonicalCode } from "@opentelemetry/types";
 import { SDK_VERSION } from "./constants";
 import { AnalyzeResult, GetIndexStatisticsResult } from "./generated/service/models";
 import { SearchServiceClient as GeneratedClient } from "./generated/service/searchServiceClient";
@@ -37,6 +38,7 @@ import {
   SynonymMap
 } from "./serviceModels";
 import * as utils from "./serviceUtils";
+import { createSpan } from "./tracing";
 
 /**
  * Client options used to configure Cognitive Search API requests.
