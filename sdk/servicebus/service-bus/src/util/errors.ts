@@ -77,7 +77,7 @@ export function getSenderClosedErrorMsg(entityPath: string, isClientClosed: bool
   }
   return (
     `The sender for "${entityPath}" has been closed and can no longer be used. ` +
-    `Please create a new sender using the "createSender" function on the ServiceBusClient.`
+    `Please create a new sender using the "getSender" method on the ServiceBusClient.`
   );
 }
 
@@ -102,12 +102,12 @@ export function getReceiverClosedErrorMsg(
   if (sessionId == undefined) {
     return (
       `The receiver for "${entityPath}" has been closed and can no longer be used. ` +
-      `Please create a new receiver using the "createReceiver" function on the ServiceBusClient.`
+      `Please create a new receiver using the "getReceiver" method on the ServiceBusClient.`
     );
   }
   return (
     `The receiver for session "${sessionId}" in "${entityPath}" has been closed and can no ` +
-    `longer be used. Please create a new receiver using the "createReceiver" function.`
+    `longer be used. Please create a new receiver using the "getSessionReceiver" method on the ServiceBusClient.`
   );
 }
 
