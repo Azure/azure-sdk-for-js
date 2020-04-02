@@ -18,7 +18,7 @@ import { logger } from "../util/logging";
 
 const DefaultAuthorityHost = "https://login.microsoftonline.com";
 
-const EnvAuthorityHost = "https://login.microsoftonline.com";
+const EnvAuthorityHost = "https://login1.microsoftonline.com";
 
 /**
  * An internal type used to communicate details of a token request's
@@ -40,7 +40,7 @@ export class IdentityClient extends ServiceClient {
   public authorityHost: string;
 
   constructor(options?: TokenCredentialOptions) {
-    options = options || IdentityClient.getEnvironmentOptions() || IdentityClient.getDefaultOptions();
+    options = options || IdentityClient.getEnvironmentOptions();
     super(
       undefined,
       createPipelineFromOptions({
@@ -189,7 +189,7 @@ export class IdentityClient extends ServiceClient {
 
   static getEnvironmentOptions(): TokenCredentialOptions {
     return {
-      authorityHost: EnvAuthorityHost
+      authorityHost: EnvAuthorityHost || DefaultAuthorityHost
   }
 }
 
