@@ -120,11 +120,14 @@ stages:
                       - checkout: self
                       - bash: |
                           npm install
+                        workingDirectory: ./eng/tools/versioning
                         displayName: Install versioning tool dependencies
-                        WorkingDirectory: ./eng/tools/versioning
+                        
                       - bash: |
                           node ./increment.js --artifact-name ${{ artifact.name }} --repo-root .
+                        workingDirectory: ./eng/tools/versioning
                         displayName: Increment package version
+
                       - template: /eng/common/pipelines/templates/steps/create-pull-request.yml
                         parameters:
                           RepoName: azure-sdk-for-js
