@@ -89,7 +89,7 @@ export class StreamingReceiver extends MessageReceiver {
         await sReceiver._init();
       },
       connectionId: context.namespace.connectionId,
-      operationType: RetryOperationType.senderLink,
+      operationType: RetryOperationType.receiveMessage,
       retryOptions: retryOptions
     };
     await retry<void>(config);
