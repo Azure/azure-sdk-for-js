@@ -13,102 +13,102 @@ stages:
         dependsOn: ${{parameters.DependsOn}}
         condition: and(succeeded(), ne(variables['SetDevVersion'], 'true'), ne(variables['Skip.Release'], 'true'), ne(variables['Build.Repository.Name'], 'Azure/azure-sdk-for-js-pr'))
         jobs:
-          - deployment: TagRepository
-            displayName: "Create release tag"
-            condition: ne(variables['Skip.TagRepository'], 'true')
-            environment: github
+          # - deployment: TagRepository
+          #   displayName: "Create release tag"
+          #   condition: ne(variables['Skip.TagRepository'], 'true')
+          #   environment: github
 
-            pool:
-              vmImage: ubuntu-16.04
+          #   pool:
+          #     vmImage: ubuntu-16.04
 
-            strategy:
-              runOnce:
-                deploy:
-                  steps:
-                    - checkout: self
-                    - pwsh: |
-                        Get-ChildItem $(Pipeline.Workspace)/${{parameters.ArtifactName}}
-                        New-Item -Type Directory -Name ${{artifact.safeName}} -Path $(Pipeline.Workspace)
-                        Copy-Item $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}-[0-9]*.[0-9]*.[0-9]* $(Pipeline.Workspace)/${{artifact.safeName}}
-                        Get-ChildItem $(Pipeline.Workspace)/${{artifact.safeName}}
-                      displayName: Stage artifacts
-                    - template: /eng/common/pipelines/templates/steps/create-tags-and-git-release.yml
-                      parameters:
-                        ArtifactLocation: $(Pipeline.Workspace)/${{artifact.safeName}}
-                        PackageRepository: Npm
-                        ReleaseSha: $(Build.SourceVersion)
-                        RepoId: Azure/azure-sdk-for-js
-                        WorkingDirectory: $(System.DefaultWorkingDirectory)
+          #   strategy:
+          #     runOnce:
+          #       deploy:
+          #         steps:
+          #           - checkout: self
+          #           - pwsh: |
+          #               Get-ChildItem $(Pipeline.Workspace)/${{parameters.ArtifactName}}
+          #               New-Item -Type Directory -Name ${{artifact.safeName}} -Path $(Pipeline.Workspace)
+          #               Copy-Item $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}-[0-9]*.[0-9]*.[0-9]* $(Pipeline.Workspace)/${{artifact.safeName}}
+          #               Get-ChildItem $(Pipeline.Workspace)/${{artifact.safeName}}
+          #             displayName: Stage artifacts
+          #           - template: /eng/common/pipelines/templates/steps/create-tags-and-git-release.yml
+          #             parameters:
+          #               ArtifactLocation: $(Pipeline.Workspace)/${{artifact.safeName}}
+          #               PackageRepository: Npm
+          #               ReleaseSha: $(Build.SourceVersion)
+          #               RepoId: Azure/azure-sdk-for-js
+          #               WorkingDirectory: $(System.DefaultWorkingDirectory)
 
-          - ${{if ne(artifact.options.skipPublishPackage, 'true')}}:
-            - deployment: PublishPackage
-              displayName: "Publish to npmjs"
-              condition: and(succeeded(), ne(variables['Skip.PublishPackage'], 'true'))
-              environment: npm
-              dependsOn: TagRepository
+          # - ${{if ne(artifact.options.skipPublishPackage, 'true')}}:
+          #   - deployment: PublishPackage
+          #     displayName: "Publish to npmjs"
+          #     condition: and(succeeded(), ne(variables['Skip.PublishPackage'], 'true'))
+          #     environment: npm
+          #     dependsOn: TagRepository
 
-              pool:
-                vmImage: ubuntu-16.04
+          #     pool:
+          #       vmImage: ubuntu-16.04
 
-              strategy:
-                runOnce:
-                  deploy:
-                    steps:
-                      - checkout: self
-                      - script: |
-                          export DETECTED_PACKAGE_NAME=`ls $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}-*.tgz`
-                          echo "##vso[task.setvariable variable=Package.Archive]$DETECTED_PACKAGE_NAME"
-                        displayName: Detecting package archive
+          #     strategy:
+          #       runOnce:
+          #         deploy:
+          #           steps:
+          #             - checkout: self
+          #             - script: |
+          #                 export DETECTED_PACKAGE_NAME=`ls $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}-*.tgz`
+          #                 echo "##vso[task.setvariable variable=Package.Archive]$DETECTED_PACKAGE_NAME"
+          #               displayName: Detecting package archive
 
-                      - task: PowerShell@2
-                        displayName: 'Publish to npmjs.org'
-                        inputs:
-                          targetType: filePath
-                          filePath: "eng/tools/publish-to-npm.ps1"
-                          arguments: '-pathToArtifacts $(Package.Archive) -accessLevel "public" -tag $(Tag) -additionalTag "$(AdditionalTag)" -registry ${{parameters.Registry}} -npmToken $(azure-sdk-npm-token)'
-                          pwsh: true
+          #             - task: PowerShell@2
+          #               displayName: 'Publish to npmjs.org'
+          #               inputs:
+          #                 targetType: filePath
+          #                 filePath: "eng/tools/publish-to-npm.ps1"
+          #                 arguments: '-pathToArtifacts $(Package.Archive) -accessLevel "public" -tag $(Tag) -additionalTag "$(AdditionalTag)" -registry ${{parameters.Registry}} -npmToken $(azure-sdk-npm-token)'
+          #                 pwsh: true
 
-          - ${{if ne(artifact.options.skipPublishDocs, 'true')}}:
-            - deployment: PublishDocs
-              displayName: Publish Docs to GitHubIO Blob Storage
-              condition: and(succeeded(), ne(variables['Skip.PublishDocs'], 'true'))
-              environment: githubio
-              dependsOn: PublishPackage
+          # - ${{if ne(artifact.options.skipPublishDocs, 'true')}}:
+          #   - deployment: PublishDocs
+          #     displayName: Publish Docs to GitHubIO Blob Storage
+          #     condition: and(succeeded(), ne(variables['Skip.PublishDocs'], 'true'))
+          #     environment: githubio
+          #     dependsOn: PublishPackage
 
-              pool:
-                vmImage: windows-2019
+          #     pool:
+          #       vmImage: windows-2019
 
-              strategy:
-                runOnce:
-                  deploy:
-                    steps:
-                      - checkout: self
-                      - pwsh: |
-                          $transformedArtifact = "${{artifact.name}}".Replace("azure-", "")
-                          $artifactLocation = "$(Pipeline.Workspace)/${{parameters.DocArtifact}}/$($transformedArtifact).zip"
-                          New-Item -Type Directory -Name ${{artifact.safeName}} -Path $(Pipeline.Workspace)
-                          New-Item -Type Directory -Name ${{parameters.DocArtifact}} -Path $(Pipeline.Workspace)/${{artifact.safeName}}
-                          Copy-Item  $artifactLocation $(Pipeline.Workspace)/${{artifact.safeName}}/${{parameters.DocArtifact}}
-                        displayName: Stage artifacts
-                      - pwsh: |
-                          Get-ChildItem -Recurse $(Pipeline.Workspace)/${{artifact.safeName}}
-                        workingDirectory: $(Pipeline.Workspace)
-                        displayName: Output Visible Artifacts
-                      - template: /eng/common/pipelines/templates/steps/publish-blobs.yml
-                        parameters:
-                          FolderForUpload: '$(Pipeline.Workspace)/${{artifact.safeName}}'
-                          BlobSASKey: '$(azure-sdk-docs-prod-sas)'
-                          BlobName: '$(azure-sdk-docs-prod-blob-name)'
-                          TargetLanguage: 'javascript'
-                          # we override the regular script path because we have cloned the build tools repo as a separate artifact.
-                          ScriptPath: 'eng/common/scripts/copy-docs-to-blobstorage.ps1'
+          #     strategy:
+          #       runOnce:
+          #         deploy:
+          #           steps:
+          #             - checkout: self
+          #             - pwsh: |
+          #                 $transformedArtifact = "${{artifact.name}}".Replace("azure-", "")
+          #                 $artifactLocation = "$(Pipeline.Workspace)/${{parameters.DocArtifact}}/$($transformedArtifact).zip"
+          #                 New-Item -Type Directory -Name ${{artifact.safeName}} -Path $(Pipeline.Workspace)
+          #                 New-Item -Type Directory -Name ${{parameters.DocArtifact}} -Path $(Pipeline.Workspace)/${{artifact.safeName}}
+          #                 Copy-Item  $artifactLocation $(Pipeline.Workspace)/${{artifact.safeName}}/${{parameters.DocArtifact}}
+          #               displayName: Stage artifacts
+          #             - pwsh: |
+          #                 Get-ChildItem -Recurse $(Pipeline.Workspace)/${{artifact.safeName}}
+          #               workingDirectory: $(Pipeline.Workspace)
+          #               displayName: Output Visible Artifacts
+          #             - template: /eng/common/pipelines/templates/steps/publish-blobs.yml
+          #               parameters:
+          #                 FolderForUpload: '$(Pipeline.Workspace)/${{artifact.safeName}}'
+          #                 BlobSASKey: '$(azure-sdk-docs-prod-sas)'
+          #                 BlobName: '$(azure-sdk-docs-prod-blob-name)'
+          #                 TargetLanguage: 'javascript'
+          #                 # we override the regular script path because we have cloned the build tools repo as a separate artifact.
+          #                 ScriptPath: 'eng/common/scripts/copy-docs-to-blobstorage.ps1'
 
           - ${{if ne(artifact.options.skipUpdatePackageVersion, 'true')}}:
             - deployment: UpdatePackageVersion
               displayName: "Update Package Version"
               condition: and(succeeded(), ne(variables['Skip.UpdatePackageVersion'], 'true'))
               environment: github
-              dependsOn: PublishPackage
+              # dependsOn: PublishPackage
 
               pool:
                 vmImage: ubuntu-16.04
