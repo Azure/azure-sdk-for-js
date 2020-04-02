@@ -512,7 +512,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    * Returns a promise that resolves to an array of messages based on given count and timeout over
    * an AMQP receiver link from a Queue/Subscription.
    *
-   * The `maxWaitTimeSeconds` provided via the options overrides the `timeoutInMs` provided in the `retryOptions`.
+   * The `maxWaitTimeInMs` provided via the options overrides the `timeoutInMs` provided in the `retryOptions`.
    * Throws an error if there is another receive operation in progress on the same receiver. If you
    * are not sure whether there is another receive operation running, check the `isReceivingMessages`
    * property on the receiver.
@@ -624,7 +624,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
   /**
    * Gets an async iterator over messages from the receiver.
    *
-   * The `maxWaitTimeSeconds` provided via the options overrides the `timeoutInMs` provided in the `retryOptions`.
+   * The `maxWaitTimeInMs` provided via the options overrides the `timeoutInMs` provided in the `retryOptions`.
    * Throws an error if there is another receive operation in progress on the same receiver. If you
    * are not sure whether there is another receive operation running, check the `isReceivingMessages`
    * property on the receiver.
