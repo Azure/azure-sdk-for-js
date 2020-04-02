@@ -1,14 +1,14 @@
 {
-  "name": "versioning",
+  "name": "eng-package-utils",
   "version": "1.0.0",
-  "description": "Utilities to manipulate version information",
-  "main": "echo \"use increment.js or set-dev.js\"",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "description": "Utility functions for eng system tools",
+  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Azure/azure-sdk-for-js.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
@@ -17,8 +17,6 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
   "dependencies": {
-    "semver": "^6.3.0",
-    "yargs": "^14.2.0",
-    "eng-package-utils": "file:../eng-package-utils"
+    "yargs": "^14.2.0"
   }
 }

@@ -3,6 +3,8 @@
 ## 1.1.0-preview.2 (Unreleased)
 
 - Make KnownAuthorityHosts constants available
+- Extended DefaultAzureCredential with an experimental credential that uses the login credential from VSCode's Azure Account extension
+
 
 ## 1.1.0-preview1 (2020-03-10)
 

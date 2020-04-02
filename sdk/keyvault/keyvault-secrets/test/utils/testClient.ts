@@ -1,4 +1,4 @@
-import { retry, testPollerProperties } from "./recorderUtils";
+import { testPollerProperties } from "./recorderUtils";
 import { SecretClient } from "../../src";
 
 export default class TestClient {
@@ -10,15 +10,7 @@ export default class TestClient {
     return name.replace(/[^0-9a-zA-Z-]/g, "");
   }
   public async purgeSecret(secretName: string): Promise<void> {
-    const that = this;
-    await retry(async () => {
-      try {
-        await that.client.purgeDeletedSecret(secretName);
-      } catch (e) {
-        if (["Secret is currently being deleted."].includes(e.message)) throw e;
-        else return;
-      }
-    });
+    await this.client.purgeDeletedSecret(secretName);
   }
   public async flushSecret(secretName: string): Promise<void> {
     const that = this;

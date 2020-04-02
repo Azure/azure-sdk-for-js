@@ -144,12 +144,12 @@ jobs:
 
       - script: |
           npm install
-        workingDirectory: $(Build.SourcesDirectory)/eng/tools/versioning
+        workingDirectory: $(Build.SourcesDirectory)/eng/tools/eng-package-utils
         displayName: "Install script dependencies"
 
       - script: |
           node getPackagePath.js --repo-root "$(Build.SourcesDirectory)" --package-name "${{parameters.PackageName}}"
-        workingDirectory: $(Build.SourcesDirectory)/eng/tools/versioning
+        workingDirectory: $(Build.SourcesDirectory)/eng/tools/eng-package-utils
         displayName: "Get package path"
 
       - task: PublishCodeCoverageResults@1

@@ -7,6 +7,7 @@
 - [Breaking] In `SearchIndexClient`, removed options `mergeIfExists` and `uploadIfNotExists` on `uploadDocuments` and `mergeDocuments` and replaced them with new helper `mergeOrUploadDocuments`.
 - The type `IndexAction` was renamed to `IndexDocumentsAction`.
 - [Breaking] Removed `SearchApiKeyCredential` and replaced with `AzureKeyCredential`.
+- [Breaking] Search results accessed `byPage` now have an opaque `continuationToken` in place of `nextLink` and `nextPageParameters`.
 
 ## 11.0.0-preview.1 (2020-03-09)
 
