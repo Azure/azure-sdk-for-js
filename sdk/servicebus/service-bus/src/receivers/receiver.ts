@@ -279,6 +279,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
    * Returns a promise that resolves to an array of messages based on given count and timeout over
    * an AMQP receiver link from a Queue/Subscription.
    *
+   * The `maxWaitTimeSeconds` provided via the options overrides the `timeoutInMs` provided in the `retryOptions`.
    * Throws an error if there is another receive operation in progress on the same receiver. If you
    * are not sure whether there is another receive operation running, check the `isReceivingMessages`
    * property on the receiver.
@@ -296,26 +297,35 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
 
-    if (!this._context.batchingReceiver || !this._context.batchingReceiver.isOpen()) {
-      const options: ReceiveOptions = {
-        maxConcurrentCalls: 0,
-        receiveMode: convertToInternalReceiveMode(this.receiveMode)
-      };
-      this._context.batchingReceiver = BatchingReceiver.create(this._context, options);
-    }
-
-    const receivedMessages = await this._context.batchingReceiver.receive(
-      maxMessageCount,
-      options?.maxWaitTimeSeconds
-      // this._receiverOptions - No need to pass?
-    );
-
-    return (receivedMessages as unknown) as ReceivedMessageT[];
+    const receiveMessages = async () => {
+      if (!this._context.batchingReceiver || !this._context.batchingReceiver.isOpen()) {
+        const options: ReceiveOptions = {
+          maxConcurrentCalls: 0,
+          receiveMode: convertToInternalReceiveMode(this.receiveMode)
+        };
+        this._context.batchingReceiver = BatchingReceiver.create(this._context, options);
+      }
+      const receivedMessages = await this._context.batchingReceiver.receive(
+        maxMessageCount,
+        options?.maxWaitTimeSeconds
+      );
+      return (receivedMessages as unknown) as ReceivedMessageT[];
+    };
+    const config: RetryConfig<ReceivedMessageT[]> = {
+      connectionHost: this._context.namespace.config.host,
+      connectionId: this._context.namespace.connectionId,
+      operation: receiveMessages,
+      operationType: RetryOperationType.receiveMessage,
+      abortSignal: undefined,
+      retryOptions: this._receiverOptions.retryOptions
+    };
+    return retry<ReceivedMessageT[]>(config);
   }
 
   /**
    * Gets an async iterator over messages from the receiver.
    *
+   * The `maxWaitTimeSeconds` provided via the options overrides the `timeoutInMs` provided in the `retryOptions`.
    * Throws an error if there is another receive operation in progress on the same receiver. If you
    * are not sure whether there is another receive operation running, check the `isReceivingMessages`
    * property on the receiver.
@@ -326,11 +336,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
    * @throws MessagingError if the service returns an error while receiving messages.
    */
   getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<ReceivedMessageT> {
-    return getMessageIterator(
-      this,
-      options
-      // this._receiverOptions - No need to pass?
-    );
+    return getMessageIterator(this, options);
   }
 
   /**

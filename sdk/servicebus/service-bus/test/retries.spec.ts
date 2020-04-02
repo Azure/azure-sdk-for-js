@@ -17,6 +17,7 @@ import { Sender } from "../src/sender";
 import { MessagingError } from "@azure/core-amqp";
 import Long from "long";
 import { RetryOptions } from "@azure/core-amqp";
+import { BatchingReceiver } from "../src/core/batchingReceiver";
 
 describe("Retries - ManagementClient", () => {
   let senderClient: Sender;
@@ -339,6 +340,99 @@ describe("Retries - MessageSender", () => {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
     await mockInitAndVerifyRetries(async () => {
       await senderClient.sendBatch(1 as any);
+    });
+  });
+});
+
+describe("Retries - Receive methods", () => {
+  let receiverClient: Receiver<ReceivedMessageWithLock>;
+  let serviceBusClient: ServiceBusClientForTests;
+  let defaultMaxRetries = 2;
+  let numberOfTimesTried: number;
+
+  before(() => {
+    serviceBusClient = createServiceBusClientForTests({
+      retryOptions: {
+        // Defaults
+        timeoutInMs: 10000,
+        maxRetries: defaultMaxRetries,
+        retryDelayInMs: 0
+      }
+    });
+  });
+
+  after(() => {
+    return serviceBusClient.test.after();
+  });
+
+  async function beforeEachTest(entityType: TestClientType): Promise<void> {
+    const entityNames = await serviceBusClient.test.createTestEntities(entityType);
+    receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
+  }
+
+  async function afterEachTest(): Promise<void> {
+    await receiverClient.close();
+  }
+
+  function mockBatchingReceiveToThrowError() {
+    const fakeFunction = async function() {
+      numberOfTimesTried++;
+      throw new MessagingError("Hello there, I'm an error");
+    };
+    // Mocking batchingReceiver.receive to throw the error and fail
+    const batchingReceiver = BatchingReceiver.create((receiverClient as any)._context);
+    batchingReceiver.isOpen = () => true;
+    batchingReceiver.receive = fakeFunction;
+    // Mocking session creation to throw the error and fail
+    (receiverClient as any)._createMessageSessionIfDoesntExist = fakeFunction;
+  }
+
+  async function mockReceiveAndVerifyRetries(func: Function) {
+    mockBatchingReceiveToThrowError();
+    let errorThrown = false;
+    try {
+      await func();
+    } catch (error) {
+      errorThrown = true;
+      should.equal(error.message, "Hello there, I'm an error", "Unexpected error thrown");
+      should.equal(numberOfTimesTried, defaultMaxRetries + 1, "Unexpected number of retries");
+    }
+    should.equal(errorThrown, true, "Error was not thrown");
+  }
+
+  beforeEach(async () => {
+    numberOfTimesTried = 0;
+  });
+
+  afterEach(async () => {
+    await afterEachTest();
+  });
+
+  it("Unpartitioned Queue: receiveBatch #RunInBrowser", async function(): Promise<void> {
+    await beforeEachTest(TestClientType.UnpartitionedQueue);
+    await mockReceiveAndVerifyRetries(async () => {
+      await receiverClient.receiveBatch(1);
+    });
+  });
+
+  it("Unpartitioned Queue with Sessions: receiveBatch", async function(): Promise<void> {
+    await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
+    await mockReceiveAndVerifyRetries(async () => {
+      await receiverClient.receiveBatch(1);
+    });
+  });
+
+  it("Unpartitioned Queue: MessageIterator #RunInBrowser", async function(): Promise<void> {
+    await beforeEachTest(TestClientType.UnpartitionedQueue);
+    await mockReceiveAndVerifyRetries(async () => {
+      await receiverClient.getMessageIterator().next();
+    });
+  });
+
+  it("Unpartitioned Queue with Sessions: MessageIterator", async function(): Promise<void> {
+    await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
+    await mockReceiveAndVerifyRetries(async () => {
+      await receiverClient.getMessageIterator().next();
     });
   });
 });
