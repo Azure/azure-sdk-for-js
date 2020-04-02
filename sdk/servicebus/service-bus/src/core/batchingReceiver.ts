@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as log from "../log";
-import { Constants, translate, MessagingError, RetryOptions } from "@azure/core-amqp";
+import { Constants, translate, MessagingError } from "@azure/core-amqp";
 import { ReceiverEvents, EventContext, OnAmqpEvent, SessionEvents, AmqpError } from "rhea-promise";
 import { ServiceBusMessageImpl, ReceiveMode } from "../serviceBusMessage";
 import {
@@ -45,8 +45,8 @@ export class BatchingReceiver extends MessageReceiver {
    * @param {ClientEntityContext} context The client entity context.
    * @param {ReceiveOptions} [options]  Options for how you'd like to connect.
    */
-  constructor(context: ClientEntityContext, options?: ReceiveOptions, retryOptions?: RetryOptions) {
-    super(context, ReceiverType.batching, options, retryOptions);
+  constructor(context: ClientEntityContext, options?: ReceiveOptions) {
+    super(context, ReceiverType.batching, options);
     this.newMessageWaitTimeoutInSeconds = 1;
   }
 
@@ -451,13 +451,9 @@ export class BatchingReceiver extends MessageReceiver {
    * @param {ClientEntityContext} context    The connection context.
    * @param {ReceiveOptions} [options]     Receive options.
    */
-  static create(
-    context: ClientEntityContext,
-    options?: ReceiveOptions,
-    retryOptions?: RetryOptions
-  ): BatchingReceiver {
+  static create(context: ClientEntityContext, options?: ReceiveOptions): BatchingReceiver {
     throwErrorIfConnectionClosed(context.namespace);
-    const bReceiver = new BatchingReceiver(context, options, retryOptions);
+    const bReceiver = new BatchingReceiver(context, options);
     context.batchingReceiver = bReceiver;
     return bReceiver;
   }

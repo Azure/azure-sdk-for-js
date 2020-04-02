@@ -13,7 +13,7 @@ import { ClientEntityContext } from "../clientEntityContext";
 
 import * as log from "../log";
 import { throwErrorIfConnectionClosed } from "../util/errors";
-import { RetryOptions, RetryOperationType, RetryConfig, retry } from "@azure/core-amqp";
+import { RetryOperationType, RetryConfig, retry } from "@azure/core-amqp";
 
 /**
  * @internal
@@ -30,8 +30,8 @@ export class StreamingReceiver extends MessageReceiver {
    * @param {ClientEntityContext} context                      The client entity context.
    * @param {ReceiveOptions} [options]                         Options for how you'd like to connect.
    */
-  constructor(context: ClientEntityContext, options?: ReceiveOptions, retryOptions?: RetryOptions) {
-    super(context, ReceiverType.streaming, options, retryOptions);
+  constructor(context: ClientEntityContext, options?: ReceiveOptions) {
+    super(context, ReceiverType.streaming, options);
 
     this.resetTimerOnNewMessageReceived = () => {
       if (this._newMessageReceivedTimer) clearTimeout(this._newMessageReceivedTimer);
@@ -75,14 +75,13 @@ export class StreamingReceiver extends MessageReceiver {
    */
   static async create(
     context: ClientEntityContext,
-    options?: ReceiveOptions,
-    retryOptions?: RetryOptions
+    options?: ReceiveOptions
   ): Promise<StreamingReceiver> {
     throwErrorIfConnectionClosed(context.namespace);
     if (!options) options = {};
     if (options.autoComplete == null) options.autoComplete = true;
 
-    const sReceiver = new StreamingReceiver(context, options, retryOptions);
+    const sReceiver = new StreamingReceiver(context, options);
 
     const config: RetryConfig<void> = {
       operation: async () => {
@@ -90,7 +89,7 @@ export class StreamingReceiver extends MessageReceiver {
       },
       connectionId: context.namespace.connectionId,
       operationType: RetryOperationType.receiveMessage,
-      retryOptions: retryOptions
+      retryOptions: options.retryOptions
     };
     await retry<void>(config);
 
