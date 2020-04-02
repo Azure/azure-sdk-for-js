@@ -7,7 +7,11 @@ This is the core HTTP pipeline for Azure SDK JavaScript libraries which work in 
 ### Requirements
 
 - [Node.js](https://nodejs.org) version > 8.x
-- npm install -g typescript
+- Typescript compiler
+
+```shell
+npm install -g typescript
+```
 
 ### Installation
 
@@ -25,25 +29,49 @@ Examples can be found in the `samples` folder.
 
 First obtain an access token to the management service used in the sample code
 
-One easy way to get the token using Azure CLI (https://docs.microsoft.com/cli/azure/?view=azure-cli-latest)
+One easy way to get an access token is using [Azure CLI](https://docs.microsoft.com/cli/azure/?view=azure-cli-latest)
 
-1. `az login` using the above subscription
-2. `az account set -s <subscription id>`
-3. `az account get-access-token --resource=https://management.azure.com`
+1. Sign in
+```shell
+az login
+```
+2. Select the subscription to use
+```shell
+az account set -s <subscription id>
+```
+3. Obtain an access token
+```shell
+az account get-access-token --resource=https://management.azure.com
+```
 
 ### Node.js
 
-- Set the subscriptionId and token environment variables
-- Change directory to samples folder `cd samples`
-- Compile the TypeScript code `tsc node-sample.ts`
-- Run `node node-sample.js`
+- Set environment variables used in the sample code
 
-### In the browser
+on \*Nix/MacOS
+```shell
+export AZURE_SUBSCRIPTION_ID=<subscription id>
+export ACCESS_TOKEN=<access token>
+```
+or on Windows,
 
-- Change directory to samples folder `cd samples`
-- Set the subscriptionId and token in `index.js`
-- Follow the guide at https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/Bundling.md#using-parcel
-- Open index.html file in the browser. It should show the response from GET request on the storage account. From Chrome type Ctrl + Shift + I and you can see the logs in console.
+```shell
+set AZURE_SUBSCRIPTION_ID=<subscription id>
+set ACCESS_TOKEN=<access token>
+```
+
+- Change directory to samples folder, compile the TypeScript code, then run the sample
+
+```
+cd samples
+tsc node-sample.ts
+node node-sample.js
+```
+
+### Browser
+
+- Set values of `subscriptionId` and `token` variable in `samples/index.js`
+- Follow the instructions of [JavaScript Bundling Guide using Parcel](https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/Bundling.md#using-parcel) to build and run the code in the browser.
 
 ## Troubleshooting
 

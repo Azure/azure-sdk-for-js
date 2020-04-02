@@ -3,7 +3,7 @@
 
 "use strict";
 
-import * as coreHttp from "@azure/core-http";
+import * as coreHttp from "../src/coreHttp";
 
 /* This is an example token credential that uses a token value directly. Ordinarily, clients should use a
  * TokenCredential provided by the user when the client is created. Users should use DefaultAzureCredential

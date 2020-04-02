@@ -16,11 +16,10 @@ class TestTokenCredential {
   }
 }
 
-document.write('hello world');
 const creds = new TestTokenCredential(token);
 const client = new ServiceClient(creds);
 const req = {
   url: `https://management.azure.com/subscriptions/${subscriptionId}/providers/Microsoft.Storage/storageAccounts?api-version=2015-06-15`,
   method: "GET"
 };
-client.sendRequest(req).then((res) => { document.write(res.bodyAsText.substr(0, 1000)); }).catch((err) => { console.log(err); });
+client.sendRequest(req).then((res) => { console.log(res.bodyAsText.substr(0, 1000)); }).catch((err) => { console.log(err); });
