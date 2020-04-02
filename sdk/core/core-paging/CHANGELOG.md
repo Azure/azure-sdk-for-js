@@ -1,5 +1,8 @@
 # Release History
 
+## 1.1.2 (Unreleased)
+
+
 ## 1.1.1 (2020-04-02)
 
 - The generic argument `PageT` now has default type of `T[]`. (PR #7569)
