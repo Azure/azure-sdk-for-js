@@ -598,7 +598,7 @@ One specific example of code that **must** live in the `beforeEach` section is [
 
 ```ts
   beforeEach(async function() {
-    recorder = record(that);
+    recorder = record(this);
     const credential = await new ClientSecretCredential(
       env.AZURE_TENANT_ID,
       env.AZURE_CLIENT_ID,
@@ -625,7 +625,12 @@ describe("some group of functionalities", function() {
   let client;
 
   beforeEach(function() {
+    recorder = record(this);
     client = new Client();
+  });
+
+  afterEach(function () {
+    recorder.stop();
   });
 
   it("should test A with a proper setup", function() {
@@ -661,7 +666,12 @@ describe("some group of functionalities", function() {
   let client: Client;
 
   beforeEach(function() {
+    recorder = record(this);
     client = new Client();
+  });
+
+  afterEach(function () {
+    recorder.stop();
   });
 
   function defaultPrepareClient(client: Client) {
@@ -694,30 +704,30 @@ In case that a specific utility function might be useful for more than one test 
 Let's say we have a test utility that we call `retry.ts`, with the following content:
 
 ```ts
-import { delay as coreDelay } from "@azure/core-http";
+import { delay } from "@azure/test-utils-recorder";
 
 /**
  * A simple abstraction to retry, and exponentially de-escalate retrying, a
  * given async function until it is fulfilled.
  * @param {() => Promise<T>} target The async function you want to retry
- * @param {number} delay The delay between each retry, defaults to 1000
+ * @param {number} delayInMS The delay in milliseconds between each retry, defaults to 1000
  * @param {number} timeout Maximum time we'll let this lapse before we quit retrying, defaults to Infinity
  * @param {number} increaseFactor Increase factor of each retry, defaults to 1
  * @returns {Promise<any>} Resolved promise
  */
 export async function retry<T>(
   target: () => Promise<T>,
-  delay: number = 1000,
+  delayInMS: number = 1000,
   timeout: number = Infinity,
   increaseFactor: number = 1
 ): Promise<any> {
   const start = new Date().getTime();
-  let updatedDelay = delay;
+  let updatedDelay = delayInMS;
   while (new Date().getTime() - start < timeout) {
     try {
       return await target();
     } catch {
-      await coreDelay(updatedDelay);
+      await delay(updatedDelay);
       updatedDelay *= increaseFactor;
     }
   }
@@ -754,7 +764,12 @@ describe("testing the client's basic methods", function() {
   let client: Client;
 
   beforeEach(function() {
+    recorder = record(this);
     client = new Client();
+  });
+
+  afterEach(function () {
+    recorder.stop();
   });
 
   it("the initialized client should expose an expected public property", function() {
@@ -786,7 +801,12 @@ describe("testing some of the client's public properties", function() {
   let client: Client;
 
   beforeEach(function() {
+    recorder = record(this);
     client = new Client();
+  });
+
+  afterEach(function () {
+    recorder.stop();
   });
 
   it("should have a valid version", function() {
@@ -802,7 +822,12 @@ describe("testing the client's basic methods", function() {
   let client: Client;
 
   beforeEach(function() {
+    recorder = record(this);
     client = new Client();
+  });
+
+  afterEach(function () {
+    recorder.stop();
   });
 
   it("should test A", function() {
@@ -862,7 +887,12 @@ describe("testing the client's basic methods", function() {
   let client: Client;
 
   beforeEach(function() {
+    recorder = record(this);
     client = new Client();
+  });
+
+  afterEach(function () {
+    recorder.stop();
   });
 
   it("should test A #browser", function() {
