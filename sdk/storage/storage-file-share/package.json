@@ -63,8 +63,8 @@
     "ThirdPartyNotices.txt",
     "dist/",
     "dist-esm/src/",
-    "./typings/latest/storage-file-share.d.ts",
-    "./typings/3.1/storage-file-share.d.ts",
+    "typings/latest/storage-file-share.d.ts",
+    "typings/3.1/storage-file-share.d.ts",
     "README.md",
     "LICENSE"
   ],
