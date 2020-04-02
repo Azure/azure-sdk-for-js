@@ -65,12 +65,12 @@ Alternatively, you can get the endpoint and Admin Key from the resource informat
 Once you have an Admin Key, you can use it as follows:
 
 ```js
-const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/search");
+const { SearchIndexClient, AzureKeyCredential } = require("@azure/search");
 
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new SearchApiKeyCredential("<Admin Key>")
+  new AzureKeyCredential("<Admin Key>")
 );
 ```
 
@@ -101,12 +101,12 @@ Typically you will only wish to [show a subset of search results](https://docs.m
 To list all results of a particular query, you can use `search` with a search string that uses [simple query syntax](https://docs.microsoft.com/azure/search/query-simple-syntax):
 
 ```js
-const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/search");
+const { SearchIndexClient, AzureKeyCredential } = require("@azure/search");
 
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new SearchApiKeyCredential("<Admin Key>")
+  new AzureKeyCredential("<Admin Key>")
 );
 
 const searchResults = await client.search({ searchText: "wifi -luxury" });
@@ -118,12 +118,12 @@ for await (const result of searchResults.results) {
 For a more advanced search that uses [Lucene syntax](https://docs.microsoft.com/azure/search/query-lucene-syntax), specify `queryType` to be `all`:
 
 ```js
-const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/search");
+const { SearchIndexClient, AzureKeyCredential } = require("@azure/search");
 
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new SearchApiKeyCredential("<Admin Key>")
+  new AzureKeyCredential("<Admin Key>")
 );
 
 const searchResults = await client.search({
@@ -141,7 +141,7 @@ for await (const result of searchResults.results) {
 In TypeScript `SearchIndexClient` takes a generic parameter that is the model shape of your index documents. This allows you to perform strongly typed lookup of fields returned in results. TypeScript is also able to check for fields returned when specifying a `select` parameter.
 
 ```ts
-import { SearchIndexClient, SearchApiKeyCredential } from "@azure/search";
+import { SearchIndexClient, AzureKeyCredential } from "@azure/search";
 
 // An example schema for documents in the index
 interface Hotel {
@@ -156,7 +156,7 @@ interface Hotel {
 const client = new SearchIndexClient<Hotel>(
   "<endpoint>",
   "<indexName>",
-  new SearchApiKeyCredential("<Admin Key>")
+  new AzureKeyCredential("<Admin Key>")
 );
 
 const searchResults = await client.search({
@@ -178,12 +178,12 @@ for await (const result of searchResults.results) {
 Using the `filter` query parameter allows you to query an index using the syntax of an [OData \$filter expression](https://docs.microsoft.com/azure/search/search-query-odata-filter).
 
 ```js
-const { SearchIndexClient, SearchApiKeyCredential, odata } = require("@azure/search");
+const { SearchIndexClient, AzureKeyCredential, odata } = require("@azure/search");
 
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new SearchApiKeyCredential("<Admin Key>")
+  new AzureKeyCredential("<Admin Key>")
 );
 
 const baseRateMax = 200;
@@ -206,12 +206,12 @@ for await (const result of searchResults.results) {
 [Facets](https://docs.microsoft.com/azure/search/search-filters-facets) are used to help a user of your application refine a search along pre-configured dimensions. [Facet syntax](https://docs.microsoft.com/rest/api/searchservice/search-documents#facetstring-zero-or-more) provides the options to sort and bucket facet values.
 
 ```js
-const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/search");
+const { SearchIndexClient, AzureKeyCredential } = require("@azure/search");
 
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new SearchApiKeyCredential("<Admin Key>")
+  new AzureKeyCredential("<Admin Key>")
 );
 
 const searchResults = await client.search({
@@ -246,12 +246,12 @@ When retrieving results, a `facets` property will be available that will indicat
 A specific document can be retrieved by its primary key value:
 
 ```js
-const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/search");
+const { SearchIndexClient, AzureKeyCredential } = require("@azure/search");
 
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new SearchApiKeyCredential("<Admin Key>")
+  new AzureKeyCredential("<Admin Key>")
 );
 
 const result = await client.getDocument("1234");
@@ -265,12 +265,12 @@ If you [created a suggester](https://docs.microsoft.com/azure/search/index-add-s
 This example shows returning the top three suggestions for the input "wifi" from the suggester "sg":
 
 ```js
-const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/search");
+const { SearchIndexClient, AzureKeyCredential } = require("@azure/search");
 
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new SearchApiKeyCredential("<Admin Key>")
+  new AzureKeyCredential("<Admin Key>")
 );
 
 const suggestResult = await client.suggest({
@@ -294,12 +294,12 @@ To implement type-ahead behavior in your application, you can query the index wi
 The below example tries to complete the string "de" using the suggester named "sg" on the index:
 
 ```js
-const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/search");
+const { SearchIndexClient, AzureKeyCredential } = require("@azure/search");
 
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new SearchApiKeyCredential("<Admin Key>")
+  new AzureKeyCredential("<Admin Key>")
 );
 
 const autocompleteResult = await client.autocomplete({
@@ -315,12 +315,12 @@ for (const result of autocompleteResult.results || []) {
 ### Return the count of documents in an index
 
 ```js
-const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/search");
+const { SearchIndexClient, AzureKeyCredential } = require("@azure/search");
 
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new SearchApiKeyCredential("<Admin Key>")
+  new AzureKeyCredential("<Admin Key>")
 );
 
 const count = await client.countDocuments();
@@ -332,12 +332,12 @@ console.log(`${count} documents in index ${client.indexName}`);
 Given the name of a primary key and a list of indexes, you can delete multiple documents from the index at the same time:
 
 ```js
-const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/search");
+const { SearchIndexClient, AzureKeyCredential } = require("@azure/search");
 
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new SearchApiKeyCredential("<Admin Key>")
+  new AzureKeyCredential("<Admin Key>")
 );
 
 const deleteResult = await client.deleteDocuments("HotelId", ["1", "2", "3"]);
@@ -351,13 +351,12 @@ for (const result of deleteResult.results) {
 You can upload multiple documents into index inside a batch:
 
 ```js
-
-const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/search");
+const { SearchIndexClient, AzureKeyCredential } = require("@azure/search");
 
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new SearchApiKeyCredential("<Admin Key>")
+  new AzureKeyCredential("<Admin Key>")
 );
 
 const uploadResult = await client.uploadDocuments([
@@ -376,13 +375,12 @@ for (const result of uploadResult.results) {
 You can update multiple documents in an index at once, or create them if they do not exist. For more details about how merging works, see: https://docs.microsoft.com/rest/api/searchservice/AddUpdate-or-Delete-Documents
 
 ```js
-
-const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/search");
+const { SearchIndexClient, AzureKeyCredential } = require("@azure/search");
 
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new SearchApiKeyCredential("<Admin Key>")
+  new AzureKeyCredential("<Admin Key>")
 );
 
 // use mergeOrUploadDocuments if the document might not be upload

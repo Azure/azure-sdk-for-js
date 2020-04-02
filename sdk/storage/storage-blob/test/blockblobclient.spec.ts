@@ -35,8 +35,10 @@ describe("BlockBlobClient", () => {
   });
 
   afterEach(async function() {
-    await containerClient.delete();
-    recorder.stop();
+    if (!this.currentTest?.isPending()) {
+      await containerClient.delete();
+      recorder.stop();
+    }
   });
 
   it("upload with string body and default parameters", async () => {

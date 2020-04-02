@@ -69,7 +69,6 @@ export {
   Skill,
   SynonymMap
 } from "./serviceModels";
-export { SearchApiKeyCredential } from "./searchApiKeyCredential";
 export { default as GeographyPoint } from "./geographyPoint";
 export { odata } from "./odata";
 export { IndexDocumentsBatch } from "./indexDocumentsBatch";
@@ -186,3 +185,4 @@ export {
   OcrSkillLanguage,
   TextExtractionAlgorithm
 } from "./generated/service/models";
+export { AzureKeyCredential } from "@azure/core-auth";

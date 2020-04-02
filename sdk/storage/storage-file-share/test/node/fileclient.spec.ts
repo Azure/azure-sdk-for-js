@@ -47,8 +47,10 @@ describe("FileClient Node.js only", () => {
   });
 
   afterEach(async function() {
-    await shareClient.delete();
-    recorder.stop();
+    if (!this.currentTest?.isPending()) {
+      await shareClient.delete();
+      recorder.stop();
+    }
   });
 
   it("uploadData - large Buffer as data", async () => {
@@ -227,12 +229,11 @@ describe("FileClient Node.js only", () => {
     await fileClient.uploadData(deflated, {
       fileHttpHeaders: {
         fileContentEncoding: "deflate",
-        fileContentType: "text/plain",
-      },
+        fileContentType: "text/plain"
+      }
     });
 
     const downloaded = await fileClient.downloadToBuffer();
     assert.deepStrictEqual(downloaded, deflated);
   });
-
 });

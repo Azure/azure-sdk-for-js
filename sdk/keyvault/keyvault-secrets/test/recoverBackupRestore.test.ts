@@ -5,8 +5,7 @@ import * as assert from "assert";
 import { SecretClient } from "../src";
 import { isNode } from "@azure/core-http";
 import { testPollerProperties } from "./utils/recorderUtils";
-import { retry } from "./utils/recorderUtils";
-import { env, isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
+import { env, isPlaybackMode, Recorder, delay } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { assertThrowsAbortError } from "./utils/utils.common";
@@ -139,7 +138,16 @@ describe("Secret client - restore secrets and recover backups", () => {
     await client.setSecret(secretName, "RSA");
     const backup = await client.backupSecret(secretName);
     await testClient.flushSecret(secretName);
-    await retry(async () => client.restoreSecretBackup(backup as Uint8Array));
+    while (true) {
+      try {
+        await client.restoreSecretBackup(backup as Uint8Array);
+        break;
+      } catch (e) {
+        console.log("Can't restore the secret since it's not fully deleted:", e.message);
+        console.log("Retrying in one second...");
+        await delay(1000);
+      }
+    }
     const getResult = await client.getSecret(secretName);
     assert.equal(getResult.name, secretName, "Unexpected secret name in result from getSecret().");
     await testClient.flushSecret(secretName);
