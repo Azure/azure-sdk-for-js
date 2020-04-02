@@ -496,16 +496,13 @@ export class MessageSender extends LinkEntity {
             Constants.defaultOperationTimeoutInMs,
             true
           );
-          // shall retry forever at an interval of 15 seconds if the error is a retryable error
+          // shall retry as per the provided retryOptions if the error is a retryable error
           // else bail out when the error is not retryable or the operation succeeds.
           const config: RetryConfig<void> = {
             operation: () => this._init(senderOptions),
             connectionId: this._context.namespace.connectionId!,
             operationType: RetryOperationType.senderLink,
-            retryOptions: {
-              maxRetries: Constants.defaultMaxRetriesForConnection,
-              retryDelayInMs: 15000
-            },
+            retryOptions: this._getSenderOptions?.retryOptions,
             connectionHost: this._context.namespace.config.host
           };
           return retry<void>(config);
