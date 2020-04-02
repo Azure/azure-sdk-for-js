@@ -41,6 +41,7 @@ export {
   GetSenderOptions,
   GetSubscriptionRuleManagerOptions
 } from "./models";
+export { OperationOptions, TracingOptions } from "./modelsToBeSharedWithEventHubs";
 
 export { Receiver } from "./receivers/receiver";
 export { SubscriptionRuleManager } from "./receivers/subscriptionRuleManager";

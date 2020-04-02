@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { OperationOptions } from "@azure/core-auth";
+import { OperationOptions } from "./modelsToBeSharedWithEventHubs";
 import { RetryOptions } from "@azure/core-amqp";
 import { SessionReceiverOptions } from "./session/messageSession";
 
