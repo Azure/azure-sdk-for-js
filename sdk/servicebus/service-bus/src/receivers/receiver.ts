@@ -199,7 +199,6 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
     if (this.isClosed) {
       const errorMessage = getReceiverClosedErrorMsg(
         this._context.entityPath,
-        this._context.clientType,
         this._context.isClosed
       );
       const error = new Error(errorMessage);

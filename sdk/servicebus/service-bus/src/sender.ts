@@ -169,7 +169,6 @@ export class SenderImpl implements Sender {
     if (this.isClosed) {
       const errorMessage = getSenderClosedErrorMsg(
         this._context.entityPath,
-        this._context.clientType,
         this._context.isClosed
       );
       const error = new Error(errorMessage);
