@@ -2,7 +2,7 @@
 
 ## 1.1.1 (2020-04-02)
 
-- The generic arguemnt `PageT` now has default type of `T[]`. (PR #7569)
+- The generic argument `PageT` now has default type of `T[]`. (PR #7569)
 
 ## 1.1.0 (2020-02-28)
 
