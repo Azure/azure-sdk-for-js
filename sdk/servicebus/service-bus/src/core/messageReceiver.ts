@@ -941,7 +941,7 @@ export class MessageReceiver extends LinkEntity {
         // the service does not send an error stating that the link is still open.
         const options: ReceiverOptions = this._createReceiverOptions(true);
 
-        // shall retry forever at an interval of 15 seconds if the error is a retryable error
+        // shall retry as per the provided retryOptions if the error is a retryable error
         // else bail out when the error is not retryable or the oepration succeeds.
         const config: RetryConfig<void> = {
           operation: () =>
