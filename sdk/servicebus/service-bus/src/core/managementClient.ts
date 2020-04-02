@@ -293,23 +293,6 @@ export class ManagementClient extends LinkEntity {
       sendRequestOptions.timeoutInMs || Constants.defaultOperationTimeoutInMs;
     const initOperationStartTime = Date.now();
     if (!this._isMgmtRequestResponseLinkOpen()) {
-      log.mgmt(
-        "[%s] Acquiring lock to get the management req res link.",
-        this._context.namespace.connectionId
-      );
-
-      const actionAfterTimeout = () => {
-        const desc: string = `The request with message_id "${request.message_id}" timed out. Please try again later.`;
-        const e: Error = {
-          name: "OperationTimeoutError",
-          message: desc
-        };
-
-        throw e;
-      };
-
-      const waitTimer = setTimeout(actionAfterTimeout, retryTimeoutInMs);
-
       const rejectOnAbort = () => {
         const requestName = sendRequestOptions.requestName;
         const desc: string =
@@ -330,6 +313,23 @@ export class ManagementClient extends LinkEntity {
         // TODO: init() should respect the abort signal as well.
         // See https://github.com/Azure/azure-sdk-for-js/issues/4422
       }
+
+      const actionAfterTimeout = () => {
+        const desc: string = `The request with message_id "${request.message_id}" timed out. Please try again later.`;
+        const e: Error = {
+          name: "OperationTimeoutError",
+          message: desc
+        };
+
+        throw e;
+      };
+
+      const waitTimer = setTimeout(actionAfterTimeout, retryTimeoutInMs);
+
+      log.mgmt(
+        "[%s] Acquiring lock to get the management req res link.",
+        this._context.namespace.connectionId
+      );
 
       try {
         await defaultLock.acquire(this.managementLock, () => {
