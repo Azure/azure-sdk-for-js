@@ -246,11 +246,11 @@ export interface SubscribeOptions extends OperationOptions, MessageHandlerOption
 
 // @public
 export interface SubscriptionRuleManager {
-    addRule(ruleName: string, filter: boolean | string | CorrelationFilter, sqlRuleActionExpression?: string): Promise<void>;
+    addRule(ruleName: string, filter: boolean | string | CorrelationFilter, sqlRuleActionExpression?: string, options?: OperationOptions): Promise<void>;
     close(): Promise<void>;
     readonly defaultRuleName: string;
-    getRules(): Promise<RuleDescription[]>;
-    removeRule(ruleName: string): Promise<void>;
+    getRules(options?: OperationOptions): Promise<RuleDescription[]>;
+    removeRule(ruleName: string, options?: OperationOptions): Promise<void>;
 }
 
 export { TokenCredential }
