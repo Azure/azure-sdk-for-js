@@ -273,7 +273,8 @@ export class SenderImpl implements Sender {
       operation: scheduleMessageOperationPromise,
       connectionId: this._context.namespace.connectionId,
       operationType: RetryOperationType.management,
-      retryOptions: this._senderOptions.retryOptions
+      retryOptions: this._senderOptions.retryOptions,
+      abortSignal: options?.abortSignal
     };
     return retry<Long.Long>(config);
   }
@@ -305,7 +306,8 @@ export class SenderImpl implements Sender {
       operation: scheduleMessageOperationPromise,
       connectionId: this._context.namespace.connectionId,
       operationType: RetryOperationType.management,
-      retryOptions: this._senderOptions.retryOptions
+      retryOptions: this._senderOptions.retryOptions,
+      abortSignal: options?.abortSignal
     };
     return retry<Long.Long[]>(config);
   }
@@ -337,7 +339,8 @@ export class SenderImpl implements Sender {
       operation: cancelSchedulesMessagesOperationPromise,
       connectionId: this._context.namespace.connectionId,
       operationType: RetryOperationType.management,
-      retryOptions: this._senderOptions.retryOptions
+      retryOptions: this._senderOptions.retryOptions,
+      abortSignal: options?.abortSignal
     };
     return retry<void>(config);
   }
@@ -372,7 +375,8 @@ export class SenderImpl implements Sender {
       operation: cancelSchedulesMessagesOperationPromise,
       connectionId: this._context.namespace.connectionId,
       operationType: RetryOperationType.management,
-      retryOptions: this._senderOptions.retryOptions
+      retryOptions: this._senderOptions.retryOptions,
+      abortSignal: options?.abortSignal
     };
     return retry<void>(config);
   }
