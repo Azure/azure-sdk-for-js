@@ -90,7 +90,7 @@ const serviceClient = new SearchServiceClient("<endpoint>", new AzureKeyCredenti
 
 ### Documents
 
-An item stored inside a search index is referred to as a document. The shape of this document is described in the index using `Field`s. Each Field has a name and datatype as well as additional metadata such as if it is searchable or filterable.
+An item stored inside a search index. The shape of this document is described in the index using `Field`s. Each Field has a name, a datatype, and additional metadata such as if it is searchable or filterable.
 
 ### Pagination
 
