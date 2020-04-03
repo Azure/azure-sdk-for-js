@@ -1,25 +1,103 @@
 # Writing tests for the Azure SDK for JS/TS
 
+The Azure SDK for JavaScript and TypeScript allows users to communicate and control their Azure resources. The development of the Azure SDK should be taken with uttermost care, not only to provide the best API clients to our customers, but also to ensure that the software is reliable through stable, succinct and comprehensible tests. For that purpose, we've made this document to define how tests should be written. 
+
 ## Index
 
-- [Introduction](#introduction)
-- [Recommended tools](#recommended-tools)
-  - [Mocha](#mocha)
-  - [Chai](#chai)
-  - [Rollup](#rollup)
-  - [Karma](#karma)
-  - [Recorder](#recorder)
 - [Engineering setup](#engineering-setup)
+    - [Engineering goals](#engineering-goals).
+    - [CI and nightly test configuration](#ci-and-nightly-test-configuration).
+    - [Delivering live tests to our users](#delivering-live-tests-to-our-users).
+- [Recommended tools](#recommended-tools)
+    - [Mocha](#mocha)
+    - [Chai](#chai)
+    - [Rollup](#rollup)
+    - [Karma](#karma)
+    - [Recorder](#recorder)
 - [Test folder structure](#test-folder-structure)
-  - [Testing cloud resources](#testing-cloud-resources).
-  - [Public or internal tests](#public-or-internal-tests).
-  - [Testing API functionalities](#testing-api-functionalities).
+    - [Testing cloud resources](#testing-cloud-resources)
+    - [Public or internal tests](#public-or-internal-tests)
+    - [Testing API functionalities](#testing-api-functionalities)
 - [Shared and reusable code](#shared-and-reusable-code)
-- [Individual tests](#individual-tests)
+    - [Preparing all of the test cases](#preparing-all-of-the-test-cases)
+    - [Preparing some of the test cases](#preparing-some-of-the-test-cases)
+    - [Universal utilities](#universal-utilities)
+- [Writing test cases](#writing-test-cases)
+    - [What a test is actually testing](#what-a-test-is-actually-testing)
+    - [Test titles](#test-titles)
+    - [Inner parts of a test](#inner-parts-of-a-test)
+    - [Using conditionals](#using-conditionals)
+    - [Using delays](#using-delays)
+    - [Exceptions and edge cases](#exceptions-and-edge-cases)
+    - [How tests should look](#how-tests-should-look)
+- [Getting feedback](#getting-feedback)
 
 
 
-## Introduction
+## Engineering setup
+
+The Azure SDK tests are valuable due to many factors. They work as a way to verify that our code is correct, just as much as a way to share how to use our code with our customers. To monitor that our tests are working correctly, they are triggered by automatic systems that help us verify that our commits are correct, or check that the services we're targeting don't show unexpected behaviors, all of which help us have a better level of confidence before releasing anything to the public. 
+
+For our Engineering Systems to pick up our tests appropriately, our packages must be configured according to their guidelines. In this section we will go through some of these concepts, and provide links that expand them in detail. We will be covering:
+
+- [Engineering goals](#engineering-goals).
+- [CI and nightly test configuration](#ci-and-nightly-test-configuration).
+- [Delivering live tests to our users](#delivering-live-tests-to-our-users).
+
+### Engineering goals
+
+Though the tests for the Azure SDK for JavaScript and TypeScript must target live resources, we should make sure they only do so when necessary. For this purpose, we must keep in mind the following guidelines:
+
+- Tests should not be flaky. Tests should pass regardless of who's executing it, when they are running, and how many times they run.
+- Tests should create the resources they are testing.
+- While writing tests, use your own personal resources for setting up the context in which each test will create their own resources. For example, it is valid to have a static KeyVault while writing KeyVault tests, and then a given test can create a KeyVault Key before validating any of the functionalities of the KeyVault Key. Ask your team to see if there's a resource already in place for test development.
+- Any resource that is not created by the tests must be defined in an [ARM template](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/overview), so that anyone can build a copy of them. This ARM template will be used by the CI pipelines during builds. We'll examine how to set this up in the [CI and nightly test configuration](#ci-and-nightly-test-configuration) section.
+- Avoid calling to timed delays (like `setTimeout`) to assert that a change happened in the live resources. Also avoid locking the main thread until the resource responds. You can read more about [_using delays_ in this section](#using-delays).
+- The resources created in the tests should be unique. Running the same test in parallel, multiple times, should not break them.
+
+You can read more recommendations through the following link: [Best Practices for writing tests that target live resources](https://dev.azure.com/azure-sdk/internal/_wiki/wikis/internal.wiki/51/Testing-Guidelines).
+
+### CI and nightly test configuration
+
+To ensure that our tests are executed in the test [Azure DevOps pipelines](https://azure.microsoft.com/en-us/services/devops/pipelines/) that have been previously configured by our team, some configuration files are necessary.
+
+A file named `ci.yml` should be added by the Engineering Systems team at the service level (the common parent of the clients of a specific service), for example at the `keyvault/` level of `keyvault/keyvault-keys`. This file will trigger all of the validation builds that happen during pull requests and after any pull request is merged into master.
+
+For live tests (which run nightly), we need to provide two files, `test-resources.json` and `tests.yml`. `test-resources.json` must exist either at the package folder level, or at the service level, which will contain an [ARM template](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/overview) of the resources needed to run all of the tests of these clients. All of the `test-resources.json` files inside of the service folder will be used to deploy resources on every build. The `tests.yml` file must be placed at the package folder, which is in charge of specifying when to run the tests for this package, what environments to use to run the tests, and how to run the tests. You can learn how to write these files by following the guide: [Creating live tests](https://dev.azure.com/azure-sdk/internal/_wiki/wikis/internal.wiki/48/Create-a-new-Live-Test-pipeline?anchor=creating-live-tests).
+
+These files will deal with the environment variables needed by your tests. Some of these environment variables are quite standard. Generally speaking, the SDK tests will use information from the tenant and the client of the resources that the tests are working with. To effectively provide these to the automated tests, we need to enable the pipeline to use some specific configuration.
+
+First you must go to https://dev.azure.com/azure-sdk/ and look for the builds that have been configured to target your project, then:
+
+- Click the pipeline you want to test on PR.
+- Press the "Edit" button at the top right corner.
+- Press the three dot menu at the top right corner. A menu will drop down. Press the "Triggers" option from that menu.
+- A page will load with an horizontal menu near the top-center with the following options: "YAML", "Variables", "Triggers" and "History".
+- Click the Variables option of that menu.
+- Click on "Variable Groups".
+- If the variable group you want to select is not visible in that page, add it: You'll see a button that will say "🔗 Link variable group". Click it, then use the "🔍 search" input and type the name `Secrets for Resource Provisioner`, and then link it.
+
+It should end up looking something like this:
+
+![image](https://user-images.githubusercontent.com/417016/72285413-f8e54700-363a-11ea-959e-cb1bc4c074ba.png)
+
+Once the CI is properly configured, you can test that the live tests pipelines work by submitting a comment to a pull request with the name of the pipeline, which will be similar to `js - event-hubs - tests` or `js - keyvault-keys - tests`.
+
+### Delivering live tests to our users
+
+The `test-resources.json` can be used by our users to set up their own test resources. We go through how it's being used with our PowerShell scripts in our [README](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md#integration-testing-with-live-services), though we recommend using the same ARM template to expose a "Deploy Button" in the `README.md` of your project. The button will look like this one for KeyVault-Keys:
+
+[![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsdk%2Fkeyvault%2Ftests-resources.json)
+
+Which contains the following code:
+
+```md
+[![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsdk%2Fkeyvault%2Ftests-resources.json)
+```
+
+You'll see that the way this works is that there's an azure endpoint with this structure `https://portal.azure.com/#create/Microsoft.Template/uri/` that has an encoded URL at the end of it. In that case, this one: `https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsdk%2Fkeyvault%2Ftests-resources.json`.
+
+Once clicked, the deploy button will load a form at Azure that should ask some basic information, and then allow anyone to deploy the same set of resources, already properly configured, to their accounts. This form is automatically generated from the ARM template, so to help our users go through it in detail, and also to inform them of the resources they will be creating, we recommend writing these details in a new file in your project's folder, called `TEST_RESOURCES_README.md` and linking it from your `README.md`. Here's an example that applies to all of our KeyVault clients: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/TEST_RESOURCES_README.md
 
 
 
@@ -27,14 +105,14 @@
 
 Writing tests for JavaScript and TypeScript requires testing tools, such as a test framework, an assertion library, and a way to bundle and run these tests in various environments. The JavaScript community has many overlapping tools that one could pick to fulfill any of these tasks. To ensure that the testing experience across the Azure SDK for JS/TS is consistent and reliable, we've picked the following external testing tools:
 
-- [Mocha](https://www.npmjs.com/package/mocha), which offers us a well known and stable test framework for both NodeJS and browser tests.
+- [Mocha](https://www.npmjs.com/package/mocha), which offers a well known and stable test framework for both NodeJS and the browser.
 - [Chai](https://www.npmjs.com/package/chai), a well known assertion library for Node and the browser.
 - [Rollup](https://www.npmjs.com/package/rollup), to bundle JavaScript for different environments, which helps us write a single TypeScript source and trust it will compile correctly for Node and the browser.
 - [Karma](https://www.npmjs.com/package/karma), which allows us to run our tests in multiple browsers.
 
 We've also come up with our own internal tools:
 
-- The [Recorder](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/test-utils/recorder) is a tool that helps us run our live tests against static recordings obtained from a previous successful run, which aims to ensure that our code hasn't changed while benefitting from not having to reach out to real live services.
+- The [Recorder](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/test-utils/recorder) is a tool that helps us run our live tests against static recordings obtained from a previous successful run, which aims to ensure that our code hasn't changed while benefitting from not having to reach out to live services.
 
 Now, let's see how we're using the mentioned tools.
 
@@ -52,10 +130,10 @@ Since we're using [Rush](https://rushjs.io/), we're forced to use the same versi
 rush add --dev -p mocha
 ```
 
-To enhance the `mocha` experience, we're using the following packages:
+We're using the following Mocha plugins and related dependencies:
 
-- [`@types/mocha`](https://www.npmjs.com/package/@types/mocha), the type definitions for mocha.
-- [`mocha-multi`](https://www.npmjs.com/package/mocha-multi), a way to get multiple reporters working with mocha.
+- [`@types/mocha`](https://www.npmjs.com/package/@types/mocha) provides the type definitions for mocha.
+- [`mocha-multi`](https://www.npmjs.com/package/mocha-multi) to let Mocha use multiple reporters.
 - [`mocha-junit-reporter`](https://www.npmjs.com/package/mocha-junit-reporter), which produces JUnit-style XML test results.
 - [`nyc`](https://www.npmjs.com/package/nyc) is [Istanbul](https://istanbul.js.org/)'s command line interface.
 - [`esm`](https://www.npmjs.com/package/esm), a popular ECMAScript module loader.
@@ -66,8 +144,6 @@ A full `rush add` command that includes `mocha` and all of the previous dependen
 ```
 rush add --dev -p mocha @types/mocha mocha-multi mocha-junit-reporter nyc esm source-map-support
 ```
-
-We'll explore how we use these dependencies up next.
 
 #### Configuring Mocha
 
@@ -172,7 +248,7 @@ assert.lengthOf(beverages.tea, 3, 'beverages has 3 types of tea');
 
 #### Chai in our dependencies
 
-Since we're using [Rush](https://rushjs.io/), we're forced to use the same version of our packages in each one of the projects inside of this repository. If you want to add `chai` as a dev dependency to a new project inside of this repository, first make sure you are in the root folder of that project, then you can run the following command:
+Since we're using [Rush](https://rushjs.io/), we have to use the same version of our packages in each one of the projects inside of this repository. If you want to add `chai` as a dev dependency to a new project inside of this repository, first make sure you are in the root folder of that project, then you can run the following command:
 
 ```
 rush add --dev -p chai
@@ -426,73 +502,6 @@ You can read more about the recorder in its readme: https://github.com/Azure/azu
 
 
 
-## Engineering setup
-
-The Azure SDK tests are valuable due to many factors. They work as a way to verify that our code is correct, just as much as a way to share how to use our code with our customers. To monitor that our tests are working correctly, they are triggered by automatic systems that help us verify that our commits are correct, or check that the services we're targeting don't show unexpected behaviors, all of which help us have a better level of confidence before releasing anything to the public. 
-
-For our Engineering Systems to pick up our tests appropriately, our packages must be configured according to their guidelines. In this section we will go through some of these concepts, and provide links that expand them in detail. We will be covering:
-
-- [Engineering goals](#engineering-goals).
-- [CI and nightly test configuration](#ci-and-nightly-test-configuration).
-- [Delivering live tests to our users](#delivering-live-tests-to-our-users).
-
-### Engineering goals
-
-Though the tests for the Azure SDK for JavaScript and TypeScript must target live resources, we should make sure they only do so when necessary. For this purpose, we must keep in mind the following guidelines:
-
-- Tests should not be flaky. Tests should pass regardless of who's executing it, when they are running, and how many times they run.
-- Tests should create the resources they are testing.
-- While writing tests, use your own personal resources for setting up the context in which each test will create their own resources. For example, it is valid to have a static KeyVault while writing KeyVault tests, and then a given test can create a KeyVault Key before validating any of the functionalities of the KeyVault Key. Ask your team to see if there's a resource already in place for test development.
-- Any resource that is not created by the tests must be defined in an [ARM template](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/overview), so that anyone can build a copy of them. This ARM template will be used by the CI pipelines during builds. We'll examine how to set this up in the [CI and nightly test configuration](#ci-and-nightly-test-configuration) section.
-- Avoid calling to timed delays (like `setTimeout`) to assert that a change happened in the live resources. Also avoid locking the main thread until the resource responds. You can read more about [_using delays_ in this section](#using-delays).
-- The resources created in the tests should be unique. Running the same test in parallel, multiple times, should not break them.
-
-You can read more recommendations through the following link: [Best Practices for writing tests that target live resources](https://dev.azure.com/azure-sdk/internal/_wiki/wikis/internal.wiki/51/Testing-Guidelines).
-
-### CI and nightly test configuration
-
-To ensure that our tests are executed in the test [Azure DevOps pipelines](https://azure.microsoft.com/en-us/services/devops/pipelines/) that have been previously configured by our team, some configuration files are necessary.
-
-A file named `ci.yml` should be added by the Engineering Systems team at the service level (the common parent of the clients of a specific service), for example at the `keyvault/` level of `keyvault/keyvault-keys`. This file will trigger all of the validation builds that happen during pull requests and after any pull request is merged into master.
-
-For live tests (which run nightly), we need to provide two files, `test-resources.json` and `tests.yml`. `test-resources.json` must exist either at the package folder level, or at the service level, which will contain an [ARM template](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/overview) of the resources needed to run all of the tests of these clients. All of the `test-resources.json` files inside of the service folder will be used to deploy resources on every build. The `tests.yml` file must be placed at the package folder, which is in charge of specifying when to run the tests for this package, what environments to use to run the tests, and how to run the tests. You can learn how to write these files by following the guide: [Creating live tests](https://dev.azure.com/azure-sdk/internal/_wiki/wikis/internal.wiki/48/Create-a-new-Live-Test-pipeline?anchor=creating-live-tests).
-
-These files will deal with the environment variables needed by your tests. Some of these environment variables are quite standard. Generally speaking, the SDK tests will use information from the tenant and the client of the resources that the tests are working with. To effectively provide these to the automated tests, we need to enable the pipeline to use some specific configuration.
-
-First you must go to https://dev.azure.com/azure-sdk/ and look for the builds that have been configured to target your project, then:
-
-- Click the pipeline you want to test on PR.
-- Press the "Edit" button at the top right corner.
-- Press the three dot menu at the top right corner. A menu will drop down. Press the "Triggers" option from that menu.
-- A page will load with an horizontal menu near the top-center with the following options: "YAML", "Variables", "Triggers" and "History".
-- Click the Variables option of that menu.
-- Click on "Variable Groups".
-- If the variable group you want to select is not visible in that page, add it: You'll see a button that will say "🔗 Link variable group". Click it, then use the "🔍 search" input and type the name `Secrets for Resource Provisioner`, and then link it.
-
-It should end up looking something like this:
-
-![image](https://user-images.githubusercontent.com/417016/72285413-f8e54700-363a-11ea-959e-cb1bc4c074ba.png)
-
-Once the CI is properly configured, you can test that the live tests pipelines work by submitting a comment to a pull request with the name of the pipeline, which will be similar to `js - event-hubs - tests` or `js - keyvault-keys - tests`.
-
-### Delivering live tests to our users
-
-The `test-resources.json` can be used by our users to set up their own test resources. We go through how it's being used with our PowerShell scripts in our [README](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md#integration-testing-with-live-services), though we recommend using the same ARM template to expose a "Deploy Button" in the `README.md` of your project. The button will look like this one for KeyVault-Keys:
-
-[![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsdk%2Fkeyvault%2Ftests-resources.json)
-
-Which contains the following code:
-
-```md
-[![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsdk%2Fkeyvault%2Ftests-resources.json)
-```
-
-You'll see that the way this works is that there's an azure endpoint with this structure `https://portal.azure.com/#create/Microsoft.Template/uri/` that has an encoded URL at the end of it. In that case, this one: `https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsdk%2Fkeyvault%2Ftests-resources.json`.
-
-Once clicked, the deploy button will load a form at Azure that should ask some basic information, and then allow anyone to deploy the same set of resources, already properly configured, to their accounts. This form is automatically generated from the ARM template, so to help our users go through it in detail, and also to inform them of the resources they will be creating, we recommend writing these details in a new file in your project's folder, called `TEST_RESOURCES_README.md` and linking it from your `README.md`. Here's an example that applies to all of our KeyVault clients: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/TEST_RESOURCES_README.md
-
-
-
 ## Test folder structure
 
 Tests for the Azure SDK for JavaScript and TypeScript should be all executed using the NPM command `test`, they should be stored in the `test` folder, they must be written in TypeScript, in files that will end in `.spec.ts`. Our [recommended tools](#recommended-tools) should provide the test framework and proper ways of compiling and bundling our tests correctly. They should be able to run and be debugged on the environments we're targeting, which are currently only NodeJS and the browsers.
@@ -586,8 +595,8 @@ async function callsClientMethodA(client) {
   await client.A();
 }
 
-describe("a set of tests", function() {
-  it("can effectively call the client's method A", function() {
+describe("a set of tests", async function() {
+  it("can effectively call the client's method A", async function() {
     const client = null; // Let's say we actually have a client here.
 
     // The function invoked below hides exactly what we want to test.
@@ -600,7 +609,7 @@ Instead, this code should be written inside of the test case, as follows:
 
 ```ts
 describe("a set of tests", function() {
-  it("can effectively call the client's method A", function() {
+  it("can effectively call the client's method A", async function() {
     const client = null; // Let's say we actually have a client here.
     await client.A(); // Method "A" is clearly invoked inside of this test.
   });
@@ -621,7 +630,7 @@ async function doSomePriorWork(client) {
 }
 
 describe("a set of tests", function() {
-  it("can call client's method A with some prior work", function() {
+  it("can call client's method A with some prior work", async function() {
     const client = null; // Let's say we actually have a client here.
     await doSomePriorWork(client); // No other test case uses "doSomePriorWork".
     await client.A();
@@ -633,7 +642,7 @@ Code that is intended to do preparations that are only specific for a single tes
 
 ```ts
 describe("a set of tests", function() {
-  it("can call client's method A with some prior work", function() {
+  it("can call client's method A with some prior work", async function() {
     const client = null; // Let's say we actually have a client here.
 
     // Prior work goes here...
@@ -663,7 +672,7 @@ One specific example of code that **must** live in the `beforeEach` section is [
 
 ```ts
   beforeEach(async function() {
-    recorder = record(that);
+    recorder = record(this);
     const credential = await new ClientSecretCredential(
       env.AZURE_TENANT_ID,
       env.AZURE_CLIENT_ID,
@@ -690,10 +699,15 @@ describe("some group of functionalities", function() {
   let client;
 
   beforeEach(function() {
+    recorder = record(this);
     client = new Client();
   });
 
-  it("should test A with a proper setup", function() {
+  afterEach(function () {
+    recorder.stop();
+  });
+
+  it("should test A with a proper setup", async function() {
     client.prepare({
       propertyA: 1,
       propertyB: 2,
@@ -705,7 +719,7 @@ describe("some group of functionalities", function() {
     assert.ok(result.value);
   });
 
-  it("should test B with a proper setup", function() {
+  it("should test B with a proper setup", async function() {
     client.prepare({
       propertyA: 1,
       propertyB: 2,
@@ -726,7 +740,12 @@ describe("some group of functionalities", function() {
   let client: Client;
 
   beforeEach(function() {
+    recorder = record(this);
     client = new Client();
+  });
+
+  afterEach(function () {
+    recorder.stop();
   });
 
   function defaultPrepareClient(client: Client) {
@@ -738,13 +757,13 @@ describe("some group of functionalities", function() {
     });
   }
 
-  it("should test A with a proper setup", function() {
+  it("should test A with a proper setup", async function() {
     defaultPrepareClient(client);
     const result = await client.A();
     assert.ok(result.value);
   });
 
-  it("should test B with a proper setup", function() {
+  it("should test B with a proper setup", async function() {
     defaultPrepareClient(client);
     const result = await client.B();
     assert.ok(result.value);
@@ -759,30 +778,30 @@ In case that a specific utility function might be useful for more than one test 
 Let's say we have a test utility that we call `retry.ts`, with the following content:
 
 ```ts
-import { delay as coreDelay } from "@azure/core-http";
+import { delay } from "@azure/test-utils-recorder";
 
 /**
  * A simple abstraction to retry, and exponentially de-escalate retrying, a
  * given async function until it is fulfilled.
  * @param {() => Promise<T>} target The async function you want to retry
- * @param {number} delay The delay between each retry, defaults to 1000
+ * @param {number} delayInMS The delay in milliseconds between each retry, defaults to 1000
  * @param {number} timeout Maximum time we'll let this lapse before we quit retrying, defaults to Infinity
  * @param {number} increaseFactor Increase factor of each retry, defaults to 1
  * @returns {Promise<any>} Resolved promise
  */
 export async function retry<T>(
   target: () => Promise<T>,
-  delay: number = 1000,
+  delayInMS: number = 1000,
   timeout: number = Infinity,
   increaseFactor: number = 1
 ): Promise<any> {
   const start = new Date().getTime();
-  let updatedDelay = delay;
+  let updatedDelay = delayInMS;
   while (new Date().getTime() - start < timeout) {
     try {
       return await target();
     } catch {
-      await coreDelay(updatedDelay);
+      await delay(updatedDelay);
       updatedDelay *= increaseFactor;
     }
   }
@@ -790,7 +809,7 @@ export async function retry<T>(
 }
 ```
 
-This code is clearly not specifically related to any of our projects. Moving it out into a common project will help it's discoverability, not only for other developers to find it, but also to avoid having to upload this code at all, if there happens to be an already existing tool that can be used for the same purpose.
+This code is clearly not specifically related to any of our projects. Moving it out into a common project will help it be more easily discovered, not only for other developers to find it, but also to avoid having to upload this code at all, if there happens to be an already existing tool that can be used for the same purpose.
 
 
 
@@ -804,6 +823,7 @@ In this section we will be examining our recommendations of:
 - [Test titles](#test-titles), where we will examine how to properly phrase what each test is doing, and how to make them easier to discover through pattern matching.
 - [Inner parts of a test](#inner-parts-of-a-test), where we will go through how the bodies of each test case should generally be.
 - [Using conditionals](#using-conditionals), in which we will focus on minimizing the possibility of having tests that might run differently depending on external factors.
+- [Using delays](#using-delays).
 - [Exceptions and edge cases](#exceptions-and-edge-cases), where will examine how to address all of the possible exceptions and edge cases (which might be too many to test).
 - [How tests should look](#how-tests-should-look), in which we will focus on what would be the aesthetic goal of our tests, to develop an inner sense of measure of how far we might be from our common goal.
 
@@ -820,7 +840,12 @@ describe("testing the client's basic methods", function() {
   let client: Client;
 
   beforeEach(function() {
+    recorder = record(this);
     client = new Client();
+  });
+
+  afterEach(function () {
+    recorder.stop();
   });
 
   it("the initialized client should expose an expected public property", function() {
@@ -828,12 +853,12 @@ describe("testing the client's basic methods", function() {
     assert.ok(client.expectedPublicProperty);
   });
 
-  it("should test A", function() {
+  it("should test A", async function() {
     const result = await client.A();
     assert.ok(result.value);
   });
 
-  it("should test AB", function() {
+  it("should test AB", async function() {
     const resultA = await client.A();
     const resultAB = await client.AB(resultA.value);
     assert.ok(resultAB.value);
@@ -852,7 +877,12 @@ describe("testing some of the client's public properties", function() {
   let client: Client;
 
   beforeEach(function() {
+    recorder = record(this);
     client = new Client();
+  });
+
+  afterEach(function () {
+    recorder.stop();
   });
 
   it("should have a valid version", function() {
@@ -868,10 +898,15 @@ describe("testing the client's basic methods", function() {
   let client: Client;
 
   beforeEach(function() {
+    recorder = record(this);
     client = new Client();
   });
 
-  it("should test A", function() {
+  afterEach(function () {
+    recorder.stop();
+  });
+
+  it("should test A", async function() {
     const result = await client.A();
     assert.ok(result.value);
     assert.ok(result.createdAt instanceof Date);
@@ -928,7 +963,12 @@ describe("testing the client's basic methods", function() {
   let client: Client;
 
   beforeEach(function() {
+    recorder = record(this);
     client = new Client();
+  });
+
+  afterEach(function () {
+    recorder.stop();
   });
 
   it("should test A #browser", function() {
@@ -956,9 +996,51 @@ describe("testing the client's basic methods", function() {
 
 In case conditionals might appear to be necessary in other scenarios, consider separating the test case into as many test cases as necessary first.
 
+### Using delays
+
+The API methods that we provide should always provide a way for users to know when an operation finishes. For this reason, any method that doesn't immediately respond with a completed operation should use our [Long Running Operations strategy (core-lro)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/core-lro).
+
+If any method can't use `core-lro` within reasonable time, and thus we are inclined to use a different delay strategy, we should always wait until the next possible operation is can be fulfilled.
+
+For example, in `@azure/keyvault-keys` we provide a method to purge keys that has not been moved to use `core-lro`. To check that it has finished, we do a while loop where we try to make the next operation until it passes:
+
+```ts
+import { delay } from "@azure/test-utils-recorder";
+// ...
+
+describe("Keys client - restore keys and recover backups", () => {
+  // ...
+  it("can restore a key with a given backup", async function() {
+    // ...
+    await client.createKey(keyName, "RSA");
+    const backup = await client.backupKey(keyName);
+    await client.purgeDeletedKey(keyName);
+    while (true) {
+      try {
+        await client.restoreKeyBackup(backup as Uint8Array);
+        break;
+      } catch (e) {
+        console.log("Can't restore the key since it's not fully deleted:", e.message);
+        console.log("Retrying in one second...");
+        // This delay method comes from the recorder
+        await delay(1000);
+      }
+    }
+    const getResult = await client.getKey(keyName);
+    assert.equal(getResult.name, keyName, "Unexpected key name in result from getKey().");
+    // ...
+  });
+  // ...
+});
+```
+
+Keep in mind that Mocha will have a timeout configuration that will prevent this to run up forever.
+
+The specific `delay` method used in the code above comes from the [Recorder](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/test-utils/recorder), so that in playback, there will be no delay at all, and tests will pass as soon as possible.
+
 ### Exceptions and edge cases
 
-While testing the Azure SDK clients for JavaScript and TypeScript, we should document each client method exceptions through the use of `@throws` in the TypeDoc documentation, and avoid writing test cases for exceptions. Test cases should focus on demonstrating the functionalities of the client, in relation to the functionalities of the service. Exceptions should be in principle documented.
+While testing the Azure SDK clients for JavaScript and TypeScript, we should document each client method exceptions through the use of `@throws` in the TypeDoc documentation, and avoid writing test cases for exceptions. Test cases should focus on demonstrating the public API of the service. Exceptions should be documented.
 
 Similarly, the public API surface of our clients will contain a large set of properties resulting from any of the methods that our clients implement. Tests should not focus on verifying that each property of of our clients exist. While tests can check that the values of properties are expected, they should include only as many properties as it can be relevant for the use case that each test case is representing. For this purpose we should also take advantage of strict types. If our types can be descriptive and thorough, and our internal code is not skipping through the types (through the use of `any`), we will be able to trust that our API is behaving reasonably well.
 
@@ -967,3 +1049,7 @@ As a final note on this regard, as we develop clients for the SDKs, we will enco
 ### How tests should look
 
 In general, the tests of the Azure SDK for JavaScript and TypeScript should be considered useful resources that demonstrate how to use the functionalities that our clients offer, and how these are expected to behave. Our test cases should assert that we are providing well constructed features to our users, and our users should be able to go through our tests, understand them with minimal effort, and use our test code to their advantage. Our tests should therefore be _empowering everyone_.
+
+## Getting feedback
+
+Writing tests the right way can be quite challenging. Make sure to make pull request throughout the process and ask for feedback from your team. Ask them questions about how easy is to follow through, from the perspective of a new user. Once you write them, monitor how they behave through our Engineering Systems. Don't be afraid to ask our Engineering Systems team about feedback to your tests. Making your tests constantly better is your responsibility as a developer, but you have all of your team at your back. Together, we can make our tests are as good as they can possibly be.
