@@ -27,7 +27,7 @@ Use the client library to:
 
 ### Currently supported environments
 
-- Node.js version 8.x.x or higher
+- [Node.js](https://nodejs.org/) version 8.x.x or higher
 
 ### Prerequisites
 
@@ -48,7 +48,7 @@ The above creates a resource with the "Standard" pricing tier. See [choosing a p
 npm install @azure/search
 ```
 
-### 2. Create and authenticate a `SearchIndexClient`
+### 2. Create and authenticate a `SearchIndexClient` or `SearchServiceClient`
 
 Azure Cognitive Search uses keys for authentication.
 
@@ -65,20 +65,32 @@ Alternatively, you can get the endpoint and Admin Key from the resource informat
 Once you have an Admin Key, you can use it as follows:
 
 ```js
-const { SearchIndexClient, AzureKeyCredential } = require("@azure/search");
+const { SearchIndexClient, SearchServiceClient, AzureKeyCredential } = require("@azure/search");
 
-const client = new SearchIndexClient(
+// To query and manipulate documents
+const indexClient = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new AzureKeyCredential("<Admin Key>")
+  new AzureKeyCredential("<apiKey>")
 );
+
+// To manage indexes, datasources, skillsets and more
+const serviceClient = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
 ```
 
 ## Key concepts
 
 ### SearchIndexClient
 
-`SearchIndexClient` is one of the primary interface for developers using the Azure Cognitive Search client library. It provides asynchronous methods for working with documents in an index. These methods allow you to query, upload, update, and delete documents. It also provides methods for building completion and suggestion experiences based on partial queries.
+`SearchIndexClient` is one of the primary interfaces for developers using the Azure Cognitive Search client library. It provides asynchronous methods for working with documents in an index. These methods allow you to query, upload, update, and delete documents. It also provides methods for building completion and suggestion experiences based on partial queries.
+
+### SearchServiceClient
+
+`SearchServiceClient` is the interface for developers to interact with configuring and customizing an Azure Cognitive Search instance. The client currently has support for creating and managing search indexes and will later expand to support creating and managing other service entities such as indexers, synonym maps, cognitive skillsets, and data sources.
+
+### Documents
+
+An item stored inside a search index is referred to as a document. The shape of this document is described in the index using `Field`s. Each Field has a name and datatype as well as additional metadata such as if it is searchable or filterable.
 
 ### Pagination
 
@@ -94,7 +106,7 @@ Typically you will only wish to [show a subset of search results](https://docs.m
 
 **Note**: Data types are converted based on value, not the field type in the index schema. This means that if you have an ISO8601 Date string (e.g. "2020-03-06T18:48:27.896Z") as the value of a field, it will be converted to a Date regardless of how you stored it in your schema.
 
-## Examples
+## SearchIndexClient Examples
 
 ### Query documents in an index
 
@@ -106,7 +118,7 @@ const { SearchIndexClient, AzureKeyCredential } = require("@azure/search");
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new AzureKeyCredential("<Admin Key>")
+  new AzureKeyCredential("<apiKey>")
 );
 
 const searchResults = await client.search({ searchText: "wifi -luxury" });
@@ -123,7 +135,7 @@ const { SearchIndexClient, AzureKeyCredential } = require("@azure/search");
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new AzureKeyCredential("<Admin Key>")
+  new AzureKeyCredential("<apiKey>")
 );
 
 const searchResults = await client.search({
@@ -156,7 +168,7 @@ interface Hotel {
 const client = new SearchIndexClient<Hotel>(
   "<endpoint>",
   "<indexName>",
-  new AzureKeyCredential("<Admin Key>")
+  new AzureKeyCredential("<apiKey>")
 );
 
 const searchResults = await client.search({
@@ -183,7 +195,7 @@ const { SearchIndexClient, AzureKeyCredential, odata } = require("@azure/search"
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new AzureKeyCredential("<Admin Key>")
+  new AzureKeyCredential("<apiKey>")
 );
 
 const baseRateMax = 200;
@@ -211,7 +223,7 @@ const { SearchIndexClient, AzureKeyCredential } = require("@azure/search");
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new AzureKeyCredential("<Admin Key>")
+  new AzureKeyCredential("<apiKey>")
 );
 
 const searchResults = await client.search({
@@ -221,11 +233,6 @@ const searchResults = await client.search({
 console.log(searchResults.facets);
 // Output will look like:
 // {
-//   Rating: [
-//     { count: 4, value: 2 },
-//     { count: 5, value: 3 },
-//     { count: 8, value: 4 }
-//   ],
 //   'Rooms/BaseRate': [
 //     { count: 16, value: 0 },
 //     { count: 17, value: 100 },
@@ -251,7 +258,7 @@ const { SearchIndexClient, AzureKeyCredential } = require("@azure/search");
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new AzureKeyCredential("<Admin Key>")
+  new AzureKeyCredential("<apiKey>")
 );
 
 const result = await client.getDocument("1234");
@@ -270,7 +277,7 @@ const { SearchIndexClient, AzureKeyCredential } = require("@azure/search");
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new AzureKeyCredential("<Admin Key>")
+  new AzureKeyCredential("<apiKey>")
 );
 
 const suggestResult = await client.suggest({
@@ -299,7 +306,7 @@ const { SearchIndexClient, AzureKeyCredential } = require("@azure/search");
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new AzureKeyCredential("<Admin Key>")
+  new AzureKeyCredential("<apiKey>")
 );
 
 const autocompleteResult = await client.autocomplete({
@@ -320,7 +327,7 @@ const { SearchIndexClient, AzureKeyCredential } = require("@azure/search");
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new AzureKeyCredential("<Admin Key>")
+  new AzureKeyCredential("<apiKey>")
 );
 
 const count = await client.countDocuments();
@@ -337,7 +344,7 @@ const { SearchIndexClient, AzureKeyCredential } = require("@azure/search");
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new AzureKeyCredential("<Admin Key>")
+  new AzureKeyCredential("<apiKey>")
 );
 
 const deleteResult = await client.deleteDocuments("HotelId", ["1", "2", "3"]);
@@ -356,7 +363,7 @@ const { SearchIndexClient, AzureKeyCredential } = require("@azure/search");
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new AzureKeyCredential("<Admin Key>")
+  new AzureKeyCredential("<apiKey>")
 );
 
 const uploadResult = await client.uploadDocuments([
@@ -380,7 +387,7 @@ const { SearchIndexClient, AzureKeyCredential } = require("@azure/search");
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new AzureKeyCredential("<Admin Key>")
+  new AzureKeyCredential("<apiKey>")
 );
 
 // use mergeOrUploadDocuments if the document might not be upload
@@ -398,188 +405,242 @@ for (const result of updateResult.results) {
 }
 ```
 
-### 3. Create and authenticate a `SearchServiceClient`
+## SearchServiceClient Examples
 
-You could use the following code to create and authenticate a `SearchServiceClient`. 
-
-```js
-const { SearchServiceClient, AzureKeyCredential } = require("@azure/search");
-
-const client = new SearchServiceClient(
-  "<endpoint>",
-  new AzureKeyCredential("<apikey>")
-);
-```
-
-#### Examples
-
-#### Get a list of existing indexes in the service
+### Get a list of existing indexes in the service
 
 ```js
 const { SearchServiceClient, AzureKeyCredential } = require("@azure/search");
 
-async function main() {
-  const client = new SearchServiceClient(
-    "<endpoint>",
-    new AzureKeyCredential("<apikey>")
-  );
-  
-  const listOfIndexes = await client.listIndexes();
-  for(let index of listOfIndexes) {
-    console.log(index.name);
-    for(let field of index.fields) {
-      console.log(`Field: ${field.name}`);
-    }
-  }  
-}
+const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
 
-main();
-```
-
-#### Get a list of existing skillsets in the service
-```js
-const { SearchServiceClient, AzureKeyCredential } = require("@azure/search");
-
-async function main() {
-  const client = new SearchServiceClient(
-    "<endpoint>",
-    new AzureKeyCredential("<apikey>")
-  );
-  
-  const listOfSkillSets = await client.listSkillsets();
-  for(let skillset of listOfSkillSets) {
-    console.log(`Name: ${skillset.name}`);
-    console.log(`Description: ${skillset.description}`);
-    console.log(`Skills`);
-    for(let skill of skillset.skills) {
-      console.log(`\tOdatatype: ${skill.odatatype}`);
-      console.log(`\tName: ${skill.name}`);
-      console.log(`\tDescription: ${skill.description}`);
-    }
+const listOfIndexes = await client.listIndexes();
+for (let index of listOfIndexes) {
+  console.log(index.name);
+  for (let field of index.fields) {
+    console.log(`Field: ${field.name}`);
   }
 }
-
-main();
 ```
 
-#### Get a list of existing synonymMaps in the service
+### Get a list of existing skillsets in the service
+
 ```js
 const { SearchServiceClient, AzureKeyCredential } = require("@azure/search");
 
-async function main() {
-  const client = new SearchServiceClient(
-    "<endpoint>",
-    new AzureKeyCredential("<apikey>")
-  );
-  
-  const listOfSynonymMaps = await client.listSynonymMaps();
-  for(let synonymMap of listOfSynonymMaps) {
-    console.log(`Name: ${synonymMap.name}`);
-    console.log(`Synonyms`);
-    for(let synonym of synonymMap.synonyms) {
-      console.log(`Synonym: ${synonym}`)
-    }
+const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
+
+const listOfSkillSets = await client.listSkillsets();
+for (let skillset of listOfSkillSets) {
+  console.log(`Name: ${skillset.name}`);
+  console.log(`Description: ${skillset.description}`);
+  console.log(`Skills`);
+  for (let skill of skillset.skills) {
+    console.log(`\tOdatatype: ${skill.odatatype}`);
+    console.log(`\tName: ${skill.name}`);
+    console.log(`\tDescription: ${skill.description}`);
   }
 }
-
-main();
 ```
 
-#### Create an Index
+### Get a list of existing synonymMaps in the service
+
 ```js
 const { SearchServiceClient, AzureKeyCredential } = require("@azure/search");
 
-async function main() {
-  const client = new SearchServiceClient(
-    "<endpoint>",
-    new AzureKeyCredential("<apikey>")
-  );
-  
-  const index = await client.createIndex({
-    name: `my-new-index`,
-    suggesters: [{ 
-      name: "my-new-sg",
-      sourceFields: ["id"]        
-    }],
-    analyzers: [
-      {
-        odatatype: "#Microsoft.Azure.Search.CustomAnalyzer",
-        name: "tagsAnalyzer",
-        charFilters: [ "html_strip" ],	
-        tokenizer: "standard_v2"
-      }
-    ],
-    fields: [{
-      name: "id",
+const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
+
+const listOfSynonymMaps = await client.listSynonymMaps();
+for (let synonymMap of listOfSynonymMaps) {
+  console.log(`Name: ${synonymMap.name}`);
+  console.log(`Synonyms`);
+  for (let synonym of synonymMap.synonyms) {
+    console.log(`Synonym: ${synonym}`);
+  }
+}
+```
+
+### Create an Index
+
+```js
+const { SearchServiceClient, AzureKeyCredential } = require("@azure/search");
+
+const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
+
+const result = await client.createIndex({
+  name: "example-index",
+  fields: [
+    {
       type: "Edm.String",
+      name: "id",
       key: true
-    }]
-  });
-}
+    },
+    {
+      type: "Edm.Double",
+      name: "awesomenessLevel",
+      sortable: true,
+      filterable: true,
+      facetable: true
+    },
+    {
+      type: "Edm.String",
+      name: "description",
+      searchable: true
+    },
+    {
+      type: "Edm.ComplexType",
+      name: "details",
+      fields: [
+        {
+          type: "Collection(Edm.String)",
+          name: "tags",
+          searchable: true
+        }
+      ]
+    },
+    {
+      type: "Edm.Int32",
+      name: "hiddenWeight",
+      hidden: true
+    }
+  ]
+});
 
-main();
+console.log(result);
+```
+
+#### Retrieve an existing index and add a new field to it
+
+A common scenario is extending an existing index definition with an additional field. This can be done without repopulating the index, as all fields that are not key fields are nullable.
+
+```js
+const { SearchServiceClient, AzureKeyCredential } = require("@azure/search");
+
+const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
+
+const index = await client.getIndex("example-index");
+
+index.fields.push({
+  type: "Edm.DateTimeOffset",
+  name: "lastUpdatedOn",
+  filterable: true
+});
+
+const updatedIndex = await client.createOrUpdateIndex(index);
+
+console.log("Fields after updating:");
+
+for (const field of updatedIndex.fields) {
+  console.log(`\t ${field.name}`);
+}
+```
+
+#### Define a custom analyzer and test its output
+
+Custom analyzers can be defined per-index and then referenced by name when defining a field in order to influence how searching is performed against that field.
+
+In order to ensure that analysis is configured correctly, developers can directly ask the service to analyze a given input string to check the result.
+
+```js
+const { SearchServiceClient, AzureKeyCredential, KnownTokenFilterNames } = require("@azure/search");
+
+const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
+
+const index = await client.getIndex("example-index");
+index.tokenizers.push({
+  name: "example-tokenizer",
+  odatatype: "#Microsoft.Azure.Search.StandardTokenizerV2",
+  maxTokenLength: 125
+});
+index.charFilters.push({
+  name: "example-char-filter",
+  odatatype: "#Microsoft.Azure.Search.MappingCharFilter",
+  mappings: ["MSFT=>Microsoft"]
+});
+index.tokenFilters.push({
+  name: "example-token-filter",
+  odatatype: "#Microsoft.Azure.Search.StopwordsTokenFilter",
+  stopwords: ["xyzzy"]
+});
+index.analyzers.push({
+  name: "example-analyzer",
+  odatatype: "#Microsoft.Azure.Search.CustomAnalyzer",
+  tokenizer: "example-tokenizer",
+  charFilters: ["example-char-filter"],
+  tokenFilters: [KnownTokenFilterNames.Lowercase, "example-token-filter"]
+});
+
+// Note adding this analyzer to an existing index will cause it to be unresponsive
+// for a short period, hence the need to pass `allowIndexDowntime: true`.
+await client.createOrUpdateIndex(index, { allowIndexDowntime: true });
+
+const result = await client.analyzeText("example-index", {
+  text: "MSFT is xyzzy Great!",
+  analyzer: "example-analyzer"
+});
+
+console.log(result.tokens);
+// Output looks like
+// [
+//   { token: 'microsoft', startOffset: 0, endOffset: 4, position: 0 },
+//   { token: 'is', startOffset: 5, endOffset: 7, position: 1 },
+//   { token: 'great', startOffset: 14, endOffset: 19, position: 3 }
+// ]
 ```
 
 #### Create a Skillset
+
 ```js
 const { SearchServiceClient, AzureKeyCredential } = require("@azure/search");
 
-async function main() {
-  const client = new SearchServiceClient(
-    "<endpoint>",
-    new AzureKeyCredential("<apikey>")
-  );
-  
-  const skillset = await client.createSkillset({
-    name: `my-azureblob-skillset`,
-    description: `Skillset description`,
-    skills: [{
-      odatatype: "#Microsoft.Skills.Text.EntityRecognitionSkill",
-      inputs: [{
-        name: "text",
-        source: "/document/merged_content"
-      },{
-        name: "languageCode",
-        source: "/document/language"
-      }],
-      outputs: [{
-        name: "persons",
-        targetName: "people"
-      },{
-        name: "organizations",
-        targetName: "organizations"
-      },{
-        name: "locations",
-        targetName: "locations"
-      }]
-    }
-    ]
-  });
-}
+const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
 
-main();
+const skillset = await client.createSkillset({
+  name: `my-azureblob-skillset`,
+  description: `Skillset description`,
+  skills: [
+    {
+      odatatype: "#Microsoft.Skills.Text.EntityRecognitionSkill",
+      inputs: [
+        {
+          name: "text",
+          source: "/document/merged_content"
+        },
+        {
+          name: "languageCode",
+          source: "/document/language"
+        }
+      ],
+      outputs: [
+        {
+          name: "persons",
+          targetName: "people"
+        },
+        {
+          name: "organizations",
+          targetName: "organizations"
+        },
+        {
+          name: "locations",
+          targetName: "locations"
+        }
+      ]
+    }
+  ]
+});
 ```
 
 ### Create a SynonymMap
+
 ```js
 const { SearchServiceClient, AzureKeyCredential } = require("@azure/search");
 
-async function main() {
-  const client = new SearchServiceClient(
-    "<endpoint>",
-    new AzureKeyCredential("<apikey>")
-  );
-  
-  const synonymMap = await client.createSynonymMap({
-    name: `my-sysnonymmap`,
-    synonyms: [
-      "United States, United States of America => USA",
-      "Washington, Wash. => WA"
-    ]
-  });
-}
+const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
 
-main();
+const synonymMap = await client.createSynonymMap({
+  name: `my-sysnonymmap`,
+  synonyms: ["United States, United States of America => USA", "Washington, Wash. => WA"]
+});
 ```
 
 ## Troubleshooting
