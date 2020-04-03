@@ -10,8 +10,8 @@
 
 import * as coreHttp from "@azure/core-http";
 
-const packageName = "@azure/search";
-const packageVersion = "11.0.0-preview.2";
+const packageName = "@azure/search-documents";
+const packageVersion = "1.0.0-preview.2";
 
 export class SearchIndexClientContext extends coreHttp.ServiceClient {
   apiVersion: string;
@@ -27,7 +27,13 @@ export class SearchIndexClientContext extends coreHttp.ServiceClient {
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, apiVersion: string, endpoint: string, indexName: string, options?: coreHttp.ServiceClientOptions) {
+  constructor(
+    credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,
+    apiVersion: string,
+    endpoint: string,
+    indexName: string,
+    options?: coreHttp.ServiceClientOptions
+  ) {
     if (apiVersion == undefined) {
       throw new Error("'apiVersion' cannot be null.");
     }

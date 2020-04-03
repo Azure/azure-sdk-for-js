@@ -18,7 +18,7 @@ Use the client library to:
 - Enrich your search index with AI skills that add structure or extract meaning from raw documents during indexing.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/search/search/) |
-[Package (NPM)](https://www.npmjs.com/package/@azure/search) |
+[Package (NPM)](https://www.npmjs.com/package/@azure/search-documents) |
 [API reference documentation](https://aka.ms/azsdk-js-search-ref-docs) |
 [Product documentation](https://docs.microsoft.com/azure/search/) |
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/search/search/samples)
@@ -42,10 +42,10 @@ az search service create --resource-group <your-resource-group-name> --name <you
 
 The above creates a resource with the "Standard" pricing tier. See [choosing a pricing tier](https://docs.microsoft.com/azure/search/search-sku-tier) for more information.
 
-### 1. Install the `@azure/search` package
+### 1. Install the `@azure/search-documents` package
 
 ```bash
-npm install @azure/search
+npm install @azure/search-documents
 ```
 
 ### 2. Create and authenticate a `SearchIndexClient` or `SearchServiceClient`
@@ -65,7 +65,11 @@ Alternatively, you can get the endpoint and Admin Key from the resource informat
 Once you have an Admin Key, you can use it as follows:
 
 ```js
-const { SearchIndexClient, SearchServiceClient, AzureKeyCredential } = require("@azure/search");
+const {
+  SearchIndexClient,
+  SearchServiceClient,
+  AzureKeyCredential
+} = require("@azure/search-documents");
 
 // To query and manipulate documents
 const indexClient = new SearchIndexClient(
@@ -115,7 +119,7 @@ Typically you will only wish to [show a subset of search results](https://docs.m
 To list all results of a particular query, you can use `search` with a search string that uses [simple query syntax](https://docs.microsoft.com/azure/search/query-simple-syntax):
 
 ```js
-const { SearchIndexClient, AzureKeyCredential } = require("@azure/search");
+const { SearchIndexClient, AzureKeyCredential } = require("@azure/search-documents");
 
 const client = new SearchIndexClient(
   "<endpoint>",
@@ -136,7 +140,7 @@ main();
 For a more advanced search that uses [Lucene syntax](https://docs.microsoft.com/azure/search/query-lucene-syntax), specify `queryType` to be `all`:
 
 ```js
-const { SearchIndexClient, AzureKeyCredential } = require("@azure/search");
+const { SearchIndexClient, AzureKeyCredential } = require("@azure/search-documents");
 
 const client = new SearchIndexClient(
   "<endpoint>",
@@ -163,7 +167,7 @@ main();
 In TypeScript `SearchIndexClient` takes a generic parameter that is the model shape of your index documents. This allows you to perform strongly typed lookup of fields returned in results. TypeScript is also able to check for fields returned when specifying a `select` parameter.
 
 ```ts
-import { SearchIndexClient, AzureKeyCredential } from "@azure/search";
+import { SearchIndexClient, AzureKeyCredential } from "@azure/search-documents";
 
 // An example schema for documents in the index
 interface Hotel {
@@ -204,7 +208,7 @@ main();
 Using the `filter` query parameter allows you to query an index using the syntax of an [OData \$filter expression](https://docs.microsoft.com/azure/search/search-query-odata-filter).
 
 ```js
-const { SearchIndexClient, AzureKeyCredential, odata } = require("@azure/search");
+const { SearchIndexClient, AzureKeyCredential, odata } = require("@azure/search-documents");
 
 const client = new SearchIndexClient(
   "<endpoint>",
@@ -236,7 +240,7 @@ main();
 [Facets](https://docs.microsoft.com/azure/search/search-filters-facets) are used to help a user of your application refine a search along pre-configured dimensions. [Facet syntax](https://docs.microsoft.com/rest/api/searchservice/search-documents#facetstring-zero-or-more) provides the options to sort and bucket facet values.
 
 ```js
-const { SearchIndexClient, AzureKeyCredential } = require("@azure/search");
+const { SearchIndexClient, AzureKeyCredential } = require("@azure/search-documents");
 
 const client = new SearchIndexClient(
   "<endpoint>",
@@ -275,7 +279,7 @@ When retrieving results, a `facets` property will be available that will indicat
 A specific document can be retrieved by its primary key value:
 
 ```js
-const { SearchIndexClient, AzureKeyCredential } = require("@azure/search");
+const { SearchIndexClient, AzureKeyCredential } = require("@azure/search-documents");
 
 const client = new SearchIndexClient(
   "<endpoint>",
@@ -298,7 +302,7 @@ If you [created a suggester](https://docs.microsoft.com/azure/search/index-add-s
 This example shows returning the top three suggestions for the input "wifi" from the suggester "sg":
 
 ```js
-const { SearchIndexClient, AzureKeyCredential } = require("@azure/search");
+const { SearchIndexClient, AzureKeyCredential } = require("@azure/search-documents");
 
 const client = new SearchIndexClient(
   "<endpoint>",
@@ -331,7 +335,7 @@ To implement type-ahead behavior in your application, you can query the index wi
 The below example tries to complete the string "de" using the suggester named "sg" on the index:
 
 ```js
-const { SearchIndexClient, AzureKeyCredential } = require("@azure/search");
+const { SearchIndexClient, AzureKeyCredential } = require("@azure/search-documents");
 
 const client = new SearchIndexClient(
   "<endpoint>",
@@ -356,7 +360,7 @@ main();
 #### Return the count of documents in an index
 
 ```js
-const { SearchIndexClient, AzureKeyCredential } = require("@azure/search");
+const { SearchIndexClient, AzureKeyCredential } = require("@azure/search-documents");
 
 const client = new SearchIndexClient(
   "<endpoint>",
@@ -377,7 +381,7 @@ main();
 Given the name of a primary key and a list of indexes, you can delete multiple documents from the index at the same time:
 
 ```js
-const { SearchIndexClient, AzureKeyCredential } = require("@azure/search");
+const { SearchIndexClient, AzureKeyCredential } = require("@azure/search-documents");
 
 const client = new SearchIndexClient(
   "<endpoint>",
@@ -400,7 +404,7 @@ main();
 You can upload multiple documents into index inside a batch:
 
 ```js
-const { SearchIndexClient, AzureKeyCredential } = require("@azure/search");
+const { SearchIndexClient, AzureKeyCredential } = require("@azure/search-documents");
 
 const client = new SearchIndexClient(
   "<endpoint>",
@@ -428,7 +432,7 @@ main();
 You can update multiple documents in an index at once, or create them if they do not exist. For more details about how merging works, see: https://docs.microsoft.com/rest/api/searchservice/AddUpdate-or-Delete-Documents
 
 ```js
-const { SearchIndexClient, AzureKeyCredential } = require("@azure/search");
+const { SearchIndexClient, AzureKeyCredential } = require("@azure/search-documents");
 
 const client = new SearchIndexClient(
   "<endpoint>",
@@ -463,7 +467,7 @@ main();
 #### Get a list of existing indexes in the service
 
 ```js
-const { SearchServiceClient, AzureKeyCredential } = require("@azure/search");
+const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-documents");
 
 const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
 
@@ -483,7 +487,7 @@ main();
 #### Get a list of existing skillsets in the service
 
 ```js
-const { SearchServiceClient, AzureKeyCredential } = require("@azure/search");
+const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-documents");
 
 const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
 
@@ -507,7 +511,7 @@ main();
 #### Get a list of existing synonymMaps in the service
 
 ```js
-const { SearchServiceClient, AzureKeyCredential } = require("@azure/search");
+const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-documents");
 
 const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
 
@@ -528,7 +532,7 @@ main();
 #### Create an Index
 
 ```js
-const { SearchServiceClient, AzureKeyCredential } = require("@azure/search");
+const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-documents");
 
 const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
 
@@ -583,7 +587,7 @@ main();
 A common scenario is extending an existing index definition with an additional field. This can be done without repopulating the index, as all fields that are not key fields are nullable.
 
 ```js
-const { SearchServiceClient, AzureKeyCredential } = require("@azure/search");
+const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-documents");
 
 const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
 
@@ -615,7 +619,11 @@ Custom analyzers can be defined per-index and then referenced by name when defin
 In order to ensure that analysis is configured correctly, developers can directly ask the service to analyze a given input string to check the result.
 
 ```js
-const { SearchServiceClient, AzureKeyCredential, KnownTokenFilterNames } = require("@azure/search");
+const {
+  SearchServiceClient,
+  AzureKeyCredential,
+  KnownTokenFilterNames
+} = require("@azure/search-documents");
 
 const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
 
@@ -668,7 +676,7 @@ main();
 #### Create a Skillset
 
 ```js
-const { SearchServiceClient, AzureKeyCredential } = require("@azure/search");
+const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-documents");
 
 const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
 
@@ -714,7 +722,7 @@ main();
 #### Create a SynonymMap
 
 ```js
-const { SearchServiceClient, AzureKeyCredential } = require("@azure/search");
+const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-documents");
 
 const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
 

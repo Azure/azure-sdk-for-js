@@ -1,11 +1,11 @@
 {
-  "name": "@azure/search",
-  "version": "11.0.0-preview.2",
+  "name": "@azure/search-documents",
+  "version": "1.0.0-preview.2",
   "description": "Azure client library to use Cognitive Search for node.js and browser.",
   "sdk-type": "client",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
-  "types": "types/search.d.ts",
+  "types": "types/search-documents.d.ts",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
@@ -37,7 +37,7 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "types/search.d.ts",
+    "types/search-documents.d.ts",
     "README.md",
     "LICENSE"
   ],
@@ -48,6 +48,10 @@
     "constantPaths": [
       {
         "path": "src/generated/data/searchIndexClientContext.ts",
+        "prefix": "packageVersion"
+      },
+      {
+        "path": "src/generated/service/searchServiceClientContext.ts",
         "prefix": "packageVersion"
       },
       {
@@ -69,7 +73,7 @@
   "engines": {
     "node": ">=8.0.0"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/search/search/",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/search/search-documents/",
   "sideEffects": false,
   "dependencies": {
     "@azure/core-auth": "^1.1.0",
