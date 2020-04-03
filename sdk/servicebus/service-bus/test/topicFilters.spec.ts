@@ -17,7 +17,7 @@ import {
 } from "./utils/testutils2";
 import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
 import { SubscriptionRuleManager } from "../src/receivers/subscriptionRuleManager";
-import { AbortController } from "@azure/abort-controller";
+// import { AbortController } from "@azure/abort-controller";
 
 describe("topic filters", () => {
   let subscriptionClient: Receiver<ReceivedMessageWithLock>;
@@ -574,6 +574,7 @@ describe("topic filters", () => {
     });
   });
 
+  // TODO: Below tests are disabled as the afterEach hook is failing. Needs investigation
   // describe("Cancel operations on the rule manager", function(): void {
 
   //   beforeEach(async () => {
