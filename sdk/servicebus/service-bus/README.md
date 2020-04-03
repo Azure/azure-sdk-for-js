@@ -24,6 +24,8 @@ Resources for the v7.0.0-preview.1 of `@azure/service-bus`:
 [API Reference Documentation for v1.1.5](https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/?view=azure-node-latest) |
 [Samples for v1.1.5](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples)
 
+We also provide a migration guide for users familiar with the stable package that would like to try the preview: [migration guide to move from Service Bus V1 to Service Bus V7 Preview][migrationguide]
+
 ## Getting Started
 
 ### Install the package
@@ -282,3 +284,4 @@ If you'd like to contribute to this library, please read the [contributing guide
 [receiver_subscribe]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.1/interfaces/receiver.html#subscribe
 [receiver_getmessageiterator]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.1/interfaces/receiver.html#getmessageiterator
 [sessionreceiver]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.1/interfaces/sessionreceiver.html
+[migrationguide]: https://github.com/Azure/azure-sdk-for-js/blob/%40azure/service-bus_7.0.0-preview.1/sdk/servicebus/service-bus/migrationguide.md

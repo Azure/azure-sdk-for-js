@@ -28,6 +28,13 @@ import { UserAgentOptions } from '@azure/core-http';
 import { WebResource } from '@azure/core-http';
 
 // @public
+export interface AccessPolicy {
+    expiresOn?: string;
+    permissions?: string;
+    startsOn?: string;
+}
+
+// @public
 export class AccountSASPermissions {
     add: boolean;
     create: boolean;
@@ -93,8 +100,6 @@ export interface CloseHandlesInfo {
 
 // @public
 export interface CommonOptions {
-    // Warning: (ae-forgotten-export) The symbol "OperationTracingOptions" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     tracingOptions?: OperationTracingOptions;
 }
@@ -112,6 +117,15 @@ export interface CopyFileSmbInfo {
 
 // @public
 export type CopyStatusType = 'pending' | 'success' | 'aborted' | 'failed';
+
+// @public
+export interface CorsRule {
+    allowedHeaders: string;
+    allowedMethods: string;
+    allowedOrigins: string;
+    exposedHeaders: string;
+    maxAgeInSeconds: number;
+}
 
 // @public
 export abstract class Credential implements RequestPolicyFactory {
@@ -140,17 +154,31 @@ export interface DirectoryCloseHandlesHeaders {
     version?: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "FileAndDirectoryCreateCommonOptions" needs to be exported by the entry point index.d.ts
-//
+// @public
+export interface DirectoryCreateHeaders {
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    etag?: string;
+    fileAttributes?: string;
+    fileChangeOn?: Date;
+    fileCreatedOn?: Date;
+    fileId?: string;
+    fileLastWriteOn?: Date;
+    fileParentId?: string;
+    filePermissionKey?: string;
+    isServerEncrypted?: boolean;
+    lastModified?: Date;
+    requestId?: string;
+    version?: string;
+}
+
 // @public
 export interface DirectoryCreateOptions extends FileAndDirectoryCreateCommonOptions, CommonOptions {
     abortSignal?: AbortSignalLike;
-    // Warning: (ae-forgotten-export) The symbol "Metadata" needs to be exported by the entry point index.d.ts
     metadata?: Metadata;
 }
 
-// Warning: (ae-forgotten-export) The symbol "DirectoryCreateHeaders" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type DirectoryCreateResponse = DirectoryCreateHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -159,12 +187,19 @@ export type DirectoryCreateResponse = DirectoryCreateHeaders & {
 };
 
 // @public
+export interface DirectoryDeleteHeaders {
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface DirectoryDeleteOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// Warning: (ae-forgotten-export) The symbol "DirectoryDeleteHeaders" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type DirectoryDeleteResponse = DirectoryDeleteHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -203,12 +238,33 @@ export interface DirectoryForceCloseHandlesSegmentOptions extends CommonOptions 
 }
 
 // @public
+export interface DirectoryGetPropertiesHeaders {
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    etag?: string;
+    fileAttributes?: string;
+    fileChangeOn?: Date;
+    fileCreatedOn?: Date;
+    fileId?: string;
+    fileLastWriteOn?: Date;
+    fileParentId?: string;
+    filePermissionKey?: string;
+    isServerEncrypted?: boolean;
+    lastModified?: Date;
+    // (undocumented)
+    metadata?: {
+        [propertyName: string]: string;
+    };
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface DirectoryGetPropertiesOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// Warning: (ae-forgotten-export) The symbol "DirectoryGetPropertiesHeaders" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type DirectoryGetPropertiesResponse = DirectoryGetPropertiesHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -228,9 +284,16 @@ export interface DirectoryListFilesAndDirectoriesOptions extends CommonOptions {
     prefix?: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "ListFilesAndDirectoriesSegmentResponse" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "DirectoryListFilesAndDirectoriesSegmentHeaders" needs to be exported by the entry point index.d.ts
-//
+// @public
+export interface DirectoryListFilesAndDirectoriesSegmentHeaders {
+    contentType?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
 // @public
 export type DirectoryListFilesAndDirectoriesSegmentResponse = ListFilesAndDirectoriesSegmentResponse & DirectoryListFilesAndDirectoriesSegmentHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -241,14 +304,21 @@ export type DirectoryListFilesAndDirectoriesSegmentResponse = ListFilesAndDirect
 };
 
 // @public
+export interface DirectoryListHandlesHeaders {
+    contentType?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface DirectoryListHandlesOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     recursive?: boolean;
 }
 
-// Warning: (ae-forgotten-export) The symbol "ListHandlesResponse" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "DirectoryListHandlesHeaders" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type DirectoryListHandlesResponse = ListHandlesResponse & DirectoryListHandlesHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -265,11 +335,20 @@ export interface DirectoryListHandlesSegmentOptions extends CommonOptions {
     recursive?: boolean;
 }
 
-// Warning: (ae-forgotten-export) The symbol "FileAndDirectorySetPropertiesCommonOptions" needs to be exported by the entry point index.d.ts
-//
 // @public (undocumented)
 export interface DirectoryProperties extends FileAndDirectorySetPropertiesCommonOptions, CommonOptions {
     abortSignal?: AbortSignalLike;
+}
+
+// @public
+export interface DirectorySetMetadataHeaders {
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    etag?: string;
+    isServerEncrypted?: boolean;
+    requestId?: string;
+    version?: string;
 }
 
 // @public
@@ -277,8 +356,6 @@ export interface DirectorySetMetadataOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// Warning: (ae-forgotten-export) The symbol "DirectorySetMetadataHeaders" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type DirectorySetMetadataResponse = DirectorySetMetadataHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -286,8 +363,25 @@ export type DirectorySetMetadataResponse = DirectorySetMetadataHeaders & {
     };
 };
 
-// Warning: (ae-forgotten-export) The symbol "DirectorySetPropertiesHeaders" needs to be exported by the entry point index.d.ts
-//
+// @public
+export interface DirectorySetPropertiesHeaders {
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    etag?: string;
+    fileAttributes?: string;
+    fileChangeOn?: Date;
+    fileCreatedOn?: Date;
+    fileId?: string;
+    fileLastWriteOn?: Date;
+    fileParentId?: string;
+    filePermissionKey?: string;
+    isServerEncrypted?: boolean;
+    lastModified?: Date;
+    requestId?: string;
+    version?: string;
+}
+
 // @public
 export type DirectorySetPropertiesResponse = DirectorySetPropertiesHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -301,14 +395,39 @@ export interface FileAbortCopyFromURLOptions extends CommonOptions {
     leaseAccessConditions?: LeaseAccessConditions;
 }
 
-// Warning: (ae-forgotten-export) The symbol "FileAbortCopyHeaders" needs to be exported by the entry point index.d.ts
-//
+// @public
+export interface FileAbortCopyHeaders {
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
 // @public
 export type FileAbortCopyResponse = FileAbortCopyHeaders & {
     _response: coreHttp.HttpResponse & {
         parsedHeaders: FileAbortCopyHeaders;
     };
 };
+
+// @public (undocumented)
+export interface FileAndDirectoryCreateCommonOptions {
+    creationTime?: Date | TimeNowType;
+    fileAttributes?: FileSystemAttributes;
+    filePermission?: string | FilePermissionInheritType;
+    filePermissionKey?: string;
+    lastWriteTime?: Date | TimeNowType;
+}
+
+// @public (undocumented)
+export interface FileAndDirectorySetPropertiesCommonOptions {
+    creationTime?: Date | TimeNowType | TimePreserveType;
+    fileAttributes?: FileSystemAttributes | FileAttributesPreserveType;
+    filePermission?: string | FilePermissionInheritType | FilePermissionPreserveType;
+    filePermissionKey?: string;
+    lastWriteTime?: Date | TimeNowType | TimePreserveType;
+}
 
 // @public
 export type FileAttributesPreserveType = "preserve";
@@ -328,16 +447,32 @@ export interface FileCloseHandlesHeaders {
 }
 
 // @public
+export interface FileCreateHeaders {
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    etag?: string;
+    fileAttributes?: string;
+    fileChangeOn?: Date;
+    fileCreatedOn?: Date;
+    fileId?: string;
+    fileLastWriteOn?: Date;
+    fileParentId?: string;
+    filePermissionKey?: string;
+    isServerEncrypted?: boolean;
+    lastModified?: Date;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface FileCreateOptions extends FileAndDirectoryCreateCommonOptions, CommonOptions {
     abortSignal?: AbortSignalLike;
-    // Warning: (ae-forgotten-export) The symbol "FileHttpHeaders" needs to be exported by the entry point index.d.ts
     fileHttpHeaders?: FileHttpHeaders;
     leaseAccessConditions?: LeaseAccessConditions;
     metadata?: Metadata;
 }
 
-// Warning: (ae-forgotten-export) The symbol "FileCreateHeaders" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type FileCreateResponse = FileCreateHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -346,13 +481,20 @@ export type FileCreateResponse = FileCreateHeaders & {
 };
 
 // @public
+export interface FileDeleteHeaders {
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface FileDeleteOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     leaseAccessConditions?: LeaseAccessConditions;
 }
 
-// Warning: (ae-forgotten-export) The symbol "FileDeleteHeaders" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type FileDeleteResponse = FileDeleteHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -463,13 +605,51 @@ export type FileForceCloseHandlesResponse = CloseHandlesInfo & FileCloseHandlesH
 };
 
 // @public
+export interface FileGetPropertiesHeaders {
+    cacheControl?: string;
+    contentDisposition?: string;
+    contentEncoding?: string;
+    contentLanguage?: string;
+    contentLength?: number;
+    contentMD5?: Uint8Array;
+    contentType?: string;
+    copyCompletedOn?: Date;
+    copyId?: string;
+    copyProgress?: string;
+    copySource?: string;
+    copyStatus?: CopyStatusType;
+    copyStatusDescription?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    etag?: string;
+    fileAttributes?: string;
+    fileChangeOn?: Date;
+    fileCreatedOn?: Date;
+    fileId?: string;
+    fileLastWriteOn?: Date;
+    fileParentId?: string;
+    filePermissionKey?: string;
+    fileType?: FileType;
+    isServerEncrypted?: boolean;
+    lastModified?: Date;
+    leaseDuration?: LeaseDurationType;
+    leaseState?: LeaseStateType;
+    leaseStatus?: LeaseStatusType;
+    // (undocumented)
+    metadata?: {
+        [propertyName: string]: string;
+    };
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface FileGetPropertiesOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     leaseAccessConditions?: LeaseAccessConditions;
 }
 
-// Warning: (ae-forgotten-export) The symbol "FileGetPropertiesHeaders" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type FileGetPropertiesResponse = FileGetPropertiesHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -506,14 +686,32 @@ export type FileGetRangeListResponse = FileGetRangeListHeaders & {
     };
 };
 
+// @public (undocumented)
+export interface FileHttpHeaders {
+    fileCacheControl?: string;
+    fileContentDisposition?: string;
+    fileContentEncoding?: string;
+    fileContentLanguage?: string;
+    fileContentMD5?: Uint8Array;
+    fileContentType?: string;
+}
+
 // @public
 export interface FileItem {
     // (undocumented)
     name: string;
-    // Warning: (ae-forgotten-export) The symbol "FileProperty" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     properties: FileProperty;
+}
+
+// @public
+export interface FileListHandlesHeaders {
+    contentType?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
 }
 
 // @public (undocumented)
@@ -521,8 +719,6 @@ export interface FileListHandlesOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// Warning: (ae-forgotten-export) The symbol "FileListHandlesHeaders" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type FileListHandlesResponse = ListHandlesResponse & FileListHandlesHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -563,9 +759,22 @@ export interface FileProperties extends FileAndDirectorySetPropertiesCommonOptio
 }
 
 // @public
+export interface FileProperty {
+    contentLength: number;
+}
+
+// @public
 export interface FileResizeOptions extends FileAndDirectorySetPropertiesCommonOptions, CommonOptions {
     abortSignal?: AbortSignalLike;
     leaseAccessConditions?: LeaseAccessConditions;
+}
+
+// @public
+export interface FilesAndDirectoriesListSegment {
+    // (undocumented)
+    directoryItems: DirectoryItem[];
+    // (undocumented)
+    fileItems: FileItem[];
 }
 
 // @public
@@ -598,11 +807,28 @@ export interface FileSASSignatureValues {
 
 // @public
 export interface FileServiceProperties {
-    // Warning: (ae-forgotten-export) The symbol "CorsRule" needs to be exported by the entry point index.d.ts
     cors?: CorsRule[];
-    // Warning: (ae-forgotten-export) The symbol "Metrics" needs to be exported by the entry point index.d.ts
     hourMetrics?: Metrics;
     minuteMetrics?: Metrics;
+}
+
+// @public
+export interface FileSetHTTPHeadersHeaders {
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    etag?: string;
+    fileAttributes?: string;
+    fileChangeOn?: Date;
+    fileCreatedOn?: Date;
+    fileId?: string;
+    fileLastWriteOn?: Date;
+    fileParentId?: string;
+    filePermissionKey?: string;
+    isServerEncrypted?: boolean;
+    lastModified?: Date;
+    requestId?: string;
+    version?: string;
 }
 
 // @public
@@ -611,8 +837,6 @@ export interface FileSetHttpHeadersOptions extends FileAndDirectorySetProperties
     leaseAccessConditions?: LeaseAccessConditions;
 }
 
-// Warning: (ae-forgotten-export) The symbol "FileSetHTTPHeadersHeaders" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type FileSetHTTPHeadersResponse = FileSetHTTPHeadersHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -621,19 +845,41 @@ export type FileSetHTTPHeadersResponse = FileSetHTTPHeadersHeaders & {
 };
 
 // @public
+export interface FileSetMetadataHeaders {
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    etag?: string;
+    isServerEncrypted?: boolean;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface FileSetMetadataOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     leaseAccessConditions?: LeaseAccessConditions;
 }
 
-// Warning: (ae-forgotten-export) The symbol "FileSetMetadataHeaders" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type FileSetMetadataResponse = FileSetMetadataHeaders & {
     _response: coreHttp.HttpResponse & {
         parsedHeaders: FileSetMetadataHeaders;
     };
 };
+
+// @public
+export interface FileStartCopyHeaders {
+    copyId?: string;
+    copyStatus?: CopyStatusType;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    etag?: string;
+    lastModified?: Date;
+    requestId?: string;
+    version?: string;
+}
 
 // @public
 export interface FileStartCopyOptions extends CommonOptions {
@@ -645,8 +891,6 @@ export interface FileStartCopyOptions extends CommonOptions {
     metadata?: Metadata;
 }
 
-// Warning: (ae-forgotten-export) The symbol "FileStartCopyHeaders" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type FileStartCopyResponse = FileStartCopyHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -671,6 +915,22 @@ export class FileSystemAttributes {
 }
 
 // @public
+export type FileType = 'File';
+
+// @public
+export interface FileUploadRangeFromURLHeaders {
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    etag?: string;
+    isServerEncrypted?: boolean;
+    lastModified?: Date;
+    requestId?: string;
+    version?: string;
+    xMsContentCrc64?: Uint8Array;
+}
+
+// @public
 export interface FileUploadRangeFromURLOptionalParams extends coreHttp.RequestOptionsBase {
     leaseAccessConditions?: LeaseAccessConditions;
     sourceContentCrc64?: Uint8Array;
@@ -688,14 +948,25 @@ export interface FileUploadRangeFromURLOptions extends CommonOptions {
     timeoutInSeconds?: number;
 }
 
-// Warning: (ae-forgotten-export) The symbol "FileUploadRangeFromURLHeaders" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type FileUploadRangeFromURLResponse = FileUploadRangeFromURLHeaders & {
     _response: coreHttp.HttpResponse & {
         parsedHeaders: FileUploadRangeFromURLHeaders;
     };
 };
+
+// @public
+export interface FileUploadRangeHeaders {
+    contentMD5?: Uint8Array;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    etag?: string;
+    isServerEncrypted?: boolean;
+    lastModified?: Date;
+    requestId?: string;
+    version?: string;
+}
 
 // @public
 export interface FileUploadRangeOptions extends CommonOptions {
@@ -705,8 +976,6 @@ export interface FileUploadRangeOptions extends CommonOptions {
     onProgress?: (progress: TransferProgressEvent) => void;
 }
 
-// Warning: (ae-forgotten-export) The symbol "FileUploadRangeHeaders" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type FileUploadRangeResponse = FileUploadRangeHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -788,13 +1057,79 @@ export type LeaseStateType = 'available' | 'leased' | 'expired' | 'breaking' | '
 export type LeaseStatusType = 'locked' | 'unlocked';
 
 // @public
+export interface ListFilesAndDirectoriesSegmentResponse {
+    // (undocumented)
+    continuationToken: string;
+    // (undocumented)
+    directoryPath: string;
+    // (undocumented)
+    marker?: string;
+    // (undocumented)
+    maxResults?: number;
+    // (undocumented)
+    prefix: string;
+    // (undocumented)
+    segment: FilesAndDirectoriesListSegment;
+    // (undocumented)
+    serviceEndpoint: string;
+    // (undocumented)
+    shareName: string;
+    // (undocumented)
+    shareSnapshot?: string;
+}
+
+// @public
+export interface ListHandlesResponse {
+    // (undocumented)
+    continuationToken: string;
+    // (undocumented)
+    handleList?: HandleItem[];
+}
+
+// @public
 export type ListSharesIncludeType = 'snapshots' | 'metadata';
+
+// @public
+export interface ListSharesResponse {
+    // (undocumented)
+    continuationToken: string;
+    // (undocumented)
+    marker?: string;
+    // (undocumented)
+    maxResults?: number;
+    // (undocumented)
+    prefix?: string;
+    // (undocumented)
+    serviceEndpoint: string;
+    // (undocumented)
+    shareItems?: ShareItem[];
+}
 
 // @public
 export const logger: import("@azure/logger").AzureLogger;
 
+// @public (undocumented)
+export interface Metadata {
+    // (undocumented)
+    [propertyName: string]: string;
+}
+
+// @public
+export interface Metrics {
+    enabled: boolean;
+    includeAPIs?: boolean;
+    // (undocumented)
+    retentionPolicy?: RetentionPolicy;
+    version: string;
+}
+
 // @public
 export function newPipeline(credential: Credential, pipelineOptions?: StoragePipelineOptions): Pipeline;
+
+// @public (undocumented)
+export interface OperationTracingOptions {
+    spanOptions?: SpanOptions;
+}
 
 // @public
 export class Pipeline {
@@ -828,6 +1163,12 @@ export { RequestPolicyFactory }
 export { RequestPolicyOptions }
 
 export { RestError }
+
+// @public
+export interface RetentionPolicy {
+    days?: number;
+    enabled: boolean;
+}
 
 // @public
 export interface SasIPRange {
@@ -864,12 +1205,18 @@ export class SASQueryParameters {
 }
 
 // @public
+export interface ServiceGetPropertiesHeaders {
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface ServiceGetPropertiesOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// Warning: (ae-forgotten-export) The symbol "ServiceGetPropertiesHeaders" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type ServiceGetPropertiesResponse = FileServiceProperties & ServiceGetPropertiesHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -887,9 +1234,14 @@ export interface ServiceListSharesOptions extends CommonOptions {
     prefix?: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "ListSharesResponse" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "ServiceListSharesSegmentHeaders" needs to be exported by the entry point index.d.ts
-//
+// @public
+export interface ServiceListSharesSegmentHeaders {
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
 // @public
 export type ServiceListSharesSegmentResponse = ListSharesResponse & ServiceListSharesSegmentHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -900,12 +1252,18 @@ export type ServiceListSharesSegmentResponse = ListSharesResponse & ServiceListS
 };
 
 // @public
+export interface ServiceSetPropertiesHeaders {
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface ServiceSetPropertiesOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// Warning: (ae-forgotten-export) The symbol "ServiceSetPropertiesHeaders" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type ServiceSetPropertiesResponse = ServiceSetPropertiesHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -952,6 +1310,17 @@ export class ShareClient extends StorageClient {
 }
 
 // @public
+export interface ShareCreateHeaders {
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    etag?: string;
+    lastModified?: Date;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface ShareCreateOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     metadata?: {
@@ -961,12 +1330,20 @@ export interface ShareCreateOptions extends CommonOptions {
 }
 
 // @public
+export interface ShareCreatePermissionHeaders {
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    filePermissionKey?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface ShareCreatePermissionOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// Warning: (ae-forgotten-export) The symbol "ShareCreatePermissionHeaders" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type ShareCreatePermissionResponse = ShareCreatePermissionHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -974,14 +1351,24 @@ export type ShareCreatePermissionResponse = ShareCreatePermissionHeaders & {
     };
 };
 
-// Warning: (ae-forgotten-export) The symbol "ShareCreateHeaders" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type ShareCreateResponse = ShareCreateHeaders & {
     _response: coreHttp.HttpResponse & {
         parsedHeaders: ShareCreateHeaders;
     };
 };
+
+// @public
+export interface ShareCreateSnapshotHeaders {
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    etag?: string;
+    lastModified?: Date;
+    requestId?: string;
+    snapshot?: string;
+    version?: string;
+}
 
 // @public
 export interface ShareCreateSnapshotOptions extends CommonOptions {
@@ -991,8 +1378,6 @@ export interface ShareCreateSnapshotOptions extends CommonOptions {
     };
 }
 
-// Warning: (ae-forgotten-export) The symbol "ShareCreateSnapshotHeaders" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type ShareCreateSnapshotResponse = ShareCreateSnapshotHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -1001,13 +1386,20 @@ export type ShareCreateSnapshotResponse = ShareCreateSnapshotHeaders & {
 };
 
 // @public
+export interface ShareDeleteHeaders {
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface ShareDeleteMethodOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     deleteSnapshots?: DeleteSnapshotsOptionType;
 }
 
-// Warning: (ae-forgotten-export) The symbol "ShareDeleteHeaders" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type ShareDeleteResponse = ShareDeleteHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -1112,13 +1504,19 @@ export type ShareGetAccessPolicyResponse = {
 };
 
 // @public
+export interface ShareGetPermissionHeaders {
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface ShareGetPermissionOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// Warning: (ae-forgotten-export) The symbol "SharePermission" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "ShareGetPermissionHeaders" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type ShareGetPermissionResponse = SharePermission & ShareGetPermissionHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -1129,18 +1527,47 @@ export type ShareGetPermissionResponse = SharePermission & ShareGetPermissionHea
 };
 
 // @public
+export interface ShareGetPropertiesHeaders {
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    etag?: string;
+    lastModified?: Date;
+    // (undocumented)
+    metadata?: {
+        [propertyName: string]: string;
+    };
+    nextAllowedQuotaDowngradeTime?: Date;
+    provisionedEgressMBps?: number;
+    provisionedIngressMBps?: number;
+    provisionedIops?: number;
+    quota?: number;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface ShareGetPropertiesOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// Warning: (ae-forgotten-export) The symbol "ShareGetPropertiesHeaders" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type ShareGetPropertiesResponse = ShareGetPropertiesHeaders & {
     _response: coreHttp.HttpResponse & {
         parsedHeaders: ShareGetPropertiesHeaders;
     };
 };
+
+// @public
+export interface ShareGetStatisticsHeaders {
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    etag?: string;
+    lastModified?: Date;
+    requestId?: string;
+    version?: string;
+}
 
 // @public
 export interface ShareGetStatisticsOptions extends CommonOptions {
@@ -1152,9 +1579,6 @@ export type ShareGetStatisticsResponse = ShareGetStatisticsResponseModel & {
     shareUsage: number;
 };
 
-// Warning: (ae-forgotten-export) The symbol "ShareStats" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "ShareGetStatisticsHeaders" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type ShareGetStatisticsResponseModel = ShareStats & ShareGetStatisticsHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -1172,8 +1596,6 @@ export interface ShareItem {
     };
     // (undocumented)
     name: string;
-    // Warning: (ae-forgotten-export) The symbol "ShareProperties" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     properties: ShareProperties;
     // (undocumented)
@@ -1190,6 +1612,29 @@ export class ShareLeaseClient {
     releaseLease(options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
     get url(): string;
     }
+
+// @public
+export interface SharePermission {
+    permission: string;
+}
+
+// @public
+export interface ShareProperties {
+    // (undocumented)
+    etag: string;
+    // (undocumented)
+    lastModified: Date;
+    // (undocumented)
+    nextAllowedQuotaDowngradeTime?: Date;
+    // (undocumented)
+    provisionedEgressMBps?: number;
+    // (undocumented)
+    provisionedIngressMBps?: number;
+    // (undocumented)
+    provisionedIops?: number;
+    // (undocumented)
+    quota: number;
+}
 
 // @public
 export class ShareSASPermissions {
@@ -1219,12 +1664,21 @@ export class ShareServiceClient extends StorageClient {
 }
 
 // @public
+export interface ShareSetAccessPolicyHeaders {
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    etag?: string;
+    lastModified?: Date;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface ShareSetAccessPolicyOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// Warning: (ae-forgotten-export) The symbol "ShareSetAccessPolicyHeaders" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type ShareSetAccessPolicyResponse = ShareSetAccessPolicyHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -1233,12 +1687,21 @@ export type ShareSetAccessPolicyResponse = ShareSetAccessPolicyHeaders & {
 };
 
 // @public
+export interface ShareSetMetadataHeaders {
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    etag?: string;
+    lastModified?: Date;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface ShareSetMetadataOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// Warning: (ae-forgotten-export) The symbol "ShareSetMetadataHeaders" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type ShareSetMetadataResponse = ShareSetMetadataHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -1247,18 +1710,32 @@ export type ShareSetMetadataResponse = ShareSetMetadataHeaders & {
 };
 
 // @public
+export interface ShareSetQuotaHeaders {
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    etag?: string;
+    lastModified?: Date;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface ShareSetQuotaOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// Warning: (ae-forgotten-export) The symbol "ShareSetQuotaHeaders" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type ShareSetQuotaResponse = ShareSetQuotaHeaders & {
     _response: coreHttp.HttpResponse & {
         parsedHeaders: ShareSetQuotaHeaders;
     };
 };
+
+// @public
+export interface ShareStats {
+    shareUsageBytes: number;
+}
 
 // @public
 export interface SignedIdentifier {
@@ -1272,7 +1749,6 @@ export interface SignedIdentifier {
 
 // @public
 export interface SignedIdentifierModel {
-    // Warning: (ae-forgotten-export) The symbol "AccessPolicy" needs to be exported by the entry point index.d.ts
     accessPolicy?: AccessPolicy;
     id: string;
 }

@@ -27,7 +27,7 @@ Use the client library to:
 
 ### Currently supported environments
 
-- Node.js version 8.x.x or higher
+- [Node.js](https://nodejs.org/) version 8.x.x or higher
 
 ### Prerequisites
 
@@ -48,7 +48,7 @@ The above creates a resource with the "Standard" pricing tier. See [choosing a p
 npm install @azure/search
 ```
 
-### 2. Create and authenticate a `SearchIndexClient`
+### 2. Create and authenticate a `SearchIndexClient` or `SearchServiceClient`
 
 Azure Cognitive Search uses keys for authentication.
 
@@ -65,20 +65,32 @@ Alternatively, you can get the endpoint and Admin Key from the resource informat
 Once you have an Admin Key, you can use it as follows:
 
 ```js
-const { SearchIndexClient, AzureKeyCredential } = require("@azure/search");
+const { SearchIndexClient, SearchServiceClient, AzureKeyCredential } = require("@azure/search");
 
-const client = new SearchIndexClient(
+// To query and manipulate documents
+const indexClient = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new AzureKeyCredential("<Admin Key>")
+  new AzureKeyCredential("<apiKey>")
 );
+
+// To manage indexes, datasources, skillsets and more
+const serviceClient = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
 ```
 
 ## Key concepts
 
 ### SearchIndexClient
 
-`SearchIndexClient` is one of the primary interface for developers using the Azure Cognitive Search client library. It provides asynchronous methods for working with documents in an index. These methods allow you to query, upload, update, and delete documents. It also provides methods for building completion and suggestion experiences based on partial queries.
+`SearchIndexClient` provides methods for working with documents in an index. Its methods allow you to query, upload, update, and delete documents. It also has methods for building auto-completion and search suggestion experiences based on partial queries.
+
+### SearchServiceClient
+
+`SearchServiceClient` provides methods for configuring and customizing an Azure Cognitive Search instance. The client currently has support for creating and managing search indexes and will later expand to support creating and managing other service entities such as indexers, synonym maps, cognitive skillsets, and data sources.
+
+### Documents
+
+An item stored inside a search index. The shape of this document is described in the index using `Field`s. Each Field has a name, a datatype, and additional metadata such as if it is searchable or filterable.
 
 ### Pagination
 
@@ -96,7 +108,9 @@ Typically you will only wish to [show a subset of search results](https://docs.m
 
 ## Examples
 
-### Query documents in an index
+### SearchIndexClient Examples
+
+#### Query documents in an index
 
 To list all results of a particular query, you can use `search` with a search string that uses [simple query syntax](https://docs.microsoft.com/azure/search/query-simple-syntax):
 
@@ -106,13 +120,17 @@ const { SearchIndexClient, AzureKeyCredential } = require("@azure/search");
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new AzureKeyCredential("<Admin Key>")
+  new AzureKeyCredential("<apiKey>")
 );
 
-const searchResults = await client.search({ searchText: "wifi -luxury" });
-for await (const result of searchResults.results) {
-  console.log(result);
+async function main() {
+  const searchResults = await client.search({ searchText: "wifi -luxury" });
+  for await (const result of searchResults.results) {
+    console.log(result);
+  }
 }
+
+main();
 ```
 
 For a more advanced search that uses [Lucene syntax](https://docs.microsoft.com/azure/search/query-lucene-syntax), specify `queryType` to be `all`:
@@ -123,20 +141,24 @@ const { SearchIndexClient, AzureKeyCredential } = require("@azure/search");
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new AzureKeyCredential("<Admin Key>")
+  new AzureKeyCredential("<apiKey>")
 );
 
-const searchResults = await client.search({
-  searchText: 'Category:budget AND "recently renovated"^3',
-  queryType: "full",
-  searchMode: "all"
-});
-for await (const result of searchResults.results) {
-  console.log(result);
+async function main() {
+  const searchResults = await client.search({
+    searchText: 'Category:budget AND "recently renovated"^3',
+    queryType: "full",
+    searchMode: "all"
+  });
+  for await (const result of searchResults.results) {
+    console.log(result);
+  }
 }
+
+main();
 ```
 
-### Querying with TypeScript
+#### Querying with TypeScript
 
 In TypeScript `SearchIndexClient` takes a generic parameter that is the model shape of your index documents. This allows you to perform strongly typed lookup of fields returned in results. TypeScript is also able to check for fields returned when specifying a `select` parameter.
 
@@ -156,24 +178,28 @@ interface Hotel {
 const client = new SearchIndexClient<Hotel>(
   "<endpoint>",
   "<indexName>",
-  new AzureKeyCredential("<Admin Key>")
+  new AzureKeyCredential("<apiKey>")
 );
 
-const searchResults = await client.search({
-  searchText: "wifi -luxury",
-  // Only fields in Hotel can be added to this array.
-  // TS will complain if one is misspelled.
-  select: ["HotelId", "HotelName", "Rating"]
-});
+async function main() {
+  const searchResults = await client.search({
+    searchText: "wifi -luxury",
+    // Only fields in Hotel can be added to this array.
+    // TS will complain if one is misspelled.
+    select: ["HotelId", "HotelName", "Rating"]
+  });
 
-for await (const result of searchResults.results) {
-  // result has HotelId, HotelName, and Rating.
-  // Trying to access result.Description would emit a TS error.
-  console.log(result.HotelName);
+  for await (const result of searchResults.results) {
+    // result has HotelId, HotelName, and Rating.
+    // Trying to access result.Description would emit a TS error.
+    console.log(result.HotelName);
+  }
 }
+
+main();
 ```
 
-### Querying with OData filters
+#### Querying with OData filters
 
 Using the `filter` query parameter allows you to query an index using the syntax of an [OData \$filter expression](https://docs.microsoft.com/azure/search/search-query-odata-filter).
 
@@ -183,25 +209,29 @@ const { SearchIndexClient, AzureKeyCredential, odata } = require("@azure/search"
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new AzureKeyCredential("<Admin Key>")
+  new AzureKeyCredential("<apiKey>")
 );
 
-const baseRateMax = 200;
-const ratingMin = 4;
-const searchResults = await client.search({
-  searchText: "WiFi",
-  filter: odata`Rooms/any(room: room/BaseRate lt ${baseRateMax}) and Rating ge ${ratingMin}`,
-  orderBy: ["Rating desc"],
-  select: ["HotelId", "HotelName", "Rating"]
-});
-for await (const result of searchResults.results) {
-  // Each result will have "HotelId", "HotelName", and "Rating"
-  // in addition to the standard search result property "score"
-  console.log(result);
+async function main() {
+  const baseRateMax = 200;
+  const ratingMin = 4;
+  const searchResults = await client.search({
+    searchText: "WiFi",
+    filter: odata`Rooms/any(room: room/BaseRate lt ${baseRateMax}) and Rating ge ${ratingMin}`,
+    orderBy: ["Rating desc"],
+    select: ["HotelId", "HotelName", "Rating"]
+  });
+  for await (const result of searchResults.results) {
+    // Each result will have "HotelId", "HotelName", and "Rating"
+    // in addition to the standard search result property "score"
+    console.log(result);
+  }
 }
+
+main();
 ```
 
-### Querying with facets
+#### Querying with facets
 
 [Facets](https://docs.microsoft.com/azure/search/search-filters-facets) are used to help a user of your application refine a search along pre-configured dimensions. [Facet syntax](https://docs.microsoft.com/rest/api/searchservice/search-documents#facetstring-zero-or-more) provides the options to sort and bucket facet values.
 
@@ -211,37 +241,36 @@ const { SearchIndexClient, AzureKeyCredential } = require("@azure/search");
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new AzureKeyCredential("<Admin Key>")
+  new AzureKeyCredential("<apiKey>")
 );
 
-const searchResults = await client.search({
-  searchText: "WiFi",
-  facets: ["Category,count:3,sort:count", "Rooms/BaseRate,interval:100"]
-});
-console.log(searchResults.facets);
-// Output will look like:
-// {
-//   Rating: [
-//     { count: 4, value: 2 },
-//     { count: 5, value: 3 },
-//     { count: 8, value: 4 }
-//   ],
-//   'Rooms/BaseRate': [
-//     { count: 16, value: 0 },
-//     { count: 17, value: 100 },
-//     { count: 17, value: 200 }
-//   ],
-//   Category: [
-//     { count: 5, value: 'Budget' },
-//     { count: 5, value: 'Luxury' },
-//     { count: 5, value: 'Resort and Spa' }
-//   ]
-// }
+async function main() {
+  const searchResults = await client.search({
+    searchText: "WiFi",
+    facets: ["Category,count:3,sort:count", "Rooms/BaseRate,interval:100"]
+  });
+  console.log(searchResults.facets);
+  // Output will look like:
+  // {
+  //   'Rooms/BaseRate': [
+  //     { count: 16, value: 0 },
+  //     { count: 17, value: 100 },
+  //     { count: 17, value: 200 }
+  //   ],
+  //   Category: [
+  //     { count: 5, value: 'Budget' },
+  //     { count: 5, value: 'Luxury' },
+  //     { count: 5, value: 'Resort and Spa' }
+  //   ]
+  // }
+}
+
+main();
 ```
 
 When retrieving results, a `facets` property will be available that will indicate the number of results that fall into each facet bucket. This can be used to drive refinement (e.g. issuing a follow-up search that filters on the `Rating` being greater than or equal to 3 and less than 4.)
 
-### Retrieving documents by id
+#### Retrieving documents by id
 
 A specific document can be retrieved by its primary key value:
 
@@ -251,14 +280,18 @@ const { SearchIndexClient, AzureKeyCredential } = require("@azure/search");
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new AzureKeyCredential("<Admin Key>")
+  new AzureKeyCredential("<apiKey>")
 );
 
-const result = await client.getDocument("1234");
-console.log(result);
+async function main() {
+  const result = await client.getDocument("1234");
+  console.log(result);
+}
+
+main();
 ```
 
-### Retrieve suggestions from an index
+#### Retrieve suggestions from an index
 
 If you [created a suggester](https://docs.microsoft.com/azure/search/index-add-suggesters) on your index, you can use it to return result suggestions for a user query.
 
@@ -270,24 +303,28 @@ const { SearchIndexClient, AzureKeyCredential } = require("@azure/search");
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new AzureKeyCredential("<Admin Key>")
+  new AzureKeyCredential("<apiKey>")
 );
 
-const suggestResult = await client.suggest({
-  searchText: "wifi",
-  suggesterName: "sg",
-  select: ["HotelId", "HotelName"],
-  highlightPreTag: "<em>",
-  highlightPostTag: "</em>",
-  top: 3
-});
+async function main() {
+  const suggestResult = await client.suggest({
+    searchText: "wifi",
+    suggesterName: "sg",
+    select: ["HotelId", "HotelName"],
+    highlightPreTag: "<em>",
+    highlightPostTag: "</em>",
+    top: 3
+  });
 
-for (const result of suggestResult.results) {
-  console.log(`Suggestion: ${result.HotelName}; Match text: ${result.text}`);
+  for (const result of suggestResult.results) {
+    console.log(`Suggestion: ${result.HotelName}; Match text: ${result.text}`);
+  }
 }
+
+main();
 ```
 
-### Autocomplete a partial query using an index
+#### Autocomplete a partial query using an index
 
 To implement type-ahead behavior in your application, you can query the index with partial user input and return a list of suggested completions. You must have [created a suggester](https://docs.microsoft.com/azure/search/index-add-suggesters) on your index first.
 
@@ -299,20 +336,24 @@ const { SearchIndexClient, AzureKeyCredential } = require("@azure/search");
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new AzureKeyCredential("<Admin Key>")
+  new AzureKeyCredential("<apiKey>")
 );
 
-const autocompleteResult = await client.autocomplete({
-  searchText: "de",
-  suggesterName: "sg"
-});
+async function main() {
+  const autocompleteResult = await client.autocomplete({
+    searchText: "de",
+    suggesterName: "sg"
+  });
 
-for (const result of autocompleteResult.results || []) {
-  console.log(result.text);
+  for (const result of autocompleteResult.results || []) {
+    console.log(result.text);
+  }
 }
+
+main();
 ```
 
-### Return the count of documents in an index
+#### Return the count of documents in an index
 
 ```js
 const { SearchIndexClient, AzureKeyCredential } = require("@azure/search");
@@ -320,14 +361,18 @@ const { SearchIndexClient, AzureKeyCredential } = require("@azure/search");
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new AzureKeyCredential("<Admin Key>")
+  new AzureKeyCredential("<apiKey>")
 );
 
-const count = await client.countDocuments();
-console.log(`${count} documents in index ${client.indexName}`);
+async function main() {
+  const count = await client.countDocuments();
+  console.log(`${count} documents in index ${client.indexName}`);
+}
+
+main();
 ```
 
-### Delete documents in an index
+#### Delete documents in an index
 
 Given the name of a primary key and a list of indexes, you can delete multiple documents from the index at the same time:
 
@@ -337,16 +382,20 @@ const { SearchIndexClient, AzureKeyCredential } = require("@azure/search");
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new AzureKeyCredential("<Admin Key>")
+  new AzureKeyCredential("<apiKey>")
 );
 
-const deleteResult = await client.deleteDocuments("HotelId", ["1", "2", "3"]);
-for (const result of deleteResult.results) {
-  console.log(`Deleting ${result.key}; succeeded? ${result.succeeded}`);
+async function main() {
+  const deleteResult = await client.deleteDocuments("HotelId", ["1", "2", "3"]);
+  for (const result of deleteResult.results) {
+    console.log(`Deleting ${result.key}; succeeded? ${result.succeeded}`);
+  }
 }
+
+main();
 ```
 
-### Upload documents into an index
+#### Upload documents into an index
 
 You can upload multiple documents into index inside a batch:
 
@@ -356,21 +405,25 @@ const { SearchIndexClient, AzureKeyCredential } = require("@azure/search");
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new AzureKeyCredential("<Admin Key>")
+  new AzureKeyCredential("<apiKey>")
 );
 
-const uploadResult = await client.uploadDocuments([
-  // JSON objects matching the shape of the client's index
-  { ... },
-  { ... },
-  { ... }
-]);
-for (const result of uploadResult.results) {
-  console.log(`Uploaded ${result.key}; succeeded? ${result.succeeded}`);
+async function main() {
+  const uploadResult = await client.uploadDocuments([
+    // JSON objects matching the shape of the client's index
+    {},
+    {},
+    {}
+  ]);
+  for (const result of uploadResult.results) {
+    console.log(`Uploaded ${result.key}; succeeded? ${result.succeeded}`);
+  }
 }
+
+main();
 ```
 
-### Update existing documents in an index
+#### Update existing documents in an index
 
 You can update multiple documents in an index at once, or create them if they do not exist. For more details about how merging works, see: https://docs.microsoft.com/rest/api/searchservice/AddUpdate-or-Delete-Documents
 
@@ -380,22 +433,299 @@ const { SearchIndexClient, AzureKeyCredential } = require("@azure/search");
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new AzureKeyCredential("<Admin Key>")
+  new AzureKeyCredential("<apiKey>")
 );
 
-// use mergeOrUploadDocuments if the document might not be upload
-const updateResult = await client.mergeDocuments([
-  // JSON objects matching the shape of the client's index
-  { ... },
-  { ... },
-  { ... }
-], {
-  // throw if updating any document in this batch fails
-  throwOnAnyFailure: true
-});
-for (const result of updateResult.results) {
-  console.log(`Update ${result.key}; succeeded? ${result.succeeded}`);
+async function main() {
+  // use mergeOrUploadDocuments if the document might not be upload
+  const updateResult = await client.mergeDocuments(
+    [
+      // JSON objects matching the shape of the client's index
+      {},
+      {},
+      {}
+    ],
+    {
+      // throw if updating any document in this batch fails
+      throwOnAnyFailure: true
+    }
+  );
+  for (const result of updateResult.results) {
+    console.log(`Update ${result.key}; succeeded? ${result.succeeded}`);
+  }
 }
+
+main();
+```
+
+### SearchServiceClient Examples
+
+#### Get a list of existing indexes in the service
+
+```js
+const { SearchServiceClient, AzureKeyCredential } = require("@azure/search");
+
+const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
+
+async function main() {
+  const listOfIndexes = await client.listIndexes();
+  for (let index of listOfIndexes) {
+    console.log(`Index: ${index.name}`);
+    for (let field of index.fields) {
+      console.log(`\tField: ${field.name}`);
+    }
+  }
+}
+
+main();
+```
+
+#### Get a list of existing skillsets in the service
+
+```js
+const { SearchServiceClient, AzureKeyCredential } = require("@azure/search");
+
+const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
+
+async function main() {
+  const listOfSkillSets = await client.listSkillsets();
+  for (let skillset of listOfSkillSets) {
+    console.log(`Name: ${skillset.name}`);
+    console.log(`Description: ${skillset.description}`);
+    console.log(`Skills`);
+    for (let skill of skillset.skills) {
+      console.log(`\tOdatatype: ${skill.odatatype}`);
+      console.log(`\tName: ${skill.name}`);
+      console.log(`\tDescription: ${skill.description}`);
+    }
+  }
+}
+
+main();
+```
+
+#### Get a list of existing synonymMaps in the service
+
+```js
+const { SearchServiceClient, AzureKeyCredential } = require("@azure/search");
+
+const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
+
+async function main() {
+  const listOfSynonymMaps = await client.listSynonymMaps();
+  for (let synonymMap of listOfSynonymMaps) {
+    console.log(`Name: ${synonymMap.name}`);
+    console.log(`Synonyms`);
+    for (let synonym of synonymMap.synonyms) {
+      console.log(`Synonym: ${synonym}`);
+    }
+  }
+}
+
+main();
+```
+
+#### Create an Index
+
+```js
+const { SearchServiceClient, AzureKeyCredential } = require("@azure/search");
+
+const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
+
+async function main() {
+  const result = await client.createIndex({
+    name: "example-index",
+    fields: [
+      {
+        type: "Edm.String",
+        name: "id",
+        key: true
+      },
+      {
+        type: "Edm.Double",
+        name: "awesomenessLevel",
+        sortable: true,
+        filterable: true,
+        facetable: true
+      },
+      {
+        type: "Edm.String",
+        name: "description",
+        searchable: true
+      },
+      {
+        type: "Edm.ComplexType",
+        name: "details",
+        fields: [
+          {
+            type: "Collection(Edm.String)",
+            name: "tags",
+            searchable: true
+          }
+        ]
+      },
+      {
+        type: "Edm.Int32",
+        name: "hiddenWeight",
+        hidden: true
+      }
+    ]
+  });
+
+  console.log(result);
+}
+
+main();
+```
+
+#### Retrieve an existing index and add a new field to it
+
+A common scenario is extending an existing index definition with an additional field. This can be done without repopulating the index, as all fields that are not key fields are nullable.
+
+```js
+const { SearchServiceClient, AzureKeyCredential } = require("@azure/search");
+
+const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
+
+async function main() {
+  const index = await client.getIndex("example-index");
+
+  index.fields.push({
+    type: "Edm.DateTimeOffset",
+    name: "lastUpdatedOn",
+    filterable: true
+  });
+
+  const updatedIndex = await client.createOrUpdateIndex(index);
+
+  console.log("Fields after updating:");
+
+  for (const field of updatedIndex.fields) {
+    console.log(`\t ${field.name}`);
+  }
+}
+
+main();
+```
+
+#### Define a custom analyzer and test its output
+
+Custom analyzers can be defined per-index and then referenced by name when defining a field in order to influence how searching is performed against that field.
+
+In order to ensure that analysis is configured correctly, developers can directly ask the service to analyze a given input string to check the result.
+
+```js
+const { SearchServiceClient, AzureKeyCredential, KnownTokenFilterNames } = require("@azure/search");
+
+const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
+
+async function main() {
+  const index = await client.getIndex("example-index");
+  index.tokenizers.push({
+    name: "example-tokenizer",
+    odatatype: "#Microsoft.Azure.Search.StandardTokenizerV2",
+    maxTokenLength: 125
+  });
+  index.charFilters.push({
+    name: "example-char-filter",
+    odatatype: "#Microsoft.Azure.Search.MappingCharFilter",
+    mappings: ["MSFT=>Microsoft"]
+  });
+  index.tokenFilters.push({
+    name: "example-token-filter",
+    odatatype: "#Microsoft.Azure.Search.StopwordsTokenFilter",
+    stopwords: ["xyzzy"]
+  });
+  index.analyzers.push({
+    name: "example-analyzer",
+    odatatype: "#Microsoft.Azure.Search.CustomAnalyzer",
+    tokenizer: "example-tokenizer",
+    charFilters: ["example-char-filter"],
+    tokenFilters: [KnownTokenFilterNames.Lowercase, "example-token-filter"]
+  });
+
+  // Note adding this analyzer to an existing index will cause it to be unresponsive
+  // for a short period, hence the need to pass `allowIndexDowntime: true`.
+  await client.createOrUpdateIndex(index, { allowIndexDowntime: true });
+
+  const result = await client.analyzeText("example-index", {
+    text: "MSFT is xyzzy Great!",
+    analyzer: "example-analyzer"
+  });
+
+  console.log(result.tokens);
+  // Output looks like
+  // [
+  //   { token: 'microsoft', startOffset: 0, endOffset: 4, position: 0 },
+  //   { token: 'is', startOffset: 5, endOffset: 7, position: 1 },
+  //   { token: 'great', startOffset: 14, endOffset: 19, position: 3 }
+  // ]
+}
+
+main();
+```
+
+#### Create a Skillset
+
+```js
+const { SearchServiceClient, AzureKeyCredential } = require("@azure/search");
+
+const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
+
+async function main() {
+  const skillset = await client.createSkillset({
+    name: `my-azureblob-skillset`,
+    description: `Skillset description`,
+    skills: [
+      {
+        odatatype: "#Microsoft.Skills.Text.EntityRecognitionSkill",
+        inputs: [
+          {
+            name: "text",
+            source: "/document/merged_content"
+          },
+          {
+            name: "languageCode",
+            source: "/document/language"
+          }
+        ],
+        outputs: [
+          {
+            name: "persons",
+            targetName: "people"
+          },
+          {
+            name: "organizations",
+            targetName: "organizations"
+          },
+          {
+            name: "locations",
+            targetName: "locations"
+          }
+        ]
+      }
+    ]
+  });
+}
+
+main();
+```
+
+#### Create a SynonymMap
+
+```js
+const { SearchServiceClient, AzureKeyCredential } = require("@azure/search");
+
+const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
+
+async function main() {
+  const synonymMap = await client.createSynonymMap({
+    name: `my-synonymmap`,
+    synonyms: ["United States, United States of America => USA", "Washington, Wash. => WA"]
+  });
+}
+
+main();
 ```
 
 ## Troubleshooting

@@ -134,7 +134,7 @@ async function processMessageFromSession(sessionId: string) {
   );
 
   const messages = await sessionReceiver.receiveBatch(1, {
-    maxWaitTimeSeconds: 10
+    maxWaitTimeInMs: 10000
   });
 
   // Custom logic for processing the messages

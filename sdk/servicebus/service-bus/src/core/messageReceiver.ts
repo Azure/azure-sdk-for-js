@@ -9,7 +9,8 @@ import {
   RetryOperationType,
   RetryConfig,
   ConditionErrorNameMapper,
-  ErrorNameConditionMapper
+  ErrorNameConditionMapper,
+  RetryOptions
 } from "@azure/core-amqp";
 import {
   Receiver,
@@ -79,6 +80,12 @@ export interface ReceiveOptions extends MessageHandlerOptions {
    * Default: ReceiveMode.peekLock
    */
   receiveMode?: ReceiveMode;
+  /**
+   * Retry policy options that determine the mode, number of retries, retry interval etc.
+   *
+   * @type {RetryOptions}
+   */
+  retryOptions?: RetryOptions;
 }
 
 /**
@@ -152,6 +159,14 @@ export class MessageReceiver extends LinkEntity {
    * @protected
    */
   protected _receiver?: Receiver;
+  /**
+   *Retry policy options that determine the mode, number of retries, retry interval etc.
+   *
+   * @private
+   * @type {RetryOptions}
+   * @memberof MessageReceiver
+   */
+  private _retryOptions: RetryOptions;
   /**
    * @property {Map<number, Promise<any>>} _deliveryDispositionMap Maintains a map of deliveries that
    * are being actively disposed. It acts as a store for correlating the responses received for
@@ -247,6 +262,7 @@ export class MessageReceiver extends LinkEntity {
       audience: `${context.namespace.config.endpoint}${context.entityPath}`
     });
     if (!options) options = {};
+    this._retryOptions = options.retryOptions || {};
     this.wasCloseInitiated = false;
     this.receiverType = receiverType;
     this.receiveMode = options.receiveMode || ReceiveMode.peekLock;
@@ -925,7 +941,7 @@ export class MessageReceiver extends LinkEntity {
         // the service does not send an error stating that the link is still open.
         const options: ReceiverOptions = this._createReceiverOptions(true);
 
-        // shall retry forever at an interval of 15 seconds if the error is a retryable error
+        // shall retry as per the provided retryOptions if the error is a retryable error
         // else bail out when the error is not retryable or the oepration succeeds.
         const config: RetryConfig<void> = {
           operation: () =>
@@ -948,10 +964,7 @@ export class MessageReceiver extends LinkEntity {
             }),
           connectionId: connectionId,
           operationType: RetryOperationType.receiverLink,
-          retryOptions: {
-            maxRetries: Constants.defaultMaxRetriesForConnection,
-            retryDelayInMs: 15000
-          },
+          retryOptions: this._retryOptions,
           connectionHost: this._context.namespace.config.host
         };
         if (!this.wasCloseInitiated) {

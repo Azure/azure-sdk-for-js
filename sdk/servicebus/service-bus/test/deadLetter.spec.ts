@@ -48,7 +48,7 @@ describe("dead lettering", () => {
     receiver = serviceBusClient.test.getPeekLockReceiver(entityNames);
 
     const receivedMessages = await receiver.receiveBatch(1, {
-      maxWaitTimeSeconds: 1
+      maxWaitTimeInMs: 1000
     });
 
     if (receivedMessages.length == 0) {

@@ -18,6 +18,7 @@ import { MessagingError } from "@azure/core-amqp";
 import Long from "long";
 import { RetryOptions } from "@azure/core-amqp";
 import { BatchingReceiver } from "../src/core/batchingReceiver";
+import { delay } from "rhea-promise";
 
 describe("Retries - ManagementClient", () => {
   let senderClient: Sender;
@@ -433,6 +434,91 @@ describe("Retries - Receive methods", () => {
     await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
     await mockReceiveAndVerifyRetries(async () => {
       await receiverClient.getMessageIterator().next();
+    });
+  });
+});
+
+describe("Retries - onDetached", () => {
+  let senderClient: Sender;
+  let receiverClient: Receiver<ReceivedMessageWithLock> | SessionReceiver<ReceivedMessageWithLock>;
+  let serviceBusClient: ServiceBusClientForTests;
+  let defaultMaxRetries = 2;
+  let numberOfTimesOnDetachedInvoked: number;
+
+  before(() => {
+    serviceBusClient = createServiceBusClientForTests({
+      retryOptions: {
+        // Defaults
+        timeoutInMs: 10000,
+        maxRetries: defaultMaxRetries,
+        retryDelayInMs: 0
+      }
+    });
+  });
+
+  after(() => {
+    return serviceBusClient.test.after();
+  });
+
+  async function beforeEachTest(entityType: TestClientType): Promise<void> {
+    const entityNames = await serviceBusClient.test.createTestEntities(entityType);
+
+    senderClient = serviceBusClient.test.addToCleanup(
+      serviceBusClient.getSender(entityNames.queue ?? entityNames.topic!)
+    );
+    receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
+  }
+
+  async function afterEachTest(): Promise<void> {
+    await senderClient.close();
+    await receiverClient.close();
+  }
+
+  const fakeFunction = async function() {
+    numberOfTimesOnDetachedInvoked++;
+    throw new MessagingError("Hello there, I'm an error");
+  };
+
+  async function mockOnDetachedAndVerifyRetries(func: Function) {
+    await func();
+    // Cannot verify the error thrown because onDetached logs the error and doesn't throw
+    should.equal(
+      numberOfTimesOnDetachedInvoked,
+      defaultMaxRetries + 1,
+      "Unexpected number of retries"
+    );
+  }
+
+  beforeEach(async () => {
+    numberOfTimesOnDetachedInvoked = 0;
+  });
+
+  afterEach(async () => {
+    await afterEachTest();
+  });
+
+  it("Unpartitioned Queue: streaming #RunInBrowser", async function(): Promise<void> {
+    await beforeEachTest(TestClientType.UnpartitionedQueue);
+    await mockOnDetachedAndVerifyRetries(async () => {
+      receiverClient.subscribe({
+        async processMessage() {},
+        async processError() {}
+      });
+      await delay(2000);
+      (receiverClient as any)._context.streamingReceiver._init = fakeFunction;
+      await (receiverClient as any)._context.streamingReceiver.onDetached(
+        new MessagingError("Hello there, I'm an error")
+      );
+    });
+  });
+
+  it("Unpartitioned Queue: sender #RunInBrowser", async function(): Promise<void> {
+    await beforeEachTest(TestClientType.UnpartitionedQueue);
+    await mockOnDetachedAndVerifyRetries(async () => {
+      (senderClient as any)._sender._init = fakeFunction;
+      await (senderClient as any)._sender.onDetached(
+        new MessagingError("Hello there, I'm an error")
+      );
     });
   });
 });

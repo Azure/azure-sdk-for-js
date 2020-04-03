@@ -5,11 +5,11 @@
   "sdk-type": "client",
   "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
-  "types": "./typings/latest/src/index.d.ts",
+  "types": "./typings/latest/storage-file-datalake.d.ts",
   "typesVersions": {
     "<3.6": {
       "*": [
-        "./typings/3.1/src/index.d.ts"
+        "./typings/3.1/storage-file-datalake.d.ts"
       ]
     }
   },
@@ -28,13 +28,13 @@
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:autorest": "autorest ./swagger/README.md --typescript --use=@microsoft.azure/autorest.typescript@5.0.1",
-    "build:es6": "tsc -p tsconfig.json && npm run build:types",
+    "build:es6": "tsc -p tsconfig.json",
     "build:nodebrowser": "rollup -c 2>&1",
     "build:js-samples": "npm run clean && npm run build:es6 && cross-env ONLY_NODE=true rollup -c 2>&1",
     "build:ts-samples": "npm run clean && cd samples && tsc -p . ",
     "build:test": "npm run build:es6 && rollup -c rollup.test.config.js 2>&1",
     "build:types": "downlevel-dts typings/latest typings/3.1",
-    "build": "npm run build:es6 && npm run build:nodebrowser && api-extractor run --local",
+    "build": "npm run build:es6 && npm run build:nodebrowser && api-extractor run --local && npm run build:types",
     "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm dist-test typings temp dist-browser/*.js* dist-browser/*.zip statistics.html coverage coverage-browser .nyc_output *.tgz *.log test*.xml TEST*.xml",
     "extract-api": "tsc -p . && api-extractor run --local",
@@ -58,8 +58,8 @@
     "BreakingChanges.md",
     "dist/",
     "dist-esm/src/",
-    "typings/latest/src",
-    "typings/3.1/src",
+    "typings/latest/storage-file-datalake.d.ts",
+    "typings/3.1/storage-file-datalake.d.ts",
     "README.md",
     "LICENSE"
   ],
