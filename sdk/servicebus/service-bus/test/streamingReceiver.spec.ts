@@ -148,7 +148,7 @@ describe("Streaming", () => {
       should.equal(peekedMsgs.length, 0, "Unexpected number of msgs found when peeking");
     }
 
-    it("Partitioned Queue: AutoComplete removes the message", async function(): Promise<void> {
+    it.only("Partitioned Queue: AutoComplete removes the message", async function(): Promise<void> {
       await beforeEachTest(TestClientType.PartitionedQueue);
       await testAutoCompleteWithSenderAndReceiver();
     });

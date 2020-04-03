@@ -13,9 +13,9 @@ import { ClientEntityContext } from "../clientEntityContext";
 
 import * as log from "../log";
 import { throwErrorIfConnectionClosed } from "../util/errors";
+import { RetryConfig, MessagingError, RetryOperationType, retry } from "@azure/core-amqp";
 
 /**
- * @internal
  * Describes the streaming receiver where the user can receive the message
  * by providing handler functions.
  * @class StreamingReceiver
@@ -80,7 +80,23 @@ export class StreamingReceiver extends MessageReceiver {
     if (!options) options = {};
     if (options.autoComplete == null) options.autoComplete = true;
     const sReceiver = new StreamingReceiver(context, options);
-    await sReceiver._init();
+
+    sReceiver._init = async function() {
+      console.log("Faking it!");
+      throw new MessagingError("Hello there, I'm an error");
+    };
+    const config: RetryConfig<void> = {
+      operation: () => {
+        return sReceiver._init();
+      },
+      connectionId: context.namespace.connectionId,
+      operationType: RetryOperationType.receiveMessage,
+      retryOptions: {
+        maxRetries: 2,
+        retryDelayInMs: 0
+      }
+    };
+    await retry<void>(config);
     context.streamingReceiver = sReceiver;
     return sReceiver;
   }
