@@ -1,6 +1,6 @@
 # Release History
 
-## 5.1.0 (Unreleased)
+## 5.1.0 (2020-04-07)
 
 - Addresses [issue #7801](https://github.com/Azure/azure-sdk-for-js/pull/7973) by moving known AMQP message properties to received events' `systemProperties`.
   ([PR #7973](https://github.com/Azure/azure-sdk-for-js/pull/7973))
