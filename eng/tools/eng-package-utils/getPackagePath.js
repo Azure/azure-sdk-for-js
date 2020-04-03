@@ -15,12 +15,12 @@ let argv = require("yargs")
   })
   .help().argv;
 
-const versionUtils = require("./VersionUtils");
+const { getRushSpec } = require("./index");
 const path = require("path");
 async function main(argv) {
   const packageName = argv["package-name"];
   const repoRoot = argv["repo-root"];
-  const rushSpec = await versionUtils.getRushSpec(repoRoot);
+  const rushSpec = await getRushSpec(repoRoot);
 
   const targetPackage = rushSpec.projects.find(
     packageSpec => packageSpec.packageName == packageName

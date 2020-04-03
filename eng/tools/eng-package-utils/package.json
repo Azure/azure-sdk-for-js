@@ -1,0 +1,22 @@
+{
+  "name": "eng-package-utils",
+  "version": "1.0.0",
+  "description": "Utility functions for eng system tools",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
+  "dependencies": {
+    "yargs": "^14.2.0"
+  }
+}

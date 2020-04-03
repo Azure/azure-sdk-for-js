@@ -124,9 +124,11 @@ describe("http request related tests", () => {
       scope = nock(/.*/);
     });
 
-    afterEach(() => {
-      assert.ok(scope.isDone());
-      nock.cleanAll();
+    afterEach(function() {
+      if (!this.currentTest?.isPending()) {
+        assert.ok(scope.isDone());
+        nock.cleanAll();
+      }
     });
 
     it("custom client request ID", async () => {
@@ -178,9 +180,11 @@ describe("http request related tests", () => {
       scope = nock(/.*/);
     });
 
-    afterEach(() => {
-      assert.ok(scope.isDone());
-      nock.cleanAll();
+    afterEach(function() {
+      if (!this.currentTest?.isPending()) {
+        assert.ok(scope.isDone());
+        nock.cleanAll();
+      }
     });
 
     it("policy is setup properly to send sync tokens", async function() {

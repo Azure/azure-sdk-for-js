@@ -3,6 +3,7 @@
 
 import { OperationOptions } from "@azure/core-auth";
 import { RetryOptions } from "@azure/core-amqp";
+import { SessionReceiverOptions } from "./session/messageSession";
 
 /**
  * The general message handler interface (used for streamMessages).
@@ -28,9 +29,9 @@ export interface MessageHandlers<ReceivedMessageT> {
 export interface WaitTimeOptions {
   /**
    * The maximum amount of time to wait for messages to arrive.
-   *  **Default**: `60` seconds.
+   *  **Default**: `60000` milliseconds.
    */
-  maxWaitTimeSeconds: number;
+  maxWaitTimeInMs: number;
 }
 
 /**
@@ -50,11 +51,49 @@ export interface CreateBatchOptions extends OperationOptions {
    * The upper limit for the size of batch. The `tryAdd` function will return `false` after this limit is reached.
    */
   maxSizeInBytes?: number;
+}
+
+/**
+ * The set of options to configure the behavior of the sender.
+ *
+ * @export
+ * @interface GetSenderOptions
+ */
+export interface GetSenderOptions {
   /**
    * Retry policy options that determine the mode, number of retries, retry interval etc.
    *
    * @type {RetryOptions}
-   * @memberof CreateBatchOptions
+   */
+  retryOptions?: RetryOptions;
+}
+
+/**
+ * The set of options to configure the behavior of the receiver.
+ *
+ * @export
+ * @interface GetReceiverOptions
+ */
+export interface GetReceiverOptions {
+  /**
+   * Retry policy options that determine the mode, number of retries, retry interval etc.
+   *
+   * @type {RetryOptions}
+   */
+  retryOptions?: RetryOptions;
+}
+
+/**
+ * The set of options to configure the behavior of the subscriptionRuleManager.
+ *
+ * @export
+ * @interface GetSubscriptionRuleManagerOptions
+ */
+export interface GetSubscriptionRuleManagerOptions {
+  /**
+   * Retry policy options that determine the mode, number of retries, retry interval etc.
+   *
+   * @type {RetryOptions}
    */
   retryOptions?: RetryOptions;
 }
@@ -108,18 +147,4 @@ export interface MessageHandlerOptions {
  * Describes the options passed to the `createReceiver` method when using a Queue/Subscription that
  * has sessions enabled.
  */
-export interface GetSessionReceiverOptions extends OperationOptions {
-  /**
-   * @property The maximum duration in seconds
-   * until which, the lock on the session will be renewed automatically by the sdk.
-   * - **Default**: `300` seconds (5 minutes).
-   * - **To disable autolock renewal**, set this to `0`.
-   */
-  maxSessionAutoRenewLockDurationInSeconds?: number;
-
-  /**
-   * The session ID to open. If `undefined` we will connect to the next available
-   * unlocked session.
-   */
-  sessionId?: string;
-}
+export interface GetSessionReceiverOptions extends SessionReceiverOptions, OperationOptions {}

@@ -73,15 +73,14 @@ export enum CloseReason {
 
 /**
  * Describes the options that can be provided while creating the EventHubClient.
- * - `dataTransformer`: A set of `encode`/`decode` methods to be used to encode an event before sending to service
- * and to decode the event received from the service
- * - `userAgent`      : A string to append to the built in user agent string that is passed as a connection property
+ * - `userAgent`        : A string to append to the built in user agent string that is passed as a connection property
  * to the service.
- * - `websocket`      : The WebSocket constructor used to create an AMQP connection if you choose to make the connection
+ * - `webSocketOptions` : Options to configure the channelling of the AMQP connection over Web Sockets.
+ *    - `websocket`     : The WebSocket constructor used to create an AMQP connection if you choose to make the connection
  * over a WebSocket.
- * - `webSocketConstructorOptions` : Options to pass to the Websocket constructor when you choose to make the connection
+ *    - `webSocketConstructorOptions` : Options to pass to the Websocket constructor when you choose to make the connection
  * over a WebSocket.
- * - `retryOptions`   : The retry options for all the operations on the client/producer/consumer.
+ * - `retryOptions`     : The retry options for all the operations on the client/producer/consumer.
  * A simple usage can be `{ "maxRetries": 4 }`.
  *
  * Example usage:

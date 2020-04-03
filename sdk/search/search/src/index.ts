@@ -36,6 +36,17 @@ export {
   ListIndexesOptions,
   CreateIndexOptions,
   CreateOrUpdateIndexOptions,
+  CreateOrUpdateSkillsetOptions,
+  CreateOrUpdateSynonymMapOptions,
+  CreateSkillsetOptions,
+  CreateSynonymMapOptions,
+  DeleteSkillsetOptions,
+  DeleteSynonymMapOptions,
+  GetSkillSetOptions,
+  GetSynonymMapsOptions,
+  ListSkillsetsOptions,
+  Skillset,
+  ListSynonymMapsOptions,
   DeleteIndexOptions,
   ETagOperationOptions,
   AnalyzeTextOptions,
@@ -53,9 +64,11 @@ export {
   SimpleField,
   ComplexField,
   SimpleDataType,
-  ComplexDataType
+  ComplexDataType,
+  CognitiveServicesAccount,
+  Skill,
+  SynonymMap
 } from "./serviceModels";
-export { SearchApiKeyCredential } from "./searchApiKeyCredential";
 export { default as GeographyPoint } from "./geographyPoint";
 export { odata } from "./odata";
 export { IndexDocumentsBatch } from "./indexDocumentsBatch";
@@ -142,5 +155,34 @@ export {
   AnalyzeRequest,
   GetIndexStatisticsResult,
   TokenInfo,
-  AccessCondition
+  AccessCondition,
+  ConditionalSkill,
+  KeyPhraseExtractionSkill,
+  OcrSkill,
+  ImageAnalysisSkill,
+  LanguageDetectionSkill,
+  ShaperSkill,
+  MergeSkill,
+  EntityRecognitionSkill,
+  SentimentSkill,
+  SplitSkill,
+  TextTranslationSkill,
+  WebApiSkill,
+  SentimentSkillLanguage,
+  SplitSkillLanguage,
+  TextSplitMode,
+  TextTranslationSkillLanguage,
+  DefaultCognitiveServicesAccount,
+  CognitiveServicesAccountKey,
+  InputFieldMappingEntry,
+  OutputFieldMappingEntry,
+  EntityCategory,
+  EntityRecognitionSkillLanguage,
+  ImageAnalysisSkillLanguage,
+  ImageDetail,
+  VisualFeature,
+  KeyPhraseExtractionSkillLanguage,
+  OcrSkillLanguage,
+  TextExtractionAlgorithm
 } from "./generated/service/models";
+export { AzureKeyCredential } from "@azure/core-auth";

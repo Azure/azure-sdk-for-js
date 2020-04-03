@@ -46,14 +46,14 @@
     "@types/chalk": "~2.2.0",
     "@types/fs-extra": "^8.0.0",
     "@types/minimist": "~1.2.0",
-    "@types/mocha": "^5.2.5",
+    "@types/mocha": "^7.0.2",
     "@types/node": "^8.0.0",
     "@typescript-eslint/eslint-plugin": "^2.0.0",
     "@typescript-eslint/parser": "^2.0.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "eslint": "^6.1.0",
-    "mocha": "^6.2.2",
+    "mocha": "^7.1.1",
     "prettier": "^1.16.4",
     "rimraf": "^3.0.0"
   }

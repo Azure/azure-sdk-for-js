@@ -2,7 +2,8 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
 
-  **NOTE**: If you are using version 1.1.x or lower, then please use the link below:
+  **NOTE**: This sample uses the preview of the next version of the @azure/service-bus package.
+  For samples using the current stable version of the package, please use the link below:
   https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples
   
   This sample demonstrates usage of SessionState.
@@ -133,7 +134,7 @@ async function processMessageFromSession(sessionId: string) {
   );
 
   const messages = await sessionReceiver.receiveBatch(1, {
-    maxWaitTimeSeconds: 10
+    maxWaitTimeInMs: 10000
   });
 
   // Custom logic for processing the messages

@@ -5,7 +5,7 @@
  * Performs a query over a public dataset
  */
 
-const { SearchIndexClient, SearchApiKeyCredential, odata } = require("@azure/search");
+const { SearchIndexClient, AzureKeyCredential, odata } = require("@azure/search");
 
 // Load the .env file if it exists
 require("dotenv").config();
@@ -18,7 +18,7 @@ async function main() {
   const apiKey = "EA4510A6219E14888741FCFC19BFBB82";
   const indexName = "hotels";
 
-  const credential = new SearchApiKeyCredential(apiKey);
+  const credential = new AzureKeyCredential(apiKey);
   const client = new SearchIndexClient(endpoint, indexName, credential);
 
   const count = await client.countDocuments();

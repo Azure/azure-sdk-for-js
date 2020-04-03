@@ -6,7 +6,8 @@ import {
   SubscribeOptions,
   GetMessageIteratorOptions,
   ReceiveBatchOptions,
-  MessageHandlerOptions
+  MessageHandlerOptions,
+  GetReceiverOptions
 } from "../models";
 import { OperationOptions } from "@azure/core-auth";
 import { ReceivedMessage } from "..";
@@ -28,6 +29,8 @@ import { assertValidMessageHandlers, getMessageIterator } from "./shared";
 import { convertToInternalReceiveMode } from "../constructorHelpers";
 import Long from "long";
 import { ServiceBusMessageImpl, ReceivedMessageWithLock } from "../serviceBusMessage";
+import { RetryConfig, RetryOperationType, retry, Constants } from "@azure/core-amqp";
+import { getRetryAttemptTimeoutInMs } from "../util/utils";
 
 /**
  * A receiver that does not handle sessions.
@@ -147,6 +150,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
    * @property Describes the amqp connection context for the QueueClient.
    */
   private _context: ClientEntityContext;
+  private _receiverOptions: GetReceiverOptions;
   /**
    * @property {boolean} [_isClosed] Denotes if close() was called on this receiver
    */
@@ -165,7 +169,11 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
   /**
    * @throws Error if the underlying connection is closed.
    */
-  constructor(context: ClientEntityContext, public receiveMode: "peekLock" | "receiveAndDelete") {
+  constructor(
+    context: ClientEntityContext,
+    public receiveMode: "peekLock" | "receiveAndDelete",
+    options: GetReceiverOptions
+  ) {
     throwErrorIfConnectionClosed(context.namespace);
     this.entityPath = context.entityPath;
     this._context = context;
@@ -174,6 +182,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       peekBySequenceNumber: (fromSequenceNumber, maxMessageCount) =>
         this._peekBySequenceNumber(fromSequenceNumber, maxMessageCount)
     };
+    this._receiverOptions = options;
   }
 
   private _throwIfAlreadyReceiving(): void {
@@ -190,7 +199,6 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
     if (this.isClosed) {
       const errorMessage = getReceiverClosedErrorMsg(
         this._context.entityPath,
-        this._context.clientType,
         this._context.isClosed
       );
       const error = new Error(errorMessage);
@@ -270,6 +278,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
    * Returns a promise that resolves to an array of messages based on given count and timeout over
    * an AMQP receiver link from a Queue/Subscription.
    *
+   * The `maxWaitTimeInMs` provided via the options overrides the `timeoutInMs` provided in the `retryOptions`.
    * Throws an error if there is another receive operation in progress on the same receiver. If you
    * are not sure whether there is another receive operation running, check the `isReceivingMessages`
    * property on the receiver.
@@ -287,25 +296,35 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
 
-    if (!this._context.batchingReceiver || !this._context.batchingReceiver.isOpen()) {
-      const options: ReceiveOptions = {
-        maxConcurrentCalls: 0,
-        receiveMode: convertToInternalReceiveMode(this.receiveMode)
-      };
-      this._context.batchingReceiver = BatchingReceiver.create(this._context, options);
-    }
-
-    const receivedMessages = await this._context.batchingReceiver.receive(
-      maxMessageCount,
-      options?.maxWaitTimeSeconds
-    );
-
-    return (receivedMessages as unknown) as ReceivedMessageT[];
+    const receiveMessages = async () => {
+      if (!this._context.batchingReceiver || !this._context.batchingReceiver.isOpen()) {
+        const options: ReceiveOptions = {
+          maxConcurrentCalls: 0,
+          receiveMode: convertToInternalReceiveMode(this.receiveMode)
+        };
+        this._context.batchingReceiver = BatchingReceiver.create(this._context, options);
+      }
+      const receivedMessages = await this._context.batchingReceiver.receive(
+        maxMessageCount,
+        options?.maxWaitTimeInMs ?? Constants.defaultOperationTimeoutInMs
+      );
+      return (receivedMessages as unknown) as ReceivedMessageT[];
+    };
+    const config: RetryConfig<ReceivedMessageT[]> = {
+      connectionHost: this._context.namespace.config.host,
+      connectionId: this._context.namespace.connectionId,
+      operation: receiveMessages,
+      operationType: RetryOperationType.receiveMessage,
+      abortSignal: undefined,
+      retryOptions: this._receiverOptions.retryOptions
+    };
+    return retry<ReceivedMessageT[]>(config);
   }
 
   /**
    * Gets an async iterator over messages from the receiver.
    *
+   * The `maxWaitTimeInMs` provided via the options overrides the `timeoutInMs` provided in the `retryOptions`.
    * Throws an error if there is another receive operation in progress on the same receiver. If you
    * are not sure whether there is another receive operation running, check the `isReceivingMessages`
    * property on the receiver.
@@ -341,11 +360,25 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       sequenceNumber
     );
 
-    const messages = await this._context.managementClient!.receiveDeferredMessages(
-      [sequenceNumber],
-      convertToInternalReceiveMode(this.receiveMode)
-    );
-    return (messages[0] as unknown) as ReceivedMessageT;
+    const retryOptions = this._receiverOptions.retryOptions || {};
+    retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
+
+    const receiveDeferredMessageOperationPromise = async () => {
+      const messages = await this._context.managementClient!.receiveDeferredMessages(
+        [sequenceNumber],
+        convertToInternalReceiveMode(this.receiveMode),
+        undefined,
+        retryOptions.timeoutInMs
+      );
+      return (messages[0] as unknown) as ReceivedMessageT;
+    };
+    const config: RetryConfig<ReceivedMessageT | undefined> = {
+      operation: receiveDeferredMessageOperationPromise,
+      connectionId: this._context.namespace.connectionId,
+      operationType: RetryOperationType.management,
+      retryOptions: retryOptions
+    };
+    return retry<ReceivedMessageT | undefined>(config);
   }
 
   /**
@@ -373,12 +406,25 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       sequenceNumbers
     );
 
-    const deferredMessages = await this._context.managementClient!.receiveDeferredMessages(
-      sequenceNumbers,
-      convertToInternalReceiveMode(this.receiveMode)
-    );
+    const retryOptions = this._receiverOptions.retryOptions || {};
+    retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
 
-    return (deferredMessages as any) as ReceivedMessageT[];
+    const receiveDeferredMessagesOperationPromise = async () => {
+      const deferredMessages = await this._context.managementClient!.receiveDeferredMessages(
+        sequenceNumbers,
+        convertToInternalReceiveMode(this.receiveMode),
+        undefined,
+        retryOptions.timeoutInMs
+      );
+      return (deferredMessages as any) as ReceivedMessageT[];
+    };
+    const config: RetryConfig<ReceivedMessageT[]> = {
+      operation: receiveDeferredMessagesOperationPromise,
+      connectionId: this._context.namespace.connectionId,
+      operationType: RetryOperationType.management,
+      retryOptions: retryOptions
+    };
+    return retry<ReceivedMessageT[]>(config);
   }
 
   // ManagementClient methods # Begin
@@ -389,9 +435,23 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       this._context.entityPath,
       this._context.isClosed
     );
+    const retryOptions = this._receiverOptions.retryOptions || {};
+    retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
 
-    const internalMessages = await this._context.managementClient!.peek(maxMessageCount);
-    return internalMessages.map((m) => m as ReceivedMessage);
+    const peekOperationPromise = async () => {
+      const internalMessages = await this._context.managementClient!.peek(
+        maxMessageCount,
+        retryOptions.timeoutInMs
+      );
+      return internalMessages.map((m) => m as ReceivedMessage);
+    };
+    const config: RetryConfig<ReceivedMessage[]> = {
+      operation: peekOperationPromise,
+      connectionId: this._context.namespace.connectionId,
+      operationType: RetryOperationType.management,
+      retryOptions: retryOptions
+    };
+    return retry<ReceivedMessage[]>(config);
   }
 
   private async _peekBySequenceNumber(
@@ -403,12 +463,25 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       this._context.entityPath,
       this._context.isClosed
     );
+    const retryOptions = this._receiverOptions.retryOptions || {};
+    retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
 
-    const internalMessages = await this._context.managementClient!.peekBySequenceNumber(
-      fromSequenceNumber,
-      maxMessageCount
-    );
-    return internalMessages.map((m) => m as ReceivedMessage);
+    const peekBySequenceNumberOperationPromise = async () => {
+      const internalMessages = await this._context.managementClient!.peekBySequenceNumber(
+        fromSequenceNumber,
+        maxMessageCount,
+        undefined,
+        retryOptions.timeoutInMs
+      );
+      return internalMessages.map((m) => m as ReceivedMessage);
+    };
+    const config: RetryConfig<ReceivedMessage[]> = {
+      operation: peekBySequenceNumberOperationPromise,
+      connectionId: this._context.namespace.connectionId,
+      operationType: RetryOperationType.management,
+      retryOptions: retryOptions
+    };
+    return retry<ReceivedMessage[]>(config);
   }
 
   subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SubscribeOptions): void {

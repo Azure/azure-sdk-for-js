@@ -5,8 +5,7 @@ import * as assert from "assert";
 import { KeyClient } from "../src";
 import { isNode } from "@azure/core-http";
 import { testPollerProperties } from "./utils/recorderUtils";
-import { retry } from "./utils/recorderUtils";
-import { env, Recorder } from "@azure/test-utils-recorder";
+import { env, Recorder, delay } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { assertThrowsAbortError } from "./utils/utils.common";
@@ -104,7 +103,16 @@ describe("Keys client - restore keys and recover backups", () => {
     await client.createKey(keyName, "RSA");
     const backup = await client.backupKey(keyName);
     await testClient.flushKey(keyName);
-    await retry(async () => client.restoreKeyBackup(backup as Uint8Array));
+    while (true) {
+      try {
+        await client.restoreKeyBackup(backup as Uint8Array);
+        break;
+      } catch (e) {
+        console.log("Can't restore the key since it's not fully deleted:", e.message);
+        console.log("Retrying in one second...");
+        await delay(1000);
+      }
+    }
     const getResult = await client.getKey(keyName);
     assert.equal(getResult.name, keyName, "Unexpected key name in result from getKey().");
     await testClient.flushKey(keyName);

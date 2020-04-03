@@ -2,7 +2,8 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
 
-  **NOTE**: If you are using version 1.1.x or lower, then please use the link below:
+  **NOTE**: This sample uses the preview of the next version of the @azure/service-bus package.
+  For samples using the current stable version of the package, please use the link below:
   https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples
   
   This sample illustrates how to use topic subscriptions and filters for splitting
@@ -111,7 +112,7 @@ async function receiveMessages(sbClient: ServiceBusClient) {
   );
 
   const messagesFromSubscription1 = await subscription1.receiveBatch(10, {
-    maxWaitTimeSeconds: 5
+    maxWaitTimeInMs: 5000
   });
   console.log(">>>>> Messages from the first subscription:");
   for (let i = 0; i < messagesFromSubscription1.length; i++) {
@@ -121,7 +122,7 @@ async function receiveMessages(sbClient: ServiceBusClient) {
   await subscription1.close();
 
   const messagesFromSubscription2 = await subscription2.receiveBatch(10, {
-    maxWaitTimeSeconds: 5
+    maxWaitTimeInMs: 5000
   });
   console.log(">>>>> Messages from the second subscription:");
   for (let i = 0; i < messagesFromSubscription2.length; i++) {
@@ -131,7 +132,7 @@ async function receiveMessages(sbClient: ServiceBusClient) {
   await subscription2.close();
 
   const messagesFromSubscription3 = await subscription3.receiveBatch(10, {
-    maxWaitTimeSeconds: 5
+    maxWaitTimeInMs: 5000
   });
   console.log(">>>>> Messages from the third subscription:");
   for (let i = 0; i < messagesFromSubscription3.length; i++) {

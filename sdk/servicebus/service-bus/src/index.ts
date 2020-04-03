@@ -8,7 +8,6 @@ export { ServiceBusClientOptions } from "./constructorHelpers";
 export {
   TokenType,
   TokenCredential,
-  DataTransformer,
   delay,
   MessagingError,
   RetryOptions,
@@ -37,7 +36,10 @@ export {
   ReceiveBatchOptions,
   SubscribeOptions,
   WaitTimeOptions,
-  CreateBatchOptions
+  CreateBatchOptions,
+  GetReceiverOptions,
+  GetSenderOptions,
+  GetSubscriptionRuleManagerOptions
 } from "./models";
 
 export { Receiver } from "./receivers/receiver";
