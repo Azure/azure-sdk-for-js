@@ -11,10 +11,8 @@ import { CanonicalCode } from "@opentelemetry/types";
  * until one of the getToken methods returns an access token.
  */
 export class ChainedTokenCredential implements TokenCredential {
-  protected AuthenticationFailedExceptionMessage: string =
-    "ChainedTokenCredential authentication failed";
-  protected UnavailableExceptionMessage: string =
-    "ChainedTokenCredential failed to retrieve a token from the included credentials";
+  protected AuthenticationFailedExceptionMessage = "";
+  protected UnavailableExceptionMessage = "";
   private _sources: TokenCredential[] = [];
 
   /**

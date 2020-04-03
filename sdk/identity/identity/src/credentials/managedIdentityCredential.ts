@@ -323,8 +323,7 @@ export class ManagedIdentityCredential implements TokenCredential {
         this.isEndpointUnavailable = result === null;
         if (this.isEndpointUnavailable) {
           throw new AuthenticationError(400, {
-            error:
-              "ManagedIdentityCredential is unavailable. Environment variables are not fully configured.",
+            error: "ManagedIdentityCredential is unavailable. No managed identity endpoint found.",
             error_description: ""
           });
         }

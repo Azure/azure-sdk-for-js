@@ -151,7 +151,7 @@ export class AggregateAuthenticationError extends Error {
 
   constructor(errors: any[], errMsg?: string) {
     super(
-      `${errMsg}\n\n${
+      `${errMsg ? errMsg : ""}\n\n${
         errors
           .toString()
           .indexOf(
