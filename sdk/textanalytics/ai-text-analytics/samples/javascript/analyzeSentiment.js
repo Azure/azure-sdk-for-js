@@ -6,7 +6,7 @@
  * An overall and per-sentence sentiment is returned.
  */
 
- const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
+const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
 
 // Load the .env file if it exists
 const dotenv = require("dotenv");
@@ -18,7 +18,7 @@ const apiKey = process.env["TEXT_ANALYTICS_API_KEY"] || "<api key>";
 
 const documents = [
   "I had the best day of my life.",
-  "This was a waste of my time. The speaker put me to sleep."
+  "This was a waste of my time. The speaker put me to sleep.",
 ];
 
 async function main() {

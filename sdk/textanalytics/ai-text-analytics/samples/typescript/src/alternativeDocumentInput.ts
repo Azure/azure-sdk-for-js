@@ -10,7 +10,7 @@ import {
   TextAnalyticsClient,
   AzureKeyCredential,
   DetectLanguageInput,
-  TextDocumentInput
+  TextDocumentInput,
 } from "@azure/ai-text-analytics";
 
 // Load the .env file if it exists
@@ -35,13 +35,13 @@ const detectLanguageInputs: DetectLanguageInput[] = [
   {
     id: "3",
     countryHint: "fr",
-    text: "L'hôtel n'était pas très confortable. L'éclairage était trop sombre."
-  }
+    text: "L'hôtel n'était pas très confortable. L'éclairage était trop sombre.",
+  },
 ];
 
 /**
  * TextDocumentInput objects are used by all methods except for `detectLanguage`.
- * The allow for specification of input language on a document-by-document basis.
+ * They allow for specification of input language on a document-by-document basis.
  *
  * Like `DetectLanguageInput`, the `id` field is required and must be unique for
  * each document in the request.
@@ -53,8 +53,8 @@ const textDocumentInputs: TextDocumentInput[] = [
   {
     id: "3",
     language: "fr",
-    text: "L'hôtel n'était pas très confortable. L'éclairage était trop sombre."
-  }
+    text: "L'hôtel n'était pas très confortable. L'éclairage était trop sombre.",
+  },
 ];
 
 export async function main() {
@@ -62,6 +62,7 @@ export async function main() {
 
   const client = new TextAnalyticsClient(endpoint, new AzureKeyCredential(apiKey));
 
+  console.log("-- Detect Language --");
   // DetectLanguageInput objects may be used with the detectLanguage method
   for (const result of await client.detectLanguage(detectLanguageInputs)) {
     if (!result.error) {
@@ -70,6 +71,7 @@ export async function main() {
     }
   }
 
+  console.log("-- Extract Key Phrases --");
   // TextDocumentInput objects may be used with any other method
   // (for example, extractKeyPhrases)
   for (const result of await client.extractKeyPhrases(textDocumentInputs)) {
