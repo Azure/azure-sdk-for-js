@@ -424,7 +424,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
         undefined,
         {
           ...options,
-          requestName: "receiveDeferredMessage",
+          requestName: "receiveDeferredMessages",
           timeoutInMs: this._receiverOptions.retryOptions?.timeoutInMs
         }
       );

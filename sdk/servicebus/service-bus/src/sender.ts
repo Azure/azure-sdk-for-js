@@ -330,7 +330,7 @@ export class SenderImpl implements Sender {
     const cancelSchedulesMessagesOperationPromise = async () => {
       return this._context.managementClient!.cancelScheduledMessages([sequenceNumber], {
         ...options,
-        requestName: "cancelScheduleMessage",
+        requestName: "cancelScheduledMessage",
         timeoutInMs: this._senderOptions.retryOptions?.timeoutInMs
       });
     };
@@ -365,7 +365,7 @@ export class SenderImpl implements Sender {
     const cancelSchedulesMessagesOperationPromise = async () => {
       return this._context.managementClient!.cancelScheduledMessages(sequenceNumbers, {
         ...options,
-        requestName: "cancelScheduleMessages",
+        requestName: "cancelScheduledMessages",
         timeoutInMs: this._senderOptions.retryOptions?.timeoutInMs
       });
     };

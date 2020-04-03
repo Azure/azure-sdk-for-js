@@ -20,7 +20,7 @@ export interface SubscriptionRuleManager {
    * @throws Error if the SubscriptionClient or the underlying connection is closed.
    * @throws MessagingError if the service returns an error while retrieving rules.
    */
-  getRules(): Promise<RuleDescription[]>;
+  getRules(options?: OperationOptions): Promise<RuleDescription[]>;
 
   /**
    * Removes the rule on the subscription identified by the given rule name.
@@ -33,7 +33,7 @@ export interface SubscriptionRuleManager {
    * @throws MessagingError if the service returns an error while removing rules.
    */
 
-  removeRule(ruleName: string): Promise<void>;
+  removeRule(ruleName: string, options?: OperationOptions): Promise<void>;
   /**
    * Adds a rule on the subscription as defined by the given rule name, filter and action.
    *
@@ -52,7 +52,8 @@ export interface SubscriptionRuleManager {
   addRule(
     ruleName: string,
     filter: boolean | string | CorrelationFilter,
-    sqlRuleActionExpression?: string
+    sqlRuleActionExpression?: string,
+    options?: OperationOptions
   ): Promise<void>;
 
   /**
