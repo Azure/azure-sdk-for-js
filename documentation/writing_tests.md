@@ -1050,6 +1050,23 @@ As a final note on this regard, as we develop clients for the SDKs, we will enco
 
 In general, the tests of the Azure SDK for JavaScript and TypeScript should be considered useful resources that demonstrate how to use the functionalities that our clients offer, and how these are expected to behave. Our test cases should assert that we are providing well constructed features to our users, and our users should be able to go through our tests, understand them with minimal effort, and use our test code to their advantage. Our tests should therefore be _empowering everyone_.
 
+You may take the following questions as an exercise to help determine if your tests are clear enough. When answering them, try to provide reasons that might be convincing to yourself and someone you might request review from:
+
+- When someone sees our projects, are they guided to look at our tests for examples of how to use our APIs?
+- Are we explaining or linking to explanations of how to run our tests with or without live resources?
+    - In case users want to run tests against live resources, are we providing means for easily setting up these resources, as well as an explanation of what resources will need to be purchased for the tests to run?
+- When our test folders are opened, do people know how to distinguish between our internal tests and the tests that they will be able to use as references for our APIs?
+- Are the names of the folders, the file names and the individual test cases relevant to what each test, and each group of tests are testing?
+- If a test file is opened, can people follow through what's going on without having to open other files? (comments should help).
+- Upon examining an individual test, is it clear...
+    - Under which conditions this test might be executed?
+    - What portion of the test is dedicated to the preparation of the resources needed to execute the target test case?
+    - What is the target test case? (preferably, what method of the API we're testing and why).
+    - Why the assertions are meaningful?
+- Regardless of where or when our tests run, are they as fast as possible? Do they finish in reasonable time?
+
+If all of these questions have reasonably convincing answers, you can feel confident that your tests are good enough for an external review.
+
 ## Getting feedback
 
 Writing tests the right way can be quite challenging. Make sure to make pull request throughout the process and ask for feedback from your team. Ask them questions about how easy is to follow through, from the perspective of a new user. Once you write them, monitor how they behave through our Engineering Systems. Don't be afraid to ask our Engineering Systems team about feedback to your tests, they will provide great insight on how to optimize for performance, by helping you potentially reduce the number of resources used and the overall duration of your tests. Making your tests constantly better is your responsibility as a developer, but you have all of your team at your back. Together, we can make our tests are as good as they can possibly be.
