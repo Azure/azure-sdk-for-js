@@ -568,7 +568,7 @@ describe("invalid parameters", () => {
     });
   });
 
-  describe.only("Invalid parameters in Receiver #RunInBrowser", function(): void {
+  describe("Invalid parameters in Receiver #RunInBrowser", function(): void {
     let sender: Sender;
     let receiver: Receiver<ReceivedMessageWithLock>;
 
