@@ -18,7 +18,7 @@ describe("toRequestBody() NodeJS only", () => {
   });
 }).timeout(60000);
 
-describe.only("utils NodeJS only", () => {
+describe("utils NodeJS only", () => {
   it("streamToBuffer() should work when input is smaller than 1 MB", async () => {
     const dataLength = 1 * 1024 * 1024 - 5;
     const data = Buffer.alloc(dataLength);
