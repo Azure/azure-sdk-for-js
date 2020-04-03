@@ -91,6 +91,7 @@
     "tslib": "^1.10.0"
   },
   "devDependencies": {
+    "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^2.0.1",
     "@azure/identity": "1.1.0-preview.2",
     "@azure/keyvault-keys": "^4.1.0-preview.1",

@@ -109,6 +109,7 @@
     "tslib": "^1.10.0"
   },
   "devDependencies": {
+    "@azure/dev-tool": "^1.0.0",
     "@azure/test-utils-recorder": "^1.0.0",
     "@microsoft/api-extractor": "^7.5.4",
     "@rollup/plugin-commonjs": "^11.0.1",
