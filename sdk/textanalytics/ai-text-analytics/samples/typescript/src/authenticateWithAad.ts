@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to use different authentication methods to authenticate
+ * Demonstrates how to use Azure Active Directory (RBAC) to authenticate
  * a TextAnalyticsClient
  */
 

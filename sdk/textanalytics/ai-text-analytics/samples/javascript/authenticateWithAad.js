@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to use different authentication methods to authenticate
+ * Demonstrates how to use Azure Active Directory (RBAC) to authenticate
  * a TextAnalyticsClient
  */
 
@@ -28,7 +28,7 @@ async function main() {
   const client = new TextAnalyticsClient(endpoint, credential);
 
   const [result] = await client.detectLanguage(["hello world"]);
-  
+
   if (!result.error) {
     console.log(`Primary language detected as ${result.primaryLanguage.name}`);
   }
