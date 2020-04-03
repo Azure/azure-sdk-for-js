@@ -418,9 +418,9 @@ const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<ap
 
 const listOfIndexes = await client.listIndexes();
 for (let index of listOfIndexes) {
-  console.log(index.name);
+  console.log(`Index: ${index.name}`);
   for (let field of index.fields) {
-    console.log(`Field: ${field.name}`);
+    console.log(`\tField: ${field.name}`);
   }
 }
 ```
