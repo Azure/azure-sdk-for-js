@@ -83,8 +83,8 @@ export class StreamingReceiver extends MessageReceiver {
     const sReceiver = new StreamingReceiver(context, options);
 
     const config: RetryConfig<void> = {
-      operation: async () => {
-        await sReceiver._init();
+      operation: () => {
+        return sReceiver._init();
       },
       connectionId: context.namespace.connectionId,
       operationType: RetryOperationType.receiveMessage,
