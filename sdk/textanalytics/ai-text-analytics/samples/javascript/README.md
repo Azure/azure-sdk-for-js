@@ -19,7 +19,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [detectLanguage.js][detectlanguages]                    | detects the language of a piece of text                                                            |
 | [extractKeyPhrases.js][extractkeyphrases]               | extracts key phrases from a piece of text                                                          |
 | [recognizeLinkedEntities.js][recognizelinkedentities]   | detects entities that have links to more information on the web                                    |
-| [authenticateWithAad.js][authenticatewithaad]           | uses Azure Active Directory (RBAC) to authenticate to the Cognitive Services endpoint              |
+| [authenticationMethods.js][authenticationmethods]       | authenticates a service client using both Azure Active Directory and an API key                    |
 | [recognizeEntities.js][recognizeentities]               | detects entites in a piece of text and prints them along with the entity type                      |
 
 ## Prerequisites
@@ -60,7 +60,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [alternativedocumentinput]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/javascript/alternativeDocumentInput.js
 [analyzesentiment]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/javascript/analyzeSentiment.js
-[authenticatewithaad]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/javascript/authenticateWithAad.js
+[authenticationmethods]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/javascript/authenticationMethods.js
 [detectlanguages]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/javascript/detectLanguage.js
 [extractkeyphrases]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/javascript/extractKeyPhrases.js
 [recognizelinkedentities]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/javascript/recognizeLinkedEntities.js
