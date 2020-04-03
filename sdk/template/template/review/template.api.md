@@ -8,10 +8,18 @@ import EventEmitter from 'events';
 import { URLBuilder } from '@azure/core-http';
 
 // @public (undocumented)
-export function createEventEmitter(): EventEmitter;
+export class ClientMethodDependency {
+    constructor();
+    // (undocumented)
+    A(): void;
+    // (undocumented)
+    AB(): void;
+    // (undocumented)
+    history: string[];
+}
 
 // @public (undocumented)
-export function (str: string): void;
+export function createEventEmitter(): EventEmitter;
 
 export { URLBuilder }
 

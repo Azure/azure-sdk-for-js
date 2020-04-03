@@ -33,7 +33,7 @@
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
     "unit-test:browser": "karma start --single-run",
-    "unit-test:node": "mocha --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- dist-test/index.node.js",
+    "unit-test:node": "mocha --require esm --require source-map-support/register --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- --timeout 1000 --full-trace dist-test/index.node.js",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "files": [
@@ -78,7 +78,6 @@
     "@typescript-eslint/eslint-plugin": "^2.0.0",
     "@typescript-eslint/parser": "^2.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "assert": "^1.4.1",
     "cross-env": "^6.0.3",
     "eslint": "^6.1.0",
     "eslint-config-prettier": "^6.0.0",
@@ -107,6 +106,11 @@
     "rollup-plugin-terser": "^5.1.1",
     "rollup-plugin-visualizer": "^3.1.1",
     "typescript": "~3.7.5",
-    "util": "^0.12.1"
+    "util": "^0.12.1",
+    "nyc": "^14.0.0",
+    "esm": "^3.2.18",
+    "source-map-support": "^0.5.9",
+    "chai": "^4.2.0",
+    "@types/chai": "^4.1.6"
   }
 }

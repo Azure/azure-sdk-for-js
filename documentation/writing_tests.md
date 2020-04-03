@@ -833,36 +833,58 @@ Let's go through each item of this list.
 
 Each individual test case of the entire Azure SDK for JavaScript and TypeScript should mainly focus on one specific functionality. By functionality we mean that, after any required setup, each test case should check the results of a either a single operation, or at least a single function call (considering that constructors are function calls). Let's expand this further with examples.
 
-Let's say we have a client that has has three main functionalities: a constructor, a method `A` that can onl be accessed through the use of the instantiated client, and a method `AB` that is meaningful only after `A` is called. We could write three tests, as follows:
+Let's say we have a client that has has three main functionalities: a constructor, a method `A` that can onl be accessed through the use of the instantiated client, and a method `AB` that is only valuable after `A` is called, like in the following example:
 
 ```ts
-describe("testing the client's basic methods", function() {
-  let client: Client;
+export class ClientMethodDependency {
+  public history: string[];
 
-  beforeEach(function() {
-    recorder = record(this);
-    client = new Client();
+  constructor() {
+    this.history = ["constructor"];
+  }
+
+  A(): void {
+    this.history.push("A");
+  }
+
+  AB(): void {
+    if (this.history[this.history.length - 1] !== "A") {
+      throw new Error("A should have been called");
+    }
+    this.history.push("B");
+  }
+}
+```
+
+We could write three tests, as follows:
+
+```ts
+describe("Tests for the ClientMethodDependency class", function() {
+
+  it("The ClientMethodDependency should initialize and set its history property properly", function() {
+    const client = new ClientMethodDependency();
+    assert.deepEqual(client.history, ["constructor"]);
   });
 
-  afterEach(function () {
-    recorder.stop();
+  it("The ClientMethodDependency's A method should alter the client's history", function() {
+    const client = new ClientMethodDependency();
+    client.A();
+    assert.deepEqual(client.history, ["constructor", "A"]);
   });
 
-  it("the initialized client should expose an expected public property", function() {
-    const client = new Client();
-    assert.ok(client.expectedPublicProperty);
+  it("The ClientMethodDependency's AB method should throw if it's called before A", function() {
+    const client = new ClientMethodDependency();
+    assert.throws(client.AB);
   });
 
-  it("should test A", async function() {
-    const result = await client.A();
-    assert.ok(result.value);
+  it("The ClientMethodDependency's AB method should alter the client's history after A is called", function() {
+    const client = new ClientMethodDependency();
+    client.A();
+    assert.deepEqual(client.history, ["constructor", "A"]);
+    client.AB();
+    assert.deepEqual(client.history, ["constructor", "A", "AB"]);
   });
 
-  it("should test AB", async function() {
-    const resultA = await client.A();
-    const resultAB = await client.AB(resultA.value);
-    assert.ok(resultAB.value);
-  });
 });
 ```
 
@@ -924,6 +946,78 @@ Test files contain `describe` blocks and `it` blocks. The first property that th
 - The titles sent to each `it` call should represent what each specific test case is testing.
 
 Therefore, `describe` titles should be written to reflect something that each of its `it` test cases (or inner `describe` blocks) share in common.
+
+Let's build up an example. Given the following code, which will exist in a file named `internalClass.ts`:
+
+```ts
+export class InternalClass {
+  returnsTrue(): boolean {
+    return true;
+  }
+}
+
+export class InternalInheritedClass extends InternalClass {
+  returnsFalse(): boolean {
+    return false;
+  }
+}
+```
+
+We could group all of the possible tests for that pair of classes in a single file. Let's say we call this test file `internalClass.spec.ts`. The outermost `describe` would have a general description of what are these classes related to. If these are all of our internal classes, we can set the title as `Tests for the internal classes`. Inside of that `describe`, we can set two inner `describe` blocks, one for `InternalClass` and another one for `InternalInheritedClass`, as follows:
+
+```ts
+describe("Tests for the internal classes", function() {
+
+  describe("Tests for the InternalClass", function() {
+    // ...
+  });
+
+  describe("Tests for the InternalInheritedClass", function() {
+    // ...
+  });
+
+});
+```
+
+Inside of the inner describes, each test case would focus on asserting one specific behavior. For `InternalClass`, we would first assert that the class' constructor works as expected, then test it's `returnsTrue` method. For `InternalInheritedClass`, we would first assert that the class' constructor works as expected, then test it's inherited `returnsTrue` method, then it's `returnFalse` method. As follows:
+
+```ts
+describe("Tests for the internal classes", function() {
+
+  describe("Tests for the InternalClass", function() {
+    it("The InternalClass should be able to be initialized", function() {
+      const Internal = new InternalClass();
+      assert.exists(Internal);
+    });
+
+    it("The InternalClass's returnsTrue should return true", function() {
+      const Internal = new InternalClass();
+      const result: boolean = Internal.returnsTrue();
+      assert.isTrue(result);
+    });
+  });
+
+  describe("Tests for the InternalInheritedClass", function() {
+    it("The InternalInheritedClass should be able to be initialized", function() {
+      const Internal = new InternalInheritedClass();
+      assert.exists(Internal);
+    });
+
+    it("The InternalInheritedClass's returnsTrue should return true", function() {
+      const Internal = new InternalInheritedClass();
+      const result: boolean = Internal.returnsTrue();
+      assert.isTrue(result);
+    });
+
+    it("The InternalInheritedClass's returnsFalse should return false", function() {
+      const Internal = new InternalInheritedClass();
+      const result: boolean = Internal.returnsFalse();
+      assert.isFalse(result);
+    });
+  });
+
+});
+```
 
 In addition to being expressive, test titles might have specific hashtags (as in, words preceded by the pound sign), to facilitate pattern matching.
 
