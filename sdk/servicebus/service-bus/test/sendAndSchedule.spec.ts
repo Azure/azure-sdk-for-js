@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import chai from "chai";
+import Long from "long";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
@@ -15,6 +16,7 @@ import {
 } from "./utils/testutils2";
 import { Sender } from "../src/sender";
 import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
+import { AbortController } from "@azure/abort-controller";
 
 describe("send scheduled messages", () => {
   let senderClient: Sender;
@@ -685,7 +687,7 @@ describe("send scheduled messages", () => {
     expectedReceivedMsgsLength: number
   ): Promise<void> {
     const receivedMsgs = await receiverClient.receiveBatch(expectedReceivedMsgsLength + 1, {
-      maxWaitTimeSeconds: 5
+      maxWaitTimeInMs: 5000
     });
 
     should.equal(
@@ -694,4 +696,62 @@ describe("send scheduled messages", () => {
       "Unexpected number of msgs found when receiving"
     );
   }
+
+  describe("Cancel operations on the sender", function(): void {
+    it("Abort scheduleMessage request on the sender", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.PartitionedQueue);
+      const controller = new AbortController();
+      setTimeout(() => controller.abort(), 1);
+      try {
+        await senderClient.scheduleMessage(new Date(), TestMessage.getSample(), {
+          abortSignal: controller.signal
+        });
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.message.should.equal("The scheduleMessage operation has been cancelled by the user.");
+      }
+    });
+
+    it("Abort scheduleMessages request on the sender", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.PartitionedQueue);
+      const controller = new AbortController();
+      setTimeout(() => controller.abort(), 1);
+      try {
+        await senderClient.scheduleMessages(new Date(), [TestMessage.getSample()], {
+          abortSignal: controller.signal
+        });
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.message.should.equal("The scheduleMessages operation has been cancelled by the user.");
+      }
+    });
+
+    it("Abort cancelScheduledMessage request on the sender", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.PartitionedQueue);
+      const controller = new AbortController();
+      setTimeout(() => controller.abort(), 1);
+      try {
+        await senderClient.cancelScheduledMessage(Long.ZERO, { abortSignal: controller.signal });
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.message.should.equal(
+          "The cancelScheduledMessage operation has been cancelled by the user."
+        );
+      }
+    });
+
+    it("Abort cancelScheduledMessages request on the sender", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.PartitionedQueue);
+      const controller = new AbortController();
+      setTimeout(() => controller.abort(), 1);
+      try {
+        await senderClient.cancelScheduledMessages([Long.ZERO], { abortSignal: controller.signal });
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.message.should.equal(
+          "The cancelScheduledMessages operation has been cancelled by the user."
+        );
+      }
+    });
+  });
 });

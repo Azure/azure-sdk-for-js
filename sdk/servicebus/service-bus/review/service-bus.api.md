@@ -4,13 +4,14 @@
 
 ```ts
 
+import { AbortSignalLike } from '@azure/abort-controller';
 import { AmqpMessage } from '@azure/core-amqp';
 import { delay } from '@azure/core-amqp';
 import { Delivery } from 'rhea-promise';
 import Long from 'long';
 import { MessagingError } from '@azure/core-amqp';
-import { OperationOptions } from '@azure/core-auth';
 import { RetryOptions } from '@azure/core-amqp';
+import { SpanOptions } from '@opentelemetry/types';
 import { TokenCredential } from '@azure/core-amqp';
 import { TokenType } from '@azure/core-amqp';
 import { WebSocketImpl } from 'rhea-promise';
@@ -83,6 +84,11 @@ export interface MessageHandlers<ReceivedMessageT> {
 export { MessagingError }
 
 // @public
+export interface OperationOptions extends TracingOptions {
+    abortSignal?: AbortSignalLike;
+}
+
+// @public
 export interface ReceiveBatchOptions extends OperationOptions, WaitTimeOptions {
 }
 
@@ -142,13 +148,13 @@ export interface RuleDescription {
 
 // @public
 export interface Sender {
-    cancelScheduledMessage(sequenceNumber: Long): Promise<void>;
-    cancelScheduledMessages(sequenceNumbers: Long[]): Promise<void>;
+    cancelScheduledMessage(sequenceNumber: Long, options?: OperationOptions): Promise<void>;
+    cancelScheduledMessages(sequenceNumbers: Long[], options?: OperationOptions): Promise<void>;
     close(): Promise<void>;
     createBatch(options?: CreateBatchOptions): Promise<ServiceBusMessageBatch>;
     isClosed: boolean;
-    scheduleMessage(scheduledEnqueueTimeUtc: Date, message: ServiceBusMessage): Promise<Long>;
-    scheduleMessages(scheduledEnqueueTimeUtc: Date, messages: ServiceBusMessage[]): Promise<Long[]>;
+    scheduleMessage(scheduledEnqueueTimeUtc: Date, message: ServiceBusMessage, options?: OperationOptions): Promise<Long>;
+    scheduleMessages(scheduledEnqueueTimeUtc: Date, messages: ServiceBusMessage[], options?: OperationOptions): Promise<Long[]>;
     send(message: ServiceBusMessage): Promise<void>;
     sendBatch(messageBatch: ServiceBusMessageBatch): Promise<void>;
 }
@@ -220,11 +226,11 @@ export interface SessionReceiver<ReceivedMessageT extends ReceivedMessage | Rece
         peek(maxMessageCount?: number): Promise<ReceivedMessage[]>;
         peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<ReceivedMessage[]>;
     };
-    getState(): Promise<any>;
-    renewSessionLock(): Promise<Date>;
+    getState(options?: OperationOptions): Promise<any>;
+    renewSessionLock(options?: OperationOptions): Promise<Date>;
     sessionId: string | undefined;
     sessionLockedUntilUtc: Date | undefined;
-    setState(state: any): Promise<void>;
+    setState(state: any, options?: OperationOptions): Promise<void>;
 }
 
 // @public
@@ -240,11 +246,11 @@ export interface SubscribeOptions extends OperationOptions, MessageHandlerOption
 
 // @public
 export interface SubscriptionRuleManager {
-    addRule(ruleName: string, filter: boolean | string | CorrelationFilter, sqlRuleActionExpression?: string): Promise<void>;
+    addRule(ruleName: string, filter: boolean | string | CorrelationFilter, sqlRuleActionExpression?: string, options?: OperationOptions): Promise<void>;
     close(): Promise<void>;
     readonly defaultRuleName: string;
-    getRules(): Promise<RuleDescription[]>;
-    removeRule(ruleName: string): Promise<void>;
+    getRules(options?: OperationOptions): Promise<RuleDescription[]>;
+    removeRule(ruleName: string, options?: OperationOptions): Promise<void>;
 }
 
 export { TokenCredential }
@@ -252,8 +258,15 @@ export { TokenCredential }
 export { TokenType }
 
 // @public
+export interface TracingOptions {
+    tracingOptions?: {
+        spanOptions?: SpanOptions;
+    };
+}
+
+// @public
 export interface WaitTimeOptions {
-    maxWaitTimeSeconds: number;
+    maxWaitTimeInMs: number;
 }
 
 export { WebSocketImpl }

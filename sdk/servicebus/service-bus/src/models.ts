@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { OperationOptions } from "@azure/core-auth";
+import { OperationOptions } from "./modelsToBeSharedWithEventHubs";
 import { RetryOptions } from "@azure/core-amqp";
 import { SessionReceiverOptions } from "./session/messageSession";
 
@@ -29,9 +29,9 @@ export interface MessageHandlers<ReceivedMessageT> {
 export interface WaitTimeOptions {
   /**
    * The maximum amount of time to wait for messages to arrive.
-   *  **Default**: `60` seconds.
+   *  **Default**: `60000` milliseconds.
    */
-  maxWaitTimeSeconds: number;
+  maxWaitTimeInMs: number;
 }
 
 /**

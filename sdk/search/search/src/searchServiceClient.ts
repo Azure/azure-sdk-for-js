@@ -1,55 +1,55 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { KeyCredential } from "@azure/core-auth";
 import {
-  PipelineOptions,
-  InternalPipelineOptions,
   createPipelineFromOptions,
+  InternalPipelineOptions,
   operationOptionsToRequestOptionsBase,
-  OperationOptions,
+  PipelineOptions,
   ServiceClientCredentials
 } from "@azure/core-http";
-import { KeyCredential } from "@azure/core-auth";
-import { SearchServiceClient as GeneratedClient } from "./generated/service/searchServiceClient";
-import { SDK_VERSION } from "./constants";
-import { logger } from "./logger";
-import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/types";
+import { SDK_VERSION } from "./constants";
+import { AnalyzeResult, GetIndexStatisticsResult } from "./generated/service/models";
+import { SearchServiceClient as GeneratedClient } from "./generated/service/searchServiceClient";
+import { logger } from "./logger";
+import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy";
 import {
-  Index,
-  ListIndexesOptions,
-  GetIndexOptions,
+  AnalyzeTextOptions,
   CreateIndexOptions,
   CreateOrUpdateIndexOptions,
+  CreateOrUpdateSkillsetOptions,
+  CreateOrUpdateSynonymMapOptions,
+  CreateSkillsetOptions,
+  CreateSynonymMapOptions,
   DeleteIndexOptions,
-  AnalyzeTextOptions,
+  DeleteSkillsetOptions,
+  DeleteSynonymMapOptions,
+  GetIndexOptions,
   GetIndexStatisticsOptions,
-  Analyzer,
-  CharFilter,
-  Tokenizer,
-  TokenFilter,
-  ScoringProfile,
-  Field,
-  isComplexField,
-  ComplexField,
-  SimpleField
+  GetSkillSetOptions,
+  GetSynonymMapsOptions,
+  Index,
+  ListIndexesOptions,
+  ListSkillsetsOptions,
+  ListSynonymMapsOptions,
+  Skillset,
+  SynonymMap
 } from "./serviceModels";
-import {
-  AnalyzeResult,
-  GetIndexStatisticsResult,
-  Index as GeneratedIndex,
-  AnalyzerUnion,
-  TokenizerUnion,
-  RegexFlags,
-  Field as GeneratedField
-} from "./generated/service/models";
-import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy";
+import * as utils from "./serviceUtils";
+import { createSpan } from "./tracing";
 
 /**
  * Client options used to configure Cognitive Search API requests.
  */
 export type SearchServiceClientOptions = PipelineOptions;
 
+/**
+ * Class to perform operations to manage
+ * (create, update, list/delete)
+ * indexes, skillssets, synonymmaps, etc.
+ */
 export class SearchServiceClient {
   /**
    * The API version to use when communicating with the service.
@@ -143,10 +143,56 @@ export class SearchServiceClient {
   public async listIndexes(options: ListIndexesOptions = {}): Promise<Index[]> {
     const { span, updatedOptions } = createSpan("SearchServiceClient-listIndexes", options);
     try {
-      const result = await this.client.indexes.list(
+      const result = await this.client.indexes.list({
+        ...operationOptionsToRequestOptionsBase(updatedOptions),
+        select: updatedOptions.select?.join(",")
+      });
+      return result.indexes.map(utils.generatedIndexToPublicIndex);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Retrieves a list of existing Skillsets in the service.
+   * @param options Options to the list Skillsets operation.
+   */
+  public async listSkillsets(options: ListSkillsetsOptions = {}): Promise<Skillset[]> {
+    const { span, updatedOptions } = createSpan("SearchServiceClient-listSkillsets", options);
+    try {
+      const result = await this.client.skillsets.list(
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return result.indexes.map(this.generatedIndexToPublicIndex);
+      return result.skillsets.map(utils.generatedSkillsetToPublicSkillset);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Retrieves a list of existing SynonymMaps in the service.
+   * @param options Options to the list SynonymMaps operation.
+   */
+  public async listSynonymMaps(options: ListSynonymMapsOptions = {}): Promise<SynonymMap[]> {
+    const { span, updatedOptions } = createSpan("SearchServiceClient-listSynonymMaps", options);
+    try {
+      const result = await this.client.synonymMaps.list({
+        ...operationOptionsToRequestOptionsBase(updatedOptions),
+        select: updatedOptions.select?.join(",")
+      });
+      return result.synonymMaps.map(utils.generatedSynonymMapToPublicSynonymMap);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -170,7 +216,61 @@ export class SearchServiceClient {
         indexName,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return this.generatedIndexToPublicIndex(result);
+      return utils.generatedIndexToPublicIndex(result);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Retrieves information about an Skillset.
+   * @param indexName The name of the Skillset.
+   * @param options Additional optional arguments.
+   */
+  public async getSkillset(
+    skillsetName: string,
+    options: GetSkillSetOptions = {}
+  ): Promise<Skillset> {
+    const { span, updatedOptions } = createSpan("SearchServiceClient-getSkillset", options);
+    try {
+      const result = await this.client.skillsets.get(
+        skillsetName,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return utils.generatedSkillsetToPublicSkillset(result);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Retrieves information about an SynonymMap.
+   * @param indexName The name of the Skillset.
+   * @param options Additional optional arguments.
+   */
+  public async getSynonymMap(
+    synonymMapName: string,
+    options: GetSynonymMapsOptions = {}
+  ): Promise<SynonymMap> {
+    const { span, updatedOptions } = createSpan("SearchServiceClient-getSynonymMaps", options);
+    try {
+      const result = await this.client.synonymMaps.get(
+        synonymMapName,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return utils.generatedSynonymMapToPublicSynonymMap(result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -191,10 +291,64 @@ export class SearchServiceClient {
     const { span, updatedOptions } = createSpan("SearchServiceClient-createIndex", options);
     try {
       const result = await this.client.indexes.create(
-        this.publicIndexToGeneratedIndex(index),
+        utils.publicIndexToGeneratedIndex(index),
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return this.generatedIndexToPublicIndex(result);
+      return utils.generatedIndexToPublicIndex(result);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Creates a new skillset in a search service.
+   * @param skillset The skillset containing one or more skills to create in a search service.
+   * @param options Additional optional arguments.
+   */
+  public async createSkillset(
+    skillset: Skillset,
+    options: CreateSkillsetOptions = {}
+  ): Promise<Skillset> {
+    const { span, updatedOptions } = createSpan("SearchServiceClient-createSkillset", options);
+    try {
+      const result = await this.client.skillsets.create(
+        utils.publicSkillsetToGeneratedSkillset(skillset),
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return utils.generatedSkillsetToPublicSkillset(result);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Creates a new SynonymMap in a search service.
+   * @param synonymMap The synonymMap definition to create in a search service.
+   * @param options Additional optional arguments.
+   */
+  public async createSynonymMap(
+    synonymMap: SynonymMap,
+    options: CreateSynonymMapOptions = {}
+  ): Promise<SynonymMap> {
+    const { span, updatedOptions } = createSpan("SearchServiceClient-createSynonymMaps", options);
+    try {
+      const result = await this.client.synonymMaps.create(
+        utils.publicSynonymMapToGeneratedSynonymMap(synonymMap),
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return utils.generatedSynonymMapToPublicSynonymMap(result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -219,10 +373,72 @@ export class SearchServiceClient {
     try {
       const result = await this.client.indexes.createOrUpdate(
         index.name,
-        this.publicIndexToGeneratedIndex(index),
+        utils.publicIndexToGeneratedIndex(index),
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return this.generatedIndexToPublicIndex(result);
+      return utils.generatedIndexToPublicIndex(result);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Creates a new Skillset or modifies an existing one.
+   * @param skillset The information describing the index to be created.
+   * @param options Additional optional arguments.
+   */
+  public async createOrUpdateSkillset(
+    skillset: Skillset,
+    options: CreateOrUpdateSkillsetOptions = {}
+  ): Promise<Skillset> {
+    const { span, updatedOptions } = createSpan(
+      "SearchServiceClient-createOrUpdateSkillset",
+      options
+    );
+    try {
+      const result = await this.client.skillsets.createOrUpdate(
+        skillset.name,
+        utils.publicSkillsetToGeneratedSkillset(skillset),
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return utils.generatedSkillsetToPublicSkillset(result);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Creates a new SynonymMap or modifies an existing one.
+   * @param synonymMap The information describing the SynonymMap to be created.
+   * @param options Additional optional arguments.
+   */
+  public async createOrUpdateSynonymMap(
+    synonymMap: SynonymMap,
+    options: CreateOrUpdateSynonymMapOptions = {}
+  ): Promise<SynonymMap> {
+    const { span, updatedOptions } = createSpan(
+      "SearchServiceClient-createOrUpdateSynonymMap",
+      options
+    );
+    try {
+      const result = await this.client.synonymMaps.createOrUpdate(
+        synonymMap.name,
+        utils.publicSynonymMapToGeneratedSynonymMap(synonymMap),
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return utils.generatedSynonymMapToPublicSynonymMap(result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -244,6 +460,58 @@ export class SearchServiceClient {
     try {
       await this.client.indexes.deleteMethod(
         indexName,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Deletes an existing Skillset.
+   * @param skillsetName The name of the Skillset to delete.
+   * @param options Additional optional arguments.
+   */
+  public async deleteSkillset(
+    skillsetName: string,
+    options: DeleteSkillsetOptions = {}
+  ): Promise<void> {
+    const { span, updatedOptions } = createSpan("SearchServiceClient-deleteSkillset", options);
+    try {
+      await this.client.skillsets.deleteMethod(
+        skillsetName,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Deletes an existing SynonymMap.
+   * @param synonymMapName The name of the synonymMap to delete.
+   * @param options Additional optional arguments.
+   */
+  public async deleteSynonymMap(
+    synonymMapName: string,
+    options: DeleteSynonymMapOptions = {}
+  ): Promise<void> {
+    const { span, updatedOptions } = createSpan("SearchServiceClient-deleteSynonymMap", options);
+    try {
+      await this.client.synonymMaps.deleteMethod(
+        synonymMapName,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
     } catch (e) {
@@ -291,7 +559,7 @@ export class SearchServiceClient {
    * @param options Additional arguments
    */
   public async analyzeText(indexName: string, options: AnalyzeTextOptions): Promise<AnalyzeResult> {
-    const { operationOptions, restOptions } = this.extractOperationOptions(options);
+    const { operationOptions, restOptions } = utils.extractOperationOptions(options);
 
     const { span, updatedOptions } = createSpan(
       "SearchServiceClient-analyzeText",
@@ -313,178 +581,5 @@ export class SearchServiceClient {
     } finally {
       span.end();
     }
-  }
-
-  private extractOperationOptions<T extends OperationOptions>(
-    obj: T
-  ): {
-    operationOptions: OperationOptions;
-    restOptions: Pick<T, Exclude<keyof T, keyof OperationOptions>>;
-  } {
-    const { abortSignal, requestOptions, tracingOptions, ...restOptions } = obj;
-
-    return {
-      operationOptions: {
-        abortSignal,
-        requestOptions,
-        tracingOptions
-      },
-      restOptions
-    };
-  }
-
-  private publicIndexToGeneratedIndex(index: Index): GeneratedIndex {
-    return {
-      name: index.name,
-      defaultScoringProfile: index.defaultScoringProfile,
-      corsOptions: index.corsOptions,
-      suggesters: index.suggesters,
-      encryptionKey: index.encryptionKey,
-      etag: index.etag,
-      tokenFilters: index.tokenFilters,
-      charFilters: index.charFilters,
-      scoringProfiles: index.scoringProfiles,
-      analyzers: this.convertAnalyzersToGenerated(index.analyzers),
-      tokenizers: this.convertTokenizersToGenerated(index.tokenizers),
-      fields: this.convertFieldsToGenerated(index.fields)
-    };
-  }
-
-  private generatedIndexToPublicIndex(generatedIndex: GeneratedIndex): Index {
-    return {
-      name: generatedIndex.name,
-      defaultScoringProfile: generatedIndex.defaultScoringProfile,
-      corsOptions: generatedIndex.corsOptions,
-      suggesters: generatedIndex.suggesters,
-      encryptionKey: generatedIndex.encryptionKey,
-      etag: generatedIndex.etag,
-      analyzers: this.convertAnalyzersToPublic(generatedIndex.analyzers),
-      tokenizers: this.convertTokenizersToPublic(generatedIndex.tokenizers),
-      tokenFilters: generatedIndex.tokenFilters as TokenFilter[],
-      charFilters: generatedIndex.charFilters as CharFilter[],
-      scoringProfiles: generatedIndex.scoringProfiles as ScoringProfile[],
-      fields: this.convertFieldsToPublic(generatedIndex.fields)
-    };
-  }
-
-  private convertAnalyzersToPublic(analyzers?: AnalyzerUnion[]): Analyzer[] | undefined {
-    if (!analyzers) {
-      return analyzers;
-    }
-
-    const result: Analyzer[] = [];
-    for (const analyzer of analyzers) {
-      switch (analyzer.odatatype) {
-        case "#Microsoft.Azure.Search.CustomAnalyzer":
-        case "#Microsoft.Azure.Search.StandardAnalyzer":
-        case "#Microsoft.Azure.Search.StopAnalyzer":
-          result.push(analyzer);
-          break;
-        case "#Microsoft.Azure.Search.PatternAnalyzer":
-          result.push({
-            ...analyzer,
-            flags: analyzer.flags ? (analyzer.flags.split("|") as RegexFlags[]) : undefined
-          });
-      }
-    }
-    return result;
-  }
-
-  private convertAnalyzersToGenerated(analyzers?: Analyzer[]): AnalyzerUnion[] | undefined {
-    if (!analyzers) {
-      return analyzers;
-    }
-
-    const result: AnalyzerUnion[] = [];
-    for (const analyzer of analyzers) {
-      switch (analyzer.odatatype) {
-        case "#Microsoft.Azure.Search.CustomAnalyzer":
-        case "#Microsoft.Azure.Search.StandardAnalyzer":
-        case "#Microsoft.Azure.Search.StopAnalyzer":
-          result.push(analyzer);
-          break;
-        case "#Microsoft.Azure.Search.PatternAnalyzer":
-          result.push({
-            ...analyzer,
-            flags: analyzer.flags ? analyzer.flags.join("|") : undefined
-          });
-      }
-    }
-    return result;
-  }
-
-  private convertTokenizersToPublic(tokenizers?: TokenizerUnion[]): Tokenizer[] | undefined {
-    if (!tokenizers) {
-      return tokenizers;
-    }
-
-    const result: Tokenizer[] = [];
-    for (const tokenizer of tokenizers) {
-      if (tokenizer.odatatype === "#Microsoft.Azure.Search.PatternTokenizer") {
-        result.push({
-          ...tokenizer,
-          flags: tokenizer.flags ? (tokenizer.flags.split("|") as RegexFlags[]) : undefined
-        });
-      } else if (tokenizer.odatatype !== "Tokenizer") {
-        result.push(tokenizer);
-      }
-    }
-    return result;
-  }
-
-  private convertTokenizersToGenerated(tokenizers?: Tokenizer[]): TokenizerUnion[] | undefined {
-    if (!tokenizers) {
-      return tokenizers;
-    }
-
-    const result: TokenizerUnion[] = [];
-    for (const tokenizer of tokenizers) {
-      if (tokenizer.odatatype === "#Microsoft.Azure.Search.PatternTokenizer") {
-        result.push({
-          ...tokenizer,
-          flags: tokenizer.flags ? tokenizer.flags.join("|") : undefined
-        });
-      } else {
-        result.push(tokenizer);
-      }
-    }
-    return result;
-  }
-
-  private convertFieldsToGenerated(fields: Field[]): GeneratedField[] {
-    return fields.map<GeneratedField>((field) => {
-      if (isComplexField(field)) {
-        return field;
-      } else {
-        const { hidden, ...restField } = field;
-        const retrievable = typeof hidden === "boolean" ? !hidden : hidden;
-        return {
-          ...restField,
-          retrievable,
-          // modify API defaults to use less storage for simple types
-          searchable: field.searchable ?? false,
-          filterable: field.filterable ?? false,
-          facetable: field.facetable ?? false,
-          sortable: field.sortable ?? false
-        };
-      }
-    });
-  }
-
-  private convertFieldsToPublic(fields: GeneratedField[]): Field[] {
-    return fields.map<Field>((field) => {
-      let result: Field;
-      if (field.type === "Collection(Edm.ComplexType)" || field.type === "Edm.ComplexType") {
-        result = field as ComplexField;
-      } else {
-        const { retrievable, ...restField } = field;
-        const hidden = typeof retrievable === "boolean" ? !retrievable : retrievable;
-        result = {
-          ...restField,
-          hidden
-        } as SimpleField;
-      }
-      return result;
-    });
   }
 }
