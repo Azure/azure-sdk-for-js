@@ -106,9 +106,11 @@ Typically you will only wish to [show a subset of search results](https://docs.m
 
 **Note**: Data types are converted based on value, not the field type in the index schema. This means that if you have an ISO8601 Date string (e.g. "2020-03-06T18:48:27.896Z") as the value of a field, it will be converted to a Date regardless of how you stored it in your schema.
 
-## SearchIndexClient Examples
+## Examples
 
-### Query documents in an index
+### SearchIndexClient Examples
+
+#### Query documents in an index
 
 To list all results of a particular query, you can use `search` with a search string that uses [simple query syntax](https://docs.microsoft.com/azure/search/query-simple-syntax):
 
@@ -148,7 +150,7 @@ for await (const result of searchResults.results) {
 }
 ```
 
-### Querying with TypeScript
+#### Querying with TypeScript
 
 In TypeScript `SearchIndexClient` takes a generic parameter that is the model shape of your index documents. This allows you to perform strongly typed lookup of fields returned in results. TypeScript is also able to check for fields returned when specifying a `select` parameter.
 
@@ -185,7 +187,7 @@ for await (const result of searchResults.results) {
 }
 ```
 
-### Querying with OData filters
+#### Querying with OData filters
 
 Using the `filter` query parameter allows you to query an index using the syntax of an [OData \$filter expression](https://docs.microsoft.com/azure/search/search-query-odata-filter).
 
@@ -213,7 +215,7 @@ for await (const result of searchResults.results) {
 }
 ```
 
-### Querying with facets
+#### Querying with facets
 
 [Facets](https://docs.microsoft.com/azure/search/search-filters-facets) are used to help a user of your application refine a search along pre-configured dimensions. [Facet syntax](https://docs.microsoft.com/rest/api/searchservice/search-documents#facetstring-zero-or-more) provides the options to sort and bucket facet values.
 
@@ -248,7 +250,7 @@ console.log(searchResults.facets);
 
 When retrieving results, a `facets` property will be available that will indicate the number of results that fall into each facet bucket. This can be used to drive refinement (e.g. issuing a follow-up search that filters on the `Rating` being greater than or equal to 3 and less than 4.)
 
-### Retrieving documents by id
+#### Retrieving documents by id
 
 A specific document can be retrieved by its primary key value:
 
@@ -265,7 +267,7 @@ const result = await client.getDocument("1234");
 console.log(result);
 ```
 
-### Retrieve suggestions from an index
+#### Retrieve suggestions from an index
 
 If you [created a suggester](https://docs.microsoft.com/azure/search/index-add-suggesters) on your index, you can use it to return result suggestions for a user query.
 
@@ -294,7 +296,7 @@ for (const result of suggestResult.results) {
 }
 ```
 
-### Autocomplete a partial query using an index
+#### Autocomplete a partial query using an index
 
 To implement type-ahead behavior in your application, you can query the index with partial user input and return a list of suggested completions. You must have [created a suggester](https://docs.microsoft.com/azure/search/index-add-suggesters) on your index first.
 
@@ -319,7 +321,7 @@ for (const result of autocompleteResult.results || []) {
 }
 ```
 
-### Return the count of documents in an index
+#### Return the count of documents in an index
 
 ```js
 const { SearchIndexClient, AzureKeyCredential } = require("@azure/search");
@@ -334,7 +336,7 @@ const count = await client.countDocuments();
 console.log(`${count} documents in index ${client.indexName}`);
 ```
 
-### Delete documents in an index
+#### Delete documents in an index
 
 Given the name of a primary key and a list of indexes, you can delete multiple documents from the index at the same time:
 
@@ -353,7 +355,7 @@ for (const result of deleteResult.results) {
 }
 ```
 
-### Upload documents into an index
+#### Upload documents into an index
 
 You can upload multiple documents into index inside a batch:
 
@@ -377,7 +379,7 @@ for (const result of uploadResult.results) {
 }
 ```
 
-### Update existing documents in an index
+#### Update existing documents in an index
 
 You can update multiple documents in an index at once, or create them if they do not exist. For more details about how merging works, see: https://docs.microsoft.com/rest/api/searchservice/AddUpdate-or-Delete-Documents
 
@@ -405,9 +407,9 @@ for (const result of updateResult.results) {
 }
 ```
 
-## SearchServiceClient Examples
+### SearchServiceClient Examples
 
-### Get a list of existing indexes in the service
+#### Get a list of existing indexes in the service
 
 ```js
 const { SearchServiceClient, AzureKeyCredential } = require("@azure/search");
@@ -423,7 +425,7 @@ for (let index of listOfIndexes) {
 }
 ```
 
-### Get a list of existing skillsets in the service
+#### Get a list of existing skillsets in the service
 
 ```js
 const { SearchServiceClient, AzureKeyCredential } = require("@azure/search");
@@ -443,7 +445,7 @@ for (let skillset of listOfSkillSets) {
 }
 ```
 
-### Get a list of existing synonymMaps in the service
+#### Get a list of existing synonymMaps in the service
 
 ```js
 const { SearchServiceClient, AzureKeyCredential } = require("@azure/search");
@@ -460,7 +462,7 @@ for (let synonymMap of listOfSynonymMaps) {
 }
 ```
 
-### Create an Index
+#### Create an Index
 
 ```js
 const { SearchServiceClient, AzureKeyCredential } = require("@azure/search");
@@ -630,7 +632,7 @@ const skillset = await client.createSkillset({
 });
 ```
 
-### Create a SynonymMap
+#### Create a SynonymMap
 
 ```js
 const { SearchServiceClient, AzureKeyCredential } = require("@azure/search");
