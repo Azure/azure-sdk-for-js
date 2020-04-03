@@ -46,7 +46,10 @@ export class ServiceBusClient {
    * likely to be similar to <yournamespace>.servicebus.windows.net.
    * @param credential A credential object used by the client to get the token to authenticate the connection
    * with the Azure Service Bus. See &commat;azure/identity for creating the credentials.
-   * @param options Options for the service bus client.
+   * @param options - A set of options to apply when configuring the client.
+   * - `retryOptions`   : Configures the retry policy for all the operations on the client.
+   * For example, `{ "maxRetries": 4 }` or `{ "maxRetries": 4, "retryDelayInMs": 30000 }`.
+   * - `webSocketOptions`: Configures the channelling of the AMQP connection over Web Sockets.
    */
   constructor(
     fullyQualifiedNamespace: string,
