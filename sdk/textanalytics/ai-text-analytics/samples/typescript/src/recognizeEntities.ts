@@ -11,21 +11,31 @@ import { TextAnalyticsClient, AzureKeyCredential } from "@azure/ai-text-analytic
 import * as dotenv from "dotenv";
 dotenv.config();
 
-export async function main() {
-  console.log(`Running recognizeEntities sample`);
+// You will need to set these environment variables or edit the following values
+const endpoint = process.env["ENDPOINT"] || "<cognitive services endpoint>";
+const apiKey = process.env["TEXT_ANALYTICS_API_KEY"] || "<api key>";
 
-  // You will need to set these environment variables or edit the following values
-  const endpoint = process.env["ENDPOINT"] || "<cognitive services endpoint>";
-  const apiKey = process.env["TEXT_ANALYTICS_API_KEY"] || "<api key>";
+const documents = [
+  "Microsoft was founded by Bill Gates and Paul Allen.",
+  "I had a wonderful trip to Seattle last week.",
+  "I visited the Space Needle 2 times."
+];
+
+export async function main() {
+  console.log("== Recognize Entities Sample ==");
 
   const client = new TextAnalyticsClient(endpoint, new AzureKeyCredential(apiKey));
 
-  const [result] = await client.recognizeEntities(["I love living in Seattle."]);
+  const results = await client.recognizeEntities(documents);
 
-  if (!result.error) {
-    for (const entity of result.entities) {
-      console.log(`Found entity ${entity.text} of type ${entity.category}`);
-    }
+  for (const result of results) {
+    console.log(`- Document ${result.id}`);
+    if (!result.error) {
+      console.log("  Recognized Entities:");
+      for (const entity of result.entities) {
+        console.log(`    - Entity ${entity.text} of type ${entity.category}`);
+      }
+    } else console.error("  Error:", result.error);
   }
 }
 
