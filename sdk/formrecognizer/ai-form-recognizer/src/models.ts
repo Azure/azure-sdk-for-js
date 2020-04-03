@@ -46,7 +46,7 @@ export {
  */
 export interface ExtractedWord {
   /**
-   * Element kind - "line"
+   * Element kind - "word"
    */
   kind: "word";
   /**
@@ -204,8 +204,8 @@ export interface DataTableRow {
 
 /**
  * Represents extracted text elements of name-value pairs.
- * For example, "Address" is the name of
- * "Address: One Microsoft Way, Redmond, WA"
+ * For example, "Work Address" is the name of
+ * "Work Address: One Microsoft Way, Redmond, WA"
  */
 export interface ExtractedText {
   /**
@@ -282,7 +282,7 @@ export interface PageRange {
 }
 
 /**
- * Represent extracted forms consists of text fields.
+ * Represent extracted forms consists of text fields that have semantic meanings.
  */
 export interface ExtractedForm {
   /**

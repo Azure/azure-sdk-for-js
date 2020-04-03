@@ -856,12 +856,14 @@ async function analyzeCustomFormInternal(
   modelId?: string
 ): Promise<AnalyzeWithCustomModelResponseModel> {
   const { span, updatedOptions: finalOptions } = createSpan("analyzeCustomFormInternal", options);
-  const requestContentType = contentType !== undefined ? contentType : await getContentType(body);
+  const requestBody = await toRequestBody(body);
+  const requestContentType =
+    contentType !== undefined ? contentType : await getContentType(requestBody);
 
   try {
     return await client.analyzeWithCustomModel(modelId!, {
       contentType: requestContentType,
-      fileStream: toRequestBody(body),
+      fileStream: requestBody,
       ...operationOptionsToRequestOptionsBase(finalOptions)
     });
   } catch (e) {

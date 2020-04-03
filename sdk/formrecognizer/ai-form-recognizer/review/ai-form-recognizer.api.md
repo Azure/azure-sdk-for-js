@@ -655,8 +655,8 @@ export type TrainStatus = "succeeded" | "partiallySucceeded" | "failed";
 
 // Warnings were encountered during analysis:
 //
-// src/formRecognizerClient.ts:102:3 - (ae-forgotten-export) The symbol "BeginTrainingPollState" needs to be exported by the entry point index.d.ts
-// src/formRecognizerClient.ts:135:3 - (ae-forgotten-export) The symbol "BeginExtractPollState" needs to be exported by the entry point index.d.ts
+// src/formRecognizerClient.ts:96:3 - (ae-forgotten-export) The symbol "BeginTrainingPollState" needs to be exported by the entry point index.d.ts
+// src/formRecognizerClient.ts:129:3 - (ae-forgotten-export) The symbol "BeginExtractPollState" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

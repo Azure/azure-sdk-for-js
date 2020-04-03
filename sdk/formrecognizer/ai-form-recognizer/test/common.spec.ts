@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { getContentType } from "../src/common";
+import { getContentType, toRequestBody } from "../src/common";
 
 describe("getContentType()", () => {
   it("identifies ArrayBuffer of application/pdf", async () => {
@@ -119,5 +119,13 @@ describe("getContentType()", () => {
     } catch (err) {
       assert.equal((err as Error).message, "content type could not be detected");
     }
+  });
+}).timeout(60000);
+
+describe("toRequestBody()", () => {
+  it("converts string url to SourcePath", async () => {
+    const result = await toRequestBody("http://url");
+
+    assert.deepStrictEqual(result, { source: "http://url" });
   });
 }).timeout(60000);

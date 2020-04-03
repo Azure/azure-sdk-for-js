@@ -15,6 +15,9 @@
   "license": "MIT",
   "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
+  "browser": {
+    "./dist-esm/src/utils/utils.node.js": "./dist-esm/src/utils/utils.browser.js"
+  },
   "types": "./types/ai-form-recognizer.d.ts",
   "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/formrecognizers/ai-form-recognizer",
   "repository": "github:Azure/azure-sdk-for-js",

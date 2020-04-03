@@ -232,12 +232,14 @@ async function analyzeLayoutInternal(
 ): Promise<AnalyzeLayoutAsyncResponseModel> {
   const realOptions = options || {};
   const { span, updatedOptions: finalOptions } = createSpan("analyzeLayoutInternal", realOptions);
-  const requestContentType = contentType !== undefined ? contentType : await getContentType(body);
+  const requestBody = await toRequestBody(body);
+  const requestContentType =
+    contentType !== undefined ? contentType : await getContentType(requestBody);
 
   try {
     return await client.analyzeLayoutAsync({
       contentType: requestContentType,
-      fileStream: toRequestBody(body),
+      fileStream: requestBody,
       ...operationOptionsToRequestOptionsBase(finalOptions)
     });
   } catch (e) {

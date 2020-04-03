@@ -4,6 +4,8 @@
 import { PipelineOptions, OperationOptions, HttpRequestBody } from "@azure/core-http";
 import { FormRecognizerRequestBody } from "./models";
 import { ContentType, SourcePath } from "./generated/models";
+import { streamToBuffer } from "./utils/utils.node";
+import { MAX_INPUT_DOCUMENT_SIZE } from './constants';
 
 /**
  * Client options used to configure Form Recognizer API requests.
@@ -19,31 +21,65 @@ export interface FormRecognizerOperationOptions extends OperationOptions {}
  * Translate the content to a format that is understood by Form Recognizer service
  * @internal
  */
-export function toRequestBody(body: FormRecognizerRequestBody): HttpRequestBody | SourcePath {
+export async function toRequestBody(
+  body: FormRecognizerRequestBody
+): Promise<Blob | ArrayBuffer | ArrayBufferView | SourcePath> {
   if (typeof body === "string") {
     return {
       source: body
     };
   } else {
-    // conform to HttpRequestBody
-    return (body as any)?.read && typeof ((body as any)?.read === "function")
-      ? () => body as NodeJS.ReadableStream
-      : (body as HttpRequestBody);
+    // cache stream to allow retry
+    if (isReadableStream(body)) {
+      return await streamToBuffer(body, MAX_INPUT_DOCUMENT_SIZE);
+    }
+
+    return body as HttpRequestBody;
   }
 }
 
+function isReadableStream(data: FormRecognizerRequestBody): data is NodeJS.ReadableStream {
+  return "read" in data && typeof data.read === "function";
+}
+
+function isBlob(data: FormRecognizerRequestBody): data is Blob {
+  return "size" in data && "type" in data;
+}
+
+function isArrayBuffer(data: FormRecognizerRequestBody): data is ArrayBuffer {
+  return "byteLength" in data && "slice" in data && typeof data.slice === "function";
+}
+
+function isArrayBufferView(data: FormRecognizerRequestBody): data is ArrayBufferView {
+  return "buffer" in data && "byteLength" in data && "byteOffset" in data;
+}
+
+function isSourcePath(data: FormRecognizerRequestBody | SourcePath): data is SourcePath {
+  return "source" in data;
+}
+
 export async function getContentType(
-  data: FormRecognizerRequestBody | string
+  data: Blob | ArrayBuffer | ArrayBufferView | SourcePath
 ): Promise<ContentType | undefined> {
-  if (typeof data === "string") {
+  if (isSourcePath(data)) {
     return undefined;
   }
   let bytes: Uint8Array;
-  const dataAny = data as any;
-  if (dataAny?.read && typeof (dataAny?.read === "function")) {
-    // readable stream
-    throw new Error("not yet supported");
-  } else if (dataAny?.size && dataAny?.type) {
+  if (isArrayBuffer(data)) {
+    // ArrayBuffer
+    if (data.byteLength < 4) {
+      throw new RangeError("Invalid input. Expect more than 4 bytes of data");
+    }
+
+    bytes = new Uint8Array(data, 0, 4);
+  } else if (isArrayBufferView(data)) {
+    // ArrayBufferView
+    if (data.byteLength < 4) {
+      throw new RangeError("Invalid input. Expect more than 4 bytes of data");
+    }
+
+    bytes = new Uint8Array(data.buffer, 0, 4);
+  } else if (isBlob(data)) {
     // Blob
     const arrayPromise = new Promise<ArrayBuffer>(function(resolve) {
       var reader = new FileReader();
@@ -52,25 +88,15 @@ export async function getContentType(
         resolve(reader.result as ArrayBuffer);
       };
 
-      reader.readAsArrayBuffer(data as Blob);
+      reader.readAsArrayBuffer(data);
     });
 
     const buffer = await arrayPromise;
+    if (buffer.byteLength < 4) {
+      throw new RangeError("Invalid input. Expect more than 4 bytes of data");
+    }
+
     bytes = new Uint8Array(buffer, 0, 4);
-  } else if (dataAny?.byteLength && dataAny?.slice && typeof dataAny!.slice === "function") {
-    // ArrayBuffer
-    if ((data as ArrayBuffer).byteLength < 4) {
-      throw new RangeError("Invalid input. Expect more than 4 bytes of data");
-    }
-
-    bytes = new Uint8Array(data as ArrayBuffer, 0, 4);
-  } else if (dataAny?.buffer && dataAny?.byteLength && dataAny?.byteOffset) {
-    // ArrayBufferView
-    if ((data as ArrayBufferView).byteLength < 4) {
-      throw new RangeError("Invalid input. Expect more than 4 bytes of data");
-    }
-
-    bytes = new Uint8Array((data as ArrayBufferView).buffer, 0, 4);
   } else {
     throw new Error("unsupported request body type");
   }

@@ -285,12 +285,14 @@ async function analyzeReceiptInternal(
 ): Promise<AnalyzeReceiptAsyncResponseModel> {
   const realOptions = options || { includeTextDetails: false };
   const { span, updatedOptions: finalOptions } = createSpan("analyzeReceiptInternal", realOptions);
-  const requestContentType = contentType !== undefined ? contentType : await getContentType(body);
+  const requestBody = await toRequestBody(body);
+  const requestContentType =
+    contentType !== undefined ? contentType : await getContentType(requestBody);
 
   try {
     return await client.analyzeReceiptAsync({
       contentType: requestContentType,
-      fileStream: toRequestBody(body),
+      fileStream: requestBody,
       ...operationOptionsToRequestOptionsBase(finalOptions)
     });
   } catch (e) {
