@@ -7,7 +7,7 @@
 import { AmqpMessage } from '@azure/core-amqp';
 import { delay } from '@azure/core-amqp';
 import { Delivery } from 'rhea-promise';
-import Long from 'long';
+import { default as Long_2 } from 'long';
 import { MessagingError } from '@azure/core-amqp';
 import { OperationOptions } from '@azure/core-auth';
 import { RetryOptions } from '@azure/core-amqp';
@@ -96,7 +96,7 @@ export interface ReceivedMessage extends ServiceBusMessage {
     readonly expiresAtUtc?: Date;
     lockedUntilUtc?: Date;
     readonly lockToken?: string;
-    readonly sequenceNumber?: Long;
+    readonly sequenceNumber?: Long_2;
 }
 
 // @public
@@ -119,14 +119,14 @@ export interface Receiver<ReceivedMessageT> {
     close(): Promise<void>;
     diagnostics: {
         peek(maxMessageCount?: number): Promise<ReceivedMessage[]>;
-        peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<ReceivedMessage[]>;
+        peekBySequenceNumber(fromSequenceNumber: Long_2, maxMessageCount?: number): Promise<ReceivedMessage[]>;
     };
     entityPath: string;
     getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<ReceivedMessageT>;
     isReceivingMessages(): boolean;
     receiveBatch(maxMessages: number, options?: ReceiveBatchOptions): Promise<ReceivedMessageT[]>;
-    receiveDeferredMessage(sequenceNumber: Long, options?: OperationOptions): Promise<ReceivedMessageT | undefined>;
-    receiveDeferredMessages(sequenceNumbers: Long[], options?: OperationOptions): Promise<ReceivedMessageT[]>;
+    receiveDeferredMessage(sequenceNumber: Long_2, options?: OperationOptions): Promise<ReceivedMessageT | undefined>;
+    receiveDeferredMessages(sequenceNumbers: Long_2[], options?: OperationOptions): Promise<ReceivedMessageT[]>;
     receiveMode: "peekLock" | "receiveAndDelete";
     subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SubscribeOptions): void;
 }
@@ -142,13 +142,13 @@ export interface RuleDescription {
 
 // @public
 export interface Sender {
-    cancelScheduledMessage(sequenceNumber: Long): Promise<void>;
-    cancelScheduledMessages(sequenceNumbers: Long[]): Promise<void>;
+    cancelScheduledMessage(sequenceNumber: Long_2): Promise<void>;
+    cancelScheduledMessages(sequenceNumbers: Long_2[]): Promise<void>;
     close(): Promise<void>;
     createBatch(options?: CreateBatchOptions): Promise<ServiceBusMessageBatch>;
     isClosed: boolean;
-    scheduleMessage(scheduledEnqueueTimeUtc: Date, message: ServiceBusMessage): Promise<Long>;
-    scheduleMessages(scheduledEnqueueTimeUtc: Date, messages: ServiceBusMessage[]): Promise<Long[]>;
+    scheduleMessage(scheduledEnqueueTimeUtc: Date, message: ServiceBusMessage): Promise<Long_2>;
+    scheduleMessages(scheduledEnqueueTimeUtc: Date, messages: ServiceBusMessage[]): Promise<Long_2[]>;
     send(message: ServiceBusMessage): Promise<void>;
     sendBatch(messageBatch: ServiceBusMessageBatch): Promise<void>;
 }
@@ -218,7 +218,7 @@ export interface SessionMessageHandlerOptions {
 export interface SessionReceiver<ReceivedMessageT extends ReceivedMessage | ReceivedMessageWithLock> extends Receiver<ReceivedMessageT> {
     diagnostics: {
         peek(maxMessageCount?: number): Promise<ReceivedMessage[]>;
-        peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<ReceivedMessage[]>;
+        peekBySequenceNumber(fromSequenceNumber: Long_2, maxMessageCount?: number): Promise<ReceivedMessage[]>;
     };
     getState(): Promise<any>;
     renewSessionLock(): Promise<Date>;
