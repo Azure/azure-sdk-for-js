@@ -98,7 +98,6 @@ describe("IdentityClient", function() {
     delete process.env.AZURE_AUTHORITY_HOST;
   });
 
-
   it("returns a usable error when the authentication response doesn't contain a body", async () => {
     const mockHttp = new MockAuthHttpClient({
       authResponse: {
