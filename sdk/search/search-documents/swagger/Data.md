@@ -5,7 +5,7 @@
 ## Configuration
 
 ```yaml
-package-name: "@azure/search"
+package-name: "@azure/search-documents"
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../

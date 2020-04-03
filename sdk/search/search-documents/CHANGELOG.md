@@ -1,7 +1,8 @@
 # Release History
 
-## 11.0.0-preview.2 (Unreleased)
+## 1.0.0-preview.2 (Unreleased)
 
+- [Breaking] Package renamed to `@azure/search-documents` and version number reset to `1.0.0-preview.2`.
 - Support for index management operations using the `SearchServiceClient`.
 - [Breaking] `indexDocuments` on `SearchIndexClient` now takes an `IndexDocumentsBatch` object instead of a raw action array. This new type helps compose an array of actions to be performed on the index.
 - [Breaking] In `SearchIndexClient`, removed options `mergeIfExists` and `uploadIfNotExists` on `uploadDocuments` and `mergeDocuments` and replaced them with new helper `mergeOrUploadDocuments`.

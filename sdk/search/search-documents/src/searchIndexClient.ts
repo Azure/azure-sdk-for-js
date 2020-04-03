@@ -90,7 +90,7 @@ export class SearchIndexClient<T> {
    *
    * Example usage:
    * ```ts
-   * const { SearchIndexClient, AzureKeyCredential } = require("@azure/search");
+   * const { SearchIndexClient, AzureKeyCredential } = require("@azure/search-documents");
    *
    * const client = new SearchIndexClient(
    *   "<endpoint>",
