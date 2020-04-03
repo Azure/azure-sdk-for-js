@@ -6,7 +6,8 @@ import {
   Constants,
   ErrorNameConditionMapper,
   MessagingError,
-  Func
+  Func,
+  RetryOptions
 } from "@azure/core-amqp";
 import {
   Receiver,
@@ -29,7 +30,7 @@ import { LinkEntity } from "../core/linkEntity";
 import { ClientEntityContext } from "../clientEntityContext";
 import { convertTicksToDate, calculateRenewAfterDuration } from "../util/utils";
 import { throwErrorIfConnectionClosed } from "../util/errors";
-import { ServiceBusMessage, DispositionType, ReceiveMode } from "../serviceBusMessage";
+import { ServiceBusMessageImpl, DispositionType, ReceiveMode } from "../serviceBusMessage";
 
 /**
  * Enum to denote who is calling the session receiver
@@ -58,6 +59,12 @@ export interface CreateMessageSessionReceiverLinkOptions {
  * has sessions enabled.
  */
 export interface SessionReceiverOptions {
+  /**
+   * Retry policy options that determine the mode, number of retries, retry interval etc.
+   *
+   * @type {RetryOptions}
+   */
+  retryOptions?: RetryOptions;
   /**
    * @property The id of the session from which messages need to be received. If null or undefined is
    * provided, Service Bus chooses a random session from available sessions.
@@ -810,7 +817,7 @@ export class MessageSession extends LinkEntity {
         }
 
         resetTimerOnNewMessageReceived();
-        const bMessage: ServiceBusMessage = new ServiceBusMessage(
+        const bMessage: ServiceBusMessageImpl = new ServiceBusMessageImpl(
           this._context,
           context.message!,
           context.delivery!,
@@ -917,23 +924,18 @@ export class MessageSession extends LinkEntity {
    * from a Queue/Subscription.
    *
    * @param maxMessageCount      The maximum number of messages to receive from Queue/Subscription.
-   * @param maxWaitTimeInSeconds The total wait time in seconds until which the receiver will attempt to receive specified number of messages.
+   * @param maxWaitTimeInMs The total wait time in milliseconds until which the receiver will attempt to receive specified number of messages.
    * If this time elapses before the `maxMessageCount` is reached, then messages collected till then will be returned to the user.
-   * - **Default**: `60` seconds.
    * @returns Promise<ServiceBusMessage[]> A promise that resolves with an array of Message objects.
    */
   async receiveMessages(
     maxMessageCount: number,
-    maxWaitTimeInSeconds?: number
-  ): Promise<ServiceBusMessage[]> {
-    if (maxWaitTimeInSeconds == null) {
-      maxWaitTimeInSeconds = Constants.defaultOperationTimeoutInMs / 1000;
-    }
-
-    const brokeredMessages: ServiceBusMessage[] = [];
+    maxWaitTimeInMs: number
+  ): Promise<ServiceBusMessageImpl[]> {
+    const brokeredMessages: ServiceBusMessageImpl[] = [];
     this.isReceivingMessages = true;
 
-    return new Promise<ServiceBusMessage[]>((resolve, reject) => {
+    return new Promise<ServiceBusMessageImpl[]>((resolve, reject) => {
       let totalWaitTimer: any;
 
       const setnewMessageWaitTimeoutInSeconds = (value?: number): void => {
@@ -962,10 +964,10 @@ export class MessageSession extends LinkEntity {
       // Action to be performed after the max wait time is over.
       const actionAfterWaitTimeout: Func<void, void> = (): void => {
         log.batching(
-          "[%s] Batching Receiver '%s'  max wait time in seconds %d over.",
+          "[%s] Batching Receiver '%s'  max wait time in milliseconds %d over.",
           this._context.namespace.connectionId,
           this.name,
-          maxWaitTimeInSeconds
+          maxWaitTimeInMs
         );
         return finalAction();
       };
@@ -974,7 +976,7 @@ export class MessageSession extends LinkEntity {
       const onReceiveMessage: OnAmqpEventAsPromise = async (context: EventContext) => {
         resetTimerOnNewMessageReceived();
         try {
-          const data: ServiceBusMessage = new ServiceBusMessage(
+          const data: ServiceBusMessageImpl = new ServiceBusMessageImpl(
             this._context,
             context.message!,
             context.delivery!,
@@ -1101,13 +1103,10 @@ export class MessageSession extends LinkEntity {
         // be of size upto maxMessageCount. Then the user needs to accordingly dispose
         // (complete,/abandon/defer/deadletter) the messages from the array.
         this._receiver!.addCredit(maxMessageCount);
-        let msg: string = "[%s] Setting the wait timer for %d seconds for receiver '%s'.";
+        let msg: string = "[%s] Setting the wait timer for %d milliseconds for receiver '%s'.";
         if (reuse) msg += " Receiver link already present, hence reusing it.";
-        log.batching(msg, this._context.namespace.connectionId, maxWaitTimeInSeconds, this.name);
-        totalWaitTimer = setTimeout(
-          actionAfterWaitTimeout,
-          (maxWaitTimeInSeconds as number) * 1000
-        );
+        log.batching(msg, this._context.namespace.connectionId, maxWaitTimeInMs, this.name);
+        totalWaitTimer = setTimeout(actionAfterWaitTimeout, maxWaitTimeInMs);
       };
 
       if (this.isOpen()) {
@@ -1131,7 +1130,7 @@ export class MessageSession extends LinkEntity {
    * @param options Optional parameters that can be provided while disposing the message.
    */
   async settleMessage(
-    message: ServiceBusMessage,
+    message: ServiceBusMessageImpl,
     operation: DispositionType,
     options?: DispositionOptions
   ): Promise<any> {

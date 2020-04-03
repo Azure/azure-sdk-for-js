@@ -2,10 +2,7 @@
 // Licensed under the MIT License.
 
 import { RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "@azure/core-http";
-import {
-  StorageRetryPolicy,
-  StorageRetryPolicyType
-} from "./policies/StorageRetryPolicy";
+import { StorageRetryPolicy, StorageRetryPolicyType } from "./policies/StorageRetryPolicy";
 
 export { StorageRetryPolicyType, StorageRetryPolicy };
 

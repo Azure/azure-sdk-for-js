@@ -3,7 +3,8 @@
   "compilerOptions": {
     "module": "commonjs",
     "outDir": "dist",
-    "target": "es5"
+    "target": "es5",
+    "declarationDir": "./types/latest"
   },
   "compileOnSave": true,
   "exclude": ["node_modules"],

@@ -5,6 +5,7 @@
 
 export {
   WebResource,
+  WebResourceLike,
   HttpRequestBody,
   RequestPrepareOptions,
   HttpMethods,
@@ -14,7 +15,7 @@ export {
 } from "./webResource";
 export { DefaultHttpClient } from "./defaultHttpClient";
 export { HttpClient } from "./httpClient";
-export { HttpHeaders } from "./httpHeaders";
+export { HttpHeaders, HttpHeadersLike } from "./httpHeaders";
 export { HttpOperationResponse, HttpResponse, RestResponse } from "./httpOperationResponse";
 export { HttpPipelineLogger } from "./httpPipelineLogger";
 export { HttpPipelineLogLevel } from "./httpPipelineLogLevel";
@@ -52,7 +53,8 @@ export {
   BaseRequestPolicy,
   RequestPolicy,
   RequestPolicyFactory,
-  RequestPolicyOptions
+  RequestPolicyOptions,
+  RequestPolicyOptionsLike
 } from "./policies/requestPolicy";
 export { generateClientRequestIdPolicy } from "./policies/generateClientRequestIdPolicy";
 export { exponentialRetryPolicy, RetryOptions, RetryMode } from "./policies/exponentialRetryPolicy";
@@ -61,6 +63,7 @@ export { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
 export { getDefaultProxySettings, proxyPolicy } from "./policies/proxyPolicy";
 export { redirectPolicy, RedirectOptions } from "./policies/redirectPolicy";
 export { keepAlivePolicy, KeepAliveOptions } from "./policies/keepAlivePolicy";
+export { disableResponseDecompressionPolicy } from "./policies/disableResponseDecompressionPolicy";
 export { signingPolicy } from "./policies/signingPolicy";
 export {
   userAgentPolicy,

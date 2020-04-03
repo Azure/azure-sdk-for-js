@@ -1,15 +1,18 @@
 /*
-Copyright (c) Microsoft Corporation. All rights reserved.
-Licensed under the MIT Licence.
+  Copyright (c) Microsoft Corporation. All rights reserved.
+  Licensed under the MIT Licence.
+  
+  **NOTE**: If you are using version 1.1.x or lower, then please use the link below:
+  https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples
 
-This sample demonstrates scenarios as to how a Service Bus message can be explicitly moved to
-the DLQ. For other implicit ways when Service Bus messages get moved to DLQ, refer to -
-https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-dead-letter-queues
+  This sample demonstrates scenarios as to how a Service Bus message can be explicitly moved to
+  the DLQ. For other implicit ways when Service Bus messages get moved to DLQ, refer to -
+  https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-dead-letter-queues
 
-Run processMessagesInDLQ example after this to see how the messages in DLQ can be reprocessed.
+  Run processMessagesInDLQ example after this to see how the messages in DLQ can be reprocessed.
 */
 
-const { ServiceBusClient, ReceiveMode } = require("@azure/service-bus");
+const { ServiceBusClient } = require("@azure/service-bus");
 
 // Load the .env file if it exists
 require("dotenv").config();
@@ -17,7 +20,7 @@ require("dotenv").config();
 // Define connection string and related Service Bus entity names here
 const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
-const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
+const sbClient = new ServiceBusClient(connectionString);
 
 async function main() {
   try {
@@ -31,9 +34,8 @@ async function main() {
 }
 
 async function sendMessage() {
-  // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
-  const queueClient = sbClient.createQueueClient(queueName);
-  const sender = queueClient.createSender();
+  // getSender() can also be used to create a sender for a topic.
+  const sender = sbClient.getSender(queueName);
 
   const message = {
     body: {
@@ -44,15 +46,14 @@ async function sendMessage() {
     label: "Recipe"
   };
   await sender.send(message);
-  await queueClient.close();
+  await sender.close();
 }
 
 async function receiveMessage() {
-  // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
-  const queueClient = sbClient.createQueueClient(queueName);
-  const receiver = queueClient.createReceiver(ReceiveMode.peekLock);
+  // If receiving from a subscription you can use the getReceiver(topic, subscription) overload
+  const receiver = sbClient.getReceiver(queueName, "peekLock");
 
-  const messages = await receiver.receiveMessages(1);
+  const messages = await receiver.receiveBatch(1);
 
   if (messages.length) {
     console.log(
@@ -68,7 +69,7 @@ async function receiveMessage() {
     console.log(">>>> Error: No messages were received from the main queue.");
   }
 
-  await queueClient.close();
+  await receiver.close();
 }
 
 main().catch((err) => {

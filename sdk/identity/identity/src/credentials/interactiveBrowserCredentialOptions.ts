@@ -40,7 +40,7 @@ export interface InteractiveBrowserCredentialOptions extends TokenCredentialOpti
    * The Azure Active Directory tenant (directory) ID.
    */
   tenantId?: string;
-  
+
   /**
    * The client (application) ID of an App Registration in the tenant.
    */

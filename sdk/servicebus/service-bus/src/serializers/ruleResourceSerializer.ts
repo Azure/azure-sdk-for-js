@@ -18,6 +18,7 @@ import {
 import { CorrelationFilter } from "../core/managementClient";
 
 /**
+ * @internal
  * @ignore
  * Builds the rule options object from the user provided options.
  * Handles the differences in casing for the property names,
@@ -31,6 +32,7 @@ export function buildRuleOptions(name: string, ruleOptions: RuleOptions = {}): I
 }
 
 /**
+ * @internal
  * @ignore
  * Builds the rule object from the raw json object gotten after deserializing the
  * response from the service
@@ -48,7 +50,8 @@ export function buildRule(rawRule: any): RuleDetails {
 }
 
 /**
- *  @ignore
+ * @internal
+ * @ignore
  * Helper utility to retrieve `filter` value from given input,
  * or undefined if not passed in.
  * @param value
@@ -80,7 +83,8 @@ function getTopicFilter(value: any): SqlFilter | CorrelationFilter {
 }
 
 /**
- *  @ignore
+ * @internal
+ * @ignore
  * Helper utility to retrieve rule `action` value from given input,
  * or undefined if not passed in.
  * @param value
@@ -99,10 +103,14 @@ function getRuleActionOrUndefined(value: any): SqlAction | undefined {
 }
 
 /**
+ * @internal
+ * @ignore
  * Represents settable options on a rule
  */
 export interface RuleOptions {
   /**
+   * @internal
+   * @ignore
    * Defines the filter expression that the rule evaluates. For `SqlFilter` input,
    * the expression string is interpreted as a SQL92 expression which must
    * evaluate to True or False. Only one between a `CorrelationFilter` or
@@ -111,6 +119,8 @@ export interface RuleOptions {
   filter?: SqlFilter | CorrelationFilter;
 
   /**
+   * @internal
+   * @ignore
    * The SQL like expression that can be executed on the message should the
    * associated filter apply.
    */
@@ -118,26 +128,35 @@ export interface RuleOptions {
 }
 
 /**
+ * @internal
  * @ignore
  * Internal representation of settable options on a rule
  */
 export interface InternalRuleOptions extends RuleOptions {
   /**
+   * @internal
+   * @ignore
    * Name of the rule.
    */
   name?: string;
 }
 
 /**
+ * @internal
+ * @ignore
  * Represents all attributes of a rule entity
  */
 export interface RuleDetails {
   /**
+   * @internal
+   * @ignore
    * Name of the rule
    */
   ruleName: string;
 
   /**
+   * @internal
+   * @ignore
    * Defines the filter expression that the rule evaluates. For `SqlFilter` input,
    * the expression string is interpreted as a SQL92 expression which must
    * evaluate to True or False. Only one between a `CorrelationFilter` or
@@ -146,59 +165,80 @@ export interface RuleDetails {
   filter?: SqlFilter | CorrelationFilter;
 
   /**
+   * @internal
+   * @ignore
    * The SQL like expression that can be executed on the message should the
    * associated filter apply.
    */
   action?: SqlAction;
 
   /**
+   * @internal
+   * @ignore
    * Name of topic
    */
   topicName: string;
 
   /**
+   * @internal
+   * @ignore
    * Name of subscription
    */
   subscriptionName: string;
 
   /**
+   * @internal
+   * @ignore
    * Created at timestamp
    */
   createdOn: string;
 }
 
 /**
+ * @internal
+ * @ignore
  * Represents all possible fields on SqlAction
  */
 export type SqlAction = SqlFilter;
 
 /**
+ * @internal
+ * @ignore
  * Represents all possible fields on SqlFilter
  */
 export interface SqlFilter {
   /**
+   * @internal
+   * @ignore
    * SQL expression to use.
    */
   sqlExpression?: string;
 
   /**
+   * @internal
+   * @ignore
    * SQL parameters to the expression
    */
   sqlParameters?: SqlParameter[];
 
   /**
+   * @internal
+   * @ignore
    * This property is reserved for future use. An integer value showing the
    * compatibility level, currently hard-coded to 20.
    */
   compatibilityLevel?: number;
 
   /**
+   * @internal
+   * @ignore
    * Boolean value indicating whether the SQL filter expression requires preprocessing
    */
   requiresPreprocessing?: boolean;
 }
 
 /**
+ * @internal
  * @ignore RuleResourceSerializer for serializing / deserializing Rule entities
  */
 export class RuleResourceSerializer implements AtomXmlSerializer {
@@ -288,6 +328,8 @@ enum SqlParameterType {
   Date = "l28:date"
 }
 /**
+ * @internal
+ * @ignore
  * Represents type of SQL `Parameter` in ATOM based management operations
  */
 export type SqlParameter = {
@@ -297,6 +339,8 @@ export type SqlParameter = {
 };
 
 /**
+ * @internal
+ * @ignore
  * Internal representation of SQL parameter info
  */
 type RawSqlParameter = {
@@ -305,7 +349,8 @@ type RawSqlParameter = {
 };
 
 /**
- *  @ignore
+ * @internal
+ * @ignore
  * Helper utility to retrieve array of `SqlParameter` from given input,
  * or undefined if not passed in.
  * @param value
@@ -334,6 +379,8 @@ function getSqlParametersOrUndefined(value: any): SqlParameter[] | undefined {
 }
 
 /**
+ * @internal
+ * @ignore
  * Helper utility to build an instance of parsed SQL parameteras `Parameter`
  * from given input
  * @param value
@@ -366,7 +413,8 @@ function buildSqlParameter(value: RawSqlParameter): SqlParameter {
 }
 
 /**
- *  @ignore
+ * @internal
+ * @ignore
  * Helper utility to extract array of `RawSqlParameter` instances from given input,
  * or undefined if not passed in.
  * @param value
@@ -394,6 +442,8 @@ export function getRawSqlParameters(parameters: SqlParameter[] | undefined): any
 }
 
 /**
+ * @internal
+ * @ignore
  * Helper utility to build an instance of raw SQL parameter as `RawSqlParameter`
  * from given `SqlParameter` input,
  * @param parameter parsed SQL parameter instance

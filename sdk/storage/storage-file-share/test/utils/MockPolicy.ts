@@ -3,9 +3,8 @@ import {
   HttpOperationResponse,
   RequestPolicy,
   RequestPolicyOptions,
-  WebResource,
+  WebResource
 } from "../../src";
-
 
 /**
  * Mock
@@ -22,7 +21,11 @@ export class MockPolicy extends BaseRequestPolicy {
    * @param {RequestPolicyOptions} options
    * @memberof MockPolicy
    */
-  public constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, responseHeaders: { [key: string]: any } = {}) {
+  public constructor(
+    nextPolicy: RequestPolicy,
+    options: RequestPolicyOptions,
+    responseHeaders: { [key: string]: any } = {}
+  ) {
     super(nextPolicy, options);
     this.responseHeaders = responseHeaders;
   }
@@ -35,11 +38,9 @@ export class MockPolicy extends BaseRequestPolicy {
    * @memberof InjectorPolicy
    */
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
-    return this._nextPolicy.sendRequest(request).then(
-      (res) => {
-        res.parsedHeaders = { ...res.parsedHeaders, ...this.responseHeaders };
-        return res;
-      }
-    );
+    return this._nextPolicy.sendRequest(request).then((res) => {
+      res.parsedHeaders = { ...res.parsedHeaders, ...this.responseHeaders };
+      return res;
+    });
   }
 }

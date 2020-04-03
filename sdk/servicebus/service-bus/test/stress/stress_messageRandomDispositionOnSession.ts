@@ -12,7 +12,6 @@ must be supplied. The queue must have sessions enabled.
 */
 
 import {
-  ServiceBusClient,
   SendableMessageInfo,
   OnMessage,
   OnError,
@@ -20,6 +19,7 @@ import {
   ServiceBusMessage,
   ReceiveMode
 } from "../../src";
+import { ServiceBusClient } from "../../src/old/serviceBusClient";
 
 const connectionString = "";
 const queueName = "";

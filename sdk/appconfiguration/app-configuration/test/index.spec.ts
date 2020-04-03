@@ -11,7 +11,7 @@ import {
   assertThrowsAbortError
 } from "./testHelpers";
 import { AppConfigurationClient, ConfigurationSetting } from "../src";
-import { delay } from '@azure/core-http';
+import { delay } from "@azure/core-http";
 
 describe("AppConfigurationClient", () => {
   const settings: Array<{ key: string; label?: string }> = [];
@@ -23,13 +23,9 @@ describe("AppConfigurationClient", () => {
   });
 
   after("cleanup", async () => {
-    const deletePromises = [];
-
     for (const setting of settings) {
-      deletePromises.push(client.deleteConfigurationSetting({ key: setting.key, label: setting.label }));
+      await client.deleteConfigurationSetting({ key: setting.key, label: setting.label });
     }
-
-    await Promise.all(deletePromises);
   });
 
   describe("simple usages", () => {
@@ -413,7 +409,7 @@ describe("AppConfigurationClient", () => {
 
     it("by date", async () => {
       const key = `getConfigurationSettingByDate-${Date.now()}`;
-      
+
       const initialSetting = await client.setConfigurationSetting({
         key,
         value: "value1"
@@ -426,9 +422,12 @@ describe("AppConfigurationClient", () => {
         value: "value2"
       });
 
-      const settingAtPointInTime = await client.getConfigurationSetting({ key }, {
-        acceptDateTime: initialSetting.lastModified
-      });
+      const settingAtPointInTime = await client.getConfigurationSetting(
+        { key },
+        {
+          acceptDateTime: initialSetting.lastModified
+        }
+      );
 
       assert.equal("value1", settingAtPointInTime.value);
     });
@@ -525,7 +524,9 @@ describe("AppConfigurationClient", () => {
     });
 
     it("exact match on key", async () => {
-      let byKeyIterator = client.listConfigurationSettings({ keyFilter: `listConfigSettingA-${now}` });
+      let byKeyIterator = client.listConfigurationSettings({
+        keyFilter: `listConfigSettingA-${now}`
+      });
       const byKeySettings = await toSortedArray(byKeyIterator);
 
       assertEqualSettings(
@@ -551,7 +552,7 @@ describe("AppConfigurationClient", () => {
       // query with a key wildcard
       const keyFilter = `listConfigSettingA-${now}`;
       let byKeyIterator = client.listConfigurationSettings({
-        keyFilter: keyFilter.substring(0, keyFilter.length - 1) + '*'
+        keyFilter: keyFilter.substring(0, keyFilter.length - 1) + "*"
       });
       const byKeySettings = await toSortedArray(byKeyIterator);
 
@@ -610,7 +611,7 @@ describe("AppConfigurationClient", () => {
 
     it("by date", async () => {
       let byKeyIterator = client.listConfigurationSettings({
-        keyFilter: 'listConfigSettingA-*',
+        keyFilter: "listConfigSettingA-*",
         acceptDateTime: listConfigSettingA.lastModified
       });
 
@@ -639,11 +640,13 @@ describe("AppConfigurationClient", () => {
       const addSettingPromises = [];
 
       for (let i = 0; i < expectedNumberOfLabels; i++) {
-        addSettingPromises.push(client.addConfigurationSetting({
-          key,
-          value: `the value for ${i}`,
-          label: i.toString()
-        }));
+        addSettingPromises.push(
+          client.addConfigurationSetting({
+            key,
+            value: `the value for ${i}`,
+            label: i.toString()
+          })
+        );
 
         settings.push({ key, label: i.toString() });
       }
@@ -658,7 +661,7 @@ describe("AppConfigurationClient", () => {
       assert.equal(sortedResults.length, 200);
 
       // make sure we have 200 unique labels
-      const uniqueLabels = new Set(sortedResults.map(res => res.label));
+      const uniqueLabels = new Set(sortedResults.map((res) => res.label));
       assert.equal(uniqueLabels.size, 200);
 
       for (let i = 0; i < 200; ++i) {
@@ -685,7 +688,11 @@ describe("AppConfigurationClient", () => {
 
     before(async () => {
       // we'll generate two sets of keys and labels for this selection
-      originalSetting = await client.addConfigurationSetting({ key, label: labelA, value: "fooA1" });
+      originalSetting = await client.addConfigurationSetting({
+        key,
+        label: labelA,
+        value: "fooA1"
+      });
       await delay(1000);
       await client.setConfigurationSetting({ key, label: labelA, value: "fooA2" });
 

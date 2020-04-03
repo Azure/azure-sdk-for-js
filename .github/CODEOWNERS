@@ -24,15 +24,17 @@
 /sdk/batch/ @xingwu1 @matthchr @bgklein
 /sdk/cosmosdb/ @southpolesteve
 
-/sdk/eventhub/ @ramya-rao-a @chradek @richardpark-msft
-/sdk/servicebus/ @ramya-rao-a @chradek @richardpark-msft
+/sdk/eventhub/ @ramya-rao-a @chradek @richardpark-msft 
+/sdk/servicebus/ @ramya-rao-a @chradek @richardpark-msft @HarshaNalluru  
 
-/sdk/identity/ @daviwil @jonathandturner
+/sdk/identity/ @schaabs @daviwil @jonathandturner
 /sdk/keyvault/ @jonathandturner @sadasant
 /sdk/storage/ @XiaoningLiu @jeremymeng @HarshaNalluru @vinjiang @jiacfan @ljian3377
 
 /sdk/test-utils/ @HarshaNalluru @sadasant
 /sdk/textanalytics/ @xirzec @willmtemple
+
+/sdk/search/ @xirzec
 
 # API review files
 /sdk/**/review/*api.md @bterlson

@@ -11,7 +11,6 @@ import { recorderEnvSetup } from "./utils";
 dotenv.config({ path: "../.env" });
 
 describe("Utility Helpers", () => {
-  
   let recorder: Recorder;
   const protocol = "https";
   const endpointSuffix = "core.windows.net";
@@ -34,7 +33,7 @@ describe("Utility Helpers", () => {
   }
 
   beforeEach(function() {
-    recorder = record(this,recorderEnvSetup);
+    recorder = record(this, recorderEnvSetup);
   });
 
   afterEach(function() {

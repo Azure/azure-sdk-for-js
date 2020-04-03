@@ -5,7 +5,7 @@
  * detects the language of a piece of text
  */
 
-import { TextAnalyticsClient, TextAnalyticsApiKeyCredential } from "@azure/ai-text-analytics";
+import { TextAnalyticsClient, AzureKeyCredential } from "@azure/ai-text-analytics";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -18,7 +18,7 @@ export async function main() {
   const endpoint = process.env["ENDPOINT"] || "<cognitive services endpoint>";
   const apiKey = process.env["TEXT_ANALYTICS_API_KEY"] || "<api key>";
 
-  const client = new TextAnalyticsClient(endpoint, new TextAnalyticsApiKeyCredential(apiKey));
+  const client = new TextAnalyticsClient(endpoint, new AzureKeyCredential(apiKey));
 
   const [result] = await client.detectLanguage(["hello world"]);
 

@@ -6,7 +6,7 @@
     "email": "azsdkteam@microsoft.com",
     "url": "https://github.com/Azure/azure-sdk-for-js"
   },
-  "version": "1.0.4",
+  "version": "1.1.1",
   "description": "Isomorphic client Runtime for Typescript/node.js/browser javascript client libraries generated using AutoRest",
   "tags": [
     "isomorphic",
@@ -28,21 +28,28 @@
   ],
   "main": "./dist/coreHttp.node.js",
   "module": "./es/src/coreHttp.js",
-  "types": "./es/src/coreHttp.d.ts",
+  "types": "./types/latest/src/coreHttp.d.ts",
+  "typesVersions": {
+    "<3.6": {
+      "types/latest/src/*": [
+        "types/3.1/src/*"
+      ]
+    }
+  },
   "files": [
     "dist/**/*.node.js",
     "dist/**/*.node.js.map",
     "dom-shim.d.ts",
     "es/src/**/*.js",
     "es/src/**/*.js.map",
-    "es/src/**/*.d.ts",
-    "es/src/**/*.d.ts.map",
-    "src/**/*.ts",
-    "LICENSE",
-    "README.md"
+    "types/*/src/**/*.d.ts",
+    "types/*/src/**/*.d.ts.map",
+    "README.md",
+    "LICENSE"
   ],
   "browser": {
     "./es/src/policies/msRestUserAgentPolicy.js": "./es/src/policies/msRestUserAgentPolicy.browser.js",
+    "./es/src/policies/disableResponseDecompressionPolicy.js": "./es/src/policies/disableResponseDecompressionPolicy.browser.js",
     "./es/src/policies/proxyPolicy.js": "./es/src/policies/proxyPolicy.browser.js",
     "./es/src/util/base64.js": "./es/src/util/base64.browser.js",
     "./es/src/util/xml.js": "./es/src/util/xml.browser.js",
@@ -60,14 +67,15 @@
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build": "run-s build:tsc build:rollup",
+    "build": "run-s build:tsc build:types build:rollup",
     "build:scripts": "tsc -p ./.scripts/",
     "build:test": "run-s build build:test-browser",
     "build:tsc": "tsc -p tsconfig.es.json",
+    "build:types": "downlevel-dts types/latest/ types/3.1/",
     "build:rollup": "rollup -c 2>&1",
     "build:test-browser": "rollup -c rollup.test.config.js 2>&1",
     "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf ./es ./dist ./dist-test",
+    "clean": "rimraf ./es ./dist ./dist-test ./dist-browser ./types ./types3.1",
     "execute:samples": "echo skipped",
     "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
@@ -119,7 +127,7 @@
   },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
-    "@azure/core-auth": "^1.0.0",
+    "@azure/core-auth": "^1.1.0",
     "@azure/core-tracing": "1.0.0-preview.7",
     "@azure/logger": "^1.0.0",
     "@opentelemetry/types": "^0.2.0",
@@ -146,7 +154,7 @@
     "@types/express": "^4.16.0",
     "@types/glob": "^7.1.1",
     "@types/karma": "^3.0.0",
-    "@types/mocha": "^5.2.5",
+    "@types/mocha": "^7.0.2",
     "@types/node": "^8.0.0",
     "@types/sinon": "^7.0.13",
     "@types/tough-cookie": "^2.3.5",
@@ -156,6 +164,7 @@
     "@typescript-eslint/parser": "^2.0.0",
     "babel-runtime": "^6.26.0",
     "chai": "^4.2.0",
+    "downlevel-dts": "~0.4.0",
     "eslint": "^6.1.0",
     "eslint-config-prettier": "^6.0.0",
     "eslint-plugin-no-null": "^1.0.2",
@@ -172,11 +181,9 @@
     "karma-mocha": "^1.3.0",
     "karma-rollup-preprocessor": "^7.0.0",
     "karma-sourcemap-loader": "^0.3.7",
-    "karma-typescript-es6-transform": "^4.0.0",
-    "mocha": "^6.2.2",
+    "mocha": "^7.1.1",
     "mocha-chrome": "^2.0.0",
     "mocha-junit-reporter": "^1.18.0",
-    "mocha-multi": "^1.1.3",
     "npm-run-all": "^4.1.5",
     "nyc": "^14.0.0",
     "prettier": "^1.16.4",

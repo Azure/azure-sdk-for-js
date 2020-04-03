@@ -35,7 +35,7 @@ for more information.
 - Whenever we talk about an **operation**, we mean the static representation of a Long Running Operation.
   Any operation will have a definition of a **state**, which has an opinionated default set of properties.
   The definition of the operation will also have functions that will define how to request new information
-  about the pending operetion, how to request its cancelation, and how to serialize it.
+  about the pending operation, how to request its cancellation, and how to serialize it.
 - A **Poller** is an object who's main function is to interact with an operation until the poller is manually stopped,
   the operation finishes (either by succeeding or failing) or if a manual request to cancel the operation has succeeded.  
   Some characteristics of the pollers are:

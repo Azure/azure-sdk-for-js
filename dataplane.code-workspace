@@ -71,6 +71,10 @@
       "path": "sdk\\core\\logger"
     },
     {
+      "name": "search",
+      "path": "sdk\\search\\search"
+    }
+    {
       "path": "sdk\\servicebus\\service-bus"
     },
     {
@@ -99,7 +103,7 @@
     {
       "name": "eslint plugin",
       "path": "common\\tools\\eslint-plugin-azure-sdk"
-    },
+    }
   ],
   "settings": {
     "editor.detectIndentation": false,
@@ -119,7 +123,11 @@
       "**/test-dist/*": true,
       "**/node_modules": true,
       "**/bower_components": true,
-      "**/*.code-search": true
+      "**/*.code-search": true,
+      "**/types/*": true,
+      "**/coverage/*": true,
+      "**/*.d.ts": true,
+      "**/test-browser/*": true
     },
     
   },

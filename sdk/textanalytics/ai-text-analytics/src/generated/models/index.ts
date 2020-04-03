@@ -115,7 +115,7 @@ export interface TextDocumentStatistics {
   /**
    * Number of text elements recognized in the document.
    */
-  characterCount: number;
+  graphemeCount: number;
   /**
    * Number of transactions for the document.
    */
@@ -126,7 +126,7 @@ export interface TextDocumentStatistics {
  * Represents the confidence scores between 0 and 1 across all sentiment classes: positive,
  * neutral, negative.
  */
-export interface SentimentScorePerLabel {
+export interface SentimentConfidenceScores {
   positive: number;
   neutral: number;
   negative: number;
@@ -144,15 +144,15 @@ export interface SentenceSentiment {
   /**
    * The sentiment confidence score between 0 and 1 for the sentence for all classes.
    */
-  sentimentScores: SentimentScorePerLabel;
+  confidenceScores: SentimentConfidenceScores;
   /**
    * The sentence offset from the start of the document.
    */
-  offset: number;
+  graphemeOffset: number;
   /**
    * The length of the sentence by Unicode standard.
    */
-  length: number;
+  graphemeLength: number;
   /**
    * The warnings generated for the sentence.
    */
@@ -176,7 +176,7 @@ export interface DocumentSentiment {
   /**
    * Document level sentiment confidence scores between 0 and 1 for each sentiment class.
    */
-  documentScores: SentimentScorePerLabel;
+  documentScores: SentimentConfidenceScores;
   /**
    * Sentence level sentiment analysis.
    */
@@ -244,13 +244,13 @@ export interface Entity {
    */
   subCategory?: string;
   /**
-   * Start position (in Unicode characters) for the entity text.
+   * Start position (in Unicode graphemes) for the entity text.
    */
-  offset: number;
+  graphemeOffset: number;
   /**
-   * Length (in Unicode characters) for the entity text.
+   * Length (in Unicode graphemes) for the entity text.
    */
-  length: number;
+  graphemeLength: number;
   /**
    * Confidence score between 0 and 1 of the extracted entity.
    */
@@ -309,13 +309,13 @@ export interface Match {
    */
   text: string;
   /**
-   * Start position (in Unicode characters) for the entity match text.
+   * Start position (in Unicode graphemes) for the entity match text.
    */
-  offset: number;
+  graphemeOffset: number;
   /**
-   * Length (in Unicode characters) for the entity match text.
+   * Length (in Unicode graphemes) for the entity match text.
    */
-  length: number;
+  graphemeLength: number;
 }
 
 /**
@@ -337,7 +337,7 @@ export interface LinkedEntity {
   /**
    * Unique identifier of the recognized entity from the data source.
    */
-  id?: string;
+  dataSourceEntityId?: string;
   /**
    * URL for the entity's page from the data source.
    */
@@ -505,7 +505,7 @@ export interface LanguageResult {
 /**
  * Optional Parameters.
  */
-export interface TextAnalyticsClientEntitiesRecognitionGeneralOptionalParams extends coreHttp.RequestOptionsBase {
+export interface GeneratedClientEntitiesRecognitionGeneralOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * (Optional) This value indicates which model will be used for scoring. If a model-version is
    * not specified, the API should default to the latest, non-preview version.
@@ -520,7 +520,7 @@ export interface TextAnalyticsClientEntitiesRecognitionGeneralOptionalParams ext
 /**
  * Optional Parameters.
  */
-export interface TextAnalyticsClientEntitiesRecognitionPiiOptionalParams extends coreHttp.RequestOptionsBase {
+export interface GeneratedClientEntitiesRecognitionPiiOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * (Optional) This value indicates which model will be used for scoring. If a model-version is
    * not specified, the API should default to the latest, non-preview version.
@@ -535,7 +535,7 @@ export interface TextAnalyticsClientEntitiesRecognitionPiiOptionalParams extends
 /**
  * Optional Parameters.
  */
-export interface TextAnalyticsClientEntitiesLinkingOptionalParams extends coreHttp.RequestOptionsBase {
+export interface GeneratedClientEntitiesLinkingOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * (Optional) This value indicates which model will be used for scoring. If a model-version is
    * not specified, the API should default to the latest, non-preview version.
@@ -550,7 +550,7 @@ export interface TextAnalyticsClientEntitiesLinkingOptionalParams extends coreHt
 /**
  * Optional Parameters.
  */
-export interface TextAnalyticsClientKeyPhrasesOptionalParams extends coreHttp.RequestOptionsBase {
+export interface GeneratedClientKeyPhrasesOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * (Optional) This value indicates which model will be used for scoring. If a model-version is
    * not specified, the API should default to the latest, non-preview version.
@@ -565,7 +565,7 @@ export interface TextAnalyticsClientKeyPhrasesOptionalParams extends coreHttp.Re
 /**
  * Optional Parameters.
  */
-export interface TextAnalyticsClientLanguagesOptionalParams extends coreHttp.RequestOptionsBase {
+export interface GeneratedClientLanguagesOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * (Optional) This value indicates which model will be used for scoring. If a model-version is
    * not specified, the API should default to the latest, non-preview version.
@@ -580,7 +580,7 @@ export interface TextAnalyticsClientLanguagesOptionalParams extends coreHttp.Req
 /**
  * Optional Parameters.
  */
-export interface TextAnalyticsClientSentimentOptionalParams extends coreHttp.RequestOptionsBase {
+export interface GeneratedClientSentimentOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * (Optional) This value indicates which model will be used for scoring. If a model-version is
    * not specified, the API should default to the latest, non-preview version.

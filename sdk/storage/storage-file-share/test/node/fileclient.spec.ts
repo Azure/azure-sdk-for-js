@@ -1,21 +1,23 @@
 import * as assert from "assert";
-import { Duplex } from "stream";
-import { bodyToString, getBSU, createRandomLocalFile, recorderEnvSetup } from "../utils";
 import { Buffer } from "buffer";
-import {
-  ShareFileClient,
-  newPipeline,
-  StorageSharedKeyCredential,
-  ShareClient,
-  ShareDirectoryClient,
-  generateFileSASQueryParameters,
-  FileSASPermissions
-} from "../../src";
-
 import * as fs from "fs";
 import * as path from "path";
-import { readStreamToLocalFileWithLogs } from "../../test/utils/testutils.node";
+import * as zlib from "zlib";
+import { Duplex } from "stream";
+
 import { record, Recorder } from "@azure/test-utils-recorder";
+
+import {
+  FileSASPermissions,
+  generateFileSASQueryParameters,
+  newPipeline,
+  ShareClient,
+  ShareDirectoryClient,
+  ShareFileClient,
+  StorageSharedKeyCredential
+} from "../../src";
+import { readStreamToLocalFileWithLogs } from "../../test/utils/testutils.node";
+import { bodyToString, createRandomLocalFile, getBSU, recorderEnvSetup } from "../utils";
 
 describe("FileClient Node.js only", () => {
   let shareName: string;
@@ -45,8 +47,10 @@ describe("FileClient Node.js only", () => {
   });
 
   afterEach(async function() {
-    await shareClient.delete();
-    recorder.stop();
+    if (!this.currentTest?.isPending()) {
+      await shareClient.delete();
+      recorder.stop();
+    }
   });
 
   it("uploadData - large Buffer as data", async () => {
@@ -78,6 +82,12 @@ describe("FileClient Node.js only", () => {
     await fileClient.uploadRange(bodyBuffer, 0, body.length);
     const result = await fileClient.download(0);
     assert.deepStrictEqual(await bodyToString(result, body.length), body);
+  });
+
+  it("uploadData with empty buffer", async () => {
+    await fileClient.uploadData(Buffer.alloc(0));
+    const response = await fileClient.download();
+    assert.deepStrictEqual(await bodyToString(response), "");
   });
 
   it("upload with Node.js stream", async () => {
@@ -210,5 +220,20 @@ describe("FileClient Node.js only", () => {
 
     assert.equal(await bodyToString(range1, 512), "a".repeat(512));
     assert.equal(await bodyToString(range2, 512), "b".repeat(512));
+  });
+
+  it("should not decompress during downloading", async () => {
+    const body: string = "hello world body string!";
+    const deflated = zlib.deflateSync(body);
+
+    await fileClient.uploadData(deflated, {
+      fileHttpHeaders: {
+        fileContentEncoding: "deflate",
+        fileContentType: "text/plain"
+      }
+    });
+
+    const downloaded = await fileClient.downloadToBuffer();
+    assert.deepStrictEqual(downloaded, deflated);
   });
 });
