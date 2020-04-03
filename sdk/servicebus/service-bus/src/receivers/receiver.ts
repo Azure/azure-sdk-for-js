@@ -263,7 +263,8 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
 
     StreamingReceiver.create(this._context, {
       ...options,
-      receiveMode: convertToInternalReceiveMode(this.receiveMode)
+      receiveMode: convertToInternalReceiveMode(this.receiveMode),
+      retryOptions: this._receiverOptions.retryOptions
     })
       .then(async (sReceiver) => {
         if (!sReceiver) {
