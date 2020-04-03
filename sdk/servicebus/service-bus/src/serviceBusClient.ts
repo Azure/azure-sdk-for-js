@@ -63,11 +63,11 @@ export class ServiceBusClient {
   ) {
     if (isTokenCredential(credentialOrOptions2)) {
       const fullyQualifiedNamespace: string = fullyQualifiedNamespaceOrConnectionString1;
-      const tokenCredential: TokenCredential = credentialOrOptions2;
+      const credential: TokenCredential = credentialOrOptions2;
       this._clientOptions = options3 || {};
 
       this._connectionContext = createConnectionContextForTokenCredential(
-        tokenCredential,
+        credential,
         fullyQualifiedNamespace,
         this._clientOptions
       );
