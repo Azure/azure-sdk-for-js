@@ -85,7 +85,7 @@ describe("session tests", () => {
       const testMessage = TestMessage.getSessionSample();
       await sender.send(testMessage);
 
-      let msgs = await receiver.receiveBatch(1, { maxWaitTimeSeconds: 10 });
+      let msgs = await receiver.receiveBatch(1, { maxWaitTimeInMs: 10000 });
       should.equal(msgs.length, 0, "Unexpected number of messages received");
 
       await receiver.close();

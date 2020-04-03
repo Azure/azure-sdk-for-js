@@ -29,9 +29,9 @@ export interface MessageHandlers<ReceivedMessageT> {
 export interface WaitTimeOptions {
   /**
    * The maximum amount of time to wait for messages to arrive.
-   *  **Default**: `60` seconds.
+   *  **Default**: `60000` milliseconds.
    */
-  maxWaitTimeSeconds: number;
+  maxWaitTimeInMs: number;
 }
 
 /**
