@@ -20,7 +20,7 @@ dependencies:
   '@rush-temp/keyvault-keys': 'file:projects/keyvault-keys.tgz'
   '@rush-temp/keyvault-secrets': 'file:projects/keyvault-secrets.tgz'
   '@rush-temp/logger': 'file:projects/logger.tgz'
-  '@rush-temp/search': 'file:projects/search.tgz'
+  '@rush-temp/search-documents': 'file:projects/search-documents.tgz'
   '@rush-temp/service-bus': 'file:projects/service-bus.tgz'
   '@rush-temp/storage-blob': 'file:projects/storage-blob.tgz'
   '@rush-temp/storage-file-datalake': 'file:projects/storage-file-datalake.tgz'
@@ -8638,7 +8638,7 @@ packages:
       integrity: sha512-M0JwG2IzUANe8EfHHMsgASl/tKesxTsA38FHqaOrM8B+J3ydK3tR+yoB7b0KNUK7MKTs1rdsOdAoCJVgt9WbMQ==
       tarball: 'file:projects/logger.tgz'
     version: 0.0.0
-  'file:projects/search.tgz':
+  'file:projects/search-documents.tgz':
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.7
       '@microsoft/api-extractor': 7.7.12
@@ -8688,10 +8688,10 @@ packages:
       typescript: 3.7.5
       util: 0.12.2
     dev: false
-    name: '@rush-temp/search'
+    name: '@rush-temp/search-documents'
     resolution:
-      integrity: sha512-IxafuWZCxPCxChmcGJXf27SbL+Qe+IjjGegD7ykzM8u+oLISmqtguq+1Yd4RMkZqDysnAffIBFNxgoMFLGR19g==
-      tarball: 'file:projects/search.tgz'
+      integrity: sha512-m1TC1/+0JKVV6OPCM2E3Ik5T99qluuHRaBTBElNcgPQZIuUl2Ma0zhqvg4UyY7xq75eUXBQl29ZruHZTdaDVGw==
+      tarball: 'file:projects/search-documents.tgz'
     version: 0.0.0
   'file:projects/service-bus.tgz':
     dependencies:
@@ -9152,6 +9152,7 @@ packages:
       integrity: sha512-guDU8PdEdKCVnGxNd1JEkmqukDoc1wodkEqQCWpY1+bX4ZT+ZY520gfVcMeMHYCEO8TAAhScGNke/y7p9qBArA==
       tarball: 'file:projects/testhub.tgz'
     version: 0.0.0
+registry: ''
 specifiers:
   '@rush-temp/abort-controller': 'file:./projects/abort-controller.tgz'
   '@rush-temp/ai-text-analytics': 'file:./projects/ai-text-analytics.tgz'
@@ -9174,7 +9175,7 @@ specifiers:
   '@rush-temp/keyvault-keys': 'file:./projects/keyvault-keys.tgz'
   '@rush-temp/keyvault-secrets': 'file:./projects/keyvault-secrets.tgz'
   '@rush-temp/logger': 'file:./projects/logger.tgz'
-  '@rush-temp/search': 'file:./projects/search.tgz'
+  '@rush-temp/search-documents': 'file:./projects/search-documents.tgz'
   '@rush-temp/service-bus': 'file:./projects/service-bus.tgz'
   '@rush-temp/storage-blob': 'file:./projects/storage-blob.tgz'
   '@rush-temp/storage-file-datalake': 'file:./projects/storage-file-datalake.tgz'

@@ -25,10 +25,10 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/search/search",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/search/search-documents",
   "sideEffects": false,
   "dependencies": {
-    "@azure/search": "latest",
+    "@azure/search-documents": "latest",
     "@azure/identity": "latest",
     "dotenv": "^8.2.0"
   },

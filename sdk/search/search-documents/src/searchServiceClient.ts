@@ -73,7 +73,7 @@ export class SearchServiceClient {
    *
    * Example usage:
    * ```ts
-   * const { SearchServiceClient, AzureKeyCredential } = require("@azure/search");
+   * const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-documents");
    *
    * const client = new SearchServiceClient(
    *   "<endpoint>",
