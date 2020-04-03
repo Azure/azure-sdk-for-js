@@ -38,8 +38,8 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
     credentials.push(new VSCodeCredential(tokenCredentialOptions));
 
     super(...credentials);
-    this.AuthenticationFailedExceptionMessage = "DefaultAzureCredential authentication failed";
-    this.UnavailableExceptionMessage =
+    this.AuthenticationFailedMessage = "DefaultAzureCredential authentication failed";
+    this.UnavailableMessage =
       "DefaultAzureCredential failed to retrieve a token from the included credentials";
   }
 }

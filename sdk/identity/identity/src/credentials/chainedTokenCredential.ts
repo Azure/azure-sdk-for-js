@@ -11,8 +11,9 @@ import { CanonicalCode } from "@opentelemetry/types";
  * until one of the getToken methods returns an access token.
  */
 export class ChainedTokenCredential implements TokenCredential {
-  protected AuthenticationFailedExceptionMessage = "";
-  protected UnavailableExceptionMessage = "";
+  protected AuthenticationFailedMessage = "ChainedTokenCredential authentication failed";
+  protected UnavailableMessage =
+    "ChainedTokenCredential failed to retrieve a token from the included credentials";
   private _sources: TokenCredential[] = [];
 
   /**
@@ -64,11 +65,11 @@ export class ChainedTokenCredential implements TokenCredential {
           error.errorResponse != undefined &&
           error.errorResponse.error.match("authentication failed.")
         ) {
-          throw new AggregateAuthenticationError(error, this.AuthenticationFailedExceptionMessage);
+          throw new AggregateAuthenticationError(error, this.AuthenticationFailedMessage);
         }
       });
 
-      const err = new AggregateAuthenticationError(errors, this.UnavailableExceptionMessage);
+      const err = new AggregateAuthenticationError(errors, this.UnavailableMessage);
       span.setStatus({
         code: CanonicalCode.UNAUTHENTICATED,
         message: err.message
