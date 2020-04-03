@@ -3,13 +3,13 @@
 
 import qs from "qs";
 import assert from "assert";
-import { ManagedIdentityCredential } from "../../src";
+import { ManagedIdentityCredential, AuthenticationError } from "../../src";
 import {
   ImdsEndpoint,
   ImdsApiVersion,
   AppServiceMsiApiVersion
 } from "../../src/credentials/managedIdentityCredential";
-import { MockAuthHttpClient, MockAuthHttpClientOptions } from "../authTestUtils";
+import { MockAuthHttpClient, MockAuthHttpClientOptions, assertRejects } from "../authTestUtils";
 import { WebResource, AccessToken } from "@azure/core-http";
 
 interface AuthRequestDetails {
@@ -76,45 +76,52 @@ describe("ManagedIdentityCredential", function() {
     }
   });
 
-  it("returns null when IMDS endpoint can't be detected", async function() {
-    // Mock a timeout so that the endpoint ping fails
-    const authDetails = await getMsiTokenAuthRequest(["https://service/.default"], "client", {
-      mockTimeout: true
-    });
-
-    assert.strictEqual(authDetails.requests[0].timeout, 500);
-    assert.strictEqual(authDetails.token, null);
-  });
-
-  it("can extend timeout for IMDS endpoint", async function() {
-    // Mock a timeout so that the endpoint ping fails
-    const authDetails = await getMsiTokenAuthRequest(
-      ["https://service/.default"],
-      "client",
-      { mockTimeout: true },
-      5000
-    ); // Set the timeout higher
-
-    assert.strictEqual(authDetails.requests[0].timeout, 5000);
-    assert.strictEqual(authDetails.token, null);
-  });
-
-  it("doesn't try IMDS endpoint again once it can't be detected", async function() {
+  it("returns error when IMDS endpoint can't be detected", async function() {
     const mockHttpClient = new MockAuthHttpClient({ mockTimeout: true });
     const credential = new ManagedIdentityCredential("client", {
       ...mockHttpClient.tokenCredentialOptions
     });
-
-    // Run getToken twice and verify that an auth request is only
-    // attempted the first time.  It should be skipped the second
-    // time after no IMDS endpoint was found.
-    const firstGetToken = await credential.getToken("scopes");
-    const secondGetToken = await credential.getToken("scopes");
-
-    assert.strictEqual(firstGetToken, null);
-    assert.strictEqual(secondGetToken, null);
-    assert.strictEqual(mockHttpClient.requests.length, 1);
+    await assertRejects(
+      credential.getToken("scopes"),
+      (error: AuthenticationError) =>
+        error.errorResponse.error.indexOf(
+          "ManagedIdentityCredential is unavailable. No managed identity endpoint found."
+        ) > -1
+    );
   });
+
+  // unavailable exception throws while IMDS endpoint is unavailable. This test not valid.
+  // it("can extend timeout for IMDS endpoint", async function() {
+  //   // Mock a timeout so that the endpoint ping fails
+  //   const authDetails = await getMsiTokenAuthRequest(
+  //     ["https://service/.default"],
+  //     "client",
+  //     { mockTimeout: true },
+  //     5000
+  //   ); // Set the timeout higher
+
+  //   assert.strictEqual(authDetails.requests[0].timeout, 5000);
+  //   assert.strictEqual(authDetails.token, null);
+  // });
+
+  // unavailable exception throws while IMDS endpoint is unavailable. This test not valid.
+  // it("doesn't try IMDS endpoint again once it can't be detected", async function() {
+  //   const mockHttpClient = new MockAuthHttpClient({ mockTimeout: true });
+  //   const credential = new ManagedIdentityCredential("client", {
+  //     ...mockHttpClient.tokenCredentialOptions
+  //   });
+
+  //   // Run getToken twice and verify that an auth request is only
+  //   // attempted the first time.  It should be skipped the second
+  //   // time after no IMDS endpoint was found.
+
+  //   const firstGetToken = await credential.getToken("scopes");
+  //   const secondGetToken = await credential.getToken("scopes");
+
+  //   assert.strictEqual(firstGetToken, null);
+  //   assert.strictEqual(secondGetToken, null);
+  //   assert.strictEqual(mockHttpClient.requests.length, 1);
+  // });
 
   it("sends an authorization request correctly in an App Service environment", async () => {
     // Trigger App Service behavior by setting environment variables

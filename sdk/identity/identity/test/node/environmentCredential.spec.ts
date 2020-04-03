@@ -37,7 +37,7 @@ describe("EnvironmentCredential", function() {
     process.env.AZURE_CLIENT_ID = "client";
     process.env.AZURE_CLIENT_CERTIFICATE_PATH = path.resolve(
       __dirname,
-      "../test/azure-identity-test.crt"
+      "../azure-identity-test.crt"
     );
 
     const mockHttpClient = new MockAuthHttpClient();
@@ -143,8 +143,9 @@ describe("EnvironmentCredential", function() {
     await assertRejects(
       credential.getToken("scope"),
       (error: AuthenticationError) =>
-        error.errorResponse.errorDescription.indexOf(AllSupportedEnvironmentVariables.join("\n")) >
-        -1
+        error.errorResponse.error.indexOf(
+          "EnvironmentCredential is unavailable. Environment variables are not fully configured."
+        ) > -1
     );
 
     process.env.AZURE_TENANT_ID = "It me";
@@ -153,7 +154,9 @@ describe("EnvironmentCredential", function() {
     await assertRejects(
       credentialDeux.getToken("scope"),
       (error: AuthenticationError) =>
-        error.errorResponse.errorDescription.match(/^AZURE_TENANT_ID/gm) === null
+        error.errorResponse.error.indexOf(
+          "EnvironmentCredential is unavailable. Environment variables are not fully configured."
+        ) > -1
     );
 
     delete process.env.AZURE_TENANT_ID;
