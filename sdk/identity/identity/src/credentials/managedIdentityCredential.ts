@@ -321,10 +321,12 @@ export class ManagedIdentityCredential implements TokenCredential {
         // endpoints are available.  In this case, don't try them in future
         // requests.
         this.isEndpointUnavailable = result === null;
-        throw new AuthenticationError(
-          400,
-          "ManagedIdentityCredential authentication unavailable, no managed identity endpoint found."
-        );
+        if (this.isEndpointUnavailable) {
+          throw new AuthenticationError(400, {
+            error: "ManagedIdentityCredential is unavailable",
+            error_description: "No managed identity endpoint found."
+          });
+        }
       }
 
       return result;
@@ -333,7 +335,10 @@ export class ManagedIdentityCredential implements TokenCredential {
         code: CanonicalCode.UNKNOWN,
         message: err.message
       });
-      throw err;
+      throw new AuthenticationError(400, {
+        error: "ManagedIdentityCredential authentication failed.",
+        error_description: err.message
+      });
     } finally {
       span.end();
     }

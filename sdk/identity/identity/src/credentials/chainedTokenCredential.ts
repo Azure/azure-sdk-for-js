@@ -60,19 +60,16 @@ export class ChainedTokenCredential implements TokenCredential {
       }
     }
 
-    if (!token && errors.length > 0) {
-      let allAvailable = "true";
+    if (errors.length > 0) {
       errors.forEach((error) => {
         if (
           error.errorResponse != undefined &&
-          error.errorResponse.error.match("authentication unavailable")
+          error.errorResponse.error.match("authentication failed.")
         ) {
-          allAvailable = "false";
+          throw new AggregateAuthenticationError(error, this.AuthenticationFailedExceptionMessage);
         }
       });
-      if (allAvailable == "true") {
-        throw new AggregateAuthenticationError(errors, this.AuthenticationFailedExceptionMessage);
-      }
+
       const err = new AggregateAuthenticationError(errors, this.UnavailableExceptionMessage);
       span.setStatus({
         code: CanonicalCode.UNAUTHENTICATED,

@@ -3,7 +3,7 @@
 
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { createSpan } from "../util/tracing";
-import { AuthenticationErrorName, AuthenticationError } from "../client/errors";
+import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/types";
 import { logger } from "../util/logging";
 
@@ -85,21 +85,14 @@ export class AzureCliCredential implements TokenCredential {
             let isNotInstallError =
               obj.stderr.match("az:(.*)not found") ||
               obj.stderr.startsWith("'az' is not recognized");
-            if (isNotInstallError || isLoginError) {
-              const errorDescription = [];
-              if (isNotInstallError) {
-                errorDescription.push(
-                  "Azure CLI could not be found.  Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'."
-                );
-              } else if (isLoginError) {
-                errorDescription.push(
-                  "Please run 'az login' from a command prompt to authenticate before using this credential."
-                );
-              }
-              throw new AuthenticationError(400, {
-                error: "AzureCliCredential authentication unavailable",
-                error_description: errorDescription.toString()
-              });
+            if (isNotInstallError) {
+              throw new Error(
+                "Azure CLI could not be found.  Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'."
+              );
+            } else if (isLoginError) {
+              throw new Error(
+                "Please run 'az login' from a command prompt to authenticate before using this credential."
+              );
             }
             throw new Error(obj.stderr);
           } else {

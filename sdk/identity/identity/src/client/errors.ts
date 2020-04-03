@@ -118,9 +118,12 @@ export class AuthenticationError extends Error {
       };
     }
 
-    let errorAll = JSON.parse(JSON.stringify(errorResponse, null, "  "));
     super(
-      `${errorAll.error}(status code ${statusCode}).\nMore details:\n${errorAll.errorDescription}`
+      `${
+        JSON.parse(JSON.stringify(errorResponse, null, "  ")).error
+      }(status code ${statusCode}).\nMore details:\n${
+        JSON.parse(JSON.stringify(errorResponse, null, "  ")).errorDescription
+      }`
     );
     this.statusCode = statusCode;
     this.errorResponse = errorResponse;
@@ -147,7 +150,19 @@ export class AggregateAuthenticationError extends Error {
   public errors: any[];
 
   constructor(errors: any[], errMsg?: string) {
-    super(`${errMsg}:\n\n${errors.join("\n\n")}`);
+    super(
+      `${errMsg}\n\n${
+        errors
+          .toString()
+          .indexOf(
+            "authentication failed",
+            errors.toString().indexOf("authentication failed") +
+              "authentication failed".toString().length
+          ) == -1
+          ? errors
+          : errors.join("\n\n")
+      }`
+    );
     this.errors = errors;
 
     // Ensure that this type reports the correct name
