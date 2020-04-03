@@ -86,7 +86,7 @@ const serviceClient = new SearchServiceClient("<endpoint>", new AzureKeyCredenti
 
 ### SearchServiceClient
 
-`SearchServiceClient` is the interface for developers to interact with configuring and customizing an Azure Cognitive Search instance. The client currently has support for creating and managing search indexes and will later expand to support creating and managing other service entities such as indexers, synonym maps, cognitive skillsets, and data sources.
+`SearchServiceClient` provides methods for configuring and customizing an Azure Cognitive Search instance. The client currently has support for creating and managing search indexes and will later expand to support creating and managing other service entities such as indexers, synonym maps, cognitive skillsets, and data sources.
 
 ### Documents
 
