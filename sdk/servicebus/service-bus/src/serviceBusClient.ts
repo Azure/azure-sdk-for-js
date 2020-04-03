@@ -42,24 +42,25 @@ export class ServiceBusClient {
   constructor(connectionString: string, options?: ServiceBusClientOptions);
   /**
    *
-   * @param host The hostname of your Azure Service Bus.
-   * @param tokenCredential A valid TokenCredential for Service Bus or a
-   * Service Bus entity.
+   * @param fullyQualifiedNamespace The full namespace of your Service Bus instance which is 
+   * likely to be similar to <yournamespace>.servicebus.windows.net.
+   * @param credential A credential object used by the client to get the token to authenticate the connection
+   * with the Azure Service Bus. See &commat;azure/identity for creating the credentials.
    * @param options Options for the service bus client.
    */
   constructor(
-    hostName: string,
-    tokenCredential: TokenCredential,
+    fullyQualifiedNamespace: string,
+    credential: TokenCredential,
     options?: ServiceBusClientOptions
   );
   constructor(
-    connectionStringOrHostName1: string,
-    tokenCredentialOrServiceBusOptions2?: TokenCredential | ServiceBusClientOptions,
+    fullyQualifiedNamespaceOrConnectionString1: string,
+    credentialOrOptions2?: TokenCredential | ServiceBusClientOptions,
     options3?: ServiceBusClientOptions
   ) {
-    if (isTokenCredential(tokenCredentialOrServiceBusOptions2)) {
-      const hostName: string = connectionStringOrHostName1;
-      const tokenCredential: TokenCredential = tokenCredentialOrServiceBusOptions2;
+    if (isTokenCredential(credentialOrOptions2)) {
+      const hostName: string = fullyQualifiedNamespaceOrConnectionString1;
+      const tokenCredential: TokenCredential = credentialOrOptions2;
       this._clientOptions = options3 || {};
 
       this._connectionContext = createConnectionContextForTokenCredential(
@@ -68,8 +69,8 @@ export class ServiceBusClient {
         this._clientOptions
       );
     } else {
-      const connectionString: string = connectionStringOrHostName1;
-      this._clientOptions = tokenCredentialOrServiceBusOptions2 || {};
+      const connectionString: string = fullyQualifiedNamespaceOrConnectionString1;
+      this._clientOptions = credentialOrOptions2 || {};
 
       this._connectionContext = createConnectionContextForConnectionString(
         connectionString,
