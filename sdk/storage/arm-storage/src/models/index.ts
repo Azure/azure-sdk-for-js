@@ -720,11 +720,11 @@ export interface GeoReplicationStats {
  */
 export interface BlobRestoreRange {
   /**
-   * Blob start range. Empty means account start.
+   * Blob start range. This is inclusive. Empty means account start.
    */
   startRange: string;
   /**
-   * Blob end range. Empty means account end.
+   * Blob end range. This is exclusive. Empty means account end.
    */
   endRange: string;
 }
@@ -1924,6 +1924,11 @@ export interface RestorePolicyProperties {
    * DeleteRetentionPolicy.days.
    */
   days?: number;
+  /**
+   * Returns the date and time the restore policy was last enabled.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lastEnabledTime?: Date;
 }
 
 /**

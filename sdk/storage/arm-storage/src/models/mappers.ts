@@ -3082,6 +3082,13 @@ export const RestorePolicyProperties: msRest.CompositeMapper = {
         type: {
           name: "Number"
         }
+      },
+      lastEnabledTime: {
+        readOnly: true,
+        serializedName: "lastEnabledTime",
+        type: {
+          name: "DateTime"
+        }
       }
     }
   }
