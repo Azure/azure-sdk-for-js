@@ -290,7 +290,7 @@ export class ManagementClient extends LinkEntity {
     sendRequestOptions: SendManagementRequestOptions = {}
   ): Promise<AmqpMessage> {
     const retryTimeoutInMs =
-      sendRequestOptions.timeoutInMs || Constants.defaultOperationTimeoutInMs;
+      sendRequestOptions.timeoutInMs ?? Constants.defaultOperationTimeoutInMs;
     const initOperationStartTime = Date.now();
     if (!this._isMgmtRequestResponseLinkOpen()) {
       const rejectOnAbort = () => {

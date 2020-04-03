@@ -263,14 +263,13 @@ export class MessageSender extends LinkEntity {
   ): Promise<void> {
     const abortSignal = options?.abortSignal;
     const retryTimeoutInMs =
-      this._getSenderOptions?.retryOptions?.timeoutInMs || Constants.defaultOperationTimeoutInMs;
+      this._getSenderOptions?.retryOptions?.timeoutInMs ?? Constants.defaultOperationTimeoutInMs;
     const sendEventPromise = () =>
       new Promise<void>(async (resolve, reject) => {
         const rejectOnAbort = () => {
           const desc: string =
             `[${this._context.namespace.connectionId}] The send operation on the Sender "${this.name}" with ` +
             `address "${this.address}" has been cancelled by the user.`;
-          // Cancellation is user-intended, so log to info instead of warning.
           log.error(desc);
           return reject(new AbortError("The send operation has been cancelled by the user."));
         };
