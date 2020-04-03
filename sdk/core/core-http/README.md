@@ -15,7 +15,7 @@ npm install -g typescript
 
 ### Installation
 
-This package is not meant to be consumed directly by end users.
+This package is primarily used in generated code and not meant to be consumed directly by end users.
 
 ## Key concepts
 
@@ -27,7 +27,9 @@ Examples can be found in the `samples` folder.
 
 ## Next steps
 
-First obtain an access token to the management service used in the sample code
+- Build this library (`core-http`). For more information on how to build project in this repo, please refer to the [Contributing Guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md).
+
+- The code in `samples\node-sample.ts` shows how to create a `ServiceClient` instance with a test `TokenCredential` implementation and use the client instance to perform a `GET` operation from the Azure management service endpoint for subscriptions. To run the code, first obtain an access token to the Azure management service.
 
 One easy way to get an access token is using [Azure CLI](https://docs.microsoft.com/cli/azure/?view=azure-cli-latest)
 
@@ -44,21 +46,9 @@ az account set -s <subscription id>
 az account get-access-token --resource=https://management.azure.com
 ```
 
-### Node.js
+### NodeJS
 
-- Set environment variables used in the sample code
-
-on \*Nix/MacOS
-```shell
-export AZURE_SUBSCRIPTION_ID=<subscription id>
-export ACCESS_TOKEN=<access token>
-```
-or on Windows,
-
-```shell
-set AZURE_SUBSCRIPTION_ID=<subscription id>
-set ACCESS_TOKEN=<access token>
-```
+- Set values of `subscriptionId` and `token` variable in `samples/node-sample.ts`
 
 - Change directory to samples folder, compile the TypeScript code, then run the sample
 
