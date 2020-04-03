@@ -19,14 +19,19 @@ dotenv.config();
 const connectionString = process.env["EVENTHUB_CONNECTION_STRING"] || "";
 const eventHubName = process.env["EVENTHUB_NAME"] || "";
 
-export async function main(): Promise<void> {
-  console.log(`Running sendEvents sample`);
+async function createAndSend(producer: EventHubProducerClient) {
+  console.log(`${new Date().toISOString()} :: Creating and sending 100 byte payload...`);
 
-  const producer = new EventHubProducerClient(connectionString, eventHubName);
-
-  console.log("Creating and sending a batch of events...");
-
-  const eventsToSend = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+  const eventsToSend = [];
+  for (let i = 0; i < 1; i++) {
+    eventsToSend.push({
+      "name": "Standalone test",
+      "timestamp": Date.now(),
+      "event": "MS_test",
+      "message": `Metric No. ${i}`
+    })
+  }
+  //console.log(`Sending batch of :: ${Buffer.byteLength(JSON.stringify(eventsToSend))}`);
 
   try {
     // By not specifying a partition ID or a partition key we allow the server to choose
@@ -60,10 +65,10 @@ export async function main(): Promise<void> {
     while (i < eventsToSend.length) {
       // messages can fail to be added to the batch if they exceed the maximum size configured for
       // the EventHub.
-      const isAdded = batch.tryAdd({ body: eventsToSend[i] });
+      const isAdded = batch.tryAdd({body: eventsToSend[i]});
 
       if (isAdded) {
-        console.log(`Added eventsToSend[${i}] to the batch`);
+        // console.log(`Added eventsToSend[${i}] to the batch`);
         ++i;
         continue;
       }
@@ -80,8 +85,8 @@ export async function main(): Promise<void> {
       }
 
       // otherwise this just signals a good spot to send our batch
-      console.log(`Batch is full - sending ${batch.count} messages as a single batch.`);
-      await producer.sendBatch(batch);
+      //console.log(`Batch is full - sending ${batch.count} messages as a single batch.`);
+      await producer.sendBatch(batch).then(() => console.log(`${new Date().toISOString()} :: Sent message successfully`), (err: Error) => console.error(`${new Date().toISOString()} :: Error while sending batch : `, err));
       numEventsSent += batch.count;
 
       // and create a new one to house the next set of messages
@@ -90,12 +95,12 @@ export async function main(): Promise<void> {
 
     // send any remaining messages, if any.
     if (batch.count > 0) {
-      console.log(`Sending remaining ${batch.count} messages as a single batch.`);
-      await producer.sendBatch(batch);
+      //console.log(`Sending remaining ${batch.count} messages as a single batch.`);
+      await producer.sendBatch(batch).then(() => console.log(`${new Date().toISOString()} :: Sent message successfully`), (err: Error) => console.error(`${new Date().toISOString()} :: Error while sending batch : `, err));
       numEventsSent += batch.count;
     }
 
-    console.log(`Sent ${numEventsSent} events`);
+    //console.log(`Sent ${numEventsSent} events`);
 
     if (numEventsSent !== eventsToSend.length) {
       throw new Error(`Not all messages were sent (${numEventsSent}/${eventsToSend.length})`);
@@ -103,6 +108,21 @@ export async function main(): Promise<void> {
   } catch (err) {
     console.log("Error when creating & sending a batch of events: ", err);
   }
+}
+
+export async function main(): Promise<void> {
+  console.log(`Running sendEvents sample`);
+  console.log(`Connecting to`, connectionString, eventHubName);
+  const producer = new EventHubProducerClient(connectionString, eventHubName);
+  const promises = [];
+  for (let i = 0; i< 100; i++) {
+    const timer1 = Date.now();
+    for (let j= 0; j<1000; j++) {
+      promises.push(createAndSend(producer));
+    }
+    await new Promise(resolve => setTimeout(resolve, 1000 - (timer1-Date.now())));
+  }
+  await Promise.all(promises).catch((err) => console.log('Error ::', err));
 
   await producer.close();
   console.log(`Exiting sendEvents sample`);
