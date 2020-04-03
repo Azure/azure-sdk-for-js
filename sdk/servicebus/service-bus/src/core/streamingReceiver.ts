@@ -13,7 +13,7 @@ import { ClientEntityContext } from "../clientEntityContext";
 
 import * as log from "../log";
 import { throwErrorIfConnectionClosed } from "../util/errors";
-import { RetryConfig, MessagingError, RetryOperationType, retry } from "@azure/core-amqp";
+import { RetryConfig, RetryOperationType, MessagingError, retry } from "@azure/core-amqp";
 
 /**
  * Describes the streaming receiver where the user can receive the message
