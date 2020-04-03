@@ -102,7 +102,8 @@ export class SubscriptionRuleManagerImpl implements SubscriptionRuleManager {
       operation: getRulesOperationPromise,
       connectionId: this._context.namespace.connectionId,
       operationType: RetryOperationType.management,
-      retryOptions: this._ruleManagerOptions.retryOptions
+      retryOptions: this._ruleManagerOptions.retryOptions,
+      abortSignal: options?.abortSignal
     };
     return retry<RuleDescription[]>(config);
   }
@@ -125,7 +126,8 @@ export class SubscriptionRuleManagerImpl implements SubscriptionRuleManager {
       operation: removeRuleOperationPromise,
       connectionId: this._context.namespace.connectionId,
       operationType: RetryOperationType.management,
-      retryOptions: this._ruleManagerOptions.retryOptions
+      retryOptions: this._ruleManagerOptions.retryOptions,
+      abortSignal: options?.abortSignal
     };
     return retry<void>(config);
   }
@@ -153,7 +155,8 @@ export class SubscriptionRuleManagerImpl implements SubscriptionRuleManager {
       operation: addRuleOperationPromise,
       connectionId: this._context.namespace.connectionId,
       operationType: RetryOperationType.management,
-      retryOptions: this._ruleManagerOptions.retryOptions
+      retryOptions: this._ruleManagerOptions.retryOptions,
+      abortSignal: options?.abortSignal
     };
     return retry<void>(config);
   }

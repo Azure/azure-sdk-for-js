@@ -285,7 +285,8 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       operation: renewSessionLockOperationPromise,
       connectionId: this._context.namespace.connectionId,
       operationType: RetryOperationType.management,
-      retryOptions: this._sessionReceiverOptions.retryOptions
+      retryOptions: this._sessionReceiverOptions.retryOptions,
+      abortSignal: options?.abortSignal
     };
     return retry<Date>(config);
   }
@@ -314,7 +315,8 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       operation: setSessionStateOperationPromise,
       connectionId: this._context.namespace.connectionId,
       operationType: RetryOperationType.management,
-      retryOptions: this._sessionReceiverOptions.retryOptions
+      retryOptions: this._sessionReceiverOptions.retryOptions,
+      abortSignal: options?.abortSignal
     };
     return retry<void>(config);
   }
@@ -342,7 +344,8 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       operation: getSessionStateOperationPromise,
       connectionId: this._context.namespace.connectionId,
       operationType: RetryOperationType.management,
-      retryOptions: this._sessionReceiverOptions.retryOptions
+      retryOptions: this._sessionReceiverOptions.retryOptions,
+      abortSignal: options?.abortSignal
     };
     return retry<any>(config);
   }
@@ -385,7 +388,8 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       operation: peekOperationPromise,
       connectionId: this._context.namespace.connectionId,
       operationType: RetryOperationType.management,
-      retryOptions: this._sessionReceiverOptions.retryOptions
+      retryOptions: this._sessionReceiverOptions.retryOptions,
+      abortSignal: options?.abortSignal
     };
     return retry<ReceivedMessage[]>(config);
   }
@@ -431,7 +435,8 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       operation: peekBySequenceNumberOperationPromise,
       connectionId: this._context.namespace.connectionId,
       operationType: RetryOperationType.management,
-      retryOptions: this._sessionReceiverOptions.retryOptions
+      retryOptions: this._sessionReceiverOptions.retryOptions,
+      abortSignal: options?.abortSignal
     };
     return retry<ReceivedMessage[]>(config);
   }
@@ -480,7 +485,8 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       operation: receiveDeferredMessageOperationPromise,
       connectionId: this._context.namespace.connectionId,
       operationType: RetryOperationType.management,
-      retryOptions: this._sessionReceiverOptions.retryOptions
+      retryOptions: this._sessionReceiverOptions.retryOptions,
+      abortSignal: options?.abortSignal
     };
     return retry<ReceivedMessageT | undefined>(config);
   }
@@ -532,7 +538,8 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       operation: receiveDeferredMessagesOperationPromise,
       connectionId: this._context.namespace.connectionId,
       operationType: RetryOperationType.management,
-      retryOptions: this._sessionReceiverOptions.retryOptions
+      retryOptions: this._sessionReceiverOptions.retryOptions,
+      abortSignal: options?.abortSignal
     };
     return retry<ReceivedMessageT[]>(config);
   }
@@ -573,7 +580,8 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       operation: receiveBatchOperationPromise,
       connectionId: this._context.namespace.connectionId,
       operationType: RetryOperationType.receiveMessage,
-      retryOptions: this._sessionReceiverOptions.retryOptions
+      retryOptions: this._sessionReceiverOptions.retryOptions,
+      abortSignal: options?.abortSignal
     };
     return retry<ReceivedMessageT[]>(config);
   }

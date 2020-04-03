@@ -323,7 +323,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       connectionId: this._context.namespace.connectionId,
       operation: receiveMessages,
       operationType: RetryOperationType.receiveMessage,
-      abortSignal: undefined,
+      abortSignal: options?.abortSignal,
       retryOptions: this._receiverOptions.retryOptions
     };
     return retry<ReceivedMessageT[]>(config);
@@ -389,7 +389,8 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       operation: receiveDeferredMessageOperationPromise,
       connectionId: this._context.namespace.connectionId,
       operationType: RetryOperationType.management,
-      retryOptions: this._receiverOptions.retryOptions
+      retryOptions: this._receiverOptions.retryOptions,
+      abortSignal: options?.abortSignal
     };
     return retry<ReceivedMessageT | undefined>(config);
   }
@@ -440,7 +441,8 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       operation: receiveDeferredMessagesOperationPromise,
       connectionId: this._context.namespace.connectionId,
       operationType: RetryOperationType.management,
-      retryOptions: this._receiverOptions.retryOptions
+      retryOptions: this._receiverOptions.retryOptions,
+      abortSignal: options?.abortSignal
     };
     return retry<ReceivedMessageT[]>(config);
   }
@@ -469,7 +471,8 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       operation: peekOperationPromise,
       connectionId: this._context.namespace.connectionId,
       operationType: RetryOperationType.management,
-      retryOptions: this._receiverOptions.retryOptions
+      retryOptions: this._receiverOptions.retryOptions,
+      abortSignal: options?.abortSignal
     };
     return retry<ReceivedMessage[]>(config);
   }
@@ -502,7 +505,8 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       operation: peekBySequenceNumberOperationPromise,
       connectionId: this._context.namespace.connectionId,
       operationType: RetryOperationType.management,
-      retryOptions: this._receiverOptions.retryOptions
+      retryOptions: this._receiverOptions.retryOptions,
+      abortSignal: options?.abortSignal
     };
     return retry<ReceivedMessage[]>(config);
   }
