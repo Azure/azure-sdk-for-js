@@ -13,7 +13,7 @@ import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 
 const packageName = "@azure/arm-storage";
-const packageVersion = "14.0.0";
+const packageVersion = "14.1.0";
 
 export class StorageManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
@@ -37,7 +37,7 @@ export class StorageManagementClientContext extends msRestAzure.AzureServiceClie
     if (!options) {
       options = {};
     }
-    if(!options.userAgent) {
+    if (!options.userAgent) {
       const defaultUserAgent = msRestAzure.getDefaultUserAgentValue();
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
@@ -52,10 +52,10 @@ export class StorageManagementClientContext extends msRestAzure.AzureServiceClie
     this.credentials = credentials;
     this.subscriptionId = subscriptionId;
 
-    if(options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
+    if (options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;
     }
-    if(options.longRunningOperationRetryTimeout !== null && options.longRunningOperationRetryTimeout !== undefined) {
+    if (options.longRunningOperationRetryTimeout !== null && options.longRunningOperationRetryTimeout !== undefined) {
       this.longRunningOperationRetryTimeout = options.longRunningOperationRetryTimeout;
     }
   }
