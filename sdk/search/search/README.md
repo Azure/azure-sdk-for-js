@@ -123,10 +123,14 @@ const client = new SearchIndexClient(
   new AzureKeyCredential("<apiKey>")
 );
 
-const searchResults = await client.search({ searchText: "wifi -luxury" });
-for await (const result of searchResults.results) {
-  console.log(result);
+async function main() {
+  const searchResults = await client.search({ searchText: "wifi -luxury" });
+  for await (const result of searchResults.results) {
+    console.log(result);
+  }
 }
+
+main();
 ```
 
 For a more advanced search that uses [Lucene syntax](https://docs.microsoft.com/azure/search/query-lucene-syntax), specify `queryType` to be `all`:
@@ -140,14 +144,18 @@ const client = new SearchIndexClient(
   new AzureKeyCredential("<apiKey>")
 );
 
-const searchResults = await client.search({
-  searchText: 'Category:budget AND "recently renovated"^3',
-  queryType: "full",
-  searchMode: "all"
-});
-for await (const result of searchResults.results) {
-  console.log(result);
+async function main() {
+  const searchResults = await client.search({
+    searchText: 'Category:budget AND "recently renovated"^3',
+    queryType: "full",
+    searchMode: "all"
+  });
+  for await (const result of searchResults.results) {
+    console.log(result);
+  }
 }
+
+main();
 ```
 
 #### Querying with TypeScript
@@ -173,18 +181,22 @@ const client = new SearchIndexClient<Hotel>(
   new AzureKeyCredential("<apiKey>")
 );
 
-const searchResults = await client.search({
-  searchText: "wifi -luxury",
-  // Only fields in Hotel can be added to this array.
-  // TS will complain if one is misspelled.
-  select: ["HotelId", "HotelName", "Rating"]
-});
+async function main() {
+  const searchResults = await client.search({
+    searchText: "wifi -luxury",
+    // Only fields in Hotel can be added to this array.
+    // TS will complain if one is misspelled.
+    select: ["HotelId", "HotelName", "Rating"]
+  });
 
-for await (const result of searchResults.results) {
-  // result has HotelId, HotelName, and Rating.
-  // Trying to access result.Description would emit a TS error.
-  console.log(result.HotelName);
+  for await (const result of searchResults.results) {
+    // result has HotelId, HotelName, and Rating.
+    // Trying to access result.Description would emit a TS error.
+    console.log(result.HotelName);
+  }
 }
+
+main();
 ```
 
 #### Querying with OData filters
@@ -200,19 +212,23 @@ const client = new SearchIndexClient(
   new AzureKeyCredential("<apiKey>")
 );
 
-const baseRateMax = 200;
-const ratingMin = 4;
-const searchResults = await client.search({
-  searchText: "WiFi",
-  filter: odata`Rooms/any(room: room/BaseRate lt ${baseRateMax}) and Rating ge ${ratingMin}`,
-  orderBy: ["Rating desc"],
-  select: ["HotelId", "HotelName", "Rating"]
-});
-for await (const result of searchResults.results) {
-  // Each result will have "HotelId", "HotelName", and "Rating"
-  // in addition to the standard search result property "score"
-  console.log(result);
+async function main() {
+  const baseRateMax = 200;
+  const ratingMin = 4;
+  const searchResults = await client.search({
+    searchText: "WiFi",
+    filter: odata`Rooms/any(room: room/BaseRate lt ${baseRateMax}) and Rating ge ${ratingMin}`,
+    orderBy: ["Rating desc"],
+    select: ["HotelId", "HotelName", "Rating"]
+  });
+  for await (const result of searchResults.results) {
+    // Each result will have "HotelId", "HotelName", and "Rating"
+    // in addition to the standard search result property "score"
+    console.log(result);
+  }
 }
+
+main();
 ```
 
 #### Querying with facets
@@ -228,24 +244,28 @@ const client = new SearchIndexClient(
   new AzureKeyCredential("<apiKey>")
 );
 
-const searchResults = await client.search({
-  searchText: "WiFi",
-  facets: ["Category,count:3,sort:count", "Rooms/BaseRate,interval:100"]
-});
-console.log(searchResults.facets);
-// Output will look like:
-// {
-//   'Rooms/BaseRate': [
-//     { count: 16, value: 0 },
-//     { count: 17, value: 100 },
-//     { count: 17, value: 200 }
-//   ],
-//   Category: [
-//     { count: 5, value: 'Budget' },
-//     { count: 5, value: 'Luxury' },
-//     { count: 5, value: 'Resort and Spa' }
-//   ]
-// }
+async function main() {
+  const searchResults = await client.search({
+    searchText: "WiFi",
+    facets: ["Category,count:3,sort:count", "Rooms/BaseRate,interval:100"]
+  });
+  console.log(searchResults.facets);
+  // Output will look like:
+  // {
+  //   'Rooms/BaseRate': [
+  //     { count: 16, value: 0 },
+  //     { count: 17, value: 100 },
+  //     { count: 17, value: 200 }
+  //   ],
+  //   Category: [
+  //     { count: 5, value: 'Budget' },
+  //     { count: 5, value: 'Luxury' },
+  //     { count: 5, value: 'Resort and Spa' }
+  //   ]
+  // }
+}
+
+main();
 ```
 
 When retrieving results, a `facets` property will be available that will indicate the number of results that fall into each facet bucket. This can be used to drive refinement (e.g. issuing a follow-up search that filters on the `Rating` being greater than or equal to 3 and less than 4.)
@@ -263,8 +283,12 @@ const client = new SearchIndexClient(
   new AzureKeyCredential("<apiKey>")
 );
 
-const result = await client.getDocument("1234");
-console.log(result);
+async function main() {
+  const result = await client.getDocument("1234");
+  console.log(result);
+}
+
+main();
 ```
 
 #### Retrieve suggestions from an index
@@ -282,18 +306,22 @@ const client = new SearchIndexClient(
   new AzureKeyCredential("<apiKey>")
 );
 
-const suggestResult = await client.suggest({
-  searchText: "wifi",
-  suggesterName: "sg",
-  select: ["HotelId", "HotelName"],
-  highlightPreTag: "<em>",
-  highlightPostTag: "</em>",
-  top: 3
-});
+async function main() {
+  const suggestResult = await client.suggest({
+    searchText: "wifi",
+    suggesterName: "sg",
+    select: ["HotelId", "HotelName"],
+    highlightPreTag: "<em>",
+    highlightPostTag: "</em>",
+    top: 3
+  });
 
-for (const result of suggestResult.results) {
-  console.log(`Suggestion: ${result.HotelName}; Match text: ${result.text}`);
+  for (const result of suggestResult.results) {
+    console.log(`Suggestion: ${result.HotelName}; Match text: ${result.text}`);
+  }
 }
+
+main();
 ```
 
 #### Autocomplete a partial query using an index
@@ -311,14 +339,18 @@ const client = new SearchIndexClient(
   new AzureKeyCredential("<apiKey>")
 );
 
-const autocompleteResult = await client.autocomplete({
-  searchText: "de",
-  suggesterName: "sg"
-});
+async function main() {
+  const autocompleteResult = await client.autocomplete({
+    searchText: "de",
+    suggesterName: "sg"
+  });
 
-for (const result of autocompleteResult.results || []) {
-  console.log(result.text);
+  for (const result of autocompleteResult.results || []) {
+    console.log(result.text);
+  }
 }
+
+main();
 ```
 
 #### Return the count of documents in an index
@@ -332,8 +364,12 @@ const client = new SearchIndexClient(
   new AzureKeyCredential("<apiKey>")
 );
 
-const count = await client.countDocuments();
-console.log(`${count} documents in index ${client.indexName}`);
+async function main() {
+  const count = await client.countDocuments();
+  console.log(`${count} documents in index ${client.indexName}`);
+}
+
+main();
 ```
 
 #### Delete documents in an index
@@ -349,10 +385,14 @@ const client = new SearchIndexClient(
   new AzureKeyCredential("<apiKey>")
 );
 
-const deleteResult = await client.deleteDocuments("HotelId", ["1", "2", "3"]);
-for (const result of deleteResult.results) {
-  console.log(`Deleting ${result.key}; succeeded? ${result.succeeded}`);
+async function main() {
+  const deleteResult = await client.deleteDocuments("HotelId", ["1", "2", "3"]);
+  for (const result of deleteResult.results) {
+    console.log(`Deleting ${result.key}; succeeded? ${result.succeeded}`);
+  }
 }
+
+main();
 ```
 
 #### Upload documents into an index
@@ -368,15 +408,19 @@ const client = new SearchIndexClient(
   new AzureKeyCredential("<apiKey>")
 );
 
-const uploadResult = await client.uploadDocuments([
-  // JSON objects matching the shape of the client's index
-  { ... },
-  { ... },
-  { ... }
-]);
-for (const result of uploadResult.results) {
-  console.log(`Uploaded ${result.key}; succeeded? ${result.succeeded}`);
+async function main() {
+  const uploadResult = await client.uploadDocuments([
+    // JSON objects matching the shape of the client's index
+    {},
+    {},
+    {}
+  ]);
+  for (const result of uploadResult.results) {
+    console.log(`Uploaded ${result.key}; succeeded? ${result.succeeded}`);
+  }
 }
+
+main();
 ```
 
 #### Update existing documents in an index
@@ -392,19 +436,26 @@ const client = new SearchIndexClient(
   new AzureKeyCredential("<apiKey>")
 );
 
-// use mergeOrUploadDocuments if the document might not be upload
-const updateResult = await client.mergeDocuments([
-  // JSON objects matching the shape of the client's index
-  { ... },
-  { ... },
-  { ... }
-], {
-  // throw if updating any document in this batch fails
-  throwOnAnyFailure: true
-});
-for (const result of updateResult.results) {
-  console.log(`Update ${result.key}; succeeded? ${result.succeeded}`);
+async function main() {
+  // use mergeOrUploadDocuments if the document might not be upload
+  const updateResult = await client.mergeDocuments(
+    [
+      // JSON objects matching the shape of the client's index
+      {},
+      {},
+      {}
+    ],
+    {
+      // throw if updating any document in this batch fails
+      throwOnAnyFailure: true
+    }
+  );
+  for (const result of updateResult.results) {
+    console.log(`Update ${result.key}; succeeded? ${result.succeeded}`);
+  }
 }
+
+main();
 ```
 
 ### SearchServiceClient Examples
@@ -416,13 +467,17 @@ const { SearchServiceClient, AzureKeyCredential } = require("@azure/search");
 
 const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
 
-const listOfIndexes = await client.listIndexes();
-for (let index of listOfIndexes) {
-  console.log(`Index: ${index.name}`);
-  for (let field of index.fields) {
-    console.log(`\tField: ${field.name}`);
+async function main() {
+  const listOfIndexes = await client.listIndexes();
+  for (let index of listOfIndexes) {
+    console.log(`Index: ${index.name}`);
+    for (let field of index.fields) {
+      console.log(`\tField: ${field.name}`);
+    }
   }
 }
+
+main();
 ```
 
 #### Get a list of existing skillsets in the service
@@ -432,17 +487,21 @@ const { SearchServiceClient, AzureKeyCredential } = require("@azure/search");
 
 const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
 
-const listOfSkillSets = await client.listSkillsets();
-for (let skillset of listOfSkillSets) {
-  console.log(`Name: ${skillset.name}`);
-  console.log(`Description: ${skillset.description}`);
-  console.log(`Skills`);
-  for (let skill of skillset.skills) {
-    console.log(`\tOdatatype: ${skill.odatatype}`);
-    console.log(`\tName: ${skill.name}`);
-    console.log(`\tDescription: ${skill.description}`);
+async function main() {
+  const listOfSkillSets = await client.listSkillsets();
+  for (let skillset of listOfSkillSets) {
+    console.log(`Name: ${skillset.name}`);
+    console.log(`Description: ${skillset.description}`);
+    console.log(`Skills`);
+    for (let skill of skillset.skills) {
+      console.log(`\tOdatatype: ${skill.odatatype}`);
+      console.log(`\tName: ${skill.name}`);
+      console.log(`\tDescription: ${skill.description}`);
+    }
   }
 }
+
+main();
 ```
 
 #### Get a list of existing synonymMaps in the service
@@ -452,14 +511,18 @@ const { SearchServiceClient, AzureKeyCredential } = require("@azure/search");
 
 const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
 
-const listOfSynonymMaps = await client.listSynonymMaps();
-for (let synonymMap of listOfSynonymMaps) {
-  console.log(`Name: ${synonymMap.name}`);
-  console.log(`Synonyms`);
-  for (let synonym of synonymMap.synonyms) {
-    console.log(`Synonym: ${synonym}`);
+async function main() {
+  const listOfSynonymMaps = await client.listSynonymMaps();
+  for (let synonymMap of listOfSynonymMaps) {
+    console.log(`Name: ${synonymMap.name}`);
+    console.log(`Synonyms`);
+    for (let synonym of synonymMap.synonyms) {
+      console.log(`Synonym: ${synonym}`);
+    }
   }
 }
+
+main();
 ```
 
 #### Create an Index
@@ -469,46 +532,50 @@ const { SearchServiceClient, AzureKeyCredential } = require("@azure/search");
 
 const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
 
-const result = await client.createIndex({
-  name: "example-index",
-  fields: [
-    {
-      type: "Edm.String",
-      name: "id",
-      key: true
-    },
-    {
-      type: "Edm.Double",
-      name: "awesomenessLevel",
-      sortable: true,
-      filterable: true,
-      facetable: true
-    },
-    {
-      type: "Edm.String",
-      name: "description",
-      searchable: true
-    },
-    {
-      type: "Edm.ComplexType",
-      name: "details",
-      fields: [
-        {
-          type: "Collection(Edm.String)",
-          name: "tags",
-          searchable: true
-        }
-      ]
-    },
-    {
-      type: "Edm.Int32",
-      name: "hiddenWeight",
-      hidden: true
-    }
-  ]
-});
+async function main() {
+  const result = await client.createIndex({
+    name: "example-index",
+    fields: [
+      {
+        type: "Edm.String",
+        name: "id",
+        key: true
+      },
+      {
+        type: "Edm.Double",
+        name: "awesomenessLevel",
+        sortable: true,
+        filterable: true,
+        facetable: true
+      },
+      {
+        type: "Edm.String",
+        name: "description",
+        searchable: true
+      },
+      {
+        type: "Edm.ComplexType",
+        name: "details",
+        fields: [
+          {
+            type: "Collection(Edm.String)",
+            name: "tags",
+            searchable: true
+          }
+        ]
+      },
+      {
+        type: "Edm.Int32",
+        name: "hiddenWeight",
+        hidden: true
+      }
+    ]
+  });
 
-console.log(result);
+  console.log(result);
+}
+
+main();
 ```
 
 #### Retrieve an existing index and add a new field to it
@@ -520,21 +587,25 @@ const { SearchServiceClient, AzureKeyCredential } = require("@azure/search");
 
 const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
 
-const index = await client.getIndex("example-index");
+async function main() {
+  const index = await client.getIndex("example-index");
 
-index.fields.push({
-  type: "Edm.DateTimeOffset",
-  name: "lastUpdatedOn",
-  filterable: true
-});
+  index.fields.push({
+    type: "Edm.DateTimeOffset",
+    name: "lastUpdatedOn",
+    filterable: true
+  });
 
-const updatedIndex = await client.createOrUpdateIndex(index);
+  const updatedIndex = await client.createOrUpdateIndex(index);
 
-console.log("Fields after updating:");
+  console.log("Fields after updating:");
 
-for (const field of updatedIndex.fields) {
-  console.log(`\t ${field.name}`);
+  for (const field of updatedIndex.fields) {
+    console.log(`\t ${field.name}`);
+  }
 }
+
+main();
 ```
 
 #### Define a custom analyzer and test its output
@@ -548,46 +619,50 @@ const { SearchServiceClient, AzureKeyCredential, KnownTokenFilterNames } = requi
 
 const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
 
-const index = await client.getIndex("example-index");
-index.tokenizers.push({
-  name: "example-tokenizer",
-  odatatype: "#Microsoft.Azure.Search.StandardTokenizerV2",
-  maxTokenLength: 125
-});
-index.charFilters.push({
-  name: "example-char-filter",
-  odatatype: "#Microsoft.Azure.Search.MappingCharFilter",
-  mappings: ["MSFT=>Microsoft"]
-});
-index.tokenFilters.push({
-  name: "example-token-filter",
-  odatatype: "#Microsoft.Azure.Search.StopwordsTokenFilter",
-  stopwords: ["xyzzy"]
-});
-index.analyzers.push({
-  name: "example-analyzer",
-  odatatype: "#Microsoft.Azure.Search.CustomAnalyzer",
-  tokenizer: "example-tokenizer",
-  charFilters: ["example-char-filter"],
-  tokenFilters: [KnownTokenFilterNames.Lowercase, "example-token-filter"]
-});
+async function main() {
+  const index = await client.getIndex("example-index");
+  index.tokenizers.push({
+    name: "example-tokenizer",
+    odatatype: "#Microsoft.Azure.Search.StandardTokenizerV2",
+    maxTokenLength: 125
+  });
+  index.charFilters.push({
+    name: "example-char-filter",
+    odatatype: "#Microsoft.Azure.Search.MappingCharFilter",
+    mappings: ["MSFT=>Microsoft"]
+  });
+  index.tokenFilters.push({
+    name: "example-token-filter",
+    odatatype: "#Microsoft.Azure.Search.StopwordsTokenFilter",
+    stopwords: ["xyzzy"]
+  });
+  index.analyzers.push({
+    name: "example-analyzer",
+    odatatype: "#Microsoft.Azure.Search.CustomAnalyzer",
+    tokenizer: "example-tokenizer",
+    charFilters: ["example-char-filter"],
+    tokenFilters: [KnownTokenFilterNames.Lowercase, "example-token-filter"]
+  });
 
-// Note adding this analyzer to an existing index will cause it to be unresponsive
-// for a short period, hence the need to pass `allowIndexDowntime: true`.
-await client.createOrUpdateIndex(index, { allowIndexDowntime: true });
+  // Note adding this analyzer to an existing index will cause it to be unresponsive
+  // for a short period, hence the need to pass `allowIndexDowntime: true`.
+  await client.createOrUpdateIndex(index, { allowIndexDowntime: true });
 
-const result = await client.analyzeText("example-index", {
-  text: "MSFT is xyzzy Great!",
-  analyzer: "example-analyzer"
-});
+  const result = await client.analyzeText("example-index", {
+    text: "MSFT is xyzzy Great!",
+    analyzer: "example-analyzer"
+  });
 
-console.log(result.tokens);
-// Output looks like
-// [
-//   { token: 'microsoft', startOffset: 0, endOffset: 4, position: 0 },
-//   { token: 'is', startOffset: 5, endOffset: 7, position: 1 },
-//   { token: 'great', startOffset: 14, endOffset: 19, position: 3 }
-// ]
+  console.log(result.tokens);
+  // Output looks like
+  // [
+  //   { token: 'microsoft', startOffset: 0, endOffset: 4, position: 0 },
+  //   { token: 'is', startOffset: 5, endOffset: 7, position: 1 },
+  //   { token: 'great', startOffset: 14, endOffset: 19, position: 3 }
+  // ]
+}
+
+main();
 ```
 
 #### Create a Skillset
@@ -597,39 +672,43 @@ const { SearchServiceClient, AzureKeyCredential } = require("@azure/search");
 
 const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
 
-const skillset = await client.createSkillset({
-  name: `my-azureblob-skillset`,
-  description: `Skillset description`,
-  skills: [
-    {
-      odatatype: "#Microsoft.Skills.Text.EntityRecognitionSkill",
-      inputs: [
-        {
-          name: "text",
-          source: "/document/merged_content"
-        },
-        {
-          name: "languageCode",
-          source: "/document/language"
-        }
-      ],
-      outputs: [
-        {
-          name: "persons",
-          targetName: "people"
-        },
-        {
-          name: "organizations",
-          targetName: "organizations"
-        },
-        {
-          name: "locations",
-          targetName: "locations"
-        }
-      ]
-    }
-  ]
-});
+async function main() {
+  const skillset = await client.createSkillset({
+    name: `my-azureblob-skillset`,
+    description: `Skillset description`,
+    skills: [
+      {
+        odatatype: "#Microsoft.Skills.Text.EntityRecognitionSkill",
+        inputs: [
+          {
+            name: "text",
+            source: "/document/merged_content"
+          },
+          {
+            name: "languageCode",
+            source: "/document/language"
+          }
+        ],
+        outputs: [
+          {
+            name: "persons",
+            targetName: "people"
+          },
+          {
+            name: "organizations",
+            targetName: "organizations"
+          },
+          {
+            name: "locations",
+            targetName: "locations"
+          }
+        ]
+      }
+    ]
+  });
+}
+
+main();
 ```
 
 #### Create a SynonymMap
@@ -639,10 +718,14 @@ const { SearchServiceClient, AzureKeyCredential } = require("@azure/search");
 
 const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
 
-const synonymMap = await client.createSynonymMap({
-  name: `my-sysnonymmap`,
-  synonyms: ["United States, United States of America => USA", "Washington, Wash. => WA"]
-});
+async function main() {
+  const synonymMap = await client.createSynonymMap({
+    name: `my-synonymmap`,
+    synonyms: ["United States, United States of America => USA", "Washington, Wash. => WA"]
+  });
+}
+
+main();
 ```
 
 ## Troubleshooting
