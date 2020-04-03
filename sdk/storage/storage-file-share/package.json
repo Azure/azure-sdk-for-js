@@ -32,7 +32,7 @@
     "build:es6": "tsc -p tsconfig.json",
     "build:nodebrowser": "rollup -c 2>&1",
     "build:samples": "npm run clean && npm run build:es6 && cross-env ONLY_NODE=true rollup -c 2>&1 && npm run build:prep-samples",
-    "build:prep-samples": "dev-tool samples prep && cd samples && tsc",
+    "build:prep-samples": "dev-tool samples prep && cd dist-samples && tsc",
     "build:test": "npm run build:es6 && rollup -c rollup.test.config.js 2>&1",
     "build:types": "downlevel-dts typings/latest typings/3.1",
     "build": "npm run build:es6 && npm run build:nodebrowser && api-extractor run --local && npm run build:types",
