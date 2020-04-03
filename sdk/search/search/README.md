@@ -82,7 +82,7 @@ const serviceClient = new SearchServiceClient("<endpoint>", new AzureKeyCredenti
 
 ### SearchIndexClient
 
-`SearchIndexClient` is one of the primary interfaces for developers using the Azure Cognitive Search client library. It provides asynchronous methods for working with documents in an index. These methods allow you to query, upload, update, and delete documents. It also provides methods for building completion and suggestion experiences based on partial queries.
+`SearchIndexClient` provides methods for working with documents in an index. Its methods allow you to query, upload, update, and delete documents. It also has methods for building auto-completion and search suggestion experiences based on partial queries.
 
 ### SearchServiceClient
 
