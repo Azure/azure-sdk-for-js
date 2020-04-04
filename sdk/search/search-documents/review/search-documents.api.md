@@ -200,6 +200,9 @@ export interface DefaultCognitiveServicesAccount {
 export type DeleteDocumentsOptions = IndexDocuments;
 
 // @public
+export type DeleteIndexerOptions = OperationOptions & ETagOperationOptions;
+
+// @public
 export type DeleteIndexOptions = OperationOptions & ETagOperationOptions;
 
 // @public
@@ -1054,6 +1057,7 @@ export class SearchServiceClient {
     createSkillset(skillset: Skillset, options?: CreateSkillsetOptions): Promise<Skillset>;
     createSynonymMap(synonymMap: SynonymMap, options?: CreateSynonymMapOptions): Promise<SynonymMap>;
     deleteIndex(indexName: string, options?: DeleteIndexOptions): Promise<void>;
+    deleteIndexer(indexerName: string, options?: DeleteIndexerOptions): Promise<void>;
     deleteSkillset(skillsetName: string, options?: DeleteSkillsetOptions): Promise<void>;
     deleteSynonymMap(synonymMapName: string, options?: DeleteSynonymMapOptions): Promise<void>;
     readonly endpoint: string;

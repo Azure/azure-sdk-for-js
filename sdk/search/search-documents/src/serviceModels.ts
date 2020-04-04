@@ -211,6 +211,11 @@ export type DeleteSkillsetOptions = OperationOptions & ETagOperationOptions;
 export type DeleteSynonymMapOptions = OperationOptions & ETagOperationOptions;
 
 /**
+ * Options for delete indexer operation.
+ */
+export type DeleteIndexerOptions = OperationOptions & ETagOperationOptions;
+
+/**
  * Options for analyze text operation.
  */
 export type AnalyzeTextOptions = OperationOptions & AnalyzeRequest;

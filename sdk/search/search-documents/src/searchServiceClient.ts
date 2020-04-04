@@ -39,7 +39,8 @@ import {
   ListIndexersOptions,
   CreateIndexerOptions,
   GetIndexerOptions,
-  CreateorUpdateIndexerOptions
+  CreateorUpdateIndexerOptions,
+  DeleteIndexerOptions
 } from "./serviceModels";
 import * as utils from "./serviceUtils";
 import { createSpan } from "./tracing";
@@ -621,6 +622,32 @@ export class SearchServiceClient {
     try {
       await this.client.synonymMaps.deleteMethod(
         synonymMapName,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Deletes an existing indexer.
+   * @param indexerName The name of the indexer to delete.
+   * @param options Additional optional arguments.
+   */
+  public async deleteIndexer(
+    indexerName: string,
+    options: DeleteIndexerOptions = {}
+  ): Promise<void> {
+    const { span, updatedOptions } = createSpan("SearchServiceClient-deleteIndexer", options);
+    try {
+      await this.client.indexers.deleteMethod(
+        indexerName,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
     } catch (e) {
