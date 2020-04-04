@@ -47,7 +47,8 @@ import {
   CreateorUpdateIndexerOptions,
   DeleteIndexerOptions,
   GetIndexerStatusOptions,
-  ResetIndexerOptions
+  ResetIndexerOptions,
+  RunIndexerOptions
 } from "./serviceModels";
 import * as utils from "./serviceUtils";
 import { createSpan } from "./tracing";
@@ -725,13 +726,36 @@ export class SearchServiceClient {
 
   /**
    * Resets the change tracking state associated with an indexer.
-   * @param indexerName The name of the indexer.
+   * @param indexerName The name of the indexer to reset.
    * @param options Additional optional arguments.
    */
   public async resetIndexer(indexerName: string, options: ResetIndexerOptions = {}): Promise<void> {
     const { span, updatedOptions } = createSpan("SearchServiceClient-resetIndexer", options);
     try {
       await this.client.indexers.reset(
+        indexerName,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Runs an indexer on-demand.
+   * @param indexerName The name of the indexer to run.
+   * @param options Additional optional arguments.
+   */
+  public async runIndexer(indexerName: string, options: RunIndexerOptions = {}): Promise<void> {
+    const { span, updatedOptions } = createSpan("SearchServiceClient-runIndexer", options);
+    try {
+      await this.client.indexers.run(
         indexerName,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );

@@ -1008,6 +1008,9 @@ export type RegexFlags = 'CANON_EQ' | 'CASE_INSENSITIVE' | 'COMMENTS' | 'DOTALL'
 export type ResetIndexerOptions = OperationOptions;
 
 // @public
+export type RunIndexerOptions = OperationOptions;
+
+// @public
 export type ScoringFunction = DistanceScoringFunction | FreshnessScoringFunction | MagnitudeScoringFunction | TagScoringFunction;
 
 // @public
@@ -1132,6 +1135,7 @@ export class SearchServiceClient {
     listSkillsets(options?: ListSkillsetsOptions): Promise<Skillset[]>;
     listSynonymMaps(options?: ListSynonymMapsOptions): Promise<SynonymMap[]>;
     resetIndexer(indexerName: string, options?: ResetIndexerOptions): Promise<void>;
+    runIndexer(indexerName: string, options?: RunIndexerOptions): Promise<void>;
 }
 
 // @public
