@@ -70,7 +70,8 @@ export {
   SynonymMap,
   ListIndexersOptions,
   CreateIndexerOptions,
-  GetIndexerOptions
+  GetIndexerOptions,
+  CreateorUpdateIndexerOptions
 } from "./serviceModels";
 export { default as GeographyPoint } from "./geographyPoint";
 export { odata } from "./odata";

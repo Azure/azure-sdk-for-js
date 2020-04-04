@@ -38,7 +38,8 @@ import {
   SynonymMap,
   ListIndexersOptions,
   CreateIndexerOptions,
-  GetIndexerOptions
+  GetIndexerOptions,
+  CreateorUpdateIndexerOptions
 } from "./serviceModels";
 import * as utils from "./serviceUtils";
 import { createSpan } from "./tracing";
@@ -516,6 +517,37 @@ export class SearchServiceClient {
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
       return utils.generatedSynonymMapToPublicSynonymMap(result);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Creates a new indexer or modifies an existing one.
+   * @param indexer The information describing the indexer to be created/updated.
+   * @param options Additional optional arguments.
+   */
+  public async createOrUpdateIndexer(
+    indexer: Indexer,
+    options: CreateorUpdateIndexerOptions = {}
+  ): Promise<Indexer> {
+    const { span, updatedOptions } = createSpan(
+      "SearchServiceClient-createOrUpdateIndexer",
+      options
+    );
+    try {
+      const result = await this.client.indexers.createOrUpdate(
+        indexer.name,
+        indexer,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return result;
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

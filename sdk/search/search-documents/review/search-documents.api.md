@@ -161,6 +161,9 @@ export type CreateIndexerOptions = OperationOptions;
 export type CreateIndexOptions = OperationOptions;
 
 // @public
+export type CreateorUpdateIndexerOptions = OperationOptions & ETagOperationOptions;
+
+// @public
 export interface CreateOrUpdateIndexOptions extends OperationOptions, ETagOperationOptions {
     allowIndexDowntime?: boolean;
 }
@@ -1045,6 +1048,7 @@ export class SearchServiceClient {
     createIndex(index: Index, options?: CreateIndexOptions): Promise<Index>;
     createIndexer(indexer: Indexer, options?: CreateIndexerOptions): Promise<Indexer>;
     createOrUpdateIndex(index: Index, options?: CreateOrUpdateIndexOptions): Promise<Index>;
+    createOrUpdateIndexer(indexer: Indexer, options?: CreateorUpdateIndexerOptions): Promise<Indexer>;
     createOrUpdateSkillset(skillset: Skillset, options?: CreateOrUpdateSkillsetOptions): Promise<Skillset>;
     createOrUpdateSynonymMap(synonymMap: SynonymMap, options?: CreateOrUpdateSynonymMapOptions): Promise<SynonymMap>;
     createSkillset(skillset: Skillset, options?: CreateSkillsetOptions): Promise<Skillset>;

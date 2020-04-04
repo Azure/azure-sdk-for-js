@@ -784,7 +784,7 @@ async function main() {
 main();
 ```
 
-#### Retrieve an existing indexer
+#### Retrieve an existing indexer and modify a field in it
 ```js
 const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-documents");
 
@@ -792,6 +792,9 @@ const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<ap
 
 async function main() {
   const indexer = await client.getIndexer("my-azure-indexer-1");
+  indexer.isDisabled = true;
+  indexer = await client.createOrUpdateIndexer(indexer);
+  
   console.log(`Name: ${indexer.name}`);
   console.log(`Description: ${indexer.description}`);
   console.log(`Datasource Name: ${indexer.dataSourceName}`);
@@ -804,6 +807,8 @@ async function main() {
     console.log(`\tMapping Function Name: ${fieldMapping.mappingFunction.name}`);
   }
 }
+
+
 
 main();
 ```

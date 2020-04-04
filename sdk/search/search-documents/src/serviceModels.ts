@@ -191,6 +191,11 @@ export type CreateOrUpdateSkillsetOptions = OperationOptions & ETagOperationOpti
 export type CreateOrUpdateSynonymMapOptions = OperationOptions & ETagOperationOptions;
 
 /**
+ * Options for create/update indexer operation.
+ */
+export type CreateorUpdateIndexerOptions = OperationOptions & ETagOperationOptions;
+
+/**
  * Options for delete index operation.
  */
 export type DeleteIndexOptions = OperationOptions & ETagOperationOptions;
