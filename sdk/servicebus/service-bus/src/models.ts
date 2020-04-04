@@ -4,6 +4,7 @@
 import { OperationOptions } from "./modelsToBeSharedWithEventHubs";
 import { RetryOptions } from "@azure/core-amqp";
 import { SessionReceiverOptions } from "./session/messageSession";
+import Long from "long";
 
 /**
  * The general message handler interface (used for streamMessages).

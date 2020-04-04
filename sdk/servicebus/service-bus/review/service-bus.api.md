@@ -19,8 +19,7 @@ import { WebSocketOptions } from '@azure/core-amqp';
 
 // @public
 export interface BrowseMessagesOptions extends OperationOptions {
-    // Warning: (ae-forgotten-export) The symbol "Long" needs to be exported by the entry point index.d.ts
-    fromSequenceNumber?: Long_2;
+    fromSequenceNumber?: Long;
     maxMessageCount?: number;
 }
 
