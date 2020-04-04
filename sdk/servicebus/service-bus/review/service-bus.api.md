@@ -36,6 +36,10 @@ export interface CreateBatchOptions extends OperationOptions {
 }
 
 // @public
+export interface CreateSessionReceiverOptions extends SessionReceiverOptions, OperationOptions {
+}
+
+// @public
 export interface DeadLetterOptions {
     deadLetterErrorDescription: string;
     deadLetterReason: string;
@@ -47,10 +51,6 @@ export { Delivery }
 
 // @public
 export interface GetMessageIteratorOptions extends OperationOptions, WaitTimeOptions {
-}
-
-// @public
-export interface GetSessionReceiverOptions extends SessionReceiverOptions, OperationOptions {
 }
 
 // @public
@@ -158,10 +158,10 @@ export class ServiceBusClient {
     createReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock"): Receiver<ReceivedMessageWithLock>;
     createReceiver(topicName: string, subscriptionName: string, receiveMode: "receiveAndDelete"): Receiver<ReceivedMessage>;
     createSender(queueOrTopicName: string): Sender;
-    createSessionReceiver(queueName: string, receiveMode: "peekLock", options?: GetSessionReceiverOptions): SessionReceiver<ReceivedMessageWithLock>;
-    createSessionReceiver(queueName: string, receiveMode: "receiveAndDelete", options?: GetSessionReceiverOptions): SessionReceiver<ReceivedMessage>;
-    createSessionReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock", options?: GetSessionReceiverOptions): SessionReceiver<ReceivedMessageWithLock>;
-    createSessionReceiver(topicName: string, subscriptionName: string, receiveMode: "receiveAndDelete", options?: GetSessionReceiverOptions): SessionReceiver<ReceivedMessage>;
+    createSessionReceiver(queueName: string, receiveMode: "peekLock", options?: CreateSessionReceiverOptions): SessionReceiver<ReceivedMessageWithLock>;
+    createSessionReceiver(queueName: string, receiveMode: "receiveAndDelete", options?: CreateSessionReceiverOptions): SessionReceiver<ReceivedMessage>;
+    createSessionReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock", options?: CreateSessionReceiverOptions): SessionReceiver<ReceivedMessageWithLock>;
+    createSessionReceiver(topicName: string, subscriptionName: string, receiveMode: "receiveAndDelete", options?: CreateSessionReceiverOptions): SessionReceiver<ReceivedMessage>;
     getSubscriptionRuleManager(topic: string, subscription: string): SubscriptionRuleManager;
 }
 
