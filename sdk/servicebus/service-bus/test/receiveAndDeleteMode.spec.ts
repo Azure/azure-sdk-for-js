@@ -38,7 +38,7 @@ describe("receive and delete", () => {
     const entityNames = await serviceBusClient.test.createTestEntities(entityType);
 
     senderClient = serviceBusClient.test.addToCleanup(
-      serviceBusClient.getSender(entityNames.queue ?? entityNames.topic!)
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
     receiverClient = serviceBusClient.test.getReceiveAndDeleteReceiver(entityNames);
 

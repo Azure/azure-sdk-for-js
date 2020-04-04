@@ -272,8 +272,8 @@ export class ServiceBusTestHelpers {
 
     return this.addToCleanup(
       entityNames.queue
-        ? this._serviceBusClient.getReceiver(entityNames.queue, "peekLock")
-        : this._serviceBusClient.getReceiver(
+        ? this._serviceBusClient.createReceiver(entityNames.queue, "peekLock")
+        : this._serviceBusClient.createReceiver(
             entityNames.topic!,
             entityNames.subscription!,
             "peekLock"
@@ -293,12 +293,12 @@ export class ServiceBusTestHelpers {
 
     return this.addToCleanup(
       entityNames.queue
-        ? this._serviceBusClient.getSessionReceiver(
+        ? this._serviceBusClient.createSessionReceiver(
             entityNames.queue,
             "peekLock",
             getSessionReceiverOptions
           )
-        : this._serviceBusClient.getSessionReceiver(
+        : this._serviceBusClient.createSessionReceiver(
             entityNames.topic!,
             entityNames.subscription!,
             "peekLock",
@@ -326,10 +326,10 @@ export class ServiceBusTestHelpers {
     if (entityNames.usesSessions) {
       return this.addToCleanup(
         entityNames.queue
-          ? this._serviceBusClient.getSessionReceiver(entityNames.queue, "receiveAndDelete", {
+          ? this._serviceBusClient.createSessionReceiver(entityNames.queue, "receiveAndDelete", {
               sessionId
             })
-          : this._serviceBusClient.getSessionReceiver(
+          : this._serviceBusClient.createSessionReceiver(
               entityNames.topic!,
               entityNames.subscription!,
               "receiveAndDelete",
@@ -341,8 +341,8 @@ export class ServiceBusTestHelpers {
     } else {
       return this.addToCleanup(
         entityNames.queue
-          ? this._serviceBusClient.getReceiver(entityNames.queue, "receiveAndDelete")
-          : this._serviceBusClient.getReceiver(
+          ? this._serviceBusClient.createReceiver(entityNames.queue, "receiveAndDelete")
+          : this._serviceBusClient.createReceiver(
               entityNames.topic!,
               entityNames.subscription!,
               "receiveAndDelete"
@@ -351,13 +351,13 @@ export class ServiceBusTestHelpers {
     }
   }
 
-  getDeadLetterReceiver(
+  createDeadLetterReceiver(
     entityNames: ReturnType<typeof getEntityNames>
   ): Receiver<ReceivedMessageWithLock> {
     return this.addToCleanup(
       entityNames.queue
-        ? this._serviceBusClient.getDeadLetterReceiver(entityNames.queue, "peekLock")
-        : this._serviceBusClient.getDeadLetterReceiver(
+        ? this._serviceBusClient.createDeadLetterReceiver(entityNames.queue, "peekLock")
+        : this._serviceBusClient.createDeadLetterReceiver(
             entityNames.topic!,
             entityNames.subscription!,
             "peekLock"
@@ -378,18 +378,18 @@ async function purgeForTestClientType(
   let deadLetterReceiver: Receiver<ReceivedMessage>;
 
   if (entityPaths.queue) {
-    receiver = serviceBusClient.getReceiver(entityPaths.queue, "receiveAndDelete");
-    deadLetterReceiver = serviceBusClient.getDeadLetterReceiver(
+    receiver = serviceBusClient.createReceiver(entityPaths.queue, "receiveAndDelete");
+    deadLetterReceiver = serviceBusClient.createDeadLetterReceiver(
       entityPaths.queue,
       "receiveAndDelete"
     );
   } else if (entityPaths.topic && entityPaths.subscription) {
-    receiver = serviceBusClient.getReceiver(
+    receiver = serviceBusClient.createReceiver(
       entityPaths.topic,
       entityPaths.subscription,
       "receiveAndDelete"
     );
-    deadLetterReceiver = serviceBusClient.getDeadLetterReceiver(
+    deadLetterReceiver = serviceBusClient.createDeadLetterReceiver(
       entityPaths.topic,
       entityPaths.subscription,
       "receiveAndDelete"

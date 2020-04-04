@@ -48,10 +48,10 @@ describe("Streaming with sessions", () => {
     const entityNames = await createReceiverForTests(testClientType);
 
     senderClient = serviceBusClient.test.addToCleanup(
-      serviceBusClient.getSender(entityNames.queue ?? entityNames.topic!)
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
 
-    deadLetterClient = serviceBusClient.test.getDeadLetterReceiver(entityNames);
+    deadLetterClient = serviceBusClient.test.createDeadLetterReceiver(entityNames);
 
     errorWasThrown = false;
     unexpectedError = undefined;
@@ -61,10 +61,10 @@ describe("Streaming with sessions", () => {
     const entityNames = await serviceBusClient.test.createTestEntities(testClientType);
     receiverClient = serviceBusClient.test.addToCleanup(
       entityNames.queue
-        ? serviceBusClient.getSessionReceiver(entityNames.queue, "peekLock", {
+        ? serviceBusClient.createSessionReceiver(entityNames.queue, "peekLock", {
             sessionId: TestMessage.sessionId
           })
-        : serviceBusClient.getSessionReceiver(
+        : serviceBusClient.createSessionReceiver(
             entityNames.topic!,
             entityNames.subscription!,
             "peekLock",

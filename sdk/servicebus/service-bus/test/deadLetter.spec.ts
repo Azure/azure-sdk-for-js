@@ -33,7 +33,7 @@ describe("dead lettering", () => {
 
     // send a test message with the body being the title of the test (for something unique)
     const sender = serviceBusClient.test.addToCleanup(
-      serviceBusClient.getSender(entityNames.queue)
+      serviceBusClient.createSender(entityNames.queue)
     );
 
     await sender.send({
@@ -42,7 +42,7 @@ describe("dead lettering", () => {
 
     deadLetterReceiver = serviceBusClient.test.addToCleanup(
       // receiveAndDelete since I don't care about further settlement after it's been dead lettered!
-      serviceBusClient.getDeadLetterReceiver(entityNames.queue, "receiveAndDelete")
+      serviceBusClient.createDeadLetterReceiver(entityNames.queue, "receiveAndDelete")
     );
 
     receiver = serviceBusClient.test.getPeekLockReceiver(entityNames);

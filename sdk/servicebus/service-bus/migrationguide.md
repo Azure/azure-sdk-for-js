@@ -57,14 +57,14 @@ brings this package in line with the [Azure SDK Design Guidelines for Typescript
   const serviceBusClient = new ServiceBusClient("connection string");
 
   // for queues
-  const queueSender = serviceBusClient.getSender("queue");
-  const queueReceiver = serviceBusClient.getReceiver("queue", "peekLock");
+  const queueSender = serviceBusClient.createSender("queue");
+  const queueReceiver = serviceBusClient.createReceiver("queue", "peekLock");
 
   // for topics
-  const topicSender = serviceBusClient.getSender("topic");
+  const topicSender = serviceBusClient.createSender("topic");
 
   // for subscriptions
-  const subscriptionReceiver = serviceBusClient.getReceiver("topic", "subscription", "peekLock");
+  const subscriptionReceiver = serviceBusClient.createReceiver("topic", "subscription", "peekLock");
   ```
 
 * `registerMessageHandler` on `Receiver` has been renamed to `subscribe` and takes different arguments.

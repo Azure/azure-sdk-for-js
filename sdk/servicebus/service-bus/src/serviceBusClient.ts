@@ -42,7 +42,7 @@ export class ServiceBusClient {
   constructor(connectionString: string, options?: ServiceBusClientOptions);
   /**
    *
-   * @param fullyQualifiedNamespace The full namespace of your Service Bus instance which is 
+   * @param fullyQualifiedNamespace The full namespace of your Service Bus instance which is
    * likely to be similar to <yournamespace>.servicebus.windows.net.
    * @param credential A credential object used by the client to get the token to authenticate the connection
    * with the Azure Service Bus. See &commat;azure/identity for creating the credentials.
@@ -89,7 +89,7 @@ export class ServiceBusClient {
    * @param receiveMode The receive mode to use (defaults to PeekLock)
    * @param options Options for the receiver itself.
    */
-  getReceiver(
+  createReceiver(
     queueName: string,
     receiveMode: "peekLock",
     options?: GetReceiverOptions
@@ -101,7 +101,7 @@ export class ServiceBusClient {
    * @param receiveMode The receive mode to use (defaults to PeekLock)
    * @param options Options for the receiver itself.
    */
-  getReceiver(
+  createReceiver(
     queueName: string,
     receiveMode: "receiveAndDelete",
     options?: GetReceiverOptions
@@ -114,7 +114,7 @@ export class ServiceBusClient {
    * @param receiveMode The receive mode to use (defaults to PeekLock)
    * @param options Options for the receiver itself.
    */
-  getReceiver(
+  createReceiver(
     topicName: string,
     subscriptionName: string,
     receiveMode: "peekLock",
@@ -128,13 +128,13 @@ export class ServiceBusClient {
    * @param receiveMode The receive mode to use (defaults to PeekLock)
    * @param options Options for the receiver itself.
    */
-  getReceiver(
+  createReceiver(
     topicName: string,
     subscriptionName: string,
     receiveMode: "receiveAndDelete",
     options?: GetReceiverOptions
   ): Receiver<ReceivedMessage>;
-  getReceiver(
+  createReceiver(
     queueOrTopicName1: string,
     receiveModeOrSubscriptionName2: "peekLock" | "receiveAndDelete" | string,
     receiveModeOrOptions3?: "peekLock" | "receiveAndDelete" | GetReceiverOptions,
@@ -176,7 +176,7 @@ export class ServiceBusClient {
    * @param receiveMode The receive mode to use (defaults to PeekLock)
    * @param options Options for the receiver itself.
    */
-  getSessionReceiver(
+  createSessionReceiver(
     queueName: string,
     receiveMode: "peekLock",
     options?: GetSessionReceiverOptions
@@ -188,7 +188,7 @@ export class ServiceBusClient {
    * @param receiveMode The receive mode to use (defaults to PeekLock)
    * @param options Options for the receiver itself.
    */
-  getSessionReceiver(
+  createSessionReceiver(
     queueName: string,
     receiveMode: "receiveAndDelete",
     options?: GetSessionReceiverOptions
@@ -201,7 +201,7 @@ export class ServiceBusClient {
    * @param receiveMode The receive mode to use (defaults to PeekLock)
    * @param options Options for the receiver itself.
    */
-  getSessionReceiver(
+  createSessionReceiver(
     topicName: string,
     subscriptionName: string,
     receiveMode: "peekLock",
@@ -215,13 +215,13 @@ export class ServiceBusClient {
    * @param receiveMode The receive mode to use (defaults to PeekLock)
    * @param options Options for the receiver itself.
    */
-  getSessionReceiver(
+  createSessionReceiver(
     topicName: string,
     subscriptionName: string,
     receiveMode: "receiveAndDelete",
     options?: GetSessionReceiverOptions
   ): SessionReceiver<ReceivedMessage>;
-  getSessionReceiver(
+  createSessionReceiver(
     queueOrTopicName1: string,
     receiveModeOrSubscriptionName2: "peekLock" | "receiveAndDelete" | string,
     receiveModeOrOptions3?: "peekLock" | "receiveAndDelete" | GetSessionReceiverOptions,
@@ -253,7 +253,7 @@ export class ServiceBusClient {
    * Creates a Sender which can be used to send messages, schedule messages to be sent at a later time
    * and cancel such scheduled messages.
    */
-  getSender(queueOrTopicName: string, options?: GetSenderOptions): Sender {
+  createSender(queueOrTopicName: string, options?: GetSenderOptions): Sender {
     validateEntityNamesMatch(this._connectionContext.config.entityPath, queueOrTopicName, "sender");
 
     const clientEntityContext = ClientEntityContext.create(
@@ -298,7 +298,7 @@ export class ServiceBusClient {
    * @param receiveMode The receive mode to use (defaults to PeekLock)
    * @param options Options for the receiver itself.
    */
-  getDeadLetterReceiver(
+  createDeadLetterReceiver(
     queueName: string,
     receiveMode: "peekLock",
     options?: GetReceiverOptions
@@ -310,7 +310,7 @@ export class ServiceBusClient {
    * @param receiveMode The receive mode to use (defaults to PeekLock)
    * @param options Options for the receiver itself.
    */
-  getDeadLetterReceiver(
+  createDeadLetterReceiver(
     queueName: string,
     receiveMode: "receiveAndDelete",
     options?: GetReceiverOptions
@@ -323,7 +323,7 @@ export class ServiceBusClient {
    * @param receiveMode The receive mode to use (defaults to PeekLock)
    * @param options Options for the receiver itself.
    */
-  getDeadLetterReceiver(
+  createDeadLetterReceiver(
     topicName: string,
     subscriptionName: string,
     receiveMode: "peekLock",
@@ -337,13 +337,13 @@ export class ServiceBusClient {
    * @param receiveMode The receive mode to use (defaults to PeekLock)
    * @param options Options for the receiver itself.
    */
-  getDeadLetterReceiver(
+  createDeadLetterReceiver(
     topicName: string,
     subscriptionName: string,
     receiveMode: "receiveAndDelete",
     options?: GetReceiverOptions
   ): Receiver<ReceivedMessage>;
-  getDeadLetterReceiver(
+  createDeadLetterReceiver(
     queueOrTopicName1: string,
     receiveModeOrSubscriptionName2: "peekLock" | "receiveAndDelete" | string,
     receiveModeOrOptions3?: "peekLock" | "receiveAndDelete" | GetReceiverOptions,
@@ -362,9 +362,9 @@ export class ServiceBusClient {
     const deadLetterEntityPath = `${entityPath}/$DeadLetterQueue`;
 
     if (receiveMode === "peekLock") {
-      return this.getReceiver(deadLetterEntityPath, receiveMode, options);
+      return this.createReceiver(deadLetterEntityPath, receiveMode, options);
     } else {
-      return this.getReceiver(deadLetterEntityPath, receiveMode, options);
+      return this.createReceiver(deadLetterEntityPath, receiveMode, options);
     }
   }
 
