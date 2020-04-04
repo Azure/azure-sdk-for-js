@@ -441,13 +441,15 @@ function connectionString() {
 }
 
 export async function testPeekMsgsLength(
-  peekableReceiver: Pick<Receiver<{}>, "diagnostics">,
+  peekableReceiver: Receiver<ReceivedMessage>,
   expectedPeekLength: number
 ): Promise<void> {
-  const peekedMsgs = await peekableReceiver.diagnostics.peek(expectedPeekLength + 1);
+  const browsedMsgs = await peekableReceiver.browseMessages({
+    maxMessageCount: expectedPeekLength + 1
+  });
 
   should.equal(
-    peekedMsgs.length,
+    browsedMsgs.length,
     expectedPeekLength,
     "Unexpected number of msgs found when peeking"
   );

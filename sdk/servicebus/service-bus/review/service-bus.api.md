@@ -18,6 +18,13 @@ import { WebSocketImpl } from 'rhea-promise';
 import { WebSocketOptions } from '@azure/core-amqp';
 
 // @public
+export interface BrowseMessagesOptions extends OperationOptions {
+    // Warning: (ae-forgotten-export) The symbol "Long" needs to be exported by the entry point index.d.ts
+    fromSequenceNumber?: Long_2;
+    maxMessageCount?: number;
+}
+
+// @public
 export interface CorrelationFilter {
     contentType?: string;
     correlationId?: string;
@@ -122,11 +129,8 @@ export interface ReceivedMessageWithLock extends ReceivedMessage {
 
 // @public
 export interface Receiver<ReceivedMessageT> {
+    browseMessages(options?: BrowseMessagesOptions): Promise<ReceivedMessage[]>;
     close(): Promise<void>;
-    diagnostics: {
-        peek(maxMessageCount?: number): Promise<ReceivedMessage[]>;
-        peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<ReceivedMessage[]>;
-    };
     entityPath: string;
     getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<ReceivedMessageT>;
     isReceivingMessages(): boolean;
@@ -222,10 +226,6 @@ export interface SessionMessageHandlerOptions {
 
 // @public
 export interface SessionReceiver<ReceivedMessageT extends ReceivedMessage | ReceivedMessageWithLock> extends Receiver<ReceivedMessageT> {
-    diagnostics: {
-        peek(maxMessageCount?: number): Promise<ReceivedMessage[]>;
-        peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<ReceivedMessage[]>;
-    };
     getState(options?: OperationOptions): Promise<any>;
     renewSessionLock(options?: OperationOptions): Promise<Date>;
     sessionId: string | undefined;

@@ -148,3 +148,18 @@ export interface MessageHandlerOptions {
  * has sessions enabled.
  */
 export interface GetSessionReceiverOptions extends SessionReceiverOptions, OperationOptions {}
+
+/**
+ * Describes the options passed to the `browseMessages` method on a receiver.
+ */
+export interface BrowseMessagesOptions extends OperationOptions {
+  /**
+   * @property The maximum number of messages to browse.
+   * Default value is 1
+   */
+  maxMessageCount?: number;
+  /**
+   * @property The sequence number to start browsing messages from (inclusive).
+   */
+  fromSequenceNumber?: Long;
+}

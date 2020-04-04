@@ -10,7 +10,11 @@ import {
   ReceivedMessage
 } from "..";
 
-import { GetMessageIteratorOptions, GetSessionReceiverOptions } from "../models";
+import {
+  GetMessageIteratorOptions,
+  GetSessionReceiverOptions,
+  BrowseMessagesOptions
+} from "../models";
 import { MessageSession } from "../session/messageSession";
 import {
   throwErrorIfConnectionClosed,
@@ -43,28 +47,6 @@ export interface SessionReceiver<
    * Can be undefined until a AMQP receiver link has been successfully set up for the session
    */
   sessionId: string | undefined;
-
-  /**
-   * Methods related to service bus diagnostics.
-   */
-  diagnostics: {
-    /**
-     * Peek within a queue or subscription.
-     * @param maxMessageCount The maximum number of messages to retrieve.
-     */
-    peek(maxMessageCount?: number): Promise<ReceivedMessage[]>;
-    /**
-     * Peek within a queue or subscription, starting with a specific sequence number.
-     * NOTE: this method does not respect message locks or increment delivery count
-     * for messages.
-     * @param fromSequenceNumber The sequence number to start peeking from (inclusive).
-     * @param maxMessageCount The maximum number of messages to retrieve.
-     */
-    peekBySequenceNumber(
-      fromSequenceNumber: Long,
-      maxMessageCount?: number
-    ): Promise<ReceivedMessage[]>;
-  };
 
   /**
    * @property The time in UTC until which the session is locked.
@@ -116,14 +98,6 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
   public entityPath: string;
   public sessionId: string | undefined;
 
-  public diagnostics: {
-    peek(maxMessageCount?: number): Promise<ReceivedMessage[]>;
-    peekBySequenceNumber(
-      fromSequenceNumber: Long,
-      maxMessageCount?: number
-    ): Promise<ReceivedMessage[]>;
-  };
-
   /**
    * @property {ClientEntityContext} _context Describes the amqp connection context for the QueueClient.
    */
@@ -155,11 +129,6 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
         this._sessionReceiverOptions.retryOptions
       );
     }
-    this.diagnostics = {
-      peek: (maxMessageCount) => this._peek(maxMessageCount),
-      peekBySequenceNumber: (fromSequenceNumber, maxMessageCount) =>
-        this._peekBySequenceNumber(fromSequenceNumber, maxMessageCount)
-    };
 
     if (this._sessionOptions.sessionId) {
       this._sessionOptions.sessionId = String(this._sessionOptions.sessionId);
@@ -350,89 +319,33 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     return retry<any>(config);
   }
 
-  /**
-   * Fetches the next batch of active messages (including deferred but not deadlettered messages) in
-   * the current session.
-   * - The first call to `peek()` fetches the first active message. Each subsequent call fetches the
-   * subsequent message.
-   * - Unlike a `received` message, `peeked` message is a read-only version of the message.
-   * It cannot be `Completed/Abandoned/Deferred/Deadlettered`. The lock on it cannot be renewed.
-   *
-   * @param maxMessageCount The maximum number of messages to peek. Default value `1`.
-   * @param options - Options bag to pass an abort signal or tracing options.
-   * @returns Promise<ReceivedMessageInfo[]>
-   * @throws Error if the underlying connection or receiver is closed.
-   * @throws MessagingError if the service returns an error while peeking for messages.
-   */
-  private async _peek(
-    maxMessageCount?: number,
-    options: OperationOptions = {}
-  ): Promise<ReceivedMessage[]> {
+  async browseMessages(options: BrowseMessagesOptions = {}): Promise<ReceivedMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
 
-    const peekOperationPromise = async () => {
-      await this._createMessageSessionIfDoesntExist();
-
-      const internalMessages = await this._context.managementClient!.peekMessagesBySession(
-        this.sessionId!,
-        maxMessageCount,
-        {
-          ...options,
-          requestName: "peek",
-          timeoutInMs: this._sessionReceiverOptions.retryOptions?.timeoutInMs
-        }
-      );
-      return internalMessages.map((m) => m as ReceivedMessage);
+    const managementRequestOptions = {
+      ...options,
+      requestName: "browseMessages",
+      timeoutInMs: this._sessionReceiverOptions.retryOptions?.timeoutInMs
     };
+    const peekOperationPromise = async () => {
+      if (options.fromSequenceNumber) {
+        return await this._context.managementClient!.peekBySequenceNumber(
+          options.fromSequenceNumber,
+          options.maxMessageCount,
+          this.sessionId!,
+          managementRequestOptions
+        );
+      } else {
+        return await this._context.managementClient!.peekMessagesBySession(
+          this.sessionId!,
+          options.maxMessageCount,
+          managementRequestOptions
+        );
+      }
+    };
+
     const config: RetryConfig<ReceivedMessage[]> = {
       operation: peekOperationPromise,
-      connectionId: this._context.namespace.connectionId,
-      operationType: RetryOperationType.management,
-      retryOptions: this._sessionReceiverOptions.retryOptions,
-      abortSignal: options?.abortSignal
-    };
-    return retry<ReceivedMessage[]>(config);
-  }
-
-  /**
-   * Peeks the desired number of active messages (including deferred but not deadlettered messages)
-   * from the specified sequence number in the current session.
-   * - Unlike a `received` message, `peeked` message is a read-only version of the message.
-   * It cannot be `Completed/Abandoned/Deferred/Deadlettered`. The lock on it cannot be renewed.
-   *
-   * @param fromSequenceNumber The sequence number from where to read the message.
-   * @param [maxMessageCount] The maximum number of messages to peek. Default value `1`.
-   * @param options - Options bag to pass an abort signal or tracing options.
-   * @returns Promise<ReceivedSBMessage[]>
-   * @throws Error if the underlying connection or receiver is closed.
-   * @throws MessagingError if the service returns an error while peeking for messages.
-   */
-  private async _peekBySequenceNumber(
-    fromSequenceNumber: Long,
-    maxMessageCount?: number,
-    options: OperationOptions = {}
-  ): Promise<ReceivedMessage[]> {
-    this._throwIfReceiverOrConnectionClosed();
-    const retryOptions = this._sessionReceiverOptions.retryOptions || {};
-    retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
-
-    const peekBySequenceNumberOperationPromise = async () => {
-      await this._createMessageSessionIfDoesntExist();
-
-      const internalMessages = await this._context.managementClient!.peekBySequenceNumber(
-        fromSequenceNumber,
-        maxMessageCount,
-        this.sessionId,
-        {
-          ...options,
-          requestName: "peekBySequenceNumber",
-          timeoutInMs: this._sessionReceiverOptions.retryOptions?.timeoutInMs
-        }
-      );
-      return internalMessages.map((m) => m as ReceivedMessage);
-    };
-    const config: RetryConfig<ReceivedMessage[]> = {
-      operation: peekBySequenceNumberOperationPromise,
       connectionId: this._context.namespace.connectionId,
       operationType: RetryOperationType.management,
       retryOptions: this._sessionReceiverOptions.retryOptions,

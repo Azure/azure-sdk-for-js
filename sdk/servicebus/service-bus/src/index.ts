@@ -39,7 +39,8 @@ export {
   CreateBatchOptions,
   GetReceiverOptions,
   GetSenderOptions,
-  GetSubscriptionRuleManagerOptions
+  GetSubscriptionRuleManagerOptions,
+  BrowseMessagesOptions
 } from "./models";
 export { OperationOptions, TracingOptions } from "./modelsToBeSharedWithEventHubs";
 

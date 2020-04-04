@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { delay, ServiceBusMessage, ReceivedMessage } from "../src";
+import { delay, ServiceBusMessage, ReceivedMessage, Receiver } from "../src";
 import { TestClientType } from "./utils/testUtils";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
@@ -419,19 +419,11 @@ describe("ConstructorHelpers for track 2", () => {
   });
 });
 
-interface Diagnostics {
-  peek(maxMessageCount?: number): Promise<ReceivedMessage[]>;
-  peekBySequenceNumber(
-    fromSequenceNumber: Long,
-    maxMessageCount?: number
-  ): Promise<ReceivedMessage[]>;
-}
-
 async function waitAndValidate(
   expectedMessage: string,
   receivedBodies: string[],
   errors: string[],
-  receiverClient: { diagnostics: Diagnostics }
+  receiverClient: Receiver<ReceivedMessage>
 ) {
   const maxChecks = 20;
   let numChecks = 0;
@@ -443,7 +435,7 @@ async function waitAndValidate(
     await delay(500);
   }
 
-  const remainingMessages = (await receiverClient.diagnostics.peek(1)).map((m) => m.body);
+  const remainingMessages = (await receiverClient.browseMessages()).map((m) => m.body);
   assert.isEmpty(errors);
   assert.isEmpty(remainingMessages);
   assert.deepEqual([expectedMessage], receivedBodies);
