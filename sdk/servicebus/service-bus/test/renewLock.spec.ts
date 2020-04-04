@@ -72,7 +72,7 @@ describe("renew lock", () => {
         senderClient,
         receiverClient,
         {
-          maxAutoRenewDurationInSeconds: 0,
+          maxAutoRenewDurationInMs: 0,
           delayBeforeAttemptingToCompleteMessageInSeconds: 31,
           willCompleteFail: true
         },
@@ -87,7 +87,7 @@ describe("renew lock", () => {
         senderClient,
         receiverClient,
         {
-          maxAutoRenewDurationInSeconds: 38,
+          maxAutoRenewDurationInMs: 38 * 1000,
           delayBeforeAttemptingToCompleteMessageInSeconds: 35,
           willCompleteFail: false
         },
@@ -102,7 +102,7 @@ describe("renew lock", () => {
         senderClient,
         receiverClient,
         {
-          maxAutoRenewDurationInSeconds: 35,
+          maxAutoRenewDurationInMs: 35 * 1000,
           delayBeforeAttemptingToCompleteMessageInSeconds: 55,
           willCompleteFail: true
         },
@@ -117,7 +117,7 @@ describe("renew lock", () => {
         senderClient,
         receiverClient,
         {
-          maxAutoRenewDurationInSeconds: 15,
+          maxAutoRenewDurationInMs: 15 * 1000,
           delayBeforeAttemptingToCompleteMessageInSeconds: 31,
           willCompleteFail: true
         },
@@ -160,7 +160,7 @@ describe("renew lock", () => {
         senderClient,
         receiverClient,
         {
-          maxAutoRenewDurationInSeconds: 0,
+          maxAutoRenewDurationInMs: 0,
           delayBeforeAttemptingToCompleteMessageInSeconds: 31,
           willCompleteFail: true
         },
@@ -203,7 +203,7 @@ describe("renew lock", () => {
         senderClient,
         receiverClient,
         {
-          maxAutoRenewDurationInSeconds: 0,
+          maxAutoRenewDurationInMs: 0,
           delayBeforeAttemptingToCompleteMessageInSeconds: 31,
           willCompleteFail: true
         },
@@ -246,7 +246,7 @@ describe("renew lock", () => {
         senderClient,
         receiverClient,
         {
-          maxAutoRenewDurationInSeconds: 0,
+          maxAutoRenewDurationInMs: 0,
           delayBeforeAttemptingToCompleteMessageInSeconds: 31,
           willCompleteFail: true
         },
@@ -418,7 +418,7 @@ describe("renew lock", () => {
   }
 
   interface AutoLockRenewalTestOptions {
-    maxAutoRenewDurationInSeconds: number | undefined;
+    maxAutoRenewDurationInMs: number | undefined;
     delayBeforeAttemptingToCompleteMessageInSeconds: number;
     willCompleteFail: boolean;
   }
@@ -465,7 +465,7 @@ describe("renew lock", () => {
       { processMessage, processError },
       {
         autoComplete: false,
-        maxMessageAutoRenewLockDurationInSeconds: options.maxAutoRenewDurationInSeconds
+        maxMessageAutoRenewLockDurationInSeconds: options.maxAutoRenewDurationInMs
       }
     );
     await delay(options.delayBeforeAttemptingToCompleteMessageInSeconds * 1000 + 10000);

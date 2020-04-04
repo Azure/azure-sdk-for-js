@@ -137,13 +137,13 @@ export class MessageReceiver extends LinkEntity {
    */
   autoComplete: boolean;
   /**
-   * @property {number} maxAutoRenewDurationInSeconds The maximum duration within which the
+   * @property {number} maxAutoRenewDurationInMs The maximum duration within which the
    * lock will be renewed automatically. This value should be greater than the longest message
    * lock duration; for example, the `lockDuration` property on the received message.
    *
-   * Default: `300` (5 minutes);
+   * Default: `300 * 1000` (5 minutes);
    */
-  maxAutoRenewDurationInSeconds: number;
+  maxAutoRenewDurationInMs: number;
   /**
    * @property {number} [newMessageWaitTimeoutInSeconds] The maximum amount of idle time the
    * receiver will wait after a message has been received. If no messages are received by this
@@ -274,12 +274,12 @@ export class MessageReceiver extends LinkEntity {
     };
     // If explicitly set to false then autoComplete is false else true (default).
     this.autoComplete = options.autoComplete === false ? options.autoComplete : true;
-    this.maxAutoRenewDurationInSeconds =
+    this.maxAutoRenewDurationInMs =
       options.maxMessageAutoRenewLockDurationInSeconds != null
-        ? options.maxMessageAutoRenewLockDurationInSeconds
-        : 300;
+        ? options.maxMessageAutoRenewLockDurationInSeconds * 1000
+        : 300 * 1000;
     this.autoRenewLock =
-      this.maxAutoRenewDurationInSeconds > 0 && this.receiveMode === ReceiveMode.peekLock;
+      this.maxAutoRenewDurationInMs > 0 && this.receiveMode === ReceiveMode.peekLock;
     this._clearMessageLockRenewTimer = (messageId: string) => {
       if (this._messageRenewLockTimers.has(messageId)) {
         clearTimeout(this._messageRenewLockTimers.get(messageId) as NodeJS.Timer);
@@ -368,7 +368,7 @@ export class MessageReceiver extends LinkEntity {
       if (this.autoRenewLock && bMessage.lockToken) {
         const lockToken = bMessage.lockToken;
         // - We need to renew locks before they expire by looking at bMessage.lockedUntilUtc.
-        // - This autorenewal needs to happen **NO MORE** than maxAutoRenewDurationInSeconds
+        // - This autorenewal needs to happen **NO MORE** than maxAutoRenewDurationInMs
         // - We should be able to clear the renewal timer when the user's message handler
         // is done (whether it succeeds or fails).
         // Setting the messageId with undefined value in the _messageRenewockTimers Map because we
@@ -382,7 +382,7 @@ export class MessageReceiver extends LinkEntity {
           bMessage.messageId,
           bMessage.lockedUntilUtc!.toString()
         );
-        const totalAutoLockRenewDuration = Date.now() + this.maxAutoRenewDurationInSeconds * 1000;
+        const totalAutoLockRenewDuration = Date.now() + this.maxAutoRenewDurationInMs;
         log.receiver(
           "[%s] Total autolockrenew duration for message with id '%s' is: ",
           connectionId,

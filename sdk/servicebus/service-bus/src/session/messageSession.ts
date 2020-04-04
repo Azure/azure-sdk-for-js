@@ -171,13 +171,13 @@ export class MessageSession extends LinkEntity {
    */
   autoComplete: boolean;
   /**
-   * @property {number} maxAutoRenewDurationInSeconds The maximum duration within which the
+   * @property {number} maxAutoRenewDurationInMs The maximum duration within which the
    * lock will be renewed automatically. This value should be greater than the longest message
    * lock duration; for example, the `lockDuration` property on the received message.
    *
-   * Default: `300` (5 minutes);
+   * Default: `300 * 1000` (5 minutes);
    */
-  maxAutoRenewDurationInSeconds: number;
+  maxAutoRenewDurationInMs: number;
   /**
    * @property {number} [newMessageWaitTimeoutInSeconds] The maximum amount of idle time the session
    * reaceiver will wait ater a message has been received. If no messages are received in that
@@ -421,7 +421,7 @@ export class MessageSession extends LinkEntity {
         if (!this._context.messageSessions[this.sessionId!]) {
           this._context.messageSessions[this.sessionId!] = this;
         }
-        this._totalAutoLockRenewDuration = Date.now() + this.maxAutoRenewDurationInSeconds * 1000;
+        this._totalAutoLockRenewDuration = Date.now() + this.maxAutoRenewDurationInMs;
         await this._ensureTokenRenewal();
         await this._ensureSessionLockRenewal();
       } else {
@@ -492,11 +492,11 @@ export class MessageSession extends LinkEntity {
     this.sessionId = options.sessionId;
     this.receiveMode = options.receiveMode || ReceiveMode.peekLock;
     this.callee = options.callee || SessionCallee.standalone;
-    this.maxAutoRenewDurationInSeconds =
-      options.autoRenewLockDurationInMs != null ? options.autoRenewLockDurationInMs / 1000 : 300;
-    this._totalAutoLockRenewDuration = Date.now() + this.maxAutoRenewDurationInSeconds * 1000;
+    this.maxAutoRenewDurationInMs =
+      options.autoRenewLockDurationInMs != null ? options.autoRenewLockDurationInMs : 300 * 1000;
+    this._totalAutoLockRenewDuration = Date.now() + this.maxAutoRenewDurationInMs;
     this.autoRenewLock =
-      this.maxAutoRenewDurationInSeconds > 0 && this.receiveMode === ReceiveMode.peekLock;
+      this.maxAutoRenewDurationInMs > 0 && this.receiveMode === ReceiveMode.peekLock;
 
     // setting all the handlers
     this._onSettled = (context: EventContext) => {
