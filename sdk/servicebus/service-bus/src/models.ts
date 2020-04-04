@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import { OperationOptions } from "./modelsToBeSharedWithEventHubs";
-import { RetryOptions } from "@azure/core-amqp";
 import { SessionReceiverOptions } from "./session/messageSession";
 
 /**
@@ -51,51 +50,6 @@ export interface CreateBatchOptions extends OperationOptions {
    * The upper limit for the size of batch. The `tryAdd` function will return `false` after this limit is reached.
    */
   maxSizeInBytes?: number;
-}
-
-/**
- * The set of options to configure the behavior of the sender.
- *
- * @export
- * @interface GetSenderOptions
- */
-export interface GetSenderOptions {
-  /**
-   * Retry policy options that determine the mode, number of retries, retry interval etc.
-   *
-   * @type {RetryOptions}
-   */
-  retryOptions?: RetryOptions;
-}
-
-/**
- * The set of options to configure the behavior of the receiver.
- *
- * @export
- * @interface GetReceiverOptions
- */
-export interface GetReceiverOptions {
-  /**
-   * Retry policy options that determine the mode, number of retries, retry interval etc.
-   *
-   * @type {RetryOptions}
-   */
-  retryOptions?: RetryOptions;
-}
-
-/**
- * The set of options to configure the behavior of the subscriptionRuleManager.
- *
- * @export
- * @interface GetSubscriptionRuleManagerOptions
- */
-export interface GetSubscriptionRuleManagerOptions {
-  /**
-   * Retry policy options that determine the mode, number of retries, retry interval etc.
-   *
-   * @type {RetryOptions}
-   */
-  retryOptions?: RetryOptions;
 }
 
 /**

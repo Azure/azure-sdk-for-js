@@ -35,7 +35,7 @@ import { LinkEntity } from "./linkEntity";
 import { getUniqueName, getRetryAttemptTimeoutInMs } from "../util/utils";
 import { throwErrorIfConnectionClosed } from "../util/errors";
 import { ServiceBusMessageBatch, ServiceBusMessageBatchImpl } from "../serviceBusMessageBatch";
-import { CreateBatchOptions, GetSenderOptions } from "../models";
+import { CreateBatchOptions } from "../models";
 
 /**
  * @internal
@@ -78,20 +78,19 @@ export class MessageSender extends LinkEntity {
    * @private
    */
   private _sender?: AwaitableSender;
-  private _getSenderOptions?: GetSenderOptions;
+  private _retryOptions?: RetryOptions;
 
   /**
    * Creates a new MessageSender instance.
    * @constructor
    * @param {ClientEntityContext} context The client entity context.
    */
-  constructor(context: ClientEntityContext, options: GetSenderOptions) {
+  constructor(context: ClientEntityContext, retryOptions: RetryOptions) {
     super(context.entityPath, context, {
       address: context.entityPath,
       audience: `${context.namespace.config.endpoint}${context.entityPath}`
     });
-    this._getSenderOptions = options || {};
-
+    this._retryOptions = retryOptions;
     this._onAmqpError = (context: EventContext) => {
       const senderError = context.sender && context.sender.error;
       if (senderError) {
@@ -251,7 +250,7 @@ export class MessageSender extends LinkEntity {
    * @return {Promise<Delivery>} Promise<Delivery>
    */
   private _trySend(encodedMessage: Buffer, sendBatch?: boolean): Promise<void> {
-    const retryOptions = this._getSenderOptions?.retryOptions || {};
+    const retryOptions = this._retryOptions || {};
     retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
     const sendEventPromise = () =>
       new Promise<void>(async (resolve, reject) => {
@@ -502,7 +501,7 @@ export class MessageSender extends LinkEntity {
             operation: () => this._init(senderOptions),
             connectionId: this._context.namespace.connectionId!,
             operationType: RetryOperationType.senderLink,
-            retryOptions: this._getSenderOptions?.retryOptions,
+            retryOptions: this._retryOptions,
             connectionHost: this._context.namespace.config.host
           };
           return retry<void>(config);
@@ -721,7 +720,7 @@ export class MessageSender extends LinkEntity {
   async createBatch(options?: CreateBatchOptions): Promise<ServiceBusMessageBatch> {
     throwErrorIfConnectionClosed(this._context.namespace);
     let maxMessageSize = await this.getMaxMessageSize({
-      retryOptions: this._getSenderOptions?.retryOptions
+      retryOptions: this._retryOptions
     });
     if (options?.maxSizeInBytes) {
       if (options.maxSizeInBytes > maxMessageSize!) {
@@ -763,10 +762,10 @@ export class MessageSender extends LinkEntity {
    * @static
    * @returns {Promise<MessageSender>}
    */
-  static create(context: ClientEntityContext, options: GetSenderOptions): MessageSender {
+  static create(context: ClientEntityContext, retryOptions: RetryOptions): MessageSender {
     throwErrorIfConnectionClosed(context.namespace);
     if (!context.sender) {
-      context.sender = new MessageSender(context, options);
+      context.sender = new MessageSender(context, retryOptions);
     }
     return context.sender;
   }

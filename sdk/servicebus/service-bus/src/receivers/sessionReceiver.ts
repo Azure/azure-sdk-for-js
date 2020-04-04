@@ -28,7 +28,7 @@ import { convertToInternalReceiveMode } from "../constructorHelpers";
 import { Receiver } from "./receiver";
 import Long from "long";
 import { ServiceBusMessageImpl, ReceivedMessageWithLock } from "../serviceBusMessage";
-import { RetryConfig, RetryOperationType, retry, Constants } from "@azure/core-amqp";
+import { RetryConfig, RetryOperationType, retry, Constants, RetryOptions } from "@azure/core-amqp";
 import { getRetryAttemptTimeoutInMs } from "../util/utils";
 import { OperationOptions } from "../modelsToBeSharedWithEventHubs";
 
@@ -129,7 +129,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    */
 
   private _context: ClientEntityContext;
-  private _sessionReceiverOptions: GetSessionReceiverOptions;
+  private _retryOptions: RetryOptions;
   private _messageSession: MessageSession | undefined;
   /**
    * @property {boolean} [_isClosed] Denotes if close() was called on this receiver
@@ -144,17 +144,13 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
   constructor(
     context: ClientEntityContext,
     public receiveMode: "peekLock" | "receiveAndDelete",
-    private _sessionOptions: GetSessionReceiverOptions
+    private _sessionOptions: GetSessionReceiverOptions,
+    retryOptions: RetryOptions
   ) {
     throwErrorIfConnectionClosed(context.namespace);
     this._context = context;
     this.entityPath = this._context.entityPath;
-    this._sessionReceiverOptions = _sessionOptions;
-    if (this._sessionReceiverOptions.retryOptions) {
-      this._sessionReceiverOptions.retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(
-        this._sessionReceiverOptions.retryOptions
-      );
-    }
+    this._retryOptions = retryOptions;
     this.diagnostics = {
       peek: (maxMessageCount) => this._peek(maxMessageCount),
       peekBySequenceNumber: (fromSequenceNumber, maxMessageCount) =>
@@ -276,7 +272,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
         {
           ...options,
           requestName: "renewSessionLock",
-          timeoutInMs: this._sessionReceiverOptions.retryOptions?.timeoutInMs
+          timeoutInMs: this._retryOptions?.timeoutInMs
         }
       );
       return this._messageSession!.sessionLockedUntilUtc!;
@@ -285,7 +281,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       operation: renewSessionLockOperationPromise,
       connectionId: this._context.namespace.connectionId,
       operationType: RetryOperationType.management,
-      retryOptions: this._sessionReceiverOptions.retryOptions,
+      retryOptions: this._retryOptions,
       abortSignal: options?.abortSignal
     };
     return retry<Date>(config);
@@ -307,7 +303,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       await this._context.managementClient!.setSessionState(this.sessionId!, state, {
         ...options,
         requestName: "setState",
-        timeoutInMs: this._sessionReceiverOptions.retryOptions?.timeoutInMs
+        timeoutInMs: this._retryOptions?.timeoutInMs
       });
       return;
     };
@@ -315,7 +311,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       operation: setSessionStateOperationPromise,
       connectionId: this._context.namespace.connectionId,
       operationType: RetryOperationType.management,
-      retryOptions: this._sessionReceiverOptions.retryOptions,
+      retryOptions: this._retryOptions,
       abortSignal: options?.abortSignal
     };
     return retry<void>(config);
@@ -337,14 +333,14 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       return this._context.managementClient!.getSessionState(this.sessionId!, {
         ...options,
         requestName: "getState",
-        timeoutInMs: this._sessionReceiverOptions.retryOptions?.timeoutInMs
+        timeoutInMs: this._retryOptions?.timeoutInMs
       });
     };
     const config: RetryConfig<any> = {
       operation: getSessionStateOperationPromise,
       connectionId: this._context.namespace.connectionId,
       operationType: RetryOperationType.management,
-      retryOptions: this._sessionReceiverOptions.retryOptions,
+      retryOptions: this._retryOptions,
       abortSignal: options?.abortSignal
     };
     return retry<any>(config);
@@ -379,7 +375,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
         {
           ...options,
           requestName: "peek",
-          timeoutInMs: this._sessionReceiverOptions.retryOptions?.timeoutInMs
+          timeoutInMs: this._retryOptions?.timeoutInMs
         }
       );
       return internalMessages.map((m) => m as ReceivedMessage);
@@ -388,7 +384,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       operation: peekOperationPromise,
       connectionId: this._context.namespace.connectionId,
       operationType: RetryOperationType.management,
-      retryOptions: this._sessionReceiverOptions.retryOptions,
+      retryOptions: this._retryOptions,
       abortSignal: options?.abortSignal
     };
     return retry<ReceivedMessage[]>(config);
@@ -413,7 +409,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     options: OperationOptions = {}
   ): Promise<ReceivedMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
-    const retryOptions = this._sessionReceiverOptions.retryOptions || {};
+    const retryOptions = this._retryOptions || {};
     retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
 
     const peekBySequenceNumberOperationPromise = async () => {
@@ -426,7 +422,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
         {
           ...options,
           requestName: "peekBySequenceNumber",
-          timeoutInMs: this._sessionReceiverOptions.retryOptions?.timeoutInMs
+          timeoutInMs: this._retryOptions?.timeoutInMs
         }
       );
       return internalMessages.map((m) => m as ReceivedMessage);
@@ -435,7 +431,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       operation: peekBySequenceNumberOperationPromise,
       connectionId: this._context.namespace.connectionId,
       operationType: RetryOperationType.management,
-      retryOptions: this._sessionReceiverOptions.retryOptions,
+      retryOptions: this._retryOptions,
       abortSignal: options?.abortSignal
     };
     return retry<ReceivedMessage[]>(config);
@@ -476,7 +472,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
         {
           ...options,
           requestName: "receiveDeferredMessage",
-          timeoutInMs: this._sessionReceiverOptions.retryOptions?.timeoutInMs
+          timeoutInMs: this._retryOptions?.timeoutInMs
         }
       );
       return (messages[0] as unknown) as ReceivedMessageT;
@@ -485,7 +481,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       operation: receiveDeferredMessageOperationPromise,
       connectionId: this._context.namespace.connectionId,
       operationType: RetryOperationType.management,
-      retryOptions: this._sessionReceiverOptions.retryOptions,
+      retryOptions: this._retryOptions,
       abortSignal: options?.abortSignal
     };
     return retry<ReceivedMessageT | undefined>(config);
@@ -529,7 +525,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
         {
           ...options,
           requestName: "receiveDeferredMessages",
-          timeoutInMs: this._sessionReceiverOptions.retryOptions?.timeoutInMs
+          timeoutInMs: this._retryOptions?.timeoutInMs
         }
       );
       return (deferredMessages as any) as ReceivedMessageT[];
@@ -538,7 +534,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       operation: receiveDeferredMessagesOperationPromise,
       connectionId: this._context.namespace.connectionId,
       operationType: RetryOperationType.management,
-      retryOptions: this._sessionReceiverOptions.retryOptions,
+      retryOptions: this._retryOptions,
       abortSignal: options?.abortSignal
     };
     return retry<ReceivedMessageT[]>(config);
@@ -580,7 +576,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       operation: receiveBatchOperationPromise,
       connectionId: this._context.namespace.connectionId,
       operationType: RetryOperationType.receiveMessage,
-      retryOptions: this._sessionReceiverOptions.retryOptions,
+      retryOptions: this._retryOptions,
       abortSignal: options?.abortSignal
     };
     return retry<ReceivedMessageT[]>(config);
