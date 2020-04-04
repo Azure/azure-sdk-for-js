@@ -30,7 +30,7 @@ export { Delivery, WebSocketImpl } from "rhea-promise";
 
 export {
   GetMessageIteratorOptions,
-  GetSessionReceiverOptions,
+  CreateSessionReceiverOptions,
   MessageHandlerOptions,
   MessageHandlers,
   ReceiveBatchOptions,

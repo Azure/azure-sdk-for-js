@@ -3,7 +3,12 @@
 
 // Anything we expect to be available to users should come from this import
 // as a simple sanity check that we've exported things properly.
-import { ServiceBusClient, SessionReceiver, Receiver, GetSessionReceiverOptions } from "../../src";
+import {
+  ServiceBusClient,
+  SessionReceiver,
+  Receiver,
+  CreateSessionReceiverOptions
+} from "../../src";
 
 import { TestClientType, TestMessage } from "./testUtils";
 import { getEnvVars, EnvVarNames } from "./envVarUtils";
@@ -283,7 +288,7 @@ export class ServiceBusTestHelpers {
 
   getSessionPeekLockReceiver(
     entityNames: ReturnType<typeof getEntityNames>,
-    getSessionReceiverOptions?: GetSessionReceiverOptions
+    getSessionReceiverOptions?: CreateSessionReceiverOptions
   ): SessionReceiver<ReceivedMessageWithLock> {
     if (!entityNames.usesSessions) {
       throw new TypeError(

@@ -11,7 +11,7 @@ import {
 import { ConnectionContext } from "./connectionContext";
 import { ClientEntityContext } from "./clientEntityContext";
 import { SenderImpl, Sender } from "./sender";
-import { GetSessionReceiverOptions } from "./models";
+import { CreateSessionReceiverOptions } from "./models";
 import { Receiver, ReceiverImpl } from "./receivers/receiver";
 import { SessionReceiver, SessionReceiverImpl } from "./receivers/sessionReceiver";
 import { ReceivedMessageWithLock, ReceivedMessage } from "./serviceBusMessage";
@@ -165,7 +165,7 @@ export class ServiceBusClient {
   createSessionReceiver(
     queueName: string,
     receiveMode: "peekLock",
-    options?: GetSessionReceiverOptions
+    options?: CreateSessionReceiverOptions
   ): SessionReceiver<ReceivedMessageWithLock>;
   /**
    * Creates a receiver for an Azure Service Bus queue.
@@ -177,7 +177,7 @@ export class ServiceBusClient {
   createSessionReceiver(
     queueName: string,
     receiveMode: "receiveAndDelete",
-    options?: GetSessionReceiverOptions
+    options?: CreateSessionReceiverOptions
   ): SessionReceiver<ReceivedMessage>;
   /**
    * Creates a receiver for an Azure Service Bus subscription.
@@ -191,7 +191,7 @@ export class ServiceBusClient {
     topicName: string,
     subscriptionName: string,
     receiveMode: "peekLock",
-    options?: GetSessionReceiverOptions
+    options?: CreateSessionReceiverOptions
   ): SessionReceiver<ReceivedMessageWithLock>;
   /**
    * Creates a receiver for an Azure Service Bus subscription.
@@ -205,13 +205,13 @@ export class ServiceBusClient {
     topicName: string,
     subscriptionName: string,
     receiveMode: "receiveAndDelete",
-    options?: GetSessionReceiverOptions
+    options?: CreateSessionReceiverOptions
   ): SessionReceiver<ReceivedMessage>;
   createSessionReceiver(
     queueOrTopicName1: string,
     receiveModeOrSubscriptionName2: "peekLock" | "receiveAndDelete" | string,
-    receiveModeOrOptions3?: "peekLock" | "receiveAndDelete" | GetSessionReceiverOptions,
-    options4?: GetSessionReceiverOptions
+    receiveModeOrOptions3?: "peekLock" | "receiveAndDelete" | CreateSessionReceiverOptions,
+    options4?: CreateSessionReceiverOptions
   ): SessionReceiver<ReceivedMessage> | SessionReceiver<ReceivedMessageWithLock> {
     const { entityPath, receiveMode, options } = extractReceiverArguments(
       this._connectionContext.config.entityPath,
