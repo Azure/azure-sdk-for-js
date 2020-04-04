@@ -11,7 +11,7 @@ import {
 } from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/types";
 import { SDK_VERSION } from "./constants";
-import { AnalyzeResult, GetIndexStatisticsResult } from "./generated/service/models";
+import { AnalyzeResult, GetIndexStatisticsResult, Indexer } from "./generated/service/models";
 import { SearchServiceClient as GeneratedClient } from "./generated/service/searchServiceClient";
 import { logger } from "./logger";
 import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy";
@@ -35,7 +35,8 @@ import {
   ListSkillsetsOptions,
   ListSynonymMapsOptions,
   Skillset,
-  SynonymMap
+  SynonymMap,
+  ListIndexersOptions
 } from "./serviceModels";
 import * as utils from "./serviceUtils";
 import { createSpan } from "./tracing";
@@ -193,6 +194,29 @@ export class SearchServiceClient {
         select: updatedOptions.select?.join(",")
       });
       return result.synonymMaps.map(utils.generatedSynonymMapToPublicSynonymMap);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Retrieves a list of existing indexers in the service.
+   * @param options Options to the list indexers operation.
+   */
+  public async listIndexers(options: ListIndexersOptions = {}): Promise<Indexer[]> {
+    const { span, updatedOptions } = createSpan("SearchServiceClient-listIndexers", options);
+    try {
+      const result = await this.client.indexers.list({
+        ...operationOptionsToRequestOptionsBase(updatedOptions),
+        select: updatedOptions.select?.join(",")
+      });
+      return result.indexers;
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

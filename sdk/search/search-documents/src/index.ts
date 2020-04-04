@@ -67,7 +67,8 @@ export {
   ComplexDataType,
   CognitiveServicesAccount,
   Skill,
-  SynonymMap
+  SynonymMap,
+  ListIndexersOptions
 } from "./serviceModels";
 export { default as GeographyPoint } from "./geographyPoint";
 export { odata } from "./odata";
@@ -183,6 +184,11 @@ export {
   VisualFeature,
   KeyPhraseExtractionSkillLanguage,
   OcrSkillLanguage,
-  TextExtractionAlgorithm
+  TextExtractionAlgorithm,
+  Indexer,
+  FieldMapping,
+  IndexingParameters,
+  IndexingSchedule,
+  FieldMappingFunction
 } from "./generated/service/models";
 export { AzureKeyCredential } from "@azure/core-auth";

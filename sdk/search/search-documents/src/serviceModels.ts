@@ -100,6 +100,17 @@ export interface ListIndexesOptions extends OperationOptions {
    */
   select?: string[];
 }
+/**
+ * Options for a list indexers operation.
+ */
+export interface ListIndexersOptions extends OperationOptions {
+  /**
+   * Selects which top-level properties of the index definitions to retrieve. Specified as a
+   * comma-separated list of JSON property names, or '*' for all properties. The default is all
+   * properties.
+   */
+  select?: string[];
+}
 
 /**
  * Options for get index operation.

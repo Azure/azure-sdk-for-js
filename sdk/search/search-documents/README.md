@@ -529,6 +529,28 @@ async function main() {
 main();
 ```
 
+#### Get a list of existing indexers in the service
+```js
+const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-documents");
+
+const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
+
+async function main() {
+  let listOfIndexers = await client.listIndexers({
+    select: ['name', 'skillsetName', 'dataSourceName']
+  });
+
+  for(let indexer of listOfIndexers) {
+    console.log(`Name: ${indexer.name}`);
+    console.log(`Datasource Name: ${indexer.dataSourceName}`);
+    console.log(`Skillset Name: ${indexer.skillsetName}`);
+    console.log();
+  }
+}
+
+main();
+```
+
 #### Create an Index
 
 ```js

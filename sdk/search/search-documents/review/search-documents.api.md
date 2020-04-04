@@ -308,6 +308,21 @@ export interface FacetResult {
 export type Field = SimpleField | ComplexField;
 
 // @public
+export interface FieldMapping {
+    mappingFunction?: FieldMappingFunction;
+    sourceFieldName: string;
+    targetFieldName?: string;
+}
+
+// @public
+export interface FieldMappingFunction {
+    name: string;
+    parameters?: {
+        [propertyName: string]: any;
+    };
+}
+
+// @public
 export interface FreshnessScoringFunction {
     boost: number;
     fieldName: string;
@@ -416,11 +431,42 @@ export interface IndexDocumentsResult {
 }
 
 // @public
+export interface Indexer {
+    dataSourceName: string;
+    description?: string;
+    etag?: string;
+    fieldMappings?: FieldMapping[];
+    isDisabled?: boolean;
+    name: string;
+    outputFieldMappings?: FieldMapping[];
+    parameters?: IndexingParameters;
+    schedule?: IndexingSchedule;
+    skillsetName?: string;
+    targetIndexName: string;
+}
+
+// @public
+export interface IndexingParameters {
+    batchSize?: number;
+    configuration?: {
+        [propertyName: string]: any;
+    };
+    maxFailedItems?: number;
+    maxFailedItemsPerBatch?: number;
+}
+
+// @public
 export interface IndexingResult {
     readonly errorMessage?: string;
     readonly key: string;
     readonly statusCode: number;
     readonly succeeded: boolean;
+}
+
+// @public
+export interface IndexingSchedule {
+    interval: string;
+    startTime?: Date;
 }
 
 // @public
@@ -657,6 +703,11 @@ export interface LimitTokenFilter {
     maxTokenCount?: number;
     name: string;
     odatatype: "#Microsoft.Azure.Search.LimitTokenFilter";
+}
+
+// @public
+export interface ListIndexersOptions extends OperationOptions {
+    select?: string[];
 }
 
 // @public
@@ -999,6 +1050,7 @@ export class SearchServiceClient {
     getIndexStatistics(indexName: string, options?: GetIndexStatisticsOptions): Promise<GetIndexStatisticsResult>;
     getSkillset(skillsetName: string, options?: GetSkillSetOptions): Promise<Skillset>;
     getSynonymMap(synonymMapName: string, options?: GetSynonymMapsOptions): Promise<SynonymMap>;
+    listIndexers(options?: ListIndexersOptions): Promise<Indexer[]>;
     listIndexes(options?: ListIndexesOptions): Promise<Index[]>;
     listSkillsets(options?: ListSkillsetsOptions): Promise<Skillset[]>;
     listSynonymMaps(options?: ListSynonymMapsOptions): Promise<SynonymMap[]>;
