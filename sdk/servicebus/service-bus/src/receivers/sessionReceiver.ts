@@ -198,8 +198,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     this._context.isSessionEnabled = true;
     this._messageSession = await MessageSession.create(this._context, {
       sessionId: this._sessionOptions.sessionId,
-      maxSessionAutoRenewLockDurationInSeconds: this._sessionOptions
-        .maxSessionAutoRenewLockDurationInSeconds,
+      autoRenewLockDurationInMs: this._sessionOptions.autoRenewLockDurationInMs,
       receiveMode: convertToInternalReceiveMode(this.receiveMode)
     });
     // By this point, we should have a valid sessionId on the messageSession
@@ -612,7 +611,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    * @param options - Options to control whether messages should be automatically completed
    * or if the lock on the session should be automatically renewed. You can control the
    * maximum number of messages that should be concurrently processed. You can
-   * also provide a timeout in seconds to denote the amount of time to wait for a new message
+   * also provide a timeout in milliseconds to denote the amount of time to wait for a new message
    * before closing the receiver.
    *
    * @returns void

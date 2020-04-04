@@ -233,7 +233,7 @@ export class ServiceBusClient {
       receiveMode,
       {
         sessionId: options?.sessionId,
-        maxSessionAutoRenewLockDurationInSeconds: options?.maxSessionAutoRenewLockDurationInSeconds
+        autoRenewLockDurationInMs: options?.autoRenewLockDurationInMs
       },
       this._clientOptions.retryOptions
     );

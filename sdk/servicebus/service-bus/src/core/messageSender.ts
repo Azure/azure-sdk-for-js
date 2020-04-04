@@ -319,7 +319,8 @@ export class MessageSender extends LinkEntity {
         }
         if (this._sender!.sendable()) {
           try {
-            this._sender!.sendTimeoutInSeconds = retryOptions.timeoutInMs! - timeTakenByInit;
+            this._sender!.sendTimeoutInSeconds =
+              (retryOptions.timeoutInMs! - timeTakenByInit) / 1000;
             const delivery = await this._sender!.send(
               encodedMessage,
               undefined,
