@@ -73,7 +73,8 @@ export {
   GetIndexerOptions,
   CreateorUpdateIndexerOptions,
   DeleteIndexerOptions,
-  GetIndexerStatusOptions
+  GetIndexerStatusOptions,
+  ResetIndexerOptions
 } from "./serviceModels";
 export { default as GeographyPoint } from "./geographyPoint";
 export { odata } from "./odata";

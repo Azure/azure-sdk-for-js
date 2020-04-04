@@ -1005,6 +1005,9 @@ export interface RawSearchRequest {
 export type RegexFlags = 'CANON_EQ' | 'CASE_INSENSITIVE' | 'COMMENTS' | 'DOTALL' | 'LITERAL' | 'MULTILINE' | 'UNICODE_CASE' | 'UNIX_LINES';
 
 // @public
+export type ResetIndexerOptions = OperationOptions;
+
+// @public
 export type ScoringFunction = DistanceScoringFunction | FreshnessScoringFunction | MagnitudeScoringFunction | TagScoringFunction;
 
 // @public
@@ -1128,6 +1131,7 @@ export class SearchServiceClient {
     listIndexes(options?: ListIndexesOptions): Promise<Index[]>;
     listSkillsets(options?: ListSkillsetsOptions): Promise<Skillset[]>;
     listSynonymMaps(options?: ListSynonymMapsOptions): Promise<SynonymMap[]>;
+    resetIndexer(indexerName: string, options?: ResetIndexerOptions): Promise<void>;
 }
 
 // @public
