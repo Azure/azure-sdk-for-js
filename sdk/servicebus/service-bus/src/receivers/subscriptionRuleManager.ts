@@ -72,7 +72,7 @@ export interface SubscriptionRuleManager {
  */
 export class SubscriptionRuleManagerImpl implements SubscriptionRuleManager {
   private _retryOptions: RetryOptions;
-  constructor(private _context: ClientEntityContext, retryOptions: RetryOptions) {
+  constructor(private _context: ClientEntityContext, retryOptions: RetryOptions = {}) {
     this._retryOptions = retryOptions;
   }
 
@@ -88,7 +88,7 @@ export class SubscriptionRuleManagerImpl implements SubscriptionRuleManager {
       return this._context.managementClient!.getRules({
         ...options,
         requestName: "getRules",
-        timeoutInMs: this._retryOptions?.timeoutInMs
+        timeoutInMs: this._retryOptions.timeoutInMs
       });
     };
     const config: RetryConfig<RuleDescription[]> = {
@@ -112,7 +112,7 @@ export class SubscriptionRuleManagerImpl implements SubscriptionRuleManager {
       return this._context.managementClient!.removeRule(ruleName, {
         ...options,
         requestName: "removeRule",
-        timeoutInMs: this._retryOptions?.timeoutInMs
+        timeoutInMs: this._retryOptions.timeoutInMs
       });
     };
     const config: RetryConfig<void> = {
@@ -141,7 +141,7 @@ export class SubscriptionRuleManagerImpl implements SubscriptionRuleManager {
       return this._context.managementClient!.addRule(ruleName, filter, sqlRuleActionExpression, {
         ...options,
         requestName: "addRule",
-        timeoutInMs: this._retryOptions?.timeoutInMs
+        timeoutInMs: this._retryOptions.timeoutInMs
       });
     };
     const config: RetryConfig<void> = {

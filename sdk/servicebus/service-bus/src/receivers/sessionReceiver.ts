@@ -145,7 +145,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     context: ClientEntityContext,
     public receiveMode: "peekLock" | "receiveAndDelete",
     private _sessionOptions: GetSessionReceiverOptions,
-    retryOptions: RetryOptions
+    retryOptions: RetryOptions = {}
   ) {
     throwErrorIfConnectionClosed(context.namespace);
     this._context = context;
@@ -272,7 +272,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
         {
           ...options,
           requestName: "renewSessionLock",
-          timeoutInMs: this._retryOptions?.timeoutInMs
+          timeoutInMs: this._retryOptions.timeoutInMs
         }
       );
       return this._messageSession!.sessionLockedUntilUtc!;
@@ -303,7 +303,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       await this._context.managementClient!.setSessionState(this.sessionId!, state, {
         ...options,
         requestName: "setState",
-        timeoutInMs: this._retryOptions?.timeoutInMs
+        timeoutInMs: this._retryOptions.timeoutInMs
       });
       return;
     };
@@ -333,7 +333,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       return this._context.managementClient!.getSessionState(this.sessionId!, {
         ...options,
         requestName: "getState",
-        timeoutInMs: this._retryOptions?.timeoutInMs
+        timeoutInMs: this._retryOptions.timeoutInMs
       });
     };
     const config: RetryConfig<any> = {
@@ -375,7 +375,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
         {
           ...options,
           requestName: "peek",
-          timeoutInMs: this._retryOptions?.timeoutInMs
+          timeoutInMs: this._retryOptions.timeoutInMs
         }
       );
       return internalMessages.map((m) => m as ReceivedMessage);
@@ -422,7 +422,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
         {
           ...options,
           requestName: "peekBySequenceNumber",
-          timeoutInMs: this._retryOptions?.timeoutInMs
+          timeoutInMs: this._retryOptions.timeoutInMs
         }
       );
       return internalMessages.map((m) => m as ReceivedMessage);
@@ -472,7 +472,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
         {
           ...options,
           requestName: "receiveDeferredMessage",
-          timeoutInMs: this._retryOptions?.timeoutInMs
+          timeoutInMs: this._retryOptions.timeoutInMs
         }
       );
       return (messages[0] as unknown) as ReceivedMessageT;
@@ -525,7 +525,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
         {
           ...options,
           requestName: "receiveDeferredMessages",
-          timeoutInMs: this._retryOptions?.timeoutInMs
+          timeoutInMs: this._retryOptions.timeoutInMs
         }
       );
       return (deferredMessages as any) as ReceivedMessageT[];

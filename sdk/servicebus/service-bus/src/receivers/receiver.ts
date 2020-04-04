@@ -172,7 +172,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
   constructor(
     context: ClientEntityContext,
     public receiveMode: "peekLock" | "receiveAndDelete",
-    retryOptions: RetryOptions
+    retryOptions: RetryOptions = {}
   ) {
     throwErrorIfConnectionClosed(context.namespace);
     this.entityPath = context.entityPath;
@@ -373,7 +373,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
         {
           ...options,
           requestName: "receiveDeferredMessage",
-          timeoutInMs: this._retryOptions?.timeoutInMs
+          timeoutInMs: this._retryOptions.timeoutInMs
         }
       );
       return (messages[0] as unknown) as ReceivedMessageT;
@@ -425,7 +425,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
         {
           ...options,
           requestName: "receiveDeferredMessages",
-          timeoutInMs: this._retryOptions?.timeoutInMs
+          timeoutInMs: this._retryOptions.timeoutInMs
         }
       );
       return (deferredMessages as any) as ReceivedMessageT[];
@@ -456,7 +456,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       const internalMessages = await this._context.managementClient!.peek(maxMessageCount, {
         ...options,
         requestName: "peek",
-        timeoutInMs: this._retryOptions?.timeoutInMs
+        timeoutInMs: this._retryOptions.timeoutInMs
       });
       return internalMessages.map((m) => m as ReceivedMessage);
     };
@@ -489,7 +489,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
         {
           ...options,
           requestName: "peekBySequenceNumber",
-          timeoutInMs: this._retryOptions?.timeoutInMs
+          timeoutInMs: this._retryOptions.timeoutInMs
         }
       );
       return internalMessages.map((m) => m as ReceivedMessage);

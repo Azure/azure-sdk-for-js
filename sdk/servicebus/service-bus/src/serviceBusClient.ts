@@ -144,13 +144,13 @@ export class ServiceBusClient {
       return new ReceiverImpl<ReceivedMessageWithLock>(
         clientEntityContext,
         receiveMode,
-        this._clientOptions.retryOptions!
+        this._clientOptions.retryOptions
       );
     } else {
       return new ReceiverImpl<ReceivedMessage>(
         clientEntityContext,
         receiveMode,
-        this._clientOptions.retryOptions!
+        this._clientOptions.retryOptions
       );
     }
   }
@@ -235,7 +235,7 @@ export class ServiceBusClient {
         sessionId: options?.sessionId,
         maxSessionAutoRenewLockDurationInSeconds: options?.maxSessionAutoRenewLockDurationInSeconds
       },
-      this._clientOptions.retryOptions!
+      this._clientOptions.retryOptions
     );
   }
 
@@ -251,7 +251,7 @@ export class ServiceBusClient {
       this._connectionContext,
       `${queueOrTopicName}/${generate_uuid()}`
     );
-    return new SenderImpl(clientEntityContext, this._clientOptions.retryOptions!);
+    return new SenderImpl(clientEntityContext, this._clientOptions.retryOptions);
   }
 
   /**
@@ -268,7 +268,7 @@ export class ServiceBusClient {
       `${entityPath}/${generate_uuid()}`
     );
 
-    return new SubscriptionRuleManagerImpl(clientEntityContext, this._clientOptions.retryOptions!);
+    return new SubscriptionRuleManagerImpl(clientEntityContext, this._clientOptions.retryOptions);
   }
 
   /**

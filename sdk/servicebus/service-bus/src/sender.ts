@@ -169,7 +169,7 @@ export class SenderImpl implements Sender {
    * @internal
    * @throws Error if the underlying connection is closed.
    */
-  constructor(context: ClientEntityContext, retryOptions: RetryOptions) {
+  constructor(context: ClientEntityContext, retryOptions: RetryOptions = {}) {
     throwErrorIfConnectionClosed(context.namespace);
     this._context = context;
     this._sender = MessageSender.create(this._context, retryOptions);
@@ -257,7 +257,7 @@ export class SenderImpl implements Sender {
         {
           ...options,
           requestName: "scheduleMessage",
-          timeoutInMs: this._retryOptions?.timeoutInMs
+          timeoutInMs: this._retryOptions.timeoutInMs
         }
       );
       return result[0];
@@ -293,7 +293,7 @@ export class SenderImpl implements Sender {
       return this._context.managementClient!.scheduleMessages(scheduledEnqueueTimeUtc, messages, {
         ...options,
         requestName: "scheduleMessages",
-        timeoutInMs: this._retryOptions?.timeoutInMs
+        timeoutInMs: this._retryOptions.timeoutInMs
       });
     };
     const config: RetryConfig<Long[]> = {
@@ -326,7 +326,7 @@ export class SenderImpl implements Sender {
       return this._context.managementClient!.cancelScheduledMessages([sequenceNumber], {
         ...options,
         requestName: "cancelScheduledMessage",
-        timeoutInMs: this._retryOptions?.timeoutInMs
+        timeoutInMs: this._retryOptions.timeoutInMs
       });
     };
     const config: RetryConfig<void> = {
@@ -362,7 +362,7 @@ export class SenderImpl implements Sender {
       return this._context.managementClient!.cancelScheduledMessages(sequenceNumbers, {
         ...options,
         requestName: "cancelScheduledMessages",
-        timeoutInMs: this._retryOptions?.timeoutInMs
+        timeoutInMs: this._retryOptions.timeoutInMs
       });
     };
     const config: RetryConfig<void> = {

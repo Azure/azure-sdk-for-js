@@ -90,7 +90,7 @@ export interface MessageHandlerOptions {
   maxMessageAutoRenewLockDurationInSeconds?: number;
   /**
    * @property The maximum number of concurrent calls that the sdk can make to the user's message
-   * handler. Once this limit has been reached, further messages will not be received until atleast
+   * handler. Once this limit has been reached, further messages will not be received until at least
    * one of the calls to the user's message handler has completed.
    * - **Default**: `1`.
    */
