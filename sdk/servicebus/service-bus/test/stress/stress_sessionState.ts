@@ -32,7 +32,7 @@ async function setGetSessionState(sessionId: string): Promise<void> {
   try {
     const receiver = client.createReceiver(ReceiveMode.peekLock, {
       sessionId: sessionId,
-      autoRenewLockDurationInMs: testDurationInMilliseconds + 60
+      autoRenewLockDurationInMs: testDurationInMilliseconds + 60 * 1000
     });
 
     const firstState = { testKey: "testValue-a" };
