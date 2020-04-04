@@ -162,7 +162,7 @@ export interface Sender {
 // @public
 export class ServiceBusClient {
     constructor(connectionString: string, options?: ServiceBusClientOptions);
-    constructor(hostName: string, tokenCredential: TokenCredential, options?: ServiceBusClientOptions);
+    constructor(fullyQualifiedNamespace: string, credential: TokenCredential, options?: ServiceBusClientOptions);
     close(): Promise<void>;
     getDeadLetterReceiver(queueName: string, receiveMode: "peekLock", options?: GetReceiverOptions): Receiver<ReceivedMessageWithLock>;
     getDeadLetterReceiver(queueName: string, receiveMode: "receiveAndDelete", options?: GetReceiverOptions): Receiver<ReceivedMessage>;
