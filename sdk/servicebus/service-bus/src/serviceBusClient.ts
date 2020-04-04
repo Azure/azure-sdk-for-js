@@ -102,7 +102,6 @@ export class ServiceBusClient {
    * @param topicName Name of the topic for the subscription we want to receive from.
    * @param subscriptionName Name of the subscription (under the `topic`) that we want to receive from.
    * @param receiveMode The receive mode to use (defaults to PeekLock)
-   * @param options Options for the receiver itself.
    */
   createReceiver(
     topicName: string,
@@ -115,7 +114,6 @@ export class ServiceBusClient {
    * @param topicName Name of the topic for the subscription we want to receive from.
    * @param subscriptionName Name of the subscription (under the `topic`) that we want to receive from.
    * @param receiveMode The receive mode to use (defaults to PeekLock)
-   * @param options Options for the receiver itself.
    */
   createReceiver(
     topicName: string,
@@ -278,7 +276,6 @@ export class ServiceBusClient {
    *
    * @param queueName The name of the queue to receive from.
    * @param receiveMode The receive mode to use (defaults to PeekLock)
-   * @param options Options for the receiver itself.
    */
   createDeadLetterReceiver(
     queueName: string,
@@ -289,7 +286,6 @@ export class ServiceBusClient {
    *
    * @param queueName The name of the queue to receive from.
    * @param receiveMode The receive mode to use (defaults to PeekLock)
-   * @param options Options for the receiver itself.
    */
   createDeadLetterReceiver(
     queueName: string,
@@ -301,7 +297,6 @@ export class ServiceBusClient {
    * @param topicName Name of the topic for the subscription we want to receive from.
    * @param subscriptionName Name of the subscription (under the `topic`) that we want to receive from.
    * @param receiveMode The receive mode to use (defaults to PeekLock)
-   * @param options Options for the receiver itself.
    */
   createDeadLetterReceiver(
     topicName: string,
@@ -314,7 +309,6 @@ export class ServiceBusClient {
    * @param topicName Name of the topic for the subscription we want to receive from.
    * @param subscriptionName Name of the subscription (under the `topic`) that we want to receive from.
    * @param receiveMode The receive mode to use (defaults to PeekLock)
-   * @param options Options for the receiver itself.
    */
   createDeadLetterReceiver(
     topicName: string,
