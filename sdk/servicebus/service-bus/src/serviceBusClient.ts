@@ -94,7 +94,6 @@ export class ServiceBusClient {
    *
    * @param queueName The name of the queue to receive from.
    * @param receiveMode The receive mode to use (defaults to PeekLock)
-   * @param options Options for the receiver itself.
    */
   createReceiver(queueName: string, receiveMode: "receiveAndDelete"): Receiver<ReceivedMessage>;
   /**
