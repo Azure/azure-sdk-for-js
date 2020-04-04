@@ -68,7 +68,8 @@ export {
   CognitiveServicesAccount,
   Skill,
   SynonymMap,
-  ListIndexersOptions
+  ListIndexersOptions,
+  CreateIndexerOptions
 } from "./serviceModels";
 export { default as GeographyPoint } from "./geographyPoint";
 export { odata } from "./odata";

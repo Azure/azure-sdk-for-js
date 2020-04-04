@@ -741,6 +741,32 @@ async function main() {
 main();
 ```
 
+#### Create an Indexer
+```js
+const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-documents");
+
+const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
+
+async function main() {
+  const indexer = await client.createIndexer({
+    name: 'my-azure-indexer-1',
+    description: "My Azure Indexer 1",
+    dataSourceName: "testblobstoragesjama",  
+    targetIndexName: "azureblob-index-2",
+    isDisabled: false,
+    fieldMappings: [{
+      sourceFieldName: "metadata_storage_path",
+      targetFieldName: "metadata_storage_path",
+      mappingFunction: {
+        name: "base64Encode"
+      }
+    }]
+  });
+}
+
+main();
+```
+
 #### Create a SynonymMap
 
 ```js

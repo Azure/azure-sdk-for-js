@@ -155,6 +155,9 @@ export interface CorsOptions {
 export type CountDocumentsOptions = OperationOptions;
 
 // @public
+export type CreateIndexerOptions = OperationOptions;
+
+// @public
 export type CreateIndexOptions = OperationOptions;
 
 // @public
@@ -1037,6 +1040,7 @@ export class SearchServiceClient {
     analyzeText(indexName: string, options: AnalyzeTextOptions): Promise<AnalyzeResult>;
     readonly apiVersion: string;
     createIndex(index: Index, options?: CreateIndexOptions): Promise<Index>;
+    createIndexer(indexer: Indexer, options?: CreateIndexerOptions): Promise<Indexer>;
     createOrUpdateIndex(index: Index, options?: CreateOrUpdateIndexOptions): Promise<Index>;
     createOrUpdateSkillset(skillset: Skillset, options?: CreateOrUpdateSkillsetOptions): Promise<Skillset>;
     createOrUpdateSynonymMap(synonymMap: SynonymMap, options?: CreateOrUpdateSynonymMapOptions): Promise<SynonymMap>;

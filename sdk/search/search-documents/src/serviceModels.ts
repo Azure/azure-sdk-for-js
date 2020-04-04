@@ -148,6 +148,11 @@ export type CreateSkillsetOptions = OperationOptions;
 export type CreateSynonymMapOptions = OperationOptions;
 
 /**
+ * Options for create indexer operation.
+ */
+export type CreateIndexerOptions = OperationOptions;
+
+/**
  * Options for all operations with etag parameters.
  */
 export interface ETagOperationOptions {
