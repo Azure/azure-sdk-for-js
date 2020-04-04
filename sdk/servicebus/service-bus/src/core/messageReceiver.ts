@@ -145,11 +145,11 @@ export class MessageReceiver extends LinkEntity {
    */
   maxAutoRenewDurationInMs: number;
   /**
-   * @property {number} [newMessageWaitTimeoutInSeconds] The maximum amount of idle time the
+   * @property {number} [newMessageWaitTimeoutInMs] The maximum amount of idle time the
    * receiver will wait after a message has been received. If no messages are received by this
    * time then the receive operation will end.
    */
-  newMessageWaitTimeoutInSeconds?: number;
+  newMessageWaitTimeoutInMs?: number;
   /**
    * @property {boolean} autoRenewLock Should lock renewal happen automatically.
    */

@@ -126,7 +126,7 @@ export interface MessageHandlerOptions {
    */
   autoComplete?: boolean;
   /**
-   * @property The maximum duration in seconds until which the lock on the message will be renewed
+   * @property The maximum duration in milliseconds until which the lock on the message will be renewed
    * by the sdk automatically. This auto renewal stops once the message is settled or once the user
    * provided onMessage handler completes ite execution.
    *

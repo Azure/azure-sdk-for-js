@@ -47,7 +47,7 @@ export class BatchingReceiver extends MessageReceiver {
    */
   constructor(context: ClientEntityContext, options?: ReceiveOptions) {
     super(context, ReceiverType.batching, options);
-    this.newMessageWaitTimeoutInSeconds = 1;
+    this.newMessageWaitTimeoutInMs = 1000;
   }
 
   /**
@@ -298,20 +298,20 @@ export class BatchingReceiver extends MessageReceiver {
       if (this.receiveMode === ReceiveMode.peekLock) {
         /**
          * Resets the timer when a new message is received. If no messages were received for
-         * `newMessageWaitTimeoutInSeconds`, the messages received till now are returned. The
-         * receiver link stays open for the next receive call, but doesnt receive messages until then.
+         * `newMessageWaitTimeoutInMs`, the messages received till now are returned. The
+         * receiver link stays open for the next receive call, but doesn't receive messages until then.
          */
         this.resetTimerOnNewMessageReceived = () => {
           if (this._newMessageReceivedTimer) clearTimeout(this._newMessageReceivedTimer);
-          if (this.newMessageWaitTimeoutInSeconds) {
+          if (this.newMessageWaitTimeoutInMs) {
             this._newMessageReceivedTimer = setTimeout(async () => {
               const msg =
                 `BatchingReceiver '${this.name}' did not receive any messages in the last ` +
-                `${this.newMessageWaitTimeoutInSeconds} seconds. ` +
+                `${this.newMessageWaitTimeoutInMs} milliseconds. ` +
                 `Hence ending this batch receive operation.`;
               log.error("[%s] %s", this._context.namespace.connectionId, msg);
               finalAction();
-            }, this.newMessageWaitTimeoutInSeconds * 1000);
+            }, this.newMessageWaitTimeoutInMs);
           }
         };
       }
@@ -386,7 +386,7 @@ export class BatchingReceiver extends MessageReceiver {
         // TODO: Disabling this for now. We would want to give the user a decent chance to receive
         // the first message and only timeout faster if successive messages from there onwards are
         // not received quickly. However, it may be possible that there are no pending messages
-        // currently on the queue. In that case waiting for idleTimeoutInSeconds would be
+        // currently on the queue. In that case waiting for idleTimeoutInMs would be
         // unnecessary.
         // There is a management plane API to get runtimeInfo of the Queue which provides
         // information about active messages on the Queue and it's sub Queues. However, this adds

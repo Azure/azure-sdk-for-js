@@ -615,7 +615,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    * @param options - Options to control whether messages should be automatically completed
    * or if the lock on the session should be automatically renewed. You can control the
    * maximum number of messages that should be concurrently processed. You can
-   * also provide a timeout in seconds to denote the amount of time to wait for a new message
+   * also provide a timeout in milliseconds to denote the amount of time to wait for a new message
    * before closing the receiver.
    *
    * @returns void
