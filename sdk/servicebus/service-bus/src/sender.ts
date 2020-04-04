@@ -269,14 +269,14 @@ export class SenderImpl implements Sender {
       return result[0];
     };
 
-    const config: RetryConfig<Long.Long> = {
+    const config: RetryConfig<Long> = {
       operation: scheduleMessageOperationPromise,
       connectionId: this._context.namespace.connectionId,
       operationType: RetryOperationType.management,
       retryOptions: this._senderOptions.retryOptions,
       abortSignal: options?.abortSignal
     };
-    return retry<Long.Long>(config);
+    return retry<Long>(config);
   }
 
   async scheduleMessages(
@@ -302,14 +302,14 @@ export class SenderImpl implements Sender {
         timeoutInMs: this._senderOptions.retryOptions?.timeoutInMs
       });
     };
-    const config: RetryConfig<Long.Long[]> = {
+    const config: RetryConfig<Long[]> = {
       operation: scheduleMessageOperationPromise,
       connectionId: this._context.namespace.connectionId,
       operationType: RetryOperationType.management,
       retryOptions: this._senderOptions.retryOptions,
       abortSignal: options?.abortSignal
     };
-    return retry<Long.Long[]>(config);
+    return retry<Long[]>(config);
   }
 
   async cancelScheduledMessage(
