@@ -71,12 +71,12 @@ export interface SessionReceiverOptions {
    */
   sessionId: string | undefined;
   /**
-   * @property The maximum duration in seconds
+   * @property The maximum duration in milliseconds
    * until which, the lock on the session will be renewed automatically by the sdk.
-   * - **Default**: `300` seconds (5 minutes).
+   * - **Default**: `300000` milliseconds (5 minutes).
    * - **To disable autolock renewal**, set this to `0`.
    */
-  maxSessionAutoRenewLockDurationInSeconds?: number;
+  autoRenewLockDurationInMs?: number;
 }
 
 /**
@@ -493,9 +493,7 @@ export class MessageSession extends LinkEntity {
     this.receiveMode = options.receiveMode || ReceiveMode.peekLock;
     this.callee = options.callee || SessionCallee.standalone;
     this.maxAutoRenewDurationInSeconds =
-      options.maxSessionAutoRenewLockDurationInSeconds != null
-        ? options.maxSessionAutoRenewLockDurationInSeconds
-        : 300;
+      options.autoRenewLockDurationInMs != null ? options.autoRenewLockDurationInMs / 1000 : 300;
     this._totalAutoLockRenewDuration = Date.now() + this.maxAutoRenewDurationInSeconds * 1000;
     this.autoRenewLock =
       this.maxAutoRenewDurationInSeconds > 0 && this.receiveMode === ReceiveMode.peekLock;

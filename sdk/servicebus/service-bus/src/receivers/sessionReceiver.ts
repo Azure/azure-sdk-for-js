@@ -202,8 +202,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     this._context.isSessionEnabled = true;
     this._messageSession = await MessageSession.create(this._context, {
       sessionId: this._sessionOptions.sessionId,
-      maxSessionAutoRenewLockDurationInSeconds: this._sessionOptions
-        .maxSessionAutoRenewLockDurationInSeconds,
+      autoRenewLockDurationInMs: this._sessionOptions.autoRenewLockDurationInMs,
       receiveMode: convertToInternalReceiveMode(this.receiveMode)
     });
     // By this point, we should have a valid sessionId on the messageSession

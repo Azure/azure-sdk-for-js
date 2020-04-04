@@ -240,7 +240,7 @@ export class ServiceBusClient {
     // TODO: .NET actually tries to open the session here so we'd need to be async for that.
     return new SessionReceiverImpl(clientEntityContext, receiveMode, {
       sessionId: options?.sessionId,
-      maxSessionAutoRenewLockDurationInSeconds: options?.maxSessionAutoRenewLockDurationInSeconds,
+      autoRenewLockDurationInMs: options?.autoRenewLockDurationInMs,
       retryOptions: options?.retryOptions ?? this._clientOptions.retryOptions
     });
   }
