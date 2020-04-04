@@ -236,7 +236,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
    * @param onError - Handler for any error that occurs while receiving or processing messages.
    * @param options - Options to control if messages should be automatically completed, and/or have
    * their locks automatically renewed. You can control the maximum number of messages that should
-   * be concurrently processed. You can also provide a timeout in seconds to denote the
+   * be concurrently processed. You can also provide a timeout in milliseconds to denote the
    * amount of time to wait for a new message before closing the receiver.
    *
    * @returns void
