@@ -362,6 +362,9 @@ export interface GetDocumentOptions<Fields> extends OperationOptions {
 export type GetIndexerOptions = OperationOptions;
 
 // @public
+export type GetIndexerStatusOptions = OperationOptions;
+
+// @public
 export type GetIndexOptions = OperationOptions;
 
 // @public
@@ -458,6 +461,41 @@ export interface Indexer {
 }
 
 // @public
+export interface IndexerExecutionInfo {
+    readonly executionHistory: IndexerExecutionResult[];
+    readonly lastResult?: IndexerExecutionResult;
+    readonly limits: IndexerLimits;
+    readonly status: IndexerStatus;
+}
+
+// @public
+export interface IndexerExecutionResult {
+    readonly endTime?: Date;
+    readonly errorMessage?: string;
+    readonly errors: ItemError[];
+    readonly failedItemCount: number;
+    readonly finalTrackingState?: string;
+    readonly initialTrackingState?: string;
+    readonly itemCount: number;
+    readonly startTime?: Date;
+    readonly status: IndexerExecutionStatus;
+    readonly warnings: ItemWarning[];
+}
+
+// @public
+export type IndexerExecutionStatus = 'transientFailure' | 'success' | 'inProgress' | 'reset';
+
+// @public
+export interface IndexerLimits {
+    readonly maxDocumentContentCharactersToExtract?: number;
+    readonly maxDocumentExtractionSize?: number;
+    readonly maxRunTime?: string;
+}
+
+// @public
+export type IndexerStatus = 'unknown' | 'error' | 'running';
+
+// @public
 export interface IndexingParameters {
     batchSize?: number;
     configuration?: {
@@ -487,6 +525,25 @@ export interface InputFieldMappingEntry {
     name: string;
     source?: string;
     sourceContext?: string;
+}
+
+// @public
+export interface ItemError {
+    readonly details?: string;
+    readonly documentationLink?: string;
+    readonly errorMessage: string;
+    readonly key?: string;
+    readonly name?: string;
+    readonly statusCode: number;
+}
+
+// @public
+export interface ItemWarning {
+    readonly details?: string;
+    readonly documentationLink?: string;
+    readonly key?: string;
+    readonly message: string;
+    readonly name?: string;
 }
 
 // @public
@@ -1063,6 +1120,7 @@ export class SearchServiceClient {
     readonly endpoint: string;
     getIndex(indexName: string, options?: GetIndexOptions): Promise<Index>;
     getIndexer(indexerName: string, options?: GetIndexerOptions): Promise<Indexer>;
+    getIndexerStatus(indexerName: string, options?: GetIndexerStatusOptions): Promise<IndexerExecutionInfo>;
     getIndexStatistics(indexName: string, options?: GetIndexStatisticsOptions): Promise<GetIndexStatisticsResult>;
     getSkillset(skillsetName: string, options?: GetSkillSetOptions): Promise<Skillset>;
     getSynonymMap(synonymMapName: string, options?: GetSynonymMapsOptions): Promise<SynonymMap>;

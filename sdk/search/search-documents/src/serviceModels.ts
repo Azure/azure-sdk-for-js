@@ -138,6 +138,11 @@ export type GetIndexerOptions = OperationOptions;
 export type GetIndexStatisticsOptions = OperationOptions;
 
 /**
+ * Options for get indexer status operation.
+ */
+export type GetIndexerStatusOptions = OperationOptions;
+
+/**
  * Options for create index operation.
  */
 export type CreateIndexOptions = OperationOptions;

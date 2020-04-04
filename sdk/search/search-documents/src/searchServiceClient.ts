@@ -11,7 +11,12 @@ import {
 } from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/types";
 import { SDK_VERSION } from "./constants";
-import { AnalyzeResult, GetIndexStatisticsResult, Indexer } from "./generated/service/models";
+import {
+  AnalyzeResult,
+  GetIndexStatisticsResult,
+  Indexer,
+  IndexerExecutionInfo
+} from "./generated/service/models";
 import { SearchServiceClient as GeneratedClient } from "./generated/service/searchServiceClient";
 import { logger } from "./logger";
 import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy";
@@ -40,7 +45,8 @@ import {
   CreateIndexerOptions,
   GetIndexerOptions,
   CreateorUpdateIndexerOptions,
-  DeleteIndexerOptions
+  DeleteIndexerOptions,
+  GetIndexerStatusOptions
 } from "./serviceModels";
 import * as utils from "./serviceUtils";
 import { createSpan } from "./tracing";
@@ -675,6 +681,33 @@ export class SearchServiceClient {
     try {
       const result = await this.client.indexes.getStatistics(
         indexName,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return result;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Returns the current status and execution history of an indexer.
+   * @param indexerName The name of the indexer.
+   * @param options Additional optional arguments.
+   */
+  public async getIndexerStatus(
+    indexerName: string,
+    options: GetIndexerStatusOptions = {}
+  ): Promise<IndexerExecutionInfo> {
+    const { span, updatedOptions } = createSpan("SearchServiceClient-getIndexerStatus", options);
+    try {
+      const result = await this.client.indexers.getStatus(
+        indexerName,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
       return result;

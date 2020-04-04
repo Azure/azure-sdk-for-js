@@ -813,6 +813,28 @@ async function main() {
 main();
 ```
 
+### Get the status of an indexer
+```js
+const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-documents");
+
+const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
+
+async function main() {
+  const indexerStatus = await client.getIndexerStatus('azureblob-indexer');
+  console.log(`Name: ${indexerStatus.name}`);
+  console.log(`OData Context: ${indexerStatus["@odata.context"]}`);
+  console.log(`Status: ${indexerStatus.status}`);
+  console.log(`Execution History`);
+  for(let execution of indexerStatus.executionHistory) {
+    console.log(`\tStatus: ${execution.status}`);
+    console.log(`\tFinal Tracking State: ${execution.finalTrackingState}`);
+    console.log(`\tInitial Tracking State: ${execution.initialTrackingState}`);
+  }
+}
+
+main();
+```
+
 ## Troubleshooting
 
 ### Enable logs

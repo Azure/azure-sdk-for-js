@@ -72,7 +72,8 @@ export {
   CreateIndexerOptions,
   GetIndexerOptions,
   CreateorUpdateIndexerOptions,
-  DeleteIndexerOptions
+  DeleteIndexerOptions,
+  GetIndexerStatusOptions
 } from "./serviceModels";
 export { default as GeographyPoint } from "./geographyPoint";
 export { odata } from "./odata";
@@ -193,6 +194,13 @@ export {
   FieldMapping,
   IndexingParameters,
   IndexingSchedule,
-  FieldMappingFunction
+  FieldMappingFunction,
+  IndexerExecutionInfo,
+  IndexerExecutionResult,
+  IndexerLimits,
+  IndexerStatus,
+  ItemError,
+  IndexerExecutionStatus,
+  ItemWarning
 } from "./generated/service/models";
 export { AzureKeyCredential } from "@azure/core-auth";
