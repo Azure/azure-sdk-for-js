@@ -128,6 +128,11 @@ export type GetSkillSetOptions = OperationOptions;
 export type GetSynonymMapsOptions = OperationOptions;
 
 /**
+ * Options for get indexer operation.
+ */
+export type GetIndexerOptions = OperationOptions;
+
+/**
  * Options for get index statistics operation.
  */
 export type GetIndexStatisticsOptions = OperationOptions;

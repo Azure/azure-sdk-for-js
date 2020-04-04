@@ -37,7 +37,8 @@ import {
   Skillset,
   SynonymMap,
   ListIndexersOptions,
-  CreateIndexerOptions
+  CreateIndexerOptions,
+  GetIndexerOptions
 } from "./serviceModels";
 import * as utils from "./serviceUtils";
 import { createSpan } from "./tracing";
@@ -281,7 +282,7 @@ export class SearchServiceClient {
   }
 
   /**
-   * Retrieves information about an SynonymMap.
+   * Retrieves information about a SynonymMap.
    * @param indexName The name of the Skillset.
    * @param options Additional optional arguments.
    */
@@ -296,6 +297,30 @@ export class SearchServiceClient {
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
       return utils.generatedSynonymMapToPublicSynonymMap(result);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Retrieves information about an Indexer.
+   * @param indexerName The name of the Indexer.
+   * @param options Additional optional arguments.
+   */
+  public async getIndexer(indexerName: string, options: GetIndexerOptions = {}): Promise<Indexer> {
+    const { span, updatedOptions } = createSpan("SearchServiceClient-getIndexer", options);
+    try {
+      const result = await this.client.indexers.get(
+        indexerName,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return result;
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

@@ -353,6 +353,9 @@ export interface GetDocumentOptions<Fields> extends OperationOptions {
 }
 
 // @public
+export type GetIndexerOptions = OperationOptions;
+
+// @public
 export type GetIndexOptions = OperationOptions;
 
 // @public
@@ -1051,6 +1054,7 @@ export class SearchServiceClient {
     deleteSynonymMap(synonymMapName: string, options?: DeleteSynonymMapOptions): Promise<void>;
     readonly endpoint: string;
     getIndex(indexName: string, options?: GetIndexOptions): Promise<Index>;
+    getIndexer(indexerName: string, options?: GetIndexerOptions): Promise<Indexer>;
     getIndexStatistics(indexName: string, options?: GetIndexStatisticsOptions): Promise<GetIndexStatisticsResult>;
     getSkillset(skillsetName: string, options?: GetSkillSetOptions): Promise<Skillset>;
     getSynonymMap(synonymMapName: string, options?: GetSynonymMapsOptions): Promise<SynonymMap>;

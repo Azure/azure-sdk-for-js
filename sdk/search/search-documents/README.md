@@ -784,6 +784,30 @@ async function main() {
 main();
 ```
 
+#### Retrieve an existing indexer
+```js
+const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-documents");
+
+const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
+
+async function main() {
+  const indexer = await client.getIndexer("my-azure-indexer-1");
+  console.log(`Name: ${indexer.name}`);
+  console.log(`Description: ${indexer.description}`);
+  console.log(`Datasource Name: ${indexer.dataSourceName}`);
+  console.log(`Target Index Name: ${indexer.targetIndexName}`);
+  console.log(`IsDisabled: ${indexer.isDisabled}`);
+  console.log(`Field Mappings`);
+  for(let fieldMapping of indexer.fieldMappings) {
+    console.log(`\tSource Field Name: ${fieldMapping.sourceFieldName}`);
+    console.log(`\tTarget Field Name: ${fieldMapping.targetFieldName}`);
+    console.log(`\tMapping Function Name: ${fieldMapping.mappingFunction.name}`);
+  }
+}
+
+main();
+```
+
 ## Troubleshooting
 
 ### Enable logs
