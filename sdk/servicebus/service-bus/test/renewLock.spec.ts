@@ -404,7 +404,7 @@ describe("renew lock", () => {
       { processMessage, processError },
       {
         autoComplete: false,
-        maxMessageAutoRenewLockDurationInSeconds: 0
+        maxMessageAutoRenewLockDurationInMs: 0
       }
     );
     await delay(10000);
@@ -465,7 +465,7 @@ describe("renew lock", () => {
       { processMessage, processError },
       {
         autoComplete: false,
-        maxMessageAutoRenewLockDurationInSeconds: options.maxAutoRenewDurationInMs
+        maxMessageAutoRenewLockDurationInMs: options.maxAutoRenewDurationInMs
       }
     );
     await delay(options.delayBeforeAttemptingToCompleteMessageInSeconds * 1000 + 10000);

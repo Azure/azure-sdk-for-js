@@ -130,10 +130,10 @@ export interface MessageHandlerOptions {
    * by the sdk automatically. This auto renewal stops once the message is settled or once the user
    * provided onMessage handler completes ite execution.
    *
-   * - **Default**: `300` seconds (5 minutes).
+   * - **Default**: `300 * 1000` milliseconds (5 minutes).
    * - **To disable autolock renewal**, set this to `0`.
    */
-  maxMessageAutoRenewLockDurationInSeconds?: number;
+  maxMessageAutoRenewLockDurationInMs?: number;
   /**
    * @property The maximum number of concurrent calls that the sdk can make to the user's message
    * handler. Once this limit has been reached, further messages will not be received until atleast
