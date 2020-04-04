@@ -123,7 +123,7 @@ export class ServiceBusClient {
   createReceiver(
     queueOrTopicName1: string,
     receiveModeOrSubscriptionName2: "peekLock" | "receiveAndDelete" | string,
-    receiveModeOrOptions3?: "peekLock" | "receiveAndDelete"
+    receiveMode3?: "peekLock" | "receiveAndDelete"
   ): Receiver<ReceivedMessageWithLock> | Receiver<ReceivedMessage> {
     // NOTE: we don't currently have any options for this kind of receiver but
     // when we do make sure you pass them in and extract them.
@@ -131,7 +131,7 @@ export class ServiceBusClient {
       this._connectionContext.config.entityPath,
       queueOrTopicName1,
       receiveModeOrSubscriptionName2,
-      receiveModeOrOptions3
+      receiveMode3
     );
 
     const clientEntityContext = ClientEntityContext.create(
@@ -318,7 +318,7 @@ export class ServiceBusClient {
   createDeadLetterReceiver(
     queueOrTopicName1: string,
     receiveModeOrSubscriptionName2: "peekLock" | "receiveAndDelete" | string,
-    receiveModeOrOptions3?: "peekLock" | "receiveAndDelete"
+    receiveMode3?: "peekLock" | "receiveAndDelete"
   ): Receiver<ReceivedMessageWithLock> | Receiver<ReceivedMessage> {
     // NOTE: we don't currently have any options for this kind of receiver but
     // when we do make sure you pass them in and extract them.
@@ -326,7 +326,7 @@ export class ServiceBusClient {
       this._connectionContext.config.entityPath,
       queueOrTopicName1,
       receiveModeOrSubscriptionName2,
-      receiveModeOrOptions3
+      receiveMode3
     );
 
     const deadLetterEntityPath = `${entityPath}/$DeadLetterQueue`;
