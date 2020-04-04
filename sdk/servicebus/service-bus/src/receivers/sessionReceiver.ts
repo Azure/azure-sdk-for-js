@@ -10,7 +10,7 @@ import {
   ReceivedMessage
 } from "..";
 
-import { GetMessageIteratorOptions, GetSessionReceiverOptions } from "../models";
+import { GetMessageIteratorOptions, CreateSessionReceiverOptions } from "../models";
 import { MessageSession } from "../session/messageSession";
 import {
   throwErrorIfConnectionClosed,
@@ -144,7 +144,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
   constructor(
     context: ClientEntityContext,
     public receiveMode: "peekLock" | "receiveAndDelete",
-    private _sessionOptions: GetSessionReceiverOptions,
+    private _sessionOptions: CreateSessionReceiverOptions,
     retryOptions: RetryOptions = {}
   ) {
     throwErrorIfConnectionClosed(context.namespace);

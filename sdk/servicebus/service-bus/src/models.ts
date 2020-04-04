@@ -98,7 +98,7 @@ export interface MessageHandlerOptions {
 }
 
 /**
- * Describes the options passed to the `createReceiver` method when using a Queue/Subscription that
+ * Describes the options passed to the `createSessionReceiver` method when using a Queue/Subscription that
  * has sessions enabled.
  */
-export interface GetSessionReceiverOptions extends SessionReceiverOptions, OperationOptions {}
+export interface CreateSessionReceiverOptions extends SessionReceiverOptions, OperationOptions {}
