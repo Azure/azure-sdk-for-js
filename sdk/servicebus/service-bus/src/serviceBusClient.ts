@@ -42,34 +42,38 @@ export class ServiceBusClient {
   constructor(connectionString: string, options?: ServiceBusClientOptions);
   /**
    *
-   * @param host The hostname of your Azure Service Bus.
-   * @param tokenCredential A valid TokenCredential for Service Bus or a
-   * Service Bus entity.
-   * @param options Options for the service bus client.
+   * @param fullyQualifiedNamespace The full namespace of your Service Bus instance which is 
+   * likely to be similar to <yournamespace>.servicebus.windows.net.
+   * @param credential A credential object used by the client to get the token to authenticate the connection
+   * with the Azure Service Bus. See &commat;azure/identity for creating the credentials.
+   * @param options - A set of options to apply when configuring the client.
+   * - `retryOptions`   : Configures the retry policy for all the operations on the client.
+   * For example, `{ "maxRetries": 4 }` or `{ "maxRetries": 4, "retryDelayInMs": 30000 }`.
+   * - `webSocketOptions`: Configures the channelling of the AMQP connection over Web Sockets.
    */
   constructor(
-    hostName: string,
-    tokenCredential: TokenCredential,
+    fullyQualifiedNamespace: string,
+    credential: TokenCredential,
     options?: ServiceBusClientOptions
   );
   constructor(
-    connectionStringOrHostName1: string,
-    tokenCredentialOrServiceBusOptions2?: TokenCredential | ServiceBusClientOptions,
+    fullyQualifiedNamespaceOrConnectionString1: string,
+    credentialOrOptions2?: TokenCredential | ServiceBusClientOptions,
     options3?: ServiceBusClientOptions
   ) {
-    if (isTokenCredential(tokenCredentialOrServiceBusOptions2)) {
-      const hostName: string = connectionStringOrHostName1;
-      const tokenCredential: TokenCredential = tokenCredentialOrServiceBusOptions2;
+    if (isTokenCredential(credentialOrOptions2)) {
+      const fullyQualifiedNamespace: string = fullyQualifiedNamespaceOrConnectionString1;
+      const credential: TokenCredential = credentialOrOptions2;
       this._clientOptions = options3 || {};
 
       this._connectionContext = createConnectionContextForTokenCredential(
-        tokenCredential,
-        hostName,
+        credential,
+        fullyQualifiedNamespace,
         this._clientOptions
       );
     } else {
-      const connectionString: string = connectionStringOrHostName1;
-      this._clientOptions = tokenCredentialOrServiceBusOptions2 || {};
+      const connectionString: string = fullyQualifiedNamespaceOrConnectionString1;
+      this._clientOptions = credentialOrOptions2 || {};
 
       this._connectionContext = createConnectionContextForConnectionString(
         connectionString,
