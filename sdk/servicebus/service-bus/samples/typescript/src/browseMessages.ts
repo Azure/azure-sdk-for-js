@@ -28,10 +28,10 @@ const queueName = process.env.QUEUE_NAME || "<queue name>";
 export async function main() {
   const sbClient = new ServiceBusClient(connectionString);
 
-  // If receiving from a subscription you can use the getReceiver(topic, subscription) overload
+  // If receiving from a subscription you can use the createReceiver(topic, subscription) overload
   // In this case since we're using `diagnostics.peek()` that any lock mode will work.
   // `diagnostics.peek()` does not lock messages in either lock mode.
-  const queueReceiver = sbClient.getReceiver(queueName, "receiveAndDelete");
+  const queueReceiver = sbClient.createReceiver(queueName, "receiveAndDelete");
 
   try {
     for (let i = 0; i < 20; i++) {

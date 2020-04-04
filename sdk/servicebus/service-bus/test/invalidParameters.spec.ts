@@ -325,7 +325,9 @@ describe("invalid parameters", () => {
         TestClientType.PartitionedQueueWithSessions
       );
 
-      sender = serviceBusClient.test.addToCleanup(serviceBusClient.getSender(entityNames.queue!));
+      sender = serviceBusClient.test.addToCleanup(
+        serviceBusClient.createSender(entityNames.queue!)
+      );
 
       receiver = serviceBusClient.test.getSessionPeekLockReceiver(entityNames, {
         sessionId: TestMessage.sessionId
@@ -387,7 +389,7 @@ describe("invalid parameters", () => {
           TestClientType.PartitionedQueueWithSessions
         );
 
-        await serviceBusClient.getSessionReceiver(queue!, 123 as any, {
+        await serviceBusClient.createSessionReceiver(queue!, 123 as any, {
           sessionId: TestMessage.sessionId
         });
       } catch (error) {
@@ -803,7 +805,7 @@ describe("invalid parameters", () => {
       );
 
       //const clients = await getSenderReceiverClients(TestClientType.PartitionedQueue, "peekLock");
-      sender = serviceBusClient.test.addToCleanup(serviceBusClient.getSender(queue!));
+      sender = serviceBusClient.test.addToCleanup(serviceBusClient.createSender(queue!));
     });
 
     after(() => {

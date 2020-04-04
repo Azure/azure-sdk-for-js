@@ -135,7 +135,7 @@ describe("serviceBusClient unit tests", () => {
   });
 
   describe("validateEntityNamesMatch", () => {
-    // the receiver cases are all covered above in `extractReceiverArguments`. So this is just covering the way the getSender() call uses it.
+    // the receiver cases are all covered above in `extractReceiverArguments`. So this is just covering the way the createSender() call uses it.
     it("failures", () => {
       assert.throws(
         () => validateEntityNamesMatch("the queue", "but I specified a different thing", "sender"),

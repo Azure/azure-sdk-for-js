@@ -164,19 +164,19 @@ export class ServiceBusClient {
     constructor(connectionString: string, options?: ServiceBusClientOptions);
     constructor(fullyQualifiedNamespace: string, credential: TokenCredential, options?: ServiceBusClientOptions);
     close(): Promise<void>;
-    getDeadLetterReceiver(queueName: string, receiveMode: "peekLock", options?: GetReceiverOptions): Receiver<ReceivedMessageWithLock>;
-    getDeadLetterReceiver(queueName: string, receiveMode: "receiveAndDelete", options?: GetReceiverOptions): Receiver<ReceivedMessage>;
-    getDeadLetterReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock", options?: GetReceiverOptions): Receiver<ReceivedMessageWithLock>;
-    getDeadLetterReceiver(topicName: string, subscriptionName: string, receiveMode: "receiveAndDelete", options?: GetReceiverOptions): Receiver<ReceivedMessage>;
-    getReceiver(queueName: string, receiveMode: "peekLock", options?: GetReceiverOptions): Receiver<ReceivedMessageWithLock>;
-    getReceiver(queueName: string, receiveMode: "receiveAndDelete", options?: GetReceiverOptions): Receiver<ReceivedMessage>;
-    getReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock", options?: GetReceiverOptions): Receiver<ReceivedMessageWithLock>;
-    getReceiver(topicName: string, subscriptionName: string, receiveMode: "receiveAndDelete", options?: GetReceiverOptions): Receiver<ReceivedMessage>;
-    getSender(queueOrTopicName: string, options?: GetSenderOptions): Sender;
-    getSessionReceiver(queueName: string, receiveMode: "peekLock", options?: GetSessionReceiverOptions): SessionReceiver<ReceivedMessageWithLock>;
-    getSessionReceiver(queueName: string, receiveMode: "receiveAndDelete", options?: GetSessionReceiverOptions): SessionReceiver<ReceivedMessage>;
-    getSessionReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock", options?: GetSessionReceiverOptions): SessionReceiver<ReceivedMessageWithLock>;
-    getSessionReceiver(topicName: string, subscriptionName: string, receiveMode: "receiveAndDelete", options?: GetSessionReceiverOptions): SessionReceiver<ReceivedMessage>;
+    createDeadLetterReceiver(queueName: string, receiveMode: "peekLock", options?: GetReceiverOptions): Receiver<ReceivedMessageWithLock>;
+    createDeadLetterReceiver(queueName: string, receiveMode: "receiveAndDelete", options?: GetReceiverOptions): Receiver<ReceivedMessage>;
+    createDeadLetterReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock", options?: GetReceiverOptions): Receiver<ReceivedMessageWithLock>;
+    createDeadLetterReceiver(topicName: string, subscriptionName: string, receiveMode: "receiveAndDelete", options?: GetReceiverOptions): Receiver<ReceivedMessage>;
+    createReceiver(queueName: string, receiveMode: "peekLock", options?: GetReceiverOptions): Receiver<ReceivedMessageWithLock>;
+    createReceiver(queueName: string, receiveMode: "receiveAndDelete", options?: GetReceiverOptions): Receiver<ReceivedMessage>;
+    createReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock", options?: GetReceiverOptions): Receiver<ReceivedMessageWithLock>;
+    createReceiver(topicName: string, subscriptionName: string, receiveMode: "receiveAndDelete", options?: GetReceiverOptions): Receiver<ReceivedMessage>;
+    createSender(queueOrTopicName: string, options?: GetSenderOptions): Sender;
+    createSessionReceiver(queueName: string, receiveMode: "peekLock", options?: GetSessionReceiverOptions): SessionReceiver<ReceivedMessageWithLock>;
+    createSessionReceiver(queueName: string, receiveMode: "receiveAndDelete", options?: GetSessionReceiverOptions): SessionReceiver<ReceivedMessage>;
+    createSessionReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock", options?: GetSessionReceiverOptions): SessionReceiver<ReceivedMessageWithLock>;
+    createSessionReceiver(topicName: string, subscriptionName: string, receiveMode: "receiveAndDelete", options?: GetSessionReceiverOptions): SessionReceiver<ReceivedMessage>;
     getSubscriptionRuleManager(topic: string, subscription: string, options?: GetSubscriptionRuleManagerOptions): SubscriptionRuleManager;
 }
 

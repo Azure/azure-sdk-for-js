@@ -40,8 +40,8 @@ const listOfScientists = [
 export async function main() {
   const sbClient = new ServiceBusClient(connectionString);
 
-  // getSender() can also be used to create a sender for a topic.
-  const sender = sbClient.getSender(queueName);
+  // createSender() can also be used to create a sender for a topic.
+  const sender = sbClient.createSender(queueName);
 
   try {
     for (let index = 0; index < listOfScientists.length; index++) {

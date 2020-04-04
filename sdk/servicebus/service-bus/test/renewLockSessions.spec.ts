@@ -35,7 +35,7 @@ describe("renew lock sessions", () => {
     const entityNames = await serviceBusClient.test.createTestEntities(entityType);
 
     sender = serviceBusClient.test.addToCleanup(
-      serviceBusClient.getSender(entityNames.queue ?? entityNames.topic!)
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
 
     sessionId = Date.now().toString();
