@@ -57,7 +57,7 @@ export interface GetMessageIteratorOptions extends OperationOptions, WaitTimeOpt
 export interface MessageHandlerOptions {
     autoComplete?: boolean;
     maxConcurrentCalls?: number;
-    maxMessageAutoRenewLockDurationInSeconds?: number;
+    maxMessageAutoRenewLockDurationInMs?: number;
 }
 
 // @public
@@ -220,7 +220,12 @@ export interface SessionReceiver<ReceivedMessageT extends ReceivedMessage | Rece
 
 // @public
 export interface SessionReceiverOptions {
+<<<<<<< HEAD
     maxSessionAutoRenewLockDurationInSeconds?: number;
+=======
+    autoRenewLockDurationInMs?: number;
+    retryOptions?: RetryOptions;
+>>>>>>> 0a41cf89c75f6ef4db2870923bfcdcc5df65ca45
     sessionId: string | undefined;
 }
 
