@@ -15,7 +15,7 @@ import {
 import { Sender } from "../src/sender";
 
 for (let index = 0; index < 100; index++) {
-  describe.only(`Send Batch - iteration ${index}`, () => {
+  describe(`Send Batch - iteration ${index}`, () => {
     let senderClient: Sender;
     let serviceBusClient: ServiceBusClientForTests;
 
@@ -246,7 +246,7 @@ for (let index = 0; index < 100; index++) {
         );
       }
 
-      it("Partitioned Queue: SendBatch", async function(): Promise<void> {
+      it.only("Partitioned Queue: SendBatch", async function(): Promise<void> {
         await beforeEachTest(TestClientType.PartitionedQueue);
         await testSendBatch(false);
       });
@@ -329,7 +329,7 @@ for (let index = 0; index < 100; index++) {
         );
       }
 
-      it("Partitioned Queue: SendBatch", async function(): Promise<void> {
+      it.only("Partitioned Queue: SendBatch", async function(): Promise<void> {
         await beforeEachTest(TestClientType.PartitionedQueue);
         await testSendBatch(false);
       });
@@ -427,7 +427,7 @@ for (let index = 0; index < 100; index++) {
         );
       }
 
-      it("Partitioned Queue: SendBatch", async function(): Promise<void> {
+      it.only("Partitioned Queue: SendBatch", async function(): Promise<void> {
         await beforeEachTest(TestClientType.PartitionedQueue);
         await testSendBatch(false);
       });
