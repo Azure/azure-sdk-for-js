@@ -89,7 +89,7 @@ export interface AccountSASSignatureValues {
 }
 
 // @public
-export class AnonymousCredential extends Credential_2 {
+export class AnonymousCredential extends Credential {
     create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): AnonymousCredentialPolicy;
 }
 
@@ -1088,7 +1088,7 @@ export interface BlockBlobStageBlockFromURLOptions extends CommonOptions {
     conditions?: LeaseAccessConditions;
     customerProvidedKey?: CpkInfo;
     encryptionScope?: string;
-    range?: Range_2;
+    range?: Range;
     sourceContentCrc64?: Uint8Array;
     sourceContentMD5?: Uint8Array;
 }
@@ -1570,11 +1570,9 @@ export interface CpkInfo {
 }
 
 // @public
-abstract class Credential_2 implements RequestPolicyFactory {
+export abstract class Credential implements RequestPolicyFactory {
     create(_nextPolicy: RequestPolicy, _options: RequestPolicyOptions): RequestPolicy;
 }
-
-export { Credential_2 as Credential }
 
 // @public
 export abstract class CredentialPolicy extends BaseRequestPolicy {
@@ -2058,8 +2056,8 @@ export type PageBlobUploadPagesResponse = PageBlobUploadPagesHeaders & {
 
 // @public
 export interface PageList {
-    clearRange?: Range_2[];
-    pageRange?: Range_2[];
+    clearRange?: Range[];
+    pageRange?: Range[];
 }
 
 // @public
@@ -2105,12 +2103,10 @@ export enum PremiumPageBlobTier {
 export type PublicAccessType = 'container' | 'blob';
 
 // @public
-interface Range_2 {
+export interface Range {
     count?: number;
     offset: number;
 }
-
-export { Range_2 as Range }
 
 // @public
 export type RehydratePriority = 'High' | 'Standard';
@@ -2420,7 +2416,7 @@ export enum StorageRetryPolicyType {
 }
 
 // @public
-export class StorageSharedKeyCredential extends Credential_2 {
+export class StorageSharedKeyCredential extends Credential {
     constructor(accountName: string, accountKey: string);
     readonly accountName: string;
     computeHMACSHA256(stringToSign: string): string;

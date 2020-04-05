@@ -96,7 +96,7 @@ export interface AccountSASSignatureValues {
 }
 
 // @public
-export class AnonymousCredential extends Credential_2 {
+export class AnonymousCredential extends Credential {
     create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): AnonymousCredentialPolicy;
 }
 
@@ -116,11 +116,9 @@ export interface CommonOptions {
 export type CopyStatusType = "pending" | "success" | "aborted" | "failed";
 
 // @public
-abstract class Credential_2 implements RequestPolicyFactory {
+export abstract class Credential implements RequestPolicyFactory {
     create(_nextPolicy: RequestPolicy, _options: RequestPolicyOptions): RequestPolicy;
 }
-
-export { Credential_2 as Credential }
 
 // @public
 export abstract class CredentialPolicy extends BaseRequestPolicy {
@@ -1516,7 +1514,7 @@ export enum StorageRetryPolicyType {
 }
 
 // @public
-export class StorageSharedKeyCredential extends Credential_2 {
+export class StorageSharedKeyCredential extends Credential {
     constructor(accountName: string, accountKey: string);
     readonly accountName: string;
     computeHMACSHA256(stringToSign: string): string;
