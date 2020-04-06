@@ -6,8 +6,7 @@ import {
   Constants,
   ErrorNameConditionMapper,
   MessagingError,
-  Func,
-  RetryOptions
+  Func
 } from "@azure/core-amqp";
 import {
   Receiver,
@@ -59,12 +58,6 @@ export interface CreateMessageSessionReceiverLinkOptions {
  * has sessions enabled.
  */
 export interface SessionReceiverOptions {
-  /**
-   * Retry policy options that determine the mode, number of retries, retry interval etc.
-   *
-   * @type {RetryOptions}
-   */
-  retryOptions?: RetryOptions;
   /**
    * @property The id of the session from which messages need to be received. If null or undefined is
    * provided, Service Bus chooses a random session from available sessions.

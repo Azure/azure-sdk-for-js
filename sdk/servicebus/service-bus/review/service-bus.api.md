@@ -36,6 +36,10 @@ export interface CreateBatchOptions extends OperationOptions {
 }
 
 // @public
+export interface CreateSessionReceiverOptions extends SessionReceiverOptions, OperationOptions {
+}
+
+// @public
 export interface DeadLetterOptions {
     deadLetterErrorDescription: string;
     deadLetterReason: string;
@@ -47,25 +51,6 @@ export { Delivery }
 
 // @public
 export interface GetMessageIteratorOptions extends OperationOptions, WaitTimeOptions {
-}
-
-// @public
-export interface GetReceiverOptions {
-    retryOptions?: RetryOptions;
-}
-
-// @public
-export interface GetSenderOptions {
-    retryOptions?: RetryOptions;
-}
-
-// @public
-export interface GetSessionReceiverOptions extends SessionReceiverOptions, OperationOptions {
-}
-
-// @public
-export interface GetSubscriptionRuleManagerOptions {
-    retryOptions?: RetryOptions;
 }
 
 // @public
@@ -164,20 +149,20 @@ export class ServiceBusClient {
     constructor(connectionString: string, options?: ServiceBusClientOptions);
     constructor(fullyQualifiedNamespace: string, credential: TokenCredential, options?: ServiceBusClientOptions);
     close(): Promise<void>;
-    createDeadLetterReceiver(queueName: string, receiveMode: "peekLock", options?: GetReceiverOptions): Receiver<ReceivedMessageWithLock>;
-    createDeadLetterReceiver(queueName: string, receiveMode: "receiveAndDelete", options?: GetReceiverOptions): Receiver<ReceivedMessage>;
-    createDeadLetterReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock", options?: GetReceiverOptions): Receiver<ReceivedMessageWithLock>;
-    createDeadLetterReceiver(topicName: string, subscriptionName: string, receiveMode: "receiveAndDelete", options?: GetReceiverOptions): Receiver<ReceivedMessage>;
-    createReceiver(queueName: string, receiveMode: "peekLock", options?: GetReceiverOptions): Receiver<ReceivedMessageWithLock>;
-    createReceiver(queueName: string, receiveMode: "receiveAndDelete", options?: GetReceiverOptions): Receiver<ReceivedMessage>;
-    createReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock", options?: GetReceiverOptions): Receiver<ReceivedMessageWithLock>;
-    createReceiver(topicName: string, subscriptionName: string, receiveMode: "receiveAndDelete", options?: GetReceiverOptions): Receiver<ReceivedMessage>;
-    createSender(queueOrTopicName: string, options?: GetSenderOptions): Sender;
-    createSessionReceiver(queueName: string, receiveMode: "peekLock", options?: GetSessionReceiverOptions): SessionReceiver<ReceivedMessageWithLock>;
-    createSessionReceiver(queueName: string, receiveMode: "receiveAndDelete", options?: GetSessionReceiverOptions): SessionReceiver<ReceivedMessage>;
-    createSessionReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock", options?: GetSessionReceiverOptions): SessionReceiver<ReceivedMessageWithLock>;
-    createSessionReceiver(topicName: string, subscriptionName: string, receiveMode: "receiveAndDelete", options?: GetSessionReceiverOptions): SessionReceiver<ReceivedMessage>;
-    getSubscriptionRuleManager(topic: string, subscription: string, options?: GetSubscriptionRuleManagerOptions): SubscriptionRuleManager;
+    createDeadLetterReceiver(queueName: string, receiveMode: "peekLock"): Receiver<ReceivedMessageWithLock>;
+    createDeadLetterReceiver(queueName: string, receiveMode: "receiveAndDelete"): Receiver<ReceivedMessage>;
+    createDeadLetterReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock"): Receiver<ReceivedMessageWithLock>;
+    createDeadLetterReceiver(topicName: string, subscriptionName: string, receiveMode: "receiveAndDelete"): Receiver<ReceivedMessage>;
+    createReceiver(queueName: string, receiveMode: "peekLock"): Receiver<ReceivedMessageWithLock>;
+    createReceiver(queueName: string, receiveMode: "receiveAndDelete"): Receiver<ReceivedMessage>;
+    createReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock"): Receiver<ReceivedMessageWithLock>;
+    createReceiver(topicName: string, subscriptionName: string, receiveMode: "receiveAndDelete"): Receiver<ReceivedMessage>;
+    createSender(queueOrTopicName: string): Sender;
+    createSessionReceiver(queueName: string, receiveMode: "peekLock", options?: CreateSessionReceiverOptions): SessionReceiver<ReceivedMessageWithLock>;
+    createSessionReceiver(queueName: string, receiveMode: "receiveAndDelete", options?: CreateSessionReceiverOptions): SessionReceiver<ReceivedMessage>;
+    createSessionReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock", options?: CreateSessionReceiverOptions): SessionReceiver<ReceivedMessageWithLock>;
+    createSessionReceiver(topicName: string, subscriptionName: string, receiveMode: "receiveAndDelete", options?: CreateSessionReceiverOptions): SessionReceiver<ReceivedMessage>;
+    getSubscriptionRuleManager(topic: string, subscription: string): SubscriptionRuleManager;
 }
 
 // @public
@@ -236,7 +221,6 @@ export interface SessionReceiver<ReceivedMessageT extends ReceivedMessage | Rece
 // @public
 export interface SessionReceiverOptions {
     autoRenewLockDurationInMs?: number;
-    retryOptions?: RetryOptions;
     sessionId: string | undefined;
 }
 

@@ -3,7 +3,7 @@
 
 import { extractReceiverArguments, validateEntityNamesMatch } from "../../src/serviceBusClient";
 import chai from "chai";
-import { GetSessionReceiverOptions } from "../../src/models";
+import { CreateSessionReceiverOptions } from "../../src/models";
 const assert = chai.assert;
 
 const allLockModes: ("peekLock" | "receiveAndDelete")[] = ["peekLock", "receiveAndDelete"];
@@ -14,7 +14,7 @@ describe("serviceBusClient unit tests", () => {
   // we pass.
   // So if we add other options types there's no need to generate a whole
   // new set of tests for it. :)
-  const sessionReceiverOptions: GetSessionReceiverOptions = {
+  const sessionReceiverOptions: CreateSessionReceiverOptions = {
     sessionId: "session-id"
   };
 
