@@ -11,7 +11,7 @@
 import * as coreHttp from "@azure/core-http";
 
 const packageName = "@azure/search-documents";
-const packageVersion = "1.0.0-preview.2";
+const packageVersion = "1.0.0-preview.3";
 
 export class SearchIndexClientContext extends coreHttp.ServiceClient {
   apiVersion: string;
