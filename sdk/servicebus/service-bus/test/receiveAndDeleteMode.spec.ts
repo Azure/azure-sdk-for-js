@@ -15,7 +15,8 @@ import { Sender } from "../src/sender";
 import {
   ServiceBusClientForTests,
   createServiceBusClientForTests,
-  testPeekMsgsLength
+  testPeekMsgsLength,
+  EntityName
 } from "./utils/testutils2";
 import { DispositionType, ReceivedMessageWithLock } from "../src/serviceBusMessage";
 
@@ -37,13 +38,7 @@ describe("receive and delete", () => {
   async function beforeEachTest(
     entityType: TestClientType,
     receiveMode?: "peekLock" | "receiveAndDelete"
-  ): Promise<{
-    queue?: string | undefined;
-    topic?: string | undefined;
-    subscription?: string | undefined;
-    usesSessions: boolean;
-    isPartitioned: boolean;
-  }> {
+  ): Promise<EntityName> {
     const entityNames = await serviceBusClient.test.createTestEntities(entityType);
 
     senderClient = serviceBusClient.test.addToCleanup(

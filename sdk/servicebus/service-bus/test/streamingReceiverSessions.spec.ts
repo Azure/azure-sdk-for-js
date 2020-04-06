@@ -13,7 +13,8 @@ import { Sender } from "../src/sender";
 import {
   createServiceBusClientForTests,
   ServiceBusClientForTests,
-  testPeekMsgsLength
+  testPeekMsgsLength,
+  EntityName
 } from "./utils/testutils2";
 import { getDeliveryProperty } from "./utils/misc";
 const should = chai.should();
@@ -47,7 +48,7 @@ describe("Streaming with sessions", () => {
   async function beforeEachTest(
     testClientType: TestClientType,
     receiveMode?: "peekLock" | "receiveAndDelete"
-  ): Promise<void> {
+  ): Promise<EntityName> {
     const entityNames = await createReceiverForTests(testClientType, receiveMode);
 
     senderClient = serviceBusClient.test.addToCleanup(
@@ -58,6 +59,7 @@ describe("Streaming with sessions", () => {
 
     errorWasThrown = false;
     unexpectedError = undefined;
+    return entityNames;
   }
 
   async function createReceiverForTests(
@@ -999,7 +1001,7 @@ describe("Streaming with sessions", () => {
       await afterEachTest();
     });
 
-    async function testReceiveMessages(): Promise<void> {
+    async function testReceiveMessages(entityNames: EntityName): Promise<void> {
       const totalNumOfMessages = 5;
       let num = 1;
       const messages = [];
@@ -1040,21 +1042,25 @@ describe("Streaming with sessions", () => {
         0,
         `Expected 0 messages, but received ${receivedMsgs.length}`
       );
+      receiverClient = serviceBusClient.test.getSessionPeekLockReceiver(entityNames);
       await testPeekMsgsLength(receiverClient, totalNumOfMessages);
     }
 
     it("UnPartitioned Queue: Not receive messages after receiver is closed #RunInBrowser", async function(): Promise<
       void
     > {
-      await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-      await testReceiveMessages();
+      const entityNames = await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
+      await testReceiveMessages(entityNames);
     });
 
     it("UnPartitioned Queue: (Receive And Delete mode) Not receive messages after receiver is closed #RunInBrowser", async function(): Promise<
       void
     > {
-      await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions, "receiveAndDelete");
-      await testReceiveMessages();
+      const entityNames = await beforeEachTest(
+        TestClientType.UnpartitionedQueueWithSessions,
+        "receiveAndDelete"
+      );
+      await testReceiveMessages(entityNames);
     });
   });
 });
