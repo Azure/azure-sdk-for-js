@@ -153,7 +153,9 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
         "Error code is different than expected"
       );
       should.equal(
-        err.message.startsWith(`The messaging entity '${entityPath}' could not be found.`),
+        // TODO - update this check once sbClient has a `name` property
+        // err.message.includes(`The messaging entity '<insert-endpoint-here>${entityPath}' could not be found.`),
+        err.message.includes(`${entityPath}' could not be found.`),
         true
       );
       errorWasThrown = true;
@@ -171,13 +173,19 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
+  it("throws error when creating batch data to a non existing queue #RunInBrowser", async function(): Promise<
+    void
+  > {
+    const sender = sbClient.createSender("some-queue");
+    await sender.createBatch().catch((err) => testError(err, "some-queue"));
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
+  });
+
   it("throws error when sending batch data to a non existing queue #RunInBrowser", async function(): Promise<
     void
   > {
     const sender = sbClient.createSender("some-queue");
-    const batch = await sender.createBatch();
-    batch.tryAdd({ body: "hello" });
-    await sender.sendBatch(batch).catch((err) => testError(err, "some-name"));
+    await sender.sendBatch(1 as any).catch((err) => testError(err, "some-queue"));
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
