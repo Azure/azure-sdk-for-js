@@ -13,7 +13,7 @@ import {
   SubscriptionRuleManager
 } from "../src";
 import { Sender } from "../src/sender";
-import { getClientClosedErrorMsg } from "../src/util/errors";
+import { getClientClosedErrorMsg, getReceiverClosedErrorMsg } from "../src/util/errors";
 import { TestClientType, TestMessage, isMessagingError } from "./utils/testUtils";
 import { DispositionType, ReceivedMessageWithLock } from "../src/serviceBusMessage";
 
@@ -578,25 +578,27 @@ describe("Errors after close()", function(): void {
       "Expected error not thrown for receiveDeferredMessages()"
     );
 
-    let errorPeek: string = "";
-    await receiver.diagnostics.peek().catch((err) => {
-      errorPeek = err.message;
-    });
-    should.equal(
-      errorPeek,
-      expectedErrorMsg,
-      "Expected error not thrown for peek() from receiverClient"
-    );
+    // TODO - closing the receiver doesn't matter for peek
+    // let errorPeek: string = "";
+    // await receiver.diagnostics.peek().catch((err) => {
+    //   errorPeek = err.message;
+    // });
+    // should.equal(
+    //   errorPeek,
+    //   expectedErrorMsg,
+    //   "Expected error not thrown for peek() from receiverClient"
+    // );
 
-    let errorPeekBySequence: string = "";
-    await receiver.diagnostics.peekBySequenceNumber(Long.ZERO).catch((err) => {
-      errorPeekBySequence = err.message;
-    });
-    should.equal(
-      errorPeekBySequence,
-      expectedErrorMsg,
-      "Expected error not thrown for peekBySequenceNumber() from receiverClient"
-    );
+    // let errorPeekBySequence: string = "";
+    // await receiver.diagnostics.peekBySequenceNumber(Long.ZERO).catch((err) => {
+    //   errorPeekBySequence = err.message;
+    // });
+    // should.equal(
+    //   errorPeekBySequence,
+    //   expectedErrorMsg,
+    //   "Expected error not thrown for peekBySequenceNumber() from receiverClient"
+    // );
+
     // if (!entityName.usesSessions) {
     //   let errorRenewLock: string = "";
     //   await (<InternalReceiver>receiver).renewMessageLock("randomLockToken").catch((err) => {
@@ -772,41 +774,47 @@ describe("Errors after close()", function(): void {
   //   });
   // });
 
-  describe("Errors after close() on receiverClient", function(): void {
-    const entityToClose = "receiverClient";
+  describe("Errors after close() on receiver", function(): void {
+    const entityToClose = "receiver";
 
-    it("Unpartitioned Queue: errors after close() on receiverClient #RunInBrowser", async function(): Promise<
+    it("Unpartitioned Queue: errors after close() on receiver #RunInBrowser", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.UnpartitionedQueue, entityToClose);
 
-      await testReceiver(getClientClosedErrorMsg(receiver.entityPath));
+      await testReceiver(getReceiverClosedErrorMsg(receiver.entityPath, false));
     });
 
-    it("Unpartitioned Queue with sessions: errors after close() on receiverClient #RunInBrowser", async function(): Promise<
+    it("Unpartitioned Queue with sessions: errors after close() on receiver #RunInBrowser", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions, entityToClose);
 
-      await testReceiver(getClientClosedErrorMsg(receiver.entityPath));
+      await testReceiver(
+        getReceiverClosedErrorMsg(receiver.entityPath, false, TestMessage.sessionId)
+      );
     });
 
-    it("Unpartitioned Topic/Subscription: errors after close() on receiverClient", async function(): Promise<
+    it("Unpartitioned Topic/Subscription: errors after close() on receiver", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.UnpartitionedSubscription, entityToClose);
 
-      await testReceiver(getClientClosedErrorMsg(receiver.entityPath));
-      await testRules(getClientClosedErrorMsg(receiver.entityPath));
+      await testReceiver(getReceiverClosedErrorMsg(receiver.entityPath, false));
+      // TODO - rules are independent of receiver
+      // await testRules(getClientClosedErrorMsg(receiver.entityPath));
     });
 
-    it("Unpartitioned Topic/Subscription with sessions: errors after close() on receiverClient", async function(): Promise<
+    it("Unpartitioned Topic/Subscription with sessions: errors after close() on receiver", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions, entityToClose);
 
-      await testSessionReceiver(getClientClosedErrorMsg(receiver.entityPath));
-      await testRules(getClientClosedErrorMsg(receiver.entityPath));
+      await testSessionReceiver(
+        getReceiverClosedErrorMsg(receiver.entityPath, false, TestMessage.sessionId)
+      );
+      // TODO - rules are independent of receiver
+      // await testRules(getClientClosedErrorMsg(receiver.entityPath));
     });
   });
 
