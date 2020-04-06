@@ -140,8 +140,8 @@ export interface Sender {
     isClosed: boolean;
     scheduleMessage(scheduledEnqueueTimeUtc: Date, message: ServiceBusMessage, options?: OperationOptions): Promise<Long_2>;
     scheduleMessages(scheduledEnqueueTimeUtc: Date, messages: ServiceBusMessage[], options?: OperationOptions): Promise<Long_2[]>;
-    send(message: ServiceBusMessage): Promise<void>;
-    sendBatch(messageBatch: ServiceBusMessageBatch): Promise<void>;
+    send(message: ServiceBusMessage, options?: OperationOptions): Promise<void>;
+    sendBatch(messageBatch: ServiceBusMessageBatch, options?: OperationOptions): Promise<void>;
 }
 
 // @public
