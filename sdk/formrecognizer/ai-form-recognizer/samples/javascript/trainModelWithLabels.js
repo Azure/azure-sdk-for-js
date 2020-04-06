@@ -20,13 +20,14 @@ async function main() {
   const trainingDataSource = process.env["LABELED_DOCUMENT_SOURCE"] || "<url/path to the labeled training documents>";
 
   const client = new FormRecognizerClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
+  const trainingClient = client.getFormTrainingClient();
 
-  const poller = await client.beginTrainingWithLabel(trainingDataSource, {
+  const poller = await trainingClient.beginTrainingWithLabel(trainingDataSource, {
     onProgress: (state) => { console.log(`training status: ${state.status}`); }
   });
   await poller.pollUntilDone();
   const model = poller.getResult();
-  console.log(model);
+  console.dir(model, { depth: 4 });
 }
 
 main().catch((err) => {

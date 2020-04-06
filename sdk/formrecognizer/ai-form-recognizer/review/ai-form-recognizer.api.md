@@ -307,15 +307,9 @@ export class FormRecognizerClient {
     beginExtractLabeledForms(modelId: string, body: FormRecognizerRequestBody, contentType: ContentType, options?: BeginExtractLabeledFormOptions): Promise<LabeledFormPollerLike>;
     // (undocumented)
     beginExtractLabeledFormsFromUrl(modelId: string, documentUrl: string, options?: BeginExtractLabeledFormOptions): Promise<PollerLike<PollOperationState<LabeledFormResultResponse>, LabeledFormResultResponse>>;
-    beginTraining(source: string, options?: BeginTrainingOptions<FormModelResponse>): Promise<PollerLike<PollOperationState<FormModelResponse>, FormModelResponse>>;
-    beginTrainingWithLabel(source: string, options?: BeginTrainingOptions<LabeledFormModelResponse>): Promise<PollerLike<PollOperationState<LabeledFormModelResponse>, LabeledFormModelResponse>>;
-    deleteModel(modelId: string, options?: DeleteModelOptions): Promise<RestResponse>;
     readonly endpointUrl: string;
-    getLabeledModel(modelId: string, options?: GetLabeledModelOptions): Promise<LabeledFormModelResponse>;
-    getModel(modelId: string, options?: GetModelOptions): Promise<FormModelResponse>;
-    getSummary(options?: GetSummaryOptions): Promise<ListModelsResponseModel>;
-    listModels(options?: ListModelsOptions): PagedAsyncIterableIterator<ModelInfo, ListModelsResponseModel>;
-    }
+    getFormTrainingClient(): FormTrainingClient;
+}
 
 // @public
 export interface FormRecognizerClientOptions extends PipelineOptions {
@@ -335,6 +329,19 @@ export interface FormResult {
     rawExtractedPages: RawExtractedPage[];
     version: string;
 }
+
+// @public
+export class FormTrainingClient {
+    constructor(endpointUrl: string, credential: FormRecognizerApiKeyCredential, options?: FormRecognizerClientOptions);
+    beginTraining(source: string, options?: BeginTrainingOptions<FormModelResponse>): Promise<PollerLike<PollOperationState<FormModelResponse>, FormModelResponse>>;
+    beginTrainingWithLabel(source: string, options?: BeginTrainingOptions<LabeledFormModelResponse>): Promise<PollerLike<PollOperationState<LabeledFormModelResponse>, LabeledFormModelResponse>>;
+    deleteModel(modelId: string, options?: DeleteModelOptions): Promise<RestResponse>;
+    readonly endpointUrl: string;
+    getLabeledModel(modelId: string, options?: GetLabeledModelOptions): Promise<LabeledFormModelResponse>;
+    getModel(modelId: string, options?: GetModelOptions): Promise<FormModelResponse>;
+    getSummary(options?: GetSummaryOptions): Promise<ListModelsResponseModel>;
+    listModels(options?: ListModelsOptions): PagedAsyncIterableIterator<ModelInfo, ListModelsResponseModel>;
+    }
 
 // @public
 export interface FormTrainResult {
@@ -661,8 +668,8 @@ export type TrainStatus = "succeeded" | "partiallySucceeded" | "failed";
 
 // Warnings were encountered during analysis:
 //
-// src/formRecognizerClient.ts:96:3 - (ae-forgotten-export) The symbol "BeginTrainingPollState" needs to be exported by the entry point index.d.ts
-// src/formRecognizerClient.ts:129:3 - (ae-forgotten-export) The symbol "BeginExtractPollState" needs to be exported by the entry point index.d.ts
+// src/formRecognizerClient.ts:68:3 - (ae-forgotten-export) The symbol "BeginExtractPollState" needs to be exported by the entry point index.d.ts
+// src/formTrainingClient.ts:74:3 - (ae-forgotten-export) The symbol "BeginTrainingPollState" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

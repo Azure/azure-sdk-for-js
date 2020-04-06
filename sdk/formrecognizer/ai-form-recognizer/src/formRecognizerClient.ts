@@ -1,17 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/// <reference lib="esnext.asynciterable" />
-
 import {
   createPipelineFromOptions,
   signingPolicy,
   InternalPipelineOptions,
   operationOptionsToRequestOptionsBase,
-  AbortSignalLike,
-  RestResponse
+  AbortSignalLike
 } from "@azure/core-http";
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
 import { createSpan } from "./tracing";
@@ -27,12 +23,8 @@ import { FormRecognizerClient as GeneratedClient } from "./generated/formRecogni
 import {
   FormRecognizerClientAnalyzeWithCustomModelResponse as AnalyzeWithCustomModelResponseModel,
   ContentType,
-  FormRecognizerClientGetCustomModelsResponse as ListModelsResponseModel,
-  Model,
-  ModelInfo
 } from "./generated/models";
 import { FormRecognizerApiKeyCredential } from "./formRecognizerApiKeyCredential";
-import { TrainPollerClient, BeginTrainingPoller, BeginTrainingPollState } from "./lro/train/poller";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
 import {
   ExtractPollerClient,
@@ -41,69 +33,16 @@ import {
   ExtractOptions
 } from "./lro/analyze/poller";
 import {
-  LabeledFormModelResponse,
-  FormModelResponse,
   ExtractFormResultResponse,
   LabeledFormResultResponse,
   FormRecognizerRequestBody
 } from "./models";
 import { toCustomFormResultResponse, toLabeledFormResultResponse } from "./transforms";
+import { FormTrainingClient } from "./formTrainingClient";
 
-export { ContentType, ListModelsResponseModel, Model, ModelInfo, RestResponse };
+export { ContentType };
 
 export { PollOperationState, PollerLike };
-
-/**
- * Options for the list models operation.
- */
-export type ListModelsOptions = FormRecognizerOperationOptions;
-
-/**
- * Options for the get summary operation.
- */
-export type GetSummaryOptions = FormRecognizerOperationOptions;
-
-/**
- * Options for the delete model operation.
- */
-export type DeleteModelOptions = FormRecognizerOperationOptions;
-
-/**
- * Options for the get model operation.
- */
-export type GetModelOptions = FormRecognizerOperationOptions;
-
-/**
- * Options for the get model operation.
- */
-export type GetLabeledModelOptions = FormRecognizerOperationOptions & {
-  includeKeys?: boolean;
-};
-
-/**
- * Options for traing models
- */
-export type TrainModelOptions = FormRecognizerOperationOptions & {
-  prefix?: string;
-  includeSubFolders?: boolean;
-};
-
-/**
- * Options for the begin training model operation.
- */
-export type BeginTrainingOptions<T> = TrainModelOptions & {
-  intervalInMs?: number;
-  onProgress?: (state: BeginTrainingPollState<T>) => void;
-  resumeFrom?: string;
-};
-
-/**
- * Options for the begin training with labels operation.
- */
-export type BeginTrainingWithLabelsOptions = FormRecognizerOperationOptions & {
-  prefix?: string;
-  includeSubFolders?: boolean;
-};
 
 /**
  * Options for analyzing of forms
@@ -184,6 +123,12 @@ export class FormRecognizerClient {
   /**
    * @internal
    * @ignore
+   */
+  private readonly credential: FormRecognizerApiKeyCredential;
+
+  /**
+   * @internal
+   * @ignore
    * A reference to the auto-generated FormRecognizer HTTP client.
    */
   private readonly client: GeneratedClient;
@@ -210,6 +155,7 @@ export class FormRecognizerClient {
     options: FormRecognizerClientOptions = {}
   ) {
     this.endpointUrl = endpointUrl;
+    this.credential = credential;
     const { ...pipelineOptions } = options;
 
     const libInfo = `azsdk-js-ai-formrecognizer/${SDK_VERSION}`;
@@ -239,378 +185,10 @@ export class FormRecognizerClient {
   }
 
   /**
-   * Retrieves summary information about the cognitive service account
-   *
-   * @param {GetSummaryOptions} options Options to GetSummary operation
+   * Creates an instance of {@link FormTrainingClient}.
    */
-  public async getSummary(options?: GetSummaryOptions) {
-    const realOptions: ListModelsOptions = options || {};
-    const { span, updatedOptions: finalOptions } = createSpan(
-      "CustomRecognizerClient-listCustomModels",
-      realOptions
-    );
-
-    try {
-      const result = await this.client.getCustomModels({
-        ...operationOptionsToRequestOptionsBase(finalOptions)
-      });
-
-      return result;
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * Mark model for deletion. Model artifacts will be permanently removed within 48 hours.
-   *
-   * @param {string} modelId Id of the model to mark for deletion
-   * @param {DeleteModelOptions} options Options to the Delete Model operation
-   */
-  public async deleteModel(modelId: string, options?: DeleteModelOptions): Promise<RestResponse> {
-    const realOptions = options || {};
-    const { span, updatedOptions: finalOptions } = createSpan(
-      "CustomRecognizerClient-deleteModel",
-      realOptions
-    );
-
-    try {
-      return await this.client.deleteCustomModel(
-        modelId,
-        operationOptionsToRequestOptionsBase(finalOptions)
-      );
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * Get detailed information about a model from unsupervised training.
-   *
-   * @param {string} modelId Id of the model to get information
-   * @param {GetModelOptions} options Options to the Get Model operation
-   */
-  public async getModel(
-    modelId: string,
-    options: GetModelOptions = {}
-  ): Promise<FormModelResponse> {
-    const realOptions = options || {};
-    const { span, updatedOptions: finalOptions } = createSpan(
-      "CustomRecognizerClient-getModel",
-      realOptions
-    );
-
-    try {
-      const respnose = await this.client.getCustomModel(modelId, {
-        ...operationOptionsToRequestOptionsBase(finalOptions),
-        // Include keys is always set to true -- the service does not have a use case for includeKeys: false.
-        includeKeys: true
-      });
-      if (
-        respnose.modelInfo.status === "ready" &&
-        (respnose.trainResult?.averageModelAccuracy || respnose.trainResult?.fields)
-      ) {
-        throw new Error(`The model ${modelId} is trained with labels.`);
-      } else {
-        return (respnose as unknown) as FormModelResponse;
-      }
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * Get detailed information about a model from supervised training using labels.
-   *
-   * @param {string} modelId Id of the model to get information
-   * @param {GetModelOptions} options Options to the Get Labeled Model operation
-   */
-  public async getLabeledModel(
-    modelId: string,
-    options: GetLabeledModelOptions = {}
-  ): Promise<LabeledFormModelResponse> {
-    const realOptions = options || {};
-    const { span, updatedOptions: finalOptions } = createSpan(
-      "CustomRecognizerClient-getLabeledModel",
-      realOptions
-    );
-
-    try {
-      const response = await this.client.getCustomModel(
-        modelId,
-        operationOptionsToRequestOptionsBase(finalOptions)
-      );
-
-      if (response.modelInfo.status === "ready") {
-        if (response.keys) {
-          throw new Error(`The model ${modelId} is not rained with labels.`);
-        }
-      }
-
-      return (response as unknown) as LabeledFormModelResponse;
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  private async *listModelsPage(
-    _settings: PageSettings,
-    options: ListModelsOptions = {}
-  ): AsyncIterableIterator<ListModelsResponseModel> {
-    let result = await this.list(options);
-    yield result;
-
-    while (result.nextLink) {
-      result = await this.listNextPage(result.nextLink, options);
-      yield result;
-    }
-  }
-
-  private async *listModelsAll(
-    settings: PageSettings,
-    options: ListModelsOptions = {}
-  ): AsyncIterableIterator<ModelInfo> {
-    for await (const page of this.listModelsPage(settings, options)) {
-      yield* page.modelList || [];
-    }
-  }
-
-  /**
-   * Returns an async iterable iterator to list information about all models in the cognitive service account.
-   *
-   * .byPage() returns an async iterable iterator to list the blobs in pages.
-   *
-   * Example using `for await` syntax:
-   *
-   * ```js
-   * const client = new FormRecognizerClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
-   * const result = client.listModels();
-   * let i = 1;
-   * for await (const model of result) {
-   *   console.log(`model ${i++}:`);
-   *   console.log(model);
-   * }
-   * ```
-   *
-   * Example using `iter.next()`:
-   *
-   * ```js
-   * let i = 1;
-   * let iter = client.listModels();
-   * let modelItem = await iter.next();
-   * while (!modelItem.done) {
-   *   console.log(`model ${i++}: ${modelItem.value}`);
-   *   modelItem = await iter.next();
-   * }
-   * ```
-   *
-   * Example using `byPage()`:
-   *
-   * ```js
-   *  let i = 1;
-   *  for await (const response of client.listModels().byPage()) {
-   *    for (const modelInfo of response.modelList!) {
-   *      console.log(`model ${i++}: ${modelInfo.modelId}`);
-   *    }
-   *  }
-   * ```
-   *
-   * @param {ListModelOptions} options Options to the List Models operation
-   */
-  public listModels(
-    options: ListModelsOptions = {}
-  ): PagedAsyncIterableIterator<ModelInfo, ListModelsResponseModel> {
-    const iter = this.listModelsAll({}, options);
-
-    return {
-      next() {
-        return iter.next();
-      },
-
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-
-      byPage: (settings: PageSettings = {}) => {
-        return this.listModelsPage(settings, options);
-      }
-    };
-  }
-
-  private async list(options?: ListModelsOptions): Promise<ListModelsResponseModel> {
-    const realOptions: ListModelsOptions = options || {};
-    const { span, updatedOptions: finalOptions } = createSpan(
-      "CustomRecognizerClient-list",
-      realOptions
-    );
-
-    try {
-      const result = await this.client.listCustomModels({
-        ...operationOptionsToRequestOptionsBase(finalOptions)
-      });
-
-      return result;
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  private async listNextPage(
-    nextLink: string,
-    options?: ListModelsOptions
-  ): Promise<ListModelsResponseModel> {
-    const realOptions: ListModelsOptions = options || {};
-    const { span, updatedOptions: finalOptions } = createSpan(
-      "CustomRecognizerClient-listNextPage",
-      realOptions
-    );
-
-    try {
-      const result = await this.client.listCustomModelsNext(nextLink, {
-        ...operationOptionsToRequestOptionsBase(finalOptions)
-      });
-
-      return result;
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * Creates and trains a model without using labels (i.e., unsupervised).
-   * This method returns a long running operation poller that allows you to wait
-   * indefinitely until the copy is completed.
-   * You can also cancel a copy before it is completed by calling `cancelOperation` on the poller.
-   * Note that the onProgress callback will not be invoked if the operation completes in the first
-   * request, and attempting to cancel a completed copy will result in an error being thrown.
-   *
-   * Example usage:
-   * ```ts
-   *   const dataSourceUri = process.env["DOCUMENT_SOURCE"] || "<url/path to the training documents>";
-   *   const client = new FormRecognizerClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
-   *
-   *   const poller = await client.beginTraining(dataSourceUri, {
-   *     onProgress: (state) => { console.log(`training status: ${state.status}`); }
-   *   });
-   *   await poller.pollUntilDone();
-   *   const response = poller.getResult();
-   *   console.log(response.modelInfo.modelId);
-   * ```
-   * @summary Creats and trains a model
-   * @param {string} source Accessible Uri to an Azure Storage Blob container storing the training documents
-   * @param {BeginTrainingOptions} [options] Options to the BeginTraining operation
-   */
-  public async beginTraining(
-    source: string,
-    options: BeginTrainingOptions<FormModelResponse> = {}
-  ): Promise<PollerLike<PollOperationState<FormModelResponse>, FormModelResponse>> {
-    const trainPollerClient: TrainPollerClient<FormModelResponse> = {
-      getModel: (modelId: string, options: GetModelOptions) => this.getModel(modelId, options),
-      trainCustomModelInternal: (
-        source: string,
-        _useLabelFile?: boolean,
-        options?: TrainModelOptions
-      ) => trainCustomModelInternal(this.client, source, false, options)
-    };
-
-    const poller = new BeginTrainingPoller({
-      client: trainPollerClient,
-      source,
-      intervalInMs: options.intervalInMs,
-      onProgress: options.onProgress,
-      resumeFrom: options.resumeFrom,
-      trainModelOptions: options
-    });
-
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Creates and trains a model using labels (i.e., supervised).
-   * This method returns a long running operation poller that allows you to wait
-   * indefinitely until the copy is completed.
-   * You can also cancel a copy before it is completed by calling `cancelOperation` on the poller.
-   * Note that the onProgress callback will not be invoked if the operation completes in the first
-   * request, and attempting to cancel a completed copy will result in an error being thrown.
-   *
-   * Example usage:
-   * ```ts
-   *   const dataSourceUri = process.env["DOCUMENT_SOURCE"] || "<url/path to the training documents>";
-   *   const client = new FormRecognizerClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
-   *
-   *   const poller = await client.beginTrainingWithLabel(dataSourceUri, {
-   *     onProgress: (state) => { console.log(`training status: ${state.status}`); }
-   *   });
-   *   await poller.pollUntilDone();
-   *   const response = poller.getResult();
-   *   console.log(response.modelInfo.modelId);
-   * ```
-   * @summary Creats and trains a model
-   * @param {string} source Accessible Uri to an Azure Storage Blob container storing the training documents and label files
-   * @param {BeginTrainingOptions} [options] Options to the BeginTraining operation
-   */
-  public async beginTrainingWithLabel(
-    source: string,
-    options: BeginTrainingOptions<LabeledFormModelResponse> = {}
-  ): Promise<PollerLike<PollOperationState<LabeledFormModelResponse>, LabeledFormModelResponse>> {
-    const trainPollerClient: TrainPollerClient<LabeledFormModelResponse> = {
-      getModel: (modelId: string, options: GetModelOptions) =>
-        this.getLabeledModel(modelId, options),
-      trainCustomModelInternal: (
-        source: string,
-        _useLabelFile?: boolean,
-        options?: TrainModelOptions
-      ) => trainCustomModelInternal(this.client, source, true, options)
-    };
-
-    const poller = new BeginTrainingPoller({
-      client: trainPollerClient,
-      source,
-      intervalInMs: options.intervalInMs,
-      onProgress: options.onProgress,
-      resumeFrom: options.resumeFrom,
-      trainModelOptions: options
-    });
-
-    await poller.poll();
-    return poller;
+  public getFormTrainingClient(): FormTrainingClient {
+    return new FormTrainingClient(this.endpointUrl, this.credential);
   }
 
   /**
@@ -810,41 +388,6 @@ export class FormRecognizerClient {
     }
 
     return this.beginExtractForms(modelId, documentUrl, undefined, options);
-  }
-}
-
-async function trainCustomModelInternal(
-  client: GeneratedClient,
-  source: string,
-  useLabelFile?: boolean,
-  options?: TrainModelOptions
-) {
-  const realOptions = options || {};
-  const { span, updatedOptions: finalOptions } = createSpan(
-    "trainCustomModelInternal",
-    realOptions
-  );
-
-  try {
-    return await client.trainCustomModelAsync(
-      {
-        source: source,
-        sourceFilter: {
-          prefix: realOptions.prefix,
-          includeSubFolders: realOptions.includeSubFolders
-        },
-        useLabelFile
-      },
-      operationOptionsToRequestOptionsBase(finalOptions)
-    );
-  } catch (e) {
-    span.setStatus({
-      code: CanonicalCode.UNKNOWN,
-      message: e.message
-    });
-    throw e;
-  } finally {
-    span.end();
   }
 }
 

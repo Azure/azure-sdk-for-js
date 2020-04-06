@@ -3,6 +3,7 @@
 
 export { FormRecognizerClientOptions, FormRecognizerOperationOptions } from "./common";
 export * from "./formRecognizerClient";
+export * from "./formTrainingClient";
 export * from "./receiptRecognizerClient";
 export * from "./layoutRecognizerClient";
 export { FormRecognizerApiKeyCredential } from "./formRecognizerApiKeyCredential";

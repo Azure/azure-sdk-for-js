@@ -3,7 +3,7 @@
 
 import { delay } from "@azure/core-http";
 import { Poller, PollOperation, PollOperationState } from "@azure/core-lro";
-import { TrainModelOptions, GetModelOptions } from "../../formRecognizerClient";
+import { TrainModelOptions, GetModelOptions } from "../../formTrainingClient";
 
 import {
   ModelStatus,
@@ -140,6 +140,7 @@ function makeBeginTrainingPollOperation<T extends { modelInfo: { status: ModelSt
           state.isCompleted = true;
         } else if (model.modelInfo.status === "invalid") {
           state.error = new Error(`Model training failed with invalid model status.`);
+          state.result = model;
           state.isCompleted = true;
         }
       }

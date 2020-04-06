@@ -20,13 +20,14 @@ async function main() {
   const trainingDataSource = process.env["DOCUMENT_SOURCE"] || "<url to Azure blob container storing the training documents>";
 
   const client = new FormRecognizerClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
+  const trainingClient = client.getFormTrainingClient();
 
-  const poller = await client.beginTraining(trainingDataSource, {
+  const poller = await trainingClient.beginTraining(trainingDataSource, {
     onProgress: (state) => { console.log("training status: "); console.log(state); }
   });
   await poller.pollUntilDone();
   const model = poller.getResult();
-  console.log(model);
+  console.dir(model, { depth: 4 });
 }
 
 main().catch((err) => {
