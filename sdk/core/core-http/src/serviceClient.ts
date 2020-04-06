@@ -58,7 +58,7 @@ import { logger } from "./log";
 import { InternalPipelineOptions } from "./pipelineOptions";
 import { DefaultKeepAliveOptions, keepAlivePolicy } from "./policies/keepAlivePolicy";
 import { tracingPolicy } from "./policies/tracingPolicy";
-import { disableResponseDecompressionPolicy } from './policies/disableResponseDecompressionPolicy';
+import { disableResponseDecompressionPolicy } from "./policies/disableResponseDecompressionPolicy";
 
 /**
  * Options to configure a proxy for outgoing requests (Node.js only).
@@ -448,6 +448,10 @@ export class ServiceClient {
 
         if (options.spanOptions) {
           httpRequest.spanOptions = options.spanOptions;
+        }
+
+        if (options.shouldDeserialize !== undefined) {
+          httpRequest.shouldDeserialize = options.shouldDeserialize;
         }
       }
 
