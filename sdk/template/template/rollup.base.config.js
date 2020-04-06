@@ -29,20 +29,24 @@ export function nodeConfig(test = false) {
         }
       }),
       nodeResolve({ preferBuiltins: true }),
-      cjs()
+      cjs({
+        namedExports: { chai: ["assert"] }
+      })
     ]
   };
 
   if (test) {
     // Entry points - test files under the `test` folder(common for both browser and node), node specific test files
-    baseConfig.input = ["dist-esm/test/*.spec.js", "dist-esm/test/node/*.spec.js"];
+    baseConfig.input = [
+      "dist-esm/test/*.spec.js",
+      "dist-esm/test/node/*.spec.js",
+      "dist-esm/test/internal/*.spec.js",
+      "dist-esm/test/public/*.spec.js"
+    ];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
 
     // different output file
     baseConfig.output.file = "dist-test/index.node.js";
-
-    // mark assert as external
-    baseConfig.external.push("assert");
 
     // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0, rollup started respecting
     // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also
@@ -83,6 +87,7 @@ export function browserConfig(test = false) {
       }),
       cjs({
         namedExports: {
+          chai: ["assert"],
           events: ["EventEmitter"],
           "@opentelemetry/types": ["CanonicalCode", "SpanKind", "TraceFlags"]
         }

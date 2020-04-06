@@ -23,7 +23,7 @@
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
-    "integration-test:node": "echo skipped",
+    "integration-test:node": "find dist-esm/test -name '*.spec.js' | xargs nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint package.json tsconfig.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
     "lint": "eslint package.json tsconfig.json api-extractor.json src test --ext .ts -f html -o template-lintReport.html || exit 0",
@@ -78,7 +78,6 @@
     "@typescript-eslint/eslint-plugin": "^2.0.0",
     "@typescript-eslint/parser": "^2.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "assert": "^1.4.1",
     "cross-env": "^6.0.3",
     "eslint": "^6.1.0",
     "eslint-config-prettier": "^6.0.0",
@@ -106,6 +105,11 @@
     "rollup-plugin-terser": "^5.1.1",
     "rollup-plugin-visualizer": "^3.1.1",
     "typescript": "~3.7.5",
-    "util": "^0.12.1"
+    "util": "^0.12.1",
+    "nyc": "^14.0.0",
+    "esm": "^3.2.18",
+    "source-map-support": "^0.5.9",
+    "chai": "^4.2.0",
+    "@types/chai": "^4.1.6"
   }
 }
