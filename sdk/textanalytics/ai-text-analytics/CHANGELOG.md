@@ -1,9 +1,10 @@
 # Release History
 
-## 1.0.0-preview.4 (Unreleased)
+## 1.0.0-preview.4 (2020-04-07)
 - Renamed the first parameter of all operation methods from `inputs` to `documents`
 - [Breaking] Removed PII entity detection methods from `TextAnalyticsClient` as well as all associated samples and documentation
 - [Breaking] Replaced `TextAnalyticsApiKeyCredential` with `AzureKeyCredential` (re-exported through this package from `@azure/core-auth`).
+- `TextAnalyticsClient` methods now throw an error when the `documents` parameter is not an array or empty before sending a request to the Text Analytics service.
 
 ## 1.0.0-preview.3 (2020-03-10)
 - [Breaking] Renamed `id` to `dataSourceEntityId` in the `LinkedEntity` type.
