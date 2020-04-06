@@ -13,7 +13,7 @@ import {
   SubscriptionRuleManager
 } from "../src";
 import { Sender } from "../src/sender";
-import { getClientClosedErrorMsg, getReceiverClosedErrorMsg } from "../src/util/errors";
+import { getReceiverClosedErrorMsg } from "../src/util/errors";
 import { TestClientType, TestMessage, isMessagingError } from "./utils/testUtils";
 import { DispositionType, ReceivedMessageWithLock } from "../src/serviceBusMessage";
 
@@ -818,6 +818,7 @@ describe("Errors after close()", function(): void {
     });
   });
 
+  // TODO - getOpenSenderErrorMsg doesn't exist, make that exist and update the test
   // describe("Errors after close() on sender", function(): void {
   //   const entityToClose = "sender";
 
@@ -840,7 +841,7 @@ describe("Errors after close()", function(): void {
     > {
       await beforeEachTest(TestClientType.UnpartitionedQueue, entityToClose);
 
-      await testReceiver(getClientClosedErrorMsg(receiver.entityPath));
+      await testReceiver(getReceiverClosedErrorMsg(receiver.entityPath, false));
       await testAllDispositions();
     });
 
@@ -849,11 +850,14 @@ describe("Errors after close()", function(): void {
     > {
       await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions, entityToClose);
 
-      await testSessionReceiver(getClientClosedErrorMsg(receiver.entityPath));
+      await testSessionReceiver(
+        getReceiverClosedErrorMsg(receiver.entityPath, false, TestMessage.sessionId)
+      );
       await testAllDispositions();
     });
   });
 
+  // TODO - getOpenSenderErrorMsg doesn't exist, make that exist and update the tests
   // describe("Errors when creating second sender/receiver with first not closed", function(): void {
   //   it("Open sender exists on QueueClient", async function(): Promise<void> {
   //     await beforeEachTest(TestClientType.PartitionedQueue, "");
