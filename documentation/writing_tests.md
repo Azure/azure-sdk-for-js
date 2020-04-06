@@ -63,7 +63,20 @@ To ensure that our tests are executed in the test [Azure DevOps pipelines](https
 
 A file named `ci.yml` should be added by the Engineering Systems team at the service level (the common parent of the clients of a specific service), for example at the `keyvault/` level of `keyvault/keyvault-keys`. This file will trigger all of the validation builds that happen during pull requests and after any pull request is merged into master.
 
+Some examples of the `ci.yml` file can be found at:
+
+- [sdk/identity/ci.yml](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/ci.yml).
+- [sdk/keyvault/ci.yml](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/ci.yml).
+- [sdk/storage/ci.yml](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/ci.yml).
+- [sdk/servicebus/ci.yml](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/ci.yml).
+
 For live tests (which run nightly), we need to provide two files, `test-resources.json` and `tests.yml`. `test-resources.json` must exist either at the package folder level, or at the service level, which will contain an [ARM template](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/overview) of the resources needed to run all of the tests of these clients. All of the `test-resources.json` files inside of the service folder will be used to deploy resources on every build. The `tests.yml` file must be placed at the package folder, which is in charge of specifying when to run the tests for this package, what environments to use to run the tests, and how to run the tests. You can learn how to write these files by following the guide: [Creating live tests](https://dev.azure.com/azure-sdk/internal/_wiki/wikis/internal.wiki/48/Create-a-new-Live-Test-pipeline?anchor=creating-live-tests).
+
+Some examples can be found at: 
+
+- [sdk/keyvault/test-resources.json](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/test-resources.json).
+- [sdk/storage/test-resources.json](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/test-resources.json).
+- [sdk/servicebus/test-resources.json](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/test-resources.json).
 
 These files will deal with the environment variables needed by your tests. Some of these environment variables are quite standard. Generally speaking, the SDK tests will use information from the tenant and the client of the resources that the tests are working with. To effectively provide these to the automated tests, we need to enable the pipeline to use some specific configuration.
 
