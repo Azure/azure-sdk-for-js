@@ -13,7 +13,8 @@ import { Sender } from "../src/sender";
 import {
   createServiceBusClientForTests,
   ServiceBusClientForTests,
-  testPeekMsgsLength
+  testPeekMsgsLength,
+  EntityName
 } from "./utils/testutils2";
 import { getDeliveryProperty } from "./utils/misc";
 const should = chai.should();
@@ -21,7 +22,7 @@ chai.use(chaiAsPromised);
 
 describe("Streaming with sessions", () => {
   let senderClient: Sender;
-  let receiverClient: SessionReceiver<ReceivedMessageWithLock>;
+  let receiverClient: SessionReceiver<ReceivedMessageWithLock> | SessionReceiver<ReceivedMessage>;
   let deadLetterClient: Receiver<ReceivedMessageWithLock>;
   let errorWasThrown: boolean;
   let unexpectedError: Error | undefined;
@@ -44,27 +45,48 @@ describe("Streaming with sessions", () => {
   async function afterEachTest(): Promise<void> {
     await serviceBusClient.test.afterEach();
   }
-  async function beforeEachTest(testClientType: TestClientType): Promise<void> {
-    const entityNames = await createReceiverForTests(testClientType);
+  async function beforeEachTest(
+    testClientType: TestClientType,
+    receiveMode?: "peekLock" | "receiveAndDelete"
+  ): Promise<EntityName> {
+    const entityNames = await createReceiverForTests(testClientType, receiveMode);
 
     senderClient = serviceBusClient.test.addToCleanup(
-      serviceBusClient.getSender(entityNames.queue ?? entityNames.topic!)
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
 
-    deadLetterClient = serviceBusClient.test.getDeadLetterReceiver(entityNames);
+    deadLetterClient = serviceBusClient.test.createDeadLetterReceiver(entityNames);
 
     errorWasThrown = false;
     unexpectedError = undefined;
+    return entityNames;
   }
 
-  async function createReceiverForTests(testClientType: TestClientType) {
+  async function createReceiverForTests(
+    testClientType: TestClientType,
+    receiveMode?: "peekLock" | "receiveAndDelete"
+  ) {
     const entityNames = await serviceBusClient.test.createTestEntities(testClientType);
     receiverClient = serviceBusClient.test.addToCleanup(
-      entityNames.queue
-        ? serviceBusClient.getSessionReceiver(entityNames.queue, "peekLock", {
+      receiveMode === "receiveAndDelete"
+        ? entityNames.queue
+          ? serviceBusClient.createSessionReceiver(entityNames.queue, "receiveAndDelete", {
+              sessionId: TestMessage.sessionId
+            })
+          : serviceBusClient.createSessionReceiver(
+              entityNames.topic!,
+              entityNames.subscription!,
+              "receiveAndDelete",
+              {
+                // TODO: we should just be able to randomly generate this. Change _soon_.
+                sessionId: TestMessage.sessionId
+              }
+            )
+        : entityNames.queue
+        ? serviceBusClient.createSessionReceiver(entityNames.queue, "peekLock", {
             sessionId: TestMessage.sessionId
           })
-        : serviceBusClient.getSessionReceiver(
+        : serviceBusClient.createSessionReceiver(
             entityNames.topic!,
             entityNames.subscription!,
             "peekLock",
@@ -352,7 +374,7 @@ describe("Streaming with sessions", () => {
         "MessageId is different than expected"
       );
       should.equal(receivedMsgs[0].deliveryCount, 1, "DeliveryCount is different than expected");
-      await receivedMsgs[0].complete();
+      await (receivedMsgs[0] as ReceivedMessageWithLock).complete();
       await testPeekMsgsLength(receiverClient, 0);
     }
     it("Partitioned Queue: abandon() retains message with incremented deliveryCount(with sessions)", async function(): Promise<
@@ -447,7 +469,7 @@ describe("Streaming with sessions", () => {
       );
       should.equal(deferredMsg.deliveryCount, 1, "DeliveryCount is different than expected");
 
-      await deferredMsg.complete();
+      await (deferredMsg as ReceivedMessageWithLock).complete();
       await testPeekMsgsLength(receiverClient, 0);
     }
     it("Partitioned Queue: defer() moves message to deferred queue(with sessions)", async function(): Promise<
@@ -973,68 +995,72 @@ describe("Streaming with sessions", () => {
       await testConcurrency(2);
     });
   });
-  // #RevisitCommentedTestsAfterTheSingleClientAPI
-  // Cannot close the receiver manually with the current 2-client API
-  // Re-visit after the top level client is implemented
-  // describe("Sessions Streaming - Not receive messages after receiver is closed", function(): void {
-  //   afterEach(async () => {
-  //     await afterEachTest();
-  //   });
 
-  //   async function testReceiveMessages(): Promise<void> {
-  //     const totalNumOfMessages = 5;
-  //     let num = 1;
-  //     const messages = [];
-  //     while (num <= totalNumOfMessages) {
-  //       const message = {
-  //         messageId: num,
-  //         body: "test",
-  //         label: `${num}`,
-  //         sessionId: TestMessage.sessionId,
-  //         partitionKey: "dummy" // Ensures all messages go to same parition to make peek work reliably
-  //       };
-  //       num++;
-  //       messages.push(message);
-  //     }
-  //     await senderClient.sendBatch(messages);
+  describe("Sessions Streaming - Not receive messages after receiver is closed", function(): void {
+    afterEach(async () => {
+      await afterEachTest();
+    });
 
-  //     const receivedMsgs: ReceivedMessage[] = [];
+    async function testReceiveMessages(entityNames: EntityName): Promise<void> {
+      const totalNumOfMessages = 5;
+      let num = 1;
+      const messages = [];
+      const batch = await senderClient.createBatch();
+      while (num <= totalNumOfMessages) {
+        const message = {
+          messageId: num,
+          body: "test",
+          label: `${num}`,
+          sessionId: TestMessage.sessionId,
+          partitionKey: "dummy" // Ensures all messages go to same partition to make peek work reliably
+        };
+        num++;
+        messages.push(message);
+        batch.tryAdd(message);
+      }
+      await senderClient.sendBatch(batch);
 
-  //     receiverClient.subscribe(
-  //       {
-  //         async processMessage(brokeredMessage: ReceivedMessage, context: ReceivedSettleableMessage) {
-  //           receivedMsgs.push(brokeredMessage);
-  //           await context.complete(brokeredMessage);
-  //         },
-  //         processError
-  //       },
-  //       {
-  //         autoComplete: false
-  //       }
-  //     );
-  //     await receiverClient.close();
+      const receivedMsgs: ReceivedMessageWithLock[] = [];
 
-  //     await delay(5000);
-  //     should.equal(
-  //       receivedMsgs.length,
-  //       0,
-  //       `Expected 0 messages, but received ${receivedMsgs.length}`
-  //     );
-  //     await testPeekMsgsLength(receiverClient, totalNumOfMessages);
-  //   }
+      receiverClient.subscribe(
+        {
+          async processMessage(brokeredMessage: ReceivedMessageWithLock) {
+            receivedMsgs.push(brokeredMessage);
+            await brokeredMessage.complete();
+          },
+          processError
+        },
+        {
+          autoComplete: false
+        }
+      );
+      await receiverClient.close();
 
-  //   it("UnPartitioned Queue: Not receive messages after receiver is closed #RunInBrowser", async function(): Promise<
-  //     void
-  //   > {
-  //     await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-  //     await testReceiveMessages();
-  //   });
+      await delay(5000);
+      should.equal(
+        receivedMsgs.length,
+        0,
+        `Expected 0 messages, but received ${receivedMsgs.length}`
+      );
+      receiverClient = serviceBusClient.test.getSessionPeekLockReceiver(entityNames);
+      await testPeekMsgsLength(receiverClient, totalNumOfMessages);
+    }
 
-  //   it("UnPartitioned Queue: (Receive And Delete mode) Not receive messages after receiver is closed #RunInBrowser", async function(): Promise<
-  //     void
-  //   > {
-  //     await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions, "receiveAndDelete");
-  //     await testReceiveMessages();
-  //   });
-  // });
+    it("UnPartitioned Queue: Not receive messages after receiver is closed #RunInBrowser", async function(): Promise<
+      void
+    > {
+      const entityNames = await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
+      await testReceiveMessages(entityNames);
+    });
+
+    it("UnPartitioned Queue: (Receive And Delete mode) Not receive messages after receiver is closed #RunInBrowser", async function(): Promise<
+      void
+    > {
+      const entityNames = await beforeEachTest(
+        TestClientType.UnpartitionedQueueWithSessions,
+        "receiveAndDelete"
+      );
+      await testReceiveMessages(entityNames);
+    });
+  });
 });

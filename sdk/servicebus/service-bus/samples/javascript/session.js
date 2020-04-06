@@ -60,8 +60,8 @@ async function main() {
 }
 
 async function sendMessage(sbClient, scientist, sessionId) {
-  // getSender() also works with topics
-  const sender = sbClient.getSender(queueName);
+  // createSender() also works with topics
+  const sender = sbClient.createSender(queueName);
 
   const message = {
     body: `${scientist.firstName} ${scientist.lastName}`,
@@ -76,8 +76,8 @@ async function sendMessage(sbClient, scientist, sessionId) {
 }
 
 async function receiveMessages(sbClient, sessionId) {
-  // If receiving from a subscription you can use the getSessionReceiver(topic, subscription) overload
-  const receiver = sbClient.getSessionReceiver(queueName, "peekLock", {
+  // If receiving from a subscription you can use the createSessionReceiver(topic, subscription) overload
+  const receiver = sbClient.createSessionReceiver(queueName, "peekLock", {
     sessionId: sessionId
   });
 

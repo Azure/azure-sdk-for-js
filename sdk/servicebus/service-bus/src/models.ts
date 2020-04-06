@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { OperationOptions } from "@azure/core-auth";
-import { RetryOptions } from "@azure/core-amqp";
+import { OperationOptions } from "./modelsToBeSharedWithEventHubs";
 import { SessionReceiverOptions } from "./session/messageSession";
+import Long from "long";
 
 /**
  * The general message handler interface (used for streamMessages).
@@ -29,9 +29,9 @@ export interface MessageHandlers<ReceivedMessageT> {
 export interface WaitTimeOptions {
   /**
    * The maximum amount of time to wait for messages to arrive.
-   *  **Default**: `60` seconds.
+   *  **Default**: `60000` milliseconds.
    */
-  maxWaitTimeSeconds: number;
+  maxWaitTimeInMs: number;
 }
 
 /**
@@ -51,51 +51,6 @@ export interface CreateBatchOptions extends OperationOptions {
    * The upper limit for the size of batch. The `tryAdd` function will return `false` after this limit is reached.
    */
   maxSizeInBytes?: number;
-}
-
-/**
- * The set of options to configure the behavior of the sender.
- *
- * @export
- * @interface GetSenderOptions
- */
-export interface GetSenderOptions {
-  /**
-   * Retry policy options that determine the mode, number of retries, retry interval etc.
-   *
-   * @type {RetryOptions}
-   */
-  retryOptions?: RetryOptions;
-}
-
-/**
- * The set of options to configure the behavior of the receiver.
- *
- * @export
- * @interface GetReceiverOptions
- */
-export interface GetReceiverOptions {
-  /**
-   * Retry policy options that determine the mode, number of retries, retry interval etc.
-   *
-   * @type {RetryOptions}
-   */
-  retryOptions?: RetryOptions;
-}
-
-/**
- * The set of options to configure the behavior of the subscriptionRuleManager.
- *
- * @export
- * @interface GetSubscriptionRuleManagerOptions
- */
-export interface GetSubscriptionRuleManagerOptions {
-  /**
-   * Retry policy options that determine the mode, number of retries, retry interval etc.
-   *
-   * @type {RetryOptions}
-   */
-  retryOptions?: RetryOptions;
 }
 
 /**
@@ -126,17 +81,17 @@ export interface MessageHandlerOptions {
    */
   autoComplete?: boolean;
   /**
-   * @property The maximum duration in seconds until which the lock on the message will be renewed
+   * @property The maximum duration in milliseconds until which the lock on the message will be renewed
    * by the sdk automatically. This auto renewal stops once the message is settled or once the user
    * provided onMessage handler completes ite execution.
    *
-   * - **Default**: `300` seconds (5 minutes).
+   * - **Default**: `300 * 1000` milliseconds (5 minutes).
    * - **To disable autolock renewal**, set this to `0`.
    */
-  maxMessageAutoRenewLockDurationInSeconds?: number;
+  maxMessageAutoRenewLockDurationInMs?: number;
   /**
    * @property The maximum number of concurrent calls that the sdk can make to the user's message
-   * handler. Once this limit has been reached, further messages will not be received until atleast
+   * handler. Once this limit has been reached, further messages will not be received until at least
    * one of the calls to the user's message handler has completed.
    * - **Default**: `1`.
    */
@@ -144,7 +99,22 @@ export interface MessageHandlerOptions {
 }
 
 /**
- * Describes the options passed to the `createReceiver` method when using a Queue/Subscription that
+ * Describes the options passed to the `createSessionReceiver` method when using a Queue/Subscription that
  * has sessions enabled.
  */
-export interface GetSessionReceiverOptions extends SessionReceiverOptions, OperationOptions {}
+export interface CreateSessionReceiverOptions extends SessionReceiverOptions, OperationOptions {}
+
+/**
+ * Describes the options passed to the `browseMessages` method on a receiver.
+ */
+export interface BrowseMessagesOptions extends OperationOptions {
+  /**
+   * @property The maximum number of messages to browse.
+   * Default value is 1
+   */
+  maxMessageCount?: number;
+  /**
+   * @property The sequence number to start browsing messages from (inclusive).
+   */
+  fromSequenceNumber?: Long;
+}

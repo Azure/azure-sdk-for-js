@@ -25,6 +25,7 @@ export {
   DomainUpdateParameters,
   EventChannel,
   EventChannelDestination,
+  EventChannelFilter,
   EventChannelSource,
   EventHubEventSubscriptionDestination,
   EventSubscription,

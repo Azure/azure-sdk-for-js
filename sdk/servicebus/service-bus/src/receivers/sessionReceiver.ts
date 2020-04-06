@@ -9,12 +9,15 @@ import {
   ReceiveBatchOptions,
   ReceivedMessage
 } from "..";
-
-import { GetMessageIteratorOptions, GetSessionReceiverOptions } from "../models";
+import {
+  GetMessageIteratorOptions,
+  CreateSessionReceiverOptions,
+  BrowseMessagesOptions
+} from "../models";
 import { MessageSession } from "../session/messageSession";
 import {
   throwErrorIfConnectionClosed,
-  getOpenReceiverErrorMsg,
+  getOpenSessionReceiverErrorMsg,
   getReceiverClosedErrorMsg,
   getAlreadyReceivingErrorMsg,
   throwTypeErrorIfParameterMissing,
@@ -28,8 +31,8 @@ import { convertToInternalReceiveMode } from "../constructorHelpers";
 import { Receiver } from "./receiver";
 import Long from "long";
 import { ServiceBusMessageImpl, ReceivedMessageWithLock } from "../serviceBusMessage";
-import { RetryConfig, RetryOperationType, retry } from "@azure/core-amqp";
-import { getRetryAttemptTimeoutInMs } from "../util/utils";
+import { RetryConfig, RetryOperationType, retry, Constants, RetryOptions } from "@azure/core-amqp";
+import { OperationOptions } from "../modelsToBeSharedWithEventHubs";
 
 /**
  *A receiver that handles sessions, including renewing the session lock.
@@ -42,28 +45,6 @@ export interface SessionReceiver<
    * Can be undefined until a AMQP receiver link has been successfully set up for the session
    */
   sessionId: string | undefined;
-
-  /**
-   * Methods related to service bus diagnostics.
-   */
-  diagnostics: {
-    /**
-     * Peek within a queue or subscription.
-     * @param maxMessageCount The maximum number of messages to retrieve.
-     */
-    peek(maxMessageCount?: number): Promise<ReceivedMessage[]>;
-    /**
-     * Peek within a queue or subscription, starting with a specific sequence number.
-     * NOTE: this method does not respect message locks or increment delivery count
-     * for messages.
-     * @param fromSequenceNumber The sequence number to start peeking from (inclusive).
-     * @param maxMessageCount The maximum number of messages to retrieve.
-     */
-    peekBySequenceNumber(
-      fromSequenceNumber: Long,
-      maxMessageCount?: number
-    ): Promise<ReceivedMessage[]>;
-  };
 
   /**
    * @property The time in UTC until which the session is locked.
@@ -80,28 +61,30 @@ export interface SessionReceiver<
   /**
    * Renews the lock on the session.
    */
-  renewSessionLock(): Promise<Date>;
+  renewSessionLock(options?: OperationOptions): Promise<Date>;
 
   /**
    * Gets the state of the Session. For more on session states, see
    * {@link https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sessions#message-session-state Session State}
+   * @param options - Options bag to pass an abort signal or tracing options.
    * @returns {Promise<any>} The state of that session
    * @throws Error if the underlying connection or receiver is closed.
    * @throws MessagingError if the service returns an error while retrieving session state.
    */
-  getState(): Promise<any>;
+  getState(options?: OperationOptions): Promise<any>;
 
   /**
    * Sets the state on the Session. For more on session states, see
    * {@link https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sessions#message-session-state Session State}
    * @param state The state that needs to be set.
+   * @param options - Options bag to pass an abort signal or tracing options.
    * @throws Error if the underlying connection or receiver is closed.
    * @throws MessagingError if the service returns an error while setting the session state.
    *
    * @param {*} state
    * @returns {Promise<void>}
    */
-  setState(state: any): Promise<void>;
+  setState(state: any, options?: OperationOptions): Promise<void>;
 }
 
 /**
@@ -113,20 +96,12 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
   public entityPath: string;
   public sessionId: string | undefined;
 
-  public diagnostics: {
-    peek(maxMessageCount?: number): Promise<ReceivedMessage[]>;
-    peekBySequenceNumber(
-      fromSequenceNumber: Long,
-      maxMessageCount?: number
-    ): Promise<ReceivedMessage[]>;
-  };
-
   /**
    * @property {ClientEntityContext} _context Describes the amqp connection context for the QueueClient.
    */
 
   private _context: ClientEntityContext;
-  private _sessionReceiverOptions: GetSessionReceiverOptions;
+  private _retryOptions: RetryOptions;
   private _messageSession: MessageSession | undefined;
   /**
    * @property {boolean} [_isClosed] Denotes if close() was called on this receiver
@@ -141,17 +116,13 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
   constructor(
     context: ClientEntityContext,
     public receiveMode: "peekLock" | "receiveAndDelete",
-    private _sessionOptions: GetSessionReceiverOptions
+    private _sessionOptions: CreateSessionReceiverOptions,
+    retryOptions: RetryOptions = {}
   ) {
     throwErrorIfConnectionClosed(context.namespace);
     this._context = context;
     this.entityPath = this._context.entityPath;
-    this._sessionReceiverOptions = _sessionOptions;
-    this.diagnostics = {
-      peek: (maxMessageCount) => this._peek(maxMessageCount),
-      peekBySequenceNumber: (fromSequenceNumber, maxMessageCount) =>
-        this._peekBySequenceNumber(fromSequenceNumber, maxMessageCount)
-    };
+    this._retryOptions = retryOptions;
 
     if (this._sessionOptions.sessionId) {
       this._sessionOptions.sessionId = String(this._sessionOptions.sessionId);
@@ -161,8 +132,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
         this._context.messageSessions[this._sessionOptions.sessionId] &&
         this._context.messageSessions[this._sessionOptions.sessionId].isOpen()
       ) {
-        const errorMessage = getOpenReceiverErrorMsg(
-          this._context.clientType,
+        const errorMessage = getOpenSessionReceiverErrorMsg(
           this._context.entityPath,
           this._sessionOptions.sessionId
         );
@@ -178,7 +148,6 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     if (this.isClosed) {
       const errorMessage = getReceiverClosedErrorMsg(
         this._context.entityPath,
-        this._context.clientType,
         this._context.isClosed,
         this.sessionId!
       );
@@ -196,8 +165,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     this._context.isSessionEnabled = true;
     this._messageSession = await MessageSession.create(this._context, {
       sessionId: this._sessionOptions.sessionId,
-      maxSessionAutoRenewLockDurationInSeconds: this._sessionOptions
-        .maxSessionAutoRenewLockDurationInSeconds,
+      autoRenewLockDurationInMs: this._sessionOptions.autoRenewLockDurationInMs,
       receiveMode: convertToInternalReceiveMode(this.receiveMode)
     });
     // By this point, we should have a valid sessionId on the messageSession
@@ -255,21 +223,23 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    *   before the session lock expires, then the message lands back in the Queue/Subscription for the next
    *   receive operation.
    *
+   * @param options - Options bag to pass an abort signal or tracing options.
    * @returns Promise<Date> - New lock token expiry date and time in UTC format.
    * @throws Error if the underlying connection or receiver is closed.
    * @throws MessagingError if the service returns an error while renewing session lock.
    */
-  async renewSessionLock(): Promise<Date> {
+  async renewSessionLock(options?: OperationOptions): Promise<Date> {
     this._throwIfReceiverOrConnectionClosed();
-    const retryOptions = this._sessionReceiverOptions.retryOptions || {};
-    retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
 
     const renewSessionLockOperationPromise = async () => {
       await this._createMessageSessionIfDoesntExist();
       this._messageSession!.sessionLockedUntilUtc = await this._context.managementClient!.renewSessionLock(
         this.sessionId!,
-        undefined,
-        retryOptions.timeoutInMs!
+        {
+          ...options,
+          requestName: "renewSessionLock",
+          timeoutInMs: this._retryOptions.timeoutInMs
+        }
       );
       return this._messageSession!.sessionLockedUntilUtc!;
     };
@@ -277,7 +247,8 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       operation: renewSessionLockOperationPromise,
       connectionId: this._context.namespace.connectionId,
       operationType: RetryOperationType.management,
-      retryOptions: retryOptions
+      retryOptions: this._retryOptions,
+      abortSignal: options?.abortSignal
     };
     return retry<Date>(config);
   }
@@ -286,28 +257,28 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    * Sets the state on the Session. For more on session states, see
    * {@link https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sessions#message-session-state Session State}
    * @param state The state that needs to be set.
+   * @param options - Options bag to pass an abort signal or tracing options.
    * @throws Error if the underlying connection or receiver is closed.
    * @throws MessagingError if the service returns an error while setting the session state.
    */
-  async setState(state: any): Promise<void> {
+  async setState(state: any, options: OperationOptions = {}): Promise<void> {
     this._throwIfReceiverOrConnectionClosed();
-    const retryOptions = this._sessionReceiverOptions.retryOptions || {};
-    retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
 
     const setSessionStateOperationPromise = async () => {
       await this._createMessageSessionIfDoesntExist();
-      await this._context.managementClient!.setSessionState(
-        this.sessionId!,
-        state,
-        retryOptions.timeoutInMs!
-      );
+      await this._context.managementClient!.setSessionState(this.sessionId!, state, {
+        ...options,
+        requestName: "setState",
+        timeoutInMs: this._retryOptions.timeoutInMs
+      });
       return;
     };
     const config: RetryConfig<void> = {
       operation: setSessionStateOperationPromise,
       connectionId: this._context.namespace.connectionId,
       operationType: RetryOperationType.management,
-      retryOptions: retryOptions
+      retryOptions: this._retryOptions,
+      abortSignal: options?.abortSignal
     };
     return retry<void>(config);
   }
@@ -315,104 +286,63 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
   /**
    * Gets the state of the Session. For more on session states, see
    * {@link https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sessions#message-session-state Session State}
+   * @param options - Options bag to pass an abort signal or tracing options.
    * @returns Promise<any> The state of that session
    * @throws Error if the underlying connection or receiver is closed.
    * @throws MessagingError if the service returns an error while retrieving session state.
    */
-  async getState(): Promise<any> {
+  async getState(options: OperationOptions = {}): Promise<any> {
     this._throwIfReceiverOrConnectionClosed();
-    const retryOptions = this._sessionReceiverOptions.retryOptions || {};
-    retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
 
     const getSessionStateOperationPromise = async () => {
       await this._createMessageSessionIfDoesntExist();
-      return this._context.managementClient!.getSessionState(
-        this.sessionId!,
-        retryOptions.timeoutInMs!
-      );
+      return this._context.managementClient!.getSessionState(this.sessionId!, {
+        ...options,
+        requestName: "getState",
+        timeoutInMs: this._retryOptions.timeoutInMs
+      });
     };
     const config: RetryConfig<any> = {
       operation: getSessionStateOperationPromise,
       connectionId: this._context.namespace.connectionId,
       operationType: RetryOperationType.management,
-      retryOptions: retryOptions
+      retryOptions: this._retryOptions,
+      abortSignal: options?.abortSignal
     };
     return retry<any>(config);
   }
 
-  /**
-   * Fetches the next batch of active messages (including deferred but not deadlettered messages) in
-   * the current session.
-   * - The first call to `peek()` fetches the first active message. Each subsequent call fetches the
-   * subsequent message.
-   * - Unlike a `received` message, `peeked` message is a read-only version of the message.
-   * It cannot be `Completed/Abandoned/Deferred/Deadlettered`. The lock on it cannot be renewed.
-   *
-   * @param maxMessageCount The maximum number of messages to peek. Default value `1`.
-   * @returns Promise<ReceivedMessageInfo[]>
-   * @throws Error if the underlying connection or receiver is closed.
-   * @throws MessagingError if the service returns an error while peeking for messages.
-   */
-  private async _peek(maxMessageCount?: number): Promise<ReceivedMessage[]> {
+  async browseMessages(options: BrowseMessagesOptions = {}): Promise<ReceivedMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
-    const retryOptions = this._sessionReceiverOptions.retryOptions || {};
-    retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
 
-    const peekOperationPromise = async () => {
-      await this._createMessageSessionIfDoesntExist();
-
-      const internalMessages = await this._context.managementClient!.peekMessagesBySession(
-        this.sessionId!,
-        maxMessageCount,
-        retryOptions.timeoutInMs!
-      );
-      return internalMessages.map((m) => m as ReceivedMessage);
+    const managementRequestOptions = {
+      ...options,
+      requestName: "browseMessages",
+      timeoutInMs: this._retryOptions?.timeoutInMs
     };
+    const peekOperationPromise = async () => {
+      if (options.fromSequenceNumber) {
+        return await this._context.managementClient!.peekBySequenceNumber(
+          options.fromSequenceNumber,
+          options.maxMessageCount,
+          this.sessionId!,
+          managementRequestOptions
+        );
+      } else {
+        return await this._context.managementClient!.peekMessagesBySession(
+          this.sessionId!,
+          options.maxMessageCount,
+          managementRequestOptions
+        );
+      }
+    };
+
     const config: RetryConfig<ReceivedMessage[]> = {
       operation: peekOperationPromise,
       connectionId: this._context.namespace.connectionId,
       operationType: RetryOperationType.management,
-      retryOptions: retryOptions
-    };
-    return retry<ReceivedMessage[]>(config);
-  }
-
-  /**
-   * Peeks the desired number of active messages (including deferred but not deadlettered messages)
-   * from the specified sequence number in the current session.
-   * - Unlike a `received` message, `peeked` message is a read-only version of the message.
-   * It cannot be `Completed/Abandoned/Deferred/Deadlettered`. The lock on it cannot be renewed.
-   *
-   * @param fromSequenceNumber The sequence number from where to read the message.
-   * @param [maxMessageCount] The maximum number of messages to peek. Default value `1`.
-   * @returns Promise<ReceivedSBMessage[]>
-   * @throws Error if the underlying connection or receiver is closed.
-   * @throws MessagingError if the service returns an error while peeking for messages.
-   */
-  private async _peekBySequenceNumber(
-    fromSequenceNumber: Long,
-    maxMessageCount?: number
-  ): Promise<ReceivedMessage[]> {
-    this._throwIfReceiverOrConnectionClosed();
-    const retryOptions = this._sessionReceiverOptions.retryOptions || {};
-    retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
-
-    const peekBySequenceNumberOperationPromise = async () => {
-      await this._createMessageSessionIfDoesntExist();
-
-      const internalMessages = await this._context.managementClient!.peekBySequenceNumber(
-        fromSequenceNumber,
-        maxMessageCount,
-        this.sessionId,
-        retryOptions.timeoutInMs!
-      );
-      return internalMessages.map((m) => m as ReceivedMessage);
-    };
-    const config: RetryConfig<ReceivedMessage[]> = {
-      operation: peekBySequenceNumberOperationPromise,
-      connectionId: this._context.namespace.connectionId,
-      operationType: RetryOperationType.management,
-      retryOptions: retryOptions
+      retryOptions: this._retryOptions,
+      abortSignal: options?.abortSignal
     };
     return retry<ReceivedMessage[]>(config);
   }
@@ -420,13 +350,17 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
   /**
    * Returns a promise that resolves to a deferred message identified by the given `sequenceNumber`.
    * @param sequenceNumber The sequence number of the message that needs to be received.
+   * @param options - Options bag to pass an abort signal or tracing options.
    * @returns Promise<ServiceBusMessage | undefined>
    * - Returns `Message` identified by sequence number.
    * - Returns `undefined` if no such message is found.
    * @throws Error if the underlying connection or receiver is closed.
    * @throws MessagingError if the service returns an error while receiving deferred message.
    */
-  async receiveDeferredMessage(sequenceNumber: Long): Promise<ReceivedMessageT | undefined> {
+  async receiveDeferredMessage(
+    sequenceNumber: Long,
+    options: OperationOptions = {}
+  ): Promise<ReceivedMessageT | undefined> {
     this._throwIfReceiverOrConnectionClosed();
     throwTypeErrorIfParameterMissing(
       this._context.namespace.connectionId,
@@ -439,16 +373,17 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       sequenceNumber
     );
 
-    const retryOptions = this._sessionReceiverOptions.retryOptions || {};
-    retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
-
     const receiveDeferredMessageOperationPromise = async () => {
       await this._createMessageSessionIfDoesntExist();
       const messages = await this._context.managementClient!.receiveDeferredMessages(
         [sequenceNumber],
         convertToInternalReceiveMode(this.receiveMode),
         this.sessionId,
-        retryOptions.timeoutInMs!
+        {
+          ...options,
+          requestName: "receiveDeferredMessage",
+          timeoutInMs: this._retryOptions.timeoutInMs
+        }
       );
       return (messages[0] as unknown) as ReceivedMessageT;
     };
@@ -456,7 +391,8 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       operation: receiveDeferredMessageOperationPromise,
       connectionId: this._context.namespace.connectionId,
       operationType: RetryOperationType.management,
-      retryOptions: retryOptions
+      retryOptions: this._retryOptions,
+      abortSignal: options?.abortSignal
     };
     return retry<ReceivedMessageT | undefined>(config);
   }
@@ -464,13 +400,17 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
   /**
    * Returns a promise that resolves to an array of deferred messages identified by given `sequenceNumbers`.
    * @param sequenceNumbers An array of sequence numbers for the messages that need to be received.
+   * @param options - Options bag to pass an abort signal or tracing options.
    * @returns Promise<ServiceBusMessage[]>
    * - Returns a list of messages identified by the given sequenceNumbers.
    * - Returns an empty list if no messages are found.
    * @throws Error if the underlying connection or receiver is closed.
    * @throws MessagingError if the service returns an error while receiving deferred messages.
    */
-  async receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ReceivedMessageT[]> {
+  async receiveDeferredMessages(
+    sequenceNumbers: Long[],
+    options: OperationOptions = {}
+  ): Promise<ReceivedMessageT[]> {
     this._throwIfReceiverOrConnectionClosed();
     throwTypeErrorIfParameterMissing(
       this._context.namespace.connectionId,
@@ -486,16 +426,17 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       sequenceNumbers
     );
 
-    const retryOptions = this._sessionReceiverOptions.retryOptions || {};
-    retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
-
     const receiveDeferredMessagesOperationPromise = async () => {
       await this._createMessageSessionIfDoesntExist();
       const deferredMessages = await this._context.managementClient!.receiveDeferredMessages(
         sequenceNumbers,
         convertToInternalReceiveMode(this.receiveMode),
         this.sessionId,
-        retryOptions.timeoutInMs!
+        {
+          ...options,
+          requestName: "receiveDeferredMessages",
+          timeoutInMs: this._retryOptions.timeoutInMs
+        }
       );
       return (deferredMessages as any) as ReceivedMessageT[];
     };
@@ -503,7 +444,8 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       operation: receiveDeferredMessagesOperationPromise,
       connectionId: this._context.namespace.connectionId,
       operationType: RetryOperationType.management,
-      retryOptions: retryOptions
+      retryOptions: this._retryOptions,
+      abortSignal: options?.abortSignal
     };
     return retry<ReceivedMessageT[]>(config);
   }
@@ -512,6 +454,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    * Returns a promise that resolves to an array of messages based on given count and timeout over
    * an AMQP receiver link from a Queue/Subscription.
    *
+   * The `maxWaitTimeInMs` provided via the options overrides the `timeoutInMs` provided in the `retryOptions`.
    * Throws an error if there is another receive operation in progress on the same receiver. If you
    * are not sure whether there is another receive operation running, check the `isReceivingMessages`
    * property on the receiver.
@@ -529,15 +472,24 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
 
-    await this._createMessageSessionIfDoesntExist();
+    const receiveBatchOperationPromise = async () => {
+      await this._createMessageSessionIfDoesntExist();
 
-    const receivedMessages = await this._messageSession!.receiveMessages(
-      maxMessageCount,
-      options?.maxWaitTimeSeconds
-      // this._sessionReceiverOptions - No need to pass?
-    );
+      const receivedMessages = await this._messageSession!.receiveMessages(
+        maxMessageCount,
+        options?.maxWaitTimeInMs ?? Constants.defaultOperationTimeoutInMs
+      );
 
-    return (receivedMessages as any) as ReceivedMessageT[];
+      return (receivedMessages as any) as ReceivedMessageT[];
+    };
+    const config: RetryConfig<ReceivedMessageT[]> = {
+      operation: receiveBatchOperationPromise,
+      connectionId: this._context.namespace.connectionId,
+      operationType: RetryOperationType.receiveMessage,
+      retryOptions: this._retryOptions,
+      abortSignal: options?.abortSignal
+    };
+    return retry<ReceivedMessageT[]>(config);
   }
 
   subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SubscribeOptions): void {
@@ -570,7 +522,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    * @param options - Options to control whether messages should be automatically completed
    * or if the lock on the session should be automatically renewed. You can control the
    * maximum number of messages that should be concurrently processed. You can
-   * also provide a timeout in seconds to denote the amount of time to wait for a new message
+   * also provide a timeout in milliseconds to denote the amount of time to wait for a new message
    * before closing the receiver.
    *
    * @returns void
@@ -615,6 +567,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
   /**
    * Gets an async iterator over messages from the receiver.
    *
+   * The `maxWaitTimeInMs` provided via the options overrides the `timeoutInMs` provided in the `retryOptions`.
    * Throws an error if there is another receive operation in progress on the same receiver. If you
    * are not sure whether there is another receive operation running, check the `isReceivingMessages`
    * property on the receiver.
