@@ -5,11 +5,15 @@ The Azure SDK for JavaScript and TypeScript allows users to communicate and cont
 ## Index
 
 - [Engineering setup](#engineering-setup)
-    - [Engineering goals](#engineering-goals).
-    - [CI and nightly test configuration](#ci-and-nightly-test-configuration).
-    - [Delivering live tests to our users](#delivering-live-tests-to-our-users).
+    - [Engineering goals](#engineering-goals)
+    - [CI and nightly test configuration](#ci-and-nightly-test-configuration)
+    - [Delivering live tests to our users](#delivering-live-tests-to-our-users)
 - [Recommended tools](#recommended-tools)
     - [Mocha](#mocha)
+        - [Mocha in our dependencies](#mocha-in-our-dependencies)
+        - [Configuring Mocha](#configuring-mocha)
+        - [Code coverage with Mocha and nyc](#code-coverage-with-mocha-and-nyc)
+        - [Handling timeouts](#handling-timeouts)
     - [Chai](#chai)
     - [Rollup](#rollup)
     - [Karma](#karma)
@@ -146,7 +150,6 @@ rush add --dev -p mocha
 We're using the following Mocha plugins and related dependencies:
 
 - [`@types/mocha`](https://www.npmjs.com/package/@types/mocha) provides the type definitions for mocha.
-- [`mocha-multi`](https://www.npmjs.com/package/mocha-multi) to let Mocha use multiple reporters.
 - [`mocha-junit-reporter`](https://www.npmjs.com/package/mocha-junit-reporter), which produces JUnit-style XML test results.
 - [`nyc`](https://www.npmjs.com/package/nyc) is [Istanbul](https://istanbul.js.org/)'s command line interface.
 - [`esm`](https://www.npmjs.com/package/esm), a popular ECMAScript module loader.
@@ -155,7 +158,7 @@ We're using the following Mocha plugins and related dependencies:
 A full `rush add` command that includes `mocha` and all of the previous dependencies follows:
 
 ```
-rush add --dev -p mocha @types/mocha mocha-multi mocha-junit-reporter nyc esm source-map-support
+rush add --dev -p mocha @types/mocha mocha-junit-reporter nyc esm source-map-support
 ```
 
 #### Configuring Mocha
@@ -165,15 +168,15 @@ Mocha is used by our test scripts in our `package.json` files. We typically invo
 If we only consider the common parameters sent to mocha, we can see the following:
 
 ```
-mocha --require esm --require source-map-support/register --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- --timeout 180000 --full-trace
+mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace
 ```
 
 Let's understand what's going on:
 
 - `--require esm` requires the `esm` ECMAScript module loader.
 - `--require source-map-support/register` requires the `source-map-support/register`, to support [source map](https://github.com/mozilla/source-map) for stack traces in node.
-- `--reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=-` which allows us to both use the `spec` reporter to output a hierarchical nested view of the test cases, and also produces the JUnit-style XML test results.
-- `--timeout 180000`, which specifies the maximum time each single test case can take. More on that on the next section.
+- `--reporter ../../../common/tools/mocha-multi-reporter.js` uses a local script which allows us to both use the `spec` reporter to output a hierarchical nested view of the test cases, and also the `mocha-junit-reporter` reporter, which produces JUnit-style XML test results.
+- `--timeout 180000`, which specifies the maximum time each single test case can take. More on that on the [Handling timeouts](#handling-timeouts) section.
 - `--full-trace`, which enables full stack traces, since Mocha by default shortens the stack traces.
 
 That command by itself is still missing two things: the actual test files and a way to generate code coverage. These two missing pieces can vary depending on what we're trying to test and how we're trying to debug the tests.
@@ -182,7 +185,18 @@ Code coverage can be added by placing `nyc` at the beginning of the line. Keep i
 
 Then we have to point mocha to our test files. If you're **not** using `nyc`, you can point to the bundled test file (bundled with rollup, which we will see later), typically at `dist-test/index.node.js`. If you are using `nyc`, point mocha to the files built by the TypeScript compiler, normally at `dist-esm/test/*.test.js`.
 
+We will end up with the following scripts (be aware that the target tests files might change).
+
+```json
+    "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace dist-esm/test/*.test.js",
+    "unit-test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace dist-test/index.node.js",
+```
+
+Keep in mind that Mocha will be directly called from our `package.json` scripts only for our node tests. For our browser tests, we will be using [Karma](#karma).
+
 You can look at how Mocha's configuration is present in our [template project's package.json file](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/package.json).
+
+#### Code coverage with Mocha and nyc
 
 #### Handling timeouts
 
