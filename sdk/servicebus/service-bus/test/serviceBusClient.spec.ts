@@ -4,7 +4,14 @@
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import Long from "long";
-import { delay, MessagingError, ServiceBusClient, Receiver, SessionReceiver } from "../src";
+import {
+  delay,
+  MessagingError,
+  ServiceBusClient,
+  Receiver,
+  SessionReceiver,
+  SubscriptionRuleManager
+} from "../src";
 import { Sender } from "../src/sender";
 import { getClientClosedErrorMsg } from "../src/util/errors";
 import { TestClientType, TestMessage, isMessagingError } from "./utils/testUtils";
@@ -354,6 +361,7 @@ describe("Errors after close()", function(): void {
   let receiver: Receiver<ReceivedMessageWithLock>;
   let receivedMessage: ReceivedMessageWithLock;
   let entityName: EntityName;
+  let subscriptionClient: SubscriptionRuleManager;
 
   afterEach(() => {
     return sbClient.close();
@@ -371,9 +379,14 @@ describe("Errors after close()", function(): void {
       ? TestMessage.getSessionSample()
       : TestMessage.getSample();
     await sender.send(testMessage);
-    const receivedMsgs = await receiver.receiveBatch(1, { maxWaitTimeInMs: 3000 });
+    const receivedMsgs = await receiver.receiveBatch(1, { maxWaitTimeInMs: 5000 });
     should.equal(receivedMsgs.length, 1, "Unexpected number of messages received");
     receivedMessage = receivedMsgs[0];
+
+    subscriptionClient = sbClient.getSubscriptionRuleManager(
+      entityName.topic!,
+      entityName.subscription!
+    );
 
     // close(), so that we can then test the resulting error.
     switch (entityToClose) {
@@ -446,10 +459,14 @@ describe("Errors after close()", function(): void {
     });
     should.equal(errorSend, expectedErrorMsg, "Expected error not thrown for send()");
 
+    let errorCreateBatch: string = "";
+    await sender.createBatch().catch((err) => {
+      errorCreateBatch = err.message;
+    });
+    should.equal(errorCreateBatch, expectedErrorMsg, "Expected error not thrown for createBatch()");
+
     let errorSendBatch: string = "";
-    const batch = await sender.createBatch();
-    batch.tryAdd(testMessage);
-    await sender.sendBatch(batch).catch((err) => {
+    await sender.sendBatch(1 as any).catch((err) => {
       errorSendBatch = err.message;
     });
     should.equal(errorSendBatch, expectedErrorMsg, "Expected error not thrown for sendBatch()");
@@ -592,19 +609,19 @@ describe("Errors after close()", function(): void {
   /**
    * Tests creating new receiver throws expected error
    */
-  // async function testCreateReceiver(expectedErrorMsg: string): Promise<void> {
-  //   let errorNewReceiver: string = "";
-  //   try {
-  //     receiver = sbClient.test.getPeekLockReceiver(entityName);
-  //   } catch (err) {
-  //     errorNewReceiver = err.message;
-  //   }
-  //   should.equal(
-  //     errorNewReceiver,
-  //     expectedErrorMsg,
-  //     "Expected error not thrown for createReceiver()"
-  //   );
-  // }
+  async function testCreateReceiver(expectedErrorMsg: string): Promise<void> {
+    let errorNewReceiver: string = "";
+    try {
+      receiver = sbClient.test.getPeekLockReceiver(entityName);
+    } catch (err) {
+      errorNewReceiver = err.message;
+    }
+    should.equal(
+      errorNewReceiver,
+      expectedErrorMsg,
+      "Expected error not thrown for createReceiver()"
+    );
+  }
 
   /**
    * Tests that each feature of the receiver client with sessions throws expected error
@@ -650,27 +667,28 @@ describe("Errors after close()", function(): void {
    * Tests that each feature of the topic filters throws expected error
    */
   async function testRules(expectedErrorMsg: string): Promise<void> {
-    const subscriptionClient = sbClient.getSubscriptionRuleManager(
-      entityName.topic!,
-      entityName.subscription!
-    );
-
     let errorAddRule: string = "";
-    await subscriptionClient.addRule("myRule", true).catch((err) => {
-      errorAddRule = err.message;
-    });
+    try {
+      await subscriptionClient.addRule("myRule", true);
+    } catch (error) {
+      errorAddRule = error.message;
+    }
     should.equal(errorAddRule, expectedErrorMsg, "Expected error not thrown for addRule()");
 
     let errorRemoveRule: string = "";
-    await subscriptionClient.removeRule("myRule").catch((err) => {
+    try {
+      await subscriptionClient.removeRule("myRule");
+    } catch (err) {
       errorRemoveRule = err.message;
-    });
+    }
     should.equal(errorRemoveRule, expectedErrorMsg, "Expected error not thrown for removeRule()");
 
     let errorGetRules: string = "";
-    await subscriptionClient.getRules().catch((err) => {
+    try {
+      await subscriptionClient.getRules();
+    } catch (err) {
       errorGetRules = err.message;
-    });
+    }
     should.equal(errorGetRules, expectedErrorMsg, "Expected error not thrown for getRule()");
   }
 
@@ -686,6 +704,7 @@ describe("Errors after close()", function(): void {
       await testSender(expectedErrorMsg);
       await testCreateSender(expectedErrorMsg);
       await testReceiver(expectedErrorMsg);
+      await testCreateReceiver(expectedErrorMsg);
     });
 
     it("Unpartitioned Queue with sessions: errors after close() on namespace #RunInBrowser", async function(): Promise<
@@ -696,16 +715,17 @@ describe("Errors after close()", function(): void {
       await testSender(expectedErrorMsg);
       await testCreateSender(expectedErrorMsg);
       await testSessionReceiver(expectedErrorMsg);
+      await testCreateReceiver(expectedErrorMsg);
     });
 
     it("Unpartitioned Topic/Subscription: errors after close() on namespace", async function(): Promise<
       void
     > {
-      await beforeEachTest(TestClientType.UnpartitionedTopic, entityToClose);
-
+      await beforeEachTest(TestClientType.UnpartitionedSubscription, entityToClose);
       await testSender(expectedErrorMsg);
       await testCreateSender(expectedErrorMsg);
       await testReceiver(expectedErrorMsg);
+      await testCreateReceiver(expectedErrorMsg);
       await testRules(expectedErrorMsg);
     });
 
@@ -717,39 +737,8 @@ describe("Errors after close()", function(): void {
       await testSender(expectedErrorMsg);
       await testCreateSender(expectedErrorMsg);
       await testSessionReceiver(expectedErrorMsg);
+      await testCreateReceiver(expectedErrorMsg);
       await testRules(expectedErrorMsg);
-    });
-
-    it("Create Sender/Receiver clients throws error after namespace.close()", async function(): Promise<
-      void
-    > {
-      // beforeEachTest() can be run for any entity type, we need it only to ensure that the
-      // connection is indeed opened
-      await beforeEachTest(TestClientType.PartitionedQueue, entityToClose);
-
-      let errorCreateQueueClient: string = "";
-      try {
-        sbClient.createSender("random-name");
-      } catch (err) {
-        errorCreateQueueClient = err.message;
-      }
-      should.equal(
-        errorCreateQueueClient,
-        expectedErrorMsg,
-        "Expected error not thrown for createQueueClient()"
-      );
-
-      let errorCreateSubscriptionClient: string = "";
-      try {
-        sbClient.getSubscriptionRuleManager("random-name", "random-name");
-      } catch (err) {
-        errorCreateSubscriptionClient = err.message;
-      }
-      should.equal(
-        errorCreateSubscriptionClient,
-        expectedErrorMsg,
-        "Expected error not thrown for createSubscriptionClient()"
-      );
     });
   });
 
