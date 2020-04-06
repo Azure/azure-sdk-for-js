@@ -79,26 +79,27 @@ describe("IdentityClient", function() {
     );
   });
 
-  it("throws an exception when an Env AZURE_AUTHORITY_HOST using 'http' is provided", async () => {
-    if (isNode) {
-      process.env.AZURE_AUTHORITY_HOST ="http://totallyinsecure.lol";
-      assert.throws(
-        () => {
-          new IdentityClient();
-        },
-        Error,
-        "The authorityHost address must use the 'https' protocol."
-      );
-      process.env.AZURE_AUTHORITY_HOST ="httpsomg.com";
-      assert.throws(
-        () => {
-          new IdentityClient();
-        },
-        Error,
-        "The authorityHost address must use the 'https' protocol."
-      );
-      delete process.env.AZURE_AUTHORITY_HOST;
+  it("throws an exception when an Env AZURE_AUTHORITY_HOST using 'http' is provided", async function() {
+    if (!isNode) {
+      return this.skip();
     }
+    process.env.AZURE_AUTHORITY_HOST ="http://totallyinsecure.lol";
+    assert.throws(
+      () => {
+        new IdentityClient();
+      },
+      Error,
+      "The authorityHost address must use the 'https' protocol."
+    );
+    process.env.AZURE_AUTHORITY_HOST ="httpsomg.com";
+    assert.throws(
+      () => {
+        new IdentityClient();
+      },
+      Error,
+      "The authorityHost address must use the 'https' protocol."
+    );
+    delete process.env.AZURE_AUTHORITY_HOST;    
   });
 
   it("returns a usable error when the authentication response doesn't contain a body", async () => {
