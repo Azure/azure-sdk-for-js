@@ -3,6 +3,8 @@
 
 import { InternalClass } from "../../src/internalClass";
 import { assert } from "chai";
+import { Server, createServer } from "http";
+import { isNode } from '@azure/core-http';
 
 describe("before, beforeEach, after and afterEach examples", function() {
 
@@ -19,6 +21,10 @@ describe("before, beforeEach, after and afterEach examples", function() {
       state = {
         properties: {}
       };
+
+      // The recorder needs to be initialized before the clients are created,
+      // so assume the recorder is being initialized here.
+
       client = new InternalClass();
       // And other global setups...
     });
@@ -48,8 +54,53 @@ describe("before, beforeEach, after and afterEach examples", function() {
       // And other per-test cleanups...
     });
   
-    it("A test for the encouraged example of `before", function() {
+    it("A test for the encouraged example of `beforeEach` and `afterEach`", function() {
       assert.exists(client);
     });
   });
+
+  // Use `before` to declare heavy resources that can be used by more than one test.
+  // Like a stateless web server...
+  if (!isNode) {
+    describe("Encouraged example of `before` and `after`", function() {
+      const expectedHttpResponse = "Hello World!";
+      let server: Server;
+
+      /**
+       * helloWorldRequest makes a get request to the env.SERVER_ADDRESS
+       * and returns a promise that resolves when the server responds.
+       */
+      async function helloWorldRequest(): Promise<string> {
+        return new Promise((resolve) => {
+          const http = require("http");
+          http.get("localhost:8080", (res: any) => {
+            let data = "";
+            res.on("data", (chunk: string) => {
+              data += chunk;
+            });
+            res.on("end", () => {
+              resolve(data);
+            });
+          });
+        });
+      }
+
+      before(function() {
+        server = createServer(function(_: any, res: any) {
+          res.write(expectedHttpResponse);
+          res.end();
+        });
+        server.listen(8080);
+      });
+    
+      after(function() {
+        server.close();
+      });
+    
+      it("A test for the encouraged example of `before` and `after`", async function() {
+        const response = await helloWorldRequest();
+        assert.equal(response, expectedHttpResponse); 
+      });
+    });
+  }
 });

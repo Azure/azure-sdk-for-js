@@ -245,7 +245,9 @@ Mocha's `before` and `beforeEach` are methods that allow you to specify function
 
 We recommend using `beforeEach` rather than `before`, just as much as we recommend using `afterEach` rather than `after`. The idea is that each test case should not depend on a state that is shared with other tests. Use `beforeEach` to execute tasks that will prepare the resources needed for each test to run cleanly, and `afterEach` to tear down or clean those settings before the next test runs.
 
-A discouraged example of `before` ([source](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/test/internal/beforeAfter.spec.ts#L12)):
+`before` and `after` can be used to define or create heavy resources that could cleanly be used by more than one test. We will see some examples below.
+
+A discouraged example of `before` and `after` ([source](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/test/internal/beforeAfter.spec.ts#L12)):
 
 ```ts
 describe.skip("Discouraged example of `before` and `after`", function() {
@@ -258,6 +260,10 @@ describe.skip("Discouraged example of `before` and `after`", function() {
     state = {
       properties: {},
     };
+
+    // The recorder needs to be initialized before the clients are created,
+    // so assume the recorder is being initialized here.
+
     client = new InternalClass();
     // And other global setups...
   });
@@ -274,7 +280,7 @@ describe.skip("Discouraged example of `before` and `after`", function() {
 });
 ```
 
-`beforeEach` and `afterEach` are encouraged. An example might look like ([source](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/test/internal/beforeAfter.spec.ts#L40)):
+`beforeEach` and `afterEach` are encouraged. An example might look like ([source](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/test/internal/beforeAfter.spec.ts#L44)):
 
 ```ts
 describe("Encouraged example of `beforeEach` and `afterEach`", function() {
@@ -288,13 +294,58 @@ describe("Encouraged example of `beforeEach` and `afterEach`", function() {
     // And other per-test cleanups...
   });
 
-  it("A test for the encouraged example of `before", function() {
+  it("A test for the encouraged example of `beforeEach` and `afterEach`", function() {
     assert.exists(client);
   });
 });
 ```
 
 We typically use `beforeEach` and `afterEach` to set up and tear down our test recorder. You can learn more about it in the section: [The Recorder](#the-recorder).
+
+Finally, an encouraged example of `before` and `after` ([source](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/test/internal/beforeAfter.spec.ts#L65)):
+
+```ts
+describe("Encouraged example of `before` and `after`", function() {
+  const expectedHttpResponse = "Hello World!";
+  let server: Server;
+
+  /**
+   * helloWorldRequest makes a get request to the env.SERVER_ADDRESS
+   * and returns a promise that resolves when the server responds.
+   */
+  async function helloWorldRequest(): Promise<string> {
+    return new Promise((resolve) => {
+      const http = require("http");
+      http.get("localhost:8080", (res: any) => {
+        let data = "";
+        res.on("data", (chunk: string) => {
+          data += chunk;
+        });
+        res.on("end", () => {
+          resolve(data);
+        });
+      });
+    });
+  }
+
+  before(function() {
+    server = createServer(function(_: any, res: any) {
+      res.write(expectedHttpResponse);
+      res.end();
+    });
+    server.listen(8080);
+  });
+
+  after(function() {
+    server.close();
+  });
+
+  it("A test for the encouraged example of `before` and `after`", async function() {
+    const response = await helloWorldRequest();
+    assert.equal(response, expectedHttpResponse); 
+  });
+});
+```
 
 #### Other general recommendations
 
@@ -501,10 +552,10 @@ export function browserConfig(test = false) {
 }
 ```
 
-In the previous snippet, you'll see that our configuration functions accept a `test` parameter that allows us to change the rollup configuration in case we want to generate a bundle with our tests. For that purpose, we employ a separate `package.json` script that consumes a separate configuration file for rollup, `rollup.test.config.js`:
+In the previous snippet, you'll see that our configuration functions accept a `test` parameter that allows us to change the rollup configuration in case we want to generate a bundle with our tests. For that purpose, we employ a separate `package.json` script that consumes a separate configuration file for rollup, `rollup.test.config.js`, typically preceded by the TypeScript compilation of the project, as follows:
 
 ```json
-  "build:test": "rollup -c rollup.test.config.js 2>&1",
+  "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
 ```
 
 Our rollup test configuration file simply loads the base configuration file and exports both the Node and the Browser configurations, but generated appropriately to run our tests, by passing a boolean truth as the first parameter:
@@ -640,11 +691,26 @@ You can read more about the recorder in its readme: https://github.com/Azure/azu
 
 Tests for the Azure SDK for JavaScript and TypeScript should be all executed using the NPM command `test`, they should be stored in the `test` folder, they must be written in TypeScript, in files that will end in `.spec.ts`. Our [recommended tools](#recommended-tools) should provide the test framework and proper ways of compiling and bundling our tests correctly. They should be able to run and be debugged on the environments we're targeting, which are currently only NodeJS and the browsers.
 
-To help developers specify the target environment they will be testing, we will specify these scripts in the `package.json`:
+Even though tests can be executed in groups, through the use of [Pattern matching test titles](#pattern-matching-test-titles), tests should be considered to be executed all at once. What determines what will be tested will be how tests are written, either through [The Recorder](#the-recorder) or through [Using conditionals](#using-conditionals). The execution of tests will vary in the `package.json` to provide different build environments, different debugging mechanisms and reportings for automated live tests or automated verification tests (more on that topic at [Configuring Mocha](#configuring-mocha), [Configuring Karma](#configuring-karma) and [CI and nightly test configuration](#ci-and-nightly-test-configuration)).
+
+All together, the `package.json` will end up with the following scripts:
 
 ```json
-  "test:browser": "karma start --single-run",
-  "test:node": "mocha -r esm --require source-map-support/register --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- --timeout 180000 --full-trace dist-esm/test/*.test.js",
+  "test": "npm run build:test && npm run unit-test && npm run integration-test",
+  "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
+  "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
+
+  // Where...
+  "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+  "integration-test": "npm run integration-test:node && npm run integration-test:browser",
+
+  // Where unit-test means...
+  "unit-test:browser": "karma start --single-run",
+  "unit-test:node": "mocha --reporter ../../../common/tools/mocha-multi-reporter.js dist-test/index.node.js",
+
+  // And integration-test means...
+  "integration-test:browser": "echo skipped",
+  "integration-test:node": "find dist-esm/test -name '*.spec.js' | xargs nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace",
 ```
 
 Besides the target environment, tests may or may not target live resources, and either should target public or internal code. To navigate through these concepts, we will make clear distinctions of what we will be testing, based on three main aspects:
@@ -655,7 +721,7 @@ Besides the target environment, tests may or may not target live resources, and 
 
 We will continue by elaborating on these three distinctions in the next section.
 
-Keep in mind that [test titles](#test-titels) may include information about the environment they're targeting, what resources they're testing and any other distinction up to the good judgement of the developer. For more information, check out the section: [Writing test cases](#writing-test-cases).
+Keep in mind that [test titles](#test-titles) may include information about the environment they're targeting, what resources they're testing and any other distinction up to the good judgement of the developer. For more information, check out the section: [Writing test cases](#writing-test-cases).
 
 ### Testing cloud resources
 
@@ -708,6 +774,16 @@ project/
         other_aspect_of_public_functionality.spec.ts
       public_method.spec.ts
 ```
+
+You can see some examples of **internal tests** in the template project, by seeing the relationship between:
+
+- [The template project's non-exported `InternalClass`](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/src/internalClass.ts).
+- [The template project's non-exported `InternalClass` tests](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/test/internal/internalClass.spec.ts).
+
+You can also see some examples of **public facing API tests** in the template project, by seeing the relationship between:
+
+- [The template project's universal EventEmitter](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/src/universalEventEmitter.ts).
+- [The template project's universal EventEmitter tests](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/test/public/universalEventEmitter.spec.ts).
 
 
 
@@ -1179,8 +1255,81 @@ To be able to filter tests through pattern matching with any of these filters, t
 While writing test cases, it will be easier to think of the test case's contents as if there were three clear divisions:
 
 - The first lines of the test should deal with setting up the necessary variables and values that will be used for the main functionality that will be tested.
-- The body of the test should focus on using these values to trigger the main functionality that is being tested.
-- The last set of lines should be focused on comparing the results obtained, to confirm that they are in the expected shape, or contain the expected values.
+- The body of the test should focus on two things:
+  - Using these values to trigger the main functionality that is being tested.
+  - Comparing the results obtained, to confirm that they are in the expected shape.
+- The last set of lines should be focused on cleaning up any resources created.
+
+This could perhaps be better observed with the following example, which includes `before`, `after`, `beforeEach` and `afterEach` to help think on what should be valuable at each point in context, and uses the KeyVault client:
+
+```ts
+describe("An interesting title", function() {
+  let client: KeyClient;
+  let recorder: Recorder;
+
+  before(function() {
+    // Setting up stateless resources or tools for more than one test.
+    // Examples:
+    // - A web server.
+    // - Some task to configure resources provided by the CI automated tools.
+    // - Cleaning up or altering Node or the Browser before ALL tests.
+  });
+
+  after(function() {
+    // Tearing down stateless resources or tools for more than one test.
+    // Examples:
+    // - Cleaning up what was initialized in the before() call.
+  });
+
+  beforeEach(function() {
+    // Setting up stateful resources or tools for more than one test.
+    // Examples:
+    // - The recorder.
+    // - The declaration of an Azure SDK client.
+
+    const recorderEnvSetup: RecorderEnvironmentSetup = {
+      // ...
+    };
+    const recorder = record(this, recorderEnvSetup);
+
+    const credential = await new ClientSecretCredential(
+      process.env.AZURE_TENANT_ID,
+      process.env.AZURE_CLIENT_ID,
+      process.env.AZURE_CLIENT_SECRET
+    );
+
+    const keyVaultName = getKeyvaultName();
+    const keyVaultUrl = `https://${keyVaultName}.vault.azure.net`;
+    client = new KeyClient(keyVaultUrl, credential);
+  });
+
+  afterEach(function() {
+    // Tearing down stateful resources or tools for more than one test.
+    // Examples:
+    // - Cleaning up what was initialized in the beforeEach() call.
+    // - Cleaning up possible side effects of test cases.
+    recorder.stop();
+  });
+
+  it("an interesting title for a test case", async function() {
+    // The first lines of the test should deal with
+    // setting up the necessary variables and values
+    // that will be used for the main functionality that will be tested.
+    const keyName = "MyKey";
+    const { version } = (await client.createRsaKey(keyName)).properties;
+    const options: UpdateKeyPropertiesOptions = { enabled: false };
+
+    // The body of the test should focus on two things:
+    // - Using these values to trigger the main functionality that is being tested.
+    const result = await client.updateKeyProperties(keyName, version || "", options);
+    // - Comparing the results obtained, to confirm that they are in the expected shape.
+    assert.equal(result.properties.enabled, false);
+
+    // The last set of lines should be focused on cleaning up any resources created.
+    await testClient.flushKey(keyName);    
+  });
+});
+```
 
 ### Using conditionals
 
@@ -1275,6 +1424,22 @@ The specific `delay` method used in the code above comes from [the-recorder](#th
 While testing the Azure SDK clients for JavaScript and TypeScript, we should document each client method exceptions through the use of `@throws` in the TypeDoc documentation, and avoid writing test cases for exceptions. Test cases should focus on demonstrating the public API of the service. Exceptions should be documented.
 
 Similarly, the public API surface of our clients will contain a large set of properties resulting from any of the methods that our clients implement. Tests should not focus on verifying that each property of of our clients exist. While tests can check that the values of properties are expected, they should include only as many properties as it can be relevant for the use case that each test case is representing. For this purpose we should also take advantage of strict types. If our types can be descriptive and thorough, and our internal code is not skipping through the types (through the use of `any`), we will be able to trust that our API is behaving reasonably well.
+
+To use `tsdoc` to document when our API throws, use `@throws`. The implementation can be seen here (includes examples): https://github.com/microsoft/tsdoc/pull/175
+
+A valid case of an exception test is to express a feature provided by our SDK. For example, to show how to control the timeout of a request (an example from the [KeyVault Keys tests](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-keys/test/CRUD.test.ts#L57)):
+
+```ts
+it("can attempt to create a key with requestOptions timeout", async function() {
+  await assertThrowsAbortError(async () => {
+    await client.createKey("MyKey", "RSA", {
+      requestOptions: {
+        timeout: 1
+      }
+    });
+  });
+});
+```
 
 As a final note on this regard, as we develop clients for the SDKs, we will encounter edge cases in the services we are testing. Edge cases should be reported and documented, but our tests should preferably avoid having to go through them, unless we can identify some of these cases as valuable resources for our customers.
 
