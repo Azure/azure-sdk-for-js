@@ -127,7 +127,7 @@ export async function drainAllMessages(receiver: Receiver<{}>): Promise<void> {
   await receiver.close();
 }
 
-export type EntityName = Omit<ReturnType<typeof getEntityNames>, "isPartitioned" | "usesSessions">;
+export type EntityName = ReturnType<typeof getEntityNames>;
 
 export interface ServiceBusClientForTests extends ServiceBusClient {
   test: ServiceBusTestHelpers;

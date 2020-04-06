@@ -39,7 +39,7 @@ async function processError(err: Error): Promise<void> {
 describe("Streaming", () => {
   let serviceBusClient: ServiceBusClientForTests;
   let senderClient: Sender;
-  let receiverClient: Receiver<ReceivedMessageWithLock>;
+  let receiverClient: Receiver<ReceivedMessageWithLock> | Receiver<ReceivedMessage>;
   let deadLetterClient: Receiver<ReceivedMessageWithLock>;
 
   before(() => {
@@ -50,11 +50,17 @@ describe("Streaming", () => {
     await serviceBusClient.test.after();
   });
 
-  async function beforeEachTest(testClientType: TestClientType): Promise<void> {
+  async function beforeEachTest(
+    testClientType: TestClientType,
+    receiveMode?: "peekLock" | "receiveAndDelete"
+  ): Promise<void> {
     const entityNames = await serviceBusClient.test.createTestEntities(testClientType);
 
-    receiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
-
+    if (receiveMode === "receiveAndDelete") {
+      receiverClient = await serviceBusClient.test.getReceiveAndDeleteReceiver(entityNames);
+    } else {
+      receiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+    }
     senderClient = serviceBusClient.test.addToCleanup(
       serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
@@ -491,7 +497,7 @@ describe("Streaming", () => {
       );
       should.equal(deferredMsgs[0].deliveryCount, 1, "DeliveryCount is different than expected");
 
-      await deferredMsgs[0].complete();
+      await (deferredMsgs[0] as ReceivedMessageWithLock).complete();
       await testPeekMsgsLength(receiverClient, 0);
     }
 
@@ -1058,66 +1064,63 @@ describe("Streaming", () => {
       await testConcurrency(2);
     });
   });
-  // #RevisitCommentedTestsAfterTheSingleClientAPI
-  // Receiver can't be closed separately with the current API
-  // Roll this back once the top level client is implemented
-  // describe("Streaming - Not receive messages after receiver is closed", function(): void {
-  //   afterEach(async () => {
-  //     await afterEachTest();
-  //   });
 
-  //   async function testReceiveMessages(): Promise<void> {
-  //     const totalNumOfMessages = 5;
-  //     let num = 1;
-  //     const messages = [];
-  //     while (num <= totalNumOfMessages) {
-  //       const message = {
-  //         messageId: num,
-  //         body: "test",
-  //         label: `${num}`,
-  //         partitionKey: "dummy" // Ensures all messages go to same parition to make peek work reliably
-  //       };
-  //       num++;
-  //       messages.push(message);
-  //     }
-  //     await senderClient.sendBatch(messages);
+  describe("Streaming - Not receive messages after receiver is closed", function(): void {
+    async function testReceiveMessages(): Promise<void> {
+      const totalNumOfMessages = 5;
+      let num = 1;
+      const messages = [];
+      const batch = await senderClient.createBatch();
+      while (num <= totalNumOfMessages) {
+        const message = {
+          messageId: num,
+          body: "test",
+          label: `${num}`,
+          partitionKey: "dummy" // Ensures all messages go to same partition to make peek work reliably
+        };
+        num++;
+        messages.push(message);
+        batch.tryAdd(message);
+      }
+      await senderClient.sendBatch(batch);
 
-  //     const receivedMsgs: ReceivedMessage[] = [];
+      const receivedMsgs: ReceivedMessageWithLock[] = [];
 
-  //     receiverClient.subscribe(
-  //       {
-  //         async processMessage(brokeredMessage: ReceivedMessage, context: ContextWithSettlement) {
-  //           receivedMsgs.push(brokeredMessage);
-  //           await context.complete(brokeredMessage);
-  //         },
-  //         processError
-  //       },
-  //       {
-  //         autoComplete: false
-  //       }
-  //     );
+      receiverClient.subscribe(
+        {
+          async processMessage(brokeredMessage: ReceivedMessageWithLock) {
+            receivedMsgs.push(brokeredMessage);
+            await brokeredMessage.complete();
+          },
+          processError
+        },
+        {
+          autoComplete: false
+        }
+      );
+      await receiverClient.close();
 
-  //     await delay(5000);
-  //     should.equal(
-  //       receivedMsgs.length,
-  //       0,
-  //       `Expected 0 messages, but received ${receivedMsgs.length}`
-  //     );
-  //     await testPeekMsgsLength(receiverClient, totalNumOfMessages);
-  //   }
+      await delay(5000);
+      should.equal(
+        receivedMsgs.length,
+        0,
+        `Expected 0 messages, but received ${receivedMsgs.length}`
+      );
+      await testPeekMsgsLength(receiverClient, totalNumOfMessages);
+    }
 
-  //   it("UnPartitioned Queue: Not receive messages after receiver is closed #RunInBrowser", async function(): Promise<
-  //     void
-  //   > {
-  //     await beforeEachTest(TestClientType.UnpartitionedQueue);
-  //     await testReceiveMessages();
-  //   });
+    it("UnPartitioned Queue: Not receive messages after receiver is closed #RunInBrowser", async function(): Promise<
+      void
+    > {
+      await beforeEachTest(TestClientType.UnpartitionedQueue);
+      await testReceiveMessages();
+    });
 
-  //   it("UnPartitioned Queue: (Receive And Delete mode) Not receive messages after receiver is closed #RunInBrowser", async function(): Promise<
-  //     void
-  //   > {
-  //     await beforeEachTest(TestClientType.UnpartitionedQueue, "receiveAndDelete");
-  //     await testReceiveMessages();
-  //   });
-  // });
+    it("UnPartitioned Queue: (Receive And Delete mode) Not receive messages after receiver is closed #RunInBrowser", async function(): Promise<
+      void
+    > {
+      await beforeEachTest(TestClientType.UnpartitionedQueue, "receiveAndDelete");
+      await testReceiveMessages();
+    });
+  });
 });
