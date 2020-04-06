@@ -9,6 +9,7 @@
  */
 
 import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/eventChannelsMappers";
 import * as Parameters from "../models/parameters";
@@ -113,32 +114,9 @@ export class EventChannels {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, partnerNamespaceName: string, eventChannelName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param partnerNamespaceName Name of the partner namespace.
-   * @param eventChannelName Name of the event channel.
-   * @param callback The callback
-   */
-  deleteMethod(resourceGroupName: string, partnerNamespaceName: string, eventChannelName: string, callback: msRest.ServiceCallback<void>): void;
-  /**
-   * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param partnerNamespaceName Name of the partner namespace.
-   * @param eventChannelName Name of the event channel.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  deleteMethod(resourceGroupName: string, partnerNamespaceName: string, eventChannelName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, partnerNamespaceName: string, eventChannelName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        partnerNamespaceName,
-        eventChannelName,
-        options
-      },
-      deleteMethodOperationSpec,
-      callback);
+  deleteMethod(resourceGroupName: string, partnerNamespaceName: string, eventChannelName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName,partnerNamespaceName,eventChannelName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -172,6 +150,27 @@ export class EventChannels {
       },
       listByPartnerNamespaceOperationSpec,
       callback) as Promise<Models.EventChannelsListByPartnerNamespaceResponse>;
+  }
+
+  /**
+   * Delete existing event channel.
+   * @summary Delete an event channel.
+   * @param resourceGroupName The name of the resource group within the user's subscription.
+   * @param partnerNamespaceName Name of the partner namespace.
+   * @param eventChannelName Name of the event channel.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginDeleteMethod(resourceGroupName: string, partnerNamespaceName: string, eventChannelName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        partnerNamespaceName,
+        eventChannelName,
+        options
+      },
+      beginDeleteMethodOperationSpec,
+      options);
   }
 
   /**
@@ -265,32 +264,6 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const deleteMethodOperationSpec: msRest.OperationSpec = {
-  httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerNamespaces/{partnerNamespaceName}/eventChannels/{eventChannelName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.partnerNamespaceName,
-    Parameters.eventChannelName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
 const listByPartnerNamespaceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerNamespaces/{partnerNamespaceName}/eventChannels",
@@ -311,6 +284,32 @@ const listByPartnerNamespaceOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.EventChannelsListResult
     },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerNamespaces/{partnerNamespaceName}/eventChannels/{eventChannelName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.partnerNamespaceName,
+    Parameters.eventChannelName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
+    202: {},
+    204: {},
     default: {
       bodyMapper: Mappers.CloudError
     }

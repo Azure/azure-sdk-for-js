@@ -11,15 +11,6 @@ import { delay, ConditionErrorNameMapper, Constants, MessagingError } from "@azu
 
 /**
  * @internal
- * Enum to denote the entity type calling the session manager
- */
-export enum SessionEntityType {
-  queue = "Queue",
-  subscription = "Subscription"
-}
-
-/**
- * @internal
  */
 export class SessionManager {
   /**
@@ -81,7 +72,7 @@ export class SessionManager {
       options = {};
     }
     const connectionId = this._context.namespace.connectionId;
-    const noActiveSessionBackOffInSeconds = 10;
+    const noActiveSessionBackOffInMs = 10 * 1000;
     while (!this._isCancelRequested) {
       try {
         await this._maxConcurrentSessionsSemaphore.acquire();
@@ -129,7 +120,7 @@ export class SessionManager {
           ...options
         });
 
-        messageSession.newMessageWaitTimeoutInSeconds = options.newMessageWaitTimeoutInSeconds;
+        messageSession.newMessageWaitTimeoutInMs = options.newMessageWaitTimeoutInMs;
 
         if (this._isCancelRequested) {
           log.sessionManager(
@@ -188,12 +179,12 @@ export class SessionManager {
           // No point in delaying if cancel has been requested.
           if (!this._isCancelRequested) {
             log.sessionManager(
-              "[%s] Sleeping for %d seconds, since there are no more active MessageSessions on " +
+              "[%s] Sleeping for %d milliseconds, since there are no more active MessageSessions on " +
                 "the ServiceBus entity.",
               connectionId,
-              noActiveSessionBackOffInSeconds
+              noActiveSessionBackOffInMs
             );
-            await delay(noActiveSessionBackOffInSeconds * 1000);
+            await delay(noActiveSessionBackOffInMs);
           }
         } else {
           // notify the user about the error only when it is not one of the above mentioned errors.
@@ -223,15 +214,14 @@ export class SessionManager {
    * @throws MessagingError if any error occurs while receiving messages from the service.
    */
   async manageMessageSessions(
-    entityType: SessionEntityType,
     onMessage: OnMessage,
     onError: OnError,
     options?: SessionManagerOptions
   ): Promise<void> {
     if (this._isManagingSessions) {
       throw new Error(
-        `${entityType}Client for "${this._context.namespace.config.entityPath}" ` +
-          `is already receiving messages from sessions. Please close this ${entityType}Client or ` +
+        `Receiver for "${this._context.namespace.config.entityPath}" ` +
+          `is already receiving messages from sessions. Please close this receiver or ` +
           `create a new one and receiveMessages from Sessions.`
       );
     }
@@ -241,8 +231,8 @@ export class SessionManager {
     if (options.maxConcurrentSessions) this.maxConcurrentSessions = options.maxConcurrentSessions;
     // We are explicitly configuring the messageSession to timeout in 60 seconds (if not provided
     // by the user) when no new messages are received.
-    if (!options.newMessageWaitTimeoutInSeconds) {
-      options.newMessageWaitTimeoutInSeconds = Constants.defaultOperationTimeoutInMs / 1000;
+    if (!options.newMessageWaitTimeoutInMs) {
+      options.newMessageWaitTimeoutInMs = Constants.defaultOperationTimeoutInMs;
     }
     this._maxConcurrentSessionsSemaphore = new Semaphore(this.maxConcurrenSessions);
     this._maxPendingAcceptSessionsSemaphore = new Semaphore(

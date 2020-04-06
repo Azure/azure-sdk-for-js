@@ -4,7 +4,6 @@
 import * as assert from "assert";
 import { KeyClient } from "../src";
 import { testPollerProperties } from "./utils/recorderUtils";
-import { retry } from "./utils/recorderUtils";
 import { env, Recorder } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
@@ -187,11 +186,6 @@ describe("Keys client - list keys in various ways", () => {
       await poller.pollUntilDone();
     }
 
-    // Waiting until the keys are deleted
-    for (const name of keyNames) {
-      await retry(async () => client.getDeletedKey(name));
-    }
-
     let found = 0;
     for await (const deletedKey of client.listDeletedKeys()) {
       // The vault might contain more keys than the ones we inserted.
@@ -224,11 +218,6 @@ describe("Keys client - list keys in various ways", () => {
     for (const name of keyNames) {
       const poller = await client.beginDeleteKey(name, testPollerProperties);
       await poller.pollUntilDone();
-    }
-
-    // Waiting until the keys are deleted
-    for (const name of keyNames) {
-      await retry(async () => client.getDeletedKey(name));
     }
 
     let found = 0;

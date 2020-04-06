@@ -101,10 +101,9 @@ describe("ManagedIdentityCredential", function() {
 
   it("doesn't try IMDS endpoint again once it can't be detected", async function() {
     const mockHttpClient = new MockAuthHttpClient({ mockTimeout: true });
-    const credential = new ManagedIdentityCredential(
-      "client",
-      { ...mockHttpClient.tokenCredentialOptions }
-    );
+    const credential = new ManagedIdentityCredential("client", {
+      ...mockHttpClient.tokenCredentialOptions
+    });
 
     // Run getToken twice and verify that an auth request is only
     // attempted the first time.  It should be skipped the second

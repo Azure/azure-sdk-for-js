@@ -20,7 +20,7 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
   });
 
   after(async function() {
-    if (!this.currentTest!.isPending) {
+    if (!this.currentTest?.isPending()) {
       await deleteKeyCompletely([testConfigSetting.key], client);
     }
   });

@@ -3,7 +3,7 @@
 
 import { ServiceClientCredentials } from "../credentials/serviceClientCredentials";
 import { HttpOperationResponse } from "../httpOperationResponse";
-import { WebResource } from "../webResource";
+import { WebResourceLike } from "../webResource";
 import {
   BaseRequestPolicy,
   RequestPolicyFactory,
@@ -30,11 +30,11 @@ export class SigningPolicy extends BaseRequestPolicy {
     super(nextPolicy, options);
   }
 
-  signRequest(request: WebResource): Promise<WebResource> {
+  signRequest(request: WebResourceLike): Promise<WebResourceLike> {
     return this.authenticationProvider.signRequest(request);
   }
 
-  public sendRequest(request: WebResource): Promise<HttpOperationResponse> {
+  public sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
     return this.signRequest(request).then((nextRequest) =>
       this._nextPolicy.sendRequest(nextRequest)
     );

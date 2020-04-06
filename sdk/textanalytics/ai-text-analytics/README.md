@@ -6,7 +6,6 @@
 - Sentiment Analysis
 - Key Phrase Extraction
 - Named Entity Recognition
-- Recognition of Personally Identifiable Information
 - Linked Entity Recognition
 
 Use the client library to:
@@ -67,14 +66,14 @@ Use the [Azure Portal][azure_portal] to browse to your Text Analytics resource a
 az cognitiveservices account keys list --resource-group <your-resource-group-name> --name <your-resource-name>
 ```
 
-Once you have an API key and endpoint, you can use it as follows:
+Once you have an API key and endpoint, you can use the `AzureKeyCredential` class to authenticate the client as follows:
 
 ```js
-const { TextAnalyticsClient, TextAnalyticsApiKeyCredential } = require("@azure/ai-text-analytics");
+const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
 
 const client = new TextAnalyticsClient(
   "<endpoint>",
-  new TextAnalyticsApiKeyCredential("<API key>")
+  new AzureKeyCredential("<API key>")
 );
 ```
 
@@ -87,7 +86,7 @@ or other credential providers provided with the Azure SDK, please install the `@
 npm install @azure/identity
 ```
 
-You will also need to [register a new AAD application][register_aad_app] and grant access to Text Analytics by assigning the `"Cognitive Services User"` role to your service principal.
+You will also need to [register a new AAD application][register_aad_app] and grant access to Text Analytics by assigning the `"Cognitive Services User"` role to your service principal (note: other roles such as `"Owner"` will not grant the necessary permissions, only `"Cognitive Services User"` will suffice to run the examples and the sample code).
 
 Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
@@ -170,11 +169,11 @@ if (result.error !== undefined) {
 Analyze sentiment of text to determine if it is positive, negative, neutral, or mixed, including per-sentence sentiment analysis and confidence scores.
 
 ```javascript
-const { TextAnalyticsClient, TextAnalyticsApiKeyCredential } = require("@azure/ai-text-analytics");
+const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
 
 const client = new TextAnalyticsClient(
   "<endpoint>",
-  new TextAnalyticsApiKeyCredential("<API key>")
+  new AzureKeyCredential("<API key>")
 );
 
 const documents = [
@@ -206,11 +205,11 @@ Recognize and categorize entities in text as people, places, organizations, date
 The `language` parameter is optional. If it is not specified, the default English model will be used.
 
 ```javascript
-const { TextAnalyticsClient, TextAnalyticsApiKeyCredential } = require("@azure/ai-text-analytics");
+const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
 
 const client = new TextAnalyticsClient(
   "<endpoint>",
-  new TextAnalyticsApiKeyCredential("<API key>")
+  new AzureKeyCredential("<API key>")
 );
 
 const documents = [
@@ -237,51 +236,16 @@ async function main() {
 main();
 ```
 
-### Recognize PII Entities
-
-There is a separate endpoint and operation for recognizing Personally Identifiable Information (PII) in text such as Social Security Numbers, bank account information, credit card numbers, etc. Its usage is very similar to the standard entity recognition above:
-
-```javascript
-const { TextAnalyticsClient, TextAnalyticsApiKeyCredential } = require("@azure/ai-text-analytics");
-
-const client = new TextAnalyticsClient(
-  "<endpoint>",
-  new TextAnalyticsApiKeyCredential("<API key>")
-);
-
-const documents = [
-  "The employee's SSN is 555-55-5555.",
-  "The employee's phone number is (555) 555-5555."
-];
-
-async function main() {
-  const results = await client.recognizePiiEntities(documents, "en");
-
-  for (const result of results) {
-    if (result.error === undefined) {
-      console.log(" -- Recognized PII entities for input", result.id, "--");
-      for (const entity of result.entities) {
-        console.log(entity.text, ":", entity.category, "(Score:", entity.score, ")");
-      }
-    } else {
-      console.error("Encountered an error:", result.error);
-    }
-  }
-}
-
-main();
-```
-
 ### Recognize Linked Entities
 
 A "Linked" entity is one that exists in a knowledge base (such as Wikipedia). The `recognizeLinkedEntities` operation can disambiguate entities by determining which entry in a knowledge base they likely refer to (for example, in a piece of text, does the word "Mars" refer to the planet, or to the Roman god of war). Linked entities contain associated URLs to the knowledge base that provides the definition of the entity.
 
 ```javascript
-const { TextAnalyticsClient, TextAnalyticsApiKeyCredential } = require("@azure/ai-text-analytics");
+const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
 
 const client = new TextAnalyticsClient(
   "<endpoint>",
-  new TextAnalyticsApiKeyCredential("<API key>")
+  new AzureKeyCredential("<API key>")
 );
 
 const documents = [
@@ -316,11 +280,11 @@ main();
 Key Phrase extraction identifies the main talking points in a document. For example, given input text "The food was delicious and there were wonderful staff", the service returns "food" and "wonderful staff".
 
 ```javascript
-const { TextAnalyticsClient, TextAnalyticsApiKeyCredential } = require("@azure/ai-text-analytics");
+const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
 
 const client = new TextAnalyticsClient(
   "<endpoint>",
-  new TextAnalyticsApiKeyCredential("<API key>")
+  new AzureKeyCredential("<API key>")
 );
 
 const documents = [
@@ -352,11 +316,11 @@ Determine the language of a piece of text.
 The `countryHint` parameter is optional, but can assist the service in providing correct output if the country of origin is known. If provided, it should be set to an ISO-3166 Alpha-2 two-letter country code (such as "us" for the United States or "jp" for Japan) or to the value `"none"`. If the parameter is not provided, then the default `"us"` (United States) model will be used. If you do not know the country of origin of the document, then the parameter `"none"` should be used, and the Text Analytics service will apply a model that is tuned for an unknown country of origin.
 
 ```javascript
-const { TextAnalyticsClient, TextAnalyticsApiKeyCredential } = require("@azure/ai-text-analytics");
+const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
 
 const client = new TextAnalyticsClient(
   "<endpoint>",
-  new TextAnalyticsApiKeyCredential("<API key>")
+  new AzureKeyCredential("<API key>")
 );
 
 const documents = [

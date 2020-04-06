@@ -4,7 +4,7 @@
 import { HttpHeaders } from "../httpHeaders";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { Constants } from "../util/constants";
-import { WebResource } from "../webResource";
+import { WebResourceLike } from "../webResource";
 import { getDefaultUserAgentKey, getPlatformSpecificData } from "./msRestUserAgentPolicy";
 import {
   BaseRequestPolicy,
@@ -82,12 +82,12 @@ export class UserAgentPolicy extends BaseRequestPolicy {
     super(_nextPolicy, _options);
   }
 
-  sendRequest(request: WebResource): Promise<HttpOperationResponse> {
+  sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
     this.addUserAgentHeader(request);
     return this._nextPolicy.sendRequest(request);
   }
 
-  addUserAgentHeader(request: WebResource): void {
+  addUserAgentHeader(request: WebResourceLike): void {
     if (!request.headers) {
       request.headers = new HttpHeaders();
     }

@@ -30,7 +30,7 @@ describe("LeaseClient", () => {
   fullFileAttributes.notContentIndexed = true;
   fullFileAttributes.noScrubData = true;
 
-  beforeEach(async function () {
+  beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
     const serviceClient = getBSU();
     shareName = recorder.getUniqueName("share");
@@ -46,7 +46,7 @@ describe("LeaseClient", () => {
     await fileClient.create(content.length);
   });
 
-  afterEach(async function () {
+  afterEach(async function() {
     await shareClient.delete();
     recorder.stop();
   });

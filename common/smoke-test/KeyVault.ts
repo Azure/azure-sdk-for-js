@@ -2,7 +2,7 @@
 // Copyright(c) Microsoft Corporation.
 // Licensed under the MIT License.
 // ------------------------------------
-import { EnvironmentCredential } from "@azure/identity";
+import { DefaultAzureCredential, KnownAuthorityHosts } from "@azure/identity";
 import { SecretClient } from "@azure/keyvault-secrets";
 
 const uuidv1 = require("uuid/v1");
@@ -11,6 +11,13 @@ export class KeyVaultSecrets {
   private static client: SecretClient;
   private static secretName: string;
   private static secretValue: string;
+
+  private static authorityHostMap: { [alias: string]: string } = {
+    AzureCloud: KnownAuthorityHosts.AzurePublicCloud,
+    AzureChinaCloud: KnownAuthorityHosts.AzureChina,
+    AzureGermanCloud: KnownAuthorityHosts.AzureGermany,
+    AzureUSGovernment: KnownAuthorityHosts.AzureGovernment
+  };
 
   static async Run() {
     console.log(KeyVaultSecrets.dedent`
@@ -23,11 +30,18 @@ export class KeyVaultSecrets {
         3) Delete that secret (Clean up the resource)
         `);
 
-    // EnvironmentCredential expects the following three environment variables:
+    const authorityHost = this.getAuthorityHost(
+      process.env["AZURE_CLOUD"] || "",
+      KnownAuthorityHosts.AzurePublicCloud
+    );
+
+    // DefaultAzureCredential expects the following three environment variables:
     // * AZURE_TENANT_ID: The tenant ID in Azure Active Directory
     // * AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
     // * AZURE_CLIENT_SECRET: The client secret for the registered application
-    const credential = new EnvironmentCredential();
+    const credential = new DefaultAzureCredential({
+      authorityHost: authorityHost
+    });
     const url = process.env["AZURE_PROJECT_URL"] || "<YourProjectURL>";
 
     KeyVaultSecrets.client = new SecretClient(url, credential);
@@ -82,5 +96,15 @@ export class KeyVaultSecrets {
 
   private static dedent(str: ReadonlyArray<string>) {
     return str[0].replace(/^\ */gm, "");
+  }
+
+  private static getAuthorityHost(
+    authorityHostAlias: string,
+    defaultAuthorityHost: string
+  ) {
+    if (authorityHostAlias in this.authorityHostMap) {
+      return this.authorityHostMap[authorityHostAlias];
+    }
+    return defaultAuthorityHost;
   }
 }

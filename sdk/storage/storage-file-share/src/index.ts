@@ -19,8 +19,12 @@ export * from "./credentials/StorageSharedKeyCredential";
 export { SasIPRange } from "./SasIPRange";
 export { Range } from "./Range";
 export {
+  FileAndDirectoryCreateCommonOptions,
+  FileAndDirectorySetPropertiesCommonOptions,
+  FileHttpHeaders,
   FilePermissionInheritType,
   FilePermissionPreserveType,
+  Metadata,
   TimeNowType,
   TimePreserveType,
   FileAttributesPreserveType,
@@ -35,7 +39,7 @@ export * from "./policies/StorageSharedKeyCredentialPolicy";
 export * from "./StorageBrowserPolicyFactory";
 export * from "./ShareServiceClient";
 export * from "./SASQueryParameters";
-export { CommonOptions } from "./StorageClient";
+export { CommonOptions, OperationTracingOptions } from "./StorageClient";
 export * from "./generatedModels";
 export { RestError };
 export { logger } from "./log";

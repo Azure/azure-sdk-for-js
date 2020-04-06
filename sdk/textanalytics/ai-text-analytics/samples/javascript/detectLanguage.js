@@ -5,24 +5,41 @@
  * detects the language of a piece of text
  */
 
-const { TextAnalyticsClient, TextAnalyticsApiKeyCredential } = require("@azure/ai-text-analytics");
+const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
 
 // Load the .env file if it exists
-require("dotenv").config();
+const dotenv = require("dotenv");
+dotenv.config();
+
+// You will need to set these environment variables or edit the following values
+const endpoint = process.env["ENDPOINT"] || "<cognitive services endpoint>";
+const apiKey = process.env["TEXT_ANALYTICS_API_KEY"] || "<api key>";
+
+const documents = [
+  "This document is written in English.",
+  "Este es un document escrito en Español.",
+  "这是一个用中文写的文件",
+  "Dies ist ein Dokument in deutsche Sprache.",
+  "Detta är ett dokument skrivet på engelska.",
+];
 
 async function main() {
-  console.log(`Running detectLanguage sample`);
+  console.log("== Detect Language Sample ==");
 
-  // You will need to set these environment variables or edit the following values
-  const endpoint = process.env["ENDPOINT"] || "<cognitive services endpoint>";
-  const apiKey = process.env["TEXT_ANALYTICS_API_KEY"] || "<api key>";
+  const client = new TextAnalyticsClient(endpoint, new AzureKeyCredential(apiKey));
 
-  const client = new TextAnalyticsClient(endpoint, new TextAnalyticsApiKeyCredential(apiKey));
+  const results = await client.detectLanguage(documents);
 
-  const [result] = await client.detectLanguage(["hello world"]);
-
-  if (!result.error) {
-    console.log(`Primary language detected as ${result.primaryLanguage.name}`);
+  for (const result of results) {
+    console.log(`- Document ${result.id}`);
+    if (!result.error) {
+      const primaryLanguage = result.primaryLanguage;
+      console.log(
+        `  Detected language: ${primaryLanguage.name} (ISO 6391 code: ${primaryLanguage.iso6391Name})`
+      );
+    } else {
+      console.error("  Error:", result.error);
+    }
   }
 }
 
