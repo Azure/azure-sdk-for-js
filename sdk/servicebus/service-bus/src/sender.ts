@@ -32,7 +32,7 @@ export interface Sender {
    * and/or `partitionKey` properties respectively on the message.
    *
    * @param message - Message to send.
-   * @param options - Options for aborting and tracing.
+   * @param options - Options bag to pass an abort signal or tracing options.
    * @returns Promise<void>
    * @throws Error if the underlying connection, client or sender is closed.
    * @throws MessagingError if the service returns an error while sending messages to the service.
@@ -75,7 +75,7 @@ export interface Sender {
    * Sends a batch of messages to the associated service-bus entity.
    *
    * @param {ServiceBusMessageBatch} messageBatch A batch of messages that you can create using the {@link createBatch} method.
-   * @param options - Options for aborting and tracing.
+   * @param options - Options bag to pass an abort signal or tracing options.
    * @returns {Promise<void>}
    * @throws MessagingError if an error is encountered while sending a message.
    * @throws Error if the underlying connection or sender has been closed.
