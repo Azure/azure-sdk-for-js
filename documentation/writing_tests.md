@@ -200,7 +200,7 @@ To use Mocha from the `package.json`, our systems will expect to encounter two s
     "unit-test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace dist-test/index.node.js",
 ```
 
-Keep in mind that Mocha will be directly called from our `package.json` scripts only for our node tests. For our browser tests, we will be using [Karma](#karma).
+Keep in mind that Mocha will be directly called from our `package.json` scripts only for our **NodeJS** tests. For our browser tests, we will be using [Karma](#karma).
 
 You can look at how Mocha's configuration is present in our [template project's package.json file](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/package.json).
 
@@ -210,7 +210,7 @@ Our `integration-test` script will output code-coverage on our nightly and relea
 
 #### Handling timeouts
 
-All of the tests in the Azure SDK repository should have a timeout. In the previous section, we have discussed how this timeout is defined for mocha, though the parameter `--timeout` with an additional milliseconds amount, which is sent during the invocation of mocha. Now we will define how to know how many milliseconds to pass to this parameter.
+All of the tests in the Azure SDK repository should have a timeout. In the previous section, we have discussed how this timeout is defined for _mocha_, though the parameter `--timeout` with an additional milliseconds amount, which is sent during the invocation of mocha. Now we will define how to know how many milliseconds to pass to this parameter.
 
 New projects inside of this repository can take a safe guess based on how much the tests on average take locally. **Existing projects** should instead follow these steps to **get a reasonable timeout from past test executions**:
 
@@ -243,7 +243,56 @@ The pictures:
 
 Mocha's `before` and `beforeEach` are methods that allow you to specify functions that should be executed either before all of the tests run or before each test runs, respectively. Similarly, `after` and `afterEach` exist so that developers can specify functions that should be executed after all tests run or after each test runs, respectively.
 
-We recommend using `beforeEach` rather than `before`, just as much as we recommend using `afterEach` rather than `after`. The idea is that each one of your test cases should not depend on a state that is shared with other tests. Use `beforeEach` to execute tasks that will prepare the resources needed for each test to run cleanly, and `afterEach` to tear down or clean those settings before the next test runs.
+We recommend using `beforeEach` rather than `before`, just as much as we recommend using `afterEach` rather than `after`. The idea is that each test case should not depend on a state that is shared with other tests. Use `beforeEach` to execute tasks that will prepare the resources needed for each test to run cleanly, and `afterEach` to tear down or clean those settings before the next test runs.
+
+A discouraged example of `before` ([source](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/test/internal/beforeAfter.spec.ts#L12)):
+
+```ts
+describe.skip("Discouraged example of `before` and `after`", function() {
+  let state: {
+    properties?: any;
+  } = {};
+  let client: InternalClass;
+
+  before(() => {
+    state = {
+      properties: {},
+    };
+    client = new InternalClass();
+    // And other global setups...
+  });
+
+  after(() => {
+    delete state.properties;
+    // And other global cleanups...
+  })
+
+  it("A test for the discouraged example of `before`", function() {
+    assert.exists(state.properties);
+    assert.exists(client);
+  });
+});
+```
+
+`beforeEach` and `afterEach` are encouraged. An example might look like ([source](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/test/internal/beforeAfter.spec.ts#L40)):
+
+```ts
+describe("Encouraged example of `beforeEach` and `afterEach`", function() {
+  let client: InternalClass;
+  beforeEach(function() {
+    client = new InternalClass();
+    // And other per-test setups...
+  });
+
+  afterEach(function() {
+    // And other per-test cleanups...
+  });
+
+  it("A test for the encouraged example of `before", function() {
+    assert.exists(client);
+  });
+});
+```
 
 We typically use `beforeEach` and `afterEach` to set up and tear down our test recorder. You can learn more about it in the section: [The Recorder](#the-recorder).
 
@@ -251,12 +300,60 @@ We typically use `beforeEach` and `afterEach` to set up and tear down our test r
 
 Mocha has many interesting features. Here's a list of our general recommendations on how to use some of these features:
 
-- **On describes:**  
-  Mocha's `describe` allows you to group test cases, even in nested groups. Take advantage of this. Group tests not only by the file that contains them, but also by what they're testing within that separation.
-- **On async:**  
-  Most of our test cases are asynchronous. Mocha allows you to write async test cases by calling `it` with an async function. Take this to your advantage. Use async functions on your test cases as much as possible. If all of your test cases use asynchronous functions, it will make them look and behave more consistently.
-- **On arrow function expressions:**  
-  Even though Mocha lets you write tests with arrow function expressions, as in `it("my test", async () => {})`, we recommend to use standard functions, as in `it("my test", async function () {})`, because standard functions have bindings to the execution context through the `this` keyword. Mocha's execution context is **necessary** to use the recorder, and it allows you to obtain the test name and other information that can be useful for your test cases. Mocha also discourages the use of arrow functions, which can be seen here: https://mochajs.org/#arrow-functions
+**On describes:**  
+Mocha's `describe` allows you to group test cases, even in nested groups. Take advantage of this. Group tests not only by the file that contains them, but also by what they're testing within that separation.
+
+```ts
+describe("My client can authenticate", function() {
+  describe("With authentication method A", function() {
+    it("Method A should work with reasonable set of parameters PA1", function() {
+    });
+    it("Method A should work with reasonable set of parameters PA2", function() {
+    });
+  });
+
+  describe("With authentication method B", function() {
+    it("Method B should work with reasonable set of parameters PB1", function() {
+    });
+    it("Method B should work with reasonable set of parameters PB2", function() {
+    });
+  });
+});
+```
+
+**On async:**  
+Most of our test cases are asynchronous. Mocha allows you to write async test cases by calling `it` with an async function. Take this to your advantage. Use async functions on your test cases as much as possible. If all of your test cases use asynchronous functions, it will make them look and behave more consistently.
+
+**On arrow function expressions:**  
+Even though Mocha lets you write tests with arrow function expressions, as in `it("my test", async () => {})`, we recommend to use standard functions, as in `it("my test", async function () {})`, because standard functions have bindings to the execution context through the `this` keyword. Mocha's execution context is **necessary** to use the recorder, and it allows you to obtain the test name and other information that can be useful for your test cases. Mocha also discourages the use of arrow functions, which can be seen here: https://mochajs.org/#arrow-functions
+
+```ts
+describe("My async tests", function() {
+  // Our commentary on arrow functions for test cases
+  // does not apply outside of the declaration of test cases.
+  // You can declare arrow functions anywhere comfortably,
+  // just not while using it().
+  const myAsyncMethod = async () => {
+    return true;
+  }
+
+  it.skip("Discouraged async test with callback", function(done) {
+    // Do not do this. Use async/await
+    myAsyncMethod.then(done);
+  });
+
+  it.skip("Discouraged async test with arrow async function", async () => {
+    // Do not use arrow functions to declare test cases,
+    // tests will lose Mocha's context, which is useful, and needed by the Recorder.
+    await myAsyncMethod();
+  });
+
+  it("Recommended async test with natural async function", async function() {
+    // This is good ✅
+    await myAsyncMethod();
+  });
+});
+```
 
 ### Chai
 
