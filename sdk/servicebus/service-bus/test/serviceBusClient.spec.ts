@@ -633,7 +633,7 @@ describe("Errors after close()", function(): void {
     const sessionReceiver = receiver as SessionReceiver<ReceivedMessageWithLock>;
 
     let errorPeek: string = "";
-    await sessionReceiver.diagnostics.peek().catch((err) => {
+    await sessionReceiver.browseMessages().catch((err) => {
       errorPeek = err.message;
     });
     should.equal(
@@ -643,7 +643,7 @@ describe("Errors after close()", function(): void {
     );
 
     let errorPeekBySequence: string = "";
-    await sessionReceiver.diagnostics.peekBySequenceNumber(Long.ZERO).catch((err) => {
+    await sessionReceiver.browseMessages({ fromSequenceNumber: Long.ZERO }).catch((err) => {
       errorPeekBySequence = err.message;
     });
     should.equal(

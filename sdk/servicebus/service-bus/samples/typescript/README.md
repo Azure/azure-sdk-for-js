@@ -11,7 +11,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [receiveMessagesLoop.ts][receivemessagesloop]                       | uses the receiveMessages() function to receive Service Bus messages in a loop                                           |
 | [scheduledMessages.ts][scheduledmessages]                           | uses the scheduleMessage() function to schedule messages to appear on a Service Bus Queue/Subscription at a later time  |
 | [session.ts][session]                                               | sends/receives messages to/from session enabled queues/subscriptions in Service Bus                                     |
-| [browseMessages.ts][browsemessages]                                 | uses the peek() function to browse a Service Bus                                                                        |
+| [browseMessages.ts][browsemessages]                                 | uses the browseMessages() function to browse a Service Bus                                                                        |
 | [usingAadAuth.ts][usingaadauth]                                     | creates a ServiceBusClient that authenticates using AAD credentials                                                     |
 | [useProxy.ts][useproxy]                                             | creates a ServiceBusClient that uses an HTTP(S) proxy server to make requests                                           |
 | [advanced/movingMessagesToDLQ.ts][advanced-movingmessagestodlq]     | moves a message explicitly to the dead-letter queue                                                                     |

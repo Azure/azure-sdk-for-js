@@ -36,7 +36,8 @@ export {
   ReceiveBatchOptions,
   SubscribeOptions,
   WaitTimeOptions,
-  CreateBatchOptions
+  CreateBatchOptions,
+  BrowseMessagesOptions
 } from "./models";
 export { OperationOptions, TracingOptions } from "./modelsToBeSharedWithEventHubs";
 
