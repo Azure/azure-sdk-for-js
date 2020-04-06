@@ -478,38 +478,6 @@ describe("invalid parameters", () => {
       should.equal(caughtError && caughtError.name, "TypeError");
       should.equal(caughtError && caughtError.message, `Invalid "MessageHandlers" provided.`);
     });
-    // #RevisitCommentedTestsAfterTheSingleClientAPI
-    // The following 2 tests didn't make sense for the current handler type. That being said, equivalent tests for current API need to be added.
-    // it("RegisterMessageHandler: Missing onError in SessionReceiver", async function(): Promise<void> {
-    //   let caughtError: Error | undefined;
-    //   try {
-    //     await receiverClient.registerMessageHandler(async () => {
-    //       /** */
-    //     }, undefined as any);
-    //   } catch (error) {
-    //     caughtError = error;
-    //   }
-    //   should.equal(caughtError && caughtError.name, "TypeError");
-    //   should.equal(caughtError && caughtError.message, `Missing parameter "onError"`);
-    // });
-
-    // it("RegisterMessageHandler: Wrong type for onError in SessionReceiver", async function(): Promise<
-    //   void
-    // > {
-    //   let caughtError: Error | undefined;
-    //   try {
-    //     await receiverClient.registerMessageHandler(async () => {
-    //       /** */
-    //     }, "somethingelse" as any);
-    //   } catch (error) {
-    //     caughtError = error;
-    //   }
-    //   should.equal(caughtError && caughtError.name, "TypeError");
-    //   should.equal(
-    //     caughtError && caughtError.message,
-    //     `The parameter 'onError' must be of type 'function'.`
-    //   );
-    // });
 
     it("ReceiveDeferredMessage: Wrong type sequenceNumber in SessionReceiver", async function(): Promise<
       void
@@ -654,40 +622,6 @@ describe("invalid parameters", () => {
       should.equal(caughtError && caughtError.message, `Invalid "MessageHandlers" provided.`);
     });
 
-    // it("RegisterMessageHandler: Missing onError in Receiver", async function(): Promise<void> {
-    //   let caughtError: Error | undefined;
-    //   try {
-    //     await receiver.subscribe({
-    //       async processMessage() {
-    //         /** */
-    //       },
-    //       undefined
-    //     });
-    //   } catch (error) {
-    //     caughtError = error;
-    //   }
-    //   should.equal(caughtError && caughtError.name, "TypeError");
-    //   should.equal(caughtError && caughtError.message, `Missing parameter "onError"`);
-    // });
-
-    // it("RegisterMessageHandler: Wrong type for onError in Receiver", async function(): Promise<
-    //   void
-    // > {
-    //   let caughtError: Error | undefined;
-    //   try {
-    //     await receiver.registerMessageHandler(async () => {
-    //       /** */
-    //     }, "somethingelse" as any);
-    //   } catch (error) {
-    //     caughtError = error;
-    //   }
-    //   should.equal(caughtError && caughtError.name, "TypeError");
-    //   should.equal(
-    //     caughtError && caughtError.message,
-    //     `The parameter 'onError' must be of type 'function'.`
-    //   );
-    // });
-
     it("ReceiveDeferredMessage: Wrong type sequenceNumber in Receiver", async function(): Promise<
       void
     > {
@@ -745,48 +679,6 @@ describe("invalid parameters", () => {
       should.equal(caughtError && caughtError.name, "TypeError");
       should.equal(caughtError && caughtError.message, `Missing parameter "sequenceNumbers"`);
     });
-
-    // it("RenewMessageLock: Missing lockTokenOrMessage in Receiver", async function(): Promise<void> {
-    //   let caughtError: Error | undefined;
-    //   try {
-    //     await receiver.renewMessageLock(undefined as any);
-    //   } catch (error) {
-    //     caughtError = error;
-    //   }
-    //   should.equal(caughtError && caughtError.name, "TypeError");
-    //   should.equal(caughtError && caughtError.message, `Missing parameter "lockTokenOrMessage"`);
-    // });
-
-    // it("RenewMessageLock: Invalid string lockToken in Receiver", async function(): Promise<void> {
-    //   let caughtError: Error | undefined;
-    //   try {
-    //     await (<InternalReceiver>receiver).renewMessageLock("string-which-is-not-uuid");
-    //   } catch (error) {
-    //     caughtError = error;
-    //   }
-    //   should.equal(
-    //     caughtError && caughtError.message,
-    //     `Not a valid UUID string: string-which-is-not-uuid`
-    //   );
-    // });
-
-    // it("RenewMessageLock: Invalid message lockToken in Receiver", async function(): Promise<void> {
-    //   let caughtError: Error | undefined;
-    //   try {
-    //     const [receivedMsg] = await receiver.receiveMessages(1);
-    //     if (!receivedMsg) {
-    //       throw new Error("Message not received to renew lock on.");
-    //     }
-    //     (<any>receivedMsg).lockToken = "string-which-is-not-uuid";
-    //     await (<InternalReceiver>receiver).renewMessageLock(receivedMsg);
-    //   } catch (error) {
-    //     caughtError = error;
-    //   }
-    //   should.equal(
-    //     caughtError && caughtError.message,
-    //     `Not a valid UUID string: string-which-is-not-uuid`
-    //   );
-    // });
   });
 
   describe("Invalid parameters in Sender #RunInBrowser", function(): void {
