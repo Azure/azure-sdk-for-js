@@ -87,21 +87,7 @@ brings this package in line with the [Azure SDK Design Guidelines for Typescript
   });
   ```
 
-* `peek()` and associated methods have been moved to a sub-object called `diagnostics`
-
-  In V1:
-
-  ```typescript
-  queueOrSubscriptionReceiver.peek();
-  queueOrSubscriptionReceiver.peekBySequenceNumber();
-  ```
-
-  In V7:
-
-  ```typescript
-  queueOrSubscriptionReceiver.diagnostics.peek();
-  queueOrSubscriptionReceiver.diagnostics.peekBySequenceNumber();
-  ```
+* `peek()`is renamed to `browseMessages()` to avoid confusion with the PeekLock mode
 
 * Subscription rule management has been moved to its own class, rather than being part of the now-removed `SubscriptionClient`
 

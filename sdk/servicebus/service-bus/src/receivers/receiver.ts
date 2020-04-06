@@ -6,7 +6,8 @@ import {
   SubscribeOptions,
   GetMessageIteratorOptions,
   ReceiveBatchOptions,
-  MessageHandlerOptions
+  MessageHandlerOptions,
+  BrowseMessagesOptions
 } from "../models";
 import { OperationOptions } from "../modelsToBeSharedWithEventHubs";
 import { ReceivedMessage } from "..";
@@ -92,6 +93,18 @@ export interface Receiver<ReceivedMessageT> {
    */
   isReceivingMessages(): boolean;
 
+  /**
+   * Browse the next batch of active messages (including deferred but not deadlettered messages) on the
+   * queue or subscription without modifying them.
+   * - The first call to `browseMessages()` fetches the first active message. Each subsequent call fetches the
+   * subsequent message.
+   * - Unlike a "received" message, "browsed" message is a read-only version of the message.
+   * It cannot be `Completed/Abandoned/Deferred/Deadlettered`.
+   * @param options Options that allow to specify the maximum number of messages to browse,
+   * the sequenceNumber to start browsing from or an abortSignal to abort the operation.
+   */
+  browseMessages(options?: BrowseMessagesOptions): Promise<ReceivedMessage[]>;
+
   // TODO: not sure these need to be on the interface
 
   /**
@@ -113,31 +126,6 @@ export interface Receiver<ReceivedMessageT> {
    * Closes the receiver.
    */
   close(): Promise<void>;
-
-  /**
-   * Methods related to service bus diagnostics.
-   */
-  diagnostics: {
-    /**
-     * Peek within a queue or subscription.
-     * NOTE: this method does not respect message locks or increment delivery count
-     * for messages.
-     * @param maxMessageCount The maximum number of messages to retrieve.
-     */
-    peek(maxMessageCount?: number): Promise<ReceivedMessage[]>;
-
-    /**
-     * Peek within a queue or subscription, starting with a specific sequence number.
-     * NOTE: this method does not respect message locks or increment delivery count
-     * for messages.
-     * @param fromSequenceNumber The sequence number to start peeking from (inclusive).
-     * @param maxMessageCount The maximum number of messages to retrieve.
-     */
-    peekBySequenceNumber(
-      fromSequenceNumber: Long,
-      maxMessageCount?: number
-    ): Promise<ReceivedMessage[]>;
-  };
 }
 
 /**
@@ -158,14 +146,6 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
 
   public entityPath: string;
 
-  public diagnostics: {
-    peek(maxMessageCount?: number): Promise<ReceivedMessage[]>;
-    peekBySequenceNumber(
-      fromSequenceNumber: Long,
-      maxMessageCount?: number
-    ): Promise<ReceivedMessage[]>;
-  };
-
   /**
    * @throws Error if the underlying connection is closed.
    */
@@ -177,11 +157,6 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
     throwErrorIfConnectionClosed(context.namespace);
     this.entityPath = context.entityPath;
     this._context = context;
-    this.diagnostics = {
-      peek: (maxMessageCount) => this._peek(maxMessageCount),
-      peekBySequenceNumber: (fromSequenceNumber, maxMessageCount) =>
-        this._peekBySequenceNumber(fromSequenceNumber, maxMessageCount)
-    };
     this._retryOptions = retryOptions;
   }
 
@@ -442,60 +417,36 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
 
   // ManagementClient methods # Begin
 
-  private async _peek(
-    maxMessageCount?: number,
-    options: OperationOptions = {}
-  ): Promise<ReceivedMessage[]> {
+  async browseMessages(options: BrowseMessagesOptions = {}): Promise<ReceivedMessage[]> {
     throwErrorIfClientOrConnectionClosed(
       this._context.namespace,
       this._context.entityPath,
       this._context.isClosed
     );
 
-    const peekOperationPromise = async () => {
-      const internalMessages = await this._context.managementClient!.peek(maxMessageCount, {
-        ...options,
-        requestName: "peek",
-        timeoutInMs: this._retryOptions.timeoutInMs
-      });
-      return internalMessages.map((m) => m as ReceivedMessage);
+    const managementRequestOptions = {
+      ...options,
+      requestName: "browseMessages",
+      timeoutInMs: this._retryOptions?.timeoutInMs
     };
+    const peekOperationPromise = async () => {
+      if (options.fromSequenceNumber) {
+        return await this._context.managementClient!.peekBySequenceNumber(
+          options.fromSequenceNumber,
+          options.maxMessageCount,
+          undefined,
+          managementRequestOptions
+        );
+      } else {
+        return await this._context.managementClient!.peek(
+          options.maxMessageCount,
+          managementRequestOptions
+        );
+      }
+    };
+
     const config: RetryConfig<ReceivedMessage[]> = {
       operation: peekOperationPromise,
-      connectionId: this._context.namespace.connectionId,
-      operationType: RetryOperationType.management,
-      retryOptions: this._retryOptions,
-      abortSignal: options?.abortSignal
-    };
-    return retry<ReceivedMessage[]>(config);
-  }
-
-  private async _peekBySequenceNumber(
-    fromSequenceNumber: Long,
-    maxMessageCount?: number,
-    options: OperationOptions = {}
-  ): Promise<ReceivedMessage[]> {
-    throwErrorIfClientOrConnectionClosed(
-      this._context.namespace,
-      this._context.entityPath,
-      this._context.isClosed
-    );
-
-    const peekBySequenceNumberOperationPromise = async () => {
-      const internalMessages = await this._context.managementClient!.peekBySequenceNumber(
-        fromSequenceNumber,
-        maxMessageCount,
-        undefined,
-        {
-          ...options,
-          requestName: "peekBySequenceNumber",
-          timeoutInMs: this._retryOptions.timeoutInMs
-        }
-      );
-      return internalMessages.map((m) => m as ReceivedMessage);
-    };
-    const config: RetryConfig<ReceivedMessage[]> = {
-      operation: peekBySequenceNumberOperationPromise,
       connectionId: this._context.namespace.connectionId,
       operationType: RetryOperationType.management,
       retryOptions: this._retryOptions,
