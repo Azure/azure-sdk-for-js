@@ -4,7 +4,7 @@
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import long from "long";
-import { delay, ServiceBusMessage, MessagingError, ServiceBusClient } from "../src";
+import { delay, ServiceBusMessage, MessagingError, ServiceBusClient, Receiver } from "../src";
 import { Sender } from "../src/sender";
 import {
   getClientClosedErrorMsg,
@@ -12,7 +12,7 @@ import {
   getSenderClosedErrorMsg
 } from "../src/util/errors";
 import { TestClientType, TestMessage, isMessagingError } from "./utils/testUtils";
-import { DispositionType } from "../src/serviceBusMessage";
+import { DispositionType, ReceivedMessageWithLock } from "../src/serviceBusMessage";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -157,19 +157,8 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
   it("throws error when sending data to a non existing queue #RunInBrowser", async function(): Promise<
     void
   > {
-    const client = sbClient.createQueueClient("some-name");
-    await client
-      .createSender()
-      .send({ body: "hello" })
-      .catch((err) => testError(err, "some-name"));
-
-    should.equal(errorWasThrown, true, "Error thrown flag must be true");
-  });
-
-  it("throws error when sending data to a non existing topic", async function(): Promise<void> {
-    const client = sbClient.createTopicClient("some-name");
-    await client
-      .createSender()
+    await sbClient
+      .createSender("some-name")
       .send({ body: "hello" })
       .catch((err) => testError(err, "some-name"));
 
@@ -179,33 +168,18 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
   it("throws error when sending batch data to a non existing queue #RunInBrowser", async function(): Promise<
     void
   > {
-    const client = sbClient.createQueueClient("some-name");
-    await client
-      .createSender()
-      .send({ body: "hello" })
-      .catch((err) => testError(err, "some-name"));
-
-    should.equal(errorWasThrown, true, "Error thrown flag must be true");
-  });
-
-  it("throws error when sending batch data to a non existing topic", async function(): Promise<
-    void
-  > {
-    const client = sbClient.createTopicClient("some-name");
-    await client
-      .createSender()
-      .send({ body: "hello" })
-      .catch((err) => testError(err, "some-name"));
-
+    const sender = sbClient.createSender("some-queue");
+    const batch = await sender.createBatch();
+    batch.tryAdd({ body: "hello" });
+    await sender.sendBatch(batch).catch((err) => testError(err, "some-name"));
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
   it("throws error when receiving batch data from a non existing queue #RunInBrowser", async function(): Promise<
     void
   > {
-    const client = sbClient.createQueueClient("some-name");
-    const receiver = await client.createReceiver(ReceiveMode.peekLock);
-    await receiver.receiveMessages(1).catch((err) => testError(err, "some-name"));
+    const receiver = sbClient.createReceiver("some-name", "peekLock");
+    await receiver.receiveBatch(1).catch((err) => testError(err, "some-name"));
 
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
@@ -213,10 +187,13 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
   it("throws error when receiving batch data from a non existing subscription", async function(): Promise<
     void
   > {
-    const client = sbClient.createSubscriptionClient("some-topic-name", "some-subscription-name");
-    const receiver = await client.createReceiver(ReceiveMode.peekLock);
+    const receiver = sbClient.createReceiver(
+      "some-topic-name",
+      "some-subscription-name",
+      "peekLock"
+    );
     await receiver
-      .receiveMessages(1)
+      .receiveBatch(1)
       .catch((err) => testError(err, "some-topic-name/Subscriptions/some-subscription-name"));
 
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
@@ -225,38 +202,43 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
   it("throws error when receiving streaming data from a non existing queue #RunInBrowser", async function(): Promise<
     void
   > {
-    const client = sbClient.createQueueClient("some-name");
-    const receiver = await client.createReceiver(ReceiveMode.peekLock);
-    const onMessage = async (): Promise<never> => {
-      throw "onMessage should not have been called when receive call is made from a non existing namespace";
-    };
-    receiver.registerMessageHandler(onMessage, (err) => testError(err, "some-name"));
-
+    const receiver = sbClient.createReceiver("some-name", "peekLock");
+    receiver.subscribe({
+      async processMessage() {
+        throw "processMessage should not have been called when receive call is made from a non existing namespace";
+      },
+      async processError(err) {
+        testError(err, "some-name");
+      }
+    });
     await delay(3000);
-    await client.close();
+    await receiver.close();
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
   it("throws error when receiving streaming data from a non existing subscription", async function(): Promise<
     void
   > {
-    const client = sbClient.createSubscriptionClient("some-topic-name", "some-subscription-name");
-    const receiver = await client.createReceiver(ReceiveMode.peekLock);
-    const onMessage = async (): Promise<never> => {
-      throw "onMessage should not have been called when receive call is made from a non existing namespace";
-    };
-    receiver.registerMessageHandler(onMessage, (err) =>
-      testError(err, "some-topic-name/Subscriptions/some-subscription-name")
+    const receiver = sbClient.createReceiver(
+      "some-topic-name",
+      "some-subscription-name",
+      "peekLock"
     );
-
+    receiver.subscribe({
+      async processMessage() {
+        throw "processMessage should not have been called when receive call is made from a non existing namespace";
+      },
+      async processError(err) {
+        testError(err, "some-topic-name/Subscriptions/some-subscription-name");
+      }
+    });
     await delay(3000);
-    await client.close();
+    await receiver.close();
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 });
 
 describe("Test ServiceBusClient creation #RunInBrowser", function(): void {
-  let sbClient: ServiceBusClient;
   let errorWasThrown: boolean = false;
 
   const env = getEnvVars();
@@ -318,30 +300,31 @@ describe("Test ServiceBusClient creation #RunInBrowser", function(): void {
   });
 
   if (isNode) {
-    it("Coerces input to string for host in credential based constructor", async function(): Promise<
-      void
-    > {
-      const tokenCreds = getDefaultTokenCredential();
-      sbClient = new ServiceBusClient(123 as any, tokenCreds);
-      should.equal(sbClient.name, "sb://123/", "Name of the namespace is different than expected");
-    });
+    // it("Coerces input to string for host in credential based constructor", async function(): Promise<
+    //   void
+    // > {
+    //   const tokenCreds = getDefaultTokenCredential();
+    //   sbClient = new ServiceBusClient(123 as any, tokenCreds);
+    //   should.equal(sbClient.name, "sb://123/", "Name of the namespace is different than expected");
+    // });
 
     it("sends a message to the ServiceBus entity", async function(): Promise<void> {
       const tokenCreds = getDefaultTokenCredential();
-      const sbClient = new ServiceBusClient(serviceBusEndpoint, tokenCreds);
 
-      sbClient.should.be.an.instanceof(ServiceBusClient);
-      const clients = await getSenderReceiverClients(
-        sbClient,
-        TestClientType.UnpartitionedQueue,
+      const serviceBusClient = createServiceBusClientForTests();
+      const entities = await serviceBusClient.test.createTestEntities(
         TestClientType.UnpartitionedQueue
       );
+      await serviceBusClient.close();
 
-      const sender = clients.senderClient.createSender();
-      const receiver = await clients.receiverClient.createReceiver(ReceiveMode.peekLock);
+      const sbClient = new ServiceBusClient(serviceBusEndpoint, tokenCreds);
+      sbClient.should.be.an.instanceof(ServiceBusClient);
+
+      const sender = sbClient.createSender(entities.queue!);
+      const receiver = await sbClient.createReceiver(entities.queue!, "peekLock");
       const testMessages = TestMessage.getSample();
       await sender.send(testMessages);
-      const msgs = await receiver.receiveMessages(1);
+      const msgs = await receiver.receiveBatch(1);
 
       should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
       should.equal(msgs[0].body, testMessages.body, "MessageBody is different than expected");
@@ -353,10 +336,8 @@ describe("Test ServiceBusClient creation #RunInBrowser", function(): void {
 
 describe("Errors after close()", function(): void {
   let sbClient: ServiceBusClient;
-  let senderClient: QueueClient | TopicClient;
-  let receiverClient: QueueClient | SubscriptionClient;
   let sender: Sender;
-  let receiver: InternalReceiver | InternalSessionReceiver;
+  let receiver: Receiver<ReceivedMessageWithLock>;
   let receivedMessage: ServiceBusMessage;
 
   afterEach(() => {
