@@ -32,10 +32,12 @@ import {
 } from "../serviceBusMessage";
 import { ClientEntityContext } from "../clientEntityContext";
 import { LinkEntity } from "./linkEntity";
-import { getUniqueName, getRetryAttemptTimeoutInMs } from "../util/utils";
+import { getUniqueName, normalizeRetryOptions, RetryOptionsInternal } from "../util/utils";
 import { throwErrorIfConnectionClosed } from "../util/errors";
 import { ServiceBusMessageBatch, ServiceBusMessageBatchImpl } from "../serviceBusMessageBatch";
 import { CreateBatchOptions } from "../models";
+import { OperationOptions } from "../modelsToBeSharedWithEventHubs";
+import { AbortError } from "@azure/abort-controller";
 
 /**
  * @internal
@@ -78,7 +80,7 @@ export class MessageSender extends LinkEntity {
    * @private
    */
   private _sender?: AwaitableSender;
-  private _retryOptions?: RetryOptions;
+  private _retryOptions: RetryOptionsInternal;
 
   /**
    * Creates a new MessageSender instance.
@@ -90,7 +92,7 @@ export class MessageSender extends LinkEntity {
       address: context.entityPath,
       audience: `${context.namespace.config.endpoint}${context.entityPath}`
     });
-    this._retryOptions = retryOptions;
+    this._retryOptions = normalizeRetryOptions(retryOptions);
     this._onAmqpError = (context: EventContext) => {
       const senderError = context.sender && context.sender.error;
       if (senderError) {
@@ -249,27 +251,61 @@ export class MessageSender extends LinkEntity {
    * @param sendBatch Boolean indicating whether the encoded message represents a batch of messages or not
    * @return {Promise<Delivery>} Promise<Delivery>
    */
-  private _trySend(encodedMessage: Buffer, sendBatch?: boolean): Promise<void> {
-    const retryOptions = this._retryOptions || {};
-    retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
+  private _trySend(
+    encodedMessage: Buffer,
+    sendBatch: boolean,
+    options: OperationOptions
+  ): Promise<void> {
+    const abortSignal = options?.abortSignal;
+
     const sendEventPromise = () =>
       new Promise<void>(async (resolve, reject) => {
-        const actionAfterTimeout = () => {
+        const rejectOnAbort = () => {
           const desc: string =
-            `[${this._context.namespace.connectionId}] Sender "${this.name}" ` +
-            `with address "${this.address}", was not able to send the message right now, due ` +
-            `to operation timeout.`;
+            `[${this._context.namespace.connectionId}] The send operation on the Sender "${this.name}" with ` +
+            `address "${this.address}" has been cancelled by the user.`;
+          // Cancellation is user-intended, so log to info instead of warning.
           log.error(desc);
-          const e: AmqpError = {
-            condition: ErrorNameConditionMapper.ServiceUnavailableError,
-            description: desc
-          };
-          return reject(translate(e));
+          return reject(new AbortError("The send operation has been cancelled by the user."));
         };
+
+        if (abortSignal && abortSignal.aborted) {
+          // operation has been cancelled, so exit quickly
+          return rejectOnAbort();
+        }
+
+        const removeListeners = (): void => {
+          clearTimeout(waitTimer);
+          if (abortSignal) {
+            abortSignal.removeEventListener("abort", onAborted);
+          }
+        };
+
+        const onAborted = () => {
+          removeListeners();
+          return rejectOnAbort();
+        };
+
+        if (abortSignal) {
+          abortSignal.addEventListener("abort", onAborted);
+        }
 
         const initStartTime = Date.now();
         if (!this.isOpen()) {
-          const waitTimer = setTimeout(actionAfterTimeout, retryOptions.timeoutInMs);
+          const initTimeoutAction = () => {
+            const desc: string =
+              `[${this._context.namespace.connectionId}] Sender "${this.name}" ` +
+              `with address "${this.address}", was not able to send the message right now, due ` +
+              `to operation timeout.`;
+            log.error(desc);
+            const e: AmqpError = {
+              condition: ErrorNameConditionMapper.ServiceUnavailableError,
+              description: desc
+            };
+            return reject(translate(e));
+          };
+
+          const initTimeoutTimer = setTimeout(initTimeoutAction, this._retryOptions.timeoutInMs);
           log.sender(
             "Acquiring lock %s for initializing the session, sender and " +
               "possibly the connection.",
@@ -289,7 +325,7 @@ export class MessageSender extends LinkEntity {
             );
             return reject(err);
           } finally {
-            clearTimeout(waitTimer);
+            clearTimeout(initTimeoutTimer);
           }
         }
         const timeTakenByInit = Date.now() - initStartTime;

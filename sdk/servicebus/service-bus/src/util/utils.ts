@@ -37,16 +37,42 @@ export function getUniqueName(name: string): string {
 /**
  * @internal
  * @ignore
+ *
+ * TODO: I think this is duplicated from core-amqp and should be du-duped, but _before_
+ * that happens we should question whether it's even a legitimate way of setting the timeout
+ * because it just squashes all timeouts beneath 60 seconds to be 60 seconds instead.
  */
 export function getRetryAttemptTimeoutInMs(retryOptions: RetryOptions | undefined): number {
   const timeoutInMs =
     retryOptions == undefined ||
     typeof retryOptions.timeoutInMs !== "number" ||
     !isFinite(retryOptions.timeoutInMs) ||
+    // TODO: not sure what the justification is for always forcing at least 60 seconds.
     retryOptions.timeoutInMs < CoreAMQPConstants.defaultOperationTimeoutInMs
       ? CoreAMQPConstants.defaultOperationTimeoutInMs
       : retryOptions.timeoutInMs;
+
   return timeoutInMs;
+}
+
+/**
+ * @internal
+ * @ignore
+ */
+export type RetryOptionsInternal =
+  | NonNullable<Pick<RetryOptions, "timeoutInMs">>
+  | Exclude<RetryOptions, "timeoutInMs">;
+
+/**
+ * @internal
+ * @ignore
+ */
+export function normalizeRetryOptions(
+  retryOptions: RetryOptions | undefined
+): RetryOptionsInternal {
+  const actualRetryOptions: RetryOptions = { ...retryOptions };
+  actualRetryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(actualRetryOptions);
+  return actualRetryOptions;
 }
 
 /**
