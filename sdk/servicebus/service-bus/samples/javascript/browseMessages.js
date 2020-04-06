@@ -31,7 +31,7 @@ async function main() {
   const queueReceiver = sbClient.getReceiver(queueName, "receiveAndDelete");
   try {
     for (let i = 0; i < 20; i++) {
-      const messages = await queueReceiver.diagnostics.browseMessages();
+      const messages = await queueReceiver.browseMessages();
       if (!messages.length) {
         console.log("No more messages to peek");
         break;
