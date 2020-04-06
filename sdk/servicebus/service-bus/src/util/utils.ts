@@ -59,9 +59,8 @@ export function getRetryAttemptTimeoutInMs(retryOptions: RetryOptions | undefine
  * @internal
  * @ignore
  */
-export type RetryOptionsInternal =
-  | NonNullable<Pick<RetryOptions, "timeoutInMs">>
-  | Exclude<RetryOptions, "timeoutInMs">;
+export type RetryOptionsInternal = Required<Pick<RetryOptions, "timeoutInMs">> &
+  Exclude<RetryOptions, "timeoutInMs">;
 
 /**
  * @internal
@@ -70,9 +69,10 @@ export type RetryOptionsInternal =
 export function normalizeRetryOptions(
   retryOptions: RetryOptions | undefined
 ): RetryOptionsInternal {
-  const actualRetryOptions: RetryOptions = { ...retryOptions };
-  actualRetryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(actualRetryOptions);
-  return actualRetryOptions;
+  return {
+    ...retryOptions,
+    timeoutInMs: getRetryAttemptTimeoutInMs(retryOptions)
+  };
 }
 
 /**
