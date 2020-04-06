@@ -347,7 +347,7 @@ describe("invalid parameters", () => {
           TestClientType.PartitionedQueueWithSessions
         );
 
-        await serviceBusClient.getSessionReceiver(queue!, undefined as any, {
+        await serviceBusClient.createSessionReceiver(queue!, undefined as any, {
           sessionId: TestMessage.sessionId
         });
       } catch (error) {
@@ -581,7 +581,9 @@ describe("invalid parameters", () => {
         TestClientType.PartitionedQueueWithSessions
       );
 
-      sender = serviceBusClient.test.addToCleanup(serviceBusClient.getSender(entityNames.queue!));
+      sender = serviceBusClient.test.addToCleanup(
+        serviceBusClient.createSender(entityNames.queue!)
+      );
 
       receiver = serviceBusClient.test.getPeekLockReceiver(entityNames);
 
@@ -599,7 +601,7 @@ describe("invalid parameters", () => {
           TestClientType.PartitionedQueueWithSessions
         );
 
-        await serviceBusClient.getReceiver(queue!, undefined as any);
+        await serviceBusClient.createReceiver(queue!, undefined as any);
       } catch (error) {
         errorCaught = error.message;
       }
@@ -617,7 +619,7 @@ describe("invalid parameters", () => {
           TestClientType.PartitionedQueueWithSessions
         );
 
-        await serviceBusClient.getReceiver(queue!, 123 as any);
+        await serviceBusClient.createReceiver(queue!, 123 as any);
       } catch (error) {
         errorCaught = error.message;
       }
