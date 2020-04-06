@@ -3,14 +3,10 @@
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import long from "long";
-import { delay, ServiceBusMessage, MessagingError, ServiceBusClient, Receiver } from "../src";
+import Long from "long";
+import { delay, MessagingError, ServiceBusClient, Receiver, SessionReceiver } from "../src";
 import { Sender } from "../src/sender";
-import {
-  getClientClosedErrorMsg,
-  getReceiverClosedErrorMsg,
-  getSenderClosedErrorMsg
-} from "../src/util/errors";
+import { getClientClosedErrorMsg } from "../src/util/errors";
 import { TestClientType, TestMessage, isMessagingError } from "./utils/testUtils";
 import { DispositionType, ReceivedMessageWithLock } from "../src/serviceBusMessage";
 
@@ -22,7 +18,11 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 import { EnvironmentCredential } from "@azure/identity";
-import { createServiceBusClientForTests } from "./utils/testutils2";
+import {
+  createServiceBusClientForTests,
+  ServiceBusClientForTests,
+  EntityName
+} from "./utils/testutils2";
 
 // describe("Create ServiceBusClient and Queue/Topic/Subscription Clients #RunInBrowser", function(): void {
 //   let sbClient: ServiceBusClient;
@@ -335,46 +335,29 @@ describe("Test ServiceBusClient creation #RunInBrowser", function(): void {
 });
 
 describe("Errors after close()", function(): void {
-  let sbClient: ServiceBusClient;
+  let sbClient: ServiceBusClientForTests;
   let sender: Sender;
   let receiver: Receiver<ReceivedMessageWithLock>;
-  let receivedMessage: ServiceBusMessage;
+  let receivedMessage: ReceivedMessageWithLock;
+  let entityName: EntityName;
 
   afterEach(() => {
     return sbClient.close();
   });
 
-  async function beforeEachTest(
-    senderType: TestClientType,
-    receiverType: TestClientType,
-    entityToClose: string,
-    useSessions?: boolean
-  ): Promise<void> {
-    sbClient = getServiceBusClient();
-    const clients = await getSenderReceiverClients(sbClient, senderType, receiverType);
-    senderClient = clients.senderClient;
-    receiverClient = clients.receiverClient;
+  async function beforeEachTest(entityType: TestClientType, entityToClose: string): Promise<void> {
+    sbClient = createServiceBusClientForTests();
+    entityName = await sbClient.test.createTestEntities(entityType);
 
-    await purge(receiverClient, useSessions ? TestMessage.sessionId : undefined);
-    const peekedMsgs = await receiverClient.peek();
-    const receiverEntityType = receiverClient instanceof QueueClient ? "queue" : "topic";
-    if (peekedMsgs.length) {
-      chai.assert.fail(`Please use an empty ${receiverEntityType} for integration testing`);
-    }
-
-    sender = senderClient.createSender();
-    if (useSessions) {
-      receiver = receiverClient.createReceiver(ReceiveMode.peekLock, {
-        sessionId: TestMessage.sessionId
-      });
-    } else {
-      receiver = receiverClient.createReceiver(ReceiveMode.peekLock);
-    }
+    sender = sbClient.createSender(entityName.queue ?? entityName.topic!);
+    receiver = sbClient.test.getPeekLockReceiver(entityName);
 
     // Normal send/receive
-    const testMessage = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
+    const testMessage = entityName.usesSessions
+      ? TestMessage.getSessionSample()
+      : TestMessage.getSample();
     await sender.send(testMessage);
-    const receivedMsgs = await receiver.receiveMessages(1, 3);
+    const receivedMsgs = await receiver.receiveBatch(1, { maxWaitTimeInMs: 3000 });
     should.equal(receivedMsgs.length, 1, "Unexpected number of messages received");
     receivedMessage = receivedMsgs[0];
 
@@ -382,12 +365,6 @@ describe("Errors after close()", function(): void {
     switch (entityToClose) {
       case "namespace":
         await sbClient.close();
-        break;
-      case "senderClient":
-        await senderClient.close();
-        break;
-      case "receiverClient":
-        await receiverClient.close();
         break;
       case "sender":
         await sender.close();
@@ -408,6 +385,7 @@ describe("Errors after close()", function(): void {
     await testDisposition(DispositionType.abandon);
     await testDisposition(DispositionType.defer);
     await testDisposition(DispositionType.deadletter);
+    // TODO - add test for renewing message lock
   }
 
   async function testDisposition(operation: DispositionType): Promise<void> {
@@ -455,7 +433,9 @@ describe("Errors after close()", function(): void {
     should.equal(errorSend, expectedErrorMsg, "Expected error not thrown for send()");
 
     let errorSendBatch: string = "";
-    await sender.sendBatch([testMessage]).catch((err) => {
+    const batch = await sender.createBatch();
+    batch.tryAdd(testMessage);
+    await sender.sendBatch(batch).catch((err) => {
       errorSendBatch = err.message;
     });
     should.equal(errorSendBatch, expectedErrorMsg, "Expected error not thrown for sendBatch()");
@@ -481,7 +461,7 @@ describe("Errors after close()", function(): void {
     );
 
     let errorCancelMsg: string = "";
-    await sender.cancelScheduledMessage(long.ZERO).catch((err) => {
+    await sender.cancelScheduledMessage(Long.ZERO).catch((err) => {
       errorCancelMsg = err.message;
     });
     should.equal(
@@ -491,7 +471,7 @@ describe("Errors after close()", function(): void {
     );
 
     let errorCancelMsgs: string = "";
-    await sender.cancelScheduledMessages([long.ZERO]).catch((err) => {
+    await sender.cancelScheduledMessages([Long.ZERO]).catch((err) => {
       errorCancelMsgs = err.message;
     });
     should.equal(
@@ -507,7 +487,7 @@ describe("Errors after close()", function(): void {
   async function testCreateSender(expectedErrorMsg: string): Promise<void> {
     let errorNewSender: string = "";
     try {
-      senderClient.createSender();
+      sbClient.createSender(entityName.queue ?? entityName.topic!);
     } catch (err) {
       errorNewSender = err.message;
     }
@@ -517,11 +497,11 @@ describe("Errors after close()", function(): void {
   /**
    * Tests that each feature of the receiver throws expected error
    */
-  async function testReceiver(expectedErrorMsg: string, useSessions?: boolean): Promise<void> {
-    should.equal(receiver.isClosed, true, "Receiver is not marked as closed.");
+  async function testReceiver(expectedErrorMsg: string): Promise<void> {
+    // should.equal(receiver.isClosed, true, "Receiver is not marked as closed.");
 
     let errorReceiveBatch: string = "";
-    await receiver.receiveMessages(1, 1).catch((err) => {
+    await receiver.receiveBatch(1, { maxWaitTimeInMs: 1000 }).catch((err) => {
       errorReceiveBatch = err.message;
     });
     should.equal(
@@ -532,10 +512,12 @@ describe("Errors after close()", function(): void {
 
     let errorReceiveStream: string = "";
     try {
-      receiver.registerMessageHandler(
-        () => Promise.resolve(),
-        (e) => console.log(e)
-      );
+      receiver.subscribe({
+        async processMessage() {},
+        async processError(e) {
+          console.log(e);
+        }
+      });
     } catch (err) {
       errorReceiveStream = err.message;
     }
@@ -546,7 +528,7 @@ describe("Errors after close()", function(): void {
     );
 
     let errorDeferredMsg: string = "";
-    await receiver.receiveDeferredMessage(long.ZERO).catch((err) => {
+    await receiver.receiveDeferredMessage(Long.ZERO).catch((err) => {
       errorDeferredMsg = err.message;
     });
     should.equal(
@@ -556,7 +538,7 @@ describe("Errors after close()", function(): void {
     );
 
     let errorDeferredMsgs: string = "";
-    await receiver.receiveDeferredMessage(long.ZERO).catch((err) => {
+    await receiver.receiveDeferredMessage(Long.ZERO).catch((err) => {
       errorDeferredMsgs = err.message;
     });
     should.equal(
@@ -565,26 +547,8 @@ describe("Errors after close()", function(): void {
       "Expected error not thrown for receiveDeferredMessages()"
     );
 
-    if (!useSessions) {
-      let errorRenewLock: string = "";
-      await (<InternalReceiver>receiver).renewMessageLock("randomLockToken").catch((err) => {
-        errorRenewLock = err.message;
-      });
-      should.equal(errorRenewLock, expectedErrorMsg, "Expected error not thrown for renewLock()");
-    }
-  }
-
-  /**
-   * Tests that each feature of the receiverClient throws expected error
-   */
-  async function testReceiverClient(
-    expectedErrorMsg: string,
-    useSessions?: boolean
-  ): Promise<void> {
-    await testCreateReceiver(expectedErrorMsg, useSessions);
-
     let errorPeek: string = "";
-    await receiverClient.peek().catch((err) => {
+    await receiver.diagnostics.peek().catch((err) => {
       errorPeek = err.message;
     });
     should.equal(
@@ -594,7 +558,7 @@ describe("Errors after close()", function(): void {
     );
 
     let errorPeekBySequence: string = "";
-    await receiverClient.peekBySequenceNumber(long.ZERO).catch((err) => {
+    await receiver.diagnostics.peekBySequenceNumber(Long.ZERO).catch((err) => {
       errorPeekBySequence = err.message;
     });
     should.equal(
@@ -602,43 +566,41 @@ describe("Errors after close()", function(): void {
       expectedErrorMsg,
       "Expected error not thrown for peekBySequenceNumber() from receiverClient"
     );
+    // if (!entityName.usesSessions) {
+    //   let errorRenewLock: string = "";
+    //   await (<InternalReceiver>receiver).renewMessageLock("randomLockToken").catch((err) => {
+    //     errorRenewLock = err.message;
+    //   });
+    //   should.equal(errorRenewLock, expectedErrorMsg, "Expected error not thrown for renewLock()");
+    // }
   }
 
   /**
    * Tests creating new receiver throws expected error
    */
-  async function testCreateReceiver(
-    expectedErrorMsg: string,
-    useSessions?: boolean
-  ): Promise<void> {
-    let errorNewReceiver: string = "";
-    try {
-      if (useSessions) {
-        receiver = receiverClient.createReceiver(ReceiveMode.peekLock, {
-          sessionId: TestMessage.sessionId
-        });
-      } else {
-        receiver = receiverClient.createReceiver(ReceiveMode.peekLock);
-      }
-    } catch (err) {
-      errorNewReceiver = err.message;
-    }
-    should.equal(
-      errorNewReceiver,
-      expectedErrorMsg,
-      "Expected error not thrown for createReceiver()"
-    );
-  }
+  // async function testCreateReceiver(expectedErrorMsg: string): Promise<void> {
+  //   let errorNewReceiver: string = "";
+  //   try {
+  //     receiver = sbClient.test.getPeekLockReceiver(entityName);
+  //   } catch (err) {
+  //     errorNewReceiver = err.message;
+  //   }
+  //   should.equal(
+  //     errorNewReceiver,
+  //     expectedErrorMsg,
+  //     "Expected error not thrown for createReceiver()"
+  //   );
+  // }
 
   /**
    * Tests that each feature of the receiver client with sessions throws expected error
    */
   async function testSessionReceiver(expectedErrorMsg: string): Promise<void> {
-    await testReceiver(expectedErrorMsg, true);
-    const sessionReceiver = receiver as InternalSessionReceiver;
+    await testReceiver(expectedErrorMsg);
+    const sessionReceiver = receiver as SessionReceiver<ReceivedMessageWithLock>;
 
     let errorPeek: string = "";
-    await sessionReceiver.peek().catch((err) => {
+    await sessionReceiver.diagnostics.peek().catch((err) => {
       errorPeek = err.message;
     });
     should.equal(
@@ -648,7 +610,7 @@ describe("Errors after close()", function(): void {
     );
 
     let errorPeekBySequence: string = "";
-    await sessionReceiver.peekBySequenceNumber(long.ZERO).catch((err) => {
+    await sessionReceiver.diagnostics.peekBySequenceNumber(Long.ZERO).catch((err) => {
       errorPeekBySequence = err.message;
     });
     should.equal(
@@ -674,7 +636,10 @@ describe("Errors after close()", function(): void {
    * Tests that each feature of the topic filters throws expected error
    */
   async function testRules(expectedErrorMsg: string): Promise<void> {
-    const subscriptionClient = receiverClient as SubscriptionClient;
+    const subscriptionClient = sbClient.getSubscriptionRuleManager(
+      entityName.topic!,
+      entityName.subscription!
+    );
 
     let errorAddRule: string = "";
     await subscriptionClient.addRule("myRule", true).catch((err) => {
@@ -702,81 +667,55 @@ describe("Errors after close()", function(): void {
     it("Unpartitioned Queue: errors after close() on namespace #RunInBrowser", async function(): Promise<
       void
     > {
-      await beforeEachTest(
-        TestClientType.UnpartitionedQueue,
-        TestClientType.UnpartitionedQueue,
-        entityToClose
-      );
+      await beforeEachTest(TestClientType.UnpartitionedQueue, entityToClose);
 
       await testSender(expectedErrorMsg);
       await testCreateSender(expectedErrorMsg);
       await testReceiver(expectedErrorMsg);
-      await testReceiverClient(expectedErrorMsg);
     });
 
     it("Unpartitioned Queue with sessions: errors after close() on namespace #RunInBrowser", async function(): Promise<
       void
     > {
-      await beforeEachTest(
-        TestClientType.UnpartitionedQueueWithSessions,
-        TestClientType.UnpartitionedQueueWithSessions,
-        entityToClose,
-        true
-      );
+      await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions, entityToClose);
 
       await testSender(expectedErrorMsg);
       await testCreateSender(expectedErrorMsg);
       await testSessionReceiver(expectedErrorMsg);
-      await testReceiverClient(expectedErrorMsg, true);
     });
 
     it("Unpartitioned Topic/Subscription: errors after close() on namespace", async function(): Promise<
       void
     > {
-      await beforeEachTest(
-        TestClientType.UnpartitionedTopic,
-        TestClientType.UnpartitionedSubscription,
-        entityToClose
-      );
+      await beforeEachTest(TestClientType.UnpartitionedTopic, entityToClose);
 
       await testSender(expectedErrorMsg);
       await testCreateSender(expectedErrorMsg);
       await testReceiver(expectedErrorMsg);
-      await testReceiverClient(expectedErrorMsg);
       await testRules(expectedErrorMsg);
     });
 
     it("Unpartitioned Topic/Subscription with sessions: errors after close() on namespace", async function(): Promise<
       void
     > {
-      await beforeEachTest(
-        TestClientType.UnpartitionedTopicWithSessions,
-        TestClientType.UnpartitionedSubscriptionWithSessions,
-        entityToClose,
-        true
-      );
+      await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions, entityToClose);
 
       await testSender(expectedErrorMsg);
       await testCreateSender(expectedErrorMsg);
       await testSessionReceiver(expectedErrorMsg);
-      await testReceiverClient(expectedErrorMsg, true);
       await testRules(expectedErrorMsg);
     });
 
-    it("Create Queue/Topic/Subscription clients throws error after namespace.close()", async function(): Promise<
+    it("Create Sender/Receiver clients throws error after namespace.close()", async function(): Promise<
       void
     > {
       // beforeEachTest() can be run for any entity type, we need it only to ensure that the
       // connection is indeed opened
-      await beforeEachTest(
-        TestClientType.PartitionedQueue,
-        TestClientType.PartitionedQueue,
-        entityToClose
-      );
+      await beforeEachTest(TestClientType.PartitionedQueue, entityToClose);
 
       let errorCreateQueueClient: string = "";
       try {
-        sbClient.createQueueClient("random-name");
+        sbClient.createSender("random-name");
       } catch (err) {
         errorCreateQueueClient = err.message;
       }
@@ -786,21 +725,9 @@ describe("Errors after close()", function(): void {
         "Expected error not thrown for createQueueClient()"
       );
 
-      let errorCreateTopicClient: string = "";
-      try {
-        sbClient.createTopicClient("random-name");
-      } catch (err) {
-        errorCreateTopicClient = err.message;
-      }
-      should.equal(
-        errorCreateTopicClient,
-        expectedErrorMsg,
-        "Expected error not thrown for createTopicClient()"
-      );
-
       let errorCreateSubscriptionClient: string = "";
       try {
-        sbClient.createSubscriptionClient("random-name", "random-name");
+        sbClient.getSubscriptionRuleManager("random-name", "random-name");
       } catch (err) {
         errorCreateSubscriptionClient = err.message;
       }
@@ -812,39 +739,35 @@ describe("Errors after close()", function(): void {
     });
   });
 
-  describe("Errors after close() on senderClient", function(): void {
-    const entityToClose = "senderClient";
+  // describe("Errors after close() on senderClient", function(): void {
+  //   const entityToClose = "senderClient";
 
-    it("Unpartitioned Queue: errors after close() on senderClient #RunInBrowser", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(
-        TestClientType.UnpartitionedQueue,
-        TestClientType.UnpartitionedQueue,
-        entityToClose
-      );
+  //   it("Unpartitioned Queue: errors after close() on senderClient #RunInBrowser", async function(): Promise<
+  //     void
+  //   > {
+  //     await beforeEachTest(TestClientType.UnpartitionedQueue, entityToClose);
 
-      await testSender(
-        getSenderClosedErrorMsg(senderClient.entityPath, ClientType.QueueClient, true)
-      );
-      await testCreateSender(getClientClosedErrorMsg(senderClient.entityPath));
-    });
+  //     await testSender(
+  //       getSenderClosedErrorMsg(senderClient.entityPath, ClientType.QueueClient, true)
+  //     );
+  //     await testCreateSender(getClientClosedErrorMsg(senderClient.entityPath));
+  //   });
 
-    it("Unpartitioned Topic: errors after close() on senderClient", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(
-        TestClientType.UnpartitionedTopic,
-        TestClientType.UnpartitionedSubscription,
-        entityToClose
-      );
+  //   it("Unpartitioned Topic: errors after close() on senderClient", async function(): Promise<
+  //     void
+  //   > {
+  //     await beforeEachTest(
+  //       TestClientType.UnpartitionedTopic,
+  //       TestClientType.UnpartitionedSubscription,
+  //       entityToClose
+  //     );
 
-      await testSender(
-        getSenderClosedErrorMsg(senderClient.entityPath, ClientType.TopicClient, true)
-      );
-      await testCreateSender(getClientClosedErrorMsg(senderClient.entityPath));
-    });
-  });
+  //     await testSender(
+  //       getSenderClosedErrorMsg(senderClient.entityPath, ClientType.TopicClient, true)
+  //     );
+  //     await testCreateSender(getClientClosedErrorMsg(senderClient.entityPath));
+  //   });
+  // });
 
   describe("Errors after close() on receiverClient", function(): void {
     const entityToClose = "receiverClient";
@@ -852,95 +775,51 @@ describe("Errors after close()", function(): void {
     it("Unpartitioned Queue: errors after close() on receiverClient #RunInBrowser", async function(): Promise<
       void
     > {
-      await beforeEachTest(
-        TestClientType.UnpartitionedQueue,
-        TestClientType.UnpartitionedQueue,
-        entityToClose
-      );
+      await beforeEachTest(TestClientType.UnpartitionedQueue, entityToClose);
 
-      await testReceiver(
-        getReceiverClosedErrorMsg(receiverClient.entityPath, ClientType.QueueClient, true)
-      );
-      await testReceiverClient(getClientClosedErrorMsg(receiverClient.entityPath));
+      await testReceiver(getClientClosedErrorMsg(receiver.entityPath));
     });
 
     it("Unpartitioned Queue with sessions: errors after close() on receiverClient #RunInBrowser", async function(): Promise<
       void
     > {
-      await beforeEachTest(
-        TestClientType.UnpartitionedQueueWithSessions,
-        TestClientType.UnpartitionedQueueWithSessions,
-        entityToClose,
-        true
-      );
+      await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions, entityToClose);
 
-      await testSessionReceiver(
-        getReceiverClosedErrorMsg(
-          receiverClient.entityPath,
-          ClientType.QueueClient,
-          true,
-          TestMessage.sessionId
-        )
-      );
-      await testReceiverClient(getClientClosedErrorMsg(receiverClient.entityPath), true);
+      await testReceiver(getClientClosedErrorMsg(receiver.entityPath));
     });
 
     it("Unpartitioned Topic/Subscription: errors after close() on receiverClient", async function(): Promise<
       void
     > {
-      await beforeEachTest(
-        TestClientType.UnpartitionedTopic,
-        TestClientType.UnpartitionedSubscription,
-        entityToClose
-      );
+      await beforeEachTest(TestClientType.UnpartitionedSubscription, entityToClose);
 
-      await testReceiver(
-        getReceiverClosedErrorMsg(receiverClient.entityPath, ClientType.SubscriptionClient, true)
-      );
-      await testReceiverClient(getClientClosedErrorMsg(receiverClient.entityPath));
-      await testRules(getClientClosedErrorMsg(receiverClient.entityPath));
+      await testReceiver(getClientClosedErrorMsg(receiver.entityPath));
+      await testRules(getClientClosedErrorMsg(receiver.entityPath));
     });
 
     it("Unpartitioned Topic/Subscription with sessions: errors after close() on receiverClient", async function(): Promise<
       void
     > {
-      await beforeEachTest(
-        TestClientType.UnpartitionedTopicWithSessions,
-        TestClientType.UnpartitionedSubscriptionWithSessions,
-        entityToClose,
-        true
-      );
+      await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions, entityToClose);
 
-      await testSessionReceiver(
-        getReceiverClosedErrorMsg(
-          receiverClient.entityPath,
-          ClientType.SubscriptionClient,
-          true,
-          TestMessage.sessionId
-        )
-      );
-      await testReceiverClient(getClientClosedErrorMsg(receiverClient.entityPath), true);
-      await testRules(getClientClosedErrorMsg(receiverClient.entityPath));
+      await testSessionReceiver(getClientClosedErrorMsg(receiver.entityPath));
+      await testRules(getClientClosedErrorMsg(receiver.entityPath));
     });
   });
 
-  describe("Errors after close() on sender", function(): void {
-    const entityToClose = "sender";
+  // describe("Errors after close() on sender", function(): void {
+  //   const entityToClose = "sender";
 
-    it("Unpartitioned Queue: errors after close() on sender #RunInBrowser", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(
-        TestClientType.UnpartitionedQueue,
-        TestClientType.UnpartitionedQueue,
-        entityToClose
-      );
+  //   it("Unpartitioned Queue: errors after close() on sender #RunInBrowser", async function(): Promise<
+  //     void
+  //   > {
+  //     await beforeEachTest(TestClientType.UnpartitionedQueue, entityToClose);
 
-      await testSender(
-        getSenderClosedErrorMsg(senderClient.entityPath, ClientType.QueueClient, false)
-      );
-    });
-  });
+  //     await testSender(
+  //       getSenderClosedErrorMsg(senderClient.entityPath, ClientType.QueueClient, false)
+  //     );
+  //   });
+  // });
 
   describe("Errors after close() on receiver", function(): void {
     const entityToClose = "receiver";
@@ -948,115 +827,97 @@ describe("Errors after close()", function(): void {
     it("Unpartitioned Queue: errors after close() on receiver #RunInBrowser", async function(): Promise<
       void
     > {
-      await beforeEachTest(
-        TestClientType.UnpartitionedQueue,
-        TestClientType.UnpartitionedQueue,
-        entityToClose
-      );
+      await beforeEachTest(TestClientType.UnpartitionedQueue, entityToClose);
 
-      await testReceiver(
-        getReceiverClosedErrorMsg(receiverClient.entityPath, ClientType.QueueClient, false)
-      );
+      await testReceiver(getClientClosedErrorMsg(receiver.entityPath));
       await testAllDispositions();
     });
 
     it("Unpartitioned Queue with sessions: errors after close() on receiver #RunInBrowser", async function(): Promise<
       void
     > {
-      await beforeEachTest(
-        TestClientType.UnpartitionedQueueWithSessions,
-        TestClientType.UnpartitionedQueueWithSessions,
-        entityToClose,
-        true
-      );
+      await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions, entityToClose);
 
-      await testSessionReceiver(
-        getReceiverClosedErrorMsg(
-          receiverClient.entityPath,
-          ClientType.QueueClient,
-          false,
-          TestMessage.sessionId
-        )
-      );
+      await testSessionReceiver(getClientClosedErrorMsg(receiver.entityPath));
       await testAllDispositions();
     });
   });
 
-  describe("Errors when creating second sender/receiver with first not closed", function(): void {
-    it("Open sender exists on QueueClient", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueue, "");
+  // describe("Errors when creating second sender/receiver with first not closed", function(): void {
+  //   it("Open sender exists on QueueClient", async function(): Promise<void> {
+  //     await beforeEachTest(TestClientType.PartitionedQueue, "");
 
-      await testCreateSender(
-        getOpenSenderErrorMsg(ClientType.QueueClient, senderClient.entityPath)
-      );
-    });
+  //     await testCreateSender(
+  //       getOpenSenderErrorMsg(ClientType.QueueClient, senderClient.entityPath)
+  //     );
+  //   });
 
-    it("Open sender exists on TopicClient", async function(): Promise<void> {
-      await beforeEachTest(
-        TestClientType.PartitionedTopic,
-        TestClientType.PartitionedSubscription,
-        ""
-      );
+  //   it("Open sender exists on TopicClient", async function(): Promise<void> {
+  //     await beforeEachTest(
+  //       TestClientType.PartitionedTopic,
+  //       TestClientType.PartitionedSubscription,
+  //       ""
+  //     );
 
-      await testCreateSender(getOpenSenderErrorMsg("TopicClient", senderClient.entityPath));
-    });
+  //     await testCreateSender(getOpenSenderErrorMsg("TopicClient", senderClient.entityPath));
+  //   });
 
-    it("Open receiver exists on QueueClient #RunInBrowser", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueue, "");
+  // it("Open receiver exists on QueueClient #RunInBrowser", async function(): Promise<void> {
+  //   await beforeEachTest(TestClientType.PartitionedQueue, "");
 
-      await testCreateReceiver(
-        getOpenReceiverErrorMsg(ClientType.QueueClient, receiverClient.entityPath)
-      );
-    });
+  //   await testCreateReceiver(
+  //     getOpenReceiverErrorMsg(ClientType.QueueClient, receiverClient.entityPath)
+  //   );
+  // });
 
-    it("Open receiver exists on SubscriptionClient", async function(): Promise<void> {
-      await beforeEachTest(
-        TestClientType.PartitionedTopic,
-        TestClientType.PartitionedSubscription,
-        ""
-      );
+  //   it("Open receiver exists on SubscriptionClient", async function(): Promise<void> {
+  //     await beforeEachTest(
+  //       TestClientType.PartitionedTopic,
+  //       TestClientType.PartitionedSubscription,
+  //       ""
+  //     );
 
-      await testCreateReceiver(
-        getOpenReceiverErrorMsg(ClientType.SubscriptionClient, receiverClient.entityPath)
-      );
-    });
+  //     await testCreateReceiver(
+  //       getOpenReceiverErrorMsg(ClientType.SubscriptionClient, receiverClient.entityPath)
+  //     );
+  //   });
 
-    it("Open receiver exists for session on QueueClient #RunInBrowser", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(
-        TestClientType.PartitionedQueueWithSessions,
-        TestClientType.PartitionedQueueWithSessions,
-        "",
-        true
-      );
+  //   it("Open receiver exists for session on QueueClient #RunInBrowser", async function(): Promise<
+  //     void
+  //   > {
+  //     await beforeEachTest(
+  //       TestClientType.PartitionedQueueWithSessions,
+  //       TestClientType.PartitionedQueueWithSessions,
+  //       "",
+  //       true
+  //     );
 
-      await testCreateReceiver(
-        getOpenReceiverErrorMsg(
-          ClientType.QueueClient,
-          receiverClient.entityPath,
-          TestMessage.sessionId
-        ),
-        true
-      );
-    });
+  //     await testCreateReceiver(
+  //       getOpenReceiverErrorMsg(
+  //         ClientType.QueueClient,
+  //         receiverClient.entityPath,
+  //         TestMessage.sessionId
+  //       ),
+  //       true
+  //     );
+  //   });
 
-    it("Open receiver exists for session on SubscriptionClient", async function(): Promise<void> {
-      await beforeEachTest(
-        TestClientType.PartitionedTopicWithSessions,
-        TestClientType.PartitionedSubscriptionWithSessions,
-        "",
-        true
-      );
+  //   it("Open receiver exists for session on SubscriptionClient", async function(): Promise<void> {
+  //     await beforeEachTest(
+  //       TestClientType.PartitionedTopicWithSessions,
+  //       TestClientType.PartitionedSubscriptionWithSessions,
+  //       "",
+  //       true
+  //     );
 
-      await testCreateReceiver(
-        getOpenReceiverErrorMsg(
-          ClientType.SubscriptionClient,
-          receiverClient.entityPath,
-          TestMessage.sessionId
-        ),
-        true
-      );
-    });
-  });
+  //     await testCreateReceiver(
+  //       getOpenReceiverErrorMsg(
+  //         ClientType.SubscriptionClient,
+  //         receiverClient.entityPath,
+  //         TestMessage.sessionId
+  //       ),
+  //       true
+  //     );
+  //   });
+  // });
 });
