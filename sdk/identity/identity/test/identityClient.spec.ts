@@ -8,6 +8,7 @@ import { AuthenticationError } from "../src/";
 import { IdentityClient } from "../src/client/identityClient";
 import { ClientSecretCredential } from "../src";
 import { setLogLevel, AzureLogger, getLogLevel, AzureLogLevel } from "@azure/logger";
+import { isNode } from "@azure/core-http";
 
 function isExpectedError(expectedErrorName: string): (error: any) => boolean {
   return (error: any) => {
@@ -76,6 +77,28 @@ describe("IdentityClient", function() {
       Error,
       "The authorityHost address must use the 'https' protocol."
     );
+  });
+
+  it("throws an exception when an Env AZURE_AUTHORITY_HOST using 'http' is provided", async () => {
+    if (isNode) {
+      process.env.AZURE_AUTHORITY_HOST ="http://totallyinsecure.lol";
+      assert.throws(
+        () => {
+          new IdentityClient();
+        },
+        Error,
+        "The authorityHost address must use the 'https' protocol."
+      );
+      process.env.AZURE_AUTHORITY_HOST ="httpsomg.com";
+      assert.throws(
+        () => {
+          new IdentityClient();
+        },
+        Error,
+        "The authorityHost address must use the 'https' protocol."
+      );
+      delete process.env.AZURE_AUTHORITY_HOST;
+    }
   });
 
   it("returns a usable error when the authentication response doesn't contain a body", async () => {

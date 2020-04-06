@@ -9,7 +9,8 @@ import {
   WebResource,
   RequestPrepareOptions,
   GetTokenOptions,
-  createPipelineFromOptions
+  createPipelineFromOptions,
+  isNode
 } from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/types";
 import { AuthenticationError, AuthenticationErrorName } from "./errors";
@@ -38,6 +39,9 @@ export class IdentityClient extends ServiceClient {
   public authorityHost: string;
 
   constructor(options?: TokenCredentialOptions) {
+    if (isNode) {
+      options = options || IdentityClient.getEnvironmentOptions();
+    }
     options = options || IdentityClient.getDefaultOptions();
     super(
       undefined,
@@ -179,6 +183,12 @@ export class IdentityClient extends ServiceClient {
     }
   }
 
+  static getEnvironmentOptions(): TokenCredentialOptions {
+    return {
+      authorityHost: process.env.AZURE_AUTHORITY_HOST
+    };
+  }
+  
   static getDefaultOptions(): TokenCredentialOptions {
     return {
       authorityHost: DefaultAuthorityHost
