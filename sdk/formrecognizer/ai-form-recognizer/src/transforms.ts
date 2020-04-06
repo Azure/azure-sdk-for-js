@@ -43,20 +43,30 @@ import {
   NumberFieldValue,
   IntegerFieldValue,
   ObjectFieldValue,
-  ArrayFieldValue
+  ArrayFieldValue,
+  Point2D
 } from "./models";
+
+export function toBoundingBox(original: number[]): Point2D[] {
+  return [
+    {x: original[0], y: original[1] },
+    {x: original[2], y: original[3] },
+    {x: original[4], y: original[5] },
+    {x: original[6], y: original[7] }
+  ]
+}
 
 export function toTextLine(original: TextLineModel, pageNumber: number): ExtractedLine {
   const line: ExtractedLine = {
     kind: "line",
     pageNumber: pageNumber,
     text: original.text,
-    boundingBox: original.boundingBox,
+    boundingBox: toBoundingBox(original.boundingBox),
     words: original.words.map((w) => {
       return {
         kind: "word",
         text: w.text,
-        boundingBox: w.boundingBox,
+        boundingBox: toBoundingBox(w.boundingBox),
         confidence: w.confidence,
         pageNumber: pageNumber
       };
@@ -108,7 +118,7 @@ export function toKeyValueElement(
 ): ExtractedText {
   return {
     text: original.text,
-    boundingBox: original.boundingBox,
+    boundingBox: original.boundingBox === undefined ? undefined : toBoundingBox(original.boundingBox),
     elements: original.elements?.map((element) => toExtractedElement(element, readResults!))
   };
 }
@@ -132,7 +142,7 @@ export function toTable(original: DataTableModel, readResults?: RawExtractedPage
   }
   for (const cell of original.cells) {
     rows[cell.rowIndex].cells.push({
-      boundingBox: cell.boundingBox,
+      boundingBox: toBoundingBox(cell.boundingBox),
       columnIndex: cell.columnIndex,
       columnSpan: cell.columnSpan || 1,
       confidence: cell.confidence,
@@ -215,7 +225,7 @@ export function toFieldValue(
       ? {}
       : {
           text: original.text,
-          boundingBox: original.boundingBox,
+          boundingBox: original.boundingBox === undefined ? undefined : toBoundingBox(original.boundingBox),
           confidence: original.confidence,
           pageNumber: original.pageNumber,
           elements: original.elements?.map((element) => toExtractedElement(element, readResults))

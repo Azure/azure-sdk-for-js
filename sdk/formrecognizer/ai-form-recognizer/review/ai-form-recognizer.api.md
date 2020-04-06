@@ -75,7 +75,7 @@ export type BeginTrainingWithLabelsOptions = FormRecognizerOperationOptions & {
 
 // @public
 export interface CommonFieldValue {
-    boundingBox?: number[];
+    boundingBox?: Point2D[];
     confidence?: number;
     elements?: ExtractedElement[];
     pageNumber?: number;
@@ -94,7 +94,7 @@ export interface DataTable {
 
 // @public
 export interface DataTableCell {
-    boundingBox: number[];
+    boundingBox: Point2D[];
     columnIndex: number;
     columnSpan?: number;
     confidence: number;
@@ -164,7 +164,7 @@ export interface ExtractedLayoutPage {
 
 // @public
 export interface ExtractedLine {
-    boundingBox: number[];
+    boundingBox: Point2D[];
     kind: "line";
     pageNumber: number;
     text: string;
@@ -184,14 +184,14 @@ export type ExtractedReceipt = RawReceiptResult & Receipt;
 
 // @public
 export interface ExtractedText {
-    boundingBox?: number[];
+    boundingBox?: Point2D[];
     elements?: ExtractedElement[];
     text: string;
 }
 
 // @public
 export interface ExtractedWord {
-    boundingBox: number[];
+    boundingBox: Point2D[];
     confidence?: number;
     containingLine?: ExtractedLine;
     kind: "word";
@@ -521,6 +521,12 @@ export type PhoneNumberFieldValue = {
     type: "phoneNumber";
     value?: string;
 } & CommonFieldValue;
+
+// @public
+export interface Point2D {
+    x: number;
+    y: number;
+}
 
 export { PollerLike }
 

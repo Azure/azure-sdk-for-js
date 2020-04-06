@@ -24,10 +24,21 @@ import {
   NumberFieldValue,
   IntegerFieldValue,
   ArrayFieldValue,
-  ObjectFieldValue
+  ObjectFieldValue,
+  Point2D
 } from "../src/models";
 
 describe("Transforms", () => {
+  function verifyBoundingBox(transformed: Point2D[], original: number[]): void {
+    assert.equal(transformed[0].x, original[0], "Expect transform[0].x to equal original[0]");
+    assert.equal(transformed[0].y, original[1], "Expect transform[0].y to equal original[1]");
+    assert.equal(transformed[1].x, original[2], "Expect transform[1].x to equal original[2]");
+    assert.equal(transformed[1].y, original[3], "Expect transform[1].y to equal original[3]");
+    assert.equal(transformed[2].x, original[4], "Expect transform[2].x to equal original[4]");
+    assert.equal(transformed[2].y, original[5], "Expect transform[2].y to equal original[5]");
+    assert.equal(transformed[3].x, original[6], "Expect transform[3].x to equal original[6]");
+    assert.equal(transformed[3].y, original[7], "Expect transform[3].y to equal original[7]");
+  }
   const originalLine1 = {
     text: "line 1 text",
     boundingBox: [1, 2, 3, 4, 5, 6, 7, 8],
@@ -53,7 +64,7 @@ describe("Transforms", () => {
     assert.equal(transformed.kind, "line");
     assert.equal(transformed.pageNumber, pageNumber);
     assert.deepStrictEqual(transformed.text, originalLine1.text);
-    assert.deepStrictEqual(transformed.boundingBox, originalLine1.boundingBox);
+    verifyBoundingBox(transformed.boundingBox, originalLine1.boundingBox);
 
     assert.deepStrictEqual(transformed.words[0].kind, "word");
     assert.deepStrictEqual(transformed.words[0].text, originalLine1.words[0].text);
@@ -142,7 +153,8 @@ describe("Transforms", () => {
     const transformed = toKeyValueElement(originalKeyValueElement1, rawExtractedPages);
 
     assert.equal(transformed.text, originalKeyValueElement1.text);
-    assert.deepStrictEqual(transformed.boundingBox, originalKeyValueElement1.boundingBox);
+    assert.ok(transformed.boundingBox);
+    verifyBoundingBox(transformed.boundingBox!, originalKeyValueElement1.boundingBox);
     assert.deepStrictEqual(transformed.elements![0], rawExtractedPages[0].lines![0].words[0]);
     assert.deepStrictEqual(transformed.elements![1], rawExtractedPages[0].lines![0].words[1]);
   });
@@ -159,8 +171,10 @@ describe("Transforms", () => {
 
     assert.equal(transformed.label, original.label);
     assert.equal(transformed.confidence, original.confidence);
-    assert.deepStrictEqual(transformed.name.boundingBox, original.key.boundingBox);
-    assert.deepStrictEqual(transformed.value.boundingBox, original.value.boundingBox);
+    assert.ok(transformed.name.boundingBox);
+    assert.ok(transformed.value.boundingBox);
+    verifyBoundingBox(transformed.name.boundingBox!, original.key.boundingBox);
+    verifyBoundingBox(transformed.value.boundingBox!, original.value.boundingBox);
     assert.deepStrictEqual(transformed.name.elements![0], rawExtractedPages[0].lines![0].words[0]);
     assert.deepStrictEqual(transformed.value.elements![1], rawExtractedPages[0].lines![0].words[1]);
   });

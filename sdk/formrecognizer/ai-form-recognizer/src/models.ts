@@ -42,6 +42,20 @@ export {
 };
 
 /**
+ * Represents a point used to defined bounding boxes. The unit is either 'pixel' or 'inch' (See {link @LengthUnit}).
+ */
+export interface Point2D {
+  /**
+   * x coordinate
+   */
+  x: number;
+  /**
+   * y coordinate
+   */
+  y: number;
+}
+
+/**
  * Represents an extracted word.
  */
 export interface ExtractedWord {
@@ -60,7 +74,7 @@ export interface ExtractedWord {
   /**
    * Bounding box of an extracted word.
    */
-  boundingBox: number[];
+  boundingBox: Point2D[];
   /**
    * Confidence value.
    */
@@ -90,7 +104,7 @@ export interface ExtractedLine {
   /**
    * Bounding box of an extracted line.
    */
-  boundingBox: number[];
+  boundingBox: Point2D[];
   /**
    * The detected language of this line, if different from the overall page language. Possible
    * values include: 'en', 'es'
@@ -117,7 +131,7 @@ export interface ExtractedLine {
 //   /**
 //    * Bounding box of an extracted line.
 //    */
-//   boundingBox: number[];
+//   boundingBox: Point2D[];
 
 //   checked: boolean;
 // }
@@ -155,7 +169,7 @@ export interface DataTableCell {
   /**
    * Bounding box of the cell.
    */
-  boundingBox: number[];
+  boundingBox: Point2D[];
   /**
    * Confidence value.
    */
@@ -211,7 +225,7 @@ export interface ExtractedText {
   /**
    * The bounding box of the extracted name or value
    */
-  boundingBox?: number[];
+  boundingBox?: Point2D[];
   /**
    * When includeTextDetails is set to true, a list of references to the text elements constituting this name or value.
    */
@@ -310,7 +324,7 @@ export interface CommonFieldValue {
   /**
    * Bounding box of the field value, if appropriate.
    */
-  boundingBox?: number[];
+  boundingBox?: Point2D[];
   /**
    * Confidence score.
    */
