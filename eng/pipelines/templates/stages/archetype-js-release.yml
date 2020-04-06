@@ -1,0 +1,161 @@
+parameters:
+  Artifacts: []
+  ArtifactName: 'not-specified'
+  DependsOn: Build
+  Registry: 'https://registry.npmjs.org/'
+  DocArtifact: 'documentation'
+
+stages:
+  - ${{if and(eq(variables['Build.Reason'], 'Manual'), eq(variables['System.TeamProject'], 'internal'))}}:
+    - ${{ each artifact in parameters.Artifacts }}:
+      - stage: Release_${{artifact.safeName}}
+        displayName: 'Release: ${{artifact.name}}'
+        dependsOn: ${{parameters.DependsOn}}
+        condition: and(succeeded(), ne(variables['SetDevVersion'], 'true'), ne(variables['Skip.Release'], 'true'), ne(variables['Build.Repository.Name'], 'Azure/azure-sdk-for-js-pr'))
+        jobs:
+          - deployment: TagRepository
+            displayName: "Create release tag"
+            condition: ne(variables['Skip.TagRepository'], 'true')
+            environment: github
+
+            pool:
+              vmImage: ubuntu-16.04
+
+            strategy:
+              runOnce:
+                deploy:
+                  steps:
+                    - checkout: self
+                    - pwsh: |
+                        Get-ChildItem $(Pipeline.Workspace)/${{parameters.ArtifactName}}
+                        New-Item -Type Directory -Name ${{artifact.safeName}} -Path $(Pipeline.Workspace)
+                        Copy-Item $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}-[0-9]*.[0-9]*.[0-9]* $(Pipeline.Workspace)/${{artifact.safeName}}
+                        Get-ChildItem $(Pipeline.Workspace)/${{artifact.safeName}}
+                      displayName: Stage artifacts
+                    - template: /eng/common/pipelines/templates/steps/create-tags-and-git-release.yml
+                      parameters:
+                        ArtifactLocation: $(Pipeline.Workspace)/${{artifact.safeName}}
+                        PackageRepository: Npm
+                        ReleaseSha: $(Build.SourceVersion)
+                        RepoId: Azure/azure-sdk-for-js
+                        WorkingDirectory: $(System.DefaultWorkingDirectory)
+
+          - ${{if ne(artifact.options.skipPublishPackage, 'true')}}:
+            - deployment: PublishPackage
+              displayName: "Publish to npmjs"
+              condition: and(succeeded(), ne(variables['Skip.PublishPackage'], 'true'))
+              environment: npm
+              dependsOn: TagRepository
+
+              pool:
+                vmImage: ubuntu-16.04
+
+              strategy:
+                runOnce:
+                  deploy:
+                    steps:
+                      - checkout: self
+                      - script: |
+                          export DETECTED_PACKAGE_NAME=`ls $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}-*.tgz`
+                          echo "##vso[task.setvariable variable=Package.Archive]$DETECTED_PACKAGE_NAME"
+                        displayName: Detecting package archive
+
+                      - task: PowerShell@2
+                        displayName: 'Publish to npmjs.org'
+                        inputs:
+                          targetType: filePath
+                          filePath: "eng/tools/publish-to-npm.ps1"
+                          arguments: '-pathToArtifacts $(Package.Archive) -accessLevel "public" -tag $(Tag) -additionalTag "$(AdditionalTag)" -registry ${{parameters.Registry}} -npmToken $(azure-sdk-npm-token)'
+                          pwsh: true
+
+          - ${{if ne(artifact.options.skipPublishDocs, 'true')}}:
+            - deployment: PublishDocs
+              displayName: Publish Docs to GitHubIO Blob Storage
+              condition: and(succeeded(), ne(variables['Skip.PublishDocs'], 'true'))
+              environment: githubio
+              dependsOn: PublishPackage
+
+              pool:
+                vmImage: windows-2019
+
+              strategy:
+                runOnce:
+                  deploy:
+                    steps:
+                      - checkout: self
+                      - pwsh: |
+                          $transformedArtifact = "${{artifact.name}}".Replace("azure-", "")
+                          $artifactLocation = "$(Pipeline.Workspace)/${{parameters.DocArtifact}}/$($transformedArtifact).zip"
+                          New-Item -Type Directory -Name ${{artifact.safeName}} -Path $(Pipeline.Workspace)
+                          New-Item -Type Directory -Name ${{parameters.DocArtifact}} -Path $(Pipeline.Workspace)/${{artifact.safeName}}
+                          Copy-Item  $artifactLocation $(Pipeline.Workspace)/${{artifact.safeName}}/${{parameters.DocArtifact}}
+                        displayName: Stage artifacts
+                      - pwsh: |
+                          Get-ChildItem -Recurse $(Pipeline.Workspace)/${{artifact.safeName}}
+                        workingDirectory: $(Pipeline.Workspace)
+                        displayName: Output Visible Artifacts
+                      - template: /eng/common/pipelines/templates/steps/publish-blobs.yml
+                        parameters:
+                          FolderForUpload: '$(Pipeline.Workspace)/${{artifact.safeName}}'
+                          BlobSASKey: '$(azure-sdk-docs-prod-sas)'
+                          BlobName: '$(azure-sdk-docs-prod-blob-name)'
+                          TargetLanguage: 'javascript'
+                          # we override the regular script path because we have cloned the build tools repo as a separate artifact.
+                          ScriptPath: 'eng/common/scripts/copy-docs-to-blobstorage.ps1'
+
+          - ${{if ne(artifact.options.skipUpdatePackageVersion, 'true')}}:
+            - deployment: UpdatePackageVersion
+              displayName: "Update Package Version"
+              condition: and(succeeded(), ne(variables['Skip.UpdatePackageVersion'], 'true'))
+              environment: github
+              dependsOn: PublishPackage
+
+              pool:
+                vmImage: ubuntu-16.04
+
+              strategy:
+                runOnce:
+                  deploy:
+                    steps:
+                      - checkout: self
+                      - bash: |
+                          npm install
+                        workingDirectory: ./eng/tools/versioning
+                        displayName: Install versioning tool dependencies
+                        
+                      - bash: |
+                          node ./eng/tools/versioning/increment.js --artifact-name ${{ artifact.name }} --repo-root .
+                        displayName: Increment package version
+
+                      - template: /eng/common/pipelines/templates/steps/create-pull-request.yml
+                        parameters:
+                          RepoName: azure-sdk-for-js
+                          PRBranchName: increment-package-version-${{ parameters.ServiceDirectory }}-$(Build.BuildId)
+                          CommitMsg: "Increment package version after release of ${{ artifact.name }}"
+                          PRTitle: "Increment version for ${{ parameters.ServiceDirectory }} releases"
+
+  - stage: Integration
+    dependsOn: ${{parameters.DependsOn}}
+    jobs:
+    - job: PublishPackages
+      condition: or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal')))
+      displayName: Publish package to daily feed
+      pool:
+        vmImage: ubuntu-16.04
+      steps:
+        - checkout: self
+        - download: current
+          artifact: ${{parameters.ArtifactName}}
+          timeoutInMinutes: 5
+        - ${{ each artifact in parameters.Artifacts }}:
+            - script: |
+                export DETECTED_PACKAGE_NAME=`ls $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}-*-dev*.tgz`
+                echo "##vso[task.setvariable variable=Package.Archive]$DETECTED_PACKAGE_NAME"
+              displayName: Detecting package archive_${{artifact.safeName}}
+
+            - task: PowerShell@2
+              displayName: "Publish_${{artifact.safeName}} to npmjs.org"
+              inputs:
+                targetType: filePath
+                filePath: "eng/tools/publish-to-npm.ps1"
+                arguments: '-pathToArtifacts $(Package.Archive) -accessLevel "public" -tag "dev" -additionalTag "$(AdditionalTag)" -registry ${{parameters.Registry}} -npmToken $(azure-sdk-npm-token)'

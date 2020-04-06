@@ -2,6 +2,10 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
 
+  **NOTE**: This sample uses the preview of the next version of the @azure/service-bus package.
+  For samples using the current stable version of the package, please use the link below:
+  https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples
+  
   This sample demonstrates how the defer() function can be used to defer a message for later processing.
 
   In this sample, we have an application that gets cooking instructions out of order. It uses
@@ -11,14 +15,15 @@
   message deferral.
 */
 
-import { ServiceBusClient, ReceiveMode, OnMessage, OnError, delay } from "@azure/service-bus";
+import { ServiceBusClient, delay } from "@azure/service-bus";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();
 
 // Define connection string and related Service Bus entity names here
-const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
+const connectionString =
+  process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
 export async function main() {
@@ -28,10 +33,9 @@ export async function main() {
 
 // Shuffle and send messages
 async function sendMessages() {
-  const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
-  // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
-  const queueClient = sbClient.createQueueClient(queueName);
-  const sender = queueClient.createSender();
+  const sbClient = new ServiceBusClient(connectionString);
+  // createSender() can also be used to create a sender for a topic.
+  const sender = sbClient.createSender(queueName);
 
   const data = [
     { step: 1, title: "Shop" },
@@ -61,20 +65,20 @@ async function sendMessages() {
   }
   // wait until all the send tasks are complete
   await Promise.all(promises);
-  await queueClient.close();
+  await sender.close();
   await sbClient.close();
 }
 
 async function receiveMessage() {
-  const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
+  const sbClient = new ServiceBusClient(connectionString);
 
-  // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
-  const queueClient = sbClient.createQueueClient(queueName);
+  // If receiving from a subscription, you can use the createReceiver(topic, subscription) overload
+  let receiver = sbClient.createReceiver(queueName, "peekLock");
 
   const deferredSteps = new Map();
   let lastProcessedRecipeStep = 0;
   try {
-    const onMessage: OnMessage = async (brokeredMessage) => {
+    const processMessage = async brokeredMessage => {
       if (
         brokeredMessage.label === "RecipeStep" &&
         brokeredMessage.contentType === "application/json"
@@ -102,17 +106,21 @@ async function receiveMessage() {
         await brokeredMessage.deadLetter();
       }
     };
-    const onError: OnError = (err) => {
+    const processError = async err => {
       console.log(">>>>> Error occurred: ", err);
     };
 
-    let receiver = queueClient.createReceiver(ReceiveMode.peekLock);
-    receiver.registerMessageHandler(onMessage, onError, { autoComplete: false }); // Disabling autoComplete so we can control when message can be completed, deferred or deadlettered
+    receiver.subscribe(
+      { processMessage, processError },
+      {
+        autoComplete: false
+      }
+    ); // Disabling autoComplete so we can control when message can be completed, deferred or deadlettered
     await delay(10000);
     await receiver.close();
     console.log("Total number of deferred messages:", deferredSteps.size);
 
-    receiver = queueClient.createReceiver(ReceiveMode.peekLock);
+    receiver = sbClient.createReceiver(queueName, "peekLock");
     // Now we process the deferred messages
     while (deferredSteps.size > 0) {
       const step = lastProcessedRecipeStep + 1;
@@ -127,12 +135,12 @@ async function receiveMessage() {
       deferredSteps.delete(step);
       lastProcessedRecipeStep++;
     }
-    await queueClient.close();
+    await receiver.close();
   } finally {
     await sbClient.close();
   }
 }
 
-main().catch((err) => {
+main().catch(err => {
   console.log("Error occurred: ", err);
 });

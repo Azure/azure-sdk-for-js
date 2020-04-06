@@ -37,4 +37,4 @@ export async function blobToString(blob: Blob): Promise<string> {
   });
 }
 
-export const fsStat = function stat() { };
+export const fsStat = function stat() {};

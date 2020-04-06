@@ -11,7 +11,7 @@ import {
 import { Constants } from "../util/constants";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { HttpHeaders } from "../httpHeaders";
-import { WebResource } from "../webResource";
+import { WebResourceLike } from "../webResource";
 import { AccessTokenCache, ExpiringAccessTokenCache } from "../credentials/accessTokenCache";
 
 /**
@@ -69,7 +69,7 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
    * Applies the Bearer token to the request through the Authorization header.
    * @param webResource
    */
-  public async sendRequest(webResource: WebResource): Promise<HttpOperationResponse> {
+  public async sendRequest(webResource: WebResourceLike): Promise<HttpOperationResponse> {
     if (!webResource.headers) webResource.headers = new HttpHeaders();
     const token = await this.getToken({
       abortSignal: webResource.abortSignal,

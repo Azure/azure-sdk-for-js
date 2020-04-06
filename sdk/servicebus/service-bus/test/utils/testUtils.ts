@@ -2,46 +2,14 @@
 // Licensed under the MIT License.
 
 import chai from "chai";
-import {
-  SendableMessageInfo,
-  delay,
-  MessagingError,
-  ContextWithSettlement,
-  ReceivedMessage,
-  ServiceBusClientOptions,
-  Session
-} from "../../src";
-import { EnvVarNames, getEnvVars } from "./envVarUtils";
-import { recreateQueue, recreateSubscription, recreateTopic } from "./managementUtils";
+import { ServiceBusMessage, delay, MessagingError, ReceivedMessage } from "../../src";
 import * as dotenv from "dotenv";
-import { ServiceBusSenderClient } from "../../src/serviceBusSenderClient";
-import {
-  ServiceBusReceiverClient,
-  NonSessionReceiver,
-  SessionReceiver,
-  SubscriptionRuleManagement
-} from "../../src/serviceBusReceiverClient";
 dotenv.config();
-
-const defaultLockDuration = "PT30S"; // 30 seconds in ISO 8601 FORMAT - equivalent to "P0Y0M0DT0H0M30S"
-const env = getEnvVars();
-
-export type ReceiverClientTypeForUser =
-  | NonSessionReceiver<"peekLock" | "receiveAndDelete">
-  | (NonSessionReceiver<"peekLock" | "receiveAndDelete"> & SubscriptionRuleManagement)
-  | SessionReceiver<"peekLock" | "receiveAndDelete">
-  | (SessionReceiver<"peekLock" | "receiveAndDelete"> & SubscriptionRuleManagement);
-
-export type ReceiverClientTypeForUserT<ReceiveModeT extends "peekLock" | "receiveAndDelete"> =
-  | NonSessionReceiver<ReceiveModeT>
-  | (NonSessionReceiver<ReceiveModeT> & SubscriptionRuleManagement)
-  | SessionReceiver<ReceiveModeT>
-  | (SessionReceiver<ReceiveModeT> & SubscriptionRuleManagement);
 
 export class TestMessage {
   static sessionId: string = "my-session";
 
-  static getSample(): SendableMessageInfo {
+  static getSample(): ServiceBusMessage {
     const randomNumber = Math.random();
     return {
       body: `message body ${randomNumber}`,
@@ -62,7 +30,7 @@ export class TestMessage {
     };
   }
 
-  static getSessionSample(): SendableMessageInfo {
+  static getSessionSample(): ServiceBusMessage {
     const randomNumber = Math.random();
     return {
       body: `message body ${randomNumber}`,
@@ -90,7 +58,7 @@ export class TestMessage {
    * on the received message
    */
   static checkMessageContents(
-    sent: SendableMessageInfo,
+    sent: ServiceBusMessage,
     received: ReceivedMessage,
     useSessions?: boolean,
     usePartitions?: boolean
@@ -172,242 +140,6 @@ export enum TestClientType {
   TopicFilterTestTopic,
   TopicFilterTestDefaultSubscription,
   TopicFilterTestSubscription
-}
-
-export function isSessionfulEntity(clientType: TestClientType) {
-  return (
-    clientType >= TestClientType.PartitionedQueueWithSessions &&
-    clientType <= TestClientType.UnpartitionedSubscriptionWithSessions
-  );
-}
-
-async function manageResourcesAndCreateClients(
-  entity: { type: "queue" | "subscription" } & {
-    session: boolean;
-    partitioned: boolean;
-  },
-  connectionString: string,
-  receiveMode: "peekLock" | "receiveAndDelete",
-  senderOptions?: ServiceBusClientOptions,
-  receiverOptions?: ServiceBusClientOptions & Session,
-  // If freshResource flag is false, sender/receiver clients are provided without creating a new resource
-  freshResource: boolean = true
-): Promise<{
-  senderClient: ServiceBusSenderClient;
-  receiverClient: ReceiverClientTypeForUser;
-}> {
-  const prefix = entity.partitioned ? "partitioned-" : "unpartitioned-";
-  const suffix = entity.session ? "-sessions" : "";
-  let auth: any;
-  let entityName: string;
-  if (entity.type === "queue") {
-    const queueName = prefix + "queue" + suffix;
-    if (freshResource) {
-      await recreateQueue(queueName, {
-        lockDuration: defaultLockDuration,
-        enableBatchedOperations: true,
-        enablePartitioning: entity.partitioned,
-        requiresSession: entity.session
-      });
-    }
-    auth = {
-      connectionString,
-      queueName: queueName
-    };
-    entityName = queueName;
-  } else {
-    const topicName = prefix + "topic" + suffix;
-    const subscriptionName = prefix + "topic-subscription" + suffix;
-    if (freshResource) {
-      await recreateTopic(topicName, {
-        enablePartitioning: entity.partitioned,
-        enableBatchedOperations: true
-      });
-      await recreateSubscription(topicName, subscriptionName, {
-        lockDuration: defaultLockDuration,
-        enableBatchedOperations: true,
-        requiresSession: entity.session
-      });
-    }
-    auth = {
-      connectionString,
-      topicName: topicName,
-      subscriptionName: subscriptionName
-    };
-    entityName = topicName;
-  }
-
-  const returnReceiverClient = () => {
-    if (entity.session) {
-      if (receiveMode === "peekLock") {
-        return new ServiceBusReceiverClient(
-          auth,
-          receiveMode,
-          {
-            id: receiverOptions?.id,
-            maxSessionAutoRenewLockDurationInSeconds:
-              receiverOptions?.maxSessionAutoRenewLockDurationInSeconds
-          },
-          receiverOptions
-        );
-      } else {
-        return new ServiceBusReceiverClient(
-          auth,
-          receiveMode,
-          {
-            id: receiverOptions?.id,
-            maxSessionAutoRenewLockDurationInSeconds:
-              receiverOptions?.maxSessionAutoRenewLockDurationInSeconds
-          },
-          receiverOptions
-        );
-      }
-    } else {
-      if (receiveMode === "peekLock") {
-        return new ServiceBusReceiverClient(auth, receiveMode, receiverOptions);
-      } else {
-        return new ServiceBusReceiverClient(auth, receiveMode, receiverOptions);
-      }
-    }
-  };
-  return {
-    senderClient: new ServiceBusSenderClient(connectionString, entityName, senderOptions),
-    receiverClient: returnReceiverClient()
-  };
-}
-
-export async function getSenderReceiverClients(
-  entityType: TestClientType,
-  receiveMode: "peekLock" | "receiveAndDelete",
-  senderOptions?: ServiceBusClientOptions,
-  receiverOptions?: ServiceBusClientOptions & Session,
-  // If freshResource flag is false, sender/receiver clients are provided without creating a new resource
-  freshResource: boolean = true
-): Promise<{
-  senderClient: ServiceBusSenderClient;
-  receiverClient: ReceiverClientTypeForUser;
-}> {
-  const connectionString = env[EnvVarNames.SERVICEBUS_CONNECTION_STRING];
-  let type: "queue" | "subscription";
-  let partitioned: boolean;
-  let session: boolean;
-  switch (entityType) {
-    case TestClientType.PartitionedQueue: {
-      type = "queue";
-      partitioned = true;
-      session = false;
-      break;
-    }
-
-    case TestClientType.PartitionedSubscription: {
-      type = "subscription";
-      partitioned = true;
-      session = false;
-      break;
-    }
-
-    case TestClientType.UnpartitionedQueue: {
-      type = "queue";
-      partitioned = false;
-      session = false;
-      break;
-    }
-
-    case TestClientType.UnpartitionedSubscription:
-    case TestClientType.TopicFilterTestDefaultSubscription:
-    case TestClientType.TopicFilterTestSubscription: {
-      type = "subscription";
-      partitioned = false;
-      session = false;
-      break;
-    }
-
-    case TestClientType.PartitionedQueueWithSessions: {
-      type = "queue";
-      partitioned = true;
-      session = true;
-      break;
-    }
-
-    case TestClientType.PartitionedSubscriptionWithSessions: {
-      type = "subscription";
-      partitioned = true;
-      session = true;
-      break;
-    }
-
-    case TestClientType.UnpartitionedQueueWithSessions: {
-      type = "queue";
-      partitioned = false;
-      session = true;
-      break;
-    }
-
-    case TestClientType.UnpartitionedSubscriptionWithSessions: {
-      type = "subscription";
-      partitioned = false;
-      session = true;
-      break;
-    }
-
-    default:
-      type = "queue";
-      partitioned = false;
-      session = false;
-      break;
-  }
-
-  return manageResourcesAndCreateClients(
-    {
-      type: type,
-      partitioned: partitioned,
-      session: session
-    },
-    connectionString,
-    receiveMode,
-    senderOptions,
-    receiverOptions,
-    freshResource
-  );
-}
-
-/**
- * Purges the content in the Queue/Subscription corresponding to the receiverClient
- * @param receiverClient
- */
-export async function purge(receiverClient: ReceiverClientTypeForUser): Promise<void> {
-  let isEmpty = false;
-
-  while (!isEmpty) {
-    const peekedMsgs = await receiverClient.diagnostics.peek(10);
-    if (peekedMsgs.length === 0) {
-      isEmpty = true;
-    } else {
-      const msgsAndContext = await receiverClient.receiveBatch(peekedMsgs.length);
-      for (let index = 0; index < msgsAndContext.messages.length; index++) {
-        if (msgsAndContext.messages[index]) {
-          await (msgsAndContext.context as ContextWithSettlement).complete(
-            msgsAndContext.messages[index]
-          );
-        }
-      }
-    }
-  }
-}
-
-/**
- * Purges the content in the Queue/Subscription corresponding to the entityType: TestClientType
- * @param receiverClient
- */
-export async function purgeEntity(
-  entityType: TestClientType,
-  sessionId: string | undefined = undefined
-): Promise<void> {
-  const newReceiverClient = (
-    await getSenderReceiverClients(entityType, "peekLock", undefined, { id: sessionId }, false)
-  ).receiverClient;
-  await purge(newReceiverClient);
-  await newReceiverClient.close();
 }
 
 /**

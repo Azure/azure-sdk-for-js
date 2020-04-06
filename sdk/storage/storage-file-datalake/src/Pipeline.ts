@@ -2,6 +2,7 @@ import {
   BaseRequestPolicy,
   bearerTokenAuthenticationPolicy,
   deserializationPolicy,
+  disableResponseDecompressionPolicy,
   generateClientRequestIdPolicy,
   HttpClient as IHttpClient,
   HttpHeaders,
@@ -208,8 +209,9 @@ export function newPipeline(
   ];
 
   if (isNode) {
-    // ProxyPolicy is only avaiable in Node.js runtime, not in browsers
+    // policies only avaiable in Node.js runtime, not in browsers
     factories.push(proxyPolicy(pipelineOptions.proxyOptions));
+    factories.push(disableResponseDecompressionPolicy());
   }
   factories.push(
     isTokenCredential(credential)

@@ -44,7 +44,9 @@
     "lint": "eslint src tests --ext .ts",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
-    "unit-test": "mocha --require source-map-support/register --timeout 10000 --full-trace --recursive dist/tests",
+    "unit-test:node": "mocha --require source-map-support/register --timeout 10000 --full-trace --recursive dist/tests",
+    "unit-test:browser": "echo skipped",
+    "unit-test": "unit-test:node && unit-test:browser",
     "test": "npm run clean && npm run build:test && npm run unit-test"
   },
   "engines": {
@@ -70,7 +72,7 @@
     "@types/eslint": "^4.16.8",
     "@types/estree": "0.0.39",
     "@types/glob": "^7.1.1",
-    "@types/mocha": "^5.2.5",
+    "@types/mocha": "^7.0.2",
     "@types/node": "^8.0.0",
     "@typescript-eslint/eslint-plugin": "^2.0.0",
     "@typescript-eslint/experimental-utils": "^2.0.0",
@@ -79,11 +81,10 @@
     "bluebird": "^3.5.5",
     "chai": "^4.2.0",
     "eslint": "^6.1.0",
-    "mocha": "^6.2.2",
+    "mocha": "^7.1.1",
     "prettier": "^1.16.4",
     "rimraf": "^3.0.0",
     "source-map-support": "^0.5.9",
-    "mocha-junit-reporter": "^1.18.0",
-    "mocha-multi": "^1.1.3"
+    "mocha-junit-reporter": "^1.18.0"
   }
 }

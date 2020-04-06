@@ -1,15 +1,13 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { QueueAuth, SubscriptionAuth } from "./models";
 import { ReceiveMode } from "./serviceBusMessage";
 import {
-  isTokenCredential,
   TokenCredential,
   ConnectionConfig,
   SharedKeyCredential,
-  DataTransformer,
-  WebSocketOptions
+  WebSocketOptions,
+  RetryOptions
 } from "@azure/core-amqp";
 import { ConnectionContext } from "./connectionContext";
 
@@ -19,12 +17,11 @@ import { ConnectionContext } from "./connectionContext";
  */
 export interface ServiceBusClientOptions {
   /**
-   * @property The data transformer that will be used to encode
-   * and decode the sent and received messages respectively. If not provided then we will use the
-   * DefaultDataTransformer. The default transformer should handle majority of the cases. This
-   * option needs to be used only for specialized scenarios.
+   * Retry policy options that determine the mode, number of retries, retry interval etc.
+   *
+   * @type {RetryOptions}
    */
-  dataTransformer?: DataTransformer;
+  retryOptions?: RetryOptions;
   /**
    * @property
    * Options to configure the channelling of the AMQP connection over Web Sockets.
@@ -49,8 +46,17 @@ export function createConnectionContextForConnectionString(
   config.webSocketConstructorOptions = options?.webSocketOptions?.webSocketConstructorOptions;
 
   const credential = new SharedKeyCredential(config.sharedAccessKeyName, config.sharedAccessKey);
-  ConnectionConfig.validate(config);
+  validate(config);
   return ConnectionContext.create(config, credential, options);
+}
+
+function validate(config: ConnectionConfig) {
+  // TODO: workaround - core-amqp's validate string-izes "undefined"
+  // the timing of this particular call happens in a spot where we might not have an
+  // entity path so it's perfectly legitimate for it to be empty.
+  config.entityPath = config.entityPath ?? "";
+
+  ConnectionConfig.validate(config);
 }
 
 /**
@@ -96,74 +102,6 @@ export function getEntityNameFromConnectionString(connectionString: string): str
 }
 
 /**
- * Attempts to generically figure out what the entity path is from the grab bag of string parameters
- * we get in our constructors.
- *
- * @param auth Authentication information using connection strings or a TokenCredential.
- * @param options Options for the service bus client itself.
- * @internal
- * @ignore
- */
-export function createConnectionContext(
-  auth: QueueAuth | SubscriptionAuth,
-  options: ServiceBusClientOptions
-): { context: ConnectionContext; entityPath: string } {
-  if (hasTokenCredentialAndHost(auth)) {
-    let entityPath: string;
-
-    if (hasQueueName(auth)) {
-      entityPath = auth.queueName;
-    } else if (hasTopicName(auth) && hasSubscriptionName(auth)) {
-      entityPath = `${auth.topicName}/Subscriptions/${auth.subscriptionName}`;
-    } else {
-      throw new TypeError("Missing fields when using TokenCredential authentication");
-    }
-
-    return {
-      context: createConnectionContextForTokenCredential(auth.tokenCredential, auth.host, options),
-      entityPath: entityPath
-    };
-  } else if (hasQueueConnectionString(auth)) {
-    // connection string based authentication
-    const queueName = getEntityNameFromConnectionString(auth.queueConnectionString);
-
-    return {
-      context: createConnectionContextForConnectionString(auth.queueConnectionString, options),
-      entityPath: queueName
-    };
-  } else if (hasTopicConnectionString(auth)) {
-    const topicName = getEntityNameFromConnectionString(auth.topicConnectionString);
-
-    if (hasSubscriptionName(auth)) {
-      // topic (from connection string) + sub
-      return {
-        context: createConnectionContextForConnectionString(auth.topicConnectionString, options),
-        entityPath: `${topicName}/Subscriptions/${auth.subscriptionName as string}`
-      };
-    } else {
-      throw new TypeError("Missing subscription name, required as part of connecting to a topic");
-    }
-  } else if (hasConnectionString(auth)) {
-    let entityPath: string;
-
-    if (hasQueueName(auth)) {
-      entityPath = auth.queueName;
-    } else if (hasTopicName(auth) && hasSubscriptionName(auth)) {
-      entityPath = `${auth.topicName}/Subscriptions/${auth.subscriptionName}`;
-    } else {
-      throw new TypeError("Missing fields when using TokenCredential authentication");
-    }
-
-    return {
-      context: createConnectionContextForConnectionString(auth.connectionString, options),
-      entityPath: entityPath
-    };
-  } else {
-    throw new TypeError("Unhandled set of parameters");
-  }
-}
-
-/**
  * Temporary bit of conversion code until we can eliminate external usage of this
  * enum.
  * @param receiveMode
@@ -179,42 +117,4 @@ export function convertToInternalReceiveMode(
     case "receiveAndDelete":
       return ReceiveMode.receiveAndDelete;
   }
-}
-
-function hasHost(auth: any): auth is { host: string } {
-  return auth.host && typeof auth.host === "string";
-}
-
-function hasTokenCredentialAndHost(
-  auth: any
-): auth is { tokenCredential: TokenCredential; host: string } {
-  return isTokenCredential(auth.tokenCredential) && hasHost(auth);
-}
-
-function hasSubscriptionName(auth: any): auth is { subscriptionName: string } {
-  return auth.subscriptionName && typeof auth.subscriptionName === "string";
-}
-
-function hasQueueName(auth: any): auth is { queueName: string } {
-  return auth.queueName && typeof auth.queueName === "string";
-}
-
-function hasTopicName(auth: any): auth is { topicName: string } {
-  return auth.topicName && typeof auth.topicName === "string";
-}
-
-function hasQueueConnectionString(auth: any): auth is { queueConnectionString: string } {
-  return auth.queueConnectionString && typeof auth.queueConnectionString === "string";
-}
-
-function hasConnectionString(auth: any): auth is { connectionString: string } {
-  return auth.connectionString && typeof auth.connectionString === "string";
-}
-
-function hasTopicConnectionString(
-  auth: any
-): auth is {
-  topicConnectionString: string;
-} {
-  return auth.topicConnectionString && typeof auth.topicConnectionString === "string";
 }

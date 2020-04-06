@@ -8,69 +8,40 @@ export { ServiceBusClientOptions } from "./constructorHelpers";
 export {
   TokenType,
   TokenCredential,
-  DataTransformer,
   delay,
   MessagingError,
   RetryOptions,
   WebSocketOptions
 } from "@azure/core-amqp";
 
-export { OnError, OnMessage } from "./core/messageReceiver";
 export { SessionReceiverOptions, SessionMessageHandlerOptions } from "./session/messageSession";
 
 export { CorrelationFilter, RuleDescription } from "./core/managementClient";
 
 export {
+  ReceivedMessage,
   ServiceBusMessage,
-  ReceivedMessageInfo,
-  SendableMessageInfo,
   DeadLetterOptions,
-  ReceiveMode
+  ReceivedMessageWithLock
 } from "./serviceBusMessage";
+export { ServiceBusMessageBatch } from "./serviceBusMessageBatch";
+
 export { Delivery, WebSocketImpl } from "rhea-promise";
 
-export { HttpOperationResponse } from "@azure/core-http";
-
-export { QueueDetails, QueueOptions } from "./serializers/queueResourceSerializer";
-export { TopicDetails, TopicOptions } from "./serializers/topicResourceSerializer";
 export {
-  SubscriptionDetails,
-  SubscriptionOptions
-} from "./serializers/subscriptionResourceSerializer";
-export {
-  RuleDetails,
-  RuleOptions,
-  SqlFilter,
-  SqlParameter,
-  SqlAction
-} from "./serializers/ruleResourceSerializer";
-
-export { MessageCountDetails, AuthorizationRule, EntityStatus } from "./util/utils";
-
-export { ServiceBusSenderClient } from "./serviceBusSenderClient";
-
-export {
-  ServiceBusReceiverClient,
-  NonSessionReceiver,
-  SessionReceiver,
-  ClientTypeT,
-  SubscriptionRuleManagement
-} from "./serviceBusReceiverClient";
-
-export {
-  SessionConnections,
-  ReceivedMessage,
-  ContextWithSettlement,
-  Session,
-  QueueAuth,
-  SubscriptionAuth,
-  IterateMessagesOptions,
-  ReceiveBatchOptions,
-  SubscribeOptions,
+  GetMessageIteratorOptions,
+  CreateSessionReceiverOptions,
   MessageHandlerOptions,
   MessageHandlers,
-  ContextType,
-  Closeable,
-  MessageAndContext,
-  MessageIterator
+  ReceiveBatchOptions,
+  SubscribeOptions,
+  WaitTimeOptions,
+  CreateBatchOptions
 } from "./models";
+export { OperationOptions, TracingOptions } from "./modelsToBeSharedWithEventHubs";
+
+export { Receiver } from "./receivers/receiver";
+export { SubscriptionRuleManager } from "./receivers/subscriptionRuleManager";
+export { SessionReceiver } from "./receivers/sessionReceiver";
+export { Sender } from "./sender";
+export { ServiceBusClient } from "./serviceBusClient";

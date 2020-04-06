@@ -1,5 +1,8 @@
 # Release History
 
+## 12.0.5 (Unreleased)
+
+
 ## 12.0.4 (2020.03)
 
 - Buf fix - Fixed typings support for TypeScript 3.1. [PR #7350](https://github.com/Azure/azure-sdk-for-js/pull/7350)
