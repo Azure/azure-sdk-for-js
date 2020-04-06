@@ -68,9 +68,9 @@ You can instantiate this class using its constructors:
 
 Once you have initialized the [ServiceBusClient][sbclient] class you will be able to:
 
-- Send messages, to a queue or topic, using a [`Sender`][sender] created using [`ServiceBusClient.getSender()`][sbclient_getsender].
-- Receive messages, from either a queue or a subscription, using a [`Receiver`][receiver] created using [`ServiceBusClient.getReceiver()`][sbclient_getreceiver].
-- Receive messages, from session enabled queues or subscriptions, using a [`SessionReceiver`][sessionreceiver] created using [`ServiceBusClient.getSessionReceiver()`][sbclient_getsessionreceiver].
+- Send messages, to a queue or topic, using a [`Sender`][sender] created using [`ServiceBusClient.createSender()`][sbclient_createSender].
+- Receive messages, from either a queue or a subscription, using a [`Receiver`][receiver] created using [`ServiceBusClient.createReceiver()`][sbclient_createReceiver].
+- Receive messages, from session enabled queues or subscriptions, using a [`SessionReceiver`][sessionreceiver] created using [`ServiceBusClient.createSessionReceiver()`][sbclient_createSessionReceiver].
 
 Please note that the Queues, Topics and Subscriptions should be created prior to using this library.
 
@@ -87,7 +87,7 @@ The following sections provide code snippets that cover some of the common tasks
 ### Send messages
 
 Once you have created an instance of a `ServiceBusClient` class, you can get a `Sender`
-using the [getSender][sbclient_getsender] method.
+using the [createSender][sbclient_createSender] method.
 
 This gives you a sender which you can use to [send][sender_send] messages.
 
@@ -95,7 +95,7 @@ You can also use the [sendBatch][sender_sendbatch]
 method to efficiently send multiple messages in a single send.
 
 ```javascript
-const sender = serviceBusClient.getSender("my-queue");
+const sender = serviceBusClient.createSender("my-queue");
 await sender.send({
   body: "my-message-body"
 });
@@ -114,10 +114,10 @@ await sender.sendBatch(batch);
 ### Receive messages
 
 Once you have created an instance of a `ServiceBusClient` class, you can get a `Receiver`
-using the [getReceiver][sbclient_getreceiver] function.
+using the [createReceiver][sbclient_createReceiver] function.
 
 ```javascript
-const receiver = serviceBusClient.getReceiver("my-queue", "peekLock");
+const receiver = serviceBusClient.createReceiver("my-queue", "peekLock");
 ```
 
 You can use this receiver in one of 3 ways to receive messages:
@@ -172,14 +172,14 @@ To learn more, please read [Settling Received Messages](https://docs.microsoft.c
 
 To send messages using sessions, you first need to create a session enabled Queue or Subscription. You can do this
 in the Azure portal. Then, use an instance of a `ServiceBusClient` to create a sender using the using
-the [getSender][sbclient_getsender]
+the [createSender][sbclient_createSender]
 function. This gives you a sender which you can use to [send][sender_send] messages.
 
 When sending the message, set the `sessionId` property in the message body to ensure your message
 lands in the right session.
 
 ```javascript
-const sender = serviceBusClient.getSender("my-session-queue");
+const sender = serviceBusClient.createSender("my-session-queue");
 await sender.send({
   body: "my-message-body",
   sessionId: "my-session"
@@ -190,12 +190,12 @@ await sender.send({
 
 To receive messages from sessions, you first need to create a session enabled Queue and send messages
 to it. Then, use an instance of `ServiceBusClient` to create a receiver
-using the [getSessionReceiver][sbclient_getsessionreceiver] function.
+using the [createSessionReceiver][sbclient_createSessionReceiver] function.
 
 Note that you will need to specify the session from which you want to receive messages.
 
 ```javascript
-const receiver = serviceBusClient.getSessionReceiver("my-session-queue", "peekLock", {
+const receiver = serviceBusClient.createSessionReceiver("my-session-queue", "peekLock", {
   sessionId: "my-session"
 });
 ```
@@ -273,9 +273,9 @@ If you'd like to contribute to this library, please read the [contributing guide
 [apiref]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.1/index.html
 [sbclient]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.1/classes/servicebusclient.html
 [sbclient_constructor]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.1/classes/servicebusclient.html#constructor
-[sbclient_getsender]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.1/classes/servicebusclient.html#getsender
-[sbclient_getreceiver]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.1/classes/servicebusclient.html#getreceiver
-[sbclient_getsessionreceiver]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.1/classes/servicebusclient.html#getsessionreceiver
+[sbclient_createSender]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.1/classes/servicebusclient.html#createSender
+[sbclient_createReceiver]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.1/classes/servicebusclient.html#createReceiver
+[sbclient_createSessionReceiver]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.1/classes/servicebusclient.html#createSessionReceiver
 [sender]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.1/interfaces/sender.html
 [sender_send]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.1/interfaces/sender.html#send
 [sender_sendbatch]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.1/interfaces/sender.html#sendbatch

@@ -36,7 +36,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
     });
 
     sender = serviceBusClient.test.addToCleanup(
-      serviceBusClient.getSender(entityNames.queue ?? entityNames.topic!)
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
 
     // Observation -

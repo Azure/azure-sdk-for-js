@@ -52,10 +52,10 @@ describe("Streaming with sessions", () => {
     const entityNames = await createReceiverForTests(testClientType, receiveMode);
 
     senderClient = serviceBusClient.test.addToCleanup(
-      serviceBusClient.getSender(entityNames.queue ?? entityNames.topic!)
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
 
-    deadLetterClient = serviceBusClient.test.getDeadLetterReceiver(entityNames);
+    deadLetterClient = serviceBusClient.test.createDeadLetterReceiver(entityNames);
 
     errorWasThrown = false;
     unexpectedError = undefined;
@@ -70,10 +70,10 @@ describe("Streaming with sessions", () => {
     receiverClient = serviceBusClient.test.addToCleanup(
       receiveMode === "receiveAndDelete"
         ? entityNames.queue
-          ? serviceBusClient.getSessionReceiver(entityNames.queue, "receiveAndDelete", {
+          ? serviceBusClient.createSessionReceiver(entityNames.queue, "receiveAndDelete", {
               sessionId: TestMessage.sessionId
             })
-          : serviceBusClient.getSessionReceiver(
+          : serviceBusClient.createSessionReceiver(
               entityNames.topic!,
               entityNames.subscription!,
               "receiveAndDelete",
@@ -83,10 +83,10 @@ describe("Streaming with sessions", () => {
               }
             )
         : entityNames.queue
-        ? serviceBusClient.getSessionReceiver(entityNames.queue, "peekLock", {
+        ? serviceBusClient.createSessionReceiver(entityNames.queue, "peekLock", {
             sessionId: TestMessage.sessionId
           })
-        : serviceBusClient.getSessionReceiver(
+        : serviceBusClient.createSessionReceiver(
             entityNames.topic!,
             entityNames.subscription!,
             "peekLock",

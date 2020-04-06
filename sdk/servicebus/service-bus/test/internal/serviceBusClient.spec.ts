@@ -3,7 +3,7 @@
 
 import { extractReceiverArguments, validateEntityNamesMatch } from "../../src/serviceBusClient";
 import chai from "chai";
-import { GetSessionReceiverOptions } from "../../src/models";
+import { CreateSessionReceiverOptions } from "../../src/models";
 const assert = chai.assert;
 
 const allLockModes: ("peekLock" | "receiveAndDelete")[] = ["peekLock", "receiveAndDelete"];
@@ -14,7 +14,7 @@ describe("serviceBusClient unit tests", () => {
   // we pass.
   // So if we add other options types there's no need to generate a whole
   // new set of tests for it. :)
-  const sessionReceiverOptions: GetSessionReceiverOptions = {
+  const sessionReceiverOptions: CreateSessionReceiverOptions = {
     sessionId: "session-id"
   };
 
@@ -135,7 +135,7 @@ describe("serviceBusClient unit tests", () => {
   });
 
   describe("validateEntityNamesMatch", () => {
-    // the receiver cases are all covered above in `extractReceiverArguments`. So this is just covering the way the getSender() call uses it.
+    // the receiver cases are all covered above in `extractReceiverArguments`. So this is just covering the way the createSender() call uses it.
     it("failures", () => {
       assert.throws(
         () => validateEntityNamesMatch("the queue", "but I specified a different thing", "sender"),
