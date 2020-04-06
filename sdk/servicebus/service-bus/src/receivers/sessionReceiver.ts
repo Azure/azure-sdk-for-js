@@ -32,7 +32,6 @@ import { Receiver } from "./receiver";
 import Long from "long";
 import { ServiceBusMessageImpl, ReceivedMessageWithLock } from "../serviceBusMessage";
 import { RetryConfig, RetryOperationType, retry, Constants, RetryOptions } from "@azure/core-amqp";
-import { getRetryAttemptTimeoutInMs } from "../util/utils";
 import { OperationOptions } from "../modelsToBeSharedWithEventHubs";
 
 /**

@@ -19,7 +19,7 @@ import { WebSocketOptions } from '@azure/core-amqp';
 
 // @public
 export interface BrowseMessagesOptions extends OperationOptions {
-    fromSequenceNumber?: Long;
+    fromSequenceNumber?: Long_2;
     maxMessageCount?: number;
 }
 
