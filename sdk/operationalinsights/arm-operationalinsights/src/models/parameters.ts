@@ -25,6 +25,69 @@ export const apiVersion: msRest.OperationQueryParameter = {
   mapper: {
     required: true,
     serializedName: "api-version",
+    constraints: {
+      MinLength: 1
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
+export const asyncOperationId: msRest.OperationURLParameter = {
+  parameterPath: "asyncOperationId",
+  mapper: {
+    required: true,
+    serializedName: "asyncOperationId",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const clusterName0: msRest.OperationURLParameter = {
+  parameterPath: "clusterName",
+  mapper: {
+    required: true,
+    serializedName: "clusterName",
+    constraints: {
+      MaxLength: 63,
+      MinLength: 4,
+      Pattern: /^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$/
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
+export const clusterName1: msRest.OperationURLParameter = {
+  parameterPath: "clusterName",
+  mapper: {
+    required: true,
+    serializedName: "clusterName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const dataExportName0: msRest.OperationURLParameter = {
+  parameterPath: "dataExportName",
+  mapper: {
+    required: true,
+    serializedName: "dataExportName",
+    constraints: {
+      MaxLength: 63,
+      MinLength: 4,
+      Pattern: /^[A-Za-z][A-Za-z0-9-]+[A-Za-z0-9]$/
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
+export const dataExportName1: msRest.OperationURLParameter = {
+  parameterPath: "dataExportName",
+  mapper: {
+    required: true,
+    serializedName: "dataExportName",
     type: {
       name: "String"
     }
@@ -37,6 +100,20 @@ export const dataSourceName: msRest.OperationURLParameter = {
     serializedName: "dataSourceName",
     type: {
       name: "String"
+    }
+  }
+};
+export const dataSourceType: msRest.OperationURLParameter = {
+  parameterPath: "dataSourceType",
+  mapper: {
+    required: true,
+    serializedName: "dataSourceType",
+    type: {
+      name: "Enum",
+      allowedValues: [
+        "CustomLogs",
+        "AzureWatson"
+      ]
     }
   }
 };
@@ -65,6 +142,16 @@ export const linkedServiceName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "linkedServiceName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const location: msRest.OperationURLParameter = {
+  parameterPath: "location",
+  mapper: {
+    required: true,
+    serializedName: "location",
     type: {
       name: "String"
     }
@@ -106,6 +193,16 @@ export const resourceGroupName1: msRest.OperationURLParameter = {
     }
   }
 };
+export const savedSearchId: msRest.OperationURLParameter = {
+  parameterPath: "savedSearchId",
+  mapper: {
+    required: true,
+    serializedName: "savedSearchId",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const skiptoken: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
@@ -118,27 +215,30 @@ export const skiptoken: msRest.OperationQueryParameter = {
     }
   }
 };
+export const storageInsightName: msRest.OperationURLParameter = {
+  parameterPath: "storageInsightName",
+  mapper: {
+    required: true,
+    serializedName: "storageInsightName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const subscriptionId: msRest.OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
     required: true,
     serializedName: "subscriptionId",
+    constraints: {
+      MinLength: 1
+    },
     type: {
       name: "String"
     }
   }
 };
-export const workspaceName0: msRest.OperationURLParameter = {
-  parameterPath: "workspaceName",
-  mapper: {
-    required: true,
-    serializedName: "workspaceName",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const workspaceName1: msRest.OperationURLParameter = {
+export const workspaceName: msRest.OperationURLParameter = {
   parameterPath: "workspaceName",
   mapper: {
     required: true,

@@ -11,34 +11,101 @@
 import * as msRest from "@azure/ms-rest-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
+import * as Parameters from "./models/parameters";
 import * as operations from "./operations";
 import { OperationalInsightsManagementClientContext } from "./operationalInsightsManagementClientContext";
 
 
 class OperationalInsightsManagementClient extends OperationalInsightsManagementClientContext {
   // Operation groups
-  linkedServices: operations.LinkedServices;
+  dataExports: operations.DataExports;
   dataSources: operations.DataSources;
   workspaces: operations.Workspaces;
+  linkedServices: operations.LinkedServices;
+  linkedStorageAccounts: operations.LinkedStorageAccounts;
   operations: operations.Operations;
+  clusters: operations.Clusters;
+  storageInsights: operations.StorageInsights;
+  savedSearches: operations.SavedSearches;
 
   /**
    * Initializes a new instance of the OperationalInsightsManagementClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
-   * @param subscriptionId Gets subscription credentials which uniquely identify Microsoft Azure
-   * subscription. The subscription ID forms part of the URI for every service call.
+   * @param subscriptionId The ID of the target subscription.
    * @param [options] The parameter options
    */
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.OperationalInsightsManagementClientOptions) {
     super(credentials, subscriptionId, options);
-    this.linkedServices = new operations.LinkedServices(this);
+    this.dataExports = new operations.DataExports(this);
     this.dataSources = new operations.DataSources(this);
     this.workspaces = new operations.Workspaces(this);
+    this.linkedServices = new operations.LinkedServices(this);
+    this.linkedStorageAccounts = new operations.LinkedStorageAccounts(this);
     this.operations = new operations.Operations(this);
+    this.clusters = new operations.Clusters(this);
+    this.storageInsights = new operations.StorageInsights(this);
+    this.savedSearches = new operations.SavedSearches(this);
+  }
+
+  /**
+   * Get the status of a long running azure asynchronous operation.
+   * @param location The region name of operation.
+   * @param asyncOperationId The operation Id.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.GetAsyncOperationsStatusResponse>
+   */
+  getAsyncOperationsStatus(location: string, asyncOperationId: string, options?: msRest.RequestOptionsBase): Promise<Models.GetAsyncOperationsStatusResponse>;
+  /**
+   * @param location The region name of operation.
+   * @param asyncOperationId The operation Id.
+   * @param callback The callback
+   */
+  getAsyncOperationsStatus(location: string, asyncOperationId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  /**
+   * @param location The region name of operation.
+   * @param asyncOperationId The operation Id.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getAsyncOperationsStatus(location: string, asyncOperationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  getAsyncOperationsStatus(location: string, asyncOperationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.GetAsyncOperationsStatusResponse> {
+    return this.sendOperationRequest(
+      {
+        location,
+        asyncOperationId,
+        options
+      },
+      getAsyncOperationsStatusOperationSpec,
+      callback) as Promise<Models.GetAsyncOperationsStatusResponse>;
   }
 }
 
 // Operation Specifications
+const serializer = new msRest.Serializer(Mappers);
+const getAsyncOperationsStatusOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.OperationalInsights/locations/{location}/operationStatuses/{asyncOperationId}",
+  urlParameters: [
+    Parameters.location,
+    Parameters.asyncOperationId,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.OperationStatus
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
 
 export {
   OperationalInsightsManagementClient,
