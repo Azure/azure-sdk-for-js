@@ -34,15 +34,29 @@ describe("receive and delete", () => {
     return serviceBusClient.test.after();
   });
 
-  async function beforeEachTest(entityType: TestClientType): Promise<void> {
+  async function beforeEachTest(
+    entityType: TestClientType,
+    receiveMode?: "peekLock" | "receiveAndDelete"
+  ): Promise<{
+    queue?: string | undefined;
+    topic?: string | undefined;
+    subscription?: string | undefined;
+    usesSessions: boolean;
+    isPartitioned: boolean;
+  }> {
     const entityNames = await serviceBusClient.test.createTestEntities(entityType);
 
     senderClient = serviceBusClient.test.addToCleanup(
       serviceBusClient.getSender(entityNames.queue ?? entityNames.topic!)
     );
-    receiverClient = serviceBusClient.test.getReceiveAndDeleteReceiver(entityNames);
+    if (receiveMode === "peekLock") {
+      receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
+    } else {
+      receiverClient = serviceBusClient.test.getReceiveAndDeleteReceiver(entityNames);
+    }
 
     errorWasThrown = false;
+    return entityNames;
   }
 
   function afterEachTest(): Promise<void> {
@@ -757,58 +771,48 @@ describe("receive and delete", () => {
       await receiveDeferredMessage();
     }); */
 
+    async function deferAndReceiveMessage(testClientType: TestClientType) {
+      const entityNames = await beforeEachTest(testClientType, "peekLock");
+      await deferMessage(entityNames.usesSessions);
+      await receiverClient.close();
+      receiverClient = serviceBusClient.test.getReceiveAndDeleteReceiver(entityNames);
+      await receiveDeferredMessage();
+    }
+
     it("Unpartitioned Queue: No settlement of the message removes message #RunInBrowser", async function(): Promise<
       void
     > {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
-      await deferMessage();
-      await receiverClient.close();
-      await receiveDeferredMessage();
+      await deferAndReceiveMessage(TestClientType.UnpartitionedQueue);
     });
 
     it("Unpartitioned Subscription: No settlement of the message removes message", async function(): Promise<
       void
     > {
-      await beforeEachTest(TestClientType.UnpartitionedSubscription);
-      await deferMessage();
-      await receiverClient.close();
-      await receiveDeferredMessage();
+      await deferAndReceiveMessage(TestClientType.UnpartitionedSubscription);
     });
 
     it("Partitioned Queue with Sessions: No settlement of the message removes message", async function(): Promise<
       void
     > {
-      await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
-      await deferMessage(true);
-      await receiverClient.close();
-      await receiveDeferredMessage();
+      await deferAndReceiveMessage(TestClientType.PartitionedQueueWithSessions);
     });
 
     it("Partitioned Subscription with Sessions: No settlement of the message removes message", async function(): Promise<
       void
     > {
-      await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions);
-      await deferMessage(true);
-      await receiverClient.close();
-      await receiveDeferredMessage();
+      await deferAndReceiveMessage(TestClientType.PartitionedSubscriptionWithSessions);
     });
 
     it("Unpartitioned Queue with Sessions: No settlement of the message removes message #RunInBrowser", async function(): Promise<
       void
     > {
-      await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-      await deferMessage(true);
-      await receiverClient.close();
-      await receiveDeferredMessage();
+      await deferAndReceiveMessage(TestClientType.UnpartitionedQueueWithSessions);
     });
 
     it("Unpartitioned Subscription with Sessions: No settlement of the message removes message", async function(): Promise<
       void
     > {
-      await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
-      await deferMessage(true);
-      await receiverClient.close();
-      await receiveDeferredMessage();
+      await deferAndReceiveMessage(TestClientType.UnpartitionedSubscriptionWithSessions);
     });
   });
 });
