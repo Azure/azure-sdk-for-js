@@ -16,6 +16,7 @@ import { CanonicalCode } from "@opentelemetry/types";
 import { AuthenticationError, AuthenticationErrorName } from "./errors";
 import { createSpan } from "../util/tracing";
 import { logger } from "../util/logging";
+import { getAuthorityHostEnvironment } from "../util/authHostEnv"
 
 const DefaultAuthorityHost = "https://login.microsoftonline.com";
 
@@ -40,9 +41,7 @@ export class IdentityClient extends ServiceClient {
 
   constructor(options?: TokenCredentialOptions) {
     if (isNode) {
-      options = options || {
-        authorityHost: process.env.AZURE_AUTHORITY_HOST
-      };
+      options = options || getAuthorityHostEnvironment();
     }
     options = options || IdentityClient.getDefaultOptions();
     super(
