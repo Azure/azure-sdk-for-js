@@ -22,6 +22,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 import { EnvironmentCredential } from "@azure/identity";
+import { createServiceBusClientForTests } from "./utils/testutils2";
 
 // describe("Create ServiceBusClient and Queue/Topic/Subscription Clients #RunInBrowser", function(): void {
 //   let sbClient: ServiceBusClient;
@@ -79,83 +80,48 @@ describe("Errors with non existing Namespace #RunInBrowser", function(): void {
   };
 
   it("throws error when sending data to a non existing namespace", async function(): Promise<void> {
-    const client = sbClient.createQueueClient("some-name");
-    await client
-      .createSender()
+    await sbClient
+      .createSender("some-queue")
       .send({ body: "hello" })
       .catch(testError);
 
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
-  it("throws error when sending data via a topicClient to a non existing namespace", async function(): Promise<
+  it("throws error when sending batch data to a non existing namespace", async function(): Promise<
     void
   > {
-    const client = sbClient.createTopicClient("some-name");
-    await client
-      .createSender()
-      .send({ body: "hello" })
-      .catch(testError);
+    const sender = sbClient.createSender("some-queue");
+    const batch = await sender.createBatch();
+    batch.tryAdd({ body: "hello" });
+    await sender.sendBatch(batch).catch(testError);
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
+  });
+
+  it("throws error when receiving batch data to a non existing namespace", async function(): Promise<
+    void
+  > {
+    const receiver = sbClient.createReceiver("some-name", "peekLock");
+    await receiver.receiveBatch(10).catch(testError);
 
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
-  it("throws error when sending batch data via a queueClient to a non existing namespace", async function(): Promise<
+  it("throws error when receiving streaming data from a non existing namespace", async function(): Promise<
     void
   > {
-    const client = sbClient.createQueueClient("some-name");
-    await client
-      .createSender()
-      .send({ body: "hello" })
-      .catch(testError);
-    should.equal(errorWasThrown, true, "Error thrown flag must be true");
-  });
-
-  it("throws error when sending batch data via a topicClient to a non existing namespace", async function(): Promise<
-    void
-  > {
-    const client = sbClient.createTopicClient("some-name");
-    await client
-      .createSender()
-      .send({ body: "hello" })
-      .catch(testError);
-
-    should.equal(errorWasThrown, true, "Error thrown flag must be true");
-  });
-
-  it("throws error when receiving batch data via a queueClient from a non existing namespace", async function(): Promise<
-    void
-  > {
-    const client = sbClient.createQueueClient("some-name");
-    const receiver = await client.createReceiver(ReceiveMode.peekLock);
-    await receiver.receiveMessages(10).catch(testError);
-
-    should.equal(errorWasThrown, true, "Error thrown flag must be true");
-  });
-
-  it("throws error when receiving batch data via a subscriptionClient from a non existing namespace", async function(): Promise<
-    void
-  > {
-    const client = sbClient.createSubscriptionClient("some-topic-name", "some-subscription-name");
-    const receiver = await client.createReceiver(ReceiveMode.peekLock);
-    await receiver.receiveMessages(10).catch(testError);
-
-    should.equal(errorWasThrown, true, "Error thrown flag must be true");
-  });
-
-  it("throws error when receiving streaming data via a queueClient from a non existing namespace", async function(): Promise<
-    void
-  > {
-    const client = sbClient.createQueueClient("some-name");
-    const onMessage = async (): Promise<never> => {
-      throw "onMessage should not have been called when receive call is made from a non existing namespace";
-    };
-
-    const receiver = await client.createReceiver(ReceiveMode.peekLock);
-    receiver.registerMessageHandler(onMessage, testError);
+    const receiver = sbClient.createReceiver("some-name", "peekLock");
+    receiver.subscribe({
+      async processMessage() {
+        throw "processMessage should not have been called when receive call is made from a non existing namespace";
+      },
+      async processError(err) {
+        testError(err);
+      }
+    });
 
     await delay(3000);
-    await client.close();
+    await receiver.close();
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 });
@@ -164,7 +130,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
   let sbClient: ServiceBusClient;
   let errorWasThrown: boolean;
   beforeEach(() => {
-    sbClient = getServiceBusClient();
+    sbClient = createServiceBusClientForTests();
     errorWasThrown = false;
   });
   afterEach(() => {
@@ -181,9 +147,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
         "Error code is different than expected"
       );
       should.equal(
-        err.message.startsWith(
-          `The messaging entity '${sbClient.name}${entityPath}' could not be found.`
-        ),
+        err.message.startsWith(`The messaging entity '${entityPath}' could not be found.`),
         true
       );
       errorWasThrown = true;
