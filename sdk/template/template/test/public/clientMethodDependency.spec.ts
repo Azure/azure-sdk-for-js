@@ -2,8 +2,6 @@
 // Licensed under the MIT license.
 
 import { ClientMethodDependency } from "../../src";
-
-// another node built-in that has to be shimmed for the browser
 import { assert } from "chai";
 
 describe("Tests for the ClientMethodDependency class", function() {

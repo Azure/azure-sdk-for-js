@@ -1021,6 +1021,8 @@ describe("Tests for the internal classes", function() {
 
 In addition to being expressive, test titles might have specific hashtags (as in, words preceded by the pound sign), to facilitate pattern matching.
 
+You can see a working example of tests for internal code in our [test/internal/ folder in our template project](../sdk/template/template/test/internal/).
+
 #### Pattern matching test titles
 
 `mocha` allows us to only run certain tests as long as they match a given query, with the following arguments:
@@ -1065,15 +1067,15 @@ describe("testing the client's basic methods", function() {
     recorder.stop();
   });
 
-  it("should test A #browser", function() {
-    if (isNode) {
+  it("should test A #node", function() {
+    if (!isNode) {
       return this.skip();
     }
     // Test contents..
   });
 
-  it("should test B #node", function() {
-    if (!isNode) {
+  it("should test B #browser", function() {
+    if (isNode) {
       return this.skip();
     }
     // Test contents..
@@ -1089,6 +1091,8 @@ describe("testing the client's basic methods", function() {
 ```
 
 In case conditionals might appear to be necessary in other scenarios, consider separating the test case into as many test cases as necessary first.
+
+You can see a working example of conditionals in our [conditionals.spec.ts test in our template project](../sdk/template/template/test/public/conditionals.spec.ts).
 
 ### Using delays
 

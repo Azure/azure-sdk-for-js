@@ -4,3 +4,5 @@
 export * from "./clientMethodDependency";
 export * from "./print";
 export * from "./universalEventEmitter";
+export * from "./NodeClient";
+export * from "./BrowserClient";
