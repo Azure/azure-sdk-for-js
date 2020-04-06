@@ -49,7 +49,7 @@ describe("[AAD] TextAnalyticsClient", function() {
 
   describe("#analyzeSentiment", () => {
     it("client throws on empty list", async () => {
-      return assert.isRejected(client.analyzeSentiment([]));
+      return assert.isRejected(client.analyzeSentiment([]), /non-empty array/);
     });
 
     it("client accepts string[] and language", async () => {
@@ -114,7 +114,7 @@ describe("[AAD] TextAnalyticsClient", function() {
 
   describe("#detectLanguage", () => {
     it("client throws on empty list", async () => {
-      return assert.isRejected(client.detectLanguage([]));
+      return assert.isRejected(client.detectLanguage([]), /non-empty array/);
     });
 
     it("client accepts no countryHint", async () => {
@@ -187,7 +187,7 @@ describe("[AAD] TextAnalyticsClient", function() {
 
   describe("#recognizeEntities", () => {
     it("client throws on empty list", async () => {
-      return assert.isRejected(client.recognizeEntities([]));
+      return assert.isRejected(client.recognizeEntities([]), /non-empty array/);
     });
 
     it("client accepts string[] with no language", async () => {
@@ -241,7 +241,7 @@ describe("[AAD] TextAnalyticsClient", function() {
 
   describe("#extractKeyPhrases", () => {
     it("client throws on empty list", async () => {
-      return assert.isRejected(client.extractKeyPhrases([]));
+      return assert.isRejected(client.extractKeyPhrases([]), /non-empty array/);
     });
 
     it("client accepts string[] with no language", async () => {
@@ -295,7 +295,7 @@ describe("[AAD] TextAnalyticsClient", function() {
 
   describe("#recognizeLinkedEntities", () => {
     it("client throws on empty list", async () => {
-      return assert.isRejected(client.recognizeLinkedEntities([]));
+      return assert.isRejected(client.recognizeLinkedEntities([]), /non-empty array/);
     });
 
     it("client accepts string[] with no language", async () => {
