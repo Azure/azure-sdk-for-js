@@ -29,8 +29,8 @@ export async function main() {
   const sbClient = new ServiceBusClient(connectionString);
 
   // If receiving from a subscription you can use the getReceiver(topic, subscription) overload
-  // Since browsing messages doesnt take a lock on the message, the receive mode passed to getReceiver
-  // is irrelvant to this sample code
+  // Since browsing messages doesn't take a lock on the message, the receive mode passed to getReceiver
+  // is irrelevant to this sample code.
   const queueReceiver = sbClient.getReceiver(queueName, "receiveAndDelete");
 
   try {
