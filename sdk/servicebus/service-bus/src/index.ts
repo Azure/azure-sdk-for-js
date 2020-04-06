@@ -30,16 +30,13 @@ export { Delivery, WebSocketImpl } from "rhea-promise";
 
 export {
   GetMessageIteratorOptions,
-  GetSessionReceiverOptions,
+  CreateSessionReceiverOptions,
   MessageHandlerOptions,
   MessageHandlers,
   ReceiveBatchOptions,
   SubscribeOptions,
   WaitTimeOptions,
   CreateBatchOptions,
-  GetReceiverOptions,
-  GetSenderOptions,
-  GetSubscriptionRuleManagerOptions,
   BrowseMessagesOptions
 } from "./models";
 export { OperationOptions, TracingOptions } from "./modelsToBeSharedWithEventHubs";

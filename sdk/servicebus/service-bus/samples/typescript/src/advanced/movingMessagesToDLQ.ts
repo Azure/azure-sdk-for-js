@@ -37,8 +37,8 @@ export async function main() {
 }
 
 async function sendMessage() {
-  // getSender() can also be used to create a sender for a topic.
-  const sender = sbClient.getSender(queueName);
+  // createSender() can also be used to create a sender for a topic.
+  const sender = sbClient.createSender(queueName);
 
   const message = {
     body: {
@@ -53,8 +53,8 @@ async function sendMessage() {
 }
 
 async function receiveMessage() {
-  // If receiving from a subscription you can use the getReceiver(topic, subscription) overload
-  const receiver = sbClient.getReceiver(queueName, "peekLock");
+  // If receiving from a subscription you can use the createReceiver(topic, subscription) overload
+  const receiver = sbClient.createReceiver(queueName, "peekLock");
 
   const messages = await receiver.receiveBatch(1);
 

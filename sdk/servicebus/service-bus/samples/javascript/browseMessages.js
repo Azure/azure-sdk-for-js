@@ -25,10 +25,10 @@ const queueName = process.env.QUEUE_NAME || "<queue name>";
 
 async function main() {
   const sbClient = new ServiceBusClient(connectionString);
-  // If receiving from a subscription you can use the getReceiver(topic, subscription) overload
+  // If receiving from a subscription you can use the createReceiver(topic, subscription) overload
   // Since browsing messages doesn't take a lock on the message, the receive mode passed to getReceiver
   // is irrelevant to this sample code.
-  const queueReceiver = sbClient.getReceiver(queueName, "receiveAndDelete");
+  const queueReceiver = sbClient.createReceiver(queueName, "receiveAndDelete");
   try {
     for (let i = 0; i < 20; i++) {
       const messages = await queueReceiver.browseMessages();

@@ -35,16 +35,16 @@ export class StreamingReceiver extends MessageReceiver {
 
     this.resetTimerOnNewMessageReceived = () => {
       if (this._newMessageReceivedTimer) clearTimeout(this._newMessageReceivedTimer);
-      if (this.newMessageWaitTimeoutInSeconds) {
+      if (this.newMessageWaitTimeoutInMs) {
         this._newMessageReceivedTimer = setTimeout(async () => {
           const msg =
             `StreamingReceiver '${this.name}' did not receive any messages in ` +
-            `the last ${this.newMessageWaitTimeoutInSeconds} seconds. ` +
+            `the last ${this.newMessageWaitTimeoutInMs} milliseconds. ` +
             `Hence ending this receive operation.`;
           log.error("[%s] %s", this._context.namespace.connectionId, msg);
 
           await this.close();
-        }, this.newMessageWaitTimeoutInSeconds * 1000);
+        }, this.newMessageWaitTimeoutInMs);
       }
     };
   }

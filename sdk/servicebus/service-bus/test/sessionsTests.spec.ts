@@ -49,7 +49,7 @@ describe("session tests", () => {
     });
 
     sender = serviceBusClient.test.addToCleanup(
-      serviceBusClient.getSender(entityNames.queue ?? entityNames.topic!)
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
 
     // Observation -

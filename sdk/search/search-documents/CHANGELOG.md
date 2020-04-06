@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-preview.2 (Unreleased)
+## 1.0.0-preview.2 (2020-04-06)
 
 - [Breaking] Package renamed to `@azure/search-documents` and version number reset to `1.0.0-preview.2`.
 - Support for index management operations using the `SearchServiceClient`.

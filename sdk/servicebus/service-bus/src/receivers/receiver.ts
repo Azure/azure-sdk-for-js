@@ -7,7 +7,6 @@ import {
   GetMessageIteratorOptions,
   ReceiveBatchOptions,
   MessageHandlerOptions,
-  GetReceiverOptions,
   BrowseMessagesOptions
 } from "../models";
 import { OperationOptions } from "../modelsToBeSharedWithEventHubs";
@@ -30,8 +29,7 @@ import { assertValidMessageHandlers, getMessageIterator } from "./shared";
 import { convertToInternalReceiveMode } from "../constructorHelpers";
 import Long from "long";
 import { ServiceBusMessageImpl, ReceivedMessageWithLock } from "../serviceBusMessage";
-import { RetryConfig, RetryOperationType, retry, Constants } from "@azure/core-amqp";
-import { getRetryAttemptTimeoutInMs } from "../util/utils";
+import { RetryConfig, RetryOperationType, retry, Constants, RetryOptions } from "@azure/core-amqp";
 
 /**
  * A receiver that does not handle sessions.
@@ -140,7 +138,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
    * @property Describes the amqp connection context for the QueueClient.
    */
   private _context: ClientEntityContext;
-  private _receiverOptions: GetReceiverOptions;
+  private _retryOptions: RetryOptions;
   /**
    * @property {boolean} [_isClosed] Denotes if close() was called on this receiver
    */
@@ -154,17 +152,12 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
   constructor(
     context: ClientEntityContext,
     public receiveMode: "peekLock" | "receiveAndDelete",
-    options: GetReceiverOptions
+    retryOptions: RetryOptions = {}
   ) {
     throwErrorIfConnectionClosed(context.namespace);
     this.entityPath = context.entityPath;
     this._context = context;
-    this._receiverOptions = options;
-    if (this._receiverOptions.retryOptions) {
-      this._receiverOptions.retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(
-        this._receiverOptions.retryOptions
-      );
-    }
+    this._retryOptions = retryOptions;
   }
 
   private _throwIfAlreadyReceiving(): void {
@@ -211,7 +204,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
    * @param onError - Handler for any error that occurs while receiving or processing messages.
    * @param options - Options to control if messages should be automatically completed, and/or have
    * their locks automatically renewed. You can control the maximum number of messages that should
-   * be concurrently processed. You can also provide a timeout in seconds to denote the
+   * be concurrently processed. You can also provide a timeout in milliseconds to denote the
    * amount of time to wait for a new message before closing the receiver.
    *
    * @returns void
@@ -239,7 +232,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
     StreamingReceiver.create(this._context, {
       ...options,
       receiveMode: convertToInternalReceiveMode(this.receiveMode),
-      retryOptions: this._receiverOptions.retryOptions
+      retryOptions: this._retryOptions
     })
       .then(async (sReceiver) => {
         if (!sReceiver) {
@@ -299,7 +292,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       operation: receiveMessages,
       operationType: RetryOperationType.receiveMessage,
       abortSignal: options?.abortSignal,
-      retryOptions: this._receiverOptions.retryOptions
+      retryOptions: this._retryOptions
     };
     return retry<ReceivedMessageT[]>(config);
   }
@@ -355,7 +348,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
         {
           ...options,
           requestName: "receiveDeferredMessage",
-          timeoutInMs: this._receiverOptions.retryOptions?.timeoutInMs
+          timeoutInMs: this._retryOptions.timeoutInMs
         }
       );
       return (messages[0] as unknown) as ReceivedMessageT;
@@ -364,7 +357,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       operation: receiveDeferredMessageOperationPromise,
       connectionId: this._context.namespace.connectionId,
       operationType: RetryOperationType.management,
-      retryOptions: this._receiverOptions.retryOptions,
+      retryOptions: this._retryOptions,
       abortSignal: options?.abortSignal
     };
     return retry<ReceivedMessageT | undefined>(config);
@@ -407,7 +400,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
         {
           ...options,
           requestName: "receiveDeferredMessages",
-          timeoutInMs: this._receiverOptions.retryOptions?.timeoutInMs
+          timeoutInMs: this._retryOptions.timeoutInMs
         }
       );
       return (deferredMessages as any) as ReceivedMessageT[];
@@ -416,7 +409,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       operation: receiveDeferredMessagesOperationPromise,
       connectionId: this._context.namespace.connectionId,
       operationType: RetryOperationType.management,
-      retryOptions: this._receiverOptions.retryOptions,
+      retryOptions: this._retryOptions,
       abortSignal: options?.abortSignal
     };
     return retry<ReceivedMessageT[]>(config);
@@ -434,7 +427,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
     const managementRequestOptions = {
       ...options,
       requestName: "browseMessages",
-      timeoutInMs: this._receiverOptions.retryOptions?.timeoutInMs
+      timeoutInMs: this._retryOptions?.timeoutInMs
     };
     const peekOperationPromise = async () => {
       if (options.fromSequenceNumber) {
@@ -456,7 +449,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       operation: peekOperationPromise,
       connectionId: this._context.namespace.connectionId,
       operationType: RetryOperationType.management,
-      retryOptions: this._receiverOptions.retryOptions,
+      retryOptions: this._retryOptions,
       abortSignal: options?.abortSignal
     };
     return retry<ReceivedMessage[]>(config);

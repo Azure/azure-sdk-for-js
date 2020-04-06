@@ -16,7 +16,6 @@ import { ServiceBusClientForTests, createServiceBusClientForTests } from "./util
 import { Sender } from "../src/sender";
 import { MessagingError } from "@azure/core-amqp";
 import Long from "long";
-import { RetryOptions } from "@azure/core-amqp";
 import { BatchingReceiver } from "../src/core/batchingReceiver";
 import { delay } from "rhea-promise";
 
@@ -47,7 +46,7 @@ describe("Retries - ManagementClient", () => {
     const entityNames = await serviceBusClient.test.createTestEntities(entityType);
 
     senderClient = serviceBusClient.test.addToCleanup(
-      serviceBusClient.getSender(entityNames.queue ?? entityNames.topic!)
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
     receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
     subscriptionRuleManager = serviceBusClient.test.addToCleanup(
@@ -245,27 +244,24 @@ describe("Retries - MessageSender", () => {
   let numberOfTimesInitInvoked: number;
 
   before(() => {
-    serviceBusClient = createServiceBusClientForTests();
+    serviceBusClient = createServiceBusClientForTests({
+      retryOptions: {
+        timeoutInMs: 10000,
+        maxRetries: defaultMaxRetries,
+        retryDelayInMs: 0
+      }
+    });
   });
 
   after(() => {
     return serviceBusClient.test.after();
   });
 
-  async function beforeEachTest(
-    entityType: TestClientType,
-    retryOptions?: RetryOptions
-  ): Promise<void> {
+  async function beforeEachTest(entityType: TestClientType): Promise<void> {
     const entityNames = await serviceBusClient.test.createTestEntities(entityType);
 
     senderClient = serviceBusClient.test.addToCleanup(
-      serviceBusClient.getSender(entityNames.queue ?? entityNames.topic!, {
-        retryOptions: retryOptions || {
-          timeoutInMs: 10000,
-          maxRetries: defaultMaxRetries,
-          retryDelayInMs: 0
-        }
-      })
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
   }
 
@@ -464,7 +460,7 @@ describe("Retries - onDetached", () => {
     const entityNames = await serviceBusClient.test.createTestEntities(entityType);
 
     senderClient = serviceBusClient.test.addToCleanup(
-      serviceBusClient.getSender(entityNames.queue ?? entityNames.topic!)
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
     receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
   }

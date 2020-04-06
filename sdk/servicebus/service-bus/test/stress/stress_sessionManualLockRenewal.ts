@@ -63,7 +63,7 @@ async function receiveMessage(sessionId: string): Promise<void> {
   try {
     const receiver = <InternalSessionReceiver>client.createReceiver(ReceiveMode.peekLock, {
       sessionId: sessionId,
-      maxSessionAutoRenewLockDurationInSeconds: 0
+      autoRenewLockDurationInMs: 0
     });
     const onMessageHandler: OnMessage = async (brokeredMessage) => {
       receivedMessage = brokeredMessage;

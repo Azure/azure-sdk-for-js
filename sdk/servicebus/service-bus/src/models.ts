@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import { OperationOptions } from "./modelsToBeSharedWithEventHubs";
-import { RetryOptions } from "@azure/core-amqp";
 import { SessionReceiverOptions } from "./session/messageSession";
 import Long from "long";
 
@@ -55,51 +54,6 @@ export interface CreateBatchOptions extends OperationOptions {
 }
 
 /**
- * The set of options to configure the behavior of the sender.
- *
- * @export
- * @interface GetSenderOptions
- */
-export interface GetSenderOptions {
-  /**
-   * Retry policy options that determine the mode, number of retries, retry interval etc.
-   *
-   * @type {RetryOptions}
-   */
-  retryOptions?: RetryOptions;
-}
-
-/**
- * The set of options to configure the behavior of the receiver.
- *
- * @export
- * @interface GetReceiverOptions
- */
-export interface GetReceiverOptions {
-  /**
-   * Retry policy options that determine the mode, number of retries, retry interval etc.
-   *
-   * @type {RetryOptions}
-   */
-  retryOptions?: RetryOptions;
-}
-
-/**
- * The set of options to configure the behavior of the subscriptionRuleManager.
- *
- * @export
- * @interface GetSubscriptionRuleManagerOptions
- */
-export interface GetSubscriptionRuleManagerOptions {
-  /**
-   * Retry policy options that determine the mode, number of retries, retry interval etc.
-   *
-   * @type {RetryOptions}
-   */
-  retryOptions?: RetryOptions;
-}
-
-/**
  * Options when receiving a batch of messages from Service Bus.
  */
 export interface ReceiveBatchOptions extends OperationOptions, WaitTimeOptions {}
@@ -127,17 +81,17 @@ export interface MessageHandlerOptions {
    */
   autoComplete?: boolean;
   /**
-   * @property The maximum duration in seconds until which the lock on the message will be renewed
+   * @property The maximum duration in milliseconds until which the lock on the message will be renewed
    * by the sdk automatically. This auto renewal stops once the message is settled or once the user
    * provided onMessage handler completes ite execution.
    *
-   * - **Default**: `300` seconds (5 minutes).
+   * - **Default**: `300 * 1000` milliseconds (5 minutes).
    * - **To disable autolock renewal**, set this to `0`.
    */
-  maxMessageAutoRenewLockDurationInSeconds?: number;
+  maxMessageAutoRenewLockDurationInMs?: number;
   /**
    * @property The maximum number of concurrent calls that the sdk can make to the user's message
-   * handler. Once this limit has been reached, further messages will not be received until atleast
+   * handler. Once this limit has been reached, further messages will not be received until at least
    * one of the calls to the user's message handler has completed.
    * - **Default**: `1`.
    */
@@ -145,10 +99,10 @@ export interface MessageHandlerOptions {
 }
 
 /**
- * Describes the options passed to the `createReceiver` method when using a Queue/Subscription that
+ * Describes the options passed to the `createSessionReceiver` method when using a Queue/Subscription that
  * has sessions enabled.
  */
-export interface GetSessionReceiverOptions extends SessionReceiverOptions, OperationOptions {}
+export interface CreateSessionReceiverOptions extends SessionReceiverOptions, OperationOptions {}
 
 /**
  * Describes the options passed to the `browseMessages` method on a receiver.
