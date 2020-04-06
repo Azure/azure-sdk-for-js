@@ -6,7 +6,7 @@ import { NodeClient, BrowserClient } from "../../src";
 import { isNode } from "@azure/core-http";
 import { assert } from "chai";
 
-describe("testing the client's basic methods", function() {
+describe("Tests with conditionals", function() {
   let client: NodeClient | BrowserClient;
 
   beforeEach(function() {
@@ -17,7 +17,7 @@ describe("testing the client's basic methods", function() {
     if (!isNode) {
       return this.skip();
     }
-    const nodeClient = this.client as NodeClient;
+    const nodeClient = client as NodeClient;
     assert.equal(nodeClient.A(), "Node");
   });
 
@@ -25,7 +25,7 @@ describe("testing the client's basic methods", function() {
     if (isNode) {
       return this.skip();
     }
-    const browserClient = this.client as BrowserClient;
+    const browserClient = client as BrowserClient;
     assert.equal(browserClient.B(), "Browser");
   });
 

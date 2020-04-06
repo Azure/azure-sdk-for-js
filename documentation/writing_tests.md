@@ -14,10 +14,18 @@ The Azure SDK for JavaScript and TypeScript allows users to communicate and cont
         - [Configuring Mocha](#configuring-mocha)
         - [Code coverage with Mocha and nyc](#code-coverage-with-mocha-and-nyc)
         - [Handling timeouts](#handling-timeouts)
+        - [On the usage of before, beforeEach, after and afterEach](on-the-usage-of-before--beforeeach,-after-and-aftereach)
+        - [Other general recommendations](#other-general-recommendations)
     - [Chai](#chai)
+        - [Recommended Chai assertion style](#recommended-chai-assertion-style)
+        - [Chai in our dependencies](#chai-in-our-dependencies)
     - [Rollup](#rollup)
+        - [Rollup in our dependencies](#rollup-in-our-dependencies)
+        - [Configuring Rollup](#configuring-rollup)
     - [Karma](#karma)
-    - [Recorder](#recorder)
+        - [Karma-in-our-dependencies](#karma-in-our-dependencies)
+        - [Configuring Karma](#configuring-karma)
+    - [The Recorder](#the-recorder)
 - [Test folder structure](#test-folder-structure)
     - [Testing cloud resources](#testing-cloud-resources)
     - [Public or internal tests](#public-or-internal-tests)
@@ -183,12 +191,12 @@ That command by itself is still missing two things: the actual test files and a 
 
 Code coverage can be added by placing `nyc` at the beginning of the line. Keep in mind that `nyc` will **obscure the stack traces**, so it's preferable to make separate `package.json` scripts, one for automated testing through CI, with `nyc`, and another one for developers running tests, without `nyc`.
 
-Then we have to point mocha to our test files. If you're **not** using `nyc`, you can point to the bundled test file (bundled with rollup, which we will see later), typically at `dist-test/index.node.js`. If you are using `nyc`, point mocha to the files built by the TypeScript compiler, normally at `dist-esm/test/*.test.js`.
+Then we have to point mocha to our test files. If you're **not** using `nyc`, you can point to the bundled test file (bundled with rollup, which we will see later), typically at `dist-test/index.node.js`. If you are using `nyc`, point mocha to the files built by the TypeScript compiler, which can be found using `find dist-esm/test -name '*.spec.js'` before calling mocha.
 
-We will end up with the following scripts (be aware that the target tests files might change).
+To use Mocha from the `package.json`, our systems will expect to encounter two scripts, one called `unit-test` for tests that will be [executed during Pull Request validation](https://github.com/Azure/azure-sdk-for-js/blob/master/eng/pipelines/templates/jobs/archetype-sdk-client.yml#L226-L233), which won't ever reach to live resources, and another called `integration-test` for our [nightly and release builds](https://github.com/Azure/azure-sdk-for-js/blob/master/eng/pipelines/templates/jobs/archetype-sdk-integration.yml#L114), which will be expected to reach to live resources. We assume that the distinction of when to reach to what resources will be done within the tests (either from  [The Recorder](#the-recorder) or through [Using conditionals](#using-conditionals)). With this in mind, and limiting `nyc` to only run on the `integration-test` script (since `unit-test` will be used for debugging), we will end up with the following scripts:
 
 ```json
-    "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace dist-esm/test/*.test.js",
+    "integration-test:node": "find dist-esm/test -name '*.spec.js' | xargs nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace",
     "unit-test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace dist-test/index.node.js",
 ```
 
@@ -197,6 +205,8 @@ Keep in mind that Mocha will be directly called from our `package.json` scripts 
 You can look at how Mocha's configuration is present in our [template project's package.json file](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/package.json).
 
 #### Code coverage with Mocha and nyc
+
+Our `integration-test` script will output code-coverage on our nightly and release builds. It's recommended to run this manually to confirm that code coverage is high. Code coverage should be above 80%, though code coverage should not change how we write code or tests.
 
 #### Handling timeouts
 
@@ -256,7 +266,7 @@ Chai makes testing much easier by providing an extensive list of assertions that
 
 Another important learning resource for Chai is: Chai Assertions for Promises <https://www.chaijs.com/plugins/chai-as-promised/>.
 
-#### Our recommended Chai assertion style
+#### Recommended Chai assertion style
 
 The Azure SDK for JavaScript (and TypeScript) prefers Chai's Assert style. For example:
 
@@ -442,7 +452,7 @@ To fulfill our needs, we use Karma with some plugins. They're the following:
 - [`karma-json-preprocessor`](https://www.npmjs.com/package/karma-json-preprocessor):
   It's a Karma preprocessor for converting JSON files into JS variables.
 - [`karma-json-to-file-reporter`](https://www.npmjs.com/package/karma-json-to-file-reporter):
-  It's a Karma reporter that save JSON messages from log to file. We use this to create real local files while executing tests in the browser. It's specifically used by our [Recorder](https://github.com/sadasant/azure-sdk-for-js/blob/master/sdk/test-utils/recorder/README.md).
+  It's a Karma reporter that save JSON messages from log to file. We use this to create real local files while executing tests in the browser. It's specifically used by [The Recorder](#the-recorder).
 - [`karma-junit-reporter`](https://www.npmjs.com/package/karma-junit-reporter):
   It's a Karma reporter for the [JUnit XML format](https://llg.cubic.org/docs/junit/).
 - [`karma-mocha`](https://www.npmjs.com/package/karma-mocha):
@@ -517,7 +527,7 @@ Besides the default contents of that Karma configuration file, you can consider 
 
 You can see an example [karma.config.js in our template project](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/karma.conf.js).
 
-### The Recorder
+### Recorder
 
 The Azure SDK for JavaScript and TypeScript uses a custom utility to record tests that hit the live endpoints, so that these tests can be executed almost instantly, against these recordings, instead of hitting the live services. This tool is called [@azure/test-utils-recorder](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/test-utils/recorder). It's an unpublished package that can be added using rush, as follows:
 
@@ -943,7 +953,7 @@ describe("testing some of the client's public properties", function() {
 It's valid to test more than one property out of a single function, like in the following example:
 
 ```ts
-describe("testing the client's basic methods", function() {
+describe("Tests with more than one property", function() {
   let client: Client;
 
   beforeEach(function() {
@@ -1082,7 +1092,7 @@ Ideally, each test case should only have one possible behavior. To minimize unex
 ```ts
 import { isNode } from "@azure/core-http";
 
-describe("testing the client's basic methods", function() {
+describe("Tests with conditionals", function() {
   let client: Client;
 
   beforeEach(function() {
@@ -1161,7 +1171,7 @@ describe("Keys client - restore keys and recover backups", () => {
 
 Keep in mind that Mocha will have a timeout configuration that will prevent this to run up forever.
 
-The specific `delay` method used in the code above comes from the [Recorder](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/test-utils/recorder), so that in playback, there will be no delay at all, and tests will pass as soon as possible.
+The specific `delay` method used in the code above comes from [the-recorder](#the-recorder), so that in playback, there will be no delay at all, and tests will pass as soon as possible.
 
 ### Exceptions and edge cases
 

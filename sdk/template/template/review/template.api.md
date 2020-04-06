@@ -8,6 +8,14 @@ import EventEmitter from 'events';
 import { URLBuilder } from '@azure/core-http';
 
 // @public (undocumented)
+export class BrowserClient {
+    // (undocumented)
+    B(): string;
+    // (undocumented)
+    C(): string;
+}
+
+// @public (undocumented)
 export class ClientMethodDependency {
     constructor();
     // (undocumented)
@@ -20,6 +28,14 @@ export class ClientMethodDependency {
 
 // @public (undocumented)
 export function createEventEmitter(): EventEmitter;
+
+// @public (undocumented)
+export class NodeClient {
+    // (undocumented)
+    A(): string;
+    // (undocumented)
+    C(): string;
+}
 
 export { URLBuilder }
 
