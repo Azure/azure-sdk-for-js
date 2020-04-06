@@ -40,7 +40,9 @@ export class IdentityClient extends ServiceClient {
 
   constructor(options?: TokenCredentialOptions) {
     if (isNode) {
-      options = options || IdentityClient.getEnvironmentOptions();
+      options = options || {
+        authorityHost: process.env.AZURE_AUTHORITY_HOST
+      };
     }
     options = options || IdentityClient.getDefaultOptions();
     super(
@@ -183,12 +185,6 @@ export class IdentityClient extends ServiceClient {
     }
   }
 
-  static getEnvironmentOptions(): TokenCredentialOptions {
-    return {
-      authorityHost: process.env.AZURE_AUTHORITY_HOST
-    };
-  }
-  
   static getDefaultOptions(): TokenCredentialOptions {
     return {
       authorityHost: DefaultAuthorityHost
