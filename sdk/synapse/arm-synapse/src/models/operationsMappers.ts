@@ -7,6 +7,7 @@
  */
 
 export {
+  discriminators,
   AvailableRpOperation,
   AvailableRpOperationDisplayInfo,
   CheckNameAvailabilityRequest,
