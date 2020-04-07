@@ -60,24 +60,24 @@ For our Engineering Systems to pick up our tests appropriately, our packages mus
 
 Though the tests must target live resources, we should make sure they only do so when necessary. We must keep in mind the following considerations:
 
-- Tests should not be flaky. Tests should pass regardless of who's executing them, when they are running, and how many times they run.
-- Tests should create the resources they are testing, either through the code of the tests, or through their configuration files.
-- While writing tests, use your own personal resources for setting up the context in which each test will create their own resources.
-- Avoid calling to timed delays (like `setTimeout`) to assert that a change happened in the live resources.
-- The resources created in the tests should be unique. Running the same test in parallel, multiple times, should not break them.
+- **Tests should not be flaky.** Tests should pass regardless of who's executing them, when they are running, and how many times they run.
+- **Tests should create the resources they are testing**, either through the code of the tests, or through their configuration files.
+- **The resources created for the tests should be unique.** Running the same test in parallel, multiple times, should not break them.
+- **Avoid calling to timed delays** (like `setTimeout`) to assert that a change happened in the live resources.
 
-For example, it is valid to have a static KeyVault while writing KeyVault tests, and then a given test can create a KeyVault Key before validating any of the functionalities of the KeyVault Key. Ask your team to see if there's a resource already in place for test development.
+Keep in mind that it is valid to have manually created resources during the _development_ of the tests. For example, if you're working with any of the KeyVault clients, you may target a KeyVault created in your personal Azure account. Each one of the individual clients can then assume that a KeyVault provided by environment variables exists, and only focus on creating and managing the resources they're scoped to work with: Keys, Secrets and Certificates. **Ask your team to see if there's a resource already in place for test development.**
 
-Any resource that is not created by the tests must be defined in an [ARM template](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/overview), so that anyone can build a copy of them. This ARM template will be used by the CI pipelines during builds. We'll examine how to set this up in the [CI and nightly test configuration](#ci-and-nightly-test-configuration) section.
-- Avoid calling to timed delays (like `setTimeout`) to assert that a change happened in the live resources. Also avoid locking the main thread until the resource responds. You can read more about [_using delays_ in this section](#using-delays).
+Any resource that is not created by the tests must be defined in an [ARM template](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/overview), so that anyone can build a copy of them. This ARM template will be used by the CI pipelines during builds. Under the context of the previous KeyVault example, to automate the creation of the KeyVault that is passed into the tests, it needs to have been defined specifically in the [CI and nightly test configuration](#ci-and-nightly-test-configuration) files. 
 
-You can read more recommendations through the following link: [Best Practices for writing tests that target live resources](https://dev.azure.com/azure-sdk/internal/_wiki/wikis/internal.wiki/51/Testing-Guidelines).
+Regarding delays and `setTimeout`s, please refer to the [using delays](#using-delays) section.
+
+You'll be able to find a more detailed set of recommendations in the section: [Best Practices for writing tests that target live resources](https://dev.azure.com/azure-sdk/internal/_wiki/wikis/internal.wiki/51/Testing-Guidelines).
 
 ### CI and nightly test configuration
 
 To ensure that our tests are executed in the test [Azure DevOps pipelines](https://azure.microsoft.com/en-us/services/devops/pipelines/) that have been previously configured by our team, some configuration files are necessary.
 
-A file named `ci.yml` should be added by the Engineering Systems team at the service level (the common parent of the clients of a specific service), for example at the `keyvault/` level of `keyvault/keyvault-keys`. This file will trigger all of the validation builds that happen during pull requests and after any pull request is merged into master.
+For each service that we will be working with, a file named `ci.yml` should be added by the Engineering Systems team at the service level folder (the common parent of the clients of a specific service), for example at the `keyvault/` level of `keyvault/keyvault-keys`. This file will trigger all of the validation builds that happen during pull request commits, and after merging any pull request into the `master` branch.
 
 Some examples of the `ci.yml` file can be found at:
 
@@ -86,13 +86,23 @@ Some examples of the `ci.yml` file can be found at:
 - [sdk/storage/ci.yml](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/ci.yml).
 - [sdk/servicebus/ci.yml](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/ci.yml).
 
-For live tests (which run nightly), we need to provide two files, `test-resources.json` and `tests.yml`. `test-resources.json` must exist either at the package folder level, or at the service level, which will contain an [ARM template](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/overview) of the resources needed to run all of the tests of these clients. All of the `test-resources.json` files inside of the service folder will be used to deploy resources on every build. The `tests.yml` file must be placed at the package folder, which is in charge of specifying when to run the tests for this package, what environments to use to run the tests, and how to run the tests. You can learn how to write these files by following the guide: [Creating live tests](https://dev.azure.com/azure-sdk/internal/_wiki/wikis/internal.wiki/48/Create-a-new-Live-Test-pipeline?anchor=creating-live-tests).
+For live tests (which an be triggered manually and automatically run every night), we need to provide two files, `test-resources.json` and `tests.yml`.
+
+`test-resources.json` must exist either at the package folder level, or at the service level. This file must contain an [ARM template](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/overview) of the resources needed to run all of the tests of the relevant clients. All of the `test-resources.json` files inside of the service folder will be used in conjunction to deploy resources on every build.
 
 Some examples can be found at: 
 
 - [sdk/keyvault/test-resources.json](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/test-resources.json).
 - [sdk/storage/test-resources.json](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/test-resources.json).
 - [sdk/servicebus/test-resources.json](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/test-resources.json).
+
+The `tests.yml` file must be placed at the package folder. This file is in charge of specifying when to run the tests for this package, what environments to use to run the tests, and how the tests are executed. You can learn how to write these files by following the guide: [Creating live tests](https://dev.azure.com/azure-sdk/internal/_wiki/wikis/internal.wiki/48/Create-a-new-Live-Test-pipeline?anchor=creating-live-tests).
+
+Some examples can be found at: 
+
+- [sdk/keyvault/keyvault-keys/tests.yml](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-keys/tests.yml).
+- [sdk/storage/storage-blob/tests.yml](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-blob/tests.yml).
+- [sdk/servicebus/service-bus/tests.yml](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/tests.yml).
 
 These files will deal with the environment variables needed by your tests. Some of these environment variables are quite standard. Generally speaking, the SDK tests will use information from the tenant and the client of the resources that the tests are working with. To effectively provide these to the automated tests, we need to enable the pipeline to use some specific configuration.
 
@@ -114,17 +124,19 @@ Once the CI is properly configured, you can test that the live tests pipelines w
 
 ### Delivering live tests to our users
 
-The `test-resources.json` can be used by our users to set up their own test resources. We go through how it's being used with our PowerShell scripts in our [README](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md#integration-testing-with-live-services), though we recommend using the same ARM template to expose a "Deploy Button" in the `README.md` of your project. The button will look like this one for KeyVault-Keys:
+The `test-resources.json` can be used by our users to set up their own test resources. We go through how it's being used with our PowerShell scripts in our [README](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md#integration-testing-with-live-services).
 
-[![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsdk%2Fkeyvault%2Ftests-resources.json)
+We recommend using the same ARM template to expose a "Deploy Button" in the `README.md` of your project. The button will look like this one for KeyVault Keys:
+
+[![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsdk%2Fkeyvault%2Fkeyvault-keys%2Ftest-resources.json)
 
 Which contains the following code:
 
 ```md
-[![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsdk%2Fkeyvault%2Ftests-resources.json)
+[![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsdk%2Fkeyvault%2Fkeyvault-keys%2Ftest-resources.json)
 ```
 
-You'll see that the way this works is that there's an azure endpoint with this structure `https://portal.azure.com/#create/Microsoft.Template/uri/` that has an encoded URL at the end of it. In that case, this one: `https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsdk%2Fkeyvault%2Ftests-resources.json`.
+It works by using the Azure endpoint `https://portal.azure.com/#create/Microsoft.Template/uri/` that allows receiving an encoded URL at the end of it. In the KeyVault Keys example, the encoded URL will contain the path of the `test-resources.json`, this one: `https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsdk%2Fkeyvault%2Fkeyvault-keys%2Ftest-resources.json`.
 
 Once clicked, the deploy button will load a form at Azure that should ask some basic information, and then allow anyone to deploy the same set of resources, already properly configured, to their accounts. This form is automatically generated from the ARM template, so to help our users go through it in detail, and also to inform them of the resources they will be creating, we recommend writing these details in a new file in your project's folder, called `TEST_RESOURCES_README.md` and linking it from your `README.md`. Here's an example that applies to all of our KeyVault clients: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/TEST_RESOURCES_README.md
 
@@ -136,14 +148,14 @@ Writing tests for JavaScript and TypeScript requires testing tools, such as a te
 
 - [Mocha](https://www.npmjs.com/package/mocha), which offers a well known and stable test framework for both NodeJS and the browser.
 - [Chai](https://www.npmjs.com/package/chai), a well known assertion library for Node and the browser.
-- [Rollup](https://www.npmjs.com/package/rollup), to bundle JavaScript for different environments, which helps us write a single TypeScript source and trust it will compile correctly for Node and the browser.
+- [Rollup](https://www.npmjs.com/package/rollup), to bundle JavaScript for different environments, which helps us write in TypeScript and build for Node and the browser.
 - [Karma](https://www.npmjs.com/package/karma), which allows us to run our tests in multiple browsers.
 
-We've also come up with our own internal tools:
+We're also making use of internal tools:
 
-- The [Recorder](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/test-utils/recorder) is a tool that helps us run our live tests against static recordings obtained from a previous successful run, which aims to ensure that our code hasn't changed while benefitting from not having to reach out to live services.
+- The [Recorder](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/test-utils/recorder) is a tool that helps us run our live tests against static recordings obtained from a previous successful run, which aims to ensure that our code hasn't changed while benefitting from not having to reach out to live services every time we want to run our tests.
 
-Now, let's see how we're using the mentioned tools.
+We'll now explore how we're using the mentioned tools.
 
 ### Mocha
 
@@ -153,7 +165,7 @@ In this section, we'll explore how the Azure SDK for JS is using mocha, what ver
 
 #### Mocha in our dependencies
 
-Since we're using [Rush](https://rushjs.io/), we're forced to use the same version of our packages in each one of the projects inside of this repository. If you want to add `mocha` as a dev dependency to a new project inside of this repository, first make sure you are in the root folder of that project, then you can run the following command:
+Since we're using [Rush](https://rushjs.io/), we're forced to use the same version of our packages in each one of the projects inside of this repository. If you want to add `mocha` as a dev dependency to a new project, once you are in the folder of that project, you can run the following command:
 
 ```
 rush add --dev -p mocha
@@ -191,11 +203,11 @@ Let's understand what's going on:
 - `--timeout 180000`, which specifies the maximum time each single test case can take. More on that on the [Handling timeouts](#handling-timeouts) section.
 - `--full-trace`, which enables full stack traces, since Mocha by default shortens the stack traces.
 
-That command by itself is still missing two things: the actual test files and a way to generate code coverage. These two missing pieces can vary depending on what we're trying to test and how we're trying to debug the tests.
+That command by itself is still missing two things: the test files and a way to generate code coverage. These two missing pieces can vary depending on what we're trying to test and how we're trying to debug the tests.
 
 Code coverage can be added by placing `nyc` at the beginning of the line. Keep in mind that `nyc` will **obscure the stack traces**, so it's preferable to make separate `package.json` scripts, one for automated testing through CI, with `nyc`, and another one for developers running tests, without `nyc`.
 
-Then we have to point mocha to our test files. If you're **not** using `nyc`, you can point to the bundled test file (bundled with rollup, which we will see later), typically at `dist-test/index.node.js`. If you are using `nyc`, point mocha to the files built by the TypeScript compiler, which can be found using `find dist-esm/test -name '*.spec.js'` before calling mocha.
+We also have to point mocha to our test files. If you're **not** using `nyc`, you can point to the bundled test file (bundled with Rollup, which we will see later), typically at `dist-test/index.node.js`. If you are using `nyc`, point mocha to the files built by the TypeScript compiler, which can be found using `find dist-esm/test -name '*.spec.js'` before calling mocha.
 
 To use Mocha from the `package.json`, our systems will expect to encounter two scripts, one called `unit-test` for tests that will be [executed during Pull Request validation](https://github.com/Azure/azure-sdk-for-js/blob/master/eng/pipelines/templates/jobs/archetype-sdk-client.yml#L226-L233), which won't ever reach to live resources, and another called `integration-test` for our [nightly and release builds](https://github.com/Azure/azure-sdk-for-js/blob/master/eng/pipelines/templates/jobs/archetype-sdk-integration.yml#L114), which will be expected to reach to live resources. We assume that the distinction of when to reach to what resources will be done within the tests (either from  [The Recorder](#the-recorder) or through [Using conditionals](#using-conditionals)). With this in mind, and limiting `nyc` to only run on the `integration-test` script (since `unit-test` will be used for debugging), we will end up with the following scripts:
 
