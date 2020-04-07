@@ -430,19 +430,6 @@ describe("invalid parameters", () => {
       );
     });
 
-    it("PeekBySequenceNumber: Missing sequenceNumber in SessionReceiver", async function(): Promise<
-      void
-    > {
-      let caughtError: Error | undefined;
-      try {
-        await receiver.browseMessages({ fromSequenceNumber: undefined as any });
-      } catch (error) {
-        caughtError = error;
-      }
-      should.equal(caughtError && caughtError.name, "TypeError");
-      should.equal(caughtError && caughtError.message, `Missing parameter "fromSequenceNumber"`);
-    });
-
     it("RegisterMessageHandler: Missing onMessage in SessionReceiver", async function(): Promise<
       void
     > {
