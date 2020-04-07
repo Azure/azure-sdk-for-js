@@ -19,6 +19,10 @@ import { Constants as CoreAMQPConstants, RetryOptions } from "@azure/core-amqp";
 interface Navigator {
   hardwareConcurrency: number;
 }
+/**
+ * @ignore
+ * @internal
+ */
 declare const navigator: Navigator;
 
 /**

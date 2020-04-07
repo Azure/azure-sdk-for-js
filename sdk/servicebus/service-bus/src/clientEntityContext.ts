@@ -341,6 +341,13 @@ export namespace ClientEntityContext {
 }
 
 // Multiple clients for the same Service Bus entity should be using the same management client.
+/**
+ * @internal
+ * @ignore
+ * @param {Dictionary<ClientEntityContext>} clients
+ * @param {string} entityPath
+ * @returns {(ManagementClient | undefined)}
+ */
 function getManagementClient(
   clients: Dictionary<ClientEntityContext>,
   entityPath: string

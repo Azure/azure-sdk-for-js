@@ -348,6 +348,12 @@ export class ServiceBusClient {
   }
 }
 
+/**
+ * @internal
+ * @ignore
+ * @param {*} mode
+ * @returns {(mode is "peekLock" | "receiveAndDelete")}
+ */
 function isReceiveMode(mode: any): mode is "peekLock" | "receiveAndDelete" {
   return mode && typeof mode === "string" && (mode === "peekLock" || mode === "receiveAndDelete");
 }

@@ -116,6 +116,10 @@ export interface CorrelationFilter {
   userProperties?: any;
 }
 
+/**
+ * @internal
+ * @ignore
+ */
 const correlationProperties = [
   "correlationId",
   "messageId",
