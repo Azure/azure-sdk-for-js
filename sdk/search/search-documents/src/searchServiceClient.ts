@@ -155,7 +155,7 @@ export class SearchServiceClient {
    */
   public async listIndexes<Fields extends keyof Index>(
     options: ListIndexesOptions<Fields> = {}
-  ): Promise<Index[]> {
+  ): Promise<Array<Pick<Index, Fields>>> {
     const { span, updatedOptions } = createSpan("SearchServiceClient-listIndexes", options);
     try {
       const result = await this.client.indexes.list({
@@ -202,7 +202,7 @@ export class SearchServiceClient {
    */
   public async listSynonymMaps<Fields extends keyof SynonymMap>(
     options: ListSynonymMapsOptions<Fields> = {}
-  ): Promise<SynonymMap[]> {
+  ): Promise<Array<Pick<SynonymMap, Fields>>> {
     const { span, updatedOptions } = createSpan("SearchServiceClient-listSynonymMaps", options);
     try {
       const result = await this.client.synonymMaps.list({
@@ -227,7 +227,7 @@ export class SearchServiceClient {
    */
   public async listIndexers<Fields extends keyof Indexer>(
     options: ListIndexersOptions<Fields> = {}
-  ): Promise<Indexer[]> {
+  ): Promise<Array<Pick<Indexer, Fields>>> {
     const { span, updatedOptions } = createSpan("SearchServiceClient-listIndexers", options);
     try {
       const result = await this.client.indexers.list({
