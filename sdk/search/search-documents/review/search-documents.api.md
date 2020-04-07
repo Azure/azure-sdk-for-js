@@ -155,7 +155,13 @@ export interface CorsOptions {
 export type CountDocumentsOptions = OperationOptions;
 
 // @public
+export type CreateIndexerOptions = OperationOptions;
+
+// @public
 export type CreateIndexOptions = OperationOptions;
+
+// @public
+export type CreateorUpdateIndexerOptions = OperationOptions & ETagOperationOptions;
 
 // @public
 export interface CreateOrUpdateIndexOptions extends OperationOptions, ETagOperationOptions {
@@ -192,6 +198,9 @@ export interface DefaultCognitiveServicesAccount {
 
 // @public
 export type DeleteDocumentsOptions = IndexDocuments;
+
+// @public
+export type DeleteIndexerOptions = OperationOptions & ETagOperationOptions;
 
 // @public
 export type DeleteIndexOptions = OperationOptions & ETagOperationOptions;
@@ -308,6 +317,21 @@ export interface FacetResult {
 export type Field = SimpleField | ComplexField;
 
 // @public
+export interface FieldMapping {
+    mappingFunction?: FieldMappingFunction;
+    sourceFieldName: string;
+    targetFieldName?: string;
+}
+
+// @public
+export interface FieldMappingFunction {
+    name: string;
+    parameters?: {
+        [propertyName: string]: any;
+    };
+}
+
+// @public
 export interface FreshnessScoringFunction {
     boost: number;
     fieldName: string;
@@ -333,6 +357,12 @@ export class GeographyPoint {
 export interface GetDocumentOptions<Fields> extends OperationOptions {
     selectedFields?: Fields[];
 }
+
+// @public
+export type GetIndexerOptions = OperationOptions;
+
+// @public
+export type GetIndexerStatusOptions = OperationOptions;
 
 // @public
 export type GetIndexOptions = OperationOptions;
@@ -416,6 +446,66 @@ export interface IndexDocumentsResult {
 }
 
 // @public
+export interface Indexer {
+    dataSourceName: string;
+    description?: string;
+    etag?: string;
+    fieldMappings?: FieldMapping[];
+    isDisabled?: boolean;
+    name: string;
+    outputFieldMappings?: FieldMapping[];
+    parameters?: IndexingParameters;
+    schedule?: IndexingSchedule;
+    skillsetName?: string;
+    targetIndexName: string;
+}
+
+// @public
+export interface IndexerExecutionInfo {
+    readonly executionHistory: IndexerExecutionResult[];
+    readonly lastResult?: IndexerExecutionResult;
+    readonly limits: IndexerLimits;
+    readonly status: IndexerStatus;
+}
+
+// @public
+export interface IndexerExecutionResult {
+    readonly endTime?: Date;
+    readonly errorMessage?: string;
+    readonly errors: ItemError[];
+    readonly failedItemCount: number;
+    readonly finalTrackingState?: string;
+    readonly initialTrackingState?: string;
+    readonly itemCount: number;
+    readonly startTime?: Date;
+    readonly status: IndexerExecutionStatus;
+    readonly warnings: ItemWarning[];
+}
+
+// @public
+export type IndexerExecutionStatus = 'transientFailure' | 'success' | 'inProgress' | 'reset';
+
+// @public
+export interface IndexerLimits {
+    readonly maxDocumentContentCharactersToExtract?: number;
+    readonly maxDocumentExtractionSize?: number;
+    readonly maxRunTime?: string;
+}
+
+// @public
+export type IndexerStatus = 'unknown' | 'error' | 'running';
+
+// @public
+export interface IndexingParameters {
+    batchSize?: number;
+    configuration?: {
+        [propertyName: string]: any;
+    };
+    maxFailedItems?: number;
+    maxFailedItemsPerBatch?: number;
+}
+
+// @public
 export interface IndexingResult {
     readonly errorMessage?: string;
     readonly key: string;
@@ -424,11 +514,36 @@ export interface IndexingResult {
 }
 
 // @public
+export interface IndexingSchedule {
+    interval: string;
+    startTime?: Date;
+}
+
+// @public
 export interface InputFieldMappingEntry {
     inputs?: InputFieldMappingEntry[];
     name: string;
     source?: string;
     sourceContext?: string;
+}
+
+// @public
+export interface ItemError {
+    readonly details?: string;
+    readonly documentationLink?: string;
+    readonly errorMessage: string;
+    readonly key?: string;
+    readonly name?: string;
+    readonly statusCode: number;
+}
+
+// @public
+export interface ItemWarning {
+    readonly details?: string;
+    readonly documentationLink?: string;
+    readonly key?: string;
+    readonly message: string;
+    readonly name?: string;
 }
 
 // @public
@@ -660,8 +775,13 @@ export interface LimitTokenFilter {
 }
 
 // @public
-export interface ListIndexesOptions extends OperationOptions {
-    select?: string[];
+export interface ListIndexersOptions<Fields> extends OperationOptions {
+    select?: Fields[];
+}
+
+// @public
+export interface ListIndexesOptions<Fields> extends OperationOptions {
+    select?: Fields[];
 }
 
 // @public
@@ -673,8 +793,8 @@ export interface ListSearchResultsPageSettings {
 export type ListSkillsetsOptions = OperationOptions;
 
 // @public
-export interface ListSynonymMapsOptions extends OperationOptions {
-    select?: string[];
+export interface ListSynonymMapsOptions<Fields> extends OperationOptions {
+    select?: Fields[];
 }
 
 // @public
@@ -885,6 +1005,12 @@ export interface RawSearchRequest {
 export type RegexFlags = 'CANON_EQ' | 'CASE_INSENSITIVE' | 'COMMENTS' | 'DOTALL' | 'LITERAL' | 'MULTILINE' | 'UNICODE_CASE' | 'UNIX_LINES';
 
 // @public
+export type ResetIndexerOptions = OperationOptions;
+
+// @public
+export type RunIndexerOptions = OperationOptions;
+
+// @public
 export type ScoringFunction = DistanceScoringFunction | FreshnessScoringFunction | MagnitudeScoringFunction | TagScoringFunction;
 
 // @public
@@ -986,22 +1112,30 @@ export class SearchServiceClient {
     analyzeText(indexName: string, options: AnalyzeTextOptions): Promise<AnalyzeResult>;
     readonly apiVersion: string;
     createIndex(index: Index, options?: CreateIndexOptions): Promise<Index>;
+    createIndexer(indexer: Indexer, options?: CreateIndexerOptions): Promise<Indexer>;
     createOrUpdateIndex(index: Index, options?: CreateOrUpdateIndexOptions): Promise<Index>;
+    createOrUpdateIndexer(indexer: Indexer, options?: CreateorUpdateIndexerOptions): Promise<Indexer>;
     createOrUpdateSkillset(skillset: Skillset, options?: CreateOrUpdateSkillsetOptions): Promise<Skillset>;
     createOrUpdateSynonymMap(synonymMap: SynonymMap, options?: CreateOrUpdateSynonymMapOptions): Promise<SynonymMap>;
     createSkillset(skillset: Skillset, options?: CreateSkillsetOptions): Promise<Skillset>;
     createSynonymMap(synonymMap: SynonymMap, options?: CreateSynonymMapOptions): Promise<SynonymMap>;
     deleteIndex(indexName: string, options?: DeleteIndexOptions): Promise<void>;
+    deleteIndexer(indexerName: string, options?: DeleteIndexerOptions): Promise<void>;
     deleteSkillset(skillsetName: string, options?: DeleteSkillsetOptions): Promise<void>;
     deleteSynonymMap(synonymMapName: string, options?: DeleteSynonymMapOptions): Promise<void>;
     readonly endpoint: string;
     getIndex(indexName: string, options?: GetIndexOptions): Promise<Index>;
+    getIndexer(indexerName: string, options?: GetIndexerOptions): Promise<Indexer>;
+    getIndexerStatus(indexerName: string, options?: GetIndexerStatusOptions): Promise<IndexerExecutionInfo>;
     getIndexStatistics(indexName: string, options?: GetIndexStatisticsOptions): Promise<GetIndexStatisticsResult>;
     getSkillset(skillsetName: string, options?: GetSkillSetOptions): Promise<Skillset>;
     getSynonymMap(synonymMapName: string, options?: GetSynonymMapsOptions): Promise<SynonymMap>;
-    listIndexes(options?: ListIndexesOptions): Promise<Index[]>;
+    listIndexers<Fields extends keyof Indexer>(options?: ListIndexersOptions<Fields>): Promise<Array<Pick<Indexer, Fields>>>;
+    listIndexes<Fields extends keyof Index>(options?: ListIndexesOptions<Fields>): Promise<Array<Pick<Index, Fields>>>;
     listSkillsets(options?: ListSkillsetsOptions): Promise<Skillset[]>;
-    listSynonymMaps(options?: ListSynonymMapsOptions): Promise<SynonymMap[]>;
+    listSynonymMaps<Fields extends keyof SynonymMap>(options?: ListSynonymMapsOptions<Fields>): Promise<Array<Pick<SynonymMap, Fields>>>;
+    resetIndexer(indexerName: string, options?: ResetIndexerOptions): Promise<void>;
+    runIndexer(indexerName: string, options?: RunIndexerOptions): Promise<void>;
 }
 
 // @public

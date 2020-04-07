@@ -529,6 +529,26 @@ async function main() {
 main();
 ```
 
+#### Get a list of existing indexers in the service
+```js
+const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-documents");
+
+const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
+
+async function main() {
+  let listOfIndexers = await client.listIndexers();
+
+  for(let indexer of listOfIndexers) {
+    console.log(`Name: ${indexer.name}`);
+    console.log(`Datasource Name: ${indexer.dataSourceName}`);
+    console.log(`Skillset Name: ${indexer.skillsetName}`);
+    console.log();
+  }
+}
+
+main();
+```
+
 #### Create an Index
 
 ```js
@@ -719,6 +739,32 @@ async function main() {
 main();
 ```
 
+#### Create an Indexer
+```js
+const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-documents");
+
+const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
+
+async function main() {
+  const indexer = await client.createIndexer({
+    name: 'my-azure-indexer-1',
+    description: "My Azure Indexer 1",
+    dataSourceName: "testblobstoragesjama",  
+    targetIndexName: "azureblob-index-2",
+    isDisabled: false,
+    fieldMappings: [{
+      sourceFieldName: "metadata_storage_path",
+      targetFieldName: "metadata_storage_path",
+      mappingFunction: {
+        name: "base64Encode"
+      }
+    }]
+  });
+}
+
+main();
+```
+
 #### Create a SynonymMap
 
 ```js
@@ -731,6 +777,57 @@ async function main() {
     name: `my-synonymmap`,
     synonyms: ["United States, United States of America => USA", "Washington, Wash. => WA"]
   });
+}
+
+main();
+```
+
+#### Retrieve an existing indexer and modify a field in it
+```js
+const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-documents");
+
+const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
+
+async function main() {
+  const indexer = await client.getIndexer("my-azure-indexer-1");
+  indexer.isDisabled = true;
+  indexer = await client.createOrUpdateIndexer(indexer);
+  
+  console.log(`Name: ${indexer.name}`);
+  console.log(`Description: ${indexer.description}`);
+  console.log(`Datasource Name: ${indexer.dataSourceName}`);
+  console.log(`Target Index Name: ${indexer.targetIndexName}`);
+  console.log(`IsDisabled: ${indexer.isDisabled}`);
+  console.log(`Field Mappings`);
+  for(let fieldMapping of indexer.fieldMappings) {
+    console.log(`\tSource Field Name: ${fieldMapping.sourceFieldName}`);
+    console.log(`\tTarget Field Name: ${fieldMapping.targetFieldName}`);
+    console.log(`\tMapping Function Name: ${fieldMapping.mappingFunction.name}`);
+  }
+}
+
+
+
+main();
+```
+
+### Get the status of an indexer
+```js
+const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-documents");
+
+const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
+
+async function main() {
+  const indexerStatus = await client.getIndexerStatus('my-azure-indexer-1');
+  console.log(`Name: ${indexerStatus.name}`);
+  console.log(`OData Context: ${indexerStatus["@odata.context"]}`);
+  console.log(`Status: ${indexerStatus.status}`);
+  console.log(`Execution History`);
+  for(let execution of indexerStatus.executionHistory) {
+    console.log(`\tStatus: ${execution.status}`);
+    console.log(`\tFinal Tracking State: ${execution.finalTrackingState}`);
+    console.log(`\tInitial Tracking State: ${execution.initialTrackingState}`);
+  }
 }
 
 main();

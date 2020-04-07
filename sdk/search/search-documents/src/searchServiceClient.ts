@@ -11,7 +11,12 @@ import {
 } from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/types";
 import { SDK_VERSION } from "./constants";
-import { AnalyzeResult, GetIndexStatisticsResult } from "./generated/service/models";
+import {
+  AnalyzeResult,
+  GetIndexStatisticsResult,
+  Indexer,
+  IndexerExecutionInfo
+} from "./generated/service/models";
 import { SearchServiceClient as GeneratedClient } from "./generated/service/searchServiceClient";
 import { logger } from "./logger";
 import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy";
@@ -35,7 +40,15 @@ import {
   ListSkillsetsOptions,
   ListSynonymMapsOptions,
   Skillset,
-  SynonymMap
+  SynonymMap,
+  ListIndexersOptions,
+  CreateIndexerOptions,
+  GetIndexerOptions,
+  CreateorUpdateIndexerOptions,
+  DeleteIndexerOptions,
+  GetIndexerStatusOptions,
+  ResetIndexerOptions,
+  RunIndexerOptions
 } from "./serviceModels";
 import * as utils from "./serviceUtils";
 import { createSpan } from "./tracing";
@@ -140,7 +153,9 @@ export class SearchServiceClient {
    * Retrieves a list of existing indexes in the service.
    * @param options Options to the list index operation.
    */
-  public async listIndexes(options: ListIndexesOptions = {}): Promise<Index[]> {
+  public async listIndexes<Fields extends keyof Index>(
+    options: ListIndexesOptions<Fields> = {}
+  ): Promise<Array<Pick<Index, Fields>>> {
     const { span, updatedOptions } = createSpan("SearchServiceClient-listIndexes", options);
     try {
       const result = await this.client.indexes.list({
@@ -185,7 +200,9 @@ export class SearchServiceClient {
    * Retrieves a list of existing SynonymMaps in the service.
    * @param options Options to the list SynonymMaps operation.
    */
-  public async listSynonymMaps(options: ListSynonymMapsOptions = {}): Promise<SynonymMap[]> {
+  public async listSynonymMaps<Fields extends keyof SynonymMap>(
+    options: ListSynonymMapsOptions<Fields> = {}
+  ): Promise<Array<Pick<SynonymMap, Fields>>> {
     const { span, updatedOptions } = createSpan("SearchServiceClient-listSynonymMaps", options);
     try {
       const result = await this.client.synonymMaps.list({
@@ -193,6 +210,31 @@ export class SearchServiceClient {
         select: updatedOptions.select?.join(",")
       });
       return result.synonymMaps.map(utils.generatedSynonymMapToPublicSynonymMap);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Retrieves a list of existing indexers in the service.
+   * @param options Options to the list indexers operation.
+   */
+  public async listIndexers<Fields extends keyof Indexer>(
+    options: ListIndexersOptions<Fields> = {}
+  ): Promise<Array<Pick<Indexer, Fields>>> {
+    const { span, updatedOptions } = createSpan("SearchServiceClient-listIndexers", options);
+    try {
+      const result = await this.client.indexers.list({
+        ...operationOptionsToRequestOptionsBase(updatedOptions),
+        select: updatedOptions.select?.join(",")
+      });
+      return result.indexers;
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -256,7 +298,7 @@ export class SearchServiceClient {
   }
 
   /**
-   * Retrieves information about an SynonymMap.
+   * Retrieves information about a SynonymMap.
    * @param indexName The name of the Skillset.
    * @param options Additional optional arguments.
    */
@@ -271,6 +313,30 @@ export class SearchServiceClient {
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
       return utils.generatedSynonymMapToPublicSynonymMap(result);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Retrieves information about an Indexer.
+   * @param indexerName The name of the Indexer.
+   * @param options Additional optional arguments.
+   */
+  public async getIndexer(indexerName: string, options: GetIndexerOptions = {}): Promise<Indexer> {
+    const { span, updatedOptions } = createSpan("SearchServiceClient-getIndexer", options);
+    try {
+      const result = await this.client.indexers.get(
+        indexerName,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return result;
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -349,6 +415,33 @@ export class SearchServiceClient {
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
       return utils.generatedSynonymMapToPublicSynonymMap(result);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Creates a new indexer in a search service.
+   * @param indexer The indexer definition to create in a search service.
+   * @param options Additional optional arguments.
+   */
+  public async createIndexer(
+    indexer: Indexer,
+    options: CreateIndexerOptions = {}
+  ): Promise<Indexer> {
+    const { span, updatedOptions } = createSpan("SearchServiceClient-createIndexer", options);
+    try {
+      const result = await this.client.indexers.create(
+        indexer,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return result;
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -451,6 +544,37 @@ export class SearchServiceClient {
   }
 
   /**
+   * Creates a new indexer or modifies an existing one.
+   * @param indexer The information describing the indexer to be created/updated.
+   * @param options Additional optional arguments.
+   */
+  public async createOrUpdateIndexer(
+    indexer: Indexer,
+    options: CreateorUpdateIndexerOptions = {}
+  ): Promise<Indexer> {
+    const { span, updatedOptions } = createSpan(
+      "SearchServiceClient-createOrUpdateIndexer",
+      options
+    );
+    try {
+      const result = await this.client.indexers.createOrUpdate(
+        indexer.name,
+        indexer,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return result;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
    * Deletes an existing index.
    * @param indexName The name of the index to delete.
    * @param options Additional optional arguments.
@@ -526,6 +650,32 @@ export class SearchServiceClient {
   }
 
   /**
+   * Deletes an existing indexer.
+   * @param indexerName The name of the indexer to delete.
+   * @param options Additional optional arguments.
+   */
+  public async deleteIndexer(
+    indexerName: string,
+    options: DeleteIndexerOptions = {}
+  ): Promise<void> {
+    const { span, updatedOptions } = createSpan("SearchServiceClient-deleteIndexer", options);
+    try {
+      await this.client.indexers.deleteMethod(
+        indexerName,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
    * Retrieves statistics about an index, such as the count of documents and the size
    * of index storage.
    * @param indexName The name of the index.
@@ -542,6 +692,79 @@ export class SearchServiceClient {
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
       return result;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Returns the current status and execution history of an indexer.
+   * @param indexerName The name of the indexer.
+   * @param options Additional optional arguments.
+   */
+  public async getIndexerStatus(
+    indexerName: string,
+    options: GetIndexerStatusOptions = {}
+  ): Promise<IndexerExecutionInfo> {
+    const { span, updatedOptions } = createSpan("SearchServiceClient-getIndexerStatus", options);
+    try {
+      const result = await this.client.indexers.getStatus(
+        indexerName,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return result;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Resets the change tracking state associated with an indexer.
+   * @param indexerName The name of the indexer to reset.
+   * @param options Additional optional arguments.
+   */
+  public async resetIndexer(indexerName: string, options: ResetIndexerOptions = {}): Promise<void> {
+    const { span, updatedOptions } = createSpan("SearchServiceClient-resetIndexer", options);
+    try {
+      await this.client.indexers.reset(
+        indexerName,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Runs an indexer on-demand.
+   * @param indexerName The name of the indexer to run.
+   * @param options Additional optional arguments.
+   */
+  public async runIndexer(indexerName: string, options: RunIndexerOptions = {}): Promise<void> {
+    const { span, updatedOptions } = createSpan("SearchServiceClient-runIndexer", options);
+    try {
+      await this.client.indexers.run(
+        indexerName,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

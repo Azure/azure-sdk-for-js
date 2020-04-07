@@ -80,25 +80,36 @@ export type ListSkillsetsOptions = OperationOptions;
 /**
  * Options for a list synonymMaps operation.
  */
-export interface ListSynonymMapsOptions extends OperationOptions {
+export interface ListSynonymMapsOptions<Fields> extends OperationOptions {
   /**
    * Selects which top-level properties of the synonym maps to retrieve. Specified as a
    * comma-separated list of JSON property names, or '*' for all properties. The default is all
    * properties.
    */
-  select?: string[];
+  select?: Fields[];
 }
 
 /**
  * Options for a list indexes operation.
  */
-export interface ListIndexesOptions extends OperationOptions {
+export interface ListIndexesOptions<Fields> extends OperationOptions {
   /**
    * Selects which top-level properties of the index definitions to retrieve. Specified as a
    * comma-separated list of JSON property names, or '*' for all properties. The default is all
    * properties.
    */
-  select?: string[];
+  select?: Fields[];
+}
+/**
+ * Options for a list indexers operation.
+ */
+export interface ListIndexersOptions<Fields> extends OperationOptions {
+  /**
+   * Selects which top-level properties of the index definitions to retrieve. Specified as a
+   * comma-separated list of JSON property names, or '*' for all properties. The default is all
+   * properties.
+   */
+  select?: Fields[];
 }
 
 /**
@@ -117,9 +128,29 @@ export type GetSkillSetOptions = OperationOptions;
 export type GetSynonymMapsOptions = OperationOptions;
 
 /**
+ * Options for get indexer operation.
+ */
+export type GetIndexerOptions = OperationOptions;
+
+/**
  * Options for get index statistics operation.
  */
 export type GetIndexStatisticsOptions = OperationOptions;
+
+/**
+ * Options for get indexer status operation.
+ */
+export type GetIndexerStatusOptions = OperationOptions;
+
+/**
+ * Options for reset indexer operation.
+ */
+export type ResetIndexerOptions = OperationOptions;
+
+/**
+ * Options for run indexer operation.
+ */
+export type RunIndexerOptions = OperationOptions;
 
 /**
  * Options for create index operation.
@@ -135,6 +166,11 @@ export type CreateSkillsetOptions = OperationOptions;
  * Options for create synonymmap operation.
  */
 export type CreateSynonymMapOptions = OperationOptions;
+
+/**
+ * Options for create indexer operation.
+ */
+export type CreateIndexerOptions = OperationOptions;
 
 /**
  * Options for all operations with etag parameters.
@@ -170,6 +206,11 @@ export type CreateOrUpdateSkillsetOptions = OperationOptions & ETagOperationOpti
 export type CreateOrUpdateSynonymMapOptions = OperationOptions & ETagOperationOptions;
 
 /**
+ * Options for create/update indexer operation.
+ */
+export type CreateorUpdateIndexerOptions = OperationOptions & ETagOperationOptions;
+
+/**
  * Options for delete index operation.
  */
 export type DeleteIndexOptions = OperationOptions & ETagOperationOptions;
@@ -183,6 +224,11 @@ export type DeleteSkillsetOptions = OperationOptions & ETagOperationOptions;
  * Options for delete synonymmap operation.
  */
 export type DeleteSynonymMapOptions = OperationOptions & ETagOperationOptions;
+
+/**
+ * Options for delete indexer operation.
+ */
+export type DeleteIndexerOptions = OperationOptions & ETagOperationOptions;
 
 /**
  * Options for analyze text operation.
