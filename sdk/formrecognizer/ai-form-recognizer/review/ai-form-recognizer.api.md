@@ -307,7 +307,12 @@ export class FormRecognizerClient {
     beginExtractLabeledForms(modelId: string, body: FormRecognizerRequestBody, contentType: ContentType, options?: BeginExtractLabeledFormOptions): Promise<LabeledFormPollerLike>;
     // (undocumented)
     beginExtractLabeledFormsFromUrl(modelId: string, documentUrl: string, options?: BeginExtractLabeledFormOptions): Promise<PollerLike<PollOperationState<LabeledFormResultResponse>, LabeledFormResultResponse>>;
+    beginExtractLayout(source: FormRecognizerRequestBody, contentType?: ContentType, options?: BeginExtractLayoutOptions): Promise<LayoutPollerLike>;
+    beginExtractReceipts(source: FormRecognizerRequestBody, contentType?: ContentType, options?: BeginExtractReceiptsOptions): Promise<ReceiptPollerLike>;
+    beginExtractReceiptsFromUrl(documentUrl: string, options?: BeginExtractReceiptsOptions): Promise<ReceiptPollerLike>;
     readonly endpointUrl: string;
+    // (undocumented)
+    extractLayoutFromUrl(documentUrl: string, options?: BeginExtractLayoutOptions): Promise<LayoutPollerLike>;
     getFormTrainingClient(): FormTrainingClient;
 }
 
@@ -442,15 +447,6 @@ export type Language = "en" | "es";
 
 // @public
 export type LayoutPollerLike = PollerLike<PollOperationState<ExtractLayoutResultResponse>, ExtractLayoutResultResponse>;
-
-// @public
-export class LayoutRecognizerClient {
-    constructor(endpointUrl: string, credential: FormRecognizerApiKeyCredential, options?: FormRecognizerClientOptions);
-    beginExtractLayout(source: FormRecognizerRequestBody, contentType?: ContentType, options?: BeginExtractLayoutOptions): Promise<LayoutPollerLike>;
-    readonly endpointUrl: string;
-    // (undocumented)
-    extractLayoutFromUrl(documentUrl: string, options?: BeginExtractLayoutOptions): Promise<LayoutPollerLike>;
-    }
 
 // @public
 export type LengthUnit = "pixel" | "inch";
@@ -618,14 +614,6 @@ export type ReceiptItemField = {
 // @public
 export type ReceiptPollerLike = PollerLike<PollOperationState<ExtractReceiptResultResponse>, ExtractReceiptResultResponse>;
 
-// @public
-export class ReceiptRecognizerClient {
-    constructor(endpointUrl: string, credential: FormRecognizerApiKeyCredential, options?: FormRecognizerClientOptions);
-    beginExtractReceipts(source: FormRecognizerRequestBody, contentType?: ContentType, options?: BeginExtractReceiptsOptions): Promise<ReceiptPollerLike>;
-    beginExtractReceiptsFromUrl(documentUrl: string, options?: BeginExtractReceiptsOptions): Promise<ReceiptPollerLike>;
-    readonly endpointUrl: string;
-    }
-
 export { RestResponse }
 
 // @public
@@ -668,7 +656,7 @@ export type TrainStatus = "succeeded" | "partiallySucceeded" | "failed";
 
 // Warnings were encountered during analysis:
 //
-// src/formRecognizerClient.ts:68:3 - (ae-forgotten-export) The symbol "BeginExtractPollState" needs to be exported by the entry point index.d.ts
+// src/formRecognizerClient.ts:115:3 - (ae-forgotten-export) The symbol "BeginExtractPollState" needs to be exported by the entry point index.d.ts
 // src/formTrainingClient.ts:74:3 - (ae-forgotten-export) The symbol "BeginTrainingPollState" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)

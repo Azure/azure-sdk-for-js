@@ -5,8 +5,8 @@
  * Extract receipt
  */
 
-//import { ReceiptRecognizerClient, FormRecognizerApiKeyCredential } from "@azure/ai-form-recognizer";
-import { ReceiptRecognizerClient, FormRecognizerApiKeyCredential } from "../../../src/index";
+//import { FormRecognizerClient, FormRecognizerApiKeyCredential } from "@azure/ai-form-recognizer";
+import { FormRecognizerClient, FormRecognizerApiKeyCredential } from "../../../src/index";
 
 import * as fs from "fs";
 
@@ -27,7 +27,7 @@ async function main() {
 
   const readStream = fs.createReadStream(path);
 
-  const client = new ReceiptRecognizerClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
+  const client = new FormRecognizerClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
   const poller = await client.beginExtractReceipts(readStream, "image/jpeg", {
     onProgress: (state) => { console.log(`status: ${state.status}`); }
   });

@@ -5,7 +5,7 @@
  * Extract Layout
  */
 
-const { LayoutRecognizerClient, FormRecognizerApiKeyCredential } = require("../../dist");
+const { FormRecognizerClient, FormRecognizerApiKeyCredential } = require("../../dist");
 const fs = require("fs");
 
 // Load the .env file if it exists
@@ -25,7 +25,7 @@ async function main() {
 
   const readStream = fs.createReadStream(path);
 
-  const client = new LayoutRecognizerClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
+  const client = new FormRecognizerClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
   const poller = await client.beginExtractLayout(readStream, "application/pdf", {
     onProgress: (state) => { console.log(`status: ${state.status}`); }
   });

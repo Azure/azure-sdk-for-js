@@ -5,7 +5,7 @@
  * Extract receipt
  */
 
-const { ReceiptRecognizerClient, FormRecognizerApiKeyCredential } = require("../../dist");
+const { FormRecognizerClient, FormRecognizerApiKeyCredential } = require("../../dist");
 
 // Load the .env file if it exists
 require("dotenv").config();
@@ -17,25 +17,15 @@ async function main() {
   const endpoint = process.env["COGNITIVE_SERVICE_ENDPOINT"] || "<cognitive services endpoint>";
   const apiKey = process.env["COGNITIVE_SERVICE_API_KEY"] || "<api key>";
 
-  const client = new ReceiptRecognizerClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
+  const client = new FormRecognizerClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
   const imageUrl = "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-REST-api-samples/master/curl/form-recognizer/contoso-allinone.jpg";
 
-  let response;
-
-  try {
-    // response = await client.getExtractedReceipt("bce24b30-49a1-4bb1-9e54-206194aa8665");
-    throw new Error("no existing receipt");
-  } catch (e) {
-    console.log(response);
-    console.log("extracting...");
-
-    const poller = await client.beginExtractReceiptsFromUrl(imageUrl, {
-      includeTextDetails: true,
-      onProgress: (state) => { console.log(`analyzing status: ${state.status}`); }
-    });
-    await poller.pollUntilDone();
-    response = poller.getResult();
-  }
+  const poller = await client.beginExtractReceiptsFromUrl(imageUrl, {
+    includeTextDetails: true,
+    onProgress: (state) => { console.log(`analyzing status: ${state.status}`); }
+  });
+  await poller.pollUntilDone();
+  const response = poller.getResult();
 
   if (!response) {
     throw new Error("Expecting valid response!");
