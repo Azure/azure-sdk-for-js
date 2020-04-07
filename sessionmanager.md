@@ -16,8 +16,8 @@ documents, and each edit is stored as a message within Service Bus.
 { 
   sessionId: "the document name"
   body: {
-    mode: edit",
-    "content of the edit"
+    mode: "edit",
+    content: "content of the edit"
   }  
 }
 ```
