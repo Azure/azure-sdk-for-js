@@ -205,11 +205,11 @@ Let's understand what's going on:
 
 That command by itself is still missing two things: the test files and a way to generate code coverage. These two missing pieces can vary depending on what we're trying to test and how we're trying to debug the tests.
 
-Code coverage can be added by placing `nyc` at the beginning of the line. Keep in mind that `nyc` will **obscure the stack traces**, so it's preferable to make separate `package.json` scripts, one for automated testing through CI, with `nyc`, and another one for developers running tests, without `nyc`.
+Code coverage can be added by placing `nyc` at the beginning of the line. Keep in mind that `nyc` will **obscure the stack traces**, so it's preferable to make separate `package.json` scripts, one for automated live testing through CI, with `nyc`, and another one to help developers debug their tests, without `nyc`.
 
 We also have to point mocha to our test files. If you're **not** using `nyc`, you can point to the bundled test file (bundled with Rollup, which we will see later), typically at `dist-test/index.node.js`. If you are using `nyc`, point mocha to the files built by the TypeScript compiler, which can be found using `find dist-esm/test -name '*.spec.js'` before calling mocha.
 
-To use Mocha from the `package.json`, our systems will expect to encounter two scripts, one called `unit-test` for tests that will be [executed during Pull Request validation](https://github.com/Azure/azure-sdk-for-js/blob/master/eng/pipelines/templates/jobs/archetype-sdk-client.yml#L226-L233), which won't ever reach to live resources, and another called `integration-test` for our [nightly and release builds](https://github.com/Azure/azure-sdk-for-js/blob/master/eng/pipelines/templates/jobs/archetype-sdk-integration.yml#L114), which will be expected to reach to live resources. We assume that the distinction of when to reach to what resources will be done within the tests (either from  [The Recorder](#the-recorder) or through [Using conditionals](#using-conditionals)). With this in mind, and limiting `nyc` to only run on the `integration-test` script (since `unit-test` will be used for debugging), we will end up with the following scripts:
+Our engineering systems will expect to encounter two scripts in our `package.json`s, one called `unit-test` for tests that will be [executed during Pull Request validation](https://github.com/Azure/azure-sdk-for-js/blob/master/eng/pipelines/templates/jobs/archetype-sdk-client.yml#L226-L233), which won't ever reach to live resources, and another called `integration-test` for our [nightly and release builds](https://github.com/Azure/azure-sdk-for-js/blob/master/eng/pipelines/templates/jobs/archetype-sdk-integration.yml#L114), which will be expected to reach to live resources. We assume that the distinction of when to reach to what resources will be done within the tests (either by using [The Recorder](#the-recorder) or through [Using conditionals](#using-conditionals)). With this in mind, and limiting `nyc` to only run on the `integration-test` script, we will end up with the following scripts:
 
 ```json
     "integration-test:node": "find dist-esm/test -name '*.spec.js' | xargs nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace",
@@ -222,11 +222,11 @@ You can look at how Mocha's configuration is present in our [template project's 
 
 #### Code coverage with Mocha and nyc
 
-Our `integration-test` script will output code-coverage on our nightly and release builds. It's recommended to run this manually to confirm that code coverage is high. Code coverage should be above 80%, though code coverage should not change how we write code or tests.
+Our `integration-test` script will output code-coverage on our nightly and release builds. It's recommended to run this manually to confirm that code coverage is high. Code coverage should be above 80%, though code coverage should not change how we write our code nor our tests.
 
 #### Handling timeouts
 
-All of the tests in the Azure SDK repository should have a timeout. In the previous section, we have discussed how this timeout is defined for _mocha_, though the parameter `--timeout` with an additional milliseconds amount, which is sent during the invocation of mocha. Now we will define how to know how many milliseconds to pass to this parameter.
+All of the tests in the Azure SDK repository should have a timeout. In the previous section, we have discussed how this timeout is defined for Mocha through the parameter `--timeout`. The number of milliseconds should be determined by a reasonable process. 
 
 New projects inside of this repository can take a safe guess based on how much the tests on average take locally. **Existing projects** should instead follow these steps to **get a reasonable timeout from past test executions**:
 
@@ -257,13 +257,13 @@ The pictures:
 
 #### On the usage of before, beforeEach, after and afterEach
 
-Mocha's `before` and `beforeEach` are methods that allow you to specify functions that should be executed either before all of the tests run or before each test runs, respectively. Similarly, `after` and `afterEach` exist so that developers can specify functions that should be executed after all tests run or after each test runs, respectively.
+Mocha's `before` and `beforeEach` are methods that allow you to specify functions that should be executed either before all of the tests run or before each test runs, respectively. Similarly, `after` and `afterEach` exist so that developers can specify functions that should be executed after all tests run or after each test runs.
 
 We recommend using `beforeEach` rather than `before`, just as much as we recommend using `afterEach` rather than `after`. The idea is that each test case should not depend on a state that is shared with other tests. Use `beforeEach` to execute tasks that will prepare the resources needed for each test to run cleanly, and `afterEach` to tear down or clean those settings before the next test runs.
 
 `before` and `after` can be used to define or create heavy resources that could cleanly be used by more than one test. We will see some examples below.
 
-A discouraged example of `before` and `after` ([source](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/test/internal/beforeAfter.spec.ts#L12)):
+This discouraged example of `before` and `after` shows that neither clients nor stateful objects should be assigned in these functions ([source](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/test/internal/beforeAfter.spec.ts#L12)):
 
 ```ts
 describe.skip("Discouraged example of `before` and `after`", function() {
@@ -296,17 +296,30 @@ describe.skip("Discouraged example of `before` and `after`", function() {
 });
 ```
 
-`beforeEach` and `afterEach` are encouraged. An example might look like ([source](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/test/internal/beforeAfter.spec.ts#L44)):
+`beforeEach` and `afterEach` are encouraged. This example simply creates a new client and defines a stateful object in the `beforeEach`. These assignments should replace any pre-existing state before every test. Anything stateful should be cleared at the `afterEach` ([source](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/test/internal/beforeAfter.spec.ts#L44)):
 
 ```ts
 describe("Encouraged example of `beforeEach` and `afterEach`", function() {
   let client: InternalClass;
+  let state: {
+    fruits?: string[];
+  } = {
+  };
+
   beforeEach(function() {
     client = new InternalClass();
+    state = {
+      fruits: []
+    };
+
     // And other per-test setups...
   });
 
   afterEach(function() {
+    // Fruits are overwritten in the beforeEach,
+    // but otherwise could be cleared up here:
+    state.fruits = [];
+
     // And other per-test cleanups...
   });
 
@@ -318,7 +331,7 @@ describe("Encouraged example of `beforeEach` and `afterEach`", function() {
 
 We typically use `beforeEach` and `afterEach` to set up and tear down our test recorder. You can learn more about it in the section: [The Recorder](#the-recorder).
 
-Finally, an encouraged example of `before` and `after` ([source](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/test/internal/beforeAfter.spec.ts#L65)):
+Finally, an encouraged example of `before` and `after` ([source](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/test/internal/beforeAfter.spec.ts#L80)):
 
 ```ts
 describe("Encouraged example of `before` and `after`", function() {
@@ -368,7 +381,7 @@ describe("Encouraged example of `before` and `after`", function() {
 Mocha has many interesting features. Here's a list of our general recommendations on how to use some of these features:
 
 **On describes:**  
-Mocha's `describe` allows you to group test cases, even in nested groups. Take advantage of this. Group tests not only by the file that contains them, but also by what they're testing within that separation.
+Mocha's `describe` allows you to group test cases, even in nested groups. Take advantage of this. Group tests not only by the file that contains them, but also by what they're testing.
 
 ```ts
 describe("My client can authenticate", function() {
@@ -392,14 +405,15 @@ describe("My client can authenticate", function() {
 Most of our test cases are asynchronous. Mocha allows you to write async test cases by calling `it` with an async function. Take this to your advantage. Use async functions on your test cases as much as possible. If all of your test cases use asynchronous functions, it will make them look and behave more consistently.
 
 **On arrow function expressions:**  
-Even though Mocha lets you write tests with arrow function expressions, as in `it("my test", async () => {})`, we recommend to use standard functions, as in `it("my test", async function () {})`, because standard functions have bindings to the execution context through the `this` keyword. Mocha's execution context is **necessary** to use the recorder, and it allows you to obtain the test name and other information that can be useful for your test cases. Mocha also discourages the use of arrow functions, which can be seen here: https://mochajs.org/#arrow-functions
+Even though Mocha lets you write tests with arrow function expressions, as in `it("my test", async () => {})`, we recommend to use standard functions, as in `it("my test", async function () {})`, because standard functions have bindings to the execution context through the `this` keyword. Mocha's execution context is **necessary** to use the recorder, and it allows you to obtain the test name and other information that can be useful for your test cases. Mocha also discourages the use of arrow functions, as shown in their website: https://mochajs.org/#arrow-functions
 
 ```ts
-describe("My async tests", function() {
-  // Our commentary on arrow functions for test cases
-  // does not apply outside of the declaration of test cases.
-  // You can declare arrow functions anywhere comfortably,
-  // just not while using it().
+// Our commentary on arrow functions for test cases
+// does not apply outside of the declaration of test cases.
+// You can declare arrow functions anywhere comfortably,
+// just not where `it()` is used.
+
+describe("My async tests", () => {
   const myAsyncMethod = async () => {
     return true;
   }
@@ -424,7 +438,7 @@ describe("My async tests", function() {
 
 ### Chai
 
-Chai is an assertion library, similar to Node's built-in `assert`. While `assert` is a module that belongs to NodeJS's standard library, it was mainly designed to write tests for the NodeJS's core, and [it has been discouraged from being used as a dependency](https://github.com/nodejs/node/issues/4532). Chai is very popular and widely used for both NodeJS and the browser. You can read more about Chai through their main website: https://www.chaijs.com/
+Chai is an assertion library, similar to Node's built-in `assert`. While `assert` is a module that belongs to NodeJS's standard library, it was mainly designed to write tests for the NodeJS's core, and [it has been discouraged from being used as a dependency](https://github.com/nodejs/node/issues/4532). Chai is very popular, and it is widely used for both NodeJS and the browser. You can read more about Chai through their main website: https://www.chaijs.com/
 
 Chai makes testing much easier by providing an extensive list of assertions that can run against your code. This list of assertions can be seen in detail by going to their assertion style guide: <https://www.chaijs.com/guide/styles/>
 
@@ -467,24 +481,24 @@ Rollup is a module bundler for JavaScript. It uses the new standardized format f
 
 We use Rollup to take the result of the TypeScript compiler and carefully bundle it differently depending on the target platform (NodeJS or the browsers) with:
 
-- The source maps available from out compiled TypeScript and our dependencies.
+- The source maps available from our compiled TypeScript and our dependencies.
 - Without specific sections of code that exist only for a specific platform.
-- To transform the necessary dependencies from our node_modules, from CommonJS to ES6. 
+- To transform the necessary dependencies from our `node_modules`, from CommonJS to ES6. 
 - With a banner including Microsoft's copyright at the top of the generated file.
 - With the consideration necessary to output a working JavaScript file compatible with browsers.
-- With special settings necessary to run our tests in the browser.
+- With special settings necessary to run our tests in the browsers.
 
 If you want to learn more about Rollup, you can read the Rollup guide at: https://rollupjs.org/guide/en/
 
 #### Rollup in our dependencies
 
-Since we're using [Rush](https://rushjs.io/), we're forced to use the same version of our packages in each one of the projects inside of this repository. If you want to add `chai` as a dev dependency to a new project inside of this repository, first make sure you are in the root folder of that project, then you can run the following command:
+Since we're using [Rush](https://rushjs.io/), we're forced to use the same version of our packages in each one of the projects inside of this repository. If you want to add `chai` as a dev dependency to a new project, once you're at the root of this new project, you can run the following command:
 
 ```
 rush add --dev -p rollup
 ```
 
-To fulfill our needs, we use Rollup with some plugins. They're the following:
+We use Rollup with some plugins. They're the following:
 
 - [`@rollup/plugin-commonjs`](https://www.npmjs.com/package/@rollup/plugin-commonjs):
   A Rollup plugin to convert CommonJS modules to ES6, so they can be included in a Rollup bundle.
@@ -523,7 +537,7 @@ Running `rollup` inside of a `package.json` script will automatically pick up th
 
 Note that we add `2>&1` to hide the output of `rollup`.
 
-Our `rollup.config.js` allows us to specify wether we want to do only the Node bundle, or only the browsers bundle, or both, by loading both configurations from a separate file, then picking either configuration, or both, depending on environment variables, `ONLY_NODE` to keep the NodeJS configuration, `ONLY_BROWSER` to keep the browser configuration, or neither to keep both. As follows:
+Our `rollup.config.js` allows us to specify wether we want to do only the Node bundle, or only the browsers bundle, or both, by loading both configurations from a separate file, then picking either configuration, or both, depending on environment variables. The environment variable `ONLY_NODE` can be passed to keep the NodeJS configuration and the environment variable `ONLY_BROWSER` can be passed to keep the browser configuration. If neither is passed, both will be loaded.
 
 ```ts
 import * as base from "./rollup.base.config";
@@ -541,7 +555,7 @@ if (!process.env.ONLY_NODE) {
 export default inputs;
 ```
 
-The file `rollup.base.config.js` that should exist in the same directory, loads the plugins that these configuration needs, then exports functions to generate both configurations (for Node and for the browsers), according to how they're invoked from `rollup.config.js`. The summarized structure of a `rollup.base.config.js` can be seen below:
+In the same directory, the file `rollup.base.config.js` will load the plugins that these configurations need, then export functions that generate both configurations according to how they're invoked from `rollup.config.js`. The summarized structure of a `rollup.base.config.js` can be seen below:
 
 ```ts
 import nodeResolve from "@rollup/plugin-node-resolve";
@@ -655,7 +669,7 @@ An example of a Karma file that can be used can be seen in the following path: <
 
 You should pay special attention to the lines with the following content:
 
-- Ensure that the browser built file, made by rollup, is referenced as an element of the `files` array property. It should look like `dist-test/index.browser.js`, [as you can see in the template file](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/karma.conf.js#L31).
+- Ensure that the built browser output, made by rollup, is referenced as an element of the `files` array property. It should look like `dist-test/index.browser.js`, [as you can see in the template file](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/karma.conf.js#L31).
 - The `preprocessors` property object should specify what files will have test coverage, which should look like `"dist-test/index.browser.js": ["coverage"]`, and what files can be imported/required even though they're JSON files, which should look like `"recordings/browsers/**/*.json": ["json"]`.
 - Make sure that the timeouts are reasonably similar to the timeouts specified on your Mocha configuration. You will be placing the same number of milliseconds on the properties: `browserNoActivityTimeout`, and in `client: { mocha: { timeout: /* here */ } }`, and you can specify less milliseconds on `browserDisconnectTimeout`.
 
@@ -693,7 +707,7 @@ You can see an example [karma.config.js in our template project](https://github.
 
 ### Recorder
 
-The Azure SDK for JavaScript and TypeScript uses a custom utility to record tests that hit the live endpoints, so that these tests can be executed almost instantly, against these recordings, instead of hitting the live services. This tool is called [@azure/test-utils-recorder](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/test-utils/recorder). It's an unpublished package that can be added using rush, as follows:
+The Azure SDK for JavaScript and TypeScript uses a custom utility to record tests that hit the live endpoints, so that these tests can be executed almost instantly against these recordings instead of hitting the live services. This tool is called [@azure/test-utils-recorder](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/test-utils/recorder). It's an unpublished package that can be added using rush, as follows:
 
 ```
 rush add --dev -p @azure/test-utils-recorder
@@ -707,7 +721,7 @@ You can read more about the recorder in its readme: https://github.com/Azure/azu
 
 Tests for the Azure SDK for JavaScript and TypeScript should be all executed using the NPM command `test`, they should be stored in the `test` folder, they must be written in TypeScript, in files that will end in `.spec.ts`. Our [recommended tools](#recommended-tools) should provide the test framework and proper ways of compiling and bundling our tests correctly. They should be able to run and be debugged on the environments we're targeting, which are currently only NodeJS and the browsers.
 
-Even though tests can be executed in groups, through the use of [Pattern matching test titles](#pattern-matching-test-titles), tests should be considered to be executed all at once. What determines what will be tested will be how tests are written, either through [The Recorder](#the-recorder) or through [Using conditionals](#using-conditionals). The execution of tests will vary in the `package.json` to provide different build environments, different debugging mechanisms and reportings for automated live tests or automated verification tests (more on that topic at [Configuring Mocha](#configuring-mocha), [Configuring Karma](#configuring-karma) and [CI and nightly test configuration](#ci-and-nightly-test-configuration)).
+Even though tests can be executed in groups, through the use of [Pattern matching test titles](#pattern-matching-test-titles), tests should be considered to be executed all at once. What determines what will be tested will be how tests are written, either through [The Recorder](#the-recorder) or through [using conditionals](#using-conditionals). The execution of tests will vary in the `package.json` to provide different build environments, different debugging mechanisms and reportings for automated live tests or automated verification tests. To read more about these topics, you can go to the sections [Configuring Mocha](#configuring-mocha), [Configuring Karma](#configuring-karma) and [CI and nightly test configuration](#ci-and-nightly-test-configuration).
 
 All together, the `package.json` will end up with the following scripts:
 
@@ -741,7 +755,7 @@ Keep in mind that [test titles](#test-titles) may include information about the 
 
 ### Testing cloud resources
 
-By making use of [the recorder](#the-recorder), we're allowed to write tests targeting real live resources, and then run them instantly against a local copy of the server responses by specifying the `TEST_MODE` environment variable to either `record`, `live` or `playback`. Not specifying the environment variable will be considered `playback`, since we want to be able to run the tests by default without having to set up real resources.
+By making use of [the recorder](#the-recorder), we're allowed to write tests targeting real live resources, and then run them instantly against a local copy of the server responses by specifying the `TEST_MODE` environment variable to either `record`, `live` or `playback`. Not specifying the environment variable will be considered `playback`, since we want to let anyone see the tests running by default without first having to set up real resources.
 
 ### Public or internal tests
 
@@ -805,15 +819,17 @@ You can also see some examples of **public facing API tests** in the template pr
 
 ## Shared and reusable code
 
-Before writing individual test cases, we should explore what indications we should follow while writing reusable code.  Ideally, tests should be written clearly. While they should focus on ensuring the correct behavior of a targeted functionality, they should be able to be read with minimal context. Though it will be common to run into scenarios in which we will want to avoid repeating ourselves, to balance between clarity and practicality, we'll set up the following minimal rules on writing reusable code:
+Before getting into individual test cases, we will explore what indications should be considered while writing reusable code.
+
+Ideally, tests should be written clearly. While they should focus on ensuring the correct behavior of a targeted functionality, they should be able to be read with minimal context. Though it will be common to run into scenarios in which we will want to avoid repeating ourselves, to balance between clarity and practicality, we'll set up the following rules on writing reusable code:
 
 - [Preparing all of the test cases](#preparing-all-of-the-test-cases), where we will take a look at how to write re-usable code that will conform a valuable setup for all of the test cases in a given file.
 - [Preparing some of the test cases](#preparing-some-of-the-test-cases), where we will go through examples of how to write re-usable code that might be used to set up some of the test cases.
 - [Universal utilities](#universal-utilities), where we will see how to approach tools that could potentially be used by tests outside of the project in which the tests are hosted.
 
-If a certain piece of code doesn't match any of these three categories, it should not be moved out of the test cases, and instead it should exist in full, inside of each test case. Let's see some quick examples of code outside of these three categories:
+If a certain piece of code doesn't match any of these three categories, it should not be moved out of the content of the test cases. Let's see some quick examples of code outside of these three categories:
 
-**Anti-pattern 1**, code that displays information (wether values or method names) that are absolutely related to the intention of the test, as follows:
+**Anti-pattern 1**, code that displays information (whether values or method names) that are absolutely related to the intention of the test should not be abstracted away, as follows:
 
 ```ts
 // This function only calls a client's method "A".
@@ -831,7 +847,7 @@ describe("a set of tests", async function() {
 });
 ```
 
-Instead, this code should be written inside of the test case, as follows:
+Instead, this code should be written in full inside of the test case:
 
 ```ts
 describe("a set of tests", function() {
@@ -842,7 +858,7 @@ describe("a set of tests", function() {
 });
 ```
 
-**Anti-pattern 2**, code that is preparing something that is only relevant for one test case, as follows:
+**Anti-pattern 2**, code that is preparing something that is only relevant for one test case should not be abstracted away, as follows:
 
 ```ts
 async function doSomePriorWork(client) {
@@ -883,14 +899,11 @@ describe("a set of tests", function() {
 });
 ```
 
-Let's see some good and bad examples of reusable code in the three categories described above.
+Let's see some good and bad examples of reusable code in the three categories described above ([Preparing all of the test cases](#preparing-all-of-the-test-cases), [Preparing some of the test cases](#preparing-some-of-the-test-cases), [Universal utilities](#universal-utilities)).
 
 ### Preparing all of the test cases
 
-Re-usable code that will conform a valuable setup for all of the test cases in a given file should be placed in any of the Mocha methods `before`, `beforeEach`, `after` or `afterEach`, considering that:
-
-- `before` and `beforeEach` should be used to define things that will be usable while the tests are running.
-- `after` and `afterEach` should be used to tear down things that have been created in `before` and `beforeEach`.
+Re-usable code that will conform a valuable setup for all of the test cases in a given file should be placed in any of the Mocha methods `before` or `beforeEach`. Re-usable code that tears down resources that have been used by all of the test cases should be placed in either `after` or `afterEach`.
 
 Code in either of these methods can be abstracted away into utility functions that may live outside of each test file **only if** these pieces of code are relevant to more than one test file.
 
@@ -918,7 +931,7 @@ One specific example of code that **must** live in the `beforeEach` section is [
 
 Some test cases might need some common setup to properly work. If at least more than one of these tests exist in a single file, their setup can be moved out of each test case into a function (or outside constant), as long as the function (or constant) is declared inside of that same test file, and as long as the common code is sufficiently large. For readability purposes, if the common code is less than four lines long (as an arbitrary reasonable estimate), it will be clearer if it's left repeated in each test case.
 
-Let's define an example in which a SDK client might need several lines of setup in two specific tests:
+Let's define an example in which an SDK client might need several lines of setup in two specific tests:
 
 ```ts
 describe("some group of functionalities", function() {
@@ -1035,7 +1048,9 @@ export async function retry<T>(
 }
 ```
 
-This code is clearly not specifically related to any of our projects. Moving it out into a common project will help it be more easily discovered, not only for other developers to find it, but also to avoid having to upload this code at all, if there happens to be an already existing tool that can be used for the same purpose.
+This code is clearly not specifically related to any of our projects. Moving it out into a common project will help it be more easily discovered.
+
+If you encounter a potential universal tool, ask your team to verify that nothing similar has been written already for any other test in our SDK. If something similar has been written, work towards making a new `test-utils` project that brings together your ideas with the existing ones.
 
 
 
@@ -1043,23 +1058,23 @@ This code is clearly not specifically related to any of our projects. Moving it 
 
 While considering possible differences in the [Shared and reusable code](#shared-and-reusable-code) that tests might have, or where they might be placed in the [Test folder structure](#test-folder-structure), test should be similar in each one of our projects. We can ensure some level of homogeneity through the use of our [Recommended tools](#recommended-tools), though we still need to explore what are the indications on writing each test case.
 
-In this section we will be examining our recommendations of:
+In this section we will be examining our recommendations regarding:
 
 - [What a test is actually testing](#what-a-test-is-actually-testing), where we will examine how many different things each test should be mainly doing.
 - [Test titles](#test-titles), where we will examine how to properly phrase what each test is doing, and how to make them easier to discover through pattern matching.
 - [Inner parts of a test](#inner-parts-of-a-test), where we will go through how the bodies of each test case should generally be.
 - [Using conditionals](#using-conditionals), in which we will focus on minimizing the possibility of having tests that might run differently depending on external factors.
-- [Using delays](#using-delays).
+- [Using delays](#using-delays), to know how to approach tests that need to wait a specific time before something happens in the services' side.
 - [Exceptions and edge cases](#exceptions-and-edge-cases), where will examine how to address all of the possible exceptions and edge cases (which might be too many to test).
 - [How tests should look](#how-tests-should-look), in which we will focus on what would be the aesthetic goal of our tests, to develop an inner sense of measure of how far we might be from our common goal.
 
-Let's go through each item of this list.
+Let's go through each item from this list.
 
 ### What a test is actually testing
 
-Each individual test case of the entire Azure SDK for JavaScript and TypeScript should mainly focus on one specific functionality. By functionality we mean that, after any required setup, each test case should check the results of a either a single operation, or at least a single function call (considering that constructors are function calls). Let's expand this further with examples.
+Each individual test case of the entire Azure SDK for JavaScript and TypeScript should mainly focus on one specific functionality. By functionality we mean that, after any required setup, each test case should check the results of either a single operation, or at least a single function call (considering that constructors are function calls). Let's expand this further with examples.
 
-Let's say we have a client that has has three main functionalities: a constructor, a method `A` that can onl be accessed through the use of the instantiated client, and a method `AB` that is only valuable after `A` is called, like in the following example:
+Let's say we have a client that has has three main functionalities: a constructor, a method `A` that can only be accessed through the use of the instantiated client, and a method `AB` that is only valuable after `A` is called, like in the following example:
 
 ```ts
 export class ClientMethodDependency {
@@ -1139,7 +1154,7 @@ describe("testing some of the client's public properties", function() {
 });
 ```
 
-It's valid to test more than one property out of a single function, like in the following example:
+It's valid to test more than one property from the result of a single function, like in the following example:
 
 ```ts
 describe("Tests with more than one property", function() {
@@ -1251,7 +1266,7 @@ You can see a working example of tests for internal code in our [test/internal/ 
 
 #### Pattern matching test titles
 
-`mocha` allows us to only run certain tests as long as they match a given query, with the following arguments:
+Mocha allows us to only run certain tests as long as they match a given query, with the following arguments:
 
 ```
 Test Filters
@@ -1266,6 +1281,8 @@ To be able to filter tests through pattern matching with any of these filters, t
 - `#node` for tests that are only expected to run on NodeJS.
 - `#live` for tests that should only run live and not be recorded, nor played back.
 
+These and any other hashtags can be used to provide custom `package.json` scripts to run specific sets of tests. We still recommend [using conditionals](#using-conditionals), to ensure that someone reading any test case clearly understands under what conditions this test will be executed or skipped.
+
 ### Inner parts of a test
 
 While writing test cases, it will be easier to think of the test case's contents as if there were three clear divisions:
@@ -1276,7 +1293,7 @@ While writing test cases, it will be easier to think of the test case's contents
   - Comparing the results obtained, to confirm that they are in the expected shape.
 - The last set of lines should be focused on cleaning up any resources created.
 
-This could perhaps be better observed with the following example, which includes `before`, `after`, `beforeEach` and `afterEach` to help think on what should be valuable at each point in context, and uses the KeyVault client:
+This could perhaps be better observed with the following example, which includes `before`, `after`, `beforeEach` and `afterEach` to help think on what should be valuable at each point in context. This example highlights when to use the recorder and when to initialize an SDK client (the example will specifically use the KeyVault Keys client):
 
 ```ts
 describe("An interesting title", function() {
@@ -1349,7 +1366,7 @@ describe("An interesting title", function() {
 
 ### Using conditionals
 
-Ideally, each test case should only have one possible behavior. To minimize unexpected outcomes, conditionals should be avoided. The only case in which conditionals are encouraged is to specify when to skip a test. Some tests might only run in a browser, or only run in NodeJS, or only run live (no record or playback), for this purpose, conditionals can be used. For example:
+Ideally, each test case should only have one possible behavior. To minimize unexpected outcomes, conditionals should be avoided. The only case in which conditionals are encouraged is to specify when to skip a test. Some tests might only run in a browser, or only run in NodeJS, or only run live (no record or playback). Conditionals can provide immediate clarity of when a test might or might not run. For example:
 
 ```ts
 import { isNode } from "@azure/core-http";
@@ -1389,25 +1406,38 @@ describe("Tests with conditionals", function() {
 });
 ```
 
-In case conditionals might appear to be necessary in other scenarios, consider separating the test case into as many test cases as necessary first.
+In case conditionals might appear to be necessary in other scenarios, first consider separating the test case into as many test cases as necessary to remove the conditionals.
 
 You can see a working example of conditionals in our [conditionals.spec.ts test in our template project](../sdk/template/template/test/public/conditionals.spec.ts).
 
 ### Using delays
 
-The API methods that we provide should always provide a way for users to know when an operation finishes. For this reason, any method that doesn't immediately respond with a completed operation should use our [Long Running Operations strategy (core-lro)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/core-lro).
+The API methods that we provide should always allow users to wait until the service operation finishes. For this reason, any method that doesn't immediately respond with a completed operation should use our [Long Running Operation strategy (core-lro)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/core-lro).
 
-If any method can't use `core-lro` within reasonable time, and thus we are inclined to use a different delay strategy, we should always wait until the next possible operation is can be fulfilled.
+If a method can't use `core-lro` (for example, if the service cannot be trusted to provide signs of completion, or finish within reasonable time), and thus we see the need to use a different delay strategy, we should always wait until the next possible operation can be fulfilled. **Tests that need to wait for an operation that cannot be trusted to finish reasonably should not run during the automated execution of live tests**. The following snippet can be used to skip these tests in live mode:
+
+```ts
+  // `isRecordMode` and `isPlaybackMode` are methods exported from the Recorder.
+  if (!isRecordMode() && !isPlaybackMode()) {
+    return this.skip();
+  }
+```
 
 For example, in `@azure/keyvault-keys` we provide a method to purge keys that has not been moved to use `core-lro`. To check that it has finished, we do a while loop where we try to make the next operation until it passes:
 
 ```ts
-import { delay } from "@azure/test-utils-recorder";
+import { delay, isRecordMode, isPlaybackMode } from "@azure/test-utils-recorder";
 // ...
 
 describe("Keys client - restore keys and recover backups", () => {
   // ...
   it("can restore a key with a given backup", async function() {
+
+    // This test can't be expected to finish in any reasonable time.
+    if (!isRecordMode() && !isPlaybackMode()) {
+      return this.skip();
+    }
+
     // ...
     await client.createKey(keyName, "RSA");
     const backup = await client.backupKey(keyName);
@@ -1437,11 +1467,11 @@ The specific `delay` method used in the code above comes from [the-recorder](#th
 
 ### Exceptions and edge cases
 
-While testing the Azure SDK clients for JavaScript and TypeScript, we should document each client method exceptions through the use of `@throws` in the TypeDoc documentation, and avoid writing test cases for exceptions. Test cases should focus on demonstrating the public API of the service. Exceptions should be documented.
+While testing the Azure SDK clients for JavaScript and TypeScript, we should document each client method exceptions through the use of `@throws` in the TypeDoc documentation, and avoid writing test cases for exceptions. Test cases should focus on demonstrating the public API of the service. Every known exception should be documented.
 
-Similarly, the public API surface of our clients will contain a large set of properties resulting from any of the methods that our clients implement. Tests should not focus on verifying that each property of of our clients exist. While tests can check that the values of properties are expected, they should include only as many properties as it can be relevant for the use case that each test case is representing. For this purpose we should also take advantage of strict types. If our types can be descriptive and thorough, and our internal code is not skipping through the types (through the use of `any`), we will be able to trust that our API is behaving reasonably well.
+Similarly, the public API surface of our clients will contain a large set of properties resulting from any of the methods that our clients implement. Tests should not focus on verifying that each property of our clients exist. While tests can check that the values of properties are expected, they should include only as many properties as it can be relevant for the use case that each test case is representing. For this purpose we should also take advantage of strict types. If our types can be descriptive and thorough (, and our internal code is not skipping any types by using `any`), we will be able to trust that our API is behaving reasonably well.
 
-To use `tsdoc` to document when our API throws, use `@throws`. The implementation can be seen here (includes examples): https://github.com/microsoft/tsdoc/pull/175
+To use `tsdoc` to document our expected API exceptions, use `@throws`. The implementation can be seen here (includes examples): https://github.com/microsoft/tsdoc/pull/175
 
 A valid case of an exception test is to express a feature provided by our SDK. For example, to show how to control the timeout of a request (an example from the [KeyVault Keys tests](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-keys/test/CRUD.test.ts#L57)):
 
@@ -1457,7 +1487,7 @@ it("can attempt to create a key with requestOptions timeout", async function() {
 });
 ```
 
-As a final note on this regard, as we develop clients for the SDKs, we will encounter edge cases in the services we are testing. Edge cases should be reported and documented, but our tests should preferably avoid having to go through them, unless we can identify some of these cases as valuable resources for our customers.
+As a final note on this regard, as we develop clients for the SDKs, we will encounter edge cases in the services we are testing. Edge cases should be reported and documented, but our tests should preferably avoid having to go through them, unless we can identify that documenting some of these cases can be a valuable resource for our customers.
 
 ### How tests should look
 
@@ -1468,18 +1498,19 @@ You may take the following questions as an exercise to help determine if your te
 - When someone sees our projects, are they guided to look at our tests for examples of how to use our APIs?
 - Are we explaining or linking to explanations of how to run our tests with or without live resources?
     - In case users want to run tests against live resources, are we providing means for easily setting up these resources, as well as an explanation of what resources will need to be purchased for the tests to run?
-- When our test folders are opened, do people know how to distinguish between our internal tests and the tests that they will be able to use as references for our APIs?
-- Are the names of the folders, the file names and the individual test cases relevant to what each test, and each group of tests are testing?
+- When our test folders are opened, do people know how to distinguish between our internal tests and the tests that they will be able to use as references for our public APIs?
+- Are the names of the folders, the file names and the titles of the individual test cases, relevant to what each test and each group of tests are testing?
 - If a test file is opened, can people follow through what's going on without having to open other files? (comments should help).
-- Upon examining an individual test, is it clear...
+- Upon examining an individual test, is the following clear:
     - Under which conditions this test might be executed?
     - What portion of the test is dedicated to the preparation of the resources needed to execute the target test case?
     - What is the target test case? (preferably, what method of the API we're testing and why).
     - Why the assertions are meaningful?
-- Regardless of where or when our tests run, are they as fast as possible? Do they finish in reasonable time?
+- Regardless of where or when our tests run, are they as fast as possible?
+- Do all of our tests always finish in reasonable time?
 
-If all of these questions have reasonably convincing answers, you can feel confident that your tests are good enough for an external review.
+If all of these questions have reasonable answers, you can feel confident that your tests are good enough for an external review.
 
 ## Getting feedback
 
-Writing tests the right way can be quite challenging. Make sure to make pull request throughout the process and ask for feedback from your team. Ask them questions about how easy is to follow through, from the perspective of a new user. Once you write them, monitor how they behave through our Engineering Systems. Don't be afraid to ask our Engineering Systems team about feedback to your tests, they will provide great insight on how to optimize for performance, by helping you potentially reduce the number of resources used and the overall duration of your tests. Making your tests constantly better is your responsibility as a developer, but you have all of your team at your back. Together, we can make our tests are as good as they can possibly be.
+Writing tests the right way can be quite challenging. Make sure to make pull request throughout the process and ask for feedback from your team. Ask them questions about how easy is to follow through, from the perspective of a new user. Once you write them, monitor how they behave through our Engineering Systems. Don't be afraid to ask our Engineering Systems team about feedback to your tests, they will provide great insight on how to optimize for performance, by helping you potentially reduce the number of resources used and the overall duration of your tests. Making your tests constantly better is your responsibility as a developer, but don't forget you have all of your team at your back. Together, we can make our tests are as good as they can possibly be.

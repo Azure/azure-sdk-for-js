@@ -45,12 +45,25 @@ describe("before, beforeEach, after and afterEach examples", function() {
   // those settings before the next test runs.
   describe("Encouraged example of `beforeEach` and `afterEach`", function() {
     let client: InternalClass;
+    let state: {
+      fruits?: string[];
+    } = {
+    };
+
     beforeEach(function() {
       client = new InternalClass();
+      state = {
+        fruits: []
+      };
+
       // And other per-test setups...
     });
   
     afterEach(function() {
+      // Fruits are overwritten in the beforeEach,
+      // but otherwise could be cleared up here:
+      state.fruits = [];
+
       // And other per-test cleanups...
     });
   
@@ -61,6 +74,8 @@ describe("before, beforeEach, after and afterEach examples", function() {
 
   // Use `before` to declare heavy resources that can be used by more than one test.
   // Like a stateless web server...
+  // (This test won't run if we're in a browser,
+  // since HTTP servers can't be created in the browsers).
   if (!isNode) {
     describe("Encouraged example of `before` and `after`", function() {
       const expectedHttpResponse = "Hello World!";
@@ -86,6 +101,7 @@ describe("before, beforeEach, after and afterEach examples", function() {
       }
 
       before(function() {
+        // Only internal tests may use mocks of servers.
         server = createServer(function(_: any, res: any) {
           res.write(expectedHttpResponse);
           res.end();
