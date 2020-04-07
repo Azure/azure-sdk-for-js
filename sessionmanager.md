@@ -34,7 +34,8 @@ To handle this the user would need to write code similar to this:
     // than available processors is _high_.
     acquireSemaphore();
 
-    const sessionReceiver: SessionReceiver = getNextUnlockedSessionReceiver();
+    // by not specifying a session id we will get the next unlocked session from service bus.
+    const sessionReceiver: SessionReceiver = serviceBusClient.getSessionReceiver("queue", "peekLock");
     startSessionLockRenewal(sessionReceiver);
 
     sessionReceiver.subscribe(messageHandlers);
