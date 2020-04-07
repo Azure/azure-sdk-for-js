@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as log from "../log";
-import { Constants, translate, MessagingError } from "@azure/amqp-common";
+import { Constants, translate, MessagingError, delay } from "@azure/amqp-common";
 import { ReceiverEvents, EventContext, OnAmqpEvent, SessionEvents, AmqpError } from "rhea-promise";
 import { ServiceBusMessage, ReceiveMode } from "../serviceBusMessage";
 import {
@@ -13,6 +13,7 @@ import {
   OnAmqpEventAsPromise
 } from "./messageReceiver";
 import { ClientEntityContext } from "../clientEntityContext";
+import { receiveDrainTimeoutInMs } from "../util/constants";
 import { throwErrorIfConnectionClosed } from "../util/errors";
 
 /**
@@ -85,6 +86,8 @@ export class BatchingReceiver extends MessageReceiver {
     this.isReceivingMessages = true;
     return new Promise<ServiceBusMessage[]>((resolve, reject) => {
       let totalWaitTimer: NodeJS.Timer | undefined;
+      let drainPromiseResolver: Function;
+      const drainPromise = new Promise((resolve) => (drainPromiseResolver = resolve));
 
       const onSessionError: OnAmqpEvent = (context: EventContext) => {
         this.isReceivingMessages = false;
@@ -115,7 +118,7 @@ export class BatchingReceiver extends MessageReceiver {
       };
 
       // Final action to be performed after maxMessageCount is reached or the maxWaitTime is over.
-      const finalAction = (this._finalActionHandler = (): void => {
+      const finalAction = (this._finalActionHandler = async (): Promise<void> => {
         // clear finalActionHandler so that it can't be called multiple times.
         this._finalActionHandler = undefined;
         if (this._newMessageReceivedTimer) {
@@ -160,20 +163,29 @@ export class BatchingReceiver extends MessageReceiver {
           // Setting drain must be accompanied by a flow call (aliased to addCredit in this case).
           this._receiver.drain = true;
           this._receiver.addCredit(1);
-        } else {
-          if (this._receiver) {
-            this._receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
-          }
 
-          this.isReceivingMessages = false;
-          log.batching(
-            "[%s] Receiver '%s': Resolving receiveMessages() with %d messages.",
-            this._context.namespace.connectionId,
-            this.name,
-            brokeredMessages.length
-          );
-          resolve(brokeredMessages);
+          const drainTimeout = delay(receiveDrainTimeoutInMs);
+          // Wait for the drain event to be fired, or for the timeout.
+          await Promise.race([drainPromise, drainTimeout]);
+
+          // Turn off draining.
+          if (this._receiver) {
+            this._receiver.drain = false;
+          }
         }
+
+        if (this._receiver) {
+          this._receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
+        }
+
+        this.isReceivingMessages = false;
+        log.batching(
+          "[%s] Receiver '%s': Resolving receiveMessages() with %d messages.",
+          this._context.namespace.connectionId,
+          this.name,
+          brokeredMessages.length
+        );
+        resolve(brokeredMessages);
       });
 
       // Action to be performed on the "message" event.
@@ -228,21 +240,12 @@ export class BatchingReceiver extends MessageReceiver {
 
       // Action to be performed on the "receiver_drained" event.
       const onReceiveDrain: OnAmqpEvent = () => {
-        if (this._receiver) {
-          this._receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
-          this._receiver.drain = false;
-        }
-
-        this.isReceivingMessages = false;
-
         log.batching(
-          "[%s] Receiver '%s' drained. Resolving receiveMessages() with %d messages.",
+          "[%s] Receiver '%s' drained.",
           this._context.namespace.connectionId,
-          this.name,
-          brokeredMessages.length
+          this.name
         );
-
-        resolve(brokeredMessages);
+        drainPromiseResolver();
       };
 
       const onReceiveClose: OnAmqpEventAsPromise = async (context: EventContext) => {
@@ -325,7 +328,7 @@ export class BatchingReceiver extends MessageReceiver {
           this.name,
           maxWaitTimeInSeconds
         );
-        return finalAction();
+        finalAction();
       };
 
       const onSettled: OnAmqpEvent = (context: EventContext) => {

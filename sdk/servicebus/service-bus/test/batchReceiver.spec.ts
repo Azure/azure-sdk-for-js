@@ -3,6 +3,7 @@
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
+import { ReceiverEvents } from "rhea-promise";
 import {
   delay,
   QueueClient,
@@ -1133,5 +1134,36 @@ describe("Batch Receiver - Others", function(): void {
       true
     );
     await testAskForMore(true);
+  });
+});
+
+describe("Batch Receiver - drain", function(): void {
+  afterEach(async () => {
+    await afterEachTest();
+  });
+
+  it("honors timeout", async () => {
+    await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
+
+    // initialize receiver link to make it easier to test
+    await receiver.receiveMessages(1, 1);
+
+    if (!(receiver as any)._context.batchingReceiver.isOpen()) {
+      throw new Error(`Unable to initialize receiver link.`);
+    }
+
+    // Since the receiver has already been initialized,
+    // the `receiver_drained` handler is attached as soon
+    // as receiveMessages is invoked.
+    setTimeout(() => {
+      // remove `receiver_drained` event
+      (receiver as any)._context.batchingReceiver._receiver.removeAllListeners(
+        ReceiverEvents.receiverDrained
+      );
+    }, 0);
+
+    const results = await receiver.receiveMessages(1, 1);
+
+    Array.isArray(results).should.be.true;
   });
 });

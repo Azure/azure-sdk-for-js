@@ -5,6 +5,8 @@
 - Removes the `@azure/ms-rest-nodeauth` dependency.
   This allows users to use any version of `@azure/ms-rest-nodeauth` directly with `@azure/service-bus` without TypeScript compilation errors.
   Fixes [bug 8041](https://github.com/Azure/azure-sdk-for-js/issues/8041).
+- Fixes issue where `receiveMessages` would wait indefinitely to return if the
+  receiver's `receiver_drained` event was never fired.
 
 ## 1.1.5 (2020-03-24)
 
