@@ -4,7 +4,7 @@
 import * as assert from "assert";
 import { KeyClient } from "../src";
 import { testPollerProperties } from "./utils/recorderUtils";
-import { env, Recorder } from "@azure/test-utils-recorder";
+import { env, Recorder, isRecordMode } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { assertThrowsAbortError } from "./utils/utils.common";
@@ -30,10 +30,14 @@ describe("Keys client - list keys in various ways", () => {
 
   // The tests follow
 
-  // This test is only useful while developing locally
+  // Use this while recording to make sure the target keyvault is clean.
+  // The next tests will produce a more consistent output.
+  // This test is only useful while developing locally.
   it("can purge all keys", async function() {
-    // WARNING: When running integration-tests, or having TEST_MODE="record", all of the keys in the indicated KEYVAULT_NAME will be deleted as part of this test.
-    recorder.skip(undefined, "Skipping this test on playback.");
+    // WARNING: When TEST_MODE equals "record", all of the keys in the indicated KEYVAULT_NAME will be deleted as part of this test.
+    if (!isRecordMode()) {
+      this.skip();
+    }
     for await (const properties of client.listPropertiesOfKeys()) {
       try {
         await testClient.flushKey(properties.name);
