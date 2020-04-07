@@ -39,7 +39,7 @@ describe("Secret client - list secrets in various ways", () => {
   it("can purge all secrets", async function() {
     // WARNING: When TEST_MODE equals "record", all of the secrets in the indicated KEYVAULT_NAME will be deleted as part of this test.
     if (!isRecordMode()) {
-      this.skip();
+      return this.skip();
     }
     for await (const secretProperties of client.listPropertiesOfSecrets()) {
       try {
