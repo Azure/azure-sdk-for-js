@@ -1,6 +1,6 @@
 # Writing tests for the Azure SDK for JS/TS
 
-The Azure SDK for JavaScript and TypeScript allows users to communicate and control their Azure resources. The development of the Azure SDK should be taken with uttermost care, not only to provide the best API clients to our customers, but also to ensure that the software is reliable through stable, succinct and comprehensible tests. For that purpose, we've made this document to define how tests should be written. 
+The Azure SDK for JavaScript and TypeScript allows users to communicate and control their Azure resources. The development of the Azure SDK should be taken with uttermost care, not only to provide the best API clients to our customers, but also to ensure that the software is reliable through stable, succinct and comprehensible tests. For that purpose, we've made this document that defines how tests should be written. 
 
 ## Index
 
@@ -48,9 +48,9 @@ The Azure SDK for JavaScript and TypeScript allows users to communicate and cont
 
 ## Engineering setup
 
-The Azure SDK tests are valuable due to many factors. They work as a way to verify that our code is correct, just as much as a way to share how to use our code with our customers. To monitor that our tests are working correctly, they are triggered by automatic systems that help us verify that our commits are correct, or check that the services we're targeting don't show unexpected behaviors, all of which help us have a better level of confidence before releasing anything to the public. 
+The Azure SDK tests not only help us verify that our code is correct, they are also a meaningful way to share how to use our code with our customers. Besides being able to be executed by any developer in the world, they will be triggered by automatic systems that help us verify that we haven't made breaking changes, and also to check that the services we're targeting don't show unexpected behaviors, all of which help us have a better level of confidence before releasing anything to the public.
 
-For our Engineering Systems to pick up our tests appropriately, our packages must be configured according to their guidelines. In this section we will go through some of these concepts, and provide links that expand them in detail. We will be covering:
+For our Engineering Systems to pick up our tests appropriately, our packages must be configured according to their guidelines. In this section we will go through some of these concepts, and we will provide links that expand them in detail. We will be covering:
 
 - [Engineering goals](#engineering-goals).
 - [CI and nightly test configuration](#ci-and-nightly-test-configuration).
@@ -58,14 +58,18 @@ For our Engineering Systems to pick up our tests appropriately, our packages mus
 
 ### Engineering goals
 
-Though the tests for the Azure SDK for JavaScript and TypeScript must target live resources, we should make sure they only do so when necessary. For this purpose, we must keep in mind the following guidelines:
+Though the tests must target live resources, we should make sure they only do so when necessary. We must keep in mind the following considerations:
 
-- Tests should not be flaky. Tests should pass regardless of who's executing it, when they are running, and how many times they run.
-- Tests should create the resources they are testing.
-- While writing tests, use your own personal resources for setting up the context in which each test will create their own resources. For example, it is valid to have a static KeyVault while writing KeyVault tests, and then a given test can create a KeyVault Key before validating any of the functionalities of the KeyVault Key. Ask your team to see if there's a resource already in place for test development.
-- Any resource that is not created by the tests must be defined in an [ARM template](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/overview), so that anyone can build a copy of them. This ARM template will be used by the CI pipelines during builds. We'll examine how to set this up in the [CI and nightly test configuration](#ci-and-nightly-test-configuration) section.
-- Avoid calling to timed delays (like `setTimeout`) to assert that a change happened in the live resources. Also avoid locking the main thread until the resource responds. You can read more about [_using delays_ in this section](#using-delays).
+- Tests should not be flaky. Tests should pass regardless of who's executing them, when they are running, and how many times they run.
+- Tests should create the resources they are testing, either through the code of the tests, or through their configuration files.
+- While writing tests, use your own personal resources for setting up the context in which each test will create their own resources.
+- Avoid calling to timed delays (like `setTimeout`) to assert that a change happened in the live resources.
 - The resources created in the tests should be unique. Running the same test in parallel, multiple times, should not break them.
+
+For example, it is valid to have a static KeyVault while writing KeyVault tests, and then a given test can create a KeyVault Key before validating any of the functionalities of the KeyVault Key. Ask your team to see if there's a resource already in place for test development.
+
+Any resource that is not created by the tests must be defined in an [ARM template](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/overview), so that anyone can build a copy of them. This ARM template will be used by the CI pipelines during builds. We'll examine how to set this up in the [CI and nightly test configuration](#ci-and-nightly-test-configuration) section.
+- Avoid calling to timed delays (like `setTimeout`) to assert that a change happened in the live resources. Also avoid locking the main thread until the resource responds. You can read more about [_using delays_ in this section](#using-delays).
 
 You can read more recommendations through the following link: [Best Practices for writing tests that target live resources](https://dev.azure.com/azure-sdk/internal/_wiki/wikis/internal.wiki/51/Testing-Guidelines).
 
