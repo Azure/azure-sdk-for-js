@@ -236,6 +236,10 @@ export class TextAnalyticsClient {
     let realOptions: DetectLanguageOptions;
     let realInputs: DetectLanguageInput[];
 
+    if (!Array.isArray(documents) || documents.length == 0) {
+      throw new Error("'documents' must be a non-empty array");
+    }
+
     if (isStringArray(documents)) {
       const countryHint = (countryHintOrOptions as string) || this.defaultCountryHint;
       realInputs = convertToDetectLanguageInput(documents, countryHint);
@@ -324,6 +328,10 @@ export class TextAnalyticsClient {
     let realOptions: RecognizeCategorizedEntitiesOptions;
     let realInputs: TextDocumentInput[];
 
+    if (!Array.isArray(documents) || documents.length == 0) {
+      throw new Error("'documents' must be a non-empty array");
+    }
+
     if (isStringArray(documents)) {
       const language = (languageOrOptions as string) || this.defaultLanguage;
       realInputs = convertToTextDocumentInput(documents, language);
@@ -404,6 +412,10 @@ export class TextAnalyticsClient {
     let realOptions: AnalyzeSentimentOptions;
     let realInputs: TextDocumentInput[];
 
+    if (!Array.isArray(documents) || documents.length == 0) {
+      throw new Error("'documents' must be a non-empty array");
+    }
+
     if (isStringArray(documents)) {
       const language = (languageOrOptions as string) || this.defaultLanguage;
       realInputs = convertToTextDocumentInput(documents, language);
@@ -481,6 +493,10 @@ export class TextAnalyticsClient {
   ): Promise<ExtractKeyPhrasesResultCollection> {
     let realOptions: ExtractKeyPhrasesOptions;
     let realInputs: TextDocumentInput[];
+
+    if (!Array.isArray(documents) || documents.length == 0) {
+      throw new Error("'documents' must be a non-empty array");
+    }
 
     if (isStringArray(documents)) {
       const language = (languageOrOptions as string) || this.defaultLanguage;
@@ -561,6 +577,10 @@ export class TextAnalyticsClient {
   ): Promise<RecognizeLinkedEntitiesResultCollection> {
     let realOptions: RecognizeLinkedEntitiesOptions;
     let realInputs: TextDocumentInput[];
+
+    if (!Array.isArray(documents) || documents.length == 0) {
+      throw new Error("'documents' must be a non-empty array");
+    }
 
     if (isStringArray(documents)) {
       const language = (languageOrOptions as string) || this.defaultLanguage;

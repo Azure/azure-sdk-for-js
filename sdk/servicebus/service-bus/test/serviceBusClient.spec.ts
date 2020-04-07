@@ -428,9 +428,9 @@
 //     receiverClient = clients.receiverClient;
 
 //     await purge(receiverClient, useSessions ? TestMessage.sessionId : undefined);
-//     const peekedMsgs = await receiverClient.peek();
+//     const browsedMsgs = await receiverClient.browseMessages();
 //     const receiverEntityType = receiverClient instanceof QueueClient ? "queue" : "topic";
-//     if (peekedMsgs.length) {
+//     if (browsedMsgs.length) {
 //       chai.assert.fail(`Please use an empty ${receiverEntityType} for integration testing`);
 //     }
 
@@ -656,13 +656,13 @@
 //     await testCreateReceiver(expectedErrorMsg, useSessions);
 
 //     let errorPeek: string = "";
-//     await receiverClient.peek().catch((err) => {
+//     await receiverClient.browseMessages().catch((err) => {
 //       errorPeek = err.message;
 //     });
 //     should.equal(
 //       errorPeek,
 //       expectedErrorMsg,
-//       "Expected error not thrown for peek() from receiverClient"
+//       "Expected error not thrown for browseMessages() from receiverClient"
 //     );
 
 //     let errorPeekBySequence: string = "";
@@ -710,13 +710,13 @@
 //     const sessionReceiver = receiver as InternalSessionReceiver;
 
 //     let errorPeek: string = "";
-//     await sessionReceiver.peek().catch((err) => {
+//     await sessionReceiver.browseMessages().catch((err) => {
 //       errorPeek = err.message;
 //     });
 //     should.equal(
 //       errorPeek,
 //       expectedErrorMsg,
-//       "Expected error not thrown for peek() from sessionReceiver"
+//       "Expected error not thrown for browseMessages() from sessionReceiver"
 //     );
 
 //     let errorPeekBySequence: string = "";

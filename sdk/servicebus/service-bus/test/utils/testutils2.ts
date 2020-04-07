@@ -127,7 +127,7 @@ export async function drainAllMessages(receiver: Receiver<{}>): Promise<void> {
   await receiver.close();
 }
 
-export type EntityName = Omit<ReturnType<typeof getEntityNames>, "isPartitioned" | "usesSessions">;
+export type EntityName = ReturnType<typeof getEntityNames>;
 
 export interface ServiceBusClientForTests extends ServiceBusClient {
   test: ServiceBusTestHelpers;
@@ -446,13 +446,15 @@ function connectionString() {
 }
 
 export async function testPeekMsgsLength(
-  peekableReceiver: Pick<Receiver<{}>, "diagnostics">,
+  peekableReceiver: Receiver<ReceivedMessage>,
   expectedPeekLength: number
 ): Promise<void> {
-  const peekedMsgs = await peekableReceiver.diagnostics.peek(expectedPeekLength + 1);
+  const browsedMsgs = await peekableReceiver.browseMessages({
+    maxMessageCount: expectedPeekLength + 1
+  });
 
   should.equal(
-    peekedMsgs.length,
+    browsedMsgs.length,
     expectedPeekLength,
     "Unexpected number of msgs found when peeking"
   );

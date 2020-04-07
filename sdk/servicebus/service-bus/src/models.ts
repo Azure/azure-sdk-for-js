@@ -3,6 +3,7 @@
 
 import { OperationOptions } from "./modelsToBeSharedWithEventHubs";
 import { SessionReceiverOptions } from "./session/messageSession";
+import Long from "long";
 
 /**
  * The general message handler interface (used for streamMessages).
@@ -102,3 +103,18 @@ export interface MessageHandlerOptions {
  * has sessions enabled.
  */
 export interface CreateSessionReceiverOptions extends SessionReceiverOptions, OperationOptions {}
+
+/**
+ * Describes the options passed to the `browseMessages` method on a receiver.
+ */
+export interface BrowseMessagesOptions extends OperationOptions {
+  /**
+   * @property The maximum number of messages to browse.
+   * Default value is 1
+   */
+  maxMessageCount?: number;
+  /**
+   * @property The sequence number to start browsing messages from (inclusive).
+   */
+  fromSequenceNumber?: Long;
+}

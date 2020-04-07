@@ -91,7 +91,7 @@ export class SearchServiceClient {
   ) {
     this.endpoint = endpoint;
 
-    const libInfo = `azsdk-js-search/${SDK_VERSION}`;
+    const libInfo = `azsdk-js-search-documents/${SDK_VERSION}`;
     if (!options.userAgentOptions) {
       options.userAgentOptions = {};
     }
