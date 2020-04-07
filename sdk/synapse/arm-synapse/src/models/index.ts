@@ -1648,6 +1648,1346 @@ export interface ManagedIdentitySqlControlSettingsModel extends ProxyResource {
 }
 
 /**
+ * Azure Synapse nested resource, which belongs to a factory.
+ */
+export interface SubResource extends BaseResource {
+  /**
+   * The resource identifier.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The resource name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The resource type.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Etag identifies change in the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
+}
+
+/**
+ * Contains the possible cases for IntegrationRuntime.
+ */
+export type IntegrationRuntimeUnion = IntegrationRuntime | ManagedIntegrationRuntime | SelfHostedIntegrationRuntime;
+
+/**
+ * Azure Synapse nested object which serves as a compute resource for activities.
+ */
+export interface IntegrationRuntime {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "IntegrationRuntime";
+  /**
+   * Integration runtime description.
+   */
+  description?: string;
+  /**
+   * Describes unknown properties. The value of an unknown property can be of "any" type.
+   */
+  [property: string]: any;
+}
+
+/**
+ * Data flow properties for managed integration runtime.
+ */
+export interface IntegrationRuntimeDataFlowProperties {
+  /**
+   * Compute type of the cluster which will execute data flow job. Possible values include:
+   * 'General', 'MemoryOptimized', 'ComputeOptimized'
+   */
+  computeType?: DataFlowComputeType;
+  /**
+   * Core count of the cluster which will execute data flow job. Supported values are: 8, 16, 32,
+   * 48, 80, 144 and 272.
+   */
+  coreCount?: number;
+  /**
+   * Time to live (in minutes) setting of the cluster which will execute data flow job.
+   */
+  timeToLive?: number;
+  /**
+   * Describes unknown properties. The value of an unknown property can be of "any" type.
+   */
+  [property: string]: any;
+}
+
+/**
+ * VNet properties for managed integration runtime.
+ */
+export interface IntegrationRuntimeVNetProperties {
+  /**
+   * The ID of the VNet that this integration runtime will join.
+   */
+  vNetId?: string;
+  /**
+   * The name of the subnet this integration runtime will join.
+   */
+  subnet?: string;
+  /**
+   * Resource IDs of the public IP addresses that this integration runtime will use.
+   */
+  publicIPs?: string[];
+  /**
+   * Describes unknown properties. The value of an unknown property can be of "any" type.
+   */
+  [property: string]: any;
+}
+
+/**
+ * The compute resource properties for managed integration runtime.
+ */
+export interface IntegrationRuntimeComputeProperties {
+  /**
+   * The location for managed integration runtime. The supported regions could be found on
+   * https://docs.microsoft.com/en-us/azure/data-factory/data-factory-data-movement-activities
+   */
+  location?: string;
+  /**
+   * The node size requirement to managed integration runtime.
+   */
+  nodeSize?: string;
+  /**
+   * The required number of nodes for managed integration runtime.
+   */
+  numberOfNodes?: number;
+  /**
+   * Maximum parallel executions count per node for managed integration runtime.
+   */
+  maxParallelExecutionsPerNode?: number;
+  /**
+   * Data flow properties for managed integration runtime.
+   */
+  dataFlowProperties?: IntegrationRuntimeDataFlowProperties;
+  /**
+   * VNet properties for managed integration runtime.
+   */
+  vNetProperties?: IntegrationRuntimeVNetProperties;
+  /**
+   * Describes unknown properties. The value of an unknown property can be of "any" type.
+   */
+  [property: string]: any;
+}
+
+/**
+ * Contains the possible cases for SecretBase.
+ */
+export type SecretBaseUnion = SecretBase | SecureString;
+
+/**
+ * The base definition of a secret type.
+ */
+export interface SecretBase {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "SecretBase";
+}
+
+/**
+ * Azure Synapse secure string definition. The string value will be masked with asterisks '*'
+ * during Get or List API calls.
+ */
+export interface SecureString {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "SecureString";
+  /**
+   * Value of secure string.
+   */
+  value: string;
+}
+
+/**
+ * Catalog information for managed dedicated integration runtime.
+ */
+export interface IntegrationRuntimeSsisCatalogInfo {
+  /**
+   * The catalog database server URL.
+   */
+  catalogServerEndpoint?: string;
+  /**
+   * The administrator user name of catalog database.
+   */
+  catalogAdminUserName?: string;
+  /**
+   * The password of the administrator user account of the catalog database.
+   */
+  catalogAdminPassword?: SecureString;
+  /**
+   * The pricing tier for the catalog database. The valid values could be found in
+   * https://azure.microsoft.com/en-us/pricing/details/sql-database/. Possible values include:
+   * 'Basic', 'Standard', 'Premium', 'PremiumRS'
+   */
+  catalogPricingTier?: IntegrationRuntimeSsisCatalogPricingTier;
+  /**
+   * Describes unknown properties. The value of an unknown property can be of "any" type.
+   */
+  [property: string]: any;
+}
+
+/**
+ * Custom setup script properties for a managed dedicated integration runtime.
+ */
+export interface IntegrationRuntimeCustomSetupScriptProperties {
+  /**
+   * The URI of the Azure blob container that contains the custom setup script.
+   */
+  blobContainerUri?: string;
+  /**
+   * The SAS token of the Azure blob container.
+   */
+  sasToken?: SecureString;
+}
+
+/**
+ * The entity reference.
+ */
+export interface EntityReference {
+  /**
+   * The type of this referenced entity. Possible values include: 'IntegrationRuntimeReference',
+   * 'LinkedServiceReference'
+   */
+  type?: IntegrationRuntimeEntityReferenceType;
+  /**
+   * The name of this referenced entity.
+   */
+  referenceName?: string;
+}
+
+/**
+ * Data proxy properties for a managed dedicated integration runtime.
+ */
+export interface IntegrationRuntimeDataProxyProperties {
+  /**
+   * The self-hosted integration runtime reference.
+   */
+  connectVia?: EntityReference;
+  /**
+   * The staging linked service reference.
+   */
+  stagingLinkedService?: EntityReference;
+  /**
+   * The path to contain the staged data in the Blob storage.
+   */
+  path?: string;
+}
+
+/**
+ * Contains the possible cases for CustomSetupBase.
+ */
+export type CustomSetupBaseUnion = CustomSetupBase | CmdkeySetup | EnvironmentVariableSetup | ComponentSetup;
+
+/**
+ * The base definition of the custom setup.
+ */
+export interface CustomSetupBase {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "CustomSetupBase";
+}
+
+/**
+ * SSIS properties for managed integration runtime.
+ */
+export interface IntegrationRuntimeSsisProperties {
+  /**
+   * Catalog information for managed dedicated integration runtime.
+   */
+  catalogInfo?: IntegrationRuntimeSsisCatalogInfo;
+  /**
+   * License type for bringing your own license scenario. Possible values include: 'BasePrice',
+   * 'LicenseIncluded'
+   */
+  licenseType?: IntegrationRuntimeLicenseType;
+  /**
+   * Custom setup script properties for a managed dedicated integration runtime.
+   */
+  customSetupScriptProperties?: IntegrationRuntimeCustomSetupScriptProperties;
+  /**
+   * Data proxy properties for a managed dedicated integration runtime.
+   */
+  dataProxyProperties?: IntegrationRuntimeDataProxyProperties;
+  /**
+   * The edition for the SSIS Integration Runtime. Possible values include: 'Standard',
+   * 'Enterprise'
+   */
+  edition?: IntegrationRuntimeEdition;
+  /**
+   * Custom setup without script properties for a SSIS integration runtime.
+   */
+  expressCustomSetupProperties?: CustomSetupBaseUnion[];
+  /**
+   * Describes unknown properties. The value of an unknown property can be of "any" type.
+   */
+  [property: string]: any;
+}
+
+/**
+ * Managed integration runtime, including managed elastic and managed dedicated integration
+ * runtimes.
+ */
+export interface ManagedIntegrationRuntime {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "Managed";
+  /**
+   * Integration runtime description.
+   */
+  description?: string;
+  /**
+   * Integration runtime state, only valid for managed dedicated integration runtime. Possible
+   * values include: 'Initial', 'Stopped', 'Started', 'Starting', 'Stopping', 'NeedRegistration',
+   * 'Online', 'Limited', 'Offline', 'AccessDenied'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly state?: IntegrationRuntimeState;
+  /**
+   * The compute resource for managed integration runtime.
+   */
+  computeProperties?: IntegrationRuntimeComputeProperties;
+  /**
+   * SSIS properties for managed integration runtime.
+   */
+  ssisProperties?: IntegrationRuntimeSsisProperties;
+}
+
+/**
+ * The custom setup of running cmdkey commands.
+ */
+export interface CmdkeySetup {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "CmdkeySetup";
+  /**
+   * The server name of data source access.
+   */
+  targetName: any;
+  /**
+   * The user name of data source access.
+   */
+  userName: any;
+  /**
+   * The password of data source access.
+   */
+  password: SecretBaseUnion;
+}
+
+/**
+ * The custom setup of setting environment variable.
+ */
+export interface EnvironmentVariableSetup {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "EnvironmentVariableSetup";
+  /**
+   * The name of the environment variable.
+   */
+  variableName: string;
+  /**
+   * The value of the environment variable.
+   */
+  variableValue: string;
+}
+
+/**
+ * The custom setup of installing 3rd party components.
+ */
+export interface ComponentSetup {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "ComponentSetup";
+  /**
+   * The name of the 3rd party component.
+   */
+  componentName: string;
+  /**
+   * The license key to activate the component.
+   */
+  licenseKey?: SecretBaseUnion;
+}
+
+/**
+ * Contains the possible cases for LinkedIntegrationRuntimeType.
+ */
+export type LinkedIntegrationRuntimeTypeUnion = LinkedIntegrationRuntimeType | LinkedIntegrationRuntimeKeyAuthorization | LinkedIntegrationRuntimeRbacAuthorization;
+
+/**
+ * The base definition of a linked integration runtime.
+ */
+export interface LinkedIntegrationRuntimeType {
+  /**
+   * Polymorphic Discriminator
+   */
+  authorizationType: "LinkedIntegrationRuntimeType";
+}
+
+/**
+ * Self-hosted integration runtime.
+ */
+export interface SelfHostedIntegrationRuntime {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "SelfHosted";
+  /**
+   * Integration runtime description.
+   */
+  description?: string;
+  linkedInfo?: LinkedIntegrationRuntimeTypeUnion;
+}
+
+/**
+ * The key authorization type integration runtime.
+ */
+export interface LinkedIntegrationRuntimeKeyAuthorization {
+  /**
+   * Polymorphic Discriminator
+   */
+  authorizationType: "Key";
+  /**
+   * The key used for authorization.
+   */
+  key: SecureString;
+}
+
+/**
+ * The role based access control (RBAC) authorization type integration runtime.
+ */
+export interface LinkedIntegrationRuntimeRbacAuthorization {
+  /**
+   * Polymorphic Discriminator
+   */
+  authorizationType: "RBAC";
+  /**
+   * The resource identifier of the integration runtime to be shared.
+   */
+  resourceId: string;
+}
+
+/**
+ * Contains the possible cases for IntegrationRuntimeStatus.
+ */
+export type IntegrationRuntimeStatusUnion = IntegrationRuntimeStatus | ManagedIntegrationRuntimeStatus | SelfHostedIntegrationRuntimeStatus;
+
+/**
+ * Integration runtime status.
+ */
+export interface IntegrationRuntimeStatus {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "IntegrationRuntimeStatus";
+  /**
+   * The workspace name which the integration runtime belong to.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly dataFactoryName?: string;
+  /**
+   * The state of integration runtime. Possible values include: 'Initial', 'Stopped', 'Started',
+   * 'Starting', 'Stopping', 'NeedRegistration', 'Online', 'Limited', 'Offline', 'AccessDenied'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly state?: IntegrationRuntimeState;
+  /**
+   * Describes unknown properties. The value of an unknown property can be of "any" type.
+   */
+  [property: string]: any;
+}
+
+/**
+ * Error definition for managed integration runtime.
+ */
+export interface ManagedIntegrationRuntimeError {
+  /**
+   * The time when the error occurred.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly time?: Date;
+  /**
+   * Error code.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly code?: string;
+  /**
+   * Managed integration runtime error parameters.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly parameters?: string[];
+  /**
+   * Error message.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly message?: string;
+  /**
+   * Describes unknown properties. The value of an unknown property can be of "any" type.
+   */
+  [property: string]: any;
+}
+
+/**
+ * Properties of integration runtime node.
+ */
+export interface ManagedIntegrationRuntimeNode {
+  /**
+   * The managed integration runtime node id.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nodeId?: string;
+  /**
+   * The managed integration runtime node status. Possible values include: 'Starting', 'Available',
+   * 'Recycling', 'Unavailable'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: ManagedIntegrationRuntimeNodeStatus;
+  /**
+   * The errors that occurred on this integration runtime node.
+   */
+  errors?: ManagedIntegrationRuntimeError[];
+  /**
+   * Describes unknown properties. The value of an unknown property can be of "any" type.
+   */
+  [property: string]: any;
+}
+
+/**
+ * Properties of managed integration runtime operation result.
+ */
+export interface ManagedIntegrationRuntimeOperationResult {
+  /**
+   * The operation type. Could be start or stop.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * The start time of the operation.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly startTime?: Date;
+  /**
+   * The operation result.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly result?: string;
+  /**
+   * The error code.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly errorCode?: string;
+  /**
+   * Managed integration runtime error parameters.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly parameters?: string[];
+  /**
+   * The activity id for the operation request.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly activityId?: string;
+  /**
+   * Describes unknown properties. The value of an unknown property can be of "any" type.
+   */
+  [property: string]: any;
+}
+
+/**
+ * Managed integration runtime status.
+ */
+export interface ManagedIntegrationRuntimeStatus {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "Managed";
+  /**
+   * The workspace name which the integration runtime belong to.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly dataFactoryName?: string;
+  /**
+   * The state of integration runtime. Possible values include: 'Initial', 'Stopped', 'Started',
+   * 'Starting', 'Stopping', 'NeedRegistration', 'Online', 'Limited', 'Offline', 'AccessDenied'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly state?: IntegrationRuntimeState;
+  /**
+   * The time at which the integration runtime was created, in ISO8601 format.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly createTime?: Date;
+  /**
+   * The list of nodes for managed integration runtime.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nodes?: ManagedIntegrationRuntimeNode[];
+  /**
+   * The errors that occurred on this integration runtime.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly otherErrors?: ManagedIntegrationRuntimeError[];
+  /**
+   * The last operation result that occurred on this integration runtime.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lastOperation?: ManagedIntegrationRuntimeOperationResult;
+}
+
+/**
+ * Properties of Self-hosted integration runtime node.
+ */
+export interface SelfHostedIntegrationRuntimeNode {
+  /**
+   * Name of the integration runtime node.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nodeName?: string;
+  /**
+   * Machine name of the integration runtime node.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly machineName?: string;
+  /**
+   * URI for the host machine of the integration runtime.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly hostServiceUri?: string;
+  /**
+   * Status of the integration runtime node. Possible values include: 'NeedRegistration', 'Online',
+   * 'Limited', 'Offline', 'Upgrading', 'Initializing', 'InitializeFailed'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: SelfHostedIntegrationRuntimeNodeStatus;
+  /**
+   * The integration runtime capabilities dictionary
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly capabilities?: { [propertyName: string]: string };
+  /**
+   * Status of the integration runtime node version.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly versionStatus?: string;
+  /**
+   * Version of the integration runtime node.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly version?: string;
+  /**
+   * The time at which the integration runtime node was registered in ISO8601 format.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly registerTime?: Date;
+  /**
+   * The most recent time at which the integration runtime was connected in ISO8601 format.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lastConnectTime?: Date;
+  /**
+   * The time at which the integration runtime will expire in ISO8601 format.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly expiryTime?: Date;
+  /**
+   * The time the node last started up.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lastStartTime?: Date;
+  /**
+   * The integration runtime node last stop time.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lastStopTime?: Date;
+  /**
+   * The result of the last integration runtime node update. Possible values include: 'None',
+   * 'Succeed', 'Fail'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lastUpdateResult?: IntegrationRuntimeUpdateResult;
+  /**
+   * The last time for the integration runtime node update start.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lastStartUpdateTime?: Date;
+  /**
+   * The last time for the integration runtime node update end.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lastEndUpdateTime?: Date;
+  /**
+   * Indicates whether this node is the active dispatcher for integration runtime requests.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isActiveDispatcher?: boolean;
+  /**
+   * Maximum concurrent jobs on the integration runtime node.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly concurrentJobsLimit?: number;
+  /**
+   * The maximum concurrent jobs in this integration runtime.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly maxConcurrentJobs?: number;
+  /**
+   * Describes unknown properties. The value of an unknown property can be of "any" type.
+   */
+  [property: string]: any;
+}
+
+/**
+ * The linked integration runtime information.
+ */
+export interface LinkedIntegrationRuntime {
+  /**
+   * The name of the linked integration runtime.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The subscription ID for which the linked integration runtime belong to.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly subscriptionId?: string;
+  /**
+   * The name of the workspace for which the linked integration runtime belong to.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly dataFactoryName?: string;
+  /**
+   * The location of the workspace for which the linked integration runtime belong to.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly dataFactoryLocation?: string;
+  /**
+   * The creating time of the linked integration runtime.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly createTime?: Date;
+}
+
+/**
+ * Self-hosted integration runtime status.
+ */
+export interface SelfHostedIntegrationRuntimeStatus {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "SelfHosted";
+  /**
+   * The workspace name which the integration runtime belong to.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly dataFactoryName?: string;
+  /**
+   * The state of integration runtime. Possible values include: 'Initial', 'Stopped', 'Started',
+   * 'Starting', 'Stopping', 'NeedRegistration', 'Online', 'Limited', 'Offline', 'AccessDenied'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly state?: IntegrationRuntimeState;
+  /**
+   * The time at which the integration runtime was created, in ISO8601 format.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly createTime?: Date;
+  /**
+   * The task queue id of the integration runtime.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly taskQueueId?: string;
+  /**
+   * It is used to set the encryption mode for node-node communication channel (when more than 2
+   * self-hosted integration runtime nodes exist). Possible values include: 'NotSet',
+   * 'SslEncrypted', 'NotEncrypted'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly internalChannelEncryption?: IntegrationRuntimeInternalChannelEncryptionMode;
+  /**
+   * Version of the integration runtime.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly version?: string;
+  /**
+   * The list of nodes for this integration runtime.
+   */
+  nodes?: SelfHostedIntegrationRuntimeNode[];
+  /**
+   * The date at which the integration runtime will be scheduled to update, in ISO8601 format.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly scheduledUpdateDate?: Date;
+  /**
+   * The time in the date scheduled by service to update the integration runtime, e.g., PT03H is 3
+   * hours
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly updateDelayOffset?: string;
+  /**
+   * The local time zone offset in hours.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly localTimeZoneOffset?: string;
+  /**
+   * Object with additional information about integration runtime capabilities.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly capabilities?: { [propertyName: string]: string };
+  /**
+   * The URLs for the services used in integration runtime backend service.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly serviceUrls?: string[];
+  /**
+   * Whether Self-hosted integration runtime auto update has been turned on. Possible values
+   * include: 'On', 'Off'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly autoUpdate?: IntegrationRuntimeAutoUpdate;
+  /**
+   * Status of the integration runtime version.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly versionStatus?: string;
+  /**
+   * The list of linked integration runtimes that are created to share with this integration
+   * runtime.
+   */
+  links?: LinkedIntegrationRuntime[];
+  /**
+   * The version that the integration runtime is going to update to.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly pushedVersion?: string;
+  /**
+   * The latest version on download center.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly latestVersion?: string;
+  /**
+   * The estimated time when the self-hosted integration runtime will be updated.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly autoUpdateETA?: Date;
+}
+
+/**
+ * Connection information for encrypting the on-premises data source credentials.
+ */
+export interface IntegrationRuntimeConnectionInfo {
+  /**
+   * The token generated in service. Callers use this token to authenticate to integration runtime.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly serviceToken?: string;
+  /**
+   * The integration runtime SSL certificate thumbprint. Click-Once application uses it to do
+   * server validation.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly identityCertThumbprint?: string;
+  /**
+   * The on-premises integration runtime host URL.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly hostServiceUri?: string;
+  /**
+   * The integration runtime version.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly version?: string;
+  /**
+   * The public key for encrypting a credential when transferring the credential to the integration
+   * runtime.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly publicKey?: string;
+  /**
+   * Whether the identity certificate is expired.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isIdentityCertExprired?: boolean;
+  /**
+   * Describes unknown properties. The value of an unknown property can be of "any" type.
+   */
+  [property: string]: any;
+}
+
+/**
+ * Parameters to regenerate the authentication key.
+ */
+export interface IntegrationRuntimeRegenerateKeyParameters {
+  /**
+   * The name of the authentication key to regenerate. Possible values include: 'authKey1',
+   * 'authKey2'
+   */
+  keyName?: IntegrationRuntimeAuthKeyName;
+}
+
+/**
+ * The integration runtime authentication keys.
+ */
+export interface IntegrationRuntimeAuthKeys {
+  /**
+   * The primary integration runtime authentication key.
+   */
+  authKey1?: string;
+  /**
+   * The secondary integration runtime authentication key.
+   */
+  authKey2?: string;
+}
+
+/**
+ * Monitoring data for integration runtime node.
+ */
+export interface IntegrationRuntimeNodeMonitoringData {
+  /**
+   * Name of the integration runtime node.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nodeName?: string;
+  /**
+   * Available memory (MB) on the integration runtime node.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly availableMemoryInMB?: number;
+  /**
+   * CPU percentage on the integration runtime node.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly cpuUtilization?: number;
+  /**
+   * Maximum concurrent jobs on the integration runtime node.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly concurrentJobsLimit?: number;
+  /**
+   * The number of jobs currently running on the integration runtime node.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly concurrentJobsRunning?: number;
+  /**
+   * The maximum concurrent jobs in this integration runtime.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly maxConcurrentJobs?: number;
+  /**
+   * Sent bytes on the integration runtime node.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly sentBytes?: number;
+  /**
+   * Received bytes on the integration runtime node.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly receivedBytes?: number;
+  /**
+   * Describes unknown properties. The value of an unknown property can be of "any" type.
+   */
+  [property: string]: any;
+}
+
+/**
+ * Get monitoring data response.
+ */
+export interface IntegrationRuntimeMonitoringData {
+  /**
+   * Integration runtime name.
+   */
+  name?: string;
+  /**
+   * Integration runtime node monitoring data.
+   */
+  nodes?: IntegrationRuntimeNodeMonitoringData[];
+}
+
+/**
+ * The IP address of self-hosted integration runtime node.
+ */
+export interface IntegrationRuntimeNodeIpAddress {
+  /**
+   * The IP address of self-hosted integration runtime node.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly ipAddress?: string;
+}
+
+/**
+ * Contains the possible cases for SsisObjectMetadata.
+ */
+export type SsisObjectMetadataUnion = SsisObjectMetadata | SsisFolder | SsisProject | SsisPackage | SsisEnvironment;
+
+/**
+ * SSIS object metadata.
+ */
+export interface SsisObjectMetadata {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "SsisObjectMetadata";
+  /**
+   * Metadata id.
+   */
+  id?: number;
+  /**
+   * Metadata name.
+   */
+  name?: string;
+  /**
+   * Metadata description.
+   */
+  description?: string;
+}
+
+/**
+ * A list of SSIS object metadata.
+ */
+export interface SsisObjectMetadataListResponse {
+  /**
+   * List of SSIS object metadata.
+   */
+  value?: SsisObjectMetadataUnion[];
+  /**
+   * The link to the next page of results, if any remaining results exist.
+   */
+  nextLink?: string;
+}
+
+/**
+ * Ssis folder.
+ */
+export interface SsisFolder {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "Folder";
+  /**
+   * Metadata id.
+   */
+  id?: number;
+  /**
+   * Metadata name.
+   */
+  name?: string;
+  /**
+   * Metadata description.
+   */
+  description?: string;
+}
+
+/**
+ * Ssis environment reference.
+ */
+export interface SsisEnvironmentReference {
+  /**
+   * Environment reference id.
+   */
+  id?: number;
+  /**
+   * Environment folder name.
+   */
+  environmentFolderName?: string;
+  /**
+   * Environment name.
+   */
+  environmentName?: string;
+  /**
+   * Reference type
+   */
+  referenceType?: string;
+}
+
+/**
+ * Ssis parameter.
+ */
+export interface SsisParameter {
+  /**
+   * Parameter id.
+   */
+  id?: number;
+  /**
+   * Parameter name.
+   */
+  name?: string;
+  /**
+   * Parameter description.
+   */
+  description?: string;
+  /**
+   * Parameter type.
+   */
+  dataType?: string;
+  /**
+   * Whether parameter is required.
+   */
+  required?: boolean;
+  /**
+   * Whether parameter is sensitive.
+   */
+  sensitive?: boolean;
+  /**
+   * Design default value of parameter.
+   */
+  designDefaultValue?: string;
+  /**
+   * Default value of parameter.
+   */
+  defaultValue?: string;
+  /**
+   * Default sensitive value of parameter.
+   */
+  sensitiveDefaultValue?: string;
+  /**
+   * Parameter value type.
+   */
+  valueType?: string;
+  /**
+   * Parameter value set.
+   */
+  valueSet?: boolean;
+  /**
+   * Parameter reference variable.
+   */
+  variable?: string;
+}
+
+/**
+ * Ssis project.
+ */
+export interface SsisProject {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "Project";
+  /**
+   * Metadata id.
+   */
+  id?: number;
+  /**
+   * Metadata name.
+   */
+  name?: string;
+  /**
+   * Metadata description.
+   */
+  description?: string;
+  /**
+   * Folder id which contains project.
+   */
+  folderId?: number;
+  /**
+   * Project version.
+   */
+  version?: number;
+  /**
+   * Environment reference in project
+   */
+  environmentRefs?: SsisEnvironmentReference[];
+  /**
+   * Parameters in project
+   */
+  parameters?: SsisParameter[];
+}
+
+/**
+ * Ssis Package.
+ */
+export interface SsisPackage {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "Package";
+  /**
+   * Metadata id.
+   */
+  id?: number;
+  /**
+   * Metadata name.
+   */
+  name?: string;
+  /**
+   * Metadata description.
+   */
+  description?: string;
+  /**
+   * Folder id which contains package.
+   */
+  folderId?: number;
+  /**
+   * Project version which contains package.
+   */
+  projectVersion?: number;
+  /**
+   * Project id which contains package.
+   */
+  projectId?: number;
+  /**
+   * Parameters in package
+   */
+  parameters?: SsisParameter[];
+}
+
+/**
+ * Ssis variable.
+ */
+export interface SsisVariable {
+  /**
+   * Variable id.
+   */
+  id?: number;
+  /**
+   * Variable name.
+   */
+  name?: string;
+  /**
+   * Variable description.
+   */
+  description?: string;
+  /**
+   * Variable type.
+   */
+  dataType?: string;
+  /**
+   * Whether variable is sensitive.
+   */
+  sensitive?: boolean;
+  /**
+   * Variable value.
+   */
+  value?: string;
+  /**
+   * Variable sensitive value.
+   */
+  sensitiveValue?: string;
+}
+
+/**
+ * Ssis environment.
+ */
+export interface SsisEnvironment {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "Environment";
+  /**
+   * Metadata id.
+   */
+  id?: number;
+  /**
+   * Metadata name.
+   */
+  name?: string;
+  /**
+   * Metadata description.
+   */
+  description?: string;
+  /**
+   * Folder id which contains environment.
+   */
+  folderId?: number;
+  /**
+   * Variable in environment
+   */
+  variables?: SsisVariable[];
+}
+
+/**
+ * Update integration runtime request.
+ */
+export interface UpdateIntegrationRuntimeRequest {
+  /**
+   * Enables or disables the auto-update feature of the self-hosted integration runtime. See
+   * https://go.microsoft.com/fwlink/?linkid=854189. Possible values include: 'On', 'Off'
+   */
+  autoUpdate?: IntegrationRuntimeAutoUpdate;
+  /**
+   * The time offset (in hours) in the day, e.g., PT03H is 3 hours. The integration runtime auto
+   * update will happen on that time.
+   */
+  updateDelayOffset?: string;
+}
+
+/**
+ * Integration runtime resource type.
+ */
+export interface IntegrationRuntimeResource extends SubResource {
+  /**
+   * Integration runtime properties.
+   */
+  properties: IntegrationRuntimeUnion;
+}
+
+/**
+ * The request payload of get SSIS object metadata.
+ */
+export interface GetSsisObjectMetadataRequest {
+  /**
+   * Metadata path.
+   */
+  metadataPath?: string;
+}
+
+/**
+ * Update integration runtime node request.
+ */
+export interface UpdateIntegrationRuntimeNodeRequest {
+  /**
+   * The number of concurrent jobs permitted to run on the integration runtime node. Values between
+   * 1 and maxConcurrentJobs(inclusive) are allowed.
+   */
+  concurrentJobsLimit?: number;
+}
+
+/**
+ * Integration runtime status response.
+ */
+export interface IntegrationRuntimeStatusResponse {
+  /**
+   * The integration runtime name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Integration runtime properties.
+   */
+  properties: IntegrationRuntimeStatusUnion;
+}
+
+/**
+ * The status of the operation.
+ */
+export interface SsisObjectMetadataStatusResponse {
+  /**
+   * The status of the operation.
+   */
+  status?: string;
+  /**
+   * The operation name.
+   */
+  name?: string;
+  /**
+   * The operation properties.
+   */
+  properties?: string;
+  /**
+   * The operation error message.
+   */
+  error?: string;
+}
+
+/**
  * Optional Parameters.
  */
 export interface BigDataPoolsCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
@@ -1723,6 +3063,38 @@ export interface SqlPoolTableColumnsListByTableNameOptionalParams extends msRest
    * An OData filter expression that filters elements in the collection.
    */
   filter?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface IntegrationRuntimesGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * ETag of the integration runtime entity. Should only be specified for get. If the ETag matches
+   * the existing entity tag, or if * was provided, then no content will be returned.
+   */
+  ifNoneMatch?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface IntegrationRuntimesCreateOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * ETag of the integration runtime entity. Should only be specified for update, for which it
+   * should match existing entity or can be * for unconditional update.
+   */
+  ifMatch?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface IntegrationRuntimeObjectMetadataGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The parameters for getting a SSIS object metadata.
+   */
+  getMetadataRequest?: GetSsisObjectMetadataRequest;
 }
 
 /**
@@ -1913,6 +3285,18 @@ export interface WorkspaceInfoListResult extends Array<Workspace> {
 }
 
 /**
+ * @interface
+ * A list of integration runtime resources.
+ * @extends Array<IntegrationRuntimeResource>
+ */
+export interface IntegrationRuntimeListResponse extends Array<IntegrationRuntimeResource> {
+  /**
+   * The link to the next page of results, if any remaining results exist.
+   */
+  nextLink?: string;
+}
+
+/**
  * Defines values for NodeSize.
  * Possible values include: 'None', 'Small', 'Medium', 'Large'
  * @readonly
@@ -2076,6 +3460,120 @@ export type SecurityAlertPolicyState = 'New' | 'Enabled' | 'Disabled';
  * @enum {string}
  */
 export type ResourceIdentityType = 'None' | 'SystemAssigned';
+
+/**
+ * Defines values for IntegrationRuntimeType.
+ * Possible values include: 'Managed', 'SelfHosted'
+ * @readonly
+ * @enum {string}
+ */
+export type IntegrationRuntimeType = 'Managed' | 'SelfHosted';
+
+/**
+ * Defines values for IntegrationRuntimeState.
+ * Possible values include: 'Initial', 'Stopped', 'Started', 'Starting', 'Stopping',
+ * 'NeedRegistration', 'Online', 'Limited', 'Offline', 'AccessDenied'
+ * @readonly
+ * @enum {string}
+ */
+export type IntegrationRuntimeState = 'Initial' | 'Stopped' | 'Started' | 'Starting' | 'Stopping' | 'NeedRegistration' | 'Online' | 'Limited' | 'Offline' | 'AccessDenied';
+
+/**
+ * Defines values for DataFlowComputeType.
+ * Possible values include: 'General', 'MemoryOptimized', 'ComputeOptimized'
+ * @readonly
+ * @enum {string}
+ */
+export type DataFlowComputeType = 'General' | 'MemoryOptimized' | 'ComputeOptimized';
+
+/**
+ * Defines values for IntegrationRuntimeSsisCatalogPricingTier.
+ * Possible values include: 'Basic', 'Standard', 'Premium', 'PremiumRS'
+ * @readonly
+ * @enum {string}
+ */
+export type IntegrationRuntimeSsisCatalogPricingTier = 'Basic' | 'Standard' | 'Premium' | 'PremiumRS';
+
+/**
+ * Defines values for IntegrationRuntimeLicenseType.
+ * Possible values include: 'BasePrice', 'LicenseIncluded'
+ * @readonly
+ * @enum {string}
+ */
+export type IntegrationRuntimeLicenseType = 'BasePrice' | 'LicenseIncluded';
+
+/**
+ * Defines values for IntegrationRuntimeEntityReferenceType.
+ * Possible values include: 'IntegrationRuntimeReference', 'LinkedServiceReference'
+ * @readonly
+ * @enum {string}
+ */
+export type IntegrationRuntimeEntityReferenceType = 'IntegrationRuntimeReference' | 'LinkedServiceReference';
+
+/**
+ * Defines values for IntegrationRuntimeEdition.
+ * Possible values include: 'Standard', 'Enterprise'
+ * @readonly
+ * @enum {string}
+ */
+export type IntegrationRuntimeEdition = 'Standard' | 'Enterprise';
+
+/**
+ * Defines values for ManagedIntegrationRuntimeNodeStatus.
+ * Possible values include: 'Starting', 'Available', 'Recycling', 'Unavailable'
+ * @readonly
+ * @enum {string}
+ */
+export type ManagedIntegrationRuntimeNodeStatus = 'Starting' | 'Available' | 'Recycling' | 'Unavailable';
+
+/**
+ * Defines values for IntegrationRuntimeInternalChannelEncryptionMode.
+ * Possible values include: 'NotSet', 'SslEncrypted', 'NotEncrypted'
+ * @readonly
+ * @enum {string}
+ */
+export type IntegrationRuntimeInternalChannelEncryptionMode = 'NotSet' | 'SslEncrypted' | 'NotEncrypted';
+
+/**
+ * Defines values for SelfHostedIntegrationRuntimeNodeStatus.
+ * Possible values include: 'NeedRegistration', 'Online', 'Limited', 'Offline', 'Upgrading',
+ * 'Initializing', 'InitializeFailed'
+ * @readonly
+ * @enum {string}
+ */
+export type SelfHostedIntegrationRuntimeNodeStatus = 'NeedRegistration' | 'Online' | 'Limited' | 'Offline' | 'Upgrading' | 'Initializing' | 'InitializeFailed';
+
+/**
+ * Defines values for IntegrationRuntimeUpdateResult.
+ * Possible values include: 'None', 'Succeed', 'Fail'
+ * @readonly
+ * @enum {string}
+ */
+export type IntegrationRuntimeUpdateResult = 'None' | 'Succeed' | 'Fail';
+
+/**
+ * Defines values for IntegrationRuntimeAutoUpdate.
+ * Possible values include: 'On', 'Off'
+ * @readonly
+ * @enum {string}
+ */
+export type IntegrationRuntimeAutoUpdate = 'On' | 'Off';
+
+/**
+ * Defines values for IntegrationRuntimeAuthKeyName.
+ * Possible values include: 'authKey1', 'authKey2'
+ * @readonly
+ * @enum {string}
+ */
+export type IntegrationRuntimeAuthKeyName = 'authKey1' | 'authKey2';
+
+/**
+ * Defines values for SsisObjectMetadataType.
+ * Possible values include: 'Folder', 'Project', 'Package', 'Environment'
+ * @readonly
+ * @enum {string}
+ */
+export type SsisObjectMetadataType = 'Folder' | 'Project' | 'Package' | 'Environment';
 
 /**
  * Defines values for VulnerabilityAssessmentPolicyBaselineName.
@@ -2398,6 +3896,26 @@ export type IpFirewallRulesDeleteMethodResponse = {
        * The response body as parsed JSON or XML
        */
       parsedBody: any;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type IpFirewallRulesGetResponse = IpFirewallRuleInfo & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IpFirewallRuleInfo;
     };
 };
 
@@ -3928,5 +5446,325 @@ export type WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateResponse = M
        * The response body as parsed JSON or XML
        */
       parsedBody: ManagedIdentitySqlControlSettingsModel;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type IntegrationRuntimesUpdateResponse = IntegrationRuntimeResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IntegrationRuntimeResource;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type IntegrationRuntimesGetResponse = IntegrationRuntimeResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IntegrationRuntimeResource;
+    };
+};
+
+/**
+ * Contains response data for the create operation.
+ */
+export type IntegrationRuntimesCreateResponse = IntegrationRuntimeResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IntegrationRuntimeResource;
+    };
+};
+
+/**
+ * Contains response data for the listByWorkspace operation.
+ */
+export type IntegrationRuntimesListByWorkspaceResponse = IntegrationRuntimeListResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IntegrationRuntimeListResponse;
+    };
+};
+
+/**
+ * Contains response data for the start operation.
+ */
+export type IntegrationRuntimesStartResponse = IntegrationRuntimeStatusResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IntegrationRuntimeStatusResponse;
+    };
+};
+
+/**
+ * Contains response data for the listByWorkspaceNext operation.
+ */
+export type IntegrationRuntimesListByWorkspaceNextResponse = IntegrationRuntimeListResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IntegrationRuntimeListResponse;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type IntegrationRuntimeNodeIpAddressGetResponse = IntegrationRuntimeNodeIpAddress & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IntegrationRuntimeNodeIpAddress;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type IntegrationRuntimeObjectMetadataGetResponse = SsisObjectMetadataListResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SsisObjectMetadataListResponse;
+    };
+};
+
+/**
+ * Contains response data for the refresh operation.
+ */
+export type IntegrationRuntimeObjectMetadataRefreshResponse = SsisObjectMetadataStatusResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SsisObjectMetadataStatusResponse;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type IntegrationRuntimeNodesGetResponse = SelfHostedIntegrationRuntimeNode & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SelfHostedIntegrationRuntimeNode;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type IntegrationRuntimeNodesUpdateResponse = SelfHostedIntegrationRuntimeNode & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SelfHostedIntegrationRuntimeNode;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type IntegrationRuntimeConnectionInfosGetResponse = IntegrationRuntimeConnectionInfo & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IntegrationRuntimeConnectionInfo;
+    };
+};
+
+/**
+ * Contains response data for the regenerate operation.
+ */
+export type IntegrationRuntimeAuthKeysRegenerateResponse = IntegrationRuntimeAuthKeys & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IntegrationRuntimeAuthKeys;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type IntegrationRuntimeAuthKeysListResponse = IntegrationRuntimeAuthKeys & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IntegrationRuntimeAuthKeys;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type IntegrationRuntimeMonitoringDataGetResponse = IntegrationRuntimeMonitoringData & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IntegrationRuntimeMonitoringData;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type IntegrationRuntimeStatusGetResponse = IntegrationRuntimeStatusResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IntegrationRuntimeStatusResponse;
     };
 };
