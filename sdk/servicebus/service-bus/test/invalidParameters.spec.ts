@@ -103,19 +103,6 @@ describe("invalid parameters", () => {
         `The parameter "fromSequenceNumber" should be of type "Long"`
       );
     });
-
-    it("PeekBySequenceNumber: Missing fromSequenceNumber for Queue", async function(): Promise<
-      void
-    > {
-      let caughtError: Error | undefined;
-      try {
-        await receiver.browseMessages({ fromSequenceNumber: undefined as any });
-      } catch (error) {
-        caughtError = error;
-      }
-      should.equal(caughtError && caughtError.name, "TypeError");
-      should.equal(caughtError && caughtError.message, `Missing parameter "fromSequenceNumber"`);
-    });
   });
 
   describe("Invalid parameters in Sender/ReceiverClients for PartitionedSubscription #RunInBrowser", function(): void {
