@@ -195,19 +195,6 @@ describe("invalid parameters", () => {
       );
     });
 
-    it("PeekBySequenceNumber: Missing fromSequenceNumber for Subscription", async function(): Promise<
-      void
-    > {
-      let caughtError: Error | undefined;
-      try {
-        await subscriptionReceiverClient.browseMessages({ fromSequenceNumber: undefined as any });
-      } catch (error) {
-        caughtError = error;
-      }
-      should.equal(caughtError && caughtError.name, "TypeError");
-      should.equal(caughtError && caughtError.message, `Missing parameter "fromSequenceNumber"`);
-    });
-
     it("AddRule: Missing ruleName", async function(): Promise<void> {
       let caughtError: Error | undefined;
       try {
