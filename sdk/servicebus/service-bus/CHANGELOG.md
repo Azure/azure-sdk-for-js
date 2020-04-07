@@ -1,5 +1,8 @@
 # Release History
 
+## 7.0.0-preview.2 (Unreleased)
+
+
 ## 7.0.0-preview.1 (2020-04-07)
 
 - This release is a preview of our efforts to create a client library that is user friendly and
