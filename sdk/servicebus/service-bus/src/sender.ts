@@ -155,6 +155,12 @@ export interface Sender {
   close(): Promise<void>;
 }
 
+/**
+ * @internal
+ * @ignore
+ * @class SenderImpl
+ * @implements {Sender}
+ */
 export class SenderImpl implements Sender {
   /**
    * @property Describes the amqp connection context for the Client.

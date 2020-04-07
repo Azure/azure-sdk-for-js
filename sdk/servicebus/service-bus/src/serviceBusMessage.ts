@@ -690,6 +690,11 @@ export function fromAmqpMessage(
 
 /**
  * Describes the message received from Service Bus.
+ *
+ * @internal
+ * @ignore
+ * @class ServiceBusMessageImpl
+ * @implements {ReceivedMessageWithLock}
  */
 export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
   /**
