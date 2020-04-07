@@ -63,8 +63,8 @@ The proposed interface for this change:
 class ServiceBusClient {
   // a session manager is conceptually a receiver, but does not have to 
   // obey the same interface.
-  createSessionManager("queue", sessionManagerOptions): SessionManager;
-  createSessionManager("topic", "subscription", sessionManagerOptions): SessionManager;
+  createSessionManager("queue", "peekLock", sessionManagerOptions): SessionManager;
+  createSessionManager("topic", "subscription", "peekLock", sessionManagerOptions): SessionManager;
 }
 
 interface SessionManagerOptions {
