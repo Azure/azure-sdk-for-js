@@ -14,7 +14,7 @@ The Azure SDK for JavaScript and TypeScript allows users to communicate and cont
         - [Configuring Mocha](#configuring-mocha)
         - [Code coverage with Mocha and nyc](#code-coverage-with-mocha-and-nyc)
         - [Handling timeouts](#handling-timeouts)
-        - [On the usage of before, beforeEach, after and afterEach](on-the-usage-of-before--beforeeach,-after-and-aftereach)
+        - [On the usage of before, beforeEach, after and afterEach](#on-the-usage-of-before--beforeeach,-after-and-aftereach)
         - [Other general recommendations](#other-general-recommendations)
     - [Chai](#chai)
         - [Recommended Chai assertion style](#recommended-chai-assertion-style)
@@ -705,7 +705,7 @@ Besides the default contents of that Karma configuration file, you can consider 
 
 You can see an example [karma.config.js in our template project](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/karma.conf.js).
 
-### Recorder
+### The Recorder
 
 The Azure SDK for JavaScript and TypeScript uses a custom utility to record tests that hit the live endpoints, so that these tests can be executed almost instantly against these recordings instead of hitting the live services. This tool is called [@azure/test-utils-recorder](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/test-utils/recorder). It's an unpublished package that can be added using rush, as follows:
 
