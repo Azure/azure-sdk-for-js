@@ -16,7 +16,8 @@
     "./dist-esm/src/credentials/defaultAzureCredential.js": "./dist-esm/src/credentials/defaultAzureCredential.browser.js",
     "./dist-esm/src/credentials/authorizationCodeCredential.js": "./dist-esm/src/credentials/authorizationCodeCredential.browser.js",
     "./dist-esm/src/credentials/interactiveBrowserCredential.js": "./dist-esm/src/credentials/interactiveBrowserCredential.browser.js",
-    "./dist-esm/src/credentials/vscodeCredential.js": "./dist-esm/src/credentials/vscodeCredential.browser.js"
+    "./dist-esm/src/credentials/vscodeCredential.js": "./dist-esm/src/credentials/vscodeCredential.browser.js",
+    "./dist-esm/src/util/authHostEnv.js": "./dist-esm/src/util/authHostEnv.browser.js"
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
