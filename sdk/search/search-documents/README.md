@@ -536,9 +536,7 @@ const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-docum
 const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
 
 async function main() {
-  let listOfIndexers = await client.listIndexers({
-    select: ['name', 'skillsetName', 'dataSourceName']
-  });
+  let listOfIndexers = await client.listIndexers();
 
   for(let indexer of listOfIndexers) {
     console.log(`Name: ${indexer.name}`);
@@ -820,7 +818,7 @@ const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-docum
 const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
 
 async function main() {
-  const indexerStatus = await client.getIndexerStatus('azureblob-indexer');
+  const indexerStatus = await client.getIndexerStatus('my-azure-indexer-1');
   console.log(`Name: ${indexerStatus.name}`);
   console.log(`OData Context: ${indexerStatus["@odata.context"]}`);
   console.log(`Status: ${indexerStatus.status}`);
