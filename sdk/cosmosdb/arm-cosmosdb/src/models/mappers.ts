@@ -386,6 +386,18 @@ export const DatabaseAccountGetResults: msRest.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      keyVaultKeyUri: {
+        serializedName: "properties.keyVaultKeyUri",
+        type: {
+          name: "String"
+        }
+      },
+      publicNetworkAccess: {
+        serializedName: "properties.publicNetworkAccess",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -1815,6 +1827,76 @@ export const ExtendedResourceProperties: msRest.CompositeMapper = {
   }
 };
 
+export const ThroughputPolicyResource: msRest.CompositeMapper = {
+  serializedName: "ThroughputPolicyResource",
+  type: {
+    name: "Composite",
+    className: "ThroughputPolicyResource",
+    modelProperties: {
+      isEnabled: {
+        serializedName: "isEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      incrementPercent: {
+        serializedName: "incrementPercent",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const AutoUpgradePolicyResource: msRest.CompositeMapper = {
+  serializedName: "AutoUpgradePolicyResource",
+  type: {
+    name: "Composite",
+    className: "AutoUpgradePolicyResource",
+    modelProperties: {
+      throughputPolicy: {
+        serializedName: "throughputPolicy",
+        type: {
+          name: "Composite",
+          className: "ThroughputPolicyResource"
+        }
+      }
+    }
+  }
+};
+
+export const ProvisionedThroughputSettingsResource: msRest.CompositeMapper = {
+  serializedName: "ProvisionedThroughputSettingsResource",
+  type: {
+    name: "Composite",
+    className: "ProvisionedThroughputSettingsResource",
+    modelProperties: {
+      maxThroughput: {
+        required: true,
+        serializedName: "maxThroughput",
+        type: {
+          name: "Number"
+        }
+      },
+      autoUpgradePolicy: {
+        serializedName: "autoUpgradePolicy",
+        type: {
+          name: "Composite",
+          className: "AutoUpgradePolicyResource"
+        }
+      },
+      targetMaxThroughput: {
+        readOnly: true,
+        serializedName: "targetMaxThroughput",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const ThroughputSettingsGetPropertiesResource: msRest.CompositeMapper = {
   serializedName: "ThroughputSettingsGetProperties_resource",
   type: {
@@ -1822,10 +1904,16 @@ export const ThroughputSettingsGetPropertiesResource: msRest.CompositeMapper = {
     className: "ThroughputSettingsGetPropertiesResource",
     modelProperties: {
       throughput: {
-        required: true,
         serializedName: "throughput",
         type: {
           name: "Number"
+        }
+      },
+      provisionedThroughputSettings: {
+        serializedName: "provisionedThroughputSettings",
+        type: {
+          name: "Composite",
+          className: "ProvisionedThroughputSettingsResource"
         }
       },
       minimumThroughput: {
@@ -1993,6 +2081,18 @@ export const DatabaseAccountCreateUpdateParameters: msRest.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      keyVaultKeyUri: {
+        serializedName: "properties.keyVaultKeyUri",
+        type: {
+          name: "String"
+        }
+      },
+      publicNetworkAccess: {
+        serializedName: "properties.publicNetworkAccess",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -2104,6 +2204,18 @@ export const DatabaseAccountUpdateParameters: msRest.CompositeMapper = {
         serializedName: "properties.disableKeyBasedMetadataWriteAccess",
         type: {
           name: "Boolean"
+        }
+      },
+      keyVaultKeyUri: {
+        serializedName: "properties.keyVaultKeyUri",
+        type: {
+          name: "String"
+        }
+      },
+      publicNetworkAccess: {
+        serializedName: "properties.publicNetworkAccess",
+        type: {
+          name: "String"
         }
       }
     }
@@ -2229,10 +2341,16 @@ export const ThroughputSettingsResource: msRest.CompositeMapper = {
     className: "ThroughputSettingsResource",
     modelProperties: {
       throughput: {
-        required: true,
         serializedName: "throughput",
         type: {
           name: "Number"
+        }
+      },
+      provisionedThroughputSettings: {
+        serializedName: "provisionedThroughputSettings",
+        type: {
+          name: "Composite",
+          className: "ProvisionedThroughputSettingsResource"
         }
       },
       minimumThroughput: {
@@ -2289,6 +2407,27 @@ export const SqlDatabaseResource: msRest.CompositeMapper = {
   }
 };
 
+export const CreateUpdateOptions: msRest.CompositeMapper = {
+  serializedName: "CreateUpdateOptions",
+  type: {
+    name: "Composite",
+    className: "CreateUpdateOptions",
+    modelProperties: {
+      throughput: {
+        serializedName: "throughput",
+        type: {
+          name: "String"
+        }
+      }
+    },
+    additionalProperties: {
+      type: {
+        name: "String"
+      }
+    }
+  }
+};
+
 export const SqlDatabaseCreateUpdateParameters: msRest.CompositeMapper = {
   serializedName: "SqlDatabaseCreateUpdateParameters",
   type: {
@@ -2308,8 +2447,9 @@ export const SqlDatabaseCreateUpdateParameters: msRest.CompositeMapper = {
         required: true,
         serializedName: "properties.options",
         type: {
-          name: "Dictionary",
-          value: {
+          name: "Composite",
+          className: "CreateUpdateOptions",
+          additionalProperties: {
             type: {
               name: "String"
             }
@@ -2390,8 +2530,9 @@ export const SqlContainerCreateUpdateParameters: msRest.CompositeMapper = {
         required: true,
         serializedName: "properties.options",
         type: {
-          name: "Dictionary",
-          value: {
+          name: "Composite",
+          className: "CreateUpdateOptions",
+          additionalProperties: {
             type: {
               name: "String"
             }
@@ -2444,8 +2585,9 @@ export const SqlStoredProcedureCreateUpdateParameters: msRest.CompositeMapper = 
         required: true,
         serializedName: "properties.options",
         type: {
-          name: "Dictionary",
-          value: {
+          name: "Composite",
+          className: "CreateUpdateOptions",
+          additionalProperties: {
             type: {
               name: "String"
             }
@@ -2498,8 +2640,9 @@ export const SqlUserDefinedFunctionCreateUpdateParameters: msRest.CompositeMappe
         required: true,
         serializedName: "properties.options",
         type: {
-          name: "Dictionary",
-          value: {
+          name: "Composite",
+          className: "CreateUpdateOptions",
+          additionalProperties: {
             type: {
               name: "String"
             }
@@ -2564,8 +2707,9 @@ export const SqlTriggerCreateUpdateParameters: msRest.CompositeMapper = {
         required: true,
         serializedName: "properties.options",
         type: {
-          name: "Dictionary",
-          value: {
+          name: "Composite",
+          className: "CreateUpdateOptions",
+          additionalProperties: {
             type: {
               name: "String"
             }
@@ -2612,8 +2756,9 @@ export const MongoDBDatabaseCreateUpdateParameters: msRest.CompositeMapper = {
         required: true,
         serializedName: "properties.options",
         type: {
-          name: "Dictionary",
-          value: {
+          name: "Composite",
+          className: "CreateUpdateOptions",
+          additionalProperties: {
             type: {
               name: "String"
             }
@@ -2683,8 +2828,9 @@ export const MongoDBCollectionCreateUpdateParameters: msRest.CompositeMapper = {
         required: true,
         serializedName: "properties.options",
         type: {
-          name: "Dictionary",
-          value: {
+          name: "Composite",
+          className: "CreateUpdateOptions",
+          additionalProperties: {
             type: {
               name: "String"
             }
@@ -2731,8 +2877,9 @@ export const TableCreateUpdateParameters: msRest.CompositeMapper = {
         required: true,
         serializedName: "properties.options",
         type: {
-          name: "Dictionary",
-          value: {
+          name: "Composite",
+          className: "CreateUpdateOptions",
+          additionalProperties: {
             type: {
               name: "String"
             }
@@ -2779,8 +2926,9 @@ export const CassandraKeyspaceCreateUpdateParameters: msRest.CompositeMapper = {
         required: true,
         serializedName: "properties.options",
         type: {
-          name: "Dictionary",
-          value: {
+          name: "Composite",
+          className: "CreateUpdateOptions",
+          additionalProperties: {
             type: {
               name: "String"
             }
@@ -2840,8 +2988,9 @@ export const CassandraTableCreateUpdateParameters: msRest.CompositeMapper = {
         required: true,
         serializedName: "properties.options",
         type: {
-          name: "Dictionary",
-          value: {
+          name: "Composite",
+          className: "CreateUpdateOptions",
+          additionalProperties: {
             type: {
               name: "String"
             }
@@ -2888,8 +3037,9 @@ export const GremlinDatabaseCreateUpdateParameters: msRest.CompositeMapper = {
         required: true,
         serializedName: "properties.options",
         type: {
-          name: "Dictionary",
-          value: {
+          name: "Composite",
+          className: "CreateUpdateOptions",
+          additionalProperties: {
             type: {
               name: "String"
             }
@@ -2970,8 +3120,9 @@ export const GremlinGraphCreateUpdateParameters: msRest.CompositeMapper = {
         required: true,
         serializedName: "properties.options",
         type: {
-          name: "Dictionary",
-          value: {
+          name: "Composite",
+          className: "CreateUpdateOptions",
+          additionalProperties: {
             type: {
               name: "String"
             }

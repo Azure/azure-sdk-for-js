@@ -229,6 +229,15 @@ export interface DatabaseAccountGetResults extends ARMResourceProperties {
    * keys
    */
   disableKeyBasedMetadataWriteAccess?: boolean;
+  /**
+   * The URI of the key vault
+   */
+  keyVaultKeyUri?: string;
+  /**
+   * Whether requests from Public Network are allowed. Possible values include: 'Enabled',
+   * 'Disabled'
+   */
+  publicNetworkAccess?: PublicNetworkAccess;
 }
 
 /**
@@ -1060,13 +1069,64 @@ export interface ExtendedResourceProperties {
 }
 
 /**
+ * Cosmos DB resource throughput policy
+ */
+export interface ThroughputPolicyResource {
+  /**
+   * Determines whether the ThroughputPolicy is active or not
+   */
+  isEnabled?: boolean;
+  /**
+   * Represents the percentage by which throughput can increase every time throughput policy kicks
+   * in.
+   */
+  incrementPercent?: number;
+}
+
+/**
+ * Cosmos DB resource auto-upgrade policy
+ */
+export interface AutoUpgradePolicyResource {
+  /**
+   * Represents throughput policy which service must adhere to for auto-upgrade
+   */
+  throughputPolicy?: ThroughputPolicyResource;
+}
+
+/**
+ * Cosmos DB provisioned throughput settings object
+ */
+export interface ProvisionedThroughputSettingsResource {
+  /**
+   * Represents maximum throughput container can scale up to.
+   */
+  maxThroughput: number;
+  /**
+   * Cosmos DB resource auto-upgrade policy
+   */
+  autoUpgradePolicy?: AutoUpgradePolicyResource;
+  /**
+   * Represents target maximum throughput container can scale up to once offer is no longer in
+   * pending state.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly targetMaxThroughput?: number;
+}
+
+/**
  * An interface representing ThroughputSettingsGetPropertiesResource.
  */
 export interface ThroughputSettingsGetPropertiesResource {
   /**
-   * Value of the Cosmos DB resource throughput
+   * Value of the Cosmos DB resource throughput. Either throughput is required or
+   * provisionedThroughputSettings is required, but not both.
    */
-  throughput: number;
+  throughput?: number;
+  /**
+   * Cosmos DB resource for provisioned throughput settings. Either throughput is required or
+   * provisionedThroughputSettings is required, but not both.
+   */
+  provisionedThroughputSettings?: ProvisionedThroughputSettingsResource;
   /**
    * The minimum throughput of the resource
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -1162,6 +1222,15 @@ export interface DatabaseAccountCreateUpdateParameters extends ARMResourceProper
    * keys
    */
   disableKeyBasedMetadataWriteAccess?: boolean;
+  /**
+   * The URI of the key vault
+   */
+  keyVaultKeyUri?: string;
+  /**
+   * Whether requests from Public Network are allowed. Possible values include: 'Enabled',
+   * 'Disabled'
+   */
+  publicNetworkAccess?: PublicNetworkAccess;
 }
 
 /**
@@ -1223,6 +1292,15 @@ export interface DatabaseAccountUpdateParameters {
    * keys
    */
   disableKeyBasedMetadataWriteAccess?: boolean;
+  /**
+   * The URI of the key vault
+   */
+  keyVaultKeyUri?: string;
+  /**
+   * Whether requests from Public Network are allowed. Possible values include: 'Enabled',
+   * 'Disabled'
+   */
+  publicNetworkAccess?: PublicNetworkAccess;
 }
 
 /**
@@ -1295,13 +1373,20 @@ export interface DatabaseAccountRegenerateKeyParameters {
 }
 
 /**
- * Cosmos DB resource throughput object
+ * Cosmos DB resource throughput object. Either throughput is required or
+ * provisionedThroughputSettings is required, but not both.
  */
 export interface ThroughputSettingsResource {
   /**
-   * Value of the Cosmos DB resource throughput
+   * Value of the Cosmos DB resource throughput. Either throughput is required or
+   * provisionedThroughputSettings is required, but not both.
    */
-  throughput: number;
+  throughput?: number;
+  /**
+   * Cosmos DB resource for provisioned throughput settings. Either throughput is required or
+   * provisionedThroughputSettings is required, but not both.
+   */
+  provisionedThroughputSettings?: ProvisionedThroughputSettingsResource;
   /**
    * The minimum throughput of the resource
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -1335,6 +1420,22 @@ export interface SqlDatabaseResource {
 }
 
 /**
+ * CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are
+ * "If-Match", "If-None-Match", "Session-Token" and "Throughput"
+ */
+export interface CreateUpdateOptions {
+  /**
+   * Request Units per second. For example, "throughput": "10000".
+   */
+  throughput?: string;
+  /**
+   * Describes unknown properties. The value of an unknown property MUST be of type "string". Due
+   * to valid TS constraints we have modeled this as a union of `string | any`.
+   */
+  [property: string]: string | any;
+}
+
+/**
  * Parameters to create and update Cosmos DB SQL database.
  */
 export interface SqlDatabaseCreateUpdateParameters extends ARMResourceProperties {
@@ -1346,7 +1447,7 @@ export interface SqlDatabaseCreateUpdateParameters extends ARMResourceProperties
    * A key-value pair of options to be applied for the request. This corresponds to the headers
    * sent with the request.
    */
-  options: { [propertyName: string]: string };
+  options: CreateUpdateOptions;
 }
 
 /**
@@ -1394,7 +1495,7 @@ export interface SqlContainerCreateUpdateParameters extends ARMResourcePropertie
    * A key-value pair of options to be applied for the request. This corresponds to the headers
    * sent with the request.
    */
-  options: { [propertyName: string]: string };
+  options: CreateUpdateOptions;
 }
 
 /**
@@ -1423,7 +1524,7 @@ export interface SqlStoredProcedureCreateUpdateParameters extends ARMResourcePro
    * A key-value pair of options to be applied for the request. This corresponds to the headers
    * sent with the request.
    */
-  options: { [propertyName: string]: string };
+  options: CreateUpdateOptions;
 }
 
 /**
@@ -1452,7 +1553,7 @@ export interface SqlUserDefinedFunctionCreateUpdateParameters extends ARMResourc
    * A key-value pair of options to be applied for the request. This corresponds to the headers
    * sent with the request.
    */
-  options: { [propertyName: string]: string };
+  options: CreateUpdateOptions;
 }
 
 /**
@@ -1490,7 +1591,7 @@ export interface SqlTriggerCreateUpdateParameters extends ARMResourceProperties 
    * A key-value pair of options to be applied for the request. This corresponds to the headers
    * sent with the request.
    */
-  options: { [propertyName: string]: string };
+  options: CreateUpdateOptions;
 }
 
 /**
@@ -1515,7 +1616,7 @@ export interface MongoDBDatabaseCreateUpdateParameters extends ARMResourceProper
    * A key-value pair of options to be applied for the request. This corresponds to the headers
    * sent with the request.
    */
-  options: { [propertyName: string]: string };
+  options: CreateUpdateOptions;
 }
 
 /**
@@ -1548,7 +1649,7 @@ export interface MongoDBCollectionCreateUpdateParameters extends ARMResourceProp
    * A key-value pair of options to be applied for the request. This corresponds to the headers
    * sent with the request.
    */
-  options: { [propertyName: string]: string };
+  options: CreateUpdateOptions;
 }
 
 /**
@@ -1573,7 +1674,7 @@ export interface TableCreateUpdateParameters extends ARMResourceProperties {
    * A key-value pair of options to be applied for the request. This corresponds to the headers
    * sent with the request.
    */
-  options: { [propertyName: string]: string };
+  options: CreateUpdateOptions;
 }
 
 /**
@@ -1598,7 +1699,7 @@ export interface CassandraKeyspaceCreateUpdateParameters extends ARMResourceProp
    * A key-value pair of options to be applied for the request. This corresponds to the headers
    * sent with the request.
    */
-  options: { [propertyName: string]: string };
+  options: CreateUpdateOptions;
 }
 
 /**
@@ -1631,7 +1732,7 @@ export interface CassandraTableCreateUpdateParameters extends ARMResourcePropert
    * A key-value pair of options to be applied for the request. This corresponds to the headers
    * sent with the request.
    */
-  options: { [propertyName: string]: string };
+  options: CreateUpdateOptions;
 }
 
 /**
@@ -1656,7 +1757,7 @@ export interface GremlinDatabaseCreateUpdateParameters extends ARMResourceProper
    * A key-value pair of options to be applied for the request. This corresponds to the headers
    * sent with the request.
    */
-  options: { [propertyName: string]: string };
+  options: CreateUpdateOptions;
 }
 
 /**
@@ -1704,7 +1805,7 @@ export interface GremlinGraphCreateUpdateParameters extends ARMResourcePropertie
    * A key-value pair of options to be applied for the request. This corresponds to the headers
    * sent with the request.
    */
-  options: { [propertyName: string]: string };
+  options: CreateUpdateOptions;
 }
 
 /**
@@ -2396,6 +2497,14 @@ export type DefaultConsistencyLevel = 'Eventual' | 'Session' | 'BoundedStaleness
  * @enum {string}
  */
 export type ConnectorOffer = 'Small';
+
+/**
+ * Defines values for PublicNetworkAccess.
+ * Possible values include: 'Enabled', 'Disabled'
+ * @readonly
+ * @enum {string}
+ */
+export type PublicNetworkAccess = 'Enabled' | 'Disabled';
 
 /**
  * Defines values for IndexingMode.
