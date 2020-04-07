@@ -72,6 +72,11 @@ interface SessionManagerOptions {
   // it is `close()`d
   idleTimeoutMs: number;
 
+  // the maximum number of receivers that can be active at any
+  // time. Allows the customer to avoid getting steamrolled by too many 
+  // sessions.
+  concurrentReceivers: number;
+
   // TODO: I'd be curious about other potential options here.
 }
 
