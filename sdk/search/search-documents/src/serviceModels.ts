@@ -80,36 +80,36 @@ export type ListSkillsetsOptions = OperationOptions;
 /**
  * Options for a list synonymMaps operation.
  */
-export interface ListSynonymMapsOptions extends OperationOptions {
+export interface ListSynonymMapsOptions<Fields> extends OperationOptions {
   /**
    * Selects which top-level properties of the synonym maps to retrieve. Specified as a
    * comma-separated list of JSON property names, or '*' for all properties. The default is all
    * properties.
    */
-  select?: string[];
+  select?: Fields[];
 }
 
 /**
  * Options for a list indexes operation.
  */
-export interface ListIndexesOptions extends OperationOptions {
+export interface ListIndexesOptions<Fields> extends OperationOptions {
   /**
    * Selects which top-level properties of the index definitions to retrieve. Specified as a
    * comma-separated list of JSON property names, or '*' for all properties. The default is all
    * properties.
    */
-  select?: string[];
+  select?: Fields[];
 }
 /**
  * Options for a list indexers operation.
  */
-export interface ListIndexersOptions extends OperationOptions {
+export interface ListIndexersOptions<Fields> extends OperationOptions {
   /**
    * Selects which top-level properties of the index definitions to retrieve. Specified as a
    * comma-separated list of JSON property names, or '*' for all properties. The default is all
    * properties.
    */
-  select?: string[];
+  select?: Fields[];
 }
 
 /**

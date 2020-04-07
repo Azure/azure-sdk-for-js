@@ -775,13 +775,13 @@ export interface LimitTokenFilter {
 }
 
 // @public
-export interface ListIndexersOptions extends OperationOptions {
-    select?: string[];
+export interface ListIndexersOptions<Fields> extends OperationOptions {
+    select?: Fields[];
 }
 
 // @public
-export interface ListIndexesOptions extends OperationOptions {
-    select?: string[];
+export interface ListIndexesOptions<Fields> extends OperationOptions {
+    select?: Fields[];
 }
 
 // @public
@@ -793,8 +793,8 @@ export interface ListSearchResultsPageSettings {
 export type ListSkillsetsOptions = OperationOptions;
 
 // @public
-export interface ListSynonymMapsOptions extends OperationOptions {
-    select?: string[];
+export interface ListSynonymMapsOptions<Fields> extends OperationOptions {
+    select?: Fields[];
 }
 
 // @public
@@ -1130,10 +1130,10 @@ export class SearchServiceClient {
     getIndexStatistics(indexName: string, options?: GetIndexStatisticsOptions): Promise<GetIndexStatisticsResult>;
     getSkillset(skillsetName: string, options?: GetSkillSetOptions): Promise<Skillset>;
     getSynonymMap(synonymMapName: string, options?: GetSynonymMapsOptions): Promise<SynonymMap>;
-    listIndexers(options?: ListIndexersOptions): Promise<Indexer[]>;
-    listIndexes(options?: ListIndexesOptions): Promise<Index[]>;
+    listIndexers<Fields extends keyof Indexer>(options?: ListIndexersOptions<Fields>): Promise<Indexer[]>;
+    listIndexes<Fields extends keyof Index>(options?: ListIndexesOptions<Fields>): Promise<Index[]>;
     listSkillsets(options?: ListSkillsetsOptions): Promise<Skillset[]>;
-    listSynonymMaps(options?: ListSynonymMapsOptions): Promise<SynonymMap[]>;
+    listSynonymMaps<Fields extends keyof SynonymMap>(options?: ListSynonymMapsOptions<Fields>): Promise<SynonymMap[]>;
     resetIndexer(indexerName: string, options?: ResetIndexerOptions): Promise<void>;
     runIndexer(indexerName: string, options?: RunIndexerOptions): Promise<void>;
 }

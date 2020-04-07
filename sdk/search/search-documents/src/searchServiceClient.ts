@@ -153,7 +153,9 @@ export class SearchServiceClient {
    * Retrieves a list of existing indexes in the service.
    * @param options Options to the list index operation.
    */
-  public async listIndexes(options: ListIndexesOptions = {}): Promise<Index[]> {
+  public async listIndexes<Fields extends keyof Index>(
+    options: ListIndexesOptions<Fields> = {}
+  ): Promise<Index[]> {
     const { span, updatedOptions } = createSpan("SearchServiceClient-listIndexes", options);
     try {
       const result = await this.client.indexes.list({
@@ -198,7 +200,9 @@ export class SearchServiceClient {
    * Retrieves a list of existing SynonymMaps in the service.
    * @param options Options to the list SynonymMaps operation.
    */
-  public async listSynonymMaps(options: ListSynonymMapsOptions = {}): Promise<SynonymMap[]> {
+  public async listSynonymMaps<Fields extends keyof SynonymMap>(
+    options: ListSynonymMapsOptions<Fields> = {}
+  ): Promise<SynonymMap[]> {
     const { span, updatedOptions } = createSpan("SearchServiceClient-listSynonymMaps", options);
     try {
       const result = await this.client.synonymMaps.list({
@@ -221,7 +225,9 @@ export class SearchServiceClient {
    * Retrieves a list of existing indexers in the service.
    * @param options Options to the list indexers operation.
    */
-  public async listIndexers(options: ListIndexersOptions = {}): Promise<Indexer[]> {
+  public async listIndexers<Fields extends keyof Indexer>(
+    options: ListIndexersOptions<Fields> = {}
+  ): Promise<Indexer[]> {
     const { span, updatedOptions } = createSpan("SearchServiceClient-listIndexers", options);
     try {
       const result = await this.client.indexers.list({

@@ -266,12 +266,18 @@ export function publicSkillsetToGeneratedSkillset(skillset: Skillset): Generated
 }
 
 export function generatedSynonymMapToPublicSynonymMap(synonymMap: GeneratedSynonymMap): SynonymMap {
-  return {
+  let result: SynonymMap = {
     name: synonymMap.name,
     encryptionKey: synonymMap.encryptionKey,
     etag: synonymMap.etag,
-    synonyms: synonymMap.synonyms.split("\n")
+    synonyms: []
   };
+
+  if (synonymMap.synonyms) {
+    result.synonyms = synonymMap.synonyms.split("\n");
+  }
+
+  return result;
 }
 
 export function publicSynonymMapToGeneratedSynonymMap(synonymMap: SynonymMap): GeneratedSynonymMap {
