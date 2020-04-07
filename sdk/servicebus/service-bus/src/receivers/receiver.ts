@@ -30,6 +30,7 @@ import { convertToInternalReceiveMode } from "../constructorHelpers";
 import Long from "long";
 import { ServiceBusMessageImpl, ReceivedMessageWithLock } from "../serviceBusMessage";
 import { RetryConfig, RetryOperationType, retry, Constants, RetryOptions } from "@azure/core-amqp";
+import "@azure/core-asynciterator-polyfill";
 
 /**
  * A receiver that does not handle sessions.
