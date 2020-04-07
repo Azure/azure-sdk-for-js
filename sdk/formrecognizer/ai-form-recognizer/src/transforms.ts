@@ -17,24 +17,24 @@ import {
 } from "./generated/models";
 
 import {
-  RawExtractedPage,
-  ExtractedLine,
-  ExtractedElement,
-  DataTableRow,
-  DataTable,
-  ExtractedForm,
-  ExtractedText,
-  ExtractedField,
-  ExtractedPage,
+  FormPage,
+  FormLine,
+  FormElement,
+  FormTableRow,
+  FormTable,
+  RecognizedForm,
+  FormText,
+  FormField,
+  RecognizedPage,
   LabeledFormResultResponse,
-  ExtractFormResultResponse,
-  ExtractLayoutResultResponse,
-  ExtractedLayout,
-  ExtractReceiptResultResponse,
+  RecognizeFormResultResponse,
+  RecognizeContentResultResponse,
+  RecognizedContent,
+  RecognizeReceiptResultResponse,
   FieldValue,
   RawReceiptResult,
-  ExtractedReceipt,
-  RawReceipt,
+  RecognizedReceipt,
+  RawUSReceipt,
   ReceiptItemField,
   StringFieldValue,
   DateFieldValue,
@@ -56,8 +56,8 @@ export function toBoundingBox(original: number[]): Point2D[] {
   ]
 }
 
-export function toTextLine(original: TextLineModel, pageNumber: number): ExtractedLine {
-  const line: ExtractedLine = {
+export function toTextLine(original: TextLineModel, pageNumber: number): FormLine {
+  const line: FormLine = {
     kind: "line",
     pageNumber: pageNumber,
     text: original.text,
@@ -79,7 +79,7 @@ export function toTextLine(original: TextLineModel, pageNumber: number): Extract
   return line;
 }
 
-export function toRawExtractedPage(original: ReadResultModel): RawExtractedPage {
+export function toFormPage(original: ReadResultModel): FormPage {
   return {
     pageNumber: original.pageNumber,
     angle: original.angle,
@@ -93,10 +93,10 @@ export function toRawExtractedPage(original: ReadResultModel): RawExtractedPage 
 // Note: might need to support other element types in future, e.g., checkbox
 const textPattern = /#\/readResults\/(\d+)\/lines\/(\d+)(?:\/words\/(\d+))?/;
 
-export function toExtractedElement(
+export function toFormElement(
   element: string,
-  readResults: RawExtractedPage[]
-): ExtractedElement {
+  readResults: FormPage[]
+): FormElement {
   const result = textPattern.exec(element);
   if (!result || !result[0] || !result[1] || !result[2]) {
     throw new Error(`Unexpected element reference encountered: ${element}`);
@@ -112,31 +112,31 @@ export function toExtractedElement(
   }
 }
 
-export function toKeyValueElement(
+export function toFormText(
   original: KeyValueElementModel,
-  readResults?: RawExtractedPage[]
-): ExtractedText {
+  readResults?: FormPage[]
+): FormText {
   return {
     text: original.text,
     boundingBox: original.boundingBox === undefined ? undefined : toBoundingBox(original.boundingBox),
-    elements: original.elements?.map((element) => toExtractedElement(element, readResults!))
+    elements: original.elements?.map((element) => toFormElement(element, readResults!))
   };
 }
 
-export function toKeyValuePair(
+export function toFormField(
   original: KeyValuePairModel,
-  readResults?: RawExtractedPage[]
-): ExtractedField {
+  readResults?: FormPage[]
+): FormField {
   return {
     label: original.label,
     confidence: original.confidence,
-    name: toKeyValueElement(original.key, readResults),
-    value: toKeyValueElement(original.value, readResults)
+    fieldLabel: toFormText(original.key, readResults),
+    valueText: toFormText(original.value, readResults)
   };
 }
 
-export function toTable(original: DataTableModel, readResults?: RawExtractedPage[]): DataTable {
-  let rows: DataTableRow[] = [];
+export function toFormTable(original: DataTableModel, readResults?: FormPage[]): FormTable {
+  let rows: FormTableRow[] = [];
   for (let i = 0; i < original.rows; i++) {
     rows.push({ cells: [] });
   }
@@ -146,7 +146,7 @@ export function toTable(original: DataTableModel, readResults?: RawExtractedPage
       columnIndex: cell.columnIndex,
       columnSpan: cell.columnSpan || 1,
       confidence: cell.confidence,
-      elements: cell.elements?.map((element) => toExtractedElement(element, readResults!)),
+      elements: cell.elements?.map((element) => toFormElement(element, readResults!)),
       isFooter: cell.isFooter || false,
       isHeader: cell.isHeader || false,
       rowIndex: cell.rowIndex,
@@ -161,32 +161,32 @@ export function toTable(original: DataTableModel, readResults?: RawExtractedPage
   };
 }
 
-export function toPageResult(
+export function toRecognizedPage(
   original: PageResultModel,
-  readResults?: RawExtractedPage[]
-): ExtractedPage {
+  readResults?: FormPage[]
+): RecognizedPage {
   return {
     pageNumber: original.pageNumber,
     formTypeId: original.clusterId,
-    fields: original.keyValuePairs?.map((pair) => toKeyValuePair(pair, readResults)),
-    tables: original.tables?.map((table) => toTable(table, readResults))
+    fields: original.keyValuePairs?.map((pair) => toFormField(pair, readResults)),
+    tables: original.tables?.map((table) => toFormTable(table, readResults))
   };
 }
 
 export function transformResults(
   readResults?: ReadResultModel[],
   pageResults?: PageResultModel[]
-): { rawExtractedPages: RawExtractedPage[]; extractedPages: ExtractedPage[] } {
-  const transformedReadResults = readResults?.map(toRawExtractedPage);
+): { rawExtractedPages: FormPage[]; extractedPages: RecognizedPage[] } {
+  const transformedReadResults = readResults?.map(toFormPage);
   return {
     rawExtractedPages: transformedReadResults || [],
-    extractedPages: pageResults?.map((page) => toPageResult(page, transformedReadResults)) || []
+    extractedPages: pageResults?.map((page) => toRecognizedPage(page, transformedReadResults)) || []
   };
 }
 
-export function toCustomFormResultResponse(
+export function toRecognizeFormResultResponse(
   original: GetAnalyzeFormResultResponse
-): ExtractFormResultResponse {
+): RecognizeFormResultResponse {
   const { rawExtractedPages, extractedPages } = transformResults(
     original.analyzeResult?.readResults,
     original.analyzeResult?.pageResults
@@ -218,7 +218,7 @@ export function toCustomFormResultResponse(
 
 export function toFieldValue(
   original: FieldValueModel,
-  readResults: RawExtractedPage[]
+  readResults: FormPage[]
 ): FieldValue {
   const result =
     original.type === "object" || original.type === "array"
@@ -228,7 +228,7 @@ export function toFieldValue(
           boundingBox: original.boundingBox === undefined ? undefined : toBoundingBox(original.boundingBox),
           confidence: original.confidence,
           pageNumber: original.pageNumber,
-          elements: original.elements?.map((element) => toExtractedElement(element, readResults))
+          elements: original.elements?.map((element) => toFormElement(element, readResults))
         };
   switch (original.type) {
     case "string":
@@ -275,7 +275,7 @@ export function toFieldValue(
 
 export function toFields(
   original: { [propertyName: string]: FieldValueModel },
-  readResults: RawExtractedPage[]
+  readResults: FormPage[]
 ): { [propertyName: string]: FieldValue } {
   const result: { [propertyName: string]: FieldValue } = {};
   for (const key in original) {
@@ -287,13 +287,13 @@ export function toFields(
   return result;
 }
 
-function toDocumentResult(
+function toRecognizedForm(
   original: DocumentResultModel,
-  readResults: RawExtractedPage[]
-): ExtractedForm {
+  readResults: FormPage[]
+): RecognizedForm {
   return {
     docType: original.docType,
-    pageRange: { firstPage: original.pageRange[0], lastPage: original.pageRange[1] },
+    pageRange: { firstPageNumber: original.pageRange[0], lastPageNumber: original.pageRange[1] },
     fields: toFields(original.fields, readResults)
   };
 }
@@ -318,7 +318,7 @@ export function toLabeledFormResultResponse(
     ? {
         version: original.analyzeResult.version,
         extractedForms: original.analyzeResult.documentResults?.map((d) =>
-          toDocumentResult(d, rawExtractedPages)
+          toRecognizedForm(d, rawExtractedPages)
         ),
         rawExtractedPages,
         extractedPages,
@@ -333,8 +333,8 @@ export function toLabeledFormResultResponse(
 
 export function toAnalyzeLayoutResultResponse(
   original: GetAnalyzeLayoutResultResponse
-): ExtractLayoutResultResponse {
-  function toAnalyzeLayoutResult(model?: AnalyzeResultModel): ExtractedLayout | undefined {
+): RecognizeContentResultResponse {
+  function toAnalyzeLayoutResult(model?: AnalyzeResultModel): RecognizedContent | undefined {
     if (!model) {
       return undefined;
     }
@@ -367,17 +367,17 @@ export function toAnalyzeLayoutResultResponse(
 
 function toReceiptResult(
   result: DocumentResultModel,
-  readResults: RawExtractedPage[]
-): ExtractedReceipt {
+  readResults: FormPage[]
+): RecognizedReceipt {
   if (result.docType !== "prebuilt:receipt") {
     throw new RangeError("The document type is not 'prebuilt:receipt'");
   }
 
   const transformedFields = toFields(result.fields, readResults);
-  const rawReceiptFields = (transformedFields as unknown) as RawReceipt;
+  const rawReceiptFields = (transformedFields as unknown) as RawUSReceipt;
   return {
     docType: ((result as unknown) as RawReceiptResult).docType,
-    pageRange: { firstPage: result.pageRange[0], lastPage: result.pageRange[1] },
+    pageRange: { firstPageNumber: result.pageRange[0], lastPageNumber: result.pageRange[1] },
     receiptType: rawReceiptFields.ReceiptType.value!,
     merchantName: rawReceiptFields.MerchantName?.value,
     merchantPhoneNumber: rawReceiptFields.MerchantPhoneNumber?.value,
@@ -401,7 +401,7 @@ function toReceiptResult(
 
 export function toReceiptResultResponse(
   result: GetAnalyzeReceiptResultResponse
-): ExtractReceiptResultResponse {
+): RecognizeReceiptResultResponse {
   const common = {
     status: result.status,
     createdOn: result.createdOn,
@@ -412,7 +412,7 @@ export function toReceiptResultResponse(
     return common;
   }
 
-  const readResults = result.analyzeResult!.readResults.map(toRawExtractedPage);
+  const readResults = result.analyzeResult!.readResults.map(toFormPage);
   return {
     ...common,
     version: result.analyzeResult!.version,

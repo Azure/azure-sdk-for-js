@@ -3,13 +3,13 @@
 
 import { delay, AbortSignalLike } from "@azure/core-http";
 import { Poller, PollOperation, PollOperationState } from "@azure/core-lro";
-import { ExtractFormsOptions, ExtractLayoutOptions, ExtractReceiptsOptions } from "../../formRecognizerClient";
+import { RecognizeFormsOptions, RecognizeContentOptions, RecognizeReceiptsOptions } from "../../formRecognizerClient";
 
 import { OperationStatus, ContentType } from "../../generated/models";
 import { FormRecognizerRequestBody } from "../../models";
 export { OperationStatus };
 
-export type ExtractOptions = ExtractReceiptsOptions | ExtractLayoutOptions | ExtractFormsOptions;
+export type RecognizeOptions = RecognizeReceiptsOptions | RecognizeContentOptions | RecognizeFormsOptions;
 
 export interface PollerOperationOptions<T> {
   /**
@@ -19,7 +19,7 @@ export interface PollerOperationOptions<T> {
   /**
    * callback to receive events on the progress of download operation.
    */
-  onProgress?: (state: BeginExtractPollState<T>) => void;
+  onProgress?: (state: BeginRecognizePollState<T>) => void;
   /**
    * A serialized poller, used to resume an existing operation
    */
@@ -30,55 +30,55 @@ export interface PollerOperationOptions<T> {
  * Defines the operations from a analyze client that are needed for the poller
  * to work
  */
-export type ExtractPollerClient<T> = {
+export type RecognizePollerClient<T> = {
   // returns a result id to retrieve results
-  beginExtract: (
+  beginRecognize: (
     source: FormRecognizerRequestBody,
     contentType?: ContentType,
-    analyzeOptions?: ExtractOptions,
+    analyzeOptions?: RecognizeOptions,
     modelId?: string
   ) => Promise<{ operationLocation?: string }>;
   // retrieves analyze result
-  getExtractResult: (resultId: string, options: { abortSignal?: AbortSignalLike }) => Promise<T>;
+  getRecognizeResult: (resultId: string, options: { abortSignal?: AbortSignalLike }) => Promise<T>;
 };
 
-export interface BeginExtractPollState<T> extends PollOperationState<T> {
-  readonly client: ExtractPollerClient<T>;
+export interface BeginRecognizePollState<T> extends PollOperationState<T> {
+  readonly client: RecognizePollerClient<T>;
   source?: FormRecognizerRequestBody;
   contentType?: ContentType;
   modelId?: string;
   resultId?: string;
   status: OperationStatus;
-  readonly analyzeOptions?: ExtractOptions;
+  readonly analyzeOptions?: RecognizeOptions;
 }
 
-export interface BeginExtractPollerOperation<T>
-  extends PollOperation<BeginExtractPollState<T>, T> {}
+export interface BeginRecognizePollerOperation<T>
+  extends PollOperation<BeginRecognizePollState<T>, T> {}
 
 /**
  * @internal
  */
-export type BeginExtractPollerOptions<T> = {
-  client: ExtractPollerClient<T>;
+export type BeginRecognizePollerOptions<T> = {
+  client: RecognizePollerClient<T>;
   source: FormRecognizerRequestBody;
   contentType?: ContentType;
   modelId?: string;
   intervalInMs?: number;
   resultId?: string;
-  onProgress?: (state: BeginExtractPollState<T>) => void;
+  onProgress?: (state: BeginRecognizePollState<T>) => void;
   resumeFrom?: string;
-} & ExtractOptions;
+} & RecognizeOptions;
 
 /**
  * Class that represents a poller that waits until a model has been trained.
  */
-export class BeginExtractPoller<T extends { status: OperationStatus }> extends Poller<
-  BeginExtractPollState<T>,
+export class BeginRecognizePoller<T extends { status: OperationStatus }> extends Poller<
+  BeginRecognizePollState<T>,
   T
 > {
   public intervalInMs: number;
 
-  constructor(options: BeginExtractPollerOptions<T>) {
+  constructor(options: BeginRecognizePollerOptions<T>) {
     const {
       client,
       source,
@@ -90,13 +90,13 @@ export class BeginExtractPoller<T extends { status: OperationStatus }> extends P
       resumeFrom
     } = options;
 
-    let state: BeginExtractPollState<T> | undefined;
+    let state: BeginRecognizePollState<T> | undefined;
 
     if (resumeFrom) {
       state = JSON.parse(resumeFrom).state;
     }
 
-    const operation = makeBeginExtractPollOperation({
+    const operation = makeBeginRecognizePollOperation({
       ...state,
       client,
       source,
@@ -124,17 +124,17 @@ export class BeginExtractPoller<T extends { status: OperationStatus }> extends P
  * Creates a poll operation given the provided state.
  * @ignore
  */
-function makeBeginExtractPollOperation<T extends { status: OperationStatus }>(
-  state: BeginExtractPollState<T>
-): BeginExtractPollerOperation<T> {
+function makeBeginRecognizePollOperation<T extends { status: OperationStatus }>(
+  state: BeginRecognizePollState<T>
+): BeginRecognizePollerOperation<T> {
   return {
     state: { ...state },
 
-    async cancel(_options = {}): Promise<BeginExtractPollerOperation<T>> {
+    async cancel(_options = {}): Promise<BeginRecognizePollerOperation<T>> {
       throw new Error("Cancel operation is not supported.");
     },
 
-    async update(options = {}): Promise<BeginExtractPollerOperation<T>> {
+    async update(options = {}): Promise<BeginRecognizePollerOperation<T>> {
       const state = this.state;
       const { client, source, contentType, analyzeOptions, modelId } = state;
 
@@ -144,7 +144,7 @@ function makeBeginExtractPollOperation<T extends { status: OperationStatus }>(
         }
 
         state.isStarted = true;
-        const result = await client.beginExtract(
+        const result = await client.beginRecognize(
           source,
           contentType,
           analyzeOptions || {},
@@ -159,7 +159,7 @@ function makeBeginExtractPollOperation<T extends { status: OperationStatus }>(
         state.source = undefined;
       }
 
-      const response = await client.getExtractResult(state.resultId!, {
+      const response = await client.getRecognizeResult(state.resultId!, {
         abortSignal: analyzeOptions?.abortSignal
       });
 
@@ -176,7 +176,7 @@ function makeBeginExtractPollOperation<T extends { status: OperationStatus }>(
         }
       }
 
-      return makeBeginExtractPollOperation(state);
+      return makeBeginRecognizePollOperation(state);
     },
 
     toString() {

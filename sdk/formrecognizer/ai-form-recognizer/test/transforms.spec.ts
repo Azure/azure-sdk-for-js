@@ -4,12 +4,12 @@
 import { assert } from "chai";
 import {
   toTextLine,
-  toRawExtractedPage,
-  toExtractedElement,
-  toKeyValueElement,
-  toKeyValuePair,
+  toFormPage,
+  toFormElement,
+  toFormText,
+  toFormField,
   toFieldValue,
-  toTable
+  toFormTable
 } from "../src/transforms";
 import {
   ReadResult as ReadResultModel,
@@ -106,7 +106,7 @@ describe("Transforms", () => {
   };
 
   it("toRawExtractedPage() converts original ReadResultModel", () => {
-    const transformed = toRawExtractedPage(originalReadResult1);
+    const transformed = toFormPage(originalReadResult1);
 
     assert.equal(transformed.pageNumber, originalReadResult1.pageNumber);
     assert.equal(transformed.angle, originalReadResult1.angle);
@@ -126,19 +126,19 @@ describe("Transforms", () => {
 
   it("toExtractedElement() converts word string reference to extracted word", () => {
     const stringRef = "#/readResults/0/lines/0/words/0";
-    const readResults = [originalReadResult1, originalReadResult2].map(toRawExtractedPage);
+    const readResults = [originalReadResult1, originalReadResult2].map(toFormPage);
 
-    const transformed = toExtractedElement(stringRef, readResults);
+    const transformed = toFormElement(stringRef, readResults);
 
     assert.deepStrictEqual(transformed, readResults[0].lines![0].words[0]);
   });
 
-  const rawExtractedPages = [originalReadResult1, originalReadResult2].map(toRawExtractedPage);
+  const rawExtractedPages = [originalReadResult1, originalReadResult2].map(toFormPage);
 
   it("toExtractedElement() converts line string reference to extracted line", () => {
     const stringRef = "#/readResults/1/lines/1";
 
-    const transformed = toExtractedElement(stringRef, rawExtractedPages);
+    const transformed = toFormElement(stringRef, rawExtractedPages);
 
     assert.deepStrictEqual(transformed, rawExtractedPages[1].lines![1]);
   });
@@ -150,7 +150,7 @@ describe("Transforms", () => {
   };
 
   it("toKeyValueElement() converts original KeyValueElementModel", () => {
-    const transformed = toKeyValueElement(originalKeyValueElement1, rawExtractedPages);
+    const transformed = toFormText(originalKeyValueElement1, rawExtractedPages);
 
     assert.equal(transformed.text, originalKeyValueElement1.text);
     assert.ok(transformed.boundingBox);
@@ -167,16 +167,16 @@ describe("Transforms", () => {
       value: originalKeyValueElement1
     };
 
-    const transformed = toKeyValuePair(original, rawExtractedPages);
+    const transformed = toFormField(original, rawExtractedPages);
 
     assert.equal(transformed.label, original.label);
     assert.equal(transformed.confidence, original.confidence);
-    assert.ok(transformed.name.boundingBox);
-    assert.ok(transformed.value.boundingBox);
-    verifyBoundingBox(transformed.name.boundingBox!, original.key.boundingBox);
-    verifyBoundingBox(transformed.value.boundingBox!, original.value.boundingBox);
-    assert.deepStrictEqual(transformed.name.elements![0], rawExtractedPages[0].lines![0].words[0]);
-    assert.deepStrictEqual(transformed.value.elements![1], rawExtractedPages[0].lines![0].words[1]);
+    assert.ok(transformed.fieldLabel.boundingBox);
+    assert.ok(transformed.valueText.boundingBox);
+    verifyBoundingBox(transformed.fieldLabel.boundingBox!, original.key.boundingBox);
+    verifyBoundingBox(transformed.valueText.boundingBox!, original.value.boundingBox);
+    assert.deepStrictEqual(transformed.fieldLabel.elements![0], rawExtractedPages[0].lines![0].words[0]);
+    assert.deepStrictEqual(transformed.valueText.elements![1], rawExtractedPages[0].lines![0].words[1]);
   });
 
   describe("toFieldValue()", () => {
@@ -380,7 +380,7 @@ describe("Transforms", () => {
       ]
     };
 
-    const transformed = toTable(originalTable, rawExtractedPages);
+    const transformed = toFormTable(originalTable, rawExtractedPages);
 
     assert.equal(transformed.rows.length, originalTable.rows);
     assert.equal(transformed.rows[0].cells[0].text, originalTable.cells[0].text);

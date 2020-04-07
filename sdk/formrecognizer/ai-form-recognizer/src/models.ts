@@ -56,13 +56,9 @@ export interface Point2D {
 }
 
 /**
- * Represents an extracted word.
+ * Represents common properties of recognized form contents.
  */
-export interface ExtractedWord {
-  /**
-   * Element kind - "word"
-   */
-  kind: "word";
+export interface FormElementCommon {
   /**
    * The 1-based page number in the input document.
    */
@@ -72,39 +68,37 @@ export interface ExtractedWord {
    */
   text: string;
   /**
-   * Bounding box of an extracted word.
+   * Bounding box of an recognized word.
    */
   boundingBox: Point2D[];
+}
+
+/**
+ * Represents an recognized word.
+ */
+export interface FormWord extends FormElementCommon {
+  /**
+   * Element kind - "word"
+   */
+  kind: "word";
   /**
    * Confidence value.
    */
   confidence?: number;
   /**
-   * The extract text line that contains this extracted word
+   * The recognized text line that contains this recognized word
    */
-  containingLine?: ExtractedLine;
+  containingLine?: FormLine;
 }
 
 /**
- * Represents an extracted text line.
+ * Represents an recognized text line.
  */
-export interface ExtractedLine {
+export interface FormLine extends FormElementCommon {
   /**
    * Element kind - "line"
    */
   kind: "line";
-  /**
-   * The 1-based page number in the input document.
-   */
-  pageNumber: number;
-  /**
-   * The text content of the line.
-   */
-  text: string;
-  /**
-   * Bounding box of an extracted line.
-   */
-  boundingBox: Point2D[];
   /**
    * The detected language of this line, if different from the overall page language. Possible
    * values include: 'en', 'es'
@@ -113,39 +107,30 @@ export interface ExtractedLine {
   /**
    * List of words in the text line.
    */
-  words: ExtractedWord[];
+  words: FormWord[];
 }
 
 /**
- * Represents an extracted check box
+ * Represents an recognized check box
  */
-// export interface ExtractedCheckBox {
+// export interface FormCheckBox extends FormContent {
 //   /**
 //    * Element kind - "checkbox"
 //    */
 //   kind: "checkbox";
-//   /**
-//    * The 1-based page number in the input document.
-//    */
-//   pageNumber: number;
-//   /**
-//    * Bounding box of an extracted line.
-//    */
-//   boundingBox: Point2D[];
-
 //   checked: boolean;
 // }
 
 /**
- * Information about an extracted element in the form. Examples include
+ * Information about an recognized element in the form. Examples include
  * words, lines, checkbox, etc.
  */
-export type ExtractedElement = ExtractedWord | ExtractedLine; // | ExtractedCheckBox;
+export type FormElement = FormWord | FormLine; // | FormCheckBox;
 
 /**
- * Represents a cell in extracted table
+ * Represents a cell in recognized table
  */
-export interface DataTableCell {
+export interface FormTableCell {
   /**
    * Row index of the cell.
    */
@@ -177,7 +162,7 @@ export interface DataTableCell {
   /**
    * When includeTextDetails is set to true, a list of references to the text elements constituting this table cell.
    */
-  elements?: ExtractedElement[];
+  elements?: FormElement[];
   /**
    * Is the current cell a header cell?
    */
@@ -189,9 +174,19 @@ export interface DataTableCell {
 }
 
 /**
- * Information about the extracted table contained in a page.
+ * Represents a row of data table cells in recognized table.
  */
-export interface DataTable {
+export interface FormTableRow {
+  /**
+   * List of data table cells in a {@link FormTableRow}
+   */
+  cells: FormTableCell[];
+}
+
+/**
+ * Information about the recognized table contained in a page.
+ */
+export interface FormTable {
   /**
    * Number of rows in the data table
    */
@@ -203,102 +198,92 @@ export interface DataTable {
   /**
    * List of rows in the data table
    */
-  rows: DataTableRow[];
+  rows: FormTableRow[];
 }
 
 /**
- * Represents a row of data table cells in extracted table.
- */
-export interface DataTableRow {
-  /**
-   * List of data table cells in a {@link DataTableRow}
-   */
-  cells: DataTableCell[];
-}
-
-/**
- * Represents extracted text elements of name-value pairs.
- * For example, "Work Address" is the name of
+ * Represents recognized text elements of label-value pairs.
+ * For example, "Work Address" is the label of
  * "Work Address: One Microsoft Way, Redmond, WA"
  */
-export interface ExtractedText {
+export interface FormText {
   /**
-   * The bounding box of the extracted name or value
+   * The bounding box of the recognized label or value
    */
   boundingBox?: Point2D[];
   /**
    * When includeTextDetails is set to true, a list of references to the text elements constituting this name or value.
    */
-  elements?: ExtractedElement[];
+  elements?: FormElement[];
   /**
-   * The text content of the extracted name or value
+   * The text content of the recognized label or value
    */
   text: string;
 }
 
 /**
- * Represents extracted text elements in name-value pairs.
+ * Represents recognized text elements in label-value pairs.
  * For example, "Address": "One Microsoft Way, Redmond, WA"
  */
-export interface ExtractedField {
+export interface FormField {
   /**
    * Confidence value.
    */
   confidence: number;
   /**
-   * Information about the extracted name in a name/value pair.
+   * Information about the recognized label in a label-value pair.
    */
-  name: ExtractedText;
+  fieldLabel: FormText;
   /**
-   * A user defined label for the name/value pair entry.
+   * A user defined label for the label-value pair entry.
    */
   label?: string;
   /**
-   * Information about the extracted value in a name/value pair.
+   * Information about the recognized value in a label/value pair.
    */
-  value: ExtractedText;
+  valueText: FormText;
 }
 
 /**
- * Extracted information from a single page.
+ * Recognized information from a single page.
  */
-export interface ExtractedPage {
+export interface RecognizedPage {
   /**
    * Page number
    */
   pageNumber: number;
   /**
-   * Id of extracted form type
+   * Id of recognized form type
    */
   formTypeId?: number;
   /**
-   * List of name/value pairs extracted from the page
+   * List of name/value pairs recognized from the page
    */
-  fields?: ExtractedField[];
+  fields?: FormField[];
   /**
-   * List of data tables extracted form the page
+   * List of data tables recognized form the page
    */
-  tables?: DataTable[];
+  tables?: FormTable[];
 }
 
 /**
- * Represents a page range
+ * Represents a Form page range
  */
-export interface PageRange {
+export interface FormPageRange {
   /**
    * The page number of the first page in the range
    */
-  firstPage: number;
+  firstPageNumber: number;
   /**
    * The page number of the last page in the range
    */
-  lastPage: number;
+  lastPageNumber: number;
 }
 
 /**
- * Represent extracted forms consists of text fields that have semantic meanings.
+ * Represent recognized forms consists of text fields that have semantic meanings.
  */
-export interface ExtractedForm {
+export interface RecognizedForm {
   /**
    * Document type.
    */
@@ -306,7 +291,7 @@ export interface ExtractedForm {
   /**
    * First and last page number where the document is found.
    */
-  pageRange: PageRange;
+  pageRange: FormPageRange;
   /**
    * Dictionary of named field values.
    */
@@ -314,11 +299,11 @@ export interface ExtractedForm {
 }
 
 /**
- * Properties common to the extracted text field
+ * Properties common to the recognized text field
  */
 export interface CommonFieldValue {
   /**
-   * Text content of the extracted field.
+   * Text content of the recognized field.
    */
   text?: string;
   /**
@@ -333,7 +318,7 @@ export interface CommonFieldValue {
    * When includeTextDetails is set to true, a list of references to the text elements constituting
    * this field.
    */
-  elements?: ExtractedElement[];
+  elements?: FormElement[];
   /**
    * The 1-based page number in the input document.
    */
@@ -418,7 +403,7 @@ export type FieldValue =
   | ObjectFieldValue;
 
 /**
- * Represents an extracted item field in a receipt.
+ * Represents an recognized item field in a receipt.
  */
 export type ReceiptItemField = {
   type: "object";
@@ -431,7 +416,7 @@ export type ReceiptItemField = {
 } & CommonFieldValue;
 
 /**
- * The values in an extracted receipt item field
+ * The values in an recognized receipt item field
  */
 export interface ReceiptItem {
   /**
@@ -453,7 +438,7 @@ export interface ReceiptItem {
 }
 
 /**
- * Represents a list of extracted receipt items in a receipt.
+ * Represents a list of recognized receipt items in a receipt.
  */
 export interface ReceiptItemArrayField {
   type: "array";
@@ -461,9 +446,9 @@ export interface ReceiptItemArrayField {
 }
 
 /**
- * Represents extracted receipt fields in a receipt
+ * Represents recognized receipt fields in a receipt
  */
-export interface RawReceipt {
+export interface RawUSReceipt {
   /**
    * Receipt type field
    */
@@ -561,7 +546,7 @@ export interface Receipt {
 }
 
 /**
- * Represents an extracted receipt
+ * Represents an recognized receipt
  */
 export interface RawReceiptResult {
   /**
@@ -571,7 +556,7 @@ export interface RawReceiptResult {
   /**
    * First and last page number where the document is found.
    */
-  pageRange: PageRange;
+  pageRange: FormPageRange;
   /**
    * Dictionary of named field values.
    */
@@ -579,14 +564,14 @@ export interface RawReceiptResult {
 }
 
 /**
- * Extracted receipt and values in it
+ * Recognized receipt and values in it
  */
-export type ExtractedReceipt = RawReceiptResult & Receipt;
+export type RecognizedReceipt = RawReceiptResult & Receipt;
 
 /**
- * Raw texts extracted from a page in the input document.
+ * Raw texts recognized from a page in the input document.
  */
-export interface RawExtractedPage {
+export interface FormPage {
   /**
    * The 1-based page number in the input document.
    */
@@ -620,31 +605,31 @@ export interface RawExtractedPage {
    * detected text, it may change across images and OCR version updates. Thus, business logic
    * should be built upon the actual line location instead of order.
    */
-  lines?: ExtractedLine[];
+  lines?: FormLine[];
 }
 
 /**
  * Analyze Receipt result.
  */
-export interface ExtractReceiptResult {
+export interface RecognizeReceiptResult {
   /**
    * Version of schema used for this result.
    */
   version: string;
   /**
-   * List of raw text line information on extracted pages
+   * List of raw text line information on recognized pages
    */
-  rawExtractedPages: RawExtractedPage[];
+  rawExtractedPages: FormPage[];
   /**
-   * List of receipts extracted from input document
+   * List of receipts recognized from input document
    */
-  extractedReceipts?: ExtractedReceipt[];
+  extractedReceipts?: RecognizedReceipt[];
 }
 
 /**
- * Results of an extract receipt operation
+ * Results of an recognize receipt operation
  */
-export type ExtractReceiptOperationResult = {
+export type RecognizeReceiptOperationResult = {
   /**
    * Operation status.
    */
@@ -657,12 +642,12 @@ export type ExtractReceiptOperationResult = {
    * Date and time (UTC) when the status was last updated.
    */
   lastUpdatedOn: Date;
-} & Partial<ExtractReceiptResult>;
+} & Partial<RecognizeReceiptResult>;
 
 /**
- * Contains response data for an extract receipt operation.
+ * Contains response data for an recognize receipt operation.
  */
-export type ExtractReceiptResultResponse = ExtractReceiptOperationResult & {
+export type RecognizeReceiptResultResponse = RecognizeReceiptOperationResult & {
   /**
    * The underlying HTTP response.
    */
@@ -680,9 +665,9 @@ export type ExtractReceiptResultResponse = ExtractReceiptOperationResult & {
 };
 
 /**
- * Extracted information about the layout of the analyzed document
+ * Recognized information about the layout of the analyzed document
  */
-export interface ExtractedLayout {
+export interface RecognizedContent {
   /**
    * Version of schema used for this result.
    */
@@ -690,35 +675,35 @@ export interface ExtractedLayout {
   /**
    * Raw texts extracted from a page in the input
    */
-  rawExtractedPages: RawExtractedPage[];
+  rawExtractedPages: FormPage[];
   /**
-   * Form layout extracted from a page in the input
+   * Form layout recognized from a page in the input
    */
-  extractedLayoutPages?: ExtractedLayoutPage[];
+  extractedLayoutPages?: RecognizedContentPage[];
 }
 
 /**
- * Represents an extracted layout page
+ * Represents an recognized content page
  */
-export interface ExtractedLayoutPage {
+export interface RecognizedContentPage {
   /**
-   * List of name/value pairs extracted from the page
+   * List of name/value pairs recognized from the page
    */
-  fields?: ExtractedField[];
+  fields?: FormField[];
   /**
    * Page number
    */
   pageNumber: number;
   /**
-   * List of data tables extracted form the page
+   * List of data tables recognized form the page
    */
-  tables?: DataTable[];
+  tables?: FormTable[];
 }
 
 /**
- * Represents the result from an extract layout operation
+ * Represents the result from an Recognize Content operation
  */
-export type ExtractLayoutOperationResult = {
+export type RecognizeContentOperationResult = {
   /**
    * Operation status.
    */
@@ -731,12 +716,12 @@ export type ExtractLayoutOperationResult = {
    * Date and time (UTC) when the status was last updated.
    */
   lastUpdatedOn: Date;
-} & Partial<ExtractedLayout>;
+} & Partial<RecognizedContent>;
 
 /**
- * Contains response data for the extract layout operation.
+ * Contains response data for the Recognize Content operation.
  */
-export type ExtractLayoutResultResponse = ExtractLayoutOperationResult & {
+export type RecognizeContentResultResponse = RecognizeContentOperationResult & {
   /**
    * The underlying HTTP response.
    */
@@ -754,7 +739,7 @@ export type ExtractLayoutResultResponse = ExtractLayoutOperationResult & {
 };
 
 /**
- * Represents an extracted form using unsupervised model
+ * Represents an recognized form using unsupervised model
  */
 export interface FormResult {
   /**
@@ -762,13 +747,13 @@ export interface FormResult {
    */
   version: string;
   /**
-   * Text extracted from the input.
+   * Text recognized from the input.
    */
-  rawExtractedPages: RawExtractedPage[];
+  rawExtractedPages: FormPage[];
   /**
-   * Page-level information extracted from the input.
+   * Page-level information recognized from the input.
    */
-  extractedPages?: ExtractedPage[];
+  extractedPages?: RecognizedPage[];
   /**
    * List of errors reported during the analyze operation.
    */
@@ -776,9 +761,9 @@ export interface FormResult {
 }
 
 /**
- * Represents the result from an extract form operation using unsupervised model
+ * Represents the result from an recognize form operation using unsupervised model
  */
-export type ExtractFormOperationResult = Partial<FormResult> & {
+export type RecognizeFormOperationResult = Partial<FormResult> & {
   /**
    * Operation status.
    */
@@ -794,7 +779,7 @@ export type ExtractFormOperationResult = Partial<FormResult> & {
 };
 
 /**
- * Represents an extracted form using a model from supervised training with labels
+ * Represents an recognized form using a model from supervised training with labels
  */
 export interface LabeledFormResult {
   /**
@@ -802,20 +787,20 @@ export interface LabeledFormResult {
    */
   version: string;
   /**
-   * Text extracted from the input. Example includes lines consist of words, and other
+   * Text recognized from the input. Example includes lines consist of words, and other
    * elements like checkbox, etc.
    */
-  rawExtractedPages: RawExtractedPage[];
+  rawExtractedPages: FormPage[];
   /**
-   * Page-level information extracted from the input, including fields of name-value pairs
+   * Page-level information recognized from the input, including fields of name-value pairs
    * and data tables.
    */
-  extractedPages?: ExtractedPage[];
+  extractedPages?: RecognizedPage[];
   /**
-   * Document-level information extracted from the input using machine learning. They include
-   * extracted fields that have meaning beyond text, for example, addresses, phone numbers, dates, etc.
+   * Document-level information recognized from the input using machine learning. They include
+   * recognized fields that have meaning beyond text, for example, addresses, phone numbers, dates, etc.
    */
-  extractedForms?: ExtractedForm[];
+  extractedForms?: RecognizedForm[];
   /**
    * List of errors reported during the analyze operation.
    */
@@ -823,7 +808,7 @@ export interface LabeledFormResult {
 }
 
 /**
- * Represents the result from an extract form operation using a supervised model
+ * Represents the result from an recognize form operation using a supervised model
  */
 export type LabeledFormOperationResult = Partial<LabeledFormResult> & {
   /**
@@ -841,9 +826,9 @@ export type LabeledFormOperationResult = Partial<LabeledFormResult> & {
 };
 
 /**
- * Contains the response data for extract form (unsupervised) operation
+ * Contains the response data for recognize form (unsupervised) operation
  */
-export type ExtractFormResultResponse = ExtractFormOperationResult & {
+export type RecognizeFormResultResponse = RecognizeFormOperationResult & {
   /**
    * The underlying HTTP response.
    */
@@ -861,7 +846,7 @@ export type ExtractFormResultResponse = ExtractFormOperationResult & {
 };
 
 /**
- * Contains the response data for extract form (supervised) operation
+ * Contains the response data for recognize form (supervised) operation
  */
 export type LabeledFormResultResponse = LabeledFormOperationResult & {
   /**
@@ -903,7 +888,7 @@ export interface FormModel {
    */
   modelInfo: ModelInfo;
   /**
-   * Keys extracted from unsupervised training
+   * Keys recognized from unsupervised training
    */
   keys: KeysResult;
   /**

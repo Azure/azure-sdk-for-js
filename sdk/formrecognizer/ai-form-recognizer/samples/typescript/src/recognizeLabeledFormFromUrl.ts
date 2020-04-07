@@ -2,32 +2,25 @@
 // Licensed under the MIT License.
 
 /**
- * Extract Custom Form
+ * Recognize Labeled Form from url
  */
 
-const { FormRecognizerClient, FormRecognizerApiKeyCredential } = require("../../dist");
-const fs = require("fs");
+//import { FormRecognizerClient, FormRecognizerApiKeyCredential } from "@azure/ai-form-recognizer";
+import { FormRecognizerClient, FormRecognizerApiKeyCredential } from "../../../src/index";
 
 // Load the .env file if it exists
 require("dotenv").config();
 
 async function main() {
-  console.log(`Running ExtractLabeledForm sample`);
-
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["COGNITIVE_SERVICE_ENDPOINT"] || "<cognitive services endpoint>";
   const apiKey = process.env["COGNITIVE_SERVICE_API_KEY"] || "<api key>";
-  const modelId = "8f83f7c3-9666-496b-9335-e7ea5685b5e3"; // trained with labels
-  const path = "c:/temp/Invoice_6.pdf";
 
-  if (!fs.existsSync(path)) {
-    throw new Error(`Expecting file ${path} exists`);
-  }
-
-  const readStream = fs.createReadStream(path);
+  const modelId = "e28ad0da-aa55-46dc-ade9-839b0d819189"; // trained with labels
+  const url = process.env["URL_OF_DOCUMENT_TO_ANALYZE_WITH_LABELS"] || "<sample invoice url>";
 
   const client = new FormRecognizerClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
-  const poller = await client.beginExtractLabeledForms(modelId, readStream, "application/pdf", {
+  const poller = await client.beginRecognizeLabeledFormsFromUrl(modelId, url,{
     onProgress: (state) => { console.log(`status: ${state.status}`); }
   });
   await poller.pollUntilDone();
@@ -47,10 +40,10 @@ async function main() {
   console.log("### Page results:")
   for (const page of response.extractedPages || []) {
     console.log(`Page number: ${page.pageNumber}`);
-    console.log(`Form type Id: ${page.formTypeId}`);
+    console.log(`Form type id: ${page.formTypeId}`);
     console.log("key-value pairs");
     for (const field of page.fields || []) {
-      console.log(`\tkey: ${field.name}, value: ${field.value}`);
+      console.log(`\t${field.fieldLabel.text}: ${field.valueText.text}`);
     }
     console.log("Tables");
     for (const table of page.tables || []) {
@@ -62,7 +55,9 @@ async function main() {
     }
   }
 
+  console.log("Raw extracted pages:");
   console.log(response.rawExtractedPages);
+  console.log("Errors:");
   console.log(response.errors);
 }
 

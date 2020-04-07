@@ -33,30 +33,30 @@ export interface ArrayFieldValue {
 }
 
 // @public
-export type BeginExtractFormsOptions = ExtractFormsOptions & {
+export type BeginRecognizeContentOptions = RecognizeContentOptions & {
     intervalInMs?: number;
-    onProgress?: (state: BeginExtractPollState<ExtractFormResultResponse>) => void;
+    onProgress?: (state: BeginRecognizePollState<RecognizeContentResultResponse>) => void;
     resumeFrom?: string;
 };
 
 // @public
-export type BeginExtractLabeledFormOptions = ExtractFormsOptions & {
+export type BeginRecognizeFormsOptions = RecognizeFormsOptions & {
     intervalInMs?: number;
-    onProgress?: (state: BeginExtractPollState<LabeledFormResultResponse>) => void;
+    onProgress?: (state: BeginRecognizePollState<RecognizeFormResultResponse>) => void;
     resumeFrom?: string;
 };
 
 // @public
-export type BeginExtractLayoutOptions = ExtractLayoutOptions & {
+export type BeginRecognizeLabeledFormOptions = RecognizeFormsOptions & {
     intervalInMs?: number;
-    onProgress?: (state: BeginExtractPollState<ExtractLayoutResultResponse>) => void;
+    onProgress?: (state: BeginRecognizePollState<LabeledFormResultResponse>) => void;
     resumeFrom?: string;
 };
 
 // @public
-export type BeginExtractReceiptsOptions = ExtractReceiptsOptions & {
+export type BeginRecognizeReceiptsOptions = RecognizeReceiptsOptions & {
     intervalInMs?: number;
-    onProgress?: (state: BeginExtractPollState<ExtractReceiptResultResponse>) => void;
+    onProgress?: (state: BeginRecognizePollState<RecognizeReceiptResultResponse>) => void;
     resumeFrom?: string;
 };
 
@@ -77,39 +77,16 @@ export type BeginTrainingWithLabelsOptions = FormRecognizerOperationOptions & {
 export interface CommonFieldValue {
     boundingBox?: Point2D[];
     confidence?: number;
-    elements?: ExtractedElement[];
+    elements?: FormElement[];
     pageNumber?: number;
     text?: string;
 }
 
 // @public
+export type ContentPollerLike = PollerLike<PollOperationState<RecognizeContentResultResponse>, RecognizeContentResultResponse>;
+
+// @public
 export type ContentType = "application/pdf" | "image/jpeg" | "image/png" | "image/tiff";
-
-// @public
-export interface DataTable {
-    columnCount: number;
-    rowCount: number;
-    rows: DataTableRow[];
-}
-
-// @public
-export interface DataTableCell {
-    boundingBox: Point2D[];
-    columnIndex: number;
-    columnSpan?: number;
-    confidence: number;
-    elements?: ExtractedElement[];
-    isFooter?: boolean;
-    isHeader?: boolean;
-    rowIndex: number;
-    rowSpan?: number;
-    text: string;
-}
-
-// @public
-export interface DataTableRow {
-    cells: DataTableCell[];
-}
 
 // @public
 export type DateFieldValue = {
@@ -129,148 +106,36 @@ export interface ErrorInformation {
 }
 
 // @public
-export type ExtractedElement = ExtractedWord | ExtractedLine;
-
-// @public
-export interface ExtractedField {
-    confidence: number;
-    label?: string;
-    name: ExtractedText;
-    value: ExtractedText;
-}
-
-// @public
-export interface ExtractedForm {
-    docType: string;
-    fields: {
-        [propertyName: string]: FieldValue;
-    };
-    pageRange: PageRange;
-}
-
-// @public
-export interface ExtractedLayout {
-    extractedLayoutPages?: ExtractedLayoutPage[];
-    rawExtractedPages: RawExtractedPage[];
-    version: string;
-}
-
-// @public
-export interface ExtractedLayoutPage {
-    fields?: ExtractedField[];
-    pageNumber: number;
-    tables?: DataTable[];
-}
-
-// @public
-export interface ExtractedLine {
-    boundingBox: Point2D[];
-    kind: "line";
-    pageNumber: number;
-    text: string;
-    words: ExtractedWord[];
-}
-
-// @public
-export interface ExtractedPage {
-    fields?: ExtractedField[];
-    formTypeId?: number;
-    pageNumber: number;
-    tables?: DataTable[];
-}
-
-// @public
-export type ExtractedReceipt = RawReceiptResult & Receipt;
-
-// @public
-export interface ExtractedText {
-    boundingBox?: Point2D[];
-    elements?: ExtractedElement[];
-    text: string;
-}
-
-// @public
-export interface ExtractedWord {
-    boundingBox: Point2D[];
-    confidence?: number;
-    containingLine?: ExtractedLine;
-    kind: "word";
-    pageNumber: number;
-    text: string;
-}
-
-// @public
-export type ExtractFormOperationResult = Partial<FormResult> & {
-    status: OperationStatus;
-    createdOn: Date;
-    lastUpdatedOn: Date;
-};
-
-// @public
-export type ExtractFormResultResponse = ExtractFormOperationResult & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: AnalyzeOperationResultModel;
-    };
-};
-
-// @public
-export type ExtractFormsOptions = FormRecognizerOperationOptions & {
-    includeTextDetails?: boolean;
-};
-
-// @public
-export type ExtractLayoutOperationResult = {
-    status: OperationStatus;
-    createdOn: Date;
-    lastUpdatedOn: Date;
-} & Partial<ExtractedLayout>;
-
-// @public
-export type ExtractLayoutOptions = FormRecognizerOperationOptions;
-
-// @public
-export type ExtractLayoutResultResponse = ExtractLayoutOperationResult & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: AnalyzeOperationResultModel;
-    };
-};
-
-// @public
-export type ExtractReceiptOperationResult = {
-    status: OperationStatus;
-    createdOn: Date;
-    lastUpdatedOn: Date;
-} & Partial<ExtractReceiptResult>;
-
-// @public
-export interface ExtractReceiptResult {
-    extractedReceipts?: ExtractedReceipt[];
-    rawExtractedPages: RawExtractedPage[];
-    version: string;
-}
-
-// @public
-export type ExtractReceiptResultResponse = ExtractReceiptOperationResult & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: AnalyzeOperationResultModel;
-    };
-};
-
-// @public
-export type ExtractReceiptsOptions = FormRecognizerOperationOptions & {
-    includeTextDetails?: boolean;
-};
-
-// @public
 export type FieldValue = StringFieldValue | DateFieldValue | TimeFieldValue | PhoneNumberFieldValue | NumberFieldValue | IntegerFieldValue | ArrayFieldValue | ObjectFieldValue;
+
+// @public
+export type FormElement = FormWord | FormLine;
+
+// @public
+export interface FormElementCommon {
+    boundingBox: Point2D[];
+    pageNumber: number;
+    text: string;
+}
+
+// @public
+export interface FormField {
+    confidence: number;
+    fieldLabel: FormText;
+    label?: string;
+    value: FormText;
+}
 
 // @public
 export interface FormFieldsReport {
     accuracy: number;
     fieldName: string;
+}
+
+// @public
+export interface FormLine extends FormElementCommon {
+    kind: "line";
+    words: FormWord[];
 }
 
 // @public
@@ -289,7 +154,23 @@ export type FormModelResponse = FormModel & {
 };
 
 // @public
-export type FormPollerLike = PollerLike<PollOperationState<ExtractFormResultResponse>, ExtractFormResultResponse>;
+export interface FormPage {
+    angle: number;
+    height: number;
+    lines?: FormLine[];
+    pageNumber: number;
+    unit: LengthUnit;
+    width: number;
+}
+
+// @public
+export interface FormPageRange {
+    firstPageNumber: number;
+    lastPageNumber: number;
+}
+
+// @public
+export type FormPollerLike = PollerLike<PollOperationState<RecognizeFormResultResponse>, RecognizeFormResultResponse>;
 
 // @public
 export class FormRecognizerApiKeyCredential implements ServiceClientCredentials {
@@ -301,20 +182,20 @@ export class FormRecognizerApiKeyCredential implements ServiceClientCredentials 
 // @public
 export class FormRecognizerClient {
     constructor(endpointUrl: string, credential: FormRecognizerApiKeyCredential, options?: FormRecognizerClientOptions);
-    beginExtractForms(modelId: string, body: FormRecognizerRequestBody, contentType?: ContentType, options?: BeginExtractFormsOptions): Promise<FormPollerLike>;
+    beginRecognizeContent(source: FormRecognizerRequestBody, contentType?: ContentType, options?: BeginRecognizeContentOptions): Promise<ContentPollerLike>;
     // (undocumented)
-    beginExtractFormsFromUrl(modelId: string, documentUrl: string, options?: BeginExtractFormsOptions): Promise<PollerLike<PollOperationState<ExtractFormResultResponse>, ExtractFormResultResponse>>;
-    beginExtractLabeledForms(modelId: string, body: FormRecognizerRequestBody, contentType: ContentType, options?: BeginExtractLabeledFormOptions): Promise<LabeledFormPollerLike>;
+    beginRecognizeContentFromUrl(documentUrl: string, options?: BeginRecognizeContentOptions): Promise<ContentPollerLike>;
+    beginRecognizeForms(modelId: string, body: FormRecognizerRequestBody, contentType?: ContentType, options?: BeginRecognizeFormsOptions): Promise<FormPollerLike>;
     // (undocumented)
-    beginExtractLabeledFormsFromUrl(modelId: string, documentUrl: string, options?: BeginExtractLabeledFormOptions): Promise<PollerLike<PollOperationState<LabeledFormResultResponse>, LabeledFormResultResponse>>;
-    beginExtractLayout(source: FormRecognizerRequestBody, contentType?: ContentType, options?: BeginExtractLayoutOptions): Promise<LayoutPollerLike>;
-    beginExtractReceipts(source: FormRecognizerRequestBody, contentType?: ContentType, options?: BeginExtractReceiptsOptions): Promise<ReceiptPollerLike>;
-    beginExtractReceiptsFromUrl(documentUrl: string, options?: BeginExtractReceiptsOptions): Promise<ReceiptPollerLike>;
+    beginRecognizeFormsFromUrl(modelId: string, documentUrl: string, options?: BeginRecognizeFormsOptions): Promise<PollerLike<PollOperationState<RecognizeFormResultResponse>, RecognizeFormResultResponse>>;
+    beginRecognizeLabeledForms(modelId: string, body: FormRecognizerRequestBody, contentType: ContentType, options?: BeginRecognizeLabeledFormOptions): Promise<LabeledFormPollerLike>;
+    // (undocumented)
+    beginRecognizeLabeledFormsFromUrl(modelId: string, documentUrl: string, options?: BeginRecognizeLabeledFormOptions): Promise<PollerLike<PollOperationState<LabeledFormResultResponse>, LabeledFormResultResponse>>;
+    beginRecognizeReceipts(source: FormRecognizerRequestBody, contentType?: ContentType, options?: BeginRecognizeReceiptsOptions): Promise<ReceiptPollerLike>;
+    beginRecognizeReceiptsFromUrl(documentUrl: string, options?: BeginRecognizeReceiptsOptions): Promise<ReceiptPollerLike>;
     readonly endpointUrl: string;
-    // (undocumented)
-    extractLayoutFromUrl(documentUrl: string, options?: BeginExtractLayoutOptions): Promise<LayoutPollerLike>;
     getFormTrainingClient(): FormTrainingClient;
-}
+    }
 
 // @public
 export interface FormRecognizerClientOptions extends PipelineOptions {
@@ -330,9 +211,42 @@ export type FormRecognizerRequestBody = Blob | ArrayBuffer | ArrayBufferView | N
 // @public
 export interface FormResult {
     errors?: ErrorInformation[];
-    extractedPages?: ExtractedPage[];
-    rawExtractedPages: RawExtractedPage[];
+    extractedPages?: RecognizedPage[];
+    rawExtractedPages: FormPage[];
     version: string;
+}
+
+// @public
+export interface FormTable {
+    columnCount: number;
+    rowCount: number;
+    rows: FormTableRow[];
+}
+
+// @public
+export interface FormTableCell {
+    boundingBox: Point2D[];
+    columnIndex: number;
+    columnSpan?: number;
+    confidence: number;
+    elements?: FormElement[];
+    isFooter?: boolean;
+    isHeader?: boolean;
+    rowIndex: number;
+    rowSpan?: number;
+    text: string;
+}
+
+// @public
+export interface FormTableRow {
+    cells: FormTableCell[];
+}
+
+// @public
+export interface FormText {
+    boundingBox?: Point2D[];
+    elements?: FormElement[];
+    text: string;
 }
 
 // @public
@@ -352,6 +266,13 @@ export class FormTrainingClient {
 export interface FormTrainResult {
     errors?: ErrorInformation[];
     trainingDocuments: TrainingDocumentInfo[];
+}
+
+// @public
+export interface FormWord extends FormElementCommon {
+    confidence?: number;
+    containingLine?: FormLine;
+    kind: "word";
 }
 
 // @public
@@ -420,9 +341,9 @@ export type LabeledFormPollerLike = PollerLike<PollOperationState<LabeledFormRes
 // @public
 export interface LabeledFormResult {
     errors?: ErrorInformation[];
-    extractedForms?: ExtractedForm[];
-    extractedPages?: ExtractedPage[];
-    rawExtractedPages: RawExtractedPage[];
+    extractedForms?: RecognizedForm[];
+    extractedPages?: RecognizedPage[];
+    rawExtractedPages: FormPage[];
     version: string;
 }
 
@@ -444,9 +365,6 @@ export interface LabeledFormTrainResult {
 
 // @public
 export type Language = "en" | "es";
-
-// @public
-export type LayoutPollerLike = PollerLike<PollOperationState<ExtractLayoutResultResponse>, ExtractLayoutResultResponse>;
 
 // @public
 export type LengthUnit = "pixel" | "inch";
@@ -514,12 +432,6 @@ export interface ObjectFieldValue {
 export type OperationStatus = "notStarted" | "running" | "succeeded" | "failed";
 
 // @public
-export interface PageRange {
-    firstPage: number;
-    lastPage: number;
-}
-
-// @public
 export type PhoneNumberFieldValue = {
     type: "phoneNumber";
     value?: string;
@@ -536,17 +448,16 @@ export { PollerLike }
 export { PollOperationState }
 
 // @public
-export interface RawExtractedPage {
-    angle: number;
-    height: number;
-    lines?: ExtractedLine[];
-    pageNumber: number;
-    unit: LengthUnit;
-    width: number;
+export interface RawReceiptResult {
+    docType: "prebuilt:receipt";
+    fields: {
+        [propertyName: string]: FieldValue;
+    };
+    pageRange: FormPageRange;
 }
 
 // @public
-export interface RawReceipt {
+export interface RawUSReceipt {
     Items: ReceiptItemArrayField;
     MerchantAddress: StringFieldValue;
     MerchantName: StringFieldValue;
@@ -558,15 +469,6 @@ export interface RawReceipt {
     Total: NumberFieldValue;
     TransactionDate: DateFieldValue;
     TransactionTime: TimeFieldValue;
-}
-
-// @public
-export interface RawReceiptResult {
-    docType: "prebuilt:receipt";
-    fields: {
-        [propertyName: string]: FieldValue;
-    };
-    pageRange: PageRange;
 }
 
 // @public
@@ -612,7 +514,106 @@ export type ReceiptItemField = {
 } & CommonFieldValue;
 
 // @public
-export type ReceiptPollerLike = PollerLike<PollOperationState<ExtractReceiptResultResponse>, ExtractReceiptResultResponse>;
+export type ReceiptPollerLike = PollerLike<PollOperationState<RecognizeReceiptResultResponse>, RecognizeReceiptResultResponse>;
+
+// @public
+export type RecognizeContentOperationResult = {
+    status: OperationStatus;
+    createdOn: Date;
+    lastUpdatedOn: Date;
+} & Partial<RecognizedContent>;
+
+// @public
+export type RecognizeContentOptions = FormRecognizerOperationOptions;
+
+// @public
+export type RecognizeContentResultResponse = RecognizeContentOperationResult & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: AnalyzeOperationResultModel;
+    };
+};
+
+// @public
+export interface RecognizedContent {
+    extractedLayoutPages?: RecognizedContentPage[];
+    rawExtractedPages: FormPage[];
+    version: string;
+}
+
+// @public
+export interface RecognizedContentPage {
+    fields?: FormField[];
+    pageNumber: number;
+    tables?: FormTable[];
+}
+
+// @public
+export interface RecognizedForm {
+    docType: string;
+    fields: {
+        [propertyName: string]: FieldValue;
+    };
+    pageRange: FormPageRange;
+}
+
+// @public
+export interface RecognizedPage {
+    fields?: FormField[];
+    formTypeId?: number;
+    pageNumber: number;
+    tables?: FormTable[];
+}
+
+// @public
+export type RecognizedReceipt = RawReceiptResult & Receipt;
+
+// @public
+export type RecognizeFormOperationResult = Partial<FormResult> & {
+    status: OperationStatus;
+    createdOn: Date;
+    lastUpdatedOn: Date;
+};
+
+// @public
+export type RecognizeFormResultResponse = RecognizeFormOperationResult & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: AnalyzeOperationResultModel;
+    };
+};
+
+// @public
+export type RecognizeFormsOptions = FormRecognizerOperationOptions & {
+    includeTextDetails?: boolean;
+};
+
+// @public
+export type RecognizeReceiptOperationResult = {
+    status: OperationStatus;
+    createdOn: Date;
+    lastUpdatedOn: Date;
+} & Partial<RecognizeReceiptResult>;
+
+// @public
+export interface RecognizeReceiptResult {
+    extractedReceipts?: RecognizedReceipt[];
+    rawExtractedPages: FormPage[];
+    version: string;
+}
+
+// @public
+export type RecognizeReceiptResultResponse = RecognizeReceiptOperationResult & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: AnalyzeOperationResultModel;
+    };
+};
+
+// @public
+export type RecognizeReceiptsOptions = FormRecognizerOperationOptions & {
+    includeTextDetails?: boolean;
+};
 
 export { RestResponse }
 
@@ -656,7 +657,7 @@ export type TrainStatus = "succeeded" | "partiallySucceeded" | "failed";
 
 // Warnings were encountered during analysis:
 //
-// src/formRecognizerClient.ts:115:3 - (ae-forgotten-export) The symbol "BeginExtractPollState" needs to be exported by the entry point index.d.ts
+// src/formRecognizerClient.ts:74:3 - (ae-forgotten-export) The symbol "BeginRecognizePollState" needs to be exported by the entry point index.d.ts
 // src/formTrainingClient.ts:74:3 - (ae-forgotten-export) The symbol "BeginTrainingPollState" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)

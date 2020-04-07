@@ -29,20 +29,20 @@ import {
 import { FormRecognizerApiKeyCredential } from "./formRecognizerApiKeyCredential";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
 import {
-  ExtractPollerClient,
-  BeginExtractPoller,
-  BeginExtractPollState,
-  ExtractOptions
+  RecognizePollerClient,
+  BeginRecognizePoller,
+  BeginRecognizePollState,
+  RecognizeOptions
 } from "./lro/analyze/poller";
 import {
-  ExtractLayoutResultResponse,
-  ExtractFormResultResponse,
+  RecognizeContentResultResponse,
+  RecognizeFormResultResponse,
   LabeledFormResultResponse,
-  ExtractReceiptResultResponse,
+  RecognizeReceiptResultResponse,
   FormRecognizerRequestBody
 } from "./models";
 import {
-  toCustomFormResultResponse,
+  toRecognizeFormResultResponse,
   toLabeledFormResultResponse,
   toAnalyzeLayoutResultResponse,
   toReceiptResultResponse
@@ -58,20 +58,20 @@ export { PollOperationState, PollerLike };
 /**
  * Options for analyzing layout
  */
-export type ExtractLayoutOptions = FormRecognizerOperationOptions;
+export type RecognizeContentOptions = FormRecognizerOperationOptions;
 
 /**
  * Options for the start analyzing layout operation
  */
-export type BeginExtractLayoutOptions = ExtractLayoutOptions & {
+export type BeginRecognizeContentOptions = RecognizeContentOptions & {
   /**
    * Delay to wait until next poll, in milliseconds
    */
   intervalInMs?: number;
   /**
-   * Callback to progress events triggered in the Extract Layout Long-Running-Operation (LRO)
+   * Callback to progress events triggered in the Recognize Content Long-Running-Operation (LRO)
    */
-  onProgress?: (state: BeginExtractPollState<ExtractLayoutResultResponse>) => void;
+  onProgress?: (state: BeginRecognizePollState<RecognizeContentResultResponse>) => void;
   /**
    * A serialized poller which can be used to resume an existing paused Long-Running-Operation.
    */
@@ -79,22 +79,22 @@ export type BeginExtractLayoutOptions = ExtractLayoutOptions & {
 };
 
 /**
- * The Long-Running-Operation (LRO) poller that allows you to wait until form layout is extracted.
+ * The Long-Running-Operation (LRO) poller that allows you to wait until form content is recognized.
  */
-export type LayoutPollerLike = PollerLike<
-  PollOperationState<ExtractLayoutResultResponse>,
-  ExtractLayoutResultResponse
+export type ContentPollerLike = PollerLike<
+  PollOperationState<RecognizeContentResultResponse>,
+  RecognizeContentResultResponse
 >;
 
 /**
- * Options for retrieving extracted layout data
+ * Options for retrieving recognized content data
  */
-type GetExtractedLayoutResultOptions = FormRecognizerOperationOptions;
+type GetRecognizedContentResultOptions = FormRecognizerOperationOptions;
 
 /**
- * Options for analyzing of forms
+ * Options for recognition of forms
  */
-export type ExtractFormsOptions = FormRecognizerOperationOptions & {
+export type RecognizeFormsOptions = FormRecognizerOperationOptions & {
   /**
    * Specifies whether to include text lines and element references in the result
    */
@@ -104,15 +104,15 @@ export type ExtractFormsOptions = FormRecognizerOperationOptions & {
 /**
  * Options for starting analyzing form operation
  */
-export type BeginExtractFormsOptions = ExtractFormsOptions & {
+export type BeginRecognizeFormsOptions = RecognizeFormsOptions & {
   /**
    * Delay to wait until next poll, in milliseconds
    */
   intervalInMs?: number;
   /**
-   * Callback to progress events triggered in the Extract Form Long-Running-Operation (LRO)
+   * Callback to progress events triggered in the Recognize Form Long-Running-Operation (LRO)
    */
-  onProgress?: (state: BeginExtractPollState<ExtractFormResultResponse>) => void;
+  onProgress?: (state: BeginRecognizePollState<RecognizeFormResultResponse>) => void;
   /**
    * A serialized poller which can be used to resume an existing paused Long-Running-Operation.
    */
@@ -122,15 +122,15 @@ export type BeginExtractFormsOptions = ExtractFormsOptions & {
 /**
  * Options for starting analyzing form operation
  */
-export type BeginExtractLabeledFormOptions = ExtractFormsOptions & {
+export type BeginRecognizeLabeledFormOptions = RecognizeFormsOptions & {
   /**
    * Delay to wait until next poll, in milliseconds
    */
   intervalInMs?: number;
   /**
-   * Callback to progress events triggered in the Extract Labeled Form Long-Running-Operation (LRO)
+   * Callback to progress events triggered in the Recognize Labeled Form Long-Running-Operation (LRO)
    */
-  onProgress?: (state: BeginExtractPollState<LabeledFormResultResponse>) => void;
+  onProgress?: (state: BeginRecognizePollState<LabeledFormResultResponse>) => void;
   /**
    * A serialized poller which can be used to resume an existing paused Long-Running-Operation.
    */
@@ -138,15 +138,15 @@ export type BeginExtractLabeledFormOptions = ExtractFormsOptions & {
 };
 
 /**
- * Result type of the Extract Form Long-Running-Operation (LRO)
+ * Result type of the Recognize Form Long-Running-Operation (LRO)
  */
 export type FormPollerLike = PollerLike<
-  PollOperationState<ExtractFormResultResponse>,
-  ExtractFormResultResponse
+  PollOperationState<RecognizeFormResultResponse>,
+  RecognizeFormResultResponse
 >;
 
 /**
- * Result of the Extract Labeled Form Long-Running-Operation (LRO)
+ * Result of the Recognize Labeled Form Long-Running-Operation (LRO)
  */
 export type LabeledFormPollerLike = PollerLike<
   PollOperationState<LabeledFormResultResponse>,
@@ -154,14 +154,14 @@ export type LabeledFormPollerLike = PollerLike<
 >;
 
 /**
- * Options for retrieving result of Extract Form operation
+ * Options for retrieving result of Recognize Form operation
  */
-type GetExtractedFormsOptions = FormRecognizerOperationOptions;
+type GetRecognizedFormsOptions = FormRecognizerOperationOptions;
 
 /**
- * Options for extract receipt operation
+ * Options for Recognize Receipt operation
  */
-export type ExtractReceiptsOptions = FormRecognizerOperationOptions & {
+export type RecognizeReceiptsOptions = FormRecognizerOperationOptions & {
   /**
    * Specifies whether to include text lines and element references in the result
    */
@@ -169,22 +169,22 @@ export type ExtractReceiptsOptions = FormRecognizerOperationOptions & {
 };
 
 /**
- * Options for retrieving extracted receipt data
+ * Options for retrieving recognized receipt data
  */
-type GetExtractedReceiptsOptions = FormRecognizerOperationOptions;
+type GetRecognizedReceiptsOptions = FormRecognizerOperationOptions;
 
 /**
  * Options for Begin Analyze Receipt operation
  */
-export type BeginExtractReceiptsOptions = ExtractReceiptsOptions & {
+export type BeginRecognizeReceiptsOptions = RecognizeReceiptsOptions & {
   /**
    * Delay to wait until next poll, in milliseconds
    */
   intervalInMs?: number;
   /**
-   * Callback to progress events triggered in the Extract Receipt Long-Running-Operation (LRO)
+   * Callback to progress events triggered in the Recognize Receipt Long-Running-Operation (LRO)
    */
-  onProgress?: (state: BeginExtractPollState<ExtractReceiptResultResponse>) => void;
+  onProgress?: (state: BeginRecognizePollState<RecognizeReceiptResultResponse>) => void;
   /**
    * A serialized poller which can be used to resume an existing paused Long-Running-Operation.
    */
@@ -192,11 +192,11 @@ export type BeginExtractReceiptsOptions = ExtractReceiptsOptions & {
 };
 
 /**
- * The Long-Running-Operation (LRO) poller that allows you to wait until receipt(s) are extracted.
+ * The Long-Running-Operation (LRO) poller that allows you to wait until receipt(s) are recognized.
  */
 export type ReceiptPollerLike = PollerLike<
-  PollOperationState<ExtractReceiptResultResponse>,
-  ExtractReceiptResultResponse
+  PollOperationState<RecognizeReceiptResultResponse>,
+  RecognizeReceiptResultResponse
 >;
 
 /**
@@ -222,13 +222,13 @@ export class FormRecognizerClient {
   private readonly client: GeneratedClient;
 
   /**
-   * Creates an instance of CustomFormRecognizerClient.
+   * Creates an instance of FormRecognizerClient.
    *
    * Example usage:
    * ```ts
-   * import { CustomFormRecognizerClient, FormRecognizerApiKeyCredential } from "@azure/ai-form-recognizer";
+   * import { FormRecognizerClient, FormRecognizerApiKeyCredential } from "@azure/ai-form-recognizer";
    *
-   * const client = new CustomFormRecognizerClient(
+   * const client = new FormRecognizerClient(
    *    "<service endpoint>",
    *    new FormRecognizerApiKeyCredential("<api key>")
    * );
@@ -280,7 +280,7 @@ export class FormRecognizerClient {
   }
 
   /**
-   * Extracts layout data, including text and table structure from documents.
+   * Recognizes content, including text and table structure from documents.
    *
    * This method returns a long running operation poller that allows you to wait
    * indefinitely until the copy is completed.
@@ -293,8 +293,8 @@ export class FormRecognizerClient {
    * const path = "./fw4.pdf";
    * const readStream = fs.createReadStream(path);
    *
-   * const client = new LayoutRecognizerClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
-   * const poller = await client.beginExtractLayout(readStream, "application/pdf", {
+   * const client = new FormRecognizerClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
+   * const poller = await client.beginRecognizeContent(readStream, "application/pdf", {
    *   onProgress: (state) => { console.log(`status: ${state.status}`); }
    * });
    *
@@ -305,22 +305,22 @@ export class FormRecognizerClient {
    * console.log(response.rawExtractedPages);
    * console.log(response.extractedLayoutPages);
    * ```
-   * @summary Extracts receipt information from a given document
+   * @summary Recognizes receipt information from a given document
    * @param {FormRecognizerRequestBody} source Input document
    * @param {contentType} Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", and "image/tiff";
-   * @param {BeginExtractLayoutOptions} [options] Options to the Begin Extract Layout operation
+   * @param {BeginRecognizeContentOptions} [options] Options to the Begin Recognize Content operation
    */
-  public async beginExtractLayout(
+  public async beginRecognizeContent(
     source: FormRecognizerRequestBody,
     contentType?: ContentType,
-    options: BeginExtractLayoutOptions = {}
-  ): Promise<LayoutPollerLike> {
-    const analyzePollerClient: ExtractPollerClient<ExtractLayoutResultResponse> = {
-      beginExtract: (...args) => analyzeLayoutInternal(this.client, ...args),
-      getExtractResult: (...args) => this.getExtractedLayout(...args)
+    options: BeginRecognizeContentOptions = {}
+  ): Promise<ContentPollerLike> {
+    const analyzePollerClient: RecognizePollerClient<RecognizeContentResultResponse> = {
+      beginRecognize: (...args) => recognizeLayoutInternal(this.client, ...args),
+      getRecognizeResult: (...args) => this.getRecognizedContent(...args)
     };
 
-    const poller = new BeginExtractPoller<ExtractLayoutResultResponse>({
+    const poller = new BeginRecognizePoller<RecognizeContentResultResponse>({
       client: analyzePollerClient,
       source,
       contentType,
@@ -331,20 +331,20 @@ export class FormRecognizerClient {
     return poller;
   }
 
-  public async extractLayoutFromUrl(
+  public async beginRecognizeContentFromUrl(
     documentUrl: string,
-    options: BeginExtractLayoutOptions = {}
-  ): Promise<LayoutPollerLike> {
-    return this.beginExtractLayout(documentUrl, undefined, options);
+    options: BeginRecognizeContentOptions = {}
+  ): Promise<ContentPollerLike> {
+    return this.beginRecognizeContent(documentUrl, undefined, options);
   }
 
   /**
    * @private
    */
-  private async getExtractedLayout(resultId: string, options?: GetExtractedLayoutResultOptions) {
+  private async getRecognizedContent(resultId: string, options?: GetRecognizedContentResultOptions) {
     const realOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
-      "FormRecognizerClient-getExtractedLayoutResult",
+      "FormRecognizerClient-getRecognizedLayoutResult",
       realOptions
     );
 
@@ -363,7 +363,7 @@ export class FormRecognizerClient {
     }
   }
   /**
-   * Extracts name-value pairs and tables from a given document using a model from unsupervised training.
+   * Recognizes name-value pairs and tables from a given document using a model from unsupervised training.
    * This method returns a long running operation poller that allows you to wait
    * indefinitely until the copy is completed.
    * You can also cancel a copy before it is completed by calling `cancelOperation` on the poller.
@@ -376,40 +376,40 @@ export class FormRecognizerClient {
    *   const readStream = fs.createReadStream(path);
    *
    *   const client = new FormRecognizerClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
-   *   const poller = await client.beginExtractForms(modelId, readStream, "application/pdf", {
+   *   const poller = await client.beginRecognizeForms(modelId, readStream, "application/pdf", {
    *     onProgress: (state) => { console.log(`status: ${state.status}`); }
    *   });
    *   await poller.pollUntilDone();
    *   const response = poller.getResult();
    *   console.log(response.status);
    * ```
-   * @summary Extracts form information from a given document using unlabeled model.
+   * @summary Recognizes form information from a given document using unlabeled model.
    * @param {string} modelId Id of the model to use
    * @param {FormRecognizerRequestBody} body Input document
    * @param {contentType} Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", and "image/tiff";
-   * @param {BeginExtractFormsOptions} [options] Options to the BeginExtractForms operation
+   * @param {BeginRecognizeFormsOptions} [options] Options to the BeginRecognizeForms operation
    */
-  public async beginExtractForms(
+  public async beginRecognizeForms(
     modelId: string,
     body: FormRecognizerRequestBody,
     contentType?: ContentType,
-    options: BeginExtractFormsOptions = {}
+    options: BeginRecognizeFormsOptions = {}
   ): Promise<FormPollerLike> {
     if (!modelId) {
       throw new RangeError("Invalid model id");
     }
-    const analyzePollerClient: ExtractPollerClient<ExtractFormResultResponse> = {
-      beginExtract: (
+    const analyzePollerClient: RecognizePollerClient<RecognizeFormResultResponse> = {
+      beginRecognize: (
         body: FormRecognizerRequestBody,
         contentType?: ContentType,
-        analyzeOptions: ExtractOptions = {},
+        analyzeOptions: RecognizeOptions = {},
         modelId?: string
-      ) => analyzeCustomFormInternal(this.client, body, contentType, analyzeOptions, modelId!),
-      getExtractResult: (resultId: string, options: { abortSignal?: AbortSignalLike }) =>
-        this.getExtractedForm(modelId, resultId, options)
+      ) => recognizeCustomFormInternal(this.client, body, contentType, analyzeOptions, modelId!),
+      getRecognizeResult: (resultId: string, options: { abortSignal?: AbortSignalLike }) =>
+        this.getRecognizedForm(modelId, resultId, options)
     };
 
-    const poller = new BeginExtractPoller({
+    const poller = new BeginRecognizePoller({
       client: analyzePollerClient,
       modelId,
       source: body,
@@ -421,25 +421,25 @@ export class FormRecognizerClient {
     return poller;
   }
 
-  public async beginExtractFormsFromUrl(
+  public async beginRecognizeFormsFromUrl(
     modelId: string,
     documentUrl: string,
-    options: BeginExtractFormsOptions = {}
-  ): Promise<PollerLike<PollOperationState<ExtractFormResultResponse>, ExtractFormResultResponse>> {
+    options: BeginRecognizeFormsOptions = {}
+  ): Promise<PollerLike<PollOperationState<RecognizeFormResultResponse>, RecognizeFormResultResponse>> {
     if (!modelId) {
       throw new RangeError("Invalid modelId");
     }
-    return this.beginExtractForms(modelId, documentUrl, undefined, options);
+    return this.beginRecognizeForms(modelId, documentUrl, undefined, options);
   }
 
-  private async getExtractedForm(
+  private async getRecognizedForm(
     modelId: string,
     resultId: string,
-    options?: GetExtractedFormsOptions
-  ): Promise<ExtractFormResultResponse> {
+    options?: GetRecognizedFormsOptions
+  ): Promise<RecognizeFormResultResponse> {
     const realOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
-      "FormRecognizerClient-getExtractedForm",
+      "FormRecognizerClient-getRecognizedForm",
       realOptions
     );
 
@@ -449,7 +449,7 @@ export class FormRecognizerClient {
         resultId,
         operationOptionsToRequestOptionsBase(finalOptions)
       );
-      return toCustomFormResultResponse(result);
+      return toRecognizeFormResultResponse(result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -461,14 +461,14 @@ export class FormRecognizerClient {
     }
   }
 
-  private async getExtractedLabeledForms(
+  private async getRecognizedLabeledForms(
     modelId: string,
     resultId: string,
-    options?: GetExtractedFormsOptions
+    options?: GetRecognizedFormsOptions
   ): Promise<LabeledFormResultResponse> {
     const realOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
-      "FormRecognizerClient-getExtractedLabeledForm",
+      "FormRecognizerClient-getRecognizedLabeledForm",
       realOptions
     );
 
@@ -491,7 +491,7 @@ export class FormRecognizerClient {
   }
 
   /**
-   * Extracts name-value pairs and tables from a given document using a model from supervised training with labels.
+   * Recognizes name-value pairs and tables from a given document using a model from supervised training with labels.
    * This method returns a long running operation poller that allows you to wait
    * indefinitely until the copy is completed.
    * You can also cancel a copy before it is completed by calling `cancelOperation` on the poller.
@@ -504,40 +504,40 @@ export class FormRecognizerClient {
    *   const readStream = fs.createReadStream(path);
    *
    *   const client = new FormRecognizerClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
-   *   const poller = await client.beginExtractLabeledForms(modelId, readStream, "application/pdf", {
+   *   const poller = await client.beginRecognizeLabeledForms(modelId, readStream, "application/pdf", {
    *     onProgress: (state) => { console.log(`status: ${state.status}`); }
    *   });
    *   await poller.pollUntilDone();
    *   const response = poller.getResult();
    *   console.log(response.status);
    * ```
-   * @summary Extracts form information from a given document using labeled model.
+   * @summary Recognizes form information from a given document using labeled model.
    * @param {string} modelId Id of the model to use
    * @param {FormRecognizerRequestBody} body Input document
    * @param {contentType} Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", and "image/tiff";
-   * @param {BeginExtractLabeledFormsOptions} [options] Options to the BeginExtractLabeledForms operation
+   * @param {BeginRecognizeLabeledFormsOptions} [options] Options to the BeginRecognizeLabeledForms operation
    */
-  public async beginExtractLabeledForms(
+  public async beginRecognizeLabeledForms(
     modelId: string,
     body: FormRecognizerRequestBody,
     contentType: ContentType,
-    options: BeginExtractLabeledFormOptions = {}
+    options: BeginRecognizeLabeledFormOptions = {}
   ): Promise<LabeledFormPollerLike> {
     if (!modelId) {
       throw new RangeError("Invalid model id");
     }
-    const analyzePollerClient: ExtractPollerClient<LabeledFormResultResponse> = {
-      beginExtract: (
+    const analyzePollerClient: RecognizePollerClient<LabeledFormResultResponse> = {
+      beginRecognize: (
         body: FormRecognizerRequestBody,
         contentType?: ContentType,
-        analyzeOptions?: ExtractOptions,
+        analyzeOptions?: RecognizeOptions,
         modelId?: string
-      ) => analyzeCustomFormInternal(this.client, body, contentType, analyzeOptions, modelId!),
-      getExtractResult: (resultId: string, options: { abortSignal?: AbortSignalLike }) =>
-        this.getExtractedLabeledForms(modelId, resultId, options)
+      ) => recognizeCustomFormInternal(this.client, body, contentType, analyzeOptions, modelId!),
+      getRecognizeResult: (resultId: string, options: { abortSignal?: AbortSignalLike }) =>
+        this.getRecognizedLabeledForms(modelId, resultId, options)
     };
 
-    const poller = new BeginExtractPoller({
+    const poller = new BeginRecognizePoller({
       client: analyzePollerClient,
       modelId,
       source: body,
@@ -549,20 +549,20 @@ export class FormRecognizerClient {
     return poller;
   }
 
-  public async beginExtractLabeledFormsFromUrl(
+  public async beginRecognizeLabeledFormsFromUrl(
     modelId: string,
     documentUrl: string,
-    options: BeginExtractLabeledFormOptions = {}
+    options: BeginRecognizeLabeledFormOptions = {}
   ): Promise<PollerLike<PollOperationState<LabeledFormResultResponse>, LabeledFormResultResponse>> {
     if (!modelId) {
       throw new RangeError("Invalid model id");
     }
 
-    return this.beginExtractForms(modelId, documentUrl, undefined, options);
+    return this.beginRecognizeForms(modelId, documentUrl, undefined, options);
   }
 
   /**
-   * Extracts data from receipts using pre-built receipt model, enabling you to extract structure data
+   * Recognizes data from receipts using pre-built receipt model, enabling you to extract structure data
    * from receipts such as merchant name, merchant phone number, transaction date, and more.
    *
    * This method returns a long running operation poller that allows you to wait
@@ -576,8 +576,8 @@ export class FormRecognizerClient {
    * const path = "./contoso-allinone.jpg";
    * const readStream = fs.createReadStream(path);
 
-   * const client = new ReceiptRecognizerClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
-   * const poller = await client.beginExtractReceipts(readStream, "image/jpeg", {
+   * const client = new FormRecognizerClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
+   * const poller = await client.beginRecognizeReceipts(readStream, "image/jpeg", {
        onProgress: (state) => { console.log(`status: ${state.status}`); }
    * });
 
@@ -595,22 +595,22 @@ export class FormRecognizerClient {
    * console.log("### Raw 'MerchantAddress' fields:");
    * console.log(response.extractedReceipts[0]?.fields["MerchantAddress"])
    * ```
-   * @summary Extracts receipt information from a given document
+   * @summary Recognizes receipt information from a given document
    * @param {FormRecognizerRequestBody} source Input document
    * @param {contentType} Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", and "image/tiff";
-   * @param {BeginExtractReceiptsOptions} [options] Options to the Begin Extract Receipts operation
+   * @param {BeginRecognizeReceiptsOptions} [options] Options to the Begin Recognize Receipts operation
    */
-  public async beginExtractReceipts(
+  public async beginRecognizeReceipts(
     source: FormRecognizerRequestBody,
     contentType?: ContentType,
-    options: BeginExtractReceiptsOptions = {}
+    options: BeginRecognizeReceiptsOptions = {}
   ): Promise<ReceiptPollerLike> {
-    const analyzePollerClient: ExtractPollerClient<ExtractReceiptResultResponse> = {
-      beginExtract: (...args) => analyzeReceiptInternal(this.client, ...args),
-      getExtractResult: (...args) => this.getExtractedReceipts(...args)
+    const analyzePollerClient: RecognizePollerClient<RecognizeReceiptResultResponse> = {
+      beginRecognize: (...args) => recognizeReceiptInternal(this.client, ...args),
+      getRecognizeResult: (...args) => this.getRecognizedReceipts(...args)
     };
 
-    const poller = new BeginExtractPoller({
+    const poller = new BeginRecognizePoller({
       client: analyzePollerClient,
       source: source,
       contentType,
@@ -622,7 +622,7 @@ export class FormRecognizerClient {
   }
 
   /**
-   * Extracts receipt information from a url using pre-built receipt model, enabling you to extract structure data
+   * Recognizes receipt information from a url using pre-built receipt model, enabling you to extract structure data
    * from receipts such as merchant name, merchant phone number, transaction date, and more.
    *
    * This method returns a long running operation poller that allows you to wait
@@ -633,8 +633,8 @@ export class FormRecognizerClient {
    *
    * Example usage:
    * ```ts
-   * const client = new ReceiptRecognizerClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
-   * const poller = await client.beginExtractReceiptsFromUrl(
+   * const client = new FormRecognizerClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
+   * const poller = await client.beginRecognizeReceiptsFromUrl(
    *   imageUrl, {
    *     includeTextDetails: true,
    *     onProgress: (state) => { console.log(`analyzing status: ${state.status}`); }
@@ -653,27 +653,27 @@ export class FormRecognizerClient {
    * console.log("### Raw 'MerchantAddress' fields:");
    * console.log(response.extractedReceipts[0]?.fields["MerchantAddress"])
    * ```
-   * @summary Extracts receipt information from a given accessible url to input document
+   * @summary Recognizes receipt information from a given accessible url to input document
    * @param {string} documentUrl url to the input document
-   * @param {BeginExtractReceiptsOptions} [options] Options to the Begin Extract Receipts operation
+   * @param {BeginRecognizeReceiptsOptions} [options] Options to the Begin Recognize Receipts operation
    */
-  public async beginExtractReceiptsFromUrl(
+  public async beginRecognizeReceiptsFromUrl(
     documentUrl: string,
-    options: BeginExtractReceiptsOptions = {}
+    options: BeginRecognizeReceiptsOptions = {}
   ): Promise<ReceiptPollerLike> {
-    return this.beginExtractReceipts(documentUrl, undefined, options);
+    return this.beginRecognizeReceipts(documentUrl, undefined, options);
   }
 
   /**
    * @internal
    */
-  private async getExtractedReceipts(
+  private async getRecognizedReceipts(
     resultId: string,
-    options?: GetExtractedReceiptsOptions
-  ): Promise<ExtractReceiptResultResponse> {
+    options?: GetRecognizedReceiptsOptions
+  ): Promise<RecognizeReceiptResultResponse> {
     const realOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
-      "ReceiptRecognizerClient-getExtractedReceipt",
+      "FormRecognizerClient-getRecognizedReceipt",
       realOptions
     );
 
@@ -698,11 +698,11 @@ export class FormRecognizerClient {
 /**
  * @internal
  */
-async function analyzeLayoutInternal(
+async function recognizeLayoutInternal(
   client: GeneratedClient,
   body: FormRecognizerRequestBody,
   contentType?: ContentType,
-  options?: ExtractLayoutOptions,
+  options?: RecognizeContentOptions,
   _modelId?: string
 ): Promise<AnalyzeLayoutAsyncResponseModel> {
   const realOptions = options || {};
@@ -731,11 +731,11 @@ async function analyzeLayoutInternal(
 /**
  * @internal
  */
-async function analyzeCustomFormInternal(
+async function recognizeCustomFormInternal(
   client: GeneratedClient,
   body: FormRecognizerRequestBody,
   contentType?: ContentType,
-  options: ExtractFormsOptions = {},
+  options: RecognizeFormsOptions = {},
   modelId?: string
 ): Promise<AnalyzeWithCustomModelResponseModel> {
   const { span, updatedOptions: finalOptions } = createSpan("analyzeCustomFormInternal", options);
@@ -763,11 +763,11 @@ async function analyzeCustomFormInternal(
 /**
  * @internal
  */
-async function analyzeReceiptInternal(
+async function recognizeReceiptInternal(
   client: GeneratedClient,
   body: FormRecognizerRequestBody,
   contentType?: ContentType,
-  options?: ExtractReceiptsOptions,
+  options?: RecognizeReceiptsOptions,
   _modelId?: string
 ): Promise<AnalyzeReceiptAsyncResponseModel> {
   const realOptions = options || { includeTextDetails: false };
