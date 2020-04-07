@@ -33,6 +33,7 @@ import Long from "long";
 import { ServiceBusMessageImpl, ReceivedMessageWithLock } from "../serviceBusMessage";
 import { RetryConfig, RetryOperationType, retry, Constants, RetryOptions } from "@azure/core-amqp";
 import { OperationOptions } from "../modelsToBeSharedWithEventHubs";
+import "@azure/core-asynciterator-polyfill";
 
 /**
  *A receiver that handles sessions, including renewing the session lock.
