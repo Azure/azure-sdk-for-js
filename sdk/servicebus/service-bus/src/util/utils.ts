@@ -11,9 +11,18 @@ import { Constants as CoreAMQPConstants, RetryOptions } from "@azure/core-amqp";
 
 // This is the only dependency we have on DOM types, so rather than require
 // the DOM lib we can just shim this in.
+/**
+ * @ignore
+ * @internal
+ * @interface Navigator
+ */
 interface Navigator {
   hardwareConcurrency: number;
 }
+/**
+ * @ignore
+ * @internal
+ */
 declare const navigator: Navigator;
 
 /**

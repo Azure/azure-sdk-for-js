@@ -90,6 +90,9 @@ export interface ReceiveOptions extends MessageHandlerOptions {
 
 /**
  * Describes the signature of the message handler passed to `registerMessageHandler` method.
+ * @internal
+ * @ignore
+ * @interface OnMessage
  */
 export interface OnMessage {
   /**
@@ -100,6 +103,10 @@ export interface OnMessage {
 
 /**
  * Describes the signature of the error handler passed to `registerMessageHandler` method.
+ *
+ * @internal
+ * @ignore
+ * @interface OnError
  */
 export interface OnError {
   /**

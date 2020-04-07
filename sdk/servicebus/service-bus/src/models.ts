@@ -13,7 +13,6 @@ export interface MessageHandlers<ReceivedMessageT> {
    * Handler that processes messages from service bus.
    *
    * @param message A message received from Service Bus.
-   * @param context A context that can be used to settle messages when in peekLock mode.
    */
   processMessage(message: ReceivedMessageT): Promise<void>;
   /**

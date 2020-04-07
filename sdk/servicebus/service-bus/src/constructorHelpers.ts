@@ -50,6 +50,12 @@ export function createConnectionContextForConnectionString(
   return ConnectionContext.create(config, credential, options);
 }
 
+/**
+ * @internal
+ * @ignore
+ *
+ * @param {ConnectionConfig} config
+ */
 function validate(config: ConnectionConfig) {
   // TODO: workaround - core-amqp's validate string-izes "undefined"
   // the timing of this particular call happens in a spot where we might not have an
