@@ -1,6 +1,12 @@
 # Writing tests for the Azure SDK for JS/TS
 
-The Azure SDK for JavaScript and TypeScript allows users to communicate and control their Azure resources. The development of the Azure SDK should be taken with uttermost care, not only to provide the best API clients to our customers, but also to ensure that the software is reliable through stable, succinct and comprehensible tests. For that purpose, we've made this document that defines how tests should be written. 
+The Azure SDK for JavaScript and TypeScript allows users to communicate and control their Azure resources. The development of the Azure SDK should be taken with uttermost care, not only to provide the best API clients to our customers, but also to ensure that the software is reliable through stable, succinct and comprehensible tests. For that purpose, we've made this document that defines how tests should be written.
+
+> ### Tips for reading this document
+> - If you see any link that ends in a lock [🔒][TIPS], that link is private, only accessible to developers members of the Azure SDK team.
+> - Links that end up with a clock [⏲][TIPS], these are links that might contain outdated information. The information that's being referred might move elsewhere as time passes. Make sure to find the latest version of the linked file, or the content of the file that is relevant to what's being described in this document.
+
+[TIPS]: #tips-for-reading-this-document
 
 ## Index
 
@@ -71,7 +77,7 @@ Any resource that is not created by the tests must be defined in an [ARM templat
 
 Regarding delays and `setTimeout`s, please refer to the [using delays](#using-delays) section.
 
-You'll be able to find a more detailed set of recommendations in the section: [Best Practices for writing tests that target live resources](https://dev.azure.com/azure-sdk/internal/_wiki/wikis/internal.wiki/51/Testing-Guidelines).
+You'll be able to find a more detailed set of recommendations in the section: [Best Practices for writing tests that target live resources](https://dev.azure.com/azure-sdk/internal/_wiki/wikis/internal.wiki/51/Testing-Guidelines) [🔒][TIPS].
 
 ### CI and nightly test configuration
 
@@ -96,7 +102,7 @@ Some examples can be found at:
 - [sdk/storage/test-resources.json](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/test-resources.json).
 - [sdk/servicebus/test-resources.json](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/test-resources.json).
 
-The `tests.yml` file must be placed at the package folder. This file is in charge of specifying when to run the tests for this package, what environments to use to run the tests, and how the tests are executed. You can learn how to write these files by following the guide: [Creating live tests](https://dev.azure.com/azure-sdk/internal/_wiki/wikis/internal.wiki/48/Create-a-new-Live-Test-pipeline?anchor=creating-live-tests).
+The `tests.yml` file must be placed at the package folder. This file is in charge of specifying when to run the tests for this package, what environments to use to run the tests, and how the tests are executed. You can learn how to write these files by following the guide: [Creating live tests](https://dev.azure.com/azure-sdk/internal/_wiki/wikis/internal.wiki/48/Create-a-new-Live-Test-pipeline?anchor=creating-live-tests) [🔒][TIPS].
 
 Some examples can be found at: 
 
@@ -106,7 +112,7 @@ Some examples can be found at:
 
 These files will deal with the environment variables needed by your tests. Some of these environment variables are quite standard. Generally speaking, the SDK tests will use information from the tenant and the client of the resources that the tests are working with. To effectively provide these to the automated tests, we need to enable the pipeline to use some specific configuration.
 
-First you must go to https://dev.azure.com/azure-sdk/ and look for the builds that have been configured to target your project, then:
+First you must go to https://dev.azure.com/azure-sdk/ [🔒][TIPS] and look for the builds that have been configured to target your project, then:
 
 - Click the pipeline you want to test on PR.
 - Press the "Edit" button at the top right corner.
@@ -128,15 +134,15 @@ The `test-resources.json` can be used by our users to set up their own test reso
 
 We recommend using the same ARM template to expose a "Deploy Button" in the `README.md` of your project. The button will look like this one for KeyVault Keys:
 
-[![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsdk%2Fkeyvault%2Fkeyvault-keys%2Ftest-resources.json)
+[![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsdk%2Fkeyvault%2Ftest-resources.json)
 
 Which contains the following code:
 
 ```md
-[![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsdk%2Fkeyvault%2Fkeyvault-keys%2Ftest-resources.json)
+[![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsdk%2Fkeyvault%2Ftest-resources.json)
 ```
 
-It works by using the Azure endpoint `https://portal.azure.com/#create/Microsoft.Template/uri/` that allows receiving an encoded URL at the end of it. In the KeyVault Keys example, the encoded URL will contain the path of the `test-resources.json`, this one: `https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsdk%2Fkeyvault%2Fkeyvault-keys%2Ftest-resources.json`.
+It works by using the Azure endpoint `https://portal.azure.com/#create/Microsoft.Template/uri/` that allows receiving an encoded URL at the end of it. In the KeyVault Keys example, the encoded URL will contain the path of the `test-resources.json`, this one: `https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsdk%2Fkeyvault%2Ftest-resources.json`.
 
 Once clicked, the deploy button will load a form at Azure that should ask some basic information, and then allow anyone to deploy the same set of resources, already properly configured, to their accounts. This form is automatically generated from the ARM template, so to help our users go through it in detail, and also to inform them of the resources they will be creating, we recommend writing these details in a new file in your project's folder, called `TEST_RESOURCES_README.md` and linking it from your `README.md`. Here's an example that applies to all of our KeyVault clients: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/TEST_RESOURCES_README.md
 
@@ -177,7 +183,7 @@ We're using the following Mocha plugins and related dependencies:
 - [`mocha-junit-reporter`](https://www.npmjs.com/package/mocha-junit-reporter), which produces JUnit-style XML test results.
 - [`nyc`](https://www.npmjs.com/package/nyc) is [Istanbul](https://istanbul.js.org/)'s command line interface.
 - [`esm`](https://www.npmjs.com/package/esm), a popular ECMAScript module loader.
-- [`source-map-support`](https://www.npmjs.com/package/source-map-support), which provides [source map](https://github.com/mozilla/source-map) support for stack traces in node via the [V8 stack trace API](https://github.com/v8/v8/wiki/Stack-Trace-API).
+- [`source-map-support`](https://www.npmjs.com/package/source-map-support), which provides [source map](https://github.com/mozilla/source-map) support for stack traces in node via the [V8 stack trace API](https://v8.dev/docs/stack-trace-api).
 
 A full `rush add` command that includes `mocha` and all of the previous dependencies follows:
 
@@ -209,7 +215,7 @@ Code coverage can be added by placing `nyc` at the beginning of the line. Keep i
 
 We also have to point mocha to our test files. If you're **not** using `nyc`, you can point to the bundled test file (bundled with Rollup, which we will see later), typically at `dist-test/index.node.js`. If you are using `nyc`, point mocha to the files built by the TypeScript compiler, which can be found using `find dist-esm/test -name '*.spec.js'` before calling mocha.
 
-Our engineering systems will expect to encounter two scripts in our `package.json`s, one called `unit-test` for tests that will be [executed during Pull Request validation](https://github.com/Azure/azure-sdk-for-js/blob/master/eng/pipelines/templates/jobs/archetype-sdk-client.yml#L226-L233), which won't ever reach to live resources, and another called `integration-test` for our [nightly and release builds](https://github.com/Azure/azure-sdk-for-js/blob/master/eng/pipelines/templates/jobs/archetype-sdk-integration.yml#L114), which will be expected to reach to live resources. We assume that the distinction of when to reach to what resources will be done within the tests (either by using [The Recorder](#the-recorder) or through [Using conditionals](#using-conditionals)). With this in mind, and limiting `nyc` to only run on the `integration-test` script, we will end up with the following scripts:
+Our engineering systems will expect to encounter two scripts in our `package.json`s, one called `unit-test` for tests that will be [executed during Pull Request validation](https://github.com/Azure/azure-sdk-for-js/blob/86b174ebea741187ec3307c40d3dc03f58230b8b/eng/pipelines/templates/jobs/archetype-sdk-client.yml#L225-L235) [⏲][TIPS], which won't ever reach to live resources, and another called `integration-test` for our [nightly and release builds](https://github.com/Azure/azure-sdk-for-js/blob/58bbeeea839b278d1238f908a3cec53749d636c3/eng/pipelines/templates/jobs/archetype-sdk-integration.yml#L114) [⏲][TIPS], which will be expected to reach to live resources. We assume that the distinction of when to reach to what resources will be done within the tests (either by using [The Recorder](#the-recorder) or through [Using conditionals](#using-conditionals)). With this in mind, and limiting `nyc` to only run on the `integration-test` script, we will end up with the following scripts:
 
 ```json
     "integration-test:node": "find dist-esm/test -name '*.spec.js' | xargs nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace",
@@ -232,7 +238,7 @@ If any of your tests need to use _delays_, please make sure to go through our [U
 
 New projects inside of this repository can take a safe guess based on how much the tests on average take locally. **Existing projects** should instead follow these steps to **get a reasonable timeout from past test executions**:
 
-1. Go to our CI pipelines, at: https://dev.azure.com/azure-sdk/internal/_build
+1. Go to our CI pipelines, at: https://dev.azure.com/azure-sdk/internal/_build [🔒][TIPS]
 2. Pick the pipeline of the project you're working on. You will end up in a page with a path similar to `/azure-sdk/internal/_build?definitionId=XYZ&_a=summary`.
 3. Click on any previous build. The path will look similar to `/azure-sdk/internal/_build/results?buildId=XYZ&view=results`.
 4. Press the tab `Test`. You will see something like _Picture One_ below.
@@ -265,10 +271,10 @@ We recommend using `beforeEach` rather than `before`, just as much as we recomme
 
 `before` and `after` can be used to define or create heavy resources that could cleanly be used by more than one test. We will see some examples below.
 
-This discouraged example of `before` and `after` shows that neither clients nor stateful objects should be assigned in these functions ([source](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/test/internal/beforeAfter.spec.ts#L12)):
+This discouraged example of `before` and `after` shows that neither clients nor stateful objects should be assigned in these functions ([source](https://github.com/Azure/azure-sdk-for-js/blob/b3bc4375c038605e00797fd45b1efb9bff4ea651/sdk/template/template/test/internal/beforeAfter.spec.ts#L14) [⏲][TIPS]):
 
 ```ts
-describe.skip("Discouraged example of `before` and `after`", function() {
+describe("Discouraged example of `before` and `after`", function() {
   let state: {
     properties?: any;
   } = {};
@@ -298,7 +304,7 @@ describe.skip("Discouraged example of `before` and `after`", function() {
 });
 ```
 
-`beforeEach` and `afterEach` are encouraged. This example simply creates a new client and defines a stateful object in the `beforeEach`. These assignments should replace any pre-existing state before every test. Anything stateful should be cleared at the `afterEach` ([source](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/test/internal/beforeAfter.spec.ts#L44)):
+`beforeEach` and `afterEach` are encouraged. This example simply creates a new client and defines a stateful object in the `beforeEach`. These assignments should replace any pre-existing state before every test. Anything stateful should be cleared at the `afterEach` ([source](https://github.com/Azure/azure-sdk-for-js/blob/b3bc4375c038605e00797fd45b1efb9bff4ea651/sdk/template/template/test/internal/beforeAfter.spec.ts#L46) [⏲][TIPS]):
 
 ```ts
 describe("Encouraged example of `beforeEach` and `afterEach`", function() {
@@ -333,7 +339,7 @@ describe("Encouraged example of `beforeEach` and `afterEach`", function() {
 
 We typically use `beforeEach` and `afterEach` to set up and tear down our test recorder. You can learn more about it in the section: [The Recorder](#the-recorder).
 
-Finally, an encouraged example of `before` and `after` ([source](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/test/internal/beforeAfter.spec.ts#L80)):
+Finally, an encouraged example of `before` and `after` ([source](https://github.com/Azure/azure-sdk-for-js/blob/b3bc4375c038605e00797fd45b1efb9bff4ea651/sdk/template/template/test/internal/beforeAfter.spec.ts#L80) [⏲][TIPS]):
 
 ```ts
 describe("Encouraged example of `before` and `after`", function() {
@@ -809,13 +815,13 @@ project/
 
 You can see some examples of **internal tests** in the template project, by seeing the relationship between:
 
-- [The template project's non-exported `InternalClass`](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/src/internalClass.ts).
-- [The template project's non-exported `InternalClass` tests](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/test/internal/internalClass.spec.ts).
+- [The template project's non-exported `InternalClass`](https://github.com/Azure/azure-sdk-for-js/blob/b3bc4375c038605e00797fd45b1efb9bff4ea651/sdk/template/template/src/internalClass.ts) [⏲][TIPS].
+- [The template project's non-exported `InternalClass` tests](https://github.com/Azure/azure-sdk-for-js/blob/b3bc4375c038605e00797fd45b1efb9bff4ea651/sdk/template/template/test/internal/internalClass.spec.ts) [⏲][TIPS].
 
 You can also see some examples of **public facing API tests** in the template project, by seeing the relationship between:
 
-- [The template project's universal EventEmitter](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/src/universalEventEmitter.ts).
-- [The template project's universal EventEmitter tests](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/test/public/universalEventEmitter.spec.ts).
+- [The template project's universal EventEmitter](https://github.com/Azure/azure-sdk-for-js/blob/b3bc4375c038605e00797fd45b1efb9bff4ea651/sdk/template/template/src/universalEventEmitter.ts) [⏲][TIPS].
+- [The template project's universal EventEmitter tests](https://github.com/Azure/azure-sdk-for-js/blob/b3bc4375c038605e00797fd45b1efb9bff4ea651/sdk/template/template/test/public/universalEventEmitter.spec.ts) [⏲][TIPS].
 
 
 
@@ -1467,7 +1473,7 @@ describe("Keys client - restore keys and recover backups", () => {
 
 Keep in mind that Mocha will have a timeout configuration that will prevent this to run up forever.
 
-The specific `delay` method used in the code above comes from [the-recorder](#the-recorder), so that in playback, there will be no delay at all, and tests will pass as soon as possible.
+The specific `delay` method used in the code above comes from [the recorder](#the-recorder), so that in playback, there will be no delay at all, and tests will pass as soon as possible.
 
 ### Exceptions and edge cases
 
@@ -1475,9 +1481,9 @@ While testing the Azure SDK clients for JavaScript and TypeScript, we should doc
 
 Similarly, the public API surface of our clients will contain a large set of properties resulting from any of the methods that our clients implement. Tests should not focus on verifying that each property of our clients exist. While tests can check that the values of properties are expected, they should include only as many properties as it can be relevant for the use case that each test case is representing. For this purpose we should also take advantage of strict types. If our types can be descriptive and thorough (, and our internal code is not skipping any types by using `any`), we will be able to trust that our API is behaving reasonably well.
 
-To use `tsdoc` to document our expected API exceptions, use `@throws`. The implementation can be seen here (includes examples): https://github.com/microsoft/tsdoc/pull/175
+To use `tsdoc` to document our expected API exceptions, use `@throws`. The implementation can be seen ]here (includes examples)](https://github.com/microsoft/tsdoc/pull/175).
 
-A valid case of an exception test is to express a feature provided by our SDK. For example, to show how to control the timeout of a request (an example from the [KeyVault Keys tests](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-keys/test/CRUD.test.ts#L57)):
+A valid case of an exception test is to express a feature provided by our SDK. For example, to show how to control the timeout of a request (an example from the [KeyVault Keys tests](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-keys/test/CRUD.test.ts#L57)) [⏲][TIPS]:
 
 ```ts
 it("can attempt to create a key with requestOptions timeout", async function() {
