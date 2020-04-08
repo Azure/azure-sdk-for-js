@@ -3,11 +3,12 @@
 
 import {
   createPipelineFromOptions,
-  signingPolicy,
   InternalPipelineOptions,
   operationOptionsToRequestOptionsBase,
-  AbortSignalLike
+  AbortSignalLike,
+  ServiceClientCredentials
 } from "@azure/core-http";
+import { KeyCredential } from "@azure/core-auth";
 import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
 import { createSpan } from "./tracing";
@@ -24,9 +25,8 @@ import {
   FormRecognizerClientAnalyzeWithCustomModelResponse as AnalyzeWithCustomModelResponseModel,
   FormRecognizerClientAnalyzeLayoutAsyncResponse as AnalyzeLayoutAsyncResponseModel,
   FormRecognizerClientAnalyzeReceiptAsyncResponse as AnalyzeReceiptAsyncResponseModel,
-  ContentType,
+  ContentType
 } from "./generated/models";
-import { FormRecognizerApiKeyCredential } from "./formRecognizerApiKeyCredential";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
 import {
   RecognizePollerClient,
@@ -48,10 +48,9 @@ import {
   toReceiptResultResponse
 } from "./transforms";
 import { FormTrainingClient } from "./formTrainingClient";
+import { createFormRecognizerAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 
-export {
-  ContentType
-};
+export { ContentType };
 
 export { PollOperationState, PollerLike };
 
@@ -212,7 +211,7 @@ export class FormRecognizerClient {
    * @internal
    * @ignore
    */
-  private readonly credential: FormRecognizerApiKeyCredential;
+  private readonly credential: KeyCredential;
 
   /**
    * @internal
@@ -226,20 +225,20 @@ export class FormRecognizerClient {
    *
    * Example usage:
    * ```ts
-   * import { FormRecognizerClient, FormRecognizerApiKeyCredential } from "@azure/ai-form-recognizer";
+   * import { FormRecognizerClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
    *
    * const client = new FormRecognizerClient(
    *    "<service endpoint>",
-   *    new FormRecognizerApiKeyCredential("<api key>")
+   *    new AzureKeyCredential("<api key>")
    * );
    * ```
    * @param {string} endpointUrl The URL to Azure Form Recognizer service endpoint
-   * @param {FormRecognizerApiKeyCredential} credential Used to authenticate requests to the service.
+   * @param {KeyCredential} credential Used to authenticate requests to the service.
    * @param {FormRecognizerClientOptions} [options] Used to configure the FormRecognizer client.
    */
   constructor(
     endpointUrl: string,
-    credential: FormRecognizerApiKeyCredential,
+    credential: KeyCredential,
     options: FormRecognizerClientOptions = {}
   ) {
     this.endpointUrl = endpointUrl;
@@ -256,7 +255,7 @@ export class FormRecognizerClient {
       pipelineOptions.userAgentOptions.userAgentPrefix = libInfo;
     }
 
-    const authPolicy = signingPolicy(credential);
+    const authPolicy = createFormRecognizerAzureKeyCredentialPolicy(credential);
 
     const internalPipelineOptions: InternalPipelineOptions = {
       ...pipelineOptions,
@@ -269,7 +268,19 @@ export class FormRecognizerClient {
     };
 
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-    this.client = new GeneratedClient(credential, this.endpointUrl, pipeline);
+
+    // The contract with the generated client requires a credential, even though it is never used
+    // when a pipeline is provided. Until that contract can be changed, this dummy credential will
+    // throw an error if the client ever attempts to use it.
+    const dummyCredential: ServiceClientCredentials = {
+      signRequest() {
+        throw new Error(
+          "Internal error: Attempted to use credential from service client, but a pipeline was provided."
+        );
+      }
+    };
+
+    this.client = new GeneratedClient(dummyCredential, this.endpointUrl, pipeline);
   }
 
   /**
@@ -293,7 +304,7 @@ export class FormRecognizerClient {
    * const path = "./fw4.pdf";
    * const readStream = fs.createReadStream(path);
    *
-   * const client = new FormRecognizerClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
+   * const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
    * const poller = await client.beginRecognizeContent(readStream, "application/pdf", {
    *   onProgress: (state) => { console.log(`status: ${state.status}`); }
    * });
@@ -341,7 +352,10 @@ export class FormRecognizerClient {
   /**
    * @private
    */
-  private async getRecognizedContent(resultId: string, options?: GetRecognizedContentResultOptions) {
+  private async getRecognizedContent(
+    resultId: string,
+    options?: GetRecognizedContentResultOptions
+  ) {
     const realOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
       "FormRecognizerClient-getRecognizedLayoutResult",
@@ -375,7 +389,7 @@ export class FormRecognizerClient {
    *   const path = "./Invoice_6.pdf";
    *   const readStream = fs.createReadStream(path);
    *
-   *   const client = new FormRecognizerClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
+   *   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
    *   const poller = await client.beginRecognizeForms(modelId, readStream, "application/pdf", {
    *     onProgress: (state) => { console.log(`status: ${state.status}`); }
    *   });
@@ -425,7 +439,9 @@ export class FormRecognizerClient {
     modelId: string,
     documentUrl: string,
     options: BeginRecognizeFormsOptions = {}
-  ): Promise<PollerLike<PollOperationState<RecognizeFormResultResponse>, RecognizeFormResultResponse>> {
+  ): Promise<
+    PollerLike<PollOperationState<RecognizeFormResultResponse>, RecognizeFormResultResponse>
+  > {
     if (!modelId) {
       throw new RangeError("Invalid modelId");
     }
@@ -503,7 +519,7 @@ export class FormRecognizerClient {
    *   const path = "./Invoice_6.pdf";
    *   const readStream = fs.createReadStream(path);
    *
-   *   const client = new FormRecognizerClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
+   *   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
    *   const poller = await client.beginRecognizeLabeledForms(modelId, readStream, "application/pdf", {
    *     onProgress: (state) => { console.log(`status: ${state.status}`); }
    *   });
@@ -576,7 +592,7 @@ export class FormRecognizerClient {
    * const path = "./contoso-allinone.jpg";
    * const readStream = fs.createReadStream(path);
 
-   * const client = new FormRecognizerClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
+   * const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
    * const poller = await client.beginRecognizeReceipts(readStream, "image/jpeg", {
        onProgress: (state) => { console.log(`status: ${state.status}`); }
    * });
@@ -633,7 +649,7 @@ export class FormRecognizerClient {
    *
    * Example usage:
    * ```ts
-   * const client = new FormRecognizerClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
+   * const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
    * const poller = await client.beginRecognizeReceiptsFromUrl(
    *   imageUrl, {
    *     includeTextDetails: true,

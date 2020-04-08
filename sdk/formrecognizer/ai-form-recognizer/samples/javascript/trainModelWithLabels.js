@@ -5,8 +5,8 @@
  * Train Form Recognizer custom models
  */
 
-// const { FormRecognizerClient, FormRecognizerApiKeyCredential } = require("@azure/ai-form-recognizer");
-const { FormRecognizerClient, FormRecognizerApiKeyCredential } = require("../../dist");
+// const { FormRecognizerClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
+const { FormRecognizerClient, AzureKeyCredential } = require("../../dist");
 
 // Load the .env file if it exists
 require("dotenv").config();
@@ -19,7 +19,7 @@ async function main() {
   const apiKey = process.env["COGNITIVE_SERVICE_API_KEY"] || "<api key>";
   const trainingDataSource = process.env["LABELED_DOCUMENT_SOURCE"] || "<url/path to the labeled training documents>";
 
-  const client = new FormRecognizerClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
+  const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
   const trainingClient = client.getFormTrainingClient();
 
   const poller = await trainingClient.beginTrainingWithLabel(trainingDataSource, {

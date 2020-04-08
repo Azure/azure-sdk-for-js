@@ -5,11 +5,12 @@
 
 import {
   createPipelineFromOptions,
-  signingPolicy,
   InternalPipelineOptions,
   operationOptionsToRequestOptionsBase,
-  RestResponse
+  RestResponse,
+  ServiceClientCredentials
 } from "@azure/core-http";
+import { KeyCredential } from "@azure/core-auth";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
@@ -21,14 +22,11 @@ import {
   Model,
   ModelInfo
 } from "./generated/models";
-import { FormRecognizerApiKeyCredential } from "./formRecognizerApiKeyCredential";
 import { TrainPollerClient, BeginTrainingPoller, BeginTrainingPollState } from "./lro/train/poller";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
-import { FormRecognizerClientOptions, FormRecognizerOperationOptions } from './common';
-import {
-  LabeledFormModelResponse,
-  FormModelResponse
-} from "./models";
+import { FormRecognizerClientOptions, FormRecognizerOperationOptions } from "./common";
+import { LabeledFormModelResponse, FormModelResponse } from "./models";
+import { createFormRecognizerAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 
 export { ListModelsResponseModel, Model, ModelInfo, RestResponse };
 /**
@@ -83,7 +81,6 @@ export type BeginTrainingWithLabelsOptions = FormRecognizerOperationOptions & {
   includeSubFolders?: boolean;
 };
 
-
 /**
  * Client class for Form training operations and Form model management.
  */
@@ -105,20 +102,20 @@ export class FormTrainingClient {
    *
    * Example usage:
    * ```ts
-   * import {FormTrainingClient, FormRecognizerApiKeyCredential } from "@azure/ai-form-recognizer";
+   * import {FormTrainingClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
    *
    * const client = new FormTrainingClient(
    *    "<service endpoint>",
-   *    new FormRecognizerApiKeyCredential("<api key>")
+   *    new AzureKeyCredential("<api key>")
    * );
    * ```
    * @param {string} endpointUrl The URL to Azure Form Recognizer service endpoint
-   * @param {FormRecognizerApiKeyCredential} credential Used to authenticate requests to the service.
+   * @param {AzureKeyCredential} credential Used to authenticate requests to the service.
    * @param {FormRecognizerClientOptions} [options] Used to configure the client.
    */
   constructor(
     endpointUrl: string,
-    credential: FormRecognizerApiKeyCredential,
+    credential: KeyCredential,
     options: FormRecognizerClientOptions = {}
   ) {
     this.endpointUrl = endpointUrl;
@@ -134,7 +131,7 @@ export class FormTrainingClient {
       pipelineOptions.userAgentOptions.userAgentPrefix = libInfo;
     }
 
-    const authPolicy = signingPolicy(credential);
+    const authPolicy = createFormRecognizerAzureKeyCredentialPolicy(credential);
 
     const internalPipelineOptions: InternalPipelineOptions = {
       ...pipelineOptions,
@@ -147,9 +144,21 @@ export class FormTrainingClient {
     };
 
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-    this.client = new GeneratedClient(credential, this.endpointUrl, pipeline);
+
+    // The contract with the generated client requires a credential, even though it is never used
+    // when a pipeline is provided. Until that contract can be changed, this dummy credential will
+    // throw an error if the client ever attempts to use it.
+    const dummyCredential: ServiceClientCredentials = {
+      signRequest() {
+        throw new Error(
+          "Internal error: Attempted to use credential from service client, but a pipeline was provided."
+        );
+      }
+    };
+
+    this.client = new GeneratedClient(dummyCredential, this.endpointUrl, pipeline);
   }
-   /**
+  /**
    * Retrieves summary information about the cognitive service account
    *
    * @param {GetSummaryOptions} options Options to GetSummary operation
@@ -318,7 +327,7 @@ export class FormTrainingClient {
    * Example using `for await` syntax:
    *
    * ```js
-   * const client = new FormTrainingClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
+   * const client = new FormTrainingClient(endpoint, new AzureKeyCredential(apiKey));
    * const result = client.listModels();
    * let i = 1;
    * for await (const model of result) {
@@ -434,7 +443,7 @@ export class FormTrainingClient {
    * Example usage:
    * ```ts
    *   const dataSourceUri = process.env["DOCUMENT_SOURCE"] || "<url/path to the training documents>";
-   *   const client = new FormTrainingClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
+   *   const client = new FormTrainingClient(endpoint, new AzureKeyCredential(apiKey));
    *
    *   const poller = await client.beginTraining(dataSourceUri, {
    *     onProgress: (state) => { console.log(`training status: ${state.status}`); }
@@ -484,7 +493,7 @@ export class FormTrainingClient {
    * Example usage:
    * ```ts
    *   const dataSourceUri = process.env["DOCUMENT_SOURCE"] || "<url/path to the training documents>";
-   *   const client = new FormTrainingClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
+   *   const client = new FormTrainingClient(endpoint, new AzureKeyCredential(apiKey));
    *
    *   const poller = await client.beginTrainingWithLabel(dataSourceUri, {
    *     onProgress: (state) => { console.log(`training status: ${state.status}`); }
@@ -538,14 +547,14 @@ async function trainCustomModelInternal(
   );
 
   try {
-      const requestBody = {
-          source: source,
-          sourceFilter: {
-              prefix: realOptions.prefix,
-              includeSubFolders: realOptions.includeSubFolders
-          },
-          useLabelFile
-      };
+    const requestBody = {
+      source: source,
+      sourceFilter: {
+        prefix: realOptions.prefix,
+        includeSubFolders: realOptions.includeSubFolders
+      },
+      useLabelFile
+    };
     return await client.trainCustomModelAsync(
       requestBody,
       operationOptionsToRequestOptionsBase(finalOptions)

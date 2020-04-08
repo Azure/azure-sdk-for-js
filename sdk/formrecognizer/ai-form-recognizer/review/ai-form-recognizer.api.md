@@ -5,15 +5,15 @@
 ```ts
 
 import { AbortSignalLike } from '@azure/core-http';
+import { AzureKeyCredential } from '@azure/core-auth';
 import * as coreHttp from '@azure/core-http';
+import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 import { RestResponse } from '@azure/core-http';
-import { ServiceClientCredentials } from '@azure/core-http';
-import { WebResource } from '@azure/core-http';
 
 // @public
 export interface AnalyzeOperationResultModel {
@@ -31,6 +31,8 @@ export interface ArrayFieldValue {
     // (undocumented)
     value?: FieldValue[];
 }
+
+export { AzureKeyCredential }
 
 // @public
 export type BeginRecognizeContentOptions = RecognizeContentOptions & {
@@ -173,15 +175,8 @@ export interface FormPageRange {
 export type FormPollerLike = PollerLike<PollOperationState<RecognizeFormResultResponse>, RecognizeFormResultResponse>;
 
 // @public
-export class FormRecognizerApiKeyCredential implements ServiceClientCredentials {
-    constructor(apiKey: string);
-    signRequest(webResource: WebResource): Promise<WebResource>;
-    updateKey(apiKey: string): void;
-}
-
-// @public
 export class FormRecognizerClient {
-    constructor(endpointUrl: string, credential: FormRecognizerApiKeyCredential, options?: FormRecognizerClientOptions);
+    constructor(endpointUrl: string, credential: KeyCredential, options?: FormRecognizerClientOptions);
     beginRecognizeContent(source: FormRecognizerRequestBody, contentType?: ContentType, options?: BeginRecognizeContentOptions): Promise<ContentPollerLike>;
     // (undocumented)
     beginRecognizeContentFromUrl(documentUrl: string, options?: BeginRecognizeContentOptions): Promise<ContentPollerLike>;
@@ -251,7 +246,7 @@ export interface FormText {
 
 // @public
 export class FormTrainingClient {
-    constructor(endpointUrl: string, credential: FormRecognizerApiKeyCredential, options?: FormRecognizerClientOptions);
+    constructor(endpointUrl: string, credential: KeyCredential, options?: FormRecognizerClientOptions);
     beginTraining(source: string, options?: BeginTrainingOptions<FormModelResponse>): Promise<PollerLike<PollOperationState<FormModelResponse>, FormModelResponse>>;
     beginTrainingWithLabel(source: string, options?: BeginTrainingOptions<LabeledFormModelResponse>): Promise<PollerLike<PollOperationState<LabeledFormModelResponse>, LabeledFormModelResponse>>;
     deleteModel(modelId: string, options?: DeleteModelOptions): Promise<RestResponse>;
@@ -657,8 +652,8 @@ export type TrainStatus = "succeeded" | "partiallySucceeded" | "failed";
 
 // Warnings were encountered during analysis:
 //
-// src/formRecognizerClient.ts:74:3 - (ae-forgotten-export) The symbol "BeginRecognizePollState" needs to be exported by the entry point index.d.ts
-// src/formTrainingClient.ts:74:3 - (ae-forgotten-export) The symbol "BeginTrainingPollState" needs to be exported by the entry point index.d.ts
+// src/formRecognizerClient.ts:73:3 - (ae-forgotten-export) The symbol "BeginRecognizePollState" needs to be exported by the entry point index.d.ts
+// src/formTrainingClient.ts:72:3 - (ae-forgotten-export) The symbol "BeginTrainingPollState" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

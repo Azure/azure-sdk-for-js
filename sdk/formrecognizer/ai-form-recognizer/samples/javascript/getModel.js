@@ -5,7 +5,7 @@
  * Get Model
  */
 
-const { FormTrainingClient, FormRecognizerApiKeyCredential } = require("../../dist");
+const { FormTrainingClient, AzureKeyCredential } = require("../../dist");
 const fs = require("fs");
 
 // Load the .env file if it exists
@@ -19,7 +19,7 @@ async function main() {
   const apiKey = process.env["COGNITIVE_SERVICE_API_KEY"] || "<api key>";
   const modelId = process.env["CUSTOM_FORM_MODEL_ID"] || "<model id>";
 
-  const client = new FormTrainingClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
+  const client = new FormTrainingClient(endpoint, new AzureKeyCredential(apiKey));
   const result = await client.getModel(modelId);
   console.dir(result, { depth: 4 });
 }

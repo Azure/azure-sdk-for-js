@@ -5,8 +5,8 @@
  * Recognize Layout
  */
 
-//import { FormRecognizerClient, FormRecognizerApiKeyCredential } from "@azure/ai-form-recognizer";
-import { FormRecognizerClient, FormRecognizerApiKeyCredential } from "../../../src/index";
+//import { FormRecognizerClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
+import { FormRecognizerClient, AzureKeyCredential } from "../../../src/index";
 import * as fs from "fs";
 
 // Load the .env file if it exists
@@ -24,7 +24,7 @@ async function main() {
 
   const readStream = fs.createReadStream(path);
 
-  const client = new FormRecognizerClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
+  const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
   const poller = await client.beginRecognizeContent(readStream, "application/pdf", {
     onProgress: (state) => { console.log(`status: ${state.status}`); }
   });
