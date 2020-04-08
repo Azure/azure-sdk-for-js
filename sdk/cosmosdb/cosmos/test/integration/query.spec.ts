@@ -59,7 +59,7 @@ describe("Test Query Metrics", function() {
     );
     const createdContainer = database.container(createdCollectionDef.id);
 
-    await createdContainer.items.create(document);
+    await createdContainer.items.create(doc);
     const query = "SELECT * from " + collectionId;
     const queryOptions: FeedOptions = { populateQueryMetrics: true };
     const queryIterator = createdContainer.items.query(query, queryOptions);
