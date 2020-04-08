@@ -5,7 +5,6 @@ import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import Long from "long";
 import {
-  delay,
   MessagingError,
   ServiceBusClient,
   Receiver,
@@ -14,7 +13,7 @@ import {
 } from "../src";
 import { Sender } from "../src/sender";
 import { getReceiverClosedErrorMsg } from "../src/util/errors";
-import { TestClientType, TestMessage, isMessagingError } from "./utils/testUtils";
+import { TestClientType, TestMessage, isMessagingError, checkWithTimeout } from "./utils/testUtils";
 import { DispositionType, ReceivedMessageWithLock } from "../src/serviceBusMessage";
 
 const should = chai.should();
@@ -133,21 +132,24 @@ describe("Errors with non existing Namespace #RunInBrowser", function(): void {
       }
     });
 
-    await delay(3000);
+    should.equal(
+      await checkWithTimeout(() => errorWasThrown === true, 10, 3000),
+      true,
+      "Error thrown flag must be true"
+    );
     await receiver.close();
-    should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 });
 
 describe("Errors with non existing Queue/Topic/Subscription", async function(): Promise<void> {
-  let sbClient: ServiceBusClient;
+  let sbClient: ServiceBusClientForTests;
   let errorWasThrown: boolean;
   beforeEach(() => {
     sbClient = createServiceBusClientForTests();
     errorWasThrown = false;
   });
   afterEach(() => {
-    return sbClient.close();
+    return sbClient.test.afterEach();
   });
 
   const testError = (err: Error | MessagingError, entityPath: string): void => {
@@ -232,9 +234,13 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
         testError(err, "some-name");
       }
     });
-    await delay(3000);
+
+    should.equal(
+      await checkWithTimeout(() => errorWasThrown === true, 10, 3000),
+      true,
+      "Error thrown flag must be true"
+    );
     await receiver.close();
-    should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
   it("throws error when receiving streaming data from a non existing subscription", async function(): Promise<
@@ -253,9 +259,13 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
         testError(err, "some-topic-name/Subscriptions/some-subscription-name");
       }
     });
-    await delay(3000);
+
+    should.equal(
+      await checkWithTimeout(() => errorWasThrown === true, 10, 3000),
+      true,
+      "Error thrown flag must be true"
+    );
     await receiver.close();
-    should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 });
 
@@ -371,7 +381,9 @@ describe("Errors after close()", function(): void {
     sbClient = createServiceBusClientForTests();
     entityName = await sbClient.test.createTestEntities(entityType);
 
-    sender = sbClient.createSender(entityName.queue ?? entityName.topic!);
+    sender = sbClient.test.addToCleanup(
+      sbClient.createSender(entityName.queue ?? entityName.topic!)
+    );
     receiver = sbClient.test.getPeekLockReceiver(entityName);
 
     // Normal send/receive
@@ -383,9 +395,8 @@ describe("Errors after close()", function(): void {
     should.equal(receivedMsgs.length, 1, "Unexpected number of messages received");
     receivedMessage = receivedMsgs[0];
 
-    subscriptionClient = sbClient.getSubscriptionRuleManager(
-      entityName.topic!,
-      entityName.subscription!
+    subscriptionClient = sbClient.test.addToCleanup(
+      sbClient.getSubscriptionRuleManager(entityName.topic!, entityName.subscription!)
     );
 
     // close(), so that we can then test the resulting error.
