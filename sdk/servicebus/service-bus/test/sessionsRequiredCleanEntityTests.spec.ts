@@ -36,7 +36,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
     });
 
     sender = serviceBusClient.test.addToCleanup(
-      serviceBusClient.getSender(entityNames.queue ?? entityNames.topic!)
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
 
     // Observation -
@@ -49,9 +49,9 @@ describe("sessions tests -  requires completely clean entity for each test", () 
     // Hence, commenting the following code since there is no need to purge/peek into a freshly created entity
 
     // await purge(receiverClient);
-    // const peekedMsgs = await receiverClient.diagnostics.peek();
+    // const browsedMsgs = await receiverClient.browseMessages();
     // const receiverEntityType = receiverClient.entityType;
-    // if (peekedMsgs.length) {
+    // if (browsedMsgs.length) {
     //   chai.assert.fail(`Please use an empty ${receiverEntityType} for integration testing`);
     // }
   }
@@ -87,17 +87,17 @@ describe("sessions tests -  requires completely clean entity for each test", () 
       });
 
       // At this point AMQP receiver link has not been established.
-      // peek() will not establish the link if sessionId was provided
-      const peekedMsgs = await receiver.diagnostics.peek(1);
-      should.equal(peekedMsgs.length, 1, "Unexpected number of messages peeked");
-      should.equal(peekedMsgs[0].body, testMessage.body, "MessageBody is different than expected");
+      // browseMessages() will not establish the link if sessionId was provided
+      const browsedMsgs = await receiver.browseMessages();
+      should.equal(browsedMsgs.length, 1, "Unexpected number of messages browsed");
+      should.equal(browsedMsgs[0].body, testMessage.body, "MessageBody is different than expected");
       should.equal(
-        peekedMsgs[0].messageId,
+        browsedMsgs[0].messageId,
         testMessage.messageId,
         "MessageId is different than expected"
       );
       should.equal(
-        peekedMsgs[0].sessionId,
+        browsedMsgs[0].sessionId,
         testMessage.sessionId,
         "SessionId is different than expected"
       );
@@ -289,8 +289,8 @@ describe("sessions tests -  requires completely clean entity for each test", () 
       );
       await msgs[0].complete();
 
-      const peekedMsgsInSession = await receiver.diagnostics.peek();
-      should.equal(peekedMsgsInSession.length, 0, "Unexpected number of messages peeked");
+      const browsedMsgsInSession = await receiver.browseMessages();
+      should.equal(browsedMsgsInSession.length, 0, "Unexpected number of messages browsed");
 
       await receiver.close();
     }

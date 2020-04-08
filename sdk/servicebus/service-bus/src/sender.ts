@@ -15,6 +15,8 @@ import {
 } from "./util/errors";
 import { ServiceBusMessageBatch } from "./serviceBusMessageBatch";
 import { CreateBatchOptions } from "./models";
+import { retry, RetryOperationType, RetryConfig, RetryOptions } from "@azure/core-amqp";
+import { OperationOptions } from "./modelsToBeSharedWithEventHubs";
 
 /**
  * A Sender can be used to send messages, schedule messages to be sent at a later time
@@ -30,11 +32,12 @@ export interface Sender {
    * and/or `partitionKey` properties respectively on the message.
    *
    * @param message - Message to send.
+   * @param options - Options bag to pass an abort signal or tracing options.
    * @returns Promise<void>
    * @throws Error if the underlying connection, client or sender is closed.
    * @throws MessagingError if the service returns an error while sending messages to the service.
    */
-  send(message: ServiceBusMessage): Promise<void>;
+  send(message: ServiceBusMessage, options?: OperationOptions): Promise<void>;
 
   // sendBatch(<Array of messages>) - Commented
   // /**
@@ -72,12 +75,13 @@ export interface Sender {
    * Sends a batch of messages to the associated service-bus entity.
    *
    * @param {ServiceBusMessageBatch} messageBatch A batch of messages that you can create using the {@link createBatch} method.
+   * @param options - Options bag to pass an abort signal or tracing options.
    * @returns {Promise<void>}
    * @throws MessagingError if an error is encountered while sending a message.
    * @throws Error if the underlying connection or sender has been closed.
    * @memberof Sender
    */
-  sendBatch(messageBatch: ServiceBusMessageBatch): Promise<void>;
+  sendBatch(messageBatch: ServiceBusMessageBatch, options?: OperationOptions): Promise<void>;
 
   /**
    * @property Returns `true` if either the sender or the client that created it has been closed
@@ -89,6 +93,7 @@ export interface Sender {
    *
    * @param scheduledEnqueueTimeUtc - The UTC time at which the message should be enqueued.
    * @param message - The message that needs to be scheduled.
+   * @param options - Options bag to pass an abort signal or tracing options.
    * @returns Promise<Long> - The sequence number of the message that was scheduled.
    * You will need the sequence number if you intend to cancel the scheduling of the message.
    * Save the `Long` type as-is in your application without converting to number. Since JavaScript
@@ -96,13 +101,18 @@ export interface Sender {
    * @throws Error if the underlying connection, client or sender is closed.
    * @throws MessagingError if the service returns an error while scheduling a message.
    */
-  scheduleMessage(scheduledEnqueueTimeUtc: Date, message: ServiceBusMessage): Promise<Long>;
+  scheduleMessage(
+    scheduledEnqueueTimeUtc: Date,
+    message: ServiceBusMessage,
+    options?: OperationOptions
+  ): Promise<Long>;
 
   /**
    * Schedules given messages to appear on Service Bus Queue/Subscription at a later time.
    *
    * @param scheduledEnqueueTimeUtc - The UTC time at which the messages should be enqueued.
    * @param messages - Array of Messages that need to be scheduled.
+   * @param options - Options bag to pass an abort signal or tracing options.
    * @returns Promise<Long[]> - The sequence numbers of messages that were scheduled.
    * You will need the sequence number if you intend to cancel the scheduling of the messages.
    * Save the `Long` type as-is in your application without converting to number. Since JavaScript
@@ -110,24 +120,30 @@ export interface Sender {
    * @throws Error if the underlying connection, client or sender is closed.
    * @throws MessagingError if the service returns an error while scheduling messages.
    */
-  scheduleMessages(scheduledEnqueueTimeUtc: Date, messages: ServiceBusMessage[]): Promise<Long[]>;
+  scheduleMessages(
+    scheduledEnqueueTimeUtc: Date,
+    messages: ServiceBusMessage[],
+    options?: OperationOptions
+  ): Promise<Long[]>;
 
   /**
    * Cancels a message that was scheduled to appear on a ServiceBus Queue/Subscription.
    * @param sequenceNumber - The sequence number of the message to be cancelled.
+   * @param options - Options bag to pass an abort signal or tracing options.
    * @returns Promise<void>
    * @throws Error if the underlying connection, client or sender is closed.
    * @throws MessagingError if the service returns an error while canceling a scheduled message.
    */
-  cancelScheduledMessage(sequenceNumber: Long): Promise<void>;
+  cancelScheduledMessage(sequenceNumber: Long, options?: OperationOptions): Promise<void>;
   /**
    * Cancels multiple messages that were scheduled to appear on a ServiceBus Queue/Subscription.
    * @param sequenceNumbers - An Array of sequence numbers of the messages to be cancelled.
+   * @param options - Options bag to pass an abort signal or tracing options.
    * @returns Promise<void>
    * @throws Error if the underlying connection, client or sender is closed.
    * @throws MessagingError if the service returns an error while canceling scheduled messages.
    */
-  cancelScheduledMessages(sequenceNumbers: Long[]): Promise<void>;
+  cancelScheduledMessages(sequenceNumbers: Long[], options?: OperationOptions): Promise<void>;
 
   /**
    * Closes the underlying AMQP sender link.
@@ -139,11 +155,18 @@ export interface Sender {
   close(): Promise<void>;
 }
 
+/**
+ * @internal
+ * @ignore
+ * @class SenderImpl
+ * @implements {Sender}
+ */
 export class SenderImpl implements Sender {
   /**
    * @property Describes the amqp connection context for the Client.
    */
   private _context: ClientEntityContext;
+  private _retryOptions: RetryOptions;
   /**
    * @property Denotes if close() was called on this sender
    */
@@ -154,10 +177,11 @@ export class SenderImpl implements Sender {
    * @internal
    * @throws Error if the underlying connection is closed.
    */
-  constructor(context: ClientEntityContext) {
+  constructor(context: ClientEntityContext, retryOptions: RetryOptions = {}) {
     throwErrorIfConnectionClosed(context.namespace);
     this._context = context;
-    this._sender = MessageSender.create(this._context);
+    this._sender = MessageSender.create(this._context, retryOptions);
+    this._retryOptions = retryOptions;
   }
 
   private _throwIfSenderOrConnectionClosed(): void {
@@ -165,7 +189,6 @@ export class SenderImpl implements Sender {
     if (this.isClosed) {
       const errorMessage = getSenderClosedErrorMsg(
         this._context.entityPath,
-        this._context.clientType,
         this._context.isClosed
       );
       const error = new Error(errorMessage);
@@ -178,35 +201,25 @@ export class SenderImpl implements Sender {
     return this._isClosed || this._context.isClosed;
   }
 
-  async send(message: ServiceBusMessage): Promise<void> {
+  async send(message: ServiceBusMessage, options?: OperationOptions): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
     throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "message", message);
-    return this._sender.send(message);
+    return this._sender.send(message, options);
   }
-
-  // sendBatch(<Array of messages>) - Commented
-  // async sendBatch(messages: ServiceBusMessage[]): Promise<void> {
-  //   this._throwIfSenderOrConnectionClosed();
-  //   throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "messages", messages);
-  //   if (!Array.isArray(messages)) {
-  //     messages = [messages];
-  //   }
-  //   return this._sender.sendBatch(messages);
-  // }
 
   async createBatch(options?: CreateBatchOptions): Promise<ServiceBusMessageBatch> {
     this._throwIfSenderOrConnectionClosed();
     return this._sender.createBatch(options);
   }
 
-  async sendBatch(messageBatch: ServiceBusMessageBatch): Promise<void> {
+  async sendBatch(messageBatch: ServiceBusMessageBatch, options?: OperationOptions): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
     throwTypeErrorIfParameterMissing(
       this._context.namespace.connectionId,
       "messageBatch",
       messageBatch
     );
-    return this._sender.sendBatch(messageBatch);
+    return this._sender.sendBatch(messageBatch, options);
   }
 
   /**
@@ -214,6 +227,7 @@ export class SenderImpl implements Sender {
    *
    * @param scheduledEnqueueTimeUtc - The UTC time at which the message should be enqueued.
    * @param message - The message that needs to be scheduled.
+   * @param options - Options bag to pass an abort signal or tracing options.
    * @returns Promise<Long> - The sequence number of the message that was scheduled.
    * You will need the sequence number if you intend to cancel the scheduling of the message.
    * Save the `Long` type as-is in your application without converting to number. Since JavaScript
@@ -221,7 +235,11 @@ export class SenderImpl implements Sender {
    * @throws Error if the underlying connection, client or sender is closed.
    * @throws MessagingError if the service returns an error while scheduling a message.
    */
-  async scheduleMessage(scheduledEnqueueTimeUtc: Date, message: ServiceBusMessage): Promise<Long> {
+  async scheduleMessage(
+    scheduledEnqueueTimeUtc: Date,
+    message: ServiceBusMessage,
+    options: OperationOptions = {}
+  ): Promise<Long> {
     this._throwIfSenderOrConnectionClosed();
     throwTypeErrorIfParameterMissing(
       this._context.namespace.connectionId,
@@ -230,17 +248,33 @@ export class SenderImpl implements Sender {
     );
     throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "message", message);
 
-    const messages = [message];
-    const result = await this._context.managementClient!.scheduleMessages(
-      scheduledEnqueueTimeUtc,
-      messages
-    );
-    return result[0];
+    const scheduleMessageOperationPromise = async () => {
+      const result = await this._context.managementClient!.scheduleMessages(
+        scheduledEnqueueTimeUtc,
+        [message],
+        {
+          ...options,
+          requestName: "scheduleMessage",
+          timeoutInMs: this._retryOptions.timeoutInMs
+        }
+      );
+      return result[0];
+    };
+
+    const config: RetryConfig<Long> = {
+      operation: scheduleMessageOperationPromise,
+      connectionId: this._context.namespace.connectionId,
+      operationType: RetryOperationType.management,
+      retryOptions: this._retryOptions,
+      abortSignal: options?.abortSignal
+    };
+    return retry<Long>(config);
   }
 
   async scheduleMessages(
     scheduledEnqueueTimeUtc: Date,
-    messages: ServiceBusMessage[]
+    messages: ServiceBusMessage[],
+    options: OperationOptions = {}
   ): Promise<Long[]> {
     this._throwIfSenderOrConnectionClosed();
     throwTypeErrorIfParameterMissing(
@@ -253,10 +287,27 @@ export class SenderImpl implements Sender {
       messages = [messages];
     }
 
-    return this._context.managementClient!.scheduleMessages(scheduledEnqueueTimeUtc, messages);
+    const scheduleMessageOperationPromise = async () => {
+      return this._context.managementClient!.scheduleMessages(scheduledEnqueueTimeUtc, messages, {
+        ...options,
+        requestName: "scheduleMessages",
+        timeoutInMs: this._retryOptions.timeoutInMs
+      });
+    };
+    const config: RetryConfig<Long[]> = {
+      operation: scheduleMessageOperationPromise,
+      connectionId: this._context.namespace.connectionId,
+      operationType: RetryOperationType.management,
+      retryOptions: this._retryOptions,
+      abortSignal: options?.abortSignal
+    };
+    return retry<Long[]>(config);
   }
 
-  async cancelScheduledMessage(sequenceNumber: Long): Promise<void> {
+  async cancelScheduledMessage(
+    sequenceNumber: Long,
+    options: OperationOptions = {}
+  ): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
     throwTypeErrorIfParameterMissing(
       this._context.namespace.connectionId,
@@ -269,10 +320,27 @@ export class SenderImpl implements Sender {
       sequenceNumber
     );
 
-    return this._context.managementClient!.cancelScheduledMessages([sequenceNumber]);
+    const cancelSchedulesMessagesOperationPromise = async () => {
+      return this._context.managementClient!.cancelScheduledMessages([sequenceNumber], {
+        ...options,
+        requestName: "cancelScheduledMessage",
+        timeoutInMs: this._retryOptions.timeoutInMs
+      });
+    };
+    const config: RetryConfig<void> = {
+      operation: cancelSchedulesMessagesOperationPromise,
+      connectionId: this._context.namespace.connectionId,
+      operationType: RetryOperationType.management,
+      retryOptions: this._retryOptions,
+      abortSignal: options?.abortSignal
+    };
+    return retry<void>(config);
   }
 
-  async cancelScheduledMessages(sequenceNumbers: Long[]): Promise<void> {
+  async cancelScheduledMessages(
+    sequenceNumbers: Long[],
+    options: OperationOptions = {}
+  ): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
     throwTypeErrorIfParameterMissing(
       this._context.namespace.connectionId,
@@ -288,7 +356,21 @@ export class SenderImpl implements Sender {
       sequenceNumbers
     );
 
-    return this._context.managementClient!.cancelScheduledMessages(sequenceNumbers);
+    const cancelSchedulesMessagesOperationPromise = async () => {
+      return this._context.managementClient!.cancelScheduledMessages(sequenceNumbers, {
+        ...options,
+        requestName: "cancelScheduledMessages",
+        timeoutInMs: this._retryOptions.timeoutInMs
+      });
+    };
+    const config: RetryConfig<void> = {
+      operation: cancelSchedulesMessagesOperationPromise,
+      connectionId: this._context.namespace.connectionId,
+      operationType: RetryOperationType.management,
+      retryOptions: this._retryOptions,
+      abortSignal: options?.abortSignal
+    };
+    return retry<void>(config);
   }
 
   async close(): Promise<void> {

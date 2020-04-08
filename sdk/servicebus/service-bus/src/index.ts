@@ -8,7 +8,6 @@ export { ServiceBusClientOptions } from "./constructorHelpers";
 export {
   TokenType,
   TokenCredential,
-  DataTransformer,
   delay,
   MessagingError,
   RetryOptions,
@@ -31,14 +30,16 @@ export { Delivery, WebSocketImpl } from "rhea-promise";
 
 export {
   GetMessageIteratorOptions,
-  GetSessionReceiverOptions,
+  CreateSessionReceiverOptions,
   MessageHandlerOptions,
   MessageHandlers,
   ReceiveBatchOptions,
   SubscribeOptions,
   WaitTimeOptions,
-  CreateBatchOptions
+  CreateBatchOptions,
+  BrowseMessagesOptions
 } from "./models";
+export { OperationOptions, TracingOptions } from "./modelsToBeSharedWithEventHubs";
 
 export { Receiver } from "./receivers/receiver";
 export { SubscriptionRuleManager } from "./receivers/subscriptionRuleManager";

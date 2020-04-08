@@ -1,14 +1,6 @@
----
-page_type: sample
-languages:
-  - javascript
-products:
-  - azure
-  - azure-service-bus
-urlFragment: service-bus-javascript
----
-
 # Azure Service Bus client library samples for JavaScript
+
+**NOTE**: Samples for @azure/service-bus v1.1.x are still available [here](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples)
 
 These sample programs show how to use the JavaScript client libraries for Azure Service Bus in some common scenarios.
 
@@ -19,9 +11,8 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [receiveMessagesLoop.js][receivemessagesloop]                       | uses the receiveMessages() function to receive Service Bus messages in a loop                                           |
 | [scheduledMessages.js][scheduledmessages]                           | uses the scheduleMessage() function to schedule messages to appear on a Service Bus Queue/Subscription at a later time  |
 | [session.js][session]                                               | sends/receives messages to/from session enabled queues/subscriptions in Service Bus                                     |
-| [browseMessages.js][browsemessages]                                 | uses the peek() function to browse a Service Bus                                                                        |
-| [serviceprincipallogin.js][serviceprincipallogin]                   | creates a namespace using aad token credentials obtained from using service principal secrets                           |
-| [interactivelogin.js][interactivelogin]                             | creates a namespace using aad token credentials obtained from interactive login                                         |
+| [browseMessages.js][browsemessages]                                 | uses the browseMessages() function to browse a Service Bus                                                                        |
+| [usingAadAuth.js][usingaadauth]                                     | creates a ServiceBusClient that authenticates using AAD credentials                                                     |
 | [useProxy.js][useproxy]                                             | creates a ServiceBusClient that uses an HTTP(S) proxy server to make requests                                           |
 | [advanced/movingMessagesToDLQ.js][advanced-movingmessagestodlq]     | moves a message explicitly to the dead-letter queue                                                                     |
 | [advanced/deferral.js][advanced-deferral]                           | uses the defer() function to defer a message for later processing                                                       |
@@ -65,21 +56,21 @@ npx cross-env SERVICE_BUS_ENDPOINT="<endpoint>" SERVICE_BUS_CONNECTION_STRING="<
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[interactivelogin]: https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples/javascript/interactiveLogin.js
-[scheduledmessages]: https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples/javascript/scheduledMessages.js
-[receivemessagesstreaming]: https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples/javascript/receiveMessagesStreaming.js
-[session]: https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples/javascript/session.js
-[browsemessages]: https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples/javascript/browseMessages.js
-[useproxy]: https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples/javascript/useProxy.js
-[receivemessagesloop]: https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples/javascript/receiveMessagesLoop.js
-[advanced-movingmessagestodlq]: https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples/javascript/advanced/movingMessagesToDLQ.js
-[advanced-deferral]: https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples/javascript/advanced/deferral.js
-[advanced-processmessagefromdlq]: https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples/javascript/advanced/processMessageFromDLQ.js
-[advanced-sessionstate]: https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples/javascript/advanced/sessionState.js
-[advanced-topicfilters]: https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples/javascript/advanced/topicFilters.js
-[sendmessages]: https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples/javascript/sendMessages.js
-[serviceprincipallogin]: https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples/javascript/servicePrincipalLogin.js
+[interactivelogin]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/javascript/interactiveLogin.js
+[scheduledmessages]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/javascript/scheduledMessages.js
+[receivemessagesstreaming]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/javascript/receiveMessagesStreaming.js
+[session]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/javascript/session.js
+[browsemessages]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/javascript/browseMessages.js
+[useproxy]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/javascript/useProxy.js
+[receivemessagesloop]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/javascript/receiveMessagesLoop.js
+[advanced-movingmessagestodlq]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/javascript/advanced/movingMessagesToDLQ.js
+[advanced-deferral]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/javascript/advanced/deferral.js
+[advanced-processmessagefromdlq]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/javascript/advanced/processMessageFromDLQ.js
+[advanced-sessionstate]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/javascript/advanced/sessionState.js
+[advanced-topicfilters]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/javascript/advanced/topicFilters.js
+[sendmessages]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/javascript/sendMessages.js
+[serviceprincipallogin]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/javascript/servicePrincipalLogin.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/service-bus
 [azsvcbus]: https://docs.microsoft.com/azure/service-bus-messaging/service-bus-create-namespace-portal
 [freesub]: https://azure.microsoft.com/free/
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/README.md

@@ -5,8 +5,7 @@ import * as assert from "assert";
 import { SecretClient } from "../src";
 import { isNode } from "@azure/core-http";
 import { testPollerProperties } from "./utils/recorderUtils";
-import { retry } from "./utils/recorderUtils";
-import { env, isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
+import { env, isPlaybackMode, Recorder, delay, isRecordMode } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { assertThrowsAbortError } from "./utils/utils.common";
@@ -132,18 +131,35 @@ describe("Secret client - restore secrets and recover backups", () => {
     assert.equal(error.message, `Secret not found: ${secretName}`);
   });
 
-  it("can restore a secret", async function() {
-    const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
-    );
-    await client.setSecret(secretName, "RSA");
-    const backup = await client.backupSecret(secretName);
-    await testClient.flushSecret(secretName);
-    await retry(async () => client.restoreSecretBackup(backup as Uint8Array));
-    const getResult = await client.getSecret(secretName);
-    assert.equal(getResult.name, secretName, "Unexpected secret name in result from getSecret().");
-    await testClient.flushSecret(secretName);
-  });
+  if (isRecordMode() || isPlaybackMode()) {
+    // This test can't run live,
+    // since the purge operation currently can't be expected to finish anytime soon.
+    it("can restore a secret", async function() {
+      const secretName = testClient.formatName(
+        `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+      );
+      await client.setSecret(secretName, "RSA");
+      const backup = await client.backupSecret(secretName);
+      await testClient.flushSecret(secretName);
+      while (true) {
+        try {
+          await client.restoreSecretBackup(backup as Uint8Array);
+          break;
+        } catch (e) {
+          console.log("Can't restore the secret since it's not fully deleted:", e.message);
+          console.log("Retrying in one second...");
+          await delay(1000);
+        }
+      }
+      const getResult = await client.getSecret(secretName);
+      assert.equal(
+        getResult.name,
+        secretName,
+        "Unexpected secret name in result from getSecret()."
+      );
+      await testClient.flushSecret(secretName);
+    });
+  }
 
   it("can restore a secret (Malformed Backup Bytes)", async function() {
     const backup = new Uint8Array(4728);

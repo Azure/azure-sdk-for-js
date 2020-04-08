@@ -7,7 +7,6 @@ import { MessageSender } from "./core/messageSender";
 import { ManagementClient, ManagementClientOptions } from "./core/managementClient";
 import { ConnectionContext } from "./connectionContext";
 import { Dictionary, AmqpError } from "rhea-promise";
-import { ClientType } from "./client";
 import { BatchingReceiver } from "./core/batchingReceiver";
 import { ConcurrentExpiringMap } from "./util/concurrentExpiringMap";
 import { MessageReceiver } from "./core/messageReceiver";
@@ -75,12 +74,6 @@ export interface ClientEntityContextBase {
    * receiving messages from multiple message sessions.
    */
   sessionManager?: SessionManager;
-
-  /**
-   * @property {ClientType} [clientType] Type of the client, used mostly for logging
-   */
-  clientType: ClientType;
-
   /**
    * @property {string} [clientId] Unique Id of the client for which this context is created
    */
@@ -119,7 +112,6 @@ export namespace ClientEntityContext {
    */
   export function create(
     entityPath: string,
-    clientType: ClientType,
     context: ConnectionContext,
     clientId: string,
     options?: ClientEntityContextOptions
@@ -134,7 +126,6 @@ export namespace ClientEntityContext {
     const entityContext: ClientEntityContextBase = {
       namespace: context,
       entityPath: entityPath,
-      clientType: clientType,
       clientId: clientId,
       isClosed: false,
       requestResponseLockedMessages: new ConcurrentExpiringMap<string>(),
@@ -350,6 +341,13 @@ export namespace ClientEntityContext {
 }
 
 // Multiple clients for the same Service Bus entity should be using the same management client.
+/**
+ * @internal
+ * @ignore
+ * @param {Dictionary<ClientEntityContext>} clients
+ * @param {string} entityPath
+ * @returns {(ManagementClient | undefined)}
+ */
 function getManagementClient(
   clients: Dictionary<ClientEntityContext>,
   entityPath: string

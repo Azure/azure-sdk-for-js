@@ -438,15 +438,11 @@ export class ManagementClient extends LinkEntity {
             resolve(result);
           } catch (err) {
             err = translate(err);
-            const address =
-              this._mgmtReqResLink || this._mgmtReqResLink!.sender.address
-                ? "address"
-                : this._mgmtReqResLink!.sender.address;
             logger.warning(
               "[%s] An error occurred during send on management request-response link with address " +
                 "'%s': %O",
               this._context.connectionId,
-              address,
+              this.address,
               err
             );
             logErrorStackTrace(err);

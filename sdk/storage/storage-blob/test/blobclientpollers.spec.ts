@@ -45,9 +45,11 @@ describe("BlobClient beginCopyFromURL Poller", () => {
   });
 
   afterEach(async function() {
-    await containerClient.delete();
-    await destinationContainerClient.delete();
-    recorder.stop();
+    if (!this.currentTest?.isPending()) {
+      await containerClient.delete();
+      await destinationContainerClient.delete();
+      recorder.stop();
+    }
   });
 
   it("supports automatic polling via pollUntilDone", async () => {

@@ -1,29 +1,42 @@
-# Azure Service Bus client library for Javascript
+# Azure Service Bus client library for Javascript (Preview)
 
-Azure Service Bus is a highly-reliable cloud messaging service from Microsoft
+[Azure Service Bus](https://azure.microsoft.com/en-us/services/service-bus/) is a highly-reliable cloud messaging service from Microsoft.
 
-Use the client library for Azure Service Bus in your Node.js application to
+Use the client library `@azure/service-bus` in your application to
 
-- Send messages to a Queue or Topic
-- Receive messages from a Queue or Subscription
+- Send messages to an Azure Service Bus Queue or Topic
+- Receive messages from an Azure Service Bus Queue or Subscription
+- Manage Subscription rules
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus) | [Package (npm)](https://www.npmjs.com/package/@azure/service-bus) | [API Reference Documentation](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/5.0.0-preview.1/index.html) | [Product documentation](https://azure.microsoft.com/en-us/services/service-bus/) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples)
+Resources for the v7.0.0-preview.1 of `@azure/service-bus`:
 
-**NOTE**: If you are using version 1.1.x or lower, then please use the below links instead
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus) |
+[Package (npm)](https://www.npmjs.com/package/@azure/service-bus) |
+[API Reference Documentation][apiref] |
+[Product documentation](https://azure.microsoft.com/en-us/services/service-bus/) |
+[Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples)
 
-[Source code for v1.1.5](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus) |
+> **NOTE**: This document has instructions, links and code snippets for the **preview** of the next version of the `@azure/service-bus` package
+> which has different APIs than the stable version. To use the stable version of the library use the below resources.
+
+[Source code or Readme for v1.1.5](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus) |
 [Package for v1.1.5 (npm)](https://www.npmjs.com/package/@azure/service-bus/v/1.1.5) |
+[API Reference Documentation for v1.1.5](https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/?view=azure-node-latest) |
 [Samples for v1.1.5](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples)
+
+We also provide a migration guide for users familiar with the stable package that would like to try the preview: [migration guide to move from Service Bus V1 to Service Bus V7 Preview][migrationguide]
 
 ## Getting Started
 
 ### Install the package
 
-Install the Azure Service Bus client library using npm
+Install the preview version for the Azure Service Bus client library using npm
 
 `npm install @azure/service-bus@next`
 
-**Prerequisites**: You must have an [Azure subscription](https://azure.microsoft.com/free/) and a
+### Prerequisites
+
+You must have an [Azure subscription](https://azure.microsoft.com/free/) and a
 [Service Bus Namespace](https://docs.microsoft.com/en-us/azure/service-bus-messaging/) to use this package.
 If you are using this package in a Node.js application, then use Node.js 8.x or higher.
 
@@ -39,23 +52,25 @@ You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your t
 
 ### Authenticate the client
 
-Interaction with Service Bus starts with an instance of the [ServiceBusClient](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/5.0.0-preview.1/classes/servicebusclient.html) class.
+Interaction with Service Bus starts with an instance of the [ServiceBusClient][sbclient] class.
 
 You can instantiate this class using its constructors:
 
-- [Create using a connection string](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/5.0.0-preview.1/classes/servicebusclient.html#constructor)
+- [Create using a connection string][sbclient_constructor]
   - This method takes the connection string to your Service Bus instance. You can get the connection string
     from the Azure portal.
-- [Create using a TokenCredential](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/5.0.0-preview.1/classes/servicebusclient.html#constructor)
+- [Create using a TokenCredential][sbclient_constructor]
   - This method takes the host name of your Service Bus instance and a credentials object that you need
     to generate using the [@azure/identity](https://www.npmjs.com/package/@azure/identity)
     library. The host name is of the format `name-of-service-bus-instance.servicebus.windows.net`.
 
 ### Key concepts
 
-Once you have initialized the [ServiceBusClient](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/5.0.0-preview.1/classes/servicebusclient.html)
-class, create a sender or receiver based on whether you want to send or receive messages.
-to interact with existing Service Bus entities.
+Once you have initialized the [ServiceBusClient][sbclient] class you will be able to:
+
+- Send messages, to a queue or topic, using a [`Sender`][sender] created using [`ServiceBusClient.createSender()`][sbclient_createSender].
+- Receive messages, from either a queue or a subscription, using a [`Receiver`][receiver] created using [`ServiceBusClient.createReceiver()`][sbclient_createReceiver].
+- Receive messages, from session enabled queues or subscriptions, using a [`SessionReceiver`][sessionreceiver] created using [`ServiceBusClient.createSessionReceiver()`][sbclient_createSessionReceiver].
 
 Please note that the Queues, Topics and Subscriptions should be created prior to using this library.
 
@@ -72,16 +87,15 @@ The following sections provide code snippets that cover some of the common tasks
 ### Send messages
 
 Once you have created an instance of a `ServiceBusClient` class, you can get a `Sender`
-using the [getSender](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/5.0.0-preview.1/classes/servicebusclient.html#getsender) method.
+using the [createSender][sbclient_createSender] method.
 
-This gives you a sender which you can use to [send](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/5.0.0-preview.1/interfaces/sender.html#send)
-messages.
+This gives you a sender which you can use to [send][sender_send] messages.
 
-You can also use the [sendBatch](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/5.0.0-preview.1/interfaces/sender.html#sendbatch)
+You can also use the [sendBatch][sender_sendbatch]
 method to efficiently send multiple messages in a single send.
 
 ```javascript
-const sender = serviceBusClient.getSender("my-queue");
+const sender = serviceBusClient.createSender("my-queue");
 await sender.send({
   body: "my-message-body"
 });
@@ -100,17 +114,17 @@ await sender.sendBatch(batch);
 ### Receive messages
 
 Once you have created an instance of a `ServiceBusClient` class, you can get a `Receiver`
-using the [getReceiver](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/5.0.0-preview.1/classes/servicebusclient.html#getreceiver) function.
+using the [createReceiver][sbclient_createReceiver] function.
 
 ```javascript
-const receiver = serviceBusClient.getReceiver("my-queue", "peekLock");
+const receiver = serviceBusClient.createReceiver("my-queue", "peekLock");
 ```
 
 You can use this receiver in one of 3 ways to receive messages:
 
 #### Get an array of messages
 
-Use the [receiveBatch](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/5.0.0-preview.1/interfaces/receiver.html#receivebatch) function which returns a promise that
+Use the [receiveBatch][receiverreceivebatch] function which returns a promise that
 resolves to an array of messages.
 
 ```javascript
@@ -119,8 +133,8 @@ const myMessages = await receiver.receiveBatch(10);
 
 #### Subscribe using a message handler
 
-Use the [subscribe](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/5.0.0-preview.1/interfaces/receiver.html#subscribe) method
-to set up message handlers and have it running as long as you need.
+Use the [subscribe][receiver_subscribe] method to set up message handlers and have
+it running as long as you need.
 
 When you are done, call `receiver.close()` to stop receiving any more messages.
 
@@ -139,7 +153,7 @@ receiver.subscribe({
 
 #### Use async iterator
 
-Use the [getMessageIterator](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/5.0.0-preview.1/interfaces/receiver.html#getmessageiterator) to get an async iterator over messages
+Use the [getMessageIterator][receiver_getmessageiterator] to get an async iterator over messages
 
 ```javascript
 for await (let message of receiver.getMessageIterator()) {
@@ -158,14 +172,14 @@ To learn more, please read [Settling Received Messages](https://docs.microsoft.c
 
 To send messages using sessions, you first need to create a session enabled Queue or Subscription. You can do this
 in the Azure portal. Then, use an instance of a `ServiceBusClient` to create a sender using the using
-the [getSender](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/5.0.0-preview.1/classes/servicebusclient.html#getsender)
-function. This gives you a sender which you can use to [send](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/5.0.0-preview.1/interfaces/sender.html#send) messages.
+the [createSender][sbclient_createSender]
+function. This gives you a sender which you can use to [send][sender_send] messages.
 
 When sending the message, set the `sessionId` property in the message body to ensure your message
 lands in the right session.
 
 ```javascript
-const sender = serviceBusClient.getSender("my-session-queue");
+const sender = serviceBusClient.createSender("my-session-queue");
 await sender.send({
   body: "my-message-body",
   sessionId: "my-session"
@@ -176,12 +190,12 @@ await sender.send({
 
 To receive messages from sessions, you first need to create a session enabled Queue and send messages
 to it. Then, use an instance of `ServiceBusClient` to create a receiver
-using the [getSessionReceiver](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/5.0.0-preview.1/classes/servicebusclient.html#getsessionreceiver) function.
+using the [createSessionReceiver][sbclient_createSessionReceiver] function.
 
 Note that you will need to specify the session from which you want to receive messages.
 
 ```javascript
-const receiver = serviceBusClient.getSessionReceiver("my-session-queue", "peekLock", {
+const receiver = serviceBusClient.createSessionReceiver("my-session-queue", "peekLock", {
   sessionId: "my-session"
 });
 ```
@@ -228,19 +242,21 @@ export DEBUG=azure:service-bus:error,azure-core-amqp:error,rhea-promise:error,rh
 
 ### Logging to a file
 
-- Set the `DEBUG` environment variable as shown above and then run your test script as follows:
-  - Logging statements from your test script go to `out.log` and logging statements from the sdk go to `debug.log`.
-    ```bash
-    node your-test-script.js > out.log 2>debug.log
-    ```
-  - Logging statements from your test script and the sdk go to the same file `out.log` by redirecting stderr to stdout (&1), and then redirect stdout to a file:
-    ```bash
-    node your-test-script.js >out.log 2>&1
-    ```
-  - Logging statements from your test script and the sdk go to the same file `out.log`.
-    ```bash
-      node your-test-script.js &> out.log
-    ```
+1. Set the `DEBUG` environment variable as shown above
+2. Run your test script as follows:
+
+- Logging statements from your test script go to `out.log` and logging statements from the sdk go to `debug.log`.
+  ```bash
+  node your-test-script.js > out.log 2>debug.log
+  ```
+- Logging statements from your test script and the sdk go to the same file `out.log` by redirecting stderr to stdout (&1), and then redirect stdout to a file:
+  ```bash
+  node your-test-script.js >out.log 2>&1
+  ```
+- Logging statements from your test script and the sdk go to the same file `out.log`.
+  ```bash
+    node your-test-script.js &> out.log
+  ```
 
 ## Next Steps
 
@@ -253,3 +269,19 @@ directory for detailed examples on how to use this library to send and receive m
 If you'd like to contribute to this library, please read the [contributing guide](../../../CONTRIBUTING.md) to learn more about how to build and test the code.
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fservicebus%2Fservice-bus%2FREADME.png)
+
+[apiref]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.1/index.html
+[sbclient]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.1/classes/servicebusclient.html
+[sbclient_constructor]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.1/classes/servicebusclient.html#constructor
+[sbclient_createSender]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.1/classes/servicebusclient.html#createSender
+[sbclient_createReceiver]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.1/classes/servicebusclient.html#createReceiver
+[sbclient_createSessionReceiver]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.1/classes/servicebusclient.html#createSessionReceiver
+[sender]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.1/interfaces/sender.html
+[sender_send]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.1/interfaces/sender.html#send
+[sender_sendbatch]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.1/interfaces/sender.html#sendbatch
+[receiver]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.1/interfaces/receiver.html
+[receiverreceivebatch]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.1/interfaces/receiver.html#receivebatch
+[receiver_subscribe]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.1/interfaces/receiver.html#subscribe
+[receiver_getmessageiterator]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.1/interfaces/receiver.html#getmessageiterator
+[sessionreceiver]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.1/interfaces/sessionreceiver.html
+[migrationguide]: https://github.com/Azure/azure-sdk-for-js/blob/%40azure/service-bus_7.0.0-preview.1/sdk/servicebus/service-bus/migrationguide.md
