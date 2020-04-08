@@ -2,7 +2,7 @@
 
 The Azure SDK for JavaScript and TypeScript allows users to communicate and control their Azure resources. The development of the Azure SDK should be taken with uttermost care, not only to provide the best API clients to our customers, but also to ensure that the software is reliable through stable, succinct and comprehensible tests. For that purpose, we've made this document that defines how tests should be written.
 
-> ### Tips for reading this document
+> #### Tips for reading this document
 > - If you see any link that ends in a lock [🔒][TIPS], that link is private, only accessible to developers members of the Azure SDK team.
 > - Links that end up with a clock [⏲][TIPS], these are links that might contain outdated information. The information that's being referred might move elsewhere as time passes. Make sure to find the latest version of the linked file, or the content of the file that is relevant to what's being described in this document.
 
