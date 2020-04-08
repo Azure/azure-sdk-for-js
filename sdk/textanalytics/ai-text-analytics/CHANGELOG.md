@@ -1,5 +1,8 @@
 # Release History
 
+## 1.0.0-preview.5 (Unreleased)
+
+
 ## 1.0.0-preview.4 (2020-04-07)
 - Renamed the first parameter of all operation methods from `inputs` to `documents`
 - [Breaking] Removed PII entity detection methods from `TextAnalyticsClient` as well as all associated samples and documentation
