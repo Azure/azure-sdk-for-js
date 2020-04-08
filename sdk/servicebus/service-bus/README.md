@@ -97,7 +97,7 @@ method to efficiently send multiple messages in a single send.
 ```javascript
 const sender = serviceBusClient.createSender("my-queue");
 await sender.send({
-  body: "my-message-body",
+  body: "my-message-body"
 });
 
 const batch = await sender.createBatch();
@@ -147,7 +147,7 @@ const myErrorHandler = async (error) => {
 };
 receiver.subscribe({
   processMessage: myMessageHandler,
-  processError: myErrorHandler,
+  processError: myErrorHandler
 });
 ```
 
@@ -170,10 +170,10 @@ To learn more, please read [Settling Received Messages](https://docs.microsoft.c
 
 ### Send messages using Sessions
 
-To send messages using sessions, you first need to create a session enabled Queue or Subscription. You can do this
-in the Azure portal. Then, use an instance of a `ServiceBusClient` to create a sender using the using
-the [createSender][sbclient_createsender]
-function. This gives you a sender which you can use to [send][sender_send] messages.
+To send messages using sessions, you first need to create a session enabled Queue or Subscription.
+You can do this in the Azure portal. Then, use an instance of a `ServiceBusClient` to create a sender
+using the the [createSender][sbclient_createsender] function. This gives you a sender which you can use
+to [send][sender_send] messages.
 
 When sending the message, set the `sessionId` property in the message to ensure your message
 lands in the right session.
@@ -182,7 +182,7 @@ lands in the right session.
 const sender = serviceBusClient.createSender("my-session-queue");
 await sender.send({
   body: "my-message-body",
-  sessionId: "my-session",
+  sessionId: "my-session"
 });
 ```
 
@@ -197,7 +197,7 @@ then the `SessionReceiver` will get a random unlocked session.
 
 ```javascript
 const receiver = serviceBusClient.createSessionReceiver("my-session-queue", "peekLock", {
-  sessionId: "my-session",
+  sessionId: "my-session"
 });
 ```
 
