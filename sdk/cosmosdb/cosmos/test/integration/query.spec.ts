@@ -43,55 +43,75 @@ describe("Test Query Metrics", function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);
   const collectionId = "testCollection2";
 
-  const testQueryMetricsOnSinglePartition = async function(document: any) {
-    try {
-      const database = await getTestDatabase("query metrics test db");
-
-      const collectionDefinition = { id: collectionId };
-      const collectionOptions = { offerThroughput: 4000 };
-
-      const { resource: createdCollectionDef } = await database.containers.create(
-        collectionDefinition,
-        collectionOptions
-      );
-      const createdContainer = database.container(createdCollectionDef.id);
-
-      await createdContainer.items.create(document);
-      const query = "SELECT * from " + collectionId;
-      const queryOptions: FeedOptions = { populateQueryMetrics: true };
-      const queryIterator = createdContainer.items.query(query, queryOptions);
-
-      while (queryIterator.hasMoreResults()) {
-        const {
-          resources: results,
-          queryMetrics,
-          activityId,
-          requestCharge
-        } = await queryIterator.fetchNext();
-        assert(activityId, "activityId must exist");
-        assert(requestCharge, "requestCharge must exist");
-
-        if (results === undefined) {
-          // no more results
-          break;
-        }
-
-        assert.notEqual(queryMetrics, null);
-      }
-    } catch (err) {
-      throw err;
-    }
-  };
-
-  afterEach(async function() {
-    await removeAllDatabases();
-  });
-
   beforeEach(async function() {
     await removeAllDatabases();
   });
 
   it("validate that query metrics are correct for a single partition query", async function() {
-    await testQueryMetricsOnSinglePartition(doc);
+    const database = await getTestDatabase("query metrics test db");
+
+    const collectionDefinition = { id: collectionId };
+    const collectionOptions = { offerThroughput: 4000 };
+
+    const { resource: createdCollectionDef } = await database.containers.create(
+      collectionDefinition,
+      collectionOptions
+    );
+    const createdContainer = database.container(createdCollectionDef.id);
+
+    await createdContainer.items.create(document);
+    const query = "SELECT * from " + collectionId;
+    const queryOptions: FeedOptions = { populateQueryMetrics: true };
+    const queryIterator = createdContainer.items.query(query, queryOptions);
+
+    while (queryIterator.hasMoreResults()) {
+      const {
+        resources: results,
+        queryMetrics,
+        activityId,
+        requestCharge
+      } = await queryIterator.fetchNext();
+      assert(activityId, "activityId must exist");
+      assert(requestCharge, "requestCharge must exist");
+
+      if (results === undefined) {
+        // no more results
+        break;
+      }
+
+      assert.notEqual(queryMetrics, null);
+    }
+  });
+});
+
+describe("Partition key in FeedOptions", function() {
+  this.timeout(process.env.MOCHA_TIMEOUT || 10000);
+
+  beforeEach(async function() {
+    await removeAllDatabases();
+  });
+
+  it("passing partition key in FeedOptions", async function() {
+    const containerDefinition = {
+      id: "testcontainer",
+      partitionKey: {
+        paths: ["/id"]
+      }
+    };
+
+    const container = await getTestContainer(
+      "validate correct execution of query",
+      undefined,
+      containerDefinition
+    );
+
+    await container.items.create({ id: "foo" });
+    await container.items.create({ id: "bar" });
+    const query = "SELECT * from C";
+    const queryIterator = container.items.query(query, { partitionKey: "foo" });
+
+    const { resources } = await queryIterator.fetchAll();
+    assert.equal(resources.length, 1);
+    assert.equal(resources[0].id, "foo");
   });
 });
