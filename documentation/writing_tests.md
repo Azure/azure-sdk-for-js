@@ -1477,13 +1477,13 @@ The specific `delay` method used in the code above comes from [the recorder](#th
 
 ### Exceptions and edge cases
 
-While testing the Azure SDK clients for JavaScript and TypeScript, we should document each client method exceptions through the use of `@throws` in the TypeDoc documentation, and avoid writing test cases for exceptions. Test cases should focus on demonstrating the public API of the service. Every known exception should be documented.
+While testing the Azure SDK clients for JavaScript and TypeScript, we should document all known exceptions through the use of `@throws` in the TypeDoc documentation. Tests for exceptions should only exist if these exceptions have been implemented within the code of the SDK clients, and not if they happen on the service side.
 
-Similarly, the public API surface of our clients will contain a large set of properties resulting from any of the methods that our clients implement. Tests should not focus on verifying that each property of our clients exist. While tests can check that the values of properties are expected, they should include only as many properties as it can be relevant for the use case that each test case is representing. For this purpose we should also take advantage of strict types. If our types can be descriptive and thorough (, and our internal code is not skipping any types by using `any`), we will be able to trust that our API is behaving reasonably well.
+Similarly, since the public API surface of our clients contain a large set of properties resulting from any of the methods that our clients implement, our tests should not focus on verifying that all of the client properties exist or are expectedly received. Tests should include only as many properties as it can be relevant for the use case that each test case is representing. For this purpose we should also take advantage of strict types. If our types can be descriptive and thorough (, and our internal code is not skipping any types by using `any`), we will be able to trust that our API is behaving reasonably well.
 
 To use `tsdoc` to document our expected API exceptions, use `@throws`. The implementation can be seen ]here (includes examples)](https://github.com/microsoft/tsdoc/pull/175).
 
-A valid case of an exception test is to express a feature provided by our SDK. For example, to show how to control the timeout of a request (an example from the [KeyVault Keys tests](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-keys/test/CRUD.test.ts#L57)) [⏲][TIPS]:
+An example of a valid case of an exception test that expresses a feature provided by our SDK can be seen on the tests that show how to control the timeout of a request, as in some of the [KeyVault tests](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-keys/test/CRUD.test.ts#L57)) [⏲][TIPS]:
 
 ```ts
 it("can attempt to create a key with requestOptions timeout", async function() {
