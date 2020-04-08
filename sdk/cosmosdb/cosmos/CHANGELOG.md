@@ -1,7 +1,25 @@
 # Release History
 
-## 3.6.3 (Unreleased)
+## 3.7.0 (2020-4-08)
 
+- FEATURE: Add `partitionKey` to `FeedOptions` for scoping a query to a single partition key value
+
+@azure/cosmos V2 has two different but equivalent ways to specify the partition key for a query:
+
+```js
+// V2 These are effectively the same
+container.items.query("SELECT * from c", { partitionKey: "foo" }).toArray();
+container.items.query('SELECT * from c WHERE c.yourPartitionKey = "foo"').toArray();
+```
+
+In an effort to simplify, the V3 SDK removed `partitionKey` from `FeedOptions` so there was only one way to specify the partition key:
+
+```js
+// V3
+container.items.query('SELECT * from c WHERE c.yourPartitionKey = "foo"').fetchAll();
+```
+
+Based on customer feedback, we identified scenarios where it still makes sense to support passing the partition key via `FeedOptions` and have decided to restore the behavior.
 
 ## 3.6.2 (2020-2-20)
 
