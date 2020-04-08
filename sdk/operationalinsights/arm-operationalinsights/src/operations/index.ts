@@ -8,7 +8,12 @@
  * regenerated.
  */
 
-export * from "./linkedServices";
+export * from "./dataExports";
 export * from "./dataSources";
 export * from "./workspaces";
+export * from "./linkedServices";
+export * from "./linkedStorageAccounts";
 export * from "./operations";
+export * from "./clusters";
+export * from "./storageInsights";
+export * from "./savedSearches";
