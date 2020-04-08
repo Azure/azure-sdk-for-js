@@ -81,6 +81,7 @@ jobs:
         parameters:
           ServiceDirectory: "$(Build.SourcesDirectory)/common/smoke-test/"
           CloudType: $(CloudType)
+          Location: $(Location)
           ArmTemplateParameters: $(ArmTemplateParameters)
 
       - script: node ./common/smoke-test/app.js
