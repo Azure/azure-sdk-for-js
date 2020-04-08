@@ -549,6 +549,32 @@ async function main() {
 main();
 ```
 
+#### Get a list of existing datasources in the service
+```js
+const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-documents");
+
+const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
+
+async function main() {
+  let listOfDataSources = await client.listDataSources();
+  for(let dataSource of listOfDataSources) {
+    console.log(`Name: ${dataSource.name}`);
+    console.log(`Description: ${dataSource.description}`);
+    console.log(`DataSourceType: ${dataSource.type}`);
+    console.log(`Credentials`);
+    console.log(`\tConnectionString: ${dataSource.credentials.connectionString}`);
+    console.log(`Container`)
+    console.log(`\tName: ${dataSource.container.name}`);
+    console.log(`\tQuery: ${dataSource.container.query}`);
+    console.log(`DataChangeDetectionPolicy: ${dataSource.dataChangeDetectionPolicy}`);
+    console.log(`DataDeletionDetectionPolicy: ${dataSource.dataDeletionDetectionPolicy}`);
+    console.log(`ETag: ${dataSource.etag}`);
+  }
+}
+
+main();
+```
+
 #### Create an Index
 
 ```js
@@ -782,6 +808,29 @@ async function main() {
 main();
 ```
 
+#### Create a DataSource
+```js
+const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-documents");
+
+const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
+
+async function main() {
+  const dataSource = await client.createDataSource({
+    name: 'my-data-source-2',
+    description: 'My Data Source 1',
+    type: 'cosmosdb',
+    container: {
+      name: 'my-container-1'
+    },    
+    credentials: {
+      connectionString: 'AccountEndpoint=https://hotels-docbb.documents.azure.com:443/;AccountKey=4UPsNZyFAjgZ1tzHPGZaxS09XcwLrIawbXBWk6IixcxJoSePTcjBn0mi53XiKWu8MaUgowUhIovOv7kjksqAug==;Database=SampleData'
+    },
+  })
+}
+
+main();
+```
+
 #### Retrieve an existing indexer and modify a field in it
 ```js
 const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-documents");
@@ -807,6 +856,23 @@ async function main() {
 }
 
 
+
+main();
+```
+
+#### Retrieve an existing datasource and modify a field in it
+```js
+const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-documents");
+
+const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
+
+async function main() {
+  let dataSource = await client.getDataSource('my-data-source-2');
+  console.log(`Container Name: ${dataSource.container.name}`);
+  dataSource.container.name = 'my-container-2';
+  dataSource = await client.createOrUpdateDataSource(dataSource);
+  console.log(`Container Name: ${dataSource.container.name}`);
+}
 
 main();
 ```
