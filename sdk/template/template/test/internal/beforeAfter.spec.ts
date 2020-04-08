@@ -3,11 +3,9 @@
 
 import { InternalClass } from "../../src/internalClass";
 import { assert } from "chai";
-import { Server, createServer } from "http";
-import { isNode } from '@azure/core-http';
+import { isNode } from "@azure/core-http";
 
 describe("before, beforeEach, after and afterEach examples", function() {
-
   // We recommend using `beforeEach` rather than `before`,
   // just as much as we recommend using `afterEach` rather than `after`.
   // The idea is that each test case should not depend on a state that is shared with other tests.
@@ -47,8 +45,7 @@ describe("before, beforeEach, after and afterEach examples", function() {
     let client: InternalClass;
     let state: {
       fruits?: string[];
-    } = {
-    };
+    } = {};
 
     beforeEach(function() {
       client = new InternalClass();
@@ -58,7 +55,7 @@ describe("before, beforeEach, after and afterEach examples", function() {
 
       // And other per-test setups...
     });
-  
+
     afterEach(function() {
       // Fruits are overwritten in the beforeEach,
       // but otherwise could be cleared up here:
@@ -66,7 +63,7 @@ describe("before, beforeEach, after and afterEach examples", function() {
 
       // And other per-test cleanups...
     });
-  
+
     it("A test for the encouraged example of `beforeEach` and `afterEach`", function() {
       assert.exists(client);
     });
@@ -76,10 +73,10 @@ describe("before, beforeEach, after and afterEach examples", function() {
   // Like a stateless web server...
   // (This test won't run if we're in a browser,
   // since HTTP servers can't be created in the browsers).
-  if (!isNode) {
+  if (isNode) {
     describe("Encouraged example of `before` and `after`", function() {
       const expectedHttpResponse = "Hello World!";
-      let server: Server;
+      let server: any;
 
       /**
        * helloWorldRequest makes a get request to the env.SERVER_ADDRESS
@@ -102,20 +99,21 @@ describe("before, beforeEach, after and afterEach examples", function() {
 
       before(function() {
         // Only internal tests may use mocks of servers.
-        server = createServer(function(_: any, res: any) {
+        const http = require("http");
+        server = http.createServer(function(_: any, res: any) {
           res.write(expectedHttpResponse);
           res.end();
         });
         server.listen(8080);
       });
-    
+
       after(function() {
         server.close();
       });
-    
+
       it("A test for the encouraged example of `before` and `after`", async function() {
         const response = await helloWorldRequest();
-        assert.equal(response, expectedHttpResponse); 
+        assert.equal(response, expectedHttpResponse);
       });
     });
   }

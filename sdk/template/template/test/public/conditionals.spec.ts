@@ -1,16 +1,30 @@
-/* eslint-disable no-invalid-this */
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+/* eslint-disable no-invalid-this */
 
 import { NodeClient, BrowserClient } from "../../src";
 import { isNode } from "@azure/core-http";
 import { assert } from "chai";
+import { env, record, RecorderEnvironmentSetup, Recorder } from "@azure/test-utils-recorder";
 
 describe("Tests with conditionals", function() {
   let client: NodeClient | BrowserClient;
+  let recorder: Recorder;
 
   beforeEach(function() {
-    client = isNode ? new NodeClient() : new BrowserClient();
+    const recorderEnvSetup: RecorderEnvironmentSetup = {
+      replaceableVariables: {},
+      customizationsOnRecordings: [],
+      queryParametersToSkip: []
+    };
+
+    recorder = record(this, recorderEnvSetup);
+
+    client = isNode ? new NodeClient() : new BrowserClient(env);
+  });
+
+  afterEach(function() {
+    recorder.stop();
   });
 
   it("should test A #node", function(): void {
@@ -30,7 +44,7 @@ describe("Tests with conditionals", function() {
   });
 
   it("should test C #live", function(): void {
-    if (process.env.TEST_MODE) {
+    if (env.TEST_MODE) {
       return this.skip();
     }
     assert.equal(client.C(), "Live");

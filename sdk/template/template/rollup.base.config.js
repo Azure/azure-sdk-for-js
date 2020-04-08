@@ -12,7 +12,7 @@ const input = "dist-esm/src/index.js";
 const production = process.env.NODE_ENV === "production";
 
 export function nodeConfig(test = false) {
-  const externalNodeBuiltins = ["events"];
+  const externalNodeBuiltins = ["events", "fs"];
   const baseConfig = {
     input: input,
     external: depNames.concat(externalNodeBuiltins),
@@ -36,13 +36,7 @@ export function nodeConfig(test = false) {
   };
 
   if (test) {
-    // Entry points - test files under the `test` folder(common for both browser and node), node specific test files
-    baseConfig.input = [
-      "dist-esm/test/*.spec.js",
-      "dist-esm/test/node/*.spec.js",
-      "dist-esm/test/internal/*.spec.js",
-      "dist-esm/test/public/*.spec.js"
-    ];
+    baseConfig.input = ["dist-esm/test/internal/*.spec.js", "dist-esm/test/public/*.spec.js"];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
 
     // different output file
@@ -62,6 +56,7 @@ export function nodeConfig(test = false) {
 export function browserConfig(test = false) {
   const baseConfig = {
     input: input,
+    external: ["http", "fs-extra"],
     output: {
       file: "dist-browser/azure-template.js",
       format: "umd",
@@ -97,8 +92,7 @@ export function browserConfig(test = false) {
   };
 
   if (test) {
-    // Entry points - test files under the `test` folder(common for both browser and node), browser specific test files
-    baseConfig.input = ["dist-esm/test/*.spec.js", "dist-esm/test/browser/*.spec.js"];
+    baseConfig.input = ["dist-esm/test/internal/*.spec.js", "dist-esm/test/public/*.spec.js"];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "dist-test/index.browser.js";
 
