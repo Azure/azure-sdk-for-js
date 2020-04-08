@@ -26,16 +26,20 @@ jobs:
           OSVmImage: "ubuntu-18.04"
           CloudType: AzureChinaCloud
           ArmTemplateParameters: $(azureChinaCloudArmParameters)
+          Location: "chinanorth"
         Windows (AzureChinaCloud):
           OSVmImage: "windows-2019"
           CloudType: AzureChinaCloud
           ArmTemplateParameters: $(azureChinaCloudArmParameters)
+          Location: "chinanorth"
 
     pool:
       vmImage: $(OSVmImage)
 
     variables:
       - template: ../../eng/pipelines/templates/variables/globals.yml
+      - name: Location
+        value: ""
       - name: azureCloudArmParameters
         value: "@{ storageEndpointSuffix = 'core.windows.net'; azureCloud = 'AzureCloud'; }"
       - name: azureUSGovernmentArmParameters
