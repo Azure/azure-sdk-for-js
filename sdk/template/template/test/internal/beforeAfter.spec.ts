@@ -85,7 +85,7 @@ describe("before, beforeEach, after and afterEach examples", function() {
       async function helloWorldRequest(): Promise<string> {
         return new Promise((resolve) => {
           const http = require("http");
-          http.get("localhost:8080", (res: any) => {
+          http.get("http://localhost:8080", (res: any) => {
             let data = "";
             res.on("data", (chunk: string) => {
               data += chunk;

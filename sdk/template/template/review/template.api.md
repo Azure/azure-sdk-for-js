@@ -9,10 +9,19 @@ import { URLBuilder } from '@azure/core-http';
 
 // @public (undocumented)
 export class BrowserClient {
+    constructor(env: BrowserClientEnv);
     // (undocumented)
     B(): string;
     // (undocumented)
     C(): string;
+    // (undocumented)
+    env: BrowserClientEnv;
+}
+
+// @public (undocumented)
+export interface BrowserClientEnv {
+    // (undocumented)
+    TEST_MODE?: string;
 }
 
 // @public (undocumented)
