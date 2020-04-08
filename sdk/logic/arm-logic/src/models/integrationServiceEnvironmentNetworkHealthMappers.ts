@@ -9,7 +9,9 @@
 export {
   ErrorProperties,
   ErrorResponse,
-  GetCallbackUrlParameters,
-  WorkflowTriggerCallbackUrl,
-  WorkflowTriggerListCallbackUrlQueries
+  ExtendedErrorInfo,
+  IntegrationServiceEnvironmentNetworkDependency,
+  IntegrationServiceEnvironmentNetworkDependencyHealth,
+  IntegrationServiceEnvironmentNetworkEndpoint,
+  IntegrationServiceEnvironmentSubnetNetworkHealth
 } from "../models/mappers";

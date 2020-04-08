@@ -44,7 +44,7 @@ export class LogicManagementClientContext extends msRestAzure.AzureServiceClient
 
     super(credentials, options);
 
-    this.apiVersion = '2018-07-01-preview';
+    this.apiVersion = '2019-05-01';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";
