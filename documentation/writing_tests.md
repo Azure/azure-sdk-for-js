@@ -218,7 +218,7 @@ We also have to point mocha to our test files. If you're **not** using `nyc`, yo
 Our engineering systems will expect to encounter two scripts in our `package.json`s, one called `unit-test` for tests that will be [executed during Pull Request validation](https://github.com/Azure/azure-sdk-for-js/blob/86b174ebea741187ec3307c40d3dc03f58230b8b/eng/pipelines/templates/jobs/archetype-sdk-client.yml#L225-L235) [⏲][TIPS], which won't ever reach to live resources, and another called `integration-test` for our [nightly and release builds](https://github.com/Azure/azure-sdk-for-js/blob/58bbeeea839b278d1238f908a3cec53749d636c3/eng/pipelines/templates/jobs/archetype-sdk-integration.yml#L114) [⏲][TIPS], which will be expected to reach to live resources. We assume that the distinction of when to reach to what resources will be done within the tests (either by using [The Recorder](#the-recorder) or through [Using conditionals](#using-conditionals)). With this in mind, and limiting `nyc` to only run on the `integration-test` script, we will end up with the following scripts:
 
 ```json
-    "integration-test:node": "find dist-esm/test -name '*.spec.js' | xargs nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace",
+    "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace \"dist-esm/test/**/*.spec.js\"",
     "unit-test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace dist-test/index.node.js",
 ```
 
@@ -748,7 +748,7 @@ All together, the `package.json` will end up with the following scripts:
 
   // And integration-test means...
   "integration-test:browser": "echo skipped",
-  "integration-test:node": "find dist-esm/test -name '*.spec.js' | xargs nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace",
+  "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace \"dist-esm/test/**/*.spec.js\"",
 ```
 
 Besides the target environment, tests may or may not target live resources, and either should target public or internal code. To navigate through these concepts, we will make clear distinctions of what we will be testing, based on three main aspects:
@@ -1380,12 +1380,20 @@ Ideally, each test case should only have one possible behavior. To minimize unex
 
 ```ts
 import { isNode } from "@azure/core-http";
+import { env, record, RecorderEnvironmentSetup, Recorder } from "@azure/test-utils-recorder";
 
 describe("Tests with conditionals", function() {
   let client: Client;
+  let recorder: Recorder;
 
   beforeEach(function() {
-    recorder = record(this);
+    const recorderEnvSetup: RecorderEnvironmentSetup = {
+      replaceableVariables: {},
+      customizationsOnRecordings: [],
+      queryParametersToSkip: []
+    };
+
+    recorder = record(this, recorderEnvSetup);
     client = new Client();
   });
 
@@ -1408,7 +1416,7 @@ describe("Tests with conditionals", function() {
   });
 
   it("should test C #live", function() {
-    if (process.env.TEST_MODE) {
+    if (env.TEST_MODE) {
       return this.skip();
     }
     // Test contents..
