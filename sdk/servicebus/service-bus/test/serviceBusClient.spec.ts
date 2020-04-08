@@ -374,7 +374,7 @@ describe("Errors after close()", function(): void {
   let subscriptionClient: SubscriptionRuleManager;
 
   afterEach(() => {
-    return sbClient.close();
+    return sbClient.test.afterEach();
   });
 
   async function beforeEachTest(entityType: TestClientType, entityToClose: string): Promise<void> {
