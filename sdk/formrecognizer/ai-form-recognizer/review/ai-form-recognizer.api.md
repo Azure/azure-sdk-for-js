@@ -123,7 +123,7 @@ export interface FormField {
     confidence: number;
     fieldLabel: FormText;
     label?: string;
-    value: FormText;
+    valueText: FormText;
 }
 
 // @public
