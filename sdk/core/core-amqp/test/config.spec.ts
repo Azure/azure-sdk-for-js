@@ -18,6 +18,15 @@ describe("ConnectionConfig", function() {
       done();
     });
 
+    it("scheme gets overridden to `sb://` in Event Hubs/Service Bus connection string", function(done) {
+      const config = ConnectionConfig.create(
+        "Endpoint=CheeseBurger://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep"
+      );
+      config.should.have.property("host").that.equals("hostname.servicebus.windows.net");
+      config.should.have.property("endpoint").that.equals("sb://hostname.servicebus.windows.net/");
+      done();
+    });
+
     it("populates path from the path argument if connection string does not have EntityPath", function(done) {
       const config = ConnectionConfig.create(
         "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak",
