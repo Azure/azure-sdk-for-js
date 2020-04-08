@@ -3,7 +3,7 @@
 ## 3.6.4 (Unreleased)
 
 
-## 3.7.0 (2020-4-08)
+## 3.6.3 (2020-4-08)
 
 - FEATURE: Add `partitionKey` to `FeedOptions` for scoping a query to a single partition key value
 
