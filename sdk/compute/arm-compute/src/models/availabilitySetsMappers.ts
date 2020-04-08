@@ -128,6 +128,8 @@ export {
   SourceVault,
   SshConfiguration,
   SshPublicKey,
+  SshPublicKeyResource,
+  SshPublicKeyUpdateResource,
   StorageProfile,
   SubResource,
   SubResourceReadOnly,
