@@ -81,17 +81,37 @@ interface SessionManagerOptions {
   // TODO: I'd be curious about other potential options here.
 }
 
+interface SessionContext {
+  sessionId: string;
+  setState();
+  getState();
+}
+
+interface SessionManagerHandlers {
+  processMessage(message: ReceivedMessage, sessionContext: SessionContext);
+}
+
 interface SessionManager {
   // the handlers 
-  subscribe(handlers);
+  subscribe(handlers: SessionManagerHandlers);
 }
 
 ```
 
-Some design considerations:
-- Would we like SessionManager to also conform to the `Receiver<MessageT>` interface? It seems
-  like a nice way to let the user leverage their knowledge for using Service Bus in this scenario
-  as well, even if they're not necessarily needed to be interchangable.
-- Would a SessionManager need any additional methods beyond what is already provided in 
-  `Receiver`? For instance, in `SessionReceiver` we provide a method to renew a session lock.
+### Can this interface be a Receiver<MessageT>
 
+Originally - yes!
+
+However, as we discuss this there are parts that don't conform to our existing model
+with our receivers.
+
+For instance, sessions allow you to store and retrieve state for the session itself. `SessionReceiver`
+provides these methods, which any user that is reading from or dealing with a session can use but
+these would not be available in the same signature with the `SesssionManager`.
+
+So some changes:
+- We'll have a specific type for message handlers for the SessionManager
+- That type will pass a 'context' to the processMessage callback that has session specific methods.
+- Support only `subscribe()`
+
+This does make it source-incompatible with `Receiver` but it'll still be conceptually similar.
