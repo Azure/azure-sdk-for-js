@@ -24,11 +24,8 @@ import {
 import { FormRecognizerApiKeyCredential } from "./formRecognizerApiKeyCredential";
 import { TrainPollerClient, BeginTrainingPoller, BeginTrainingPollState } from "./lro/train/poller";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
-import { FormRecognizerClientOptions, FormRecognizerOperationOptions } from './common';
-import {
-  LabeledFormModelResponse,
-  FormModelResponse
-} from "./models";
+import { FormRecognizerClientOptions, FormRecognizerOperationOptions } from "./common";
+import { LabeledFormModelResponse, FormModelResponse } from "./models";
 
 export { ListModelsResponseModel, Model, ModelInfo, RestResponse };
 /**
@@ -82,7 +79,6 @@ export type BeginTrainingWithLabelsOptions = FormRecognizerOperationOptions & {
   prefix?: string;
   includeSubFolders?: boolean;
 };
-
 
 /**
  * Client class for Form training operations and Form model management.
@@ -149,7 +145,7 @@ export class FormTrainingClient {
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
     this.client = new GeneratedClient(credential, this.endpointUrl, pipeline);
   }
-   /**
+  /**
    * Retrieves summary information about the cognitive service account
    *
    * @param {GetSummaryOptions} options Options to GetSummary operation
@@ -538,14 +534,14 @@ async function trainCustomModelInternal(
   );
 
   try {
-      const requestBody = {
-          source: source,
-          sourceFilter: {
-              prefix: realOptions.prefix,
-              includeSubFolders: realOptions.includeSubFolders
-          },
-          useLabelFile
-      };
+    const requestBody = {
+      source: source,
+      sourceFilter: {
+        prefix: realOptions.prefix,
+        includeSubFolders: realOptions.includeSubFolders
+      },
+      useLabelFile
+    };
     return await client.trainCustomModelAsync(
       requestBody,
       operationOptionsToRequestOptionsBase(finalOptions)

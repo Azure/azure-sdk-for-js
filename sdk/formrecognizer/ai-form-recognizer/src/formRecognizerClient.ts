@@ -24,7 +24,7 @@ import {
   FormRecognizerClientAnalyzeWithCustomModelResponse as AnalyzeWithCustomModelResponseModel,
   FormRecognizerClientAnalyzeLayoutAsyncResponse as AnalyzeLayoutAsyncResponseModel,
   FormRecognizerClientAnalyzeReceiptAsyncResponse as AnalyzeReceiptAsyncResponseModel,
-  ContentType,
+  ContentType
 } from "./generated/models";
 import { FormRecognizerApiKeyCredential } from "./formRecognizerApiKeyCredential";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
@@ -49,9 +49,7 @@ import {
 } from "./transforms";
 import { FormTrainingClient } from "./formTrainingClient";
 
-export {
-  ContentType
-};
+export { ContentType };
 
 export { PollOperationState, PollerLike };
 
@@ -341,7 +339,10 @@ export class FormRecognizerClient {
   /**
    * @private
    */
-  private async getRecognizedContent(resultId: string, options?: GetRecognizedContentResultOptions) {
+  private async getRecognizedContent(
+    resultId: string,
+    options?: GetRecognizedContentResultOptions
+  ) {
     const realOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
       "FormRecognizerClient-getRecognizedLayoutResult",
@@ -425,7 +426,9 @@ export class FormRecognizerClient {
     modelId: string,
     documentUrl: string,
     options: BeginRecognizeFormsOptions = {}
-  ): Promise<PollerLike<PollOperationState<RecognizeFormResultResponse>, RecognizeFormResultResponse>> {
+  ): Promise<
+    PollerLike<PollOperationState<RecognizeFormResultResponse>, RecognizeFormResultResponse>
+  > {
     if (!modelId) {
       throw new RangeError("Invalid modelId");
     }

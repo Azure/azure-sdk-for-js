@@ -5,7 +5,7 @@ import { PipelineOptions, OperationOptions, HttpRequestBody } from "@azure/core-
 import { FormRecognizerRequestBody } from "./models";
 import { ContentType, SourcePath } from "./generated/models";
 import { streamToBuffer } from "./utils/utils.node";
-import { MAX_INPUT_DOCUMENT_SIZE } from './constants';
+import { MAX_INPUT_DOCUMENT_SIZE } from "./constants";
 
 /**
  * Client options used to configure Form Recognizer API requests.

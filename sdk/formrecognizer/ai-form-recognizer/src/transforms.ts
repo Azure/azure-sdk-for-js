@@ -49,11 +49,11 @@ import {
 
 export function toBoundingBox(original: number[]): Point2D[] {
   return [
-    {x: original[0], y: original[1] },
-    {x: original[2], y: original[3] },
-    {x: original[4], y: original[5] },
-    {x: original[6], y: original[7] }
-  ]
+    { x: original[0], y: original[1] },
+    { x: original[2], y: original[3] },
+    { x: original[4], y: original[5] },
+    { x: original[6], y: original[7] }
+  ];
 }
 
 export function toTextLine(original: TextLineModel, pageNumber: number): FormLine {
@@ -93,10 +93,7 @@ export function toFormPage(original: ReadResultModel): FormPage {
 // Note: might need to support other element types in future, e.g., checkbox
 const textPattern = /#\/readResults\/(\d+)\/lines\/(\d+)(?:\/words\/(\d+))?/;
 
-export function toFormElement(
-  element: string,
-  readResults: FormPage[]
-): FormElement {
+export function toFormElement(element: string, readResults: FormPage[]): FormElement {
   const result = textPattern.exec(element);
   if (!result || !result[0] || !result[1] || !result[2]) {
     throw new Error(`Unexpected element reference encountered: ${element}`);
@@ -112,21 +109,16 @@ export function toFormElement(
   }
 }
 
-export function toFormText(
-  original: KeyValueElementModel,
-  readResults?: FormPage[]
-): FormText {
+export function toFormText(original: KeyValueElementModel, readResults?: FormPage[]): FormText {
   return {
     text: original.text,
-    boundingBox: original.boundingBox === undefined ? undefined : toBoundingBox(original.boundingBox),
+    boundingBox:
+      original.boundingBox === undefined ? undefined : toBoundingBox(original.boundingBox),
     elements: original.elements?.map((element) => toFormElement(element, readResults!))
   };
 }
 
-export function toFormField(
-  original: KeyValuePairModel,
-  readResults?: FormPage[]
-): FormField {
+export function toFormField(original: KeyValuePairModel, readResults?: FormPage[]): FormField {
   return {
     label: original.label,
     confidence: original.confidence,
@@ -216,16 +208,14 @@ export function toRecognizeFormResultResponse(
   };
 }
 
-export function toFieldValue(
-  original: FieldValueModel,
-  readResults: FormPage[]
-): FieldValue {
+export function toFieldValue(original: FieldValueModel, readResults: FormPage[]): FieldValue {
   const result =
     original.type === "object" || original.type === "array"
       ? {}
       : {
           text: original.text,
-          boundingBox: original.boundingBox === undefined ? undefined : toBoundingBox(original.boundingBox),
+          boundingBox:
+            original.boundingBox === undefined ? undefined : toBoundingBox(original.boundingBox),
           confidence: original.confidence,
           pageNumber: original.pageNumber,
           elements: original.elements?.map((element) => toFormElement(element, readResults))
@@ -287,10 +277,7 @@ export function toFields(
   return result;
 }
 
-function toRecognizedForm(
-  original: DocumentResultModel,
-  readResults: FormPage[]
-): RecognizedForm {
+function toRecognizedForm(original: DocumentResultModel, readResults: FormPage[]): RecognizedForm {
   return {
     docType: original.docType,
     pageRange: { firstPageNumber: original.pageRange[0], lastPageNumber: original.pageRange[1] },
@@ -365,10 +352,7 @@ export function toAnalyzeLayoutResultResponse(
   }
 }
 
-function toReceiptResult(
-  result: DocumentResultModel,
-  readResults: FormPage[]
-): RecognizedReceipt {
+function toReceiptResult(result: DocumentResultModel, readResults: FormPage[]): RecognizedReceipt {
   if (result.docType !== "prebuilt:receipt") {
     throw new RangeError("The document type is not 'prebuilt:receipt'");
   }

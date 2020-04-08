@@ -3,13 +3,20 @@
 
 import { delay, AbortSignalLike } from "@azure/core-http";
 import { Poller, PollOperation, PollOperationState } from "@azure/core-lro";
-import { RecognizeFormsOptions, RecognizeContentOptions, RecognizeReceiptsOptions } from "../../formRecognizerClient";
+import {
+  RecognizeFormsOptions,
+  RecognizeContentOptions,
+  RecognizeReceiptsOptions
+} from "../../formRecognizerClient";
 
 import { OperationStatus, ContentType } from "../../generated/models";
 import { FormRecognizerRequestBody } from "../../models";
 export { OperationStatus };
 
-export type RecognizeOptions = RecognizeReceiptsOptions | RecognizeContentOptions | RecognizeFormsOptions;
+export type RecognizeOptions =
+  | RecognizeReceiptsOptions
+  | RecognizeContentOptions
+  | RecognizeFormsOptions;
 
 export interface PollerOperationOptions<T> {
   /**

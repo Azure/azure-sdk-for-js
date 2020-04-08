@@ -175,8 +175,14 @@ describe("Transforms", () => {
     assert.ok(transformed.valueText.boundingBox);
     verifyBoundingBox(transformed.fieldLabel.boundingBox!, original.key.boundingBox);
     verifyBoundingBox(transformed.valueText.boundingBox!, original.value.boundingBox);
-    assert.deepStrictEqual(transformed.fieldLabel.elements![0], rawExtractedPages[0].lines![0].words[0]);
-    assert.deepStrictEqual(transformed.valueText.elements![1], rawExtractedPages[0].lines![0].words[1]);
+    assert.deepStrictEqual(
+      transformed.fieldLabel.elements![0],
+      rawExtractedPages[0].lines![0].words[0]
+    );
+    assert.deepStrictEqual(
+      transformed.valueText.elements![1],
+      rawExtractedPages[0].lines![0].words[1]
+    );
   });
 
   describe("toFieldValue()", () => {
