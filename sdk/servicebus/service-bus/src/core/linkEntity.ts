@@ -208,12 +208,12 @@ export class LinkEntity {
       }
     }, this._tokenTimeout);
     log.link(
-      "[%s] %s '%s' with address %s, has next token renewal in %d seconds @(%s).",
+      "[%s] %s '%s' with address %s, has next token renewal in %d milliseconds @(%s).",
       this._context.namespace.connectionId,
       this._type,
       this.name,
       this.address,
-      this._tokenTimeout / 1000,
+      this._tokenTimeout,
       new Date(Date.now() + this._tokenTimeout).toString()
     );
   }

@@ -164,7 +164,7 @@ export class SystemTopicEventSubscriptions {
    * @param [options] The optional parameters
    * @returns Promise<Models.SystemTopicEventSubscriptionsListBySystemTopicResponse>
    */
-  listBySystemTopic(resourceGroupName: string, systemTopicName: string, options?: msRest.RequestOptionsBase): Promise<Models.SystemTopicEventSubscriptionsListBySystemTopicResponse>;
+  listBySystemTopic(resourceGroupName: string, systemTopicName: string, options?: Models.SystemTopicEventSubscriptionsListBySystemTopicOptionalParams): Promise<Models.SystemTopicEventSubscriptionsListBySystemTopicResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param systemTopicName Name of the system topic.
@@ -177,8 +177,8 @@ export class SystemTopicEventSubscriptions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySystemTopic(resourceGroupName: string, systemTopicName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
-  listBySystemTopic(resourceGroupName: string, systemTopicName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventSubscriptionsListResult>, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.SystemTopicEventSubscriptionsListBySystemTopicResponse> {
+  listBySystemTopic(resourceGroupName: string, systemTopicName: string, options: Models.SystemTopicEventSubscriptionsListBySystemTopicOptionalParams, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
+  listBySystemTopic(resourceGroupName: string, systemTopicName: string, options?: Models.SystemTopicEventSubscriptionsListBySystemTopicOptionalParams | msRest.ServiceCallback<Models.EventSubscriptionsListResult>, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.SystemTopicEventSubscriptionsListBySystemTopicResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -260,6 +260,35 @@ export class SystemTopicEventSubscriptions {
       beginUpdateOperationSpec,
       options);
   }
+
+  /**
+   * List event subscriptions that belong to a specific system topic.
+   * @summary List event subscriptions of a system topic.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.SystemTopicEventSubscriptionsListBySystemTopicNextResponse>
+   */
+  listBySystemTopicNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.SystemTopicEventSubscriptionsListBySystemTopicNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listBySystemTopicNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listBySystemTopicNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
+  listBySystemTopicNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventSubscriptionsListResult>, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.SystemTopicEventSubscriptionsListBySystemTopicNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listBySystemTopicNextOperationSpec,
+      callback) as Promise<Models.SystemTopicEventSubscriptionsListBySystemTopicNextResponse>;
+  }
 }
 
 // Operation Specifications
@@ -325,7 +354,9 @@ const listBySystemTopicOperationSpec: msRest.OperationSpec = {
     Parameters.systemTopicName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.top
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -424,6 +455,27 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
   responses: {
     201: {
       bodyMapper: Mappers.EventSubscription
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listBySystemTopicNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.EventSubscriptionsListResult
     },
     default: {
       bodyMapper: Mappers.CloudError

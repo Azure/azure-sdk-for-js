@@ -17,6 +17,7 @@ import {
 } from "./utils/testutils2";
 import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
 import { SubscriptionRuleManager } from "../src/receivers/subscriptionRuleManager";
+// import { AbortController } from "@azure/abort-controller";
 
 describe("topic filters", () => {
   let subscriptionClient: Receiver<ReceivedMessageWithLock>;
@@ -46,7 +47,7 @@ describe("topic filters", () => {
 
     subscriptionClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
     topicClient = serviceBusClient.test.addToCleanup(
-      serviceBusClient.getSender(entityNames.topic!)
+      serviceBusClient.createSender(entityNames.topic!)
     );
 
     subscriptionRuleManager = subscriptionRuleManager = serviceBusClient.test.addToCleanup(
@@ -572,4 +573,50 @@ describe("topic filters", () => {
       await testPeekMsgsLength(subscriptionClient, 0);
     });
   });
+
+  // TODO: Below tests are disabled as the afterEach hook is failing. Needs investigation
+  // describe("Cancel operations on the rule manager", function(): void {
+
+  //   beforeEach(async () => {
+  //     await beforeEachTest(TestClientType.TopicFilterTestSubscription);
+  //   });
+
+  //   afterEach(async () => {
+  //     await afterEachTest();
+  //   });
+
+  //   it("Abort addRule request on the rule manager", async function(): Promise<void> {
+  //     const controller = new AbortController();
+  //     setTimeout(() => controller.abort(), 1);
+  //     try {
+  //       await subscriptionRuleManager.addRule("my-rule", "my-filter", "my-action", { abortSignal: controller.signal });
+  //       throw new Error(`Test failure`);
+  //     } catch (err) {
+  //       err.message.should.equal("The addRule operation has been cancelled by the user.");
+  //     }
+  //   });
+
+  //   it("Abort removeRule request on the rule manager", async function(): Promise<void> {
+  //     const controller = new AbortController();
+  //     setTimeout(() => controller.abort(), 1);
+  //     try {
+  //       await subscriptionRuleManager.removeRule("my-rule", { abortSignal: controller.signal });
+  //       throw new Error(`Test failure`);
+  //     } catch (err) {
+  //       err.message.should.equal("The removeRule operation has been cancelled by the user.");
+  //     }
+  //   });
+
+  //   it("Abort getRules request on the rule manager", async function(): Promise<void> {
+  //     const controller = new AbortController();
+  //     setTimeout(() => controller.abort(), 1);
+  //     try {
+  //       await subscriptionRuleManager.getRules({ abortSignal: controller.signal });
+  //       throw new Error(`Test failure`);
+  //     } catch (err) {
+  //       err.message.should.equal("The getRules operation has been cancelled by the user.");
+  //     }
+  //   });
+
+  // });
 });

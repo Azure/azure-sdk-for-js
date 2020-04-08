@@ -3,7 +3,12 @@
 
 // Anything we expect to be available to users should come from this import
 // as a simple sanity check that we've exported things properly.
-import { ServiceBusClient, SessionReceiver, Receiver, GetSessionReceiverOptions } from "../../src";
+import {
+  ServiceBusClient,
+  SessionReceiver,
+  Receiver,
+  CreateSessionReceiverOptions
+} from "../../src";
 
 import { TestClientType, TestMessage } from "./testUtils";
 import { getEnvVars, EnvVarNames } from "./envVarUtils";
@@ -122,7 +127,7 @@ export async function drainAllMessages(receiver: Receiver<{}>): Promise<void> {
   await receiver.close();
 }
 
-export type EntityName = Omit<ReturnType<typeof getEntityNames>, "isPartitioned" | "usesSessions">;
+export type EntityName = ReturnType<typeof getEntityNames>;
 
 export interface ServiceBusClientForTests extends ServiceBusClient {
   test: ServiceBusTestHelpers;
@@ -272,8 +277,8 @@ export class ServiceBusTestHelpers {
 
     return this.addToCleanup(
       entityNames.queue
-        ? this._serviceBusClient.getReceiver(entityNames.queue, "peekLock")
-        : this._serviceBusClient.getReceiver(
+        ? this._serviceBusClient.createReceiver(entityNames.queue, "peekLock")
+        : this._serviceBusClient.createReceiver(
             entityNames.topic!,
             entityNames.subscription!,
             "peekLock"
@@ -283,7 +288,7 @@ export class ServiceBusTestHelpers {
 
   getSessionPeekLockReceiver(
     entityNames: ReturnType<typeof getEntityNames>,
-    getSessionReceiverOptions?: GetSessionReceiverOptions
+    getSessionReceiverOptions?: CreateSessionReceiverOptions
   ): SessionReceiver<ReceivedMessageWithLock> {
     if (!entityNames.usesSessions) {
       throw new TypeError(
@@ -293,12 +298,12 @@ export class ServiceBusTestHelpers {
 
     return this.addToCleanup(
       entityNames.queue
-        ? this._serviceBusClient.getSessionReceiver(
+        ? this._serviceBusClient.createSessionReceiver(
             entityNames.queue,
             "peekLock",
             getSessionReceiverOptions
           )
-        : this._serviceBusClient.getSessionReceiver(
+        : this._serviceBusClient.createSessionReceiver(
             entityNames.topic!,
             entityNames.subscription!,
             "peekLock",
@@ -326,10 +331,10 @@ export class ServiceBusTestHelpers {
     if (entityNames.usesSessions) {
       return this.addToCleanup(
         entityNames.queue
-          ? this._serviceBusClient.getSessionReceiver(entityNames.queue, "receiveAndDelete", {
+          ? this._serviceBusClient.createSessionReceiver(entityNames.queue, "receiveAndDelete", {
               sessionId
             })
-          : this._serviceBusClient.getSessionReceiver(
+          : this._serviceBusClient.createSessionReceiver(
               entityNames.topic!,
               entityNames.subscription!,
               "receiveAndDelete",
@@ -341,8 +346,8 @@ export class ServiceBusTestHelpers {
     } else {
       return this.addToCleanup(
         entityNames.queue
-          ? this._serviceBusClient.getReceiver(entityNames.queue, "receiveAndDelete")
-          : this._serviceBusClient.getReceiver(
+          ? this._serviceBusClient.createReceiver(entityNames.queue, "receiveAndDelete")
+          : this._serviceBusClient.createReceiver(
               entityNames.topic!,
               entityNames.subscription!,
               "receiveAndDelete"
@@ -351,13 +356,13 @@ export class ServiceBusTestHelpers {
     }
   }
 
-  getDeadLetterReceiver(
+  createDeadLetterReceiver(
     entityNames: ReturnType<typeof getEntityNames>
   ): Receiver<ReceivedMessageWithLock> {
     return this.addToCleanup(
       entityNames.queue
-        ? this._serviceBusClient.getDeadLetterReceiver(entityNames.queue, "peekLock")
-        : this._serviceBusClient.getDeadLetterReceiver(
+        ? this._serviceBusClient.createDeadLetterReceiver(entityNames.queue, "peekLock")
+        : this._serviceBusClient.createDeadLetterReceiver(
             entityNames.topic!,
             entityNames.subscription!,
             "peekLock"
@@ -378,18 +383,18 @@ async function purgeForTestClientType(
   let deadLetterReceiver: Receiver<ReceivedMessage>;
 
   if (entityPaths.queue) {
-    receiver = serviceBusClient.getReceiver(entityPaths.queue, "receiveAndDelete");
-    deadLetterReceiver = serviceBusClient.getDeadLetterReceiver(
+    receiver = serviceBusClient.createReceiver(entityPaths.queue, "receiveAndDelete");
+    deadLetterReceiver = serviceBusClient.createDeadLetterReceiver(
       entityPaths.queue,
       "receiveAndDelete"
     );
   } else if (entityPaths.topic && entityPaths.subscription) {
-    receiver = serviceBusClient.getReceiver(
+    receiver = serviceBusClient.createReceiver(
       entityPaths.topic,
       entityPaths.subscription,
       "receiveAndDelete"
     );
-    deadLetterReceiver = serviceBusClient.getDeadLetterReceiver(
+    deadLetterReceiver = serviceBusClient.createDeadLetterReceiver(
       entityPaths.topic,
       entityPaths.subscription,
       "receiveAndDelete"
@@ -441,13 +446,15 @@ function connectionString() {
 }
 
 export async function testPeekMsgsLength(
-  peekableReceiver: Pick<Receiver<{}>, "diagnostics">,
+  peekableReceiver: Receiver<ReceivedMessage>,
   expectedPeekLength: number
 ): Promise<void> {
-  const peekedMsgs = await peekableReceiver.diagnostics.peek(expectedPeekLength + 1);
+  const browsedMsgs = await peekableReceiver.browseMessages({
+    maxMessageCount: expectedPeekLength + 1
+  });
 
   should.equal(
-    peekedMsgs.length,
+    browsedMsgs.length,
     expectedPeekLength,
     "Unexpected number of msgs found when peeking"
   );

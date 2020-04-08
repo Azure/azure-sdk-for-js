@@ -6,7 +6,7 @@
   For samples using the current stable version of the package, please use the link below:
   https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples
   
-  This sample demonstrates how the peek() function can be used to browse a Service Bus message.
+  This sample demonstrates how the browseMessages() function can be used to browse a Service Bus message.
 
   See https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-browsing to learn
   about message browsing.
@@ -28,14 +28,14 @@ const queueName = process.env.QUEUE_NAME || "<queue name>";
 export async function main() {
   const sbClient = new ServiceBusClient(connectionString);
 
-  // If receiving from a subscription you can use the getReceiver(topic, subscription) overload
-  // In this case since we're using `diagnostics.peek()` that any lock mode will work.
-  // `diagnostics.peek()` does not lock messages in either lock mode.
-  const queueReceiver = sbClient.getReceiver(queueName, "receiveAndDelete");
+  // If receiving from a subscription you can use the createReceiver(topic, subscription) overload
+  // Since browsing messages doesn't take a lock on the message, the receive mode passed to getReceiver
+  // is irrelevant to this sample code.
+  const queueReceiver = sbClient.createReceiver(queueName, "receiveAndDelete");
 
   try {
     for (let i = 0; i < 20; i++) {
-      const messages = await queueReceiver.diagnostics.peek();
+      const messages = await queueReceiver.browseMessages();
       if (!messages.length) {
         console.log("No more messages to peek");
         break;

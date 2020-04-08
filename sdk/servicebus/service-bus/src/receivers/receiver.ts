@@ -7,9 +7,9 @@ import {
   GetMessageIteratorOptions,
   ReceiveBatchOptions,
   MessageHandlerOptions,
-  GetReceiverOptions
+  BrowseMessagesOptions
 } from "../models";
-import { OperationOptions } from "@azure/core-auth";
+import { OperationOptions } from "../modelsToBeSharedWithEventHubs";
 import { ReceivedMessage } from "..";
 import { ClientEntityContext } from "../clientEntityContext";
 import {
@@ -29,8 +29,8 @@ import { assertValidMessageHandlers, getMessageIterator } from "./shared";
 import { convertToInternalReceiveMode } from "../constructorHelpers";
 import Long from "long";
 import { ServiceBusMessageImpl, ReceivedMessageWithLock } from "../serviceBusMessage";
-import { RetryConfig, RetryOperationType, retry, Constants } from "@azure/core-amqp";
-import { getRetryAttemptTimeoutInMs } from "../util/utils";
+import { RetryConfig, RetryOperationType, retry, Constants, RetryOptions } from "@azure/core-amqp";
+import "@azure/core-asynciterator-polyfill";
 
 /**
  * A receiver that does not handle sessions.
@@ -59,6 +59,7 @@ export interface Receiver<ReceivedMessageT> {
   /**
    * Returns a promise that resolves to a deferred message identified by the given `sequenceNumber`.
    * @param {Long} sequenceNumber The sequence number of the message that needs to be received.
+   * @param options - Options bag to pass an abort signal or tracing options.
    * @returns {(Promise<ServiceBusMessage | undefined>)}
    * - Returns `Message` identified by sequence number.
    * - Returns `undefined` if no such message is found.
@@ -73,6 +74,7 @@ export interface Receiver<ReceivedMessageT> {
   /**
    * Returns a promise that resolves to an array of deferred messages identified by given `sequenceNumbers`.
    * @param {Long[]} sequenceNumbers An array of sequence numbers for the messages that need to be received.
+   * @param options - Options bag to pass an abort signal or tracing options.
    * @returns {Promise<ServiceBusMessage[]>}
    * - Returns a list of messages identified by the given sequenceNumbers.
    * - Returns an empty list if no messages are found.
@@ -91,6 +93,18 @@ export interface Receiver<ReceivedMessageT> {
    * @memberof SessionReceiver
    */
   isReceivingMessages(): boolean;
+
+  /**
+   * Browse the next batch of active messages (including deferred but not deadlettered messages) on the
+   * queue or subscription without modifying them.
+   * - The first call to `browseMessages()` fetches the first active message. Each subsequent call fetches the
+   * subsequent message.
+   * - Unlike a "received" message, "browsed" message is a read-only version of the message.
+   * It cannot be `Completed/Abandoned/Deferred/Deadlettered`.
+   * @param options Options that allow to specify the maximum number of messages to browse,
+   * the sequenceNumber to start browsing from or an abortSignal to abort the operation.
+   */
+  browseMessages(options?: BrowseMessagesOptions): Promise<ReceivedMessage[]>;
 
   // TODO: not sure these need to be on the interface
 
@@ -113,31 +127,6 @@ export interface Receiver<ReceivedMessageT> {
    * Closes the receiver.
    */
   close(): Promise<void>;
-
-  /**
-   * Methods related to service bus diagnostics.
-   */
-  diagnostics: {
-    /**
-     * Peek within a queue or subscription.
-     * NOTE: this method does not respect message locks or increment delivery count
-     * for messages.
-     * @param maxMessageCount The maximum number of messages to retrieve.
-     */
-    peek(maxMessageCount?: number): Promise<ReceivedMessage[]>;
-
-    /**
-     * Peek within a queue or subscription, starting with a specific sequence number.
-     * NOTE: this method does not respect message locks or increment delivery count
-     * for messages.
-     * @param fromSequenceNumber The sequence number to start peeking from (inclusive).
-     * @param maxMessageCount The maximum number of messages to retrieve.
-     */
-    peekBySequenceNumber(
-      fromSequenceNumber: Long,
-      maxMessageCount?: number
-    ): Promise<ReceivedMessage[]>;
-  };
 }
 
 /**
@@ -150,7 +139,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
    * @property Describes the amqp connection context for the QueueClient.
    */
   private _context: ClientEntityContext;
-  private _receiverOptions: GetReceiverOptions;
+  private _retryOptions: RetryOptions;
   /**
    * @property {boolean} [_isClosed] Denotes if close() was called on this receiver
    */
@@ -158,31 +147,18 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
 
   public entityPath: string;
 
-  public diagnostics: {
-    peek(maxMessageCount?: number): Promise<ReceivedMessage[]>;
-    peekBySequenceNumber(
-      fromSequenceNumber: Long,
-      maxMessageCount?: number
-    ): Promise<ReceivedMessage[]>;
-  };
-
   /**
    * @throws Error if the underlying connection is closed.
    */
   constructor(
     context: ClientEntityContext,
     public receiveMode: "peekLock" | "receiveAndDelete",
-    options: GetReceiverOptions
+    retryOptions: RetryOptions = {}
   ) {
     throwErrorIfConnectionClosed(context.namespace);
     this.entityPath = context.entityPath;
     this._context = context;
-    this.diagnostics = {
-      peek: (maxMessageCount) => this._peek(maxMessageCount),
-      peekBySequenceNumber: (fromSequenceNumber, maxMessageCount) =>
-        this._peekBySequenceNumber(fromSequenceNumber, maxMessageCount)
-    };
-    this._receiverOptions = options;
+    this._retryOptions = retryOptions;
   }
 
   private _throwIfAlreadyReceiving(): void {
@@ -229,7 +205,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
    * @param onError - Handler for any error that occurs while receiving or processing messages.
    * @param options - Options to control if messages should be automatically completed, and/or have
    * their locks automatically renewed. You can control the maximum number of messages that should
-   * be concurrently processed. You can also provide a timeout in seconds to denote the
+   * be concurrently processed. You can also provide a timeout in milliseconds to denote the
    * amount of time to wait for a new message before closing the receiver.
    *
    * @returns void
@@ -256,7 +232,8 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
 
     StreamingReceiver.create(this._context, {
       ...options,
-      receiveMode: convertToInternalReceiveMode(this.receiveMode)
+      receiveMode: convertToInternalReceiveMode(this.receiveMode),
+      retryOptions: this._retryOptions
     })
       .then(async (sReceiver) => {
         if (!sReceiver) {
@@ -315,8 +292,8 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       connectionId: this._context.namespace.connectionId,
       operation: receiveMessages,
       operationType: RetryOperationType.receiveMessage,
-      abortSignal: undefined,
-      retryOptions: this._receiverOptions.retryOptions
+      abortSignal: options?.abortSignal,
+      retryOptions: this._retryOptions
     };
     return retry<ReceivedMessageT[]>(config);
   }
@@ -341,13 +318,17 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
   /**
    * Returns a promise that resolves to a deferred message identified by the given `sequenceNumber`.
    * @param sequenceNumber The sequence number of the message that needs to be received.
+   * @param options - Options bag to pass an abort signal or tracing options.
    * @returns Promise<ServiceBusMessage | undefined>
    * - Returns `Message` identified by sequence number.
    * - Returns `undefined` if no such message is found.
    * @throws Error if the underlying connection, client or receiver is closed.
    * @throws MessagingError if the service returns an error while receiving deferred message.
    */
-  async receiveDeferredMessage(sequenceNumber: Long): Promise<ReceivedMessageT | undefined> {
+  async receiveDeferredMessage(
+    sequenceNumber: Long,
+    options: OperationOptions = {}
+  ): Promise<ReceivedMessageT | undefined> {
     this._throwIfReceiverOrConnectionClosed();
     throwTypeErrorIfParameterMissing(
       this._context.namespace.connectionId,
@@ -360,15 +341,16 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       sequenceNumber
     );
 
-    const retryOptions = this._receiverOptions.retryOptions || {};
-    retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
-
     const receiveDeferredMessageOperationPromise = async () => {
       const messages = await this._context.managementClient!.receiveDeferredMessages(
         [sequenceNumber],
         convertToInternalReceiveMode(this.receiveMode),
         undefined,
-        retryOptions.timeoutInMs
+        {
+          ...options,
+          requestName: "receiveDeferredMessage",
+          timeoutInMs: this._retryOptions.timeoutInMs
+        }
       );
       return (messages[0] as unknown) as ReceivedMessageT;
     };
@@ -376,7 +358,8 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       operation: receiveDeferredMessageOperationPromise,
       connectionId: this._context.namespace.connectionId,
       operationType: RetryOperationType.management,
-      retryOptions: retryOptions
+      retryOptions: this._retryOptions,
+      abortSignal: options?.abortSignal
     };
     return retry<ReceivedMessageT | undefined>(config);
   }
@@ -384,13 +367,17 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
   /**
    * Returns a promise that resolves to an array of deferred messages identified by given `sequenceNumbers`.
    * @param sequenceNumbers An array of sequence numbers for the messages that need to be received.
+   * @param options - Options bag to pass an abort signal or tracing options.
    * @returns Promise<ServiceBusMessage[]>
    * - Returns a list of messages identified by the given sequenceNumbers.
    * - Returns an empty list if no messages are found.
    * @throws Error if the underlying connection, client or receiver is closed.
    * @throws MessagingError if the service returns an error while receiving deferred messages.
    */
-  async receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ReceivedMessageT[]> {
+  async receiveDeferredMessages(
+    sequenceNumbers: Long[],
+    options: OperationOptions = {}
+  ): Promise<ReceivedMessageT[]> {
     this._throwIfReceiverOrConnectionClosed();
     throwTypeErrorIfParameterMissing(
       this._context.namespace.connectionId,
@@ -406,15 +393,16 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       sequenceNumbers
     );
 
-    const retryOptions = this._receiverOptions.retryOptions || {};
-    retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
-
     const receiveDeferredMessagesOperationPromise = async () => {
       const deferredMessages = await this._context.managementClient!.receiveDeferredMessages(
         sequenceNumbers,
         convertToInternalReceiveMode(this.receiveMode),
         undefined,
-        retryOptions.timeoutInMs
+        {
+          ...options,
+          requestName: "receiveDeferredMessages",
+          timeoutInMs: this._retryOptions.timeoutInMs
+        }
       );
       return (deferredMessages as any) as ReceivedMessageT[];
     };
@@ -422,64 +410,48 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       operation: receiveDeferredMessagesOperationPromise,
       connectionId: this._context.namespace.connectionId,
       operationType: RetryOperationType.management,
-      retryOptions: retryOptions
+      retryOptions: this._retryOptions,
+      abortSignal: options?.abortSignal
     };
     return retry<ReceivedMessageT[]>(config);
   }
 
   // ManagementClient methods # Begin
 
-  private async _peek(maxMessageCount?: number): Promise<ReceivedMessage[]> {
+  async browseMessages(options: BrowseMessagesOptions = {}): Promise<ReceivedMessage[]> {
     throwErrorIfClientOrConnectionClosed(
       this._context.namespace,
       this._context.entityPath,
       this._context.isClosed
     );
-    const retryOptions = this._receiverOptions.retryOptions || {};
-    retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
 
-    const peekOperationPromise = async () => {
-      const internalMessages = await this._context.managementClient!.peek(
-        maxMessageCount,
-        retryOptions.timeoutInMs
-      );
-      return internalMessages.map((m) => m as ReceivedMessage);
+    const managementRequestOptions = {
+      ...options,
+      requestName: "browseMessages",
+      timeoutInMs: this._retryOptions?.timeoutInMs
     };
+    const peekOperationPromise = async () => {
+      if (options.fromSequenceNumber) {
+        return await this._context.managementClient!.peekBySequenceNumber(
+          options.fromSequenceNumber,
+          options.maxMessageCount,
+          undefined,
+          managementRequestOptions
+        );
+      } else {
+        return await this._context.managementClient!.peek(
+          options.maxMessageCount,
+          managementRequestOptions
+        );
+      }
+    };
+
     const config: RetryConfig<ReceivedMessage[]> = {
       operation: peekOperationPromise,
       connectionId: this._context.namespace.connectionId,
       operationType: RetryOperationType.management,
-      retryOptions: retryOptions
-    };
-    return retry<ReceivedMessage[]>(config);
-  }
-
-  private async _peekBySequenceNumber(
-    fromSequenceNumber: Long,
-    maxMessageCount?: number
-  ): Promise<ReceivedMessage[]> {
-    throwErrorIfClientOrConnectionClosed(
-      this._context.namespace,
-      this._context.entityPath,
-      this._context.isClosed
-    );
-    const retryOptions = this._receiverOptions.retryOptions || {};
-    retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
-
-    const peekBySequenceNumberOperationPromise = async () => {
-      const internalMessages = await this._context.managementClient!.peekBySequenceNumber(
-        fromSequenceNumber,
-        maxMessageCount,
-        undefined,
-        retryOptions.timeoutInMs
-      );
-      return internalMessages.map((m) => m as ReceivedMessage);
-    };
-    const config: RetryConfig<ReceivedMessage[]> = {
-      operation: peekBySequenceNumberOperationPromise,
-      connectionId: this._context.namespace.connectionId,
-      operationType: RetryOperationType.management,
-      retryOptions: retryOptions
+      retryOptions: this._retryOptions,
+      abortSignal: options?.abortSignal
     };
     return retry<ReceivedMessage[]>(config);
   }

@@ -21,6 +21,9 @@ import { Buffer } from "buffer";
 // TODO: it'd be nice to make this internal/ignore if we can in favor of just using the string enum.
 /**
  * The mode in which messages should be received. The 2 modes are `peekLock` and `receiveAndDelete`.
+ * @internal
+ * @ignore
+ * @enum {number}
  */
 export enum ReceiveMode {
   /**
@@ -690,6 +693,11 @@ export function fromAmqpMessage(
 
 /**
  * Describes the message received from Service Bus.
+ *
+ * @internal
+ * @ignore
+ * @class ServiceBusMessageImpl
+ * @implements {ReceivedMessageWithLock}
  */
 export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
   /**

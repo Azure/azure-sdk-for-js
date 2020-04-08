@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import chai from "chai";
+import Long from "long";
 import chaiAsPromised from "chai-as-promised";
 import { delay, ServiceBusMessage } from "../src";
 import { getAlreadyReceivingErrorMsg } from "../src/util/errors";
@@ -14,6 +15,7 @@ import {
   testPeekMsgsLength
 } from "./utils/testutils2";
 import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
+import { AbortController } from "@azure/abort-controller";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -40,10 +42,10 @@ describe("batchReceiver", () => {
     receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
 
     senderClient = serviceBusClient.test.addToCleanup(
-      serviceBusClient.getSender(entityNames.queue ?? entityNames.topic!)
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
 
-    deadLetterClient = serviceBusClient.test.getDeadLetterReceiver(entityNames);
+    deadLetterClient = serviceBusClient.test.createDeadLetterReceiver(entityNames);
   }
 
   function afterEachTest(): Promise<void> {
@@ -977,6 +979,38 @@ describe("batchReceiver", () => {
     > {
       await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
       await testAskForMore(true);
+    });
+  });
+
+  describe("Cancel operations on the receiver", function(): void {
+    it("Abort receiveDeferredMessage request on the receiver", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.PartitionedQueue);
+      const controller = new AbortController();
+      setTimeout(() => controller.abort(), 1);
+      try {
+        await receiverClient.receiveDeferredMessage(Long.ZERO, { abortSignal: controller.signal });
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.message.should.equal(
+          "The receiveDeferredMessage operation has been cancelled by the user."
+        );
+      }
+    });
+
+    it("Abort receiveDeferredMessages request on the receiver", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
+      const controller = new AbortController();
+      setTimeout(() => controller.abort(), 1);
+      try {
+        await receiverClient.receiveDeferredMessages([Long.ZERO], {
+          abortSignal: controller.signal
+        });
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.message.should.equal(
+          "The receiveDeferredMessages operation has been cancelled by the user."
+        );
+      }
     });
   });
 });

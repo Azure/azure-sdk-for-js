@@ -69,7 +69,7 @@ async function addRules(sbClient) {
 
 // Sends 100 messages with a user property called "priority" whose value is between 1 and 4
 async function sendMessages(sbClient) {
-  const sender = sbClient.getSender(topicName);
+  const sender = sbClient.createSender(topicName);
   for (let index = 0; index < 10; index++) {
     const priority = Math.ceil(Math.random() * 4);
     const message = {
@@ -82,17 +82,17 @@ async function sendMessages(sbClient) {
 }
 // Prints messages from the 3 subscriptions
 async function receiveMessages(sbClient) {
-  const subscription1 = sbClient.getReceiver(
+  const subscription1 = sbClient.createReceiver(
     topicName,
     subscriptionName1,
     "peekLock"
   );
-  const subscription2 = sbClient.getReceiver(
+  const subscription2 = sbClient.createReceiver(
     topicName,
     subscriptionName2,
     "peekLock"
   );
-  const subscription3 = sbClient.getReceiver(
+  const subscription3 = sbClient.createReceiver(
     topicName,
     subscriptionName3,
     "peekLock"

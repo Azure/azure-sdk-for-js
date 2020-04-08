@@ -5,7 +5,7 @@ import * as assert from "assert";
 import { KeyClient } from "../src";
 import { isNode } from "@azure/core-http";
 import { testPollerProperties } from "./utils/recorderUtils";
-import { env, Recorder, delay } from "@azure/test-utils-recorder";
+import { env, Recorder, delay, isRecordMode, isPlaybackMode } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { assertThrowsAbortError } from "./utils/utils.common";
@@ -98,25 +98,29 @@ describe("Keys client - restore keys and recover backups", () => {
     assert.equal(error.message, `Key not found: ${keyName}`);
   });
 
-  it("can restore a key with a given backup", async function() {
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
-    await client.createKey(keyName, "RSA");
-    const backup = await client.backupKey(keyName);
-    await testClient.flushKey(keyName);
-    while (true) {
-      try {
-        await client.restoreKeyBackup(backup as Uint8Array);
-        break;
-      } catch (e) {
-        console.log("Can't restore the key since it's not fully deleted:", e.message);
-        console.log("Retrying in one second...");
-        await delay(1000);
+  if (isRecordMode() || isPlaybackMode()) {
+    // This test can't run live,
+    // since the purge operation currently can't be expected to finish anytime soon.
+    it("can restore a key with a given backup", async function() {
+      const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+      await client.createKey(keyName, "RSA");
+      const backup = await client.backupKey(keyName);
+      await testClient.flushKey(keyName);
+      while (true) {
+        try {
+          await client.restoreKeyBackup(backup as Uint8Array);
+          break;
+        } catch (e) {
+          console.log("Can't restore the key since it's not fully deleted:", e.message);
+          console.log("Retrying in one second...");
+          await delay(1000);
+        }
       }
-    }
-    const getResult = await client.getKey(keyName);
-    assert.equal(getResult.name, keyName, "Unexpected key name in result from getKey().");
-    await testClient.flushKey(keyName);
-  });
+      const getResult = await client.getKey(keyName);
+      assert.equal(getResult.name, keyName, "Unexpected key name in result from getKey().");
+      await testClient.flushKey(keyName);
+    });
+  }
 
   // On playback mode, the tests happen too fast for the timeout to work
   it("can restore a key with requestOptions timeout", async function() {
