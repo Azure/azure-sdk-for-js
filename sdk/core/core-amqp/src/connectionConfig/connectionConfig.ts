@@ -91,7 +91,7 @@ export namespace ConnectionConfig {
     }
 
     if (!parsedCS.Endpoint.endsWith("/")) parsedCS.Endpoint += "/";
-    parsedCS.Endpoint = parsedCS.Endpoint.replace(new RegExp("^\w+://"), "sb://");
+    parsedCS.Endpoint = parsedCS.Endpoint.replace(new RegExp("[^w]+://"), "sb://");
     const result: ConnectionConfig = {
       connectionString: connectionString,
       endpoint: parsedCS.Endpoint,
