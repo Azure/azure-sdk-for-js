@@ -186,7 +186,7 @@ await sender.send({
 });
 ```
 
-### Receive messages from Sessions
+### Receive messages using Sessions
 
 To receive messages from sessions, you first need to create a session enabled Queue and send messages
 to it. Then, use an instance of `ServiceBusClient` to create a receiver
