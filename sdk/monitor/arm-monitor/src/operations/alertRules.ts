@@ -27,7 +27,7 @@ export class AlertRules {
   }
 
   /**
-   * Creates or updates an alert rule.
+   * Creates or updates a classic metric alert rule.
    * @param resourceGroupName The name of the resource group.
    * @param ruleName The name of the rule.
    * @param parameters The parameters of the rule to create or update.
@@ -63,7 +63,7 @@ export class AlertRules {
   }
 
   /**
-   * Deletes an alert rule
+   * Deletes a classic metric alert rule
    * @param resourceGroupName The name of the resource group.
    * @param ruleName The name of the rule.
    * @param [options] The optional parameters
@@ -95,7 +95,7 @@ export class AlertRules {
   }
 
   /**
-   * Gets an alert rule
+   * Gets a classic metric alert rule
    * @param resourceGroupName The name of the resource group.
    * @param ruleName The name of the rule.
    * @param [options] The optional parameters
@@ -127,7 +127,8 @@ export class AlertRules {
   }
 
   /**
-   * Updates an existing AlertRuleResource. To update other fields use the CreateOrUpdate method.
+   * Updates an existing classic metric AlertRuleResource. To update other fields use the
+   * CreateOrUpdate method.
    * @param resourceGroupName The name of the resource group.
    * @param ruleName The name of the rule.
    * @param alertRulesResource Parameters supplied to the operation.
@@ -163,7 +164,7 @@ export class AlertRules {
   }
 
   /**
-   * List the alert rules within a resource group.
+   * List the classic metric alert rules within a resource group.
    * @param resourceGroupName The name of the resource group.
    * @param [options] The optional parameters
    * @returns Promise<Models.AlertRulesListByResourceGroupResponse>
@@ -191,7 +192,7 @@ export class AlertRules {
   }
 
   /**
-   * List the alert rules within a subscription.
+   * List the classic metric alert rules within a subscription.
    * @param [options] The optional parameters
    * @returns Promise<Models.AlertRulesListBySubscriptionResponse>
    */
