@@ -228,6 +228,8 @@ Our `integration-test` script will output code-coverage on our nightly and relea
 
 All of the tests in the Azure SDK repository should have a timeout. In the previous section, we have discussed how this timeout is defined for Mocha through the parameter `--timeout`. The number of milliseconds should be determined by a reasonable process. 
 
+If any of your tests need to use _delays_, please make sure to go through our [Using delays](#using-delays) section.
+
 New projects inside of this repository can take a safe guess based on how much the tests on average take locally. **Existing projects** should instead follow these steps to **get a reasonable timeout from past test executions**:
 
 1. Go to our CI pipelines, at: https://dev.azure.com/azure-sdk/internal/_build
@@ -1049,6 +1051,8 @@ export async function retry<T>(
 ```
 
 This code is clearly not specifically related to any of our projects. Moving it out into a common project will help it be more easily discovered.
+
+If any of your tests need to use any retry mechanism, make sure to follow the recommendations on the sections: [Handling timeouts](#handling-timeouts) and [Using delays](#using-delays).
 
 If you encounter a potential universal tool, ask your team to verify that nothing similar has been written already for any other test in our SDK. If something similar has been written, work towards making a new `test-utils` project that brings together your ideas with the existing ones.
 
