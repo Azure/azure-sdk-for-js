@@ -32,6 +32,7 @@ The Azure SDK for JavaScript and TypeScript allows users to communicate and cont
         - [Karma-in-our-dependencies](#karma-in-our-dependencies)
         - [Configuring Karma](#configuring-karma)
     - [The Recorder](#the-recorder)
+- [Package configuration](#package-configuration)
 - [Test folder structure](#test-folder-structure)
     - [Testing cloud resources](#testing-cloud-resources)
     - [Public or internal tests](#public-or-internal-tests)
@@ -722,7 +723,7 @@ You can read more about the recorder in its readme: https://github.com/Azure/azu
 
 
 
-## Test folder structure
+## Package configuration
 
 Tests for the Azure SDK for JavaScript and TypeScript should be all executed using the NPM command `test`, they should be stored in the `test` folder, they must be written in TypeScript, in files that will end in `.spec.ts`. Our [recommended tools](#recommended-tools) should provide the test framework and proper ways of compiling and bundling our tests correctly. They should be able to run and be debugged on the environments we're targeting, which are currently only NodeJS and the browsers.
 
@@ -748,7 +749,11 @@ All together, the `package.json` will end up with the following scripts:
   "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace \"dist-esm/test/**/*.spec.js\"",
 ```
 
-Besides the target environment, tests may or may not target live resources, and either should target public or internal code. To navigate through these concepts, we will make clear distinctions of what we will be testing, based on three main aspects:
+
+
+## Test folder structure
+
+Tests may or may not target live resources, and either should target public or internal code. To navigate through these concepts, we will make clear distinctions of what we will be testing, based on three main aspects:
 
 - [Testing cloud resources](#testing-cloud-resources).
 - [Public or internal tests](#public-or-internal-tests).
