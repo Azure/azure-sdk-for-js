@@ -556,8 +556,8 @@ const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-docum
 const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
 
 async function main() {
-  let listOfDataSources = await client.listDataSources();
-  for(let dataSource of listOfDataSources) {
+  const listOfDataSources = await client.listDataSources();
+  for(const dataSource of listOfDataSources) {
     console.log(`Name: ${dataSource.name}`);
     console.log(`Description: ${dataSource.description}`);
     console.log(`DataSourceType: ${dataSource.type}`);
@@ -814,6 +814,8 @@ const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-docum
 
 const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
 
+// The connection string is obtained from azure-search-java-samples.
+// Ref: https://github.com/Azure-Samples/azure-search-java-samples/blob/master/search-java-indexer-demo/src/main/resources/com/microsoft/azure/search/samples/app/config.properties
 async function main() {
   const dataSource = await client.createDataSource({
     name: 'my-data-source-2',
@@ -906,37 +908,37 @@ const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-docum
 const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
 
 async function main() {
-  const serviceStatistics = await client.getServiceStatistics();
+  const {counters, limits} = await client.getServiceStatistics();
   console.log(`Counters`);
   console.log(`========`);
   console.log(`\tDocument Counter`);
-  console.log(`\t\tUsage: ${serviceStatistics.counters.documentCounter.usage}`);
-  console.log(`\t\tQuota: ${serviceStatistics.counters.documentCounter.quota}`);
+  console.log(`\t\tUsage: ${counters.documentCounter.usage}`);
+  console.log(`\t\tQuota: ${counters.documentCounter.quota}`);
   console.log(`\tIndex Counter`);
-  console.log(`\t\tUsage: ${serviceStatistics.counters.indexCounter.usage}`);
-  console.log(`\t\tQuota: ${serviceStatistics.counters.indexCounter.quota}`);
+  console.log(`\t\tUsage: ${counters.indexCounter.usage}`);
+  console.log(`\t\tQuota: ${counters.indexCounter.quota}`);
   console.log(`\tIndexer Counter`);
-  console.log(`\t\tUsage: ${serviceStatistics.counters.indexerCounter.usage}`);
-  console.log(`\t\tQuota: ${serviceStatistics.counters.indexerCounter.quota}`);
+  console.log(`\t\tUsage: ${counters.indexerCounter.usage}`);
+  console.log(`\t\tQuota: ${counters.indexerCounter.quota}`);
   console.log(`\tData Source Counter`);
-  console.log(`\t\tUsage: ${serviceStatistics.counters.dataSourceCounter.usage}`);
-  console.log(`\t\tQuota: ${serviceStatistics.counters.dataSourceCounter.quota}`);
+  console.log(`\t\tUsage: ${counters.dataSourceCounter.usage}`);
+  console.log(`\t\tQuota: ${counters.dataSourceCounter.quota}`);
   console.log(`\tStorage Size Counter`);
-  console.log(`\t\tUsage: ${serviceStatistics.counters.storageSizeCounter.usage}`);
-  console.log(`\t\tQuota: ${serviceStatistics.counters.storageSizeCounter.quota}`);
+  console.log(`\t\tUsage: ${counters.storageSizeCounter.usage}`);
+  console.log(`\t\tQuota: ${counters.storageSizeCounter.quota}`);
   console.log(`\tSynonym Map Counter`);
-  console.log(`\t\tUsage: ${serviceStatistics.counters.synonymMapCounter.usage}`);
-  console.log(`\t\tQuota: ${serviceStatistics.counters.synonymMapCounter.quota}`);
+  console.log(`\t\tUsage: ${counters.synonymMapCounter.usage}`);
+  console.log(`\t\tQuota: ${counters.synonymMapCounter.quota}`);
   console.log(`\tSkillset Counter`);
-  console.log(`\t\tUsage: ${serviceStatistics.counters.skillsetCounter.usage}`);
-  console.log(`\t\tQuota: ${serviceStatistics.counters.skillsetCounter.quota}`);
+  console.log(`\t\tUsage: ${counters.skillsetCounter.usage}`);
+  console.log(`\t\tQuota: ${counters.skillsetCounter.quota}`);
   console.log();
   console.log(`Limits`);
   console.log(`======`);
-  console.log(`\tMax Fields Per Index: ${serviceStatistics.limits.maxFieldsPerIndex}`);
-  console.log(`\tMax Field Nesting Depth Per Index: ${serviceStatistics.limits.maxFieldNestingDepthPerIndex}`);
-  console.log(`\tMax Complex Collection Fields Per Index: ${serviceStatistics.limits.maxComplexCollectionFieldsPerIndex}`);
-  console.log(`\tMax Complex Objects In Collections Per Document: ${serviceStatistics.limits.maxComplexObjectsInCollectionsPerDocument}`);  
+  console.log(`\tMax Fields Per Index: ${limits.maxFieldsPerIndex}`);
+  console.log(`\tMax Field Nesting Depth Per Index: ${limits.maxFieldNestingDepthPerIndex}`);
+  console.log(`\tMax Complex Collection Fields Per Index: ${limits.maxComplexCollectionFieldsPerIndex}`);
+  console.log(`\tMax Complex Objects In Collections Per Document: ${limits.maxComplexObjectsInCollectionsPerDocument}`);
 }
 
 main();
