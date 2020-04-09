@@ -8,10 +8,10 @@ import { assert } from "chai";
 describe("Hello function - node", () => {
   it("should create an event emitter", () => {
     const result = createEventEmitter();
-    assert(result instanceof EventEmitter);
+    assert.instanceOf(result, EventEmitter);
   });
 
   it("should create a digest", () => {
-    assert(URLBuilder instanceof Object);
+    assert.instanceOf(URLBuilder, Object);
   });
 });

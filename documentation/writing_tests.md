@@ -20,7 +20,7 @@ The Azure SDK for JavaScript and TypeScript allows users to communicate and cont
         - [Configuring Mocha](#configuring-mocha)
         - [Code coverage with Mocha and nyc](#code-coverage-with-mocha-and-nyc)
         - [Handling timeouts](#handling-timeouts)
-        - [On the usage of before, beforeEach, after and afterEach](#on-the-usage-of-before--beforeeach,-after-and-aftereach)
+        - [On the usage of before, beforeEach, after and afterEach](#on-the-usage-of-before-beforeeach-after-and-aftereach)
         - [Other general recommendations](#other-general-recommendations)
     - [Chai](#chai)
         - [Recommended Chai assertion style](#recommended-chai-assertion-style)
@@ -171,7 +171,7 @@ In this section, we'll explore how the Azure SDK for JS is using mocha, what ver
 
 #### Mocha in our dependencies
 
-Since we're using [Rush](https://rushjs.io/), we're forced to use the same version of our packages in each one of the projects inside of this repository. If you want to add `mocha` as a dev dependency to a new project, once you are in the folder of that project, you can run the following command:
+If you want to add `mocha` as a dev dependency to a new project, please use [Rush](https://rushjs.io/) since we're most likely using the same version of Mocha in more projects.once you are in the folder of that project, you can run the following command:
 
 ```
 rush add --dev -p mocha
@@ -215,7 +215,7 @@ Code coverage can be added by placing `nyc` at the beginning of the line. Keep i
 
 We also have to point mocha to our test files. If you're **not** using `nyc`, you can point to the bundled test file (bundled with Rollup, which we will see later), typically at `dist-test/index.node.js`. If you are using `nyc`, point mocha to the files built by the TypeScript compiler, which can be found using `find dist-esm/test -name '*.spec.js'` before calling mocha.
 
-Our engineering systems will expect to encounter two scripts in our `package.json`s, one called `unit-test` for tests that will be [executed during Pull Request validation](https://github.com/Azure/azure-sdk-for-js/blob/86b174ebea741187ec3307c40d3dc03f58230b8b/eng/pipelines/templates/jobs/archetype-sdk-client.yml#L225-L235) [⏲][TIPS], which won't ever reach to live resources, and another called `integration-test` for our [nightly and release builds](https://github.com/Azure/azure-sdk-for-js/blob/58bbeeea839b278d1238f908a3cec53749d636c3/eng/pipelines/templates/jobs/archetype-sdk-integration.yml#L114) [⏲][TIPS], which will be expected to reach to live resources. We assume that the distinction of when to reach to what resources will be done within the tests (either by using [The Recorder](#the-recorder) or through [Using conditionals](#using-conditionals)). With this in mind, and limiting `nyc` to only run on the `integration-test` script, we will end up with the following scripts:
+Our engineering systems will expect to encounter two scripts in our `package.json`s, one called `unit-test` for tests that will be [executed during Pull Request validation](https://github.com/Azure/azure-sdk-for-js/blob/86b174ebea741187ec3307c40d3dc03f58230b8b/eng/pipelines/templates/jobs/archetype-sdk-client.yml#L225-L235) [⏲][TIPS], which won't ever reach to live resources, and another called `integration-test` for our [nightly and release builds](https://github.com/Azure/azure-sdk-for-js/blob/58bbeeea839b278d1238f908a3cec53749d636c3/eng/pipelines/templates/jobs/archetype-sdk-integration.yml#L114) [⏲][TIPS], which will be expected to reach to live resources. We assume that the distinction of when to reach to what resources will be done within the tests (either by using [the recorder](#the-recorder) or through [Using conditionals](#using-conditionals)). With this in mind, and limiting `nyc` to only run on the `integration-test` script, we will end up with the following scripts:
 
 ```json
     "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace \"dist-esm/test/**/*.spec.js\"",
@@ -274,7 +274,7 @@ We recommend using `beforeEach` rather than `before`, just as much as we recomme
 This discouraged example of `before` and `after` shows that neither clients nor stateful objects should be assigned in these functions:
 
 ```ts
-describe("Discouraged example of `before` and `after`", function() {
+describe("⛔ Discouraged example of `before` and `after`", function() {
   let state: {
     properties?: any;
   } = {};
@@ -297,7 +297,7 @@ describe("Discouraged example of `before` and `after`", function() {
     // And other global cleanups...
   })
 
-  it("A test for the discouraged example of `before`", function() {
+  it("A test for the ⛔ discouraged example of `before`", function() {
     assert.exists(state.properties);
     assert.exists(client);
   });
@@ -307,7 +307,7 @@ describe("Discouraged example of `before` and `after`", function() {
 `beforeEach` and `afterEach` are encouraged. This example simply creates a new client and defines a stateful object in the `beforeEach`. These assignments should replace any pre-existing state before every test. Anything stateful should be cleared at the `afterEach` ([source](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/template/template/test/internal/beforeAfter.spec.ts#L16) [⏲][TIPS]):
 
 ```ts
-describe("Encouraged example of `beforeEach` and `afterEach`", function() {
+describe("✅ Encouraged example of `beforeEach` and `afterEach`", function() {
   let client: InternalClass;
   let state: {
     fruits?: string[];
@@ -331,18 +331,18 @@ describe("Encouraged example of `beforeEach` and `afterEach`", function() {
     // And other per-test cleanups...
   });
 
-  it("A test for the encouraged example of `beforeEach` and `afterEach`", function() {
+  it("A test for the ✅ encouraged example of `beforeEach` and `afterEach`", function() {
     assert.exists(client);
   });
 });
 ```
 
-We typically use `beforeEach` and `afterEach` to set up and tear down our test recorder. You can learn more about it in the section: [The Recorder](#the-recorder).
+We typically use `beforeEach` and `afterEach` to set up and tear down our test recorder. You can learn more about it in the section: [the recorder](#the-recorder).
 
 Finally, an encouraged example of `before` and `after` ([source](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/template/template/test/internal/beforeAfter.spec.ts#L49) [⏲][TIPS]):
 
 ```ts
-describe("Encouraged example of `before` and `after`", function() {
+describe("✅ Encouraged example of `before` and `after`", function() {
   const expectedHttpResponse = "Hello World!";
   let server: Server;
 
@@ -377,7 +377,7 @@ describe("Encouraged example of `before` and `after`", function() {
     server.close();
   });
 
-  it("A test for the encouraged example of `before` and `after`", async function() {
+  it("A test for the ✅ encouraged example of `before` and `after`", async function() {
     const response = await helloWorldRequest();
     assert.equal(response, expectedHttpResponse); 
   });
@@ -426,19 +426,18 @@ describe("My async tests", () => {
     return true;
   }
 
-  it.skip("Discouraged async test with callback", function(done) {
+  it("⛔ Discouraged async test with callback", function(done) {
     // Do not do this. Use async/await
     myAsyncMethod.then(done);
   });
 
-  it.skip("Discouraged async test with arrow async function", async () => {
+  it("⛔ Discouraged async test with arrow async function", async () => {
     // Do not use arrow functions to declare test cases,
     // tests will lose Mocha's context, which is useful, and needed by the Recorder.
     await myAsyncMethod();
   });
 
-  it("Recommended async test with natural async function", async function() {
-    // This is good ✅
+  it("✅ Recommended async test with natural async function", async function() {
     await myAsyncMethod();
   });
 });
@@ -449,8 +448,6 @@ describe("My async tests", () => {
 Chai is an assertion library, similar to Node's built-in `assert`. While `assert` is a module that belongs to NodeJS's standard library, it was mainly designed to write tests for the NodeJS's core, and [it has been discouraged from being used as a dependency](https://github.com/nodejs/node/issues/4532). Chai is very popular, and it is widely used for both NodeJS and the browser. You can read more about Chai through their main website: https://www.chaijs.com/
 
 Chai makes testing much easier by providing an extensive list of assertions that can run against your code. This list of assertions can be seen in detail by going to their assertion style guide: <https://www.chaijs.com/guide/styles/>
-
-Another important learning resource for Chai is: Chai Assertions for Promises <https://www.chaijs.com/plugins/chai-as-promised/>.
 
 #### Recommended Chai assertion style
 
@@ -500,7 +497,7 @@ If you want to learn more about Rollup, you can read the Rollup guide at: https:
 
 #### Rollup in our dependencies
 
-Since we're using [Rush](https://rushjs.io/), we're forced to use the same version of our packages in each one of the projects inside of this repository. If you want to add `chai` as a dev dependency to a new project, once you're at the root of this new project, you can run the following command:
+If you want to add `chai` as a dev dependency to a new project, please use [Rush](https://rushjs.io/) since we're most likely using the same version of Chai in more projects. Once you're at the root of this new project, you can run the following command:
 
 ```
 rush add --dev -p rollup
@@ -623,7 +620,7 @@ Karma is a tool that allows us to run the same TypeScript tests we run on node, 
 
 #### Karma in our dependencies
 
-Since we're using [Rush](https://rushjs.io/), we're forced to use the same version of our packages in each one of the projects inside of this repository. If you want to add `karma` as a dev dependency to a new project inside of this repository, first make sure you are in the root folder of that project, then you can run the following command:
+If you want to add `karma` as a dev dependency to a new project, please use [Rush](https://rushjs.io/) since we're most likely using the same version of Karma in more projects. First make sure you are in the root folder of that project, then you can run the following command:
 
 ```
 rush add --dev -p karma
@@ -638,7 +635,7 @@ To fulfill our needs, we use Karma with some plugins. They're the following:
 - [`karma-json-preprocessor`](https://www.npmjs.com/package/karma-json-preprocessor):
   It's a Karma preprocessor for converting JSON files into JS variables.
 - [`karma-json-to-file-reporter`](https://www.npmjs.com/package/karma-json-to-file-reporter):
-  It's a Karma reporter that save JSON messages from log to file. We use this to create real local files while executing tests in the browser. It's specifically used by [The Recorder](#the-recorder).
+  It's a Karma reporter that save JSON messages from log to file. We use this to create real local files while executing tests in the browser. It's specifically used by [the recorder](#the-recorder).
 - [`karma-junit-reporter`](https://www.npmjs.com/package/karma-junit-reporter):
   It's a Karma reporter for the [JUnit XML format](https://llg.cubic.org/docs/junit/).
 - [`karma-mocha`](https://www.npmjs.com/package/karma-mocha):
@@ -729,7 +726,7 @@ You can read more about the recorder in its readme: https://github.com/Azure/azu
 
 Tests for the Azure SDK for JavaScript and TypeScript should be all executed using the NPM command `test`, they should be stored in the `test` folder, they must be written in TypeScript, in files that will end in `.spec.ts`. Our [recommended tools](#recommended-tools) should provide the test framework and proper ways of compiling and bundling our tests correctly. They should be able to run and be debugged on the environments we're targeting, which are currently only NodeJS and the browsers.
 
-Even though tests can be executed in groups, through the use of [Pattern matching test titles](#pattern-matching-test-titles), tests should be considered to be executed all at once. What determines what will be tested will be how tests are written, either through [The Recorder](#the-recorder) or through [using conditionals](#using-conditionals). The execution of tests will vary in the `package.json` to provide different build environments, different debugging mechanisms and reportings for automated live tests or automated verification tests. To read more about these topics, you can go to the sections [Configuring Mocha](#configuring-mocha), [Configuring Karma](#configuring-karma) and [CI and nightly test configuration](#ci-and-nightly-test-configuration).
+Even though tests can be executed in groups, through the use of [Pattern matching test titles](#pattern-matching-test-titles), tests should be considered to be executed all at once. What determines what will be tested will be how tests are written, either through [the recorder](#the-recorder) or through [using conditionals](#using-conditionals). The execution of tests will vary in the `package.json` to provide different build environments, different debugging mechanisms and reportings for automated live tests or automated verification tests. To read more about these topics, you can go to the sections [Configuring Mocha](#configuring-mocha), [Configuring Karma](#configuring-karma) and [CI and nightly test configuration](#ci-and-nightly-test-configuration).
 
 All together, the `package.json` will end up with the following scripts:
 
@@ -1182,8 +1179,8 @@ describe("Tests with more than one property", function() {
   it("should test A", async function() {
     const result = await client.A();
     assert.ok(result.value);
-    assert.ok(result.createdAt instanceof Date);
-    assert.ok(result.updatedAt instanceof Date);
+    assert.instanceOf(result.createdAt, Date);
+    assert.instanceOf(result.updatedAt, Date);
     // And other properties...
   });
 });
