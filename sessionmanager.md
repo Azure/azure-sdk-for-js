@@ -4,7 +4,7 @@
 
 Sessions allow a user to logically subdivide a queue or subscription
 into multiple smaller queues. This is useful for customers that would
-like to allow for many smaller streams of messages within a single
+like to allow for **many** smaller streams of messages within a single
 queue or subscription.
 
 ## Use case
