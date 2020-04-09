@@ -1382,27 +1382,9 @@ Ideally, each test case should only have one possible behavior. To minimize unex
 
 ```ts
 import { isNode } from "@azure/core-http";
-import { env, record, RecorderEnvironmentSetup, Recorder } from "@azure/test-utils-recorder";
+import { isLiveMode } from "@azure/test-utils-recorder";
 
 describe("Tests with conditionals", function() {
-  let client: Client;
-  let recorder: Recorder;
-
-  beforeEach(function() {
-    const recorderEnvSetup: RecorderEnvironmentSetup = {
-      replaceableVariables: {},
-      customizationsOnRecordings: [],
-      queryParametersToSkip: []
-    };
-
-    recorder = record(this, recorderEnvSetup);
-    client = new Client();
-  });
-
-  afterEach(function () {
-    recorder.stop();
-  });
-
   it("should test A #node", function() {
     if (!isNode) {
       return this.skip();
@@ -1418,7 +1400,7 @@ describe("Tests with conditionals", function() {
   });
 
   it("should test C #live", function() {
-    if (env.TEST_MODE) {
+    if (!isLiveMode()) {
       return this.skip();
     }
     // Test contents..
