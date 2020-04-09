@@ -1172,6 +1172,8 @@ describe("Tests with more than one property", function() {
 });
 ```
 
+Tests should show how each class and function behaves in the multiple scenarios they might be useful. Nonetheless, it will be reasonable to skip testing some functionalities as long as they come from another function or class from which the function or class we're testing is inheriting this behavior. **We do not test inherited members unless we do something that uniquely changes the way they act**. 
+
 ### Test titles
 
 Test files contain `describe` blocks and `it` blocks. The first property that these functions receive will be the title of the group of tests, and the title of each test, respectively for `describe` and `it`. Let's explore these separately:
@@ -1213,7 +1215,7 @@ describe("Tests for the internal classes", function() {
 });
 ```
 
-Inside of the inner describes, each test case would focus on asserting one specific behavior. For `InternalClass`, we would first assert that the class' constructor works as expected, then test it's `returnsTrue` method. For `InternalInheritedClass`, we would first assert that the class' constructor works as expected, then test it's inherited `returnsTrue` method, then it's `returnFalse` method. As follows:
+Inside of the inner describes, each test case would focus on asserting one specific behavior. For `InternalClass`, we would first assert that the class' constructor works as expected, then test it's `returnsTrue` method. For `InternalInheritedClass`, we would first assert that the class' constructor works as expected, then it's `returnFalse` method. As follows:
 
 ```ts
 describe("Tests for the internal classes", function() {
@@ -1237,11 +1239,7 @@ describe("Tests for the internal classes", function() {
       assert.exists(Internal);
     });
 
-    it("The InternalInheritedClass's returnsTrue should return true", function() {
-      const Internal = new InternalInheritedClass();
-      const result: boolean = Internal.returnsTrue();
-      assert.isTrue(result);
-    });
+    // We're not testing returnsTrue because we've already tested the parent class's returnsTrue.
 
     it("The InternalInheritedClass's returnsFalse should return false", function() {
       const Internal = new InternalInheritedClass();
@@ -1252,6 +1250,8 @@ describe("Tests for the internal classes", function() {
 
 });
 ```
+
+Keep in mind that **We do not test inherited members unless we do something that uniquely changes the way they act**.
 
 In addition to being expressive, test titles might have specific hashtags (as in, words preceded by the pound sign), to facilitate pattern matching.
 

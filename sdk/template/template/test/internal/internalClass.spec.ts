@@ -26,11 +26,7 @@ describe("Tests for the internal classes", function() {
       assert.exists(Internal);
     });
 
-    it("The InternalInheritedClass's returnsTrue should return true", function() {
-      const Internal = new InternalInheritedClass();
-      const result: boolean = Internal.returnsTrue();
-      assert.isTrue(result);
-    });
+    // We're not testing returnsTrue because we've already tested the parent class's returnsTrue.
 
     it("The InternalInheritedClass's returnsFalse should return false", function() {
       const Internal = new InternalInheritedClass();
