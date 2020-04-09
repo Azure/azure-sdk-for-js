@@ -271,7 +271,7 @@ We recommend using `beforeEach` rather than `before`, just as much as we recomme
 
 `before` and `after` can be used to define or create heavy resources that could cleanly be used by more than one test. We will see some examples below.
 
-This discouraged example of `before` and `after` shows that neither clients nor stateful objects should be assigned in these functions ([source](https://github.com/Azure/azure-sdk-for-js/blob/b3bc4375c038605e00797fd45b1efb9bff4ea651/sdk/template/template/test/internal/beforeAfter.spec.ts#L14) [⏲][TIPS]):
+This discouraged example of `before` and `after` shows that neither clients nor stateful objects should be assigned in these functions:
 
 ```ts
 describe("Discouraged example of `before` and `after`", function() {
@@ -304,7 +304,7 @@ describe("Discouraged example of `before` and `after`", function() {
 });
 ```
 
-`beforeEach` and `afterEach` are encouraged. This example simply creates a new client and defines a stateful object in the `beforeEach`. These assignments should replace any pre-existing state before every test. Anything stateful should be cleared at the `afterEach` ([source](https://github.com/Azure/azure-sdk-for-js/blob/b3bc4375c038605e00797fd45b1efb9bff4ea651/sdk/template/template/test/internal/beforeAfter.spec.ts#L46) [⏲][TIPS]):
+`beforeEach` and `afterEach` are encouraged. This example simply creates a new client and defines a stateful object in the `beforeEach`. These assignments should replace any pre-existing state before every test. Anything stateful should be cleared at the `afterEach` ([source](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/template/template/test/internal/beforeAfter.spec.ts#L16) [⏲][TIPS]):
 
 ```ts
 describe("Encouraged example of `beforeEach` and `afterEach`", function() {
@@ -339,7 +339,7 @@ describe("Encouraged example of `beforeEach` and `afterEach`", function() {
 
 We typically use `beforeEach` and `afterEach` to set up and tear down our test recorder. You can learn more about it in the section: [The Recorder](#the-recorder).
 
-Finally, an encouraged example of `before` and `after` ([source](https://github.com/Azure/azure-sdk-for-js/blob/b3bc4375c038605e00797fd45b1efb9bff4ea651/sdk/template/template/test/internal/beforeAfter.spec.ts#L80) [⏲][TIPS]):
+Finally, an encouraged example of `before` and `after` ([source](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/template/template/test/internal/beforeAfter.spec.ts#L49) [⏲][TIPS]):
 
 ```ts
 describe("Encouraged example of `before` and `after`", function() {
@@ -1435,8 +1435,8 @@ The API methods that we provide should always allow users to wait until the serv
 If a method can't use `core-lro` (for example, if the service cannot be trusted to provide signs of completion, or finish within reasonable time), and thus we see the need to use a different delay strategy, we should always wait until the next possible operation can be fulfilled. **Tests that need to wait for an operation that cannot be trusted to finish reasonably should not run during the automated execution of live tests**. The following snippet can be used to skip these tests in live mode:
 
 ```ts
-  // `isRecordMode` and `isPlaybackMode` are methods exported from the Recorder.
-  if (!isRecordMode() && !isPlaybackMode()) {
+  // `isLiveMode`, `isRecordMode` and `isPlaybackMode` are methods exported from the Recorder.
+  if (isLiveMode()) {
     return this.skip();
   }
 ```
@@ -1444,7 +1444,7 @@ If a method can't use `core-lro` (for example, if the service cannot be trusted 
 For example, in `@azure/keyvault-keys` we provide a method to purge keys that has not been moved to use `core-lro`. To check that it has finished, we do a while loop where we try to make the next operation until it passes:
 
 ```ts
-import { delay, isRecordMode, isPlaybackMode } from "@azure/test-utils-recorder";
+import { delay, isLiveMode } from "@azure/test-utils-recorder";
 // ...
 
 describe("Keys client - restore keys and recover backups", () => {
@@ -1452,7 +1452,7 @@ describe("Keys client - restore keys and recover backups", () => {
   it("can restore a key with a given backup", async function() {
 
     // This test can't be expected to finish in any reasonable time.
-    if (!isRecordMode() && !isPlaybackMode()) {
+    if (isLiveMode()) {
       return this.skip();
     }
 
@@ -1489,7 +1489,7 @@ While testing the Azure SDK clients for JavaScript and TypeScript, we should doc
 
 Similarly, since the public API surface of our clients contain a large set of properties resulting from any of the methods that our clients implement, our tests should not focus on verifying that all of the client properties exist or are expectedly received. Tests should include only as many properties as it can be relevant for the use case that each test case is representing. For this purpose we should also take advantage of strict types. If our types can be descriptive and thorough (and our internal code is not skipping any types by using `any`) we will be able to trust that our API is behaving reasonably well.
 
-To use `tsdoc` to document our expected API exceptions, use `@throws`. The implementation can be seen ]here (includes examples)](https://github.com/microsoft/tsdoc/pull/175).
+To use `tsdoc` to document our expected API exceptions, use `@throws`. The implementation can be seen [here (includes examples)](https://github.com/microsoft/tsdoc/pull/175).
 
 An example of a valid case of an exception test that expresses a feature provided by our SDK can be seen on the tests that show how to control the timeout of a request, as in some of the [KeyVault tests](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-keys/test/CRUD.test.ts#L57)) [⏲][TIPS]:
 

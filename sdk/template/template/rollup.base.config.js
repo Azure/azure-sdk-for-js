@@ -56,7 +56,7 @@ export function nodeConfig(test = false) {
 export function browserConfig(test = false) {
   const baseConfig = {
     input: input,
-    external: ["http", "fs-extra"],
+    external: ["fs-extra"],
     output: {
       file: "dist-browser/azure-template.js",
       format: "umd",
