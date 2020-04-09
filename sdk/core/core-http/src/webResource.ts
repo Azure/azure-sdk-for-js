@@ -648,6 +648,12 @@ export interface RequestOptionsBase {
   onDownloadProgress?: (progress: TransferProgressEvent) => void;
 
   /**
+   * Whether or not the HttpOperationResponse should be deserialized. If this is undefined, then the
+   * HttpOperationResponse should be deserialized.
+   */
+  shouldDeserialize?: boolean | ((response: HttpOperationResponse) => boolean);
+
+  /**
    * Options used to create a span when tracing is enabled.
    */
   spanOptions?: SpanOptions;
