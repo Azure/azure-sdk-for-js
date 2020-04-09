@@ -877,7 +877,7 @@ async function main() {
 main();
 ```
 
-### Get the status of an indexer
+#### Get the status of an indexer
 ```js
 const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-documents");
 
@@ -894,6 +894,49 @@ async function main() {
     console.log(`\tFinal Tracking State: ${execution.finalTrackingState}`);
     console.log(`\tInitial Tracking State: ${execution.initialTrackingState}`);
   }
+}
+
+main();
+```
+
+#### Get the service statistics
+```js
+const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-documents");
+
+const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
+
+async function main() {
+  const serviceStatistics = await client.getServiceStatistics();
+  console.log(`Counters`);
+  console.log(`========`);
+  console.log(`\tDocument Counter`);
+  console.log(`\t\tUsage: ${serviceStatistics.counters.documentCounter.usage}`);
+  console.log(`\t\tQuota: ${serviceStatistics.counters.documentCounter.quota}`);
+  console.log(`\tIndex Counter`);
+  console.log(`\t\tUsage: ${serviceStatistics.counters.indexCounter.usage}`);
+  console.log(`\t\tQuota: ${serviceStatistics.counters.indexCounter.quota}`);
+  console.log(`\tIndexer Counter`);
+  console.log(`\t\tUsage: ${serviceStatistics.counters.indexerCounter.usage}`);
+  console.log(`\t\tQuota: ${serviceStatistics.counters.indexerCounter.quota}`);
+  console.log(`\tData Source Counter`);
+  console.log(`\t\tUsage: ${serviceStatistics.counters.dataSourceCounter.usage}`);
+  console.log(`\t\tQuota: ${serviceStatistics.counters.dataSourceCounter.quota}`);
+  console.log(`\tStorage Size Counter`);
+  console.log(`\t\tUsage: ${serviceStatistics.counters.storageSizeCounter.usage}`);
+  console.log(`\t\tQuota: ${serviceStatistics.counters.storageSizeCounter.quota}`);
+  console.log(`\tSynonym Map Counter`);
+  console.log(`\t\tUsage: ${serviceStatistics.counters.synonymMapCounter.usage}`);
+  console.log(`\t\tQuota: ${serviceStatistics.counters.synonymMapCounter.quota}`);
+  console.log(`\tSkillset Counter`);
+  console.log(`\t\tUsage: ${serviceStatistics.counters.skillsetCounter.usage}`);
+  console.log(`\t\tQuota: ${serviceStatistics.counters.skillsetCounter.quota}`);
+  console.log();
+  console.log(`Limits`);
+  console.log(`======`);
+  console.log(`\tMax Fields Per Index: ${serviceStatistics.limits.maxFieldsPerIndex}`);
+  console.log(`\tMax Field Nesting Depth Per Index: ${serviceStatistics.limits.maxFieldNestingDepthPerIndex}`);
+  console.log(`\tMax Complex Collection Fields Per Index: ${serviceStatistics.limits.maxComplexCollectionFieldsPerIndex}`);
+  console.log(`\tMax Complex Objects In Collections Per Document: ${serviceStatistics.limits.maxComplexObjectsInCollectionsPerDocument}`);  
 }
 
 main();

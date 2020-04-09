@@ -83,7 +83,8 @@ export {
   ListDataSourcesOptions,
   DataSource,
   DataChangeDetectionPolicy,
-  DataDeletionDetectionPolicy
+  DataDeletionDetectionPolicy,
+  GetServiceStatisticsOptions
 } from "./serviceModels";
 export { default as GeographyPoint } from "./geographyPoint";
 export { odata } from "./odata";
@@ -217,6 +218,10 @@ export {
   DataSourceType,
   SoftDeleteColumnDeletionDetectionPolicy,
   SqlIntegratedChangeTrackingPolicy,
-  HighWaterMarkChangeDetectionPolicy
+  HighWaterMarkChangeDetectionPolicy,
+  ServiceStatistics,
+  ServiceCounters,
+  ServiceLimits,
+  ResourceCounter
 } from "./generated/service/models";
 export { AzureKeyCredential } from "@azure/core-auth";

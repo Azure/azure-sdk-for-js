@@ -161,6 +161,11 @@ export type GetDataSourceOptions = OperationOptions;
 export type GetIndexStatisticsOptions = OperationOptions;
 
 /**
+ * Options for get service statistics operation.
+ */
+export type GetServiceStatisticsOptions = OperationOptions;
+
+/**
  * Options for get indexer status operation.
  */
 export type GetIndexerStatusOptions = OperationOptions;

@@ -421,6 +421,9 @@ export interface GetIndexStatisticsResult {
 }
 
 // @public
+export type GetServiceStatisticsOptions = OperationOptions;
+
+// @public
 export type GetSkillSetOptions = OperationOptions;
 
 // @public
@@ -1063,6 +1066,12 @@ export type RegexFlags = 'CANON_EQ' | 'CASE_INSENSITIVE' | 'COMMENTS' | 'DOTALL'
 export type ResetIndexerOptions = OperationOptions;
 
 // @public
+export interface ResourceCounter {
+    quota?: number;
+    usage: number;
+}
+
+// @public
 export type RunIndexerOptions = OperationOptions;
 
 // @public
@@ -1187,6 +1196,7 @@ export class SearchServiceClient {
     getIndexer(indexerName: string, options?: GetIndexerOptions): Promise<Indexer>;
     getIndexerStatus(indexerName: string, options?: GetIndexerStatusOptions): Promise<IndexerExecutionInfo>;
     getIndexStatistics(indexName: string, options?: GetIndexStatisticsOptions): Promise<GetIndexStatisticsResult>;
+    getServiceStatistics(options?: GetServiceStatisticsOptions): Promise<ServiceStatistics>;
     getSkillset(skillsetName: string, options?: GetSkillSetOptions): Promise<Skillset>;
     getSynonymMap(synonymMapName: string, options?: GetSynonymMapsOptions): Promise<SynonymMap>;
     listDataSources<Fields extends keyof DataSource>(options?: ListDataSourcesOptions<Fields>): Promise<Array<Pick<DataSource, Fields>>>;
@@ -1214,6 +1224,31 @@ export interface SentimentSkill {
 
 // @public
 export type SentimentSkillLanguage = 'da' | 'nl' | 'en' | 'fi' | 'fr' | 'de' | 'el' | 'it' | 'no' | 'pl' | 'pt-PT' | 'ru' | 'es' | 'sv' | 'tr';
+
+// @public
+export interface ServiceCounters {
+    dataSourceCounter: ResourceCounter;
+    documentCounter: ResourceCounter;
+    indexCounter: ResourceCounter;
+    indexerCounter: ResourceCounter;
+    skillsetCounter: ResourceCounter;
+    storageSizeCounter: ResourceCounter;
+    synonymMapCounter: ResourceCounter;
+}
+
+// @public
+export interface ServiceLimits {
+    maxComplexCollectionFieldsPerIndex?: number;
+    maxComplexObjectsInCollectionsPerDocument?: number;
+    maxFieldNestingDepthPerIndex?: number;
+    maxFieldsPerIndex?: number;
+}
+
+// @public
+export interface ServiceStatistics {
+    counters: ServiceCounters;
+    limits: ServiceLimits;
+}
 
 // @public
 export interface ShaperSkill {

@@ -15,7 +15,8 @@ import {
   AnalyzeResult,
   GetIndexStatisticsResult,
   Indexer,
-  IndexerExecutionInfo
+  IndexerExecutionInfo,
+  ServiceStatistics
 } from "./generated/service/models";
 import { SearchServiceClient as GeneratedClient } from "./generated/service/searchServiceClient";
 import { logger } from "./logger";
@@ -54,7 +55,8 @@ import {
   CreateDataSourceOptions,
   DeleteDataSourceOptions,
   GetDataSourceOptions,
-  CreateorUpdateDataSourceOptions
+  CreateorUpdateDataSourceOptions,
+  GetServiceStatisticsOptions
 } from "./serviceModels";
 import * as utils from "./serviceUtils";
 import { createSpan } from "./tracing";
@@ -831,6 +833,33 @@ export class SearchServiceClient {
     try {
       const result = await this.client.indexes.getStatistics(
         indexName,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return result;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Retrieves statistics about the service, such as the count of documents, index, etc.
+   * @param options Additional optional arguments.
+   */
+  public async getServiceStatistics(
+    options: GetServiceStatisticsOptions = {}
+  ): Promise<ServiceStatistics> {
+    const { span, updatedOptions } = createSpan(
+      "SearchServiceClient-getServiceStatistics",
+      options
+    );
+    try {
+      const result = await this.client.getServiceStatistics(
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
       return result;
