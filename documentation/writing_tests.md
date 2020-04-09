@@ -343,44 +343,25 @@ We typically use `beforeEach` and `afterEach` to set up and tear down our test r
 Finally, an encouraged example of `before` and `after` ([source](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/template/template/test/internal/beforeAfter.spec.ts#L49) [⏲][TIPS]):
 
 ```ts
-describe("✅ Encouraged example of `before` and `after`", function() {
-  const expectedHttpResponse = "Hello World!";
-  let server: Server;
-
-  /**
-   * helloWorldRequest makes a get request to the env.SERVER_ADDRESS
-   * and returns a promise that resolves when the server responds.
-   */
-  async function helloWorldRequest(): Promise<string> {
-    return new Promise((resolve) => {
-      const http = require("http");
-      http.get("localhost:8080", (res: any) => {
-        let data = "";
-        res.on("data", (chunk: string) => {
-          data += chunk;
-        });
-        res.on("end", () => {
-          resolve(data);
-        });
-      });
-    });
-  }
+describe("Encouraged example of `before` and `after`", function() {
+  let mockFs: any;
 
   before(function() {
-    server = createServer(function(_: any, res: any) {
-      res.write(expectedHttpResponse);
-      res.end();
+    // Only internal tests may use mocks.
+    mockFs = require("mock-fs");
+
+    mockFs({
+      "file.txt": "Here be dragons."
     });
-    server.listen(8080);
   });
 
   after(function() {
-    server.close();
+    mockFs.restore();
   });
 
-  it("A test for the ✅ encouraged example of `before` and `after`", async function() {
-    const response = await helloWorldRequest();
-    assert.equal(response, expectedHttpResponse); 
+  it("A test for the encouraged example of `before` and `after`", async function() {
+    const response = fs.readFileSync("file.txt", { encoding: "utf8" });
+    assert.equal(response, "Here be dragons.");
   });
 });
 ```
@@ -1315,7 +1296,7 @@ describe("An interesting title", function() {
   before(function() {
     // Setting up stateless resources or tools for more than one test.
     // Examples:
-    // - A web server.
+    // - A mock.
     // - Some task to configure resources provided by the CI automated tools.
     // - Cleaning up or altering Node or the Browser before ALL tests.
   });

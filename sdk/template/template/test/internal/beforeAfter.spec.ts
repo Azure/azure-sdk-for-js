@@ -4,6 +4,7 @@
 import { InternalClass } from "../../src/internalClass";
 import { assert } from "chai";
 import { isNode } from "@azure/core-http";
+import * as fs from "fs";
 
 describe("before, beforeEach, after and afterEach examples", function() {
   // We recommend using `beforeEach` rather than `before`,
@@ -42,50 +43,26 @@ describe("before, beforeEach, after and afterEach examples", function() {
   });
 
   // Use `before` to declare heavy resources that can be used by more than one test.
-  // Like a stateless web server...
-  // (This test won't run if we're in a browser,
-  // since HTTP servers can't be created in the browsers).
   if (isNode) {
     describe("Encouraged example of `before` and `after`", function() {
-      const expectedHttpResponse = "Hello World!";
-      let server: any;
-
-      /**
-       * helloWorldRequest makes a get request to the env.SERVER_ADDRESS
-       * and returns a promise that resolves when the server responds.
-       */
-      async function helloWorldRequest(): Promise<string> {
-        return new Promise((resolve) => {
-          const http = require("http");
-          http.get("http://localhost:8080", (res: any) => {
-            let data = "";
-            res.on("data", (chunk: string) => {
-              data += chunk;
-            });
-            res.on("end", () => {
-              resolve(data);
-            });
-          });
-        });
-      }
+      let mockFs: any;
 
       before(function() {
-        // Only internal tests may use mocks of servers.
-        const http = require("http");
-        server = http.createServer(function(_: any, res: any) {
-          res.write(expectedHttpResponse);
-          res.end();
+        // Only internal tests may use mocks.
+        mockFs = require("mock-fs");
+
+        mockFs({
+          "file.txt": "Here be dragons."
         });
-        server.listen(8080);
       });
 
       after(function() {
-        server.close();
+        mockFs.restore();
       });
 
       it("A test for the encouraged example of `before` and `after`", async function() {
-        const response = await helloWorldRequest();
-        assert.equal(response, expectedHttpResponse);
+        const response = fs.readFileSync("file.txt", { encoding: "utf8" });
+        assert.equal(response, "Here be dragons.");
       });
     });
   }

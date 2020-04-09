@@ -111,6 +111,7 @@
     "esm": "^3.2.18",
     "source-map-support": "^0.5.9",
     "chai": "^4.2.0",
-    "@types/chai": "^4.1.6"
+    "@types/chai": "^4.1.6",
+    "mock-fs": "^4.10.4"
   }
 }
