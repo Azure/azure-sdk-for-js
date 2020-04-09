@@ -54,8 +54,10 @@ export interface HardwareProfile {
   /**
    * Specifies the HANA instance SKU. Possible values include: 'S72m', 'S144m', 'S72', 'S144',
    * 'S192', 'S192m', 'S192xm', 'S96', 'S112', 'S224', 'S224m', 'S224om', 'S224oo', 'S224oom',
-   * 'S224ooo', 'S384', 'S384m', 'S384xm', 'S384xxm', 'S576m', 'S576xm', 'S768', 'S768m', 'S768xm',
-   * 'S960m'
+   * 'S224ooo', 'S384', 'S384m', 'S384xm', 'S384xxm', 'S448', 'S448m', 'S448om', 'S448oo',
+   * 'S448oom', 'S448ooo', 'S576m', 'S576xm', 'S672', 'S672m', 'S672om', 'S672oo', 'S672oom',
+   * 'S672ooo', 'S768', 'S768m', 'S768xm', 'S896', 'S896m', 'S896om', 'S896oo', 'S896oom',
+   * 'S896ooo', 'S960m'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly hanaInstanceSize?: HanaInstanceSizeNamesEnum;
@@ -428,11 +430,13 @@ export type HanaHardwareTypeNamesEnum = 'Cisco_UCS' | 'HPE';
  * Defines values for HanaInstanceSizeNamesEnum.
  * Possible values include: 'S72m', 'S144m', 'S72', 'S144', 'S192', 'S192m', 'S192xm', 'S96',
  * 'S112', 'S224', 'S224m', 'S224om', 'S224oo', 'S224oom', 'S224ooo', 'S384', 'S384m', 'S384xm',
- * 'S384xxm', 'S576m', 'S576xm', 'S768', 'S768m', 'S768xm', 'S960m'
+ * 'S384xxm', 'S448', 'S448m', 'S448om', 'S448oo', 'S448oom', 'S448ooo', 'S576m', 'S576xm', 'S672',
+ * 'S672m', 'S672om', 'S672oo', 'S672oom', 'S672ooo', 'S768', 'S768m', 'S768xm', 'S896', 'S896m',
+ * 'S896om', 'S896oo', 'S896oom', 'S896ooo', 'S960m'
  * @readonly
  * @enum {string}
  */
-export type HanaInstanceSizeNamesEnum = 'S72m' | 'S144m' | 'S72' | 'S144' | 'S192' | 'S192m' | 'S192xm' | 'S96' | 'S112' | 'S224' | 'S224m' | 'S224om' | 'S224oo' | 'S224oom' | 'S224ooo' | 'S384' | 'S384m' | 'S384xm' | 'S384xxm' | 'S576m' | 'S576xm' | 'S768' | 'S768m' | 'S768xm' | 'S960m';
+export type HanaInstanceSizeNamesEnum = 'S72m' | 'S144m' | 'S72' | 'S144' | 'S192' | 'S192m' | 'S192xm' | 'S96' | 'S112' | 'S224' | 'S224m' | 'S224om' | 'S224oo' | 'S224oom' | 'S224ooo' | 'S384' | 'S384m' | 'S384xm' | 'S384xxm' | 'S448' | 'S448m' | 'S448om' | 'S448oo' | 'S448oom' | 'S448ooo' | 'S576m' | 'S576xm' | 'S672' | 'S672m' | 'S672om' | 'S672oo' | 'S672oom' | 'S672ooo' | 'S768' | 'S768m' | 'S768xm' | 'S896' | 'S896m' | 'S896om' | 'S896oo' | 'S896oom' | 'S896ooo' | 'S960m';
 
 /**
  * Defines values for HanaInstancePowerStateEnum.
