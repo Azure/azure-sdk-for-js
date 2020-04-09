@@ -955,6 +955,9 @@ export class MessageReceiver extends LinkEntity {
         if (!this.wasCloseInitiated) {
           await retry<void>(config);
         }
+      } else {
+        // If not retrying, throw the error so it gets logged and forwarded to user's error handler.
+        throw receiverError || new Error(`Unexpected error occurred.`);
       }
     } catch (err) {
       log.error(
