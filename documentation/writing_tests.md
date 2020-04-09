@@ -1412,6 +1412,8 @@ For example, in `@azure/keyvault-keys` we provide a method to purge keys that ha
 import { delay, isLiveMode } from "@azure/test-utils-recorder";
 // ...
 
+const KEY_DELETION_DELAY_IN_MS = 1000;
+
 describe("Keys client - restore keys and recover backups", () => {
   // ...
   it("can restore a key with a given backup", async function() {
@@ -1433,7 +1435,7 @@ describe("Keys client - restore keys and recover backups", () => {
         console.log("Can't restore the key since it's not fully deleted:", e.message);
         console.log("Retrying in one second...");
         // This delay method comes from the recorder
-        await delay(1000);
+        await delay(KEY_DELETION_DELAY_IN_MS);
       }
     }
     const getResult = await client.getKey(keyName);
