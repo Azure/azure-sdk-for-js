@@ -79,9 +79,9 @@ export type BeginTrainingWithLabelsOptions = FormRecognizerOperationOptions & {
 export interface CommonFieldValue {
     boundingBox?: Point2D[];
     confidence?: number;
-    elements?: FormElement[];
     pageNumber?: number;
     text?: string;
+    textContent?: FormElement[];
 }
 
 // @public
@@ -122,10 +122,11 @@ export interface FormElementCommon {
 
 // @public
 export interface FormField {
-    confidence: number;
-    fieldLabel: FormText;
-    label?: string;
-    valueText: FormText;
+    confidence?: number;
+    fieldLabel?: FormText;
+    name?: string;
+    value: FieldValue;
+    valueText?: FormText;
 }
 
 // @public
@@ -157,10 +158,11 @@ export type FormModelResponse = FormModel & {
 
 // @public
 export interface FormPage {
-    angle: number;
     height: number;
     lines?: FormLine[];
     pageNumber: number;
+    tables?: FormTable[];
+    textAngle: number;
     unit: LengthUnit;
     width: number;
 }
@@ -183,7 +185,7 @@ export class FormRecognizerClient {
     beginRecognizeForms(modelId: string, body: FormRecognizerRequestBody, contentType?: ContentType, options?: BeginRecognizeFormsOptions): Promise<FormPollerLike>;
     // (undocumented)
     beginRecognizeFormsFromUrl(modelId: string, documentUrl: string, options?: BeginRecognizeFormsOptions): Promise<PollerLike<PollOperationState<RecognizeFormResultResponse>, RecognizeFormResultResponse>>;
-    beginRecognizeLabeledForms(modelId: string, body: FormRecognizerRequestBody, contentType: ContentType, options?: BeginRecognizeLabeledFormOptions): Promise<LabeledFormPollerLike>;
+    beginRecognizeLabeledForms(modelId: string, body: FormRecognizerRequestBody, contentType?: ContentType, options?: BeginRecognizeLabeledFormOptions): Promise<LabeledFormPollerLike>;
     // (undocumented)
     beginRecognizeLabeledFormsFromUrl(modelId: string, documentUrl: string, options?: BeginRecognizeLabeledFormOptions): Promise<PollerLike<PollOperationState<LabeledFormResultResponse>, LabeledFormResultResponse>>;
     beginRecognizeReceipts(source: FormRecognizerRequestBody, contentType?: ContentType, options?: BeginRecognizeReceiptsOptions): Promise<ReceiptPollerLike>;
@@ -224,12 +226,12 @@ export interface FormTableCell {
     columnIndex: number;
     columnSpan?: number;
     confidence: number;
-    elements?: FormElement[];
     isFooter?: boolean;
     isHeader?: boolean;
     rowIndex: number;
     rowSpan?: number;
     text: string;
+    textContent?: FormElement[];
 }
 
 // @public
@@ -240,8 +242,8 @@ export interface FormTableRow {
 // @public
 export interface FormText {
     boundingBox?: Point2D[];
-    elements?: FormElement[];
-    text: string;
+    text?: string;
+    textContent?: FormElement[];
 }
 
 // @public
@@ -336,9 +338,7 @@ export type LabeledFormPollerLike = PollerLike<PollOperationState<LabeledFormRes
 // @public
 export interface LabeledFormResult {
     errors?: ErrorInformation[];
-    extractedForms?: RecognizedForm[];
-    extractedPages?: RecognizedPage[];
-    rawExtractedPages: FormPage[];
+    forms?: RecognizedForm[];
     version: string;
 }
 
@@ -531,25 +531,18 @@ export type RecognizeContentResultResponse = RecognizeContentOperationResult & {
 
 // @public
 export interface RecognizedContent {
-    extractedLayoutPages?: RecognizedContentPage[];
-    rawExtractedPages: FormPage[];
+    pages: FormPage[];
     version: string;
 }
 
 // @public
-export interface RecognizedContentPage {
-    fields?: FormField[];
-    pageNumber: number;
-    tables?: FormTable[];
-}
-
-// @public
 export interface RecognizedForm {
-    docType: string;
     fields: {
-        [propertyName: string]: FieldValue;
+        [propertyName: string]: FormField;
     };
+    formType: string;
     pageRange: FormPageRange;
+    pages: FormPage[];
 }
 
 // @public
@@ -557,14 +550,13 @@ export interface RecognizedPage {
     fields?: FormField[];
     formTypeId?: number;
     pageNumber: number;
-    tables?: FormTable[];
 }
 
 // @public
 export type RecognizedReceipt = RawReceiptResult & Receipt;
 
 // @public
-export type RecognizeFormOperationResult = Partial<FormResult> & {
+export type RecognizeFormOperationResult = Partial<LabeledFormResult> & {
     status: OperationStatus;
     createdOn: Date;
     lastUpdatedOn: Date;

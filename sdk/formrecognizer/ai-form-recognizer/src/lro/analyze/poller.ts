@@ -60,7 +60,7 @@ export interface BeginRecognizePollerOperation<T>
  */
 export type BeginRecognizePollerOptions<T> = {
   client: RecognizePollerClient<T>;
-  source: FormRecognizerRequestBody;
+  source: FormRecognizerRequestBody | string;
   contentType?: ContentType;
   modelId?: string;
   intervalInMs?: number;

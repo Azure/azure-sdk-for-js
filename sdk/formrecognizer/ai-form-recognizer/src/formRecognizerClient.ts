@@ -44,7 +44,7 @@ import {
 import {
   toRecognizeFormResultResponse,
   toLabeledFormResultResponse,
-  toAnalyzeLayoutResultResponse,
+  toRecognizeContentResultResponse,
   toReceiptResultResponse
 } from "./transforms";
 import { FormTrainingClient } from "./formTrainingClient";
@@ -346,8 +346,21 @@ export class FormRecognizerClient {
     documentUrl: string,
     options: BeginRecognizeContentOptions = {}
   ): Promise<ContentPollerLike> {
-    return this.beginRecognizeContent(documentUrl, undefined, options);
-  }
+    const analyzePollerClient: RecognizePollerClient<RecognizeContentResultResponse> = {
+      beginRecognize: (...args) => recognizeLayoutInternal(this.client, ...args),
+      getRecognizeResult: (...args) => this.getRecognizedContent(...args)
+    };
+
+    const poller = new BeginRecognizePoller<RecognizeContentResultResponse>({
+      client: analyzePollerClient,
+      source: documentUrl,
+      contentType: undefined,
+      ...options
+    });
+
+    await poller.poll();
+    return poller;
+}
 
   /**
    * @private
@@ -365,7 +378,7 @@ export class FormRecognizerClient {
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const analyzeResult = await this.client.getAnalyzeLayoutResult(resultId, requestOptions);
-      return toAnalyzeLayoutResultResponse(analyzeResult);
+      return toRecognizeContentResultResponse(analyzeResult);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -376,6 +389,7 @@ export class FormRecognizerClient {
       span.end();
     }
   }
+
   /**
    * Recognizes name-value pairs and tables from a given document using a model from unsupervised training.
    * This method returns a long running operation poller that allows you to wait
@@ -445,8 +459,27 @@ export class FormRecognizerClient {
     if (!modelId) {
       throw new RangeError("Invalid modelId");
     }
-    return this.beginRecognizeForms(modelId, documentUrl, undefined, options);
-  }
+    const analyzePollerClient: RecognizePollerClient<RecognizeFormResultResponse> = {
+      beginRecognize: (
+        body: FormRecognizerRequestBody,
+        contentType?: ContentType,
+        analyzeOptions: RecognizeOptions = {},
+        modelId?: string
+      ) => recognizeCustomFormInternal(this.client, body, contentType, analyzeOptions, modelId!),
+      getRecognizeResult: (resultId: string, options: { abortSignal?: AbortSignalLike }) =>
+        this.getRecognizedForm(modelId, resultId, options)
+    };
+
+    const poller = new BeginRecognizePoller({
+      client: analyzePollerClient,
+      modelId,
+      source: documentUrl,
+      contentType: undefined,
+      ...options
+    });
+
+    await poller.poll();
+    return poller;  }
 
   private async getRecognizedForm(
     modelId: string,
@@ -536,7 +569,7 @@ export class FormRecognizerClient {
   public async beginRecognizeLabeledForms(
     modelId: string,
     body: FormRecognizerRequestBody,
-    contentType: ContentType,
+    contentType?: ContentType,
     options: BeginRecognizeLabeledFormOptions = {}
   ): Promise<LabeledFormPollerLike> {
     if (!modelId) {
@@ -573,9 +606,28 @@ export class FormRecognizerClient {
     if (!modelId) {
       throw new RangeError("Invalid model id");
     }
+    const analyzePollerClient: RecognizePollerClient<LabeledFormResultResponse> = {
+      beginRecognize: (
+        body: FormRecognizerRequestBody,
+        contentType?: ContentType,
+        analyzeOptions?: RecognizeOptions,
+        modelId?: string
+      ) => recognizeCustomFormInternal(this.client, body, contentType, analyzeOptions, modelId!),
+      getRecognizeResult: (resultId: string, options: { abortSignal?: AbortSignalLike }) =>
+        this.getRecognizedLabeledForms(modelId, resultId, options)
+    };
 
-    return this.beginRecognizeForms(modelId, documentUrl, undefined, options);
-  }
+    const poller = new BeginRecognizePoller({
+      client: analyzePollerClient,
+      modelId,
+      source: documentUrl,
+      contentType: undefined,
+      ...options
+    });
+
+    await poller.poll();
+    return poller;
+}
 
   /**
    * Recognizes data from receipts using pre-built receipt model, enabling you to extract structure data
@@ -677,8 +729,20 @@ export class FormRecognizerClient {
     documentUrl: string,
     options: BeginRecognizeReceiptsOptions = {}
   ): Promise<ReceiptPollerLike> {
-    return this.beginRecognizeReceipts(documentUrl, undefined, options);
-  }
+    const analyzePollerClient: RecognizePollerClient<RecognizeReceiptResultResponse> = {
+      beginRecognize: (...args) => recognizeReceiptInternal(this.client, ...args),
+      getRecognizeResult: (...args) => this.getRecognizedReceipts(...args)
+    };
+
+    const poller = new BeginRecognizePoller({
+      client: analyzePollerClient,
+      source: documentUrl,
+      contentType: undefined,
+      ...options
+    });
+
+    await poller.poll();
+    return poller;  }
 
   /**
    * @internal
@@ -716,7 +780,7 @@ export class FormRecognizerClient {
  */
 async function recognizeLayoutInternal(
   client: GeneratedClient,
-  body: FormRecognizerRequestBody,
+  body: FormRecognizerRequestBody | string,
   contentType?: ContentType,
   options?: RecognizeContentOptions,
   _modelId?: string
@@ -729,9 +793,9 @@ async function recognizeLayoutInternal(
 
   try {
     return await client.analyzeLayoutAsync({
+      ...operationOptionsToRequestOptionsBase(finalOptions),
       contentType: requestContentType,
-      fileStream: requestBody,
-      ...operationOptionsToRequestOptionsBase(finalOptions)
+      fileStream: requestBody
     });
   } catch (e) {
     span.setStatus({
@@ -761,9 +825,9 @@ async function recognizeCustomFormInternal(
 
   try {
     return await client.analyzeWithCustomModel(modelId!, {
+      ...operationOptionsToRequestOptionsBase(finalOptions),
       contentType: requestContentType,
-      fileStream: requestBody,
-      ...operationOptionsToRequestOptionsBase(finalOptions)
+      fileStream: requestBody
     });
   } catch (e) {
     span.setStatus({
@@ -794,9 +858,9 @@ async function recognizeReceiptInternal(
 
   try {
     return await client.analyzeReceiptAsync({
+      ...operationOptionsToRequestOptionsBase(finalOptions),
       contentType: requestContentType,
-      fileStream: requestBody,
-      ...operationOptionsToRequestOptionsBase(finalOptions)
+      fileStream: requestBody
     });
   } catch (e) {
     span.setStatus({

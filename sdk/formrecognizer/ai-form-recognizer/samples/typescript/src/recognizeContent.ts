@@ -16,7 +16,7 @@ async function main() {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["COGNITIVE_SERVICE_ENDPOINT"] || "<cognitive services endpoint>";
   const apiKey = process.env["COGNITIVE_SERVICE_API_KEY"] || "<api key>";
-  const path = "c:/temp/fw4.pdf";
+  const path = "c:/temp/Invoice_7.pdf";
 
   if (!fs.existsSync(path)) {
     throw new Error(`Expecting file ${path} exists`);
@@ -36,8 +36,7 @@ async function main() {
   }
 
   console.log(response.status);
-  console.log(response.rawExtractedPages);
-  console.log(response.extractedLayoutPages);
+  console.log(response.pages);
 }
 
 main().catch((err) => {

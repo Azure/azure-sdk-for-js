@@ -162,7 +162,7 @@ export interface FormTableCell {
   /**
    * When includeTextDetails is set to true, a list of references to the text elements constituting this table cell.
    */
-  elements?: FormElement[];
+  textContent?: FormElement[];
   /**
    * Is the current cell a header cell?
    */
@@ -214,11 +214,11 @@ export interface FormText {
   /**
    * When includeTextDetails is set to true, a list of references to the text elements constituting this name or value.
    */
-  elements?: FormElement[];
+  textContent?: FormElement[];
   /**
    * The text content of the recognized label or value
    */
-  text: string;
+  text?: string;
 }
 
 /**
@@ -229,19 +229,23 @@ export interface FormField {
   /**
    * Confidence value.
    */
-  confidence: number;
+  confidence?: number;
   /**
-   * Information about the recognized label in a label-value pair.
+   * Text of the recognized label of the field.
    */
-  fieldLabel: FormText;
+  fieldLabel?: FormText;
   /**
-   * A user defined label for the label-value pair entry.
+   * A user defined label for the field.
    */
-  label?: string;
+  name?: string;
   /**
-   * Information about the recognized value in a label/value pair.
+   * Text of the recognized value of the field.
    */
-  valueText: FormText;
+  valueText?: FormText;
+  /**
+   * Value of the field.
+   */
+  value: FieldValue;
 }
 
 /**
@@ -260,10 +264,6 @@ export interface RecognizedPage {
    * List of name/value pairs recognized from the page
    */
   fields?: FormField[];
-  /**
-   * List of data tables recognized form the page
-   */
-  tables?: FormTable[];
 }
 
 /**
@@ -287,7 +287,7 @@ export interface RecognizedForm {
   /**
    * Document type.
    */
-  docType: string;
+  formType: string;
   /**
    * First and last page number where the document is found.
    */
@@ -295,7 +295,11 @@ export interface RecognizedForm {
   /**
    * Dictionary of named field values.
    */
-  fields: { [propertyName: string]: FieldValue };
+  fields: { [propertyName: string]: FormField };
+  /**
+   * Texts and tables extracted from a page in the input
+   */
+  pages: FormPage[];
 }
 
 /**
@@ -318,7 +322,7 @@ export interface CommonFieldValue {
    * When includeTextDetails is set to true, a list of references to the text elements constituting
    * this field.
    */
-  elements?: FormElement[];
+  textContent?: FormElement[];
   /**
    * The 1-based page number in the input document.
    */
@@ -580,7 +584,7 @@ export interface FormPage {
    * The general orientation of the text in clockwise direction, measured in degrees between (-180,
    * 180].
    */
-  angle: number;
+  textAngle: number;
   /**
    * The width of the image/PDF in pixels/inches, respectively.
    */
@@ -606,6 +610,10 @@ export interface FormPage {
    * should be built upon the actual line location instead of order.
    */
   lines?: FormLine[];
+  /**
+   * List of data tables recognized form the page
+   */
+  tables?: FormTable[];
 }
 
 /**
@@ -673,31 +681,9 @@ export interface RecognizedContent {
    */
   version: string;
   /**
-   * Raw texts extracted from a page in the input
+   * Texts and tables extracted from a page in the input
    */
-  rawExtractedPages: FormPage[];
-  /**
-   * Form layout recognized from a page in the input
-   */
-  extractedLayoutPages?: RecognizedContentPage[];
-}
-
-/**
- * Represents an recognized content page
- */
-export interface RecognizedContentPage {
-  /**
-   * List of name/value pairs recognized from the page
-   */
-  fields?: FormField[];
-  /**
-   * Page number
-   */
-  pageNumber: number;
-  /**
-   * List of data tables recognized form the page
-   */
-  tables?: FormTable[];
+  pages: FormPage[];
 }
 
 /**
@@ -730,7 +716,6 @@ export type RecognizeContentResultResponse = RecognizeContentOperationResult & {
      * The response body as text (string format)
      */
     bodyAsText: string;
-
     /**
      * The response body as parsed JSON or XML
      */
@@ -763,7 +748,7 @@ export interface FormResult {
 /**
  * Represents the result from an recognize form operation using unsupervised model
  */
-export type RecognizeFormOperationResult = Partial<FormResult> & {
+export type RecognizeFormOperationResult = Partial<LabeledFormResult> & {
   /**
    * Operation status.
    */
@@ -787,20 +772,10 @@ export interface LabeledFormResult {
    */
   version: string;
   /**
-   * Text recognized from the input. Example includes lines consist of words, and other
-   * elements like checkbox, etc.
-   */
-  rawExtractedPages: FormPage[];
-  /**
-   * Page-level information recognized from the input, including fields of name-value pairs
-   * and data tables.
-   */
-  extractedPages?: RecognizedPage[];
-  /**
    * Document-level information recognized from the input using machine learning. They include
    * recognized fields that have meaning beyond text, for example, addresses, phone numbers, dates, etc.
    */
-  extractedForms?: RecognizedForm[];
+  forms?: RecognizedForm[];
   /**
    * List of errors reported during the analyze operation.
    */

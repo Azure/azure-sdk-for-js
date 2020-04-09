@@ -12,12 +12,11 @@ const { FormTrainingClient, AzureKeyCredential } = require("../../dist");
 require("dotenv").config();
 
 async function main() {
-  console.log(`Running GetModel sample`);
-
+  const myArgs = process.argv.slice(2);
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["COGNITIVE_SERVICE_ENDPOINT"] || "<cognitive services endpoint>";
   const apiKey = process.env["COGNITIVE_SERVICE_API_KEY"] || "<api key>";
-  const modelId = "afa7d851-ad20-465c-a80f-6ca8cfb879bb";
+  const modelId = myArgs[0] || process.env["LABELED_FORM_MODEL_ID"] || "<model id>";
 
   const client = new FormTrainingClient(endpoint, new AzureKeyCredential(apiKey));
   const result = await client.getLabeledModel(modelId, { includeKeys: true });

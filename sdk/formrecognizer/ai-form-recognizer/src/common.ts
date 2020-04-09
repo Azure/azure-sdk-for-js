@@ -22,7 +22,7 @@ export interface FormRecognizerOperationOptions extends OperationOptions {}
  * @internal
  */
 export async function toRequestBody(
-  body: FormRecognizerRequestBody
+  body: FormRecognizerRequestBody | string
 ): Promise<Blob | ArrayBuffer | ArrayBufferView | SourcePath> {
   if (typeof body === "string") {
     return {
