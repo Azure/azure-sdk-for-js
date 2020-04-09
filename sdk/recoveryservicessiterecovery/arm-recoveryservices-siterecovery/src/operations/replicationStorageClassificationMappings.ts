@@ -31,7 +31,7 @@ export class ReplicationStorageClassificationMappings {
    * Lists the storage classification mappings for the fabric.
    * @summary Gets the list of storage classification mappings objects under a storage.
    * @param fabricName Fabric name.
-   * @param storageClassificationName Storage classfication name.
+   * @param storageClassificationName Storage classification name.
    * @param [options] The optional parameters
    * @returns
    * Promise<Models.ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsResponse>
@@ -39,13 +39,13 @@ export class ReplicationStorageClassificationMappings {
   listByReplicationStorageClassifications(fabricName: string, storageClassificationName: string, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsResponse>;
   /**
    * @param fabricName Fabric name.
-   * @param storageClassificationName Storage classfication name.
+   * @param storageClassificationName Storage classification name.
    * @param callback The callback
    */
   listByReplicationStorageClassifications(fabricName: string, storageClassificationName: string, callback: msRest.ServiceCallback<Models.StorageClassificationMappingCollection>): void;
   /**
    * @param fabricName Fabric name.
-   * @param storageClassificationName Storage classfication name.
+   * @param storageClassificationName Storage classification name.
    * @param options The optional parameters
    * @param callback The callback
    */
