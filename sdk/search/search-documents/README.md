@@ -549,6 +549,32 @@ async function main() {
 main();
 ```
 
+#### Get a list of existing datasources in the service
+```js
+const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-documents");
+
+const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
+
+async function main() {
+  const listOfDataSources = await client.listDataSources();
+  for(const dataSource of listOfDataSources) {
+    console.log(`Name: ${dataSource.name}`);
+    console.log(`Description: ${dataSource.description}`);
+    console.log(`DataSourceType: ${dataSource.type}`);
+    console.log(`Credentials`);
+    console.log(`\tConnectionString: ${dataSource.credentials.connectionString}`);
+    console.log(`Container`)
+    console.log(`\tName: ${dataSource.container.name}`);
+    console.log(`\tQuery: ${dataSource.container.query}`);
+    console.log(`DataChangeDetectionPolicy: ${dataSource.dataChangeDetectionPolicy}`);
+    console.log(`DataDeletionDetectionPolicy: ${dataSource.dataDeletionDetectionPolicy}`);
+    console.log(`ETag: ${dataSource.etag}`);
+  }
+}
+
+main();
+```
+
 #### Create an Index
 
 ```js
@@ -782,6 +808,31 @@ async function main() {
 main();
 ```
 
+#### Create a DataSource
+```js
+const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-documents");
+
+const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
+
+// The connection string is obtained from azure-search-java-samples.
+// Ref: https://github.com/Azure-Samples/azure-search-java-samples/blob/master/search-java-indexer-demo/src/main/resources/com/microsoft/azure/search/samples/app/config.properties
+async function main() {
+  const dataSource = await client.createDataSource({
+    name: 'my-data-source-2',
+    description: 'My Data Source 1',
+    type: 'cosmosdb',
+    container: {
+      name: 'my-container-1'
+    },    
+    credentials: {
+      connectionString: 'AccountEndpoint=https://hotels-docbb.documents.azure.com:443/;AccountKey=4UPsNZyFAjgZ1tzHPGZaxS09XcwLrIawbXBWk6IixcxJoSePTcjBn0mi53XiKWu8MaUgowUhIovOv7kjksqAug==;Database=SampleData'
+    },
+  })
+}
+
+main();
+```
+
 #### Retrieve an existing indexer and modify a field in it
 ```js
 const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-documents");
@@ -811,7 +862,24 @@ async function main() {
 main();
 ```
 
-### Get the status of an indexer
+#### Retrieve an existing datasource and modify a field in it
+```js
+const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-documents");
+
+const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
+
+async function main() {
+  let dataSource = await client.getDataSource('my-data-source-2');
+  console.log(`Container Name: ${dataSource.container.name}`);
+  dataSource.container.name = 'my-container-2';
+  dataSource = await client.createOrUpdateDataSource(dataSource);
+  console.log(`Container Name: ${dataSource.container.name}`);
+}
+
+main();
+```
+
+#### Get the status of an indexer
 ```js
 const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-documents");
 
@@ -828,6 +896,49 @@ async function main() {
     console.log(`\tFinal Tracking State: ${execution.finalTrackingState}`);
     console.log(`\tInitial Tracking State: ${execution.initialTrackingState}`);
   }
+}
+
+main();
+```
+
+#### Get the service statistics
+```js
+const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-documents");
+
+const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
+
+async function main() {
+  const {counters, limits} = await client.getServiceStatistics();
+  console.log(`Counters`);
+  console.log(`========`);
+  console.log(`\tDocument Counter`);
+  console.log(`\t\tUsage: ${counters.documentCounter.usage}`);
+  console.log(`\t\tQuota: ${counters.documentCounter.quota}`);
+  console.log(`\tIndex Counter`);
+  console.log(`\t\tUsage: ${counters.indexCounter.usage}`);
+  console.log(`\t\tQuota: ${counters.indexCounter.quota}`);
+  console.log(`\tIndexer Counter`);
+  console.log(`\t\tUsage: ${counters.indexerCounter.usage}`);
+  console.log(`\t\tQuota: ${counters.indexerCounter.quota}`);
+  console.log(`\tData Source Counter`);
+  console.log(`\t\tUsage: ${counters.dataSourceCounter.usage}`);
+  console.log(`\t\tQuota: ${counters.dataSourceCounter.quota}`);
+  console.log(`\tStorage Size Counter`);
+  console.log(`\t\tUsage: ${counters.storageSizeCounter.usage}`);
+  console.log(`\t\tQuota: ${counters.storageSizeCounter.quota}`);
+  console.log(`\tSynonym Map Counter`);
+  console.log(`\t\tUsage: ${counters.synonymMapCounter.usage}`);
+  console.log(`\t\tQuota: ${counters.synonymMapCounter.quota}`);
+  console.log(`\tSkillset Counter`);
+  console.log(`\t\tUsage: ${counters.skillsetCounter.usage}`);
+  console.log(`\t\tQuota: ${counters.skillsetCounter.quota}`);
+  console.log();
+  console.log(`Limits`);
+  console.log(`======`);
+  console.log(`\tMax Fields Per Index: ${limits.maxFieldsPerIndex}`);
+  console.log(`\tMax Field Nesting Depth Per Index: ${limits.maxFieldNestingDepthPerIndex}`);
+  console.log(`\tMax Complex Collection Fields Per Index: ${limits.maxComplexCollectionFieldsPerIndex}`);
+  console.log(`\tMax Complex Objects In Collections Per Document: ${limits.maxComplexObjectsInCollectionsPerDocument}`);
 }
 
 main();
