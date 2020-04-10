@@ -309,31 +309,26 @@ describe("⛔ Discouraged example of `before` and `after`", function() {
 
 ```ts
 describe("✅ Encouraged example of `beforeEach` and `afterEach`", function() {
-  let client: InternalClass;
-  let state: {
-    fruits?: string[];
-  } = {
-  };
+  let mockFs: any;
 
   beforeEach(function() {
-    client = new InternalClass();
-    state = {
-      fruits: []
-    };
-
+    // Only internal tests may use mocks.
+    mockFs = require("mock-fs");
+    mockFs({
+      "file.txt": "Here be dragons."
+    });
     // And other per-test setups...
   });
 
   afterEach(function() {
-    // Fruits are overwritten in the beforeEach,
-    // but otherwise could be cleared up here:
-    state.fruits = [];
+    mockFs.restore();
 
     // And other per-test cleanups...
   });
 
-  it("A test for the ✅ encouraged example of `beforeEach` and `afterEach`", function() {
-    assert.exists(client);
+  it("A test for the encouraged example of `beforeEach` and `afterEach`", function() {
+    const response = fs.readFileSync("file.txt", { encoding: "utf8" });
+    assert.equal(response, "Here be dragons.");
   });
 });
 ```
