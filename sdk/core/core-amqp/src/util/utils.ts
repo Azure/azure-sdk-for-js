@@ -150,8 +150,13 @@ export function parseConnectionString<T>(connectionString: string): ParsedOutput
     }
 
     const value = part.substring(splitIndex + 1).trim();
-
-    output[key] = value;
+    if (key === "Endpoint") {
+      // override scheme in the Endpoint to `sb://`
+      // Expectation is that the "Endpoint" key is only present for Service Bus and Event Hubs
+      output[key] = value.replace(/^\w+:\/\//, "sb://");
+    } else {
+      output[key] = value;
+    }
   }
 
   return output as any;
