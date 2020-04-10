@@ -9,6 +9,13 @@
 export {
   discriminators,
   CloudError,
-  SqlPoolUsage,
-  SqlPoolUsageListResult
+  IntegrationRuntimeStatus,
+  IntegrationRuntimeStatusResponse,
+  LinkedIntegrationRuntime,
+  ManagedIntegrationRuntimeError,
+  ManagedIntegrationRuntimeNode,
+  ManagedIntegrationRuntimeOperationResult,
+  ManagedIntegrationRuntimeStatus,
+  SelfHostedIntegrationRuntimeNode,
+  SelfHostedIntegrationRuntimeStatus
 } from "../models/mappers";
