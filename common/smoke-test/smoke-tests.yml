@@ -26,12 +26,10 @@ jobs:
           OSVmImage: "ubuntu-18.04"
           CloudType: AzureChinaCloud
           ArmTemplateParameters: $(azureChinaCloudArmParameters)
-          Location: "chinanorth"
         Windows (AzureChinaCloud):
           OSVmImage: "windows-2019"
           CloudType: AzureChinaCloud
           ArmTemplateParameters: $(azureChinaCloudArmParameters)
-          Location: "chinanorth"
 
     pool:
       vmImage: $(OSVmImage)

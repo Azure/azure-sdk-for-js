@@ -5,7 +5,8 @@
 import { KeyVaultSecrets } from "./KeyVault";
 import { EventHubs } from "./EventHub";
 import { BlobStorage } from "./BlobStorage";
-import { CosmosDB } from "./CosmosDB";
+// Temporarily disabling cosmos db testing
+// import { CosmosDB } from "./CosmosDB";
 
 function dedent(str: ReadonlyArray<string>) {
   return str[0].replace(/^\ */gm, "");
@@ -25,7 +26,8 @@ async function main() {
     await KeyVaultSecrets.Run();
     await BlobStorage.Run();
     await EventHubs.Run();
-    await CosmosDB.Run();
+    // Temporarily disabling cosmos db testing
+    // await CosmosDB.Run();
   } catch (ex) {
     console.error(ex);
     console.error("UNEXPECTED ERROR");
