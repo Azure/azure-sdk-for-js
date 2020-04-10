@@ -25,7 +25,6 @@ import {
   RecognizedForm,
   FormText,
   FormField,
-  LabeledFormResultResponse,
   RecognizeFormResultResponse,
   RecognizeContentResultResponse,
   RecognizedContent,
@@ -122,15 +121,12 @@ export function toFormField(original: KeyValuePairModel, readResults?: FormPage[
     confidence: original.confidence,
     fieldLabel: toFormText(original.key, readResults),
     valueText: toFormText(original.value, readResults),
-    value: {
-      type: "string",
-      value: original.value.text
-    }
+    value: original.value.text
   };
 }
 
 export function toFormTable(original: DataTableModel, readResults?: FormPage[]): FormTable {
-  let rows: FormTableRow[] = [];
+  const rows: FormTableRow[] = [];
   for (let i = 0; i < original.rows; i++) {
     rows.push({ cells: [] });
   }
@@ -273,6 +269,7 @@ export function toFields(
 ): { [propertyName: string]: FieldValue } {
   const result: { [propertyName: string]: FieldValue } = {};
   for (const key in original) {
+    // eslint-disable-next-line no-prototype-builtins
     if (original.hasOwnProperty(key)) {
       result[key] = toFieldValue(original[key], readResults);
     }
@@ -287,11 +284,12 @@ export function toFieldsFromFieldValue(
 ): { [propertyName: string]: FormField } {
   const result: { [propertyName: string]: FormField } = {};
   for (const key in original) {
+    // eslint-disable-next-line no-prototype-builtins
     if (original.hasOwnProperty(key)) {
       const fieldValue = toFieldValue(original[key], readResults);
       if (fieldValue.type === "array" || fieldValue.type === "object") {
         const formField: FormField = {
-          value: fieldValue
+          value: fieldValue.value
         };
         result[key] = formField;
       } else {
@@ -303,7 +301,7 @@ export function toFieldsFromFieldValue(
             boundingBox: fieldValue.boundingBox,
             textContent: fieldValue.textContent
           },
-          value: fieldValue
+          value: fieldValue.value
         };
         result[key] = formField;
       }
@@ -317,7 +315,7 @@ export function toFieldsFromKeyValuePairs(
   original: KeyValuePairModel[],
   pages: FormPage[]
 ): { [propertyName: string]: FormField } {
-  let result: { [propertyName: string]: FormField } = {};
+  const result: { [propertyName: string]: FormField } = {};
   for (let i = 0; i < original.length; i++) {
     const pair = original[i];
     const stringField = toFormField(pair, pages);
@@ -344,35 +342,6 @@ export function toRecognizedForm(original: DocumentResultModel, pages: FormPage[
     pageRange: { firstPageNumber: original.pageRange[0], lastPageNumber: original.pageRange[1] },
     fields: toFieldsFromFieldValue(original.fields, pages),
     pages
-  };
-}
-
-export function toLabeledFormResultResponse(
-  original: GetAnalyzeFormResultResponse
-): LabeledFormResultResponse {
-  const common = {
-    status: original.status,
-    createdOn: original.createdOn,
-    lastUpdatedOn: original.createdOn,
-    _response: original._response
-  };
-  if (original.status !== "succeeded") {
-    return common;
-  }
-  const pages = toFormPages(
-    original.analyzeResult?.readResults,
-    original.analyzeResult?.pageResults
-  );
-  const additional = original.analyzeResult
-    ? {
-        version: original.analyzeResult.version,
-        forms: original.analyzeResult.documentResults?.map((d) => toRecognizedForm(d, pages)),
-        errors: original.analyzeResult.errors
-      }
-    : undefined;
-  return {
-    ...common,
-    ...additional
   };
 }
 

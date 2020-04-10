@@ -172,7 +172,10 @@ function makeBeginRecognizePollOperation<T extends { status: OperationStatus }>(
 
       state.status = response.status;
       if (!state.isCompleted) {
-        if (response.status === "running" && typeof options.fireProgress === "function") {
+        if (
+          (response.status === "running" || response.status === "notStarted") &&
+          typeof options.fireProgress === "function"
+        ) {
           options.fireProgress(state);
         } else if (response.status === "succeeded") {
           state.result = response;

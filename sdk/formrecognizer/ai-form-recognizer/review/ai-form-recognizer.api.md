@@ -49,13 +49,6 @@ export type BeginRecognizeFormsOptions = RecognizeFormsOptions & {
 };
 
 // @public
-export type BeginRecognizeLabeledFormOptions = RecognizeFormsOptions & {
-    intervalInMs?: number;
-    onProgress?: (state: BeginRecognizePollState<LabeledFormResultResponse>) => void;
-    resumeFrom?: string;
-};
-
-// @public
 export type BeginRecognizeReceiptsOptions = RecognizeReceiptsOptions & {
     intervalInMs?: number;
     onProgress?: (state: BeginRecognizePollState<RecognizeReceiptResultResponse>) => void;
@@ -110,6 +103,11 @@ export interface ErrorInformation {
 // @public
 export type FieldValue = StringFieldValue | DateFieldValue | TimeFieldValue | PhoneNumberFieldValue | NumberFieldValue | IntegerFieldValue | ArrayFieldValue | ObjectFieldValue;
 
+// @public (undocumented)
+export type FieldValueTypes = string | Date | number | FieldValue[] | {
+    [propertyName: string]: FieldValue;
+};
+
 // @public
 export type FormElement = FormWord | FormLine;
 
@@ -125,7 +123,7 @@ export interface FormField {
     confidence?: number;
     fieldLabel?: FormText;
     name?: string;
-    value: FieldValue;
+    value?: FieldValueTypes;
     valueText?: FormText;
 }
 
@@ -185,9 +183,6 @@ export class FormRecognizerClient {
     beginRecognizeForms(modelId: string, body: FormRecognizerRequestBody, contentType?: ContentType, options?: BeginRecognizeFormsOptions): Promise<FormPollerLike>;
     // (undocumented)
     beginRecognizeFormsFromUrl(modelId: string, documentUrl: string, options?: BeginRecognizeFormsOptions): Promise<PollerLike<PollOperationState<RecognizeFormResultResponse>, RecognizeFormResultResponse>>;
-    beginRecognizeLabeledForms(modelId: string, body: FormRecognizerRequestBody, contentType?: ContentType, options?: BeginRecognizeLabeledFormOptions): Promise<LabeledFormPollerLike>;
-    // (undocumented)
-    beginRecognizeLabeledFormsFromUrl(modelId: string, documentUrl: string, options?: BeginRecognizeLabeledFormOptions): Promise<PollerLike<PollOperationState<LabeledFormResultResponse>, LabeledFormResultResponse>>;
     beginRecognizeReceipts(source: FormRecognizerRequestBody, contentType?: ContentType, options?: BeginRecognizeReceiptsOptions): Promise<ReceiptPollerLike>;
     beginRecognizeReceiptsFromUrl(documentUrl: string, options?: BeginRecognizeReceiptsOptions): Promise<ReceiptPollerLike>;
     readonly endpointUrl: string;
@@ -208,8 +203,7 @@ export type FormRecognizerRequestBody = Blob | ArrayBuffer | ArrayBufferView | N
 // @public
 export interface FormResult {
     errors?: ErrorInformation[];
-    extractedPages?: RecognizedPage[];
-    rawExtractedPages: FormPage[];
+    forms?: RecognizedForm[];
     version: string;
 }
 
@@ -326,28 +320,10 @@ export type LabeledFormModelResponse = LabeledFormModel & {
 };
 
 // @public
-export type LabeledFormOperationResult = Partial<LabeledFormResult> & {
+export type LabeledFormOperationResult = Partial<FormResult> & {
     status: OperationStatus;
     createdOn: Date;
     lastUpdatedOn: Date;
-};
-
-// @public
-export type LabeledFormPollerLike = PollerLike<PollOperationState<LabeledFormResultResponse>, LabeledFormResultResponse>;
-
-// @public
-export interface LabeledFormResult {
-    errors?: ErrorInformation[];
-    forms?: RecognizedForm[];
-    version: string;
-}
-
-// @public
-export type LabeledFormResultResponse = LabeledFormOperationResult & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: AnalyzeOperationResultModel;
-    };
 };
 
 // @public
@@ -556,7 +532,7 @@ export interface RecognizedPage {
 export type RecognizedReceipt = RawReceiptResult & Receipt;
 
 // @public
-export type RecognizeFormOperationResult = Partial<LabeledFormResult> & {
+export type RecognizeFormOperationResult = Partial<FormResult> & {
     status: OperationStatus;
     createdOn: Date;
     lastUpdatedOn: Date;
@@ -644,7 +620,7 @@ export type TrainStatus = "succeeded" | "partiallySucceeded" | "failed";
 
 // Warnings were encountered during analysis:
 //
-// src/formRecognizerClient.ts:73:3 - (ae-forgotten-export) The symbol "BeginRecognizePollState" needs to be exported by the entry point index.d.ts
+// src/formRecognizerClient.ts:71:3 - (ae-forgotten-export) The symbol "BeginRecognizePollState" needs to be exported by the entry point index.d.ts
 // src/formTrainingClient.ts:72:3 - (ae-forgotten-export) The symbol "BeginTrainingPollState" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)

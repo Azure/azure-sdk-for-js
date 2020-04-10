@@ -26,7 +26,7 @@ async function main() {
 
   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
   const poller = await client.beginRecognizeForms(modelId, readStream, "application/pdf", {
-    includeTextDetails: true,
+    // includeTextDetails: true,
     onProgress: (state) => { console.log(`status: ${state.status}`); }
   });
   await poller.pollUntilDone();
@@ -54,7 +54,7 @@ async function main() {
       }
     }
     console.log("Fields:");
-    console.dir(document.fields, {depth: 8});
+    console.log(document.fields);
   }
 
   console.log("Errors:");

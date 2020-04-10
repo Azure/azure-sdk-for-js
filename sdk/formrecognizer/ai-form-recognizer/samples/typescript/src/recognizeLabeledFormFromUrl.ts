@@ -20,7 +20,8 @@ async function main() {
   const url = process.env["URL_OF_DOCUMENT_TO_ANALYZE_WITH_LABELS"] || "<sample invoice url>";
 
   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
-    includeTextDetails: true,
+  const poller = await client.beginRecognizeFormsFromUrl(modelId, url, {
+    // includeTextDetails: true,
     onProgress: (state) => { console.log(`status: ${state.status}`); }
   });
   await poller.pollUntilDone();

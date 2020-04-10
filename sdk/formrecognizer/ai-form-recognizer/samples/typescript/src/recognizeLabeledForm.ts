@@ -26,7 +26,7 @@ async function main() {
   const readStream = fs.createReadStream(path);
 
   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
-  const poller = await client.beginRecognizeLabeledForms(modelId, readStream, "application/pdf", {
+  const poller = await client.beginRecognizeForms(modelId, readStream, "application/pdf", {
     onProgress: (state) => { console.log(`status: ${state.status}`); }
   });
   await poller.pollUntilDone();
@@ -37,31 +37,27 @@ async function main() {
   }
 
   console.log(response.status);
-  console.log("### Document results:")
-  for (const document of response.extractedForms || []) {
-    console.log(`${document.docType}, pages ${document.pageRange}`);
-    console.log("Fields");
-  }
+  console.log("### Form results:")
+  for (const document of response.forms || []) {
+    console.log(`${document.formType}, page range: ${document.pageRange}`);
 
-  console.log("### Page results:")
-  for (const page of response.extractedPages || []) {
-    console.log(`Page number: ${page.pageNumber}`);
-    console.log(`Form type id: ${page.formTypeId}`);
-    console.log("key-value pairs");
-    for (const field of page.fields || []) {
-      console.log(`\tkey: ${field.fieldLabel}, value: ${field.valueText}`);
-    }
-    console.log("Tables");
-    for (const table of page.tables || []) {
-      for (const row of table.rows) {
-        for (const cell of row.cells) {
-          console.log(`cell (${cell.rowIndex},${cell.columnIndex}) ${cell.text}`);
+    console.log("### Page results:")
+    for (const page of document.pages || []) {
+      console.log(`Page number: ${page.pageNumber}`);
+      console.log("Tables");
+      for (const table of page.tables || []) {
+        for (const row of table.rows) {
+          for (const cell of row.cells) {
+            console.log(`cell (${cell.rowIndex},${cell.columnIndex}) ${cell.text}`);
+          }
         }
       }
     }
+    console.log("Fields:");
+    console.log(document.fields);
   }
 
-  console.log(response.rawExtractedPages);
+  console.log("Errors:");
   console.log(response.errors);
 }
 

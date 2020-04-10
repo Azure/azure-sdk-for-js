@@ -245,7 +245,7 @@ export interface FormField {
   /**
    * Value of the field.
    */
-  value: FieldValue;
+  value?: FieldValueTypes;
 }
 
 /**
@@ -328,6 +328,13 @@ export interface CommonFieldValue {
    */
   pageNumber?: number;
 }
+
+export type FieldValueTypes =
+  | string
+  | Date
+  | number
+  | FieldValue[]
+  | { [propertyName: string]: FieldValue };
 
 /**
  * Represents a field of string value.
@@ -724,31 +731,9 @@ export type RecognizeContentResultResponse = RecognizeContentOperationResult & {
 };
 
 /**
- * Represents a recognized form using a model from training without labels.
- */
-export interface FormResult {
-  /**
-   * Version of schema used for this result.
-   */
-  version: string;
-  /**
-   * Text recognized from the input.
-   */
-  rawExtractedPages: FormPage[];
-  /**
-   * Page-level information recognized from the input.
-   */
-  extractedPages?: RecognizedPage[];
-  /**
-   * List of errors reported during the analyze operation.
-   */
-  errors?: ErrorInformation[];
-}
-
-/**
  * Represents the result from an recognize form operation using a model from training without labels.
  */
-export type RecognizeFormOperationResult = Partial<LabeledFormResult> & {
+export type RecognizeFormOperationResult = Partial<FormResult> & {
   /**
    * Operation status.
    */
@@ -766,7 +751,7 @@ export type RecognizeFormOperationResult = Partial<LabeledFormResult> & {
 /**
  * Represents an recognized form using a model from training with labels.
  */
-export interface LabeledFormResult {
+export interface FormResult {
   /**
    * Version of schema used for this result.
    */
@@ -785,7 +770,7 @@ export interface LabeledFormResult {
 /**
  * Represents the result from an recognize form operation using a model from training with labels.
  */
-export type LabeledFormOperationResult = Partial<LabeledFormResult> & {
+export type LabeledFormOperationResult = Partial<FormResult> & {
   /**
    * Operation status.
    */
@@ -804,26 +789,6 @@ export type LabeledFormOperationResult = Partial<LabeledFormResult> & {
  * Contains the response data for recognize form operation using a model from training without labels.
  */
 export type RecognizeFormResultResponse = RecognizeFormOperationResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AnalyzeOperationResultModel;
-  };
-};
-
-/**
- * Contains the response data for recognize form operation using a model from training with labels.
- */
-export type LabeledFormResultResponse = LabeledFormOperationResult & {
   /**
    * The underlying HTTP response.
    */

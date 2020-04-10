@@ -37,13 +37,11 @@ import {
 import {
   RecognizeContentResultResponse,
   RecognizeFormResultResponse,
-  LabeledFormResultResponse,
   RecognizeReceiptResultResponse,
   FormRecognizerRequestBody
 } from "./models";
 import {
   toRecognizeFormResultResponse,
-  toLabeledFormResultResponse,
   toRecognizeContentResultResponse,
   toReceiptResultResponse
 } from "./transforms";
@@ -119,37 +117,11 @@ export type BeginRecognizeFormsOptions = RecognizeFormsOptions & {
 };
 
 /**
- * Options for starting analyzing form operation
- */
-export type BeginRecognizeLabeledFormOptions = RecognizeFormsOptions & {
-  /**
-   * Delay to wait until next poll, in milliseconds
-   */
-  intervalInMs?: number;
-  /**
-   * Callback to progress events triggered in the Recognize Labeled Form Long-Running-Operation (LRO)
-   */
-  onProgress?: (state: BeginRecognizePollState<LabeledFormResultResponse>) => void;
-  /**
-   * A serialized poller which can be used to resume an existing paused Long-Running-Operation.
-   */
-  resumeFrom?: string;
-};
-
-/**
  * Result type of the Recognize Form Long-Running-Operation (LRO)
  */
 export type FormPollerLike = PollerLike<
   PollOperationState<RecognizeFormResultResponse>,
   RecognizeFormResultResponse
->;
-
-/**
- * Result of the Recognize Labeled Form Long-Running-Operation (LRO)
- */
-export type LabeledFormPollerLike = PollerLike<
-  PollOperationState<LabeledFormResultResponse>,
-  LabeledFormResultResponse
 >;
 
 /**
@@ -368,7 +340,7 @@ export class FormRecognizerClient {
   private async getRecognizedContent(
     resultId: string,
     options?: GetRecognizedContentResultOptions
-  ) {
+  ): Promise<RecognizeContentResultResponse> {
     const realOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
       "FormRecognizerClient-getRecognizedLayoutResult",
@@ -509,125 +481,6 @@ export class FormRecognizerClient {
     } finally {
       span.end();
     }
-  }
-
-  private async getRecognizedLabeledForms(
-    modelId: string,
-    resultId: string,
-    options?: GetRecognizedFormsOptions
-  ): Promise<LabeledFormResultResponse> {
-    const realOptions = options || {};
-    const { span, updatedOptions: finalOptions } = createSpan(
-      "FormRecognizerClient-getRecognizedLabeledForm",
-      realOptions
-    );
-
-    try {
-      const result = await this.client.getAnalyzeFormResult(
-        modelId,
-        resultId,
-        operationOptionsToRequestOptionsBase(finalOptions)
-      );
-      return toLabeledFormResultResponse(result);
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * Recognizes name-value pairs and tables from a given document using a model from training with labels.
-   * This method returns a long running operation poller that allows you to wait
-   * indefinitely until the copy is completed.
-   * You can also cancel a copy before it is completed by calling `cancelOperation` on the poller.
-   * Note that the onProgress callback will not be invoked if the operation completes in the first
-   * request, and attempting to cancel a completed copy will result in an error being thrown.
-   *
-   * Example usage:
-   * ```ts
-   *   const path = "./Invoice_6.pdf";
-   *   const readStream = fs.createReadStream(path);
-   *
-   *   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
-   *   const poller = await client.beginRecognizeLabeledForms(modelId, readStream, "application/pdf", {
-   *     onProgress: (state) => { console.log(`status: ${state.status}`); }
-   *   });
-   *   await poller.pollUntilDone();
-   *   const response = poller.getResult();
-   *   console.log(response.status);
-   * ```
-   * @summary Recognizes form information from a given document using labeled model.
-   * @param {string} modelId Id of the model to use
-   * @param {FormRecognizerRequestBody} body Input document
-   * @param {contentType} Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", and "image/tiff";
-   * @param {BeginRecognizeLabeledFormsOptions} [options] Options to the BeginRecognizeLabeledForms operation
-   */
-  public async beginRecognizeLabeledForms(
-    modelId: string,
-    body: FormRecognizerRequestBody,
-    contentType?: ContentType,
-    options: BeginRecognizeLabeledFormOptions = {}
-  ): Promise<LabeledFormPollerLike> {
-    if (!modelId) {
-      throw new RangeError("Invalid model id");
-    }
-    const analyzePollerClient: RecognizePollerClient<LabeledFormResultResponse> = {
-      beginRecognize: (
-        body: FormRecognizerRequestBody,
-        contentType?: ContentType,
-        analyzeOptions?: RecognizeOptions,
-        modelId?: string
-      ) => recognizeCustomFormInternal(this.client, body, contentType, analyzeOptions, modelId!),
-      getRecognizeResult: (resultId: string, options: { abortSignal?: AbortSignalLike }) =>
-        this.getRecognizedLabeledForms(modelId, resultId, options)
-    };
-
-    const poller = new BeginRecognizePoller({
-      client: analyzePollerClient,
-      modelId,
-      source: body,
-      contentType,
-      ...options
-    });
-
-    await poller.poll();
-    return poller;
-  }
-
-  public async beginRecognizeLabeledFormsFromUrl(
-    modelId: string,
-    documentUrl: string,
-    options: BeginRecognizeLabeledFormOptions = {}
-  ): Promise<PollerLike<PollOperationState<LabeledFormResultResponse>, LabeledFormResultResponse>> {
-    if (!modelId) {
-      throw new RangeError("Invalid model id");
-    }
-    const analyzePollerClient: RecognizePollerClient<LabeledFormResultResponse> = {
-      beginRecognize: (
-        body: FormRecognizerRequestBody,
-        contentType?: ContentType,
-        analyzeOptions?: RecognizeOptions,
-        modelId?: string
-      ) => recognizeCustomFormInternal(this.client, body, contentType, analyzeOptions, modelId!),
-      getRecognizeResult: (resultId: string, options: { abortSignal?: AbortSignalLike }) =>
-        this.getRecognizedLabeledForms(modelId, resultId, options)
-    };
-
-    const poller = new BeginRecognizePoller({
-      client: analyzePollerClient,
-      modelId,
-      source: documentUrl,
-      contentType: undefined,
-      ...options
-    });
-
-    await poller.poll();
-    return poller;
   }
 
   /**

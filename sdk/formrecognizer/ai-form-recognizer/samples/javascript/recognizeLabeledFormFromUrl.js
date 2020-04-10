@@ -6,7 +6,6 @@
  */
 
 const { FormRecognizerClient, AzureKeyCredential } = require("../../dist");
-const fs = require("fs");
 
 // Load the .env file if it exists
 require("dotenv").config();
@@ -20,7 +19,7 @@ async function main() {
   const url = process.env["URL_OF_DOCUMENT_TO_ANALYZE_WITH_LABELS"] || "<sample invoice url>";
 
   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
-  const poller = await client.beginRecognizeLabeledFormsFromUrl(modelId, url,{
+  const poller = await client.beginRecognizeFormsFromUrl(modelId, url,{
     onProgress: (state) => { console.log(`status: ${state.status}`); }
   });
   await poller.pollUntilDone();
