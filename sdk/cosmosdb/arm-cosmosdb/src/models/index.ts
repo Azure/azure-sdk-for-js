@@ -229,6 +229,15 @@ export interface DatabaseAccountGetResults extends ARMResourceProperties {
    * keys
    */
   disableKeyBasedMetadataWriteAccess?: boolean;
+  /**
+   * The URI of the key vault
+   */
+  keyVaultKeyUri?: string;
+  /**
+   * Whether requests from Public Network are allowed. Possible values include: 'Enabled',
+   * 'Disabled'
+   */
+  publicNetworkAccess?: PublicNetworkAccess;
 }
 
 /**
@@ -266,10 +275,28 @@ export interface SqlDatabaseGetPropertiesResource {
 }
 
 /**
+ * Cosmos DB options resource object
+ */
+export interface OptionsResource {
+  /**
+   * Value of the Cosmos DB resource throughput. Use the ThroughputSetting resource when retrieving
+   * offer details.
+   */
+  throughput?: number;
+}
+
+/**
+ * An interface representing SqlDatabaseGetPropertiesOptions.
+ */
+export interface SqlDatabaseGetPropertiesOptions extends OptionsResource {
+}
+
+/**
  * An Azure Cosmos DB SQL database.
  */
 export interface SqlDatabaseGetResults extends ARMResourceProperties {
   resource?: SqlDatabaseGetPropertiesResource;
+  options?: SqlDatabaseGetPropertiesOptions;
 }
 
 /**
@@ -490,10 +517,17 @@ export interface SqlContainerGetPropertiesResource {
 }
 
 /**
+ * An interface representing SqlContainerGetPropertiesOptions.
+ */
+export interface SqlContainerGetPropertiesOptions extends OptionsResource {
+}
+
+/**
  * An Azure Cosmos DB container.
  */
 export interface SqlContainerGetResults extends ARMResourceProperties {
   resource?: SqlContainerGetPropertiesResource;
+  options?: SqlContainerGetPropertiesOptions;
 }
 
 /**
@@ -643,10 +677,17 @@ export interface MongoDBDatabaseGetPropertiesResource {
 }
 
 /**
+ * An interface representing MongoDBDatabaseGetPropertiesOptions.
+ */
+export interface MongoDBDatabaseGetPropertiesOptions extends OptionsResource {
+}
+
+/**
  * An Azure Cosmos DB MongoDB database.
  */
 export interface MongoDBDatabaseGetResults extends ARMResourceProperties {
   resource?: MongoDBDatabaseGetPropertiesResource;
+  options?: MongoDBDatabaseGetPropertiesOptions;
 }
 
 /**
@@ -722,10 +763,17 @@ export interface MongoDBCollectionGetPropertiesResource {
 }
 
 /**
+ * An interface representing MongoDBCollectionGetPropertiesOptions.
+ */
+export interface MongoDBCollectionGetPropertiesOptions extends OptionsResource {
+}
+
+/**
  * An Azure Cosmos DB MongoDB collection.
  */
 export interface MongoDBCollectionGetResults extends ARMResourceProperties {
   resource?: MongoDBCollectionGetPropertiesResource;
+  options?: MongoDBCollectionGetPropertiesOptions;
 }
 
 /**
@@ -755,10 +803,17 @@ export interface TableGetPropertiesResource {
 }
 
 /**
+ * An interface representing TableGetPropertiesOptions.
+ */
+export interface TableGetPropertiesOptions extends OptionsResource {
+}
+
+/**
  * An Azure Cosmos DB Table.
  */
 export interface TableGetResults extends ARMResourceProperties {
   resource?: TableGetPropertiesResource;
+  options?: TableGetPropertiesOptions;
 }
 
 /**
@@ -788,10 +843,17 @@ export interface CassandraKeyspaceGetPropertiesResource {
 }
 
 /**
+ * An interface representing CassandraKeyspaceGetPropertiesOptions.
+ */
+export interface CassandraKeyspaceGetPropertiesOptions extends OptionsResource {
+}
+
+/**
  * An Azure Cosmos DB Cassandra keyspace.
  */
 export interface CassandraKeyspaceGetResults extends ARMResourceProperties {
   resource?: CassandraKeyspaceGetPropertiesResource;
+  options?: CassandraKeyspaceGetPropertiesOptions;
 }
 
 /**
@@ -885,10 +947,17 @@ export interface CassandraTableGetPropertiesResource {
 }
 
 /**
+ * An interface representing CassandraTableGetPropertiesOptions.
+ */
+export interface CassandraTableGetPropertiesOptions extends OptionsResource {
+}
+
+/**
  * An Azure Cosmos DB Cassandra table.
  */
 export interface CassandraTableGetResults extends ARMResourceProperties {
   resource?: CassandraTableGetPropertiesResource;
+  options?: CassandraTableGetPropertiesOptions;
 }
 
 /**
@@ -918,10 +987,17 @@ export interface GremlinDatabaseGetPropertiesResource {
 }
 
 /**
+ * An interface representing GremlinDatabaseGetPropertiesOptions.
+ */
+export interface GremlinDatabaseGetPropertiesOptions extends OptionsResource {
+}
+
+/**
  * An Azure Cosmos DB Gremlin database.
  */
 export interface GremlinDatabaseGetResults extends ARMResourceProperties {
   resource?: GremlinDatabaseGetPropertiesResource;
+  options?: GremlinDatabaseGetPropertiesOptions;
 }
 
 /**
@@ -974,10 +1050,17 @@ export interface GremlinGraphGetPropertiesResource {
 }
 
 /**
+ * An interface representing GremlinGraphGetPropertiesOptions.
+ */
+export interface GremlinGraphGetPropertiesOptions extends OptionsResource {
+}
+
+/**
  * An Azure Cosmos DB Gremlin graph.
  */
 export interface GremlinGraphGetResults extends ARMResourceProperties {
   resource?: GremlinGraphGetPropertiesResource;
+  options?: GremlinGraphGetPropertiesOptions;
 }
 
 /**
@@ -1060,13 +1143,64 @@ export interface ExtendedResourceProperties {
 }
 
 /**
+ * Cosmos DB resource throughput policy
+ */
+export interface ThroughputPolicyResource {
+  /**
+   * Determines whether the ThroughputPolicy is active or not
+   */
+  isEnabled?: boolean;
+  /**
+   * Represents the percentage by which throughput can increase every time throughput policy kicks
+   * in.
+   */
+  incrementPercent?: number;
+}
+
+/**
+ * Cosmos DB resource auto-upgrade policy
+ */
+export interface AutoUpgradePolicyResource {
+  /**
+   * Represents throughput policy which service must adhere to for auto-upgrade
+   */
+  throughputPolicy?: ThroughputPolicyResource;
+}
+
+/**
+ * Cosmos DB provisioned throughput settings object
+ */
+export interface ProvisionedThroughputSettingsResource {
+  /**
+   * Represents maximum throughput container can scale up to.
+   */
+  maxThroughput: number;
+  /**
+   * Cosmos DB resource auto-upgrade policy
+   */
+  autoUpgradePolicy?: AutoUpgradePolicyResource;
+  /**
+   * Represents target maximum throughput container can scale up to once offer is no longer in
+   * pending state.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly targetMaxThroughput?: number;
+}
+
+/**
  * An interface representing ThroughputSettingsGetPropertiesResource.
  */
 export interface ThroughputSettingsGetPropertiesResource {
   /**
-   * Value of the Cosmos DB resource throughput
+   * Value of the Cosmos DB resource throughput. Either throughput is required or
+   * provisionedThroughputSettings is required, but not both.
    */
-  throughput: number;
+  throughput?: number;
+  /**
+   * Cosmos DB resource for provisioned throughput settings. Either throughput is required or
+   * provisionedThroughputSettings is required, but not both.
+   */
+  provisionedThroughputSettings?: ProvisionedThroughputSettingsResource;
   /**
    * The minimum throughput of the resource
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -1162,6 +1296,15 @@ export interface DatabaseAccountCreateUpdateParameters extends ARMResourceProper
    * keys
    */
   disableKeyBasedMetadataWriteAccess?: boolean;
+  /**
+   * The URI of the key vault
+   */
+  keyVaultKeyUri?: string;
+  /**
+   * Whether requests from Public Network are allowed. Possible values include: 'Enabled',
+   * 'Disabled'
+   */
+  publicNetworkAccess?: PublicNetworkAccess;
 }
 
 /**
@@ -1223,6 +1366,15 @@ export interface DatabaseAccountUpdateParameters {
    * keys
    */
   disableKeyBasedMetadataWriteAccess?: boolean;
+  /**
+   * The URI of the key vault
+   */
+  keyVaultKeyUri?: string;
+  /**
+   * Whether requests from Public Network are allowed. Possible values include: 'Enabled',
+   * 'Disabled'
+   */
+  publicNetworkAccess?: PublicNetworkAccess;
 }
 
 /**
@@ -1295,13 +1447,20 @@ export interface DatabaseAccountRegenerateKeyParameters {
 }
 
 /**
- * Cosmos DB resource throughput object
+ * Cosmos DB resource throughput object. Either throughput is required or
+ * provisionedThroughputSettings is required, but not both.
  */
 export interface ThroughputSettingsResource {
   /**
-   * Value of the Cosmos DB resource throughput
+   * Value of the Cosmos DB resource throughput. Either throughput is required or
+   * provisionedThroughputSettings is required, but not both.
    */
-  throughput: number;
+  throughput?: number;
+  /**
+   * Cosmos DB resource for provisioned throughput settings. Either throughput is required or
+   * provisionedThroughputSettings is required, but not both.
+   */
+  provisionedThroughputSettings?: ProvisionedThroughputSettingsResource;
   /**
    * The minimum throughput of the resource
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -1335,6 +1494,22 @@ export interface SqlDatabaseResource {
 }
 
 /**
+ * CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are
+ * "If-Match", "If-None-Match", "Session-Token" and "Throughput"
+ */
+export interface CreateUpdateOptions {
+  /**
+   * Request Units per second. For example, "throughput": "10000".
+   */
+  throughput?: string;
+  /**
+   * Describes unknown properties. The value of an unknown property MUST be of type "string". Due
+   * to valid TS constraints we have modeled this as a union of `string | any`.
+   */
+  [property: string]: string | any;
+}
+
+/**
  * Parameters to create and update Cosmos DB SQL database.
  */
 export interface SqlDatabaseCreateUpdateParameters extends ARMResourceProperties {
@@ -1346,7 +1521,7 @@ export interface SqlDatabaseCreateUpdateParameters extends ARMResourceProperties
    * A key-value pair of options to be applied for the request. This corresponds to the headers
    * sent with the request.
    */
-  options: { [propertyName: string]: string };
+  options: CreateUpdateOptions;
 }
 
 /**
@@ -1394,7 +1569,7 @@ export interface SqlContainerCreateUpdateParameters extends ARMResourcePropertie
    * A key-value pair of options to be applied for the request. This corresponds to the headers
    * sent with the request.
    */
-  options: { [propertyName: string]: string };
+  options: CreateUpdateOptions;
 }
 
 /**
@@ -1423,7 +1598,7 @@ export interface SqlStoredProcedureCreateUpdateParameters extends ARMResourcePro
    * A key-value pair of options to be applied for the request. This corresponds to the headers
    * sent with the request.
    */
-  options: { [propertyName: string]: string };
+  options: CreateUpdateOptions;
 }
 
 /**
@@ -1452,7 +1627,7 @@ export interface SqlUserDefinedFunctionCreateUpdateParameters extends ARMResourc
    * A key-value pair of options to be applied for the request. This corresponds to the headers
    * sent with the request.
    */
-  options: { [propertyName: string]: string };
+  options: CreateUpdateOptions;
 }
 
 /**
@@ -1490,7 +1665,7 @@ export interface SqlTriggerCreateUpdateParameters extends ARMResourceProperties 
    * A key-value pair of options to be applied for the request. This corresponds to the headers
    * sent with the request.
    */
-  options: { [propertyName: string]: string };
+  options: CreateUpdateOptions;
 }
 
 /**
@@ -1515,7 +1690,7 @@ export interface MongoDBDatabaseCreateUpdateParameters extends ARMResourceProper
    * A key-value pair of options to be applied for the request. This corresponds to the headers
    * sent with the request.
    */
-  options: { [propertyName: string]: string };
+  options: CreateUpdateOptions;
 }
 
 /**
@@ -1548,7 +1723,7 @@ export interface MongoDBCollectionCreateUpdateParameters extends ARMResourceProp
    * A key-value pair of options to be applied for the request. This corresponds to the headers
    * sent with the request.
    */
-  options: { [propertyName: string]: string };
+  options: CreateUpdateOptions;
 }
 
 /**
@@ -1573,7 +1748,7 @@ export interface TableCreateUpdateParameters extends ARMResourceProperties {
    * A key-value pair of options to be applied for the request. This corresponds to the headers
    * sent with the request.
    */
-  options: { [propertyName: string]: string };
+  options: CreateUpdateOptions;
 }
 
 /**
@@ -1598,7 +1773,7 @@ export interface CassandraKeyspaceCreateUpdateParameters extends ARMResourceProp
    * A key-value pair of options to be applied for the request. This corresponds to the headers
    * sent with the request.
    */
-  options: { [propertyName: string]: string };
+  options: CreateUpdateOptions;
 }
 
 /**
@@ -1631,7 +1806,7 @@ export interface CassandraTableCreateUpdateParameters extends ARMResourcePropert
    * A key-value pair of options to be applied for the request. This corresponds to the headers
    * sent with the request.
    */
-  options: { [propertyName: string]: string };
+  options: CreateUpdateOptions;
 }
 
 /**
@@ -1656,7 +1831,7 @@ export interface GremlinDatabaseCreateUpdateParameters extends ARMResourceProper
    * A key-value pair of options to be applied for the request. This corresponds to the headers
    * sent with the request.
    */
-  options: { [propertyName: string]: string };
+  options: CreateUpdateOptions;
 }
 
 /**
@@ -1704,7 +1879,7 @@ export interface GremlinGraphCreateUpdateParameters extends ARMResourcePropertie
    * A key-value pair of options to be applied for the request. This corresponds to the headers
    * sent with the request.
    */
-  options: { [propertyName: string]: string };
+  options: CreateUpdateOptions;
 }
 
 /**
@@ -2017,6 +2192,45 @@ export interface PartitionMetric extends Metric {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly partitionKeyRangeId?: string;
+}
+
+/**
+ * Parameters to create a notebook workspace resource
+ */
+export interface NotebookWorkspaceCreateUpdateParameters extends ARMProxyResource {
+}
+
+/**
+ * A notebook workspace resource
+ */
+export interface NotebookWorkspace extends ARMProxyResource {
+  /**
+   * Specifies the endpoint of Notebook server.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly notebookServerEndpoint?: string;
+  /**
+   * Status of the notebook workspace. Possible values are: Creating, Online, Deleting, Failed,
+   * Updating.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: string;
+}
+
+/**
+ * The connection info for the given notebook workspace
+ */
+export interface NotebookWorkspaceConnectionInfoResult {
+  /**
+   * Specifies auth token used for connecting to Notebook server (uses token-based auth).
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly authToken?: string;
+  /**
+   * Specifies the endpoint of Notebook server.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly notebookServerEndpoint?: string;
 }
 
 /**
@@ -2351,6 +2565,14 @@ export interface GremlinGraphListResult extends Array<GremlinGraphGetResults> {
 
 /**
  * @interface
+ * A list of notebook workspace resources
+ * @extends Array<NotebookWorkspace>
+ */
+export interface NotebookWorkspaceListResult extends Array<NotebookWorkspace> {
+}
+
+/**
+ * @interface
  * A list of private link resources
  * @extends Array<PrivateLinkResource>
  */
@@ -2396,6 +2618,14 @@ export type DefaultConsistencyLevel = 'Eventual' | 'Session' | 'BoundedStaleness
  * @enum {string}
  */
 export type ConnectorOffer = 'Small';
+
+/**
+ * Defines values for PublicNetworkAccess.
+ * Possible values include: 'Enabled', 'Disabled'
+ * @readonly
+ * @enum {string}
+ */
+export type PublicNetworkAccess = 'Enabled' | 'Disabled';
 
 /**
  * Defines values for IndexingMode.
@@ -4656,6 +4886,106 @@ export type GremlinResourcesBeginUpdateGremlinGraphThroughputResponse = Throughp
        * The response body as parsed JSON or XML
        */
       parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the listByDatabaseAccount operation.
+ */
+export type NotebookWorkspacesListByDatabaseAccountResponse = NotebookWorkspaceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NotebookWorkspaceListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type NotebookWorkspacesGetResponse = NotebookWorkspace & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NotebookWorkspace;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type NotebookWorkspacesCreateOrUpdateResponse = NotebookWorkspace & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NotebookWorkspace;
+    };
+};
+
+/**
+ * Contains response data for the listConnectionInfo operation.
+ */
+export type NotebookWorkspacesListConnectionInfoResponse = NotebookWorkspaceConnectionInfoResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NotebookWorkspaceConnectionInfoResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type NotebookWorkspacesBeginCreateOrUpdateResponse = NotebookWorkspace & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NotebookWorkspace;
     };
 };
 
