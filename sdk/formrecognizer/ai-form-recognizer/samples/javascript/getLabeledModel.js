@@ -5,8 +5,8 @@
  * Get Model
  */
 
-//import { FormTrainingClient, FormRecognizerApiKeyCredential } from "@azure/ai-form-recognizer";
-const { FormTrainingClient, FormRecognizerApiKeyCredential } = require("../../dist");
+//import { FormTrainingClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
+const { FormTrainingClient, AzureKeyCredential } = require("../../dist");
 
 // Load the .env file if it exists
 require("dotenv").config();
@@ -19,7 +19,7 @@ async function main() {
   const apiKey = process.env["COGNITIVE_SERVICE_API_KEY"] || "<api key>";
   const modelId = "afa7d851-ad20-465c-a80f-6ca8cfb879bb";
 
-  const client = new FormTrainingClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
+  const client = new FormTrainingClient(endpoint, new AzureKeyCredential(apiKey));
   const result = await client.getLabeledModel(modelId, { includeKeys: true });
   console.log(result);
 }

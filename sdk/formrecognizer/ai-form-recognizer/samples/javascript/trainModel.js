@@ -5,7 +5,7 @@
  * Train Form Recognizer custom models
  */
 
-const { FormRecognizerClient, FormRecognizerApiKeyCredential } = require("../../dist");
+const { FormRecognizerClient, AzureKeyCredential } = require("../../dist");
 
 // Load the .env file if it exists
 require("dotenv").config();
@@ -19,7 +19,7 @@ async function main() {
 
   const trainingDataSource = process.env["DOCUMENT_SOURCE"] || "<url/path to the training documents>";
 
-  const client = new FormRecognizerClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
+  const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
   const trainingClient = client.getFormTrainingClient();
 
   const poller = await trainingClient.beginTraining(trainingDataSource, {

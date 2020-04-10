@@ -5,7 +5,7 @@
  * Recognize Labeled Form from url
  */
 
-const { FormRecognizerClient, FormRecognizerApiKeyCredential } = require("../../dist");
+const { FormRecognizerClient, AzureKeyCredential } = require("../../dist");
 const fs = require("fs");
 
 // Load the .env file if it exists
@@ -19,7 +19,7 @@ async function main() {
   const modelId = "e28ad0da-aa55-46dc-ade9-839b0d819189"; // trained with labels
   const url = process.env["URL_OF_DOCUMENT_TO_ANALYZE_WITH_LABELS"] || "<sample invoice url>";
 
-  const client = new FormRecognizerClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
+  const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
   const poller = await client.beginRecognizeLabeledFormsFromUrl(modelId, url,{
     onProgress: (state) => { console.log(`status: ${state.status}`); }
   });
