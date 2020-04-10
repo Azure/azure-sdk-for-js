@@ -97,7 +97,7 @@ method to efficiently send multiple messages in a single send.
 ```javascript
 const sender = serviceBusClient.createSender("my-queue");
 await sender.send({
-  body: "my-message-body"
+  body: "my-message-body",
 });
 
 const batch = await sender.createBatch();
@@ -147,7 +147,7 @@ const myErrorHandler = async (error) => {
 };
 receiver.subscribe({
   processMessage: myMessageHandler,
-  processError: myErrorHandler
+  processError: myErrorHandler,
 });
 ```
 
@@ -182,22 +182,21 @@ lands in the right session.
 const sender = serviceBusClient.createSender("my-session-queue");
 await sender.send({
   body: "my-message-body",
-  sessionId: "my-session"
+  sessionId: "my-session",
 });
 ```
 
 ### Receive messages from Sessions
 
-To receive messages from sessions, you first need to create a session enabled Queue and send messages
-to it. Then, use an instance of `ServiceBusClient` to create a receiver
-using the [createSessionReceiver][sbclient_createsessionreceiver] function.
+To receive messages from sessions, you first need to create a session enabled Queue (or Subscription)
+and send messages to it.
 
-Specifying a `sessionId` allows you to open a specific session. If the session id is not specified
-then the `SessionReceiver` will get a random unlocked session.
+Then, using an instance of `ServiceBusClient`, you can call [createSessionReceiver][sbclient_createsessionreceiver]
+with a specific `sessionId` or with no session id, which will give you the next available unlocked session.
 
 ```javascript
 const receiver = serviceBusClient.createSessionReceiver("my-session-queue", "peekLock", {
-  sessionId: "my-session"
+  sessionId: "my-session",
 });
 ```
 
@@ -274,9 +273,9 @@ If you'd like to contribute to this library, please read the [contributing guide
 [apiref]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.1/index.html
 [sbclient]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.1/classes/servicebusclient.html
 [sbclient_constructor]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.1/classes/servicebusclient.html#constructor
-[sbclient_createsender]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.1/classes/servicebusclient.html#createSender
-[sbclient_createreceiver]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.1/classes/servicebusclient.html#createReceiver
-[sbclient_createsessionreceiver]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.1/classes/servicebusclient.html#createSessionReceiver
+[sbclient_createsender]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.1/classes/servicebusclient.html#createsender
+[sbclient_createreceiver]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.1/classes/servicebusclient.html#createreceiver
+[sbclient_createsessionreceiver]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.1/classes/servicebusclient.html#createsessionreceiver
 [sender]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.1/interfaces/sender.html
 [sender_send]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.1/interfaces/sender.html#send
 [sender_sendbatch]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.1/interfaces/sender.html#sendbatch
