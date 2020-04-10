@@ -48,11 +48,11 @@ import {
 
 export function toBoundingBox(original: number[]): Point2D[] {
   return [
-    {x: original[0], y: original[1] },
-    {x: original[2], y: original[3] },
-    {x: original[4], y: original[5] },
-    {x: original[6], y: original[7] }
-  ]
+    { x: original[0], y: original[1] },
+    { x: original[2], y: original[3] },
+    { x: original[4], y: original[5] },
+    { x: original[6], y: original[7] }
+  ];
 }
 
 export function toTextLine(original: TextLineModel, pageNumber: number): FormLine {
@@ -92,10 +92,7 @@ export function toFormPage(original: ReadResultModel): FormPage {
 // Note: might need to support other element types in future, e.g., checkbox
 const textPattern = /\/readResults\/(\d+)\/lines\/(\d+)(?:\/words\/(\d+))?/;
 
-export function toFormElement(
-  element: string,
-  readResults: FormPage[]
-): FormElement {
+export function toFormElement(element: string, readResults: FormPage[]): FormElement {
   const result = textPattern.exec(element);
   if (!result || !result[0] || !result[1] || !result[2]) {
     throw new Error(`Unexpected element reference encountered: ${element}`);
@@ -111,10 +108,7 @@ export function toFormElement(
   }
 }
 
-export function toFormText(
-  original: KeyValueElementModel,
-  readResults?: FormPage[]
-): FormText {
+export function toFormText(original: KeyValueElementModel, readResults?: FormPage[]): FormText {
   return {
     text: original.text,
     boundingBox: original.boundingBox ? toBoundingBox(original.boundingBox) : undefined,
@@ -122,10 +116,7 @@ export function toFormText(
   };
 }
 
-export function toFormField(
-  original: KeyValuePairModel,
-  readResults?: FormPage[]
-): FormField {
+export function toFormField(original: KeyValuePairModel, readResults?: FormPage[]): FormField {
   return {
     name: original.label,
     confidence: original.confidence,
@@ -170,8 +161,8 @@ export function toFormPages(
 ): FormPage[] {
   const transformed = readResults?.map(toFormPage);
   // maps from page numbers to the objects
-  const readMap = new Map<number, FormPage>(transformed?.map(r => [r.pageNumber, r]));
-  const pageMap = new Map<number, PageResultModel>(pageResults?.map(r => [r.pageNumber, r]));
+  const readMap = new Map<number, FormPage>(transformed?.map((r) => [r.pageNumber, r]));
+  const pageMap = new Map<number, PageResultModel>(pageResults?.map((r) => [r.pageNumber, r]));
   const result = [];
   for (const pageNumber of readMap.keys()) {
     const readResult = readMap.get(pageNumber);
@@ -208,9 +199,11 @@ export function toRecognizeFormResultResponse(
   const additional = original.analyzeResult
     ? {
         version: original.analyzeResult.version,
-        forms: original.analyzeResult.documentResults && original.analyzeResult.documentResults.length > 0
-          ? original.analyzeResult.documentResults.map((d) => toRecognizedForm(d, pages)) // supervised
-          : original.analyzeResult.pageResults?.map((p) => toFormFromPageResult(p, pages)), // unsupervised
+        forms:
+          original.analyzeResult.documentResults &&
+          original.analyzeResult.documentResults.length > 0
+            ? original.analyzeResult.documentResults.map((d) => toRecognizedForm(d, pages)) // supervised
+            : original.analyzeResult.pageResults?.map((p) => toFormFromPageResult(p, pages)), // unsupervised
         errors: original.analyzeResult.errors
       }
     : undefined;
@@ -220,10 +213,7 @@ export function toRecognizeFormResultResponse(
   };
 }
 
-export function toFieldValue(
-  original: FieldValueModel,
-  readResults: FormPage[]
-): FieldValue {
+export function toFieldValue(original: FieldValueModel, readResults: FormPage[]): FieldValue {
   const result =
     original.type === "object" || original.type === "array"
       ? {}
@@ -295,39 +285,42 @@ export function toFieldsFromFieldValue(
   original: { [propertyName: string]: FieldValueModel },
   readResults: FormPage[]
 ): { [propertyName: string]: FormField } {
-    const result: { [propertyName: string]: FormField } = {};
-    for (const key in original) {
-      if (original.hasOwnProperty(key)) {
-        const fieldValue = toFieldValue(original[key], readResults);
-        if (fieldValue.type === "array" || fieldValue.type === "object") {
-          const formField: FormField = {
-            value: fieldValue
-          }
-          result[key] = formField
-        } else {
-          const formField: FormField = {
-            confidence: fieldValue.confidence,
-            name: key,
-            valueText: {
-              text: fieldValue.text,
-              boundingBox: fieldValue.boundingBox,
-              textContent: fieldValue.textContent
-            },
-            value: fieldValue
-          }
-          result[key] = formField;
-        }
+  const result: { [propertyName: string]: FormField } = {};
+  for (const key in original) {
+    if (original.hasOwnProperty(key)) {
+      const fieldValue = toFieldValue(original[key], readResults);
+      if (fieldValue.type === "array" || fieldValue.type === "object") {
+        const formField: FormField = {
+          value: fieldValue
+        };
+        result[key] = formField;
+      } else {
+        const formField: FormField = {
+          confidence: fieldValue.confidence,
+          name: key,
+          valueText: {
+            text: fieldValue.text,
+            boundingBox: fieldValue.boundingBox,
+            textContent: fieldValue.textContent
+          },
+          value: fieldValue
+        };
+        result[key] = formField;
       }
     }
-  
-    return result;
   }
-  
-export function toFieldsFromKeyValuePairs(original: KeyValuePairModel[], pages: FormPage[]): { [propertyName: string]: FormField } {
+
+  return result;
+}
+
+export function toFieldsFromKeyValuePairs(
+  original: KeyValuePairModel[],
+  pages: FormPage[]
+): { [propertyName: string]: FormField } {
   let result: { [propertyName: string]: FormField } = {};
-  for (let i = 0; i < original.length; i ++) {
+  for (let i = 0; i < original.length; i++) {
     const pair = original[i];
-    const stringField = toFormField(pair, pages)
+    const stringField = toFormField(pair, pages);
     stringField.name = stringField.name || `field-${i}`;
 
     result[`field-${i}`] = stringField;
@@ -342,13 +335,10 @@ export function toFormFromPageResult(original: PageResultModel, pages: FormPage[
     pageRange: { firstPageNumber: original.pageNumber, lastPageNumber: original.pageNumber },
     pages,
     fields: original.keyValuePairs ? toFieldsFromKeyValuePairs(original.keyValuePairs, pages) : {}
-  }
+  };
 }
 
-export function toRecognizedForm(
-  original: DocumentResultModel,
-  pages: FormPage[]
-): RecognizedForm {
+export function toRecognizedForm(original: DocumentResultModel, pages: FormPage[]): RecognizedForm {
   return {
     formType: original.docType,
     pageRange: { firstPageNumber: original.pageRange[0], lastPageNumber: original.pageRange[1] },
@@ -376,9 +366,7 @@ export function toLabeledFormResultResponse(
   const additional = original.analyzeResult
     ? {
         version: original.analyzeResult.version,
-        forms: original.analyzeResult.documentResults?.map((d) =>
-          toRecognizedForm(d, pages)
-        ),
+        forms: original.analyzeResult.documentResults?.map((d) => toRecognizedForm(d, pages)),
         errors: original.analyzeResult.errors
       }
     : undefined;
@@ -395,10 +383,7 @@ export function toRecognizeContentResultResponse(
     if (!model) {
       return undefined;
     }
-    const pages = toFormPages(
-      model.readResults,
-      model.pageResults
-    );
+    const pages = toFormPages(model.readResults, model.pageResults);
     return {
       version: model.version,
       pages: pages
@@ -421,10 +406,7 @@ export function toRecognizeContentResultResponse(
   }
 }
 
-function toReceiptResult(
-  result: DocumentResultModel,
-  readResults: FormPage[]
-): RecognizedReceipt {
+function toReceiptResult(result: DocumentResultModel, readResults: FormPage[]): RecognizedReceipt {
   if (result.docType !== "prebuilt:receipt") {
     throw new RangeError("The document type is not 'prebuilt:receipt'");
   }

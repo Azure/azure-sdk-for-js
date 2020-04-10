@@ -179,7 +179,10 @@ describe("Transforms", () => {
     assert.ok(transformed.valueText!.boundingBox);
     verifyBoundingBox(transformed.fieldLabel!.boundingBox!, original.key.boundingBox);
     verifyBoundingBox(transformed.valueText!.boundingBox!, original.value.boundingBox);
-    assert.deepStrictEqual(transformed.fieldLabel!.textContent![0], formPages[0].lines![0].words[0]);
+    assert.deepStrictEqual(
+      transformed.fieldLabel!.textContent![0],
+      formPages[0].lines![0].words[0]
+    );
     assert.deepStrictEqual(transformed.valueText!.textContent![1], formPages[0].lines![0].words[1]);
   });
 
@@ -403,44 +406,44 @@ describe("Transforms", () => {
 
   it("toRecognizeFormResultResponse() converts unsupervised response into recognized forms", () => {
     const original = JSON.parse(unsupervisedResponseString);
-    const transformed = toRecognizeFormResultResponse(original)
+    const transformed = toRecognizeFormResultResponse(original);
 
     assert.ok(transformed.forms, "Expecting non-empty recognized forms");
     assert.ok(transformed.forms!.length > 0, "Expecting at least one recognized forms");
     const form = transformed.forms![0];
     assert.equal(form.formType, "form-0");
-    assert.deepStrictEqual(form.pageRange, { firstPageNumber: 1, lastPageNumber: 1});
+    assert.deepStrictEqual(form.pageRange, { firstPageNumber: 1, lastPageNumber: 1 });
     assert.ok(form.pages.length > 0, "Expecting at least one page in the first recognized form");
     assert.ok(form.fields["field-0"]);
     assert.ok(form.fields["field-1"]);
     assert.ok(form.fields["field-2"]);
-  })
+  });
 
   it("toRecognizeFormResultResponse() converts supervised response into recognized forms", () => {
     const original = JSON.parse(supervisedResponseString);
-    const transformed = toRecognizeFormResultResponse(original)
+    const transformed = toRecognizeFormResultResponse(original);
 
     assert.ok(transformed.forms, "Expecting non-empty recognized forms");
     assert.ok(transformed.forms!.length > 0, "Expecting at least one recognized forms");
     const form = transformed.forms![0];
     assert.equal(form.formType, "custom:form");
-    assert.deepStrictEqual(form.pageRange, { firstPageNumber: 1, lastPageNumber: 1});
+    assert.deepStrictEqual(form.pageRange, { firstPageNumber: 1, lastPageNumber: 1 });
     assert.ok(form.pages.length > 0, "Expecting at least one page in the first recognized form");
-    assert.ok(form.fields)
-    assert.ok(form.fields["InvoiceCharges"])
-    assert.ok(form.fields["InvoiceDate"])
-    assert.ok(form.fields["InvoiceDueDate"])
-    assert.ok(form.fields["InvoiceNumber"])
-    assert.ok(form.fields["InvoiceVatId"])
-  })
+    assert.ok(form.fields);
+    assert.ok(form.fields["InvoiceCharges"]);
+    assert.ok(form.fields["InvoiceDate"]);
+    assert.ok(form.fields["InvoiceDueDate"]);
+    assert.ok(form.fields["InvoiceNumber"]);
+    assert.ok(form.fields["InvoiceVatId"]);
+  });
 
   it("toReceiptResultResponse() converts receipt response", () => {
     const original = JSON.parse(receiptResponseString);
-    const transformed = toReceiptResultResponse(original)
+    const transformed = toReceiptResultResponse(original);
 
     assert.ok(transformed.extractedReceipts, "Expecting non-empty recognized forms");
     //TODO: complete after refactoring
-  })
+  });
 });
 
 const supervisedResponseString = `{
@@ -723,7 +726,7 @@ const supervisedResponseString = `{
   }
 }`;
 
-const unsupervisedResponseString =`{
+const unsupervisedResponseString = `{
   "status": "succeeded",
   "createdDateTime": "2020-04-09T05:28:10Z",
   "lastUpdatedDateTime": "2020-04-09T05:28:12Z",

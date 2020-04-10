@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-const SIZE_ONE_MEGA = 1024 * 1024
+const SIZE_ONE_MEGA = 1024 * 1024;
 
 /**
  * Reads a readable stream into buffer entirely. NodeJS only.
@@ -12,7 +12,10 @@ const SIZE_ONE_MEGA = 1024 * 1024
  * @returns {Promise<Buffer>} The resultant buffer.
  * @throws {Error} If buffer size is not big enough.
  */
-export async function streamToBuffer(stream: NodeJS.ReadableStream, maxSize: number): Promise<Buffer> {
+export async function streamToBuffer(
+  stream: NodeJS.ReadableStream,
+  maxSize: number
+): Promise<Buffer> {
   let pos = 0; // Position in stream
   let size = SIZE_ONE_MEGA;
   let buffer = Buffer.alloc(size);

@@ -360,7 +360,7 @@ export class FormRecognizerClient {
 
     await poller.poll();
     return poller;
-}
+  }
 
   /**
    * @private
@@ -479,7 +479,8 @@ export class FormRecognizerClient {
     });
 
     await poller.poll();
-    return poller;  }
+    return poller;
+  }
 
   private async getRecognizedForm(
     modelId: string,
@@ -627,7 +628,7 @@ export class FormRecognizerClient {
 
     await poller.poll();
     return poller;
-}
+  }
 
   /**
    * Recognizes data from receipts using pre-built receipt model, enabling you to extract structure data
@@ -742,7 +743,8 @@ export class FormRecognizerClient {
     });
 
     await poller.poll();
-    return poller;  }
+    return poller;
+  }
 
   /**
    * @internal
