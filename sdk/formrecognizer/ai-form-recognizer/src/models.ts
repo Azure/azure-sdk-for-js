@@ -724,7 +724,7 @@ export type RecognizeContentResultResponse = RecognizeContentOperationResult & {
 };
 
 /**
- * Represents an recognized form using unsupervised model
+ * Represents a recognized form using a model from training without labels.
  */
 export interface FormResult {
   /**
@@ -746,7 +746,7 @@ export interface FormResult {
 }
 
 /**
- * Represents the result from an recognize form operation using unsupervised model
+ * Represents the result from an recognize form operation using a model from training without labels.
  */
 export type RecognizeFormOperationResult = Partial<LabeledFormResult> & {
   /**
@@ -764,7 +764,7 @@ export type RecognizeFormOperationResult = Partial<LabeledFormResult> & {
 };
 
 /**
- * Represents an recognized form using a model from supervised training with labels
+ * Represents an recognized form using a model from training with labels.
  */
 export interface LabeledFormResult {
   /**
@@ -783,7 +783,7 @@ export interface LabeledFormResult {
 }
 
 /**
- * Represents the result from an recognize form operation using a supervised model
+ * Represents the result from an recognize form operation using a model from training with labels.
  */
 export type LabeledFormOperationResult = Partial<LabeledFormResult> & {
   /**
@@ -801,7 +801,7 @@ export type LabeledFormOperationResult = Partial<LabeledFormResult> & {
 };
 
 /**
- * Contains the response data for recognize form (unsupervised) operation
+ * Contains the response data for recognize form operation using a model from training without labels.
  */
 export type RecognizeFormResultResponse = RecognizeFormOperationResult & {
   /**
@@ -821,7 +821,7 @@ export type RecognizeFormResultResponse = RecognizeFormOperationResult & {
 };
 
 /**
- * Contains the response data for recognize form (supervised) operation
+ * Contains the response data for recognize form operation using a model from training with labels.
  */
 export type LabeledFormResultResponse = LabeledFormOperationResult & {
   /**
@@ -841,7 +841,7 @@ export type LabeledFormResultResponse = LabeledFormOperationResult & {
 };
 
 /**
- * Contains the unsupervised training results
+ * Contains the unlabeled training results.
  */
 export interface FormTrainResult {
   /**
@@ -855,7 +855,7 @@ export interface FormTrainResult {
 }
 
 /**
- * Represents a model from unsupervised training
+ * Represents a model from unlabeled training.
  */
 export interface FormModel {
   /**
@@ -863,17 +863,17 @@ export interface FormModel {
    */
   modelInfo: ModelInfo;
   /**
-   * Keys recognized from unsupervised training
+   * Keys recognized from unlabeled training.
    */
   keys: KeysResult;
   /**
-   * Results of the unsupervised training
+   * Results of the unlabeled training.
    */
   trainResult?: FormTrainResult;
 }
 
 /**
- * Contains the response data for retrieving a model from unsupervised training
+ * Contains the response data for retrieving a model from unlabeled training.
  */
 export type FormModelResponse = FormModel & {
   /**
@@ -893,7 +893,7 @@ export type FormModelResponse = FormModel & {
 };
 
 /**
- * Represents result of supervised training with labels
+ * Represents result of training with labels.
  */
 export interface LabeledFormTrainResult {
   /**
@@ -915,21 +915,21 @@ export interface LabeledFormTrainResult {
 }
 
 /**
- * Represents the trained model from supervised training with labels
+ * Represents the trained model from training with labels.
  */
 export interface LabeledFormModel {
   /**
-   * Information about the model in supervised training
+   * Information about the model in training with labels.
    */
   modelInfo: ModelInfo;
   /**
-   * Results of the supervised training with label files
+   * Results of the training with labels.
    */
   trainResult?: LabeledFormTrainResult;
 }
 
 /**
- * Contains the response data for retrieving a model from supervised training with labels
+ * Contains the response data for retrieving a model from training with labels
  */
 export type LabeledFormModelResponse = LabeledFormModel & {
   /**

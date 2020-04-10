@@ -217,7 +217,7 @@ export class FormTrainingClient {
   }
 
   /**
-   * Get detailed information about a model from unsupervised training.
+   * Get detailed information about a model from training without labels.
    *
    * @param {string} modelId Id of the model to get information
    * @param {GetModelOptions} options Options to the Get Model operation
@@ -258,7 +258,7 @@ export class FormTrainingClient {
   }
 
   /**
-   * Get detailed information about a model from supervised training using labels.
+   * Get detailed information about a model from training using labels.
    *
    * @param {string} modelId Id of the model to get information
    * @param {GetModelOptions} options Options to the Get Labeled Model operation
@@ -433,7 +433,7 @@ export class FormTrainingClient {
   }
 
   /**
-   * Creates and trains a model without using labels (i.e., unsupervised).
+   * Creates and trains a model without using labels.
    * This method returns a long running operation poller that allows you to wait
    * indefinitely until the copy is completed.
    * You can also cancel a copy before it is completed by calling `cancelOperation` on the poller.
@@ -483,7 +483,7 @@ export class FormTrainingClient {
   }
 
   /**
-   * Creates and trains a model using labels (i.e., supervised).
+   * Creates and trains a model using labels.
    * This method returns a long running operation poller that allows you to wait
    * indefinitely until the copy is completed.
    * You can also cancel a copy before it is completed by calling `cancelOperation` on the poller.

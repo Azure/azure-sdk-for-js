@@ -391,7 +391,7 @@ export class FormRecognizerClient {
   }
 
   /**
-   * Recognizes name-value pairs and tables from a given document using a model from unsupervised training.
+   * Recognizes name-value pairs and tables from a given document using a model from training without labels.
    * This method returns a long running operation poller that allows you to wait
    * indefinitely until the copy is completed.
    * You can also cancel a copy before it is completed by calling `cancelOperation` on the poller.
@@ -540,7 +540,7 @@ export class FormRecognizerClient {
   }
 
   /**
-   * Recognizes name-value pairs and tables from a given document using a model from supervised training with labels.
+   * Recognizes name-value pairs and tables from a given document using a model from training with labels.
    * This method returns a long running operation poller that allows you to wait
    * indefinitely until the copy is completed.
    * You can also cancel a copy before it is completed by calling `cancelOperation` on the poller.
