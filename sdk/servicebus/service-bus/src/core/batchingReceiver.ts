@@ -39,6 +39,8 @@ export class BatchingReceiver extends MessageReceiver {
 
   private _finalActionHandler: (() => void) | undefined = undefined;
 
+  private _drainTimeoutInMs: number = receiveDrainTimeoutInMs;
+
   /**
    * Instantiate a new BatchingReceiver.
    *
@@ -164,9 +166,17 @@ export class BatchingReceiver extends MessageReceiver {
           this._receiver.drain = true;
           this._receiver.addCredit(1);
 
-          const drainTimeout = delay(receiveDrainTimeoutInMs);
+          const drainTimeout = delay(this._drainTimeoutInMs).then(() => {
+            return Promise.reject();
+          });
+
           // Wait for the drain event to be fired, or for the timeout.
-          await Promise.race([drainPromise, drainTimeout]);
+          try {
+            await Promise.race([drainPromise, drainTimeout]);
+          } catch {
+            // Close the receiver link since we have not received the receiver drain event.
+            await this.onDetached();
+          }
 
           // Turn off draining.
           if (this._receiver) {

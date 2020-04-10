@@ -1143,9 +1143,68 @@ describe("Batch Receiver - drain", function(): void {
   });
 
   it("honors timeout", async () => {
+    /**
+     * This test ensures that if `receiveMessages` will return
+     * even if the `receiver_drain` event never fires.
+     *
+     * To test this, we remove the underlying receiver's `receiver_drain`
+     * event handler so that the drain timeout has to be reached for the
+     * operation to return.
+     */
     await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
+    const testMessages = [];
+    for (let i = 0; i < 2; i++) {
+      testMessages.push(TestMessage.getSample());
+    }
+    await sender.sendBatch(testMessages);
 
-    // initialize receiver link to make it easier to test
+    // The first time `receiveMessages` is called the receiver link is created.
+    // The `receiver_drained` handler is only added after the link is created,
+    // which is a non-blocking task.
+    await receiver.receiveMessages(1, 1);
+
+    if (!(receiver as any)._context.batchingReceiver.isOpen()) {
+      throw new Error(`Unable to initialize receiver link.`);
+    }
+
+    // Since the receiver has already been initialized,
+    // the `receiver_drained` handler is attached as soon
+    // as receiveMessages is invoked.
+    // We remove the `receiver_drained` timeout after `receiveMessages`
+    // does it's initial setup by wrapping it in a `setTimeout`.
+    // This triggers the `receiver_drained` handler removal on the next
+    // tick of the event loop; after the handler has been attached.
+    setTimeout(() => {
+      // remove `receiver_drained` event
+      (receiver as any)._context.batchingReceiver._receiver.removeAllListeners(
+        ReceiverEvents.receiverDrained
+      );
+    }, 0);
+
+    const results = await receiver.receiveMessages(1, 1);
+
+    Array.isArray(results).should.be.true;
+    results.length.should.equal(1, "Received an unexpected number of messages.");
+  });
+
+  it("can call receiveMessages after a timeout", async () => {
+    /**
+     * This test ensures that subsequent `receiveMessages` will work
+     * even if the drain timeout was hit in an earlier invocation.
+     * This is interesting to test because we close the receiver link
+     * if the drain timeout is hit, so subsequent invocations need to
+     * recreate it.
+     */
+    await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
+    const testMessages = [];
+    for (let i = 0; i < 3; i++) {
+      testMessages.push(TestMessage.getSample());
+    }
+    await sender.sendBatch(testMessages);
+
+    // The first time `receiveMessages` is called the receiver link is created.
+    // The `receiver_drained` handler is only added after the link is created,
+    // which is a non-blocking task.
     await receiver.receiveMessages(1, 1);
 
     if (!(receiver as any)._context.batchingReceiver.isOpen()) {
@@ -1162,8 +1221,14 @@ describe("Batch Receiver - drain", function(): void {
       );
     }, 0);
 
-    const results = await receiver.receiveMessages(1, 1);
+    (receiver as any)._context.batchingReceiver._drainTimeoutInMs = 10;
+    const results1 = await receiver.receiveMessages(1, 1);
+    Array.isArray(results1).should.be.true;
+    results1.length.should.equal(1, "Received an unexpected number of messages.");
 
-    Array.isArray(results).should.be.true;
+    (receiver as any)._context.batchingReceiver._drainTimeoutInMs = 200;
+    const results2 = await receiver.receiveMessages(1, 1);
+    Array.isArray(results2).should.be.true;
+    results2.length.should.equal(1, "Received an unexpected number of messages.");
   });
 });
