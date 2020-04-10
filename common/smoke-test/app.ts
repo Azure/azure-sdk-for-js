@@ -25,7 +25,8 @@ async function main() {
     await KeyVaultSecrets.Run();
     await BlobStorage.Run();
     await EventHubs.Run();
-    await CosmosDB.Run();
+    // Temporarily disabling cosmos db testing
+    // await CosmosDB.Run();
   } catch (ex) {
     console.error(ex);
     console.error("UNEXPECTED ERROR");
