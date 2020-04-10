@@ -308,7 +308,7 @@ const listByBatchAccountOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates",
   urlParameters: [
     Parameters.resourceGroupName,
-    Parameters.accountName,
+    Parameters.accountName1,
     Parameters.subscriptionId
   ],
   queryParameters: [
@@ -336,7 +336,7 @@ const updateOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates/{certificateName}",
   urlParameters: [
     Parameters.resourceGroupName,
-    Parameters.accountName,
+    Parameters.accountName1,
     Parameters.certificateName,
     Parameters.subscriptionId
   ],
@@ -371,7 +371,7 @@ const getOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates/{certificateName}",
   urlParameters: [
     Parameters.resourceGroupName,
-    Parameters.accountName,
+    Parameters.accountName1,
     Parameters.certificateName,
     Parameters.subscriptionId
   ],
@@ -398,7 +398,7 @@ const cancelDeletionOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates/{certificateName}/cancelDelete",
   urlParameters: [
     Parameters.resourceGroupName,
-    Parameters.accountName,
+    Parameters.accountName1,
     Parameters.certificateName,
     Parameters.subscriptionId
   ],
@@ -425,7 +425,7 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates/{certificateName}",
   urlParameters: [
     Parameters.resourceGroupName,
-    Parameters.accountName,
+    Parameters.accountName1,
     Parameters.certificateName,
     Parameters.subscriptionId
   ],
@@ -461,7 +461,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates/{certificateName}",
   urlParameters: [
     Parameters.resourceGroupName,
-    Parameters.accountName,
+    Parameters.accountName1,
     Parameters.certificateName,
     Parameters.subscriptionId
   ],

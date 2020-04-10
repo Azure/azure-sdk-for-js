@@ -321,7 +321,7 @@ const listByBatchAccountOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools",
   urlParameters: [
     Parameters.resourceGroupName,
-    Parameters.accountName,
+    Parameters.accountName1,
     Parameters.subscriptionId
   ],
   queryParameters: [
@@ -349,7 +349,7 @@ const updateOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools/{poolName}",
   urlParameters: [
     Parameters.resourceGroupName,
-    Parameters.accountName,
+    Parameters.accountName1,
     Parameters.poolName,
     Parameters.subscriptionId
   ],
@@ -384,7 +384,7 @@ const getOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools/{poolName}",
   urlParameters: [
     Parameters.resourceGroupName,
-    Parameters.accountName,
+    Parameters.accountName1,
     Parameters.poolName,
     Parameters.subscriptionId
   ],
@@ -411,7 +411,7 @@ const disableAutoScaleOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools/{poolName}/disableAutoScale",
   urlParameters: [
     Parameters.resourceGroupName,
-    Parameters.accountName,
+    Parameters.accountName1,
     Parameters.poolName,
     Parameters.subscriptionId
   ],
@@ -438,7 +438,7 @@ const stopResizeOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools/{poolName}/stopResize",
   urlParameters: [
     Parameters.resourceGroupName,
-    Parameters.accountName,
+    Parameters.accountName1,
     Parameters.poolName,
     Parameters.subscriptionId
   ],
@@ -465,7 +465,7 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools/{poolName}",
   urlParameters: [
     Parameters.resourceGroupName,
-    Parameters.accountName,
+    Parameters.accountName1,
     Parameters.poolName,
     Parameters.subscriptionId
   ],
@@ -501,7 +501,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools/{poolName}",
   urlParameters: [
     Parameters.resourceGroupName,
-    Parameters.accountName,
+    Parameters.accountName1,
     Parameters.poolName,
     Parameters.subscriptionId
   ],

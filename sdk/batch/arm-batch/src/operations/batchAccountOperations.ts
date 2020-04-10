@@ -392,7 +392,7 @@ const updateOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}",
   urlParameters: [
     Parameters.resourceGroupName,
-    Parameters.accountName,
+    Parameters.accountName1,
     Parameters.subscriptionId
   ],
   queryParameters: [
@@ -424,7 +424,7 @@ const getOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}",
   urlParameters: [
     Parameters.resourceGroupName,
-    Parameters.accountName,
+    Parameters.accountName1,
     Parameters.subscriptionId
   ],
   queryParameters: [
@@ -496,7 +496,7 @@ const synchronizeAutoStorageKeysOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/syncAutoStorageKeys",
   urlParameters: [
     Parameters.resourceGroupName,
-    Parameters.accountName,
+    Parameters.accountName1,
     Parameters.subscriptionId
   ],
   queryParameters: [
@@ -519,7 +519,7 @@ const regenerateKeyOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/regenerateKeys",
   urlParameters: [
     Parameters.resourceGroupName,
-    Parameters.accountName,
+    Parameters.accountName1,
     Parameters.subscriptionId
   ],
   queryParameters: [
@@ -553,7 +553,7 @@ const getKeysOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/listKeys",
   urlParameters: [
     Parameters.resourceGroupName,
-    Parameters.accountName,
+    Parameters.accountName1,
     Parameters.subscriptionId
   ],
   queryParameters: [
@@ -578,7 +578,7 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}",
   urlParameters: [
     Parameters.resourceGroupName,
-    Parameters.accountName,
+    Parameters.accountName0,
     Parameters.subscriptionId
   ],
   queryParameters: [
@@ -614,7 +614,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}",
   urlParameters: [
     Parameters.resourceGroupName,
-    Parameters.accountName,
+    Parameters.accountName1,
     Parameters.subscriptionId
   ],
   queryParameters: [
