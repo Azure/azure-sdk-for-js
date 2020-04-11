@@ -96,8 +96,7 @@ describe("dead lettering", () => {
     await checkDeadLetteredMessage({
       reason: "this is the dead letter reason",
       description: "this is the dead letter error description",
-      // TODO: https://github.com/Azure/azure-sdk-for-js/issues/7959
-      customProperty: undefined
+      customProperty: "hello, setting this custom property"
     });
   });
 
