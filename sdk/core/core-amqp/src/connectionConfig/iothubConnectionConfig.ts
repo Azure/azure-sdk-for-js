@@ -6,7 +6,6 @@ import { EventHubConnectionConfig } from "./eventhubConnectionConfig";
 import { parseConnectionString, IotHubConnectionStringModel } from "../util/utils";
 
 /**
- * @interface IotHubConnectionConfig
  * @ignore
  */
 export interface IotHubConnectionConfig {

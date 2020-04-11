@@ -186,12 +186,10 @@ export class ManagementClient extends LinkEntity {
   replyTo: string = generate_uuid();
   /**
    * @property $management sender, receiver on the same session.
-   * @private
    */
   private _mgmtReqResLink?: RequestResponseLink;
   /**
    * @property _lastPeekedSequenceNumber Provides the sequence number of the last peeked message.
-   * @private
    */
   private _lastPeekedSequenceNumber: Long = Long.ZERO;
 

@@ -15,7 +15,6 @@ import { SessionManager } from "./session/sessionManager";
 import { MessagingError } from "@azure/core-amqp";
 
 /**
- * @interface ClientEntityContext
  * Provides contextual information like the underlying amqp connection, cbs session,
  * management session, tokenCredential, senders, receivers, etc. about the ServiceBus client.
  * @internal

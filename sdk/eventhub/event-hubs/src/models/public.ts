@@ -91,7 +91,6 @@ export enum CloseReason {
  *     }
  * }
  * ```
- * @interface ClientOptions
  */
 export interface EventHubClientOptions {
   /**

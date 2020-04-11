@@ -67,7 +67,6 @@ export interface Sender {
    * @returns {Promise<ServiceBusMessageBatch>}
    * @throws MessagingError if an error is encountered while sending a message.
    * @throws Error if the underlying connection or sender has been closed.
-   * @memberof Sender
    */
   createBatch(options?: CreateBatchOptions): Promise<ServiceBusMessageBatch>;
 
@@ -79,7 +78,6 @@ export interface Sender {
    * @returns {Promise<void>}
    * @throws MessagingError if an error is encountered while sending a message.
    * @throws Error if the underlying connection or sender has been closed.
-   * @memberof Sender
    */
   sendBatch(messageBatch: ServiceBusMessageBatch, options?: OperationOptions): Promise<void>;
 

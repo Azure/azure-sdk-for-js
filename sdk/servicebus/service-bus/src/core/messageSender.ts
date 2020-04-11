@@ -66,18 +66,15 @@ export class MessageSender extends LinkEntity {
   /**
    * @property {OnAmqpEvent} _onSessionError The message handler that will be set as the handler on
    * the underlying rhea sender's session for the "session_error" event.
-   * @private
    */
   private _onSessionError: OnAmqpEvent;
   /**
    * @property {OnAmqpEvent} _onSessionClose The message handler that will be set as the handler on
    * the underlying rhea sender's session for the "session_close" event.
-   * @private
    */
   private _onSessionClose: OnAmqpEvent;
   /**
    * @property {Sender} [_sender] The AMQP sender link.
-   * @private
    */
   private _sender?: AwaitableSender;
   private _retryOptions: RetryOptionsInternal;
@@ -714,7 +711,6 @@ export class MessageSender extends LinkEntity {
    * ```
    * @param {{retryOptions?: RetryOptions}} [options={}]
    * @returns {Promise<number>}
-   * @memberof MessageSender
    */
   async getMaxMessageSize(
     options: {

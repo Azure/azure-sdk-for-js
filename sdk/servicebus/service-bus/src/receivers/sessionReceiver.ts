@@ -55,7 +55,6 @@ export interface SessionReceiver<
    * Will return undefined until a AMQP receiver link has been successfully set up for the session.
    *
    * @readonly
-   * @memberof SessionReceiver
    */
   sessionLockedUntilUtc: Date | undefined;
 

@@ -14,7 +14,6 @@ import { logger, logErrorStackTrace } from "./log";
 export class ReceiveHandler {
   /**
    * @property _receiver  The underlying EventHubReceiver.
-   * @private
    */
   private _receiver: EventHubReceiver;
 
