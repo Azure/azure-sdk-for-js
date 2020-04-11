@@ -19,7 +19,7 @@ async function main() {
   const modelId = myArgs[0] || "<model id>";
 
   const client = new FormTrainingClient(endpoint, new AzureKeyCredential(apiKey));
-  const result = await client.getLabeledModel(modelId, { includeKeys: true });
+  const result = await client.getModel(modelId);
   console.dir(result, { depth: 4 });
 }
 

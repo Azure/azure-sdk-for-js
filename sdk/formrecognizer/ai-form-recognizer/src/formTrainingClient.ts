@@ -20,13 +20,15 @@ import { FormRecognizerClient as GeneratedClient } from "./generated/formRecogni
 import {
   FormRecognizerClientGetCustomModelsResponse as ListModelsResponseModel,
   Model,
-  ModelInfo
+  ModelInfo,
+  FormRecognizerClientTrainCustomModelAsyncResponse
 } from "./generated/models";
 import { TrainPollerClient, BeginTrainingPoller, BeginTrainingPollState } from "./lro/train/poller";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
 import { FormRecognizerClientOptions, FormRecognizerOperationOptions } from "./common";
-import { LabeledFormModelResponse, FormModelResponse } from "./models";
+import { FormModelResponse, AccountProperties } from "./models";
 import { createFormRecognizerAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
+import { toFormModelResponse } from "./transforms";
 
 export { ListModelsResponseModel, Model, ModelInfo, RestResponse };
 /**
@@ -163,7 +165,7 @@ export class FormTrainingClient {
    *
    * @param {GetSummaryOptions} options Options to GetSummary operation
    */
-  public async getSummary(options?: GetSummaryOptions) {
+  public async getSummary(options?: GetSummaryOptions): Promise<AccountProperties> {
     const realOptions: ListModelsOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
       "FormTrainingClient-listCustomModels",
@@ -175,7 +177,10 @@ export class FormTrainingClient {
         ...operationOptionsToRequestOptionsBase(finalOptions)
       });
 
-      return result;
+      return {
+        limit: result.summary!.limit,
+        count: result.summary!.count
+      };
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -233,59 +238,13 @@ export class FormTrainingClient {
     );
 
     try {
-      const respnose = await this.client.getCustomModel(modelId, {
+      const response = await this.client.getCustomModel(modelId, {
         ...operationOptionsToRequestOptionsBase(finalOptions),
         // Include keys is always set to true -- the service does not have a use case for includeKeys: false.
         includeKeys: true
       });
-      if (
-        respnose.modelInfo.status === "ready" &&
-        (respnose.trainResult?.averageModelAccuracy || respnose.trainResult?.fields)
-      ) {
-        throw new Error(`The model ${modelId} is trained with labels.`);
-      } else {
-        return (respnose as unknown) as FormModelResponse;
-      }
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
 
-  /**
-   * Get detailed information about a model from training using labels.
-   *
-   * @param {string} modelId Id of the model to get information
-   * @param {GetModelOptions} options Options to the Get Labeled Model operation
-   */
-  public async getLabeledModel(
-    modelId: string,
-    options: GetLabeledModelOptions = {}
-  ): Promise<LabeledFormModelResponse> {
-    const realOptions = options || {};
-    const { span, updatedOptions: finalOptions } = createSpan(
-      "FormTrainingClient-getLabeledModel",
-      realOptions
-    );
-
-    try {
-      const response = await this.client.getCustomModel(
-        modelId,
-        operationOptionsToRequestOptionsBase(finalOptions)
-      );
-
-      if (response.modelInfo.status === "ready") {
-        if (response.keys) {
-          throw new Error(`The model ${modelId} is not rained with labels.`);
-        }
-      }
-
-      return (response as unknown) as LabeledFormModelResponse;
+      return toFormModelResponse(response);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -508,11 +467,10 @@ export class FormTrainingClient {
    */
   public async beginTrainingWithLabel(
     source: string,
-    options: BeginTrainingOptions<LabeledFormModelResponse> = {}
-  ): Promise<PollerLike<PollOperationState<LabeledFormModelResponse>, LabeledFormModelResponse>> {
-    const trainPollerClient: TrainPollerClient<LabeledFormModelResponse> = {
-      getModel: (modelId: string, options: GetModelOptions) =>
-        this.getLabeledModel(modelId, options),
+    options: BeginTrainingOptions<FormModelResponse> = {}
+  ): Promise<PollerLike<PollOperationState<FormModelResponse>, FormModelResponse>> {
+    const trainPollerClient: TrainPollerClient<FormModelResponse> = {
+      getModel: (modelId: string, options: GetModelOptions) => this.getModel(modelId, options),
       trainCustomModelInternal: (
         source: string,
         _useLabelFile?: boolean,
@@ -539,7 +497,7 @@ async function trainCustomModelInternal(
   source: string,
   useLabelFile?: boolean,
   options?: TrainModelOptions
-) {
+): Promise<FormRecognizerClientTrainCustomModelAsyncResponse> {
   const realOptions = options || {};
   const { span, updatedOptions: finalOptions } = createSpan(
     "trainCustomModelInternal",

@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/* eslint-disable no-use-before-define */
 import { assert } from "chai";
 import {
   toTextLine,
@@ -11,9 +12,12 @@ import {
   toFieldValue,
   toFormTable,
   toRecognizeFormResultResponse,
-  toReceiptResultResponse
+  toReceiptResultResponse,
+  toFormModelResponse
 } from "../src/transforms";
 import {
+  FormRecognizerClientGetAnalyzeFormResultResponse as GetAnalyzeFormResultResponse,
+  FormRecognizerClientGetCustomModelResponse as GetCustomModelResponse,
   ReadResult as ReadResultModel,
   FieldValue as FieldValueModel,
   DataTable as DataTableModel
@@ -405,14 +409,18 @@ describe("Transforms", () => {
   });
 
   it("toRecognizeFormResultResponse() converts unsupervised response into recognized forms", () => {
-    const original = JSON.parse(unsupervisedResponseString);
+    const original: GetAnalyzeFormResultResponse = JSON.parse(unsupervisedResponseString);
     const transformed = toRecognizeFormResultResponse(original);
 
     assert.ok(transformed.forms, "Expecting non-empty recognized forms");
     assert.ok(transformed.forms!.length > 0, "Expecting at least one recognized forms");
     const form = transformed.forms![0];
+    const originalReadResult = original.analyzeResult!.readResults![0];
     assert.equal(form.formType, "form-0");
-    assert.deepStrictEqual(form.pageRange, { firstPageNumber: 1, lastPageNumber: 1 });
+    assert.deepStrictEqual(form.pageRange, {
+      firstPageNumber: originalReadResult.pageNumber,
+      lastPageNumber: originalReadResult.pageNumber
+    });
     assert.ok(form.pages.length > 0, "Expecting at least one page in the first recognized form");
     assert.ok(form.fields["field-0"]);
     assert.ok(form.fields["field-1"]);
@@ -420,14 +428,18 @@ describe("Transforms", () => {
   });
 
   it("toRecognizeFormResultResponse() converts supervised response into recognized forms", () => {
-    const original = JSON.parse(supervisedResponseString);
+    const original: GetAnalyzeFormResultResponse = JSON.parse(supervisedResponseString);
     const transformed = toRecognizeFormResultResponse(original);
 
     assert.ok(transformed.forms, "Expecting non-empty recognized forms");
     assert.ok(transformed.forms!.length > 0, "Expecting at least one recognized forms");
     const form = transformed.forms![0];
-    assert.equal(form.formType, "custom:form");
-    assert.deepStrictEqual(form.pageRange, { firstPageNumber: 1, lastPageNumber: 1 });
+    const originalDocument = original.analyzeResult!.documentResults![0];
+    assert.equal(form.formType, originalDocument.docType);
+    assert.deepStrictEqual(form.pageRange, {
+      firstPageNumber: originalDocument.pageRange[0],
+      lastPageNumber: originalDocument.pageRange[1]
+    });
     assert.ok(form.pages.length > 0, "Expecting at least one page in the first recognized form");
     assert.ok(form.fields);
     assert.ok(form.fields["InvoiceCharges"]);
@@ -437,12 +449,55 @@ describe("Transforms", () => {
     assert.ok(form.fields["InvoiceVatId"]);
   });
 
+  it("toFormModelResponse() converts labeled model response", () => {
+    const original: GetCustomModelResponse = JSON.parse(labeledModelResponse);
+    const transformed = toFormModelResponse(original);
+    const models = transformed.models;
+
+    assert.deepStrictEqual(
+      transformed.trainingDocuments,
+      original.trainResult!.trainingDocuments,
+      "Expecting same 'trainingDocuments' as original's"
+    );
+    assert.deepStrictEqual(
+      transformed.errors,
+      original.trainResult!.errors,
+      "Expecting same 'errors' as original's"
+    );
+    assert.ok(models, "Expecting model trained without using lables");
+    assert.equal(models![0].accuracy, original.trainResult!.averageModelAccuracy);
+    assert.deepStrictEqual(models![0].fields!["InvoiceDate"], {
+      name: "InvoiceDate",
+      accuracy: 0.8
+    });
+  });
+
+  it("toFormModelResponse() converts unlabeled model response", () => {
+    const original: GetCustomModelResponse = JSON.parse(unlabeledModelResponse);
+    const transformed = toFormModelResponse(original);
+    const models = transformed.models;
+
+    assert.deepStrictEqual(
+      transformed.trainingDocuments,
+      original.trainResult!.trainingDocuments,
+      "Expecting same 'trainingDocuments' as original's"
+    );
+    assert.deepStrictEqual(
+      transformed.errors,
+      original.trainResult!.errors,
+      "Expecting same 'errors' as original's"
+    );
+    assert.ok(models, "Expecting model trained without using lables");
+    assert.equal(models![0].accuracy, undefined, "Expecting 'undefined' accuracy for first model");
+    assert.deepStrictEqual(models![0].fields!["field-0"].name, "field-0");
+  });
+
   it("toReceiptResultResponse() converts receipt response", () => {
     const original = JSON.parse(receiptResponseString);
     const transformed = toReceiptResultResponse(original);
 
-    assert.ok(transformed.extractedReceipts, "Expecting non-empty recognized forms");
-    //TODO: complete after refactoring
+    assert.ok(transformed.extractedReceipts, "Expecting non-empty recognized receipts");
+    // TODO: complete after refactoring
   });
 });
 
@@ -2395,5 +2450,126 @@ const receiptResponseString = `{
         }
       }
     ]
+  }
+}`;
+
+const labeledModelResponse = `{
+  "modelInfo": {
+    "modelId": "7f98667d-2d29-49e0-948a-9748676a8724",
+    "status": "ready",
+    "createdDateTime": "2020-04-10T23:14:41Z",
+    "lastUpdatedDateTime": "2020-04-10T23:14:42Z"
+  },
+  "trainResult": {
+    "averageModelAccuracy": 0.92,
+    "trainingDocuments": [
+      {
+        "documentName": "Invoice_1.pdf",
+        "pages": 1,
+        "status": "succeeded"
+      },
+      {
+        "documentName": "Invoice_2.pdf",
+        "pages": 1,
+        "status": "succeeded"
+      },
+      {
+        "documentName": "Invoice_3.pdf",
+        "pages": 1,
+        "status": "succeeded"
+      },
+      {
+        "documentName": "Invoice_4.pdf",
+        "pages": 1,
+        "status": "succeeded"
+      },
+      {
+        "documentName": "Invoice_5.pdf",
+        "pages": 1,
+        "status": "succeeded"
+      }
+    ],
+    "fields": [
+      {
+        "fieldName": "InvoiceCharges",
+        "accuracy": 1
+      },
+      {
+        "fieldName": "InvoiceDate",
+        "accuracy": 0.8
+      },
+      {
+        "fieldName": "InvoiceDueDate",
+        "accuracy": 0.8
+      },
+      {
+        "fieldName": "InvoiceNumber",
+        "accuracy": 1
+      },
+      {
+        "fieldName": "InvoiceVatId",
+        "accuracy": 1
+      }
+    ],
+    "errors": []
+  }
+}`;
+
+const unlabeledModelResponse = `{
+  "modelInfo": {
+    "modelId": "a2c3482a-b4a6-4d92-b0fb-498a91bd81e0",
+    "status": "ready",
+    "createdDateTime": "2020-04-10T23:21:10Z",
+    "lastUpdatedDateTime": "2020-04-10T23:21:19Z"
+  },
+  "keys": {
+    "clusters": {
+      "0": [
+        "Address:",
+        "Charges",
+        "Invoice Date",
+        "Invoice Due Date",
+        "Invoice For:",
+        "Invoice Number",
+        "Microsoft",
+        "Page",
+        "VAT ID"
+      ]
+    }
+  },
+  "trainResult": {
+    "trainingDocuments": [
+      {
+        "documentName": "Invoice_1.pdf",
+        "pages": 1,
+        "errors": [],
+        "status": "succeeded"
+      },
+      {
+        "documentName": "Invoice_2.pdf",
+        "pages": 1,
+        "errors": [],
+        "status": "succeeded"
+      },
+      {
+        "documentName": "Invoice_3.pdf",
+        "pages": 1,
+        "errors": [],
+        "status": "succeeded"
+      },
+      {
+        "documentName": "Invoice_4.pdf",
+        "pages": 1,
+        "errors": [],
+        "status": "succeeded"
+      },
+      {
+        "documentName": "Invoice_5.pdf",
+        "pages": 1,
+        "errors": [],
+        "status": "succeeded"
+      }
+    ],
+    "errors": []
   }
 }`;

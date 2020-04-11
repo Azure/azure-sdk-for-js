@@ -20,7 +20,8 @@ async function main() {
 
   const client = new FormTrainingClient(endpoint, new AzureKeyCredential(apiKey));
   const result = await client.getModel(modelId);
-  console.dir(result, { depth: 4 });
+  console.log(result);
+  console.dir(result.models, { depth: 4 });
 }
 
 main().catch((err) => {

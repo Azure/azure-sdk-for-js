@@ -13,7 +13,8 @@ import {
   TextLine as TextLineModel,
   FormRecognizerClientGetAnalyzeFormResultResponse as GetAnalyzeFormResultResponse,
   FormRecognizerClientGetAnalyzeLayoutResultResponse as GetAnalyzeLayoutResultResponse,
-  FormRecognizerClientGetAnalyzeReceiptResultResponse as GetAnalyzeReceiptResultResponse
+  FormRecognizerClientGetAnalyzeReceiptResultResponse as GetAnalyzeReceiptResultResponse,
+  FormRecognizerClientGetCustomModelResponse as GetCustomModelResponse
 } from "./generated/models";
 
 import {
@@ -42,7 +43,10 @@ import {
   IntegerFieldValue,
   ObjectFieldValue,
   ArrayFieldValue,
-  Point2D
+  Point2D,
+  FormModelResponse,
+  CustomFormSubModelField,
+  CustomFormSubModel
 } from "./models";
 
 export function toBoundingBox(original: number[]): Point2D[] {
@@ -428,4 +432,50 @@ export function toReceiptResultResponse(
       toReceiptResult(d, readResults)
     )
   };
+}
+
+export function toFormModelResponse(response: GetCustomModelResponse): FormModelResponse {
+  const common = {
+    ...response.modelInfo,
+    _response: response._response
+  };
+
+  if (response.modelInfo.status !== "ready") {
+    return common;
+  }
+
+  if (response.trainResult?.averageModelAccuracy || response.trainResult?.fields) {
+    // labeled, populate from trainingResult.fields
+    const fields: { [propertyName: string]: CustomFormSubModelField } = {};
+    for (const f of response.trainResult.fields!) {
+      fields[f.fieldName] = { name: f.fieldName, accuracy: f.accuracy };
+    }
+    return {
+      ...common,
+      trainingDocuments: response.trainResult.trainingDocuments,
+      errors: response.trainResult.errors,
+      models: [{ accuracy: response.trainResult.averageModelAccuracy, formType: "TBD", fields }]
+    };
+  } else if (response.keys) {
+    // unlabeled, populate from trainingResult.keys
+    const models: CustomFormSubModel[] = [];
+    for (const clusterKey in response.keys.clusters) {
+      const cluster = response.keys.clusters[clusterKey];
+      const fields: { [propertyName: string]: CustomFormSubModelField } = {};
+
+      for (let i = 0; i < cluster.length; i++) {
+        fields[`field-${i}`] = { name: `field-${i}` };
+      }
+      models.push({ formType: `form-${clusterKey}`, fields });
+    }
+
+    return {
+      ...common,
+      trainingDocuments: response.trainResult?.trainingDocuments,
+      errors: response.trainResult?.errors,
+      models
+    };
+  } else {
+    throw new Error("Expecting model(s) from traning result but got none");
+  }
 }

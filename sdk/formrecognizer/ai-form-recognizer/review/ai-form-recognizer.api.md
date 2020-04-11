@@ -16,6 +16,12 @@ import { PollOperationState } from '@azure/core-lro';
 import { RestResponse } from '@azure/core-http';
 
 // @public
+export interface AccountProperties {
+    count: number;
+    limit: number;
+}
+
+// @public
 export interface AnalyzeOperationResultModel {
     // Warning: (ae-forgotten-export) The symbol "AnalyzeResult" needs to be exported by the entry point index.d.ts
     analyzeResult?: AnalyzeResult;
@@ -84,6 +90,32 @@ export type ContentPollerLike = PollerLike<PollOperationState<RecognizeContentRe
 export type ContentType = "application/pdf" | "image/jpeg" | "image/png" | "image/tiff";
 
 // @public
+export interface CustomFormModel {
+    createdOn: Date;
+    errors?: ErrorInformation[];
+    lastUpdatedOn: Date;
+    modelId: string;
+    models?: CustomFormSubModel[];
+    status: ModelStatus;
+    trainingDocuments?: TrainingDocumentInfo[];
+}
+
+// @public (undocumented)
+export interface CustomFormSubModel {
+    accuracy?: number;
+    fields: {
+        [propertyName: string]: CustomFormSubModelField;
+    };
+    formType: string;
+}
+
+// @public (undocumented)
+export interface CustomFormSubModelField {
+    accuracy?: number;
+    name: string;
+}
+
+// @public
 export type DateFieldValue = {
     type: "date";
     value?: Date;
@@ -147,7 +179,7 @@ export interface FormModel {
 }
 
 // @public
-export type FormModelResponse = FormModel & {
+export type FormModelResponse = CustomFormModel & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
         parsedBody: Model;
@@ -244,12 +276,11 @@ export interface FormText {
 export class FormTrainingClient {
     constructor(endpointUrl: string, credential: KeyCredential, options?: FormRecognizerClientOptions);
     beginTraining(source: string, options?: BeginTrainingOptions<FormModelResponse>): Promise<PollerLike<PollOperationState<FormModelResponse>, FormModelResponse>>;
-    beginTrainingWithLabel(source: string, options?: BeginTrainingOptions<LabeledFormModelResponse>): Promise<PollerLike<PollOperationState<LabeledFormModelResponse>, LabeledFormModelResponse>>;
+    beginTrainingWithLabel(source: string, options?: BeginTrainingOptions<FormModelResponse>): Promise<PollerLike<PollOperationState<FormModelResponse>, FormModelResponse>>;
     deleteModel(modelId: string, options?: DeleteModelOptions): Promise<RestResponse>;
     readonly endpointUrl: string;
-    getLabeledModel(modelId: string, options?: GetLabeledModelOptions): Promise<LabeledFormModelResponse>;
     getModel(modelId: string, options?: GetModelOptions): Promise<FormModelResponse>;
-    getSummary(options?: GetSummaryOptions): Promise<ListModelsResponseModel>;
+    getSummary(options?: GetSummaryOptions): Promise<AccountProperties>;
     listModels(options?: ListModelsOptions): PagedAsyncIterableIterator<ModelInfo, ListModelsResponseModel>;
     }
 
@@ -303,35 +334,6 @@ export interface KeyValuePairModel {
     key: KeyValueElementModel;
     label?: string;
     value: KeyValueElementModel;
-}
-
-// @public
-export interface LabeledFormModel {
-    modelInfo: ModelInfo;
-    trainResult?: LabeledFormTrainResult;
-}
-
-// @public
-export type LabeledFormModelResponse = LabeledFormModel & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: Model;
-    };
-};
-
-// @public
-export type LabeledFormOperationResult = Partial<FormResult> & {
-    status: OperationStatus;
-    createdOn: Date;
-    lastUpdatedOn: Date;
-};
-
-// @public
-export interface LabeledFormTrainResult {
-    averageModelAccuracy: number;
-    errors?: ErrorInformation[];
-    fields: FormFieldsReport[];
-    trainingDocuments: TrainingDocumentInfo[];
 }
 
 // @public
@@ -621,7 +623,7 @@ export type TrainStatus = "succeeded" | "partiallySucceeded" | "failed";
 // Warnings were encountered during analysis:
 //
 // src/formRecognizerClient.ts:71:3 - (ae-forgotten-export) The symbol "BeginRecognizePollState" needs to be exported by the entry point index.d.ts
-// src/formTrainingClient.ts:72:3 - (ae-forgotten-export) The symbol "BeginTrainingPollState" needs to be exported by the entry point index.d.ts
+// src/formTrainingClient.ts:74:3 - (ae-forgotten-export) The symbol "BeginTrainingPollState" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

@@ -768,24 +768,6 @@ export interface FormResult {
 }
 
 /**
- * Represents the result from an recognize form operation using a model from training with labels.
- */
-export type LabeledFormOperationResult = Partial<FormResult> & {
-  /**
-   * Operation status.
-   */
-  status: OperationStatus;
-  /**
-   * Date and time (UTC) when the analyze operation was submitted.
-   */
-  createdOn: Date;
-  /**
-   * Date and time (UTC) when the status was last updated.
-   */
-  lastUpdatedOn: Date;
-};
-
-/**
  * Contains the response data for recognize form operation using a model from training without labels.
  */
 export type RecognizeFormResultResponse = RecognizeFormOperationResult & {
@@ -837,66 +819,70 @@ export interface FormModel {
   trainResult?: FormTrainResult;
 }
 
+export interface CustomFormSubModelField {
+  /**
+   * Estimated extraction accuracy for this field.
+   */
+  accuracy?: number;
+  /**
+   * Training field name.
+   */
+  name: string;
+}
+
+export interface CustomFormSubModel {
+  /**
+   * Estimated extraction accuracy for this field.
+   */
+  accuracy?: number;
+  /**
+   * Form fields
+   */
+  fields: { [propertyName: string]: CustomFormSubModelField };
+  /**
+   * Form type
+   */
+  formType: string;
+}
+
+/**
+ * Represents a model from training.
+ */
+export interface CustomFormModel {
+  /**
+   * Model identifier.
+   */
+  modelId: string;
+  /**
+   * Status of the model.
+   */
+  status: ModelStatus;
+  /**
+   * Date and time (UTC) when the model was created.
+   */
+  createdOn: Date;
+  /**
+   * Date and time (UTC) when the status was last updated.
+   */
+  lastUpdatedOn: Date;
+  /**
+   * List of document used to train the model and any errors reported for each document.
+   */
+  trainingDocuments?: TrainingDocumentInfo[];
+  /**
+   * Errors returned during training operation.
+   */
+  errors?: ErrorInformation[];
+  /**
+   * Form models created by training.
+   */
+  models?: CustomFormSubModel[];
+}
+
 /**
  * Contains the response data for retrieving a model from unlabeled training.
  */
-export type FormModelResponse = FormModel & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Model;
-  };
-};
-
-/**
- * Represents result of training with labels.
- */
-export interface LabeledFormTrainResult {
-  /**
-   * List of the documents used to train the model and any errors reported in each document.
-   */
-  trainingDocuments: TrainingDocumentInfo[];
-  /**
-   * List of fields used to train the model and the train operation error reported by each.
-   */
-  fields: FormFieldsReport[];
-  /**
-   * Average accuracy.
-   */
-  averageModelAccuracy: number;
-  /**
-   * Errors returned during the training operation.
-   */
-  errors?: ErrorInformation[];
-}
-
-/**
- * Represents the trained model from training with labels.
- */
-export interface LabeledFormModel {
-  /**
-   * Information about the model in training with labels.
-   */
-  modelInfo: ModelInfo;
-  /**
-   * Results of the training with labels.
-   */
-  trainResult?: LabeledFormTrainResult;
-}
-
-/**
- * Contains the response data for retrieving a model from training with labels
- */
-export type LabeledFormModelResponse = LabeledFormModel & {
+export type FormModelResponse = CustomFormModel & {
   /**
    * The underlying HTTP response.
    */
@@ -921,3 +907,17 @@ export type FormRecognizerRequestBody =
   | ArrayBuffer
   | ArrayBufferView
   | NodeJS.ReadableStream;
+
+/**
+ * Summary of all models in the cognitive service account.
+ */
+export interface AccountProperties {
+  /**
+   * Current count of trained custom models.
+   */
+  count: number;
+  /**
+   * Max number of models that can be trained for this account.
+   */
+  limit: number;
+}

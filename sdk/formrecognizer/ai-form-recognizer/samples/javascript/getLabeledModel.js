@@ -19,8 +19,9 @@ async function main() {
   const modelId = myArgs[0] || process.env["LABELED_FORM_MODEL_ID"] || "<model id>";
 
   const client = new FormTrainingClient(endpoint, new AzureKeyCredential(apiKey));
-  const result = await client.getLabeledModel(modelId, { includeKeys: true });
+  const result = await client.getModel(modelId);
   console.log(result);
+  console.dir(result.models, { depth: 4 });
 }
 
 main().catch((err) => {
