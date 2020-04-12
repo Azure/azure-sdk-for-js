@@ -10,38 +10,7 @@ import { LUISAuthoringClient } from "../../src/lUISAuthoringClient";
 import { BaseTest } from "../baseTest";
 
 
-describe("Import and Export Tests", () => {
-  it("should export version", async () => {
-    await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
-      const appId = await client.apps.add({
-        name: "LUIS App to be exported",
-        description: "New LUIS App",
-        culture: "en-us",
-        domain: "Comics",
-        usageScenario: "IoT"
-      });
-      const luisApp = await client.versions.exportMethod(appId.body, "0.1");
-      await client.apps.deleteMethod(appId.body);
-      chai.expect(luisApp).to.exist;
-      chai.expect(luisApp.name).to.eql("LUIS App to be exported");
-    });
-  });
-
-  it("should export version Lu format", async () => {
-      await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
-        const appId = await client.apps.add({
-          name: "LUIS App to be exported in Lu Format",
-          description: "New LUIS App to be exported in Lu",
-          culture: "en-us",
-          domain: "Comics",
-          usageScenario: "IoT"
-        });
-        const luisApp = await client.versions.exportLuFormat(appId.body, "0.1");
-        await client.apps.deleteMethod(appId.body);
-        chai.expect(luisApp).to.exist;
-        chai.expect(luisApp.readableStreamBody.read.toString).to.contains("LUIS App to be exported in Lu Format");
-      });
-    });
+describe("Import Tests", () => {
 
   it("should import version", async () => {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
@@ -51,7 +20,7 @@ describe("Import and Export Tests", () => {
         }
         let app = JSON.parse(data);
         const testAppId = await client.apps.add({
-          name: "LUIS App to be exported",
+          name: "LUIS App to be import version",
           description: "New LUIS App",
           culture: "en-us",
           domain: "Comics",
@@ -102,7 +71,7 @@ describe("Import and Export Tests", () => {
           throw err;
         }
         const testAppId = await client.apps.add({
-          name: "LUIS App to be exported",
+          name: "LUIS App to be import lu format version",
           description: "New LUIS App",
           culture: "en-us",
           domain: "Comics",
@@ -139,7 +108,7 @@ describe("Import and Export Tests", () => {
           throw err;
         }     
         var testAppId = await client.apps.add({
-          name: "LUIS App to be exported",
+          name: "LUIS App to import V2 version",
           description: "New LUIS App",
           culture: "en-us",
           domain: "Comics",

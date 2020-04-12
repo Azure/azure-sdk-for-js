@@ -2,7 +2,7 @@
 > LUIS application information
 > !# @app.name = Json 600 App
 > !# @app.desc = Json 600 App
-> !# @app.versionId = 0.1
+> !# @app.versionId = 0.2
 > !# @app.culture = en-us
 > !# @app.luis_schema_version = 6.0.0
 
