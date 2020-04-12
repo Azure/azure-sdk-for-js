@@ -11,7 +11,7 @@ import { ModelCreatePrebuiltEntityRoleResponse } from "../../src/models";
 
 let entityId :string;
 let roleId:  ModelCreatePrebuiltEntityRoleResponse;
-describe("Entity Role Tests", () => {
+describe("Prebuilt Entity Role Tests", () => {
     
     beforeEach("add prebuilt entitiy to test", async () => {
         await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
