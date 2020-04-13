@@ -368,6 +368,120 @@ export const IpFilterRule: msRest.CompositeMapper = {
   }
 };
 
+export const PrivateEndpoint: msRest.CompositeMapper = {
+  serializedName: "PrivateEndpoint",
+  type: {
+    name: "Composite",
+    className: "PrivateEndpoint",
+    modelProperties: {
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PrivateLinkServiceConnectionState: msRest.CompositeMapper = {
+  serializedName: "PrivateLinkServiceConnectionState",
+  type: {
+    name: "Composite",
+    className: "PrivateLinkServiceConnectionState",
+    modelProperties: {
+      status: {
+        required: true,
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        required: true,
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      actionsRequired: {
+        serializedName: "actionsRequired",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PrivateEndpointConnectionProperties: msRest.CompositeMapper = {
+  serializedName: "PrivateEndpointConnectionProperties",
+  type: {
+    name: "Composite",
+    className: "PrivateEndpointConnectionProperties",
+    modelProperties: {
+      privateEndpoint: {
+        serializedName: "privateEndpoint",
+        type: {
+          name: "Composite",
+          className: "PrivateEndpoint"
+        }
+      },
+      privateLinkServiceConnectionState: {
+        required: true,
+        serializedName: "privateLinkServiceConnectionState",
+        type: {
+          name: "Composite",
+          className: "PrivateLinkServiceConnectionState"
+        }
+      }
+    }
+  }
+};
+
+export const PrivateEndpointConnection: msRest.CompositeMapper = {
+  serializedName: "PrivateEndpointConnection",
+  type: {
+    name: "Composite",
+    className: "PrivateEndpointConnection",
+    modelProperties: {
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        constraints: {
+          Pattern: /^(?![0-9]+$)(?!-)[a-zA-Z0-9-]{2,49}[a-zA-Z0-9]$/
+        },
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        required: true,
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "PrivateEndpointConnectionProperties"
+        }
+      }
+    }
+  }
+};
+
 export const EventHubProperties: msRest.CompositeMapper = {
   serializedName: "EventHubProperties",
   type: {
@@ -422,9 +536,32 @@ export const RoutingServiceBusQueueEndpointProperties: msRest.CompositeMapper = 
     name: "Composite",
     className: "RoutingServiceBusQueueEndpointProperties",
     modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
       connectionString: {
-        required: true,
         serializedName: "connectionString",
+        type: {
+          name: "String"
+        }
+      },
+      endpointUri: {
+        serializedName: "endpointUri",
+        type: {
+          name: "String"
+        }
+      },
+      entityPath: {
+        serializedName: "entityPath",
+        type: {
+          name: "String"
+        }
+      },
+      authenticationType: {
+        serializedName: "authenticationType",
         type: {
           name: "String"
         }
@@ -461,9 +598,32 @@ export const RoutingServiceBusTopicEndpointProperties: msRest.CompositeMapper = 
     name: "Composite",
     className: "RoutingServiceBusTopicEndpointProperties",
     modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
       connectionString: {
-        required: true,
         serializedName: "connectionString",
+        type: {
+          name: "String"
+        }
+      },
+      endpointUri: {
+        serializedName: "endpointUri",
+        type: {
+          name: "String"
+        }
+      },
+      entityPath: {
+        serializedName: "entityPath",
+        type: {
+          name: "String"
+        }
+      },
+      authenticationType: {
+        serializedName: "authenticationType",
         type: {
           name: "String"
         }
@@ -500,9 +660,32 @@ export const RoutingEventHubProperties: msRest.CompositeMapper = {
     name: "Composite",
     className: "RoutingEventHubProperties",
     modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
       connectionString: {
-        required: true,
         serializedName: "connectionString",
+        type: {
+          name: "String"
+        }
+      },
+      endpointUri: {
+        serializedName: "endpointUri",
+        type: {
+          name: "String"
+        }
+      },
+      entityPath: {
+        serializedName: "entityPath",
+        type: {
+          name: "String"
+        }
+      },
+      authenticationType: {
+        serializedName: "authenticationType",
         type: {
           name: "String"
         }
@@ -539,9 +722,26 @@ export const RoutingStorageContainerProperties: msRest.CompositeMapper = {
     name: "Composite",
     className: "RoutingStorageContainerProperties",
     modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
       connectionString: {
-        required: true,
         serializedName: "connectionString",
+        type: {
+          name: "String"
+        }
+      },
+      endpointUri: {
+        serializedName: "endpointUri",
+        type: {
+          name: "String"
+        }
+      },
+      authenticationType: {
+        serializedName: "authenticationType",
         type: {
           name: "String"
         }
@@ -891,6 +1091,12 @@ export const StorageEndpointProperties: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      authenticationType: {
+        serializedName: "authenticationType",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -993,21 +1199,22 @@ export const CloudToDeviceProperties: msRest.CompositeMapper = {
   }
 };
 
-export const IotHubPropertiesDeviceStreams: msRest.CompositeMapper = {
-  serializedName: "IotHubProperties_deviceStreams",
+export const IotHubLocationDescription: msRest.CompositeMapper = {
+  serializedName: "IotHubLocationDescription",
   type: {
     name: "Composite",
-    className: "IotHubPropertiesDeviceStreams",
+    className: "IotHubLocationDescription",
     modelProperties: {
-      streamingEndpoints: {
-        serializedName: "streamingEndpoints",
+      location: {
+        serializedName: "location",
         type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
+          name: "String"
+        }
+      },
+      role: {
+        serializedName: "role",
+        type: {
+          name: "String"
         }
       }
     }
@@ -1032,6 +1239,12 @@ export const IotHubProperties: msRest.CompositeMapper = {
           }
         }
       },
+      publicNetworkAccess: {
+        serializedName: "publicNetworkAccess",
+        type: {
+          name: "String"
+        }
+      },
       ipFilterRules: {
         serializedName: "ipFilterRules",
         type: {
@@ -1040,6 +1253,18 @@ export const IotHubProperties: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "IpFilterRule"
+            }
+          }
+        }
+      },
+      privateEndpointConnections: {
+        serializedName: "privateEndpointConnections",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PrivateEndpointConnection"
             }
           }
         }
@@ -1127,17 +1352,23 @@ export const IotHubProperties: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      deviceStreams: {
-        serializedName: "deviceStreams",
-        type: {
-          name: "Composite",
-          className: "IotHubPropertiesDeviceStreams"
-        }
-      },
       features: {
         serializedName: "features",
         type: {
           name: "String"
+        }
+      },
+      locations: {
+        readOnly: true,
+        serializedName: "locations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "IotHubLocationDescription"
+            }
+          }
         }
       }
     }
@@ -1173,6 +1404,108 @@ export const IotHubSkuInfo: msRest.CompositeMapper = {
         serializedName: "capacity",
         type: {
           name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const GroupIdInformationProperties: msRest.CompositeMapper = {
+  serializedName: "GroupIdInformationProperties",
+  type: {
+    name: "Composite",
+    className: "GroupIdInformationProperties",
+    modelProperties: {
+      groupId: {
+        serializedName: "groupId",
+        type: {
+          name: "String"
+        }
+      },
+      requiredMembers: {
+        serializedName: "requiredMembers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      requiredZoneNames: {
+        serializedName: "requiredZoneNames",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const GroupIdInformation: msRest.CompositeMapper = {
+  serializedName: "GroupIdInformation",
+  type: {
+    name: "Composite",
+    className: "GroupIdInformation",
+    modelProperties: {
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        constraints: {
+          Pattern: /^(?![0-9]+$)(?!-)[a-zA-Z0-9-]{2,49}[a-zA-Z0-9]$/
+        },
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        required: true,
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "GroupIdInformationProperties"
+        }
+      }
+    }
+  }
+};
+
+export const PrivateLinkResources: msRest.CompositeMapper = {
+  serializedName: "PrivateLinkResources",
+  type: {
+    name: "Composite",
+    className: "PrivateLinkResources",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "GroupIdInformation"
+            }
+          }
         }
       }
     }
@@ -2143,6 +2476,18 @@ export const ExportDevicesRequest: msRest.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      exportBlobName: {
+        serializedName: "exportBlobName",
+        type: {
+          name: "String"
+        }
+      },
+      authenticationType: {
+        serializedName: "authenticationType",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -2164,6 +2509,24 @@ export const ImportDevicesRequest: msRest.CompositeMapper = {
       outputBlobContainerUri: {
         required: true,
         serializedName: "outputBlobContainerUri",
+        type: {
+          name: "String"
+        }
+      },
+      inputBlobName: {
+        serializedName: "inputBlobName",
+        type: {
+          name: "String"
+        }
+      },
+      outputBlobName: {
+        serializedName: "outputBlobName",
+        type: {
+          name: "String"
+        }
+      },
+      authenticationType: {
+        serializedName: "authenticationType",
         type: {
           name: "String"
         }

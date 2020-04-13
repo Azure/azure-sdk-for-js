@@ -230,6 +230,66 @@ export interface IpFilterRule {
 }
 
 /**
+ * The private endpoint property of a private endpoint connection
+ */
+export interface PrivateEndpoint {
+  /**
+   * The resource identifier.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+}
+
+/**
+ * The current state of a private endpoint connection
+ */
+export interface PrivateLinkServiceConnectionState {
+  /**
+   * The status of a private endpoint connection. Possible values include: 'Pending', 'Approved',
+   * 'Rejected', 'Disconnected'
+   */
+  status: PrivateLinkServiceConnectionStatus;
+  /**
+   * The description for the current state of a private endpoint connection
+   */
+  description: string;
+  /**
+   * Actions required for a private endpoint connection
+   */
+  actionsRequired?: string;
+}
+
+/**
+ * The properties of a private endpoint connection
+ */
+export interface PrivateEndpointConnectionProperties {
+  privateEndpoint?: PrivateEndpoint;
+  privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
+}
+
+/**
+ * The private endpoint connection of an IotHub
+ */
+export interface PrivateEndpointConnection extends BaseResource {
+  /**
+   * The resource identifier.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The resource name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The resource type.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  properties: PrivateEndpointConnectionProperties;
+}
+
+/**
  * The properties of the provisioned Event Hub-compatible endpoint used by the IoT hub.
  */
 export interface EventHubProperties {
@@ -266,9 +326,26 @@ export interface EventHubProperties {
  */
 export interface RoutingServiceBusQueueEndpointProperties {
   /**
+   * Id of the service bus queue endpoint
+   */
+  id?: string;
+  /**
    * The connection string of the service bus queue endpoint.
    */
-  connectionString: string;
+  connectionString?: string;
+  /**
+   * The url of the service bus queue endpoint. It must include the protocol sb://
+   */
+  endpointUri?: string;
+  /**
+   * Queue name on the service bus namespace
+   */
+  entityPath?: string;
+  /**
+   * Method used to authenticate against the service bus queue endpoint. Possible values include:
+   * 'keyBased', 'identityBased'
+   */
+  authenticationType?: AuthenticationType;
   /**
    * The name that identifies this endpoint. The name can only include alphanumeric characters,
    * periods, underscores, hyphens and has a maximum length of 64 characters. The following names
@@ -291,9 +368,26 @@ export interface RoutingServiceBusQueueEndpointProperties {
  */
 export interface RoutingServiceBusTopicEndpointProperties {
   /**
+   * Id of the service bus topic endpoint
+   */
+  id?: string;
+  /**
    * The connection string of the service bus topic endpoint.
    */
-  connectionString: string;
+  connectionString?: string;
+  /**
+   * The url of the service bus topic endpoint. It must include the protocol sb://
+   */
+  endpointUri?: string;
+  /**
+   * Queue name on the service bus topic
+   */
+  entityPath?: string;
+  /**
+   * Method used to authenticate against the service bus topic endpoint. Possible values include:
+   * 'keyBased', 'identityBased'
+   */
+  authenticationType?: AuthenticationType;
   /**
    * The name that identifies this endpoint. The name can only include alphanumeric characters,
    * periods, underscores, hyphens and has a maximum length of 64 characters. The following names
@@ -316,9 +410,26 @@ export interface RoutingServiceBusTopicEndpointProperties {
  */
 export interface RoutingEventHubProperties {
   /**
+   * Id of the event hub endpoint
+   */
+  id?: string;
+  /**
    * The connection string of the event hub endpoint.
    */
-  connectionString: string;
+  connectionString?: string;
+  /**
+   * The url of the event hub endpoint. It must include the protocol sb://
+   */
+  endpointUri?: string;
+  /**
+   * Event hub name on the event hub namespace
+   */
+  entityPath?: string;
+  /**
+   * Method used to authenticate against the event hub endpoint. Possible values include:
+   * 'keyBased', 'identityBased'
+   */
+  authenticationType?: AuthenticationType;
   /**
    * The name that identifies this endpoint. The name can only include alphanumeric characters,
    * periods, underscores, hyphens and has a maximum length of 64 characters. The following names
@@ -341,9 +452,22 @@ export interface RoutingEventHubProperties {
  */
 export interface RoutingStorageContainerProperties {
   /**
+   * Id of the storage container endpoint
+   */
+  id?: string;
+  /**
    * The connection string of the storage account.
    */
-  connectionString: string;
+  connectionString?: string;
+  /**
+   * The url of the storage endpoint. It must include the protocol https://
+   */
+  endpointUri?: string;
+  /**
+   * Method used to authenticate against the storage endpoint. Possible values include: 'keyBased',
+   * 'identityBased'
+   */
+  authenticationType?: AuthenticationType;
   /**
    * The name that identifies this endpoint. The name can only include alphanumeric characters,
    * periods, underscores, hyphens and has a maximum length of 64 characters. The following names
@@ -513,7 +637,7 @@ export interface RoutingProperties {
   fallbackRoute?: FallbackRouteProperties;
   /**
    * The list of user-provided enrichments that the IoT hub applies to messages to be delivered to
-   * built-in and custom endpoints. See: https://aka.ms/iotmsgenrich
+   * built-in and custom endpoints. See: https://aka.ms/telemetryoneventgrid
    */
   enrichments?: EnrichmentProperties[];
 }
@@ -536,6 +660,11 @@ export interface StorageEndpointProperties {
    * be creatable using the connectionString specified.
    */
   containerName: string;
+  /**
+   * Specifies authentication type being used for connecting to the storage account. Possible
+   * values include: 'keyBased', 'identityBased'
+   */
+  authenticationType?: AuthenticationType;
 }
 
 /**
@@ -598,13 +727,20 @@ export interface CloudToDeviceProperties {
 }
 
 /**
- * The device streams properties of iothub.
+ * Public representation of one of the locations where a resource is provisioned.
  */
-export interface IotHubPropertiesDeviceStreams {
+export interface IotHubLocationDescription {
   /**
-   * List of Device Streams Endpoints.
+   * The name of the Azure region
    */
-  streamingEndpoints?: string[];
+  location?: string;
+  /**
+   * The role of the region, can be either primary or secondary. The primary region is where the
+   * IoT hub is currently provisioned. The secondary region is the Azure disaster recovery (DR)
+   * paired region and also the region where the IoT hub can failover to. Possible values include:
+   * 'primary', 'secondary'
+   */
+  role?: IotHubReplicaRoleType;
 }
 
 /**
@@ -616,9 +752,18 @@ export interface IotHubProperties {
    */
   authorizationPolicies?: SharedAccessSignatureAuthorizationRule[];
   /**
+   * Whether requests from Public Network are allowed. Possible values include: 'Enabled',
+   * 'Disabled'
+   */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /**
    * The IP filter rules.
    */
   ipFilterRules?: IpFilterRule[];
+  /**
+   * Private endpoint connections created on this IotHub
+   */
+  privateEndpointConnections?: PrivateEndpointConnection[];
   /**
    * The provisioning state.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -662,14 +807,15 @@ export interface IotHubProperties {
    */
   comments?: string;
   /**
-   * The device streams properties of iothub.
-   */
-  deviceStreams?: IotHubPropertiesDeviceStreams;
-  /**
    * The capabilities and features enabled for the IoT hub. Possible values include: 'None',
    * 'DeviceManagement'
    */
   features?: Capabilities;
+  /**
+   * Primary and secondary location for iot hub
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly locations?: IotHubLocationDescription[];
 }
 
 /**
@@ -690,6 +836,56 @@ export interface IotHubSkuInfo {
    * https://docs.microsoft.com/azure/azure-subscription-service-limits#iot-hub-limits.
    */
   capacity?: number;
+}
+
+/**
+ * The properties for a group information object
+ */
+export interface GroupIdInformationProperties {
+  /**
+   * The group id
+   */
+  groupId?: string;
+  /**
+   * The required members for a specific group id
+   */
+  requiredMembers?: string[];
+  /**
+   * The required DNS zones for a specific group id
+   */
+  requiredZoneNames?: string[];
+}
+
+/**
+ * The group information for creating a private endpoint on an IotHub
+ */
+export interface GroupIdInformation {
+  /**
+   * The resource identifier.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The resource name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The resource type.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  properties: GroupIdInformationProperties;
+}
+
+/**
+ * The available private link resources for an IotHub
+ */
+export interface PrivateLinkResources {
+  /**
+   * The list of available private link resources for an IotHub
+   */
+  value?: GroupIdInformation[];
 }
 
 /**
@@ -1274,6 +1470,16 @@ export interface ExportDevicesRequest {
    * The value indicating whether keys should be excluded during export.
    */
   excludeKeys: boolean;
+  /**
+   * The name of the blob that will be created in the provided output blob container. This blob
+   * will contain the exported device registry information for the IoT Hub.
+   */
+  exportBlobName?: string;
+  /**
+   * Specifies authentication type being used for connecting to the storage account. Possible
+   * values include: 'keyBased', 'identityBased'
+   */
+  authenticationType?: AuthenticationType;
 }
 
 /**
@@ -1288,6 +1494,19 @@ export interface ImportDevicesRequest {
    * The output blob container URI.
    */
   outputBlobContainerUri: string;
+  /**
+   * The blob name to be used when importing from the provided input blob container.
+   */
+  inputBlobName?: string;
+  /**
+   * The blob name to use for storing the status of the import job.
+   */
+  outputBlobName?: string;
+  /**
+   * Specifies authentication type being used for connecting to the storage account. Possible
+   * values include: 'keyBased', 'identityBased'
+   */
+  authenticationType?: AuthenticationType;
 }
 
 /**
@@ -1493,12 +1712,36 @@ export interface SharedAccessSignatureAuthorizationRuleListResult extends Array<
 export type AccessRights = 'RegistryRead' | 'RegistryWrite' | 'ServiceConnect' | 'DeviceConnect' | 'RegistryRead, RegistryWrite' | 'RegistryRead, ServiceConnect' | 'RegistryRead, DeviceConnect' | 'RegistryWrite, ServiceConnect' | 'RegistryWrite, DeviceConnect' | 'ServiceConnect, DeviceConnect' | 'RegistryRead, RegistryWrite, ServiceConnect' | 'RegistryRead, RegistryWrite, DeviceConnect' | 'RegistryRead, ServiceConnect, DeviceConnect' | 'RegistryWrite, ServiceConnect, DeviceConnect' | 'RegistryRead, RegistryWrite, ServiceConnect, DeviceConnect';
 
 /**
+ * Defines values for PublicNetworkAccess.
+ * Possible values include: 'Enabled', 'Disabled'
+ * @readonly
+ * @enum {string}
+ */
+export type PublicNetworkAccess = 'Enabled' | 'Disabled';
+
+/**
  * Defines values for IpFilterActionType.
  * Possible values include: 'Accept', 'Reject'
  * @readonly
  * @enum {string}
  */
 export type IpFilterActionType = 'Accept' | 'Reject';
+
+/**
+ * Defines values for PrivateLinkServiceConnectionStatus.
+ * Possible values include: 'Pending', 'Approved', 'Rejected', 'Disconnected'
+ * @readonly
+ * @enum {string}
+ */
+export type PrivateLinkServiceConnectionStatus = 'Pending' | 'Approved' | 'Rejected' | 'Disconnected';
+
+/**
+ * Defines values for AuthenticationType.
+ * Possible values include: 'keyBased', 'identityBased'
+ * @readonly
+ * @enum {string}
+ */
+export type AuthenticationType = 'keyBased' | 'identityBased';
 
 /**
  * Defines values for RoutingSource.
@@ -1516,6 +1759,14 @@ export type RoutingSource = 'Invalid' | 'DeviceMessages' | 'TwinChangeEvents' | 
  * @enum {string}
  */
 export type Capabilities = 'None' | 'DeviceManagement';
+
+/**
+ * Defines values for IotHubReplicaRoleType.
+ * Possible values include: 'primary', 'secondary'
+ * @readonly
+ * @enum {string}
+ */
+export type IotHubReplicaRoleType = 'primary' | 'secondary';
 
 /**
  * Defines values for IotHubSku.
@@ -2426,5 +2677,165 @@ export type CertificatesVerifyResponse = CertificateDescription & {
        * The response body as parsed JSON or XML
        */
       parsedBody: CertificateDescription;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type PrivateLinkResourcesListResponse = PrivateLinkResources & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkResources;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type PrivateLinkResourcesGetResponse = GroupIdInformation & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: GroupIdInformation;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type PrivateEndpointConnectionsListResponse = Array<PrivateEndpointConnection> & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection[];
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type PrivateEndpointConnectionsUpdateResponse = PrivateEndpointConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
+};
+
+/**
+ * Contains response data for the deleteMethod operation.
+ */
+export type PrivateEndpointConnectionsDeleteMethodResponse = PrivateEndpointConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type PrivateEndpointConnectionsBeginUpdateResponse = PrivateEndpointConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
+};
+
+/**
+ * Contains response data for the beginDeleteMethod operation.
+ */
+export type PrivateEndpointConnectionsBeginDeleteMethodResponse = PrivateEndpointConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
     };
 };

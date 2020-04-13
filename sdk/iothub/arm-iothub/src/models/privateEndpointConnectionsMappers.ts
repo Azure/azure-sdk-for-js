@@ -8,12 +8,9 @@
 
 export {
   BaseResource,
-  CertificateBodyDescription,
   CertificateDescription,
-  CertificateListDescription,
   CertificateProperties,
   CertificatePropertiesWithNonce,
-  CertificateVerificationDescription,
   CertificateWithNonceDescription,
   CloudToDeviceProperties,
   EnrichmentProperties,
