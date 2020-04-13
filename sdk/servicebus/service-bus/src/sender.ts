@@ -91,7 +91,7 @@ export class Sender {
     // cache the sender in the context for the next send and
     // ensure the link and connection are initialized.
     const tempSender = MessageSender.create(this._context);
-    return tempSender["_init"]();
+    return tempSender.open();
   }
 
   /**

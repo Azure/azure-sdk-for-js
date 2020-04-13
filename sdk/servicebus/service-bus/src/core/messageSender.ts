@@ -423,7 +423,7 @@ export class MessageSender extends LinkEntity {
   /**
    * Initializes the sender session on the connection.
    */
-  private async _init(options?: SenderOptions): Promise<void> {
+  public async open(options?: SenderOptions): Promise<void> {
     try {
       // isOpen isConnecting  Should establish
       // true     false          No
@@ -552,7 +552,7 @@ export class MessageSender extends LinkEntity {
           // shall retry forever at an interval of 15 seconds if the error is a retryable error
           // else bail out when the error is not retryable or the oepration succeeds.
           const config: RetryConfig<void> = {
-            operation: () => this._init(options),
+            operation: () => this.open(options),
             connectionId: this._context.namespace.connectionId!,
             operationType: RetryOperationType.senderLink,
             times: Constants.defaultConnectionRetryAttempts,
@@ -623,7 +623,7 @@ export class MessageSender extends LinkEntity {
           this.senderLock
         );
         await defaultLock.acquire(this.senderLock, () => {
-          return this._init();
+          return this.open();
         });
       }
       const amqpMessage = toAmqpMessage(data);
@@ -683,7 +683,7 @@ export class MessageSender extends LinkEntity {
           this.senderLock
         );
         await defaultLock.acquire(this.senderLock, () => {
-          return this._init();
+          return this.open();
         });
       }
       log.sender(
