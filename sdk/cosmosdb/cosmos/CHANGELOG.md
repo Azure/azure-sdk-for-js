@@ -205,6 +205,23 @@ for await(const { result: item } in client.databases.readAll().getAsyncIterator(
 }
 ```
 
+#### Simplified Partition Keys for Queries
+
+v2 has two different but equivalent ways to specify the partition key for a query:
+
+```js
+// v2. These are effectively the same 
+container.items.query('SELECT * from c', { partitionKey: "foo" }).toArray()
+container.items.query('SELECT * from c WHERE c.yourPartitionKey = "foo"').toArray()
+```
+
+v3 removed `partitionKey` from `FeedOptions` so there is now only one way to specify the partition key:
+
+```js
+// v3
+container.items.query('SELECT * from c WHERE c.yourPartitionKey = "foo"').fetchAll()
+```
+
 #### Fixed Containers are now Paritioned (#308)
 
 [The Cosmos service now supports partition keys on all containers, including those that were previously created as fixed containers](https://docs.microsoft.com/en-us/azure/cosmos-db/migrate-containers-partitioned-to-nonpartitioned). The v3 SDK updates to the latest API version that implements this change, but it is not breaking. If you do not supply a partition key for operations, we will default to a system key that works with all your existing containers and documents.
