@@ -86,12 +86,11 @@ export class Sender {
    * This method will be called on-demand by the Sender. Only call this method if you need
    * to force the opening of the connection and link.
    */
-  async open() {
+  open() {
     // the underlying `MessageSender` initialization will both
     // cache the sender in the context for the next send and
     // ensure the link and connection are initialized.
-    const tempSender = MessageSender.create(this._context);
-    return tempSender.open();
+    return MessageSender.create(this._context).open();
   }
 
   /**
