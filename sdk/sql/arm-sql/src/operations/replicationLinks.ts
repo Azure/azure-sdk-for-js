@@ -146,6 +146,22 @@ export class ReplicationLinks {
   }
 
   /**
+   * Deletes a database replication link in forced or friendly way.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can
+   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database that has the replication link to be failed over.
+   * @param linkId The ID of the replication link to be failed over.
+   * @param parameters The required parameters for unlinking replication link.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  unlink(resourceGroupName: string, serverName: string, databaseName: string, linkId: string, parameters: Models.UnlinkParameters, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginUnlink(resourceGroupName,serverName,databaseName,linkId,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
    * Lists a database's replication links.
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -229,6 +245,31 @@ export class ReplicationLinks {
         options
       },
       beginFailoverAllowDataLossOperationSpec,
+      options);
+  }
+
+  /**
+   * Deletes a database replication link in forced or friendly way.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can
+   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database that has the replication link to be failed over.
+   * @param linkId The ID of the replication link to be failed over.
+   * @param parameters The required parameters for unlinking replication link.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginUnlink(resourceGroupName: string, serverName: string, databaseName: string, linkId: string, parameters: Models.UnlinkParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        serverName,
+        databaseName,
+        linkId,
+        parameters,
+        options
+      },
+      beginUnlinkOperationSpec,
       options);
   }
 }
@@ -356,6 +397,39 @@ const beginFailoverAllowDataLossOperationSpec: msRest.OperationSpec = {
   headerParameters: [
     Parameters.acceptLanguage
   ],
+  responses: {
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginUnlinkOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/replicationLinks/{linkId}/unlink",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.databaseName,
+    Parameters.linkId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.UnlinkParameters,
+      required: true
+    }
+  },
   responses: {
     202: {},
     204: {},
