@@ -175,7 +175,7 @@ export class BatchingReceiver extends MessageReceiver {
             await Promise.race([drainPromise, drainTimeout]);
           } catch {
             // Close the receiver link since we have not received the receiver drain event.
-            await this.onDetached();
+            await this.close();
           }
 
           // Turn off draining.

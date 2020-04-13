@@ -1181,7 +1181,7 @@ describe("Batch Receiver - drain", function(): void {
       );
     }, 0);
 
-    const results = await receiver.receiveMessages(1, 1);
+    const results = await receiver.receiveMessages(5, 1);
 
     Array.isArray(results).should.be.true;
     results.length.should.equal(1, "Received an unexpected number of messages.");
@@ -1221,14 +1221,14 @@ describe("Batch Receiver - drain", function(): void {
       );
     }, 0);
 
-    (receiver as any)._context.batchingReceiver._drainTimeoutInMs = 10;
-    const results1 = await receiver.receiveMessages(1, 1);
+    (receiver as any)._context.batchingReceiver._drainTimeoutInMs = 0;
+    const results1 = await receiver.receiveMessages(5, 1);
     Array.isArray(results1).should.be.true;
-    results1.length.should.equal(1, "Received an unexpected number of messages.");
+    results1.length.should.equal(2, "Received an unexpected number of messages.");
 
-    (receiver as any)._context.batchingReceiver._drainTimeoutInMs = 200;
-    const results2 = await receiver.receiveMessages(1, 1);
+    await sender.sendBatch(testMessages);
+    const results2 = await receiver.receiveMessages(5, 1);
     Array.isArray(results2).should.be.true;
-    results2.length.should.equal(1, "Received an unexpected number of messages.");
+    results2.length.should.equal(3, "Received an unexpected number of messages.");
   });
 });
