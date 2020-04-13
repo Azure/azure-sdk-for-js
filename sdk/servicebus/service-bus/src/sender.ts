@@ -81,6 +81,20 @@ export class Sender {
   }
 
   /**
+   * Ensures that the Service Bus connection and sender link is open.
+   *
+   * This method will be called on-demand by the Sender. Only call this method if you need
+   * to force the opening of the connection and link.
+   */
+  async open() {
+    // the underlying `MessageSender` initialization will both
+    // cache the sender in the context for the next send and
+    // ensure the link and connection are initialized.
+    const tempSender = MessageSender.create(this._context);
+    return tempSender["_init"]();
+  }
+
+  /**
    * Sends the given messages in a single batch i.e. in a single AMQP message after creating an AMQP
    * Sender link if it doesnt already exists.
    *

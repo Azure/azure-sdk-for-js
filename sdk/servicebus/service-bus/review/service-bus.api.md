@@ -143,6 +143,7 @@ export class Sender {
     cancelScheduledMessages(sequenceNumbers: Long[]): Promise<void>;
     close(): Promise<void>;
     get isClosed(): boolean;
+    open(): Promise<void>;
     scheduleMessage(scheduledEnqueueTimeUtc: Date, message: SendableMessageInfo): Promise<Long>;
     scheduleMessages(scheduledEnqueueTimeUtc: Date, messages: SendableMessageInfo[]): Promise<Long[]>;
     send(message: SendableMessageInfo): Promise<void>;
