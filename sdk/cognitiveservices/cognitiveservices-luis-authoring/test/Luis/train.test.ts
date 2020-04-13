@@ -8,6 +8,7 @@ import * as chai from "chai";
 import { BaseTest } from "../baseTest";
 import { TrainGetStatusResponse } from "../../src/models";
 import { LUISAuthoringClient } from "../../src/lUISAuthoringClient";
+import { delay } from "@azure/ms-rest-js";
 
 
 
@@ -29,9 +30,8 @@ describe("Train Module Functionality", () => {
       let result = await client.train.getStatus(BaseTest.GlobalAppId, versionId);
 
       while (checkStatus(result)) {
-        await this.delay(1000);
           result = await client.train.getStatus(BaseTest.GlobalAppId, versionId);
-        
+          await delay(1000);
       }
 
       for (let trainResult of result) {
@@ -55,9 +55,10 @@ describe("Train Module Functionality", () => {
       let versionId = "0.1";
       await client.train.trainVersion(BaseTest.GlobalAppId, versionId);
       let result = await client.train.getStatus(BaseTest.GlobalAppId, versionId);
+      
       while (checkStatus(result)) {
-          await this.delay(1000);
-          result = await client.train.getStatus(BaseTest.GlobalAppId, versionId);
+        result = await client.train.getStatus(BaseTest.GlobalAppId, versionId);
+        await delay(1000);
       }
 
       let secondTrainResult = await client.train.trainVersion(BaseTest.GlobalAppId, versionId);
