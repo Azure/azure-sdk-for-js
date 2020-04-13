@@ -69,7 +69,7 @@ export function toTextLine(original: TextLineModel, pageNumber: number): FormLin
         kind: "word",
         text: w.text,
         boundingBox: toBoundingBox(w.boundingBox),
-        confidence: w.confidence,
+        confidence: w.confidence || 1,
         pageNumber: pageNumber
       };
     })
@@ -122,7 +122,7 @@ export function toFormText(original: KeyValueElementModel, readResults?: FormPag
 export function toFormField(original: KeyValuePairModel, readResults?: FormPage[]): FormField {
   return {
     name: original.label,
-    confidence: original.confidence,
+    confidence: original.confidence || 1,
     fieldLabel: toFormText(original.key, readResults),
     valueText: toFormText(original.value, readResults),
     value: original.value.text
@@ -220,7 +220,7 @@ export function toFieldValue(original: FieldValueModel, readResults: FormPage[])
       : {
           text: original.text,
           boundingBox: original.boundingBox ? toBoundingBox(original.boundingBox) : undefined,
-          confidence: original.confidence,
+          confidence: original.confidence || 1,
           pageNumber: original.pageNumber,
           textContent: original.elements?.map((element) => toFormElement(element, readResults))
         };
