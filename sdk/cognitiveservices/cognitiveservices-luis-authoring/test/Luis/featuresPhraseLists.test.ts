@@ -13,14 +13,14 @@ describe("featuresPhraseLists.test.ts", () => {
   it("should add phrase list", async () => {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const id = await client.features.addPhraseList(BaseTest.GlobalAppId, "0.1", {
-        name: "DayOfWeek",
+        name: "DayOfWeekToAdd",
         phrases: "monday,tuesday,wednesday,thursday,friday,saturday,sunday",
         isExchangeable: true
       });
       const phrases = await client.features.getPhraseList(BaseTest.GlobalAppId, "0.1", id.body);
       await client.features.deletePhraseList(BaseTest.GlobalAppId, "0.1", id.body);
       chai.expect(phrases).not.to.be.null;
-      chai.expect(phrases.name).to.eq("DayOfWeek");
+      chai.expect(phrases.name).to.eq("DayOfWeekToAdd");
       chai.expect(phrases.phrases).to.eq("monday,tuesday,wednesday,thursday,friday,saturday,sunday")
     });
   });
@@ -29,7 +29,7 @@ describe("featuresPhraseLists.test.ts", () => {
   it("should list phrase lists", async () => {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const id = await client.features.addPhraseList(BaseTest.GlobalAppId, "0.1", {
-        name: "DayOfWeek",
+        name: "DayOfWeekToList",
         phrases: "monday,tuesday,wednesday,thursday,friday,saturday,sunday",
         isExchangeable: true
       });
@@ -43,7 +43,7 @@ describe("featuresPhraseLists.test.ts", () => {
   it("should get phrase list", async () => {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const id = await client.features.addPhraseList(BaseTest.GlobalAppId, "0.1", {
-        name: "DayOfWeek",
+        name: "DayOfWeekToGet",
         phrases: "monday,tuesday,wednesday,thursday,friday,saturday,sunday",
         isExchangeable: true
       });
@@ -51,7 +51,7 @@ describe("featuresPhraseLists.test.ts", () => {
       const phrases = await client.features.getPhraseList(BaseTest.GlobalAppId, "0.1", id.body);
       await client.features.deletePhraseList(BaseTest.GlobalAppId, "0.1", id.body);
       chai.expect(phrases).not.to.be.null;
-      chai.expect(phrases.name).to.eq("DayOfWeek");
+      chai.expect(phrases.name).to.eq("DayOfWeekToGet");
       chai.expect(phrases.isActive).to.eq(true);
       chai.expect(phrases.isExchangeable).to.eq(true);
     });
@@ -61,7 +61,7 @@ describe("featuresPhraseLists.test.ts", () => {
   it("should update phrase list", async () => {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const id = await client.features.addPhraseList(BaseTest.GlobalAppId, "0.1", {
-        name: "DayOfWeek",
+        name: "DayOfWeekToUpdate",
         phrases: "monday,tuesday,wednesday,thursday,friday,saturday,sunday",
         isExchangeable: true
       });
@@ -86,7 +86,7 @@ describe("featuresPhraseLists.test.ts", () => {
   it("should delete phrase list", async () => {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const id = await client.features.addPhraseList(BaseTest.GlobalAppId, "0.1", {
-        name: "DayOfWeek",
+        name: "DayOfWeekToDelete",
         phrases: "monday,tuesday,wednesday,thursday,friday,saturday,sunday",
         isExchangeable: true
       });

@@ -28,7 +28,6 @@ describe("Versions Module Functionality Tests", () => {
       for (let version of versions) {
         let result = await client.versions.get(BaseTest.GlobalAppId, version.version);
         chai.expect(version.version).to.eql(result.version);
-        chai.expect(version.trainingStatus).to.eql(result.trainingStatus);
       }
     });
   });
