@@ -95,7 +95,7 @@ export namespace ConnectionConfig {
     const result: ConnectionConfig = {
       connectionString: connectionString,
       endpoint: parsedCS.Endpoint,
-      host: parsedCS && parsedCS.Endpoint ? (parsedCS.Endpoint.match("sb://([^/]*)") || [])[1] : "",
+      host: parsedCS && parsedCS.Endpoint ? (parsedCS.Endpoint.match(".*://([^/]*)") || [])[1] : "",
       sharedAccessKeyName: parsedCS.SharedAccessKeyName,
       sharedAccessKey: parsedCS.SharedAccessKey
     };
