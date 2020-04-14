@@ -89,9 +89,16 @@ interface SessionManagerOptions {
   autoComplete?: boolean;
 }
 
+interface SessionMessageHandler {
+  processMessage(message: ReceivedMessage|ReceivedMessageWithLock);
+
+  // tentatively suggesting proposal #2 for error handling below.
+  processError(err: Error, context: { sessionId: string });
+}
+
 interface SessionManager {
   // the handlers
-  subscribe(handlers: MessageHandler);    // same message handler type as existing Receiver/SessionReceiver
+  subscribe(handlers: SessionMessageHandler);
 
   // managing session state can be done by session id. This flows similarly
   // to what developers would do with `SessionReceiver`
@@ -100,6 +107,32 @@ interface SessionManager {
 }
 
 ```
+
+### processError() and SessionContext
+
+Following from what we've learned in EventHubs, passing in a context object can be a
+convenient place to put information that would not otherwise be present in the object.
+
+In Service Bus's case the `sessionId` field as well as the settlement methods are already
+on the `ReceivedMessage|ReceivedMessageWithLock` instance so, at least for `processMessage`,
+there is no need.
+
+However, with `processError` we do not pass the session ID along with the error. To solve this we
+can do a few things:
+
+1.  Add a `sessionId` field to the errors we pass in. This field could potentially be optional if we have errors that occur at a context higher than an individual receiver (for instance, connection errors).
+
+    The user will need a typeguard (or similar function) to properly check and extract the error (in TypeScript) or just have the existence of it documented (for JavaScript) but otherwise
+    this is a possible path.
+
+2.  Add a `context` parameter to `processError` that would contain the `sessionId` (still optionally).
+
+    If we want to remain signature compatible with `MessageHandler` (used for `Receiver`) then #1 is a good option.
+
+    If we want believe that we have some extra fields that need to be passed in (for instance if we decide to move the message settlement methods back onto the receiver) then #2 becomes
+    a more clear winner.
+
+    #2 is also the way that .NET currently handles passing in settlement methods, etc... in their `ServiceBusProcessor`.
 
 ### Can this interface be a Receiver<MessageT>
 
