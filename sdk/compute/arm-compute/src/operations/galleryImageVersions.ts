@@ -282,7 +282,7 @@ const getOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.expand0,
-    Parameters.apiVersion3
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -308,7 +308,7 @@ const listByGalleryImageOperationSpec: msRest.OperationSpec = {
     Parameters.galleryImageName
   ],
   queryParameters: [
-    Parameters.apiVersion3
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -335,7 +335,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.galleryImageVersionName
   ],
   queryParameters: [
-    Parameters.apiVersion3
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -375,7 +375,7 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.galleryImageVersionName
   ],
   queryParameters: [
-    Parameters.apiVersion3
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -409,7 +409,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.galleryImageVersionName
   ],
   queryParameters: [
-    Parameters.apiVersion3
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
