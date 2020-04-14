@@ -8,32 +8,26 @@ parameters:
   TimeoutInMinutes: 60
   PublishCodeCoverage: false
   Matrix:
-    Linux_Node10 (AzureCloud):
+    Linux_Node10:
       OSVmImage: "ubuntu-16.04"
       TestType: "node"
-      CloudType: AzureCloud
       PublishCodeCoverage: true
-    Windows_Node10 (AzureCloud):
+    Windows_Node10:
       OSVmImage: "windows-2019"
       TestType: "node"
-      CloudType: AzureCloud
-    macOS_Node10 (AzureCloud):
+    macOS_Node10:
       OSVmImage: "macOS-10.15"
       TestType: "node"
-      CloudType: AzureCloud
-    Browser_Linux_Node10 (AzureCloud):
+    Browser_Linux_Node10:
       OSVmImage: "ubuntu-16.04"
       TestType: "browser"
-      CloudType: AzureCloud
       PublishCodeCoverage: true
-    Browser_Windows_Node10 (AzureCloud):
+    Browser_Windows_Node10:
       OSVmImage: "windows-2019"
       TestType: "browser"
-      CloudType: AzureCloud
-    Browser_macOS_Node10 (AzureCloud):
+    Browser_macOS_Node10:
       OSVmImage: "macOS-10.15"
       TestType: "browser"
-      CloudType: AzureCloud
 
 jobs:
   - job: "IntegrationTest"
