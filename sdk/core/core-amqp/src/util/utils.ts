@@ -150,6 +150,7 @@ export function parseConnectionString<T>(connectionString: string): ParsedOutput
     }
 
     const value = part.substring(splitIndex + 1).trim();
+
     output[key] = value;
   }
 
