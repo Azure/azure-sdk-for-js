@@ -88,9 +88,6 @@ export class Sender {
    * want to front load the work of setting up the AMQP link to the service.
    */
   async open(): Promise<void> {
-    // the underlying `MessageSender` initialization will both
-    // cache the sender in the context for the next send and
-    // ensure the link and connection are initialized.
     return MessageSender.create(this._context).open();
   }
 

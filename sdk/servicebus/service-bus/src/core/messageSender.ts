@@ -421,7 +421,7 @@ export class MessageSender extends LinkEntity {
   }
 
   /**
-   * Initializes the sender session on the connection.
+   * Initializes the `ClientEntityContext.sender` associated with this `MessageSender`.
    */
   public async open(options?: SenderOptions): Promise<void> {
     return defaultLock.acquire(this.senderLock, async () => {
