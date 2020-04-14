@@ -22,7 +22,7 @@ export class VSCodeCredential implements TokenCredential {
   constructor(
     options?: TokenCredentialOptions
   ) {
-    this.identityClient = new IdentityClient();
+    this.identityClient = new IdentityClient(options);
   }
 
   public async getToken(
