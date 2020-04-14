@@ -4,15 +4,9 @@
 import chai from "chai";
 const assert = chai.assert;
 import chaiAsPromised from "chai-as-promised";
-import {
-  QueueClient,
-  Sender,
-  Receiver,
-  SubscriptionClient,
-  TopicClient,
-  ReceiveMode
-} from "../src";
+import { QueueClient, Sender, SubscriptionClient, TopicClient, delay } from "../src";
 import { getServiceBusClient, getSenderReceiverClients, TestClientType } from "./utils/testUtils";
+import { defaultLock } from "@azure/amqp-common";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -20,7 +14,6 @@ chai.use(chaiAsPromised);
 describe("controlled connection initialization", () => {
   let closeAll: () => Promise<void>;
   let sender: Sender;
-  let receiver: Receiver;
 
   beforeEach(async () => {
     let serviceBusClient = getServiceBusClient();
@@ -34,15 +27,11 @@ describe("controlled connection initialization", () => {
     ));
 
     sender = senderClient.createSender();
-    receiver = receiverClient.createReceiver(ReceiveMode.receiveAndDelete);
 
     closeAll = async () => {
       await sender.close();
       await senderClient.close();
-
-      await receiver.close();
       await receiverClient.close();
-
       await serviceBusClient?.close();
     };
   });
@@ -73,10 +62,22 @@ describe("controlled connection initialization", () => {
     await checkThatInitializationDoesntReoccur(sender);
   });
 
-  // connection should not get opened more than once (ie, underlying to _init(), nothing else should get called)
-  // ['negotiateClaim'] doesn't get called on the second time through.
-  // context.sender is initialized?
+  it("open() properly locks to prevent multiple in-flight open() calls", async () => {
+    // open uses a lock (at the sender level) that helps us not call open() multiple times.
+
+    // open it just to initialize everything.
+    await sender.open();
+
+    // acquire the same lock that open() uses and then, while it's 100% locked,
+    // attempt to call .open() and see that it just blocks...
+    defaultLock.acquire(sender["_context"]!.sender!.senderLock, async () => {
+      const secondOpenCallPromise = sender.open();
+      const ret = await Promise.race([delay(1000, 999), secondOpenCallPromise]);
+      assert.equal(typeof ret, "number");
+    });
+  });
 });
+
 async function checkThatInitializationDoesntReoccur(sender: Sender) {
   // validate that the internals haven't shifted out from underneath me...
   should.exist(sender["_context"].sender);
