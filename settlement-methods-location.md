@@ -78,7 +78,7 @@ Some issues:
 
 ### Do nothing
 
-We could do nothing. The customer impact would be that the would need to hold onto a map of their messages
+We could do nothing. The user impact would be that the would need to hold onto a map of their messages
 so they could retrieve and settle the correct one using the lock token.
 
 We've seen no issues on this in track 1, which has not had this feature.

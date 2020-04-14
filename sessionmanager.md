@@ -3,7 +3,7 @@
 ## Introduction
 
 Sessions allow a user to logically subdivide a queue or subscription
-into multiple smaller queues. This is useful for customers that would
+into multiple smaller queues. This is useful for users that would
 like to allow for **many** smaller streams of messages within a single
 queue or subscription.
 
@@ -58,7 +58,7 @@ to read messages, in parallel, from a number of sessions while controlling
 the amount of parallelism.
 
 This would simplify session usage to the point where it becomes more accessible,
-allowing more customers to use this powerful feature.
+allowing more users to use this powerful feature.
 
 The proposed interface for this change:
 
@@ -76,7 +76,7 @@ interface SessionManagerOptions {
   idleTimeoutMs: number;
 
   // the maximum number of receivers that can be active at any
-  // time. Allows the customer to avoid getting steamrolled by too many
+  // time. Allows the user to avoid getting steamrolled by too many
   // sessions.
   maxConcurrentReceivers: number;
 

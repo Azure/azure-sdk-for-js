@@ -1,6 +1,6 @@
 # Coordinate message settling with Receiver shutdown in @azure/service-bus v7
 
-Customers are having issues with coordinating the proper settling of
+Users are having issues with coordinating the proper settling of
 messages in combination with closing their Receiver. This can happen
 when the user uses our push methodology (via `subscribe`) and attempts
 to close the Receiver.
@@ -34,7 +34,7 @@ message will be automatically completed for the user.
 
 ## Where our current design falls down
 
-However, some customers do something more akin to this:
+However, some users do something more akin to this:
 
 ```typescript
 
