@@ -20,7 +20,6 @@ import { OnAmqpEvent, EventContext, ConnectionEvents } from "rhea-promise";
 
 /**
  * @internal
- * @interface ConnectionContext
  * Provides contextual information like the underlying amqp connection, cbs session, management session,
  * tokenCredential, senders, receivers, etc. about the ServiceBus client.
  */

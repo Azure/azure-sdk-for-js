@@ -63,7 +63,6 @@ export class EventHubProducer {
   /**
    * EventHubProducer should not be constructed using `new EventHubProduer()`
    * Use the `createProducer()` method on your `EventHubClient` instead.
-   * @private
    * @constructor
    * @internal
    * @ignore

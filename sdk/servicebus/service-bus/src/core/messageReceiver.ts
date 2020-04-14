@@ -82,8 +82,6 @@ export interface ReceiveOptions extends MessageHandlerOptions {
   receiveMode?: ReceiveMode;
   /**
    * Retry policy options that determine the mode, number of retries, retry interval etc.
-   *
-   * @type {RetryOptions}
    */
   retryOptions?: RetryOptions;
 }
@@ -92,7 +90,6 @@ export interface ReceiveOptions extends MessageHandlerOptions {
  * Describes the signature of the message handler passed to `registerMessageHandler` method.
  * @internal
  * @ignore
- * @interface OnMessage
  */
 export interface OnMessage {
   /**
@@ -106,7 +103,6 @@ export interface OnMessage {
  *
  * @internal
  * @ignore
- * @interface OnError
  */
 export interface OnError {
   /**
@@ -163,15 +159,10 @@ export class MessageReceiver extends LinkEntity {
   autoRenewLock: boolean;
   /**
    * @property {Receiver} [_receiver] The AMQP receiver link.
-   * @protected
    */
   protected _receiver?: Receiver;
   /**
    *Retry policy options that determine the mode, number of retries, retry interval etc.
-   *
-   * @private
-   * @type {RetryOptions}
-   * @memberof MessageReceiver
    */
   private _retryOptions: RetryOptions;
   /**
@@ -183,60 +174,50 @@ export class MessageReceiver extends LinkEntity {
   /**
    * @property {OnMessage} _onMessage The message handler provided by the user that will be wrapped
    * inside _onAmqpMessage.
-   * @protected
    */
   protected _onMessage!: OnMessage;
   /**
    * @property {OnMessage} _onError The error handler provided by the user that will be wrapped
    * inside _onAmqpError.
-   * @protected
    */
   protected _onError?: OnError;
   /**
    * @property {OnAmqpEventAsPromise} _onAmqpMessage The message handler that will be set as the handler on the
    * underlying rhea receiver for the "message" event.
-   * @protected
    */
   protected _onAmqpMessage: OnAmqpEventAsPromise;
   /**
    * @property {OnAmqpEventAsPromise} _onAmqpClose The message handler that will be set as the handler on the
    * underlying rhea receiver for the "receiver_close" event.
-   * @protected
    */
   protected _onAmqpClose: OnAmqpEventAsPromise;
   /**
    * @property {OnAmqpEvent} _onSessionError The message handler that will be set as the handler on
    * the underlying rhea receiver's session for the "session_error" event.
-   * @protected
    */
   protected _onSessionError: OnAmqpEvent;
   /**
    * @property {OnAmqpEventAsPromise} _onSessionClose The message handler that will be set as the handler on
    * the underlying rhea receiver's session for the "session_close" event.
-   * @protected
    */
   protected _onSessionClose: OnAmqpEventAsPromise;
   /**
    * @property {OnAmqpEvent} _onAmqpError The message handler that will be set as the handler on the
    * underlying rhea receiver for the "receiver_error" event.
-   * @protected
    */
   protected _onAmqpError: OnAmqpEvent;
   /**
    * @property {OnAmqpEvent} _onSettled The message handler that will be set as the handler on the
    * underlying rhea receiver for the "settled" event.
-   * @protected
    */
   protected _onSettled: OnAmqpEvent;
   /**
    * @property {boolean} wasCloseInitiated Denotes if receiver was explicitly closed by user.
-   * @protected
    */
   protected wasCloseInitiated?: boolean;
   /**
    * @property {Map<string, Function>} _messageRenewLockTimers Maintains a map of messages for which
    * the lock is automatically renewed.
-   * @protected
    */
   protected _messageRenewLockTimers: Map<string, NodeJS.Timer | undefined> = new Map<
     string,
@@ -254,13 +235,11 @@ export class MessageReceiver extends LinkEntity {
   /**
    * @property {Function} _clearMessageLockRenewTimer Clears the message lock renew timer for a
    * specific messageId.
-   * @protected
    */
   protected _clearMessageLockRenewTimer: (messageId: string) => void;
   /**
    * @property {Function} _clearMessageLockRenewTimer Clears the message lock renew timer for all
    * the active messages.
-   * @protected
    */
   protected _clearAllMessageLockRenewTimers: () => void;
   constructor(context: ClientEntityContext, receiverType: ReceiverType, options?: ReceiveOptions) {
@@ -773,7 +752,6 @@ export class MessageReceiver extends LinkEntity {
 
   /**
    * Creates a new AMQP receiver under a new AMQP session.
-   * @protected
    *
    * @returns {Promise<void>} Promise<void>.
    */

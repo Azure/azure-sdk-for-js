@@ -6,7 +6,6 @@ import { WebSocketImpl } from "rhea-promise";
 
 /**
  * Describes the options that can be provided while creating a connection config.
- * @interface ConnectionConfigOptions
  */
 export interface ConnectionConfigOptions {
   /**
@@ -19,7 +18,6 @@ export interface ConnectionConfigOptions {
 /**
  * Describes the connection config object that is created after parsing an EventHub or ServiceBus
  * connection string.
- * @interface ConnectionConfig
  */
 export interface ConnectionConfig {
   /**

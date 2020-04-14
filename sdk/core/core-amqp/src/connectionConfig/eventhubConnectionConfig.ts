@@ -7,7 +7,6 @@ import { ConnectionConfig } from "./connectionConfig";
  * Describes the connection config object that is created after parsing an EventHub connection
  * string. It also provides some convenience methods for getting the address and audience for
  * different entities.
- * @interface EventHubConnectionConfig
  */
 export interface EventHubConnectionConfig extends ConnectionConfig {
   /**

@@ -139,7 +139,6 @@ export class EventHubConsumer {
   /**
    * EventHubConsumer should not be constructed using `new EventHubConsumer()`
    * Use the `createConsumer()` method on your `EventHubClient` instead.
-   * @private
    * @constructor
    * @internal
    * @ignore
