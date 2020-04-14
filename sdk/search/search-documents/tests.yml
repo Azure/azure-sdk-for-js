@@ -17,27 +17,34 @@ jobs:
         Linux_Node10:
           OSVmImage: "ubuntu-16.04"
           TestType: "node"
+          CloudType: AzureCloud
           PublishCodeCoverage: true
         Windows_Node10:
           OSVmImage: "windows-2019"
           TestType: "node"
+          CloudType: AzureCloud
         macOS_Node10:
           OSVmImage: "macOS-10.15"
           TestType: "node"
+          CloudType: AzureCloud
         Browser_Linux_Node10:
           OSVmImage: "ubuntu-16.04"
           TestType: "browser"
+          CloudType: AzureCloud
           PublishCodeCoverage: true
         Browser_Windows_Node10:
           OSVmImage: "windows-2019"
           TestType: "browser"
+          CloudType: AzureCloud
         Browser_macOS_Node10:
           OSVmImage: "macOS-10.15"
           TestType: "browser"
+          CloudType: AzureCloud
         Linux_Sample10:
           OSVmImage: "ubuntu-16.04"
           NodeVersion: "10.x"
           TestType: "sample"
+          CloudType: AzureCloud
       EnvVars:
         ENDPOINT: $(ENDPOINT)
         SEARCH_API_ADMIN_KEY: $(SEARCH_API_ADMIN_KEY)

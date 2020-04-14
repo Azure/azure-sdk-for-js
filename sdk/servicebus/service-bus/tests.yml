@@ -21,10 +21,12 @@ jobs:
         Linux_Node10:
           OSVmImage: "ubuntu-16.04"
           TestType: "node"
+          CloudType: AzureCloud
           PublishCodeCoverage: true
         Browser_Windows_Node10:
           OSVmImage: "windows-2019"
           TestType: "browser"
+          CloudType: AzureCloud
           PublishCodeCoverage: true
       EnvVars:
         AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
