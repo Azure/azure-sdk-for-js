@@ -625,7 +625,7 @@ export class MessageSender extends LinkEntity {
           this.senderLock
         );
 
-        return this.open();
+        await this.open();
       }
       const amqpMessage = toAmqpMessage(data);
       amqpMessage.body = this._context.namespace.dataTransformer.encode(data.body);
@@ -684,7 +684,7 @@ export class MessageSender extends LinkEntity {
           this.senderLock
         );
 
-        return this.open();
+        await this.open();
       }
       log.sender(
         "[%s] Sender '%s', trying to send Message[]: %O",
