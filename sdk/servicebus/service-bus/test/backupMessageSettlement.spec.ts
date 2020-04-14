@@ -13,12 +13,12 @@ import {
   testPeekMsgsLength,
   EntityName
 } from "./utils/testutils2";
-import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
+import { ReceivedMessageWithLock, DispositionType } from "../src/serviceBusMessage";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
 
-describe("Backup message settlement - Through ManagementLink", () => {
+describe.only("Backup message settlement - Through ManagementLink", () => {
   let serviceBusClient: ServiceBusClientForTests;
 
   let senderClient: Sender;
@@ -79,12 +79,28 @@ describe("Backup message settlement - Through ManagementLink", () => {
         : TestMessage.getSample();
       const msg = await sendReceiveMsg(testMessages);
       await receiverClient.close();
-      await msg.complete();
+      let errorWasThrown = false;
+      try {
+        await msg.complete();
+      } catch (err) {
+        should.equal(
+          err.message,
+          `Failed to ${DispositionType.complete} the message as the AMQP link with which the message was received is no longer alive.`,
+          "Unexpected error thrown"
+        );
+        errorWasThrown = true;
+      }
 
+      if (entityNames.usesSessions) {
+        should.equal(errorWasThrown, true, "Error was not thrown for messages with session-id");
+      } else {
+        should.equal(errorWasThrown, false, "Error was thrown for sessions without session-id");
+      }
+      receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
       await testPeekMsgsLength(receiverClient, 0);
     }
 
-    it.only("Partitioned Queue: complete() removes message", async function(): Promise<void> {
+    it("Partitioned Queue: complete() removes message", async function(): Promise<void> {
       await beforeEachTest(TestClientType.PartitionedQueue);
       await testComplete();
     });
@@ -106,28 +122,26 @@ describe("Backup message settlement - Through ManagementLink", () => {
       await testComplete();
     });
 
-    it("Partitioned Queue with Sessions: complete() removes message", async function(): Promise<
-      void
-    > {
+    it("Partitioned Queue with Sessions: complete() throws error", async function(): Promise<void> {
       await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
       await testComplete();
     });
 
-    it("Partitioned Subscription with Sessions: complete() removes message", async function(): Promise<
+    it("Partitioned Subscription with Sessions: complete() throws error", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions);
       await testComplete();
     });
 
-    it("Unpartitioned Queue with Sessions: complete() removes message #RunInBrowser", async function(): Promise<
+    it("Unpartitioned Queue with Sessions: complete() throws error #RunInBrowser", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
       await testComplete();
     });
 
-    it("Unpartitioned Subscription with Sessions: complete() removes message", async function(): Promise<
+    it("Unpartitioned Subscription with Sessions: complete() throws error", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
@@ -140,7 +154,23 @@ describe("Backup message settlement - Through ManagementLink", () => {
         : TestMessage.getSample();
       const msg = await sendReceiveMsg(testMessages);
       await receiverClient.close();
-      await msg.abandon();
+      let errorWasThrown = false;
+      try {
+        await msg.abandon();
+      } catch (err) {
+        should.equal(
+          err.message,
+          `Failed to ${DispositionType.complete} the message as the AMQP link with which the message was received is no longer alive.`,
+          "Unexpected error thrown"
+        );
+        errorWasThrown = true;
+      }
+
+      if (entityNames.usesSessions) {
+        should.equal(errorWasThrown, true, "Error was not thrown for messages with session-id");
+      } else {
+        should.equal(errorWasThrown, false, "Error was thrown for sessions without session-id");
+      }
       receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
       await testPeekMsgsLength(receiverClient, 1);
 
@@ -187,28 +217,26 @@ describe("Backup message settlement - Through ManagementLink", () => {
       await testAbandon();
     });
 
-    it("Partitioned Queue with Sessions: abandon() retains message with incremented deliveryCount", async function(): Promise<
-      void
-    > {
+    it("Partitioned Queue with Sessions: abandon() throws error", async function(): Promise<void> {
       await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
       await testAbandon();
     });
 
-    it("Partitioned Subscription with Sessions: abandon() retains message with incremented deliveryCount", async function(): Promise<
+    it("Partitioned Subscription with Sessions: abandon() throws error", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions);
       await testAbandon();
     });
 
-    it("Unpartitioned Queue with Sessions: abandon() retains message with incremented deliveryCount #RunInBrowser", async function(): Promise<
+    it("Unpartitioned Queue with Sessions: abandon() throws error #RunInBrowser", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
       await testAbandon();
     });
 
-    it("Unpartitioned Subscription with Sessions: abandon() retains message with incremented deliveryCount", async function(): Promise<
+    it("Unpartitioned Subscription with Sessions: abandon() throws error", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
@@ -224,7 +252,23 @@ describe("Backup message settlement - Through ManagementLink", () => {
       }
       const sequenceNumber = msg.sequenceNumber;
       await receiverClient.close();
-      await msg.defer();
+      let errorWasThrown = false;
+      try {
+        await msg.defer();
+      } catch (err) {
+        should.equal(
+          err.message,
+          `Failed to ${DispositionType.complete} the message as the AMQP link with which the message was received is no longer alive.`,
+          "Unexpected error thrown"
+        );
+        errorWasThrown = true;
+      }
+
+      if (entityNames.usesSessions) {
+        should.equal(errorWasThrown, true, "Error was not thrown for messages with session-id");
+      } else {
+        should.equal(errorWasThrown, false, "Error was thrown for sessions without session-id");
+      }
       receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
       const deferredMsgs = await receiverClient.receiveDeferredMessage(sequenceNumber);
       if (!deferredMsgs) {
@@ -257,14 +301,12 @@ describe("Backup message settlement - Through ManagementLink", () => {
       await testDefer();
     });
 
-    it("Partitioned Queue with Sessions: defer() moves message to deferred queue", async function(): Promise<
-      void
-    > {
+    it("Partitioned Queue with Sessions: defer() throws error", async function(): Promise<void> {
       await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
       await testDefer(true);
     });
 
-    it("Partitioned Subscription with Sessions: defer() moves message to deferred queue", async function(): Promise<
+    it("Partitioned Subscription with Sessions: defer() throws error", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions);
@@ -285,14 +327,14 @@ describe("Backup message settlement - Through ManagementLink", () => {
       await testDefer();
     });
 
-    it("Unpartitioned Queue with Sessions: defer() moves message to deferred queue #RunInBrowser", async function(): Promise<
+    it("Unpartitioned Queue with Sessions: defer() throws error #RunInBrowser", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
       await testDefer(true);
     });
 
-    it("Unpartitioned Subscription with Sessions: defer() moves message to deferred queue", async function(): Promise<
+    it("Unpartitioned Subscription with Sessions: defer() throws error", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
@@ -303,7 +345,24 @@ describe("Backup message settlement - Through ManagementLink", () => {
       const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
       const msg = await sendReceiveMsg(testMessages);
       await receiverClient.close();
-      await msg.deadLetter();
+      let errorWasThrown = false;
+      try {
+        await msg.deadLetter();
+      } catch (err) {
+        should.equal(
+          err.message,
+          `Failed to ${DispositionType.complete} the message as the AMQP link with which the message was received is no longer alive.`,
+          "Unexpected error thrown"
+        );
+        errorWasThrown = true;
+      }
+
+      if (entityNames.usesSessions) {
+        should.equal(errorWasThrown, true, "Error was not thrown for messages with session-id");
+      } else {
+        should.equal(errorWasThrown, false, "Error was thrown for sessions without session-id");
+      }
+
       receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
 
       await testPeekMsgsLength(receiverClient, 0);
@@ -360,28 +419,28 @@ describe("Backup message settlement - Through ManagementLink", () => {
       await testDeadletter();
     });
 
-    it("Partitioned Queue with Sessions: deadLetter() moves message to deadletter queue", async function(): Promise<
+    it("Partitioned Queue with Sessions: deadLetter() throws error", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
       await testDeadletter(true);
     });
 
-    it("Partitioned Subscription with Sessions: deadLetter() moves message to deadletter queue", async function(): Promise<
+    it("Partitioned Subscription with Sessions: deadLetter() throws error", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions);
       await testDeadletter(true);
     });
 
-    it("Unpartitioned Queue with Sessions: deadLetter() moves message to deadletter queue #RunInBrowser", async function(): Promise<
+    it("Unpartitioned Queue with Sessions: deadLetter() throws error #RunInBrowser", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
       await testDeadletter(true);
     });
 
-    it("Unpartitioned Subscription with Sessions: deadLetter() moves message to deadletter queue", async function(): Promise<
+    it("Unpartitioned Subscription with Sessions: deadLetter() throws error", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
