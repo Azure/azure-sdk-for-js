@@ -133,7 +133,7 @@ can do a few things:
 
     If we want to remain signature compatible with `MessageHandler` (used for `Receiver`) then #1 is a good option.
 
-    If we want believe that we have some extra fields that need to be passed in (for instance if we decide to move the message settlement methods back onto the receiver) then #2 becomes
+    If we believe that we have some extra fields that need to be passed in (for instance if we decide to move the message settlement methods back onto the receiver) then #2 becomes
     a more clear winner.
 
     #2 is also the way that .NET currently handles passing in settlement methods, etc... in their `ServiceBusProcessor`.
