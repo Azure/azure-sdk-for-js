@@ -89,21 +89,25 @@ interface SessionManagerOptions {
   autoComplete?: boolean;
 }
 
-interface SessionMessageHandler {
-  processMessage(message: ReceivedMessage|ReceivedMessageWithLock);
+// implicit to this - this is specific to a single session.
+interface SessionContext {
+  // managing session state is implicit to the context where it is called. This flows
+  // similarly to what developers would do with `SessionReceiver`
+  setState();
+  getState();
 
+  sessionId: string;
+}
+
+interface SessionMessageHandler {
   // tentatively suggesting proposal #2 for error handling below.
+  processMessage(message: ReceivedMessage|ReceivedMessageWithLock, context: SessionContext);
   processError(err: Error, context: { sessionId: string });
 }
 
 interface SessionManager {
   // the handlers
   subscribe(handlers: SessionMessageHandler);
-
-  // managing session state can be done by session id. This flows similarly
-  // to what developers would do with `SessionReceiver`
-  setState(sessionId: string);
-  getState(sessionId: string);
 }
 
 ```
