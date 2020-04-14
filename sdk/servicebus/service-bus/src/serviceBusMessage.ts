@@ -927,7 +927,10 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
     }
     const receiver = this.getReceiverFromContext();
     this.throwIfMessageCannotBeSettled(receiver, DispositionType.complete);
-
+    if (!receiver || !receiver.isOpen()) {
+      await this.backUpMessageSettlementThroughMgmtLink(DispositionStatus.completed);
+      return;
+    }
     return receiver!.settleMessage(this, DispositionType.complete);
   }
 
@@ -954,7 +957,12 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
     }
     const receiver = this.getReceiverFromContext();
     this.throwIfMessageCannotBeSettled(receiver, DispositionType.abandon);
-
+    if (!receiver || !receiver.isOpen()) {
+      await this.backUpMessageSettlementThroughMgmtLink(DispositionStatus.abandoned, {
+        propertiesToModify: propertiesToModify
+      });
+      return;
+    }
     return receiver!.settleMessage(this, DispositionType.abandon, {
       propertiesToModify: propertiesToModify
     });
@@ -982,7 +990,12 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
     }
     const receiver = this.getReceiverFromContext();
     this.throwIfMessageCannotBeSettled(receiver, DispositionType.defer);
-
+    if (!receiver || !receiver.isOpen()) {
+      await this.backUpMessageSettlementThroughMgmtLink(DispositionStatus.defered, {
+        propertiesToModify: propertiesToModify
+      });
+      return;
+    }
     return receiver!.settleMessage(this, DispositionType.defer, {
       propertiesToModify: propertiesToModify
     });
@@ -1020,18 +1033,18 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
     delete actualPropertiesToModify.deadLetterErrorDescription;
     delete actualPropertiesToModify.deadLetterReason;
 
+    const dispositionStatusOptions = {
+      propertiesToModify: actualPropertiesToModify,
+      deadLetterReason: propertiesToModify?.deadLetterReason,
+      deadLetterDescription: propertiesToModify?.deadLetterErrorDescription
+    };
     // this handles deferred messages that have been received via the management link
     // and thus need to be settled there.
     if (this._context.requestResponseLockedMessages.has(this.lockToken!)) {
       await this._context.managementClient!.updateDispositionStatus(
         this.lockToken!,
         DispositionStatus.suspended,
-        {
-          propertiesToModify: actualPropertiesToModify,
-          deadLetterReason: propertiesToModify?.deadLetterReason,
-          deadLetterDescription: propertiesToModify?.deadLetterErrorDescription,
-          sessionId: this.sessionId
-        }
+        { ...dispositionStatusOptions, sessionId: this.sessionId }
       );
 
       // Remove the message from the internal map of deferred messages
@@ -1040,7 +1053,13 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
     }
     const receiver = this.getReceiverFromContext();
     this.throwIfMessageCannotBeSettled(receiver, DispositionType.deadletter);
-
+    if (!receiver || !receiver.isOpen()) {
+      await this.backUpMessageSettlementThroughMgmtLink(
+        DispositionStatus.suspended,
+        dispositionStatusOptions
+      );
+      return;
+    }
     return receiver!.settleMessage(this, DispositionType.deadletter, {
       propertiesToModify: actualPropertiesToModify,
       error: error
@@ -1108,21 +1127,6 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
       );
     } else if (this.delivery.remote_settled) {
       error = new Error(`Failed to ${operation} the message as this message is already settled.`);
-    } else if (!receiver || !receiver.isOpen()) {
-      const errorMessage =
-        `Failed to ${operation} the message as the AMQP link with which the message was ` +
-        `received is no longer alive.`;
-      if (this.sessionId != undefined) {
-        error = translate({
-          description: errorMessage,
-          condition: ErrorNameConditionMapper.SessionLockLostError
-        });
-      } else {
-        error = translate({
-          description: errorMessage,
-          condition: ErrorNameConditionMapper.MessageLockLostError
-        });
-      }
     }
     if (!error) {
       return;
@@ -1138,6 +1142,27 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
     );
 
     throw error;
+  }
+
+  private async backUpMessageSettlementThroughMgmtLink(
+    operation: DispositionStatus,
+    propertiesToModify?: { [key: string]: any }
+  ) {
+    if (this.sessionId != undefined) {
+      throw translate({
+        description:
+          `Failed to ${operation} the message as the AMQP link with which the message was ` +
+          `received is no longer alive.`,
+        condition: ErrorNameConditionMapper.SessionLockLostError
+      });
+    } else {
+      await this._context.managementClient!.updateDispositionStatus(
+        this.lockToken!,
+        operation,
+        propertiesToModify
+      );
+      return;
+    }
   }
 
   private getReceiverFromContext() {
