@@ -23,22 +23,5 @@
   "git.ignoreLimitWarning": true,
   "cSpell.words": [
     "datalake"
-  ],
-  "workbench.colorCustomizations": {
-    "activityBar.background": "#f4e57e",
-    "activityBar.activeBackground": "#f4e57e",
-    "activityBar.activeBorder": "#0fb09c",
-    "activityBar.foreground": "#15202b",
-    "activityBar.inactiveForeground": "#15202b99",
-    "activityBarBadge.background": "#0fb09c",
-    "activityBarBadge.foreground": "#e7e7e7",
-    "titleBar.activeBackground": "#f0db4f",
-    "titleBar.inactiveBackground": "#f0db4f99",
-    "titleBar.activeForeground": "#15202b",
-    "titleBar.inactiveForeground": "#15202b99",
-    "statusBar.background": "#f0db4f",
-    "statusBarItem.hoverBackground": "#ecd120",
-    "statusBar.foreground": "#15202b"
-  },
-  "peacock.color": "#F0DB4F"
+  ]
 }
