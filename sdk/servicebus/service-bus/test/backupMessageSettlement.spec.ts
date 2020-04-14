@@ -10,7 +10,8 @@ import { Sender } from "../src/sender";
 import {
   createServiceBusClientForTests,
   ServiceBusClientForTests,
-  testPeekMsgsLength
+  testPeekMsgsLength,
+  EntityName
 } from "./utils/testutils2";
 import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
 
@@ -23,7 +24,7 @@ describe("Backup message settlement - Through ManagementLink", () => {
   let senderClient: Sender;
   let receiverClient: Receiver<ReceivedMessageWithLock>;
   let deadLetterClient: Receiver<ReceivedMessageWithLock>;
-  const maxDeliveryCount = 10;
+  let entityNames: EntityName;
 
   before(() => {
     serviceBusClient = createServiceBusClientForTests();
@@ -34,7 +35,7 @@ describe("Backup message settlement - Through ManagementLink", () => {
   });
 
   async function beforeEachTest(entityType: TestClientType): Promise<void> {
-    const entityNames = await serviceBusClient.test.createTestEntities(entityType);
+    entityNames = await serviceBusClient.test.createTestEntities(entityType);
     receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
 
     senderClient = serviceBusClient.test.addToCleanup(
@@ -72,17 +73,18 @@ describe("Backup message settlement - Through ManagementLink", () => {
       return msgs[0];
     }
 
-    async function testComplete(useSessions?: boolean): Promise<void> {
-      const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
+    async function testComplete(): Promise<void> {
+      const testMessages = entityNames.usesSessions
+        ? TestMessage.getSessionSample()
+        : TestMessage.getSample();
       const msg = await sendReceiveMsg(testMessages);
-      console.log(msg.lockToken);
-      // await receiverClient.close();
+      await receiverClient.close();
       await msg.complete();
 
       await testPeekMsgsLength(receiverClient, 0);
     }
 
-    it("Partitioned Queue: complete() removes message", async function(): Promise<void> {
+    it.only("Partitioned Queue: complete() removes message", async function(): Promise<void> {
       await beforeEachTest(TestClientType.PartitionedQueue);
       await testComplete();
     });
@@ -108,51 +110,38 @@ describe("Backup message settlement - Through ManagementLink", () => {
       void
     > {
       await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
-      // await testComplete(true);
-      const testMessages = TestMessage.getSessionSample();
-      await senderClient.send(testMessages);
-      let msgs = await receiverClient.receiveBatch(1);
-
-      should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
-      should.equal(msgs.length, 1, "Unexpected number of messages");
-      should.equal(msgs[0].body, testMessages.body, "MessageBody is different than expected");
-      should.equal(
-        msgs[0].messageId,
-        testMessages.messageId,
-        "MessageId is different than expected"
-      );
-      should.equal(msgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
-      await msgs[0].defer();
-      msgs = await receiverClient.receiveDeferredMessages([msgs[0].sequenceNumber!]);
-      await msgs[0].complete();
+      await testComplete();
     });
 
     it("Partitioned Subscription with Sessions: complete() removes message", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions);
-      await testComplete(true);
+      await testComplete();
     });
 
     it("Unpartitioned Queue with Sessions: complete() removes message #RunInBrowser", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-      await testComplete(true);
+      await testComplete();
     });
 
     it("Unpartitioned Subscription with Sessions: complete() removes message", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
-      await testComplete(true);
+      await testComplete();
     });
 
-    async function testAbandon(useSessions?: boolean): Promise<void> {
-      const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
+    async function testAbandon(): Promise<void> {
+      const testMessages = entityNames.usesSessions
+        ? TestMessage.getSessionSample()
+        : TestMessage.getSample();
       const msg = await sendReceiveMsg(testMessages);
+      await receiverClient.close();
       await msg.abandon();
-
+      receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
       await testPeekMsgsLength(receiverClient, 1);
 
       const messageBatch = await receiverClient.receiveBatch(1);
@@ -202,134 +191,28 @@ describe("Backup message settlement - Through ManagementLink", () => {
       void
     > {
       await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
-      await testAbandon(true);
+      await testAbandon();
     });
 
     it("Partitioned Subscription with Sessions: abandon() retains message with incremented deliveryCount", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions);
-      await testAbandon(true);
+      await testAbandon();
     });
 
     it("Unpartitioned Queue with Sessions: abandon() retains message with incremented deliveryCount #RunInBrowser", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-      await testAbandon(true);
+      await testAbandon();
     });
 
     it("Unpartitioned Subscription with Sessions: abandon() retains message with incremented deliveryCount", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
-      await testAbandon(true);
-    });
-
-    async function testAbandonMsgsTillMaxDeliveryCount(useSessions?: boolean): Promise<void> {
-      const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
-      await senderClient.send(testMessages);
-      let abandonMsgCount = 0;
-
-      while (abandonMsgCount < maxDeliveryCount) {
-        const batch = await receiverClient.receiveBatch(1);
-
-        should.equal(batch.length, 1, "Unexpected number of messages");
-        should.equal(
-          batch[0].messageId,
-          testMessages.messageId,
-          "MessageId is different than expected"
-        );
-        should.equal(
-          batch[0].deliveryCount,
-          abandonMsgCount,
-          "DeliveryCount is different than expected"
-        );
-        abandonMsgCount++;
-
-        await batch[0].abandon();
-      }
-
-      await testPeekMsgsLength(receiverClient, 0);
-
-      const deadLetterMsgsBatch = await deadLetterClient.receiveBatch(1);
-
-      should.equal(
-        Array.isArray(deadLetterMsgsBatch),
-        true,
-        "`ReceivedMessages` from Deadletter is not an array"
-      );
-      should.equal(deadLetterMsgsBatch.length, 1, "Unexpected number of messages");
-      should.equal(
-        deadLetterMsgsBatch[0].body,
-        testMessages.body,
-        "MessageBody is different than expected"
-      );
-      should.equal(
-        deadLetterMsgsBatch[0].messageId,
-        testMessages.messageId,
-        "MessageId is different than expected"
-      );
-
-      await deadLetterMsgsBatch[0].complete();
-
-      await testPeekMsgsLength(deadLetterClient, 0);
-    }
-
-    it("Partitioned Queue: Multiple abandons until maxDeliveryCount.", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.PartitionedQueue);
-      await testAbandonMsgsTillMaxDeliveryCount();
-    });
-
-    it("Partitioned Subscription: Multiple abandons until maxDeliveryCount.", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.PartitionedSubscription);
-      await testAbandonMsgsTillMaxDeliveryCount();
-    });
-
-    it("Unpartitioned Queue: Multiple abandons until maxDeliveryCount.", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
-      await testAbandonMsgsTillMaxDeliveryCount();
-    });
-
-    it("Unpartitioned Subscription: Multiple abandons until maxDeliveryCount.", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedSubscription);
-      await testAbandonMsgsTillMaxDeliveryCount();
-    });
-
-    it("Partitioned Queue with Sessions: Multiple abandons until maxDeliveryCount.", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.PartitionedQueue);
-      await testAbandonMsgsTillMaxDeliveryCount(true);
-    });
-
-    it("Partitioned Subscription with Sessions: Multiple abandons until maxDeliveryCount.", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.PartitionedSubscription);
-      await testAbandonMsgsTillMaxDeliveryCount(true);
-    });
-
-    it("Unpartitioned Queue with Sessions: Multiple abandons until maxDeliveryCount.", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
-      await testAbandonMsgsTillMaxDeliveryCount(true);
-    });
-
-    it("Unpartitioned Subscription with Sessions: Multiple abandons until maxDeliveryCount.", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedSubscription);
-      await testAbandonMsgsTillMaxDeliveryCount(true);
+      await testAbandon();
     });
 
     async function testDefer(useSessions?: boolean): Promise<void> {
@@ -340,8 +223,9 @@ describe("Backup message settlement - Through ManagementLink", () => {
         throw "Sequence Number can not be null";
       }
       const sequenceNumber = msg.sequenceNumber;
+      await receiverClient.close();
       await msg.defer();
-
+      receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
       const deferredMsgs = await receiverClient.receiveDeferredMessage(sequenceNumber);
       if (!deferredMsgs) {
         throw "No message received for sequence number";
@@ -418,7 +302,9 @@ describe("Backup message settlement - Through ManagementLink", () => {
     async function testDeadletter(useSessions?: boolean): Promise<void> {
       const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
       const msg = await sendReceiveMsg(testMessages);
+      await receiverClient.close();
       await msg.deadLetter();
+      receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
 
       await testPeekMsgsLength(receiverClient, 0);
 
