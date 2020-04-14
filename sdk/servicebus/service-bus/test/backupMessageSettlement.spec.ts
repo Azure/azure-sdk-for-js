@@ -18,7 +18,7 @@ import { ReceivedMessageWithLock, DispositionType } from "../src/serviceBusMessa
 const should = chai.should();
 chai.use(chaiAsPromised);
 
-describe.only("Backup message settlement - Through ManagementLink", () => {
+describe("Backup message settlement - Through ManagementLink", () => {
   let serviceBusClient: ServiceBusClientForTests;
 
   let senderClient: Sender;
@@ -97,7 +97,7 @@ describe.only("Backup message settlement - Through ManagementLink", () => {
         should.equal(errorWasThrown, false, "Error was thrown for sessions without session-id");
       }
       receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
-      await testPeekMsgsLength(receiverClient, 0);
+      await testPeekMsgsLength(receiverClient, entityNames.usesSessions ? 1 : 0);
     }
 
     it("Partitioned Queue: complete() removes message", async function(): Promise<void> {
@@ -160,7 +160,7 @@ describe.only("Backup message settlement - Through ManagementLink", () => {
       } catch (err) {
         should.equal(
           err.message,
-          `Failed to ${DispositionType.complete} the message as the AMQP link with which the message was received is no longer alive.`,
+          `Failed to ${DispositionType.abandon} the message as the AMQP link with which the message was received is no longer alive.`,
           "Unexpected error thrown"
         );
         errorWasThrown = true;
@@ -258,7 +258,7 @@ describe.only("Backup message settlement - Through ManagementLink", () => {
       } catch (err) {
         should.equal(
           err.message,
-          `Failed to ${DispositionType.complete} the message as the AMQP link with which the message was received is no longer alive.`,
+          `Failed to ${DispositionType.defer} the message as the AMQP link with which the message was received is no longer alive.`,
           "Unexpected error thrown"
         );
         errorWasThrown = true;
@@ -270,21 +270,29 @@ describe.only("Backup message settlement - Through ManagementLink", () => {
         should.equal(errorWasThrown, false, "Error was thrown for sessions without session-id");
       }
       receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
-      const deferredMsgs = await receiverClient.receiveDeferredMessage(sequenceNumber);
-      if (!deferredMsgs) {
-        throw "No message received for sequence number";
+      if (!entityNames.usesSessions) {
+        const deferredMsgs = await receiverClient.receiveDeferredMessage(sequenceNumber);
+        if (!deferredMsgs) {
+          throw "No message received for sequence number";
+        }
+        should.equal(
+          deferredMsgs.body,
+          testMessages.body,
+          "MessageBody is different than expected"
+        );
+        should.equal(
+          deferredMsgs.messageId,
+          testMessages.messageId,
+          "MessageId is different than expected"
+        );
+        should.equal(deferredMsgs.deliveryCount, 1, "DeliveryCount is different than expected");
+
+        await deferredMsgs.complete();
+
+        await testPeekMsgsLength(receiverClient, 0);
+      } else {
+        await testPeekMsgsLength(receiverClient, 1);
       }
-      should.equal(deferredMsgs.body, testMessages.body, "MessageBody is different than expected");
-      should.equal(
-        deferredMsgs.messageId,
-        testMessages.messageId,
-        "MessageId is different than expected"
-      );
-      should.equal(deferredMsgs.deliveryCount, 1, "DeliveryCount is different than expected");
-
-      await deferredMsgs.complete();
-
-      await testPeekMsgsLength(receiverClient, 0);
     }
 
     it("Partitioned Queue: defer() moves message to deferred queue", async function(): Promise<
@@ -351,7 +359,7 @@ describe.only("Backup message settlement - Through ManagementLink", () => {
       } catch (err) {
         should.equal(
           err.message,
-          `Failed to ${DispositionType.complete} the message as the AMQP link with which the message was received is no longer alive.`,
+          `Failed to ${DispositionType.deadletter} the message as the AMQP link with which the message was received is no longer alive.`,
           "Unexpected error thrown"
         );
         errorWasThrown = true;
@@ -365,30 +373,31 @@ describe.only("Backup message settlement - Through ManagementLink", () => {
 
       receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
 
-      await testPeekMsgsLength(receiverClient, 0);
+      await testPeekMsgsLength(receiverClient, entityNames.usesSessions ? 1 : 0);
+      if (!entityNames.usesSessions) {
+        const deadLetterMsgsBatch = await deadLetterClient.receiveBatch(1);
 
-      const deadLetterMsgsBatch = await deadLetterClient.receiveBatch(1);
+        should.equal(
+          Array.isArray(deadLetterMsgsBatch),
+          true,
+          "`ReceivedMessages` from Deadletter is not an array"
+        );
+        should.equal(deadLetterMsgsBatch.length, 1, "Unexpected number of messages");
+        should.equal(
+          deadLetterMsgsBatch[0].body,
+          testMessages.body,
+          "MessageBody is different than expected"
+        );
+        should.equal(
+          deadLetterMsgsBatch[0].messageId,
+          testMessages.messageId,
+          "MessageId is different than expected"
+        );
 
-      should.equal(
-        Array.isArray(deadLetterMsgsBatch),
-        true,
-        "`ReceivedMessages` from Deadletter is not an array"
-      );
-      should.equal(deadLetterMsgsBatch.length, 1, "Unexpected number of messages");
-      should.equal(
-        deadLetterMsgsBatch[0].body,
-        testMessages.body,
-        "MessageBody is different than expected"
-      );
-      should.equal(
-        deadLetterMsgsBatch[0].messageId,
-        testMessages.messageId,
-        "MessageId is different than expected"
-      );
+        await deadLetterMsgsBatch[0].complete();
 
-      await deadLetterMsgsBatch[0].complete();
-
-      await testPeekMsgsLength(deadLetterClient, 0);
+        await testPeekMsgsLength(deadLetterClient, 0);
+      }
     }
 
     it("Partitioned Queue: deadLetter() moves message to deadletter queue", async function(): Promise<
