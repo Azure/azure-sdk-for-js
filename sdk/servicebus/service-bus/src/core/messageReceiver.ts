@@ -1084,12 +1084,12 @@ export class MessageReceiver extends LinkEntity {
         if (options.propertiesToModify) params.message_annotations = options.propertiesToModify;
         delivery.modified(params);
       } else if (operation === DispositionType.deadletter) {
-        options.error = options.error || {};
-        options.error.info = {
-          ...options.error.info,
+        const error = options.error || {};
+        error.info = {
+          ...error.info,
           ...options.propertiesToModify
         };
-        delivery.reject(options.error);
+        delivery.reject(error);
       }
     });
   }
