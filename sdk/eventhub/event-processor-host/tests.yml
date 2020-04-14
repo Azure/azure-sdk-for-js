@@ -19,15 +19,12 @@ jobs:
         Linux_Node10:
           OSVmImage: "ubuntu-16.04"
           TestType: "node"
-          CloudType: AzureCloud
         Windows_Node10:
           OSVmImage: "windows-2019"
           TestType: "node"
-          CloudType: AzureCloud
         macOS_Node10:
           OSVmImage: "macOS-10.15"
           TestType: "node"
-          CloudType: AzureCloud
       EnvVars:
         EVENTHUB_NAME: $(EVENTHUB_NAME)
         EVENTHUB_CONNECTION_STRING: $(EVENTHUB_CONNECTION_STRING)

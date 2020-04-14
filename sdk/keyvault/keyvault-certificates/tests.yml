@@ -17,34 +17,27 @@ jobs:
         Linux_Node10:
           OSVmImage: "ubuntu-16.04"
           TestType: "node"
-          CloudType: AzureCloud
           PublishCodeCoverage: true
         Windows_Node10:
           OSVmImage: "windows-2019"
           TestType: "node"
-          CloudType: AzureCloud
         macOS_Node10:
           OSVmImage: "macOS-10.15"
           TestType: "node"
-          CloudType: AzureCloud
         Browser_Linux_Node10:
           OSVmImage: "ubuntu-16.04"
           TestType: "browser"
-          CloudType: AzureCloud
           PublishCodeCoverage: true
         Browser_Windows_Node10:
           OSVmImage: "windows-2019"
           TestType: "browser"
-          CloudType: AzureCloud
         Browser_macOS_Node10:
           OSVmImage: "macOS-10.15"
           TestType: "browser"
-          CloudType: AzureCloud
         Linux_Sample10:
           OSVmImage: "ubuntu-16.04"
           NodeVersion: "10.x"
           TestType: "sample"
-          CloudType: AzureCloud
       EnvVars:
         AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
         AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)

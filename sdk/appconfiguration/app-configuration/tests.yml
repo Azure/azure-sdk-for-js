@@ -24,44 +24,35 @@ jobs:
           OSVmImage: "ubuntu-16.04"
           TestType: "node"
           NodeVersion: "10.x"
-          CloudType: AzureCloud
         Windows_Node10:
           OSVmImage: "windows-2019"
           TestType: "node"
           NodeVersion: "10.x"
-          CloudType: AzureCloud
         macOS_Node10:
           OSVmImage: "macOS-10.15"
           TestType: "node"
           NodeVersion: "10.x"
-          CloudType: AzureCloud
         Linux_Node12:
           OSVmImage: "ubuntu-16.04"
           TestType: "node"
           NodeVersion: "12.x"
-          CloudType: AzureCloud
         Windows_Node12:
           OSVmImage: "windows-2019"
           TestType: "node"
           NodeVersion: "12.x"
-          CloudType: AzureCloud
         macOS_Node12:
           OSVmImage: "macOS-10.15"
           TestType: "node"
           NodeVersion: "12.x"
-          CloudType: AzureCloud
         Linux_Node8:
           OSVmImage: "ubuntu-16.04"
           TestType: "node"
           NodeVersion: "8.x"
-          CloudType: AzureCloud
         Windows_Node8:
           OSVmImage: "windows-2019"
           TestType: "node"
           NodeVersion: "8.x"
-          CloudType: AzureCloud
         macOS_Node8:
           OSVmImage: "macOS-10.15"
           TestType: "node"
           NodeVersion: "8.x"
-          CloudType: AzureCloud

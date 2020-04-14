@@ -20,7 +20,6 @@ stages:
               OSVmImage: "windows-2019"
               NodeVersion: "8.x"
               TestType: "node"
-              CloudType: AzureCloud
           PreIntegrationSteps: cosmos-integration-public
           PostIntegrationSteps: cosmos-additional-steps
           EnvVars:

@@ -10,67 +10,54 @@ parameters:
       OSVmImage: "ubuntu-16.04"
       NodeVersion: "8.x"
       TestType: "node"
-      CloudType: AzureCloud
     Linux_Node10:
       OSVmImage: "ubuntu-16.04"
       NodeVersion: "10.x"
       TestType: "node"
-      CloudType: AzureCloud
     Linux_Node12:
       OSVmImage: "ubuntu-16.04"
       NodeVersion: "12.x"
       TestType: "node"
-      CloudType: AzureCloud
     Windows_Node8:
       OSVmImage: "windows-2019"
       NodeVersion: "8.x"
       TestType: "node"
-      CloudType: AzureCloud
     Windows_Node10:
       OSVmImage: "windows-2019"
       NodeVersion: "10.x"
       TestType: "node"
-      CloudType: AzureCloud
     Windows_Node12:
       OSVmImage: "windows-2019"
       NodeVersion: "12.x"
       TestType: "node"
-      CloudType: AzureCloud
     macOS_Node8:
       OSVmImage: "macOS-10.15"
       NodeVersion: "8.x"
       TestType: "node"
-      CloudType: AzureCloud
     macOS_Node10:
       OSVmImage: "macOS-10.15"
       NodeVersion: "10.x"
       TestType: "node"
-      CloudType: AzureCloud
     macOS_Node12:
       OSVmImage: "macOS-10.15"
       NodeVersion: "12.x"
       TestType: "node"
-      CloudType: AzureCloud
     Browser_Linux_Node10:
       OSVmImage: "ubuntu-16.04"
       NodeVersion: "10.x"
       TestType: "browser"
-      CloudType: AzureCloud
     Browser_Windows_Node10:
       OSVmImage: "windows-2019"
       NodeVersion: "10.x"
       TestType: "browser"
-      CloudType: AzureCloud
     Browser_macOS_Node10:
       OSVmImage: "macOS-10.15"
       NodeVersion: "10.x"
       TestType: "browser"
-      CloudType: AzureCloud
     Linux_Sample10:
       OSVmImage: "ubuntu-16.04"
       NodeVersion: "10.x"
       TestType: "sample"
-      CloudType: AzureCloud
 
 jobs:
   - template: ../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
