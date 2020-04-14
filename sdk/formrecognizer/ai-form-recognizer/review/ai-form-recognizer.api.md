@@ -26,7 +26,7 @@ export interface AnalyzeOperationResultModel {
     // Warning: (ae-forgotten-export) The symbol "AnalyzeResult" needs to be exported by the entry point index.d.ts
     analyzeResult?: AnalyzeResult;
     createdOn: Date;
-    lastUpdatedOn: Date;
+    lastModified: Date;
     status: OperationStatus;
 }
 
@@ -69,21 +69,6 @@ export type BeginTrainingOptions<T> = TrainModelOptions & {
 };
 
 // @public
-export type BeginTrainingWithLabelsOptions = FormRecognizerOperationOptions & {
-    prefix?: string;
-    includeSubFolders?: boolean;
-};
-
-// @public
-export interface CommonFieldValue {
-    boundingBox?: Point2D[];
-    confidence?: number;
-    pageNumber?: number;
-    text?: string;
-    textContent?: FormElement[];
-}
-
-// @public
 export type ContentPollerLike = PollerLike<PollOperationState<RecognizeContentResultResponse>, RecognizeContentResultResponse>;
 
 // @public
@@ -93,7 +78,7 @@ export type ContentType = "application/pdf" | "image/jpeg" | "image/png" | "imag
 export interface CustomFormModel {
     createdOn: Date;
     errors?: ErrorInformation[];
-    lastUpdatedOn: Date;
+    lastModified: Date;
     modelId: string;
     models?: CustomFormSubModel[];
     status: ModelStatus;
@@ -115,6 +100,8 @@ export interface CustomFormSubModelField {
     name: string;
 }
 
+// Warning: (ae-forgotten-export) The symbol "CommonFieldValue" needs to be exported by the entry point index.d.ts
+//
 // @public
 export type DateFieldValue = {
     type: "date";
@@ -157,6 +144,7 @@ export interface FormField {
     name?: string;
     value?: FieldValueTypes;
     valueText?: FormText;
+    valueType?: ValueTypes;
 }
 
 // @public
@@ -209,13 +197,11 @@ export type FormPollerLike = PollerLike<PollOperationState<RecognizeFormResultRe
 // @public
 export class FormRecognizerClient {
     constructor(endpointUrl: string, credential: KeyCredential, options?: FormRecognizerClientOptions);
-    beginRecognizeContent(source: FormRecognizerRequestBody, contentType?: ContentType, options?: BeginRecognizeContentOptions): Promise<ContentPollerLike>;
-    // (undocumented)
+    beginRecognizeContent(data: FormRecognizerRequestBody, contentType?: ContentType, options?: BeginRecognizeContentOptions): Promise<ContentPollerLike>;
     beginRecognizeContentFromUrl(documentUrl: string, options?: BeginRecognizeContentOptions): Promise<ContentPollerLike>;
-    beginRecognizeForms(modelId: string, body: FormRecognizerRequestBody, contentType?: ContentType, options?: BeginRecognizeFormsOptions): Promise<FormPollerLike>;
-    // (undocumented)
+    beginRecognizeForms(modelId: string, data: FormRecognizerRequestBody, contentType?: ContentType, options?: BeginRecognizeFormsOptions): Promise<FormPollerLike>;
     beginRecognizeFormsFromUrl(modelId: string, documentUrl: string, options?: BeginRecognizeFormsOptions): Promise<PollerLike<PollOperationState<RecognizeFormResultResponse>, RecognizeFormResultResponse>>;
-    beginRecognizeReceipts(source: FormRecognizerRequestBody, contentType?: ContentType, options?: BeginRecognizeReceiptsOptions): Promise<ReceiptPollerLike>;
+    beginRecognizeReceipts(data: FormRecognizerRequestBody, contentType?: ContentType, options?: BeginRecognizeReceiptsOptions): Promise<ReceiptPollerLike>;
     beginRecognizeReceiptsFromUrl(documentUrl: string, options?: BeginRecognizeReceiptsOptions): Promise<ReceiptPollerLike>;
     readonly endpointUrl: string;
     getFormTrainingClient(): FormTrainingClient;
@@ -275,12 +261,11 @@ export interface FormText {
 // @public
 export class FormTrainingClient {
     constructor(endpointUrl: string, credential: KeyCredential, options?: FormRecognizerClientOptions);
-    beginTraining(source: string, options?: BeginTrainingOptions<FormModelResponse>): Promise<PollerLike<PollOperationState<FormModelResponse>, FormModelResponse>>;
-    beginTrainingWithLabel(source: string, options?: BeginTrainingOptions<FormModelResponse>): Promise<PollerLike<PollOperationState<FormModelResponse>, FormModelResponse>>;
+    beginTraining(blobContainerUrl: string, useLabels?: boolean, options?: BeginTrainingOptions<FormModelResponse>): Promise<PollerLike<PollOperationState<FormModelResponse>, FormModelResponse>>;
     deleteModel(modelId: string, options?: DeleteModelOptions): Promise<RestResponse>;
     readonly endpointUrl: string;
+    getAccountProperties(options?: GetAccountPropertiesOptions): Promise<AccountProperties>;
     getModel(modelId: string, options?: GetModelOptions): Promise<FormModelResponse>;
-    getSummary(options?: GetSummaryOptions): Promise<AccountProperties>;
     listModels(options?: ListModelsOptions): PagedAsyncIterableIterator<ModelInfo, ListModelsResponseModel>;
     }
 
@@ -298,15 +283,10 @@ export interface FormWord extends FormElementCommon {
 }
 
 // @public
-export type GetLabeledModelOptions = FormRecognizerOperationOptions & {
-    includeKeys?: boolean;
-};
+export type GetAccountPropertiesOptions = FormRecognizerOperationOptions;
 
 // @public
 export type GetModelOptions = FormRecognizerOperationOptions;
-
-// @public
-export type GetSummaryOptions = FormRecognizerOperationOptions;
 
 // @public
 export type IntegerFieldValue = {
@@ -363,7 +343,7 @@ export interface Model {
 // @public
 export interface ModelInfo {
     createdOn: Date;
-    lastUpdatedOn: Date;
+    lastModified: Date;
     modelId: string;
     status: ModelStatus;
 }
@@ -378,7 +358,7 @@ export interface Models {
 // @public
 export interface ModelsSummary {
     count: number;
-    lastUpdatedOn: Date;
+    lastModified: Date;
     limit: number;
 }
 
@@ -421,53 +401,6 @@ export { PollerLike }
 export { PollOperationState }
 
 // @public
-export interface RawReceiptResult {
-    docType: "prebuilt:receipt";
-    fields: {
-        [propertyName: string]: FieldValue;
-    };
-    pageRange: FormPageRange;
-}
-
-// @public
-export interface RawUSReceipt {
-    Items: ReceiptItemArrayField;
-    MerchantAddress: StringFieldValue;
-    MerchantName: StringFieldValue;
-    MerchantPhoneNumber: PhoneNumberFieldValue;
-    ReceiptType: StringFieldValue;
-    Subtotal: NumberFieldValue;
-    Tax: NumberFieldValue;
-    Tip: NumberFieldValue;
-    Total: NumberFieldValue;
-    TransactionDate: DateFieldValue;
-    TransactionTime: TimeFieldValue;
-}
-
-// @public
-export interface Receipt {
-    items: ReceiptItem[];
-    merchantAddress?: string;
-    merchantName?: string;
-    merchantPhoneNumber?: string;
-    receiptType: string;
-    subtotal?: number;
-    tax?: number;
-    tip?: number;
-    total?: number;
-    transactionDate?: Date;
-    transactionTime?: string;
-}
-
-// @public
-export interface ReceiptItem {
-    name?: string;
-    price?: number;
-    quantity?: number;
-    totalPrice?: number;
-}
-
-// @public
 export interface ReceiptItemArrayField {
     // (undocumented)
     type: "array";
@@ -479,10 +412,10 @@ export interface ReceiptItemArrayField {
 export type ReceiptItemField = {
     type: "object";
     value: {
-        Name: StringFieldValue;
-        Quantity: NumberFieldValue;
-        Price: NumberFieldValue;
-        TotalPrice: NumberFieldValue;
+        Name?: StringFieldValue;
+        Quantity?: NumberFieldValue;
+        Price?: NumberFieldValue;
+        TotalPrice?: NumberFieldValue;
     };
 } & CommonFieldValue;
 
@@ -490,11 +423,11 @@ export type ReceiptItemField = {
 export type ReceiptPollerLike = PollerLike<PollOperationState<RecognizeReceiptResultResponse>, RecognizeReceiptResultResponse>;
 
 // @public
-export type RecognizeContentOperationResult = {
+export type RecognizeContentOperationResult = Partial<RecognizedContent> & {
     status: OperationStatus;
     createdOn: Date;
-    lastUpdatedOn: Date;
-} & Partial<RecognizedContent>;
+    lastModified: Date;
+};
 
 // @public
 export type RecognizeContentOptions = FormRecognizerOperationOptions;
@@ -523,21 +456,18 @@ export interface RecognizedForm {
     pages: FormPage[];
 }
 
-// @public
-export interface RecognizedPage {
-    fields?: FormField[];
-    formTypeId?: number;
-    pageNumber: number;
+// @public (undocumented)
+export interface RecognizedReceipt {
+    receiptLocale?: string;
+    // (undocumented)
+    recognizedForm: RecognizedForm;
 }
-
-// @public
-export type RecognizedReceipt = RawReceiptResult & Receipt;
 
 // @public
 export type RecognizeFormOperationResult = Partial<FormResult> & {
     status: OperationStatus;
     createdOn: Date;
-    lastUpdatedOn: Date;
+    lastModified: Date;
 };
 
 // @public
@@ -557,13 +487,13 @@ export type RecognizeFormsOptions = FormRecognizerOperationOptions & {
 export type RecognizeReceiptOperationResult = {
     status: OperationStatus;
     createdOn: Date;
-    lastUpdatedOn: Date;
+    lastModified: Date;
 } & Partial<RecognizeReceiptResult>;
 
 // @public
 export interface RecognizeReceiptResult {
-    extractedReceipts?: RecognizedReceipt[];
     rawExtractedPages: FormPage[];
+    recognizedReceipts?: RecognizedReceipt[];
     version: string;
 }
 
@@ -594,6 +524,9 @@ export type TimeFieldValue = {
     value?: string;
 } & CommonFieldValue;
 
+// @public (undocumented)
+export function toUSReceipt(receipt: RecognizedReceipt): USReceipt;
+
 // @public
 export interface TrainingDocumentInfo {
     documentName: string;
@@ -619,11 +552,40 @@ export interface TrainResult {
 // @public
 export type TrainStatus = "succeeded" | "partiallySucceeded" | "failed";
 
+// @public
+export interface USReceipt extends RecognizedReceipt {
+    items: USReceiptItem[];
+    merchantAddress: FormField;
+    merchantName: FormField;
+    merchantPhoneNumber: FormField;
+    receiptType: USReceiptType;
+    subtotal: FormField;
+    tax: FormField;
+    tip: FormField;
+    total: FormField;
+    transactionDate: FormField;
+    transactionTime: FormField;
+}
+
+// @public (undocumented)
+export interface USReceiptItem {
+    name?: FormField;
+    price?: FormField;
+    quantity?: FormField;
+    totalPrice?: FormField;
+}
+
+// @public (undocumented)
+export type USReceiptType = "unrecognized" | "itemized" | "creditCard" | "gas" | "parking";
+
+// @public (undocumented)
+export type ValueTypes = "string" | "date" | "time" | "phoneNumber" | "number" | "integer" | "array" | "object";
+
 
 // Warnings were encountered during analysis:
 //
-// src/formRecognizerClient.ts:71:3 - (ae-forgotten-export) The symbol "BeginRecognizePollState" needs to be exported by the entry point index.d.ts
-// src/formTrainingClient.ts:74:3 - (ae-forgotten-export) The symbol "BeginTrainingPollState" needs to be exported by the entry point index.d.ts
+// src/formRecognizerClient.ts:69:3 - (ae-forgotten-export) The symbol "BeginRecognizePollState" needs to be exported by the entry point index.d.ts
+// src/formTrainingClient.ts:67:3 - (ae-forgotten-export) The symbol "BeginTrainingPollState" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

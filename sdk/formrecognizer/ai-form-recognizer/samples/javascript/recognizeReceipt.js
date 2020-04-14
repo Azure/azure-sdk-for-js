@@ -5,7 +5,7 @@
  * Recognize receipt
  */
 
-const { FormRecognizerClient, AzureKeyCredential } = require("../../dist");
+const { FormRecognizerClient, AzureKeyCredential, toUSReceipt } = require("../../dist");
 const fs = require("fs");
 
 // Load the .env file if it exists
@@ -36,20 +36,18 @@ async function main() {
   }
   console.log(`### Response status ${response.status}`);
 
-  if (!response.extractedReceipts || response.extractedReceipts.length <= 0)
+  if (!response.recognizedReceipts || response.recognizedReceipts.length <= 0)
   {
     throw new Error("Expecting at lease one receipt in analysis result");
   }
 
   console.log("### First receipt:")
-  console.log(response.extractedReceipts[0]);
+  console.log(response.recognizedReceipts[0]);
   console.log("### Items:")
-  console.log("### First receipt:")
-  console.log(response.extractedReceipts[0]);
-  console.log("### Items:")
-  console.table(response.extractedReceipts[0].items, ["name", "quantity", "price", "totalPrice"]);
+  const usReceipt = toUSReceipt(response.recognizedReceipts[0]);
+  console.table(usReceipt.items, ["name", "quantity", "price", "totalPrice"]);
   console.log("### Raw 'MerchantAddress' fields:");
-  console.log(response.extractedReceipts[0].fields["MerchantAddress"])
+  console.log(usReceipt.recognizedForm.fields["MerchantAddress"]);
 }
 
 main().catch((err) => {

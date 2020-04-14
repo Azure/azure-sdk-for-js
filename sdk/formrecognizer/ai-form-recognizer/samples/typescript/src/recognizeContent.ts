@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * Recognize Layout
+ * Recognize Content/Layout
  */
 
 //import { FormRecognizerClient, AzureKeyCredential } from "@azure/ai-form-recognizer";

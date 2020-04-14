@@ -21,7 +21,7 @@
 
 If you use the Azure CLI, replace `<your-resource-group-name>` and `<your-resource-name>` with your own unique names:
 
-```PowerShell
+```bash
 az cognitiveservices account create --kind FormRecognizer --resource-group <your-resource-group-name> --name <your-resource-name>
 ```
 
@@ -49,7 +49,7 @@ Use the [Azure Portal][azure_portal] to browse to your Form Recognizer resource 
 
 **Note:** Sometimes the API key is referred to as a "subscription key" or "subscription API key."
 
-```PowerShell
+```bash
 az cognitiveservices account keys list --resource-group <your-resource-group-name> --name <your-resource-name>
 ```
 
@@ -66,22 +66,19 @@ const client = new CustomFormClient(
 
 ## Key concepts
 
-### ReceiptClient
-A `ReceiptClient` is the Form Recognizer interface to use for analyzing receipts.  It provides operations to extract receipt field values and locations from receipts from the United States.
+### FormRecognizerClient
+A `FormRecognizerClient` is the Form Recognizer interface to use for analyzing receipts, recognizing content from forms, and recognizing data from forms using custom trained models. It provides different methods based on inputs from a URL and inputs from a stream.
 
-### FormLayoutClient
-A `FormLayoutClient` is the Form Recognizer interface to extract layout items from forms.  It provides operations to extract table data and geometry.
-
-### CustomFormClient
-A `CustomFormClient` is the Form Recognizer interface to use for creating, using, and managing custom machine-learned models. It provides operations for training models on forms you provide, and extracting field values and locations from your custom forms.  It also provides operations for viewing and deleting models, as well as understanding how close you are to reaching subscription limits for the number of models you can train.
+### FormTrainingClient
+A `FormTrainingClient` is the Form Recognizer interface to use for creating, using, and managing custom machine-learned models. It provides operations for training models on forms you provide and operations for viewing and deleting models, as well as understanding how close you are to reaching subscription limits for the number of models you can train.
 
 ### Long-Running Operations
 Long-running operations are operations which consist of an initial request sent to the service to start an operation,followed by polling the service at intervals to determine whether the operation has completed or failed, and if it has succeeded, to get the result.
 
-Methods that train models or extract values from forms are modeled as long-running operations.  The client exposes a `begin<operation-name>` method that returns an `Promise<PollerLike>`.  Callers should wait for the operation to complete by calling `pollUntilDone()` on the poller returned from the `begin<operation-name>` method.  A sample code snippet is provided to illustrate using long-running operations [below](#extracting-receipt-values-with-a-long-running-operation).
+Methods that train models or extract values from forms are modeled as long-running operations.  The client exposes a `begin<operation-name>` method that returns an `Promise<PollerLike>`.  Callers should wait for the operation to complete by calling `pollUntilDone()` on the poller returned from the `begin<operation-name>` method.  A sample code snippet is provided to illustrate using long-running operations [below](#recognize-receipts).
 
 ### Training models
-Using the `CustomFormClient`, you can train a machine-learned model on your own form type.  The resulting model will be able to extract values from the types of forms it was trained on.
+Using the `FormTrainingClient`, you can train a machine-learned model on your own form type.  The resulting model will be able to extract values from the types of forms it was trained on.
 
 #### Training without labels
 A model trained without labels uses unsupervised learning to understand the layout and relationships between field names and values in your forms. The learning algorithm clusters the training forms by type and learns what fields and tables are present in each form type.
@@ -93,8 +90,8 @@ A model trained with labels uses supervised learning to extract values you speci
 
 This approach can result in better-performing models, and those models can work with more complex form structures.
 
-### Extracting values from forms
-Using the `CustomFormClient`, you can use your own trained models to extract field values and locations, as well as table data, from forms of the type you trained your models on.  The output of models trained with and without labels differs as described below.
+### Recognizing values from forms
+Using the `FormRecognizerClient`, you can use your own trained models to extract field values and locations, as well as table data, from forms of the type you trained your models on.  The output of models trained with and without labels differs as described below.
 
 #### Using models trained without labels
 Models trained without labels consider each form page to be a different form type.  For example, if you train your model on 3-page forms, it will learn that these are three different types of forms.  When you send a form to it for analysis, it will return a collection of three pages, where each page contains the field names, values, and locations, as well as table data, found on that page.
@@ -103,44 +100,54 @@ Models trained without labels consider each form page to be a different form typ
 Models trained with labels consider a form as a single unit.  For example, if you train your model on 3-page forms with labels, it will learn to extract field values from the locations you've labeled across all pages in the form.  If you sent a document containing two forms to it for analysis, it would return a collection of two forms, where each form contains the field names, values, and locations, as well as table data, found in that form.  Fields and tables have page numbers to identify the pages where they were found.
 
 ### Managing Custom Models
-Using the `CustomFormClient`, you can get, list, and delete the custom models you've trained.  You can also view the count of models you've trained and the maximum number of models your subscription will allow you to store.
+Using the `FormTrainingClient`, you can get, list, and delete the custom models you've trained.  You can also view the count of models you've trained and the maximum number of models your subscription will allow you to store.
 
 
 ## Examples
 The following section provides several code snippets illustrating common patterns used in the Form Recognizer client libraries.
 
-### Extracting receipt values with a long-running operation
+### Recognize Receipts
+
+Recognize data from USA sales receipts using a pre-built model.
 
 ```javascript
-const { ReceiptRecognizerClient, FormRecognizerApiKeyCredential } = require("@azure/ai-form-recognizer");
+const { FormRecognizerClient, AzureKeyCredential, toUSReceipt } = require("@azure/ai-form-recognizer");
 const fs = require("fs");
 
-require("dotenv").config();
-
 async function main() {
-  const endpoint = process.env["COGNITIVE_SERVICE_ENDPOINT"] || "<cognitive services endpoint>";
-  const apiKey = process.env["COGNITIVE_SERVICE_API_KEY"] || "<api key>";
-  const path = "./contoso-allinone.jpg";
+  const endpoint = "<cognitive services endpoint>";
+  const apiKey = || "<api key>";
+  const path = "<path to your receipt document>"; // pdf/jpeg/png/tiff formats
+
   const readStream = fs.createReadStream(path);
 
-  const client = new ReceiptRecognizerClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
-  // start a long-running operation (LRO) to extract receipt data
-  const poller = await client.beginExtractReceipts(readStream, {
-    includeTextDetails: true,
-    onProgress: (state) => { console.log(`analyzing status: ${state.status}`); }
+  const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
+  const poller = await client.beginRecognizeReceipts(readStream, "image/jpeg", {
+    onProgress: (state) => { console.log(`status: ${state.status}`); }
   });
-  await poller.pollUntilDone();
-  response = poller.getResult();
 
-  console.log("### First receipt:")
-  console.log(response.extractedReceipts[0]);
-  console.log("### Items:")
-  console.log("### First receipt:")
-  console.log(response.extractedReceipts[0]);
-  console.log("### Items:")
-  console.table(response.extractedReceipts[0].items, ["name", "quantity", "price", "totalPrice"]);
-  console.log("### Raw 'MerchantAddress' fields:");
-  console.log(response.extractedReceipts[0].fields["MerchantAddress"])
+  await poller.pollUntilDone();
+  const response = poller.getResult();
+  console.log(`### Response status ${response.status}`);
+
+  const usReceipt = toUSReceipt(response.recognizedReceipts[0]);
+  console.log("First receipt:")
+  console.log(`Receipt type: ${usReceipt.receiptType}`)
+  console.log(`Merchant Name: ${usReceipt.merchantName.value} (confidence: ${usReceipt.merchantName.confidence})`);
+  console.log(`Transaction Date: ${usReceipt.transactionDate.value} (confidence: ${usReceipt.transactionDate.confidence})`);
+  const items = usReceipt.items.map((item) => {
+    return {
+      name: `${item.name.value} (confidence: ${item.name.confidence})`,
+      quantity: `${item.quantity.value} (confidence: ${item.quantity.confidence})`,
+      totalPrice: `${item.totalPrice.value} (confidence: ${item.totalPrice.confidence})`
+    }
+  });
+  console.log("Receipt items:");
+  console.table(items, ["name", "quantity", "totalPrice"]);
+
+  // raw fields are also included in the result
+  console.log("Raw 'MerchantAddress' fields:");
+  console.log(usReceipt.recognizedForm.fields["MerchantAddress"]);
 }
 
 main();

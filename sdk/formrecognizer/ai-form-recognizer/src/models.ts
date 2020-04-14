@@ -118,7 +118,7 @@ export interface FormLine extends FormElementCommon {
 //    * Element kind - "checkbox"
 //    */
 //   kind: "checkbox";
-//   checked: boolean;
+//   ...
 // }
 
 /**
@@ -246,24 +246,10 @@ export interface FormField {
    * Value of the field.
    */
   value?: FieldValueTypes;
-}
-
-/**
- * Recognized information from a single page.
- */
-export interface RecognizedPage {
   /**
-   * Page number
+   * Data type of the value property
    */
-  pageNumber: number;
-  /**
-   * Id of recognized form type
-   */
-  formTypeId?: number;
-  /**
-   * List of name/value pairs recognized from the page
-   */
-  fields?: FormField[];
+  valueType?: ValueTypes;
 }
 
 /**
@@ -305,7 +291,7 @@ export interface RecognizedForm {
 /**
  * Properties common to the recognized text field
  */
-export interface CommonFieldValue {
+interface CommonFieldValue {
   /**
    * Text content of the recognized field.
    */
@@ -335,6 +321,16 @@ export type FieldValueTypes =
   | number
   | FieldValue[]
   | { [propertyName: string]: FieldValue };
+
+export type ValueTypes =
+  | "string"
+  | "date"
+  | "time"
+  | "phoneNumber"
+  | "number"
+  | "integer"
+  | "array"
+  | "object";
 
 /**
  * Represents a field of string value.
@@ -419,34 +415,12 @@ export type FieldValue =
 export type ReceiptItemField = {
   type: "object";
   value: {
-    Name: StringFieldValue;
-    Quantity: NumberFieldValue;
-    Price: NumberFieldValue;
-    TotalPrice: NumberFieldValue;
+    Name?: StringFieldValue;
+    Quantity?: NumberFieldValue;
+    Price?: NumberFieldValue;
+    TotalPrice?: NumberFieldValue;
   };
 } & CommonFieldValue;
-
-/**
- * The values in an recognized receipt item field
- */
-export interface ReceiptItem {
-  /**
-   * Name of the receipt item
-   */
-  name?: string;
-  /**
-   * Price of the receipt item
-   */
-  price?: number;
-  /**
-   * Quantity of the receipt item
-   */
-  quantity?: number;
-  /**
-   * Total price of the receipt item
-   */
-  totalPrice?: number;
-}
 
 /**
  * Represents a list of recognized receipt items in a receipt.
@@ -456,128 +430,87 @@ export interface ReceiptItemArrayField {
   value: ReceiptItemField[];
 }
 
-/**
- * Represents recognized receipt fields in a receipt
+/*
+ * Recognized Receipt
  */
-export interface RawUSReceipt {
+export interface RecognizedReceipt {
+  /**
+   * Locale of the receipt
+   */
+  receiptLocale?: string;
+  recognizedForm: RecognizedForm;
+}
+
+export interface USReceiptItem {
+  /**
+   * Name of the receipt item
+   */
+  name?: FormField;
+  /**
+   * Price of the receipt item
+   */
+  price?: FormField;
+  /**
+   * Quantity of the receipt item
+   */
+  quantity?: FormField;
+  /**
+   * Total price of the receipt item
+   */
+  totalPrice?: FormField;
+}
+
+export type USReceiptType = "unrecognized" | "itemized" | "creditCard" | "gas" | "parking";
+
+/**
+ * United States receipt
+ */
+export interface USReceipt extends RecognizedReceipt {
   /**
    * Receipt type field
    */
-  ReceiptType: StringFieldValue;
+  receiptType: USReceiptType;
   /**
    * Merchant name field
    */
-  MerchantName: StringFieldValue;
+  merchantName: FormField;
   /**
    * Merchant phone number field
    */
-  MerchantPhoneNumber: PhoneNumberFieldValue;
+  merchantPhoneNumber: FormField;
   /**
    * Merchant address field
    */
-  MerchantAddress: StringFieldValue;
+  merchantAddress: FormField;
   /**
    * Receipt item list field
    */
-  Items: ReceiptItemArrayField;
+  items: USReceiptItem[];
   /**
    * Subtotal field
    */
-  Subtotal: NumberFieldValue;
+  subtotal: FormField;
   /**
    * Tax field
    */
-  Tax: NumberFieldValue;
+  tax: FormField;
   /**
    * Tip field
    */
-  Tip: NumberFieldValue;
+  tip: FormField;
   /**
    * Total field
    */
-  Total: NumberFieldValue;
+  total: FormField;
   /**
    * Transaction date field
    */
-  TransactionDate: DateFieldValue;
+  transactionDate: FormField;
   /**
    * Transaction time field
    */
-  TransactionTime: TimeFieldValue;
+  transactionTime: FormField;
 }
-
-/**
- * Represents text values in a receipt
- */
-export interface Receipt {
-  /**
-   * Receipt type, e.g., "Itemized"
-   */
-  receiptType: string;
-  /**
-   * Merchant name
-   */
-  merchantName?: string;
-  /**
-   * Merchant phone number
-   */
-  merchantPhoneNumber?: string;
-  /**
-   * Merchant address
-   */
-  merchantAddress?: string;
-  /**
-   * items in the receipt
-   */
-  items: ReceiptItem[];
-  /**
-   * Subtotal
-   */
-  subtotal?: number;
-  /**
-   * Tax
-   */
-  tax?: number;
-  /**
-   * Tip
-   */
-  tip?: number;
-  /**
-   * Total
-   */
-  total?: number;
-  /**
-   * Transaction date
-   */
-  transactionDate?: Date;
-  /**
-   * Transaction time
-   */
-  transactionTime?: string;
-}
-
-/**
- * Represents an recognized receipt
- */
-export interface RawReceiptResult {
-  /**
-   * Document type.
-   */
-  docType: "prebuilt:receipt";
-  /**
-   * First and last page number where the document is found.
-   */
-  pageRange: FormPageRange;
-  /**
-   * Dictionary of named field values.
-   */
-  fields: { [propertyName: string]: FieldValue };
-}
-
-/**
- * Recognized receipt and values in it
- */
-export type RecognizedReceipt = RawReceiptResult & Receipt;
 
 /**
  * Raw texts recognized from a page in the input document.
@@ -624,7 +557,7 @@ export interface FormPage {
 }
 
 /**
- * Analyze Receipt result.
+ * Recognize receipt result.
  */
 export interface RecognizeReceiptResult {
   /**
@@ -638,11 +571,11 @@ export interface RecognizeReceiptResult {
   /**
    * List of receipts recognized from input document
    */
-  extractedReceipts?: RecognizedReceipt[];
+  recognizedReceipts?: RecognizedReceipt[];
 }
 
 /**
- * Results of an recognize receipt operation
+ * Results of a Recognize Receipt operation
  */
 export type RecognizeReceiptOperationResult = {
   /**
@@ -650,13 +583,13 @@ export type RecognizeReceiptOperationResult = {
    */
   status: OperationStatus; // 'notStarted' | 'running' | 'succeeded' | 'failed';
   /**
-   * Date and time (UTC) when the analyze operation was submitted.
+   * Date and time (UTC) when the form recognition operation was submitted.
    */
   createdOn: Date;
   /**
    * Date and time (UTC) when the status was last updated.
    */
-  lastUpdatedOn: Date;
+  lastModified: Date;
 } & Partial<RecognizeReceiptResult>;
 
 /**
@@ -680,7 +613,7 @@ export type RecognizeReceiptResultResponse = RecognizeReceiptOperationResult & {
 };
 
 /**
- * Recognized information about the layout of the analyzed document
+ * Recognized layout information of the input document
  */
 export interface RecognizedContent {
   /**
@@ -696,20 +629,20 @@ export interface RecognizedContent {
 /**
  * Represents the result from an Recognize Content operation
  */
-export type RecognizeContentOperationResult = {
+export type RecognizeContentOperationResult = Partial<RecognizedContent> & {
   /**
    * Operation status.
    */
   status: OperationStatus; // 'notStarted' | 'running' | 'succeeded' | 'failed';
   /**
-   * Date and time (UTC) when the analyze operation was submitted.
+   * Date and time (UTC) when the recognition operation was submitted.
    */
   createdOn: Date;
   /**
    * Date and time (UTC) when the status was last updated.
    */
-  lastUpdatedOn: Date;
-} & Partial<RecognizedContent>;
+  lastModified: Date;
+};
 
 /**
  * Contains response data for the Recognize Content operation.
@@ -731,24 +664,6 @@ export type RecognizeContentResultResponse = RecognizeContentOperationResult & {
 };
 
 /**
- * Represents the result from an recognize form operation using a model from training without labels.
- */
-export type RecognizeFormOperationResult = Partial<FormResult> & {
-  /**
-   * Operation status.
-   */
-  status: OperationStatus;
-  /**
-   * Date and time (UTC) when the analyze operation was submitted.
-   */
-  createdOn: Date;
-  /**
-   * Date and time (UTC) when the status was last updated.
-   */
-  lastUpdatedOn: Date;
-};
-
-/**
  * Represents an recognized form using a model from training with labels.
  */
 export interface FormResult {
@@ -762,10 +677,28 @@ export interface FormResult {
    */
   forms?: RecognizedForm[];
   /**
-   * List of errors reported during the analyze operation.
+   * List of errors reported during the form recognition operation.
    */
   errors?: ErrorInformation[];
 }
+
+/**
+ * Represents the result from an recognize form operation using a model from training without labels.
+ */
+export type RecognizeFormOperationResult = Partial<FormResult> & {
+  /**
+   * Operation status.
+   */
+  status: OperationStatus;
+  /**
+   * Date and time (UTC) when the form recognition operation was submitted.
+   */
+  createdOn: Date;
+  /**
+   * Date and time (UTC) when the status was last updated.
+   */
+  lastModified: Date;
+};
 
 /**
  * Contains the response data for recognize form operation using a model from training without labels.
@@ -864,7 +797,7 @@ export interface CustomFormModel {
   /**
    * Date and time (UTC) when the status was last updated.
    */
-  lastUpdatedOn: Date;
+  lastModified: Date;
   /**
    * List of document used to train the model and any errors reported for each document.
    */
@@ -900,7 +833,7 @@ export type FormModelResponse = CustomFormModel & {
 };
 
 /**
- * Types of input data allowed to analyze operations
+ * Types of binary data allowed as input to recognition operations
  */
 export type FormRecognizerRequestBody =
   | Blob

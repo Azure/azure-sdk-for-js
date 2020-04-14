@@ -55,9 +55,14 @@ function isArrayBufferView(data: FormRecognizerRequestBody): data is ArrayBuffer
 }
 
 function isSourcePath(data: FormRecognizerRequestBody | SourcePath): data is SourcePath {
-  return "source" in data;
+  return "source" in data && typeof data.source === "string";
 }
 
+/**
+ * Detects the content type of binary data.
+ * See https://en.wikipedia.org/wiki/List_of_file_signatures
+ * @internal
+ */
 export async function getContentType(
   data: Blob | ArrayBuffer | ArrayBufferView | SourcePath
 ): Promise<ContentType | undefined> {

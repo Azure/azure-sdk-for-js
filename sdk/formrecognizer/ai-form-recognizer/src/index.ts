@@ -8,3 +8,4 @@ export * from "./formRecognizerClient";
 export * from "./formTrainingClient";
 
 export * from "./models";
+export { toUSReceipt } from "./transforms";

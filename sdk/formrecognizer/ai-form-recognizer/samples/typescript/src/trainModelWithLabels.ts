@@ -22,7 +22,7 @@ async function main() {
   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
   const trainingClient = client.getFormTrainingClient();
 
-  const poller = await trainingClient.beginTrainingWithLabel(trainingDataSource, {
+  const poller = await trainingClient.beginTraining(trainingDataSource, true, {
     onProgress: (state) => { console.log("training status: "); console.log(state.status); }
   });
   await poller.pollUntilDone();

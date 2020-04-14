@@ -13,10 +13,12 @@ import {
   toFormTable,
   toRecognizeFormResultResponse,
   toReceiptResultResponse,
-  toFormModelResponse
+  toFormModelResponse,
+  toUSReceipt
 } from "../src/transforms";
 import {
   FormRecognizerClientGetAnalyzeFormResultResponse as GetAnalyzeFormResultResponse,
+  FormRecognizerClientGetAnalyzeReceiptResultResponse as GetAnalyzeReceiptResultResponse,
   FormRecognizerClientGetCustomModelResponse as GetCustomModelResponse,
   ReadResult as ReadResultModel,
   FieldValue as FieldValueModel,
@@ -493,11 +495,28 @@ describe("Transforms", () => {
   });
 
   it("toReceiptResultResponse() converts receipt response", () => {
-    const original = JSON.parse(receiptResponseString);
+    const original: GetAnalyzeReceiptResultResponse = JSON.parse(receiptResponseString);
     const transformed = toReceiptResultResponse(original);
 
-    assert.ok(transformed.extractedReceipts, "Expecting non-empty recognized receipts");
-    // TODO: complete after refactoring
+    assert.ok(transformed.recognizedReceipts, "Expecting non-empty recognized receipts");
+    assert.equal(transformed.recognizedReceipts![0].recognizedForm.formType, "prebuilt:receipt");
+    assert.equal(
+      transformed.recognizedReceipts![0].receiptLocale,
+      undefined,
+      "Expecting receipt locale to be 'undefined'"
+    );
+  });
+
+  it("toUSReceipt() converts receipt response", () => {
+    const original: GetAnalyzeReceiptResultResponse = JSON.parse(receiptResponseString);
+    const receiptResult = toReceiptResultResponse(original);
+    const usReceipt = toUSReceipt(receiptResult.recognizedReceipts![0]);
+
+    assert.equal(usReceipt.receiptType, "itemized");
+    assert.equal(usReceipt.receiptLocale, "US");
+    assert.equal(usReceipt.tax.name, "Tax");
+    assert.equal(typeof usReceipt.tip.value!, "number");
+    assert.equal(usReceipt.total.value!, 14.5);
   });
 });
 

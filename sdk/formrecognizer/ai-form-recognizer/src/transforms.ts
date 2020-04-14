@@ -31,10 +31,6 @@ import {
   RecognizedContent,
   RecognizeReceiptResultResponse,
   FieldValue,
-  RawReceiptResult,
-  RecognizedReceipt,
-  RawUSReceipt,
-  ReceiptItemField,
   StringFieldValue,
   DateFieldValue,
   TimeFieldValue,
@@ -46,7 +42,12 @@ import {
   Point2D,
   FormModelResponse,
   CustomFormSubModelField,
-  CustomFormSubModel
+  CustomFormSubModel,
+  RecognizedReceipt,
+  USReceipt,
+  USReceiptType,
+  USReceiptItem,
+  ReceiptItemArrayField
 } from "./models";
 
 export function toBoundingBox(original: number[]): Point2D[] {
@@ -125,7 +126,8 @@ export function toFormField(original: KeyValuePairModel, readResults?: FormPage[
     confidence: original.confidence || 1,
     fieldLabel: toFormText(original.key, readResults),
     valueText: toFormText(original.value, readResults),
-    value: original.value.text
+    value: original.value.text,
+    valueType: "string"
   };
 }
 
@@ -188,7 +190,7 @@ export function toRecognizeFormResultResponse(
   const common = {
     status: original.status,
     createdOn: original.createdOn,
-    lastUpdatedOn: original.createdOn,
+    lastModified: original.lastModified,
     _response: original._response
   };
 
@@ -293,7 +295,9 @@ export function toFieldsFromFieldValue(
       const fieldValue = toFieldValue(original[key], readResults);
       if (fieldValue.type === "array" || fieldValue.type === "object") {
         const formField: FormField = {
-          value: fieldValue.value
+          confidence: 1,
+          value: fieldValue.value,
+          valueType: fieldValue.type
         };
         result[key] = formField;
       } else {
@@ -305,7 +309,8 @@ export function toFieldsFromFieldValue(
             boundingBox: fieldValue.boundingBox,
             textContent: fieldValue.textContent
           },
-          value: fieldValue.value
+          value: fieldValue.value,
+          valueType: fieldValue.type
         };
         result[key] = formField;
       }
@@ -366,7 +371,7 @@ export function toRecognizeContentResultResponse(
   const common = {
     status: original.status,
     createdOn: original.createdOn,
-    lastUpdatedOn: original.lastUpdatedOn,
+    lastModified: original.lastModified,
     _response: original._response
   };
   if (original.status === "succeeded") {
@@ -379,34 +384,98 @@ export function toRecognizeContentResultResponse(
   }
 }
 
-function toReceiptResult(result: DocumentResultModel, readResults: FormPage[]): RecognizedReceipt {
+function toRecognizedReceipt(result: DocumentResultModel, pages: FormPage[]): RecognizedReceipt {
   if (result.docType !== "prebuilt:receipt") {
     throw new RangeError("The document type is not 'prebuilt:receipt'");
   }
 
-  const transformedFields = toFields(result.fields, readResults);
-  const rawReceiptFields = (transformedFields as unknown) as RawUSReceipt;
+  const form = toRecognizedForm(result, pages);
   return {
-    docType: ((result as unknown) as RawReceiptResult).docType,
-    pageRange: { firstPageNumber: result.pageRange[0], lastPageNumber: result.pageRange[1] },
-    receiptType: rawReceiptFields.ReceiptType.value!,
-    merchantName: rawReceiptFields.MerchantName?.value,
-    merchantPhoneNumber: rawReceiptFields.MerchantPhoneNumber?.value,
-    merchantAddress: rawReceiptFields.MerchantAddress?.value,
-    items: rawReceiptFields.Items.value?.map((i) => {
-      return {
-        name: (i as ReceiptItemField).value.Name?.value,
-        quantity: (i as ReceiptItemField).value.Quantity?.value,
-        totalPrice: (i as ReceiptItemField).value.TotalPrice?.value
-      };
-    }),
-    subtotal: rawReceiptFields.Subtotal?.value,
-    tax: rawReceiptFields.Tax?.value,
-    tip: rawReceiptFields.Tip?.value,
-    total: rawReceiptFields.Total?.value,
-    transactionDate: rawReceiptFields.TransactionDate?.value,
-    transactionTime: rawReceiptFields.TransactionTime?.value,
-    fields: transformedFields
+    recognizedForm: form,
+    receiptLocale: undefined
+  };
+}
+
+function toReceiptType(type: FormField): USReceiptType {
+  if (type.valueType === "string" && type.value === "Itemized") {
+    return "itemized";
+  } else {
+    return "unrecognized";
+  }
+}
+
+function toUSReceiptItems(items: ReceiptItemArrayField): USReceiptItem[] {
+  return items.value?.map((item) => {
+    const name: FormField = {
+      name: "Name",
+      confidence: item.value.Name?.confidence,
+      value: item.value.Name?.value,
+      valueType: item.value.Name?.type,
+      valueText: {
+        text: item.value.Name?.text,
+        boundingBox: item.value.Name?.boundingBox,
+        textContent: item.value.Name?.textContent
+      }
+    };
+    const quantity: FormField = {
+      name: "Quantity",
+      confidence: item.value.Quantity?.confidence,
+      value: item.value.Quantity?.value,
+      valueType: item.value.Quantity?.type,
+      valueText: {
+        text: item.value.Quantity?.text,
+        boundingBox: item.value.Quantity?.boundingBox,
+        textContent: item.value.Quantity?.textContent
+      }
+    };
+    const price: FormField = {
+      name: "Price",
+      confidence: item.value.Price?.confidence,
+      value: item.value.Price?.value,
+      valueType: item.value.Price?.type,
+      valueText: {
+        text: item.value.Price?.text,
+        boundingBox: item.value.Price?.boundingBox,
+        textContent: item.value.Price?.textContent
+      }
+    };
+    const totalPrice: FormField = {
+      name: "TotalPrice",
+      confidence: item.value.TotalPrice?.confidence,
+      value: item.value.TotalPrice?.value,
+      valueType: item.value.TotalPrice?.type,
+      valueText: {
+        text: item.value.TotalPrice?.text,
+        boundingBox: item.value.TotalPrice?.boundingBox,
+        textContent: item.value.TotalPrice?.textContent
+      }
+    };
+
+    return {
+      name,
+      quantity,
+      price,
+      totalPrice
+    };
+  });
+}
+
+export function toUSReceipt(receipt: RecognizedReceipt): USReceipt {
+  const form = receipt.recognizedForm;
+  return {
+    ...receipt,
+    receiptLocale: "US",
+    items: toUSReceiptItems((form.fields["Items"] as unknown) as ReceiptItemArrayField),
+    merchantAddress: form.fields["MerchantAddress"],
+    merchantName: form.fields["MerchantName"],
+    merchantPhoneNumber: form.fields["MerchantPhoneNumber"],
+    receiptType: toReceiptType(form.fields["ReceiptType"]),
+    subtotal: form.fields["Subtotal"],
+    tax: form.fields["Tax"],
+    tip: form.fields["Tip"],
+    total: form.fields["Total"],
+    transactionDate: form.fields["TransactionDate"],
+    transactionTime: form.fields["TransactionTime"]
   };
 }
 
@@ -416,20 +485,20 @@ export function toReceiptResultResponse(
   const common = {
     status: result.status,
     createdOn: result.createdOn,
-    lastUpdatedOn: result.lastUpdatedOn,
+    lastModified: result.lastModified,
     _response: result._response
   };
   if (result.status !== "succeeded") {
     return common;
   }
 
-  const readResults = result.analyzeResult!.readResults.map(toFormPage);
+  const pages = result.analyzeResult!.readResults.map(toFormPage);
   return {
     ...common,
     version: result.analyzeResult!.version,
-    rawExtractedPages: readResults,
-    extractedReceipts: result.analyzeResult!.documentResults!.map((d) =>
-      toReceiptResult(d, readResults)
+    rawExtractedPages: pages,
+    recognizedReceipts: result.analyzeResult!.documentResults!.map((d) =>
+      toRecognizedReceipt(d, pages)
     )
   };
 }

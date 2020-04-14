@@ -6,7 +6,7 @@
  */
 
 //import { FormRecognizerClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
-import { FormRecognizerClient, AzureKeyCredential } from "../../../src/index";
+import { FormRecognizerClient, AzureKeyCredential, toUSReceipt } from "../../../src/index";
 
 import * as fs from "fs";
 
@@ -38,17 +38,18 @@ async function main() {
   }
   console.log(`### Response status ${response.status}`);
 
-  if (!response.extractedReceipts || response.extractedReceipts.length <= 0)
+  if (!response.recognizedReceipts || response.recognizedReceipts.length <= 0)
   {
     throw new Error("Expecting at lease one receipt in analysis result");
   }
 
   console.log("### First receipt:")
-  console.log(response.extractedReceipts[0]);
+  console.log(response.recognizedReceipts[0]);
   console.log("### Items:")
-  console.table(response.extractedReceipts[0].items, ["name", "quantity", "price", "totalPrice"]);
+  const usReceipt = toUSReceipt(response.recognizedReceipts[0]);
+  console.table(usReceipt.items, ["name", "quantity", "price", "totalPrice"]);
   console.log("### Raw 'MerchantAddress' fields:");
-  console.log(response.extractedReceipts[0]?.fields["MerchantAddress"])
+  console.log(usReceipt.recognizedForm.fields["MerchantAddress"]);
 }
 
 main().catch((err) => {
