@@ -89,7 +89,7 @@ Some options to consider:
    });
    ```
 
-2. Add a `stop()` method
+2. Add a `stop()` method at the Receiver level.
 
    We could make it possible for users to stop (ie, `pause`) a receiver (meaning - remove credits and subscription
    event handlers).
