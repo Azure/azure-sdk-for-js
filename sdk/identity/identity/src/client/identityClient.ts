@@ -41,7 +41,16 @@ export class IdentityClient extends ServiceClient {
 
   constructor(options?: TokenCredentialOptions) {
     if (isNode) {
-      options = options || getAuthorityHostEnvironment();
+      let authorityHostEnv = getAuthorityHostEnvironment();
+      if (authorityHostEnv) {
+        if (options) {
+          // If there are already options, just override the authority host with the environment's
+          options.authorityHost = authorityHostEnv.authorityHost;
+        } else {
+          // If there are no options, go ahead and create them using the authority host environment
+          options = authorityHostEnv;
+        }
+      }
     }
     options = options || IdentityClient.getDefaultOptions();
     super(
