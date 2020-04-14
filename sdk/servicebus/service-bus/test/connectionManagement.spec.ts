@@ -70,7 +70,7 @@ describe("controlled connection initialization", () => {
 
     // acquire the same lock that open() uses and then, while it's 100% locked,
     // attempt to call .open() and see that it just blocks...
-    defaultLock.acquire(sender["_context"]!.sender!.senderLock, async () => {
+    await defaultLock.acquire(sender["_context"]!.sender!.senderLock, async () => {
       const secondOpenCallPromise = sender.open();
       const ret = await Promise.race([delay(1000, 999), secondOpenCallPromise]);
       assert.equal(typeof ret, "number");

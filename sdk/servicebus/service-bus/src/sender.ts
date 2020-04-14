@@ -87,7 +87,7 @@ export class Sender {
    * recommended to call this before your first send() or sendBatch() call if you
    * want to front load the work of setting up the AMQP link to the service.
    */
-  open() {
+  async open(): Promise<void> {
     // the underlying `MessageSender` initialization will both
     // cache the sender in the context for the next send and
     // ensure the link and connection are initialized.
