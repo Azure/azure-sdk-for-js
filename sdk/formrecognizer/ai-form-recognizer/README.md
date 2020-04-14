@@ -106,9 +106,9 @@ Using the `FormTrainingClient`, you can get, list, and delete the custom models 
 ## Examples
 The following section provides several code snippets illustrating common patterns used in the Form Recognizer client libraries.
 
-### Recognize Receipts
+### Recognize receipts
 
-Recognize data from USA sales receipts using a pre-built model.
+Recognize data from USA sales receipts using the pre-built model.
 
 ```javascript
 const { FormRecognizerClient, AzureKeyCredential, toUSReceipt } = require("@azure/ai-form-recognizer");
@@ -153,41 +153,124 @@ async function main() {
 main();
 ```
 
-### Training models
+### Recognize content
+
+Recognize text and table structures, along with their bounding box, from documents
 
 ```javascript
-const { FormRecognizerClient, FormRecognizerApiKeyCredential } = require("@azure/ai-form-recognizer");
+const { FormRecognizerClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
+const fs = require("fs");
 
 async function main() {
-  const endpoint = process.env["COGNITIVE_SERVICE_ENDPOINT"] || "<cognitive services endpoint>";
-  const apiKey = process.env["COGNITIVE_SERVICE_API_KEY"] || "<api key>";
-  const trainingDataSource = process.env["DOCUMENT_SOURCE"] || "<url to Azure blob container storing the training documents>";
+  const endpoint = "<cognitive services endpoint>";
+  const apiKey = || "<api key>";
+  const path = "<path to your receipt document>"; // pdf/jpeg/png/tiff formats
 
-  const client = new FormRecognizerClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
-  // start a long-running operation (LRO) to train the model
-  const poller = await client.beginTraining(trainingDataSource, {
-    onProgress: (state) => { console.log(`training status: ${state.status}`); }
-  });
+  const readStream = fs.createReadStream(path);
+
+  const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
+  const poller = await client.beginRecognizeContent(readStream);
   await poller.pollUntilDone();
-  const model = poller.getResult();
-  console.log(model);
+  const response = poller.getResult();
+
+  if (!response) {
+    throw new Error("Expecting valid response!");
+  }
+
+  console.log(response.status);
+  for (const page of response.pages) {
+    console.log(`Page ${page.pageNumber}: width ${page.width} and height ${page.height} with unit ${page.unit}`);
+    for (const table of page.tables) {
+      for (const row of table.rows) {
+        for (const cell of row.cells) {
+          console.log(`cell [${cell.rowIndex},${cell.columnIndex}] has text ${cell.text}`);
+        }
+      }
+    }
+  }
 }
 
 main();
 ```
 
+### Train model
+
+Train a machine-learned model on your own form type. The resulting model will be able to recognize values from the types of forms it was trained on. Provide a container SAS url to your Azure Storage Blob container where you're storing the training documents. See details on setting this up in the [service quickstart documentation](servicequickstart).
+
+```javascript
+const { FormRecognizerClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
+
+async function main() {
+  const endpoint = "<cognitive services endpoint>";
+  const apiKey = "<api key>";
+  const containerSasUrl = "<SAS url to the blob container storing training documents>";
+
+  const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
+  const trainingClient = client.getFormTrainingClient();
+
+  const poller = await trainingClient.beginTraining(containerSasUrl, false, {
+    onProgress: (state) => { console.log(`training status: ${state.status}`); }
+  });
+
+  await poller.pollUntilDone();
+  const response = poller.getResult();
+}
+
+main();
+```
+
+### Recognize forms using a custom model
+
+```javascript
+const { FormRecognizerClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
+
+async function main() {
+  const endpoint = "<cognitive services endpoint>";
+  const apiKey = "<api key>";
+  const modelId = "<model id>";
+  const path = "<path to a form document>";
+
+  const readStream = fs.createReadStream(path);
+
+  const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
+  const poller = await client.beginRecognizeForms(modelId, readStream, "application/pdf", {
+    onProgress: (state) => { console.log(`status: ${state.status}`); }
+  });
+  await poller.pollUntilDone();
+  const response = poller.getResult();
+
+  console.log(response.status);
+  console.log("Forms:")
+  for (const form of response.forms || []) {
+    console.log(`${form.formType}, page range: ${form.pageRange}`);
+    console.log("Fields:");
+    for (const fieldName in form.fields) {
+      // each field is of type FormField
+      const field = form.fields[fieldName];
+      console.log(`Field ${fieldName} has value '${field.value}' with a confidence score of ${field.confidence}`)
+    }
+  }
+
+  console.log("Errors:");
+  console.log(response.errors);
+}
+
+main()
+```
+
 ### Listing all models in the current cognitive service account
 
 ```javascript
-const { FormRecognizerClient, FormRecognizerApiKeyCredential } = require("../../dist");
+const { FormRecognizerClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
 
 async function main() {
-  const endpoint = process.env["COGNITIVE_SERVICE_ENDPOINT"] || "<cognitive services endpoint>";
-  const apiKey = process.env["COGNITIVE_SERVICE_API_KEY"] || "<api key>";
+  const endpoint = "<cognitive services endpoint>";
+  const apiKey = "<api key>";
   const client = new FormRecognizerClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
+  const trainingClient = client.getFormTrainingClient();
 
   // returns an async iteratable iterator that supports paging
-  const result = await client.listModels();
+  const result = await trainingClient.listModels();
   let i = 0;
   for await (const modelInfo of result) {
     console.log(`model ${i++}:`);
@@ -265,3 +348,4 @@ If you'd like to contribute to this library, please read the [contributing guide
 [cognitive_auth]: https://docs.microsoft.com/azure/cognitive-services/authentication
 [register_aad_app]: https://docs.microsoft.com/azure/cognitive-services/authentication#assign-a-role-to-a-service-principal
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity#defaultazurecredential
+[servicequickstart]: https://docs.microsoft.com/azure/cognitive-services/form-recognizer/quickstarts/curl-train-extract#train-a-form-recognizer-model

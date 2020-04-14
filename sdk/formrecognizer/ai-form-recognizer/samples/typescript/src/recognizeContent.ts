@@ -25,9 +25,7 @@ async function main() {
   const readStream = fs.createReadStream(path);
 
   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
-  const poller = await client.beginRecognizeContent(readStream, "application/pdf", {
-    onProgress: (state) => { console.log(`status: ${state.status}`); }
-  });
+  const poller = await client.beginRecognizeContent(readStream);
   await poller.pollUntilDone();
   const response = poller.getResult();
 
@@ -36,7 +34,17 @@ async function main() {
   }
 
   console.log(response.status);
-  console.log(response.pages);
+
+  for (const page of response.pages!) {
+    console.log(`Page ${page.pageNumber}: width ${page.width} and height ${page.height} with unit ${page.unit}`);
+    for (const table of page.tables!) {
+      for (const row of table.rows) {
+        for (const cell of row.cells) {
+          console.log(`cell [${cell.rowIndex},${cell.columnIndex}] has text ${cell.text}`);
+        }
+      }
+    }
+  }
 }
 
 main().catch((err) => {
