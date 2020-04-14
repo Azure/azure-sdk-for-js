@@ -81,10 +81,11 @@ export class Sender {
   }
 
   /**
-   * Ensures that the Service Bus connection and sender link is open.
+   * Opens the AMQP link to Azure Service Bus from the sender.
    *
-   * This method will be called on-demand by the Sender. Only call this method if you need
-   * to force the opening of the connection and link.
+   * It is not necessary to call this method in order to use the sender. It is
+   * recommended to call this before your first send() or sendBatch() call if you
+   * want to front load the work of setting up the AMQP link to the service.
    */
   open() {
     // the underlying `MessageSender` initialization will both
