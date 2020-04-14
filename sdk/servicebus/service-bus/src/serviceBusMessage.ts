@@ -1149,9 +1149,16 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
     propertiesToModify?: { [key: string]: any }
   ) {
     if (this.sessionId != undefined) {
+      const operationNameMapping = {
+        abandoned: DispositionType.abandon,
+        completed: DispositionType.complete,
+        defered: DispositionType.defer,
+        suspended: DispositionType.deadletter,
+        renewed: "renewLock"
+      };
       throw translate({
         description:
-          `Failed to ${operation} the message as the AMQP link with which the message was ` +
+          `Failed to ${operationNameMapping[operation]} the message as the AMQP link with which the message was ` +
           `received is no longer alive.`,
         condition: ErrorNameConditionMapper.SessionLockLostError
       });
