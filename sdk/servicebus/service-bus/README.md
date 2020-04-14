@@ -170,13 +170,14 @@ To learn more, please read [Settling Received Messages](https://docs.microsoft.c
 
 ### Send messages using Sessions
 
-To send messages using sessions, you first need to create a session enabled Queue or Subscription.
-You can do this in the Azure portal. Then, use an instance of a `ServiceBusClient` to create a sender
-using the the [createSender][sbclient_createsender] function. This gives you a sender which you can use
-to [send][sender_send] messages.
+> Using sessions requires you to create a session enabled Queue or Subscription. You can
+> read more about how to configure this feature in the portal [here][docsms_messagesessions_fifo].
 
-When sending the message, set the `sessionId` property in the message to ensure your message
-lands in the right session.
+In order to send messages to a session, use the `ServiceBusClient` to create a sender using
+[createSender][sbclient_createsender]. This gives you a sender which you can use to [send][sender_send] messages.
+
+When sending the message, set the `sessionId` property in the message to ensure
+your message lands in the right session.
 
 ```javascript
 const sender = serviceBusClient.createSender("my-session-queue");
@@ -186,25 +187,47 @@ await sender.send({
 });
 ```
 
+You can read more about how sessions work [here][docsms_messagesessions].
+
 ### Receive messages from Sessions
 
-To receive messages from sessions, you first need to create a session enabled Queue (or Subscription)
-and send messages to it.
+> Using sessions requires you to create a session enabled Queue or Subscription. You can
+> read more about how to configure this feature in the portal [here][docsms_messagesessions_fifo].
 
-Then, using an instance of `ServiceBusClient`, you can call [createSessionReceiver][sbclient_createsessionreceiver]
-with a specific `sessionId` or with no session id, which will give you the next available unlocked session.
+Unlike non-session-enabled Queues or Subscriptions, only a single receiver
+can read from a session at any time. This is enforced by _locking_ a session,
+which is handled by Service Bus. Conceptually, this is similar to how message
+locking works when using `peekLock` mode - when a message (or session) is
+locked your receiver has exclusive access to it.
 
-```javascript
-const receiver = serviceBusClient.createSessionReceiver("my-session-queue", "peekLock", {
-  sessionId: "my-session",
-});
-```
+In order to open and lock a session, use an instance of `ServiceBusClient` to create a [SessionReceiver][sessionreceiver] using [createSessionReceiver][sbclient_createsessionreceiver].
 
-You can use this receiver in one of 3 ways to receive messages
+There are two ways of choosing which session to open:
+
+1. Specify a `sessionId`, which locks a named session.
+
+   ```javascript
+   const receiver = serviceBusClient.createSessionReceiver("my-session-queue", "peekLock", {
+     sessionId: "my-session",
+   });
+   ```
+
+2. Do not specify a session id. In this case Service Bus will find the next available session
+   that is not already locked.
+
+   ```javascript
+   const receiver = serviceBusClient.createSessionReceiver("my-session-queue", "peekLock");
+   ```
+
+   You can find the name of the session via the `sessionId` property on the `SessionReceiver`.
+
+Once the receiver is created you can use choose between 3 ways to receive messages:
 
 - [Get an array of messages](#get-an-array-of-messages)
 - [Subscribe using a message handler](#subscribe-using-a-message-handler)
 - [Use async iterator](#use-async-iterator)
+
+You can read more about how sessions work [here][docsms_messagesessions].
 
 ## Troubleshooting
 
@@ -285,3 +308,5 @@ If you'd like to contribute to this library, please read the [contributing guide
 [receiver_getmessageiterator]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.1/interfaces/receiver.html#getmessageiterator
 [sessionreceiver]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.1/interfaces/sessionreceiver.html
 [migrationguide]: https://github.com/Azure/azure-sdk-for-js/blob/%40azure/service-bus_7.0.0-preview.1/sdk/servicebus/service-bus/migrationguide.md
+[docsms_messagesessions]: https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sessions
+[docsms_messagesessions_fifo]: https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sessions#first-in-first-out-fifo-pattern
