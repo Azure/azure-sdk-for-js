@@ -1,4 +1,4 @@
-# Handling settling messages @azure/service-bus v7
+# Coordinate message settling with Receiver shutdown in @azure/service-bus v7
 
 Customers are having issues with coordinating the proper settling of
 messages in combination with closing their Receiver. This can happen
