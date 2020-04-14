@@ -102,9 +102,12 @@ Originally - yes!
 However, as we discuss this there are parts that don't conform to our existing model
 with our receivers.
 
-For instance, sessions allow you to store and retrieve state for the session itself. `SessionReceiver`
+Sessions allow you to store and retrieve state for the session itself. `SessionReceiver`
 provides these methods, which any user that is reading from or dealing with a session can use but
 these would not be available in the same signature with the `SesssionManager`.
+
+There are also a variety of other methods like`receiveDeferredMessages`,`peek`,`receiveBatch`
+that make sense when taken against a single receiver but not, as this class would be, in aggregate.
 
 So some changes:
 
