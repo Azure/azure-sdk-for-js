@@ -78,9 +78,15 @@ interface SessionManagerOptions {
   // the maximum number of receivers that can be active at any
   // time. Allows the customer to avoid getting steamrolled by too many
   // sessions.
-  concurrentReceivers: number;
+  maxConcurrentReceivers: number;
 
-  // TODO: I'd be curious about other potential options here.
+  // new feature (and probably pushed down to SessionReceiver as well) to enable auto-renewal
+  // of the session lock.
+  maxSessionAutoRenewLockDurationInMs?: number;
+
+  // quite a few of the options available in MessageHandler (used for normal Receiver subscribe)
+  // would also apply here.
+  autoComplete?: boolean;
 }
 
 interface SessionManager {
