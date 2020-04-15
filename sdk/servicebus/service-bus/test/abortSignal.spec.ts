@@ -14,7 +14,7 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { ServiceBusMessageBatch } from "../src/serviceBusMessageBatch";
 import { delay, AwaitableSender } from "rhea-promise";
 
-describe("AbortSignal #RunInBrowser", () => {
+describe("AbortSignal", () => {
   const testMessageThatDoesntMatter = {
     body: "doesn't matter"
   };
