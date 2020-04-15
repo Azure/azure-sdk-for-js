@@ -2,7 +2,8 @@
 // Licensed under the MIT License.
 
 /**
- * Train Form Recognizer custom models
+ * This sample demonstrates how to train a custom model with labeled data.
+ * See recognizeForm.ts to recognize forms using a custom model.
  */
 
 // const { FormRecognizerClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
@@ -17,13 +18,13 @@ async function main() {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["COGNITIVE_SERVICE_ENDPOINT"] || "<cognitive services endpoint>";
   const apiKey = process.env["COGNITIVE_SERVICE_API_KEY"] || "<api key>";
-  const trainingDataSource = process.env["LABELED_DOCUMENT_SOURCE"] || "<url/path to the labeled training documents>";
+  const containerSasUrl = process.env["LABELED_DOCUMENT_SOURCE"] || "<url/path to the labeled training documents>";
 
   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
   const trainingClient = client.getFormTrainingClient();
 
   const poller = await trainingClient.beginTraining(
-    trainingDataSource,
+    containerSasUrl,
     true, {
       onProgress: (state) => { console.log(`training status: ${state.status}`); }
   });

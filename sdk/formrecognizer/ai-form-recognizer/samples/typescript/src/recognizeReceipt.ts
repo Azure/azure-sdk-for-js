@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * Recognize receipt
+ * This sample demonstrates how to recognize US sales receipts from a file.
  */
 
 //import { FormRecognizerClient, AzureKeyCredential } from "@azure/ai-form-recognizer";

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * Recognize receipt from url
+ * This sample demonstrates how to recognize US sales receipts from a URL.
  */
 
 const { FormRecognizerClient, AzureKeyCredential } = require("../../dist");
@@ -16,9 +16,9 @@ async function main() {
   const apiKey = process.env["COGNITIVE_SERVICE_API_KEY"] || "<api key>";
 
   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
-  const imageUrl = "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-REST-api-samples/master/curl/form-recognizer/contoso-allinone.jpg";
+  const url = "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-REST-api-samples/master/curl/form-recognizer/contoso-allinone.jpg";
 
-  const poller = await client.beginRecognizeReceiptsFromUrl(imageUrl, {
+  const poller = await client.beginRecognizeReceiptsFromUrl(url, {
     includeTextDetails: true,
     onProgress: (state) => { console.log(`analyzing status: ${state.status}`); }
   });
