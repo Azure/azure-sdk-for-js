@@ -52,13 +52,17 @@
     "prebuild": "npm run clean",
     "pack": "npm pack 2>&1",
     "swagger": "autorest --typescript swagger/swagger.md",
-    "test": "npm run build:test && mocha -t 1200000 test-dist/index.node.js --reporter ../../../common/tools/mocha-multi-reporter.js",
-    "unit-test:browser": "echo skipped",
-    "unit-test:node": "npm run test",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "integration-test:browser": "echo skipped",
-    "integration-test:node": "npm run test",
-    "integration-test": "npm run unit-test:node && npm run unit-test:browser"
+    "integration-test:browser": "karma start --single-run",
+    "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace dist-esm/test/*.spec.js",
+    "integration-test:node:no-timeout": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --no-timeouts --full-trace dist-esm/test/*.spec.js",
+    "integration-test": "npm run unit-test:node && npm run unit-test:browser",
+    "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
+    "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
+    "test": "npm run clean && npm run build:test && npm run unit-test",
+    "unit-test:browser": "karma start --single-run",
+    "unit-test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace dist-test/index.node.js",
+    "unit-test:node:no-timeout": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --no-timeouts --full-trace dist-test/index.node.js",
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "sideEffects": false,
   "autoPublish": false,
@@ -80,6 +84,7 @@
   },
   "devDependencies": {
     "@azure/identity": "1.1.0-preview.2",
+    "@azure/test-utils-recorder": "^1.0.0",
     "@microsoft/api-extractor": "^7.5.4",
     "@rollup/plugin-commonjs": "^11.0.1",
     "@rollup/plugin-multi-entry": "^3.0.0",
@@ -109,6 +114,7 @@
     "sinon": "^7.1.0",
     "ts-node": "^8.3.0",
     "typescript": "~3.7.5",
-    "uglify-js": "^3.4.9"
+    "uglify-js": "^3.4.9",
+    "@rollup/plugin-json": "^4.0.0"
   }
 }

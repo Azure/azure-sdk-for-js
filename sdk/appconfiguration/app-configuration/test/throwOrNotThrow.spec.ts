@@ -2,9 +2,11 @@ import { AppConfigurationClient, ConfigurationSetting } from "../src";
 import {
   createAppConfigurationClientForTests,
   deleteKeyCompletely,
-  assertThrowsRestError
+  assertThrowsRestError,
+  startRecorder
 } from "./testHelpers";
 import * as assert from "assert";
+import { Recorder } from '@azure/test-utils-recorder';
 
 // There's been discussion on other teams about what errors are thrown when. This
 // is the file where I've documented the throws/notThrows cases to make coordination
@@ -12,10 +14,16 @@ import * as assert from "assert";
 // that's okay)
 describe("Various error cases", () => {
   let client: AppConfigurationClient;
+  let recorder: Recorder;
   const nonMatchingETag = "never-match-etag";
 
-  before(function() {
+  beforeEach(function() {
+    recorder = startRecorder(this);
     client = createAppConfigurationClientForTests() || this.skip();
+  });
+
+  afterEach(function() {
+    recorder.stop();
   });
 
   describe("throws", () => {
@@ -24,7 +32,7 @@ describe("Various error cases", () => {
 
     beforeEach(async () => {
       addedSetting = await client.addConfigurationSetting({
-        key: `etags-${Date.now()}`,
+        key: recorder.getUniqueName(`etags`),
         value: "world"
       });
 
@@ -85,7 +93,7 @@ describe("Various error cases", () => {
 
       // the 'no label' value for 'hello'
       addedSetting = await client.addConfigurationSetting({
-        key: `etags-${Date.now()}`,
+        key: recorder.getUniqueName(`etags`),
         value: "world"
       });
 

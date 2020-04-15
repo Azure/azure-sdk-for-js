@@ -4,6 +4,7 @@ import cjs from "@rollup/plugin-commonjs";
 import replace from "@rollup/plugin-replace";
 import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
+import json from "@rollup/plugin-json";
 
 const pkg = require("./package.json");
 const depNames = Object.keys(pkg.dependencies);
@@ -35,7 +36,10 @@ export function nodeConfig(test = false) {
   if (test) {
     // Entry points - test files under the `test` folder(common for both browser and node), node specific test files
     baseConfig.input = ["dist-esm/test/**/*.spec.js"];
-    baseConfig.plugins.unshift(multiEntry({ exports: false }));
+    baseConfig.plugins.unshift(
+      multiEntry({ exports: false }),
+      json() // This allows us to import/require the package.json file, to get the version and test it against the user agent.
+    );
 
     // different output file
     baseConfig.output.file = "test-dist/index.node.js";

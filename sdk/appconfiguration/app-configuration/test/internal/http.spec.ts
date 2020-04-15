@@ -9,7 +9,7 @@ import { getGeneratedClientOptions, packageVersion } from "../../src/appConfigur
 import { createAppConfigurationClientForTests, assertThrowsRestError } from "../testHelpers";
 import * as chai from "chai";
 
-describe("http request related tests", () => {
+describe("http request related tests", function() {
   describe("unit tests", () => {
     describe("parseSyncToken", () => {
       it("can parse various sync tokens", () => {

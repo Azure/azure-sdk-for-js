@@ -2,30 +2,33 @@ import {
   createAppConfigurationClientForTests,
   assertThrowsRestError,
   deleteKeyCompletely,
-  assertThrowsAbortError
+  assertThrowsAbortError,
+  startRecorder
 } from "./testHelpers";
 import { AppConfigurationClient } from "../src";
 import * as assert from "assert";
+import { Recorder, isPlaybackMode } from '@azure/test-utils-recorder';
 
 describe("AppConfigurationClient (set|clear)ReadOnly", () => {
   let client: AppConfigurationClient;
+  let recorder: Recorder;
   const testConfigSetting = {
-    key: `readOnlyTests-${Date.now()}`,
+    key: "",
     value: "world",
     label: "some label"
   };
 
-  before(function() {
+  beforeEach(function() {
+    recorder = startRecorder(this);
+    testConfigSetting.key = recorder.getUniqueName("readOnlyTests");
     client = createAppConfigurationClientForTests() || this.skip();
   });
 
-  after(async function() {
-    if (!this.currentTest?.isPending()) {
-      await deleteKeyCompletely([testConfigSetting.key], client);
-    }
+  afterEach(function() {
+    recorder.stop();
   });
 
-  it("basic", async () => {
+  it("basic", async function() {
     // before it's set to read only we can set it all we want
     await client.setConfigurationSetting(testConfigSetting);
 
@@ -58,9 +61,14 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
       409,
       "Delete should fail because the setting is read-only"
     );
+
+    await deleteKeyCompletely([testConfigSetting.key], client);
   });
 
-  it("accepts operation options", async () => {
+  it("accepts operation options", async function() {
+    // before it's set to read only we can set it all we want
+    await client.setConfigurationSetting(testConfigSetting);
+
     let storedSetting = await client.getConfigurationSetting({
       key: testConfigSetting.key,
       label: testConfigSetting.label
@@ -72,5 +80,7 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
     await assertThrowsAbortError(async () => {
       await client.setReadOnly(testConfigSetting, false, { requestOptions: { timeout: 1 } });
     });
+
+    await deleteKeyCompletely([testConfigSetting.key], client);
   });
 });

@@ -3,45 +3,53 @@
 
 import { AppConfigurationClient } from "../src";
 import {
+  startRecorder,
   createAppConfigurationClientForTests,
   deleteKeyCompletely,
   assertThrowsRestError
 } from "./testHelpers";
 import * as assert from "assert";
+import { Recorder, isRecordMode, isPlaybackMode } from '@azure/test-utils-recorder';
 
 describe("etags", () => {
   let client: AppConfigurationClient;
-  const key = `etags-${Date.now()}`;
+  let recorder: Recorder;
+  let key: string;
 
-  before(function() {
+  beforeEach(function() {
+    recorder = startRecorder(this);
+    key = recorder.getUniqueName("etags");;
     client = createAppConfigurationClientForTests() || this.skip();
   });
 
-  beforeEach(async () => {
-    await client.addConfigurationSetting({
-      key: key,
-      value: "some value"
-    });
-  });
-
-  afterEach(async function() {
-    if (!this.currentTest?.isPending()) {
-      await deleteKeyCompletely([key], client);
-    }
+  afterEach(function() {
+    recorder.stop();
   });
 
   // etag usage is 'opt-in' via the onlyIfChanged/onlyIfUnchanged options for certain calls
   // by default no etags are used.
   it("Get and set by default doesn't use etags", async () => {
+    await client.addConfigurationSetting({
+      key: key,
+      value: "some value"
+    });
+
     const addedSetting = await client.getConfigurationSetting({ key });
 
     // by default - ignores the etag in 'addedSetting.etag' so last one in
     // wins
     addedSetting.value = "some new value!";
     await client.setConfigurationSetting(addedSetting);
+
+    await deleteKeyCompletely([key], client);
   });
 
   it("Get and set, enabling etag checking using onlyIfUnchanged", async () => {
+    await client.addConfigurationSetting({
+      key: key,
+      value: "some value"
+    });
+
     const addedSetting = await client.getConfigurationSetting({ key });
 
     addedSetting.value = "some new value!";
@@ -63,9 +71,16 @@ describe("etags", () => {
       () => client.setConfigurationSetting(badEtagSetting, { onlyIfUnchanged: true }),
       412
     );
+
+    await deleteKeyCompletely([key], client);
   });
 
   it("set with an old etag will throw RestError", async () => {
+    await client.addConfigurationSetting({
+      key: key,
+      value: "some value"
+    });
+
     const addedSetting = await client.getConfigurationSetting({ key });
 
     addedSetting.value = "some new value!";
@@ -87,9 +102,16 @@ describe("etags", () => {
       412,
       "Old etag will result in a failed update and error"
     );
+
+    await deleteKeyCompletely([key], client);
   });
 
   it("get using ifNoneMatch to only get the setting if it's changed (ie: safe GET)", async () => {
+    await client.addConfigurationSetting({
+      key: key,
+      value: "some value"
+    });
+
     const originalSetting = await client.setConfigurationSetting({
       key: key,
       value: "world"
@@ -134,9 +156,16 @@ describe("etags", () => {
     // now our retrieved setting matches what's on the server
     assert.equal("new world", configurationSetting.value);
     assert.equal(updatedSetting.etag, configurationSetting.etag);
+
+    await deleteKeyCompletely([key], client);
   });
 
   it("(set|clear)readonly using etags", async () => {
+    await client.addConfigurationSetting({
+      key: key,
+      value: "some value"
+    });
+
     const addedSetting = await client.getConfigurationSetting({ key });
 
     const badEtagSetting = {
@@ -184,9 +213,16 @@ describe("etags", () => {
     // and now it's no longer readOnly
     actualSetting = await client.getConfigurationSetting(addedSetting);
     assert.ok(!actualSetting.isReadOnly);
+
+    await deleteKeyCompletely([key], client);
   });
 
   it("delete using etags", async () => {
+    await client.addConfigurationSetting({
+      key: key,
+      value: "some value"
+    });
+
     const addedSetting = await client.getConfigurationSetting({ key });
 
     const badEtagSetting = {
@@ -207,5 +243,7 @@ describe("etags", () => {
 
     // and now the setting isn't found
     await assertThrowsRestError(() => client.getConfigurationSetting({ key }), 404);
+
+    await deleteKeyCompletely([key], client);
   });
 });
