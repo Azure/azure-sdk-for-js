@@ -27,6 +27,7 @@ export {
   ForecastPropertiesConfidenceLevelsItem,
   LegacyChargeSummary,
   LegacyUsageDetail,
+  Lots,
   LotSummary,
   ManagementGroupAggregatedCostResult,
   Marketplace,
