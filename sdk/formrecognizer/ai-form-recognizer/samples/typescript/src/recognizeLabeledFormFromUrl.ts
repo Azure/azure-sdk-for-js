@@ -16,11 +16,12 @@ async function main() {
   const endpoint = process.env["COGNITIVE_SERVICE_ENDPOINT"] || "<cognitive services endpoint>";
   const apiKey = process.env["COGNITIVE_SERVICE_API_KEY"] || "<api key>";
 
-  const modelId = "e28ad0da-aa55-46dc-ade9-839b0d819189"; // trained with labels
+  const modelId = "db642b84-ce7a-4ec2-873d-9c4b5ab0160d"; // trained with labels
   const url = process.env["URL_OF_DOCUMENT_TO_ANALYZE_WITH_LABELS"] || "<sample invoice url>";
 
   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
-  const poller = await client.beginRecognizeLabeledFormsFromUrl(modelId, url,{
+  const poller = await client.beginRecognizeFormsFromUrl(modelId, url, {
+    // includeTextDetails: true,
     onProgress: (state) => { console.log(`status: ${state.status}`); }
   });
   await poller.pollUntilDone();
@@ -31,32 +32,17 @@ async function main() {
   }
 
   console.log(response.status);
-  console.log("### Document results:")
-  for (const document of response.extractedForms || []) {
-    console.log(`${document.docType}, pages ${document.pageRange}`);
-    console.log("Fields");
-  }
-
-  console.log("### Page results:")
-  for (const page of response.extractedPages || []) {
-    console.log(`Page number: ${page.pageNumber}`);
-    console.log(`Form type id: ${page.formTypeId}`);
-    console.log("key-value pairs");
-    for (const field of page.fields || []) {
-      console.log(`\t${field.fieldLabel.text}: ${field.valueText.text}`);
-    }
-    console.log("Tables");
-    for (const table of page.tables || []) {
-      for (const row of table.rows) {
-        for (const cell of row.cells) {
-          console.log(`cell (${cell.rowIndex},${cell.columnIndex}) ${cell.text}`);
-        }
-      }
+  console.log("Form results:")
+  for (const document of response.forms || []) {
+    console.log(`${document.formType}, page range: ${document.pageRange}`);
+    console.log("Fields:");
+    for (const fieldName in document.fields) {
+      // each field is of type FormField
+      const field = document.fields[fieldName];
+      console.log(`Field ${fieldName} has value '${field.value}' with a confidence score of ${field.confidence}`)
     }
   }
 
-  console.log("Raw extracted pages:");
-  console.log(response.rawExtractedPages);
   console.log("Errors:");
   console.log(response.errors);
 }

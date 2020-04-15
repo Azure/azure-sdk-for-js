@@ -51,5 +51,5 @@ directive:
   - from: swagger-document
     where: $.definitions..properties.lastUpdatedDateTime
     transform: >
-      $["x-ms-client-name"] = "lastUpdatedOn";
+      $["x-ms-client-name"] = "lastModified";
 ```

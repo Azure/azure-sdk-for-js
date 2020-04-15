@@ -12,15 +12,14 @@ import { FormTrainingClient, AzureKeyCredential } from "../../../src/index";
 require("dotenv").config();
 
 async function main() {
-  console.log(`Running GetModel sample`);
-
+  const myArgs = process.argv.slice(2);
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["COGNITIVE_SERVICE_ENDPOINT"] || "<cognitive services endpoint>";
   const apiKey = process.env["COGNITIVE_SERVICE_API_KEY"] || "<api key>";
-  const modelId = "cbfd7961-99c1-49ca-8974-2fa0c9f54508";
+  const modelId = myArgs[0] || "<model id>";
 
   const client = new FormTrainingClient(endpoint, new AzureKeyCredential(apiKey));
-  const result = await client.getLabeledModel(modelId, { includeKeys: true });
+  const result = await client.getModel(modelId);
   console.dir(result, { depth: 4 });
 }
 

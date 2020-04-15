@@ -37,25 +37,31 @@ async function main() {
   }
 
   console.log(response.status);
-  console.log("### Page results:")
-  for (const page of response.extractedPages || []) {
-    console.log(`Page number: ${page.pageNumber}`);
-    console.log(`Form type id: ${page.formTypeId}`);
-    console.log("key-value pairs");
-    for (const field of page.fields || []) {
-      console.log(`\tkey: ${field.fieldLabel}, value: ${field.valueText}`);
-    }
-    console.log("Tables");
-    for (const table of page.tables || []) {
-      for (const row of table.rows) {
-        for (const cell of row.cells) {
-          console.log(`cell (${cell.rowIndex},${cell.columnIndex}) ${cell.text}`);
+  console.log("Forms:")
+  for (const form of response.forms || []) {
+    console.log(`${form.formType}, page range: ${form.pageRange}`);
+    console.log("Pages:")
+    for (const page of form.pages || []) {
+      console.log(`Page number: ${page.pageNumber}`);
+      console.log("Tables");
+      for (const table of page.tables || []) {
+        for (const row of table.rows) {
+          for (const cell of row.cells) {
+            console.log(`cell (${cell.rowIndex},${cell.columnIndex}) ${cell.text}`);
+          }
         }
       }
     }
+
+    console.log("Fields:");
+    for (const fieldName in form.fields) {
+      // each field is of type FormField
+      const field = form.fields[fieldName];
+      console.log(`Field ${fieldName} has value '${field.value}' with a confidence score of ${field.confidence}`)
+    }
   }
 
-  console.log(response.rawExtractedPages);
+  console.log("Errors:");
   console.log(response.errors);
 }
 

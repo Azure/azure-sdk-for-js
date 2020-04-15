@@ -6,7 +6,7 @@
  */
 
 //import { FormRecognizerClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
-import { FormRecognizerClient, AzureKeyCredential } from "../../../src/index";
+import { FormRecognizerClient, AzureKeyCredential, toUSReceipt } from "../../../src/index";
 
 // Load the .env file if it exists
 require("dotenv").config();
@@ -30,22 +30,33 @@ async function main() {
   if (!response) {
     throw new Error("Expecting valid response!");
   }
-  console.log(`### Response status ${response.status}`);
+  console.log(`Response status ${response.status}`);
 
-  if (!response.extractedReceipts || response.extractedReceipts.length <= 0)
+  if (!response.receipts || response.receipts.length <= 0)
   {
     throw new Error("Expecting at lease one receipt in analysis result");
   }
 
-  console.log("### First receipt:")
-  console.log(response.extractedReceipts[0]);
-  console.log("### Items:")
-  console.log("### First receipt:")
-  console.log(response.extractedReceipts[0]);
-  console.log("### Items:")
-  console.table(response.extractedReceipts?[0].items, ["name", "quantity", "price", "totalPrice"]);
-  console.log("### Raw 'MerchantAddress' fields:");
-  console.log(response.extractedReceipts[0]?.fields["MerchantAddress"])
+  const usReceipt = response.receipts[0];
+  console.log("First receipt:")
+  console.log(`Receipt type: ${usReceipt.receiptType}`)
+  console.log(`Merchant Name: ${usReceipt.merchantName.value} (confidence: ${usReceipt.merchantName.confidence})`);
+  console.log(`Transaction Date: ${usReceipt.transactionDate.value} (confidence: ${usReceipt.transactionDate.confidence})`);
+  const items = usReceipt.items.map((item) => {
+    return {
+      name: `${item.name?.value} (confidence: ${item.name?.confidence})`,
+      price: `${item.price?.value} (confidence: ${item.price?.confidence})`,
+      quantity: `${item.quantity?.value} (confidence: ${item.quantity?.confidence})`,
+      totalPrice: `${item.totalPrice?.value} (confidence: ${item.totalPrice?.confidence})`
+    }
+  });
+  console.log("Receipt items:");
+  console.table(items, ["name", "price", "quantity", "totalPrice"]);
+
+
+  // raw fields are also included in the result
+  console.log("Raw 'MerchantAddress' fields:");
+  console.log(usReceipt.recognizedForm.fields["MerchantAddress"]);
 }
 
 main().catch((err) => {

@@ -86,7 +86,7 @@ export interface ModelInfo {
   /**
    * Date and time (UTC) when the status was last updated.
    */
-  lastUpdatedOn: Date;
+  lastModified: Date;
 }
 
 /**
@@ -182,7 +182,7 @@ export interface AnalyzeOperationResult {
   /**
    * Date and time (UTC) when the status was last updated.
    */
-  lastUpdatedOn: Date;
+  lastModified: Date;
   /**
    * Results of the analyze operation.
    */
@@ -528,7 +528,7 @@ export interface ModelsSummary {
   /**
    * Date and time (UTC) when the summary was last updated.
    */
-  lastUpdatedOn: Date;
+  lastModified: Date;
 }
 
 /**
