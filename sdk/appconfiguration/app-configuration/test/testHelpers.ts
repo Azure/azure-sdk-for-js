@@ -30,12 +30,12 @@ export function startRecorder(that: any) {
       AZ_CONFIG_ENDPOINT: "https://myappconfig.azconfig.io",
       AZURE_CLIENT_ID: "azure_client_id",
       AZURE_CLIENT_SECRET: "azure_client_secret",
-      AZURE_TENANT_ID: "azure_tenant_id",
+      AZURE_TENANT_ID: "azure_tenant_id"
     },
     customizationsOnRecordings: [
       (recording: any): any =>
         recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`)
-      ],
+    ],
     queryParametersToSkip: []
   };
 
@@ -177,7 +177,7 @@ export async function assertThrowsAbortError(testFunction: () => Promise<any>, m
       return e;
     } else {
       assert.equal(e.name, "AbortError");
-      return e;  
+      return e;
     }
   }
 }

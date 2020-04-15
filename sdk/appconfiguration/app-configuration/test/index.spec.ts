@@ -13,7 +13,7 @@ import {
 } from "./testHelpers";
 import { AppConfigurationClient, ConfigurationSetting } from "../src";
 import { delay } from "@azure/core-http";
-import { Recorder, isPlaybackMode } from '@azure/test-utils-recorder';
+import { Recorder, isPlaybackMode } from "@azure/test-utils-recorder";
 
 describe("AppConfigurationClient", () => {
   let client: AppConfigurationClient;
@@ -439,9 +439,9 @@ describe("AppConfigurationClient", () => {
     let count = 0;
 
     let productionASettingId: {
-      key: string,
-      label: string,
-      value: string
+      key: string;
+      label: string;
+      value: string;
     } = {
       key: "",
       label: "",
@@ -449,19 +449,19 @@ describe("AppConfigurationClient", () => {
     };
 
     let keys: {
-      listConfigSettingA: string,
-      listConfigSettingB: string
+      listConfigSettingA: string;
+      listConfigSettingB: string;
     } = {
       listConfigSettingA: "",
       listConfigSettingB: ""
-    }
+    };
 
     beforeEach(async () => {
       keys.listConfigSettingA = recorder.getUniqueName(`listConfigSetting${count}A`);
       keys.listConfigSettingB = recorder.getUniqueName(`listConfigSetting${count}B`);
       count += 1;
 
-      uniqueLabel = recorder.getUniqueName("listConfigSettingsLabel")
+      uniqueLabel = recorder.getUniqueName("listConfigSettingsLabel");
       productionASettingId.key = keys.listConfigSettingA;
       productionASettingId.label = uniqueLabel;
 
@@ -487,8 +487,7 @@ describe("AppConfigurationClient", () => {
     after(async () => {
       try {
         await deleteKeyCompletely([keys.listConfigSettingA, keys.listConfigSettingB], client);
-      } catch(e) {
-      }
+      } catch (e) {}
     });
 
     it("undefined doesn't throw and will just return everything", async () => {
@@ -714,7 +713,7 @@ describe("AppConfigurationClient", () => {
       key = recorder.getUniqueName(`listRevisions`);
       labelA = recorder.getUniqueName(`list-revisions-A`);
       labelB = recorder.getUniqueName(`list-revisions-B`);
-  
+
       // we'll generate two sets of keys and labels for this selection
       originalSetting = await client.addConfigurationSetting({
         key,

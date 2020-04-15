@@ -8,14 +8,14 @@ describe("packagejson related tests", () => {
   // in the generated code.
   it("user agent string matches the package version", () => {
     let packageJsonContents: {
-      [property: string]: string
+      [property: string]: string;
     };
 
     try {
       // For integration tests
       const packageJsonFilePath = join(__dirname, "../../package.json");
       packageJsonContents = require(packageJsonFilePath);
-    } catch(e) {
+    } catch (e) {
       // For unit tests
       const packageJsonFilePath = join(__dirname, "../package.json");
       packageJsonContents = require(packageJsonFilePath);

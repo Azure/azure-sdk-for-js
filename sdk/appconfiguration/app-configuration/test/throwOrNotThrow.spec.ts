@@ -6,7 +6,7 @@ import {
   startRecorder
 } from "./testHelpers";
 import * as assert from "assert";
-import { Recorder } from '@azure/test-utils-recorder';
+import { Recorder } from "@azure/test-utils-recorder";
 
 // There's been discussion on other teams about what errors are thrown when. This
 // is the file where I've documented the throws/notThrows cases to make coordination

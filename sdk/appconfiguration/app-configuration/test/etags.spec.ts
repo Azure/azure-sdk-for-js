@@ -9,7 +9,7 @@ import {
   assertThrowsRestError
 } from "./testHelpers";
 import * as assert from "assert";
-import { Recorder, isRecordMode, isPlaybackMode } from '@azure/test-utils-recorder';
+import { Recorder, isRecordMode, isPlaybackMode } from "@azure/test-utils-recorder";
 
 describe("etags", () => {
   let client: AppConfigurationClient;
@@ -18,7 +18,7 @@ describe("etags", () => {
 
   beforeEach(function() {
     recorder = startRecorder(this);
-    key = recorder.getUniqueName("etags");;
+    key = recorder.getUniqueName("etags");
     client = createAppConfigurationClientForTests() || this.skip();
   });
 

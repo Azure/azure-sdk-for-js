@@ -7,7 +7,7 @@ import {
 } from "./testHelpers";
 import { AppConfigurationClient } from "../src";
 import * as assert from "assert";
-import { Recorder, isPlaybackMode } from '@azure/test-utils-recorder';
+import { Recorder, isPlaybackMode } from "@azure/test-utils-recorder";
 
 describe("AppConfigurationClient (set|clear)ReadOnly", () => {
   let client: AppConfigurationClient;

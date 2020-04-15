@@ -6,9 +6,13 @@ import * as assert from "assert";
 import { AppConfigurationClient } from "../../src";
 import nock from "nock";
 import { getGeneratedClientOptions, packageVersion } from "../../src/appConfigurationClient";
-import { createAppConfigurationClientForTests, assertThrowsRestError, startRecorder } from "../testHelpers";
+import {
+  createAppConfigurationClientForTests,
+  assertThrowsRestError,
+  startRecorder
+} from "../testHelpers";
 import * as chai from "chai";
-import { Recorder } from '@azure/test-utils-recorder';
+import { Recorder } from "@azure/test-utils-recorder";
 
 describe("http request related tests", function() {
   describe("unit tests", () => {
@@ -128,7 +132,7 @@ describe("http request related tests", function() {
     afterEach(function() {
       recorder.stop();
     });
-  
+
     it("custom client request ID", async () => {
       const iterator = await client.listConfigurationSettings({
         requestOptions: {
@@ -164,13 +168,13 @@ describe("http request related tests", function() {
           syncTokens: syncTokens
         }) || this.skip();
 
-        nock.recorder.clear();
-        nock.restore();
-        nock.cleanAll();
-        if (!nock.isActive()) {
-          nock.activate();
-        }
-        scope = nock(/.*/);
+      nock.recorder.clear();
+      nock.restore();
+      nock.cleanAll();
+      if (!nock.isActive()) {
+        nock.activate();
+      }
+      scope = nock(/.*/);
     });
 
     afterEach(function() {
