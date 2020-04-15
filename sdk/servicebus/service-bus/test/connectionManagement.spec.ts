@@ -62,19 +62,67 @@ describe("controlled connection initialization", () => {
     await checkThatInitializationDoesntReoccur(sender);
   });
 
+  it("open() early exits if the connection is already open (avoid taking unnecessary lock)", async () => {
+    // open uses a lock (at the sender level) that helps us not call open() multiple times.
+
+    // open it just to initialize everything.
+    // I'd like to migrate these tests into MessageSender but the cost of "faking" a ClientEntityContext is a bit too high.
+    await sender.open();
+
+    await defaultLock.acquire(sender["_context"]!.sender!["openLock"], async () => {
+      // the connection is _already_ open so it doesn't attempt to take a lock
+      // or actually try to open the connection.
+      const secondOpenCallPromise = sender.open();
+
+      sender["_context"].sender!["_negotiateClaim"] = async () => {
+        // this is a decent way to tell that we tried to open the connection
+        throw new Error(
+          "We won't get here at all - the connection is already open so we'll early exit."
+        );
+      };
+
+      const ret = await Promise.race([delay(1000, 999), secondOpenCallPromise]);
+
+      // ie, the Promise<void> from sender.open() 'won' because we don't
+      // acquire the lock when we early-exit.
+      assert.notExists(ret);
+    });
+  });
+
   it("open() properly locks to prevent multiple in-flight open() calls", async () => {
     // open uses a lock (at the sender level) that helps us not call open() multiple times.
 
     // open it just to initialize everything.
+    // I'd like to migrate these tests into MessageSender but the cost of "faking" a ClientEntityContext is a bit too high.
     await sender.open();
+
+    let secondOpenCallPromise: Promise<void> | undefined;
 
     // acquire the same lock that open() uses and then, while it's 100% locked,
     // attempt to call .open() and see that it just blocks...
-    await defaultLock.acquire(sender["_context"]!.sender!.senderLock, async () => {
-      const secondOpenCallPromise = sender.open();
+    await defaultLock.acquire(sender["_context"]!.sender!["openLock"], async () => {
+      // we need to fake the connection being closed or else `open()` won't attempt to acquire
+      // the lock.
+      sender["_context"].sender!["isOpen"] = () => false;
+      sender["_context"].sender!["_negotiateClaim"] = async () => {
+        // this is a decent way to tell that we tried to open the connection
+        throw new Error("We won't get here until _after_ the lock has been released");
+      };
+
+      secondOpenCallPromise = sender.open();
       const ret = await Promise.race([delay(1000, 999), secondOpenCallPromise]);
+
+      // this time the delay() call wins since our open() call is blocked on the lock internally
       assert.equal(typeof ret, "number");
     });
+
+    // now that we're outside of the lock we can await on the Promise and it should proceed
+    try {
+      await secondOpenCallPromise;
+      assert.fail("Should have thrown once we reached our stubbed out _negotiateClaim() call");
+    } catch (err) {
+      assert.equal(err.message, "We won't get here until _after_ the lock has been released");
+    }
   });
 });
 

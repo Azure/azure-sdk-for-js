@@ -54,7 +54,7 @@ export class MessageSender extends LinkEntity {
    * lock for establishing a sender link by an entity on that connection.
    * @readonly
    */
-  readonly senderLock: string = `sender-${generate_uuid()}`;
+  private readonly openLock: string = `sender-${generate_uuid()}`;
   /**
    * @property {OnAmqpEvent} _onAmqpError The handler function to handle errors that happen on the
    * underlying sender.
@@ -255,6 +255,8 @@ export class MessageSender extends LinkEntity {
   private _trySend(encodedMessage: Buffer, sendBatch?: boolean): Promise<void> {
     const sendEventPromise = () =>
       new Promise<void>(async (resolve, reject) => {
+        await this.open();
+
         let waitTimer: any;
         log.sender(
           "[%s] Sender '%s', credit: %d available: %d",
@@ -421,10 +423,17 @@ export class MessageSender extends LinkEntity {
   }
 
   /**
-   * Initializes the `ClientEntityContext.sender` associated with this `MessageSender`.
+   * Initializes the `ClientEntityContext.sender` associated with this
+   * `MessageSender`.
+   *
+   * If the connection is already open this method resolves immediately.
    */
   public async open(options?: SenderOptions): Promise<void> {
-    return defaultLock.acquire(this.senderLock, async () => {
+    if (this.isOpen()) {
+      return;
+    }
+
+    return defaultLock.acquire(this.openLock, async () => {
       try {
         // isOpen isConnecting  Should establish
         // true     false          No
@@ -551,8 +560,9 @@ export class MessageSender extends LinkEntity {
           newName: true
         });
 
-        // shall retry forever at an interval of 15 seconds if the error is a retryable error
-        // else bail out when the error is not retryable or the oepration succeeds.
+        // shall retry `Constants.defaultConnectionRetryAttempts` times at an interval of 15 seconds
+        // if the error is a retryable error else bail out when the error is not retryable or the operation
+        // succeeds.
         const config: RetryConfig<void> = {
           operation: () => this.open(options),
           connectionId: this._context.namespace.connectionId!,
@@ -618,15 +628,6 @@ export class MessageSender extends LinkEntity {
   async send(data: SendableMessageInfo): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
     try {
-      if (!this.isOpen()) {
-        log.sender(
-          "Acquiring lock %s for initializing the session, sender and " +
-            "possibly the connection.",
-          this.senderLock
-        );
-
-        await this.open();
-      }
       const amqpMessage = toAmqpMessage(data);
       amqpMessage.body = this._context.namespace.dataTransformer.encode(data.body);
 
@@ -677,15 +678,6 @@ export class MessageSender extends LinkEntity {
         inputMessages = [inputMessages];
       }
 
-      if (!this.isOpen()) {
-        log.sender(
-          "Acquiring lock %s for initializing the session, sender and " +
-            "possibly the connection.",
-          this.senderLock
-        );
-
-        await this.open();
-      }
       log.sender(
         "[%s] Sender '%s', trying to send Message[]: %O",
         this._context.namespace.connectionId,

@@ -99,7 +99,7 @@ export class Sender {
    * and/or `partitionKey` properties respectively on the messages.
    * - When doing so, all
    * messages in the batch should have the same `sessionId` (if using sessions) and the same
-   * `parititionKey` (if using paritions).
+   * `partitionKey` (if using partitions).
    *
    * @param messages - An array of SendableMessageInfo objects to be sent in a Batch message.
    * @return Promise<void>
