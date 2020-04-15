@@ -41,12 +41,23 @@ async function main() {
     throw new Error("Expecting at lease one receipt in analysis result");
   }
 
-  console.log("### First receipt:")
-  console.log(response.recognizedReceipts[0]);
-  console.log("### Items:")
   const usReceipt = toUSReceipt(response.recognizedReceipts[0]);
-  console.table(usReceipt.items, ["name", "quantity", "price", "totalPrice"]);
-  console.log("### Raw 'MerchantAddress' fields:");
+  console.log("First receipt:")
+  console.log(`Receipt type: ${usReceipt.receiptType}`)
+  console.log(`Merchant Name: ${usReceipt.merchantName.value} (confidence: ${usReceipt.merchantName.confidence})`);
+  console.log(`Transaction Date: ${usReceipt.transactionDate.value} (confidence: ${usReceipt.transactionDate.confidence})`);
+  const items = usReceipt.items.map((item) => {
+    return {
+      name: `${item.name.value} (confidence: ${item.name.confidence})`,
+      quantity: `${item.quantity.value} (confidence: ${item.quantity.confidence})`,
+      totalPrice: `${item.totalPrice.value} (confidence: ${item.totalPrice.confidence})`
+    }
+  });
+  console.log("Receipt items:");
+  console.table(items, ["name", "quantity", "totalPrice"]);
+
+  // raw fields are also included in the result
+  console.log("Raw 'MerchantAddress' fields:");
   console.log(usReceipt.recognizedForm.fields["MerchantAddress"]);
 }
 
