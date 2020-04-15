@@ -255,158 +255,162 @@ export class MessageSender extends LinkEntity {
   private _trySend(encodedMessage: Buffer, sendBatch?: boolean): Promise<void> {
     const sendEventPromise = () =>
       new Promise<void>(async (resolve, reject) => {
-        await this.open();
+        try {
+          await this.open();
 
-        let waitTimer: any;
-        log.sender(
-          "[%s] Sender '%s', credit: %d available: %d",
-          this._context.namespace.connectionId,
-          this.name,
-          this._sender!.credit,
-          this._sender!.session.outgoing.available()
-        );
-        if (!this._sender!.sendable()) {
+          let waitTimer: any;
           log.sender(
-            "[%s] Sender '%s', waiting for 1 second for sender to become sendable",
-            this._context.namespace.connectionId,
-            this.name
-          );
-
-          await delay(1000);
-
-          log.sender(
-            "[%s] Sender '%s' after waiting for a second, credit: %d available: %d",
+            "[%s] Sender '%s', credit: %d available: %d",
             this._context.namespace.connectionId,
             this.name,
             this._sender!.credit,
             this._sender!.session.outgoing.available()
           );
-        }
-        if (this._sender!.sendable()) {
-          let onRejected: Func<EventContext, void>;
-          let onReleased: Func<EventContext, void>;
-          let onModified: Func<EventContext, void>;
-          let onAccepted: Func<EventContext, void>;
-          const removeListeners = (): void => {
-            clearTimeout(waitTimer);
-            // When `removeListeners` is called on timeout, the sender might be closed and cleared
-            // So, check if it exists, before removing listeners from it.
-            if (this._sender) {
-              this._sender.removeListener(SenderEvents.rejected, onRejected);
-              this._sender.removeListener(SenderEvents.accepted, onAccepted);
-              this._sender.removeListener(SenderEvents.released, onReleased);
-              this._sender.removeListener(SenderEvents.modified, onModified);
-            }
-          };
-
-          onAccepted = (context: EventContext) => {
-            // Since we will be adding listener for accepted and rejected event every time
-            // we send a message, we need to remove listener for both the events.
-            // This will ensure duplicate listeners are not added for the same event.
-            removeListeners();
+          if (!this._sender!.sendable()) {
             log.sender(
-              "[%s] Sender '%s', got event accepted.",
+              "[%s] Sender '%s', waiting for 1 second for sender to become sendable",
               this._context.namespace.connectionId,
               this.name
             );
-            resolve();
-          };
-          onRejected = (context: EventContext) => {
-            removeListeners();
-            log.error(
-              "[%s] Sender '%s', got event rejected.",
-              this._context.namespace.connectionId,
-              this.name
-            );
-            const err = translate(context!.delivery!.remote_state!.error);
-            reject(err);
-          };
-          onReleased = (context: EventContext) => {
-            removeListeners();
-            log.error(
-              "[%s] Sender '%s', got event released.",
-              this._context.namespace.connectionId,
-              this.name
-            );
-            let err: Error;
-            if (context!.delivery!.remote_state!.error) {
-              err = translate(context!.delivery!.remote_state!.error);
-            } else {
-              err = new Error(
-                `[${this._context.namespace.connectionId}]Sender '${this.name}', ` +
-                  `received a release disposition.Hence we are rejecting the promise.`
-              );
-            }
-            reject(err);
-          };
-          onModified = (context: EventContext) => {
-            removeListeners();
-            log.error(
-              "[%s] Sender '%s', got event modified.",
-              this._context.namespace.connectionId,
-              this.name
-            );
-            let err: Error;
-            if (context!.delivery!.remote_state!.error) {
-              err = translate(context!.delivery!.remote_state!.error);
-            } else {
-              err = new Error(
-                `[${this._context.namespace.connectionId}]Sender "${this.name}", ` +
-                  `received a modified disposition.Hence we are rejecting the promise.`
-              );
-            }
-            reject(err);
-          };
 
-          const actionAfterTimeout = () => {
-            removeListeners();
-            const desc: string =
-              `[${this._context.namespace.connectionId}] Sender "${this.name}" ` +
-              `with address "${this.address}", was not able to send the message right now, due ` +
-              `to operation timeout.`;
-            log.error(desc);
-            const e: AmqpError = {
-              condition: ErrorNameConditionMapper.ServiceUnavailableError,
-              description: desc
-            };
-            return reject(translate(e));
-          };
+            await delay(1000);
 
-          this._sender!.on(SenderEvents.accepted, onAccepted);
-          this._sender!.on(SenderEvents.rejected, onRejected);
-          this._sender!.on(SenderEvents.modified, onModified);
-          this._sender!.on(SenderEvents.released, onReleased);
-          waitTimer = setTimeout(
-            actionAfterTimeout,
-            Constants.defaultOperationTimeoutInSeconds * 1000
-          );
-          try {
-            const delivery = this._sender!.send(
-              encodedMessage,
-              undefined,
-              sendBatch ? 0x80013700 : 0
-            );
             log.sender(
-              "[%s] Sender '%s', sent message with delivery id: %d",
+              "[%s] Sender '%s' after waiting for a second, credit: %d available: %d",
               this._context.namespace.connectionId,
               this.name,
-              delivery.id
+              this._sender!.credit,
+              this._sender!.session.outgoing.available()
             );
-          } catch (error) {
-            removeListeners();
-            return reject(error);
           }
-        } else {
-          // let us retry to send the message after some time.
-          const msg =
-            `[${this._context.namespace.connectionId}] Sender "${this.name}", ` +
-            `cannot send the message right now. Please try later.`;
-          log.error(msg);
-          const amqpError: AmqpError = {
-            condition: ErrorNameConditionMapper.SenderBusyError,
-            description: msg
-          };
-          reject(translate(amqpError));
+          if (this._sender!.sendable()) {
+            let onRejected: Func<EventContext, void>;
+            let onReleased: Func<EventContext, void>;
+            let onModified: Func<EventContext, void>;
+            let onAccepted: Func<EventContext, void>;
+            const removeListeners = (): void => {
+              clearTimeout(waitTimer);
+              // When `removeListeners` is called on timeout, the sender might be closed and cleared
+              // So, check if it exists, before removing listeners from it.
+              if (this._sender) {
+                this._sender.removeListener(SenderEvents.rejected, onRejected);
+                this._sender.removeListener(SenderEvents.accepted, onAccepted);
+                this._sender.removeListener(SenderEvents.released, onReleased);
+                this._sender.removeListener(SenderEvents.modified, onModified);
+              }
+            };
+
+            onAccepted = (context: EventContext) => {
+              // Since we will be adding listener for accepted and rejected event every time
+              // we send a message, we need to remove listener for both the events.
+              // This will ensure duplicate listeners are not added for the same event.
+              removeListeners();
+              log.sender(
+                "[%s] Sender '%s', got event accepted.",
+                this._context.namespace.connectionId,
+                this.name
+              );
+              resolve();
+            };
+            onRejected = (context: EventContext) => {
+              removeListeners();
+              log.error(
+                "[%s] Sender '%s', got event rejected.",
+                this._context.namespace.connectionId,
+                this.name
+              );
+              const err = translate(context!.delivery!.remote_state!.error);
+              reject(err);
+            };
+            onReleased = (context: EventContext) => {
+              removeListeners();
+              log.error(
+                "[%s] Sender '%s', got event released.",
+                this._context.namespace.connectionId,
+                this.name
+              );
+              let err: Error;
+              if (context!.delivery!.remote_state!.error) {
+                err = translate(context!.delivery!.remote_state!.error);
+              } else {
+                err = new Error(
+                  `[${this._context.namespace.connectionId}]Sender '${this.name}', ` +
+                    `received a release disposition.Hence we are rejecting the promise.`
+                );
+              }
+              reject(err);
+            };
+            onModified = (context: EventContext) => {
+              removeListeners();
+              log.error(
+                "[%s] Sender '%s', got event modified.",
+                this._context.namespace.connectionId,
+                this.name
+              );
+              let err: Error;
+              if (context!.delivery!.remote_state!.error) {
+                err = translate(context!.delivery!.remote_state!.error);
+              } else {
+                err = new Error(
+                  `[${this._context.namespace.connectionId}]Sender "${this.name}", ` +
+                    `received a modified disposition.Hence we are rejecting the promise.`
+                );
+              }
+              reject(err);
+            };
+
+            const actionAfterTimeout = () => {
+              removeListeners();
+              const desc: string =
+                `[${this._context.namespace.connectionId}] Sender "${this.name}" ` +
+                `with address "${this.address}", was not able to send the message right now, due ` +
+                `to operation timeout.`;
+              log.error(desc);
+              const e: AmqpError = {
+                condition: ErrorNameConditionMapper.ServiceUnavailableError,
+                description: desc
+              };
+              return reject(translate(e));
+            };
+
+            this._sender!.on(SenderEvents.accepted, onAccepted);
+            this._sender!.on(SenderEvents.rejected, onRejected);
+            this._sender!.on(SenderEvents.modified, onModified);
+            this._sender!.on(SenderEvents.released, onReleased);
+            waitTimer = setTimeout(
+              actionAfterTimeout,
+              Constants.defaultOperationTimeoutInSeconds * 1000
+            );
+            try {
+              const delivery = this._sender!.send(
+                encodedMessage,
+                undefined,
+                sendBatch ? 0x80013700 : 0
+              );
+              log.sender(
+                "[%s] Sender '%s', sent message with delivery id: %d",
+                this._context.namespace.connectionId,
+                this.name,
+                delivery.id
+              );
+            } catch (error) {
+              removeListeners();
+              return reject(error);
+            }
+          } else {
+            // let us retry to send the message after some time.
+            const msg =
+              `[${this._context.namespace.connectionId}] Sender "${this.name}", ` +
+              `cannot send the message right now. Please try later.`;
+            log.error(msg);
+            const amqpError: AmqpError = {
+              condition: ErrorNameConditionMapper.SenderBusyError,
+              description: msg
+            };
+            reject(translate(amqpError));
+          }
+        } catch (err) {
+          return reject(err);
         }
       });
 

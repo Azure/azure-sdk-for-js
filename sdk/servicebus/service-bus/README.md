@@ -88,6 +88,13 @@ You can also use the [sendBatch](https://docs.microsoft.com/en-us/javascript/api
 ```javascript
 const queueClient = serviceBusClient.createQueueClient("my-queue");
 const sender = queueClient.createSender();
+
+// Optionally, you can await on `sender.open()` if you want to front load the work of setting
+// up the AMQP link to the service. If not called, the `sender` will call `open()` on your behalf
+// on the first send operation.
+//
+// await sender.open()
+
 await sender.send({
   body: "my-message-body"
 });
