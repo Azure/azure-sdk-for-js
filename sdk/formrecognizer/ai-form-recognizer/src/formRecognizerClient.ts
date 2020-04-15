@@ -140,7 +140,7 @@ export type RecognizeReceiptsOptions = FormRecognizerOperationOptions & {
 /**
  * Options for retrieving recognized receipt data
  */
-type GetRecognizedReceiptsOptions = FormRecognizerOperationOptions;
+type GetReceiptsOptions = FormRecognizerOperationOptions;
 
 /**
  * Options for starting receipt recognition operation
@@ -564,13 +564,13 @@ ng", and "image/tiff";
    * await poller.pollUntilDone();
    * const response = poller.getResult();
    *
-   * console.log(`### Response status ${response.status}`);
-   * console.log("### First receipt:")
-   * console.log(response.recognizedReceipts[0]);
-   * console.log("### Items:")
-   * const usReceipt = toUSReceipt(response.recognizedReceipts[0]);
+   * console.log(`Response status ${response.status}`);
+   * console.log("First receipt:")
+   * console.log(response.receipts[0]);
+   * console.log("Items:")
+   * const usReceipt = toUSReceipt(response.receipts[0]);
    * console.table(usReceipt.items, ["name", "quantity", "price", "totalPrice"]);
-   * console.log("### Raw 'MerchantAddress' fields:");
+   * console.log("Raw 'MerchantAddress' fields:");
    * console.log(usReceipt.recognizedForm.fields["MerchantAddress"]);
    * ```
    * @summary Recognizes receipt information from a given document
@@ -585,7 +585,7 @@ ng", and "image/tiff";
   ): Promise<ReceiptPollerLike> {
     const analyzePollerClient: RecognizePollerClient<RecognizeReceiptResultResponse> = {
       beginRecognize: (...args) => recognizeReceiptInternal(this.client, ...args),
-      getRecognizeResult: (...args) => this.getRecognizedReceipts(...args)
+      getRecognizeResult: (...args) => this.getreceipts(...args)
     };
 
     const poller = new BeginRecognizePoller({
@@ -621,13 +621,13 @@ ng", and "image/tiff";
    * await poller.pollUntilDone();
    * const response = poller.getResult();
    *
-   * console.log(`### Response status ${response.status}`);
-   * console.log("### First receipt:")
-   * console.log(response.recognizedReceipts[0]);
-   * console.log("### Items:")
-   * const usReceipt = toUSReceipt(response.recognizedReceipts[0]);
+   * console.log(`Response status ${response.status}`);
+   * console.log("First receipt:")
+   * console.log(response.receipts[0]);
+   * console.log("Items:")
+   * const usReceipt = toUSReceipt(response.receipts[0]);
    * console.table(usReceipt.items, ["name", "quantity", "price", "totalPrice"]);
-   * console.log("### Raw 'MerchantAddress' fields:");
+   * console.log("Raw 'MerchantAddress' fields:");
    * console.log(usReceipt.recognizedForm.fields["MerchantAddress"]);
    * ```
    * @summary Recognizes receipt information from a given accessible url to input document
@@ -640,7 +640,7 @@ ng", and "image/tiff";
   ): Promise<ReceiptPollerLike> {
     const analyzePollerClient: RecognizePollerClient<RecognizeReceiptResultResponse> = {
       beginRecognize: (...args) => recognizeReceiptInternal(this.client, ...args),
-      getRecognizeResult: (...args) => this.getRecognizedReceipts(...args)
+      getRecognizeResult: (...args) => this.getreceipts(...args)
     };
 
     const poller = new BeginRecognizePoller({
@@ -658,9 +658,9 @@ ng", and "image/tiff";
    * Retrieves result of a receipt recognition operation.
    * @private
    */
-  private async getRecognizedReceipts(
+  private async getreceipts(
     resultId: string,
-    options?: GetRecognizedReceiptsOptions
+    options?: GetReceiptsOptions
   ): Promise<RecognizeReceiptResultResponse> {
     const realOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(

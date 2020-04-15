@@ -32,7 +32,7 @@ async function main() {
   }
 
   console.log(response.status);
-  console.log("### Form results:")
+  console.log("Form results:")
   for (const document of response.forms || []) {
     console.log(`${document.formType}, page range: ${document.pageRange}`);
     console.log("Fields:");

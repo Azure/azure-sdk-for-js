@@ -44,10 +44,10 @@ import {
   CustomFormSubModelField,
   CustomFormSubModel,
   RecognizedReceipt,
-  USReceipt,
   USReceiptType,
   USReceiptItem,
-  ReceiptItemArrayField
+  ReceiptItemArrayField,
+  ReceiptWithLocale
 } from "./models";
 
 export function toBoundingBox(original: number[]): Point2D[] {
@@ -392,7 +392,7 @@ function toRecognizedReceipt(result: DocumentResultModel, pages: FormPage[]): Re
   const form = toRecognizedForm(result, pages);
   return {
     recognizedForm: form,
-    receiptLocale: undefined
+    locale: undefined
   };
 }
 
@@ -460,11 +460,11 @@ function toUSReceiptItems(items: ReceiptItemArrayField): USReceiptItem[] {
   });
 }
 
-export function toUSReceipt(receipt: RecognizedReceipt): USReceipt {
+function toUSReceipt(receipt: RecognizedReceipt): ReceiptWithLocale {
   const form = receipt.recognizedForm;
   return {
-    ...receipt,
-    receiptLocale: "US",
+    locale: "US",
+    recognizedForm: receipt.recognizedForm,
     items: toUSReceiptItems((form.fields["Items"] as unknown) as ReceiptItemArrayField),
     merchantAddress: form.fields["MerchantAddress"],
     merchantName: form.fields["MerchantName"],
@@ -477,6 +477,15 @@ export function toUSReceipt(receipt: RecognizedReceipt): USReceipt {
     transactionDate: form.fields["TransactionDate"],
     transactionTime: form.fields["TransactionTime"]
   };
+}
+
+function toReceiptWithLocale(receipt: RecognizedReceipt): ReceiptWithLocale {
+  switch (receipt.locale) {
+    case "US":
+      return toUSReceipt(receipt);
+    default:
+      throw new RangeError(`Unsupported receipt with locale ${receipt.locale}`);
+  }
 }
 
 export function toReceiptResultResponse(
@@ -496,10 +505,10 @@ export function toReceiptResultResponse(
   return {
     ...common,
     version: result.analyzeResult!.version,
-    rawExtractedPages: pages,
-    recognizedReceipts: result.analyzeResult!.documentResults!.map((d) =>
-      toRecognizedReceipt(d, pages)
-    )
+    receipts: result.analyzeResult!.documentResults!.map((d) => {
+      const receipt = toRecognizedReceipt(d, pages);
+      return toReceiptWithLocale({...receipt, locale: "US"}); // default to US until service returns locale info.
+    })
   };
 }
 

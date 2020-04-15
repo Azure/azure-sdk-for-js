@@ -267,6 +267,50 @@ export interface FormPageRange {
 }
 
 /**
+ * Raw texts recognized from a page in the input document.
+ */
+export interface FormPage {
+  /**
+   * The 1-based page number in the input document.
+   */
+  pageNumber: number;
+  /**
+   * The general orientation of the text in clockwise direction, measured in degrees between (-180,
+   * 180].
+   */
+  textAngle: number;
+  /**
+   * The width of the image/PDF in pixels/inches, respectively.
+   */
+  width: number;
+  /**
+   * The height of the image/PDF in pixels/inches, respectively.
+   */
+  height: number;
+  /**
+   * The unit used by the width, height and boundingBox properties. For images, the unit is
+   * "pixel". For PDF, the unit is "inch". Possible values include: 'pixel', 'inch'
+   */
+  unit: LengthUnit;
+  /**
+   * The detected language on the page overall. Possible values include: 'en', 'es'
+   */
+  // language?: Language;
+  /**
+   * When includeTextDetails is set to true, a list of recognized text lines. The maximum number of
+   * lines returned is 300 per page. The lines are sorted top to bottom, left to right, although in
+   * certain cases proximity is treated with higher priority. As the sorting order depends on the
+   * detected text, it may change across images and OCR version updates. Thus, business logic
+   * should be built upon the actual line location instead of order.
+   */
+  lines?: FormLine[];
+  /**
+   * List of data tables recognized form the page
+   */
+  tables?: FormTable[];
+}
+
+/**
  * Represent recognized forms consists of text fields that have semantic meanings.
  */
 export interface RecognizedForm {
@@ -437,7 +481,7 @@ export interface RecognizedReceipt {
   /**
    * Locale of the receipt
    */
-  receiptLocale?: string;
+  locale?: string;
   recognizedForm: RecognizedForm;
 }
 
@@ -512,49 +556,12 @@ export interface USReceipt extends RecognizedReceipt {
   transactionTime: FormField;
 }
 
-/**
- * Raw texts recognized from a page in the input document.
- */
-export interface FormPage {
-  /**
-   * The 1-based page number in the input document.
-   */
-  pageNumber: number;
-  /**
-   * The general orientation of the text in clockwise direction, measured in degrees between (-180,
-   * 180].
-   */
-  textAngle: number;
-  /**
-   * The width of the image/PDF in pixels/inches, respectively.
-   */
-  width: number;
-  /**
-   * The height of the image/PDF in pixels/inches, respectively.
-   */
-  height: number;
-  /**
-   * The unit used by the width, height and boundingBox properties. For images, the unit is
-   * "pixel". For PDF, the unit is "inch". Possible values include: 'pixel', 'inch'
-   */
-  unit: LengthUnit;
-  /**
-   * The detected language on the page overall. Possible values include: 'en', 'es'
-   */
-  // language?: Language;
-  /**
-   * When includeTextDetails is set to true, a list of recognized text lines. The maximum number of
-   * lines returned is 300 per page. The lines are sorted top to bottom, left to right, although in
-   * certain cases proximity is treated with higher priority. As the sorting order depends on the
-   * detected text, it may change across images and OCR version updates. Thus, business logic
-   * should be built upon the actual line location instead of order.
-   */
-  lines?: FormLine[];
-  /**
-   * List of data tables recognized form the page
-   */
-  tables?: FormTable[];
-}
+export type Locale = "US" | "UK"
+
+export type ReceiptWithLocale =
+  | { locale: "US" } & USReceipt
+//  | { receiptLocale: "UK" } & UKReceipt
+// ...
 
 /**
  * Recognize receipt result.
@@ -565,19 +572,15 @@ export interface RecognizeReceiptResult {
    */
   version: string;
   /**
-   * List of raw text line information on recognized pages
-   */
-  rawExtractedPages: FormPage[];
-  /**
    * List of receipts recognized from input document
    */
-  recognizedReceipts?: RecognizedReceipt[];
+  receipts?: ReceiptWithLocale[];
 }
 
 /**
  * Results of a Recognize Receipt operation
  */
-export type RecognizeReceiptOperationResult = {
+export type RecognizeReceiptOperationResult = Partial<RecognizeReceiptResult> & {
   /**
    * Operation status.
    */
@@ -590,7 +593,7 @@ export type RecognizeReceiptOperationResult = {
    * Date and time (UTC) when the status was last updated.
    */
   lastModified: Date;
-} & Partial<RecognizeReceiptResult>;
+};
 
 /**
  * Contains response data for an recognize receipt operation.

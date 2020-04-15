@@ -333,6 +333,9 @@ export type ListModelsResponseModel = Models & {
     };
 };
 
+// @public (undocumented)
+export type Locale = "US" | "UK";
+
 // @public
 export interface Model {
     keys?: KeysResult;
@@ -422,6 +425,11 @@ export type ReceiptItemField = {
 // @public
 export type ReceiptPollerLike = PollerLike<PollOperationState<RecognizeReceiptResultResponse>, RecognizeReceiptResultResponse>;
 
+// @public (undocumented)
+export type ReceiptWithLocale = {
+    locale: "US";
+} & USReceipt;
+
 // @public
 export type RecognizeContentOperationResult = Partial<RecognizedContent> & {
     status: OperationStatus;
@@ -458,7 +466,7 @@ export interface RecognizedForm {
 
 // @public (undocumented)
 export interface RecognizedReceipt {
-    receiptLocale?: string;
+    locale?: string;
     // (undocumented)
     recognizedForm: RecognizedForm;
 }
@@ -484,16 +492,15 @@ export type RecognizeFormsOptions = FormRecognizerOperationOptions & {
 };
 
 // @public
-export type RecognizeReceiptOperationResult = {
+export type RecognizeReceiptOperationResult = Partial<RecognizeReceiptResult> & {
     status: OperationStatus;
     createdOn: Date;
     lastModified: Date;
-} & Partial<RecognizeReceiptResult>;
+};
 
 // @public
 export interface RecognizeReceiptResult {
-    rawExtractedPages: FormPage[];
-    recognizedReceipts?: RecognizedReceipt[];
+    receipts?: ReceiptWithLocale[];
     version: string;
 }
 
@@ -523,9 +530,6 @@ export type TimeFieldValue = {
     type: "time";
     value?: string;
 } & CommonFieldValue;
-
-// @public (undocumented)
-export function toUSReceipt(receipt: RecognizedReceipt): USReceipt;
 
 // @public
 export interface TrainingDocumentInfo {
@@ -585,7 +589,7 @@ export type ValueTypes = "string" | "date" | "time" | "phoneNumber" | "number" |
 // Warnings were encountered during analysis:
 //
 // src/formRecognizerClient.ts:69:3 - (ae-forgotten-export) The symbol "BeginRecognizePollState" needs to be exported by the entry point index.d.ts
-// src/formTrainingClient.ts:67:3 - (ae-forgotten-export) The symbol "BeginTrainingPollState" needs to be exported by the entry point index.d.ts
+// src/formTrainingClient.ts:68:3 - (ae-forgotten-export) The symbol "BeginTrainingPollState" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 
