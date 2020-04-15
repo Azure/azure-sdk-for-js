@@ -34,16 +34,14 @@ jobs:
 
     variables:
       - template: ../variables/globals.yml
-      - ${{ if eq(variables.CloudType, '') }}:
-        - name: CloudType
-          value: AzureCloud
-
+      - name: CloudType
+        value: AzureCloud
 
     strategy:
       maxParallel: ${{ parameters.MaxParallel }}
       matrix:
         ${{ each matrixEntry in parameters.Matrix }}:
-          ${{ matrixEntry.key }} ($(CloudType)):
+          ${{ matrixEntry.key }}:
             # TestResultsFiles
             ${{ if eq(matrixEntry.value.TestType, 'browser' )}}:
               TestResultsFiles: "**/test-results.browser.xml"
