@@ -720,11 +720,11 @@ export interface GeoReplicationStats {
  */
 export interface BlobRestoreRange {
   /**
-   * Blob start range. Empty means account start.
+   * Blob start range. This is inclusive. Empty means account start.
    */
   startRange: string;
   /**
-   * Blob end range. Empty means account end.
+   * Blob end range. This is exclusive. Empty means account end.
    */
   endRange: string;
 }
@@ -1513,6 +1513,76 @@ export interface EncryptionScope extends Resource {
 }
 
 /**
+ * Filters limit replication to a subset of blobs within the storage account. A logical OR is
+ * performed on values in the filter. If multiple filters are defined, a logical AND is performed
+ * on all filters.
+ */
+export interface ObjectReplicationPolicyFilter {
+  /**
+   * Optional. Filters the results to replicate only blobs whose names begin with the specified
+   * prefix.
+   */
+  prefixMatch?: string[];
+  /**
+   * Blobs created after the time will be replicated to the destination. It must be in datetime
+   * format 'yyyy-MM-ddTHH:mm:ssZ'. Example: 2020-02-19T16:05:00Z
+   */
+  minCreationTime?: string;
+}
+
+/**
+ * The replication policy rule between two containers.
+ */
+export interface ObjectReplicationPolicyRule {
+  /**
+   * Rule Id is auto-generated for each new rule on destination account. It is required for put
+   * policy on source account.
+   */
+  ruleId?: string;
+  /**
+   * Required. Source container name.
+   */
+  sourceContainer: string;
+  /**
+   * Required. Destination container name.
+   */
+  destinationContainer: string;
+  /**
+   * Optional. An object that defines the filter set.
+   */
+  filters?: ObjectReplicationPolicyFilter;
+}
+
+/**
+ * The replication policy between two storage accounts. Multiple rules can be defined in one
+ * policy.
+ */
+export interface ObjectReplicationPolicy extends Resource {
+  /**
+   * A unique id for object replication policy.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly policyId?: string;
+  /**
+   * Indicates when the policy is enabled on the source account.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly enabledTime?: Date;
+  /**
+   * Required. Source account name.
+   */
+  sourceAccount: string;
+  /**
+   * Required. Destination account name.
+   */
+  destinationAccount: string;
+  /**
+   * The storage account object replication rules.
+   */
+  rules?: ObjectReplicationPolicyRule[];
+}
+
+/**
  * An error response from the storage resource provider.
  */
 export interface ErrorResponse {
@@ -1924,6 +1994,11 @@ export interface RestorePolicyProperties {
    * DeleteRetentionPolicy.days.
    */
   days?: number;
+  /**
+   * Returns the date and time the restore policy was last enabled.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lastEnabledTime?: Date;
 }
 
 /**
@@ -2352,6 +2427,14 @@ export interface StorageAccountListResult extends Array<StorageAccount> {
  * @extends Array<Usage>
  */
 export interface UsageListResult extends Array<Usage> {
+}
+
+/**
+ * @interface
+ * List storage account object replication policies.
+ * @extends Array<ObjectReplicationPolicy>
+ */
+export interface ObjectReplicationPolicies extends Array<ObjectReplicationPolicy> {
 }
 
 /**
@@ -3160,6 +3243,66 @@ export type PrivateLinkResourcesListByStorageAccountResponse = PrivateLinkResour
        * The response body as parsed JSON or XML
        */
       parsedBody: PrivateLinkResourceListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type ObjectReplicationPoliciesListResponse = ObjectReplicationPolicies & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ObjectReplicationPolicies;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ObjectReplicationPoliciesGetResponse = ObjectReplicationPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ObjectReplicationPolicy;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ObjectReplicationPoliciesCreateOrUpdateResponse = ObjectReplicationPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ObjectReplicationPolicy;
     };
 };
 

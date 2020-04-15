@@ -221,6 +221,19 @@ export const nextPageLink: msRest.OperationURLParameter = {
   },
   skipEncoding: true
 };
+export const objectReplicationPolicyId: msRest.OperationURLParameter = {
+  parameterPath: "objectReplicationPolicyId",
+  mapper: {
+    required: true,
+    serializedName: "objectReplicationPolicyId",
+    constraints: {
+      MinLength: 1
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
 export const privateEndpointConnectionName: msRest.OperationURLParameter = {
   parameterPath: "privateEndpointConnectionName",
   mapper: {
