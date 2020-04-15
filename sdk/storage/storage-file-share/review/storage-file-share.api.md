@@ -80,7 +80,7 @@ export interface AccountSASSignatureValues {
 }
 
 // @public
-export class AnonymousCredential extends Credential {
+export class AnonymousCredential extends Credential_2 {
     create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): AnonymousCredentialPolicy;
 }
 
@@ -128,9 +128,11 @@ export interface CorsRule {
 }
 
 // @public
-export abstract class Credential implements RequestPolicyFactory {
+abstract class Credential_2 implements RequestPolicyFactory {
     create(_nextPolicy: RequestPolicy, _options: RequestPolicyOptions): RequestPolicy;
 }
+
+export { Credential_2 as Credential }
 
 // @public
 export abstract class CredentialPolicy extends BaseRequestPolicy {
@@ -673,7 +675,7 @@ export interface FileGetRangeListHeaders {
 export interface FileGetRangeListOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     leaseAccessConditions?: LeaseAccessConditions;
-    range?: Range;
+    range?: Range_2;
 }
 
 // @public
@@ -1124,7 +1126,7 @@ export interface Metrics {
 }
 
 // @public
-export function newPipeline(credential: Credential, pipelineOptions?: StoragePipelineOptions): Pipeline;
+export function newPipeline(credential: Credential_2, pipelineOptions?: StoragePipelineOptions): Pipeline;
 
 // @public (undocumented)
 export interface OperationTracingOptions {
@@ -1145,10 +1147,12 @@ export interface PipelineOptions {
 }
 
 // @public
-export interface Range {
+interface Range_2 {
     count?: number;
     offset: number;
 }
+
+export { Range_2 as Range }
 
 // @public
 export interface RangeModel {
@@ -1280,7 +1284,7 @@ export interface SetPropertiesResponse extends FileSetHTTPHeadersResponse {
 // @public
 export class ShareClient extends StorageClient {
     constructor(connectionString: string, name: string, options?: StoragePipelineOptions);
-    constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
+    constructor(url: string, credential?: Credential_2, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
     create(options?: ShareCreateOptions): Promise<ShareCreateResponse>;
     createDirectory(directoryName: string, options?: DirectoryCreateOptions): Promise<{
@@ -1409,7 +1413,7 @@ export type ShareDeleteResponse = ShareDeleteHeaders & {
 
 // @public
 export class ShareDirectoryClient extends StorageClient {
-    constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
+    constructor(url: string, credential?: Credential_2, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
     create(options?: DirectoryCreateOptions): Promise<DirectoryCreateResponse>;
     createFile(fileName: string, size: number, options?: FileCreateOptions): Promise<{
@@ -1443,7 +1447,7 @@ export class ShareDirectoryClient extends StorageClient {
 
 // @public
 export class ShareFileClient extends StorageClient {
-    constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
+    constructor(url: string, credential?: Credential_2, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
     abortCopyFromURL(copyId: string, options?: FileAbortCopyFromURLOptions): Promise<FileAbortCopyResponse>;
     clearRange(offset: number, contentLength: number, options?: FileClearRangeOptions): Promise<FileUploadRangeResponse>;
@@ -1649,7 +1653,7 @@ export class ShareSASPermissions {
 
 // @public
 export class ShareServiceClient extends StorageClient {
-    constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
+    constructor(url: string, credential?: Credential_2, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
     createShare(shareName: string, options?: ShareCreateOptions): Promise<{
         shareCreateResponse: ShareCreateResponse;
@@ -1809,7 +1813,7 @@ export enum StorageRetryPolicyType {
 }
 
 // @public
-export class StorageSharedKeyCredential extends Credential {
+export class StorageSharedKeyCredential extends Credential_2 {
     constructor(accountName: string, accountKey: string);
     readonly accountName: string;
     computeHMACSHA256(stringToSign: string): string;
