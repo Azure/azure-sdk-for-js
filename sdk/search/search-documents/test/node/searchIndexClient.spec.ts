@@ -5,7 +5,7 @@
 
 import { assert } from "chai";
 
-import { Recorder, record } from "@azure/test-utils-recorder";
+import { Recorder, record, isPlaybackMode } from "@azure/test-utils-recorder";
 
 import { createClients, environmentSetup } from "../utils/recordedClient";
 import { SearchIndexClient, SearchServiceClient } from "../../src/index";
@@ -23,16 +23,22 @@ describe("SearchIndexClient", function() {
 
   beforeEach(async function() {
     ({ indexClient, serviceClient } = createClients<Hotel>(TEST_INDEX_NAME));
-    await createIndex(serviceClient, TEST_INDEX_NAME);
-    await populateIndex(indexClient);
+    if (!isPlaybackMode()) {
+      await createIndex(serviceClient, TEST_INDEX_NAME);
+      await populateIndex(indexClient);
+    }
     recorder = record(this, environmentSetup);
+    // create the clients again, but hooked up to the recorder
+    ({ indexClient, serviceClient } = createClients<Hotel>(TEST_INDEX_NAME));
   });
 
   afterEach(async function() {
     if (recorder) {
       recorder.stop();
     }
-    await serviceClient.deleteIndex(TEST_INDEX_NAME);
+    if (!isPlaybackMode()) {
+      await serviceClient.deleteIndex(TEST_INDEX_NAME);
+    }
   });
 
   describe("#count", function() {
