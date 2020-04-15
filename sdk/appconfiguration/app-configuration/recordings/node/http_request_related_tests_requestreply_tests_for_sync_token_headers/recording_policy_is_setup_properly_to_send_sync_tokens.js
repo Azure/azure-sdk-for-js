@@ -1,25 +1,25 @@
 let nock = require('nock');
 
-module.exports.hash = "ac1b6daf431aa2e6b2d834cf5dbbbccd";
+module.exports.hash = "ddc97dbf1578adb6f5238a3239418f5d";
 
-module.exports.testInfo = {"uniqueName":{"deleteConfigTestNA":"deleteConfigTestNA158696680891002719"},"newDate":{}}
+module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
-  .delete('/kv/deleteConfigTestNA158696680891002719')
+  .get('/kv/doesntmatter')
   .query(true)
-  .reply(204, "", [
+  .reply(404, "", [
   'Server',
   'nginx/1.16.1',
   'Date',
-  'Wed, 15 Apr 2020 16:06:49 GMT',
-  'Content-Type',
-  'application/vnd.microsoft.appconfig.kv+json; charset=utf-8',
+  'Wed, 15 Apr 2020 16:11:15 GMT',
+  'Content-Length',
+  '0',
   'Connection',
   'close',
   'x-ms-request-id',
-  'be125fa5-4390-437a-ad3b-4fc5a979ef6b',
+  'b2d1b1b2-e49b-4909-a1c9-50fb69e1bda0',
   'x-ms-correlation-request-id',
-  'be125fa5-4390-437a-ad3b-4fc5a979ef6b',
+  'b2d1b1b2-e49b-4909-a1c9-50fb69e1bda0',
   'Access-Control-Allow-Origin',
   '*',
   'Access-Control-Allow-Credentials',

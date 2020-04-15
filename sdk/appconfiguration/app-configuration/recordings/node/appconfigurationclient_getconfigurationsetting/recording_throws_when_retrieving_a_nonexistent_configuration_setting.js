@@ -2,24 +2,24 @@ let nock = require('nock');
 
 module.exports.hash = "85833ef6375e93012a6da597283ef9e6";
 
-module.exports.testInfo = {"uniqueName":{"getConfigTestNA":"getConfigTestNA158690902809300479"},"newDate":{}}
+module.exports.testInfo = {"uniqueName":{"getConfigTestNA":"getConfigTestNA158696680982307638"},"newDate":{}}
 
 nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
-  .get('/kv/getConfigTestNA158690902809300479')
+  .get('/kv/getConfigTestNA158696680982307638')
   .query(true)
   .reply(404, "", [
   'Server',
   'nginx/1.16.1',
   'Date',
-  'Wed, 15 Apr 2020 00:03:48 GMT',
+  'Wed, 15 Apr 2020 16:06:49 GMT',
   'Content-Length',
   '0',
   'Connection',
   'close',
   'x-ms-request-id',
-  '066165e4-8b38-4a68-ac45-0024f7c7a546',
+  '5555a072-571f-42f6-a87c-dce93e628c81',
   'x-ms-correlation-request-id',
-  '066165e4-8b38-4a68-ac45-0024f7c7a546',
+  '5555a072-571f-42f6-a87c-dce93e628c81',
   'Access-Control-Allow-Origin',
   '*',
   'Access-Control-Allow-Credentials',

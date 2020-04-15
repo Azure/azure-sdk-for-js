@@ -2,16 +2,16 @@ let nock = require('nock');
 
 module.exports.hash = "4fb1fb0853b323b7edced6163fbe0204";
 
-module.exports.testInfo = {"uniqueName":{"deleteConfigTestEtag":"deleteConfigTestEtag158690902685108651"},"newDate":{}}
+module.exports.testInfo = {"uniqueName":{"deleteConfigTestEtag":"deleteConfigTestEtag158696680857701029"},"newDate":{}}
 
 nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
-  .put('/kv/deleteConfigTestEtag158690902685108651', {"key":"deleteConfigTestEtag158690902685108651","label":"test","value":"foo"})
+  .put('/kv/deleteConfigTestEtag158696680857701029', {"key":"deleteConfigTestEtag158696680857701029","label":"test","value":"foo"})
   .query(true)
-  .reply(200, {"etag":"utSc7Jagz0WZEChNaRRTorVCxSM","key":"deleteConfigTestEtag158690902685108651","label":"test","content_type":null,"value":"foo","tags":{},"locked":false,"last_modified":"2020-04-15T00:03:47+00:00"}, [
+  .reply(200, {"etag":"hp1zotRxKLA4ZyWuMDGsn2BXmg9","key":"deleteConfigTestEtag158696680857701029","label":"test","content_type":null,"value":"foo","tags":{},"locked":false,"last_modified":"2020-04-15T16:06:49+00:00"}, [
   'Server',
   'nginx/1.16.1',
   'Date',
-  'Wed, 15 Apr 2020 00:03:46 GMT',
+  'Wed, 15 Apr 2020 16:06:48 GMT',
   'Content-Type',
   'application/vnd.microsoft.appconfig.kv+json; charset=utf-8',
   'Transfer-Encoding',
@@ -19,15 +19,15 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
   'Connection',
   'close',
   'Last-Modified',
-  'Wed, 15 Apr 2020 00:03:47 GMT',
+  'Wed, 15 Apr 2020 16:06:49 GMT',
   'ETag',
-  '"utSc7Jagz0WZEChNaRRTorVCxSM"',
+  '"hp1zotRxKLA4ZyWuMDGsn2BXmg9"',
   'Sync-Token',
-  'zAJw6V16=NjotMSMxODk3NDMy;sn=1897432',
+  'zAJw6V16=NjotMSMxOTAyMzQ0;sn=1902344',
   'x-ms-request-id',
-  'd4f628c5-c8d4-4b61-94d7-f4dc9f6d7289',
+  '4d9e1c18-77b3-4a61-85f4-cc05a15385f2',
   'x-ms-correlation-request-id',
-  'd4f628c5-c8d4-4b61-94d7-f4dc9f6d7289',
+  '4d9e1c18-77b3-4a61-85f4-cc05a15385f2',
   'Access-Control-Allow-Origin',
   '*',
   'Access-Control-Allow-Credentials',
@@ -39,13 +39,13 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
-  .delete('/kv/deleteConfigTestEtag158690902685108651')
+  .delete('/kv/deleteConfigTestEtag158696680857701029')
   .query(true)
-  .reply(200, {"etag":"utSc7Jagz0WZEChNaRRTorVCxSM","key":"deleteConfigTestEtag158690902685108651","label":"test","content_type":null,"value":"foo","tags":{},"locked":false,"last_modified":"2020-04-15T00:03:47+00:00"}, [
+  .reply(200, {"etag":"hp1zotRxKLA4ZyWuMDGsn2BXmg9","key":"deleteConfigTestEtag158696680857701029","label":"test","content_type":null,"value":"foo","tags":{},"locked":false,"last_modified":"2020-04-15T16:06:49+00:00"}, [
   'Server',
   'nginx/1.16.1',
   'Date',
-  'Wed, 15 Apr 2020 00:03:47 GMT',
+  'Wed, 15 Apr 2020 16:06:48 GMT',
   'Content-Type',
   'application/vnd.microsoft.appconfig.kv+json; charset=utf-8',
   'Transfer-Encoding',
@@ -53,15 +53,15 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
   'Connection',
   'close',
   'Last-Modified',
-  'Wed, 15 Apr 2020 00:03:47 GMT',
+  'Wed, 15 Apr 2020 16:06:49 GMT',
   'ETag',
-  '"utSc7Jagz0WZEChNaRRTorVCxSM"',
+  '"hp1zotRxKLA4ZyWuMDGsn2BXmg9"',
   'Sync-Token',
-  'zAJw6V16=NjotMSMxODk3NDMz;sn=1897433',
+  'zAJw6V16=NjotMSMxOTAyMzQ1;sn=1902345',
   'x-ms-request-id',
-  '876652ae-bfa4-4e30-a520-bb1146423d3b',
+  '89a66b95-7be7-44c0-b478-698d0cb87c5b',
   'x-ms-correlation-request-id',
-  '876652ae-bfa4-4e30-a520-bb1146423d3b',
+  '89a66b95-7be7-44c0-b478-698d0cb87c5b',
   'Access-Control-Allow-Origin',
   '*',
   'Access-Control-Allow-Credentials',
@@ -73,21 +73,21 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
-  .get('/kv/deleteConfigTestEtag158690902685108651')
+  .get('/kv/deleteConfigTestEtag158696680857701029')
   .query(true)
   .reply(404, "", [
   'Server',
   'nginx/1.16.1',
   'Date',
-  'Wed, 15 Apr 2020 00:03:47 GMT',
+  'Wed, 15 Apr 2020 16:06:48 GMT',
   'Content-Length',
   '0',
   'Connection',
   'close',
   'x-ms-request-id',
-  '81992ea9-755b-43be-80e5-5e88a2d2fe9f',
+  'dab2a453-152e-439b-92ae-aaa5ba2f1448',
   'x-ms-correlation-request-id',
-  '81992ea9-755b-43be-80e5-5e88a2d2fe9f',
+  'dab2a453-152e-439b-92ae-aaa5ba2f1448',
   'Access-Control-Allow-Origin',
   '*',
   'Access-Control-Allow-Credentials',

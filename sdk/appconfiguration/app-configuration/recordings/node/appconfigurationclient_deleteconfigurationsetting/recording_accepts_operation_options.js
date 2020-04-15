@@ -2,16 +2,16 @@ let nock = require('nock');
 
 module.exports.hash = "9cd9f4e5d559531a3c64d5f6f532d222";
 
-module.exports.testInfo = {"uniqueName":{"deleteConfigTest":"deleteConfigTest158690902763605027"},"newDate":{}}
+module.exports.testInfo = {"uniqueName":{"deleteConfigTest":"deleteConfigTest158696680936403964"},"newDate":{}}
 
 nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
-  .put('/kv/deleteConfigTest158690902763605027', {"key":"deleteConfigTest158690902763605027","label":"MyLabel","value":"MyValue"})
+  .put('/kv/deleteConfigTest158696680936403964', {"key":"deleteConfigTest158696680936403964","label":"MyLabel","value":"MyValue"})
   .query(true)
-  .reply(200, {"etag":"iMBbFgP5mycOYJYFas44AFpdhXv","key":"deleteConfigTest158690902763605027","label":"MyLabel","content_type":null,"value":"MyValue","tags":{},"locked":false,"last_modified":"2020-04-15T00:03:48+00:00"}, [
+  .reply(200, {"etag":"wloL2w0AzEZXhZbWKmwX3HVWDfa","key":"deleteConfigTest158696680936403964","label":"MyLabel","content_type":null,"value":"MyValue","tags":{},"locked":false,"last_modified":"2020-04-15T16:06:49+00:00"}, [
   'Server',
   'nginx/1.16.1',
   'Date',
-  'Wed, 15 Apr 2020 00:03:47 GMT',
+  'Wed, 15 Apr 2020 16:06:49 GMT',
   'Content-Type',
   'application/vnd.microsoft.appconfig.kv+json; charset=utf-8',
   'Transfer-Encoding',
@@ -19,15 +19,15 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
   'Connection',
   'close',
   'Last-Modified',
-  'Wed, 15 Apr 2020 00:03:48 GMT',
+  'Wed, 15 Apr 2020 16:06:49 GMT',
   'ETag',
-  '"iMBbFgP5mycOYJYFas44AFpdhXv"',
+  '"wloL2w0AzEZXhZbWKmwX3HVWDfa"',
   'Sync-Token',
-  'zAJw6V16=NjotMSMxODk3NDM2;sn=1897436',
+  'zAJw6V16=NjotMSMxOTAyMzQ4;sn=1902348',
   'x-ms-request-id',
-  'd4164814-a59b-4a39-8dcc-d3c13a2466db',
+  'ce4286e7-5211-4ab3-86e2-f03308517a03',
   'x-ms-correlation-request-id',
-  'd4164814-a59b-4a39-8dcc-d3c13a2466db',
+  'ce4286e7-5211-4ab3-86e2-f03308517a03',
   'Access-Control-Allow-Origin',
   '*',
   'Access-Control-Allow-Credentials',

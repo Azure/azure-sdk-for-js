@@ -2,16 +2,16 @@ let nock = require('nock');
 
 module.exports.hash = "e0c64c969cf459afed031c66dee38c40";
 
-module.exports.testInfo = {"uniqueName":{"etags":"etags158690901912101198"},"newDate":{}}
+module.exports.testInfo = {"uniqueName":{"etags":"etags158696680080507384"},"newDate":{}}
 
 nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
-  .put('/kv/etags158690901912101198', {"key":"etags158690901912101198","value":"some value"})
+  .put('/kv/etags158696680080507384', {"key":"etags158696680080507384","value":"some value"})
   .query(true)
-  .reply(200, {"etag":"qrDHlXFEKvXDInrMd8PniRetVXq","key":"etags158690901912101198","label":null,"content_type":null,"value":"some value","tags":{},"locked":false,"last_modified":"2020-04-15T00:03:39+00:00"}, [
+  .reply(200, {"etag":"zc5KLiYaOqmo66zUFMwc3KcAxcu","key":"etags158696680080507384","label":null,"content_type":null,"value":"some value","tags":{},"locked":false,"last_modified":"2020-04-15T16:06:41+00:00"}, [
   'Server',
   'nginx/1.16.1',
   'Date',
-  'Wed, 15 Apr 2020 00:03:39 GMT',
+  'Wed, 15 Apr 2020 16:06:40 GMT',
   'Content-Type',
   'application/vnd.microsoft.appconfig.kv+json; charset=utf-8',
   'Transfer-Encoding',
@@ -19,15 +19,15 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
   'Connection',
   'close',
   'Last-Modified',
-  'Wed, 15 Apr 2020 00:03:39 GMT',
+  'Wed, 15 Apr 2020 16:06:41 GMT',
   'ETag',
-  '"qrDHlXFEKvXDInrMd8PniRetVXq"',
+  '"zc5KLiYaOqmo66zUFMwc3KcAxcu"',
   'Sync-Token',
-  'zAJw6V16=NjotMSMxODk3Mzk4;sn=1897398',
+  'zAJw6V16=NjotMSMxOTAyMzEw;sn=1902310',
   'x-ms-request-id',
-  'fd1c1f61-b2ff-4d3d-9eb0-7e82165bbd40',
+  '14e4c276-9498-4d28-b192-c4b191286ed5',
   'x-ms-correlation-request-id',
-  'fd1c1f61-b2ff-4d3d-9eb0-7e82165bbd40',
+  '14e4c276-9498-4d28-b192-c4b191286ed5',
   'Access-Control-Allow-Origin',
   '*',
   'Access-Control-Allow-Credentials',
@@ -39,13 +39,13 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
-  .get('/kv/etags158690901912101198')
+  .get('/kv/etags158696680080507384')
   .query(true)
-  .reply(200, {"etag":"qrDHlXFEKvXDInrMd8PniRetVXq","key":"etags158690901912101198","label":null,"content_type":null,"value":"some value","tags":{},"locked":false,"last_modified":"2020-04-15T00:03:39+00:00"}, [
+  .reply(200, {"etag":"zc5KLiYaOqmo66zUFMwc3KcAxcu","key":"etags158696680080507384","label":null,"content_type":null,"value":"some value","tags":{},"locked":false,"last_modified":"2020-04-15T16:06:41+00:00"}, [
   'Server',
   'nginx/1.16.1',
   'Date',
-  'Wed, 15 Apr 2020 00:03:39 GMT',
+  'Wed, 15 Apr 2020 16:06:40 GMT',
   'Content-Type',
   'application/vnd.microsoft.appconfig.kv+json; charset=utf-8',
   'Transfer-Encoding',
@@ -53,15 +53,15 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
   'Connection',
   'close',
   'Last-Modified',
-  'Wed, 15 Apr 2020 00:03:39 GMT',
+  'Wed, 15 Apr 2020 16:06:41 GMT',
   'ETag',
-  '"qrDHlXFEKvXDInrMd8PniRetVXq"',
+  '"zc5KLiYaOqmo66zUFMwc3KcAxcu"',
   'Sync-Token',
-  'zAJw6V16=NjotMSMxODk3Mzk4;sn=1897398',
+  'zAJw6V16=NjotMSMxOTAyMzEw;sn=1902310',
   'x-ms-request-id',
-  'c43bb197-c271-404f-8ca0-92d3ee257484',
+  'ef870a8d-e068-4b01-ac96-df3d0d7cf63b',
   'x-ms-correlation-request-id',
-  'c43bb197-c271-404f-8ca0-92d3ee257484',
+  'ef870a8d-e068-4b01-ac96-df3d0d7cf63b',
   'Access-Control-Allow-Origin',
   '*',
   'Access-Control-Allow-Credentials',
@@ -73,13 +73,13 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
-  .put('/kv/etags158690901912101198', {"key":"etags158690901912101198","label":null,"content_type":null,"value":"some new value!","last_modified":"2020-04-15T00:03:39.000Z","tags":{},"etag":"qrDHlXFEKvXDInrMd8PniRetVXq"})
+  .put('/kv/etags158696680080507384', {"key":"etags158696680080507384","label":null,"content_type":null,"value":"some new value!","last_modified":"2020-04-15T16:06:41.000Z","tags":{},"etag":"zc5KLiYaOqmo66zUFMwc3KcAxcu"})
   .query(true)
-  .reply(200, {"etag":"aFNf7DAkiMmJM7olPjuGihABi1O","key":"etags158690901912101198","label":null,"content_type":null,"value":"some new value!","tags":{},"locked":false,"last_modified":"2020-04-15T00:03:39+00:00"}, [
+  .reply(200, {"etag":"JCRVAMSmEgv0hxH8ZN8tC6E5g94","key":"etags158696680080507384","label":null,"content_type":null,"value":"some new value!","tags":{},"locked":false,"last_modified":"2020-04-15T16:06:41+00:00"}, [
   'Server',
   'nginx/1.16.1',
   'Date',
-  'Wed, 15 Apr 2020 00:03:39 GMT',
+  'Wed, 15 Apr 2020 16:06:41 GMT',
   'Content-Type',
   'application/vnd.microsoft.appconfig.kv+json; charset=utf-8',
   'Transfer-Encoding',
@@ -87,15 +87,15 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
   'Connection',
   'close',
   'Last-Modified',
-  'Wed, 15 Apr 2020 00:03:39 GMT',
+  'Wed, 15 Apr 2020 16:06:41 GMT',
   'ETag',
-  '"aFNf7DAkiMmJM7olPjuGihABi1O"',
+  '"JCRVAMSmEgv0hxH8ZN8tC6E5g94"',
   'Sync-Token',
-  'zAJw6V16=NjotMSMxODk3Mzk5;sn=1897399',
+  'zAJw6V16=NjotMSMxOTAyMzEx;sn=1902311',
   'x-ms-request-id',
-  '3290cb69-3520-45af-8a17-5de4c5066a90',
+  '8428e26b-a8c6-41bc-9cb7-60b193008cb1',
   'x-ms-correlation-request-id',
-  '3290cb69-3520-45af-8a17-5de4c5066a90',
+  '8428e26b-a8c6-41bc-9cb7-60b193008cb1',
   'Access-Control-Allow-Origin',
   '*',
   'Access-Control-Allow-Credentials',
@@ -107,21 +107,21 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
-  .put('/kv/etags158690901912101198', {"key":"etags158690901912101198","label":null,"content_type":null,"value":"some new value!","last_modified":"2020-04-15T00:03:39.000Z","tags":{},"etag":"bogus"})
+  .put('/kv/etags158696680080507384', {"key":"etags158696680080507384","label":null,"content_type":null,"value":"some new value!","last_modified":"2020-04-15T16:06:41.000Z","tags":{},"etag":"bogus"})
   .query(true)
   .reply(412, "", [
   'Server',
   'nginx/1.16.1',
   'Date',
-  'Wed, 15 Apr 2020 00:03:39 GMT',
+  'Wed, 15 Apr 2020 16:06:41 GMT',
   'Content-Length',
   '0',
   'Connection',
   'close',
   'x-ms-request-id',
-  'bb4993b5-3735-49a7-b65a-45f1cfacdc5a',
+  '5d3b32c9-915f-4e2a-92a1-00f761d779b4',
   'x-ms-correlation-request-id',
-  'bb4993b5-3735-49a7-b65a-45f1cfacdc5a',
+  '5d3b32c9-915f-4e2a-92a1-00f761d779b4',
   'Access-Control-Allow-Origin',
   '*',
   'Access-Control-Allow-Credentials',
@@ -135,11 +135,11 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
 nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
   .get('/kv')
   .query(true)
-  .reply(200, {"items":[{"etag":"aFNf7DAkiMmJM7olPjuGihABi1O","key":"etags158690901912101198","label":null,"content_type":null,"value":"some new value!","tags":{},"locked":false,"last_modified":"2020-04-15T00:03:39+00:00"}]}, [
+  .reply(200, {"items":[{"etag":"JCRVAMSmEgv0hxH8ZN8tC6E5g94","key":"etags158696680080507384","label":null,"content_type":null,"value":"some new value!","tags":{},"locked":false,"last_modified":"2020-04-15T16:06:41+00:00"}]}, [
   'Server',
   'nginx/1.16.1',
   'Date',
-  'Wed, 15 Apr 2020 00:03:39 GMT',
+  'Wed, 15 Apr 2020 16:06:41 GMT',
   'Content-Type',
   'application/vnd.microsoft.appconfig.kvset+json; charset=utf-8',
   'Transfer-Encoding',
@@ -147,11 +147,11 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
   'Connection',
   'close',
   'Sync-Token',
-  'zAJw6V16=NjotMSMxODk3Mzk5;sn=1897399',
+  'zAJw6V16=NjotMSMxOTAyMzEx;sn=1902311',
   'x-ms-request-id',
-  '9fb790b7-a21b-4497-9204-afbe40b6328b',
+  'b8c265fd-82ea-4adc-9bff-276275f001c3',
   'x-ms-correlation-request-id',
-  '9fb790b7-a21b-4497-9204-afbe40b6328b',
+  'b8c265fd-82ea-4adc-9bff-276275f001c3',
   'Access-Control-Allow-Origin',
   '*',
   'Access-Control-Allow-Credentials',
@@ -163,13 +163,13 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
-  .delete('/kv/etags158690901912101198')
+  .delete('/kv/etags158696680080507384')
   .query(true)
-  .reply(200, {"etag":"aFNf7DAkiMmJM7olPjuGihABi1O","key":"etags158690901912101198","label":null,"content_type":null,"value":"some new value!","tags":{},"locked":false,"last_modified":"2020-04-15T00:03:39+00:00"}, [
+  .reply(200, {"etag":"JCRVAMSmEgv0hxH8ZN8tC6E5g94","key":"etags158696680080507384","label":null,"content_type":null,"value":"some new value!","tags":{},"locked":false,"last_modified":"2020-04-15T16:06:41+00:00"}, [
   'Server',
   'nginx/1.16.1',
   'Date',
-  'Wed, 15 Apr 2020 00:03:39 GMT',
+  'Wed, 15 Apr 2020 16:06:41 GMT',
   'Content-Type',
   'application/vnd.microsoft.appconfig.kv+json; charset=utf-8',
   'Transfer-Encoding',
@@ -177,15 +177,15 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
   'Connection',
   'close',
   'Last-Modified',
-  'Wed, 15 Apr 2020 00:03:39 GMT',
+  'Wed, 15 Apr 2020 16:06:41 GMT',
   'ETag',
-  '"aFNf7DAkiMmJM7olPjuGihABi1O"',
+  '"JCRVAMSmEgv0hxH8ZN8tC6E5g94"',
   'Sync-Token',
-  'zAJw6V16=NjotMSMxODk3NDAw;sn=1897400',
+  'zAJw6V16=NjotMSMxOTAyMzEy;sn=1902312',
   'x-ms-request-id',
-  '7f3ae2d7-1f7d-4e7c-a926-a93b278a7c35',
+  'c6eb3872-8605-4623-a8f8-83bdb2390272',
   'x-ms-correlation-request-id',
-  '7f3ae2d7-1f7d-4e7c-a926-a93b278a7c35',
+  'c6eb3872-8605-4623-a8f8-83bdb2390272',
   'Access-Control-Allow-Origin',
   '*',
   'Access-Control-Allow-Credentials',

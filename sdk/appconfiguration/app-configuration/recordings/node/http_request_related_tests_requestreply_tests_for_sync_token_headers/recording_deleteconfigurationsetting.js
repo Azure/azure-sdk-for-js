@@ -1,17 +1,17 @@
 let nock = require('nock');
 
-module.exports.hash = "a88408a95d986c398f06705cc4e430f4";
+module.exports.hash = "56076155b5edddecf8f38d029ef5e1d8";
 
-module.exports.testInfo = {"uniqueName":{"addConfigSample":"addConfigSample158696680755302258"},"newDate":{}}
+module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
-  .put('/kv/addConfigSample158696680755302258', {"key":"addConfigSample158696680755302258","value":"MyValue"})
+  .delete('/kv/doesntmatter')
   .query(true)
-  .reply(200, {"etag":"kFVzI5dvAs85jW0BP58EtBAYsJw","key":"addConfigSample158696680755302258","label":null,"content_type":null,"value":"MyValue","tags":{},"locked":false,"last_modified":"2020-04-15T16:06:48+00:00"}, [
+  .reply(200, {"etag":"h73gkoXAl7lSrnnJuWrt80GKJNV","key":"doesntmatter","label":null,"content_type":null,"value":null,"tags":{},"locked":false,"last_modified":"2020-04-15T16:11:16+00:00"}, [
   'Server',
   'nginx/1.16.1',
   'Date',
-  'Wed, 15 Apr 2020 16:06:47 GMT',
+  'Wed, 15 Apr 2020 16:11:16 GMT',
   'Content-Type',
   'application/vnd.microsoft.appconfig.kv+json; charset=utf-8',
   'Transfer-Encoding',
@@ -19,15 +19,15 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
   'Connection',
   'close',
   'Last-Modified',
-  'Wed, 15 Apr 2020 16:06:48 GMT',
+  'Wed, 15 Apr 2020 16:11:16 GMT',
   'ETag',
-  '"kFVzI5dvAs85jW0BP58EtBAYsJw"',
+  '"h73gkoXAl7lSrnnJuWrt80GKJNV"',
   'Sync-Token',
-  'zAJw6V16=NjotMSMxOTAyMzM3;sn=1902337',
+  'zAJw6V16=NjotMSMxOTAyODU2;sn=1902856',
   'x-ms-request-id',
-  '9f204f43-6795-4872-9c0a-52e5ed938ec5',
+  '6c209e5f-34d0-4353-a062-d7d66ecf0441',
   'x-ms-correlation-request-id',
-  '9f204f43-6795-4872-9c0a-52e5ed938ec5',
+  '6c209e5f-34d0-4353-a062-d7d66ecf0441',
   'Access-Control-Allow-Origin',
   '*',
   'Access-Control-Allow-Credentials',

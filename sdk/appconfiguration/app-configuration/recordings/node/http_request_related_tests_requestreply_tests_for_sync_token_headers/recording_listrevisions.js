@@ -1,33 +1,31 @@
 let nock = require('nock');
 
-module.exports.hash = "a88408a95d986c398f06705cc4e430f4";
+module.exports.hash = "909716576a63b2dfe675322a852f4399";
 
-module.exports.testInfo = {"uniqueName":{"addConfigSample":"addConfigSample158696680755302258"},"newDate":{}}
+module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
-  .put('/kv/addConfigSample158696680755302258', {"key":"addConfigSample158696680755302258","value":"MyValue"})
+  .get('/revisions')
   .query(true)
-  .reply(200, {"etag":"kFVzI5dvAs85jW0BP58EtBAYsJw","key":"addConfigSample158696680755302258","label":null,"content_type":null,"value":"MyValue","tags":{},"locked":false,"last_modified":"2020-04-15T16:06:48+00:00"}, [
+  .reply(200, {"items":[{"etag":"h73gkoXAl7lSrnnJuWrt80GKJNV","key":"doesntmatter","label":null,"content_type":null,"value":null,"tags":{},"locked":false,"last_modified":"2020-04-15T16:11:16+00:00"},{"etag":"Eow4pfZNUSYoVPr11ZznrLNRXLo","key":"doesntmatter","label":null,"content_type":null,"value":null,"tags":{},"locked":false,"last_modified":"2020-04-15T16:11:16+00:00"}]}, [
   'Server',
   'nginx/1.16.1',
   'Date',
-  'Wed, 15 Apr 2020 16:06:47 GMT',
+  'Wed, 15 Apr 2020 16:11:16 GMT',
   'Content-Type',
-  'application/vnd.microsoft.appconfig.kv+json; charset=utf-8',
+  'application/vnd.microsoft.appconfig.kvset+json; charset=utf-8',
   'Transfer-Encoding',
   'chunked',
   'Connection',
   'close',
-  'Last-Modified',
-  'Wed, 15 Apr 2020 16:06:48 GMT',
-  'ETag',
-  '"kFVzI5dvAs85jW0BP58EtBAYsJw"',
+  'Accept-Ranges',
+  'items',
   'Sync-Token',
-  'zAJw6V16=NjotMSMxOTAyMzM3;sn=1902337',
+  'zAJw6V16=NjotMSMxOTAyODU2;sn=1902856',
   'x-ms-request-id',
-  '9f204f43-6795-4872-9c0a-52e5ed938ec5',
+  '0d627001-9c6a-4415-b8ee-27c566109ff3',
   'x-ms-correlation-request-id',
-  '9f204f43-6795-4872-9c0a-52e5ed938ec5',
+  '0d627001-9c6a-4415-b8ee-27c566109ff3',
   'Access-Control-Allow-Origin',
   '*',
   'Access-Control-Allow-Credentials',

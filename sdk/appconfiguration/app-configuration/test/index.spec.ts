@@ -485,7 +485,10 @@ describe("AppConfigurationClient", () => {
     });
 
     after(async () => {
-      await deleteKeyCompletely([keys.listConfigSettingA, keys.listConfigSettingB], client);
+      try {
+        await deleteKeyCompletely([keys.listConfigSettingA, keys.listConfigSettingB], client);
+      } catch(e) {
+      }
     });
 
     it("undefined doesn't throw and will just return everything", async () => {
@@ -631,7 +634,7 @@ describe("AppConfigurationClient", () => {
 
     it("by date", async () => {
       let byKeyIterator = client.listConfigurationSettings({
-        keyFilter: "listConfigSettingA*",
+        keyFilter: "listConfigSetting*",
         acceptDateTime: listConfigSettingA.lastModified
       });
 

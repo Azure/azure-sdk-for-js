@@ -1,17 +1,17 @@
 let nock = require('nock');
 
-module.exports.hash = "b2df591adf1b063fcf862f97e8be9e3e";
+module.exports.hash = "8f7e3d87ac7e8132e5055e76091ff2f0";
 
-module.exports.testInfo = {"uniqueName":{"listRevisions":"listRevisions158690906602805166","list-revisions-A":"list-revisions-A158690906602802680","list-revisions-B":"list-revisions-B158690906602806797"},"newDate":{}}
+module.exports.testInfo = {"uniqueName":{"listRevisions":"listRevisions158696684862009565","list-revisions-A":"list-revisions-A158696684862004944","list-revisions-B":"list-revisions-B158696684862003379"},"newDate":{}}
 
 nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
-  .put('/kv/listRevisions158690906602805166', {"key":"listRevisions158690906602805166","label":"list-revisions-A158690906602802680","value":"fooA1"})
+  .put('/kv/listRevisions158696684862009565', {"key":"listRevisions158696684862009565","label":"list-revisions-A158696684862004944","value":"fooA1"})
   .query(true)
-  .reply(200, {"etag":"tIuliYuvjjbvWahHSFweM96XQPW","key":"listRevisions158690906602805166","label":"list-revisions-A158690906602802680","content_type":null,"value":"fooA1","tags":{},"locked":false,"last_modified":"2020-04-15T00:04:26+00:00"}, [
+  .reply(200, {"etag":"MJArt4I80XE1UcJCPc2dyt2EeRK","key":"listRevisions158696684862009565","label":"list-revisions-A158696684862004944","content_type":null,"value":"fooA1","tags":{},"locked":false,"last_modified":"2020-04-15T16:07:29+00:00"}, [
   'Server',
   'nginx/1.16.1',
   'Date',
-  'Wed, 15 Apr 2020 00:04:26 GMT',
+  'Wed, 15 Apr 2020 16:07:28 GMT',
   'Content-Type',
   'application/vnd.microsoft.appconfig.kv+json; charset=utf-8',
   'Transfer-Encoding',
@@ -19,15 +19,15 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
   'Connection',
   'close',
   'Last-Modified',
-  'Wed, 15 Apr 2020 00:04:26 GMT',
+  'Wed, 15 Apr 2020 16:07:29 GMT',
   'ETag',
-  '"tIuliYuvjjbvWahHSFweM96XQPW"',
+  '"MJArt4I80XE1UcJCPc2dyt2EeRK"',
   'Sync-Token',
-  'zAJw6V16=NjotMSMxODk3OTAw;sn=1897900',
+  'zAJw6V16=NjotMSMxOTAyODEy;sn=1902812',
   'x-ms-request-id',
-  'db2b9280-fbb0-454a-95c9-a4a7f6f19670',
+  '9910362b-bfec-41df-b10a-e7ab921dee57',
   'x-ms-correlation-request-id',
-  'db2b9280-fbb0-454a-95c9-a4a7f6f19670',
+  '9910362b-bfec-41df-b10a-e7ab921dee57',
   'Access-Control-Allow-Origin',
   '*',
   'Access-Control-Allow-Credentials',
@@ -39,13 +39,13 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
-  .put('/kv/listRevisions158690906602805166', {"key":"listRevisions158690906602805166","label":"list-revisions-A158690906602802680","value":"fooA2"})
+  .put('/kv/listRevisions158696684862009565', {"key":"listRevisions158696684862009565","label":"list-revisions-A158696684862004944","value":"fooA2"})
   .query(true)
-  .reply(200, {"etag":"C74Hmzys9UxMOlVaPgcfR6Lv7Iy","key":"listRevisions158690906602805166","label":"list-revisions-A158690906602802680","content_type":null,"value":"fooA2","tags":{},"locked":false,"last_modified":"2020-04-15T00:04:27+00:00"}, [
+  .reply(200, {"etag":"ImH5KTEhB7pOlAX8vcPN5cos9rb","key":"listRevisions158696684862009565","label":"list-revisions-A158696684862004944","content_type":null,"value":"fooA2","tags":{},"locked":false,"last_modified":"2020-04-15T16:07:30+00:00"}, [
   'Server',
   'nginx/1.16.1',
   'Date',
-  'Wed, 15 Apr 2020 00:04:27 GMT',
+  'Wed, 15 Apr 2020 16:07:29 GMT',
   'Content-Type',
   'application/vnd.microsoft.appconfig.kv+json; charset=utf-8',
   'Transfer-Encoding',
@@ -53,15 +53,15 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
   'Connection',
   'close',
   'Last-Modified',
-  'Wed, 15 Apr 2020 00:04:27 GMT',
+  'Wed, 15 Apr 2020 16:07:30 GMT',
   'ETag',
-  '"C74Hmzys9UxMOlVaPgcfR6Lv7Iy"',
+  '"ImH5KTEhB7pOlAX8vcPN5cos9rb"',
   'Sync-Token',
-  'zAJw6V16=NjotMSMxODk3OTAx;sn=1897901',
+  'zAJw6V16=NjotMSMxOTAyODEz;sn=1902813',
   'x-ms-request-id',
-  'defaa1d9-6cdd-460d-8fa2-f24c8205b547',
+  '44acc5eb-abc5-411c-83d3-037e44bda829',
   'x-ms-correlation-request-id',
-  'defaa1d9-6cdd-460d-8fa2-f24c8205b547',
+  '44acc5eb-abc5-411c-83d3-037e44bda829',
   'Access-Control-Allow-Origin',
   '*',
   'Access-Control-Allow-Credentials',
@@ -73,13 +73,13 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
-  .put('/kv/listRevisions158690906602805166', {"key":"listRevisions158690906602805166","label":"list-revisions-B158690906602806797","value":"fooB1"})
+  .put('/kv/listRevisions158696684862009565', {"key":"listRevisions158696684862009565","label":"list-revisions-B158696684862003379","value":"fooB1"})
   .query(true)
-  .reply(200, {"etag":"003yfmOqPlYZbGRuPlVyo8OSbhj","key":"listRevisions158690906602805166","label":"list-revisions-B158690906602806797","content_type":null,"value":"fooB1","tags":{},"locked":false,"last_modified":"2020-04-15T00:04:27+00:00"}, [
+  .reply(200, {"etag":"Q4DQZvplvZRJq4E0wrfN2nNXS7Z","key":"listRevisions158696684862009565","label":"list-revisions-B158696684862003379","content_type":null,"value":"fooB1","tags":{},"locked":false,"last_modified":"2020-04-15T16:07:30+00:00"}, [
   'Server',
   'nginx/1.16.1',
   'Date',
-  'Wed, 15 Apr 2020 00:04:27 GMT',
+  'Wed, 15 Apr 2020 16:07:29 GMT',
   'Content-Type',
   'application/vnd.microsoft.appconfig.kv+json; charset=utf-8',
   'Transfer-Encoding',
@@ -87,15 +87,15 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
   'Connection',
   'close',
   'Last-Modified',
-  'Wed, 15 Apr 2020 00:04:27 GMT',
+  'Wed, 15 Apr 2020 16:07:30 GMT',
   'ETag',
-  '"003yfmOqPlYZbGRuPlVyo8OSbhj"',
+  '"Q4DQZvplvZRJq4E0wrfN2nNXS7Z"',
   'Sync-Token',
-  'zAJw6V16=NjotMSMxODk3OTAy;sn=1897902',
+  'zAJw6V16=NjotMSMxOTAyODE0;sn=1902814',
   'x-ms-request-id',
-  '4624fdfd-0975-46d6-8e6b-f5e0751dc050',
+  '02b7687a-08e4-4804-a337-98c9da2db0a0',
   'x-ms-correlation-request-id',
-  '4624fdfd-0975-46d6-8e6b-f5e0751dc050',
+  '02b7687a-08e4-4804-a337-98c9da2db0a0',
   'Access-Control-Allow-Origin',
   '*',
   'Access-Control-Allow-Credentials',
@@ -107,13 +107,13 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
-  .put('/kv/listRevisions158690906602805166', {"key":"listRevisions158690906602805166","label":"list-revisions-B158690906602806797","value":"fooB2"})
+  .put('/kv/listRevisions158696684862009565', {"key":"listRevisions158696684862009565","label":"list-revisions-B158696684862003379","value":"fooB2"})
   .query(true)
-  .reply(200, {"etag":"K2lNiCJ5c7J6JnpyHrlfkHOl5Cm","key":"listRevisions158690906602805166","label":"list-revisions-B158690906602806797","content_type":null,"value":"fooB2","tags":{},"locked":false,"last_modified":"2020-04-15T00:04:27+00:00"}, [
+  .reply(200, {"etag":"SOGtXeAAifCWzy27V8bRnV9emkR","key":"listRevisions158696684862009565","label":"list-revisions-B158696684862003379","content_type":null,"value":"fooB2","tags":{},"locked":false,"last_modified":"2020-04-15T16:07:30+00:00"}, [
   'Server',
   'nginx/1.16.1',
   'Date',
-  'Wed, 15 Apr 2020 00:04:27 GMT',
+  'Wed, 15 Apr 2020 16:07:30 GMT',
   'Content-Type',
   'application/vnd.microsoft.appconfig.kv+json; charset=utf-8',
   'Transfer-Encoding',
@@ -121,15 +121,15 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
   'Connection',
   'close',
   'Last-Modified',
-  'Wed, 15 Apr 2020 00:04:27 GMT',
+  'Wed, 15 Apr 2020 16:07:30 GMT',
   'ETag',
-  '"K2lNiCJ5c7J6JnpyHrlfkHOl5Cm"',
+  '"SOGtXeAAifCWzy27V8bRnV9emkR"',
   'Sync-Token',
-  'zAJw6V16=NjotMSMxODk3OTAz;sn=1897903',
+  'zAJw6V16=NjotMSMxOTAyODE1;sn=1902815',
   'x-ms-request-id',
-  '0b182f87-372b-4686-90fa-453e2a633a6f',
+  '6526983d-537b-46f9-b27b-05d544c123ca',
   'x-ms-correlation-request-id',
-  '0b182f87-372b-4686-90fa-453e2a633a6f',
+  '6526983d-537b-46f9-b27b-05d544c123ca',
   'Access-Control-Allow-Origin',
   '*',
   'Access-Control-Allow-Credentials',
@@ -143,11 +143,11 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
 nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
   .get('/revisions')
   .query(true)
-  .reply(200, {"items":[{"etag":"K2lNiCJ5c7J6JnpyHrlfkHOl5Cm","key":"listRevisions158690906602805166","label":"list-revisions-B158690906602806797","content_type":null,"value":"fooB2","tags":{},"locked":false,"last_modified":"2020-04-15T00:04:27+00:00"},{"etag":"003yfmOqPlYZbGRuPlVyo8OSbhj","key":"listRevisions158690906602805166","label":"list-revisions-B158690906602806797","content_type":null,"value":"fooB1","tags":{},"locked":false,"last_modified":"2020-04-15T00:04:27+00:00"},{"etag":"C74Hmzys9UxMOlVaPgcfR6Lv7Iy","key":"listRevisions158690906602805166","label":"list-revisions-A158690906602802680","content_type":null,"value":"fooA2","tags":{},"locked":false,"last_modified":"2020-04-15T00:04:27+00:00"},{"etag":"tIuliYuvjjbvWahHSFweM96XQPW","key":"listRevisions158690906602805166","label":"list-revisions-A158690906602802680","content_type":null,"value":"fooA1","tags":{},"locked":false,"last_modified":"2020-04-15T00:04:26+00:00"}]}, [
+  .reply(200, {"items":[{"etag":"SOGtXeAAifCWzy27V8bRnV9emkR","key":"listRevisions158696684862009565","label":"list-revisions-B158696684862003379","content_type":null,"value":"fooB2","tags":{},"locked":false,"last_modified":"2020-04-15T16:07:30+00:00"},{"etag":"Q4DQZvplvZRJq4E0wrfN2nNXS7Z","key":"listRevisions158696684862009565","label":"list-revisions-B158696684862003379","content_type":null,"value":"fooB1","tags":{},"locked":false,"last_modified":"2020-04-15T16:07:30+00:00"},{"etag":"ImH5KTEhB7pOlAX8vcPN5cos9rb","key":"listRevisions158696684862009565","label":"list-revisions-A158696684862004944","content_type":null,"value":"fooA2","tags":{},"locked":false,"last_modified":"2020-04-15T16:07:30+00:00"},{"etag":"MJArt4I80XE1UcJCPc2dyt2EeRK","key":"listRevisions158696684862009565","label":"list-revisions-A158696684862004944","content_type":null,"value":"fooA1","tags":{},"locked":false,"last_modified":"2020-04-15T16:07:29+00:00"}]}, [
   'Server',
   'nginx/1.16.1',
   'Date',
-  'Wed, 15 Apr 2020 00:04:27 GMT',
+  'Wed, 15 Apr 2020 16:07:30 GMT',
   'Content-Type',
   'application/vnd.microsoft.appconfig.kvset+json; charset=utf-8',
   'Transfer-Encoding',
@@ -157,11 +157,11 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
   'Accept-Ranges',
   'items',
   'Sync-Token',
-  'zAJw6V16=NjotMSMxODk3OTAz;sn=1897903',
+  'zAJw6V16=NjotMSMxOTAyODE1;sn=1902815',
   'x-ms-request-id',
-  '4cf888ce-73b9-455a-8792-a6d854542e35',
+  '8cf219b1-9f80-4162-a3e9-73c095f6c041',
   'x-ms-correlation-request-id',
-  '4cf888ce-73b9-455a-8792-a6d854542e35',
+  '8cf219b1-9f80-4162-a3e9-73c095f6c041',
   'Access-Control-Allow-Origin',
   '*',
   'Access-Control-Allow-Credentials',
@@ -175,11 +175,11 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
 nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
   .get('/revisions')
   .query(true)
-  .reply(200, {"items":[{"etag":"K2lNiCJ5c7J6JnpyHrlfkHOl5Cm","key":"listRevisions158690906602805166","label":"list-revisions-B158690906602806797","content_type":null,"value":"fooB2","tags":{},"locked":false,"last_modified":"2020-04-15T00:04:27+00:00"},{"etag":"003yfmOqPlYZbGRuPlVyo8OSbhj","key":"listRevisions158690906602805166","label":"list-revisions-B158690906602806797","content_type":null,"value":"fooB1","tags":{},"locked":false,"last_modified":"2020-04-15T00:04:27+00:00"},{"etag":"C74Hmzys9UxMOlVaPgcfR6Lv7Iy","key":"listRevisions158690906602805166","label":"list-revisions-A158690906602802680","content_type":null,"value":"fooA2","tags":{},"locked":false,"last_modified":"2020-04-15T00:04:27+00:00"},{"etag":"tIuliYuvjjbvWahHSFweM96XQPW","key":"listRevisions158690906602805166","label":"list-revisions-A158690906602802680","content_type":null,"value":"fooA1","tags":{},"locked":false,"last_modified":"2020-04-15T00:04:26+00:00"}]}, [
+  .reply(200, {"items":[{"etag":"SOGtXeAAifCWzy27V8bRnV9emkR","key":"listRevisions158696684862009565","label":"list-revisions-B158696684862003379","content_type":null,"value":"fooB2","tags":{},"locked":false,"last_modified":"2020-04-15T16:07:30+00:00"},{"etag":"Q4DQZvplvZRJq4E0wrfN2nNXS7Z","key":"listRevisions158696684862009565","label":"list-revisions-B158696684862003379","content_type":null,"value":"fooB1","tags":{},"locked":false,"last_modified":"2020-04-15T16:07:30+00:00"},{"etag":"ImH5KTEhB7pOlAX8vcPN5cos9rb","key":"listRevisions158696684862009565","label":"list-revisions-A158696684862004944","content_type":null,"value":"fooA2","tags":{},"locked":false,"last_modified":"2020-04-15T16:07:30+00:00"},{"etag":"MJArt4I80XE1UcJCPc2dyt2EeRK","key":"listRevisions158696684862009565","label":"list-revisions-A158696684862004944","content_type":null,"value":"fooA1","tags":{},"locked":false,"last_modified":"2020-04-15T16:07:29+00:00"}]}, [
   'Server',
   'nginx/1.16.1',
   'Date',
-  'Wed, 15 Apr 2020 00:04:27 GMT',
+  'Wed, 15 Apr 2020 16:07:30 GMT',
   'Content-Type',
   'application/vnd.microsoft.appconfig.kvset+json; charset=utf-8',
   'Transfer-Encoding',
@@ -189,11 +189,11 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
   'Accept-Ranges',
   'items',
   'Sync-Token',
-  'zAJw6V16=NjotMSMxODk3OTAz;sn=1897903',
+  'zAJw6V16=NjotMSMxOTAyODE1;sn=1902815',
   'x-ms-request-id',
-  '9fba38c0-01fe-41b4-b606-f7f08ade0912',
+  '81f6332f-0b6f-4521-bff2-0a9477ce51bf',
   'x-ms-correlation-request-id',
-  '9fba38c0-01fe-41b4-b606-f7f08ade0912',
+  '81f6332f-0b6f-4521-bff2-0a9477ce51bf',
   'Access-Control-Allow-Origin',
   '*',
   'Access-Control-Allow-Credentials',

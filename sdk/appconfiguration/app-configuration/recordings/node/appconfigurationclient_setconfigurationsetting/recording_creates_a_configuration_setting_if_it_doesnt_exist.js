@@ -1,17 +1,17 @@
 let nock = require('nock');
 
-module.exports.hash = "5220d9a00f33d6b9f6088a736be8fa1d";
+module.exports.hash = "cea5dfb5c9d75c2f48ab924def5484c4";
 
-module.exports.testInfo = {"uniqueName":{"setConfigTestNA":"setConfigTestNA158690907306808693"},"newDate":{}}
+module.exports.testInfo = {"uniqueName":{"setConfigTestNA":"setConfigTestNA158696685567708270"},"newDate":{}}
 
 nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
-  .put('/kv/setConfigTestNA158690907306808693', {"key":"setConfigTestNA158690907306808693","label":"test","value":"foo"})
+  .put('/kv/setConfigTestNA158696685567708270', {"key":"setConfigTestNA158696685567708270","label":"test","value":"foo"})
   .query(true)
-  .reply(200, {"etag":"GSAotm2ltePnPm6oQhH6Np53x2F","key":"setConfigTestNA158690907306808693","label":"test","content_type":null,"value":"foo","tags":{},"locked":false,"last_modified":"2020-04-15T00:04:33+00:00"}, [
+  .reply(200, {"etag":"Q0vqhORvaCEvGCsJXr7NOPK8A2k","key":"setConfigTestNA158696685567708270","label":"test","content_type":null,"value":"foo","tags":{},"locked":false,"last_modified":"2020-04-15T16:07:36+00:00"}, [
   'Server',
   'nginx/1.16.1',
   'Date',
-  'Wed, 15 Apr 2020 00:04:33 GMT',
+  'Wed, 15 Apr 2020 16:07:35 GMT',
   'Content-Type',
   'application/vnd.microsoft.appconfig.kv+json; charset=utf-8',
   'Transfer-Encoding',
@@ -19,15 +19,15 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
   'Connection',
   'close',
   'Last-Modified',
-  'Wed, 15 Apr 2020 00:04:33 GMT',
+  'Wed, 15 Apr 2020 16:07:36 GMT',
   'ETag',
-  '"GSAotm2ltePnPm6oQhH6Np53x2F"',
+  '"Q0vqhORvaCEvGCsJXr7NOPK8A2k"',
   'Sync-Token',
-  'zAJw6V16=NjotMSMxODk3OTIy;sn=1897922',
+  'zAJw6V16=NjotMSMxOTAyODM0;sn=1902834',
   'x-ms-request-id',
-  '97677d53-a641-477d-8ab4-e0e30f907e0d',
+  'e2b41b5a-a78b-4f2e-af95-bc913d0a81d9',
   'x-ms-correlation-request-id',
-  '97677d53-a641-477d-8ab4-e0e30f907e0d',
+  'e2b41b5a-a78b-4f2e-af95-bc913d0a81d9',
   'Access-Control-Allow-Origin',
   '*',
   'Access-Control-Allow-Credentials',
