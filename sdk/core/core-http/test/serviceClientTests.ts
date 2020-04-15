@@ -124,153 +124,21 @@ describe("ServiceClient", function() {
   });
 
   it("should serialize collection:csv query parameters", async function() {
-    const expected = "?q=1,2,3";
+    await testSendOperationRequest(["1", "2", "3"], QueryCollectionFormat.Csv, false, "?q=1,2,3");
+  });
 
-    let request: WebResource;
-    const client = new ServiceClient(undefined, {
-      httpClient: {
-        sendRequest: (req) => {
-          request = req;
-          return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
-        }
-      },
-      requestPolicyFactories: () => []
-    });
-
-    await client.sendOperationRequest(
-      {
-        q: [1, 2, 3]
-      },
-      {
-        httpMethod: "GET",
-        baseUrl: "httpbin.org",
-        serializer: new Serializer(),
-        queryParameters: [
-          {
-            collectionFormat: QueryCollectionFormat.Csv,
-            parameterPath: "q",
-            mapper: {
-              serializedName: "q",
-              type: {
-                name: "Sequence",
-                element: {
-                  type: {
-                    name: "Number"
-                  },
-                  serializedName: "q"
-                }
-              }
-            }
-          }
-        ],
-        responses: {
-          200: {}
-        }
-      }
-    );
-
-    assert(request!);
-    assert(request!.url.endsWith(expected), `"${request!.url}" does not end with "${expected}"`);
+  it("should serialize collection:csv query parameters with commas & skipEncoding true", async function() {
+    await testSendOperationRequest(["1,2", "3,4", "5"], QueryCollectionFormat.Csv, true, "?q=1,2,3,4,5");
   });
 
   it("should serialize collection:csv query parameters with commas", async function() {
-    const expected = "?q=1%2C2,3%2C4,5";
-
-    let request: WebResource;
-    const client = new ServiceClient(undefined, {
-      httpClient: {
-        sendRequest: (req) => {
-          request = req;
-          return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
-        }
-      },
-      requestPolicyFactories: () => []
-    });
-
-    await client.sendOperationRequest(
-      {
-        q: ["1,2", "3,4", "5"]
-      },
-      {
-        httpMethod: "GET",
-        baseUrl: "httpbin.org",
-        serializer: new Serializer(),
-        queryParameters: [
-          {
-            collectionFormat: QueryCollectionFormat.Csv,
-            parameterPath: "q",
-            mapper: {
-              serializedName: "q",
-              type: {
-                name: "Sequence",
-                element: {
-                  type: {
-                    name: "String"
-                  },
-                  serializedName: "q"
-                }
-              }
-            }
-          }
-        ],
-        responses: {
-          200: {}
-        }
-      }
-    );
-
-    assert(request!);
-    assert(request!.url.endsWith(expected), `"${request!.url}" does not end with "${expected}"`);
+    await testSendOperationRequest(["1,2", "3,4", "5"], QueryCollectionFormat.Csv, false, "?q=1%2C2,3%2C4,5");
   });
 
   it("should serialize collection:multi query parameters", async function() {
-    const expected = "?q=1&q=2&q=3";
-
-    let request: WebResource;
-    const client = new ServiceClient(undefined, {
-      httpClient: {
-        sendRequest: (req) => {
-          request = req;
-          return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
-        }
-      },
-      requestPolicyFactories: () => []
-    });
-
-    await client.sendOperationRequest(
-      {
-        q: [1, 2, 3]
-      },
-      {
-        httpMethod: "GET",
-        baseUrl: "httpbin.org",
-        serializer: new Serializer(),
-        queryParameters: [
-          {
-            collectionFormat: QueryCollectionFormat.Multi,
-            parameterPath: "q",
-            mapper: {
-              serializedName: "q",
-              type: {
-                name: "Sequence",
-                element: {
-                  type: {
-                    name: "Number"
-                  },
-                  serializedName: "q"
-                }
-              }
-            }
-          }
-        ],
-        responses: {
-          200: {}
-        }
-      }
-    );
-
-    assert(request!);
-    assert(request!.url.endsWith(expected), `"${request!.url}" does not end with "${expected}"`);
+    await testSendOperationRequest(["1", "2", "3"], QueryCollectionFormat.Multi, false, "?q=1&q=2&q=3");
+    await testSendOperationRequest(["1,2", "3,4", "5"], QueryCollectionFormat.Multi, false, "?q=1%2C2&q=3%2C4&q=5");
+    await testSendOperationRequest(["1,2", "3,4", "5"], QueryCollectionFormat.Multi, true, "?q=1,2&q=3,4&q=5");
   });
 
   it("should apply withCredentials to requests", async function() {
@@ -1181,4 +1049,53 @@ function stringToByteArray(str: string): Uint8Array {
   } else {
     return new TextEncoder().encode(str);
   }
+}
+
+async function testSendOperationRequest(queryValue: any, queryCollectionFormat: QueryCollectionFormat, skipEncodingParameter: boolean, expected: string) {
+  let request: WebResource;
+  const client = new ServiceClient(undefined, {
+    httpClient: {
+      sendRequest: req => {
+        request = req;
+        return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
+      },
+    },
+    requestPolicyFactories: () => [],
+  });
+
+  await client.sendOperationRequest(
+    {
+      q: queryValue
+    },
+    {
+      httpMethod: "GET",
+      baseUrl: "httpbin.org",
+      serializer: new Serializer(),
+      queryParameters: [
+        {
+          collectionFormat: queryCollectionFormat,
+          skipEncoding: skipEncodingParameter,
+          parameterPath: "q",
+          mapper: {
+            serializedName: "q",
+            type: {
+              name: "Sequence",
+              element: {
+                type: {
+                  name: "String",
+                },
+                serializedName: "q",
+              },
+            },
+          },
+        },
+      ],
+      responses: {
+        200: {},
+      },
+    }
+  );
+
+  assert(request!);
+  assert(request!.url.endsWith(expected), `"${request!.url}" does not end with "${expected}"`);
 }

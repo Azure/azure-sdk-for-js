@@ -371,12 +371,12 @@ export class ServiceClient {
                 for (const index in queryParameterValue) {
                   queryParameterValue[index] = encodeURIComponent(queryParameterValue[index]);
                 }
-                if (queryParameter.collectionFormat !== QueryCollectionFormat.Multi) {
-                  queryParameterValue = queryParameterValue.join(queryParameter.collectionFormat);
-                }
               } else {
                 queryParameterValue = encodeURIComponent(queryParameterValue);
               }
+            }
+            if (queryParameter.collectionFormat !== QueryCollectionFormat.Multi) {
+              queryParameterValue = queryParameterValue.join(queryParameter.collectionFormat);
             }
             requestUrl.setQueryParameter(
               queryParameter.mapper.serializedName || getPathStringFromParameter(queryParameter),
