@@ -1326,7 +1326,7 @@ export interface SplitSkill {
     defaultLanguageCode?: SplitSkillLanguage;
     description?: string;
     inputs: InputFieldMappingEntry[];
-    maximumPageLength?: number;
+    maxPageLength?: number;
     name?: string;
     odatatype: "#Microsoft.Skills.Text.SplitSkill";
     outputs: OutputFieldMappingEntry[];

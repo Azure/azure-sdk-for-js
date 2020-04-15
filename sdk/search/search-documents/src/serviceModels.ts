@@ -65,7 +65,6 @@ import {
   MergeSkill,
   EntityRecognitionSkill,
   SentimentSkill,
-  SplitSkill,
   TextTranslationSkill,
   WebApiSkill,
   DefaultCognitiveServicesAccount,
@@ -75,7 +74,11 @@ import {
   SoftDeleteColumnDeletionDetectionPolicy,
   DataSourceType,
   DataSourceCredentials,
-  DataContainer
+  DataContainer,
+  InputFieldMappingEntry,
+  OutputFieldMappingEntry,
+  SplitSkillLanguage,
+  TextSplitMode
 } from "./generated/service/models";
 
 /**
@@ -323,6 +326,54 @@ export interface PatternAnalyzer {
  * Contains the possible cases for Analyzer.
  */
 export type Analyzer = CustomAnalyzer | PatternAnalyzer | StandardAnalyzer | StopAnalyzer;
+
+/**
+ * A skill to split a string into chunks of text.
+ */
+export interface SplitSkill {
+  /**
+   * Polymorphic Discriminator
+   */
+  odatatype: "#Microsoft.Skills.Text.SplitSkill";
+  /**
+   * The name of the skill which uniquely identifies it within the skillset. A skill with no name
+   * defined will be given a default name of its 1-based index in the skills array, prefixed with
+   * the character '#'.
+   */
+  name?: string;
+  /**
+   * The description of the skill which describes the inputs, outputs, and usage of the skill.
+   */
+  description?: string;
+  /**
+   * Represents the level at which operations take place, such as the document root or document
+   * content (for example, /document or /document/content). The default is /document.
+   */
+  context?: string;
+  /**
+   * Inputs of the skills could be a column in the source data set, or the output of an upstream
+   * skill.
+   */
+  inputs: InputFieldMappingEntry[];
+  /**
+   * The output of a skill is either a field in a search index, or a value that can be consumed as
+   * an input by another skill.
+   */
+  outputs: OutputFieldMappingEntry[];
+  /**
+   * A value indicating which language code to use. Default is en. Possible values include: 'da',
+   * 'de', 'en', 'es', 'fi', 'fr', 'it', 'ko', 'pt'
+   */
+  defaultLanguageCode?: SplitSkillLanguage;
+  /**
+   * A value indicating which split mode to perform. Possible values include: 'pages', 'sentences'
+   */
+  textSplitMode?: TextSplitMode;
+  /**
+   * The desired maximum page length. Default is 10000.
+   */
+  maxPageLength?: number;
+}
 
 /**
  * Contains the possible cases for Skill.
