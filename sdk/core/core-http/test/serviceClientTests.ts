@@ -123,6 +123,56 @@ describe("ServiceClient", function() {
     assert.strictEqual(JSON.stringify(response), "{}");
   });
 
+  it("should serialize collection:csv query parameters", async function() {
+    const expected = "?q=1,2,3";
+
+    let request: WebResource;
+    const client = new ServiceClient(undefined, {
+      httpClient: {
+        sendRequest: (req) => {
+          request = req;
+          return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
+        }
+      },
+      requestPolicyFactories: () => []
+    });
+
+    await client.sendOperationRequest(
+      {
+        q: [1, 2, 3]
+      },
+      {
+        httpMethod: "GET",
+        baseUrl: "httpbin.org",
+        serializer: new Serializer(),
+        queryParameters: [
+          {
+            collectionFormat: QueryCollectionFormat.Csv,
+            parameterPath: "q",
+            mapper: {
+              serializedName: "q",
+              type: {
+                name: "Sequence",
+                element: {
+                  type: {
+                    name: "Number"
+                  },
+                  serializedName: "q"
+                }
+              }
+            }
+          }
+        ],
+        responses: {
+          200: {}
+        }
+      }
+    );
+
+    assert(request!);
+    assert(request!.url.endsWith(expected), `"${request!.url}" does not end with "${expected}"`);
+  });
+
   it("should serialize collection:multi query parameters", async function() {
     const expected = "?q=1&q=2&q=3";
 
