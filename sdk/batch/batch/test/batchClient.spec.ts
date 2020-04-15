@@ -45,8 +45,7 @@ describe("Batch Service", () => {
     batchEndpoint = process.env["AZURE_BATCH_ENDPOINT"] || "";
     clientId = process.env["CLIENT_ID"];
     secret =
-      process.env["APPLICATION_SECRET"] ||
-      "HA/CsxpkaqET9B6O4pRI6kMirlP00GoQZwVpsEZVDPJXgrRiZOJIeOsltXJGlDvBoSm5ZdNpL1FfFbOGA1zb7A==";
+      process.env["APPLICATION_SECRET"];
     domain = "microsoft.onmicrosoft.com";
     certThumb = "cff2ab63c8c955aaf71989efa641b906558d9fb7";
     nonAdminPoolUser = "nonAdminUser";
