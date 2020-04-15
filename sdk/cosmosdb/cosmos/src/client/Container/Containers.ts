@@ -104,7 +104,7 @@ export class Containers {
     body: ContainerRequest,
     options: RequestOptions = {}
   ): Promise<ContainerResponse> {
-    const err = {};
+    const err: { message?: string } = {};
     if (!isResourceValid(body, err)) {
       throw err;
     }
@@ -116,6 +116,16 @@ export class Containers {
         [Constants.HttpHeaders.OfferThroughput]: body.throughput
       });
       delete body.throughput;
+    }
+
+    if (typeof body.partitionKey === "string") {
+      if (!body.partitionKey.startsWith("/")) {
+        err.message = "Partition key must start with '/'";
+        throw err;
+      }
+      body.partitionKey = {
+        paths: [body.partitionKey]
+      };
     }
 
     // If they don't specify a partition key, use the default path
