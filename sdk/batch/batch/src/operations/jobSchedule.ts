@@ -27,19 +27,19 @@ export class JobSchedule {
   }
 
   /**
-   * @summary Checks the specified job schedule exists.
-   * @param jobScheduleId The ID of the job schedule which you want to check.
+   * @summary Checks the specified Job Schedule exists.
+   * @param jobScheduleId The ID of the Job Schedule which you want to check.
    * @param [options] The optional parameters
    * @returns Promise<Models.JobScheduleExistsResponse>
    */
   exists(jobScheduleId: string, options?: Models.JobScheduleExistsOptionalParams): Promise<Models.JobScheduleExistsResponse>;
   /**
-   * @param jobScheduleId The ID of the job schedule which you want to check.
+   * @param jobScheduleId The ID of the Job Schedule which you want to check.
    * @param callback The callback
    */
   exists(jobScheduleId: string, callback: msRest.ServiceCallback<boolean>): void;
   /**
-   * @param jobScheduleId The ID of the job schedule which you want to check.
+   * @param jobScheduleId The ID of the Job Schedule which you want to check.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -55,24 +55,24 @@ export class JobSchedule {
   }
 
   /**
-   * When you delete a job schedule, this also deletes all jobs and tasks under that schedule. When
-   * tasks are deleted, all the files in their working directories on the compute nodes are also
-   * deleted (the retention period is ignored). The job schedule statistics are no longer accessible
-   * once the job schedule is deleted, though they are still counted towards account lifetime
+   * When you delete a Job Schedule, this also deletes all Jobs and Tasks under that schedule. When
+   * Tasks are deleted, all the files in their working directories on the Compute Nodes are also
+   * deleted (the retention period is ignored). The Job Schedule statistics are no longer accessible
+   * once the Job Schedule is deleted, though they are still counted towards Account lifetime
    * statistics.
-   * @summary Deletes a job schedule from the specified account.
-   * @param jobScheduleId The ID of the job schedule to delete.
+   * @summary Deletes a Job Schedule from the specified Account.
+   * @param jobScheduleId The ID of the Job Schedule to delete.
    * @param [options] The optional parameters
    * @returns Promise<Models.JobScheduleDeleteResponse>
    */
   deleteMethod(jobScheduleId: string, options?: Models.JobScheduleDeleteMethodOptionalParams): Promise<Models.JobScheduleDeleteResponse>;
   /**
-   * @param jobScheduleId The ID of the job schedule to delete.
+   * @param jobScheduleId The ID of the Job Schedule to delete.
    * @param callback The callback
    */
   deleteMethod(jobScheduleId: string, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param jobScheduleId The ID of the job schedule to delete.
+   * @param jobScheduleId The ID of the Job Schedule to delete.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -88,19 +88,19 @@ export class JobSchedule {
   }
 
   /**
-   * Gets information about the specified job schedule.
-   * @param jobScheduleId The ID of the job schedule to get.
+   * Gets information about the specified Job Schedule.
+   * @param jobScheduleId The ID of the Job Schedule to get.
    * @param [options] The optional parameters
    * @returns Promise<Models.JobScheduleGetResponse>
    */
   get(jobScheduleId: string, options?: Models.JobScheduleGetOptionalParams): Promise<Models.JobScheduleGetResponse>;
   /**
-   * @param jobScheduleId The ID of the job schedule to get.
+   * @param jobScheduleId The ID of the Job Schedule to get.
    * @param callback The callback
    */
   get(jobScheduleId: string, callback: msRest.ServiceCallback<Models.CloudJobSchedule>): void;
   /**
-   * @param jobScheduleId The ID of the job schedule to get.
+   * @param jobScheduleId The ID of the Job Schedule to get.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -116,25 +116,25 @@ export class JobSchedule {
   }
 
   /**
-   * This replaces only the job schedule properties specified in the request. For example, if the
+   * This replaces only the Job Schedule properties specified in the request. For example, if the
    * schedule property is not specified with this request, then the Batch service will keep the
-   * existing schedule. Changes to a job schedule only impact jobs created by the schedule after the
-   * update has taken place; currently running jobs are unaffected.
-   * @summary Updates the properties of the specified job schedule.
-   * @param jobScheduleId The ID of the job schedule to update.
+   * existing schedule. Changes to a Job Schedule only impact Jobs created by the schedule after the
+   * update has taken place; currently running Jobs are unaffected.
+   * @summary Updates the properties of the specified Job Schedule.
+   * @param jobScheduleId The ID of the Job Schedule to update.
    * @param jobSchedulePatchParameter The parameters for the request.
    * @param [options] The optional parameters
    * @returns Promise<Models.JobSchedulePatchResponse>
    */
   patch(jobScheduleId: string, jobSchedulePatchParameter: Models.JobSchedulePatchParameter, options?: Models.JobSchedulePatchOptionalParams): Promise<Models.JobSchedulePatchResponse>;
   /**
-   * @param jobScheduleId The ID of the job schedule to update.
+   * @param jobScheduleId The ID of the Job Schedule to update.
    * @param jobSchedulePatchParameter The parameters for the request.
    * @param callback The callback
    */
   patch(jobScheduleId: string, jobSchedulePatchParameter: Models.JobSchedulePatchParameter, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param jobScheduleId The ID of the job schedule to update.
+   * @param jobScheduleId The ID of the Job Schedule to update.
    * @param jobSchedulePatchParameter The parameters for the request.
    * @param options The optional parameters
    * @param callback The callback
@@ -152,25 +152,25 @@ export class JobSchedule {
   }
 
   /**
-   * This fully replaces all the updatable properties of the job schedule. For example, if the
+   * This fully replaces all the updatable properties of the Job Schedule. For example, if the
    * schedule property is not specified with this request, then the Batch service will remove the
-   * existing schedule. Changes to a job schedule only impact jobs created by the schedule after the
-   * update has taken place; currently running jobs are unaffected.
-   * @summary Updates the properties of the specified job schedule.
-   * @param jobScheduleId The ID of the job schedule to update.
+   * existing schedule. Changes to a Job Schedule only impact Jobs created by the schedule after the
+   * update has taken place; currently running Jobs are unaffected.
+   * @summary Updates the properties of the specified Job Schedule.
+   * @param jobScheduleId The ID of the Job Schedule to update.
    * @param jobScheduleUpdateParameter The parameters for the request.
    * @param [options] The optional parameters
    * @returns Promise<Models.JobScheduleUpdateResponse>
    */
   update(jobScheduleId: string, jobScheduleUpdateParameter: Models.JobScheduleUpdateParameter, options?: Models.JobScheduleUpdateOptionalParams): Promise<Models.JobScheduleUpdateResponse>;
   /**
-   * @param jobScheduleId The ID of the job schedule to update.
+   * @param jobScheduleId The ID of the Job Schedule to update.
    * @param jobScheduleUpdateParameter The parameters for the request.
    * @param callback The callback
    */
   update(jobScheduleId: string, jobScheduleUpdateParameter: Models.JobScheduleUpdateParameter, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param jobScheduleId The ID of the job schedule to update.
+   * @param jobScheduleId The ID of the Job Schedule to update.
    * @param jobScheduleUpdateParameter The parameters for the request.
    * @param options The optional parameters
    * @param callback The callback
@@ -188,20 +188,20 @@ export class JobSchedule {
   }
 
   /**
-   * No new jobs will be created until the job schedule is enabled again.
-   * @summary Disables a job schedule.
-   * @param jobScheduleId The ID of the job schedule to disable.
+   * No new Jobs will be created until the Job Schedule is enabled again.
+   * @summary Disables a Job Schedule.
+   * @param jobScheduleId The ID of the Job Schedule to disable.
    * @param [options] The optional parameters
    * @returns Promise<Models.JobScheduleDisableResponse>
    */
   disable(jobScheduleId: string, options?: Models.JobScheduleDisableOptionalParams): Promise<Models.JobScheduleDisableResponse>;
   /**
-   * @param jobScheduleId The ID of the job schedule to disable.
+   * @param jobScheduleId The ID of the Job Schedule to disable.
    * @param callback The callback
    */
   disable(jobScheduleId: string, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param jobScheduleId The ID of the job schedule to disable.
+   * @param jobScheduleId The ID of the Job Schedule to disable.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -217,19 +217,19 @@ export class JobSchedule {
   }
 
   /**
-   * @summary Enables a job schedule.
-   * @param jobScheduleId The ID of the job schedule to enable.
+   * @summary Enables a Job Schedule.
+   * @param jobScheduleId The ID of the Job Schedule to enable.
    * @param [options] The optional parameters
    * @returns Promise<Models.JobScheduleEnableResponse>
    */
   enable(jobScheduleId: string, options?: Models.JobScheduleEnableOptionalParams): Promise<Models.JobScheduleEnableResponse>;
   /**
-   * @param jobScheduleId The ID of the job schedule to enable.
+   * @param jobScheduleId The ID of the Job Schedule to enable.
    * @param callback The callback
    */
   enable(jobScheduleId: string, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param jobScheduleId The ID of the job schedule to enable.
+   * @param jobScheduleId The ID of the Job Schedule to enable.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -245,19 +245,19 @@ export class JobSchedule {
   }
 
   /**
-   * @summary Terminates a job schedule.
-   * @param jobScheduleId The ID of the job schedule to terminates.
+   * @summary Terminates a Job Schedule.
+   * @param jobScheduleId The ID of the Job Schedule to terminates.
    * @param [options] The optional parameters
    * @returns Promise<Models.JobScheduleTerminateResponse>
    */
   terminate(jobScheduleId: string, options?: Models.JobScheduleTerminateOptionalParams): Promise<Models.JobScheduleTerminateResponse>;
   /**
-   * @param jobScheduleId The ID of the job schedule to terminates.
+   * @param jobScheduleId The ID of the Job Schedule to terminates.
    * @param callback The callback
    */
   terminate(jobScheduleId: string, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param jobScheduleId The ID of the job schedule to terminates.
+   * @param jobScheduleId The ID of the Job Schedule to terminates.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -273,19 +273,19 @@ export class JobSchedule {
   }
 
   /**
-   * @summary Adds a job schedule to the specified account.
-   * @param cloudJobSchedule The job schedule to be added.
+   * @summary Adds a Job Schedule to the specified Account.
+   * @param cloudJobSchedule The Job Schedule to be added.
    * @param [options] The optional parameters
    * @returns Promise<Models.JobScheduleAddResponse>
    */
   add(cloudJobSchedule: Models.JobScheduleAddParameter, options?: Models.JobScheduleAddOptionalParams): Promise<Models.JobScheduleAddResponse>;
   /**
-   * @param cloudJobSchedule The job schedule to be added.
+   * @param cloudJobSchedule The Job Schedule to be added.
    * @param callback The callback
    */
   add(cloudJobSchedule: Models.JobScheduleAddParameter, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param cloudJobSchedule The job schedule to be added.
+   * @param cloudJobSchedule The Job Schedule to be added.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -301,7 +301,7 @@ export class JobSchedule {
   }
 
   /**
-   * @summary Lists all of the job schedules in the specified account.
+   * @summary Lists all of the Job Schedules in the specified Account.
    * @param [options] The optional parameters
    * @returns Promise<Models.JobScheduleListResponse>
    */
@@ -325,7 +325,7 @@ export class JobSchedule {
   }
 
   /**
-   * @summary Lists all of the job schedules in the specified account.
+   * @summary Lists all of the Job Schedules in the specified Account.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.JobScheduleListResponse>
@@ -384,7 +384,8 @@ const existsOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.JobScheduleExistsHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.JobScheduleExistsHeaders
     }
   },
   serializer
@@ -416,7 +417,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.JobScheduleDeleteHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.JobScheduleDeleteHeaders
     }
   },
   serializer
@@ -451,7 +453,8 @@ const getOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.JobScheduleGetHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.JobScheduleGetHeaders
     }
   },
   serializer
@@ -491,7 +494,8 @@ const patchOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.JobSchedulePatchHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.JobSchedulePatchHeaders
     }
   },
   serializer
@@ -531,7 +535,8 @@ const updateOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.JobScheduleUpdateHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.JobScheduleUpdateHeaders
     }
   },
   serializer
@@ -563,7 +568,8 @@ const disableOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.JobScheduleDisableHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.JobScheduleDisableHeaders
     }
   },
   serializer
@@ -595,7 +601,8 @@ const enableOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.JobScheduleEnableHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.JobScheduleEnableHeaders
     }
   },
   serializer
@@ -627,7 +634,8 @@ const terminateOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.JobScheduleTerminateHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.JobScheduleTerminateHeaders
     }
   },
   serializer
@@ -662,7 +670,8 @@ const addOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.JobScheduleAddHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.JobScheduleAddHeaders
     }
   },
   serializer
@@ -694,7 +703,8 @@ const listOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.JobScheduleListHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.JobScheduleListHeaders
     }
   },
   serializer
@@ -719,7 +729,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.JobScheduleListHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.JobScheduleListHeaders
     }
   },
   serializer
