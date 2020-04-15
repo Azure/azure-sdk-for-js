@@ -19,7 +19,7 @@ import { EventHubConsumer } from "../src/receiver";
 import { EventHubProducer } from "../src/sender";
 const env = getEnvVars();
 
-describe("Create EventHubClient using connection string #RunnableInBrowser", function(): void {
+describe("Create EventHubClient using connection string", function(): void {
   it("throws when it cannot find the Event Hub name", function(): void {
     const connectionString = "Endpoint=sb://abc";
     const test = function(): EventHubClient {
@@ -126,7 +126,7 @@ describe("Create EventHubClient using Azure Identity", function(): void {
   });
 });
 
-describe("ServiceCommunicationError for non existent namespace #RunnableInBrowser", function(): void {
+describe("ServiceCommunicationError for non existent namespace", function(): void {
   let client: EventHubClient;
   const expectedErrCode = isNode ? "ENOTFOUND" : "ServiceCommunicationError";
   beforeEach(() => {
@@ -194,7 +194,7 @@ describe("ServiceCommunicationError for non existent namespace #RunnableInBrowse
   });
 });
 
-describe("MessagingEntityNotFoundError for non existent eventhub #RunnableInBrowser", function(): void {
+describe("MessagingEntityNotFoundError for non existent eventhub", function(): void {
   let client: EventHubClient;
 
   beforeEach(() => {
@@ -264,7 +264,7 @@ describe("MessagingEntityNotFoundError for non existent eventhub #RunnableInBrow
   });
 });
 
-describe("User Agent on EventHubClient on #RunnableInBrowser", function(): void {
+describe("User Agent on EventHubClient on", function(): void {
   let client: EventHubClient;
 
   beforeEach(() => {
@@ -327,7 +327,7 @@ describe("User Agent on EventHubClient on #RunnableInBrowser", function(): void 
   });
 });
 
-describe("Errors after close() #RunnableInBrowser", function(): void {
+describe("Errors after close()", function(): void {
   let client: EventHubClient;
   let sender: EventHubProducer;
   let receiver: EventHubConsumer;
