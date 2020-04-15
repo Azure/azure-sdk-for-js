@@ -21,7 +21,6 @@ describe("Batch Service", () => {
   let batchEndpoint: string;
   let clientId: string;
   let secret: string;
-  let domain: string;
   let certThumb: string;
   let nonAdminPoolUser: string;
   let compute_nodes: string[];
@@ -45,7 +44,7 @@ describe("Batch Service", () => {
     batchEndpoint = process.env["AZURE_BATCH_ENDPOINT"];
     clientId = process.env["CLIENT_ID"];
     secret = process.env["APPLICATION_SECRET"];
-    domain = "microsoft.onmicrosoft.com";
+    // dummy thumb
     certThumb = "cff2ab63c8c955aaf71989efa641b906558d9fb7";
     nonAdminPoolUser = "nonAdminUser";
     const creds = new BatchSharedKeyCredentials(batchAccountName, batchAccountKey);
@@ -63,44 +62,6 @@ describe("Batch Service", () => {
       assert.equal(result._response.status, 200);
     });
 
-    it("should perform AAD authentication successfully", (done) => {
-      const verifyAadAuth = function(token, callback) {
-        const tokenCreds = new TokenCredentials(token, "Bearer");
-        const aadClient = new BatchServiceClient(tokenCreds, process.env["AZURE_BATCH_ENDPOINT"]);
-        aadClient.account.listSupportedImages(function(err, result, request, response) {
-          assert.isUndefined(err);
-          assert.isDefined(result);
-          assert.isAtLeast(result.length, 1);
-          assert.equal(response.status, 200);
-          assert.isDefined(request.headers.get("authorization"));
-          assert.equal(request.headers.get("authorization"), "Bearer " + token);
-          callback();
-        });
-      };
-
-      // if (!suite.isPlayback) {
-      var authContext = new AuthenticationContext(
-        "https://login.microsoftonline.com/microsoft.onmicrosoft.com"
-      );
-
-      authContext.acquireTokenWithClientCredentials(
-        "https://batch.core.windows.net/",
-        process.env["CLIENT_ID"],
-        process.env["APPLICATION_SECRET"],
-        function(err, tokenResponse) {
-          assert.isUndefined(err);
-          assert.isDefined(tokenResponse);
-          assert.isDefined((tokenResponse as TokenResponse).accessToken);
-          verifyAadAuth((tokenResponse as TokenResponse).accessToken, done);
-        }
-      );
-      // } else {
-      //   verifyAadAuth("dummy token", done);
-      // }
-    });
-
-    // Disabled since the same cert can only be created once.
-    // Should reenable when recording is setup
     it("should add new certificate successfully", async () => {
       const cert: BatchServiceModels.CertificateAddParameter = {
         thumbprint: certThumb,
@@ -217,6 +178,45 @@ describe("Batch Service", () => {
       assert.isUndefined(result.allocationState);
       assert.isUndefined(result.vmSize);
       assert.equal(result._response.status, 200);
+    });
+    /**
+     * TODO: Tests below need to be run and verified
+     */
+
+    it("should perform AAD authentication successfully", (done) => {
+      const verifyAadAuth = function(token, callback) {
+        const tokenCreds = new TokenCredentials(token, "Bearer");
+        const aadClient = new BatchServiceClient(tokenCreds, process.env["AZURE_BATCH_ENDPOINT"]);
+        aadClient.account.listSupportedImages(function(err, result, request, response) {
+          assert.isUndefined(err);
+          assert.isDefined(result);
+          assert.isAtLeast(result.length, 1);
+          assert.equal(response.status, 200);
+          assert.isDefined(request.headers.get("authorization"));
+          assert.equal(request.headers.get("authorization"), "Bearer " + token);
+          callback();
+        });
+      };
+
+      // if (!suite.isPlayback) {
+      var authContext = new AuthenticationContext(
+        "https://login.microsoftonline.com/microsoft.onmicrosoft.com"
+      );
+
+      authContext.acquireTokenWithClientCredentials(
+        "https://batch.core.windows.net/",
+        clientId,
+        secret,
+        function(err, tokenResponse) {
+          assert.isUndefined(err);
+          assert.isDefined(tokenResponse);
+          assert.isDefined((tokenResponse as TokenResponse).accessToken);
+          verifyAadAuth((tokenResponse as TokenResponse).accessToken, done);
+        }
+      );
+      // } else {
+      //   verifyAadAuth("dummy token", done);
+      // }
     });
 
     it("should add a pool with vnet and get expected error", async () => {
