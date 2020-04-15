@@ -81,6 +81,17 @@ export class Sender {
   }
 
   /**
+   * Opens the AMQP link to Azure Service Bus from the sender.
+   *
+   * It is not necessary to call this method in order to use the sender. It is
+   * recommended to call this before your first send() or sendBatch() call if you
+   * want to front load the work of setting up the AMQP link to the service.
+   */
+  async open(): Promise<void> {
+    return MessageSender.create(this._context).open();
+  }
+
+  /**
    * Sends the given messages in a single batch i.e. in a single AMQP message after creating an AMQP
    * Sender link if it doesnt already exists.
    *
@@ -88,7 +99,7 @@ export class Sender {
    * and/or `partitionKey` properties respectively on the messages.
    * - When doing so, all
    * messages in the batch should have the same `sessionId` (if using sessions) and the same
-   * `parititionKey` (if using paritions).
+   * `partitionKey` (if using partitions).
    *
    * @param messages - An array of SendableMessageInfo objects to be sent in a Batch message.
    * @return Promise<void>

@@ -39,6 +39,12 @@ export async function main() {
   const queueClient = sbClient.createQueueClient(queueName);
   const sender = queueClient.createSender();
 
+  // Optionally, you can await on `sender.open()` if you want to front load the work of setting
+  // up the AMQP link to the service. If not called, the `sender` will call `open()` on your behalf
+  // on the first send operation.
+  //
+  // await sender.open()
+
   try {
     for (let index = 0; index < listOfScientists.length; index++) {
       const scientist = listOfScientists[index];
