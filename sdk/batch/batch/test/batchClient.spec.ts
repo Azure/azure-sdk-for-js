@@ -40,12 +40,11 @@ describe("Batch Service", () => {
   };
 
   beforeEach(() => {
-    batchAccountName = process.env["AZURE_BATCH_ACCOUNT_NAME"] || "";
-    batchAccountKey = process.env["AZURE_BATCH_ACCOUNT_KEY"] || "";
-    batchEndpoint = process.env["AZURE_BATCH_ENDPOINT"] || "";
+    batchAccountName = process.env["AZURE_BATCH_ACCOUNT_NAME"];
+    batchAccountKey = process.env["AZURE_BATCH_ACCOUNT_KEY"];
+    batchEndpoint = process.env["AZURE_BATCH_ENDPOINT"];
     clientId = process.env["CLIENT_ID"];
-    secret =
-      process.env["APPLICATION_SECRET"];
+    secret = process.env["APPLICATION_SECRET"];
     domain = "microsoft.onmicrosoft.com";
     certThumb = "cff2ab63c8c955aaf71989efa641b906558d9fb7";
     nonAdminPoolUser = "nonAdminUser";
