@@ -87,14 +87,12 @@ export const BgpSession: msRest.CompositeMapper = {
         }
       },
       microsoftSessionIPv4Address: {
-        readOnly: true,
         serializedName: "microsoftSessionIPv4Address",
         type: {
           name: "String"
         }
       },
       microsoftSessionIPv6Address: {
-        readOnly: true,
         serializedName: "microsoftSessionIPv6Address",
         type: {
           name: "String"
@@ -161,6 +159,7 @@ export const DirectConnection: msRest.CompositeMapper = {
         }
       },
       provisionedBandwidthInMbps: {
+        readOnly: true,
         serializedName: "provisionedBandwidthInMbps",
         type: {
           name: "Number"
@@ -200,6 +199,13 @@ export const DirectConnection: msRest.CompositeMapper = {
       },
       connectionIdentifier: {
         serializedName: "connectionIdentifier",
+        type: {
+          name: "String"
+        }
+      },
+      errorMessage: {
+        readOnly: true,
+        serializedName: "errorMessage",
         type: {
           name: "String"
         }
@@ -243,6 +249,7 @@ export const PeeringPropertiesDirect: msRest.CompositeMapper = {
         }
       },
       useForPeeringService: {
+        readOnly: true,
         serializedName: "useForPeeringService",
         type: {
           name: "Boolean"
@@ -293,6 +300,13 @@ export const ExchangeConnection: msRest.CompositeMapper = {
       },
       connectionIdentifier: {
         serializedName: "connectionIdentifier",
+        type: {
+          name: "String"
+        }
+      },
+      errorMessage: {
+        readOnly: true,
+        serializedName: "errorMessage",
         type: {
           name: "String"
         }
@@ -502,32 +516,28 @@ export const Operation: msRest.CompositeMapper = {
   }
 };
 
-export const ContactInfo: msRest.CompositeMapper = {
-  serializedName: "ContactInfo",
+export const ContactDetail: msRest.CompositeMapper = {
+  serializedName: "ContactDetail",
   type: {
     name: "Composite",
-    className: "ContactInfo",
+    className: "ContactDetail",
     modelProperties: {
-      emails: {
-        serializedName: "emails",
+      role: {
+        serializedName: "role",
         type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
+          name: "String"
+        }
+      },
+      email: {
+        serializedName: "email",
+        type: {
+          name: "String"
         }
       },
       phone: {
         serializedName: "phone",
         type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
+          name: "String"
         }
       }
     }
@@ -547,11 +557,16 @@ export const PeerAsn: msRest.CompositeMapper = {
           name: "Number"
         }
       },
-      peerContactInfo: {
-        serializedName: "properties.peerContactInfo",
+      peerContactDetail: {
+        serializedName: "properties.peerContactDetail",
         type: {
-          name: "Composite",
-          className: "ContactInfo"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ContactDetail"
+            }
+          }
         }
       },
       peerName: {
@@ -562,6 +577,13 @@ export const PeerAsn: msRest.CompositeMapper = {
       },
       validationState: {
         serializedName: "properties.validationState",
+        type: {
+          name: "String"
+        }
+      },
+      errorMessage: {
+        readOnly: true,
+        serializedName: "properties.errorMessage",
         type: {
           name: "String"
         }
@@ -789,6 +811,82 @@ export const PeeringLocation: msRest.CompositeMapper = {
   }
 };
 
+export const PeeringRegisteredAsn: msRest.CompositeMapper = {
+  serializedName: "PeeringRegisteredAsn",
+  type: {
+    name: "Composite",
+    className: "PeeringRegisteredAsn",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      asn: {
+        serializedName: "properties.asn",
+        type: {
+          name: "Number"
+        }
+      },
+      peeringServicePrefixKey: {
+        readOnly: true,
+        serializedName: "properties.peeringServicePrefixKey",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PeeringRegisteredPrefix: msRest.CompositeMapper = {
+  serializedName: "PeeringRegisteredPrefix",
+  type: {
+    name: "Composite",
+    className: "PeeringRegisteredPrefix",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      prefix: {
+        serializedName: "properties.prefix",
+        type: {
+          name: "String"
+        }
+      },
+      prefixValidationState: {
+        readOnly: true,
+        serializedName: "properties.prefixValidationState",
+        type: {
+          name: "String"
+        }
+      },
+      peeringServicePrefixKey: {
+        readOnly: true,
+        serializedName: "properties.peeringServicePrefixKey",
+        type: {
+          name: "String"
+        }
+      },
+      errorMessage: {
+        readOnly: true,
+        serializedName: "properties.errorMessage",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ResourceTags: msRest.CompositeMapper = {
   serializedName: "ResourceTags",
   type: {
@@ -806,6 +904,17 @@ export const ResourceTags: msRest.CompositeMapper = {
           }
         }
       }
+    }
+  }
+};
+
+export const PeeringServiceCountry: msRest.CompositeMapper = {
+  serializedName: "PeeringServiceCountry",
+  type: {
+    name: "Composite",
+    className: "PeeringServiceCountry",
+    modelProperties: {
+      ...Resource.type.modelProperties
     }
   }
 };
@@ -839,6 +948,51 @@ export const PeeringServiceLocation: msRest.CompositeMapper = {
   }
 };
 
+export const PeeringServicePrefixEvent: msRest.CompositeMapper = {
+  serializedName: "PeeringServicePrefixEvent",
+  type: {
+    name: "Composite",
+    className: "PeeringServicePrefixEvent",
+    modelProperties: {
+      eventTimestamp: {
+        readOnly: true,
+        serializedName: "eventTimestamp",
+        type: {
+          name: "DateTime"
+        }
+      },
+      eventType: {
+        readOnly: true,
+        serializedName: "eventType",
+        type: {
+          name: "String"
+        }
+      },
+      eventSummary: {
+        readOnly: true,
+        serializedName: "eventSummary",
+        type: {
+          name: "String"
+        }
+      },
+      eventLevel: {
+        readOnly: true,
+        serializedName: "eventLevel",
+        type: {
+          name: "String"
+        }
+      },
+      eventDescription: {
+        readOnly: true,
+        serializedName: "eventDescription",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const PeeringServicePrefix: msRest.CompositeMapper = {
   serializedName: "PeeringServicePrefix",
   type: {
@@ -853,13 +1007,41 @@ export const PeeringServicePrefix: msRest.CompositeMapper = {
         }
       },
       prefixValidationState: {
+        readOnly: true,
         serializedName: "properties.prefixValidationState",
         type: {
           name: "String"
         }
       },
       learnedType: {
+        readOnly: true,
         serializedName: "properties.learnedType",
+        type: {
+          name: "String"
+        }
+      },
+      errorMessage: {
+        readOnly: true,
+        serializedName: "properties.errorMessage",
+        type: {
+          name: "String"
+        }
+      },
+      events: {
+        readOnly: true,
+        serializedName: "properties.events",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PeeringServicePrefixEvent"
+            }
+          }
+        }
+      },
+      peeringServicePrefixKey: {
+        serializedName: "properties.peeringServicePrefixKey",
         type: {
           name: "String"
         }
@@ -892,6 +1074,22 @@ export const PeeringServiceProvider: msRest.CompositeMapper = {
   }
 };
 
+export const PeeringServiceSku: msRest.CompositeMapper = {
+  serializedName: "PeeringServiceSku",
+  type: {
+    name: "Composite",
+    className: "PeeringServiceSku",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const PeeringService: msRest.CompositeMapper = {
   serializedName: "PeeringService",
   type: {
@@ -899,6 +1097,13 @@ export const PeeringService: msRest.CompositeMapper = {
     className: "PeeringService",
     modelProperties: {
       ...Resource.type.modelProperties,
+      sku: {
+        serializedName: "sku",
+        type: {
+          name: "Composite",
+          className: "PeeringServiceSku"
+        }
+      },
       peeringServiceLocation: {
         serializedName: "properties.peeringServiceLocation",
         type: {
@@ -1062,6 +1267,90 @@ export const PeeringLocationListResult: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "PeeringLocation"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PeeringRegisteredAsnListResult: msRest.CompositeMapper = {
+  serializedName: "PeeringRegisteredAsnListResult",
+  type: {
+    name: "Composite",
+    className: "PeeringRegisteredAsnListResult",
+    modelProperties: {
+      value: {
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PeeringRegisteredAsn"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PeeringRegisteredPrefixListResult: msRest.CompositeMapper = {
+  serializedName: "PeeringRegisteredPrefixListResult",
+  type: {
+    name: "Composite",
+    className: "PeeringRegisteredPrefixListResult",
+    modelProperties: {
+      value: {
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PeeringRegisteredPrefix"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PeeringServiceCountryListResult: msRest.CompositeMapper = {
+  serializedName: "PeeringServiceCountryListResult",
+  type: {
+    name: "Composite",
+    className: "PeeringServiceCountryListResult",
+    modelProperties: {
+      value: {
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PeeringServiceCountry"
             }
           }
         }

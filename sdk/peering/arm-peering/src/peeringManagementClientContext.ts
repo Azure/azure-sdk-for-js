@@ -44,7 +44,7 @@ export class PeeringManagementClientContext extends msRestAzure.AzureServiceClie
 
     super(credentials, options);
 
-    this.apiVersion = '2019-08-01-preview';
+    this.apiVersion = '2020-01-01-preview';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";
