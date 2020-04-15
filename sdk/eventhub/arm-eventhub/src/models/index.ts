@@ -597,6 +597,19 @@ export interface AuthorizationRuleListResult extends Array<AuthorizationRule> {
 
 /**
  * @interface
+ * The response of the List NetworkRuleSet operation
+ * @extends Array<NetworkRuleSet>
+ */
+export interface NetworkRuleSetListResult extends Array<NetworkRuleSet> {
+  /**
+   * Link to the next set of results. Not empty if Value contains incomplete list of
+   * NetworkRuleSet.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
  * The result of the List Alias(Disaster Recovery configuration) operation.
  * @extends Array<ArmDisasterRecovery>
  */
@@ -1058,6 +1071,26 @@ export type NamespacesGetNetworkRuleSetResponse = NetworkRuleSet & {
 };
 
 /**
+ * Contains response data for the listNetworkRuleSets operation.
+ */
+export type NamespacesListNetworkRuleSetsResponse = NetworkRuleSetListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetworkRuleSetListResult;
+    };
+};
+
+/**
  * Contains response data for the beginCreateOrUpdate operation.
  */
 export type NamespacesBeginCreateOrUpdateResponse = EHNamespace & {
@@ -1134,6 +1167,26 @@ export type NamespacesListAuthorizationRulesNextResponse = AuthorizationRuleList
        * The response body as parsed JSON or XML
        */
       parsedBody: AuthorizationRuleListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNetworkRuleSetsNext operation.
+ */
+export type NamespacesListNetworkRuleSetsNextResponse = NetworkRuleSetListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetworkRuleSetListResult;
     };
 };
 

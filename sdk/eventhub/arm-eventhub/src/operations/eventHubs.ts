@@ -207,7 +207,8 @@ export class EventHubs {
   }
 
   /**
-   * Creates or updates an AuthorizationRule for the specified Event Hub.
+   * Creates or updates an AuthorizationRule for the specified Event Hub. Creation/update of the
+   * AuthorizationRule will take a few seconds to take effect.
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
    * @param eventHubName The Event Hub name

@@ -947,6 +947,34 @@ export const AuthorizationRuleListResult: msRest.CompositeMapper = {
   }
 };
 
+export const NetworkRuleSetListResult: msRest.CompositeMapper = {
+  serializedName: "NetworkRuleSetListResult",
+  type: {
+    name: "Composite",
+    className: "NetworkRuleSetListResult",
+    modelProperties: {
+      value: {
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NetworkRuleSet"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ArmDisasterRecoveryListResult: msRest.CompositeMapper = {
   serializedName: "ArmDisasterRecoveryListResult",
   type: {
