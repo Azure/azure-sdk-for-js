@@ -427,15 +427,20 @@ export class MessageSender extends LinkEntity {
   }
 
   /**
-   * Initializes the `ClientEntityContext.sender` associated with this
+   * Initializes the underlying AMQP sender link from rhea associated with this
    * `MessageSender`.
    *
-   * If the connection is already open this method resolves immediately.
+   * If the underlying AMQP sender link is already open this method resolves immediately.
    */
   public async open(options?: SenderOptions): Promise<void> {
     if (this.isOpen()) {
       return;
     }
+
+    log.sender(
+      "Acquiring lock %s for initializing the session, sender and possibly the connection.",
+      this.openLock
+    );
 
     return defaultLock.acquire(this.openLock, async () => {
       try {
