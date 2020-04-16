@@ -21,7 +21,7 @@ export interface Clients<IndexModel> {
 const replaceableVariables: { [k: string]: string } = {
   SEARCH_API_ADMIN_KEY: "admin_key",
   SEARCH_API_ADMIN_KEY_ALT: "admin_key_alt",
-  ENDPOINT: "https://endpoint/"
+  ENDPOINT: "https://endpoint"
 };
 
 export const testEnv = new Proxy(replaceableVariables, {
