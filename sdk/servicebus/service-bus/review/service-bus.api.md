@@ -10,8 +10,8 @@ import { delay } from '@azure/core-amqp';
 import { Delivery } from 'rhea-promise';
 import Long from 'long';
 import { MessagingError } from '@azure/core-amqp';
+import { OperationTracingOptions } from '@azure/core-tracing';
 import { RetryOptions } from '@azure/core-amqp';
-import { SpanOptions } from '@opentelemetry/types';
 import { TokenCredential } from '@azure/core-amqp';
 import { TokenType } from '@azure/core-amqp';
 import { WebSocketImpl } from 'rhea-promise';
@@ -75,8 +75,9 @@ export interface MessageHandlers<ReceivedMessageT> {
 export { MessagingError }
 
 // @public
-export interface OperationOptions extends TracingOptions {
+export interface OperationOptions {
     abortSignal?: AbortSignalLike;
+    tracingOptions?: OperationTracingOptions;
 }
 
 // @public
@@ -239,13 +240,6 @@ export interface SubscriptionRuleManager {
 export { TokenCredential }
 
 export { TokenType }
-
-// @public
-export interface TracingOptions {
-    tracingOptions?: {
-        spanOptions?: SpanOptions;
-    };
-}
 
 // @public
 export interface WaitTimeOptions {
