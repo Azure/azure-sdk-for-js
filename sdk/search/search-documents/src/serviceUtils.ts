@@ -13,7 +13,13 @@ import {
   Skillset as GeneratedSkillset,
   SkillUnion,
   TokenizerUnion,
-  SynonymMap as GeneratedSynonymMap
+  SynonymMap as GeneratedSynonymMap,
+  DataSource as GeneratedDataSource,
+  DataChangeDetectionPolicyUnion,
+  HighWaterMarkChangeDetectionPolicy,
+  SqlIntegratedChangeTrackingPolicy,
+  DataDeletionDetectionPolicyUnion,
+  SoftDeleteColumnDeletionDetectionPolicy
 } from "./generated/service/models";
 import {
   Analyzer,
@@ -29,7 +35,10 @@ import {
   Skillset,
   TokenFilter,
   Tokenizer,
-  SynonymMap
+  SynonymMap,
+  DataSource,
+  DataChangeDetectionPolicy,
+  DataDeletionDetectionPolicy
 } from "./serviceModels";
 
 export function convertSkillsToPublic(skills: SkillUnion[]): Skill[] {
@@ -287,4 +296,48 @@ export function publicSynonymMapToGeneratedSynonymMap(synonymMap: SynonymMap): G
     etag: synonymMap.etag,
     synonyms: synonymMap.synonyms.join("\n")
   };
+}
+
+export function generatedDataSourceToPublicDataSource(dataSource: GeneratedDataSource): DataSource {
+  return {
+    name: dataSource.name,
+    description: dataSource.name,
+    type: dataSource.type,
+    credentials: dataSource.credentials,
+    container: dataSource.container,
+    etag: dataSource.etag,
+    dataChangeDetectionPolicy: convertDataChangeDetectionPolicyToPublic(
+      dataSource.dataChangeDetectionPolicy
+    ),
+    dataDeletionDetectionPolicy: convertDataDeletionDetectionPolicyToPublic(
+      dataSource.dataDeletionDetectionPolicy
+    )
+  };
+}
+
+export function convertDataChangeDetectionPolicyToPublic(
+  dataChangeDetectionPolicy?: DataChangeDetectionPolicyUnion
+): DataChangeDetectionPolicy | undefined {
+  if (!dataChangeDetectionPolicy) {
+    return dataChangeDetectionPolicy;
+  }
+
+  if (
+    dataChangeDetectionPolicy.odatatype ===
+    "#Microsoft.Azure.Search.HighWaterMarkChangeDetectionPolicy"
+  ) {
+    return dataChangeDetectionPolicy as HighWaterMarkChangeDetectionPolicy;
+  } else {
+    return dataChangeDetectionPolicy as SqlIntegratedChangeTrackingPolicy;
+  }
+}
+
+export function convertDataDeletionDetectionPolicyToPublic(
+  dataDeletionDetectionPolicy?: DataDeletionDetectionPolicyUnion
+): DataDeletionDetectionPolicy | undefined {
+  if (!dataDeletionDetectionPolicy) {
+    return dataDeletionDetectionPolicy;
+  }
+
+  return dataDeletionDetectionPolicy as SoftDeleteColumnDeletionDetectionPolicy;
 }

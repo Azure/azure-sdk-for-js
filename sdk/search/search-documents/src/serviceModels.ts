@@ -69,7 +69,13 @@ import {
   TextTranslationSkill,
   WebApiSkill,
   DefaultCognitiveServicesAccount,
-  CognitiveServicesAccountKey
+  CognitiveServicesAccountKey,
+  HighWaterMarkChangeDetectionPolicy,
+  SqlIntegratedChangeTrackingPolicy,
+  SoftDeleteColumnDeletionDetectionPolicy,
+  DataSourceType,
+  DataSourceCredentials,
+  DataContainer
 } from "./generated/service/models";
 
 /**
@@ -113,6 +119,18 @@ export interface ListIndexersOptions<Fields> extends OperationOptions {
 }
 
 /**
+ * Options for a list data sources operation.
+ */
+export interface ListDataSourcesOptions<Fields> extends OperationOptions {
+  /**
+   * Selects which top-level properties of the index definitions to retrieve. Specified as a
+   * comma-separated list of JSON property names, or '*' for all properties. The default is all
+   * properties.
+   */
+  select?: Fields[];
+}
+
+/**
  * Options for get index operation.
  */
 export type GetIndexOptions = OperationOptions;
@@ -133,9 +151,19 @@ export type GetSynonymMapsOptions = OperationOptions;
 export type GetIndexerOptions = OperationOptions;
 
 /**
+ * Options for get datasource operation.
+ */
+export type GetDataSourceOptions = OperationOptions;
+
+/**
  * Options for get index statistics operation.
  */
 export type GetIndexStatisticsOptions = OperationOptions;
+
+/**
+ * Options for get service statistics operation.
+ */
+export type GetServiceStatisticsOptions = OperationOptions;
 
 /**
  * Options for get indexer status operation.
@@ -171,6 +199,11 @@ export type CreateSynonymMapOptions = OperationOptions;
  * Options for create indexer operation.
  */
 export type CreateIndexerOptions = OperationOptions;
+
+/**
+ * Options for create datasource operation.
+ */
+export type CreateDataSourceOptions = OperationOptions;
 
 /**
  * Options for all operations with etag parameters.
@@ -211,6 +244,11 @@ export type CreateOrUpdateSynonymMapOptions = OperationOptions & ETagOperationOp
 export type CreateorUpdateIndexerOptions = OperationOptions & ETagOperationOptions;
 
 /**
+ * Options for create/update datasource operation.
+ */
+export type CreateorUpdateDataSourceOptions = OperationOptions & ETagOperationOptions;
+
+/**
  * Options for delete index operation.
  */
 export type DeleteIndexOptions = OperationOptions & ETagOperationOptions;
@@ -229,6 +267,11 @@ export type DeleteSynonymMapOptions = OperationOptions & ETagOperationOptions;
  * Options for delete indexer operation.
  */
 export type DeleteIndexerOptions = OperationOptions & ETagOperationOptions;
+
+/**
+ * Options for delete datasource operation.
+ */
+export type DeleteDataSourceOptions = OperationOptions & ETagOperationOptions;
 
 /**
  * Options for analyze text operation.
@@ -1357,4 +1400,54 @@ export enum KnownAnalyzerNames {
   Whitespace = "whitespace"
 }
 
+/**
+ * Contains the possible cases for DataChangeDetectionPolicy.
+ */
+export type DataChangeDetectionPolicy =
+  | HighWaterMarkChangeDetectionPolicy
+  | SqlIntegratedChangeTrackingPolicy;
+
+/**
+ * Contains the possible cases for DataDeletionDetectionPolicy.
+ */
+export type DataDeletionDetectionPolicy = SoftDeleteColumnDeletionDetectionPolicy;
+
+/**
+ * Represents a datasource definition, which can be used to configure an indexer.
+ */
+export interface DataSource {
+  /**
+   * The name of the datasource.
+   */
+  name: string;
+  /**
+   * The description of the datasource.
+   */
+  description?: string;
+  /**
+   * The type of the datasource. Possible values include: 'AzureSql', 'CosmosDb', 'AzureBlob',
+   * 'AzureTable', 'MySql'
+   */
+  type: DataSourceType;
+  /**
+   * Credentials for the datasource.
+   */
+  credentials: DataSourceCredentials;
+  /**
+   * The data container for the datasource.
+   */
+  container: DataContainer;
+  /**
+   * The data change detection policy for the datasource.
+   */
+  dataChangeDetectionPolicy?: DataChangeDetectionPolicy;
+  /**
+   * The data deletion detection policy for the datasource.
+   */
+  dataDeletionDetectionPolicy?: DataDeletionDetectionPolicy;
+  /**
+   * The ETag of the DataSource.
+   */
+  etag?: string;
+}
 // END manually modified generated interfaces

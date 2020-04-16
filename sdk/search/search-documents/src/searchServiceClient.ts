@@ -15,7 +15,8 @@ import {
   AnalyzeResult,
   GetIndexStatisticsResult,
   Indexer,
-  IndexerExecutionInfo
+  IndexerExecutionInfo,
+  ServiceStatistics
 } from "./generated/service/models";
 import { SearchServiceClient as GeneratedClient } from "./generated/service/searchServiceClient";
 import { logger } from "./logger";
@@ -48,7 +49,14 @@ import {
   DeleteIndexerOptions,
   GetIndexerStatusOptions,
   ResetIndexerOptions,
-  RunIndexerOptions
+  RunIndexerOptions,
+  ListDataSourcesOptions,
+  DataSource,
+  CreateDataSourceOptions,
+  DeleteDataSourceOptions,
+  GetDataSourceOptions,
+  CreateorUpdateDataSourceOptions,
+  GetServiceStatisticsOptions
 } from "./serviceModels";
 import * as utils from "./serviceUtils";
 import { createSpan } from "./tracing";
@@ -247,6 +255,31 @@ export class SearchServiceClient {
   }
 
   /**
+   * Retrieves a list of existing data sources in the service.
+   * @param options Options to the list indexers operation.
+   */
+  public async listDataSources<Fields extends keyof DataSource>(
+    options: ListDataSourcesOptions<Fields> = {}
+  ): Promise<Array<Pick<DataSource, Fields>>> {
+    const { span, updatedOptions } = createSpan("SearchServiceClient-listDataSources", options);
+    try {
+      const result = await this.client.dataSources.list({
+        ...operationOptionsToRequestOptionsBase(updatedOptions),
+        select: updatedOptions.select?.join(",s")
+      });
+      return result.dataSources.map(utils.generatedDataSourceToPublicDataSource);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
    * Retrieves information about an index.
    * @param indexName The name of the index.
    * @param options Additional optional arguments.
@@ -337,6 +370,33 @@ export class SearchServiceClient {
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
       return result;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Retrieves information about a DataSource
+   * @param dataSourceName The name of the DataSource
+   * @param options Additional optional arguments
+   */
+  public async getDataSource(
+    dataSourceName: string,
+    options: GetDataSourceOptions = {}
+  ): Promise<DataSource> {
+    const { span, updatedOptions } = createSpan("SearchServiceClient-getDataSource", options);
+    try {
+      const result = await this.client.dataSources.get(
+        dataSourceName,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return utils.generatedDataSourceToPublicDataSource(result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -442,6 +502,33 @@ export class SearchServiceClient {
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
       return result;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Creates a new dataSource in a search service.
+   * @param dataSource The dataSource definition to create in a search service.
+   * @param options Additional optional arguments.
+   */
+  public async createDataSource(
+    dataSource: DataSource,
+    options: CreateDataSourceOptions = {}
+  ): Promise<DataSource> {
+    const { span, updatedOptions } = createSpan("SearchServiceClient-createDataSource", options);
+    try {
+      const result = await this.client.dataSources.create(
+        dataSource,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return utils.generatedDataSourceToPublicDataSource(result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -575,6 +662,37 @@ export class SearchServiceClient {
   }
 
   /**
+   * Creates a new datasource or modifies an existing one.
+   * @param dataSource The information describing the datasource to be created/updated.
+   * @param options Additional optional arguments.
+   */
+  public async createOrUpdateDataSource(
+    dataSource: DataSource,
+    options: CreateorUpdateDataSourceOptions = {}
+  ): Promise<DataSource> {
+    const { span, updatedOptions } = createSpan(
+      "SearchServiceClient-createOrUpdateDataSource",
+      options
+    );
+    try {
+      const result = await this.client.dataSources.createOrUpdate(
+        dataSource.name,
+        dataSource,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return utils.generatedDataSourceToPublicDataSource(result);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
    * Deletes an existing index.
    * @param indexName The name of the index to delete.
    * @param options Additional optional arguments.
@@ -676,6 +794,32 @@ export class SearchServiceClient {
   }
 
   /**
+   * Deletes an existing datasource.
+   * @param dataSourceName The name of the datasource to delete.
+   * @param options Additional optional arguments.
+   */
+  public async deleteDataSource(
+    dataSourceName: string,
+    options: DeleteDataSourceOptions = {}
+  ): Promise<void> {
+    const { span, updatedOptions } = createSpan("SearchServiceClient-deleteDataSource", options);
+    try {
+      await this.client.dataSources.deleteMethod(
+        dataSourceName,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
    * Retrieves statistics about an index, such as the count of documents and the size
    * of index storage.
    * @param indexName The name of the index.
@@ -689,6 +833,33 @@ export class SearchServiceClient {
     try {
       const result = await this.client.indexes.getStatistics(
         indexName,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return result;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Retrieves statistics about the service, such as the count of documents, index, etc.
+   * @param options Additional optional arguments.
+   */
+  public async getServiceStatistics(
+    options: GetServiceStatisticsOptions = {}
+  ): Promise<ServiceStatistics> {
+    const { span, updatedOptions } = createSpan(
+      "SearchServiceClient-getServiceStatistics",
+      options
+    );
+    try {
+      const result = await this.client.getServiceStatistics(
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
       return result;

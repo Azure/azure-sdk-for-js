@@ -7,7 +7,7 @@
  */
 export const packageJsonInfo = {
   name: "@azure/service-bus",
-  version: "7.0.0-preview.1"
+  version: "7.0.0-preview.2"
 };
 
 /**
@@ -327,8 +327,6 @@ export const CURRENT_API_VERSION = "2017-04";
 /**
  * Constant representing the Odata Error 'message' property
  *
- * @const
- * @type {string}
  * @internal
  * @ignore
  */
@@ -336,8 +334,6 @@ export const ODATA_ERROR_MESSAGE = "message";
 /**
  * Constant representing the 'value' property of Odata Error 'message' property
  *
- * @const
- * @type {string}
  * @internal
  * @ignore
  */
@@ -346,8 +342,6 @@ export const ODATA_ERROR_MESSAGE_VALUE = "value";
 /**
  * Marker for atom metadata.
  *
- * @const
- * @type {string}
  * @internal
  * @ignore
  */
@@ -356,8 +350,6 @@ export const XML_METADATA_MARKER = "$";
 /**
  * Marker for atom value.
  *
- * @const
- * @type {string}
  * @internal
  * @ignore
  */
@@ -366,8 +358,6 @@ export const XML_VALUE_MARKER = "_";
 /**
  * Constant representing the property where the atom default elements are stored.
  *
- * @const
- * @type {string}
  * @internal
  * @ignore
  */

@@ -659,6 +659,62 @@ export class Apps {
       packageTrainedApplicationAsGzipOperationSpec,
       callback) as Promise<Models.AppsPackageTrainedApplicationAsGzipResponse>;
   }
+
+  /**
+   * Imports an application to LUIS, the application's structure is included in the request body.
+   * @param luisAppV2 A LUIS application structure.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.AppsImportV2AppResponse>
+   */
+  importV2App(luisAppV2: Models.LuisAppV2, options?: Models.AppsImportV2AppOptionalParams): Promise<Models.AppsImportV2AppResponse>;
+  /**
+   * @param luisAppV2 A LUIS application structure.
+   * @param callback The callback
+   */
+  importV2App(luisAppV2: Models.LuisAppV2, callback: msRest.ServiceCallback<string>): void;
+  /**
+   * @param luisAppV2 A LUIS application structure.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  importV2App(luisAppV2: Models.LuisAppV2, options: Models.AppsImportV2AppOptionalParams, callback: msRest.ServiceCallback<string>): void;
+  importV2App(luisAppV2: Models.LuisAppV2, options?: Models.AppsImportV2AppOptionalParams | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.AppsImportV2AppResponse> {
+    return this.client.sendOperationRequest(
+      {
+        luisAppV2,
+        options
+      },
+      importV2AppOperationSpec,
+      callback) as Promise<Models.AppsImportV2AppResponse>;
+  }
+
+  /**
+   * Imports an application to LUIS, the application's structure is included in the request body.
+   * @param luisApplu A LUIS application structure.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.AppsImportLuFromatResponse>
+   */
+  importLuFromat(luisApplu: string, options?: Models.AppsImportLuFromatOptionalParams): Promise<Models.AppsImportLuFromatResponse>;
+  /**
+   * @param luisApplu A LUIS application structure.
+   * @param callback The callback
+   */
+  importLuFromat(luisApplu: string, callback: msRest.ServiceCallback<string>): void;
+  /**
+   * @param luisApplu A LUIS application structure.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  importLuFromat(luisApplu: string, options: Models.AppsImportLuFromatOptionalParams, callback: msRest.ServiceCallback<string>): void;
+  importLuFromat(luisApplu: string, options?: Models.AppsImportLuFromatOptionalParams | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.AppsImportLuFromatResponse> {
+    return this.client.sendOperationRequest(
+      {
+        luisApplu,
+        options
+      },
+      importLuFromatOperationSpec,
+      callback) as Promise<Models.AppsImportLuFromatResponse>;
+  }
 }
 
 // Operation Specifications
@@ -1206,6 +1262,74 @@ const packageTrainedApplicationAsGzipOperationSpec: msRest.OperationSpec = {
         serializedName: "parsedResponse",
         type: {
           name: "Stream"
+        }
+      }
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const importV2AppOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "apps/import",
+  urlParameters: [
+    Parameters.endpoint
+  ],
+  queryParameters: [
+    Parameters.appName
+  ],
+  requestBody: {
+    parameterPath: "luisAppV2",
+    mapper: {
+      ...Mappers.LuisAppV2,
+      required: true
+    }
+  },
+  responses: {
+    201: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Uuid"
+        }
+      }
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const importLuFromatOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "apps/import",
+  urlParameters: [
+    Parameters.endpoint
+  ],
+  queryParameters: [
+    Parameters.appName
+  ],
+  requestBody: {
+    parameterPath: "luisApplu",
+    mapper: {
+      required: true,
+      serializedName: "luisApplu",
+      type: {
+        name: "String"
+      }
+    }
+  },
+  contentType: "text/plain",
+  responses: {
+    201: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Uuid"
         }
       }
     },

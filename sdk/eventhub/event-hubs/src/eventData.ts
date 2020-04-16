@@ -6,7 +6,6 @@ import { Constants } from "@azure/core-amqp";
 
 /**
  * Describes the delivery annotations.
- * @interface EventHubDeliveryAnnotations
  * @ignore
  */
 export interface EventHubDeliveryAnnotations extends DeliveryAnnotations {
@@ -34,7 +33,6 @@ export interface EventHubDeliveryAnnotations extends DeliveryAnnotations {
 
 /**
  * Map containing message attributes that will be held in the message header.
- * @interface EventHubMessageAnnotations
  * @ignore
  */
 export interface EventHubMessageAnnotations extends MessageAnnotations {
@@ -62,7 +60,6 @@ export interface EventHubMessageAnnotations extends MessageAnnotations {
 
 /**
  * Describes the structure of an event to be sent or received from the EventHub.
- * @interface
  * @ignore
  */
 export interface EventDataInternal {

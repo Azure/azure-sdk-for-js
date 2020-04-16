@@ -21,7 +21,6 @@ import { logger, logErrorStackTrace } from "./log";
 
 /**
  * Describes the options that can be specified while sending a request.
- * @interface SendRequestOptions
  */
 export interface SendRequestOptions {
   /**

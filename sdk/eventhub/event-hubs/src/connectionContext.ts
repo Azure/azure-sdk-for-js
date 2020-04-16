@@ -19,7 +19,6 @@ import { EventHubClientOptions } from "./models/public";
 import { Dictionary, OnAmqpEvent, EventContext, ConnectionEvents } from "rhea-promise";
 
 /**
- * @interface ConnectionContext
  * @internal
  * @ignore
  * Provides contextual information like the underlying amqp connection, cbs session, management session,

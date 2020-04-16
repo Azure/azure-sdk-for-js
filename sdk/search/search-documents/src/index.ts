@@ -75,7 +75,16 @@ export {
   DeleteIndexerOptions,
   GetIndexerStatusOptions,
   ResetIndexerOptions,
-  RunIndexerOptions
+  RunIndexerOptions,
+  CreateDataSourceOptions,
+  CreateorUpdateDataSourceOptions,
+  DeleteDataSourceOptions,
+  GetDataSourceOptions,
+  ListDataSourcesOptions,
+  DataSource,
+  DataChangeDetectionPolicy,
+  DataDeletionDetectionPolicy,
+  GetServiceStatisticsOptions
 } from "./serviceModels";
 export { default as GeographyPoint } from "./geographyPoint";
 export { odata } from "./odata";
@@ -203,6 +212,16 @@ export {
   IndexerStatus,
   ItemError,
   IndexerExecutionStatus,
-  ItemWarning
+  ItemWarning,
+  DataContainer,
+  DataSourceCredentials,
+  DataSourceType,
+  SoftDeleteColumnDeletionDetectionPolicy,
+  SqlIntegratedChangeTrackingPolicy,
+  HighWaterMarkChangeDetectionPolicy,
+  ServiceStatistics,
+  ServiceCounters,
+  ServiceLimits,
+  ResourceCounter
 } from "./generated/service/models";
 export { AzureKeyCredential } from "@azure/core-auth";
