@@ -10,7 +10,7 @@ import {
   SubscriptionClient,
   delay,
   ReceiveMode,
-  ServiceBusMessage,
+  ServiceBusMessage
 } from "../../src";
 import { EnvVarNames, getEnvVars } from "./envVarUtils";
 import { recreateQueue, recreateSubscription, recreateTopic } from "./managementUtils";
@@ -39,8 +39,8 @@ export class TestMessage {
       userProperties: {
         propOne: 1,
         propTwo: "two",
-        propThree: true,
-      },
+        propThree: true
+      }
     };
   }
 
@@ -60,10 +60,10 @@ export class TestMessage {
       userProperties: {
         propOne: 1,
         propTwo: "two",
-        propThree: true,
+        propThree: true
       },
       sessionId: TestMessage.sessionId,
-      replyToSessionId: "some-other-session-id",
+      replyToSessionId: "some-other-session-id"
     };
   }
 
@@ -153,7 +153,7 @@ export enum TestClientType {
   UnpartitionedSubscriptionWithSessions,
   TopicFilterTestTopic,
   TopicFilterTestDefaultSubscription,
-  TopicFilterTestSubscription,
+  TopicFilterTestSubscription
 }
 
 export async function getTopicClientWithTwoSubscriptionClients(
@@ -165,14 +165,14 @@ export async function getTopicClientWithTwoSubscriptionClients(
   const subscriptionClients: SubscriptionClient[] = [];
 
   await recreateTopic(EntityNames.TOPIC_FILTER_NAME, {
-    enableBatchedOperations: true,
+    enableBatchedOperations: true
   });
   await recreateSubscription(
     EntityNames.TOPIC_FILTER_NAME,
     EntityNames.TOPIC_FILTER_SUBSCRIPTION_NAME,
     {
       lockDuration: defaultLockDuration,
-      enableBatchedOperations: true,
+      enableBatchedOperations: true
     }
   );
 
@@ -181,7 +181,7 @@ export async function getTopicClientWithTwoSubscriptionClients(
     EntityNames.TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME,
     {
       lockDuration: defaultLockDuration,
-      enableBatchedOperations: true,
+      enableBatchedOperations: true
     }
   );
 
@@ -200,7 +200,7 @@ export async function getTopicClientWithTwoSubscriptionClients(
 
   return {
     topicClient: namespace.createTopicClient(EntityNames.TOPIC_FILTER_NAME),
-    subscriptionClients,
+    subscriptionClients
   };
 }
 
@@ -217,24 +217,24 @@ export async function getSenderReceiverClients(
       await recreateQueue(EntityNames.QUEUE_NAME, {
         lockDuration: defaultLockDuration,
         enablePartitioning: true,
-        enableBatchedOperations: true,
+        enableBatchedOperations: true
       });
 
       const queueClient = sbClient.createQueueClient(EntityNames.QUEUE_NAME);
       return {
         senderClient: queueClient,
-        receiverClient: queueClient,
+        receiverClient: queueClient
       };
     }
 
     case TestClientType.PartitionedSubscription: {
       await recreateTopic(EntityNames.TOPIC_NAME, {
         enablePartitioning: true,
-        enableBatchedOperations: true,
+        enableBatchedOperations: true
       });
       await recreateSubscription(EntityNames.TOPIC_NAME, EntityNames.SUBSCRIPTION_NAME, {
         lockDuration: defaultLockDuration,
-        enableBatchedOperations: true,
+        enableBatchedOperations: true
       });
 
       return {
@@ -242,33 +242,33 @@ export async function getSenderReceiverClients(
         receiverClient: sbClient.createSubscriptionClient(
           EntityNames.TOPIC_NAME,
           EntityNames.SUBSCRIPTION_NAME
-        ),
+        )
       };
     }
 
     case TestClientType.UnpartitionedQueue: {
       await recreateQueue(EntityNames.QUEUE_NAME_NO_PARTITION, {
         lockDuration: defaultLockDuration,
-        enableBatchedOperations: true,
+        enableBatchedOperations: true
       });
 
       const queueClient = sbClient.createQueueClient(EntityNames.QUEUE_NAME_NO_PARTITION);
       return {
         senderClient: queueClient,
-        receiverClient: queueClient,
+        receiverClient: queueClient
       };
     }
 
     case TestClientType.UnpartitionedSubscription: {
       await recreateTopic(EntityNames.TOPIC_NAME_NO_PARTITION, {
-        enableBatchedOperations: true,
+        enableBatchedOperations: true
       });
       await recreateSubscription(
         EntityNames.TOPIC_NAME_NO_PARTITION,
         EntityNames.SUBSCRIPTION_NAME_NO_PARTITION,
         {
           lockDuration: defaultLockDuration,
-          enableBatchedOperations: true,
+          enableBatchedOperations: true
         }
       );
 
@@ -277,7 +277,7 @@ export async function getSenderReceiverClients(
         receiverClient: sbClient.createSubscriptionClient(
           EntityNames.TOPIC_NAME_NO_PARTITION,
           EntityNames.SUBSCRIPTION_NAME_NO_PARTITION
-        ),
+        )
       };
     }
 
@@ -286,20 +286,20 @@ export async function getSenderReceiverClients(
         lockDuration: defaultLockDuration,
         enablePartitioning: true,
         enableBatchedOperations: true,
-        requiresSession: true,
+        requiresSession: true
       });
 
       const queueClient = sbClient.createQueueClient(EntityNames.QUEUE_NAME_SESSION);
       return {
         senderClient: queueClient,
-        receiverClient: queueClient,
+        receiverClient: queueClient
       };
     }
 
     case TestClientType.PartitionedSubscriptionWithSessions: {
       await recreateTopic(EntityNames.TOPIC_NAME_SESSION, {
         enablePartitioning: true,
-        enableBatchedOperations: true,
+        enableBatchedOperations: true
       });
       await recreateSubscription(
         EntityNames.TOPIC_NAME_SESSION,
@@ -307,7 +307,7 @@ export async function getSenderReceiverClients(
         {
           lockDuration: defaultLockDuration,
           enableBatchedOperations: true,
-          requiresSession: true,
+          requiresSession: true
         }
       );
 
@@ -316,7 +316,7 @@ export async function getSenderReceiverClients(
         receiverClient: sbClient.createSubscriptionClient(
           EntityNames.TOPIC_NAME_SESSION,
           EntityNames.SUBSCRIPTION_NAME_SESSION
-        ),
+        )
       };
     }
 
@@ -324,19 +324,19 @@ export async function getSenderReceiverClients(
       await recreateQueue(EntityNames.QUEUE_NAME_NO_PARTITION_SESSION, {
         lockDuration: defaultLockDuration,
         enableBatchedOperations: true,
-        requiresSession: true,
+        requiresSession: true
       });
 
       const queueClient = sbClient.createQueueClient(EntityNames.QUEUE_NAME_NO_PARTITION_SESSION);
       return {
         senderClient: queueClient,
-        receiverClient: queueClient,
+        receiverClient: queueClient
       };
     }
 
     case TestClientType.UnpartitionedSubscriptionWithSessions: {
       await recreateTopic(EntityNames.TOPIC_NAME_NO_PARTITION_SESSION, {
-        enableBatchedOperations: true,
+        enableBatchedOperations: true
       });
       await recreateSubscription(
         EntityNames.TOPIC_NAME_NO_PARTITION_SESSION,
@@ -344,7 +344,7 @@ export async function getSenderReceiverClients(
         {
           lockDuration: defaultLockDuration,
           enableBatchedOperations: true,
-          requiresSession: true,
+          requiresSession: true
         }
       );
 
@@ -353,20 +353,20 @@ export async function getSenderReceiverClients(
         receiverClient: sbClient.createSubscriptionClient(
           EntityNames.TOPIC_NAME_NO_PARTITION_SESSION,
           EntityNames.SUBSCRIPTION_NAME_NO_PARTITION_SESSION
-        ),
+        )
       };
     }
 
     case TestClientType.TopicFilterTestDefaultSubscription: {
       await recreateTopic(EntityNames.TOPIC_FILTER_NAME, {
-        enableBatchedOperations: true,
+        enableBatchedOperations: true
       });
       await recreateSubscription(
         EntityNames.TOPIC_FILTER_NAME,
         EntityNames.TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME,
         {
           lockDuration: defaultLockDuration,
-          enableBatchedOperations: true,
+          enableBatchedOperations: true
         }
       );
 
@@ -375,20 +375,20 @@ export async function getSenderReceiverClients(
         receiverClient: sbClient.createSubscriptionClient(
           EntityNames.TOPIC_FILTER_NAME,
           EntityNames.TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME
-        ),
+        )
       };
     }
 
     case TestClientType.TopicFilterTestSubscription: {
       await recreateTopic(EntityNames.TOPIC_FILTER_NAME, {
-        enableBatchedOperations: true,
+        enableBatchedOperations: true
       });
       await recreateSubscription(
         EntityNames.TOPIC_FILTER_NAME,
         EntityNames.TOPIC_FILTER_SUBSCRIPTION_NAME,
         {
           lockDuration: defaultLockDuration,
-          enableBatchedOperations: true,
+          enableBatchedOperations: true
         }
       );
 
@@ -397,7 +397,7 @@ export async function getSenderReceiverClients(
         receiverClient: sbClient.createSubscriptionClient(
           EntityNames.TOPIC_FILTER_NAME,
           EntityNames.TOPIC_FILTER_SUBSCRIPTION_NAME
-        ),
+        )
       };
     }
 
@@ -427,7 +427,7 @@ export async function purge(
       let receiver;
       if (sessionId) {
         receiver = receiverClient.createReceiver(ReceiveMode.peekLock, {
-          sessionId,
+          sessionId
         });
       } else {
         receiver = receiverClient.createReceiver(ReceiveMode.peekLock);
@@ -465,7 +465,7 @@ export async function checkWithTimeout(
  * @param serviceBusConnectionString
  */
 export function getNamespace(serviceBusConnectionString: string): string {
-  return (serviceBusConnectionString.match("Endpoint=.*://(.*).servicebus.windows.net") || "")[1];
+  return (serviceBusConnectionString.match("Endpoint=sb://(.*).servicebus.windows.net") || "")[1];
 }
 
 export function getServiceBusClient(): ServiceBusClient {
@@ -501,5 +501,5 @@ export enum EntityNames {
   MANAGEMENT_SUBSCRIPTION_2 = "management-subscription-2",
   MANAGEMENT_RULE_2 = "management-rule-2",
   MANAGEMENT_NEW_ENTITY_1 = "management-new-entity-1",
-  MANAGEMENT_NEW_ENTITY_2 = "management-new-entity-2",
+  MANAGEMENT_NEW_ENTITY_2 = "management-new-entity-2"
 }
