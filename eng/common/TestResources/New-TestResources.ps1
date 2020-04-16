@@ -115,6 +115,7 @@ $repositoryRoot = "$PSScriptRoot/../../.." | Resolve-Path
 $root = [System.IO.Path]::Combine($repositoryRoot, "sdk", $ServiceDirectory) | Resolve-Path
 $templateFileName = 'test-resources.json'
 $templateFiles = @()
+$environmentVariables = @{}
 
 Write-Verbose "Checking for '$templateFileName' files under '$root'"
 Get-ChildItem -Path $root -Filter $templateFileName -Recurse | ForEach-Object {
@@ -227,6 +228,7 @@ if ($CI) {
     # Set the resource group name variable.
     Write-Host "Setting variable 'AZURE_RESOURCEGROUP_NAME': $resourceGroupName"
     Write-Host "##vso[task.setvariable variable=AZURE_RESOURCEGROUP_NAME;]$resourceGroupName"
+    $environmentVariables['AZURE_RESOURCEGROUP_NAME'] = $resourceGroupName
 }
 
 Log "Creating resource group '$resourceGroupName' in location '$Location'"
@@ -364,6 +366,7 @@ foreach ($templateFile in $templateFiles) {
         foreach ($key in $deploymentOutputs.Keys)
         {
             $value = $deploymentOutputs[$key]
+            $environmentVariables[$key] = $value
 
             if ($CI) {
                 # Treat all ARM template output variables as secrets since "SecureString" variables do not set values.
@@ -391,6 +394,8 @@ foreach ($templateFile in $templateFiles) {
 }
 
 $exitActions.Invoke()
+
+return $environmentVariables
 
 <#
 .SYNOPSIS

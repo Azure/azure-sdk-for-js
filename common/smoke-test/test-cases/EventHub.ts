@@ -7,10 +7,10 @@ import {
   EventHubConsumerClient,
   ReceivedEventData,
   SubscribeOptions,
-  earliestEventPosition
+  earliestEventPosition,
 } from "@azure/event-hubs";
 
-export class EventHubs {
+class EventHubs {
   private static producer: EventHubProducerClient;
   private static consumer: EventHubConsumerClient;
   private static partitionIds: string[];
@@ -57,13 +57,13 @@ export class EventHubs {
   private static async SendAndReceiveEvents() {
     console.log("sending events...");
     const producerOptions = {
-      partitionId: EventHubs.partitionIds[0]
+      partitionId: EventHubs.partitionIds[0],
     };
 
     const events = [
       { body: "JS Event Test 1" },
       { body: "JS Event Test 2" },
-      { body: "JS Event Test 3" }
+      { body: "JS Event Test 3" },
     ];
 
     const batch = await EventHubs.producer.createBatch(producerOptions);
@@ -82,7 +82,7 @@ export class EventHubs {
     const subscribeOptions: SubscribeOptions = {
       maxBatchSize: events.length,
       maxWaitTimeInSeconds: 5,
-      startPosition: earliestEventPosition
+      startPosition: earliestEventPosition,
     };
 
     let numEventsReceived = 0;
@@ -109,7 +109,7 @@ export class EventHubs {
             await subscription.close();
             await EventHubs.consumer.close();
             rej(error);
-          }
+          },
         },
         subscribeOptions
       );
@@ -119,4 +119,12 @@ export class EventHubs {
   private static dedent(str: ReadonlyArray<string>) {
     return str[0].replace(/^\ */gm, "");
   }
+}
+
+// Simulation of exports that will be written into samples via future
+// preparation methods
+export const RequiredEnvironmentVariables = ["EVENT_HUBS_CONNECTION_STRING"];
+
+export function main() {
+  EventHubs.Run();
 }

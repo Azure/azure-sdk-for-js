@@ -25,12 +25,6 @@
     "resolveJsonModule": true
   },
   "compileOnSave": true,
-  "exclude": [
-    "node_modules",
-    "typings/**",
-    "./samples/**/*.ts"
-  ],
-  "include": [
-    "*.ts"
-  ]
+  "exclude": ["node_modules", "typings/**"],
+  "include": ["**/*.ts"]
 }

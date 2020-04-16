@@ -43,10 +43,28 @@ jobs:
       - name: azureUSGovernmentArmParameters
         value: "@{ storageEndpointSuffix = 'core.usgovcloudapi.net'; azureCloud = 'AzureUSGovernment'; }"
       - name: azureChinaCloudArmParameters
-        value: "@{ storageEndpointSuffix = 'core.chinacloudapi.cn'; azureCloud = 'AzureChinaCloud'; }"
+        value: "@{ storageEndpointSuffix = 'core.chinacloudapi.cn'; azureCloud = 'AzureChinaCloud';  deployCosmosDb = $false }"
 
     steps:
       - template: ../../eng/pipelines/templates/steps/common.yml
+
+      - pwsh: |
+          $subscriptionConfiguration = @"
+            $(SubscriptionConfiguration)
+          "@ | ConvertFrom-Json -AsHashtable;
+
+          ./Update-SmokeTests.ps1 `
+            -CI `
+            -Verbose `
+            -AdditionalParameters $(ArmTemplateParameters) `
+            @subscriptionConfiguration
+        workingDirectory: $(Build.SourcesDirectory)/common/smoke-test
+        displayName: Deploy Smoke Test resources and prepare samples
+
+      - task: NodeTool@0
+        displayName: Use Node $(NodeVersion)
+        inputs:
+          versionSpec: $(NodeVersion)
 
       - task: Npm@1
         inputs:
@@ -61,28 +79,6 @@ jobs:
           workingDir: common/smoke-test/
         displayName: List packages installed from the feed
 
-      # The MacOS image does not have TypeScript installed by default
-      - task: Npm@1
-        inputs:
-          command: custom
-          customCommand: "install -g typescript"
-        displayName: Install TypeScript
-        condition: and(succeeded(), contains(variables['OSVmImage'], 'macos'))
-
-      - script: tsc -p ./common/smoke-test/
-        displayName: "Compile TS"
-
-      - template: ../../eng/common/TestResources/deploy-test-resources.yml
-        parameters:
-          ServiceDirectory: "$(Build.SourcesDirectory)/common/smoke-test/"
-          Location: $(Location)
-          ArmTemplateParameters: $(ArmTemplateParameters)
-          SubscriptionConfiguration: $(SubscriptionConfiguration)
-
-      - script: node ./common/smoke-test/app.js
-        displayName: Run Smoke Test
-
-      - template: ../../eng/common/TestResources/remove-test-resources.yml
-        parameters:
-          ServiceDirectory: "$(Build.SourcesDirectory)/common/smoke-test/"
-          SubscriptionConfiguration: $(SubscriptionConfiguration)
+      - script: npm run smoke-test
+        displayName: Run smoke tests
+      # TODO: Remove resources

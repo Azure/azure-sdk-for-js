@@ -6,7 +6,7 @@ import { BlobServiceClient, ContainerClient } from "@azure/storage-blob";
 
 const uuidv1 = require("uuid/v1");
 
-export class BlobStorage {
+class BlobStorage {
   private static ContainerClient: ContainerClient;
   private static blobName: string;
 
@@ -71,4 +71,12 @@ export class BlobStorage {
   private static dedent(str: ReadonlyArray<string>) {
     return str[0].replace(/^\ */gm, "");
   }
+}
+
+// Simulation of exports that will be written into samples via future
+// preparation methods
+export const RequiredEnvironmentVariables = ["AZURE_STORAGE_CONNECTION_STRING"];
+
+export function main() {
+  BlobStorage.Run();
 }

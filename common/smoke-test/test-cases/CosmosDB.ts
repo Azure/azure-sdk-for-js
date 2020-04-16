@@ -6,7 +6,7 @@ import { CosmosClient, Database, Container } from "@azure/cosmos";
 
 const uuidv1 = require("uuid/v1");
 
-export class CosmosDB {
+class CosmosDB {
   private static dataBaseName = `jsSolarSystem-${uuidv1()}`;
   private static collectionName = "PlanetsCollection";
   private static client: CosmosClient;
@@ -42,7 +42,7 @@ export class CosmosDB {
   private static async CreateDatabase() {
     console.log(`Creating "${CosmosDB.dataBaseName}" database...`);
     const { database: db } = await CosmosDB.client.databases.create({
-      id: CosmosDB.dataBaseName
+      id: CosmosDB.dataBaseName,
     });
     CosmosDB.db = db;
     console.log("\tdone");
@@ -51,7 +51,7 @@ export class CosmosDB {
   private static async CreateCollection() {
     console.log(`Creating "${CosmosDB.collectionName}" collection...`);
     const { container } = await CosmosDB.db.containers.create({
-      id: CosmosDB.collectionName
+      id: CosmosDB.collectionName,
     });
     CosmosDB.container = container;
     console.log("\tdone");
@@ -68,9 +68,9 @@ export class CosmosDB {
       Radius: 3959,
       Moons: [
         {
-          Name: "Moon"
-        }
-      ]
+          Name: "Moon",
+        },
+      ],
     };
 
     let planetMars = {
@@ -79,12 +79,12 @@ export class CosmosDB {
       Radius: 2106,
       Moons: [
         {
-          Name: "Phobos"
+          Name: "Phobos",
         },
         {
-          Name: "Deimos"
-        }
-      ]
+          Name: "Deimos",
+        },
+      ],
     };
 
     await CosmosDB.container.items.create(planetEarth);
@@ -103,4 +103,12 @@ export class CosmosDB {
   private static dedent(str: ReadonlyArray<string>) {
     return str[0].replace(/^\ */gm, "");
   }
+}
+
+// Simulation of exports that will be written into samples via future
+// preparation methods
+export const RequiredEnvironmentVariables = ["COSMOS_ENDPOINT", "COSMOS_KEY"];
+
+export function main() {
+  CosmosDB.Run();
 }

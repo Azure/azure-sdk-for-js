@@ -26,6 +26,22 @@
     },
     "azureCloud": {
       "type": "string"
+    },
+    "deployCosmosDb": {
+      "type": "bool",
+      "defaultValue": true
+    },
+    "deployEventHubs": {
+      "type": "bool",
+      "defaultValue": true
+    },
+    "deployKeyVault": {
+      "type": "bool",
+      "defaultValue": true
+    },
+    "deployStorage": {
+      "type": "bool",
+      "defaultValue": true
     }
   },
   "variables": {
@@ -33,11 +49,43 @@
     "eventHubNamespaceName": "[format('eh-smoke-{0}', parameters('baseName'))]",
     "eventHubName": "myeventhub",
     "eventHubAuthorizationRuleName": "RootManageSharedAccessKey",
-    "storageAccountName": "[format('stsmoke{0}', parameters('baseName'))]"
+    "storageAccountName": "[format('stsmoke{0}', parameters('baseName'))]",
+    "cosmosDbAccountName": "[format('co-smoke-{0}', parameters('baseName'))]"
+  },
+  "resources": [{
+      "type": "Microsoft.DocumentDB/databaseAccounts",
+      "condition": "[parameters('deployCosmosDb')]",
+      "apiVersion": "2019-12-12",
+      "name": "[variables('cosmosDbAccountName')]",
+      "location": "[parameters('location')]",
+      "tags": {
+        "defaultExperience": "Core (SQL)"
+      },
+      "kind": "GlobalDocumentDB",
+      "properties": {
+        "enableAutomaticFailover": false,
+        "enableMultipleWriteLocations": false,
+        "isVirtualNetworkFilterEnabled": false,
+        "virtualNetworkRules": [],
+        "disableKeyBasedMetadataWriteAccess": false,
+        "databaseAccountOfferType": "Standard",
+        "consistencyPolicy": {
+          "defaultConsistencyLevel": "Session",
+          "maxIntervalInSeconds": 5,
+          "maxStalenessPrefix": 100
+        },
+        "locations": [{
+          "locationName": "[parameters('location')]",
+          "provisioningState": "Succeeded",
+          "failoverPriority": 0,
+          "isZoneRedundant": false
+        }],
+        "capabilities": []
+      }
     },
-  "resources": [
     {
       "type": "Microsoft.EventHub/namespaces",
+      "condition": "[parameters('deployEventHubs')]",
       "apiVersion": "2018-01-01-preview",
       "name": "[variables('eventHubNamespaceName')]",
       "location": "[parameters('location')]",
@@ -55,6 +103,7 @@
     },
     {
       "type": "Microsoft.KeyVault/vaults",
+      "condition": "[parameters('deployKeyVault')]",
       "apiVersion": "2016-10-01",
       "name": "[variables('keyVaultName')]",
       "location": "[parameters('location')]",
@@ -123,6 +172,7 @@
     },
     {
       "type": "Microsoft.Storage/storageAccounts",
+      "condition": "[parameters('deployStorage')]",
       "apiVersion": "2019-06-01",
       "name": "[variables('storageAccountName')]",
       "location": "[parameters('location')]",
@@ -157,6 +207,7 @@
     },
     {
       "type": "Microsoft.EventHub/namespaces/AuthorizationRules",
+      "condition": "[parameters('deployEventHubs')]",
       "apiVersion": "2017-04-01",
       "name": "[format('{0}/{1}', variables('eventHubNamespaceName'), variables('eventHubAuthorizationRuleName'))]",
       "location": "[parameters('location')]",
@@ -173,6 +224,7 @@
     },
     {
       "type": "Microsoft.EventHub/namespaces/eventhubs",
+      "condition": "[parameters('deployEventHubs')]",
       "apiVersion": "2017-04-01",
       "name": "[format('{0}/{1}', variables('eventHubNamespaceName'), variables('eventHubName'))]",
       "location": "[parameters('location')]",
@@ -186,7 +238,26 @@
       }
     },
     {
+      "type": "Microsoft.EventHub/namespaces/eventhubs/authorizationRules",
+      "condition": "[parameters('deployEventHubs')]",
+      "apiVersion": "2017-04-01",
+      "name": "[concat(variables('eventHubNamespaceName'), '/myeventhub/Test')]",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.EventHub/namespaces/eventhubs', variables('eventHubNamespaceName'), 'myeventhub')]",
+        "[resourceId('Microsoft.EventHub/namespaces', variables('eventHubNamespaceName'))]"
+      ],
+      "properties": {
+        "rights": [
+          "Manage",
+          "Listen",
+          "Send"
+        ]
+      }
+    },
+    {
       "type": "Microsoft.Storage/storageAccounts/blobServices",
+      "condition": "[parameters('deployStorage')]",
       "apiVersion": "2019-06-01",
       "name": "[concat(variables('storageAccountName'), '/default')]",
       "dependsOn": [
@@ -205,24 +276,8 @@
       }
     },
     {
-      "type": "Microsoft.EventHub/namespaces/eventhubs/authorizationRules",
-      "apiVersion": "2017-04-01",
-      "name": "[concat(variables('eventHubNamespaceName'), '/myeventhub/Test')]",
-      "location": "[parameters('location')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.EventHub/namespaces/eventhubs', variables('eventHubNamespaceName'), 'myeventhub')]",
-        "[resourceId('Microsoft.EventHub/namespaces', variables('eventHubNamespaceName'))]"
-      ],
-      "properties": {
-        "rights": [
-          "Manage",
-          "Listen",
-          "Send"
-        ]
-      }
-    },
-    {
       "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
+      "condition": "[parameters('deployStorage')]",
       "apiVersion": "2019-06-01",
       "name": "[concat(variables('storageAccountName'), '/default/mycontainer')]",
       "dependsOn": [
@@ -252,16 +307,29 @@
       "value": "[parameters('azureCloud')]"
     },
     "AZURE_PROJECT_URL": {
+      "condition": "[parameters('deployKeyVault')]",
       "type": "string",
       "value": "[reference(variables('keyVaultName')).vaultUri]"
     },
     "EVENT_HUBS_CONNECTION_STRING": {
+      "condition": "[parameters('deployEventHubs')]",
       "type": "string",
       "value": "[listKeys(resourceId('Microsoft.EventHub/namespaces/eventhubs/authorizationRules', variables('eventHubNamespaceName'),  variables('eventHubName'), 'Test'), '2017-04-01').primaryConnectionString]"
     },
     "AZURE_STORAGE_CONNECTION_STRING": {
+      "condition": "[parameters('deployStorage')]",
       "type": "string",
       "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), '2019-06-01').keys[0].value, ';EndpointSuffix=', parameters('storageEndpointSuffix'))]"
+    },
+    "COSMOS_KEY": {
+      "condition": "[parameters('deployCosmosDb')]",
+      "type": "string",
+      "value": "[listKeys(variables('cosmosDbAccountName'), '2019-12-12').primaryMasterKey]"
+    },
+    "COSMOS_ENDPOINT": {
+      "condition": "[parameters('deployCosmosDb')]",
+      "type": "string",
+      "value": "[reference(variables('cosmosDbAccountName')).documentEndpoint]"
     }
   }
 }
