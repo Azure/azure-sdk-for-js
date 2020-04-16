@@ -20,49 +20,11 @@ export const acceptLanguage: msRest.OperationParameter = {
     }
   }
 };
-export const apiVersion0: msRest.OperationQueryParameter = {
+export const apiVersion: msRest.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     required: true,
-    isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2019-03-01-preview',
-    type: {
-      name: "String"
-    }
-  }
-};
-export const apiVersion1: msRest.OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    required: true,
-    isConstant: true,
-    serializedName: "api-version",
-    defaultValue: '2016-06-01',
-    type: {
-      name: "String"
-    }
-  }
-};
-export const apiVersion2: msRest.OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    required: true,
-    isConstant: true,
-    serializedName: "api-version",
-    defaultValue: '2018-11-01-preview',
-    type: {
-      name: "String"
-    }
-  }
-};
-export const apiVersion3: msRest.OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    required: true,
-    isConstant: true,
-    serializedName: "api-version",
-    defaultValue: '2018-03-01-preview',
     type: {
       name: "String"
     }
@@ -73,6 +35,26 @@ export const billingAccountName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "billingAccountName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const billingProfileName: msRest.OperationURLParameter = {
+  parameterPath: "billingProfileName",
+  mapper: {
+    required: true,
+    serializedName: "billingProfileName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const customerName: msRest.OperationURLParameter = {
+  parameterPath: "customerName",
+  mapper: {
+    required: true,
+    serializedName: "customerName",
     type: {
       name: "String"
     }
@@ -97,17 +79,6 @@ export const invoiceSectionName: msRest.OperationURLParameter = {
       name: "String"
     }
   }
-};
-export const nextPageLink: msRest.OperationURLParameter = {
-  parameterPath: "nextPageLink",
-  mapper: {
-    required: true,
-    serializedName: "nextLink",
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
 };
 export const operationId: msRest.OperationURLParameter = {
   parameterPath: "operationId",

@@ -10,16 +10,16 @@
 
 import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
-import * as Mappers from "../models/subscriptionOperationOperationsMappers";
+import * as Mappers from "../models/subscriptionOperationMappers";
 import * as Parameters from "../models/parameters";
 import { SubscriptionClientContext } from "../subscriptionClientContext";
 
-/** Class representing a SubscriptionOperationOperations. */
-export class SubscriptionOperationOperations {
+/** Class representing a SubscriptionOperation. */
+export class SubscriptionOperation {
   private readonly client: SubscriptionClientContext;
 
   /**
-   * Create a SubscriptionOperationOperations.
+   * Create a SubscriptionOperation.
    * @param {SubscriptionClientContext} client Reference to the service client.
    */
   constructor(client: SubscriptionClientContext) {
@@ -67,7 +67,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.operationId
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage

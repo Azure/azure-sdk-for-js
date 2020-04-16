@@ -17,12 +17,9 @@ import { SubscriptionClientContext } from "./subscriptionClientContext";
 
 class SubscriptionClient extends SubscriptionClientContext {
   // Operation groups
-  subscriptions: operations.Subscriptions;
-  subscriptionOperation: operations.SubscriptionOperationOperations;
-  subscriptionFactory: operations.SubscriptionFactory;
-  subscriptionOperations: operations.SubscriptionOperations;
+  subscription: operations.Subscription;
+  subscriptionOperation: operations.SubscriptionOperation;
   operations: operations.Operations;
-  tenants: operations.Tenants;
 
   /**
    * Initializes a new instance of the SubscriptionClient class.
@@ -31,12 +28,9 @@ class SubscriptionClient extends SubscriptionClientContext {
    */
   constructor(credentials: msRest.ServiceClientCredentials, options?: Models.SubscriptionClientOptions) {
     super(credentials, options);
-    this.subscriptions = new operations.Subscriptions(this);
-    this.subscriptionOperation = new operations.SubscriptionOperationOperations(this);
-    this.subscriptionFactory = new operations.SubscriptionFactory(this);
-    this.subscriptionOperations = new operations.SubscriptionOperations(this);
+    this.subscription = new operations.Subscription(this);
+    this.subscriptionOperation = new operations.SubscriptionOperation(this);
     this.operations = new operations.Operations(this);
-    this.tenants = new operations.Tenants(this);
   }
 }
 

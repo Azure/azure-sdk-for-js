@@ -15,7 +15,7 @@ npm install @azure/arm-subscriptions
 
 ### How to use
 
-#### nodejs - Authentication, client creation and listLocations subscriptions as an example written in TypeScript.
+#### nodejs - Authentication, client creation and get subscriptionOperation as an example written in TypeScript.
 
 ##### Install @azure/ms-rest-nodeauth
 
@@ -31,10 +31,12 @@ import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
 import { SubscriptionClient, SubscriptionModels, SubscriptionMappers } from "@azure/arm-subscriptions";
- 
+const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
+
 msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new SubscriptionClient(creds);
-  client.subscriptions.list().then((result) => {
+  const client = new SubscriptionClient(creds, subscriptionId);
+  const operationId = "testoperationId";
+  client.subscriptionOperation.get(operationId).then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -43,7 +45,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-#### browser - Authentication, client creation and listLocations subscriptions as an example written in JavaScript.
+#### browser - Authentication, client creation and get subscriptionOperation as an example written in JavaScript.
 
 ##### Install @azure/ms-rest-browserauth
 
@@ -77,8 +79,8 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           authManager.login();
         }
         const client = new Azure.ArmSubscriptions.SubscriptionClient(res.creds, subscriptionId);
-        const subscriptionId = "testsubscriptionId";
-        client.subscriptions.listLocations(subscriptionId).then((result) => {
+        const operationId = "testoperationId";
+        client.subscriptionOperation.get(operationId).then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {
@@ -96,4 +98,4 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fsubscription%2Farm-subscriptions%2FREADME.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/subscription/arm-subscriptions/README.png)
