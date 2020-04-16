@@ -838,6 +838,7 @@ export class ServiceBusMessage implements ReceivedMessage {
     );
     return this.settleMessage(DispositionStatus.completed);
   }
+
   /**
    * The lock held on the message by the receiver is let go, making the message available again in
    * Service Bus for another receive operation.
@@ -956,6 +957,7 @@ export class ServiceBusMessage implements ReceivedMessage {
     };
     return this.settleMessage(DispositionStatus.suspended, dispositionStatusOptions);
   }
+
   private async settleMessage(
     operation: DispositionStatus,
     options?: DispositionStatusOptions
@@ -1038,21 +1040,6 @@ export class ServiceBusMessage implements ReceivedMessage {
       );
     } else if (this.delivery.remote_settled) {
       error = new Error(`Failed to ${operation} the message as this message is already settled.`);
-    } else if (!receiver || !receiver.isOpen()) {
-      const errorMessage =
-        `Failed to ${operation} the message as the AMQP link with which the message was ` +
-        `received is no longer alive.`;
-      if (this.sessionId != undefined) {
-        error = translate({
-          description: errorMessage,
-          condition: ErrorNameConditionMapper.SessionLockLostError
-        });
-      } else {
-        error = translate({
-          description: errorMessage,
-          condition: ErrorNameConditionMapper.MessageLockLostError
-        });
-      }
     }
     if (!error) {
       return;
