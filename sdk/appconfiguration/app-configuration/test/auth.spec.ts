@@ -28,7 +28,7 @@ describe("Authentication", () => {
     );
   });
 
-  it.skip("token authentication works", async () => {
+  it("token authentication works", async () => {
     const client = new AppConfigurationClient(
       credsAndEndpoint.endpoint,
       credsAndEndpoint.credential

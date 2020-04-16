@@ -18,20 +18,20 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
     label: "some label"
   };
 
-  beforeEach(function() {
+  beforeEach(async function() {
     recorder = startRecorder(this);
     testConfigSetting.key = recorder.getUniqueName("readOnlyTests");
     client = createAppConfigurationClientForTests() || this.skip();
+    // before it's set to read only we can set it all we want
+    await client.setConfigurationSetting(testConfigSetting);
   });
 
-  afterEach(function() {
+  afterEach(async function() {
+    await deleteKeyCompletely([testConfigSetting.key], client);
     recorder.stop();
   });
 
   it("basic", async function() {
-    // before it's set to read only we can set it all we want
-    await client.setConfigurationSetting(testConfigSetting);
-
     let storedSetting = await client.getConfigurationSetting({
       key: testConfigSetting.key,
       label: testConfigSetting.label
@@ -61,14 +61,9 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
       409,
       "Delete should fail because the setting is read-only"
     );
-
-    await deleteKeyCompletely([testConfigSetting.key], client);
   });
 
   it("accepts operation options", async function() {
-    // before it's set to read only we can set it all we want
-    await client.setConfigurationSetting(testConfigSetting);
-
     let storedSetting = await client.getConfigurationSetting({
       key: testConfigSetting.key,
       label: testConfigSetting.label
@@ -80,7 +75,5 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
     await assertThrowsAbortError(async () => {
       await client.setReadOnly(testConfigSetting, false, { requestOptions: { timeout: 1 } });
     });
-
-    await deleteKeyCompletely([testConfigSetting.key], client);
   });
 });
