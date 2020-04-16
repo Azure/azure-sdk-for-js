@@ -14,6 +14,7 @@ import { HttpRequestBody } from '@azure/core-http';
 import { HttpResponse } from '@azure/core-http';
 import { HttpClient as IHttpClient } from '@azure/core-http';
 import { KeepAliveOptions } from '@azure/core-http';
+import { OperationTracingOptions } from '@azure/core-tracing';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
@@ -24,7 +25,6 @@ import { RequestPolicyFactory } from '@azure/core-http';
 import { RequestPolicyOptions } from '@azure/core-http';
 import { RestError } from '@azure/core-http';
 import { ServiceClientOptions } from '@azure/core-http';
-import { SpanOptions } from '@opentelemetry/types';
 import { TokenCredential } from '@azure/core-http';
 import { TransferProgressEvent } from '@azure/core-http';
 import { UserAgentOptions } from '@azure/core-http';
@@ -1753,11 +1753,6 @@ export interface ModifiedAccessConditions {
 
 // @public
 export function newPipeline(credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
-
-// @public (undocumented)
-export interface OperationTracingOptions {
-    spanOptions?: SpanOptions;
-}
 
 // @public
 export interface PageBlobClearPagesHeaders {

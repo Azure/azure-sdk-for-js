@@ -79,6 +79,7 @@
     "@azure/core-auth": "^1.1.0",
     "@azure/core-amqp": "^1.1.1",
     "@azure/core-asynciterator-polyfill": "^1.0.0",
+    "@azure/core-tracing": "1.0.0-preview.8",
     "@azure/core-http": "^1.0.0",
     "@opentelemetry/types": "^0.2.0",
     "@types/is-buffer": "^2.0.0",

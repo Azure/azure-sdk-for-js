@@ -20,6 +20,7 @@ import { LeaseAccessConditions } from '@azure/storage-blob';
 import { LeaseOperationOptions } from '@azure/storage-blob';
 import { LeaseOperationResponse } from '@azure/storage-blob';
 import { ModifiedAccessConditions } from '@azure/storage-blob';
+import { OperationTracingOptions } from '@azure/core-tracing';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { Pipeline as Pipeline_2 } from '@azure/storage-blob';
 import { ProxyOptions } from '@azure/core-http';
@@ -30,7 +31,6 @@ import { RequestPolicyOptions } from '@azure/core-http';
 import { RestError } from '@azure/core-http';
 import { ServiceClientOptions } from '@azure/core-http';
 import { ServiceListContainersSegmentResponse } from '@azure/storage-blob';
-import { SpanOptions } from '@opentelemetry/types';
 import { TokenCredential } from '@azure/core-http';
 import { TransferProgressEvent } from '@azure/core-http';
 import { UserAgentOptions } from '@azure/core-http';
@@ -96,7 +96,7 @@ export interface AccountSASSignatureValues {
 }
 
 // @public
-export class AnonymousCredential extends Credential {
+export class AnonymousCredential extends Credential_2 {
     create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): AnonymousCredentialPolicy;
 }
 
@@ -774,11 +774,6 @@ export interface Metadata {
 
 // @public
 export function newPipeline(credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
-
-// @public (undocumented)
-export interface OperationTracingOptions {
-    spanOptions?: SpanOptions;
-}
 
 // @public (undocumented)
 export interface Path {
