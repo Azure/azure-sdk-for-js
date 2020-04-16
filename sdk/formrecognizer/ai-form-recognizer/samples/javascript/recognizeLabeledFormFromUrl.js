@@ -2,7 +2,10 @@
 // Licensed under the MIT License.
 
 /**
- * Recognize Labeled Form from url
+ * This sample demonstrates how to analyze a form given a accessible url to a document
+ * using a custom trained model. The form must be of the same type as the forms the custom
+ * model was trained on. To learn how to train your own models, see the samples in
+ * trainModel.js or trainModelWithLabels.js
  */
 
 const { FormRecognizerClient, AzureKeyCredential } = require("../../dist");
@@ -14,8 +17,7 @@ async function main() {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["COGNITIVE_SERVICE_ENDPOINT"] || "<cognitive services endpoint>";
   const apiKey = process.env["COGNITIVE_SERVICE_API_KEY"] || "<api key>";
-
-  const modelId = "db642b84-ce7a-4ec2-873d-9c4b5ab0160d"; // trained with labels
+  const modelId = process.env["LABELED_CUSTOM_MODEL_ID"] || "<labeled custom model id>";
   const url = process.env["URL_OF_DOCUMENT_TO_ANALYZE_WITH_LABELS"] || "<sample invoice url>";
 
   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));

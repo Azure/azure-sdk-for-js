@@ -2,7 +2,10 @@
 // Licensed under the MIT License.
 
 /**
- * Recognize Forms
+ * This sample demonstrates how to analyze a form from a document with an unlabeled
+ * custom model. The form must be of the same type as the forms the custom model
+ * was trained on. To learn how to train your own models, see the samples in
+ * trainModel.js or trainModelWithLabels.js
  */
 
 const { FormRecognizerClient, AzureKeyCredential } = require("../../dist");
@@ -15,8 +18,9 @@ async function main() {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["COGNITIVE_SERVICE_ENDPOINT"] || "<cognitive services endpoint>";
   const apiKey = process.env["COGNITIVE_SERVICE_API_KEY"] || "<api key>";
-  const modelId = "8f83f7c3-9666-496b-9335-e7ea5685b5e3";
-  const path = "c:/temp/Invoice_6.pdf";
+  const modelId = process.env["UNLABELED_CUSTOM_MODEL_ID"] || "<unlabeled custom model id>";
+  // The form you are recognizing must be of the same type as the forms the custom model was trained on
+  const path = "./assets/Invoice_6.pdf";
 
   const readStream = fs.createReadStream(path);
 

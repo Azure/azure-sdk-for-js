@@ -18,7 +18,7 @@ async function main() {
   const endpoint = process.env["COGNITIVE_SERVICE_ENDPOINT"] || "<cognitive services endpoint>";
   const apiKey = process.env["COGNITIVE_SERVICE_API_KEY"] || "<api key>";
 
-  const containerSasUrl = process.env["DOCUMENT_SOURCE"] || "<SAS url to the blob container storing training documents>";
+  const containerSasUrl = process.env["UNLABELED_CONTAINER_SAS_URL"] || "<SAS url to the blob container storing training documents>";
 
   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
   const trainingClient = client.getFormTrainingClient();

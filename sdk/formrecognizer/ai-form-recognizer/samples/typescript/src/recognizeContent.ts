@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * Recognize Content/Layout
+ * This sample demonstrates how to extact text and layout information from a document
  */
 
 //import { FormRecognizerClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
@@ -16,7 +16,7 @@ async function main() {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["COGNITIVE_SERVICE_ENDPOINT"] || "<cognitive services endpoint>";
   const apiKey = process.env["COGNITIVE_SERVICE_API_KEY"] || "<api key>";
-  const path = "c:/temp/Invoice_7.pdf";
+  const path = "./assets/Invoice_6.pdf";
 
   if (!fs.existsSync(path)) {
     throw new Error(`Expecting file ${path} exists`);

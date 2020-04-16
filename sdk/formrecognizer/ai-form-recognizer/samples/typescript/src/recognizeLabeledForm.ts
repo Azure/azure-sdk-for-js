@@ -2,7 +2,10 @@
 // Licensed under the MIT License.
 
 /**
- * Recognize Labeled Form
+ * This sample demonstrates how to analyze a form from a document with a custom
+ * model trained with labels. The form must be of the same type as the forms the custom model
+ * was trained on. To learn how to train your own models, see the samples in
+ * trainModel.ts or trainModelWithLabels.ts
  */
 
 //import { FormRecognizerClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
@@ -16,8 +19,9 @@ async function main() {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["COGNITIVE_SERVICE_ENDPOINT"] || "<cognitive services endpoint>";
   const apiKey = process.env["COGNITIVE_SERVICE_API_KEY"] || "<api key>";
-  const modelId = "afa7d851-ad20-465c-a80f-6ca8cfb879bb"; // trained with labels
-  const path = "c:/temp/Invoice_6.pdf";
+  const modelId = process.env["LABELED_CUSTOM_MODEL_ID"] || "<labeled custom model id>";
+  // The form you are recognizing must be of the same type as the forms the custom model was trained on
+  const path = "./assets/Invoice_6.pdf";
 
   if (!fs.existsSync(path)) {
     throw new Error(`Expecting file ${path} exists`);

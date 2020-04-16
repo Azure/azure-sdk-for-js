@@ -16,7 +16,7 @@ async function main() {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["COGNITIVE_SERVICE_ENDPOINT"] || "<cognitive services endpoint>";
   const apiKey = process.env["COGNITIVE_SERVICE_API_KEY"] || "<api key>";
-  const modelId = myArgs[0] || process.env["CUSTOM_FORM_MODEL_ID"] || "<model id>";
+  const modelId = myArgs[0] || process.env["UNLABELED_CUSTOM_MODEL_ID"] || "<unlabeled custom model id>";
 
   const client = new FormTrainingClient(endpoint, new AzureKeyCredential(apiKey));
   const result = await client.getModel(modelId);

@@ -116,7 +116,7 @@ const fs = require("fs");
 
 async function main() {
   const endpoint = "<cognitive services endpoint>";
-  const apiKey = || "<api key>";
+  const apiKey = "<api key>";
   const path = "<path to your receipt document>"; // pdf/jpeg/png/tiff formats
 
   const readStream = fs.createReadStream(path);
