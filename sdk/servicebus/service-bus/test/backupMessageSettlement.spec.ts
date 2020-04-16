@@ -137,8 +137,10 @@ describe.only("Backup message settlement - Through ManagementLink", () => {
         errorWasThrown = true;
       }
 
-      receiver = receiverClient.createReceiver(ReceiveMode.peekLock);
       if (useSessions) {
+        receiver = receiverClient.createReceiver(ReceiveMode.peekLock, {
+          sessionId: TestMessage.sessionId
+        });
         should.equal(errorWasThrown, true, "Error was not thrown for messages with session-id");
         const msgBatch = await receiver.receiveMessages(1);
         await msgBatch[0].complete();
@@ -214,7 +216,7 @@ describe.only("Backup message settlement - Through ManagementLink", () => {
     async function testAbandon(useSessions?: boolean): Promise<void> {
       const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
       const msg = await sendReceiveMsg(testMessages);
-      await receiverClient.close();
+      await receiver.close();
       let errorWasThrown = false;
       try {
         await msg.abandon();
@@ -233,7 +235,11 @@ describe.only("Backup message settlement - Through ManagementLink", () => {
         should.equal(errorWasThrown, false, "Error was thrown for sessions without session-id");
       }
 
-      receiver = receiverClient.createReceiver(ReceiveMode.peekLock);
+      receiver = useSessions
+        ? receiverClient.createReceiver(ReceiveMode.peekLock, {
+            sessionId: TestMessage.sessionId
+          })
+        : receiverClient.createReceiver(ReceiveMode.peekLock);
       await testPeekMsgsLength(receiverClient, 1);
 
       const messageBatch = await receiver.receiveMessages(1);
@@ -279,7 +285,7 @@ describe.only("Backup message settlement - Through ManagementLink", () => {
         TestClientType.PartitionedQueueWithSessions,
         TestClientType.PartitionedQueueWithSessions
       );
-      await testAbandon();
+      await testAbandon(true);
     });
 
     it("Partitioned Subscription with Sessions: abandon() throws error", async function(): Promise<
@@ -289,7 +295,7 @@ describe.only("Backup message settlement - Through ManagementLink", () => {
         TestClientType.PartitionedTopicWithSessions,
         TestClientType.PartitionedSubscriptionWithSessions
       );
-      await testAbandon();
+      await testAbandon(true);
     });
 
     it("Unpartitioned Queue with Sessions: abandon() throws error #RunInBrowser", async function(): Promise<
@@ -299,7 +305,7 @@ describe.only("Backup message settlement - Through ManagementLink", () => {
         TestClientType.UnpartitionedQueueWithSessions,
         TestClientType.UnpartitionedQueueWithSessions
       );
-      await testAbandon();
+      await testAbandon(true);
     });
 
     it("Unpartitioned Subscription with Sessions: abandon() throws error", async function(): Promise<
@@ -309,7 +315,7 @@ describe.only("Backup message settlement - Through ManagementLink", () => {
         TestClientType.UnpartitionedTopicWithSessions,
         TestClientType.UnpartitionedSubscriptionWithSessions
       );
-      await testAbandon();
+      await testAbandon(true);
     });
 
     async function testDefer(useSessions?: boolean): Promise<void> {
@@ -320,7 +326,7 @@ describe.only("Backup message settlement - Through ManagementLink", () => {
         throw "Sequence Number can not be null";
       }
       const sequenceNumber = msg.sequenceNumber;
-      await receiverClient.close();
+      await receiver.close();
       let errorWasThrown = false;
       try {
         await msg.defer();
@@ -338,14 +344,17 @@ describe.only("Backup message settlement - Through ManagementLink", () => {
       } else {
         should.equal(errorWasThrown, false, "Error was thrown for sessions without session-id");
       }
-      receiver = receiverClient.createReceiver(ReceiveMode.peekLock);
       if (!useSessions) {
+        receiver = receiverClient.createReceiver(ReceiveMode.peekLock);
         const deferredMsgs = await receiver.receiveDeferredMessage(sequenceNumber);
         if (!deferredMsgs) {
           throw "No message received for sequence number";
         }
         await deferredMsgs.complete();
       } else {
+        receiver = receiverClient.createReceiver(ReceiveMode.peekLock, {
+          sessionId: TestMessage.sessionId
+        });
         const messageBatch = await receiver.receiveMessages(1);
         await messageBatch[0].complete();
       }
@@ -388,7 +397,7 @@ describe.only("Backup message settlement - Through ManagementLink", () => {
         TestClientType.PartitionedQueueWithSessions,
         TestClientType.PartitionedQueueWithSessions
       );
-      await testDefer();
+      await testDefer(true);
     });
 
     it("Partitioned Subscription with Sessions: defer() throws error", async function(): Promise<
@@ -398,7 +407,7 @@ describe.only("Backup message settlement - Through ManagementLink", () => {
         TestClientType.PartitionedTopicWithSessions,
         TestClientType.PartitionedSubscriptionWithSessions
       );
-      await testDefer();
+      await testDefer(true);
     });
 
     it("Unpartitioned Queue with Sessions: defer() throws error #RunInBrowser", async function(): Promise<
@@ -408,7 +417,7 @@ describe.only("Backup message settlement - Through ManagementLink", () => {
         TestClientType.UnpartitionedQueueWithSessions,
         TestClientType.UnpartitionedQueueWithSessions
       );
-      await testDefer();
+      await testDefer(true);
     });
 
     it("Unpartitioned Subscription with Sessions: defer() throws error", async function(): Promise<
@@ -418,13 +427,13 @@ describe.only("Backup message settlement - Through ManagementLink", () => {
         TestClientType.UnpartitionedTopicWithSessions,
         TestClientType.UnpartitionedSubscriptionWithSessions
       );
-      await testDefer();
+      await testDefer(true);
     });
 
     async function testDeadletter(useSessions?: boolean): Promise<void> {
       const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
       const msg = await sendReceiveMsg(testMessages);
-      await receiverClient.close();
+      await receiver.close();
       let errorWasThrown = false;
       try {
         await msg.deadLetter();
@@ -442,8 +451,6 @@ describe.only("Backup message settlement - Through ManagementLink", () => {
       } else {
         should.equal(errorWasThrown, false, "Error was thrown for sessions without session-id");
       }
-
-      receiver = receiverClient.createReceiver(ReceiveMode.peekLock);
 
       if (!useSessions) {
         const deadLetterReceiver = deadLetterClient.createReceiver(ReceiveMode.peekLock);
@@ -470,6 +477,9 @@ describe.only("Backup message settlement - Through ManagementLink", () => {
 
         await testPeekMsgsLength(deadLetterClient, 0);
       } else {
+        receiver = receiverClient.createReceiver(ReceiveMode.peekLock, {
+          sessionId: TestMessage.sessionId
+        });
         const messageBatch = await receiver.receiveMessages(1);
         await messageBatch[0].complete();
 
