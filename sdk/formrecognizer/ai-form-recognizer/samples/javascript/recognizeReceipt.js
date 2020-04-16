@@ -46,20 +46,23 @@ async function main() {
   console.log(`Receipt type: ${usReceipt.receiptType}`)
   console.log(`Merchant Name: ${usReceipt.merchantName.value} (confidence: ${usReceipt.merchantName.confidence})`);
   console.log(`Transaction Date: ${usReceipt.transactionDate.value} (confidence: ${usReceipt.transactionDate.confidence})`);
-  const items = usReceipt.items.map((item) => {
-    return {
-      name: `${item.name.value} (confidence: ${item.name.confidence})`,
-      price: `${item.price.value} (confidence: ${item.price.confidence})`,
-      quantity: `${item.quantity.value} (confidence: ${item.quantity.confidence})`,
-      totalPrice: `${item.totalPrice.value} (confidence: ${item.totalPrice.confidence})`
-    }
-  });
   console.log("Receipt items:");
-  console.table(items, ["name", "price", "quantity", "totalPrice"]);
+  console.log(`  name\tprice\tquantity\ttotalPrice`);
+  for (const item of usReceipt.items) {
+    const name = `${optionalToString(item.name.value)} (confidence: ${optionalToString(item.name.confidence)})`;
+    const price = `${optionalToString(item.price.value)} (confidence: ${optionalToString(item.price.confidence)})`;
+    const quantity = `${optionalToString(item.quantity.value)} (confidence: ${optionalToString(item.quantity.confidence)})`;
+    const totalPrice = `${optionalToString(item.totalPrice.value)} (confidence: ${optionalToString(item.totalPrice.confidence)})`;
+    console.log(`  ${name}\t${price}\t${quantity}\t${totalPrice}`);
+  }
 
   // raw fields are also included in the result
   console.log("Raw 'MerchantAddress' fields:");
   console.log(usReceipt.recognizedForm.fields["MerchantAddress"]);
+}
+
+function optionalToString(value) {
+  return `${value || "<missing>"}`;
 }
 
 main().catch((err) => {
