@@ -5,12 +5,11 @@
  * This sample demonstrates how to analyze a form from a document with an unlabeled
  * custom model. The form must be of the same type as the forms the custom model
  * was trained on. To learn how to train your own models, see the samples in
- * trainModel.ts or trainModelWithLabels.ts
+ * trainUnlabeledModel.js or trainLabeledModel.js
  */
 
-//import { FormRecognizerClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
-import { FormRecognizerClient, AzureKeyCredential } from "../../../src/index";
-import * as fs from "fs";
+const { FormRecognizerClient, AzureKeyCredential } = require("../../dist");
+const fs = require("fs");
 
 // Load the .env file if it exists
 require("dotenv").config();
@@ -22,10 +21,6 @@ async function main() {
   const modelId = process.env["UNLABELED_CUSTOM_MODEL_ID"] || "<unlabeled custom model id>";
   // The form you are recognizing must be of the same type as the forms the custom model was trained on
   const path = "./assets/Invoice_6.pdf";
-
-  if (!fs.existsSync(path)) {
-    throw new Error(`Expecting file ${path} exists`);
-  }
 
   const readStream = fs.createReadStream(path);
 
