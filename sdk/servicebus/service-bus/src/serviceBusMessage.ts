@@ -952,7 +952,7 @@ export class ServiceBusMessage implements ReceivedMessage {
 
     const dispositionStatusOptions: DispositionStatusOptions = {
       propertiesToModify: actualPropertiesToModify,
-      deadLetterReason: propertiesToModify?.deadLetterReason,
+      deadLetterReason: propertiesToModify?.deadletterReason,
       deadLetterDescription: propertiesToModify?.deadLetterErrorDescription
     };
     return this.settleMessage(DispositionStatus.suspended, dispositionStatusOptions);
