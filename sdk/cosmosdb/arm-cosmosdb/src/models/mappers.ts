@@ -3875,6 +3875,18 @@ export const PrivateLinkResource: msRest.CompositeMapper = {
             }
           }
         }
+      },
+      requiredZoneNames: {
+        readOnly: true,
+        serializedName: "properties.requiredZoneNames",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
       }
     }
   }
@@ -3986,6 +3998,18 @@ export const PrivateEndpointConnection: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "PrivateLinkServiceConnectionStateProperty"
+        }
+      },
+      groupId: {
+        serializedName: "properties.groupId",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
         }
       }
     }

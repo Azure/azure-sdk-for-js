@@ -2247,6 +2247,11 @@ export interface PrivateLinkResource extends ARMProxyResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly requiredMembers?: string[];
+  /**
+   * The private link resource required zone names.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly requiredZoneNames?: string[];
 }
 
 /**
@@ -2320,6 +2325,14 @@ export interface PrivateEndpointConnection extends ProxyResource {
    * Connection State of the Private Endpoint Connection.
    */
   privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStateProperty;
+  /**
+   * Group id of the private endpoint.
+   */
+  groupId?: string;
+  /**
+   * Provisioning state of the private endpoint.
+   */
+  provisioningState?: string;
 }
 
 /**
