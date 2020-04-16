@@ -2,30 +2,28 @@
 // Licensed under the MIT License.
 
 /**
- * List Form Recognizer custom models
+ * This sample demonstrates different ways to iterate through the list of models in
+ * a cognitive service account.
  */
 
-//import { FormTrainingClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
-import { FormTrainingClient, AzureKeyCredential } from "../../../src/index";
+//const { FormTrainingClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
+const { FormTrainingClient, AzureKeyCredential } = require("../../dist");
 
 // Load the .env file if it exists
 require("dotenv").config();
 
 async function main() {
-  console.log(`Running listModels sample`);
-
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["COGNITIVE_SERVICE_ENDPOINT"] || "<cognitive services endpoint>";
   const apiKey = process.env["COGNITIVE_SERVICE_API_KEY"] || "<api key>";
 
   const client = new FormTrainingClient(endpoint, new AzureKeyCredential(apiKey));
 
-  // using `for await` syntax:
-  const result = client.listModels();
+  const result = await client.listModels();
   let i = 0;
-  for await (const model of result) {
+  for await (const modelInfo of result) {
     console.log(`model ${i++}:`);
-    console.log(model);
+    console.log(modelInfo);
   }
 
   // using `iter.next()`
@@ -40,7 +38,7 @@ async function main() {
   // using `byPage()`
   i = 1;
   for await (const response of client.listModels().byPage()) {
-    for (const modelInfo of response.modelList!) {
+    for (const modelInfo of response.modelList) {
       console.log(`model ${i++}: ${modelInfo.modelId}`);
     }
   }

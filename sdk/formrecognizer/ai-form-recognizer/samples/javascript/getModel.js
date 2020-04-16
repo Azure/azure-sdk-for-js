@@ -22,6 +22,9 @@ async function main() {
   const result = await client.getModel(modelId);
   console.log(result);
   console.dir(result.models, { depth: 4 });
+
+  const response = await client.deleteModel(modelId);
+  console.log(response);
 }
 
 main().catch((err) => {
