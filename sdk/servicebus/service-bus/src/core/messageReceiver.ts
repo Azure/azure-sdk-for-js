@@ -241,6 +241,14 @@ export class MessageReceiver extends LinkEntity {
    * @protected
    */
   protected _clearAllMessageLockRenewTimers: () => void;
+  /**
+   * Indicates whether the receiver is already actively
+   * running `onDetached`.
+   * This is expected to be true while the receiver attempts
+   * to bring its link back up due to a retryable issue.
+   */
+  private _isDetaching: boolean = false;
+
   constructor(context: ClientEntityContext, receiverType: ReceiverType, options?: ReceiveOptions) {
     super(context.entityPath, context, {
       address: context.entityPath,
@@ -848,15 +856,25 @@ export class MessageReceiver extends LinkEntity {
 
   /**
    * Will reconnect the receiver link if necessary.
-   * @param {AmqpError | Error} [receiverError] The receiver error if any.
+   * @param receiverError The receiver error if any.
+   * @param connectionDidDisconnect Whether this method is called as a result of a connection disconnect.
    * @returns {Promise<void>} Promise<void>.
    */
-  async onDetached(receiverError?: AmqpError | Error): Promise<void> {
+  async onDetached(
+    receiverError?: AmqpError | Error,
+    connectionDidDisconnect?: boolean
+  ): Promise<void> {
     const connectionId = this._context.namespace.connectionId;
+    // Prevent multiple onDetached invocations from running concurrently.
+    if (this._isDetaching) {
+      log.error(
+        `[${connectionId}] Receiver '${this.name}' with address '${this.address}' has had onDetached called while already detaching.`
+      );
+      return;
+    }
+
+    this._isDetaching = true;
     try {
-      // Local 'wasCloseInitiated' serves same purpose as {this.wasCloseInitiated}
-      // but the condition is inferred based on state of receiver in context of network disconnect scenario
-      const wasCloseInitiated = this._receiver && this._receiver.isItselfClosed();
       // Clears the token renewal timer. Closes the link and its session if they are open.
       // Removes the link and its session if they are present in rhea's cache.
       await this._closeLink(this._receiver);
@@ -873,54 +891,9 @@ export class MessageReceiver extends LinkEntity {
       }
 
       // We should attempt to reopen only when the receiver(sdk) did not initiate the close
-      let shouldReopen = false;
-      if (receiverError && !wasCloseInitiated) {
-        const translatedError = translate(receiverError);
-        if (translatedError.retryable) {
-          shouldReopen = true;
-          log.error(
-            "[%s] close() method of Receiver '%s' with address '%s' was not called. There " +
-              "was an accompanying error and it is retryable. This is a candidate for re-establishing " +
-              "the receiver link.",
-            connectionId,
-            this.name,
-            this.address
-          );
-        } else {
-          log.error(
-            "[%s] close() method of Receiver '%s' with address '%s' was not called. There " +
-              "was an accompanying error and it is NOT retryable. Hence NOT re-establishing " +
-              "the receiver link.",
-            connectionId,
-            this.name,
-            this.address
-          );
-        }
-      } else if (!wasCloseInitiated) {
-        shouldReopen = true;
-        log.error(
-          "[%s] close() method of Receiver '%s' with address '%s' was not called. " +
-            "There was no accompanying error as well. This is a candidate for re-establishing " +
-            "the receiver link.",
-          connectionId,
-          this.name,
-          this.address
-        );
-      } else {
-        const state: any = {
-          wasCloseInitiated: wasCloseInitiated,
-          receiverError: receiverError,
-          _receiver: this._receiver
-        };
-        log.error(
-          "[%s] Something went wrong. State of Receiver '%s' with address '%s' is: %O",
-          connectionId,
-          this.name,
-          this.address,
-          state
-        );
-      }
-      if (shouldReopen) {
+      const shouldReopen = !receiverError || translate(receiverError).retryable;
+
+      if (shouldReopen && !this.wasCloseInitiated) {
         // provide a new name to the link while re-connecting it. This ensures that
         // the service does not send an error stating that the link is still open.
         const options: ReceiverOptions = this._createReceiverOptions(true);
@@ -952,12 +925,35 @@ export class MessageReceiver extends LinkEntity {
           connectionHost: this._context.namespace.config.host,
           delayInSeconds: 15
         };
-        if (!this.wasCloseInitiated) {
-          await retry<void>(config);
-        }
+        await retry<void>(config);
+      } else if (connectionDidDisconnect && !this.wasCloseInitiated) {
+        const state: any = {
+          wasCloseInitiated: this.wasCloseInitiated,
+          receiverError: receiverError,
+          _receiver: this._receiver
+        };
+        log.error(
+          "[%s] Something went wrong and the connection disconnected. State of Receiver '%s' with address '%s' is: %O",
+          connectionId,
+          this.name,
+          this.address,
+          state
+        );
+        // Not retrying, throw the error so it gets logged and forwarded to user's error handler.
+        throw receiverError;
       } else {
-        // If not retrying, throw the error so it gets logged and forwarded to user's error handler.
-        throw receiverError || new Error(`Unexpected error occurred.`);
+        const state: any = {
+          wasCloseInitiated: this.wasCloseInitiated,
+          receiverError: receiverError,
+          _receiver: this._receiver
+        };
+        log.error(
+          "[%s] Something went wrong. State of Receiver '%s' with address '%s' is: %O",
+          connectionId,
+          this.name,
+          this.address,
+          state
+        );
       }
     } catch (err) {
       log.error(
@@ -976,6 +972,9 @@ export class MessageReceiver extends LinkEntity {
         );
         try {
           this._onError(err);
+          // Once the user's error handler has been called,
+          // close the receiver to prevent future messages/errors from being received.
+          await this.close();
         } catch (err) {
           log.error(
             "[%s] User-code error in error handler called after disconnect: %O",
@@ -984,6 +983,8 @@ export class MessageReceiver extends LinkEntity {
           );
         }
       }
+    } finally {
+      this._isDetaching = false;
     }
   }
 

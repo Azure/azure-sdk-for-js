@@ -95,7 +95,7 @@ export interface ClientEntityContextBase {
  * @internal
  */
 export interface ClientEntityContext extends ClientEntityContextBase {
-  onDetached(error?: AmqpError | Error): Promise<void>;
+  onDetached(error?: AmqpError | Error, connectionDidDisconnect?: boolean): Promise<void>;
   getReceiver(name: string, sessionId?: string): MessageReceiver | MessageSession | undefined;
   close(): Promise<void>;
 }
@@ -199,7 +199,10 @@ export namespace ClientEntityContext {
       return;
     };
 
-    (entityContext as ClientEntityContext).onDetached = async (error?: AmqpError | Error) => {
+    (entityContext as ClientEntityContext).onDetached = async (
+      error?: AmqpError | Error,
+      connectionDidDisconnect?: boolean
+    ) => {
       const connectionId = entityContext.namespace.connectionId;
 
       // Call onDetached() on sender so that it can decide whether to reconnect or not
@@ -247,7 +250,7 @@ export namespace ClientEntityContext {
             connectionId,
             streamingReceiver.name
           );
-          await streamingReceiver.onDetached(error);
+          await streamingReceiver.onDetached(error, connectionDidDisconnect);
         } catch (err) {
           log.error(
             "[%s] An error occurred while calling onDetached() on the streaming receiver '%s': %O.",
