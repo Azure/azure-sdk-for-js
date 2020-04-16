@@ -67,18 +67,20 @@ For our Engineering Systems to pick up our tests appropriately, our packages mus
 
 Though the tests must target live resources, we should make sure they only do so when necessary. We must keep in mind the following considerations:
 
-- **Tests should not be flaky.** Tests should pass regardless of who's executing them, when they are running, and how many times they run.
-- **Tests should create the resources they are testing**, either through the code of the tests, or through their configuration files.
+- **Tests must not be flaky.** Tests should pass regardless of who's executing them, when they are running, and how many times they run.
+- **Live testing resources should be created and deleted by automation**, either through the code of the tests, or through their configuration files.
 - **The resources created for the tests should be unique.** Running the same test in parallel, multiple times, should not break them.
 - **Avoid calling to timed delays** (like `setTimeout`) to assert that a change happened in the live resources.
-
-Keep in mind that it is valid to have manually created resources during the _development_ of the tests. For example, if you're working with any of the KeyVault clients, you may target a KeyVault created in your personal Azure account. Each one of the individual clients can then assume that a KeyVault provided by environment variables exists, and only focus on creating and managing the resources they're scoped to work with: Keys, Secrets and Certificates. **Ask your team to see if there's a resource already in place for test development.**
-
-Any resource that is not created by the tests must be defined in an [ARM template](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/overview), so that anyone can build a copy of them. This ARM template will be used by the CI pipelines during builds. Under the context of the previous KeyVault example, to automate the creation of the KeyVault that is passed into the tests, it needs to have been defined specifically in the [CI and nightly test configuration](#ci-and-nightly-test-configuration) files. 
-
-Regarding delays and `setTimeout`s, please refer to the [using delays](#using-delays) section.
+- **Tests should clean up any resource created**. For the most part, our automation tools will remove any resource created by the live tests. However, for development also, we should keep our resources clean by ensuing that regardless of the success of each test case, any resources created are cleaned up afterwards.
+- **Our code should explicitly prevent the execution of any test that might likely fail**. If there is not sufficient data to execute the test (e.g. credentials to a cloud resource), the code of the tests should explicitly skip it. This should not be done with the larger execution environment (e.g. test commands or the DevOps pipeline running the tests).
 
 You'll be able to find a more detailed set of recommendations in the section: [Best Practices for writing tests that target live resources](https://dev.azure.com/azure-sdk/internal/_wiki/wikis/internal.wiki/51/Testing-Guidelines) [🔒][TIPS].
+
+For more information on how to manage your live test resources, please read our [Live Test Resource Management](https://github.com/Azure/azure-sdk-for-js/blob/master/eng/common/TestResources/README.md) guide.
+
+Any resource that is not created by the tests must be defined in an [ARM template](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/overview), so that anyone can build a copy of them. This ARM template will be used by the test pipelines for live test runs. Under the context of the previous KeyVault example, to automate the creation of the KeyVault that is passed into the tests, it needs to have been defined specifically in the [CI and nightly test configuration](#ci-and-nightly-test-configuration) files.
+
+Regarding delays and `setTimeout`s, please refer to the [using delays](#using-delays) section.
 
 ### CI and nightly test configuration
 
@@ -103,7 +105,7 @@ Some examples can be found at:
 - [sdk/storage/test-resources.json](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/test-resources.json).
 - [sdk/servicebus/test-resources.json](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/test-resources.json).
 
-The `tests.yml` file must be placed at the package folder. This file is in charge of specifying when to run the tests for this package, what environments to use to run the tests, and how the tests are executed. You can learn how to write these files by following the guide: [Creating live tests](https://dev.azure.com/azure-sdk/internal/_wiki/wikis/internal.wiki/48/Create-a-new-Live-Test-pipeline?anchor=creating-live-tests) [🔒][TIPS].
+The `tests.yml` file must be placed at the package folder. This file is in charge of specifying what environments to use to run the tests, and how the tests are executed. You can learn how to write these files by following the guide: [Creating live tests](https://dev.azure.com/azure-sdk/internal/_wiki/wikis/internal.wiki/48/Create-a-new-Live-Test-pipeline?anchor=creating-live-tests) [🔒][TIPS].
 
 Some examples can be found at: 
 
@@ -111,41 +113,13 @@ Some examples can be found at:
 - [sdk/storage/storage-blob/tests.yml](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-blob/tests.yml).
 - [sdk/servicebus/service-bus/tests.yml](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/tests.yml).
 
-These files will deal with the environment variables needed by your tests. Some of these environment variables are quite standard. Generally speaking, the SDK tests will use information from the tenant and the client of the resources that the tests are working with. To effectively provide these to the automated tests, we need to enable the pipeline to use some specific configuration.
+These files will deal with the environment variables needed by your tests. Some of these environment variables are quite standard. Generally speaking, the SDK tests will use information from the tenant and the client of the resources that the tests are working with. To effectively provide these to the automated tests, we need to enable the pipeline to use some specific configuration. Please follow through the [Variable Groups](https://dev.azure.com/azure-sdk/internal/_wiki/wikis/internal.wiki/2/Azure-DevOps-Pipeline-Guidance?anchor=variable-groups) [🔒][TIPS] guidelines.
 
-First you must go to https://dev.azure.com/azure-sdk/ [🔒][TIPS] and look for the builds that have been configured to target your project, then:
-
-- Click the pipeline you want to test on PR.
-- Press the "Edit" button at the top right corner.
-- Press the three dot menu at the top right corner. A menu will drop down. Press the "Triggers" option from that menu.
-- A page will load with an horizontal menu near the top-center with the following options: "YAML", "Variables", "Triggers" and "History".
-- Click the Variables option of that menu.
-- Click on "Variable Groups".
-- If the variable group you want to select is not visible in that page, add it: You'll see a button that will say "🔗 Link variable group". Click it, then use the "🔍 search" input and type the name `Secrets for Resource Provisioner`, and then link it.
-
-It should end up looking something like this:
-
-![image](https://user-images.githubusercontent.com/417016/72285413-f8e54700-363a-11ea-959e-cb1bc4c074ba.png)
-
-Once the CI is properly configured, you can test that the live tests pipelines work by submitting a comment to a pull request with the name of the pipeline, which will be similar to `js - event-hubs - tests` or `js - keyvault-keys - tests`.
+Once the CI is properly configured, you can test that the live tests pipelines work by submitting a comment to a pull request with the name of the pipeline, which will be similar to `/azp run js - event-hubs - tests` or `/azp run js - keyvault-keys - tests`.
 
 ### Delivering live tests to our users
 
-The `test-resources.json` can be used by our users to set up their own test resources. We go through how it's being used with our PowerShell scripts in our [README](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md#integration-testing-with-live-services).
-
-We recommend using the same ARM template to expose a "Deploy Button" in the `README.md` of your project. The button will look like this one for KeyVault Keys:
-
-[![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsdk%2Fkeyvault%2Ftest-resources.json)
-
-Which contains the following code:
-
-```md
-[![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsdk%2Fkeyvault%2Ftest-resources.json)
-```
-
-It works by using the Azure endpoint `https://portal.azure.com/#create/Microsoft.Template/uri/` that allows receiving an encoded URL at the end of it. In the KeyVault Keys example, the encoded URL will contain the path of the `test-resources.json`, this one: `https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsdk%2Fkeyvault%2Ftest-resources.json`.
-
-Once clicked, the deploy button will load a form at Azure that should ask some basic information, and then allow anyone to deploy the same set of resources, already properly configured, to their accounts. This form is automatically generated from the ARM template, so to help our users go through it in detail, and also to inform them of the resources they will be creating, we recommend writing these details in a new file in your project's folder, called `TEST_RESOURCES_README.md` and linking it from your `README.md`. Here's an example that applies to all of our KeyVault clients: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/TEST_RESOURCES_README.md
+The `test-resources.json` can be used by our users to set up their own test resources. We go through how it's being used with our PowerShell scripts in our [README](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md#integration-testing-with-live-services). Make sure to mention of this resource inside of a `README.md` that must exist in the `test` folder of your project.
 
 
 
