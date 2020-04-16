@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getTracer, OperationTracingOptions } from "@azure/core-tracing";
-import { Span, SpanOptions, SpanKind } from "@opentelemetry/api";
+import { getTracer, OperationTracingOptions, SpanOptions } from "@azure/core-tracing";
+import { Span, SpanOptions as OTSpanOptions, SpanKind } from "@opentelemetry/api";
 
 /**
  * Creates a span using the global tracer.
