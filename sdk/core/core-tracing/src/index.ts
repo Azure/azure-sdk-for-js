@@ -20,4 +20,4 @@ export {
 // OpenCensus Interfaces
 export { Tracer as OpenCensusTracer, Span as OpenCensusSpan } from "@opencensus/web-types";
 
-export { OperationTracingOptions } from "./tracingOptions";
+export { OperationTracingOptions } from "./interfaces";
