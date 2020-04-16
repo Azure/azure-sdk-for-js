@@ -1,10 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import {
-  parseConnectionString,
-  ServiceBusConnectionStringModel
-} from "../util/utils";
+import { parseConnectionString, ServiceBusConnectionStringModel } from "../util/utils";
 import { WebSocketImpl } from "rhea-promise";
 
 /**
@@ -85,15 +82,10 @@ export namespace ConnectionConfig {
    * if present.
    * @returns {ConnectionConfig} ConnectionConfig
    */
-  export function create(
-    connectionString: string,
-    path?: string
-  ): ConnectionConfig {
+  export function create(connectionString: string, path?: string): ConnectionConfig {
     connectionString = String(connectionString);
 
-    const parsedCS = parseConnectionString<ServiceBusConnectionStringModel>(
-      connectionString
-    );
+    const parsedCS = parseConnectionString<ServiceBusConnectionStringModel>(connectionString);
     if (!parsedCS.Endpoint) {
       throw new TypeError("Missing Endpoint in Connection String.");
     }
@@ -103,12 +95,9 @@ export namespace ConnectionConfig {
     const result: ConnectionConfig = {
       connectionString: connectionString,
       endpoint: parsedCS.Endpoint,
-      host:
-        parsedCS && parsedCS.Endpoint
-          ? (parsedCS.Endpoint.match("sb://([^/]*)") || [])[1]
-          : "",
+      host: parsedCS && parsedCS.Endpoint ? (parsedCS.Endpoint.match(".*://([^/]*)") || [])[1] : "",
       sharedAccessKeyName: parsedCS.SharedAccessKeyName,
-      sharedAccessKey: parsedCS.SharedAccessKey
+      sharedAccessKey: parsedCS.SharedAccessKey,
     };
 
     if (path || parsedCS.EntityPath) {
@@ -122,10 +111,7 @@ export namespace ConnectionConfig {
    * @param {ConnectionConfig} config The connection config to be validated.
    * @returns {void} void
    */
-  export function validate(
-    config: ConnectionConfig,
-    options?: ConnectionConfigOptions
-  ): void {
+  export function validate(config: ConnectionConfig, options?: ConnectionConfigOptions): void {
     if (!options) options = {};
 
     if (!config) {
