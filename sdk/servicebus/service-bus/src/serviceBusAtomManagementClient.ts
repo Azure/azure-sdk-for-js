@@ -13,7 +13,7 @@ import {
   ProxySettings,
   stripRequest,
   stripResponse,
-  RestError
+  RestError,
 } from "@azure/core-http";
 
 import { SasTokenProvider, parseConnectionString } from "@azure/amqp-common";
@@ -30,7 +30,7 @@ import {
   QueueOptions,
   buildQueueOptions,
   QueueDetails,
-  buildQueue
+  buildQueue,
 } from "./serializers/queueResourceSerializer";
 import {
   TopicResourceSerializer,
@@ -38,7 +38,7 @@ import {
   TopicOptions,
   buildTopicOptions,
   TopicDetails,
-  buildTopic
+  buildTopic,
 } from "./serializers/topicResourceSerializer";
 import {
   SubscriptionResourceSerializer,
@@ -46,7 +46,7 @@ import {
   SubscriptionOptions,
   buildSubscriptionOptions,
   SubscriptionDetails,
-  buildSubscription
+  buildSubscription,
 } from "./serializers/subscriptionResourceSerializer";
 import {
   RuleResourceSerializer,
@@ -54,7 +54,7 @@ import {
   RuleOptions,
   buildRuleOptions,
   RuleDetails,
-  buildRule
+  buildRule,
 } from "./serializers/ruleResourceSerializer";
 import { isJSONLikeObject, isAbsoluteUrl } from "./util/utils";
 
@@ -430,7 +430,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       requestPolicyFactories.push(proxyPolicy(options.proxySettings));
     }
     const serviceClientOptions: ServiceClientOptions = {
-      requestPolicyFactories: requestPolicyFactories
+      requestPolicyFactories: requestPolicyFactories,
     };
 
     super(credentials, serviceClientOptions);
@@ -438,7 +438,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     this.topicResourceSerializer = new TopicResourceSerializer();
     this.subscriptionResourceSerializer = new SubscriptionResourceSerializer();
     this.ruleResourceSerializer = new RuleResourceSerializer();
-    this.endpoint = (connectionString.match("Endpoint=sb://(.*)/;") || "")[1];
+    this.endpoint = (connectionString.match("Endpoint=.*://(.*)/;") || "")[1];
     this.endpointWithProtocol = connectionStringObj.Endpoint;
 
     this.sasTokenProvider = new SasTokenProvider(
@@ -1252,7 +1252,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
         }
       }
       const listQueuesResponse: ListQueuesResponse = Object.assign(queues, {
-        _response: response
+        _response: response,
       });
       return listQueuesResponse;
     } catch (err) {
@@ -1271,7 +1271,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     try {
       const queue = buildQueue(response.parsedBody);
       const queueResponse: QueueResponse = Object.assign(queue || {}, {
-        _response: response
+        _response: response,
       });
       return queueResponse;
     } catch (err) {
@@ -1300,7 +1300,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
         }
       }
       const listTopicsResponse: ListTopicsResponse = Object.assign(topics, {
-        _response: response
+        _response: response,
       });
       return listTopicsResponse;
     } catch (err) {
@@ -1319,7 +1319,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     try {
       const topic = buildTopic(response.parsedBody);
       const topicResponse: TopicResponse = Object.assign(topic || {}, {
-        _response: response
+        _response: response,
       });
       return topicResponse;
     } catch (err) {
@@ -1350,7 +1350,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
         }
       }
       const listSubscriptionsResponse: ListSubscriptionsResponse = Object.assign(subscriptions, {
-        _response: response
+        _response: response,
       });
       return listSubscriptionsResponse;
     } catch (err) {
@@ -1369,7 +1369,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     try {
       const subscription = buildSubscription(response.parsedBody);
       const subscriptionResponse: SubscriptionResponse = Object.assign(subscription || {}, {
-        _response: response
+        _response: response,
       });
       return subscriptionResponse;
     } catch (err) {
@@ -1398,7 +1398,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
         }
       }
       const listRulesResponse: ListRulesResponse = Object.assign(rules, {
-        _response: response
+        _response: response,
       });
       return listRulesResponse;
     } catch (err) {
