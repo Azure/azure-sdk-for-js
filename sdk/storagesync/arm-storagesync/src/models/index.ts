@@ -573,17 +573,159 @@ export interface ServerEndpointSyncStatus {
 /**
  * Server endpoint cloud tiering status object.
  */
+export interface CloudTieringSpaceSavings {
+  /**
+   * Last updated timestamp
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lastUpdatedTimestamp?: Date;
+  /**
+   * Volume size
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly volumeSizeBytes?: number;
+  /**
+   * Total size of content in the azure file share
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly totalSizeCloudBytes?: number;
+  /**
+   * Cached content size on the server
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly cachedSizeBytes?: number;
+  /**
+   * Percentage of cached size over total size
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly spaceSavingsPercent?: number;
+  /**
+   * Count of bytes saved on the server
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly spaceSavingsBytes?: number;
+}
+
+/**
+ * Server endpoint cloud tiering status object.
+ */
+export interface CloudTieringCachePerformance {
+  /**
+   * Last updated timestamp
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lastUpdatedTimestamp?: Date;
+  /**
+   * Count of bytes that were served from the local server
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly cacheHitBytes?: number;
+  /**
+   * Count of bytes that were served from the cloud
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly cacheMissBytes?: number;
+  /**
+   * Percentage of total bytes (hit + miss) that were served from the local server
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly cacheHitBytesPercent?: number;
+}
+
+/**
+ * Files not tiering error object
+ */
+export interface FilesNotTieringError {
+  /**
+   * Error code (HResult)
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly errorCode?: number;
+  /**
+   * Count of files with this error
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly fileCount?: number;
+}
+
+/**
+ * Server endpoint cloud tiering status object.
+ */
+export interface CloudTieringFilesNotTiering {
+  /**
+   * Last updated timestamp
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lastUpdatedTimestamp?: Date;
+  /**
+   * Last cloud tiering result (HResult)
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly totalFileCount?: number;
+  /**
+   * Array of tiering errors
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly errors?: FilesNotTieringError[];
+}
+
+/**
+ * Status of the volume free space policy
+ */
+export interface CloudTieringVolumeFreeSpacePolicyStatus {
+  /**
+   * Last updated timestamp
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lastUpdatedTimestamp?: Date;
+  /**
+   * In the case where multiple server endpoints are present in a volume, an effective free space
+   * policy is applied.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly effectiveVolumeFreeSpacePolicy?: number;
+  /**
+   * Current volume free space percentage.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly currentVolumeFreeSpacePercent?: number;
+}
+
+/**
+ * Status of the date policy
+ */
+export interface CloudTieringDatePolicyStatus {
+  /**
+   * Last updated timestamp
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lastUpdatedTimestamp?: Date;
+  /**
+   * Most recent access time of tiered files
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tieredFilesMostRecentAccessTimestamp?: Date;
+}
+
+/**
+ * Server endpoint cloud tiering status object.
+ */
 export interface ServerEndpointCloudTieringStatus {
+  /**
+   * Last updated timestamp
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lastUpdatedTimestamp?: Date;
   /**
    * Cloud tiering health state. Possible values include: 'Healthy', 'Error'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly health?: Health;
   /**
-   * Last updated timestamp
+   * The last updated timestamp of health state
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly lastUpdatedTimestamp?: Date;
+  readonly healthLastUpdatedTimestamp?: Date;
   /**
    * Last cloud tiering result (HResult)
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -594,6 +736,31 @@ export interface ServerEndpointCloudTieringStatus {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly lastSuccessTimestamp?: Date;
+  /**
+   * Information regarding how much local space cloud tiering is saving.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly spaceSavings?: CloudTieringSpaceSavings;
+  /**
+   * Information regarding how well the local cache on the server is performing.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly cachePerformance?: CloudTieringCachePerformance;
+  /**
+   * Information regarding files that failed to be tiered
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly filesNotTiering?: CloudTieringFilesNotTiering;
+  /**
+   * Status of the volume free space policy
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly volumeFreeSpacePolicyStatus?: CloudTieringVolumeFreeSpacePolicyStatus;
+  /**
+   * Status of the date policy
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly datePolicyStatus?: CloudTieringDatePolicyStatus;
 }
 
 /**

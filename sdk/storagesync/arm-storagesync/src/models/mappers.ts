@@ -924,12 +924,265 @@ export const ServerEndpointSyncStatus: msRest.CompositeMapper = {
   }
 };
 
+export const CloudTieringSpaceSavings: msRest.CompositeMapper = {
+  serializedName: "CloudTieringSpaceSavings",
+  type: {
+    name: "Composite",
+    className: "CloudTieringSpaceSavings",
+    modelProperties: {
+      lastUpdatedTimestamp: {
+        readOnly: true,
+        serializedName: "lastUpdatedTimestamp",
+        type: {
+          name: "DateTime"
+        }
+      },
+      volumeSizeBytes: {
+        readOnly: true,
+        serializedName: "volumeSizeBytes",
+        constraints: {
+          InclusiveMinimum: 0
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      totalSizeCloudBytes: {
+        readOnly: true,
+        serializedName: "totalSizeCloudBytes",
+        constraints: {
+          InclusiveMinimum: 0
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      cachedSizeBytes: {
+        readOnly: true,
+        serializedName: "cachedSizeBytes",
+        constraints: {
+          InclusiveMinimum: 0
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      spaceSavingsPercent: {
+        readOnly: true,
+        serializedName: "spaceSavingsPercent",
+        constraints: {
+          InclusiveMaximum: 100,
+          InclusiveMinimum: 0
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      spaceSavingsBytes: {
+        readOnly: true,
+        serializedName: "spaceSavingsBytes",
+        constraints: {
+          InclusiveMinimum: 0
+        },
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const CloudTieringCachePerformance: msRest.CompositeMapper = {
+  serializedName: "CloudTieringCachePerformance",
+  type: {
+    name: "Composite",
+    className: "CloudTieringCachePerformance",
+    modelProperties: {
+      lastUpdatedTimestamp: {
+        readOnly: true,
+        serializedName: "lastUpdatedTimestamp",
+        type: {
+          name: "DateTime"
+        }
+      },
+      cacheHitBytes: {
+        readOnly: true,
+        serializedName: "cacheHitBytes",
+        constraints: {
+          InclusiveMinimum: 0
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      cacheMissBytes: {
+        readOnly: true,
+        serializedName: "cacheMissBytes",
+        constraints: {
+          InclusiveMinimum: 0
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      cacheHitBytesPercent: {
+        readOnly: true,
+        serializedName: "cacheHitBytesPercent",
+        constraints: {
+          InclusiveMaximum: 100,
+          InclusiveMinimum: 0
+        },
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const FilesNotTieringError: msRest.CompositeMapper = {
+  serializedName: "FilesNotTieringError",
+  type: {
+    name: "Composite",
+    className: "FilesNotTieringError",
+    modelProperties: {
+      errorCode: {
+        readOnly: true,
+        serializedName: "errorCode",
+        type: {
+          name: "Number"
+        }
+      },
+      fileCount: {
+        readOnly: true,
+        serializedName: "fileCount",
+        constraints: {
+          InclusiveMinimum: 0
+        },
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const CloudTieringFilesNotTiering: msRest.CompositeMapper = {
+  serializedName: "CloudTieringFilesNotTiering",
+  type: {
+    name: "Composite",
+    className: "CloudTieringFilesNotTiering",
+    modelProperties: {
+      lastUpdatedTimestamp: {
+        readOnly: true,
+        serializedName: "lastUpdatedTimestamp",
+        type: {
+          name: "DateTime"
+        }
+      },
+      totalFileCount: {
+        readOnly: true,
+        serializedName: "totalFileCount",
+        constraints: {
+          InclusiveMinimum: 0
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      errors: {
+        readOnly: true,
+        serializedName: "errors",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "FilesNotTieringError"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const CloudTieringVolumeFreeSpacePolicyStatus: msRest.CompositeMapper = {
+  serializedName: "CloudTieringVolumeFreeSpacePolicyStatus",
+  type: {
+    name: "Composite",
+    className: "CloudTieringVolumeFreeSpacePolicyStatus",
+    modelProperties: {
+      lastUpdatedTimestamp: {
+        readOnly: true,
+        serializedName: "lastUpdatedTimestamp",
+        type: {
+          name: "DateTime"
+        }
+      },
+      effectiveVolumeFreeSpacePolicy: {
+        readOnly: true,
+        serializedName: "effectiveVolumeFreeSpacePolicy",
+        constraints: {
+          InclusiveMaximum: 100,
+          InclusiveMinimum: 0
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      currentVolumeFreeSpacePercent: {
+        readOnly: true,
+        serializedName: "currentVolumeFreeSpacePercent",
+        constraints: {
+          InclusiveMaximum: 100,
+          InclusiveMinimum: 0
+        },
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const CloudTieringDatePolicyStatus: msRest.CompositeMapper = {
+  serializedName: "CloudTieringDatePolicyStatus",
+  type: {
+    name: "Composite",
+    className: "CloudTieringDatePolicyStatus",
+    modelProperties: {
+      lastUpdatedTimestamp: {
+        readOnly: true,
+        serializedName: "lastUpdatedTimestamp",
+        type: {
+          name: "DateTime"
+        }
+      },
+      tieredFilesMostRecentAccessTimestamp: {
+        readOnly: true,
+        serializedName: "tieredFilesMostRecentAccessTimestamp",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
 export const ServerEndpointCloudTieringStatus: msRest.CompositeMapper = {
   serializedName: "ServerEndpointCloudTieringStatus",
   type: {
     name: "Composite",
     className: "ServerEndpointCloudTieringStatus",
     modelProperties: {
+      lastUpdatedTimestamp: {
+        readOnly: true,
+        serializedName: "lastUpdatedTimestamp",
+        type: {
+          name: "DateTime"
+        }
+      },
       health: {
         readOnly: true,
         serializedName: "health",
@@ -937,9 +1190,9 @@ export const ServerEndpointCloudTieringStatus: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      lastUpdatedTimestamp: {
+      healthLastUpdatedTimestamp: {
         readOnly: true,
-        serializedName: "lastUpdatedTimestamp",
+        serializedName: "healthLastUpdatedTimestamp",
         type: {
           name: "DateTime"
         }
@@ -956,6 +1209,46 @@ export const ServerEndpointCloudTieringStatus: msRest.CompositeMapper = {
         serializedName: "lastSuccessTimestamp",
         type: {
           name: "DateTime"
+        }
+      },
+      spaceSavings: {
+        readOnly: true,
+        serializedName: "spaceSavings",
+        type: {
+          name: "Composite",
+          className: "CloudTieringSpaceSavings"
+        }
+      },
+      cachePerformance: {
+        readOnly: true,
+        serializedName: "cachePerformance",
+        type: {
+          name: "Composite",
+          className: "CloudTieringCachePerformance"
+        }
+      },
+      filesNotTiering: {
+        readOnly: true,
+        serializedName: "filesNotTiering",
+        type: {
+          name: "Composite",
+          className: "CloudTieringFilesNotTiering"
+        }
+      },
+      volumeFreeSpacePolicyStatus: {
+        readOnly: true,
+        serializedName: "volumeFreeSpacePolicyStatus",
+        type: {
+          name: "Composite",
+          className: "CloudTieringVolumeFreeSpacePolicyStatus"
+        }
+      },
+      datePolicyStatus: {
+        readOnly: true,
+        serializedName: "datePolicyStatus",
+        type: {
+          name: "Composite",
+          className: "CloudTieringDatePolicyStatus"
         }
       }
     }
