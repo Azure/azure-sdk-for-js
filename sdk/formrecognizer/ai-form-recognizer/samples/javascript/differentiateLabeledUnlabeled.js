@@ -6,7 +6,7 @@
  * models trained with labeled and unlabeled data.
  */
 
-const { FormRecognizerClient, AzureKeyCredential } = require("../../dist");
+const { FormRecognizerClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
 const fs = require("fs");
 
 // Load the .env file if it exists

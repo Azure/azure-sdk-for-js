@@ -6,13 +6,12 @@
  * a cognitive service account.
  */
 
-//import { FormTrainingClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
-import { FormTrainingClient, AzureKeyCredential, ModelInfo } from "../../../src/index";
+import { FormTrainingClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
 
 // Load the .env file if it exists
 require("dotenv").config();
 
-async function main() {
+export async function main() {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["COGNITIVE_SERVICE_ENDPOINT"] || "<cognitive services endpoint>";
   const apiKey = process.env["COGNITIVE_SERVICE_API_KEY"] || "<api key>";

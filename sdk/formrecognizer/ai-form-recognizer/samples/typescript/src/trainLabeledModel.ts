@@ -6,14 +6,12 @@
  * See recognizeForm.ts to recognize forms using a custom model.
  */
 
-
-//import { FormRecognizerClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
-import { FormRecognizerClient, AzureKeyCredential } from "../../../src/index";
+import { FormRecognizerClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
 
 // Load the .env file if it exists
 require("dotenv").config();
 
-async function main() {
+export async function main() {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["COGNITIVE_SERVICE_ENDPOINT"] || "<cognitive services endpoint>";
   const apiKey = process.env["COGNITIVE_SERVICE_API_KEY"] || "<api key>";

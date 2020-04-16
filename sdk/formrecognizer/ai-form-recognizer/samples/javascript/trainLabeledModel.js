@@ -6,8 +6,7 @@
  * See recognizeForm.ts to recognize forms using a custom model.
  */
 
-// const { FormRecognizerClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
-const { FormRecognizerClient, AzureKeyCredential } = require("../../dist");
+const { FormRecognizerClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
 
 // Load the .env file if it exists
 require("dotenv").config();

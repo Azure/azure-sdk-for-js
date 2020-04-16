@@ -5,7 +5,7 @@
  * This sample demonstrates how to recognize US sales receipts from a file.
  */
 
-const { FormRecognizerClient, AzureKeyCredential } = require("../../dist");
+const { FormRecognizerClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
 const fs = require("fs");
 
 // Load the .env file if it exists

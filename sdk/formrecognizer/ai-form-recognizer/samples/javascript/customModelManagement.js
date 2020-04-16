@@ -6,8 +6,7 @@
  * a cognitive service account.
  */
 
-//const { FormTrainingClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
-const { FormTrainingClient, AzureKeyCredential } = require("../../dist");
+const { FormTrainingClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
 
 // Load the .env file if it exists
 require("dotenv").config();
