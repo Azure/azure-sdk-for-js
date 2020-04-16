@@ -333,13 +333,18 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/ai-form-recognizer",
+      "projectFolder": "sdk/formrecognizer/ai-form-recognizer",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/ai-text-analytics",
       "projectFolder": "sdk/textanalytics/ai-text-analytics",
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/search",
-      "projectFolder": "sdk/search/search",
+      "packageName": "@azure/search-documents",
+      "projectFolder": "sdk/search/search-documents",
       "versionPolicyName": "client"
     },
     {

@@ -21,6 +21,7 @@ export {
   DomainTopic,
   EventChannel,
   EventChannelDestination,
+  EventChannelFilter,
   EventChannelSource,
   EventHubEventSubscriptionDestination,
   EventSubscription,

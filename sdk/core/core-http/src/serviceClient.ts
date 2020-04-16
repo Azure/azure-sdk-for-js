@@ -58,7 +58,7 @@ import { logger } from "./log";
 import { InternalPipelineOptions } from "./pipelineOptions";
 import { DefaultKeepAliveOptions, keepAlivePolicy } from "./policies/keepAlivePolicy";
 import { tracingPolicy } from "./policies/tracingPolicy";
-import { disableResponseDecompressionPolicy } from './policies/disableResponseDecompressionPolicy';
+import { disableResponseDecompressionPolicy } from "./policies/disableResponseDecompressionPolicy";
 
 /**
  * Options to configure a proxy for outgoing requests (Node.js only).
@@ -449,6 +449,10 @@ export class ServiceClient {
         if (options.spanOptions) {
           httpRequest.spanOptions = options.spanOptions;
         }
+
+        if (options.shouldDeserialize !== undefined) {
+          httpRequest.shouldDeserialize = options.shouldDeserialize;
+        }
       }
 
       httpRequest.withCredentials = this._withCredentials;
@@ -513,6 +517,7 @@ export function serializeRequestBody(
     const bodyMapper = operationSpec.requestBody.mapper;
     const { required, xmlName, xmlElementName, serializedName } = bodyMapper;
     const typeName = bodyMapper.type.name;
+
     try {
       if (httpRequest.body != undefined || required) {
         const requestBodyParameterPathString: string = getPathStringFromParameter(
@@ -523,7 +528,9 @@ export function serializeRequestBody(
           httpRequest.body,
           requestBodyParameterPathString
         );
+
         const isStream = typeName === MapperType.Stream;
+
         if (operationSpec.isXML) {
           if (typeName === MapperType.Sequence) {
             httpRequest.body = stringifyXML(
@@ -538,6 +545,10 @@ export function serializeRequestBody(
               rootName: xmlName || serializedName
             });
           }
+        } else if (typeName === MapperType.String && operationSpec.contentType?.match("text/plain")) {
+          // the String serializer has validated that request body is a string
+          // so just send the string.
+          return;
         } else if (!isStream) {
           httpRequest.body = JSON.stringify(httpRequest.body);
         }

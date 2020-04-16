@@ -73,8 +73,8 @@ async function runScenario() {
   await getSessionState("bob");
 }
 async function getSessionState(sessionId) {
-  // If receiving from a subscription you can use the getSessionReceiver(topic, subscription) overload
-  const sessionReceiver = sbClient.getSessionReceiver(
+  // If receiving from a subscription you can use the createSessionReceiver(topic, subscription) overload
+  const sessionReceiver = sbClient.createSessionReceiver(
     userEventsQueueName,
     "peekLock",
     {
@@ -91,8 +91,8 @@ async function getSessionState(sessionId) {
   await sessionReceiver.close();
 }
 async function sendMessagesForSession(shoppingEvents, sessionId) {
-  // getSender() can also be used to create a sender for a topic.
-  const sender = sbClient.getSender(userEventsQueueName);
+  // createSender() can also be used to create a sender for a topic.
+  const sender = sbClient.createSender(userEventsQueueName);
   for (let index = 0; index < shoppingEvents.length; index++) {
     const message = {
       sessionId: sessionId,
@@ -104,8 +104,8 @@ async function sendMessagesForSession(shoppingEvents, sessionId) {
   await sender.close();
 }
 async function processMessageFromSession(sessionId) {
-  // If receiving from a subscription you can use the getSessionReceiver(topic, subscription) overload
-  const sessionReceiver = sbClient.getSessionReceiver(
+  // If receiving from a subscription you can use the createSessionReceiver(topic, subscription) overload
+  const sessionReceiver = sbClient.createSessionReceiver(
     userEventsQueueName,
     "peekLock",
     {

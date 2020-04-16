@@ -6,23 +6,19 @@ import {
   TokenCredential,
   ConnectionConfig,
   SharedKeyCredential,
-  DataTransformer,
-  WebSocketOptions
+  WebSocketOptions,
+  RetryOptions
 } from "@azure/core-amqp";
 import { ConnectionContext } from "./connectionContext";
 
 /**
  * Describes the options that can be provided while creating the ServiceBusClient.
- * @interface ServiceBusClientOptions
  */
 export interface ServiceBusClientOptions {
   /**
-   * @property The data transformer that will be used to encode
-   * and decode the sent and received messages respectively. If not provided then we will use the
-   * DefaultDataTransformer. The default transformer should handle majority of the cases. This
-   * option needs to be used only for specialized scenarios.
+   * Retry policy options that determine the mode, number of retries, retry interval etc.
    */
-  dataTransformer?: DataTransformer;
+  retryOptions?: RetryOptions;
   /**
    * @property
    * Options to configure the channelling of the AMQP connection over Web Sockets.
@@ -51,6 +47,12 @@ export function createConnectionContextForConnectionString(
   return ConnectionContext.create(config, credential, options);
 }
 
+/**
+ * @internal
+ * @ignore
+ *
+ * @param {ConnectionConfig} config
+ */
 function validate(config: ConnectionConfig) {
   // TODO: workaround - core-amqp's validate string-izes "undefined"
   // the timing of this particular call happens in a spot where we might not have an

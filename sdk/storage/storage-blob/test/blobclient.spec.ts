@@ -45,8 +45,10 @@ describe("BlobClient", () => {
   });
 
   afterEach(async function() {
-    await containerClient.delete();
-    recorder.stop();
+    if (!this.currentTest?.isPending()) {
+      await containerClient.delete();
+      recorder.stop();
+    }
   });
 
   it("download with with default parameters", async () => {

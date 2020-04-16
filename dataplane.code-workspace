@@ -72,8 +72,8 @@
     },
     {
       "name": "search",
-      "path": "sdk\\search\\search"
-    }
+      "path": "sdk\\search\\search-documents"
+    },
     {
       "path": "sdk\\servicebus\\service-bus"
     },

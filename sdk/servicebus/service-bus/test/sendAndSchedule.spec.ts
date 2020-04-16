@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import chai from "chai";
+import Long from "long";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
@@ -15,6 +16,7 @@ import {
 } from "./utils/testutils2";
 import { Sender } from "../src/sender";
 import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
+import { AbortController } from "@azure/abort-controller";
 
 describe("send scheduled messages", () => {
   let senderClient: Sender;
@@ -34,7 +36,7 @@ describe("send scheduled messages", () => {
     receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
 
     senderClient = serviceBusClient.test.addToCleanup(
-      serviceBusClient.getSender(entityNames.queue ?? entityNames.topic!)
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
   }
 
@@ -74,7 +76,7 @@ describe("send scheduled messages", () => {
       await testSimpleSend(false, true);
     });
 
-    it("Unpartitioned Queue: Simple Send #RunInBrowser", async function(): Promise<void> {
+    it("Unpartitioned Queue: Simple Send", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedQueue);
       await testSimpleSend(false, false);
     });
@@ -149,7 +151,7 @@ describe("send scheduled messages", () => {
   //     await testSimpleSendBatch(false, true);
   //   });
 
-  //   it("Unpartitioned Queue: Simple SendBatch #RunInBrowser", async function(): Promise<void> {
+  //   it("Unpartitioned Queue: Simple SendBatch", async function(): Promise<void> {
   //     await beforeEachTest(TestClientType.UnpartitionedQueue);
   //     await testSimpleSendBatch(false, false);
   //   });
@@ -353,9 +355,7 @@ describe("send scheduled messages", () => {
       await testScheduleMessages();
     });
 
-    it("UnPartitioned Queue: Schedule multiple messages #RunInBrowser", async function(): Promise<
-      void
-    > {
+    it("UnPartitioned Queue: Schedule multiple messages", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedQueue);
       await testScheduleMessages();
     });
@@ -379,7 +379,7 @@ describe("send scheduled messages", () => {
       await testScheduleMessages(true);
     });
 
-    it("Unpartitioned Queue with Sessions: Schedule multiple messages #RunInBrowser", async function(): Promise<
+    it("Unpartitioned Queue with Sessions: Schedule multiple messages", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
@@ -493,9 +493,7 @@ describe("send scheduled messages", () => {
       await testCancelScheduleMessages(false);
     });
 
-    it("Unpartitioned Queue: Cancel scheduled messages #RunInBrowser", async function(): Promise<
-      void
-    > {
+    it("Unpartitioned Queue: Cancel scheduled messages", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedQueue);
       await testCancelScheduleMessages(false);
     });
@@ -519,7 +517,7 @@ describe("send scheduled messages", () => {
       await testCancelScheduleMessages(true);
     });
 
-    it("Unpartitioned Queue with Sessions: Cancel scheduled messages #RunInBrowser", async function(): Promise<
+    it("Unpartitioned Queue with Sessions: Cancel scheduled messages", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
@@ -534,7 +532,7 @@ describe("send scheduled messages", () => {
     });
   });
 
-  describe("ServiceBusMessage validations #RunInBrowser", function(): void {
+  describe("ServiceBusMessage validations", function(): void {
     const longString =
       "A very very very very very very very very very very very very very very very very very very very very very very very very very long string.";
     after(async () => {
@@ -685,7 +683,7 @@ describe("send scheduled messages", () => {
     expectedReceivedMsgsLength: number
   ): Promise<void> {
     const receivedMsgs = await receiverClient.receiveBatch(expectedReceivedMsgsLength + 1, {
-      maxWaitTimeSeconds: 5
+      maxWaitTimeInMs: 5000
     });
 
     should.equal(
@@ -694,4 +692,62 @@ describe("send scheduled messages", () => {
       "Unexpected number of msgs found when receiving"
     );
   }
+
+  describe("Cancel operations on the sender", function(): void {
+    it("Abort scheduleMessage request on the sender", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.PartitionedQueue);
+      const controller = new AbortController();
+      setTimeout(() => controller.abort(), 1);
+      try {
+        await senderClient.scheduleMessage(new Date(), TestMessage.getSample(), {
+          abortSignal: controller.signal
+        });
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.message.should.equal("The scheduleMessage operation has been cancelled by the user.");
+      }
+    });
+
+    it("Abort scheduleMessages request on the sender", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.PartitionedQueue);
+      const controller = new AbortController();
+      setTimeout(() => controller.abort(), 1);
+      try {
+        await senderClient.scheduleMessages(new Date(), [TestMessage.getSample()], {
+          abortSignal: controller.signal
+        });
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.message.should.equal("The scheduleMessages operation has been cancelled by the user.");
+      }
+    });
+
+    it("Abort cancelScheduledMessage request on the sender", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.PartitionedQueue);
+      const controller = new AbortController();
+      setTimeout(() => controller.abort(), 1);
+      try {
+        await senderClient.cancelScheduledMessage(Long.ZERO, { abortSignal: controller.signal });
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.message.should.equal(
+          "The cancelScheduledMessage operation has been cancelled by the user."
+        );
+      }
+    });
+
+    it("Abort cancelScheduledMessages request on the sender", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.PartitionedQueue);
+      const controller = new AbortController();
+      setTimeout(() => controller.abort(), 1);
+      try {
+        await senderClient.cancelScheduledMessages([Long.ZERO], { abortSignal: controller.signal });
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.message.should.equal(
+          "The cancelScheduledMessages operation has been cancelled by the user."
+        );
+      }
+    });
+  });
 });

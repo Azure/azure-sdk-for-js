@@ -2,7 +2,8 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
 
-  **NOTE**: If you are using version 1.1.x or lower, then please use the link below:
+  **NOTE**: This sample uses the preview of the next version of the @azure/service-bus package.
+  For samples using the current stable version of the package, please use the link below:
   https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples
   
   This sample demonstrates how the defer() function can be used to defer a message for later processing.
@@ -33,8 +34,8 @@ export async function main() {
 // Shuffle and send messages
 async function sendMessages() {
   const sbClient = new ServiceBusClient(connectionString);
-  // getSender() can also be used to create a sender for a topic.
-  const sender = sbClient.getSender(queueName);
+  // createSender() can also be used to create a sender for a topic.
+  const sender = sbClient.createSender(queueName);
 
   const data = [
     { step: 1, title: "Shop" },
@@ -71,8 +72,8 @@ async function sendMessages() {
 async function receiveMessage() {
   const sbClient = new ServiceBusClient(connectionString);
 
-  // If receiving from a subscription, you can use the getReceiver(topic, subscription) overload
-  let receiver = sbClient.getReceiver(queueName, "peekLock");
+  // If receiving from a subscription, you can use the createReceiver(topic, subscription) overload
+  let receiver = sbClient.createReceiver(queueName, "peekLock");
 
   const deferredSteps = new Map();
   let lastProcessedRecipeStep = 0;
@@ -119,7 +120,7 @@ async function receiveMessage() {
     await receiver.close();
     console.log("Total number of deferred messages:", deferredSteps.size);
 
-    receiver = sbClient.getReceiver(queueName, "peekLock");
+    receiver = sbClient.createReceiver(queueName, "peekLock");
     // Now we process the deferred messages
     while (deferredSteps.size > 0) {
       const step = lastProcessedRecipeStep + 1;

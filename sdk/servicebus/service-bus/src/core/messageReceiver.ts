@@ -9,7 +9,8 @@ import {
   RetryOperationType,
   RetryConfig,
   ConditionErrorNameMapper,
-  ErrorNameConditionMapper
+  ErrorNameConditionMapper,
+  RetryOptions
 } from "@azure/core-amqp";
 import {
   Receiver,
@@ -79,10 +80,16 @@ export interface ReceiveOptions extends MessageHandlerOptions {
    * Default: ReceiveMode.peekLock
    */
   receiveMode?: ReceiveMode;
+  /**
+   * Retry policy options that determine the mode, number of retries, retry interval etc.
+   */
+  retryOptions?: RetryOptions;
 }
 
 /**
  * Describes the signature of the message handler passed to `registerMessageHandler` method.
+ * @internal
+ * @ignore
  */
 export interface OnMessage {
   /**
@@ -93,6 +100,9 @@ export interface OnMessage {
 
 /**
  * Describes the signature of the error handler passed to `registerMessageHandler` method.
+ *
+ * @internal
+ * @ignore
  */
 export interface OnError {
   /**
@@ -130,28 +140,31 @@ export class MessageReceiver extends LinkEntity {
    */
   autoComplete: boolean;
   /**
-   * @property {number} maxAutoRenewDurationInSeconds The maximum duration within which the
+   * @property {number} maxAutoRenewDurationInMs The maximum duration within which the
    * lock will be renewed automatically. This value should be greater than the longest message
    * lock duration; for example, the `lockDuration` property on the received message.
    *
-   * Default: `300` (5 minutes);
+   * Default: `300 * 1000` (5 minutes);
    */
-  maxAutoRenewDurationInSeconds: number;
+  maxAutoRenewDurationInMs: number;
   /**
-   * @property {number} [newMessageWaitTimeoutInSeconds] The maximum amount of idle time the
+   * @property {number} [newMessageWaitTimeoutInMs] The maximum amount of idle time the
    * receiver will wait after a message has been received. If no messages are received by this
    * time then the receive operation will end.
    */
-  newMessageWaitTimeoutInSeconds?: number;
+  newMessageWaitTimeoutInMs?: number;
   /**
    * @property {boolean} autoRenewLock Should lock renewal happen automatically.
    */
   autoRenewLock: boolean;
   /**
    * @property {Receiver} [_receiver] The AMQP receiver link.
-   * @protected
    */
   protected _receiver?: Receiver;
+  /**
+   *Retry policy options that determine the mode, number of retries, retry interval etc.
+   */
+  private _retryOptions: RetryOptions;
   /**
    * @property {Map<number, Promise<any>>} _deliveryDispositionMap Maintains a map of deliveries that
    * are being actively disposed. It acts as a store for correlating the responses received for
@@ -161,60 +174,50 @@ export class MessageReceiver extends LinkEntity {
   /**
    * @property {OnMessage} _onMessage The message handler provided by the user that will be wrapped
    * inside _onAmqpMessage.
-   * @protected
    */
   protected _onMessage!: OnMessage;
   /**
    * @property {OnMessage} _onError The error handler provided by the user that will be wrapped
    * inside _onAmqpError.
-   * @protected
    */
   protected _onError?: OnError;
   /**
    * @property {OnAmqpEventAsPromise} _onAmqpMessage The message handler that will be set as the handler on the
    * underlying rhea receiver for the "message" event.
-   * @protected
    */
   protected _onAmqpMessage: OnAmqpEventAsPromise;
   /**
    * @property {OnAmqpEventAsPromise} _onAmqpClose The message handler that will be set as the handler on the
    * underlying rhea receiver for the "receiver_close" event.
-   * @protected
    */
   protected _onAmqpClose: OnAmqpEventAsPromise;
   /**
    * @property {OnAmqpEvent} _onSessionError The message handler that will be set as the handler on
    * the underlying rhea receiver's session for the "session_error" event.
-   * @protected
    */
   protected _onSessionError: OnAmqpEvent;
   /**
    * @property {OnAmqpEventAsPromise} _onSessionClose The message handler that will be set as the handler on
    * the underlying rhea receiver's session for the "session_close" event.
-   * @protected
    */
   protected _onSessionClose: OnAmqpEventAsPromise;
   /**
    * @property {OnAmqpEvent} _onAmqpError The message handler that will be set as the handler on the
    * underlying rhea receiver for the "receiver_error" event.
-   * @protected
    */
   protected _onAmqpError: OnAmqpEvent;
   /**
    * @property {OnAmqpEvent} _onSettled The message handler that will be set as the handler on the
    * underlying rhea receiver for the "settled" event.
-   * @protected
    */
   protected _onSettled: OnAmqpEvent;
   /**
    * @property {boolean} wasCloseInitiated Denotes if receiver was explicitly closed by user.
-   * @protected
    */
   protected wasCloseInitiated?: boolean;
   /**
    * @property {Map<string, Function>} _messageRenewLockTimers Maintains a map of messages for which
    * the lock is automatically renewed.
-   * @protected
    */
   protected _messageRenewLockTimers: Map<string, NodeJS.Timer | undefined> = new Map<
     string,
@@ -232,13 +235,11 @@ export class MessageReceiver extends LinkEntity {
   /**
    * @property {Function} _clearMessageLockRenewTimer Clears the message lock renew timer for a
    * specific messageId.
-   * @protected
    */
   protected _clearMessageLockRenewTimer: (messageId: string) => void;
   /**
    * @property {Function} _clearMessageLockRenewTimer Clears the message lock renew timer for all
    * the active messages.
-   * @protected
    */
   protected _clearAllMessageLockRenewTimers: () => void;
   constructor(context: ClientEntityContext, receiverType: ReceiverType, options?: ReceiveOptions) {
@@ -247,6 +248,7 @@ export class MessageReceiver extends LinkEntity {
       audience: `${context.namespace.config.endpoint}${context.entityPath}`
     });
     if (!options) options = {};
+    this._retryOptions = options.retryOptions || {};
     this.wasCloseInitiated = false;
     this.receiverType = receiverType;
     this.receiveMode = options.receiveMode || ReceiveMode.peekLock;
@@ -258,12 +260,12 @@ export class MessageReceiver extends LinkEntity {
     };
     // If explicitly set to false then autoComplete is false else true (default).
     this.autoComplete = options.autoComplete === false ? options.autoComplete : true;
-    this.maxAutoRenewDurationInSeconds =
-      options.maxMessageAutoRenewLockDurationInSeconds != null
-        ? options.maxMessageAutoRenewLockDurationInSeconds
-        : 300;
+    this.maxAutoRenewDurationInMs =
+      options.maxMessageAutoRenewLockDurationInMs != null
+        ? options.maxMessageAutoRenewLockDurationInMs
+        : 300 * 1000;
     this.autoRenewLock =
-      this.maxAutoRenewDurationInSeconds > 0 && this.receiveMode === ReceiveMode.peekLock;
+      this.maxAutoRenewDurationInMs > 0 && this.receiveMode === ReceiveMode.peekLock;
     this._clearMessageLockRenewTimer = (messageId: string) => {
       if (this._messageRenewLockTimers.has(messageId)) {
         clearTimeout(this._messageRenewLockTimers.get(messageId) as NodeJS.Timer);
@@ -352,7 +354,7 @@ export class MessageReceiver extends LinkEntity {
       if (this.autoRenewLock && bMessage.lockToken) {
         const lockToken = bMessage.lockToken;
         // - We need to renew locks before they expire by looking at bMessage.lockedUntilUtc.
-        // - This autorenewal needs to happen **NO MORE** than maxAutoRenewDurationInSeconds
+        // - This autorenewal needs to happen **NO MORE** than maxAutoRenewDurationInMs
         // - We should be able to clear the renewal timer when the user's message handler
         // is done (whether it succeeds or fails).
         // Setting the messageId with undefined value in the _messageRenewockTimers Map because we
@@ -366,7 +368,7 @@ export class MessageReceiver extends LinkEntity {
           bMessage.messageId,
           bMessage.lockedUntilUtc!.toString()
         );
-        const totalAutoLockRenewDuration = Date.now() + this.maxAutoRenewDurationInSeconds * 1000;
+        const totalAutoLockRenewDuration = Date.now() + this.maxAutoRenewDurationInMs;
         log.receiver(
           "[%s] Total autolockrenew duration for message with id '%s' is: ",
           connectionId,
@@ -750,7 +752,6 @@ export class MessageReceiver extends LinkEntity {
 
   /**
    * Creates a new AMQP receiver under a new AMQP session.
-   * @protected
    *
    * @returns {Promise<void>} Promise<void>.
    */
@@ -925,7 +926,7 @@ export class MessageReceiver extends LinkEntity {
         // the service does not send an error stating that the link is still open.
         const options: ReceiverOptions = this._createReceiverOptions(true);
 
-        // shall retry forever at an interval of 15 seconds if the error is a retryable error
+        // shall retry as per the provided retryOptions if the error is a retryable error
         // else bail out when the error is not retryable or the oepration succeeds.
         const config: RetryConfig<void> = {
           operation: () =>
@@ -948,10 +949,7 @@ export class MessageReceiver extends LinkEntity {
             }),
           connectionId: connectionId,
           operationType: RetryOperationType.receiverLink,
-          retryOptions: {
-            maxRetries: Constants.defaultMaxRetriesForConnection,
-            retryDelayInMs: 15000
-          },
+          retryOptions: this._retryOptions,
           connectionHost: this._context.namespace.config.host
         };
         if (!this.wasCloseInitiated) {
@@ -1064,7 +1062,12 @@ export class MessageReceiver extends LinkEntity {
         if (options.propertiesToModify) params.message_annotations = options.propertiesToModify;
         delivery.modified(params);
       } else if (operation === DispositionType.deadletter) {
-        delivery.reject(options.error || {});
+        const error = options.error || {};
+        error.info = {
+          ...error.info,
+          ...options.propertiesToModify
+        };
+        delivery.reject(error);
       }
     });
   }

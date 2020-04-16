@@ -44,3 +44,13 @@ export interface SpanOptions {
    */
   attributes?: { [key: string]: unknown };
 }
+
+/**
+ * Tracing options to set on an operation.
+ */
+export interface OperationTracingOptions {
+  /**
+   * OpenTelemetry SpanOptions used to create a span when tracing is enabled.
+   */
+  spanOptions?: SpanOptions;
+}

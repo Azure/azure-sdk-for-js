@@ -7,7 +7,7 @@ import { escapeURLPath, getURLScheme, iEqual, getAccountNameFromUrl } from "./ut
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
-import { SpanOptions } from "@azure/core-tracing";
+import { OperationTracingOptions } from "@azure/core-tracing";
 
 /**
  * An interface for options common to every remote operation.
@@ -17,13 +17,6 @@ export interface CommonOptions {
    * Options to configure spans created when tracing is enabled.
    */
   tracingOptions?: OperationTracingOptions;
-}
-
-export interface OperationTracingOptions {
-  /**
-   * OpenTelemetry SpanOptions used to create a span when tracing is enabled.
-   */
-  spanOptions?: SpanOptions;
 }
 
 /**

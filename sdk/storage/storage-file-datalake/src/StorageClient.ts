@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 import { isNode, isTokenCredential, TokenCredential } from "@azure/core-http";
-import { SpanOptions } from "@azure/core-tracing";
+import { OperationTracingOptions } from "@azure/core-tracing";
 
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
@@ -18,13 +18,6 @@ export interface CommonOptions {
    * Options to configure spans created when tracing is enabled.
    */
   tracingOptions?: OperationTracingOptions;
-}
-
-export interface OperationTracingOptions {
-  /**
-   * OpenTelemetry SpanOptions used to create a span when tracing is enabled.
-   */
-  spanOptions?: SpanOptions;
 }
 
 /**

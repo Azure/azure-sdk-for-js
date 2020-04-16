@@ -7,6 +7,7 @@
  */
 
 export {
+  discriminators,
   CloudError,
   SqlPoolUsage,
   SqlPoolUsageListResult

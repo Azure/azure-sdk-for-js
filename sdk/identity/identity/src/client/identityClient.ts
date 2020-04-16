@@ -9,12 +9,14 @@ import {
   WebResource,
   RequestPrepareOptions,
   GetTokenOptions,
-  createPipelineFromOptions
+  createPipelineFromOptions,
+  isNode
 } from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/api";
 import { AuthenticationError, AuthenticationErrorName } from "./errors";
 import { createSpan } from "../util/tracing";
 import { logger } from "../util/logging";
+import { getAuthorityHostEnvironment } from "../util/authHostEnv"
 
 const DefaultAuthorityHost = "https://login.microsoftonline.com";
 
@@ -38,6 +40,9 @@ export class IdentityClient extends ServiceClient {
   public authorityHost: string;
 
   constructor(options?: TokenCredentialOptions) {
+    if (isNode) {
+      options = options || getAuthorityHostEnvironment();
+    }
     options = options || IdentityClient.getDefaultOptions();
     super(
       undefined,

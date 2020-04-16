@@ -79,6 +79,11 @@ export { OTSpanContext }
 export { OTSpanOptions }
 
 // @public
+export interface OperationTracingOptions {
+    spanOptions?: SpanOptions;
+}
+
+// @public
 export function setTracer(tracer: Tracer): void;
 
 // @public

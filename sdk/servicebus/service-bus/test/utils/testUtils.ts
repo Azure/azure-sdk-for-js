@@ -164,7 +164,7 @@ export async function checkWithTimeout(
  * @param serviceBusConnectionString
  */
 export function getNamespace(serviceBusConnectionString: string): string {
-  return (serviceBusConnectionString.match("Endpoint=sb://(.*).servicebus.windows.net") || "")[1];
+  return (serviceBusConnectionString.match("Endpoint=.*://(.*).servicebus.windows.net") || "")[1];
 }
 
 /**

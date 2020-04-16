@@ -10,7 +10,7 @@ import { PartitionProcessor } from "./partitionProcessor";
 import { EventHubConsumer } from "./receiver";
 import { AbortController } from "@azure/abort-controller";
 import { MessagingError } from "@azure/core-amqp";
-import { getParentSpan, TracingOptions } from "./util/operationOptions";
+import { getParentSpan, OperationOptions } from "./util/operationOptions";
 import { getTracer } from "@azure/core-tracing";
 import { Span, SpanKind, Link, CanonicalCode } from "@opentelemetry/api";
 import { extractSpanContextFromEventData } from "./diagnostics/instrumentEventData";
@@ -169,7 +169,7 @@ export class PartitionPump {
 export function createProcessingSpan(
   receivedEvents: ReceivedEventData[],
   eventHubProperties: { eventHubName: string; endpoint: string },
-  tracingOptions: TracingOptions
+  options?: OperationOptions
 ): Span {
   const links: Link[] = [];
 
@@ -188,7 +188,7 @@ export function createProcessingSpan(
   const span = getTracer().startSpan("Azure.EventHubs.process", {
     kind: SpanKind.CONSUMER,
     links,
-    parent: getParentSpan(tracingOptions)
+    parent: getParentSpan({ tracingOptions: options?.tracingOptions })
   });
 
   span.setAttributes({

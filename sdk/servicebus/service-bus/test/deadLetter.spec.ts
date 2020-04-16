@@ -33,7 +33,7 @@ describe("dead lettering", () => {
 
     // send a test message with the body being the title of the test (for something unique)
     const sender = serviceBusClient.test.addToCleanup(
-      serviceBusClient.getSender(entityNames.queue)
+      serviceBusClient.createSender(entityNames.queue)
     );
 
     await sender.send({
@@ -42,13 +42,13 @@ describe("dead lettering", () => {
 
     deadLetterReceiver = serviceBusClient.test.addToCleanup(
       // receiveAndDelete since I don't care about further settlement after it's been dead lettered!
-      serviceBusClient.getDeadLetterReceiver(entityNames.queue, "receiveAndDelete")
+      serviceBusClient.createDeadLetterReceiver(entityNames.queue, "receiveAndDelete")
     );
 
     receiver = serviceBusClient.test.getPeekLockReceiver(entityNames);
 
     const receivedMessages = await receiver.receiveBatch(1, {
-      maxWaitTimeSeconds: 1
+      maxWaitTimeInMs: 1000
     });
 
     if (receivedMessages.length == 0) {
@@ -86,8 +86,6 @@ describe("dead lettering", () => {
   });
 
   it("dead lettering a typical received message", async () => {
-    // defer this message so we can pick it up via the management API (which
-    // is what handles receiving deferred messages)
     await receivedMessage.deadLetter({
       deadLetterErrorDescription: "this is the dead letter error description",
       deadLetterReason: "this is the dead letter reason",
@@ -98,8 +96,7 @@ describe("dead lettering", () => {
     await checkDeadLetteredMessage({
       reason: "this is the dead letter reason",
       description: "this is the dead letter error description",
-      // TODO: https://github.com/Azure/azure-sdk-for-js/issues/7959
-      customProperty: undefined
+      customProperty: "hello, setting this custom property"
     });
   });
 

@@ -60,18 +60,15 @@ export class EventHubSender extends LinkEntity {
   /**
    * @property _onSessionError The message handler that will be set as the handler on
    * the underlying rhea sender's session for the "session_error" event.
-   * @private
    */
   private _onSessionError: OnAmqpEvent;
   /**
    * @property _onSessionClose The message handler that will be set as the handler on
    * the underlying rhea sender's session for the "session_close" event.
-   * @private
    */
   private _onSessionClose: OnAmqpEvent;
   /**
    * @property [_sender] The AMQP sender link.
-   * @private
    */
   private _sender?: AwaitableSender;
 

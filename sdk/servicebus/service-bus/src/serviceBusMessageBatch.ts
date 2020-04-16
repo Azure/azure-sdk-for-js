@@ -8,7 +8,6 @@ import { AmqpMessage } from "@azure/core-amqp";
  * A batch of messages that you can create using the {@link createBatch} method.
  *
  * @export
- * @interface ServiceBusMessageBatch
  */
 export interface ServiceBusMessageBatch {
   /**

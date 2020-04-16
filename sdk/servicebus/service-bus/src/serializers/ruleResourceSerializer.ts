@@ -321,6 +321,11 @@ export class RuleResourceSerializer implements AtomXmlSerializer {
   }
 }
 
+/**
+ * @internal
+ * @ignore
+ * @enum {number}
+ */
 enum SqlParameterType {
   Integer = "l28:int",
   String = "l28:string",

@@ -9,7 +9,6 @@ import { Buffer } from "buffer";
 /**
  * Describes the transformations that can be performed to encode/decode the data before sending it
  * on (or receiving it from) the wire.
- * @interface DataTransformer
  */
 export interface DataTransformer {
   /**

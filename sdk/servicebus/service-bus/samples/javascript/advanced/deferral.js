@@ -32,8 +32,8 @@ async function main() {
 // Shuffle and send messages
 async function sendMessages() {
   const sbClient = new ServiceBusClient(connectionString);
-  // getSender() can also be used to create a sender for a topic.
-  const sender = sbClient.getSender(queueName);
+  // createSender() can also be used to create a sender for a topic.
+  const sender = sbClient.createSender(queueName);
 
   const data = [
     { step: 1, title: "Shop" },
@@ -70,8 +70,8 @@ async function sendMessages() {
 async function receiveMessage() {
   const sbClient = new ServiceBusClient(connectionString);
 
-  // If receiving from a subscription you can use the getReceiver(topicName, subscriptionName) overload
-  let receiver = sbClient.getReceiver(queueName, "peekLock");
+  // If receiving from a subscription you can use the createReceiver(topicName, subscriptionName) overload
+  let receiver = sbClient.createReceiver(queueName, "peekLock");
 
   const deferredSteps = new Map();
   let lastProcessedRecipeStep = 0;
@@ -117,7 +117,7 @@ async function receiveMessage() {
     await receiver.close();
     console.log("Total number of deferred messages:", deferredSteps.size);
 
-    receiver = sbClient.getReceiver(queueName, "peekLock");
+    receiver = sbClient.createReceiver(queueName, "peekLock");
     // Now we process the deferred messages
     while (deferredSteps.size > 0) {
       const step = lastProcessedRecipeStep + 1;

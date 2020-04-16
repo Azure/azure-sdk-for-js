@@ -11,7 +11,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [receiveMessagesLoop.js][receivemessagesloop]                       | uses the receiveMessages() function to receive Service Bus messages in a loop                                           |
 | [scheduledMessages.js][scheduledmessages]                           | uses the scheduleMessage() function to schedule messages to appear on a Service Bus Queue/Subscription at a later time  |
 | [session.js][session]                                               | sends/receives messages to/from session enabled queues/subscriptions in Service Bus                                     |
-| [browseMessages.js][browsemessages]                                 | uses the peek() function to browse a Service Bus                                                                        |
+| [browseMessages.js][browsemessages]                                 | uses the browseMessages() function to browse a Service Bus                                                                        |
 | [usingAadAuth.js][usingaadauth]                                     | creates a ServiceBusClient that authenticates using AAD credentials                                                     |
 | [useProxy.js][useproxy]                                             | creates a ServiceBusClient that uses an HTTP(S) proxy server to make requests                                           |
 | [advanced/movingMessagesToDLQ.js][advanced-movingmessagestodlq]     | moves a message explicitly to the dead-letter queue                                                                     |
@@ -74,3 +74,4 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [azsvcbus]: https://docs.microsoft.com/azure/service-bus-messaging/service-bus-create-namespace-portal
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/README.md
+[usingaadauth]:https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples/javascript/usingAadAuth.js

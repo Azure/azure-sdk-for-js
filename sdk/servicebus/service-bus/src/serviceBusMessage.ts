@@ -21,19 +21,20 @@ import { Buffer } from "buffer";
 // TODO: it'd be nice to make this internal/ignore if we can in favor of just using the string enum.
 /**
  * The mode in which messages should be received. The 2 modes are `peekLock` and `receiveAndDelete`.
+ * @internal
+ * @ignore
+ * @enum {number}
  */
 export enum ReceiveMode {
   /**
    * Once a message is received in this mode, the receiver has a lock on the message for a
    * particular duration. If the message is not settled by this time, it lands back on Service Bus
    * to be fetched by the next receive operation.
-   * @type {Number}
    */
   peekLock = 1,
 
   /**
    * Messages received in this mode get automatically removed from Service Bus.
-   * @type {Number}
    */
   receiveAndDelete = 2
 }
@@ -62,7 +63,6 @@ export enum DispositionStatus {
 /**
  * @internal
  * Describes the delivery annotations for Service Bus.
- * @interface
  */
 export interface ServiceBusDeliveryAnnotations extends DeliveryAnnotations {
   /**
@@ -90,7 +90,6 @@ export interface ServiceBusDeliveryAnnotations extends DeliveryAnnotations {
 /**
  * @internal
  * Describes the message annotations for Service Bus.
- * @interface ServiceBusMessageAnnotations
  */
 export interface ServiceBusMessageAnnotations extends MessageAnnotations {
   /**
@@ -118,7 +117,6 @@ export interface ServiceBusMessageAnnotations extends MessageAnnotations {
 /**
  * Describes the reason and error description for dead lettering a message using the `deadLetter()`
  * method on the message received from Service Bus.
- * @interface DeadLetterOptions
  */
 export interface DeadLetterOptions {
   /**
@@ -690,6 +688,11 @@ export function fromAmqpMessage(
 
 /**
  * Describes the message received from Service Bus.
+ *
+ * @internal
+ * @ignore
+ * @class ServiceBusMessageImpl
+ * @implements {ReceivedMessageWithLock}
  */
 export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
   /**
@@ -1083,7 +1086,6 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
   }
 
   /**
-   * @private
    * Logs and Throws an error if the given message cannot be settled.
    * @param receiver Receiver to be used to settle this message
    * @param operation Settle operation: complete, abandon, defer or deadLetter
