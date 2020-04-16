@@ -6,7 +6,7 @@
   This allows users to use any version of `@azure/ms-rest-nodeauth` directly with `@azure/service-bus` without TypeScript compilation errors.
   Fixes [bug 8041](https://github.com/Azure/azure-sdk-for-js/issues/8041).
 - Relaxes the scheme check for the endpoint while parsing the connection string.
-  This allows "\<anything\>://" as the scheme as opposed to the rigid "sb://" scheme suggested by the connection string in the portal.
+  This allows "\<anything\>://" as the scheme as opposed to the "sb://" scheme suggested by the connection string in the portal.
   Fixes [bug 7907](https://github.com/Azure/azure-sdk-for-js/issues/7907).
 
 ## 1.1.5 (2020-03-24)
