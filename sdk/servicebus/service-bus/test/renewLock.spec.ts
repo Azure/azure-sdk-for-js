@@ -38,7 +38,7 @@ describe("renew lock", () => {
     return serviceBusClient.test.afterEach();
   }
 
-  describe("Unpartitioned Queue - Lock Renewal #RunInBrowser", function(): void {
+  describe("Unpartitioned Queue - Lock Renewal", function(): void {
     beforeEach(async () => {
       await beforeEachTest(TestClientType.UnpartitionedQueue);
     });
