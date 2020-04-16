@@ -23,7 +23,7 @@ Use the client library for Azure Key Vault Certificates in your Node.js applicat
 **Prerequisites**: You must have an [Azure subscription](https://azure.microsoft.com/free/) and a
 [Key Vault resource](https://docs.microsoft.com/en-us/azure/key-vault/quick-create-portal) to use this package.
 
-If you are using this package in a Node.js application, then use Node.js 6.x or higher.
+If you are using this package in a Node.js application, then use Node.js 8.x or higher.
 
 ### Install the package
 
