@@ -16,7 +16,7 @@ export async function main() {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["COGNITIVE_SERVICE_ENDPOINT"] || "<cognitive services endpoint>";
   const apiKey = process.env["COGNITIVE_SERVICE_API_KEY"] || "<api key>";
-  const path = "./assets/contoso-allinone.jpg";
+  const path = "../assets/contoso-allinone.jpg";
 
   if (!fs.existsSync(path)) {
     throw new Error(`Expecting file ${path} exists`);

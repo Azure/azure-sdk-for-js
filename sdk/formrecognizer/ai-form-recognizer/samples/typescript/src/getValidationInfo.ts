@@ -18,7 +18,7 @@ export async function main() {
   const apiKey = process.env["COGNITIVE_SERVICE_API_KEY"] || "<api key>";
   const modelId = process.env["CUSTOM_MODEL_ID"] || "<custom model id>";
   // The form you are recognizing must be of the same type as the forms the custom model was trained on
-  const path = "./assets/Invoice_6.pdf";
+  const path = "../assets/Invoice_6.pdf";
 
   if (!fs.existsSync(path)) {
     throw new Error(`Expecting file ${path} exists`);
