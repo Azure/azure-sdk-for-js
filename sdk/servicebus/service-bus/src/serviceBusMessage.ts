@@ -2,13 +2,7 @@
 // Licensed under the MIT License.
 
 import Long from "long";
-import {
-  Delivery,
-  uuid_to_string,
-  AmqpError,
-  MessageAnnotations,
-  DeliveryAnnotations
-} from "rhea-promise";
+import { Delivery, uuid_to_string, MessageAnnotations, DeliveryAnnotations } from "rhea-promise";
 import { Constants, AmqpMessage, translate, ErrorNameConditionMapper } from "@azure/core-amqp";
 import * as log from "./log";
 import { ClientEntityContext } from "./clientEntityContext";
@@ -17,6 +11,7 @@ import { MessageReceiver } from "./core/messageReceiver";
 import { MessageSession } from "./session/messageSession";
 import { getErrorMessageNotSupportedInReceiveAndDeleteMode } from "./util/errors";
 import { Buffer } from "buffer";
+import { DispositionStatusOptions } from "./core/managementClient";
 
 // TODO: it'd be nice to make this internal/ignore if we can in favor of just using the string enum.
 /**
@@ -907,26 +902,7 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
       this._context.namespace.connectionId,
       this.messageId
     );
-    if (this._context.requestResponseLockedMessages.has(this.lockToken!)) {
-      await this._context.managementClient!.updateDispositionStatus(
-        this.lockToken!,
-        DispositionStatus.completed,
-        {
-          sessionId: this.sessionId
-        }
-      );
-
-      // Remove the message from the internal map of deferred messages
-      this._context.requestResponseLockedMessages.delete(this.lockToken!);
-      return;
-    }
-    const receiver = this.getReceiverFromContext();
-    this.throwIfMessageCannotBeSettled(receiver, DispositionType.complete);
-    if (!receiver || !receiver.isOpen()) {
-      await this.backUpMessageSettlementThroughMgmtLink(DispositionStatus.completed);
-      return;
-    }
-    return receiver!.settleMessage(this, DispositionType.complete);
+    return this.settleMessage(DispositionStatus.completed);
   }
 
   /**
@@ -939,26 +915,7 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
       this._context.namespace.connectionId,
       this.messageId
     );
-    if (this._context.requestResponseLockedMessages.has(this.lockToken!)) {
-      await this._context.managementClient!.updateDispositionStatus(
-        this.lockToken!,
-        DispositionStatus.abandoned,
-        { propertiesToModify: propertiesToModify, sessionId: this.sessionId }
-      );
-
-      // Remove the message from the internal map of deferred messages
-      this._context.requestResponseLockedMessages.delete(this.lockToken!);
-      return;
-    }
-    const receiver = this.getReceiverFromContext();
-    this.throwIfMessageCannotBeSettled(receiver, DispositionType.abandon);
-    if (!receiver || !receiver.isOpen()) {
-      await this.backUpMessageSettlementThroughMgmtLink(DispositionStatus.abandoned, {
-        propertiesToModify: propertiesToModify
-      });
-      return;
-    }
-    return receiver!.settleMessage(this, DispositionType.abandon, {
+    return this.settleMessage(DispositionStatus.abandoned, {
       propertiesToModify: propertiesToModify
     });
   }
@@ -972,26 +929,7 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
       this._context.namespace.connectionId,
       this.messageId
     );
-    if (this._context.requestResponseLockedMessages.has(this.lockToken!)) {
-      await this._context.managementClient!.updateDispositionStatus(
-        this.lockToken!,
-        DispositionStatus.defered,
-        { propertiesToModify: propertiesToModify, sessionId: this.sessionId }
-      );
-
-      // Remove the message from the internal map of deferred messages
-      this._context.requestResponseLockedMessages.delete(this.lockToken!);
-      return;
-    }
-    const receiver = this.getReceiverFromContext();
-    this.throwIfMessageCannotBeSettled(receiver, DispositionType.defer);
-    if (!receiver || !receiver.isOpen()) {
-      await this.backUpMessageSettlementThroughMgmtLink(DispositionStatus.defered, {
-        propertiesToModify: propertiesToModify
-      });
-      return;
-    }
-    return receiver!.settleMessage(this, DispositionType.defer, {
+    return this.settleMessage(DispositionStatus.defered, {
       propertiesToModify: propertiesToModify
     });
   }
@@ -1000,20 +938,6 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
    * See ReceivedMessageWithLock.deadLetter().
    */
   async deadLetter(propertiesToModify?: DeadLetterOptions & { [key: string]: any }): Promise<void> {
-    const error: AmqpError = {
-      condition: Constants.deadLetterName
-    };
-
-    if (
-      propertiesToModify &&
-      (propertiesToModify.deadLetterReason != null ||
-        propertiesToModify.deadLetterErrorDescription != null)
-    ) {
-      error.info = {
-        DeadLetterReason: propertiesToModify.deadLetterReason,
-        DeadLetterErrorDescription: propertiesToModify.deadLetterErrorDescription
-      };
-    }
     log.message(
       "[%s] Deadlettering the message with id '%s'.",
       this._context.namespace.connectionId,
@@ -1028,37 +952,12 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
     delete actualPropertiesToModify.deadLetterErrorDescription;
     delete actualPropertiesToModify.deadLetterReason;
 
-    const dispositionStatusOptions = {
+    const dispositionStatusOptions: DispositionStatusOptions = {
       propertiesToModify: actualPropertiesToModify,
       deadLetterReason: propertiesToModify?.deadLetterReason,
       deadLetterDescription: propertiesToModify?.deadLetterErrorDescription
     };
-    // this handles deferred messages that have been received via the management link
-    // and thus need to be settled there.
-    if (this._context.requestResponseLockedMessages.has(this.lockToken!)) {
-      await this._context.managementClient!.updateDispositionStatus(
-        this.lockToken!,
-        DispositionStatus.suspended,
-        { ...dispositionStatusOptions, sessionId: this.sessionId }
-      );
-
-      // Remove the message from the internal map of deferred messages
-      this._context.requestResponseLockedMessages.delete(this.lockToken!);
-      return;
-    }
-    const receiver = this.getReceiverFromContext();
-    this.throwIfMessageCannotBeSettled(receiver, DispositionType.deadletter);
-    if (!receiver || !receiver.isOpen()) {
-      await this.backUpMessageSettlementThroughMgmtLink(
-        DispositionStatus.suspended,
-        dispositionStatusOptions
-      );
-      return;
-    }
-    return receiver!.settleMessage(this, DispositionType.deadletter, {
-      propertiesToModify: actualPropertiesToModify,
-      error: error
-    });
+    return this.settleMessage(DispositionStatus.suspended, dispositionStatusOptions);
   }
 
   /**
@@ -1138,35 +1037,54 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
     throw error;
   }
 
-  private async backUpMessageSettlementThroughMgmtLink(
+  operationNameMapping = {
+    abandoned: DispositionType.abandon,
+    completed: DispositionType.complete,
+    defered: DispositionType.defer,
+    suspended: DispositionType.deadletter,
+    renewed: "renewLock"
+  };
+
+  private async settleMessage(
     operation: DispositionStatus,
-    propertiesToModify?: { [key: string]: any }
-  ) {
-    if (this.sessionId != undefined) {
-      const operationNameMapping = {
-        abandoned: DispositionType.abandon,
-        completed: DispositionType.complete,
-        defered: DispositionType.defer,
-        suspended: DispositionType.deadletter,
-        renewed: "renewLock"
-      };
+    options?: DispositionStatusOptions
+  ): Promise<void> {
+    const receiver = this.getReceiverFromContext();
+    this.throwIfMessageCannotBeSettled(receiver, this.operationNameMapping[operation]);
+
+    let isDeferredMessage = this._context.requestResponseLockedMessages.has(this.lockToken!);
+
+    if (isDeferredMessage || ((!receiver || !receiver.isOpen()) && this.sessionId === undefined)) {
+      await this._context.managementClient!.updateDispositionStatus(this.lockToken!, operation, {
+        ...options,
+        sessionId: this.sessionId
+      });
+      if (this._context.requestResponseLockedMessages.has(this.lockToken!)) {
+        // Remove the message from the internal map of deferred messages
+        this._context.requestResponseLockedMessages.delete(this.lockToken!);
+      }
+      return;
+    } else if ((!receiver || !receiver.isOpen()) && this.sessionId !== undefined) {
       throw translate({
         description:
-          `Failed to ${operationNameMapping[operation]} the message as the AMQP link with which the message was ` +
+          `Failed to ${this.operationNameMapping[operation]} the message as the AMQP link with which the message was ` +
           `received is no longer alive.`,
         condition: ErrorNameConditionMapper.SessionLockLostError
       });
-    } else {
-      await this._context.managementClient!.updateDispositionStatus(
-        this.lockToken!,
-        operation,
-        propertiesToModify
-      );
-      return;
     }
+
+    return receiver!.settleMessage(
+      this,
+      this.operationNameMapping[operation] as DispositionType,
+      options
+    );
   }
 
   private getReceiverFromContext() {
-    return this._context.getReceiver(this.delivery.link.name, this.sessionId);
+    if (this.delivery.link) {
+      return this._context.getReceiver(this.delivery.link.name, this.sessionId);
+    } else {
+      return undefined;
+    }
   }
 }
