@@ -74,14 +74,14 @@ export class OpenCensusTracerWrapper implements Tracer {
     withSpan<T extends (...args: unknown[]) => unknown>(_span: Span, _fn: T): ReturnType<T>;
 }
 
-export { OTSpanContext }
-
-export { OTSpanOptions }
-
 // @public
 export interface OperationTracingOptions {
     spanOptions?: SpanOptions;
 }
+
+export { OTSpanContext }
+
+export { OTSpanOptions }
 
 // @public
 export function setTracer(tracer: Tracer): void;

@@ -9,7 +9,7 @@ import {
   PipelineOptions,
   ServiceClientCredentials
 } from "@azure/core-http";
-import { CanonicalCode } from "@opentelemetry/types";
+import { CanonicalCode } from "@opentelemetry/api";
 import { SDK_VERSION } from "./constants";
 import {
   AnalyzeResult,
