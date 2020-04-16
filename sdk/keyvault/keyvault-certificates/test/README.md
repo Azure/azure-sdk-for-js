@@ -16,7 +16,10 @@ You can read more in the section: [Regenerating recordings](#regenerating-record
 ## Integration tests
 
 Our integration tests will run against the live resources, which are determined by the environment variables you provide.
+
 To run the integration tests, you will need to execute `npm run integration-test`.
+
+To generate new resources for your tests, follow the procedure at [Integration Testing with live services](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md#integration-testing-with-live-services).
 
 The environment variables needed are:
 
