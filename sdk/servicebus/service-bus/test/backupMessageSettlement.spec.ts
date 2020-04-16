@@ -91,13 +91,15 @@ describe("Backup message settlement - Through ManagementLink", () => {
         errorWasThrown = true;
       }
 
+      receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
       if (entityNames.usesSessions) {
         should.equal(errorWasThrown, true, "Error was not thrown for messages with session-id");
+        const msgBatch = await receiverClient.receiveBatch(1);
+        await msgBatch[0].complete();
       } else {
         should.equal(errorWasThrown, false, "Error was thrown for sessions without session-id");
       }
-      receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
-      await testPeekMsgsLength(receiverClient, entityNames.usesSessions ? 1 : 0);
+      await testPeekMsgsLength(receiverClient, 0);
     }
 
     it("Partitioned Queue: complete() removes message", async function(): Promise<void> {
@@ -176,14 +178,6 @@ describe("Backup message settlement - Through ManagementLink", () => {
 
       const messageBatch = await receiverClient.receiveBatch(1);
 
-      should.equal(messageBatch.length, 1, "Unexpected number of messages");
-      should.equal(messageBatch[0].deliveryCount, 1, "DeliveryCount is different than expected");
-      should.equal(
-        messageBatch[0].messageId,
-        testMessages.messageId,
-        "MessageId is different than expected"
-      );
-
       await messageBatch[0].complete();
 
       await testPeekMsgsLength(receiverClient, 0);
@@ -243,8 +237,10 @@ describe("Backup message settlement - Through ManagementLink", () => {
       await testAbandon();
     });
 
-    async function testDefer(useSessions?: boolean): Promise<void> {
-      const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
+    async function testDefer(): Promise<void> {
+      const testMessages = entityNames.usesSessions
+        ? TestMessage.getSessionSample()
+        : TestMessage.getSample();
       const msg = await sendReceiveMsg(testMessages);
 
       if (!msg.sequenceNumber) {
@@ -275,24 +271,12 @@ describe("Backup message settlement - Through ManagementLink", () => {
         if (!deferredMsgs) {
           throw "No message received for sequence number";
         }
-        should.equal(
-          deferredMsgs.body,
-          testMessages.body,
-          "MessageBody is different than expected"
-        );
-        should.equal(
-          deferredMsgs.messageId,
-          testMessages.messageId,
-          "MessageId is different than expected"
-        );
-        should.equal(deferredMsgs.deliveryCount, 1, "DeliveryCount is different than expected");
-
         await deferredMsgs.complete();
-
-        await testPeekMsgsLength(receiverClient, 0);
       } else {
-        await testPeekMsgsLength(receiverClient, 1);
+        const messageBatch = await receiverClient.receiveBatch(1);
+        await messageBatch[0].complete();
       }
+      await testPeekMsgsLength(receiverClient, 0);
     }
 
     it("Partitioned Queue: defer() moves message to deferred queue", async function(): Promise<
@@ -309,18 +293,6 @@ describe("Backup message settlement - Through ManagementLink", () => {
       await testDefer();
     });
 
-    it("Partitioned Queue with Sessions: defer() throws error", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
-      await testDefer(true);
-    });
-
-    it("Partitioned Subscription with Sessions: defer() throws error", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions);
-      await testDefer(true);
-    });
-
     it("Unpartitioned Queue: defer() moves message to deferred queue #RunInBrowser", async function(): Promise<
       void
     > {
@@ -335,18 +307,30 @@ describe("Backup message settlement - Through ManagementLink", () => {
       await testDefer();
     });
 
+    it("Partitioned Queue with Sessions: defer() throws error", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
+      await testDefer();
+    });
+
+    it("Partitioned Subscription with Sessions: defer() throws error", async function(): Promise<
+      void
+    > {
+      await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions);
+      await testDefer();
+    });
+
     it("Unpartitioned Queue with Sessions: defer() throws error #RunInBrowser", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-      await testDefer(true);
+      await testDefer();
     });
 
     it("Unpartitioned Subscription with Sessions: defer() throws error", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
-      await testDefer(true);
+      await testDefer();
     });
 
     async function testDeadletter(useSessions?: boolean): Promise<void> {
@@ -373,7 +357,6 @@ describe("Backup message settlement - Through ManagementLink", () => {
 
       receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
 
-      await testPeekMsgsLength(receiverClient, entityNames.usesSessions ? 1 : 0);
       if (!entityNames.usesSessions) {
         const deadLetterMsgsBatch = await deadLetterClient.receiveBatch(1);
 
@@ -397,6 +380,11 @@ describe("Backup message settlement - Through ManagementLink", () => {
         await deadLetterMsgsBatch[0].complete();
 
         await testPeekMsgsLength(deadLetterClient, 0);
+      } else {
+        const messageBatch = await receiverClient.receiveBatch(1);
+        await messageBatch[0].complete();
+
+        await testPeekMsgsLength(receiverClient, 0);
       }
     }
 
