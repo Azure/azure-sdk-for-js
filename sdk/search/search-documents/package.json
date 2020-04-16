@@ -87,7 +87,7 @@
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/test-utils-recorder": "^1.0.0",
-    "@microsoft/api-extractor": "^7.5.4",
+    "@microsoft/api-extractor": "7.7.11",
     "@rollup/plugin-json": "^4.0.0",
     "@rollup/plugin-multi-entry": "^3.0.0",
     "@rollup/plugin-replace": "^2.2.0",
