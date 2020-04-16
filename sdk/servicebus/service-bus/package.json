@@ -95,7 +95,7 @@
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^2.0.1",
     "@azure/identity": "1.1.0-preview.2",
-    "@microsoft/api-extractor": "^7.5.4",
+    "@microsoft/api-extractor": "7.7.11",
     "@rollup/plugin-commonjs": "^11.0.1",
     "@rollup/plugin-inject": "^4.0.0",
     "@rollup/plugin-json": "^4.0.0",
