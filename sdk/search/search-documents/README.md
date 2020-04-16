@@ -92,6 +92,8 @@ const serviceClient = new SearchServiceClient("<endpoint>", new AzureKeyCredenti
 
 `SearchServiceClient` provides methods for configuring and customizing an Azure Cognitive Search instance. The client currently has support for creating and managing search indexes and will later expand to support creating and managing other service entities such as indexers, synonym maps, cognitive skillsets, and data sources.
 
+**Note**: This client cannot function in the browser because the APIs it calls do not have support for Cross-Origin Resource Sharing (CORS).
+
 ### Documents
 
 An item stored inside a search index. The shape of this document is described in the index using `Field`s. Each Field has a name, a datatype, and additional metadata such as if it is searchable or filterable.
@@ -530,6 +532,7 @@ main();
 ```
 
 #### Get a list of existing indexers in the service
+
 ```js
 const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-documents");
 
@@ -538,7 +541,7 @@ const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<ap
 async function main() {
   let listOfIndexers = await client.listIndexers();
 
-  for(let indexer of listOfIndexers) {
+  for (let indexer of listOfIndexers) {
     console.log(`Name: ${indexer.name}`);
     console.log(`Datasource Name: ${indexer.dataSourceName}`);
     console.log(`Skillset Name: ${indexer.skillsetName}`);
@@ -550,6 +553,7 @@ main();
 ```
 
 #### Get a list of existing datasources in the service
+
 ```js
 const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-documents");
 
@@ -557,13 +561,13 @@ const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<ap
 
 async function main() {
   const listOfDataSources = await client.listDataSources();
-  for(const dataSource of listOfDataSources) {
+  for (const dataSource of listOfDataSources) {
     console.log(`Name: ${dataSource.name}`);
     console.log(`Description: ${dataSource.description}`);
     console.log(`DataSourceType: ${dataSource.type}`);
     console.log(`Credentials`);
     console.log(`\tConnectionString: ${dataSource.credentials.connectionString}`);
-    console.log(`Container`)
+    console.log(`Container`);
     console.log(`\tName: ${dataSource.container.name}`);
     console.log(`\tQuery: ${dataSource.container.query}`);
     console.log(`DataChangeDetectionPolicy: ${dataSource.dataChangeDetectionPolicy}`);
@@ -766,6 +770,7 @@ main();
 ```
 
 #### Create an Indexer
+
 ```js
 const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-documents");
 
@@ -773,18 +778,20 @@ const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<ap
 
 async function main() {
   const indexer = await client.createIndexer({
-    name: 'my-azure-indexer-1',
+    name: "my-azure-indexer-1",
     description: "My Azure Indexer 1",
-    dataSourceName: "testblobstoragesjama",  
+    dataSourceName: "testblobstoragesjama",
     targetIndexName: "azureblob-index-2",
     isDisabled: false,
-    fieldMappings: [{
-      sourceFieldName: "metadata_storage_path",
-      targetFieldName: "metadata_storage_path",
-      mappingFunction: {
-        name: "base64Encode"
+    fieldMappings: [
+      {
+        sourceFieldName: "metadata_storage_path",
+        targetFieldName: "metadata_storage_path",
+        mappingFunction: {
+          name: "base64Encode"
+        }
       }
-    }]
+    ]
   });
 }
 
@@ -809,6 +816,7 @@ main();
 ```
 
 #### Create a DataSource
+
 ```js
 const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-documents");
 
@@ -818,22 +826,24 @@ const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<ap
 // Ref: https://github.com/Azure-Samples/azure-search-java-samples/blob/master/search-java-indexer-demo/src/main/resources/com/microsoft/azure/search/samples/app/config.properties
 async function main() {
   const dataSource = await client.createDataSource({
-    name: 'my-data-source-2',
-    description: 'My Data Source 1',
-    type: 'cosmosdb',
+    name: "my-data-source-2",
+    description: "My Data Source 1",
+    type: "cosmosdb",
     container: {
-      name: 'my-container-1'
-    },    
-    credentials: {
-      connectionString: 'AccountEndpoint=https://hotels-docbb.documents.azure.com:443/;AccountKey=4UPsNZyFAjgZ1tzHPGZaxS09XcwLrIawbXBWk6IixcxJoSePTcjBn0mi53XiKWu8MaUgowUhIovOv7kjksqAug==;Database=SampleData'
+      name: "my-container-1"
     },
-  })
+    credentials: {
+      connectionString:
+        "AccountEndpoint=https://hotels-docbb.documents.azure.com:443/;AccountKey=4UPsNZyFAjgZ1tzHPGZaxS09XcwLrIawbXBWk6IixcxJoSePTcjBn0mi53XiKWu8MaUgowUhIovOv7kjksqAug==;Database=SampleData"
+    }
+  });
 }
 
 main();
 ```
 
 #### Retrieve an existing indexer and modify a field in it
+
 ```js
 const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-documents");
 
@@ -843,35 +853,34 @@ async function main() {
   const indexer = await client.getIndexer("my-azure-indexer-1");
   indexer.isDisabled = true;
   indexer = await client.createOrUpdateIndexer(indexer);
-  
+
   console.log(`Name: ${indexer.name}`);
   console.log(`Description: ${indexer.description}`);
   console.log(`Datasource Name: ${indexer.dataSourceName}`);
   console.log(`Target Index Name: ${indexer.targetIndexName}`);
   console.log(`IsDisabled: ${indexer.isDisabled}`);
   console.log(`Field Mappings`);
-  for(let fieldMapping of indexer.fieldMappings) {
+  for (let fieldMapping of indexer.fieldMappings) {
     console.log(`\tSource Field Name: ${fieldMapping.sourceFieldName}`);
     console.log(`\tTarget Field Name: ${fieldMapping.targetFieldName}`);
     console.log(`\tMapping Function Name: ${fieldMapping.mappingFunction.name}`);
   }
 }
 
-
-
 main();
 ```
 
 #### Retrieve an existing datasource and modify a field in it
+
 ```js
 const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-documents");
 
 const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
 
 async function main() {
-  let dataSource = await client.getDataSource('my-data-source-2');
+  let dataSource = await client.getDataSource("my-data-source-2");
   console.log(`Container Name: ${dataSource.container.name}`);
-  dataSource.container.name = 'my-container-2';
+  dataSource.container.name = "my-container-2";
   dataSource = await client.createOrUpdateDataSource(dataSource);
   console.log(`Container Name: ${dataSource.container.name}`);
 }
@@ -880,18 +889,19 @@ main();
 ```
 
 #### Get the status of an indexer
+
 ```js
 const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-documents");
 
 const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
 
 async function main() {
-  const indexerStatus = await client.getIndexerStatus('my-azure-indexer-1');
+  const indexerStatus = await client.getIndexerStatus("my-azure-indexer-1");
   console.log(`Name: ${indexerStatus.name}`);
   console.log(`OData Context: ${indexerStatus["@odata.context"]}`);
   console.log(`Status: ${indexerStatus.status}`);
   console.log(`Execution History`);
-  for(let execution of indexerStatus.executionHistory) {
+  for (let execution of indexerStatus.executionHistory) {
     console.log(`\tStatus: ${execution.status}`);
     console.log(`\tFinal Tracking State: ${execution.finalTrackingState}`);
     console.log(`\tInitial Tracking State: ${execution.initialTrackingState}`);
@@ -902,13 +912,14 @@ main();
 ```
 
 #### Get the service statistics
+
 ```js
 const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-documents");
 
 const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
 
 async function main() {
-  const {counters, limits} = await client.getServiceStatistics();
+  const { counters, limits } = await client.getServiceStatistics();
   console.log(`Counters`);
   console.log(`========`);
   console.log(`\tDocument Counter`);
@@ -937,8 +948,12 @@ async function main() {
   console.log(`======`);
   console.log(`\tMax Fields Per Index: ${limits.maxFieldsPerIndex}`);
   console.log(`\tMax Field Nesting Depth Per Index: ${limits.maxFieldNestingDepthPerIndex}`);
-  console.log(`\tMax Complex Collection Fields Per Index: ${limits.maxComplexCollectionFieldsPerIndex}`);
-  console.log(`\tMax Complex Objects In Collections Per Document: ${limits.maxComplexObjectsInCollectionsPerDocument}`);
+  console.log(
+    `\tMax Complex Collection Fields Per Index: ${limits.maxComplexCollectionFieldsPerIndex}`
+  );
+  console.log(
+    `\tMax Complex Objects In Collections Per Document: ${limits.maxComplexObjectsInCollectionsPerDocument}`
+  );
 }
 
 main();
