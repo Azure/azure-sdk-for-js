@@ -470,6 +470,7 @@ export interface FeedOptions extends SharedOptions {
     forceQueryPlan?: boolean;
     maxDegreeOfParallelism?: number;
     maxItemCount?: number;
+    partitionKey?: any;
     populateQueryMetrics?: boolean;
     useIncrementalFeed?: boolean;
 }
