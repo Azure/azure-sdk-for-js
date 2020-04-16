@@ -84,7 +84,9 @@ export interface SubResource extends BaseResource {
 }
 
 /**
- * Describes a virtual machine scale set sku.
+ * Describes a virtual machine scale set sku. NOTE: If the new VM SKU is not supported on the
+ * hardware the scale set is currently on, you need to deallocate the VMs in the scale set before
+ * you modify the SKU name.
  */
 export interface Sku {
   /**
@@ -950,7 +952,8 @@ export interface HardwareProfile {
  * Specifies information about the image to use. You can specify information about platform images,
  * marketplace images, or virtual machine images. This element is required when you want to use a
  * platform image, marketplace image, or virtual machine image, but is not used in other creation
- * operations.
+ * operations. NOTE: Image reference publisher and offer can only be set when you create the scale
+ * set.
  */
 export interface ImageReference extends SubResource {
   /**
@@ -2810,7 +2813,9 @@ export interface VirtualMachineScaleSetIPConfiguration extends SubResource {
 }
 
 /**
- * Describes a virtual machine scale set network profile's IP configuration.
+ * Describes a virtual machine scale set network profile's IP configuration. NOTE: The subnet of a
+ * scale set may be modified as long as the original subnet and the new subnet are in the same
+ * virtual network
  */
 export interface VirtualMachineScaleSetUpdateIPConfiguration extends SubResource {
   /**
@@ -3262,7 +3267,8 @@ export interface VirtualMachineScaleSet extends Resource {
   readonly uniqueId?: string;
   /**
    * When true this limits the scale set to a single placement group, of max size 100 virtual
-   * machines.
+   * machines. NOTE: If singlePlacementGroup is true, it may be modified to false. However, if
+   * singlePlacementGroup is false, it may not be modified to true.
    */
   singlePlacementGroup?: boolean;
   /**
@@ -3295,7 +3301,8 @@ export interface VirtualMachineScaleSet extends Resource {
    */
   identity?: VirtualMachineScaleSetIdentity;
   /**
-   * The virtual machine scale set zones.
+   * The virtual machine scale set zones. NOTE: Availability zones can only be set when you create
+   * the scale set
    */
   zones?: string[];
 }
@@ -3354,7 +3361,8 @@ export interface VirtualMachineScaleSetUpdate extends UpdateResource {
   doNotRunExtensionsOnOverprovisionedVMs?: boolean;
   /**
    * When true this limits the scale set to a single placement group, of max size 100 virtual
-   * machines.
+   * machines. NOTE: If singlePlacementGroup is true, it may be modified to false. However, if
+   * singlePlacementGroup is false, it may not be modified to true.
    */
   singlePlacementGroup?: boolean;
   /**
