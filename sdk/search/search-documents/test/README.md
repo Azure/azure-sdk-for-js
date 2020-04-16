@@ -24,7 +24,7 @@ To generate new resources for your tests, follow the procedure at [Integration T
 The environment variables needed are:
 
 - `SEARCH_API_ADMIN_KEY`: The primary key of your Azure Search account.
-- `SEARCH_API_ADMIN_KEY_ALT`: The secondary key of your Azure Search account.
+- `SEARCH_API_ADMIN_KEY_ALT` (optional): The secondary key of your Azure Search account.
 - `ENDPOINT`: The endpoint of your Azure Search account.
 
 Integration tests won't need updated recordings, and they also won't change previous recordings unless specified (see [Regenerating recordings](#regenerating-recordings)).
