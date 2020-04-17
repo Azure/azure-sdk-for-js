@@ -978,13 +978,6 @@ export class ServiceBusMessage implements ReceivedMessage {
         this._context.requestResponseLockedMessages.delete(this.lockToken!);
       }
       return;
-    } else if ((!receiver || !receiver.isOpen()) && this.sessionId !== undefined) {
-      throw translate({
-        description:
-          `Failed to ${dispositionType} the message as the AMQP link with which the message was ` +
-          `received is no longer alive.`,
-        condition: ErrorNameConditionMapper.SessionLockLostError
-      });
     }
 
     return receiver!.settleMessage(this, dispositionType!, options);
@@ -1040,6 +1033,13 @@ export class ServiceBusMessage implements ReceivedMessage {
       );
     } else if (this.delivery.remote_settled) {
       error = new Error(`Failed to ${operation} the message as this message is already settled.`);
+    } else if ((!receiver || !receiver.isOpen()) && this.sessionId !== undefined) {
+      error = translate({
+        description:
+          `Failed to ${operation} the message as the AMQP link with which the message was ` +
+          `received is no longer alive.`,
+        condition: ErrorNameConditionMapper.SessionLockLostError
+      });
     }
     if (!error) {
       return;
