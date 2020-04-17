@@ -22,7 +22,9 @@ async function main() {
   const trainingClient = client.getFormTrainingClient();
 
   const poller = await trainingClient.beginTraining(containerSasUrl, false, {
-    onProgress: (state) => { console.log(`training status: ${state.status}`); }
+    onProgress: (state) => {
+      console.log(`training status: ${state.status}`);
+    }
   });
   await poller.pollUntilDone();
   const response = poller.getResult();
@@ -42,7 +44,7 @@ async function main() {
       console.log("We have recognized the following fields");
       for (const key in submodel.fields) {
         const field = submodel.fields[key];
-        console.log(`The model found field '${field.name}'`)
+        console.log(`The model found field '${field.name}'`);
       }
     }
   }

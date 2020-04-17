@@ -15,13 +15,18 @@ export async function main() {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["COGNITIVE_SERVICE_ENDPOINT"] || "<cognitive services endpoint>";
   const apiKey = process.env["COGNITIVE_SERVICE_API_KEY"] || "<api key>";
-  const containerSasUrl = process.env["UNLABELED_CONTAINER_SAS_URL"] || "<url to Azure blob container storing the training documents>";
+  const containerSasUrl =
+    process.env["UNLABELED_CONTAINER_SAS_URL"] ||
+    "<url to Azure blob container storing the training documents>";
 
   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
   const trainingClient = client.getFormTrainingClient();
 
   const poller = await trainingClient.beginTraining(containerSasUrl, false, {
-    onProgress: (state) => { console.log("training status: "); console.log(state); }
+    onProgress: (state) => {
+      console.log("training status: ");
+      console.log(state);
+    }
   });
   await poller.pollUntilDone();
   const response = poller.getResult();
@@ -41,7 +46,7 @@ export async function main() {
       console.log("We have recognized the following fields");
       for (const key in submodel.fields) {
         const field = submodel.fields[key];
-        console.log(`The model found field '${field.name}'`)
+        console.log(`The model found field '${field.name}'`);
       }
     }
   }

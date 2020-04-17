@@ -21,7 +21,10 @@ export async function main() {
   const trainingClient = client.getFormTrainingClient();
 
   const poller = await trainingClient.beginTraining(containerSasUrl, true, {
-    onProgress: (state) => { console.log("training status: "); console.log(state.status); }
+    onProgress: (state) => {
+      console.log("training status: ");
+      console.log(state.status);
+    }
   });
   await poller.pollUntilDone();
   const model = poller.getResult();

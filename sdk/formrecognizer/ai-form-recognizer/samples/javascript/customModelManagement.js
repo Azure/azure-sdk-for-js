@@ -34,7 +34,7 @@ async function main() {
     console.log(`model ${i++}:`);
     console.log(model);
     if (i === 1) {
-        firstModel = model;
+      firstModel = model;
     }
     if (i > 10) {
       break;
@@ -43,28 +43,30 @@ async function main() {
 
   if (!firstModel) {
     // See trainModels.ts and trainModelWithLabels.ts for creating and training models.
-    throw new Error("There are no custom models in this account. Please ensure to create and train models first.");
+    throw new Error(
+      "There are no custom models in this account. Please ensure to create and train models first."
+    );
   }
 
   // Now we'll get the first custom model in the paged list
   const model = await client.getModel(firstModel.modelId);
   console.log(`Model Id: ${model.modelId}`);
   console.log(`Status: ${model.status}`);
-  console.log("Documents used in training: [")
+  console.log("Documents used in training: [");
   for (const doc of model.trainingDocuments || []) {
-      console.log(`  ${doc.documentName}`);
+    console.log(`  ${doc.documentName}`);
   }
   console.log("]");
 
   // Finally, we can delete this model if we want (for example, if its status is 'invalid')
-//   await client.deleteModel(firstModel.modelId);
-//   try {
-//     const deleted = await client.getModel(firstModel.modelId);
-//     console.log(deleted);
-//   } catch (err) {
-//     // Expected
-//     console.log(`Model with id ${firstModel.modelId} has been deleted`);
-//   }
+  //   await client.deleteModel(firstModel.modelId);
+  //   try {
+  //     const deleted = await client.getModel(firstModel.modelId);
+  //     console.log(deleted);
+  //   } catch (err) {
+  //     // Expected
+  //     console.log(`Model with id ${firstModel.modelId} has been deleted`);
+  //   }
 }
 
 main().catch((err) => {

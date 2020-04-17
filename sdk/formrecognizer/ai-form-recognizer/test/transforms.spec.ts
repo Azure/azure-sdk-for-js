@@ -13,7 +13,7 @@ import {
   toFormTable,
   toRecognizeFormResultResponse,
   toReceiptResultResponse,
-  toFormModelResponse,
+  toFormModelResponse
 } from "../src/transforms";
 import {
   FormRecognizerClientGetAnalyzeFormResultResponse as GetAnalyzeFormResultResponse,

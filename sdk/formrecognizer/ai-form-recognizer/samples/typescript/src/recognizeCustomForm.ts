@@ -30,7 +30,9 @@ export async function main() {
 
   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
   const poller = await client.beginRecognizeForms(modelId, readStream, "application/pdf", {
-    onProgress: (state) => { console.log(`status: ${state.status}`); }
+    onProgress: (state) => {
+      console.log(`status: ${state.status}`);
+    }
   });
   await poller.pollUntilDone();
   const response = poller.getResult();
@@ -40,10 +42,10 @@ export async function main() {
   }
 
   console.log(response.status);
-  console.log("Forms:")
+  console.log("Forms:");
   for (const form of response.forms || []) {
     console.log(`${form.formType}, page range: ${form.pageRange}`);
-    console.log("Pages:")
+    console.log("Pages:");
     for (const page of form.pages || []) {
       console.log(`Page number: ${page.pageNumber}`);
       console.log("Tables");
@@ -60,7 +62,9 @@ export async function main() {
     for (const fieldName in form.fields) {
       // each field is of type FormField
       const field = form.fields[fieldName];
-      console.log(`Field ${fieldName} has value '${field.value}' with a confidence score of ${field.confidence}`)
+      console.log(
+        `Field ${fieldName} has value '${field.value}' with a confidence score of ${field.confidence}`
+      );
     }
   }
 

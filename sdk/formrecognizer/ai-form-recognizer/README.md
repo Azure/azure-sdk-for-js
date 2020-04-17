@@ -76,12 +76,9 @@ az cognitiveservices account keys list --resource-group <your-resource-group-nam
 Once you have an API key and endpoint, you can use it as follows:
 
 ```js
-const { FormRecognizerClient, ApiKeyCredential } = require("@azure/ai-form-recognizer");
+const { FormRecognizerClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
 
-const client = new FormRecognizerClient(
-  "<endpoint>",
-  new ApiKeyCredential("<API key>")
-);
+const client = new FormRecognizerClient("<endpoint>", new AzureKeyCredential("<API key>"));
 ```
 
 ## Key concepts
@@ -146,14 +143,14 @@ Methods that train models or extract values from forms are modeled as long-runni
 to illustrate using long-running operations [below](#Examples).
 
 ## Examples
-The following section provides several code snippets illustrating common patterns used in the Form Recognizer client libraries.
+The following section provides several JavaScript code snippets illustrating common patterns used in the Form Recognizer client libraries.
 
 ### Recognize receipts
 
 Recognize data from USA sales receipts using the pre-built model.
 
 ```javascript
-const { FormRecognizerClient, AzureKeyCredential, toUSReceipt } = require("@azure/ai-form-recognizer");
+const { FormRecognizerClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
 const fs = require("fs");
 
 async function main() {
@@ -170,27 +167,30 @@ async function main() {
 
   await poller.pollUntilDone();
   const response = poller.getResult();
-  console.log(`### Response status ${response.status}`);
 
+  console.log(`### Response status ${response.status}`);
   const usReceipt = response.receipts[0];
   console.log("First receipt:")
   console.log(`Receipt type: ${usReceipt.receiptType}`)
   console.log(`Merchant Name: ${usReceipt.merchantName.value} (confidence: ${usReceipt.merchantName.confidence})`);
   console.log(`Transaction Date: ${usReceipt.transactionDate.value} (confidence: ${usReceipt.transactionDate.confidence})`);
-  const items = usReceipt.items.map((item) => {
-    return {
-      name: `${item.name.value} (confidence: ${item.name.confidence})`,
-      price: `${item.price.value} (confidence: ${item.price.confidence})`,
-      quantity: `${item.quantity.value} (confidence: ${item.quantity.confidence})`,
-      totalPrice: `${item.totalPrice.value} (confidence: ${item.totalPrice.confidence})`
-    }
-  });
   console.log("Receipt items:");
-  console.table(items, ["name", "price", "quantity", "totalPrice"]);
+  console.log(`  name\tprice\tquantity\ttotalPrice`);
+  for (const item of usReceipt.items) {
+    const name = `${optionalToString(item.name?.value)} (confidence: ${optionalToString(item.name?.confidence)})`;
+    const price = `${optionalToString(item.price?.value)} (confidence: ${optionalToString(item.price?.confidence)})`;
+    const quantity = `${optionalToString(item.quantity?.value)} (confidence: ${optionalToString(item.quantity?.confidence)})`;
+    const totalPrice = `${optionalToString(item.totalPrice?.value)} (confidence: ${optionalToString(item.totalPrice?.confidence)})`;
+    console.log(`  ${name}\t${price}\t${quantity}\t${totalPrice}`);
+  }
 
   // raw fields are also included in the result
-  console.log("Raw 'MerchantAddress' fields:");
+  console.log("Raw 'MerchantAddress' field:");
   console.log(usReceipt.recognizedForm.fields["MerchantAddress"]);
+}
+
+function optionalToString(value: unknown = undefined) {
+  return `${value || "<missing>"}`;
 }
 
 main();
@@ -222,7 +222,9 @@ async function main() {
 
   console.log(response.status);
   for (const page of response.pages) {
-    console.log(`Page ${page.pageNumber}: width ${page.width} and height ${page.height} with unit ${page.unit}`);
+    console.log(
+      `Page ${page.pageNumber}: width ${page.width} and height ${page.height} with unit ${page.unit}`
+    );
     for (const table of page.tables) {
       for (const row of table.rows) {
         for (const cell of row.cells) {
@@ -238,7 +240,7 @@ main();
 
 ### Train model
 
-Train a machine-learned model on your own form type. The resulting model will be able to recognize values from the types of forms it was trained on. Provide a container SAS url to your Azure Storage Blob container where you're storing the training documents. See details on setting this up in the [service quickstart documentation](servicequickstart).
+Train a machine-learned model on your own form type. The resulting model will be able to recognize values from the types of forms it was trained on. Provide a container SAS url to your Azure Storage Blob container where you're storing the training documents. See details on setting this up in the [service quickstart documentation](servicequickstart). This sample creates and trains a custom model without using labels.
 
 ```javascript
 const { FormRecognizerClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
@@ -257,6 +259,28 @@ async function main() {
 
   await poller.pollUntilDone();
   const response = poller.getResult();
+  console.log(`Model ID: ${response.modelId}`);
+  console.log(`Status: ${response.status}`);
+  console.log(`Created on: ${response.createdOn}`);
+  console.log(`Last modified: ${response.lastModified}`);
+
+  if (response.models) {
+    for (const submodel of response.models) {
+      console.log("We have recognized the following fields");
+      for (const key in submodel.fields) {
+        const field = submodel.fields[key];
+        console.log(`The model found field '${field.name}'`)
+      }
+    }
+  }
+  if (response.trainingDocuments) {
+    for (const doc of response.trainingDocuments) {
+      console.log(`Document name: ${doc.documentName}`);
+      console.log(`Document status: ${doc.status}`);
+      console.log(`Document page count: ${doc.pageCount}`);
+      console.log(`Document errors: ${doc.errors}`);
+    }
+  }
 }
 
 main();
@@ -286,6 +310,19 @@ async function main() {
   console.log("Forms:")
   for (const form of response.forms || []) {
     console.log(`${form.formType}, page range: ${form.pageRange}`);
+    console.log("Pages:")
+    for (const page of form.pages || []) {
+      console.log(`Page number: ${page.pageNumber}`);
+      console.log("Tables");
+      for (const table of page.tables || []) {
+        for (const row of table.rows) {
+          for (const cell of row.cells) {
+            console.log(`cell (${cell.rowIndex},${cell.columnIndex}) ${cell.text}`);
+          }
+        }
+      }
+    }
+
     console.log("Fields:");
     for (const fieldName in form.fields) {
       // each field is of type FormField
@@ -293,15 +330,14 @@ async function main() {
       console.log(`Field ${fieldName} has value '${field.value}' with a confidence score of ${field.confidence}`)
     }
   }
-
-  console.log("Errors:");
-  console.log(response.errors);
 }
 
 main()
 ```
 
-### Listing all models in the current cognitive service account
+### Listing all models
+
+Listing custom models in the current cognitive service account. This sample shows several ways to iterate through the result.
 
 ```javascript
 const { FormRecognizerClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
