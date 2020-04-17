@@ -247,7 +247,8 @@ export namespace ClientEntityContext {
             connectionId,
             streamingReceiver.name
           );
-          await streamingReceiver.onDetached(error, true);
+          const causedByDisconnect = true;
+          await streamingReceiver.onDetached(error, causedByDisconnect);
         } catch (err) {
           log.error(
             "[%s] An error occurred while calling onDetached() on the streaming receiver '%s': %O.",

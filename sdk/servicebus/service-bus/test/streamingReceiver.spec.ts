@@ -1135,8 +1135,8 @@ describe("Streaming - Not receive messages after receiver is closed", function()
 });
 
 describe("Streaming - onDetached", function(): void {
-  this.afterEach(async () => {
-    await afterEachTest();
+  afterEach(() => {
+    return afterEachTest();
   });
 
   it("doesn't call user's error handler on non-retryable errors", async function(): Promise<void> {
@@ -1176,7 +1176,7 @@ describe("Streaming - onDetached", function(): void {
     // Simulate onDetached being called with a non-retryable error.
     const nonRetryableError = translate(new Error(`I break systems.`));
     nonRetryableError.retryable = false;
-    await (receiver as any)._context.streamingReceiver.onDetached(nonRetryableError);
+    await receiver["_context"].streamingReceiver!.onDetached(nonRetryableError);
 
     receivedErrors.length.should.equal(0, "Unexpected number of errors received.");
   });
@@ -1215,7 +1215,7 @@ describe("Streaming - onDetached", function(): void {
     // Simulate onDetached being called with a non-retryable error.
     const nonRetryableError = translate(new Error(`I break systems.`));
     nonRetryableError.retryable = false;
-    await (receiver as any)._context.streamingReceiver.onDetached(nonRetryableError, true);
+    await receiver["_context"].streamingReceiver!.onDetached(nonRetryableError, true);
 
     receivedErrors.length.should.equal(1, "Unexpected number of errors received.");
   });
@@ -1255,8 +1255,8 @@ describe("Streaming - onDetached", function(): void {
     const nonRetryableError = translate(new Error(`I break systems.`));
     nonRetryableError.retryable = false;
     await Promise.all([
-      (receiver as any)._context.streamingReceiver.onDetached(nonRetryableError, true),
-      (receiver as any)._context.streamingReceiver.onDetached(nonRetryableError, true)
+      receiver["_context"].streamingReceiver!.onDetached(nonRetryableError, true),
+      receiver["_context"].streamingReceiver!.onDetached(nonRetryableError, true)
     ]);
 
     receivedErrors.length.should.equal(1, "Unexpected number of errors received.");
@@ -1299,8 +1299,8 @@ describe("Streaming - onDetached", function(): void {
     const retryableError = new Error("I temporarily break systems.");
     (retryableError as any).retryable = true;
     await Promise.all([
-      (receiver as any)._context.streamingReceiver.onDetached(nonRetryableError, true),
-      (receiver as any)._context.streamingReceiver.onDetached(retryableError)
+      receiver["_context"].streamingReceiver!.onDetached(nonRetryableError, true),
+      receiver["_context"].streamingReceiver!.onDetached(retryableError)
     ]);
 
     receivedErrors.length.should.equal(1, "Unexpected number of errors received.");
