@@ -62,7 +62,7 @@ async function receiveMessage() {
     );
     // Deadletter the message received
     await messages[0].deadLetter({
-      deadletterReason: "Incorrect Recipe type",
+      deadLetterReason: "Incorrect Recipe type",
       deadLetterErrorDescription: "Recipe type does not  match preferences."
     });
   } else {
