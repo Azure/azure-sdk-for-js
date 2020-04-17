@@ -1,7 +1,12 @@
 # Release History
 
-## 1.1.2 (Unreleased)
-
+## 2.0.0 (Unreleased)
+- Remove the below interfaces from the public API surface as they have their source of truth defined elsewhere.
+Fixes [bug 8301](https://github.com/Azure/azure-sdk-for-js/issues/8301).
+  - OperationOptions
+  - OperationRequestOptions
+  - OperationTracingOptions
+  - AbortSignalLike
 
 ## 1.1.1 (2020-04-01)
 
