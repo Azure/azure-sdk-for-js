@@ -882,7 +882,7 @@ export class MessageReceiver extends LinkEntity {
       // These should be ignored until the already running `onDetached` completes
       // its retry attempts or errors.
       log.error(
-        `[${connectionId}] Receiver '${this.name}' with address '${this.address}' has had onDetached called while already detaching.`
+        `[${connectionId}] Call to detached on streaming receiver '${this.name}' is already in progress.`
       );
       return;
     }
