@@ -29,7 +29,7 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer",
   "sideEffects": false,
   "dependencies": {
-    "@azure/ai-ai-form-recognizer": "latest",
+    "@azure/ai-form-recognizer": "latest",
     "@azure/identity": "latest",
     "dotenv": "^8.2.0"
   },
