@@ -72,7 +72,7 @@
   },
   "dependencies": {
     "@azure/core-asynciterator-polyfill": "^1.0.0",
-    "@azure/core-http": "^1.0.0",
+    "@azure/core-http": "^1.1.1",
     "@azure/core-paging": "^1.1.0",
     "@azure/core-tracing": "1.0.0-preview.8",
     "@opentelemetry/api": "^0.5.1",

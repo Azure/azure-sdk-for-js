@@ -80,7 +80,7 @@
     "@azure/core-amqp": "^1.1.1",
     "@azure/core-asynciterator-polyfill": "^1.0.0",
     "@azure/core-tracing": "1.0.0-preview.8",
-    "@azure/core-http": "^1.0.0",
+    "@azure/core-http": "^1.1.1",
     "@azure/core-tracing": "1.0.0-preview.8",
     "@opentelemetry/api": "^0.5.1",
     "@types/is-buffer": "^2.0.0",
