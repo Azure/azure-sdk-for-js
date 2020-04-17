@@ -1,21 +1,9 @@
-## Pre-requisites
+# Testing
 
-- Run `npm i` to install all the dependencies of this project. This is a one time task.
-- The tests expect a Service Bus namespace to exist.
-  The connection string for the service bus should be in the environment variable `SERVICEBUS_CONNECTION_STRING`. 
-
-  Note that the tests will recreate entities to get a clean start before running each test.
-
-  See `testUtils.ts` file for information on names used for the entities against which the tests are run.
-
-    The environment variables can be set by adding a file by the name `.env` in the root folder of this project.
-    Following is a sample .env file template:
-    ```
-    SERVICEBUS_CONNECTION_STRING=
-
-    ```
+To run our tests, first do a full update of the project by running `rush update`, then rebuild either this package, with `rush build -t @azure/service-bus` or all packages with `rush build`, then make sure to build the tests with `rush build:test`. After that, you can either run our unit tests, which won't reach to live services, and our integration tests, which will indeed require existing, reachable resources.
 
 ## Setup for running tests that use AAD based authentication
+
 Go through the following setup in order to correctly setup the AAD credentials for tests that require it.
 
 **Register a new application in AAD**
@@ -26,7 +14,7 @@ Go through the following setup in order to correctly setup the AAD credentials f
 
 **Assign owner role to the registered application**
 
-- In the azure-portal, go to your servicebus-namespace and assign **Azure Service Bus Data Owner** role to the registered application.
+- In the azure-portal, go to your servicebus-namespace and assign the **Azure Service Bus Data Owner** role to the registered application.
 - This can be done from `Role assignment` section of `Access control (IAM)` tab (in the left-side-navbar of your servicebus-namespace in the azure-portal)<br>
   _Doing this would allow the registered application manage the namespace, i.e., entity creation, deletion, etc.,_<br>
 - For more information on Service Bus RBAC setup - [Learn more](https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-role-based-access-control)
@@ -42,19 +30,19 @@ AZURE_TENANT_ID=""
 
 ## Run all tests
 
-Run `npm run test:node` or `npm run test:browser` from your terminal to run all the tests under the `./test` folder
+Run `rushx test:node` or `rushx test:browser` from your terminal to run all the tests under the `./test` folder
 
 ## Run all tests in a single test suite
 
 Append the `.only` on the `describe` method corresponding to the test suite.
 
-Then run `npm run test:node` or `npm run test:browser` from your terminal.
+Then run `rushx test:node` or `rushx test:browser` from your terminal.
 
 ## Run a single test
 
 Append the `.only` on the `it` method corresponding to the test.
 
-Then run `npm run test:node` or `npm run test:browser` from your terminal.
+Then run `rushx test:node` or `rushx test:browser` from your terminal.
 
 ## Debug tests using Visual Studio Code
 
@@ -66,7 +54,14 @@ Then run `npm run test:node` or `npm run test:browser` from your terminal.
 
 Our integration tests will run against the live resources, which are determined by the environment variables you provide.
 
-To run the integration tests, you will need to execute `npm run integration-test`.
+The environment variables needed are:
+
+- `AZURE_CLIENT_ID`: The Client ID of your Azure account.
+- `AZURE_CLIENT_SECRET`: The secret of your Azure account.
+- `AZURE_TENANT_ID`: The Tenant ID of your Azure account.
+- `SERVICEBUS_CONNECTION_STRING`: The connection string of your Azure Service Bus account.
+
+To run the integration tests, you will need to execute `rushx integration-test`.
 
 To generate new resources for your tests, follow the procedure at [Integration Testing with live services](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md#integration-testing-with-live-services).
 
