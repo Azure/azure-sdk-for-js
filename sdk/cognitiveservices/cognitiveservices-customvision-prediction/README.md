@@ -15,6 +15,8 @@ npm install @azure/cognitiveservices-customvision-prediction
 
 ### How to use
 
+#### nodejs - Authentication, client creation and classifyImageUrl as an example written in TypeScript.
+
 ##### Sample code
 The following sample predicts and classifies the given image based on your custom vision training. To know more, refer to the [Azure Documentation on Custom Vision Services](https://docs.microsoft.com/en-us/azure/cognitive-services/custom-vision-service/home).
 

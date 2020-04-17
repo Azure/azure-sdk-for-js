@@ -535,7 +535,7 @@ export type TimeFieldValue = {
 export interface TrainingDocumentInfo {
     documentName: string;
     errors: ErrorInformation[];
-    pages: number;
+    pageCount: number;
     status: TrainStatus;
 }
 
