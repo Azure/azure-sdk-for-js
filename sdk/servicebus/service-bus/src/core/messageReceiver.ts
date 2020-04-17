@@ -866,9 +866,6 @@ export class MessageReceiver extends LinkEntity {
     // User explicitly called `close` on the receiver, so link is already closed
     // and we can exit early.
     if (this.wasCloseInitiated) {
-      log.error(
-        `[${connectionId}] Receiver '${this.name}' with address '${this.address}' has had onDetached called after being explictly closed.`
-      );
       return;
     }
 
