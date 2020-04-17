@@ -5,6 +5,10 @@
 - Removes the `@azure/ms-rest-nodeauth` dependency.
   This allows users to use any version of `@azure/ms-rest-nodeauth` directly with `@azure/service-bus` without TypeScript compilation errors.
   Fixes [bug 8041](https://github.com/Azure/azure-sdk-for-js/issues/8041).
+- Bug Fix - `deadletter-reason` and `properties-to-modify` are properly populated when a message is deadlettered.
+  [PR 8406](https://github.com/Azure/azure-sdk-for-js/pull/8406).
+- Messages received from non-sessionful entities can now be settled even after the receiver is closed.
+  [PR 8406](https://github.com/Azure/azure-sdk-for-js/pull/8406).
 
 ## 1.1.5 (2020-03-24)
 
