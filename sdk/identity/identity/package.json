@@ -79,7 +79,7 @@
     "@azure/core-http": "^1.1.1",
     "@azure/core-tracing": "1.0.0-preview.8",
     "@azure/logger": "^1.0.0",
-    "@opentelemetry/api": "^0.5.1",
+    "@opentelemetry/api": "^0.6.1",
     "events": "^3.0.0",
     "jws": "^3.2.2",
     "keytar": "^5.4.0",
