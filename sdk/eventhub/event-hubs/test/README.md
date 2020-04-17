@@ -5,7 +5,7 @@ To run our tests, first do a full update of the project by running `rush update`
 ## Unit tests
 
 To run unit tests, go to the root of this library and run `rushx unit-test`.
-This will run tests in a purely nodejs environment, and in a browser environment using [Karma](https://karma-runner.github.io/latest/index.html).
+This will run tests in NodeJS and in a browser (through [Karma](https://karma-runner.github.io/latest/index.html)).
 These tests aim to reproduce the behavior of our library against remote endpoints through previously recorded HTTP request and responses.
 You won't need to have any environment configuration, nor internet access, for these tests to run.
 
