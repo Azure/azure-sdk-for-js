@@ -279,7 +279,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -300,10 +300,10 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroupName0
+    Parameters.resourceGroupName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -324,11 +324,11 @@ const getOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroupName0,
+    Parameters.resourceGroupName,
     Parameters.frontDoorName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -349,11 +349,11 @@ const validateCustomDomainOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/validateCustomDomain",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroupName0,
+    Parameters.resourceGroupName,
     Parameters.frontDoorName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -381,11 +381,11 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroupName0,
+    Parameters.resourceGroupName,
     Parameters.frontDoorName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -419,11 +419,11 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroupName0,
+    Parameters.resourceGroupName,
     Parameters.frontDoorName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
