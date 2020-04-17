@@ -40,7 +40,7 @@ export interface PollerOperationOptions<T> {
 export type RecognizePollerClient<T> = {
   // returns a result id to retrieve results
   beginRecognize: (
-    source: FormRecognizerRequestBody,
+    source: FormRecognizerRequestBody | string,
     contentType?: ContentType,
     analyzeOptions?: RecognizeOptions,
     modelId?: string
@@ -51,7 +51,7 @@ export type RecognizePollerClient<T> = {
 
 export interface BeginRecognizePollState<T> extends PollOperationState<T> {
   readonly client: RecognizePollerClient<T>;
-  source?: FormRecognizerRequestBody;
+  source?: FormRecognizerRequestBody | string;
   contentType?: ContentType;
   modelId?: string;
   resultId?: string;
