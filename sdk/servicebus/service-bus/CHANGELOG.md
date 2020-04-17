@@ -9,9 +9,6 @@
     - Not setting user given deadletter error reason and description when deadlettering a deferred message
     - Not setting user given custom properties when deadlettering a non deferred message
     - Not able to settle previously received messages when a receiver recovers from a broken link or connection. Please note that if using sessions, this behavior doesn't change with this release.
-  [PR 8406](https://github.com/Azure/azure-sdk-for-js/pull/8406).
-- Messages received from non-sessionful entities can now be settled even after the receiver is closed.
-  [PR 8406](https://github.com/Azure/azure-sdk-for-js/pull/8406).
 
 ## 1.1.5 (2020-03-24)
 
