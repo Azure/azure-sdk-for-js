@@ -27,6 +27,7 @@
   "files": [
     "dist/",
     "dist-esm/src/",
+    "dom-shims.d.ts",
     "types/ai-form-recognizer.d.ts",
     "README.md",
     "LICENSE"

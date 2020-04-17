@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineOptions, OperationOptions, HttpRequestBody } from "@azure/core-http";
+import { PipelineOptions, OperationOptions } from "@azure/core-http";
 import { FormRecognizerRequestBody } from "./models";
 import { ContentType, SourcePath } from "./generated/models";
 import { streamToBuffer } from "./utils/utils.node";
@@ -34,7 +34,7 @@ export async function toRequestBody(
       return streamToBuffer(body, MAX_INPUT_DOCUMENT_SIZE);
     }
 
-    return body as HttpRequestBody;
+    return body;
   }
 }
 
