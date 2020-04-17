@@ -944,32 +944,22 @@ export class MessageReceiver extends LinkEntity {
         };
         await retry<void>(config);
       } else if (causedByDisconnect) {
-        const state: any = {
-          wasCloseInitiated: this.wasCloseInitiated,
-          receiverError: translatedError,
-          _receiver: this._receiver
-        };
         log.error(
-          "[%s] Something went wrong and the connection disconnected. State of Receiver '%s' with address '%s' is: %O",
+          "[%s] Something went wrong and the connection disconnected. Receiver '%s' with address '%s' encountered error: %O",
           connectionId,
           this.name,
           this.address,
-          state
+          translatedError
         );
         // Not retrying, throw the error so it gets logged and forwarded to user's error handler.
         throw translatedError;
       } else {
-        const state: any = {
-          wasCloseInitiated: this.wasCloseInitiated,
-          receiverError: translatedError,
-          _receiver: this._receiver
-        };
         log.error(
-          "[%s] Something went wrong. State of Receiver '%s' with address '%s' is: %O",
+          "[%s] Something went wrong. Receiver '%s' with address '%s' encountered error: %O",
           connectionId,
           this.name,
           this.address,
-          state
+          translatedError
         );
       }
     } catch (err) {
