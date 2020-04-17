@@ -22,6 +22,18 @@ import {
   throwTypeErrorIfParameterNotLongArray,
   getErrorMessageNotSupportedInReceiveAndDeleteMode
 } from "./util/errors";
+import { Constants } from "@azure/amqp-common";
+
+// TODO: need a better name. Opening up the contest on this one.
+interface MessageHandlerCloserizer {
+  /**
+   * Closes the registered message handler. This does not close the receiver link.
+   * Use this method if you wish to unregister the message handler but still keep the
+   * receiver link open, for instance, to settle messages.
+   * @param timeoutMs Maximum amount of time to wait for the receiver to drain, in milliseconds. Defaults to 60000.
+   */
+  close(timeoutMs?: number): Promise<void>;
+}
 
 /**
  * The Receiver class can be used to receive messages in a batch or by registering handlers.
@@ -117,7 +129,7 @@ export class Receiver {
     onMessage: OnMessage,
     onError: OnError,
     options?: MessageHandlerOptions
-  ): void {
+  ): MessageHandlerCloserizer {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
     const connId = this._context.namespace.connectionId;
@@ -130,6 +142,8 @@ export class Receiver {
       throw new TypeError("The parameter 'onError' must be of type 'function'.");
     }
 
+    let streamingReceiver: StreamingReceiver | undefined;
+
     StreamingReceiver.create(this._context, {
       ...options,
       receiveMode: this._receiveMode
@@ -138,7 +152,9 @@ export class Receiver {
         if (!sReceiver) {
           return;
         }
+
         if (!this.isClosed) {
+          streamingReceiver = sReceiver;
           sReceiver.receive(onMessage, onError);
         } else {
           await sReceiver.close();
@@ -148,6 +164,20 @@ export class Receiver {
       .catch((err) => {
         onError(err);
       });
+
+    return {
+      async close(timeoutMs?: number): Promise<void> {
+        if (streamingReceiver) {
+          const origStreamingReceiver = streamingReceiver;
+          streamingReceiver = undefined;
+
+          // TODO: this timeout is completely out of thin air and it's a long one.
+          return origStreamingReceiver.drainAndUnregisterHandlers(
+            timeoutMs ?? Constants.defaultOperationTimeoutInSeconds * 1000
+          );
+        }
+      }
+    };
   }
 
   /**

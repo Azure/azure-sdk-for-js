@@ -1133,3 +1133,144 @@ describe("Streaming - Not receive messages after receiver is closed", function()
     await testReceiveMessages();
   });
 });
+
+describe("Streaming - MessageHandler.close() stops messages from arriving", () => {
+  beforeEach(() => {
+    return beforeEachTest(
+      TestClientType.UnpartitionedQueue,
+      TestClientType.UnpartitionedQueue,
+      ReceiveMode.peekLock
+    );
+  });
+
+  afterEach(async () => {
+    await afterEachTest();
+  });
+
+  it("unregister - basic case - receive messages, close() and see no further messages coming in", async () => {
+    const messages: string[] = [];
+    const errors: string[] = [];
+
+    const subscription = receiver.registerMessageHandler(
+      async (msg) => {
+        messages.push(msg.body);
+      },
+      (err) => {
+        errors.push(err.message);
+      }
+    );
+
+    // now send some messages and continue sending them
+    // so we can see that we stop receiving them.
+
+    await sender.send({
+      body: "message sent _before_ we close the subscription"
+    });
+
+    await delay(1000);
+
+    // should have received that single message (proof that the receiver is functional)
+    messages.should.deep.equal(["message sent _before_ we close the subscription"]);
+    errors.should.be.empty;
+
+    // now we shut down the subscription - after this the receiver is still
+    // active _but_ we've unregistered our handlers and drained the link
+    await subscription.close();
+
+    await sender.send({
+      body: "message sent _after_ we closed the subscription"
+    });
+
+    await delay(1000);
+
+    // no new messages should arrive (we already had one from before)
+    messages.length.should.be.equal(1);
+    errors.should.be.empty;
+
+    receiver.isClosed.should.be.false;
+
+    await receiver.close();
+  });
+
+  it("unregister - never received any messages", async () => {
+    const subscription = receiver.registerMessageHandler(
+      async () => {},
+      () => {}
+    );
+
+    await delay(1000);
+
+    await subscription.close();
+    // closing a subscription does not close the receiver itself.
+    receiver.isClosed.should.be.false;
+
+    await receiver.close();
+  });
+
+  // TODO: I haven't added anything here yet to try and cancel the registration, for instance.
+  // it("unregister - but do it _really_ quickly - race between starting the subscription and terminating it.", async () => {
+  //   const subscription = receiver.registerMessageHandler(
+  //     async (msg) => {},
+  //     (err) => {}
+  //   );
+
+  //   // no delay this time - the registration could be coming up
+  //   // at the same time as our close() (or close in time to it)
+  //   // await delay(1000);
+
+  //   await subscription.close();
+
+  //   await receiver.close();
+  // });
+
+  it("unregister - after receiver.close()", async () => {
+    const subscription = receiver.registerMessageHandler(
+      async () => {},
+      () => {}
+    );
+
+    await delay(1000);
+
+    // reversed order (receiver closed before subscription)
+    await receiver.close();
+
+    // harmless.
+    await subscription.close();
+  });
+
+  it("unregister - drain times out", async () => {
+    const messages = [];
+    const errors = [];
+
+    const myMsgHandler = async (msg: { body: string }) => {
+      messages.push(msg);
+    };
+
+    const myErrorHandler = (err: Error) => {
+      errors.push(err);
+    };
+
+    const messageHandlerCloser = receiver.registerMessageHandler(myMsgHandler, myErrorHandler);
+
+    await delay(1000);
+
+    // prep things a little bit
+    receiver["_context"].streamingReceiver!["_drainReceiver"] = async () => {
+      // make drain take a longer time than we're waiting
+      await delay(10000);
+    };
+
+    try {
+      await messageHandlerCloser.close(2);
+      throw new Error("Should have thrown a timeout error");
+    } catch (err) {
+      err.message.should.equal(
+        `Failed to drain receiver within 2 milliseconds, can't safely close message handler.`
+      );
+
+      // in this case we don't remove their message handlers.
+      receiver["_context"].streamingReceiver!["_onMessage"].should.equal(myMsgHandler);
+      receiver["_context"].streamingReceiver!["_onError"]!.should.equal(myErrorHandler);
+    }
+  });
+});

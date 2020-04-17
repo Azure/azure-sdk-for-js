@@ -13,6 +13,8 @@ import { ClientEntityContext } from "../clientEntityContext";
 
 import * as log from "../log";
 import { throwErrorIfConnectionClosed } from "../util/errors";
+import { ReceiverEvents, Receiver } from "rhea-promise";
+import { delay } from "@azure/amqp-common";
 
 /**
  * Describes the options passed to `registerMessageHandler` method when receiving messages from a
@@ -92,6 +94,65 @@ export class StreamingReceiver extends MessageReceiver {
     if (this._receiver) {
       this._receiver.addCredit(this.maxConcurrentCalls);
     }
+  }
+
+  /**
+   * Unregisters this streaming receiver, removing it's callbacks
+   * and draining any credits that we requested.
+   *
+   * @param timeoutMs The maximum amount of time to wait for the drain to complete.
+   */
+  async drainAndUnregisterHandlers(timeoutMs: number): Promise<void> {
+    const receiver = this._receiver;
+
+    if (receiver == null) {
+      return;
+    }
+
+    log.receiver(
+      "[%s] Stopping streaming receiver for entity '%s'.",
+      this._context.namespace.connectionId,
+      this._context.entityPath
+    );
+
+    // drain this receiver - once it's fully drained
+    // we can kill all the other methods
+    const ret = await Promise.race([this._drainReceiver(receiver), delay(timeoutMs, "timedout")]);
+
+    if (ret === "timedout") {
+      const msg = `Failed to drain receiver within ${timeoutMs} milliseconds, can't safely close message handler.`;
+      log.error(`[${this._context.namespace.connectionId}] ${msg}`);
+      throw new Error(msg);
+    }
+
+    // succesfully drain()'d - we should receive no further messages
+    // or errors related this receiver so we can remove the handlers.
+    this._onMessage = async () => {};
+    this._onError = () => {};
+
+    // TODO: I don't think I need to do this - it'll just get replaced
+    // on the next registerMessageHandler() they do on this client.
+    // this._context.streamingReceiver = undefined;
+  }
+
+  private _drainReceiver(receiver: Receiver): Promise<void> {
+    let isDrainedResolve: () => void;
+    const isDrainedPromise = new Promise<void>((res, rej) => {
+      isDrainedResolve = res;
+    });
+
+    const onDrain = () => {
+      receiver.removeListener(ReceiverEvents.receiverDrained, onDrain);
+      isDrainedResolve();
+    };
+
+    receiver.addListener(ReceiverEvents.receiverDrained, onDrain);
+
+    // TODO: do I need to explicitly "erase" my credits or is this enough to make that happen?
+    receiver.drain = true;
+    receiver.addCredit(1);
+
+    return isDrainedPromise;
   }
 
   /**
