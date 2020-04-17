@@ -25,7 +25,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 if (!recorder.isPlaybackMode()) {
-  const ASSET_PATH = path.join(__dirname, "..", "test-assets", "training");
+  const ASSET_PATH = path.resolve(path.join(process.cwd(), "test-assets", "training"));
 
   const blobEndpoint = process.env.BLOB_SAS_ENDPOINT;
   if (blobEndpoint === undefined) {
@@ -45,13 +45,13 @@ if (!recorder.isPlaybackMode()) {
     );
   }
 
-  const blobClient = new BlobServiceClient(blobEndpoint, new AnonymousCredential());
+  const serviceClient = new BlobServiceClient(blobEndpoint, new AnonymousCredential());
 
   // Set up training container
   before(async () => {
     console.log("=== Running pre-test hook to upload training data ===");
 
-    const { containerClient: trainingContainer } = await blobClient.createContainer(
+    const { containerClient: trainingContainer } = await serviceClient.createContainer(
       trainingContainerName
     );
 
@@ -70,11 +70,8 @@ if (!recorder.isPlaybackMode()) {
           const blobName = path.relative(ASSET_PATH, fileName);
           console.log(`- Uploading ${blobName} ...`);
 
-          await trainingContainer.uploadBlockBlob(
-            blobName,
-            () => fs.createReadStream(fileName),
-            stats.size
-          );
+          const blobClient = trainingContainer.getBlockBlobClient(blobName);
+          await blobClient.uploadFile(fileName);
         }
       }
     }
@@ -102,8 +99,7 @@ if (!recorder.isPlaybackMode()) {
   // Tear down training container
   after(async () => {
     console.log("=== Running post-test hook to delete training data container ===");
-    await blobClient.deleteContainer(trainingContainerName);
+    await serviceClient.deleteContainer(trainingContainerName);
     console.log("Done.");
   });
 }
-
