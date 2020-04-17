@@ -942,7 +942,7 @@ export class MessageReceiver extends LinkEntity {
         await retry<void>(config);
       } else if (causedByDisconnect) {
         log.error(
-          "[%s] Something went wrong and the connection disconnected. Receiver '%s' with address '%s' encountered error: %O",
+          "[%s] Encountered a non retryable error on the connection. Cannot recover receiver '%s' with address '%s': %O",
           connectionId,
           this.name,
           this.address,
@@ -952,7 +952,7 @@ export class MessageReceiver extends LinkEntity {
         throw translatedError;
       } else {
         log.error(
-          "[%s] Something went wrong. Receiver '%s' with address '%s' encountered error: %O",
+          "[%s] Encountered a non retryable error on the receiver. Cannot recover receiver '%s' with address '%s' encountered error: %O",
           connectionId,
           this.name,
           this.address,
