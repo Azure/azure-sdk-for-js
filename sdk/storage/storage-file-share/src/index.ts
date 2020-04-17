@@ -39,7 +39,7 @@ export * from "./policies/StorageSharedKeyCredentialPolicy";
 export * from "./StorageBrowserPolicyFactory";
 export * from "./ShareServiceClient";
 export * from "./SASQueryParameters";
-export { CommonOptions, OperationTracingOptions } from "./StorageClient";
+export { CommonOptions } from "./StorageClient";
 export * from "./generatedModels";
 export { RestError };
 export { logger } from "./log";

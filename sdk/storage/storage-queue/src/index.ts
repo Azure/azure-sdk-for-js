@@ -23,7 +23,7 @@ export * from "./QueueSASPermissions";
 export * from "./QueueSASSignatureValues";
 export * from "./QueueServiceClient";
 export * from "./SASQueryParameters";
-export { CommonOptions, OperationTracingOptions } from "./StorageClient";
+export { CommonOptions } from "./StorageClient";
 export * from "./generatedModels";
 export { RestError };
 export { logger } from "./log";
