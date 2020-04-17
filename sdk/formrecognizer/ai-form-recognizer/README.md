@@ -345,7 +345,7 @@ const { FormRecognizerClient, AzureKeyCredential } = require("@azure/ai-form-rec
 async function main() {
   const endpoint = "<cognitive services endpoint>";
   const apiKey = "<api key>";
-  const client = new FormRecognizerClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
+  const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
   const trainingClient = client.getFormTrainingClient();
 
   // returns an async iteratable iterator that supports paging
