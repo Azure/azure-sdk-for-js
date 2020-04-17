@@ -907,50 +907,10 @@ export class MessageReceiver extends LinkEntity {
       // or the error is considered retryable.
       const shouldReopen = !translatedError || translatedError.retryable;
 
-      if (shouldReopen) {
-        // provide a new name to the link while re-connecting it. This ensures that
-        // the service does not send an error stating that the link is still open.
-        const options: ReceiverOptions = this._createReceiverOptions(true);
-
-        // shall retry forever at an interval of 15 seconds if the error is a retryable error
-        // else bail out when the error is not retryable or the oepration succeeds.
-        const config: RetryConfig<void> = {
-          operation: () =>
-            this._init(options).then(async () => {
-              if (this.wasCloseInitiated) {
-                log.error(
-                  "[%s] close() method of Receiver '%s' with address '%s' was called. " +
-                    "by the time the receiver finished getting created. Hence, disallowing messages from being received. ",
-                  connectionId,
-                  this.name,
-                  this.address
-                );
-                await this.close();
-              } else {
-                if (this._receiver && this.receiverType === ReceiverType.streaming) {
-                  this._receiver.addCredit(this.maxConcurrentCalls);
-                }
-              }
-              return;
-            }),
-          connectionId: connectionId,
-          operationType: RetryOperationType.receiverLink,
-          times: Constants.defaultConnectionRetryAttempts,
-          connectionHost: this._context.namespace.config.host,
-          delayInSeconds: 15
-        };
-        await retry<void>(config);
-      } else if (causedByDisconnect) {
-        log.error(
-          "[%s] Encountered a non retryable error on the connection. Cannot recover receiver '%s' with address '%s': %O",
-          connectionId,
-          this.name,
-          this.address,
-          translatedError
-        );
-        // Not retrying, throw the error so it gets logged and forwarded to user's error handler.
-        throw translatedError;
-      } else {
+      // Non-retryable errors that aren't caused by disconnect
+      // will have already been forwarded to the user's error handler.
+      // Swallow the error and return quickly.
+      if (!shouldReopen && !causedByDisconnect) {
         log.error(
           "[%s] Encountered a non retryable error on the receiver. Cannot recover receiver '%s' with address '%s' encountered error: %O",
           connectionId,
@@ -958,7 +918,57 @@ export class MessageReceiver extends LinkEntity {
           this.address,
           translatedError
         );
+        return;
       }
+
+      // Non-retryable errors that are caused by disconnect
+      // haven't had a chance to show up in the user's error handler.
+      // Rethrow the error so the surrounding try/catch forwards it appropriately.
+      if (!shouldReopen && causedByDisconnect) {
+        log.error(
+          "[%s] Encountered a non retryable error on the connection. Cannot recover receiver '%s' with address '%s': %O",
+          connectionId,
+          this.name,
+          this.address,
+          translatedError
+        );
+        throw translatedError;
+      }
+
+      // provide a new name to the link while re-connecting it. This ensures that
+      // the service does not send an error stating that the link is still open.
+      const options: ReceiverOptions = this._createReceiverOptions(true);
+
+      // shall retry forever at an interval of 15 seconds if the error is a retryable error
+      // else bail out when the error is not retryable or the oepration succeeds.
+      const config: RetryConfig<void> = {
+        operation: () =>
+          this._init(options).then(async () => {
+            if (this.wasCloseInitiated) {
+              log.error(
+                "[%s] close() method of Receiver '%s' with address '%s' was called. " +
+                  "by the time the receiver finished getting created. Hence, disallowing messages from being received. ",
+                connectionId,
+                this.name,
+                this.address
+              );
+              await this.close();
+            } else {
+              if (this._receiver && this.receiverType === ReceiverType.streaming) {
+                this._receiver.addCredit(this.maxConcurrentCalls);
+              }
+            }
+            return;
+          }),
+        connectionId: connectionId,
+        operationType: RetryOperationType.receiverLink,
+        times: Constants.defaultConnectionRetryAttempts,
+        connectionHost: this._context.namespace.config.host,
+        delayInSeconds: 15
+      };
+      // Attempt to reconnect. If a non-retryable error is encountered,
+      // retry will throw and the error will surface to the user's error handler.
+      await retry<void>(config);
     } catch (err) {
       log.error(
         "[%s] An error occurred while processing detached() of Receiver '%s': %O ",
