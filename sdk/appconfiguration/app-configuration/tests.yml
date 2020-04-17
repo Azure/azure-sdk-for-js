@@ -20,10 +20,11 @@ jobs:
         AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
         AZURE_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)
       Matrix:
-        Linux_Node10:
+        Linux_Node10 (GovCloudTest):
           OSVmImage: "ubuntu-16.04"
           TestType: "node"
           NodeVersion: "10.x"
+          CloudType: "AzureUSGovernment"
         Windows_Node10:
           OSVmImage: "windows-2019"
           TestType: "node"
