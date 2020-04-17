@@ -103,6 +103,10 @@ interface SessionMessageHandler {
   // tentatively suggesting proposal #2 for error handling below.
   processMessage(message: ReceivedMessage|ReceivedMessageWithLock, context: SessionContext);
   processError(err: Error, context: { sessionId: string });
+
+  // these names are consistent with EventHubs and seem like they'd be okay with ServiceBus as well.
+  processInitialize(context: { sessionId: string });
+  processClose(context: { sessionId: string });
 }
 
 interface SessionManager {
@@ -137,6 +141,19 @@ can do a few things:
     a more clear winner.
 
     #2 is also the way that .NET currently handles passing in settlement methods, etc... in their `ServiceBusProcessor`.
+
+### Lifetime management of underlying SessionReceivers
+
+One idea floated was to allow users to `close()` the underlying receivers to indicate that
+the processing of the session was "complete" rather than reading all messages from a session.
+
+This pattern will not work within Service Bus as-is. When asking for sessions from Service Bus
+it will return (with equal precedence) _any_ session that still has messages in it. This means
+that a user could `close()` a session in order to stop reading from it and then, on next accept,
+get the _same_ session again.
+
+Based on this our design should encourage users to read a session to completion (relying more on
+max session lock time + max idle time per session).
 
 ### Can this interface be a Receiver<MessageT>
 
