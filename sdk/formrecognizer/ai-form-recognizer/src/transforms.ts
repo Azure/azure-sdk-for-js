@@ -507,7 +507,7 @@ export function toReceiptResultResponse(
     version: result.analyzeResult!.version,
     receipts: result.analyzeResult!.documentResults!.map((d) => {
       const receipt = toRecognizedReceipt(d, pages);
-      return toReceiptWithLocale({...receipt, locale: "US"}); // default to US until service returns locale info.
+      return toReceiptWithLocale({ ...receipt, locale: "US" }); // default to US until service returns locale info.
     })
   };
 }

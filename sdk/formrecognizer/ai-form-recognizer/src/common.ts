@@ -31,7 +31,7 @@ export async function toRequestBody(
   } else {
     // cache stream to allow retry
     if (isReadableStream(body)) {
-      return await streamToBuffer(body, MAX_INPUT_DOCUMENT_SIZE);
+      return streamToBuffer(body, MAX_INPUT_DOCUMENT_SIZE);
     }
 
     return body as HttpRequestBody;
@@ -87,7 +87,7 @@ export async function getContentType(
   } else if (isBlob(data)) {
     // Blob
     const arrayPromise = new Promise<ArrayBuffer>(function(resolve) {
-      var reader = new FileReader();
+      const reader = new FileReader();
 
       reader.onloadend = function() {
         resolve(reader.result as ArrayBuffer);

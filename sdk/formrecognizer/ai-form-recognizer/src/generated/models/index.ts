@@ -132,7 +132,7 @@ export interface TrainingDocumentInfo {
   /**
    * Total number of pages trained.
    */
-  pages: number;
+  pageCount: number;
   /**
    * List of errors.
    */

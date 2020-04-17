@@ -53,3 +53,13 @@ directive:
     transform: >
       $["x-ms-client-name"] = "lastModified";
 ```
+
+### `TrainingDocumentInfo.pages` => `TrainingDocumentInfo.pageCount`
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.TrainingDocumentInfo.properties.pages
+    transform: >
+      $["x-ms-client-name"] = "pageCount";
+```
