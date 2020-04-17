@@ -7,7 +7,7 @@ import { delay, ReceivedMessage } from "../src";
 import { getAlreadyReceivingErrorMsg } from "../src/util/errors";
 import { checkWithTimeout, TestClientType, TestMessage } from "./utils/testUtils";
 import { StreamingReceiver } from "../src/core/streamingReceiver";
-
+import { translate } from "@azure/core-amqp";
 import {
   DispositionType,
   ServiceBusMessageImpl,
@@ -1108,5 +1108,178 @@ describe("Streaming", () => {
       await beforeEachTest(TestClientType.UnpartitionedQueue, "receiveAndDelete");
       await testReceiveMessages();
     });
+  });
+});
+
+describe("Streaming - onDetached", function(): void {
+  afterEach(() => {
+    return afterEachTest();
+  });
+
+  it("doesn't call user's error handler on non-retryable errors", async function(): Promise<void> {
+    /**
+     * If onDetached is called with a non-retryable error, it is assumed that
+     * the onSessionError or onAmqpError has already called the user's
+     * error handler.
+     */
+    // Create the sender and receiver.
+    await beforeEachTest(
+      TestClientType.UnpartitionedQueue,
+      TestClientType.UnpartitionedQueue,
+      ReceiveMode.receiveAndDelete
+    );
+    // Send a message so we can be sure when the receiver is open and active.
+    await sender.send(TestMessage.getSample());
+    const receivedErrors: any[] = [];
+
+    let receiverIsActiveResolver: Function;
+    const receiverIsActive = new Promise((resolve) => {
+      receiverIsActiveResolver = resolve;
+    });
+    // Start the receiver.
+    receiver.registerMessageHandler(
+      async () => {
+        // Since we've received a message, mark the receiver as active.
+        receiverIsActiveResolver();
+      },
+      (err) => {
+        receivedErrors.push(err);
+      }
+    );
+
+    // Wait until we're sure the receiver is open and receiving messages.
+    await receiverIsActive;
+
+    // Simulate onDetached being called with a non-retryable error.
+    const nonRetryableError = translate(new Error(`I break systems.`));
+    nonRetryableError.retryable = false;
+    await receiver["_context"].streamingReceiver!.onDetached(nonRetryableError);
+
+    receivedErrors.length.should.equal(0, "Unexpected number of errors received.");
+  });
+
+  it("does call user's error handler on non-retryable errors due to disconnect", async function(): Promise<
+    void
+  > {
+    // Create the sender and receiver.
+    await beforeEachTest(
+      TestClientType.UnpartitionedQueue,
+      TestClientType.UnpartitionedQueue,
+      ReceiveMode.receiveAndDelete
+    );
+    // Send a message so we can be sure when the receiver is open and active.
+    await sender.send(TestMessage.getSample());
+    const receivedErrors: any[] = [];
+
+    let receiverIsActiveResolver: Function;
+    const receiverIsActive = new Promise((resolve) => {
+      receiverIsActiveResolver = resolve;
+    });
+    // Start the receiver.
+    receiver.registerMessageHandler(
+      async () => {
+        // Since we've received a message, mark the receiver as active.
+        receiverIsActiveResolver();
+      },
+      (err) => {
+        receivedErrors.push(err);
+      }
+    );
+
+    // Wait until we're sure the receiver is open and receiving messages.
+    await receiverIsActive;
+
+    // Simulate onDetached being called with a non-retryable error.
+    const nonRetryableError = translate(new Error(`I break systems.`));
+    nonRetryableError.retryable = false;
+    await receiver["_context"].streamingReceiver!.onDetached(nonRetryableError, true);
+
+    receivedErrors.length.should.equal(1, "Unexpected number of errors received.");
+  });
+
+  it("doesn't call user's error handler multiple times (disconnect)", async function(): Promise<
+    void
+  > {
+    // Create the sender and receiver.
+    await beforeEachTest(
+      TestClientType.UnpartitionedQueue,
+      TestClientType.UnpartitionedQueue,
+      ReceiveMode.receiveAndDelete
+    );
+    // Send a message so we can be sure when the receiver is open and active.
+    await sender.send(TestMessage.getSample());
+    const receivedErrors: any[] = [];
+
+    let receiverIsActiveResolver: Function;
+    const receiverIsActive = new Promise((resolve) => {
+      receiverIsActiveResolver = resolve;
+    });
+    // Start the receiver.
+    receiver.registerMessageHandler(
+      async () => {
+        // Since we've received a message, mark the receiver as active.
+        receiverIsActiveResolver();
+      },
+      (err) => {
+        receivedErrors.push(err);
+      }
+    );
+
+    // Wait until we're sure the receiver is open and receiving messages.
+    await receiverIsActive;
+
+    // Simulate onDetached being called multiple times with non-retryable errors.
+    const nonRetryableError = translate(new Error(`I break systems.`));
+    nonRetryableError.retryable = false;
+    await Promise.all([
+      receiver["_context"].streamingReceiver!.onDetached(nonRetryableError, true),
+      receiver["_context"].streamingReceiver!.onDetached(nonRetryableError, true)
+    ]);
+
+    receivedErrors.length.should.equal(1, "Unexpected number of errors received.");
+  });
+
+  it("doesn't call user's error handler multiple times (retryable)", async function(): Promise<
+    void
+  > {
+    // Create the sender and receiver.
+    await beforeEachTest(
+      TestClientType.UnpartitionedQueue,
+      TestClientType.UnpartitionedQueue,
+      ReceiveMode.receiveAndDelete
+    );
+    // Send a message so we can be sure when the receiver is open and active.
+    await sender.send(TestMessage.getSample());
+    const receivedErrors: any[] = [];
+
+    let receiverIsActiveResolver: Function;
+    const receiverIsActive = new Promise((resolve) => {
+      receiverIsActiveResolver = resolve;
+    });
+    // Start the receiver.
+    receiver.registerMessageHandler(
+      async () => {
+        // Since we've received a message, mark the receiver as active.
+        receiverIsActiveResolver();
+      },
+      (err) => {
+        receivedErrors.push(err);
+      }
+    );
+
+    // Wait until we're sure the receiver is open and receiving messages.
+    await receiverIsActive;
+
+    // Simulate onDetached being called multiple times with non-retryable and then retryable errors.
+    const nonRetryableError = translate(new Error(`I break systems.`));
+    nonRetryableError.retryable = false;
+    const retryableError = new Error("I temporarily break systems.");
+    (retryableError as any).retryable = true;
+    await Promise.all([
+      receiver["_context"].streamingReceiver!.onDetached(nonRetryableError, true),
+      receiver["_context"].streamingReceiver!.onDetached(retryableError)
+    ]);
+
+    receivedErrors.length.should.equal(1, "Unexpected number of errors received.");
   });
 });

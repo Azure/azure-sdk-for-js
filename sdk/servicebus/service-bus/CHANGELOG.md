@@ -18,6 +18,15 @@
 - Fixes [bug 6816](https://github.com/Azure/azure-sdk-for-js/issues/6816) affecting messages sent using the `scheduleMessage()` and `scheduleMessages()` methods. [PR 7372](https://github.com/Azure/azure-sdk-for-js/pull/7372).
   - Users on version-`1.x.x` of `@azure/service-bus` library had to rely on the [workaround of encoding the message body with `DefaultDataTransformer`](https://github.com/Azure/azure-sdk-for-js/pull/6983) before calling `scheduleMessage()`/`scheduleMessages()` methods. The workaround is no longer needed since the bug has been fixed here starting from version-`7.0.0-preview.1`. [PR 7372](https://github.com/Azure/azure-sdk-for-js/pull/7372).
 
+## 1.1.6 (2020-03-24)
+
+- Removes the `@azure/ms-rest-nodeauth` dependency.
+  This allows users to use any version of `@azure/ms-rest-nodeauth` directly with `@azure/service-bus` without TypeScript compilation errors.
+  Fixes [bug 8041](https://github.com/Azure/azure-sdk-for-js/issues/8041).
+- Fixes an issue where non-retryable errors caused by a connection disconnecting were not getting surfaced to the user's registered error handler
+  when using the `registerMessageHandler` method on a receiver.
+  [PR 8401](https://github.com/Azure/azure-sdk-for-js/pull/8401)
+
 ## 1.1.5 (2020-03-24)
 
 - Removed interfaces related to unreleased management api features from the API surface that were accidentally exported in version 1.1.3
