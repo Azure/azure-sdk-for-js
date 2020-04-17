@@ -968,7 +968,7 @@ export class ServiceBusMessage implements ReceivedMessage {
 
     const isDeferredMessage = this._context.requestResponseLockedMessages.has(this.lockToken!);
 
-    if (isDeferredMessage || ((!receiver || !receiver.isOpen()) && this.sessionId === undefined)) {
+    if (isDeferredMessage || ((!receiver || !receiver.isOpen()) && this.sessionId == undefined)) {
       await this._context.managementClient!.updateDispositionStatus(this.lockToken!, operation, {
         ...options,
         sessionId: this.sessionId
