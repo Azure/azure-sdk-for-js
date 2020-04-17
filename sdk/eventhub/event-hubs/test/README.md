@@ -36,7 +36,7 @@ Then run `rushx test:node` or `rushx test:browser` from your terminal.
 
 ## Unit tests
 
-To run unit tests, go to the root of this library and run `rushx unit-test`. This will run tests in a purely nodejs environment, and in a browser environment using [Karma](https://karma-runner.github.io/latest/index.html). These tests aim to reproduce the behavior of our library against remote endpoints through previously recorded HTTP request and responses. You won't need to have any environment configuration, nor internet access, for these tests to run.
+To run unit tests, go to the root of this library and run `rushx unit-test`. This will run tests in NodeJS and in a browser (through [Karma](https://karma-runner.github.io/latest/index.html)). These tests aim to reproduce the behavior of our library against remote endpoints through previously recorded HTTP request and responses. You won't need to have any environment configuration, nor internet access, for these tests to run.
 
 Keep in mind that if you modify the test files, the API shape of this library, or the underlying network calls, the recordings need to be re-generated.
 
