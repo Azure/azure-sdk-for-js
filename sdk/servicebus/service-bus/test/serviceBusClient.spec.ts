@@ -14,7 +14,11 @@ import {
 import { Sender } from "../src/sender";
 import { getReceiverClosedErrorMsg } from "../src/util/errors";
 import { TestClientType, TestMessage, isMessagingError, checkWithTimeout } from "./utils/testUtils";
-import { DispositionType, ReceivedMessageWithLock } from "../src/serviceBusMessage";
+import {
+  DispositionType,
+  ReceivedMessageWithLock,
+  ServiceBusMessage
+} from "../src/serviceBusMessage";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -27,7 +31,8 @@ dotenv.config();
 import {
   createServiceBusClientForTests,
   ServiceBusClientForTests,
-  EntityName
+  EntityName,
+  testPeekMsgsLength
 } from "./utils/testutils2";
 
 // describe("Create ServiceBusClient and Queue/Topic/Subscription Clients", function(): void {
@@ -61,6 +66,63 @@ import {
 //   should.equal(subscriptionClient.entityPath, "1/Subscriptions/2");
 // });
 // });
+
+describe("Random scheme in the endpoint from connection string", function(): void {
+  let sbClient: ServiceBusClientForTests;
+  let sbClientWithRelaxedEndPoint: ServiceBusClient;
+  let entities: EntityName;
+  let senderClient: Sender;
+  let receiverClient: Receiver<ReceivedMessageWithLock>;
+
+  async function beforeEachTest(testClientType: TestClientType) {
+    sbClient = createServiceBusClientForTests();
+    entities = await sbClient.test.createTestEntities(testClientType);
+    await sbClient.close();
+    sbClientWithRelaxedEndPoint = new ServiceBusClient(
+      getEnvVars().SERVICEBUS_CONNECTION_STRING.replace("sb://", "CheeseBurger://")
+    );
+    senderClient = sbClientWithRelaxedEndPoint.createSender(entities.queue!);
+    receiverClient = !entities.usesSessions
+      ? sbClientWithRelaxedEndPoint.createReceiver(entities.queue!, "peekLock")
+      : sbClientWithRelaxedEndPoint.createSessionReceiver(entities.queue!, "peekLock", {
+          sessionId: TestMessage.sessionId
+        });
+  }
+
+  afterEach(async () => {
+    await senderClient.close();
+    await receiverClient.close();
+    await sbClientWithRelaxedEndPoint.close();
+  });
+
+  async function sendReceiveMsg(testMessages: ServiceBusMessage): Promise<void> {
+    await senderClient.send(testMessages);
+    await testPeekMsgsLength(receiverClient, 1);
+
+    const msgs = await receiverClient.receiveBatch(1);
+
+    should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+    should.equal(msgs.length, 1, "Unexpected number of messages");
+    should.equal(msgs[0].body, testMessages.body, "MessageBody is different than expected");
+    should.equal(msgs[0].messageId, testMessages.messageId, "MessageId is different than expected");
+    should.equal(msgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
+    await msgs[0].complete();
+
+    await testPeekMsgsLength(receiverClient, 0);
+  }
+
+  it("Partitioned Queue: send and receive message", async function(): Promise<void> {
+    await beforeEachTest(TestClientType.PartitionedQueue);
+    await sendReceiveMsg(TestMessage.getSample());
+  });
+
+  it("Unpartitioned Queue With Sessions: send and receive message", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
+    await sendReceiveMsg(TestMessage.getSessionSample());
+  });
+});
 
 describe("Errors with non existing Namespace", function(): void {
   let sbClient: ServiceBusClient;
