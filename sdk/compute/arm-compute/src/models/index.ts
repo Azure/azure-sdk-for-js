@@ -5152,7 +5152,7 @@ export interface GalleryArtifactPublishingProfileBase {
   endOfLifeDate?: Date;
   /**
    * Specifies the storage account type to be used to store the image. This property is not
-   * updatable. Possible values include: 'Standard_LRS', 'Standard_ZRS'
+   * updatable. Possible values include: 'Standard_LRS', 'Standard_ZRS', 'Premium_LRS'
    */
   storageAccountType?: StorageAccountType;
 }
@@ -5587,7 +5587,7 @@ export interface TargetRegion {
   regionalReplicaCount?: number;
   /**
    * Specifies the storage account type to be used to store the image. This property is not
-   * updatable. Possible values include: 'Standard_LRS', 'Standard_ZRS'
+   * updatable. Possible values include: 'Standard_LRS', 'Standard_ZRS', 'Premium_LRS'
    */
   storageAccountType?: StorageAccountType;
   encryption?: EncryptionImages;
@@ -7032,11 +7032,11 @@ export type ReplicationState = 'Unknown' | 'Replicating' | 'Completed' | 'Failed
 
 /**
  * Defines values for StorageAccountType.
- * Possible values include: 'Standard_LRS', 'Standard_ZRS'
+ * Possible values include: 'Standard_LRS', 'Standard_ZRS', 'Premium_LRS'
  * @readonly
  * @enum {string}
  */
-export type StorageAccountType = 'Standard_LRS' | 'Standard_ZRS';
+export type StorageAccountType = 'Standard_LRS' | 'Standard_ZRS' | 'Premium_LRS';
 
 /**
  * Defines values for HostCaching.
