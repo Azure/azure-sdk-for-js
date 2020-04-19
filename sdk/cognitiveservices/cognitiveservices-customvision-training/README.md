@@ -17,60 +17,43 @@ npm install @azure/cognitiveservices-customvision-training
 
 #### nodejs - Authentication, client creation and getDomains  as an example written in TypeScript.
 
+##### Install @azure/ms-rest-nodeauth
+
+- Please install minimum version of `"@azure/ms-rest-nodeauth": "^3.0.0"`.
+```bash
+npm install @azure/ms-rest-nodeauth@"^3.0.0"
+```
+
 ##### Sample code
-The following sample performs a quick test of the given image based on your custom vision training. To know more, refer to the [Azure Documentation on Custom Vision Services](https://docs.microsoft.com/en-us/azure/cognitive-services/custom-vision-service/home).
 
 ```typescript
-import {
-  TrainingAPIClient,
-  TrainingAPIModels
-} from "@azure/cognitiveservices-customvision-training";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
+import { TrainingAPIClient, TrainingAPIModels, TrainingAPIMappers } from "@azure/cognitiveservices-customvision-training";
+const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
-async function main(): Promise<void> {
-  const customVisionTrainingKey =
-    process.env["customVisionTrainingKey"] || "<customVisionTrainingKey>";
-  const customVisionTrainingEndPoint =
-    process.env["customVisionTrainingEndPoint"] ||
-    "<customVisionTrainingEndPoint>";
-  const projectId = process.env["projectId"] || "<projectId>";
-  const iterationId = process.env["iterationId"] || "<iterationId>";
-
-  const imageURL =
-    "https://www.atlantatrails.com/wp-content/uploads/2019/02/north-georgia-waterfalls-1024x683.jpg";
-
-  const client = new TrainingAPIClient(
-    customVisionTrainingKey,
-    customVisionTrainingEndPoint
-  );
-
-  const options: TrainingAPIModels.TrainingAPIClientQuickTestImageUrlOptionalParams = {
-    iterationId: iterationId
-  };
-
-  client
-    .quickTestImageUrl(
-      projectId,
-      {
-        url: imageURL
-      },
-      options
-    )
-    .then(result => {
-      console.log("The result is: ");
-      console.log(result);
-    })
-    .catch(err => {
-      console.log("An error occurred:");
-      console.error(err);
-    });
-}
-
-main();
+msRestNodeAuth.interactiveLogin().then((creds) => {
+  const client = new TrainingAPIClient(creds, subscriptionId);
+  client.getDomains().then((result) => {
+    console.log("The result is:");
+    console.log(result);
+  });
+}).catch((err) => {
+  console.error(err);
+});
 ```
 
 #### browser - Authentication, client creation and getDomains  as an example written in JavaScript.
 
+##### Install @azure/ms-rest-browserauth
+
+```bash
+npm install @azure/ms-rest-browserauth
+```
+
 ##### Sample code
+
+See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
 
 - index.html
 ```html
@@ -79,51 +62,36 @@ main();
   <head>
     <title>@azure/cognitiveservices-customvision-training sample</title>
     <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
+    <script src="node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"></script>
     <script src="node_modules/@azure/cognitiveservices-customvision-training/dist/cognitiveservices-customvision-training.js"></script>
     <script type="text/javascript">
-      const customVisionTrainingKey = "<YOUR_CUSTOM_VISION_TRAINING_KEY>";
-      const customVisionTrainingEndPoint =
-        "<YOUR_CUSTOM_VISION_TRAINING_ENDPOINT>";
-      const projectId = "<YOUR_PROJECT_ID>";
-      const iterationId = "<YOUR_ITERATION_ID>";
-
-      const imageURL =
-        "https://www.atlantatrails.com/wp-content/uploads/2019/02/north-georgia-waterfalls-1024x683.jpg";
-
-      const client = new Azure.CognitiveservicesCustomvisionTraining.TrainingAPIClient(
-        customVisionTrainingKey,
-        customVisionTrainingEndPoint
-      );
-
-      const options = {
-        iterationId: iterationId
-      };
-
-      client
-        .quickTestImageUrl(
-          projectId,
-          {
-            url: imageURL
-          },
-          options
-        )
-        .then(result => {
-          console.log("The result is: ");
+      const subscriptionId = "<Subscription_Id>";
+      const authManager = new msAuth.AuthManager({
+        clientId: "<client id for your Azure AD app>",
+        tenant: "<optional tenant for your organization>"
+      });
+      authManager.finalizeLogin().then((res) => {
+        if (!res.isLoggedIn) {
+          // may cause redirects
+          authManager.login();
+        }
+        const client = new Azure.CognitiveservicesCustomvisionTraining.TrainingAPIClient(res.creds, subscriptionId);
+        client.getDomains().then((result) => {
+          console.log("The result is:");
           console.log(result);
-        })
-        .catch(err => {
+        }).catch((err) => {
           console.log("An error occurred:");
           console.error(err);
         });
+      });
     </script>
   </head>
   <body></body>
 </html>
-
 ```
 
 ## Related projects
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcognitiveservices%2Fcognitiveservices-customvision-training%2FREADME.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/cognitiveservices/cognitiveservices-customvision-training/README.png)
