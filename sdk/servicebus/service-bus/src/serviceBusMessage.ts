@@ -963,11 +963,15 @@ export class ServiceBusMessage implements ReceivedMessage {
     options?: DispositionStatusOptions
   ): Promise<void> {
     const dispositionType = getDispositionType(operation);
-    const receiver = this.getReceiverFromContext();
-    this.throwIfMessageCannotBeSettled(receiver, dispositionType!);
-
     const isDeferredMessage = this._context.requestResponseLockedMessages.has(this.lockToken!);
+    const receiver = isDeferredMessage
+      ? undefined
+      : this._context.getReceiver(this.delivery.link.name, this.sessionId);
+    if (!isDeferredMessage) this.throwIfMessageCannotBeSettled(receiver, dispositionType!);
 
+    // Message Settlement with managementLink
+    // 1. If the received message is deferred
+    // 2. If the received message is without a receiveLink that needs backup managementLink for message settlement
     if (isDeferredMessage || ((!receiver || !receiver.isOpen()) && this.sessionId == undefined)) {
       await this._context.managementClient!.updateDispositionStatus(this.lockToken!, operation, {
         ...options,
@@ -982,13 +986,7 @@ export class ServiceBusMessage implements ReceivedMessage {
 
     return receiver!.settleMessage(this, dispositionType!, options);
   }
-  private getReceiverFromContext() {
-    if (this.delivery.link) {
-      return this._context.getReceiver(this.delivery.link.name, this.sessionId);
-    } else {
-      return undefined;
-    }
-  }
+
   /**
    * Creates a clone of the current message to allow it to be re-sent to the queue
    * @returns ServiceBusMessage
@@ -1033,7 +1031,7 @@ export class ServiceBusMessage implements ReceivedMessage {
       );
     } else if (this.delivery.remote_settled) {
       error = new Error(`Failed to ${operation} the message as this message is already settled.`);
-    } else if ((!receiver || !receiver.isOpen()) && this.sessionId !== undefined) {
+    } else if ((!receiver || !receiver.isOpen()) && this.sessionId != undefined) {
       error = translate({
         description:
           `Failed to ${operation} the message as the AMQP link with which the message was ` +
