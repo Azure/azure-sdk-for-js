@@ -28,235 +28,6 @@ export class Workspaces {
   }
 
   /**
-   * Disables an intelligence pack for a given workspace.
-   * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
-   * @param workspaceName Name of the Log Analytics Workspace.
-   * @param intelligencePackName The name of the intelligence pack to be disabled.
-   * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
-   */
-  disableIntelligencePack(resourceGroupName: string, workspaceName: string, intelligencePackName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
-   * @param workspaceName Name of the Log Analytics Workspace.
-   * @param intelligencePackName The name of the intelligence pack to be disabled.
-   * @param callback The callback
-   */
-  disableIntelligencePack(resourceGroupName: string, workspaceName: string, intelligencePackName: string, callback: msRest.ServiceCallback<void>): void;
-  /**
-   * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
-   * @param workspaceName Name of the Log Analytics Workspace.
-   * @param intelligencePackName The name of the intelligence pack to be disabled.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  disableIntelligencePack(resourceGroupName: string, workspaceName: string, intelligencePackName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  disableIntelligencePack(resourceGroupName: string, workspaceName: string, intelligencePackName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        workspaceName,
-        intelligencePackName,
-        options
-      },
-      disableIntelligencePackOperationSpec,
-      callback);
-  }
-
-  /**
-   * Enables an intelligence pack for a given workspace.
-   * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
-   * @param workspaceName Name of the Log Analytics Workspace.
-   * @param intelligencePackName The name of the intelligence pack to be enabled.
-   * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
-   */
-  enableIntelligencePack(resourceGroupName: string, workspaceName: string, intelligencePackName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
-   * @param workspaceName Name of the Log Analytics Workspace.
-   * @param intelligencePackName The name of the intelligence pack to be enabled.
-   * @param callback The callback
-   */
-  enableIntelligencePack(resourceGroupName: string, workspaceName: string, intelligencePackName: string, callback: msRest.ServiceCallback<void>): void;
-  /**
-   * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
-   * @param workspaceName Name of the Log Analytics Workspace.
-   * @param intelligencePackName The name of the intelligence pack to be enabled.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  enableIntelligencePack(resourceGroupName: string, workspaceName: string, intelligencePackName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  enableIntelligencePack(resourceGroupName: string, workspaceName: string, intelligencePackName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        workspaceName,
-        intelligencePackName,
-        options
-      },
-      enableIntelligencePackOperationSpec,
-      callback);
-  }
-
-  /**
-   * Lists all the intelligence packs possible and whether they are enabled or disabled for a given
-   * workspace.
-   * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
-   * @param workspaceName Name of the Log Analytics Workspace.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.WorkspacesListIntelligencePacksResponse>
-   */
-  listIntelligencePacks(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkspacesListIntelligencePacksResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
-   * @param workspaceName Name of the Log Analytics Workspace.
-   * @param callback The callback
-   */
-  listIntelligencePacks(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.IntelligencePack[]>): void;
-  /**
-   * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
-   * @param workspaceName Name of the Log Analytics Workspace.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listIntelligencePacks(resourceGroupName: string, workspaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IntelligencePack[]>): void;
-  listIntelligencePacks(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IntelligencePack[]>, callback?: msRest.ServiceCallback<Models.IntelligencePack[]>): Promise<Models.WorkspacesListIntelligencePacksResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        workspaceName,
-        options
-      },
-      listIntelligencePacksOperationSpec,
-      callback) as Promise<Models.WorkspacesListIntelligencePacksResponse>;
-  }
-
-  /**
-   * Gets the shared keys for a workspace.
-   * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
-   * @param workspaceName Name of the Log Analytics Workspace.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.WorkspacesGetSharedKeysResponse>
-   */
-  getSharedKeys(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkspacesGetSharedKeysResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
-   * @param workspaceName Name of the Log Analytics Workspace.
-   * @param callback The callback
-   */
-  getSharedKeys(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.SharedKeys>): void;
-  /**
-   * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
-   * @param workspaceName Name of the Log Analytics Workspace.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getSharedKeys(resourceGroupName: string, workspaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SharedKeys>): void;
-  getSharedKeys(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SharedKeys>, callback?: msRest.ServiceCallback<Models.SharedKeys>): Promise<Models.WorkspacesGetSharedKeysResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        workspaceName,
-        options
-      },
-      getSharedKeysOperationSpec,
-      callback) as Promise<Models.WorkspacesGetSharedKeysResponse>;
-  }
-
-  /**
-   * Gets a list of usage metrics for a workspace.
-   * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.WorkspacesListUsagesResponse>
-   */
-  listUsages(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkspacesListUsagesResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
-   * @param callback The callback
-   */
-  listUsages(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.WorkspaceListUsagesResult>): void;
-  /**
-   * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listUsages(resourceGroupName: string, workspaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkspaceListUsagesResult>): void;
-  listUsages(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkspaceListUsagesResult>, callback?: msRest.ServiceCallback<Models.WorkspaceListUsagesResult>): Promise<Models.WorkspacesListUsagesResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        workspaceName,
-        options
-      },
-      listUsagesOperationSpec,
-      callback) as Promise<Models.WorkspacesListUsagesResponse>;
-  }
-
-  /**
-   * Gets a list of management groups connected to a workspace.
-   * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.WorkspacesListManagementGroupsResponse>
-   */
-  listManagementGroups(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkspacesListManagementGroupsResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
-   * @param callback The callback
-   */
-  listManagementGroups(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.WorkspaceListManagementGroupsResult>): void;
-  /**
-   * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listManagementGroups(resourceGroupName: string, workspaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkspaceListManagementGroupsResult>): void;
-  listManagementGroups(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkspaceListManagementGroupsResult>, callback?: msRest.ServiceCallback<Models.WorkspaceListManagementGroupsResult>): Promise<Models.WorkspacesListManagementGroupsResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        workspaceName,
-        options
-      },
-      listManagementGroupsOperationSpec,
-      callback) as Promise<Models.WorkspacesListManagementGroupsResponse>;
-  }
-
-  /**
-   * Gets workspaces in a resource group.
-   * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.WorkspacesListByResourceGroupResponse>
-   */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkspacesListByResourceGroupResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
-   * @param callback The callback
-   */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.WorkspaceListResult>): void;
-  /**
-   * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkspaceListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkspaceListResult>, callback?: msRest.ServiceCallback<Models.WorkspaceListResult>): Promise<Models.WorkspacesListByResourceGroupResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        options
-      },
-      listByResourceGroupOperationSpec,
-      callback) as Promise<Models.WorkspacesListByResourceGroupResponse>;
-  }
-
-  /**
    * Gets the workspaces in a subscription.
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkspacesListResponse>
@@ -281,8 +52,36 @@ export class Workspaces {
   }
 
   /**
+   * Gets workspaces in a resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WorkspacesListByResourceGroupResponse>
+   */
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkspacesListByResourceGroupResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param callback The callback
+   */
+  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.WorkspaceListResult>): void;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkspaceListResult>): void;
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkspaceListResult>, callback?: msRest.ServiceCallback<Models.WorkspaceListResult>): Promise<Models.WorkspacesListByResourceGroupResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        options
+      },
+      listByResourceGroupOperationSpec,
+      callback) as Promise<Models.WorkspacesListByResourceGroupResponse>;
+  }
+
+  /**
    * Create or update a workspace.
-   * @param resourceGroupName The resource group name of the workspace.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param parameters The parameters required to create or update a workspace.
    * @param [options] The optional parameters
@@ -295,53 +94,33 @@ export class Workspaces {
 
   /**
    * Deletes a workspace instance.
-   * @param resourceGroupName The resource group name of the workspace.
-   * @param workspaceName Name of the Log Analytics Workspace.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
-  /**
-   * @param resourceGroupName The resource group name of the workspace.
-   * @param workspaceName Name of the Log Analytics Workspace.
-   * @param callback The callback
-   */
-  deleteMethod(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<void>): void;
-  /**
-   * @param resourceGroupName The resource group name of the workspace.
-   * @param workspaceName Name of the Log Analytics Workspace.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  deleteMethod(resourceGroupName: string, workspaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        workspaceName,
-        options
-      },
-      deleteMethodOperationSpec,
-      callback);
+  deleteMethod(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName,workspaceName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
    * Gets a workspace instance.
-   * @param resourceGroupName The resource group name of the workspace.
-   * @param workspaceName Name of the Log Analytics Workspace.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkspacesGetResponse>
    */
   get(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkspacesGetResponse>;
   /**
-   * @param resourceGroupName The resource group name of the workspace.
-   * @param workspaceName Name of the Log Analytics Workspace.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
    * @param callback The callback
    */
   get(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.Workspace>): void;
   /**
-   * @param resourceGroupName The resource group name of the workspace.
-   * @param workspaceName Name of the Log Analytics Workspace.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -359,29 +138,29 @@ export class Workspaces {
 
   /**
    * Updates a workspace.
-   * @param resourceGroupName The resource group name of the workspace.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param parameters The parameters required to patch a workspace.
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkspacesUpdateResponse>
    */
-  update(resourceGroupName: string, workspaceName: string, parameters: Models.Workspace, options?: msRest.RequestOptionsBase): Promise<Models.WorkspacesUpdateResponse>;
+  update(resourceGroupName: string, workspaceName: string, parameters: Models.WorkspacePatch, options?: msRest.RequestOptionsBase): Promise<Models.WorkspacesUpdateResponse>;
   /**
-   * @param resourceGroupName The resource group name of the workspace.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param parameters The parameters required to patch a workspace.
    * @param callback The callback
    */
-  update(resourceGroupName: string, workspaceName: string, parameters: Models.Workspace, callback: msRest.ServiceCallback<Models.Workspace>): void;
+  update(resourceGroupName: string, workspaceName: string, parameters: Models.WorkspacePatch, callback: msRest.ServiceCallback<Models.Workspace>): void;
   /**
-   * @param resourceGroupName The resource group name of the workspace.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param parameters The parameters required to patch a workspace.
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, workspaceName: string, parameters: Models.Workspace, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Workspace>): void;
-  update(resourceGroupName: string, workspaceName: string, parameters: Models.Workspace, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Workspace>, callback?: msRest.ServiceCallback<Models.Workspace>): Promise<Models.WorkspacesUpdateResponse> {
+  update(resourceGroupName: string, workspaceName: string, parameters: Models.WorkspacePatch, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Workspace>): void;
+  update(resourceGroupName: string, workspaceName: string, parameters: Models.WorkspacePatch, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Workspace>, callback?: msRest.ServiceCallback<Models.Workspace>): Promise<Models.WorkspacesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -394,8 +173,40 @@ export class Workspaces {
   }
 
   /**
+   * Gets the available service tiers for the workspace.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WorkspacesAvailableServiceTiersResponse>
+   */
+  availableServiceTiers(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkspacesAvailableServiceTiersResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
+   * @param callback The callback
+   */
+  availableServiceTiers(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.AvailableServiceTier[]>): void;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  availableServiceTiers(resourceGroupName: string, workspaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailableServiceTier[]>): void;
+  availableServiceTiers(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailableServiceTier[]>, callback?: msRest.ServiceCallback<Models.AvailableServiceTier[]>): Promise<Models.WorkspacesAvailableServiceTiersResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        workspaceName,
+        options
+      },
+      availableServiceTiersOperationSpec,
+      callback) as Promise<Models.WorkspacesAvailableServiceTiersResponse>;
+  }
+
+  /**
    * Create or update a workspace.
-   * @param resourceGroupName The resource group name of the workspace.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param parameters The parameters required to create or update a workspace.
    * @param [options] The optional parameters
@@ -412,193 +223,28 @@ export class Workspaces {
       beginCreateOrUpdateOperationSpec,
       options);
   }
+
+  /**
+   * Deletes a workspace instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginDeleteMethod(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        workspaceName,
+        options
+      },
+      beginDeleteMethodOperationSpec,
+      options);
+  }
 }
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
-const disableIntelligencePackOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/intelligencePacks/{intelligencePackName}/Disable",
-  urlParameters: [
-    Parameters.resourceGroupName0,
-    Parameters.workspaceName0,
-    Parameters.intelligencePackName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const enableIntelligencePackOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/intelligencePacks/{intelligencePackName}/Enable",
-  urlParameters: [
-    Parameters.resourceGroupName0,
-    Parameters.workspaceName0,
-    Parameters.intelligencePackName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const listIntelligencePacksOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/intelligencePacks",
-  urlParameters: [
-    Parameters.resourceGroupName0,
-    Parameters.workspaceName0,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: {
-        serializedName: "parsedResponse",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "IntelligencePack"
-            }
-          }
-        }
-      }
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const getSharedKeysOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/sharedKeys",
-  urlParameters: [
-    Parameters.resourceGroupName0,
-    Parameters.workspaceName0,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.SharedKeys
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const listUsagesOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/usages",
-  urlParameters: [
-    Parameters.resourceGroupName0,
-    Parameters.workspaceName0,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.WorkspaceListUsagesResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const listManagementGroupsOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/managementGroups",
-  urlParameters: [
-    Parameters.resourceGroupName0,
-    Parameters.workspaceName0,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.WorkspaceListManagementGroupsResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const listByResourceGroupOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces",
-  urlParameters: [
-    Parameters.resourceGroupName0,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.WorkspaceListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.OperationalInsights/workspaces",
@@ -622,12 +268,11 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const deleteMethodOperationSpec: msRest.OperationSpec = {
-  httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}",
+const listByResourceGroupOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces",
   urlParameters: [
-    Parameters.resourceGroupName1,
-    Parameters.workspaceName0,
+    Parameters.resourceGroupName,
     Parameters.subscriptionId
   ],
   queryParameters: [
@@ -637,8 +282,9 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   responses: {
-    200: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.WorkspaceListResult
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -650,8 +296,8 @@ const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}",
   urlParameters: [
-    Parameters.resourceGroupName1,
-    Parameters.workspaceName0,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
     Parameters.subscriptionId
   ],
   queryParameters: [
@@ -675,8 +321,8 @@ const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
   path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}",
   urlParameters: [
-    Parameters.resourceGroupName1,
-    Parameters.workspaceName1,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
     Parameters.subscriptionId
   ],
   queryParameters: [
@@ -688,7 +334,7 @@ const updateOperationSpec: msRest.OperationSpec = {
   requestBody: {
     parameterPath: "parameters",
     mapper: {
-      ...Mappers.Workspace,
+      ...Mappers.WorkspacePatch,
       required: true
     }
   },
@@ -703,12 +349,48 @@ const updateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const availableServiceTiersOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/availableServiceTiers",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AvailableServiceTier"
+            }
+          }
+        }
+      }
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}",
   urlParameters: [
-    Parameters.resourceGroupName1,
-    Parameters.workspaceName1,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
     Parameters.subscriptionId
   ],
   queryParameters: [
@@ -731,6 +413,32 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     201: {
       bodyMapper: Mappers.Workspace
     },
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
+    202: {},
+    204: {},
     default: {
       bodyMapper: Mappers.CloudError
     }

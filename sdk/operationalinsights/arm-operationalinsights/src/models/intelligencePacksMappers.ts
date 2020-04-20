@@ -8,7 +8,5 @@
 
 export {
   CloudError,
-  Operation,
-  OperationDisplay,
-  OperationListResult
+  IntelligencePack
 } from "../models/mappers";
