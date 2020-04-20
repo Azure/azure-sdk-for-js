@@ -5,7 +5,7 @@ import { assert } from "chai";
 import fs from "fs-extra";
 import path from "path";
 
-// import { getTrainingContainerSasUrl } from "../util/trainingContainer";
+import { getTrainingContainerSasUrl } from "../util/trainingContainer";
 import { FormRecognizerClient, AzureKeyCredential } from '../../src';
 import { env } from "@azure/test-utils-recorder";
 // import { URLBuilder } from '@azure/core-http';
@@ -19,9 +19,8 @@ describe("FormTrainingClient NodeJS only", () => {
   const trainingClient = recognizerClient.getFormTrainingClient();
 
   it("trains model with forms and no labels", async () => {
-    // const containerSasUrl = getTrainingContainerSasUrl();
-    // assert.ok(containerSasUrl, "Expect valid container sas url");
-    const containerSasUrl = "<get the url to in the container>";
+    const containerSasUrl = getTrainingContainerSasUrl();
+    assert.ok(containerSasUrl, "Expect valid container sas url");
 
     const poller = await trainingClient.beginTraining(containerSasUrl, false);
     await poller.pollUntilDone();
@@ -43,9 +42,8 @@ describe("FormTrainingClient NodeJS only", () => {
   });
 
   it("trains model with forms and labels", async () => {
-    // const containerSasUrl = getTrainingContainerSasUrl();
-    // assert.ok(containerSasUrl, "Expect valid container sas url");
-    const containerSasUrl = "<get the url to a form in the container>";
+    const containerSasUrl = getTrainingContainerSasUrl();
+    assert.ok(containerSasUrl, "Expect valid container sas url");
 
     const poller = await trainingClient.beginTraining(containerSasUrl, true);
     await poller.pollUntilDone();
@@ -67,9 +65,8 @@ describe("FormTrainingClient NodeJS only", () => {
   });
 
   it("trains model with forms and no labels including sub folders", async () => {
-    // const containerSasUrl = getTrainingContainerSasUrl();
-    // assert.ok(containerSasUrl, "Expect valid container sas url");
-    const containerSasUrl = "<get the url to a form in the container>";
+    const containerSasUrl = getTrainingContainerSasUrl();
+    assert.ok(containerSasUrl, "Expect valid container sas url");
 
     const poller = await trainingClient.beginTraining(containerSasUrl, false, {
       includeSubFolders: true
@@ -85,9 +82,8 @@ describe("FormTrainingClient NodeJS only", () => {
   });
 
   it("trains model with forms and no labels specifying prefix ", async () => {
-    // const containerSasUrl = getTrainingContainerSasUrl();
-    // assert.ok(containerSasUrl, "Expect valid container sas url");
-    const containerSasUrl = "<get the url to a form in the container>";
+    const containerSasUrl = getTrainingContainerSasUrl();
+    assert.ok(containerSasUrl, "Expect valid container sas url");
 
     const poller = await trainingClient.beginTraining(containerSasUrl, false, {
       prefix: "Form_"
@@ -130,8 +126,8 @@ describe("FormRecognizerClient form recognition NodeJS only", () => {
   });
 
   it("recognizes form from a url to a jpeg file using model without labels", async () => {
-    // const containerSasUrl = getTrainingContainerSasUrl();
-    // assert.ok(containerSasUrl, "Expect valid container sas url");
+    const containerSasUrl = getTrainingContainerSasUrl();
+    assert.ok(containerSasUrl, "Expect valid container sas url");
     const url = "<get a blob url to upload a form to the container>";
 
     assert.ok(unlabeledModelId, "Expecting valid model id from training without labels")
