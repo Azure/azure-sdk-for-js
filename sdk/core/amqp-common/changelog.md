@@ -1,3 +1,7 @@
+### 2020-04-01 1.0.0-preview.13
+
+- Adds capability for a `ConnectionContextBase` object to create a new rhea-promise `Connection` object.
+
 ### 2020-04-01 1.0.0-preview.12
 
 - Removes the `@azure/ms-rest-nodeauth` dependency.
