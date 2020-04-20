@@ -4072,8 +4072,11 @@ export const WebtestLocationAvailabilityCriteria: msRest.CompositeMapper = {
   serializedName: "Microsoft.Azure.Monitor.WebtestLocationAvailabilityCriteria",
   type: {
     name: "Composite",
+    polymorphicDiscriminator: MetricAlertCriteria.type.polymorphicDiscriminator,
+    uberParent: "MetricAlertCriteria",
     className: "WebtestLocationAvailabilityCriteria",
     modelProperties: {
+      ...MetricAlertCriteria.type.modelProperties,
       webTestId: {
         required: true,
         serializedName: "webTestId",
@@ -4095,7 +4098,8 @@ export const WebtestLocationAvailabilityCriteria: msRest.CompositeMapper = {
           name: "Number"
         }
       }
-    }
+    },
+    additionalProperties: MetricAlertCriteria.type.additionalProperties
   }
 };
 
@@ -5171,6 +5175,7 @@ export const discriminators = {
   'MetricAlertCriteria' : MetricAlertCriteria,
   'MultiMetricCriteria.StaticThresholdCriterion' : MetricCriteria,
   'MetricAlertCriteria.Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria' : MetricAlertSingleResourceMultipleMetricCriteria,
+  'MetricAlertCriteria.Microsoft.Azure.Monitor.WebtestLocationAvailabilityCriteria' : WebtestLocationAvailabilityCriteria,
   'MultiMetricCriteria' : MultiMetricCriteria,
   'MetricAlertCriteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria' : MetricAlertMultipleResourceMultipleMetricCriteria,
   'MultiMetricCriteria.DynamicThresholdCriterion' : DynamicMetricCriteria,

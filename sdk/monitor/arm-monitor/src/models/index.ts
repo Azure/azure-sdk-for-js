@@ -2119,7 +2119,7 @@ export interface MetricAlertAction {
 /**
  * Contains the possible cases for MetricAlertCriteria.
  */
-export type MetricAlertCriteriaUnion = MetricAlertCriteria | MetricAlertSingleResourceMultipleMetricCriteria | MetricAlertMultipleResourceMultipleMetricCriteria;
+export type MetricAlertCriteriaUnion = MetricAlertCriteria | MetricAlertSingleResourceMultipleMetricCriteria | WebtestLocationAvailabilityCriteria | MetricAlertMultipleResourceMultipleMetricCriteria;
 
 /**
  * The rule criteria that defines the conditions of the alert rule.
@@ -2403,6 +2403,10 @@ export interface MetricAlertSingleResourceMultipleMetricCriteria {
  * Specifies the metric alert rule criteria for a web test resource.
  */
 export interface WebtestLocationAvailabilityCriteria {
+  /**
+   * Polymorphic Discriminator
+   */
+  odatatype: "Microsoft.Azure.Monitor.WebtestLocationAvailabilityCriteria";
   /**
    * The Application Insights web test Id.
    */
