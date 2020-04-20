@@ -129,6 +129,40 @@ Run `rush build -t <packagename>` to build a single project, and all local proje
 
 By default, Rush only displays things written to `STDERR`. If you want to see the full output, pass `--verbose` to any of the build commands. This is also true for script commands (see below).
 
+### Testing
+
+Once the project has successfully built, you can test any of our packages by executing `rushx test` from the root of the package that you want to test. This will automatically run the tests in both NodeJS and in a browser. To target these environments individually, you can run `rushx test:node` and `rushx test:browser`.
+
+By default, these npm scripts run recorded tests. We use a custom recording library called `test-utils-recorder`. You can learn more about our recorder at the [test-utils-recorder's readme](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/test-utils/recorder/README.md).
+
+#### Recorded tests
+
+To run unit tests, go to the root of the project you want to test and run `rushx unit-test`. These tests aim to reproduce the behavior of our library against remote endpoints through previously recorded HTTP request and responses. You won't need to have any environment configuration, nor internet access, for these tests to run.
+
+Keep in mind that if you modify the test files or the underlying network calls of the project you're testing, the recordings will need to be re-generated.
+
+You can read more in the section: [Regenerating recordings](#regenerating-recordings).
+
+#### Live tests
+
+By default, the npm scripts `test`, `test:node` or `test:browser` run recorded tests. To run live tests, set the environment variable `TEST_MODE` to "live" and ensure you have the right Azure resources to test against.
+
+Our integration tests will run against the live resources, which are determined by the environment variables you provide.
+
+To run the integration tests, you will need to execute `rushx integration-test`.
+
+To generate new resources for your tests, follow the procedure at [Integration Testing with live services](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md#integration-testing-with-live-services). What resources get created before the test, or created during the test depends on how the ARM template named `test-resources.json` is built, just as much as how the tests are written. Generally speaking, the ARM templates will create the main account in which individual tests will create the resources they test. For example, for the Service Bus client, the [ARM template](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/test-resources.json) only creates the Service Bus namespace (with the appropriate configurations), while the tests automatically create the queues, topics and subscriptions.
+
+Integration tests won't need updated recordings, and they also won't change previous recordings unless specified (see [Regenerating recordings](#regenerating-recordings)).
+
+#### Regenerating recordings
+
+If you modify the test files or the underlying network calls of the project you're testing, the recordings need to be re-generated before you run the unit tests.
+
+To re-generate the recordings, set the environment variable `TEST_MODE` to `record` and then run the integration tests. When this process finishes without errors, the recordings will be updated.
+
+For any other question regarding the recorder, please read the [test-utils-recorder's readme](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/test-utils/recorder/README.md).
+
 ### Other NPM scripts
 
 Most package scripts are exposed as Rush commands. Use `rush <scriptname>` in place of `npm run <scriptname>` to run the package script in all projects. Navigate to a project's directory and substitute `rushx` for `rush` to run the script for just the current project. Run `rush <scriptname> --help` for more information about each script.
@@ -170,11 +204,11 @@ To see what resources will be deployed for a live service, check the
 `test-resources.json` ARM template files in the service you wish to deploy for
 testing, for example `sdk\keyvault\test-resources.json`.
 
-To deploy live resources for testing use the steps documented in [`Example 1 of New-TestResources.ps1`](eng/common/TestResources/New-TestResources.ps1.md#example-1)
-to set up a service principal and deploy live testing resources.
+To deploy live resources for testing use the steps documented in [`Example 1 of New-TestResources.ps1`](eng/common/TestResources/New-TestResources.ps1.md#example-1) to set up a service principal and deploy live testing resources.
 
-The script will provide instructions for setting environment variables before
-running live tests.
+The script will provide instructions for setting environment variables before running live tests.
+
+Keep in mind that you can set the environment variables as how they're set by default through your system preferences, or through the command line by assigning values to these variable names one by one before running the tests, like `<name1>=<value1> <name2>=<value2> rushx <command>`, or by setting them each one in a different line in a `.env` file in the parent folder of the project you'll be testing (like in the folder `keyvault` if you're testing the project at `sdk/keyvault/keyvault-keys`).
 
 To run live tests after deploying live resources for Node:
 

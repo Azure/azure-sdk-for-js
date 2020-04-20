@@ -1,6 +1,15 @@
 # Testing
 
-To run our tests, first do a full update of the project by running `rush update`, then rebuild either this package, with `rush build -t @azure/service-bus` or all packages with `rush build`, then make sure to build the tests with `rush build:test`. After that, you can either run our unit tests, which won't reach to live services, and our integration tests, which will indeed require existing, reachable resources.
+To test this project, make sure to first build it properly by following our [building instructions](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md#building). Once the project is correctly built, you will be able to run the tests by following the [testing instructions](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md#testing).
+
+The environment variables you will need to properly assign to run the live test of this project are the following:
+
+- `AZURE_CLIENT_ID`: The Client ID of your Azure account.
+- `AZURE_CLIENT_SECRET`: The secret of your Azure account.
+- `AZURE_TENANT_ID`: The Tenant ID of your Azure account.
+- `SERVICEBUS_CONNECTION_STRING`: The connection string of your Azure Service Bus account.
+
+Keep in mind that this project **does not use [the recorder](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/test-utils/recorder)* yet.
 
 ## Setup for running tests that use AAD based authentication
 
@@ -18,65 +27,5 @@ Go through the following setup in order to correctly setup the AAD credentials f
 - This can be done from `Role assignment` section of `Access control (IAM)` tab (in the left-side-navbar of your servicebus-namespace in the azure-portal)<br>
   _Doing this would allow the registered application manage the namespace, i.e., entity creation, deletion, etc.,_<br>
 - For more information on Service Bus RBAC setup - [Learn more](https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-role-based-access-control)
-
-**Update your environment variables**
-
-Populate the following variables along with the above mentioned environment variables in the `.env`.
-```
-AZURE_CLIENT_ID=""
-AZURE_CLIENT_SECRET=""
-AZURE_TENANT_ID=""
-```
-
-## Run all tests
-
-Run `rushx test:node` or `rushx test:browser` from your terminal to run all the tests under the `./test` folder
-
-## Run all tests in a single test suite
-
-Append the `.only` on the `describe` method corresponding to the test suite.
-
-Then run `rushx test:node` or `rushx test:browser` from your terminal.
-
-## Run a single test
-
-Append the `.only` on the `it` method corresponding to the test.
-
-Then run `rushx test:node` or `rushx test:browser` from your terminal.
-
-## Debug tests using Visual Studio Code
-
-- Select the debug configuration `Debug Unit Tests` from the drop down in the debug viewlet.
-- Add breakpoints in the test you want to debug. Tip: It is helpful to append the `.only` on the test method if you want only that method to be run.
-- Start Debugging
-
-## Integration tests
-
-Our integration tests will run against the live resources, which are determined by the environment variables you provide.
-
-The environment variables needed are:
-
-- `AZURE_CLIENT_ID`: The Client ID of your Azure account.
-- `AZURE_CLIENT_SECRET`: The secret of your Azure account.
-- `AZURE_TENANT_ID`: The Tenant ID of your Azure account.
-- `SERVICEBUS_CONNECTION_STRING`: The connection string of your Azure Service Bus account.
-
-To run the integration tests, you will need to execute `rushx integration-test`.
-
-To generate new resources for your tests, follow the procedure at [Integration Testing with live services](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md#integration-testing-with-live-services).
-
-Integration tests won't need updated recordings, and they also won't change previous recordings unless specified (see [Regenerating recordings](#regenerating-recordings)).
-
-## Regenerating recordings
-
-If you modify the test files, the API shape of this library, or the underlying network calls, the recordings need to be re-generated before you run the unit tests.
-
-To re-generate the recordings, set the environment variable `TEST_MODE` to `record` and then run the integration tests. Once the integration tests finish,
-the recordings will be updated.
-
-## The common recorder
-
-Our tests use our library [test-utils-recorder](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/test-utils/recorder).
-For any other question or if you want to help us get better at testing, please read the [test-utils-recorder's readme](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/test-utils/recorder/README.md).
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fservicebus%2Fservice-bus%2Ftest%2FREADME.png)
