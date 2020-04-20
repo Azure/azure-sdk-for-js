@@ -92,7 +92,7 @@ jobs:
       # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
       # The default on Windows is "cores - 1" (microsoft/rushstack#436).
       - script: |
-          node common/scripts/install-run-rushx.js integration-test:$(TestType) --verbose -p max
+          node ../../../common/scripts/install-run-rushx.js integration-test:$(TestType) --verbose -p max
         displayName: "Integration test libraries"
         workingDirectory: $(PackagePath)
         env:
