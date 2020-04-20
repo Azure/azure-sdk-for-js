@@ -54,7 +54,6 @@
     "swagger": "autorest --typescript swagger/swagger.md",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace dist-esm/test/*.spec.js dist-esm/test/**/*.spec.js",
-    "integration-test:node:no-timeout": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --no-timeouts --full-trace dist-esm/test/*.spec.js dist-esm/test/**/*.spec.js",
     "integration-test": "npm run unit-test:node && npm run unit-test:browser",
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
