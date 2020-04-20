@@ -9,7 +9,7 @@ import path from "path";
 import { FormRecognizerClient, AzureKeyCredential } from '../../src';
 import { env } from "@azure/test-utils-recorder";
 
-describe.only("FormRecognizerClient NodeJS only", () => {
+describe("FormRecognizerClient NodeJS only", () => {
   const ASSET_PATH = path.resolve(path.join(process.cwd(), "test-assets"));
   let client: FormRecognizerClient;
 
@@ -87,7 +87,7 @@ describe.only("FormRecognizerClient NodeJS only", () => {
   it("recognizes content from a url", async () => {
     // const containerSasUrl = getTrainingContainerSasUrl();
     // assert.ok(containerSasUrl, "Expect valid container sas url");
-    // const url = "<get the url to a form in the container>";
+    // const url = "<get a blob url to upload a form to the container>";
     const url = "https://storageyumeng.blob.core.windows.net/fr-test-data/Invoice_7.pdf";
     const poller = await client.beginRecognizeContentFromUrl(url);
     await poller.pollUntilDone();
@@ -137,7 +137,7 @@ describe.only("FormRecognizerClient NodeJS only", () => {
   it("recognizes receipt from a url", async () => {
     // const containerSasUrl = getTrainingContainerSasUrl();
     // assert.ok(containerSasUrl, "Expect valid container sas url");
-    // const url = "<get the url to a receipt in the container>";
+    // const url = "<get a blob url to upload a form to the container>";
     const url = "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-REST-api-samples/master/curl/form-recognizer/contoso-allinone.jpg";
     const poller = await client.beginRecognizeReceiptsFromUrl(url);
     await poller.pollUntilDone();
