@@ -4,7 +4,7 @@
 import { PipelineOptions, OperationOptions } from "@azure/core-http";
 import { FormRecognizerRequestBody } from "./models";
 import { ContentType, SourcePath } from "./generated/models";
-import { streamToBuffer } from "./utils/utils.node";
+import { getFirstFourBytesFromBlob, streamToBuffer } from "./utils/utils.node";
 import { MAX_INPUT_DOCUMENT_SIZE } from "./constants";
 
 /**
@@ -86,22 +86,7 @@ export async function getContentType(
     bytes = new Uint8Array(data.buffer, 0, 4);
   } else if (isBlob(data)) {
     // Blob
-    const arrayPromise = new Promise<ArrayBuffer>(function(resolve) {
-      const reader = new FileReader();
-
-      reader.onloadend = function() {
-        resolve(reader.result as ArrayBuffer);
-      };
-
-      reader.readAsArrayBuffer(data);
-    });
-
-    const buffer = await arrayPromise;
-    if (buffer.byteLength < 4) {
-      throw new RangeError("Invalid input. Expect more than 4 bytes of data");
-    }
-
-    bytes = new Uint8Array(buffer, 0, 4);
+    bytes = await getFirstFourBytesFromBlob(data);
   } else {
     throw new Error("unsupported request body type");
   }
