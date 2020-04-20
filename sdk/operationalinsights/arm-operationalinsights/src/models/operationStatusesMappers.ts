@@ -8,7 +8,7 @@
 
 export {
   CloudError,
-  Operation,
-  OperationDisplay,
-  OperationListResult
+  ErrorAdditionalInfo,
+  ErrorResponse,
+  OperationStatus
 } from "../models/mappers";
