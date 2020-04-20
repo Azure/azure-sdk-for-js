@@ -104,7 +104,7 @@ export class Containers {
     body: ContainerRequest,
     options: RequestOptions = {}
   ): Promise<ContainerResponse> {
-    const err: { message?: string } = {};
+    const err = {};
     if (!isResourceValid(body, err)) {
       throw err;
     }
@@ -120,8 +120,7 @@ export class Containers {
 
     if (typeof body.partitionKey === "string") {
       if (!body.partitionKey.startsWith("/")) {
-        err.message = "Partition key must start with '/'";
-        throw err;
+        throw new Error("Partition key must start with '/'");
       }
       body.partitionKey = {
         paths: [body.partitionKey]
