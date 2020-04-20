@@ -9,7 +9,8 @@ import {
   TestMessage,
   purge,
   getServiceBusClient,
-  getSenderReceiverClients
+  getSenderReceiverClients,
+  isSessionfulEntity
 } from "./utils/testUtils";
 import {
   Receiver,
@@ -34,7 +35,7 @@ describe("dead lettering", () => {
   let receivedMessage: ServiceBusMessage;
 
   async function beforeEachTest(senderType: TestClientType, receiverType: TestClientType) {
-    const useSessions = receiverType > 5 && receiverType < 12 ? true : false;
+    const useSessions = isSessionfulEntity(receiverType);
     sbClient = getServiceBusClient();
     const clients = await getSenderReceiverClients(sbClient, senderType, receiverType);
     senderClient = clients.senderClient;
@@ -209,7 +210,7 @@ describe("abandoning", () => {
   let receivedMessage: ServiceBusMessage;
 
   async function beforeEachTest(senderType: TestClientType, receiverType: TestClientType) {
-    const useSessions = receiverType > 5 && receiverType < 12 ? true : false;
+    const useSessions = isSessionfulEntity(receiverType);
     sbClient = getServiceBusClient();
     const clients = await getSenderReceiverClients(sbClient, senderType, receiverType);
     senderClient = clients.senderClient;
@@ -337,7 +338,7 @@ describe("deferring", () => {
   let receivedMessage: ServiceBusMessage;
 
   async function beforeEachTest(senderType: TestClientType, receiverType: TestClientType) {
-    const useSessions = receiverType > 5 && receiverType < 12 ? true : false;
+    const useSessions = isSessionfulEntity(receiverType);
     sbClient = getServiceBusClient();
     const clients = await getSenderReceiverClients(sbClient, senderType, receiverType);
     senderClient = clients.senderClient;

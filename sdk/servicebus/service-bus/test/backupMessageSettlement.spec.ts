@@ -17,7 +17,8 @@ import {
   TestMessage,
   purge,
   getServiceBusClient,
-  getSenderReceiverClients
+  getSenderReceiverClients,
+  isSessionfulEntity
 } from "./utils/testUtils";
 import { Sender } from "../src/sender";
 import { DispositionType, ReceiveMode, SendableMessageInfo } from "../src/serviceBusMessage";
@@ -50,7 +51,7 @@ describe("Backup message settlement - Through ManagementLink", () => {
     senderType: TestClientType,
     receiverType: TestClientType
   ): Promise<void> {
-    const useSessions = receiverType > 5 && receiverType < 12 ? true : false;
+    const useSessions = isSessionfulEntity(receiverType);
     sbClient = getServiceBusClient();
     const clients = await getSenderReceiverClients(sbClient, senderType, receiverType);
     senderClient = clients.senderClient;
