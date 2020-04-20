@@ -6,7 +6,7 @@
 export { EventData, ReceivedEventData } from "./eventData";
 export { WebSocketImpl } from "rhea-promise";
 export { LastEnqueuedEventProperties } from "./eventHubReceiver";
-export { OperationOptions, TracingOptions } from "./util/operationOptions";
+export { OperationOptions } from "./util/operationOptions";
 export {
   EventHubClientOptions,
   SendBatchOptions,

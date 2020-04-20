@@ -5,7 +5,7 @@ import { PipelineOptions, OperationOptions, HttpRequestBody } from "@azure/core-
 import { FormRecognizerRequestBody } from "./models";
 import { ContentType, SourcePath } from "./generated/models";
 import { streamToBuffer } from "./utils/utils.node";
-import { MAX_INPUT_DOCUMENT_SIZE } from './constants';
+import { MAX_INPUT_DOCUMENT_SIZE } from "./constants";
 
 /**
  * Client options used to configure Form Recognizer API requests.
@@ -22,7 +22,7 @@ export interface FormRecognizerOperationOptions extends OperationOptions {}
  * @internal
  */
 export async function toRequestBody(
-  body: FormRecognizerRequestBody
+  body: FormRecognizerRequestBody | string
 ): Promise<Blob | ArrayBuffer | ArrayBufferView | SourcePath> {
   if (typeof body === "string") {
     return {
@@ -31,7 +31,7 @@ export async function toRequestBody(
   } else {
     // cache stream to allow retry
     if (isReadableStream(body)) {
-      return await streamToBuffer(body, MAX_INPUT_DOCUMENT_SIZE);
+      return streamToBuffer(body, MAX_INPUT_DOCUMENT_SIZE);
     }
 
     return body as HttpRequestBody;
@@ -55,9 +55,14 @@ function isArrayBufferView(data: FormRecognizerRequestBody): data is ArrayBuffer
 }
 
 function isSourcePath(data: FormRecognizerRequestBody | SourcePath): data is SourcePath {
-  return "source" in data;
+  return "source" in data && typeof data.source === "string";
 }
 
+/**
+ * Detects the content type of binary data.
+ * See https://en.wikipedia.org/wiki/List_of_file_signatures
+ * @internal
+ */
 export async function getContentType(
   data: Blob | ArrayBuffer | ArrayBufferView | SourcePath
 ): Promise<ContentType | undefined> {
@@ -82,7 +87,7 @@ export async function getContentType(
   } else if (isBlob(data)) {
     // Blob
     const arrayPromise = new Promise<ArrayBuffer>(function(resolve) {
-      var reader = new FileReader();
+      const reader = new FileReader();
 
       reader.onloadend = function() {
         resolve(reader.result as ArrayBuffer);

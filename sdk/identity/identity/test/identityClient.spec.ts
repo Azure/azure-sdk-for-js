@@ -99,6 +99,12 @@ describe("IdentityClient", function() {
       Error,
       "The authorityHost address must use the 'https' protocol."
     );
+
+    // While we have the environment variable, ensure correct precedence
+    assert(
+        new IdentityClient({authorityHost: "https://correct.url"})
+    );
+
     delete process.env.AZURE_AUTHORITY_HOST;    
   });
 

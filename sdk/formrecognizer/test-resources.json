@@ -1,0 +1,145 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "baseName": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().name]",
+      "metadata": {
+        "description": "The base resource name."
+      }
+    },
+    "testApplicationOid": {
+      "type": "string",
+      "metadata": {
+        "description": "The AAD Client ID of the test application service principal."
+      }
+    }
+  },
+  "variables": {
+    "frRoleId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/a97b65f3-24c7-4388-baec-2e87135dc908')]",
+    "storageAccountName": "[concat(parameters('baseName'), 'storage')]",
+    "storageAccountNameTidy": "[toLower(trim(variables('storageAccountName')))]",
+    "storageAccountSasProperties": {
+      "signedServices": "bfqt",
+      "signedPermission": "rwdlacup",
+      "signedResourceTypes": "sco",
+      "keyToSign": "key2",
+      "signedExpiry": "2022-01-01T23:59:00Z"
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "2018-09-01-preview",
+      "name": "[guid(concat(variables('frRoleId'), parameters('baseName')))]",
+      "dependsOn": ["[parameters('baseName')]"],
+      "properties": {
+        "principalId": "[parameters('testApplicationOid')]",
+        "roleDefinitionId": "[variables('frRoleId')]"
+      }
+    },
+    {
+      "type": "Microsoft.CognitiveServices/accounts",
+      "name": "[parameters('baseName')]",
+      "apiVersion": "2017-04-18",
+      "sku": {
+        "name": "S0"
+      },
+      "kind": "FormRecognizer",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "customSubDomainName": "[parameters('baseName')]"
+      }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "2019-04-01",
+      "name": "[variables('storageAccountName')]",
+      "location": "[resourceGroup().location]",
+      "sku": {
+        "name": "Standard_RAGRS",
+        "tier": "Standard"
+      },
+      "kind": "StorageV2",
+      "properties": {
+        "networkAcls": {
+          "bypass": "AzureServices",
+          "virtualNetworkRules": [],
+          "ipRules": [],
+          "defaultAction": "Allow"
+        },
+        "supportsHttpsTrafficOnly": true,
+        "encryption": {
+          "services": {
+            "file": {
+              "enabled": true
+            },
+            "blob": {
+              "enabled": true
+            }
+          },
+          "keySource": "Microsoft.Storage"
+        },
+        "accessTier": "Hot"
+      },
+      "resources": [
+        {
+          "name": "default",
+          "type": "blobServices",
+          "apiVersion": "2019-04-01",
+          "dependsOn": ["[variables('storageAccountName')]"],
+          "properties": {
+            "cors": {
+              "corsRules": [
+                {
+                  "allowedOrigins": ["*"],
+                  "allowedMethods": [
+                    "DELETE",
+                    "GET",
+                    "HEAD",
+                    "MERGE",
+                    "POST",
+                    "OPTIONS",
+                    "PUT",
+                    "PATCH"
+                  ],
+                  "maxAgeInSeconds": 86400,
+                  "exposedHeaders": ["*"],
+                  "allowedHeaders": ["*"]
+                }
+              ]
+            }
+          },
+          "resources": []
+        }
+      ]
+    }
+  ],
+  "outputs": {
+    "ENDPOINT": {
+      "type": "string",
+      "value": "[concat('https://', parameters('baseName'), '.cognitiveservices.azure.com/')]"
+    },
+    "FORM_RECOGNIZER_API_KEY": {
+      "type": "string",
+      "value": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('baseName')), '2017-04-18').key1]"
+    },
+    "FORM_RECOGNIZER_API_KEY_ALT": {
+      "type": "string",
+      "value": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('baseName')), '2017-04-18').key2]"
+    },
+    "BLOB_SAS_ENDPOINT": {
+      "type": "string",
+      "value": "[concat('https://', variables('storageAccountNameTidy'), '.blob.core.windows.net?', listAccountSas(variables('storageAccountNameTidy'), '2019-04-01', variables('storageAccountSasProperties')).accountSasToken)]"
+    },
+    "BLOB_ACCOUNT_NAME": {
+      "type": "string",
+      "value": "[variables('storageAccountName')]"
+    },
+    "BLOB_ACCESS_KEY": {
+      "type": "string",
+      "value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), '2019-04-01').keys[0].value]"
+    }
+  }
+}

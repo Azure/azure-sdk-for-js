@@ -35,12 +35,16 @@ export function createFormRecognizerAzureKeyCredentialPolicy(
 class FormRecognizerAzureKeyCredentialPolicy extends BaseRequestPolicy {
   private credential: KeyCredential;
 
-  constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike, credential: KeyCredential) {
+  constructor(
+    nextPolicy: RequestPolicy,
+    options: RequestPolicyOptionsLike,
+    credential: KeyCredential
+  ) {
     super(nextPolicy, options);
     this.credential = credential;
   }
 
-  public async sendRequest(webResource: WebResourceLike) : Promise<HttpOperationResponse> {
+  public async sendRequest(webResource: WebResourceLike): Promise<HttpOperationResponse> {
     if (!webResource) {
       throw new Error("webResource cannot be null or undefined");
     }

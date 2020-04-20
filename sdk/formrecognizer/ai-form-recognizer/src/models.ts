@@ -118,7 +118,7 @@ export interface FormLine extends FormElementCommon {
 //    * Element kind - "checkbox"
 //    */
 //   kind: "checkbox";
-//   checked: boolean;
+//   ...
 // }
 
 /**
@@ -162,7 +162,7 @@ export interface FormTableCell {
   /**
    * When includeTextDetails is set to true, a list of references to the text elements constituting this table cell.
    */
-  elements?: FormElement[];
+  textContent?: FormElement[];
   /**
    * Is the current cell a header cell?
    */
@@ -214,11 +214,11 @@ export interface FormText {
   /**
    * When includeTextDetails is set to true, a list of references to the text elements constituting this name or value.
    */
-  elements?: FormElement[];
+  textContent?: FormElement[];
   /**
    * The text content of the recognized label or value
    */
-  text: string;
+  text?: string;
 }
 
 /**
@@ -229,41 +229,27 @@ export interface FormField {
   /**
    * Confidence value.
    */
-  confidence: number;
+  confidence?: number;
   /**
-   * Information about the recognized label in a label-value pair.
+   * Text of the recognized label of the field.
    */
-  fieldLabel: FormText;
+  fieldLabel?: FormText;
   /**
-   * A user defined label for the label-value pair entry.
+   * A user defined label for the field.
    */
-  label?: string;
+  name?: string;
   /**
-   * Information about the recognized value in a label/value pair.
+   * Text of the recognized value of the field.
    */
-  valueText: FormText;
-}
-
-/**
- * Recognized information from a single page.
- */
-export interface RecognizedPage {
+  valueText?: FormText;
   /**
-   * Page number
+   * Value of the field.
    */
-  pageNumber: number;
+  value?: FieldValueTypes;
   /**
-   * Id of recognized form type
+   * Data type of the value property
    */
-  formTypeId?: number;
-  /**
-   * List of name/value pairs recognized from the page
-   */
-  fields?: FormField[];
-  /**
-   * List of data tables recognized form the page
-   */
-  tables?: FormTable[];
+  valueType?: ValueTypes;
 }
 
 /**
@@ -281,13 +267,57 @@ export interface FormPageRange {
 }
 
 /**
+ * Raw texts recognized from a page in the input document.
+ */
+export interface FormPage {
+  /**
+   * The 1-based page number in the input document.
+   */
+  pageNumber: number;
+  /**
+   * The general orientation of the text in clockwise direction, measured in degrees between (-180,
+   * 180].
+   */
+  textAngle: number;
+  /**
+   * The width of the image/PDF in pixels/inches, respectively.
+   */
+  width: number;
+  /**
+   * The height of the image/PDF in pixels/inches, respectively.
+   */
+  height: number;
+  /**
+   * The unit used by the width, height and boundingBox properties. For images, the unit is
+   * "pixel". For PDF, the unit is "inch". Possible values include: 'pixel', 'inch'
+   */
+  unit: LengthUnit;
+  /**
+   * The detected language on the page overall. Possible values include: 'en', 'es'
+   */
+  // language?: Language;
+  /**
+   * When includeTextDetails is set to true, a list of recognized text lines. The maximum number of
+   * lines returned is 300 per page. The lines are sorted top to bottom, left to right, although in
+   * certain cases proximity is treated with higher priority. As the sorting order depends on the
+   * detected text, it may change across images and OCR version updates. Thus, business logic
+   * should be built upon the actual line location instead of order.
+   */
+  lines?: FormLine[];
+  /**
+   * List of data tables recognized form the page
+   */
+  tables?: FormTable[];
+}
+
+/**
  * Represent recognized forms consists of text fields that have semantic meanings.
  */
 export interface RecognizedForm {
   /**
    * Document type.
    */
-  docType: string;
+  formType: string;
   /**
    * First and last page number where the document is found.
    */
@@ -295,13 +325,17 @@ export interface RecognizedForm {
   /**
    * Dictionary of named field values.
    */
-  fields: { [propertyName: string]: FieldValue };
+  fields: { [propertyName: string]: FormField };
+  /**
+   * Texts and tables extracted from a page in the input
+   */
+  pages: FormPage[];
 }
 
 /**
  * Properties common to the recognized text field
  */
-export interface CommonFieldValue {
+interface CommonFieldValue {
   /**
    * Text content of the recognized field.
    */
@@ -318,12 +352,29 @@ export interface CommonFieldValue {
    * When includeTextDetails is set to true, a list of references to the text elements constituting
    * this field.
    */
-  elements?: FormElement[];
+  textContent?: FormElement[];
   /**
    * The 1-based page number in the input document.
    */
   pageNumber?: number;
 }
+
+export type FieldValueTypes =
+  | string
+  | Date
+  | number
+  | FieldValue[]
+  | { [propertyName: string]: FieldValue };
+
+export type ValueTypes =
+  | "string"
+  | "date"
+  | "time"
+  | "phoneNumber"
+  | "number"
+  | "integer"
+  | "array"
+  | "object";
 
 /**
  * Represents a field of string value.
@@ -408,34 +459,12 @@ export type FieldValue =
 export type ReceiptItemField = {
   type: "object";
   value: {
-    Name: StringFieldValue;
-    Quantity: NumberFieldValue;
-    Price: NumberFieldValue;
-    TotalPrice: NumberFieldValue;
+    Name?: StringFieldValue;
+    Quantity?: NumberFieldValue;
+    Price?: NumberFieldValue;
+    TotalPrice?: NumberFieldValue;
   };
 } & CommonFieldValue;
-
-/**
- * The values in an recognized receipt item field
- */
-export interface ReceiptItem {
-  /**
-   * Name of the receipt item
-   */
-  name?: string;
-  /**
-   * Price of the receipt item
-   */
-  price?: number;
-  /**
-   * Quantity of the receipt item
-   */
-  quantity?: number;
-  /**
-   * Total price of the receipt item
-   */
-  totalPrice?: number;
-}
 
 /**
  * Represents a list of recognized receipt items in a receipt.
@@ -445,171 +474,96 @@ export interface ReceiptItemArrayField {
   value: ReceiptItemField[];
 }
 
-/**
- * Represents recognized receipt fields in a receipt
+/*
+ * Recognized Receipt
  */
-export interface RawUSReceipt {
+export interface RecognizedReceipt {
+  /**
+   * Locale of the receipt
+   */
+  locale?: string;
+  recognizedForm: RecognizedForm;
+}
+
+export interface USReceiptItem {
+  /**
+   * Name of the receipt item
+   */
+  name?: FormField;
+  /**
+   * Price of the receipt item
+   */
+  price?: FormField;
+  /**
+   * Quantity of the receipt item
+   */
+  quantity?: FormField;
+  /**
+   * Total price of the receipt item
+   */
+  totalPrice?: FormField;
+}
+
+export type USReceiptType = "unrecognized" | "itemized" | "creditCard" | "gas" | "parking";
+
+/**
+ * United States receipt
+ */
+export interface USReceipt extends RecognizedReceipt {
   /**
    * Receipt type field
    */
-  ReceiptType: StringFieldValue;
+  receiptType: USReceiptType;
   /**
    * Merchant name field
    */
-  MerchantName: StringFieldValue;
+  merchantName: FormField;
   /**
    * Merchant phone number field
    */
-  MerchantPhoneNumber: PhoneNumberFieldValue;
+  merchantPhoneNumber: FormField;
   /**
    * Merchant address field
    */
-  MerchantAddress: StringFieldValue;
+  merchantAddress: FormField;
   /**
    * Receipt item list field
    */
-  Items: ReceiptItemArrayField;
+  items: USReceiptItem[];
   /**
    * Subtotal field
    */
-  Subtotal: NumberFieldValue;
+  subtotal: FormField;
   /**
    * Tax field
    */
-  Tax: NumberFieldValue;
+  tax: FormField;
   /**
    * Tip field
    */
-  Tip: NumberFieldValue;
+  tip: FormField;
   /**
    * Total field
    */
-  Total: NumberFieldValue;
+  total: FormField;
   /**
    * Transaction date field
    */
-  TransactionDate: DateFieldValue;
+  transactionDate: FormField;
   /**
    * Transaction time field
    */
-  TransactionTime: TimeFieldValue;
+  transactionTime: FormField;
 }
 
-/**
- * Represents text values in a receipt
- */
-export interface Receipt {
-  /**
-   * Receipt type, e.g., "Itemized"
-   */
-  receiptType: string;
-  /**
-   * Merchant name
-   */
-  merchantName?: string;
-  /**
-   * Merchant phone number
-   */
-  merchantPhoneNumber?: string;
-  /**
-   * Merchant address
-   */
-  merchantAddress?: string;
-  /**
-   * items in the receipt
-   */
-  items: ReceiptItem[];
-  /**
-   * Subtotal
-   */
-  subtotal?: number;
-  /**
-   * Tax
-   */
-  tax?: number;
-  /**
-   * Tip
-   */
-  tip?: number;
-  /**
-   * Total
-   */
-  total?: number;
-  /**
-   * Transaction date
-   */
-  transactionDate?: Date;
-  /**
-   * Transaction time
-   */
-  transactionTime?: string;
-}
+export type Locale = "US" | "UK";
+
+export type ReceiptWithLocale = { locale: "US" } & USReceipt;
+//  | { receiptLocale: "UK" } & UKReceipt
+// ...
 
 /**
- * Represents an recognized receipt
- */
-export interface RawReceiptResult {
-  /**
-   * Document type.
-   */
-  docType: "prebuilt:receipt";
-  /**
-   * First and last page number where the document is found.
-   */
-  pageRange: FormPageRange;
-  /**
-   * Dictionary of named field values.
-   */
-  fields: { [propertyName: string]: FieldValue };
-}
-
-/**
- * Recognized receipt and values in it
- */
-export type RecognizedReceipt = RawReceiptResult & Receipt;
-
-/**
- * Raw texts recognized from a page in the input document.
- */
-export interface FormPage {
-  /**
-   * The 1-based page number in the input document.
-   */
-  pageNumber: number;
-  /**
-   * The general orientation of the text in clockwise direction, measured in degrees between (-180,
-   * 180].
-   */
-  angle: number;
-  /**
-   * The width of the image/PDF in pixels/inches, respectively.
-   */
-  width: number;
-  /**
-   * The height of the image/PDF in pixels/inches, respectively.
-   */
-  height: number;
-  /**
-   * The unit used by the width, height and boundingBox properties. For images, the unit is
-   * "pixel". For PDF, the unit is "inch". Possible values include: 'pixel', 'inch'
-   */
-  unit: LengthUnit;
-  /**
-   * The detected language on the page overall. Possible values include: 'en', 'es'
-   */
-  // language?: Language;
-  /**
-   * When includeTextDetails is set to true, a list of recognized text lines. The maximum number of
-   * lines returned is 300 per page. The lines are sorted top to bottom, left to right, although in
-   * certain cases proximity is treated with higher priority. As the sorting order depends on the
-   * detected text, it may change across images and OCR version updates. Thus, business logic
-   * should be built upon the actual line location instead of order.
-   */
-  lines?: FormLine[];
-}
-
-/**
- * Analyze Receipt result.
+ * Recognize receipt result.
  */
 export interface RecognizeReceiptResult {
   /**
@@ -617,32 +571,28 @@ export interface RecognizeReceiptResult {
    */
   version: string;
   /**
-   * List of raw text line information on recognized pages
-   */
-  rawExtractedPages: FormPage[];
-  /**
    * List of receipts recognized from input document
    */
-  extractedReceipts?: RecognizedReceipt[];
+  receipts?: ReceiptWithLocale[];
 }
 
 /**
- * Results of an recognize receipt operation
+ * Results of a Recognize Receipt operation
  */
-export type RecognizeReceiptOperationResult = {
+export type RecognizeReceiptOperationResult = Partial<RecognizeReceiptResult> & {
   /**
    * Operation status.
    */
   status: OperationStatus; // 'notStarted' | 'running' | 'succeeded' | 'failed';
   /**
-   * Date and time (UTC) when the analyze operation was submitted.
+   * Date and time (UTC) when the form recognition operation was submitted.
    */
   createdOn: Date;
   /**
    * Date and time (UTC) when the status was last updated.
    */
-  lastUpdatedOn: Date;
-} & Partial<RecognizeReceiptResult>;
+  lastModified: Date;
+};
 
 /**
  * Contains response data for an recognize receipt operation.
@@ -665,7 +615,7 @@ export type RecognizeReceiptResultResponse = RecognizeReceiptOperationResult & {
 };
 
 /**
- * Recognized information about the layout of the analyzed document
+ * Recognized layout information of the input document
  */
 export interface RecognizedContent {
   /**
@@ -673,50 +623,28 @@ export interface RecognizedContent {
    */
   version: string;
   /**
-   * Raw texts extracted from a page in the input
+   * Texts and tables extracted from a page in the input
    */
-  rawExtractedPages: FormPage[];
-  /**
-   * Form layout recognized from a page in the input
-   */
-  extractedLayoutPages?: RecognizedContentPage[];
-}
-
-/**
- * Represents an recognized content page
- */
-export interface RecognizedContentPage {
-  /**
-   * List of name/value pairs recognized from the page
-   */
-  fields?: FormField[];
-  /**
-   * Page number
-   */
-  pageNumber: number;
-  /**
-   * List of data tables recognized form the page
-   */
-  tables?: FormTable[];
+  pages: FormPage[];
 }
 
 /**
  * Represents the result from an Recognize Content operation
  */
-export type RecognizeContentOperationResult = {
+export type RecognizeContentOperationResult = Partial<RecognizedContent> & {
   /**
    * Operation status.
    */
   status: OperationStatus; // 'notStarted' | 'running' | 'succeeded' | 'failed';
   /**
-   * Date and time (UTC) when the analyze operation was submitted.
+   * Date and time (UTC) when the recognition operation was submitted.
    */
   createdOn: Date;
   /**
    * Date and time (UTC) when the status was last updated.
    */
-  lastUpdatedOn: Date;
-} & Partial<RecognizedContent>;
+  lastModified: Date;
+};
 
 /**
  * Contains response data for the Recognize Content operation.
@@ -730,7 +658,6 @@ export type RecognizeContentResultResponse = RecognizeContentOperationResult & {
      * The response body as text (string format)
      */
     bodyAsText: string;
-
     /**
      * The response body as parsed JSON or XML
      */
@@ -739,7 +666,7 @@ export type RecognizeContentResultResponse = RecognizeContentOperationResult & {
 };
 
 /**
- * Represents an recognized form using unsupervised model
+ * Represents an recognized form using a model from training with labels.
  */
 export interface FormResult {
   /**
@@ -747,21 +674,18 @@ export interface FormResult {
    */
   version: string;
   /**
-   * Text recognized from the input.
+   * Document-level information recognized from the input using machine learning. They include
+   * recognized fields that have meaning beyond text, for example, addresses, phone numbers, dates, etc.
    */
-  rawExtractedPages: FormPage[];
+  forms?: RecognizedForm[];
   /**
-   * Page-level information recognized from the input.
-   */
-  extractedPages?: RecognizedPage[];
-  /**
-   * List of errors reported during the analyze operation.
+   * List of errors reported during the form recognition operation.
    */
   errors?: ErrorInformation[];
 }
 
 /**
- * Represents the result from an recognize form operation using unsupervised model
+ * Represents the result from an recognize form operation using a model from training without labels.
  */
 export type RecognizeFormOperationResult = Partial<FormResult> & {
   /**
@@ -769,64 +693,17 @@ export type RecognizeFormOperationResult = Partial<FormResult> & {
    */
   status: OperationStatus;
   /**
-   * Date and time (UTC) when the analyze operation was submitted.
+   * Date and time (UTC) when the form recognition operation was submitted.
    */
   createdOn: Date;
   /**
    * Date and time (UTC) when the status was last updated.
    */
-  lastUpdatedOn: Date;
+  lastModified: Date;
 };
 
 /**
- * Represents an recognized form using a model from supervised training with labels
- */
-export interface LabeledFormResult {
-  /**
-   * Version of schema used for this result.
-   */
-  version: string;
-  /**
-   * Text recognized from the input. Example includes lines consist of words, and other
-   * elements like checkbox, etc.
-   */
-  rawExtractedPages: FormPage[];
-  /**
-   * Page-level information recognized from the input, including fields of name-value pairs
-   * and data tables.
-   */
-  extractedPages?: RecognizedPage[];
-  /**
-   * Document-level information recognized from the input using machine learning. They include
-   * recognized fields that have meaning beyond text, for example, addresses, phone numbers, dates, etc.
-   */
-  extractedForms?: RecognizedForm[];
-  /**
-   * List of errors reported during the analyze operation.
-   */
-  errors?: ErrorInformation[];
-}
-
-/**
- * Represents the result from an recognize form operation using a supervised model
- */
-export type LabeledFormOperationResult = Partial<LabeledFormResult> & {
-  /**
-   * Operation status.
-   */
-  status: OperationStatus;
-  /**
-   * Date and time (UTC) when the analyze operation was submitted.
-   */
-  createdOn: Date;
-  /**
-   * Date and time (UTC) when the status was last updated.
-   */
-  lastUpdatedOn: Date;
-};
-
-/**
- * Contains the response data for recognize form (unsupervised) operation
+ * Contains the response data for recognize form operation using a model from training without labels.
  */
 export type RecognizeFormResultResponse = RecognizeFormOperationResult & {
   /**
@@ -846,27 +723,7 @@ export type RecognizeFormResultResponse = RecognizeFormOperationResult & {
 };
 
 /**
- * Contains the response data for recognize form (supervised) operation
- */
-export type LabeledFormResultResponse = LabeledFormOperationResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AnalyzeOperationResultModel;
-  };
-};
-
-/**
- * Contains the unsupervised training results
+ * Contains the unlabeled training results.
  */
 export interface FormTrainResult {
   /**
@@ -880,7 +737,7 @@ export interface FormTrainResult {
 }
 
 /**
- * Represents a model from unsupervised training
+ * Represents a model from unlabeled training.
  */
 export interface FormModel {
   /**
@@ -888,75 +745,79 @@ export interface FormModel {
    */
   modelInfo: ModelInfo;
   /**
-   * Keys recognized from unsupervised training
+   * Keys recognized from unlabeled training.
    */
   keys: KeysResult;
   /**
-   * Results of the unsupervised training
+   * Results of the unlabeled training.
    */
   trainResult?: FormTrainResult;
 }
 
-/**
- * Contains the response data for retrieving a model from unsupervised training
- */
-export type FormModelResponse = FormModel & {
+export interface CustomFormSubModelField {
   /**
-   * The underlying HTTP response.
+   * Estimated extraction accuracy for this field.
    */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+  accuracy?: number;
+  /**
+   * Training field name.
+   */
+  name: string;
+}
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Model;
-  };
-};
+export interface CustomFormSubModel {
+  /**
+   * Estimated extraction accuracy for this field.
+   */
+  accuracy?: number;
+  /**
+   * Form fields
+   */
+  fields: { [propertyName: string]: CustomFormSubModelField };
+  /**
+   * Form type
+   */
+  formType: string;
+}
 
 /**
- * Represents result of supervised training with labels
+ * Represents a model from training.
  */
-export interface LabeledFormTrainResult {
+export interface CustomFormModel {
   /**
-   * List of the documents used to train the model and any errors reported in each document.
+   * Model identifier.
    */
-  trainingDocuments: TrainingDocumentInfo[];
+  modelId: string;
   /**
-   * List of fields used to train the model and the train operation error reported by each.
+   * Status of the model.
    */
-  fields: FormFieldsReport[];
+  status: ModelStatus;
   /**
-   * Average accuracy.
+   * Date and time (UTC) when the model was created.
    */
-  averageModelAccuracy: number;
+  createdOn: Date;
   /**
-   * Errors returned during the training operation.
+   * Date and time (UTC) when the status was last updated.
+   */
+  lastModified: Date;
+  /**
+   * List of document used to train the model and any errors reported for each document.
+   */
+  trainingDocuments?: TrainingDocumentInfo[];
+  /**
+   * Errors returned during training operation.
    */
   errors?: ErrorInformation[];
+  /**
+   * Form models created by training.
+   */
+  models?: CustomFormSubModel[];
 }
 
 /**
- * Represents the trained model from supervised training with labels
+ * Contains the response data for retrieving a model from unlabeled training.
  */
-export interface LabeledFormModel {
-  /**
-   * Information about the model in supervised training
-   */
-  modelInfo: ModelInfo;
-  /**
-   * Results of the supervised training with label files
-   */
-  trainResult?: LabeledFormTrainResult;
-}
-
-/**
- * Contains the response data for retrieving a model from supervised training with labels
- */
-export type LabeledFormModelResponse = LabeledFormModel & {
+export type FormModelResponse = CustomFormModel & {
   /**
    * The underlying HTTP response.
    */
@@ -974,10 +835,24 @@ export type LabeledFormModelResponse = LabeledFormModel & {
 };
 
 /**
- * Types of input data allowed to analyze operations
+ * Types of binary data allowed as input to recognition operations
  */
 export type FormRecognizerRequestBody =
   | Blob
   | ArrayBuffer
   | ArrayBufferView
   | NodeJS.ReadableStream;
+
+/**
+ * Summary of all models in the cognitive service account.
+ */
+export interface AccountProperties {
+  /**
+   * Current count of trained custom models.
+   */
+  count: number;
+  /**
+   * Max number of models that can be trained for this account.
+   */
+  limit: number;
+}

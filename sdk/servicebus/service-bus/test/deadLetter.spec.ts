@@ -86,8 +86,6 @@ describe("dead lettering", () => {
   });
 
   it("dead lettering a typical received message", async () => {
-    // defer this message so we can pick it up via the management API (which
-    // is what handles receiving deferred messages)
     await receivedMessage.deadLetter({
       deadLetterErrorDescription: "this is the dead letter error description",
       deadLetterReason: "this is the dead letter reason",
@@ -98,8 +96,7 @@ describe("dead lettering", () => {
     await checkDeadLetteredMessage({
       reason: "this is the dead letter reason",
       description: "this is the dead letter error description",
-      // TODO: https://github.com/Azure/azure-sdk-for-js/issues/7959
-      customProperty: undefined
+      customProperty: "hello, setting this custom property"
     });
   });
 

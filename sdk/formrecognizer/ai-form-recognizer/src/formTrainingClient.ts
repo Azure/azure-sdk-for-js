@@ -20,24 +20,26 @@ import { FormRecognizerClient as GeneratedClient } from "./generated/formRecogni
 import {
   FormRecognizerClientGetCustomModelsResponse as ListModelsResponseModel,
   Model,
-  ModelInfo
+  ModelInfo,
+  FormRecognizerClientTrainCustomModelAsyncResponse
 } from "./generated/models";
 import { TrainPollerClient, BeginTrainingPoller, BeginTrainingPollState } from "./lro/train/poller";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
 import { FormRecognizerClientOptions, FormRecognizerOperationOptions } from "./common";
-import { LabeledFormModelResponse, FormModelResponse } from "./models";
+import { FormModelResponse, AccountProperties } from "./models";
 import { createFormRecognizerAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
+import { toFormModelResponse } from "./transforms";
 
 export { ListModelsResponseModel, Model, ModelInfo, RestResponse };
 /**
- * Options for the list models operation.
+ * Options for model listing operation.
  */
 export type ListModelsOptions = FormRecognizerOperationOptions;
 
 /**
- * Options for the get summary operation.
+ * Options for the get account properties operation.
  */
-export type GetSummaryOptions = FormRecognizerOperationOptions;
+export type GetAccountPropertiesOptions = FormRecognizerOperationOptions;
 
 /**
  * Options for the delete model operation.
@@ -50,14 +52,7 @@ export type DeleteModelOptions = FormRecognizerOperationOptions;
 export type GetModelOptions = FormRecognizerOperationOptions;
 
 /**
- * Options for the get model operation.
- */
-export type GetLabeledModelOptions = FormRecognizerOperationOptions & {
-  includeKeys?: boolean;
-};
-
-/**
- * Options for traing models
+ * Options for training models
  */
 export type TrainModelOptions = FormRecognizerOperationOptions & {
   prefix?: string;
@@ -65,7 +60,7 @@ export type TrainModelOptions = FormRecognizerOperationOptions & {
 };
 
 /**
- * Options for the begin training model operation.
+ * Options for starting model training operation.
  */
 export type BeginTrainingOptions<T> = TrainModelOptions & {
   intervalInMs?: number;
@@ -74,19 +69,11 @@ export type BeginTrainingOptions<T> = TrainModelOptions & {
 };
 
 /**
- * Options for the begin training with labels operation.
- */
-export type BeginTrainingWithLabelsOptions = FormRecognizerOperationOptions & {
-  prefix?: string;
-  includeSubFolders?: boolean;
-};
-
-/**
- * Client class for Form training operations and Form model management.
+ * Client class for training and managing custom form models.
  */
 export class FormTrainingClient {
   /**
-   * The URL to Azure Form Recognizer service endpoint
+   * Url to an Azure Form Recognizer service endpoint
    */
   public readonly endpointUrl: string;
 
@@ -109,7 +96,7 @@ export class FormTrainingClient {
    *    new AzureKeyCredential("<api key>")
    * );
    * ```
-   * @param {string} endpointUrl The URL to Azure Form Recognizer service endpoint
+   * @param {string} endpointUrl Url to an Azure Form Recognizer service endpoint
    * @param {AzureKeyCredential} credential Used to authenticate requests to the service.
    * @param {FormRecognizerClientOptions} [options] Used to configure the client.
    */
@@ -161,9 +148,11 @@ export class FormTrainingClient {
   /**
    * Retrieves summary information about the cognitive service account
    *
-   * @param {GetSummaryOptions} options Options to GetSummary operation
+   * @param {GetAccountPropertiesOptions} options Options to GetSummary operation
    */
-  public async getSummary(options?: GetSummaryOptions) {
+  public async getAccountProperties(
+    options?: GetAccountPropertiesOptions
+  ): Promise<AccountProperties> {
     const realOptions: ListModelsOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
       "FormTrainingClient-listCustomModels",
@@ -175,7 +164,10 @@ export class FormTrainingClient {
         ...operationOptionsToRequestOptionsBase(finalOptions)
       });
 
-      return result;
+      return {
+        limit: result.summary!.limit,
+        count: result.summary!.count
+      };
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -217,7 +209,7 @@ export class FormTrainingClient {
   }
 
   /**
-   * Get detailed information about a model from unsupervised training.
+   * Get detailed information about a model from training without labels.
    *
    * @param {string} modelId Id of the model to get information
    * @param {GetModelOptions} options Options to the Get Model operation
@@ -233,59 +225,13 @@ export class FormTrainingClient {
     );
 
     try {
-      const respnose = await this.client.getCustomModel(modelId, {
+      const response = await this.client.getCustomModel(modelId, {
         ...operationOptionsToRequestOptionsBase(finalOptions),
         // Include keys is always set to true -- the service does not have a use case for includeKeys: false.
         includeKeys: true
       });
-      if (
-        respnose.modelInfo.status === "ready" &&
-        (respnose.trainResult?.averageModelAccuracy || respnose.trainResult?.fields)
-      ) {
-        throw new Error(`The model ${modelId} is trained with labels.`);
-      } else {
-        return (respnose as unknown) as FormModelResponse;
-      }
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
 
-  /**
-   * Get detailed information about a model from supervised training using labels.
-   *
-   * @param {string} modelId Id of the model to get information
-   * @param {GetModelOptions} options Options to the Get Labeled Model operation
-   */
-  public async getLabeledModel(
-    modelId: string,
-    options: GetLabeledModelOptions = {}
-  ): Promise<LabeledFormModelResponse> {
-    const realOptions = options || {};
-    const { span, updatedOptions: finalOptions } = createSpan(
-      "FormTrainingClient-getLabeledModel",
-      realOptions
-    );
-
-    try {
-      const response = await this.client.getCustomModel(
-        modelId,
-        operationOptionsToRequestOptionsBase(finalOptions)
-      );
-
-      if (response.modelInfo.status === "ready") {
-        if (response.keys) {
-          throw new Error(`The model ${modelId} is not rained with labels.`);
-        }
-      }
-
-      return (response as unknown) as LabeledFormModelResponse;
+      return toFormModelResponse(response);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -433,7 +379,7 @@ export class FormTrainingClient {
   }
 
   /**
-   * Creates and trains a model without using labels (i.e., unsupervised).
+   * Creates and trains a custom form model.
    * This method returns a long running operation poller that allows you to wait
    * indefinitely until the copy is completed.
    * You can also cancel a copy before it is completed by calling `cancelOperation` on the poller.
@@ -442,22 +388,24 @@ export class FormTrainingClient {
    *
    * Example usage:
    * ```ts
-   *   const dataSourceUri = process.env["DOCUMENT_SOURCE"] || "<url/path to the training documents>";
-   *   const client = new FormTrainingClient(endpoint, new AzureKeyCredential(apiKey));
+   * const blobContainerUrl = "<url to the blob container storing training documents>";
+   * const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
+   * const trainingClient = client.getFormTrainingClient();
    *
-   *   const poller = await client.beginTraining(dataSourceUri, {
-   *     onProgress: (state) => { console.log(`training status: ${state.status}`); }
-   *   });
-   *   await poller.pollUntilDone();
-   *   const response = poller.getResult();
-   *   console.log(response.modelInfo.modelId);
+   * const poller = await trainingClient.beginTraining(blobContainerUrl, {
+   *   onProgress: (state) => { console.log("training status: "); console.log(state); }
+   * });
+   * await poller.pollUntilDone();
+   * const response = poller.getResult();
+   * console.log(response)
    * ```
    * @summary Creats and trains a model
-   * @param {string} source Accessible Uri to an Azure Storage Blob container storing the training documents
-   * @param {BeginTrainingOptions} [options] Options to the BeginTraining operation
+   * @param {string} blobContainerUrl Accessible url to an Azure Storage Blob container storing the training documents
+   * @param {BeginTrainingOptions} [options] Options to start model training operation
    */
   public async beginTraining(
-    source: string,
+    blobContainerUrl: string,
+    useLabels: boolean = false,
     options: BeginTrainingOptions<FormModelResponse> = {}
   ): Promise<PollerLike<PollOperationState<FormModelResponse>, FormModelResponse>> {
     const trainPollerClient: TrainPollerClient<FormModelResponse> = {
@@ -466,63 +414,12 @@ export class FormTrainingClient {
         source: string,
         _useLabelFile?: boolean,
         options?: TrainModelOptions
-      ) => trainCustomModelInternal(this.client, source, false, options)
+      ) => trainCustomModelInternal(this.client, source, useLabels, options)
     };
 
     const poller = new BeginTrainingPoller({
       client: trainPollerClient,
-      source,
-      intervalInMs: options.intervalInMs,
-      onProgress: options.onProgress,
-      resumeFrom: options.resumeFrom,
-      trainModelOptions: options
-    });
-
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Creates and trains a model using labels (i.e., supervised).
-   * This method returns a long running operation poller that allows you to wait
-   * indefinitely until the copy is completed.
-   * You can also cancel a copy before it is completed by calling `cancelOperation` on the poller.
-   * Note that the onProgress callback will not be invoked if the operation completes in the first
-   * request, and attempting to cancel a completed copy will result in an error being thrown.
-   *
-   * Example usage:
-   * ```ts
-   *   const dataSourceUri = process.env["DOCUMENT_SOURCE"] || "<url/path to the training documents>";
-   *   const client = new FormTrainingClient(endpoint, new AzureKeyCredential(apiKey));
-   *
-   *   const poller = await client.beginTrainingWithLabel(dataSourceUri, {
-   *     onProgress: (state) => { console.log(`training status: ${state.status}`); }
-   *   });
-   *   await poller.pollUntilDone();
-   *   const response = poller.getResult();
-   *   console.log(response.modelInfo.modelId);
-   * ```
-   * @summary Creats and trains a model
-   * @param {string} source Accessible Uri to an Azure Storage Blob container storing the training documents and label files
-   * @param {BeginTrainingOptions} [options] Options to the BeginTraining operation
-   */
-  public async beginTrainingWithLabel(
-    source: string,
-    options: BeginTrainingOptions<LabeledFormModelResponse> = {}
-  ): Promise<PollerLike<PollOperationState<LabeledFormModelResponse>, LabeledFormModelResponse>> {
-    const trainPollerClient: TrainPollerClient<LabeledFormModelResponse> = {
-      getModel: (modelId: string, options: GetModelOptions) =>
-        this.getLabeledModel(modelId, options),
-      trainCustomModelInternal: (
-        source: string,
-        _useLabelFile?: boolean,
-        options?: TrainModelOptions
-      ) => trainCustomModelInternal(this.client, source, true, options)
-    };
-
-    const poller = new BeginTrainingPoller({
-      client: trainPollerClient,
-      source,
+      source: blobContainerUrl,
       intervalInMs: options.intervalInMs,
       onProgress: options.onProgress,
       resumeFrom: options.resumeFrom,
@@ -534,12 +431,15 @@ export class FormTrainingClient {
   }
 }
 
+/**
+ * @private
+ */
 async function trainCustomModelInternal(
   client: GeneratedClient,
   source: string,
   useLabelFile?: boolean,
   options?: TrainModelOptions
-) {
+): Promise<FormRecognizerClientTrainCustomModelAsyncResponse> {
   const realOptions = options || {};
   const { span, updatedOptions: finalOptions } = createSpan(
     "trainCustomModelInternal",

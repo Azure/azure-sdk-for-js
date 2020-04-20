@@ -2,7 +2,7 @@ import { CloseReason } from "./models/public";
 import { ReceivedEventData } from "./eventData";
 import { LastEnqueuedEventProperties } from "./eventHubReceiver";
 import { EventPosition } from "./eventPosition";
-import { TracingOptions } from "./util/operationOptions";
+import { OperationTracingOptions } from "@azure/core-tracing";
 import { MessagingError } from "@azure/core-amqp";
 
 /**
@@ -157,7 +157,7 @@ export interface SubscriptionEventHandlers {
  * Options to configure the `subscribe` method on the `EventHubConsumerClient`.
  * For example, `{ maxBatchSize: 20, maxWaitTimeInSeconds: 120, startPosition: { sequenceNumber: 123 } }
  */
-export interface SubscribeOptions extends TracingOptions {
+export interface SubscribeOptions {
   /**
    * The number of events to request per batch
    */
@@ -188,6 +188,10 @@ export interface SubscribeOptions extends TracingOptions {
    * The owner level to use as this subscription subscribes to partitions.
    */
   ownerLevel?: number;
+  /**
+   * Options for configuring tracing.
+   */
+  tracingOptions?: OperationTracingOptions;
 }
 
 /**

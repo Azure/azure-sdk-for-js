@@ -128,7 +128,7 @@ export const ModelInfo: coreHttp.CompositeMapper = {
         serializedName: "createdDateTime",
         required: true
       },
-      lastUpdatedOn: {
+      lastModified: {
         type: { name: "DateTime" },
         serializedName: "lastUpdatedDateTime",
         required: true
@@ -218,7 +218,7 @@ export const TrainingDocumentInfo: coreHttp.CompositeMapper = {
         serializedName: "documentName",
         required: true
       },
-      pages: {
+      pageCount: {
         type: { name: "Number" },
         serializedName: "pages",
         required: true
@@ -299,7 +299,7 @@ export const AnalyzeOperationResult: coreHttp.CompositeMapper = {
         serializedName: "createdDateTime",
         required: true
       },
-      lastUpdatedOn: {
+      lastModified: {
         type: { name: "DateTime" },
         serializedName: "lastUpdatedDateTime",
         required: true
@@ -827,7 +827,7 @@ export const ModelsSummary: coreHttp.CompositeMapper = {
         serializedName: "limit",
         required: true
       },
-      lastUpdatedOn: {
+      lastModified: {
         type: { name: "DateTime" },
         serializedName: "lastUpdatedDateTime",
         required: true
