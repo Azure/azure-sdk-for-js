@@ -8,6 +8,6 @@ The environment variables you will need to properly assign to run the live test 
 - `SEARCH_API_ADMIN_KEY_ALT` (optional): The secondary key of your Azure Search account.
 - `ENDPOINT`: The endpoint of your Azure Search account.
 
-Keep in mind that this project **does not use [the recorder](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/test-utils/recorder)* yet.
+Keep in mind that this project **does not use [the recorder](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/test-utils/recorder)** yet.
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fsearch%2Fsearch-documents%2Ftest%2FREADME.png)

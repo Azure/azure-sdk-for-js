@@ -10,6 +10,6 @@ The environment variables you will need to properly assign to run the live test 
 - `IOTHUB_EH_COMPATIBLE_CONNECTION_STRING`: An Azure Event Hub compatible connection string provided by your Azure IoT Hub account.
 - `STORAGE_CONNECTION_STRING`: The connection string of an Azure Storage account.
 
-Keep in mind that this project **does not use [the recorder](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/test-utils/recorder)* yet.
+Keep in mind that this project **does not use [the recorder](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/test-utils/recorder)** yet.
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Feventhub%2Fevent-hubs%2Ftest%2FREADME.png)

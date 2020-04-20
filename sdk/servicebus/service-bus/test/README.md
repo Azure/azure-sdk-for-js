@@ -9,7 +9,7 @@ The environment variables you will need to properly assign to run the live test 
 - `AZURE_TENANT_ID`: The Tenant ID of your Azure account.
 - `SERVICEBUS_CONNECTION_STRING`: The connection string of your Azure Service Bus account.
 
-Keep in mind that this project **does not use [the recorder](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/test-utils/recorder)* yet.
+Keep in mind that this project **does not use [the recorder](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/test-utils/recorder)** yet.
 
 ## Setup for running tests that use AAD based authentication
 
