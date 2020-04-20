@@ -28,7 +28,7 @@ async function main(argv) {
 
   const targetPackagePath = path.join(repoRoot, targetPackage.projectFolder);
   console.log(`##vso[task.setvariable variable=PackagePath]${targetPackagePath}`);
-  //log(`Emitted variable "PackagePath" with content: ${targetPackagePath}`);
+  log(`Emitted variable "PackagePath" with content: ${targetPackagePath}`);
 }
 
 main(argv);
