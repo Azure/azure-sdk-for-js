@@ -50,10 +50,16 @@ npm run build
 
 4. Add additional environment variables specified in the sample file you wish to run.
 
-5. Run whichever samples you like (note that some samples may require additional setup, see the table above):
+5. Change directory to `dist`
 
 ```bash
-node dist/recognizeReceipt.js
+cd dist
+```
+
+6. Run whichever samples you like (note that some samples may require additional setup, see the table above):
+
+```bash
+node recognizeReceipt.js
 ```
 
 ## Next Steps
