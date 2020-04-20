@@ -970,8 +970,8 @@ export class ServiceBusMessage implements ReceivedMessage {
     if (!isDeferredMessage) this.throwIfMessageCannotBeSettled(receiver, dispositionType!);
 
     // Message Settlement with managementLink
-    // 1. If the received message is deferred
-    // 2. If the received message is without a receiveLink that needs backup managementLink for message settlement
+    // 1. If the received message is deferred as such messages can only be settled using managementLink
+    // 2. If the associated receiver link is not available. This does not apply to messages from sessions as we need a lock on the session to do so.
     if (isDeferredMessage || ((!receiver || !receiver.isOpen()) && this.sessionId == undefined)) {
       await this._context.managementClient!.updateDispositionStatus(this.lockToken!, operation, {
         ...options,
