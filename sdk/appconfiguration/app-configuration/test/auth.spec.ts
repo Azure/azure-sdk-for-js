@@ -4,9 +4,9 @@
 import { AppConfigurationClient } from "../src";
 import { startRecorder, getTokenAuthenticationCredential, CredsAndEndpoint } from "./testHelpers";
 import * as assert from "assert";
-import { Recorder, env } from "@azure/test-utils-recorder";
+import { Recorder, env, isPlaybackMode } from "@azure/test-utils-recorder";
 
-describe.only("Authentication", () => {
+describe("Authentication", () => {
   let credsAndEndpoint: CredsAndEndpoint;
   let recorder: Recorder;
   let uniqueId: string;
@@ -28,8 +28,10 @@ describe.only("Authentication", () => {
     );
   });
 
-  // TODO: How do I make this work?
-  it.skip("token authentication works", async () => {
+  it("token authentication works", async function() {
+    if (isPlaybackMode()) {
+      this.skip();
+    }
     const client = new AppConfigurationClient(
       credsAndEndpoint.endpoint,
       credsAndEndpoint.credential

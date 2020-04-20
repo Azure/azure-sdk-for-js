@@ -1,8 +1,8 @@
 let nock = require('nock');
 
-module.exports.hash = "5a938ceb5c83e5289a075427853c8d4f";
+module.exports.hash = "07d1ba0c1515945d43dfc620211bed32";
 
-module.exports.testInfo = {"uniqueName":{"":"158700256431007475"},"newDate":{}}
+module.exports.testInfo = {"uniqueName":{"":"158741019984603234"},"newDate":{}}
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fmyappconfig.azconfig.io%2F.default")
@@ -20,39 +20,47 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  'dad6281b-c506-4d0a-bf39-5122d5e00200',
+  '4e1019e0-1af5-4a8a-916b-eb47d3612500',
   'x-ms-ests-server',
-  '2.1.10393.20 - NCUS ProdSlices',
+  '2.1.10393.21 - SCUS ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AktZR4TaT7FNh9S-ETmIAdAlh4xWAQAAAMOzKdYOAAAA; expires=Sat, 16-May-2020 02:02:44 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Aob-X6FtDs9Ii2h14kJXhGUlh4xWAQAAABjsL9YOAAAA; expires=Wed, 20-May-2020 19:16:40 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; SameSite=None; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; SameSite=None; secure; HttpOnly',
   'Date',
-  'Thu, 16 Apr 2020 02:02:43 GMT',
+  'Mon, 20 Apr 2020 19:16:40 GMT',
   'Content-Length',
   '1251'
 ]);
 
 nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
-  .put('/kv/token-authentication-test-1587002564311', {"key":"token-authentication-test-1587002564311","value":"hello"})
+  .put('/kv/token-authentication-test-1587410199848', {"key":"token-authentication-test-1587410199848","value":"hello"})
   .query(true)
-  .reply(403, "", [
+  .reply(200, {"etag":"RkWv0NEXTbutt0NzQkHHQeo3xlf","key":"token-authentication-test-1587410199848","label":null,"content_type":null,"value":"hello","tags":{},"locked":false,"last_modified":"2020-04-20T19:16:46+00:00"}, [
   'Server',
   'nginx/1.16.1',
   'Date',
-  'Thu, 16 Apr 2020 02:02:45 GMT',
-  'Content-Length',
-  '0',
+  'Mon, 20 Apr 2020 19:16:45 GMT',
+  'Content-Type',
+  'application/vnd.microsoft.appconfig.kv+json; charset=utf-8',
+  'Transfer-Encoding',
+  'chunked',
   'Connection',
   'close',
+  'Last-Modified',
+  'Mon, 20 Apr 2020 19:16:46 GMT',
+  'ETag',
+  '"RkWv0NEXTbutt0NzQkHHQeo3xlf"',
+  'Sync-Token',
+  'zAJw6V16=NjotMSMxOTI3ODk1;sn=1927895',
   'x-ms-request-id',
-  '5890b99f-f4bb-446a-928c-89a83e80296c',
+  '7a237c30-1444-448a-a478-f49c4fe6453a',
   'x-ms-correlation-request-id',
-  '5890b99f-f4bb-446a-928c-89a83e80296c',
+  '7a237c30-1444-448a-a478-f49c4fe6453a',
   'Access-Control-Allow-Origin',
   '*',
   'Access-Control-Allow-Credentials',
