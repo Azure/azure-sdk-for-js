@@ -75,7 +75,7 @@
   "dependencies": {
     "@azure/core-auth": "^1.1.0",
     "@azure/core-http": "^1.0.0",
-    "@azure/core-tracing": "1.0.0-preview.7",
+    "@azure/core-tracing": "1.0.0-preview.8",
     "@azure/logger": "^1.0.0",
     "@opentelemetry/types": "^0.2.0",
     "tslib": "^1.10.0"
@@ -83,7 +83,7 @@
   "devDependencies": {
     "@azure/identity": "1.1.0-preview.2",
     "@azure/test-utils-recorder": "^1.0.0",
-    "@microsoft/api-extractor": "^7.5.4",
+    "@microsoft/api-extractor": "7.7.11",
     "@rollup/plugin-commonjs": "^11.0.1",
     "@rollup/plugin-json": "^4.0.0",
     "@rollup/plugin-multi-entry": "^3.0.0",

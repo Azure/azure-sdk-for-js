@@ -1,0 +1,89 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+/**
+ * This sample demonstrates how to output the information that will help with manually
+ * validating your output from recognize custom forms.
+ */
+
+import { FormRecognizerClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
+import * as fs from "fs";
+
+// Load the .env file if it exists
+require("dotenv").config();
+
+export async function main() {
+  // You will need to set these environment variables or edit the following values
+  const endpoint = process.env["COGNITIVE_SERVICE_ENDPOINT"] || "<cognitive services endpoint>";
+  const apiKey = process.env["COGNITIVE_SERVICE_API_KEY"] || "<api key>";
+  const modelId = process.env["CUSTOM_MODEL_ID"] || "<custom model id>";
+  // The form you are recognizing must be of the same type as the forms the custom model was trained on
+  const path = "../assets/Invoice_6.pdf";
+
+  if (!fs.existsSync(path)) {
+    throw new Error(`Expecting file ${path} exists`);
+  }
+
+  const readStream = fs.createReadStream(path);
+
+  const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
+  const poller = await client.beginRecognizeForms(modelId, readStream, "application/pdf", {
+    onProgress: (state) => {
+      console.log(`status: ${state.status}`);
+    }
+  });
+  await poller.pollUntilDone();
+  const response = poller.getResult();
+
+  if (!response) {
+    throw new Error("Expecting valid response!");
+  }
+
+  console.log(response.status);
+  console.log("Forms:");
+  let i = 0;
+  for (const form of response.forms || []) {
+    console.log(`  Form #${i++} has type ${form.formType}`);
+    console.log("  Fields:");
+    for (const fieldName in form.fields) {
+      // each field is of type FormField
+      const field = form.fields[fieldName];
+      const boundingBox =
+        field.valueText && field.valueText.boundingBox
+          ? field.valueText.boundingBox.map((p) => `[${p.x},${p.y}]`).join(", ")
+          : "N/A";
+      console.log(
+        `    Field ${fieldName} has value '${field.value}' with a confidence score of ${field.confidence} within bounding box ${boundingBox}`
+      );
+    }
+    console.log("  Pages:");
+    for (const page of form.pages || []) {
+      console.log(
+        `    Page #${page.pageNumber} with width ${page.width}, height ${page.height}, and text angle ${page.textAngle}`
+      );
+      console.log("    Tables");
+      for (const table of page.tables || []) {
+        for (const row of table.rows) {
+          for (const cell of row.cells) {
+            console.log(
+              `      Cell[${cell.rowIndex},${cell.columnIndex}] has text ${cell.text} with confidence ${cell.confidence} based on the following words:`
+            );
+            for (const element of cell.textContent || []) {
+              const boundingBox = element.boundingBox
+                ? element.boundingBox.map((p) => `[$.2d{p.x},${p.y}]`).join(", ")
+                : "N/A";
+              console.log(`        '${element.text}' within bounding box ${boundingBox}`);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  console.log("Errors:");
+  console.log(response.errors);
+}
+
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});

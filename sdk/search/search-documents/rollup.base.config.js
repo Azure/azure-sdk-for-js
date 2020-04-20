@@ -3,6 +3,7 @@ import nodeResolve from "@rollup/plugin-node-resolve";
 import multiEntry from "@rollup/plugin-multi-entry";
 import cjs from "@rollup/plugin-commonjs";
 import replace from "@rollup/plugin-replace";
+import shim from "rollup-plugin-shim";
 import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import viz from "rollup-plugin-visualizer";
@@ -14,7 +15,7 @@ const input = "dist-esm/src/index.js";
 const production = process.env.NODE_ENV === "production";
 
 export function nodeConfig(test = false) {
-  const externalNodeBuiltins = ["events"];
+  const externalNodeBuiltins = ["events", "path"];
   const baseConfig = {
     input: input,
     external: depNames.concat(externalNodeBuiltins),
@@ -68,6 +69,7 @@ export function browserConfig(test = false) {
       globals: { "@azure/core-http": "Azure.Core.HTTP" }
     },
     preserveSymlinks: false,
+    external: ["fs-extra"],
     plugins: [
       sourcemaps(),
       replace({
@@ -78,6 +80,13 @@ export function browserConfig(test = false) {
           // any code guarded by if (isNode) { ... }
           "if (isNode)": "if (false)"
         }
+      }),
+      shim({
+        constants: `export default {}`,
+        fs: `export default {}`,
+        os: `export default {}`,
+        dotenv: `export function config() { }`,
+        path: `export default {}`
       }),
       nodeResolve({
         mainFields: ["module", "browser"],

@@ -218,7 +218,7 @@ export const TrainingDocumentInfo: coreHttp.CompositeMapper = {
         serializedName: "documentName",
         required: true
       },
-      pages: {
+      pageCount: {
         type: { name: "Number" },
         serializedName: "pages",
         required: true

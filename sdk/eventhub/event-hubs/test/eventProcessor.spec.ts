@@ -568,7 +568,7 @@ describe("Event Processor", function(): void {
     }
   });
 
-  it("should expose an id #RunnableInBrowser", async function(): Promise<void> {
+  it("should expose an id", async function(): Promise<void> {
     const processor = new EventProcessor(
       EventHubClient.defaultConsumerGroupName,
       client,
@@ -587,7 +587,7 @@ describe("Event Processor", function(): void {
     id.length.should.be.gt(1);
   });
 
-  it("id can be forced to be a specific value #RunnableInBrowser", async function(): Promise<void> {
+  it("id can be forced to be a specific value", async function(): Promise<void> {
     const processor = new EventProcessor(
       EventHubClient.defaultConsumerGroupName,
       client,
@@ -602,9 +602,7 @@ describe("Event Processor", function(): void {
     processor.id.should.equal("hello");
   });
 
-  it("should treat consecutive start invocations as idempotent #RunnableInBrowser", async function(): Promise<
-    void
-  > {
+  it("should treat consecutive start invocations as idempotent", async function(): Promise<void> {
     const partitionIds = await client.getPartitionIds({});
 
     // ensure we have at least 2 partitions
@@ -643,9 +641,7 @@ describe("Event Processor", function(): void {
     subscriptionEventHandler.allShutdown(partitionIds).should.be.true;
   });
 
-  it("should not throw if stop is called without start #RunnableInBrowser", async function(): Promise<
-    void
-  > {
+  it("should not throw if stop is called without start", async function(): Promise<void> {
     let didPartitionProcessorStart = false;
 
     const processor = new EventProcessor(
@@ -671,7 +667,7 @@ describe("Event Processor", function(): void {
     didPartitionProcessorStart.should.be.false;
   });
 
-  it("should support start after stopping #RunnableInBrowser", async function(): Promise<void> {
+  it("should support start after stopping", async function(): Promise<void> {
     const partitionIds = await client.getPartitionIds({});
 
     // ensure we have at least 2 partitions
@@ -726,7 +722,7 @@ describe("Event Processor", function(): void {
     subscriptionEventHandler.allShutdown(partitionIds).should.be.true;
   });
 
-  describe("Partition processor #RunnableInBrowser", function(): void {
+  describe("Partition processor", function(): void {
     it("should support processing events across multiple partitions", async function(): Promise<
       void
     > {
@@ -763,7 +759,7 @@ describe("Event Processor", function(): void {
     });
   });
 
-  describe("InMemory Partition Manager #RunnableInBrowser", function(): void {
+  describe("InMemory Partition Manager", function(): void {
     it("should claim ownership, get a list of ownership and update checkpoint", async function(): Promise<
       void
     > {
@@ -1443,7 +1439,7 @@ describe("Event Processor", function(): void {
     });
   });
 
-  describe("with trackLastEnqueuedEventProperties #RunnableInBrowser", function(): void {
+  describe("with trackLastEnqueuedEventProperties", function(): void {
     it("should have lastEnqueuedEventProperties populated when trackLastEnqueuedEventProperties is set to true", async function(): Promise<
       void
     > {

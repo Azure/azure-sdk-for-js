@@ -15,7 +15,7 @@ export { Metadata } from "./models";
 export * from "./QueueClient";
 export * from "./QueueSASPermissions";
 export * from "./QueueServiceClient";
-export { CommonOptions, OperationTracingOptions } from "./StorageClient";
+export { CommonOptions } from "./StorageClient";
 export * from "./generatedModels";
 export { RestError };
 export { logger } from "./log";

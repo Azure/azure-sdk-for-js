@@ -29,7 +29,7 @@ export * from "./policies/CredentialPolicy";
 export * from "./StorageRetryPolicyFactory";
 export * from "./policies/StorageSharedKeyCredentialPolicy";
 export * from "./SASQueryParameters";
-export { CommonOptions, OperationTracingOptions } from "./StorageClient";
+export { CommonOptions } from "./StorageClient";
 export * from "./generatedModels";
 export {
   AppendBlobRequestConditions,

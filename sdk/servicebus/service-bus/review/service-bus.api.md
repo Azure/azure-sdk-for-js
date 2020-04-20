@@ -8,10 +8,10 @@ import { AbortSignalLike } from '@azure/abort-controller';
 import { AmqpMessage } from '@azure/core-amqp';
 import { delay } from '@azure/core-amqp';
 import { Delivery } from 'rhea-promise';
-import { default as Long_2 } from 'long';
+import Long from 'long';
 import { MessagingError } from '@azure/core-amqp';
+import { OperationTracingOptions } from '@azure/core-tracing';
 import { RetryOptions } from '@azure/core-amqp';
-import { SpanOptions } from '@opentelemetry/types';
 import { TokenCredential } from '@azure/core-amqp';
 import { TokenType } from '@azure/core-amqp';
 import { WebSocketImpl } from 'rhea-promise';
@@ -19,7 +19,7 @@ import { WebSocketOptions } from '@azure/core-amqp';
 
 // @public
 export interface BrowseMessagesOptions extends OperationOptions {
-    fromSequenceNumber?: Long_2;
+    fromSequenceNumber?: Long;
     maxMessageCount?: number;
 }
 
@@ -75,8 +75,9 @@ export interface MessageHandlers<ReceivedMessageT> {
 export { MessagingError }
 
 // @public
-export interface OperationOptions extends TracingOptions {
+export interface OperationOptions {
     abortSignal?: AbortSignalLike;
+    tracingOptions?: OperationTracingOptions;
 }
 
 // @public
@@ -93,7 +94,7 @@ export interface ReceivedMessage extends ServiceBusMessage {
     readonly expiresAtUtc?: Date;
     lockedUntilUtc?: Date;
     readonly lockToken?: string;
-    readonly sequenceNumber?: Long_2;
+    readonly sequenceNumber?: Long;
 }
 
 // @public
@@ -119,8 +120,8 @@ export interface Receiver<ReceivedMessageT> {
     getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<ReceivedMessageT>;
     isReceivingMessages(): boolean;
     receiveBatch(maxMessages: number, options?: ReceiveBatchOptions): Promise<ReceivedMessageT[]>;
-    receiveDeferredMessage(sequenceNumber: Long_2, options?: OperationOptions): Promise<ReceivedMessageT | undefined>;
-    receiveDeferredMessages(sequenceNumbers: Long_2[], options?: OperationOptions): Promise<ReceivedMessageT[]>;
+    receiveDeferredMessage(sequenceNumber: Long, options?: OperationOptions): Promise<ReceivedMessageT | undefined>;
+    receiveDeferredMessages(sequenceNumbers: Long[], options?: OperationOptions): Promise<ReceivedMessageT[]>;
     receiveMode: "peekLock" | "receiveAndDelete";
     subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SubscribeOptions): void;
 }
@@ -136,13 +137,13 @@ export interface RuleDescription {
 
 // @public
 export interface Sender {
-    cancelScheduledMessage(sequenceNumber: Long_2, options?: OperationOptions): Promise<void>;
-    cancelScheduledMessages(sequenceNumbers: Long_2[], options?: OperationOptions): Promise<void>;
+    cancelScheduledMessage(sequenceNumber: Long, options?: OperationOptions): Promise<void>;
+    cancelScheduledMessages(sequenceNumbers: Long[], options?: OperationOptions): Promise<void>;
     close(): Promise<void>;
     createBatch(options?: CreateBatchOptions): Promise<ServiceBusMessageBatch>;
     isClosed: boolean;
-    scheduleMessage(scheduledEnqueueTimeUtc: Date, message: ServiceBusMessage, options?: OperationOptions): Promise<Long_2>;
-    scheduleMessages(scheduledEnqueueTimeUtc: Date, messages: ServiceBusMessage[], options?: OperationOptions): Promise<Long_2[]>;
+    scheduleMessage(scheduledEnqueueTimeUtc: Date, message: ServiceBusMessage, options?: OperationOptions): Promise<Long>;
+    scheduleMessages(scheduledEnqueueTimeUtc: Date, messages: ServiceBusMessage[], options?: OperationOptions): Promise<Long[]>;
     send(message: ServiceBusMessage, options?: OperationOptions): Promise<void>;
     sendBatch(messageBatch: ServiceBusMessageBatch, options?: OperationOptions): Promise<void>;
 }
@@ -239,13 +240,6 @@ export interface SubscriptionRuleManager {
 export { TokenCredential }
 
 export { TokenType }
-
-// @public
-export interface TracingOptions {
-    tracingOptions?: {
-        spanOptions?: SpanOptions;
-    };
-}
 
 // @public
 export interface WaitTimeOptions {

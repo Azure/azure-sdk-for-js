@@ -297,9 +297,7 @@ describe("session tests", () => {
       );
       await testGetSetState(TestClientType.PartitionedSubscriptionWithSessions);
     });
-    it("Unpartitioned Queue - Testing getState and setState #RunInBrowser", async function(): Promise<
-      void
-    > {
+    it("Unpartitioned Queue - Testing getState and setState", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions, TestMessage.sessionId);
       await testGetSetState(TestClientType.UnpartitionedQueueWithSessions);
     });

@@ -150,7 +150,9 @@ export class FormTrainingClient {
    *
    * @param {GetAccountPropertiesOptions} options Options to GetSummary operation
    */
-  public async getAccountProperties(options?: GetAccountPropertiesOptions): Promise<AccountProperties> {
+  public async getAccountProperties(
+    options?: GetAccountPropertiesOptions
+  ): Promise<AccountProperties> {
     const realOptions: ListModelsOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
       "FormTrainingClient-listCustomModels",
