@@ -74,7 +74,7 @@
   "autoPublish": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
-    "@azure/core-auth": "^2.0.0",
+    "@azure/core-auth": "^1.1.2",
     "@azure/core-lro": "^1.0.0",
     "@azure/core-paging": "^1.1.0",
     "@azure/core-http": "^1.0.0",

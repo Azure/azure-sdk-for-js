@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.0 (Unreleased)
+## 1.1.2 (Unreleased)
 - Remove the below interfaces from the public API surface as they have their source of truth defined elsewhere.
 Fixes [bug 8301](https://github.com/Azure/azure-sdk-for-js/issues/8301).
   - OperationOptions
