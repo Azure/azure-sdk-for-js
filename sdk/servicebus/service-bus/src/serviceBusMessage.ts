@@ -1020,6 +1020,13 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
       );
     } else if (this.delivery.remote_settled) {
       error = new Error(`Failed to ${operation} the message as this message is already settled.`);
+    } else if ((!receiver || !receiver.isOpen()) && this.sessionId != undefined) {
+      throw translate({
+        description:
+          `Failed to ${operation} the message as the AMQP link with which the message was ` +
+          `received is no longer alive.`,
+        condition: ErrorNameConditionMapper.SessionLockLostError
+      });
     }
     if (!error) {
       return;
@@ -1042,12 +1049,17 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
     options?: DispositionStatusOptions
   ): Promise<void> {
     const dispositionType = getDispositionType(operation);
-    const receiver = this.getReceiverFromContext();
-    this.throwIfMessageCannotBeSettled(receiver, dispositionType!);
 
     const isDeferredMessage = this._context.requestResponseLockedMessages.has(this.lockToken!);
+    const receiver = isDeferredMessage
+      ? undefined
+      : this._context.getReceiver(this.delivery.link.name, this.sessionId);
+    if (!isDeferredMessage) this.throwIfMessageCannotBeSettled(receiver, dispositionType!);
 
-    if (isDeferredMessage || ((!receiver || !receiver.isOpen()) && this.sessionId === undefined)) {
+    // Message Settlement with managementLink
+    // 1. If the received message is deferred as such messages can only be settled using managementLink
+    // 2. If the associated receiver link is not available. This does not apply to messages from sessions as we need a lock on the session to do so.
+    if (isDeferredMessage || ((!receiver || !receiver.isOpen()) && this.sessionId == undefined)) {
       await this._context.managementClient!.updateDispositionStatus(this.lockToken!, operation, {
         ...options,
         sessionId: this.sessionId
@@ -1057,13 +1069,6 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
         this._context.requestResponseLockedMessages.delete(this.lockToken!);
       }
       return;
-    } else if ((!receiver || !receiver.isOpen()) && this.sessionId !== undefined) {
-      throw translate({
-        description:
-          `Failed to ${dispositionType} the message as the AMQP link with which the message was ` +
-          `received is no longer alive.`,
-        condition: ErrorNameConditionMapper.SessionLockLostError
-      });
     }
 
     return receiver!.settleMessage(this, dispositionType!, options);
