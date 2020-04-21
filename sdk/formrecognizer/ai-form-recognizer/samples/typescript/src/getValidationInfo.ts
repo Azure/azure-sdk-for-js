@@ -14,8 +14,8 @@ require("dotenv").config();
 
 export async function main() {
   // You will need to set these environment variables or edit the following values
-  const endpoint = process.env["COGNITIVE_SERVICE_ENDPOINT"] || "<cognitive services endpoint>";
-  const apiKey = process.env["COGNITIVE_SERVICE_API_KEY"] || "<api key>";
+  const endpoint = process.env["FORM_RECOGNIZER_ENDPOINT"] || "<cognitive services endpoint>";
+  const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] || "<api key>";
   const modelId = process.env["CUSTOM_MODEL_ID"] || "<custom model id>";
   // The form you are recognizing must be of the same type as the forms the custom model was trained on
   const path = "../assets/Invoice_6.pdf";
