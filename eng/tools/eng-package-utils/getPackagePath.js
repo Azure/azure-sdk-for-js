@@ -33,4 +33,3 @@ async function main(argv) {
 }
 
 main(argv);
-console.log("hello");
