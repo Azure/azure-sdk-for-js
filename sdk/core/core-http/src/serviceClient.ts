@@ -364,8 +364,6 @@ export class ServiceClient {
                     queryParameterValue[index] = item == undefined ? "" : item.toString();
                   }
                 }
-              } else {
-                queryParameterValue = queryParameterValue.join(queryParameter.collectionFormat);
               }
             }
             if (!queryParameter.skipEncoding) {
@@ -376,6 +374,12 @@ export class ServiceClient {
               } else {
                 queryParameterValue = encodeURIComponent(queryParameterValue);
               }
+            }
+            if (
+              queryParameter.collectionFormat != undefined &&
+              queryParameter.collectionFormat !== QueryCollectionFormat.Multi
+            ) {
+              queryParameterValue = queryParameterValue.join(queryParameter.collectionFormat);
             }
             requestUrl.setQueryParameter(
               queryParameter.mapper.serializedName || getPathStringFromParameter(queryParameter),
@@ -545,7 +549,10 @@ export function serializeRequestBody(
               rootName: xmlName || serializedName
             });
           }
-        } else if (typeName === MapperType.String && operationSpec.contentType?.match("text/plain")) {
+        } else if (
+          typeName === MapperType.String &&
+          operationSpec.contentType?.match("text/plain")
+        ) {
           // the String serializer has validated that request body is a string
           // so just send the string.
           return;
