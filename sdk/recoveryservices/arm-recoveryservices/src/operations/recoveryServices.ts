@@ -47,7 +47,7 @@ export class RecoveryServices {
    * @param input Contains information about Resource type and Resource name
    * @param callback The callback
    */
-  checkNameAvailability(resourceGroupName: string, location: string, input: Models.CheckNameAvailabilityParameters, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResultResource>): void;
+  checkNameAvailability(resourceGroupName: string, location: string, input: Models.CheckNameAvailabilityParameters, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): void;
   /**
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    * present.
@@ -56,8 +56,8 @@ export class RecoveryServices {
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkNameAvailability(resourceGroupName: string, location: string, input: Models.CheckNameAvailabilityParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResultResource>): void;
-  checkNameAvailability(resourceGroupName: string, location: string, input: Models.CheckNameAvailabilityParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckNameAvailabilityResultResource>, callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityResultResource>): Promise<Models.RecoveryServicesCheckNameAvailabilityResponse> {
+  checkNameAvailability(resourceGroupName: string, location: string, input: Models.CheckNameAvailabilityParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): void;
+  checkNameAvailability(resourceGroupName: string, location: string, input: Models.CheckNameAvailabilityParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckNameAvailabilityResult>, callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): Promise<Models.RecoveryServicesCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -95,7 +95,7 @@ const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
   },
   responses: {
     200: {
-      bodyMapper: Mappers.CheckNameAvailabilityResultResource
+      bodyMapper: Mappers.CheckNameAvailabilityResult
     },
     default: {
       bodyMapper: Mappers.CloudError

@@ -39,7 +39,7 @@ export {
   CreateBatchOptions,
   BrowseMessagesOptions
 } from "./models";
-export { OperationOptions, TracingOptions } from "./modelsToBeSharedWithEventHubs";
+export { OperationOptions } from "./modelsToBeSharedWithEventHubs";
 
 export { Receiver } from "./receivers/receiver";
 export { SubscriptionRuleManager } from "./receivers/subscriptionRuleManager";

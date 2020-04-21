@@ -22,7 +22,7 @@ export async function streamToBuffer(
 
   return new Promise<Buffer>((resolve, reject) => {
     stream.on("readable", () => {
-      let chunk = stream.read();
+      const chunk = stream.read();
       if (!chunk) {
         return;
       }
@@ -57,4 +57,8 @@ export async function streamToBuffer(
 
     stream.on("error", reject);
   });
+}
+
+export function getFirstFourBytesFromBlob(_data: Blob): Promise<Uint8Array> {
+  throw new Error("Blob is not supported in NodeJS environment")
 }

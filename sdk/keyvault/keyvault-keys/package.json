@@ -85,7 +85,7 @@
     "@azure/core-http": "^1.0.0",
     "@azure/core-lro": "^1.0.0",
     "@azure/core-paging": "^1.1.0",
-    "@azure/core-tracing": "1.0.0-preview.7",
+    "@azure/core-tracing": "1.0.0-preview.8",
     "@azure/logger": "^1.0.0",
     "@opentelemetry/types": "^0.2.0",
     "tslib": "^1.10.0"

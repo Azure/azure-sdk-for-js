@@ -20,8 +20,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 // Define connection string and related Service Bus entity names here
-const connectionString =
-  process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
+const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 const sbClient: ServiceBusClient = new ServiceBusClient(connectionString);
 
@@ -65,8 +64,8 @@ async function receiveMessage() {
     );
     // Deadletter the message received
     await messages[0].deadLetter({
-      deadletterReason: "Incorrect Recipe type",
-      deadLetterErrorDescription: "Recipe type does not  match preferences."
+      deadLetterReason: "Incorrect Recipe type",
+      deadLetterErrorDescription: "Recipe type does not match preferences."
     });
   } else {
     console.log(">>>> Error: No messages were received from the main queue.");
@@ -75,6 +74,6 @@ async function receiveMessage() {
   await receiver.close();
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.log("Error occurred: ", err);
 });

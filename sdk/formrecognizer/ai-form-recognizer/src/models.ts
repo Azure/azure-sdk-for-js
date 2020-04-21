@@ -556,10 +556,9 @@ export interface USReceipt extends RecognizedReceipt {
   transactionTime: FormField;
 }
 
-export type Locale = "US" | "UK"
+export type Locale = "US" | "UK";
 
-export type ReceiptWithLocale =
-  | { locale: "US" } & USReceipt
+export type ReceiptWithLocale = { locale: "US" } & USReceipt;
 //  | { receiptLocale: "UK" } & UKReceipt
 // ...
 

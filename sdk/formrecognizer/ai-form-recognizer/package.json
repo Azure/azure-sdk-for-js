@@ -27,6 +27,7 @@
   "files": [
     "dist/",
     "dist-esm/src/",
+    "dom-shims.d.ts",
     "types/ai-form-recognizer.d.ts",
     "README.md",
     "LICENSE"
@@ -48,16 +49,18 @@
     "build:autorest": "autorest ./swagger/README.md --typescript --package-version=1.0.0-preview.1 --version=3.0.6258",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
-    "build:samples": "cd samples && tsc -p .",
+    "build:samples": "node ../../../common/scripts/prep-samples.js && cd samples && tsc -p .",
     "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
     "build": "tsc -p . && rollup -c 2>&1 && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm dist-browser test-dist temp types *.tgz *.log",
-    "execute:samples": "echo skipped",
+    "execute:js-samples": "node ../../../common/scripts/run-samples.js samples/javascript/",
+    "execute:ts-samples": "node ../../../common/scripts/run-samples.js samples/typescript/dist/samples/typescript/src/",
+    "execute:samples": "npm run build:samples && npm run execute:js-samples && npm run execute:ts-samples",
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
-    "integration-test:node": "echo skipped",
+    "integration-test:node": "mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace -t 300000  dist-esm/test/*.spec.js dist-esm/test/node/*.spec.js",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint package.json tsconfig.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
     "lint": "eslint package.json tsconfig.json api-extractor.json src test --ext .ts -f html -o formrecognizer-lintReport.html || exit 0",
@@ -74,7 +77,7 @@
   "autoPublish": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
-    "@azure/core-auth": "^1.1.0",
+    "@azure/core-auth": "^1.1.2",
     "@azure/core-lro": "^1.0.0",
     "@azure/core-paging": "^1.1.0",
     "@azure/core-http": "^1.0.0",
@@ -86,6 +89,7 @@
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "1.1.0-preview.2",
+    "@azure/storage-blob": "^12.0.0",
     "@azure/test-utils-recorder": "^1.0.0",
     "@microsoft/api-extractor": "7.7.11",
     "@rollup/plugin-commonjs": "^11.0.1",
@@ -131,6 +135,8 @@
     "rollup-plugin-visualizer": "^3.1.1",
     "sinon": "^7.1.0",
     "source-map-support": "^0.5.9",
-    "typescript": "~3.7.5"
+    "typescript": "~3.7.5",
+    "fs-extra": "^8.1.0",
+    "@types/fs-extra": "^8.0.0"
   }
 }
