@@ -2,6 +2,9 @@
 
 ## 7.0.0-preview.2 (Unreleased)
 
+- Bug - Unable to settle previously received messages when a receiver recovers from a broken link or connection.
+  Fixed in [PR 8406](https://github.com/Azure/azure-sdk-for-js/pull/8406)
+  Please note that if using sessions, this behavior doesn't change with this release.
 
 ## 7.0.0-preview.1 (2020-04-07)
 
