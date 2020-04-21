@@ -22,6 +22,7 @@ const recognizerClient = new FormRecognizerClient(
 );
 let unlabeledModelId: string | undefined;
 let labeledModelId: string | undefined;
+let modelIdToDelete: string | undefined;
 
 describe("FormTrainingClient NodeJS only", () => {
 
@@ -99,6 +100,8 @@ describe("FormTrainingClient NodeJS only", () => {
     assert.ok(response, "Expecting valid response");
     assert.ok(response!.status === "ready", "Expecting status to be 'ready'");
     assert.ok(response!.modelId);
+    // save the model Id for deletion test later
+    modelIdToDelete = response!.modelId;
     assert.ok(
       response!.trainingDocuments && response!.trainingDocuments.length > 0,
       "Expected non empty training document list"
@@ -125,9 +128,62 @@ describe("FormTrainingClient NodeJS only", () => {
     );
     assert.deepStrictEqual(response?.trainingDocuments![0], expectedDocumentInfo);
   });
+
+  it("getAccountProperties() gets model count and limit for this account", async () => {
+    const properties = await trainingClient.getAccountProperties();
+
+    assert.ok(properties.count > 0, `Expecting models in account but got ${properties.count}`);
+    assert.ok(properties.limit > 0, `Expecting maximum number of models in account but got ${properties.limit}`);
+  });
+
+  it("listModels() iterates models in this account", async () => {
+    let count = 0;
+    for await (const _model of trainingClient.listModels()) {
+      count ++;
+      if (count > 30) {
+        break;  // work around issue https://github.com/Azure/azure-sdk-for-js/issues/8353
+      }
+    }
+    assert.ok(count > 0, `Expecting models in account but got ${count}`);
+  });
+
+  it("listModels() allows getting next model info", async () => {
+    const iter = trainingClient.listModels();
+    const item = await iter.next();
+    assert.ok(item, `Expecting a model but got ${item}`);
+    assert.ok(item.value.modelId, `Expecting a model id but got ${item.value.modelId}`);
+  });
+
+  it("getModel() returns a model", async function () {
+    if (!modelIdToDelete) {
+      this.skip();
+    }
+
+    const modelInfo = await trainingClient.getModel(modelIdToDelete!);
+
+    assert.ok(modelInfo.modelId === modelIdToDelete, "Expecting same model id");
+    assert.ok(modelInfo.models && modelInfo.models.length > 0, "Expecting no empty list of custom form sub models");
+  });
+
+  it("deleteModels() removes a model from this account", async function () {
+    if (!modelIdToDelete) {
+      this.skip();
+    }
+
+    await trainingClient.deleteModel(modelIdToDelete!);
+    try {
+      await trainingClient.getModel(modelIdToDelete!);
+      throw new Error("Expect that an error has already been thrown");
+    } catch (err) {
+      const message = (err as Error).message;
+      assert.ok(message.startsWith("Model with 'id="), `Expecting error message "${message}" to start with "Model with 'id="`);
+      assert.ok(message.endsWith(" not found."), `Expecting error message "${message}" to end with " not found."`);
+    }
+  });
+
 }).timeout(60000);
 
-describe("FormRecognizerClient form recognition NodeJS only", () => {
+describe("FormRecognizerClient custom form recognition NodeJS only", () => {
 
   before(function () {
     // TODO: create recordings
