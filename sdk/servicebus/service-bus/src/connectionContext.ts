@@ -15,7 +15,7 @@ import {
 } from "@azure/amqp-common";
 import { ServiceBusClientOptions } from "./serviceBusClient";
 import { ClientEntityContext } from "./clientEntityContext";
-import { OnAmqpEvent, EventContext, ConnectionEvents } from "rhea-promise";
+import { OnAmqpEvent, EventContext, ConnectionEvents, Connection, AmqpError } from "rhea-promise";
 
 /**
  * @internal
@@ -125,24 +125,7 @@ export namespace ConnectionContext {
             "clients. We should reconnect.",
           connectionContext.connection.id
         );
-        await delay(Constants.connectionReconnectDelay);
-        // reconnect clients if any
-        for (const id of Object.keys(connectionContext.clientContexts)) {
-          const clientContext = connectionContext.clientContexts[id];
-          log.error(
-            "[%s] calling detached on client '%s'.",
-            connectionContext.connection.id,
-            clientContext.clientId
-          );
-          clientContext.onDetached(connectionError || contextError).catch((err) => {
-            log.error(
-              "[%s] An error occurred while reconnecting the sender '%s': %O.",
-              connectionContext.connection.id,
-              clientContext.clientId,
-              err
-            );
-          });
-        }
+        await reconnect(connectionContext, connectionError || contextError);
       }
     };
 
@@ -180,11 +163,66 @@ export namespace ConnectionContext {
       }
     };
 
-    // Add listeners on the connection object.
-    connectionContext.connection.on(ConnectionEvents.connectionOpen, onConnectionOpen);
-    connectionContext.connection.on(ConnectionEvents.disconnected, disconnected);
-    connectionContext.connection.on(ConnectionEvents.protocolError, protocolError);
-    connectionContext.connection.on(ConnectionEvents.error, error);
+    async function reconnect(connectionContext: ConnectionContext, error?: Error | AmqpError) {
+      const originalConnectionId = connectionContext.connectionId;
+      try {
+        await cleanConnectionContext(connectionContext);
+      } catch {
+        log.error(
+          `[${connectionContext.connectionId}] There was an error closing the connection before reconnecting.`
+        );
+      }
+      // Create a new connection, id, locks, and cbs client.
+      connectionContext.refreshConnection();
+      addConnectionListeners(connectionContext.connection);
+      log.error(
+        `The connection "${originalConnectionId}" has been updated to "${connectionContext.connectionId}".`
+      );
+
+      await delay(Constants.connectionReconnectDelay);
+      // reconnect clients if any
+      for (const id of Object.keys(connectionContext.clientContexts)) {
+        const clientContext = connectionContext.clientContexts[id];
+        log.error(
+          "[%s] calling detached on client '%s'.",
+          connectionContext.connection.id,
+          clientContext.clientId
+        );
+        clientContext.onDetached(error).catch((err) => {
+          log.error(
+            "[%s] An error occurred while reconnecting the sender '%s': %O.",
+            connectionContext.connection.id,
+            clientContext.clientId,
+            err
+          );
+        });
+      }
+    }
+
+    function addConnectionListeners(connection: Connection) {
+      // Add listeners on the connection object.
+      connection.on(ConnectionEvents.connectionOpen, onConnectionOpen);
+      connection.on(ConnectionEvents.disconnected, disconnected);
+      connection.on(ConnectionEvents.protocolError, protocolError);
+      connection.on(ConnectionEvents.error, error);
+    }
+
+    async function cleanConnectionContext(connectionContext: ConnectionContext) {
+      // Remove listeners from the connection object.
+      connectionContext.connection.removeListener(
+        ConnectionEvents.connectionOpen,
+        onConnectionOpen
+      );
+      connectionContext.connection.removeListener(ConnectionEvents.disconnected, disconnected);
+      connectionContext.connection.removeListener(ConnectionEvents.protocolError, protocolError);
+      connectionContext.connection.removeListener(ConnectionEvents.error, error);
+      // Close the cbs session.
+      await connectionContext.cbsSession.close();
+      // Close the connection
+      await connectionContext.connection.close();
+    }
+
+    addConnectionListeners(connectionContext.connection);
 
     log.connectionCtxt(
       "[%s] Created connection context successfully.",
