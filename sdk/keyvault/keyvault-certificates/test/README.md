@@ -2,12 +2,21 @@
 
 To test this project, make sure to first build it properly by following our [building instructions](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md#building). Once the project is correctly built, you will be able to run the tests by following the [testing instructions](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md#testing).
 
-The environment variables you will need to properly assign to run the live test of this project are the following:
+To run the live tests, follow the [Integration Testing with live services](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md#integration-testing-with-live-services) instructions to automatically set up the required resources with the proper configuration.
 
-- `AZURE_CLIENT_ID`: The Client ID of your Azure account.
-- `AZURE_CLIENT_SECRET`: The secret of your Azure account.
-- `AZURE_TENANT_ID`: The Tenant ID of your Azure account.
+The live tests in this project will use the resources created from the [ARM template](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/test-resources.json), which defines:
+
+- An [Azure Key Vault](https://docs.microsoft.com/en-us/azure/key-vault/general/basic-concepts) account with as many permissions as possible to be able to run tests to most of it features.
+
+Set the below environment variables to run the live tests:
+
+- `TEST_MODE`: Should have `live` assigned.
+- `AZURE_CLIENT_ID`: The client ID of an Azure Active Directory application.
+- `AZURE_CLIENT_SECRET`: The client secret of an Azure Active Directory application.
+- `AZURE_TENANT_ID`: The Tenant ID of your organization in Azure Active Directory.
 - `KEYVAULT_NAME`: The name of the KeyVault to use.
+
+The Key Vault Certificates client live tests will create, modify and delete [certificates](https://docs.microsoft.com/en-us/azure/key-vault/certificates/about-certificates) inside of the Azure Key Vault provided by the `KEYVAULT_NAME` environment variable.
 
 ## Setup for running tests that use AAD based authentication
 
