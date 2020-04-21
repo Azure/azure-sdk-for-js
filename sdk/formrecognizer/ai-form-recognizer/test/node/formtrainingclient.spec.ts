@@ -10,9 +10,14 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 import { getTrainingContainerSasUrl } from "../util/trainingContainer";
-import { FormRecognizerClient, AzureKeyCredential, TrainingDocumentInfo, FormTrainingClient } from "../../src";
+import {
+  FormRecognizerClient,
+  AzureKeyCredential,
+  TrainingDocumentInfo,
+  FormTrainingClient
+} from "../../src";
 import { env } from "@azure/test-utils-recorder";
-import { BlobServiceClient } from '@azure/storage-blob';
+import { BlobServiceClient } from "@azure/storage-blob";
 // import { URLBuilder } from '@azure/core-http';
 
 const ASSET_PATH = path.resolve(path.join(process.cwd(), "test-assets"));
@@ -23,7 +28,7 @@ let modelIdToDelete: string | undefined;
 describe("FormTrainingClient NodeJS only", () => {
   let trainingClient: FormTrainingClient;
 
-  before(function () {
+  before(function() {
     // TODO: create recordings
     if (recorder.isPlaybackMode()) {
       this.skip();
@@ -32,8 +37,8 @@ describe("FormTrainingClient NodeJS only", () => {
     trainingClient = new FormTrainingClient(
       env.ENDPOINT,
       new AzureKeyCredential(env.FORM_RECOGNIZER_API_KEY)
-    )
-  })
+    );
+  });
 
   const expectedDocumentInfo: TrainingDocumentInfo = {
     documentName: "Form_1.jpg",
@@ -85,7 +90,10 @@ describe("FormTrainingClient NodeJS only", () => {
     assert.ok(model.fields["Signature"], "Expecting field with name 'Signature' to be valid");
 
     // TODO: why training with labels is missing `errors` array?
-    assert.deepStrictEqual(response?.trainingDocuments![0].documentName, expectedDocumentInfo.documentName);
+    assert.deepStrictEqual(
+      response?.trainingDocuments![0].documentName,
+      expectedDocumentInfo.documentName
+    );
   });
 
   it("trains model with forms and no labels including sub folders", async () => {
@@ -134,15 +142,18 @@ describe("FormTrainingClient NodeJS only", () => {
     const properties = await trainingClient.getAccountProperties();
 
     assert.ok(properties.count > 0, `Expecting models in account but got ${properties.count}`);
-    assert.ok(properties.limit > 0, `Expecting maximum number of models in account but got ${properties.limit}`);
+    assert.ok(
+      properties.limit > 0,
+      `Expecting maximum number of models in account but got ${properties.limit}`
+    );
   });
 
   it("listModels() iterates models in this account", async () => {
     let count = 0;
     for await (const _model of trainingClient.listModels()) {
-      count ++;
+      count++;
       if (count > 30) {
-        break;  // work around issue https://github.com/Azure/azure-sdk-for-js/issues/8353
+        break; // work around issue https://github.com/Azure/azure-sdk-for-js/issues/8353
       }
     }
     assert.ok(count > 0, `Expecting models in account but got ${count}`);
@@ -155,7 +166,7 @@ describe("FormTrainingClient NodeJS only", () => {
     assert.ok(item.value.modelId, `Expecting a model id but got ${item.value.modelId}`);
   });
 
-  it("getModel() returns a model", async function () {
+  it("getModel() returns a model", async function() {
     if (!modelIdToDelete) {
       this.skip();
     }
@@ -163,10 +174,13 @@ describe("FormTrainingClient NodeJS only", () => {
     const modelInfo = await trainingClient.getModel(modelIdToDelete!);
 
     assert.ok(modelInfo.modelId === modelIdToDelete, "Expecting same model id");
-    assert.ok(modelInfo.models && modelInfo.models.length > 0, "Expecting no empty list of custom form sub models");
+    assert.ok(
+      modelInfo.models && modelInfo.models.length > 0,
+      "Expecting no empty list of custom form sub models"
+    );
   });
 
-  it("deleteModels() removes a model from this account", async function () {
+  it("deleteModels() removes a model from this account", async function() {
     if (!modelIdToDelete) {
       this.skip();
     }
@@ -177,17 +191,22 @@ describe("FormTrainingClient NodeJS only", () => {
       throw new Error("Expect that an error has already been thrown");
     } catch (err) {
       const message = (err as Error).message;
-      assert.ok(message.startsWith("Model with 'id="), `Expecting error message "${message}" to start with "Model with 'id="`);
-      assert.ok(message.endsWith(" not found."), `Expecting error message "${message}" to end with " not found."`);
+      assert.ok(
+        message.startsWith("Model with 'id="),
+        `Expecting error message "${message}" to start with "Model with 'id="`
+      );
+      assert.ok(
+        message.endsWith(" not found."),
+        `Expecting error message "${message}" to end with " not found."`
+      );
     }
   });
-
 }).timeout(60000);
 
 describe("FormRecognizerClient custom form recognition NodeJS only", () => {
   let recognizerClient: FormRecognizerClient;
 
-  before(function () {
+  before(function() {
     // TODO: create recordings
     if (recorder.isPlaybackMode()) {
       this.skip();
@@ -197,7 +216,7 @@ describe("FormRecognizerClient custom form recognition NodeJS only", () => {
       env.ENDPOINT,
       new AzureKeyCredential(env.FORM_RECOGNIZER_API_KEY)
     );
-  })
+  });
 
   it("recognizes form from a jpeg file stream using model trained without labels", async () => {
     const filePath = path.join(ASSET_PATH, "forms", "Form_1.jpg");
@@ -246,9 +265,10 @@ describe("FormRecognizerClient custom form recognition NodeJS only", () => {
       });
 
       assert.ok(unlabeledModelId, "Expecting valid model id from training without labels");
-      const poller = await recognizerClient.beginRecognizeFormsFromUrl(unlabeledModelId!, blobClient.url, {
-        onProgress: (ev) => { console.log(ev)}
-      });
+      const poller = await recognizerClient.beginRecognizeFormsFromUrl(
+        unlabeledModelId!,
+        blobClient.url
+      );
       await poller.pollUntilDone();
       const response = poller.getResult();
 
