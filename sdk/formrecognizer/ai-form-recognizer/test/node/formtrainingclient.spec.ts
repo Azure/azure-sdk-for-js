@@ -4,6 +4,7 @@
 import { assert } from "chai";
 import fs from "fs-extra";
 import path from "path";
+import * as recorder from "@azure/test-utils-recorder";
 
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -23,6 +24,14 @@ let unlabeledModelId: string | undefined;
 let labeledModelId: string | undefined;
 
 describe("FormTrainingClient NodeJS only", () => {
+
+  before(function () {
+    // TODO: create recordings
+    if (recorder.isPlaybackMode()) {
+      this.skip();
+    }
+  })
+
   const trainingClient = recognizerClient.getFormTrainingClient();
   const expectedDocumentInfo: TrainingDocumentInfo = {
     documentName: "Form_1.jpg",
@@ -119,6 +128,14 @@ describe("FormTrainingClient NodeJS only", () => {
 }).timeout(60000);
 
 describe("FormRecognizerClient form recognition NodeJS only", () => {
+
+  before(function () {
+    // TODO: create recordings
+    if (recorder.isPlaybackMode()) {
+      this.skip();
+    }
+  })
+
   it("recognizes form from a jpeg file stream using model trained without labels", async () => {
     const filePath = path.join(ASSET_PATH, "forms", "Form_1.jpg");
     const stream = fs.createReadStream(filePath);

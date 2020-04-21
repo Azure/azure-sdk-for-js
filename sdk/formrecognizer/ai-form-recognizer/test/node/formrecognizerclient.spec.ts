@@ -7,14 +7,18 @@ import path from "path";
 
 // import { getTrainingContainerSasUrl } from "../util/trainingContainer";
 import { FormRecognizerClient, AzureKeyCredential } from '../../src';
-import { env } from "@azure/test-utils-recorder";
+import * as recorder from "@azure/test-utils-recorder";
 
 describe("FormRecognizerClient NodeJS only", () => {
   const ASSET_PATH = path.resolve(path.join(process.cwd(), "test-assets"));
   let client: FormRecognizerClient;
 
-  before(() => {
-    client = new FormRecognizerClient(env.ENDPOINT, new AzureKeyCredential(env.FORM_RECOGNIZER_API_KEY));
+  before(function () {
+    // TODO: create recordings
+    if (recorder.isPlaybackMode()) {
+      this.skip();
+    }
+    client = new FormRecognizerClient(recorder.env.ENDPOINT, new AzureKeyCredential(recorder.env.FORM_RECOGNIZER_API_KEY));
   })
 
   it("recognizes content from a pdf file stream", async () => {
