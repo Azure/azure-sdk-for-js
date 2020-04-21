@@ -137,7 +137,7 @@ By default, these npm scripts run recorded tests. We use a custom recording libr
 
 #### Recorded tests
 
-To run unit tests, go to the root of the project you want to test and run `rushx unit-test`. These tests aim to reproduce the behavior of our library against remote endpoints through previously recorded HTTP request and responses. You won't need to have any environment configuration, nor internet access, for these tests to run.
+By default, the npm scripts `test`, `test:node` and `test:browser` run recorded tests in playback mode i.e there is no request made to the service. For http requests made in each test case, there is a recorded response that is used which reproduces the service behavior.
 
 Keep in mind that if you modify the test files or the underlying network calls of the project you're testing, the recordings will need to be re-generated.
 
