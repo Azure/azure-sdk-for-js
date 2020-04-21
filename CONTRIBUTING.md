@@ -139,7 +139,7 @@ By default, these npm scripts run recorded tests. We use a custom recording libr
 
 By default, the npm scripts `test`, `test:node` and `test:browser` run recorded tests in playback mode i.e there is no request made to the service. For http requests made in each test case, there is a recorded response that is used which reproduces the service behavior.
 
-Keep in mind that if you modify the test files or the underlying network calls of the project you're testing, the recordings will need to be re-generated.
+Keep in mind that if you modify any code that is being tested, or any test code, that interacts with the number of network calls that will be made during testing, or the shape of those network calls, the recordings will need to be re-generated.
 
 You can read more in the section: [Regenerating recordings](#regenerating-recordings).
 
