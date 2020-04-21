@@ -81,25 +81,25 @@ export class AdaptiveApplicationControls {
   /**
    * Update an application control VM/server group
    * @param groupName Name of an application control VM/server group
-   * @param body The updated VM/server group data
+   * @param body
    * @param [options] The optional parameters
    * @returns Promise<Models.AdaptiveApplicationControlsPutResponse>
    */
-  put(groupName: string, body: Models.AppWhitelistingPutGroupData, options?: msRest.RequestOptionsBase): Promise<Models.AdaptiveApplicationControlsPutResponse>;
+  put(groupName: string, body: Models.AppWhitelistingGroup, options?: msRest.RequestOptionsBase): Promise<Models.AdaptiveApplicationControlsPutResponse>;
   /**
    * @param groupName Name of an application control VM/server group
-   * @param body The updated VM/server group data
+   * @param body
    * @param callback The callback
    */
-  put(groupName: string, body: Models.AppWhitelistingPutGroupData, callback: msRest.ServiceCallback<Models.AppWhitelistingGroup>): void;
+  put(groupName: string, body: Models.AppWhitelistingGroup, callback: msRest.ServiceCallback<Models.AppWhitelistingGroup>): void;
   /**
    * @param groupName Name of an application control VM/server group
-   * @param body The updated VM/server group data
+   * @param body
    * @param options The optional parameters
    * @param callback The callback
    */
-  put(groupName: string, body: Models.AppWhitelistingPutGroupData, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AppWhitelistingGroup>): void;
-  put(groupName: string, body: Models.AppWhitelistingPutGroupData, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppWhitelistingGroup>, callback?: msRest.ServiceCallback<Models.AppWhitelistingGroup>): Promise<Models.AdaptiveApplicationControlsPutResponse> {
+  put(groupName: string, body: Models.AppWhitelistingGroup, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AppWhitelistingGroup>): void;
+  put(groupName: string, body: Models.AppWhitelistingGroup, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppWhitelistingGroup>, callback?: msRest.ServiceCallback<Models.AppWhitelistingGroup>): Promise<Models.AdaptiveApplicationControlsPutResponse> {
     return this.client.sendOperationRequest(
       {
         groupName,
@@ -148,7 +148,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion4,
+    Parameters.apiVersion7,
     Parameters.includePathRecommendations,
     Parameters.summary
   ],
@@ -175,7 +175,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.groupName
   ],
   queryParameters: [
-    Parameters.apiVersion4
+    Parameters.apiVersion7
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -200,7 +200,7 @@ const putOperationSpec: msRest.OperationSpec = {
     Parameters.groupName
   ],
   queryParameters: [
-    Parameters.apiVersion4
+    Parameters.apiVersion7
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -208,7 +208,7 @@ const putOperationSpec: msRest.OperationSpec = {
   requestBody: {
     parameterPath: "body",
     mapper: {
-      ...Mappers.AppWhitelistingPutGroupData,
+      ...Mappers.AppWhitelistingGroup,
       required: true
     }
   },
@@ -232,7 +232,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.groupName
   ],
   queryParameters: [
-    Parameters.apiVersion4
+    Parameters.apiVersion7
   ],
   headerParameters: [
     Parameters.acceptLanguage

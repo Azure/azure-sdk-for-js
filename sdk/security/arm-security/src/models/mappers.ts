@@ -2149,402 +2149,6 @@ export const AadConnectivityState1: msRest.CompositeMapper = {
   }
 };
 
-export const ProtectionMode: msRest.CompositeMapper = {
-  serializedName: "ProtectionMode",
-  type: {
-    name: "Composite",
-    className: "ProtectionMode",
-    modelProperties: {
-      exe: {
-        serializedName: "exe",
-        type: {
-          name: "String"
-        }
-      },
-      msi: {
-        serializedName: "msi",
-        type: {
-          name: "String"
-        }
-      },
-      script: {
-        serializedName: "script",
-        type: {
-          name: "String"
-        }
-      },
-      executable: {
-        serializedName: "executable",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const AppWhitelistingIssueSummary: msRest.CompositeMapper = {
-  serializedName: "AppWhitelistingIssueSummary",
-  type: {
-    name: "Composite",
-    className: "AppWhitelistingIssueSummary",
-    modelProperties: {
-      issue: {
-        serializedName: "issue",
-        type: {
-          name: "String"
-        }
-      },
-      numberOfVms: {
-        serializedName: "numberOfVms",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const VmRecommendation: msRest.CompositeMapper = {
-  serializedName: "VmRecommendation",
-  type: {
-    name: "Composite",
-    className: "VmRecommendation",
-    modelProperties: {
-      configurationStatus: {
-        serializedName: "configurationStatus",
-        type: {
-          name: "String"
-        }
-      },
-      recommendationAction: {
-        serializedName: "recommendationAction",
-        type: {
-          name: "String"
-        }
-      },
-      resourceId: {
-        serializedName: "resourceId",
-        type: {
-          name: "String"
-        }
-      },
-      enforcementSupport: {
-        serializedName: "enforcementSupport",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const PublisherInfo: msRest.CompositeMapper = {
-  serializedName: "PublisherInfo",
-  type: {
-    name: "Composite",
-    className: "PublisherInfo",
-    modelProperties: {
-      publisherName: {
-        serializedName: "publisherName",
-        type: {
-          name: "String"
-        }
-      },
-      productName: {
-        serializedName: "productName",
-        type: {
-          name: "String"
-        }
-      },
-      binaryName: {
-        serializedName: "binaryName",
-        type: {
-          name: "String"
-        }
-      },
-      version: {
-        serializedName: "version",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const UserRecommendation: msRest.CompositeMapper = {
-  serializedName: "UserRecommendation",
-  type: {
-    name: "Composite",
-    className: "UserRecommendation",
-    modelProperties: {
-      username: {
-        serializedName: "username",
-        type: {
-          name: "String"
-        }
-      },
-      recommendationAction: {
-        serializedName: "recommendationAction",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const PathRecommendation: msRest.CompositeMapper = {
-  serializedName: "PathRecommendation",
-  type: {
-    name: "Composite",
-    className: "PathRecommendation",
-    modelProperties: {
-      path: {
-        serializedName: "path",
-        type: {
-          name: "String"
-        }
-      },
-      action: {
-        serializedName: "action",
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      },
-      publisherInfo: {
-        serializedName: "publisherInfo",
-        type: {
-          name: "Composite",
-          className: "PublisherInfo"
-        }
-      },
-      common: {
-        serializedName: "common",
-        type: {
-          name: "Boolean"
-        }
-      },
-      userSids: {
-        serializedName: "userSids",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      usernames: {
-        serializedName: "usernames",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "UserRecommendation"
-            }
-          }
-        }
-      },
-      fileType: {
-        serializedName: "fileType",
-        type: {
-          name: "String"
-        }
-      },
-      configurationStatus: {
-        serializedName: "configurationStatus",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const AppWhitelistingGroup: msRest.CompositeMapper = {
-  serializedName: "AppWhitelistingGroup",
-  type: {
-    name: "Composite",
-    className: "AppWhitelistingGroup",
-    modelProperties: {
-      id: {
-        readOnly: true,
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        readOnly: true,
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        readOnly: true,
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      },
-      location: {
-        readOnly: true,
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
-      },
-      enforcementMode: {
-        serializedName: "properties.enforcementMode",
-        type: {
-          name: "String"
-        }
-      },
-      protectionMode: {
-        serializedName: "properties.protectionMode",
-        type: {
-          name: "Composite",
-          className: "ProtectionMode"
-        }
-      },
-      configurationStatus: {
-        serializedName: "properties.configurationStatus",
-        type: {
-          name: "String"
-        }
-      },
-      recommendationStatus: {
-        serializedName: "properties.recommendationStatus",
-        type: {
-          name: "String"
-        }
-      },
-      issues: {
-        serializedName: "properties.issues",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "AppWhitelistingIssueSummary"
-            }
-          }
-        }
-      },
-      sourceSystem: {
-        serializedName: "properties.sourceSystem",
-        type: {
-          name: "String"
-        }
-      },
-      vmRecommendations: {
-        serializedName: "properties.vmRecommendations",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "VmRecommendation"
-            }
-          }
-        }
-      },
-      pathRecommendations: {
-        serializedName: "properties.pathRecommendations",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "PathRecommendation"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const AppWhitelistingGroups: msRest.CompositeMapper = {
-  serializedName: "AppWhitelistingGroups",
-  type: {
-    name: "Composite",
-    className: "AppWhitelistingGroups",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "AppWhitelistingGroup"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const AppWhitelistingPutGroupData: msRest.CompositeMapper = {
-  serializedName: "AppWhitelistingPutGroupData",
-  type: {
-    name: "Composite",
-    className: "AppWhitelistingPutGroupData",
-    modelProperties: {
-      enforcementMode: {
-        serializedName: "enforcementMode",
-        type: {
-          name: "String"
-        }
-      },
-      protectionMode: {
-        serializedName: "protectionMode",
-        type: {
-          name: "Composite",
-          className: "ProtectionMode"
-        }
-      },
-      vmRecommendations: {
-        serializedName: "vmRecommendations",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "VmRecommendation"
-            }
-          }
-        }
-      },
-      pathRecommendations: {
-        serializedName: "pathRecommendations",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "PathRecommendation"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const OperationDisplay: msRest.CompositeMapper = {
   serializedName: "OperationDisplay",
   type: {
@@ -4337,6 +3941,359 @@ export const SecurityAssessment: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SecurityAssessmentPartnerData"
+        }
+      }
+    }
+  }
+};
+
+export const ProtectionMode: msRest.CompositeMapper = {
+  serializedName: "ProtectionMode",
+  type: {
+    name: "Composite",
+    className: "ProtectionMode",
+    modelProperties: {
+      exe: {
+        serializedName: "exe",
+        type: {
+          name: "String"
+        }
+      },
+      msi: {
+        serializedName: "msi",
+        type: {
+          name: "String"
+        }
+      },
+      script: {
+        serializedName: "script",
+        type: {
+          name: "String"
+        }
+      },
+      executable: {
+        serializedName: "executable",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AppWhitelistingIssueSummary: msRest.CompositeMapper = {
+  serializedName: "AppWhitelistingIssueSummary",
+  type: {
+    name: "Composite",
+    className: "AppWhitelistingIssueSummary",
+    modelProperties: {
+      issue: {
+        serializedName: "issue",
+        type: {
+          name: "String"
+        }
+      },
+      numberOfVms: {
+        serializedName: "numberOfVms",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const VmRecommendation: msRest.CompositeMapper = {
+  serializedName: "VmRecommendation",
+  type: {
+    name: "Composite",
+    className: "VmRecommendation",
+    modelProperties: {
+      configurationStatus: {
+        serializedName: "configurationStatus",
+        type: {
+          name: "String"
+        }
+      },
+      recommendationAction: {
+        serializedName: "recommendationAction",
+        type: {
+          name: "String"
+        }
+      },
+      resourceId: {
+        serializedName: "resourceId",
+        type: {
+          name: "String"
+        }
+      },
+      enforcementSupport: {
+        serializedName: "enforcementSupport",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PublisherInfo: msRest.CompositeMapper = {
+  serializedName: "PublisherInfo",
+  type: {
+    name: "Composite",
+    className: "PublisherInfo",
+    modelProperties: {
+      publisherName: {
+        serializedName: "publisherName",
+        type: {
+          name: "String"
+        }
+      },
+      productName: {
+        serializedName: "productName",
+        type: {
+          name: "String"
+        }
+      },
+      binaryName: {
+        serializedName: "binaryName",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "version",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const UserRecommendation: msRest.CompositeMapper = {
+  serializedName: "UserRecommendation",
+  type: {
+    name: "Composite",
+    className: "UserRecommendation",
+    modelProperties: {
+      username: {
+        serializedName: "username",
+        type: {
+          name: "String"
+        }
+      },
+      recommendationAction: {
+        serializedName: "recommendationAction",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PathRecommendation: msRest.CompositeMapper = {
+  serializedName: "PathRecommendation",
+  type: {
+    name: "Composite",
+    className: "PathRecommendation",
+    modelProperties: {
+      path: {
+        serializedName: "path",
+        type: {
+          name: "String"
+        }
+      },
+      action: {
+        serializedName: "action",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      publisherInfo: {
+        serializedName: "publisherInfo",
+        type: {
+          name: "Composite",
+          className: "PublisherInfo"
+        }
+      },
+      common: {
+        serializedName: "common",
+        type: {
+          name: "Boolean"
+        }
+      },
+      userSids: {
+        serializedName: "userSids",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      usernames: {
+        serializedName: "usernames",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "UserRecommendation"
+            }
+          }
+        }
+      },
+      fileType: {
+        serializedName: "fileType",
+        type: {
+          name: "String"
+        }
+      },
+      configurationStatus: {
+        serializedName: "configurationStatus",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AppWhitelistingGroup: msRest.CompositeMapper = {
+  serializedName: "AppWhitelistingGroup",
+  type: {
+    name: "Composite",
+    className: "AppWhitelistingGroup",
+    modelProperties: {
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      location: {
+        readOnly: true,
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      enforcementMode: {
+        serializedName: "properties.enforcementMode",
+        type: {
+          name: "String"
+        }
+      },
+      protectionMode: {
+        serializedName: "properties.protectionMode",
+        type: {
+          name: "Composite",
+          className: "ProtectionMode"
+        }
+      },
+      configurationStatus: {
+        readOnly: true,
+        serializedName: "properties.configurationStatus",
+        type: {
+          name: "String"
+        }
+      },
+      recommendationStatus: {
+        readOnly: true,
+        serializedName: "properties.recommendationStatus",
+        type: {
+          name: "String"
+        }
+      },
+      issues: {
+        readOnly: true,
+        serializedName: "properties.issues",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AppWhitelistingIssueSummary"
+            }
+          }
+        }
+      },
+      sourceSystem: {
+        readOnly: true,
+        serializedName: "properties.sourceSystem",
+        type: {
+          name: "String"
+        }
+      },
+      vmRecommendations: {
+        serializedName: "properties.vmRecommendations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VmRecommendation"
+            }
+          }
+        }
+      },
+      pathRecommendations: {
+        serializedName: "properties.pathRecommendations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PathRecommendation"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const AppWhitelistingGroups: msRest.CompositeMapper = {
+  serializedName: "AppWhitelistingGroups",
+  type: {
+    name: "Composite",
+    className: "AppWhitelistingGroups",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AppWhitelistingGroup"
+            }
+          }
         }
       }
     }

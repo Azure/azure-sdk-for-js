@@ -29,7 +29,6 @@ class SecurityCenter extends SecurityCenterContext {
   iotSecuritySolutionsAnalyticsRecommendation: operations.IotSecuritySolutionsAnalyticsRecommendation;
   discoveredSecuritySolutions: operations.DiscoveredSecuritySolutions;
   externalSecuritySolutions: operations.ExternalSecuritySolutions;
-  adaptiveApplicationControls: operations.AdaptiveApplicationControls;
   locations: operations.Locations;
   operations: operations.Operations;
   tasks: operations.Tasks;
@@ -46,6 +45,7 @@ class SecurityCenter extends SecurityCenterContext {
   automations: operations.Automations;
   assessmentsMetadata: operations.AssessmentsMetadata;
   assessments: operations.Assessments;
+  adaptiveApplicationControls: operations.AdaptiveApplicationControls;
   adaptiveNetworkHardenings: operations.AdaptiveNetworkHardenings;
   allowedConnections: operations.AllowedConnections;
   topology: operations.Topology;
@@ -73,7 +73,6 @@ class SecurityCenter extends SecurityCenterContext {
     this.iotSecuritySolutionsAnalyticsRecommendation = new operations.IotSecuritySolutionsAnalyticsRecommendation(this);
     this.discoveredSecuritySolutions = new operations.DiscoveredSecuritySolutions(this);
     this.externalSecuritySolutions = new operations.ExternalSecuritySolutions(this);
-    this.adaptiveApplicationControls = new operations.AdaptiveApplicationControls(this);
     this.locations = new operations.Locations(this);
     this.operations = new operations.Operations(this);
     this.tasks = new operations.Tasks(this);
@@ -90,6 +89,7 @@ class SecurityCenter extends SecurityCenterContext {
     this.automations = new operations.Automations(this);
     this.assessmentsMetadata = new operations.AssessmentsMetadata(this);
     this.assessments = new operations.Assessments(this);
+    this.adaptiveApplicationControls = new operations.AdaptiveApplicationControls(this);
     this.adaptiveNetworkHardenings = new operations.AdaptiveNetworkHardenings(this);
     this.allowedConnections = new operations.AllowedConnections(this);
     this.topology = new operations.Topology(this);

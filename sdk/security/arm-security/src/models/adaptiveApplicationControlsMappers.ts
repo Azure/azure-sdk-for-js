@@ -11,7 +11,6 @@ export {
   AppWhitelistingGroup,
   AppWhitelistingGroups,
   AppWhitelistingIssueSummary,
-  AppWhitelistingPutGroupData,
   CloudError,
   PathRecommendation,
   ProtectionMode,

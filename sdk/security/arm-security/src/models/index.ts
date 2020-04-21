@@ -1958,208 +1958,6 @@ export interface AadConnectivityState1 {
 }
 
 /**
- * The protection mode of the collection/file types. Exe/Msi/Script are used for Windows,
- * Executable is used for Linux.
- */
-export interface ProtectionMode {
-  /**
-   * Possible values include: 'Audit', 'Enforce', 'None'
-   */
-  exe?: Exe;
-  /**
-   * Possible values include: 'Audit', 'Enforce', 'None'
-   */
-  msi?: Msi;
-  /**
-   * Possible values include: 'Audit', 'Enforce', 'None'
-   */
-  script?: Script;
-  /**
-   * Possible values include: 'Audit', 'Enforce', 'None'
-   */
-  executable?: Executable;
-}
-
-/**
- * Represents a summary of the alerts of the VM/server group
- */
-export interface AppWhitelistingIssueSummary {
-  /**
-   * Possible values include: 'ViolationsAudited', 'ViolationsBlocked',
-   * 'MsiAndScriptViolationsAudited', 'MsiAndScriptViolationsBlocked',
-   * 'ExecutableViolationsAudited', 'RulesViolatedManually'
-   */
-  issue?: Issue;
-  /**
-   * The number of machines in the VM/server group that have this alert
-   */
-  numberOfVms?: number;
-}
-
-/**
- * Represents a machine that is part of a VM/server group
- */
-export interface VmRecommendation {
-  /**
-   * Possible values include: 'Configured', 'NotConfigured', 'InProgress', 'Failed', 'NoStatus'
-   */
-  configurationStatus?: ConfigurationStatus;
-  /**
-   * Possible values include: 'Recommended', 'Add', 'Remove'
-   */
-  recommendationAction?: RecommendationAction;
-  resourceId?: string;
-  /**
-   * Possible values include: 'Supported', 'NotSupported', 'Unknown'
-   */
-  enforcementSupport?: EnforcementSupport;
-}
-
-/**
- * Represents the publisher information of a process/rule
- */
-export interface PublisherInfo {
-  /**
-   * The Subject field of the x.509 certificate used to sign the code, using the following fields -
-   * O = Organization, L = Locality, S = State or Province, and C = Country
-   */
-  publisherName?: string;
-  /**
-   * The product name taken from the file's version resource
-   */
-  productName?: string;
-  /**
-   * The "OriginalName" field taken from the file's version resource
-   */
-  binaryName?: string;
-  /**
-   * The binary file version taken from the file's version resource
-   */
-  version?: string;
-}
-
-/**
- * Represents a user that is recommended to be allowed for a certain rule
- */
-export interface UserRecommendation {
-  /**
-   * Represents a user that is recommended to be allowed for a certain rule
-   */
-  username?: string;
-  /**
-   * Possible values include: 'Recommended', 'Add', 'Remove'
-   */
-  recommendationAction?: RecommendationAction1;
-}
-
-/**
- * Represents a path that is recommended to be allowed and its properties
- */
-export interface PathRecommendation {
-  /**
-   * The full path to whitelist
-   */
-  path?: string;
-  /**
-   * Possible values include: 'Recommended', 'Add', 'Remove'
-   */
-  action?: Action;
-  /**
-   * Possible values include: 'File', 'FileHash', 'PublisherSignature', 'ProductSignature',
-   * 'BinarySignature', 'VersionAndAboveSignature'
-   */
-  type?: Type;
-  publisherInfo?: PublisherInfo;
-  /**
-   * Whether the path is commonly run on the machine
-   */
-  common?: boolean;
-  userSids?: string[];
-  usernames?: UserRecommendation[];
-  /**
-   * Possible values include: 'Exe', 'Dll', 'Msi', 'Script', 'Executable', 'Unknown'
-   */
-  fileType?: FileType;
-  /**
-   * Possible values include: 'Configured', 'NotConfigured', 'InProgress', 'Failed', 'NoStatus'
-   */
-  configurationStatus?: ConfigurationStatus1;
-}
-
-/**
- * An interface representing AppWhitelistingGroup.
- */
-export interface AppWhitelistingGroup {
-  /**
-   * Resource Id
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * Resource name
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * Resource type
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * Location where the resource is stored
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly location?: string;
-  /**
-   * Possible values include: 'Audit', 'Enforce', 'None'
-   */
-  enforcementMode?: EnforcementMode;
-  protectionMode?: ProtectionMode;
-  /**
-   * Possible values include: 'Configured', 'NotConfigured', 'InProgress', 'Failed', 'NoStatus'
-   */
-  configurationStatus?: ConfigurationStatus2;
-  /**
-   * Possible values include: 'Recommended', 'NotRecommended', 'NotAvailable', 'NoStatus'
-   */
-  recommendationStatus?: RecommendationStatus;
-  issues?: AppWhitelistingIssueSummary[];
-  /**
-   * Possible values include: 'Azure_AppLocker', 'Azure_AuditD', 'NonAzure_AppLocker',
-   * 'NonAzure_AuditD', 'None'
-   */
-  sourceSystem?: SourceSystem;
-  vmRecommendations?: VmRecommendation[];
-  pathRecommendations?: PathRecommendation[];
-}
-
-/**
- * Represents a list of VM/server groups and set of rules that are Recommended by Azure Security
- * Center to be allowed
- */
-export interface AppWhitelistingGroups {
-  value?: AppWhitelistingGroup[];
-}
-
-/**
- * The altered data of the recommended VM/server group policy
- */
-export interface AppWhitelistingPutGroupData {
-  /**
-   * The enforcement mode of the group. Can also be defined per collection type by using
-   * ProtectionMode. Possible values include: 'Audit', 'Enforce', 'None'
-   */
-  enforcementMode?: EnforcementMode1;
-  /**
-   * The protection mode of the group per collection type. Can also be defined for all collection
-   * types by using EnforcementMode
-   */
-  protectionMode?: ProtectionMode;
-  vmRecommendations?: VmRecommendation[];
-  pathRecommendations?: PathRecommendation[];
-}
-
-/**
  * Security operation display
  */
 export interface OperationDisplay {
@@ -3242,6 +3040,196 @@ export interface SecurityAssessment extends Resource {
 }
 
 /**
+ * The protection mode of the collection/file types. Exe/Msi/Script are used for Windows,
+ * Executable is used for Linux.
+ */
+export interface ProtectionMode {
+  /**
+   * Possible values include: 'Audit', 'Enforce', 'None'
+   */
+  exe?: Exe;
+  /**
+   * Possible values include: 'Audit', 'Enforce', 'None'
+   */
+  msi?: Msi;
+  /**
+   * Possible values include: 'Audit', 'Enforce', 'None'
+   */
+  script?: Script;
+  /**
+   * Possible values include: 'Audit', 'Enforce', 'None'
+   */
+  executable?: Executable;
+}
+
+/**
+ * Represents a summary of the alerts of the VM/server group
+ */
+export interface AppWhitelistingIssueSummary {
+  /**
+   * Possible values include: 'ViolationsAudited', 'ViolationsBlocked',
+   * 'MsiAndScriptViolationsAudited', 'MsiAndScriptViolationsBlocked',
+   * 'ExecutableViolationsAudited', 'RulesViolatedManually'
+   */
+  issue?: Issue;
+  /**
+   * The number of machines in the VM/server group that have this alert
+   */
+  numberOfVms?: number;
+}
+
+/**
+ * Represents a machine that is part of a VM/server group
+ */
+export interface VmRecommendation {
+  /**
+   * Possible values include: 'Configured', 'NotConfigured', 'InProgress', 'Failed', 'NoStatus'
+   */
+  configurationStatus?: ConfigurationStatus;
+  /**
+   * Possible values include: 'Recommended', 'Add', 'Remove'
+   */
+  recommendationAction?: RecommendationAction;
+  resourceId?: string;
+  /**
+   * Possible values include: 'Supported', 'NotSupported', 'Unknown'
+   */
+  enforcementSupport?: EnforcementSupport;
+}
+
+/**
+ * Represents the publisher information of a process/rule
+ */
+export interface PublisherInfo {
+  /**
+   * The Subject field of the x.509 certificate used to sign the code, using the following fields -
+   * O = Organization, L = Locality, S = State or Province, and C = Country
+   */
+  publisherName?: string;
+  /**
+   * The product name taken from the file's version resource
+   */
+  productName?: string;
+  /**
+   * The "OriginalName" field taken from the file's version resource
+   */
+  binaryName?: string;
+  /**
+   * The binary file version taken from the file's version resource
+   */
+  version?: string;
+}
+
+/**
+ * Represents a user that is recommended to be allowed for a certain rule
+ */
+export interface UserRecommendation {
+  /**
+   * Represents a user that is recommended to be allowed for a certain rule
+   */
+  username?: string;
+  /**
+   * Possible values include: 'Recommended', 'Add', 'Remove'
+   */
+  recommendationAction?: RecommendationAction1;
+}
+
+/**
+ * Represents a path that is recommended to be allowed and its properties
+ */
+export interface PathRecommendation {
+  /**
+   * The full path to whitelist
+   */
+  path?: string;
+  /**
+   * Possible values include: 'Recommended', 'Add', 'Remove'
+   */
+  action?: Action;
+  /**
+   * Possible values include: 'File', 'FileHash', 'PublisherSignature', 'ProductSignature',
+   * 'BinarySignature', 'VersionAndAboveSignature'
+   */
+  type?: Type;
+  publisherInfo?: PublisherInfo;
+  /**
+   * Whether the path is commonly run on the machine
+   */
+  common?: boolean;
+  userSids?: string[];
+  usernames?: UserRecommendation[];
+  /**
+   * Possible values include: 'Exe', 'Dll', 'Msi', 'Script', 'Executable', 'Unknown'
+   */
+  fileType?: FileType;
+  /**
+   * Possible values include: 'Configured', 'NotConfigured', 'InProgress', 'Failed', 'NoStatus'
+   */
+  configurationStatus?: ConfigurationStatus1;
+}
+
+/**
+ * An interface representing AppWhitelistingGroup.
+ */
+export interface AppWhitelistingGroup {
+  /**
+   * Resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Resource name
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Resource type
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Location where the resource is stored
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly location?: string;
+  /**
+   * Possible values include: 'Audit', 'Enforce', 'None'
+   */
+  enforcementMode?: EnforcementMode;
+  protectionMode?: ProtectionMode;
+  /**
+   * Possible values include: 'Configured', 'NotConfigured', 'InProgress', 'Failed', 'NoStatus'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly configurationStatus?: ConfigurationStatus2;
+  /**
+   * Possible values include: 'Recommended', 'NotRecommended', 'NotAvailable', 'NoStatus'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly recommendationStatus?: RecommendationStatus;
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly issues?: AppWhitelistingIssueSummary[];
+  /**
+   * Possible values include: 'Azure_AppLocker', 'Azure_AuditD', 'NonAzure_AppLocker',
+   * 'NonAzure_AuditD', 'None'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly sourceSystem?: SourceSystem;
+  vmRecommendations?: VmRecommendation[];
+  pathRecommendations?: PathRecommendation[];
+}
+
+/**
+ * Represents a list of VM/server groups and set of rules that are Recommended by Azure Security
+ * Center to be allowed
+ */
+export interface AppWhitelistingGroups {
+  value?: AppWhitelistingGroup[];
+}
+
+/**
  * Describes remote addresses that is recommended to communicate with the Azure resource on some
  * (Protocol, Port, Direction). All other remote addresses are recommended to be blocked
  */
@@ -3807,20 +3795,6 @@ export interface IotSecuritySolutionsAnalyticsRecommendationListOptionalParams e
 /**
  * Optional Parameters.
  */
-export interface AdaptiveApplicationControlsListOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Include the policy rules
-   */
-  includePathRecommendations?: boolean;
-  /**
-   * Return output in a summarized form
-   */
-  summary?: boolean;
-}
-
-/**
- * Optional Parameters.
- */
 export interface TasksListOptionalParams extends msRest.RequestOptionsBase {
   /**
    * OData filter. Optional.
@@ -3886,6 +3860,20 @@ export interface AssessmentsGetOptionalParams extends msRest.RequestOptionsBase 
    * OData expand. Optional. Possible values include: 'links', 'metadata'
    */
   expand?: ExpandEnum;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface AdaptiveApplicationControlsListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Include the policy rules
+   */
+  includePathRecommendations?: boolean;
+  /**
+   * Return output in a summarized form
+   */
+  summary?: boolean;
 }
 
 /**
@@ -4563,6 +4551,14 @@ export type ExpandEnum = 'links' | 'metadata';
 export type ConnectionType = 'Internal' | 'External';
 
 /**
+ * Defines values for ProvisioningState.
+ * Possible values include: 'Succeeded', 'Failed', 'Canceled', 'Provisioning', 'Deprovisioning'
+ * @readonly
+ * @enum {string}
+ */
+export type ProvisioningState = 'Succeeded' | 'Failed' | 'Canceled' | 'Provisioning' | 'Deprovisioning';
+
+/**
  * Defines values for Exe.
  * Possible values include: 'Audit', 'Enforce', 'None'
  * @readonly
@@ -4701,22 +4697,6 @@ export type RecommendationStatus = 'Recommended' | 'NotRecommended' | 'NotAvaila
  * @enum {string}
  */
 export type SourceSystem = 'Azure_AppLocker' | 'Azure_AuditD' | 'NonAzure_AppLocker' | 'NonAzure_AuditD' | 'None';
-
-/**
- * Defines values for EnforcementMode1.
- * Possible values include: 'Audit', 'Enforce', 'None'
- * @readonly
- * @enum {string}
- */
-export type EnforcementMode1 = 'Audit' | 'Enforce' | 'None';
-
-/**
- * Defines values for ProvisioningState.
- * Possible values include: 'Succeeded', 'Failed', 'Canceled', 'Provisioning', 'Deprovisioning'
- * @readonly
- * @enum {string}
- */
-export type ProvisioningState = 'Succeeded' | 'Failed' | 'Canceled' | 'Provisioning' | 'Deprovisioning';
 
 /**
  * Defines values for SettingName.
@@ -5783,66 +5763,6 @@ export type ExternalSecuritySolutionsListByHomeRegionNextResponse = ExternalSecu
        * The response body as parsed JSON or XML
        */
       parsedBody: ExternalSecuritySolutionList;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type AdaptiveApplicationControlsListResponse = AppWhitelistingGroups & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AppWhitelistingGroups;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type AdaptiveApplicationControlsGetResponse = AppWhitelistingGroup & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AppWhitelistingGroup;
-    };
-};
-
-/**
- * Contains response data for the put operation.
- */
-export type AdaptiveApplicationControlsPutResponse = AppWhitelistingGroup & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AppWhitelistingGroup;
     };
 };
 
@@ -7223,6 +7143,66 @@ export type AssessmentsListNextResponse = SecurityAssessmentList & {
        * The response body as parsed JSON or XML
        */
       parsedBody: SecurityAssessmentList;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type AdaptiveApplicationControlsListResponse = AppWhitelistingGroups & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AppWhitelistingGroups;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type AdaptiveApplicationControlsGetResponse = AppWhitelistingGroup & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AppWhitelistingGroup;
+    };
+};
+
+/**
+ * Contains response data for the put operation.
+ */
+export type AdaptiveApplicationControlsPutResponse = AppWhitelistingGroup & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AppWhitelistingGroup;
     };
 };
 
