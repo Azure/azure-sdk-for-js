@@ -153,7 +153,7 @@ Our integration tests will run against the live resources, which are determined 
 
 To run the integration tests, you will need to execute `rushx integration-test`.
 
-To generate new resources for your tests, follow the procedure at [Integration Testing with live services](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md#integration-testing-with-live-services). What resources get created before the test, or created during the test depends on how the ARM template named `test-resources.json` is built, just as much as how the tests are written. Generally speaking, the ARM templates will create the main account in which individual tests will create the resources they test. For example, for the Service Bus client, the [ARM template](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/test-resources.json) only creates the Service Bus namespace (with the appropriate configurations), while the tests automatically create the queues, topics and subscriptions.
+To generate new resources for your tests, follow the procedure at [Integration Testing with live services](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md#integration-testing-with-live-services). What resources get created before the test, or created during the test depends on how the ARM template named `test-resources.json` is built, just as much as how the tests are written.
 
 Integration tests won't need updated recordings, and they also won't change previous recordings unless specified (see [Regenerating recordings](#regenerating-recordings)).
 
@@ -210,7 +210,7 @@ To deploy live resources for testing use the steps documented in [`Example 1 of 
 
 The script will provide instructions for setting environment variables before running live tests.
 
-Keep in mind that you can set the environment variables as how they're set by default through your system preferences, or through the command line by assigning values to these variable names one by one before running the tests, like `<name1>=<value1> <name2>=<value2> rushx <command>`, or by setting them each one in a different line in a `.env` file in the parent folder of the project you'll be testing (like in the folder `keyvault` if you're testing the project at `sdk/keyvault/keyvault-keys`).
+Keep in mind that you can set the environment variables as how they're set by default through your system preferences, or through the command line, or by setting them each one in a different line in a `.env` file in the parent folder of the project you'll be testing (like in the folder `keyvault` if you're testing the project at `sdk/keyvault/keyvault-keys`). You can read more about how `dotenv` works in [their README](https://github.com/motdotla/dotenv#readme).
 
 To run live tests after deploying live resources for Node:
 

@@ -5,13 +5,13 @@ omitted_paths:
   - sdk/cognitiveservices/*
   - sdk/identity/identity/test/manual/*
   - sdk/identity/identity/test/manual-integration/*
-  - sdk/keyvault/*/test/**
-  - sdk/appconfiguration/*/test/**
-  - sdk/eventhub/*/test/**
-  - sdk/search/*/test/**
-  - sdk/servicebus/*/test/**
-  - sdk/storage/*/test/**
-  - sdk/textanalytics/*/test/**
+  - sdk/keyvault/*/test/README.md
+  - sdk/appconfiguration/*/test/README.md
+  - sdk/eventhub/*/test/README.md
+  - sdk/search/*/test/README.md
+  - sdk/servicebus/*/test/README.md
+  - sdk/storage/*/test/README.md
+  - sdk/textanalytics/*/test/README.md
   - sdk/**/samples/*
   - sdk/**/swagger/*
   - common/*
