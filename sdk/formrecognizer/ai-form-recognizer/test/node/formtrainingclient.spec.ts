@@ -10,30 +10,31 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 import { getTrainingContainerSasUrl } from "../util/trainingContainer";
-import { FormRecognizerClient, AzureKeyCredential, TrainingDocumentInfo } from "../../src";
+import { FormRecognizerClient, AzureKeyCredential, TrainingDocumentInfo, FormTrainingClient } from "../../src";
 import { env } from "@azure/test-utils-recorder";
 import { BlobServiceClient } from '@azure/storage-blob';
 // import { URLBuilder } from '@azure/core-http';
 
 const ASSET_PATH = path.resolve(path.join(process.cwd(), "test-assets"));
-const recognizerClient = new FormRecognizerClient(
-  env.ENDPOINT,
-  new AzureKeyCredential(env.FORM_RECOGNIZER_API_KEY)
-);
 let unlabeledModelId: string | undefined;
 let labeledModelId: string | undefined;
 let modelIdToDelete: string | undefined;
 
 describe("FormTrainingClient NodeJS only", () => {
+  let trainingClient: FormTrainingClient;
 
   before(function () {
     // TODO: create recordings
     if (recorder.isPlaybackMode()) {
       this.skip();
     }
+
+    trainingClient = new FormTrainingClient(
+      env.ENDPOINT,
+      new AzureKeyCredential(env.FORM_RECOGNIZER_API_KEY)
+    )
   })
 
-  const trainingClient = recognizerClient.getFormTrainingClient();
   const expectedDocumentInfo: TrainingDocumentInfo = {
     documentName: "Form_1.jpg",
     errors: [],
@@ -184,12 +185,18 @@ describe("FormTrainingClient NodeJS only", () => {
 }).timeout(60000);
 
 describe("FormRecognizerClient custom form recognition NodeJS only", () => {
+  let recognizerClient: FormRecognizerClient;
 
   before(function () {
     // TODO: create recordings
     if (recorder.isPlaybackMode()) {
       this.skip();
     }
+
+    recognizerClient = new FormRecognizerClient(
+      env.ENDPOINT,
+      new AzureKeyCredential(env.FORM_RECOGNIZER_API_KEY)
+    );
   })
 
   it("recognizes form from a jpeg file stream using model trained without labels", async () => {
