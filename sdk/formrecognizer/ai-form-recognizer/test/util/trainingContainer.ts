@@ -22,7 +22,7 @@ const [getTrainingContainerSasUrl, setTrainingContainerSasUrl] = (() => {
     trainingContainerSasUrl = sasUrl;
   };
 
-  return [getter, setter];
+  return [getter, setter] as const;
 })();
 
 export { getTrainingContainerSasUrl, setTrainingContainerSasUrl };

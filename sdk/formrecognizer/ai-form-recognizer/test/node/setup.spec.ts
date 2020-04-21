@@ -11,7 +11,6 @@ import path from "path";
 
 import {
   BlobServiceClient,
-  AnonymousCredential,
   generateBlobSASQueryParameters,
   StorageSharedKeyCredential,
   ContainerSASPermissions,
@@ -45,7 +44,7 @@ if (!recorder.isPlaybackMode()) {
     );
   }
 
-  const serviceClient = new BlobServiceClient(blobEndpoint, new AnonymousCredential());
+  const serviceClient = new BlobServiceClient(blobEndpoint);
 
   // Set up training container
   before(async () => {
@@ -59,7 +58,7 @@ if (!recorder.isPlaybackMode()) {
     while (directories.length > 0) {
       const directory = directories.shift() as string;
       // Upload all files in training folder to the container
-      for (let baseName of await fs.readdir(directory)) {
+      for (const baseName of await fs.readdir(directory)) {
         const fileName = path.join(directory, baseName);
 
         const stats = await fs.stat(fileName);
@@ -91,7 +90,7 @@ if (!recorder.isPlaybackMode()) {
       new StorageSharedKeyCredential(blobAccountName, blobAccountKey)
     );
 
-    const sasUrl = blobEndpoint.split("?")[0] + "?" + sasQueryParameters.toString();
+    const sasUrl = trainingContainer.url.split("?")[0] + "?" + sasQueryParameters.toString();
 
     setTrainingContainerSasUrl(sasUrl);
   });
