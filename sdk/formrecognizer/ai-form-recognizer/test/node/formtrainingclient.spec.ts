@@ -5,13 +5,19 @@ import { assert } from "chai";
 import fs from "fs-extra";
 import path from "path";
 
+import * as dotenv from "dotenv";
+dotenv.config();
+
 import { getTrainingContainerSasUrl } from "../util/trainingContainer";
-import { FormRecognizerClient, AzureKeyCredential } from '../../src';
+import { FormRecognizerClient, AzureKeyCredential } from "../../src";
 import { env } from "@azure/test-utils-recorder";
 // import { URLBuilder } from '@azure/core-http';
 
 const ASSET_PATH = path.resolve(path.join(process.cwd(), "test-assets"));
-const recognizerClient = new FormRecognizerClient(env.ENDPOINT, new AzureKeyCredential(env.FORM_RECOGNIZER_API_KEY));
+const recognizerClient = new FormRecognizerClient(
+  env.ENDPOINT,
+  new AzureKeyCredential(env.FORM_RECOGNIZER_API_KEY)
+);
 let unlabeledModelId: string | undefined;
 let labeledModelId: string | undefined;
 
@@ -77,7 +83,10 @@ describe("FormTrainingClient NodeJS only", () => {
     assert.ok(response, "Expecting valid response");
     assert.equal(response!.status, "succeeded");
     assert.ok(response!.modelId);
-    assert.ok(response!.trainingDocuments && response!.trainingDocuments.length > 0, "Expected non empty training document list");
+    assert.ok(
+      response!.trainingDocuments && response!.trainingDocuments.length > 0,
+      "Expected non empty training document list"
+    );
     assert.deepStrictEqual(response!.trainingDocuments, []);
   });
 
@@ -94,7 +103,10 @@ describe("FormTrainingClient NodeJS only", () => {
     assert.ok(response, "Expecting valid response");
     assert.equal(response!.status, "succeeded");
     assert.ok(response!.modelId);
-    assert.ok(response!.trainingDocuments && response!.trainingDocuments.length > 0, "Expected non empty training document list");
+    assert.ok(
+      response!.trainingDocuments && response!.trainingDocuments.length > 0,
+      "Expected non empty training document list"
+    );
     assert.deepStrictEqual(response!.trainingDocuments, []);
   });
 }).timeout(60000);
@@ -104,16 +116,23 @@ describe("FormRecognizerClient form recognition NodeJS only", () => {
     const filePath = path.join(ASSET_PATH, "forms", "Form_1.jpg");
     const stream = fs.createReadStream(filePath);
 
-    assert.ok(unlabeledModelId, "Expecting valid model id from training without labels")
-    const poller = await recognizerClient.beginRecognizeForms(unlabeledModelId!, stream, "image/jpeg");
+    assert.ok(unlabeledModelId, "Expecting valid model id from training without labels");
+    const poller = await recognizerClient.beginRecognizeForms(
+      unlabeledModelId!,
+      stream,
+      "image/jpeg"
+    );
     await poller.pollUntilDone();
     const response = poller.getResult();
 
     assert.ok(response, "Expect valid response object");
     assert.equal(response!.status, "succeeded");
-    assert.ok(response!.forms && response!.forms.length > 0, `Expect no-empty pages but got ${response!.forms}`);
+    assert.ok(
+      response!.forms && response!.forms.length > 0,
+      `Expect no-empty pages but got ${response!.forms}`
+    );
     const form = response!.forms![0];
-    console.dir(form, {depth: undefined});
+    console.dir(form, { depth: undefined });
     assert.equal(form.formType, "form-0");
     assert.deepStrictEqual(form.pageRange, {
       firstPageNumber: 1,
@@ -130,16 +149,19 @@ describe("FormRecognizerClient form recognition NodeJS only", () => {
     assert.ok(containerSasUrl, "Expect valid container sas url");
     const url = "<get a blob url to upload a form to the container>";
 
-    assert.ok(unlabeledModelId, "Expecting valid model id from training without labels")
+    assert.ok(unlabeledModelId, "Expecting valid model id from training without labels");
     const poller = await recognizerClient.beginRecognizeFormsFromUrl(unlabeledModelId!, url);
     await poller.pollUntilDone();
     const response = poller.getResult();
 
     assert.ok(response, "Expect valid response object");
     assert.equal(response!.status, "succeeded");
-    assert.ok(response!.forms && response!.forms.length > 0, `Expect no-empty pages but got ${response!.forms}`);
+    assert.ok(
+      response!.forms && response!.forms.length > 0,
+      `Expect no-empty pages but got ${response!.forms}`
+    );
     const form = response!.forms![0];
-    console.dir(form, {depth: undefined});
+    console.dir(form, { depth: undefined });
     assert.equal(form.formType, "form-0");
     assert.deepStrictEqual(form.pageRange, {
       firstPageNumber: 1,
@@ -155,16 +177,23 @@ describe("FormRecognizerClient form recognition NodeJS only", () => {
     const filePath = path.join(ASSET_PATH, "forms", "Form_1.jpg");
     const stream = fs.createReadStream(filePath);
 
-    assert.ok(unlabeledModelId, "Expecting valid model id from training without labels")
-    const poller = await recognizerClient.beginRecognizeForms(labeledModelId!, stream, "image/jpeg");
+    assert.ok(unlabeledModelId, "Expecting valid model id from training without labels");
+    const poller = await recognizerClient.beginRecognizeForms(
+      labeledModelId!,
+      stream,
+      "image/jpeg"
+    );
     await poller.pollUntilDone();
     const response = poller.getResult();
 
     assert.ok(response, "Expect valid response object");
     assert.equal(response!.status, "succeeded");
-    assert.ok(response!.forms && response!.forms.length > 0, `Expect no-empty pages but got ${response!.forms}`);
+    assert.ok(
+      response!.forms && response!.forms.length > 0,
+      `Expect no-empty pages but got ${response!.forms}`
+    );
     const form = response!.forms![0];
-    console.dir(form, {depth: undefined});
+    console.dir(form, { depth: undefined });
     assert.equal(form.formType, "custom:form");
     assert.deepStrictEqual(form.pageRange, {
       firstPageNumber: 1,
@@ -183,16 +212,19 @@ describe("FormRecognizerClient form recognition NodeJS only", () => {
     const filePath = path.join(ASSET_PATH, "forms", "Form_1.jpg");
     const stream = fs.createReadStream(filePath);
 
-    assert.ok(unlabeledModelId, "Expecting valid model id from training without labels")
+    assert.ok(unlabeledModelId, "Expecting valid model id from training without labels");
     const poller = await recognizerClient.beginRecognizeForms(labeledModelId!, stream);
     await poller.pollUntilDone();
     const response = poller.getResult();
 
     assert.ok(response, "Expect valid response object");
     assert.equal(response!.status, "succeeded");
-    assert.ok(response!.forms && response!.forms.length > 0, `Expect no-empty pages but got ${response!.forms}`);
+    assert.ok(
+      response!.forms && response!.forms.length > 0,
+      `Expect no-empty pages but got ${response!.forms}`
+    );
     const form = response!.forms![0];
-    console.dir(form, {depth: undefined});
+    console.dir(form, { depth: undefined });
     assert.equal(form.formType, "custom:form");
     assert.deepStrictEqual(form.pageRange, {
       firstPageNumber: 1,
@@ -206,5 +238,4 @@ describe("FormRecognizerClient form recognition NodeJS only", () => {
     assert.ok(form.fields["InvoiceNumber"]);
     assert.ok(form.fields["InvoiceVatId"]);
   });
-
 }).timeout(60000);
