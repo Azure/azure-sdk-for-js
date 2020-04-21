@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to output the information that will help with manually
- * validating your output from recognize custom forms.
+ * This sample demonstrates how to get detailed information to visualize the outlines of
+ * form content and fields, which can be used for manual validation and drawing UI as part of an application.
  */
 
 import { FormRecognizerClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
