@@ -86,9 +86,14 @@ jobs:
 
       - script: |
           npm install
+        workingDirectory: $(Build.SourcesDirectory)/eng/tools/eng-package-utils
+        displayName: "Get package path - install"
+
+      - script: |
           node getPackagePath.js --repo-root "$(Build.SourcesDirectory)" --package-name "${{parameters.PackageName}}"
         workingDirectory: $(Build.SourcesDirectory)/eng/tools/eng-package-utils
-        displayName: "Get package path"
+        displayName: "Get package path - get package path"
+
       # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
       # The default on Windows is "cores - 1" (microsoft/rushstack#436).
       - script: |
