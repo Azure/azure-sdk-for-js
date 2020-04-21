@@ -4,8 +4,8 @@ To test this project, make sure to first build it properly by following our [bui
 
 The environment variables you will need to properly assign to run the live test of this project are the following:
 
-- `EVENTHUB_NAME`: The name of your Azure Event Hub account.
-- `EVENTHUB_CONNECTION_STRING`: The connection string of your Azure Event Hub account.
+- `EVENTHUB_NAME`: The name of your Azure Event Hub instance, not your Azure Event Hubs namespace.
+- `EVENTHUB_CONNECTION_STRING`: The connection string of your Azure Event Hubs namespace.
 - `IOTHUB_CONNECTION_STRING`: The connection string of your Azure IoT Hub account.
 - `IOTHUB_EH_COMPATIBLE_CONNECTION_STRING`: An Azure Event Hub compatible connection string provided by your Azure IoT Hub account.
 - `STORAGE_CONNECTION_STRING`: The connection string of an Azure Storage account.
