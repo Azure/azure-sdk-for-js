@@ -145,7 +145,9 @@ You can read more in the section: [Regenerating recordings](#regenerating-record
 
 #### Live tests
 
-By default, the npm scripts `test`, `test:node` or `test:browser` run recorded tests. To run live tests, set the environment variable `TEST_MODE` to "live" and ensure you have the right Azure resources to test against.
+By default, the npm scripts `test`, `test:node` or `test:browser` run recorded tests. To run live tests, you need the right Azure resources, set appropriate environment variables to point to these resources and set the environment variable `TEST_MODE` to "live". The readme file in the test folder of each package lists the Azure resources you would need and the environment variables to update.
+
+You can create the Azure resources manually on your own or automate this process by...
 
 Our integration tests will run against the live resources, which are determined by the environment variables you provide.
 
