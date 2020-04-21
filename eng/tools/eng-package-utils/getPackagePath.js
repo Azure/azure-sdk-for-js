@@ -27,9 +27,10 @@ async function main(argv) {
     packageSpec => packageSpec.packageName == packageName
   );
 
-  const targetPackagePath = await path.join(repoRoot, targetPackage.projectFolder);
+  const targetPackagePath = path.join(repoRoot, targetPackage.projectFolder);
   console.log(`##vso[task.setvariable variable=PackagePath]${targetPackagePath}`);
   console.log(`Emitted variable "PackagePath" with content: ${targetPackagePath}`);
 }
 
-await main(argv);
+main(argv);
+console.log("hello");
