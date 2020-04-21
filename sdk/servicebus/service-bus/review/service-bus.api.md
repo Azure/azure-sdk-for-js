@@ -188,7 +188,9 @@ export class ServiceBusMessage implements ReceivedMessage {
     complete(): Promise<void>;
     contentType?: string;
     correlationId?: string | number | Buffer;
-    deadLetter(options?: DeadLetterOptions): Promise<void>;
+    deadLetter(propertiesToModify?: DeadLetterOptions & {
+        [key: string]: any;
+    }): Promise<void>;
     readonly deadLetterSource?: string;
     defer(propertiesToModify?: {
         [key: string]: any;

@@ -5,6 +5,10 @@
 - Removes the `@azure/ms-rest-nodeauth` dependency.
   This allows users to use any version of `@azure/ms-rest-nodeauth` directly with `@azure/service-bus` without TypeScript compilation errors.
   Fixes [bug 8041](https://github.com/Azure/azure-sdk-for-js/issues/8041).
+- Fixes for the below bugs when settling a message with [PR 8406](https://github.com/Azure/azure-sdk-for-js/pull/8406)
+  - Not setting user provided deadletter error reason and description when deadlettering a deferred message.
+  - Not setting user provided custom properties when deadlettering a non deferred message.
+  - Not able to settle previously received messages when a receiver recovers from a broken link or connection. Please note that if using sessions, this behavior doesn't change with this release.
 - Fixes an issue where non-retryable errors caused by a connection disconnecting were not getting surfaced to the user's registered error handler
   when using the `registerMessageHandler` method on a receiver.
   [PR 8401](https://github.com/Azure/azure-sdk-for-js/pull/8401)

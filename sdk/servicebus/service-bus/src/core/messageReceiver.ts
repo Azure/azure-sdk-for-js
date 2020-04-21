@@ -25,6 +25,7 @@ import { ClientEntityContext } from "../clientEntityContext";
 import { ServiceBusMessage, DispositionType, ReceiveMode } from "../serviceBusMessage";
 import { getUniqueName, calculateRenewAfterDuration } from "../util/utils";
 import { MessageHandlerOptions } from "./streamingReceiver";
+import { DispositionStatusOptions } from "./managementClient";
 
 /**
  * @internal
@@ -52,14 +53,6 @@ export interface PromiseLike {
   resolve: (value?: any) => void;
   reject: (reason?: any) => void;
   timer: NodeJS.Timer;
-}
-
-/**
- * @internal
- */
-export interface DispositionOptions {
-  propertiesToModify?: { [key: string]: any };
-  error?: AmqpError;
 }
 
 /**
@@ -1035,7 +1028,7 @@ export class MessageReceiver extends LinkEntity {
   async settleMessage(
     message: ServiceBusMessage,
     operation: DispositionType,
-    options?: DispositionOptions
+    options?: DispositionStatusOptions
   ): Promise<any> {
     return new Promise((resolve, reject) => {
       if (!options) options = {};
@@ -1083,7 +1076,15 @@ export class MessageReceiver extends LinkEntity {
         if (options.propertiesToModify) params.message_annotations = options.propertiesToModify;
         delivery.modified(params);
       } else if (operation === DispositionType.deadletter) {
-        delivery.reject(options.error || {});
+        const error: AmqpError = {
+          condition: Constants.deadLetterName,
+          info: {
+            ...options.propertiesToModify,
+            DeadLetterReason: options.deadLetterReason,
+            DeadLetterErrorDescription: options.deadLetterDescription
+          }
+        };
+        delivery.reject(error);
       }
     });
   }
