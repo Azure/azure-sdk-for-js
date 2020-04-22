@@ -10,6 +10,10 @@ type OptionNames =
   | "url";
 
 export class NodeFetchTest extends PerfStressTest<string> {
+  private static fetchOptions = {
+    agent: new http.Agent({ keepAlive: true })
+  }
+
   private url: string = "";
 
   public options: PerfStressOptionDictionary<OptionNames> = {
@@ -22,10 +26,6 @@ export class NodeFetchTest extends PerfStressTest<string> {
 
   public setup() {
     this.url = this.options.url.value as string;
-  }
-
-  static fetchOptions = {
-    agent: new http.Agent({ keepAlive: true })
   }
 
   async runAsync(): Promise<void> {
