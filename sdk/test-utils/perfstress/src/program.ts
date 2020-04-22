@@ -92,7 +92,7 @@ export class PerfStressProgram {
     console.log(
       `Completed ${totalOperations} operations in a weighted-average of ${weightedAverage.toFixed(
         2
-      )}s` + ` (${operationsPerSecond.toFixed(2)} ops/s ${secondsPerOperation.toFixed(3)} s/op)`
+      )}s` + ` (${operationsPerSecond.toFixed(2)} ops/s, ${secondsPerOperation.toFixed(3)} s/op)`
     );
   }
 
