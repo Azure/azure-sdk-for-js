@@ -49,7 +49,7 @@ describe("Backup message settlement - Through ManagementLink", () => {
     return serviceBusClient.test.afterEach();
   }
 
-  describe("Settle Messages After Receiver Is Closed", function(): void {
+  describe("Operations On Messages After Receiver Is Closed", function(): void {
     afterEach(async () => {
       await afterEachTest();
     });
@@ -73,375 +73,475 @@ describe("Backup message settlement - Through ManagementLink", () => {
       return msgs[0];
     }
 
-    async function testComplete(): Promise<void> {
-      const testMessages = entityNames.usesSessions
-        ? TestMessage.getSessionSample()
-        : TestMessage.getSample();
-      const msg = await sendReceiveMsg(testMessages);
-      await receiverClient.close();
-      let errorWasThrown = false;
-      try {
-        await msg.complete();
-      } catch (err) {
-        should.equal(
-          err.message,
-          `Failed to ${DispositionType.complete} the message as the AMQP link with which the message was received is no longer alive.`,
-          "Unexpected error thrown"
-        );
-        errorWasThrown = true;
-      }
-
-      receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
-      if (entityNames.usesSessions) {
-        should.equal(errorWasThrown, true, "Error was not thrown for messages with session-id");
-        const msgBatch = await receiverClient.receiveBatch(1);
-        await msgBatch[0].complete();
-      } else {
-        should.equal(errorWasThrown, false, "Error was thrown for sessions without session-id");
-      }
-      await testPeekMsgsLength(receiverClient, 0);
-    }
-
-    it("Partitioned Queue: complete() removes message", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueue);
-      await testComplete();
-    });
-
-    it("Partitioned Subscription: complete() removes message", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedSubscription);
-      await testComplete();
-    });
-
-    it("Unpartitioned Queue: complete() removes message #RunInBrowser ", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
-      await testComplete();
-    });
-
-    it("Unpartitioned Subscription: complete() removes message", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedSubscription);
-      await testComplete();
-    });
-
-    it("Partitioned Queue with Sessions: complete() throws error", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
-      await testComplete();
-    });
-
-    it("Partitioned Subscription with Sessions: complete() throws error", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions);
-      await testComplete();
-    });
-
-    it("Unpartitioned Queue with Sessions: complete() throws error #RunInBrowser", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-      await testComplete();
-    });
-
-    it("Unpartitioned Subscription with Sessions: complete() throws error", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
-      await testComplete();
-    });
-
-    async function testAbandon(): Promise<void> {
-      const testMessages = entityNames.usesSessions
-        ? TestMessage.getSessionSample()
-        : TestMessage.getSample();
-      const msg = await sendReceiveMsg(testMessages);
-      await receiverClient.close();
-      let errorWasThrown = false;
-      try {
-        await msg.abandon();
-      } catch (err) {
-        should.equal(
-          err.message,
-          `Failed to ${DispositionType.abandon} the message as the AMQP link with which the message was received is no longer alive.`,
-          "Unexpected error thrown"
-        );
-        errorWasThrown = true;
-      }
-
-      if (entityNames.usesSessions) {
-        should.equal(errorWasThrown, true, "Error was not thrown for messages with session-id");
-      } else {
-        should.equal(errorWasThrown, false, "Error was thrown for sessions without session-id");
-      }
-      receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
-      await testPeekMsgsLength(receiverClient, 1);
-
-      const messageBatch = await receiverClient.receiveBatch(1);
-
-      await messageBatch[0].complete();
-
-      await testPeekMsgsLength(receiverClient, 0);
-    }
-
-    it("Partitioned Queue: abandon() retains message with incremented deliveryCount", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.PartitionedQueue);
-      await testAbandon();
-    });
-
-    it("Partitioned Subscription: abandon() retains message with incremented deliveryCount", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.PartitionedSubscription);
-      await testAbandon();
-    });
-
-    it("Unpartitioned Queue: abandon() retains message with incremented deliveryCount #RunInBrowser", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
-      await testAbandon();
-    });
-
-    it("Unpartitioned Subscription: abandon() retains message with incremented deliveryCount", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedSubscription);
-      await testAbandon();
-    });
-
-    it("Partitioned Queue with Sessions: abandon() throws error", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
-      await testAbandon();
-    });
-
-    it("Partitioned Subscription with Sessions: abandon() throws error", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions);
-      await testAbandon();
-    });
-
-    it("Unpartitioned Queue with Sessions: abandon() throws error #RunInBrowser", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-      await testAbandon();
-    });
-
-    it("Unpartitioned Subscription with Sessions: abandon() throws error", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
-      await testAbandon();
-    });
-
-    async function testDefer(): Promise<void> {
-      const testMessages = entityNames.usesSessions
-        ? TestMessage.getSessionSample()
-        : TestMessage.getSample();
-      const msg = await sendReceiveMsg(testMessages);
-
-      if (!msg.sequenceNumber) {
-        throw "Sequence Number can not be null";
-      }
-      const sequenceNumber = msg.sequenceNumber;
-      await receiverClient.close();
-      let errorWasThrown = false;
-      try {
-        await msg.defer();
-      } catch (err) {
-        should.equal(
-          err.message,
-          `Failed to ${DispositionType.defer} the message as the AMQP link with which the message was received is no longer alive.`,
-          "Unexpected error thrown"
-        );
-        errorWasThrown = true;
-      }
-
-      if (entityNames.usesSessions) {
-        should.equal(errorWasThrown, true, "Error was not thrown for messages with session-id");
-      } else {
-        should.equal(errorWasThrown, false, "Error was thrown for sessions without session-id");
-      }
-      receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
-      if (!entityNames.usesSessions) {
-        const deferredMsgs = await receiverClient.receiveDeferredMessage(sequenceNumber);
-        if (!deferredMsgs) {
-          throw "No message received for sequence number";
+    describe("Complete a message", function(): void {
+      async function testComplete(): Promise<void> {
+        const testMessages = entityNames.usesSessions
+          ? TestMessage.getSessionSample()
+          : TestMessage.getSample();
+        const msg = await sendReceiveMsg(testMessages);
+        await receiverClient.close();
+        let errorWasThrown = false;
+        try {
+          await msg.complete();
+        } catch (err) {
+          should.equal(
+            err.message,
+            `Failed to ${DispositionType.complete} the message as the AMQP link with which the message was received is no longer alive.`,
+            "Unexpected error thrown"
+          );
+          errorWasThrown = true;
         }
-        await deferredMsgs.complete();
-      } else {
+
+        receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
+        if (entityNames.usesSessions) {
+          should.equal(errorWasThrown, true, "Error was not thrown for messages with session-id");
+          const msgBatch = await receiverClient.receiveBatch(1);
+          await msgBatch[0].complete();
+        } else {
+          should.equal(errorWasThrown, false, "Error was thrown for sessions without session-id");
+        }
+        await testPeekMsgsLength(receiverClient, 0);
+      }
+
+      it("Partitioned Queue: complete() removes message", async function(): Promise<void> {
+        await beforeEachTest(TestClientType.PartitionedQueue);
+        await testComplete();
+      });
+
+      it("Partitioned Subscription: complete() removes message", async function(): Promise<void> {
+        await beforeEachTest(TestClientType.PartitionedSubscription);
+        await testComplete();
+      });
+
+      it("Unpartitioned Queue: complete() removes message #RunInBrowser ", async function(): Promise<
+        void
+      > {
+        await beforeEachTest(TestClientType.UnpartitionedQueue);
+        await testComplete();
+      });
+
+      it("Unpartitioned Subscription: complete() removes message", async function(): Promise<void> {
+        await beforeEachTest(TestClientType.UnpartitionedSubscription);
+        await testComplete();
+      });
+
+      it("Partitioned Queue with Sessions: complete() throws error", async function(): Promise<
+        void
+      > {
+        await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
+        await testComplete();
+      });
+
+      it("Partitioned Subscription with Sessions: complete() throws error", async function(): Promise<
+        void
+      > {
+        await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions);
+        await testComplete();
+      });
+
+      it("Unpartitioned Queue with Sessions: complete() throws error #RunInBrowser", async function(): Promise<
+        void
+      > {
+        await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
+        await testComplete();
+      });
+
+      it("Unpartitioned Subscription with Sessions: complete() throws error", async function(): Promise<
+        void
+      > {
+        await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
+        await testComplete();
+      });
+    });
+
+    describe("Abandon a message", function(): void {
+      async function testAbandon(): Promise<void> {
+        const testMessages = entityNames.usesSessions
+          ? TestMessage.getSessionSample()
+          : TestMessage.getSample();
+        const msg = await sendReceiveMsg(testMessages);
+        await receiverClient.close();
+        let errorWasThrown = false;
+        try {
+          await msg.abandon();
+        } catch (err) {
+          should.equal(
+            err.message,
+            `Failed to ${DispositionType.abandon} the message as the AMQP link with which the message was received is no longer alive.`,
+            "Unexpected error thrown"
+          );
+          errorWasThrown = true;
+        }
+
+        if (entityNames.usesSessions) {
+          should.equal(errorWasThrown, true, "Error was not thrown for messages with session-id");
+        } else {
+          should.equal(errorWasThrown, false, "Error was thrown for sessions without session-id");
+        }
+        receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
+        await testPeekMsgsLength(receiverClient, 1);
+
         const messageBatch = await receiverClient.receiveBatch(1);
-        await messageBatch[0].complete();
-      }
-      await testPeekMsgsLength(receiverClient, 0);
-    }
 
-    it("Partitioned Queue: defer() moves message to deferred queue", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.PartitionedQueue);
-      await testDefer();
-    });
-
-    it("Partitioned Subscription: defer() moves message to deferred queue", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.PartitionedSubscription);
-      await testDefer();
-    });
-
-    it("Unpartitioned Queue: defer() moves message to deferred queue #RunInBrowser", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
-      await testDefer();
-    });
-
-    it("Unpartitioned Subscription: defer() moves message to deferred queue", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedSubscription);
-      await testDefer();
-    });
-
-    it("Partitioned Queue with Sessions: defer() throws error", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
-      await testDefer();
-    });
-
-    it("Partitioned Subscription with Sessions: defer() throws error", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions);
-      await testDefer();
-    });
-
-    it("Unpartitioned Queue with Sessions: defer() throws error #RunInBrowser", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-      await testDefer();
-    });
-
-    it("Unpartitioned Subscription with Sessions: defer() throws error", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
-      await testDefer();
-    });
-
-    async function testDeadletter(useSessions?: boolean): Promise<void> {
-      const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
-      const msg = await sendReceiveMsg(testMessages);
-      await receiverClient.close();
-      let errorWasThrown = false;
-      try {
-        await msg.deadLetter();
-      } catch (err) {
-        should.equal(
-          err.message,
-          `Failed to ${DispositionType.deadletter} the message as the AMQP link with which the message was received is no longer alive.`,
-          "Unexpected error thrown"
-        );
-        errorWasThrown = true;
-      }
-
-      if (entityNames.usesSessions) {
-        should.equal(errorWasThrown, true, "Error was not thrown for messages with session-id");
-      } else {
-        should.equal(errorWasThrown, false, "Error was thrown for sessions without session-id");
-      }
-
-      receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
-
-      if (!entityNames.usesSessions) {
-        const deadLetterMsgsBatch = await deadLetterClient.receiveBatch(1);
-
-        should.equal(
-          Array.isArray(deadLetterMsgsBatch),
-          true,
-          "`ReceivedMessages` from Deadletter is not an array"
-        );
-        should.equal(deadLetterMsgsBatch.length, 1, "Unexpected number of messages");
-        should.equal(
-          deadLetterMsgsBatch[0].body,
-          testMessages.body,
-          "MessageBody is different than expected"
-        );
-        should.equal(
-          deadLetterMsgsBatch[0].messageId,
-          testMessages.messageId,
-          "MessageId is different than expected"
-        );
-
-        await deadLetterMsgsBatch[0].complete();
-
-        await testPeekMsgsLength(deadLetterClient, 0);
-      } else {
-        const messageBatch = await receiverClient.receiveBatch(1);
         await messageBatch[0].complete();
 
         await testPeekMsgsLength(receiverClient, 0);
       }
-    }
 
-    it("Partitioned Queue: deadLetter() moves message to deadletter queue", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.PartitionedQueue);
-      await testDeadletter();
+      it("Partitioned Queue: abandon() retains message with incremented deliveryCount", async function(): Promise<
+        void
+      > {
+        await beforeEachTest(TestClientType.PartitionedQueue);
+        await testAbandon();
+      });
+
+      it("Partitioned Subscription: abandon() retains message with incremented deliveryCount", async function(): Promise<
+        void
+      > {
+        await beforeEachTest(TestClientType.PartitionedSubscription);
+        await testAbandon();
+      });
+
+      it("Unpartitioned Queue: abandon() retains message with incremented deliveryCount #RunInBrowser", async function(): Promise<
+        void
+      > {
+        await beforeEachTest(TestClientType.UnpartitionedQueue);
+        await testAbandon();
+      });
+
+      it("Unpartitioned Subscription: abandon() retains message with incremented deliveryCount", async function(): Promise<
+        void
+      > {
+        await beforeEachTest(TestClientType.UnpartitionedSubscription);
+        await testAbandon();
+      });
+
+      it("Partitioned Queue with Sessions: abandon() throws error", async function(): Promise<
+        void
+      > {
+        await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
+        await testAbandon();
+      });
+
+      it("Partitioned Subscription with Sessions: abandon() throws error", async function(): Promise<
+        void
+      > {
+        await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions);
+        await testAbandon();
+      });
+
+      it("Unpartitioned Queue with Sessions: abandon() throws error #RunInBrowser", async function(): Promise<
+        void
+      > {
+        await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
+        await testAbandon();
+      });
+
+      it("Unpartitioned Subscription with Sessions: abandon() throws error", async function(): Promise<
+        void
+      > {
+        await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
+        await testAbandon();
+      });
     });
 
-    it("Partitioned Subscription: deadLetter() moves message to deadletter queue", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.PartitionedSubscription);
-      await testDeadletter();
+    describe("Defer a message", function(): void {
+      async function testDefer(): Promise<void> {
+        const testMessages = entityNames.usesSessions
+          ? TestMessage.getSessionSample()
+          : TestMessage.getSample();
+        const msg = await sendReceiveMsg(testMessages);
+
+        if (!msg.sequenceNumber) {
+          throw "Sequence Number can not be null";
+        }
+        const sequenceNumber = msg.sequenceNumber;
+        await receiverClient.close();
+        let errorWasThrown = false;
+        try {
+          await msg.defer();
+        } catch (err) {
+          should.equal(
+            err.message,
+            `Failed to ${DispositionType.defer} the message as the AMQP link with which the message was received is no longer alive.`,
+            "Unexpected error thrown"
+          );
+          errorWasThrown = true;
+        }
+
+        if (entityNames.usesSessions) {
+          should.equal(errorWasThrown, true, "Error was not thrown for messages with session-id");
+        } else {
+          should.equal(errorWasThrown, false, "Error was thrown for sessions without session-id");
+        }
+        receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
+        if (!entityNames.usesSessions) {
+          const deferredMsgs = await receiverClient.receiveDeferredMessage(sequenceNumber);
+          if (!deferredMsgs) {
+            throw "No message received for sequence number";
+          }
+          await deferredMsgs.complete();
+        } else {
+          const messageBatch = await receiverClient.receiveBatch(1);
+          await messageBatch[0].complete();
+        }
+        await testPeekMsgsLength(receiverClient, 0);
+      }
+
+      it("Partitioned Queue: defer() moves message to deferred queue", async function(): Promise<
+        void
+      > {
+        await beforeEachTest(TestClientType.PartitionedQueue);
+        await testDefer();
+      });
+
+      it("Partitioned Subscription: defer() moves message to deferred queue", async function(): Promise<
+        void
+      > {
+        await beforeEachTest(TestClientType.PartitionedSubscription);
+        await testDefer();
+      });
+
+      it("Unpartitioned Queue: defer() moves message to deferred queue #RunInBrowser", async function(): Promise<
+        void
+      > {
+        await beforeEachTest(TestClientType.UnpartitionedQueue);
+        await testDefer();
+      });
+
+      it("Unpartitioned Subscription: defer() moves message to deferred queue", async function(): Promise<
+        void
+      > {
+        await beforeEachTest(TestClientType.UnpartitionedSubscription);
+        await testDefer();
+      });
+
+      it("Partitioned Queue with Sessions: defer() throws error", async function(): Promise<void> {
+        await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
+        await testDefer();
+      });
+
+      it("Partitioned Subscription with Sessions: defer() throws error", async function(): Promise<
+        void
+      > {
+        await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions);
+        await testDefer();
+      });
+
+      it("Unpartitioned Queue with Sessions: defer() throws error #RunInBrowser", async function(): Promise<
+        void
+      > {
+        await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
+        await testDefer();
+      });
+
+      it("Unpartitioned Subscription with Sessions: defer() throws error", async function(): Promise<
+        void
+      > {
+        await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
+        await testDefer();
+      });
     });
 
-    it("Unpartitioned Queue: deadLetter() moves message to deadletter queue #RunInBrowser", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
-      await testDeadletter();
+    describe("Deadletter a message", function(): void {
+      async function testDeadletter(useSessions?: boolean): Promise<void> {
+        const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
+        const msg = await sendReceiveMsg(testMessages);
+        await receiverClient.close();
+        let errorWasThrown = false;
+        try {
+          await msg.deadLetter();
+        } catch (err) {
+          should.equal(
+            err.message,
+            `Failed to ${DispositionType.deadletter} the message as the AMQP link with which the message was received is no longer alive.`,
+            "Unexpected error thrown"
+          );
+          errorWasThrown = true;
+        }
+
+        if (entityNames.usesSessions) {
+          should.equal(errorWasThrown, true, "Error was not thrown for messages with session-id");
+        } else {
+          should.equal(errorWasThrown, false, "Error was thrown for sessions without session-id");
+        }
+
+        receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
+
+        if (!entityNames.usesSessions) {
+          const deadLetterMsgsBatch = await deadLetterClient.receiveBatch(1);
+
+          should.equal(
+            Array.isArray(deadLetterMsgsBatch),
+            true,
+            "`ReceivedMessages` from Deadletter is not an array"
+          );
+          should.equal(deadLetterMsgsBatch.length, 1, "Unexpected number of messages");
+          should.equal(
+            deadLetterMsgsBatch[0].body,
+            testMessages.body,
+            "MessageBody is different than expected"
+          );
+          should.equal(
+            deadLetterMsgsBatch[0].messageId,
+            testMessages.messageId,
+            "MessageId is different than expected"
+          );
+
+          await deadLetterMsgsBatch[0].complete();
+
+          await testPeekMsgsLength(deadLetterClient, 0);
+        } else {
+          const messageBatch = await receiverClient.receiveBatch(1);
+          await messageBatch[0].complete();
+
+          await testPeekMsgsLength(receiverClient, 0);
+        }
+      }
+
+      it("Partitioned Queue: deadLetter() moves message to deadletter queue", async function(): Promise<
+        void
+      > {
+        await beforeEachTest(TestClientType.PartitionedQueue);
+        await testDeadletter();
+      });
+
+      it("Partitioned Subscription: deadLetter() moves message to deadletter queue", async function(): Promise<
+        void
+      > {
+        await beforeEachTest(TestClientType.PartitionedSubscription);
+        await testDeadletter();
+      });
+
+      it("Unpartitioned Queue: deadLetter() moves message to deadletter queue #RunInBrowser", async function(): Promise<
+        void
+      > {
+        await beforeEachTest(TestClientType.UnpartitionedQueue);
+        await testDeadletter();
+      });
+
+      it("Unpartitioned Subscription: deadLetter() moves message to deadletter queue", async function(): Promise<
+        void
+      > {
+        await beforeEachTest(TestClientType.UnpartitionedSubscription);
+        await testDeadletter();
+      });
+
+      it("Partitioned Queue with Sessions: deadLetter() throws error", async function(): Promise<
+        void
+      > {
+        await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
+        await testDeadletter(true);
+      });
+
+      it("Partitioned Subscription with Sessions: deadLetter() throws error", async function(): Promise<
+        void
+      > {
+        await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions);
+        await testDeadletter(true);
+      });
+
+      it("Unpartitioned Queue with Sessions: deadLetter() throws error #RunInBrowser", async function(): Promise<
+        void
+      > {
+        await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
+        await testDeadletter(true);
+      });
+
+      it("Unpartitioned Subscription with Sessions: deadLetter() throws error", async function(): Promise<
+        void
+      > {
+        await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
+        await testDeadletter(true);
+      });
     });
 
-    it("Unpartitioned Subscription: deadLetter() moves message to deadletter queue", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedSubscription);
-      await testDeadletter();
-    });
+    describe("Lock renewal for a message", function(): void {
+      async function testRenewLock(): Promise<void> {
+        const testMessages = entityNames.usesSessions
+          ? TestMessage.getSessionSample()
+          : TestMessage.getSample();
+        const msg = await sendReceiveMsg(testMessages);
+        await receiverClient.close();
+        let errorWasThrown = false;
+        try {
+          const lockedUntilBeforeRenewlock = msg.lockedUntilUtc;
+          const lockedUntilAfterRenewlock = await msg.renewLock();
+          should.equal(
+            lockedUntilAfterRenewlock > lockedUntilBeforeRenewlock!,
+            true,
+            "MessageLock did not get renewed!"
+          );
+          await msg.complete();
+        } catch (err) {
+          should.equal(
+            err.message,
+            `Invalid operation on the message, message lock doesn't exist when dealing with sessions`,
+            "Unexpected error thrown"
+          );
+          errorWasThrown = true;
+        }
 
-    it("Partitioned Queue with Sessions: deadLetter() throws error", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
-      await testDeadletter(true);
-    });
+        receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
+        if (entityNames.usesSessions) {
+          should.equal(errorWasThrown, true, "Error was not thrown for messages with session-id");
+          const msgBatch = await receiverClient.receiveBatch(1);
+          await msgBatch[0].complete();
+        } else {
+          should.equal(errorWasThrown, false, "Error was thrown for sessions without session-id");
+        }
+        await testPeekMsgsLength(receiverClient, 0);
+      }
 
-    it("Partitioned Subscription with Sessions: deadLetter() throws error", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions);
-      await testDeadletter(true);
-    });
+      it("Partitioned Queue: complete() removes message", async function(): Promise<void> {
+        await beforeEachTest(TestClientType.PartitionedQueue);
+        await testRenewLock();
+      });
 
-    it("Unpartitioned Queue with Sessions: deadLetter() throws error #RunInBrowser", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-      await testDeadletter(true);
-    });
+      it("Partitioned Subscription: complete() removes message", async function(): Promise<void> {
+        await beforeEachTest(TestClientType.PartitionedSubscription);
+        await testRenewLock();
+      });
 
-    it("Unpartitioned Subscription with Sessions: deadLetter() throws error", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
-      await testDeadletter(true);
+      it("Unpartitioned Queue: complete() removes message #RunInBrowser ", async function(): Promise<
+        void
+      > {
+        await beforeEachTest(TestClientType.UnpartitionedQueue);
+        await testRenewLock();
+      });
+
+      it("Unpartitioned Subscription: complete() removes message", async function(): Promise<void> {
+        await beforeEachTest(TestClientType.UnpartitionedSubscription);
+        await testRenewLock();
+      });
+
+      it("Partitioned Queue with Sessions: complete() throws error", async function(): Promise<
+        void
+      > {
+        await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
+        await testRenewLock();
+      });
+
+      it("Partitioned Subscription with Sessions: complete() throws error", async function(): Promise<
+        void
+      > {
+        await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions);
+        await testRenewLock();
+      });
+
+      it("Unpartitioned Queue with Sessions: complete() throws error #RunInBrowser", async function(): Promise<
+        void
+      > {
+        await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
+        await testRenewLock();
+      });
+
+      it("Unpartitioned Subscription with Sessions: complete() throws error", async function(): Promise<
+        void
+      > {
+        await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
+        await testRenewLock();
+      });
     });
   });
 });
