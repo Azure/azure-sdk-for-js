@@ -3434,6 +3434,97 @@ export const FileShare: msRest.CompositeMapper = {
         type: {
           name: "Number"
         }
+      },
+      enabledProtocols: {
+        serializedName: "properties.enabledProtocols",
+        type: {
+          name: "String"
+        }
+      },
+      rootSquash: {
+        serializedName: "properties.rootSquash",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        readOnly: true,
+        serializedName: "properties.version",
+        type: {
+          name: "String"
+        }
+      },
+      deleted: {
+        readOnly: true,
+        serializedName: "properties.deleted",
+        type: {
+          name: "Boolean"
+        }
+      },
+      deletedTime: {
+        readOnly: true,
+        serializedName: "properties.deletedTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      remainingRetentionDays: {
+        readOnly: true,
+        serializedName: "properties.remainingRetentionDays",
+        type: {
+          name: "Number"
+        }
+      },
+      accessTier: {
+        serializedName: "properties.accessTier",
+        type: {
+          name: "String"
+        }
+      },
+      accessTierChangeTime: {
+        readOnly: true,
+        serializedName: "properties.accessTierChangeTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      accessTierStatus: {
+        readOnly: true,
+        serializedName: "properties.accessTierStatus",
+        type: {
+          name: "String"
+        }
+      },
+      shareUsageBytes: {
+        readOnly: true,
+        serializedName: "properties.shareUsageBytes",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const DeletedShare: msRest.CompositeMapper = {
+  serializedName: "DeletedShare",
+  type: {
+    name: "Composite",
+    className: "DeletedShare",
+    modelProperties: {
+      deletedShareName: {
+        required: true,
+        serializedName: "deletedShareName",
+        type: {
+          name: "String"
+        }
+      },
+      deletedShareVersion: {
+        required: true,
+        serializedName: "deletedShareVersion",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -3470,6 +3561,73 @@ export const FileShareItem: msRest.CompositeMapper = {
           InclusiveMaximum: 102400,
           InclusiveMinimum: 1
         },
+        type: {
+          name: "Number"
+        }
+      },
+      enabledProtocols: {
+        serializedName: "properties.enabledProtocols",
+        type: {
+          name: "String"
+        }
+      },
+      rootSquash: {
+        serializedName: "properties.rootSquash",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        readOnly: true,
+        serializedName: "properties.version",
+        type: {
+          name: "String"
+        }
+      },
+      deleted: {
+        readOnly: true,
+        serializedName: "properties.deleted",
+        type: {
+          name: "Boolean"
+        }
+      },
+      deletedTime: {
+        readOnly: true,
+        serializedName: "properties.deletedTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      remainingRetentionDays: {
+        readOnly: true,
+        serializedName: "properties.remainingRetentionDays",
+        type: {
+          name: "Number"
+        }
+      },
+      accessTier: {
+        serializedName: "properties.accessTier",
+        type: {
+          name: "String"
+        }
+      },
+      accessTierChangeTime: {
+        readOnly: true,
+        serializedName: "properties.accessTierChangeTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      accessTierStatus: {
+        readOnly: true,
+        serializedName: "properties.accessTierStatus",
+        type: {
+          name: "String"
+        }
+      },
+      shareUsageBytes: {
+        readOnly: true,
+        serializedName: "properties.shareUsageBytes",
         type: {
           name: "Number"
         }

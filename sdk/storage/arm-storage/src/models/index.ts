@@ -2142,6 +2142,72 @@ export interface FileShare extends AzureEntityResource {
    * 5TB (5120). For Large File Shares, the maximum size is 102400.
    */
   shareQuota?: number;
+  /**
+   * The authentication protocol that is used for the file share. Can only be specified when
+   * creating a share. Possible values include: 'SMB', 'NFS'
+   */
+  enabledProtocols?: EnabledProtocols;
+  /**
+   * The property is for NFS share only. The default is NoRootSquash. Possible values include:
+   * 'NoRootSquash', 'RootSquash', 'AllSquash'
+   */
+  rootSquash?: RootSquashType;
+  /**
+   * The version of the share.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly version?: string;
+  /**
+   * Indicates whether the share was deleted.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly deleted?: boolean;
+  /**
+   * The deleted time if the share was deleted.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly deletedTime?: Date;
+  /**
+   * Remaining retention days for share that was soft deleted.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly remainingRetentionDays?: number;
+  /**
+   * Access tier for specific share. GpV2 account can choose between TransactionOptimized
+   * (default), Hot, and Cool. FileStorage account can choose Premium. Possible values include:
+   * 'TransactionOptimized', 'Hot', 'Cool', 'Premium'
+   */
+  accessTier?: ShareAccessTier;
+  /**
+   * Indicates the last modification time for share access tier.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly accessTierChangeTime?: Date;
+  /**
+   * Indicates if there is a pending transition for access tier.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly accessTierStatus?: string;
+  /**
+   * The approximate size of the data stored on the share. Note that this value may not include all
+   * recently created or recently resized files.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly shareUsageBytes?: number;
+}
+
+/**
+ * The deleted share to be restored.
+ */
+export interface DeletedShare {
+  /**
+   * Required. Identify the name of the deleted share that will be restored.
+   */
+  deletedShareName: string;
+  /**
+   * Required. Identify the version of the deleted share that will be restored.
+   */
+  deletedShareVersion: string;
 }
 
 /**
@@ -2162,6 +2228,58 @@ export interface FileShareItem extends AzureEntityResource {
    * 5TB (5120). For Large File Shares, the maximum size is 102400.
    */
   shareQuota?: number;
+  /**
+   * The authentication protocol that is used for the file share. Can only be specified when
+   * creating a share. Possible values include: 'SMB', 'NFS'
+   */
+  enabledProtocols?: EnabledProtocols;
+  /**
+   * The property is for NFS share only. The default is NoRootSquash. Possible values include:
+   * 'NoRootSquash', 'RootSquash', 'AllSquash'
+   */
+  rootSquash?: RootSquashType;
+  /**
+   * The version of the share.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly version?: string;
+  /**
+   * Indicates whether the share was deleted.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly deleted?: boolean;
+  /**
+   * The deleted time if the share was deleted.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly deletedTime?: Date;
+  /**
+   * Remaining retention days for share that was soft deleted.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly remainingRetentionDays?: number;
+  /**
+   * Access tier for specific share. GpV2 account can choose between TransactionOptimized
+   * (default), Hot, and Cool. FileStorage account can choose Premium. Possible values include:
+   * 'TransactionOptimized', 'Hot', 'Cool', 'Premium'
+   */
+  accessTier?: ShareAccessTier;
+  /**
+   * Indicates the last modification time for share access tier.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly accessTierChangeTime?: Date;
+  /**
+   * Indicates if there is a pending transition for access tier.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly accessTierStatus?: string;
+  /**
+   * The approximate size of the data stored on the share. Note that this value may not include all
+   * recently created or recently resized files.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly shareUsageBytes?: number;
 }
 
 /**
@@ -2291,36 +2409,22 @@ export interface FileSharesListOptionalParams extends msRest.RequestOptionsBase 
    * Optional. When specified, only share names starting with the filter will be listed.
    */
   filter?: string;
+  /**
+   * Optional, used to expand the properties within share's properties. Possible values include:
+   * 'deleted'
+   */
+  expand?: ListSharesExpand;
 }
 
 /**
  * Optional Parameters.
  */
-export interface FileSharesCreateOptionalParams extends msRest.RequestOptionsBase {
+export interface FileSharesGetOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * A name-value pair to associate with the share as metadata.
+   * Optional, used to expand the properties within share's properties. Possible values include:
+   * 'stats'
    */
-  metadata?: { [propertyName: string]: string };
-  /**
-   * The maximum size of the share, in gigabytes. Must be greater than 0, and less than or equal to
-   * 5TB (5120). For Large File Shares, the maximum size is 102400.
-   */
-  shareQuota?: number;
-}
-
-/**
- * Optional Parameters.
- */
-export interface FileSharesUpdateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * A name-value pair to associate with the share as metadata.
-   */
-  metadata?: { [propertyName: string]: string };
-  /**
-   * The maximum size of the share, in gigabytes. Must be greater than 0, and less than or equal to
-   * 5TB (5120). For Large File Shares, the maximum size is 102400.
-   */
-  shareQuota?: number;
+  expand?: GetShareExpand;
 }
 
 /**
@@ -2783,6 +2887,30 @@ export type ImmutabilityPolicyState = 'Locked' | 'Unlocked';
 export type ImmutabilityPolicyUpdateType = 'put' | 'lock' | 'extend';
 
 /**
+ * Defines values for EnabledProtocols.
+ * Possible values include: 'SMB', 'NFS'
+ * @readonly
+ * @enum {string}
+ */
+export type EnabledProtocols = 'SMB' | 'NFS';
+
+/**
+ * Defines values for RootSquashType.
+ * Possible values include: 'NoRootSquash', 'RootSquash', 'AllSquash'
+ * @readonly
+ * @enum {string}
+ */
+export type RootSquashType = 'NoRootSquash' | 'RootSquash' | 'AllSquash';
+
+/**
+ * Defines values for ShareAccessTier.
+ * Possible values include: 'TransactionOptimized', 'Hot', 'Cool', 'Premium'
+ * @readonly
+ * @enum {string}
+ */
+export type ShareAccessTier = 'TransactionOptimized' | 'Hot' | 'Cool' | 'Premium';
+
+/**
  * Defines values for StorageAccountExpand.
  * Possible values include: 'geoReplicationStats', 'blobRestoreStatus'
  * @readonly
@@ -2797,6 +2925,22 @@ export type StorageAccountExpand = 'geoReplicationStats' | 'blobRestoreStatus';
  * @enum {string}
  */
 export type ListKeyExpand = 'kerb';
+
+/**
+ * Defines values for ListSharesExpand.
+ * Possible values include: 'deleted'
+ * @readonly
+ * @enum {string}
+ */
+export type ListSharesExpand = 'deleted';
+
+/**
+ * Defines values for GetShareExpand.
+ * Possible values include: 'stats'
+ * @readonly
+ * @enum {string}
+ */
+export type GetShareExpand = 'stats';
 
 /**
  * Defines values for Action1.

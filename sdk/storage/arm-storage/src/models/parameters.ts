@@ -118,6 +118,36 @@ export const expand1: msRest.OperationQueryParameter = {
     }
   }
 };
+export const expand2: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "expand"
+  ],
+  mapper: {
+    serializedName: "$expand",
+    type: {
+      name: "Enum",
+      allowedValues: [
+        "deleted"
+      ]
+    }
+  }
+};
+export const expand3: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "expand"
+  ],
+  mapper: {
+    serializedName: "$expand",
+    type: {
+      name: "Enum",
+      allowedValues: [
+        "stats"
+      ]
+    }
+  }
+};
 export const fileServicesName: msRest.OperationURLParameter = {
   parameterPath: "fileServicesName",
   mapper: {

@@ -23,6 +23,7 @@ export {
   CustomDomain,
   DateAfterCreation,
   DateAfterModification,
+  DeletedShare,
   DeleteRetentionPolicy,
   Encryption,
   EncryptionScope,
