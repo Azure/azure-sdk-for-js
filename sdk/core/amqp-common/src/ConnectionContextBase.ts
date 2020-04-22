@@ -64,9 +64,7 @@ export interface ConnectionContextBase {
    */
   cbsSession: CbsClient;
   /**
-   * Updates the context to use a new underlying AMQP connection,
-   * a new cbs session, and new locks used when establishing an AMQP
-   * connection and negotiating cbs claims.
+   * Updates the context to use a new underlying AMQP connection and new cbs session.
    */
   refreshConnection: () => void;
 }
