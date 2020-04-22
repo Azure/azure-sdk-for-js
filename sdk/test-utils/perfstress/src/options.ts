@@ -61,7 +61,6 @@ export type PerfStressOptionDictionary<TNames extends string> = {
  */
 export type DefaultPerfStressOptionNames =
   | "help"
-  | "no-cleanups"
   | "parallel"
   | "duration"
   | "warmup"
@@ -78,9 +77,6 @@ export const defaultPerfStressOptions: PerfStressOptionDictionary<DefaultPerfStr
     description: "Shows all of the available options",
     shortName: "h"
   },
-  "no-cleanups": {
-    description: "Disables all cleanups"
-  },
   parallel: {
     description: "How many of the same test to call at the same time",
     shortName: "p",
@@ -94,7 +90,7 @@ export const defaultPerfStressOptions: PerfStressOptionDictionary<DefaultPerfStr
   warmup: {
     description: "Duration of warmup in seconds",
     shortName: "w",
-    defaultValue: 0
+    defaultValue: 5
   },
   iterations: {
     description: "Times to repeat the whole process, after warmup",
