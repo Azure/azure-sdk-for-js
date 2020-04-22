@@ -1,6 +1,6 @@
 # Writing tests for the Azure SDK for JS/TS
 
-The Azure SDK for JavaScript and TypeScript allows users to communicate and control their Azure resources. The development of the Azure SDK should be taken with utmost care, not only to provide the best API clients to our customers, but also to ensure that the software is reliable through stable, succinct and comprehensible tests. For that purpose, we've made this document that defines how tests should be written.
+The Azure SDK for JavaScript and TypeScript allows users to manage and utilize their Azure resources. The development of the Azure SDK should be taken with utmost care, not only to provide the best API clients to our customers, but also to ensure that the software is reliable through stable, succinct and comprehensible tests. For that purpose, we've made this document that defines how tests should be written.
 
 > #### Tips for reading this document
 > - If you see any link that ends in a lock [🔒][TIPS], that link is private, only accessible to developers members of the Azure SDK team.
@@ -115,7 +115,7 @@ Some examples can be found at:
 
 These files will deal with the environment variables needed by your tests. Some of these environment variables are quite standard. Generally speaking, the SDK tests will use information from the tenant and the client of the resources that the tests are working with. To effectively provide these to the automated tests, we need to enable the pipeline to use some specific configuration. Please follow through the [Variable Groups](https://dev.azure.com/azure-sdk/internal/_wiki/wikis/internal.wiki/2/Azure-DevOps-Pipeline-Guidance?anchor=variable-groups) [🔒][TIPS] guidelines.
 
-Once the CI is properly configured, you can test that the live tests pipelines work by submitting a comment to a pull request with the name of the pipeline, which will be similar to `/azp run js - event-hubs - tests` or `/azp run js - keyvault-keys - tests`.
+Once the CI is properly configured, you can verify that the live tests pipelines work by posting a comment to a pull request with the name of the pipeline, which will be similar to `/azp run js - event-hubs - tests` or `/azp run js - keyvault-keys - tests`.
 
 ### Delivering live tests to our users
 
@@ -125,7 +125,7 @@ The `test-resources.json` can be used by our users to set up their own test reso
 
 ## Recommended tools
 
-Writing tests for JavaScript and TypeScript requires testing tools, such as a test framework, an assertion library, and a way to bundle and run these tests in various environments. The JavaScript community has many overlapping tools that one could pick to fulfill any of these tasks. To ensure that the testing experience across the Azure SDK for JS/TS is consistent and reliable, we've picked the following external testing tools:
+Writing tests for JavaScript and TypeScript requires testing tools such as a test framework, an assertion library, and a way to bundle and run these tests in various environments. The JavaScript community has many overlapping tools that one could pick to fulfill any of these tasks. To ensure that the testing experience across the Azure SDK for JS/TS is consistent and reliable, we've picked the following external testing tools:
 
 - [Mocha](https://www.npmjs.com/package/mocha), which offers a well known and stable test framework for both NodeJS and the browser.
 - [Chai](https://www.npmjs.com/package/chai), a well known assertion library for Node and the browser.
