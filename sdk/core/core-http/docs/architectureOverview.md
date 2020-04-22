@@ -43,5 +43,5 @@ The top-most type in this runtime repository is the ServiceClient class. This cl
 [next_policy]: https://github.com/Azure/azure-sdk-for-js/blob/20a9bbccd75dedb365703c5d2e466b29c6572473/sdk/core/core-http/src/policies/requestPolicy.ts#L22
 [retry_failed_request]: https://github.com/Azure/azure-sdk-for-js/blob/20a9bbccd75dedb365703c5d2e466b29c6572473/sdk/core/core-http/src/policies/exponentialRetryPolicy.ts#L141
 [deserialize_response]: https://github.com/Azure/azure-sdk-for-js/blob/20a9bbccd75dedb365703c5d2e466b29c6572473/sdk/core/core-http/src/policies/deserializationPolicy.ts#L96
-[okhttp_interceptors]: https://github.com/square/okhttp/wiki/Interceptors
+[okhttp_interceptors]: https://square.github.io/okhttp/interceptors/
 [javax_filters]: https://tomcat.apache.org/tomcat-5.5-doc/servletapi/javax/servlet/Filter.html
