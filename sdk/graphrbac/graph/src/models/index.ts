@@ -390,8 +390,9 @@ export interface ApplicationBase {
   errorUrl?: string;
   /**
    * Configures the groups claim issued in a user or OAuth 2.0 access token that the app expects.
+   * Possible values include: 'None', 'SecurityGroup', 'All'
    */
-  groupMembershipClaims?: any;
+  groupMembershipClaims?: GroupMembershipClaimTypes;
   /**
    * The home page of the application.
    */
@@ -575,8 +576,9 @@ export interface Application {
   errorUrl?: string;
   /**
    * Configures the groups claim issued in a user or OAuth 2.0 access token that the app expects.
+   * Possible values include: 'None', 'SecurityGroup', 'All'
    */
-  groupMembershipClaims?: any;
+  groupMembershipClaims?: GroupMembershipClaimTypes;
   /**
    * The home page of the application.
    */
@@ -1374,6 +1376,10 @@ export interface UsersListOptionalParams extends msRest.RequestOptionsBase {
    * The filter to apply to the operation.
    */
   filter?: string;
+  /**
+   * The expand value for the operation result.
+   */
+  expand?: string;
 }
 
 /**
@@ -1525,6 +1531,14 @@ export interface OAuth2PermissionGrantListResult extends Array<OAuth2PermissionG
    */
   odatanextLink?: string;
 }
+
+/**
+ * Defines values for GroupMembershipClaimTypes.
+ * Possible values include: 'None', 'SecurityGroup', 'All'
+ * @readonly
+ * @enum {string}
+ */
+export type GroupMembershipClaimTypes = 'None' | 'SecurityGroup' | 'All';
 
 /**
  * Defines values for UserType.
