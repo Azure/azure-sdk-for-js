@@ -14,6 +14,7 @@ chai.use(chaiAsPromised);
 describe("controlled connection initialization", () => {
   let closeAll: () => Promise<void>;
   let sender: Sender;
+  let senderEntityPath: string;
 
   beforeEach(async () => {
     let serviceBusClient = getServiceBusClient();
@@ -27,6 +28,7 @@ describe("controlled connection initialization", () => {
     ));
 
     sender = senderClient.createSender();
+    senderEntityPath = senderClient.entityPath;
 
     closeAll = async () => {
       await sender.close();
@@ -122,6 +124,26 @@ describe("controlled connection initialization", () => {
       assert.fail("Should have thrown once we reached our stubbed out _negotiateClaim() call");
     } catch (err) {
       assert.equal(err.message, "We won't get here until _after_ the lock has been released");
+    }
+  });
+
+  it("open() doesn't re-open a sender (or anything)", async () => {
+    // open it just to initialize everything.
+    // I'd like to migrate these tests into MessageSender but the cost of "faking" a ClientEntityContext is a bit too high.
+    await sender.open();
+
+    // we can't revive a sender.
+    await sender.close();
+
+    try {
+      await sender.open();
+      assert.fail("Should have thrown once we reached our stubbed out _negotiateClaim() call");
+    } catch (err) {
+      //  The sender for "unpartitioned-queue" has been closed and can no longer be used. Please create a new sender using the "createSender" function on the QueueClient.
+      assert.equal(
+        err.message,
+        `The sender for "${senderEntityPath}" has been closed and can no longer be used. Please create a new sender using the "createSender" function on the QueueClient.`
+      );
     }
   });
 });
