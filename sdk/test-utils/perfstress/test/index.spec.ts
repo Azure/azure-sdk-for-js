@@ -10,6 +10,8 @@ import { SetupCleanupTest } from "./setupCleanup.spec";
 import { Delay500ms } from "./delay.spec";
 import { Exception } from "./exception.spec";
 import { PerfStressPolicyTest } from "./perfStressPolicy.spec";
+import { SleepTest } from "./sleep.spec";
+import { NodeFetchTest } from "./nodeFetch.spec";
 
 console.log("=== Starting the perfStress test ===");
 
@@ -20,7 +22,9 @@ const perfStressProgram = new PerfStressProgram(
     SetupCleanupTest,
     Delay500ms,
     Exception,
-    PerfStressPolicyTest
+    PerfStressPolicyTest,
+    SleepTest,
+    NodeFetchTest
   ])
 );
 
