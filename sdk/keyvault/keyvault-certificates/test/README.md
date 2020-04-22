@@ -2,13 +2,13 @@
 
 To test this project, make sure to first build it properly by following our [building instructions](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md#building). Once the project is correctly built, you will be able to run the tests by following the [testing instructions](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md#testing).
 
-To run the live tests, follow the [Integration Testing with live services](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md#integration-testing-with-live-services) instructions to automatically set up the required resources with the proper configuration.
+You can use existing Azure resources for the live tests, or generate new ones by using our [New-TestResources.ps1](https://github.com/Azure/azure-sdk-for-js/blob/master/eng/common/TestResources/New-TestResources.ps1) script, which will use an [ARM template](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/test-resources.json) that already has all of the the necessary configurations.
 
-The live tests in this project will use the resources created from the [ARM template](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/test-resources.json), which defines:
+The Azure resources that are used by the tests in this project are:
 
 - An [Azure Key Vault](https://docs.microsoft.com/en-us/azure/key-vault/general/basic-concepts) account with as many permissions as possible to be able to run tests to most of it features.
 
-Set the below environment variables to run the live tests:
+You will also need to set the below environment variables to run the live tests:
 
 - `TEST_MODE`: Should have `live` assigned.
 - `AZURE_CLIENT_ID`: The client ID of an Azure Active Directory application.
@@ -16,7 +16,7 @@ Set the below environment variables to run the live tests:
 - `AZURE_TENANT_ID`: The Tenant ID of your organization in Azure Active Directory.
 - `KEYVAULT_NAME`: The name of the KeyVault to use.
 
-The Key Vault Certificates client live tests will create, modify and delete [certificates](https://docs.microsoft.com/en-us/azure/key-vault/certificates/about-certificates) inside of the Azure Key Vault provided by the `KEYVAULT_NAME` environment variable.
+The live tests in this project will create, modify and delete [certificates](https://docs.microsoft.com/en-us/azure/key-vault/certificates/about-certificates) inside of the provided Azure Key Vault.
 
 ## Setup for running tests that use AAD based authentication
 

@@ -145,17 +145,13 @@ You can read more in the section: [Regenerating recordings](#regenerating-record
 
 #### Live tests
 
-By default, the npm scripts `test`, `test:node` or `test:browser` run recorded tests. To run live tests, you need the right Azure resources, set appropriate environment variables to point to these resources and set the environment variable `TEST_MODE` to "live". The readme file in the test folder of each package lists the Azure resources you would need and the environment variables to update.
+By default, the npm scripts `test`, `test:node` or `test:browser` run recorded tests. To run live tests, you need the right Azure resources, set appropriate environment variables to point to these resources and set the environment variable `TEST_MODE` to "live". The readme file in the test folder of each package lists the Azure resources and the environment variables needed.
 
-You can create the Azure resources manually on your own or automate this process by...
+You can create the Azure resources manually on your own or automate this process by using the script called `New-TestResources.ps1`. Follow the steps in [`Example 1 of New-TestResources.ps1`](ttps://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md#building). Once the project is correctly built, you will be able to run the tests by following the [testing instructions](https://github.com/Azure/azure-sdk-for-js/blob/master/eng/common/TestResources/New-TestResources.ps1.md#example-1) to set up a service principal and deploy live test resources. To see what resources will be deployed for a live service, check the `test-resources.json` ARM template files in the folder of the service you wish to deploy for testing, for example `sdk\keyvault\test-resources.json`.
 
-Our integration tests will run against the live resources, which are determined by the environment variables you provide.
+Live tests won't need updated recordings, and they also won't change previous recordings unless specified (see [Regenerating recordings](#regenerating-recordings)).
 
-To run the integration tests, you will need to execute `rushx integration-test`.
-
-To generate new resources for your tests, follow the procedure at [Integration Testing with live services](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md#integration-testing-with-live-services). What resources get created before the test, or created during the test depends on how the ARM template named `test-resources.json` is built, just as much as how the tests are written.
-
-Integration tests won't need updated recordings, and they also won't change previous recordings unless specified (see [Regenerating recordings](#regenerating-recordings)).
+Keep in mind that you can set the environment variables as how they're set by default through your system preferences, or through the command line, or by setting them each one in a different line in a `.env` file in the parent folder of the project you'll be testing (like in the folder `keyvault` if you're testing the project at `sdk/keyvault/keyvault-keys`). You can read more about how `dotenv` works in [their README](https://github.com/motdotla/dotenv#readme).
 
 #### Regenerating recordings
 
@@ -194,33 +190,6 @@ All projects have at least the following scripts:
 Projects may optionally have the following scripts:
 
 - `extract-api`: Run API Extractor to show API issues and generate API reports
-
-### Integration Testing with live services
-
-Integration tests assume a live resource has been created and appropriate
-environment variables have been set for the test process. To automate setting up
-live resources we use created a script called `New-TestResources.ps1` that
-deploys resources for a given service.
-
-To see what resources will be deployed for a live service, check the
-`test-resources.json` ARM template files in the service you wish to deploy for
-testing, for example `sdk\keyvault\test-resources.json`.
-
-To deploy live resources for testing use the steps documented in [`Example 1 of New-TestResources.ps1`](eng/common/TestResources/New-TestResources.ps1.md#example-1) to set up a service principal and deploy live testing resources.
-
-The script will provide instructions for setting environment variables before running live tests.
-
-Keep in mind that you can set the environment variables as how they're set by default through your system preferences, or through the command line, or by setting them each one in a different line in a `.env` file in the parent folder of the project you'll be testing (like in the folder `keyvault` if you're testing the project at `sdk/keyvault/keyvault-keys`). You can read more about how `dotenv` works in [their README](https://github.com/motdotla/dotenv#readme).
-
-To run live tests after deploying live resources for Node:
-
-```
-rush integration-test:node -t @azure/keyvault-secrets -verbose -pmax
-```
-
-Some live tests may have additional steps for setting up live testing resources.
-See the CONTRIBUTING.md file for the service you wish to test for additional
-information or instructions.
 
 ### Getting back to a clean state
 
