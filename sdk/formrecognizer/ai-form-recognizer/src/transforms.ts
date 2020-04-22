@@ -535,7 +535,7 @@ export function toFormModelResponse(response: GetCustomModelResponse): FormModel
       models: [{ accuracy: response.trainResult.averageModelAccuracy, formType: "TBD", fields }]
     };
   } else if (response.keys) {
-    // traning with forms, populate from trainingResult.keys
+    // training with forms, populate from trainingResult.keys
     const models: CustomFormSubModel[] = [];
     for (const clusterKey in response.keys.clusters) {
       const cluster = response.keys.clusters[clusterKey];
