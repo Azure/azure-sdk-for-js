@@ -286,8 +286,11 @@ export class PerfStressProgram {
     }
 
     const options = this.options;
-    console.log("=== Assigned options ===");
-    console.table(options);
+    console.log("=== Parsed options ===");
+    console.table({
+      ...options,
+      ...this.tests[0].options
+    });
 
     if (this.tests[0].globalSetup) {
       console.log(
