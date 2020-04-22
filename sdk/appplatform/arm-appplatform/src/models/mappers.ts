@@ -1457,8 +1457,8 @@ export const OperationDetail: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      dataAction: {
-        serializedName: "dataAction",
+      isDataAction: {
+        serializedName: "isDataAction",
         type: {
           name: "Boolean"
         }

@@ -881,7 +881,7 @@ export interface OperationDetail {
   /**
    * Indicates whether the operation is a data action
    */
-  dataAction?: boolean;
+  isDataAction?: boolean;
   /**
    * Display of the operation
    */
