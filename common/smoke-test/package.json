@@ -14,6 +14,15 @@
     "@azure/event-hubs": "dev",
     "@azure/keyvault-secrets": "dev",
     "@azure/storage-blob": "dev",
+    "@azure/abort-controller": "dev",
+    "@azure/core-amqp": "dev",
+    "@azure/core-arm": "dev",
+    "@azure/core-asynciterator-polyfill": "dev",
+    "@azure/core-auth": "dev",
+    "@azure/core-http": "dev",
+    "@azure/core-lro": "dev",
+    "@azure/core-paging": "dev",
+    "@azure/core-tracing": "dev",
     "@types/node": "^12.6.2",
     "uuid": "^3.3.2"
   }

@@ -25,7 +25,7 @@ describe("invalid parameters", () => {
     return serviceBusClient.test.after();
   });
 
-  describe("Invalid parameters in Sender/ReceiverClients for PartitionedQueue #RunInBrowser", function(): void {
+  describe("Invalid parameters in Sender/ReceiverClients for PartitionedQueue", function(): void {
     let receiver: Receiver<ReceivedMessageWithLock>;
 
     // Since, the below tests never actually make use of any AMQP links, there is no need to create
@@ -105,7 +105,7 @@ describe("invalid parameters", () => {
     });
   });
 
-  describe("Invalid parameters in Sender/ReceiverClients for PartitionedSubscription #RunInBrowser", function(): void {
+  describe("Invalid parameters in Sender/ReceiverClients for PartitionedSubscription", function(): void {
     let subscriptionReceiverClient: Receiver<ReceivedMessageWithLock>;
     let subscriptionRuleManager: SubscriptionRuleManager;
 
@@ -298,7 +298,7 @@ describe("invalid parameters", () => {
     });
   });
 
-  describe("Invalid parameters in SessionReceiver #RunInBrowser", function(): void {
+  describe("Invalid parameters in SessionReceiver", function(): void {
     let sender: Sender;
     let receiver: SessionReceiver<ReceivedMessageWithLock>;
 
@@ -515,7 +515,7 @@ describe("invalid parameters", () => {
     });
   });
 
-  describe("Invalid parameters in Receiver #RunInBrowser", function(): void {
+  describe("Invalid parameters in Receiver", function(): void {
     let sender: Sender;
     let receiver: Receiver<ReceivedMessageWithLock>;
 
@@ -658,7 +658,7 @@ describe("invalid parameters", () => {
     });
   });
 
-  describe("Invalid parameters in Sender #RunInBrowser", function(): void {
+  describe("Invalid parameters in Sender", function(): void {
     let sender: Sender;
 
     // Since, the below tests never actually make use of any AMQP links, there is no need to create

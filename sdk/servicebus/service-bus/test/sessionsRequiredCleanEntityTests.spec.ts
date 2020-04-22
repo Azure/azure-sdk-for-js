@@ -125,9 +125,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
     it("Partitioned Subscription - Peek Session with sessionId", async function(): Promise<void> {
       await eachTest(TestClientType.PartitionedSubscriptionWithSessions, true);
     });
-    it("Unpartitioned Queue - Peek Session with sessionId #RunInBrowser", async function(): Promise<
-      void
-    > {
+    it("Unpartitioned Queue - Peek Session with sessionId", async function(): Promise<void> {
       await eachTest(TestClientType.UnpartitionedQueueWithSessions, true);
     });
     it("Unpartitioned Subscription - Peek Session with sessionId", async function(): Promise<void> {
@@ -141,9 +139,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
     > {
       await eachTest(TestClientType.PartitionedSubscriptionWithSessions, false);
     });
-    it("Unpartitioned Queue - Peek Session without sessionId #RunInBrowser", async function(): Promise<
-      void
-    > {
+    it("Unpartitioned Queue - Peek Session without sessionId", async function(): Promise<void> {
       await eachTest(TestClientType.UnpartitionedQueueWithSessions, false);
     });
     it("Unpartitioned Subscription - Peek Session without sessionId", async function(): Promise<
@@ -231,7 +227,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
       await testComplete_batching(TestClientType.PartitionedSubscriptionWithSessions);
     });
 
-    it("Unpartitioned Queue: complete() removes message from random session #RunInBrowser", async function(): Promise<
+    it("Unpartitioned Queue: complete() removes message from random session", async function(): Promise<
       void
     > {
       await beforeEachNoSessionTest(TestClientType.UnpartitionedQueueWithSessions);

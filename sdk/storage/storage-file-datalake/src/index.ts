@@ -23,7 +23,7 @@ export * from "./StorageRetryPolicyFactory";
 export * from "./policies/StorageSharedKeyCredentialPolicy";
 export * from "./SASQueryParameters";
 export * from "./models";
-export { CommonOptions, OperationTracingOptions } from "./StorageClient";
+export { CommonOptions } from "./StorageClient";
 export { SasIPRange } from "./SasIPRange";
 export { ToBlobEndpointHostMappings, ToDfsEndpointHostMappings } from "./utils/constants";
 export { RestError } from "@azure/core-http";

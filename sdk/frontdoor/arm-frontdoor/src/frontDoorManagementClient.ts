@@ -18,14 +18,16 @@ import { FrontDoorManagementClientContext } from "./frontDoorManagementClientCon
 
 class FrontDoorManagementClient extends FrontDoorManagementClientContext {
   // Operation groups
+  networkExperimentProfiles: operations.NetworkExperimentProfiles;
+  preconfiguredEndpoints: operations.PreconfiguredEndpoints;
+  experiments: operations.Experiments;
+  reports: operations.Reports;
   frontDoors: operations.FrontDoors;
-  routingRules: operations.RoutingRules;
-  healthProbeSettings: operations.HealthProbeSettings;
-  loadBalancingSettings: operations.LoadBalancingSettings;
-  backendPools: operations.BackendPools;
   frontendEndpoints: operations.FrontendEndpoints;
   endpoints: operations.Endpoints;
+  rulesEngines: operations.RulesEngines;
   policies: operations.Policies;
+  managedRuleSets: operations.ManagedRuleSets;
 
   /**
    * Initializes a new instance of the FrontDoorManagementClient class.
@@ -36,14 +38,16 @@ class FrontDoorManagementClient extends FrontDoorManagementClientContext {
    */
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.FrontDoorManagementClientOptions) {
     super(credentials, subscriptionId, options);
+    this.networkExperimentProfiles = new operations.NetworkExperimentProfiles(this);
+    this.preconfiguredEndpoints = new operations.PreconfiguredEndpoints(this);
+    this.experiments = new operations.Experiments(this);
+    this.reports = new operations.Reports(this);
     this.frontDoors = new operations.FrontDoors(this);
-    this.routingRules = new operations.RoutingRules(this);
-    this.healthProbeSettings = new operations.HealthProbeSettings(this);
-    this.loadBalancingSettings = new operations.LoadBalancingSettings(this);
-    this.backendPools = new operations.BackendPools(this);
     this.frontendEndpoints = new operations.FrontendEndpoints(this);
     this.endpoints = new operations.Endpoints(this);
+    this.rulesEngines = new operations.RulesEngines(this);
     this.policies = new operations.Policies(this);
+    this.managedRuleSets = new operations.ManagedRuleSets(this);
   }
 
   /**
@@ -109,7 +113,7 @@ const checkFrontDoorNameAvailabilityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "providers/Microsoft.Network/checkFrontDoorNameAvailability",
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -139,7 +143,7 @@ const checkFrontDoorNameAvailabilityWithSubscriptionOperationSpec: msRest.Operat
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage

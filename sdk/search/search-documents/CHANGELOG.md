@@ -2,6 +2,7 @@
 
 ## 1.0.0-preview.3 (Unreleased)
 
+- Fixed a bug where GeographyPoints were serialized incorrectly causing latitude and longitude to be flipped.
 
 ## 1.0.0-preview.2 (2020-04-06)
 
