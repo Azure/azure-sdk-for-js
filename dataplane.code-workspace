@@ -107,6 +107,9 @@
     {
       "name": "eslint plugin",
       "path": "common\\tools\\eslint-plugin-azure-sdk"
+    },
+    {
+      "path": "sdk\\test-utils\\perfstress"
     }
   ],
   "settings": {
