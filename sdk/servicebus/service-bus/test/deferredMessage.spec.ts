@@ -346,4 +346,52 @@ describe("deferred messages", () => {
       await testDeadletter(true);
     });
   });
+
+  describe("renewLock on a deferred message", function(): void {
+    async function testRenewlockAndDefer(): Promise<void> {
+      const testMessages = TestMessage.getSample();
+      const deferredMsg = await deferMessage(testMessages, false);
+      const sequenceNumber = deferredMsg.sequenceNumber;
+      if (!sequenceNumber) {
+        throw "Sequence Number can not be null";
+      }
+      const lockedUntilBeforeRenewlock = deferredMsg.lockedUntilUtc;
+      const lockedUntilAfterRenewlock = await deferredMsg.renewLock();
+      should.equal(
+        lockedUntilAfterRenewlock > lockedUntilBeforeRenewlock!,
+        true,
+        "MessageLock did not get renewed!"
+      );
+      await deferredMsg.defer();
+      await completeDeferredMessage(sequenceNumber, 2, testMessages);
+    }
+
+    it("Partitioned Queue: Deferring a deferred message puts it back to the deferred queue.", async function(): Promise<
+      void
+    > {
+      await beforeEachTest(TestClientType.PartitionedQueue);
+      await testRenewlockAndDefer();
+    });
+
+    it("Partitioned Subscription: Deferring a deferred message puts it back to the deferred queue.", async function(): Promise<
+      void
+    > {
+      await beforeEachTest(TestClientType.PartitionedSubscription);
+      await testRenewlockAndDefer();
+    });
+
+    it("Unpartitioned Queue: Deferring a deferred message puts it back to the deferred queue.", async function(): Promise<
+      void
+    > {
+      await beforeEachTest(TestClientType.UnpartitionedQueue);
+      await testRenewlockAndDefer();
+    });
+
+    it("Unpartitioned Subscription: Deferring a deferred message puts it back to the deferred queue.", async function(): Promise<
+      void
+    > {
+      await beforeEachTest(TestClientType.UnpartitionedSubscription);
+      await testRenewlockAndDefer();
+    });
+  });
 });
