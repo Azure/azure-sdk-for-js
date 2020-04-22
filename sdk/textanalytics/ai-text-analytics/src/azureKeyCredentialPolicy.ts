@@ -1,13 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/* eslint-disable @azure/azure-sdk/ts-use-interface-parameters */
+
 import { KeyCredential } from "@azure/core-auth";
 import {
   RequestPolicyFactory,
   RequestPolicy,
   RequestPolicyOptions,
   BaseRequestPolicy,
-  WebResource
+  WebResourceLike,
+  HttpOperationResponse
 } from "@azure/core-http";
 
 const API_KEY_HEADER_NAME = "Ocp-Apim-Subscription-Key";
@@ -38,7 +41,7 @@ class TextAnalyticsAzureKeyCredentialPolicy extends BaseRequestPolicy {
     this.credential = credential;
   }
 
-  public async sendRequest(webResource: WebResource) {
+  public async sendRequest(webResource: WebResourceLike) : Promise<HttpOperationResponse> {
     if (!webResource) {
       throw new Error("webResource cannot be null or undefined");
     }
