@@ -84,11 +84,18 @@ jobs:
       - ${{if ne(parameters.PreIntegrationSteps, '')}}:
           - template: ../steps/${{parameters.PreIntegrationSteps}}.yml
 
+      - pwsh: |
+          npm install
+          node getPackagePath.js --repo-root "$(Build.SourcesDirectory)" --package-name "${{parameters.PackageName}}"
+        workingDirectory: $(Build.SourcesDirectory)/eng/tools/eng-package-utils
+        displayName: "Get package path"
+
       # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
       # The default on Windows is "cores - 1" (microsoft/rushstack#436).
       - script: |
-          node common/scripts/install-run-rush.js integration-test:$(TestType) -t "${{parameters.PackageName}}" --verbose -p max
+          node ../../../common/scripts/install-run-rushx.js integration-test:$(TestType) --verbose -p max
         displayName: "Integration test libraries"
+        workingDirectory: $(PackagePath)
         env:
           TEST_MODE: "live"
           ${{ insert }}: ${{ parameters.EnvVars }}
@@ -107,16 +114,6 @@ jobs:
 
       - ${{ if ne(parameters.ResourceServiceDirectory, '') }}:
         - template: /eng/common/TestResources/remove-test-resources.yml
-
-      - script: |
-          npm install
-        workingDirectory: $(Build.SourcesDirectory)/eng/tools/eng-package-utils
-        displayName: "Install script dependencies"
-
-      - script: |
-          node getPackagePath.js --repo-root "$(Build.SourcesDirectory)" --package-name "${{parameters.PackageName}}"
-        workingDirectory: $(Build.SourcesDirectory)/eng/tools/eng-package-utils
-        displayName: "Get package path"
 
       - task: PublishCodeCoverageResults@1
         displayName: "Publish NodeJs Code Coverage to DevOps"

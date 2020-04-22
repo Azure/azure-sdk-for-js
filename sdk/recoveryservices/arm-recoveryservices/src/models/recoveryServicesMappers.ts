@@ -8,22 +8,7 @@
 
 export {
   discriminators,
-  BaseResource,
   CheckNameAvailabilityParameters,
   CheckNameAvailabilityResult,
-  CheckNameAvailabilityResultResource,
-  CloudError,
-  PatchTrackedResource,
-  PatchVault,
-  Resource,
-  ResourceCertificateAndAadDetails,
-  ResourceCertificateAndAcsDetails,
-  ResourceCertificateDetails,
-  Sku,
-  TrackedResource,
-  UpgradeDetails,
-  Vault,
-  VaultCertificateResponse,
-  VaultExtendedInfoResource,
-  VaultProperties
+  CloudError
 } from "../models/mappers";

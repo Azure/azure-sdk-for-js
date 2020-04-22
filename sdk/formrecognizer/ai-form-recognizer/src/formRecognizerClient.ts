@@ -25,7 +25,8 @@ import {
   FormRecognizerClientAnalyzeWithCustomModelResponse as AnalyzeWithCustomModelResponseModel,
   FormRecognizerClientAnalyzeLayoutAsyncResponse as AnalyzeLayoutAsyncResponseModel,
   FormRecognizerClientAnalyzeReceiptAsyncResponse as AnalyzeReceiptAsyncResponseModel,
-  ContentType
+  ContentType,
+  SourcePath
 } from "./generated/models";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
 import {
@@ -428,7 +429,7 @@ ng", and "image/tiff";
     }
     const analyzePollerClient: RecognizePollerClient<RecognizeFormResultResponse> = {
       beginRecognize: (
-        body: FormRecognizerRequestBody,
+        body: FormRecognizerRequestBody | string,
         contentType?: ContentType,
         analyzeOptions: RecognizeOptions = {},
         modelId?: string
@@ -487,7 +488,7 @@ ng", and "image/tiff";
     }
     const analyzePollerClient: RecognizePollerClient<RecognizeFormResultResponse> = {
       beginRecognize: (
-        body: FormRecognizerRequestBody,
+        body: FormRecognizerRequestBody | string,
         contentType?: ContentType,
         analyzeOptions: RecognizeOptions = {},
         modelId?: string
@@ -700,13 +701,19 @@ async function recognizeLayoutInternal(
   const { span, updatedOptions: finalOptions } = createSpan("analyzeLayoutInternal", realOptions);
   const requestBody = await toRequestBody(body);
   const requestContentType =
-    contentType !== undefined ? contentType : await getContentType(requestBody);
+    contentType ? contentType : await getContentType(requestBody);
 
   try {
+    if (requestContentType) {
+      return await client.analyzeLayoutAsync({
+        ...operationOptionsToRequestOptionsBase(finalOptions),
+        contentType: requestContentType,
+        fileStream: requestBody as Blob | ArrayBuffer | ArrayBufferView
+      });
+    }
     return await client.analyzeLayoutAsync({
       ...operationOptionsToRequestOptionsBase(finalOptions),
-      contentType: requestContentType,
-      fileStream: requestBody
+      fileStream: requestBody as SourcePath
     });
   } catch (e) {
     span.setStatus({
@@ -724,7 +731,7 @@ async function recognizeLayoutInternal(
  */
 async function recognizeCustomFormInternal(
   client: GeneratedClient,
-  body: FormRecognizerRequestBody,
+  body: FormRecognizerRequestBody | string,
   contentType?: ContentType,
   options: RecognizeFormsOptions = {},
   modelId?: string
@@ -732,13 +739,19 @@ async function recognizeCustomFormInternal(
   const { span, updatedOptions: finalOptions } = createSpan("analyzeCustomFormInternal", options);
   const requestBody = await toRequestBody(body);
   const requestContentType =
-    contentType !== undefined ? contentType : await getContentType(requestBody);
+    contentType ? contentType : await getContentType(requestBody);
 
   try {
+    if (requestContentType) {
+      return await client.analyzeWithCustomModel(modelId!, {
+        ...operationOptionsToRequestOptionsBase(finalOptions),
+        contentType: requestContentType,
+        fileStream: requestBody as Blob | ArrayBuffer | ArrayBufferView
+      });
+    }
     return await client.analyzeWithCustomModel(modelId!, {
       ...operationOptionsToRequestOptionsBase(finalOptions),
-      contentType: requestContentType,
-      fileStream: requestBody
+      fileStream: requestBody as SourcePath
     });
   } catch (e) {
     span.setStatus({
@@ -756,7 +769,7 @@ async function recognizeCustomFormInternal(
  */
 async function recognizeReceiptInternal(
   client: GeneratedClient,
-  body: FormRecognizerRequestBody,
+  body: FormRecognizerRequestBody | string,
   contentType?: ContentType,
   options?: RecognizeReceiptsOptions,
   _modelId?: string
@@ -768,10 +781,16 @@ async function recognizeReceiptInternal(
     contentType !== undefined ? contentType : await getContentType(requestBody);
 
   try {
+    if (requestContentType) {
+      return await client.analyzeReceiptAsync({
+        ...operationOptionsToRequestOptionsBase(finalOptions),
+        contentType: requestContentType,
+        fileStream: requestBody as Blob | ArrayBuffer | ArrayBufferView
+      });
+    }
     return await client.analyzeReceiptAsync({
       ...operationOptionsToRequestOptionsBase(finalOptions),
-      contentType: requestContentType,
-      fileStream: requestBody
+      fileStream: requestBody as SourcePath
     });
   } catch (e) {
     span.setStatus({

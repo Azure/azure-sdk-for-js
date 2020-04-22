@@ -4,6 +4,7 @@
 import { AppConfigurationClient, AppConfigurationClientOptions } from "../src";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { ConfigurationSetting, ListConfigurationSettingPage, ListRevisionsPage } from "../src";
+import { env, isPlaybackMode, RecorderEnvironmentSetup, record } from "@azure/test-utils-recorder";
 import * as assert from "assert";
 
 // allow loading from a .env file as an alternative to defining the variable
@@ -22,6 +23,25 @@ export interface CredsAndEndpoint {
   endpoint: string;
 }
 
+export function startRecorder(that: any) {
+  const recorderEnvSetup: RecorderEnvironmentSetup = {
+    replaceableVariables: {
+      AZ_CONFIG_CONNECTION: "Endpoint=https://myappconfig.azconfig.io;Id=123456;Secret=123456",
+      AZ_CONFIG_ENDPOINT: "https://myappconfig.azconfig.io",
+      AZURE_CLIENT_ID: "azure_client_id",
+      AZURE_CLIENT_SECRET: "azure_client_secret",
+      AZURE_TENANT_ID: "azure_tenant_id"
+    },
+    customizationsOnRecordings: [
+      (recording: any): any =>
+        recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`)
+    ],
+    queryParametersToSkip: []
+  };
+
+  return record(that, recorderEnvSetup);
+}
+
 export function getTokenAuthenticationCredential(): CredsAndEndpoint | undefined {
   const requiredEnvironmentVariables = [
     "AZ_CONFIG_ENDPOINT",
@@ -31,7 +51,7 @@ export function getTokenAuthenticationCredential(): CredsAndEndpoint | undefined
   ];
 
   for (const name of requiredEnvironmentVariables) {
-    const value = process.env[name];
+    const value = env[name];
 
     if (value == null) {
       if (tokenCredentialsNotPresentWarning) {
@@ -45,14 +65,14 @@ export function getTokenAuthenticationCredential(): CredsAndEndpoint | undefined
 
   return {
     credential: new DefaultAzureCredential(),
-    endpoint: process.env["AZ_CONFIG_ENDPOINT"]!
+    endpoint: env["AZ_CONFIG_ENDPOINT"]!
   };
 }
 
 export function createAppConfigurationClientForTests(
   options?: InternalAppConfigurationClientOptions
 ): AppConfigurationClient | undefined {
-  const connectionString = process.env["AZ_CONFIG_CONNECTION"];
+  const connectionString = env["AZ_CONFIG_CONNECTION"];
 
   if (connectionString == null) {
     if (!connectionStringNotPresentWarning) {
@@ -153,7 +173,11 @@ export async function assertThrowsAbortError(testFunction: () => Promise<any>, m
     await testFunction();
     assert.fail(`${message}: No error thrown`);
   } catch (e) {
-    assert.equal(e.name, "AbortError");
-    return e;
+    if (isPlaybackMode() && (e.name === "FetchError" || e.name === "AbortError")) {
+      return e;
+    } else {
+      assert.equal(e.name, "AbortError");
+      return e;
+    }
   }
 }
