@@ -33,14 +33,14 @@ describe("PartitionPump", () => {
     }
 
     it("basic span properties are set", async () => {
-      const fakeParentSpan = new NoOpSpan();
+      const fakeParentSpanContext = new NoOpSpan().context();
       const tracer = new TestTracer2();
       setTracer(tracer);
 
       await createProcessingSpan([], eventHubProperties, {
         tracingOptions: {
           spanOptions: {
-            parent: fakeParentSpan.context()
+            parent: fakeParentSpanContext
           }
         }
       });
@@ -49,12 +49,12 @@ describe("PartitionPump", () => {
 
       should.exist(tracer.spanOptions);
       tracer.spanOptions!.kind!.should.equal(SpanKind.CONSUMER);
-      tracer.spanOptions!.parent!.should.equal(fakeParentSpan);
+      tracer.spanOptions!.parent!.should.equal(fakeParentSpanContext);
 
       const attributes = tracer.getRootSpans()[0].attributes;
 
       attributes!.should.deep.equal({
-        component: "eventhubs",
+        "az.namespace": "Microsoft.EventHub",
         "message_bus.destination": "theeventhubname",
         "peer.address": "theendpoint"
       });
