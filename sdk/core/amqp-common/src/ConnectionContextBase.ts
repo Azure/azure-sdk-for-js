@@ -63,7 +63,11 @@ export interface ConnectionContextBase {
    * underlying AMQP connection for the EventHub Client.
    */
   cbsSession: CbsClient;
-
+  /**
+   * Updates the context to use a new underlying AMQP connection,
+   * a new cbs session, and new locks used when establishing an AMQP
+   * connection and negotiating cbs claims.
+   */
   refreshConnection: () => void;
 }
 
