@@ -77,6 +77,7 @@ export {
   StorageAccountMicrosoftEndpoints,
   StorageAccountRegenerateKeyParameters,
   StorageAccountUpdateParameters,
+  TagFilter,
   TagProperty,
   TrackedResource,
   UpdateHistoryProperty,

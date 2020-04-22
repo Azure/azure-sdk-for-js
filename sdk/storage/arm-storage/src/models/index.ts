@@ -1362,6 +1362,26 @@ export interface ManagementPolicyAction {
 }
 
 /**
+ * Blob index tag based filtering for blob objects
+ */
+export interface TagFilter {
+  /**
+   * This is the filter tag name, it can have 1 - 128 characters
+   */
+  name: string;
+  /**
+   * This is the comparison operator which is used for object comparison and filtering. Only ==
+   * (equality operator) is currently supported
+   */
+  op: string;
+  /**
+   * This is the filter tag value field used for tag based filtering, it can have 0 - 256
+   * characters
+   */
+  value: string;
+}
+
+/**
  * Filters limit rule actions to a subset of blobs within the storage account. If multiple filters
  * are defined, a logical AND is performed on all filters.
  */
@@ -1374,6 +1394,10 @@ export interface ManagementPolicyFilter {
    * An array of predefined enum values. Only blockBlob is supported.
    */
   blobTypes: string[];
+  /**
+   * An array of blob index tag based filters, there can be at most 10 tag filters
+   */
+  blobIndexMatch?: TagFilter[];
 }
 
 /**
