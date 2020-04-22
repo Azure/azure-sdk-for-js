@@ -118,6 +118,36 @@ export const expand1: msRest.OperationQueryParameter = {
     }
   }
 };
+export const expand2: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "expand"
+  ],
+  mapper: {
+    serializedName: "$expand",
+    type: {
+      name: "Enum",
+      allowedValues: [
+        "deleted"
+      ]
+    }
+  }
+};
+export const expand3: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "expand"
+  ],
+  mapper: {
+    serializedName: "$expand",
+    type: {
+      name: "Enum",
+      allowedValues: [
+        "stats"
+      ]
+    }
+  }
+};
 export const fileServicesName: msRest.OperationURLParameter = {
   parameterPath: "fileServicesName",
   mapper: {
@@ -220,6 +250,19 @@ export const nextPageLink: msRest.OperationURLParameter = {
     }
   },
   skipEncoding: true
+};
+export const objectReplicationPolicyId: msRest.OperationURLParameter = {
+  parameterPath: "objectReplicationPolicyId",
+  mapper: {
+    required: true,
+    serializedName: "objectReplicationPolicyId",
+    constraints: {
+      MinLength: 1
+    },
+    type: {
+      name: "String"
+    }
+  }
 };
 export const privateEndpointConnectionName: msRest.OperationURLParameter = {
   parameterPath: "privateEndpointConnectionName",
