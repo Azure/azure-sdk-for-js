@@ -9,6 +9,8 @@ export class SleepTest extends PerfStressTest<string> {
   private static instanceCount: number = 0;
   private secondsPerOperation: number = 0;
 
+  public options = {};
+
   constructor() {
     super();
 
@@ -18,8 +20,6 @@ export class SleepTest extends PerfStressTest<string> {
     SleepTest.instanceCount++;
     this.secondsPerOperation = Math.pow(2, SleepTest.instanceCount);
   }
-
-  public options = {};
 
   async runAsync(): Promise<void> {
     await delay(this.secondsPerOperation * 1000);
