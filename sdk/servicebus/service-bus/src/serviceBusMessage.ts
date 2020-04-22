@@ -973,8 +973,20 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
    * @throws MessagingError if the service returns an error while renewing message lock.
    */
   async renewLock(): Promise<Date> {
-    this.throwIfMessageCannotBeSettled(this.getReceiverFromContext(), "renew the lock on");
-    return await this._context.managementClient!.renewLock(this.lockToken!);
+    if (this.sessionId) {
+      throw translate({
+        description: `Invalid operation on the message, message lock doesn't exist when dealing with sessions`,
+        condition: ErrorNameConditionMapper.InvalidOperationError
+      });
+    } else {
+      const isDeferredMessage = this._context.requestResponseLockedMessages.has(this.lockToken!);
+      const receiver = isDeferredMessage
+        ? undefined
+        : this._context.getReceiver(this.delivery.link.name, this.sessionId);
+      if (!isDeferredMessage) this.throwIfMessageCannotBeSettled(receiver, "renew the lock on");
+      this.lockedUntilUtc = await this._context.managementClient!.renewLock(this.lockToken!);
+      return this.lockedUntilUtc;
+    }
   }
 
   /**
@@ -1072,13 +1084,5 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
     }
 
     return receiver!.settleMessage(this, dispositionType!, options);
-  }
-
-  private getReceiverFromContext() {
-    if (this.delivery.link) {
-      return this._context.getReceiver(this.delivery.link.name, this.sessionId);
-    } else {
-      return undefined;
-    }
   }
 }
