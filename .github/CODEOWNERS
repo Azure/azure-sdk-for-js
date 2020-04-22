@@ -25,7 +25,7 @@
 /sdk/cosmosdb/ @southpolesteve
 
 /sdk/eventhub/ @ramya-rao-a @chradek @richardpark-msft
-/sdk/servicebus/ @ramya-rao-a @chradek @richardpark-msft
+/sdk/servicebus/ @ramya-rao-a @chradek @richardpark-msft @HarshaNalluru
 
 /sdk/identity/ @schaabs @daviwil @jonathandturner
 /sdk/keyvault/ @jonathandturner @sadasant
@@ -33,6 +33,7 @@
 
 /sdk/test-utils/ @HarshaNalluru @sadasant
 /sdk/textanalytics/ @xirzec @willmtemple
+/sdk/formrecognizer/ @jeremymeng @willmtemple
 
 /sdk/search/ @xirzec
 

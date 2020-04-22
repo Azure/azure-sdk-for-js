@@ -88,7 +88,6 @@ export interface RetryOptions {
 
 /**
  * Describes the parameters that need to be configured for the retry operation.
- * @interface RetryConfig
  */
 export interface RetryConfig<T> {
   /**

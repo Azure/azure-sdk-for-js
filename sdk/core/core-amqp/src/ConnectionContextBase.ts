@@ -13,7 +13,6 @@ import { getPlatformInfo, getFrameworkInfo } from "./util/runtimeInfo";
 import { isNode } from "./util/utils";
 
 /**
- * @interface ConnectionContextBase
  * Provides contextual information like the underlying amqp connection, cbs session, tokenProvider,
  * Connection config, data transformer, etc.
  */
@@ -67,7 +66,6 @@ export interface ConnectionContextBase {
 
 /**
  * Defines the properties that need to be set while establishing the AMQP connection.
- * @interface ConnectionProperties
  */
 export interface ConnectionProperties {
   /**
@@ -88,7 +86,6 @@ export interface ConnectionProperties {
 
 /**
  * Describes the parameters that can be provided to create the base connection context.
- * @interface CreateConnectionContextBaseParameters
  */
 export interface CreateConnectionContextBaseParameters {
   /**

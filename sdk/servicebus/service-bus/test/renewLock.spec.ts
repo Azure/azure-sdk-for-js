@@ -30,7 +30,7 @@ describe("renew lock", () => {
     receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
 
     senderClient = serviceBusClient.test.addToCleanup(
-      serviceBusClient.getSender(entityNames.queue ?? entityNames.topic!)
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
   }
 
@@ -38,7 +38,7 @@ describe("renew lock", () => {
     return serviceBusClient.test.afterEach();
   }
 
-  describe("Unpartitioned Queue - Lock Renewal #RunInBrowser", function(): void {
+  describe("Unpartitioned Queue - Lock Renewal", function(): void {
     beforeEach(async () => {
       await beforeEachTest(TestClientType.UnpartitionedQueue);
     });
@@ -72,7 +72,7 @@ describe("renew lock", () => {
         senderClient,
         receiverClient,
         {
-          maxAutoRenewDurationInSeconds: 0,
+          maxAutoRenewDurationInMs: 0,
           delayBeforeAttemptingToCompleteMessageInSeconds: 31,
           willCompleteFail: true
         },
@@ -87,7 +87,7 @@ describe("renew lock", () => {
         senderClient,
         receiverClient,
         {
-          maxAutoRenewDurationInSeconds: 38,
+          maxAutoRenewDurationInMs: 38 * 1000,
           delayBeforeAttemptingToCompleteMessageInSeconds: 35,
           willCompleteFail: false
         },
@@ -102,7 +102,7 @@ describe("renew lock", () => {
         senderClient,
         receiverClient,
         {
-          maxAutoRenewDurationInSeconds: 35,
+          maxAutoRenewDurationInMs: 35 * 1000,
           delayBeforeAttemptingToCompleteMessageInSeconds: 55,
           willCompleteFail: true
         },
@@ -117,7 +117,7 @@ describe("renew lock", () => {
         senderClient,
         receiverClient,
         {
-          maxAutoRenewDurationInSeconds: 15,
+          maxAutoRenewDurationInMs: 15 * 1000,
           delayBeforeAttemptingToCompleteMessageInSeconds: 31,
           willCompleteFail: true
         },
@@ -160,7 +160,7 @@ describe("renew lock", () => {
         senderClient,
         receiverClient,
         {
-          maxAutoRenewDurationInSeconds: 0,
+          maxAutoRenewDurationInMs: 0,
           delayBeforeAttemptingToCompleteMessageInSeconds: 31,
           willCompleteFail: true
         },
@@ -203,7 +203,7 @@ describe("renew lock", () => {
         senderClient,
         receiverClient,
         {
-          maxAutoRenewDurationInSeconds: 0,
+          maxAutoRenewDurationInMs: 0,
           delayBeforeAttemptingToCompleteMessageInSeconds: 31,
           willCompleteFail: true
         },
@@ -246,7 +246,7 @@ describe("renew lock", () => {
         senderClient,
         receiverClient,
         {
-          maxAutoRenewDurationInSeconds: 0,
+          maxAutoRenewDurationInMs: 0,
           delayBeforeAttemptingToCompleteMessageInSeconds: 31,
           willCompleteFail: true
         },
@@ -404,7 +404,7 @@ describe("renew lock", () => {
       { processMessage, processError },
       {
         autoComplete: false,
-        maxMessageAutoRenewLockDurationInSeconds: 0
+        maxMessageAutoRenewLockDurationInMs: 0
       }
     );
     await delay(10000);
@@ -418,7 +418,7 @@ describe("renew lock", () => {
   }
 
   interface AutoLockRenewalTestOptions {
-    maxAutoRenewDurationInSeconds: number | undefined;
+    maxAutoRenewDurationInMs: number | undefined;
     delayBeforeAttemptingToCompleteMessageInSeconds: number;
     willCompleteFail: boolean;
   }
@@ -465,7 +465,7 @@ describe("renew lock", () => {
       { processMessage, processError },
       {
         autoComplete: false,
-        maxMessageAutoRenewLockDurationInSeconds: options.maxAutoRenewDurationInSeconds
+        maxMessageAutoRenewLockDurationInMs: options.maxAutoRenewDurationInMs
       }
     );
     await delay(options.delayBeforeAttemptingToCompleteMessageInSeconds * 1000 + 10000);

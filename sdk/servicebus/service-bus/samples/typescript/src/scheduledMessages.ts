@@ -2,7 +2,8 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
 
-  **NOTE**: If you are using version 1.1.x or lower, then please use the link below:
+  **NOTE**: This sample uses the preview of the next version of the @azure/service-bus package.
+  For samples using the current stable version of the package, please use the link below:
   https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples
   
   This sample demonstrates how the scheduleMessage() function can be used to schedule messages to
@@ -49,8 +50,8 @@ export async function main() {
 
 // Scheduling messages to be sent after 10 seconds from now
 async function sendScheduledMessages(sbClient: ServiceBusClient) {
-  // getSender() handles sending to a queue or a topic
-  const sender = sbClient.getSender(queueName);
+  // createSender() handles sending to a queue or a topic
+  const sender = sbClient.createSender(queueName);
 
   const messages: ServiceBusMessage[] = listOfScientists.map(scientist => ({
     body: `${scientist.firstName} ${scientist.lastName}`,
@@ -68,9 +69,9 @@ async function sendScheduledMessages(sbClient: ServiceBusClient) {
 }
 
 async function receiveMessages(sbClient: ServiceBusClient) {
-  // If receiving from a subscription you can use the getReceiver(topic, subscription) overload
+  // If receiving from a subscription you can use the createReceiver(topic, subscription) overload
   // instead.
-  let queueReceiver = sbClient.getReceiver(queueName, "peekLock");
+  let queueReceiver = sbClient.createReceiver(queueName, "peekLock");
 
   let numOfMessagesReceived = 0;
   const processMessage = async brokeredMessage => {
@@ -97,7 +98,7 @@ async function receiveMessages(sbClient: ServiceBusClient) {
   await delay(5000);
   console.log(`\nStarting receiver at ${new Date(Date.now())}`);
 
-  queueReceiver = sbClient.getReceiver(queueName, "peekLock");
+  queueReceiver = sbClient.createReceiver(queueName, "peekLock");
 
   queueReceiver.subscribe({
     processMessage,

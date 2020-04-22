@@ -46,8 +46,10 @@ describe("Highlevel Node.js only", () => {
   });
 
   afterEach(async function() {
-    await fileSystemClient.delete();
-    recorder.stop();
+    if (!this.currentTest?.isPending()) {
+      await fileSystemClient.delete();
+      recorder.stop();
+    }
   });
 
   before(async function() {

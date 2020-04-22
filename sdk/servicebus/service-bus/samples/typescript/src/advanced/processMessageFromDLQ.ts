@@ -2,7 +2,8 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
 
-  **NOTE**: If you are using version 1.1.x or lower, then please use the link below:
+  **NOTE**: This sample uses the preview of the next version of the @azure/service-bus package.
+  For samples using the current stable version of the package, please use the link below:
   https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples
   
   This sample demonstrates retrieving a message from a dead letter queue, editing it and
@@ -34,8 +35,8 @@ export async function main() {
 }
 
 async function processDeadletterMessageQueue() {
-  // If connecting to a subscription's dead letter queue you can use the getDeadLetterReceiver(topic, subscription) overload
-  const receiver = sbClient.getDeadLetterReceiver(queueName, "peekLock");
+  // If connecting to a subscription's dead letter queue you can use the createDeadLetterReceiver(topic, subscription) overload
+  const receiver = sbClient.createDeadLetterReceiver(queueName, "peekLock");
 
   const messages = await receiver.receiveBatch(1);
 
@@ -56,8 +57,8 @@ async function processDeadletterMessageQueue() {
 
 // Send repaired message back to the current queue / topic
 async function fixAndResendMessage(oldMessage: ServiceBusMessage) {
-  // getSender() can also be used to create a sender for a topic.
-  const sender = sbClient.getSender(queueName);
+  // createSender() can also be used to create a sender for a topic.
+  const sender = sbClient.createSender(queueName);
 
   // Inspect given message and make any changes if necessary
   const repairedMessage = { ...oldMessage };

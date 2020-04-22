@@ -47,8 +47,8 @@ async function main() {
 
 // Scheduling messages to be sent after 10 seconds from now
 async function sendScheduledMessages(sbClient) {
-  // getSender() handles sending to a queue or a topic
-  const sender = sbClient.getSender(queueName);
+  // createSender() handles sending to a queue or a topic
+  const sender = sbClient.createSender(queueName);
 
   const messages = listOfScientists.map(scientist => ({
     body: `${scientist.firstName} ${scientist.lastName}`,
@@ -66,9 +66,9 @@ async function sendScheduledMessages(sbClient) {
 }
 
 async function receiveMessages(sbClient) {
-  // If receiving from a subscription you can use the getReceiver(topic, subscription) overload
+  // If receiving from a subscription you can use the createReceiver(topic, subscription) overload
   // instead.
-  let queueReceiver = sbClient.getReceiver(queueName, "peekLock");
+  let queueReceiver = sbClient.createReceiver(queueName, "peekLock");
 
   let numOfMessagesReceived = 0;
   const processMessage = async brokeredMessage => {
@@ -94,7 +94,7 @@ async function receiveMessages(sbClient) {
   await delay(5000);
 
   console.log(`\nStarting receiver at ${new Date(Date.now())}`);
-  queueReceiver = sbClient.getReceiver(queueName, "peekLock");
+  queueReceiver = sbClient.createReceiver(queueName, "peekLock");
   queueReceiver.subscribe({
     processMessage,
     processError

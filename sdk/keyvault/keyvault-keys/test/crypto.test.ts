@@ -36,8 +36,10 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
   });
 
   afterEach(async function() {
-    await testClient.flushKey(keyName);
-    recorder.stop();
+    if (!this.currentTest?.isPending()) {
+      await testClient.flushKey(keyName);
+      recorder.stop();
+    }
   });
 
   // The tests follow

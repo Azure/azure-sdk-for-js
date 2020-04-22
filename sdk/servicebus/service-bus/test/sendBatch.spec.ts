@@ -32,7 +32,7 @@ describe("Send Batch", () => {
     entityNames = await serviceBusClient.test.createTestEntities(entityType);
 
     senderClient = serviceBusClient.test.addToCleanup(
-      serviceBusClient.getSender(entityNames.queue ?? entityNames.topic!)
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
   }
 
@@ -94,7 +94,7 @@ describe("Send Batch", () => {
       await testSendBatch(false);
     });
 
-    it("Unpartitioned Queue: SendBatch #RunInBrowser", async function(): Promise<void> {
+    it("Unpartitioned Queue: SendBatch", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedQueue);
       await testSendBatch(false);
     });
@@ -255,7 +255,7 @@ describe("Send Batch", () => {
       await testSendBatch(false);
     });
 
-    it("Unpartitioned Queue: SendBatch #RunInBrowser", async function(): Promise<void> {
+    it("Unpartitioned Queue: SendBatch", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedQueue);
       await testSendBatch(false);
     });
@@ -338,7 +338,7 @@ describe("Send Batch", () => {
       await testSendBatch(false);
     });
 
-    it("Unpartitioned Queue: SendBatch #RunInBrowser", async function(): Promise<void> {
+    it("Unpartitioned Queue: SendBatch", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedQueue);
       await testSendBatch(false);
     });
@@ -436,7 +436,7 @@ describe("Send Batch", () => {
       await testSendBatch(false);
     });
 
-    it("Unpartitioned Queue: SendBatch #RunInBrowser", async function(): Promise<void> {
+    it("Unpartitioned Queue: SendBatch", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedQueue);
       await testSendBatch(false);
     });
@@ -543,7 +543,7 @@ describe("Send Batch", () => {
       await testSendBatch(false, 5000);
     });
 
-    it("Unpartitioned Queue: SendBatch #RunInBrowser", async function(): Promise<void> {
+    it("Unpartitioned Queue: SendBatch", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedQueue);
       await testSendBatch(false, 5000);
     });
@@ -609,7 +609,7 @@ describe("Send Batch", () => {
       await testSendBatch(maxSizeInBytes);
     });
 
-    it("Unpartitioned Queue: SendBatch #RunInBrowser", async function(): Promise<void> {
+    it("Unpartitioned Queue: SendBatch", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedQueue);
       await testSendBatch(maxSizeInBytes);
     });

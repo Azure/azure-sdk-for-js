@@ -8,32 +8,26 @@ parameters:
   TimeoutInMinutes: 60
   PublishCodeCoverage: false
   Matrix:
-    Linux_Node10 (Public):
+    Linux_Node10:
       OSVmImage: "ubuntu-16.04"
       TestType: "node"
-      CloudType: public
       PublishCodeCoverage: true
-    Windows_Node10 (Public):
+    Windows_Node10:
       OSVmImage: "windows-2019"
       TestType: "node"
-      CloudType: public
-    macOS_Node10 (Public):
+    macOS_Node10:
       OSVmImage: "macOS-10.15"
       TestType: "node"
-      CloudType: public
-    Browser_Linux_Node10 (Public):
+    Browser_Linux_Node10:
       OSVmImage: "ubuntu-16.04"
       TestType: "browser"
-      CloudType: public
       PublishCodeCoverage: true
-    Browser_Windows_Node10 (Public):
+    Browser_Windows_Node10:
       OSVmImage: "windows-2019"
       TestType: "browser"
-      CloudType: public
-    Browser_macOS_Node10 (Public):
+    Browser_macOS_Node10:
       OSVmImage: "macOS-10.15"
       TestType: "browser"
-      CloudType: public
 
 jobs:
   - job: "IntegrationTest"
@@ -46,6 +40,9 @@ jobs:
       matrix:
         ${{ each matrixEntry in parameters.Matrix }}:
           ${{ matrixEntry.key }}:
+            # If no CloudType, use "AzureCloud"
+            ${{ if eq(matrixEntry.value.CloudType, '') }}:
+              CloudType: "AzureCloud"
             # TestResultsFiles
             ${{ if eq(matrixEntry.value.TestType, 'browser' )}}:
               TestResultsFiles: "**/test-results.browser.xml"
@@ -64,30 +61,9 @@ jobs:
       - template: ../steps/common.yml
 
       - ${{ if ne(parameters.ResourceServiceDirectory, '') }}:
-          - pwsh: |
-              Install-Module -Name Az -AllowClobber -Scope CurrentUser -Force
-            displayName: Install Az Module
-
-          - pwsh: |
-              $baseName = "t" + [guid]::NewGuid().ToString('n').Substring(0,16)
-              Write-Host "##vso[task.setvariable variable=BaseName;]$baseName"
-            displayName: Generate $(BaseName)
-
-          - pwsh: >-
-              eng/New-TestResources.ps1
-              -BaseName $(BaseName)
-              -ServiceDirectory ${{ parameters.ResourceServiceDirectory }}
-              -TestApplicationId $(aad-azure-sdk-test-client-id)
-              -TestApplicationSecret $(aad-azure-sdk-test-client-secret)
-              -TestApplicationOid $(aad-azure-sdk-test-client-oid)
-              -TenantId $(aad-azure-sdk-test-tenant-id)
-              -ProvisionerApplicationId $(provisioner-aad-id)
-              -ProvisionerApplicationSecret $(provisioner-aad-secret)
-              -DeleteAfterHours 24
-              -CI
-              -Force
-              -Verbose
-            displayName: Provision Test Resources
+        - template: /eng/common/TestResources/deploy-test-resources.yml
+          parameters:
+            ServiceDirectory: "${{ parameters.ResourceServiceDirectory }}"
 
       - script: |
           node common/scripts/install-run-rush.js install
@@ -108,11 +84,18 @@ jobs:
       - ${{if ne(parameters.PreIntegrationSteps, '')}}:
           - template: ../steps/${{parameters.PreIntegrationSteps}}.yml
 
+      - pwsh: |
+          npm install
+          node getPackagePath.js --repo-root "$(Build.SourcesDirectory)" --package-name "${{parameters.PackageName}}"
+        workingDirectory: $(Build.SourcesDirectory)/eng/tools/eng-package-utils
+        displayName: "Get package path"
+
       # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
       # The default on Windows is "cores - 1" (microsoft/rushstack#436).
       - script: |
-          node common/scripts/install-run-rush.js integration-test:$(TestType) -t "${{parameters.PackageName}}" --verbose -p max
+          node ../../../common/scripts/install-run-rushx.js integration-test:$(TestType) --verbose -p max
         displayName: "Integration test libraries"
+        workingDirectory: $(PackagePath)
         env:
           TEST_MODE: "live"
           ${{ insert }}: ${{ parameters.EnvVars }}
@@ -130,27 +113,7 @@ jobs:
         condition: eq(variables['TestType'],'sample')
 
       - ${{ if ne(parameters.ResourceServiceDirectory, '') }}:
-          - pwsh: >
-              eng/Remove-TestResources.ps1
-              -ResourceGroupName "${env:AZURE_RESOURCEGROUP_NAME}"
-              -TenantId $(aad-azure-sdk-test-tenant-id)
-              -ProvisionerApplicationId $(provisioner-aad-id)
-              -ProvisionerApplicationSecret $(provisioner-aad-secret)
-              -Force
-              -Verbose
-            displayName: Remove Test Resources
-            condition: ne(variables['AZURE_RESOURCEGROUP_NAME'], '')
-            continueOnError: true
-
-      - script: |
-          npm install
-        workingDirectory: $(Build.SourcesDirectory)/eng/tools/versioning
-        displayName: "Install script dependencies"
-
-      - script: |
-          node getPackagePath.js --repo-root "$(Build.SourcesDirectory)" --package-name "${{parameters.PackageName}}"
-        workingDirectory: $(Build.SourcesDirectory)/eng/tools/versioning
-        displayName: "Get package path"
+        - template: /eng/common/TestResources/remove-test-resources.yml
 
       - task: PublishCodeCoverageResults@1
         displayName: "Publish NodeJs Code Coverage to DevOps"

@@ -118,6 +118,15 @@ export class Containers {
       delete body.throughput;
     }
 
+    if (typeof body.partitionKey === "string") {
+      if (!body.partitionKey.startsWith("/")) {
+        throw new Error("Partition key must start with '/'");
+      }
+      body.partitionKey = {
+        paths: [body.partitionKey]
+      };
+    }
+
     // If they don't specify a partition key, use the default path
     if (!body.partitionKey || !body.partitionKey.paths) {
       body.partitionKey = {

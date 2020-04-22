@@ -42,7 +42,6 @@ export class SharedKeyCredential {
   }
 
   /**
-   * @protected
    * Creates the sas token based on the provided information
    * @param {string | number} expiry - The time period in unix time after which the token will expire.
    * @param {string} [audience] - The audience for which the token is desired.

@@ -2305,6 +2305,84 @@ export const VirtualNetworkProfile: msRest.CompositeMapper = {
   }
 };
 
+export const PrivateEndpoint: msRest.CompositeMapper = {
+  serializedName: "PrivateEndpoint",
+  type: {
+    name: "Composite",
+    className: "PrivateEndpoint",
+    modelProperties: {
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PrivateLinkServiceConnectionState: msRest.CompositeMapper = {
+  serializedName: "PrivateLinkServiceConnectionState",
+  type: {
+    name: "Composite",
+    className: "PrivateLinkServiceConnectionState",
+    modelProperties: {
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      actionsRequired: {
+        readOnly: true,
+        serializedName: "actionsRequired",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PrivateEndpointConnection: msRest.CompositeMapper = {
+  serializedName: "PrivateEndpointConnection",
+  type: {
+    name: "Composite",
+    className: "PrivateEndpointConnection",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      privateEndpoint: {
+        serializedName: "properties.privateEndpoint",
+        type: {
+          name: "Composite",
+          className: "PrivateEndpoint"
+        }
+      },
+      privateLinkServiceConnectionState: {
+        serializedName: "properties.privateLinkServiceConnectionState",
+        type: {
+          name: "Composite",
+          className: "PrivateLinkServiceConnectionState"
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ManagedIdentity: msRest.CompositeMapper = {
   serializedName: "ManagedIdentity",
   type: {
@@ -2393,6 +2471,24 @@ export const Workspace: msRest.CompositeMapper = {
           value: {
             type: {
               name: "String"
+            }
+          }
+        }
+      },
+      managedVirtualNetwork: {
+        serializedName: "properties.managedVirtualNetwork",
+        type: {
+          name: "String"
+        }
+      },
+      privateEndpointConnections: {
+        serializedName: "properties.privateEndpointConnections",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PrivateEndpointConnection"
             }
           }
         }
@@ -2518,6 +2614,2088 @@ export const ManagedIdentitySqlControlSettingsModel: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ManagedIdentitySqlControlSettingsModelPropertiesGrantSqlControlToManagedIdentity"
+        }
+      }
+    }
+  }
+};
+
+export const SubResource: msRest.CompositeMapper = {
+  serializedName: "SubResource",
+  type: {
+    name: "Composite",
+    className: "SubResource",
+    modelProperties: {
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      etag: {
+        readOnly: true,
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const IntegrationRuntime: msRest.CompositeMapper = {
+  serializedName: "IntegrationRuntime",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: {
+      serializedName: "type",
+      clientName: "type"
+    },
+    uberParent: "IntegrationRuntime",
+    className: "IntegrationRuntime",
+    modelProperties: {
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        required: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    },
+    additionalProperties: {
+      type: {
+        name: "Object"
+      }
+    }
+  }
+};
+
+export const IntegrationRuntimeDataFlowProperties: msRest.CompositeMapper = {
+  serializedName: "IntegrationRuntimeDataFlowProperties",
+  type: {
+    name: "Composite",
+    className: "IntegrationRuntimeDataFlowProperties",
+    modelProperties: {
+      computeType: {
+        serializedName: "computeType",
+        type: {
+          name: "String"
+        }
+      },
+      coreCount: {
+        serializedName: "coreCount",
+        type: {
+          name: "Number"
+        }
+      },
+      timeToLive: {
+        serializedName: "timeToLive",
+        constraints: {
+          InclusiveMinimum: 0
+        },
+        type: {
+          name: "Number"
+        }
+      }
+    },
+    additionalProperties: {
+      type: {
+        name: "Object"
+      }
+    }
+  }
+};
+
+export const IntegrationRuntimeVNetProperties: msRest.CompositeMapper = {
+  serializedName: "IntegrationRuntimeVNetProperties",
+  type: {
+    name: "Composite",
+    className: "IntegrationRuntimeVNetProperties",
+    modelProperties: {
+      vNetId: {
+        serializedName: "vNetId",
+        type: {
+          name: "String"
+        }
+      },
+      subnet: {
+        serializedName: "subnet",
+        type: {
+          name: "String"
+        }
+      },
+      publicIPs: {
+        serializedName: "publicIPs",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    },
+    additionalProperties: {
+      type: {
+        name: "Object"
+      }
+    }
+  }
+};
+
+export const IntegrationRuntimeComputeProperties: msRest.CompositeMapper = {
+  serializedName: "IntegrationRuntimeComputeProperties",
+  type: {
+    name: "Composite",
+    className: "IntegrationRuntimeComputeProperties",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      nodeSize: {
+        serializedName: "nodeSize",
+        type: {
+          name: "String"
+        }
+      },
+      numberOfNodes: {
+        serializedName: "numberOfNodes",
+        constraints: {
+          InclusiveMinimum: 1
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      maxParallelExecutionsPerNode: {
+        serializedName: "maxParallelExecutionsPerNode",
+        constraints: {
+          InclusiveMinimum: 1
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      dataFlowProperties: {
+        serializedName: "dataFlowProperties",
+        type: {
+          name: "Composite",
+          className: "IntegrationRuntimeDataFlowProperties",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      },
+      vNetProperties: {
+        serializedName: "vNetProperties",
+        type: {
+          name: "Composite",
+          className: "IntegrationRuntimeVNetProperties",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      }
+    },
+    additionalProperties: {
+      type: {
+        name: "Object"
+      }
+    }
+  }
+};
+
+export const SecretBase: msRest.CompositeMapper = {
+  serializedName: "SecretBase",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: {
+      serializedName: "type",
+      clientName: "type"
+    },
+    uberParent: "SecretBase",
+    className: "SecretBase",
+    modelProperties: {
+      type: {
+        required: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SecureString: msRest.CompositeMapper = {
+  serializedName: "SecureString",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: SecretBase.type.polymorphicDiscriminator,
+    uberParent: "SecretBase",
+    className: "SecureString",
+    modelProperties: {
+      ...SecretBase.type.modelProperties,
+      value: {
+        required: true,
+        serializedName: "value",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const IntegrationRuntimeSsisCatalogInfo: msRest.CompositeMapper = {
+  serializedName: "IntegrationRuntimeSsisCatalogInfo",
+  type: {
+    name: "Composite",
+    className: "IntegrationRuntimeSsisCatalogInfo",
+    modelProperties: {
+      catalogServerEndpoint: {
+        serializedName: "catalogServerEndpoint",
+        type: {
+          name: "String"
+        }
+      },
+      catalogAdminUserName: {
+        serializedName: "catalogAdminUserName",
+        constraints: {
+          MaxLength: 128,
+          MinLength: 1
+        },
+        type: {
+          name: "String"
+        }
+      },
+      catalogAdminPassword: {
+        serializedName: "catalogAdminPassword",
+        type: {
+          name: "Composite",
+          className: "SecureString"
+        }
+      },
+      catalogPricingTier: {
+        serializedName: "catalogPricingTier",
+        type: {
+          name: "String"
+        }
+      }
+    },
+    additionalProperties: {
+      type: {
+        name: "Object"
+      }
+    }
+  }
+};
+
+export const IntegrationRuntimeCustomSetupScriptProperties: msRest.CompositeMapper = {
+  serializedName: "IntegrationRuntimeCustomSetupScriptProperties",
+  type: {
+    name: "Composite",
+    className: "IntegrationRuntimeCustomSetupScriptProperties",
+    modelProperties: {
+      blobContainerUri: {
+        serializedName: "blobContainerUri",
+        type: {
+          name: "String"
+        }
+      },
+      sasToken: {
+        serializedName: "sasToken",
+        type: {
+          name: "Composite",
+          className: "SecureString"
+        }
+      }
+    }
+  }
+};
+
+export const EntityReference: msRest.CompositeMapper = {
+  serializedName: "EntityReference",
+  type: {
+    name: "Composite",
+    className: "EntityReference",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      referenceName: {
+        serializedName: "referenceName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const IntegrationRuntimeDataProxyProperties: msRest.CompositeMapper = {
+  serializedName: "IntegrationRuntimeDataProxyProperties",
+  type: {
+    name: "Composite",
+    className: "IntegrationRuntimeDataProxyProperties",
+    modelProperties: {
+      connectVia: {
+        serializedName: "connectVia",
+        type: {
+          name: "Composite",
+          className: "EntityReference"
+        }
+      },
+      stagingLinkedService: {
+        serializedName: "stagingLinkedService",
+        type: {
+          name: "Composite",
+          className: "EntityReference"
+        }
+      },
+      path: {
+        serializedName: "path",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CustomSetupBase: msRest.CompositeMapper = {
+  serializedName: "CustomSetupBase",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: {
+      serializedName: "type",
+      clientName: "type"
+    },
+    uberParent: "CustomSetupBase",
+    className: "CustomSetupBase",
+    modelProperties: {
+      type: {
+        required: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const IntegrationRuntimeSsisProperties: msRest.CompositeMapper = {
+  serializedName: "IntegrationRuntimeSsisProperties",
+  type: {
+    name: "Composite",
+    className: "IntegrationRuntimeSsisProperties",
+    modelProperties: {
+      catalogInfo: {
+        serializedName: "catalogInfo",
+        type: {
+          name: "Composite",
+          className: "IntegrationRuntimeSsisCatalogInfo",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      },
+      licenseType: {
+        serializedName: "licenseType",
+        type: {
+          name: "String"
+        }
+      },
+      customSetupScriptProperties: {
+        serializedName: "customSetupScriptProperties",
+        type: {
+          name: "Composite",
+          className: "IntegrationRuntimeCustomSetupScriptProperties"
+        }
+      },
+      dataProxyProperties: {
+        serializedName: "dataProxyProperties",
+        type: {
+          name: "Composite",
+          className: "IntegrationRuntimeDataProxyProperties"
+        }
+      },
+      edition: {
+        serializedName: "edition",
+        type: {
+          name: "String"
+        }
+      },
+      expressCustomSetupProperties: {
+        serializedName: "expressCustomSetupProperties",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CustomSetupBase"
+            }
+          }
+        }
+      }
+    },
+    additionalProperties: {
+      type: {
+        name: "Object"
+      }
+    }
+  }
+};
+
+export const ManagedIntegrationRuntime: msRest.CompositeMapper = {
+  serializedName: "Managed",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: IntegrationRuntime.type.polymorphicDiscriminator,
+    uberParent: "IntegrationRuntime",
+    className: "ManagedIntegrationRuntime",
+    modelProperties: {
+      ...IntegrationRuntime.type.modelProperties,
+      state: {
+        readOnly: true,
+        serializedName: "state",
+        type: {
+          name: "String"
+        }
+      },
+      computeProperties: {
+        serializedName: "typeProperties.computeProperties",
+        type: {
+          name: "Composite",
+          className: "IntegrationRuntimeComputeProperties",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      },
+      ssisProperties: {
+        serializedName: "typeProperties.ssisProperties",
+        type: {
+          name: "Composite",
+          className: "IntegrationRuntimeSsisProperties",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      }
+    },
+    additionalProperties: IntegrationRuntime.type.additionalProperties
+  }
+};
+
+export const CmdkeySetup: msRest.CompositeMapper = {
+  serializedName: "CmdkeySetup",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: CustomSetupBase.type.polymorphicDiscriminator,
+    uberParent: "CustomSetupBase",
+    className: "CmdkeySetup",
+    modelProperties: {
+      ...CustomSetupBase.type.modelProperties,
+      targetName: {
+        required: true,
+        serializedName: "typeProperties.targetName",
+        type: {
+          name: "Object"
+        }
+      },
+      userName: {
+        required: true,
+        serializedName: "typeProperties.userName",
+        type: {
+          name: "Object"
+        }
+      },
+      password: {
+        required: true,
+        serializedName: "typeProperties.password",
+        type: {
+          name: "Composite",
+          className: "SecretBase"
+        }
+      }
+    }
+  }
+};
+
+export const EnvironmentVariableSetup: msRest.CompositeMapper = {
+  serializedName: "EnvironmentVariableSetup",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: CustomSetupBase.type.polymorphicDiscriminator,
+    uberParent: "CustomSetupBase",
+    className: "EnvironmentVariableSetup",
+    modelProperties: {
+      ...CustomSetupBase.type.modelProperties,
+      variableName: {
+        required: true,
+        serializedName: "typeProperties.variableName",
+        type: {
+          name: "String"
+        }
+      },
+      variableValue: {
+        required: true,
+        serializedName: "typeProperties.variableValue",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ComponentSetup: msRest.CompositeMapper = {
+  serializedName: "ComponentSetup",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: CustomSetupBase.type.polymorphicDiscriminator,
+    uberParent: "CustomSetupBase",
+    className: "ComponentSetup",
+    modelProperties: {
+      ...CustomSetupBase.type.modelProperties,
+      componentName: {
+        required: true,
+        serializedName: "typeProperties.componentName",
+        type: {
+          name: "String"
+        }
+      },
+      licenseKey: {
+        serializedName: "typeProperties.licenseKey",
+        type: {
+          name: "Composite",
+          className: "SecretBase"
+        }
+      }
+    }
+  }
+};
+
+export const LinkedIntegrationRuntimeType: msRest.CompositeMapper = {
+  serializedName: "LinkedIntegrationRuntimeType",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: {
+      serializedName: "authorizationType",
+      clientName: "authorizationType"
+    },
+    uberParent: "LinkedIntegrationRuntimeType",
+    className: "LinkedIntegrationRuntimeType",
+    modelProperties: {
+      authorizationType: {
+        required: true,
+        serializedName: "authorizationType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SelfHostedIntegrationRuntime: msRest.CompositeMapper = {
+  serializedName: "SelfHosted",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: IntegrationRuntime.type.polymorphicDiscriminator,
+    uberParent: "IntegrationRuntime",
+    className: "SelfHostedIntegrationRuntime",
+    modelProperties: {
+      ...IntegrationRuntime.type.modelProperties,
+      linkedInfo: {
+        serializedName: "typeProperties.linkedInfo",
+        type: {
+          name: "Composite",
+          className: "LinkedIntegrationRuntimeType"
+        }
+      }
+    },
+    additionalProperties: IntegrationRuntime.type.additionalProperties
+  }
+};
+
+export const LinkedIntegrationRuntimeKeyAuthorization: msRest.CompositeMapper = {
+  serializedName: "Key",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: LinkedIntegrationRuntimeType.type.polymorphicDiscriminator,
+    uberParent: "LinkedIntegrationRuntimeType",
+    className: "LinkedIntegrationRuntimeKeyAuthorization",
+    modelProperties: {
+      ...LinkedIntegrationRuntimeType.type.modelProperties,
+      key: {
+        required: true,
+        serializedName: "key",
+        type: {
+          name: "Composite",
+          className: "SecureString"
+        }
+      }
+    }
+  }
+};
+
+export const LinkedIntegrationRuntimeRbacAuthorization: msRest.CompositeMapper = {
+  serializedName: "RBAC",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: LinkedIntegrationRuntimeType.type.polymorphicDiscriminator,
+    uberParent: "LinkedIntegrationRuntimeType",
+    className: "LinkedIntegrationRuntimeRbacAuthorization",
+    modelProperties: {
+      ...LinkedIntegrationRuntimeType.type.modelProperties,
+      resourceId: {
+        required: true,
+        serializedName: "resourceId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const IntegrationRuntimeStatus: msRest.CompositeMapper = {
+  serializedName: "IntegrationRuntimeStatus",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: {
+      serializedName: "type",
+      clientName: "type"
+    },
+    uberParent: "IntegrationRuntimeStatus",
+    className: "IntegrationRuntimeStatus",
+    modelProperties: {
+      dataFactoryName: {
+        readOnly: true,
+        serializedName: "dataFactoryName",
+        type: {
+          name: "String"
+        }
+      },
+      state: {
+        readOnly: true,
+        serializedName: "state",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        required: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    },
+    additionalProperties: {
+      type: {
+        name: "Object"
+      }
+    }
+  }
+};
+
+export const ManagedIntegrationRuntimeError: msRest.CompositeMapper = {
+  serializedName: "ManagedIntegrationRuntimeError",
+  type: {
+    name: "Composite",
+    className: "ManagedIntegrationRuntimeError",
+    modelProperties: {
+      time: {
+        readOnly: true,
+        serializedName: "time",
+        type: {
+          name: "DateTime"
+        }
+      },
+      code: {
+        readOnly: true,
+        serializedName: "code",
+        type: {
+          name: "String"
+        }
+      },
+      parameters: {
+        readOnly: true,
+        serializedName: "parameters",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      message: {
+        readOnly: true,
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      }
+    },
+    additionalProperties: {
+      type: {
+        name: "Object"
+      }
+    }
+  }
+};
+
+export const ManagedIntegrationRuntimeNode: msRest.CompositeMapper = {
+  serializedName: "ManagedIntegrationRuntimeNode",
+  type: {
+    name: "Composite",
+    className: "ManagedIntegrationRuntimeNode",
+    modelProperties: {
+      nodeId: {
+        readOnly: true,
+        serializedName: "nodeId",
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        readOnly: true,
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      errors: {
+        serializedName: "errors",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ManagedIntegrationRuntimeError",
+              additionalProperties: {
+                type: {
+                  name: "Object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    additionalProperties: {
+      type: {
+        name: "Object"
+      }
+    }
+  }
+};
+
+export const ManagedIntegrationRuntimeOperationResult: msRest.CompositeMapper = {
+  serializedName: "ManagedIntegrationRuntimeOperationResult",
+  type: {
+    name: "Composite",
+    className: "ManagedIntegrationRuntimeOperationResult",
+    modelProperties: {
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      startTime: {
+        readOnly: true,
+        serializedName: "startTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      result: {
+        readOnly: true,
+        serializedName: "result",
+        type: {
+          name: "String"
+        }
+      },
+      errorCode: {
+        readOnly: true,
+        serializedName: "errorCode",
+        type: {
+          name: "String"
+        }
+      },
+      parameters: {
+        readOnly: true,
+        serializedName: "parameters",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      activityId: {
+        readOnly: true,
+        serializedName: "activityId",
+        type: {
+          name: "String"
+        }
+      }
+    },
+    additionalProperties: {
+      type: {
+        name: "Object"
+      }
+    }
+  }
+};
+
+export const ManagedIntegrationRuntimeStatus: msRest.CompositeMapper = {
+  serializedName: "Managed",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: IntegrationRuntimeStatus.type.polymorphicDiscriminator,
+    uberParent: "IntegrationRuntimeStatus",
+    className: "ManagedIntegrationRuntimeStatus",
+    modelProperties: {
+      ...IntegrationRuntimeStatus.type.modelProperties,
+      createTime: {
+        readOnly: true,
+        serializedName: "typeProperties.createTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      nodes: {
+        readOnly: true,
+        serializedName: "typeProperties.nodes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ManagedIntegrationRuntimeNode",
+              additionalProperties: {
+                type: {
+                  name: "Object"
+                }
+              }
+            }
+          }
+        }
+      },
+      otherErrors: {
+        readOnly: true,
+        serializedName: "typeProperties.otherErrors",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ManagedIntegrationRuntimeError",
+              additionalProperties: {
+                type: {
+                  name: "Object"
+                }
+              }
+            }
+          }
+        }
+      },
+      lastOperation: {
+        readOnly: true,
+        serializedName: "typeProperties.lastOperation",
+        type: {
+          name: "Composite",
+          className: "ManagedIntegrationRuntimeOperationResult",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      }
+    },
+    additionalProperties: IntegrationRuntimeStatus.type.additionalProperties
+  }
+};
+
+export const SelfHostedIntegrationRuntimeNode: msRest.CompositeMapper = {
+  serializedName: "SelfHostedIntegrationRuntimeNode",
+  type: {
+    name: "Composite",
+    className: "SelfHostedIntegrationRuntimeNode",
+    modelProperties: {
+      nodeName: {
+        readOnly: true,
+        serializedName: "nodeName",
+        type: {
+          name: "String"
+        }
+      },
+      machineName: {
+        readOnly: true,
+        serializedName: "machineName",
+        type: {
+          name: "String"
+        }
+      },
+      hostServiceUri: {
+        readOnly: true,
+        serializedName: "hostServiceUri",
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        readOnly: true,
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      capabilities: {
+        readOnly: true,
+        serializedName: "capabilities",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      versionStatus: {
+        readOnly: true,
+        serializedName: "versionStatus",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        readOnly: true,
+        serializedName: "version",
+        type: {
+          name: "String"
+        }
+      },
+      registerTime: {
+        readOnly: true,
+        serializedName: "registerTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastConnectTime: {
+        readOnly: true,
+        serializedName: "lastConnectTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      expiryTime: {
+        readOnly: true,
+        serializedName: "expiryTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastStartTime: {
+        readOnly: true,
+        serializedName: "lastStartTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastStopTime: {
+        readOnly: true,
+        serializedName: "lastStopTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastUpdateResult: {
+        readOnly: true,
+        serializedName: "lastUpdateResult",
+        type: {
+          name: "String"
+        }
+      },
+      lastStartUpdateTime: {
+        readOnly: true,
+        serializedName: "lastStartUpdateTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastEndUpdateTime: {
+        readOnly: true,
+        serializedName: "lastEndUpdateTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      isActiveDispatcher: {
+        readOnly: true,
+        serializedName: "isActiveDispatcher",
+        type: {
+          name: "Boolean"
+        }
+      },
+      concurrentJobsLimit: {
+        readOnly: true,
+        serializedName: "concurrentJobsLimit",
+        type: {
+          name: "Number"
+        }
+      },
+      maxConcurrentJobs: {
+        readOnly: true,
+        serializedName: "maxConcurrentJobs",
+        type: {
+          name: "Number"
+        }
+      }
+    },
+    additionalProperties: {
+      type: {
+        name: "Object"
+      }
+    }
+  }
+};
+
+export const LinkedIntegrationRuntime: msRest.CompositeMapper = {
+  serializedName: "LinkedIntegrationRuntime",
+  type: {
+    name: "Composite",
+    className: "LinkedIntegrationRuntime",
+    modelProperties: {
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      subscriptionId: {
+        readOnly: true,
+        serializedName: "subscriptionId",
+        type: {
+          name: "String"
+        }
+      },
+      dataFactoryName: {
+        readOnly: true,
+        serializedName: "dataFactoryName",
+        type: {
+          name: "String"
+        }
+      },
+      dataFactoryLocation: {
+        readOnly: true,
+        serializedName: "dataFactoryLocation",
+        type: {
+          name: "String"
+        }
+      },
+      createTime: {
+        readOnly: true,
+        serializedName: "createTime",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const SelfHostedIntegrationRuntimeStatus: msRest.CompositeMapper = {
+  serializedName: "SelfHosted",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: IntegrationRuntimeStatus.type.polymorphicDiscriminator,
+    uberParent: "IntegrationRuntimeStatus",
+    className: "SelfHostedIntegrationRuntimeStatus",
+    modelProperties: {
+      ...IntegrationRuntimeStatus.type.modelProperties,
+      createTime: {
+        readOnly: true,
+        serializedName: "typeProperties.createTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      taskQueueId: {
+        readOnly: true,
+        serializedName: "typeProperties.taskQueueId",
+        type: {
+          name: "String"
+        }
+      },
+      internalChannelEncryption: {
+        readOnly: true,
+        serializedName: "typeProperties.internalChannelEncryption",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        readOnly: true,
+        serializedName: "typeProperties.version",
+        type: {
+          name: "String"
+        }
+      },
+      nodes: {
+        serializedName: "typeProperties.nodes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SelfHostedIntegrationRuntimeNode",
+              additionalProperties: {
+                type: {
+                  name: "Object"
+                }
+              }
+            }
+          }
+        }
+      },
+      scheduledUpdateDate: {
+        readOnly: true,
+        serializedName: "typeProperties.scheduledUpdateDate",
+        type: {
+          name: "DateTime"
+        }
+      },
+      updateDelayOffset: {
+        readOnly: true,
+        serializedName: "typeProperties.updateDelayOffset",
+        type: {
+          name: "String"
+        }
+      },
+      localTimeZoneOffset: {
+        readOnly: true,
+        serializedName: "typeProperties.localTimeZoneOffset",
+        type: {
+          name: "String"
+        }
+      },
+      capabilities: {
+        readOnly: true,
+        serializedName: "typeProperties.capabilities",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      serviceUrls: {
+        readOnly: true,
+        serializedName: "typeProperties.serviceUrls",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      autoUpdate: {
+        readOnly: true,
+        serializedName: "typeProperties.autoUpdate",
+        type: {
+          name: "String"
+        }
+      },
+      versionStatus: {
+        readOnly: true,
+        serializedName: "typeProperties.versionStatus",
+        type: {
+          name: "String"
+        }
+      },
+      links: {
+        serializedName: "typeProperties.links",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "LinkedIntegrationRuntime"
+            }
+          }
+        }
+      },
+      pushedVersion: {
+        readOnly: true,
+        serializedName: "typeProperties.pushedVersion",
+        type: {
+          name: "String"
+        }
+      },
+      latestVersion: {
+        readOnly: true,
+        serializedName: "typeProperties.latestVersion",
+        type: {
+          name: "String"
+        }
+      },
+      autoUpdateETA: {
+        readOnly: true,
+        serializedName: "typeProperties.autoUpdateETA",
+        type: {
+          name: "DateTime"
+        }
+      }
+    },
+    additionalProperties: IntegrationRuntimeStatus.type.additionalProperties
+  }
+};
+
+export const IntegrationRuntimeConnectionInfo: msRest.CompositeMapper = {
+  serializedName: "IntegrationRuntimeConnectionInfo",
+  type: {
+    name: "Composite",
+    className: "IntegrationRuntimeConnectionInfo",
+    modelProperties: {
+      serviceToken: {
+        readOnly: true,
+        serializedName: "serviceToken",
+        type: {
+          name: "String"
+        }
+      },
+      identityCertThumbprint: {
+        readOnly: true,
+        serializedName: "identityCertThumbprint",
+        type: {
+          name: "String"
+        }
+      },
+      hostServiceUri: {
+        readOnly: true,
+        serializedName: "hostServiceUri",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        readOnly: true,
+        serializedName: "version",
+        type: {
+          name: "String"
+        }
+      },
+      publicKey: {
+        readOnly: true,
+        serializedName: "publicKey",
+        type: {
+          name: "String"
+        }
+      },
+      isIdentityCertExprired: {
+        readOnly: true,
+        serializedName: "isIdentityCertExprired",
+        type: {
+          name: "Boolean"
+        }
+      }
+    },
+    additionalProperties: {
+      type: {
+        name: "Object"
+      }
+    }
+  }
+};
+
+export const IntegrationRuntimeRegenerateKeyParameters: msRest.CompositeMapper = {
+  serializedName: "IntegrationRuntimeRegenerateKeyParameters",
+  type: {
+    name: "Composite",
+    className: "IntegrationRuntimeRegenerateKeyParameters",
+    modelProperties: {
+      keyName: {
+        serializedName: "keyName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const IntegrationRuntimeAuthKeys: msRest.CompositeMapper = {
+  serializedName: "IntegrationRuntimeAuthKeys",
+  type: {
+    name: "Composite",
+    className: "IntegrationRuntimeAuthKeys",
+    modelProperties: {
+      authKey1: {
+        serializedName: "authKey1",
+        type: {
+          name: "String"
+        }
+      },
+      authKey2: {
+        serializedName: "authKey2",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const IntegrationRuntimeNodeMonitoringData: msRest.CompositeMapper = {
+  serializedName: "IntegrationRuntimeNodeMonitoringData",
+  type: {
+    name: "Composite",
+    className: "IntegrationRuntimeNodeMonitoringData",
+    modelProperties: {
+      nodeName: {
+        readOnly: true,
+        serializedName: "nodeName",
+        type: {
+          name: "String"
+        }
+      },
+      availableMemoryInMB: {
+        readOnly: true,
+        serializedName: "availableMemoryInMB",
+        type: {
+          name: "Number"
+        }
+      },
+      cpuUtilization: {
+        readOnly: true,
+        serializedName: "cpuUtilization",
+        type: {
+          name: "Number"
+        }
+      },
+      concurrentJobsLimit: {
+        readOnly: true,
+        serializedName: "concurrentJobsLimit",
+        type: {
+          name: "Number"
+        }
+      },
+      concurrentJobsRunning: {
+        readOnly: true,
+        serializedName: "concurrentJobsRunning",
+        type: {
+          name: "Number"
+        }
+      },
+      maxConcurrentJobs: {
+        readOnly: true,
+        serializedName: "maxConcurrentJobs",
+        type: {
+          name: "Number"
+        }
+      },
+      sentBytes: {
+        readOnly: true,
+        serializedName: "sentBytes",
+        type: {
+          name: "Number"
+        }
+      },
+      receivedBytes: {
+        readOnly: true,
+        serializedName: "receivedBytes",
+        type: {
+          name: "Number"
+        }
+      }
+    },
+    additionalProperties: {
+      type: {
+        name: "Object"
+      }
+    }
+  }
+};
+
+export const IntegrationRuntimeMonitoringData: msRest.CompositeMapper = {
+  serializedName: "IntegrationRuntimeMonitoringData",
+  type: {
+    name: "Composite",
+    className: "IntegrationRuntimeMonitoringData",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      nodes: {
+        serializedName: "nodes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "IntegrationRuntimeNodeMonitoringData",
+              additionalProperties: {
+                type: {
+                  name: "Object"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const IntegrationRuntimeNodeIpAddress: msRest.CompositeMapper = {
+  serializedName: "IntegrationRuntimeNodeIpAddress",
+  type: {
+    name: "Composite",
+    className: "IntegrationRuntimeNodeIpAddress",
+    modelProperties: {
+      ipAddress: {
+        readOnly: true,
+        serializedName: "ipAddress",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SsisObjectMetadata: msRest.CompositeMapper = {
+  serializedName: "SsisObjectMetadata",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: {
+      serializedName: "type",
+      clientName: "type"
+    },
+    uberParent: "SsisObjectMetadata",
+    className: "SsisObjectMetadata",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "Number"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        required: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SsisObjectMetadataListResponse: msRest.CompositeMapper = {
+  serializedName: "SsisObjectMetadataListResponse",
+  type: {
+    name: "Composite",
+    className: "SsisObjectMetadataListResponse",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SsisObjectMetadata"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SsisFolder: msRest.CompositeMapper = {
+  serializedName: "Folder",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: SsisObjectMetadata.type.polymorphicDiscriminator,
+    uberParent: "SsisObjectMetadata",
+    className: "SsisFolder",
+    modelProperties: {
+      ...SsisObjectMetadata.type.modelProperties
+    }
+  }
+};
+
+export const SsisEnvironmentReference: msRest.CompositeMapper = {
+  serializedName: "SsisEnvironmentReference",
+  type: {
+    name: "Composite",
+    className: "SsisEnvironmentReference",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "Number"
+        }
+      },
+      environmentFolderName: {
+        serializedName: "environmentFolderName",
+        type: {
+          name: "String"
+        }
+      },
+      environmentName: {
+        serializedName: "environmentName",
+        type: {
+          name: "String"
+        }
+      },
+      referenceType: {
+        serializedName: "referenceType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SsisParameter: msRest.CompositeMapper = {
+  serializedName: "SsisParameter",
+  type: {
+    name: "Composite",
+    className: "SsisParameter",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "Number"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      dataType: {
+        serializedName: "dataType",
+        type: {
+          name: "String"
+        }
+      },
+      required: {
+        serializedName: "required",
+        type: {
+          name: "Boolean"
+        }
+      },
+      sensitive: {
+        serializedName: "sensitive",
+        type: {
+          name: "Boolean"
+        }
+      },
+      designDefaultValue: {
+        serializedName: "designDefaultValue",
+        type: {
+          name: "String"
+        }
+      },
+      defaultValue: {
+        serializedName: "defaultValue",
+        type: {
+          name: "String"
+        }
+      },
+      sensitiveDefaultValue: {
+        serializedName: "sensitiveDefaultValue",
+        type: {
+          name: "String"
+        }
+      },
+      valueType: {
+        serializedName: "valueType",
+        type: {
+          name: "String"
+        }
+      },
+      valueSet: {
+        serializedName: "valueSet",
+        type: {
+          name: "Boolean"
+        }
+      },
+      variable: {
+        serializedName: "variable",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SsisProject: msRest.CompositeMapper = {
+  serializedName: "Project",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: SsisObjectMetadata.type.polymorphicDiscriminator,
+    uberParent: "SsisObjectMetadata",
+    className: "SsisProject",
+    modelProperties: {
+      ...SsisObjectMetadata.type.modelProperties,
+      folderId: {
+        serializedName: "folderId",
+        type: {
+          name: "Number"
+        }
+      },
+      version: {
+        serializedName: "version",
+        type: {
+          name: "Number"
+        }
+      },
+      environmentRefs: {
+        serializedName: "environmentRefs",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SsisEnvironmentReference"
+            }
+          }
+        }
+      },
+      parameters: {
+        serializedName: "parameters",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SsisParameter"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const SsisPackage: msRest.CompositeMapper = {
+  serializedName: "Package",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: SsisObjectMetadata.type.polymorphicDiscriminator,
+    uberParent: "SsisObjectMetadata",
+    className: "SsisPackage",
+    modelProperties: {
+      ...SsisObjectMetadata.type.modelProperties,
+      folderId: {
+        serializedName: "folderId",
+        type: {
+          name: "Number"
+        }
+      },
+      projectVersion: {
+        serializedName: "projectVersion",
+        type: {
+          name: "Number"
+        }
+      },
+      projectId: {
+        serializedName: "projectId",
+        type: {
+          name: "Number"
+        }
+      },
+      parameters: {
+        serializedName: "parameters",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SsisParameter"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const SsisVariable: msRest.CompositeMapper = {
+  serializedName: "SsisVariable",
+  type: {
+    name: "Composite",
+    className: "SsisVariable",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "Number"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      dataType: {
+        serializedName: "dataType",
+        type: {
+          name: "String"
+        }
+      },
+      sensitive: {
+        serializedName: "sensitive",
+        type: {
+          name: "Boolean"
+        }
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "String"
+        }
+      },
+      sensitiveValue: {
+        serializedName: "sensitiveValue",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SsisEnvironment: msRest.CompositeMapper = {
+  serializedName: "Environment",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: SsisObjectMetadata.type.polymorphicDiscriminator,
+    uberParent: "SsisObjectMetadata",
+    className: "SsisEnvironment",
+    modelProperties: {
+      ...SsisObjectMetadata.type.modelProperties,
+      folderId: {
+        serializedName: "folderId",
+        type: {
+          name: "Number"
+        }
+      },
+      variables: {
+        serializedName: "variables",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SsisVariable"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const UpdateIntegrationRuntimeRequest: msRest.CompositeMapper = {
+  serializedName: "UpdateIntegrationRuntimeRequest",
+  type: {
+    name: "Composite",
+    className: "UpdateIntegrationRuntimeRequest",
+    modelProperties: {
+      autoUpdate: {
+        serializedName: "autoUpdate",
+        type: {
+          name: "String"
+        }
+      },
+      updateDelayOffset: {
+        serializedName: "updateDelayOffset",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const IntegrationRuntimeResource: msRest.CompositeMapper = {
+  serializedName: "IntegrationRuntimeResource",
+  type: {
+    name: "Composite",
+    className: "IntegrationRuntimeResource",
+    modelProperties: {
+      ...SubResource.type.modelProperties,
+      properties: {
+        required: true,
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "IntegrationRuntime",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const GetSsisObjectMetadataRequest: msRest.CompositeMapper = {
+  serializedName: "GetSsisObjectMetadataRequest",
+  type: {
+    name: "Composite",
+    className: "GetSsisObjectMetadataRequest",
+    modelProperties: {
+      metadataPath: {
+        serializedName: "metadataPath",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const UpdateIntegrationRuntimeNodeRequest: msRest.CompositeMapper = {
+  serializedName: "UpdateIntegrationRuntimeNodeRequest",
+  type: {
+    name: "Composite",
+    className: "UpdateIntegrationRuntimeNodeRequest",
+    modelProperties: {
+      concurrentJobsLimit: {
+        serializedName: "concurrentJobsLimit",
+        constraints: {
+          InclusiveMinimum: 1
+        },
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const IntegrationRuntimeStatusResponse: msRest.CompositeMapper = {
+  serializedName: "IntegrationRuntimeStatusResponse",
+  type: {
+    name: "Composite",
+    className: "IntegrationRuntimeStatusResponse",
+    modelProperties: {
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        required: true,
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "IntegrationRuntimeStatus",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const SsisObjectMetadataStatusResponse: msRest.CompositeMapper = {
+  serializedName: "SsisObjectMetadataStatusResponse",
+  type: {
+    name: "Composite",
+    className: "SsisObjectMetadataStatusResponse",
+    modelProperties: {
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "String"
+        }
+      },
+      error: {
+        serializedName: "error",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PrivateLinkResourceProperties: msRest.CompositeMapper = {
+  serializedName: "PrivateLinkResourceProperties",
+  type: {
+    name: "Composite",
+    className: "PrivateLinkResourceProperties",
+    modelProperties: {
+      groupId: {
+        readOnly: true,
+        serializedName: "groupId",
+        type: {
+          name: "String"
+        }
+      },
+      requiredMembers: {
+        readOnly: true,
+        serializedName: "requiredMembers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      requiredZoneNames: {
+        readOnly: true,
+        serializedName: "requiredZoneNames",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const PrivateLinkResource: msRest.CompositeMapper = {
+  serializedName: "PrivateLinkResource",
+  type: {
+    name: "Composite",
+    className: "PrivateLinkResource",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      properties: {
+        readOnly: true,
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "PrivateLinkResourceProperties"
         }
       }
     }
@@ -2933,4 +5111,117 @@ export const WorkspaceInfoListResult: msRest.CompositeMapper = {
       }
     }
   }
+};
+
+export const IntegrationRuntimeListResponse: msRest.CompositeMapper = {
+  serializedName: "IntegrationRuntimeListResponse",
+  type: {
+    name: "Composite",
+    className: "IntegrationRuntimeListResponse",
+    modelProperties: {
+      value: {
+        required: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "IntegrationRuntimeResource"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PrivateLinkResourceListResult: msRest.CompositeMapper = {
+  serializedName: "PrivateLinkResourceListResult",
+  type: {
+    name: "Composite",
+    className: "PrivateLinkResourceListResult",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PrivateLinkResource"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PrivateEndpointConnectionList: msRest.CompositeMapper = {
+  serializedName: "PrivateEndpointConnectionList",
+  type: {
+    name: "Composite",
+    className: "PrivateEndpointConnectionList",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PrivateEndpointConnection"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const discriminators = {
+  'IntegrationRuntime' : IntegrationRuntime,
+  'SecretBase.SecureString' : SecureString,
+  'CustomSetupBase' : CustomSetupBase,
+  'IntegrationRuntime.Managed' : ManagedIntegrationRuntime,
+  'SecretBase' : SecretBase,
+  'CustomSetupBase.CmdkeySetup' : CmdkeySetup,
+  'CustomSetupBase.EnvironmentVariableSetup' : EnvironmentVariableSetup,
+  'CustomSetupBase.ComponentSetup' : ComponentSetup,
+  'LinkedIntegrationRuntimeType' : LinkedIntegrationRuntimeType,
+  'IntegrationRuntime.SelfHosted' : SelfHostedIntegrationRuntime,
+  'LinkedIntegrationRuntimeType.Key' : LinkedIntegrationRuntimeKeyAuthorization,
+  'LinkedIntegrationRuntimeType.RBAC' : LinkedIntegrationRuntimeRbacAuthorization,
+  'IntegrationRuntimeStatus' : IntegrationRuntimeStatus,
+  'IntegrationRuntimeStatus.Managed' : ManagedIntegrationRuntimeStatus,
+  'IntegrationRuntimeStatus.SelfHosted' : SelfHostedIntegrationRuntimeStatus,
+  'SsisObjectMetadata' : SsisObjectMetadata,
+  'SsisObjectMetadata.Folder' : SsisFolder,
+  'SsisObjectMetadata.Project' : SsisProject,
+  'SsisObjectMetadata.Package' : SsisPackage,
+  'SsisObjectMetadata.Environment' : SsisEnvironment
+
 };

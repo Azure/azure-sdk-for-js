@@ -2,7 +2,8 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
 
-  **NOTE**: If you are using version 1.1.x or lower, then please use the link below:
+  **NOTE**: This sample uses the preview of the next version of the @azure/service-bus package.
+  For samples using the current stable version of the package, please use the link below:
   https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples
   
   This sample demonstrates how the receive() function can be used to receive Service Bus messages
@@ -25,10 +26,10 @@ const queueName = process.env.QUEUE_NAME || "<queue name>";
 export async function main() {
   const sbClient = new ServiceBusClient(connectionString);
 
-  // - If receiving from a subscription you can use the getReceiver(topic, subscription) overload
+  // - If receiving from a subscription you can use the createReceiver(topic, subscription) overload
   // instead.
   // - See session.ts for how to receive using sessions.
-  const receiver = sbClient.getReceiver(queueName, "peekLock");
+  const receiver = sbClient.createReceiver(queueName, "peekLock");
 
   const processMessage = async brokeredMessage => {
     console.log(`Received message: ${brokeredMessage.body}`);

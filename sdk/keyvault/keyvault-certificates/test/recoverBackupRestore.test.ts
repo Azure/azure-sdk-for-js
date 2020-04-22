@@ -3,10 +3,10 @@
 
 import * as assert from "assert";
 import { CertificateClient } from "../src";
-import { env, isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
+import { env, isPlaybackMode, Recorder, delay, isRecordMode } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
-import { testPollerProperties, retry } from "./utils/recorderUtils";
+import { testPollerProperties } from "./utils/recorderUtils";
 import { assertThrowsAbortError } from "./utils/utils.common";
 import { isNode } from "@azure/core-http";
 
@@ -75,25 +75,37 @@ describe("Certificates client - restore certificates and recover backups", () =>
     assert.equal(error.message, `Certificate not found: ${certificateName}`);
   });
 
-  // This is taking forever
-  it("can restore a certificate", async function() {
-    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-    await client.beginCreateCertificate(
-      certificateName,
-      basicCertificatePolicy,
-      testPollerProperties
-    );
-    const backup = await client.backupCertificate(certificateName);
-    await testClient.flushCertificate(certificateName);
-    await retry(async () => client.restoreCertificateBackup(backup!));
-    const getResult = await client.getCertificate(certificateName);
-    assert.equal(
-      getResult.properties.name,
-      certificateName,
-      "Unexpected certificate name in result from getCertificate()."
-    );
-    await testClient.flushCertificate(certificateName);
-  });
+  if (isRecordMode() || isPlaybackMode()) {
+    // This test can't run live,
+    // since the purge operation currently can't be expected to finish anytime soon.
+    it("can restore a certificate", async function() {
+      const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+      await client.beginCreateCertificate(
+        certificateName,
+        basicCertificatePolicy,
+        testPollerProperties
+      );
+      const backup = await client.backupCertificate(certificateName);
+      await testClient.flushCertificate(certificateName);
+      while (true) {
+        try {
+          await client.restoreCertificateBackup(backup as Uint8Array);
+          break;
+        } catch (e) {
+          console.log("Can't restore the certificate since it's not fully deleted:", e.message);
+          console.log("Retrying in one second...");
+          await delay(1000);
+        }
+      }
+      const getResult = await client.getCertificate(certificateName);
+      assert.equal(
+        getResult.properties.name,
+        certificateName,
+        "Unexpected certificate name in result from getCertificate()."
+      );
+      await testClient.flushCertificate(certificateName);
+    });
+  }
 
   if (isNode && !isPlaybackMode()) {
     // On playback mode, the tests happen too fast for the timeout to work
