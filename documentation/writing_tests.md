@@ -190,14 +190,23 @@ Code coverage can be added by placing `nyc` at the beginning of the line. Keep i
 
 We also have to point mocha to our test files. If you're **not** using `nyc`, you can point to the bundled test file (bundled with Rollup, which we will see later), typically at `dist-test/index.node.js`. If you are using `nyc`, point mocha to the files built by the TypeScript compiler, which can be found using `find dist-esm/test -name '*.spec.js'` before calling mocha.
 
-Our engineering systems will expect to encounter two scripts in our `package.json`s, one called `unit-test` for tests that will be [executed during Pull Request validation](https://github.com/Azure/azure-sdk-for-js/blob/86b174ebea741187ec3307c40d3dc03f58230b8b/eng/pipelines/templates/jobs/archetype-sdk-client.yml#L225-L235) [⏲][TIPS], which won't ever reach to live resources, and another called `integration-test` for our [nightly and release builds](https://github.com/Azure/azure-sdk-for-js/blob/58bbeeea839b278d1238f908a3cec53749d636c3/eng/pipelines/templates/jobs/archetype-sdk-integration.yml#L114) [⏲][TIPS], which will be expected to reach to live resources. We assume that the distinction of when to reach to what resources will be done within the tests (either by using [the recorder](#the-recorder) or through [Using conditionals](#using-conditionals)). With this in mind, and limiting `nyc` to only run on the `integration-test` script, we will end up with the following scripts:
+Our engineering systems will expect to encounter two scripts in our `package.json`s, one called `test` (the default test script), which will be [executed during Pull Request validation](https://github.com/Azure/azure-sdk-for-js/blob/86b174ebea741187ec3307c40d3dc03f58230b8b/eng/pipelines/templates/jobs/archetype-sdk-client.yml#L225-L235) [⏲][TIPS], and another called `test-ci` for our [nightly and release builds](https://github.com/Azure/azure-sdk-for-js/blob/58bbeeea839b278d1238f908a3cec53749d636c3/eng/pipelines/templates/jobs/archetype-sdk-integration.yml#L114) [⏲][TIPS].
+
+With everything so far in mind, including building the test files, and avoiding `nyc` on the default test execution, we will end up with the following scripts:
 
 ```json
-    "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace \"dist-esm/test/**/*.spec.js\"",
-    "unit-test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace dist-test/index.node.js",
+    "test": "npm run build:test && npm run test:node && npm run test:browser",
+    "test-ci": "npm run build:test && npm run test-ci:node && npm run test-ci:browser",
 ```
 
-Keep in mind that Mocha will be directly called from our `package.json` scripts only for our **NodeJS** tests. For our browser tests, we will be using [Karma](#karma).
+Where the `test:node` and `test-ci:node` will be:
+
+```json
+    "test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace dist-test/index.node.js",
+    "test-ci:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace \"dist-esm/test/**/*.spec.js\"",
+```
+
+The scripts `test:browser` and `test-ci:browser` will be covered in the [Karma](#karma) section.
 
 You can look at how Mocha's configuration is present in our [template project's package.json file](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/package.json).
 
@@ -611,14 +620,14 @@ You can see these dependencies at work in our [template project's package.json](
 Karma is used by our browser test scripts in our `package.json` files. We usually only pass one parameter, `--single-run`, which tells Karma to start and capture all configured browsers, run tests and then exit with an exit code of 0 or 1 depending on whether all tests passed or any tests failed.
 
 ```json
-  "integration-test:browser": "karma start --single-run",
+  "test:browser": "karma start --single-run",
 ```
 
-Karma will default to interpret the file `karma.conf.js`, which should be available at the root of the project. You may specify a different `karma.conf.js` for different test groups:
+Karma will default to interpret the file `karma.conf.js`, which should be available at the root of the project. You may specify a different `karma.conf.js` for different test groups, if needed:
 
 ```json
-  "integration-test:browser": "karma start --single-run karma.integration.config.js",
-  "unit-test:browser": "karma start --single-run karma.unit.config.js",
+  "test:browser": "karma start --single-run karma.config.js",
+  "test-ci:browser": "karma start --single-run karma.ci.config.js",
 ```
 
 An example of a Karma file that can be used can be seen in the following path: <https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/karma.conf.js>
@@ -682,21 +691,15 @@ Even though tests can be executed in groups, through the use of [Pattern matchin
 All together, the `package.json` will end up with the following scripts:
 
 ```json
-  "test": "npm run build:test && npm run unit-test && npm run integration-test",
-  "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
-  "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
+  "test": "npm run build:test && npm run test:node && npm run test:browser",
+  "test-ci": "npm run build:test && npm run test-ci:node && npm run test-ci:browser",
 
-  // Where...
-  "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-  "integration-test": "npm run integration-test:node && npm run integration-test:browser",
+  "test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace dist-test/index.node.js",
+  "test-ci:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace \"dist-esm/test/**/*.spec.js\"",
 
-  // Where unit-test means...
-  "unit-test:browser": "karma start --single-run",
-  "unit-test:node": "mocha --reporter ../../../common/tools/mocha-multi-reporter.js dist-test/index.node.js",
-
-  // And integration-test means...
-  "integration-test:browser": "echo skipped",
-  "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace \"dist-esm/test/**/*.spec.js\"",
+  // Remember to specify different karma.config.js if needed
+  "test:browser": "karma start --single-run",
+  "test-ci:browser": "karma start --single-run",
 ```
 
 
