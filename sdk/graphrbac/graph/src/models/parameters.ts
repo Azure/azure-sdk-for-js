@@ -60,6 +60,18 @@ export const domainName: msRest.OperationURLParameter = {
     }
   }
 };
+export const expand: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "expand"
+  ],
+  mapper: {
+    serializedName: "$expand",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const filter: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
