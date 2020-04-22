@@ -124,6 +124,35 @@ describe("controlled connection initialization", () => {
       assert.equal(err.message, "We won't get here until _after_ the lock has been released");
     }
   });
+
+  it("can re-open a client after it has been closed()", async () => {
+    await sender.open();
+
+    await sender.send({
+      body: "message sent after opening"
+    });
+
+    await sender.close();
+
+    try {
+      await sender.send({
+        body: "this message will not get sent since the sender is closed"
+      });
+      assert.fail("Should have thrown an error since the connection is closed");
+    } catch (err) {
+      assert.match(err.message, /has been closed and can no longer be used/);
+    }
+
+    // now we're going to re-open a closed client
+    await sender.open();
+
+    // and everything is good again.
+    await sender.send({
+      body: "a message after the connection has been re-opened"
+    });
+
+    await sender.close();
+  });
 });
 
 async function checkThatInitializationDoesntReoccur(sender: Sender) {

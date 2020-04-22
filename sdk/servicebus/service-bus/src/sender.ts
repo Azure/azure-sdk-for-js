@@ -88,7 +88,11 @@ export class Sender {
    * want to front load the work of setting up the AMQP link to the service.
    */
   async open(): Promise<void> {
-    return MessageSender.create(this._context).open();
+    await MessageSender.create(this._context).open();
+
+    if (this._context.sender?.isOpen) {
+      this._isClosed = false;
+    }
   }
 
   /**
