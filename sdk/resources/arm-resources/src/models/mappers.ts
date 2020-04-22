@@ -457,11 +457,11 @@ export const ErrorResponse: msRest.CompositeMapper = {
   }
 };
 
-export const AliasPatternType1: msRest.CompositeMapper = {
-  serializedName: "AliasPatternType",
+export const AliasPattern: msRest.CompositeMapper = {
+  serializedName: "AliasPattern",
   type: {
     name: "Composite",
-    className: "AliasPatternType1",
+    className: "AliasPattern",
     modelProperties: {
       phrase: {
         serializedName: "phrase",
@@ -489,11 +489,11 @@ export const AliasPatternType1: msRest.CompositeMapper = {
   }
 };
 
-export const AliasPathType: msRest.CompositeMapper = {
-  serializedName: "AliasPathType",
+export const AliasPath: msRest.CompositeMapper = {
+  serializedName: "AliasPath",
   type: {
     name: "Composite",
-    className: "AliasPathType",
+    className: "AliasPath",
     modelProperties: {
       path: {
         serializedName: "path",
@@ -516,18 +516,18 @@ export const AliasPathType: msRest.CompositeMapper = {
         serializedName: "pattern",
         type: {
           name: "Composite",
-          className: "AliasPatternType1"
+          className: "AliasPattern"
         }
       }
     }
   }
 };
 
-export const AliasType1: msRest.CompositeMapper = {
-  serializedName: "AliasType",
+export const Alias: msRest.CompositeMapper = {
+  serializedName: "Alias",
   type: {
     name: "Composite",
-    className: "AliasType1",
+    className: "Alias",
     modelProperties: {
       name: {
         serializedName: "name",
@@ -542,7 +542,7 @@ export const AliasType1: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "AliasPathType"
+              className: "AliasPath"
             }
           }
         }
@@ -568,7 +568,7 @@ export const AliasType1: msRest.CompositeMapper = {
         serializedName: "defaultPattern",
         type: {
           name: "Composite",
-          className: "AliasPatternType1"
+          className: "AliasPattern"
         }
       }
     }
@@ -605,7 +605,7 @@ export const ProviderResourceType: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "AliasType1"
+              className: "Alias"
             }
           }
         }

@@ -7,9 +7,9 @@
  */
 
 export {
-  AliasPathType,
-  AliasPatternType1,
-  AliasType1,
+  Alias,
+  AliasPath,
+  AliasPattern,
   BaseResource,
   BasicDependency,
   CloudError,

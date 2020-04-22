@@ -288,7 +288,7 @@ export interface ErrorResponse {
 /**
  * The type of the pattern for an alias path.
  */
-export interface AliasPatternType1 {
+export interface AliasPattern {
   /**
    * The alias pattern phrase.
    */
@@ -306,7 +306,7 @@ export interface AliasPatternType1 {
 /**
  * The type of the paths for alias.
  */
-export interface AliasPathType {
+export interface AliasPath {
   /**
    * The path of an alias.
    */
@@ -318,13 +318,13 @@ export interface AliasPathType {
   /**
    * The pattern for an alias path.
    */
-  pattern?: AliasPatternType1;
+  pattern?: AliasPattern;
 }
 
 /**
  * The alias type.
  */
-export interface AliasType1 {
+export interface Alias {
   /**
    * The alias name.
    */
@@ -332,7 +332,7 @@ export interface AliasType1 {
   /**
    * The paths for an alias.
    */
-  paths?: AliasPathType[];
+  paths?: AliasPath[];
   /**
    * The type of the alias. Possible values include: 'NotSpecified', 'PlainText', 'Mask'
    */
@@ -344,7 +344,7 @@ export interface AliasType1 {
   /**
    * The default pattern for an alias.
    */
-  defaultPattern?: AliasPatternType1;
+  defaultPattern?: AliasPattern;
 }
 
 /**
@@ -362,7 +362,7 @@ export interface ProviderResourceType {
   /**
    * The aliases that are supported by this resource type.
    */
-  aliases?: AliasType1[];
+  aliases?: Alias[];
   /**
    * The API version.
    */
