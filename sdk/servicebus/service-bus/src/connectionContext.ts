@@ -216,8 +216,6 @@ export namespace ConnectionContext {
       connectionContext.connection.removeListener(ConnectionEvents.disconnected, disconnected);
       connectionContext.connection.removeListener(ConnectionEvents.protocolError, protocolError);
       connectionContext.connection.removeListener(ConnectionEvents.error, error);
-      // Close the cbs session.
-      await connectionContext.cbsSession.close();
       // Close the connection
       await connectionContext.connection.close();
     }
