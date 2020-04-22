@@ -1,3 +1,7 @@
+### 2020-04-21 1.0.0-preview.13
+
+- Add a new method `refreshConnection()` on the `ConnectionContextBase` to replace the `connection` property on it with a new rhea-promise `Connection` object.
+
 ### 2020-04-01 1.0.0-preview.12
 
 - Removes the `@azure/ms-rest-nodeauth` dependency.
