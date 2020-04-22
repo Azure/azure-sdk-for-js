@@ -18,8 +18,8 @@ require("dotenv").config();
 
 export async function main() {
   // You will need to set these environment variables or edit the following values
-  const endpoint = process.env["COGNITIVE_SERVICE_ENDPOINT"] || "<cognitive services endpoint>";
-  const apiKey = process.env["COGNITIVE_SERVICE_API_KEY"] || "<api key>";
+  const endpoint = process.env["FORM_RECOGNIZER_ENDPOINT"] || "<cognitive services endpoint>";
+  const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] || "<api key>";
   const labeledModelId = process.env["LABELED_CUSTOM_MODEL_ID"] || "<labeled custom model id>";
   const unlabeledModelId =
     process.env["UNLABELED_CUSTOM_MODEL_ID"] || "<unlabeled custom model id>";
