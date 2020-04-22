@@ -5,7 +5,7 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 
 import { InteractiveBrowserCredential, BrowserLoginStyle } from "@azure/identity";
-import { KeysClient, Key } from "@azure/keyvault-keys";
+import { KeyClient, Key } from "@azure/keyvault-keys";
 
 interface ClientDetails {
   tenantId: string,
@@ -103,13 +103,13 @@ function useKeyVaultKeys(vaultName: string, clientDetails: ClientDetails) {
     } else if (running) {
       // Kick off the request asynchronously.  The setKeys call will
       // propagate the key list back to the UI state.
-      const keysClient = new KeysClient(url, credential);
+      const keyClient = new KeyClient(url, credential);
       (async () => {
         const keyResult = [];
         setKeys(keyResult);
 
-        for await (const keyAttributes of keysClient.listKeys()) {
-          keyResult.push(await keysClient.getKey(keyAttributes.name))
+        for await (const keyAttributes of keyClient.listKeys()) {
+          keyResult.push(await keyClient.getKey(keyAttributes.name))
         }
 
         setKeys(keyResult);

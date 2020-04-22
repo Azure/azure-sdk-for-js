@@ -59,7 +59,7 @@ Authenticating as a managed identity requires no configuration, but does require
 | `AZURE_CLIENT_ID`               | service principal's app id                                                            |
 | `AZURE_TENANT_ID`               | id of the principal's Azure Active Directory tenant                                   |
 | `AZURE_CLIENT_SECRET`           | one of the service principal's client secrets (implies `ClientSecretCredential`)      |
-| `AZURE_CLIENT_CERTIFICATE_PATH` | one of the service principal's client secrets (implies `ClientCertificateCredential`) |
+| `AZURE_CLIENT_CERTIFICATE_PATH` | path to a PEM-encoded certificate file including private key (implies `ClientCertificateCredential`) |
 | `AZURE_USERNAME`                | the username of a user in the tenant (implies `UsernamePasswordCredential`)           |
 | `AZURE_PASSWORD`                | the password of the user specified in `AZURE_USERNAME`                                |
 
@@ -115,8 +115,8 @@ const secondCredential = new ClientSecretCredential(tenantId, anotherClientId, a
 const credentialChain = new ChainedTokenCredential(firstCredential, secondCredential);
 
 // The chain can be used anywhere a credential is required
-const { KeysClient } = require("@azure/keyvault-keys");
-const client = new KeysClient(vaultUrl, credentialChain);
+const { KeyClient } = require("@azure/keyvault-keys");
+const client = new KeyClient(vaultUrl, credentialChain);
 ```
 
 ## Troubleshooting

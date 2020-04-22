@@ -20,7 +20,7 @@ describe("ExpiringAccessTokenCache", function() {
 
   it("returns undefined when refresh buffer is passed", function() {
     const tokenCache = new ExpiringAccessTokenCache(5000);
-    const accessToken = mockToken(-5000);
+    const accessToken = mockToken(2000);
     tokenCache.setCachedToken(accessToken);
 
     const cachedToken = tokenCache.getCachedToken();
