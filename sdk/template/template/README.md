@@ -1,31 +1,24 @@
-## Template for Azure Node Libraries
+## Azure Template client library for JavaScript
 
 This template serves as a starting point for JavaScript libraries targeting both Node and the Browser and implemented in TypeScript.
 
+For a more complete example of README.md file, please see https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/README-TEMPLATE.md
+
 ## Building the Template
 
-Once you clone this template, you can build the package with the following commands:
-
-```sh
-npm install
-npm run build
-```
-
-Run tests via:
-
-```sh
-npm test
-```
+Please refer to the [Contributing Guide][contributing_guide] for information on how to build projects in this repository.
 
 ## Implementation Details
 
 The overall build pipeline looks like the following:
 
-1. TypeScript builds all source files under `./src` to ECMAScript Modules (ESM) under `./dist-esm`
+1. TypeScript builds all source files under `./src` to ECMAScript Modules (ESM) under `./dist-esm`.
 2. Rollup builds `./dist-esm` to an optimized single file at `./dist/index.js` as the Node entry point.
-3. Rollup builds `./dist-esm` to an optimized browser bundle under `./browser/index.js`.
+3. Rollup builds `./dist-esm` to an optimized browser bundle under `./browser/azure-template.js`.
 
-Tests follow a similar pipeline, however output folders have the `test-` prefix.
+Tests follow a similar pipeline, however test output is under `dist-test` folder.
 
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Ftemplate%2Ftemplate%2FREADME.png)
+
+[contributing_guide]: https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md
