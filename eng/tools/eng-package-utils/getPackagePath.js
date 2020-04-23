@@ -17,6 +17,7 @@ let argv = require("yargs")
 
 const { getRushSpec } = require("./index");
 const path = require("path");
+
 async function main(argv) {
   const packageName = argv["package-name"];
   const repoRoot = argv["repo-root"];
@@ -28,7 +29,7 @@ async function main(argv) {
 
   const targetPackagePath = path.join(repoRoot, targetPackage.projectFolder);
   console.log(`##vso[task.setvariable variable=PackagePath]${targetPackagePath}`);
-  //log(`Emitted variable "PackagePath" with content: ${targetPackagePath}`);
+  console.log(`Emitted variable "PackagePath" with content: ${targetPackagePath}`);
 }
 
 main(argv);

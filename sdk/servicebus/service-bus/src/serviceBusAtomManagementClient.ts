@@ -438,7 +438,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     this.topicResourceSerializer = new TopicResourceSerializer();
     this.subscriptionResourceSerializer = new SubscriptionResourceSerializer();
     this.ruleResourceSerializer = new RuleResourceSerializer();
-    this.endpoint = (connectionString.match("Endpoint=sb://(.*)/;") || "")[1];
+    this.endpoint = (connectionString.match("Endpoint=.*://(.*)/;") || "")[1];
     this.endpointWithProtocol = connectionStringObj.Endpoint;
 
     this.sasTokenProvider = new SharedKeyCredential(

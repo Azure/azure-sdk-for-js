@@ -83,6 +83,11 @@ export class OpenCensusTracerWrapper implements Tracer {
 }
 
 // @public
+export interface OperationTracingOptions {
+    spanOptions?: SpanOptions;
+}
+
+// @public
 export function setTracer(tracer: Tracer): void;
 
 // @public

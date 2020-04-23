@@ -42,8 +42,8 @@
     "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
     "build:samples": "node ../../../common/scripts/prep-samples.js && cd samples && tsc",
     "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf dist dist-esm test-dist types *.tgz *.log",
-    "coverage": "nyc --reporter=lcov --exclude-after-remap=false mocha -t 120000 test-dist/index.js --reporter ../../../common/tools/mocha-multi-reporter.js",
+    "clean": "rimraf dist dist-esm dist-test types *.tgz *.log",
+    "coverage": "nyc --reporter=lcov --exclude-after-remap=false mocha -t 120000 dist-test/index.js --reporter ../../../common/tools/mocha-multi-reporter.js",
     "execute:samples": "npm run build:samples && echo Skipped.",
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
@@ -52,13 +52,15 @@
     "prebuild": "npm run clean",
     "pack": "npm pack 2>&1",
     "swagger": "autorest --typescript swagger/swagger.md",
-    "test": "npm run build:test && mocha -t 1200000 test-dist/index.node.js --reporter ../../../common/tools/mocha-multi-reporter.js",
-    "unit-test:browser": "echo skipped",
-    "unit-test:node": "npm run test",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "integration-test:browser": "echo skipped",
-    "integration-test:node": "npm run test",
-    "integration-test": "npm run unit-test:node && npm run unit-test:browser"
+    "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace dist-esm/test/*.spec.js dist-esm/test/**/*.spec.js",
+    "integration-test": "npm run unit-test:node && npm run unit-test:browser",
+    "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
+    "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
+    "test": "npm run clean && npm run build:test && npm run unit-test",
+    "unit-test:browser": "echo skipped",
+    "unit-test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace dist-test/index.node.js",
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "sideEffects": false,
   "autoPublish": false,
@@ -74,13 +76,14 @@
     "@azure/core-asynciterator-polyfill": "^1.0.0",
     "@azure/core-http": "^1.0.0",
     "@azure/core-paging": "^1.1.0",
-    "@azure/core-tracing": "1.0.0-preview.7",
+    "@azure/core-tracing": "1.0.0-preview.8",
     "@opentelemetry/types": "^0.2.0",
     "tslib": "^1.10.0"
   },
   "devDependencies": {
     "@azure/identity": "1.1.0-preview.2",
-    "@microsoft/api-extractor": "^7.5.4",
+    "@azure/test-utils-recorder": "^1.0.0",
+    "@microsoft/api-extractor": "7.7.11",
     "@rollup/plugin-commonjs": "^11.0.1",
     "@rollup/plugin-multi-entry": "^3.0.0",
     "@rollup/plugin-node-resolve": "^7.0.0",
@@ -97,6 +100,7 @@
     "eslint-plugin-no-null": "^1.0.2",
     "eslint-plugin-no-only-tests": "^2.3.0",
     "eslint-plugin-promise": "^4.1.1",
+    "esm": "^3.2.18",
     "mocha": "^7.1.1",
     "mocha-junit-reporter": "^1.18.0",
     "nock": "^11.7.0",
@@ -109,6 +113,7 @@
     "sinon": "^7.1.0",
     "ts-node": "^8.3.0",
     "typescript": "~3.7.5",
-    "uglify-js": "^3.4.9"
+    "uglify-js": "^3.4.9",
+    "@rollup/plugin-json": "^4.0.0"
   }
 }

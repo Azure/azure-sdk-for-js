@@ -3,13 +3,20 @@
 
 import { delay, AbortSignalLike } from "@azure/core-http";
 import { Poller, PollOperation, PollOperationState } from "@azure/core-lro";
-import { RecognizeFormsOptions, RecognizeContentOptions, RecognizeReceiptsOptions } from "../../formRecognizerClient";
+import {
+  RecognizeFormsOptions,
+  RecognizeContentOptions,
+  RecognizeReceiptsOptions
+} from "../../formRecognizerClient";
 
 import { OperationStatus, ContentType } from "../../generated/models";
 import { FormRecognizerRequestBody } from "../../models";
 export { OperationStatus };
 
-export type RecognizeOptions = RecognizeReceiptsOptions | RecognizeContentOptions | RecognizeFormsOptions;
+export type RecognizeOptions =
+  | RecognizeReceiptsOptions
+  | RecognizeContentOptions
+  | RecognizeFormsOptions;
 
 export interface PollerOperationOptions<T> {
   /**
@@ -33,7 +40,7 @@ export interface PollerOperationOptions<T> {
 export type RecognizePollerClient<T> = {
   // returns a result id to retrieve results
   beginRecognize: (
-    source: FormRecognizerRequestBody,
+    source: FormRecognizerRequestBody | string,
     contentType?: ContentType,
     analyzeOptions?: RecognizeOptions,
     modelId?: string
@@ -44,7 +51,7 @@ export type RecognizePollerClient<T> = {
 
 export interface BeginRecognizePollState<T> extends PollOperationState<T> {
   readonly client: RecognizePollerClient<T>;
-  source?: FormRecognizerRequestBody;
+  source?: FormRecognizerRequestBody | string;
   contentType?: ContentType;
   modelId?: string;
   resultId?: string;
@@ -60,7 +67,7 @@ export interface BeginRecognizePollerOperation<T>
  */
 export type BeginRecognizePollerOptions<T> = {
   client: RecognizePollerClient<T>;
-  source: FormRecognizerRequestBody;
+  source: FormRecognizerRequestBody | string;
   contentType?: ContentType;
   modelId?: string;
   intervalInMs?: number;
@@ -165,14 +172,16 @@ function makeBeginRecognizePollOperation<T extends { status: OperationStatus }>(
 
       state.status = response.status;
       if (!state.isCompleted) {
-        if (response.status === "running" && typeof options.fireProgress === "function") {
+        if (
+          (response.status === "running" || response.status === "notStarted") &&
+          typeof options.fireProgress === "function"
+        ) {
           options.fireProgress(state);
         } else if (response.status === "succeeded") {
           state.result = response;
           state.isCompleted = true;
         } else if (response.status === "failed") {
-          state.error = new Error(`Model training failed with invalid model status.`);
-          state.isCompleted = true;
+          throw new Error(`Recognition failed ${(response as any)._response.bodyAsText}`);
         }
       }
 

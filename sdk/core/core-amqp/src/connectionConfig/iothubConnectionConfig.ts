@@ -117,6 +117,7 @@ export namespace IotHubConnectionConfig {
       sharedAccessKeyName: iotHubConfig.sharedAccessKeyName,
       entityPath: iotHubConfig.entityPath,
       host: iotHubConfig.hostName,
+      // `sb://` prefix to match with the endpoint in the connection string from the portal
       endpoint: `sb://${iotHubConfig.hostName}/`,
       connectionString: iotHubConfig.connectionString
     };

@@ -95,7 +95,7 @@ describe("Retries - ManagementClient", () => {
       await afterEachTest();
     });
 
-    it("Unpartitioned Queue: scheduleMessage #RunInBrowser", async function(): Promise<void> {
+    it("Unpartitioned Queue: scheduleMessage", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedQueue);
       await mockManagementClientAndVerifyRetries(async () => {
         await senderClient.scheduleMessage(new Date(), TestMessage.getSample());
@@ -109,9 +109,7 @@ describe("Retries - ManagementClient", () => {
       });
     });
 
-    it("Unpartitioned Queue with Sessions: scheduleMessage #RunInBrowser", async function(): Promise<
-      void
-    > {
+    it("Unpartitioned Queue with Sessions: scheduleMessage", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
       await mockManagementClientAndVerifyRetries(async () => {
         await senderClient.cancelScheduledMessage(new Long(0));
@@ -136,21 +134,19 @@ describe("Retries - ManagementClient", () => {
       await afterEachTest();
     });
 
-    it("Unpartitioned Queue: receiveDeferredMessage #RunInBrowser", async function(): Promise<
-      void
-    > {
+    it("Unpartitioned Queue: receiveDeferredMessage", async function(): Promise<void> {
       await mockManagementClientAndVerifyRetries(async () => {
         await receiverClient.receiveDeferredMessage(new Long(0));
       });
     });
 
-    it("Unpartitioned Queue: peek #RunInBrowser", async function(): Promise<void> {
+    it("Unpartitioned Queue: peek", async function(): Promise<void> {
       await mockManagementClientAndVerifyRetries(async () => {
         await receiverClient.browseMessages();
       });
     });
 
-    it("Unpartitioned Queue: peekBySequenceNumber #RunInBrowser", async function(): Promise<void> {
+    it("Unpartitioned Queue: peekBySequenceNumber", async function(): Promise<void> {
       await mockManagementClientAndVerifyRetries(async () => {
         await receiverClient.browseMessages({ fromSequenceNumber: new Long(0) });
       });
@@ -298,7 +294,7 @@ describe("Retries - MessageSender", () => {
     await afterEachTest();
   });
 
-  it("Unpartitioned Queue: send #RunInBrowser", async function(): Promise<void> {
+  it("Unpartitioned Queue: send", async function(): Promise<void> {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
     await mockInitAndVerifyRetries(async () => {
       await senderClient.send(TestMessage.getSample());
@@ -319,7 +315,7 @@ describe("Retries - MessageSender", () => {
     });
   });
 
-  it("Unpartitioned Queue with Sessions: send #RunInBrowser", async function(): Promise<void> {
+  it("Unpartitioned Queue with Sessions: send", async function(): Promise<void> {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
     await mockInitAndVerifyRetries(async () => {
       await senderClient.send(TestMessage.getSample());
@@ -405,7 +401,7 @@ describe("Retries - Receive methods", () => {
     await afterEachTest();
   });
 
-  it("Unpartitioned Queue: receiveBatch #RunInBrowser", async function(): Promise<void> {
+  it("Unpartitioned Queue: receiveBatch", async function(): Promise<void> {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
     await mockReceiveAndVerifyRetries(async () => {
       await receiverClient.receiveBatch(1);
@@ -419,7 +415,7 @@ describe("Retries - Receive methods", () => {
     });
   });
 
-  it("Unpartitioned Queue: MessageIterator #RunInBrowser", async function(): Promise<void> {
+  it("Unpartitioned Queue: MessageIterator", async function(): Promise<void> {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
     await mockReceiveAndVerifyRetries(async () => {
       await receiverClient.getMessageIterator().next();
@@ -493,7 +489,7 @@ describe("Retries - onDetached", () => {
     await afterEachTest();
   });
 
-  it("Unpartitioned Queue: streaming #RunInBrowser", async function(): Promise<void> {
+  it("Unpartitioned Queue: streaming", async function(): Promise<void> {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
     await mockOnDetachedAndVerifyRetries(async () => {
       receiverClient.subscribe({
@@ -508,7 +504,7 @@ describe("Retries - onDetached", () => {
     });
   });
 
-  it("Unpartitioned Queue: sender #RunInBrowser", async function(): Promise<void> {
+  it("Unpartitioned Queue: sender", async function(): Promise<void> {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
     await mockOnDetachedAndVerifyRetries(async () => {
       (senderClient as any)._sender._init = fakeFunction;

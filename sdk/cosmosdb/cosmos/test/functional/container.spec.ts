@@ -34,7 +34,7 @@ describe("Containers", function() {
       };
 
       if (partitionKey) {
-        containerDefinition.partitionKey = { paths: [partitionKey] };
+        containerDefinition.partitionKey = partitionKey;
       }
 
       const { resource: containerDef } = await database.containers.create(containerDefinition);
@@ -42,7 +42,11 @@ describe("Containers", function() {
       assert.equal(containerDefinition.id, containerDef.id);
       assert.equal("consistent", containerDef.indexingPolicy.indexingMode);
       if (containerDef.partitionKey) {
-        assert.deepEqual(containerDef.partitionKey.paths, containerDefinition.partitionKey.paths);
+        const comparePaths =
+          typeof containerDefinition.partitionKey === "string"
+            ? [containerDefinition.partitionKey]
+            : containerDefinition.partitionKey.paths;
+        assert.deepEqual(containerDef.partitionKey.paths, comparePaths);
       }
       // read containers after creation
       const { resources: containers } = await database.containers.readAll().fetchAll();
@@ -86,7 +90,7 @@ describe("Containers", function() {
       try {
         containerDef.partitionKey = { paths: ["/key"] };
         await container.replace(containerDef);
-        assert.fail("Replacing paritionkey must throw");
+        assert.fail("Replacing partitionKey must throw");
       } catch (err) {
         const badRequestErrorCode = 400;
         assert.equal(
@@ -95,7 +99,7 @@ describe("Containers", function() {
           "response should return error code " + badRequestErrorCode
         );
       } finally {
-        containerDef.partitionKey = containerDefinition.partitionKey; // Resume partition key
+        containerDef.partitionKey = { paths: [partitionKey] }; // Resume partition key
       }
       // Replacing id is not allowed.
       try {
@@ -133,26 +137,48 @@ describe("Containers", function() {
       await containerCRUDTest("/id");
     });
 
-    it("Bad partition key definition", async function() {
-      // create database
-      const database = await getTestDatabase("container CRUD bad partition key");
+    describe("Bad partition key definition", async function() {
+      it("Has 'paths' property as string", async function() {
+        // create database
+        const database = await getTestDatabase("container CRUD bad partition key");
 
-      // create a container
-      const badPartitionKeyDefinition: any = {
-        paths: "/id" // This is invalid. Must be an array.
-      };
+        // create a container
+        const badPartitionKeyDefinition: any = {
+          paths: "/id" // This is invalid. Must be an array.
+        };
 
-      const containerDefinition: ContainerDefinition = {
-        id: "sample container",
-        indexingPolicy: { indexingMode: IndexingMode.consistent },
-        partitionKey: badPartitionKeyDefinition // This is invalid, forced using type coersion
-      };
+        const containerDefinition: ContainerRequest = {
+          id: "sample container",
+          indexingPolicy: { indexingMode: IndexingMode.consistent },
+          partitionKey: badPartitionKeyDefinition // This is invalid, forced using type coersion
+        };
 
-      try {
-        await database.containers.create(containerDefinition);
-      } catch (err) {
-        assert.equal(err.code, 400);
-      }
+        try {
+          await database.containers.create(containerDefinition);
+        } catch (err) {
+          assert.equal(err.code, 400);
+        }
+      });
+      it("Is missing leading '/'", async function() {
+        // create database
+        const database = await getTestDatabase("container CRUD bad partition key");
+
+        // create a container
+        const badPartitionKeyDefinition = "id";
+
+        const containerDefinition: ContainerRequest = {
+          id: "sample container",
+          indexingPolicy: { indexingMode: IndexingMode.consistent },
+          partitionKey: badPartitionKeyDefinition
+        };
+
+        try {
+          await database.containers.create(containerDefinition);
+          console.log("finish");
+        } catch (err) {
+          assert.equal(err.message, "Partition key must start with '/'");
+        }
+      });
     });
   });
 

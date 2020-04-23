@@ -13,7 +13,7 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/e500fcb5e7483595fb1f1a2a16586fd15d0882eb/specification/cognitiveservices/data-plane/FormRecognizer/preview/v2.0/FormRecognizer.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/cognitiveservices/data-plane/FormRecognizer/preview/v2.0/FormRecognizer.json
 add-credentials: true
 use-extension:
   "@autorest/typescript": "6.0.0-dev.20200320.1"
@@ -51,5 +51,15 @@ directive:
   - from: swagger-document
     where: $.definitions..properties.lastUpdatedDateTime
     transform: >
-      $["x-ms-client-name"] = "lastUpdatedOn";
+      $["x-ms-client-name"] = "lastModified";
+```
+
+### `TrainingDocumentInfo.pages` => `TrainingDocumentInfo.pageCount`
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.TrainingDocumentInfo.properties.pages
+    transform: >
+      $["x-ms-client-name"] = "pageCount";
 ```

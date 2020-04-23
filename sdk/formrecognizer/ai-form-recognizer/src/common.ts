@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineOptions, OperationOptions, HttpRequestBody } from "@azure/core-http";
+import { PipelineOptions, OperationOptions } from "@azure/core-http";
 import { FormRecognizerRequestBody } from "./models";
 import { ContentType, SourcePath } from "./generated/models";
-import { streamToBuffer } from "./utils/utils.node";
-import { MAX_INPUT_DOCUMENT_SIZE } from './constants';
+import { getFirstFourBytesFromBlob, streamToBuffer } from "./utils/utils.node";
+import { MAX_INPUT_DOCUMENT_SIZE } from "./constants";
 
 /**
  * Client options used to configure Form Recognizer API requests.
@@ -22,7 +22,7 @@ export interface FormRecognizerOperationOptions extends OperationOptions {}
  * @internal
  */
 export async function toRequestBody(
-  body: FormRecognizerRequestBody
+  body: FormRecognizerRequestBody | string
 ): Promise<Blob | ArrayBuffer | ArrayBufferView | SourcePath> {
   if (typeof body === "string") {
     return {
@@ -31,10 +31,10 @@ export async function toRequestBody(
   } else {
     // cache stream to allow retry
     if (isReadableStream(body)) {
-      return await streamToBuffer(body, MAX_INPUT_DOCUMENT_SIZE);
+      return streamToBuffer(body, MAX_INPUT_DOCUMENT_SIZE);
     }
 
-    return body as HttpRequestBody;
+    return body;
   }
 }
 
@@ -55,9 +55,14 @@ function isArrayBufferView(data: FormRecognizerRequestBody): data is ArrayBuffer
 }
 
 function isSourcePath(data: FormRecognizerRequestBody | SourcePath): data is SourcePath {
-  return "source" in data;
+  return "source" in data && typeof data.source === "string";
 }
 
+/**
+ * Detects the content type of binary data.
+ * See https://en.wikipedia.org/wiki/List_of_file_signatures
+ * @internal
+ */
 export async function getContentType(
   data: Blob | ArrayBuffer | ArrayBufferView | SourcePath
 ): Promise<ContentType | undefined> {
@@ -81,22 +86,7 @@ export async function getContentType(
     bytes = new Uint8Array(data.buffer, 0, 4);
   } else if (isBlob(data)) {
     // Blob
-    const arrayPromise = new Promise<ArrayBuffer>(function(resolve) {
-      var reader = new FileReader();
-
-      reader.onloadend = function() {
-        resolve(reader.result as ArrayBuffer);
-      };
-
-      reader.readAsArrayBuffer(data);
-    });
-
-    const buffer = await arrayPromise;
-    if (buffer.byteLength < 4) {
-      throw new RangeError("Invalid input. Expect more than 4 bytes of data");
-    }
-
-    bytes = new Uint8Array(buffer, 0, 4);
+    bytes = await getFirstFourBytesFromBlob(data);
   } else {
     throw new Error("unsupported request body type");
   }
