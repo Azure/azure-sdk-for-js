@@ -1,5 +1,8 @@
 # Release History
 
+## 1.1.7 (Unreleased)
+
+
 ## 1.1.6 (2020-04-23)
 
 - Removes the `@azure/ms-rest-nodeauth` dependency.
