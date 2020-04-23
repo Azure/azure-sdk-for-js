@@ -15,7 +15,7 @@ You will also need to set the below environment variables to run the live tests:
 - `AZURE_CLIENT_ID`: The client ID of an Azure Active Directory application.
 - `AZURE_CLIENT_SECRET`: The client secret of an Azure Active Directory application.
 - `AZURE_TENANT_ID`: The Tenant ID of your organization in Azure Active Directory.
-- `SERVICEBUS_CONNECTION_STRING`: The connection string of your Azure Service Bus account.
+- `SERVICEBUS_CONNECTION_STRING`: The connection string of your Azure Service Bus namespace.
 
 The live tests in this project will create queues, topics and subscriptions in the provided Service Bus namespace.
 

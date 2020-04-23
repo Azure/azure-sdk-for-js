@@ -15,7 +15,7 @@ The Azure resources that are used by the tests in this project are:
 You will also need to set the below environment variables to run the live tests:
 
 - `TEST_MODE`: Should have `live` assigned.
-- `EVENTHUB_NAME`: The name of your Azure Event Hub account.
-- `EVENTHUB_CONNECTION_STRING`: The connection string of your Azure Event Hub account.
+- `EVENTHUB_NAME`: The name of your Azure Event Hub namespace.
+- `EVENTHUB_CONNECTION_STRING`: The connection string of your Azure Event Hub namespace.
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Feventhub%2Fevent-hubs%2Ftest%2FREADME.png)
