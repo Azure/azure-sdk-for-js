@@ -106,7 +106,7 @@ export async function main(): Promise<void> {
     const eventDataToSend = eventsToSend.map(event => {
       return { body: event}
     });
-    await producer.send(eventDataToSend);
+    await producer.sendBatch(eventDataToSend);
 
   } catch (err) {
     console.log("Error when creating & sending a batch of events: ", err);
