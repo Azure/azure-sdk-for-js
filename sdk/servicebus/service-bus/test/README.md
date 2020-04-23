@@ -1,15 +1,14 @@
 # Testing
 
-To test this project, make sure to first build it properly by following our [building instructions](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md#building). Once the project is correctly built, you will be able to run the tests by following the [testing instructions](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md#testing).
+To test this project, make sure to build it by following our [building instructions](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md#building), then follow the [testing instructions](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md#testing).
 
 The Azure Azure Service Bus client does not have any recorded tests and so, all the tests require an Azure Service Bus namespace to be set up beforehand.  You can use existing Azure resources for the live tests, or generate new ones by using our [New-TestResources.ps1](https://github.com/Azure/azure-sdk-for-js/blob/master/eng/common/TestResources/New-TestResources.ps1) script, which will use an [ARM template](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/test-resources.json) that already has all of the the necessary configurations.
 
-The Azure resources that are used by the tests in this project are:
+The Azure resource that is used by the tests in this project is:
 
-- A standard [Azure Service Bus namespace](https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-messaging-overview#namespaces) with listen, manage and send authorization rules.
-- The role of owner to the account creating the resource.
+- A standard [Azure Service Bus namespace](https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-messaging-overview#namespaces) with listen, manage and send authorization rules. Your Azure application needs to be assigned as the **owner** of this Azure Service Bus namespace. The steps are provided [below](#AAD-based-authentication). 
 
-You will also need to set the below environment variables to run the live tests:
+To run the live tests, you will also need to set the below environment variables:
 
 - `TEST_MODE`: Should have `live` assigned.
 - `AZURE_CLIENT_ID`: The client ID of an Azure Active Directory application.
@@ -19,17 +18,17 @@ You will also need to set the below environment variables to run the live tests:
 
 The live tests in this project will create queues, topics and subscriptions in the provided Service Bus namespace.
 
-## Setup for running tests that use AAD based authentication
+## AAD based authentication
 
 Go through the following setup in order to correctly setup the AAD credentials for tests that require it.
 
-**Register a new application in AAD**
+### Register a new application in AAD
 
 - Follow [Documentation to register a new application](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app) in the Azure Active Directory(in the azure-portal).
 - Note down the `CLIENT_ID` and `TENANT_ID`.
 - In the "Certificates & Secrets" tab, create a secret and note that down.
 
-**Assign owner role to the registered application**
+### Assign owner role to the registered application
 
 - In the azure-portal, go to your servicebus-namespace and assign the **Azure Service Bus Data Owner** role to the registered application.
 - This can be done from `Role assignment` section of `Access control (IAM)` tab (in the left-side-navbar of your servicebus-namespace in the azure-portal)<br>

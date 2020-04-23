@@ -1,14 +1,14 @@
 # Testing
 
-To test this project, make sure to first build it properly by following our [building instructions](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md#building). Once the project is correctly built, you will be able to run the tests by following the [testing instructions](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md#testing).
+To test this project, make sure to build it by following our [building instructions](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md#building), then follow the [testing instructions](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md#testing).
 
 You can use existing Azure resources for the live tests, or generate new ones by using our [New-TestResources.ps1](https://github.com/Azure/azure-sdk-for-js/blob/master/eng/common/TestResources/New-TestResources.ps1) script, which will use an [ARM template](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/test-resources.json) that already has all of the the necessary configurations.
 
-The Azure resources that are used by the tests in this project are:
+The Azure resource that is used by the tests in this project is:
 
 - Two general purpose, v2 [Azure Storage](https://docs.microsoft.com/en-us/azure/storage/common/storage-account-overview) account properly configured to test the Azure Storage Blob, Azure Storage Queue, Azure File Data Lake and Azure File Share services.
 
-You will also need to set the below environment variables to run the live tests:
+To run the live tests, you will also need to set the below environment variables:
 
 - `TEST_MODE`: Should have `live` assigned.
 - `ACCOUNT_NAME`: The Azure Storage account name.

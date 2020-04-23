@@ -1,14 +1,14 @@
 # Testing
 
-To test this project, make sure to first build it properly by following our [building instructions](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md#building). Once the project is correctly built, you will be able to run the tests by following the [testing instructions](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md#testing).
+To test this project, make sure to build it by following our [building instructions](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md#building), then follow the [testing instructions](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md#testing).
 
 You can use existing Azure resources for the live tests, or generate new ones by using our [New-TestResources.ps1](https://github.com/Azure/azure-sdk-for-js/blob/master/eng/common/TestResources/New-TestResources.ps1) script, which will use an [ARM template](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/textanalytics/test-resources.json) that already has all of the the necessary configurations.
 
-The Azure resources that are used by the tests in this project are:
+The Azure resource that is used by the tests in this project is:
 
-- An [Azure Cognitive Services](https://azure.microsoft.com/en-us/services/cognitive-services/) account of the Text Analytics type, with minimum configurations.
+- An [Azure Cognitive Services](https://azure.microsoft.com/en-us/services/cognitive-services/) account of the Text Analytics type.
 
-You will also need to set the below environment variables to run the live tests:
+To run the live tests, you will also need to set the below environment variables:
 
 - `TEST_MODE`: Should have `live` assigned.
 - `TEXT_ANALYTICS_API_KEY`: The primary API key of the Text Analytics API in your Azure Cognitive Services account.
