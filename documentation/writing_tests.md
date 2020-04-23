@@ -46,6 +46,7 @@ The Azure SDK for JavaScript and TypeScript allows users to manage and utilize t
 - [Writing test cases](#writing-test-cases)
     - [What a test is actually testing](#what-a-test-is-actually-testing)
     - [Test titles](#test-titles)
+        - [Pattern matching test titles](#pattern-matching-test-titles)
     - [Inner parts of a test](#inner-parts-of-a-test)
     - [Using conditionals](#using-conditionals)
     - [Using delays](#using-delays)
@@ -714,6 +715,22 @@ Besides the default contents of that Karma configuration file, you can consider 
   },
 ```
 
+You can also send parameters to [Mocha](#mocha) through Karma's configuration by specifying the following structure in your `karma.conf.js`:
+
+```js
+  client: {
+    mocha: {
+      // Remember to match Mocha's timeout.
+      timeout: "600000",
+
+      // You can specify what tests to run through the use of hashtags.
+      grep: "#RunnableInBrowser"
+    }
+  }
+```
+
+More information about the use of hashtags can be seen at the section [Pattern matching test titles](#pattern-matching-test-titles).
+
 You can see an example [karma.config.js in our template project](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/karma.conf.js).
 
 ### The Recorder
@@ -923,7 +940,12 @@ One specific example of code that **must** live in the `beforeEach` section is [
 
 ```ts
   beforeEach(async function() {
-    recorder = record(this, envSetup);
+    const recorderEnvSetup: RecorderEnvironmentSetup = {
+      // ...
+    };
+
+    recorder = record(this, recorderEnvSetup);
+
     const credential = await new ClientSecretCredential(
       env.AZURE_TENANT_ID,
       env.AZURE_CLIENT_ID,
@@ -950,7 +972,10 @@ describe("some group of functionalities", function() {
   let client;
 
   beforeEach(function() {
-    recorder = record(this);
+    const recorderEnvSetup: RecorderEnvironmentSetup = {
+      // ...
+    };
+    recorder = record(this, recorderEnvSetup);
     client = new Client();
   });
 
@@ -991,7 +1016,10 @@ describe("some group of functionalities", function() {
   let client: Client;
 
   beforeEach(function() {
-    recorder = record(this);
+    const recorderEnvSetup: RecorderEnvironmentSetup = {
+      // ...
+    };
+    recorder = record(this, recorderEnvSetup);
     client = new Client();
   });
 
@@ -1154,7 +1182,10 @@ describe("testing some of the client's public properties", function() {
   let client: Client;
 
   beforeEach(function() {
-    recorder = record(this);
+    const recorderEnvSetup: RecorderEnvironmentSetup = {
+      // ...
+    };
+    recorder = record(this, recorderEnvSetup);
     client = new Client();
   });
 
@@ -1175,7 +1206,10 @@ describe("Tests with more than one property", function() {
   let client: Client;
 
   beforeEach(function() {
-    recorder = record(this);
+    const recorderEnvSetup: RecorderEnvironmentSetup = {
+      // ...
+    };
+    recorder = record(this, recorderEnvSetup);
     client = new Client();
   });
 
@@ -1297,6 +1331,17 @@ To be able to filter tests through pattern matching with any of these filters, t
 
 These and any other hashtags can be used to provide custom `package.json` scripts to run specific sets of tests. We still recommend [using conditionals](#using-conditionals), to ensure that someone reading any test case clearly understands under what conditions this test will be executed or skipped.
 
+It's also important to mention that Mocha's configuration can be specified inside of Karma's configuration. Through this combination, you can do pattern matching to limit what tests will be executed in the browser:
+
+```js
+  client: {
+    mocha: {
+      // You can specify what tests to run through the use of hashtags.
+      grep: "#RunnableInBrowser"
+    }
+  }
+```
+
 ### Inner parts of a test
 
 While writing test cases, it will be easier to think of the test case's contents as if there were three clear divisions:
@@ -1387,21 +1432,21 @@ import { isNode } from "@azure/core-http";
 import { isLiveMode } from "@azure/test-utils-recorder";
 
 describe("Tests with conditionals", function() {
-  it("should test A #node", function() {
+  it("should test A", function() {
     if (!isNode) {
       return this.skip();
     }
     // Test contents..
   });
 
-  it("should test B #browser", function() {
+  it("should test B", function() {
     if (isNode) {
       return this.skip();
     }
     // Test contents..
   });
 
-  it("should test C #live", function() {
+  it("should test C", function() {
     if (!isLiveMode()) {
       return this.skip();
     }
