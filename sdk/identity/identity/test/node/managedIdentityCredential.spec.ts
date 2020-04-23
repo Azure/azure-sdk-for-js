@@ -11,6 +11,7 @@ import {
 } from "../../src/credentials/managedIdentityCredential";
 import { MockAuthHttpClient, MockAuthHttpClientOptions, assertRejects } from "../authTestUtils";
 import { WebResource, AccessToken } from "@azure/core-http";
+import { OAuthErrorResponse } from "../../src/client/errors";
 
 interface AuthRequestDetails {
   requests: WebResource[];
@@ -87,6 +88,28 @@ describe("ManagedIdentityCredential", function() {
         error.errorResponse.error.indexOf(
           "ManagedIdentityCredential is unavailable. No managed identity endpoint found."
         ) > -1
+    );
+  });
+
+  it("returns error when ManagedIdentityCredential authentication failed", async function() {
+    process.env.AZURE_CLIENT_ID = "errclient";
+
+    const errResponse: OAuthErrorResponse = {
+      error: "ManagedIdentityCredential authentication failed.",
+      error_description: ""
+    };
+
+    const mockHttpClient = new MockAuthHttpClient({
+      authResponse: [{ status: 400, parsedBody: errResponse }]
+    });
+
+    const credential = new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID, {
+      ...mockHttpClient.tokenCredentialOptions
+    });
+    await assertRejects(
+      credential.getToken("scopes"),
+      (error: AuthenticationError) =>
+        error.errorResponse.error.indexOf("ManagedIdentityCredential authentication failed.") > -1
     );
   });
 
