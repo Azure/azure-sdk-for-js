@@ -147,9 +147,9 @@ You can read more in the section: [Regenerating recordings](#regenerating-record
 
 By default, the npm scripts `test`, `test:node` or `test:browser` run recorded tests. To run live tests, you need the right Azure resources, set appropriate environment variables to point to these resources and set the environment variable `TEST_MODE` to "live". The readme file in the test folder of each package lists the Azure resources and the environment variables needed.
 
-You can create the Azure resources manually on your own or automate this process by using the script called `New-TestResources.ps1` which uses ARM templates defined in `test-resources.json` file in each project folder. Follow the steps in [`Example 1 of New-TestResources.ps1`](https://github.com/Azure/azure-sdk-for-js/blob/master/eng/common/TestResources/New-TestResources.ps1.md#example-1) to set up a service principal and deploy live test resources. 
+> Note: Our projects use [dotenv](https://www.npmjs.com/package/dotenv) to make it easier to work with environment variables.
 
-Live tests won't need updated recordings, and they also won't change previous recordings unless specified (see [Regenerating recordings](#regenerating-recordings)).
+You can create the Azure resources manually on your own or automate this process by using the script called `New-TestResources.ps1` which uses ARM templates defined in `test-resources.json` file in each project folder. Follow the steps in [`Example 1 of New-TestResources.ps1`](https://github.com/Azure/azure-sdk-for-js/blob/master/eng/common/TestResources/New-TestResources.ps1.md#example-1) to set up a service principal and deploy live test resources.
 
 #### Regenerating recordings
 
