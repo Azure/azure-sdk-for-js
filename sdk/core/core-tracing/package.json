@@ -59,7 +59,7 @@
   "sideEffects": false,
   "dependencies": {
     "@opencensus/web-types": "0.0.7",
-    "@opentelemetry/types": "^0.2.0",
+    "@opentelemetry/api": "^0.6.1",
     "tslib": "^1.10.0"
   },
   "devDependencies": {

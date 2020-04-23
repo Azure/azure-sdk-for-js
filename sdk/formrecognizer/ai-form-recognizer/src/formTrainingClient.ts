@@ -15,7 +15,7 @@ import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
 import { createSpan } from "./tracing";
-import { CanonicalCode } from "@opentelemetry/types";
+import { CanonicalCode } from "@opentelemetry/api";
 import { FormRecognizerClient as GeneratedClient } from "./generated/formRecognizerClient";
 import {
   FormRecognizerClientGetCustomModelsResponse as ListModelsResponseModel,

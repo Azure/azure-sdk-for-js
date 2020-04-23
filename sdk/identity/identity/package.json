@@ -76,10 +76,10 @@
   "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/identity/identity",
   "sideEffects": false,
   "dependencies": {
-    "@azure/core-http": "^1.0.0",
+    "@azure/core-http": "^1.1.1",
     "@azure/core-tracing": "1.0.0-preview.8",
     "@azure/logger": "^1.0.0",
-    "@opentelemetry/types": "^0.2.0",
+    "@opentelemetry/api": "^0.6.1",
     "events": "^3.0.0",
     "jws": "^3.2.2",
     "keytar": "^5.4.0",

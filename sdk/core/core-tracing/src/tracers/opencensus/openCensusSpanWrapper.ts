@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-import { SpanContext, Span, SpanOptions, Attributes, Status } from "@opentelemetry/types";
+import { SpanContext, Span, SpanOptions, Attributes, Status, TraceFlags } from "@opentelemetry/api";
 import { OpenCensusTraceStateWrapper } from "./openCensusTraceStateWrapper";
 import { OpenCensusTracerWrapper } from "./openCensusTracerWrapper";
 import { Attributes as OpenCensusAttributes, Span as OpenCensusSpan } from "@opencensus/web-types";
 
-function isWrappedSpan(span?: Span | SpanContext): span is OpenCensusSpanWrapper {
+function isWrappedSpan(span?: Span | SpanContext | null): span is OpenCensusSpanWrapper {
   return !!span && (span as OpenCensusSpanWrapper).getWrappedSpan !== undefined;
 }
 
@@ -56,8 +56,8 @@ export class OpenCensusSpanWrapper implements Span {
         for (const link of options.links) {
           // Since there is no way to set the link relationship, leave it as Unspecified.
           this._span.addLink(
-            link.spanContext.traceId,
-            link.spanContext.spanId,
+            link.context.traceId,
+            link.context.spanId,
             0 /* LinkType.UNSPECIFIED */,
             link.attributes as OpenCensusAttributes
           );
@@ -86,7 +86,7 @@ export class OpenCensusSpanWrapper implements Span {
     return {
       spanId: openCensusSpanContext.spanId,
       traceId: openCensusSpanContext.traceId,
-      traceFlags: openCensusSpanContext.options,
+      traceFlags: openCensusSpanContext.options as TraceFlags,
       traceState: new OpenCensusTraceStateWrapper(openCensusSpanContext.traceState)
     };
   }

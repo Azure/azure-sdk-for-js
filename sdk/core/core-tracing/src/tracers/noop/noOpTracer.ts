@@ -1,9 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 import { NoOpSpan } from "./noOpSpan";
-import { BinaryFormat, HttpTextFormat, Tracer, Span, SpanOptions } from "@opentelemetry/types";
-import { NoOpBinaryFormat } from "./noOpBinaryFormat";
-import { NoOpHttpTextFormat } from "./noOpHttpTextFormat";
+import { Tracer, Span, SpanOptions } from "@opentelemetry/api";
 
 /**
  * A no-op implementation of Tracer that can be used when tracing
@@ -42,27 +40,5 @@ export class NoOpTracer implements Tracer {
    */
   bind<T>(target: T, _span?: Span): T {
     return target;
-  }
-
-  /**
-   * Send a pre-populated Span object to the exporter.
-   * @param _span The span to pass along.
-   */
-  recordSpanData(_span: Span): void {
-    /* NOOP */
-  }
-
-  /**
-   * Returns the BinaryFormat interface for serializing/deserializing Spans.
-   */
-  getBinaryFormat(): BinaryFormat {
-    return new NoOpBinaryFormat();
-  }
-
-  /**
-   * Returns the HttpTextFormat interface for injecting/extracting Spans.
-   */
-  getHttpTextFormat(): HttpTextFormat {
-    return new NoOpHttpTextFormat();
   }
 }

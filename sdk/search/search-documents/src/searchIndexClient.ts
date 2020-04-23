@@ -24,7 +24,7 @@ import {
   IndexDocumentsResult
 } from "./generated/data/models";
 import { createSpan } from "./tracing";
-import { CanonicalCode } from "@opentelemetry/types";
+import { CanonicalCode } from "@opentelemetry/api";
 import { deserialize, serialize } from "./serialization";
 import {
   CountDocumentsOptions,

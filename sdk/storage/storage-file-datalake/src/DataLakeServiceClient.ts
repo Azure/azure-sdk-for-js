@@ -21,7 +21,7 @@ import { appendToURLPath } from "./utils/utils.common";
 import { createSpan } from "./utils/tracing";
 import { toFileSystemPagedAsyncIterableIterator } from "./transforms";
 import { ServiceGetUserDelegationKeyOptions, ServiceGetUserDelegationKeyResponse } from "./models";
-import { CanonicalCode } from "@opentelemetry/types";
+import { CanonicalCode } from "@opentelemetry/api";
 
 /**
  * DataLakeServiceClient allows you to manipulate Azure
