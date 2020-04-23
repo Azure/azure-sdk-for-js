@@ -5,6 +5,8 @@
 - Fixes an issue where non-retryable errors caused by a connection disconnecting were not getting surfaced to the user's registered error handler
   when using the `subscribe` method on a receiver.
   [PR ####](https://github.com/Azure/azure-sdk-for-js/pull/####)
+- Fixes reconnection issues by creating a new connection object rather than re-using the existing one.
+  [PR ####](https://github.com/Azure/azure-sdk-for-js/pull/####)
 
 ## 7.0.0-preview.1 (2020-04-07)
 

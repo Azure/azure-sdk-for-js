@@ -1012,3 +1012,59 @@ describe("batchReceiver", () => {
     });
   });
 });
+
+describe("Batching - disconnects", function(): void {
+  afterEach(async () => {
+    return afterEachTest();
+  });
+
+  it("can receive and settle messages after a disconnect", async function(): Promise<void> {
+    // Create the sender and receiver.
+    sbClient = getServiceBusClient();
+    const { receiverClient, senderClient } = await getSenderReceiverClients(
+      sbClient,
+      TestClientType.UnpartitionedQueue,
+      TestClientType.UnpartitionedQueue
+    );
+    const receiver = receiverClient.createReceiver(ReceiveMode.peekLock);
+    const sender = senderClient.createSender();
+    // Send a message so we can be sure when the receiver is open and active.
+    await sender.send(TestMessage.getSample());
+
+    let settledMessageCount = 0;
+
+    const messages1 = await receiver.receiveMessages(1, 5);
+    for (const message of messages1) {
+      await message.complete();
+      settledMessageCount++;
+    }
+
+    settledMessageCount.should.equal(1, "Unexpected number of settled messages.");
+
+    const connectionContext = receiver["_context"].namespace;
+    const refreshConnection = connectionContext.refreshConnection;
+    let refreshConnectionCalled = 0;
+    connectionContext.refreshConnection = function(...args) {
+      refreshConnectionCalled++;
+      refreshConnection.apply(this, args);
+    };
+
+    // Simulate a disconnect being called with a non-retryable error.
+    receiver["_context"].namespace.connection["_connection"].idle();
+
+    // Allow rhea to clear internal setTimeouts (since we're triggering idle manually).
+    // Otherwise, it will get into a bad internal state with uncaught exceptions.
+    await delay(2000);
+    // send a second message to trigger the message handler again.
+    await sender.send(TestMessage.getSample());
+
+    // wait for the 2nd message to be received.
+    const messages2 = await receiver.receiveMessages(1, 5);
+    for (const message of messages2) {
+      await message.complete();
+      settledMessageCount++;
+    }
+    settledMessageCount.should.equal(2, "Unexpected number of settled messages.");
+    refreshConnectionCalled.should.be.greaterThan(0, "refreshConnection was not called.");
+  });
+});
