@@ -25,12 +25,7 @@ export class SearchServiceClientContext extends coreHttp.ServiceClient {
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(
-    credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,
-    apiVersion: string,
-    endpoint: string,
-    options?: coreHttp.ServiceClientOptions
-  ) {
+  constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, apiVersion: string, endpoint: string, options?: coreHttp.ServiceClientOptions) {
     if (apiVersion == undefined) {
       throw new Error("'apiVersion' cannot be null.");
     }

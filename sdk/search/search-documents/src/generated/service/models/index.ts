@@ -85,7 +85,7 @@ export interface AnalyzeResult {
 export type AnalyzerUnion = Analyzer | CustomAnalyzer | PatternAnalyzer | StandardAnalyzer | StopAnalyzer;
 
 /**
- * Abstract base class for analyzers.
+ * Base type for analyzers.
  */
 export interface Analyzer {
   /**
@@ -218,7 +218,7 @@ export interface StopAnalyzer {
 export type TokenizerUnion = Tokenizer | ClassicTokenizer | EdgeNGramTokenizer | KeywordTokenizer | KeywordTokenizerV2 | MicrosoftLanguageTokenizer | MicrosoftLanguageStemmingTokenizer | NGramTokenizer | PathHierarchyTokenizerV2 | PatternTokenizer | StandardTokenizer | StandardTokenizerV2 | UaxUrlEmailTokenizer;
 
 /**
- * Abstract base class for tokenizers.
+ * Base type for tokenizers.
  */
 export interface Tokenizer {
   /**
@@ -572,7 +572,7 @@ export interface UaxUrlEmailTokenizer {
 export type TokenFilterUnion = TokenFilter | AsciiFoldingTokenFilter | CjkBigramTokenFilter | CommonGramTokenFilter | DictionaryDecompounderTokenFilter | EdgeNGramTokenFilter | EdgeNGramTokenFilterV2 | ElisionTokenFilter | KeepTokenFilter | KeywordMarkerTokenFilter | LengthTokenFilter | LimitTokenFilter | NGramTokenFilter | NGramTokenFilterV2 | PatternCaptureTokenFilter | PatternReplaceTokenFilter | PhoneticTokenFilter | ShingleTokenFilter | SnowballTokenFilter | StemmerTokenFilter | StemmerOverrideTokenFilter | StopwordsTokenFilter | SynonymTokenFilter | TruncateTokenFilter | UniqueTokenFilter | WordDelimiterTokenFilter;
 
 /**
- * Abstract base class for token filters.
+ * Base type for token filters.
  */
 export interface TokenFilter {
   /**
@@ -1340,7 +1340,7 @@ export interface WordDelimiterTokenFilter {
 export type CharFilterUnion = CharFilter | MappingCharFilter | PatternReplaceCharFilter;
 
 /**
- * Abstract base class for character filters.
+ * Base type for character filters.
  */
 export interface CharFilter {
   /**
@@ -1439,7 +1439,7 @@ export interface DataContainer {
 export type DataChangeDetectionPolicyUnion = DataChangeDetectionPolicy | HighWaterMarkChangeDetectionPolicy | SqlIntegratedChangeTrackingPolicy;
 
 /**
- * Abstract base class for data change detection policies.
+ * Base type for data change detection policies.
  */
 export interface DataChangeDetectionPolicy {
   /**
@@ -1480,7 +1480,7 @@ export interface SqlIntegratedChangeTrackingPolicy {
 export type DataDeletionDetectionPolicyUnion = DataDeletionDetectionPolicy | SoftDeleteColumnDeletionDetectionPolicy;
 
 /**
- * Abstract base class for data deletion detection policies.
+ * Base type for data deletion detection policies.
  */
 export interface DataDeletionDetectionPolicy {
   /**
@@ -1955,24 +1955,28 @@ export interface Field {
    */
   facetable?: boolean;
   /**
-   * The name of the language analyzer to use for the field. This option can be used only with
-   * searchable fields and it can't be set together with either searchAnalyzer or indexAnalyzer.
-   * Once the analyzer is chosen, it cannot be changed for the field. Must be null for complex
-   * fields. KnownAnalyzerNames is an enum containing known values.
+   * The name of the analyzer to use for the field. This option can be used only with searchable
+   * fields and it can't be set together with either searchAnalyzer or indexAnalyzer. Once the
+   * analyzer is chosen, it cannot be changed for the field. Must be null for complex fields.
+   * KnownAnalyzerNames is an enum containing known values.
    */
   analyzer?: string;
   /**
    * The name of the analyzer used at search time for the field. This option can be used only with
    * searchable fields. It must be set together with indexAnalyzer and it cannot be set together
-   * with the analyzer option. This analyzer can be updated on an existing field. Must be null for
-   * complex fields. KnownAnalyzerNames is an enum containing known values.
+   * with the analyzer option. This property cannot be set to the name of a language analyzer; use
+   * the analyzer property instead if you need a language analyzer. This analyzer can be updated on
+   * an existing field. Must be null for complex fields. KnownAnalyzerNames is an enum containing
+   * known values.
    */
   searchAnalyzer?: string;
   /**
    * The name of the analyzer used at indexing time for the field. This option can be used only
    * with searchable fields. It must be set together with searchAnalyzer and it cannot be set
-   * together with the analyzer option. Once the analyzer is chosen, it cannot be changed for the
-   * field. Must be null for complex fields. KnownAnalyzerNames is an enum containing known values.
+   * together with the analyzer option.  This property cannot be set to the name of a language
+   * analyzer; use the analyzer property instead if you need a language analyzer. Once the analyzer
+   * is chosen, it cannot be changed for the field. Must be null for complex fields.
+   * KnownAnalyzerNames is an enum containing known values.
    */
   indexAnalyzer?: string;
   /**
@@ -2007,7 +2011,7 @@ export interface TextWeights {
 export type ScoringFunctionUnion = ScoringFunction | DistanceScoringFunction | FreshnessScoringFunction | MagnitudeScoringFunction | TagScoringFunction;
 
 /**
- * Abstract base class for functions that can modify document scores during ranking.
+ * Base type for functions that can modify document scores during ranking.
  */
 export interface ScoringFunction {
   /**
@@ -2425,7 +2429,7 @@ export interface OutputFieldMappingEntry {
 export type SkillUnion = Skill | ConditionalSkill | KeyPhraseExtractionSkill | OcrSkill | ImageAnalysisSkill | LanguageDetectionSkill | ShaperSkill | MergeSkill | EntityRecognitionSkill | SentimentSkill | SplitSkill | TextTranslationSkill | WebApiSkill;
 
 /**
- * Abstract base class for skills.
+ * Base type for skills.
  */
 export interface Skill {
   /**
@@ -2465,13 +2469,16 @@ export interface Skill {
 export type CognitiveServicesAccountUnion = CognitiveServicesAccount | DefaultCognitiveServicesAccount | CognitiveServicesAccountKey;
 
 /**
- * Abstract base class for describing any cognitive service resource attached to the skillset.
+ * Base type for describing any cognitive service resource attached to a skillset.
  */
 export interface CognitiveServicesAccount {
   /**
    * Polymorphic Discriminator
    */
   odatatype: "CognitiveServicesAccount";
+  /**
+   * Description of the cognitive service resource attached to a skillset.
+   */
   description?: string;
 }
 
@@ -2509,6 +2516,9 @@ export interface DefaultCognitiveServicesAccount {
    * Polymorphic Discriminator
    */
   odatatype: "#Microsoft.Azure.Search.DefaultCognitiveServices";
+  /**
+   * Description of the cognitive service resource attached to a skillset.
+   */
   description?: string;
 }
 
@@ -2520,7 +2530,13 @@ export interface CognitiveServicesAccountKey {
    * Polymorphic Discriminator
    */
   odatatype: "#Microsoft.Azure.Search.CognitiveServicesByKey";
+  /**
+   * Description of the cognitive service resource attached to a skillset.
+   */
   description?: string;
+  /**
+   * The key used to provision the cognitive service resource attached to a skillset.
+   */
   key: string;
 }
 
@@ -2967,7 +2983,7 @@ export interface SplitSkill {
   /**
    * The desired maximum page length. Default is 10000.
    */
-  maximumPageLength?: number;
+  maxPageLength?: number;
 }
 
 /**
@@ -3438,23 +3454,21 @@ export interface IndexesDeleteMethodOptionalParams extends coreHttp.RequestOptio
 
 /**
  * Defines values for AnalyzerName.
- * Possible values include: 'ar.microsoft', 'ar.lucene', 'hy.lucene', 'bn.microsoft', 'eu.lucene',
- * 'bg.microsoft', 'bg.lucene', 'ca.microsoft', 'ca.lucene', 'zh-Hans.microsoft', 'zh-Hans.lucene',
- * 'zh-Hant.microsoft', 'zh-Hant.lucene', 'hr.microsoft', 'cs.microsoft', 'cs.lucene',
- * 'da.microsoft', 'da.lucene', 'nl.microsoft', 'nl.lucene', 'en.microsoft', 'en.lucene',
- * 'et.microsoft', 'fi.microsoft', 'fi.lucene', 'fr.microsoft', 'fr.lucene', 'gl.lucene',
- * 'de.microsoft', 'de.lucene', 'el.microsoft', 'el.lucene', 'gu.microsoft', 'he.microsoft',
- * 'hi.microsoft', 'hi.lucene', 'hu.microsoft', 'hu.lucene', 'is.microsoft', 'id.microsoft',
- * 'id.lucene', 'ga.lucene', 'it.microsoft', 'it.lucene', 'ja.microsoft', 'ja.lucene',
- * 'kn.microsoft', 'ko.microsoft', 'ko.lucene', 'lv.microsoft', 'lv.lucene', 'lt.microsoft',
- * 'ml.microsoft', 'ms.microsoft', 'mr.microsoft', 'nb.microsoft', 'no.lucene', 'fa.lucene',
- * 'pl.microsoft', 'pl.lucene', 'pt-BR.microsoft', 'pt-BR.lucene', 'pt-PT.microsoft',
- * 'pt-PT.lucene', 'pa.microsoft', 'ro.microsoft', 'ro.lucene', 'ru.microsoft', 'ru.lucene',
- * 'sr-cyrillic.microsoft', 'sr-latin.microsoft', 'sk.microsoft', 'sl.microsoft', 'es.microsoft',
- * 'es.lucene', 'sv.microsoft', 'sv.lucene', 'ta.microsoft', 'te.microsoft', 'th.microsoft',
- * 'th.lucene', 'tr.microsoft', 'tr.lucene', 'uk.microsoft', 'ur.microsoft', 'vi.microsoft',
- * 'standard.lucene', 'standardasciifolding.lucene', 'keyword', 'pattern', 'simple', 'stop',
- * 'whitespace'
+ * Possible values include: 'ArMicrosoft', 'ArLucene', 'HyLucene', 'BnMicrosoft', 'EuLucene',
+ * 'BgMicrosoft', 'BgLucene', 'CaMicrosoft', 'CaLucene', 'ZhHansMicrosoft', 'ZhHansLucene',
+ * 'ZhHantMicrosoft', 'ZhHantLucene', 'HrMicrosoft', 'CsMicrosoft', 'CsLucene', 'DaMicrosoft',
+ * 'DaLucene', 'NlMicrosoft', 'NlLucene', 'EnMicrosoft', 'EnLucene', 'EtMicrosoft', 'FiMicrosoft',
+ * 'FiLucene', 'FrMicrosoft', 'FrLucene', 'GlLucene', 'DeMicrosoft', 'DeLucene', 'ElMicrosoft',
+ * 'ElLucene', 'GuMicrosoft', 'HeMicrosoft', 'HiMicrosoft', 'HiLucene', 'HuMicrosoft', 'HuLucene',
+ * 'IsMicrosoft', 'IdMicrosoft', 'IdLucene', 'GaLucene', 'ItMicrosoft', 'ItLucene', 'JaMicrosoft',
+ * 'JaLucene', 'KnMicrosoft', 'KoMicrosoft', 'KoLucene', 'LvMicrosoft', 'LvLucene', 'LtMicrosoft',
+ * 'MlMicrosoft', 'MsMicrosoft', 'MrMicrosoft', 'NbMicrosoft', 'NoLucene', 'FaLucene',
+ * 'PlMicrosoft', 'PlLucene', 'PtBrMicrosoft', 'PtBrLucene', 'PtPtMicrosoft', 'PtPtLucene',
+ * 'PaMicrosoft', 'RoMicrosoft', 'RoLucene', 'RuMicrosoft', 'RuLucene', 'SrCyrillicMicrosoft',
+ * 'SrLatinMicrosoft', 'SkMicrosoft', 'SlMicrosoft', 'EsMicrosoft', 'EsLucene', 'SvMicrosoft',
+ * 'SvLucene', 'TaMicrosoft', 'TeMicrosoft', 'ThMicrosoft', 'ThLucene', 'TrMicrosoft', 'TrLucene',
+ * 'UkMicrosoft', 'UrMicrosoft', 'ViMicrosoft', 'StandardLucene', 'StandardAsciiFoldingLucene',
+ * 'Keyword', 'Pattern', 'Simple', 'Stop', 'Whitespace'
  * @readonly
  * @enum {string}
  */
