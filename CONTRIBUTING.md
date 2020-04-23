@@ -151,8 +151,6 @@ You can create the Azure resources manually on your own or automate this process
 
 Live tests won't need updated recordings, and they also won't change previous recordings unless specified (see [Regenerating recordings](#regenerating-recordings)).
 
-Keep in mind that you can set the environment variables as how they're set by default through your system preferences, or through the command line, or by setting them each one in a different line in a `.env` file in the parent folder of the project you'll be testing (like in the folder `keyvault` if you're testing the project at `sdk/keyvault/keyvault-keys`). You can read more about how `dotenv` works in [their README](https://github.com/motdotla/dotenv#readme).
-
 #### Regenerating recordings
 
 If you modify the test files or the underlying network calls of the project you're testing, the recordings need to be re-generated before you run the unit tests.
