@@ -31,7 +31,7 @@
     "test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace dist-test/index.node.js",
     "test-ci:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace \"dist-esm/test/**/*.spec.js\"",
     "test:browser": "karma start --single-run",
-    "test-ci:browser": "karma start --single-run"
+    "test-ci:browser": "npm run test:browser"
   },
   "files": [
     "dist/",
