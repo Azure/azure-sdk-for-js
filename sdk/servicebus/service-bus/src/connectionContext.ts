@@ -15,7 +15,7 @@ import {
 } from "@azure/amqp-common";
 import { ServiceBusClientOptions } from "./serviceBusClient";
 import { ClientEntityContext } from "./clientEntityContext";
-import { OnAmqpEvent, EventContext, ConnectionEvents, Connection, AmqpError } from "rhea-promise";
+import { OnAmqpEvent, EventContext, ConnectionEvents, Connection } from "rhea-promise";
 
 /**
  * @internal
@@ -116,6 +116,7 @@ export namespace ConnectionContext {
         }
       }
 
+      await refreshConnection(connectionContext);
       // The connection should always be brought back up if the sdk did not call connection.close()
       // and there was atleast one sender/receiver link on the connection before it went down.
       log.error("[%s] state: %O", connectionContext.connectionId, state);
@@ -125,7 +126,24 @@ export namespace ConnectionContext {
             "clients. We should reconnect.",
           connectionContext.connection.id
         );
-        await reconnect(connectionContext, connectionError || contextError);
+        await delay(Constants.connectionReconnectDelay);
+        // reconnect clients if any
+        for (const id of Object.keys(connectionContext.clientContexts)) {
+          const clientContext = connectionContext.clientContexts[id];
+          log.error(
+            "[%s] calling detached on client '%s'.",
+            connectionContext.connection.id,
+            clientContext.clientId
+          );
+          clientContext.onDetached(connectionError || contextError).catch((err) => {
+            log.error(
+              "[%s] An error occurred while reconnecting the sender '%s': %O.",
+              connectionContext.connection.id,
+              clientContext.clientId,
+              err
+            );
+          });
+        }
       }
     };
 
@@ -163,7 +181,7 @@ export namespace ConnectionContext {
       }
     };
 
-    async function reconnect(connectionContext: ConnectionContext, error?: Error | AmqpError) {
+    async function refreshConnection(connectionContext: ConnectionContext) {
       const originalConnectionId = connectionContext.connectionId;
       try {
         await cleanConnectionContext(connectionContext);
@@ -178,25 +196,6 @@ export namespace ConnectionContext {
       log.error(
         `The connection "${originalConnectionId}" has been updated to "${connectionContext.connectionId}".`
       );
-
-      await delay(Constants.connectionReconnectDelay);
-      // reconnect clients if any
-      for (const id of Object.keys(connectionContext.clientContexts)) {
-        const clientContext = connectionContext.clientContexts[id];
-        log.error(
-          "[%s] calling detached on client '%s'.",
-          connectionContext.connection.id,
-          clientContext.clientId
-        );
-        clientContext.onDetached(error).catch((err) => {
-          log.error(
-            "[%s] An error occurred while reconnecting the sender '%s': %O.",
-            connectionContext.connection.id,
-            clientContext.clientId,
-            err
-          );
-        });
-      }
     }
 
     function addConnectionListeners(connection: Connection) {

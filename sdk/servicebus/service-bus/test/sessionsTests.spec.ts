@@ -602,3 +602,94 @@ describe("Peek session", function(): void {
     await peekSession(false);
   });
 });
+
+describe.skip("SessionReceiver - disconnects", function(): void {
+  afterEach(async () => {
+    return afterEachTest();
+  });
+
+  it("can receive and settle messages after a disconnect", async function(): Promise<void> {
+    const testMessage = TestMessage.getSessionSample();
+    // Create the sender and receiver.
+    sbClient = getServiceBusClient();
+    const { receiverClient, senderClient } = await getSenderReceiverClients(
+      sbClient,
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
+    );
+    const receiver = receiverClient.createReceiver(ReceiveMode.peekLock, {
+      sessionId: testMessage.sessionId,
+      maxSessionAutoRenewLockDurationInSeconds: 10 // Lower this value so that test can complete in time.
+    }) as SessionReceiver;
+    const sender = senderClient.createSender();
+    // Send a message so we can be sure when the receiver is open and active.
+    await sender.send(testMessage);
+    const receivedErrors: any[] = [];
+    let settledMessageCount = 0;
+
+    let messageHandlerCount = 0;
+    let receiverIsActiveResolver: Function;
+    let receiverSecondMessageResolver: Function;
+    const receiverIsActive = new Promise((resolve) => {
+      receiverIsActiveResolver = resolve;
+    });
+    const receiverSecondMessage = new Promise((resolve) => {
+      receiverSecondMessageResolver = resolve;
+    });
+
+    // Start the receiver.
+    receiver.registerMessageHandler(
+      async (message) => {
+        console.log(`Received a message`);
+        messageHandlerCount++;
+        try {
+          await message.complete();
+          settledMessageCount++;
+        } catch (err) {
+          receivedErrors.push(err);
+        }
+        if (messageHandlerCount === 1) {
+          // Since we've received a message, mark the receiver as active.
+          receiverIsActiveResolver();
+        } else {
+          // Mark the second message resolver!
+          receiverSecondMessageResolver();
+        }
+      },
+      (err) => {
+        console.log(`Got an error`);
+        console.error(err);
+        receivedErrors.push(err);
+      }
+    );
+
+    // Wait until we're sure the receiver is open and receiving messages.
+    await receiverIsActive;
+
+    settledMessageCount.should.equal(1, "Unexpected number of settled messages.");
+    receivedErrors.length.should.equal(0, "Encountered an unexpected number of errors.");
+
+    const connectionContext = receiver["_context"].namespace;
+    const refreshConnection = connectionContext.refreshConnection;
+    let refreshConnectionCalled = 0;
+    connectionContext.refreshConnection = function(...args) {
+      refreshConnectionCalled++;
+      refreshConnection.apply(this, args);
+    };
+
+    // Simulate a disconnect being called with a non-retryable error.
+    receiver["_context"].namespace.connection["_connection"].idle();
+
+    // Allow rhea to clear internal setTimeouts (since we're triggering idle manually).
+    // Otherwise, it will get into a bad internal state with uncaught exceptions.
+    await delay(2000);
+    // send a second message to trigger the message handler again.
+    await sender.send(TestMessage.getSessionSample());
+    console.log("Waiting for 2nd message");
+    // wait for the 2nd message to be received.
+    await receiverSecondMessage;
+    settledMessageCount.should.equal(2, "Unexpected number of settled messages.");
+    receivedErrors.length.should.equal(0, "Encountered an unexpected number of errors.");
+    refreshConnectionCalled.should.be.greaterThan(0, "refreshConnection was not called.");
+  });
+});
