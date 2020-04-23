@@ -874,7 +874,7 @@ One specific example of code that **must** live in the `beforeEach` section is [
 
 ```ts
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, envSetup);
     const credential = await new ClientSecretCredential(
       env.AZURE_TENANT_ID,
       env.AZURE_CLIENT_ID,
