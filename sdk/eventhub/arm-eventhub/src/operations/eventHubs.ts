@@ -27,150 +27,6 @@ export class EventHubs {
   }
 
   /**
-   * Gets all the Event Hubs in a Namespace.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param [options] The optional parameters
-   * @returns Promise<Models.EventHubsListByNamespaceResponse>
-   */
-  listByNamespace(resourceGroupName: string, namespaceName: string, options?: Models.EventHubsListByNamespaceOptionalParams): Promise<Models.EventHubsListByNamespaceResponse>;
-  /**
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param callback The callback
-   */
-  listByNamespace(resourceGroupName: string, namespaceName: string, callback: msRest.ServiceCallback<Models.EventHubListResult>): void;
-  /**
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listByNamespace(resourceGroupName: string, namespaceName: string, options: Models.EventHubsListByNamespaceOptionalParams, callback: msRest.ServiceCallback<Models.EventHubListResult>): void;
-  listByNamespace(resourceGroupName: string, namespaceName: string, options?: Models.EventHubsListByNamespaceOptionalParams | msRest.ServiceCallback<Models.EventHubListResult>, callback?: msRest.ServiceCallback<Models.EventHubListResult>): Promise<Models.EventHubsListByNamespaceResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        namespaceName,
-        options
-      },
-      listByNamespaceOperationSpec,
-      callback) as Promise<Models.EventHubsListByNamespaceResponse>;
-  }
-
-  /**
-   * Creates or updates a new Event Hub as a nested resource within a Namespace.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param eventHubName The Event Hub name
-   * @param parameters Parameters supplied to create an Event Hub resource.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.EventHubsCreateOrUpdateResponse>
-   */
-  createOrUpdate(resourceGroupName: string, namespaceName: string, eventHubName: string, parameters: Models.Eventhub, options?: msRest.RequestOptionsBase): Promise<Models.EventHubsCreateOrUpdateResponse>;
-  /**
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param eventHubName The Event Hub name
-   * @param parameters Parameters supplied to create an Event Hub resource.
-   * @param callback The callback
-   */
-  createOrUpdate(resourceGroupName: string, namespaceName: string, eventHubName: string, parameters: Models.Eventhub, callback: msRest.ServiceCallback<Models.Eventhub>): void;
-  /**
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param eventHubName The Event Hub name
-   * @param parameters Parameters supplied to create an Event Hub resource.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  createOrUpdate(resourceGroupName: string, namespaceName: string, eventHubName: string, parameters: Models.Eventhub, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Eventhub>): void;
-  createOrUpdate(resourceGroupName: string, namespaceName: string, eventHubName: string, parameters: Models.Eventhub, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Eventhub>, callback?: msRest.ServiceCallback<Models.Eventhub>): Promise<Models.EventHubsCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        namespaceName,
-        eventHubName,
-        parameters,
-        options
-      },
-      createOrUpdateOperationSpec,
-      callback) as Promise<Models.EventHubsCreateOrUpdateResponse>;
-  }
-
-  /**
-   * Deletes an Event Hub from the specified Namespace and resource group.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param eventHubName The Event Hub name
-   * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
-   */
-  deleteMethod(resourceGroupName: string, namespaceName: string, eventHubName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
-  /**
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param eventHubName The Event Hub name
-   * @param callback The callback
-   */
-  deleteMethod(resourceGroupName: string, namespaceName: string, eventHubName: string, callback: msRest.ServiceCallback<void>): void;
-  /**
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param eventHubName The Event Hub name
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  deleteMethod(resourceGroupName: string, namespaceName: string, eventHubName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, namespaceName: string, eventHubName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        namespaceName,
-        eventHubName,
-        options
-      },
-      deleteMethodOperationSpec,
-      callback);
-  }
-
-  /**
-   * Gets an Event Hubs description for the specified Event Hub.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param eventHubName The Event Hub name
-   * @param [options] The optional parameters
-   * @returns Promise<Models.EventHubsGetResponse>
-   */
-  get(resourceGroupName: string, namespaceName: string, eventHubName: string, options?: msRest.RequestOptionsBase): Promise<Models.EventHubsGetResponse>;
-  /**
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param eventHubName The Event Hub name
-   * @param callback The callback
-   */
-  get(resourceGroupName: string, namespaceName: string, eventHubName: string, callback: msRest.ServiceCallback<Models.Eventhub>): void;
-  /**
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param eventHubName The Event Hub name
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  get(resourceGroupName: string, namespaceName: string, eventHubName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Eventhub>): void;
-  get(resourceGroupName: string, namespaceName: string, eventHubName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Eventhub>, callback?: msRest.ServiceCallback<Models.Eventhub>): Promise<Models.EventHubsGetResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        namespaceName,
-        eventHubName,
-        options
-      },
-      getOperationSpec,
-      callback) as Promise<Models.EventHubsGetResponse>;
-  }
-
-  /**
    * Gets the authorization rules for an Event Hub.
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
@@ -420,30 +276,146 @@ export class EventHubs {
 
   /**
    * Gets all the Event Hubs in a Namespace.
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
    * @param [options] The optional parameters
-   * @returns Promise<Models.EventHubsListByNamespaceNextResponse>
+   * @returns Promise<Models.EventHubsListByNamespaceResponse>
    */
-  listByNamespaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.EventHubsListByNamespaceNextResponse>;
+  listByNamespace(resourceGroupName: string, namespaceName: string, options?: Models.EventHubsListByNamespaceOptionalParams): Promise<Models.EventHubsListByNamespaceResponse>;
   /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
    * @param callback The callback
    */
-  listByNamespaceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.EventHubListResult>): void;
+  listByNamespace(resourceGroupName: string, namespaceName: string, callback: msRest.ServiceCallback<Models.EventHubListResult>): void;
   /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByNamespaceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventHubListResult>): void;
-  listByNamespaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventHubListResult>, callback?: msRest.ServiceCallback<Models.EventHubListResult>): Promise<Models.EventHubsListByNamespaceNextResponse> {
+  listByNamespace(resourceGroupName: string, namespaceName: string, options: Models.EventHubsListByNamespaceOptionalParams, callback: msRest.ServiceCallback<Models.EventHubListResult>): void;
+  listByNamespace(resourceGroupName: string, namespaceName: string, options?: Models.EventHubsListByNamespaceOptionalParams | msRest.ServiceCallback<Models.EventHubListResult>, callback?: msRest.ServiceCallback<Models.EventHubListResult>): Promise<Models.EventHubsListByNamespaceResponse> {
     return this.client.sendOperationRequest(
       {
-        nextPageLink,
+        resourceGroupName,
+        namespaceName,
         options
       },
-      listByNamespaceNextOperationSpec,
-      callback) as Promise<Models.EventHubsListByNamespaceNextResponse>;
+      listByNamespaceOperationSpec,
+      callback) as Promise<Models.EventHubsListByNamespaceResponse>;
+  }
+
+  /**
+   * Creates or updates a new Event Hub as a nested resource within a Namespace.
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param eventHubName The Event Hub name
+   * @param parameters Parameters supplied to create an Event Hub resource.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.EventHubsCreateOrUpdateResponse>
+   */
+  createOrUpdate(resourceGroupName: string, namespaceName: string, eventHubName: string, parameters: Models.Eventhub, options?: msRest.RequestOptionsBase): Promise<Models.EventHubsCreateOrUpdateResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param eventHubName The Event Hub name
+   * @param parameters Parameters supplied to create an Event Hub resource.
+   * @param callback The callback
+   */
+  createOrUpdate(resourceGroupName: string, namespaceName: string, eventHubName: string, parameters: Models.Eventhub, callback: msRest.ServiceCallback<Models.Eventhub>): void;
+  /**
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param eventHubName The Event Hub name
+   * @param parameters Parameters supplied to create an Event Hub resource.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  createOrUpdate(resourceGroupName: string, namespaceName: string, eventHubName: string, parameters: Models.Eventhub, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Eventhub>): void;
+  createOrUpdate(resourceGroupName: string, namespaceName: string, eventHubName: string, parameters: Models.Eventhub, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Eventhub>, callback?: msRest.ServiceCallback<Models.Eventhub>): Promise<Models.EventHubsCreateOrUpdateResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        namespaceName,
+        eventHubName,
+        parameters,
+        options
+      },
+      createOrUpdateOperationSpec,
+      callback) as Promise<Models.EventHubsCreateOrUpdateResponse>;
+  }
+
+  /**
+   * Deletes an Event Hub from the specified Namespace and resource group.
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param eventHubName The Event Hub name
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  deleteMethod(resourceGroupName: string, namespaceName: string, eventHubName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param eventHubName The Event Hub name
+   * @param callback The callback
+   */
+  deleteMethod(resourceGroupName: string, namespaceName: string, eventHubName: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param eventHubName The Event Hub name
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  deleteMethod(resourceGroupName: string, namespaceName: string, eventHubName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, namespaceName: string, eventHubName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        namespaceName,
+        eventHubName,
+        options
+      },
+      deleteMethodOperationSpec,
+      callback);
+  }
+
+  /**
+   * Gets an Event Hubs description for the specified Event Hub.
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param eventHubName The Event Hub name
+   * @param [options] The optional parameters
+   * @returns Promise<Models.EventHubsGetResponse>
+   */
+  get(resourceGroupName: string, namespaceName: string, eventHubName: string, options?: msRest.RequestOptionsBase): Promise<Models.EventHubsGetResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param eventHubName The Event Hub name
+   * @param callback The callback
+   */
+  get(resourceGroupName: string, namespaceName: string, eventHubName: string, callback: msRest.ServiceCallback<Models.Eventhub>): void;
+  /**
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param eventHubName The Event Hub name
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  get(resourceGroupName: string, namespaceName: string, eventHubName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Eventhub>): void;
+  get(resourceGroupName: string, namespaceName: string, eventHubName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Eventhub>, callback?: msRest.ServiceCallback<Models.Eventhub>): Promise<Models.EventHubsGetResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        namespaceName,
+        eventHubName,
+        options
+      },
+      getOperationSpec,
+      callback) as Promise<Models.EventHubsGetResponse>;
   }
 
   /**
@@ -473,121 +445,38 @@ export class EventHubs {
       listAuthorizationRulesNextOperationSpec,
       callback) as Promise<Models.EventHubsListAuthorizationRulesNextResponse>;
   }
+
+  /**
+   * Gets all the Event Hubs in a Namespace.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.EventHubsListByNamespaceNextResponse>
+   */
+  listByNamespaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.EventHubsListByNamespaceNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listByNamespaceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.EventHubListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listByNamespaceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventHubListResult>): void;
+  listByNamespaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventHubListResult>, callback?: msRest.ServiceCallback<Models.EventHubListResult>): Promise<Models.EventHubsListByNamespaceNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listByNamespaceNextOperationSpec,
+      callback) as Promise<Models.EventHubsListByNamespaceNextResponse>;
+  }
 }
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
-const listByNamespaceOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skip,
-    Parameters.top
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.EventHubListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  serializer
-};
-
-const createOrUpdateOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
-    Parameters.eventHubName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "parameters",
-    mapper: {
-      ...Mappers.Eventhub,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.Eventhub
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  serializer
-};
-
-const deleteMethodOperationSpec: msRest.OperationSpec = {
-  httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
-    Parameters.eventHubName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  serializer
-};
-
-const getOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
-    Parameters.eventHubName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.Eventhub
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  serializer
-};
-
 const listAuthorizationRulesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}/authorizationRules",
@@ -598,7 +487,7 @@ const listAuthorizationRulesOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -625,7 +514,7 @@ const createOrUpdateAuthorizationRuleOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -659,7 +548,7 @@ const getAuthorizationRuleOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -686,7 +575,7 @@ const deleteAuthorizationRuleOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -703,7 +592,7 @@ const deleteAuthorizationRuleOperationSpec: msRest.OperationSpec = {
 
 const listKeysOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}/authorizationRules/{authorizationRuleName}/ListKeys",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}/authorizationRules/{authorizationRuleName}/listKeys",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName,
@@ -712,7 +601,7 @@ const listKeysOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -739,7 +628,7 @@ const regenerateKeysOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -762,12 +651,18 @@ const regenerateKeysOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listByNamespaceNextOperationSpec: msRest.OperationSpec = {
+const listByNamespaceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  baseUrl: "https://management.azure.com",
-  path: "{nextLink}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs",
   urlParameters: [
-    Parameters.nextPageLink
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion1,
+    Parameters.skip,
+    Parameters.top
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -775,6 +670,90 @@ const listByNamespaceNextOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.EventHubListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const createOrUpdateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+    Parameters.eventHubName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion1
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.Eventhub,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.Eventhub
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const deleteMethodOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+    Parameters.eventHubName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion1
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const getOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+    Parameters.eventHubName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion1
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.Eventhub
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -796,6 +775,27 @@ const listAuthorizationRulesNextOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.AuthorizationRuleListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const listByNamespaceNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.EventHubListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
