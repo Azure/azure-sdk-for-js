@@ -1,6 +1,6 @@
 # Release History
 
-## 1.1.6 (TBD)
+## 1.1.6 (2020-04-23)
 
 - Removes the `@azure/ms-rest-nodeauth` dependency.
   This allows users to use any version of `@azure/ms-rest-nodeauth` directly with `@azure/service-bus` without TypeScript compilation errors.
@@ -8,6 +8,8 @@
 - Fixes an issue where non-retryable errors caused by a connection disconnecting were not getting surfaced to the user's registered error handler
   when using the `registerMessageHandler` method on a receiver.
   [PR 8401](https://github.com/Azure/azure-sdk-for-js/pull/8401)
+- Updates the way connection disconnects are handled to create a new connection object rather than re-using the existing one.
+  This should reduce some issues caused when the existing connection gets into an unexpected state.
 
 ## 1.1.5 (2020-03-24)
 
