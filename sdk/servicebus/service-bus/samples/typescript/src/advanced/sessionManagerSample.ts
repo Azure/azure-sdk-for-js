@@ -49,7 +49,7 @@ async function _processNextSession(
   handlers: SessionMessageHandlers,
   abortSignal: AbortSignalLike
 ): Promise<void> {
-  const sessionReceiver = serviceBusClient.createSessionReceiver(queueName, "peekLock", {
+  let sessionReceiver: SessionReceiver<ReceivedMessageWithLock>;
     autoRenewLockDurationInMs: sessionIdleTimeoutMs
   });
 

@@ -35,7 +35,7 @@ describe("invalid parameters", () => {
         TestClientType.PartitionedQueue
       );
 
-      receiver = serviceBusClient.test.getPeekLockReceiver(entityNames);
+      receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
     });
 
     after(async () => {
@@ -116,7 +116,7 @@ describe("invalid parameters", () => {
         TestClientType.PartitionedSubscription
       );
 
-      subscriptionReceiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
+      subscriptionReceiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
 
       subscriptionRuleManager = serviceBusClient.test.addToCleanup(
         serviceBusClient.getSubscriptionRuleManager(entityNames.topic!, entityNames.subscription!)
@@ -313,7 +313,7 @@ describe("invalid parameters", () => {
         serviceBusClient.createSender(entityNames.queue!)
       );
 
-      receiver = serviceBusClient.test.getSessionPeekLockReceiver(entityNames, {
+      receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames, {
         sessionId: TestMessage.sessionId
       });
 
@@ -530,7 +530,7 @@ describe("invalid parameters", () => {
         serviceBusClient.createSender(entityNames.queue!)
       );
 
-      receiver = serviceBusClient.test.getPeekLockReceiver(entityNames);
+      receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
 
       await sender.send(TestMessage.getSessionSample());
     });

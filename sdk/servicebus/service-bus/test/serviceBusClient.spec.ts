@@ -382,7 +382,7 @@ describe("Errors after close()", function(): void {
     sender = sbClient.test.addToCleanup(
       sbClient.createSender(entityName.queue ?? entityName.topic!)
     );
-    receiver = sbClient.test.getPeekLockReceiver(entityName);
+    receiver = await sbClient.test.getPeekLockReceiver(entityName);
 
     // Normal send/receive
     const testMessage = entityName.usesSessions
@@ -623,7 +623,7 @@ describe("Errors after close()", function(): void {
   async function testCreateReceiver(expectedErrorMsg: string): Promise<void> {
     let errorNewReceiver: string = "";
     try {
-      receiver = sbClient.test.getPeekLockReceiver(entityName);
+      receiver = await sbClient.test.getPeekLockReceiver(entityName);
     } catch (err) {
       errorNewReceiver = err.message;
     }

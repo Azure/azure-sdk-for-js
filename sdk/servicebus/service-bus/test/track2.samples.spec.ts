@@ -338,7 +338,7 @@ describe("Sample scenarios for track 2", () => {
     it("Queue, receive and delete, sessions", async () => {
       const sessionId = Date.now().toString();
       const receiver = serviceBusClient.test.addToCleanup(
-        serviceBusClient.createSessionReceiver(queue, "receiveAndDelete", { sessionId })
+        await serviceBusClient.createSessionReceiver(queue, "receiveAndDelete", { sessionId })
       );
 
       sendSampleMessage(sender, "Queue, receive and delete, sessions", sessionId);
@@ -371,7 +371,7 @@ describe("Sample scenarios for track 2", () => {
       const sessionId = Date.now().toString();
 
       const receiver = serviceBusClient.test.addToCleanup(
-        serviceBusClient.createSessionReceiver(queue, "peekLock", { sessionId })
+        await serviceBusClient.createSessionReceiver(queue, "peekLock", { sessionId })
       );
 
       sendSampleMessage(sender, "Queue, peek/lock, sessions", sessionId);

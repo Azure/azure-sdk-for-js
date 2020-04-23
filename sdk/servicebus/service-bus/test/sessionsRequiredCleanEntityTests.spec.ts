@@ -31,7 +31,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
     serviceBusClient = createServiceBusClientForTests();
     const entityNames = await serviceBusClient.test.createTestEntities(testClientType);
 
-    receiver = serviceBusClient.test.getSessionPeekLockReceiver(entityNames, {
+    receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames, {
       sessionId
     });
 
@@ -193,7 +193,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
       const entityNames = serviceBusClient.test.getTestEntities(testClientType);
 
       // get the next available session ID rather than specifying one
-      receiver = serviceBusClient.test.getSessionPeekLockReceiver(entityNames);
+      receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames);
 
       msgs = await receiver.receiveBatch(2);
 
@@ -269,7 +269,9 @@ describe("sessions tests -  requires completely clean entity for each test", () 
       const entityNames = serviceBusClient.test.getTestEntities(testClientType);
 
       // get the next available session ID rather than specifying one
-      receiver = serviceBusClient.test.getSessionPeekLockReceiver(entityNames, { sessionId: "" });
+      receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames, {
+        sessionId: ""
+      });
 
       const msgs = await receiver.receiveBatch(2);
 
