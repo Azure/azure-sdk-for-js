@@ -31,7 +31,7 @@ jobs:
       - script: |
           echo "##vso[build.addbuildtag]Scheduled"
         displayName: "Tag scheduled builds"
-        condition: and(succeededOrFailed(),and(eq(variables['Build.SourceBranchName'],'master'),eq(variables['Build.Reason'],'Schedule')))
+        condition: and(always(),and(eq(variables['Build.SourceBranchName'],'master'),eq(variables['Build.Reason'],'Schedule')))
 
       - template: ../steps/common.yml
 
