@@ -40,7 +40,7 @@ function _createIdleTimer(
 }
 
 async function _noSessionsAvailable(err: Error) {
-  // TODO: this error should be progmatically identifable.
+  // TODO: this error should be programmatically identifable.
   return err.message.search(/Received an incorrect sessionId 'undefined'/) !== -1;
 }
 
