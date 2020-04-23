@@ -153,7 +153,7 @@ async function main() {
   console.log(usReceipt.recognizedForm.fields["MerchantAddress"]);
 }
 
-function optionalToString(value: unknown = undefined) {
+function optionalToString(value) {
   return `${value || "<missing>"}`;
 }
 
@@ -322,7 +322,7 @@ async function main() {
 
   // using `iter.next()`
   i = 1;
-  let iter = client.listModels();
+  let iter = trainingClient.listModels();
   let modelItem = await iter.next();
   while (!modelItem.done) {
     console.log(`model ${i++}: ${modelItem.value.modelId}`);
@@ -331,7 +331,7 @@ async function main() {
 
   // using `byPage()`
   i = 1;
-  for await (const response of client.listModels().byPage()) {
+  for await (const response of trainingClient.listModels().byPage()) {
     for (const modelInfo of response.modelList) {
       console.log(`model ${i++}: ${modelInfo.modelId}`);
     }
