@@ -661,7 +661,7 @@ Besides the default contents of that Karma configuration file, you can consider 
     }
   }
 ```
-- You might want to avoid logging from the browser, since [the recorder](#the-recorder) uses the logging output to create files. You can omit logs using the `browserConsoleLogOptions` property, which you can conditionally apply, as in the following snippet:
+- You might want to avoid logging from the browser if the TEST_MODE is "record", since [the recorder](#the-recorder) uses the logging output to generate recordings. You can keep the console window from getting corrupted with generated-recordings using the `browserConsoleLogOptions` property, which you can conditionally apply, as in the following snippet:
 ```js
   browserConsoleLogOptions: {
     terminal: !process.env.TEST_MODE
