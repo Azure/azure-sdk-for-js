@@ -62,7 +62,7 @@ export interface SessionReceiverOptions {
    * @property The id of the session from which messages need to be received. If null or undefined is
    * provided, Service Bus chooses a random session from available sessions.
    */
-  sessionId: string | undefined;
+  sessionId?: string;
   /**
    * @property The maximum duration in milliseconds
    * until which, the lock on the session will be renewed automatically by the sdk.
