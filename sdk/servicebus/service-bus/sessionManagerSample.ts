@@ -1,4 +1,4 @@
-import { ServiceBusClient, delay, ReceivedMessageWithLock } from "@azure/service-bus";
+import { ServiceBusClient, delay, ReceivedMessageWithLock, SessionReceiver } from "./";
 import * as dotenv from "dotenv";
 import { env } from "process";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
@@ -13,27 +13,27 @@ const sessionIdleTimeoutMs = 3 * 1000;
 const delayWhenNoSessionsAvailableMs = 5 * 1000;
 
 interface SessionMessageHandlers {
-  processInitialize(sessionId: string);
-  processMessage(msg: ReceivedMessageWithLock);
-  processError(err: Error, sessionId: string);
-  processClose(reason: "error" | "idle_timeout", sessionId: string);
+  processInitialize(sessionId: string): Promise<void>;
+  processMessage(msg: ReceivedMessageWithLock): Promise<void>;
+  processError(err: Error, sessionId: string): Promise<void>;
+  processClose(reason: "error" | "idle_timeout", sessionId: string): Promise<void>;
 }
 
 function _createIdleTimer(
   timeoutMs: number
 ): { refresh(): void; expirationPromise: Promise<void> } {
-  let resolveExpirationPromise;
+  let resolveExpirationPromise: () => void;
 
   const expirationPromise = new Promise<void>((res, _rej) => {
     resolveExpirationPromise = res;
   });
 
-  let timer = setTimeout(resolveExpirationPromise, timeoutMs);
+  let timer = setTimeout(() => resolveExpirationPromise(), timeoutMs);
 
   return {
     refresh() {
       clearTimeout(timer);
-      timer = setTimeout(resolveExpirationPromise, timeoutMs);
+      timer = setTimeout(() => resolveExpirationPromise(), timeoutMs);
     },
     expirationPromise
   };
@@ -50,13 +50,11 @@ async function _processNextSession(
   abortSignal: AbortSignalLike
 ): Promise<void> {
   let sessionReceiver: SessionReceiver<ReceivedMessageWithLock>;
-    autoRenewLockDurationInMs: sessionIdleTimeoutMs
-  });
 
   try {
-    // TODO: I just picked a call that didn't grab a message here, just to ensure a session could
-    // actually be obtained. This goes away when we have `await createSessionReceiver()`.
-    await sessionReceiver.getState();
+    sessionReceiver = await serviceBusClient.createSessionReceiver(queueName, "peekLock", {
+      autoRenewLockDurationInMs: sessionIdleTimeoutMs
+    });
   } catch (err) {
     // TODO: when this happens do I still need to close the session receiver? (again, temporary concern)
     if (_noSessionsAvailable(err)) {
