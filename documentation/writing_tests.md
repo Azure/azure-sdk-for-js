@@ -163,7 +163,12 @@ We're using the following Mocha plugins and related dependencies:
 A full `rush add` command that includes `mocha` and all of the previous dependencies follows:
 
 ```
-rush add --dev -p mocha @types/mocha mocha-junit-reporter nyc esm source-map-support
+rush add --dev -p mocha
+rush add --dev -p @types/mocha
+rush add --dev -p mocha-junit-reporter
+rush add --dev -p nyc
+rush add --dev -p esm
+rush add --dev -p source-map-support
 ```
 
 #### Configuring Mocha
@@ -484,10 +489,19 @@ We use Rollup with some plugins. They're the following:
 - [`rollup-plugin-visualizer`](https://www.npmjs.com/package/rollup-plugin-visualizer):
   A Rollup plugin that generates visualizations that help analyze our Rollup bundle to see which modules are taking up space.
 
-To install them all together with Rollup, you can run the following command:
+You can install them with:
 
 ```
-rush add --dev -p rollup @rollup/plugin-commonjs @rollup/plugin-json @rollup/plugin-multi-entry @rollup/plugin-node-resolve @rollup/plugin-replace rollup-plugin-shim rollup-plugin-sourcemaps rollup-plugin-terser rollup-plugin-visualizer 
+rush add --dev -p rollup
+rush add --dev -p @rollup/plugin-commonjs
+rush add --dev -p @rollup/plugin-json
+rush add --dev -p @rollup/plugin-multi-entry
+rush add --dev -p @rollup/plugin-node-resolve
+rush add --dev -p @rollup/plugin-replace
+rush add --dev -p rollup-plugin-shim
+rush add --dev -p rollup-plugin-sourcemaps
+rush add --dev -p rollup-plugin-terser
+rush add --dev -p rollup-plugin-visualizer
 ```
 
 You can see these dependencies at work in our [template project's package.json](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/package.json).
@@ -607,10 +621,19 @@ To fulfill our needs, we use Karma with some plugins. They're the following:
 - [`karma-chrome-launcher`](https://www.npmjs.com/package/karma-chrome-launcher):
   Launcher for Google Chrome, Google Chrome Canary and Google Chromium.
 
-To install them all together with Karma, you can run the following command:
+You can install them with:
 
 ```
-rush add --dev -p karma karma-coverage karma-env-preprocessor karma-json-preprocessor karma-json-to-file-reporter karma-junit-reporter karma-mocha karma-mocha-reporter karma-remap-istanbul karma-chrome-launcher
+rush add --dev -p karma
+rush add --dev -p karma-coverage
+rush add --dev -p karma-env-preprocessor
+rush add --dev -p karma-json-preprocessor
+rush add --dev -p karma-json-to-file-reporter
+rush add --dev -p karma-junit-reporter
+rush add --dev -p karma-mocha
+rush add --dev -p karma-mocha-reporter
+rush add --dev -p karma-remap-istanbul
+rush add --dev -p karma-chrome-launcher
 ```
 
 You can see these dependencies at work in our [template project's package.json](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/package.json).
