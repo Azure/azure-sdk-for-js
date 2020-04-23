@@ -227,8 +227,7 @@ export class ServiceBusClient {
       `${entityPath}/${generate_uuid()}`
     );
 
-    // TODO: .NET actually tries to open the session here so we'd need to be async for that.
-    return new SessionReceiverImpl(
+    const sessionReceiverImpl = new SessionReceiverImpl(
       clientEntityContext,
       receiveMode,
       {
@@ -237,6 +236,10 @@ export class ServiceBusClient {
       },
       this._clientOptions.retryOptions
     );
+
+    await sessionReceiverImpl.init();
+
+    return sessionReceiverImpl;
   }
 
   /**

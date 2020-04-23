@@ -43,9 +43,8 @@ export interface SessionReceiver<
 > extends Receiver<ReceivedMessageT> {
   /**
    * The session ID.
-   * Can be undefined until a AMQP receiver link has been successfully set up for the session
    */
-  sessionId: string | undefined;
+  sessionId: string;
 
   /**
    * @property The time in UTC until which the session is locked.
@@ -94,7 +93,7 @@ export interface SessionReceiver<
 export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMessageWithLock>
   implements SessionReceiver<ReceivedMessageT> {
   public entityPath: string;
-  public sessionId: string | undefined;
+  public sessionId: string;
 
   /**
    * @property {ClientEntityContext} _context Describes the amqp connection context for the QueueClient.
@@ -141,6 +140,25 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
         throw error;
       }
     }
+    //
+    // TODO: we have a nice opportunity here to also make it so `sessionId` is
+    // always initialized. Need to consolidate the constructor and the init()
+    // method so this assignment won't be necessary.
+    //
+    this.sessionId = "";
+  }
+
+  /**
+   * Initializes the link. This method should only be called
+   * once in the lifetime of a SessionReceiver.
+   */
+  init(): Promise<void> {
+    if (this._messageSession != null) {
+      throw new Error(
+        "Internal error: open() should not be called after the SessionReceiver has been created"
+      );
+    }
+    return this._createMessageSessionIfDoesntExist();
   }
 
   private _throwIfReceiverOrConnectionClosed(): void {
@@ -234,7 +252,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     const renewSessionLockOperationPromise = async () => {
       await this._createMessageSessionIfDoesntExist();
       this._messageSession!.sessionLockedUntilUtc = await this._context.managementClient!.renewSessionLock(
-        this.sessionId!,
+        this.sessionId,
         {
           ...options,
           requestName: "renewSessionLock",
@@ -296,7 +314,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
 
     const getSessionStateOperationPromise = async () => {
       await this._createMessageSessionIfDoesntExist();
-      return this._context.managementClient!.getSessionState(this.sessionId!, {
+      return this._context.managementClient!.getSessionState(this.sessionId, {
         ...options,
         requestName: "getState",
         timeoutInMs: this._retryOptions.timeoutInMs
@@ -325,12 +343,12 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
         return await this._context.managementClient!.peekBySequenceNumber(
           options.fromSequenceNumber,
           options.maxMessageCount,
-          this.sessionId!,
+          this.sessionId,
           managementRequestOptions
         );
       } else {
         return await this._context.managementClient!.peekMessagesBySession(
-          this.sessionId!,
+          this.sessionId,
           options.maxMessageCount,
           managementRequestOptions
         );

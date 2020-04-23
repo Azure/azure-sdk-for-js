@@ -212,8 +212,6 @@ export interface SessionMessageHandlerOptions {
 // @public
 export interface SessionReceiver<ReceivedMessageT extends ReceivedMessage | ReceivedMessageWithLock> extends Receiver<ReceivedMessageT> {
     getState(options?: OperationOptions): Promise<any>;
-    // (undocumented)
-    init(): Promise<void>;
     renewSessionLock(options?: OperationOptions): Promise<Date>;
     sessionId: string;
     sessionLockedUntilUtc: Date | undefined;
