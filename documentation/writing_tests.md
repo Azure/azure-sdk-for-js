@@ -603,7 +603,7 @@ To fulfill our needs, we use Karma with some plugins. They're the following:
 - [`karma-mocha-reporter`](https://www.npmjs.com/package/karma-mocha-reporter):
   It's a Karma reporter plugin with mocha style logging.
 - [`karma-remap-istanbul`](https://www.npmjs.com/package/karma-remap-istanbul):
-  A Karma reporter that enables remapped reports on watch.
+  A Karma reporter plugin that remaps the code coverage report to point to the typescript sources using sourcemappings.
 - [`karma-chrome-launcher`](https://www.npmjs.com/package/karma-chrome-launcher):
   Launcher for Google Chrome, Google Chrome Canary and Google Chromium.
 
