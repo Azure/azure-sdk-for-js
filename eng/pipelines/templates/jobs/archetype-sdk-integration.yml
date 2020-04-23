@@ -9,7 +9,7 @@ parameters:
   PublishCodeCoverage: false
   Matrix:
     Linux_Node10:
-      OSVmImage: "ubuntu-16.04"
+      OSVmImage: "ubuntu-18.04"
       TestType: "node"
       PublishCodeCoverage: true
     Windows_Node10:
@@ -19,7 +19,7 @@ parameters:
       OSVmImage: "macOS-10.15"
       TestType: "node"
     Browser_Linux_Node10:
-      OSVmImage: "ubuntu-16.04"
+      OSVmImage: "ubuntu-18.04"
       TestType: "browser"
       PublishCodeCoverage: true
     Browser_Windows_Node10:

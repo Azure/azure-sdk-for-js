@@ -7,15 +7,15 @@ parameters:
     STORAGE_CONNECTION_STRING: $(js-storage-test-connection-string)
   Matrix:
     Linux_Node8:
-      OSVmImage: "ubuntu-16.04"
+      OSVmImage: "ubuntu-18.04"
       NodeVersion: "8.x"
       TestType: "node"
     Linux_Node10:
-      OSVmImage: "ubuntu-16.04"
+      OSVmImage: "ubuntu-18.04"
       NodeVersion: "10.x"
       TestType: "node"
     Linux_Node12:
-      OSVmImage: "ubuntu-16.04"
+      OSVmImage: "ubuntu-18.04"
       NodeVersion: "12.x"
       TestType: "node"
     Windows_Node8:
@@ -43,7 +43,7 @@ parameters:
       NodeVersion: "12.x"
       TestType: "node"
     Browser_Linux_Node10:
-      OSVmImage: "ubuntu-16.04"
+      OSVmImage: "ubuntu-18.04"
       NodeVersion: "10.x"
       TestType: "browser"
     Browser_Windows_Node10:
@@ -55,7 +55,7 @@ parameters:
       NodeVersion: "10.x"
       TestType: "browser"
     Linux_Sample10:
-      OSVmImage: "ubuntu-16.04"
+      OSVmImage: "ubuntu-18.04"
       NodeVersion: "10.x"
       TestType: "sample"
 
