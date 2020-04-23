@@ -312,10 +312,12 @@ export class ManagementClient extends LinkEntity {
    */
   async close(): Promise<void> {
     try {
+      // Always clear the timeout, as the isOpen check may report
+      // false without ever having cleared the timeout otherwise.
+      clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
       if (this._isMgmtRequestResponseLinkOpen()) {
         const mgmtLink = this._mgmtReqResLink;
         this._mgmtReqResLink = undefined;
-        clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
         await mgmtLink!.close();
         log.mgmt("Successfully closed the management session.");
       }

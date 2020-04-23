@@ -1,6 +1,6 @@
 # Release History
 
-## 1.1.6 (TBD)
+## 1.1.6 (2020-04-23)
 
 - Removes the `@azure/ms-rest-nodeauth` dependency.
   This allows users to use any version of `@azure/ms-rest-nodeauth` directly with `@azure/service-bus` without TypeScript compilation errors.
@@ -12,6 +12,10 @@
 - Fixes an issue where non-retryable errors caused by a connection disconnecting were not getting surfaced to the user's registered error handler
   when using the `registerMessageHandler` method on a receiver.
   [PR 8401](https://github.com/Azure/azure-sdk-for-js/pull/8401)
+- Fixes reconnection issues by creating a new connection object rather than re-using the existing one.
+  [PR 8447](https://github.com/Azure/azure-sdk-for-js/pull/8447)
+- Adds a new method `open()` on the sender to allow you to front load the work of setting up the underlying AMQP links. Use this if you want to avoid having your first `send()` operation pay the tax of link set up.
+  [PR 8329](https://github.com/Azure/azure-sdk-for-js/pull/8329). This PR also fixes a bug where a sender recovering from connection loss does not report the error back to the user from ongoing send operations in expected time.
 
 ## 1.1.5 (2020-03-24)
 
