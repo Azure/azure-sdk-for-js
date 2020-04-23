@@ -49,7 +49,9 @@ async function _processNextSession(
   handlers: SessionMessageHandlers,
   abortSignal: AbortSignalLike
 ): Promise<void> {
-  const sessionReceiver = serviceBusClient.createSessionReceiver(queueName, "peekLock");
+  const sessionReceiver = serviceBusClient.createSessionReceiver(queueName, "peekLock", {
+    autoRenewLockDurationInMs: sessionIdleTimeoutMs
+  });
 
   try {
     // TODO: I just picked a call that didn't grab a message here, just to ensure a session could
