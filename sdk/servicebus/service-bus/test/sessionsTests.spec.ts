@@ -603,6 +603,11 @@ describe("Peek session", function(): void {
   });
 });
 
+/**
+ * SessionReceiver intentionally does not recover after a disconnect:
+ * https://github.com/Azure/azure-sdk-for-js/pull/8447#issuecomment-618510245
+ * If support for this is added in the future, we can stop skipping this test.
+ */
 describe.skip("SessionReceiver - disconnects", function(): void {
   afterEach(async () => {
     return afterEachTest();

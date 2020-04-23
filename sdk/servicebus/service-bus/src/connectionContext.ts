@@ -185,9 +185,10 @@ export namespace ConnectionContext {
       const originalConnectionId = connectionContext.connectionId;
       try {
         await cleanConnectionContext(connectionContext);
-      } catch {
+      } catch (err) {
         log.error(
-          `[${connectionContext.connectionId}] There was an error closing the connection before reconnecting.`
+          `[${connectionContext.connectionId}] There was an error closing the connection before reconnecting: %O`,
+          err
         );
       }
       // Create a new connection, id, locks, and cbs client.
