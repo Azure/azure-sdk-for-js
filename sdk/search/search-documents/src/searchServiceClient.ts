@@ -60,6 +60,7 @@ import {
 } from "./serviceModels";
 import * as utils from "./serviceUtils";
 import { createSpan } from "./tracing";
+import { odataMetadataPolicy } from "./odataMetadataPolicy";
 
 /**
  * Client options used to configure Cognitive Search API requests.
@@ -154,6 +155,11 @@ export class SearchServiceClient {
       internalPipelineOptions,
       createSearchApiKeyCredentialPolicy(credential)
     );
+
+    if (Array.isArray(pipeline.requestPolicyFactories)) {
+      pipeline.requestPolicyFactories.unshift(odataMetadataPolicy("minimal"));
+    }
+
     this.client = new GeneratedClient(dummyCredential, this.apiVersion, this.endpoint, pipeline);
   }
 
