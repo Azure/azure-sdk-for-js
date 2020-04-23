@@ -275,7 +275,7 @@ export function publicSkillsetToGeneratedSkillset(skillset: Skillset): Generated
 }
 
 export function generatedSynonymMapToPublicSynonymMap(synonymMap: GeneratedSynonymMap): SynonymMap {
-  let result: SynonymMap = {
+  const result: SynonymMap = {
     name: synonymMap.name,
     encryptionKey: synonymMap.encryptionKey,
     etag: synonymMap.etag,
