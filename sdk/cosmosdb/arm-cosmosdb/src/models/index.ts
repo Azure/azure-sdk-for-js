@@ -116,6 +116,87 @@ export interface VirtualNetworkRule {
 }
 
 /**
+ * Private endpoint which the connection belongs to.
+ */
+export interface PrivateEndpointProperty {
+  /**
+   * Resource id of the private endpoint.
+   */
+  id?: string;
+}
+
+/**
+ * Connection State of the Private Endpoint Connection.
+ */
+export interface PrivateLinkServiceConnectionStateProperty {
+  /**
+   * The private link service connection status.
+   */
+  status?: string;
+  /**
+   * Any action that is required beyond basic workflow (approve/ reject/ disconnect)
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly actionsRequired?: string;
+  /**
+   * The private link service connection description.
+   */
+  description?: string;
+}
+
+/**
+ * An interface representing Resource.
+ */
+export interface Resource extends BaseResource {
+  /**
+   * Fully qualified resource Id for the resource. Ex -
+   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. Ex- Microsoft.Compute/virtualMachines or
+   * Microsoft.Storage/storageAccounts.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+}
+
+/**
+ * The resource model definition for a ARM proxy resource. It will have everything other than
+ * required location and tags
+ */
+export interface ProxyResource extends Resource {
+}
+
+/**
+ * A private endpoint connection
+ */
+export interface PrivateEndpointConnection extends ProxyResource {
+  /**
+   * Private endpoint which the connection belongs to.
+   */
+  privateEndpoint?: PrivateEndpointProperty;
+  /**
+   * Connection State of the Private Endpoint Connection.
+   */
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStateProperty;
+  /**
+   * Group id of the private endpoint.
+   */
+  groupId?: string;
+  /**
+   * Provisioning state of the private endpoint.
+   */
+  provisioningState?: string;
+}
+
+/**
  * The core properties of ARM resources.
  */
 export interface ARMResourceProperties extends BaseResource {
@@ -211,6 +292,11 @@ export interface DatabaseAccountGetResults extends ARMResourceProperties {
    * List of Virtual Network ACL rules configured for the Cosmos DB account.
    */
   virtualNetworkRules?: VirtualNetworkRule[];
+  /**
+   * List of Private Endpoint Connections configured for the Cosmos DB account.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
   /**
    * Enables the account to write in multiple locations
    */
@@ -2195,6 +2281,31 @@ export interface PartitionMetric extends Metric {
 }
 
 /**
+ * The resource model definition for a ARM tracked top level resource
+ */
+export interface TrackedResource extends Resource {
+  /**
+   * Resource tags.
+   */
+  tags?: { [propertyName: string]: string };
+  /**
+   * The geo-location where the resource lives
+   */
+  location: string;
+}
+
+/**
+ * The resource model definition for a Azure Resource Manager resource with an etag.
+ */
+export interface AzureEntityResource extends Resource {
+  /**
+   * Resource Etag.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
+}
+
+/**
  * Parameters to create a notebook workspace resource
  */
 export interface NotebookWorkspaceCreateUpdateParameters extends ARMProxyResource {
@@ -2252,112 +2363,6 @@ export interface PrivateLinkResource extends ARMProxyResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly requiredZoneNames?: string[];
-}
-
-/**
- * Private endpoint which the connection belongs to.
- */
-export interface PrivateEndpointProperty {
-  /**
-   * Resource id of the private endpoint.
-   */
-  id?: string;
-}
-
-/**
- * Connection State of the Private Endpoint Connection.
- */
-export interface PrivateLinkServiceConnectionStateProperty {
-  /**
-   * The private link service connection status.
-   */
-  status?: string;
-  /**
-   * The private link service connection description.
-   */
-  description?: string;
-  /**
-   * Any action that is required beyond basic workflow (approve/ reject/ disconnect)
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly actionsRequired?: string;
-}
-
-/**
- * An interface representing Resource.
- */
-export interface Resource extends BaseResource {
-  /**
-   * Fully qualified resource Id for the resource. Ex -
-   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource. Ex- Microsoft.Compute/virtualMachines or
-   * Microsoft.Storage/storageAccounts.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-}
-
-/**
- * The resource model definition for a ARM proxy resource. It will have everything other than
- * required location and tags
- */
-export interface ProxyResource extends Resource {
-}
-
-/**
- * A private endpoint connection
- */
-export interface PrivateEndpointConnection extends ProxyResource {
-  /**
-   * Private endpoint which the connection belongs to.
-   */
-  privateEndpoint?: PrivateEndpointProperty;
-  /**
-   * Connection State of the Private Endpoint Connection.
-   */
-  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStateProperty;
-  /**
-   * Group id of the private endpoint.
-   */
-  groupId?: string;
-  /**
-   * Provisioning state of the private endpoint.
-   */
-  provisioningState?: string;
-}
-
-/**
- * The resource model definition for a ARM tracked top level resource
- */
-export interface TrackedResource extends Resource {
-  /**
-   * Resource tags.
-   */
-  tags?: { [propertyName: string]: string };
-  /**
-   * The geo-location where the resource lives
-   */
-  location: string;
-}
-
-/**
- * The resource model definition for a Azure Resource Manager resource with an etag.
- */
-export interface AzureEntityResource extends Resource {
-  /**
-   * Resource Etag.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly etag?: string;
 }
 
 /**
