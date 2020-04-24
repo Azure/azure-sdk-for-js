@@ -7,11 +7,11 @@
   "license": "MIT",
   "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
-  "types": "./typings/latest/core-amqp.d.ts",
+  "types": "./types/latest/core-amqp.d.ts",
   "typesVersions": {
     "<3.6": {
-      "typings/latest/*": [
-        "typings/3.1/*"
+      "types/latest/*": [
+        "types/3.1/*"
       ]
     }
   },
@@ -24,8 +24,8 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "typings/latest/core-amqp.d.ts",
-    "typings/3.1",
+    "types/latest/core-amqp.d.ts",
+    "types/3.1",
     "ThirdPartyNotices.txt",
     "README.md",
     "LICENSE"
@@ -34,10 +34,10 @@
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "cd samples && tsc -p .",
     "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
-    "build:types": "downlevel-dts typings/latest typings/3.1",
+    "build:types": "downlevel-dts types/latest types/3.1",
     "build": "tsc -p . && rollup -c 2>&1 && api-extractor run --local && npm run build:types",
     "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf dist dist-esm typings temp dist-browser/*.js* dist-browser/*.zip statistics.html coverage coverage-browser test-browser .nyc_output *.tgz *.log test*.xml TEST*.xml",
+    "clean": "rimraf dist dist-esm types temp dist-browser/*.js* dist-browser/*.zip statistics.html coverage coverage-browser test-browser .nyc_output *.tgz *.log test*.xml TEST*.xml",
     "execute:samples": "echo skipped",
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
