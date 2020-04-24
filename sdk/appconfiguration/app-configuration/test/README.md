@@ -21,7 +21,7 @@ The live tests in this project will add, modify and delete configurations on the
 
 ## AAD based authentication
 
-Go through the following setup in order to correctly setup the AAD credentials for tests that require it.
+The following steps will help you setup the AAD credentials.
 
 ### Register a new application in AAD
 
