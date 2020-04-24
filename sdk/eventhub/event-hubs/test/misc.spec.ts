@@ -22,12 +22,12 @@ import {
   TRACEPARENT_PROPERTY,
   extractSpanContextFromEventData
 } from "../src/diagnostics/instrumentEventData";
-import { TraceFlags } from "@opentelemetry/types";
+import { TraceFlags } from "@opentelemetry/api";
 import { EventHubConsumer } from "../src/receiver";
 import { SubscriptionHandlerForTests } from "./utils/subscriptionHandlerForTests";
 const env = getEnvVars();
 
-describe("Misc tests #RunnableInBrowser", function(): void {
+describe("Misc tests", function(): void {
   const service = {
     connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
     path: env[EnvVarKeys.EVENTHUB_NAME]
@@ -355,7 +355,7 @@ describe("Misc tests #RunnableInBrowser", function(): void {
       should.equal(spanContext!.spanId, spanId, "Extracted spanId does not match expectation.");
       should.equal(
         spanContext!.traceFlags,
-        TraceFlags.UNSAMPLED,
+        TraceFlags.NONE,
         "Extracted traceFlags do not match expectations."
       );
     });

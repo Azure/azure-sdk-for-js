@@ -13,7 +13,7 @@ const env = getEnvVars();
 import { EventHubClient } from "../src/impl/eventHubClient";
 import { AbortController } from "@azure/abort-controller";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
-describe("RuntimeInformation #RunnableInBrowser", function(): void {
+describe("RuntimeInformation", function(): void {
   let client: EventHubClient;
   const service = {
     connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
@@ -84,7 +84,7 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
     const ids = await client.getPartitionIds({
       tracingOptions: {
         spanOptions: {
-          parent: rootSpan
+          parent: rootSpan.context()
         }
       }
     });
@@ -158,7 +158,7 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
       const hubRuntimeInfo = await client.getProperties({
         tracingOptions: {
           spanOptions: {
-            parent: rootSpan
+            parent: rootSpan.context()
           }
         }
       });
@@ -270,7 +270,7 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
       const partitionRuntimeInfo = await client.getPartitionProperties("0", {
         tracingOptions: {
           spanOptions: {
-            parent: rootSpan
+            parent: rootSpan.context()
           }
         }
       });

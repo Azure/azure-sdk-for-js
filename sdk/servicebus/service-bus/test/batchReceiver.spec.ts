@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import chai from "chai";
+import Long from "long";
 import chaiAsPromised from "chai-as-promised";
 import { delay, ServiceBusMessage } from "../src";
 import { getAlreadyReceivingErrorMsg } from "../src/util/errors";
@@ -14,6 +15,7 @@ import {
   testPeekMsgsLength
 } from "./utils/testutils2";
 import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
+import { AbortController } from "@azure/abort-controller";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -40,10 +42,10 @@ describe("batchReceiver", () => {
     receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
 
     senderClient = serviceBusClient.test.addToCleanup(
-      serviceBusClient.getSender(entityNames.queue ?? entityNames.topic!)
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
 
-    deadLetterClient = serviceBusClient.test.getDeadLetterReceiver(entityNames);
+    deadLetterClient = serviceBusClient.test.createDeadLetterReceiver(entityNames);
   }
 
   function afterEachTest(): Promise<void> {
@@ -93,9 +95,7 @@ describe("batchReceiver", () => {
       await testComplete();
     });
 
-    it("Unpartitioned Queue: complete() removes message #RunInBrowser ", async function(): Promise<
-      void
-    > {
+    it("Unpartitioned Queue: complete() removes message ", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedQueue);
       await testComplete();
     });
@@ -119,7 +119,7 @@ describe("batchReceiver", () => {
       await testComplete(true);
     });
 
-    it("Unpartitioned Queue with Sessions: complete() removes message #RunInBrowser", async function(): Promise<
+    it("Unpartitioned Queue with Sessions: complete() removes message", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
@@ -169,7 +169,7 @@ describe("batchReceiver", () => {
       await testAbandon();
     });
 
-    it("Unpartitioned Queue: abandon() retains message with incremented deliveryCount #RunInBrowser", async function(): Promise<
+    it("Unpartitioned Queue: abandon() retains message with incremented deliveryCount", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.UnpartitionedQueue);
@@ -197,7 +197,7 @@ describe("batchReceiver", () => {
       await testAbandon(true);
     });
 
-    it("Unpartitioned Queue with Sessions: abandon() retains message with incremented deliveryCount #RunInBrowser", async function(): Promise<
+    it("Unpartitioned Queue with Sessions: abandon() retains message with incremented deliveryCount", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
@@ -372,7 +372,7 @@ describe("batchReceiver", () => {
       await testDefer(true);
     });
 
-    it("Unpartitioned Queue: defer() moves message to deferred queue #RunInBrowser", async function(): Promise<
+    it("Unpartitioned Queue: defer() moves message to deferred queue", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.UnpartitionedQueue);
@@ -386,7 +386,7 @@ describe("batchReceiver", () => {
       await testDefer();
     });
 
-    it("Unpartitioned Queue with Sessions: defer() moves message to deferred queue #RunInBrowser", async function(): Promise<
+    it("Unpartitioned Queue with Sessions: defer() moves message to deferred queue", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
@@ -445,7 +445,7 @@ describe("batchReceiver", () => {
       await testDeadletter();
     });
 
-    it("Unpartitioned Queue: deadLetter() moves message to deadletter queue #RunInBrowser", async function(): Promise<
+    it("Unpartitioned Queue: deadLetter() moves message to deadletter queue", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.UnpartitionedQueue);
@@ -473,7 +473,7 @@ describe("batchReceiver", () => {
       await testDeadletter(true);
     });
 
-    it("Unpartitioned Queue with Sessions: deadLetter() moves message to deadletter queue #RunInBrowser", async function(): Promise<
+    it("Unpartitioned Queue with Sessions: deadLetter() moves message to deadletter queue", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
@@ -703,7 +703,7 @@ describe("batchReceiver", () => {
 
     // We use an empty queue/topic here so that the first receiveMessages call takes time to return
     async function testParallelReceiveCalls(useSessions?: boolean): Promise<void> {
-      const firstBatchPromise = receiverClient.receiveBatch(1, { maxWaitTimeSeconds: 10 });
+      const firstBatchPromise = receiverClient.receiveBatch(1, { maxWaitTimeInMs: 10000 });
       await delay(5000);
 
       let errorMessage;
@@ -750,14 +750,14 @@ describe("batchReceiver", () => {
       await firstBatchPromise;
     }
 
-    it("Unpartitioned Queue: Throws error when ReceiveBatch is called while the previous call is not done #RunInBrowser", async function(): Promise<
+    it("Unpartitioned Queue: Throws error when ReceiveBatch is called while the previous call is not done", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.UnpartitionedQueue);
       await testParallelReceiveCalls();
     });
 
-    it("Unpartitioned Queue with Sessions: Throws error when ReceiveBatch is called while the previous call is not done #RunInBrowser", async function(): Promise<
+    it("Unpartitioned Queue with Sessions: Throws error when ReceiveBatch is called while the previous call is not done", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
@@ -824,14 +824,14 @@ describe("batchReceiver", () => {
       await msgs2[0].complete();
     }
 
-    it("Unpartitioned Queue: Multiple sequential receiveMessages calls #RunInBrowser", async function(): Promise<
+    it("Unpartitioned Queue: Multiple sequential receiveMessages calls", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.UnpartitionedQueue);
       await testSequentialReceiveBatchCalls();
     });
 
-    it("Unpartitioned Queue with Sessions: Multiple sequential receiveMessages calls #RunInBrowser", async function(): Promise<
+    it("Unpartitioned Queue with Sessions: Multiple sequential receiveMessages calls", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
@@ -887,7 +887,7 @@ describe("batchReceiver", () => {
       await testNoSettlement();
     });
 
-    it("Unpartitioned Queue: No settlement of the message is retained with incremented deliveryCount #RunInBrowser", async function(): Promise<
+    it("Unpartitioned Queue: No settlement of the message is retained with incremented deliveryCount", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.UnpartitionedQueue);
@@ -935,7 +935,7 @@ describe("batchReceiver", () => {
       await testAskForMore();
     });
 
-    it("Unpartitioned Queue: Receive n messages but queue only has m messages, where m < n  #RunInBrowser", async function(): Promise<
+    it("Unpartitioned Queue: Receive n messages but queue only has m messages, where m < n ", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.UnpartitionedQueue);
@@ -965,7 +965,7 @@ describe("batchReceiver", () => {
       await testAskForMore(true);
     });
 
-    it("Unpartitioned Queue with Sessions: Receive n messages but queue only has m messages, where m < n #RunInBrowser", async function(): Promise<
+    it("Unpartitioned Queue with Sessions: Receive n messages but queue only has m messages, where m < n", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
@@ -977,6 +977,38 @@ describe("batchReceiver", () => {
     > {
       await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
       await testAskForMore(true);
+    });
+  });
+
+  describe("Cancel operations on the receiver", function(): void {
+    it("Abort receiveDeferredMessage request on the receiver", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.PartitionedQueue);
+      const controller = new AbortController();
+      setTimeout(() => controller.abort(), 1);
+      try {
+        await receiverClient.receiveDeferredMessage(Long.ZERO, { abortSignal: controller.signal });
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.message.should.equal(
+          "The receiveDeferredMessage operation has been cancelled by the user."
+        );
+      }
+    });
+
+    it("Abort receiveDeferredMessages request on the receiver", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
+      const controller = new AbortController();
+      setTimeout(() => controller.abort(), 1);
+      try {
+        await receiverClient.receiveDeferredMessages([Long.ZERO], {
+          abortSignal: controller.signal
+        });
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.message.should.equal(
+          "The receiveDeferredMessages operation has been cancelled by the user."
+        );
+      }
     });
   });
 });

@@ -18,7 +18,7 @@ import { EventHubProducer } from "../src/sender";
 import { SubscriptionHandlerForTests } from "./utils/subscriptionHandlerForTests";
 const env = getEnvVars();
 
-describe("EventHub Sender #RunnableInBrowser", function(): void {
+describe("EventHub Sender", function(): void {
   const service = {
     connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
     path: env[EnvVarKeys.EVENTHUB_NAME]
@@ -125,7 +125,7 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
         {
           tracingOptions: {
             spanOptions: {
-              parent: rootSpan
+              parent: rootSpan.context()
             }
           }
         }
@@ -424,7 +424,7 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
       await producerClient.sendBatch(eventDataBatch, {
         tracingOptions: {
           spanOptions: {
-            parent: rootSpan
+            parent: rootSpan.context()
           }
         }
       });
@@ -712,7 +712,7 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
       await producer.send(events, {
         tracingOptions: {
           spanOptions: {
-            parent: rootSpan
+            parent: rootSpan.context()
           }
         }
       });
@@ -778,7 +778,7 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
       await producer.send(events, {
         tracingOptions: {
           spanOptions: {
-            parent: rootSpan
+            parent: rootSpan.context()
           }
         }
       });

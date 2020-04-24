@@ -20,7 +20,7 @@ describe("DataLakePathClient", () => {
 
   let recorder: any;
 
-  beforeEach(async function () {
+  beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
     const serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("filesystem");
@@ -33,7 +33,7 @@ describe("DataLakePathClient", () => {
     await fileClient.flush(content.length);
   });
 
-  afterEach(async function () {
+  afterEach(async function() {
     await fileSystemClient.delete();
     recorder.stop();
   });
@@ -152,7 +152,7 @@ describe("DataLakePathClient", () => {
 
     const result = await fileClient.read(undefined, undefined, {
       tracingOptions: {
-        spanOptions: { parent: rootSpan }
+        spanOptions: { parent: rootSpan.context() }
       }
     });
     assert.deepStrictEqual(await bodyToString(result, content.length), content);
@@ -326,7 +326,9 @@ describe("DataLakePathClient", () => {
     const result = await newFileClient.exists();
     assert.ok(result === false, "exists() should return false for a non-existing file");
 
-    const newDirectoryClient = fileSystemClient.getDirectoryClient(recorder.getUniqueName("newDirectory"));
+    const newDirectoryClient = fileSystemClient.getDirectoryClient(
+      recorder.getUniqueName("newDirectory")
+    );
     const dirResult = await newDirectoryClient.exists();
     assert.ok(dirResult === false, "exists() should return false for a non-existing directory");
   });

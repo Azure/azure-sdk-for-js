@@ -651,7 +651,7 @@ describe("ContainerClient", () => {
       blobHTTPHeaders: options,
       metadata: options.metadata,
       tracingOptions: {
-        spanOptions: { parent: rootSpan }
+        spanOptions: { parent: rootSpan.context() }
       }
     });
 

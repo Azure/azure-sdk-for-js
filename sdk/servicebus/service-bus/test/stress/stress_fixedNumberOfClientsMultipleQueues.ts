@@ -66,7 +66,10 @@ async function sendReceiveMessages(): Promise<void> {
   }
 }
 
-async function sendReceiveMessagesPerClient(sender: Sender, receiver: InternalReceiver): Promise<void> {
+async function sendReceiveMessagesPerClient(
+  sender: Sender,
+  receiver: InternalReceiver
+): Promise<void> {
   while (!isJobDone) {
     const message: SendableMessageInfo = {
       messageId: msgId,

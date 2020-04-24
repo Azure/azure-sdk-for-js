@@ -4,20 +4,20 @@
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
-import { CanonicalCode } from "@opentelemetry/types";
+import { CanonicalCode } from "@opentelemetry/api";
 import { logger } from "../util/logging";
 
 import * as child_process from "child_process";
 
 function getSafeWorkingDir(): string {
-    if (process.platform === "win32") {
-      if (!process.env.SystemRoot) {
-        throw new Error("Azure CLI credential expects a 'SystemRoot' environment variable");
-      }
-      return process.env.SystemRoot;
-    } else {
-      return "/bin";
+  if (process.platform === "win32") {
+    if (!process.env.SystemRoot) {
+      throw new Error("Azure CLI credential expects a 'SystemRoot' environment variable");
     }
+    return process.env.SystemRoot;
+  } else {
+    return "/bin";
+  }
 }
 
 /**
@@ -39,7 +39,7 @@ export class AzureCliCredential implements TokenCredential {
       try {
         child_process.exec(
           `az account get-access-token --output json --resource ${resource}`,
-          {cwd: getSafeWorkingDir()},
+          { cwd: getSafeWorkingDir() },
           (error, stdout, stderr) => {
             resolve({ stdout: stdout, stderr: stderr });
           }
@@ -72,7 +72,7 @@ export class AzureCliCredential implements TokenCredential {
 
       // Check to make sure the scope we get back is a valid scope
       if (!scope.match(/^[0-9a-zA-Z-.:/]+$/)) {
-        throw new Error("Invalid scope was specified by the user or calling client")
+        throw new Error("Invalid scope was specified by the user or calling client");
       }
 
       let responseData = "";
@@ -86,9 +86,13 @@ export class AzureCliCredential implements TokenCredential {
               obj.stderr.match("az:(.*)not found") ||
               obj.stderr.startsWith("'az' is not recognized");
             if (isNotInstallError) {
-              throw new Error("Azure CLI could not be found.  Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'.");
+              throw new Error(
+                "Azure CLI could not be found.  Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'."
+              );
             } else if (isLoginError) {
-              throw new Error("Please run 'az login' from a command prompt to authenticate before using this credential.");
+              throw new Error(
+                "Please run 'az login' from a command prompt to authenticate before using this credential."
+              );
             }
             throw new Error(obj.stderr);
           } else {

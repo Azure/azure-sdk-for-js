@@ -20,7 +20,7 @@ describe("DataLakeFileSystemClient", () => {
   let recorder: Recorder;
   let serviceClient: DataLakeServiceClient;
 
-  beforeEach(async function () {
+  beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
     serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("filesystem");
@@ -28,7 +28,7 @@ describe("DataLakeFileSystemClient", () => {
     await fileSystemClient.create();
   });
 
-  afterEach(async function () {
+  afterEach(async function() {
     await fileSystemClient.delete();
     recorder.stop();
   });
@@ -56,7 +56,7 @@ describe("DataLakeFileSystemClient", () => {
       keyb: "valb"
     };
     await fileSystemClient.setMetadata(metadata, {
-      tracingOptions: { spanOptions: { parent: rootSpan } }
+      tracingOptions: { spanOptions: { parent: rootSpan.context() } }
     });
     rootSpan.end();
 

@@ -87,6 +87,42 @@ export class IpFirewallRules {
   }
 
   /**
+   * Get a firewall rule
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace
+   * @param ruleName The IP firewall rule name
+   * @param [options] The optional parameters
+   * @returns Promise<Models.IpFirewallRulesGetResponse>
+   */
+  get(resourceGroupName: string, workspaceName: string, ruleName: string, options?: msRest.RequestOptionsBase): Promise<Models.IpFirewallRulesGetResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace
+   * @param ruleName The IP firewall rule name
+   * @param callback The callback
+   */
+  get(resourceGroupName: string, workspaceName: string, ruleName: string, callback: msRest.ServiceCallback<Models.IpFirewallRuleInfo>): void;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace
+   * @param ruleName The IP firewall rule name
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  get(resourceGroupName: string, workspaceName: string, ruleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IpFirewallRuleInfo>): void;
+  get(resourceGroupName: string, workspaceName: string, ruleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IpFirewallRuleInfo>, callback?: msRest.ServiceCallback<Models.IpFirewallRuleInfo>): Promise<Models.IpFirewallRulesGetResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        workspaceName,
+        ruleName,
+        options
+      },
+      getOperationSpec,
+      callback) as Promise<Models.IpFirewallRulesGetResponse>;
+  }
+
+  /**
    * Replaces firewall rules
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -212,6 +248,32 @@ const listByWorkspaceOperationSpec: msRest.OperationSpec = {
     },
     default: {
       bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const getOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/firewallRules/{ruleName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.ruleName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.IpFirewallRuleInfo
+    },
+    default: {
+      bodyMapper: Mappers.ErrorContract
     }
   },
   serializer

@@ -2,33 +2,36 @@ import {
   createAppConfigurationClientForTests,
   assertThrowsRestError,
   deleteKeyCompletely,
-  assertThrowsAbortError
+  assertThrowsAbortError,
+  startRecorder
 } from "./testHelpers";
 import { AppConfigurationClient } from "../src";
 import * as assert from "assert";
+import { Recorder, isPlaybackMode } from "@azure/test-utils-recorder";
 
 describe("AppConfigurationClient (set|clear)ReadOnly", () => {
   let client: AppConfigurationClient;
+  let recorder: Recorder;
   const testConfigSetting = {
-    key: `readOnlyTests-${Date.now()}`,
+    key: "",
     value: "world",
     label: "some label"
   };
 
-  before(function() {
+  beforeEach(async function() {
+    recorder = startRecorder(this);
+    testConfigSetting.key = recorder.getUniqueName("readOnlyTests");
     client = createAppConfigurationClientForTests() || this.skip();
-  });
-
-  after(async function() {
-    if (!this.currentTest!.isPending) {
-      await deleteKeyCompletely([testConfigSetting.key], client);
-    }
-  });
-
-  it("basic", async () => {
     // before it's set to read only we can set it all we want
     await client.setConfigurationSetting(testConfigSetting);
+  });
 
+  afterEach(async function() {
+    await deleteKeyCompletely([testConfigSetting.key], client);
+    recorder.stop();
+  });
+
+  it("basic", async function() {
     let storedSetting = await client.getConfigurationSetting({
       key: testConfigSetting.key,
       label: testConfigSetting.label
@@ -60,7 +63,7 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
     );
   });
 
-  it("accepts operation options", async () => {
+  it("accepts operation options", async function() {
     let storedSetting = await client.getConfigurationSetting({
       key: testConfigSetting.key,
       label: testConfigSetting.label

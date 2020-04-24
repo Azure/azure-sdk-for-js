@@ -9,23 +9,24 @@ This package contains an isomorphic SDK for FrontDoorManagementClient.
 
 ### How to Install
 
-```
+```bash
 npm install @azure/arm-frontdoor
 ```
 
 ### How to use
 
-#### nodejs - Authentication, client creation and list frontDoors as an example written in TypeScript.
+#### nodejs - Authentication, client creation and list networkExperimentProfiles as an example written in TypeScript.
 
 ##### Install @azure/ms-rest-nodeauth
 
-```
-npm install @azure/ms-rest-nodeauth
+- Please install minimum version of `"@azure/ms-rest-nodeauth": "^3.0.0"`.
+```bash
+npm install @azure/ms-rest-nodeauth@"^3.0.0"
 ```
 
 ##### Sample code
 
-```ts
+```typescript
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
@@ -34,7 +35,7 @@ const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
   const client = new FrontDoorManagementClient(creds, subscriptionId);
-  client.frontDoors.list().then((result) => {
+  client.networkExperimentProfiles.list().then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -43,11 +44,11 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-#### browser - Authentication, client creation and list frontDoors as an example written in JavaScript.
+#### browser - Authentication, client creation and list networkExperimentProfiles as an example written in JavaScript.
 
 ##### Install @azure/ms-rest-browserauth
 
-```
+```bash
 npm install @azure/ms-rest-browserauth
 ```
 
@@ -77,7 +78,7 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           authManager.login();
         }
         const client = new Azure.ArmFrontdoor.FrontDoorManagementClient(res.creds, subscriptionId);
-        client.frontDoors.list().then((result) => {
+        client.networkExperimentProfiles.list().then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {
@@ -95,5 +96,4 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Ffrontdoor%2Farm-frontdoor%2FREADME.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/frontdoor/arm-frontdoor/README.png)

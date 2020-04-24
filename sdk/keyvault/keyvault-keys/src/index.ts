@@ -13,7 +13,7 @@ import {
 } from "@azure/core-http";
 
 import { getTracer } from "@azure/core-tracing";
-import { Span } from "@opentelemetry/types";
+import { Span } from "@opentelemetry/api";
 import { logger } from "./log";
 
 import "@azure/core-paging";
@@ -1277,7 +1277,7 @@ export class KeyClient {
         ...options,
         spanOptions: {
           ...spanOptions,
-          parent: span,
+          parent: span.context(),
           attributes: {
             ...spanOptions.attributes,
             "az.namespace": "Microsoft.KeyVault"

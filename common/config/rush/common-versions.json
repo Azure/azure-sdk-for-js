@@ -42,7 +42,6 @@
    */
   "allowedAlternativeVersions": {
     "@azure/ms-rest-js": ["^2.0.0"],
-    "@azure/core-http": ["^1.0.3"],
     /**
      * For example, allow some projects to use an older TypeScript compiler
      * (in addition to whatever "usual" version is being used by other projects in the repo):

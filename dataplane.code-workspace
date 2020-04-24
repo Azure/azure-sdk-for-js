@@ -52,6 +52,10 @@
       "path": "sdk\\eventhub\\event-processor-host"
     },
     {
+      "path": "sdk\\formrecognizer\\ai-form-recognizer",
+      "name": "form-recognizer"
+    },
+    {
       "path": "sdk\\eventhub\\testhub"
     },
     {
@@ -72,8 +76,8 @@
     },
     {
       "name": "search",
-      "path": "sdk\\search\\search"
-    }
+      "path": "sdk\\search\\search-documents"
+    },
     {
       "path": "sdk\\servicebus\\service-bus"
     },
@@ -103,6 +107,9 @@
     {
       "name": "eslint plugin",
       "path": "common\\tools\\eslint-plugin-azure-sdk"
+    },
+    {
+      "path": "sdk\\test-utils\\perfstress"
     }
   ],
   "settings": {

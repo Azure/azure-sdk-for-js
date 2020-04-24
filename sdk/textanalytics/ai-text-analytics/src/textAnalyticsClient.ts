@@ -4,14 +4,14 @@
 import {
   PipelineOptions,
   createPipelineFromOptions,
-  signingPolicy,
   InternalPipelineOptions,
   isTokenCredential,
   bearerTokenAuthenticationPolicy,
   operationOptionsToRequestOptionsBase,
-  OperationOptions
+  OperationOptions,
+  ServiceClientCredentials
 } from "@azure/core-http";
-import { TokenCredential } from "@azure/identity";
+import { TokenCredential, KeyCredential } from "@azure/core-auth";
 import { SDK_VERSION } from "./constants";
 import { GeneratedClient } from "./generated/generatedClient";
 import { logger } from "./logger";
@@ -39,9 +39,9 @@ import {
   RecognizeLinkedEntitiesResultCollection,
   makeRecognizeLinkedEntitiesResultCollection
 } from "./recognizeLinkedEntitiesResultCollection";
-import { TextAnalyticsApiKeyCredential } from "./textAnalyticsApiKeyCredential";
 import { createSpan } from "./tracing";
-import { CanonicalCode } from "@opentelemetry/types";
+import { CanonicalCode } from "@opentelemetry/api";
+import { createTextAnalyticsAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 
 const DEFAULT_COGNITIVE_SCOPE = "https://cognitiveservices.azure.com/.default";
 
@@ -133,20 +133,20 @@ export class TextAnalyticsClient {
    *
    * Example usage:
    * ```ts
-   * import { TextAnalyticsClient, TextAnalyticsApiKeyCredential } from "@azure/ai-text-analytics";
+   * import { TextAnalyticsClient, KeyCredential } from "@azure/ai-text-analytics";
    *
    * const client = new TextAnalyticsClient(
    *    "<service endpoint>",
-   *    new TextAnalyticsApiKeyCredential("<api key>")
+   *    new KeyCredential("<api key>")
    * );
    * ```
    * @param {string} endpointUrl The URL to the TextAnalytics endpoint
-   * @param {TokenCredential | TextAnalyticsApiKeyCredential} credential Used to authenticate requests to the service.
+   * @param {TokenCredential | KeyCredential} credential Used to authenticate requests to the service.
    * @param {TextAnalyticsClientOptions} [options] Used to configure the TextAnalytics client.
    */
   constructor(
     endpointUrl: string,
-    credential: TokenCredential | TextAnalyticsApiKeyCredential,
+    credential: TokenCredential | KeyCredential,
     options: TextAnalyticsClientOptions = {}
   ) {
     this.endpointUrl = endpointUrl;
@@ -166,7 +166,7 @@ export class TextAnalyticsClient {
 
     const authPolicy = isTokenCredential(credential)
       ? bearerTokenAuthenticationPolicy(credential, DEFAULT_COGNITIVE_SCOPE)
-      : signingPolicy(credential);
+      : createTextAnalyticsAzureKeyCredentialPolicy(credential);
 
     const internalPipelineOptions: InternalPipelineOptions = {
       ...pipelineOptions,
@@ -179,7 +179,19 @@ export class TextAnalyticsClient {
     };
 
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-    this.client = new GeneratedClient(credential, this.endpointUrl, pipeline);
+
+    // The contract with the generated client requires a credential, even though it is never used
+    // when a pipeline is provided. Until that contract can be changed, this dummy credential will
+    // throw an error if the client ever attempts to use it.
+    const dummyCredential: ServiceClientCredentials = {
+      signRequest() {
+        throw new Error(
+          "Internal error: Attempted to use credential from service client, but a pipeline was provided."
+        );
+      }
+    };
+
+    this.client = new GeneratedClient(dummyCredential, this.endpointUrl, pipeline);
   }
 
   /**
@@ -188,7 +200,7 @@ export class TextAnalyticsClient {
    * language as well as a score indicating the model's confidence that the
    * inferred language is correct.  Scores close to 1 indicate high certainty in
    * the result.  120 languages are supported.
-   * @param inputs A collection of input strings to analyze.
+   * @param documents A collection of input strings to analyze.
    * @param countryHint Indicates the country of origin for all of
    *   the input strings to assist the text analytics model in predicting
    *   the language they are written in.  If unspecified, this value will be
@@ -199,7 +211,7 @@ export class TextAnalyticsClient {
    * @param options Optional parameters for the operation.
    */
   public async detectLanguage(
-    inputs: string[],
+    documents: string[],
     countryHint?: string,
     options?: DetectLanguageOptions
   ): Promise<DetectLanguageResultCollection>;
@@ -209,28 +221,32 @@ export class TextAnalyticsClient {
    * language as well as a score indicating the model's confidence that the
    * inferred language is correct.  Scores close to 1 indicate high certainty in
    * the result.  120 languages are supported.
-   * @param inputs A collection of input documents to analyze.
+   * @param documents A collection of input documents to analyze.
    * @param options Optional parameters for the operation.
    */
   public async detectLanguage(
-    inputs: DetectLanguageInput[],
+    documents: DetectLanguageInput[],
     options?: DetectLanguageOptions
   ): Promise<DetectLanguageResultCollection>;
   public async detectLanguage(
-    inputs: string[] | DetectLanguageInput[],
+    documents: string[] | DetectLanguageInput[],
     countryHintOrOptions?: string | DetectLanguageOptions,
     options?: DetectLanguageOptions
   ): Promise<DetectLanguageResultCollection> {
     let realOptions: DetectLanguageOptions;
     let realInputs: DetectLanguageInput[];
 
-    if (isStringArray(inputs)) {
+    if (!Array.isArray(documents) || documents.length == 0) {
+      throw new Error("'documents' must be a non-empty array");
+    }
+
+    if (isStringArray(documents)) {
       const countryHint = (countryHintOrOptions as string) || this.defaultCountryHint;
-      realInputs = convertToDetectLanguageInput(inputs, countryHint);
+      realInputs = convertToDetectLanguageInput(documents, countryHint);
       realOptions = options || {};
     } else {
       // Replace "none" hints with ""
-      realInputs = inputs.map((input) => ({
+      realInputs = documents.map((input) => ({
         ...input,
         countryHint: input.countryHint === "none" ? "" : input.countryHint
       }));
@@ -276,7 +292,7 @@ export class TextAnalyticsClient {
    * https://docs.microsoft.com/en-us/azure/cognitive-services/Text-Analytics/named-entity-types.
    * For a list of languages supported by this operation, see
    * https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/language-support.
-   * @param inputs The input strings to analyze.
+   * @param documents The input strings to analyze.
    * @param language The language that all the input strings are
         written in. If unspecified, this value will be set to the default
         language in `TextAnalyticsClientOptions`.  
@@ -285,7 +301,7 @@ export class TextAnalyticsClient {
    * @param options Optional parameters for the operation.
    */
   public async recognizeEntities(
-    inputs: string[],
+    documents: string[],
     language?: string,
     options?: RecognizeCategorizedEntitiesOptions
   ): Promise<RecognizeCategorizedEntitiesResultCollection>;
@@ -297,27 +313,31 @@ export class TextAnalyticsClient {
    * https://docs.microsoft.com/en-us/azure/cognitive-services/Text-Analytics/named-entity-types.
    * For a list of languages supported by this operation, see
    * https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/language-support.
-   * @param inputs The input documents to analyze.
+   * @param documents The input documents to analyze.
    * @param options Optional parameters for the operation.
    */
   public async recognizeEntities(
-    inputs: TextDocumentInput[],
+    documents: TextDocumentInput[],
     options?: RecognizeCategorizedEntitiesOptions
   ): Promise<RecognizeCategorizedEntitiesResultCollection>;
   public async recognizeEntities(
-    inputs: string[] | TextDocumentInput[],
+    documents: string[] | TextDocumentInput[],
     languageOrOptions?: string | RecognizeCategorizedEntitiesOptions,
     options?: RecognizeCategorizedEntitiesOptions
   ): Promise<RecognizeCategorizedEntitiesResultCollection> {
     let realOptions: RecognizeCategorizedEntitiesOptions;
     let realInputs: TextDocumentInput[];
 
-    if (isStringArray(inputs)) {
+    if (!Array.isArray(documents) || documents.length == 0) {
+      throw new Error("'documents' must be a non-empty array");
+    }
+
+    if (isStringArray(documents)) {
       const language = (languageOrOptions as string) || this.defaultLanguage;
-      realInputs = convertToTextDocumentInput(inputs, language);
+      realInputs = convertToTextDocumentInput(documents, language);
       realOptions = options || {};
     } else {
-      realInputs = inputs;
+      realInputs = documents;
       realOptions = (languageOrOptions as RecognizeCategorizedEntitiesOptions) || {};
     }
 
@@ -358,7 +378,7 @@ export class TextAnalyticsClient {
    * the model's confidence in each of the predicted sentiments.
    * For a list of languages supported by this operation, see
    * https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/language-support.
-   * @param inputs The input strings to analyze.
+   * @param documents The input strings to analyze.
    * @param language The language that all the input strings are
         written in. If unspecified, this value will be set to the default
         language in `TextAnalyticsClientOptions`.  
@@ -367,7 +387,7 @@ export class TextAnalyticsClient {
    * @param options Optional parameters for the operation.
    */
   public async analyzeSentiment(
-    inputs: string[],
+    documents: string[],
     language?: string,
     options?: AnalyzeSentimentOptions
   ): Promise<AnalyzeSentimentResultCollection>;
@@ -377,27 +397,31 @@ export class TextAnalyticsClient {
    * the model's confidence in each of the predicted sentiments.
    * For a list of languages supported by this operation, see
    * https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/language-support.
-   * @param inputs The input documents to analyze.
+   * @param documents The input documents to analyze.
    * @param options Optional parameters for the operation.
    */
   public async analyzeSentiment(
-    inputs: TextDocumentInput[],
+    documents: TextDocumentInput[],
     options?: AnalyzeSentimentOptions
   ): Promise<AnalyzeSentimentResultCollection>;
   public async analyzeSentiment(
-    inputs: string[] | TextDocumentInput[],
+    documents: string[] | TextDocumentInput[],
     languageOrOptions?: string | AnalyzeSentimentOptions,
     options?: AnalyzeSentimentOptions
   ): Promise<AnalyzeSentimentResultCollection> {
     let realOptions: AnalyzeSentimentOptions;
     let realInputs: TextDocumentInput[];
 
-    if (isStringArray(inputs)) {
+    if (!Array.isArray(documents) || documents.length == 0) {
+      throw new Error("'documents' must be a non-empty array");
+    }
+
+    if (isStringArray(documents)) {
       const language = (languageOrOptions as string) || this.defaultLanguage;
-      realInputs = convertToTextDocumentInput(inputs, language);
+      realInputs = convertToTextDocumentInput(documents, language);
       realOptions = options || {};
     } else {
-      realInputs = inputs;
+      realInputs = documents;
       realOptions = (languageOrOptions as AnalyzeSentimentOptions) || {};
     }
 
@@ -437,7 +461,7 @@ export class TextAnalyticsClient {
    * found in the passed-in input strings.
    * For a list of languages supported by this operation, see
    * https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/language-support.
-   * @param inputs The input strings to analyze.
+   * @param documents The input strings to analyze.
    * @param language The language that all the input strings are
         written in. If unspecified, this value will be set to the default
         language in `TextAnalyticsClientOptions`.  
@@ -446,7 +470,7 @@ export class TextAnalyticsClient {
    * @param options Optional parameters for the operation.
    */
   public async extractKeyPhrases(
-    inputs: string[],
+    documents: string[],
     language?: string,
     options?: ExtractKeyPhrasesOptions
   ): Promise<ExtractKeyPhrasesResultCollection>;
@@ -455,27 +479,31 @@ export class TextAnalyticsClient {
    * found in the passed-in input documents.
    * For a list of languages supported by this operation, see
    * https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/language-support.
-   * @param inputs The input documents to analyze.
+   * @param documents The input documents to analyze.
    * @param options Optional parameters for the operation.
    */
   public async extractKeyPhrases(
-    inputs: TextDocumentInput[],
+    documents: TextDocumentInput[],
     options?: ExtractKeyPhrasesOptions
   ): Promise<ExtractKeyPhrasesResultCollection>;
   public async extractKeyPhrases(
-    inputs: string[] | TextDocumentInput[],
+    documents: string[] | TextDocumentInput[],
     languageOrOptions?: string | ExtractKeyPhrasesOptions,
     options?: ExtractKeyPhrasesOptions
   ): Promise<ExtractKeyPhrasesResultCollection> {
     let realOptions: ExtractKeyPhrasesOptions;
     let realInputs: TextDocumentInput[];
 
-    if (isStringArray(inputs)) {
+    if (!Array.isArray(documents) || documents.length == 0) {
+      throw new Error("'documents' must be a non-empty array");
+    }
+
+    if (isStringArray(documents)) {
       const language = (languageOrOptions as string) || this.defaultLanguage;
-      realInputs = convertToTextDocumentInput(inputs, language);
+      realInputs = convertToTextDocumentInput(documents, language);
       realOptions = options || {};
     } else {
-      realInputs = inputs;
+      realInputs = documents;
       realOptions = (languageOrOptions as ExtractKeyPhrasesOptions) || {};
     }
 
@@ -516,7 +544,7 @@ export class TextAnalyticsClient {
    * entities to their corresponding entries in a well-known knowledge base.
    * For a list of languages supported by this operation, see
    * https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/language-support.
-   * @param inputs The input strings to analyze.
+   * @param documents The input strings to analyze.
    * @param language The language that all the input strings are
         written in. If unspecified, this value will be set to the default
         language in `TextAnalyticsClientOptions`.  
@@ -525,7 +553,7 @@ export class TextAnalyticsClient {
    * @param options Optional parameters for the operation.
    */
   public async recognizeLinkedEntities(
-    inputs: string[],
+    documents: string[],
     language?: string,
     options?: RecognizeLinkedEntitiesOptions
   ): Promise<RecognizeLinkedEntitiesResultCollection>;
@@ -535,27 +563,31 @@ export class TextAnalyticsClient {
    * entities to their corresponding entries in a well-known knowledge base.
    * For a list of languages supported by this operation, see
    * https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/language-support.
-   * @param inputs The input documents to analyze.
+   * @param documents The input documents to analyze.
    * @param options Optional parameters for the operation.
    */
   public async recognizeLinkedEntities(
-    inputs: TextDocumentInput[],
+    documents: TextDocumentInput[],
     options?: RecognizeLinkedEntitiesOptions
   ): Promise<RecognizeLinkedEntitiesResultCollection>;
   public async recognizeLinkedEntities(
-    inputs: string[] | TextDocumentInput[],
+    documents: string[] | TextDocumentInput[],
     languageOrOptions?: string | RecognizeLinkedEntitiesOptions,
     options?: RecognizeLinkedEntitiesOptions
   ): Promise<RecognizeLinkedEntitiesResultCollection> {
     let realOptions: RecognizeLinkedEntitiesOptions;
     let realInputs: TextDocumentInput[];
 
-    if (isStringArray(inputs)) {
+    if (!Array.isArray(documents) || documents.length == 0) {
+      throw new Error("'documents' must be a non-empty array");
+    }
+
+    if (isStringArray(documents)) {
       const language = (languageOrOptions as string) || this.defaultLanguage;
-      realInputs = convertToTextDocumentInput(inputs, language);
+      realInputs = convertToTextDocumentInput(documents, language);
       realOptions = options || {};
     } else {
-      realInputs = inputs;
+      realInputs = documents;
       realOptions = (languageOrOptions as RecognizeLinkedEntitiesOptions) || {};
     }
 
@@ -591,8 +623,8 @@ export class TextAnalyticsClient {
   }
 }
 
-function isStringArray(inputs: any[]): inputs is string[] {
-  return typeof inputs[0] === "string";
+function isStringArray(documents: any[]): documents is string[] {
+  return typeof documents[0] === "string";
 }
 
 function convertToDetectLanguageInput(

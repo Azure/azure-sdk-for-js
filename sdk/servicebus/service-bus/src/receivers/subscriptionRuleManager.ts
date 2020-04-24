@@ -4,6 +4,8 @@
 import { RuleDescription, CorrelationFilter } from "../core/managementClient";
 import { throwErrorIfClientOrConnectionClosed } from "../util/errors";
 import { ClientEntityContext } from "../clientEntityContext";
+import { retry, RetryOperationType, RetryConfig, RetryOptions } from "@azure/core-amqp";
+import { OperationOptions } from "../modelsToBeSharedWithEventHubs";
 
 /**
  * Manages rules for subscriptions.
@@ -12,10 +14,11 @@ import { ClientEntityContext } from "../clientEntityContext";
 export interface SubscriptionRuleManager {
   /**
    * Gets all rules associated with the subscription
+   * @param options - Options bag to pass an abort signal or tracing options.
    * @throws Error if the SubscriptionClient or the underlying connection is closed.
    * @throws MessagingError if the service returns an error while retrieving rules.
    */
-  getRules(): Promise<RuleDescription[]>;
+  getRules(options?: OperationOptions): Promise<RuleDescription[]>;
 
   /**
    * Removes the rule on the subscription identified by the given rule name.
@@ -23,11 +26,12 @@ export interface SubscriptionRuleManager {
    * **Caution**: If all rules on a subscription are removed, then the subscription will not receive
    * any more messages.
    * @param ruleName
+   * @param options - Options bag to pass an abort signal or tracing options.
    * @throws Error if the SubscriptionClient or the underlying connection is closed.
    * @throws MessagingError if the service returns an error while removing rules.
    */
 
-  removeRule(ruleName: string): Promise<void>;
+  removeRule(ruleName: string, options?: OperationOptions): Promise<void>;
   /**
    * Adds a rule on the subscription as defined by the given rule name, filter and action.
    *
@@ -39,13 +43,15 @@ export interface SubscriptionRuleManager {
    * {@link https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-messaging-sql-filter SQLFilter syntax}.
    * @param sqlRuleActionExpression Action to perform if the message satisfies the filtering expression. For SQL Rule Action syntax,
    * see {@link https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-messaging-sql-rule-action SQLRuleAction syntax}.
+   * @param options - Options bag to pass an abort signal or tracing options.
    * @throws Error if the SubscriptionClient or the underlying connection is closed.
    * @throws MessagingError if the service returns an error while adding rules.
    */
   addRule(
     ruleName: string,
     filter: boolean | string | CorrelationFilter,
-    sqlRuleActionExpression?: string
+    sqlRuleActionExpression?: string,
+    options?: OperationOptions
   ): Promise<void>;
 
   /**
@@ -65,38 +71,87 @@ export interface SubscriptionRuleManager {
  * @ignore
  */
 export class SubscriptionRuleManagerImpl implements SubscriptionRuleManager {
-  constructor(private _context: ClientEntityContext) {}
-
-  // #region topic-filters
-  getRules(): Promise<RuleDescription[]> {
-    throwErrorIfClientOrConnectionClosed(
-      this._context.namespace,
-      this._context.entityPath,
-      this._context.isClosed
-    );
-    return this._context.managementClient!.getRules();
+  private _retryOptions: RetryOptions;
+  constructor(private _context: ClientEntityContext, retryOptions: RetryOptions = {}) {
+    this._retryOptions = retryOptions;
   }
 
-  removeRule(ruleName: string): Promise<void> {
+  // #region topic-filters
+  getRules(options: OperationOptions = {}): Promise<RuleDescription[]> {
     throwErrorIfClientOrConnectionClosed(
       this._context.namespace,
       this._context.entityPath,
       this._context.isClosed
     );
-    return this._context.managementClient!.removeRule(ruleName);
+
+    const getRulesOperationPromise = async () => {
+      return this._context.managementClient!.getRules({
+        ...options,
+        requestName: "getRules",
+        timeoutInMs: this._retryOptions.timeoutInMs
+      });
+    };
+    const config: RetryConfig<RuleDescription[]> = {
+      operation: getRulesOperationPromise,
+      connectionId: this._context.namespace.connectionId,
+      operationType: RetryOperationType.management,
+      retryOptions: this._retryOptions,
+      abortSignal: options?.abortSignal
+    };
+    return retry<RuleDescription[]>(config);
+  }
+
+  removeRule(ruleName: string, options: OperationOptions = {}): Promise<void> {
+    throwErrorIfClientOrConnectionClosed(
+      this._context.namespace,
+      this._context.entityPath,
+      this._context.isClosed
+    );
+
+    const removeRuleOperationPromise = () => {
+      return this._context.managementClient!.removeRule(ruleName, {
+        ...options,
+        requestName: "removeRule",
+        timeoutInMs: this._retryOptions.timeoutInMs
+      });
+    };
+    const config: RetryConfig<void> = {
+      operation: removeRuleOperationPromise,
+      connectionId: this._context.namespace.connectionId,
+      operationType: RetryOperationType.management,
+      retryOptions: this._retryOptions,
+      abortSignal: options?.abortSignal
+    };
+    return retry<void>(config);
   }
 
   addRule(
     ruleName: string,
     filter: boolean | string | CorrelationFilter,
-    sqlRuleActionExpression?: string
+    sqlRuleActionExpression?: string,
+    options: OperationOptions = {}
   ): Promise<void> {
     throwErrorIfClientOrConnectionClosed(
       this._context.namespace,
       this._context.entityPath,
       this._context.isClosed
     );
-    return this._context.managementClient!.addRule(ruleName, filter, sqlRuleActionExpression);
+
+    const addRuleOperationPromise = async () => {
+      return this._context.managementClient!.addRule(ruleName, filter, sqlRuleActionExpression, {
+        ...options,
+        requestName: "addRule",
+        timeoutInMs: this._retryOptions.timeoutInMs
+      });
+    };
+    const config: RetryConfig<void> = {
+      operation: addRuleOperationPromise,
+      connectionId: this._context.namespace.connectionId,
+      operationType: RetryOperationType.management,
+      retryOptions: this._retryOptions,
+      abortSignal: options?.abortSignal
+    };
+    return retry<void>(config);
   }
 
   close(): Promise<void> {

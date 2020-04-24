@@ -21,6 +21,7 @@ import {
 } from "../util/utils";
 
 /**
+ * @internal
  * @ignore
  * Builds the subscription options object from the user provided options.
  * Handles the differences in casing for the property names,
@@ -53,6 +54,7 @@ export function buildSubscriptionOptions(
 }
 
 /**
+ * @internal
  * @ignore
  * Builds the subscription object from the raw json object gotten after deserializing
  * the response from the service
@@ -113,6 +115,8 @@ export function buildSubscription(rawSubscription: any): SubscriptionDetails {
 }
 
 /**
+ * @internal
+ * @ignore
  * Represents settable options on a subscription
  */
 export interface SubscriptionOptions {
@@ -208,6 +212,7 @@ export interface SubscriptionOptions {
 }
 
 /**
+ * @internal
  * @ignore
  * Internal representation of settable options on a subscription
  */
@@ -304,6 +309,8 @@ export interface InternalSubscriptionOptions {
 }
 
 /**
+ * @internal
+ * @ignore
  * Represents all attributes of a subscription entity
  */
 export interface SubscriptionDetails {
@@ -469,6 +476,7 @@ export interface SubscriptionDetails {
 }
 
 /**
+ * @internal
  * @ignore
  * SubscriptionResourceSerializer for serializing / deserializing Subscription entities
  */

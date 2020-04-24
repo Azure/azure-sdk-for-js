@@ -20,7 +20,6 @@ import { OnAmqpEvent, EventContext, ConnectionEvents } from "rhea-promise";
 
 /**
  * @internal
- * @interface ConnectionContext
  * Provides contextual information like the underlying amqp connection, cbs session, management session,
  * tokenCredential, senders, receivers, etc. about the ServiceBus client.
  */
@@ -53,7 +52,8 @@ export namespace ConnectionContext {
     const parameters: CreateConnectionContextBaseParameters = {
       config: config,
       tokenCredential: tokenCredential,
-      dataTransformer: options.dataTransformer,
+      // re-enabling this will be a post-GA discussion similar to event-hubs.
+      // dataTransformer: options.dataTransformer,
       isEntityPathRequired: false,
       connectionProperties: {
         product: "MSJSClient",

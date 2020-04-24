@@ -7,7 +7,8 @@ import { MockAuthHttpClient } from "./authTestUtils";
 import { AuthenticationError } from "../src/";
 import { IdentityClient } from "../src/client/identityClient";
 import { ClientSecretCredential } from "../src";
-import { setLogLevel, AzureLogger, getLogLevel, AzureLogLevel } from '@azure/logger';
+import { setLogLevel, AzureLogger, getLogLevel, AzureLogLevel } from "@azure/logger";
+import { isNode } from "@azure/core-http";
 
 function isExpectedError(expectedErrorName: string): (error: any) => boolean {
   return (error: any) => {
@@ -18,7 +19,7 @@ function isExpectedError(expectedErrorName: string): (error: any) => boolean {
   };
 }
 
-describe("IdentityClient", function () {
+describe("IdentityClient", function() {
   let logMessages: string[];
   let oldLogger: typeof AzureLogger.log;
   let oldLogLevel: AzureLogLevel | undefined;
@@ -78,6 +79,35 @@ describe("IdentityClient", function () {
     );
   });
 
+  it("throws an exception when an Env AZURE_AUTHORITY_HOST using 'http' is provided", async function() {
+    if (!isNode) {
+      return this.skip();
+    }
+    process.env.AZURE_AUTHORITY_HOST ="http://totallyinsecure.lol";
+    assert.throws(
+      () => {
+        new IdentityClient();
+      },
+      Error,
+      "The authorityHost address must use the 'https' protocol."
+    );
+    process.env.AZURE_AUTHORITY_HOST ="httpsomg.com";
+    assert.throws(
+      () => {
+        new IdentityClient();
+      },
+      Error,
+      "The authorityHost address must use the 'https' protocol."
+    );
+
+    // While we have the environment variable, ensure correct precedence
+    assert(
+        new IdentityClient({authorityHost: "https://correct.url"})
+    );
+
+    delete process.env.AZURE_AUTHORITY_HOST;    
+  });
+
   it("returns a usable error when the authentication response doesn't contain a body", async () => {
     const mockHttp = new MockAuthHttpClient({
       authResponse: {
@@ -128,7 +158,7 @@ describe("IdentityClient", function () {
       /.*azure:identity:info.*IdentityClient: interaction required for client ID: client.*/
     ];
 
-    logMessages = logMessages.filter(msg => msg.indexOf("azure:identity:") >= 0);
+    logMessages = logMessages.filter((msg) => msg.indexOf("azure:identity:") >= 0);
 
     assert.equal(expectedMessages.length, logMessages.length);
 

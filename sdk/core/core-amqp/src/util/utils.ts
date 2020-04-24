@@ -8,7 +8,6 @@ import { WebSocketImpl } from "rhea-promise";
 export { AsyncLock };
 /**
  * Describes the options that can be provided to create an async lock.
- * @interface AsyncLockOptions
  */
 export interface AsyncLockOptions {
   /**
@@ -60,7 +59,6 @@ export const isNode =
 
 /**
  * Describes the servicebus connection string model.
- * @interface ServiceBusConnectionStringModel
  */
 export interface ServiceBusConnectionStringModel {
   Endpoint: string;
@@ -72,7 +70,6 @@ export interface ServiceBusConnectionStringModel {
 
 /**
  * Describes the eventhub connection string model.
- * @interface EventHubConnectionStringModel
  */
 export interface EventHubConnectionStringModel {
   Endpoint: string;
@@ -84,7 +81,6 @@ export interface EventHubConnectionStringModel {
 
 /**
  * Describes the stroage connection string model.
- * @interface StorageConnectionStringModel
  */
 export interface StorageConnectionStringModel {
   DefaultEndpointsProtocol: string;
@@ -96,7 +92,6 @@ export interface StorageConnectionStringModel {
 
 /**
  * Describes the iothub connection string model.
- * @interface IotHubConnectionStringModel
  */
 export interface IotHubConnectionStringModel {
   HostName: string;

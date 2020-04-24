@@ -6,7 +6,6 @@ import { logger } from "./log";
 
 /**
  * Describes the defined set of standard properties of the message.
- * @interface MessageProperties
  */
 export interface MessageProperties {
   /**

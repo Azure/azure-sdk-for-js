@@ -260,12 +260,12 @@ export interface SignedIdentifier<T> {
 export type FileSystemGetAccessPolicyResponse = {
   signedIdentifiers: SignedIdentifier<AccessPolicy>[];
 } & FileSystemGetAccessPolicyHeaders & {
-  _response: HttpResponse & {
-    parsedHeaders: FileSystemGetAccessPolicyHeaders;
-    bodyAsText: string;
-    parsedBody: SignedIdentifier<RawAccessPolicy>[];
+    _response: HttpResponse & {
+      parsedHeaders: FileSystemGetAccessPolicyHeaders;
+      bodyAsText: string;
+      parsedBody: SignedIdentifier<RawAccessPolicy>[];
+    };
   };
-};
 
 export interface FileSystemSetAccessPolicyOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
@@ -352,7 +352,7 @@ export interface Metadata {
 
 export interface DataLakeRequestConditions
   extends ModifiedAccessConditions,
-  LeaseAccessConditions { }
+    LeaseAccessConditions {}
 
 export interface RolePermissions {
   read: boolean;
@@ -591,9 +591,9 @@ export interface PathExistsOptions extends CommonOptions {
 /** DataLakeDirectoryClient option and response related models **/
 /****************************************************************/
 
-export interface DirectoryCreateOptions extends PathCreateOptions { }
+export interface DirectoryCreateOptions extends PathCreateOptions {}
 
-export interface DirectoryCreateResponse extends PathCreateResponse { }
+export interface DirectoryCreateResponse extends PathCreateResponse {}
 
 /***********************************************************/
 /** DataLakeFileClient option and response related models **/
@@ -665,9 +665,9 @@ export interface FileFlushOptions extends CommonOptions {
   pathHttpHeaders?: PathHttpHeaders;
 }
 
-export interface FileCreateOptions extends PathCreateOptions { }
+export interface FileCreateOptions extends PathCreateOptions {}
 
-export interface FileCreateResponse extends PathCreateResponse { }
+export interface FileCreateResponse extends PathCreateResponse {}
 
 /**
  * Option interface for Data Lake file - Upload operations
@@ -764,7 +764,7 @@ export interface FileParallelUploadOptions extends CommonOptions {
 
   /**
    * Data size threshold in bytes to use a single upload operation rather than parallel uploading.
-   * Data of smaller size than this limit will be transferred in a single upload. 
+   * Data of smaller size than this limit will be transferred in a single upload.
    * Data larger than this limit will be transferred in chunks in parallel.
    * Its default and max value is FILE_MAX_SINGLE_UPLOAD_THRESHOLD.
    * Note: {@link DataLakeFileClient.uploadStream} do not respect this field and always do parallel uploading.
@@ -785,7 +785,7 @@ export interface FileParallelUploadOptions extends CommonOptions {
   chunkSize?: number;
   /**
    * Max concurrency of parallel uploading. Must be >= 0. Its default value is DEFAULT_HIGH_LEVEL_CONCURRENCY.
-   * 
+   *
    * @type {number}
    * @memberof FileParallelUploadOptions
    */

@@ -132,7 +132,7 @@ export function browserConfig(test = false) {
       cjs({
         namedExports: {
           events: ["EventEmitter"],
-          "@opentelemetry/types": ["CanonicalCode", "SpanKind", "TraceFlags"]
+          "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
         }
       }),
 
@@ -151,7 +151,7 @@ export function browserConfig(test = false) {
   };
 
   if (test) {
-    baseConfig.input = "dist-esm/test/**/*.spec.js";
+    baseConfig.input = ["dist-esm/test/*.spec.js", "dist-esm/test/impl/*.spec.js"];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "test-browser/index.js";
 

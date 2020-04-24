@@ -28,7 +28,7 @@ describe("DirectoryClient", () => {
   fullDirAttributes.notContentIndexed = true;
   fullDirAttributes.noScrubData = true;
 
-  beforeEach(async function () {
+  beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
     const serviceClient = getBSU();
     shareName = recorder.getUniqueName("share");
@@ -49,7 +49,7 @@ describe("DirectoryClient", () => {
     assert.ok(defaultDirCreateResp.filePermissionKey!);
   });
 
-  afterEach(async function () {
+  afterEach(async function() {
     await shareClient.delete();
     recorder.stop();
   });
@@ -630,7 +630,7 @@ describe("DirectoryClient", () => {
     const tracer = new TestTracer();
     setTracer(tracer);
     const rootSpan = tracer.startSpan("root");
-    const spanOptions = { parent: rootSpan };
+    const spanOptions = { parent: rootSpan.context() };
     const tracingOptions = { spanOptions };
     const directoryName = recorder.getUniqueName("directory");
     const { directoryClient: subDirClient } = await dirClient.createSubdirectory(directoryName, {
@@ -818,13 +818,21 @@ describe("DirectoryClient", () => {
 
       const handle = result.handleList[0];
       const closeResp = await mockDirClient.forceCloseHandle(handle.handleId);
-      assert.equal(closeResp.closeFailureCount, 1, "Number of handles failed to close is not as set.")
+      assert.equal(
+        closeResp.closeFailureCount,
+        1,
+        "Number of handles failed to close is not as set."
+      );
     }
   });
 
   it("forceCloseAllHandles return correct closeFailureCount", async () => {
     const closeRes = await dirClient.forceCloseAllHandles();
-    assert.equal(closeRes.closeFailureCount, 0, "The closeFailureCount is not set to 0 as default.");
+    assert.equal(
+      closeRes.closeFailureCount,
+      0,
+      "The closeFailureCount is not set to 0 as default."
+    );
   });
 });
 

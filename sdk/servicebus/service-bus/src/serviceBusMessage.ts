@@ -21,19 +21,20 @@ import { Buffer } from "buffer";
 // TODO: it'd be nice to make this internal/ignore if we can in favor of just using the string enum.
 /**
  * The mode in which messages should be received. The 2 modes are `peekLock` and `receiveAndDelete`.
+ * @internal
+ * @ignore
+ * @enum {number}
  */
 export enum ReceiveMode {
   /**
    * Once a message is received in this mode, the receiver has a lock on the message for a
    * particular duration. If the message is not settled by this time, it lands back on Service Bus
    * to be fetched by the next receive operation.
-   * @type {Number}
    */
   peekLock = 1,
 
   /**
    * Messages received in this mode get automatically removed from Service Bus.
-   * @type {Number}
    */
   receiveAndDelete = 2
 }
@@ -62,7 +63,6 @@ export enum DispositionStatus {
 /**
  * @internal
  * Describes the delivery annotations for Service Bus.
- * @interface
  */
 export interface ServiceBusDeliveryAnnotations extends DeliveryAnnotations {
   /**
@@ -90,7 +90,6 @@ export interface ServiceBusDeliveryAnnotations extends DeliveryAnnotations {
 /**
  * @internal
  * Describes the message annotations for Service Bus.
- * @interface ServiceBusMessageAnnotations
  */
 export interface ServiceBusMessageAnnotations extends MessageAnnotations {
   /**
@@ -118,13 +117,12 @@ export interface ServiceBusMessageAnnotations extends MessageAnnotations {
 /**
  * Describes the reason and error description for dead lettering a message using the `deadLetter()`
  * method on the message received from Service Bus.
- * @interface DeadLetterOptions
  */
 export interface DeadLetterOptions {
   /**
    * @property The reason for deadlettering the message.
    */
-  deadletterReason: string;
+  deadLetterReason: string;
   /**
    * @property The error description for deadlettering the message.
    */
@@ -558,7 +556,7 @@ export interface ReceivedMessageWithLock extends ReceivedMessage {
    *
    * @returns Promise<void>
    */
-  deadLetter(options?: DeadLetterOptions): Promise<void>;
+  deadLetter(options?: DeadLetterOptions & { [key: string]: any }): Promise<void>;
 
   /**
    * Renews the lock on the message for the duration as specified during the Queue/Subscription
@@ -690,6 +688,11 @@ export function fromAmqpMessage(
 
 /**
  * Describes the message received from Service Bus.
+ *
+ * @internal
+ * @ignore
+ * @class ServiceBusMessageImpl
+ * @implements {ReceivedMessageWithLock}
  */
 export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
   /**
@@ -983,14 +986,19 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
   /**
    * See ReceivedMessageWithLock.deadLetter().
    */
-  async deadLetter(options?: DeadLetterOptions): Promise<void> {
+  async deadLetter(propertiesToModify?: DeadLetterOptions & { [key: string]: any }): Promise<void> {
     const error: AmqpError = {
       condition: Constants.deadLetterName
     };
-    if (options) {
+
+    if (
+      propertiesToModify &&
+      (propertiesToModify.deadLetterReason != null ||
+        propertiesToModify.deadLetterErrorDescription != null)
+    ) {
       error.info = {
-        DeadLetterReason: options.deadletterReason,
-        DeadLetterErrorDescription: options.deadLetterErrorDescription
+        DeadLetterReason: propertiesToModify.deadLetterReason,
+        DeadLetterErrorDescription: propertiesToModify.deadLetterErrorDescription
       };
     }
     log.message(
@@ -998,13 +1006,25 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
       this._context.namespace.connectionId,
       this.messageId
     );
+
+    const actualPropertiesToModify: Partial<DeadLetterOptions> = {
+      ...propertiesToModify
+    };
+
+    // these two fields are handled specially and don't need to be in here.
+    delete actualPropertiesToModify.deadLetterErrorDescription;
+    delete actualPropertiesToModify.deadLetterReason;
+
+    // this handles deferred messages that have been received via the management link
+    // and thus need to be settled there.
     if (this._context.requestResponseLockedMessages.has(this.lockToken!)) {
       await this._context.managementClient!.updateDispositionStatus(
         this.lockToken!,
         DispositionStatus.suspended,
         {
-          deadLetterReason: error.condition,
-          deadLetterDescription: error.description,
+          propertiesToModify: actualPropertiesToModify,
+          deadLetterReason: propertiesToModify?.deadLetterReason,
+          deadLetterDescription: propertiesToModify?.deadLetterErrorDescription,
           sessionId: this.sessionId
         }
       );
@@ -1017,6 +1037,7 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
     this.throwIfMessageCannotBeSettled(receiver, DispositionType.deadletter);
 
     return receiver!.settleMessage(this, DispositionType.deadletter, {
+      propertiesToModify: actualPropertiesToModify,
       error: error
     });
   }
@@ -1065,7 +1086,6 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
   }
 
   /**
-   * @private
    * Logs and Throws an error if the given message cannot be settled.
    * @param receiver Receiver to be used to settle this message
    * @param operation Settle operation: complete, abandon, defer or deadLetter

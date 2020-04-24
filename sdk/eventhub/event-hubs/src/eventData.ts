@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { Message, Dictionary, MessageAnnotations, DeliveryAnnotations } from "rhea-promise";
+import { Message, MessageAnnotations, DeliveryAnnotations } from "rhea-promise";
 import { Constants } from "@azure/core-amqp";
 
 /**
  * Describes the delivery annotations.
- * @interface EventHubDeliveryAnnotations
  * @ignore
  */
 export interface EventHubDeliveryAnnotations extends DeliveryAnnotations {
@@ -34,7 +33,6 @@ export interface EventHubDeliveryAnnotations extends DeliveryAnnotations {
 
 /**
  * Map containing message attributes that will be held in the message header.
- * @interface EventHubMessageAnnotations
  * @ignore
  */
 export interface EventHubMessageAnnotations extends MessageAnnotations {
@@ -62,7 +60,6 @@ export interface EventHubMessageAnnotations extends MessageAnnotations {
 
 /**
  * Describes the structure of an event to be sent or received from the EventHub.
- * @interface
  * @ignore
  */
 export interface EventDataInternal {
@@ -90,7 +87,7 @@ export interface EventDataInternal {
   /**
    * @property [properties] The application specific properties.
    */
-  properties?: Dictionary<any>;
+  properties?: { [property: string]: any };
   /**
    * @property [lastSequenceNumber] The last sequence number of the event within the partition stream of the Event Hub.
    */
@@ -110,8 +107,24 @@ export interface EventDataInternal {
   /**
    * @property [systemProperties] The properties set by the service.
    */
-  systemProperties?: Dictionary<any>;
+  systemProperties?: { [property: string]: any };
 }
+
+const messagePropertiesMap = {
+  message_id: "messageId",
+  user_id: "userId",
+  to: "to",
+  subject: "subject",
+  reply_to: "replyTo",
+  correlation_id: "correlationId",
+  content_type: "contentType",
+  content_encoding: "contentEncoding",
+  absolute_expiry_time: "absoluteExpiryTime",
+  creation_time: "creationTime",
+  group_id: "groupId",
+  group_sequence: "groupSequence",
+  reply_to_group_id: "replyToGroupId"
+} as const;
 
 /**
  * Converts the AMQP message to an EventData.
@@ -159,6 +172,18 @@ export function fromAmqpMessage(msg: Message): EventDataInternal {
     );
   }
 
+  const messageProperties = Object.keys(messagePropertiesMap) as Array<
+    keyof typeof messagePropertiesMap
+  >;
+  for (const messageProperty of messageProperties) {
+    if (!data.systemProperties) {
+      data.systemProperties = {};
+    }
+    if (msg[messageProperty] != null) {
+      data.systemProperties[messagePropertiesMap[messageProperty]] = msg[messageProperty];
+    }
+  }
+
   return data;
 }
 
@@ -192,7 +217,7 @@ export function toAmqpMessage(data: EventData, partitionKey?: string): Message {
 /**
  * The interface that describes the data to be sent to Event Hub.
  * Use this as a reference when creating the object to be sent when using the `EventHubProducerClient`.
- * For example, `{ body: "your-data" }` or 
+ * For example, `{ body: "your-data" }` or
  * ```
  * {
  *    body: "your-data",

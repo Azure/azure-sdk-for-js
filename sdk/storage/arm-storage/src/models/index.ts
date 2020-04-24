@@ -316,6 +316,16 @@ export interface KeyVaultProperties {
    * The Uri of KeyVault.
    */
   keyVaultUri?: string;
+  /**
+   * The object identifier of the current versioned Key Vault Key in use.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly currentVersionedKeyIdentifier?: string;
+  /**
+   * Timestamp of last rotation of the Key Vault Key.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lastKeyRotationTimestamp?: Date;
 }
 
 /**
@@ -1459,6 +1469,50 @@ export interface PrivateLinkResourceListResult {
 }
 
 /**
+ * The key vault properties for the encryption scope. This is a required field if encryption scope
+ * 'source' attribute is set to 'Microsoft.KeyVault'.
+ */
+export interface EncryptionScopeKeyVaultProperties {
+  /**
+   * The object identifier for a key vault key object. When applied, the encryption scope will use
+   * the key referenced by the identifier to enable customer-managed key support on this encryption
+   * scope.
+   */
+  keyUri?: string;
+}
+
+/**
+ * The Encryption Scope resource.
+ */
+export interface EncryptionScope extends Resource {
+  /**
+   * The provider for the encryption scope. Possible values (case-insensitive):  Microsoft.Storage,
+   * Microsoft.KeyVault. Possible values include: 'Microsoft.Storage', 'Microsoft.KeyVault'
+   */
+  source?: EncryptionScopeSource;
+  /**
+   * The state of the encryption scope. Possible values (case-insensitive):  Enabled, Disabled.
+   * Possible values include: 'Enabled', 'Disabled'
+   */
+  state?: EncryptionScopeState;
+  /**
+   * Gets the creation date and time of the encryption scope in UTC.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly creationTime?: Date;
+  /**
+   * Gets the last modification date and time of the encryption scope in UTC.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lastModifiedTime?: Date;
+  /**
+   * The key vault properties for the encryption scope. This is a required field if encryption
+   * scope 'source' attribute is set to 'Microsoft.KeyVault'.
+   */
+  keyVaultProperties?: EncryptionScopeKeyVaultProperties;
+}
+
+/**
  * An error response from the storage resource provider.
  */
 export interface ErrorResponse {
@@ -1535,13 +1589,20 @@ export interface ImmutabilityPolicyProperties {
   /**
    * The immutability period for the blobs in the container since the policy creation, in days.
    */
-  immutabilityPeriodSinceCreationInDays: number;
+  immutabilityPeriodSinceCreationInDays?: number;
   /**
    * The ImmutabilityPolicy state of a blob container, possible values include: Locked and
    * Unlocked. Possible values include: 'Locked', 'Unlocked'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly state?: ImmutabilityPolicyState;
+  /**
+   * This property can only be changed for unlocked time-based retention policies. When enabled,
+   * new blocks can be written to an append blob while maintaining immutability protection and
+   * compliance. Only new blocks can be added and any existing blocks cannot be modified or
+   * deleted. This property cannot be changed with ExtendImmutabilityPolicy API
+   */
+  allowProtectedAppendWrites?: boolean;
   /**
    * ImmutabilityPolicy Etag.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -1608,6 +1669,14 @@ export interface LegalHoldProperties {
  */
 export interface BlobContainer extends AzureEntityResource {
   /**
+   * Default the container to use specified encryption scope for all writes.
+   */
+  defaultEncryptionScope?: string;
+  /**
+   * Block override of encryption scope from the container default.
+   */
+  denyEncryptionScopeOverride?: boolean;
+  /**
    * Specifies whether data in the container may be accessed publicly and the level of access.
    * Possible values include: 'Container', 'Blob', 'None'
    */
@@ -1673,13 +1742,20 @@ export interface ImmutabilityPolicy extends AzureEntityResource {
   /**
    * The immutability period for the blobs in the container since the policy creation, in days.
    */
-  immutabilityPeriodSinceCreationInDays: number;
+  immutabilityPeriodSinceCreationInDays?: number;
   /**
    * The ImmutabilityPolicy state of a blob container, possible values include: Locked and
    * Unlocked. Possible values include: 'Locked', 'Unlocked'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly state?: ImmutabilityPolicyState;
+  /**
+   * This property can only be changed for unlocked time-based retention policies. When enabled,
+   * new blocks can be written to an append blob while maintaining immutability protection and
+   * compliance. Only new blocks can be added and any existing blocks cannot be modified or
+   * deleted. This property cannot be changed with ExtendImmutabilityPolicy API
+   */
+  allowProtectedAppendWrites?: boolean;
 }
 
 /**
@@ -1704,6 +1780,14 @@ export interface LegalHold {
  * The blob container properties be listed out.
  */
 export interface ListContainerItem extends AzureEntityResource {
+  /**
+   * Default the container to use specified encryption scope for all writes.
+   */
+  defaultEncryptionScope?: string;
+  /**
+   * Block override of encryption scope from the container default.
+   */
+  denyEncryptionScopeOverride?: boolean;
   /**
    * Specifies whether data in the container may be accessed publicly and the level of access.
    * Possible values include: 'Container', 'Blob', 'None'
@@ -1863,7 +1947,11 @@ export interface BlobServiceProperties extends Resource {
    */
   deleteRetentionPolicy?: DeleteRetentionPolicy;
   /**
-   * Automatic Snapshot is enabled if set to true.
+   * Versioning is enabled if set to true.
+   */
+  isVersioningEnabled?: boolean;
+  /**
+   * Deprecated in favor of isVersioningEnabled property.
    */
   automaticSnapshotPolicyEnabled?: boolean;
   /**
@@ -1874,6 +1962,10 @@ export interface BlobServiceProperties extends Resource {
    * The blob service properties for blob restore policy.
    */
   restorePolicy?: RestorePolicyProperties;
+  /**
+   * The blob service properties for container soft delete.
+   */
+  containerDeleteRetentionPolicy?: DeleteRetentionPolicy;
   /**
    * Sku name and tier.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -2037,36 +2129,6 @@ export interface BlobContainersListOptionalParams extends msRest.RequestOptionsB
 /**
  * Optional Parameters.
  */
-export interface BlobContainersCreateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Specifies whether data in the container may be accessed publicly and the level of access.
-   * Possible values include: 'Container', 'Blob', 'None'
-   */
-  publicAccess?: PublicAccess;
-  /**
-   * A name-value pair to associate with the container as metadata.
-   */
-  metadata?: { [propertyName: string]: string };
-}
-
-/**
- * Optional Parameters.
- */
-export interface BlobContainersUpdateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Specifies whether data in the container may be accessed publicly and the level of access.
-   * Possible values include: 'Container', 'Blob', 'None'
-   */
-  publicAccess?: PublicAccess;
-  /**
-   * A name-value pair to associate with the container as metadata.
-   */
-  metadata?: { [propertyName: string]: string };
-}
-
-/**
- * Optional Parameters.
- */
 export interface BlobContainersCreateOrUpdateImmutabilityPolicyOptionalParams extends msRest.RequestOptionsBase {
   /**
    * The entity state (ETag) version of the immutability policy to update. A value of "*" can be
@@ -2074,6 +2136,17 @@ export interface BlobContainersCreateOrUpdateImmutabilityPolicyOptionalParams ex
    * operation will always be applied.
    */
   ifMatch?: string;
+  /**
+   * The immutability period for the blobs in the container since the policy creation, in days.
+   */
+  immutabilityPeriodSinceCreationInDays?: number;
+  /**
+   * This property can only be changed for unlocked time-based retention policies. When enabled,
+   * new blocks can be written to an append blob while maintaining immutability protection and
+   * compliance. Only new blocks can be added and any existing blocks cannot be modified or
+   * deleted. This property cannot be changed with ExtendImmutabilityPolicy API
+   */
+  allowProtectedAppendWrites?: boolean;
 }
 
 /**
@@ -2086,6 +2159,23 @@ export interface BlobContainersGetImmutabilityPolicyOptionalParams extends msRes
    * operation will always be applied.
    */
   ifMatch?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface BlobContainersExtendImmutabilityPolicyOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The immutability period for the blobs in the container since the policy creation, in days.
+   */
+  immutabilityPeriodSinceCreationInDays?: number;
+  /**
+   * This property can only be changed for unlocked time-based retention policies. When enabled,
+   * new blocks can be written to an append blob while maintaining immutability protection and
+   * compliance. Only new blocks can be added and any existing blocks cannot be modified or
+   * deleted. This property cannot be changed with ExtendImmutabilityPolicy API
+   */
+  allowProtectedAppendWrites?: boolean;
 }
 
 /**
@@ -2262,6 +2352,21 @@ export interface StorageAccountListResult extends Array<StorageAccount> {
  * @extends Array<Usage>
  */
 export interface UsageListResult extends Array<Usage> {
+}
+
+/**
+ * @interface
+ * List of encryption scopes requested, and if paging is required, a URL to the next page of
+ * encryption scopes.
+ * @extends Array<EncryptionScope>
+ */
+export interface EncryptionScopeListResult extends Array<EncryptionScope> {
+  /**
+   * Request URL that can be used to query next page of encryption scopes. Returned when total
+   * number of requested encryption scopes exceeds the maximum page size.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
 }
 
 /**
@@ -2529,6 +2634,22 @@ export type HttpProtocol = 'https,http' | 'https';
  * @enum {string}
  */
 export type SignedResource = 'b' | 'c' | 'f' | 's';
+
+/**
+ * Defines values for EncryptionScopeSource.
+ * Possible values include: 'Microsoft.Storage', 'Microsoft.KeyVault'
+ * @readonly
+ * @enum {string}
+ */
+export type EncryptionScopeSource = 'Microsoft.Storage' | 'Microsoft.KeyVault';
+
+/**
+ * Defines values for EncryptionScopeState.
+ * Possible values include: 'Enabled', 'Disabled'
+ * @readonly
+ * @enum {string}
+ */
+export type EncryptionScopeState = 'Enabled' | 'Disabled';
 
 /**
  * Defines values for PublicAccess.
@@ -3039,6 +3160,106 @@ export type PrivateLinkResourcesListByStorageAccountResponse = PrivateLinkResour
        * The response body as parsed JSON or XML
        */
       parsedBody: PrivateLinkResourceListResult;
+    };
+};
+
+/**
+ * Contains response data for the put operation.
+ */
+export type EncryptionScopesPutResponse = EncryptionScope & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: EncryptionScope;
+    };
+};
+
+/**
+ * Contains response data for the patch operation.
+ */
+export type EncryptionScopesPatchResponse = EncryptionScope & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: EncryptionScope;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type EncryptionScopesGetResponse = EncryptionScope & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: EncryptionScope;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type EncryptionScopesListResponse = EncryptionScopeListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: EncryptionScopeListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type EncryptionScopesListNextResponse = EncryptionScopeListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: EncryptionScopeListResult;
     };
 };
 

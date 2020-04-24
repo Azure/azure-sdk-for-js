@@ -113,11 +113,11 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
       retryDelayInMs:
         retryOptions.retryDelayInMs && retryOptions.retryDelayInMs >= 0
           ? Math.min(
-            retryOptions.retryDelayInMs,
-            retryOptions.maxRetryDelayInMs
-              ? retryOptions.maxRetryDelayInMs
-              : DEFAULT_RETRY_OPTIONS.maxRetryDelayInMs!
-          )
+              retryOptions.retryDelayInMs,
+              retryOptions.maxRetryDelayInMs
+                ? retryOptions.maxRetryDelayInMs
+                : DEFAULT_RETRY_OPTIONS.maxRetryDelayInMs!
+            )
           : DEFAULT_RETRY_OPTIONS.retryDelayInMs,
 
       maxRetryDelayInMs:
@@ -183,9 +183,7 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
 
     let response: HttpOperationResponse | undefined;
     try {
-      logger.info(
-        `RetryPolicy: =====> Try=${attempt} ${isPrimaryRetry ? "Primary" : "Secondary"}`
-      );
+      logger.info(`RetryPolicy: =====> Try=${attempt} ${isPrimaryRetry ? "Primary" : "Secondary"}`);
       response = await this._nextPolicy.sendRequest(newRequest);
       if (!this.shouldRetry(isPrimaryRetry, attempt, response)) {
         return response;
@@ -193,9 +191,7 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
 
       secondaryHas404 = secondaryHas404 || (!isPrimaryRetry && response.status === 404);
     } catch (err) {
-      logger.error(
-        `RetryPolicy: Caught error, message: ${err.message}, code: ${err.code}`
-      );
+      logger.error(`RetryPolicy: Caught error, message: ${err.message}, code: ${err.code}`);
       if (!this.shouldRetry(isPrimaryRetry, attempt, response, err)) {
         throw err;
       }
@@ -254,9 +250,7 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
               .toUpperCase()
               .includes(retriableError))
         ) {
-          logger.info(
-            `RetryPolicy: Network error ${retriableError} found, will retry.`
-          );
+          logger.info(`RetryPolicy: Network error ${retriableError} found, will retry.`);
           return true;
         }
       }
@@ -274,9 +268,7 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
 
       // Server internal error or server timeout
       if (statusCode === 503 || statusCode === 500) {
-        logger.info(
-          `RetryPolicy: Will retry for status code ${statusCode}.`
-        );
+        logger.info(`RetryPolicy: Will retry for status code ${statusCode}.`);
         return true;
       }
     }

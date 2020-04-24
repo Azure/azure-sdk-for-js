@@ -4,22 +4,42 @@
 import { AppConfigurationClient, AppConfigurationClientOptions } from "../src";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { ConfigurationSetting, ListConfigurationSettingPage, ListRevisionsPage } from "../src";
+import { env, isPlaybackMode, RecorderEnvironmentSetup, record } from "@azure/test-utils-recorder";
 import * as assert from "assert";
 
 // allow loading from a .env file as an alternative to defining the variable
 // in the environment
 import * as dotenv from "dotenv";
 import { RestError } from "@azure/core-http";
-import { DefaultAzureCredential, TokenCredential } from '@azure/identity';
-import { InternalAppConfigurationClientOptions } from '../src/appConfigurationClient';
+import { DefaultAzureCredential, TokenCredential } from "@azure/identity";
+import { InternalAppConfigurationClientOptions } from "../src/appConfigurationClient";
 dotenv.config();
 
 let connectionStringNotPresentWarning = false;
 let tokenCredentialsNotPresentWarning = false;
 
 export interface CredsAndEndpoint {
-  credential: TokenCredential
-  endpoint: string 
+  credential: TokenCredential;
+  endpoint: string;
+}
+
+export function startRecorder(that: any) {
+  const recorderEnvSetup: RecorderEnvironmentSetup = {
+    replaceableVariables: {
+      AZ_CONFIG_CONNECTION: "Endpoint=https://myappconfig.azconfig.io;Id=123456;Secret=123456",
+      AZ_CONFIG_ENDPOINT: "https://myappconfig.azconfig.io",
+      AZURE_CLIENT_ID: "azure_client_id",
+      AZURE_CLIENT_SECRET: "azure_client_secret",
+      AZURE_TENANT_ID: "azure_tenant_id"
+    },
+    customizationsOnRecordings: [
+      (recording: any): any =>
+        recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`)
+    ],
+    queryParametersToSkip: []
+  };
+
+  return record(that, recorderEnvSetup);
 }
 
 export function getTokenAuthenticationCredential(): CredsAndEndpoint | undefined {
@@ -28,30 +48,31 @@ export function getTokenAuthenticationCredential(): CredsAndEndpoint | undefined
     "AZURE_CLIENT_ID",
     "AZURE_TENANT_ID",
     "AZURE_CLIENT_SECRET"
-  ];  
+  ];
 
   for (const name of requiredEnvironmentVariables) {
-    const value = process.env[name];
+    const value = env[name];
 
     if (value == null) {
       if (tokenCredentialsNotPresentWarning) {
         tokenCredentialsNotPresentWarning = true;
         console.log("Functional tests not running - set client identity variables to activate");
       }
-  
+
       return undefined;
-    }    
+    }
   }
 
   return {
     credential: new DefaultAzureCredential(),
-    endpoint: process.env["AZ_CONFIG_ENDPOINT"]!
+    endpoint: env["AZ_CONFIG_ENDPOINT"]!
   };
 }
 
-
-export function createAppConfigurationClientForTests(options?: InternalAppConfigurationClientOptions): AppConfigurationClient | undefined {
-  const connectionString = process.env["AZ_CONFIG_CONNECTION"];
+export function createAppConfigurationClientForTests(
+  options?: InternalAppConfigurationClientOptions
+): AppConfigurationClient | undefined {
+  const connectionString = env["AZ_CONFIG_CONNECTION"];
 
   if (connectionString == null) {
     if (!connectionStringNotPresentWarning) {
@@ -84,7 +105,7 @@ export async function toSortedArray(
   pagedIterator: PagedAsyncIterableIterator<
     ConfigurationSetting,
     ListConfigurationSettingPage | ListRevisionsPage
-    >,
+  >,
   compareFn?: (a: ConfigurationSetting, b: ConfigurationSetting) => number
 ): Promise<ConfigurationSetting[]> {
   const settings: ConfigurationSetting[] = [];
@@ -102,9 +123,10 @@ export async function toSortedArray(
   // just a sanity-check
   assert.deepEqual(settings, settingsViaPageIterator);
 
-  settings.sort((a, b) => compareFn
-    ? compareFn(a, b)
-    : `${a.key}-${a.label}-${a.value}`.localeCompare(`${b.key}-${b.label}-${b.value}`)
+  settings.sort((a, b) =>
+    compareFn
+      ? compareFn(a, b)
+      : `${a.key}-${a.label}-${a.value}`.localeCompare(`${b.key}-${b.label}-${b.value}`)
   );
 
   return settings;
@@ -151,7 +173,11 @@ export async function assertThrowsAbortError(testFunction: () => Promise<any>, m
     await testFunction();
     assert.fail(`${message}: No error thrown`);
   } catch (e) {
-    assert.equal(e.name, "AbortError");
-    return e;
+    if (isPlaybackMode() && (e.name === "FetchError" || e.name === "AbortError")) {
+      return e;
+    } else {
+      assert.equal(e.name, "AbortError");
+      return e;
+    }
   }
 }

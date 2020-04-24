@@ -4,11 +4,11 @@
 
 ```ts
 
+import { AzureKeyCredential } from '@azure/core-auth';
+import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-http';
 import { PipelineOptions } from '@azure/core-http';
-import { ServiceClientCredentials } from '@azure/core-http';
-import { TokenCredential } from '@azure/identity';
-import { WebResource } from '@azure/core-http';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type AnalyzeSentimentErrorResult = TextAnalyticsErrorResult;
@@ -31,6 +31,8 @@ export interface AnalyzeSentimentSuccessResult extends TextAnalyticsSuccessResul
     sentences: SentenceSentiment[];
     sentiment: DocumentSentimentLabel;
 }
+
+export { AzureKeyCredential }
 
 // @public
 export interface CategorizedEntity extends Entity {
@@ -195,28 +197,21 @@ export interface SentimentConfidenceScores {
 }
 
 // @public
-export class TextAnalyticsApiKeyCredential implements ServiceClientCredentials {
-    constructor(apiKey: string);
-    signRequest(webResource: WebResource): Promise<WebResource>;
-    updateKey(apiKey: string): void;
-}
-
-// @public
 export class TextAnalyticsClient {
-    constructor(endpointUrl: string, credential: TokenCredential | TextAnalyticsApiKeyCredential, options?: TextAnalyticsClientOptions);
-    analyzeSentiment(inputs: string[], language?: string, options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentResultCollection>;
-    analyzeSentiment(inputs: TextDocumentInput[], options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentResultCollection>;
+    constructor(endpointUrl: string, credential: TokenCredential | KeyCredential, options?: TextAnalyticsClientOptions);
+    analyzeSentiment(documents: string[], language?: string, options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentResultCollection>;
+    analyzeSentiment(documents: TextDocumentInput[], options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentResultCollection>;
     defaultCountryHint: string;
     defaultLanguage: string;
-    detectLanguage(inputs: string[], countryHint?: string, options?: DetectLanguageOptions): Promise<DetectLanguageResultCollection>;
-    detectLanguage(inputs: DetectLanguageInput[], options?: DetectLanguageOptions): Promise<DetectLanguageResultCollection>;
+    detectLanguage(documents: string[], countryHint?: string, options?: DetectLanguageOptions): Promise<DetectLanguageResultCollection>;
+    detectLanguage(documents: DetectLanguageInput[], options?: DetectLanguageOptions): Promise<DetectLanguageResultCollection>;
     readonly endpointUrl: string;
-    extractKeyPhrases(inputs: string[], language?: string, options?: ExtractKeyPhrasesOptions): Promise<ExtractKeyPhrasesResultCollection>;
-    extractKeyPhrases(inputs: TextDocumentInput[], options?: ExtractKeyPhrasesOptions): Promise<ExtractKeyPhrasesResultCollection>;
-    recognizeEntities(inputs: string[], language?: string, options?: RecognizeCategorizedEntitiesOptions): Promise<RecognizeCategorizedEntitiesResultCollection>;
-    recognizeEntities(inputs: TextDocumentInput[], options?: RecognizeCategorizedEntitiesOptions): Promise<RecognizeCategorizedEntitiesResultCollection>;
-    recognizeLinkedEntities(inputs: string[], language?: string, options?: RecognizeLinkedEntitiesOptions): Promise<RecognizeLinkedEntitiesResultCollection>;
-    recognizeLinkedEntities(inputs: TextDocumentInput[], options?: RecognizeLinkedEntitiesOptions): Promise<RecognizeLinkedEntitiesResultCollection>;
+    extractKeyPhrases(documents: string[], language?: string, options?: ExtractKeyPhrasesOptions): Promise<ExtractKeyPhrasesResultCollection>;
+    extractKeyPhrases(documents: TextDocumentInput[], options?: ExtractKeyPhrasesOptions): Promise<ExtractKeyPhrasesResultCollection>;
+    recognizeEntities(documents: string[], language?: string, options?: RecognizeCategorizedEntitiesOptions): Promise<RecognizeCategorizedEntitiesResultCollection>;
+    recognizeEntities(documents: TextDocumentInput[], options?: RecognizeCategorizedEntitiesOptions): Promise<RecognizeCategorizedEntitiesResultCollection>;
+    recognizeLinkedEntities(documents: string[], language?: string, options?: RecognizeLinkedEntitiesOptions): Promise<RecognizeLinkedEntitiesResultCollection>;
+    recognizeLinkedEntities(documents: TextDocumentInput[], options?: RecognizeLinkedEntitiesOptions): Promise<RecognizeLinkedEntitiesResultCollection>;
 }
 
 // @public

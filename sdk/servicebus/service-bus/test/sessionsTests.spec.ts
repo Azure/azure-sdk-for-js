@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import chai from "chai";
+import Long from "long";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
@@ -16,6 +17,7 @@ import {
   createServiceBusClientForTests
 } from "./utils/testutils2";
 import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
+import { AbortController } from "@azure/abort-controller";
 
 let unexpectedError: Error | undefined;
 
@@ -47,7 +49,7 @@ describe("session tests", () => {
     });
 
     sender = serviceBusClient.test.addToCleanup(
-      serviceBusClient.getSender(entityNames.queue ?? entityNames.topic!)
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
 
     // Observation -
@@ -60,9 +62,9 @@ describe("session tests", () => {
     // Hence, commenting the following code since there is no need to purge/peek into a freshly created entity
 
     // await purge(receiverClient);
-    // const peekedMsgs = await receiverClient.diagnostics.peek();
+    // const browsedMsgs = await receiverClient.browseMessages();
     // const receiverEntityType = receiverClient.entityType;
-    // if (peekedMsgs.length) {
+    // if (browsedMsgs.length) {
     //   chai.assert.fail(`Please use an empty ${receiverEntityType} for integration testing`);
     // }
   }
@@ -85,7 +87,7 @@ describe("session tests", () => {
       const testMessage = TestMessage.getSessionSample();
       await sender.send(testMessage);
 
-      let msgs = await receiver.receiveBatch(1, { maxWaitTimeSeconds: 10 });
+      let msgs = await receiver.receiveBatch(1, { maxWaitTimeInMs: 10000 });
       should.equal(msgs.length, 0, "Unexpected number of messages received");
 
       await receiver.close();
@@ -295,9 +297,7 @@ describe("session tests", () => {
       );
       await testGetSetState(TestClientType.PartitionedSubscriptionWithSessions);
     });
-    it("Unpartitioned Queue - Testing getState and setState #RunInBrowser", async function(): Promise<
-      void
-    > {
+    it("Unpartitioned Queue - Testing getState and setState", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions, TestMessage.sessionId);
       await testGetSetState(TestClientType.UnpartitionedQueueWithSessions);
     });
@@ -309,6 +309,76 @@ describe("session tests", () => {
         TestMessage.sessionId
       );
       await testGetSetState(TestClientType.UnpartitionedSubscriptionWithSessions);
+    });
+  });
+
+  describe("Cancel operations on the session receiver", function(): void {
+    it("Abort getState request", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.PartitionedQueueWithSessions, TestMessage.sessionId);
+      const controller = new AbortController();
+      setTimeout(() => controller.abort(), 1);
+      try {
+        await receiver.getState({ abortSignal: controller.signal });
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.message.should.equal("The getState operation has been cancelled by the user.");
+      }
+    });
+
+    it("Abort setState request on the session receiver", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.PartitionedQueueWithSessions, TestMessage.sessionId);
+      const controller = new AbortController();
+      setTimeout(() => controller.abort(), 1);
+      try {
+        await receiver.setState("why", { abortSignal: controller.signal });
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.message.should.equal("The setState operation has been cancelled by the user.");
+      }
+    });
+
+    it("Abort renewSessionLock request on the session receiver", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.PartitionedQueueWithSessions, TestMessage.sessionId);
+      const controller = new AbortController();
+      setTimeout(() => controller.abort(), 1);
+      try {
+        await receiver.renewSessionLock({ abortSignal: controller.signal });
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.message.should.equal("The renewSessionLock operation has been cancelled by the user.");
+      }
+    });
+
+    it("Abort receiveDeferredMessage request on the session receiver", async function(): Promise<
+      void
+    > {
+      await beforeEachTest(TestClientType.PartitionedQueueWithSessions, TestMessage.sessionId);
+      const controller = new AbortController();
+      setTimeout(() => controller.abort(), 1);
+      try {
+        await receiver.receiveDeferredMessage(Long.ZERO, { abortSignal: controller.signal });
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.message.should.equal(
+          "The receiveDeferredMessage operation has been cancelled by the user."
+        );
+      }
+    });
+
+    it("Abort receiveDeferredMessages request on the session receiver", async function(): Promise<
+      void
+    > {
+      await beforeEachTest(TestClientType.PartitionedQueueWithSessions, TestMessage.sessionId);
+      const controller = new AbortController();
+      setTimeout(() => controller.abort(), 1);
+      try {
+        await receiver.receiveDeferredMessages([Long.ZERO], { abortSignal: controller.signal });
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.message.should.equal(
+          "The receiveDeferredMessages operation has been cancelled by the user."
+        );
+      }
     });
   });
 });

@@ -2,7 +2,11 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
 
-  This sample demonstrates how the peek() function can be used to browse a Service Bus message.
+  **NOTE**: This sample uses the preview of the next version of the @azure/service-bus package.
+  For samples using the current stable version of the package, please use the link below:
+  https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples
+  
+  This sample demonstrates how the browseMessages() function can be used to browse a Service Bus message.
 
   See https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-browsing to learn
   about message browsing.
@@ -17,30 +21,33 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 // Define connection string and related Service Bus entity names here
-const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
+const connectionString =
+  process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
 export async function main() {
-  const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
+  const sbClient = new ServiceBusClient(connectionString);
 
-  // If using Topics & Subscription, use createSubscriptionClient to peek from the subscription
-  const queueClient = sbClient.createQueueClient(queueName);
+  // If receiving from a subscription you can use the createReceiver(topic, subscription) overload
+  // Since browsing messages doesn't take a lock on the message, the receive mode passed to getReceiver
+  // is irrelevant to this sample code.
+  const queueReceiver = sbClient.createReceiver(queueName, "receiveAndDelete");
 
   try {
     for (let i = 0; i < 20; i++) {
-      const messages = await queueClient.peek();
+      const messages = await queueReceiver.browseMessages();
       if (!messages.length) {
         console.log("No more messages to peek");
         break;
       }
       console.log(`Peeking message #${i}: ${messages[0].body}`);
     }
-    await queueClient.close();
+    await queueReceiver.close();
   } finally {
     await sbClient.close();
   }
 }
 
-main().catch((err) => {
+main().catch(err => {
   console.log("Error occurred: ", err);
 });

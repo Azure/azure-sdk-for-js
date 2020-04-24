@@ -1,17 +1,33 @@
 # Release History
 
-## 2.0.0-preview.1 (Unreleased)
+## 7.0.0-preview.2 (Unreleased)
+
+
+## 7.0.0-preview.1 (2020-04-07)
+
+- This release is a preview of our efforts to create a client library that is user friendly and
+  idiomatic to the JavaScript ecosystem. The reasons for most of the changes in this update can be found in the
+  [Azure SDK Design Guidelines for TypeScript](https://azuresdkspecs.z5.web.core.windows.net/TypeScriptSpec.html).
+
+  We also provide a migration guide for users familiar with the stable package that would like to try the preview: [migration guide to move from Service Bus V1 to Service Bus V7 Preview](https://github.com/azure/azure-sdk-for-js/blob/%40azure/service-bus_7.0.0-preview.1/sdk/servicebus/service-bus/migrationguide.md).
+
+- Fixes [bug 7598][https://github.com/azure/azure-sdk-for-js/issues/7958] where the dead letter error and description could be populated incorrectly.
 
 ### Breaking Changes
 
 - Fixes [bug 6816](https://github.com/Azure/azure-sdk-for-js/issues/6816) affecting messages sent using the `scheduleMessage()` and `scheduleMessages()` methods. [PR 7372](https://github.com/Azure/azure-sdk-for-js/pull/7372).
-  - Users on version-`1.x.x` of `@azure/service-bus` library had to rely on the [workaround of encoding the message body with `DefaultDataTransformer`](https://github.com/Azure/azure-sdk-for-js/pull/6983) before calling `scheduleMessage()`/`scheduleMessages()` methods. The workaround is no longer needed since the bug has been fixed here starting from version-`2.0.0-preview.1`. [PR 7372](https://github.com/Azure/azure-sdk-for-js/pull/7372).
+  - Users on version-`1.x.x` of `@azure/service-bus` library had to rely on the [workaround of encoding the message body with `DefaultDataTransformer`](https://github.com/Azure/azure-sdk-for-js/pull/6983) before calling `scheduleMessage()`/`scheduleMessages()` methods. The workaround is no longer needed since the bug has been fixed here starting from version-`7.0.0-preview.1`. [PR 7372](https://github.com/Azure/azure-sdk-for-js/pull/7372).
+
+## 1.1.5 (2020-03-24)
+
+- Removed interfaces related to unreleased management api features from the API surface that were accidentally exported in version 1.1.3
+  [PR 7992](https://github.com/Azure/azure-sdk-for-js/issues/7992).
 
 ## 1.1.4 (2020-03-17)
 
 - Updated to use the latest version of `@azure/amqp-common` where the timeout for authorization requests sent to the service is increased from 10s to 60s to reduce the frequency of timeout errors.
   [PR 7823](https://github.com/Azure/azure-sdk-for-js/issues/7823).
-  
+
 ## 1.1.3 (2020-02-11)
 
 - Fixes issue where the promise returned by `receiveMessages` would sometimes fail to settle when the underlying connection

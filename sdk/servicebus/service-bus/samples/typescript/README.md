@@ -1,5 +1,7 @@
 # Azure Service Bus client library samples for TypeScript
 
+**NOTE**: Samples for @azure/service-bus v1.1.x are still available [here](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples)
+
 These sample programs show how to use the TypeScript client libraries for Azure Service Bus in some common scenarios.
 
 | **File Name**                                                       | **Description**                                                                                                         |
@@ -9,9 +11,8 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [receiveMessagesLoop.ts][receivemessagesloop]                       | uses the receiveMessages() function to receive Service Bus messages in a loop                                           |
 | [scheduledMessages.ts][scheduledmessages]                           | uses the scheduleMessage() function to schedule messages to appear on a Service Bus Queue/Subscription at a later time  |
 | [session.ts][session]                                               | sends/receives messages to/from session enabled queues/subscriptions in Service Bus                                     |
-| [browseMessages.ts][browsemessages]                                 | uses the peek() function to browse a Service Bus                                                                        |
-| [serviceprincipallogin.ts][serviceprincipallogin]                   | creates a namespace using aad token credentials obtained from using service principal secrets                           |
-| [interactivelogin.ts][interactivelogin]                             | creates a namespace using aad token credentials obtained from interactive login                                         |
+| [browseMessages.ts][browsemessages]                                 | uses the browseMessages() function to browse a Service Bus                                                                        |
+| [usingAadAuth.ts][usingaadauth]                                     | creates a ServiceBusClient that authenticates using AAD credentials                                                     |
 | [useProxy.ts][useproxy]                                             | creates a ServiceBusClient that uses an HTTP(S) proxy server to make requests                                           |
 | [advanced/movingMessagesToDLQ.ts][advanced-movingmessagestodlq]     | moves a message explicitly to the dead-letter queue                                                                     |
 | [advanced/deferral.ts][advanced-deferral]                           | uses the defer() function to defer a message for later processing                                                       |
@@ -72,6 +73,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [receivemessagesstreaming]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/src/receiveMessagesStreaming.ts
 [session]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/src/session.ts
 [browsemessages]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/src/browseMessages.ts
+[usingaadauth]:  https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/src/usingAadAuth.ts
 [useproxy]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/src/useProxy.ts
 [receivemessagesloop]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/src/receiveMessagesLoop.ts
 [advanced-movingmessagestodlq]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/src/advanced/movingMessagesToDLQ.ts

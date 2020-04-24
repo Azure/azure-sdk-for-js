@@ -11,6 +11,12 @@ export { OpenCensusTracerWrapper } from "./tracers/opencensus/openCensusTracerWr
 export { TestTracer, SpanGraph, SpanGraphNode } from "./tracers/test/testTracer";
 export { TestSpan } from "./tracers/test/testSpan";
 
+// Shared interfaces
+export { SpanContext, SpanOptions, TraceFlags } from "./interfaces";
+
+// OT interfaces
+export { SpanContext as OTSpanContext, SpanOptions as OTSpanOptions } from "@opentelemetry/api";
+
 // Utilities
 export {
   extractSpanContextFromTraceParentHeader,
@@ -19,3 +25,5 @@ export {
 
 // OpenCensus Interfaces
 export { Tracer as OpenCensusTracer, Span as OpenCensusSpan } from "@opencensus/web-types";
+
+export { OperationTracingOptions } from "./interfaces";

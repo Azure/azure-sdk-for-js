@@ -4,10 +4,20 @@ import * as dotenv from "dotenv";
 import * as fs from "fs";
 import * as path from "path";
 import { DataLakeFileClient, DataLakeFileSystemClient } from "../../src";
-import { bodyToString, createRandomLocalFile, getDataLakeServiceClient, recorderEnvSetup } from "../utils";
-import { MB, GB, FILE_MAX_SINGLE_UPLOAD_THRESHOLD, BLOCK_BLOB_MAX_BLOCKS } from "../../src/utils/constants";
+import {
+  bodyToString,
+  createRandomLocalFile,
+  getDataLakeServiceClient,
+  recorderEnvSetup
+} from "../utils";
+import {
+  MB,
+  GB,
+  FILE_MAX_SINGLE_UPLOAD_THRESHOLD,
+  BLOCK_BLOB_MAX_BLOCKS
+} from "../../src/utils/constants";
 import { readStreamToLocalFileWithLogs } from "../../test/utils/testutils.node";
-const { Readable } = require('stream')
+const { Readable } = require("stream");
 import { AbortController } from "@azure/abort-controller";
 dotenv.config({ path: "../.env" });
 
@@ -25,7 +35,7 @@ describe("Highlevel Node.js only", () => {
 
   let recorder: any;
 
-  beforeEach(async function () {
+  beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
     const serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("filesystem");
@@ -35,12 +45,14 @@ describe("Highlevel Node.js only", () => {
     fileClient = fileSystemClient.getFileClient(fileName);
   });
 
-  afterEach(async function () {
-    await fileSystemClient.delete();
-    recorder.stop();
+  afterEach(async function() {
+    if (!this.currentTest?.isPending()) {
+      await fileSystemClient.delete();
+      recorder.stop();
+    }
   });
 
-  before(async function () {
+  before(async function() {
     recorder = record(this, recorderEnvSetup);
     if (!fs.existsSync(tempFolderPath)) {
       fs.mkdirSync(tempFolderPath);
@@ -53,7 +65,7 @@ describe("Highlevel Node.js only", () => {
     recorder.stop();
   });
 
-  after(async function () {
+  after(async function() {
     recorder = record(this, recorderEnvSetup);
     fs.unlinkSync(tempFileLarge);
     fs.unlinkSync(tempFileSmall);
@@ -94,7 +106,7 @@ describe("Highlevel Node.js only", () => {
     const uploadedBuffer = fs.readFileSync(tempFileSmall);
     try {
       await fileClient.upload(uploadedBuffer, {
-        abortSignal: aborter,
+        abortSignal: aborter
       });
       assert.fail();
     } catch (err) {
@@ -109,7 +121,7 @@ describe("Highlevel Node.js only", () => {
     try {
       await fileClient.upload(uploadedBuffer, {
         abortSignal: aborter,
-        singleUploadThreshold: 8 * MB,
+        singleUploadThreshold: 8 * MB
       });
       assert.fail();
     } catch (err) {
@@ -118,7 +130,10 @@ describe("Highlevel Node.js only", () => {
   });
 
   it("upload can update progress with single-shot upload", async () => {
-    recorder.skip("node", "Abort - Recorder does not record a request if it's aborted in a 'progress' callback");
+    recorder.skip(
+      "node",
+      "Abort - Recorder does not record a request if it's aborted in a 'progress' callback"
+    );
     let eventTriggered = false;
     const uploadedBuffer = fs.readFileSync(tempFileSmall);
     const aborter = new AbortController();
@@ -141,7 +156,10 @@ describe("Highlevel Node.js only", () => {
   });
 
   it("upload can update progress with parallel upload", async () => {
-    recorder.skip("node", "Abort - Recorder does not record a request if it's aborted in a 'progress' callback");
+    recorder.skip(
+      "node",
+      "Abort - Recorder does not record a request if it's aborted in a 'progress' callback"
+    );
     let eventTriggered = false;
     const uploadedBuffer = fs.readFileSync(tempFileSmall);
     const aborter = new AbortController();
@@ -167,7 +185,7 @@ describe("Highlevel Node.js only", () => {
     await fileClient.upload(Buffer.alloc(0));
     const response = await fileClient.read();
     assert.deepStrictEqual(await bodyToString(response), "");
-  })
+  });
 
   it("upload to an existing file will overwrite", async () => {
     await fileClient.upload(Buffer.from("aaa"));
@@ -184,7 +202,11 @@ describe("Highlevel Node.js only", () => {
         conditions: { ifNoneMatch: "*" }
       });
     } catch (err) {
-      assert.equal(err.details.errorCode, "PathAlreadyExists", "Upload should have thrown a PathAlreadyExists error.")
+      assert.equal(
+        err.details.errorCode,
+        "PathAlreadyExists",
+        "Upload should have thrown a PathAlreadyExists error."
+      );
     }
     const response = await fileClient.read();
     assert.deepStrictEqual(await bodyToString(response), "aaa");
@@ -205,7 +227,11 @@ describe("Highlevel Node.js only", () => {
     try {
       await fileClient.upload(Buffer.from("bb"));
     } catch (err) {
-      assert.equal(err.details.errorCode, "LeaseIdMissing", "Upload should have thrown a LeaseIdMissing error.")
+      assert.equal(
+        err.details.errorCode,
+        "LeaseIdMissing",
+        "Upload should have thrown a LeaseIdMissing error."
+      );
     }
     const response = await fileClient.read();
     assert.deepStrictEqual(await bodyToString(response), "aaa");
@@ -245,14 +271,22 @@ describe("Highlevel Node.js only", () => {
       });
     } catch (err) {
       errThrown = true;
-      assert.equal(err.details.errorCode, "PathAlreadyExists", "Upload should have thrown a PathAlreadyExists error.")
+      assert.equal(
+        err.details.errorCode,
+        "PathAlreadyExists",
+        "Upload should have thrown a PathAlreadyExists error."
+      );
     }
     assert.ok(errThrown, "upload with a if-not-exist check should have thrown.");
   });
 
   it("upload should work when data size = FILE_MAX_SINGLE_UPLOAD_THRESHOLD", async () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
-    const tempFile = await createRandomLocalFile(tempFolderPath, FILE_MAX_SINGLE_UPLOAD_THRESHOLD / MB, MB);
+    const tempFile = await createRandomLocalFile(
+      tempFolderPath,
+      FILE_MAX_SINGLE_UPLOAD_THRESHOLD / MB,
+      MB
+    );
     const uploadedBuffer = fs.readFileSync(tempFile);
     await fileClient.upload(uploadedBuffer);
 
@@ -272,13 +306,10 @@ describe("Highlevel Node.js only", () => {
     let exceptionCaught = false;
     try {
       await fileClient.upload(uploadedBuffer, {
-        chunkSize: Math.floor((tempFileLargeLength - 1) / BLOCK_BLOB_MAX_BLOCKS),
+        chunkSize: Math.floor((tempFileLargeLength - 1) / BLOCK_BLOB_MAX_BLOCKS)
       });
     } catch (err) {
-      if (
-        err instanceof RangeError &&
-        err.message.includes("the number of chunks must be <=")
-      ) {
+      if (err instanceof RangeError && err.message.includes("the number of chunks must be <=")) {
         exceptionCaught = true;
       }
     }
@@ -336,12 +367,12 @@ describe("Highlevel Node.js only", () => {
     await fileClient.uploadStream(readable);
     const response = await fileClient.read();
     assert.deepStrictEqual(await bodyToString(response), "");
-  })
+  });
 
   it("uploadFile should work for large data", async () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     await fileClient.uploadFile(tempFileLarge, {
-      maxConcurrency: 20,
+      maxConcurrency: 20
     });
 
     const readResponse = await fileClient.read();
@@ -375,7 +406,7 @@ describe("Highlevel Node.js only", () => {
     const aborter = AbortController.timeout(1);
     try {
       await fileClient.uploadFile(tempFileSmall, {
-        abortSignal: aborter,
+        abortSignal: aborter
       });
       assert.fail();
     } catch (err) {
@@ -389,7 +420,7 @@ describe("Highlevel Node.js only", () => {
     try {
       await fileClient.uploadFile(tempFileSmall, {
         abortSignal: aborter,
-        singleUploadThreshold: 8 * MB,
+        singleUploadThreshold: 8 * MB
       });
       assert.fail();
     } catch (err) {
@@ -398,7 +429,10 @@ describe("Highlevel Node.js only", () => {
   });
 
   it("uploadFile should update progress with single-shot upload", async () => {
-    recorder.skip("node", "Abort - Recorder does not record a request if it's aborted in a 'progress' callback");
+    recorder.skip(
+      "node",
+      "Abort - Recorder does not record a request if it's aborted in a 'progress' callback"
+    );
     let eventTriggered = false;
     const aborter = new AbortController();
 
@@ -409,7 +443,7 @@ describe("Highlevel Node.js only", () => {
           assert.ok(ev.loadedBytes);
           eventTriggered = true;
           aborter.abort();
-        },
+        }
       });
     } catch (err) {
       assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);
@@ -418,7 +452,10 @@ describe("Highlevel Node.js only", () => {
   });
 
   it("uploadFile should update progress with parallel upload", async () => {
-    recorder.skip("node", "Abort - Recorder does not record a request if it's aborted in a 'progress' callback");
+    recorder.skip(
+      "node",
+      "Abort - Recorder does not record a request if it's aborted in a 'progress' callback"
+    );
     let eventTriggered = false;
     const aborter = new AbortController();
 
@@ -445,7 +482,7 @@ describe("Highlevel Node.js only", () => {
     const response = await fileClient.read();
     assert.deepStrictEqual(await bodyToString(response), "");
     fs.unlinkSync(tempFileEmpty);
-  })
+  });
 
   it("readToBuffer should work", async () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
@@ -467,7 +504,7 @@ describe("Highlevel Node.js only", () => {
     const buf = await fileClient.readToBuffer();
     const localFileContent = fs.readFileSync(tempFileSmall);
     assert.ok(localFileContent.equals(buf));
-  })
+  });
 
   it("readToBuffer should throw error if the count is too large", async () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
@@ -482,7 +519,7 @@ describe("Highlevel Node.js only", () => {
       error.message.includes("Unable to allocate the buffer of size:"),
       "Error is not thrown when the count (size in bytes) is too large"
     );
-  })
+  });
 
   it("readToBuffer should success when reading a range inside file", async () => {
     await fileClient.upload(Buffer.from("aaaabbbb"));
@@ -535,7 +572,7 @@ describe("Highlevel Node.js only", () => {
         onProgress: () => {
           eventTriggered = true;
           aborter.abort();
-        },
+        }
       });
     } catch (err) {
       assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);

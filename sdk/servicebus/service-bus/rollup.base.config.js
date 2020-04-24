@@ -69,7 +69,7 @@ export function nodeConfig({ test = false, production = false } = {}) {
 
   if (test) {
     // entry point is every test file
-    baseConfig.input = "dist-esm/test/*.spec.js";
+    baseConfig.input = "dist-esm/test/**/*.spec.js";
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
 
     // different output file
@@ -148,7 +148,7 @@ export function browserConfig(test = false) {
         namedExports: {
           events: ["EventEmitter"],
           long: ["ZERO"],
-          "@opentelemetry/types": ["CanonicalCode", "SpanKind", "TraceFlags"]
+          "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
         }
       }),
 
@@ -169,7 +169,7 @@ export function browserConfig(test = false) {
   baseConfig.onwarn = ignoreKnownWarnings;
 
   if (test) {
-    baseConfig.input = "dist-esm/test/*.spec.js";
+    baseConfig.input = ["dist-esm/test/*.spec.js", "dist-esm/test/internal/*.spec.js"];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "test-browser/index.js";
 

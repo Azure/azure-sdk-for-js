@@ -1,0 +1,25 @@
+trigger: none
+resources:
+  repositories:
+    - repository: azure-sdk-build-tools
+      type: git
+      name: internal/azure-sdk-build-tools
+    - repository: azure-sdk-tools
+      type: github
+      name: Azure/azure-sdk-tools
+      endpoint: azure
+jobs:
+  - template: ../../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
+    parameters:
+      PackageName: "@azure/ai-form-recognizer"
+      ResourceServiceDirectory: formrecognizer
+      EnvVars:
+        AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
+        AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
+        AZURE_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)
+        ENDPOINT: $(ENDPOINT)
+        FORM_RECOGNIZER_API_KEY: $(FORM_RECOGNIZER_API_KEY)
+        FORM_RECOGNIZER_API_KEY_ALT: $(FORM_RECOGNIZER_API_KEY_ALT)
+        BLOB_SAS_ENDPOINT: $(BLOB_SAS_ENDPOINT)
+        BLOB_ACCOUNT_NAME: $(BLOB_ACCOUNT_NAME)
+        BLOB_ACCESS_KEY: $(BLOB_ACCESS_KEY)

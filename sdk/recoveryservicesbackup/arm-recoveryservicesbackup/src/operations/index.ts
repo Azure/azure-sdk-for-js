@@ -8,6 +8,7 @@
  * regenerated.
  */
 
+export * from "./privateEndpointConnectionOperations";
 export * from "./backupResourceVaultConfigs";
 export * from "./protectedItems";
 export * from "./protectedItemOperationResults";

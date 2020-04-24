@@ -1,6 +1,20 @@
 # Release History
 
-## 1.0.3 (Unreleased)
+## 1.1.2 (Unreleased)
+- Remove the below interfaces from the public API of this package as they are defined elsewhere.
+Fixes [bug 8301](https://github.com/Azure/azure-sdk-for-js/issues/8301).
+  - OperationOptions
+  - OperationRequestOptions
+  - OperationTracingOptions
+  - AbortSignalLike
+
+## 1.1.1 (2020-04-01)
+
+- Provided down-leveled type declaration files for users of older TypeScript versions between 3.1 and 3.6.
+
+## 1.1.0 (2020-03-31)
+
+- Added an `AzureKeyCredential` class that supports credential rotation and a corresponding `KeyCredential` interface to support the use of static string-based keys in Azure clients.
 
 ## 1.0.2 (2019-12-03)
 
