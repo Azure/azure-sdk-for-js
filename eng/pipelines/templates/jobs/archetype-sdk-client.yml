@@ -236,8 +236,18 @@ jobs:
 
         # Unlink node_modules folders to significantly improve performance of subsequent tasks
         # which need to walk the directory tree (and are hardcoded to follow symlinks).
-        - script: |
-            node eng/tools/rush-runner.js unlink
+        # Retry for 30 seconds, since this command may fail with error "Another rush command is already
+        # running in this repository" if the previous rush command was killed.
+        - pwsh: |
+            for ($i=0; $i -lt 30; $i++) {
+              node eng/tools/rush-runner.js unlink
+              if ($lastexitcode -eq 0) {
+                break
+              }
+              else {
+                start-sleep 1
+              }
+            }
           condition: always()
           displayName: "Unlink dependencies"
 
