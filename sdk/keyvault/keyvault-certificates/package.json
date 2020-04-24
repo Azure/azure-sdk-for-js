@@ -84,17 +84,17 @@
   },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
-    "@azure/core-http": "^1.0.0",
+    "@azure/core-http": "^1.1.1",
     "@azure/core-lro": "^1.0.0",
     "@azure/core-paging": "^1.1.0",
     "@azure/core-tracing": "1.0.0-preview.8",
     "@azure/logger": "^1.0.0",
-    "@opentelemetry/types": "^0.2.0",
+    "@opentelemetry/api": "^0.6.1",
     "tslib": "^1.10.0"
   },
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^2.0.1",
-    "@azure/identity": "1.1.0-preview.2",
+    "@azure/identity": "^1.1.0-preview",
     "@azure/keyvault-keys": "^4.1.0-preview.1",
     "@azure/keyvault-secrets": "^4.1.0-preview.1",
     "@azure/test-utils-recorder": "^1.0.0",

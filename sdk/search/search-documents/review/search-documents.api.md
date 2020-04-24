@@ -109,9 +109,7 @@ export type CognitiveServicesAccount = DefaultCognitiveServicesAccount | Cogniti
 
 // @public
 export interface CognitiveServicesAccountKey {
-    // (undocumented)
     description?: string;
-    // (undocumented)
     key: string;
     odatatype: "#Microsoft.Azure.Search.CognitiveServicesByKey";
 }
@@ -229,7 +227,6 @@ export type DataSourceType = 'azuresql' | 'cosmosdb' | 'azureblob' | 'azuretable
 
 // @public
 export interface DefaultCognitiveServicesAccount {
-    // (undocumented)
     description?: string;
     odatatype: "#Microsoft.Azure.Search.DefaultCognitiveServices";
 }
@@ -1326,7 +1323,7 @@ export interface SplitSkill {
     defaultLanguageCode?: SplitSkillLanguage;
     description?: string;
     inputs: InputFieldMappingEntry[];
-    maximumPageLength?: number;
+    maxPageLength?: number;
     name?: string;
     odatatype: "#Microsoft.Skills.Text.SplitSkill";
     outputs: OutputFieldMappingEntry[];

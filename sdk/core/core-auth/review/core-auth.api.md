@@ -5,7 +5,7 @@
 ```ts
 
 import { AbortSignalLike } from '@azure/abort-controller';
-import { SpanOptions } from '@opentelemetry/types';
+import { SpanOptions } from '@azure/core-tracing';
 
 // @public
 export interface AccessToken {

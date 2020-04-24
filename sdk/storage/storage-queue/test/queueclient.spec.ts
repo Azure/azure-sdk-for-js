@@ -165,7 +165,9 @@ describe("QueueClient", () => {
     const tracer = new TestTracer();
     setTracer(tracer);
     const rootSpan = tracer.startSpan("root");
-    await queueClient.getProperties({ tracingOptions: { spanOptions: { parent: rootSpan } } });
+    await queueClient.getProperties({
+      tracingOptions: { spanOptions: { parent: rootSpan.context() } }
+    });
     rootSpan.end();
 
     const rootSpans = tracer.getRootSpans();

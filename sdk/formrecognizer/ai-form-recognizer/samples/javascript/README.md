@@ -1,3 +1,13 @@
+---
+page_type: sample
+languages:
+  - javascript
+products:
+  - azure
+  - azure-cognitive-services
+urlFragment: ai-form-recognizer-javascript
+---
+
 # Azure Form Recognizer client library samples for JavaScript
 
 These sample programs show how to use the JavaScript client libraries for Azure Cognitive Services Form Recognizer in some common scenarios.

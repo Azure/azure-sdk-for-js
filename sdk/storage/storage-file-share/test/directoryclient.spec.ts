@@ -630,7 +630,7 @@ describe("DirectoryClient", () => {
     const tracer = new TestTracer();
     setTracer(tracer);
     const rootSpan = tracer.startSpan("root");
-    const spanOptions = { parent: rootSpan };
+    const spanOptions = { parent: rootSpan.context() };
     const tracingOptions = { spanOptions };
     const directoryName = recorder.getUniqueName("directory");
     const { directoryClient: subDirClient } = await dirClient.createSubdirectory(directoryName, {

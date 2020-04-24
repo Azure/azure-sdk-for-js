@@ -56,7 +56,7 @@ describe("DataLakeFileSystemClient", () => {
       keyb: "valb"
     };
     await fileSystemClient.setMetadata(metadata, {
-      tracingOptions: { spanOptions: { parent: rootSpan } }
+      tracingOptions: { spanOptions: { parent: rootSpan.context() } }
     });
     rootSpan.end();
 

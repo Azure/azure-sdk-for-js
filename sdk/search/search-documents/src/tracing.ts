@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { getTracer } from "@azure/core-tracing";
-import { Span, SpanOptions, SpanKind } from "@opentelemetry/types";
+import { Span, SpanOptions, SpanKind } from "@opentelemetry/api";
 import { OperationOptions } from "@azure/core-http";
 
 type OperationTracingOptions = OperationOptions["tracingOptions"];
@@ -32,7 +32,7 @@ export function createSpan<T extends OperationOptions>(
   if (span.isRecording()) {
     newSpanOptions = {
       ...tracingOptions.spanOptions,
-      parent: span,
+      parent: span.context(),
       attributes: {
         ...spanOptions.attributes,
         "az.namespace": "Microsoft.Search"

@@ -5,40 +5,46 @@ import {
   RequestPolicy,
   RequestPolicyOptions,
   BaseRequestPolicy,
-  WebResource,
+  WebResourceLike,
   HttpOperationResponse,
-  RequestPolicyFactory
+  RequestPolicyFactory,
+  RequestPolicyOptionsLike
 } from "@azure/core-http";
 
 const AcceptHeaderName = "Accept";
-const AcceptHeaderValue = "application/json;odata.metadata=none";
+
+export type MetadataLevel = "none" | "minimal";
 
 /**
  * A policy factory for setting the Accept header to ignore odata metadata
  * @internal
  * @ignore
  */
-export function odataMetadataPolicy(): RequestPolicyFactory {
+export function odataMetadataPolicy(metadataLevel: MetadataLevel): RequestPolicyFactory {
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
-      return new OdataMetadataPolicy(nextPolicy, options);
+      return new OdataMetadataPolicy(nextPolicy, options, { metadataLevel });
     }
   };
 }
 
 class OdataMetadataPolicy extends BaseRequestPolicy {
-  // eslint-disable-next-line @typescript-eslint/no-useless-constructor
+  private metadataLevel: MetadataLevel;
+
   constructor(
     nextPolicy: RequestPolicy,
-    // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
-    options: RequestPolicyOptions
+    options: RequestPolicyOptionsLike,
+    policyOptions: { metadataLevel: MetadataLevel }
   ) {
     super(nextPolicy, options);
+    this.metadataLevel = policyOptions.metadataLevel;
   }
 
-  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
-  public async sendRequest(webResource: WebResource): Promise<HttpOperationResponse> {
-    webResource.headers.set(AcceptHeaderName, AcceptHeaderValue);
+  public async sendRequest(webResource: WebResourceLike): Promise<HttpOperationResponse> {
+    webResource.headers.set(
+      AcceptHeaderName,
+      `application/json;odata.metadata=${this.metadataLevel}`
+    );
     return this._nextPolicy.sendRequest(webResource);
   }
 }
