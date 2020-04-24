@@ -8,7 +8,7 @@ import { TokenCredential } from "@azure/core-auth";
 import { ConnectionConfig } from "./connectionConfig/connectionConfig";
 import { SharedKeyCredential } from "./auth/sas";
 
-import * as Constants from "./util/constants";
+import { Constants } from "./util/constants";
 import { getPlatformInfo, getFrameworkInfo } from "./util/runtimeInfo";
 import { isNode } from "./util/utils";
 
