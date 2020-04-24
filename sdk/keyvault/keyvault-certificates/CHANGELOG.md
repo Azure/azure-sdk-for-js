@@ -2,6 +2,7 @@
 
 ## 4.1.0-preview.2 (Unreleased)
 
+- Using `Poller` and `PollerLike` from the latest `core-lro` instead of relying on the temporary `KVPoller` and `KVPollerLike`.
 
 ## 4.1.0-preview.1 (2020-03-10)
 

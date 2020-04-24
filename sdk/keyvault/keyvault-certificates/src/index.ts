@@ -146,7 +146,6 @@ import { CreateCertificatePoller } from "./lro/create/poller";
 import { CertificateOperationPoller } from "./lro/operation/poller";
 import { DeleteCertificatePoller } from "./lro/delete/poller";
 import { RecoverDeletedCertificatePoller } from "./lro/recover/poller";
-import { KVPollerLike } from "./lro/core-lro-update";
 import { CertificateOperationState } from "./lro/operation/operation";
 import { DeleteCertificateState } from "./lro/delete/operation";
 import { CreateCertificateState } from "./lro/create/operation";
@@ -178,7 +177,6 @@ export {
   CreateCertificateOptions,
   CertificatePollerOptions,
   PollerLike,
-  KVPollerLike,
   CreateCertificateState,
   DeleteCertificateState,
   RecoverDeletedCertificateState,
@@ -1505,7 +1503,7 @@ export class CertificateClient {
   public async getCertificateOperation(
     certificateName: string,
     options: GetCertificateOperationOptions = {}
-  ): Promise<KVPollerLike<CertificateOperationState, KeyVaultCertificateWithPolicy>> {
+  ): Promise<PollerLike<CertificateOperationState, KeyVaultCertificateWithPolicy>> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const poller = new CertificateOperationPoller({
       certificateName,
