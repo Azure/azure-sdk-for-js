@@ -72,6 +72,7 @@
   },
   "devDependencies": {
     "@types/node": "^8.0.0",
+    "@types/node-fetch": "^2.5.0",
     "@typescript-eslint/eslint-plugin": "^2.0.0",
     "@typescript-eslint/parser": "^2.0.0",
     "eslint": "^6.1.0",
