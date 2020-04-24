@@ -1,5 +1,8 @@
 # Release History
 
+## 1.0.0-preview.2 (Unreleased)
+
+
 ## 1.0.0-preview.1 (2020-04-23)
 
 - This release is a preview of our efforts to create a client library that is user friendly and
