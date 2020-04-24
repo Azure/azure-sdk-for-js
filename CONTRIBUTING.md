@@ -137,7 +137,7 @@ By default, these npm scripts run previously recorded tests. The recordings have
 
 #### Recorded tests
 
-Most of the tests in our projects run in playback mode by default, i.e they make no network requests to the real services. For http requests made in each test case, there is a recorded response that reproduces the service behavior. The readme file in the `test` folder of each package will indicate wether the package uses recorded tests or not.
+Most of the tests in our projects run in playback mode by default, i.e they make no network requests to the real services. For http requests made in each test case, there is a recorded response that reproduces the service behavior. The readme file in the `test` folder of each package will indicate whether the package uses recorded tests or not.
 
 #### Live tests
 
