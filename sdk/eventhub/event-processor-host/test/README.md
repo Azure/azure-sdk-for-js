@@ -27,7 +27,7 @@ Go through the following setup in order to correctly setup the AAD credentials f
 
 ### Register a new application in AAD
 
-- Follow [Documentation to register a new application](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app) in the Azure Active Directory(in the azure-portal).
+- Follow [Documentation to register a new application](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app) in the Azure Active Directory (in the Azure portal).
 - Note down the `CLIENT_ID` and `TENANT_ID`.
 - In the "Certificates & Secrets" tab, create a secret and note that down.
 
