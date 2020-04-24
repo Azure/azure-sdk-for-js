@@ -2,6 +2,8 @@
 
 ## 1.1.2 (Unreleased)
 
+- Adds compatiblity with TypeScript versions 3.1 through 3.6+.
+  [PR 8540](https://github.com/Azure/azure-sdk-for-js/pull/8540)
 
 ## 1.1.1 (2020-03-31)
 
