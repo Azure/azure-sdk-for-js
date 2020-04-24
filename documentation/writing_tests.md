@@ -223,18 +223,18 @@ Code coverage can be added by placing `nyc` at the beginning of the line. Keep i
 
 The main `test` script, which won't be using `nyc`, will point to the bundled test file (bundled with [Rollup](#rollup)), typically at `dist-test/index.node.js`. `test-ci`, which uses `nyc`, points mocha to the files built by the TypeScript compiler, matched with `dist-esm/test/**/*.spec.js`.
 
-With everything so far in mind, adding the execution of `npm run clean` to ensure the state of the project is as fresh as possible, including building the test files, and avoiding `nyc` on the default test execution, we will end up with the following scripts:
+We will end up with the following scripts:
 
 ```json
-    "test": "npm run clean && npm run build:test && npm run test:node && npm run test:browser",
-    "test-ci": "npm run clean && npm run build:test && npm run test-ci:node && npm run test-ci:browser",
+    "test": "npm run test:node && npm run test:browser",
+    "test-ci": "npm run test-ci:node && npm run test-ci:browser",
 ```
 
-Where the `test:node` and `test-ci:node` are:
+To expand on the individual scripts for NodeJS and the browsers, we will be using everything we have mentioned so far, adding the execution of `npm run clean` to ensure the state of the project is as fresh as possible, including building the test files, and avoiding `nyc` on the default test execution. We will end up with the following scripts:
 
 ```json
-    "test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace dist-test/index.node.js",
-    "test-ci:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace dist-esm/test/**/*.spec.js",
+    "test:node": "npm run clean && npm run build:test && mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace dist-test/index.node.js",
+    "test-ci:node": "npm run clean && npm run build:test && nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace dist-esm/test/**/*.spec.js",
 ```
 
 The scripts `test:browser` and `test-ci:browser` will be covered in the [Karma](#karma) section.
@@ -652,17 +652,17 @@ You can see these dependencies at work in our [template project's package.json](
 
 #### Configuring Karma
 
-Karma is used by `test:browser` and `test-ci:browser` scripts in our [package.json](#package-configuration) files. We usually only pass one parameter, `--single-run`, which tells Karma to start and capture all configured browsers, run tests and then exit with an exit code of 0 or 1, depending on whether all tests passed or any tests failed.
+Karma is used by `test:browser` and `test-ci:browser` scripts in our [package.json](#package-configuration) files. We usually only pass one parameter, `--single-run`, which tells Karma to start and capture all configured browsers, run tests and then exit with an exit code of 0 or 1, depending on whether all tests passed or any tests failed. Adding the execution of `npm run clean` to ensure the state of the project is as fresh as possible, we end up with:
 
 ```json
-  "test:browser": "karma start --single-run",
+  "test:browser": "npm run clean && npm run build:test && karma start --single-run",
 ```
 
 Karma will default to interpret the file `karma.conf.js`, which should be available at the root of the project. You may specify a different `karma.conf.js` for different test groups, if needed:
 
 ```json
-  "test:browser": "karma start --single-run karma.config.js",
-  "test-ci:browser": "karma start --single-run karma.ci.config.js",
+  "test:browser": "npm run clean && npm run build:test && karma start --single-run karma.config.js",
+  "test-ci:browser": "npm run clean && npm run build:test && karma start --single-run karma.ci.config.js",
 ```
 
 An example of a working Karma configuration file can be seen in the following path: <https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/karma.conf.js>
@@ -682,6 +682,11 @@ Besides the default contents of that Karma configuration file, you can consider 
   customLaunchers: {
     ChromeHeadlessNoSandbox: {
         base: "ChromeHeadless",
+        // In order to protect the host environment from untrusted web content,
+        // Chrome uses multiple layers of sandboxing.
+        // For this to work properly, the host should be configured first.
+        // If there's no good sandbox for Chrome to use, it will crash with the error `No usable sandbox!`.
+        // We absolutely trust that our tests are safe to run locally, in a browser without sandbox.
         flags: ["--no-sandbox"]
     }
   }
@@ -742,18 +747,18 @@ Even though tests can be executed in groups, through the use of [Patterns](#patt
 All together, the `package.json` will end up with the following scripts:
 
 ```json
-  "test": "npm run clean && npm run build:test && npm run test:node && npm run test:browser",
-  "test-ci": "npm run clean && npm run build:test && npm run test-ci:node && npm run test-ci:browser",
+  "test": "npm run test:node && npm run test:browser",
+  "test-ci": "npm run test-ci:node && npm run test-ci:browser",
+
+  // Where the individual commands are:
+  "test:node": "npm run clean && npm run build:test && mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace dist-test/index.node.js",
+  "test-ci:node": "npm run clean && npm run build:test && nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace dist-esm/test/**/*.spec.js",
+  // Remember to specify different karma.config.js if needed
+  "test:browser": "npm run clean && npm run build:test && karma start --single-run",
+  "test-ci:browser": "npm run clean && npm run build:test && npm run test:browser",
 
   // Where we're cleaning with:
   "clean": "rimraf dist dist-* types",
-
-  // And where the individual commands are:
-  "test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace dist-test/index.node.js",
-  "test-ci:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace dist-esm/test/**/*.spec.js",
-  // Remember to specify different karma.config.js if needed
-  "test:browser": "karma start --single-run",
-  "test-ci:browser": "npm run test:browser",
 ```
 
 

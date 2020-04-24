@@ -96,6 +96,11 @@ module.exports = function(config) {
     customLaunchers: {
       ChromeHeadlessNoSandbox: {
         base: "ChromeHeadless",
+        // In order to protect the host environment from untrusted web content,
+        // Chrome uses multiple layers of sandboxing.
+        // For this to work properly, the host should be configured first.
+        // If there's no good sandbox for Chrome to use, it will crash with the error `No usable sandbox!`.
+        // We absolutely trust that our tests are safe to run locally, in a browser without sandbox.
         flags: ["--no-sandbox"]
       }
     },
