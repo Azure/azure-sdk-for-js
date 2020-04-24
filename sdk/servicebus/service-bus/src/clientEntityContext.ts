@@ -319,7 +319,6 @@ export namespace ClientEntityContext {
       // Close the managementClient unless it is shared with other clients
       if (entityContext.managementClient && !isManagementClientSharedWithOtherClients()) {
         await entityContext.managementClient.close();
-        entityContext.managementClient = undefined;
       }
 
       entityContext.isClosed = true;
