@@ -15,16 +15,16 @@ jobs:
       ResourceServiceDirectory: storage
       Matrix:
         Linux_Node8:
-          OSVmImage: "ubuntu-16.04"
+          OSVmImage: "ubuntu-18.04"
           NodeVersion: "8.x"
           TestType: "node"
         Linux_Node10:
-          OSVmImage: "ubuntu-16.04"
+          OSVmImage: "ubuntu-18.04"
           NodeVersion: "10.x"
           TestType: "node"
           PublishCodeCoverage: true
         Linux_Node12:
-          OSVmImage: "ubuntu-16.04"
+          OSVmImage: "ubuntu-18.04"
           NodeVersion: "12.x"
           TestType: "node"
         Windows_Node8:
@@ -52,7 +52,7 @@ jobs:
           NodeVersion: "12.x"
           TestType: "node"
         Browser_Linux_Node10:
-          OSVmImage: "ubuntu-16.04"
+          OSVmImage: "ubuntu-18.04"
           NodeVersion: "10.x"
           TestType: "browser"
           PublishCodeCoverage: true
@@ -65,6 +65,6 @@ jobs:
           NodeVersion: "10.x"
           TestType: "browser"
         Linux_Sample10:
-          OSVmImage: "ubuntu-16.04"
+          OSVmImage: "ubuntu-18.04"
           NodeVersion: "10.x"
           TestType: "sample"

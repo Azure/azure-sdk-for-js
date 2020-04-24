@@ -152,7 +152,7 @@ describe("DataLakePathClient", () => {
 
     const result = await fileClient.read(undefined, undefined, {
       tracingOptions: {
-        spanOptions: { parent: rootSpan }
+        spanOptions: { parent: rootSpan.context() }
       }
     });
     assert.deepStrictEqual(await bodyToString(result, content.length), content);

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { SpanOptions } from "@opentelemetry/types";
+import { SpanOptions } from "@azure/core-tracing";
 
 /**
  * Represents a credential capable of providing an authentication token.

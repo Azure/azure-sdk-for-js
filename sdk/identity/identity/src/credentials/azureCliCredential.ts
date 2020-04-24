@@ -4,7 +4,7 @@
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
-import { CanonicalCode } from "@opentelemetry/types";
+import { CanonicalCode } from "@opentelemetry/api";
 import { logger } from "../util/logging";
 
 import * as child_process from "child_process";

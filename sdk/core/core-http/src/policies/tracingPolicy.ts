@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { getTracer, getTraceParentHeader } from "@azure/core-tracing";
-import { SpanOptions, SpanKind } from "@opentelemetry/types";
+import { SpanOptions, SpanKind } from "@opentelemetry/api";
 import {
   RequestPolicyFactory,
   RequestPolicy,

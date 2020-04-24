@@ -356,9 +356,7 @@ Please take a look at the [samples](./samples) directory for detailed examples o
 
 ## Contributing
 
-This project welcomes contributions and suggestions. Please read the
-[contributing guidelines](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md)
-for detailed information about how to contribute and what to expect while contributing.
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
 
 ### Testing
 

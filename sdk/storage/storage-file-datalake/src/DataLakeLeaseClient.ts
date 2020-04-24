@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 import { BlobLeaseClient } from "@azure/storage-blob";
-import { CanonicalCode } from "@opentelemetry/types";
+import { CanonicalCode } from "@opentelemetry/api";
 
 import { Lease, LeaseOperationOptions, LeaseOperationResponse } from "./models";
 import { createSpan } from "./utils/tracing";

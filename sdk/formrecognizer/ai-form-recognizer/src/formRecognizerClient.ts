@@ -18,7 +18,7 @@ import {
   toRequestBody,
   getContentType
 } from "./common";
-import { CanonicalCode } from "@opentelemetry/types";
+import { CanonicalCode } from "@opentelemetry/api";
 
 import { FormRecognizerClient as GeneratedClient } from "./generated/formRecognizerClient";
 import {

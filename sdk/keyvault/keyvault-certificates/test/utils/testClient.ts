@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { CertificateClient } from "../../src";
 
 export default class TestClient {
