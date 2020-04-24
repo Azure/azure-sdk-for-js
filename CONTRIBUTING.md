@@ -141,11 +141,11 @@ Most of the tests in our projects run in playback mode by default, i.e they make
 
 #### Live tests
 
-In case you want to run the tests of the packages that use our [recorder](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/test-utils/recorder/README.md) against live resources, you will continue to run the `test` npm script, but you will need to ensure that:
+To use the `rushx test` command to run the tests against live resources, you must:
 
-- The environment variable `TEST_MODE` is set to `live`.
-- You must have had previously created the necessary Azure resources needed by the tests you want to execute.
-- You must also set the appropriate environment variables to point to these resources.
+- Set the environment variable `TEST_MODE` to `live`.
+- Have had previously created the necessary Azure resources needed by the tests you want to execute.
+- Also set the appropriate environment variables to point to these resources.
 
 The readme file in the `test` folder of each package lists the Azure resources and the environment variables needed.
 
@@ -163,7 +163,7 @@ For more information the recorder, please visit the [test-utils-recorder's readm
 
 ### Other NPM scripts
 
-Most package scripts are exposed as Rush commands. Use `rush <scriptname>` in place of `npm run <scriptname>` to run the package script in all projects. Navigate to a project's directory and substitute `rushx` for `rush` to run the script for just the current project. Run `rush <scriptname> --help` for more information about each script.
+Most package scripts are exposed as Rush commands. Use `rushx <scriptname>` in place of `npm run <scriptname>` to run the package script in all projects. Navigate to a project's directory and substitute `rushx` for `rush` to run the script for just the current project. Run `rush <scriptname> --help` for more information about each script.
 
 All projects have at least the following scripts:
 
