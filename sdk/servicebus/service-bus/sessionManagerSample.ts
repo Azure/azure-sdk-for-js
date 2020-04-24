@@ -1,4 +1,10 @@
-import { ServiceBusClient, delay, ReceivedMessageWithLock, SessionReceiver } from "./";
+import {
+  ServiceBusClient,
+  delay,
+  ReceivedMessageWithLock,
+  SessionReceiver,
+  MessagingError
+} from "./";
 import * as dotenv from "dotenv";
 import { env } from "process";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
@@ -39,11 +45,6 @@ function _createIdleTimer(
   };
 }
 
-async function _noSessionsAvailable(err: Error) {
-  // TODO: this error should be programmatically identifable.
-  return err.message.search(/Received an incorrect sessionId 'undefined'/) !== -1;
-}
-
 async function _processNextSession(
   serviceBusClient: ServiceBusClient,
   handlers: SessionMessageHandlers,
@@ -56,8 +57,7 @@ async function _processNextSession(
       autoRenewLockDurationInMs: sessionIdleTimeoutMs
     });
   } catch (err) {
-    // TODO: when this happens do I still need to close the session receiver? (again, temporary concern)
-    if (_noSessionsAvailable(err)) {
+    if ((err as MessagingError).code === "no-sessions-available") {
       console.log(`INFO: no available sessions, sleeping for ${delayWhenNoSessionsAvailableMs}`);
       await delay(delayWhenNoSessionsAvailableMs);
       return;
