@@ -4,7 +4,7 @@ The Azure SDK for JavaScript and TypeScript allows users to manage and utilize t
 
 > #### Tips for reading this document
 > - If you see any link that ends in a lock [🔒][TIPS], that link is private, only accessible to developers members of the Azure SDK team.
-> - Links that end up with a clock [⏲][TIPS], these are links that might contain outdated information. The information that's being referred might move elsewhere as time passes. Make sure to find the latest version of the linked file, or the content of the file that is relevant to what's being described in this document.
+> - Links that end up with a clock [⏲][TIPS] are links that might contain outdated information. The information that's being referred might move elsewhere as time passes. Make sure to find the latest version of the linked file, or the content of the file that is relevant to what's being described in this document.
 
 [TIPS]: #tips-for-reading-this-document
 
@@ -58,7 +58,7 @@ The Azure SDK for JavaScript and TypeScript allows users to manage and utilize t
 
 ## Engineering setup
 
-The Azure SDK tests not only help us verify that our code is correct, they are also a meaningful way to share how to use our code with our customers. Besides being able to be executed by any developer in the world, they will be triggered by automatic systems that help us verify that we haven't made breaking changes, and also to check that the services we're targeting don't show unexpected behaviors, all of which help us have a better level of confidence before releasing anything to the public.
+The Azure SDK tests will be triggered by automatic systems that help us verify that we haven't made breaking changes, and also to check that the services we're targeting don't show unexpected behaviors, all of which help us have a better level of confidence before releasing anything to the public.
 
 For our Engineering Systems to pick up our tests appropriately, our packages must be configured according to their guidelines. In this section we will go through some of these concepts, and we will provide links that expand them in detail. We will be covering:
 
@@ -68,22 +68,21 @@ For our Engineering Systems to pick up our tests appropriately, our packages mus
 
 ### Engineering goals
 
-Though the tests must target live resources, we should make sure they only do so when necessary. We must keep in mind the following considerations:
+Our tests will generally target live resources. When doing so, we must keep in mind the following considerations:
 
-- **Tests must not be flaky.** Tests should pass regardless of who's executing them, when they are running, and how many times they run.
-- **Live testing resources should be created and deleted by automation**, either through the code of the tests, or through their configuration files.
-- **The resources created for the tests should be unique.** Running the same test in parallel, multiple times, should not break them.
+- **Tests must not be flaky.** Tests should pass regardless of who's executing them or how many times they run.
+- **Live testing resources should be created and deleted by automation**, either through the code of the tests, or through the CI processes consuming their configuration files.
+- **The resources created for the tests should be unique.** While tests might create resources during their execution, repeatedly running the tests in parallel should not break them.
 - **Avoid calling to timed delays** (like `setTimeout`) to assert that a change happened in the live resources.
-- **Tests should clean up any resource created**. For the most part, our automation tools will remove any resource created by the live tests. However, for development also, we should keep our resources clean by ensuing that regardless of the success of each test case, any resources created are cleaned up afterwards.
-- **Our code should explicitly prevent the execution of any test that might likely fail**. If there is not sufficient data to execute the test (e.g. credentials to a cloud resource), the code of the tests should explicitly skip it. This should not be done with the larger execution environment (e.g. test commands or the DevOps pipeline running the tests).
+- **Tests should clean up any resource created**. For the most part, our automation tools will remove any resource created by the live tests. However, even if we're temporarily using our own Azure resources, we should keep them clean by ensuring that anything created is cleaned up regardless of the success of the tests.
+- **Our code should explicitly prevent the execution of any test that might likely fail**. If the conditions necessary to run a specific test are not met (for example, due to the credentials being missing), the code of this test should explicitly skip it. Skipping tests should not be done with the larger execution environment (e.g. test commands or the DevOps pipelines).
 
-You'll be able to find a more detailed set of recommendations in the section: [Best Practices for writing tests that target live resources](https://dev.azure.com/azure-sdk/internal/_wiki/wikis/internal.wiki/51/Testing-Guidelines) [🔒][TIPS].
+You can continue to learn about our recommendations for working with and managing live resources through the following links:
 
-For more information on how to manage your live test resources, please read our [Live Test Resource Management](https://github.com/Azure/azure-sdk-for-js/blob/master/eng/common/TestResources/README.md) guide.
-
-Any resource that is not created by the tests must be defined in an [ARM template](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/overview), so that anyone can build a copy of them. This ARM template will be used by the test pipelines for live test runs. Under the context of the previous KeyVault example, to automate the creation of the KeyVault that is passed into the tests, it needs to have been defined specifically in the [CI and nightly test configuration](#ci-and-nightly-test-configuration) files.
-
-Regarding delays and `setTimeout`s, please refer to the [using delays](#using-delays) section.
+- [Best Practices for writing tests that target live resources](https://dev.azure.com/azure-sdk/internal/_wiki/wikis/internal.wiki/51/Testing-Guidelines) [🔒][TIPS].
+- [Live Test Resource Management guide](https://github.com/Azure/azure-sdk-for-js/blob/master/eng/common/TestResources/README.md).
+- [CI and nightly test configuration](#ci-and-nightly-test-configuration) files.
+- Regarding delays and `setTimeout`s, please refer to the [using delays](#using-delays) section.
 
 ### CI and nightly test configuration
 
@@ -98,7 +97,7 @@ Some examples of the `ci.yml` file can be found at:
 - [sdk/storage/ci.yml](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/ci.yml).
 - [sdk/servicebus/ci.yml](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/ci.yml).
 
-For live tests (which an be triggered manually and automatically run every night), we need to provide two files, `test-resources.json` and `tests.yml`.
+For live tests (which can be triggered manually and automatically run every night), we need to provide two files, `test-resources.json` and `tests.yml`.
 
 `test-resources.json` must exist either at the package folder level, or at the service level. This file must contain an [ARM template](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/overview) of the resources needed to run all of the tests of the relevant clients. All of the `test-resources.json` files inside of the service folder will be used in conjunction to deploy resources on every build.
 
@@ -122,9 +121,17 @@ Once the CI is properly configured, you can verify that the live tests pipelines
 
 ### Delivering live tests to our users
 
-The `test-resources.json` can be used by our users to set up their own test resources. We go through how it's being used with our PowerShell scripts in our [README](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md#integration-testing-with-live-services). Make sure to mention of this resource inside of a `README.md` that must exist in the `test` folder of your project.
+The `test-resources.json` can be used by our users to set up their own test resources. We give instructions on how to work with this file in our [contributing guidelines](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md#live-tests). Your test folder should include a `README.md` that should cover:
 
+- References to the contributing guidelines regarding building and testing our projects.
+- What Azure resources and environment variables are needed to run the tests.
+- How the tests will interact with the Azure resources.
 
+You can use the readmes at the test folders of the existing packages as references, for example:
+
+- [keyvault-keys/test/README.md](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-keys/test/README.md).
+- [event-hubs/test/README.md](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/test/README.md).
+- [app-configuration/test/README.md](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/test/README.md).
 
 ## Recommended tools
 
