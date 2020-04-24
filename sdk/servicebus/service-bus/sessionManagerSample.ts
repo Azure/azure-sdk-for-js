@@ -18,11 +18,24 @@ const maxSessionsToProcessSimultaneously = 8;
 const sessionIdleTimeoutMs = 3 * 1000;
 const delayWhenNoSessionsAvailableMs = 5 * 1000;
 
-interface SessionMessageHandlers {
-  processInitialize(sessionId: string): Promise<void>;
-  processMessage(msg: ReceivedMessageWithLock): Promise<void>;
-  processError(err: Error, sessionId: string): Promise<void>;
-  processClose(reason: "error" | "idle_timeout", sessionId: string): Promise<void>;
+function processInitialize(sessionId: string) {
+  console.log(`[${sessionId}] will start processing...`);
+}
+
+function processMessage(msg: ReceivedMessageWithLock) {
+  console.log(`[${msg.sessionId}] received message with body ${msg.body}`);
+}
+
+function processError(err: Error, sessionId: string) {
+  console.log(`[${sessionId}] had error ${err.message}`);
+}
+
+function processClose(reason: "error" | "idle_timeout", sessionId: string) {
+  if (reason === "error") {
+    console.log(`[${sessionId}] was closed because of error`);
+  } else if (reason === "idle_timeout") {
+    console.log(`[${sessionId}] was closed - no more messages within idle timeout`);
+  }
 }
 
 function _createIdleTimer(
@@ -47,7 +60,6 @@ function _createIdleTimer(
 
 async function _processNextSession(
   serviceBusClient: ServiceBusClient,
-  handlers: SessionMessageHandlers,
   abortSignal: AbortSignalLike
 ): Promise<void> {
   let sessionReceiver: SessionReceiver<ReceivedMessageWithLock>;
@@ -66,7 +78,7 @@ async function _processNextSession(
     throw err;
   }
 
-  await handlers.processInitialize(sessionReceiver.sessionId);
+  await processInitialize(sessionReceiver.sessionId);
 
   const idleTimer = _createIdleTimer(sessionIdleTimeoutMs);
   let threwError = false;
@@ -75,11 +87,11 @@ async function _processNextSession(
     {
       async processMessage(msg) {
         idleTimer.refresh();
-        await handlers.processMessage(msg);
+        await processMessage(msg);
       },
       async processError(err) {
         threwError = true;
-        await handlers.processError(err, sessionReceiver.sessionId);
+        await processError(err, sessionReceiver.sessionId);
       }
     },
     {
@@ -92,16 +104,13 @@ async function _processNextSession(
   try {
     await sessionReceiver.close();
   } catch (err) {
-    await handlers.processError(err, sessionReceiver.sessionId);
+    await processError(err, sessionReceiver.sessionId);
   }
 
-  await handlers.processClose(threwError ? "error" : "idle_timeout", sessionReceiver.sessionId);
+  await processClose(threwError ? "error" : "idle_timeout", sessionReceiver.sessionId);
 }
 
-async function _roundRobinThroughAvailableSessions(
-  handlers: SessionMessageHandlers,
-  abortSignal: AbortSignalLike
-): Promise<void> {
+async function _roundRobinThroughAvailableSessions(abortSignal: AbortSignalLike): Promise<void> {
   const serviceBusClient = new ServiceBusClient(serviceBusConnectionString);
   const allPromises = [];
 
@@ -110,7 +119,7 @@ async function _roundRobinThroughAvailableSessions(
       new Promise(async (_res, rej) => {
         try {
           while (!abortSignal.aborted) {
-            await _processNextSession(serviceBusClient, handlers, abortSignal);
+            await _processNextSession(serviceBusClient, abortSignal);
           }
         } catch (err) {
           rej(err);
@@ -128,26 +137,7 @@ async function _roundRobinThroughAvailableSessions(
 async function main() {
   const abortController = new AbortController();
 
-  const handlers: SessionMessageHandlers = {
-    async processInitialize(sessionId) {
-      console.log(`[${sessionId}] will start processing...`);
-    },
-    async processMessage(msg) {
-      console.log(`[${msg.sessionId}] received message with body ${msg.body}`);
-    },
-    async processError(err, sessionId) {
-      console.log(`[${sessionId}] had error ${err.message}`);
-    },
-    async processClose(reason, sessionId) {
-      if (reason === "error") {
-        console.log(`[${sessionId}] was closed because of error`);
-      } else if (reason === "idle_timeout") {
-        console.log(`[${sessionId}] was closed - no more messages within idle timeout`);
-      }
-    }
-  };
-
-  await _roundRobinThroughAvailableSessions(handlers, abortController.signal);
+  await _roundRobinThroughAvailableSessions(abortController.signal);
 }
 
 main().catch((err) => console.log(`Fatal error: ${err}`));
