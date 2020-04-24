@@ -137,21 +137,21 @@ By default, these npm scripts run previously recorded tests. The recordings have
 
 #### Recorded tests
 
-Most of the tests in our projects run in playback mode by default, i.e they make no network requests to the real services. For http requests made in each test case, there is a recorded response that reproduces the service behavior. The readme file in the `test` folder of each package will indicate whether the package uses recorded tests or not.
+Most of the tests in our projects run in playback mode by default, i.e they make no network requests to the real services. For HTTP requests made in each test case, there is a recorded response that reproduces the service behavior. The readme file in the `test` folder of each package will indicate whether the package uses recorded tests or not.
 
 #### Live tests
 
 To use the `rushx test` command to run the tests against live resources, you must:
 
 - Set the environment variable `TEST_MODE` to `live`.
-- Have had previously created the necessary Azure resources needed by the tests you want to execute.
-- Also set the appropriate environment variables to point to these resources.
+- Have previously created the necessary Azure resources needed by the tests.
+- Set the appropriate environment variables to point to these resources.
 
 The readme file in the `test` folder of each package lists the Azure resources and the environment variables needed.
 
-> Note: Our projects use [dotenv](https://www.npmjs.com/package/dotenv) to make it easier to work with environment variables.
+> Note: Our projects use dotenv to allow you to use `.env` files to set environment variables. Find the `sample.env` file nearest to the project you want to test to see a template of the expected `.env` file.
 
-You can create the necessary Azure resources on your own, or automate this process by using the script called `New-TestResources.ps1` which uses ARM templates defined in `test-resources.json` file in each project folder. Follow the steps in [`Example 1 of New-TestResources.ps1`](https://github.com/Azure/azure-sdk-for-js/blob/master/eng/common/TestResources/New-TestResources.ps1.md#example-1) to set up a service principal and deploy live test resources.
+You can create the necessary Azure resources on your own, or automate this process by using the script called `New-TestResources.ps1` which uses ARM templates defined in a file named `test-resources.json` that exists in each project's folder. Follow the steps in [`Example 1 of New-TestResources.ps1`](https://github.com/Azure/azure-sdk-for-js/blob/master/eng/common/TestResources/New-TestResources.ps1.md#example-1) to set up a service principal and deploy the live test resources.
 
 #### Regenerating recordings
 
