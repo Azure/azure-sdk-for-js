@@ -59,7 +59,7 @@
     "integration-test:node:no-timeout": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --no-timeouts --full-trace dist-esm/test/*.test.js",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
-    "lint": "eslint package.json api-extractor.json src test --ext .ts -f html -o search-lintReport.html",
+    "lint": "eslint package.json api-extractor.json src test --ext .ts -f html -o keyvault-secrets-lintReport.html",
     "lint:terminal": "eslint package.json api-extractor.json src test --ext .ts",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
