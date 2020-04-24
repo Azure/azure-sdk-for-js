@@ -30,9 +30,9 @@ Go through the following setup in order to correctly setup the AAD credentials f
 
 ### Assign owner role to the registered application
 
-- In the azure-portal, go to your servicebus-namespace and assign the **Azure Service Bus Data Owner** role to the registered application.
-- This can be done from `Role assignment` section of `Access control (IAM)` tab (in the left-side-navbar of your servicebus-namespace in the azure-portal)<br>
+- In the Azure portal, go to your Azure Service Bus namespace and assign the **Azure Service Bus Data Owner** role to the registered application.
+- This can be done from `Role assignment` section of `Access control (IAM)` tab (in the left-side-navbar of your Service Bus namespace in the azure-portal)<br>
   _Doing this would allow the registered application manage the namespace, i.e., entity creation, deletion, etc.,_<br>
-- For more information on Service Bus RBAC setup - [Learn more](https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-role-based-access-control)
+- For more information on Service Bus RBAC setup: [Learn more](https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-role-based-access-control)
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fservicebus%2Fservice-bus%2Ftest%2FREADME.png)

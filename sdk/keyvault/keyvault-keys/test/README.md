@@ -6,7 +6,7 @@ You can use existing Azure resources for the live tests, or generate new ones by
 
 The Azure resource that is used by the tests in this project is:
 
-- An [Azure Key Vault](https://docs.microsoft.com/en-us/azure/key-vault/general/basic-concepts). Your Azure application needs to be assigned as the **owner** of this Azure Key Vault. The steps are provided [below](#AAD-based-authentication). 
+- An [Azure Key Vault](https://docs.microsoft.com/en-us/azure/key-vault/general/basic-concepts). Your Azure application needs to be assigned as the **owner** of this Azure Key Vault. The steps are provided [below](#AAD-based-authentication).
 
 To run the live tests, you will also need to set the below environment variables:
 
@@ -30,8 +30,9 @@ Go through the following setup in order to correctly setup the AAD credentials f
 
 ### Assign owner role to the registered application
 
-- In the azure-portal, go to your keyvault-namespace and assign the **Owner** role to the registered application.
-- This can be done from `Role assignment` section of `Access control (IAM)` tab (in the left-side-navbar of your keyvault-namespace in the azure-portal)<br>
+- In the Azure portal, go to your Azure Key Vault and assign the **Owner** role to the registered application.
+- This can be done from `Role assignment` section of `Access control (IAM)` tab (in the left-side-navbar of your Azure Key Vault in the Azure portal)<br>
   _Doing this would allow the registered application manage the namespace, i.e., entity creation, deletion, etc.,_<br>
-- For more information on securing your KeyVault - [Learn more](hhttps://docs.microsoft.com/en-us/azure/key-vault/general/secure-your-key-vault)
+- For more information on securing your Key Vault: [Learn more](https://docs.microsoft.com/en-us/azure/key-vault/general/secure-your-key-vault)
+
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fkeyvault%2Fkeyvault-keys%2Ftest%2FREADME.png)

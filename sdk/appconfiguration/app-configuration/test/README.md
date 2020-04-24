@@ -6,14 +6,34 @@ You can use existing Azure resources for the live tests, or generate new ones by
 
 The Azure resource that is used by the tests in this project is:
 
-- An [Azure App Configuration](https://docs.microsoft.com/en-us/azure/azure-app-configuration/overview).
+- An [Azure App Configuration](https://docs.microsoft.com/en-us/azure/azure-app-configuration/overview). Your Azure application needs to be assigned as the **owner** of this Azure Key Vault. The steps are provided [below](#AAD-based-authentication).
 
 To run the live tests, you will also need to set the below environment variables:
 
 - `TEST_MODE`: Should have `live` assigned.
 - `AZ_CONFIG_CONNECTION`: The connection string of your Azure App Configuration account.
 - `AZ_CONFIG_ENDPOINT`: The endpoint of your Azure App Configuration account.
+- `AZURE_CLIENT_ID`: The client ID of an Azure Active Directory application.
+- `AZURE_CLIENT_SECRET`: The client secret of an Azure Active Directory application.
+- `AZURE_TENANT_ID`: The Tenant ID of your organization in Azure Active Directory.
 
 The live tests in this project will add, modify and delete configurations on the provided Azure App Configuration account.
+
+## AAD based authentication
+
+Go through the following setup in order to correctly setup the AAD credentials for tests that require it.
+
+### Register a new application in AAD
+
+- Follow [Documentation to register a new application](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app) in the Azure Active Directory(in the azure-portal).
+- Note down the `CLIENT_ID` and `TENANT_ID`.
+- In the "Certificates & Secrets" tab, create a secret and note that down.
+
+### Assign owner role to the registered application
+
+- In the Azure portal, go to your Azure Event Hubs namespace and assign the **Owner** role to the registered application.
+- This can be done from `Role assignment` section of `Access control (IAM)` tab (in the left-side-navbar of your Azure Event Hubs namespace in the Azure portal)<br>
+  _Doing this would allow the registered application manage the namespace, i.e., entity creation, deletion, etc.,_<br>
+- For more information on securing your Azure Event Hubs namespace: [Learn more](https://docs.microsoft.com/en-us/azure/event-hubs/authorize-access-event-hubs)
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fappconfiguration%2Fapp-configuration%2Ftest%2FREADME.png)
