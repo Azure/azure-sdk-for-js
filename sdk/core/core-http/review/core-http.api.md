@@ -180,8 +180,17 @@ export class DefaultHttpClient extends FetchHttpClient {
 // @public
 export function delay<T>(t: number, value?: T): Promise<T>;
 
-// Warning: (ae-forgotten-export) The symbol "DeserializationContentTypes" needs to be exported by the entry point coreHttp.d.ts
-//
+// @public
+export interface DeserializationContentTypes {
+    json?: string[];
+    xml?: string[];
+}
+
+// @public
+export interface DeserializationOptions {
+    expectedContentTypes: DeserializationContentTypes;
+}
+
 // @public
 export function deserializationPolicy(deserializationContentTypes?: DeserializationContentTypes): RequestPolicyFactory;
 
@@ -202,6 +211,12 @@ export interface DictionaryMapperType {
     name: "Dictionary";
     // (undocumented)
     value: Mapper;
+}
+
+// @public
+export class DisableResponseDecompressionPolicy extends BaseRequestPolicy {
+    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions);
+    sendRequest(request: WebResource): Promise<HttpOperationResponse>;
 }
 
 // @public
@@ -263,14 +278,18 @@ export interface HttpClient extends RequestPolicy {
 }
 
 // @public
+export interface HttpHeader {
+    name: string;
+    value: string;
+}
+
+// @public
 export class HttpHeaders implements HttpHeadersLike {
-    // Warning: (ae-forgotten-export) The symbol "RawHttpHeaders" needs to be exported by the entry point coreHttp.d.ts
     constructor(rawHeaders?: RawHttpHeaders);
     clone(): HttpHeaders;
     contains(headerName: string): boolean;
     get(headerName: string): string | undefined;
     headerNames(): string[];
-    // Warning: (ae-forgotten-export) The symbol "HttpHeader" needs to be exported by the entry point coreHttp.d.ts
     headersArray(): HttpHeader[];
     headerValues(): string[];
     rawHeaders(): RawHttpHeaders;
@@ -335,7 +354,6 @@ export interface HttpResponse {
 // @public
 export interface InternalPipelineOptions extends PipelineOptions {
     decompressResponse?: boolean;
-    // Warning: (ae-forgotten-export) The symbol "DeserializationOptions" needs to be exported by the entry point coreHttp.d.ts
     deserializationOptions?: DeserializationOptions;
     loggingOptions?: LogPolicyOptions;
 }
@@ -355,6 +373,12 @@ export function isValidUuid(uuid: string): boolean;
 export interface KeepAliveOptions {
     // (undocumented)
     enable: boolean;
+}
+
+// @public
+export class KeepAlivePolicy extends BaseRequestPolicy {
+    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, keepAliveOptions: KeepAliveOptions);
+    sendRequest(request: WebResourceLike): Promise<HttpOperationResponse>;
 }
 
 // @public (undocumented)
@@ -443,7 +467,6 @@ export function operationOptionsToRequestOptionsBase<T extends OperationOptions>
 // @public
 export interface OperationParameter {
     mapper: Mapper;
-    // Warning: (ae-forgotten-export) The symbol "ParameterPath" needs to be exported by the entry point coreHttp.d.ts
     parameterPath: ParameterPath;
 }
 
@@ -492,6 +515,11 @@ export interface OperationSpec {
 export interface OperationURLParameter extends OperationParameter {
     skipEncoding?: boolean;
 }
+
+// @public (undocumented)
+export type ParameterPath = string | string[] | {
+    [propertyName: string]: ParameterPath;
+};
 
 // @public
 export interface ParameterValue {
@@ -564,6 +592,11 @@ export enum QueryCollectionFormat {
     // (undocumented)
     Tsv = "\t"
 }
+
+// @public
+export type RawHttpHeaders = {
+    [headerName: string]: string;
+};
 
 // @public
 export interface RedirectOptions {
@@ -786,6 +819,12 @@ export function stripResponse(response: HttpOperationResponse): any;
 export function systemErrorRetryPolicy(retryCount?: number, retryInterval?: number, minRetryInterval?: number, maxRetryInterval?: number): RequestPolicyFactory;
 
 // @public (undocumented)
+export type TelemetryInfo = {
+    key?: string;
+    value?: string;
+};
+
+// @public (undocumented)
 export function throttlingRetryPolicy(): RequestPolicyFactory;
 
 export { TokenCredential }
@@ -795,10 +834,14 @@ export class TopicCredentials extends ApiKeyCredentials {
     constructor(topicKey: string);
 }
 
-// Warning: (ae-forgotten-export) The symbol "TracingPolicyOptions" needs to be exported by the entry point coreHttp.d.ts
-//
 // @public (undocumented)
 export function tracingPolicy(tracingOptions?: TracingPolicyOptions): RequestPolicyFactory;
+
+// @public (undocumented)
+export interface TracingPolicyOptions {
+    // (undocumented)
+    userAgent?: string;
+}
 
 // @public
 export type TransferProgressEvent = {
@@ -851,8 +894,6 @@ export interface UserAgentOptions {
     userAgentPrefix?: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "TelemetryInfo" needs to be exported by the entry point coreHttp.d.ts
-//
 // @public (undocumented)
 export function userAgentPolicy(userAgentData?: TelemetryInfo): RequestPolicyFactory;
 
@@ -933,11 +974,6 @@ export interface WebResourceLike {
     withCredentials: boolean;
 }
 
-
-// Warnings were encountered during analysis:
-//
-// src/policies/disableResponseDecompressionPolicy.ts:12:51 - (ae-forgotten-export) The symbol "DisableResponseDecompressionPolicy" needs to be exported by the entry point coreHttp.d.ts
-// src/policies/keepAlivePolicy.ts:24:68 - (ae-forgotten-export) The symbol "KeepAlivePolicy" needs to be exported by the entry point coreHttp.d.ts
 
 // (No @packageDocumentation comment for this package)
 
