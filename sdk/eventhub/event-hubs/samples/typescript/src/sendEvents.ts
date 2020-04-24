@@ -26,7 +26,18 @@ export async function main(): Promise<void> {
 
   console.log("Creating and sending a batch of events...");
 
-  const eventsToSend = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+  const eventsToSend = [
+    { body: "1" },
+    { body: "2" },
+    { body: "3" },
+    { body: "4" },
+    { body: "5" },
+    { body: "6" },
+    { body: "7" },
+    { body: "8" },
+    { body: "9" },
+    { body: "10" }
+  ];
 
   try {
     // By not specifying a partition ID or a partition key we allow the server to choose
@@ -101,13 +112,9 @@ export async function main(): Promise<void> {
       throw new Error(`Not all messages were sent (${numEventsSent}/${eventsToSend.length})`);
     }
 
-    // Alternatively, if you know beforehand that the set of events you have will not exceed the 
-    // size limits, you can use the `send()` api directly
-    const eventDataToSend = eventsToSend.map(event => {
-      return { body: event}
-    });
-    await producer.sendBatch(eventDataToSend);
-
+    // Alternatively, if you know beforehand that the set of events you have will not exceed the
+    // size limits, you can use the `sendBatch()` api directly
+    await producer.sendBatch(eventsToSend);
   } catch (err) {
     console.log("Error when creating & sending a batch of events: ", err);
   }
