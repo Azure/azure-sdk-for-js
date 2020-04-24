@@ -21,7 +21,7 @@ jobs:
         AZURE_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)
       Matrix:
         Linux_Node10:
-          OSVmImage: "ubuntu-16.04"
+          OSVmImage: "ubuntu-18.04"
           TestType: "node"
           NodeVersion: "10.x"
         Windows_Node10:
@@ -33,7 +33,7 @@ jobs:
           TestType: "node"
           NodeVersion: "10.x"
         Linux_Node12:
-          OSVmImage: "ubuntu-16.04"
+          OSVmImage: "ubuntu-18.04"
           TestType: "node"
           NodeVersion: "12.x"
         Windows_Node12:
@@ -45,7 +45,7 @@ jobs:
           TestType: "node"
           NodeVersion: "12.x"
         Linux_Node8:
-          OSVmImage: "ubuntu-16.04"
+          OSVmImage: "ubuntu-18.04"
           TestType: "node"
           NodeVersion: "8.x"
         Windows_Node8:

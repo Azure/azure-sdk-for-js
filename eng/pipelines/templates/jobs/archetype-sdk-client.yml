@@ -3,7 +3,7 @@ parameters:
   ServiceDirectory: not-specified
   Matrix:
     Linux_Node8:
-      OSVmImage: "ubuntu-16.04"
+      OSVmImage: "ubuntu-18.04"
       NodeVersion: "8.x"
       TestType: "node"
     Windows_Node10:
@@ -15,7 +15,7 @@ parameters:
       NodeVersion: "12.x"
       TestType: "node"
     Browser_Linux_Node12:
-      OSVmImage: "ubuntu-16.04"
+      OSVmImage: "ubuntu-18.04"
       NodeVersion: "12.x"
       TestType: "browser"
 
