@@ -112,31 +112,20 @@ async function _processNextSession(
 
 async function _roundRobinThroughAvailableSessions(abortSignal: AbortSignalLike): Promise<void> {
   const serviceBusClient = new ServiceBusClient(serviceBusConnectionString);
-  const allPromises = [];
 
   for (let i = 0; i < maxSessionsToProcessSimultaneously; ++i) {
-    allPromises.push(
-      new Promise(async (_res, rej) => {
-        try {
-          while (!abortSignal.aborted) {
-            await _processNextSession(serviceBusClient, abortSignal);
-          }
-        } catch (err) {
-          rej(err);
-        }
-      })
-    );
+    (async () => {
+      while (!abortSignal.aborted) {
+        await _processNextSession(serviceBusClient, abortSignal);
+      }
+    })();
   }
 
-  // if we get a fatal error in any of the promises we can just shut it all down
   console.log(`All session promises have been started`);
-  await Promise.race(allPromises);
-  console.log(`Exiting...`);
 }
 
 async function main() {
   const abortController = new AbortController();
-
   await _roundRobinThroughAvailableSessions(abortController.signal);
 }
 
