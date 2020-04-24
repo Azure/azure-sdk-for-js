@@ -87,6 +87,7 @@ describe("Certificates client - restore certificates and recover backups", () =>
       );
       const backup = await client.backupCertificate(certificateName);
       await testClient.flushCertificate(certificateName);
+      // eslint-disable-next-line no-constant-condition
       while (true) {
         try {
           await client.restoreCertificateBackup(backup as Uint8Array);
