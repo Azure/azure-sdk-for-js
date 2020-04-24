@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { ClientSecretCredential } from "@azure/identity";
 import { getKeyvaultName } from "./utils.common";
 import { KeyClient } from "../../src";
