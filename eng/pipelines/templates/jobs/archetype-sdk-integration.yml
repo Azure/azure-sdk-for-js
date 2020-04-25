@@ -24,18 +24,6 @@ parameters:
       TestType: "node"
       NodeVersion: "12.x"
 
-    ${{ if eq(parameters.TestBrowser, 'true') }}:
-      Windows Browser:
-        OSVmImage: "windows-2019"
-        TestType: "browser"
-        NodeVersion: "12.x"
-
-    ${{ if eq(parameters.TestSamples, 'true') }}:
-      Samples Linux Node 8:
-        OSVmImage: "windows-2019"
-        TestType: "sample"
-        NodeVersion: "8.x"
-
 jobs:
   - job: "IntegrationTest"
 
@@ -58,6 +46,23 @@ jobs:
 
             # Remaining entries from the matrix object
             ${{ insert }}: ${{ matrixEntry.value }}
+
+        # Add matrix entry for browser testing
+        ${{ if eq(parameters.TestBrowser, 'true') }}:
+          Windows Browser:
+            OSVmImage: "windows-2019"
+            TestType: "browser"
+            NodeVersion: "12.x"
+            CloudType: "AzureCloud"
+            TestResultsFiles: "**/test-results.browser.xml"
+
+        # Add matrix entry for sample testing
+        ${{ if eq(parameters.TestSamples, 'true') }}:
+          Samples Linux Node 8:
+            OSVmImage: "windows-2019"
+            TestType: "sample"
+            NodeVersion: "8.x"
+            CloudType: "AzureCloud"
 
     pool:
       vmImage: "$(OSVmImage)"
