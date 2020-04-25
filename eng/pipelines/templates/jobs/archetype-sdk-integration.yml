@@ -24,13 +24,13 @@ parameters:
       TestType: "node"
       NodeVersion: "12.x"
 
-    - ${{ if eq(parameters.TestBrowser, 'true') }}:
+    ${{ if eq(parameters.TestBrowser, 'true') }}:
       Windows Browser:
         OSVmImage: "windows-2019"
         TestType: "browser"
         NodeVersion: "12.x"
 
-    - ${{ if eq(parameters.TestSamples, 'true') }}:
+    ${{ if eq(parameters.TestSamples, 'true') }}:
       Samples Linux Node 8:
         OSVmImage: "windows-2019"
         TestType: "sample"
