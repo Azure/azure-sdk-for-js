@@ -13,46 +13,11 @@ jobs:
     parameters:
       PackageName: "@azure/app-configuration"
       ResourceServiceDirectory: appconfiguration
+      TestBrowser: false
+      TestSamples: false
       EnvVars:
         AZ_CONFIG_CONNECTION: $(AZ_CONFIG_CONNECTION)
         AZ_CONFIG_ENDPOINT: $(AZ_CONFIG_ENDPOINT)
         AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
         AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
         AZURE_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)
-      Matrix:
-        Linux_Node10:
-          OSVmImage: "ubuntu-18.04"
-          TestType: "node"
-          NodeVersion: "10.x"
-        Windows_Node10:
-          OSVmImage: "windows-2019"
-          TestType: "node"
-          NodeVersion: "10.x"
-        macOS_Node10:
-          OSVmImage: "macOS-10.15"
-          TestType: "node"
-          NodeVersion: "10.x"
-        Linux_Node12:
-          OSVmImage: "ubuntu-18.04"
-          TestType: "node"
-          NodeVersion: "12.x"
-        Windows_Node12:
-          OSVmImage: "windows-2019"
-          TestType: "node"
-          NodeVersion: "12.x"
-        macOS_Node12:
-          OSVmImage: "macOS-10.15"
-          TestType: "node"
-          NodeVersion: "12.x"
-        Linux_Node8:
-          OSVmImage: "ubuntu-18.04"
-          TestType: "node"
-          NodeVersion: "8.x"
-        Windows_Node8:
-          OSVmImage: "windows-2019"
-          TestType: "node"
-          NodeVersion: "8.x"
-        macOS_Node8:
-          OSVmImage: "macOS-10.15"
-          TestType: "node"
-          NodeVersion: "8.x"
