@@ -16,10 +16,3 @@ jobs:
       TimeoutInMinutes: 90
       TestBrowser: false
       TestSamples: false
-      EnvVars:
-        EVENTHUB_NAME: $(EVENTHUB_NAME)
-        EVENTHUB_CONNECTION_STRING: $(EVENTHUB_CONNECTION_STRING)
-        IOTHUB_CONNECTION_STRING: $(IOTHUB_CONNECTION_STRING)
-        STORAGE_CONNECTION_STRING: $(STORAGE_CONNECTION_STRING)
-      # Event Hubs tests do not support concurrent execution
-      MaxParallel: 1
