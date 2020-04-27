@@ -9,13 +9,15 @@ import {
   SubscriptionClient,
   Receiver,
   Sender,
-  ReceiveMode
+  ReceiveMode,
+  SessionReceiver
 } from "../src";
 import {
   TestClientType,
   getSenderReceiverClients,
   TestMessage,
-  getServiceBusClient
+  getServiceBusClient,
+  isSessionfulEntity
 } from "./utils/testUtils";
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -130,7 +132,14 @@ describe("ManagementClient", function(): void {
     let senderClient: QueueClient | TopicClient;
     let receiverClient: QueueClient | SubscriptionClient;
     let sender: Sender;
-    let receiver: Receiver;
+    let receiver: Receiver | SessionReceiver;
+
+    const clientClosedErrMessage =
+      "has been closed and can no longer be used. Please create a new client using an instance of ServiceBusClient.";
+    const receiverGoneErrorMessage =
+      "has been closed. The receiver created by it can no longer be used. Please create a new client using an instance of ServiceBusClient.";
+    const senderGoneErrorMessage =
+      "has been closed. The sender created by it can no longer be used. Please create a new client using an instance of ServiceBusClient.";
     async function beforeEachTest(senderType: TestClientType, receiverType: TestClientType) {
       // Create the sender and receiver.
       sbClient = getServiceBusClient();
@@ -138,9 +147,9 @@ describe("ManagementClient", function(): void {
       senderClient = clients.senderClient;
       receiverClient = clients.receiverClient;
       sender = senderClient.createSender();
-      receiver = receiverClient.createReceiver(ReceiveMode.peekLock);
-      sender;
-      receiver;
+      receiver = isSessionfulEntity(receiverType)
+        ? receiverClient.createReceiver(ReceiveMode.peekLock, { sessionId: "session-id" })
+        : receiverClient.createReceiver(ReceiveMode.peekLock);
     }
     async function verifyClientClosedError(func: Function, partialErrorMsg: string) {
       let errorWasThrown = false;
@@ -162,7 +171,7 @@ describe("ManagementClient", function(): void {
       await verifyClientClosedError(async () => {
         await receiverClient.close();
         await receiverClient.peek();
-      }, "has been closed and can no longer be used. Please create a new client using an instance of ServiceBusClient.");
+      }, clientClosedErrMessage);
     });
 
     it("peekBySequenceNumber throws error after the client is closed", async function(): Promise<
@@ -172,7 +181,7 @@ describe("ManagementClient", function(): void {
       await verifyClientClosedError(async () => {
         await receiverClient.close();
         await receiverClient.peekBySequenceNumber(new Long(0));
-      }, "has been closed and can no longer be used. Please create a new client using an instance of ServiceBusClient.");
+      }, clientClosedErrMessage);
     });
 
     it("receiveDeferredMessage throws error after the client is closed", async function(): Promise<
@@ -182,7 +191,7 @@ describe("ManagementClient", function(): void {
       await verifyClientClosedError(async () => {
         await receiverClient.close();
         await receiver.receiveDeferredMessage(new Long(0));
-      }, "has been closed. The receiver created by it can no longer be used. Please create a new client using an instance of ServiceBusClient.");
+      }, receiverGoneErrorMessage);
     });
 
     it("receiveDeferredMessages throws error after the client is closed", async function(): Promise<
@@ -192,15 +201,112 @@ describe("ManagementClient", function(): void {
       await verifyClientClosedError(async () => {
         await receiverClient.close();
         await receiver.receiveDeferredMessages([new Long(0)]);
-      }, "has been closed. The receiver created by it can no longer be used. Please create a new client using an instance of ServiceBusClient.");
+      }, receiverGoneErrorMessage);
     });
 
     it("renewMessageLock throws error after the client is closed", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
       await verifyClientClosedError(async () => {
         await receiverClient.close();
-        await receiver.renewMessageLock("");
-      }, "has been closed. The receiver created by it can no longer be used. Please create a new client using an instance of ServiceBusClient.");
+        await (receiver as Receiver).renewMessageLock("");
+      }, receiverGoneErrorMessage);
+    });
+
+    it("renewSessionLock throws error after the client is closed", async function(): Promise<void> {
+      await beforeEachTest(
+        TestClientType.UnpartitionedQueueWithSessions,
+        TestClientType.UnpartitionedQueueWithSessions
+      );
+      await verifyClientClosedError(async () => {
+        await receiverClient.close();
+        await (receiver as SessionReceiver).renewSessionLock();
+      }, clientClosedErrMessage);
+    });
+
+    it("getState throws error after the client is closed", async function(): Promise<void> {
+      await beforeEachTest(
+        TestClientType.UnpartitionedQueueWithSessions,
+        TestClientType.UnpartitionedQueueWithSessions
+      );
+      await verifyClientClosedError(async () => {
+        await receiverClient.close();
+        await (receiver as SessionReceiver).getState();
+      }, clientClosedErrMessage);
+    });
+
+    it("setState throws error after the client is closed", async function(): Promise<void> {
+      await beforeEachTest(
+        TestClientType.UnpartitionedQueueWithSessions,
+        TestClientType.UnpartitionedQueueWithSessions
+      );
+      await verifyClientClosedError(async () => {
+        await receiverClient.close();
+        await (receiver as SessionReceiver).setState("random");
+      }, clientClosedErrMessage);
+    });
+
+    it("addRule throws error after the client is closed", async function(): Promise<void> {
+      await beforeEachTest(
+        TestClientType.UnpartitionedTopic,
+        TestClientType.UnpartitionedSubscription
+      );
+      await verifyClientClosedError(async () => {
+        await receiverClient.close();
+        await (receiverClient as SubscriptionClient).addRule("random", "1=1");
+      }, clientClosedErrMessage);
+    });
+
+    it("removeRule throws error after the client is closed", async function(): Promise<void> {
+      await beforeEachTest(
+        TestClientType.UnpartitionedTopic,
+        TestClientType.UnpartitionedSubscription
+      );
+      await verifyClientClosedError(async () => {
+        await receiverClient.close();
+        await (receiverClient as SubscriptionClient).removeRule("random");
+      }, clientClosedErrMessage);
+    });
+
+    it("getRule throws error after the client is closed", async function(): Promise<void> {
+      await beforeEachTest(
+        TestClientType.UnpartitionedTopic,
+        TestClientType.UnpartitionedSubscription
+      );
+      await verifyClientClosedError(async () => {
+        await receiverClient.close();
+        await (receiverClient as SubscriptionClient).getRules();
+      }, clientClosedErrMessage);
+    });
+
+    it("updateDispositionStatus throws error after the client is closed", async function(): Promise<
+      void
+    > {
+      await beforeEachTest(
+        TestClientType.UnpartitionedTopic,
+        TestClientType.UnpartitionedSubscription
+      );
+      await verifyClientClosedError(async () => {
+        await sender.send({ body: "random message" });
+        const msg = (await receiver.receiveMessages(1))[0];
+        await receiverClient.close();
+        await msg.complete();
+      }, clientClosedErrMessage);
+    });
+
+    it("schedule throws error after the client is closed", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
+      await verifyClientClosedError(async () => {
+        await senderClient.close();
+        await sender.scheduleMessage(new Date(), { body: "random message" });
+      }, senderGoneErrorMessage);
+    });
+
+    it("cancel-scheduled throws error after the client is closed", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
+      await verifyClientClosedError(async () => {
+        await senderClient.close();
+        await sender.cancelScheduledMessage(new Long(0));
+      }, senderGoneErrorMessage);
     });
   });
 });
