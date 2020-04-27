@@ -83,7 +83,7 @@ async function receiveFromNextSession(serviceBusClient: ServiceBusClient): Promi
       autoRenewLockDurationInMs: sessionIdleTimeoutMs
     });
   } catch (err) {
-    if ((err as MessagingError).code === "no-sessions-available") {
+    if ((err as MessagingError).code === "SessionCannotBeLockedError") {
       console.log(`INFO: no available sessions, sleeping for ${delayWhenNoSessionsAvailableMs}`);
       await delay(delayWhenNoSessionsAvailableMs);
       return;

@@ -370,19 +370,12 @@ export class MessageSession extends LinkEntity {
 
         if (receivedSessionId == null) {
           if (this.sessionId == null) {
-            // this is okay-ish - it means that there were no available sessions
-            // we can throw an error that the user can react to.
-            const err = new MessagingError(`No unlocked sessions were available`);
-
-            // TODO: I'm _pretty_ sure I'm not supposed to just make up my own code
-            // so I need to coordinate this....
-            err.code = "no-sessions-available";
-            throw err;
+            errorMessage = `No unlocked sessions were available`;
+          } else {
+            errorMessage =
+              `Received an incorrect sessionId '${receivedSessionId}' while creating ` +
+              `the receiver '${this.name}'.`;
           }
-
-          errorMessage =
-            `Received an incorrect sessionId '${receivedSessionId}' while creating ` +
-            `the receiver '${this.name}'.`;
         }
 
         if (this.sessionId != null && receivedSessionId !== this.sessionId) {
