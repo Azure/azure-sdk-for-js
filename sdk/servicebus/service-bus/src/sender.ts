@@ -38,6 +38,22 @@ export interface Sender {
    * @throws MessagingError if the service returns an error while sending messages to the service.
    */
   send(message: ServiceBusMessage, options?: OperationOptions): Promise<void>;
+  /**
+   * Sends the given messages in a single batch i.e. in a single AMQP message after creating an AMQP
+   * Sender link if it doesnt already exists.
+   *
+   * - To send messages to a `session` and/or `partition` enabled Queue/Topic, set the `sessionId`
+   * and/or `partitionKey` properties respectively on the messages.
+   * - When doing so, all messages in the batch should have the same `sessionId` (if using
+   *  sessions) and the same `parititionKey` (if using paritions).
+   *
+   * @param messages - An array of ServiceBusMessage objects to be sent in a Batch message.
+   * @param options - Options bag to pass an abort signal or tracing options.
+   * @return Promise<void>
+   * @throws Error if the underlying connection, client or sender is closed.
+   * @throws MessagingError if the service returns an error while sending messages to the service.
+   */
+  send(messages: ServiceBusMessage[], options?: OperationOptions): Promise<void>;
 
   // sendBatch(<Array of messages>) - Commented
   // /**
@@ -199,10 +215,34 @@ export class SenderImpl implements Sender {
     return this._isClosed || this._context.isClosed;
   }
 
-  async send(message: ServiceBusMessage, options?: OperationOptions): Promise<void> {
+  async send(message: ServiceBusMessage, options?: OperationOptions): Promise<void>;
+  async send(messages: ServiceBusMessage[], options?: OperationOptions): Promise<void>;
+  async send(
+    messageOrMessages: ServiceBusMessage | ServiceBusMessage[],
+    options?: OperationOptions
+  ): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
-    throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "message", message);
-    return this._sender.send(message, options);
+
+    if (Array.isArray(messageOrMessages)) {
+      const batch = await this.createBatch(options);
+
+      for (const message of messageOrMessages) {
+        if (!batch.tryAdd(message)) {
+          throw new Error(
+            "Messages were too big to fit in a single batch. Remove some messages and try again or use createBatch() and sendBatch(), which give more fine-grained control."
+          );
+        }
+      }
+
+      return this.sendBatch(batch, options);
+    } else {
+      throwTypeErrorIfParameterMissing(
+        this._context.namespace.connectionId,
+        "message",
+        messageOrMessages
+      );
+      return this._sender.send(messageOrMessages, options);
+    }
   }
 
   async createBatch(options?: CreateBatchOptions): Promise<ServiceBusMessageBatch> {

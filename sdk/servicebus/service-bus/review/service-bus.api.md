@@ -145,6 +145,7 @@ export interface Sender {
     scheduleMessage(scheduledEnqueueTimeUtc: Date, message: ServiceBusMessage, options?: OperationOptions): Promise<Long>;
     scheduleMessages(scheduledEnqueueTimeUtc: Date, messages: ServiceBusMessage[], options?: OperationOptions): Promise<Long[]>;
     send(message: ServiceBusMessage, options?: OperationOptions): Promise<void>;
+    send(messages: ServiceBusMessage[], options?: OperationOptions): Promise<void>;
     sendBatch(messageBatch: ServiceBusMessageBatch, options?: OperationOptions): Promise<void>;
 }
 

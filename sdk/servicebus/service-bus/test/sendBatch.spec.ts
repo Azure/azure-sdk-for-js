@@ -57,15 +57,11 @@ describe("Send Batch", () => {
       return messagesToSend;
     }
 
-    async function testSendBatch(
-      useSessions: boolean,
-      // Max batch size
-      maxSizeInBytes?: number
-    ): Promise<void> {
+    async function testSendBatch(useSessions: boolean): Promise<void> {
       // Prepare messages to send
       const messagesToSend = prepareMessages(useSessions);
       const sentMessages: ServiceBusMessage[] = [];
-      const batchMessage = await senderClient.createBatch({ maxSizeInBytes });
+      const batchMessage = await senderClient.createBatch();
 
       for (const messageToSend of messagesToSend) {
         const batchHasCapacity = batchMessage.tryAdd(messageToSend);
@@ -218,30 +214,16 @@ describe("Send Batch", () => {
       return messagesToSend;
     }
 
-    async function testSendBatch(
-      useSessions: boolean,
-      // Max batch size
-      maxSizeInBytes?: number
-    ): Promise<void> {
+    async function testSendBatch(useSessions: boolean): Promise<void> {
       // Prepare messages to send
       const messagesToSend = prepareMessages(useSessions);
-      const sentMessages: ServiceBusMessage[] = [];
-      const batchMessage = await senderClient.createBatch({ maxSizeInBytes });
+      await senderClient.send(messagesToSend);
 
-      for (const messageToSend of messagesToSend) {
-        const batchHasCapacity = batchMessage.tryAdd(messageToSend);
-        if (!batchHasCapacity) {
-          break;
-        } else {
-          sentMessages.push(messageToSend);
-        }
-      }
-      await senderClient.sendBatch(batchMessage);
       // receive all the messages in receive and delete mode
       await serviceBusClient.test.verifyAndDeleteAllSentMessages(
         entityNames,
         useSessions,
-        sentMessages
+        messagesToSend
       );
     }
 
@@ -304,23 +286,14 @@ describe("Send Batch", () => {
     async function testSendBatch(useSessions: boolean): Promise<void> {
       // Prepare messages to send
       const messagesToSend = prepareMessages(useSessions);
-      const sentMessages: ServiceBusMessage[] = [];
-      const batchMessage = await senderClient.createBatch();
 
-      for (const messageToSend of messagesToSend) {
-        const batchHasCapacity = batchMessage.tryAdd(messageToSend);
-        if (!batchHasCapacity) {
-          break;
-        } else {
-          sentMessages.push(messageToSend);
-        }
-      }
-      await senderClient.sendBatch(batchMessage);
+      await senderClient.send(messagesToSend);
+
       // receive all the messages in receive and delete mode
       await serviceBusClient.test.verifyAndDeleteAllSentMessages(
         entityNames,
         useSessions,
-        sentMessages
+        messagesToSend
       );
     }
 
@@ -395,15 +368,11 @@ describe("Send Batch", () => {
       return messagesToSend;
     }
 
-    async function testSendBatch(
-      useSessions: boolean,
-      // Max batch size
-      maxSizeInBytes?: number
-    ): Promise<void> {
+    async function testSendBatch(useSessions: boolean): Promise<void> {
       // Prepare messages to send
       const messagesToSend = prepareMessages(useSessions);
       const sentMessages: ServiceBusMessage[] = [];
-      const batchMessage = await senderClient.createBatch({ maxSizeInBytes });
+      const batchMessage = await senderClient.createBatch();
 
       for (const messageToSend of messagesToSend) {
         const batchHasCapacity = batchMessage.tryAdd(messageToSend);
