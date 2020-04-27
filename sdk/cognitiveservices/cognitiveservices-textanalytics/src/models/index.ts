@@ -499,12 +499,7 @@ export type KeyPhrasesResponse = KeyPhraseBatchResult & {
 /**
  * Contains response data for the sentiment operation.
  */
-export type SentimentResponse = {
-  /**
-   * The parsed response body.
-   */
-  body: any;
-
+export type SentimentResponse = SentimentBatchResult & {
   /**
    * The underlying HTTP response.
    */
@@ -517,6 +512,6 @@ export type SentimentResponse = {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: any;
+      parsedBody: SentimentBatchResult;
     };
 };

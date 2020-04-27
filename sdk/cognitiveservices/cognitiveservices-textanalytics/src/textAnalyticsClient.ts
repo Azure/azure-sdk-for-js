@@ -122,13 +122,13 @@ class TextAnalyticsClient extends TextAnalyticsClientContext {
   /**
    * @param callback The callback
    */
-  sentiment(callback: msRest.ServiceCallback<any>): void;
+  sentiment(callback: msRest.ServiceCallback<Models.SentimentBatchResult>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  sentiment(options: Models.TextAnalyticsClientSentimentOptionalParams, callback: msRest.ServiceCallback<any>): void;
-  sentiment(options?: Models.TextAnalyticsClientSentimentOptionalParams | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.SentimentResponse> {
+  sentiment(options: Models.TextAnalyticsClientSentimentOptionalParams, callback: msRest.ServiceCallback<Models.SentimentBatchResult>): void;
+  sentiment(options?: Models.TextAnalyticsClientSentimentOptionalParams | msRest.ServiceCallback<Models.SentimentBatchResult>, callback?: msRest.ServiceCallback<Models.SentimentBatchResult>): Promise<Models.SentimentResponse> {
     return this.sendOperationRequest(
       {
         options
@@ -241,10 +241,9 @@ const sentimentOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.SentimentBatchResult
     },
-    500: {
+    default: {
       bodyMapper: Mappers.ErrorResponse
-    },
-    default: {}
+    }
   },
   serializer
 };
