@@ -151,6 +151,10 @@ jobs:
         displayName: "Install library dependencies"
 
       - script: |
+          node common/scripts/install-run-rush.js build -t @azure/eslint-plugin-azure-sdk
+        displayName: "Build ESLint Plugin"
+
+      - script: |
           node eng/tools/rush-runner.js lint "${{parameters.ServiceDirectory}}"
         displayName: "Lint libraries"
 
