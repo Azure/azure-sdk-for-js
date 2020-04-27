@@ -959,7 +959,7 @@ async function main() {
 main();
 ```
 
-#### Get the instance of search index client
+#### Retrieve a SearchIndexClient for a particular index
 ```js
 const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-documents");
 
