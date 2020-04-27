@@ -13,8 +13,8 @@ require("dotenv").config();
 
 export async function main() {
   // You will need to set these environment variables or edit the following values
-  const endpoint = process.env["COGNITIVE_SERVICE_ENDPOINT"] || "<cognitive services endpoint>";
-  const apiKey = process.env["COGNITIVE_SERVICE_API_KEY"] || "<api key>";
+  const endpoint = process.env["FORM_RECOGNIZER_ENDPOINT"] || "<cognitive services endpoint>";
+  const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] || "<api key>";
   const containerSasUrl =
     process.env["UNLABELED_CONTAINER_SAS_URL"] ||
     "<url to Azure blob container storing the training documents>";

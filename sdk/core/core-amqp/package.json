@@ -7,7 +7,14 @@
   "license": "MIT",
   "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
-  "types": "./typings/src/index.d.ts",
+  "types": "./types/latest/core-amqp.d.ts",
+  "typesVersions": {
+    "<3.6": {
+      "types/latest/*": [
+        "types/3.1/*"
+      ]
+    }
+  },
   "browser": {
     "./dist-esm/src/util/checkNetworkConnection.js": "./dist-esm/src/util/checkNetworkConnection.browser.js",
     "./dist-esm/src/util/runtimeInfo.js": "./dist-esm/src/util/runtimeInfo.browser.js",
@@ -17,7 +24,8 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "typings/src/",
+    "types/latest/core-amqp.d.ts",
+    "types/3.1",
     "ThirdPartyNotices.txt",
     "README.md",
     "LICENSE"
@@ -26,10 +34,12 @@
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "cd samples && tsc -p .",
     "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
-    "build": "tsc -p . && rollup -c 2>&1",
+    "build:types": "downlevel-dts types/latest types/3.1",
+    "build": "tsc -p . && rollup -c 2>&1 && api-extractor run --local && npm run build:types",
     "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf dist dist-esm typings temp dist-browser/*.js* dist-browser/*.zip statistics.html coverage coverage-browser test-browser .nyc_output *.tgz *.log test*.xml TEST*.xml",
+    "clean": "rimraf dist dist-esm types temp dist-browser/*.js* dist-browser/*.zip statistics.html coverage coverage-browser test-browser .nyc_output *.tgz *.log test*.xml TEST*.xml",
     "execute:samples": "echo skipped",
+    "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
@@ -76,7 +86,8 @@
   },
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^2.0.1",
-    "@azure/identity": "1.1.0-preview.2",
+    "@microsoft/api-extractor": "7.7.11",
+    "@azure/identity": "^1.1.0-preview",
     "@rollup/plugin-commonjs": "^11.0.1",
     "@rollup/plugin-inject": "^4.0.0",
     "@rollup/plugin-json": "^4.0.0",
@@ -97,6 +108,7 @@
     "chai-as-promised": "^7.1.1",
     "cross-env": "^6.0.3",
     "dotenv": "^8.2.0",
+    "downlevel-dts": "~0.4.0",
     "eslint": "^6.1.0",
     "eslint-config-prettier": "^6.0.0",
     "eslint-plugin-no-null": "^1.0.2",

@@ -21,7 +21,7 @@ import { EventHubProducer } from "../sender";
 import { EventHubConsumer } from "../receiver";
 import { throwTypeErrorIfParameterMissing, throwErrorIfConnectionClosed } from "../util/error";
 import { getTracer } from "@azure/core-tracing";
-import { SpanContext, Span, SpanKind, CanonicalCode } from "@opentelemetry/types";
+import { SpanContext, Span, SpanKind, CanonicalCode } from "@opentelemetry/api";
 import { getParentSpan } from "../util/operationOptions";
 import { OperationNames, EventHubProducerOptions } from "../models/private";
 import {
@@ -214,7 +214,7 @@ export class EventHubClient {
 
   private _createClientSpan(
     operationName: OperationNames,
-    parentSpan?: Span | SpanContext,
+    parentSpan?: Span | SpanContext | null,
     internal: boolean = false
   ): Span {
     const tracer = getTracer();
@@ -397,7 +397,7 @@ export class EventHubClient {
         ...options,
         tracingOptions: {
           spanOptions: {
-            parent: clientSpan
+            parent: clientSpan.context()
           }
         }
       });

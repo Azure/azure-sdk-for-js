@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { isNode } from "@azure/core-http";
 import * as dotenv from "dotenv";
 import * as path from "path";

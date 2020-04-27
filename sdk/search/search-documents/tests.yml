@@ -15,7 +15,7 @@ jobs:
       ResourceServiceDirectory: search
       Matrix:
         Linux_Node10:
-          OSVmImage: "ubuntu-16.04"
+          OSVmImage: "ubuntu-18.04"
           TestType: "node"
           PublishCodeCoverage: true
         Windows_Node10:
@@ -25,7 +25,7 @@ jobs:
           OSVmImage: "macOS-10.15"
           TestType: "node"
         Browser_Linux_Node10:
-          OSVmImage: "ubuntu-16.04"
+          OSVmImage: "ubuntu-18.04"
           TestType: "browser"
           PublishCodeCoverage: true
         Browser_Windows_Node10:
@@ -35,7 +35,7 @@ jobs:
           OSVmImage: "macOS-10.15"
           TestType: "browser"
         Linux_Sample10:
-          OSVmImage: "ubuntu-16.04"
+          OSVmImage: "ubuntu-18.04"
           NodeVersion: "10.x"
           TestType: "sample"
       EnvVars:

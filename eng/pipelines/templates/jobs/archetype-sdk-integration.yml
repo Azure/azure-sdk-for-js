@@ -9,7 +9,7 @@ parameters:
   PublishCodeCoverage: false
   Matrix:
     Linux_Node10:
-      OSVmImage: "ubuntu-16.04"
+      OSVmImage: "ubuntu-18.04"
       TestType: "node"
       PublishCodeCoverage: true
     Windows_Node10:
@@ -19,7 +19,7 @@ parameters:
       OSVmImage: "macOS-10.15"
       TestType: "node"
     Browser_Linux_Node10:
-      OSVmImage: "ubuntu-16.04"
+      OSVmImage: "ubuntu-18.04"
       TestType: "browser"
       PublishCodeCoverage: true
     Browser_Windows_Node10:
@@ -99,7 +99,7 @@ jobs:
         env:
           TEST_MODE: "live"
           ${{ insert }}: ${{ parameters.EnvVars }}
-        condition: ne(variables['TestType'],'sample')
+        condition: and(succeededOrFailed(),ne(variables['TestType'],'sample'))
 
       - ${{if ne(parameters.PostIntegrationSteps, '')}}:
           - template: ../steps/${{parameters.PostIntegrationSteps}}.yml
@@ -110,7 +110,7 @@ jobs:
         env:
           TEST_MODE: "live"
           ${{ insert }}: ${{ parameters.EnvVars }}
-        condition: eq(variables['TestType'],'sample')
+        condition: and(succeededOrFailed(),eq(variables['TestType'],'sample'))
 
       - ${{ if ne(parameters.ResourceServiceDirectory, '') }}:
         - template: /eng/common/TestResources/remove-test-resources.yml
@@ -133,9 +133,19 @@ jobs:
 
       # Unlink node_modules folders to significantly improve performance of subsequent tasks
       # which need to walk the directory tree (and are hardcoded to follow symlinks).
-      - script: |
-          node eng/tools/rush-runner.js unlink
-        condition: succeededOrFailed()
+      # Retry for 30 seconds, since this command may fail with error "Another rush command is already
+      # running in this repository" if the previous rush command was killed.
+      - pwsh: |
+          for ($i=0; $i -lt 30; $i++) {
+            node eng/tools/rush-runner.js unlink
+            if ($lastexitcode -eq 0) {
+              break
+            }
+            else {
+              start-sleep 1
+            }
+          }
+        condition: always()
         displayName: "Unlink dependencies"
 
       # It's important for performance to pass "sdk" as "searchFolder" to avoid looking under root "node_modules".

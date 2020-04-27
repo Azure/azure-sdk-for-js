@@ -12,7 +12,7 @@ import { AbortController } from "@azure/abort-controller";
 import { MessagingError } from "@azure/core-amqp";
 import { getParentSpan, OperationOptions } from "./util/operationOptions";
 import { getTracer } from "@azure/core-tracing";
-import { Span, SpanKind, Link, CanonicalCode } from "@opentelemetry/types";
+import { Span, SpanKind, Link, CanonicalCode } from "@opentelemetry/api";
 import { extractSpanContextFromEventData } from "./diagnostics/instrumentEventData";
 import { ReceivedEventData } from "./eventData";
 
@@ -181,7 +181,7 @@ export function createProcessingSpan(
     }
 
     links.push({
-      spanContext
+      context: spanContext
     });
   }
 

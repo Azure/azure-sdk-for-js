@@ -3,7 +3,7 @@
 
 /**
  * This sample demonstrates the differences in form recognition using custom
- * models trained with labeled and unlabeled data.
+ * models trained with labels and custom models trained without labels.
  */
 
 const { FormRecognizerClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
@@ -14,10 +14,10 @@ require("dotenv").config();
 
 async function main() {
   // You will need to set these environment variables or edit the following values
-  const endpoint = process.env["COGNITIVE_SERVICE_ENDPOINT"] || "<cognitive services endpoint>";
-  const apiKey = process.env["COGNITIVE_SERVICE_API_KEY"] || "<api key>";
-  const labeledModelId = process.env["LABELED_CUSTOM_MODEL_ID"] || "<labeled custom model id>";
-  const unlabeledModelId = process.env["UNLABELED_CUSTOM_MODEL_ID"] || "<unlabeled custom model id>";
+  const endpoint = process.env["FORM_RECOGNIZER_ENDPOINT"] || "<cognitive services endpoint>";
+  const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] || "<api key>";
+  const labeledModelId = process.env["LABELED_CUSTOM_MODEL_ID"] || "<model id from training with labels>";
+  const unlabeledModelId = process.env["UNLABELED_CUSTOM_MODEL_ID"] || "<model id from training without labels>";
   // The form you are recognizing must be of the same type as the forms the custom model was trained on
   const path = "./assets/Invoice_6.pdf";
 
@@ -29,8 +29,8 @@ async function main() {
   const unlabeledResponse = await recognizeCustomForm(path, endpoint, apiKey, unlabeledModelId);
 
   // The main difference is found in the labels of its fields
-  // The form recognized with a labeled model will have the labels it was trained with,
-  // the unlabeled one will be denoted with indices
+  // The form recognized with a model from training with labels will have the labels it was trained with,
+  // The form recognized with a model from training without labels will be denoted with indices
   console.log("# Recognized fields using labeled custom model");
   for (const form of labeledResponse.forms || []) {
     for (const fieldName in form.fields) {
@@ -47,7 +47,7 @@ async function main() {
   console.log("# Recognized fields using unlabeled custom model");
   for (const form of unlabeledResponse.forms || []) {
     for (const fieldName in form.fields) {
-      // The recognized form fields with an unlabeled custom model will also include data about recognized labels.
+      // The recognized form fields with a custom model from training without labels will also include data about recognized labels.
       const field = form.fields[fieldName];
       console.log(
         `\tField ${fieldName} has label '${field.fieldLabel.text}' with a confidence score of ${field.confidence}`

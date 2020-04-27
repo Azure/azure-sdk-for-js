@@ -6,7 +6,7 @@ import { ConnectionContext } from "./connectionContext";
 import { AmqpMessage } from "@azure/core-amqp";
 import { message } from "rhea-promise";
 import { throwTypeErrorIfParameterMissing } from "./util/error";
-import { Span, SpanContext } from "@opentelemetry/types";
+import { Span, SpanContext } from "@opentelemetry/api";
 import { instrumentEventData, TRACEPARENT_PROPERTY } from "./diagnostics/instrumentEventData";
 import { createMessageSpan } from "./diagnostics/messageSpan";
 
@@ -37,11 +37,11 @@ export interface TryAddOptions {
 
 /**
  * An interface representing a batch of events which can be used to send events to Event Hub.
- * 
+ *
  * To create the batch, use the `createBatch()` method on the `EventHubProducerClient`.
  * To send the batch, use the `sendBatch()` method on the same client.
  * To fill the batch, use the `tryAdd()` method on the batch itself.
- * 
+ *
  */
 export interface EventDataBatch {
   /**
@@ -98,7 +98,7 @@ export interface EventDataBatch {
    * The AMQP message containing encoded events that were added to the batch.
    * Used internally by the `sendBatch()` method on the `EventHubProducerClient`.
    * This is not meant for the user to use directly.
-   * 
+   *
    * @readonly
    * @internal
    * @ignore
@@ -116,7 +116,7 @@ export interface EventDataBatch {
 
 /**
  * An internal class representing a batch of events which can be used to send events to Event Hub.
- * 
+ *
  * @class
  * @internal
  * @ignore

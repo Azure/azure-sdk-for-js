@@ -125,7 +125,7 @@ describe("EventHub Sender", function(): void {
         {
           tracingOptions: {
             spanOptions: {
-              parent: rootSpan
+              parent: rootSpan.context()
             }
           }
         }
@@ -424,7 +424,7 @@ describe("EventHub Sender", function(): void {
       await producerClient.sendBatch(eventDataBatch, {
         tracingOptions: {
           spanOptions: {
-            parent: rootSpan
+            parent: rootSpan.context()
           }
         }
       });
@@ -712,7 +712,7 @@ describe("EventHub Sender", function(): void {
       await producer.send(events, {
         tracingOptions: {
           spanOptions: {
-            parent: rootSpan
+            parent: rootSpan.context()
           }
         }
       });
@@ -778,7 +778,7 @@ describe("EventHub Sender", function(): void {
       await producer.send(events, {
         tracingOptions: {
           spanOptions: {
-            parent: rootSpan
+            parent: rootSpan.context()
           }
         }
       });

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 import { HttpRequestBody, isNode, TokenCredential } from "@azure/core-http";
 import { BlobClient } from "@azure/storage-blob";
-import { CanonicalCode } from "@opentelemetry/types";
+import { CanonicalCode } from "@opentelemetry/api";
 
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";

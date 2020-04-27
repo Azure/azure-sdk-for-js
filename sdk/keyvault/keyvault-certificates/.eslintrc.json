@@ -1,13 +1,9 @@
 {
   "plugins": ["@azure/azure-sdk"],
-  "extends": ["../../.eslintrc.old.json", "plugin:@azure/azure-sdk/recommended"],
-  "parserOptions": {
-    "project": "tsconfig.eslint.json"
-  },
+  "extends": ["plugin:@azure/azure-sdk/azure-sdk-base"],
   "ignorePatterns": ["src/core"],
   "rules": {
     "@typescript-eslint/no-this-alias": "off",
-    "no-invalid-this": "off",
-    "@azure/azure-sdk/ts-package-json-files-required": "off"
+    "no-invalid-this": "off"
   }
 }
