@@ -62,9 +62,7 @@ function processClose(reason: "error" | "idle_timeout", sessionId: string) {
 }
 
 // utility function to create a timer that can be refreshed
-function _createIdleTimer(
-  timeoutMs: number
-): { refresh(): void; expirationPromise: Promise<void> } {
+function createIdleTimer(timeoutMs: number): { refresh(): void; expirationPromise: Promise<void> } {
   let resolveExpirationPromise: () => void;
 
   const expirationPromise = new Promise<void>((res, _rej) => {
@@ -83,7 +81,7 @@ function _createIdleTimer(
 }
 
 // Queries Service Bus for the next available session and processes it.
-async function _processNextSession(
+async function receiveFromNextSession(
   serviceBusClient: ServiceBusClient,
   abortSignal: AbortSignalLike
 ): Promise<void> {
@@ -105,7 +103,7 @@ async function _processNextSession(
 
   await processInitialize(sessionReceiver.sessionId);
 
-  const idleTimer = _createIdleTimer(sessionIdleTimeoutMs);
+  const idleTimer = createIdleTimer(sessionIdleTimeoutMs);
   let didHaveError = false;
 
   sessionReceiver.subscribe(
@@ -135,13 +133,13 @@ async function _processNextSession(
   await processClose(didHaveError ? "error" : "idle_timeout", sessionReceiver.sessionId);
 }
 
-async function _roundRobinThroughAvailableSessions(abortSignal: AbortSignalLike): Promise<void> {
+async function roundRobinThroughAvailableSessions(abortSignal: AbortSignalLike): Promise<void> {
   const serviceBusClient = new ServiceBusClient(serviceBusConnectionString);
 
   for (let i = 0; i < maxSessionsToProcessSimultaneously; ++i) {
     (async () => {
       while (!abortSignal.aborted) {
-        await _processNextSession(serviceBusClient, abortSignal);
+        await receiveFromNextSession(serviceBusClient, abortSignal);
       }
     })();
   }
@@ -151,7 +149,9 @@ async function _roundRobinThroughAvailableSessions(abortSignal: AbortSignalLike)
 
 async function main() {
   const abortController = new AbortController();
-  await _roundRobinThroughAvailableSessions(abortController.signal);
+
+  // To stop the round-robin processing you can just call abortController.abort()
+  await roundRobinThroughAvailableSessions(abortController.signal);
 }
 
 main().catch((err) => console.log(`Fatal error: ${err}`));
