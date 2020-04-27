@@ -2,7 +2,8 @@
 
 ## 1.0.3 - 2020-04-28
 
-- Made IMDS parse tokens using expires_on at a higher precedence over expires_in, if both are present.
+- Made IMDS parse tokens using expires_on at a higher precedence over expires_in, if both are present. This should help in cases where expires_in lags is not 
+updated ([Issue #6643](https://github.com/Azure/azure-sdk-for-js/issues/6643))
 
 ## 1.0.2 - 2019-12-03
 
