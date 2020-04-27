@@ -1304,8 +1304,28 @@ describe("Streaming - onDetached", function(): void {
 });
 
 describe("Streaming - disconnects", function(): void {
+  let serviceBusClient: ServiceBusClientForTests;
+  let senderClient: Sender;
+  let receiverClient: Receiver<ReceivedMessageWithLock> | Receiver<ReceivedMessage>;
+
+  before(() => {
+    serviceBusClient = createServiceBusClientForTests();
+  });
+
+  after(async () => {
+    await serviceBusClient.test.after();
+  });
+
+  async function beforeEachTest(testClientType: TestClientType): Promise<void> {
+    const entityNames = await serviceBusClient.test.createTestEntities(testClientType);
+    receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
+    senderClient = serviceBusClient.test.addToCleanup(
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+    );
+  }
+
   afterEach(async () => {
-    return afterEachTest();
+    await serviceBusClient.test.afterEach();
   });
 
   it("can receive and settle messages after a disconnect", async function(): Promise<void> {
@@ -1315,16 +1335,9 @@ describe("Streaming - disconnects", function(): void {
      * error handler.
      */
     // Create the sender and receiver.
-    sbClient = getServiceBusClient();
-    const { receiverClient, senderClient } = await getSenderReceiverClients(
-      sbClient,
-      TestClientType.UnpartitionedQueue,
-      TestClientType.UnpartitionedQueue
-    );
-    const receiver = receiverClient.createReceiver(ReceiveMode.peekLock);
-    const sender = senderClient.createSender();
+    await beforeEachTest(TestClientType.UnpartitionedQueue);
     // Send a message so we can be sure when the receiver is open and active.
-    await sender.send(TestMessage.getSample());
+    await senderClient.send(TestMessage.getSample());
     const receivedErrors: any[] = [];
     let settledMessageCount = 0;
 
@@ -1339,8 +1352,8 @@ describe("Streaming - disconnects", function(): void {
     });
 
     // Start the receiver.
-    receiver.registerMessageHandler(
-      async (message) => {
+    receiverClient.subscribe({
+      async processMessage(message) {
         messageHandlerCount++;
         try {
           await message.complete();
@@ -1356,10 +1369,10 @@ describe("Streaming - disconnects", function(): void {
           receiverSecondMessageResolver();
         }
       },
-      (err) => {
+      async processError(err) {
         receivedErrors.push(err);
       }
-    );
+    });
 
     // Wait until we're sure the receiver is open and receiving messages.
     await receiverIsActive;
@@ -1367,22 +1380,22 @@ describe("Streaming - disconnects", function(): void {
     settledMessageCount.should.equal(1, "Unexpected number of settled messages.");
     receivedErrors.length.should.equal(0, "Encountered an unexpected number of errors.");
 
-    const connectionContext = receiver["_context"].namespace;
+    const connectionContext = (receiverClient as any)["_context"].namespace;
     const refreshConnection = connectionContext.refreshConnection;
     let refreshConnectionCalled = 0;
-    connectionContext.refreshConnection = function(...args) {
+    connectionContext.refreshConnection = function(...args: any) {
       refreshConnectionCalled++;
       refreshConnection.apply(this, args);
     };
 
     // Simulate a disconnect being called with a non-retryable error.
-    receiver["_context"].namespace.connection["_connection"].idle();
+    (receiverClient as any)["_context"].namespace.connection["_connection"].idle();
 
     // Allow rhea to clear internal setTimeouts (since we're triggering idle manually).
     // Otherwise, it will get into a bad internal state with uncaught exceptions.
     await delay(2000);
     // send a second message to trigger the message handler again.
-    await sender.send(TestMessage.getSample());
+    await senderClient.send(TestMessage.getSample());
 
     // wait for the 2nd message to be received.
     await receiverSecondMessage;
