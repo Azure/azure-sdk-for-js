@@ -156,14 +156,16 @@ describe("ManagementClient", function(): void {
       }
       should.equal(errorWasThrown, true, "Error wasn't thrown");
     }
-    it.only("peek throws error after the client is closed", async function(): Promise<void> {
+
+    it("peek throws error after the client is closed", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
       await verifyClientClosedError(async () => {
         await receiverClient.close();
         await receiverClient.peek();
       }, "has been closed and can no longer be used. Please create a new client using an instance of ServiceBusClient.");
     });
-    it.only("peekBySequenceNumber throws error after the client is closed", async function(): Promise<
+
+    it("peekBySequenceNumber throws error after the client is closed", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
@@ -172,7 +174,8 @@ describe("ManagementClient", function(): void {
         await receiverClient.peekBySequenceNumber(new Long(0));
       }, "has been closed and can no longer be used. Please create a new client using an instance of ServiceBusClient.");
     });
-    it.only("receiveDeferredMessage throws error after the client is closed", async function(): Promise<
+
+    it("receiveDeferredMessage throws error after the client is closed", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
@@ -181,22 +184,14 @@ describe("ManagementClient", function(): void {
         await receiver.receiveDeferredMessage(new Long(0));
       }, "has been closed. The receiver created by it can no longer be used. Please create a new client using an instance of ServiceBusClient.");
     });
-    it.only("receiveDeferredMessages throws error after the client is closed", async function(): Promise<
+
+    it("receiveDeferredMessages throws error after the client is closed", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
       await verifyClientClosedError(async () => {
         await receiverClient.close();
         await receiver.receiveDeferredMessages([new Long(0)]);
-      }, "has been closed. The receiver created by it can no longer be used. Please create a new client using an instance of ServiceBusClient.");
-    });
-    it.only("renewMessageLock throws error after the client is closed", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
-      await verifyClientClosedError(async () => {
-        await receiverClient.close();
-        await receiver.renewMessageLock();
       }, "has been closed. The receiver created by it can no longer be used. Please create a new client using an instance of ServiceBusClient.");
     });
   });
