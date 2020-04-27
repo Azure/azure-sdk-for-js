@@ -4,6 +4,8 @@
 
 - Adds compatiblity with TypeScript versions 3.1 through 3.6+.
   [PR 8540](https://github.com/Azure/azure-sdk-for-js/pull/8540)
+- Add a new method `refreshConnection()` on the `ConnectionContextBase` to replace the `connection` property on it with a new rhea-promise `Connection` object.
+  [PR ####](https://github.com/Azure/azure-sdk-for-js/pull/####)
 
 ## 1.1.1 (2020-03-31)
 

@@ -26,12 +26,12 @@ export interface ConnectionContextBase {
    * @property {string} connectionLock The unqiue lock name per connection that is used to
    * acquire the lock for establishing an aqmp connection per client if one does not exist.
    */
-  readonly connectionLock: string;
+  connectionLock: string;
   /**
    * @property {string} negotiateClaimLock The unqiue lock name per connection that is used to
    * acquire the lock for negotiating cbs claim by an entity on that connection.
    */
-  readonly negotiateClaimLock: string;
+  negotiateClaimLock: string;
   /**
    * @property {SharedKeyCredential | TokenCredential} tokenCredential The credential to be used for getting tokens
    * for authentication for the EventHub client.
@@ -62,6 +62,10 @@ export interface ConnectionContextBase {
    * underlying AMQP connection for the EventHub Client.
    */
   cbsSession: CbsClient;
+  /**
+   * Updates the context to use a new underlying AMQP connection and new cbs session.
+   */
+  refreshConnection: () => void;
 }
 
 /**
@@ -192,7 +196,16 @@ export module ConnectionContextBase {
           parameters.config.sharedAccessKeyName,
           parameters.config.sharedAccessKey
         ),
-      dataTransformer: parameters.dataTransformer || new DefaultDataTransformer()
+      dataTransformer: parameters.dataTransformer || new DefaultDataTransformer(),
+      refreshConnection() {
+        const connection = new Connection(connectionOptions);
+        this.wasConnectionCloseCalled = false;
+        this.connectionLock = `${Constants.establishConnection}-${generate_uuid()}`;
+        this.negotiateClaimLock = `${Constants.negotiateClaim} - ${generate_uuid()}`;
+        this.connection = connection;
+        this.connectionId = connection.id;
+        this.cbsSession = new CbsClient(connection, connectionLock);
+      }
     };
 
     return connectionContextBase;
