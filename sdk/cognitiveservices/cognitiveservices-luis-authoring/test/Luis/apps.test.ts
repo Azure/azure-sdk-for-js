@@ -7,39 +7,23 @@
 import * as chai from "chai";
 import { BaseTest } from "../baseTest";
 import { LUISAuthoringClient } from "../../src/lUISAuthoringClient";
-import { AppsAddResponse } from "../../src/models";
-
-const trainedAppID = "4a696805-d784-4040-a0ba-043cc831b779";
-let testingApp: AppsAddResponse; 
 
 describe("Apps Module Functionality Tests", () => {
 
-  before('add new app to test on', async () => {
+  it('should list all luis applications', async () => {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
-    testingApp = await client.apps.add({
+      const appId = await client.apps.add({
         name: "Existing LUIS App",
         description: "New LUIS App",
         culture: "en-us",
         domain: "Comics",
         usageScenario: "IoT"
       });
-    });
-  });
-
-  after('delete testing app', async () => {
-    await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
-      await client.apps.deleteMethod(testingApp.body);
-    });
-  });
-
-  it('should list all luis applications', async () => {
-    await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
-     
       const list = await client.apps.list();
-      
+      await client.apps.deleteMethod(appId.body);
       chai.expect(list).not.to.be.null;
       chai.expect(list.length).not.eql(0);
-      chai.expect(BaseTest.doesListContain(list, 'id', testingApp.body)).to.be.true;
+      chai.expect(BaseTest.doesListContain(list, 'name', "Existing LUIS App")).to.be.true;
     });
   });
 
@@ -53,13 +37,7 @@ describe("Apps Module Functionality Tests", () => {
         usageScenario: "IoT"
       });
       let saved_app = await client.apps.get(appId.body);
-      
       await client.apps.deleteMethod(appId.body);
-      
-      const list = await client.apps.list();
-      const checkIdExistence = idParam => list.some( ({id}) => id == idParam)
-      chai.assert.isFalse(checkIdExistence(appId.body));
-
       chai.expect(saved_app).not.to.be.null;
       chai.expect(saved_app.name).to.eql("New LUIS App");
       chai.expect(saved_app.description).to.eql("New LUIS App");
@@ -70,11 +48,18 @@ describe("Apps Module Functionality Tests", () => {
 
     it("should get application", async () => {
       await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
-      
-        let result = await client.apps.get(testingApp.body);
-      
+        const appId = await client.apps.add({
+          name: "Existing LUIS App",
+          description: "New LUIS App",
+          culture: "en-us",
+          domain: "Comics",
+          usageScenario: "IoT"
+        });
+        let result = await client.apps.get(appId.body);
+        await client.apps.deleteMethod(appId.body);
         chai.expect(result).not.to.be.null;
-        chai.expect(result.id).to.eql(testingApp.body);
+        chai.expect(result.id).to.eql(appId.body);
+        chai.expect(result.name).to.eql("Existing LUIS App");
         chai.expect(result.culture).to.eql("en-us");
         chai.expect(result.domain).to.eql("Comics");
         chai.expect(result.usageScenario).to.eql("IoT");
@@ -84,10 +69,16 @@ describe("Apps Module Functionality Tests", () => {
 
   it("should update application", async () => {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
-     
-      await client.apps.update(testingApp.body, { name: "LUIS App name updated", description: "LUIS App description updated" });
-      let app = await client.apps.get(testingApp.body);
-
+      const appId = await client.apps.add({
+        name: "LUIS App to be renamed",
+        description: "New LUIS App",
+        culture: "en-us",
+        domain: "Comics",
+        usageScenario: "IoT"
+      });
+      await client.apps.update(appId.body, { name: "LUIS App name updated", description: "LUIS App description updated" });
+      let app = await client.apps.get(appId.body);
+      await client.apps.deleteMethod(appId.body);
       chai.expect(app).not.to.be.null;
       chai.expect(app.name).to.eql("LUIS App name updated");
       chai.expect(app.description).to.eql("LUIS App description updated");
@@ -105,24 +96,27 @@ describe("Apps Module Functionality Tests", () => {
         usageScenario: "IoT"
       });
       await client.apps.deleteMethod(appId.body);
-
       const list = await client.apps.list();
-      
-      const checkIdExistence = idParam => list.some( ({id}) => id == idParam)
-      chai.assert.isFalse(checkIdExistence(appId.body));
-
       chai.expect(BaseTest.doesListContain(list, "name", "LUIS App to be deleted")).to.be.false;
     });
   });
 
   it("should list all endpoints", async () => {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
-      const result = await client.apps.listEndpoints(testingApp.body);
+      const appId = await client.apps.add({
+        name: "Existing LUIS App",
+        description: "New LUIS App",
+        culture: "en-us",
+        domain: "Comics",
+        usageScenario: "IoT"
+      });
 
-      chai.expect(result["westus"]).to.eql("https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/" + testingApp.body);
-      chai.expect(result["eastus2"]).to.eql("https://eastus2.api.cognitive.microsoft.com/luis/v2.0/apps/" + testingApp.body);
-      chai.expect(result["westcentralus"]).to.eql("https://westcentralus.api.cognitive.microsoft.com/luis/v2.0/apps/" + testingApp.body);
-      chai.expect(result["southeastasia"]).to.eql("https://southeastasia.api.cognitive.microsoft.com/luis/v2.0/apps/" + testingApp.body);
+      const result = await client.apps.listEndpoints(appId.body);
+      await client.apps.deleteMethod(appId.body);
+      chai.expect(result["westus"]).to.eql("https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/" + appId.body);
+      chai.expect(result["eastus2"]).to.eql("https://eastus2.api.cognitive.microsoft.com/luis/v2.0/apps/" + appId.body);
+      chai.expect(result["westcentralus"]).to.eql("https://westcentralus.api.cognitive.microsoft.com/luis/v2.0/apps/" + appId.body);
+      chai.expect(result["southeastasia"]).to.eql("https://southeastasia.api.cognitive.microsoft.com/luis/v2.0/apps/" + appId.body);
 
     });
   });
@@ -130,11 +124,11 @@ describe("Apps Module Functionality Tests", () => {
   it("should publish application", async () => {
 
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
-      const result = await client.apps.publish(trainedAppID, {
+      const result = await client.apps.publish(BaseTest.GlobalAppId, {
         isStaging: false,
         versionId: "0.1"
       });
-      chai.expect(result["endpointUrl"]).to.eql("https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/" + trainedAppID);
+      chai.expect(result["endpointUrl"]).to.eql("https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/" + BaseTest.GlobalAppId);
       chai.expect(result["endpointRegion"]).to.eql("westus");
       chai.expect(result["isStaging"]).to.be.false;
     });
@@ -142,33 +136,52 @@ describe("Apps Module Functionality Tests", () => {
 
   it("download query logs", async () => {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
-     
-      const stream = await client.apps.downloadQueryLogs(testingApp.body);
+      const appId = await client.apps.add({
+        name: "Existing LUIS App",
+        description: "New LUIS App",
+        culture: "en-us",
+        domain: "Comics",
+        usageScenario: "IoT"
+      });
+      const stream = await client.apps.downloadQueryLogs(appId.body);
       const csv = stream.readableStreamBody.read().toString();
       chai.expect(csv).to.be.exist;
-     
+      await client.apps.deleteMethod(appId.body);
     });
   });
 
   it("should get settings", async () => {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
-      
+      const appId = await client.apps.add({
+        name: "Existing LUIS App",
+        description: "New LUIS App",
+        culture: "en-us",
+        domain: "Comics",
+        usageScenario: "IoT"
+      });
 
-      const settings = await client.apps.getSettings(testingApp.body);
-
+      const settings = await client.apps.getSettings(appId.body);
+      await client.apps.deleteMethod(appId.body);
       chai.expect(settings.isPublic).to.be.false;
-      chai.expect(settings.id).to.eql(testingApp.body);
+      chai.expect(settings.id).to.eql(appId.body);
     });
   });
 
   it("should update settings", async () => {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
-      
-      await client.apps.updateSettings(testingApp.body, {
+      const appId = await client.apps.add({
+        name: "Existing LUIS App",
+        description: "New LUIS App",
+        culture: "en-us",
+        domain: "Comics",
+        usageScenario: "IoT"
+      });
+      await client.apps.updateSettings(appId.body, {
         isPublic: true
       });
-      const settings = await client.apps.getSettings(testingApp.body);
-     
+      const settings = await client.apps.getSettings(appId.body);
+      await client.apps.deleteMethod(appId.body);
+
       chai.expect(settings.isPublic).to.be.true;
     });
 
@@ -176,10 +189,16 @@ describe("Apps Module Functionality Tests", () => {
 
   it("should get publish settings", async () => {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
-      
-      const settings = await client.apps.getPublishSettings(testingApp.body);
-
-      chai.expect(settings.id).to.eql(testingApp.body);
+      const appId = await client.apps.add({
+        name: "Existing LUIS App",
+        description: "New LUIS App",
+        culture: "en-us",
+        domain: "Comics",
+        usageScenario: "IoT"
+      });
+      const settings = await client.apps.getPublishSettings(appId.body);
+      await client.apps.deleteMethod(appId.body);
+      chai.expect(settings.id).to.eql(appId.body);
       chai.expect(settings.isSentimentAnalysisEnabled).to.be.false;
       chai.expect(settings.isSpeechEnabled).to.be.false;
       chai.expect(settings.isSpellCheckerEnabled).to.be.false;
@@ -188,14 +207,20 @@ describe("Apps Module Functionality Tests", () => {
 
   it("should update publish settings", async () => {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
-      
-      await client.apps.updatePublishSettings(testingApp.body, {
+      const appId = await client.apps.add({
+        name: "Existing LUIS App",
+        description: "New LUIS App",
+        culture: "en-us",
+        domain: "Comics",
+        usageScenario: "IoT"
+      });
+      await client.apps.updatePublishSettings(appId.body, {
         sentimentAnalysis: true,
         speech: true,
         spellChecker: true
       });
-      const settings = await client.apps.getPublishSettings(testingApp.body);
-
+      const settings = await client.apps.getPublishSettings(appId.body);
+      await client.apps.deleteMethod(appId.body);
       chai.expect(settings.isSentimentAnalysisEnabled).to.be.true;
       chai.expect(settings.isSpeechEnabled).to.be.true;
       chai.expect(settings.isSpellCheckerEnabled).to.be.true;
@@ -228,12 +253,10 @@ describe("Apps Module Functionality Tests", () => {
         'ko-kr': 'Korean',
         'nl-nl': 'Dutch',
         'tr-tr': 'Turkish',
-		    'hi-in': 'Hindi Indian',
-		    'ar-ar': 'Arabic',
-		    'gu-in': 'Gujarati Indian',
-        'te-in': 'Telugu Indian',
-        'ta-in': 'Tamil Indian',
-        'mr-in': 'Marathi Indian'
+		'hi-in': 'Hindi Indian',
+		'ar-ar': 'Arabic',
+		'gu-in': 'Gujarati Indian',
+		'te-in': 'Telugu Indian'
       };
 
       const result = await client.apps.listSupportedCultures();
