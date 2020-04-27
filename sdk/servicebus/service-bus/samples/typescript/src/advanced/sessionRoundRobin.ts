@@ -23,7 +23,10 @@ dotenv.config();
 
 const serviceBusConnectionString =
   env["SERVICEBUS_CONNECTION_STRING"] || "<service bus connection string not in environment>";
+
+// NOTE: this sample uses a queue but would also work a session enabled subscription.
 const queueName = env["QUEUE_NAME_WITH_SESSIONS"] || "<queue name not in environment>";
+
 const maxSessionsToProcessSimultaneously = 8;
 const sessionIdleTimeoutMs = 3 * 1000;
 const delayWhenNoSessionsAvailableMs = 5 * 1000;
