@@ -61,7 +61,7 @@ import {
 import * as utils from "./serviceUtils";
 import { createSpan } from "./tracing";
 import { odataMetadataPolicy } from "./odataMetadataPolicy";
-import { SearchIndexClient } from "./searchIndexClient";
+import { SearchIndexClient, SearchIndexClientOptions } from "./searchIndexClient";
 
 /**
  * Client options used to configure Cognitive Search API requests.
@@ -171,10 +171,17 @@ export class SearchServiceClient {
   }
 
   /**
-   * Retrieves the search index client corresponding to this search service client
+   * Retrieves the SearchIndexClient corresponding to this SearchServiceClient
    * @param indexName Name of the index
+   * @param options SearchIndexClient Options
    */
-  public getSearchIndexClient<T>(indexName: string): SearchIndexClient<T> {
+  public getSearchIndexClient<T>(
+    indexName: string,
+    options?: SearchIndexClientOptions
+  ): SearchIndexClient<T> {
+    if (options) {
+      return new SearchIndexClient<T>(this.endpoint, indexName, this.credential, options);
+    }
     return new SearchIndexClient<T>(this.endpoint, indexName, this.credential, this.options);
   }
 
