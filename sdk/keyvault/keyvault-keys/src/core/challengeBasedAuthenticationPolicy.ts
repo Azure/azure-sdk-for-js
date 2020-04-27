@@ -102,12 +102,12 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
       for (let commaItem of commaSep) {
         // Split the key/value pairs
         let kv = commaItem.split("=");
-        if (kv[0].trim() == "authorization") {
+        let key = kv[0].trim();
+        if (key == "authorization") {
           // Remove the quotations around the string
           returnValue.authorization = kv[1].trim().replace(/['"]+/g, '');
           break;
-        }
-        if (kv[0].trim() == "resource") {
+        } else if (key == "resource") {
           // Remove the quotations around the string
           returnValue.resource = kv[1].trim().replace(/['"]+/g, '');
           break;
