@@ -65,21 +65,12 @@ function processClose(reason: "error" | "idle_timeout", sessionId: string) {
 }
 
 // utility function to create a timer that can be refreshed
-function createIdleTimer(timeoutMs: number): { refresh(): void; expirationPromise: Promise<void> } {
-  let resolveExpirationPromise: () => void;
+function createRefreshableTimer(timeoutMs: number, resolve: Function): () => void {
+  let timer: any;
 
-  const expirationPromise = new Promise<void>((res, _rej) => {
-    resolveExpirationPromise = res;
-  });
-
-  let timer = setTimeout(() => resolveExpirationPromise(), timeoutMs);
-
-  return {
-    refresh() {
-      clearTimeout(timer);
-      timer = setTimeout(() => resolveExpirationPromise(), timeoutMs);
-    },
-    expirationPromise
+  return () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => resolve(), timeoutMs);
   };
 }
 
@@ -104,28 +95,35 @@ async function receiveFromNextSession(serviceBusClient: ServiceBusClient): Promi
 
   await processInitialize(sessionReceiver.sessionId);
 
-  const idleTimer = createIdleTimer(sessionIdleTimeoutMs);
-  let didHaveError = false;
+  const sessionFullyRead = new Promise((resolveSessionAsFullyRead, rejectSessionWithError) => {
+    const refreshTimer = createRefreshableTimer(sessionIdleTimeoutMs, resolveSessionAsFullyRead);
+    refreshTimer();
 
-  sessionReceiver.subscribe(
-    {
-      async processMessage(msg) {
-        idleTimer.refresh();
-        await processMessage(msg);
+    sessionReceiver.subscribe(
+      {
+        async processMessage(msg) {
+          refreshTimer();
+          await processMessage(msg);
+        },
+        async processError(err) {
+          rejectSessionWithError(err);
+        }
       },
-      async processError(err) {
-        didHaveError = true;
-        await processError(err, sessionReceiver.sessionId);
+      {
+        abortSignal: abortController.signal
       }
-    },
-    {
-      abortSignal: abortController.signal
-    }
-  );
+    );
+  });
 
-  await idleTimer.expirationPromise;
-  await sessionReceiver.close();
-  await processClose(didHaveError ? "error" : "idle_timeout", sessionReceiver.sessionId);
+  try {
+    await sessionFullyRead;
+    await processClose("idle_timeout", sessionReceiver.sessionId);
+  } catch (err) {
+    await processError(err, sessionReceiver.sessionId);
+    await processClose("error", sessionReceiver.sessionId);
+  } finally {
+    await sessionReceiver.close();
+  }
 }
 
 async function roundRobinThroughAvailableSessions(abortSignal: AbortSignalLike): Promise<void> {
