@@ -81,6 +81,8 @@ jobs:
           node common/scripts/install-run-rush.js build:test -t "${{parameters.PackageName}}" --verbose -p max
         displayName: "Build test assets"
 
+      - ${{ parameters.PreSteps }}
+
       - ${{if ne(parameters.PreIntegrationSteps, '')}}:
           - template: ../steps/${{parameters.PreIntegrationSteps}}.yml
 
