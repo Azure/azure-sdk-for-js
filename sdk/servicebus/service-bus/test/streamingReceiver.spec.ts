@@ -22,6 +22,7 @@ import {
   testPeekMsgsLength
 } from "./utils/testutils2";
 import { getDeliveryProperty } from "./utils/misc";
+import { translate } from "@azure/core-amqp";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
