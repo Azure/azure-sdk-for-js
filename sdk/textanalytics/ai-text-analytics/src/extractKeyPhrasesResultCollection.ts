@@ -42,7 +42,12 @@ export function makeExtractKeyPhrasesResultCollection(
   const unsortedResult = documents
     .map(
       (document): ExtractKeyPhrasesResult => {
-        return makeExtractKeyPhrasesResult(document.id, document.keyPhrases, document.statistics);
+        return makeExtractKeyPhrasesResult(
+          document.id,
+          document.keyPhrases,
+          document.warnings,
+          document.statistics
+        );
       }
     )
     .concat(

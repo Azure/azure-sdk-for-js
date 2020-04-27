@@ -46,6 +46,7 @@ export function makeRecognizeLinkedEntitiesResultCollection(
         return makeRecognizeLinkedEntitiesResult(
           document.id,
           document.entities,
+          document.warnings,
           document.statistics
         );
       }

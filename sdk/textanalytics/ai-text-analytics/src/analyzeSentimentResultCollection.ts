@@ -47,6 +47,7 @@ export function makeAnalyzeSentimentResultCollection(
           document.sentiment,
           document.confidenceScores,
           document.sentenceSentiments,
+          document.warnings,
           document.statistics
         );
       }

@@ -66,6 +66,8 @@ export {
   SentenceSentimentLabel,
   ErrorCodeValue,
   InnerErrorCodeValue,
+  WarningCodeValue,
   LinkedEntity,
-  Match
+  Match,
+  TextAnalyticsWarning
 } from "./generated/models";

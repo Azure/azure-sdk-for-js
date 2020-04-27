@@ -46,6 +46,7 @@ export function makeRecognizeCategorizedEntitiesResultCollection(
         return makeRecognizeCategorizedEntitiesResult(
           document.id,
           document.entities,
+          document.warnings,
           document.statistics
         );
       }

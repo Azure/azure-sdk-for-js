@@ -247,6 +247,14 @@ export interface TextAnalyticsSuccessResult {
     readonly error?: undefined;
     readonly id: string;
     readonly statistics?: TextDocumentStatistics;
+    readonly warnings: TextAnalyticsWarning[];
+}
+
+// @public
+export interface TextAnalyticsWarning {
+    code: WarningCodeValue;
+    message: string;
+    targetRef?: string;
 }
 
 // @public
@@ -269,6 +277,9 @@ export interface TextDocumentStatistics {
     graphemeCount: number;
     transactionCount: number;
 }
+
+// @public
+export type WarningCodeValue = 'LongWordsInDocument' | 'DocumentTruncated';
 
 
 // (No @packageDocumentation comment for this package)

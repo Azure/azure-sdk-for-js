@@ -26,7 +26,7 @@ const testDataEs = [
   "La carretera estaba atascada. Había mucho tráfico el día de ayer."
 ];
 
-describe("[AAD] TextAnalyticsClient", function() {
+describe.skip("[AAD] TextAnalyticsClient", function() {
   let recorder: Recorder;
   let client: TextAnalyticsClient;
 
@@ -68,7 +68,6 @@ describe("[AAD] TextAnalyticsClient", function() {
       const [result] = await client.analyzeSentiment(["Hello world!"], "notalanguage");
       if (result.error === undefined) {
         assert.fail("Expected an error from the service.");
-        return;
       }
       assert.equal(result.error.code, "UnsupportedLanguageCode");
     });
@@ -80,7 +79,6 @@ describe("[AAD] TextAnalyticsClient", function() {
       const errorResult = results[1];
       if (errorResult.error === undefined) {
         assert.fail("Expected an error from the service");
-        return;
       }
       assert.equal(
         results.filter((result) => result.error === undefined).length,

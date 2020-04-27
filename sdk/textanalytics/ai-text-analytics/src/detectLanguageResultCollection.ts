@@ -45,6 +45,7 @@ export function makeDetectLanguageResultCollection(
         return makeDetectLanguageResult(
           document.id,
           document.detectedLanguages,
+          document.warnings,
           document.statistics
         );
       }
