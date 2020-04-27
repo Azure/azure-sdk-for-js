@@ -35,17 +35,17 @@ const delayWhenNoSessionsAvailableMs = 5 * 1000;
 const abortController = new AbortController();
 
 // called just before we start processing the first message of a session
-function processInitialize(sessionId: string) {
+async function processInitialize(sessionId: string) {
   console.log(`[${sessionId}] will start processing...`);
 }
 
 // called when we get a message for a session
-function processMessage(msg: ReceivedMessageWithLock) {
+async function processMessage(msg: ReceivedMessageWithLock) {
   console.log(`[${msg.sessionId}] received message with body ${msg.body}`);
 }
 
 // called if we get an error
-function processError(err: Error, sessionId?: string) {
+async function processError(err: Error, sessionId?: string) {
   console.log(`[${sessionId}] had error ${err.message}`);
 }
 
@@ -56,7 +56,7 @@ function processError(err: Error, sessionId?: string) {
 // * 'idle_timeout' if we `sessionIdleTimeoutMs` milliseconds pass without
 //   any messages being received (ie, session can be considered empty).
 //
-function processClose(reason: "error" | "idle_timeout", sessionId: string) {
+async function processClose(reason: "error" | "idle_timeout", sessionId: string) {
   if (reason === "error") {
     console.log(`[${sessionId}] was closed because of error`);
   } else if (reason === "idle_timeout") {
