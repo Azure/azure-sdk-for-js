@@ -275,6 +275,7 @@ export namespace ClientEntityContext {
     };
 
     (entityContext as ClientEntityContext).close = async () => {
+      entityContext.isClosed = true;
       if (!context.connection || !context.connection.isOpen()) {
         return;
       }
@@ -320,8 +321,6 @@ export namespace ClientEntityContext {
       if (entityContext.managementClient && !isManagementClientSharedWithOtherClients()) {
         await entityContext.managementClient.close();
       }
-
-      entityContext.isClosed = true;
 
       log.entityCtxt(
         "[%s] Closed client entity context for %s: %O",
