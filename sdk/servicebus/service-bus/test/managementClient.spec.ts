@@ -194,5 +194,13 @@ describe("ManagementClient", function(): void {
         await receiver.receiveDeferredMessages([new Long(0)]);
       }, "has been closed. The receiver created by it can no longer be used. Please create a new client using an instance of ServiceBusClient.");
     });
+
+    it("renewMessageLock throws error after the client is closed", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
+      await verifyClientClosedError(async () => {
+        await receiverClient.close();
+        await receiver.renewMessageLock("");
+      }, "has been closed. The receiver created by it can no longer be used. Please create a new client using an instance of ServiceBusClient.");
+    });
   });
 });
