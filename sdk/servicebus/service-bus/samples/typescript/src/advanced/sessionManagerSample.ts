@@ -1,3 +1,13 @@
+/*
+  Copyright (c) Microsoft Corporation. All rights reserved.
+  Licensed under the MIT Licence.
+
+  This sample demonstrates how you can continually read through all the available
+  sessions in a Service Bus queue or subscription.
+
+  Run the sendMessages sample with some session ids before running this sample.
+*/
+
 import {
   ServiceBusClient,
   delay,
@@ -18,18 +28,28 @@ const maxSessionsToProcessSimultaneously = 8;
 const sessionIdleTimeoutMs = 3 * 1000;
 const delayWhenNoSessionsAvailableMs = 5 * 1000;
 
+// called just before we start processing the first message of a session
 function processInitialize(sessionId: string) {
   console.log(`[${sessionId}] will start processing...`);
 }
 
+// called when we get a message for a session
 function processMessage(msg: ReceivedMessageWithLock) {
   console.log(`[${msg.sessionId}] received message with body ${msg.body}`);
 }
 
+// called if we get an error
 function processError(err: Error, sessionId: string) {
   console.log(`[${sessionId}] had error ${err.message}`);
 }
 
+// Called if we are closing a session
+// `reason` will be:
+// * 'error' if we are closing because of an error(the error will be delivered
+//   to `processError` above)
+// * 'idle_timeout' if we `sessionIdleTimeoutMs` milliseconds pass without
+//   any messages being received (ie, session can be considered empty).
+//
 function processClose(reason: "error" | "idle_timeout", sessionId: string) {
   if (reason === "error") {
     console.log(`[${sessionId}] was closed because of error`);
@@ -38,6 +58,7 @@ function processClose(reason: "error" | "idle_timeout", sessionId: string) {
   }
 }
 
+// utility function to create a timer that can be refreshed
 function _createIdleTimer(
   timeoutMs: number
 ): { refresh(): void; expirationPromise: Promise<void> } {
@@ -58,6 +79,7 @@ function _createIdleTimer(
   };
 }
 
+// Queries Service Bus for the next available session and processes it.
 async function _processNextSession(
   serviceBusClient: ServiceBusClient,
   abortSignal: AbortSignalLike
@@ -81,7 +103,7 @@ async function _processNextSession(
   await processInitialize(sessionReceiver.sessionId);
 
   const idleTimer = _createIdleTimer(sessionIdleTimeoutMs);
-  let threwError = false;
+  let didHaveError = false;
 
   sessionReceiver.subscribe(
     {
@@ -90,7 +112,7 @@ async function _processNextSession(
         await processMessage(msg);
       },
       async processError(err) {
-        threwError = true;
+        didHaveError = true;
         await processError(err, sessionReceiver.sessionId);
       }
     },
@@ -107,7 +129,7 @@ async function _processNextSession(
     await processError(err, sessionReceiver.sessionId);
   }
 
-  await processClose(threwError ? "error" : "idle_timeout", sessionReceiver.sessionId);
+  await processClose(didHaveError ? "error" : "idle_timeout", sessionReceiver.sessionId);
 }
 
 async function _roundRobinThroughAvailableSessions(abortSignal: AbortSignalLike): Promise<void> {
@@ -121,7 +143,7 @@ async function _roundRobinThroughAvailableSessions(abortSignal: AbortSignalLike)
     })();
   }
 
-  console.log(`All session promises have been started`);
+  console.log(`Listening for available sessions...`);
 }
 
 async function main() {
