@@ -301,15 +301,11 @@ describe("Send Batch", () => {
       return messagesToSend;
     }
 
-    async function testSendBatch(
-      useSessions: boolean,
-      // Max batch size
-      maxSizeInBytes?: number
-    ): Promise<void> {
+    async function testSendBatch(useSessions: boolean): Promise<void> {
       // Prepare messages to send
       const messagesToSend = prepareMessages(useSessions);
       const sentMessages: ServiceBusMessage[] = [];
-      const batchMessage = await senderClient.createBatch({ maxSizeInBytes });
+      const batchMessage = await senderClient.createBatch();
 
       for (const messageToSend of messagesToSend) {
         const batchHasCapacity = batchMessage.tryAdd(messageToSend);
