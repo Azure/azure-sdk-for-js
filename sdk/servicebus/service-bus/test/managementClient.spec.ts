@@ -1,48 +1,57 @@
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { delay, QueueClient, ServiceBusClient } from "../src";
-import {
-  TestClientType,
-  getSenderReceiverClients,
-  TestMessage,
-  getServiceBusClient
-} from "./utils/testUtils";
+import { delay, Sender, Receiver, ReceivedMessageWithLock } from "../src";
+import { TestClientType, TestMessage } from "./utils/testUtils";
+import { ServiceBusClientForTests, createServiceBusClientForTests } from "./utils/testutils2";
 chai.should();
 chai.use(chaiAsPromised);
-let sbClient: ServiceBusClient;
-
-async function afterEachTest(): Promise<void> {
-  await sbClient.close();
-}
 
 describe("ManagementClient - disconnects", function(): void {
+  let serviceBusClient: ServiceBusClientForTests;
+  let senderClient: Sender;
+  let receiverClient: Receiver<ReceivedMessageWithLock>;
+
+  async function beforeEachTest(entityType: TestClientType): Promise<void> {
+    const entityNames = await serviceBusClient.test.createTestEntities(entityType);
+    receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
+
+    senderClient = serviceBusClient.test.addToCleanup(
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+    );
+  }
+  before(() => {
+    serviceBusClient = createServiceBusClientForTests();
+  });
+
+  after(() => {
+    return serviceBusClient.test.after();
+  });
+
+  function afterEachTest(): Promise<void> {
+    return serviceBusClient.test.afterEach();
+  }
   afterEach(async () => {
-    return afterEachTest();
+    await afterEachTest();
   });
 
   it("can receive and settle messages after a disconnect", async function(): Promise<void> {
     // Create the sender and receiver.
-    sbClient = getServiceBusClient();
-    const { receiverClient, senderClient } = await getSenderReceiverClients(
-      sbClient,
-      TestClientType.UnpartitionedQueue,
-      TestClientType.UnpartitionedQueue
-    );
-    const sender = senderClient.createSender();
+    await beforeEachTest(TestClientType.UnpartitionedQueue);
     // Send a message so we have something to peek.
 
-    await sender.sendBatch([TestMessage.getSample(), TestMessage.getSample()]);
+    await senderClient.send(TestMessage.getSample());
+    await senderClient.send(TestMessage.getSample());
 
     let peekedMessageCount = 0;
-    let messages = await receiverClient.peek(1);
+    let messages = await receiverClient.browseMessages({ maxMessageCount: 1 });
     peekedMessageCount += messages.length;
 
     peekedMessageCount.should.equal(1, "Unexpected number of peeked messages.");
 
-    const connectionContext = (receiverClient as QueueClient)["_context"].namespace;
+    const connectionContext = (receiverClient as any)["_context"].namespace;
     const refreshConnection = connectionContext.refreshConnection;
     let refreshConnectionCalled = 0;
-    connectionContext.refreshConnection = function(...args) {
+    connectionContext.refreshConnection = function(...args: any) {
       refreshConnectionCalled++;
       refreshConnection.apply(this, args);
     };
@@ -55,7 +64,7 @@ describe("ManagementClient - disconnects", function(): void {
     await delay(2000);
 
     // peek additional messages
-    messages = await receiverClient.peek(1);
+    messages = await receiverClient.browseMessages({ maxMessageCount: 1 });
     peekedMessageCount += messages.length;
     peekedMessageCount.should.equal(2, "Unexpected number of peeked messages.");
 
@@ -66,17 +75,11 @@ describe("ManagementClient - disconnects", function(): void {
     void
   > {
     // Create the sender and receiver.
-    sbClient = getServiceBusClient();
-    const { receiverClient, senderClient } = await getSenderReceiverClients(
-      sbClient,
-      TestClientType.UnpartitionedQueue,
-      TestClientType.UnpartitionedQueue
-    );
-    const sender = senderClient.createSender();
+    await beforeEachTest(TestClientType.UnpartitionedQueue);
     // Send a message so we have something to peek.
 
     const deliveryIds = [];
-    let deliveryId = await sender.scheduleMessage(
+    let deliveryId = await senderClient.scheduleMessage(
       new Date("2020-04-25T12:00:00Z"),
       TestMessage.getSample()
     );
@@ -84,10 +87,10 @@ describe("ManagementClient - disconnects", function(): void {
 
     deliveryIds.length.should.equal(1, "Unexpected number of scheduled messages.");
 
-    const connectionContext = (receiverClient as QueueClient)["_context"].namespace;
+    const connectionContext = (receiverClient as any)["_context"].namespace;
     const refreshConnection = connectionContext.refreshConnection;
     let refreshConnectionCalled = 0;
-    connectionContext.refreshConnection = function(...args) {
+    connectionContext.refreshConnection = function(...args: any) {
       refreshConnectionCalled++;
       refreshConnection.apply(this, args);
     };
@@ -100,7 +103,7 @@ describe("ManagementClient - disconnects", function(): void {
     await delay(2000);
 
     // peek additional messages
-    deliveryId = await sender.scheduleMessage(
+    deliveryId = await senderClient.scheduleMessage(
       new Date("2020-04-25T12:00:00Z"),
       TestMessage.getSample()
     );

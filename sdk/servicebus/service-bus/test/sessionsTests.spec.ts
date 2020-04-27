@@ -14,7 +14,8 @@ import { SessionReceiver } from "../src/receivers/sessionReceiver";
 import {
   testPeekMsgsLength,
   ServiceBusClientForTests,
-  createServiceBusClientForTests
+  createServiceBusClientForTests,
+  EntityName
 } from "./utils/testutils2";
 import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
 import { AbortController } from "@azure/abort-controller";
@@ -389,24 +390,25 @@ describe("session tests", () => {
  * If support for this is added in the future, we can stop skipping this test.
  */
 describe.skip("SessionReceiver - disconnects", function(): void {
-  afterEach(async () => {
-    return afterEachTest();
+  let serviceBusClient: ServiceBusClientForTests;
+  async function beforeEachTest(testClientType: TestClientType): Promise<EntityName> {
+    serviceBusClient = createServiceBusClientForTests();
+    return serviceBusClient.test.createTestEntities(testClientType);
+  }
+
+  after(() => {
+    return serviceBusClient.test.after();
   });
 
   it("can receive and settle messages after a disconnect", async function(): Promise<void> {
     const testMessage = TestMessage.getSessionSample();
     // Create the sender and receiver.
-    sbClient = getServiceBusClient();
-    const { receiverClient, senderClient } = await getSenderReceiverClients(
-      sbClient,
-      TestClientType.UnpartitionedQueueWithSessions,
-      TestClientType.UnpartitionedQueueWithSessions
-    );
-    const receiver = receiverClient.createReceiver(ReceiveMode.peekLock, {
+    const entityName = await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
+    const receiver = serviceBusClient.createSessionReceiver(entityName.queue!, "peekLock", {
       sessionId: testMessage.sessionId,
-      maxSessionAutoRenewLockDurationInSeconds: 10 // Lower this value so that test can complete in time.
-    }) as SessionReceiver;
-    const sender = senderClient.createSender();
+      autoRenewLockDurationInMs: 10000 // Lower this value so that test can complete in time.
+    });
+    const sender = serviceBusClient.createSender(entityName.queue!);
     // Send a message so we can be sure when the receiver is open and active.
     await sender.send(testMessage);
     const receivedErrors: any[] = [];
@@ -423,8 +425,8 @@ describe.skip("SessionReceiver - disconnects", function(): void {
     });
 
     // Start the receiver.
-    receiver.registerMessageHandler(
-      async (message) => {
+    receiver.subscribe({
+      async processMessage(message) {
         console.log(`Received a message`);
         messageHandlerCount++;
         try {
@@ -441,12 +443,12 @@ describe.skip("SessionReceiver - disconnects", function(): void {
           receiverSecondMessageResolver();
         }
       },
-      (err) => {
+      async processError(err) {
         console.log(`Got an error`);
         console.error(err);
         receivedErrors.push(err);
       }
-    );
+    });
 
     // Wait until we're sure the receiver is open and receiving messages.
     await receiverIsActive;
@@ -454,16 +456,16 @@ describe.skip("SessionReceiver - disconnects", function(): void {
     settledMessageCount.should.equal(1, "Unexpected number of settled messages.");
     receivedErrors.length.should.equal(0, "Encountered an unexpected number of errors.");
 
-    const connectionContext = receiver["_context"].namespace;
+    const connectionContext = (receiver as any)["_context"].namespace;
     const refreshConnection = connectionContext.refreshConnection;
     let refreshConnectionCalled = 0;
-    connectionContext.refreshConnection = function(...args) {
+    connectionContext.refreshConnection = function(...args: any) {
       refreshConnectionCalled++;
       refreshConnection.apply(this, args);
     };
 
     // Simulate a disconnect being called with a non-retryable error.
-    receiver["_context"].namespace.connection["_connection"].idle();
+    (receiver as any)["_context"].namespace.connection["_connection"].idle();
 
     // Allow rhea to clear internal setTimeouts (since we're triggering idle manually).
     // Otherwise, it will get into a bad internal state with uncaught exceptions.
