@@ -31,6 +31,9 @@ const maxSessionsToProcessSimultaneously = 8;
 const sessionIdleTimeoutMs = 3 * 1000;
 const delayWhenNoSessionsAvailableMs = 5 * 1000;
 
+// this can be used control when the round-robin processing will terminate.
+const abortController = new AbortController();
+
 // called just before we start processing the first message of a session
 function processInitialize(sessionId: string) {
   console.log(`[${sessionId}] will start processing...`);
@@ -42,7 +45,7 @@ function processMessage(msg: ReceivedMessageWithLock) {
 }
 
 // called if we get an error
-function processError(err: Error, sessionId: string) {
+function processError(err: Error, sessionId?: string) {
   console.log(`[${sessionId}] had error ${err.message}`);
 }
 
@@ -81,10 +84,7 @@ function createIdleTimer(timeoutMs: number): { refresh(): void; expirationPromis
 }
 
 // Queries Service Bus for the next available session and processes it.
-async function receiveFromNextSession(
-  serviceBusClient: ServiceBusClient,
-  abortSignal: AbortSignalLike
-): Promise<void> {
+async function receiveFromNextSession(serviceBusClient: ServiceBusClient): Promise<void> {
   let sessionReceiver: SessionReceiver<ReceivedMessageWithLock>;
 
   try {
@@ -98,7 +98,8 @@ async function receiveFromNextSession(
       return;
     }
 
-    throw err;
+    await processError(err, undefined);
+    return;
   }
 
   await processInitialize(sessionReceiver.sessionId);
@@ -118,7 +119,7 @@ async function receiveFromNextSession(
       }
     },
     {
-      abortSignal
+      abortSignal: abortController.signal
     }
   );
 
@@ -133,7 +134,7 @@ async function roundRobinThroughAvailableSessions(abortSignal: AbortSignalLike):
   for (let i = 0; i < maxSessionsToProcessSimultaneously; ++i) {
     (async () => {
       while (!abortSignal.aborted) {
-        await receiveFromNextSession(serviceBusClient, abortSignal);
+        await receiveFromNextSession(serviceBusClient);
       }
     })();
   }
@@ -141,11 +142,7 @@ async function roundRobinThroughAvailableSessions(abortSignal: AbortSignalLike):
   console.log(`Listening for available sessions...`);
 }
 
-async function main() {
-  const abortController = new AbortController();
-
-  // To stop the round-robin processing you can just call abortController.abort()
-  await roundRobinThroughAvailableSessions(abortController.signal);
-}
-
-main().catch((err) => console.log(`Fatal error: ${err}`));
+// To stop the round-robin processing you can just call abortController.abort()
+roundRobinThroughAvailableSessions(abortController.signal).catch((err) =>
+  console.log(`Fatal error: ${err}`)
+);
