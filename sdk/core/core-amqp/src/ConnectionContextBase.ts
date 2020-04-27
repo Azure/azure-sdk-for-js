@@ -199,8 +199,9 @@ export module ConnectionContextBase {
       dataTransformer: parameters.dataTransformer || new DefaultDataTransformer(),
       refreshConnection() {
         const connection = new Connection(connectionOptions);
+        const connectionLock = `${Constants.establishConnection}-${generate_uuid()}`;
         this.wasConnectionCloseCalled = false;
-        this.connectionLock = `${Constants.establishConnection}-${generate_uuid()}`;
+        this.connectionLock = connectionLock;
         this.negotiateClaimLock = `${Constants.negotiateClaim} - ${generate_uuid()}`;
         this.connection = connection;
         this.connectionId = connection.id;
