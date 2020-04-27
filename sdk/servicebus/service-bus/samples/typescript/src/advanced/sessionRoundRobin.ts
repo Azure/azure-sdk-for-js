@@ -123,13 +123,7 @@ async function receiveFromNextSession(
   );
 
   await idleTimer.expirationPromise;
-
-  try {
-    await sessionReceiver.close();
-  } catch (err) {
-    await processError(err, sessionReceiver.sessionId);
-  }
-
+  await sessionReceiver.close();
   await processClose(didHaveError ? "error" : "idle_timeout", sessionReceiver.sessionId);
 }
 
