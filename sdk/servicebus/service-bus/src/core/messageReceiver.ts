@@ -26,6 +26,7 @@ import { ClientEntityContext } from "../clientEntityContext";
 import { ServiceBusMessageImpl, DispositionType, ReceiveMode } from "../serviceBusMessage";
 import { getUniqueName, calculateRenewAfterDuration } from "../util/utils";
 import { MessageHandlerOptions } from "../models";
+import { isMessagingError } from "../../test/utils/testUtils";
 
 /**
  * @internal
@@ -906,7 +907,9 @@ export class MessageReceiver extends LinkEntity {
 
       // We should only attempt to reopen if either no error was present,
       // or the error is considered retryable.
-      const shouldReopen = !translatedError || translatedError.retryable;
+      const shouldReopen =
+        !translatedError ||
+        (isMessagingError(translatedError) ? translatedError!.retryable : false);
 
       // Non-retryable errors that aren't caused by disconnect
       // will have already been forwarded to the user's error handler.
