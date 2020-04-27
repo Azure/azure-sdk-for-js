@@ -10,15 +10,24 @@ import { WebResource } from "@azure/core-http";
 import { AccessTokenCache, ExpiringAccessTokenCache } from "@azure/core-http";
 
 /**
+ * Helps keep a copy of any previous authentication challenges,
+ * so that we can compare on any further request.
+ */
+interface AuthenticationChallengeCache {
+  challenge?: AuthenticationChallenge
+}
+
+/**
  * Creates a new ChallengeBasedAuthenticationPolicy factory.
  *
  * @param credential The TokenCredential implementation that can supply the challenge token.
  */
 export function challengeBasedAuthenticationPolicy(credential: TokenCredential): RequestPolicyFactory {
   const tokenCache: AccessTokenCache = new ExpiringAccessTokenCache();
+  const challengeCache: AuthenticationChallengeCache = {};
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
-      return new ChallengeBasedAuthenticationPolicy(nextPolicy, options, credential, tokenCache);
+      return new ChallengeBasedAuthenticationPolicy(nextPolicy, options, credential, tokenCache, challengeCache);
     }
   };
 }
@@ -35,7 +44,6 @@ export class AuthenticationChallenge {
  *
  */
 export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
-  private challenge: AuthenticationChallenge | undefined = undefined;
 
   /**
    * Creates a new ChallengeBasedAuthenticationPolicy object.
@@ -49,7 +57,8 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
     nextPolicy: RequestPolicy,
     options: RequestPolicyOptions,
     private credential: TokenCredential,
-    private tokenCache: AccessTokenCache
+    private tokenCache: AccessTokenCache,
+    private challengeCache: AuthenticationChallengeCache
   ) {
     super(nextPolicy, options);
   }
@@ -95,7 +104,7 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
 
     let originalBody = webResource.body;
 
-    if (this.challenge == undefined) {
+    if (this.challengeCache.challenge == undefined) {
       // Use a blank to start the challenge
       webResource.body = "";
     } else {
@@ -114,8 +123,8 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
         let resource = this.parseWWWAuthenticate(www_authenticate);
         let challenge = new AuthenticationChallenge(resource + "/.default")
 
-        if (this.challenge != challenge) {
-          this.challenge = challenge;
+        if (this.challengeCache.challenge != challenge) {
+          this.challengeCache.challenge = challenge;
           this.tokenCache.setCachedToken(undefined);
 
           await this.authenticateRequest(webResource);
@@ -130,7 +139,7 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
   private async authenticateRequest(webResource: WebResource): Promise<void> {
     let accessToken = this.tokenCache.getCachedToken();
     if (accessToken === undefined) {
-      accessToken = (await this.credential.getToken(this.challenge!.scopes)) || undefined;
+      accessToken = (await this.credential.getToken(this.challengeCache.challenge!.scopes)) || undefined;
       this.tokenCache.setCachedToken(accessToken);
     }
 
