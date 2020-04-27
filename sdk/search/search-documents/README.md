@@ -966,7 +966,7 @@ const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-docum
 async function main() {  
   const searchServiceClient = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>");
   const searchIndexClient = searchServiceClient.getSearchIndexClient("<indexName>");
-  //Perform ops on search index client
+  // Perform ops on search index client
   const numberOfDocuments =  await searchIndexClient.countDocuments();
   console.log(numberOfDocuments);
 }
