@@ -136,7 +136,7 @@ export class Metrics {
 
   /**
    * Gets metadata describing the available metrics
-   * @summary Retrieve metric metatadata
+   * @summary Retrieve metric metadata
    * @param appId ID of the application. This is Application ID from the API Access settings blade in
    * the Azure portal.
    * @param [options] The optional parameters

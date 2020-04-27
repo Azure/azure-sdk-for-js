@@ -12,7 +12,7 @@ import * as msRest from "@azure/ms-rest-js";
 import * as Models from "./models";
 
 const packageName = "@azure/applicationinsights-query";
-const packageVersion = "0.1.0";
+const packageVersion = "1.1.0";
 
 export class ApplicationInsightsDataClientContext extends msRest.ServiceClient {
   credentials: msRest.ServiceClientCredentials;
@@ -23,23 +23,23 @@ export class ApplicationInsightsDataClientContext extends msRest.ServiceClient {
    * @param [options] The parameter options
    */
   constructor(credentials: msRest.ServiceClientCredentials, options?: Models.ApplicationInsightsDataClientOptions) {
-    if (credentials === null || credentials === undefined) {
-      throw new Error('\'credentials\' cannot be null.');
+    if (credentials == undefined) {
+      throw new Error("'credentials' cannot be null.");
     }
 
     if (!options) {
       options = {};
     }
-    if(!options.userAgent) {
+
+    if (!options.userAgent) {
       const defaultUserAgent = msRest.getDefaultUserAgentValue();
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
 
     super(credentials, options);
 
-    this.baseUri = options.baseUri || this.baseUri || "https://api.applicationinsights.io";
+    this.baseUri = options.baseUri || this.baseUri || "https://api.applicationinsights.io/v1";
     this.requestContentType = "application/json; charset=utf-8";
     this.credentials = credentials;
-
   }
 }

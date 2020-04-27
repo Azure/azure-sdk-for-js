@@ -19,6 +19,8 @@ class ApplicationInsightsDataClient extends ApplicationInsightsDataClientContext
   metrics: operations.Metrics;
   events: operations.Events;
   query: operations.Query;
+  post: operations.Post;
+  get: operations.Get;
 
   /**
    * Initializes a new instance of the ApplicationInsightsDataClient class.
@@ -30,6 +32,8 @@ class ApplicationInsightsDataClient extends ApplicationInsightsDataClientContext
     this.metrics = new operations.Metrics(this);
     this.events = new operations.Events(this);
     this.query = new operations.Query(this);
+    this.post = new operations.Post(this);
+    this.get = new operations.Get(this);
   }
 }
 
