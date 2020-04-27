@@ -10,11 +10,34 @@ import { WebResource } from "@azure/core-http";
 import { AccessTokenCache, ExpiringAccessTokenCache } from "@azure/core-http";
 
 /**
+ * Representation of the Authentication Challenge
+ */
+export class AuthenticationChallenge {
+  constructor(public authorization: string, public scope: string) {
+  }
+
+  /**
+   * Checks that this AuthenticationChallenge is equal to another one given.
+   * @param other The other AuthenticationChallenge
+   */
+  public equalTo(other: AuthenticationChallenge | undefined) {
+    if (!other) {
+      return false;
+    }
+    return this.authorization === other.authorization && this.scope === other.scope;
+  }
+}
+
+/**
  * Helps keep a copy of any previous authentication challenges,
  * so that we can compare on any further request.
  */
-interface AuthenticationChallengeCache {
-  challenge?: AuthenticationChallenge
+class AuthenticationChallengeCache {
+  public challenge?: AuthenticationChallenge;
+
+  public setCachedChallenge(challenge: AuthenticationChallenge) {
+    this.challenge = challenge;
+  }
 }
 
 /**
@@ -24,16 +47,12 @@ interface AuthenticationChallengeCache {
  */
 export function challengeBasedAuthenticationPolicy(credential: TokenCredential): RequestPolicyFactory {
   const tokenCache: AccessTokenCache = new ExpiringAccessTokenCache();
-  const challengeCache: AuthenticationChallengeCache = {};
+  const challengeCache = new AuthenticationChallengeCache();
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
       return new ChallengeBasedAuthenticationPolicy(nextPolicy, options, credential, tokenCache, challengeCache);
     }
   };
-}
-
-export class AuthenticationChallenge {
-  constructor(public scopes: string[] | string) { }
 }
 
 /**
@@ -63,29 +82,39 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
     super(nextPolicy, options);
   }
 
-  private parseWWWAuthenticate(www_authenticate: string): string {
+  private parseWWWAuthenticate(www_authenticate: string): {
+    authorization: string,
+    resource: string
+  } {
+    const returnValue = {
+      authorization: "",
+      resource: ""
+    };
     // Parses an authentication message like:
     // ```
     // Bearer authorization="some_authorization", resource="https://some.url"
     // ```
-    let authenticateArray = www_authenticate.split(" ");
-
-    // Remove the "Bearer" piece
-    delete authenticateArray[0];
+    let spaceSep = www_authenticate.split(" ");
 
     // Split the KV comma-separated list
-    let commaSep = authenticateArray.join().split(",");
-    for (let item of commaSep) {
-      // Split the key/value pairs
-      let kv = item.split("=");
-      if (kv[0].trim() == "resource") {
-        // Remove the quotations around the string
-        let resource = kv[1].trim().replace(/['"]+/g, '');
-
-        return resource;
+    for (let spaceItem of spaceSep) {
+      let commaSep = spaceItem.split(",");
+      for (let commaItem of commaSep) {
+        // Split the key/value pairs
+        let kv = commaItem.split("=");
+        if (kv[0].trim() == "authorization") {
+          // Remove the quotations around the string
+          returnValue.authorization = kv[1].trim().replace(/['"]+/g, '');
+          break;
+        }
+        if (kv[0].trim() == "resource") {
+          // Remove the quotations around the string
+          returnValue.resource = kv[1].trim().replace(/['"]+/g, '');
+          break;
+        }
       }
     }
-    return "";
+    return returnValue;
   }
 
   /**
@@ -102,7 +131,7 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
       throw new Error("The resource address for authorization must use the 'https' protocol.");
     }
 
-    let originalBody = webResource.body;
+    const originalBody = webResource.body;
 
     if (this.challengeCache.challenge == undefined) {
       // Use a blank to start the challenge
@@ -112,7 +141,7 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
       await this.authenticateRequest(webResource);
     }
 
-    let response = await this._nextPolicy.sendRequest(webResource);
+    const response = await this._nextPolicy.sendRequest(webResource);
 
     if (response.status == 401) {
       webResource.body = originalBody;
@@ -120,17 +149,19 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
       let www_authenticate = response.headers.get("WWW-Authenticate");
 
       if (www_authenticate) {
-        let resource = this.parseWWWAuthenticate(www_authenticate);
-        let challenge = new AuthenticationChallenge(resource + "/.default")
+        const { authorization, resource } = this.parseWWWAuthenticate(www_authenticate);
+        const challenge = new AuthenticationChallenge(authorization, resource + "/.default")
 
-        if (this.challengeCache.challenge != challenge) {
-          this.challengeCache.challenge = challenge;
+        if (!challenge.equalTo(this.challengeCache.challenge)) {
+          this.challengeCache.setCachedChallenge(challenge);
           this.tokenCache.setCachedToken(undefined);
 
           await this.authenticateRequest(webResource);
+          return this._nextPolicy.sendRequest(webResource);
         }
+        return response;
       }
-      return this._nextPolicy.sendRequest(webResource);
+      return response;
     } else {
       return response;
     }
@@ -139,7 +170,7 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
   private async authenticateRequest(webResource: WebResource): Promise<void> {
     let accessToken = this.tokenCache.getCachedToken();
     if (accessToken === undefined) {
-      accessToken = (await this.credential.getToken(this.challengeCache.challenge!.scopes)) || undefined;
+      accessToken = (await this.credential.getToken(this.challengeCache.challenge!.scope)) || undefined;
       this.tokenCache.setCachedToken(accessToken);
     }
 
