@@ -4,7 +4,7 @@ import {
   ReceivedMessageWithLock,
   SessionReceiver,
   MessagingError
-} from "./";
+} from "@azure/service-bus";
 import * as dotenv from "dotenv";
 import { env } from "process";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
