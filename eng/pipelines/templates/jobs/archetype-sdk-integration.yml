@@ -86,6 +86,8 @@ jobs:
       - ${{if ne(parameters.PreIntegrationSteps, '')}}:
           - template: ../steps/${{parameters.PreIntegrationSteps}}.yml
 
+      - ${{ parameters.PostSteps }}
+
       - pwsh: |
           npm install
           node getPackagePath.js --repo-root "$(Build.SourcesDirectory)" --package-name "${{parameters.PackageName}}"
