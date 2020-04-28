@@ -605,7 +605,7 @@ describe("Send Batch", () => {
     });
   });
 
-  it("send(batch) overload throws an error if the size exceeds a single batch", async function(): Promise<
+  it("send(messages[]) overload throws an error if the size exceeds a single batch", async function(): Promise<
     void
   > {
     await beforeEachTest(TestClientType.PartitionedQueue);
