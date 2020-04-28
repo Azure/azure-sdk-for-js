@@ -51,7 +51,7 @@ export interface Sender {
    * - To send messages to a `session` and/or `partition` enabled Queue/Topic, set the `sessionId`
    * and/or `partitionKey` properties respectively on the messages.
    * - When doing so, all messages in the batch should have the same `sessionId` (if using
-   *  sessions) and the same `parititionKey` (if using paritions).
+   *  sessions) and the same `partitionKey` (if using partitions).
    *
    * @param messages - An array of ServiceBusMessage objects to be sent in a Batch message.
    * @param options - Options bag to pass an abort signal or tracing options.
