@@ -248,12 +248,12 @@ export class ManagedIdentityCredential implements TokenCredential {
         expiresInParser = (requestBody: any) => {
           if (requestBody.expires_on) {
             // Use the expires_on timestamp if it's available
-            let expires = +requestBody.expires_on * 1000;
+            const expires = +requestBody.expires_on * 1000;
             logger.info(`ManagedIdentityCredential: IMDS using expires_on: ${expires} (original value: ${requestBody.expires_on})`);
             return expires;
           } else {
             // If these aren't possible, use expires_in and calculate a timestamp
-            let expires = Date.now() + requestBody.expires_in * 1000;
+            const expires = Date.now() + requestBody.expires_in * 1000;
             logger.info(`ManagedIdentityCredential: IMDS using expires_in: ${expires} (original value: ${requestBody.expires_in})`);
             return expires;
           }
