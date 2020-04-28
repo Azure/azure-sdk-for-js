@@ -57,8 +57,8 @@ async function insertPackageJson(repoRoot, packageJsonContents, targetPackagePat
   console.log(projectDir);
   //depList[targetPackageName] = "..";//works
   //depList[targetPackageName] = "../../../" + projectDir + "/" + projectFolder;
-  depList[targetPackageName] = "..";
-  //depList[targetPackageName] = "dev";//works
+  //depList[targetPackageName] = "..";
+  depList[targetPackageName] = "dev";//works
   for (const package of Object.keys(packageJsonContents.dependencies)) {
     if (package.startsWith("@azure/")) {
       depList[package] = await findAppropriateVersion(package, packageJsonContents.dependencies[package], repoRoot, testPath, versionType);
