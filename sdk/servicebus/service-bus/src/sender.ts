@@ -61,7 +61,13 @@ export interface Sender {
    */
   send(messages: ServiceBusMessage[], options?: OperationOptions): Promise<void>;
   /**
-   * Sends a batch of messages to the associated service-bus entity.
+   * Sends a batch of messages to the associated service-bus entity after creating an AMQP
+   * Sender link if it doesn't already exist.
+   *
+   * - To send messages to a `session` and/or `partition` enabled Queue/Topic, set the `sessionId`
+   * and/or `partitionKey` properties respectively on the messages.
+   * - When doing so, all messages in the batch should have the same `sessionId` (if using
+   *  sessions) and the same `partitionKey` (if using partitions).
    *
    * @param {ServiceBusMessageBatch} messageBatch A batch of messages that you can create using the {@link createBatch} method.
    * @param options - Options bag to pass an abort signal or tracing options.
