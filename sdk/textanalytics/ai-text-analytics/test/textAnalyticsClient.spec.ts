@@ -3,14 +3,16 @@
 
 import { assert } from "chai";
 
-import { Recorder } from "@azure/test-utils-recorder";
+import { Recorder, env } from "@azure/test-utils-recorder";
 
 import { createRecordedClient } from "./utils/recordedClient";
 import {
   TextAnalyticsClient,
   TextDocumentInput,
   DetectLanguageInput,
-  DetectLanguageSuccessResult
+  DetectLanguageSuccessResult,
+  AzureKeyCredential,
+  ExtractKeyPhrasesSuccessResult
 } from "../src/index";
 import { assertAllSuccess } from "./utils/resultHelper";
 
@@ -26,7 +28,10 @@ const testDataEs = [
   "La carretera estaba atascada. Había mucho tráfico el día de ayer."
 ];
 
-describe.skip("[AAD] TextAnalyticsClient", function() {
+/*
+ * TODO: Patch this back to actually use AAD before GA release
+ */
+describe("[AAD] TextAnalyticsClient", function() {
   let recorder: Recorder;
   let client: TextAnalyticsClient;
 
@@ -35,7 +40,11 @@ describe.skip("[AAD] TextAnalyticsClient", function() {
   this.timeout(10000);
 
   beforeEach(function() {
-    ({ client, recorder } = createRecordedClient(this));
+    // TODO: s/, new.*)));/);/
+    ({ client, recorder } = createRecordedClient(
+      this,
+      new AzureKeyCredential(env.TEXT_ANALYTICS_API_KEY)
+    ));
     let nextId = 0;
     getId = () => {
       nextId += 1;
@@ -155,7 +164,6 @@ describe.skip("[AAD] TextAnalyticsClient", function() {
       const [result] = await client.detectLanguage(["hello"], "invalidcountry");
       if (result.error === undefined) {
         assert.fail("Expected an error from the service");
-        return;
       }
 
       assert.equal(result.error.code, "InvalidCountryHint");
@@ -208,7 +216,6 @@ describe.skip("[AAD] TextAnalyticsClient", function() {
 
       if (result.error === undefined) {
         assert.fail("Expected an error from the service");
-        return;
       }
 
       assert.equal(result.error.code, "UnsupportedLanguageCode");
@@ -262,10 +269,18 @@ describe.skip("[AAD] TextAnalyticsClient", function() {
 
       if (result.error === undefined) {
         assert.fail("Expected an error from the service");
-        return;
       }
 
       assert.equal(result.error.code, "UnsupportedLanguageCode");
+    });
+
+    it("service reports warning for long words", async () => {
+      const results = await client.extractKeyPhrases([
+        "Hello world, thisisanextremelymassivesequenceoflettersthatislongerthansixtyfourcharacters."
+      ]);
+      assertAllSuccess(results);
+      const result = results[0] as ExtractKeyPhrasesSuccessResult;
+      assert.equal(result.warnings[0].code, "LongWordsInDocument");
     });
 
     it("client accepts mixed-language TextDocumentInput[]", async () => {
@@ -316,7 +331,6 @@ describe.skip("[AAD] TextAnalyticsClient", function() {
 
       if (result.error === undefined) {
         assert.fail("Expected an error from the service");
-        return;
       }
 
       assert.equal(result.error.code, "UnsupportedLanguageCode");

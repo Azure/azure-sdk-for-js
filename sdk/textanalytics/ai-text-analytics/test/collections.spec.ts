@@ -91,29 +91,20 @@ describe("DetectLanguageResultCollection", () => {
       [
         {
           id: "A",
-          detectedLanguages: [
-            {
-              name: "English",
-              iso6391Name: "en",
-              confidenceScore: 1
-            }
-          ],
+          detectedLanguage: {
+            name: "English",
+            iso6391Name: "en",
+            confidenceScore: 1
+          },
           warnings: []
         },
         {
           id: "C",
-          detectedLanguages: [
-            {
-              name: "French",
-              iso6391Name: "fr",
-              confidenceScore: 1
-            },
-            {
-              name: "English",
-              iso6391Name: "en",
-              confidenceScore: 0.5
-            }
-          ],
+          detectedLanguage: {
+            name: "French",
+            iso6391Name: "fr",
+            confidenceScore: 1
+          },
           warnings: []
         }
       ],

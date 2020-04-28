@@ -25,7 +25,7 @@ describe("TextAnalyticsClient Custom PipelineOptions", function() {
             request,
             bodyAsText: JSON.stringify({
               documents: [
-                { id: "0", detectedLanguages: [{ name: "English", iso6391Name: "en", score: 1.0 }] }
+                { id: "0", detectedLanguage: { name: "English", iso6391Name: "en", score: 1.0 } }
               ],
               errors: [],
               modelVersion: "2019-10-01"

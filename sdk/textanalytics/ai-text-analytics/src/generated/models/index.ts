@@ -507,9 +507,9 @@ export interface DocumentLanguage {
    */
   id: string;
   /**
-   * A list of extracted languages.
+   * Detected Language.
    */
-  detectedLanguages: DetectedLanguage[];
+  detectedLanguage: DetectedLanguage;
   /**
    * Warnings encountered while processing document.
    */

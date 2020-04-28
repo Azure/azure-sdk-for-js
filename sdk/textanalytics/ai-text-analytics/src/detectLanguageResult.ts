@@ -37,13 +37,13 @@ export type DetectLanguageErrorResult = TextAnalyticsErrorResult;
 
 export function makeDetectLanguageResult(
   id: string,
-  detectedLanguages: DetectedLanguage[],
+  detectedLanguage: DetectedLanguage,
   warnings: TextAnalyticsWarning[],
   statistics?: TextDocumentStatistics
 ): DetectLanguageSuccessResult {
   return {
     ...makeTextAnalyticsSuccessResult(id, warnings, statistics),
-    primaryLanguage: primaryLanguage(detectedLanguages)
+    primaryLanguage: detectedLanguage
   };
 }
 
@@ -54,9 +54,3 @@ export function makeDetectLanguageErrorResult(
   return makeTextAnalyticsErrorResult(id, error);
 }
 
-function primaryLanguage(languages: DetectedLanguage[]): DetectedLanguage {
-  const sorted = languages.slice(0).sort((a, b) => {
-    return a.confidenceScore - b.confidenceScore;
-  });
-  return sorted[0];
-}

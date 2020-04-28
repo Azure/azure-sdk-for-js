@@ -1041,17 +1041,12 @@ export const DocumentLanguage: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      detectedLanguages: {
+      detectedLanguage: {
         required: true,
-        serializedName: "detectedLanguages",
+        serializedName: "detectedLanguage",
         type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "DetectedLanguage"
-            }
-          }
+          name: "Composite",
+          className: "DetectedLanguage"
         }
       },
       warnings: {
