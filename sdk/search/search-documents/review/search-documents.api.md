@@ -1193,6 +1193,7 @@ export class SearchServiceClient {
     getIndexer(indexerName: string, options?: GetIndexerOptions): Promise<Indexer>;
     getIndexerStatus(indexerName: string, options?: GetIndexerStatusOptions): Promise<IndexerExecutionInfo>;
     getIndexStatistics(indexName: string, options?: GetIndexStatisticsOptions): Promise<GetIndexStatisticsResult>;
+    getSearchIndexClient<T>(indexName: string, options?: SearchIndexClientOptions): SearchIndexClient<T>;
     getServiceStatistics(options?: GetServiceStatisticsOptions): Promise<ServiceStatistics>;
     getSkillset(skillsetName: string, options?: GetSkillSetOptions): Promise<Skillset>;
     getSynonymMap(synonymMapName: string, options?: GetSynonymMapsOptions): Promise<SynonymMap>;

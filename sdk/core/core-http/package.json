@@ -31,8 +31,8 @@
   "types": "./types/latest/src/coreHttp.d.ts",
   "typesVersions": {
     "<3.6": {
-      "types/latest/*": [
-        "types/3.1/*"
+      "types/latest/src/*": [
+        "types/3.1/src/*"
       ]
     }
   },
@@ -42,8 +42,8 @@
     "dom-shim.d.ts",
     "es/src/**/*.js",
     "es/src/**/*.js.map",
-    "types/latest/coreHttp.d.ts",
-    "types/3.1/coreHttp.d.ts",
+    "types/*/src/**/*.d.ts",
+    "types/*/src/**/*.d.ts.map",
     "README.md",
     "LICENSE"
   ],
