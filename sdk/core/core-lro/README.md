@@ -2,7 +2,7 @@
 
 `@azure/core-lro` is a JavaScript library that allows developers to build pollers that keep track of Long Running Operations (LROs) that require consecutive calls to endpoints provided by the Azure services to update a local representation of the status of the remote operation until its completion.
 
-Even though this library is publicly available for installation, this library is not intended to be used outside of the projects inside of the `azure-sdk-for-js` repository.
+**Please note:** This library is intended to be used as a dependency of official Azure SDK packages and not intended for inclusion in your projects directly.
 
 `@azure/core-lro` is made following our [Long Running Operations guidelines](https://azure.github.io/azure-sdk/typescript_design.html#ts-lro)
 
@@ -12,7 +12,7 @@ Even though this library is publicly available for installation, this library is
 
 ### Install the package
 
-To install this library for a project under the `azure-sdk-for-js`, make sure you are at the root of that project, then use rush as follows:
+To install this library for a project under the `azure-sdk-for-js`, make sure you are at the root of that project, then use [Rush](https://rushjs.io/) as follows:
 
 ```
 rushx add -p @azure/core-lro
