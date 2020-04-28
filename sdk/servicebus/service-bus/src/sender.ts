@@ -229,7 +229,7 @@ export class SenderImpl implements Sender {
       for (const message of messageOrMessages) {
         if (!batch.tryAdd(message)) {
           throw new Error(
-            "Messages were too big to fit in a single batch. Remove some messages and try again or use createBatch() and sendBatch(), which give more fine-grained control."
+            "Messages were too big to fit in a single batch. Remove some messages and try again or use createBatch() and sendBatch(), which gives more fine-grained control."
           );
         }
       }
