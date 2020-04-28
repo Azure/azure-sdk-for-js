@@ -1,5 +1,8 @@
 # Release History
 
+## 1.1.3 (Unreleased)
+
+
 ## 1.1.2 (2020-04-28)
 
 - Adds compatiblity with TypeScript versions 3.1 through 3.6+.
