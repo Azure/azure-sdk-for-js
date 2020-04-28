@@ -422,9 +422,17 @@ export class SenderImpl implements Sender {
   }
 }
 
-function isServiceBusMessageBatch(
+/**
+ * @internal
+ * @ignore
+ */
+export function isServiceBusMessageBatch(
   messageBatchOrAnything: any
 ): messageBatchOrAnything is ServiceBusMessageBatch {
+  if (messageBatchOrAnything == null) {
+    return false;
+  }
+
   const possibleBatch = messageBatchOrAnything as ServiceBusMessageBatch;
 
   return (
