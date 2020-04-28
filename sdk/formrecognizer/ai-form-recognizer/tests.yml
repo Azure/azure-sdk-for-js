@@ -26,9 +26,9 @@ jobs:
       PreSteps:
         - bash: |
             echo "ping -c 5 -4 `echo $ENDPOINT | awk -F/ '{print $3}'`"
-            ping -c 5 -4 `echo $ENDPOINT | awk -F/ '{print $3}'`
+            ping -c 5 -4 `echo $ENDPOINT | awk -F/ '{print $3}'` || true
           displayName: ping
         - bash: |
-            echo "ping -c 5 -4 `echo $ENDPOINT | awk -F/ '{print $3}'`"
-            ping -c 5 -4 `echo $ENDPOINT | awk -F/ '{print $3}'`
+            echo "nslookup `echo $ENDPOINT | awk -F/ '{print $3}'`"
+            nslookup `echo $ENDPOINT | awk -F/ '{print $3}'` || true
           displayName: nslookup
