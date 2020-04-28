@@ -66,7 +66,17 @@ You can instantiate this class using its constructors:
 
 ### Key concepts
 
-Once you have initialized the [ServiceBusClient][sbclient] class you will be able to:
+Once you've initialized a `ServiceBusClient`, you can interact with the primary resource types within a
+Service Bus Namespace, of which multiple can exist and on which actual message transmission takes place,
+the namespace often serving as an application container:
+
+- [Queue][queue_concept]: Allows for sending and receiving of messages. Often used for point-to-point communication.
+- [Topic][topic_concept]: As opposed to Queues, Topics are better suited to publish/subscribe scenarios. A topic can be sent to, but requires a subscription, of which there can be multiple in parallel, to consume from.
+- [Subscription][subscription_concept]: The mechanism to consume from a Topic. Each subscription is independent, and receives a copy of each message sent to the topic. Rules and Filters can be used to tailor which messages are received by a specific subscription.
+
+For more information about these resources, see [What is Azure Service Bus?][service_bus_overview].
+
+To interact with these resources, one should be familiar with the following SDK concepts:
 
 - Send messages, to a queue or topic, using a [`Sender`][sender] created using [`ServiceBusClient.createSender()`][sbclient_createsender].
 - Receive messages, from either a queue or a subscription, using a [`Receiver`][receiver] created using [`ServiceBusClient.createReceiver()`][sbclient_createreceiver].
@@ -83,6 +93,7 @@ The following sections provide code snippets that cover some of the common tasks
 - [Settle a message](#settle-a-message)
 - [Send messages using Sessions](#send-messages-using-sessions)
 - [Receive messages from Sessions](#receive-messages-from-sessions)
+- [Additional samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples)
 
 ### Send messages
 
@@ -310,3 +321,6 @@ If you'd like to contribute to this library, please read the [contributing guide
 [migrationguide]: https://github.com/Azure/azure-sdk-for-js/blob/%40azure/service-bus_7.0.0-preview.1/sdk/servicebus/service-bus/migrationguide.md
 [docsms_messagesessions]: https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sessions
 [docsms_messagesessions_fifo]: https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sessions#first-in-first-out-fifo-pattern
+[queue_concept]: https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-messaging-overview#queues
+[topic_concept]: https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-messaging-overview#topics
+[subscription_concept]: https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-queues-topics-subscriptions#topics-and-subscriptions
