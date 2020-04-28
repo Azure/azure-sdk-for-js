@@ -84,12 +84,12 @@ async function receiveFromNextSession(serviceBusClient: ServiceBusClient): Promi
     });
   } catch (err) {
     if ((err as MessagingError).code === "SessionCannotBeLockedError") {
-      console.log(`INFO: no available sessions, sleeping for ${delayWhenNoSessionsAvailableMs}`);
-      await delay(delayWhenNoSessionsAvailableMs);
-      return;
+      console.log(`INFO: no available sessions, sleeping for ${delayOnErrorMs}`);
+    } else {
+      await processError(err, undefined);
     }
 
-    await processError(err, undefined);
+    await delay(delayOnErrorMs);
     return;
   }
 
