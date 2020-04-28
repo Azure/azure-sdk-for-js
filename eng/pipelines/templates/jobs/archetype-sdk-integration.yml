@@ -86,8 +86,6 @@ jobs:
       - ${{if ne(parameters.PreIntegrationSteps, '')}}:
           - template: ../steps/${{parameters.PreIntegrationSteps}}.yml
 
-      - ${{ parameters.PostSteps }}
-
       - pwsh: |
           npm install
           node getPackagePath.js --repo-root "$(Build.SourcesDirectory)" --package-name "${{parameters.PackageName}}"
@@ -104,6 +102,8 @@ jobs:
           TEST_MODE: "live"
           ${{ insert }}: ${{ parameters.EnvVars }}
         condition: and(succeededOrFailed(),ne(variables['TestType'],'sample'))
+
+      - ${{ parameters.PostSteps }}
 
       - ${{if ne(parameters.PostIntegrationSteps, '')}}:
           - template: ../steps/${{parameters.PostIntegrationSteps}}.yml
