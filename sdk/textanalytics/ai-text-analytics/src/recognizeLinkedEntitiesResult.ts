@@ -30,7 +30,7 @@ export interface RecognizeLinkedEntitiesSuccessResult extends TextAnalyticsSucce
 /**
  * An error result from the recognize linked entities operation on a single document.
  */
-export type RecognizeLinkedEntitiesErrorResult = TextAnalyticsErrorResult
+export type RecognizeLinkedEntitiesErrorResult = TextAnalyticsErrorResult;
 
 export function makeRecognizeLinkedEntitiesResult(
   id: string,
