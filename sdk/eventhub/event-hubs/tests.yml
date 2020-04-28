@@ -27,7 +27,7 @@ jobs:
           NodeVersion: "10.x"
           EVENTHUB_NAME: "hub_windows_node10"
         macOS_Node10:
-          OSVmImage: "macOS-10.13"
+          OSVmImage: "macOS-10.15"
           TestType: "node"
           NodeVersion: "10.x"
           EVENTHUB_NAME: "hub_mac_node10"
@@ -42,7 +42,7 @@ jobs:
           NodeVersion: "12.x"
           EVENTHUB_NAME: "hub_windows_node12"
         macOS_Node12:
-          OSVmImage: "macOS-10.13"
+          OSVmImage: "macOS-10.15"
           TestType: "node"
           NodeVersion: "12.x"
           EVENTHUB_NAME: "hub_mac_node12"
@@ -57,7 +57,7 @@ jobs:
           NodeVersion: "8.x"
           EVENTHUB_NAME: "hub_windows_node8"
         macOS_Node8:
-          OSVmImage: "macOS-10.13"
+          OSVmImage: "macOS-10.15"
           TestType: "node"
           NodeVersion: "8.x"
           EVENTHUB_NAME: "hub_mac_node8"

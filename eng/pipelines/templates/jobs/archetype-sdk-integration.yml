@@ -13,7 +13,7 @@ parameters:
       OSVmImage: "windows-2019"
       TestType: "node"
     macOS_Node10:
-      OSVmImage: "macOS-10.13"
+      OSVmImage: "macOS-10.15"
       TestType: "node"
     Browser_Linux_Node10:
       OSVmImage: "ubuntu-16.04"
@@ -22,7 +22,7 @@ parameters:
       OSVmImage: "windows-2019"
       TestType: "browser"
     Browser_macOS_Node10:
-      OSVmImage: "macOS-10.13"
+      OSVmImage: "macOS-10.15"
       TestType: "browser"
 
 jobs:

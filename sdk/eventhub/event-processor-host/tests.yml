@@ -21,7 +21,7 @@ jobs:
           OSVmImage: "windows-2019"
           TestType: "node"
         macOS_Node10:
-          OSVmImage: "macOS-10.13"
+          OSVmImage: "macOS-10.15"
           TestType: "node"
       EnvVars:
         EVENTHUB_CONNECTION_STRING: $(js-event-hubs-test-connection-string)

@@ -1,4 +1,4 @@
-# Azure Core LRO client library for JavaScript
+# Azure Core LRO client library for JS
 
 Azure's Core LRO is a JavaScript library that provides an API that aims to
 allow the azure-sdk-for-js public libraries to implement fully featured pollers
