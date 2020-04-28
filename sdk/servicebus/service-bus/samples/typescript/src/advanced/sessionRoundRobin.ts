@@ -17,7 +17,7 @@ import {
 } from "@azure/service-bus";
 import * as dotenv from "dotenv";
 import { env } from "process";
-import { AbortController, AbortSignalLike } from "@azure/abort-controller";
+import { AbortController } from "@azure/abort-controller";
 
 dotenv.config();
 
@@ -126,12 +126,12 @@ async function receiveFromNextSession(serviceBusClient: ServiceBusClient): Promi
   }
 }
 
-async function roundRobinThroughAvailableSessions(abortSignal: AbortSignalLike): Promise<void> {
+async function roundRobinThroughAvailableSessions(): Promise<void> {
   const serviceBusClient = new ServiceBusClient(serviceBusConnectionString);
 
   for (let i = 0; i < maxSessionsToProcessSimultaneously; ++i) {
     (async () => {
-      while (!abortSignal.aborted) {
+      while (!abortController.signal.aborted) {
         await receiveFromNextSession(serviceBusClient);
       }
     })();
@@ -141,6 +141,4 @@ async function roundRobinThroughAvailableSessions(abortSignal: AbortSignalLike):
 }
 
 // To stop the round-robin processing you can just call abortController.abort()
-roundRobinThroughAvailableSessions(abortController.signal).catch((err) =>
-  console.log(`Fatal error: ${err}`)
-);
+roundRobinThroughAvailableSessions().catch((err) => console.log(`Fatal error: ${err}`));
