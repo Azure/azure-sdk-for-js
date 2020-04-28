@@ -97,20 +97,17 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
     let spaceSep = www_authenticate.split(" ");
 
     // Split the KV comma-separated list
-    for (let spaceItem of spaceSep) {
-      let commaSep = spaceItem.split(",");
-      for (let commaItem of commaSep) {
+    for (const spaceItem of spaceSep) {
+      const commaSep = spaceItem.split(",");
+      for (const commaItem of commaSep) {
         // Split the key/value pairs
-        let kv = commaItem.split("=");
-        let key = kv[0].trim();
-        if (key == "authorization") {
-          // Remove the quotations around the string
-          returnValue.authorization = kv[1].trim().replace(/['"]+/g, '');
-          break;
-        } else if (key == "resource") {
-          // Remove the quotations around the string
-          returnValue.resource = kv[1].trim().replace(/['"]+/g, '');
-          break;
+        const kv = commaItem.split("=");
+        const key = kv[0].trim();
+        const removeQuotes = (x: string): string => x.trim().replace(/['"]+/g, '');
+        if (key == "authorization" || key == "authorization_uri") {
+          returnValue.authorization = removeQuotes(kv[1]);
+        } else if (key == "resource" || key == "scope") {
+          returnValue.resource = removeQuotes(kv[1]);
         }
       }
     }
