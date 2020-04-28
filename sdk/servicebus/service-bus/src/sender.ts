@@ -227,11 +227,9 @@ export class SenderImpl implements Sender {
       const batch = await this.createBatch(options);
 
       for (const message of messageOrMessages) {
-        if (!batch.tryAdd(message)) {
-          throw new Error(
-            "Messages were too big to fit in a single batch. Remove some messages and try again or use createBatch() and sendBatch(), which gives more fine-grained control."
-          );
-        }
+        // we'll let the service throw it's normal error rather than
+        // attempt to do that here.
+        batch.tryAdd(message);
       }
 
       return this.sendBatch(batch, options);

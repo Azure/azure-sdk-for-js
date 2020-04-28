@@ -5,7 +5,7 @@ import chai from "chai";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { ServiceBusMessage, OperationOptions } from "../src";
+import { ServiceBusMessage } from "../src";
 import { TestClientType } from "./utils/testUtils";
 import {
   ServiceBusClientForTests,
@@ -603,28 +603,5 @@ describe("Send Batch", () => {
       await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
       await testSendBatch(maxSizeInBytes);
     });
-  });
-
-  it("send(messages[]) overload throws an error if the size exceeds a single batch", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(TestClientType.PartitionedQueue);
-
-    try {
-      await senderClient.send(
-        [{ body: "ignored since anything will be bigger than the batch size I passed" }],
-        {
-          // this isn't a documented option for send(batch) but we do pass it through to the underlying
-          // createBatch call.
-          maxSizeInBytes: 1
-        } as OperationOptions
-      );
-      should.fail("Should have thrown - the batch is too big");
-    } catch (err) {
-      should.equal(
-        "Messages were too big to fit in a single batch. Remove some messages and try again or use createBatch() and sendBatch(), which gives more fine-grained control.",
-        err.message
-      );
-    }
   });
 });
