@@ -237,7 +237,7 @@ export class SenderImpl implements Sender {
     } else {
       throwTypeErrorIfParameterMissing(
         this._context.namespace.connectionId,
-        "message",
+        "message, messages or messageBatch",
         messageOrMessagesOrBatch
       );
       return this._sender.send(messageOrMessagesOrBatch, options);
