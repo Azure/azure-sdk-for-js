@@ -20,7 +20,7 @@ import {
 import { getTracer } from "@azure/core-tracing";
 import { Span } from "@opentelemetry/api";
 import { logger } from "./log";
-import { PollerLike } from "@azure/core-lro";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 
 import {
   KeyVaultCertificate,
@@ -228,6 +228,11 @@ export {
   X509CertificateProperties,
   logger
 };
+
+/**
+ * Deprecated KeyVault copy of core-lro's PollerLike.
+ */
+export type KVPollerLike<TState extends PollOperationState<TResult>, TResult> = PollerLike<TState, TResult>;
 
 function toCoreAttributes(properties: CertificateProperties): CoreCertificateAttributes {
   return {

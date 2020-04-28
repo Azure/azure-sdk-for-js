@@ -333,6 +333,9 @@ export interface KeyVaultCertificateWithPolicy extends KeyVaultCertificate {
 }
 
 // @public
+export type KVPollerLike<TState extends PollOperationState<TResult>, TResult> = PollerLike<TState, TResult>;
+
+// @public
 export interface LifetimeAction {
     action?: CertificatePolicyAction;
     daysBeforeExpiry?: number;
