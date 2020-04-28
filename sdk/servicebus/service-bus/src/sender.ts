@@ -54,6 +54,16 @@ export interface Sender {
    * @throws MessagingError if the service returns an error while sending messages to the service.
    */
   send(messages: ServiceBusMessage[], options?: OperationOptions): Promise<void>;
+  /**
+   * Sends a batch of messages to the associated service-bus entity.
+   *
+   * @param {ServiceBusMessageBatch} messageBatch A batch of messages that you can create using the {@link createBatch} method.
+   * @param options - Options bag to pass an abort signal or tracing options.
+   * @returns {Promise<void>}
+   * @throws MessagingError if an error is encountered while sending a message.
+   * @throws Error if the underlying connection or sender has been closed.
+   */
+  send(messageBatch: ServiceBusMessageBatch, options?: OperationOptions): Promise<void>;
 
   // sendBatch(<Array of messages>) - Commented
   // /**
@@ -75,7 +85,7 @@ export interface Sender {
 
   /**
    * Creates an instance of `ServiceBusMessageBatch` to which one can add messages until the maximum supported size is reached.
-   * The batch can be passed to the {@link sendBatch} method to send the messages to Azure Service Bus.
+   * The batch can be passed to the {@link send} method to send the messages to Azure Service Bus.
    * @param options  Configures the behavior of the batch.
    * - `maxSizeInBytes`: The upper limit for the size of batch. The `tryAdd` function will return `false` after this limit is reached.
    *
@@ -85,17 +95,6 @@ export interface Sender {
    * @throws Error if the underlying connection or sender has been closed.
    */
   createBatch(options?: CreateBatchOptions): Promise<ServiceBusMessageBatch>;
-
-  /**
-   * Sends a batch of messages to the associated service-bus entity.
-   *
-   * @param {ServiceBusMessageBatch} messageBatch A batch of messages that you can create using the {@link createBatch} method.
-   * @param options - Options bag to pass an abort signal or tracing options.
-   * @returns {Promise<void>}
-   * @throws MessagingError if an error is encountered while sending a message.
-   * @throws Error if the underlying connection or sender has been closed.
-   */
-  sendBatch(messageBatch: ServiceBusMessageBatch, options?: OperationOptions): Promise<void>;
 
   /**
    * @property Returns `true` if either the sender or the client that created it has been closed
@@ -217,45 +216,44 @@ export class SenderImpl implements Sender {
 
   async send(message: ServiceBusMessage, options?: OperationOptions): Promise<void>;
   async send(messages: ServiceBusMessage[], options?: OperationOptions): Promise<void>;
+  async send(messageBatch: ServiceBusMessageBatch, options?: OperationOptions): Promise<void>;
   async send(
-    messageOrMessages: ServiceBusMessage | ServiceBusMessage[],
+    messageOrMessagesOrBatch: ServiceBusMessage | ServiceBusMessage[] | ServiceBusMessageBatch,
     options?: OperationOptions
   ): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
 
-    if (Array.isArray(messageOrMessages)) {
+    if (Array.isArray(messageOrMessagesOrBatch)) {
       const batch = await this.createBatch(options);
 
-      for (const message of messageOrMessages) {
+      for (const message of messageOrMessagesOrBatch) {
         // we'll let the service throw it's normal error rather than
         // attempt to do that here.
         batch.tryAdd(message);
       }
 
-      return this.sendBatch(batch, options);
+      return this.send(batch, options);
+    } else if (isServiceBusMessageBatch(messageOrMessagesOrBatch)) {
+      this._throwIfSenderOrConnectionClosed();
+      throwTypeErrorIfParameterMissing(
+        this._context.namespace.connectionId,
+        "messageBatch",
+        messageOrMessagesOrBatch
+      );
+      return this._sender.sendBatch(messageOrMessagesOrBatch, options);
     } else {
       throwTypeErrorIfParameterMissing(
         this._context.namespace.connectionId,
         "message",
-        messageOrMessages
+        messageOrMessagesOrBatch
       );
-      return this._sender.send(messageOrMessages, options);
+      return this._sender.send(messageOrMessagesOrBatch, options);
     }
   }
 
   async createBatch(options?: CreateBatchOptions): Promise<ServiceBusMessageBatch> {
     this._throwIfSenderOrConnectionClosed();
     return this._sender.createBatch(options);
-  }
-
-  async sendBatch(messageBatch: ServiceBusMessageBatch, options?: OperationOptions): Promise<void> {
-    this._throwIfSenderOrConnectionClosed();
-    throwTypeErrorIfParameterMissing(
-      this._context.namespace.connectionId,
-      "messageBatch",
-      messageBatch
-    );
-    return this._sender.sendBatch(messageBatch, options);
   }
 
   /**
@@ -429,4 +427,16 @@ export class SenderImpl implements Sender {
       throw err;
     }
   }
+}
+
+function isServiceBusMessageBatch(
+  messageBatchOrAnything: any
+): messageBatchOrAnything is ServiceBusMessageBatch {
+  const possibleBatch = messageBatchOrAnything as ServiceBusMessageBatch;
+
+  return (
+    typeof possibleBatch.tryAdd === "function" &&
+    typeof possibleBatch.maxSizeInBytes === "number" &&
+    typeof possibleBatch.sizeInBytes === "number"
+  );
 }

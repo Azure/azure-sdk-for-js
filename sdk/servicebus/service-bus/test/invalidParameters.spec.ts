@@ -690,7 +690,7 @@ describe("invalid parameters", () => {
     it("Sendbatch: Missing messageBatch in Sender", async function(): Promise<void> {
       let caughtError: Error | undefined;
       try {
-        await sender.sendBatch(undefined as any);
+        await sender.send(undefined as any);
       } catch (error) {
         caughtError = error;
       }

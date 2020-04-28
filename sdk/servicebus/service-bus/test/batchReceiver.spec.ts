@@ -797,7 +797,7 @@ describe("batchReceiver", () => {
       for (const message of testMessages) {
         batchMessageToSend.tryAdd(message);
       }
-      await senderClient.sendBatch(batchMessageToSend);
+      await senderClient.send(batchMessageToSend);
       const msgs1 = await receiverClient.receiveBatch(1);
       const msgs2 = await receiverClient.receiveBatch(1);
 

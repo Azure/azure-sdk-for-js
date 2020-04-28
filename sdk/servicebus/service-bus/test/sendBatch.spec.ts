@@ -71,7 +71,7 @@ describe("Send Batch", () => {
           sentMessages.push(messageToSend);
         }
       }
-      await senderClient.sendBatch(batchMessage);
+      await senderClient.send(batchMessage);
       // receive all the messages in receive and delete mode
       await serviceBusClient.test.verifyAndDeleteAllSentMessages(
         entityNames,
@@ -156,7 +156,7 @@ describe("Send Batch", () => {
           sentMessages.push(messageToSend);
         }
       }
-      await senderClient.sendBatch(batchMessage);
+      await senderClient.send(batchMessage);
       // receive all the messages in receive and delete mode
       await serviceBusClient.test.verifyAndDeleteAllSentMessages(
         entityNames,
@@ -382,7 +382,7 @@ describe("Send Batch", () => {
           sentMessages.push(messageToSend);
         }
       }
-      await senderClient.sendBatch(batchMessage);
+      await senderClient.send(batchMessage);
       // receive all the messages in receive and delete mode
       await serviceBusClient.test.verifyAndDeleteAllSentMessages(
         entityNames,
@@ -491,7 +491,7 @@ describe("Send Batch", () => {
         false,
         "tryAdd should have failed for the fourth message"
       );
-      await senderClient.sendBatch(batchMessage);
+      await senderClient.send(batchMessage);
       // receive all the messages in receive and delete mode
       await serviceBusClient.test.verifyAndDeleteAllSentMessages(entityNames, useSessions, [
         messagesToSend[0]
