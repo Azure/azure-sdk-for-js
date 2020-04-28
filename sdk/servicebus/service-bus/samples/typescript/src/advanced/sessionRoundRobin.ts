@@ -5,7 +5,7 @@
   This sample demonstrates how you can continually read through all the available
   sessions in a Service Bus queue or subscription.
 
-  Run the sendMessages sample with some session ids before running this sample.
+  Run the sendMessages sample with different session ids before running this sample.
 */
 
 import {
