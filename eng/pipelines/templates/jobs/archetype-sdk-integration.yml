@@ -155,7 +155,7 @@ jobs:
           npm run integration-test:$(TestType)
         displayName: "Integration test libraries"
         workingDirectory: $(PackageTestPath)
-        condition: and(succeededOrFailed(),ne(variables['TestType'],'sample'),eq(variables['DependencyVersion'],''))
+        condition: and(succeededOrFailed(),ne(variables['TestType'],'sample'),ne(variables['DependencyVersion'],''))
         env:
           TEST_MODE: "live"
           ${{ insert }}: ${{ parameters.EnvVars }}
