@@ -53,7 +53,7 @@ async function processError(err: Error, sessionId?: string) {
 // `reason` will be:
 // * 'error' if we are closing because of an error(the error will be delivered
 //   to `processError` above)
-// * 'idle_timeout' if we `sessionIdleTimeoutMs` milliseconds pass without
+// * 'idle_timeout' if `sessionIdleTimeoutMs` milliseconds pass without
 //   any messages being received (ie, session can be considered empty).
 //
 async function processClose(reason: "error" | "idle_timeout", sessionId: string) {
