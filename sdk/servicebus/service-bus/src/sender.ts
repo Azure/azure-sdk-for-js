@@ -233,12 +233,6 @@ export class SenderImpl implements Sender {
 
       return this.send(batch, options);
     } else if (isServiceBusMessageBatch(messageOrMessagesOrBatch)) {
-      this._throwIfSenderOrConnectionClosed();
-      throwTypeErrorIfParameterMissing(
-        this._context.namespace.connectionId,
-        "messageBatch",
-        messageOrMessagesOrBatch
-      );
       return this._sender.sendBatch(messageOrMessagesOrBatch, options);
     } else {
       throwTypeErrorIfParameterMissing(
