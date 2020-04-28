@@ -24,12 +24,17 @@ Use the client library to:
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/search/search/samples)
 
 ## Getting started
+### Install the `@azure/search-documents` package
+
+```bash
+npm install @azure/search-documents
+```
 
 ### Prerequisites
 
 - [Node.js](https://nodejs.org/) version 8.x.x or higher
 - An [Azure subscription][azure_sub].
-- An existing [Azure Cognitive Search][search_resource] resource. If you need to create the resource, you can use the [Azure Portal][azure_portal] or [Azure CLI][azure_cli].
+- An existing [Azure Cognitive Search][search_resource] resource. If you need to create the resource, you can use the [Azure portal][azure_portal] or [Azure CLI][azure_cli].
 
 If you use the Azure CLI, replace `<your-resource-group-name>` and `<your-resource-name>` with your own unique names:
 
@@ -39,17 +44,10 @@ az search service create --resource-group <your-resource-group-name> --name <you
 
 The above creates a resource with the "Standard" pricing tier. See [choosing a pricing tier](https://docs.microsoft.com/azure/search/search-sku-tier) for more information.
 
-- Install the `@azure/search-documents` package
 
-```bash
-npm install @azure/search-documents
-```
-
-### Create and authenticate a `SearchIndexClient` or `SearchServiceClient`
+### Authenticate the client
 
 Azure Cognitive Search uses keys for authentication.
-
-#### Using an Admin Key
 
 Use the [Azure CLI][azure_cli] snippet below to get the Admin Key from the Azure Cognitive Search resource.
 
@@ -79,17 +77,48 @@ const indexClient = new SearchIndexClient(
 const serviceClient = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
 ```
 
+### Send your first search query
+To get running immediately, we're going to connect to a well known sandbox Search service provided by Microsoft.  This means you do not need an Azure subscription or Azure Cognitive Search service to try out this query.
+
+```js
+const { SearchIndexClient, AzureKeyCredential } = require("@azure/search-documents");
+
+// We'll connect to the Azure Cognitive Search public sandbox and send a
+// query to its "nycjobs" index built from a public dataset of available jobs
+// in New York.
+const serviceName = "azs-playground";
+const indexName = "nycjobs";
+const apiKey = "252044BE3886FE4A8E3BAA4F595114BB";
+
+// Create a SearchIndexClient to send queries
+const client = new SearchIndexClient(
+  `https://${serviceName}.search.windows.net/`,
+  indexName,
+  new AzureKeyCredential(apiKey)
+);
+
+async function main() {
+  // Let's get the top 5 jobs related to Microsoft
+  const searchResults = await client.search({ searchText: "Microsoft", top: 5 });
+  for await (const result of searchResults.results) {
+    console.log(`${result.business_title}\n${result.job_description}\n`);
+  }
+}
+
+main();
+```
+
 ## Key concepts
 
 Azure Cognitive Search has the concepts of search services and indexes and documents, where a search service contains one or more indexes that provides persistent storage of searchable data, and data is loaded in the form of JSON documents. Data can be pushed to an index from an external data source, but if you use an indexer, it's possible to crawl a data source to extract and load data into an index.
 
 There are several types of operations that can be executed against the service:
 
--   [Index management operations](https://docs.microsoft.com/en-us/rest/api/searchservice/index-operations). Create, delete, update, or configure a search index.
--   [Document operations](https://docs.microsoft.com/en-us/rest/api/searchservice/document-operations). Add, update, or delete documents in the index, query the index, or look up specific documents by ID.
--   [Indexer operations](https://docs.microsoft.com/en-us/rest/api/searchservice/indexer-operations). Automate aspects of an indexing operation by configuring a data source and an indexer that you can schedule or run on demand. This feature is supported for a limited number of data source types.
--   [Skillset operations](https://docs.microsoft.com/en-us/rest/api/searchservice/skillset-operations). Part of a cognitive search workload, a skillset defines a series of a series of enrichment processing steps. A skillset is consumed by an indexer.
--   [Synonym map operations](https://docs.microsoft.com/en-us/rest/api/searchservice/synonym-map-operations). A synonym map is a service-level resource that contains user-defined synonyms. This resource is maintained independently from search indexes. Once uploaded, you can point any searchable field to the synonym map (one per field).
+-   [Index management operations](https://docs.microsoft.com/rest/api/searchservice/index-operations). Create, delete, update, or configure a search index.
+-   [Document operations](https://docs.microsoft.com/rest/api/searchservice/document-operations). Add, update, or delete documents in the index, query the index, or look up specific documents by ID.
+-   [Indexer operations](https://docs.microsoft.com/rest/api/searchservice/indexer-operations). Automate aspects of an indexing operation by configuring a data source and an indexer that you can schedule or run on demand. This feature is supported for a limited number of data source types.
+-   [Skillset operations](https://docs.microsoft.com/rest/api/searchservice/skillset-operations). Part of a cognitive search workload, a skillset defines a series of a series of enrichment processing steps. A skillset is consumed by an indexer.
+-   [Synonym map operations](https://docs.microsoft.com/rest/api/searchservice/synonym-map-operations). A synonym map is a service-level resource that contains user-defined synonyms. This resource is maintained independently from search indexes. Once uploaded, you can point any searchable field to the synonym map (one per field).
 
 ## Typescript/Javascript specific concepts
 ### SearchIndexClient
@@ -203,7 +232,7 @@ async function main() {
 main();
 ```
 
-### Retrieve a specific document from an index
+###   
 
 A specific document can be retrieved by its primary key value:
 
