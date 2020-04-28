@@ -15,7 +15,13 @@ import {
 } from "./util/errors";
 import { ServiceBusMessageBatch } from "./serviceBusMessageBatch";
 import { CreateBatchOptions } from "./models";
-import { retry, RetryOperationType, RetryConfig, RetryOptions } from "@azure/core-amqp";
+import {
+  retry,
+  RetryOperationType,
+  RetryConfig,
+  RetryOptions,
+  MessagingError
+} from "@azure/core-amqp";
 import { OperationOptions } from "./modelsToBeSharedWithEventHubs";
 
 /**
@@ -209,9 +215,14 @@ export class SenderImpl implements Sender {
       const batch = await this.createBatch(options);
 
       for (const message of messageOrMessagesOrBatch) {
-        // we'll let the service throw it's normal error rather than
-        // attempt to do that here.
-        batch.tryAdd(message);
+        if (!batch.tryAdd(message)) {
+          // this is too big - throw an error
+          const error = new MessagingError(
+            "Messages were too big to fit in a single batch. Remove some messages and try again or create your own batch using createBatch(), which gives more fine-grained control."
+          );
+          error.code = "MessageTooLargeError";
+          throw error;
+        }
       }
 
       return this.send(batch, options);
