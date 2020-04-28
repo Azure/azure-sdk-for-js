@@ -908,8 +908,7 @@ export class MessageReceiver extends LinkEntity {
       // We should only attempt to reopen if either no error was present,
       // or the error is considered retryable.
       const shouldReopen =
-        !translatedError ||
-        (isMessagingError(translatedError) ? translatedError!.retryable : false);
+        !translatedError || (isMessagingError(translatedError) ? translatedError.retryable : false);
 
       // Non-retryable errors that aren't caused by disconnect
       // will have already been forwarded to the user's error handler.
