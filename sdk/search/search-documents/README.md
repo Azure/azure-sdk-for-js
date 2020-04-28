@@ -196,7 +196,7 @@ main();
 ```
 
 
-### Perform a simple text search on documents
+### Perform a search on documents
 
 To list all results of a particular query, you can use `search` with a search string that uses [simple query syntax](https://docs.microsoft.com/azure/search/query-simple-syntax):
 
@@ -355,8 +355,6 @@ main();
 ```
 
 When retrieving results, a `facets` property will be available that will indicate the number of results that fall into each facet bucket. This can be used to drive refinement (e.g. issuing a follow-up search that filters on the `Rating` being greater than or equal to 3 and less than 4.)
-
-
 
 ### Retrieve suggestions from an index
 
