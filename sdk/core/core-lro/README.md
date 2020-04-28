@@ -15,7 +15,7 @@
 To install this library for a project under the `azure-sdk-for-js`, make sure you are at the root of that project, then use [Rush](https://rushjs.io/) as follows:
 
 ```
-rushx add -p @azure/core-lro
+rush add -p @azure/core-lro
 ```
 
 To install this package outside of the `azure-sdk-for-js`, use `npm install --save @azure/core-lro`.
