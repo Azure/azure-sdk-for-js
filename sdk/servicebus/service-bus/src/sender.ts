@@ -46,7 +46,7 @@ export interface Sender {
   send(message: ServiceBusMessage, options?: OperationOptions): Promise<void>;
   /**
    * Sends the given messages in a single batch i.e. in a single AMQP message after creating an AMQP
-   * Sender link if it doesnt already exists.
+   * Sender link if it doesn't already exist.
    *
    * - To send messages to a `session` and/or `partition` enabled Queue/Topic, set the `sessionId`
    * and/or `partitionKey` properties respectively on the messages.
