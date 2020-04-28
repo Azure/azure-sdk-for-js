@@ -227,7 +227,7 @@ export class ServiceBusClient {
       `${entityPath}/${generate_uuid()}`
     );
 
-    const sessionReceiverImpl = new SessionReceiverImpl(
+    const sessionReceiverImpl = SessionReceiverImpl.createInitializedSessionReceiver(
       clientEntityContext,
       receiveMode,
       {
@@ -236,8 +236,6 @@ export class ServiceBusClient {
       },
       this._clientOptions.retryOptions
     );
-
-    await sessionReceiverImpl.init();
 
     return sessionReceiverImpl;
   }

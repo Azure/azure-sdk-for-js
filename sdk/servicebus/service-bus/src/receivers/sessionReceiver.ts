@@ -44,7 +44,7 @@ export interface SessionReceiver<
   /**
    * The session ID.
    */
-  sessionId: string;
+  readonly sessionId: string;
 
   /**
    * @property The time in UTC until which the session is locked.
@@ -112,7 +112,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    * @throws Error if the underlying connection is closed.
    * @throws Error if an open receiver is already existing for given sessionId.
    */
-  constructor(
+  private constructor(
     context: ClientEntityContext,
     public receiveMode: "peekLock" | "receiveAndDelete",
     private _sessionOptions: CreateSessionReceiverOptions,
@@ -140,11 +140,10 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
         throw error;
       }
     }
-    //
-    // TODO: we have a nice opportunity here to also make it so `sessionId` is
-    // always initialized. Need to consolidate the constructor and the init()
-    // method so this assignment won't be necessary.
-    //
+
+    // `createInitializedSessionReceiver` will set this value by calling init()
+    // so we just temporarily set it to "" so we can get away with it never being
+    // `undefined`.
     this.sessionId = "";
   }
 
@@ -152,13 +151,32 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    * Initializes the link. This method should only be called
    * once in the lifetime of a SessionReceiver.
    */
-  init(): Promise<void> {
+  private init(): Promise<void> {
     if (this._messageSession != null) {
       throw new Error(
         "Internal error: open() should not be called after the SessionReceiver has been created"
       );
     }
     return this._createMessageSessionIfDoesntExist();
+  }
+
+  static async createInitializedSessionReceiver<
+    ReceivedMessageT extends ReceivedMessage | ReceivedMessageWithLock
+  >(
+    context: ClientEntityContext,
+    receiveMode: "peekLock" | "receiveAndDelete",
+    sessionOptions: CreateSessionReceiverOptions,
+    retryOptions: RetryOptions = {}
+  ): Promise<SessionReceiver<ReceivedMessageT>> {
+    const sessionReceiver = new SessionReceiverImpl<ReceivedMessageT>(
+      context,
+      receiveMode,
+      sessionOptions,
+      retryOptions
+    );
+
+    await sessionReceiver.init();
+    return sessionReceiver;
   }
 
   private _throwIfReceiverOrConnectionClosed(): void {
