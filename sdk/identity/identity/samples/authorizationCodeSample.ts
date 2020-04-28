@@ -73,7 +73,7 @@ async function getCredential(): Promise<AuthorizationCodeCredential> {
         // The redirect will either contain a "code" or an "error"
         const authorizationCode = req.query["code"];
         if (authorizationCode) {
-          resolve(authorizationCode);
+          resolve(authorizationCode.toString());
         } else {
           reject(new Error(`Authentication Error "${req.query["error"]}":\n\n${req.query["error_description"]}`));
         }
@@ -99,21 +99,34 @@ async function getCredential(): Promise<AuthorizationCodeCredential> {
   // Once we have the authorization code, the AuthorizationCodeCredential
   // can be created.  This credential will take care of requesting and
   // refreshing the access token from this point forward.
-  return new AuthorizationCodeCredential(
-    tenantId!,
-    clientId!,
-    // NOTE: Pass 'undefined' for clientSecret in desktop and mobile apps
-    // because there is usually no sufficient way to protect your client secret
-    // on a user's device.
-    clientSecret,
-    authorizationCode,
-    redirectUri,
-    // NOTE: It is not necessary to explicitly pass the authorityHost when using
-    // the default authority host: https://login.microsoftonline.com.  It is only
-    // necesary when a different authority host is used in the initial authorization
-    // URI.
-    { authorityHost }
-  );
+  if (clientSecret) {
+    return new AuthorizationCodeCredential(
+      tenantId!,
+      clientId!,
+      clientSecret,
+      authorizationCode,
+      redirectUri,
+      // NOTE: It is not necessary to explicitly pass the authorityHost when using
+      // the default authority host: https://login.microsoftonline.com.  It is only
+      // necesary when a different authority host is used in the initial authorization
+      // URI.
+      { authorityHost }
+    );
+  } else {
+    // NOTE: If there is no client secret, we can construct an auth code credential
+    // using this method.
+    return new AuthorizationCodeCredential(
+      tenantId!,
+      clientId!,
+      authorizationCode,
+      redirectUri,
+      // NOTE: It is not necessary to explicitly pass the authorityHost when using
+      // the default authority host: https://login.microsoftonline.com.  It is only
+      // necesary when a different authority host is used in the initial authorization
+      // URI.
+      { authorityHost }
+    );
+  }
 }
 
 async function runExample() {
