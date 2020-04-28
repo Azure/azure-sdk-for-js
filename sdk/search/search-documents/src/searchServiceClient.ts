@@ -171,7 +171,7 @@ export class SearchServiceClient {
   }
 
   /**
-   * Retrieves the SearchIndexClient corresponding to this SearchServiceClient
+   * Retrieve the SearchIndexClient corresponding to this SearchServiceClient
    * @param indexName Name of the index
    * @param options SearchIndexClient Options
    */
