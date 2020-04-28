@@ -31,21 +31,25 @@ const maxSessionsToProcessSimultaneously = 8;
 const sessionIdleTimeoutMs = 3 * 1000;
 const delayOnErrorMs = 5 * 1000;
 
-// this can be used control when the round-robin processing will terminate
+// This can be used control when the round-robin processing will terminate
 // by calling abortController.abort().
 const abortController = new AbortController();
 
-// called just before we start processing the first message of a session
-async function processInitialize(sessionId: string) {
+// Called just before we start processing the first message of a session.
+// NOTE: This function is used only in the sample and is not part of the Service Bus library.
+async function sessionAccepted(sessionId: string) {
   console.log(`[${sessionId}] will start processing...`);
 }
 
-// called when we get a message for a session
+// Called by the SessionReceiver when a message is received.
+// This is passed as part of the handlers when calling `SessionReceiver.subscribe()`.
 async function processMessage(msg: ReceivedMessageWithLock) {
   console.log(`[${msg.sessionId}] received message with body ${msg.body}`);
 }
 
-// called if we get an error
+// Called by the SessionReceiver when an error occurs.
+// This will be called in the handlers we pass in `SessionReceiver.subscribe()`
+// and by the sample when we encounter an error opening a session.
 async function processError(err: Error, sessionId?: string) {
   if (sessionId) {
     console.log(`Error when receiving messages from the session ${sessionId}: `, err);
@@ -54,14 +58,14 @@ async function processError(err: Error, sessionId?: string) {
   }
 }
 
-// Called if we are closing a session
+// Called if we are closing a session.
 // `reason` will be:
 // * 'error' if we are closing because of an error(the error will be delivered
 //   to `processError` above)
 // * 'idle_timeout' if `sessionIdleTimeoutMs` milliseconds pass without
 //   any messages being received (ie, session can be considered empty).
-//
-async function processClose(reason: "error" | "idle_timeout", sessionId: string) {
+// NOTE: This function is used only in the sample and is not part of the Service Bus library.
+async function sessionClosed(reason: "error" | "idle_timeout", sessionId: string) {
   console.log(`[${sessionId}] was closed because of ${reason}`);
 }
 
@@ -97,7 +101,7 @@ async function receiveFromNextSession(serviceBusClient: ServiceBusClient): Promi
     return;
   }
 
-  await processInitialize(sessionReceiver.sessionId);
+  await sessionAccepted(sessionReceiver.sessionId);
 
   const sessionFullyRead = new Promise((resolveSessionAsFullyRead, rejectSessionWithError) => {
     const refreshTimer = createRefreshableTimer(sessionIdleTimeoutMs, resolveSessionAsFullyRead);
@@ -121,10 +125,10 @@ async function receiveFromNextSession(serviceBusClient: ServiceBusClient): Promi
 
   try {
     await sessionFullyRead;
-    await processClose("idle_timeout", sessionReceiver.sessionId);
+    await sessionClosed("idle_timeout", sessionReceiver.sessionId);
   } catch (err) {
     await processError(err, sessionReceiver.sessionId);
-    await processClose("error", sessionReceiver.sessionId);
+    await sessionClosed("error", sessionReceiver.sessionId);
   } finally {
     await sessionReceiver.close();
   }
