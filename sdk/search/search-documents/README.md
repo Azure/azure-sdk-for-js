@@ -232,7 +232,7 @@ async function main() {
 main();
 ```
 
-###   
+### Retrieve a specific document from an index
 
 A specific document can be retrieved by its primary key value:
 
