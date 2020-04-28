@@ -231,7 +231,7 @@ export class SenderImpl implements Sender {
         }
       }
 
-      return this.send(batch, options);
+      return this._sender.sendBatch(batch, options);
     } else if (isServiceBusMessageBatch(messageOrMessagesOrBatch)) {
       return this._sender.sendBatch(messageOrMessagesOrBatch, options);
     } else {
