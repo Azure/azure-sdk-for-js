@@ -147,19 +147,6 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     this.sessionId = "";
   }
 
-  /**
-   * Initializes the link. This method should only be called
-   * once in the lifetime of a SessionReceiver.
-   */
-  private init(): Promise<void> {
-    if (this._messageSession != null) {
-      throw new Error(
-        "Internal error: open() should not be called after the SessionReceiver has been created"
-      );
-    }
-    return this._createMessageSessionIfDoesntExist();
-  }
-
   static async createInitializedSessionReceiver<
     ReceivedMessageT extends ReceivedMessage | ReceivedMessageWithLock
   >(
@@ -175,7 +162,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       retryOptions
     );
 
-    await sessionReceiver.init();
+    await sessionReceiver._createMessageSessionIfDoesntExist();
     return sessionReceiver;
   }
 
