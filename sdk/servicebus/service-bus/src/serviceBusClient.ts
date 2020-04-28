@@ -242,7 +242,7 @@ export class ServiceBusClient {
    * Creates a Sender which can be used to send messages, schedule messages to be sent at a later time
    * and cancel such scheduled messages.
    */
-  createSender(queueOrTopicName: string): Sender {
+  async createSender(queueOrTopicName: string): Promise<Sender> {
     validateEntityNamesMatch(this._connectionContext.config.entityPath, queueOrTopicName, "sender");
 
     const clientEntityContext = ClientEntityContext.create(
@@ -250,7 +250,9 @@ export class ServiceBusClient {
       this._connectionContext,
       `${queueOrTopicName}/${generate_uuid()}`
     );
-    return new SenderImpl(clientEntityContext, this._clientOptions.retryOptions);
+    const sender = new SenderImpl(clientEntityContext, this._clientOptions.retryOptions);
+    await sender.open();
+    return sender;
   }
 
   /**

@@ -400,6 +400,11 @@ export class SenderImpl implements Sender {
     return retry<void>(config);
   }
 
+  async open(): Promise<void> {
+    this._throwIfSenderOrConnectionClosed();
+    return this._sender.open();
+  }
+
   async close(): Promise<void> {
     try {
       this._isClosed = true;
