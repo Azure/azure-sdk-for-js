@@ -31,7 +31,8 @@ const maxSessionsToProcessSimultaneously = 8;
 const sessionIdleTimeoutMs = 3 * 1000;
 const delayOnErrorMs = 5 * 1000;
 
-// this can be used control when the round-robin processing will terminate.
+// this can be used control when the round-robin processing will terminate
+// by calling abortController.abort().
 const abortController = new AbortController();
 
 // called just before we start processing the first message of a session
