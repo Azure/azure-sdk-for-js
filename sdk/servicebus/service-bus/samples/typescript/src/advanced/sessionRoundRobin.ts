@@ -29,7 +29,7 @@ const queueName = env["QUEUE_NAME_WITH_SESSIONS"] || "<queue name not in environ
 
 const maxSessionsToProcessSimultaneously = 8;
 const sessionIdleTimeoutMs = 3 * 1000;
-const delayWhenNoSessionsAvailableMs = 5 * 1000;
+const delayOnErrorMs = 5 * 1000;
 
 // this can be used control when the round-robin processing will terminate.
 const abortController = new AbortController();
@@ -46,7 +46,11 @@ async function processMessage(msg: ReceivedMessageWithLock) {
 
 // called if we get an error
 async function processError(err: Error, sessionId?: string) {
-  console.log(`[${sessionId}] had error ${err.message}`);
+  if (sessionId) {
+    console.log(`Error when receiving messages from the session ${sessionId}: `, err);
+  } else {
+    console.log(`Error when creating the receiver for next available session`, err);
+  }
 }
 
 // Called if we are closing a session
@@ -57,11 +61,7 @@ async function processError(err: Error, sessionId?: string) {
 //   any messages being received (ie, session can be considered empty).
 //
 async function processClose(reason: "error" | "idle_timeout", sessionId: string) {
-  if (reason === "error") {
-    console.log(`[${sessionId}] was closed because of error`);
-  } else if (reason === "idle_timeout") {
-    console.log(`[${sessionId}] was closed - no more messages within idle timeout`);
-  }
+  console.log(`[${sessionId}] was closed because of ${reason}`);
 }
 
 // utility function to create a timer that can be refreshed
@@ -83,7 +83,10 @@ async function receiveFromNextSession(serviceBusClient: ServiceBusClient): Promi
       autoRenewLockDurationInMs: sessionIdleTimeoutMs
     });
   } catch (err) {
-    if ((err as MessagingError).code === "SessionCannotBeLockedError") {
+    if (
+      (err as MessagingError).code === "SessionCannotBeLockedError" ||
+      (err as MessagingError).code === "OperationTimeoutError"
+    ) {
       console.log(`INFO: no available sessions, sleeping for ${delayOnErrorMs}`);
     } else {
       await processError(err, undefined);
