@@ -65,24 +65,6 @@ export interface Sender {
    */
   send(messageBatch: ServiceBusMessageBatch, options?: OperationOptions): Promise<void>;
 
-  // sendBatch(<Array of messages>) - Commented
-  // /**
-  //  * Sends the given messages in a single batch i.e. in a single AMQP message after creating an AMQP
-  //  * Sender link if it doesnt already exists.
-  //  *
-  //  * - To send messages to a `session` and/or `partition` enabled Queue/Topic, set the `sessionId`
-  //  * and/or `partitionKey` properties respectively on the messages.
-  //  * - When doing so, all
-  //  * messages in the batch should have the same `sessionId` (if using sessions) and the same
-  //  * `parititionKey` (if using paritions).
-  //  *
-  //  * @param messages - An array of ServiceBusMessage objects to be sent in a Batch message.
-  //  * @return Promise<void>
-  //  * @throws Error if the underlying connection, client or sender is closed.
-  //  * @throws MessagingError if the service returns an error while sending messages to the service.
-  //  */
-  // sendBatch(messages: ServiceBusMessage[]): Promise<void>;
-
   /**
    * Creates an instance of `ServiceBusMessageBatch` to which one can add messages until the maximum supported size is reached.
    * The batch can be passed to the {@link send} method to send the messages to Azure Service Bus.
