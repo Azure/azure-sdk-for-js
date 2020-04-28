@@ -179,10 +179,12 @@ export class SearchServiceClient {
     indexName: string,
     options?: SearchIndexClientOptions
   ): SearchIndexClient<T> {
-    if (options) {
-      return new SearchIndexClient<T>(this.endpoint, indexName, this.credential, options);
-    }
-    return new SearchIndexClient<T>(this.endpoint, indexName, this.credential, this.options);
+    return new SearchIndexClient<T>(
+      this.endpoint,
+      indexName,
+      this.credential,
+      options || this.options
+    );
   }
 
   /**
