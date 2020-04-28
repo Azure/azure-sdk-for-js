@@ -7,12 +7,8 @@ import { PollOperationState, PollOperation } from "../../src";
 import { TestServiceClient } from "./testServiceClient";
 import { TestWebResource } from "./testWebResource";
 
-export interface PublicTestOperationState extends PollOperationState<string> {
-  previousResponse?: HttpOperationResponse;
-}
-
 export interface TestOperationState extends PollOperationState<string> {
-  client?: TestServiceClient;
+  client: TestServiceClient;
   requestOptions?: RequestOptionsBase;
   initialResponse?: HttpOperationResponse;
   previousResponse?: HttpOperationResponse;
@@ -31,28 +27,20 @@ async function update(
   const { client, requestOptions, initialResponse, previousResponse } = this.state;
   const abortSignal = options.abortSignal || (requestOptions && requestOptions.abortSignal);
 
-  if (!client) {
-    // The client property is assigned to the operation state during the instantiation of the `TestPoller`.
-    // So the client should always exist.
-    // Though `PublicTestOperationState` doesn't have the client property,
-    // so we have to make it optional in `TestOperationState`.
-    throw new Error("The client property should exist");
-  }
-
   let response: HttpOperationResponse;
   const doFinalResponse = previousResponse && previousResponse.parsedBody.doFinalResponse;
 
   if (!initialResponse) {
-    response = await client!.sendInitialRequest(new TestWebResource(abortSignal));
+    response = await client.sendInitialRequest(new TestWebResource(abortSignal));
     this.state.initialResponse = response;
     this.state.isStarted = true;
   } else if (doFinalResponse) {
-    response = await client!.sendFinalRequest(new TestWebResource(abortSignal));
+    response = await client.sendFinalRequest(new TestWebResource(abortSignal));
     this.state.isCompleted = true;
     this.state.result = "Done";
     this.state.previousResponse = response;
   } else {
-    response = await client!.sendRequest(new TestWebResource(abortSignal));
+    response = await client.sendRequest(new TestWebResource(abortSignal));
     this.state.previousResponse = response;
   }
 

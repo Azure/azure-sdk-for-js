@@ -16,8 +16,10 @@ module.exports = function(config) {
       "karma-ie-launcher",
       "karma-env-preprocessor",
       "karma-coverage",
-      "karma-remap-istanbul",
-      "karma-junit-reporter"
+      "karma-remap-coverage",
+      "karma-junit-reporter",
+      "karma-json-to-file-reporter",
+      "karma-json-preprocessor"
     ],
 
     files: [
@@ -34,22 +36,18 @@ module.exports = function(config) {
       "dist-test/index.browser.js": ["coverage"]
     },
 
-    reporters: ["mocha", "coverage", "karma-remap-istanbul", "junit"],
+    reporters: ["mocha", "coverage", "remap-coverage", "junit", "json-to-file"],
 
-    coverageReporter: {
-      // specify a common output directory
-      dir: "coverage-browser/",
-      reporters: [{ type: "json", subdir: ".", file: "coverage.json" }]
+    coverageReporter: { type: "in-memory" },
+
+    remapCoverageReporter: {
+      "text-summary": null,
+      html: "./coverage-browser",
+      cobertura: "./coverage-browser/cobertura-coverage.xml"
     },
 
-    remapIstanbulReporter: {
-      src: "coverage-browser/coverage.json",
-      reports: {
-        lcovonly: "coverage-browser/lcov.info",
-        html: "coverage-browser/html/report",
-        "text-summary": null,
-        cobertura: "./coverage-browser/cobertura-coverage.xml"
-      }
+    remapOptions: {
+      exclude: /node_modules|test/g
     },
 
     junitReporter: {
@@ -60,6 +58,27 @@ module.exports = function(config) {
       nameFormatter: undefined,
       classNameFormatter: undefined,
       properties: {}
+    },
+
+    jsonToFileReporter: {
+      filter: function(obj) {
+        if (obj.writeFile) {
+          const fs = require("fs-extra");
+          try {
+            // Stripping away the filename from the file path and retaining the directory structure
+            fs.ensureDirSync(obj.path.substring(0, obj.path.lastIndexOf("/") + 1));
+          } catch (err) {
+            if (err.code !== "EEXIST") throw err;
+          }
+          fs.writeFile(obj.path, JSON.stringify(obj.content, null, " "), (err) => {
+            if (err) {
+              throw err;
+            }
+          });
+        }
+        return false;
+      },
+      outputPath: "."
     },
 
     port: 9328,
