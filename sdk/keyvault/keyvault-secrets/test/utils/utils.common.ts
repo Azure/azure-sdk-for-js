@@ -20,7 +20,7 @@ export function getKeyvaultName(): string {
   return keyVaultName;
 }
 
-export async function assertThrowsAbortError(cb: () => Promise<any>) {
+export async function assertThrowsAbortError(cb: () => Promise<any>): Promise<void> {
   let passed = false;
   try {
     await cb();

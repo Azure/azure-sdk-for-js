@@ -150,15 +150,16 @@ export class SecretClient {
     this.vaultUrl = vaultUrl;
 
     const libInfo = `azsdk-js-keyvault-secrets/${SDK_VERSION}`;
-    if (pipelineOptions.userAgentOptions) {
-      pipelineOptions.userAgentOptions.userAgentPrefix !== undefined
-        ? `${pipelineOptions.userAgentOptions.userAgentPrefix} ${libInfo}`
-        : libInfo;
-    } else {
-      pipelineOptions.userAgentOptions = {
-        userAgentPrefix: libInfo
-      };
-    }
+
+    const userAgentOptions = pipelineOptions.userAgentOptions;
+
+    pipelineOptions.userAgentOptions = {
+      ...pipelineOptions.userAgentOptions,
+      userAgentPrefix:
+        userAgentOptions && userAgentOptions.userAgentPrefix
+          ? `${userAgentOptions.userAgentPrefix} ${libInfo}`
+          : libInfo
+    };
 
     const authPolicy = isTokenCredential(credential)
       ? challengeBasedAuthenticationPolicy(credential)
@@ -949,7 +950,7 @@ export class SecretClient {
     const attributes = secretBundle.attributes;
     delete secretBundle.attributes;
 
-    let resultObject: KeyVaultSecret & DeletedSecret = {
+    const resultObject: KeyVaultSecret & DeletedSecret = {
       value: secretBundle.value,
       name: parsedId.name,
       properties: {
