@@ -25,10 +25,10 @@ jobs:
           NodeVersion: "8.x"
       PreSteps:
         - bash: |
-            echo "ping -c 5 -4 `echo $AZURE_FORM_RECOGNIZER_ENDPOINT | awk -F/ '{print $3}'`"
-            ping -c 5 -4 `echo $AZURE_FORM_RECOGNIZER_ENDPOINT | awk -F/ '{print $3}'`
+            echo "ping -c 5 -4 `echo $ENDPOINT | awk -F/ '{print $3}'`"
+            ping -c 5 -4 `echo $ENDPOINT | awk -F/ '{print $3}'`
           displayName: ping
         - bash: |
-            echo "ping -c 5 -4 `echo $AZURE_FORM_RECOGNIZER_ENDPOINT | awk -F/ '{print $3}'`"
-            ping -c 5 -4 `echo $AZURE_FORM_RECOGNIZER_ENDPOINT | awk -F/ '{print $3}'`
+            echo "ping -c 5 -4 `echo $ENDPOINT | awk -F/ '{print $3}'`"
+            ping -c 5 -4 `echo $ENDPOINT | awk -F/ '{print $3}'`
           displayName: nslookup
