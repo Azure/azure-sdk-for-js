@@ -25,7 +25,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '4f216a62-12e6-4fd4-80da-ec74e731f72e',
+  '5502a661-34b3-473d-b828-b89ac234afd9',
   'x-ms-keyvault-service-version',
   '1.1.0.898',
   'x-ms-keyvault-network-info',
@@ -39,7 +39,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 27 Apr 2020 19:22:50 GMT'
+  'Tue, 28 Apr 2020 01:21:27 GMT'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
@@ -58,19 +58,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  '7dd5105a-8f7c-4283-bad9-e84c5d296a00',
+  'fdd90494-b9b0-4b23-a899-2d0f98f90600',
   'x-ms-ests-server',
-  '2.1.10433.14 - EUS ProdSlices',
+  '2.1.10433.14 - NCUS ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AmD3XAs0JfpClf7GFFMR63A_aSJHAQAAAAooOdYOAAAA; expires=Wed, 27-May-2020 19:22:51 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AmBlJYHDRm1AsUpNgAfsC7Y_aSJHAQAAABl8OdYOAAAA; expires=Thu, 28-May-2020 01:21:29 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; SameSite=None; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; SameSite=None; secure; HttpOnly',
   'Date',
-  'Mon, 27 Apr 2020 19:22:50 GMT',
+  'Tue, 28 Apr 2020 01:21:28 GMT',
   'Content-Length',
   '1315'
 ]);
@@ -92,7 +92,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '8ab5fd60-0180-4842-b1e0-0c06e7b9f528',
+  'ee15e782-f5fb-4c2c-a018-76646c4c5af3',
   'x-ms-keyvault-service-version',
   '1.1.0.898',
   'x-ms-keyvault-network-info',
@@ -106,7 +106,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 27 Apr 2020 19:22:50 GMT',
+  'Tue, 28 Apr 2020 01:21:29 GMT',
   'Content-Length',
   '28'
 ]);
