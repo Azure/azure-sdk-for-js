@@ -7,6 +7,7 @@ import { generate_uuid } from "rhea-promise";
 import isBuffer from "is-buffer";
 import { Buffer } from "buffer";
 import * as Constants from "../util/constants";
+import { DispositionStatus, DispositionType } from "../serviceBusMessage";
 
 // This is the only dependency we have on DOM types, so rather than require
 // the DOM lib we can just shim this in.
@@ -92,6 +93,16 @@ export function calculateRenewAfterDuration(lockedUntilUtc: Date): number {
   const renewAfter = remainingTime - buffer;
   log.utils("Renew after       : %d", renewAfter);
   return renewAfter;
+}
+
+export function getDispositionType(
+  dispositionStatus: DispositionStatus
+): DispositionType | undefined {
+  if (dispositionStatus === DispositionStatus.abandoned) return DispositionType.abandon;
+  else if (dispositionStatus === DispositionStatus.completed) return DispositionType.complete;
+  else if (dispositionStatus === DispositionStatus.defered) return DispositionType.defer;
+  else if (dispositionStatus === DispositionStatus.suspended) return DispositionType.deadletter;
+  return undefined;
 }
 
 /**

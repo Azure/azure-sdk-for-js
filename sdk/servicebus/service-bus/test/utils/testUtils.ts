@@ -138,6 +138,7 @@ export class TestMessage {
   }
 }
 
+// `isSessionfulEntity` is a function that relies on this enum's ordering and would require updates if this enum ever changes.
 export enum TestClientType {
   PartitionedQueue,
   PartitionedTopic,
@@ -154,6 +155,17 @@ export enum TestClientType {
   TopicFilterTestTopic,
   TopicFilterTestDefaultSubscription,
   TopicFilterTestSubscription
+}
+
+/**
+ * Returns true if the client is meant for sessions.
+ *
+ * @export
+ * @param {TestClientType} testClientType
+ * @returns
+ */
+export function isSessionfulEntity(testClientType: TestClientType): boolean {
+  return testClientType > 5 && testClientType < 12;
 }
 
 export async function getTopicClientWithTwoSubscriptionClients(

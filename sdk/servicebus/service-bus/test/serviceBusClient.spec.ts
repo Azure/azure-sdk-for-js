@@ -1071,21 +1071,6 @@ describe("Errors after close()", function(): void {
   describe("Errors after close() on receiver", function(): void {
     const entityToClose = "receiver";
 
-    it("Unpartitioned Queue: errors after close() on receiver #RunInBrowser", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(
-        TestClientType.UnpartitionedQueue,
-        TestClientType.UnpartitionedQueue,
-        entityToClose
-      );
-
-      await testReceiver(
-        getReceiverClosedErrorMsg(receiverClient.entityPath, ClientType.QueueClient, false)
-      );
-      await testAllDispositions();
-    });
-
     it("Unpartitioned Queue with sessions: errors after close() on receiver #RunInBrowser", async function(): Promise<
       void
     > {

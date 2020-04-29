@@ -1,6 +1,6 @@
 # Release History
 
-## 1.1.6 (TBD)
+## 1.1.6 (2020-04-23)
 
 - Removes the `@azure/ms-rest-nodeauth` dependency.
   This allows users to use any version of `@azure/ms-rest-nodeauth` directly with `@azure/service-bus` without TypeScript compilation errors.
@@ -8,6 +8,17 @@
 - Relaxes the scheme check for the endpoint while parsing the connection string.
   This allows "\<anything\>://" as the scheme as opposed to the "sb://" scheme suggested by the connection string in the portal.
   Fixes [bug 7907](https://github.com/Azure/azure-sdk-for-js/issues/7907).
+- Fixes for the below bugs when settling a message with [PR 8406](https://github.com/Azure/azure-sdk-for-js/pull/8406)
+  - Not setting user provided deadletter error reason and description when deadlettering a deferred message.
+  - Not setting user provided custom properties when deadlettering a non deferred message.
+  - Not able to settle previously received messages when a receiver recovers from a broken link or connection. Please note that if using sessions, this behavior doesn't change with this release.
+- Fixes an issue where non-retryable errors caused by a connection disconnecting were not getting surfaced to the user's registered error handler
+  when using the `registerMessageHandler` method on a receiver.
+  [PR 8401](https://github.com/Azure/azure-sdk-for-js/pull/8401)
+- Fixes reconnection issues by creating a new connection object rather than re-using the existing one.
+  [PR 8447](https://github.com/Azure/azure-sdk-for-js/pull/8447)
+- Adds a new method `open()` on the sender to allow you to front load the work of setting up the underlying AMQP links. Use this if you want to avoid having your first `send()` operation pay the tax of link set up.
+  [PR 8329](https://github.com/Azure/azure-sdk-for-js/pull/8329). This PR also fixes a bug where a sender recovering from connection loss does not report the error back to the user from ongoing send operations in expected time.
 
 ## 1.1.5 (2020-03-24)
 
