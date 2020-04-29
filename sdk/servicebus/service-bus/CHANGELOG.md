@@ -1,5 +1,10 @@
 # Release History
 
+## 1.1.7 #Unreleased
+
+- Provided down-leveled type declaration files to support older TypeScript versions 3.1 to 3.6.
+  [PR 8515](https://github.com/Azure/azure-sdk-for-js/pull/8515)
+
 ## 1.1.6 (2020-04-23)
 
 - Removes the `@azure/ms-rest-nodeauth` dependency.
