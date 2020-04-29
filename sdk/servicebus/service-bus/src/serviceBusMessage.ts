@@ -971,8 +971,9 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
    * @throws MessagingError if the service returns an error while renewing message lock.
    */
   async renewLock(): Promise<Date> {
+    let error: Error | undefined;
     if (this.sessionId) {
-      throw translate({
+      error = translate({
         description: `Invalid operation on the message, message lock doesn't exist when dealing with sessions`,
         condition: ErrorNameConditionMapper.InvalidOperationError
       });
@@ -985,12 +986,24 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
       //        since settling with the management link won't update the delivery (In this case, service would throw an error)
       const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
       if (receiver && receiver.receiveMode !== ReceiveMode.peekLock) {
-        throw new Error(
+        error = new Error(
           getErrorMessageNotSupportedInReceiveAndDeleteMode(`renew the lock on message`)
         );
       } else if (this.delivery.remote_settled) {
-        throw new Error(`Failed to renew the lock as this message is already settled.`);
+        error = new Error(`Failed to renew the lock as this message is already settled.`);
       }
+    }
+    if (error) {
+      log.error(
+        "[%s] An error occurred when renewing the lock on the message with id '%s'. " +
+          "This message was received using the receiver %s which %s currently open: %O",
+        this._context.namespace.connectionId,
+        this.messageId,
+        this.delivery.link.name,
+        this.delivery.link.is_open() ? "is" : "is not",
+        error
+      );
+      throw error;
     }
     this.lockedUntilUtc = await this._context.managementClient!.renewLock(this.lockToken!);
     return this.lockedUntilUtc;
@@ -1041,7 +1054,7 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
       //      - If the flag is false, we can't say that the message has not been settled
       //        since settling with the management link won't update the delivery (In this case, service would throw an error)
       //   3. If the message has a session-id and if the associated receiver link is unavailable,
-      //      then throw an error since we need a lock on the session to settle.
+      //      then throw an error since we need a lock on the session to settle the message.
       let error: Error | undefined;
       if (receiver && receiver.receiveMode !== ReceiveMode.peekLock) {
         error = new Error(
@@ -1052,7 +1065,7 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
           `Failed to ${dispositionType} the message as this message is already settled.`
         );
       } else if ((!receiver || !receiver.isOpen()) && this.sessionId != undefined) {
-        throw translate({
+        error = translate({
           description:
             `Failed to ${dispositionType} the message as the AMQP link with which the message was ` +
             `received is no longer alive.`,
