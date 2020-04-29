@@ -62,7 +62,7 @@ import {
 // });
 // });
 
-describe("Errors with non existing Namespace", function(): void {
+describe.only("Errors with non existing Namespace", function(): void {
   let sbClient: ServiceBusClient;
   let errorWasThrown: boolean;
   beforeEach(() => {
