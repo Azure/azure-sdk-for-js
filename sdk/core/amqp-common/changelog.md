@@ -1,4 +1,4 @@
-### 2020-04-01 1.0.0-preview.13
+### 2020-04-29 1.0.0-preview.13
 
 - Relaxes the scheme check for the endpoint while parsing the connection string.
   This allows "\<anything\>://" as the scheme as opposed to the rigid "sb://" scheme suggested by the connection string in the portal.
