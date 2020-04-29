@@ -206,15 +206,16 @@ export class KeyClient {
     this.vaultUrl = vaultUrl;
 
     const libInfo = `azsdk-js-keyvault-keys/${SDK_VERSION}`;
-    if (pipelineOptions.userAgentOptions) {
-      pipelineOptions.userAgentOptions.userAgentPrefix !== undefined
-        ? `${pipelineOptions.userAgentOptions.userAgentPrefix} ${libInfo}`
-        : libInfo;
-    } else {
-      pipelineOptions.userAgentOptions = {
-        userAgentPrefix: libInfo
-      };
-    }
+
+    const userAgentOptions = pipelineOptions.userAgentOptions;
+
+    pipelineOptions.userAgentOptions = {
+      ...pipelineOptions.userAgentOptions,
+      userAgentPrefix:
+        userAgentOptions && userAgentOptions.userAgentPrefix
+          ? `${userAgentOptions.userAgentPrefix} ${libInfo}`
+          : libInfo
+    };
 
     const authPolicy = isTokenCredential(credential)
       ? challengeBasedAuthenticationPolicy(credential)
@@ -1135,7 +1136,7 @@ export class KeyClient {
     const attributes: any = keyBundle.attributes || {};
     delete keyBundle.attributes;
 
-    let resultObject: KeyVaultKey & DeletedKey = {
+    const resultObject: KeyVaultKey & DeletedKey = {
       key: keyBundle.key as JsonWebKey,
       id: keyBundle.key ? keyBundle.key.kid : undefined,
       name: parsedId.name,
@@ -1185,7 +1186,7 @@ export class KeyClient {
 
     const attributes = keyItem.attributes || {};
 
-    let abstractProperties: any = {
+    const abstractProperties: any = {
       id: keyItem.kid,
       name: parsedId.name,
       deletedOn: (attributes as any).deletedDate,
@@ -1229,7 +1230,7 @@ export class KeyClient {
 
     const attributes = keyItem.attributes || {};
 
-    let resultObject: any = {
+    const resultObject: any = {
       createdOn: attributes.created,
       updatedOn: attributes.updated,
       vaultUrl: parsedId.vaultUrl,

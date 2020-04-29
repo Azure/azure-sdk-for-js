@@ -1,5 +1,8 @@
 # Release History
 
+## 1.1.2 (Unreleased)
+
+
 ## 1.1.1 (2020-04-28)
 
 - Add support for `text/plain` endpoints. [PR #7963](https://github.com/Azure/azure-sdk-for-js/pull/7963)

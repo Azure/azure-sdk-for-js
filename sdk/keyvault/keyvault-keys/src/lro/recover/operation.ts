@@ -53,7 +53,9 @@ async function update(
     try {
       state.result = await client.getKey(name, { requestOptions });
       state.isCompleted = true;
-    } catch (_) {}
+    } catch {
+      // Nothing to do here.
+    }
     if (!state.isCompleted) {
       state.result = await client.recoverDeletedKey(name, { requestOptions });
       state.isStarted = true;
@@ -83,8 +85,7 @@ async function update(
  * @param [options] The optional parameters, which is only an abortSignal from @azure/abort-controller
  */
 async function cancel(
-  this: RecoverDeletedKeyPollOperation,
-  _: { abortSignal?: AbortSignal } = {}
+  this: RecoverDeletedKeyPollOperation
 ): Promise<RecoverDeletedKeyPollOperation> {
   throw new Error("Canceling the deletion of a key is not supported.");
 }
