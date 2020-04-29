@@ -423,6 +423,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/keyvault-common",
+      "projectFolder": "sdk/keyvault/keyvault-common",
+      "versionPolicyName": "utility"
+    },
+    {
       "packageName": "@azure/keyvault-certificates",
       "projectFolder": "sdk/keyvault/keyvault-certificates",
       "versionPolicyName": "client"
