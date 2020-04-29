@@ -31,7 +31,7 @@ import {
   getServiceBusClient
 } from "./utils/testUtils";
 import { ClientType } from "../src/client";
-import { DispositionType } from "../src/serviceBusMessage";
+import { DispositionType, SendableMessageInfo } from "../src/serviceBusMessage";
 import { getEnvVars, isNode } from "./utils/envVarUtils";
 import { getTokenCredentialsFromAAD } from "./utils/aadUtils";
 
@@ -83,6 +83,79 @@ describe("Create ServiceBusClient and Queue/Topic/Subscription Clients #RunInBro
   it("Coerces input to string for host in createFromTokenProvider", function(): void {
     sbClient = ServiceBusClient.createFromTokenProvider(123 as any, {} as any);
     should.equal(sbClient.name, "sb://123/", "Name of the namespace is different than expected");
+  });
+});
+
+describe("Random scheme in the endpoint from connection string", function(): void {
+  let sbClientWithRelaxedEndPoint = ServiceBusClient.createFromConnectionString(
+    getEnvVars().SERVICEBUS_CONNECTION_STRING.replace("sb://", "CheeseBurger://")
+  );
+  let senderClient: QueueClient | TopicClient;
+  let receiverClient: QueueClient | SubscriptionClient;
+  let sender: Sender;
+  let receiver: Receiver | SessionReceiver;
+
+  async function testPeekMsgsLength(
+    client: QueueClient | SubscriptionClient,
+    expectedPeekLength: number
+  ): Promise<void> {
+    const peekedMsgs = await client.peek(expectedPeekLength + 1);
+    should.equal(
+      peekedMsgs.length,
+      expectedPeekLength,
+      "Unexpected number of msgs found when peeking"
+    );
+  }
+
+  async function beforeEachTest(testClientType: TestClientType, useSessions: boolean = false) {
+    const clients = await getSenderReceiverClients(
+      sbClientWithRelaxedEndPoint,
+      testClientType,
+      testClientType
+    );
+    senderClient = clients.senderClient;
+    receiverClient = clients.receiverClient;
+    sender = senderClient.createSender();
+    receiver = useSessions
+      ? receiverClient.createReceiver(ReceiveMode.peekLock, { sessionId: TestMessage.sessionId })
+      : receiverClient.createReceiver(ReceiveMode.peekLock);
+  }
+
+  afterEach(async () => {
+    await senderClient.close();
+    await receiverClient.close();
+  });
+
+  after(async () => {
+    await sbClientWithRelaxedEndPoint.close();
+  });
+
+  async function sendReceiveMsg(testMessage: SendableMessageInfo): Promise<void> {
+    await sender.send(testMessage);
+    await testPeekMsgsLength(receiverClient, 1);
+
+    const msgs = await receiver.receiveMessages(1);
+
+    should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+    should.equal(msgs.length, 1, "Unexpected number of messages");
+    should.equal(msgs[0].body, testMessage.body, "MessageBody is different than expected");
+    should.equal(msgs[0].messageId, testMessage.messageId, "MessageId is different than expected");
+    should.equal(msgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
+    await msgs[0].complete();
+
+    await testPeekMsgsLength(receiverClient, 0);
+  }
+
+  it("Partitioned Queue: send and receive message", async function(): Promise<void> {
+    await beforeEachTest(TestClientType.PartitionedQueue);
+    await sendReceiveMsg(TestMessage.getSample());
+  });
+
+  it("Unpartitioned Queue With Sessions: send and receive message", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions, true);
+    await sendReceiveMsg(TestMessage.getSessionSample());
   });
 });
 
