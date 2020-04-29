@@ -7,8 +7,6 @@ import { Constants, AmqpMessage, translate, ErrorNameConditionMapper } from "@az
 import * as log from "./log";
 import { ClientEntityContext } from "./clientEntityContext";
 import { reorderLockToken, getDispositionType } from "./util/utils";
-import { MessageReceiver } from "./core/messageReceiver";
-import { MessageSession } from "./session/messageSession";
 import { getErrorMessageNotSupportedInReceiveAndDeleteMode } from "./util/errors";
 import { Buffer } from "buffer";
 import { DispositionStatusOptions } from "./core/managementClient";
@@ -982,7 +980,7 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
       // In case the message wasn't from a deferred queue,
       //   1. We have the access to the receiver which can be used to throw error in case of the ReceiveAndDelete mode
       //   2. We can additionally verify the remote_settled flag on the delivery
-      //      - If the flag is true, the message has been settled (Specifically, with a receive link)
+      //      - If the flag is true, throw an error since the message has been settled (Specifically, with a receive link)
       //      - If the flag is false, we can't say that the message has not been settled
       //        since settling with the management link won't update the delivery (In this case, service would throw an error)
       const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
@@ -1024,47 +1022,6 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
     return clone;
   }
 
-  /**
-   * Logs and Throws an error if the given message cannot be settled.
-   * @param receiver Receiver to be used to settle this message
-   * @param operation Settle operation: complete, abandon, defer or deadLetter
-   */
-  private throwIfMessageCannotBeSettled(
-    receiver: MessageReceiver | MessageSession | undefined,
-    operation: DispositionType | string
-  ): void {
-    let error: Error | undefined;
-
-    if (receiver && receiver.receiveMode !== ReceiveMode.peekLock) {
-      error = new Error(
-        getErrorMessageNotSupportedInReceiveAndDeleteMode(`${operation} the message`)
-      );
-    } else if (this.delivery.remote_settled) {
-      error = new Error(`Failed to ${operation} the message as this message is already settled.`);
-    } else if ((!receiver || !receiver.isOpen()) && this.sessionId != undefined) {
-      throw translate({
-        description:
-          `Failed to ${operation} the message as the AMQP link with which the message was ` +
-          `received is no longer alive.`,
-        condition: ErrorNameConditionMapper.SessionLockLostError
-      });
-    }
-    if (!error) {
-      return;
-    }
-    log.error(
-      "[%s] An error occured when settling a message with id '%s'. " +
-        "This message was received using the receiver %s which %s currently open: %O",
-      this._context.namespace.connectionId,
-      this.messageId,
-      this.delivery.link.name,
-      this.delivery.link.is_open() ? "is" : "is not",
-      error
-    );
-
-    throw error;
-  }
-
   private async settleMessage(
     operation: DispositionStatus,
     options?: DispositionStatusOptions
@@ -1075,7 +1032,46 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
     const receiver = isDeferredMessage
       ? undefined
       : this._context.getReceiver(this.delivery.link.name, this.sessionId);
-    if (!isDeferredMessage) this.throwIfMessageCannotBeSettled(receiver, dispositionType!);
+
+    if (!isDeferredMessage) {
+      // In case the message wasn't from a deferred queue,
+      //   1. We have the access to the receiver which can be used to throw error in case of the ReceiveAndDelete mode
+      //   2. We can additionally verify the remote_settled flag on the delivery
+      //      - If the flag is true, throw an error since the message has been settled (Specifically, with a receive link)
+      //      - If the flag is false, we can't say that the message has not been settled
+      //        since settling with the management link won't update the delivery (In this case, service would throw an error)
+      //   3. If the message has a session-id and if the associated receiver link is unavailable,
+      //      then throw an error since we need a lock on the session to settle.
+      let error: Error | undefined;
+      if (receiver && receiver.receiveMode !== ReceiveMode.peekLock) {
+        error = new Error(
+          getErrorMessageNotSupportedInReceiveAndDeleteMode(`${dispositionType} the message`)
+        );
+      } else if (this.delivery.remote_settled) {
+        error = new Error(
+          `Failed to ${dispositionType} the message as this message is already settled.`
+        );
+      } else if ((!receiver || !receiver.isOpen()) && this.sessionId != undefined) {
+        throw translate({
+          description:
+            `Failed to ${dispositionType} the message as the AMQP link with which the message was ` +
+            `received is no longer alive.`,
+          condition: ErrorNameConditionMapper.SessionLockLostError
+        });
+      }
+      if (error) {
+        log.error(
+          "[%s] An error occured when settling a message with id '%s'. " +
+            "This message was received using the receiver %s which %s currently open: %O",
+          this._context.namespace.connectionId,
+          this.messageId,
+          this.delivery.link.name,
+          this.delivery.link.is_open() ? "is" : "is not",
+          error
+        );
+        throw error;
+      }
+    }
 
     // Message Settlement with managementLink
     // 1. If the received message is deferred as such messages can only be settled using managementLink
