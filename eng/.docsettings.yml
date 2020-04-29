@@ -11,6 +11,7 @@ omitted_paths:
   - sdk/eventhub/*/test/README.md
   - sdk/search/*/test/README.md
   - sdk/servicebus/*/test/README.md
+  - sdk/servicebus/service-bus/samples-v1/*
   - sdk/storage/*/test/README.md
   - sdk/textanalytics/*/test/README.md
   - sdk/**/samples/*
