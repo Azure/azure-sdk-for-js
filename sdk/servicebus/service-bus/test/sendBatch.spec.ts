@@ -58,11 +58,15 @@ describe("Send Batch", () => {
       return messagesToSend;
     }
 
-    async function testSendBatch(useSessions: boolean): Promise<void> {
+    async function testSendBatch(
+      useSessions: boolean,
+      // Max batch size
+      maxSizeInBytes?: number
+    ): Promise<void> {
       // Prepare messages to send
       const messagesToSend = prepareMessages(useSessions);
       const sentMessages: ServiceBusMessage[] = [];
-      const batchMessage = await senderClient.createBatch();
+      const batchMessage = await senderClient.createBatch({ maxSizeInBytes });
 
       for (const messageToSend of messagesToSend) {
         const batchHasCapacity = batchMessage.tryAdd(messageToSend);
@@ -215,16 +219,30 @@ describe("Send Batch", () => {
       return messagesToSend;
     }
 
-    async function testSendBatch(useSessions: boolean): Promise<void> {
+    async function testSendBatch(
+      useSessions: boolean,
+      // Max batch size
+      maxSizeInBytes?: number
+    ): Promise<void> {
       // Prepare messages to send
       const messagesToSend = prepareMessages(useSessions);
-      await senderClient.send(messagesToSend);
+      const sentMessages: ServiceBusMessage[] = [];
+      const batchMessage = await senderClient.createBatch({ maxSizeInBytes });
 
+      for (const messageToSend of messagesToSend) {
+        const batchHasCapacity = batchMessage.tryAdd(messageToSend);
+        if (!batchHasCapacity) {
+          break;
+        } else {
+          sentMessages.push(messageToSend);
+        }
+      }
+      await senderClient.send(batchMessage);
       // receive all the messages in receive and delete mode
       await serviceBusClient.test.verifyAndDeleteAllSentMessages(
         entityNames,
         useSessions,
-        messagesToSend
+        sentMessages
       );
     }
 
@@ -287,14 +305,23 @@ describe("Send Batch", () => {
     async function testSendBatch(useSessions: boolean): Promise<void> {
       // Prepare messages to send
       const messagesToSend = prepareMessages(useSessions);
+      const sentMessages: ServiceBusMessage[] = [];
+      const batchMessage = await senderClient.createBatch();
 
-      await senderClient.send(messagesToSend);
-
+      for (const messageToSend of messagesToSend) {
+        const batchHasCapacity = batchMessage.tryAdd(messageToSend);
+        if (!batchHasCapacity) {
+          break;
+        } else {
+          sentMessages.push(messageToSend);
+        }
+      }
+      await senderClient.send(batchMessage);
       // receive all the messages in receive and delete mode
       await serviceBusClient.test.verifyAndDeleteAllSentMessages(
         entityNames,
         useSessions,
-        messagesToSend
+        sentMessages
       );
     }
 
@@ -369,11 +396,15 @@ describe("Send Batch", () => {
       return messagesToSend;
     }
 
-    async function testSendBatch(useSessions: boolean): Promise<void> {
+    async function testSendBatch(
+      useSessions: boolean,
+      // Max batch size
+      maxSizeInBytes?: number
+    ): Promise<void> {
       // Prepare messages to send
       const messagesToSend = prepareMessages(useSessions);
       const sentMessages: ServiceBusMessage[] = [];
-      const batchMessage = await senderClient.createBatch();
+      const batchMessage = await senderClient.createBatch({ maxSizeInBytes });
 
       for (const messageToSend of messagesToSend) {
         const batchHasCapacity = batchMessage.tryAdd(messageToSend);
@@ -627,5 +658,21 @@ describe("Send Batch", () => {
       );
       should.equal(ConditionErrorNameMapper["amqp:link:message-size-exceeded"], err.code);
     }
+  });
+
+  it("send() with a fixed batch", async () => {
+    await beforeEachTest(TestClientType.UnpartitionedQueue);
+    const messagesToSend = [{ body: "hello" }];
+
+    const batch = await senderClient.createBatch();
+
+    for (const message of messagesToSend) {
+      if (!batch.tryAdd(message)) {
+        throw new Error("We do actually want to send all the events.");
+      }
+    }
+
+    await senderClient.send(batch);
+    await serviceBusClient.test.verifyAndDeleteAllSentMessages(entityNames, false, messagesToSend);
   });
 });
