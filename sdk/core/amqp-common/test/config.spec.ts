@@ -24,6 +24,17 @@ describe("ConnectionConfig", function() {
       done();
     });
 
+    it("attributes are properly parsed even with a random scheme in the endpoint in the connection string", function(done) {
+      const config = ConnectionConfig.create(
+        "Endpoint=CheeseBurger://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep"
+      );
+      config.should.have.property("host").that.equals("hostname.servicebus.windows.net");
+      config.should.have.property("sharedAccessKeyName").that.equals("sakName");
+      config.should.have.property("sharedAccessKey").that.equals("sak");
+      config.should.have.property("entityPath").that.equals("ep");
+      done();
+    });
+
     it("populates path from the path argument if connection string does not have EntityPath", function(done) {
       const config = ConnectionConfig.create(
         "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak",
