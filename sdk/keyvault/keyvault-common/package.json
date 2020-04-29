@@ -7,6 +7,9 @@
   "license": "MIT",
   "description": "Isomorphic client library for Azure KeyVault's certificates.",
   "repository": "github:Azure/azure-sdk-for-js",
+  "main": "./src/index.ts",
+  "module": "dist-esm/index.js",
+  "types": "./types/index.d.ts",
   "engines": {
     "node": ">=8.0.0"
   },

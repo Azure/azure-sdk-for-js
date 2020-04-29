@@ -10,7 +10,7 @@
     "moduleResolution": "node",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "strict": true,
+    "strict": true,                 
     "module": "esNext",
     "outDir": "./dist-esm",
     "declaration": true,
@@ -23,5 +23,5 @@
   },
   "compileOnSave": true,
   "exclude": ["node_modules", "../keyvault-common/node_modules", "./samples/**/*.ts"],
-  "include": ["./src/**/*.ts", "./test/**/*.ts", "../keyvault-common/src/*.ts"]
+  "include": ["./src/**/*.ts", "./test/**/*.ts", "../keyvault-common/**/*.ts"]
 }
