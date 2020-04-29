@@ -19,6 +19,8 @@ import {
   getServiceBusClient,
   isSessionfulEntity
 } from "./utils/testUtils";
+import { ManagementClient } from "../src/core/managementClient";
+import { DispositionStatus } from "../src/serviceBusMessage";
 const should = chai.should();
 chai.use(chaiAsPromised);
 let sbClient: ServiceBusClient;
@@ -135,10 +137,6 @@ describe("Management operations should throw error if the Client is closed", fun
 
   const clientClosedErrMessage =
     "has been closed and can no longer be used. Please create a new client using an instance of ServiceBusClient.";
-  const receiverGoneErrorMessage =
-    "has been closed. The receiver created by it can no longer be used. Please create a new client using an instance of ServiceBusClient.";
-  const senderGoneErrorMessage =
-    "has been closed. The sender created by it can no longer be used. Please create a new client using an instance of ServiceBusClient.";
   async function beforeEachTest(senderType: TestClientType, receiverType: TestClientType) {
     // Create the sender and receiver.
     sbClient = getServiceBusClient();
@@ -168,8 +166,10 @@ describe("Management operations should throw error if the Client is closed", fun
   it("peek throws error after the client is closed", async function(): Promise<void> {
     await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
     await verifyClientClosedError(async () => {
+      const preservedMgmtClient: ManagementClient = (receiverClient as any)["_context"]
+        .managementClient;
       await receiverClient.close();
-      await receiverClient.peek();
+      await preservedMgmtClient.peek();
     }, clientClosedErrMessage);
   });
 
@@ -178,19 +178,11 @@ describe("Management operations should throw error if the Client is closed", fun
   > {
     await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
     await verifyClientClosedError(async () => {
+      const preservedMgmtClient: ManagementClient = (receiverClient as any)["_context"]
+        .managementClient;
       await receiverClient.close();
-      await receiverClient.peekBySequenceNumber(new Long(0));
+      await preservedMgmtClient.peekBySequenceNumber(new Long(0));
     }, clientClosedErrMessage);
-  });
-
-  it("receiveDeferredMessage throws error after the client is closed", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
-    await verifyClientClosedError(async () => {
-      await receiverClient.close();
-      await receiver.receiveDeferredMessage(new Long(0));
-    }, receiverGoneErrorMessage);
   });
 
   it("receiveDeferredMessages throws error after the client is closed", async function(): Promise<
@@ -198,17 +190,21 @@ describe("Management operations should throw error if the Client is closed", fun
   > {
     await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
     await verifyClientClosedError(async () => {
+      const preservedMgmtClient: ManagementClient = (receiverClient as any)["_context"]
+        .managementClient;
       await receiverClient.close();
-      await receiver.receiveDeferredMessages([new Long(0)]);
-    }, receiverGoneErrorMessage);
+      await preservedMgmtClient.receiveDeferredMessages([new Long(0)], ReceiveMode.peekLock);
+    }, clientClosedErrMessage);
   });
 
   it("renewMessageLock throws error after the client is closed", async function(): Promise<void> {
     await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
     await verifyClientClosedError(async () => {
+      const preservedMgmtClient: ManagementClient = (receiverClient as any)["_context"]
+        .managementClient;
       await receiverClient.close();
-      await (receiver as Receiver).renewMessageLock("");
-    }, receiverGoneErrorMessage);
+      await preservedMgmtClient.renewLock("");
+    }, clientClosedErrMessage);
   });
 
   it("renewSessionLock throws error after the client is closed", async function(): Promise<void> {
@@ -217,8 +213,10 @@ describe("Management operations should throw error if the Client is closed", fun
       TestClientType.UnpartitionedQueueWithSessions
     );
     await verifyClientClosedError(async () => {
+      const preservedMgmtClient: ManagementClient = (receiverClient as any)["_context"]
+        .managementClient;
       await receiverClient.close();
-      await (receiver as SessionReceiver).renewSessionLock();
+      await preservedMgmtClient.renewSessionLock(TestMessage.sessionId);
     }, clientClosedErrMessage);
   });
 
@@ -228,8 +226,10 @@ describe("Management operations should throw error if the Client is closed", fun
       TestClientType.UnpartitionedQueueWithSessions
     );
     await verifyClientClosedError(async () => {
+      const preservedMgmtClient: ManagementClient = (receiverClient as any)["_context"]
+        .managementClient;
       await receiverClient.close();
-      await (receiver as SessionReceiver).getState();
+      await preservedMgmtClient.getSessionState(TestMessage.sessionId);
     }, clientClosedErrMessage);
   });
 
@@ -239,8 +239,10 @@ describe("Management operations should throw error if the Client is closed", fun
       TestClientType.UnpartitionedQueueWithSessions
     );
     await verifyClientClosedError(async () => {
+      const preservedMgmtClient: ManagementClient = (receiverClient as any)["_context"]
+        .managementClient;
       await receiverClient.close();
-      await (receiver as SessionReceiver).setState("random");
+      await preservedMgmtClient.setSessionState(TestMessage.sessionId, "random");
     }, clientClosedErrMessage);
   });
 
@@ -250,8 +252,10 @@ describe("Management operations should throw error if the Client is closed", fun
       TestClientType.UnpartitionedSubscription
     );
     await verifyClientClosedError(async () => {
+      const preservedMgmtClient: ManagementClient = (receiverClient as any)["_context"]
+        .managementClient;
       await receiverClient.close();
-      await (receiverClient as SubscriptionClient).addRule("random", "1=1");
+      await preservedMgmtClient.addRule("random", "1=1");
     }, clientClosedErrMessage);
   });
 
@@ -261,8 +265,10 @@ describe("Management operations should throw error if the Client is closed", fun
       TestClientType.UnpartitionedSubscription
     );
     await verifyClientClosedError(async () => {
+      const preservedMgmtClient: ManagementClient = (receiverClient as any)["_context"]
+        .managementClient;
       await receiverClient.close();
-      await (receiverClient as SubscriptionClient).removeRule("random");
+      await preservedMgmtClient.removeRule("random");
     }, clientClosedErrMessage);
   });
 
@@ -272,8 +278,10 @@ describe("Management operations should throw error if the Client is closed", fun
       TestClientType.UnpartitionedSubscription
     );
     await verifyClientClosedError(async () => {
+      const preservedMgmtClient: ManagementClient = (receiverClient as any)["_context"]
+        .managementClient;
       await receiverClient.close();
-      await (receiverClient as SubscriptionClient).getRules();
+      await preservedMgmtClient.getRules();
     }, clientClosedErrMessage);
   });
 
@@ -287,24 +295,33 @@ describe("Management operations should throw error if the Client is closed", fun
     await verifyClientClosedError(async () => {
       await sender.send({ body: "random message" });
       const msg = (await receiver.receiveMessages(1))[0];
+      const preservedMgmtClient: ManagementClient = (receiverClient as any)["_context"]
+        .managementClient;
       await receiverClient.close();
-      await msg.complete();
+      await preservedMgmtClient.updateDispositionStatus(
+        msg.lockToken!,
+        DispositionStatus.completed
+      );
     }, clientClosedErrMessage);
   });
 
   it("schedule throws error after the client is closed", async function(): Promise<void> {
     await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
     await verifyClientClosedError(async () => {
+      const preservedMgmtClient: ManagementClient = (senderClient as any)["_context"]
+        .managementClient;
       await senderClient.close();
-      await sender.scheduleMessage(new Date(), { body: "random message" });
-    }, senderGoneErrorMessage);
+      await preservedMgmtClient.scheduleMessages(new Date(), [{ body: "random message" }]);
+    }, clientClosedErrMessage);
   });
 
   it("cancel-scheduled throws error after the client is closed", async function(): Promise<void> {
     await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
     await verifyClientClosedError(async () => {
+      const preservedMgmtClient: ManagementClient = (senderClient as any)["_context"]
+        .managementClient;
       await senderClient.close();
-      await sender.cancelScheduledMessage(new Long(0));
-    }, senderGoneErrorMessage);
+      await preservedMgmtClient.cancelScheduledMessages([new Long(0)]);
+    }, clientClosedErrMessage);
   });
 });
