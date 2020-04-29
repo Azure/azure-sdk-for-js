@@ -40,7 +40,7 @@ describe("renew lock sessions", () => {
 
     sessionId = Date.now().toString();
 
-    receiver = serviceBusClient.test.getSessionPeekLockReceiver(entityNames, {
+    receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames, {
       sessionId,
       autoRenewLockDurationInMs
     });
@@ -410,7 +410,7 @@ describe("renew lock sessions", () => {
     await receiver.close();
 
     const entityNames = serviceBusClient.test.getTestEntities(entityType);
-    receiver = serviceBusClient.test.getSessionPeekLockReceiver(entityNames);
+    receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames);
 
     const unprocessedMsgsBatch = await receiver.receiveBatch(1);
     should.equal(unprocessedMsgsBatch[0].deliveryCount, 1, "Unexpected deliveryCount");
