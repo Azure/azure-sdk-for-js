@@ -978,15 +978,24 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
         description: `Invalid operation on the message, message lock doesn't exist when dealing with sessions`,
         condition: ErrorNameConditionMapper.InvalidOperationError
       });
-    } else {
-      const isDeferredMessage = this._context.requestResponseLockedMessages.has(this.lockToken!);
-      const receiver = isDeferredMessage
-        ? undefined
-        : this._context.getReceiver(this.delivery.link.name, this.sessionId);
-      if (!isDeferredMessage) this.throwIfMessageCannotBeSettled(receiver, "renew the lock on");
-      this.lockedUntilUtc = await this._context.managementClient!.renewLock(this.lockToken!);
-      return this.lockedUntilUtc;
+    } else if (!this._context.requestResponseLockedMessages.has(this.lockToken!)) {
+      // In case the message wasn't from a deferred queue,
+      //   1. We have the access to the receiver which can be used to throw error in case of the ReceiveAndDelete mode
+      //   2. We can additionally verify the remote_settled flag on the delivery
+      //      - If the flag is true, the message has been settled (Specifically, with a receive link)
+      //      - If the flag is false, we can't say that the message has not been settled
+      //        since settling with the management link won't update the delivery (In this case, service would throw an error)
+      const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
+      if (receiver && receiver.receiveMode !== ReceiveMode.peekLock) {
+        throw new Error(
+          getErrorMessageNotSupportedInReceiveAndDeleteMode(`renew the lock on message`)
+        );
+      } else if (this.delivery.remote_settled) {
+        throw new Error(`Failed to renew the lock as this message is already settled.`);
+      }
     }
+    this.lockedUntilUtc = await this._context.managementClient!.renewLock(this.lockToken!);
+    return this.lockedUntilUtc;
   }
 
   /**
