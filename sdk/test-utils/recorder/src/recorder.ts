@@ -182,8 +182,11 @@ export function record(
         (runtime === "browser" && isBrowser()) ||
         !runtime
       ) {
-        // record mode - recorder is stopped
-        if (isRecordMode()) recorder.stop();
+        // Since Mocha 7.0.0, Mocha behaves as follows:
+        // "When conditionally skipping in a it test, related afterEach hooks are now executed"
+        // Source: https://github.com/mochajs/mocha/blob/master/CHANGELOG.md#700--2020-01-05
+        // Therefore, now the recorder.stop() calls in the afterEach() will always be executed.
+        // if (isRecordMode()) recorder.stop();
 
         // record/playback modes
         // - test title is updated with the given reason
