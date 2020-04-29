@@ -66,13 +66,12 @@ You can instantiate this class using its constructors:
 
 ### Key concepts
 
-Once you've initialized a `ServiceBusClient`, you can interact with the primary resource types within a
-Service Bus Namespace, of which multiple can exist and on which actual message transmission takes place,
-the namespace often serving as an application container:
+Once you've initialized a `ServiceBusClient`, you can interact with these resources within a
+Service Bus Namespace:
 
-- [Queue][queue_concept]: Allows for sending and receiving messages. Often used for point-to-point communication.
-- [Topic][topic_concept]: As opposed to Queues, Topics are better suited to publish/subscribe scenarios. A topic can be sent to, but requires a subscription, of which there can be multiple in parallel, to consume from.
-- [Subscription][subscription_concept]: The mechanism to consume from a Topic. Each subscription is independent, and receives a copy of each message sent to the topic. Rules and Filters can be used to tailor which messages are received by a specific subscription.
+- [Queues][queue_concept]: Allows for sending and receiving messages. Often used for point-to-point communication.
+- [Topics][topic_concept]: As opposed to Queues, Topics are better suited to publish/subscribe scenarios. A topic can be sent to, but requires a subscription, of which there can be multiple in parallel, to consume from.
+- [Subscriptions][subscription_concept]: The mechanism to consume from a Topic. Each subscription is independent, and receives a copy of each message sent to the topic. Rules and Filters can be used to tailor which messages are received by a specific subscription.
 
 For more information about these resources, see [What is Azure Service Bus?][service_bus_overview].
 
