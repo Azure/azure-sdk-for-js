@@ -18,6 +18,7 @@ const packageVersion = "7.0.0";
 export class CosmosDBManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
   subscriptionId: string;
+  apiVersion?: string;
   subscriptionId1: string;
 
   /**
