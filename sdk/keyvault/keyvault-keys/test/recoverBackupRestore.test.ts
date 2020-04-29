@@ -106,6 +106,7 @@ describe("Keys client - restore keys and recover backups", () => {
       await client.createKey(keyName, "RSA");
       const backup = await client.backupKey(keyName);
       await testClient.flushKey(keyName);
+      // eslint-disable-next-line no-constant-condition
       while (true) {
         try {
           await client.restoreKeyBackup(backup as Uint8Array);
