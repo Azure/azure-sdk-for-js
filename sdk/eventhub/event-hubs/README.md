@@ -33,7 +33,7 @@ You must have an [Azure subscription](https://azure.microsoft.com/free/) and a
 [Event Hubs Namespace](https://docs.microsoft.com/en-us/azure/event-hubs/) to use this package.
 If you are using this package in a Node.js application, then use Node.js 8.x or higher.
 
-### Configure Typescript
+#### Configure Typescript
 
 TypeScript users need to have Node type definitions installed:
 
@@ -239,7 +239,7 @@ The `subscribe` method takes callbacks to process events as they are received fr
 To stop receiving events, you can call `close()` on the object returned by the `subscribe()` method.
 
 ```javascript
-const { EventHubConsumerClient } = require("@azure/event-hubs");
+const { EventHubConsumerClient, earliestEventPosition } = require("@azure/event-hubs");
 
 async function main() {
   const client = new EventHubConsumerClient(
@@ -248,6 +248,12 @@ async function main() {
     "eventHubName"
   );
 
+  // In this sample, we use the position of earliest available event to start from
+  // Other common options to configure would be `maxBatchSize` and `maxWaitTimeInSeconds`
+  const subscriptionOptions = {
+    startPosition: earliestEventPosition,
+  };
+
   const subscription = client.subscribe({
     processEvents: (events, context) => {
       // event processing code goes here
@@ -255,11 +261,16 @@ async function main() {
     processError: (err, context) => {
       // error reporting/handling code here
     }
-  });
+  },
+  subscriptionOptions
+  );
 
-  // When ready to stop receiving
-  await subscription.close();
-  await client.close();
+  // Wait for a few seconds to receive events before closing
+  setTimeout(async () => {
+    await subscription.close();
+    await client.close();
+    console.log(`Exiting sample`);
+  }, 3 * 1000);
 }
 
 main();
@@ -300,20 +311,30 @@ async function main() {
 
   const subscription = consumerClient.subscribe({
     processEvents: (events, context) => {
-      // event processing code goes here
+      // event processing code goes here 
+
+      // Mark the last event in the batch as processed, so that when the program is restarted
+      // or when the partition is picked up by another process, it can start from the next event
+      await context.updateCheckpoint(events[events.length - 1]);
     },
     processError: (err, context) => {
       // error reporting/handling code here
     }
   });
 
-  // When ready to stop receiving
-  await subscription.close();
-  await consumerClient.close();
+  // Wait for a few seconds to receive events before closing
+  setTimeout(async () => {
+    await subscription.close();
+    await client.close();
+    console.log(`Exiting sample`);
+  }, 3 * 1000);
 }
 
 main();
 ```
+
+Please see [Balance partition load across multiple instances of your application](https://docs.microsoft.com/en-us/azure/event-hubs/event-processor-balance-partition-load)
+to learn more.
 
 #### Consume events from a single partition
 
@@ -336,6 +357,12 @@ async function main() {
   );
   const partitionIds = await client.getPartitionIds();
 
+  // In this sample, we use the position of earliest available event to start from
+  // Other common options to configure would be `maxBatchSize` and `maxWaitTimeInSeconds`
+  const subscriptionOptions = {
+    startPosition: earliestEventPosition,
+  };
+
   const subscription = client.subscribe(partitionIds[0], {
     processEvents: (events, context) => {
       // event processing code goes here
@@ -343,11 +370,16 @@ async function main() {
     processError: (err, context) => {
       // error reporting/handling code here
     }
-  });
+  },
+  subscriptionOptions
+  );
 
-  // When ready to stop receiving
-  await subscription.close();
-  await client.close();
+  // Wait for a few seconds to receive events before closing
+  setTimeout(async () => {
+    await subscription.close();
+    await client.close();
+    console.log(`Exiting sample`);
+  }, 3 * 1000);
 }
 
 main();
