@@ -76,11 +76,23 @@ describe("Errors with non existing Namespace", function(): void {
   });
 
   const testError = (err: Error | MessagingError): void => {
-    const expectedErrCode = isNode ? "ENOTFOUND" : "ServiceCommunicationError";
     if (!isMessagingError(err)) {
       should.equal(true, false, "Error expected to be instance of MessagingError");
     } else {
-      should.equal(err.code, expectedErrCode, "Error code is different than expected");
+      if (isNode) {
+        should.equal(
+          err.code === "ENOTFOUND" || err.code === "EAI_AGAIN",
+          true,
+          `Error code ${err.code} is different than expected`
+        );
+      } else {
+        should.equal(
+          err.code,
+          "ServiceCommunicationError",
+          "Error code is different than expected"
+        );
+      }
+
       errorWasThrown = true;
     }
   };
