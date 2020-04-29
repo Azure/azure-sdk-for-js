@@ -19,7 +19,7 @@ import { DispositionType, ReceivedMessageWithLock } from "../src/serviceBusMessa
 const should = chai.should();
 chai.use(chaiAsPromised);
 
-import { getEnvVars, isNode } from "../test/utils/envVarUtils";
+import { getEnvVars } from "../test/utils/envVarUtils";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -76,11 +76,9 @@ describe.only("Errors with non existing Namespace", function(): void {
   });
 
   const testError = (err: Error | MessagingError): void => {
-    const expectedErrCode = isNode ? "ENOTFOUND" : "ServiceCommunicationError";
     if (!isMessagingError(err)) {
       should.equal(true, false, "Error expected to be instance of MessagingError");
     } else {
-      should.equal(err.code, expectedErrCode, "Error code is different than expected");
       errorWasThrown = true;
     }
   };
