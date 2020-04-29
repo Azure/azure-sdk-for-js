@@ -684,18 +684,24 @@ describe("invalid parameters", () => {
         caughtError = error;
       }
       should.equal(caughtError && caughtError.name, "TypeError");
-      should.equal(caughtError && caughtError.message, `Missing parameter "message"`);
+      should.equal(
+        caughtError && caughtError.message,
+        `Missing parameter "message, messages or messageBatch"`
+      );
     });
 
     it("Sendbatch: Missing messageBatch in Sender", async function(): Promise<void> {
       let caughtError: Error | undefined;
       try {
-        await sender.sendBatch(undefined as any);
+        await sender.send(undefined as any);
       } catch (error) {
         caughtError = error;
       }
       should.equal(caughtError && caughtError.name, "TypeError");
-      should.equal(caughtError && caughtError.message, `Missing parameter "messageBatch"`);
+      should.equal(
+        caughtError && caughtError.message,
+        `Missing parameter "message, messages or messageBatch"`
+      );
     });
 
     it("ScheduledMessage: Missing date in Sender", async function(): Promise<void> {

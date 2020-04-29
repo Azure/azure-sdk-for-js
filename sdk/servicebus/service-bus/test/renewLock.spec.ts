@@ -108,7 +108,7 @@ describe("renew lock", () => {
         },
         TestClientType.UnpartitionedQueue
       );
-    }).timeout(95000);
+    }).timeout(95000 + 30000);
 
     it("Streaming Receiver: No lock renewal when config value is less than lock duration", async function(): Promise<
       void
