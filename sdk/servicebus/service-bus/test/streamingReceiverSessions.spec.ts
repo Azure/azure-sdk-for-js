@@ -70,10 +70,10 @@ describe("Streaming with sessions", () => {
     receiverClient = serviceBusClient.test.addToCleanup(
       receiveMode === "receiveAndDelete"
         ? entityNames.queue
-          ? serviceBusClient.createSessionReceiver(entityNames.queue, "receiveAndDelete", {
+          ? await serviceBusClient.createSessionReceiver(entityNames.queue, "receiveAndDelete", {
               sessionId: TestMessage.sessionId
             })
-          : serviceBusClient.createSessionReceiver(
+          : await serviceBusClient.createSessionReceiver(
               entityNames.topic!,
               entityNames.subscription!,
               "receiveAndDelete",
@@ -83,10 +83,10 @@ describe("Streaming with sessions", () => {
               }
             )
         : entityNames.queue
-        ? serviceBusClient.createSessionReceiver(entityNames.queue, "peekLock", {
+        ? await serviceBusClient.createSessionReceiver(entityNames.queue, "peekLock", {
             sessionId: TestMessage.sessionId
           })
-        : serviceBusClient.createSessionReceiver(
+        : await serviceBusClient.createSessionReceiver(
             entityNames.topic!,
             entityNames.subscription!,
             "peekLock",
@@ -1040,7 +1040,7 @@ describe("Streaming with sessions", () => {
         0,
         `Expected 0 messages, but received ${receivedMsgs.length}`
       );
-      receiverClient = serviceBusClient.test.getSessionPeekLockReceiver(entityNames);
+      receiverClient = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames);
       await testPeekMsgsLength(receiverClient, totalNumOfMessages);
     }
 

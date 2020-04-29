@@ -48,7 +48,7 @@ describe("Retries - ManagementClient", () => {
     senderClient = serviceBusClient.test.addToCleanup(
       serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
-    receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
     subscriptionRuleManager = serviceBusClient.test.addToCleanup(
       serviceBusClient.getSubscriptionRuleManager(entityNames.topic!, entityNames.subscription!)
     );
@@ -360,7 +360,7 @@ describe("Retries - Receive methods", () => {
 
   async function beforeEachTest(entityType: TestClientType): Promise<void> {
     const entityNames = await serviceBusClient.test.createTestEntities(entityType);
-    receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
   }
 
   async function afterEachTest(): Promise<void> {
@@ -458,7 +458,7 @@ describe("Retries - onDetached", () => {
     senderClient = serviceBusClient.test.addToCleanup(
       serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
-    receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
   }
 
   async function afterEachTest(): Promise<void> {
