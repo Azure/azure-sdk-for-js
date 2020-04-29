@@ -102,6 +102,8 @@ remove-test-resources.yml like in the following examples:
 # Run tests
 
 - template: /eng/common/TestResources/remove-test-resources.yml
+  parameters:
+    ServiceDirectory: "${{ parameters.ServiceDirectory }}"
 ```
 
 Be sure to link the **Secrets for Resource Provisioner** variable group
