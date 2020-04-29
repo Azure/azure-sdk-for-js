@@ -146,6 +146,8 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
       let www_authenticate = response.headers.get("WWW-Authenticate");
 
       if (www_authenticate) {
+        // The challenge based authentication will contain both an authorization URI with a token,
+        // and the resource to which that token is valid against (also called the scope).
         const { authorization, resource } = this.parseWWWAuthenticate(www_authenticate);
         const challenge = new AuthenticationChallenge(authorization, resource + "/.default")
 
