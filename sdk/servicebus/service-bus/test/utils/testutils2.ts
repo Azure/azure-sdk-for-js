@@ -268,7 +268,7 @@ export class ServiceBusTestHelpers {
       // session ID for your receiver.
       // if you want to get more specific use the `getPeekLockSessionReceiver` method
       // instead.
-      return this.getSessionPeekLockReceiver(entityNames, {
+      return await this.getSessionPeekLockReceiver(entityNames, {
         sessionId: TestMessage.sessionId
       });
     } catch (err) {
