@@ -44,12 +44,16 @@ describe("Secret client - list secrets in various ways", () => {
     for await (const secretProperties of client.listPropertiesOfSecrets()) {
       try {
         await testClient.flushSecret(secretProperties.name);
-      } catch (e) {}
+      } catch {
+        // Nothing to do here.
+      }
     }
     for await (const deletedSecret of client.listDeletedSecrets()) {
       try {
         await testClient.purgeSecret(deletedSecret.name);
-      } catch (e) {}
+      } catch {
+        // Nothing to do here.
+      }
     }
   });
 
