@@ -35,7 +35,7 @@ describe("invalid parameters", () => {
         TestClientType.PartitionedQueue
       );
 
-      receiver = serviceBusClient.test.getPeekLockReceiver(entityNames);
+      receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
     });
 
     after(async () => {
@@ -116,7 +116,7 @@ describe("invalid parameters", () => {
         TestClientType.PartitionedSubscription
       );
 
-      subscriptionReceiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
+      subscriptionReceiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
 
       subscriptionRuleManager = serviceBusClient.test.addToCleanup(
         serviceBusClient.getSubscriptionRuleManager(entityNames.topic!, entityNames.subscription!)
@@ -313,7 +313,7 @@ describe("invalid parameters", () => {
         serviceBusClient.createSender(entityNames.queue!)
       );
 
-      receiver = serviceBusClient.test.getSessionPeekLockReceiver(entityNames, {
+      receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames, {
         sessionId: TestMessage.sessionId
       });
 
@@ -530,7 +530,7 @@ describe("invalid parameters", () => {
         serviceBusClient.createSender(entityNames.queue!)
       );
 
-      receiver = serviceBusClient.test.getPeekLockReceiver(entityNames);
+      receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
 
       await sender.send(TestMessage.getSessionSample());
     });
@@ -684,18 +684,24 @@ describe("invalid parameters", () => {
         caughtError = error;
       }
       should.equal(caughtError && caughtError.name, "TypeError");
-      should.equal(caughtError && caughtError.message, `Missing parameter "message"`);
+      should.equal(
+        caughtError && caughtError.message,
+        `Missing parameter "message, messages or messageBatch"`
+      );
     });
 
     it("Sendbatch: Missing messageBatch in Sender", async function(): Promise<void> {
       let caughtError: Error | undefined;
       try {
-        await sender.sendBatch(undefined as any);
+        await sender.send(undefined as any);
       } catch (error) {
         caughtError = error;
       }
       should.equal(caughtError && caughtError.name, "TypeError");
-      should.equal(caughtError && caughtError.message, `Missing parameter "messageBatch"`);
+      should.equal(
+        caughtError && caughtError.message,
+        `Missing parameter "message, messages or messageBatch"`
+      );
     });
 
     it("ScheduledMessage: Missing date in Sender", async function(): Promise<void> {

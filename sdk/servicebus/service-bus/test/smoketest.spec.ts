@@ -335,13 +335,50 @@ describe("Sample scenarios for track 2", () => {
       sender = serviceBusClient.test.addToCleanup(serviceBusClient.createSender(queue));
     });
 
+    it("Queue, next unlocked session, sessions", async () => {
+      const sessionId = Date.now().toString();
+
+      // important to send before we create the receiver so it gets handed back to
+      // us by service bus when we're round-robining available sessions.
+      await sendSampleMessage(sender, "Queue, next unlocked session, sessions", sessionId);
+
+      const receiver = serviceBusClient.test.addToCleanup(
+        await serviceBusClient.createSessionReceiver(queue, "receiveAndDelete")
+      );
+
+      // this queue was freshly created so we are the first session (and thus the first session to get picked
+      // up by the "get next available" logic).
+      assert.equal(receiver.sessionId, sessionId);
+
+      const errors: string[] = [];
+      const receivedBodies: string[] = [];
+
+      receiver.subscribe({
+        async processMessage(message: ReceivedMessage): Promise<void> {
+          receivedBodies.push(message.body);
+        },
+        async processError(err: Error): Promise<void> {
+          errors.push(err.message);
+        }
+      });
+
+      await waitAndValidate(
+        "Queue, next unlocked session, sessions",
+        receivedBodies,
+        errors,
+        receiver
+      );
+    });
+
     it("Queue, receive and delete, sessions", async () => {
       const sessionId = Date.now().toString();
       const receiver = serviceBusClient.test.addToCleanup(
-        serviceBusClient.createSessionReceiver(queue, "receiveAndDelete", { sessionId })
+        await serviceBusClient.createSessionReceiver(queue, "receiveAndDelete", { sessionId })
       );
 
-      sendSampleMessage(sender, "Queue, receive and delete, sessions", sessionId);
+      assert.equal(receiver.sessionId, sessionId);
+
+      await sendSampleMessage(sender, "Queue, receive and delete, sessions", sessionId);
 
       // note that this method is now available - only shows up in auto-complete
       // if you construct this object with a session.
@@ -371,10 +408,10 @@ describe("Sample scenarios for track 2", () => {
       const sessionId = Date.now().toString();
 
       const receiver = serviceBusClient.test.addToCleanup(
-        serviceBusClient.createSessionReceiver(queue, "peekLock", { sessionId })
+        await serviceBusClient.createSessionReceiver(queue, "peekLock", { sessionId })
       );
 
-      sendSampleMessage(sender, "Queue, peek/lock, sessions", sessionId);
+      await sendSampleMessage(sender, "Queue, peek/lock, sessions", sessionId);
 
       // note that this method is now available - only shows up in auto-complete
       // if you construct this object with a session.

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { testPollerProperties } from "./recorderUtils";
 import { SecretClient } from "../../src";
 
