@@ -1,0 +1,16 @@
+{
+  "extends": "../tsconfig.tests.json",
+  "compilerOptions": {
+    "module": "commonjs",
+    "outDir": "dist"
+  },
+  "include": [
+    "./**/*.ts"
+  ],
+  "exclude": [
+    "*.json",
+    "**/node_modules/",
+    "../node_modules",
+    "../typings"
+  ]
+}
