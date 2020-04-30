@@ -987,7 +987,7 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
       const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
       if (receiver && receiver.receiveMode !== ReceiveMode.peekLock) {
         error = new Error(
-          getErrorMessageNotSupportedInReceiveAndDeleteMode(`renew the lock on message`)
+          getErrorMessageNotSupportedInReceiveAndDeleteMode(`renew the lock on the message`)
         );
       } else if (this.delivery.remote_settled) {
         error = new Error(`Failed to renew the lock as this message is already settled.`);
