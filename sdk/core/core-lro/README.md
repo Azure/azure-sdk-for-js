@@ -57,7 +57,6 @@ You will be able to find some working examples of an implementation of an operat
 
 - [The `@azure/core-lro` samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/core-lro/samples).
 - [The `@azure/core-lro` tests](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/core-lro/test).
-- [Azure SDK libraries using `@azure/core-lro`](https://github.com/Azure/azure-sdk-for-js/search?q="from+%40azure%5C%2Fcore-lro"&unscoped_q="from+%40azure%5C%2Fcore-lro").
 
 ## Troubleshooting
 
