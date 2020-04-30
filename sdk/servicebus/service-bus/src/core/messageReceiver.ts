@@ -58,6 +58,7 @@ export interface PromiseLike {
 
 /**
  * @internal
+ * @ignore
  */
 export enum ReceiverType {
   batching = "batching",
