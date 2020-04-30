@@ -2,6 +2,9 @@
 
 ## 4.1.0-preview.2 (Unreleased)
 
+- Using `Poller` and `PollerLike` from the latest `@azure/core-lro` instead of `KVPoller` and `KVPollerLike`.
+- `KVPollerLike` is now an alias of `PollerLike`.
+- `KVPollerLike` is considered deprecated. Use `PollerLike`.
 
 ## 4.1.0-preview.1 (2020-03-10)
 
