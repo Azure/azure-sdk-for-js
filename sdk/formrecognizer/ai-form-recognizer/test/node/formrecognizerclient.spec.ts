@@ -5,22 +5,23 @@ import { assert } from "chai";
 import fs from "fs-extra";
 import path from "path";
 
-import { FormRecognizerClient, AzureKeyCredential } from "../../src";
-import { env, isPlaybackMode } from "@azure/test-utils-recorder";
+import { FormRecognizerClient } from '../../src';
+import { createRecordedRecognizerClient } from "../util/recordedClients";
+import { env, Recorder } from "@azure/test-utils-recorder";
 
 describe("FormRecognizerClient NodeJS only", () => {
   const ASSET_PATH = path.resolve(path.join(process.cwd(), "test-assets"));
   let client: FormRecognizerClient;
+  let recorder: Recorder;
 
-  before(function() {
-    // TODO: create recordings
-    if (isPlaybackMode()) {
-      this.skip();
+  beforeEach(function () {
+    ({recorder, client } = createRecordedRecognizerClient(this));
+  });
+
+  afterEach(function() {
+    if (recorder) {
+      recorder.stop();
     }
-    client = new FormRecognizerClient(
-      env.FORM_RECOGNIZER_ENDPOINT,
-      new AzureKeyCredential(env.FORM_RECOGNIZER_API_KEY)
-    );
   });
 
   it("recognizes content from a pdf file stream", async () => {
@@ -105,7 +106,7 @@ describe("FormRecognizerClient NodeJS only", () => {
     );
   });
 
-  it("recognizes content from a url", async () => {
+  it.only("recognizes content from a url", async () => {
     const testingContainerUrl: string = env.FORM_RECOGNIZER_TESTING_CONTAINER_SAS_URL;
     const urlParts = testingContainerUrl.split("?");
     const url = `${urlParts[0]}/Invoice_1.pdf?${urlParts[1]}`;
