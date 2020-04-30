@@ -3,6 +3,7 @@
 ## 5.1.1 (Unreleased)
 
 - Updates the `EventHubProducerClient.sendBatch` API to accept an array of events.
+- Improves the performance of the `EventDataBatch.tryAdd` method.
 
 ## 5.1.0 (2020-04-07)
 
