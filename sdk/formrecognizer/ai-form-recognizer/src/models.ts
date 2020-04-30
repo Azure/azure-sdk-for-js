@@ -556,10 +556,9 @@ export interface USReceipt extends RecognizedReceipt {
   transactionTime: FormField;
 }
 
-export type Locale = "US" | "UK"
+export type Locale = "US" | "UK";
 
-export type ReceiptWithLocale =
-  | { locale: "US" } & USReceipt
+export type ReceiptWithLocale = { locale: "US" } & USReceipt;
 //  | { receiptLocale: "UK" } & UKReceipt
 // ...
 
@@ -667,7 +666,7 @@ export type RecognizeContentResultResponse = RecognizeContentOperationResult & {
 };
 
 /**
- * Represents an recognized form using a model from training with labels.
+ * Represents an recognized form using a custom model.
  */
 export interface FormResult {
   /**
@@ -686,7 +685,7 @@ export interface FormResult {
 }
 
 /**
- * Represents the result from an recognize form operation using a model from training without labels.
+ * Represents the result from an recognize form operation using a custom model from training.
  */
 export type RecognizeFormOperationResult = Partial<FormResult> & {
   /**
@@ -704,7 +703,7 @@ export type RecognizeFormOperationResult = Partial<FormResult> & {
 };
 
 /**
- * Contains the response data for recognize form operation using a model from training without labels.
+ * Contains the response data for recognize form operation using a custom model from training.
  */
 export type RecognizeFormResultResponse = RecognizeFormOperationResult & {
   /**

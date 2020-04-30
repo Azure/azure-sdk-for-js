@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationOptions } from "./operationOptions";
+import { AbortSignalLike } from "@azure/abort-controller";
+import { SpanOptions } from "@azure/core-tracing";
 
 /**
  * Represents a credential capable of providing an authentication token.
@@ -20,7 +21,30 @@ export interface TokenCredential {
 /**
  * Defines options for TokenCredential.getToken.
  */
-export interface GetTokenOptions extends OperationOptions {}
+export interface GetTokenOptions {
+  /**
+   * The signal which can be used to abort requests.
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * Options used when creating and sending HTTP requests for this operation.
+   */
+  requestOptions?: {
+    /**
+     * The number of milliseconds a request can take before automatically being terminated.
+     */
+    timeout?: number;
+  };
+  /**
+   * Options used when tracing is enabled.
+   */
+  tracingOptions?: {
+    /**
+     * OpenTelemetry SpanOptions used to create a span when tracing is enabled.
+     */
+    spanOptions?: SpanOptions;
+  };
+}
 
 /**
  * Represents an access token with an expiration time.

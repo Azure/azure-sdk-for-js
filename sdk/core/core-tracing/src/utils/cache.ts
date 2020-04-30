@@ -1,10 +1,13 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { Tracer } from "@opentelemetry/types";
+import { Tracer } from "@opentelemetry/api";
 import { getGlobalObject } from "./global";
 
-const GLOBAL_TRACER_VERSION = 2;
+// V1 = OpenTelemetry 0.1
+// V2 = OpenTelemetry 0.2
+// V3 = OpenTelemetry 0.6.1
+const GLOBAL_TRACER_VERSION = 3;
 // preview5 shipped with @azure/core-tracing.tracerCache
 // and didn't have smart detection for collisions
 const GLOBAL_TRACER_SYMBOL = Symbol.for("@azure/core-tracing.tracerCache2");

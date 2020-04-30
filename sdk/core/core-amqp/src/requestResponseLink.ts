@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { AbortSignalLike, AbortError } from "@azure/abort-controller";
-import * as Constants from "./util/constants";
+import { Constants } from "./util/constants";
 import {
   Session,
   Connection,

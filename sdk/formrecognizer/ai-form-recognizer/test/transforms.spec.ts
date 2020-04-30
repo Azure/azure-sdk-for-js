@@ -13,7 +13,7 @@ import {
   toFormTable,
   toRecognizeFormResultResponse,
   toReceiptResultResponse,
-  toFormModelResponse,
+  toFormModelResponse
 } from "../src/transforms";
 import {
   FormRecognizerClientGetAnalyzeFormResultResponse as GetAnalyzeFormResultResponse,
@@ -502,7 +502,7 @@ describe("Transforms", () => {
     assert.equal(transformed.receipts![0].locale, "US"); // default to "US" for now
   });
 
-  it("toUSReceipt() converts receipt response", () => {
+  it("toUSReceipt() converts receipt to USA sales receipt", () => {
     const original: GetAnalyzeReceiptResultResponse = JSON.parse(receiptResponseString);
     const receiptResult = toReceiptResultResponse(original);
     const usReceipt = receiptResult.receipts![0];

@@ -138,11 +138,23 @@ describe("Errors with non existing Namespace", function(): void {
   });
 
   const testError = (err: Error | MessagingError): void => {
-    const expectedErrCode = isNode ? "ENOTFOUND" : "ServiceCommunicationError";
     if (!isMessagingError(err)) {
       should.equal(true, false, "Error expected to be instance of MessagingError");
     } else {
-      should.equal(err.code, expectedErrCode, "Error code is different than expected");
+      if (isNode) {
+        should.equal(
+          err.code === "ENOTFOUND" || err.code === "EAI_AGAIN",
+          true,
+          `Error code ${err.code} is different than expected`
+        );
+      } else {
+        should.equal(
+          err.code,
+          "ServiceCommunicationError",
+          "Error code is different than expected"
+        );
+      }
+
       errorWasThrown = true;
     }
   };
@@ -168,7 +180,7 @@ describe("Errors with non existing Namespace", function(): void {
     void
   > {
     const sender = sbClient.createSender("some-queue");
-    await sender.sendBatch(1 as any).catch(testError);
+    await sender.send(1 as any).catch(testError);
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
@@ -254,7 +266,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
     void
   > {
     const sender = sbClient.createSender("some-queue");
-    await sender.sendBatch(1 as any).catch((err) => testError(err, "some-queue"));
+    await sender.send(1 as any).catch((err) => testError(err, "some-queue"));
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
@@ -444,7 +456,7 @@ describe("Errors after close()", function(): void {
     sender = sbClient.test.addToCleanup(
       sbClient.createSender(entityName.queue ?? entityName.topic!)
     );
-    receiver = sbClient.test.getPeekLockReceiver(entityName);
+    receiver = await sbClient.test.getPeekLockReceiver(entityName);
 
     // Normal send/receive
     const testMessage = entityName.usesSessions
@@ -537,7 +549,7 @@ describe("Errors after close()", function(): void {
     should.equal(errorCreateBatch, expectedErrorMsg, "Expected error not thrown for createBatch()");
 
     let errorSendBatch: string = "";
-    await sender.sendBatch(1 as any).catch((err) => {
+    await sender.send(1 as any).catch((err) => {
       errorSendBatch = err.message;
     });
     should.equal(errorSendBatch, expectedErrorMsg, "Expected error not thrown for sendBatch()");
@@ -685,7 +697,7 @@ describe("Errors after close()", function(): void {
   async function testCreateReceiver(expectedErrorMsg: string): Promise<void> {
     let errorNewReceiver: string = "";
     try {
-      receiver = sbClient.test.getPeekLockReceiver(entityName);
+      receiver = await sbClient.test.getPeekLockReceiver(entityName);
     } catch (err) {
       errorNewReceiver = err.message;
     }

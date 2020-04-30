@@ -96,33 +96,6 @@ export class FrontendEndpoints {
   }
 
   /**
-   * Creates a new frontend endpoint with the specified host name within the specified Front Door.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param frontDoorName Name of the Front Door which is globally unique.
-   * @param frontendEndpointName Name of the Frontend endpoint which is unique within the Front Door.
-   * @param frontendEndpointParameters Frontend endpoint properties needed to create a new endpoint.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.FrontendEndpointsCreateOrUpdateResponse>
-   */
-  createOrUpdate(resourceGroupName: string, frontDoorName: string, frontendEndpointName: string, frontendEndpointParameters: Models.FrontendEndpoint, options?: msRest.RequestOptionsBase): Promise<Models.FrontendEndpointsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,frontDoorName,frontendEndpointName,frontendEndpointParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.FrontendEndpointsCreateOrUpdateResponse>;
-  }
-
-  /**
-   * Deletes an existing frontend endpoint with the specified parameters.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param frontDoorName Name of the Front Door which is globally unique.
-   * @param frontendEndpointName Name of the Frontend endpoint which is unique within the Front Door.
-   * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
-   */
-  deleteMethod(resourceGroupName: string, frontDoorName: string, frontendEndpointName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,frontDoorName,frontendEndpointName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
-  }
-
-  /**
    * Enables a frontendEndpoint for HTTPS traffic
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param frontDoorName Name of the Front Door which is globally unique.
@@ -147,48 +120,6 @@ export class FrontendEndpoints {
   disableHttps(resourceGroupName: string, frontDoorName: string, frontendEndpointName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
     return this.beginDisableHttps(resourceGroupName,frontDoorName,frontendEndpointName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
-  }
-
-  /**
-   * Creates a new frontend endpoint with the specified host name within the specified Front Door.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param frontDoorName Name of the Front Door which is globally unique.
-   * @param frontendEndpointName Name of the Frontend endpoint which is unique within the Front Door.
-   * @param frontendEndpointParameters Frontend endpoint properties needed to create a new endpoint.
-   * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
-   */
-  beginCreateOrUpdate(resourceGroupName: string, frontDoorName: string, frontendEndpointName: string, frontendEndpointParameters: Models.FrontendEndpoint, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
-    return this.client.sendLRORequest(
-      {
-        resourceGroupName,
-        frontDoorName,
-        frontendEndpointName,
-        frontendEndpointParameters,
-        options
-      },
-      beginCreateOrUpdateOperationSpec,
-      options);
-  }
-
-  /**
-   * Deletes an existing frontend endpoint with the specified parameters.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param frontDoorName Name of the Front Door which is globally unique.
-   * @param frontendEndpointName Name of the Frontend endpoint which is unique within the Front Door.
-   * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
-   */
-  beginDeleteMethod(resourceGroupName: string, frontDoorName: string, frontendEndpointName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
-    return this.client.sendLRORequest(
-      {
-        resourceGroupName,
-        frontDoorName,
-        frontendEndpointName,
-        options
-      },
-      beginDeleteMethodOperationSpec,
-      options);
   }
 
   /**
@@ -269,11 +200,11 @@ const listByFrontDoorOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/frontendEndpoints",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroupName0,
+    Parameters.resourceGroupName,
     Parameters.frontDoorName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -291,15 +222,15 @@ const listByFrontDoorOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/provider/Microsoft.Network/frontDoors/{frontDoorName}/frontendEndpoints/{frontendEndpointName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/frontendEndpoints/{frontendEndpointName}",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroupName0,
+    Parameters.resourceGroupName,
     Parameters.frontDoorName,
     Parameters.frontendEndpointName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -308,70 +239,6 @@ const getOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.FrontendEndpoint
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  serializer
-};
-
-const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/provider/Microsoft.Network/frontDoors/{frontDoorName}/frontendEndpoints/{frontendEndpointName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName0,
-    Parameters.frontDoorName,
-    Parameters.frontendEndpointName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "frontendEndpointParameters",
-    mapper: {
-      ...Mappers.FrontendEndpoint,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.FrontendEndpoint
-    },
-    201: {
-      bodyMapper: Mappers.FrontendEndpoint
-    },
-    202: {
-      bodyMapper: Mappers.FrontendEndpoint
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  serializer
-};
-
-const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
-  httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/provider/Microsoft.Network/frontDoors/{frontDoorName}/frontendEndpoints/{frontendEndpointName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName0,
-    Parameters.frontDoorName,
-    Parameters.frontendEndpointName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    202: {},
-    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -381,15 +248,15 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginEnableHttpsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/provider/Microsoft.Network/frontDoors/{frontDoorName}/frontendEndpoints/{frontendEndpointName}/enableHttps",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/frontendEndpoints/{frontendEndpointName}/enableHttps",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroupName0,
+    Parameters.resourceGroupName,
     Parameters.frontDoorName,
     Parameters.frontendEndpointName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -413,15 +280,15 @@ const beginEnableHttpsOperationSpec: msRest.OperationSpec = {
 
 const beginDisableHttpsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/provider/Microsoft.Network/frontDoors/{frontDoorName}/frontendEndpoints/{frontendEndpointName}/disableHttps",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/frontendEndpoints/{frontendEndpointName}/disableHttps",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroupName0,
+    Parameters.resourceGroupName,
     Parameters.frontDoorName,
     Parameters.frontendEndpointName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage

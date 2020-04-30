@@ -41,7 +41,7 @@ export const apiVersion0: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2019-08-01',
+    defaultValue: '2020-03-01',
     type: {
       name: "String"
     }
@@ -53,13 +53,25 @@ export const apiVersion1: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2019-08-01-preview',
+    defaultValue: '2019-08-01',
     type: {
       name: "String"
     }
   }
 };
 export const apiVersion2: msRest.OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "api-version",
+    defaultValue: '2019-08-01-preview',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const apiVersion3: msRest.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     required: true,
@@ -186,6 +198,18 @@ export const nextPageLink: msRest.OperationURLParameter = {
     }
   },
   skipEncoding: true
+};
+export const notebookWorkspaceName: msRest.OperationURLParameter = {
+  parameterPath: "notebookWorkspaceName",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "notebookWorkspaceName",
+    defaultValue: 'default',
+    type: {
+      name: "String"
+    }
+  }
 };
 export const partitionKeyRangeId: msRest.OperationURLParameter = {
   parameterPath: "partitionKeyRangeId",

@@ -66,7 +66,16 @@ You can instantiate this class using its constructors:
 
 ### Key concepts
 
-Once you have initialized the [ServiceBusClient][sbclient] class you will be able to:
+Once you've initialized a `ServiceBusClient`, you can interact with these resources within a
+Service Bus Namespace:
+
+- [Queues][queue_concept]: Allows for sending and receiving messages. Often used for point-to-point communication.
+- [Topics][topic_concept]: As opposed to Queues, Topics are better suited to publish/subscribe scenarios. A topic can be sent to, but requires a subscription, of which there can be multiple in parallel, to consume from.
+- [Subscriptions][subscription_concept]: The mechanism to consume from a Topic. Each subscription is independent, and receives a copy of each message sent to the topic. Rules and Filters can be used to tailor which messages are received by a specific subscription.
+
+For more information about these resources, see [What is Azure Service Bus?][service_bus_overview].
+
+To interact with these resources, one should be familiar with the following SDK concepts:
 
 - Send messages, to a queue or topic, using a [`Sender`][sender] created using [`ServiceBusClient.createSender()`][sbclient_createsender].
 - Receive messages, from either a queue or a subscription, using a [`Receiver`][receiver] created using [`ServiceBusClient.createReceiver()`][sbclient_createreceiver].
@@ -83,6 +92,7 @@ The following sections provide code snippets that cover some of the common tasks
 - [Settle a message](#settle-a-message)
 - [Send messages using Sessions](#send-messages-using-sessions)
 - [Receive messages from Sessions](#receive-messages-from-sessions)
+- [Additional samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples)
 
 ### Send messages
 
@@ -91,24 +101,23 @@ using the [createSender][sbclient_createsender] method.
 
 This gives you a sender which you can use to [send][sender_send] messages.
 
-You can also use the [sendBatch][sender_sendbatch]
-method to efficiently send multiple messages in a single send.
-
 ```javascript
 const sender = serviceBusClient.createSender("my-queue");
+
+// sending a single message
 await sender.send({
-  body: "my-message-body",
+  body: "my-message-body"
 });
 
-const batch = await sender.createBatch();
-
-// NOTE: tryAdd() returns false if the message could not
-// be added because the batch is at capacity.
-batch.tryAdd({ body: "my-message-body-1" });
-batch.tryAdd({ body: "my-message-body-2" });
-batch.tryAdd({ body: "my-message-body-3" });
-
-await sender.sendBatch(batch);
+// sending multiple messages
+await sender.send([
+  {
+    body: "my-message-body"
+  },
+  {
+    body: "another-message-body
+  }
+]);
 ```
 
 ### Receive messages
@@ -147,7 +156,7 @@ const myErrorHandler = async (error) => {
 };
 receiver.subscribe({
   processMessage: myMessageHandler,
-  processError: myErrorHandler,
+  processError: myErrorHandler
 });
 ```
 
@@ -183,7 +192,7 @@ your message lands in the right session.
 const sender = serviceBusClient.createSender("my-session-queue");
 await sender.send({
   body: "my-message-body",
-  sessionId: "my-session",
+  sessionId: "my-session"
 });
 ```
 
@@ -208,7 +217,7 @@ There are two ways of choosing which session to open:
 
    ```javascript
    const receiver = serviceBusClient.createSessionReceiver("my-session-queue", "peekLock", {
-     sessionId: "my-session",
+     sessionId: "my-session"
    });
    ```
 
@@ -301,7 +310,6 @@ If you'd like to contribute to this library, please read the [contributing guide
 [sbclient_createsessionreceiver]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.1/classes/servicebusclient.html#createsessionreceiver
 [sender]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.1/interfaces/sender.html
 [sender_send]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.1/interfaces/sender.html#send
-[sender_sendbatch]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.1/interfaces/sender.html#sendbatch
 [receiver]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.1/interfaces/receiver.html
 [receiverreceivebatch]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.1/interfaces/receiver.html#receivebatch
 [receiver_subscribe]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.1/interfaces/receiver.html#subscribe
@@ -310,3 +318,6 @@ If you'd like to contribute to this library, please read the [contributing guide
 [migrationguide]: https://github.com/Azure/azure-sdk-for-js/blob/%40azure/service-bus_7.0.0-preview.1/sdk/servicebus/service-bus/migrationguide.md
 [docsms_messagesessions]: https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sessions
 [docsms_messagesessions_fifo]: https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sessions#first-in-first-out-fifo-pattern
+[queue_concept]: https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-messaging-overview#queues
+[topic_concept]: https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-messaging-overview#topics
+[subscription_concept]: https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-queues-topics-subscriptions#topics-and-subscriptions

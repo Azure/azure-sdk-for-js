@@ -109,9 +109,7 @@ export type CognitiveServicesAccount = DefaultCognitiveServicesAccount | Cogniti
 
 // @public
 export interface CognitiveServicesAccountKey {
-    // (undocumented)
     description?: string;
-    // (undocumented)
     key: string;
     odatatype: "#Microsoft.Azure.Search.CognitiveServicesByKey";
 }
@@ -229,7 +227,6 @@ export type DataSourceType = 'azuresql' | 'cosmosdb' | 'azureblob' | 'azuretable
 
 // @public
 export interface DefaultCognitiveServicesAccount {
-    // (undocumented)
     description?: string;
     odatatype: "#Microsoft.Azure.Search.DefaultCognitiveServices";
 }
@@ -1196,6 +1193,7 @@ export class SearchServiceClient {
     getIndexer(indexerName: string, options?: GetIndexerOptions): Promise<Indexer>;
     getIndexerStatus(indexerName: string, options?: GetIndexerStatusOptions): Promise<IndexerExecutionInfo>;
     getIndexStatistics(indexName: string, options?: GetIndexStatisticsOptions): Promise<GetIndexStatisticsResult>;
+    getSearchIndexClient<T>(indexName: string, options?: SearchIndexClientOptions): SearchIndexClient<T>;
     getServiceStatistics(options?: GetServiceStatisticsOptions): Promise<ServiceStatistics>;
     getSkillset(skillsetName: string, options?: GetSkillSetOptions): Promise<Skillset>;
     getSynonymMap(synonymMapName: string, options?: GetSynonymMapsOptions): Promise<SynonymMap>;
@@ -1326,7 +1324,7 @@ export interface SplitSkill {
     defaultLanguageCode?: SplitSkillLanguage;
     description?: string;
     inputs: InputFieldMappingEntry[];
-    maximumPageLength?: number;
+    maxPageLength?: number;
     name?: string;
     odatatype: "#Microsoft.Skills.Text.SplitSkill";
     outputs: OutputFieldMappingEntry[];

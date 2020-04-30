@@ -6,10 +6,15 @@ import * as assert from "assert";
 import { AppConfigurationClient } from "../../src";
 import nock from "nock";
 import { getGeneratedClientOptions, packageVersion } from "../../src/appConfigurationClient";
-import { createAppConfigurationClientForTests, assertThrowsRestError } from "../testHelpers";
+import {
+  createAppConfigurationClientForTests,
+  assertThrowsRestError,
+  startRecorder
+} from "../testHelpers";
 import * as chai from "chai";
+import { Recorder } from "@azure/test-utils-recorder";
 
-describe("http request related tests", () => {
+describe("http request related tests", function() {
   describe("unit tests", () => {
     describe("parseSyncToken", () => {
       it("can parse various sync tokens", () => {
@@ -117,26 +122,18 @@ describe("http request related tests", () => {
 
   describe("custom client ID", () => {
     let client: AppConfigurationClient;
-    let scope: nock.Scope;
+    let recorder: Recorder;
 
     beforeEach(function() {
+      recorder = startRecorder(this);
       client = createAppConfigurationClientForTests() || this.skip();
-      scope = nock(/.*/);
     });
 
     afterEach(function() {
-      if (!this.currentTest?.isPending()) {
-        assert.ok(scope.isDone());
-        nock.cleanAll();
-      }
+      recorder.stop();
     });
 
     it("custom client request ID", async () => {
-      scope
-        .matchHeader("x-ms-client-request-id", /this is my custom client request id/)
-        .get(/.*/)
-        .reply(200);
-
       const iterator = await client.listConfigurationSettings({
         requestOptions: {
           customHeaders: {
@@ -149,13 +146,7 @@ describe("http request related tests", () => {
     });
 
     it("default client request ID", async () => {
-      scope
-        .matchHeader("x-ms-client-request-id", /^[A-Za-z0-9\-]+$/)
-        .get(/.*/)
-        .reply(200);
-
       const iterator = await client.listConfigurationSettings();
-
       await iterator.next();
     });
   });
@@ -177,14 +168,22 @@ describe("http request related tests", () => {
           syncTokens: syncTokens
         }) || this.skip();
 
+      nock.recorder.clear();
+      nock.restore();
+      nock.cleanAll();
+      if (!nock.isActive()) {
+        nock.activate();
+      }
       scope = nock(/.*/);
     });
 
     afterEach(function() {
       if (!this.currentTest?.isPending()) {
         assert.ok(scope.isDone());
-        nock.cleanAll();
       }
+      nock.recorder.clear();
+      nock.restore();
+      nock.cleanAll();
     });
 
     it("policy is setup properly to send sync tokens", async function() {

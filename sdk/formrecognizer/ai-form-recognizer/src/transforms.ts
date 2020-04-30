@@ -507,7 +507,7 @@ export function toReceiptResultResponse(
     version: result.analyzeResult!.version,
     receipts: result.analyzeResult!.documentResults!.map((d) => {
       const receipt = toRecognizedReceipt(d, pages);
-      return toReceiptWithLocale({...receipt, locale: "US"}); // default to US until service returns locale info.
+      return toReceiptWithLocale({ ...receipt, locale: "US" }); // default to US until service returns locale info.
     })
   };
 }
@@ -523,7 +523,7 @@ export function toFormModelResponse(response: GetCustomModelResponse): FormModel
   }
 
   if (response.trainResult?.averageModelAccuracy || response.trainResult?.fields) {
-    // labeled, populate from trainingResult.fields
+    // training with forms and labels, populate from trainingResult.fields
     const fields: { [propertyName: string]: CustomFormSubModelField } = {};
     for (const f of response.trainResult.fields!) {
       fields[f.fieldName] = { name: f.fieldName, accuracy: f.accuracy };
@@ -535,7 +535,7 @@ export function toFormModelResponse(response: GetCustomModelResponse): FormModel
       models: [{ accuracy: response.trainResult.averageModelAccuracy, formType: "TBD", fields }]
     };
   } else if (response.keys) {
-    // unlabeled, populate from trainingResult.keys
+    // training with forms, populate from trainingResult.keys
     const models: CustomFormSubModel[] = [];
     for (const clusterKey in response.keys.clusters) {
       const cluster = response.keys.clusters[clusterKey];

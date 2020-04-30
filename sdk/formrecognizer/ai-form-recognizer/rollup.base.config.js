@@ -44,7 +44,7 @@ export function nodeConfig(test = false) {
     baseConfig.output.file = "dist-test/index.node.js";
 
     // mark devdeps as external
-    baseConfig.external.push(...devDepNames);
+    baseConfig.external.push(...devDepNames, "path");
 
     // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0, rollup started respecting
     // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also
@@ -87,7 +87,7 @@ export function browserConfig(test = false) {
         namedExports: {
           chai: ["assert"],
           events: ["EventEmitter"],
-          "@opentelemetry/types": ["CanonicalCode", "SpanKind", "TraceFlags"]
+          "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
         }
       }),
       viz({ filename: "dist-browser/browser-stats.html", sourcemap: false })
