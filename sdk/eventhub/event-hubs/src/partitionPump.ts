@@ -188,7 +188,7 @@ export function createProcessingSpan(
   const span = getTracer().startSpan("Azure.EventHubs.process", {
     kind: SpanKind.CONSUMER,
     links,
-    parent: getParentSpan({ tracingOptions: options?.tracingOptions })
+    parent: getParentSpan(options?.tracingOptions)
   });
 
   span.setAttributes({

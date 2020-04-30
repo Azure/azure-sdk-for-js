@@ -185,7 +185,7 @@ export class EventHubProducer {
       for (let i = 0; i < eventData.length; i++) {
         const event = eventData[i];
         if (!event.properties || !event.properties[TRACEPARENT_PROPERTY]) {
-          const messageSpan = createMessageSpan(getParentSpan(options));
+          const messageSpan = createMessageSpan(getParentSpan(options.tracingOptions));
           // since these message spans are created from same context as the send span,
           // these message spans don't need to be linked.
           // replace the original event with the instrumented one
@@ -197,7 +197,7 @@ export class EventHubProducer {
       spanContextsToLink = eventData._messageSpanContexts;
     }
 
-    const sendSpan = this._createSendSpan(getParentSpan(options), spanContextsToLink);
+    const sendSpan = this._createSendSpan(getParentSpan(options.tracingOptions), spanContextsToLink);
 
     try {
       const result = await this._eventHubSender!.send(eventData, {

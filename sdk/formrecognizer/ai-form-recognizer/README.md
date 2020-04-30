@@ -42,7 +42,7 @@ az group create --name my-resource-group --location westus2
 If you use the Azure CLI, replace `<your-resource-group-name>` and `<your-resource-name>` with your own unique names:
 
 ```bash
-az cognitiveservices account create --kind FormRecognizer --resource-group <your-resource-group-name> --name <your-resource-name>
+az cognitiveservices account create --kind FormRecognizer --resource-group <your-resource-group-name> --name <your-resource-name> --sku <your-sku-name> --location <your-location>
 ```
 
 ### Install the `@azure/ai-form-recognizer` package
