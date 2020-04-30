@@ -995,12 +995,9 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
     }
     if (error) {
       log.error(
-        "[%s] An error occurred when renewing the lock on the message with id '%s'. " +
-          "This message was received using the receiver %s which %s currently open: %O",
+        "[%s] An error occurred when renewing the lock on the message with id '%s': %O",
         this._context.namespace.connectionId,
         this.messageId,
-        this.delivery.link.name,
-        this.delivery.link.is_open() ? "is" : "is not",
         error
       );
       throw error;
@@ -1074,12 +1071,9 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
       }
       if (error) {
         log.error(
-          "[%s] An error occured when settling a message with id '%s'. " +
-            "This message was received using the receiver %s which %s currently open: %O",
+          "[%s] An error occurred when settling a message with id '%s': %O",
           this._context.namespace.connectionId,
           this.messageId,
-          this.delivery.link.name,
-          this.delivery.link.is_open() ? "is" : "is not",
           error
         );
         throw error;
