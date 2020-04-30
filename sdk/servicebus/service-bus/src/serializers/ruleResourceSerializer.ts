@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
@@ -372,7 +375,7 @@ function getSqlParametersOrUndefined(value: any): SqlParameter[] | undefined {
     return undefined;
   }
 
-  let rawParameters = value["KeyValueOfstringanyType"];
+  const rawParameters = value["KeyValueOfstringanyType"];
   if (Array.isArray(rawParameters)) {
     for (let i = 0; i < rawParameters.length; i++) {
       parameters.push(buildSqlParameter(rawParameters[i]));

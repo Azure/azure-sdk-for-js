@@ -1,4 +1,7 @@
 // Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 import chai from "chai";
@@ -369,7 +372,7 @@ function checkXmlHasPropertiesInExpectedOrder(
   xml: string,
   expectedOrderedProperties: Array<string>
 ) {
-  let orderedPropertyIndices: Array<number> = [];
+  const orderedPropertyIndices: Array<number> = [];
   for (let i = 0; i < expectedOrderedProperties.length; i++) {
     const index = xml.indexOf(`<${expectedOrderedProperties[i]}>`);
     if (index < 0) {
