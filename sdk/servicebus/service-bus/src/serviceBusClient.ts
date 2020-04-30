@@ -11,7 +11,7 @@ import {
 import { ConnectionContext } from "./connectionContext";
 import { ClientEntityContext } from "./clientEntityContext";
 import { SenderImpl, Sender } from "./sender";
-import { CreateSessionReceiverOptions } from "./models";
+import { CreateSessionReceiverOptions, CreateSenderOptions } from "./models";
 import { Receiver, ReceiverImpl } from "./receivers/receiver";
 import { SessionReceiver, SessionReceiverImpl } from "./receivers/sessionReceiver";
 import { ReceivedMessageWithLock, ReceivedMessage } from "./serviceBusMessage";
@@ -20,6 +20,7 @@ import {
   SubscriptionRuleManager
 } from "./receivers/subscriptionRuleManager";
 import { getRetryAttemptTimeoutInMs } from "./util/utils";
+import { AbortSignalLike } from "@azure/abort-controller";
 
 /**
  * A client that can create Sender instances for sending messages to queues and
@@ -242,7 +243,7 @@ export class ServiceBusClient {
    * Creates a Sender which can be used to send messages, schedule messages to be sent at a later time
    * and cancel such scheduled messages.
    */
-  async createSender(queueOrTopicName: string): Promise<Sender> {
+  async createSender(queueOrTopicName: string, options?: CreateSenderOptions): Promise<Sender> {
     validateEntityNamesMatch(this._connectionContext.config.entityPath, queueOrTopicName, "sender");
 
     const clientEntityContext = ClientEntityContext.create(
@@ -251,7 +252,7 @@ export class ServiceBusClient {
       `${queueOrTopicName}/${generate_uuid()}`
     );
     const sender = new SenderImpl(clientEntityContext, this._clientOptions.retryOptions);
-    await sender.open();
+    await sender.open(options);
     return sender;
   }
 
