@@ -7,14 +7,9 @@
   "description": "Azure Service Bus SDK for Node.js",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus",
   "repository": "github:Azure/azure-sdk-for-js",
-  "keywords": [
-    "azure",
-    "cloud",
-    "service bus",
-    "AMQP"
-  ],
+  "keywords": ["azure", "cloud", "service bus", "AMQP", "Azure"],
   "bugs": {
-    "url": "https://github.com/azure/azure-sdk-for-js/issues"
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "main": "./dist/index.js",
   "module": "dist-esm/src/index.js",
@@ -64,7 +59,7 @@
     "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 120000 --exit --full-trace dist-esm/test/*.spec.js dist-esm/test/**/*.spec.js",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
-    "lint": "eslint package.json api-extractor.json src test --ext .ts -f html -o search-lintReport.html || exit 0",
+    "lint": "eslint package.json api-extractor.json src test --ext .ts -f html -o service-bus-lintReport.html || exit 0",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "test:browser": "npm run clean && npm run build:test:browser && npm run integration-test:browser",
