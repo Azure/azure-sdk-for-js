@@ -39,7 +39,7 @@ import { Credential } from "./credentials/Credential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { FileSystemAttributes } from "./FileSystemAttributes";
 import { createSpan } from "./utils/tracing";
-import { CanonicalCode } from "@opentelemetry/types";
+import { CanonicalCode } from "@opentelemetry/api";
 import { HttpResponse } from "@azure/core-http";
 
 /**

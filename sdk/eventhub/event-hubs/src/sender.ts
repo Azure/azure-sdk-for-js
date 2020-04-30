@@ -10,7 +10,7 @@ import { logger, logErrorStackTrace } from "./log";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
 import { EventDataBatch, isEventDataBatch, EventDataBatchImpl } from "./eventDataBatch";
 import { getTracer } from "@azure/core-tracing";
-import { SpanContext, Span, SpanKind, CanonicalCode, Link } from "@opentelemetry/types";
+import { SpanContext, Span, SpanKind, CanonicalCode, Link } from "@opentelemetry/api";
 import { instrumentEventData, TRACEPARENT_PROPERTY } from "./diagnostics/instrumentEventData";
 import { createMessageSpan } from "./diagnostics/messageSpan";
 import { getParentSpan } from "./util/operationOptions";
@@ -245,12 +245,12 @@ export class EventHubProducer {
   }
 
   private _createSendSpan(
-    parentSpan?: Span | SpanContext,
+    parentSpan?: Span | SpanContext | null,
     spanContextsToLink: SpanContext[] = []
   ): Span {
-    const links: Link[] = spanContextsToLink.map((spanContext) => {
+    const links: Link[] = spanContextsToLink.map((context) => {
       return {
-        spanContext
+        context
       };
     });
     const tracer = getTracer();

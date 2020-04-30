@@ -12,7 +12,7 @@ import {
 import { IdentityClient, TokenCredentialOptions } from "../client/identityClient";
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
-import { CanonicalCode } from "@opentelemetry/types";
+import { CanonicalCode } from "@opentelemetry/api";
 import { logger } from "../util/logging";
 
 const DefaultScopeSuffix = "/.default";
@@ -245,6 +245,19 @@ export class ManagedIdentityCredential implements TokenCredential {
           authRequestOptions = this.createCloudShellMsiAuthRequest(resource, clientId);
         }
       } else {
+        expiresInParser = (requestBody: any) => {
+          if (requestBody.expires_on) {
+            // Use the expires_on timestamp if it's available
+            const expires = +requestBody.expires_on * 1000;
+            logger.info(`ManagedIdentityCredential: IMDS using expires_on: ${expires} (original value: ${requestBody.expires_on})`);
+            return expires;
+          } else {
+            // If these aren't possible, use expires_in and calculate a timestamp
+            const expires = Date.now() + requestBody.expires_in * 1000;
+            logger.info(`ManagedIdentityCredential: IMDS using expires_in: ${expires} (original value: ${requestBody.expires_in})`);
+            return expires;
+          }
+        };
         // Ping the IMDS endpoint to see if it's available
         if (
           !checkIfImdsEndpointAvailable ||

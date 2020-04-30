@@ -13,7 +13,7 @@ import {
   SenderOptions,
   generate_uuid
 } from "rhea-promise";
-import * as Constants from "./util/constants";
+import { Constants } from "./util/constants";
 import { logger, logErrorStackTrace } from "./log";
 import { translate } from "./errors";
 import { defaultLock } from "./util/utils";

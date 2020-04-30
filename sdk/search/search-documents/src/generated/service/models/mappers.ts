@@ -3900,7 +3900,7 @@ export const SplitSkill: coreHttp.CompositeMapper = {
           ]
         }
       },
-      maximumPageLength: {
+      maxPageLength: {
         nullable: true,
         serializedName: "maximumPageLength",
         type: {

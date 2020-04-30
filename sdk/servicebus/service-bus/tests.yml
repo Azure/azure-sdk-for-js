@@ -19,7 +19,7 @@ jobs:
       # Use a more simple matrix because these tests run for a long time
       Matrix:
         Linux_Node10:
-          OSVmImage: "ubuntu-16.04"
+          OSVmImage: "ubuntu-18.04"
           TestType: "node"
           PublishCodeCoverage: true
         Browser_Windows_Node10:

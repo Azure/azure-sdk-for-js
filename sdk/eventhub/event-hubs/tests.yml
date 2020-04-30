@@ -18,7 +18,7 @@ jobs:
       # Remove Browser tests from matrix since they are currently a no-op
       Matrix:
         Linux_Node10:
-          OSVmImage: "ubuntu-16.04"
+          OSVmImage: "ubuntu-18.04"
           TestType: "node"
           NodeVersion: "10.x"
           PublishCodeCoverage: true
@@ -31,7 +31,7 @@ jobs:
           TestType: "node"
           NodeVersion: "10.x"
         Linux_Node12:
-          OSVmImage: "ubuntu-16.04"
+          OSVmImage: "ubuntu-18.04"
           TestType: "node"
           NodeVersion: "12.x"
         Windows_Node12:
@@ -43,7 +43,7 @@ jobs:
           TestType: "node"
           NodeVersion: "12.x"
         Linux_Node8:
-          OSVmImage: "ubuntu-16.04"
+          OSVmImage: "ubuntu-18.04"
           TestType: "node"
           NodeVersion: "8.x"
         Windows_Node8:

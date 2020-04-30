@@ -3,7 +3,7 @@
 
 import * as fs from "fs";
 import { HttpRequestBody, HttpResponse, isNode, TransferProgressEvent } from "@azure/core-http";
-import { CanonicalCode } from "@opentelemetry/types";
+import { CanonicalCode } from "@opentelemetry/api";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { FileDownloadResponse } from "./FileDownloadResponse";
 import {

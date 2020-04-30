@@ -15,7 +15,7 @@ import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
 import { createSpan } from "./tracing";
-import { CanonicalCode } from "@opentelemetry/types";
+import { CanonicalCode } from "@opentelemetry/api";
 import { FormRecognizerClient as GeneratedClient } from "./generated/formRecognizerClient";
 import {
   FormRecognizerClientGetCustomModelsResponse as ListModelsResponseModel,
@@ -209,7 +209,7 @@ export class FormTrainingClient {
   }
 
   /**
-   * Get detailed information about a model from training without labels.
+   * Get detailed information about a custom model from training.
    *
    * @param {string} modelId Id of the model to get information
    * @param {GetModelOptions} options Options to the Get Model operation

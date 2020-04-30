@@ -12,8 +12,8 @@ require("dotenv").config();
 
 async function main() {
   // You will need to set these environment variables or edit the following values
-  const endpoint = process.env["COGNITIVE_SERVICE_ENDPOINT"] || "<cognitive service endpoint>";
-  const apiKey = process.env["COGNITIVE_SERVICE_API_KEY"] || "<api key>";
+  const endpoint = process.env["FORM_RECOGNIZER_ENDPOINT"] || "<cognitive service endpoint>";
+  const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] || "<api key>";
 
   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
   const url =
