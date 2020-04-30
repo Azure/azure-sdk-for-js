@@ -81,7 +81,7 @@ describe("Random scheme in the endpoint from connection string", function(): voi
     sbClientWithRelaxedEndPoint = new ServiceBusClient(
       getEnvVars().SERVICEBUS_CONNECTION_STRING.replace("sb://", "CheeseBurger://")
     );
-    senderClient = sbClientWithRelaxedEndPoint.createSender(entities.queue!);
+    senderClient = await sbClientWithRelaxedEndPoint.createSender(entities.queue!);
     receiverClient = !entities.usesSessions
       ? sbClientWithRelaxedEndPoint.createReceiver(entities.queue!, "peekLock")
       : await sbClientWithRelaxedEndPoint.createSessionReceiver(entities.queue!, "peekLock", {
