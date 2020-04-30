@@ -27,7 +27,7 @@
       "type": "string",
       "defaultValue": "[resourceId('2cd617ea-1866-46b1-90e3-fffb087ebf9b', 'TrainingData', 'Microsoft.Storage/storageAccounts', parameters('blobStorageAccount'))]"
     },
-    "blobSasProperties": {
+    "trainingDataSasProperties": {
       "type": "object",
       "defaultValue": {
         "canonicalizedResource": "[concat('/blob/', parameters('blobStorageAccount'), '/', parameters('trainingDataContainer'))]",
@@ -39,6 +39,15 @@
     "testingDataContainer": {
       "type": "string",
       "defaultValue": "testingdata"
+    },
+    "testingDataSasProperties": {
+      "type": "object",
+      "defaultValue": {
+        "canonicalizedResource": "[concat('/blob/', parameters('blobStorageAccount'), '/', parameters('testingDataContainer'))]",
+        "signedExpiry": "[dateTimeAdd(utcNow('u'), 'PT2H')]",
+        "signedPermission": "rl",
+        "signedResource": "c"
+      }
     }
   },
   "variables": {
@@ -80,11 +89,11 @@
     },
     "FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL": {
       "type": "string",
-      "value": "[concat(reference(parameters('blobResourceId'), '2019-06-01').primaryEndpoints.blob, parameters('trainingDataContainer'), '?', listServiceSas(parameters('blobResourceId'), '2019-06-01', parameters('blobSasProperties')).serviceSasToken)]"
+      "value": "[concat(reference(parameters('blobResourceId'), '2019-06-01').primaryEndpoints.blob, parameters('trainingDataContainer'), '?', listServiceSas(parameters('blobResourceId'), '2019-06-01', parameters('trainingDataSasProperties')).serviceSasToken)]"
     },
     "FORM_RECOGNIZER_TESTING_CONTAINER_SAS_URL": {
       "type": "string",
-      "value": "[concat(reference(parameters('blobResourceId'), '2019-06-01').primaryEndpoints.blob, parameters('testingDataContainer'), '?', listServiceSas(parameters('blobResourceId'), '2019-06-01', parameters('blobSasProperties')).serviceSasToken)]"
+      "value": "[concat(reference(parameters('blobResourceId'), '2019-06-01').primaryEndpoints.blob, parameters('testingDataContainer'), '?', listServiceSas(parameters('blobResourceId'), '2019-06-01', parameters('testingDataSasProperties')).serviceSasToken)]"
     }
   }
 }
