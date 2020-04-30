@@ -117,7 +117,7 @@ There are several types of operations that can be executed against the service:
 -   [Index management operations](https://docs.microsoft.com/rest/api/searchservice/index-operations). Create, delete, update, or configure a search index.
 -   [Document operations](https://docs.microsoft.com/rest/api/searchservice/document-operations). Add, update, or delete documents in the index, query the index, or look up specific documents by ID.
 -   [Indexer operations](https://docs.microsoft.com/rest/api/searchservice/indexer-operations). Automate aspects of an indexing operation by configuring a data source and an indexer that you can schedule or run on demand. This feature is supported for a limited number of data source types.
--   [Skillset operations](https://docs.microsoft.com/rest/api/searchservice/skillset-operations). Part of a cognitive search workload, a skillset defines a series of a series of enrichment processing steps. A skillset is consumed by an indexer.
+-   [Skillset operations](https://docs.microsoft.com/rest/api/searchservice/skillset-operations). Part of a cognitive search workload, a skillset defines a series of enrichment processing steps. A skillset is consumed by an indexer.
 -   [Synonym map operations](https://docs.microsoft.com/rest/api/searchservice/synonym-map-operations). A synonym map is a service-level resource that contains user-defined synonyms. This resource is maintained independently from search indexes. Once uploaded, you can point any searchable field to the synonym map (one per field).
 
 ## Typescript/Javascript specific concepts
