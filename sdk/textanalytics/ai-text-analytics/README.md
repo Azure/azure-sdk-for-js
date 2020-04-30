@@ -359,12 +359,16 @@ main();
 
 ### Enable logs
 
-You can set the following environment variable to see debug logs when using this library.
+You can set the following environment variable to get the debug logging output when using this library.
 
-- Getting debug logs from the Azure TextAnalytics client library
+- Getting debug logs from the Azure Text Analytics client library
 
 ```bash
-export DEBUG=azure*
+export AZURE_LOG_LEVEL=verbose
+```
+
+For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/logger).
+
 ```
 
 ## Next steps

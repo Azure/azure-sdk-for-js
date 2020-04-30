@@ -5,6 +5,8 @@
 - Fixes an issue where non-retryable errors caused by a connection disconnecting were not getting surfaced to the user's registered error handler
   when using the `subscribe` method on a receiver.
   [PR 8562](https://github.com/Azure/azure-sdk-for-js/pull/8562)
+- Provided down-leveled type declaration files to support older TypeScript versions 3.1 to 3.6.
+  [PR 8619](https://github.com/Azure/azure-sdk-for-js/pull/8619)
 
 ## 7.0.0-preview.1 (2020-04-07)
 

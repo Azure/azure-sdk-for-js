@@ -191,9 +191,10 @@ export interface ConnectionContextBase {
     readonly config: ConnectionConfig;
     connection: Connection;
     connectionId: string;
-    readonly connectionLock: string;
+    connectionLock: string;
     dataTransformer: DataTransformer;
-    readonly negotiateClaimLock: string;
+    negotiateClaimLock: string;
+    refreshConnection: () => void;
     readonly tokenCredential: SharedKeyCredential | TokenCredential;
     wasConnectionCloseCalled: boolean;
 }

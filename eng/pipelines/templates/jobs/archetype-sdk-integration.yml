@@ -114,6 +114,8 @@ jobs:
 
       - ${{ if ne(parameters.ResourceServiceDirectory, '') }}:
         - template: /eng/common/TestResources/remove-test-resources.yml
+          parameters:
+            ServiceDirectory: "${{ parameters.ResourceServiceDirectory }}"
 
       - task: PublishCodeCoverageResults@1
         displayName: "Publish NodeJs Code Coverage to DevOps"
