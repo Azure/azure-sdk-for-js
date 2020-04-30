@@ -1,6 +1,6 @@
 # Azure Core LRO client library for JavaScript
 
-`@azure/core-lro` is a JavaScript library that allows developers to build pollers that keep track of Long Running Operations (LROs) that require consecutive calls to endpoints provided by the Azure services to update a local representation of the status of the remote operation until its completion.
+`@azure/core-lro` is a JavaScript library that allows developers to build pollers that keep track of Long Running Operations (LROs) against Azure services. Until completion, such operations require consecutive calls to Azure services to update a local representation of the remote operation status.
 
 **Please note:** This library is intended to be used as a dependency of official Azure SDK packages and not intended for inclusion in your projects directly.
 
