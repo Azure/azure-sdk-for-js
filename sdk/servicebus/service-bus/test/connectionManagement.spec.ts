@@ -4,7 +4,7 @@
 import chai from "chai";
 const assert = chai.assert;
 import chaiAsPromised from "chai-as-promised";
-import { delay, Receiver, ReceivedMessageWithLock } from "../src";
+import { delay } from "../src";
 import { createServiceBusClientForTests, ServiceBusClientForTests } from "./utils/testutils2";
 import { defaultLock } from "@azure/core-amqp";
 import { TestClientType } from "./utils/testUtils";
@@ -15,9 +15,7 @@ const should = chai.should();
 chai.use(chaiAsPromised);
 
 describe("controlled connection initialization", () => {
-  let closeAll: () => Promise<void>;
   let sender: SenderImpl;
-  let receiver: Receiver<ReceivedMessageWithLock>;
   let senderEntityPath: string;
   let serviceBusClient: ServiceBusClientForTests;
 
@@ -34,44 +32,30 @@ describe("controlled connection initialization", () => {
       throw new Error("queue name should not be null");
     }
 
+    // casting because I need access to 'open' and the return type of createSender() is an
+    // interface.
     sender = (await serviceBusClient.createSender(queue!)) as SenderImpl;
     senderEntityPath = queue!;
-
-    receiver = serviceBusClient.createReceiver(queue!, "peekLock");
-
-    closeAll = async () => {
-      await sender.close();
-      await sender.close();
-      await receiver.close();
-      await serviceBusClient?.close();
-    };
   });
 
-  afterEach(async () => {
-    if (closeAll) {
-      await closeAll();
-    }
+  afterEach(() => {
+    return serviceBusClient.test.afterEach();
   });
 
-  it("non-lazy init", async () => {
-    should.equal(sender["_context"].sender?.isOpen(), true);
+  it("createSender() is no longer lazy", async () => {
+    assert.isTrue(sender["_context"].sender?.isOpen());
     await checkThatInitializationDoesntReoccur(sender);
   });
 
   it("open() early exits if the connection is already open (avoid taking unnecessary lock)", async () => {
-    // open uses a lock (at the sender level) that helps us not call open() multiple times.
-
-    // open it just to initialize everything.
-    // I'd like to migrate these tests into MessageSender but the cost of "faking" a ClientEntityContext is a bit too high.
-    await sender.open();
-
+    // open uses a lock (at the sender level) that helps us not to have overlapping open() calls.
     await defaultLock.acquire(sender["_context"]!.sender!["openLock"], async () => {
       // the connection is _already_ open so it doesn't attempt to take a lock
-      // or actually try to open the connection.
+      // or actually try to open the connection (we have an early exit)
       const secondOpenCallPromise = sender.open();
 
       sender["_context"].sender!["_negotiateClaim"] = async () => {
-        // this is a decent way to tell that we tried to open the connection
+        // this is a decent way to tell if we tried to open the connection
         throw new Error(
           "We won't get here at all - the connection is already open so we'll early exit."
         );
@@ -86,12 +70,7 @@ describe("controlled connection initialization", () => {
   });
 
   it("open() properly locks to prevent multiple in-flight open() calls", async () => {
-    // open uses a lock (at the sender level) that helps us not call open() multiple times.
-
-    // open it just to initialize everything.
-    // I'd like to migrate these tests into MessageSender but the cost of "faking" a ClientEntityContext is a bit too high.
-    await sender.open();
-
+    // open uses a lock (at the sender level) that helps us not to have overlapping open() calls.
     let secondOpenCallPromise: Promise<void> | undefined;
 
     // acquire the same lock that open() uses and then, while it's 100% locked,
@@ -100,6 +79,7 @@ describe("controlled connection initialization", () => {
       // we need to fake the connection being closed or else `open()` won't attempt to acquire
       // the lock.
       sender["_context"].sender!["isOpen"] = () => false;
+
       sender["_context"].sender!["_negotiateClaim"] = async () => {
         // this is a decent way to tell that we tried to open the connection
         throw new Error("We won't get here until _after_ the lock has been released");
@@ -121,11 +101,7 @@ describe("controlled connection initialization", () => {
     }
   });
 
-  it("open() doesn't re-open a sender (or anything)", async () => {
-    // open it just to initialize everything.
-    // I'd like to migrate these tests into MessageSender but the cost of "faking" a ClientEntityContext is a bit too high.
-    await sender.open();
-
+  it("open() doesn't re-open a sender when it's been close()'d", async () => {
     // we can't revive a sender.
     await sender.close();
 
@@ -146,7 +122,13 @@ function delayThatReturns999(): Promise<void> | Promise<number> {
   return delay(1000, ac.signal, "ignored", 999);
 }
 
+/**
+ * Checks that calling open() on the sender at this point doesn't reopen it
+ * NOTE: this does change the underlying sender so you won't be able to use it
+ * again afterwards.
+ */
 async function checkThatInitializationDoesntReoccur(sender: SenderImpl) {
+  // make sure the private details haven't shifted out from underneath me.
   should.exist(sender["_context"].sender!["_negotiateClaim"]);
   assert.isTrue(sender["_context"].sender!["isOpen"](), "The connection is actually open()");
 
