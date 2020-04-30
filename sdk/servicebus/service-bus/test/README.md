@@ -13,7 +13,6 @@ The Azure resource that is used by the tests in this project is:
 
 To run the live tests, you will also need to set the below environment variables:
 
-- `TEST_MODE`: Should have `live` assigned.
 - `AZURE_CLIENT_ID`: The client ID of an Azure Active Directory application.
 - `AZURE_CLIENT_SECRET`: The client secret of an Azure Active Directory application.
 - `AZURE_TENANT_ID`: The Tenant ID of your organization in Azure Active Directory.

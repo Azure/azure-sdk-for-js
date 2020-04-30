@@ -14,7 +14,6 @@ The Azure resources that are used by the tests in this project are:
 
 To run the live tests, you will also need to set the below environment variables:
 
-- `TEST_MODE`: Should have `live` assigned.
 - `EVENTHUB_NAME`: The name of your Azure Event Hub namespace.
 - `EVENTHUB_CONNECTION_STRING`: The connection string of your Azure Event Hub namespace.
 - `AZURE_CLIENT_ID`: The client ID of an Azure Active Directory application.
