@@ -597,7 +597,7 @@ describe("Errors after close()", function(): void {
   async function testCreateSender(expectedErrorMsg: string): Promise<void> {
     let errorNewSender: string = "";
     try {
-      sbClient.createSender(entityName.queue ?? entityName.topic!);
+      await sbClient.createSender(entityName.queue ?? entityName.topic!);
     } catch (err) {
       errorNewSender = err.message;
     }
