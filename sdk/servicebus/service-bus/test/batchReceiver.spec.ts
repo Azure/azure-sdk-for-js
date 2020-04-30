@@ -39,7 +39,7 @@ describe("batchReceiver", () => {
 
   async function beforeEachTest(entityType: TestClientType): Promise<void> {
     const entityNames = await serviceBusClient.test.createTestEntities(entityType);
-    receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
 
     senderClient = serviceBusClient.test.addToCleanup(
       serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
@@ -797,7 +797,7 @@ describe("batchReceiver", () => {
       for (const message of testMessages) {
         batchMessageToSend.tryAdd(message);
       }
-      await senderClient.sendBatch(batchMessageToSend);
+      await senderClient.send(batchMessageToSend);
       const msgs1 = await receiverClient.receiveBatch(1);
       const msgs2 = await receiverClient.receiveBatch(1);
 

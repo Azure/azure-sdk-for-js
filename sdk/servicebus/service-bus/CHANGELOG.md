@@ -6,6 +6,8 @@
   [PR 8562](https://github.com/Azure/azure-sdk-for-js/pull/8562)
 - Fixes reconnection issues by creating a new connection object rather than re-using the existing one.
   [PR 8580](https://github.com/Azure/azure-sdk-for-js/pull/8580)
+- Provided down-leveled type declaration files to support older TypeScript versions 3.1 to 3.6.
+  [PR 8619](https://github.com/Azure/azure-sdk-for-js/pull/8619)
 
 ## 7.0.0-preview.1 (2020-04-07)
 

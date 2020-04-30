@@ -48,7 +48,7 @@ describe("Retries - ManagementClient", () => {
     senderClient = serviceBusClient.test.addToCleanup(
       serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
-    receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
     subscriptionRuleManager = serviceBusClient.test.addToCleanup(
       serviceBusClient.getSubscriptionRuleManager(entityNames.topic!, entityNames.subscription!)
     );
@@ -311,7 +311,7 @@ describe("Retries - MessageSender", () => {
   it("Unpartitioned Queue: sendBatch", async function(): Promise<void> {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
     await mockInitAndVerifyRetries(async () => {
-      await senderClient.sendBatch(1 as any);
+      await senderClient.send(1 as any);
     });
   });
 
@@ -332,7 +332,7 @@ describe("Retries - MessageSender", () => {
   it("Unpartitioned Queue with Sessions: sendBatch", async function(): Promise<void> {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
     await mockInitAndVerifyRetries(async () => {
-      await senderClient.sendBatch(1 as any);
+      await senderClient.send(1 as any);
     });
   });
 });
@@ -360,7 +360,7 @@ describe("Retries - Receive methods", () => {
 
   async function beforeEachTest(entityType: TestClientType): Promise<void> {
     const entityNames = await serviceBusClient.test.createTestEntities(entityType);
-    receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
   }
 
   async function afterEachTest(): Promise<void> {
@@ -458,7 +458,7 @@ describe("Retries - onDetached", () => {
     senderClient = serviceBusClient.test.addToCleanup(
       serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
-    receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
   }
 
   async function afterEachTest(): Promise<void> {

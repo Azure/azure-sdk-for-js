@@ -96,7 +96,7 @@ describe("session tests", () => {
       const entityNames = serviceBusClient.test.getTestEntities(testClientType);
 
       // get the next available session ID rather than specifying one
-      receiver = serviceBusClient.test.getSessionPeekLockReceiver(entityNames);
+      receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames);
 
       msgs = await receiver.receiveBatch(1);
       should.equal(msgs.length, 1, "Unexpected number of messages received");
@@ -164,7 +164,7 @@ describe("session tests", () => {
       const entityNames = serviceBusClient.test.getTestEntities(testClientType);
 
       // get the next available session ID rather than specifying one
-      receiver = serviceBusClient.test.getSessionPeekLockReceiver(entityNames);
+      receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames);
 
       receivedMsgs = [];
       receiver.subscribe(
@@ -262,7 +262,7 @@ describe("session tests", () => {
       const entityNames = serviceBusClient.test.getTestEntities(testClientType);
 
       // get the next available session ID rather than specifying one
-      receiver = serviceBusClient.test.getSessionPeekLockReceiver(entityNames);
+      receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames);
 
       msgs = await receiver.receiveBatch(2);
 

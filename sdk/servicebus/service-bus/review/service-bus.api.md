@@ -145,7 +145,8 @@ export interface Sender {
     scheduleMessage(scheduledEnqueueTimeUtc: Date, message: ServiceBusMessage, options?: OperationOptions): Promise<Long>;
     scheduleMessages(scheduledEnqueueTimeUtc: Date, messages: ServiceBusMessage[], options?: OperationOptions): Promise<Long[]>;
     send(message: ServiceBusMessage, options?: OperationOptions): Promise<void>;
-    sendBatch(messageBatch: ServiceBusMessageBatch, options?: OperationOptions): Promise<void>;
+    send(messages: ServiceBusMessage[], options?: OperationOptions): Promise<void>;
+    send(messageBatch: ServiceBusMessageBatch, options?: OperationOptions): Promise<void>;
 }
 
 // @public
@@ -162,10 +163,10 @@ export class ServiceBusClient {
     createReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock"): Receiver<ReceivedMessageWithLock>;
     createReceiver(topicName: string, subscriptionName: string, receiveMode: "receiveAndDelete"): Receiver<ReceivedMessage>;
     createSender(queueOrTopicName: string): Sender;
-    createSessionReceiver(queueName: string, receiveMode: "peekLock", options?: CreateSessionReceiverOptions): SessionReceiver<ReceivedMessageWithLock>;
-    createSessionReceiver(queueName: string, receiveMode: "receiveAndDelete", options?: CreateSessionReceiverOptions): SessionReceiver<ReceivedMessage>;
-    createSessionReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock", options?: CreateSessionReceiverOptions): SessionReceiver<ReceivedMessageWithLock>;
-    createSessionReceiver(topicName: string, subscriptionName: string, receiveMode: "receiveAndDelete", options?: CreateSessionReceiverOptions): SessionReceiver<ReceivedMessage>;
+    createSessionReceiver(queueName: string, receiveMode: "peekLock", options?: CreateSessionReceiverOptions): Promise<SessionReceiver<ReceivedMessageWithLock>>;
+    createSessionReceiver(queueName: string, receiveMode: "receiveAndDelete", options?: CreateSessionReceiverOptions): Promise<SessionReceiver<ReceivedMessage>>;
+    createSessionReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock", options?: CreateSessionReceiverOptions): Promise<SessionReceiver<ReceivedMessageWithLock>>;
+    createSessionReceiver(topicName: string, subscriptionName: string, receiveMode: "receiveAndDelete", options?: CreateSessionReceiverOptions): Promise<SessionReceiver<ReceivedMessage>>;
     getSubscriptionRuleManager(topic: string, subscription: string): SubscriptionRuleManager;
 }
 
@@ -213,7 +214,7 @@ export interface SessionMessageHandlerOptions {
 export interface SessionReceiver<ReceivedMessageT extends ReceivedMessage | ReceivedMessageWithLock> extends Receiver<ReceivedMessageT> {
     getState(options?: OperationOptions): Promise<any>;
     renewSessionLock(options?: OperationOptions): Promise<Date>;
-    sessionId: string | undefined;
+    readonly sessionId: string;
     sessionLockedUntilUtc: Date | undefined;
     setState(state: any, options?: OperationOptions): Promise<void>;
 }
@@ -221,7 +222,7 @@ export interface SessionReceiver<ReceivedMessageT extends ReceivedMessage | Rece
 // @public
 export interface SessionReceiverOptions {
     autoRenewLockDurationInMs?: number;
-    sessionId: string | undefined;
+    sessionId?: string;
 }
 
 // @public
