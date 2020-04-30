@@ -120,7 +120,7 @@ There are several types of operations that can be executed against the service:
 -   [Skillset operations](https://docs.microsoft.com/rest/api/searchservice/skillset-operations). Part of a cognitive search workload, a skillset defines a series of enrichment processing steps. A skillset is consumed by an indexer.
 -   [Synonym map operations](https://docs.microsoft.com/rest/api/searchservice/synonym-map-operations). A synonym map is a service-level resource that contains user-defined synonyms. This resource is maintained independently from search indexes. Once uploaded, you can point any searchable field to the synonym map (one per field).
 
-## Typescript/Javascript specific concepts
+## TypeScript/JavaScript specific concepts
 ### SearchIndexClient
 
 `SearchIndexClient` provides methods for working with documents in an index. Its methods allow you to query, upload, update, and delete documents. It also has methods for building auto-completion and search suggestion experiences based on partial queries.
