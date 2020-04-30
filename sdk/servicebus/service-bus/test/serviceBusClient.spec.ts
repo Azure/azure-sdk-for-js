@@ -84,7 +84,7 @@ describe("Random scheme in the endpoint from connection string", function(): voi
     senderClient = sbClientWithRelaxedEndPoint.createSender(entities.queue!);
     receiverClient = !entities.usesSessions
       ? sbClientWithRelaxedEndPoint.createReceiver(entities.queue!, "peekLock")
-      : sbClientWithRelaxedEndPoint.createSessionReceiver(entities.queue!, "peekLock", {
+      : await sbClientWithRelaxedEndPoint.createSessionReceiver(entities.queue!, "peekLock", {
           sessionId: TestMessage.sessionId
         });
   }
