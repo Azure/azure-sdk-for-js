@@ -61,7 +61,7 @@ jobs:
           Samples Linux Node 8:
             OSVmImage: "windows-2019"
             TestType: "sample"
-            NodeVersion: "8.x"
+            NodeVersion: "10.x"
             CloudType: "AzureCloud"
 
     pool:
