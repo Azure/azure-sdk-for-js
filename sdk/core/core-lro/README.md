@@ -2,7 +2,7 @@
 
 `@azure/core-lro` is a JavaScript library that manages long running operations (LROs) against Azure services. Until completion, such operations require consecutive calls to Azure services to update a local representation of the remote operation status.
 
-**Please note:** This library is intended to be used as a dependency of official Azure SDK packages and not intended for inclusion in your projects directly.
+**Please note:** This library is included with other Azure SDK libraries that need it. It should not be used as a direct dependency in your projects.
 
 `@azure/core-lro` is made following our [Long Running Operations guidelines](https://azure.github.io/azure-sdk/typescript_design.html#ts-lro)
 
