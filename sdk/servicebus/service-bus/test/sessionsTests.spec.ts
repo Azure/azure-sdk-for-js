@@ -404,7 +404,7 @@ describe.skip("SessionReceiver - disconnects", function(): void {
     const testMessage = TestMessage.getSessionSample();
     // Create the sender and receiver.
     const entityName = await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-    const receiver = serviceBusClient.createSessionReceiver(entityName.queue!, "peekLock", {
+    const receiver = await serviceBusClient.createSessionReceiver(entityName.queue!, "peekLock", {
       sessionId: testMessage.sessionId,
       autoRenewLockDurationInMs: 10000 // Lower this value so that test can complete in time.
     });
