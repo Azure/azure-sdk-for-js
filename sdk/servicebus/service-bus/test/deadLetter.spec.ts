@@ -45,7 +45,7 @@ describe("dead lettering", () => {
       serviceBusClient.createDeadLetterReceiver(entityNames.queue, "receiveAndDelete")
     );
 
-    receiver = serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
 
     const receivedMessages = await receiver.receiveBatch(1, {
       maxWaitTimeInMs: 1000

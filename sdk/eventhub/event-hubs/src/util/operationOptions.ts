@@ -26,7 +26,7 @@ export interface OperationOptions {
  * @ignore
  */
 export function getParentSpan(
-  options: Pick<OperationOptions, "tracingOptions">
+  options?: OperationTracingOptions
 ): Span | SpanContext | null | undefined {
-  return options.tracingOptions?.spanOptions?.parent;
+  return options?.spanOptions?.parent;
 }

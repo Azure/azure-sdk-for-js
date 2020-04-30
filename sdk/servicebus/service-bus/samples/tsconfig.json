@@ -5,5 +5,5 @@
     "outDir": "typescript/dist"
   },
   "include": ["typescript/src/**/*.ts"],
-  "exclude": ["typescript/*.json", "**/node_modules/", "../node_modules", "../typings"]
+  "exclude": ["typescript/*.json", "**/node_modules/", "../node_modules", "../types"]
 }

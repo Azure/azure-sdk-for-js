@@ -45,9 +45,9 @@ describe("receive and delete", () => {
       serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
     if (receiveMode === "peekLock") {
-      receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
+      receiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
     } else {
-      receiverClient = serviceBusClient.test.getReceiveAndDeleteReceiver(entityNames);
+      receiverClient = await serviceBusClient.test.getReceiveAndDeleteReceiver(entityNames);
     }
 
     errorWasThrown = false;
@@ -756,7 +756,7 @@ describe("receive and delete", () => {
       const entityNames = await beforeEachTest(testClientType, "peekLock");
       await deferMessage(entityNames.usesSessions);
       await receiverClient.close();
-      receiverClient = serviceBusClient.test.getReceiveAndDeleteReceiver(entityNames);
+      receiverClient = await serviceBusClient.test.getReceiveAndDeleteReceiver(entityNames);
       await receiveDeferredMessage();
     }
 

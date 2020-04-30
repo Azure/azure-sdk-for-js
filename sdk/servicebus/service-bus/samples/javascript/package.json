@@ -24,6 +24,7 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
   "sideEffects": false,
   "dependencies": {
+    "@azure/abort-controller": "^1.0.0",
     "@azure/identity": "^1.0.2",
     "@azure/service-bus": "next",
     "dotenv": "^8.2.0",

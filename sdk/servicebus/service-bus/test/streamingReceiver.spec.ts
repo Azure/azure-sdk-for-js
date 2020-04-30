@@ -949,7 +949,7 @@ describe("Streaming", () => {
       testMessages.forEach((message) => {
         batchMessageToSend.tryAdd(message);
       });
-      await senderClient.sendBatch(batchMessageToSend);
+      await senderClient.send(batchMessageToSend);
 
       const settledMsgs: ReceivedMessage[] = [];
       const receivedMsgs: ReceivedMessage[] = [];
@@ -1068,7 +1068,7 @@ describe("Streaming", () => {
         messages.push(message);
         batch.tryAdd(message);
       }
-      await senderClient.sendBatch(batch);
+      await senderClient.send(batch);
 
       const receivedMsgs: ReceivedMessageWithLock[] = [];
 

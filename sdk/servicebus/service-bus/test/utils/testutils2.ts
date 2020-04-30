@@ -155,7 +155,7 @@ export class ServiceBusTestHelpers {
     let receiverClient: Receiver<ReceivedMessage> | SessionReceiver<ReceivedMessage>;
     let receivedMsgs: ReceivedMessage[];
     if (!useSessions) {
-      receiverClient = this.getReceiveAndDeleteReceiver({
+      receiverClient = await this.getReceiveAndDeleteReceiver({
         queue: entityNames.queue,
         topic: entityNames.topic,
         subscription: entityNames.subscription,
@@ -180,7 +180,7 @@ export class ServiceBusTestHelpers {
       });
       // for-loop to receive messages from those `session-id`s
       for (const id of setOfSessionIds) {
-        receiverClient = this.getReceiveAndDeleteReceiver({
+        receiverClient = await this.getReceiveAndDeleteReceiver({
           queue: entityNames.queue,
           topic: entityNames.topic,
           subscription: entityNames.subscription,
@@ -260,15 +260,17 @@ export class ServiceBusTestHelpers {
    *
    * The receiver created by this method will be cleaned up by `afterEach()`
    */
-  getPeekLockReceiver(
+  async getPeekLockReceiver(
     entityNames: ReturnType<typeof getEntityNames>
-  ): Receiver<ReceivedMessageWithLock> {
+  ): Promise<Receiver<ReceivedMessageWithLock>> {
     try {
       // if you're creating a receiver this way then you'll just use the default
       // session ID for your receiver.
       // if you want to get more specific use the `getPeekLockSessionReceiver` method
       // instead.
-      return this.getSessionPeekLockReceiver(entityNames, { sessionId: TestMessage.sessionId });
+      return await this.getSessionPeekLockReceiver(entityNames, {
+        sessionId: TestMessage.sessionId
+      });
     } catch (err) {
       if (!(err instanceof TypeError)) {
         throw err;
@@ -286,10 +288,10 @@ export class ServiceBusTestHelpers {
     );
   }
 
-  getSessionPeekLockReceiver(
+  async getSessionPeekLockReceiver(
     entityNames: ReturnType<typeof getEntityNames>,
     getSessionReceiverOptions?: CreateSessionReceiverOptions
-  ): SessionReceiver<ReceivedMessageWithLock> {
+  ): Promise<SessionReceiver<ReceivedMessageWithLock>> {
     if (!entityNames.usesSessions) {
       throw new TypeError(
         "Not a session-full entity - can't create a session receiver type for it"
@@ -298,12 +300,12 @@ export class ServiceBusTestHelpers {
 
     return this.addToCleanup(
       entityNames.queue
-        ? this._serviceBusClient.createSessionReceiver(
+        ? await this._serviceBusClient.createSessionReceiver(
             entityNames.queue,
             "peekLock",
             getSessionReceiverOptions
           )
-        : this._serviceBusClient.createSessionReceiver(
+        : await this._serviceBusClient.createSessionReceiver(
             entityNames.topic!,
             entityNames.subscription!,
             "peekLock",
@@ -319,11 +321,11 @@ export class ServiceBusTestHelpers {
    *
    * The receiver created by this method will be cleaned up by `afterEach()`
    */
-  getReceiveAndDeleteReceiver(
+  async getReceiveAndDeleteReceiver(
     entityNames: Omit<ReturnType<typeof getEntityNames>, "isPartitioned"> & {
       sessionId?: string | undefined;
     }
-  ): Receiver<ReceivedMessage> {
+  ): Promise<Receiver<ReceivedMessage>> {
     // TODO: we should generate a random ID here - there's no harm in
     // creating as many sessions as we wish. Some tests will need to change.
     const sessionId = entityNames.sessionId ?? TestMessage.sessionId;
@@ -331,10 +333,14 @@ export class ServiceBusTestHelpers {
     if (entityNames.usesSessions) {
       return this.addToCleanup(
         entityNames.queue
-          ? this._serviceBusClient.createSessionReceiver(entityNames.queue, "receiveAndDelete", {
-              sessionId
-            })
-          : this._serviceBusClient.createSessionReceiver(
+          ? await this._serviceBusClient.createSessionReceiver(
+              entityNames.queue,
+              "receiveAndDelete",
+              {
+                sessionId
+              }
+            )
+          : await this._serviceBusClient.createSessionReceiver(
               entityNames.topic!,
               entityNames.subscription!,
               "receiveAndDelete",
