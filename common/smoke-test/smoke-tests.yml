@@ -86,3 +86,5 @@ jobs:
         displayName: Run Smoke Test
 
       - template: ../../eng/common/TestResources/remove-test-resources.yml
+        parameters:
+          ServiceDirectory: "$(Build.SourcesDirectory)/common/smoke-test/"

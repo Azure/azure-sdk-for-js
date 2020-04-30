@@ -24,14 +24,22 @@
     "buffer": "buffer",
     "stream": "stream-browserify"
   },
-  "types": "./typings/service-bus.d.ts",
+  "types": "./types/latest/service-bus.d.ts",
+  "typesVersions": {
+    "<3.6": {
+      "types/latest/*": [
+        "types/3.1/*"
+      ]
+    }
+  },
   "engine": {
     "node": ">=8.0.0"
   },
   "files": [
     "dist/",
     "dist-esm/src/",
-    "typings/service-bus.d.ts",
+    "types/latest/service-bus.d.ts",
+    "types/3.1",
     "README.md",
     "LICENSE"
   ],
@@ -43,9 +51,10 @@
     "build:test:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c rollup.test.config.js 2>&1",
     "build:test:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c rollup.test.config.js 2>&1",
     "build:test": "npm run build:test:node && npm run build:test:browser",
-    "build": "tsc -p . && rollup -c 2>&1 && npm run extract-api",
+    "build:types": "downlevel-dts types/latest types/3.1",
+    "build": "tsc -p . && rollup -c 2>&1 && npm run extract-api && npm run build:types",
     "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf dist dist-esm test-dist typings *.tgz *.log coverage coverage-browser .nyc_output",
+    "clean": "rimraf dist dist-esm test-dist types *.tgz *.log coverage coverage-browser .nyc_output",
     "execute:js-samples": "node ../../../common/scripts/run-samples.js samples/javascript/",
     "execute:ts-samples": "node ../../../common/scripts/run-samples.js samples/typescript/dist/samples/typescript/src/",
     "execute:samples": "echo skipped",
@@ -118,6 +127,7 @@
     "cross-env": "^6.0.3",
     "delay": "^4.2.0",
     "dotenv": "^8.2.0",
+    "downlevel-dts": "~0.4.0",
     "eslint": "^6.1.0",
     "eslint-config-prettier": "^6.0.0",
     "eslint-plugin-no-null": "^1.0.2",

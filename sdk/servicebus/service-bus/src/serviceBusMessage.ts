@@ -1056,7 +1056,8 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
    */
   async renewLock(): Promise<Date> {
     this.throwIfMessageCannotBeSettled(this.getReceiverFromContext(), "renew the lock on");
-    return await this._context.managementClient!.renewLock(this.lockToken!);
+    this.lockedUntilUtc = await this._context.managementClient!.renewLock(this.lockToken!);
+    return this.lockedUntilUtc;
   }
 
   /**
