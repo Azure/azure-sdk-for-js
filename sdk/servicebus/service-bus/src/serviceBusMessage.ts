@@ -1032,6 +1032,17 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
     return clone;
   }
 
+  /**
+   * Helper method to settle the message.
+   * @ignore
+   * @internal
+   *
+   * @private
+   * @param {DispositionStatus} operation
+   * @param {DispositionStatusOptions} [options]
+   * @returns {Promise<void>}
+   * @memberof ServiceBusMessageImpl
+   */
   private async settleMessage(
     operation: DispositionStatus,
     options?: DispositionStatusOptions

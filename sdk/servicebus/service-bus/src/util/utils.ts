@@ -513,6 +513,14 @@ export function isAbsoluteUrl(url: string) {
   return _url.startsWith("sb://") || _url.startsWith("http://") || _url.startsWith("https://");
 }
 
+/**
+ * Helper method to map `DispositionStatus` to `DispositionType`
+ *
+ * @internal
+ * @ignore
+ * @param {DispositionStatus} dispositionStatus
+ * @returns {(DispositionType | undefined)}
+ */
 export function getDispositionType(
   dispositionStatus: DispositionStatus
 ): DispositionType | undefined {
