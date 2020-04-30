@@ -1318,7 +1318,7 @@ describe("Streaming - disconnects", function(): void {
 
   async function beforeEachTest(testClientType: TestClientType): Promise<void> {
     const entityNames = await serviceBusClient.test.createTestEntities(testClientType);
-    receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
     senderClient = serviceBusClient.test.addToCleanup(
       serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
