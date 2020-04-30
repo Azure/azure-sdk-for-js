@@ -276,6 +276,24 @@ describe("EventHub Sender", function(): void {
       consumerClient.close();
     });
 
+    describe("tryAdd", function() {
+      it("doesn't grow if invalid events are added", async () => {
+        const batch = await producerClient.createBatch({ maxSizeInBytes: 20 });
+        const event = { body: Buffer.alloc(30).toString() };
+
+        const numToAdd = 5;
+        let failures = 0;
+        for (let i = 0; i < numToAdd; i++) {
+          if (!batch.tryAdd(event)) {
+            failures++;
+          }
+        }
+
+        failures.should.equal(5);
+        batch.sizeInBytes.should.equal(0);
+      });
+    });
+
     it("should be sent successfully", async function(): Promise<void> {
       const list = ["Albert", `${Buffer.from("Mike".repeat(1300000))}`, "Marie"];
 

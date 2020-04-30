@@ -301,6 +301,7 @@ export class EventDataBatchImpl implements EventDataBatch {
     amqpMessage.body = this._context.dataTransformer.encode(eventData.body);
     const encodedMessage = message.encode(amqpMessage);
 
+    let currentSize = this._sizeInBytes;
     // The first time an event is added, we need to calculate
     // the overhead of creating an AMQP batch, including the
     // message_annotations that are taken from the 1st message.
@@ -311,13 +312,13 @@ export class EventDataBatchImpl implements EventDataBatch {
 
       // Figure out the overhead of creating a batch by generating an empty batch
       // with the expected batch annotations.
-      this._sizeInBytes += this._generateBatch([], this._batchAnnotations).length;
+      currentSize += this._generateBatch([], this._batchAnnotations).length;
     }
 
     const messageSize = encodedMessage.length;
     const messageOverhead =
       messageSize <= smallMessageMaxBytes ? smallMessageOverhead : largeMessageOverhead;
-    const currentSize = this._sizeInBytes + messageSize + messageOverhead;
+    currentSize += messageSize + messageOverhead;
 
     // Check if the size of the batch exceeds the maximum allowed size
     // once we add the new event to it.
