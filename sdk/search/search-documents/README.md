@@ -86,13 +86,12 @@ const { SearchIndexClient, AzureKeyCredential } = require("@azure/search-documen
 // We'll connect to the Azure Cognitive Search public sandbox and send a
 // query to its "nycjobs" index built from a public dataset of available jobs
 // in New York.
-const serviceName = "azs-playground";
 const indexName = "nycjobs";
 const apiKey = "252044BE3886FE4A8E3BAA4F595114BB";
 
 // Create a SearchIndexClient to send queries
 const client = new SearchIndexClient(
-  `https://${serviceName}.search.windows.net/`,
+  `https://azs-playground.search.windows.net/`,
   indexName,
   new AzureKeyCredential(apiKey)
 );
