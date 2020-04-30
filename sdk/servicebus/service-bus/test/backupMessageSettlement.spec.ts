@@ -36,7 +36,7 @@ describe("Backup message settlement - Through ManagementLink", () => {
 
   async function beforeEachTest(entityType: TestClientType): Promise<void> {
     entityNames = await serviceBusClient.test.createTestEntities(entityType);
-    receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
 
     senderClient = serviceBusClient.test.addToCleanup(
       serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
@@ -92,7 +92,7 @@ describe("Backup message settlement - Through ManagementLink", () => {
           errorWasThrown = true;
         }
 
-        receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
+        receiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
         if (entityNames.usesSessions) {
           should.equal(errorWasThrown, true, "Error was not thrown for messages with session-id");
           const msgBatch = await receiverClient.receiveBatch(1);
@@ -178,7 +178,7 @@ describe("Backup message settlement - Through ManagementLink", () => {
         } else {
           should.equal(errorWasThrown, false, "Error was thrown for sessions without session-id");
         }
-        receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
+        receiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
         await testPeekMsgsLength(receiverClient, 1);
 
         const messageBatch = await receiverClient.receiveBatch(1);
@@ -274,7 +274,7 @@ describe("Backup message settlement - Through ManagementLink", () => {
         } else {
           should.equal(errorWasThrown, false, "Error was thrown for sessions without session-id");
         }
-        receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
+        receiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
         if (!entityNames.usesSessions) {
           const deferredMsgs = await receiverClient.receiveDeferredMessage(sequenceNumber);
           if (!deferredMsgs) {
@@ -366,7 +366,7 @@ describe("Backup message settlement - Through ManagementLink", () => {
           should.equal(errorWasThrown, false, "Error was thrown for sessions without session-id");
         }
 
-        receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
+        receiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
 
         if (!entityNames.usesSessions) {
           const deadLetterMsgsBatch = await deadLetterClient.receiveBatch(1);
@@ -482,7 +482,7 @@ describe("Backup message settlement - Through ManagementLink", () => {
           errorWasThrown = true;
         }
 
-        receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
+        receiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
         if (entityNames.usesSessions) {
           should.equal(errorWasThrown, true, "Error was not thrown for messages with session-id");
           const msgBatch = await receiverClient.receiveBatch(1);
