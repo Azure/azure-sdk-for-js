@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { delay, RequestOptionsBase } from "@azure/core-http";
-import { KVPoller } from "../core-lro-update";
+import { Poller } from "@azure/core-lro";
 import {
   CertificateOperationPollOperationState,
   makeCertificateOperationPollOperation,
@@ -26,7 +26,7 @@ export interface CertificateOperationPollerOptions {
  * Class that deletes a poller that waits until a certificate finishes being deleted
  * @internal
  */
-export class CertificateOperationPoller extends KVPoller<
+export class CertificateOperationPoller extends Poller<
   CertificateOperationPollOperationState,
   KeyVaultCertificateWithPolicy
 > {

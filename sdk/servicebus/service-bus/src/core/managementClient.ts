@@ -134,9 +134,10 @@ const correlationProperties = [
 
 /**
  * @internal
+ * @ignore
  * Options to set when updating the disposition status
  */
-interface DispositionStatusOptions extends OperationOptions {
+export interface DispositionStatusOptions extends OperationOptions {
   /**
    * @property [propertiesToModify] A dictionary of Service Bus brokered message properties
    * to modify.

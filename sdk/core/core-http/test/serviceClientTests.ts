@@ -128,17 +128,99 @@ describe("ServiceClient", function() {
   });
 
   it("should serialize collection:csv query parameters with commas & skipEncoding true", async function() {
-    await testSendOperationRequest(["1,2", "3,4", "5"], QueryCollectionFormat.Csv, true, "?q=1,2,3,4,5");
+    await testSendOperationRequest(
+      ["1,2", "3,4", "5"],
+      QueryCollectionFormat.Csv,
+      true,
+      "?q=1,2,3,4,5"
+    );
   });
 
   it("should serialize collection:csv query parameters with commas", async function() {
-    await testSendOperationRequest(["1,2", "3,4", "5"], QueryCollectionFormat.Csv, false, "?q=1%2C2,3%2C4,5");
+    await testSendOperationRequest(
+      ["1,2", "3,4", "5"],
+      QueryCollectionFormat.Csv,
+      false,
+      "?q=1%2C2,3%2C4,5"
+    );
+  });
+
+  it("should serialize collection:csv query parameters with undefined and null", async function() {
+    await testSendOperationRequest(
+      ["1,2", undefined, "5"],
+      QueryCollectionFormat.Csv,
+      false,
+      "?q=1%2C2,,5"
+    );
+    await testSendOperationRequest(
+      ["1,2", null, "5"],
+      QueryCollectionFormat.Csv,
+      false,
+      "?q=1%2C2,,5"
+    );
+  });
+
+  it("should serialize collection:tsv query parameters with undefined and null", async function() {
+    await testSendOperationRequest(
+      ["1,2", undefined, "5"],
+      QueryCollectionFormat.Tsv,
+      false,
+      "?q=1%2C2%09%095"
+    );
+    await testSendOperationRequest(
+      ["1,2", null, "5"],
+      QueryCollectionFormat.Tsv,
+      false,
+      "?q=1%2C2%09%095"
+    );
+    await testSendOperationRequest(
+      ["1,2", "3", "5"],
+      QueryCollectionFormat.Tsv,
+      false,
+      "?q=1%2C2%093%095"
+    );
+  });
+
+  it("should serialize collection:ssv query parameters with undefined and null", async function() {
+    await testSendOperationRequest(
+      ["1,2", undefined, "5"],
+      QueryCollectionFormat.Ssv,
+      false,
+      "?q=1%2C2%20%205"
+    );
+    await testSendOperationRequest(
+      ["1,2", null, "5"],
+      QueryCollectionFormat.Ssv,
+      false,
+      "?q=1%2C2%20%205"
+    );
+    await testSendOperationRequest(
+      ["1,2", "3", "5"],
+      QueryCollectionFormat.Ssv,
+      false,
+      "?q=1%2C2%203%205"
+    );
   });
 
   it("should serialize collection:multi query parameters", async function() {
-    await testSendOperationRequest(["1", "2", "3"], QueryCollectionFormat.Multi, false, "?q=1&q=2&q=3");
-    await testSendOperationRequest(["1,2", "3,4", "5"], QueryCollectionFormat.Multi, false, "?q=1%2C2&q=3%2C4&q=5");
-    await testSendOperationRequest(["1,2", "3,4", "5"], QueryCollectionFormat.Multi, true, "?q=1,2&q=3,4&q=5");
+    await testSendOperationRequest(
+      ["1", "2", "3"],
+      QueryCollectionFormat.Multi,
+      false,
+      "?q=1&q=2&q=3"
+    );
+    await testSendOperationRequest(
+      ["1,2", "3,4", "5"],
+      QueryCollectionFormat.Multi,
+      false,
+      "?q=1%2C2&q=3%2C4&q=5"
+    );
+    await testSendOperationRequest(
+      ["1,2", "3,4", "5"],
+      QueryCollectionFormat.Multi,
+      true,
+      "?q=1,2&q=3,4&q=5"
+    );
   });
 
   it("should apply withCredentials to requests", async function() {
@@ -1051,16 +1133,21 @@ function stringToByteArray(str: string): Uint8Array {
   }
 }
 
-async function testSendOperationRequest(queryValue: any, queryCollectionFormat: QueryCollectionFormat, skipEncodingParameter: boolean, expected: string) {
+async function testSendOperationRequest(
+  queryValue: any,
+  queryCollectionFormat: QueryCollectionFormat,
+  skipEncodingParameter: boolean,
+  expected: string
+) {
   let request: WebResource;
   const client = new ServiceClient(undefined, {
     httpClient: {
-      sendRequest: req => {
+      sendRequest: (req) => {
         request = req;
         return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
-      },
+      }
     },
-    requestPolicyFactories: () => [],
+    requestPolicyFactories: () => []
   });
 
   await client.sendOperationRequest(
@@ -1082,17 +1169,17 @@ async function testSendOperationRequest(queryValue: any, queryCollectionFormat: 
               name: "Sequence",
               element: {
                 type: {
-                  name: "String",
+                  name: "String"
                 },
-                serializedName: "q",
-              },
-            },
-          },
-        },
+                serializedName: "q"
+              }
+            }
+          }
+        }
       ],
       responses: {
-        200: {},
-      },
+        200: {}
+      }
     }
   );
 

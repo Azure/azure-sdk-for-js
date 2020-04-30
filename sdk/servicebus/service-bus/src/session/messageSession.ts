@@ -18,18 +18,13 @@ import {
   isAmqpError
 } from "rhea-promise";
 import * as log from "../log";
-import {
-  OnError,
-  OnAmqpEventAsPromise,
-  PromiseLike,
-  DispositionOptions,
-  OnMessage
-} from "../core/messageReceiver";
+import { OnError, OnAmqpEventAsPromise, PromiseLike, OnMessage } from "../core/messageReceiver";
 import { LinkEntity } from "../core/linkEntity";
 import { ClientEntityContext } from "../clientEntityContext";
 import { convertTicksToDate, calculateRenewAfterDuration } from "../util/utils";
 import { throwErrorIfConnectionClosed } from "../util/errors";
 import { ServiceBusMessageImpl, DispositionType, ReceiveMode } from "../serviceBusMessage";
+import { DispositionStatusOptions } from "../core/managementClient";
 
 /**
  * Enum to denote who is calling the session receiver
@@ -1129,7 +1124,7 @@ export class MessageSession extends LinkEntity {
   async settleMessage(
     message: ServiceBusMessageImpl,
     operation: DispositionType,
-    options?: DispositionOptions
+    options?: DispositionStatusOptions
   ): Promise<any> {
     return new Promise((resolve, reject) => {
       if (!options) options = {};
@@ -1175,7 +1170,15 @@ export class MessageSession extends LinkEntity {
         if (options.propertiesToModify) params.message_annotations = options.propertiesToModify;
         delivery.modified(params);
       } else if (operation === DispositionType.deadletter) {
-        delivery.reject(options.error || {});
+        const error: AmqpError = {
+          condition: Constants.deadLetterName,
+          info: {
+            ...options.propertiesToModify,
+            DeadLetterReason: options.deadLetterReason,
+            DeadLetterErrorDescription: options.deadLetterDescription
+          }
+        };
+        delivery.reject(error);
       }
     });
   }

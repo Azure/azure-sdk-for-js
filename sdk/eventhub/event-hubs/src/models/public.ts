@@ -26,10 +26,27 @@ export interface GetPartitionPropertiesOptions extends OperationOptions {}
 export interface GetPartitionIdsOptions extends OperationOptions {}
 
 /**
- * Options to configure the `sendBatch` method on the `EventHubProducerClient`.
+ * Options to configure the `sendBatch` method on the `EventHubProducerClient`
+ * when sending an array of events.
+ * If `partitionId` is set, `partitionKey` must not be set and vice versa.
+ *
+ * - `partitionId`  : The partition this batch will be sent to.
+ * - `partitionKey` : A value that is hashed to produce a partition assignment.
  * - `abortSignal`  : A signal used to cancel the send operation.
  */
-export interface SendBatchOptions extends OperationOptions {}
+export interface SendBatchOptions extends OperationOptions {
+  /**
+   * The partition this batch will be sent to.
+   * If this value is set then partitionKey can not be set.
+   */
+  partitionId?: string;
+  /**
+   * A value that is hashed to produce a partition assignment.
+   * It guarantees that messages with the same partitionKey end up in the same partition.
+   * Specifying this will throw an error if the producer was created using a `paritionId`.
+   */
+  partitionKey?: string;
+}
 
 /**
  * The set of options to configure the `send` operation on the `EventHubProducer`.
@@ -46,14 +63,14 @@ export interface SendBatchOptions extends OperationOptions {}
  * @internal
  * @ignore
  */
-export interface SendOptions extends SendBatchOptions {
+export interface SendOptions extends OperationOptions {
   /**
    * @property
    * A value that is hashed to produce a partition assignment.
    * It guarantees that messages with the same partitionKey end up in the same partition.
    * Specifying this will throw an error if the producer was created using a `paritionId`.
    */
-  partitionKey?: string | null;
+  partitionKey?: string;
 }
 
 /**
