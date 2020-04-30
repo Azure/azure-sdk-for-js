@@ -194,20 +194,17 @@ export namespace ClientEntityContext {
     (entityContext as ClientEntityContext).onDetached = async (error?: AmqpError | Error) => {
       const connectionId = entityContext.namespace.connectionId;
 
-      // Call onDetached() on sender so that it can decide whether to reconnect or not
+      // Call close() on sender if it is not connecting
       const sender = entityContext.sender;
       if (sender && !sender.isConnecting) {
-        try {
-          log.error("[%s] calling detached on sender '%s'.", connectionId, sender.name);
-          await sender.onDetached();
-        } catch (err) {
+        await sender.close().catch((err) => {
           log.error(
-            "[%s] An error occurred while calling onDetached() the sender '%s': %O.",
-            connectionId,
+            "[%s] Error when closing sender [%s] after disconnected event: %O",
+            entityContext.namespace.connection.id,
             sender.name,
             err
           );
-        }
+        });
       }
 
       // Call onDetached() on batchingReceiver so that it can gracefully close any ongoing batch operation.

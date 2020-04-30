@@ -22,7 +22,6 @@ import {
   RetryOperationType,
   Constants,
   delay,
-  MessagingError,
   RetryOptions
 } from "@azure/core-amqp";
 import {
@@ -92,119 +91,77 @@ export class MessageSender extends LinkEntity {
     this._retryOptions = normalizeRetryOptions(retryOptions);
     this._onAmqpError = (context: EventContext) => {
       const senderError = context.sender && context.sender.error;
-      if (senderError) {
-        const err = translate(senderError);
-        log.error(
-          "[%s] An error occurred for sender '%s': %O.",
-          this._context.namespace.connectionId,
-          this.name,
-          err
-        );
-      }
+      log.error(
+        "[%s] 'sender_error' event occurred on the sender '%s' with address '%s'. " +
+          "The associated error is: %O",
+        this._context.namespace.connectionId,
+        this.name,
+        this.address,
+        senderError
+      );
+      // TODO: Consider rejecting promise in trySendBatch() or createBatch()
     };
 
     this._onSessionError = (context: EventContext) => {
       const sessionError = context.session && context.session.error;
-      if (sessionError) {
-        const err = translate(sessionError);
-        log.error(
-          "[%s] An error occurred on the session of sender '%s': %O.",
-          this._context.namespace.connectionId,
-          this.name,
-          err
-        );
-      }
+      log.error(
+        "[%s] 'session_error' event occurred on the session of sender '%s' with address '%s'. " +
+          "The associated error is: %O",
+        this._context.namespace.connectionId,
+        this.name,
+        this.address,
+        sessionError
+      );
+      // TODO: Consider rejecting promise in trySendBatch() or createBatch()
     };
 
     this._onAmqpClose = async (context: EventContext) => {
       const sender = this._sender || context.sender!;
-      const senderError = context.sender && context.sender.error;
-      if (senderError) {
-        log.error(
-          "[%s] 'sender_close' event occurred for sender '%s' with address '%s'. " +
-            "The associated error is: %O",
-          this._context.namespace.connectionId,
-          this.name,
-          this.address,
-          senderError
-        );
-      }
-      if (sender && !sender.isItselfClosed()) {
-        if (!this.isConnecting) {
+      log.error(
+        "[%s] 'sender_close' event occurred on the sender '%s' with address '%s'. " +
+          "Value for isItselfClosed on the receiver is: '%s' " +
+          "Value for isConnecting on the session is: '%s'.",
+        this._context.namespace.connectionId,
+        this.name,
+        this.address,
+        sender ? sender.isItselfClosed().toString() : undefined,
+        this.isConnecting
+      );
+      if (sender && !this.isConnecting) {
+        // Call close to clean up timers & other resources
+        await sender.close().catch((err) => {
           log.error(
-            "[%s] 'sender_close' event occurred on the sender '%s' with address '%s' " +
-              "and the sdk did not initiate this. The sender is not reconnecting. Hence, calling " +
-              "detached from the _onAmqpClose() handler.",
+            "[%s] Error when closing sender [%s] after 'sender_close' event: %O",
             this._context.namespace.connectionId,
             this.name,
-            this.address
+            err
           );
-          await this.onDetached(senderError);
-        } else {
-          log.error(
-            "[%s] 'sender_close' event occurred on the sender '%s' with address '%s' " +
-              "and the sdk did not initiate this. Moreover the sender is already re-connecting. " +
-              "Hence not calling detached from the _onAmqpClose() handler.",
-            this._context.namespace.connectionId,
-            this.name,
-            this.address
-          );
-        }
-      } else {
-        log.error(
-          "[%s] 'sender_close' event occurred on the sender '%s' with address '%s' " +
-            "because the sdk initiated it. Hence not calling detached from the _onAmqpClose" +
-            "() handler.",
-          this._context.namespace.connectionId,
-          this.name,
-          this.address
-        );
+        });
       }
     };
 
     this._onSessionClose = async (context: EventContext) => {
       const sender = this._sender || context.sender!;
-      const sessionError = context.session && context.session.error;
-      if (sessionError) {
-        log.error(
-          "[%s] 'session_close' event occurred for sender '%s' with address '%s'. " +
-            "The associated error is: %O",
-          this._context.namespace.connectionId,
-          this.name,
-          this.address,
-          sessionError
-        );
-      }
-      if (sender && !sender.isSessionItselfClosed()) {
-        if (!this.isConnecting) {
+      log.error(
+        "[%s] 'session_close' event occurred on the session of sender '%s' with address '%s'. " +
+          "Value for isSessionItselfClosed on the session is: '%s' " +
+          "Value for isConnecting on the session is: '%s'.",
+        this._context.namespace.connectionId,
+        this.name,
+        this.address,
+        sender ? sender.isSessionItselfClosed().toString() : undefined,
+        this.isConnecting
+      );
+      if (sender && !this.isConnecting) {
+        // Call close to clean up timers & other resources
+        await sender.close().catch((err) => {
           log.error(
-            "[%s] 'session_close' event occurred on the session of sender '%s' with " +
-              "address '%s' and the sdk did not initiate this. Hence calling detached from the " +
-              "_onSessionClose() handler.",
+            "[%s] Error when closing sender [%s] after 'session_close' event: %O",
             this._context.namespace.connectionId,
             this.name,
-            this.address
+            err
           );
-          await this.onDetached(sessionError);
-        } else {
-          log.error(
-            "[%s] 'session_close' event occurred on the session of sender '%s' with " +
-              "address '%s' and the sdk did not initiate this. Moreover the sender is already " +
-              "re-connecting. Hence not calling detached from the _onSessionClose() handler.",
-            this._context.namespace.connectionId,
-            this.name,
-            this.address
-          );
-        }
-      } else {
-        log.error(
-          "[%s] 'session_close' event occurred on the session of sender '%s' with address " +
-            "'%s' because the sdk initiated it. Hence not calling detached from the _onSessionClose" +
-            "() handler.",
-          this._context.namespace.connectionId,
-          this.name,
-          this.address
-        );
+        });
       }
     };
   }
@@ -389,19 +346,7 @@ export class MessageSender extends LinkEntity {
    */
   private async _init(options?: AwaitableSenderOptions): Promise<void> {
     try {
-      // isOpen isConnecting  Should establish
-      // true     false          No
-      // true     true           No
-      // false    true           No
-      // false    false          Yes
       if (!this.isOpen()) {
-        log.error(
-          "[%s] The sender '%s' with address '%s' is not open and is not currently " +
-            "establishing itself. Hence let's try to connect.",
-          this._context.namespace.connectionId,
-          this.name,
-          this.address
-        );
         this.isConnecting = true;
         await this._negotiateClaim();
         log.error(
@@ -414,24 +359,14 @@ export class MessageSender extends LinkEntity {
         }
         this._sender = await this._context.namespace.connection.createAwaitableSender(options);
         this.isConnecting = false;
-        log.error(
-          "[%s] Sender '%s' with address '%s' has established itself.",
-          this._context.namespace.connectionId,
-          this.name,
-          this.address
-        );
-        this._sender.setMaxListeners(1000);
-        log.error(
-          "[%s] Promise to create the sender resolved. Created sender with name: %s",
-          this._context.namespace.connectionId,
-          this.name
-        );
+
         log.error(
           "[%s] Sender '%s' created with sender options: %O",
           this._context.namespace.connectionId,
           this.name,
           options
         );
+        this._sender.setMaxListeners(1000);
         // It is possible for someone to close the sender and then start it again.
         // Thus make sure that the sender is present in the client cache.
         if (!this._sender) this._context.sender = this;
@@ -446,95 +381,6 @@ export class MessageSender extends LinkEntity {
         err
       );
       throw err;
-    }
-  }
-
-  /**
-   * Will reconnect the sender link if necessary.
-   * @param {AmqpError | Error} [senderError] The sender error if any.
-   * @returns {Promise<void>} Promise<void>.
-   */
-  async onDetached(senderError?: AmqpError | Error): Promise<void> {
-    try {
-      const wasCloseInitiated = this._sender && this._sender.isItselfClosed();
-      // Clears the token renewal timer. Closes the link and its session if they are open.
-      // Removes the link and its session if they are present in rhea's cache.
-      await this._closeLink(this._sender);
-      // We should attempt to reopen only when the sender(sdk) did not initiate the close
-      let shouldReopen = false;
-      if (senderError && !wasCloseInitiated) {
-        const translatedError = translate(senderError) as MessagingError;
-        if (translatedError.retryable) {
-          shouldReopen = true;
-          log.error(
-            "[%s] close() method of Sender '%s' with address '%s' was not called. There " +
-              "was an accompanying error an it is retryable. This is a candidate for re-establishing " +
-              "the sender link.",
-            this._context.namespace.connectionId,
-            this.name,
-            this.address
-          );
-        } else {
-          log.error(
-            "[%s] close() method of Sender '%s' with address '%s' was not called. There " +
-              "was an accompanying error and it is NOT retryable. Hence NOT re-establishing " +
-              "the sender link.",
-            this._context.namespace.connectionId,
-            this.name,
-            this.address
-          );
-        }
-      } else if (!wasCloseInitiated) {
-        shouldReopen = true;
-        log.error(
-          "[%s] close() method of Sender '%s' with address '%s' was not called. There " +
-            "was no accompanying error as well. This is a candidate for re-establishing " +
-            "the sender link.",
-          this._context.namespace.connectionId,
-          this.name,
-          this.address
-        );
-      } else {
-        const state: any = {
-          wasCloseInitiated: wasCloseInitiated,
-          senderError: senderError,
-          _sender: this._sender
-        };
-        log.error(
-          "[%s] Something went wrong. State of sender '%s' with address '%s' is: %O",
-          this._context.namespace.connectionId,
-          this.name,
-          this.address,
-          state
-        );
-      }
-      if (shouldReopen) {
-        await defaultLock.acquire(this.senderLock, () => {
-          const senderOptions = this._createSenderOptions(
-            Constants.defaultOperationTimeoutInMs,
-            true
-          );
-          // shall retry as per the provided retryOptions if the error is a retryable error
-          // else bail out when the error is not retryable or the operation succeeds.
-          const config: RetryConfig<void> = {
-            operation: () => this._init(senderOptions),
-            connectionId: this._context.namespace.connectionId!,
-            operationType: RetryOperationType.senderLink,
-            retryOptions: this._retryOptions,
-            connectionHost: this._context.namespace.config.host
-          };
-          return retry<void>(config);
-        });
-      }
-    } catch (err) {
-      log.error(
-        "[%s] An error occurred while processing detached() of Sender '%s' with address " +
-          "'%s': %O",
-        this._context.namespace.connectionId,
-        this.name,
-        this.address,
-        err
-      );
     }
   }
 
