@@ -134,6 +134,7 @@ const correlationProperties = [
 
 /**
  * @internal
+ * @ignore
  * Options to set when updating the disposition status
  */
 export interface DispositionStatusOptions extends OperationOptions {
