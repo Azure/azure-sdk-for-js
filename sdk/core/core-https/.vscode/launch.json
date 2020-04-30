@@ -7,11 +7,22 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Launch Program",
-      "preLaunchTask": "Build Node",
-      "program": "${workspaceFolder}\\src\\index.ts",
-      "outFiles": ["${workspaceFolder}/dist/**/*.js"],
-      "sourceMaps": true
+      "name": "Current TS File",
+      "args": ["${fileBasename}"],
+      "runtimeArgs": ["--nolazy", "-r", "ts-node/register"],
+      "cwd": "${fileDirname}",
+      "sourceMaps": true,
+      "protocol": "inspector"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Run unit tests",
+      "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+      "args": ["--timeout", "999999", "--colors", "${workspaceFolder}/dist-test/index.node.js"],
+      "cwd": "${workspaceFolder}",
+      "internalConsoleOptions": "openOnSessionStart",
+      "skipFiles": ["<node_internals>/**/async_hooks.js", "<node_internals>/**/*.js"]
     }
   ]
 }
