@@ -31,7 +31,7 @@ describe("controlled connection initialization", () => {
     );
 
     if (queue == null) {
-      throw new Error("queue name should");
+      throw new Error("queue name should not be null");
     }
 
     sender = (await serviceBusClient.createSender(queue!)) as SenderImpl;
