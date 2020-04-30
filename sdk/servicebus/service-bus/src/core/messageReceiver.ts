@@ -26,7 +26,6 @@ import { ClientEntityContext } from "../clientEntityContext";
 import { ServiceBusMessageImpl, DispositionType, ReceiveMode } from "../serviceBusMessage";
 import { getUniqueName, calculateRenewAfterDuration } from "../util/utils";
 import { MessageHandlerOptions } from "../models";
-import { isMessagingError } from "../../test/utils/testUtils";
 
 /**
  * @internal
@@ -905,10 +904,19 @@ export class MessageReceiver extends LinkEntity {
 
       const translatedError = receiverError ? translate(receiverError) : receiverError;
 
-      // We should only attempt to reopen if either no error was present,
-      // or the error is considered retryable.
-      const shouldReopen =
-        !translatedError || (isMessagingError(translatedError) ? translatedError.retryable : false);
+      // Track-1
+      //   - We should only attempt to reopen if either no error was present,
+      //     or the error is considered retryable.
+      // Track-2
+      //   - Reopen irrespective of the error being present.
+      //   - We don't care if the retryable flag is set to true on the error..
+      //     because `@azure/core-amqp` is stricter in setting the retryable flag to true,
+      //     we don't want to miss any errors that were triggered by a disconnect.
+      //   - From this point onwards in this block of code, all the errors are being considered retryable.
+      //   - More details here - https://github.com/Azure/azure-sdk-for-js/pull/8580#discussion_r417087030
+      const shouldReopen = true;
+      // Code equivalent to the track 1 version
+      // const shouldReopen = !translatedError || (isMessagingError(translatedError) ? translatedError.retryable : false);
 
       // Non-retryable errors that aren't caused by disconnect
       // will have already been forwarded to the user's error handler.
