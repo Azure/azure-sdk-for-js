@@ -169,7 +169,7 @@ export class EventHubProducerClient {
    * events are sent to the associated Event Hub.
    * - `abortSignal`  : A signal the request to cancel the send operation.
    * - `partitionId`  : The partition this batch will be sent to. If set, `partitionKey` can not be set.
-   * - `partitionKey` : A value that is hashed to produce a partition assignment.
+   * - `partitionKey` : A value that is hashed to produce a partition assignment. If set, `partitionId` can not be set.
    *
    * @returns Promise<void>
    * @throws AbortError if the operation is cancelled via the abortSignal.
@@ -195,7 +195,6 @@ export class EventHubProducerClient {
     batch: EventDataBatch | EventData[],
     options: SendBatchOptions | OperationOptions = {}
   ): Promise<void> {
-    //
     let partitionId: string | undefined;
     let partitionKey: string | undefined;
     if (isEventDataBatch(batch)) {

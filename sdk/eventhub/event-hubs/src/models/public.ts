@@ -28,7 +28,7 @@ export interface GetPartitionIdsOptions extends OperationOptions {}
 /**
  * Options to configure the `sendBatch` method on the `EventHubProducerClient`
  * when sending an array of events.
- * If `partitionId` is set, `partitionKey` must not be set.
+ * If `partitionId` is set, `partitionKey` must not be set and vice versa.
  *
  * - `partitionId`  : The partition this batch will be sent to.
  * - `partitionKey` : A value that is hashed to produce a partition assignment.
