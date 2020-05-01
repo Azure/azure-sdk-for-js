@@ -193,59 +193,65 @@ export namespace ClientEntityContext {
 
     (entityContext as ClientEntityContext).onDetached = async (error?: AmqpError | Error) => {
       const connectionId = entityContext.namespace.connectionId;
-
+      const detachCalls: Promise<void>[] = [];
       // Call close() on sender if it is not connecting
       const sender = entityContext.sender;
       if (sender && !sender.isConnecting) {
-        await sender.close().catch((err) => {
-          log.error(
-            "[%s] Error when closing sender [%s] after disconnected event: %O",
-            entityContext.namespace.connection.id,
-            sender.name,
-            err
-          );
-        });
+        log.error("[%s] calling close() on sender '%s'.", connectionId, sender.name);
+        detachCalls.push(
+          sender.close().catch((err) => {
+            log.error(
+              "[%s] Error when closing sender [%s] after disconnected event: %O",
+              entityContext.namespace.connection.id,
+              sender.name,
+              err
+            );
+          })
+        );
       }
 
       // Call onDetached() on batchingReceiver so that it can gracefully close any ongoing batch operation.
       const batchingReceiver = entityContext.batchingReceiver;
       if (batchingReceiver && !batchingReceiver.isConnecting) {
-        try {
-          log.error(
-            "[%s] calling detached on batching receiver '%s'.",
-            connectionId,
-            batchingReceiver.name
-          );
-          await batchingReceiver.onDetached(error);
-        } catch (err) {
-          log.error(
-            "[%s] An error occurred while calling onDetached() on the batching receiver '%s': %O.",
-            connectionId,
-            batchingReceiver.name,
-            err
-          );
-        }
+        log.error(
+          "[%s] calling detached on batching receiver '%s'.",
+          connectionId,
+          batchingReceiver.name
+        );
+        detachCalls.push(
+          batchingReceiver.onDetached(error).catch((err) => {
+            log.error(
+              "[%s] An error occurred while calling onDetached() on the batching receiver '%s': %O.",
+              connectionId,
+              batchingReceiver.name,
+              err
+            );
+          })
+        );
       }
 
       // Call onDetached() on streamingReceiver so that it can decide whether to reconnect or not
       const streamingReceiver = entityContext.streamingReceiver;
       if (streamingReceiver && !streamingReceiver.isConnecting) {
-        try {
-          log.error(
-            "[%s] calling detached on streaming receiver '%s'.",
-            connectionId,
-            streamingReceiver.name
-          );
-          await streamingReceiver.onDetached(error);
-        } catch (err) {
-          log.error(
-            "[%s] An error occurred while calling onDetached() on the streaming receiver '%s': %O.",
-            connectionId,
-            streamingReceiver.name,
-            err
-          );
-        }
+        log.error(
+          "[%s] calling detached on streaming receiver '%s'.",
+          connectionId,
+          streamingReceiver.name
+        );
+        const causedByDisconnect = true;
+        detachCalls.push(
+          streamingReceiver.onDetached(error, causedByDisconnect).catch((err) => {
+            log.error(
+              "[%s] An error occurred while calling onDetached() on the streaming receiver '%s': %O.",
+              connectionId,
+              streamingReceiver.name,
+              err
+            );
+          })
+        );
       }
+
+      await Promise.all(detachCalls);
     };
 
     const isManagementClientSharedWithOtherClients = (): boolean => {

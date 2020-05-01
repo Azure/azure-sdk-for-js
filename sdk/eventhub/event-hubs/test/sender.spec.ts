@@ -7,9 +7,14 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:sender-spec");
-import { EventData, EventHubProducerClient, EventHubConsumerClient } from "../src";
+import {
+  EventData,
+  EventHubProducerClient,
+  EventHubConsumerClient,
+  ReceivedEventData
+} from "../src";
 import { EventHubClient } from "../src/impl/eventHubClient";
-import { SendOptions } from "../src/models/public";
+import { SendOptions, SendBatchOptions } from "../src/models/public";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { AbortController } from "@azure/abort-controller";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
@@ -271,6 +276,24 @@ describe("EventHub Sender", function(): void {
       consumerClient.close();
     });
 
+    describe("tryAdd", function() {
+      it("doesn't grow if invalid events are added", async () => {
+        const batch = await producerClient.createBatch({ maxSizeInBytes: 20 });
+        const event = { body: Buffer.alloc(30).toString() };
+
+        const numToAdd = 5;
+        let failures = 0;
+        for (let i = 0; i < numToAdd; i++) {
+          if (!batch.tryAdd(event)) {
+            failures++;
+          }
+        }
+
+        failures.should.equal(5);
+        batch.sizeInBytes.should.equal(0);
+      });
+    });
+
     it("should be sent successfully", async function(): Promise<void> {
       const list = ["Albert", `${Buffer.from("Mike".repeat(1300000))}`, "Marie"];
 
@@ -308,6 +331,62 @@ describe("EventHub Sender", function(): void {
       // and was rejected above.
       [list[0], list[2]].should.be.deep.eq(
         receivedEvents.map((event) => event.body),
+        "Received messages should be equal to our sent messages"
+      );
+    });
+
+    it("should be sent successfully with properties", async function(): Promise<void> {
+      const properties = { test: "super" };
+      const list = [
+        { body: "Albert", properties },
+        { body: "Mike", properties },
+        { body: "Marie", properties }
+      ];
+
+      const batch = await producerClient.createBatch({
+        partitionId: "0"
+      });
+
+      batch.maxSizeInBytes.should.be.gt(0);
+
+      batch.tryAdd(list[0]).should.be.ok;
+      batch.tryAdd(list[1]).should.be.ok;
+      batch.tryAdd(list[2]).should.be.ok;
+
+      const receivedEvents: ReceivedEventData[] = [];
+      let waitUntilEventsReceivedResolver: Function;
+      const waitUntilEventsReceived = new Promise((r) => (waitUntilEventsReceivedResolver = r));
+      const subscriber = consumerClient.subscribe(
+        "0",
+        {
+          async processError() {},
+          async processEvents(events) {
+            receivedEvents.push(...events);
+            if (receivedEvents.length >= 3) {
+              waitUntilEventsReceivedResolver();
+            }
+          }
+        },
+        {
+          startPosition: {
+            sequenceNumber: (await consumerClient.getPartitionProperties("0"))
+              .lastEnqueuedSequenceNumber
+          },
+          maxBatchSize: 3
+        }
+      );
+
+      await producerClient.sendBatch(batch);
+      await waitUntilEventsReceived;
+      await subscriber.close();
+
+      [list[0], list[1], list[2]].should.be.deep.eq(
+        receivedEvents.map((event) => {
+          return {
+            body: event.body,
+            properties: event.properties
+          };
+        }),
         "Received messages should be equal to our sent messages"
       );
     });
@@ -822,6 +901,363 @@ describe("EventHub Sender", function(): void {
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
 
       await producer.close();
+    });
+  });
+
+  describe("Array of events", function() {
+    let consumerClient: EventHubConsumerClient;
+    beforeEach(() => {
+      consumerClient = new EventHubConsumerClient(
+        EventHubConsumerClient.defaultConsumerGroupName,
+        service.connectionString,
+        service.path
+      );
+    });
+
+    afterEach(() => {
+      return consumerClient.close();
+    });
+
+    it("should be sent successfully", async () => {
+      const data: EventData[] = [{ body: "Hello World 1" }, { body: "Hello World 2" }];
+      const receivedEvents: ReceivedEventData[] = [];
+      let receivingResolver: Function;
+      const receivingPromise = new Promise((r) => (receivingResolver = r));
+      const subscription = consumerClient.subscribe(
+        {
+          async processError() {},
+          async processEvents(events) {
+            receivedEvents.push(...events);
+            receivingResolver();
+          }
+        },
+        {
+          startPosition: { enqueuedOn: new Date(), isInclusive: true },
+          maxBatchSize: data.length
+        }
+      );
+
+      await producerClient.sendBatch(data);
+
+      await receivingPromise;
+      await subscription.close();
+
+      receivedEvents.length.should.equal(data.length);
+      receivedEvents.map((e) => e.body).should.eql(data.map((d) => d.body));
+    });
+
+    it("should be sent successfully with partitionKey", async () => {
+      const data: EventData[] = [{ body: "Hello World 1" }, { body: "Hello World 2" }];
+      const receivedEvents: ReceivedEventData[] = [];
+      let receivingResolver: Function;
+      const receivingPromise = new Promise((r) => (receivingResolver = r));
+      const subscription = consumerClient.subscribe(
+        {
+          async processError() {},
+          async processEvents(events) {
+            receivedEvents.push(...events);
+            receivingResolver();
+          }
+        },
+        {
+          startPosition: { enqueuedOn: new Date(), isInclusive: true },
+          maxBatchSize: data.length
+        }
+      );
+
+      await producerClient.sendBatch(data, { partitionKey: "foo" });
+
+      await receivingPromise;
+      await subscription.close();
+
+      receivedEvents.length.should.equal(data.length);
+      receivedEvents.map((e) => e.body).should.eql(data.map((d) => d.body));
+      for (let i = 0; i < receivedEvents.length; i++) {
+        receivedEvents[i].body.should.equal(data[i].body);
+      }
+    });
+
+    it("should be sent successfully with partitionId", async () => {
+      const partitionId = "0";
+      const data: EventData[] = [{ body: "Hello World 1" }, { body: "Hello World 2" }];
+      const receivedEvents: ReceivedEventData[] = [];
+      let receivingResolver: Function;
+      const receivingPromise = new Promise((r) => (receivingResolver = r));
+      const subscription = consumerClient.subscribe(
+        partitionId,
+        {
+          async processError() {},
+          async processEvents(events) {
+            receivedEvents.push(...events);
+            receivingResolver();
+          }
+        },
+        {
+          startPosition: { enqueuedOn: new Date(), isInclusive: true },
+          maxBatchSize: data.length
+        }
+      );
+
+      await producerClient.sendBatch(data, { partitionId });
+
+      await receivingPromise;
+      await subscription.close();
+
+      receivedEvents.length.should.equal(data.length);
+      receivedEvents.map((e) => e.body).should.eql(data.map((d) => d.body));
+      for (let i = 0; i < receivedEvents.length; i++) {
+        receivedEvents[i].body.should.equal(data[i].body);
+      }
+    });
+
+    it("can be manually traced", async function(): Promise<void> {
+      const tracer = new TestTracer();
+      setTracer(tracer);
+
+      const rootSpan = tracer.startSpan("root");
+
+      const events = [];
+      for (let i = 0; i < 5; i++) {
+        events.push({ body: `multiple messages - manual trace propgation: ${i}` });
+      }
+      await producerClient.sendBatch(events, {
+        tracingOptions: {
+          spanOptions: {
+            parent: rootSpan.context()
+          }
+        }
+      });
+      rootSpan.end();
+
+      const rootSpans = tracer.getRootSpans();
+      rootSpans.length.should.equal(1, "Should only have one root spans.");
+      rootSpans[0].should.equal(rootSpan, "The root span should match what was passed in.");
+
+      const expectedGraph: SpanGraph = {
+        roots: [
+          {
+            name: rootSpan.name,
+            children: [
+              {
+                name: "Azure.EventHubs.message",
+                children: []
+              },
+              {
+                name: "Azure.EventHubs.message",
+                children: []
+              },
+              {
+                name: "Azure.EventHubs.message",
+                children: []
+              },
+              {
+                name: "Azure.EventHubs.message",
+                children: []
+              },
+              {
+                name: "Azure.EventHubs.message",
+                children: []
+              },
+              {
+                name: "Azure.EventHubs.send",
+                children: []
+              }
+            ]
+          }
+        ]
+      };
+
+      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
+      tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
+    });
+
+    it("skips already instrumented events when manually traced", async function(): Promise<void> {
+      const tracer = new TestTracer();
+      setTracer(tracer);
+
+      const rootSpan = tracer.startSpan("root");
+
+      const events: EventData[] = [];
+      for (let i = 0; i < 5; i++) {
+        events.push({ body: `multiple messages - manual trace propgation: ${i}` });
+      }
+      events[0].properties = { [TRACEPARENT_PROPERTY]: "foo" };
+      await producerClient.sendBatch(events, {
+        tracingOptions: {
+          spanOptions: {
+            parent: rootSpan.context()
+          }
+        }
+      });
+      rootSpan.end();
+
+      const rootSpans = tracer.getRootSpans();
+      rootSpans.length.should.equal(1, "Should only have one root spans.");
+      rootSpans[0].should.equal(rootSpan, "The root span should match what was passed in.");
+
+      const expectedGraph: SpanGraph = {
+        roots: [
+          {
+            name: rootSpan.name,
+            children: [
+              {
+                name: "Azure.EventHubs.message",
+                children: []
+              },
+              {
+                name: "Azure.EventHubs.message",
+                children: []
+              },
+              {
+                name: "Azure.EventHubs.message",
+                children: []
+              },
+              {
+                name: "Azure.EventHubs.message",
+                children: []
+              },
+              {
+                name: "Azure.EventHubs.send",
+                children: []
+              }
+            ]
+          }
+        ]
+      };
+
+      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
+      tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
+    });
+  });
+
+  describe("Validation", function() {
+    describe("sendBatch", function() {
+      describe("with EventDataBatch", function() {
+        it("works if partitionKeys match", async () => {
+          const misconfiguredOptions: SendBatchOptions = {
+            partitionKey: "foo"
+          };
+          const batch = await producerClient.createBatch({ partitionKey: "foo" });
+          await producerClient.sendBatch(batch, misconfiguredOptions);
+        });
+        it("works if partitionIds match", async () => {
+          const misconfiguredOptions: SendBatchOptions = {
+            partitionId: "0"
+          };
+          const batch = await producerClient.createBatch({ partitionId: "0" });
+          await producerClient.sendBatch(batch, misconfiguredOptions);
+        });
+        it("throws an error if partitionKeys don't match", async () => {
+          const badOptions: SendBatchOptions = {
+            partitionKey: "bar"
+          };
+          const batch = await producerClient.createBatch({ partitionKey: "foo" });
+          try {
+            await producerClient.sendBatch(batch, badOptions);
+            throw new Error("Test failure");
+          } catch (err) {
+            err.message.should.equal(
+              "The partitionKey (bar) set on sendBatch does not match the partitionKey (foo) set when creating the batch."
+            );
+          }
+        });
+        it("throws an error if partitionKeys don't match (undefined)", async () => {
+          const badOptions: SendBatchOptions = {
+            partitionKey: "bar"
+          };
+          const batch = await producerClient.createBatch();
+          try {
+            await producerClient.sendBatch(batch, badOptions);
+            throw new Error("Test failure");
+          } catch (err) {
+            err.message.should.equal(
+              "The partitionKey (bar) set on sendBatch does not match the partitionKey (undefined) set when creating the batch."
+            );
+          }
+        });
+        it("throws an error if partitionIds don't match", async () => {
+          const badOptions: SendBatchOptions = {
+            partitionId: "0"
+          };
+          const batch = await producerClient.createBatch({ partitionId: "1" });
+          try {
+            await producerClient.sendBatch(batch, badOptions);
+            throw new Error("Test failure");
+          } catch (err) {
+            err.message.should.equal(
+              "The partitionId (0) set on sendBatch does not match the partitionId (1) set when creating the batch."
+            );
+          }
+        });
+        it("throws an error if partitionIds don't match (undefined)", async () => {
+          const badOptions: SendBatchOptions = {
+            partitionId: "0"
+          };
+          const batch = await producerClient.createBatch();
+          try {
+            await producerClient.sendBatch(batch, badOptions);
+            throw new Error("Test failure");
+          } catch (err) {
+            err.message.should.equal(
+              "The partitionId (0) set on sendBatch does not match the partitionId (undefined) set when creating the batch."
+            );
+          }
+        });
+        it("throws an error if partitionId and partitionKey are set (create, send)", async () => {
+          const badOptions: SendBatchOptions = {
+            partitionKey: "foo"
+          };
+          const batch = await producerClient.createBatch({ partitionId: "0" });
+          try {
+            await producerClient.sendBatch(batch, badOptions);
+            throw new Error("Test failure");
+          } catch (err) {
+            err.message.should.not.equal("Test failure");
+          }
+        });
+        it("throws an error if partitionId and partitionKey are set (send, create)", async () => {
+          const badOptions: SendBatchOptions = {
+            partitionId: "0"
+          };
+          const batch = await producerClient.createBatch({ partitionKey: "foo" });
+          try {
+            await producerClient.sendBatch(batch, badOptions);
+            throw new Error("Test failure");
+          } catch (err) {
+            err.message.should.not.equal("Test failure");
+          }
+        });
+        it("throws an error if partitionId and partitionKey are set (send, send)", async () => {
+          const badOptions: SendBatchOptions = {
+            partitionKey: "foo",
+            partitionId: "0"
+          };
+          const batch = await producerClient.createBatch();
+          try {
+            await producerClient.sendBatch(batch, badOptions);
+            throw new Error("Test failure");
+          } catch (err) {
+            err.message.should.not.equal("Test failure");
+          }
+        });
+      });
+      describe("with events array", function() {
+        it("throws an error if partitionId and partitionKey are set", async () => {
+          const badOptions: SendBatchOptions = {
+            partitionKey: "foo",
+            partitionId: "0"
+          };
+          const batch = [{ body: "Hello 1" }, { body: "Hello 2" }];
+          try {
+            await producerClient.sendBatch(batch, badOptions);
+            throw new Error("Test failure");
+          } catch (err) {
+            err.message.should.equal(
+              "The partitionId (0) and partitionKey (foo) cannot both be specified."
+            );
+          }
+        });
+      });
     });
   });
 

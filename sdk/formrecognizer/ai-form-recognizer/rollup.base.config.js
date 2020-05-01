@@ -60,6 +60,7 @@ export function nodeConfig(test = false) {
 export function browserConfig(test = false) {
   const baseConfig = {
     input: input,
+    external: ["fs-extra", "nock", "path"],
     output: {
       file: "dist-browser/azure-ai-form-recognizer.js",
       format: "umd",
@@ -98,7 +99,7 @@ export function browserConfig(test = false) {
     // Entry points - test files under the `test` folder(common for both browser and node), browser specific test files
     baseConfig.input = ["dist-esm/test/*.spec.js", "dist-esm/test/browser/*.spec.js"];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
-    baseConfig.output.file = "dist-test/index.browser.js";
+    baseConfig.output.file = "test-browser/index.browser.js";
 
     baseConfig.onwarn = (warning) => {
       if (

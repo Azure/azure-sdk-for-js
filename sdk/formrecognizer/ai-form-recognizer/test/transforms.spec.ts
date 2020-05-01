@@ -16,9 +16,9 @@ import {
   toFormModelResponse
 } from "../src/transforms";
 import {
-  FormRecognizerClientGetAnalyzeFormResultResponse as GetAnalyzeFormResultResponse,
-  FormRecognizerClientGetAnalyzeReceiptResultResponse as GetAnalyzeReceiptResultResponse,
-  FormRecognizerClientGetCustomModelResponse as GetCustomModelResponse,
+  GeneratedClientGetAnalyzeFormResultResponse as GetAnalyzeFormResultResponse,
+  GeneratedClientGetAnalyzeReceiptResultResponse as GetAnalyzeReceiptResultResponse,
+  GeneratedClientGetCustomModelResponse as GetCustomModelResponse,
   ReadResult as ReadResultModel,
   FieldValue as FieldValueModel,
   DataTable as DataTableModel

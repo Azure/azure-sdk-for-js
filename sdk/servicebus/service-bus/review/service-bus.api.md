@@ -42,6 +42,11 @@ export interface CreateBatchOptions extends OperationOptions {
 }
 
 // @public
+export interface CreateSenderOptions {
+    abortSignal?: AbortSignalLike;
+}
+
+// @public
 export interface CreateSessionReceiverOptions extends SessionReceiverOptions, OperationOptions {
 }
 
@@ -162,7 +167,7 @@ export class ServiceBusClient {
     createReceiver(queueName: string, receiveMode: "receiveAndDelete"): Receiver<ReceivedMessage>;
     createReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock"): Receiver<ReceivedMessageWithLock>;
     createReceiver(topicName: string, subscriptionName: string, receiveMode: "receiveAndDelete"): Receiver<ReceivedMessage>;
-    createSender(queueOrTopicName: string): Sender;
+    createSender(queueOrTopicName: string, options?: CreateSenderOptions): Promise<Sender>;
     createSessionReceiver(queueName: string, receiveMode: "peekLock", options?: CreateSessionReceiverOptions): Promise<SessionReceiver<ReceivedMessageWithLock>>;
     createSessionReceiver(queueName: string, receiveMode: "receiveAndDelete", options?: CreateSessionReceiverOptions): Promise<SessionReceiver<ReceivedMessage>>;
     createSessionReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock", options?: CreateSessionReceiverOptions): Promise<SessionReceiver<ReceivedMessageWithLock>>;

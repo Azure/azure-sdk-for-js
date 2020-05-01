@@ -5,6 +5,7 @@
       "path": "sdk\\core\\abort-controller"
     },
     {
+      "name": "app-configuration",
       "path": "sdk\\appconfiguration\\app-configuration"
     },
     {
@@ -28,6 +29,10 @@
       "path": "sdk\\core\\core-http"
     },
     {
+      "name": "core-https",
+      "path": "sdk\\core\\core-https"
+    },
+    {
       "name": "core-lro",
       "path": "sdk\\core\\core-lro"
     },
@@ -40,34 +45,43 @@
       "path": "sdk\\core\\core-tracing"
     },
     {
+      "name": "cosmos",
       "path": "sdk\\cosmosdb\\cosmos"
     },
     {
+      "name": "event-hubs",
       "path": "sdk\\eventhub\\event-hubs"
     },
     {
+      "name": "eventhubs-checkpointstore-blob",
       "path": "sdk\\eventhub\\eventhubs-checkpointstore-blob"
     },
     {
+      "name": "event-processor-host",
       "path": "sdk\\eventhub\\event-processor-host"
     },
     {
-      "path": "sdk\\formrecognizer\\ai-form-recognizer",
-      "name": "form-recognizer"
+      "name": "form-recognizer",
+      "path": "sdk\\formrecognizer\\ai-form-recognizer"
     },
     {
+      "name": "testhub",
       "path": "sdk\\eventhub\\testhub"
     },
     {
+      "name": "identity",
       "path": "sdk\\identity\\identity"
     },
     {
+      "name": "keyvault-certificates",
       "path": "sdk\\keyvault\\keyvault-certificates"
     },
     {
+      "name": "keyvault-keys",
       "path": "sdk\\keyvault\\keyvault-keys"
     },
     {
+      "name": "keyvault-secrets",
       "path": "sdk\\keyvault\\keyvault-secrets"
     },
     {
@@ -79,18 +93,23 @@
       "path": "sdk\\search\\search-documents"
     },
     {
+      "name": "service-bus",
       "path": "sdk\\servicebus\\service-bus"
     },
     {
+      "name": "storage-blob",
       "path": "sdk\\storage\\storage-blob"
     },
     {
+      "name": "storage-file-datalake",
       "path": "sdk\\storage\\storage-file-datalake"
     },
     {
+      "name": "storage-file-share",
       "path": "sdk\\storage\\storage-file-share"
     },
     {
+      "name": "storage-queue",
       "path": "sdk\\storage\\storage-queue"
     },
     {
@@ -102,6 +121,7 @@
       "path": "sdk\\test-utils\\recorder"
     },
     {
+      "name": "template",
       "path": "sdk\\template\\template"
     },
     {
@@ -109,6 +129,7 @@
       "path": "common\\tools\\eslint-plugin-azure-sdk"
     },
     {
+      "name": "perfstress",
       "path": "sdk\\test-utils\\perfstress"
     }
   ],
