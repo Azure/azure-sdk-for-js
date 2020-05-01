@@ -47,7 +47,7 @@ describe("topic filters", () => {
 
     subscriptionClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
     topicClient = serviceBusClient.test.addToCleanup(
-      serviceBusClient.createSender(entityNames.topic!)
+      await serviceBusClient.createSender(entityNames.topic!)
     );
 
     subscriptionRuleManager = subscriptionRuleManager = serviceBusClient.test.addToCleanup(

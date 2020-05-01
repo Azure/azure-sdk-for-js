@@ -57,7 +57,7 @@ describe("AbortSignal", () => {
     it("_trySend with an already aborted AbortSignal", async () => {
       const sender = new MessageSender(clientEntityContext, { timeoutInMs: 1 });
 
-      sender["_init"] = async () => {
+      sender["open"] = async () => {
         throw new Error("INIT SHOULD NEVER HAVE BEEN CALLED");
       };
 
@@ -100,7 +100,7 @@ describe("AbortSignal", () => {
 
       let initWasCalled = true;
 
-      sender["_init"] = async () => {
+      sender["open"] = async () => {
         initWasCalled = true;
         // long enough to let the init timeout expiration code to run.
         await delay(1000);

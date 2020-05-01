@@ -4,6 +4,7 @@
 import { OperationOptions } from "./modelsToBeSharedWithEventHubs";
 import { SessionReceiverOptions } from "./session/messageSession";
 import Long from "long";
+import { AbortSignalLike } from "@azure/abort-controller";
 
 /**
  * The general message handler interface (used for streamMessages).
@@ -102,6 +103,16 @@ export interface MessageHandlerOptions {
  * has sessions enabled.
  */
 export interface CreateSessionReceiverOptions extends SessionReceiverOptions, OperationOptions {}
+
+/**
+ * Describes the options passed to the `createSender` method on `ServiceBusClient`.
+ */
+export interface CreateSenderOptions {
+  /**
+   * The signal which can be used to abort requests.
+   */
+  abortSignal?: AbortSignalLike;
+}
 
 /**
  * Describes the options passed to the `browseMessages` method on a receiver.

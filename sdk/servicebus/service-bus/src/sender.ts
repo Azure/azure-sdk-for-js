@@ -14,7 +14,7 @@ import {
   throwTypeErrorIfParameterNotLongArray
 } from "./util/errors";
 import { ServiceBusMessageBatch } from "./serviceBusMessageBatch";
-import { CreateBatchOptions } from "./models";
+import { CreateBatchOptions, CreateSenderOptions } from "./models";
 import {
   retry,
   RetryOperationType,
@@ -397,6 +397,20 @@ export class SenderImpl implements Sender {
       retryOptions: this._retryOptions,
       abortSignal: options?.abortSignal
     };
+    return retry<void>(config);
+  }
+
+  async open(options?: CreateSenderOptions): Promise<void> {
+    this._throwIfSenderOrConnectionClosed();
+
+    const config: RetryConfig<void> = {
+      operation: () => this._sender.open(),
+      connectionId: this._context.namespace.connectionId,
+      operationType: RetryOperationType.senderLink,
+      retryOptions: this._retryOptions,
+      abortSignal: options?.abortSignal
+    };
+
     return retry<void>(config);
   }
 

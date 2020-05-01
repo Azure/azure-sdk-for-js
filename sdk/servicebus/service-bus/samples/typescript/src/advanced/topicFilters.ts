@@ -18,26 +18,18 @@
   Topic filters and actions.
 */
 
-import {
-  ServiceBusClient,
-  ServiceBusMessage,
-  SubscriptionRuleManager
-} from "@azure/service-bus";
+import { ServiceBusClient, ServiceBusMessage, SubscriptionRuleManager } from "@azure/service-bus";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();
 
 // Define connection string and related Service Bus entity names here
-const connectionString =
-  process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
+const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
 const topicName = process.env.TOPIC_NAME || "<topic name>";
-const subscriptionName1 =
-  process.env.TOPIC_FILTER_SUBSCRIPTION_1 || "<subscription name>";
-const subscriptionName2 =
-  process.env.TOPIC_FILTER_SUBSCRIPTION_2 || "<subscription name>";
-const subscriptionName3 =
-  process.env.TOPIC_FILTER_SUBSCRIPTION_3 || "<subscription name>";
+const subscriptionName1 = process.env.TOPIC_FILTER_SUBSCRIPTION_1 || "<subscription name>";
+const subscriptionName2 = process.env.TOPIC_FILTER_SUBSCRIPTION_2 || "<subscription name>";
+const subscriptionName3 = process.env.TOPIC_FILTER_SUBSCRIPTION_3 || "<subscription name>";
 
 export async function main() {
   const sbClient = new ServiceBusClient(connectionString);
@@ -54,18 +46,9 @@ export async function main() {
 
 // Adds Rules on subscriptions to route messages from a topic to different subscriptions
 async function addRules(sbClient: ServiceBusClient) {
-  const subscription1Client = sbClient.getSubscriptionRuleManager(
-    topicName,
-    subscriptionName1
-  );
-  const subscription2Client = sbClient.getSubscriptionRuleManager(
-    topicName,
-    subscriptionName2
-  );
-  const subscription3Client = sbClient.getSubscriptionRuleManager(
-    topicName,
-    subscriptionName3
-  );
+  const subscription1Client = sbClient.getSubscriptionRuleManager(topicName, subscriptionName1);
+  const subscription2Client = sbClient.getSubscriptionRuleManager(topicName, subscriptionName2);
+  const subscription3Client = sbClient.getSubscriptionRuleManager(topicName, subscriptionName3);
 
   // The default rule on the subscription allows all messages in.
   // So, remove existing rules before adding new ones
@@ -80,7 +63,7 @@ async function addRules(sbClient: ServiceBusClient) {
 
 // Sends 100 messages with a user property called "priority" whose value is between 1 and 4
 async function sendMessages(sbClient: ServiceBusClient) {
-  const sender = sbClient.createSender(topicName);
+  const sender = await sbClient.createSender(topicName);
   for (let index = 0; index < 10; index++) {
     const priority = Math.ceil(Math.random() * 4);
     const message: ServiceBusMessage = {
@@ -95,21 +78,9 @@ async function sendMessages(sbClient: ServiceBusClient) {
 
 // Prints messages from the 3 subscriptions
 async function receiveMessages(sbClient: ServiceBusClient) {
-  const subscription1 = sbClient.createReceiver(
-    topicName,
-    subscriptionName1,
-    "peekLock"
-  );
-  const subscription2 = sbClient.createReceiver(
-    topicName,
-    subscriptionName2,
-    "peekLock"
-  );
-  const subscription3 = sbClient.createReceiver(
-    topicName,
-    subscriptionName3,
-    "peekLock"
-  );
+  const subscription1 = sbClient.createReceiver(topicName, subscriptionName1, "peekLock");
+  const subscription2 = sbClient.createReceiver(topicName, subscriptionName2, "peekLock");
+  const subscription3 = sbClient.createReceiver(topicName, subscriptionName3, "peekLock");
 
   const messagesFromSubscription1 = await subscription1.receiveBatch(10, {
     maxWaitTimeInMs: 5000
@@ -149,6 +120,6 @@ async function removeAllRules(client: SubscriptionRuleManager) {
   }
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.log("Error occurred: ", err);
 });

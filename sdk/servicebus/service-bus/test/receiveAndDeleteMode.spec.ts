@@ -42,7 +42,7 @@ describe("receive and delete", () => {
     const entityNames = await serviceBusClient.test.createTestEntities(entityType);
 
     senderClient = serviceBusClient.test.addToCleanup(
-      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+      await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
     if (receiveMode === "peekLock") {
       receiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);

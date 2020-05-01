@@ -42,7 +42,7 @@ describe("batchReceiver", () => {
     receiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
 
     senderClient = serviceBusClient.test.addToCleanup(
-      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+      await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
 
     deadLetterClient = serviceBusClient.test.createDeadLetterReceiver(entityNames);
@@ -1010,5 +1010,78 @@ describe("batchReceiver", () => {
         );
       }
     });
+  });
+});
+
+describe("Batching - disconnects", function(): void {
+  let serviceBusClient: ServiceBusClientForTests;
+  let senderClient: Sender;
+  let receiverClient: Receiver<ReceivedMessageWithLock>;
+
+  async function beforeEachTest(entityType: TestClientType): Promise<void> {
+    const entityNames = await serviceBusClient.test.createTestEntities(entityType);
+    receiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+
+    senderClient = serviceBusClient.test.addToCleanup(
+      await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+    );
+  }
+  before(() => {
+    serviceBusClient = createServiceBusClientForTests();
+  });
+
+  after(() => {
+    return serviceBusClient.test.after();
+  });
+
+  function afterEachTest(): Promise<void> {
+    return serviceBusClient.test.afterEach();
+  }
+  afterEach(async () => {
+    await afterEachTest();
+  });
+
+  it("can receive and settle messages after a disconnect", async function(): Promise<void> {
+    // Create the sender and receiver.
+    await beforeEachTest(TestClientType.UnpartitionedQueue);
+
+    // Send a message so we can be sure when the receiver is open and active.
+    await senderClient.send(TestMessage.getSample());
+
+    let settledMessageCount = 0;
+
+    const messages1 = await receiverClient.receiveBatch(1, { maxWaitTimeInMs: 5000 });
+    for (const message of messages1) {
+      await message.complete();
+      settledMessageCount++;
+    }
+
+    settledMessageCount.should.equal(1, "Unexpected number of settled messages.");
+
+    const connectionContext = (receiverClient as any)["_context"].namespace;
+    const refreshConnection = connectionContext.refreshConnection;
+    let refreshConnectionCalled = 0;
+    connectionContext.refreshConnection = function(...args: any) {
+      refreshConnectionCalled++;
+      refreshConnection.apply(this, args);
+    };
+
+    // Simulate a disconnect being called with a non-retryable error.
+    (receiverClient as any)["_context"].namespace.connection["_connection"].idle();
+
+    // Allow rhea to clear internal setTimeouts (since we're triggering idle manually).
+    // Otherwise, it will get into a bad internal state with uncaught exceptions.
+    await delay(2000);
+    // send a second message to trigger the message handler again.
+    await senderClient.send(TestMessage.getSample());
+
+    // wait for the 2nd message to be received.
+    const messages2 = await receiverClient.receiveBatch(1, { maxWaitTimeInMs: 5000 });
+    for (const message of messages2) {
+      await message.complete();
+      settledMessageCount++;
+    }
+    settledMessageCount.should.equal(2, "Unexpected number of settled messages.");
+    refreshConnectionCalled.should.be.greaterThan(0, "refreshConnection was not called.");
   });
 });
