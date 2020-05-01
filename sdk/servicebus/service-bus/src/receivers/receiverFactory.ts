@@ -24,11 +24,15 @@ export type ReceiverFactory = (
 /**
  * Creates a function that can be used to create rhea receivers.
  *
+ * This implementation pre-initializes a receiver link that is active but does not have
+ * any event handlers hooked up. The pre-initialized link is handed back the first time
+ * someone asks for one. After that a new link is created each time.
+ *
  * @internal
  * @ignore
  */
-export async function createReceiverFactory(
-  connection: Connection,
+export async function createPreinitializedReceiverFactory(
+  connection: Pick<Connection, "createReceiver">,
   receiveMode: "peekLock" | "receiveAndDelete",
   entityPath: string
 ): Promise<ReceiverFactory> {
@@ -54,7 +58,7 @@ export async function createReceiverFactory(
 }
 
 async function _createBasicReceiver(
-  connection: Connection,
+  connection: Pick<Connection, "createReceiver">,
   receiveMode: "peekLock" | "receiveAndDelete",
   entityPath: string
 ) {
@@ -95,32 +99,26 @@ async function _initializeExistingReceiver(
   });
 
   receiver.session.on(SessionEvents.sessionClose, (context: EventContext) => {
-    if (options?.onSessionClose) {
-      options?.onSessionClose(context);
+    if (options.onSessionClose) {
+      options.onSessionClose(context);
     }
   });
 
   receiver.session.on(SessionEvents.sessionError, (context: EventContext) => {
-    if (options?.onSessionError) {
-      options?.onSessionError(context);
+    if (options.onSessionError) {
+      options.onSessionError(context);
     }
   });
 
   receiver.on(ReceiverEvents.receiverError, (context: EventContext) => {
-    if (options?.onError) {
-      options?.onError(context);
+    if (options.onError) {
+      options.onError(context);
     }
   });
 
   receiver.on(ReceiverEvents.settled, (context: EventContext) => {
-    if (options?.onSettled) {
-      options?.onSettled(context);
-    }
-  });
-
-  receiver.on(ReceiverEvents.receiverClose, (context: EventContext) => {
-    if (options?.onClose) {
-      options?.onClose(context);
+    if (options.onSettled) {
+      options.onSettled(context);
     }
   });
 }

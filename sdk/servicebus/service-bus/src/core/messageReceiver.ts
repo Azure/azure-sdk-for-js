@@ -27,6 +27,7 @@ import { ServiceBusMessageImpl, DispositionType, ReceiveMode } from "../serviceB
 import { getUniqueName, calculateRenewAfterDuration } from "../util/utils";
 import { MessageHandlerOptions } from "../models";
 import { DispositionStatusOptions } from "./managementClient";
+import { ReceiverFactory } from "../receivers/receiverFactory";
 
 /**
  * @internal
@@ -236,7 +237,12 @@ export class MessageReceiver extends LinkEntity {
    * the active messages.
    */
   protected _clearAllMessageLockRenewTimers: () => void;
-  constructor(context: ClientEntityContext, receiverType: ReceiverType, options?: ReceiveOptions) {
+  constructor(
+    context: ClientEntityContext,
+    receiverType: ReceiverType,
+    private _receiverFactory: ReceiverFactory,
+    options?: ReceiveOptions
+  ) {
     super(context.entityPath, context, {
       address: context.entityPath,
       audience: `${context.namespace.config.endpoint}${context.entityPath}`
@@ -777,7 +783,21 @@ export class MessageReceiver extends LinkEntity {
           options
         );
 
-        this._receiver = await this._context.namespace.connection.createReceiver(options);
+        // Originally we just took the auto-generated ID of the link and propagated it.
+        // The issue is that now we're not always creating the link (sometimes, on first access)
+        // it's a pre-cached link. So we just ensure that we update our internal logging to use the new ID.
+        this._receiver = await this._receiverFactory(this._context.namespace.connection, options);
+
+        log.receiver(
+          "[%s] Receiver id '%s' is initialized and will now have id '%s'",
+          connectionId,
+          this.name,
+          this._receiver.name,
+          options
+        );
+
+        this.name = this._receiver.name;
+
         this.isConnecting = false;
         log.error(
           "[%s] Receiver '%s' with address '%s' has established itself.",

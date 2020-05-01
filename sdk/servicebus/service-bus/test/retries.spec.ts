@@ -375,7 +375,9 @@ describe("Retries - Receive methods", () => {
       throw new MessagingError("Hello there, I'm an error");
     };
     // Mocking batchingReceiver.receive to throw the error and fail
-    const batchingReceiver = BatchingReceiver.create((receiverClient as any)._context);
+    const batchingReceiver = BatchingReceiver.create((receiverClient as any)._context, () => {
+      throw new Error("Not used ");
+    });
     batchingReceiver.isOpen = () => true;
     batchingReceiver.receive = fakeFunction;
     // Mocking session creation to throw the error and fail

@@ -14,6 +14,7 @@ import {
 } from "./messageReceiver";
 import { ClientEntityContext } from "../clientEntityContext";
 import { throwErrorIfConnectionClosed } from "../util/errors";
+import { ReceiverFactory } from "../receivers/receiverFactory";
 
 /**
  * Describes the batching receiver where the user can receive a specified number of messages for
@@ -45,8 +46,12 @@ export class BatchingReceiver extends MessageReceiver {
    * @param {ClientEntityContext} context The client entity context.
    * @param {ReceiveOptions} [options]  Options for how you'd like to connect.
    */
-  constructor(context: ClientEntityContext, options?: ReceiveOptions) {
-    super(context, ReceiverType.batching, options);
+  constructor(
+    context: ClientEntityContext,
+    receiverFactory: ReceiverFactory,
+    options?: ReceiveOptions
+  ) {
+    super(context, ReceiverType.batching, receiverFactory, options);
     this.newMessageWaitTimeoutInMs = 1000;
   }
 
@@ -440,9 +445,13 @@ export class BatchingReceiver extends MessageReceiver {
    * @param {ClientEntityContext} context    The connection context.
    * @param {ReceiveOptions} [options]     Receive options.
    */
-  static create(context: ClientEntityContext, options?: ReceiveOptions): BatchingReceiver {
+  static create(
+    context: ClientEntityContext,
+    receiverFactory: ReceiverFactory,
+    options?: ReceiveOptions
+  ): BatchingReceiver {
     throwErrorIfConnectionClosed(context.namespace);
-    const bReceiver = new BatchingReceiver(context, options);
+    const bReceiver = new BatchingReceiver(context, receiverFactory, options);
     context.batchingReceiver = bReceiver;
     return bReceiver;
   }

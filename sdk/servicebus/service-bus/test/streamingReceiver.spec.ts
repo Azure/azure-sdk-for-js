@@ -14,7 +14,7 @@ import {
   ReceivedMessageWithLock,
   ReceiveMode
 } from "../src/serviceBusMessage";
-import { Receiver } from "../src/receivers/receiver";
+import { Receiver, ReceiverImpl } from "../src/receivers/receiver";
 import { Sender } from "../src/sender";
 import {
   ServiceBusClientForTests,
@@ -22,6 +22,7 @@ import {
   testPeekMsgsLength
 } from "./utils/testutils2";
 import { getDeliveryProperty } from "./utils/misc";
+import { createPreinitializedReceiverFactory } from "../src/receivers/receiverFactory";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -240,16 +241,32 @@ describe("Streaming", () => {
       await testManualComplete();
     });
 
-    it("onDetached should forward error messages if it fails to retry", async function(): Promise<
+    it.only("onDetached should forward error messages if it fails to retry", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.PartitionedQueue);
       let streamingReceiver: StreamingReceiver | undefined;
+
       try {
         let actualError: Error | undefined;
-        streamingReceiver = await StreamingReceiver.create((receiverClient as any)._context, {
-          receiveMode: ReceiveMode.peekLock
-        });
+
+        const context = (receiverClient as ReceiverImpl<ReceivedMessageWithLock | ReceivedMessage>)[
+          "_context"
+        ];
+
+        const receiverFactory = await createPreinitializedReceiverFactory(
+          context.namespace.connection,
+          "peekLock",
+          context.entityPath
+        );
+
+        streamingReceiver = await StreamingReceiver.create(
+          (receiverClient as any)._context,
+          receiverFactory,
+          {
+            receiveMode: ReceiveMode.peekLock
+          }
+        );
 
         streamingReceiver.receive(
           async () => {},

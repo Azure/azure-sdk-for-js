@@ -29,15 +29,10 @@ import { assertValidMessageHandlers, getMessageIterator } from "./shared";
 import { convertToInternalReceiveMode } from "../constructorHelpers";
 import Long from "long";
 import { ServiceBusMessageImpl, ReceivedMessageWithLock } from "../serviceBusMessage";
-import {
-  RetryConfig,
-  RetryOperationType,
-  retry,
-  Constants,
-  RetryOptions,
-  defaultLock
-} from "@azure/core-amqp";
+import { RetryConfig, RetryOperationType, retry, Constants, RetryOptions } from "@azure/core-amqp";
 import "@azure/core-asynciterator-polyfill";
+import { createPreinitializedReceiverFactory, ReceiverFactory } from "./receiverFactory";
+import { negotiateClaim } from "../core/auth";
 
 /**
  * A receiver that does not handle sessions.
@@ -136,10 +131,15 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
    */
   private _context: ClientEntityContext;
   private _retryOptions: RetryOptions;
+  private _receiverFactory: ReceiverFactory = async () => {
+    throw new Error("Receiver factory was unitialized");
+  };
+
   /**
    * @property {boolean} [_isClosed] Denotes if close() was called on this receiver
    */
   private _isClosed: boolean = false;
+  private _tokenRenewalTimers: any[] = [];
 
   public entityPath: string;
 
@@ -158,14 +158,17 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
   }
 
   async open(): Promise<void> {
-    // a little bit of a cheat but most of the expense when creating receivers is:
-    // 1. creating the connection
-    // 2. initializing the authentication
-    //
-    // So here we shortcut both for this particular context.
-    await defaultLock.acquire(this._context.namespace.cbsSession.cbsLock, () => {
-      return this._context.namespace.cbsSession.init();
-    });
+    // initialize the two expensive parts of the connection:
+    // 1. authentication and token renewal
+    const timer = await negotiateClaim(this._context);
+    this._tokenRenewalTimers.push(timer);
+
+    // 2. create a receiver link factory that preinitializes an instance
+    this._receiverFactory = await createPreinitializedReceiverFactory(
+      this._context.namespace.connection,
+      this.receiveMode,
+      this.entityPath
+    );
   }
 
   private _throwIfAlreadyReceiving(): void {
@@ -237,7 +240,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       throw new TypeError("The parameter 'onError' must be of type 'function'.");
     }
 
-    StreamingReceiver.create(this._context, {
+    StreamingReceiver.create(this._context, this._receiverFactory, {
       ...options,
       receiveMode: convertToInternalReceiveMode(this.receiveMode),
       retryOptions: this._retryOptions
@@ -286,7 +289,11 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
           maxConcurrentCalls: 0,
           receiveMode: convertToInternalReceiveMode(this.receiveMode)
         };
-        this._context.batchingReceiver = BatchingReceiver.create(this._context, options);
+        this._context.batchingReceiver = BatchingReceiver.create(
+          this._context,
+          this._receiverFactory,
+          options
+        );
       }
       const receivedMessages = await this._context.batchingReceiver.receive(
         maxMessageCount,
@@ -502,6 +509,11 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
 
         // Make sure that we clear the map of deferred messages
         this._context.requestResponseLockedMessages.clear();
+
+        // kill any token renewal timers created for any of our receivers.
+        for (const timer of this._tokenRenewalTimers) {
+          clearTimeout(timer);
+        }
       }
     } catch (err) {
       log.error(
