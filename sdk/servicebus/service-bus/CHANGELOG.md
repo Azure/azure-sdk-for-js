@@ -2,9 +2,6 @@
 
 ## 7.0.0-preview.2 (Unreleased)
 
-- Any error caused by a connection disconnecting is retried as per the user-provided retry options and the failures would get surfaced to the user's registered error handler
-  when using the `subscribe` method on a receiver.
-  [PR 8562](https://github.com/Azure/azure-sdk-for-js/pull/8562)
 - Bug - Unable to settle previously received messages when a receiver recovers from a broken link or connection.
   Fixed in [PR 8340](https://github.com/Azure/azure-sdk-for-js/pull/8340)
   Please note that if using sessions, this behavior doesn't change with this release.
