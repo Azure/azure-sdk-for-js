@@ -22,6 +22,16 @@ const pkg = require("./package.json");
 const depNames = Object.keys(pkg.dependencies);
 const production = process.env.NODE_ENV === "production";
 
+// This method throws an error if any circular dependencies are caught,
+// this also whitelists "nock" library since it has circular references which we can't fix and are unaffected to.
+// More Info - https://github.com/Azure/azure-sdk-for-js/pull/8642#issuecomment-622201377
+const overrideOnwarnForTests = (warning, warn) => {
+  if (warning.code === "CIRCULAR_DEPENDENCY" && !warning.message.includes("nock")) {
+    throw new Error(warning.message);
+  }
+  warn(warning);
+};
+
 export function nodeConfig(test = false) {
   const externalNodeBuiltins = [
     "@azure/core-http",
@@ -77,6 +87,7 @@ export function nodeConfig(test = false) {
     baseConfig.external.push("assert", "fs", "path", "buffer", "zlib");
 
     baseConfig.context = "null";
+    baseConfig.onwarn = overrideOnwarnForTests;
 
     // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0, rollup started respecting
     // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also
@@ -164,6 +175,7 @@ export function browserConfig(test = false) {
     baseConfig.external = ["fs-extra"];
 
     baseConfig.context = "null";
+    baseConfig.onwarn = overrideOnwarnForTests;
 
     // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0, rollup started respecting
     // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also
