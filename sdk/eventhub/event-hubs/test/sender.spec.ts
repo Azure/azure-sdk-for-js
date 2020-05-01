@@ -335,6 +335,62 @@ describe("EventHub Sender", function(): void {
       );
     });
 
+    it("should be sent successfully with properties", async function(): Promise<void> {
+      const properties = { test: "super" };
+      const list = [
+        { body: "Albert", properties },
+        { body: "Mike", properties },
+        { body: "Marie", properties }
+      ];
+
+      const batch = await producerClient.createBatch({
+        partitionId: "0"
+      });
+
+      batch.maxSizeInBytes.should.be.gt(0);
+
+      batch.tryAdd(list[0]).should.be.ok;
+      batch.tryAdd(list[1]).should.be.ok;
+      batch.tryAdd(list[2]).should.be.ok;
+
+      const receivedEvents: ReceivedEventData[] = [];
+      let waitUntilEventsReceivedResolver: Function;
+      const waitUntilEventsReceived = new Promise((r) => (waitUntilEventsReceivedResolver = r));
+      const subscriber = consumerClient.subscribe(
+        "0",
+        {
+          async processError() {},
+          async processEvents(events) {
+            receivedEvents.push(...events);
+            if (receivedEvents.length >= 3) {
+              waitUntilEventsReceivedResolver();
+            }
+          }
+        },
+        {
+          startPosition: {
+            sequenceNumber: (await consumerClient.getPartitionProperties("0"))
+              .lastEnqueuedSequenceNumber
+          },
+          maxBatchSize: 3
+        }
+      );
+
+      await producerClient.sendBatch(batch);
+      await waitUntilEventsReceived;
+      await subscriber.close();
+
+      [list[0], list[1], list[2]].should.be.deep.eq(
+        receivedEvents.map((event) => {
+          return {
+            body: event.body,
+            properties: event.properties
+          };
+        }),
+        "Received messages should be equal to our sent messages"
+      );
+    });
+
     it("can be manually traced", async function(): Promise<void> {
       const tracer = new TestTracer();
       setTracer(tracer);

@@ -112,11 +112,10 @@ export interface EventDataBatch {
    * Used internally by the `sendBatch()` method on the `EventHubProducerClient`.
    * This is not meant for the user to use directly.
    *
-   * @readonly
    * @internal
    * @ignore
    */
-  readonly _message: Buffer | undefined;
+  _generateMessage(): Buffer;
 
   /**
    * Gets the "message" span contexts that were created when adding events to the batch.
@@ -237,19 +236,6 @@ export class EventDataBatchImpl implements EventDataBatch {
   }
 
   /**
-   * @property Represents the single AMQP message which is the result of encoding all the events
-   * added into the `EventDataBatch` instance.
-   *
-   * This is not meant for the user to use directly.
-   *
-   * When the `EventDataBatch` instance is passed to the `send()` method on the `EventHubProducer`,
-   * this single batched AMQP message is what gets sent over the wire to the service.
-   * @readonly
-   */
-  get _message(): Buffer | undefined {
-    return this._generateBatch(this._encodedMessages, this._batchAnnotations);
-  }
-  /**
    * Gets the "message" span contexts that were created when adding events to the batch.
    * @internal
    * @ignore
@@ -271,6 +257,20 @@ export class EventDataBatchImpl implements EventDataBatch {
       batchEnvelope.message_annotations = annotations;
     }
     return message.encode(batchEnvelope);
+  }
+
+  /**
+   * Generates the single AMQP message which is the result of encoding all the events
+   * added into the `EventDataBatch` instance.
+   *
+   * This is not meant for the user to use directly.
+   *
+   * When the `EventDataBatch` instance is passed to the `send()` method on the `EventHubProducer`,
+   * this single batched AMQP message is what gets sent over the wire to the service.
+   * @readonly
+   */
+  _generateMessage(): Buffer {
+    return this._generateBatch(this._encodedMessages, this._batchAnnotations);
   }
 
   /**
