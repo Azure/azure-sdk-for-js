@@ -9,7 +9,7 @@ import { DataLakeFileClient, DataLakeFileSystemClient } from "../src";
 import { toPermissionsString } from "../src/transforms";
 import { bodyToString, getDataLakeServiceClient, recorderEnvSetup } from "./utils";
 
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("DataLakePathClient", () => {
   let fileSystemName: string;

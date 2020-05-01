@@ -11,7 +11,7 @@ import {
 import { getDataLakeServiceClient, recorderEnvSetup } from "./utils";
 import { URLBuilder } from "@azure/core-http";
 
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("DataLakeFileSystemClient", () => {
   let fileSystemName: string;

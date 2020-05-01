@@ -18,7 +18,7 @@ import {
   StorageSharedKeyCredential
 } from "../src";
 
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("BlobBatch", () => {
   let blobServiceClient: BlobServiceClient;
