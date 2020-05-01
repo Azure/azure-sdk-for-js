@@ -906,16 +906,10 @@ export class MessageReceiver extends LinkEntity {
       //  Reopen
       //   - If no error was present
       //   - If the error is a MessagingError and is considered retryable
-      //   - Any non MessagingError that was triggered by a disconnect because such errors do not get
-      //     translated by `@azure/core-amqp` to a MessagingError and we need to do our best when
-      //     it comes to connection being disconnected
+      //   - Any non MessagingError because such errors do not get
+      //     translated by `@azure/core-amqp` to a MessagingError
       //   - More details here - https://github.com/Azure/azure-sdk-for-js/pull/8580#discussion_r417087030
-      let shouldReopen = true;
-      if (isMessagingError(translatedError)) {
-        shouldReopen = translatedError.retryable;
-      } else {
-        shouldReopen = !translatedError || causedByDisconnect || false;
-      }
+      let shouldReopen = isMessagingError(translatedError) ? translatedError.retryable : true;
 
       // Non-retryable errors that aren't caused by disconnect
       // will have already been forwarded to the user's error handler.
