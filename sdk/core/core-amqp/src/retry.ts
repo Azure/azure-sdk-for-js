@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-
 import { translate, MessagingError } from "./errors";
 import { delay } from "./util/utils";
 import { logger } from "./log";

@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-
 import { parseConnectionString, ServiceBusConnectionStringModel } from "../util/utils";
 import { AccessToken } from "@azure/core-auth";
 import { Buffer } from "buffer";

@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-
 import { getTracer, getTraceParentHeader } from "@azure/core-tracing";
 import { SpanOptions, SpanKind } from "@opentelemetry/api";
 import {

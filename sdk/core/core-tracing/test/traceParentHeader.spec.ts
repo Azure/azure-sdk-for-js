@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-
 import * as assert from "assert";
 import { extractSpanContextFromTraceParentHeader, getTraceParentHeader } from "../src";
 import { TraceFlags, SpanContext } from "@opentelemetry/api";
