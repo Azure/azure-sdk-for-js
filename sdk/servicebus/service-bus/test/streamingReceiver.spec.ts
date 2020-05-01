@@ -63,7 +63,7 @@ describe("Streaming", () => {
       receiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
     }
     senderClient = serviceBusClient.test.addToCleanup(
-      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+      await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
 
     deadLetterClient = serviceBusClient.test.createDeadLetterReceiver(entityNames);

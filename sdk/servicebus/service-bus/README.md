@@ -102,7 +102,7 @@ using the [createSender][sbclient_createsender] method.
 This gives you a sender which you can use to [send][sender_send] messages.
 
 ```javascript
-const sender = serviceBusClient.createSender("my-queue");
+const sender = await serviceBusClient.createSender("my-queue");
 
 // sending a single message
 await sender.send({
@@ -189,7 +189,7 @@ When sending the message, set the `sessionId` property in the message to ensure
 your message lands in the right session.
 
 ```javascript
-const sender = serviceBusClient.createSender("my-session-queue");
+const sender = await serviceBusClient.createSender("my-session-queue");
 await sender.send({
   body: "my-message-body",
   sessionId: "my-session"
@@ -216,7 +216,7 @@ There are two ways of choosing which session to open:
 1. Specify a `sessionId`, which locks a named session.
 
    ```javascript
-   const receiver = serviceBusClient.createSessionReceiver("my-session-queue", "peekLock", {
+   const receiver = await serviceBusClient.createSessionReceiver("my-session-queue", "peekLock", {
      sessionId: "my-session"
    });
    ```
@@ -225,7 +225,7 @@ There are two ways of choosing which session to open:
    that is not already locked.
 
    ```javascript
-   const receiver = serviceBusClient.createSessionReceiver("my-session-queue", "peekLock");
+   const receiver = await serviceBusClient.createSessionReceiver("my-session-queue", "peekLock");
    ```
 
    You can find the name of the session via the `sessionId` property on the `SessionReceiver`.

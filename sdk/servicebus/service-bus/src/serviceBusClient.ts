@@ -11,7 +11,7 @@ import {
 import { ConnectionContext } from "./connectionContext";
 import { ClientEntityContext } from "./clientEntityContext";
 import { SenderImpl, Sender } from "./sender";
-import { CreateSessionReceiverOptions } from "./models";
+import { CreateSessionReceiverOptions, CreateSenderOptions } from "./models";
 import { Receiver, ReceiverImpl } from "./receivers/receiver";
 import { SessionReceiver, SessionReceiverImpl } from "./receivers/sessionReceiver";
 import { ReceivedMessageWithLock, ReceivedMessage } from "./serviceBusMessage";
@@ -239,10 +239,12 @@ export class ServiceBusClient {
   }
 
   /**
-   * Creates a Sender which can be used to send messages, schedule messages to be sent at a later time
-   * and cancel such scheduled messages.
+   * Creates a Sender which can be used to send messages, schedule messages to be
+   * sent at a later time and cancel such scheduled messages.
+   * @param queueOrTopicName The name of a queue or topic to send messages to.
+   * @param options Options for creating a sender.
    */
-  createSender(queueOrTopicName: string): Sender {
+  async createSender(queueOrTopicName: string, options?: CreateSenderOptions): Promise<Sender> {
     validateEntityNamesMatch(this._connectionContext.config.entityPath, queueOrTopicName, "sender");
 
     const clientEntityContext = ClientEntityContext.create(
@@ -250,7 +252,9 @@ export class ServiceBusClient {
       this._connectionContext,
       `${queueOrTopicName}/${generate_uuid()}`
     );
-    return new SenderImpl(clientEntityContext, this._clientOptions.retryOptions);
+    const sender = new SenderImpl(clientEntityContext, this._clientOptions.retryOptions);
+    await sender.open(options);
+    return sender;
   }
 
   /**

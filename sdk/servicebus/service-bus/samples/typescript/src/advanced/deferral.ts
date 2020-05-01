@@ -22,8 +22,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 // Define connection string and related Service Bus entity names here
-const connectionString =
-  process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
+const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
 export async function main() {
@@ -35,7 +34,7 @@ export async function main() {
 async function sendMessages() {
   const sbClient = new ServiceBusClient(connectionString);
   // createSender() can also be used to create a sender for a topic.
-  const sender = sbClient.createSender(queueName);
+  const sender = await sbClient.createSender(queueName);
 
   const data = [
     { step: 1, title: "Shop" },
@@ -78,7 +77,7 @@ async function receiveMessage() {
   const deferredSteps = new Map();
   let lastProcessedRecipeStep = 0;
   try {
-    const processMessage = async brokeredMessage => {
+    const processMessage = async (brokeredMessage) => {
       if (
         brokeredMessage.label === "RecipeStep" &&
         brokeredMessage.contentType === "application/json"
@@ -106,7 +105,7 @@ async function receiveMessage() {
         await brokeredMessage.deadLetter();
       }
     };
-    const processError = async err => {
+    const processError = async (err) => {
       console.log(">>>>> Error occurred: ", err);
     };
 
@@ -141,6 +140,6 @@ async function receiveMessage() {
   }
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.log("Error occurred: ", err);
 });
