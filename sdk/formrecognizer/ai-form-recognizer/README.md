@@ -9,7 +9,7 @@ from form documents. It includes the following main functionalities:
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/formrecognizer/ai-form-recognizer/) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/ai-form-recognizer) |
-[API reference documentation](https://aka.ms/azsdk-js-formrecognizer-ref-docs) |
+[API reference documentation](https://aka.ms/azsdk/js/docs/ref/ai-form-recognizer) |
 [Product documentation](https://docs.microsoft.com/azure/cognitive-services/form-recognizer/) |
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples)
 

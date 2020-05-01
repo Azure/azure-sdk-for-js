@@ -19,11 +19,12 @@ Use the client library to:
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/search/search/) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/search-documents) |
-[API reference documentation](https://aka.ms/azsdk-js-search-ref-docs) |
+[API reference documentation](https://aka.ms/azsdk/js/docs/ref/search-documents) |
 [Product documentation](https://docs.microsoft.com/azure/search/) |
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/search/search/samples)
 
 ## Getting started
+
 ### Install the `@azure/search-documents` package
 
 ```bash
@@ -44,7 +45,6 @@ az search service create --resource-group <your-resource-group-name> --name <you
 
 The above creates a resource with the "Standard" pricing tier. See [choosing a pricing tier](https://docs.microsoft.com/azure/search/search-sku-tier) for more information.
 
-
 ### Authenticate the client
 
 Azure Cognitive Search uses keys for authentication.
@@ -63,7 +63,7 @@ Once you have an Admin Key, you can use it as follows:
 const {
   SearchIndexClient,
   SearchServiceClient,
-  AzureKeyCredential
+  AzureKeyCredential,
 } = require("@azure/search-documents");
 
 // To query and manipulate documents
@@ -78,7 +78,8 @@ const serviceClient = new SearchServiceClient("<endpoint>", new AzureKeyCredenti
 ```
 
 ### Send your first search query
-To get running immediately, we're going to connect to a well known sandbox Search service provided by Microsoft.  This means you do not need an Azure subscription or Azure Cognitive Search service to try out this query.
+
+To get running immediately, we're going to connect to a well known sandbox Search service provided by Microsoft. This means you do not need an Azure subscription or Azure Cognitive Search service to try out this query.
 
 ```js
 const { SearchIndexClient, AzureKeyCredential } = require("@azure/search-documents");
@@ -113,13 +114,14 @@ Azure Cognitive Search has the concepts of search services and indexes and docum
 
 There are several types of operations that can be executed against the service:
 
--   [Index management operations](https://docs.microsoft.com/rest/api/searchservice/index-operations). Create, delete, update, or configure a search index.
--   [Document operations](https://docs.microsoft.com/rest/api/searchservice/document-operations). Add, update, or delete documents in the index, query the index, or look up specific documents by ID.
--   [Indexer operations](https://docs.microsoft.com/rest/api/searchservice/indexer-operations). Automate aspects of an indexing operation by configuring a data source and an indexer that you can schedule or run on demand. This feature is supported for a limited number of data source types.
--   [Skillset operations](https://docs.microsoft.com/rest/api/searchservice/skillset-operations). Part of a cognitive search workload, a skillset defines a series of enrichment processing steps. A skillset is consumed by an indexer.
--   [Synonym map operations](https://docs.microsoft.com/rest/api/searchservice/synonym-map-operations). A synonym map is a service-level resource that contains user-defined synonyms. This resource is maintained independently from search indexes. Once uploaded, you can point any searchable field to the synonym map (one per field).
+- [Index management operations](https://docs.microsoft.com/rest/api/searchservice/index-operations). Create, delete, update, or configure a search index.
+- [Document operations](https://docs.microsoft.com/rest/api/searchservice/document-operations). Add, update, or delete documents in the index, query the index, or look up specific documents by ID.
+- [Indexer operations](https://docs.microsoft.com/rest/api/searchservice/indexer-operations). Automate aspects of an indexing operation by configuring a data source and an indexer that you can schedule or run on demand. This feature is supported for a limited number of data source types.
+- [Skillset operations](https://docs.microsoft.com/rest/api/searchservice/skillset-operations). Part of a cognitive search workload, a skillset defines a series of enrichment processing steps. A skillset is consumed by an indexer.
+- [Synonym map operations](https://docs.microsoft.com/rest/api/searchservice/synonym-map-operations). A synonym map is a service-level resource that contains user-defined synonyms. This resource is maintained independently from search indexes. Once uploaded, you can point any searchable field to the synonym map (one per field).
 
 ## TypeScript/JavaScript specific concepts
+
 ### SearchIndexClient
 
 `SearchIndexClient` provides methods for working with documents in an index. Its methods allow you to query, upload, update, and delete documents. It also has methods for building auto-completion and search suggestion experiences based on partial queries.
@@ -164,19 +166,19 @@ async function main() {
       {
         type: "Edm.String",
         name: "id",
-        key: true
+        key: true,
       },
       {
         type: "Edm.Double",
         name: "awesomenessLevel",
         sortable: true,
         filterable: true,
-        facetable: true
+        facetable: true,
       },
       {
         type: "Edm.String",
         name: "description",
-        searchable: true
+        searchable: true,
       },
       {
         type: "Edm.ComplexType",
@@ -185,16 +187,16 @@ async function main() {
           {
             type: "Collection(Edm.String)",
             name: "tags",
-            searchable: true
-          }
-        ]
+            searchable: true,
+          },
+        ],
       },
       {
         type: "Edm.Int32",
         name: "hiddenWeight",
-        hidden: true
-      }
-    ]
+        hidden: true,
+      },
+    ],
   });
 
   console.log(result);
@@ -221,7 +223,7 @@ async function main() {
     // JSON objects matching the shape of the client's index
     {},
     {},
-    {}
+    {},
   ]);
   for (const result of uploadResult.results) {
     console.log(`Uploaded ${result.key}; succeeded? ${result.succeeded}`);
@@ -251,7 +253,6 @@ async function main() {
 
 main();
 ```
-
 
 ### Perform a search on documents
 
@@ -291,7 +292,7 @@ async function main() {
   const searchResults = await client.search({
     searchText: 'Category:budget AND "recently renovated"^3',
     queryType: "full",
-    searchMode: "all"
+    searchMode: "all",
   });
   for await (const result of searchResults.results) {
     console.log(result);
@@ -329,7 +330,7 @@ async function main() {
     searchText: "wifi -luxury",
     // Only fields in Hotel can be added to this array.
     // TS will complain if one is misspelled.
-    select: ["HotelId", "HotelName", "Rating"]
+    select: ["HotelId", "HotelName", "Rating"],
   });
 
   for await (const result of searchResults.results) {
@@ -362,7 +363,7 @@ async function main() {
     searchText: "WiFi",
     filter: odata`Rooms/any(room: room/BaseRate lt ${baseRateMax}) and Rating ge ${ratingMin}`,
     orderBy: ["Rating desc"],
-    select: ["HotelId", "HotelName", "Rating"]
+    select: ["HotelId", "HotelName", "Rating"],
   });
   for await (const result of searchResults.results) {
     // Each result will have "HotelId", "HotelName", and "Rating"
@@ -390,7 +391,7 @@ const client = new SearchIndexClient(
 async function main() {
   const searchResults = await client.search({
     searchText: "WiFi",
-    facets: ["Category,count:3,sort:count", "Rooms/BaseRate,interval:100"]
+    facets: ["Category,count:3,sort:count", "Rooms/BaseRate,interval:100"],
   });
   console.log(searchResults.facets);
   // Output will look like:
@@ -435,7 +436,7 @@ async function main() {
     select: ["HotelId", "HotelName"],
     highlightPreTag: "<em>",
     highlightPostTag: "</em>",
-    top: 3
+    top: 3,
   });
 
   for (const result of suggestResult.results) {
@@ -464,7 +465,7 @@ const client = new SearchIndexClient(
 async function main() {
   const autocompleteResult = await client.autocomplete({
     searchText: "de",
-    suggesterName: "sg"
+    suggesterName: "sg",
   });
 
   for (const result of autocompleteResult.results || []) {
@@ -485,7 +486,7 @@ In order to ensure that analysis is configured correctly, developers can directl
 const {
   SearchServiceClient,
   AzureKeyCredential,
-  KnownTokenFilterNames
+  KnownTokenFilterNames,
 } = require("@azure/search-documents");
 
 const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
@@ -495,24 +496,24 @@ async function main() {
   index.tokenizers.push({
     name: "example-tokenizer",
     odatatype: "#Microsoft.Azure.Search.StandardTokenizerV2",
-    maxTokenLength: 125
+    maxTokenLength: 125,
   });
   index.charFilters.push({
     name: "example-char-filter",
     odatatype: "#Microsoft.Azure.Search.MappingCharFilter",
-    mappings: ["MSFT=>Microsoft"]
+    mappings: ["MSFT=>Microsoft"],
   });
   index.tokenFilters.push({
     name: "example-token-filter",
     odatatype: "#Microsoft.Azure.Search.StopwordsTokenFilter",
-    stopwords: ["xyzzy"]
+    stopwords: ["xyzzy"],
   });
   index.analyzers.push({
     name: "example-analyzer",
     odatatype: "#Microsoft.Azure.Search.CustomAnalyzer",
     tokenizer: "example-tokenizer",
     charFilters: ["example-char-filter"],
-    tokenFilters: [KnownTokenFilterNames.Lowercase, "example-token-filter"]
+    tokenFilters: [KnownTokenFilterNames.Lowercase, "example-token-filter"],
   });
 
   // Note adding this analyzer to an existing index will cause it to be unresponsive
@@ -521,7 +522,7 @@ async function main() {
 
   const result = await client.analyzeText("example-index", {
     text: "MSFT is xyzzy Great!",
-    analyzer: "example-analyzer"
+    analyzer: "example-analyzer",
   });
 
   console.log(result.tokens);
