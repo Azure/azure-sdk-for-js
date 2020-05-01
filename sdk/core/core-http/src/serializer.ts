@@ -573,7 +573,10 @@ function serializeCompositeType(
 
         for (const pathName of paths) {
           const childObject = parentObject[pathName];
-          if (childObject == undefined && object[key] != undefined) {
+          if (
+            childObject == undefined &&
+            (object[key] != undefined || propertyMapper.defaultValue !== undefined)
+          ) {
             parentObject[pathName] = {};
           }
           parentObject = parentObject[pathName];

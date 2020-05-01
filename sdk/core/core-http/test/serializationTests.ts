@@ -21,6 +21,54 @@ function stringToByteArray(str: string): Uint8Array {
 
 describe("msrest", function() {
   describe("serializeObject", function() {
+    it("should correctly serialize flattened properties", (done) => {
+      const expected = {
+        id: 1,
+        name: "testProduct",
+        details: {
+          max_product_capacity: "Large",
+          max_product_display_name: "MaxDisplayName"
+        }
+      };
+
+      const serialized = Serializer.serialize(
+        Mappers.SimpleProduct,
+        {
+          id: 1,
+          name: "testProduct",
+          maxProductDisplayName: "MaxDisplayName"
+        },
+        "SimpleProduct"
+      );
+
+      assert.deepEqual(serialized, expected);
+      done();
+    });
+
+    it("should correctly serialize flattened properties when flattened constant is defined first", (done) => {
+      const expected = {
+        id: 1,
+        name: "testProduct",
+        details: {
+          max_product_capacity: "Large",
+          max_product_display_name: "MaxDisplayName"
+        }
+      };
+
+      const serialized = Serializer.serialize(
+        Mappers.SimpleProductConstFirst,
+        {
+          id: 1,
+          name: "testProduct",
+          maxProductDisplayName: "MaxDisplayName"
+        },
+        "SimpleProduct"
+      );
+
+      assert.deepEqual(serialized, expected);
+      done();
+    });
+
     it("should correctly serialize a Date Object", function(done) {
       const dateObj = new Date("2015-01-01");
       const dateISO = "2015-01-01T00:00:00.000Z";
