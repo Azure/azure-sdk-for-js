@@ -48,6 +48,17 @@ export interface RenamedSubscriptionId {
 }
 
 /**
+ * The ID of the subscriptions that is being enabled
+ */
+export interface EnabledSubscriptionId {
+  /**
+   * The ID of the subscriptions that is being enabled
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: string;
+}
+
+/**
  * The new name of the subscription.
  */
 export interface SubscriptionName {
@@ -105,6 +116,16 @@ export interface OperationListResult {
 }
 
 /**
+ * Active Directory Principal who’ll get owner access on the new subscription.
+ */
+export interface AdPrincipal {
+  /**
+   * Object id of the Principal
+   */
+  objectId: string;
+}
+
+/**
  * The created subscription object.
  */
 export interface SubscriptionCreationResult {
@@ -116,13 +137,33 @@ export interface SubscriptionCreationResult {
 }
 
 /**
- * Active Directory Principal who’ll get owner access on the new subscription.
+ * Subscription Creation Parameters required to create a new Azure subscription.
  */
-export interface AdPrincipal {
+export interface SubscriptionCreationParameters {
   /**
-   * Object id of the Principal
+   * The display name of the subscription.
    */
-  objectId: string;
+  displayName?: string;
+  /**
+   * The Management Group Id.
+   */
+  managementGroupId?: string;
+  /**
+   * The list of principals that should be granted Owner access on the subscription. Principals
+   * should be of type User, Service Principal or Security Group.
+   */
+  owners?: AdPrincipal[];
+  /**
+   * The offer type of the subscription. For example, MS-AZR-0017P (EnterpriseAgreement) and
+   * MS-AZR-0148P (EnterpriseAgreement devTest) are available. Only valid when creating a
+   * subscription in a enrollment account scope. Possible values include: 'MS-AZR-0017P',
+   * 'MS-AZR-0148P'
+   */
+  offerType?: OfferType;
+  /**
+   * Additional, untyped parameters to support custom subscription creation scenarios.
+   */
+  additionalParameters?: { [propertyName: string]: any };
 }
 
 /**
@@ -133,10 +174,6 @@ export interface ModernSubscriptionCreationParameters {
    * The friendly name of the subscription.
    */
   displayName: string;
-  /**
-   * The ARM ID of the billing profile for which you want to create the subscription.
-   */
-  billingProfileId: string;
   /**
    * The SKU ID of the Azure plan. Azure plan determines the pricing and service-level agreement of
    * the subscription.  Use 001 for Microsoft Azure Plan and 002 for Microsoft Azure Plan for
@@ -163,172 +200,23 @@ export interface ModernSubscriptionCreationParameters {
 }
 
 /**
- * status of the subscription POST operation.
+ * The parameters required to create a new CSP subscription.
  */
-export interface SubscriptionOperation {
+export interface ModernCspSubscriptionCreationParameters {
   /**
-   * The operation Id.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * The friendly name of the subscription.
    */
-  readonly id?: string;
+  displayName: string;
   /**
-   * Status of the pending subscription
+   * The SKU ID of the Azure plan. Azure plan determines the pricing and service-level agreement of
+   * the subscription.  Use 001 for Microsoft Azure Plan and 002 for Microsoft Azure Plan for
+   * DevTest.
    */
-  status?: string;
+  skuId: string;
   /**
-   * Status Detail of the pending subscription
+   * Reseller ID, basically MPN Id.
    */
-  statusDetail?: string;
-}
-
-/**
- * A list of pending subscription operations.
- */
-export interface SubscriptionOperationListResult {
-  /**
-   * A list of pending SubscriptionOperations
-   */
-  value?: SubscriptionOperation[];
-}
-
-/**
- * Subscription Creation Parameters required to create a new Azure subscription.
- */
-export interface SubscriptionCreationParameters {
-  /**
-   * The display name of the subscription.
-   */
-  displayName?: string;
-  /**
-   * The list of principals that should be granted Owner access on the subscription. Principals
-   * should be of type User, Service Principal or Security Group.
-   */
-  owners?: AdPrincipal[];
-  /**
-   * The offer type of the subscription. For example, MS-AZR-0017P (EnterpriseAgreement) and
-   * MS-AZR-0148P (EnterpriseAgreement devTest) are available. Only valid when creating a
-   * subscription in a enrollment account scope. Possible values include: 'MS-AZR-0017P',
-   * 'MS-AZR-0148P'
-   */
-  offerType?: OfferType;
-  /**
-   * Additional, untyped parameters to support custom subscription creation scenarios.
-   */
-  additionalParameters?: { [propertyName: string]: any };
-}
-
-/**
- * Location information.
- */
-export interface Location {
-  /**
-   * The fully qualified ID of the location. For example,
-   * /subscriptions/00000000-0000-0000-0000-000000000000/locations/westus.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * The subscription ID.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly subscriptionId?: string;
-  /**
-   * The location name.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The display name of the location.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly displayName?: string;
-  /**
-   * The latitude of the location.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly latitude?: string;
-  /**
-   * The longitude of the location.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly longitude?: string;
-}
-
-/**
- * Subscription policies.
- */
-export interface SubscriptionPolicies {
-  /**
-   * The subscription location placement ID. The ID indicates which regions are visible for a
-   * subscription. For example, a subscription with a location placement Id of Public_2014-09-01
-   * has access to Azure public regions.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly locationPlacementId?: string;
-  /**
-   * The subscription quota ID.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly quotaId?: string;
-  /**
-   * The subscription spending limit. Possible values include: 'On', 'Off', 'CurrentPeriodOff'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly spendingLimit?: SpendingLimit;
-}
-
-/**
- * Subscription information.
- */
-export interface Subscription {
-  /**
-   * The fully qualified ID for the subscription. For example,
-   * /subscriptions/00000000-0000-0000-0000-000000000000.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * The subscription ID.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly subscriptionId?: string;
-  /**
-   * The subscription display name.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly displayName?: string;
-  /**
-   * The subscription state. Possible values are Enabled, Warned, PastDue, Disabled, and Deleted.
-   * Possible values include: 'Enabled', 'Warned', 'PastDue', 'Disabled', 'Deleted'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly state?: SubscriptionState;
-  /**
-   * The subscription policies.
-   */
-  subscriptionPolicies?: SubscriptionPolicies;
-  /**
-   * The authorization source of the request. Valid values are one or more combinations of Legacy,
-   * RoleBased, Bypassed, Direct and Management. For example, 'Legacy, RoleBased'.
-   */
-  authorizationSource?: string;
-}
-
-/**
- * Tenant Id information.
- */
-export interface TenantIdDescription {
-  /**
-   * The fully qualified ID of the tenant. For example,
-   * /tenants/00000000-0000-0000-0000-000000000000.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * The tenant ID. For example, 00000000-0000-0000-0000-000000000000.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly tenantId?: string;
+  resellerId?: string;
 }
 
 /**
@@ -336,6 +224,21 @@ export interface TenantIdDescription {
  */
 export interface SubscriptionClientOptions extends AzureServiceClientOptions {
   baseUri?: string;
+}
+
+/**
+ * Defines headers for CreateSubscriptionInEnrollmentAccount operation.
+ */
+export interface SubscriptionCreateSubscriptionInEnrollmentAccountHeaders {
+  /**
+   * GET this URL to retrieve the status of the asynchronous operation.
+   */
+  location: string;
+  /**
+   * The amount of delay to use while the status of the operation is checked. The value is
+   * expressed in seconds.
+   */
+  retryAfter: string;
 }
 
 /**
@@ -356,7 +259,7 @@ export interface SubscriptionOperationGetHeaders {
 /**
  * Defines headers for CreateSubscription operation.
  */
-export interface SubscriptionFactoryCreateSubscriptionHeaders {
+export interface SubscriptionCreateSubscriptionHeaders {
   /**
    * GET this URL to retrieve the status of the asynchronous operation.
    */
@@ -369,9 +272,9 @@ export interface SubscriptionFactoryCreateSubscriptionHeaders {
 }
 
 /**
- * Defines headers for CreateSubscriptionInEnrollmentAccount operation.
+ * Defines headers for CreateCspSubscription operation.
  */
-export interface SubscriptionFactoryCreateSubscriptionInEnrollmentAccountHeaders {
+export interface SubscriptionCreateCspSubscriptionHeaders {
   /**
    * GET this URL to retrieve the status of the asynchronous operation.
    */
@@ -380,39 +283,7 @@ export interface SubscriptionFactoryCreateSubscriptionInEnrollmentAccountHeaders
    * The amount of delay to use while the status of the operation is checked. The value is
    * expressed in seconds.
    */
-  retryAfter: string;
-}
-
-/**
- * @interface
- * Location list operation response.
- * @extends Array<Location>
- */
-export interface LocationListResult extends Array<Location> {
-}
-
-/**
- * @interface
- * Subscription list operation response.
- * @extends Array<Subscription>
- */
-export interface SubscriptionListResult extends Array<Subscription> {
-  /**
-   * The URL to get the next set of results.
-   */
-  nextLink: string;
-}
-
-/**
- * @interface
- * Tenant Ids information.
- * @extends Array<TenantIdDescription>
- */
-export interface TenantListResult extends Array<TenantIdDescription> {
-  /**
-   * The URL to use for getting the next set of results.
-   */
-  nextLink: string;
+  retryAfter: number;
 }
 
 /**
@@ -424,25 +295,34 @@ export interface TenantListResult extends Array<TenantIdDescription> {
 export type OfferType = 'MS-AZR-0017P' | 'MS-AZR-0148P';
 
 /**
- * Defines values for SubscriptionState.
- * Possible values include: 'Enabled', 'Warned', 'PastDue', 'Disabled', 'Deleted'
- * @readonly
- * @enum {string}
+ * Contains response data for the createSubscriptionInEnrollmentAccount operation.
  */
-export type SubscriptionState = 'Enabled' | 'Warned' | 'PastDue' | 'Disabled' | 'Deleted';
+export type SubscriptionCreateSubscriptionInEnrollmentAccountResponse = SubscriptionCreationResult & SubscriptionCreateSubscriptionInEnrollmentAccountHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: SubscriptionCreateSubscriptionInEnrollmentAccountHeaders;
 
-/**
- * Defines values for SpendingLimit.
- * Possible values include: 'On', 'Off', 'CurrentPeriodOff'
- * @readonly
- * @enum {string}
- */
-export type SpendingLimit = 'On' | 'Off' | 'CurrentPeriodOff';
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SubscriptionCreationResult;
+    };
+};
 
 /**
  * Contains response data for the cancel operation.
  */
-export type SubscriptionsCancelResponse = CanceledSubscriptionId & {
+export type SubscriptionCancelResponse = CanceledSubscriptionId & {
   /**
    * The underlying HTTP response.
    */
@@ -462,7 +342,7 @@ export type SubscriptionsCancelResponse = CanceledSubscriptionId & {
 /**
  * Contains response data for the rename operation.
  */
-export type SubscriptionsRenameResponse = RenamedSubscriptionId & {
+export type SubscriptionRenameResponse = RenamedSubscriptionId & {
   /**
    * The underlying HTTP response.
    */
@@ -480,9 +360,9 @@ export type SubscriptionsRenameResponse = RenamedSubscriptionId & {
 };
 
 /**
- * Contains response data for the listLocations operation.
+ * Contains response data for the enable operation.
  */
-export type SubscriptionsListLocationsResponse = LocationListResult & {
+export type SubscriptionEnableResponse = EnabledSubscriptionId & {
   /**
    * The underlying HTTP response.
    */
@@ -495,18 +375,23 @@ export type SubscriptionsListLocationsResponse = LocationListResult & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: LocationListResult;
+      parsedBody: EnabledSubscriptionId;
     };
 };
 
 /**
- * Contains response data for the get operation.
+ * Contains response data for the createSubscription operation.
  */
-export type SubscriptionsGetResponse = Subscription & {
+export type SubscriptionCreateSubscriptionResponse = SubscriptionCreationResult & SubscriptionCreateSubscriptionHeaders & {
   /**
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: SubscriptionCreateSubscriptionHeaders;
+
       /**
        * The response body as text (string format)
        */
@@ -515,18 +400,23 @@ export type SubscriptionsGetResponse = Subscription & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: Subscription;
+      parsedBody: SubscriptionCreationResult;
     };
 };
 
 /**
- * Contains response data for the list operation.
+ * Contains response data for the createCspSubscription operation.
  */
-export type SubscriptionsListResponse = SubscriptionListResult & {
+export type SubscriptionCreateCspSubscriptionResponse = SubscriptionCreationResult & SubscriptionCreateCspSubscriptionHeaders & {
   /**
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: SubscriptionCreateCspSubscriptionHeaders;
+
       /**
        * The response body as text (string format)
        */
@@ -535,27 +425,7 @@ export type SubscriptionsListResponse = SubscriptionListResult & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: SubscriptionListResult;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type SubscriptionsListNextResponse = SubscriptionListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SubscriptionListResult;
+      parsedBody: SubscriptionCreationResult;
     };
 };
 
@@ -585,76 +455,6 @@ export type SubscriptionOperationGetResponse = SubscriptionCreationResult & Subs
 };
 
 /**
- * Contains response data for the createSubscription operation.
- */
-export type SubscriptionFactoryCreateSubscriptionResponse = SubscriptionCreationResult & SubscriptionFactoryCreateSubscriptionHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: SubscriptionFactoryCreateSubscriptionHeaders;
-
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SubscriptionCreationResult;
-    };
-};
-
-/**
- * Contains response data for the createSubscriptionInEnrollmentAccount operation.
- */
-export type SubscriptionFactoryCreateSubscriptionInEnrollmentAccountResponse = SubscriptionCreationResult & SubscriptionFactoryCreateSubscriptionInEnrollmentAccountHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: SubscriptionFactoryCreateSubscriptionInEnrollmentAccountHeaders;
-
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SubscriptionCreationResult;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type SubscriptionOperationsListResponse = SubscriptionOperationListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SubscriptionOperationListResult;
-    };
-};
-
-/**
  * Contains response data for the list operation.
  */
 export type OperationsListResponse = OperationListResult & {
@@ -671,45 +471,5 @@ export type OperationsListResponse = OperationListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: OperationListResult;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type TenantsListResponse = TenantListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TenantListResult;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type TenantsListNextResponse = TenantListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TenantListResult;
     };
 };
