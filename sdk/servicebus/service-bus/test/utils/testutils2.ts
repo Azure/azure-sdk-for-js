@@ -129,6 +129,10 @@ export async function drainAllMessages(receiver: Receiver<{}>): Promise<void> {
 
 export type EntityName = ReturnType<typeof getEntityNames>;
 
+/**
+ * A ServiceBusClient with an additional `test` property with useful methods
+ * to create receivers and cleanup resources.
+ */
 export interface ServiceBusClientForTests extends ServiceBusClient {
   test: ServiceBusTestHelpers;
 }

@@ -2,6 +2,9 @@
 
 ## 7.0.0-preview.2 (Unreleased)
 
+- Bug - Unable to settle previously received messages when a receiver recovers from a broken link or connection.
+  Fixed in [PR 8340](https://github.com/Azure/azure-sdk-for-js/pull/8340)
+  Please note that if using sessions, this behavior doesn't change with this release.
 - Provided down-leveled type declaration files to support older TypeScript versions 3.1 to 3.6.
   [PR 8619](https://github.com/Azure/azure-sdk-for-js/pull/8619)
 

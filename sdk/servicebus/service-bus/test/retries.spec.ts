@@ -13,7 +13,7 @@ import {
 } from "../src";
 import { TestClientType, TestMessage } from "./utils/testUtils";
 import { ServiceBusClientForTests, createServiceBusClientForTests } from "./utils/testutils2";
-import { Sender } from "../src/sender";
+import { Sender, SenderImpl } from "../src/sender";
 import { MessagingError } from "@azure/core-amqp";
 import Long from "long";
 import { BatchingReceiver } from "../src/core/batchingReceiver";
@@ -46,7 +46,7 @@ describe("Retries - ManagementClient", () => {
     const entityNames = await serviceBusClient.test.createTestEntities(entityType);
 
     senderClient = serviceBusClient.test.addToCleanup(
-      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+      await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
     receiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
     subscriptionRuleManager = serviceBusClient.test.addToCleanup(
@@ -257,7 +257,7 @@ describe("Retries - MessageSender", () => {
     const entityNames = await serviceBusClient.test.createTestEntities(entityType);
 
     senderClient = serviceBusClient.test.addToCleanup(
-      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+      await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
   }
 
@@ -266,11 +266,13 @@ describe("Retries - MessageSender", () => {
   }
 
   function mockInitToThrowError() {
-    const fakeFunction = async function() {
+    const fakeFunction = function() {
       numberOfTimesInitInvoked++;
       throw new MessagingError("Hello there, I'm an error");
     };
-    (senderClient as any)._sender._negotiateClaim = fakeFunction;
+
+    (senderClient as SenderImpl)["_sender"]["isOpen"] = () => false;
+    (senderClient as SenderImpl)["_sender"]["open"] = fakeFunction;
   }
 
   async function mockInitAndVerifyRetries(func: Function) {
@@ -456,7 +458,7 @@ describe("Retries - onDetached", () => {
     const entityNames = await serviceBusClient.test.createTestEntities(entityType);
 
     senderClient = serviceBusClient.test.addToCleanup(
-      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+      await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
     receiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
   }
@@ -507,8 +509,9 @@ describe("Retries - onDetached", () => {
   it("Unpartitioned Queue: sender", async function(): Promise<void> {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
     await mockOnDetachedAndVerifyRetries(async () => {
-      (senderClient as any)._sender._init = fakeFunction;
-      await (senderClient as any)._sender.onDetached(
+      (senderClient as SenderImpl)["_sender"]["open"] = fakeFunction;
+
+      await (senderClient as SenderImpl)["_sender"].onDetached(
         new MessagingError("Hello there, I'm an error")
       );
     });
