@@ -45,7 +45,7 @@ describe("batchReceiver", () => {
       await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
 
-    deadLetterClient = serviceBusClient.test.createDeadLetterReceiver(entityNames);
+    deadLetterClient = await serviceBusClient.test.createDeadLetterReceiver(entityNames);
   }
 
   function afterEachTest(): Promise<void> {

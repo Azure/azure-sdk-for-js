@@ -88,14 +88,20 @@ export class ServiceBusClient {
    * @param queueName The name of the queue to receive from.
    * @param receiveMode The receive mode to use (defaults to PeekLock)
    */
-  createReceiver(queueName: string, receiveMode: "peekLock"): Receiver<ReceivedMessageWithLock>;
+  createReceiver(
+    queueName: string,
+    receiveMode: "peekLock"
+  ): Promise<Receiver<ReceivedMessageWithLock>>;
   /**
    * Creates a receiver for an Azure Service Bus queue.
    *
    * @param queueName The name of the queue to receive from.
    * @param receiveMode The receive mode to use (defaults to PeekLock)
    */
-  createReceiver(queueName: string, receiveMode: "receiveAndDelete"): Receiver<ReceivedMessage>;
+  createReceiver(
+    queueName: string,
+    receiveMode: "receiveAndDelete"
+  ): Promise<Receiver<ReceivedMessage>>;
   /**
    * Creates a receiver for an Azure Service Bus subscription.
    *
@@ -107,7 +113,7 @@ export class ServiceBusClient {
     topicName: string,
     subscriptionName: string,
     receiveMode: "peekLock"
-  ): Receiver<ReceivedMessageWithLock>;
+  ): Promise<Receiver<ReceivedMessageWithLock>>;
   /**
    * Creates a receiver for an Azure Service Bus subscription.
    *
@@ -119,12 +125,12 @@ export class ServiceBusClient {
     topicName: string,
     subscriptionName: string,
     receiveMode: "receiveAndDelete"
-  ): Receiver<ReceivedMessage>;
-  createReceiver(
+  ): Promise<Receiver<ReceivedMessage>>;
+  async createReceiver(
     queueOrTopicName1: string,
     receiveModeOrSubscriptionName2: "peekLock" | "receiveAndDelete" | string,
     receiveMode3?: "peekLock" | "receiveAndDelete"
-  ): Receiver<ReceivedMessageWithLock> | Receiver<ReceivedMessage> {
+  ): Promise<Receiver<ReceivedMessageWithLock> | Receiver<ReceivedMessage>> {
     // NOTE: we don't currently have any options for this kind of receiver but
     // when we do make sure you pass them in and extract them.
     const { entityPath, receiveMode } = extractReceiverArguments(
@@ -141,17 +147,23 @@ export class ServiceBusClient {
     );
 
     if (receiveMode === "peekLock") {
-      return new ReceiverImpl<ReceivedMessageWithLock>(
+      const receiverImpl = new ReceiverImpl<ReceivedMessageWithLock>(
         clientEntityContext,
         receiveMode,
         this._clientOptions.retryOptions
       );
+
+      await receiverImpl.open();
+      return receiverImpl;
     } else {
-      return new ReceiverImpl<ReceivedMessage>(
+      const receiverImpl = new ReceiverImpl<ReceivedMessage>(
         clientEntityContext,
         receiveMode,
         this._clientOptions.retryOptions
       );
+
+      await receiverImpl.open();
+      return receiverImpl;
     }
   }
 
@@ -283,7 +295,7 @@ export class ServiceBusClient {
   createDeadLetterReceiver(
     queueName: string,
     receiveMode: "peekLock"
-  ): Receiver<ReceivedMessageWithLock>;
+  ): Promise<Receiver<ReceivedMessageWithLock>>;
   /**
    * Creates a receiver for an Azure Service Bus queue's dead letter queue.
    *
@@ -293,7 +305,7 @@ export class ServiceBusClient {
   createDeadLetterReceiver(
     queueName: string,
     receiveMode: "receiveAndDelete"
-  ): Receiver<ReceivedMessage>;
+  ): Promise<Receiver<ReceivedMessage>>;
   /**
    * Creates a receiver for an Azure Service Bus subscription's dead letter queue.
    *
@@ -305,7 +317,7 @@ export class ServiceBusClient {
     topicName: string,
     subscriptionName: string,
     receiveMode: "peekLock"
-  ): Receiver<ReceivedMessageWithLock>;
+  ): Promise<Receiver<ReceivedMessageWithLock>>;
   /**
    * Creates a receiver for an Azure Service Bus subscription's dead letter queue.
    *
@@ -317,12 +329,12 @@ export class ServiceBusClient {
     topicName: string,
     subscriptionName: string,
     receiveMode: "receiveAndDelete"
-  ): Receiver<ReceivedMessage>;
-  createDeadLetterReceiver(
+  ): Promise<Receiver<ReceivedMessage>>;
+  async createDeadLetterReceiver(
     queueOrTopicName1: string,
     receiveModeOrSubscriptionName2: "peekLock" | "receiveAndDelete" | string,
     receiveMode3?: "peekLock" | "receiveAndDelete"
-  ): Receiver<ReceivedMessageWithLock> | Receiver<ReceivedMessage> {
+  ): Promise<Receiver<ReceivedMessageWithLock> | Receiver<ReceivedMessage>> {
     // NOTE: we don't currently have any options for this kind of receiver but
     // when we do make sure you pass them in and extract them.
     const { entityPath, receiveMode } = extractReceiverArguments(
@@ -335,9 +347,9 @@ export class ServiceBusClient {
     const deadLetterEntityPath = `${entityPath}/$DeadLetterQueue`;
 
     if (receiveMode === "peekLock") {
-      return this.createReceiver(deadLetterEntityPath, receiveMode);
+      return await this.createReceiver(deadLetterEntityPath, receiveMode);
     } else {
-      return this.createReceiver(deadLetterEntityPath, receiveMode);
+      return await this.createReceiver(deadLetterEntityPath, receiveMode);
     }
   }
 

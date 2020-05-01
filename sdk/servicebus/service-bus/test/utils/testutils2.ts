@@ -283,8 +283,8 @@ export class ServiceBusTestHelpers {
 
     return this.addToCleanup(
       entityNames.queue
-        ? this._serviceBusClient.createReceiver(entityNames.queue, "peekLock")
-        : this._serviceBusClient.createReceiver(
+        ? await this._serviceBusClient.createReceiver(entityNames.queue, "peekLock")
+        : await this._serviceBusClient.createReceiver(
             entityNames.topic!,
             entityNames.subscription!,
             "peekLock"
@@ -356,8 +356,8 @@ export class ServiceBusTestHelpers {
     } else {
       return this.addToCleanup(
         entityNames.queue
-          ? this._serviceBusClient.createReceiver(entityNames.queue, "receiveAndDelete")
-          : this._serviceBusClient.createReceiver(
+          ? await this._serviceBusClient.createReceiver(entityNames.queue, "receiveAndDelete")
+          : await this._serviceBusClient.createReceiver(
               entityNames.topic!,
               entityNames.subscription!,
               "receiveAndDelete"
@@ -366,13 +366,13 @@ export class ServiceBusTestHelpers {
     }
   }
 
-  createDeadLetterReceiver(
+  async createDeadLetterReceiver(
     entityNames: ReturnType<typeof getEntityNames>
-  ): Receiver<ReceivedMessageWithLock> {
+  ): Promise<Receiver<ReceivedMessageWithLock>> {
     return this.addToCleanup(
       entityNames.queue
-        ? this._serviceBusClient.createDeadLetterReceiver(entityNames.queue, "peekLock")
-        : this._serviceBusClient.createDeadLetterReceiver(
+        ? await this._serviceBusClient.createDeadLetterReceiver(entityNames.queue, "peekLock")
+        : await this._serviceBusClient.createDeadLetterReceiver(
             entityNames.topic!,
             entityNames.subscription!,
             "peekLock"
@@ -393,18 +393,18 @@ async function purgeForTestClientType(
   let deadLetterReceiver: Receiver<ReceivedMessage>;
 
   if (entityPaths.queue) {
-    receiver = serviceBusClient.createReceiver(entityPaths.queue, "receiveAndDelete");
-    deadLetterReceiver = serviceBusClient.createDeadLetterReceiver(
+    receiver = await serviceBusClient.createReceiver(entityPaths.queue, "receiveAndDelete");
+    deadLetterReceiver = await serviceBusClient.createDeadLetterReceiver(
       entityPaths.queue,
       "receiveAndDelete"
     );
   } else if (entityPaths.topic && entityPaths.subscription) {
-    receiver = serviceBusClient.createReceiver(
+    receiver = await serviceBusClient.createReceiver(
       entityPaths.topic,
       entityPaths.subscription,
       "receiveAndDelete"
     );
-    deadLetterReceiver = serviceBusClient.createDeadLetterReceiver(
+    deadLetterReceiver = await serviceBusClient.createDeadLetterReceiver(
       entityPaths.topic,
       entityPaths.subscription,
       "receiveAndDelete"

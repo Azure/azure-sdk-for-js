@@ -41,7 +41,7 @@ describe("dead lettering", () => {
 
     deadLetterReceiver = serviceBusClient.test.addToCleanup(
       // receiveAndDelete since I don't care about further settlement after it's been dead lettered!
-      serviceBusClient.createDeadLetterReceiver(entityNames.queue, "receiveAndDelete")
+      await serviceBusClient.createDeadLetterReceiver(entityNames.queue, "receiveAndDelete")
     );
 
     receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);

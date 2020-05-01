@@ -83,7 +83,7 @@ describe("Random scheme in the endpoint from connection string", function(): voi
     );
     senderClient = await sbClientWithRelaxedEndPoint.createSender(entities.queue!);
     receiverClient = !entities.usesSessions
-      ? sbClientWithRelaxedEndPoint.createReceiver(entities.queue!, "peekLock")
+      ? await sbClientWithRelaxedEndPoint.createReceiver(entities.queue!, "peekLock")
       : await sbClientWithRelaxedEndPoint.createSessionReceiver(entities.queue!, "peekLock", {
           sessionId: TestMessage.sessionId
         });
@@ -175,7 +175,7 @@ describe("Errors with non existing Namespace", function(): void {
   it("throws error when receiving batch data to a non existing namespace", async function(): Promise<
     void
   > {
-    const receiver = sbClient.createReceiver("some-queue", "peekLock");
+    const receiver = await sbClient.createReceiver("some-queue", "peekLock");
     await receiver.receiveBatch(10).catch(testError);
 
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
@@ -184,7 +184,7 @@ describe("Errors with non existing Namespace", function(): void {
   it("throws error when receiving streaming data from a non existing namespace", async function(): Promise<
     void
   > {
-    const receiver = sbClient.createReceiver("some-queue", "peekLock");
+    const receiver = await sbClient.createReceiver("some-queue", "peekLock");
     receiver.subscribe({
       async processMessage() {
         throw "processMessage should not have been called when receive call is made from a non existing namespace";
@@ -242,7 +242,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
   it("throws error when receiving batch data from a non existing queue", async function(): Promise<
     void
   > {
-    const receiver = sbClient.createReceiver("some-name", "peekLock");
+    const receiver = await sbClient.createReceiver("some-name", "peekLock");
     await receiver.receiveBatch(1).catch((err) => testError(err, "some-name"));
 
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
@@ -251,7 +251,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
   it("throws error when receiving batch data from a non existing subscription", async function(): Promise<
     void
   > {
-    const receiver = sbClient.createReceiver(
+    const receiver = await sbClient.createReceiver(
       "some-topic-name",
       "some-subscription-name",
       "peekLock"
@@ -266,7 +266,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
   it("throws error when receiving streaming data from a non existing queue", async function(): Promise<
     void
   > {
-    const receiver = sbClient.createReceiver("some-name", "peekLock");
+    const receiver = await sbClient.createReceiver("some-name", "peekLock");
     receiver.subscribe({
       async processMessage() {
         throw "processMessage should not have been called when receive call is made from a non existing namespace";
@@ -287,7 +287,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
   it("throws error when receiving streaming data from a non existing subscription", async function(): Promise<
     void
   > {
-    const receiver = sbClient.createReceiver(
+    const receiver = await sbClient.createReceiver(
       "some-topic-name",
       "some-subscription-name",
       "peekLock"

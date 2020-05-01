@@ -35,7 +35,7 @@ describe("deferred messages", () => {
       await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
 
-    deadLetterClient = serviceBusClient.test.createDeadLetterReceiver(entityNames);
+    deadLetterClient = await serviceBusClient.test.createDeadLetterReceiver(entityNames);
   }
 
   async function afterEachTest(): Promise<void> {

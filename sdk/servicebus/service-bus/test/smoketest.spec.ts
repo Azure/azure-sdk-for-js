@@ -44,7 +44,7 @@ describe("Sample scenarios for track 2", () => {
 
     it("Queue, peek/lock", async () => {
       const receiver = serviceBusClient.test.addToCleanup(
-        serviceBusClient.createReceiver(queueName, "peekLock")
+        await serviceBusClient.createReceiver(queueName, "peekLock")
       );
 
       await sendSampleMessage(sender, "Queue, peek/lock");
@@ -67,7 +67,7 @@ describe("Sample scenarios for track 2", () => {
 
     it("Queue, peek/lock, receiveBatch", async () => {
       const receiver = serviceBusClient.test.addToCleanup(
-        serviceBusClient.createReceiver(queueName, "receiveAndDelete")
+        await serviceBusClient.createReceiver(queueName, "receiveAndDelete")
       );
 
       await sendSampleMessage(sender, "Queue, peek/lock, receiveBatch");
@@ -84,7 +84,7 @@ describe("Sample scenarios for track 2", () => {
 
     it("Queue, peek/lock, iterate messages", async () => {
       const receiver = serviceBusClient.test.addToCleanup(
-        serviceBusClient.createReceiver(queueName, "peekLock")
+        await serviceBusClient.createReceiver(queueName, "peekLock")
       );
 
       await sendSampleMessage(sender, "Queue, peek/lock, iterate messages");
@@ -117,7 +117,7 @@ describe("Sample scenarios for track 2", () => {
 
     it("Queue, receive and delete", async () => {
       const receiver = serviceBusClient.test.addToCleanup(
-        serviceBusClient.createReceiver(queueName, "receiveAndDelete")
+        await serviceBusClient.createReceiver(queueName, "receiveAndDelete")
       );
 
       await sendSampleMessage(sender, "Queue, receiveAndDelete");
@@ -139,7 +139,7 @@ describe("Sample scenarios for track 2", () => {
 
     it("Queue, receive and delete, iterate messages", async () => {
       const receiver = serviceBusClient.test.addToCleanup(
-        serviceBusClient.createReceiver(queueName, "receiveAndDelete")
+        await serviceBusClient.createReceiver(queueName, "receiveAndDelete")
       );
 
       await sendSampleMessage(sender, "Queue, receive and delete, iterate messages");
@@ -201,7 +201,7 @@ describe("Sample scenarios for track 2", () => {
 
     it("Subscription, peek/lock", async () => {
       const receiver = serviceBusClient.test.addToCleanup(
-        serviceBusClient.createReceiver(topic, subscription, "peekLock")
+        await serviceBusClient.createReceiver(topic, subscription, "peekLock")
       );
 
       await sendSampleMessage(sender, "Subscription, peek/lock");
@@ -226,7 +226,7 @@ describe("Sample scenarios for track 2", () => {
 
     it("Subscription, receive and delete", async () => {
       const receiver = serviceBusClient.test.addToCleanup(
-        serviceBusClient.createReceiver(topic, subscription, "receiveAndDelete")
+        await serviceBusClient.createReceiver(topic, subscription, "receiveAndDelete")
       );
 
       await sendSampleMessage(sender, "Subscription, receive and delete");
@@ -250,7 +250,7 @@ describe("Sample scenarios for track 2", () => {
 
     it("Subscription, peek/lock, iterate messages", async () => {
       const receiver = serviceBusClient.test.addToCleanup(
-        serviceBusClient.createReceiver(topic, subscription, "peekLock")
+        await serviceBusClient.createReceiver(topic, subscription, "peekLock")
       );
 
       await sendSampleMessage(sender, "Subscription, peek/lock, iterate messages");
@@ -288,7 +288,7 @@ describe("Sample scenarios for track 2", () => {
 
     it("Subscription, receive and delete, iterate messages", async () => {
       const receiver = serviceBusClient.test.addToCleanup(
-        serviceBusClient.createReceiver(topic, subscription, "receiveAndDelete")
+        await serviceBusClient.createReceiver(topic, subscription, "receiveAndDelete")
       );
 
       await sendSampleMessage(sender, "Subscription, receive and delete, iterate messages");

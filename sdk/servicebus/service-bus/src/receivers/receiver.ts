@@ -29,7 +29,14 @@ import { assertValidMessageHandlers, getMessageIterator } from "./shared";
 import { convertToInternalReceiveMode } from "../constructorHelpers";
 import Long from "long";
 import { ServiceBusMessageImpl, ReceivedMessageWithLock } from "../serviceBusMessage";
-import { RetryConfig, RetryOperationType, retry, Constants, RetryOptions } from "@azure/core-amqp";
+import {
+  RetryConfig,
+  RetryOperationType,
+  retry,
+  Constants,
+  RetryOptions,
+  defaultLock
+} from "@azure/core-amqp";
 import "@azure/core-asynciterator-polyfill";
 
 /**
@@ -148,6 +155,17 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
     this.entityPath = context.entityPath;
     this._context = context;
     this._retryOptions = retryOptions;
+  }
+
+  async open(): Promise<void> {
+    // a little bit of a cheat but most of the expense when creating receivers is:
+    // 1. creating the connection
+    // 2. initializing the authentication
+    //
+    // So here we shortcut both for this particular context.
+    await defaultLock.acquire(this._context.namespace.cbsSession.cbsLock, () => {
+      return this._context.namespace.cbsSession.init();
+    });
   }
 
   private _throwIfAlreadyReceiving(): void {
