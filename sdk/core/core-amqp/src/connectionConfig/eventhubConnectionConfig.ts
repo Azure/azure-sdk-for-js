@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
@@ -66,7 +69,7 @@ export interface EventHubConnectionConfig extends ConnectionConfig {
  * different entities.
  * @module EventHubConnectionConfig
  */
-export module EventHubConnectionConfig {
+export namespace EventHubConnectionConfig {
   /**
    * Creates the connection config.
    * @param {string} connectionString - The connection string for a given service like

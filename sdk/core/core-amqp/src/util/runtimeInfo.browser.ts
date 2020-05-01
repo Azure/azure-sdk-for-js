@@ -1,8 +1,11 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
 interface Window {}
-declare var self: Window & typeof globalThis & { navigator: Navigator };
+declare let self: Window & typeof globalThis & { navigator: Navigator };
 
 interface Navigator {
   /**

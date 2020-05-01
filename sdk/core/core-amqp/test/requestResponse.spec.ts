@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
@@ -63,7 +66,7 @@ describe("RequestResponseLink", function() {
   it("should send parellel requests and receive responses correctly", async function() {
     const connectionStub = stub(new Connection());
     const rcvr = new EventEmitter();
-    let reqs: AmqpMessage[] = [];
+    const reqs: AmqpMessage[] = [];
     connectionStub.createSession.resolves({
       connection: {
         id: "connection-1"
@@ -129,7 +132,7 @@ describe("RequestResponseLink", function() {
   it("should send parellel requests and receive responses correctly (one failure)", async function() {
     const connectionStub = stub(new Connection());
     const rcvr = new EventEmitter();
-    let reqs: AmqpMessage[] = [];
+    const reqs: AmqpMessage[] = [];
     connectionStub.createSession.resolves({
       connection: {
         id: "connection-1"

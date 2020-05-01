@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
@@ -11,6 +14,6 @@ interface Navigator {
 interface Window {
   readonly navigator: Navigator;
 }
-declare var navigator: Navigator;
+declare let navigator: Navigator;
 
-declare var window: Window;
+declare let window: Window;

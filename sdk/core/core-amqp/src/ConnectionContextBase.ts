@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
@@ -125,7 +128,7 @@ export interface CreateConnectionContextBaseParameters {
   operationTimeoutInMs?: number;
 }
 
-export module ConnectionContextBase {
+export namespace ConnectionContextBase {
   /**
    * Creates the base connection context.
    * @param {CreateConnectionContextBaseParameters} parameters Parameters to be provided to create
