@@ -13,7 +13,7 @@ import {
 } from "../src";
 import { TestClientType, TestMessage } from "./utils/testUtils";
 import { ServiceBusClientForTests, createServiceBusClientForTests } from "./utils/testutils2";
-import { Sender } from "../src/sender";
+import { Sender, SenderImpl } from "../src/sender";
 import { MessagingError } from "@azure/core-amqp";
 import Long from "long";
 import { BatchingReceiver } from "../src/core/batchingReceiver";
@@ -266,11 +266,13 @@ describe("Retries - MessageSender", () => {
   }
 
   function mockInitToThrowError() {
-    const fakeFunction = async function() {
+    const fakeFunction = function() {
       numberOfTimesInitInvoked++;
       throw new MessagingError("Hello there, I'm an error");
     };
-    (senderClient as any)._sender._negotiateClaim = fakeFunction;
+
+    (senderClient as SenderImpl)["_sender"]["isOpen"] = () => false;
+    (senderClient as SenderImpl)["_sender"]["open"] = fakeFunction;
   }
 
   async function mockInitAndVerifyRetries(func: Function) {
