@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-
 import { SessionManagerOptions, MessageSession, SessionCallee } from "./messageSession";
 import { OnError, OnMessage } from "../core/messageReceiver";
 import { ClientEntityContext } from "../clientEntityContext";

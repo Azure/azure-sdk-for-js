@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-
 import { delay } from "../../src";
 import { QueueOptions } from "../../src/serializers/queueResourceSerializer";
 import { TopicOptions } from "../../src/serializers/topicResourceSerializer";

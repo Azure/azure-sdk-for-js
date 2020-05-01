@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-
 import chai from "chai";
 import { ServiceBusMessageBatchImpl } from "../../src/serviceBusMessageBatch";
 import { ClientEntityContext } from "../../src/clientEntityContext";

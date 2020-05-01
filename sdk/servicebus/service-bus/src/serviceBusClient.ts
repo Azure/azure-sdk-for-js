@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-
 import { generate_uuid } from "rhea-promise";
 import { isTokenCredential, TokenCredential } from "@azure/core-amqp";
 import {
