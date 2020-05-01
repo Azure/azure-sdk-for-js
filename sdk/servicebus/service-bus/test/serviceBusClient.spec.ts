@@ -233,27 +233,9 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
     }
   };
 
-  it("throws error when sending data to a non existing queue", async function(): Promise<void> {
-    await (await sbClient.createSender("some-name"))
-      .send({ body: "hello" })
-      .catch((err) => testError(err, "some-name"));
+  it("throws error when opening a sender to a non-existent queue", async function(): Promise<void> {
+    await sbClient.createSender("some-name").catch((err) => testError(err, "some-name"));
 
-    should.equal(errorWasThrown, true, "Error thrown flag must be true");
-  });
-
-  it("throws error when creating batch data to a non existing queue", async function(): Promise<
-    void
-  > {
-    const sender = await sbClient.createSender("some-queue");
-    await sender.createBatch().catch((err) => testError(err, "some-queue"));
-    should.equal(errorWasThrown, true, "Error thrown flag must be true");
-  });
-
-  it("throws error when sending batch data to a non existing queue", async function(): Promise<
-    void
-  > {
-    const sender = await sbClient.createSender("some-queue");
-    await sender.send(1 as any).catch((err) => testError(err, "some-queue"));
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
