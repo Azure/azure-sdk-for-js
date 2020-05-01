@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "@octokit/rest": "^16.26.0",
-    "@ts-common/azure-js-dev-tools": "^0.7.0",
+    "@ts-common/azure-js-dev-tools": "^22.4.21",
     "@types/glob": "^7.1.1",
     "@types/gulp": "^4.0.0",
     "@types/js-yaml": "^3.11.2",
@@ -56,7 +56,7 @@
     "ts-node": "^7.0.1",
     "tslib": "^1.10.0",
     "typescript": "^3.2.2",
-    "yargs": "^11.0.0"
+    "yargs": "^15.3.1"
   },
   "engines": {
     "node": ">=10.10.0"
