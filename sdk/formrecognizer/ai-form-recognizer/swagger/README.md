@@ -15,6 +15,7 @@ output-folder: ../
 source-code-folder-path: ./src/generated
 input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/cognitiveservices/data-plane/FormRecognizer/preview/v2.0/FormRecognizer.json
 add-credentials: true
+override-client-name: GeneratedClient
 use-extension:
   "@autorest/typescript": "6.0.0-dev.20200320.1"
 ```
