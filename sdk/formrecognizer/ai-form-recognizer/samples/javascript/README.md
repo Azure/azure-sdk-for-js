@@ -66,7 +66,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [iteratorModels]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/iteratorModels.js
 [getBoundingBoxes]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/getBoundingBoxes.js
 [differentiateLabeledUnlabeled]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/differentiateLabeledUnlabeled.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/ai-form-recognizer
+[apiref]: https://aka.ms/azsdk/js/docs/ref/ai-form-recognizer
 [azcogsvc]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/README.md

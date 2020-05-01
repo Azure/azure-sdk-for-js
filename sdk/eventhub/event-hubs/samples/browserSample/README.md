@@ -73,7 +73,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [configuration]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples/browserSample/src/configuration.js
 [app]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples/browserSample/src/index.js
 [htmlpage]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples/browserSample/index.html
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/event-hubs
+[apiref]: https://aka.ms/azsdk/js/docs/ref/event-hubs
 [azhubacct]: https://docs.microsoft.com/azure/event-hubs/event-hubs-node-get-started-send
 [aziothub]: https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-node-node-module-twin-getstarted
 [freesub]: https://azure.microsoft.com/free/

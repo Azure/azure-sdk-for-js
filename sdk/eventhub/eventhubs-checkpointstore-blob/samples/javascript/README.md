@@ -49,7 +49,7 @@ node receiveEventsUsingCheckpointStore.js
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [azstorage]: https://docs.microsoft.com/azure/storage/common/storage-account-overview
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/event-hubs
+[apiref]: https://aka.ms/azsdk/js/docs/ref/event-hubs
 [checkpointing]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/eventhubs-checkpointstore-blob/samples/javascript/receiveEventsUsingCheckpointStore.js
 [apispecificstorage]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/eventhubs-checkpointstore-blob/samples/javascript/receiveEventsWithApiSpecificStorage.js
 [azhubacct]: https://docs.microsoft.com/azure/event-hubs/event-hubs-node-get-started-send

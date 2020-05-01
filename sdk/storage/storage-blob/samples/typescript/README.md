@@ -93,7 +93,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [readingsnapshot]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples/typescript/src/readingSnapshot.ts
 [sharedkeycred]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples/typescript/src/sharedKeyCred.ts
 [withconnstring]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples/typescript/src/withConnString.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/storage-blob
+[apiref]: https://aka.ms/azsdk/js/docs/ref/storage-blob
 [azstorage]: https://docs.microsoft.com/azure/storage/common/storage-account-overview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/README.md

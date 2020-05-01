@@ -10,7 +10,7 @@ Use the client libraries in this package to:
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-datalake) |
 [Package (npm)](https://www.npmjs.com/package/@azure/storage-file-datalake) |
-[API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/storage-file-datalake) |
+[API Reference Documentation](https://aka.ms/azsdk/js/docs/ref/storage-file-datalake) |
 [Product documentation](https://docs.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-introduction?toc=%2fazure%2fstorage%2fblobs%2ftoc.json) |
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-datalake/samples) |
 [Azure Storage Data Lake REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/data-lake-storage-gen2)

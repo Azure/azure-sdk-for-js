@@ -71,7 +71,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [custompipeline]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples/javascript/customPipeline.js
 [advanced]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples/javascript/advanced.js
 [iterators-shares]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples/javascript/iterators-shares.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/storage-file-share
+[apiref]: https://aka.ms/azsdk/js/docs/ref/storage-file-share
 [azstorage]: https://docs.microsoft.com/azure/storage/common/storage-account-overview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/README.md

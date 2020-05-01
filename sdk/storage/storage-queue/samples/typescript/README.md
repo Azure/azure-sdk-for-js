@@ -79,7 +79,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [proxyauth]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue/samples/typescript/src/proxyAuth.ts
 [sharedkeycred]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue/samples/typescript/src/sharedKeyCred.ts
 [withconnstring]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue/samples/typescript/src/withConnString.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/storage-queue
+[apiref]: https://aka.ms/azsdk/js/docs/ref/storage-queue
 [azstorage]: https://docs.microsoft.com/azure/storage/common/storage-account-overview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue/README.md

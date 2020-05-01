@@ -67,7 +67,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [helloworld]: ./helloWorld.js
 [listoperations]: ./listOperations.js
 [purgeAllSecrets]: purgeAllSecrets.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/keyvault-secrets
+[apiref]: https://aka.ms/azsdk/js/docs/ref/keyvault-secrets
 [azkeyvault]: https://docs.microsoft.com/azure/key-vault/quick-create-portal
 [kvsoftdelete]: https://docs.microsoft.com/azure/key-vault/key-vault-soft-delete-cli
 [freesub]: https://azure.microsoft.com/free/

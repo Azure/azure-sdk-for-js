@@ -6,7 +6,7 @@ The Azure Event Hubs client library allows you to send and receive events in you
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs) |
 [Package (npm)](https://www.npmjs.com/package/@azure/event-hubs) |
-[API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/event-hubs) |
+[API Reference Documentation](https://aka.ms/azsdk/js/docs/ref/event-hubs) |
 [Product documentation](https://azure.microsoft.com/en-us/services/event-hubs/) |
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples)
 
@@ -46,8 +46,8 @@ You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your t
 ### Authenticate the client
 
 Interaction with Event Hubs starts with either an instance of the
-[EventHubConsumerClient](https://docs.microsoft.com/javascript/api/@azure/event-hubs/eventhubconsumerclient) class
-or an instance of the [EventHubProducerClient](https://docs.microsoft.com/javascript/api/@azure/event-hubs/eventhubproducerclient) class.
+[EventHubConsumerClient](https://aka.ms/azsdk/js/docs/ref/event-hubs/eventhubconsumerclient) class
+or an instance of the [EventHubProducerClient](https://aka.ms/azsdk/js/docs/ref/event-hubs/eventhubproducerclient) class.
 There are constructor overloads to support different ways of instantiating these classes as shown below:
 
 #### Use connection string for the Event Hubs namespace
@@ -179,10 +179,10 @@ In order to publish events, you'll need to create an `EventHubProducerClient`. W
 
 You may publish events to a specific partition, or allow the Event Hubs service to decide which partition events should be published to. It is recommended to use automatic routing when the publishing of events needs to be highly available or when event data should be distributed evenly among the partitions. In the example below, we will take advantage of automatic routing.
 
-- Create an `EventDataBatch` object using the [createBatch](https://docs.microsoft.com/javascript/api/@azure/event-hubs/eventhubproducerclient#createbatch-createbatchoptions-)
-- Add events to the batch using the [tryAdd](https://docs.microsoft.com/javascript/api/@azure/event-hubs/eventdatabatch#tryadd-eventdata--tryaddoptions-)
+- Create an `EventDataBatch` object using the [createBatch](https://aka.ms/azsdk/js/docs/ref/event-hubs/eventhubproducerclient#createbatch-createbatchoptions-)
+- Add events to the batch using the [tryAdd](https://aka.ms/azsdk/js/docs/ref/event-hubs/eventdatabatch#tryadd-eventdata--tryaddoptions-)
   method. You can do this until the maximum batch size limit is reached or until you are done adding the number of events you liked, whichever comes first. This method would return `false` to indicate that no more events can be added to the batch due to the max batch size being reached.
-- Send the batch of events using the [sendBatch](https://docs.microsoft.com/javascript/api/@azure/event-hubs/eventhubproducerclient#sendbatch-eventdatabatch--sendbatchoptions-) method.
+- Send the batch of events using the [sendBatch](https://aka.ms/azsdk/js/docs/ref/event-hubs/eventhubproducerclient#sendbatch-eventdatabatch--sendbatchoptions-) method.
 
 In the below example, we attempt to send 10 events to Azure Event Hubs.
 
@@ -224,7 +224,7 @@ For example: `body: { "message": "Hello World" }`
 ### Consume events from an Event Hub
 
 To consume events from an Event Hub instance, you also need to know which consumer group you want to target.
-Once you know this, you are ready to create an [EventHubConsumerClient](https://docs.microsoft.com/javascript/api/@azure/event-hubs/eventhubconsumerclient). While the below example shows one way to create the client, see the
+Once you know this, you are ready to create an [EventHubConsumerClient](https://aka.ms/azsdk/js/docs/ref/event-hubs/eventhubconsumerclient). While the below example shows one way to create the client, see the
 [Authenticate the client](#authenticate-the-client) section to learn other ways to instantiate the client.
 
 The `subscribe` method on the client has overloads which, combined with the constructor, can cater to several

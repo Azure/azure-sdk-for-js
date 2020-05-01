@@ -10,7 +10,7 @@ Use the client library for App Configuration to:
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/app-configuration) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/app-configuration) |
+[API reference documentation](https://aka.ms/azsdk/js/docs/ref/app-configuration) |
 [Product documentation](https://docs.microsoft.com/en-us/azure/azure-app-configuration/) |
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples)
 
@@ -80,12 +80,12 @@ const client = new AppConfigurationClient("<connection string>");
 
 ## Key concepts
 
-The [`AppConfigurationClient`](https://docs.microsoft.com/javascript/api/@azure/app-configuration/appconfigurationclient) has some terminology changes from App Configuration in the portal.
+The [`AppConfigurationClient`](https://aka.ms/azsdk/js/docs/ref/app-configuration/appconfigurationclient) has some terminology changes from App Configuration in the portal.
 
-- Key/Value pairs are represented as [`ConfigurationSetting`](https://docs.microsoft.com/javascript/api/@azure/app-configuration/configurationsetting) objects
+- Key/Value pairs are represented as [`ConfigurationSetting`](https://aka.ms/azsdk/js/docs/ref/app-configuration/configurationsetting) objects
 - Locking and unlocking a setting is represented in the `isReadOnly` field, which you can toggle using `setReadOnly`.
 
-The client follows a simple design methodology - [`ConfigurationSetting`](https://docs.microsoft.com/javascript/api/@azure/app-configuration/configurationsetting) can be passed into any method that takes a [`ConfigurationSettingParam`](https://docs.microsoft.com/javascript/api/@azure/app-configuration/configurationsettingparam) or [`ConfigurationSettingId`](https://docs.microsoft.com/javascript/api/@azure/app-configuration/configurationsettingid).
+The client follows a simple design methodology - [`ConfigurationSetting`](https://aka.ms/azsdk/js/docs/ref/app-configuration/configurationsetting) can be passed into any method that takes a [`ConfigurationSettingParam`](https://aka.ms/azsdk/js/docs/ref/app-configuration/configurationsettingparam) or [`ConfigurationSettingId`](https://aka.ms/azsdk/js/docs/ref/app-configuration/configurationsettingid).
 
 This means this pattern works:
 

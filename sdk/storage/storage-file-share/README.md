@@ -17,7 +17,7 @@ Use the client libraries in this package to:
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share) |
 [Package (npm)](https://www.npmjs.com/package/@azure/storage-file-share/) |
-[API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/storage-file-share) |
+[API Reference Documentation](https://aka.ms/azsdk/js/docs/ref/storage-file-share) |
 [Product documentation](https://docs.microsoft.com/azure/storage/files/storage-files-introduction) |
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples) |
 [Azure Storage File REST APIs](https://docs.microsoft.com/rest/api/storageservices/file-service-rest-api)

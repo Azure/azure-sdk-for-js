@@ -63,7 +63,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [setreadonlysample]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples/javascript/setReadOnlySample.js
 [getsettingonlyifchanged]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples/javascript/getSettingOnlyIfChanged.js
 [listrevisions]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/samples/javascript/listRevisions.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/app-configuration
+[apiref]: https://aka.ms/azsdk/js/docs/ref/app-configuration
 [azappconfig]: https://docs.microsoft.com/azure/azure-app-configuration/
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/README.md

@@ -75,7 +75,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [mergecertificate]: ./mergeCertificate.js
 [operations]: ./operations.js
 [purgeAllCertificates]: ./purgeAllCertificates.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/keyvault-certificates
+[apiref]: https://aka.ms/azsdk/js/docs/ref/keyvault-certificates
 [azkeyvault]: https://docs.microsoft.com/azure/key-vault/quick-create-portal
 [kvsoftdelete]: https://docs.microsoft.com/azure/key-vault/key-vault-soft-delete-cli
 [freesub]: https://azure.microsoft.com/free/
