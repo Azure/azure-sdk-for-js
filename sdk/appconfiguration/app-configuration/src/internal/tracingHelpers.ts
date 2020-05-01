@@ -20,6 +20,7 @@ export interface Spannable {
  * @ignore
  */
 export class Spanner<TClient> {
+  // @ts-ignore: Property 'componentName' is declared but its value is never read.
   constructor(private baseOperationName: string, private componentName: string) {}
 
   /**

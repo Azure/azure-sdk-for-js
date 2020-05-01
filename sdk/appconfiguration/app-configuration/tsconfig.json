@@ -1,21 +1,12 @@
 {
+  "extends": "../../../tsconfig.package",
   "compilerOptions": {
-    "target": "es6",
-    "module": "es6",
-    "moduleResolution": "node",
-    "strict": true,
-    "sourceMap": true,
-    "inlineSources": true,
-    "declarationMap": true,
-    "declaration": true,
+    "target": "es5",
     "declarationDir": "./types",
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true,
     "outDir": "./dist-esm",
-    "importHelpers": true,
-    "newLine": "LF"
+    "downlevelIteration": true
   },
-  "exclude": ["node_modules", "types/**", "./samples/**/*.ts"],
+  "compileOnSave": true,
+  "exclude": ["node_modules", "./types/**/*.d.ts", "./samples/**/*.ts"],
   "include": ["./src/**/*.ts", "./test/**/*.ts"]
 }
