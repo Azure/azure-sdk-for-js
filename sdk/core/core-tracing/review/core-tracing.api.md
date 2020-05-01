@@ -141,7 +141,7 @@ export class TestTracer extends NoOpTracer {
     }
 
 // @public
-export const enum TraceFlags {
+export enum TraceFlags {
     NONE = 0,
     SAMPLED = 1
 }
