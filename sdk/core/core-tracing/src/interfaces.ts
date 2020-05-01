@@ -1,10 +1,13 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
 /**
  * Shorthand enum for common traceFlags values inside SpanContext
  */
-export const enum TraceFlags {
+export enum TraceFlags {
   /** No flag set. */
   NONE = 0x0,
   /** Caller is collecting trace information. */
