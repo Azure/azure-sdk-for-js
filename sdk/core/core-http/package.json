@@ -131,7 +131,7 @@
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-auth": "^1.1.2",
     "@azure/core-tracing": "1.0.0-preview.8",
-    "@azure/logger": "^1.0.0",
+    "@azure/logger": "^1.0.1",
     "@opentelemetry/api": "^0.6.1",
     "@types/node-fetch": "^2.5.0",
     "@types/tunnel": "^0.0.1",
