@@ -29,6 +29,7 @@ import { ClientEntityContext } from "../clientEntityContext";
 import { ServiceBusMessageImpl, DispositionType, ReceiveMode } from "../serviceBusMessage";
 import { getUniqueName, calculateRenewAfterDuration } from "../util/utils";
 import { MessageHandlerOptions } from "../models";
+import { DispositionStatusOptions } from "./managementClient";
 
 /**
  * @internal
@@ -60,14 +61,7 @@ export interface PromiseLike {
 
 /**
  * @internal
- */
-export interface DispositionOptions {
-  propertiesToModify?: { [key: string]: any };
-  error?: AmqpError;
-}
-
-/**
- * @internal
+ * @ignore
  */
 export enum ReceiverType {
   batching = "batching",
@@ -1017,7 +1011,7 @@ export class MessageReceiver extends LinkEntity {
   async settleMessage(
     message: ServiceBusMessageImpl,
     operation: DispositionType,
-    options?: DispositionOptions
+    options?: DispositionStatusOptions
   ): Promise<any> {
     return new Promise((resolve, reject) => {
       if (!options) options = {};
@@ -1065,10 +1059,13 @@ export class MessageReceiver extends LinkEntity {
         if (options.propertiesToModify) params.message_annotations = options.propertiesToModify;
         delivery.modified(params);
       } else if (operation === DispositionType.deadletter) {
-        const error = options.error || {};
-        error.info = {
-          ...error.info,
-          ...options.propertiesToModify
+        const error: AmqpError = {
+          condition: Constants.deadLetterName,
+          info: {
+            ...options.propertiesToModify,
+            DeadLetterReason: options.deadLetterReason,
+            DeadLetterErrorDescription: options.deadLetterDescription
+          }
         };
         delivery.reject(error);
       }
