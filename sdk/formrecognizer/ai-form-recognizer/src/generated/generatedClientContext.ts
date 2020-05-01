@@ -12,11 +12,11 @@ import * as Models from "./models";
 const packageName = "@azure/ai-form-recognizer";
 const packageVersion = "1.0.0-preview.2";
 
-export class FormRecognizerClientContext extends coreHttp.ServiceClient {
+export class GeneratedClientContext extends coreHttp.ServiceClient {
   endpoint: string;
 
   /**
-   * Initializes a new instance of the FormRecognizerClientContext class.
+   * Initializes a new instance of the GeneratedClientContext class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param endpoint Supported Cognitive Services endpoints (protocol and hostname, for example:
    *                 https://westus2.api.cognitive.microsoft.com).
@@ -25,7 +25,7 @@ export class FormRecognizerClientContext extends coreHttp.ServiceClient {
   constructor(
     credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,
     endpoint: string,
-    options?: Models.FormRecognizerClientOptionalParams
+    options?: Models.GeneratedClientOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
