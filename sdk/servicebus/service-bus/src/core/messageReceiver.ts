@@ -27,7 +27,6 @@ import { ServiceBusMessageImpl, DispositionType, ReceiveMode } from "../serviceB
 import { getUniqueName, calculateRenewAfterDuration } from "../util/utils";
 import { MessageHandlerOptions } from "../models";
 import { DispositionStatusOptions } from "./managementClient";
-import { isMessagingError } from "../../test/utils/testUtils";
 
 /**
  * @internal
@@ -909,7 +908,8 @@ export class MessageReceiver extends LinkEntity {
       //   - Any non MessagingError because such errors do not get
       //     translated by `@azure/core-amqp` to a MessagingError
       //   - More details here - https://github.com/Azure/azure-sdk-for-js/pull/8580#discussion_r417087030
-      let shouldReopen = isMessagingError(translatedError) ? translatedError.retryable : true;
+      let shouldReopen =
+        translatedError instanceof MessagingError ? translatedError.retryable : true;
 
       // Non-retryable errors that aren't caused by disconnect
       // will have already been forwarded to the user's error handler.

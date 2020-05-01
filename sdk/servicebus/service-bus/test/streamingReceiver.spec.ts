@@ -1214,7 +1214,7 @@ describe("Streaming - onDetached", function(): void {
     await receiverIsActive;
 
     // Simulate onDetached being called with a non-retryable error.
-    const nonRetryableError = translate(new Error(`I break systems.`));
+    const nonRetryableError = new MessagingError(`I break systems.`);
     (nonRetryableError as MessagingError).retryable = false;
     await (receiverClient as any)["_context"].streamingReceiver!.onDetached(
       nonRetryableError,
@@ -1252,7 +1252,7 @@ describe("Streaming - onDetached", function(): void {
     await receiverIsActive;
 
     // Simulate onDetached being called multiple times with non-retryable errors.
-    const nonRetryableError = translate(new Error(`I break systems.`));
+    const nonRetryableError = new MessagingError(`I break systems.`);
     (nonRetryableError as MessagingError).retryable = false;
     await Promise.all([
       (receiverClient as any)["_context"].streamingReceiver!.onDetached(nonRetryableError, true),
@@ -1290,7 +1290,7 @@ describe("Streaming - onDetached", function(): void {
     await receiverIsActive;
 
     // Simulate onDetached being called multiple times with non-retryable and then retryable errors.
-    const nonRetryableError = translate(new Error(`I break systems.`));
+    const nonRetryableError = new MessagingError(`I break systems.`);
     (nonRetryableError as MessagingError).retryable = false;
     const retryableError = new Error("I temporarily break systems.");
     (retryableError as any).retryable = true;
