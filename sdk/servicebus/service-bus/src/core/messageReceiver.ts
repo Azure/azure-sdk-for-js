@@ -912,9 +912,9 @@ export class MessageReceiver extends LinkEntity {
       //   - More details here - https://github.com/Azure/azure-sdk-for-js/pull/8580#discussion_r417087030
       let shouldReopen = true;
       if (isMessagingError(translatedError)) {
-          shouldReopen = translatedError.retryable;
+        shouldReopen = translatedError.retryable;
       } else {
-          shouldReopen = !translatedError || causedByDisconnect
+        shouldReopen = !translatedError || causedByDisconnect || false;
       }
 
       // Non-retryable errors that aren't caused by disconnect
