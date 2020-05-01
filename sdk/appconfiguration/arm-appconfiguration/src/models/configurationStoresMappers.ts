@@ -20,6 +20,7 @@ export {
   ListKeyValueParameters,
   PrivateEndpoint,
   PrivateEndpointConnection,
+  PrivateEndpointConnectionReference,
   PrivateLinkServiceConnectionState,
   RegenerateKeyParameters,
   Resource,
