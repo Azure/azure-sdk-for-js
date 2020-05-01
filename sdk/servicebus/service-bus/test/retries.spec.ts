@@ -505,15 +505,4 @@ describe("Retries - onDetached", () => {
       );
     });
   });
-
-  it("Unpartitioned Queue: sender", async function(): Promise<void> {
-    await beforeEachTest(TestClientType.UnpartitionedQueue);
-    await mockOnDetachedAndVerifyRetries(async () => {
-      (senderClient as SenderImpl)["_sender"]["open"] = fakeFunction;
-
-      await (senderClient as SenderImpl)["_sender"].onDetached(
-        new MessagingError("Hello there, I'm an error")
-      );
-    });
-  });
 });
