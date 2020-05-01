@@ -159,25 +159,16 @@ describe("Errors with non existing Namespace", function(): void {
     }
   };
 
-  it("throws error when sending data to a non existing namespace", async function(): Promise<void> {
-    await (await sbClient.createSender("some-queue")).send({ body: "hello" }).catch(testError);
-
-    should.equal(errorWasThrown, true, "Error thrown flag must be true");
-  });
-
-  it("throws error when creating batch data to a non existing namespace", async function(): Promise<
+  it("throws error when create a sender for a non existing namespace", async function(): Promise<
     void
   > {
-    const sender = await sbClient.createSender("some-queue");
-    await sender.createBatch().catch(testError);
-    should.equal(errorWasThrown, true, "Error thrown flag must be true");
-  });
+    try {
+      await sbClient.createSender("some-queue");
+      should.fail("Should have thrown");
+    } catch (err) {
+      testError(err);
+    }
 
-  it("throws error when sending batch data to a non existing namespace", async function(): Promise<
-    void
-  > {
-    const sender = await sbClient.createSender("some-queue");
-    await sender.send(1 as any).catch(testError);
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
