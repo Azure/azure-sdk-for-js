@@ -905,15 +905,17 @@ export class MessageReceiver extends LinkEntity {
       // Track-2
       //  Reopen
       //   - If no error was present
-      //   - If the error is considered retryable
-      //   - Any errors that were triggered by a disconnect,
-      //     we don't care if the retryable flag is set to true on the error
-      //     because `@azure/core-amqp` is stricter in setting the retryable flag to true.
+      //   - If the error is a MessagingError and is considered retryable
+      //   - Any non MessagingError that was triggered by a disconnect because such errors do not get
+      //     translated by `@azure/core-amqp` to a MessagingError and we need to do our best when
+      //     it comes to connection being disconnected
       //   - More details here - https://github.com/Azure/azure-sdk-for-js/pull/8580#discussion_r417087030
-      const shouldReopen =
-        !translatedError ||
-        (isMessagingError(translatedError) ? translatedError.retryable : false) ||
-        causedByDisconnect;
+      let shouldReopen = true;
+      if (isMessagingError(translatedError)) {
+          shouldReopen = translatedError.retryable;
+      } else {
+          shouldReopen = !translatedError || causedByDisconnect
+      }
 
       // Non-retryable errors that aren't caused by disconnect
       // will have already been forwarded to the user's error handler.
