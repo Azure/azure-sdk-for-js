@@ -20,7 +20,6 @@ import {
   SubscriptionRuleManager
 } from "./receivers/subscriptionRuleManager";
 import { getRetryAttemptTimeoutInMs } from "./util/utils";
-import { AbortSignalLike } from "@azure/abort-controller";
 
 /**
  * A client that can create Sender instances for sending messages to queues and
@@ -240,8 +239,10 @@ export class ServiceBusClient {
   }
 
   /**
-   * Creates a Sender which can be used to send messages, schedule messages to be sent at a later time
-   * and cancel such scheduled messages.
+   * Creates a Sender which can be used to send messages, schedule messages to be
+   * sent at a later time and cancel such scheduled messages.
+   * @param queueOrTopicName The name of a queue or topic to send messages to.
+   * @param options Options for creating a sender.
    */
   async createSender(queueOrTopicName: string, options?: CreateSenderOptions): Promise<Sender> {
     validateEntityNamesMatch(this._connectionContext.config.entityPath, queueOrTopicName, "sender");
