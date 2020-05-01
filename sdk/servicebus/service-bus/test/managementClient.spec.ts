@@ -16,7 +16,7 @@ describe("ManagementClient - disconnects", function(): void {
     receiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
 
     senderClient = serviceBusClient.test.addToCleanup(
-      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+      await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
   }
   before(() => {

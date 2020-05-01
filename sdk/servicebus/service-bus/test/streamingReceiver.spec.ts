@@ -1137,7 +1137,7 @@ describe("Streaming - onDetached", function(): void {
       receiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
     }
     senderClient = serviceBusClient.test.addToCleanup(
-      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+      await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
 
     errorWasThrown = false;
@@ -1320,7 +1320,7 @@ describe("Streaming - disconnects", function(): void {
     const entityNames = await serviceBusClient.test.createTestEntities(testClientType);
     receiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
     senderClient = serviceBusClient.test.addToCleanup(
-      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+      await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
   }
 
