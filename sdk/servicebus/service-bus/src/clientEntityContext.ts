@@ -202,7 +202,7 @@ export namespace ClientEntityContext {
           sender.close().catch((err) => {
             log.error(
               "[%s] Error when closing sender [%s] after disconnected event: %O",
-              entityContext.namespace.connection.id,
+              connectionId,
               sender.name,
               err
             );
