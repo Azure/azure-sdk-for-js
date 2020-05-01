@@ -31,7 +31,7 @@ describe("dead lettering", () => {
 
     // send a test message with the body being the title of the test (for something unique)
     const sender = serviceBusClient.test.addToCleanup(
-      serviceBusClient.createSender(entityNames.queue)
+      await serviceBusClient.createSender(entityNames.queue)
     );
 
     await sender.send({
@@ -181,7 +181,7 @@ describe("abandoning", () => {
 
     // send a test message with the body being the title of the test (for something unique)
     const sender = serviceBusClient.test.addToCleanup(
-      serviceBusClient.createSender(entityNames.queue)
+      await serviceBusClient.createSender(entityNames.queue)
     );
 
     await sender.send({
@@ -302,7 +302,7 @@ describe("deferring", () => {
 
     // send a test message with the body being the title of the test (for something unique)
     const sender = serviceBusClient.test.addToCleanup(
-      serviceBusClient.createSender(entityNames.queue)
+      await serviceBusClient.createSender(entityNames.queue)
     );
 
     await sender.send({

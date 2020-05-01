@@ -81,7 +81,7 @@ describe("Random scheme in the endpoint from connection string", function(): voi
     sbClientWithRelaxedEndPoint = new ServiceBusClient(
       getEnvVars().SERVICEBUS_CONNECTION_STRING.replace("sb://", "CheeseBurger://")
     );
-    senderClient = sbClientWithRelaxedEndPoint.createSender(entities.queue!);
+    senderClient = await sbClientWithRelaxedEndPoint.createSender(entities.queue!);
     receiverClient = !entities.usesSessions
       ? sbClientWithRelaxedEndPoint.createReceiver(entities.queue!, "peekLock")
       : await sbClientWithRelaxedEndPoint.createSessionReceiver(entities.queue!, "peekLock", {
@@ -159,28 +159,16 @@ describe("Errors with non existing Namespace", function(): void {
     }
   };
 
-  it("throws error when sending data to a non existing namespace", async function(): Promise<void> {
-    await sbClient
-      .createSender("some-queue")
-      .send({ body: "hello" })
-      .catch(testError);
-
-    should.equal(errorWasThrown, true, "Error thrown flag must be true");
-  });
-
-  it("throws error when creating batch data to a non existing namespace", async function(): Promise<
+  it("throws error when create a sender for a non existing namespace", async function(): Promise<
     void
   > {
-    const sender = sbClient.createSender("some-queue");
-    await sender.createBatch().catch(testError);
-    should.equal(errorWasThrown, true, "Error thrown flag must be true");
-  });
+    try {
+      await sbClient.createSender("some-queue");
+      should.fail("Should have thrown");
+    } catch (err) {
+      testError(err);
+    }
 
-  it("throws error when sending batch data to a non existing namespace", async function(): Promise<
-    void
-  > {
-    const sender = sbClient.createSender("some-queue");
-    await sender.send(1 as any).catch(testError);
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
@@ -245,28 +233,9 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
     }
   };
 
-  it("throws error when sending data to a non existing queue", async function(): Promise<void> {
-    await sbClient
-      .createSender("some-name")
-      .send({ body: "hello" })
-      .catch((err) => testError(err, "some-name"));
+  it("throws error when opening a sender to a non-existent queue", async function(): Promise<void> {
+    await sbClient.createSender("some-name").catch((err) => testError(err, "some-name"));
 
-    should.equal(errorWasThrown, true, "Error thrown flag must be true");
-  });
-
-  it("throws error when creating batch data to a non existing queue", async function(): Promise<
-    void
-  > {
-    const sender = sbClient.createSender("some-queue");
-    await sender.createBatch().catch((err) => testError(err, "some-queue"));
-    should.equal(errorWasThrown, true, "Error thrown flag must be true");
-  });
-
-  it("throws error when sending batch data to a non existing queue", async function(): Promise<
-    void
-  > {
-    const sender = sbClient.createSender("some-queue");
-    await sender.send(1 as any).catch((err) => testError(err, "some-queue"));
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
@@ -454,7 +423,7 @@ describe("Errors after close()", function(): void {
     entityName = await sbClient.test.createTestEntities(entityType);
 
     sender = sbClient.test.addToCleanup(
-      sbClient.createSender(entityName.queue ?? entityName.topic!)
+      await sbClient.createSender(entityName.queue ?? entityName.topic!)
     );
     receiver = await sbClient.test.getPeekLockReceiver(entityName);
 
@@ -601,7 +570,7 @@ describe("Errors after close()", function(): void {
   async function testCreateSender(expectedErrorMsg: string): Promise<void> {
     let errorNewSender: string = "";
     try {
-      sbClient.createSender(entityName.queue ?? entityName.topic!);
+      await sbClient.createSender(entityName.queue ?? entityName.topic!);
     } catch (err) {
       errorNewSender = err.message;
     }
