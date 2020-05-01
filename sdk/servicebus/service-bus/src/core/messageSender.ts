@@ -523,7 +523,7 @@ export class MessageSender extends LinkEntity {
           retryOptions: this._retryOptions,
           connectionHost: this._context.namespace.config.host
         };
-        return retry<void>(config);
+        return await retry<void>(config);
       }
     } catch (err) {
       log.error(
