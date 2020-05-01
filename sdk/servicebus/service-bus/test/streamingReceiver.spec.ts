@@ -242,7 +242,7 @@ describe("Streaming", () => {
       await testManualComplete();
     });
 
-    it.only("onDetached should forward error messages if it fails to retry", async function(): Promise<
+    it("onDetached should forward error messages if it fails to retry", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.PartitionedQueue);
