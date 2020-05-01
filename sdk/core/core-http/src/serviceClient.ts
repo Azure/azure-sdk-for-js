@@ -1,4 +1,7 @@
 // Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 import { TokenCredential, isTokenCredential } from "@azure/core-auth";
@@ -212,7 +215,7 @@ export class ServiceClient {
         // build the correct scope name.
         const wrappedPolicyFactory: () => RequestPolicyFactory = () => {
           let bearerTokenPolicyFactory: RequestPolicyFactory | undefined = undefined;
-          let serviceClient = this;
+          const serviceClient = this;
           return {
             create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): RequestPolicy {
               if (bearerTokenPolicyFactory === undefined) {
@@ -668,7 +671,7 @@ export function createPipelineFromOptions(
   pipelineOptions: InternalPipelineOptions,
   authPolicyFactory?: RequestPolicyFactory
 ): ServiceClientOptions {
-  let requestPolicyFactories: RequestPolicyFactory[] = [];
+  const requestPolicyFactories: RequestPolicyFactory[] = [];
 
   let userAgentValue = undefined;
   if (pipelineOptions.userAgentOptions && pipelineOptions.userAgentOptions.userAgentPrefix) {

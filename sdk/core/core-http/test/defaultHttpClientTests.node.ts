@@ -1,4 +1,7 @@
 // Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 import { assert } from "chai";
@@ -95,7 +98,7 @@ describe("defaultHttpClient (node)", function() {
     };
 
     it("for stream bodies", async function() {
-      let payload = () => createReadStream(__filename);
+      const payload = () => createReadStream(__filename);
 
       const size = payload.toString().length;
 
