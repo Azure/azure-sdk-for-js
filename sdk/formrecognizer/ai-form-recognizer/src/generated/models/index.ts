@@ -532,30 +532,30 @@ export interface ModelsSummary {
 }
 
 /**
- * Defines headers for formRecognizerClient_trainCustomModelAsync operation.
+ * Defines headers for generatedClient_trainCustomModelAsync operation.
  */
-export interface FormRecognizerClientTrainCustomModelAsyncHeaders {
+export interface GeneratedClientTrainCustomModelAsyncHeaders {
   location?: string;
 }
 
 /**
- * Defines headers for formRecognizerClient_analyzeWithCustomModel operation.
+ * Defines headers for generatedClient_analyzeWithCustomModel operation.
  */
-export interface FormRecognizerClientAnalyzeWithCustomModelHeaders {
+export interface GeneratedClientAnalyzeWithCustomModelHeaders {
   operationLocation?: string;
 }
 
 /**
- * Defines headers for formRecognizerClient_analyzeReceiptAsync operation.
+ * Defines headers for generatedClient_analyzeReceiptAsync operation.
  */
-export interface FormRecognizerClientAnalyzeReceiptAsyncHeaders {
+export interface GeneratedClientAnalyzeReceiptAsyncHeaders {
   operationLocation?: string;
 }
 
 /**
- * Defines headers for formRecognizerClient_analyzeLayoutAsync operation.
+ * Defines headers for generatedClient_analyzeLayoutAsync operation.
  */
-export interface FormRecognizerClientAnalyzeLayoutAsyncHeaders {
+export interface GeneratedClientAnalyzeLayoutAsyncHeaders {
   operationLocation?: string;
 }
 
@@ -603,7 +603,7 @@ export type FieldValueType =
 /**
  * Contains response data for the trainCustomModelAsync operation.
  */
-export type FormRecognizerClientTrainCustomModelAsyncResponse = FormRecognizerClientTrainCustomModelAsyncHeaders & {
+export type GeneratedClientTrainCustomModelAsyncResponse = GeneratedClientTrainCustomModelAsyncHeaders & {
   /**
    * The underlying HTTP response.
    */
@@ -611,14 +611,14 @@ export type FormRecognizerClientTrainCustomModelAsyncResponse = FormRecognizerCl
     /**
      * The parsed HTTP response headers.
      */
-    parsedHeaders: FormRecognizerClientTrainCustomModelAsyncHeaders;
+    parsedHeaders: GeneratedClientTrainCustomModelAsyncHeaders;
   };
 };
 
 /**
  * Optional parameters.
  */
-export interface FormRecognizerClientGetCustomModelOptionalParams
+export interface GeneratedClientGetCustomModelOptionalParams
   extends coreHttp.OperationOptions {
   /**
    * Include list of extracted keys in model information.
@@ -629,7 +629,7 @@ export interface FormRecognizerClientGetCustomModelOptionalParams
 /**
  * Contains response data for the getCustomModel operation.
  */
-export type FormRecognizerClientGetCustomModelResponse = Model & {
+export type GeneratedClientGetCustomModelResponse = Model & {
   /**
    * The underlying HTTP response.
    */
@@ -649,7 +649,7 @@ export type FormRecognizerClientGetCustomModelResponse = Model & {
 /**
  * Optional parameters.
  */
-export interface FormRecognizerClientAnalyzeWithCustomModel$binaryOptionalParams
+export interface GeneratedClientAnalyzeWithCustomModel$binaryOptionalParams
   extends coreHttp.OperationOptions {
   /**
    * Upload file type
@@ -664,7 +664,7 @@ export interface FormRecognizerClientAnalyzeWithCustomModel$binaryOptionalParams
 /**
  * Optional parameters.
  */
-export interface FormRecognizerClientAnalyzeWithCustomModel$jsonOptionalParams
+export interface GeneratedClientAnalyzeWithCustomModel$jsonOptionalParams
   extends coreHttp.OperationOptions {
   /**
    * .json, .pdf, .jpg, .png or .tiff type file stream.
@@ -675,14 +675,14 @@ export interface FormRecognizerClientAnalyzeWithCustomModel$jsonOptionalParams
 /**
  * Optional parameters.
  */
-export type FormRecognizerClientAnalyzeWithCustomModelOptionalParams =
-  | FormRecognizerClientAnalyzeWithCustomModel$binaryOptionalParams
-  | FormRecognizerClientAnalyzeWithCustomModel$jsonOptionalParams;
+export type GeneratedClientAnalyzeWithCustomModelOptionalParams =
+  | GeneratedClientAnalyzeWithCustomModel$binaryOptionalParams
+  | GeneratedClientAnalyzeWithCustomModel$jsonOptionalParams;
 
 /**
  * Contains response data for the analyzeWithCustomModel operation.
  */
-export type FormRecognizerClientAnalyzeWithCustomModelResponse = FormRecognizerClientAnalyzeWithCustomModelHeaders & {
+export type GeneratedClientAnalyzeWithCustomModelResponse = GeneratedClientAnalyzeWithCustomModelHeaders & {
   /**
    * The underlying HTTP response.
    */
@@ -690,14 +690,14 @@ export type FormRecognizerClientAnalyzeWithCustomModelResponse = FormRecognizerC
     /**
      * The parsed HTTP response headers.
      */
-    parsedHeaders: FormRecognizerClientAnalyzeWithCustomModelHeaders;
+    parsedHeaders: GeneratedClientAnalyzeWithCustomModelHeaders;
   };
 };
 
 /**
  * Contains response data for the getAnalyzeFormResult operation.
  */
-export type FormRecognizerClientGetAnalyzeFormResultResponse = AnalyzeOperationResult & {
+export type GeneratedClientGetAnalyzeFormResultResponse = AnalyzeOperationResult & {
   /**
    * The underlying HTTP response.
    */
@@ -717,7 +717,7 @@ export type FormRecognizerClientGetAnalyzeFormResultResponse = AnalyzeOperationR
 /**
  * Optional parameters.
  */
-export interface FormRecognizerClientAnalyzeReceiptAsync$binaryOptionalParams
+export interface GeneratedClientAnalyzeReceiptAsync$binaryOptionalParams
   extends coreHttp.OperationOptions {
   /**
    * Upload file type
@@ -732,7 +732,7 @@ export interface FormRecognizerClientAnalyzeReceiptAsync$binaryOptionalParams
 /**
  * Optional parameters.
  */
-export interface FormRecognizerClientAnalyzeReceiptAsync$jsonOptionalParams
+export interface GeneratedClientAnalyzeReceiptAsync$jsonOptionalParams
   extends coreHttp.OperationOptions {
   /**
    * .json, .pdf, .jpg, .png or .tiff type file stream.
@@ -743,14 +743,14 @@ export interface FormRecognizerClientAnalyzeReceiptAsync$jsonOptionalParams
 /**
  * Optional parameters.
  */
-export type FormRecognizerClientAnalyzeReceiptAsyncOptionalParams =
-  | FormRecognizerClientAnalyzeReceiptAsync$binaryOptionalParams
-  | FormRecognizerClientAnalyzeReceiptAsync$jsonOptionalParams;
+export type GeneratedClientAnalyzeReceiptAsyncOptionalParams =
+  | GeneratedClientAnalyzeReceiptAsync$binaryOptionalParams
+  | GeneratedClientAnalyzeReceiptAsync$jsonOptionalParams;
 
 /**
  * Contains response data for the analyzeReceiptAsync operation.
  */
-export type FormRecognizerClientAnalyzeReceiptAsyncResponse = FormRecognizerClientAnalyzeReceiptAsyncHeaders & {
+export type GeneratedClientAnalyzeReceiptAsyncResponse = GeneratedClientAnalyzeReceiptAsyncHeaders & {
   /**
    * The underlying HTTP response.
    */
@@ -758,14 +758,14 @@ export type FormRecognizerClientAnalyzeReceiptAsyncResponse = FormRecognizerClie
     /**
      * The parsed HTTP response headers.
      */
-    parsedHeaders: FormRecognizerClientAnalyzeReceiptAsyncHeaders;
+    parsedHeaders: GeneratedClientAnalyzeReceiptAsyncHeaders;
   };
 };
 
 /**
  * Contains response data for the getAnalyzeReceiptResult operation.
  */
-export type FormRecognizerClientGetAnalyzeReceiptResultResponse = AnalyzeOperationResult & {
+export type GeneratedClientGetAnalyzeReceiptResultResponse = AnalyzeOperationResult & {
   /**
    * The underlying HTTP response.
    */
@@ -785,7 +785,7 @@ export type FormRecognizerClientGetAnalyzeReceiptResultResponse = AnalyzeOperati
 /**
  * Optional parameters.
  */
-export interface FormRecognizerClientAnalyzeLayoutAsync$binaryOptionalParams
+export interface GeneratedClientAnalyzeLayoutAsync$binaryOptionalParams
   extends coreHttp.OperationOptions {
   /**
    * Upload file type
@@ -800,7 +800,7 @@ export interface FormRecognizerClientAnalyzeLayoutAsync$binaryOptionalParams
 /**
  * Optional parameters.
  */
-export interface FormRecognizerClientAnalyzeLayoutAsync$jsonOptionalParams
+export interface GeneratedClientAnalyzeLayoutAsync$jsonOptionalParams
   extends coreHttp.OperationOptions {
   /**
    * .json, .pdf, .jpg, .png or .tiff type file stream.
@@ -811,14 +811,14 @@ export interface FormRecognizerClientAnalyzeLayoutAsync$jsonOptionalParams
 /**
  * Optional parameters.
  */
-export type FormRecognizerClientAnalyzeLayoutAsyncOptionalParams =
-  | FormRecognizerClientAnalyzeLayoutAsync$binaryOptionalParams
-  | FormRecognizerClientAnalyzeLayoutAsync$jsonOptionalParams;
+export type GeneratedClientAnalyzeLayoutAsyncOptionalParams =
+  | GeneratedClientAnalyzeLayoutAsync$binaryOptionalParams
+  | GeneratedClientAnalyzeLayoutAsync$jsonOptionalParams;
 
 /**
  * Contains response data for the analyzeLayoutAsync operation.
  */
-export type FormRecognizerClientAnalyzeLayoutAsyncResponse = FormRecognizerClientAnalyzeLayoutAsyncHeaders & {
+export type GeneratedClientAnalyzeLayoutAsyncResponse = GeneratedClientAnalyzeLayoutAsyncHeaders & {
   /**
    * The underlying HTTP response.
    */
@@ -826,14 +826,14 @@ export type FormRecognizerClientAnalyzeLayoutAsyncResponse = FormRecognizerClien
     /**
      * The parsed HTTP response headers.
      */
-    parsedHeaders: FormRecognizerClientAnalyzeLayoutAsyncHeaders;
+    parsedHeaders: GeneratedClientAnalyzeLayoutAsyncHeaders;
   };
 };
 
 /**
  * Contains response data for the getAnalyzeLayoutResult operation.
  */
-export type FormRecognizerClientGetAnalyzeLayoutResultResponse = AnalyzeOperationResult & {
+export type GeneratedClientGetAnalyzeLayoutResultResponse = AnalyzeOperationResult & {
   /**
    * The underlying HTTP response.
    */
@@ -853,7 +853,7 @@ export type FormRecognizerClientGetAnalyzeLayoutResultResponse = AnalyzeOperatio
 /**
  * Contains response data for the listCustomModels operation.
  */
-export type FormRecognizerClientListCustomModelsResponse = Models & {
+export type GeneratedClientListCustomModelsResponse = Models & {
   /**
    * The underlying HTTP response.
    */
@@ -873,7 +873,7 @@ export type FormRecognizerClientListCustomModelsResponse = Models & {
 /**
  * Contains response data for the getCustomModels operation.
  */
-export type FormRecognizerClientGetCustomModelsResponse = Models & {
+export type GeneratedClientGetCustomModelsResponse = Models & {
   /**
    * The underlying HTTP response.
    */
@@ -893,7 +893,7 @@ export type FormRecognizerClientGetCustomModelsResponse = Models & {
 /**
  * Contains response data for the listCustomModelsNext operation.
  */
-export type FormRecognizerClientListCustomModelsNextResponse = Models & {
+export type GeneratedClientListCustomModelsNextResponse = Models & {
   /**
    * The underlying HTTP response.
    */
@@ -913,7 +913,7 @@ export type FormRecognizerClientListCustomModelsNextResponse = Models & {
 /**
  * Optional parameters.
  */
-export interface FormRecognizerClientOptionalParams
+export interface GeneratedClientOptionalParams
   extends coreHttp.ServiceClientOptions {
   /**
    * Overrides client endpoint.

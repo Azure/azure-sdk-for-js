@@ -4,6 +4,7 @@
 
 - Updates the `EventHubProducerClient.sendBatch` API to accept an array of events.
 - Adds compatiblity with TypeScript versions 3.1 through 3.6+
+- Improves the performance of the `EventDataBatch.tryAdd` method.
 
 ## 5.1.0 (2020-04-07)
 
