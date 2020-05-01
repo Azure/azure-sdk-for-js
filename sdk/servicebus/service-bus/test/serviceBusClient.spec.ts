@@ -4,13 +4,7 @@
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import Long from "long";
-import {
-  MessagingError,
-  ServiceBusClient,
-  Receiver,
-  SessionReceiver,
-  SubscriptionRuleManager
-} from "../src";
+import { MessagingError, ServiceBusClient, Receiver, SessionReceiver } from "../src";
 import { Sender } from "../src/sender";
 import { getReceiverClosedErrorMsg } from "../src/util/errors";
 import { TestClientType, TestMessage, isMessagingError, checkWithTimeout } from "./utils/testUtils";
@@ -412,7 +406,7 @@ describe("Errors after close()", function(): void {
   let receiver: Receiver<ReceivedMessageWithLock>;
   let receivedMessage: ReceivedMessageWithLock;
   let entityName: EntityName;
-  let subscriptionClient: SubscriptionRuleManager;
+  // let subscriptionClient: SubscriptionRuleManager;
 
   afterEach(() => {
     return sbClient.test.afterEach();
@@ -436,9 +430,9 @@ describe("Errors after close()", function(): void {
     should.equal(receivedMsgs.length, 1, "Unexpected number of messages received");
     receivedMessage = receivedMsgs[0];
 
-    subscriptionClient = sbClient.test.addToCleanup(
-      sbClient.getSubscriptionRuleManager(entityName.topic!, entityName.subscription!)
-    );
+    // subscriptionClient = sbClient.test.addToCleanup(
+    //   sbClient.getSubscriptionRuleManager(entityName.topic!, entityName.subscription!)
+    // );
 
     // close(), so that we can then test the resulting error.
     switch (entityToClose) {
@@ -717,34 +711,34 @@ describe("Errors after close()", function(): void {
     should.equal(errorSetState, expectedErrorMsg, "Expected error not thrown for setState()");
   }
 
-  /**
-   * Tests that each feature of the topic filters throws expected error
-   */
-  async function testRules(expectedErrorMsg: string): Promise<void> {
-    let errorAddRule: string = "";
-    try {
-      await subscriptionClient.addRule("myRule", true);
-    } catch (error) {
-      errorAddRule = error.message;
-    }
-    should.equal(errorAddRule, expectedErrorMsg, "Expected error not thrown for addRule()");
+  // /**
+  //  * Tests that each feature of the topic filters throws expected error
+  //  */
+  // async function testRules(expectedErrorMsg: string): Promise<void> {
+  //   let errorAddRule: string = "";
+  //   try {
+  //     await subscriptionClient.addRule("myRule", true);
+  //   } catch (error) {
+  //     errorAddRule = error.message;
+  //   }
+  //   should.equal(errorAddRule, expectedErrorMsg, "Expected error not thrown for addRule()");
 
-    let errorRemoveRule: string = "";
-    try {
-      await subscriptionClient.removeRule("myRule");
-    } catch (err) {
-      errorRemoveRule = err.message;
-    }
-    should.equal(errorRemoveRule, expectedErrorMsg, "Expected error not thrown for removeRule()");
+  //   let errorRemoveRule: string = "";
+  //   try {
+  //     await subscriptionClient.removeRule("myRule");
+  //   } catch (err) {
+  //     errorRemoveRule = err.message;
+  //   }
+  //   should.equal(errorRemoveRule, expectedErrorMsg, "Expected error not thrown for removeRule()");
 
-    let errorGetRules: string = "";
-    try {
-      await subscriptionClient.getRules();
-    } catch (err) {
-      errorGetRules = err.message;
-    }
-    should.equal(errorGetRules, expectedErrorMsg, "Expected error not thrown for getRule()");
-  }
+  //   let errorGetRules: string = "";
+  //   try {
+  //     await subscriptionClient.getRules();
+  //   } catch (err) {
+  //     errorGetRules = err.message;
+  //   }
+  //   should.equal(errorGetRules, expectedErrorMsg, "Expected error not thrown for getRule()");
+  // }
 
   describe("Errors after close() on namespace", function(): void {
     const entityToClose = "namespace";
@@ -778,7 +772,7 @@ describe("Errors after close()", function(): void {
       await testCreateSender(expectedErrorMsg);
       await testReceiver(expectedErrorMsg);
       await testCreateReceiver(expectedErrorMsg);
-      await testRules(expectedErrorMsg);
+      // await testRules(expectedErrorMsg);
     });
 
     it("Unpartitioned Topic/Subscription with sessions: errors after close() on namespace", async function(): Promise<
@@ -790,7 +784,7 @@ describe("Errors after close()", function(): void {
       await testCreateSender(expectedErrorMsg);
       await testSessionReceiver(expectedErrorMsg);
       await testCreateReceiver(expectedErrorMsg);
-      await testRules(expectedErrorMsg);
+      // await testRules(expectedErrorMsg);
     });
   });
 

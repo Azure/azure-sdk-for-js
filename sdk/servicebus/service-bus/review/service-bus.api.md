@@ -172,7 +172,6 @@ export class ServiceBusClient {
     createSessionReceiver(queueName: string, receiveMode: "receiveAndDelete", options?: CreateSessionReceiverOptions): Promise<SessionReceiver<ReceivedMessage>>;
     createSessionReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock", options?: CreateSessionReceiverOptions): Promise<SessionReceiver<ReceivedMessageWithLock>>;
     createSessionReceiver(topicName: string, subscriptionName: string, receiveMode: "receiveAndDelete", options?: CreateSessionReceiverOptions): Promise<SessionReceiver<ReceivedMessage>>;
-    getSubscriptionRuleManager(topic: string, subscription: string): SubscriptionRuleManager;
 }
 
 // @public
@@ -232,15 +231,6 @@ export interface SessionReceiverOptions {
 
 // @public
 export interface SubscribeOptions extends OperationOptions, MessageHandlerOptions {
-}
-
-// @public
-export interface SubscriptionRuleManager {
-    addRule(ruleName: string, filter: boolean | string | CorrelationFilter, sqlRuleActionExpression?: string, options?: OperationOptions): Promise<void>;
-    close(): Promise<void>;
-    readonly defaultRuleName: string;
-    getRules(options?: OperationOptions): Promise<RuleDescription[]>;
-    removeRule(ruleName: string, options?: OperationOptions): Promise<void>;
 }
 
 export { TokenCredential }

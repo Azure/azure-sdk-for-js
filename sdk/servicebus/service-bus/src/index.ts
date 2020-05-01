@@ -43,7 +43,6 @@ export {
 export { OperationOptions } from "./modelsToBeSharedWithEventHubs";
 
 export { Receiver } from "./receivers/receiver";
-export { SubscriptionRuleManager } from "./receivers/subscriptionRuleManager";
 export { SessionReceiver } from "./receivers/sessionReceiver";
 export { Sender } from "./sender";
 export { ServiceBusClient } from "./serviceBusClient";
