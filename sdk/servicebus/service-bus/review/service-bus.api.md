@@ -24,19 +24,6 @@ export interface BrowseMessagesOptions extends OperationOptions {
 }
 
 // @public
-export interface CorrelationFilter {
-    contentType?: string;
-    correlationId?: string;
-    label?: string;
-    messageId?: string;
-    replyTo?: string;
-    replyToSessionId?: string;
-    sessionId?: string;
-    to?: string;
-    userProperties?: any;
-}
-
-// @public
 export interface CreateBatchOptions extends OperationOptions {
     maxSizeInBytes?: number;
 }
@@ -132,13 +119,6 @@ export interface Receiver<ReceivedMessageT> {
 }
 
 export { RetryOptions }
-
-// @public
-export interface RuleDescription {
-    action?: string;
-    filter?: string | CorrelationFilter;
-    name: string;
-}
 
 // @public
 export interface Sender {
