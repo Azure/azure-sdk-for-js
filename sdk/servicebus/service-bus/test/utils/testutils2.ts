@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 // Anything we expect to be available to users should come from this import
 // as a simple sanity check that we've exported things properly.
@@ -175,7 +175,7 @@ export class ServiceBusTestHelpers {
       // From the sentMessages array, creating a set of all the `session-id`s
       const setOfSessionIds: Set<string> = new Set();
       // numOfMsgsWithSessionId - To keep track of number of messages sent per session in the sent messages
-      let numOfMsgsWithSessionId: { [sessionId: string]: number } = {};
+      const numOfMsgsWithSessionId: { [sessionId: string]: number } = {};
       sentMessages.forEach((msg) => {
         setOfSessionIds.add(msg.sessionId!);
         numOfMsgsWithSessionId[msg.sessionId!] = numOfMsgsWithSessionId[msg.sessionId!]
@@ -389,7 +389,7 @@ async function purgeForTestClientType(
   testClientType: TestClientType
 ): Promise<void> {
   let receiver: Receiver<ReceivedMessage> | SessionReceiver<ReceivedMessage> | undefined;
-  let entityPaths = getEntityNames(testClientType);
+  const entityPaths = getEntityNames(testClientType);
   let deadLetterReceiver: Receiver<ReceivedMessage>;
 
   if (entityPaths.queue) {

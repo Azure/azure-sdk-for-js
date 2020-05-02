@@ -6,7 +6,6 @@ Use the client library `@azure/service-bus` in your application to
 
 - Send messages to an Azure Service Bus Queue or Topic
 - Receive messages from an Azure Service Bus Queue or Subscription
-- Manage Subscription rules
 
 Resources for the v7.0.0-preview.1 of `@azure/service-bus`:
 

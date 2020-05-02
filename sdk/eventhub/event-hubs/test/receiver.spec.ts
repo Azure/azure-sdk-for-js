@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import chai from "chai";
 import uuid from "uuid/v4";
@@ -671,7 +671,7 @@ describe("EventHub Receiver", function(): void {
         }
       );
 
-      let data = await receiver.receiveBatch(1, 10);
+      const data = await receiver.receiveBatch(1, 10);
       debug("receiver.runtimeInfo ", receiver.lastEnqueuedEventProperties);
       data.length.should.equal(1);
       should.exist(receiver.lastEnqueuedEventProperties);
