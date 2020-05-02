@@ -59,7 +59,7 @@ jobs:
         # Add matrix entry for sample testing
         ${{ if eq(parameters.TestSamples, 'true') }}:
           Samples Linux Node 10:
-            OSVmImage: "windows-2019"
+            OSVmImage: "ubuntu-18.04"
             TestType: "sample"
             NodeVersion: "10.x"
             CloudType: "AzureCloud"
