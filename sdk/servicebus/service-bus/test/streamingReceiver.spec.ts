@@ -22,7 +22,7 @@ import {
   testPeekMsgsLength
 } from "./utils/testutils2";
 import { getDeliveryProperty } from "./utils/misc";
-import { translate, MessagingError } from "@azure/core-amqp";
+import { translate, MessagingError, isNode } from "@azure/core-amqp";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -1323,6 +1323,14 @@ describe("Streaming - disconnects", function(): void {
       await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
   }
+
+  beforeEach(function() {
+    if (!isNode) {
+      // Skipping the "disconnect" tests in the browser since they fail.
+      // More info - https://github.com/Azure/azure-sdk-for-js/pull/8664#issuecomment-622651713
+      this.skip();
+    }
+  });
 
   afterEach(async () => {
     await serviceBusClient.test.afterEach();
