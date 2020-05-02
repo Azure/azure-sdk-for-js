@@ -46,17 +46,17 @@ export namespace MessageHeader {
    */
   export function toAmqpMessageHeader(props: MessageHeader): AmqpMessageHeader {
     const amqpHeader: AmqpMessageHeader = {};
-    if (props.deliveryCount != undefined) {
+    if (props.deliveryCount !== undefined) {
       amqpHeader.delivery_count = props.deliveryCount;
     }
-    if (props.durable != undefined) amqpHeader.durable = props.durable;
-    if (props.firstAcquirer != undefined) {
+    if (props.durable !== undefined) amqpHeader.durable = props.durable;
+    if (props.firstAcquirer !== undefined) {
       amqpHeader.first_acquirer = props.firstAcquirer;
     }
-    if (props.priority != undefined) {
+    if (props.priority !== undefined) {
       amqpHeader.priority = props.priority;
     }
-    if (props.ttl != undefined) {
+    if (props.ttl !== undefined) {
       amqpHeader.ttl = props.ttl;
     }
     logger.verbose("To AmqpMessageHeader: %O", amqpHeader);
@@ -71,19 +71,19 @@ export namespace MessageHeader {
    */
   export function fromAmqpMessageHeader(props: AmqpMessageHeader): MessageHeader {
     const msgHeader: MessageHeader = {};
-    if (props.delivery_count != undefined) {
+    if (props.delivery_count !== undefined) {
       msgHeader.deliveryCount = props.delivery_count;
     }
-    if (props.durable != undefined) {
+    if (props.durable !== undefined) {
       msgHeader.durable = props.durable;
     }
-    if (props.first_acquirer != undefined) {
+    if (props.first_acquirer !== undefined) {
       msgHeader.firstAcquirer = props.first_acquirer;
     }
-    if (props.priority != undefined) {
+    if (props.priority !== undefined) {
       msgHeader.priority = props.priority;
     }
-    if (props.ttl != undefined) {
+    if (props.ttl !== undefined) {
       msgHeader.ttl = props.ttl;
     }
     logger.verbose("From AmqpMessageHeader: %O", msgHeader);

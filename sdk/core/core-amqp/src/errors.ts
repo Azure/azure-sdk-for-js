@@ -519,7 +519,7 @@ export class MessagingError extends Error {
 
     // copy properties from system error
     for (const propName of systemErrorFieldsToCopy) {
-      if ((originalError as NetworkSystemError)[propName] != undefined) {
+      if ((originalError as NetworkSystemError)[propName] !== undefined) {
         this[propName] = (originalError as NetworkSystemError)[propName];
       }
     }
