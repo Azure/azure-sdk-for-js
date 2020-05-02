@@ -7,27 +7,22 @@ parameters:
   MaxParallel: 0
   TimeoutInMinutes: 60
   PublishCodeCoverage: false
+  TestBrowser: true
+  TestSamples: true
   Matrix:
-    Linux_Node10:
+    Linux Node 8:
       OSVmImage: "ubuntu-18.04"
       TestType: "node"
+      NodeVersion: "8.x"
       PublishCodeCoverage: true
-    Windows_Node10:
+    Windows Node 10:
       OSVmImage: "windows-2019"
       TestType: "node"
-    macOS_Node10:
+      NodeVersion: "10.x"
+    MacOS Node 12:
       OSVmImage: "macOS-10.15"
       TestType: "node"
-    Browser_Linux_Node10:
-      OSVmImage: "ubuntu-18.04"
-      TestType: "browser"
-      PublishCodeCoverage: true
-    Browser_Windows_Node10:
-      OSVmImage: "windows-2019"
-      TestType: "browser"
-    Browser_macOS_Node10:
-      OSVmImage: "macOS-10.15"
-      TestType: "browser"
+      NodeVersion: "12.x"
 
 jobs:
   - job: "IntegrationTest"
@@ -51,6 +46,23 @@ jobs:
 
             # Remaining entries from the matrix object
             ${{ insert }}: ${{ matrixEntry.value }}
+
+        # Add matrix entry for browser testing
+        ${{ if eq(parameters.TestBrowser, 'true') }}:
+          Windows Browser:
+            OSVmImage: "windows-2019"
+            TestType: "browser"
+            NodeVersion: "12.x"
+            CloudType: "AzureCloud"
+            TestResultsFiles: "**/test-results.browser.xml"
+
+        # Add matrix entry for sample testing
+        ${{ if eq(parameters.TestSamples, 'true') }}:
+          Samples Linux Node 10:
+            OSVmImage: "windows-2019"
+            TestType: "sample"
+            NodeVersion: "10.x"
+            CloudType: "AzureCloud"
 
     pool:
       vmImage: "$(OSVmImage)"

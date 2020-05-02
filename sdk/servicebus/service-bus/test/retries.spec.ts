@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
@@ -19,7 +19,7 @@ describe("Retries - ManagementClient", () => {
   let receiverClient: Receiver<ReceivedMessageWithLock> | SessionReceiver<ReceivedMessageWithLock>;
   let serviceBusClient: ServiceBusClientForTests;
   // let subscriptionRuleManager: SubscriptionRuleManager;
-  let defaultMaxRetries = 2;
+  const defaultMaxRetries = 2;
   let numberOfTimesManagementClientInvoked: number;
 
   before(() => {
@@ -231,7 +231,7 @@ describe("Retries - ManagementClient", () => {
 describe("Retries - MessageSender", () => {
   let senderClient: Sender;
   let serviceBusClient: ServiceBusClientForTests;
-  let defaultMaxRetries = 2;
+  const defaultMaxRetries = 2;
   let numberOfTimesInitInvoked: number;
 
   before(() => {
@@ -337,7 +337,7 @@ describe("Retries - MessageSender", () => {
 describe("Retries - Receive methods", () => {
   let receiverClient: Receiver<ReceivedMessageWithLock>;
   let serviceBusClient: ServiceBusClientForTests;
-  let defaultMaxRetries = 2;
+  const defaultMaxRetries = 2;
   let numberOfTimesTried: number;
 
   before(() => {
@@ -431,7 +431,7 @@ describe("Retries - onDetached", () => {
   let senderClient: Sender;
   let receiverClient: Receiver<ReceivedMessageWithLock> | SessionReceiver<ReceivedMessageWithLock>;
   let serviceBusClient: ServiceBusClientForTests;
-  let defaultMaxRetries = 2;
+  const defaultMaxRetries = 2;
   let numberOfTimesOnDetachedInvoked: number;
 
   before(() => {

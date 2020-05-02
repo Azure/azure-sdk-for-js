@@ -10,11 +10,11 @@ import * as coreHttp from "@azure/core-http";
 import * as Parameters from "./models/parameters";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
-import { FormRecognizerClientContext } from "./formRecognizerClientContext";
+import { GeneratedClientContext } from "./generatedClientContext";
 
-class FormRecognizerClient extends FormRecognizerClientContext {
+class GeneratedClient extends GeneratedClientContext {
   /**
-   * Initializes a new instance of the FormRecognizerClient class.
+   * Initializes a new instance of the GeneratedClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param endpoint Supported Cognitive Services endpoints (protocol and hostname, for example:
    *                 https://westus2.api.cognitive.microsoft.com).
@@ -23,7 +23,7 @@ class FormRecognizerClient extends FormRecognizerClientContext {
   constructor(
     credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,
     endpoint: string,
-    options?: Models.FormRecognizerClientOptionalParams
+    options?: Models.GeneratedClientOptionalParams
   ) {
     super(credentials, endpoint, options);
   }
@@ -43,11 +43,11 @@ class FormRecognizerClient extends FormRecognizerClientContext {
   trainCustomModelAsync(
     trainRequest: Models.TrainRequest,
     options?: coreHttp.OperationOptions
-  ): Promise<Models.FormRecognizerClientTrainCustomModelAsyncResponse> {
+  ): Promise<Models.GeneratedClientTrainCustomModelAsyncResponse> {
     return this.sendOperationRequest(
       { trainRequest, options },
       trainCustomModelAsyncOperationSpec
-    ) as Promise<Models.FormRecognizerClientTrainCustomModelAsyncResponse>;
+    ) as Promise<Models.GeneratedClientTrainCustomModelAsyncResponse>;
   }
 
   /**
@@ -57,12 +57,12 @@ class FormRecognizerClient extends FormRecognizerClientContext {
    */
   getCustomModel(
     modelId: string,
-    options?: Models.FormRecognizerClientGetCustomModelOptionalParams
-  ): Promise<Models.FormRecognizerClientGetCustomModelResponse> {
+    options?: Models.GeneratedClientGetCustomModelOptionalParams
+  ): Promise<Models.GeneratedClientGetCustomModelResponse> {
     return this.sendOperationRequest(
       { modelId, options },
       getCustomModelOperationSpec
-    ) as Promise<Models.FormRecognizerClientGetCustomModelResponse>;
+    ) as Promise<Models.GeneratedClientGetCustomModelResponse>;
   }
 
   /**
@@ -90,8 +90,8 @@ class FormRecognizerClient extends FormRecognizerClientContext {
    */
   analyzeWithCustomModel(
     modelId: string,
-    options?: Models.FormRecognizerClientAnalyzeWithCustomModelOptionalParams
-  ): Promise<Models.FormRecognizerClientAnalyzeWithCustomModelResponse> {
+    options?: Models.GeneratedClientAnalyzeWithCustomModelOptionalParams
+  ): Promise<Models.GeneratedClientAnalyzeWithCustomModelResponse> {
     let operationSpec: coreHttp.OperationSpec;
     if (
       options &&
@@ -107,7 +107,7 @@ class FormRecognizerClient extends FormRecognizerClientContext {
     return this.sendOperationRequest(
       { modelId, options },
       operationSpec
-    ) as Promise<Models.FormRecognizerClientAnalyzeWithCustomModelResponse>;
+    ) as Promise<Models.GeneratedClientAnalyzeWithCustomModelResponse>;
   }
 
   /**
@@ -120,11 +120,11 @@ class FormRecognizerClient extends FormRecognizerClientContext {
     modelId: string,
     resultId: string,
     options?: coreHttp.OperationOptions
-  ): Promise<Models.FormRecognizerClientGetAnalyzeFormResultResponse> {
+  ): Promise<Models.GeneratedClientGetAnalyzeFormResultResponse> {
     return this.sendOperationRequest(
       { modelId, resultId, options },
       getAnalyzeFormResultOperationSpec
-    ) as Promise<Models.FormRecognizerClientGetAnalyzeFormResultResponse>;
+    ) as Promise<Models.GeneratedClientGetAnalyzeFormResultResponse>;
   }
 
   /**
@@ -135,8 +135,8 @@ class FormRecognizerClient extends FormRecognizerClientContext {
    * @param options The options parameters.
    */
   analyzeReceiptAsync(
-    options?: Models.FormRecognizerClientAnalyzeReceiptAsyncOptionalParams
-  ): Promise<Models.FormRecognizerClientAnalyzeReceiptAsyncResponse> {
+    options?: Models.GeneratedClientAnalyzeReceiptAsyncOptionalParams
+  ): Promise<Models.GeneratedClientAnalyzeReceiptAsyncResponse> {
     let operationSpec: coreHttp.OperationSpec;
     if (
       options &&
@@ -150,7 +150,7 @@ class FormRecognizerClient extends FormRecognizerClientContext {
       operationSpec = analyzeReceiptAsync$jsonOperationSpec;
     }
     return this.sendOperationRequest({ options }, operationSpec) as Promise<
-      Models.FormRecognizerClientAnalyzeReceiptAsyncResponse
+      Models.GeneratedClientAnalyzeReceiptAsyncResponse
     >;
   }
 
@@ -162,11 +162,11 @@ class FormRecognizerClient extends FormRecognizerClientContext {
   getAnalyzeReceiptResult(
     resultId: string,
     options?: coreHttp.OperationOptions
-  ): Promise<Models.FormRecognizerClientGetAnalyzeReceiptResultResponse> {
+  ): Promise<Models.GeneratedClientGetAnalyzeReceiptResultResponse> {
     return this.sendOperationRequest(
       { resultId, options },
       getAnalyzeReceiptResultOperationSpec
-    ) as Promise<Models.FormRecognizerClientGetAnalyzeReceiptResultResponse>;
+    ) as Promise<Models.GeneratedClientGetAnalyzeReceiptResultResponse>;
   }
 
   /**
@@ -177,8 +177,8 @@ class FormRecognizerClient extends FormRecognizerClientContext {
    * @param options The options parameters.
    */
   analyzeLayoutAsync(
-    options?: Models.FormRecognizerClientAnalyzeLayoutAsyncOptionalParams
-  ): Promise<Models.FormRecognizerClientAnalyzeLayoutAsyncResponse> {
+    options?: Models.GeneratedClientAnalyzeLayoutAsyncOptionalParams
+  ): Promise<Models.GeneratedClientAnalyzeLayoutAsyncResponse> {
     let operationSpec: coreHttp.OperationSpec;
     if (
       options &&
@@ -192,7 +192,7 @@ class FormRecognizerClient extends FormRecognizerClientContext {
       operationSpec = analyzeLayoutAsync$jsonOperationSpec;
     }
     return this.sendOperationRequest({ options }, operationSpec) as Promise<
-      Models.FormRecognizerClientAnalyzeLayoutAsyncResponse
+      Models.GeneratedClientAnalyzeLayoutAsyncResponse
     >;
   }
 
@@ -204,11 +204,11 @@ class FormRecognizerClient extends FormRecognizerClientContext {
   getAnalyzeLayoutResult(
     resultId: string,
     options?: coreHttp.OperationOptions
-  ): Promise<Models.FormRecognizerClientGetAnalyzeLayoutResultResponse> {
+  ): Promise<Models.GeneratedClientGetAnalyzeLayoutResultResponse> {
     return this.sendOperationRequest(
       { resultId, options },
       getAnalyzeLayoutResultOperationSpec
-    ) as Promise<Models.FormRecognizerClientGetAnalyzeLayoutResultResponse>;
+    ) as Promise<Models.GeneratedClientGetAnalyzeLayoutResultResponse>;
   }
 
   /**
@@ -217,11 +217,11 @@ class FormRecognizerClient extends FormRecognizerClientContext {
    */
   listCustomModels(
     options?: coreHttp.OperationOptions
-  ): Promise<Models.FormRecognizerClientListCustomModelsResponse> {
+  ): Promise<Models.GeneratedClientListCustomModelsResponse> {
     return this.sendOperationRequest(
       { options },
       listCustomModelsOperationSpec
-    ) as Promise<Models.FormRecognizerClientListCustomModelsResponse>;
+    ) as Promise<Models.GeneratedClientListCustomModelsResponse>;
   }
 
   /**
@@ -230,11 +230,11 @@ class FormRecognizerClient extends FormRecognizerClientContext {
    */
   getCustomModels(
     options?: coreHttp.OperationOptions
-  ): Promise<Models.FormRecognizerClientGetCustomModelsResponse> {
+  ): Promise<Models.GeneratedClientGetCustomModelsResponse> {
     return this.sendOperationRequest(
       { options },
       getCustomModelsOperationSpec
-    ) as Promise<Models.FormRecognizerClientGetCustomModelsResponse>;
+    ) as Promise<Models.GeneratedClientGetCustomModelsResponse>;
   }
 
   /**
@@ -245,11 +245,11 @@ class FormRecognizerClient extends FormRecognizerClientContext {
   listCustomModelsNext(
     nextLink: string,
     options?: coreHttp.OperationOptions
-  ): Promise<Models.FormRecognizerClientListCustomModelsNextResponse> {
+  ): Promise<Models.GeneratedClientListCustomModelsNextResponse> {
     return this.sendOperationRequest(
       { nextLink, options },
       listCustomModelsNextOperationSpec
-    ) as Promise<Models.FormRecognizerClientListCustomModelsNextResponse>;
+    ) as Promise<Models.GeneratedClientListCustomModelsNextResponse>;
   }
 }
 // Operation Specifications
@@ -261,7 +261,7 @@ const trainCustomModelAsyncOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   responses: {
     201: {
-      headersMapper: Mappers.FormRecognizerClientTrainCustomModelAsyncHeaders
+      headersMapper: Mappers.GeneratedClientTrainCustomModelAsyncHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -303,7 +303,7 @@ const analyzeWithCustomModel$binaryOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   responses: {
     202: {
-      headersMapper: Mappers.FormRecognizerClientAnalyzeWithCustomModelHeaders
+      headersMapper: Mappers.GeneratedClientAnalyzeWithCustomModelHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -320,7 +320,7 @@ const analyzeWithCustomModel$jsonOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   responses: {
     202: {
-      headersMapper: Mappers.FormRecognizerClientAnalyzeWithCustomModelHeaders
+      headersMapper: Mappers.GeneratedClientAnalyzeWithCustomModelHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -350,7 +350,7 @@ const analyzeReceiptAsync$binaryOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   responses: {
     202: {
-      headersMapper: Mappers.FormRecognizerClientAnalyzeReceiptAsyncHeaders
+      headersMapper: Mappers.GeneratedClientAnalyzeReceiptAsyncHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -367,7 +367,7 @@ const analyzeReceiptAsync$jsonOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   responses: {
     202: {
-      headersMapper: Mappers.FormRecognizerClientAnalyzeReceiptAsyncHeaders
+      headersMapper: Mappers.GeneratedClientAnalyzeReceiptAsyncHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -397,7 +397,7 @@ const analyzeLayoutAsync$binaryOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   responses: {
     202: {
-      headersMapper: Mappers.FormRecognizerClientAnalyzeLayoutAsyncHeaders
+      headersMapper: Mappers.GeneratedClientAnalyzeLayoutAsyncHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -413,7 +413,7 @@ const analyzeLayoutAsync$jsonOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   responses: {
     202: {
-      headersMapper: Mappers.FormRecognizerClientAnalyzeLayoutAsyncHeaders
+      headersMapper: Mappers.GeneratedClientAnalyzeLayoutAsyncHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -486,8 +486,8 @@ const listCustomModelsNextOperationSpec: coreHttp.OperationSpec = {
 // Operation Specifications
 
 export {
-  FormRecognizerClient,
-  FormRecognizerClientContext,
-  Models as FormRecognizerModels,
-  Mappers as FormRecognizerMappers
+  GeneratedClient,
+  GeneratedClientContext,
+  Models as GeneratedModels,
+  Mappers as GeneratedMappers
 };

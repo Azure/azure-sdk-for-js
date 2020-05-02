@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import chai from "chai";
 import Long from "long";
@@ -667,7 +667,7 @@ describe("invalid parameters", () => {
         TestClientType.PartitionedQueue
       );
 
-      //const clients = await getSenderReceiverClients(TestClientType.PartitionedQueue, "peekLock");
+      // const clients = await getSenderReceiverClients(TestClientType.PartitionedQueue, "peekLock");
       sender = serviceBusClient.test.addToCleanup(await serviceBusClient.createSender(queue!));
     });
 
