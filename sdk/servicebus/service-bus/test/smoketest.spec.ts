@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { delay, ServiceBusMessage, ReceivedMessage, Receiver } from "../src";
 import { TestClientType } from "./utils/testUtils";
@@ -34,8 +34,8 @@ describe("Sample scenarios for track 2", () => {
       queueName = queue!;
     });
 
-    beforeEach(() => {
-      sender = serviceBusClient.test.addToCleanup(serviceBusClient.createSender(queueName));
+    beforeEach(async () => {
+      sender = serviceBusClient.test.addToCleanup(await serviceBusClient.createSender(queueName));
     });
 
     afterEach(async () => {
@@ -191,8 +191,8 @@ describe("Sample scenarios for track 2", () => {
       subscription = entity.subscription!;
     });
 
-    beforeEach(() => {
-      sender = serviceBusClient.test.addToCleanup(serviceBusClient.createSender(topic));
+    beforeEach(async () => {
+      sender = serviceBusClient.test.addToCleanup(await serviceBusClient.createSender(topic));
     });
 
     afterEach(async () => {
@@ -332,7 +332,7 @@ describe("Sample scenarios for track 2", () => {
         TestClientType.UnpartitionedQueueWithSessions
       );
       queue = entities.queue!;
-      sender = serviceBusClient.test.addToCleanup(serviceBusClient.createSender(queue));
+      sender = serviceBusClient.test.addToCleanup(await serviceBusClient.createSender(queue));
     });
 
     it("Queue, next unlocked session, sessions", async () => {

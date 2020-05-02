@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
@@ -39,7 +39,7 @@ describe("Backup message settlement - Through ManagementLink", () => {
     receiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
 
     senderClient = serviceBusClient.test.addToCleanup(
-      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+      await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
 
     deadLetterClient = serviceBusClient.test.createDeadLetterReceiver(entityNames);

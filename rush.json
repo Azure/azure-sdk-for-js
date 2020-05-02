@@ -373,6 +373,11 @@
       "versionPolicyName": "core"
     },
     {
+      "packageName": "@azure/core-https",
+      "projectFolder": "sdk/core/core-https",
+      "versionPolicyName": "core"
+    },
+    {
       "packageName": "@azure/core-lro",
       "projectFolder": "sdk/core/core-lro",
       "versionPolicyName": "core"

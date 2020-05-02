@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { SubscriptionEventHandlers, ReceivedEventData, PartitionContext } from "../../src";
 
 export class FakeSubscriptionEventHandlers implements SubscriptionEventHandlers {

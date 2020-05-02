@@ -16,12 +16,12 @@ import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
 import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/api";
-import { FormRecognizerClient as GeneratedClient } from "./generated/formRecognizerClient";
+import { GeneratedClient } from "./generated/generatedClient";
 import {
-  FormRecognizerClientGetCustomModelsResponse as ListModelsResponseModel,
+  GeneratedClientGetCustomModelsResponse as ListModelsResponseModel,
   Model,
   ModelInfo,
-  FormRecognizerClientTrainCustomModelAsyncResponse
+  GeneratedClientTrainCustomModelAsyncResponse
 } from "./generated/models";
 import { TrainPollerClient, BeginTrainingPoller, BeginTrainingPollState } from "./lro/train/poller";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
@@ -439,7 +439,7 @@ async function trainCustomModelInternal(
   source: string,
   useLabelFile?: boolean,
   options?: TrainModelOptions
-): Promise<FormRecognizerClientTrainCustomModelAsyncResponse> {
+): Promise<GeneratedClientTrainCustomModelAsyncResponse> {
   const realOptions = options || {};
   const { span, updatedOptions: finalOptions } = createSpan(
     "trainCustomModelInternal",

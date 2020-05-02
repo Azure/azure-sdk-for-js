@@ -1,4 +1,6 @@
 steps:
+  - template: /eng/common/pipelines/templates/steps/bypass-local-dns.yml
+
   - task: UsePythonVersion@0
     displayName: "Use Python 3.6"
     inputs:

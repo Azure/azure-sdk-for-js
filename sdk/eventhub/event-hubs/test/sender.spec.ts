@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import chai from "chai";
 const should = chai.should();
@@ -276,6 +276,24 @@ describe("EventHub Sender", function(): void {
       consumerClient.close();
     });
 
+    describe("tryAdd", function() {
+      it("doesn't grow if invalid events are added", async () => {
+        const batch = await producerClient.createBatch({ maxSizeInBytes: 20 });
+        const event = { body: Buffer.alloc(30).toString() };
+
+        const numToAdd = 5;
+        let failures = 0;
+        for (let i = 0; i < numToAdd; i++) {
+          if (!batch.tryAdd(event)) {
+            failures++;
+          }
+        }
+
+        failures.should.equal(5);
+        batch.sizeInBytes.should.equal(0);
+      });
+    });
+
     it("should be sent successfully", async function(): Promise<void> {
       const list = ["Albert", `${Buffer.from("Mike".repeat(1300000))}`, "Marie"];
 
@@ -288,7 +306,7 @@ describe("EventHub Sender", function(): void {
       batch.maxSizeInBytes.should.be.gt(0);
 
       batch.tryAdd({ body: list[0] }).should.be.ok;
-      batch.tryAdd({ body: list[1] }).should.not.be.ok; //The Mike message will be rejected - it's over the limit.
+      batch.tryAdd({ body: list[1] }).should.not.be.ok; // The Mike message will be rejected - it's over the limit.
       batch.tryAdd({ body: list[2] }).should.be.ok; // Marie should get added";
 
       const {
@@ -313,6 +331,62 @@ describe("EventHub Sender", function(): void {
       // and was rejected above.
       [list[0], list[2]].should.be.deep.eq(
         receivedEvents.map((event) => event.body),
+        "Received messages should be equal to our sent messages"
+      );
+    });
+
+    it("should be sent successfully with properties", async function(): Promise<void> {
+      const properties = { test: "super" };
+      const list = [
+        { body: "Albert", properties },
+        { body: "Mike", properties },
+        { body: "Marie", properties }
+      ];
+
+      const batch = await producerClient.createBatch({
+        partitionId: "0"
+      });
+
+      batch.maxSizeInBytes.should.be.gt(0);
+
+      batch.tryAdd(list[0]).should.be.ok;
+      batch.tryAdd(list[1]).should.be.ok;
+      batch.tryAdd(list[2]).should.be.ok;
+
+      const receivedEvents: ReceivedEventData[] = [];
+      let waitUntilEventsReceivedResolver: Function;
+      const waitUntilEventsReceived = new Promise((r) => (waitUntilEventsReceivedResolver = r));
+      const subscriber = consumerClient.subscribe(
+        "0",
+        {
+          async processError() {},
+          async processEvents(events) {
+            receivedEvents.push(...events);
+            if (receivedEvents.length >= 3) {
+              waitUntilEventsReceivedResolver();
+            }
+          }
+        },
+        {
+          startPosition: {
+            sequenceNumber: (await consumerClient.getPartitionProperties("0"))
+              .lastEnqueuedSequenceNumber
+          },
+          maxBatchSize: 3
+        }
+      );
+
+      await producerClient.sendBatch(batch);
+      await waitUntilEventsReceived;
+      await subscriber.close();
+
+      [list[0], list[1], list[2]].should.be.deep.eq(
+        receivedEvents.map((event) => {
+          return {
+            body: event.body,
+            properties: event.properties
+          };
+        }),
         "Received messages should be equal to our sent messages"
       );
     });
@@ -500,7 +574,7 @@ describe("EventHub Sender", function(): void {
     it("should throw when maxMessageSize is greater than maximum message size on the AMQP sender link", async function(): Promise<
       void
     > {
-      let newClient: EventHubProducerClient = new EventHubProducerClient(
+      const newClient: EventHubProducerClient = new EventHubProducerClient(
         service.connectionString,
         service.path
       );

@@ -20,11 +20,11 @@ import {
 } from "./common";
 import { CanonicalCode } from "@opentelemetry/api";
 
-import { FormRecognizerClient as GeneratedClient } from "./generated/formRecognizerClient";
+import { GeneratedClient } from "./generated/generatedClient";
 import {
-  FormRecognizerClientAnalyzeWithCustomModelResponse as AnalyzeWithCustomModelResponseModel,
-  FormRecognizerClientAnalyzeLayoutAsyncResponse as AnalyzeLayoutAsyncResponseModel,
-  FormRecognizerClientAnalyzeReceiptAsyncResponse as AnalyzeReceiptAsyncResponseModel,
+  GeneratedClientAnalyzeWithCustomModelResponse as AnalyzeWithCustomModelResponseModel,
+  GeneratedClientAnalyzeLayoutAsyncResponse as AnalyzeLayoutAsyncResponseModel,
+  GeneratedClientAnalyzeReceiptAsyncResponse as AnalyzeReceiptAsyncResponseModel,
   ContentType,
   SourcePath
 } from "./generated/models";
