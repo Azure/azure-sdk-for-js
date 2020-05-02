@@ -55,7 +55,7 @@ export const environmentSetup: RecorderEnvironmentSetup = {
     },
     // replace the SAS token
     (recording: string): string => {
-      return recording.replace(/\?[^"]*"/, `?sastoken"`).replace(/\?[^"]*\\"/, `?sastoken\\"`);
+      return recording.replace(/\?sv[^"]*"/, `?sastoken"`).replace(/\?sv[^\\"]*\\"/, `?sastoken\\"`);
     }
   ],
   queryParametersToSkip: []

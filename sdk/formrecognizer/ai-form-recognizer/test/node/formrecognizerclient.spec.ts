@@ -106,7 +106,7 @@ describe("FormRecognizerClient NodeJS only", () => {
     );
   });
 
-  it.only("recognizes content from a url", async () => {
+  it("recognizes content from a url", async () => {
     const testingContainerUrl: string = env.FORM_RECOGNIZER_TESTING_CONTAINER_SAS_URL;
     const urlParts = testingContainerUrl.split("?");
     const url = `${urlParts[0]}/Invoice_1.pdf?${urlParts[1]}`;
