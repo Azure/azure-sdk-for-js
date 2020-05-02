@@ -32,7 +32,7 @@ import {
   sendOneMessagePerPartition
 } from "./utils/subscriptionHandlerForTests";
 import { GreedyPartitionLoadBalancer, PartitionLoadBalancer } from "../src/partitionLoadBalancer";
-import { AbortError } from "@azure/abort-controller";
+import { AbortError, AbortSignal } from "@azure/abort-controller";
 import { FakeSubscriptionEventHandlers } from "./utils/fakeSubscriptionEventHandlers";
 import sinon from "sinon";
 import { isLatestPosition } from "../src/eventPosition";
