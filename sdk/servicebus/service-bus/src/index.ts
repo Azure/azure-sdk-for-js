@@ -16,8 +16,6 @@ export {
 
 export { SessionReceiverOptions, SessionMessageHandlerOptions } from "./session/messageSession";
 
-export { CorrelationFilter, RuleDescription } from "./core/managementClient";
-
 export {
   ReceivedMessage,
   ServiceBusMessage,
@@ -43,7 +41,6 @@ export {
 export { OperationOptions } from "./modelsToBeSharedWithEventHubs";
 
 export { Receiver } from "./receivers/receiver";
-export { SubscriptionRuleManager } from "./receivers/subscriptionRuleManager";
 export { SessionReceiver } from "./receivers/sessionReceiver";
 export { Sender } from "./sender";
 export { ServiceBusClient } from "./serviceBusClient";

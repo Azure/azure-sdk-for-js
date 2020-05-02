@@ -15,10 +15,6 @@ import { CreateSessionReceiverOptions, CreateSenderOptions } from "./models";
 import { Receiver, ReceiverImpl } from "./receivers/receiver";
 import { SessionReceiver, SessionReceiverImpl } from "./receivers/sessionReceiver";
 import { ReceivedMessageWithLock, ReceivedMessage } from "./serviceBusMessage";
-import {
-  SubscriptionRuleManagerImpl,
-  SubscriptionRuleManager
-} from "./receivers/subscriptionRuleManager";
 import { getRetryAttemptTimeoutInMs } from "./util/utils";
 
 /**
@@ -257,22 +253,22 @@ export class ServiceBusClient {
     return sender;
   }
 
-  /**
-   * Gets a SubscriptionRuleManager, which allows you to manage Service Bus subscription rules.
-   * More information about subscription rules can be found here: https://docs.microsoft.com/en-us/azure/service-bus-messaging/topic-filters
-   * @param topic The topic for the subscription.
-   * @param subscription The subscription.
-   */
-  getSubscriptionRuleManager(topic: string, subscription: string): SubscriptionRuleManager {
-    const entityPath = `${topic}/Subscriptions/${subscription}`;
-    const clientEntityContext = ClientEntityContext.create(
-      entityPath,
-      this._connectionContext,
-      `${entityPath}/${generate_uuid()}`
-    );
+  // /**
+  //  * Gets a SubscriptionRuleManager, which allows you to manage Service Bus subscription rules.
+  //  * More information about subscription rules can be found here: https://docs.microsoft.com/en-us/azure/service-bus-messaging/topic-filters
+  //  * @param topic The topic for the subscription.
+  //  * @param subscription The subscription.
+  //  */
+  // getSubscriptionRuleManager(topic: string, subscription: string): SubscriptionRuleManager {
+  //   const entityPath = `${topic}/Subscriptions/${subscription}`;
+  //   const clientEntityContext = ClientEntityContext.create(
+  //     entityPath,
+  //     this._connectionContext,
+  //     `${entityPath}/${generate_uuid()}`
+  //   );
 
-    return new SubscriptionRuleManagerImpl(clientEntityContext, this._clientOptions.retryOptions);
-  }
+  //   return new SubscriptionRuleManagerImpl(clientEntityContext, this._clientOptions.retryOptions);
+  // }
 
   /**
    * Creates a receiver for an Azure Service Bus queue's dead letter queue.

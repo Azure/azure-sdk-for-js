@@ -24,19 +24,6 @@ export interface BrowseMessagesOptions extends OperationOptions {
 }
 
 // @public
-export interface CorrelationFilter {
-    contentType?: string;
-    correlationId?: string;
-    label?: string;
-    messageId?: string;
-    replyTo?: string;
-    replyToSessionId?: string;
-    sessionId?: string;
-    to?: string;
-    userProperties?: any;
-}
-
-// @public
 export interface CreateBatchOptions extends OperationOptions {
     maxSizeInBytes?: number;
 }
@@ -134,13 +121,6 @@ export interface Receiver<ReceivedMessageT> {
 export { RetryOptions }
 
 // @public
-export interface RuleDescription {
-    action?: string;
-    filter?: string | CorrelationFilter;
-    name: string;
-}
-
-// @public
 export interface Sender {
     cancelScheduledMessage(sequenceNumber: Long, options?: OperationOptions): Promise<void>;
     cancelScheduledMessages(sequenceNumbers: Long[], options?: OperationOptions): Promise<void>;
@@ -172,7 +152,6 @@ export class ServiceBusClient {
     createSessionReceiver(queueName: string, receiveMode: "receiveAndDelete", options?: CreateSessionReceiverOptions): Promise<SessionReceiver<ReceivedMessage>>;
     createSessionReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock", options?: CreateSessionReceiverOptions): Promise<SessionReceiver<ReceivedMessageWithLock>>;
     createSessionReceiver(topicName: string, subscriptionName: string, receiveMode: "receiveAndDelete", options?: CreateSessionReceiverOptions): Promise<SessionReceiver<ReceivedMessage>>;
-    getSubscriptionRuleManager(topic: string, subscription: string): SubscriptionRuleManager;
 }
 
 // @public
@@ -232,15 +211,6 @@ export interface SessionReceiverOptions {
 
 // @public
 export interface SubscribeOptions extends OperationOptions, MessageHandlerOptions {
-}
-
-// @public
-export interface SubscriptionRuleManager {
-    addRule(ruleName: string, filter: boolean | string | CorrelationFilter, sqlRuleActionExpression?: string, options?: OperationOptions): Promise<void>;
-    close(): Promise<void>;
-    readonly defaultRuleName: string;
-    getRules(options?: OperationOptions): Promise<RuleDescription[]>;
-    removeRule(ruleName: string, options?: OperationOptions): Promise<void>;
 }
 
 export { TokenCredential }
