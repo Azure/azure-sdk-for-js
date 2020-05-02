@@ -11,10 +11,10 @@ import {
   PageResult as PageResultModel,
   ReadResult as ReadResultModel,
   TextLine as TextLineModel,
-  FormRecognizerClientGetAnalyzeFormResultResponse as GetAnalyzeFormResultResponse,
-  FormRecognizerClientGetAnalyzeLayoutResultResponse as GetAnalyzeLayoutResultResponse,
-  FormRecognizerClientGetAnalyzeReceiptResultResponse as GetAnalyzeReceiptResultResponse,
-  FormRecognizerClientGetCustomModelResponse as GetCustomModelResponse
+  GeneratedClientGetAnalyzeFormResultResponse as GetAnalyzeFormResultResponse,
+  GeneratedClientGetAnalyzeLayoutResultResponse as GetAnalyzeLayoutResultResponse,
+  GeneratedClientGetAnalyzeReceiptResultResponse as GetAnalyzeReceiptResultResponse,
+  GeneratedClientGetCustomModelResponse as GetCustomModelResponse
 } from "./generated/models";
 
 import {

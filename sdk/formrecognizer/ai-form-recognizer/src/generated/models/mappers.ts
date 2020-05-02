@@ -836,22 +836,22 @@ export const ModelsSummary: coreHttp.CompositeMapper = {
   }
 };
 
-export const FormRecognizerClientTrainCustomModelAsyncHeaders: coreHttp.CompositeMapper = {
-  serializedName: "formRecognizerClient_trainCustomModelAsyncHeaders",
+export const GeneratedClientTrainCustomModelAsyncHeaders: coreHttp.CompositeMapper = {
+  serializedName: "generatedClient_trainCustomModelAsyncHeaders",
   type: {
     name: "Composite",
-    className: "FormRecognizerClientTrainCustomModelAsyncHeaders",
+    className: "GeneratedClientTrainCustomModelAsyncHeaders",
     modelProperties: {
       location: { type: { name: "String" }, serializedName: "location" }
     }
   }
 };
 
-export const FormRecognizerClientAnalyzeWithCustomModelHeaders: coreHttp.CompositeMapper = {
-  serializedName: "formRecognizerClient_analyzeWithCustomModelHeaders",
+export const GeneratedClientAnalyzeWithCustomModelHeaders: coreHttp.CompositeMapper = {
+  serializedName: "generatedClient_analyzeWithCustomModelHeaders",
   type: {
     name: "Composite",
-    className: "FormRecognizerClientAnalyzeWithCustomModelHeaders",
+    className: "GeneratedClientAnalyzeWithCustomModelHeaders",
     modelProperties: {
       operationLocation: {
         type: { name: "String" },
@@ -861,11 +861,11 @@ export const FormRecognizerClientAnalyzeWithCustomModelHeaders: coreHttp.Composi
   }
 };
 
-export const FormRecognizerClientAnalyzeReceiptAsyncHeaders: coreHttp.CompositeMapper = {
-  serializedName: "formRecognizerClient_analyzeReceiptAsyncHeaders",
+export const GeneratedClientAnalyzeReceiptAsyncHeaders: coreHttp.CompositeMapper = {
+  serializedName: "generatedClient_analyzeReceiptAsyncHeaders",
   type: {
     name: "Composite",
-    className: "FormRecognizerClientAnalyzeReceiptAsyncHeaders",
+    className: "GeneratedClientAnalyzeReceiptAsyncHeaders",
     modelProperties: {
       operationLocation: {
         type: { name: "String" },
@@ -875,11 +875,11 @@ export const FormRecognizerClientAnalyzeReceiptAsyncHeaders: coreHttp.CompositeM
   }
 };
 
-export const FormRecognizerClientAnalyzeLayoutAsyncHeaders: coreHttp.CompositeMapper = {
-  serializedName: "formRecognizerClient_analyzeLayoutAsyncHeaders",
+export const GeneratedClientAnalyzeLayoutAsyncHeaders: coreHttp.CompositeMapper = {
+  serializedName: "generatedClient_analyzeLayoutAsyncHeaders",
   type: {
     name: "Composite",
-    className: "FormRecognizerClientAnalyzeLayoutAsyncHeaders",
+    className: "GeneratedClientAnalyzeLayoutAsyncHeaders",
     modelProperties: {
       operationLocation: {
         type: { name: "String" },
