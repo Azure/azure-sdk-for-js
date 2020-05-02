@@ -128,13 +128,13 @@ function buildAttributes(attrs: { [key: string]: { toString(): string } }): Attr
 
 function buildNode(obj: any, elementName: string): Node[] {
   if (
-    obj == undefined ||
+    obj === undefined ||
     typeof obj === "string" ||
     typeof obj === "number" ||
     typeof obj === "boolean"
   ) {
     const elem = doc.createElement(elementName);
-    elem.textContent = obj == undefined ? "" : obj.toString();
+    elem.textContent = obj === undefined ? "" : obj.toString();
     return [elem];
   } else if (Array.isArray(obj)) {
     const result = [];

@@ -181,7 +181,7 @@ function retry(
       .then((res) => retry(policy, request, res, retryData, err))
       .catch((err) => retry(policy, request, operationResponse, retryData, err));
   } else {
-    if (err != undefined) {
+    if (err !== undefined) {
       // If the operation failed in the end, return all errors instead of just the last one
       err = retryData.error;
       return Promise.reject(err);

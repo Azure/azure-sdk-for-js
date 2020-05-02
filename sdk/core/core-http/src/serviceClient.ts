@@ -351,20 +351,20 @@ export class ServiceClient {
             queryParameter,
             operationSpec.serializer
           );
-          if (queryParameterValue != undefined) {
+          if (queryParameterValue !== undefined) {
             queryParameterValue = operationSpec.serializer.serialize(
               queryParameter.mapper,
               queryParameterValue,
               getPathStringFromParameter(queryParameter)
             );
-            if (queryParameter.collectionFormat != undefined) {
+            if (queryParameter.collectionFormat !== undefined) {
               if (queryParameter.collectionFormat === QueryCollectionFormat.Multi) {
                 if (queryParameterValue.length === 0) {
                   queryParameterValue = "";
                 } else {
                   for (const index in queryParameterValue) {
                     const item = queryParameterValue[index];
-                    queryParameterValue[index] = item == undefined ? "" : item.toString();
+                    queryParameterValue[index] = item === undefined ? "" : item.toString();
                   }
                 }
               } else if (
@@ -389,7 +389,7 @@ export class ServiceClient {
               }
             }
             if (
-              queryParameter.collectionFormat != undefined &&
+              queryParameter.collectionFormat !== undefined &&
               queryParameter.collectionFormat !== QueryCollectionFormat.Multi &&
               queryParameter.collectionFormat !== QueryCollectionFormat.Ssv &&
               queryParameter.collectionFormat !== QueryCollectionFormat.Tsv
@@ -418,7 +418,7 @@ export class ServiceClient {
             headerParameter,
             operationSpec.serializer
           );
-          if (headerValue != undefined) {
+          if (headerValue !== undefined) {
             headerValue = operationSpec.serializer.serialize(
               headerParameter.mapper,
               headerValue,
@@ -478,7 +478,7 @@ export class ServiceClient {
 
       serializeRequestBody(this, httpRequest, operationArguments, operationSpec);
 
-      if (httpRequest.streamResponseBody == undefined) {
+      if (httpRequest.streamResponseBody === undefined) {
         httpRequest.streamResponseBody = isStreamOperation(operationSpec);
       }
 
@@ -538,7 +538,7 @@ export function serializeRequestBody(
     const typeName = bodyMapper.type.name;
 
     try {
-      if (httpRequest.body != undefined || required) {
+      if (httpRequest.body !== undefined || required) {
         const requestBodyParameterPathString: string = getPathStringFromParameter(
           operationSpec.requestBody
         );
@@ -593,7 +593,7 @@ export function serializeRequestBody(
         formDataParameter,
         operationSpec.serializer
       );
-      if (formDataParameterValue != undefined) {
+      if (formDataParameterValue !== undefined) {
         const formDataParameterPropertyName: string =
           formDataParameter.mapper.serializedName || getPathStringFromParameter(formDataParameter);
         httpRequest.formData[formDataParameterPropertyName] = operationSpec.serializer.serialize(
@@ -874,7 +874,7 @@ function getPropertyFromParameterPath(
   for (; i < parameterPath.length; ++i) {
     const parameterPathPart: string = parameterPath[i];
     // Make sure to check inherited properties too, so don't use hasOwnProperty().
-    if (parent != undefined && parameterPathPart in parent) {
+    if (parent !== undefined && parameterPathPart in parent) {
       parent = parent[parameterPathPart];
     } else {
       break;
