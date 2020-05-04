@@ -1,9 +1,10 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 /**
  * Shorthand enum for common traceFlags values inside SpanContext
  */
+// eslint-disable-next-line @azure/azure-sdk/ts-no-const-enums
 export const enum TraceFlags {
   /** No flag set. */
   NONE = 0x0,
