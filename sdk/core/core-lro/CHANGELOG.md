@@ -1,5 +1,8 @@
 # Release History
 
+## 1.0.3 (Unreleased)
+
+
 ## 1.0.2 (2020-04-28)
 - Moved `@opentelemetry/types` to the `devDependencies`.
 

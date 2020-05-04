@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import uuid from "uuid/v4";
 import { logger, logErrorStackTrace } from "./log";
@@ -330,7 +330,7 @@ export class EventHubSender extends LinkEntity {
 
       let encodedBatchMessage: Buffer | undefined;
       if (isEventDataBatch(events)) {
-        encodedBatchMessage = events._message!;
+        encodedBatchMessage = events._generateMessage();
       } else {
         const partitionKey = (options && options.partitionKey) || undefined;
         const messages: AmqpMessage[] = [];

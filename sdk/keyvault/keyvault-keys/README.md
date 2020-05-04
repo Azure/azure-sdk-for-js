@@ -29,15 +29,8 @@ Using the cryptography client available in this library you also have access to
 
 **Prerequisites**: You must have an [Azure subscription](https://azure.microsoft.com/free/) and a
 [Key Vault resource](https://docs.microsoft.com/en-us/azure/key-vault/quick-create-portal) to use this package.
-If you are using this package in a Node.js application, then use Node.js 6.x or higher.
 
-You can deploy our sample template for Key Vault resources in Azure by clicking here:
-
-[![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsdk%2Fkeyvault%2Ftest-resources.json)
-
-Deploying these resources constitutes a purchase of Azure services that will be billed to your active account.
-
-To read more information about how this form works, and how to fill it, please read our [TEST_RESOURCES_README.md guide](../TEST_RESOURCES_README.md).
+If you are using this package in a Node.js application, then use Node.js 8.x or higher.
 
 ### Install the package
 

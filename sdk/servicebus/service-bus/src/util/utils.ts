@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import Long from "long";
 import * as log from "../log";
@@ -8,6 +8,7 @@ import isBuffer from "is-buffer";
 import { Buffer } from "buffer";
 import * as Constants from "../util/constants";
 import { Constants as CoreAMQPConstants, RetryOptions } from "@azure/core-amqp";
+import { DispositionStatus, DispositionType } from "../serviceBusMessage";
 
 // This is the only dependency we have on DOM types, so rather than require
 // the DOM lib we can just shim this in.
@@ -510,6 +511,24 @@ function buildRawAuthorizationRule(authorizationRule: AuthorizationRule): any {
 export function isAbsoluteUrl(url: string) {
   const _url = url.toLowerCase();
   return _url.startsWith("sb://") || _url.startsWith("http://") || _url.startsWith("https://");
+}
+
+/**
+ * Helper method to map `DispositionStatus` to `DispositionType`
+ *
+ * @internal
+ * @ignore
+ * @param {DispositionStatus} dispositionStatus
+ * @returns {(DispositionType | undefined)}
+ */
+export function getDispositionType(
+  dispositionStatus: DispositionStatus
+): DispositionType | undefined {
+  if (dispositionStatus === DispositionStatus.abandoned) return DispositionType.abandon;
+  else if (dispositionStatus === DispositionStatus.completed) return DispositionType.complete;
+  else if (dispositionStatus === DispositionStatus.defered) return DispositionType.defer;
+  else if (dispositionStatus === DispositionStatus.suspended) return DispositionType.deadletter;
+  return undefined;
 }
 
 /**

@@ -1,7 +1,9 @@
 # Release History
 
-## 1.1.0-preview.3 (Unreleased)
-
+## 1.1.0-preview.3 (2020-05-05)
+- Add ability to read AZURE_AUTHORITY_HOST from environment ([PR  #8226](https://github.com/Azure/azure-sdk-for-js/pull/8226) [PR #8343](https://github.com/Azure/azure-sdk-for-js/pull/8343))
+- Update to OpenTelemetry 0.6 ([PR #7998](https://github.com/Azure/azure-sdk-for-js/pull/7998))
+- Set expires_on at a higher precedence for IMDS ([PR #8591](https://github.com/Azure/azure-sdk-for-js/pull/8591))
 
 ## 1.1.0-preview.2 (2020-04-07)
 

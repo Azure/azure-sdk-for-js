@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { CheckpointStore } from "./eventProcessor";
 import { CloseReason } from "./models/public";
 import { ReceivedEventData } from "./eventData";

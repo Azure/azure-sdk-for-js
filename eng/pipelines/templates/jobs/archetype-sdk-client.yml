@@ -150,9 +150,10 @@ jobs:
           node common/scripts/install-run-rush.js install
         displayName: "Install library dependencies"
 
-      - script: |
+      - pwsh: |
+          node common/scripts/install-run-rush.js build -t @azure/eslint-plugin-azure-sdk
           node eng/tools/rush-runner.js lint "${{parameters.ServiceDirectory}}"
-        displayName: "Lint libraries"
+        displayName: "Build ESLint Plugin and Lint Libraries"
 
       - script: |
           node eng/tools/rush-runner.js audit "${{parameters.ServiceDirectory}}"
@@ -236,9 +237,19 @@ jobs:
 
         # Unlink node_modules folders to significantly improve performance of subsequent tasks
         # which need to walk the directory tree (and are hardcoded to follow symlinks).
-        - script: |
-            node eng/tools/rush-runner.js unlink
-          condition: succeededOrFailed()
+        # Retry for 30 seconds, since this command may fail with error "Another rush command is already
+        # running in this repository" if the previous rush command was killed.
+        - pwsh: |
+            for ($i=0; $i -lt 30; $i++) {
+              node eng/tools/rush-runner.js unlink
+              if ($lastexitcode -eq 0) {
+                break
+              }
+              else {
+                start-sleep 1
+              }
+            }
+          condition: always()
           displayName: "Unlink dependencies"
 
         # It's important for performance to pass "sdk" as "searchFolder" to avoid looking under root "node_modules".

@@ -15,7 +15,7 @@ export {
 } from "./webResource";
 export { DefaultHttpClient } from "./defaultHttpClient";
 export { HttpClient } from "./httpClient";
-export { HttpHeaders, HttpHeadersLike } from "./httpHeaders";
+export { HttpHeader, HttpHeaders, HttpHeadersLike, RawHttpHeaders } from "./httpHeaders";
 export { HttpOperationResponse, HttpResponse, RestResponse } from "./httpOperationResponse";
 export { HttpPipelineLogger } from "./httpPipelineLogger";
 export { HttpPipelineLogLevel } from "./httpPipelineLogLevel";
@@ -29,7 +29,8 @@ export {
 export {
   OperationParameter,
   OperationQueryParameter,
-  OperationURLParameter
+  OperationURLParameter,
+  ParameterPath
 } from "./operationParameter";
 export { OperationResponse } from "./operationResponse";
 export { OperationSpec } from "./operationSpec";
@@ -62,16 +63,19 @@ export { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
 export { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
 export { getDefaultProxySettings, proxyPolicy } from "./policies/proxyPolicy";
 export { redirectPolicy, RedirectOptions } from "./policies/redirectPolicy";
-export { keepAlivePolicy, KeepAliveOptions } from "./policies/keepAlivePolicy";
-export { disableResponseDecompressionPolicy } from "./policies/disableResponseDecompressionPolicy";
+export { keepAlivePolicy, KeepAlivePolicy, KeepAliveOptions } from "./policies/keepAlivePolicy";
+export {
+  DisableResponseDecompressionPolicy,
+  disableResponseDecompressionPolicy } from "./policies/disableResponseDecompressionPolicy";
 export { signingPolicy } from "./policies/signingPolicy";
 export {
   userAgentPolicy,
   getDefaultUserAgentValue,
-  UserAgentOptions
+  UserAgentOptions,
+  TelemetryInfo
 } from "./policies/userAgentPolicy";
-export { deserializationPolicy, deserializeResponseBody } from "./policies/deserializationPolicy";
-export { tracingPolicy } from "./policies/tracingPolicy";
+export { deserializationPolicy, DeserializationOptions, deserializeResponseBody, DeserializationContentTypes } from "./policies/deserializationPolicy";
+export { tracingPolicy, TracingPolicyOptions } from "./policies/tracingPolicy";
 export {
   MapperType,
   SimpleMapperType,
