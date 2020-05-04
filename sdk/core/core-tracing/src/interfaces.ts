@@ -4,7 +4,6 @@
 /**
  * Shorthand enum for common traceFlags values inside SpanContext
  */
-// eslint-disable-next-line @azure/azure-sdk/ts-no-const-enums
 export const enum TraceFlags {
   /** No flag set. */
   NONE = 0x0,
