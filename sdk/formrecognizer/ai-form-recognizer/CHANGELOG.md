@@ -2,7 +2,7 @@
 
 ## 1.0.0-preview.2 (2020-05-05)
 
-`FormTrainingClient.listModels()` now works correctly on NodeJs v8.
+- `FormTrainingClient.listModels()` now works correctly on NodeJs v8.
 
 ## 1.0.0-preview.1 (2020-04-23)
 
