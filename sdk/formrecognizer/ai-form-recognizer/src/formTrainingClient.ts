@@ -12,6 +12,7 @@ import {
 } from "@azure/core-http";
 import { KeyCredential } from "@azure/core-auth";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import "@azure/core-paging";
 import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
 import { createSpan } from "./tracing";
