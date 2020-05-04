@@ -3,22 +3,24 @@
 
 import { PipelineRequest, PipelineResponse, HttpsClient, SendRequest } from "./interfaces";
 
+export type PipelinePhase = "Serialize" | "Retry";
+
 export interface AddPipelineOptions {
-  beforePolicy?: string | string[];
-  afterPolicy?: string | string[];
-  beforePhase?: string | string[];
-  afterPhase?: string | string[];
-  duringPhase?: string;
+  beforePolicies?: string[];
+  afterPolicies?: string[];
+  beforePhases?: PipelinePhase[];
+  afterPhases?: PipelinePhase[];
+  duringPhase?: PipelinePhase;
 }
 
-interface PipelinePolicy {
+export interface PipelinePolicy {
   name: string;
   sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse>;
 }
 
 export interface Pipeline {
   addPolicy(policy: PipelinePolicy, options?: AddPipelineOptions): void;
-  removePolicy(options: { name?: string; phase?: string }): PipelinePolicy[];
+  removePolicy(options: { name?: string; phase?: PipelinePhase }): PipelinePolicy[];
   sendRequest(httpClient: HttpsClient, request: PipelineRequest): Promise<PipelineResponse>;
   getOrderedPolicies(): PipelinePolicy[];
   clone(): Pipeline;
@@ -50,8 +52,8 @@ export class HttpsPipeline implements Pipeline {
 
     this._policies = this._policies.filter((policyDescriptor) => {
       if (
-        policyDescriptor.policy.name === options.name ||
-        policyDescriptor.options.duringPhase === options.phase
+        (options.name && policyDescriptor.policy.name === options.name) ||
+        (options.phase && policyDescriptor.options.duringPhase === options.phase)
       ) {
         removedPolicies.push(policyDescriptor.policy);
         return false;

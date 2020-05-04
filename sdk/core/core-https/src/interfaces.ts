@@ -1,7 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export interface PipelineRequest {}
+export interface PipelineRequest {
+  url: string;
+}
 
 export interface PipelineResponse {
   request: PipelineRequest;
