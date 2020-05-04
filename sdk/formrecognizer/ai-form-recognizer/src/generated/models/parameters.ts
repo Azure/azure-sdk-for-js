@@ -99,6 +99,22 @@ export const resultId: coreHttp.OperationURLParameter = {
   }
 };
 
+export const copyRequest: coreHttp.OperationParameter = {
+  parameterPath: "copyRequest",
+  mapper: Mappers.CopyRequest
+};
+
+export const resultId1: coreHttp.OperationURLParameter = {
+  parameterPath: "resultId",
+  mapper: {
+    serializedName: "resultId",
+    required: true,
+    type: {
+      name: "Uuid"
+    }
+  }
+};
+
 export const op: coreHttp.OperationQueryParameter = {
   parameterPath: "op",
   mapper: {

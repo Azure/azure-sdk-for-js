@@ -496,6 +496,78 @@ export interface FieldValue {
 }
 
 /**
+ * Request parameter to copy an existing custom model from the source resource to a target resource referenced by the resource ID.
+ */
+export interface CopyRequest {
+  /**
+   * Azure Resource Id of the target Form Recognizer resource where the model is copied to.
+   */
+  targetResourceId: string;
+  /**
+   * Location of the target Azure resource. A valid Azure region name supported by Cognitive Services.
+   */
+  targetResourceRegion: string;
+  /**
+   * Entity that encodes claims to authorize the copy request.
+   */
+  copyAuthorization: CopyAuthorizationResult;
+}
+
+/**
+ * Request parameter that contains authorization claims for copy operation.
+ */
+export interface CopyAuthorizationResult {
+  /**
+   * Model identifier.
+   */
+  modelId: string;
+  /**
+   * Token claim used to authorize the request.
+   */
+  accessToken: string;
+  /**
+   * The time when the access token expires. The date is represented as the number of seconds from 1970-01-01T0:0:0Z UTC until the expiration time.
+   */
+  expirationDateTimeTicks: number;
+}
+
+/**
+ * Status and result of the queued copy operation.
+ */
+export interface CopyOperationResult {
+  /**
+   * Operation status.
+   */
+  status: OperationStatus;
+  /**
+   * Date and time (UTC) when the copy operation was submitted.
+   */
+  createdOn: Date;
+  /**
+   * Date and time (UTC) when the status was last updated.
+   */
+  lastModified: Date;
+  /**
+   * Results of the copy operation.
+   */
+  copyResult?: CopyResult;
+}
+
+/**
+ * Custom model copy result.
+ */
+export interface CopyResult {
+  /**
+   * Identifier of the target model.
+   */
+  modelId: string;
+  /**
+   * Errors returned during the copy operation.
+   */
+  errors?: ErrorInformation[];
+}
+
+/**
  * Response to the list custom models operation.
  */
 export interface Models {
@@ -543,6 +615,20 @@ export interface GeneratedClientTrainCustomModelAsyncHeaders {
  */
 export interface GeneratedClientAnalyzeWithCustomModelHeaders {
   operationLocation?: string;
+}
+
+/**
+ * Defines headers for generatedClient_copyCustomModel operation.
+ */
+export interface GeneratedClientCopyCustomModelHeaders {
+  operationLocation?: string;
+}
+
+/**
+ * Defines headers for generatedClient_generateModelCopyAuthorization operation.
+ */
+export interface GeneratedClientGenerateModelCopyAuthorizationHeaders {
+  location?: string;
 }
 
 /**
@@ -713,6 +799,66 @@ export type GeneratedClientGetAnalyzeFormResultResponse = AnalyzeOperationResult
     parsedBody: AnalyzeOperationResult;
   };
 };
+
+/**
+ * Contains response data for the copyCustomModel operation.
+ */
+export type GeneratedClientCopyCustomModelResponse = GeneratedClientCopyCustomModelHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: GeneratedClientCopyCustomModelHeaders;
+  };
+};
+
+/**
+ * Contains response data for the getCustomModelCopyResult operation.
+ */
+export type GeneratedClientGetCustomModelCopyResultResponse = CopyOperationResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CopyOperationResult;
+  };
+};
+
+/**
+ * Contains response data for the generateModelCopyAuthorization operation.
+ */
+export type GeneratedClientGenerateModelCopyAuthorizationResponse = GeneratedClientGenerateModelCopyAuthorizationHeaders &
+  CopyAuthorizationResult & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CopyAuthorizationResult;
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: GeneratedClientGenerateModelCopyAuthorizationHeaders;
+    };
+  };
 
 /**
  * Optional parameters.

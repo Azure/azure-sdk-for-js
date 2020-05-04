@@ -128,6 +128,54 @@ class GeneratedClient extends GeneratedClientContext {
   }
 
   /**
+   * Copy custom model stored in this resource (the source) to user specified target Form Recognizer
+   * resource.
+   * @param modelId Model identifier.
+   * @param copyRequest Copy request parameters.
+   * @param options The options parameters.
+   */
+  copyCustomModel(
+    modelId: string,
+    copyRequest: Models.CopyRequest,
+    options?: coreHttp.OperationOptions
+  ): Promise<Models.GeneratedClientCopyCustomModelResponse> {
+    return this.sendOperationRequest(
+      { modelId, copyRequest, options },
+      copyCustomModelOperationSpec
+    ) as Promise<Models.GeneratedClientCopyCustomModelResponse>;
+  }
+
+  /**
+   * Obtain current status and the result of a custom model copy operation.
+   * @param modelId Model identifier.
+   * @param resultId Copy operation result identifier.
+   * @param options The options parameters.
+   */
+  getCustomModelCopyResult(
+    modelId: string,
+    resultId: string,
+    options?: coreHttp.OperationOptions
+  ): Promise<Models.GeneratedClientGetCustomModelCopyResultResponse> {
+    return this.sendOperationRequest(
+      { modelId, resultId, options },
+      getCustomModelCopyResultOperationSpec
+    ) as Promise<Models.GeneratedClientGetCustomModelCopyResultResponse>;
+  }
+
+  /**
+   * Generate authorization to copy a model into the target Form Recognizer resource.
+   * @param options The options parameters.
+   */
+  generateModelCopyAuthorization(
+    options?: coreHttp.OperationOptions
+  ): Promise<Models.GeneratedClientGenerateModelCopyAuthorizationResponse> {
+    return this.sendOperationRequest(
+      { options },
+      generateModelCopyAuthorizationOperationSpec
+    ) as Promise<Models.GeneratedClientGenerateModelCopyAuthorizationResponse>;
+  }
+
+  /**
    * Extract field text and semantic values from a given receipt document. The input document must be of
    * one of the supported content types - 'application/pdf', 'image/jpeg', 'image/png' or 'image/tiff'.
    * Alternatively, use 'application/json' type to specify the location (Uri or local path) of the
@@ -343,6 +391,55 @@ const getAnalyzeFormResultOperationSpec: coreHttp.OperationSpec = {
     }
   },
   urlParameters: [Parameters.endpoint, Parameters.modelId, Parameters.resultId],
+  serializer
+};
+const copyCustomModelOperationSpec: coreHttp.OperationSpec = {
+  path: "/custom/models/{modelId}/copy",
+  httpMethod: "POST",
+  responses: {
+    202: {
+      headersMapper: Mappers.GeneratedClientCopyCustomModelHeaders
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.copyRequest,
+  urlParameters: [Parameters.endpoint, Parameters.modelId],
+  serializer
+};
+const getCustomModelCopyResultOperationSpec: coreHttp.OperationSpec = {
+  path: "/custom/models/{modelId}/copyResults/{resultId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CopyOperationResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.modelId,
+    Parameters.resultId1
+  ],
+  serializer
+};
+const generateModelCopyAuthorizationOperationSpec: coreHttp.OperationSpec = {
+  path: "/custom/models/copyAuthorization",
+  httpMethod: "POST",
+  responses: {
+    201: {
+      bodyMapper: Mappers.CopyAuthorizationResult,
+      headersMapper:
+        Mappers.GeneratedClientGenerateModelCopyAuthorizationHeaders
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  urlParameters: [Parameters.endpoint],
   serializer
 };
 const analyzeReceiptAsync$binaryOperationSpec: coreHttp.OperationSpec = {

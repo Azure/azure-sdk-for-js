@@ -789,6 +789,113 @@ export const FieldValue: coreHttp.CompositeMapper = {
   }
 };
 
+export const CopyRequest: coreHttp.CompositeMapper = {
+  serializedName: "CopyRequest",
+  type: {
+    name: "Composite",
+    className: "CopyRequest",
+    modelProperties: {
+      targetResourceId: {
+        type: { name: "String" },
+        serializedName: "targetResourceId",
+        required: true,
+        constraints: { MaxLength: 1024, Pattern: {} }
+      },
+      targetResourceRegion: {
+        type: { name: "String" },
+        serializedName: "targetResourceRegion",
+        required: true,
+        constraints: { MaxLength: 24, MinLength: 1, Pattern: {} }
+      },
+      copyAuthorization: {
+        serializedName: "copyAuthorization",
+        type: { name: "Composite", className: "CopyAuthorizationResult" }
+      }
+    }
+  }
+};
+
+export const CopyAuthorizationResult: coreHttp.CompositeMapper = {
+  serializedName: "CopyAuthorizationResult",
+  type: {
+    name: "Composite",
+    className: "CopyAuthorizationResult",
+    modelProperties: {
+      modelId: {
+        type: { name: "String" },
+        serializedName: "modelId",
+        required: true
+      },
+      accessToken: {
+        type: { name: "String" },
+        serializedName: "accessToken",
+        required: true
+      },
+      expirationDateTimeTicks: {
+        type: { name: "Number" },
+        serializedName: "expirationDateTimeTicks",
+        required: true
+      }
+    }
+  }
+};
+
+export const CopyOperationResult: coreHttp.CompositeMapper = {
+  serializedName: "CopyOperationResult",
+  type: {
+    name: "Composite",
+    className: "CopyOperationResult",
+    modelProperties: {
+      status: {
+        type: {
+          name: "Enum",
+          allowedValues: ["notStarted", "running", "succeeded", "failed"]
+        },
+        serializedName: "status",
+        required: true
+      },
+      createdOn: {
+        type: { name: "DateTime" },
+        serializedName: "createdDateTime",
+        required: true
+      },
+      lastModified: {
+        type: { name: "DateTime" },
+        serializedName: "lastUpdatedDateTime",
+        required: true
+      },
+      copyResult: {
+        serializedName: "copyResult",
+        type: { name: "Composite", className: "CopyResult" }
+      }
+    }
+  }
+};
+
+export const CopyResult: coreHttp.CompositeMapper = {
+  serializedName: "CopyResult",
+  type: {
+    name: "Composite",
+    className: "CopyResult",
+    modelProperties: {
+      modelId: {
+        type: { name: "Uuid" },
+        serializedName: "modelId",
+        required: true
+      },
+      errors: {
+        type: {
+          name: "Sequence",
+          element: {
+            type: { name: "Composite", className: "ErrorInformation" }
+          }
+        },
+        serializedName: "errors"
+      }
+    }
+  }
+};
+
 export const Models: coreHttp.CompositeMapper = {
   serializedName: "Models",
   type: {
@@ -857,6 +964,31 @@ export const GeneratedClientAnalyzeWithCustomModelHeaders: coreHttp.CompositeMap
         type: { name: "String" },
         serializedName: "operation-location"
       }
+    }
+  }
+};
+
+export const GeneratedClientCopyCustomModelHeaders: coreHttp.CompositeMapper = {
+  serializedName: "generatedClient_copyCustomModelHeaders",
+  type: {
+    name: "Composite",
+    className: "GeneratedClientCopyCustomModelHeaders",
+    modelProperties: {
+      operationLocation: {
+        type: { name: "String" },
+        serializedName: "operation-location"
+      }
+    }
+  }
+};
+
+export const GeneratedClientGenerateModelCopyAuthorizationHeaders: coreHttp.CompositeMapper = {
+  serializedName: "generatedClient_generateModelCopyAuthorizationHeaders",
+  type: {
+    name: "Composite",
+    className: "GeneratedClientGenerateModelCopyAuthorizationHeaders",
+    modelProperties: {
+      location: { type: { name: "String" }, serializedName: "location" }
     }
   }
 };
