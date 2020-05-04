@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import AsyncLock from "async-lock";
 import { AbortSignalLike, AbortError } from "@azure/abort-controller";
@@ -197,11 +197,11 @@ export class Timeout {
   }
 
   private _promiseFinally<T>(promise: Promise<T>, fn: Function): Promise<T> {
-    const success = (result: T) => {
+    const success = (result: T): T => {
       fn();
       return result;
     };
-    const error = (e: Error) => {
+    const error = (e: Error): Promise<never> => {
       fn();
       return Promise.reject(e);
     };
@@ -232,19 +232,19 @@ export function delay<T>(
   value?: T
 ): Promise<T> {
   return new Promise((resolve, reject) => {
-    const rejectOnAbort = () => {
+    const rejectOnAbort = (): void => {
       return reject(
         new AbortError(abortErrorMsg ? abortErrorMsg : `The delay was cancelled by the user.`)
       );
     };
 
-    const removeListeners = () => {
+    const removeListeners = (): void => {
       if (abortSignal) {
         abortSignal.removeEventListener("abort", onAborted);
       }
     };
 
-    const onAborted = () => {
+    const onAborted = (): void => {
       clearTimeout(timer);
       removeListeners();
       return rejectOnAbort();

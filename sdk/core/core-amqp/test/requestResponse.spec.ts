@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft. All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import * as assert from "assert";
 import {
@@ -63,7 +63,7 @@ describe("RequestResponseLink", function() {
   it("should send parellel requests and receive responses correctly", async function() {
     const connectionStub = stub(new Connection());
     const rcvr = new EventEmitter();
-    let reqs: AmqpMessage[] = [];
+    const reqs: AmqpMessage[] = [];
     connectionStub.createSession.resolves({
       connection: {
         id: "connection-1"
@@ -129,7 +129,7 @@ describe("RequestResponseLink", function() {
   it("should send parellel requests and receive responses correctly (one failure)", async function() {
     const connectionStub = stub(new Connection());
     const rcvr = new EventEmitter();
-    let reqs: AmqpMessage[] = [];
+    const reqs: AmqpMessage[] = [];
     connectionStub.createSession.resolves({
       connection: {
         id: "connection-1"
@@ -259,7 +259,7 @@ describe("RequestResponseLink", function() {
     }, 2000);
 
     const sendRequestPromise = async (): Promise<Message> => {
-      return await link.sendRequest(request, {
+      return link.sendRequest(request, {
         timeoutInMs: 5000
       });
     };
@@ -276,7 +276,7 @@ describe("RequestResponseLink", function() {
 
     const message = await retry<Message>(config);
     assert.equal(count, 2, "It should retry twice");
-    assert.equal(message == undefined, false, "It should return a valid message");
+    assert.equal(message === undefined, false, "It should return a valid message");
     assert.equal(message.body, "Hello World!!", `Message '${message.body}' is not as expected`);
   });
 

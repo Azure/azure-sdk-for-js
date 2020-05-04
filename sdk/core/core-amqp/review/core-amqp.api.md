@@ -200,7 +200,7 @@ export interface ConnectionContextBase {
 }
 
 // @public (undocumented)
-export module ConnectionContextBase {
+export namespace ConnectionContextBase {
     export function create(parameters: CreateConnectionContextBaseParameters): ConnectionContextBase;
 }
 
@@ -421,7 +421,7 @@ export interface EventHubConnectionConfig extends ConnectionConfig {
 }
 
 // @public
-export module EventHubConnectionConfig {
+export namespace EventHubConnectionConfig {
     export function create(connectionString: string, path?: string): EventHubConnectionConfig;
     export function createFromConnectionConfig(config: ConnectionConfig): EventHubConnectionConfig;
     export function validate(config: EventHubConnectionConfig): void;

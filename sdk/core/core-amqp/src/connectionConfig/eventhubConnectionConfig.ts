@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { ConnectionConfig } from "./connectionConfig";
 
@@ -66,7 +66,7 @@ export interface EventHubConnectionConfig extends ConnectionConfig {
  * different entities.
  * @module EventHubConnectionConfig
  */
-export module EventHubConnectionConfig {
+export namespace EventHubConnectionConfig {
   /**
    * Creates the connection config.
    * @param {string} connectionString - The connection string for a given service like
@@ -104,7 +104,7 @@ export module EventHubConnectionConfig {
     };
 
     (config as EventHubConnectionConfig).getSenderAudience = (partitionId?: string | number) => {
-      if (partitionId != undefined) {
+      if (partitionId !== undefined) {
         return `${config.endpoint}${config.entityPath}/Partitions/${partitionId}`;
       } else {
         return `${config.endpoint}${config.entityPath}`;
@@ -112,7 +112,7 @@ export module EventHubConnectionConfig {
     };
 
     (config as EventHubConnectionConfig).getSenderAddress = (partitionId?: string | number) => {
-      if (partitionId != undefined) {
+      if (partitionId !== undefined) {
         return `${config.entityPath}/Partitions/${partitionId}`;
       } else {
         return `${config.entityPath}`;

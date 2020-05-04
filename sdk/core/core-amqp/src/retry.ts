@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { translate, MessagingError } from "./errors";
 import { delay } from "./util/utils";
@@ -154,19 +154,19 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
   if (!config.retryOptions) {
     config.retryOptions = {};
   }
-  if (config.retryOptions.maxRetries == undefined || config.retryOptions.maxRetries < 0) {
+  if (config.retryOptions.maxRetries === undefined || config.retryOptions.maxRetries < 0) {
     config.retryOptions.maxRetries = Constants.defaultMaxRetries;
   }
-  if (config.retryOptions.retryDelayInMs == undefined || config.retryOptions.retryDelayInMs < 0) {
+  if (config.retryOptions.retryDelayInMs === undefined || config.retryOptions.retryDelayInMs < 0) {
     config.retryOptions.retryDelayInMs = Constants.defaultDelayBetweenOperationRetriesInMs;
   }
   if (
-    config.retryOptions.maxRetryDelayInMs == undefined ||
+    config.retryOptions.maxRetryDelayInMs === undefined ||
     config.retryOptions.maxRetryDelayInMs < 0
   ) {
     config.retryOptions.maxRetryDelayInMs = Constants.defaultMaxDelayForExponentialRetryInMs;
   }
-  if (config.retryOptions.mode == undefined) {
+  if (config.retryOptions.mode === undefined) {
     config.retryOptions.mode = RetryMode.Fixed;
   }
   let lastError: MessagingError | undefined;
@@ -194,24 +194,25 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
       }
       break;
     } catch (err) {
+      let translatedError = err;
       if (!err.translated) {
-        err = translate(err);
+        translatedError = translate(err);
       }
 
-      if (!err.retryable && err.name === "ServiceCommunicationError" && config.connectionHost) {
+      if (!translatedError.retryable && translatedError.name === "ServiceCommunicationError" && config.connectionHost) {
         const isConnected = await checkNetworkConnection(config.connectionHost);
         if (!isConnected) {
-          err.name = "ConnectionLostError";
-          err.retryable = true;
+          translatedError.name = "ConnectionLostError";
+          translatedError.retryable = true;
         }
       }
-      lastError = err;
+      lastError = translatedError;
       logger.verbose(
         "[%s] Error occured for '%s' in attempt number %d: %O",
         config.connectionId,
         config.operationType,
         i,
-        err
+        translatedError
       );
       let targetDelayInMs = config.retryOptions.retryDelayInMs;
       if (config.retryOptions.mode === RetryMode.Exponential) {
