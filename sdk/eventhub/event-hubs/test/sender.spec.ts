@@ -392,7 +392,7 @@ describe("EventHub Sender", function(): void {
         receivedEvents.map((event) => {
           return {
             body: event.body,
-            properties: { test: event.properties!["test"] }
+            properties: event.properties
           };
         }),
         "Received messages should be equal to our sent messages"
