@@ -15,7 +15,10 @@
 
 ### Breaking Changes
 
-- The `createSender` and `createSessionReceiver` methods are now async. The promise returned by them are resolved after the link is successfully established with the service.
+- The `createSender` and `createSessionReceiver` methods are now async. The promise returned by them are resolved after the link is successfully established with the service. The same will be done to the `createReceiver` method in the next preview.
+- Remove rule operations from `ServiceBusClient` in favor of having similar operations via the management apis
+which would apply to queues, topics, subscriptions and rules in the upcoming previews. 
+  [PR 8660](https://github.com/Azure/azure-sdk-for-js/pull/8660)
 
 ## 7.0.0-preview.1 (2020-04-07)
 

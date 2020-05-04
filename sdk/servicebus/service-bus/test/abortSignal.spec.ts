@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
@@ -153,7 +153,7 @@ function createTaggedAbortSignal(
   tag: string,
   aborted: boolean
 ): AbortSignalLike & { tag: string; removeWasCalled: boolean; addWasCalled: boolean } {
-  let removeWasCalled = false;
+  const removeWasCalled = false;
   let addWasCalled = false;
 
   const signal = {

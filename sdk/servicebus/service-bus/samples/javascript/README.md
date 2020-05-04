@@ -19,7 +19,6 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [advanced/processMessageFromDLQ.js][advanced-processmessagefromdlq] | retrieves a message from a dead-letter queue, edits it, and sends it back to the main queue                                    |
 | [advanced/sessionRoundRobin.js][advanced-session-round-robin]       | uses `SessionReceiver`'s ability to get the next available session to round-robin through all sessions in a Queue/Subscription |
 | [advanced/sessionState.js][advanced-sessionstate]                   | uses a "shopping cart" example to demonstrate how SessionState information can be read and maintained in an application        |
-| [advanced/topicFilters.js][advanced-topicfilters]                   | use topic subscriptions and filters for splitting up a message stream into multiple streams based on message properties        |
 
 ## Prerequisites
 
@@ -69,7 +68,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [advanced-processmessagefromdlq]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/javascript/advanced/processMessageFromDLQ.js
 [advanced-session-round-robin]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/javascript/advanced/sessionRoundRobin.js
 [advanced-sessionstate]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/javascript/advanced/sessionState.js
-[advanced-topicfilters]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/javascript/advanced/topicFilters.js
 [sendmessages]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/javascript/sendMessages.js
 [serviceprincipallogin]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/javascript/servicePrincipalLogin.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/service-bus

@@ -16,16 +16,7 @@ jobs:
       PackageName: "@azure/service-bus"
       ResourceServiceDirectory: servicebus
       TimeoutInMinutes: 180
-      # Use a more simple matrix because these tests run for a long time
-      Matrix:
-        Linux_Node10:
-          OSVmImage: "ubuntu-18.04"
-          TestType: "node"
-          PublishCodeCoverage: true
-        Browser_Windows_Node10:
-          OSVmImage: "windows-2019"
-          TestType: "browser"
-          PublishCodeCoverage: true
+      TestSamples: false
       EnvVars:
         AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
         AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)

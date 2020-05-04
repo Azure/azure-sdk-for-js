@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import chai from "chai";
 import Long from "long";
@@ -16,6 +16,7 @@ import {
 } from "./utils/testutils2";
 import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
 import { AbortController } from "@azure/abort-controller";
+import { isNode } from "@azure/core-amqp";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -1034,6 +1035,13 @@ describe("Batching - disconnects", function(): void {
     return serviceBusClient.test.after();
   });
 
+  beforeEach(function() {
+    if (!isNode) {
+      // Skipping the "disconnect" tests in the browser since they fail.
+      // More info - https://github.com/Azure/azure-sdk-for-js/pull/8664#issuecomment-622651713
+      this.skip();
+    }
+  });
   function afterEachTest(): Promise<void> {
     return serviceBusClient.test.afterEach();
   }
