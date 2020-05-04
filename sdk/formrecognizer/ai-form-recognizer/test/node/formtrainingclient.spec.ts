@@ -4,18 +4,18 @@
 import { assert } from "chai";
 import fs from "fs-extra";
 import path from "path";
-import * as recorder from "@azure/test-utils-recorder";
 
 import * as dotenv from "dotenv";
 dotenv.config();
 
+import { createRecordedTrainingClient, createRecordedRecognizerClient } from "../util/recordedClients";
 import {
   FormRecognizerClient,
   AzureKeyCredential,
   TrainingDocumentInfo,
   FormTrainingClient
 } from "../../src";
-import { env } from "@azure/test-utils-recorder";
+import { env, Recorder } from "@azure/test-utils-recorder";
 
 const ASSET_PATH = path.resolve(path.join(process.cwd(), "test-assets"));
 let unlabeledModelId: string | undefined;
@@ -24,18 +24,21 @@ let modelIdToDelete: string | undefined;
 
 describe("FormTrainingClient NodeJS only", () => {
   let trainingClient: FormTrainingClient;
+  let recorder: Recorder;
 
-  before(function() {
-    // TODO: create recordings
-    if (recorder.isPlaybackMode()) {
-      this.skip();
-    }
-
+  beforeEach(function() {
+    ({recorder, client: trainingClient} = createRecordedTrainingClient(this));
     trainingClient = new FormTrainingClient(
       env.FORM_RECOGNIZER_ENDPOINT,
       new AzureKeyCredential(env.FORM_RECOGNIZER_API_KEY)
     );
   });
+
+  afterEach(function() {
+    if (recorder) {
+      recorder.stop();
+    }
+  })
 
   const expectedDocumentInfo: TrainingDocumentInfo = {
     documentName: "Form_1.jpg",
@@ -200,22 +203,21 @@ describe("FormTrainingClient NodeJS only", () => {
   });
 }).timeout(60000);
 
-describe("FormRecognizerClient custom form recognition NodeJS only", () => {
+describe("FormRecognizerClient form recognition NodeJS", () => {
   let recognizerClient: FormRecognizerClient;
+  let recorder: Recorder;
 
-  before(function() {
-    // TODO: create recordings
-    if (recorder.isPlaybackMode()) {
-      this.skip();
-    }
-
-    recognizerClient = new FormRecognizerClient(
-      env.FORM_RECOGNIZER_ENDPOINT,
-      new AzureKeyCredential(env.FORM_RECOGNIZER_API_KEY)
-    );
+  beforeEach(function() {
+    ({recorder, client: recognizerClient} = createRecordedRecognizerClient(this));
   });
 
-  it("recognizes form from a jpeg file stream using model trained without labels", async () => {
+  afterEach(function() {
+    if (recorder) {
+      recorder.stop();
+    }
+  })
+
+  it("recognizes form jpeg unlabeled model", async () => {
     const filePath = path.join(ASSET_PATH, "forms", "Form_1.jpg");
     const stream = fs.createReadStream(filePath);
 
@@ -246,7 +248,7 @@ describe("FormRecognizerClient custom form recognition NodeJS only", () => {
     assert.ok(form.fields["field-2"], "Expecting field-2");
   });
 
-  it("recognizes form from a url to a jpeg file using model trained without labels", async () => {
+  it("recognizes form url unlabeled model", async () => {
     const testingContainerUrl: string = env.FORM_RECOGNIZER_TESTING_CONTAINER_SAS_URL;
     const urlParts = testingContainerUrl.split("?");
     const url = `${urlParts[0]}/Form_1.jpg?${urlParts[1]}`;
@@ -274,7 +276,7 @@ describe("FormRecognizerClient custom form recognition NodeJS only", () => {
     assert.ok(form.fields["field-2"], "Expecting field-2");
   });
 
-  it("recognizes form from a jpeg file stream using model trained with labels", async () => {
+  it("recognizes form jpeg labeled model", async () => {
     const filePath = path.join(ASSET_PATH, "forms", "Form_1.jpg");
     const stream = fs.createReadStream(filePath);
 
@@ -308,7 +310,7 @@ describe("FormRecognizerClient custom form recognition NodeJS only", () => {
     assert.ok(form.fields["Signature"]);
   });
 
-  it("recognizes form from a jpeg file stream using model trained with labels without specifying content type", async () => {
+  it("recognizes form jpeg labeled model no content type", async () => {
     const filePath = path.join(ASSET_PATH, "forms", "Form_1.jpg");
     const stream = fs.createReadStream(filePath);
 

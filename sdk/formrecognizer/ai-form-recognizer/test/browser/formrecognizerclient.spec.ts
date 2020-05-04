@@ -3,21 +3,22 @@
 
 import { assert } from "chai";
 import { DefaultHttpClient, WebResource } from "@azure/core-http";
-import { FormRecognizerClient, AzureKeyCredential } from "../../src";
-import { env, isPlaybackMode } from "@azure/test-utils-recorder";
+import { FormRecognizerClient } from "../../src";
+import { env, Recorder} from "@azure/test-utils-recorder";
+import { createRecordedRecognizerClient } from '../util/recordedClients';
 
 describe("FormRecognizerClient browser only", () => {
   let client: FormRecognizerClient;
+  let recorder: Recorder;
 
-  before(function() {
-    // TODO: create recordings
-    if (isPlaybackMode()) {
-      this.skip();
+  beforeEach(function () {
+    ({recorder, client } = createRecordedRecognizerClient(this));
+  });
+
+  afterEach(function() {
+    if (recorder) {
+      recorder.stop();
     }
-    client = new FormRecognizerClient(
-      env.FORM_RECOGNIZER_ENDPOINT,
-      new AzureKeyCredential(env.FORM_RECOGNIZER_API_KEY)
-    );
   });
 
   it("recognizes content from a url", async () => {
@@ -57,6 +58,7 @@ describe("FormRecognizerClient browser only", () => {
   });
 
   it("recognizes receipt from a Blob", async () => {
+    recorder.skip("browser", "issue with blob response https://github.com/Azure/azure-sdk-for-js/issues/8663");
     const testingContainerUrl: string = env.FORM_RECOGNIZER_TESTING_CONTAINER_SAS_URL;
     const urlParts = testingContainerUrl.split("?");
     const url = `${urlParts[0]}/contoso-allinone.jpg?${urlParts[1]}`;
