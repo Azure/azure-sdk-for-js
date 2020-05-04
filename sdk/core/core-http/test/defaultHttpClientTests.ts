@@ -157,10 +157,12 @@ describe("defaultHttpClient", function() {
     };
 
     it("for simple bodies", async function() {
+      const body = "Very large string to upload";
+
       httpMock.post("/fileupload", async (_url, _method, _body) => {
         return {
           status: 251,
-          body: _body.repeat(9).substring(0, 200),
+          body: body.repeat(9).substring(0, 200),
           headers: { "Content-Length": "200" }
         };
       });
@@ -168,7 +170,6 @@ describe("defaultHttpClient", function() {
       const upload: Notified = { notified: false };
       const download: Notified = { notified: false };
 
-      const body = "Very large string to upload";
       const request = new WebResource(
         "/fileupload",
         "POST",
