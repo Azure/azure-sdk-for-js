@@ -46,7 +46,7 @@
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build:autorest": "autorest ./swagger/README.md --typescript --package-version=1.0.0-preview.3 --version=3.0.6258",
+    "build:autorest": "autorest ./swagger/README.md --typescript --package-version=1.0.0-preview.3 --version=3.0.6267",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
     "build:samples": "node ../../../common/scripts/prep-samples.js && cd samples && tsc -p .",

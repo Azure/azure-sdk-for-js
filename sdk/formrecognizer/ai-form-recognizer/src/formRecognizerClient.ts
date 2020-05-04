@@ -704,16 +704,17 @@ async function recognizeLayoutInternal(
 
   try {
     if (requestContentType) {
-      return await client.analyzeLayoutAsync({
-        ...operationOptionsToRequestOptionsBase(finalOptions),
-        contentType: requestContentType,
-        fileStream: requestBody as Blob | ArrayBuffer | ArrayBufferView
-      });
+      return await client.analyzeLayoutAsync(
+        requestContentType,
+        requestBody as Blob | ArrayBuffer | ArrayBufferView,
+        operationOptionsToRequestOptionsBase(finalOptions)
+      );
     }
-    return await client.analyzeLayoutAsync({
-      ...operationOptionsToRequestOptionsBase(finalOptions),
-      fileStream: requestBody as SourcePath
-    });
+    return await client.analyzeLayoutAsync(
+      "application/json", {
+      fileStream: requestBody as SourcePath,
+        ...operationOptionsToRequestOptionsBase(finalOptions)
+      });
   } catch (e) {
     span.setStatus({
       code: CanonicalCode.UNKNOWN,
@@ -741,15 +742,18 @@ async function recognizeCustomFormInternal(
 
   try {
     if (requestContentType) {
-      return await client.analyzeWithCustomModel(modelId!, {
-        ...operationOptionsToRequestOptionsBase(finalOptions),
-        contentType: requestContentType,
-        fileStream: requestBody as Blob | ArrayBuffer | ArrayBufferView
-      });
+      return await client.analyzeWithCustomModel(
+        modelId!,
+        requestContentType,
+        requestBody as Blob | ArrayBuffer | ArrayBufferView,
+        operationOptionsToRequestOptionsBase(finalOptions)
+      );
     }
-    return await client.analyzeWithCustomModel(modelId!, {
-      ...operationOptionsToRequestOptionsBase(finalOptions),
-      fileStream: requestBody as SourcePath
+    return await client.analyzeWithCustomModel(
+      modelId!,
+      "application/json", {
+        fileStream: requestBody as SourcePath,
+        ...operationOptionsToRequestOptionsBase(finalOptions)
     });
   } catch (e) {
     span.setStatus({
@@ -780,15 +784,16 @@ async function recognizeReceiptInternal(
 
   try {
     if (requestContentType) {
-      return await client.analyzeReceiptAsync({
-        ...operationOptionsToRequestOptionsBase(finalOptions),
-        contentType: requestContentType,
-        fileStream: requestBody as Blob | ArrayBuffer | ArrayBufferView
-      });
+      return await client.analyzeReceiptAsync(
+        requestContentType,
+        requestBody as Blob | ArrayBuffer | ArrayBufferView,
+        operationOptionsToRequestOptionsBase(finalOptions)
+      );
     }
-    return await client.analyzeReceiptAsync({
-      ...operationOptionsToRequestOptionsBase(finalOptions),
-      fileStream: requestBody as SourcePath
+    return await client.analyzeReceiptAsync(
+      "application/json", {
+        fileStream: requestBody as SourcePath,
+        ...operationOptionsToRequestOptionsBase(finalOptions)
     });
   } catch (e) {
     span.setStatus({
