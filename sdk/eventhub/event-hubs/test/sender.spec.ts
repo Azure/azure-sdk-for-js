@@ -338,9 +338,9 @@ describe("EventHub Sender", function(): void {
     it("should be sent successfully with properties", async function(): Promise<void> {
       const properties = { test: "super" };
       const list = [
-        { body: "Albert", properties },
-        { body: "Mike", properties },
-        { body: "Marie", properties }
+        { body: "Albert-With-Properties", properties },
+        { body: "Mike-With-Properties", properties },
+        { body: "Marie-With-Properties", properties }
       ];
 
       const batch = await producerClient.createBatch({
@@ -356,6 +356,10 @@ describe("EventHub Sender", function(): void {
       const receivedEvents: ReceivedEventData[] = [];
       let waitUntilEventsReceivedResolver: Function;
       const waitUntilEventsReceived = new Promise((r) => (waitUntilEventsReceivedResolver = r));
+
+      const sequenceNumber = (await consumerClient.getPartitionProperties("0"))
+        .lastEnqueuedSequenceNumber;
+
       const subscriber = consumerClient.subscribe(
         "0",
         {
@@ -369,8 +373,7 @@ describe("EventHub Sender", function(): void {
         },
         {
           startPosition: {
-            sequenceNumber: (await consumerClient.getPartitionProperties("0"))
-              .lastEnqueuedSequenceNumber
+            sequenceNumber
           },
           maxBatchSize: 3
         }
@@ -380,11 +383,15 @@ describe("EventHub Sender", function(): void {
       await waitUntilEventsReceived;
       await subscriber.close();
 
+      sequenceNumber.should.be.lessThan(receivedEvents[0].sequenceNumber);
+      sequenceNumber.should.be.lessThan(receivedEvents[1].sequenceNumber);
+      sequenceNumber.should.be.lessThan(receivedEvents[2].sequenceNumber);
+
       [list[0], list[1], list[2]].should.be.deep.eq(
         receivedEvents.map((event) => {
           return {
             body: event.body,
-            properties: event.properties
+            properties: { test: event.properties!["test"] }
           };
         }),
         "Received messages should be equal to our sent messages"
