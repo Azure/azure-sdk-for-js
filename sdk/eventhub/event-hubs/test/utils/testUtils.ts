@@ -4,6 +4,10 @@
 import * as dotenv from "dotenv";
 import { loggerForTest } from "./logHelpers";
 import { delay } from "@azure/core-amqp";
+import { EventHubConsumerClient } from "../../src/eventHubConsumerClient";
+import { EventHubProducerClient } from "../../src/eventHubProducerClient";
+import { EventPosition } from "../../src/eventPosition";
+
 dotenv.config();
 
 export const isNode =
@@ -57,4 +61,23 @@ export async function loopUntil(args: {
   throw new Error(
     `Waited way too long for ${args.name}: ${args.errorMessageFn ? args.errorMessageFn() : ""}`
   );
+}
+
+export async function getStartingPositionsForTests(
+  client: Pick<
+    EventHubConsumerClient | EventHubProducerClient,
+    "getPartitionProperties" | "getEventHubProperties"
+  >
+): Promise<{ [partitionId: string]: EventPosition }> {
+  const eventHubProperties = await client.getEventHubProperties();
+
+  const startingPositions: { [partitionId: string]: EventPosition } = {};
+
+  for (const partitionId of eventHubProperties.partitionIds) {
+    startingPositions[partitionId] = {
+      sequenceNumber: (await client.getPartitionProperties(partitionId)).lastEnqueuedSequenceNumber
+    };
+  }
+
+  return startingPositions;
 }

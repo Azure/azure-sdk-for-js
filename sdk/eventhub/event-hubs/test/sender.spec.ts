@@ -11,11 +11,12 @@ import {
   EventData,
   EventHubProducerClient,
   EventHubConsumerClient,
-  ReceivedEventData
+  ReceivedEventData,
+  EventPosition
 } from "../src";
 import { EventHubClient } from "../src/impl/eventHubClient";
 import { SendOptions, SendBatchOptions } from "../src/models/public";
-import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
+import { EnvVarKeys, getEnvVars, getStartingPositionsForTests } from "./utils/testUtils";
 import { AbortController } from "@azure/abort-controller";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 import { TRACEPARENT_PROPERTY } from "../src/diagnostics/instrumentEventData";
@@ -913,12 +914,16 @@ describe("EventHub Sender", function(): void {
 
   describe("Array of events", function() {
     let consumerClient: EventHubConsumerClient;
-    beforeEach(() => {
+    let startPosition: { [partitionId: string]: EventPosition };
+
+    beforeEach(async () => {
       consumerClient = new EventHubConsumerClient(
         EventHubConsumerClient.defaultConsumerGroupName,
         service.connectionString,
         service.path
       );
+
+      startPosition = await getStartingPositionsForTests(consumerClient);
     });
 
     afterEach(() => {
@@ -929,6 +934,7 @@ describe("EventHub Sender", function(): void {
       const data: EventData[] = [{ body: "Hello World 1" }, { body: "Hello World 2" }];
       const receivedEvents: ReceivedEventData[] = [];
       let receivingResolver: Function;
+
       const receivingPromise = new Promise((r) => (receivingResolver = r));
       const subscription = consumerClient.subscribe(
         {
@@ -939,7 +945,7 @@ describe("EventHub Sender", function(): void {
           }
         },
         {
-          startPosition: { enqueuedOn: new Date(), isInclusive: true },
+          startPosition,
           maxBatchSize: data.length
         }
       );
@@ -967,7 +973,7 @@ describe("EventHub Sender", function(): void {
           }
         },
         {
-          startPosition: { enqueuedOn: new Date(), isInclusive: true },
+          startPosition,
           maxBatchSize: data.length
         }
       );
@@ -1000,7 +1006,7 @@ describe("EventHub Sender", function(): void {
           }
         },
         {
-          startPosition: { enqueuedOn: new Date(), isInclusive: true },
+          startPosition,
           maxBatchSize: data.length
         }
       );
