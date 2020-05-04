@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { parseXML, stringifyXML } from "../src/util/xml";
 import { assert } from "chai";

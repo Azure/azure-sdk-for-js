@@ -242,7 +242,7 @@ export interface EnumMapperType {
 }
 
 // @public
-export function executePromisesSequentially(promiseFactories: Array<any>, kickstart: any): Promise<any>;
+export function executePromisesSequentially(promiseFactories: Array<any>, kickstart: any): any;
 
 // @public
 export class ExpiringAccessTokenCache implements AccessTokenCache {

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import xhrMock, { proxy } from "xhr-mock";
 import { isNode, HttpMethods } from "../src/coreHttp";
@@ -73,7 +73,7 @@ class FetchHttpMock implements HttpMockFacade {
     });
   }
 
-  mockHttpMethod(method: HttpMethods, url: UrlFilter, response: MockResponse) {
+  mockHttpMethod(method: HttpMethods, url: UrlFilter, response: MockResponse): void {
     let mockResponse: fetch.MockResponse | fetch.MockResponseFunction = response;
 
     if (typeof response === "function") {
@@ -87,7 +87,7 @@ class FetchHttpMock implements HttpMockFacade {
       }) as fetch.MockResponseFunction;
     }
 
-    const matcher = (_url: string, opts: fetch.MockRequest) =>
+    const matcher = (_url: string, opts: fetch.MockRequest): boolean =>
       url === _url && opts.method === method;
     fetchMock.mock(matcher, mockResponse);
   }
@@ -157,6 +157,8 @@ export class BrowserHttpMock implements HttpMockFacade {
   }
 
   timeout(method: HttpMethods, url: UrlFilter): void {
-    return this.mockHttpMethod(method, url, () => new Promise(() => {}));
+    return this.mockHttpMethod(method, url, () => new Promise(() => {
+      // Nothing to do here.
+    }));
   }
 }

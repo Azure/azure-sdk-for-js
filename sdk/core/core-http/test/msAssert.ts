@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { assert } from "chai";
 
@@ -23,7 +23,9 @@ export function throws(
   }
 
   if (!thrownError) {
-    assert.throws(() => {});
+    assert.throws(() => {
+      // Nothing to do here.
+    });
   } else if (expectedError instanceof Error) {
     assert.deepEqual(thrownError, expectedError);
   } else if (expectedError) {
@@ -53,7 +55,9 @@ export async function throwsAsync<T>(
   }
 
   if (!thrownError) {
-    assert.throws(() => {});
+    assert.throws(() => {
+      // Nothing to do here.
+    });
   } else if (expectedError instanceof Error) {
     assert.deepEqual(thrownError, expectedError);
   } else if (expectedError) {

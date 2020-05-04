@@ -1,7 +1,10 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { assert } from "chai";
 import { ExpiringAccessTokenCache } from "../src/credentials/accessTokenCache";
 
-function mockToken(expirationDeltaMs: number) {
+function mockToken(expirationDeltaMs: number): any {
   return {
     token: "token",
     expiresOnTimestamp: Date.now() + expirationDeltaMs

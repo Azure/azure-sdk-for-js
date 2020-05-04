@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { OperationResponse } from "../operationResponse";
@@ -215,7 +215,7 @@ export function deserializeResponseBody(
           );
         }
       } catch (defaultError) {
-        error.message = `Error \"${defaultError.message}\" occurred in deserializing the responseBody - \"${parsedResponse.bodyAsText}\" for the default response.`;
+        error.message = `Error "${defaultError.message}" occurred in deserializing the responseBody - "${parsedResponse.bodyAsText}" for the default response.`;
       }
       return Promise.reject(error);
     }
@@ -270,7 +270,7 @@ function parse(
   xmlContentTypes: string[],
   operationResponse: HttpOperationResponse
 ): Promise<HttpOperationResponse> {
-  const errorHandler = (err: Error & { code: string }) => {
+  const errorHandler = (err: Error & { code: string }): any => {
     const msg = `Error "${err}" occurred while parsing the response body - ${operationResponse.bodyAsText}.`;
     const errCode = err.code || RestError.PARSE_ERROR;
     const e = new RestError(

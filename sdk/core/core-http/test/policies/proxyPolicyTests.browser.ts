@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import "chai/register-should";
 import { should } from "chai";
@@ -30,7 +30,7 @@ describe("ProxyPolicy (browser)", function() {
 
   describe("for browser", () => {
     it("should throw an Error while constructing object", () => {
-      const construct = () =>
+      const construct = (): ProxyPolicy =>
         new ProxyPolicy(emptyRequestPolicy, emptyPolicyOptions, proxySettings);
       construct.should.throw();
     });

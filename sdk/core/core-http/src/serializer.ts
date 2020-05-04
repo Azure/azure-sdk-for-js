@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import * as base64 from "./util/base64";
 import * as utils from "./util/utils";
@@ -11,12 +11,12 @@ export class Serializer {
   ) {}
 
   validateConstraints(mapper: Mapper, value: any, objectName: string): void {
-    const failValidation = (constraintName: keyof MapperConstraints, constraintValue: any) => {
+    const failValidation = (constraintName: keyof MapperConstraints, constraintValue: any): Error => {
       throw new Error(
         `"${objectName}" with value "${value}" should satisfy the constraint "${constraintName}": ${constraintValue}.`
       );
     };
-    if (mapper.constraints && value != undefined) {
+    if (mapper.constraints && value !== undefined) {
       const {
         ExclusiveMaximum,
         ExclusiveMinimum,
@@ -30,31 +30,31 @@ export class Serializer {
         Pattern,
         UniqueItems
       } = mapper.constraints;
-      if (ExclusiveMaximum != undefined && value >= ExclusiveMaximum) {
+      if (ExclusiveMaximum !== undefined && value >= ExclusiveMaximum) {
         failValidation("ExclusiveMaximum", ExclusiveMaximum);
       }
-      if (ExclusiveMinimum != undefined && value <= ExclusiveMinimum) {
+      if (ExclusiveMinimum !== undefined && value <= ExclusiveMinimum) {
         failValidation("ExclusiveMinimum", ExclusiveMinimum);
       }
-      if (InclusiveMaximum != undefined && value > InclusiveMaximum) {
+      if (InclusiveMaximum !== undefined && value > InclusiveMaximum) {
         failValidation("InclusiveMaximum", InclusiveMaximum);
       }
-      if (InclusiveMinimum != undefined && value < InclusiveMinimum) {
+      if (InclusiveMinimum !== undefined && value < InclusiveMinimum) {
         failValidation("InclusiveMinimum", InclusiveMinimum);
       }
-      if (MaxItems != undefined && value.length > MaxItems) {
+      if (MaxItems !== undefined && value.length > MaxItems) {
         failValidation("MaxItems", MaxItems);
       }
-      if (MaxLength != undefined && value.length > MaxLength) {
+      if (MaxLength !== undefined && value.length > MaxLength) {
         failValidation("MaxLength", MaxLength);
       }
-      if (MinItems != undefined && value.length < MinItems) {
+      if (MinItems !== undefined && value.length < MinItems) {
         failValidation("MinItems", MinItems);
       }
-      if (MinLength != undefined && value.length < MinLength) {
+      if (MinLength !== undefined && value.length < MinLength) {
         failValidation("MinLength", MinLength);
       }
-      if (MultipleOf != undefined && value % MultipleOf !== 0) {
+      if (MultipleOf !== undefined && value % MultipleOf !== 0) {
         failValidation("MultipleOf", MultipleOf);
       }
       if (Pattern) {
@@ -112,14 +112,14 @@ export class Serializer {
     if (required && nullable && object === undefined) {
       throw new Error(`${objectName} cannot be undefined.`);
     }
-    if (required && !nullable && object == undefined) {
+    if (required && !nullable && object === undefined) {
       throw new Error(`${objectName} cannot be null or undefined.`);
     }
     if (!required && nullable === false && object === null) {
       throw new Error(`${objectName} cannot be null.`);
     }
 
-    if (object == undefined) {
+    if (object === undefined) {
       payload = object;
     } else {
       // Validate Constraints if any
@@ -162,7 +162,7 @@ export class Serializer {
    * @returns {object|string|Array|number|boolean|Date|stream} A valid deserialized Javascript object
    */
   deserialize(mapper: Mapper, responseBody: any, objectName: string): any {
-    if (responseBody == undefined) {
+    if (responseBody === undefined) {
       if (this.isXML && mapper.type.name === "Sequence" && !mapper.xmlIsWrapped) {
         // Edge case for empty XML non-wrapped lists. xml2js can't distinguish
         // between the list being empty versus being missing,
@@ -191,7 +191,7 @@ export class Serializer {
          * both header ("$") and body ("_") properties, then just reduce the responseBody value to
          * the body ("_") property.
          */
-        if (responseBody["$"] != undefined && responseBody["_"] != undefined) {
+        if (responseBody["$"] !== undefined && responseBody["_"] !== undefined) {
           responseBody = responseBody["_"];
         }
       }
@@ -239,7 +239,7 @@ export class Serializer {
   }
 }
 
-function trimEnd(str: string, ch: string) {
+function trimEnd(str: string, ch: string): string {
   let len = str.length;
   while (len - 1 >= 0 && str[len - 1] === ch) {
     --len;
@@ -270,7 +270,7 @@ function base64UrlToByteArray(str: string): Uint8Array | undefined {
     throw new Error("Please provide an input of type string for converting to Uint8Array");
   }
   // Base64Url to Base64.
-  str = str.replace(/\-/g, "+").replace(/\_/g, "/");
+  str = str.replace(/-/g, "+").replace(/_/g, "/");
   // Base64 to Uint8Array.
   return base64.decodeString(str);
 }
@@ -374,7 +374,7 @@ function serializeEnumType(objectName: string, allowedValues: Array<any>, value:
 }
 
 function serializeByteArrayType(objectName: string, value: any): any {
-  if (value != undefined) {
+  if (value !== undefined) {
     if (!(value instanceof Uint8Array)) {
       throw new Error(`${objectName} must be of type Uint8Array.`);
     }
@@ -384,7 +384,7 @@ function serializeByteArrayType(objectName: string, value: any): any {
 }
 
 function serializeBase64UrlType(objectName: string, value: any): any {
-  if (value != undefined) {
+  if (value !== undefined) {
     if (!(value instanceof Uint8Array)) {
       throw new Error(`${objectName} must be of type Uint8Array.`);
     }
@@ -393,8 +393,8 @@ function serializeBase64UrlType(objectName: string, value: any): any {
   return value;
 }
 
-function serializeDateTypes(typeName: string, value: any, objectName: string) {
-  if (value != undefined) {
+function serializeDateTypes(typeName: string, value: any, objectName: string): any {
+  if (value !== undefined) {
     if (typeName.match(/^Date$/i) !== null) {
       if (
         !(
@@ -447,7 +447,6 @@ function serializeDateTypes(typeName: string, value: any, objectName: string) {
           `${objectName} must be a string in ISO 8601 format. Instead was "${value}".`
         );
       }
-      value = value;
     }
   }
   return value;
@@ -458,7 +457,7 @@ function serializeSequenceType(
   mapper: SequenceMapper,
   object: any,
   objectName: string
-) {
+): any[] {
   if (!Array.isArray(object)) {
     throw new Error(`${objectName} must be of type Array.`);
   }
@@ -481,7 +480,7 @@ function serializeDictionaryType(
   mapper: DictionaryMapper,
   object: any,
   objectName: string
-) {
+): { [key: string]: any } {
   if (typeof object !== "object") {
     throw new Error(`${objectName} must be of type object.`);
   }
@@ -545,12 +544,12 @@ function serializeCompositeType(
   mapper: CompositeMapper,
   object: any,
   objectName: string
-) {
+): any {
   if (getPolymorphicDiscriminatorRecursively(serializer, mapper)) {
     mapper = getPolymorphicMapper(serializer, mapper, object, "clientName");
   }
 
-  if (object != undefined) {
+  if (object !== undefined) {
     const payload: any = {};
     const modelProps = resolveModelProperties(serializer, mapper, objectName);
     for (const key of Object.keys(modelProps)) {
@@ -573,14 +572,14 @@ function serializeCompositeType(
 
         for (const pathName of paths) {
           const childObject = parentObject[pathName];
-          if (childObject == undefined && object[key] != undefined) {
+          if (childObject === undefined && object[key] !== undefined) {
             parentObject[pathName] = {};
           }
           parentObject = parentObject[pathName];
         }
       }
 
-      if (parentObject != undefined) {
+      if (parentObject !== undefined) {
         const propertyObjectName =
           propertyMapper.serializedName !== ""
             ? objectName + "." + propertyMapper.serializedName
@@ -591,7 +590,7 @@ function serializeCompositeType(
         if (
           polymorphicDiscriminator &&
           polymorphicDiscriminator.clientName === key &&
-          toSerialize == undefined
+          toSerialize === undefined
         ) {
           toSerialize = mapper.serializedName;
         }
@@ -601,7 +600,7 @@ function serializeCompositeType(
           toSerialize,
           propertyObjectName
         );
-        if (serializedValue !== undefined && propName != undefined) {
+        if (serializedValue !== undefined && propName !== undefined) {
           if (propertyMapper.xmlIsAttribute) {
             // $ is the key attributes are kept under in xml2js.
             // This keeps things simple while preventing name collision
@@ -728,7 +727,7 @@ function deserializeCompositeType(
       if (
         polymorphicDiscriminator &&
         key === polymorphicDiscriminator.clientName &&
-        propertyInstance == undefined
+        propertyInstance === undefined
       ) {
         propertyInstance = mapper.serializedName;
       }
@@ -751,7 +750,7 @@ function deserializeCompositeType(
 
   const additionalPropertiesMapper = mapper.type.additionalProperties;
   if (additionalPropertiesMapper) {
-    const isAdditionalProperty = (responsePropName: string) => {
+    const isAdditionalProperty = (responsePropName: string): boolean => {
       for (const clientPropName in modelProps) {
         const paths = splitSerializeName(modelProps[clientPropName].serializedName);
         if (paths[0] === responsePropName) {
@@ -791,7 +790,7 @@ function deserializeDictionaryType(
   responseBody: any,
   objectName: string
 ): any {
-  /*jshint validthis: true */
+  /* jshint validthis: true */
   const value = mapper.type.value;
   if (!value || typeof value !== "object") {
     throw new Error(
@@ -815,7 +814,7 @@ function deserializeSequenceType(
   responseBody: any,
   objectName: string
 ): any {
-  /*jshint validthis: true */
+  /* jshint validthis: true */
   const element = mapper.type.element;
   if (!element || typeof element !== "object") {
     throw new Error(
@@ -847,9 +846,9 @@ function getPolymorphicMapper(
   const polymorphicDiscriminator = getPolymorphicDiscriminatorRecursively(serializer, mapper);
   if (polymorphicDiscriminator) {
     const discriminatorName = polymorphicDiscriminator[polymorphicPropertyName];
-    if (discriminatorName != undefined) {
+    if (discriminatorName !== undefined) {
       const discriminatorValue = object[discriminatorName];
-      if (discriminatorValue != undefined) {
+      if (discriminatorValue !== undefined) {
         const typeName = mapper.type.uberParent || mapper.type.className;
         const indexDiscriminator =
           discriminatorValue === typeName
@@ -876,7 +875,7 @@ function getPolymorphicDiscriminatorRecursively(
   );
 }
 
-function getPolymorphicDiscriminatorSafely(serializer: Serializer, typeName?: string) {
+function getPolymorphicDiscriminatorSafely(serializer: Serializer, typeName?: string): any {
   return (
     typeName &&
     serializer.modelMappers[typeName] &&
@@ -1000,7 +999,7 @@ export interface UrlParameterValue {
 
 // TODO: why is this here?
 export function serializeObject(toSerialize: any): any {
-  if (toSerialize == undefined) return undefined;
+  if (toSerialize === undefined) return undefined;
   if (toSerialize instanceof Uint8Array) {
     toSerialize = base64.encodeByteArray(toSerialize);
     return toSerialize;

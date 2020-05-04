@@ -1,5 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
+
+/* eslint-disable no-unused-expressions */
 
 import { assert, AssertionError } from "chai";
 import { AbortController } from "@azure/abort-controller";
@@ -146,7 +148,7 @@ describe("defaultHttpClient", function() {
 
   describe("should report upload and download progress", () => {
     type Notified = { notified: boolean };
-    const listener = (operationStatus: Notified, ev: TransferProgressEvent) => {
+    const listener = (operationStatus: Notified, ev: TransferProgressEvent): void => {
       operationStatus.notified = true;
       if (typeof ProgressEvent !== "undefined") {
         ev.should.not.be.instanceof(ProgressEvent);
@@ -158,7 +160,7 @@ describe("defaultHttpClient", function() {
       httpMock.post("/fileupload", async (_url, _method, _body) => {
         return {
           status: 251,
-          body: body.repeat(9).substring(0, 200),
+          body: _body.repeat(9).substring(0, 200),
           headers: { "Content-Length": "200" }
         };
       });
@@ -215,6 +217,7 @@ describe("defaultHttpClient", function() {
 
   it("should give a graceful error for nonexistent hosts", async function() {
     // Increase timeout to give the request time to fail
+    // eslint-disable-next-line no-invalid-this
     this.timeout(10000);
     const requestUrl = "http://fake.domain";
     httpMock.passThrough();

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import {
   BaseRequestPolicy,
@@ -70,7 +70,7 @@ function extractAuthFromUrl(
   }
 
   const schemeIndex = url.indexOf("://");
-  let authStart = schemeIndex !== -1 ? schemeIndex + 3 : 0;
+  const authStart = schemeIndex !== -1 ? schemeIndex + 3 : 0;
   const auth = url.substring(authStart, atIndex);
   const colonIndex = auth.indexOf(":");
   const hasPassword = colonIndex !== -1;

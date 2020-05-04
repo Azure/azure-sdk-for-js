@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { assert } from "chai";
 import { HttpClient } from "../src/httpClient";
@@ -1138,7 +1138,7 @@ async function testSendOperationRequest(
   queryCollectionFormat: QueryCollectionFormat,
   skipEncodingParameter: boolean,
   expected: string
-) {
+): Promise<void> {
   let request: WebResource;
   const client = new ServiceClient(undefined, {
     httpClient: {

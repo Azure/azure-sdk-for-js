@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { HttpOperationResponse } from "../httpOperationResponse";
 import * as utils from "../util/utils";
@@ -156,7 +156,7 @@ function shouldRetry(
   retryData: RetryData
 ): boolean {
   if (
-    statusCode == undefined ||
+    statusCode === undefined ||
     (statusCode < 500 && statusCode !== 408) ||
     statusCode === 501 ||
     statusCode === 505

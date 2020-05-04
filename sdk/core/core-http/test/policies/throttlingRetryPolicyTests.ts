@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { assert, AssertionError } from "chai";
 import sinon from "sinon";
@@ -33,7 +33,7 @@ describe("ThrottlingRetryPolicy", () => {
       httpRequest: WebResource,
       response: HttpOperationResponse
     ) => Promise<HttpOperationResponse>
-  ) {
+  ): ThrottlingRetryPolicy {
     if (!response) {
       response = defaultResponse;
     }

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 /*
  * NOTE: When moving this file, please update "browser" section in package.json
@@ -14,7 +14,9 @@ const DisbleResponseDecompressionNotSupportedInBrowser = new Error("DisableRespo
  * {@link DisableResponseDecompressionPolicy} is not supported in browser and attempting
  * to use it will results in error being thrown.
  */
-export function disableResponseDecompressionPolicy() {
+export function disableResponseDecompressionPolicy(): {
+  create: (_nextPolicy: RequestPolicy, _options: RequestPolicyOptions) => Error
+} {
   return {
     create: (_nextPolicy: RequestPolicy, _options: RequestPolicyOptions) => {
       throw DisbleResponseDecompressionNotSupportedInBrowser;
