@@ -1,4 +1,7 @@
 // Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 /**
@@ -47,7 +50,7 @@ export class AzureKeyCredential implements KeyCredential {
    *
    * @param newKey the new key value to be used
    */
-  public update(newKey: string) {
+  public update(newKey: string): void {
     this._key = newKey;
   }
 }

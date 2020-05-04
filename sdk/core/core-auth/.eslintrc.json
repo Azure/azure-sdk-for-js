@@ -1,7 +1,7 @@
 {
   "plugins": ["@azure/azure-sdk"],
-  "extends": ["../../.eslintrc.old.json", "plugin:@azure/azure-sdk/recommended"],
-  "parserOptions": {
-    "createDefaultProgram": true
+  "extends": ["plugin:@azure/azure-sdk/azure-sdk-base"],
+  "rules": {
+    "@typescript-eslint/no-unused-vars": "off"
   }
 }
