@@ -1,16 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { BaseRequestPolicy, RequestPolicy, RequestPolicyOptions } from './requestPolicy';
-import { WebResource } from '../webResource';
-import { HttpOperationResponse } from '../httpOperationResponse';
+import { BaseRequestPolicy, RequestPolicy, RequestPolicyOptions } from "./requestPolicy";
+import { WebResource } from "../webResource";
+import { HttpOperationResponse } from "../httpOperationResponse";
 
 /**
  * Returns a request policy factory that can be used to create an instance of
  * {@link DisableResponseDecompressionPolicy}.
  */
 export function disableResponseDecompressionPolicy(): {
-  create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => DisableResponseDecompressionPolicy
+  create: (
+    nextPolicy: RequestPolicy,
+    options: RequestPolicyOptions
+  ) => DisableResponseDecompressionPolicy;
 } {
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
@@ -30,10 +33,7 @@ export class DisableResponseDecompressionPolicy extends BaseRequestPolicy {
    * @param {RequestPolicy} nextPolicy
    * @param {RequestPolicyOptions} options
    */
-  constructor(
-    nextPolicy: RequestPolicy,
-    options: RequestPolicyOptions
-  ) {
+  constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions) {
     super(nextPolicy, options);
   }
 

@@ -21,8 +21,10 @@ export const DefaultKeepAliveOptions: KeepAliveOptions = {
   enable: true
 };
 
-export function keepAlivePolicy(keepAliveOptions?: KeepAliveOptions): {
-  create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => KeepAlivePolicy
+export function keepAlivePolicy(
+  keepAliveOptions?: KeepAliveOptions
+): {
+  create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => KeepAlivePolicy;
 } {
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {

@@ -59,7 +59,9 @@ export function getDefaultUserAgentValue(): string {
 
 export function userAgentPolicy(userAgentData?: TelemetryInfo): RequestPolicyFactory {
   const key: string =
-    !userAgentData || userAgentData.key === undefined ? getDefaultUserAgentKey() : userAgentData.key;
+    !userAgentData || userAgentData.key === undefined
+      ? getDefaultUserAgentKey()
+      : userAgentData.key;
   const value: string =
     !userAgentData || userAgentData.value === undefined
       ? getDefaultUserAgentValue()

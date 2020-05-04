@@ -11,7 +11,10 @@ export class Serializer {
   ) {}
 
   validateConstraints(mapper: Mapper, value: any, objectName: string): void {
-    const failValidation = (constraintName: keyof MapperConstraints, constraintValue: any): Error => {
+    const failValidation = (
+      constraintName: keyof MapperConstraints,
+      constraintValue: any
+    ): Error => {
       throw new Error(
         `"${objectName}" with value "${value}" should satisfy the constraint "${constraintName}": ${constraintValue}.`
       );

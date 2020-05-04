@@ -16,7 +16,17 @@
   "engines": {
     "node": ">=8.0.0"
   },
-  "keywords": ["isomorphic", "browser", "javascript", "node", "microsoft", "autorest", "clientruntime", "Azure", "cloud"],
+  "keywords": [
+    "isomorphic",
+    "browser",
+    "javascript",
+    "node",
+    "microsoft",
+    "autorest",
+    "clientruntime",
+    "Azure",
+    "cloud"
+  ],
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "types": "./types/latest/src/coreHttp.d.ts",
@@ -27,7 +37,18 @@
       ]
     }
   },
-  "files": ["dist/**/*.node.js", "dist/**/*.node.js.map", "dom-shim.d.ts", "es/src/**/*.js", "es/src/**/*.js.map", "types/*/src/**/*.d.ts", "types/*/src/**/*.d.ts.map", "README.md", "LICENSE", "dist-esm/src"],
+  "files": [
+    "dist/**/*.node.js",
+    "dist/**/*.node.js.map",
+    "dom-shim.d.ts",
+    "es/src/**/*.js",
+    "es/src/**/*.js.map",
+    "types/*/src/**/*.d.ts",
+    "types/*/src/**/*.d.ts.map",
+    "README.md",
+    "LICENSE",
+    "dist-esm/src"
+  ],
   "browser": {
     "./es/src/policies/msRestUserAgentPolicy.js": "./es/src/policies/msRestUserAgentPolicy.browser.js",
     "./es/src/policies/disableResponseDecompressionPolicy.js": "./es/src/policies/disableResponseDecompressionPolicy.browser.js",

@@ -154,19 +154,21 @@ export function promiseToCallback(promise: Promise<any>): Function {
     throw new Error("The provided input is not a Promise.");
   }
   return (cb: Function): void => {
-    promise.then(
-      (data: any) => {
-        // eslint-disable-next-line promise/no-callback-in-promise
-        return cb(undefined, data);
-      },
-      (err: Error) => {
+    promise
+      .then(
+        (data: any) => {
+          // eslint-disable-next-line promise/no-callback-in-promise
+          return cb(undefined, data);
+        },
+        (err: Error) => {
+          // eslint-disable-next-line promise/no-callback-in-promise
+          cb(err);
+        }
+      )
+      .catch((err: Error) => {
         // eslint-disable-next-line promise/no-callback-in-promise
         cb(err);
-      }
-    ).catch((err: Error) => {
-        // eslint-disable-next-line promise/no-callback-in-promise
-        cb(err);
-    });
+      });
   };
 }
 
@@ -180,16 +182,18 @@ export function promiseToServiceCallback<T>(promise: Promise<HttpOperationRespon
     throw new Error("The provided input is not a Promise.");
   }
   return (cb: ServiceCallback<T>): void => {
-    promise.then(
-      (data: HttpOperationResponse) => {
-        return process.nextTick(cb, undefined, data.parsedBody as T, data.request, data);
-      },
-      (err: Error) => {
+    promise
+      .then(
+        (data: HttpOperationResponse) => {
+          return process.nextTick(cb, undefined, data.parsedBody as T, data.request, data);
+        },
+        (err: Error) => {
+          process.nextTick(cb, err);
+        }
+      )
+      .catch((err: Error) => {
         process.nextTick(cb, err);
-      }
-    ).catch((err: Error) => {
-      process.nextTick(cb, err);
-    });
+      });
   };
 }
 

@@ -40,7 +40,10 @@ describe("BearerTokenAuthenticationPolicy", function() {
     await bearerTokenAuthPolicy.sendRequest(request);
 
     assert(
-      fakeGetToken.calledWith(tokenScopes, { abortSignal: undefined, tracingOptions: { spanOptions: undefined } }),
+      fakeGetToken.calledWith(tokenScopes, {
+        abortSignal: undefined,
+        tracingOptions: { spanOptions: undefined }
+      }),
       "fakeGetToken called incorrectly."
     );
     assert.strictEqual(
@@ -76,7 +79,10 @@ describe("BearerTokenAuthenticationPolicy", function() {
     return request;
   }
 
-  function createBearerTokenPolicy(scopes: string | string[], credential: TokenCredential): BearerTokenAuthenticationPolicy {
+  function createBearerTokenPolicy(
+    scopes: string | string[],
+    credential: TokenCredential
+  ): BearerTokenAuthenticationPolicy {
     return new BearerTokenAuthenticationPolicy(
       mockPolicy,
       new RequestPolicyOptions(),
