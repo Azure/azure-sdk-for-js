@@ -18,7 +18,7 @@ import { EventHubClient } from "../src/impl/eventHubClient";
 import { SendOptions, SendBatchOptions } from "../src/models/public";
 import { EnvVarKeys, getEnvVars, getStartingPositionsForTests } from "./utils/testUtils";
 import { AbortController } from "@azure/abort-controller";
-import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
+import { TestTracer, setTracer, SpanGraph, getTracer } from "@azure/core-tracing";
 import { TRACEPARENT_PROPERTY } from "../src/diagnostics/instrumentEventData";
 import { EventHubProducer } from "../src/sender";
 import { SubscriptionHandlerForTests } from "./utils/subscriptionHandlerForTests";
@@ -120,6 +120,7 @@ describe("EventHub Sender", function(): void {
 
     it("can be manually traced", async function(): Promise<void> {
       const tracer = new TestTracer();
+      const existingTracer = getTracer();
       setTracer(tracer);
 
       const rootSpan = tracer.startSpan("root");
@@ -165,6 +166,7 @@ describe("EventHub Sender", function(): void {
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
 
       await producer.close();
+      setTracer(existingTracer);
     });
   });
 
@@ -401,6 +403,7 @@ describe("EventHub Sender", function(): void {
 
     it("can be manually traced", async function(): Promise<void> {
       const tracer = new TestTracer();
+      const existingTracer = getTracer();
       setTracer(tracer);
 
       const rootSpan = tracer.startSpan("root");
@@ -441,10 +444,12 @@ describe("EventHub Sender", function(): void {
 
       tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
+      setTracer(existingTracer);
     });
 
     it("will not instrument already instrumented events", async function(): Promise<void> {
       const tracer = new TestTracer();
+      const existingTracer = getTracer();
       setTracer(tracer);
 
       const rootSpan = tracer.startSpan("test");
@@ -492,10 +497,12 @@ describe("EventHub Sender", function(): void {
 
       tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
+      setTracer(existingTracer);
     });
 
     it("will support tracing batch and send", async function(): Promise<void> {
       const tracer = new TestTracer();
+      const existingTracer = getTracer();
       setTracer(tracer);
 
       const rootSpan = tracer.startSpan("root");
@@ -545,6 +552,7 @@ describe("EventHub Sender", function(): void {
 
       tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
+      setTracer(existingTracer);
     });
 
     it("with partition key should be sent successfully.", async function(): Promise<void> {
@@ -786,6 +794,7 @@ describe("EventHub Sender", function(): void {
 
     it("can be manually traced", async function(): Promise<void> {
       const tracer = new TestTracer();
+      const existingTracer = getTracer();
       setTracer(tracer);
 
       const rootSpan = tracer.startSpan("root");
@@ -847,10 +856,12 @@ describe("EventHub Sender", function(): void {
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
 
       await producer.close();
+      setTracer(existingTracer);
     });
 
     it("skips already instrumented events when manually traced", async function(): Promise<void> {
       const tracer = new TestTracer();
+      const existingTracer = getTracer();
       setTracer(tracer);
 
       const rootSpan = tracer.startSpan("root");
@@ -909,6 +920,7 @@ describe("EventHub Sender", function(): void {
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
 
       await producer.close();
+      setTracer(existingTracer);
     });
   });
 
