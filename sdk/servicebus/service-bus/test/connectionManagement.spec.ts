@@ -14,7 +14,7 @@ import { AbortController } from "@azure/abort-controller";
 const should = chai.should();
 chai.use(chaiAsPromised);
 
-describe.only("controlled connection initialization", () => {
+describe("controlled connection initialization", () => {
   let sender: SenderImpl;
   let senderEntityPath: string;
   let serviceBusClient: ServiceBusClientForTests;
