@@ -8,7 +8,10 @@ import path from "path";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-import { createRecordedTrainingClient, createRecordedRecognizerClient } from "../util/recordedClients";
+import {
+  createRecordedTrainingClient,
+  createRecordedRecognizerClient
+} from "../util/recordedClients";
 import {
   FormRecognizerClient,
   AzureKeyCredential,
@@ -27,7 +30,7 @@ describe("FormTrainingClient NodeJS only", () => {
   let recorder: Recorder;
 
   beforeEach(function() {
-    ({recorder, client: trainingClient} = createRecordedTrainingClient(this));
+    ({ recorder, client: trainingClient } = createRecordedTrainingClient(this));
     trainingClient = new FormTrainingClient(
       env.FORM_RECOGNIZER_ENDPOINT,
       new AzureKeyCredential(env.FORM_RECOGNIZER_API_KEY)
@@ -38,7 +41,7 @@ describe("FormTrainingClient NodeJS only", () => {
     if (recorder) {
       recorder.stop();
     }
-  })
+  });
 
   const expectedDocumentInfo: TrainingDocumentInfo = {
     documentName: "Form_1.jpg",
@@ -208,14 +211,14 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
   let recorder: Recorder;
 
   beforeEach(function() {
-    ({recorder, client: recognizerClient} = createRecordedRecognizerClient(this));
+    ({ recorder, client: recognizerClient } = createRecordedRecognizerClient(this));
   });
 
   afterEach(function() {
     if (recorder) {
       recorder.stop();
     }
-  })
+  });
 
   it("recognizes form jpeg unlabeled model", async () => {
     const filePath = path.join(ASSET_PATH, "forms", "Form_1.jpg");
@@ -364,10 +367,30 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
     assert.ok(form.pages.length > 0, "Expecting at least one page in the first recognized form");
     assert.ok(form.fields);
     assert.ok(form.fields["Merchant"], "Expecting valid 'Merchant' field");
-    assert.equal(form.fields["Merchant"].confidence, undefined, "Expecting 'Merchant' field has undefined confidence");
-    assert.equal(form.fields["Merchant"].fieldLabel, undefined, "Expecting 'Merchant' field has undefined fieldLabel");
-    assert.equal(form.fields["Merchant"].value, undefined, "Expecting 'Merchant' field has undefined value");
-    assert.equal(form.fields["Merchant"].valueText, undefined, "Expecting 'Merchant' field has undefined valueText");
-    assert.equal(form.fields["Merchant"].valueType, undefined, "Expecting 'Merchant' field has undefined valueType");
+    assert.equal(
+      form.fields["Merchant"].confidence,
+      undefined,
+      "Expecting 'Merchant' field has undefined confidence"
+    );
+    assert.equal(
+      form.fields["Merchant"].fieldLabel,
+      undefined,
+      "Expecting 'Merchant' field has undefined fieldLabel"
+    );
+    assert.equal(
+      form.fields["Merchant"].value,
+      undefined,
+      "Expecting 'Merchant' field has undefined value"
+    );
+    assert.equal(
+      form.fields["Merchant"].valueText,
+      undefined,
+      "Expecting 'Merchant' field has undefined valueText"
+    );
+    assert.equal(
+      form.fields["Merchant"].valueType,
+      undefined,
+      "Expecting 'Merchant' field has undefined valueType"
+    );
   });
 }).timeout(60000);

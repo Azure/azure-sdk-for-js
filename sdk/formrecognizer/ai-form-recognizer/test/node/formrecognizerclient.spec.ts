@@ -5,7 +5,7 @@ import { assert } from "chai";
 import fs from "fs-extra";
 import path from "path";
 
-import { FormRecognizerClient } from '../../src';
+import { FormRecognizerClient } from "../../src";
 import { createRecordedRecognizerClient } from "../util/recordedClients";
 import { env, Recorder } from "@azure/test-utils-recorder";
 
@@ -14,8 +14,8 @@ describe("FormRecognizerClient NodeJS only", () => {
   let client: FormRecognizerClient;
   let recorder: Recorder;
 
-  beforeEach(function () {
-    ({recorder, client } = createRecordedRecognizerClient(this));
+  beforeEach(function() {
+    ({ recorder, client } = createRecordedRecognizerClient(this));
   });
 
   afterEach(function() {

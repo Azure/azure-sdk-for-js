@@ -354,7 +354,7 @@ describe("Transforms", () => {
       ...commonProperties
     };
     const original: { [propertyName: string]: FieldValueModel } = {
-        integerProperty: originalInteger,
+      integerProperty: originalInteger
     };
     Object.assign(original, {
       integerProperty: originalInteger,
@@ -366,11 +366,31 @@ describe("Transforms", () => {
     assert.ok(transformed.integerProperty, "Expecting valid integerField");
     assert.ok(transformed.missingField, "Expecting valid missingField");
     assert.equal(transformed.missingField.name, "missingField");
-    assert.equal(transformed.missingField.confidence, undefined, "Expecting missingField has undefined confidence");
-    assert.equal(transformed.missingField.fieldLabel, undefined, "Expecting missingField has undefined fieldLabel");
-    assert.equal(transformed.missingField.value, undefined, "Expecting missingField has undefined value");
-    assert.equal(transformed.missingField.valueText, undefined, "Expecting missingField has undefined valueText");
-    assert.equal(transformed.missingField.valueType, undefined, "Expecting missingField has undefined valueType");
+    assert.equal(
+      transformed.missingField.confidence,
+      undefined,
+      "Expecting missingField has undefined confidence"
+    );
+    assert.equal(
+      transformed.missingField.fieldLabel,
+      undefined,
+      "Expecting missingField has undefined fieldLabel"
+    );
+    assert.equal(
+      transformed.missingField.value,
+      undefined,
+      "Expecting missingField has undefined value"
+    );
+    assert.equal(
+      transformed.missingField.valueText,
+      undefined,
+      "Expecting missingField has undefined valueText"
+    );
+    assert.equal(
+      transformed.missingField.valueType,
+      undefined,
+      "Expecting missingField has undefined valueType"
+    );
   });
 
   it("toTable() converts original data table", () => {
