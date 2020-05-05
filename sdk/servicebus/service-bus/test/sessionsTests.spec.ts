@@ -28,7 +28,7 @@ async function processError(err: Error): Promise<void> {
   }
 }
 
-describe("session tests", () => {
+describe.only("session tests", () => {
   let serviceBusClient: ServiceBusClientForTests;
   let sender: Sender;
   let receiver: SessionReceiver<ReceivedMessageWithLock>;
