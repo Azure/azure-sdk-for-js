@@ -285,14 +285,18 @@ export function toFields(
 }
 
 export function toFieldsFromFieldValue(
-  original: { [propertyName: string]: FieldValueModel },
+  original: { [propertyName: string]: FieldValueModel | null },
   readResults: FormPage[]
 ): { [propertyName: string]: FormField } {
   const result: { [propertyName: string]: FormField } = {};
   for (const key in original) {
     // eslint-disable-next-line no-prototype-builtins
     if (original.hasOwnProperty(key)) {
-      const fieldValue = toFieldValue(original[key], readResults);
+      if (!original[key]) {
+        result[key] = { name: key };
+        continue;
+      }
+      const fieldValue = toFieldValue(original[key]!, readResults);
       if (fieldValue.type === "array" || fieldValue.type === "object") {
         const formField: FormField = {
           confidence: 1,

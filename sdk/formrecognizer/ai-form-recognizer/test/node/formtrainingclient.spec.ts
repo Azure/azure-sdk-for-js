@@ -339,4 +339,35 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
     assert.ok(form.fields["CompanyName"]);
     assert.ok(form.fields["Signature"]);
   });
+
+  it("handles missing fields", async () => {
+    const filePath = path.join(ASSET_PATH, "forms", "Invoice_1.pdf");
+    const stream = fs.createReadStream(filePath);
+
+    assert.ok(labeledModelId, "Expecting valid model id from training without labels");
+    const poller = await recognizerClient.beginRecognizeForms(labeledModelId!, stream);
+    await poller.pollUntilDone();
+    const response = poller.getResult();
+
+    assert.ok(response, "Expect valid response object");
+    assert.equal(response!.status, "succeeded");
+    assert.ok(
+      response!.forms && response!.forms.length > 0,
+      `Expect no-empty pages but got ${response!.forms}`
+    );
+    const form = response!.forms![0];
+    assert.equal(form.formType, "custom:form");
+    assert.deepStrictEqual(form.pageRange, {
+      firstPageNumber: 1,
+      lastPageNumber: 1
+    });
+    assert.ok(form.pages.length > 0, "Expecting at least one page in the first recognized form");
+    assert.ok(form.fields);
+    assert.ok(form.fields["Merchant"], "Expecting valid 'Merchant' field");
+    assert.equal(form.fields["Merchant"].confidence, undefined, "Expecting 'Merchant' field has undefined confidence");
+    assert.equal(form.fields["Merchant"].fieldLabel, undefined, "Expecting 'Merchant' field has undefined fieldLabel");
+    assert.equal(form.fields["Merchant"].value, undefined, "Expecting 'Merchant' field has undefined value");
+    assert.equal(form.fields["Merchant"].valueText, undefined, "Expecting 'Merchant' field has undefined valueText");
+    assert.equal(form.fields["Merchant"].valueType, undefined, "Expecting 'Merchant' field has undefined valueType");
+  });
 }).timeout(60000);
