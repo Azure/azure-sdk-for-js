@@ -494,7 +494,7 @@ describe("container.readOffer", function() {
       assert.equal(offer.resource.offerVersion, "V2");
     });
     it("container has offer", async function() {
-      const offer: any = await container2WithOffer.readOffer();
+      const offer = await container2WithOffer.readOffer();
       assert.equal(offer.resource.offerVersion, "V2");
     });
   });

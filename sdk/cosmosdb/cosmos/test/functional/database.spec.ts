@@ -142,7 +142,7 @@ describe("database.readOffer", function() {
     before(async function() {
       offerlessDatabase = await getTestDatabase("has offer db1", undefined);
     });
-    it("returns undefined", async function() {
+    it("returns undefined resource", async function() {
       const offer: any = await offerlessDatabase.readOffer();
       assert.equal(offer.resource, undefined);
     });

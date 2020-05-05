@@ -210,7 +210,7 @@ export class Container {
   }
 
   /**
-   * Gets offer on container. If none exists, returns null.
+   * Gets offer on container. If none exists, returns an OfferResponse with undefined.
    * @param options
    */
   public async readOffer(options: RequestOptions = {}): Promise<OfferResponse> {
