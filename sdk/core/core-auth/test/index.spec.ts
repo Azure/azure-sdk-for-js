@@ -64,8 +64,12 @@ describe("isTokenCredential", function() {
   it("should return false for an object that has a 'signRequest' field and getToken that takes no parameters", () => {
     assert.strictEqual(
       isTokenCredential({
-        getToken: function() {},
-        signRequest: function() {}
+        getToken: function(): number {
+          return 1;
+        },
+        signRequest: function(): number {
+          return 1;
+        }
       }),
       false
     );
@@ -77,7 +81,9 @@ describe("isTokenCredential", function() {
         getToken: function(scope: string): string {
           return scope;
         },
-        signRequest: function() {}
+        signRequest: function(): number {
+          return 1;
+        }
       }),
       true
     );
