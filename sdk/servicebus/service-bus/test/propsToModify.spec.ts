@@ -8,7 +8,7 @@ import { createServiceBusClientForTests } from "./utils/testutils2";
 import { TestClientType, TestMessage } from "./utils/testUtils";
 import { Receiver, ReceivedMessage, ReceivedMessageWithLock } from "../src";
 
-describe("dead lettering", () => {
+describe.only("dead lettering", () => {
   let serviceBusClient: ReturnType<typeof createServiceBusClientForTests>;
   let deadLetterReceiver: Receiver<ReceivedMessage>;
   let receiver: Receiver<ReceivedMessageWithLock>;
@@ -159,7 +159,7 @@ describe("dead lettering", () => {
   }
 });
 
-describe("abandoning", () => {
+describe.only("abandoning", () => {
   let serviceBusClient: ReturnType<typeof createServiceBusClientForTests>;
   let receiver: Receiver<ReceivedMessageWithLock>;
   let receivedMessage: ReceivedMessageWithLock;
@@ -280,7 +280,7 @@ describe("abandoning", () => {
   }
 });
 
-describe("deferring", () => {
+describe.only("deferring", () => {
   let serviceBusClient: ReturnType<typeof createServiceBusClientForTests>;
   let receiver: Receiver<ReceivedMessageWithLock>;
   let receivedMessage: ReceivedMessageWithLock;

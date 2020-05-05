@@ -7,7 +7,7 @@ import { isNode } from "@azure/core-amqp";
 chai.should();
 chai.use(chaiAsPromised);
 
-describe.only("ManagementClient - disconnects", function(): void {
+describe("ManagementClient - disconnects", function(): void {
   let serviceBusClient: ServiceBusClientForTests;
   let senderClient: Sender;
   let receiverClient: Receiver<ReceivedMessageWithLock>;
