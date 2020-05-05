@@ -21,7 +21,7 @@ import { isNode } from "@azure/core-amqp";
 const should = chai.should();
 chai.use(chaiAsPromised);
 
-describe("batchReceiver", () => {
+describe.only("batchReceiver", () => {
   let serviceBusClient: ServiceBusClientForTests;
   let errorWasThrown: boolean;
 
@@ -53,7 +53,7 @@ describe("batchReceiver", () => {
     return serviceBusClient.test.afterEach();
   }
 
-  describe("Batch Receiver - Settle message", function(): void {
+  describe.only("Batch Receiver - Settle message", function(): void {
     afterEach(async () => {
       await afterEachTest();
     });
@@ -489,7 +489,7 @@ describe("batchReceiver", () => {
     });
   });
 
-  describe("Batch Receiver - Settle deadlettered message", function(): void {
+  describe.only("Batch Receiver - Settle deadlettered message", function(): void {
     afterEach(async () => {
       await afterEachTest();
     });
@@ -697,7 +697,7 @@ describe("batchReceiver", () => {
     });
   });
 
-  describe("Batch Receiver - Multiple Receiver Operations", function(): void {
+  describe.only("Batch Receiver - Multiple Receiver Operations", function(): void {
     afterEach(async () => {
       await afterEachTest();
     });
@@ -840,7 +840,7 @@ describe("batchReceiver", () => {
     });
   });
 
-  describe("Batch Receiver - Others", function(): void {
+  describe.only("Batch Receiver - Others", function(): void {
     afterEach(async () => {
       await afterEachTest();
     });
@@ -981,7 +981,7 @@ describe("batchReceiver", () => {
     });
   });
 
-  describe("Cancel operations on the receiver", function(): void {
+  describe.only("Cancel operations on the receiver", function(): void {
     it("Abort receiveDeferredMessage request on the receiver", async function(): Promise<void> {
       await beforeEachTest(TestClientType.PartitionedQueue);
       const controller = new AbortController();
@@ -1014,7 +1014,7 @@ describe("batchReceiver", () => {
   });
 });
 
-describe("Batching - disconnects", function(): void {
+describe.only("Batching - disconnects", function(): void {
   let serviceBusClient: ServiceBusClientForTests;
   let senderClient: Sender;
   let receiverClient: Receiver<ReceivedMessageWithLock>;

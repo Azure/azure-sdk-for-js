@@ -18,7 +18,7 @@ import { ReceivedMessageWithLock, DispositionType } from "../src/serviceBusMessa
 const should = chai.should();
 chai.use(chaiAsPromised);
 
-describe.only("Backup message settlement - Through ManagementLink", () => {
+describe("Backup message settlement - Through ManagementLink", () => {
   let serviceBusClient: ServiceBusClientForTests;
 
   let senderClient: Sender;
