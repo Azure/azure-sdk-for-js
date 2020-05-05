@@ -49,7 +49,12 @@
     "LICENSE"
   ],
   "repository": "github:Azure/azure-sdk-for-js",
-  "keywords": ["azure", "authentication", "Azure", "cloud"],
+  "keywords": [
+    "azure",
+    "authentication",
+    "Azure",
+    "cloud"
+  ],
   "author": "Microsoft Corporation",
   "license": "MIT",
   "bugs": {
