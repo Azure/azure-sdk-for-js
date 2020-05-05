@@ -15,7 +15,7 @@ import {
 import { Sender } from "../src/sender";
 import { ConditionErrorNameMapper } from "@azure/core-amqp";
 
-describe.only("Send Batch", () => {
+describe("Send Batch", () => {
   let senderClient: Sender;
   let serviceBusClient: ServiceBusClientForTests;
 

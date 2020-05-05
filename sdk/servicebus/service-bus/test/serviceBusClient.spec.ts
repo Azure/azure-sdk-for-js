@@ -29,7 +29,7 @@ import {
   testPeekMsgsLength
 } from "./utils/testutils2";
 
-// describe("Create ServiceBusClient and Queue/Topic/Subscription Clients", function(): void {
+// describe.only("Create ServiceBusClient and Queue/Topic/Subscription Clients", function(): void {
 //   let sbClient: ServiceBusClient;
 
 //   afterEach(async () => {
@@ -61,7 +61,7 @@ import {
 // });
 // });
 
-describe("Random scheme in the endpoint from connection string", function(): void {
+describe.only("Random scheme in the endpoint from connection string", function(): void {
   let sbClient: ServiceBusClientForTests;
   let sbClientWithRelaxedEndPoint: ServiceBusClient;
   let entities: EntityName;
@@ -118,7 +118,7 @@ describe("Random scheme in the endpoint from connection string", function(): voi
   });
 });
 
-describe("Errors with non existing Namespace", function(): void {
+describe.only("Errors with non existing Namespace", function(): void {
   let sbClient: ServiceBusClient;
   let errorWasThrown: boolean;
   beforeEach(() => {
@@ -197,7 +197,7 @@ describe("Errors with non existing Namespace", function(): void {
   });
 });
 
-describe("Errors with non existing Queue/Topic/Subscription", async function(): Promise<void> {
+describe.only("Errors with non existing Queue/Topic/Subscription", async function(): Promise<void> {
   let sbClient: ServiceBusClientForTests;
   let errorWasThrown: boolean;
   beforeEach(() => {
@@ -304,7 +304,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
   });
 });
 
-describe("Test ServiceBusClient creation", function(): void {
+describe.only("Test ServiceBusClient creation", function(): void {
   let errorWasThrown: boolean = false;
 
   const env = getEnvVars();
@@ -400,7 +400,7 @@ describe("Test ServiceBusClient creation", function(): void {
   // }
 });
 
-describe("Errors after close()", function(): void {
+describe.only("Errors after close()", function(): void {
   let sbClient: ServiceBusClientForTests;
   let sender: Sender;
   let receiver: Receiver<ReceivedMessageWithLock>;
@@ -740,7 +740,7 @@ describe("Errors after close()", function(): void {
   //   should.equal(errorGetRules, expectedErrorMsg, "Expected error not thrown for getRule()");
   // }
 
-  describe("Errors after close() on namespace", function(): void {
+  describe.only("Errors after close() on namespace", function(): void {
     const entityToClose = "namespace";
     const expectedErrorMsg = "The underlying AMQP connection is closed.";
 
@@ -788,7 +788,7 @@ describe("Errors after close()", function(): void {
     });
   });
 
-  // describe("Errors after close() on senderClient", function(): void {
+  // describe.only("Errors after close() on senderClient", function(): void {
   //   const entityToClose = "senderClient";
 
   //   it("Unpartitioned Queue: errors after close() on senderClient", async function(): Promise<
@@ -818,7 +818,7 @@ describe("Errors after close()", function(): void {
   //   });
   // });
 
-  describe("Errors after close() on receiver", function(): void {
+  describe.only("Errors after close() on receiver", function(): void {
     const entityToClose = "receiver";
 
     it("Unpartitioned Queue: errors after close() on receiver", async function(): Promise<void> {
@@ -861,7 +861,7 @@ describe("Errors after close()", function(): void {
   });
 
   // TODO - getOpenSenderErrorMsg doesn't exist, make that exist and update the test
-  // describe("Errors after close() on sender", function(): void {
+  // describe.only("Errors after close() on sender", function(): void {
   //   const entityToClose = "sender";
 
   //   it("Unpartitioned Queue: errors after close() on sender", async function(): Promise<
@@ -875,7 +875,7 @@ describe("Errors after close()", function(): void {
   //   });
   // });
 
-  describe("Errors after close() on receiver", function(): void {
+  describe.only("Errors after close() on receiver", function(): void {
     const entityToClose = "receiver";
 
     it("Unpartitioned Queue with sessions: errors after close() on receiver", async function(): Promise<
@@ -891,7 +891,7 @@ describe("Errors after close()", function(): void {
   });
 
   // TODO - getOpenSenderErrorMsg doesn't exist, make that exist and update the tests
-  // describe("Errors when creating second sender/receiver with first not closed", function(): void {
+  // describe.only("Errors when creating second sender/receiver with first not closed", function(): void {
   //   it("Open sender exists on QueueClient", async function(): Promise<void> {
   //     await beforeEachTest(TestClientType.PartitionedQueue, "");
 
