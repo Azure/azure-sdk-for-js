@@ -1,5 +1,8 @@
 # Release History
 
+## 5.2.1 (Unreleased)
+
+
 ## 5.2.0 (2020-05-05)
 
 - Updates the `EventHubProducerClient.sendBatch` API to accept an array of events.
