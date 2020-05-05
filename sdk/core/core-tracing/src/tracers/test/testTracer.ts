@@ -31,6 +31,37 @@ export interface SpanGraph {
   roots: SpanGraphNode[];
 }
 
+export interface TestTracerLike extends NoOpTracer {
+  /**
+   * Returns all Spans that were created without a parent
+   */
+  getRootSpans(): TestSpan[];
+
+  /**
+   * Returns all Spans this Tracer knows about
+   */
+  getKnownSpans(): TestSpan[];
+
+  /**
+   * Returns all Spans where end() has not been called
+   */
+  getActiveSpans(): TestSpan[];
+
+  /**
+   * Return all Spans for a particular trace, grouped by their
+   * parent Span in a tree-like structure
+   * @param traceId The traceId to return the graph for
+   */
+  getSpanGraph(traceId: string): SpanGraph;
+
+  /**
+   * Starts a new Span.
+   * @param name The name of the span.
+   * @param options The SpanOptions used during Span creation.
+   */
+  startSpan(name: string, options?: SpanOptions): TestSpan;
+}
+
 /**
  * A mock tracer useful for testing
  */
