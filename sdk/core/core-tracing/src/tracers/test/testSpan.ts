@@ -11,7 +11,6 @@ import {
   Attributes
 } from "@opentelemetry/api";
 import { NoOpSpan } from "../noop/noOpSpan";
-import { TestTracerLike } from "./testTracer";
 
 /**
  * A mock span useful for testing.
@@ -65,7 +64,7 @@ export class TestSpan extends NoOpSpan {
    * @param startTime The startTime of the event (defaults to now)
    */
   constructor(
-    parentTracer: TestTracerLike,
+    parentTracer: Tracer,
     name: string,
     context: SpanContext,
     kind: SpanKind,
