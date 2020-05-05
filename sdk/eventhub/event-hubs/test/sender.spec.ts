@@ -1037,6 +1037,7 @@ describe("EventHub Sender", function(): void {
 
     it("can be manually traced", async function(): Promise<void> {
       const tracer = new TestTracer();
+      const existingTracer = getTracer();
       setTracer(tracer);
 
       const rootSpan = tracer.startSpan("root");
@@ -1094,10 +1095,12 @@ describe("EventHub Sender", function(): void {
 
       tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
+      setTracer(existingTracer);
     });
 
     it("skips already instrumented events when manually traced", async function(): Promise<void> {
       const tracer = new TestTracer();
+      const existingTracer = getTracer();
       setTracer(tracer);
 
       const rootSpan = tracer.startSpan("root");
@@ -1152,6 +1155,7 @@ describe("EventHub Sender", function(): void {
 
       tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
+      setTracer(existingTracer);
     });
   });
 
