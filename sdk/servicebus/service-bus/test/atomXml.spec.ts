@@ -75,7 +75,7 @@ const mockServiceBusAtomManagementClient: ServiceBusAtomManagementClient = new S
   "Endpoint=test/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=test"
 );
 
-describe("atomSerializationPolicy", function() {
+describe.only("atomSerializationPolicy", function() {
   it("should throw an error if receiving a non-XML response body", async function() {
     const request = new WebResource();
     mockServiceBusAtomManagementClient.sendRequest = async () => {
@@ -140,7 +140,7 @@ describe("atomSerializationPolicy", function() {
   });
 });
 
-describe("deserializeAtomXmlResponse", function() {
+describe.only("deserializeAtomXmlResponse", function() {
   it("should throw an error if receiving a valid XML but invalid Atom XML", async function() {
     const request: WebResource = new WebResource();
     const _response = {
@@ -187,7 +187,7 @@ describe("deserializeAtomXmlResponse", function() {
   });
 });
 
-describe("Serializer construct requests with properties in specific order", function() {
+describe.only("Serializer construct requests with properties in specific order", function() {
   it("Queue serializer generates XML in expected order", async function() {
     const queueOptions = {
       messageCount: 5,
@@ -526,7 +526,7 @@ class MockSerializer implements AtomXmlSerializer {
     }
   }
 ].forEach((testCase) => {
-  describe(`Type validation errors on SQL parameter inputs`, function(): void {
+  describe.only(`Type validation errors on SQL parameter inputs`, function(): void {
     it(`${testCase.testCaseTitle}`, async () => {
       try {
         const request = new WebResource();
@@ -585,7 +585,7 @@ class MockSerializer implements AtomXmlSerializer {
     }
   }
 ].forEach((testCase) => {
-  describe(`Type validation errors on authorization rule inputs`, function(): void {
+  describe.only(`Type validation errors on authorization rule inputs`, function(): void {
     it(`${testCase.testCaseTitle}`, async () => {
       mockServiceBusAtomManagementClient.sendRequest = async () => {
         return {
@@ -732,7 +732,7 @@ class MockSerializer implements AtomXmlSerializer {
     }
   }
 ].forEach((testCase) => {
-  describe(`Verify error codes and messages get constructed correctly for different scenarios`, function(): void {
+  describe.only(`Verify error codes and messages get constructed correctly for different scenarios`, function(): void {
     it(`${testCase.testCaseTitle}`, async () => {
       mockServiceBusAtomManagementClient.sendRequest = async () => {
         const response = {
@@ -878,7 +878,7 @@ class MockSerializer implements AtomXmlSerializer {
     errorCode: "HttpVersionNotSupported"
   }
 ].forEach((testCase) => {
-  describe(`Verify error code mapping for non-specialized failed HTTP status codes`, function(): void {
+  describe.only(`Verify error code mapping for non-specialized failed HTTP status codes`, function(): void {
     it(`Verify mapping for response status code "${testCase.responseStatus}" to result in "${testCase.errorCode}" error code.`, async () => {
       mockServiceBusAtomManagementClient.sendRequest = async () => {
         return {
@@ -898,7 +898,7 @@ class MockSerializer implements AtomXmlSerializer {
   });
 });
 
-describe(`Parse empty response for list() requests to return as empty array`, function(): void {
+describe.only(`Parse empty response for list() requests to return as empty array`, function(): void {
   function assertEmptyArray(result: any) {
     mockServiceBusAtomManagementClient.sendRequest = async () => {
       return {
