@@ -5,10 +5,11 @@ import { PipelineRequest, PipelineResponse, HttpsClient, SendRequest } from "./i
 
 export type PipelinePhase = "Serialize" | "Retry";
 
+const ValidPhaseNames = new Set<PipelinePhase>(["Serialize", "Retry"]);
+
 export interface AddPipelineOptions {
   beforePolicies?: string[];
   afterPolicies?: string[];
-  beforePhase?: PipelinePhase;
   afterPhase?: PipelinePhase;
   phase?: PipelinePhase;
 }
@@ -35,7 +36,7 @@ interface PolicyGraphNode {
   policy: PipelinePolicy;
   dependsOn: Set<PolicyGraphNode>;
   dependants: Set<PolicyGraphNode>;
-  phase: PipelinePhase | "Unassigned";
+  afterPhase?: Set<PolicyGraphNode>;
 }
 
 export class HttpsPipeline implements Pipeline {
@@ -48,6 +49,15 @@ export class HttpsPipeline implements Pipeline {
   }
 
   public addPolicy(policy: PipelinePolicy, options: AddPipelineOptions = {}): void {
+    if (options.phase && options.afterPhase) {
+      throw new Error("Policies inside a phase cannot specify afterPhase.");
+    }
+    if (options.phase && !ValidPhaseNames.has(options.phase)) {
+      throw new Error(`Invalid phase name: ${options.phase}`);
+    }
+    if (options.afterPhase && !ValidPhaseNames.has(options.afterPhase)) {
+      throw new Error(`Invalid phase name: ${options.afterPhase}`);
+    }
     this._policies.push({
       policy,
       options
@@ -106,9 +116,23 @@ export class HttpsPipeline implements Pipeline {
     const result: PipelinePolicy[] = [];
 
     const policyMap: Map<string, PolicyGraphNode> = new Map<string, PolicyGraphNode>();
+    const noPhase = new Set<PolicyGraphNode>();
+    const serializePhase = new Set<PolicyGraphNode>();
+    const retryPhase = new Set<PolicyGraphNode>();
+
+    function getPhase(phase: PipelinePhase | undefined): Set<PolicyGraphNode> {
+      if (phase === "Retry") {
+        return retryPhase;
+      } else if (phase === "Serialize") {
+        return serializePhase;
+      } else {
+        return noPhase;
+      }
+    }
 
     for (const descriptor of this._policies) {
       const policy = descriptor.policy;
+      const options = descriptor.options;
       const policyName = policy.name;
       if (policyMap.has(policyName)) {
         throw new Error("Duplicate policy names not allowed in pipeline");
@@ -116,10 +140,14 @@ export class HttpsPipeline implements Pipeline {
         const node: PolicyGraphNode = {
           policy,
           dependsOn: new Set<PolicyGraphNode>(),
-          dependants: new Set<PolicyGraphNode>(),
-          phase: descriptor.options.phase ?? "Unassigned"
+          dependants: new Set<PolicyGraphNode>()
         };
+        if (options.afterPhase) {
+          node.afterPhase = getPhase(options.afterPhase);
+        }
         policyMap.set(policyName, node);
+        const phase = getPhase(options.phase);
+        phase.add(node);
       }
     }
 
@@ -151,19 +179,29 @@ export class HttpsPipeline implements Pipeline {
       }
     }
 
-    while (policyMap.size > 0) {
-      const initialResultLength = result.length;
-      for (const [name, node] of policyMap) {
+    function walkPhase(phase: Set<PolicyGraphNode>): void {
+      for (const node of phase) {
+        if (node.afterPhase && node.afterPhase.size) {
+          continue;
+        }
         if (node.dependsOn.size === 0) {
           result.push(node.policy);
           for (const dependant of node.dependants) {
             dependant.dependsOn.delete(node);
           }
-          policyMap.delete(name);
+          policyMap.delete(node.policy.name);
+          phase.delete(node);
         }
       }
+    }
+
+    while (policyMap.size > 0) {
+      const initialResultLength = result.length;
+      walkPhase(noPhase);
+      walkPhase(serializePhase);
+      walkPhase(retryPhase);
       if (result.length <= initialResultLength) {
-        throw new Error("Cannot satisfy policy dependencies due to cycle.");
+        throw new Error("Cannot satisfy policy dependencies due to requirements cycle.");
       }
     }
 

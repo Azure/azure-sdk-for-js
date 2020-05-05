@@ -59,7 +59,7 @@ describe("HttpsPipeline", function() {
     assert.strictEqual(testPolicy, policies[1]);
   });
 
-  it("addPolicy honors afterPolicies", function() {
+  it("getOrderedPolicies honors afterPolicies", function() {
     const pipeline = HttpsPipeline.create();
     const testPolicy: PipelinePolicy = {
       sendRequest: (request, next) => next(request),
@@ -94,7 +94,7 @@ describe("HttpsPipeline", function() {
     }, /Duplicate policy/);
   });
 
-  it("addPolicy throws on circular reference", function() {
+  it("getOrderedPolicies throws on circular reference", function() {
     const pipeline = HttpsPipeline.create();
     const testPolicy: PipelinePolicy = {
       sendRequest: (request, next) => next(request),
@@ -130,25 +130,70 @@ describe("HttpsPipeline", function() {
       sendRequest: (request, next) => next(request),
       name: "test3"
     };
-    const testPolicy4: PipelinePolicy = {
-      sendRequest: (request, next) => next(request),
-      name: "test4"
-    };
     pipeline.addPolicy(testPolicy, { phase: "Retry" });
-    pipeline.addPolicy(testPolicy2, { beforePhase: "Retry" });
-
-    pipeline.addPolicy(testPolicy3, { afterPhase: "Retry" });
-    pipeline.addPolicy(testPolicy4, { phase: "Retry" });
+    pipeline.addPolicy(testPolicy2, { afterPhase: "Retry" });
+    pipeline.addPolicy(testPolicy3, { phase: "Retry" });
 
     const policies = pipeline.getOrderedPolicies();
-    assert.strictEqual(policies.length, 4);
-    assert.strictEqual(testPolicy2, policies[0]);
-    assert.strictEqual(testPolicy, policies[1]);
-    assert.strictEqual(testPolicy4, policies[2]);
-    assert.strictEqual(testPolicy3, policies[3]);
+    assert.strictEqual(policies.length, 3);
+    assert.strictEqual(testPolicy, policies[0]);
+    assert.strictEqual(testPolicy3, policies[1]);
+    assert.strictEqual(testPolicy2, policies[2]);
   });
 
-  // add test that unassigned, serialize, retry happen in order
+  it("phases are ordered correctly", function() {
+    const pipeline = HttpsPipeline.create();
+    const testPolicy: PipelinePolicy = {
+      sendRequest: (request, next) => next(request),
+      name: "test"
+    };
+    const testPolicy2: PipelinePolicy = {
+      sendRequest: (request, next) => next(request),
+      name: "test2"
+    };
+    const testPolicy3: PipelinePolicy = {
+      sendRequest: (request, next) => next(request),
+      name: "test3"
+    };
+    pipeline.addPolicy(testPolicy, { phase: "Retry" });
+    pipeline.addPolicy(testPolicy2, { phase: "Serialize" });
+    pipeline.addPolicy(testPolicy3);
+
+    const policies = pipeline.getOrderedPolicies();
+    assert.strictEqual(policies.length, 3);
+    assert.strictEqual(testPolicy3, policies[0]);
+    assert.strictEqual(testPolicy2, policies[1]);
+    assert.strictEqual(testPolicy, policies[2]);
+  });
+
+  it("addPolicy throws on both phase and afterPhase specified", function() {
+    const pipeline = HttpsPipeline.create();
+    const testPolicy: PipelinePolicy = {
+      sendRequest: (request, next) => next(request),
+      name: "test"
+    };
+
+    assert.throws(() => {
+      pipeline.addPolicy(testPolicy, { phase: "Retry", afterPhase: "Serialize" });
+    }, /inside a phase cannot specify afterPhase/);
+  });
+
+  it("addPolicy throws on invalid phase name", function() {
+    const pipeline = HttpsPipeline.create();
+    const testPolicy: PipelinePolicy = {
+      sendRequest: (request, next) => next(request),
+      name: "test"
+    };
+
+    assert.throws(() => {
+      pipeline.addPolicy(testPolicy, { phase: "Cerealize" as any });
+    }, /Invalid phase name/);
+
+    assert.throws(() => {
+      pipeline.addPolicy(testPolicy, { afterPhase: "Cerealize" as any });
+    }, /Invalid phase name/);
+  });
+
   // bad phase name should throw
 
   it("removePolicy removes named policy", function() {
