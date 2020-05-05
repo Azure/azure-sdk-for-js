@@ -2,12 +2,18 @@
   "name": "@azure/service-bus",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "7.0.0-preview.2",
+  "version": "7.0.0-preview.3",
   "license": "MIT",
   "description": "Azure Service Bus SDK for Node.js",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus",
   "repository": "github:Azure/azure-sdk-for-js",
-  "keywords": ["azure", "cloud", "service bus", "AMQP", "Azure"],
+  "keywords": [
+    "azure",
+    "cloud",
+    "service bus",
+    "AMQP",
+    "Azure"
+  ],
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
