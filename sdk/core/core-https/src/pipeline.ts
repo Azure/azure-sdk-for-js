@@ -1,35 +1,100 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+// TODO: use type import when TS 3.8 lands.
 import { PipelineRequest, PipelineResponse, HttpsClient, SendRequest } from "./interfaces";
 
+/**
+ * Policies are executed in phases.
+ * The execution order is:
+ * 1. Policies not in a phase
+ * 2. Serialize Phase
+ * 3. Retry Phase
+ */
 export type PipelinePhase = "Serialize" | "Retry";
 
 const ValidPhaseNames = new Set<PipelinePhase>(["Serialize", "Retry"]);
 
-export interface AddPipelineOptions {
+/**
+ * Options when adding a policy to the pipeline.
+ * Used to express dependencies on other policies.
+ */
+export interface AddPolicyOptions {
+  /**
+   * Policies that this policy must come before.
+   */
   beforePolicies?: string[];
+  /**
+   * Policies that this policy must come after.
+   */
   afterPolicies?: string[];
+  /**
+   * The phase that this policy must come after.
+   * By default, policies without a phase occur first.
+   */
   afterPhase?: PipelinePhase;
+  /**
+   * The phase this policy belongs to.
+   */
   phase?: PipelinePhase;
 }
 
+/**
+ * A pipeline policy manipulates a request as it travels through the pipeline.
+ * It is conceptually a middleware that is allowed to modify the request before
+ * it is made as well as the response when it is received.
+ */
 export interface PipelinePolicy {
+  /**
+   * The policy name. Must be a unique string in the pipeline.
+   */
   name: string;
+  /**
+   * The main method to implement that manipulates a request/response.
+   * @param request The request being performed.
+   * @param next The next policy in the pipeline. Must be called to continue the pipeline.
+   */
   sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse>;
 }
 
+/**
+ * Represents a pipeline for making a HTTPS request to a URL.
+ * Pipelines can have multiple policies to manage manipulating each request
+ * before and after it is made to the server.
+ */
 export interface Pipeline {
-  addPolicy(policy: PipelinePolicy, options?: AddPipelineOptions): void;
+  /**
+   * Add a new policy to the pipeline.
+   * @param policy A policy that manipulates a request.
+   * @param options A set of options for when the policy should run.
+   */
+  addPolicy(policy: PipelinePolicy, options?: AddPolicyOptions): void;
+  /**
+   * Remove a policy from the pipeline.
+   * @param options Options that let you specify which policies to remove.
+   */
   removePolicy(options: { name?: string; phase?: PipelinePhase }): PipelinePolicy[];
-  sendRequest(httpClient: HttpsClient, request: PipelineRequest): Promise<PipelineResponse>;
+  /**
+   * Uses the pipeline to make a HTTPS request.
+   * @param httpsClient The HttpsClient that actually performs the request.
+   * @param request The request to be made.
+   */
+  sendRequest(httpsClient: HttpsClient, request: PipelineRequest): Promise<PipelineResponse>;
+  /**
+   * Returns the current set of policies in the pipeline in the order in which
+   * they will be applied to the request. Later in the list is closer to when
+   * the request is performed.
+   */
   getOrderedPolicies(): PipelinePolicy[];
+  /**
+   * Duplicates this pipeline to allow for modifying an existing one without mutating it.
+   */
   clone(): Pipeline;
 }
 
 interface PipelineDescriptor {
   policy: PipelinePolicy;
-  options: AddPipelineOptions;
+  options: AddPolicyOptions;
 }
 
 interface PolicyGraphNode {
@@ -39,6 +104,11 @@ interface PolicyGraphNode {
   afterPhase?: Set<PolicyGraphNode>;
 }
 
+/**
+ * A private implementation of Pipeline.
+ * Do not export this class from the package.
+ * @internal
+ */
 export class HttpsPipeline implements Pipeline {
   private _policies: PipelineDescriptor[] = [];
   private _orderedPolicies?: PipelinePolicy[];
@@ -48,7 +118,7 @@ export class HttpsPipeline implements Pipeline {
     this._orderedPolicies = undefined;
   }
 
-  public addPolicy(policy: PipelinePolicy, options: AddPipelineOptions = {}): void {
+  public addPolicy(policy: PipelinePolicy, options: AddPolicyOptions = {}): void {
     if (options.phase && options.afterPhase) {
       throw new Error("Policies inside a phase cannot specify afterPhase.");
     }
@@ -64,6 +134,7 @@ export class HttpsPipeline implements Pipeline {
     });
     this._orderedPolicies = undefined;
   }
+
   public removePolicy(options: { name?: string; phase?: string }): PipelinePolicy[] {
     const removedPolicies: PipelinePolicy[] = [];
 
@@ -82,7 +153,11 @@ export class HttpsPipeline implements Pipeline {
 
     return removedPolicies;
   }
-  public sendRequest(httpClient: HttpsClient, request: PipelineRequest): Promise<PipelineResponse> {
+
+  public sendRequest(
+    httpsClient: HttpsClient,
+    request: PipelineRequest
+  ): Promise<PipelineResponse> {
     const policies = this.getOrderedPolicies();
 
     const pipeline = policies.reduceRight<SendRequest>(
@@ -91,7 +166,7 @@ export class HttpsPipeline implements Pipeline {
           return policy.sendRequest(request, next);
         };
       },
-      (request: PipelineRequest) => httpClient.sendRequest(request)
+      (request: PipelineRequest) => httpsClient.sendRequest(request)
     );
 
     return pipeline(request);
