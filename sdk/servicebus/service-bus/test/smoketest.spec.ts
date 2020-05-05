@@ -12,7 +12,7 @@ import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
-describe.only("Sample scenarios for track 2", () => {
+describe("Sample scenarios for track 2", () => {
   let serviceBusClient: ServiceBusClientForTests;
 
   before(async () => {

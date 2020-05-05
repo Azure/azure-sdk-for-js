@@ -37,7 +37,7 @@ async function processError(err: Error): Promise<void> {
   }
 }
 
-describe("Streaming", () => {
+describe.only("Streaming", () => {
   let serviceBusClient: ServiceBusClientForTests;
   let senderClient: Sender;
   let receiverClient: Receiver<ReceivedMessageWithLock> | Receiver<ReceivedMessage>;
@@ -1112,7 +1112,7 @@ describe("Streaming", () => {
   });
 });
 
-describe("Streaming - onDetached", function(): void {
+describe.only("Streaming - onDetached", function(): void {
   let serviceBusClient: ServiceBusClientForTests;
   let senderClient: Sender;
   let receiverClient: Receiver<ReceivedMessageWithLock> | Receiver<ReceivedMessage>;
@@ -1303,7 +1303,7 @@ describe("Streaming - onDetached", function(): void {
   });
 });
 
-describe("Streaming - disconnects", function(): void {
+describe.only("Streaming - disconnects", function(): void {
   let serviceBusClient: ServiceBusClientForTests;
   let senderClient: Sender;
   let receiverClient: Receiver<ReceivedMessageWithLock> | Receiver<ReceivedMessage>;
