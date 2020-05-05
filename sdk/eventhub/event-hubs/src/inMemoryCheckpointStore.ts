@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { PartitionOwnership, CheckpointStore } from "./eventProcessor";
 import { Checkpoint } from "./partitionProcessor";
@@ -62,7 +62,7 @@ export class InMemoryCheckpointStore implements CheckpointStore {
         !this._partitionOwnershipMap.has(ownership.partitionId) ||
         this._partitionOwnershipMap.get(ownership.partitionId)!.etag === ownership.etag
       ) {
-        var date = new Date();
+        const date = new Date();
 
         const newOwnership = {
           ...ownership,

@@ -1,8 +1,16 @@
 # Release History
 
-## 5.1.1 (Unreleased)
+## 5.2.1 (Unreleased)
+
+
+## 5.2.0 (2020-05-05)
 
 - Updates the `EventHubProducerClient.sendBatch` API to accept an array of events.
+  ([PR #8622](https://github.com/Azure/azure-sdk-for-js/pull/8622))
+- Adds compatibility with TypeScript versions 3.1 through 3.6+.
+  ([PR #8654](https://github.com/Azure/azure-sdk-for-js/pull/8654))
+- Improves the performance of the `EventDataBatch.tryAdd` method.
+  ([PR #8637](https://github.com/Azure/azure-sdk-for-js/pull/8637))
 
 ## 5.1.0 (2020-04-07)
 

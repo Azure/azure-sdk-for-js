@@ -1,16 +1,10 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import Long from "long";
-import {
-  MessagingError,
-  ServiceBusClient,
-  Receiver,
-  SessionReceiver,
-  SubscriptionRuleManager
-} from "../src";
+import { MessagingError, ServiceBusClient, Receiver, SessionReceiver } from "../src";
 import { Sender } from "../src/sender";
 import { getReceiverClosedErrorMsg } from "../src/util/errors";
 import { TestClientType, TestMessage, isMessagingError, checkWithTimeout } from "./utils/testUtils";
@@ -81,7 +75,7 @@ describe("Random scheme in the endpoint from connection string", function(): voi
     sbClientWithRelaxedEndPoint = new ServiceBusClient(
       getEnvVars().SERVICEBUS_CONNECTION_STRING.replace("sb://", "CheeseBurger://")
     );
-    senderClient = sbClientWithRelaxedEndPoint.createSender(entities.queue!);
+    senderClient = await sbClientWithRelaxedEndPoint.createSender(entities.queue!);
     receiverClient = !entities.usesSessions
       ? sbClientWithRelaxedEndPoint.createReceiver(entities.queue!, "peekLock")
       : await sbClientWithRelaxedEndPoint.createSessionReceiver(entities.queue!, "peekLock", {
@@ -159,28 +153,16 @@ describe("Errors with non existing Namespace", function(): void {
     }
   };
 
-  it("throws error when sending data to a non existing namespace", async function(): Promise<void> {
-    await sbClient
-      .createSender("some-queue")
-      .send({ body: "hello" })
-      .catch(testError);
-
-    should.equal(errorWasThrown, true, "Error thrown flag must be true");
-  });
-
-  it("throws error when creating batch data to a non existing namespace", async function(): Promise<
+  it("throws error when create a sender for a non existing namespace", async function(): Promise<
     void
   > {
-    const sender = sbClient.createSender("some-queue");
-    await sender.createBatch().catch(testError);
-    should.equal(errorWasThrown, true, "Error thrown flag must be true");
-  });
+    try {
+      await sbClient.createSender("some-queue");
+      should.fail("Should have thrown");
+    } catch (err) {
+      testError(err);
+    }
 
-  it("throws error when sending batch data to a non existing namespace", async function(): Promise<
-    void
-  > {
-    const sender = sbClient.createSender("some-queue");
-    await sender.send(1 as any).catch(testError);
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
@@ -245,28 +227,9 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
     }
   };
 
-  it("throws error when sending data to a non existing queue", async function(): Promise<void> {
-    await sbClient
-      .createSender("some-name")
-      .send({ body: "hello" })
-      .catch((err) => testError(err, "some-name"));
+  it("throws error when opening a sender to a non-existent queue", async function(): Promise<void> {
+    await sbClient.createSender("some-name").catch((err) => testError(err, "some-name"));
 
-    should.equal(errorWasThrown, true, "Error thrown flag must be true");
-  });
-
-  it("throws error when creating batch data to a non existing queue", async function(): Promise<
-    void
-  > {
-    const sender = sbClient.createSender("some-queue");
-    await sender.createBatch().catch((err) => testError(err, "some-queue"));
-    should.equal(errorWasThrown, true, "Error thrown flag must be true");
-  });
-
-  it("throws error when sending batch data to a non existing queue", async function(): Promise<
-    void
-  > {
-    const sender = sbClient.createSender("some-queue");
-    await sender.send(1 as any).catch((err) => testError(err, "some-queue"));
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
@@ -443,7 +406,7 @@ describe("Errors after close()", function(): void {
   let receiver: Receiver<ReceivedMessageWithLock>;
   let receivedMessage: ReceivedMessageWithLock;
   let entityName: EntityName;
-  let subscriptionClient: SubscriptionRuleManager;
+  // let subscriptionClient: SubscriptionRuleManager;
 
   afterEach(() => {
     return sbClient.test.afterEach();
@@ -454,7 +417,7 @@ describe("Errors after close()", function(): void {
     entityName = await sbClient.test.createTestEntities(entityType);
 
     sender = sbClient.test.addToCleanup(
-      sbClient.createSender(entityName.queue ?? entityName.topic!)
+      await sbClient.createSender(entityName.queue ?? entityName.topic!)
     );
     receiver = await sbClient.test.getPeekLockReceiver(entityName);
 
@@ -467,9 +430,9 @@ describe("Errors after close()", function(): void {
     should.equal(receivedMsgs.length, 1, "Unexpected number of messages received");
     receivedMessage = receivedMsgs[0];
 
-    subscriptionClient = sbClient.test.addToCleanup(
-      sbClient.getSubscriptionRuleManager(entityName.topic!, entityName.subscription!)
-    );
+    // subscriptionClient = sbClient.test.addToCleanup(
+    //   sbClient.getSubscriptionRuleManager(entityName.topic!, entityName.subscription!)
+    // );
 
     // close(), so that we can then test the resulting error.
     switch (entityToClose) {
@@ -601,7 +564,7 @@ describe("Errors after close()", function(): void {
   async function testCreateSender(expectedErrorMsg: string): Promise<void> {
     let errorNewSender: string = "";
     try {
-      sbClient.createSender(entityName.queue ?? entityName.topic!);
+      await sbClient.createSender(entityName.queue ?? entityName.topic!);
     } catch (err) {
       errorNewSender = err.message;
     }
@@ -748,34 +711,34 @@ describe("Errors after close()", function(): void {
     should.equal(errorSetState, expectedErrorMsg, "Expected error not thrown for setState()");
   }
 
-  /**
-   * Tests that each feature of the topic filters throws expected error
-   */
-  async function testRules(expectedErrorMsg: string): Promise<void> {
-    let errorAddRule: string = "";
-    try {
-      await subscriptionClient.addRule("myRule", true);
-    } catch (error) {
-      errorAddRule = error.message;
-    }
-    should.equal(errorAddRule, expectedErrorMsg, "Expected error not thrown for addRule()");
+  // /**
+  //  * Tests that each feature of the topic filters throws expected error
+  //  */
+  // async function testRules(expectedErrorMsg: string): Promise<void> {
+  //   let errorAddRule: string = "";
+  //   try {
+  //     await subscriptionClient.addRule("myRule", true);
+  //   } catch (error) {
+  //     errorAddRule = error.message;
+  //   }
+  //   should.equal(errorAddRule, expectedErrorMsg, "Expected error not thrown for addRule()");
 
-    let errorRemoveRule: string = "";
-    try {
-      await subscriptionClient.removeRule("myRule");
-    } catch (err) {
-      errorRemoveRule = err.message;
-    }
-    should.equal(errorRemoveRule, expectedErrorMsg, "Expected error not thrown for removeRule()");
+  //   let errorRemoveRule: string = "";
+  //   try {
+  //     await subscriptionClient.removeRule("myRule");
+  //   } catch (err) {
+  //     errorRemoveRule = err.message;
+  //   }
+  //   should.equal(errorRemoveRule, expectedErrorMsg, "Expected error not thrown for removeRule()");
 
-    let errorGetRules: string = "";
-    try {
-      await subscriptionClient.getRules();
-    } catch (err) {
-      errorGetRules = err.message;
-    }
-    should.equal(errorGetRules, expectedErrorMsg, "Expected error not thrown for getRule()");
-  }
+  //   let errorGetRules: string = "";
+  //   try {
+  //     await subscriptionClient.getRules();
+  //   } catch (err) {
+  //     errorGetRules = err.message;
+  //   }
+  //   should.equal(errorGetRules, expectedErrorMsg, "Expected error not thrown for getRule()");
+  // }
 
   describe("Errors after close() on namespace", function(): void {
     const entityToClose = "namespace";
@@ -809,7 +772,7 @@ describe("Errors after close()", function(): void {
       await testCreateSender(expectedErrorMsg);
       await testReceiver(expectedErrorMsg);
       await testCreateReceiver(expectedErrorMsg);
-      await testRules(expectedErrorMsg);
+      // await testRules(expectedErrorMsg);
     });
 
     it("Unpartitioned Topic/Subscription with sessions: errors after close() on namespace", async function(): Promise<
@@ -821,7 +784,7 @@ describe("Errors after close()", function(): void {
       await testCreateSender(expectedErrorMsg);
       await testSessionReceiver(expectedErrorMsg);
       await testCreateReceiver(expectedErrorMsg);
-      await testRules(expectedErrorMsg);
+      // await testRules(expectedErrorMsg);
     });
   });
 

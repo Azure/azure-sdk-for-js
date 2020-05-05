@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import chai from "chai";
 const should = chai.should();
@@ -7,12 +7,12 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:hubruntime-spec");
-import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
+import { EnvVarKeys, getEnvVars, setTracerForTest } from "./utils/testUtils";
 const env = getEnvVars();
 
 import { EventHubClient } from "../src/impl/eventHubClient";
 import { AbortController } from "@azure/abort-controller";
-import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
+import { SpanGraph } from "@azure/core-tracing";
 describe("RuntimeInformation", function(): void {
   let client: EventHubClient;
   const service = {
@@ -76,8 +76,7 @@ describe("RuntimeInformation", function(): void {
   });
 
   it("can be manually traced", async function(): Promise<void> {
-    const tracer = new TestTracer();
-    setTracer(tracer);
+    const { tracer, resetTracer } = setTracerForTest();
 
     const rootSpan = tracer.startSpan("root");
     client = new EventHubClient(service.connectionString, service.path);
@@ -116,6 +115,7 @@ describe("RuntimeInformation", function(): void {
 
     tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
     tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
+    resetTracer();
   });
 
   describe("hub runtime information", function(): void {
@@ -150,8 +150,7 @@ describe("RuntimeInformation", function(): void {
     });
 
     it("can be manually traced", async function(): Promise<void> {
-      const tracer = new TestTracer();
-      setTracer(tracer);
+      const { tracer, resetTracer } = setTracerForTest();
 
       const rootSpan = tracer.startSpan("root");
       client = new EventHubClient(service.connectionString, service.path);
@@ -187,6 +186,7 @@ describe("RuntimeInformation", function(): void {
 
       tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
+      resetTracer();
     });
   });
 
@@ -262,8 +262,7 @@ describe("RuntimeInformation", function(): void {
     });
 
     it("can be manually traced", async function(): Promise<void> {
-      const tracer = new TestTracer();
-      setTracer(tracer);
+      const { tracer, resetTracer } = setTracerForTest();
 
       const rootSpan = tracer.startSpan("root");
       client = new EventHubClient(service.connectionString, service.path);
@@ -301,6 +300,7 @@ describe("RuntimeInformation", function(): void {
 
       tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
+      resetTracer();
     });
   });
 }).timeout(60000);
