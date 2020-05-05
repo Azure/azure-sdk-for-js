@@ -77,7 +77,7 @@ describe("FormTrainingClient browser only", () => {
 
     assert.ok(response!.models && response!.models.length > 0, "Expected non empty sub model list");
     const model = response!.models![0];
-    assert.equal(model.formType, "TBD");
+    assert.equal(model.formType, `form-${response!.modelId}`);
     assert.equal(model.accuracy, 0.973);
     assert.ok(model.fields["Signature"], "Expecting field with name 'Signature' to be valid");
 

@@ -536,7 +536,7 @@ export function toFormModelResponse(response: GetCustomModelResponse): FormModel
       ...common,
       trainingDocuments: response.trainResult.trainingDocuments,
       errors: response.trainResult.errors,
-      models: [{ accuracy: response.trainResult.averageModelAccuracy, formType: "TBD", fields }]
+      models: [{ accuracy: response.trainResult.averageModelAccuracy, formType: `form-${response.modelInfo.modelId}`, fields }]
     };
   } else if (response.keys) {
     // training with forms, populate from trainingResult.keys
