@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import assert from "assert";
 import { Constants } from "../../dist-esm";
-import { ContainerDefinition, Database } from "../../dist-esm/client";
+import { ContainerDefinition, Database, Container } from "../../dist-esm/client";
 import { ContainerRequest } from "../../dist-esm/client/Container/ContainerRequest";
 import {
   DataType,
@@ -13,7 +13,7 @@ import {
 } from "../../dist-esm/documents";
 import { SpatialType } from "../../dist-esm/documents/IndexingPolicy";
 import { GeospatialType } from "../../dist-esm/documents/GeospatialType";
-import { getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
+import { getTestDatabase, removeAllDatabases, getTestContainer } from "../common/TestHelpers";
 
 describe("Containers", function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
@@ -449,5 +449,53 @@ describe("createIfNotExists", function() {
     const { container } = await database.containers.createIfNotExists(def);
     const { resource: readDef } = await container.read();
     assert.equal(def.id, readDef.id);
+  });
+});
+
+describe("container.readOffer", function() {
+  let containerWithOffer: Container;
+  let containerWithoutOffer: Container;
+  let container2WithOffer: Container;
+  let container2WithoutOffer: Container;
+  const containerRequestWithOffer: ContainerRequest = {
+    id: "sample",
+    throughput: 400
+  };
+  const containerRequest: ContainerRequest = {
+    id: "sample-offerless"
+  };
+  let offerDatabase: Database;
+  before(async function() {
+    offerDatabase = await getTestDatabase("has offer", undefined);
+    containerWithOffer = await getTestContainer(
+      "offerContainer",
+      undefined,
+      containerRequestWithOffer
+    );
+    containerWithoutOffer = await getTestContainer("container", undefined, containerRequest);
+    const response1 = await offerDatabase.containers.create(containerRequest);
+    const response2 = await offerDatabase.containers.create(containerRequestWithOffer);
+    container2WithOffer = response1.container;
+    container2WithoutOffer = response2.container;
+  });
+  describe("database does not have offer", function() {
+    it("has offer", async function() {
+      const offer: any = await containerWithOffer.readOffer();
+      assert.equal(offer.resource.offerVersion, "V2");
+    });
+    it("does not have offer", async function() {
+      const offer: any = await containerWithoutOffer.readOffer();
+      assert.equal(offer.resource.offerVersion, "V2");
+    });
+  });
+  describe("database has offer", function() {
+    it("container does not have offer", async function() {
+      const offer: any = await container2WithoutOffer.readOffer();
+      assert.equal(offer.resource.offerVersion, "V2");
+    });
+    it("container has offer", async function() {
+      const offer: any = await container2WithOffer.readOffer();
+      assert.equal(offer.resource.offerVersion, "V2");
+    });
   });
 });
