@@ -19,7 +19,7 @@ const should = chai.should();
 //
 // I've moved these tests in here and re-create entites after each test - it'e expensive
 // but it'll allow them to be reliable.
-describe("sessions tests -  requires completely clean entity for each test", () => {
+describe.only("sessions tests -  requires completely clean entity for each test", () => {
   let serviceBusClient: ServiceBusClientForTests;
   let sender: Sender;
   let receiver: SessionReceiver<ReceivedMessageWithLock>;
