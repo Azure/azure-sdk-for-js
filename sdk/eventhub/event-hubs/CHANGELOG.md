@@ -2,6 +2,9 @@
 
 ## 5.2.1 (Unreleased)
 
+- Updates the `peer.address` attribute on "Azure.EventHubs.send" spans to refer
+  to the fully qualified namespace instead of the endpoint.
+  Fixes [#7109](https://github.com/Azure/azure-sdk-for-js/issues/7109)
 
 ## 5.2.0 (2020-05-05)
 
