@@ -270,7 +270,7 @@ function parse(
   xmlContentTypes: string[],
   operationResponse: HttpOperationResponse
 ): Promise<HttpOperationResponse> {
-  const errorHandler = (err: Error & { code: string }): any => {
+  const errorHandler = (err: Error & { code: string }): Promise<any> => {
     const msg = `Error "${err}" occurred while parsing the response body - ${operationResponse.bodyAsText}.`;
     const errCode = err.code || RestError.PARSE_ERROR;
     const e = new RestError(

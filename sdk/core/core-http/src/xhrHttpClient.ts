@@ -3,7 +3,7 @@
 
 import { AbortError } from "@azure/abort-controller";
 import { HttpClient } from "./httpClient";
-import { HttpHeaders } from "./httpHeaders";
+import { HttpHeaders, HttpHeadersLike } from "./httpHeaders";
 import { WebResourceLike, TransferProgressEvent } from "./webResource";
 import { HttpOperationResponse } from "./httpOperationResponse";
 import { RestError } from "./restError";
@@ -132,7 +132,7 @@ function addProgressListener(
 }
 
 // exported locally for testing
-export function parseHeaders(xhr: XMLHttpRequest): HttpHeaders {
+export function parseHeaders(xhr: XMLHttpRequest): HttpHeadersLike {
   const responseHeaders = new HttpHeaders();
   const headerLines = xhr
     .getAllResponseHeaders()

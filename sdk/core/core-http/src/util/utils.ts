@@ -159,10 +159,6 @@ export function promiseToCallback(promise: Promise<any>): Function {
         (data: any) => {
           // eslint-disable-next-line promise/no-callback-in-promise
           return cb(undefined, data);
-        },
-        (err: Error) => {
-          // eslint-disable-next-line promise/no-callback-in-promise
-          cb(err);
         }
       )
       .catch((err: Error) => {
@@ -186,9 +182,6 @@ export function promiseToServiceCallback<T>(promise: Promise<HttpOperationRespon
       .then(
         (data: HttpOperationResponse) => {
           return process.nextTick(cb, undefined, data.parsedBody as T, data.request, data);
-        },
-        (err: Error) => {
-          process.nextTick(cb, err);
         }
       )
       .catch((err: Error) => {
