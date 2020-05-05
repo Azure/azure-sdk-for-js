@@ -1,7 +1,9 @@
 # Release History
 
-## 1.0.0-preview.3 (Unreleased)
+## 1.0.0-preview.3 (2020-05-05)
 
+- Added support for Indexers API (Create, Get, List, etc.)
+- Added support for Datasources API.(Create, Get, List, etc.)
 - Fixed a bug where GeographyPoints were serialized incorrectly causing latitude and longitude to be flipped.
 
 ## 1.0.0-preview.2 (2020-04-06)
