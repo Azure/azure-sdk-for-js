@@ -22,7 +22,7 @@ import { DispositionType, ReceivedMessageWithLock } from "../src/serviceBusMessa
 
 let errorWasThrown: boolean;
 
-describe.only("receive and delete", () => {
+describe("receive and delete", () => {
   let senderClient: Sender;
   let receiverClient: Receiver<ReceivedMessage>;
   let serviceBusClient: ServiceBusClientForTests;
