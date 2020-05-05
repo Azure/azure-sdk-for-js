@@ -8,9 +8,9 @@ export type PipelinePhase = "Serialize" | "Retry";
 export interface AddPipelineOptions {
   beforePolicies?: string[];
   afterPolicies?: string[];
-  beforePhases?: PipelinePhase[];
-  afterPhases?: PipelinePhase[];
-  duringPhase?: PipelinePhase;
+  beforePhase?: PipelinePhase;
+  afterPhase?: PipelinePhase;
+  phase?: PipelinePhase;
 }
 
 export interface PipelinePolicy {
@@ -29,6 +29,13 @@ export interface Pipeline {
 interface PipelineDescriptor {
   policy: PipelinePolicy;
   options: AddPipelineOptions;
+}
+
+interface PolicyGraphNode {
+  policy: PipelinePolicy;
+  dependsOn: Set<PolicyGraphNode>;
+  dependants: Set<PolicyGraphNode>;
+  phase: PipelinePhase | "Unassigned";
 }
 
 export class HttpsPipeline implements Pipeline {
@@ -53,7 +60,7 @@ export class HttpsPipeline implements Pipeline {
     this._policies = this._policies.filter((policyDescriptor) => {
       if (
         (options.name && policyDescriptor.policy.name === options.name) ||
-        (options.phase && policyDescriptor.options.duringPhase === options.phase)
+        (options.phase && policyDescriptor.options.phase === options.phase)
       ) {
         removedPolicies.push(policyDescriptor.policy);
         return false;
@@ -98,8 +105,66 @@ export class HttpsPipeline implements Pipeline {
   private orderPolicies(): PipelinePolicy[] {
     const result: PipelinePolicy[] = [];
 
+    const policyMap: Map<string, PolicyGraphNode> = new Map<string, PolicyGraphNode>();
+
     for (const descriptor of this._policies) {
-      result.push(descriptor.policy);
+      const policy = descriptor.policy;
+      const policyName = policy.name;
+      if (policyMap.has(policyName)) {
+        throw new Error("Duplicate policy names not allowed in pipeline");
+      } else {
+        const node: PolicyGraphNode = {
+          policy,
+          dependsOn: new Set<PolicyGraphNode>(),
+          dependants: new Set<PolicyGraphNode>(),
+          phase: descriptor.options.phase ?? "Unassigned"
+        };
+        policyMap.set(policyName, node);
+      }
+    }
+
+    for (const descriptor of this._policies) {
+      const { policy, options } = descriptor;
+      const policyName = policy.name;
+      const node = policyMap.get(policyName);
+      if (!node) {
+        throw new Error(`Missing node for policy ${policyName}`);
+      }
+
+      if (options.afterPolicies) {
+        for (const afterPolicyName of options.afterPolicies) {
+          const afterNode = policyMap.get(afterPolicyName);
+          if (afterNode) {
+            node.dependsOn.add(afterNode);
+            afterNode.dependants.add(node);
+          }
+        }
+      }
+      if (options.beforePolicies) {
+        for (const beforePolicyName of options.beforePolicies) {
+          const beforeNode = policyMap.get(beforePolicyName);
+          if (beforeNode) {
+            beforeNode.dependsOn.add(node);
+            node.dependants.add(beforeNode);
+          }
+        }
+      }
+    }
+
+    while (policyMap.size > 0) {
+      const initialResultLength = result.length;
+      for (const [name, node] of policyMap) {
+        if (node.dependsOn.size === 0) {
+          result.push(node.policy);
+          for (const dependant of node.dependants) {
+            dependant.dependsOn.delete(node);
+          }
+          policyMap.delete(name);
+        }
+      }
+      if (result.length <= initialResultLength) {
+        throw new Error("Cannot satisfy policy dependencies due to cycle.");
+      }
     }
 
     return result;
