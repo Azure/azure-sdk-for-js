@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 import { AbortSignalLike } from "@azure/abort-controller";
 import { SpanOptions } from "@azure/core-tracing";
 
