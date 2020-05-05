@@ -12,7 +12,7 @@ import { Receiver } from "../src/receivers/receiver";
 import { Sender } from "../src/sender";
 import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
 
-describe.only("renew lock", () => {
+describe("renew lock", () => {
   let serviceBusClient: ServiceBusClientForTests;
   let senderClient: Sender;
   let receiverClient: Receiver<ReceivedMessageWithLock>;
