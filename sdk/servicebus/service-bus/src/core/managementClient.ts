@@ -897,7 +897,7 @@ export class ManagementClient extends LinkEntity {
       else if (dispositionType === DispositionType.complete) dispositionStatus = "completed";
       else if (dispositionType === DispositionType.defer) dispositionStatus = "defered";
       else if (dispositionType === DispositionType.deadletter) dispositionStatus = "suspended";
-      else throw new Error("Invalid `dispositionType` provided");
+      else throw new Error(`Provided "dispositionType" - ${dispositionType} is invalid`);
 
       const messageBody: any = {};
       const lockTokenBuffer: Buffer[] = [];
