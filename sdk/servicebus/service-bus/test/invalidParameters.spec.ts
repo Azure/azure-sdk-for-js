@@ -13,7 +13,7 @@ import { Sender } from "../src/sender";
 import { SessionReceiver } from "../src/receivers/sessionReceiver";
 import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
 
-describe("invalid parameters", () => {
+describe.only("invalid parameters", () => {
   let serviceBusClient: ServiceBusClientForTests;
 
   before(() => {
@@ -24,11 +24,11 @@ describe("invalid parameters", () => {
     return serviceBusClient.test.after();
   });
 
-  describe("Invalid parameters in Sender/ReceiverClients for PartitionedQueue", function(): void {
+  describe.only("Invalid parameters in Sender/ReceiverClients for PartitionedQueue", function(): void {
     let receiver: Receiver<ReceivedMessageWithLock>;
 
     // Since, the below tests never actually make use of any AMQP links, there is no need to create
-    // new sender/receiver clients before each test. Doing it once for each describe block.
+    // new sender/receiver clients before each test. Doing it once for each describe.only block.
     before(async () => {
       const entityNames = await serviceBusClient.test.createTestEntities(
         TestClientType.PartitionedQueue
@@ -104,12 +104,12 @@ describe("invalid parameters", () => {
     });
   });
 
-  describe("Invalid parameters in Sender/ReceiverClients for PartitionedSubscription", function(): void {
+  describe.only("Invalid parameters in Sender/ReceiverClients for PartitionedSubscription", function(): void {
     let subscriptionReceiverClient: Receiver<ReceivedMessageWithLock>;
     // let subscriptionRuleManager: SubscriptionRuleManager;
 
     // Since, the below tests never actually make use of any AMQP links, there is no need to create
-    // new sender/receiver clients before each test. Doing it once for each describe block.
+    // new sender/receiver clients before each test. Doing it once for each describe.only block.
     before(async () => {
       const entityNames = await serviceBusClient.test.createTestEntities(
         TestClientType.PartitionedSubscription
@@ -297,12 +297,12 @@ describe("invalid parameters", () => {
     // });
   });
 
-  describe("Invalid parameters in SessionReceiver", function(): void {
+  describe.only("Invalid parameters in SessionReceiver", function(): void {
     let sender: Sender;
     let receiver: SessionReceiver<ReceivedMessageWithLock>;
 
     // Since, the below tests never actually make use of any AMQP links, there is no need to create
-    // new sender/receiver clients before each test. Doing it once for each describe block.
+    // new sender/receiver clients before each test. Doing it once for each describe.only block.
     before(async () => {
       const entityNames = await serviceBusClient.test.createTestEntities(
         TestClientType.PartitionedQueueWithSessions
@@ -514,12 +514,12 @@ describe("invalid parameters", () => {
     });
   });
 
-  describe("Invalid parameters in Receiver", function(): void {
+  describe.only("Invalid parameters in Receiver", function(): void {
     let sender: Sender;
     let receiver: Receiver<ReceivedMessageWithLock>;
 
     // Since, the below tests never actually make use of any AMQP links, there is no need to create
-    // new sender/receiver clients before each test. Doing it once for each describe block.
+    // new sender/receiver clients before each test. Doing it once for each describe.only block.
     before(async () => {
       const entityNames = await serviceBusClient.test.createTestEntities(
         TestClientType.PartitionedQueueWithSessions
@@ -657,11 +657,11 @@ describe("invalid parameters", () => {
     });
   });
 
-  describe("Invalid parameters in Sender", function(): void {
+  describe.only("Invalid parameters in Sender", function(): void {
     let sender: Sender;
 
     // Since, the below tests never actually make use of any AMQP links, there is no need to create
-    // new sender/receiver clients before each test. Doing it once for each describe block.
+    // new sender/receiver clients before each test. Doing it once for each describe.only block.
     before(async () => {
       const { queue } = await serviceBusClient.test.createTestEntities(
         TestClientType.PartitionedQueue

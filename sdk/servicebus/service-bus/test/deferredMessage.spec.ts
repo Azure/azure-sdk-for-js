@@ -12,7 +12,7 @@ import { Receiver } from "../src/receivers/receiver";
 import { Sender } from "../src/sender";
 import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
 
-describe.only("deferred messages", () => {
+describe("deferred messages", () => {
   let serviceBusClient: ReturnType<typeof createServiceBusClientForTests>;
   let senderClient: Sender;
   let receiverClient: Receiver<ReceivedMessageWithLock>;
