@@ -18,7 +18,7 @@ import { Sender } from "../src/sender";
 import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
 import { AbortController } from "@azure/abort-controller";
 
-describe("send scheduled messages", () => {
+describe.only("send scheduled messages", () => {
   let senderClient: Sender;
   let receiverClient: Receiver<ReceivedMessageWithLock>;
   let serviceBusClient: ServiceBusClientForTests;
