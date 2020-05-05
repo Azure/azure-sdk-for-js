@@ -11,8 +11,9 @@
 import {
   ServiceBusClient,
   delay,
-  ReceivedMessageWithLock,
-  SessionReceiver,
+  QueueClient,
+  ReceiveMode,
+  ReceivedMessageInfo,
   MessagingError
 } from "@azure/service-bus";
 import * as dotenv from "dotenv";
@@ -28,7 +29,7 @@ const serviceBusConnectionString =
 const queueName = env["QUEUE_NAME_WITH_SESSIONS"] || "<queue name not in environment>";
 
 const maxSessionsToProcessSimultaneously = 8;
-const sessionIdleTimeoutMs = 3 * 1000;
+const sessionIdleTimeoutSeconds = 3;
 const delayOnErrorMs = 5 * 1000;
 
 // This can be used control when the round-robin processing will terminate
@@ -43,14 +44,14 @@ async function sessionAccepted(sessionId: string) {
 
 // Called by the SessionReceiver when a message is received.
 // This is passed as part of the handlers when calling `SessionReceiver.subscribe()`.
-async function processMessage(msg: ReceivedMessageWithLock) {
+async function processMessage(msg: ReceivedMessageInfo) {
   console.log(`[${msg.sessionId}] received message with body ${msg.body}`);
 }
 
 // Called by the SessionReceiver when an error occurs.
 // This will be called in the handlers we pass in `SessionReceiver.subscribe()`
 // and by the sample when we encounter an error opening a session.
-async function processError(err: Error, sessionId?: string) {
+function processError(err: Error, sessionId?: string) {
   if (sessionId) {
     console.log(`Error when receiving messages from the session ${sessionId}: `, err);
   } else {
@@ -80,21 +81,21 @@ function createRefreshableTimer(timeoutMs: number, resolve: Function): () => voi
 }
 
 // Queries Service Bus for the next available session and processes it.
-async function receiveFromNextSession(serviceBusClient: ServiceBusClient): Promise<void> {
-  let sessionReceiver: SessionReceiver<ReceivedMessageWithLock>;
+async function receiveFromNextSession(queueClient: QueueClient): Promise<void> {
+  let sessionReceiver = queueClient.createReceiver(ReceiveMode.peekLock, {
+    sessionId: undefined
+  });
 
   try {
-    sessionReceiver = await serviceBusClient.createSessionReceiver(queueName, "peekLock", {
-      autoRenewLockDurationInMs: sessionIdleTimeoutMs
-    });
+    await sessionReceiver.getState();
   } catch (err) {
     if (
-      (err as MessagingError).code === "SessionCannotBeLockedError" ||
-      (err as MessagingError).code === "OperationTimeoutError"
+      (err as MessagingError).condition === "com.microsoft:session-cannot-be-locked" ||
+      (err as MessagingError).condition === "amqp:operation-timeout"
     ) {
       console.log(`INFO: no available sessions, sleeping for ${delayOnErrorMs}`);
     } else {
-      await processError(err, undefined);
+      processError(err, undefined);
     }
 
     await delay(delayOnErrorMs);
@@ -104,21 +105,24 @@ async function receiveFromNextSession(serviceBusClient: ServiceBusClient): Promi
   await sessionAccepted(sessionReceiver.sessionId);
 
   const sessionFullyRead = new Promise((resolveSessionAsFullyRead, rejectSessionWithError) => {
-    const refreshTimer = createRefreshableTimer(sessionIdleTimeoutMs, resolveSessionAsFullyRead);
+    const refreshTimer = createRefreshableTimer(
+      sessionIdleTimeoutSeconds * 1000,
+      resolveSessionAsFullyRead
+    );
     refreshTimer();
 
-    sessionReceiver.subscribe(
-      {
-        async processMessage(msg) {
-          refreshTimer();
-          await processMessage(msg);
-        },
-        async processError(err) {
-          rejectSessionWithError(err);
-        }
+    abortController.signal.addEventListener("abort", function abortProcessing() {
+      rejectSessionWithError(new Error("Process terminated by user."));
+      abortController.signal.removeEventListener("abort", abortProcessing);
+    });
+
+    sessionReceiver.registerMessageHandler(
+      async (msg) => {
+        refreshTimer();
+        await processMessage(msg);
       },
-      {
-        abortSignal: abortController.signal
+      (err) => {
+        rejectSessionWithError(err);
       }
     );
   });
@@ -127,7 +131,7 @@ async function receiveFromNextSession(serviceBusClient: ServiceBusClient): Promi
     await sessionFullyRead;
     await sessionClosed("idle_timeout", sessionReceiver.sessionId);
   } catch (err) {
-    await processError(err, sessionReceiver.sessionId);
+    processError(err, sessionReceiver.sessionId);
     await sessionClosed("error", sessionReceiver.sessionId);
   } finally {
     await sessionReceiver.close();
@@ -135,12 +139,13 @@ async function receiveFromNextSession(serviceBusClient: ServiceBusClient): Promi
 }
 
 async function roundRobinThroughAvailableSessions(): Promise<void> {
-  const serviceBusClient = new ServiceBusClient(serviceBusConnectionString);
+  const serviceBusClient = ServiceBusClient.createFromConnectionString(serviceBusConnectionString);
+  const queueClient = serviceBusClient.createQueueClient(queueName);
 
   for (let i = 0; i < maxSessionsToProcessSimultaneously; ++i) {
     (async () => {
       while (!abortController.signal.aborted) {
-        await receiveFromNextSession(serviceBusClient);
+        await receiveFromNextSession(queueClient);
       }
     })();
   }
