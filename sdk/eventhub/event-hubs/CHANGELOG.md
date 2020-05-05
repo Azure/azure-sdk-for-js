@@ -4,6 +4,8 @@
 
 - Updates the `peer.address` attribute on "Azure.EventHubs.send" spans to refer
   to the fully qualified namespace instead of the endpoint.
+  Note that tracing functionality is still in preview status and the APIs may have breaking changes
+  betwee patch and minor versions.
   Fixes [#7109](https://github.com/Azure/azure-sdk-for-js/issues/7109)
 
 ## 5.2.0 (2020-05-05)
