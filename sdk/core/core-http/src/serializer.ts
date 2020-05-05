@@ -794,7 +794,6 @@ function deserializeDictionaryType(
   responseBody: any,
   objectName: string
 ): any {
-  /* jshint validthis: true */
   const value = mapper.type.value;
   if (!value || typeof value !== "object") {
     throw new Error(
@@ -818,7 +817,6 @@ function deserializeSequenceType(
   responseBody: any,
   objectName: string
 ): any {
-  /* jshint validthis: true */
   const element = mapper.type.element;
   if (!element || typeof element !== "object") {
     throw new Error(

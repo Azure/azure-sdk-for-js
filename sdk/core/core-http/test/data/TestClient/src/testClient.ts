@@ -7,10 +7,6 @@
  * regenerated.
  */
 
-/* jshint latedef:false */
-/* jshint forin:false */
-/* jshint noempty:false */
-
 "use strict";
 
 import * as msRest from "../../../../src/coreHttp";
