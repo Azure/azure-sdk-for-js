@@ -12,7 +12,7 @@ import { Sender } from "../src/sender";
 import { SessionReceiver } from "../src/receivers/sessionReceiver";
 import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
 
-describe.only("renew lock sessions", () => {
+describe("renew lock sessions", () => {
   let sender: Sender;
   let receiver: SessionReceiver<ReceivedMessageWithLock>;
   let autoRenewLockDurationInMs: number;

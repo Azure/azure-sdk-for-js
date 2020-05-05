@@ -14,7 +14,7 @@ import Long from "long";
 import { BatchingReceiver } from "../src/core/batchingReceiver";
 import { delay } from "rhea-promise";
 
-describe("Retries - ManagementClient", () => {
+describe.only("Retries - ManagementClient", () => {
   let senderClient: Sender;
   let receiverClient: Receiver<ReceivedMessageWithLock> | SessionReceiver<ReceivedMessageWithLock>;
   let serviceBusClient: ServiceBusClientForTests;
@@ -81,7 +81,7 @@ describe("Retries - ManagementClient", () => {
     should.equal(errorThrown, true, "Error was not thrown");
   }
 
-  describe("Sender Retries", function(): void {
+  describe.only("Sender Retries", function(): void {
     beforeEach(async () => {
       numberOfTimesManagementClientInvoked = 0;
     });
@@ -119,7 +119,7 @@ describe("Retries - ManagementClient", () => {
     });
   });
 
-  describe("Receiver Retries", function(): void {
+  describe.only("Receiver Retries", function(): void {
     beforeEach(async () => {
       numberOfTimesManagementClientInvoked = 0;
       await beforeEachTest(TestClientType.UnpartitionedQueue);
@@ -148,7 +148,7 @@ describe("Retries - ManagementClient", () => {
     });
   });
 
-  describe("Session Receiver Retries", () => {
+  describe.only("Session Receiver Retries", () => {
     let sessionReceiver: SessionReceiver<ReceivedMessageWithLock>;
     beforeEach(async () => {
       numberOfTimesManagementClientInvoked = 0;
@@ -198,7 +198,7 @@ describe("Retries - ManagementClient", () => {
     });
   });
 
-  // describe("SubscriptionRuleManager Retries", function(): void {
+  // describe.only("SubscriptionRuleManager Retries", function(): void {
   //   beforeEach(async () => {
   //     numberOfTimesManagementClientInvoked = 0;
   //     await beforeEachTest(TestClientType.UnpartitionedSubscription);
@@ -228,7 +228,7 @@ describe("Retries - ManagementClient", () => {
   // });
 });
 
-describe("Retries - MessageSender", () => {
+describe.only("Retries - MessageSender", () => {
   let senderClient: Sender;
   let serviceBusClient: ServiceBusClientForTests;
   const defaultMaxRetries = 2;
@@ -334,7 +334,7 @@ describe("Retries - MessageSender", () => {
   });
 });
 
-describe("Retries - Receive methods", () => {
+describe.only("Retries - Receive methods", () => {
   let receiverClient: Receiver<ReceivedMessageWithLock>;
   let serviceBusClient: ServiceBusClientForTests;
   const defaultMaxRetries = 2;
@@ -427,7 +427,7 @@ describe("Retries - Receive methods", () => {
   });
 });
 
-describe("Retries - onDetached", () => {
+describe.only("Retries - onDetached", () => {
   let senderClient: Sender;
   let receiverClient: Receiver<ReceivedMessageWithLock> | SessionReceiver<ReceivedMessageWithLock>;
   let serviceBusClient: ServiceBusClientForTests;
