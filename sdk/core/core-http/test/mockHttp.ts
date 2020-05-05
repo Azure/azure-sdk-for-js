@@ -157,8 +157,13 @@ export class BrowserHttpMock implements HttpMockFacade {
   }
 
   timeout(method: HttpMethods, url: UrlFilter): void {
-    return this.mockHttpMethod(method, url, () => new Promise(() => {
-      // Nothing to do here.
-    }));
+    return this.mockHttpMethod(
+      method,
+      url,
+      () =>
+        new Promise(() => {
+          // Nothing to do here.
+        })
+    );
   }
 }
