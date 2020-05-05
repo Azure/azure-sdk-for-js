@@ -19,7 +19,7 @@ import { extractConnectionStringParts } from "../../src/utils/utils.common";
 import { TokenCredential } from "@azure/core-http";
 import { env } from "@azure/test-utils-recorder";
 
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 export * from "./testutils.common";
 

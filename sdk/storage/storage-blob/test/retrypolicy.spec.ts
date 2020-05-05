@@ -9,7 +9,7 @@ import { getBSU, recorderEnvSetup } from "./utils";
 import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
 import { record, Recorder } from "@azure/test-utils-recorder";
 
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("RetryPolicy", () => {
   let blobServiceClient: BlobServiceClient;
