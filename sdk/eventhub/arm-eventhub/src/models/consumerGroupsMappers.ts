@@ -11,13 +11,18 @@ export {
   AuthorizationRule,
   BaseResource,
   CaptureDescription,
+  Cluster,
+  ClusterSku,
   ConsumerGroup,
   ConsumerGroupListResult,
   Destination,
   EHNamespace,
+  Encryption,
   ErrorResponse,
   Eventhub,
-  MessagingPlan,
+  Identity,
+  IpFilterRule,
+  KeyVaultProperties,
   MessagingRegions,
   MessagingRegionsProperties,
   NetworkRuleSet,
@@ -26,5 +31,6 @@ export {
   Resource,
   Sku,
   Subnet,
-  TrackedResource
+  TrackedResource,
+  VirtualNetworkRule
 } from "../models/mappers";

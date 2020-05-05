@@ -93,7 +93,7 @@ const listBySkuOperationSpec: msRest.OperationSpec = {
     Parameters.sku
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
