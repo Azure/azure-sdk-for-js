@@ -106,7 +106,7 @@ export function generateUuid(): string {
  *
  * @return A chain of resolved or rejected promises
  */
-export function executePromisesSequentially(promiseFactories: Array<any>, kickstart: any): any {
+export function executePromisesSequentially(promiseFactories: Array<any>, kickstart: any): Promise<any> {
   let result = Promise.resolve(kickstart);
   promiseFactories.forEach((promiseFactory) => {
     result = result.then(promiseFactory);
