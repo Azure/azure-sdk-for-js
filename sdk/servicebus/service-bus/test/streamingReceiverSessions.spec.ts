@@ -20,7 +20,7 @@ import { getDeliveryProperty } from "./utils/misc";
 const should = chai.should();
 chai.use(chaiAsPromised);
 
-describe("Streaming with sessions", () => {
+describe.only("Streaming with sessions", () => {
   let senderClient: Sender;
   let receiverClient: SessionReceiver<ReceivedMessageWithLock> | SessionReceiver<ReceivedMessage>;
   let deadLetterClient: Receiver<ReceivedMessageWithLock>;
