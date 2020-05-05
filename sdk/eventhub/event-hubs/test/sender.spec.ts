@@ -11,13 +11,19 @@ import {
   EventData,
   EventHubProducerClient,
   EventHubConsumerClient,
-  ReceivedEventData
+  ReceivedEventData,
+  EventPosition
 } from "../src";
 import { EventHubClient } from "../src/impl/eventHubClient";
 import { SendOptions, SendBatchOptions } from "../src/models/public";
-import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
+import {
+  EnvVarKeys,
+  getEnvVars,
+  getStartingPositionsForTests,
+  setTracerForTest
+} from "./utils/testUtils";
 import { AbortController } from "@azure/abort-controller";
-import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
+import { SpanGraph } from "@azure/core-tracing";
 import { TRACEPARENT_PROPERTY } from "../src/diagnostics/instrumentEventData";
 import { EventHubProducer } from "../src/sender";
 import { SubscriptionHandlerForTests } from "./utils/subscriptionHandlerForTests";
@@ -118,8 +124,7 @@ describe("EventHub Sender", function(): void {
     });
 
     it("can be manually traced", async function(): Promise<void> {
-      const tracer = new TestTracer();
-      setTracer(tracer);
+      const { tracer, resetTracer } = setTracerForTest();
 
       const rootSpan = tracer.startSpan("root");
 
@@ -164,6 +169,7 @@ describe("EventHub Sender", function(): void {
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
 
       await producer.close();
+      resetTracer();
     });
   });
 
@@ -338,9 +344,9 @@ describe("EventHub Sender", function(): void {
     it("should be sent successfully with properties", async function(): Promise<void> {
       const properties = { test: "super" };
       const list = [
-        { body: "Albert", properties },
-        { body: "Mike", properties },
-        { body: "Marie", properties }
+        { body: "Albert-With-Properties", properties },
+        { body: "Mike-With-Properties", properties },
+        { body: "Marie-With-Properties", properties }
       ];
 
       const batch = await producerClient.createBatch({
@@ -356,6 +362,10 @@ describe("EventHub Sender", function(): void {
       const receivedEvents: ReceivedEventData[] = [];
       let waitUntilEventsReceivedResolver: Function;
       const waitUntilEventsReceived = new Promise((r) => (waitUntilEventsReceivedResolver = r));
+
+      const sequenceNumber = (await consumerClient.getPartitionProperties("0"))
+        .lastEnqueuedSequenceNumber;
+
       const subscriber = consumerClient.subscribe(
         "0",
         {
@@ -369,8 +379,7 @@ describe("EventHub Sender", function(): void {
         },
         {
           startPosition: {
-            sequenceNumber: (await consumerClient.getPartitionProperties("0"))
-              .lastEnqueuedSequenceNumber
+            sequenceNumber
           },
           maxBatchSize: 3
         }
@@ -379,6 +388,10 @@ describe("EventHub Sender", function(): void {
       await producerClient.sendBatch(batch);
       await waitUntilEventsReceived;
       await subscriber.close();
+
+      sequenceNumber.should.be.lessThan(receivedEvents[0].sequenceNumber);
+      sequenceNumber.should.be.lessThan(receivedEvents[1].sequenceNumber);
+      sequenceNumber.should.be.lessThan(receivedEvents[2].sequenceNumber);
 
       [list[0], list[1], list[2]].should.be.deep.eq(
         receivedEvents.map((event) => {
@@ -392,8 +405,7 @@ describe("EventHub Sender", function(): void {
     });
 
     it("can be manually traced", async function(): Promise<void> {
-      const tracer = new TestTracer();
-      setTracer(tracer);
+      const { tracer, resetTracer } = setTracerForTest();
 
       const rootSpan = tracer.startSpan("root");
 
@@ -433,11 +445,11 @@ describe("EventHub Sender", function(): void {
 
       tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
+      resetTracer();
     });
 
     it("will not instrument already instrumented events", async function(): Promise<void> {
-      const tracer = new TestTracer();
-      setTracer(tracer);
+      const { tracer, resetTracer } = setTracerForTest();
 
       const rootSpan = tracer.startSpan("test");
 
@@ -484,11 +496,11 @@ describe("EventHub Sender", function(): void {
 
       tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
+      resetTracer();
     });
 
     it("will support tracing batch and send", async function(): Promise<void> {
-      const tracer = new TestTracer();
-      setTracer(tracer);
+      const { tracer, resetTracer } = setTracerForTest();
 
       const rootSpan = tracer.startSpan("root");
 
@@ -537,6 +549,7 @@ describe("EventHub Sender", function(): void {
 
       tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
+      resetTracer();
     });
 
     it("with partition key should be sent successfully.", async function(): Promise<void> {
@@ -777,8 +790,7 @@ describe("EventHub Sender", function(): void {
     });
 
     it("can be manually traced", async function(): Promise<void> {
-      const tracer = new TestTracer();
-      setTracer(tracer);
+      const { tracer, resetTracer } = setTracerForTest();
 
       const rootSpan = tracer.startSpan("root");
 
@@ -839,11 +851,11 @@ describe("EventHub Sender", function(): void {
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
 
       await producer.close();
+      resetTracer();
     });
 
     it("skips already instrumented events when manually traced", async function(): Promise<void> {
-      const tracer = new TestTracer();
-      setTracer(tracer);
+      const { tracer, resetTracer } = setTracerForTest();
 
       const rootSpan = tracer.startSpan("root");
 
@@ -901,17 +913,22 @@ describe("EventHub Sender", function(): void {
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
 
       await producer.close();
+      resetTracer();
     });
   });
 
   describe("Array of events", function() {
     let consumerClient: EventHubConsumerClient;
-    beforeEach(() => {
+    let startPosition: { [partitionId: string]: EventPosition };
+
+    beforeEach(async () => {
       consumerClient = new EventHubConsumerClient(
         EventHubConsumerClient.defaultConsumerGroupName,
         service.connectionString,
         service.path
       );
+
+      startPosition = await getStartingPositionsForTests(consumerClient);
     });
 
     afterEach(() => {
@@ -922,6 +939,7 @@ describe("EventHub Sender", function(): void {
       const data: EventData[] = [{ body: "Hello World 1" }, { body: "Hello World 2" }];
       const receivedEvents: ReceivedEventData[] = [];
       let receivingResolver: Function;
+
       const receivingPromise = new Promise((r) => (receivingResolver = r));
       const subscription = consumerClient.subscribe(
         {
@@ -932,7 +950,7 @@ describe("EventHub Sender", function(): void {
           }
         },
         {
-          startPosition: { enqueuedOn: new Date(), isInclusive: true },
+          startPosition,
           maxBatchSize: data.length
         }
       );
@@ -960,7 +978,7 @@ describe("EventHub Sender", function(): void {
           }
         },
         {
-          startPosition: { enqueuedOn: new Date(), isInclusive: true },
+          startPosition,
           maxBatchSize: data.length
         }
       );
@@ -993,7 +1011,7 @@ describe("EventHub Sender", function(): void {
           }
         },
         {
-          startPosition: { enqueuedOn: new Date(), isInclusive: true },
+          startPosition,
           maxBatchSize: data.length
         }
       );
@@ -1011,8 +1029,7 @@ describe("EventHub Sender", function(): void {
     });
 
     it("can be manually traced", async function(): Promise<void> {
-      const tracer = new TestTracer();
-      setTracer(tracer);
+      const { tracer, resetTracer } = setTracerForTest();
 
       const rootSpan = tracer.startSpan("root");
 
@@ -1069,11 +1086,11 @@ describe("EventHub Sender", function(): void {
 
       tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
+      resetTracer();
     });
 
     it("skips already instrumented events when manually traced", async function(): Promise<void> {
-      const tracer = new TestTracer();
-      setTracer(tracer);
+      const { tracer, resetTracer } = setTracerForTest();
 
       const rootSpan = tracer.startSpan("root");
 
@@ -1127,6 +1144,7 @@ describe("EventHub Sender", function(): void {
 
       tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
+      resetTracer();
     });
   });
 

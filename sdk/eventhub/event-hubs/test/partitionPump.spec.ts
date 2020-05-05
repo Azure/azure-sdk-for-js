@@ -2,11 +2,12 @@
 // Licensed under the MIT license.
 
 import { createProcessingSpan, trace } from "../src/partitionPump";
-import { TestTracer, setTracer, TestSpan, NoOpSpan } from "@azure/core-tracing";
+import { TestTracer, TestSpan, NoOpSpan } from "@azure/core-tracing";
 import { CanonicalCode, SpanOptions, SpanKind } from "@opentelemetry/api";
 import chai from "chai";
 import { ReceivedEventData } from "../src/eventData";
 import { instrumentEventData } from "../src/diagnostics/instrumentEventData";
+import { setTracerForTest } from "./utils/testUtils";
 
 const should = chai.should();
 
@@ -34,8 +35,7 @@ describe("PartitionPump", () => {
 
     it("basic span properties are set", async () => {
       const fakeParentSpanContext = new NoOpSpan().context();
-      const tracer = new TestTracer2();
-      setTracer(tracer);
+      const { tracer, resetTracer } = setTracerForTest(new TestTracer2());
 
       await createProcessingSpan([], eventHubProperties, {
         tracingOptions: {
@@ -58,6 +58,8 @@ describe("PartitionPump", () => {
         "message_bus.destination": "theeventhubname",
         "peer.address": "theendpoint"
       });
+
+      resetTracer();
     });
 
     it("received events are linked to this span using Diagnostic-Id", async () => {
@@ -69,8 +71,7 @@ describe("PartitionPump", () => {
         sequenceNumber: 0
       };
 
-      const tracer = new TestTracer2();
-      setTracer(tracer);
+      const { tracer, resetTracer } = setTracerForTest(new TestTracer2());
 
       const firstEvent = tracer.startSpan("a");
       const thirdEvent = tracer.startSpan("c");
@@ -90,6 +91,8 @@ describe("PartitionPump", () => {
       // incremented
       tracer.spanOptions!.links![0]!.context.traceId.should.equal(firstEvent.context().traceId);
       tracer.spanOptions!.links![1]!.context.traceId.should.equal(thirdEvent.context().traceId);
+
+      resetTracer();
     });
 
     it("trace - normal", async () => {
