@@ -28,9 +28,9 @@ import {
   ReceivedMessage,
   ServiceBusMessageImpl,
   ServiceBusMessage,
-  DispositionStatus,
   toAmqpMessage,
-  getMessagePropertyTypeMismatchError
+  getMessagePropertyTypeMismatchError,
+  DispositionType
 } from "../serviceBusMessage";
 import { LinkEntity } from "./linkEntity";
 import * as log from "../log";
@@ -885,13 +885,20 @@ export class ManagementClient extends LinkEntity {
    */
   async updateDispositionStatus(
     lockToken: string,
-    dispositionStatus: DispositionStatus,
+    dispositionType: DispositionType,
     options?: DispositionStatusOptions & SendManagementRequestOptions
   ): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
-
     if (!options) options = {};
     try {
+      let dispositionStatus: "completed" | "defered" | "suspended" | "abandoned";
+
+      if (dispositionType === DispositionType.abandon) dispositionStatus = "abandoned";
+      else if (dispositionType === DispositionType.complete) dispositionStatus = "completed";
+      else if (dispositionType === DispositionType.defer) dispositionStatus = "defered";
+      else if (dispositionType === DispositionType.deadletter) dispositionStatus = "suspended";
+      else throw new Error("Invalid `dispositionType` provided");
+
       const messageBody: any = {};
       const lockTokenBuffer: Buffer[] = [];
       lockTokenBuffer.push(string_to_uuid(lockToken));
