@@ -300,6 +300,7 @@ export function toFieldsFromFieldValue(
       if (fieldValue.type === "array" || fieldValue.type === "object") {
         const formField: FormField = {
           confidence: 1,
+          name: key,
           value: fieldValue.value,
           valueType: fieldValue.type
         };
@@ -536,7 +537,13 @@ export function toFormModelResponse(response: GetCustomModelResponse): FormModel
       ...common,
       trainingDocuments: response.trainResult.trainingDocuments,
       errors: response.trainResult.errors,
-      models: [{ accuracy: response.trainResult.averageModelAccuracy, formType: `form-${response.modelInfo.modelId}`, fields }]
+      models: [
+        {
+          accuracy: response.trainResult.averageModelAccuracy,
+          formType: `form-${response.modelInfo.modelId}`,
+          fields
+        }
+      ]
     };
   } else if (response.keys) {
     // training with forms, populate from trainingResult.keys
