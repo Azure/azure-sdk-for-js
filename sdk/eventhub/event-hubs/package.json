@@ -1,14 +1,20 @@
 {
   "name": "@azure/event-hubs",
   "sdk-type": "client",
-  "version": "5.2.0",
+  "version": "5.2.1",
   "description": "Azure Event Hubs SDK for JS.",
   "author": "Microsoft Corporation",
   "license": "MIT",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs",
   "repository": "github:Azure/azure-sdk-for-js",
   "sideEffects": false,
-  "keywords": ["azure", "cloud", "event hubs", "events", "Azure"],
+  "keywords": [
+    "azure",
+    "cloud",
+    "event hubs",
+    "events",
+    "Azure"
+  ],
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
