@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import chai from "chai";
 import glob from "glob";
 import fs from "fs";

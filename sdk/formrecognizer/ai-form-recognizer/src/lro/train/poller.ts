@@ -7,7 +7,7 @@ import { TrainModelOptions, GetModelOptions } from "../../formTrainingClient";
 
 import {
   ModelStatus,
-  FormRecognizerClientTrainCustomModelAsyncResponse as TrainCustomModelAsyncResponse
+  GeneratedClientTrainCustomModelAsyncResponse as TrainCustomModelAsyncResponse
 } from "../../generated/models";
 export { ModelStatus, TrainCustomModelAsyncResponse };
 

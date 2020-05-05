@@ -1,16 +1,11 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 const should = chai.should();
-import {
-  Receiver,
-  ReceivedMessageWithLock,
-  SubscriptionRuleManager,
-  SessionReceiver
-} from "../src";
+import { Receiver, ReceivedMessageWithLock, SessionReceiver } from "../src";
 import { TestClientType, TestMessage } from "./utils/testUtils";
 import { ServiceBusClientForTests, createServiceBusClientForTests } from "./utils/testutils2";
 import { Sender, SenderImpl } from "../src/sender";
@@ -23,8 +18,8 @@ describe("Retries - ManagementClient", () => {
   let senderClient: Sender;
   let receiverClient: Receiver<ReceivedMessageWithLock> | SessionReceiver<ReceivedMessageWithLock>;
   let serviceBusClient: ServiceBusClientForTests;
-  let subscriptionRuleManager: SubscriptionRuleManager;
-  let defaultMaxRetries = 2;
+  // let subscriptionRuleManager: SubscriptionRuleManager;
+  const defaultMaxRetries = 2;
   let numberOfTimesManagementClientInvoked: number;
 
   before(() => {
@@ -49,15 +44,15 @@ describe("Retries - ManagementClient", () => {
       await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
     receiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
-    subscriptionRuleManager = serviceBusClient.test.addToCleanup(
-      serviceBusClient.getSubscriptionRuleManager(entityNames.topic!, entityNames.subscription!)
-    );
+    // subscriptionRuleManager = serviceBusClient.test.addToCleanup(
+    //   serviceBusClient.getSubscriptionRuleManager(entityNames.topic!, entityNames.subscription!)
+    // );
   }
 
   async function afterEachTest(): Promise<void> {
     await senderClient.close();
     await receiverClient.close();
-    await subscriptionRuleManager.close();
+    // await subscriptionRuleManager.close();
   }
 
   function mockManagementClientToThrowError() {
@@ -203,40 +198,40 @@ describe("Retries - ManagementClient", () => {
     });
   });
 
-  describe("SubscriptionRuleManager Retries", function(): void {
-    beforeEach(async () => {
-      numberOfTimesManagementClientInvoked = 0;
-      await beforeEachTest(TestClientType.UnpartitionedSubscription);
-    });
+  // describe("SubscriptionRuleManager Retries", function(): void {
+  //   beforeEach(async () => {
+  //     numberOfTimesManagementClientInvoked = 0;
+  //     await beforeEachTest(TestClientType.UnpartitionedSubscription);
+  //   });
 
-    afterEach(async () => {
-      await afterEachTest();
-    });
+  //   afterEach(async () => {
+  //     await afterEachTest();
+  //   });
 
-    it("Unpartitioned Subscription: getRules", async function(): Promise<void> {
-      await mockManagementClientAndVerifyRetries(async () => {
-        await subscriptionRuleManager.getRules();
-      });
-    });
+  //   it("Unpartitioned Subscription: getRules", async function(): Promise<void> {
+  //     await mockManagementClientAndVerifyRetries(async () => {
+  //       await subscriptionRuleManager.getRules();
+  //     });
+  //   });
 
-    it("Unpartitioned Subscription: addRule", async function(): Promise<void> {
-      await mockManagementClientAndVerifyRetries(async () => {
-        await subscriptionRuleManager.addRule("new-rule", "1=2");
-      });
-    });
+  //   it("Unpartitioned Subscription: addRule", async function(): Promise<void> {
+  //     await mockManagementClientAndVerifyRetries(async () => {
+  //       await subscriptionRuleManager.addRule("new-rule", "1=2");
+  //     });
+  //   });
 
-    it("Unpartitioned Subscription: removeRule", async function(): Promise<void> {
-      await mockManagementClientAndVerifyRetries(async () => {
-        await subscriptionRuleManager.removeRule("new-rule");
-      });
-    });
-  });
+  //   it("Unpartitioned Subscription: removeRule", async function(): Promise<void> {
+  //     await mockManagementClientAndVerifyRetries(async () => {
+  //       await subscriptionRuleManager.removeRule("new-rule");
+  //     });
+  //   });
+  // });
 });
 
 describe("Retries - MessageSender", () => {
   let senderClient: Sender;
   let serviceBusClient: ServiceBusClientForTests;
-  let defaultMaxRetries = 2;
+  const defaultMaxRetries = 2;
   let numberOfTimesInitInvoked: number;
 
   before(() => {
@@ -342,7 +337,7 @@ describe("Retries - MessageSender", () => {
 describe("Retries - Receive methods", () => {
   let receiverClient: Receiver<ReceivedMessageWithLock>;
   let serviceBusClient: ServiceBusClientForTests;
-  let defaultMaxRetries = 2;
+  const defaultMaxRetries = 2;
   let numberOfTimesTried: number;
 
   before(() => {
@@ -436,7 +431,7 @@ describe("Retries - onDetached", () => {
   let senderClient: Sender;
   let receiverClient: Receiver<ReceivedMessageWithLock> | SessionReceiver<ReceivedMessageWithLock>;
   let serviceBusClient: ServiceBusClientForTests;
-  let defaultMaxRetries = 2;
+  const defaultMaxRetries = 2;
   let numberOfTimesOnDetachedInvoked: number;
 
   before(() => {

@@ -1,12 +1,27 @@
 # Release History
 
-## 7.0.0-preview.2 (Unreleased)
+## 7.0.0-preview.3 (Unreleased)
 
+
+## 7.0.0-preview.2 (2020-05-05)
+
+- Fixes reconnection issues by creating a new connection object rather than re-using the existing one.
+  [PR 8580](https://github.com/Azure/azure-sdk-for-js/pull/8580)
 - Bug - Unable to settle previously received messages when a receiver recovers from a broken link or connection.
   Fixed in [PR 8340](https://github.com/Azure/azure-sdk-for-js/pull/8340)
   Please note that if using sessions, this behavior doesn't change with this release.
 - Provided down-leveled type declaration files to support older TypeScript versions 3.1 to 3.6.
   [PR 8619](https://github.com/Azure/azure-sdk-for-js/pull/8619)
+- The `ServiceBusSender.send()` method now has an overload that takes an array of events.
+  If you know beforehand that your messages would fit under the message size restrictions, this is an easier way to send events instead of creating an `ServiceBusMessageBatch` and filling it one by one.
+- New sample to demonstrate how to receive messages from multiple sessions in a queue or subscription using session receivers.
+
+### Breaking Changes
+
+- The `createSender` and `createSessionReceiver` methods are now async. The promise returned by them are resolved after the link is successfully established with the service. The same will be done to the `createReceiver` method in the next preview.
+- Remove rule operations from `ServiceBusClient` in favor of having similar operations via the management apis
+which would apply to queues, topics, subscriptions and rules in the upcoming previews. 
+  [PR 8660](https://github.com/Azure/azure-sdk-for-js/pull/8660)
 
 ## 7.0.0-preview.1 (2020-04-07)
 

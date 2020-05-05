@@ -4,21 +4,18 @@
 import { assert } from "chai";
 import fs from "fs-extra";
 import path from "path";
-import * as recorder from "@azure/test-utils-recorder";
 
 import * as dotenv from "dotenv";
 dotenv.config();
 
-import { getTrainingContainerSasUrl } from "../util/trainingContainer";
+import { createRecordedTrainingClient, createRecordedRecognizerClient } from "../util/recordedClients";
 import {
   FormRecognizerClient,
   AzureKeyCredential,
   TrainingDocumentInfo,
   FormTrainingClient
 } from "../../src";
-import { env } from "@azure/test-utils-recorder";
-import { BlobServiceClient } from "@azure/storage-blob";
-// import { URLBuilder } from '@azure/core-http';
+import { env, Recorder } from "@azure/test-utils-recorder";
 
 const ASSET_PATH = path.resolve(path.join(process.cwd(), "test-assets"));
 let unlabeledModelId: string | undefined;
@@ -27,18 +24,21 @@ let modelIdToDelete: string | undefined;
 
 describe("FormTrainingClient NodeJS only", () => {
   let trainingClient: FormTrainingClient;
+  let recorder: Recorder;
 
-  before(function() {
-    // TODO: create recordings
-    if (recorder.isPlaybackMode()) {
-      this.skip();
-    }
-
+  beforeEach(function() {
+    ({recorder, client: trainingClient} = createRecordedTrainingClient(this));
     trainingClient = new FormTrainingClient(
-      env.ENDPOINT,
+      env.FORM_RECOGNIZER_ENDPOINT,
       new AzureKeyCredential(env.FORM_RECOGNIZER_API_KEY)
     );
   });
+
+  afterEach(function() {
+    if (recorder) {
+      recorder.stop();
+    }
+  })
 
   const expectedDocumentInfo: TrainingDocumentInfo = {
     documentName: "Form_1.jpg",
@@ -48,7 +48,7 @@ describe("FormTrainingClient NodeJS only", () => {
   };
 
   it("trains model with forms and no labels", async () => {
-    const containerSasUrl = getTrainingContainerSasUrl();
+    const containerSasUrl = env.FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL;
     assert.ok(containerSasUrl, "Expect valid container sas url");
     const poller = await trainingClient.beginTraining(containerSasUrl, false);
     await poller.pollUntilDone();
@@ -70,7 +70,7 @@ describe("FormTrainingClient NodeJS only", () => {
   });
 
   it("trains model with forms and labels", async () => {
-    const containerSasUrl = getTrainingContainerSasUrl();
+    const containerSasUrl = env.FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL;
     assert.ok(containerSasUrl, "Expect valid container sas url");
 
     const poller = await trainingClient.beginTraining(containerSasUrl, true);
@@ -97,7 +97,7 @@ describe("FormTrainingClient NodeJS only", () => {
   });
 
   it("trains model with forms and no labels including sub folders", async () => {
-    const containerSasUrl = getTrainingContainerSasUrl();
+    const containerSasUrl = env.FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL;
     assert.ok(containerSasUrl, "Expect valid container sas url");
 
     const poller = await trainingClient.beginTraining(containerSasUrl, false, {
@@ -119,7 +119,7 @@ describe("FormTrainingClient NodeJS only", () => {
   });
 
   it("trains model with forms and no labels specifying prefix ", async () => {
-    const containerSasUrl = getTrainingContainerSasUrl();
+    const containerSasUrl = env.FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL;
     assert.ok(containerSasUrl, "Expect valid container sas url");
 
     const poller = await trainingClient.beginTraining(containerSasUrl, false, {
@@ -203,22 +203,21 @@ describe("FormTrainingClient NodeJS only", () => {
   });
 }).timeout(60000);
 
-describe("FormRecognizerClient custom form recognition NodeJS only", () => {
+describe("FormRecognizerClient form recognition NodeJS", () => {
   let recognizerClient: FormRecognizerClient;
+  let recorder: Recorder;
 
-  before(function() {
-    // TODO: create recordings
-    if (recorder.isPlaybackMode()) {
-      this.skip();
-    }
-
-    recognizerClient = new FormRecognizerClient(
-      env.ENDPOINT,
-      new AzureKeyCredential(env.FORM_RECOGNIZER_API_KEY)
-    );
+  beforeEach(function() {
+    ({recorder, client: recognizerClient} = createRecordedRecognizerClient(this));
   });
 
-  it("recognizes form from a jpeg file stream using model trained without labels", async () => {
+  afterEach(function() {
+    if (recorder) {
+      recorder.stop();
+    }
+  })
+
+  it("recognizes form jpeg unlabeled model", async () => {
     const filePath = path.join(ASSET_PATH, "forms", "Form_1.jpg");
     const stream = fs.createReadStream(filePath);
 
@@ -249,51 +248,35 @@ describe("FormRecognizerClient custom form recognition NodeJS only", () => {
     assert.ok(form.fields["field-2"], "Expecting field-2");
   });
 
-  it("recognizes form from a url to a jpeg file using model trained without labels", async () => {
-    const blobServiceClient = new BlobServiceClient(process.env.BLOB_SAS_ENDPOINT!);
-    const containerName = `testform${new Date().getTime()}`;
-    const blobName = `Form_1.jpg`;
-    const { containerClient } = await blobServiceClient.createContainer(containerName);
-    const blobClient = containerClient.getBlockBlobClient(blobName);
-    const filePath = path.join(ASSET_PATH, "forms", "Form_1.jpg");
+  it("recognizes form url unlabeled model", async () => {
+    const testingContainerUrl: string = env.FORM_RECOGNIZER_TESTING_CONTAINER_SAS_URL;
+    const urlParts = testingContainerUrl.split("?");
+    const url = `${urlParts[0]}/Form_1.jpg?${urlParts[1]}`;
 
-    try {
-      await blobClient.uploadFile(filePath, {
-        blobHTTPHeaders: {
-          blobContentType: "image/jpeg"
-        }
-      });
+    assert.ok(unlabeledModelId, "Expecting valid model id from training without labels");
+    const poller = await recognizerClient.beginRecognizeFormsFromUrl(unlabeledModelId!, url);
+    await poller.pollUntilDone();
+    const response = poller.getResult();
 
-      assert.ok(unlabeledModelId, "Expecting valid model id from training without labels");
-      const poller = await recognizerClient.beginRecognizeFormsFromUrl(
-        unlabeledModelId!,
-        blobClient.url
-      );
-      await poller.pollUntilDone();
-      const response = poller.getResult();
-
-      assert.ok(response, "Expect valid response object");
-      assert.equal(response!.status, "succeeded");
-      assert.ok(
-        response!.forms && response!.forms.length > 0,
-        `Expect no-empty pages but got ${response!.forms}`
-      );
-      const form = response!.forms![0];
-      assert.equal(form.formType, "form-0");
-      assert.deepStrictEqual(form.pageRange, {
-        firstPageNumber: 1,
-        lastPageNumber: 1
-      });
-      assert.ok(form.pages.length > 0, "Expecting at least one page in the first recognized form");
-      assert.ok(form.fields["field-0"], "Expecting field-0");
-      assert.ok(form.fields["field-1"], "Expecting field-1");
-      assert.ok(form.fields["field-2"], "Expecting field-2");
-    } finally {
-      await blobServiceClient.deleteContainer(containerName);
-    }
+    assert.ok(response, "Expect valid response object");
+    assert.equal(response!.status, "succeeded");
+    assert.ok(
+      response!.forms && response!.forms.length > 0,
+      `Expect no-empty pages but got ${response!.forms}`
+    );
+    const form = response!.forms![0];
+    assert.equal(form.formType, "form-0");
+    assert.deepStrictEqual(form.pageRange, {
+      firstPageNumber: 1,
+      lastPageNumber: 1
+    });
+    assert.ok(form.pages.length > 0, "Expecting at least one page in the first recognized form");
+    assert.ok(form.fields["field-0"], "Expecting field-0");
+    assert.ok(form.fields["field-1"], "Expecting field-1");
+    assert.ok(form.fields["field-2"], "Expecting field-2");
   });
 
-  it("recognizes form from a jpeg file stream using model trained with labels", async () => {
+  it("recognizes form jpeg labeled model", async () => {
     const filePath = path.join(ASSET_PATH, "forms", "Form_1.jpg");
     const stream = fs.createReadStream(filePath);
 
@@ -327,7 +310,7 @@ describe("FormRecognizerClient custom form recognition NodeJS only", () => {
     assert.ok(form.fields["Signature"]);
   });
 
-  it("recognizes form from a jpeg file stream using model trained with labels without specifying content type", async () => {
+  it("recognizes form jpeg labeled model no content type", async () => {
     const filePath = path.join(ASSET_PATH, "forms", "Form_1.jpg");
     const stream = fs.createReadStream(filePath);
 
