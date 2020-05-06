@@ -3,7 +3,7 @@
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
+import { TokenCredential, AccessToken } from "@azure/core-http";
 import { TokenCredentialOptions, IdentityClient } from '../client/identityClient';
 import * as keytar from 'keytar';
 
@@ -26,8 +26,7 @@ export class VSCodeCredential implements TokenCredential {
   }
 
   public async getToken(
-    scopes: string | string[],
-    options?: GetTokenOptions
+    scopes: string | string[]
   ): Promise<AccessToken | null> {
     let scopeString = typeof scopes === "string" ? scopes : scopes.join(" ");
 

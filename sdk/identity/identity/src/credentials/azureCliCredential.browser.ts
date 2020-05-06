@@ -3,17 +3,16 @@
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http";
-import { TokenCredentialOptions } from "../client/identityClient";
+import { AccessToken, TokenCredential } from "@azure/core-http";
 
 const BrowserNotSupportedError = new Error("AzureCliCredential is not supported in the browser.");
 
 export class AzureCliCredential implements TokenCredential {
-  constructor(options?: TokenCredentialOptions) {
+  constructor() {
     throw BrowserNotSupportedError;
   }
 
-  getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null> {
+  getToken(): Promise<AccessToken | null> {
     throw BrowserNotSupportedError;
   }
 }

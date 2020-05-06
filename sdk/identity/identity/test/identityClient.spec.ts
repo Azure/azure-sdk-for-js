@@ -81,7 +81,8 @@ describe("IdentityClient", function() {
 
   it("throws an exception when an Env AZURE_AUTHORITY_HOST using 'http' is provided", async function() {
     if (!isNode) {
-      return this.skip();
+      this.skip();
+      return;
     }
     process.env.AZURE_AUTHORITY_HOST ="http://totallyinsecure.lol";
     assert.throws(

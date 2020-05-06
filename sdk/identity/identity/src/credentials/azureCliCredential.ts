@@ -40,7 +40,7 @@ export class AzureCliCredential implements TokenCredential {
         child_process.exec(
           `az account get-access-token --output json --resource ${resource}`,
           { cwd: getSafeWorkingDir() },
-          (error, stdout, stderr) => {
+          (stdout, stderr) => {
             resolve({ stdout: stdout, stderr: stderr });
           }
         );

@@ -3,19 +3,18 @@
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http";
-import { TokenCredentialOptions } from "../client/identityClient";
+import { AccessToken, TokenCredential } from "@azure/core-http";
 
 const BrowserNotSupportedError = new Error(
   "EnvironmentCredential is not supported in the browser."
 );
 
 export class EnvironmentCredential implements TokenCredential {
-  constructor(options?: TokenCredentialOptions) {
+  constructor() {
     throw BrowserNotSupportedError;
   }
 
-  getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null> {
+  getToken(): Promise<AccessToken | null> {
     throw BrowserNotSupportedError;
   }
 }

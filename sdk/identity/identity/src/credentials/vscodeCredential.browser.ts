@@ -3,22 +3,16 @@
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
-import { TokenCredentialOptions } from '../client/identityClient';
+import { TokenCredential, AccessToken } from "@azure/core-http";
 
 const BrowserNotSupportedError = new Error("VSCodeCredential is not supported in the browser.");
 
 export class VSCodeCredential implements TokenCredential {
-  constructor(
-    options?: TokenCredentialOptions
-  ) {
+  constructor() {
     throw BrowserNotSupportedError;
   }
 
-  public getToken(
-    scopes: string | string[],
-    options?: GetTokenOptions
-  ): Promise<AccessToken | null> {
+  public getToken(): Promise<AccessToken | null> {
     throw BrowserNotSupportedError;
   }
 }
