@@ -90,8 +90,8 @@ async function receiveFromNextSession(queueClient: QueueClient): Promise<void> {
     await sessionReceiver.getState();
   } catch (err) {
     if (
-      (err as MessagingError).condition === "com.microsoft:session-cannot-be-locked" ||
-      (err as MessagingError).condition === "amqp:operation-timeout"
+      (err as MessagingError).name === "SessionCannotBeLockedError" ||
+      (err as MessagingError).name === "OperationTimeoutError"
     ) {
       console.log(`INFO: no available sessions, sleeping for ${delayOnErrorMs}`);
     } else {
@@ -104,17 +104,22 @@ async function receiveFromNextSession(queueClient: QueueClient): Promise<void> {
 
   await sessionAccepted(sessionReceiver.sessionId);
 
+  let onAbort: () => void;
+
   const sessionFullyRead = new Promise((resolveSessionAsFullyRead, rejectSessionWithError) => {
+    onAbort = () => {
+      abortController.signal.removeEventListener("abort", onAbort);
+      rejectSessionWithError(new Error("Process terminated by user."));
+    };
+
     const refreshTimer = createRefreshableTimer(
       sessionIdleTimeoutSeconds * 1000,
       resolveSessionAsFullyRead
     );
+
     refreshTimer();
 
-    abortController.signal.addEventListener("abort", function abortProcessing() {
-      rejectSessionWithError(new Error("Process terminated by user."));
-      abortController.signal.removeEventListener("abort", abortProcessing);
-    });
+    abortController.signal.addEventListener("abort", onAbort);
 
     sessionReceiver.registerMessageHandler(
       async (msg) => {
@@ -134,6 +139,7 @@ async function receiveFromNextSession(queueClient: QueueClient): Promise<void> {
     processError(err, sessionReceiver.sessionId);
     await sessionClosed("error", sessionReceiver.sessionId);
   } finally {
+    abortController.signal.removeEventListener("abort", onAbort);
     await sessionReceiver.close();
   }
 }
