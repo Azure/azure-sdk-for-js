@@ -14,7 +14,8 @@ import {
   toFormTable,
   toRecognizeFormResultResponse,
   toReceiptResultResponse,
-  toFormModelResponse
+  toFormModelResponse,
+  toRecognizedForm
 } from "../src/transforms";
 import {
   GeneratedClientGetAnalyzeFormResultResponse as GetAnalyzeFormResultResponse,
@@ -22,7 +23,8 @@ import {
   GeneratedClientGetCustomModelResponse as GetCustomModelResponse,
   ReadResult as ReadResultModel,
   FieldValue as FieldValueModel,
-  DataTable as DataTableModel
+  DataTable as DataTableModel,
+  DocumentResult as DocumentResultModel
 } from "../src/generated/models";
 import {
   StringFieldValue,
@@ -454,6 +456,19 @@ describe("Transforms", () => {
     assert.equal(transformed.rows[2].cells[0].isFooter, true);
     assert.equal(transformed.rows[2].cells[0].rowSpan, 1);
     assert.equal(transformed.rows[2].cells[0].columnSpan, 2);
+  });
+
+  it("toRecognizedForm() should handle empty page", () => {
+    const original: DocumentResultModel = {
+      docType: "prebuilt:receipt",
+      pageRange: [1, 1],
+      fields: {}
+    }
+
+    const transformed = toRecognizedForm(original, formPages);
+
+    assert.ok(transformed, "Expected valid recognized form");
+    assert.deepStrictEqual(transformed.fields, {}, "expected empty fields in recognzied form");
   });
 
   it("toRecognizeFormResultResponse() converts unsupervised response into recognized forms", () => {

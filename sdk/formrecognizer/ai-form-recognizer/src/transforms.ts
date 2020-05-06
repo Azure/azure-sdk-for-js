@@ -397,7 +397,7 @@ function toRecognizedReceipt(result: DocumentResultModel, pages: FormPage[]): Re
   const form = toRecognizedForm(result, pages);
   return {
     recognizedForm: form,
-    locale: undefined
+    locale: undefined // in the future service would return locale info
   };
 }
 
@@ -506,11 +506,17 @@ export function toReceiptResultResponse(
     return common;
   }
 
+  if (!result.analyzeResult) {
+    throw new Error("Expecting valid analyzeResult from the service response")
+  }
+
   const pages = result.analyzeResult!.readResults.map(toFormPage);
   return {
     ...common,
     version: result.analyzeResult!.version,
-    receipts: result.analyzeResult!.documentResults!.map((d) => {
+    receipts: result.analyzeResult!.documentResults!.filter(d => {
+      return !!d.fields
+    }).map((d) => {
       const receipt = toRecognizedReceipt(d, pages);
       return toReceiptWithLocale({ ...receipt, locale: "US" }); // default to US until service returns locale info.
     })
