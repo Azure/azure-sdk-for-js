@@ -185,7 +185,7 @@ describe("PageBlobClient", () => {
     assert.equal(rangesDiff.clearRange![0].count, 511);
   });
 
-  it("getPageRangesDiffForManagedDisks", async function() {
+  it("getPageRangesDiffForManagedDisks", async function(): Promise<void> {
     let mdBlobServiceClient: BlobServiceClient;
     try {
       mdBlobServiceClient = getGenericBSU("MD_", "");
