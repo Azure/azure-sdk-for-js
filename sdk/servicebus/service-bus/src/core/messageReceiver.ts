@@ -9,7 +9,8 @@ import {
   RetryOperationType,
   RetryConfig,
   ConditionErrorNameMapper,
-  ErrorNameConditionMapper
+  ErrorNameConditionMapper,
+  defaultLock
 } from "@azure/amqp-common";
 import {
   Receiver,
@@ -241,6 +242,14 @@ export class MessageReceiver extends LinkEntity {
    * to bring its link back up due to a retryable issue.
    */
   private _isDetaching: boolean = false;
+
+  /**
+   * Used to prevent _init() and close() from accidentally overriding each other.
+   *
+   * This also allows close() to block in case an _init() is in progress so it can
+   * properly shut down.
+   */
+  private _openLock: string = getUniqueName("messageReceiverOpen");
 
   constructor(context: ClientEntityContext, receiverType: ReceiverType, options?: ReceiveOptions) {
     super(context.entityPath, context, {
@@ -771,44 +780,54 @@ export class MessageReceiver extends LinkEntity {
           this.name = options.name;
         }
 
-        this.isConnecting = true;
-        await this._negotiateClaim();
-        if (!options) {
-          options = this._createReceiverOptions();
-        }
-        log.error(
-          "[%s] Trying to create receiver '%s' with options %O",
-          connectionId,
-          this.name,
-          options
-        );
+        await defaultLock.acquire(this._openLock, async () => {
+          if (this.wasCloseInitiated) {
+            return;
+          }
 
-        this._receiver = await this._context.namespace.connection.createReceiver(options);
-        this.isConnecting = false;
-        log.error(
-          "[%s] Receiver '%s' with address '%s' has established itself.",
-          connectionId,
-          this.name,
-          this.address
-        );
-        log[this.receiverType](
-          "Promise to create the receiver resolved. " + "Created receiver with name: ",
-          this.name
-        );
-        log[this.receiverType](
-          "[%s] Receiver '%s' created with receiver options: %O",
-          connectionId,
-          this.name,
-          options
-        );
-        // It is possible for someone to close the receiver and then start it again.
-        // Thus make sure that the receiver is present in the client cache.
-        if (this.receiverType === ReceiverType.streaming && !this._context.streamingReceiver) {
-          this._context.streamingReceiver = this as any;
-        } else if (this.receiverType === ReceiverType.batching && !this._context.batchingReceiver) {
-          this._context.batchingReceiver = this as any;
-        }
-        await this._ensureTokenRenewal();
+          this.isConnecting = true;
+          await this._negotiateClaim();
+          if (!options) {
+            options = this._createReceiverOptions();
+          }
+          log.error(
+            "[%s] Trying to create receiver '%s' with options %O",
+            connectionId,
+            this.name,
+            options
+          );
+
+          this._receiver = await this._context.namespace.connection.createReceiver(options);
+
+          this.isConnecting = false;
+          log.error(
+            "[%s] Receiver '%s' with address '%s' has established itself.",
+            connectionId,
+            this.name,
+            this.address
+          );
+          log[this.receiverType](
+            "Promise to create the receiver resolved. " + "Created receiver with name: ",
+            this.name
+          );
+          log[this.receiverType](
+            "[%s] Receiver '%s' created with receiver options: %O",
+            connectionId,
+            this.name,
+            options
+          );
+          // It is possible for someone to close the receiver and then start it again.
+          // Thus make sure that the receiver is present in the client cache.
+          if (this.receiverType === ReceiverType.streaming && !this._context.streamingReceiver) {
+            this._context.streamingReceiver = this as any;
+          } else if (
+            this.receiverType === ReceiverType.batching &&
+            !this._context.batchingReceiver
+          ) {
+            this._context.batchingReceiver = this as any;
+          }
+          await this._ensureTokenRenewal();
+        });
       } else {
         log.error(
           "[%s] The receiver '%s' with address '%s' is open -> %s and is connecting " +
@@ -1004,19 +1023,22 @@ export class MessageReceiver extends LinkEntity {
    */
   async close(): Promise<void> {
     this.wasCloseInitiated = true;
-    log.receiver(
-      "[%s] Closing the [%s]Receiver for entity '%s'.",
-      this._context.namespace.connectionId,
-      this.receiverType,
-      this._context.entityPath
-    );
-    if (this._newMessageReceivedTimer) clearTimeout(this._newMessageReceivedTimer);
-    this._clearAllMessageLockRenewTimers();
-    if (this._receiver) {
-      const receiverLink = this._receiver;
-      this._deleteFromCache();
-      await this._closeLink(receiverLink);
-    }
+
+    return defaultLock.acquire(this._openLock, async () => {
+      log.receiver(
+        "[%s] Closing the [%s]Receiver for entity '%s'.",
+        this._context.namespace.connectionId,
+        this.receiverType,
+        this._context.entityPath
+      );
+      if (this._newMessageReceivedTimer) clearTimeout(this._newMessageReceivedTimer);
+      this._clearAllMessageLockRenewTimers();
+      if (this._receiver) {
+        const receiverLink = this._receiver;
+        this._deleteFromCache();
+        await this._closeLink(receiverLink);
+      }
+    });
   }
 
   /**
