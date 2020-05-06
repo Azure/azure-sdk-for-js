@@ -163,6 +163,12 @@ export interface CognitiveServicesAccountProperties {
    */
   readonly internalId?: string;
   /**
+   * Gets the capabilities of the cognitive services account. Each item indicates a specific
+   * feature is supported by this account. The value is read only and for reference only.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly capabilities?: string[];
+  /**
    * Optional subdomain name used for token-based authentication.
    */
   customSubDomainName?: string;

@@ -264,6 +264,18 @@ export const CognitiveServicesAccountProperties: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      capabilities: {
+        readOnly: true,
+        serializedName: "capabilities",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
       customSubDomainName: {
         serializedName: "customSubDomainName",
         type: {
