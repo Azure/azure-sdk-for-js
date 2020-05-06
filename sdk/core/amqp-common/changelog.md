@@ -1,8 +1,11 @@
-### 2020-04-29 1.0.0-preview.13
+### 2020-05-05 1.0.0-preview.14
 
 - Relaxes the scheme check for the endpoint while parsing the connection string.
-  This allows "\<anything\>://" as the scheme as opposed to the rigid "sb://" scheme suggested by the connection string in the portal.
+  This allows "\<anything\>://" as the scheme as opposed to the "sb://" scheme suggested by the connection string in the portal.
   Fixes [bug 7907](https://github.com/Azure/azure-sdk-for-js/issues/7907).
+
+### 2020-04-29 1.0.0-preview.13
+
 - Add a new method `refreshConnection()` on the `ConnectionContextBase` to replace the `connection` property on it with a new rhea-promise `Connection` object.
 
 ### 2020-04-01 1.0.0-preview.12
