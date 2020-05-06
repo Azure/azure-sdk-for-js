@@ -1334,4 +1334,102 @@ describe("Batching - disconnects", function(): void {
 
     messages.length.should.equal(1, "Unexpected number of messages received.");
   });
+
+  it("returns messages if receive in progress (receiveAndDelete)", async function(): Promise<void> {
+    // Create the sender and receiver.
+    sbClient = getServiceBusClient();
+    const { receiverClient, senderClient } = await getSenderReceiverClients(
+      sbClient,
+      TestClientType.UnpartitionedQueue,
+      TestClientType.UnpartitionedQueue
+    );
+    const receiver = receiverClient.createReceiver(ReceiveMode.receiveAndDelete);
+    const sender = senderClient.createSender();
+
+    // The first time `receiveMessages` is called the receiver link is created.
+    // The `receiver_drained` handler is only added after the link is created,
+    // which is a non-blocking task.
+    await receiver.receiveMessages(1, 1);
+
+    if (!receiver["_context"].batchingReceiver!.isOpen()) {
+      throw new Error(`Unable to initialize receiver link.`);
+    }
+
+    // Send a message so we have something to receive.
+    await sender.send(TestMessage.getSample());
+
+    // Simulate a disconnect after a message has been received.
+    receiver["_context"].batchingReceiver!["_receiver"]!.once("message", function() {
+      setTimeout(() => {
+        // Simulate a disconnect being called with a non-retryable error.
+        receiver["_context"].namespace.connection["_connection"].idle();
+      }, 0);
+    });
+
+    // Purposefully request more messages than what's available
+    // so that the receiver will have to drain.
+    const messages1 = await receiver.receiveMessages(10, 10);
+
+    messages1.length.should.equal(1, "Unexpected number of messages received.");
+
+    // Make sure that a 2nd receiveMessages call still works
+    // by sending and receiving a single message again.
+    await sender.send(TestMessage.getSample());
+
+    // wait for the 2nd message to be received.
+    const messages2 = await receiver.receiveMessages(1, 5);
+
+    messages2.length.should.equal(1, "Unexpected number of messages received.");
+  });
+
+  it("throws an error if receive is in progress (peekLock)", async function(): Promise<void> {
+    // Create the sender and receiver.
+    sbClient = getServiceBusClient();
+    const { receiverClient, senderClient } = await getSenderReceiverClients(
+      sbClient,
+      TestClientType.UnpartitionedQueue,
+      TestClientType.UnpartitionedQueue
+    );
+    const receiver = receiverClient.createReceiver(ReceiveMode.peekLock);
+    const sender = senderClient.createSender();
+
+    // The first time `receiveMessages` is called the receiver link is created.
+    // The `receiver_drained` handler is only added after the link is created,
+    // which is a non-blocking task.
+    await receiver.receiveMessages(1, 1);
+
+    if (!receiver["_context"].batchingReceiver!.isOpen()) {
+      throw new Error(`Unable to initialize receiver link.`);
+    }
+
+    // Send a message so we have something to receive.
+    await sender.send(TestMessage.getSample());
+
+    // Simulate a disconnect after a message has been received.
+    receiver["_context"].batchingReceiver!["_receiver"]!.once("message", function() {
+      setTimeout(() => {
+        // Simulate a disconnect being called with a non-retryable error.
+        receiver["_context"].namespace.connection["_connection"].idle();
+      }, 0);
+    });
+
+    // Purposefully request more messages than what's available
+    // so that the receiver will have to drain.
+    const testFailureMessage = "Test failure";
+    try {
+      await receiver.receiveMessages(10, 10);
+      throw new Error(testFailureMessage);
+    } catch (err) {
+      err.message.should.not.equal(testFailureMessage);
+    }
+
+    // Make sure that a 2nd receiveMessages call still works
+    // by sending and receiving a single message again.
+    await sender.send(TestMessage.getSample());
+
+    // wait for the 2nd message to be received.
+    const messages = await receiver.receiveMessages(1, 5);
+
+    messages.length.should.equal(1, "Unexpected number of messages received.");
+  });
 });
