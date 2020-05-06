@@ -8,6 +8,12 @@
     "downlevelIteration": true
   },
   "compileOnSave": true,
-  "exclude": ["node_modules", "./types/**/*.d.ts", "./samples/**/*.ts", "test/perf/*", "test/stress/*"],
+  "exclude": [
+    "node_modules",
+    "./types/**/*.d.ts",
+    "./samples/**/*.ts",
+    "test/perf/*",
+    "test/stress/*"
+  ],
   "include": ["./src/**/*.ts", "./test/**/*.ts"]
 }
