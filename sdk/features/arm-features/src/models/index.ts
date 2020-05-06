@@ -228,6 +228,26 @@ export type FeaturesRegisterResponse = FeatureResult & {
 };
 
 /**
+ * Contains response data for the unregister operation.
+ */
+export type FeaturesUnregisterResponse = FeatureResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FeatureResult;
+    };
+};
+
+/**
  * Contains response data for the listAllNext operation.
  */
 export type FeaturesListAllNextResponse = FeatureOperationsListResult & {
