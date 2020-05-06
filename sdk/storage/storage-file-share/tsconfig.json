@@ -1,26 +1,12 @@
 {
+  "extends": "../../../tsconfig.package",
   "compilerOptions": {
-    "alwaysStrict": true,
-    "noImplicitAny": true,
-    "preserveConstEnums": true,
-    "sourceMap": true,
-    "inlineSources": true,
-    "newLine": "LF",
     "target": "es5",
-    "moduleResolution": "node",
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "strict": true,
-    "module": "esNext",
-    "outDir": "./dist-esm",
-    "declaration": true,
-    "declarationMap": true,
-    "importHelpers": true,
     "declarationDir": "./typings/latest",
-    "lib": ["dom", "es5", "es6", "es7", "esnext"],
-    "esModuleInterop": true
+    "outDir": "./dist-esm",
+    "lib": ["dom", "es5", "es6", "es7", "esnext"]
   },
   "compileOnSave": true,
-  "exclude": ["node_modules", "./samples/*"],
+  "exclude": ["node_modules", "./typings/**/*.d.ts", "./samples/**"],
   "include": ["./src/**/*.ts", "./test/**/*.ts"]
 }
