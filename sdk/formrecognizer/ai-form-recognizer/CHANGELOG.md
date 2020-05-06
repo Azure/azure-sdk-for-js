@@ -1,8 +1,9 @@
 # Release History
 
-## 1.0.0-preview.2 (2020-05-05)
+## 1.0.0-preview.2 (2020-05-06)
 
 - `FormTrainingClient.listModels()` now works correctly on NodeJs v8.
+- Custom Form recognition now handles missing fields properly.
 
 ## 1.0.0-preview.1 (2020-04-23)
 
