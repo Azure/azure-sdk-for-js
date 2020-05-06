@@ -40,7 +40,8 @@ import {
   throwTypeErrorIfParameterMissing,
   throwTypeErrorIfParameterNotLong,
   throwTypeErrorIfParameterTypeMismatch,
-  throwTypeErrorIfParameterIsEmptyString
+  throwTypeErrorIfParameterIsEmptyString,
+  throwErrorIfClientOrConnectionClosed
 } from "../util/errors";
 import { Typed } from "rhea-promise";
 import { max32BitNumber } from "../util/constants";
@@ -343,7 +344,11 @@ export class ManagementClient extends LinkEntity {
    * @returns Promise<ReceivedSBMessage[]>
    */
   async peek(messageCount?: number): Promise<ReceivedMessageInfo[]> {
-    throwErrorIfConnectionClosed(this._context.namespace);
+    throwErrorIfClientOrConnectionClosed(
+      this._context.namespace,
+      this._context.entityPath,
+      this._context.isClosed
+    );
     return this.peekBySequenceNumber(this._lastPeekedSequenceNumber.add(1), messageCount);
   }
 
@@ -363,7 +368,11 @@ export class ManagementClient extends LinkEntity {
     sessionId: string,
     messageCount?: number
   ): Promise<ReceivedMessageInfo[]> {
-    throwErrorIfConnectionClosed(this._context.namespace);
+    throwErrorIfClientOrConnectionClosed(
+      this._context.namespace,
+      this._context.entityPath,
+      this._context.isClosed
+    );
     return this.peekBySequenceNumber(
       this._lastPeekedSequenceNumber.add(1),
       messageCount,
@@ -383,7 +392,11 @@ export class ManagementClient extends LinkEntity {
     maxMessageCount?: number,
     sessionId?: string
   ): Promise<ReceivedMessageInfo[]> {
-    throwErrorIfConnectionClosed(this._context.namespace);
+    throwErrorIfClientOrConnectionClosed(
+      this._context.namespace,
+      this._context.entityPath,
+      this._context.isClosed
+    );
     const connId = this._context.namespace.connectionId;
 
     // Checks for fromSequenceNumber
@@ -477,7 +490,11 @@ export class ManagementClient extends LinkEntity {
    * @returns {Promise<Date>} Promise<Date> New lock token expiry date and time in UTC format.
    */
   async renewLock(lockToken: string, options?: SendRequestOptions): Promise<Date> {
-    throwErrorIfConnectionClosed(this._context.namespace);
+    throwErrorIfClientOrConnectionClosed(
+      this._context.namespace,
+      this._context.entityPath,
+      this._context.isClosed
+    );
     if (!options) options = {};
     if (options.delayInSeconds == null) options.delayInSeconds = 1;
     if (options.timeoutInSeconds == null) options.timeoutInSeconds = 5;
@@ -539,7 +556,11 @@ export class ManagementClient extends LinkEntity {
     scheduledEnqueueTimeUtc: Date,
     messages: SendableMessageInfo[]
   ): Promise<Long[]> {
-    throwErrorIfConnectionClosed(this._context.namespace);
+    throwErrorIfClientOrConnectionClosed(
+      this._context.namespace,
+      this._context.entityPath,
+      this._context.isClosed
+    );
     const messageBody: any[] = [];
     for (let i = 0; i < messages.length; i++) {
       const item = messages[i];
@@ -635,7 +656,11 @@ export class ManagementClient extends LinkEntity {
    * @returns Promise<void>
    */
   async cancelScheduledMessages(sequenceNumbers: Long[]): Promise<void> {
-    throwErrorIfConnectionClosed(this._context.namespace);
+    throwErrorIfClientOrConnectionClosed(
+      this._context.namespace,
+      this._context.entityPath,
+      this._context.isClosed
+    );
     const messageBody: any = {};
     messageBody[Constants.sequenceNumbers] = [];
     for (let i = 0; i < sequenceNumbers.length; i++) {
@@ -711,7 +736,11 @@ export class ManagementClient extends LinkEntity {
     receiveMode: ReceiveMode,
     sessionId?: string
   ): Promise<ServiceBusMessage[]> {
-    throwErrorIfConnectionClosed(this._context.namespace);
+    throwErrorIfClientOrConnectionClosed(
+      this._context.namespace,
+      this._context.entityPath,
+      this._context.isClosed
+    );
 
     const messageList: ServiceBusMessage[] = [];
     const messageBody: any = {};
@@ -816,7 +845,11 @@ export class ManagementClient extends LinkEntity {
     dispositionStatus: DispositionStatus,
     options?: DispositionStatusOptions
   ): Promise<void> {
-    throwErrorIfConnectionClosed(this._context.namespace);
+    throwErrorIfClientOrConnectionClosed(
+      this._context.namespace,
+      this._context.entityPath,
+      this._context.isClosed
+    );
 
     if (!options) options = {};
     try {
@@ -881,7 +914,11 @@ export class ManagementClient extends LinkEntity {
    * @returns Promise<Date> New lock token expiry date and time in UTC format.
    */
   async renewSessionLock(sessionId: string, options?: SendRequestOptions): Promise<Date> {
-    throwErrorIfConnectionClosed(this._context.namespace);
+    throwErrorIfClientOrConnectionClosed(
+      this._context.namespace,
+      this._context.entityPath,
+      this._context.isClosed
+    );
     if (!options) options = {};
     if (options.delayInSeconds == null) options.delayInSeconds = 1;
     if (options.timeoutInSeconds == null) options.timeoutInSeconds = 5;
@@ -939,8 +976,11 @@ export class ManagementClient extends LinkEntity {
    * @returns Promise<void>
    */
   async setSessionState(sessionId: string, state: any): Promise<void> {
-    throwErrorIfConnectionClosed(this._context.namespace);
-
+    throwErrorIfClientOrConnectionClosed(
+      this._context.namespace,
+      this._context.entityPath,
+      this._context.isClosed
+    );
     try {
       const messageBody: any = {};
       messageBody[Constants.sessionIdMapKey] = sessionId;
@@ -986,7 +1026,11 @@ export class ManagementClient extends LinkEntity {
    * @returns Promise<any> The state of that session
    */
   async getSessionState(sessionId: string): Promise<any> {
-    throwErrorIfConnectionClosed(this._context.namespace);
+    throwErrorIfClientOrConnectionClosed(
+      this._context.namespace,
+      this._context.entityPath,
+      this._context.isClosed
+    );
     try {
       const messageBody: any = {};
       messageBody[Constants.sessionIdMapKey] = sessionId;
@@ -1036,7 +1080,11 @@ export class ManagementClient extends LinkEntity {
    * @returns Promise<string[]> A list of session ids.
    */
   async listMessageSessions(skip: number, top: number, lastUpdatedTime?: Date): Promise<string[]> {
-    throwErrorIfConnectionClosed(this._context.namespace);
+    throwErrorIfClientOrConnectionClosed(
+      this._context.namespace,
+      this._context.entityPath,
+      this._context.isClosed
+    );
     const defaultLastUpdatedTimeForListingSessions: number = 259200000; // 3 * 24 * 3600 * 1000
     if (typeof skip !== "number") {
       throw new Error("'skip' is a required parameter and must be of type 'number'.");
@@ -1093,7 +1141,11 @@ export class ManagementClient extends LinkEntity {
    * @returns Promise<RuleDescription[]> A list of rules.
    */
   async getRules(): Promise<RuleDescription[]> {
-    throwErrorIfConnectionClosed(this._context.namespace);
+    throwErrorIfClientOrConnectionClosed(
+      this._context.namespace,
+      this._context.entityPath,
+      this._context.isClosed
+    );
     try {
       const request: AmqpMessage = {
         body: {
@@ -1209,7 +1261,11 @@ export class ManagementClient extends LinkEntity {
    * @param ruleName
    */
   async removeRule(ruleName: string): Promise<void> {
-    throwErrorIfConnectionClosed(this._context.namespace);
+    throwErrorIfClientOrConnectionClosed(
+      this._context.namespace,
+      this._context.entityPath,
+      this._context.isClosed
+    );
     throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "ruleName", ruleName);
     ruleName = String(ruleName);
     throwTypeErrorIfParameterIsEmptyString(
@@ -1265,7 +1321,11 @@ export class ManagementClient extends LinkEntity {
     filter: boolean | string | CorrelationFilter,
     sqlRuleActionExpression?: string
   ): Promise<void> {
-    throwErrorIfConnectionClosed(this._context.namespace);
+    throwErrorIfClientOrConnectionClosed(
+      this._context.namespace,
+      this._context.entityPath,
+      this._context.isClosed
+    );
 
     throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "ruleName", ruleName);
     ruleName = String(ruleName);
