@@ -411,7 +411,7 @@ export class BlobService {
         containerName,
         blobPath,
         options,
-        (error, text, result) => {
+        (error, text) => {
           if (error) {
             log.error(
               "[%s] [%s] An error occurred while getting content from blobPath '%s': %O.",

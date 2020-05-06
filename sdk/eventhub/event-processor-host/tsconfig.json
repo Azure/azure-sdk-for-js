@@ -4,7 +4,6 @@
     "target": "es5",
     "declarationDir": "./typings",
     "outDir": "./dist-esm",
-    "noUnusedParameters": false,
     "downlevelIteration": true
   },
   "compileOnSave": true,
