@@ -187,6 +187,8 @@ export interface ServiceBusMessage {
 export interface ServiceBusMessageBatch {
     readonly count: number;
     readonly maxSizeInBytes: number;
+    // @internal
+    readonly _message: Buffer | undefined;
     readonly sizeInBytes: number;
     tryAdd(message: ServiceBusMessage): boolean;
 }
