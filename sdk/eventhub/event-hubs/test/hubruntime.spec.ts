@@ -35,7 +35,7 @@ describe("RuntimeInformation", function(): void {
   });
 
   function arrayOfIncreasingNumbersFromZero(length: any): Array<string> {
-    return Array.apply(undefined, new Array(length)).map((x: any, i: any) => {
+    return Array.apply(undefined, new Array(length)).map((_x: any, i: any) => {
       return `${i}`;
     });
   }

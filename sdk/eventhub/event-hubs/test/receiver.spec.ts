@@ -988,7 +988,7 @@ describe("EventHub Receiver", function(): void {
       for (let i = 1; i <= 5; i++) {
         const rcvrId = `rcvr-${i}`;
         debug(rcvrId);
-        const onMsg = (data: ReceivedEventData) => {
+        const onMsg = (_data: ReceivedEventData) => {
           if (!rcvrs[i]) {
             rcvrs[i] = rcvrId;
             debug("receiver id %s", rcvrId);
@@ -1006,7 +1006,7 @@ describe("EventHub Receiver", function(): void {
       debug(">>> Attached message handlers to each receiver.");
       setTimeout(() => {
         debug(`Created 6th receiver - "rcvr-6"`);
-        const onmsg2 = (data: ReceivedEventData) => {
+        const onmsg2 = () => {
           // debug(data);
         };
         const onerr2 = (err: MessagingError | Error) => {

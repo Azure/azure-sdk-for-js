@@ -20,7 +20,7 @@ export class FakeSubscriptionEventHandlers implements SubscriptionEventHandlers 
     }
   }
 
-  async processError(err: Error, context: PartitionContext) {
+  async processError(err: Error) {
     this.errors.push(err);
   }
 }

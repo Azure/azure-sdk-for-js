@@ -648,10 +648,10 @@ describe("Event Processor", function(): void {
       EventHubClient.defaultConsumerGroupName,
       client,
       {
-        processInitialize: async (context) => {
+        processInitialize: async () => {
           didPartitionProcessorStart = true;
         },
-        processEvents: async (event, context) => {},
+        processEvents: async () => {},
         processError: async () => {}
       },
       new InMemoryCheckpointStore(),
@@ -850,7 +850,7 @@ describe("Event Processor", function(): void {
             }
           }
         }
-        async processError(err: Error) {
+        async processError() {
           didError = true;
         }
       }
@@ -1210,7 +1210,7 @@ describe("Event Processor", function(): void {
 
       // The partitionProcess will need to add events to the partitionResultsMap as they are received
       class FooPartitionProcessor {
-        async processEvents(events: ReceivedEventData[], context: PartitionContext) {
+        async processEvents(_events: ReceivedEventData[], context: PartitionContext) {
           partitionOwnershipArr.add(context.partitionId);
         }
         async processError() {
@@ -1454,14 +1454,14 @@ describe("Event Processor", function(): void {
       const partitionIdsSet = new Set();
       const lastEnqueuedEventPropertiesMap: Map<string, LastEnqueuedEventProperties> = new Map();
       class SimpleEventProcessor implements SubscriptionEventHandlers {
-        async processEvents(events: ReceivedEventData[], context: PartitionContext) {
+        async processEvents(_events: ReceivedEventData[], context: PartitionContext) {
           partitionIdsSet.add(context.partitionId);
           lastEnqueuedEventPropertiesMap.set(
             context.partitionId,
             context.lastEnqueuedEventProperties!
           );
         }
-        async processError(err: Error, context: PartitionContext) {}
+        async processError() {}
       }
 
       const processor = new EventProcessor(

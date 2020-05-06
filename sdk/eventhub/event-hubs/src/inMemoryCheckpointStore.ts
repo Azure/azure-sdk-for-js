@@ -34,9 +34,9 @@ export class InMemoryCheckpointStore implements CheckpointStore {
    * @return Partition ownership details of all the partitions that have/had an owner..
    */
   async listOwnership(
-    fullyQualifiedNamespace: string,
-    eventHubName: string,
-    consumerGroup: string
+    _fullyQualifiedNamespace: string,
+    _eventHubName: string,
+    _consumerGroup: string
   ): Promise<PartitionOwnership[]> {
     const ownerships = [];
 
