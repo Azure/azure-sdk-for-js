@@ -147,9 +147,7 @@ export class BatchingReceiver extends MessageReceiver {
         reject(error);
       };
 
-      this._connectionErrorHandler = (
-        error: AmqpError | Error
-      ): void => {
+      this._connectionErrorHandler = (error: AmqpError | Error): void => {
         if (totalWaitTimer) {
           clearTimeout(totalWaitTimer);
         }
@@ -175,7 +173,7 @@ export class BatchingReceiver extends MessageReceiver {
           );
           return resolve(brokeredMessages);
         }
-        
+
         reject(translate(error));
       };
 
