@@ -142,15 +142,24 @@ async function roundRobinThroughAvailableSessions(): Promise<void> {
   const serviceBusClient = ServiceBusClient.createFromConnectionString(serviceBusConnectionString);
   const queueClient = serviceBusClient.createQueueClient(queueName);
 
+  const receiverPromises = [];
+
   for (let i = 0; i < maxSessionsToProcessSimultaneously; ++i) {
-    (async () => {
-      while (!abortController.signal.aborted) {
-        await receiveFromNextSession(queueClient);
-      }
-    })();
+    receiverPromises.push(
+      (async () => {
+        while (!abortController.signal.aborted) {
+          await receiveFromNextSession(queueClient);
+        }
+      })()
+    );
   }
 
   console.log(`Listening for available sessions...`);
+  await Promise.all(receiverPromises);
+
+  await queueClient.close();
+  await serviceBusClient.close();
+  console.log(`Exiting...`);
 }
 
 // To stop the round-robin processing you can just call abortController.abort()
