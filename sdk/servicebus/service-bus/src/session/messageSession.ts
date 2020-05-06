@@ -6,7 +6,8 @@ import {
   Constants,
   ErrorNameConditionMapper,
   MessagingError,
-  Func
+  Func,
+  defaultLock
 } from "@azure/amqp-common";
 import {
   Receiver,
@@ -21,7 +22,7 @@ import * as log from "../log";
 import { OnError, OnAmqpEventAsPromise, PromiseLike, OnMessage } from "../core/messageReceiver";
 import { LinkEntity } from "../core/linkEntity";
 import { ClientEntityContext } from "../clientEntityContext";
-import { convertTicksToDate, calculateRenewAfterDuration } from "../util/utils";
+import { convertTicksToDate, calculateRenewAfterDuration, getUniqueName } from "../util/utils";
 import { throwErrorIfConnectionClosed } from "../util/errors";
 import { ServiceBusMessage, DispositionType, ReceiveMode } from "../serviceBusMessage";
 import { DispositionStatusOptions } from "../core/managementClient";
@@ -250,6 +251,15 @@ export class MessageSession extends LinkEntity {
 
   private _totalAutoLockRenewDuration: number;
 
+  private _wasCloseInitiated: boolean = false;
+  /**
+   * Used to prevent _init() and close() from accidentally overriding each other.
+   *
+   * This also allows close() to block in case an _init() is in progress so it can
+   * properly shut down.
+   */
+  private _openLock: string = getUniqueName("messageSessionOpen");
+
   /**
    * Ensures that the session lock is renewed before it expires. The lock will not be renewed for
    * more than the configured totalAutoLockRenewDuration.
@@ -337,83 +347,89 @@ export class MessageSession extends LinkEntity {
     const connectionId = this._context.namespace.connectionId;
     try {
       if (!this.isOpen() && !this.isConnecting) {
-        log.error(
-          "[%s] The receiver '%s' with address '%s' is not open and is not currently " +
-            "establishing itself. Hence let's try to connect.",
-          connectionId,
-          this.name,
-          this.address
-        );
-        this.isConnecting = true;
-        await this._negotiateClaim();
+        await defaultLock.acquire(this._openLock, async () => {
+          if (this._wasCloseInitiated) {
+            return;
+          }
 
-        const options = this._createMessageSessionOptions();
+          log.error(
+            "[%s] The receiver '%s' with address '%s' is not open and is not currently " +
+              "establishing itself. Hence let's try to connect.",
+            connectionId,
+            this.name,
+            this.address
+          );
+          this.isConnecting = true;
+          await this._negotiateClaim();
 
-        log.error(
-          "[%s] Trying to create receiver '%s' with options %O",
-          connectionId,
-          this.name,
-          options
-        );
+          const options = this._createMessageSessionOptions();
 
-        this._receiver = await this._context.namespace.connection.createReceiver(options);
-        this.isConnecting = false;
-        const receivedSessionId =
-          this._receiver.source &&
-          this._receiver.source.filter &&
-          this._receiver.source.filter[Constants.sessionFilterName];
-        let errorMessage: string = "";
-        // SB allows a sessionId with empty string value :)
-        if (receivedSessionId == null) {
-          errorMessage =
-            `Received an incorrect sessionId '${receivedSessionId}' while creating ` +
-            `the receiver '${this.name}'.`;
-        }
-        if (this.sessionId != null && receivedSessionId !== this.sessionId) {
-          errorMessage =
-            `Received sessionId '${receivedSessionId}' does not match the provided ` +
-            `sessionId '${this.sessionId}' while creating the receiver '${this.name}'.`;
-        }
-        if (errorMessage) {
-          const error = translate({
-            description: errorMessage,
-            condition: ErrorNameConditionMapper.SessionCannotBeLockedError
-          });
-          log.error("[%s] %O", this._context.namespace.connectionId, error);
-          throw error;
-        }
-        if (this.sessionId == null) this.sessionId = receivedSessionId;
-        this.sessionLockedUntilUtc = convertTicksToDate(
-          this._receiver.properties["com.microsoft:locked-until-utc"]
-        );
-        log.messageSession(
-          "[%s] Session with id '%s' is locked until: '%s'.",
-          connectionId,
-          this.sessionId,
-          this.sessionLockedUntilUtc.toISOString()
-        );
-        log.error(
-          "[%s] Receiver '%s' for sessionId '%s' has established itself.",
-          connectionId,
-          this.name,
-          this.sessionId
-        );
-        log.messageSession(
-          "Promise to create the receiver resolved. " + "Created receiver with name: ",
-          this.name
-        );
-        log.messageSession(
-          "[%s] Receiver '%s' created with receiver options: %O",
-          connectionId,
-          this.name,
-          options
-        );
-        if (!this._context.messageSessions[this.sessionId!]) {
-          this._context.messageSessions[this.sessionId!] = this;
-        }
-        this._totalAutoLockRenewDuration = Date.now() + this.maxAutoRenewDurationInSeconds * 1000;
-        await this._ensureTokenRenewal();
-        await this._ensureSessionLockRenewal();
+          log.error(
+            "[%s] Trying to create receiver '%s' with options %O",
+            connectionId,
+            this.name,
+            options
+          );
+
+          this._receiver = await this._context.namespace.connection.createReceiver(options);
+          this.isConnecting = false;
+          const receivedSessionId =
+            this._receiver.source &&
+            this._receiver.source.filter &&
+            this._receiver.source.filter[Constants.sessionFilterName];
+          let errorMessage: string = "";
+          // SB allows a sessionId with empty string value :)
+          if (receivedSessionId == null) {
+            errorMessage =
+              `Received an incorrect sessionId '${receivedSessionId}' while creating ` +
+              `the receiver '${this.name}'.`;
+          }
+          if (this.sessionId != null && receivedSessionId !== this.sessionId) {
+            errorMessage =
+              `Received sessionId '${receivedSessionId}' does not match the provided ` +
+              `sessionId '${this.sessionId}' while creating the receiver '${this.name}'.`;
+          }
+          if (errorMessage) {
+            const error = translate({
+              description: errorMessage,
+              condition: ErrorNameConditionMapper.SessionCannotBeLockedError
+            });
+            log.error("[%s] %O", this._context.namespace.connectionId, error);
+            throw error;
+          }
+          if (this.sessionId == null) this.sessionId = receivedSessionId;
+          this.sessionLockedUntilUtc = convertTicksToDate(
+            this._receiver.properties["com.microsoft:locked-until-utc"]
+          );
+          log.messageSession(
+            "[%s] Session with id '%s' is locked until: '%s'.",
+            connectionId,
+            this.sessionId,
+            this.sessionLockedUntilUtc.toISOString()
+          );
+          log.error(
+            "[%s] Receiver '%s' for sessionId '%s' has established itself.",
+            connectionId,
+            this.name,
+            this.sessionId
+          );
+          log.messageSession(
+            "Promise to create the receiver resolved. " + "Created receiver with name: ",
+            this.name
+          );
+          log.messageSession(
+            "[%s] Receiver '%s' created with receiver options: %O",
+            connectionId,
+            this.name,
+            options
+          );
+          if (!this._context.messageSessions[this.sessionId!]) {
+            this._context.messageSessions[this.sessionId!] = this;
+          }
+          this._totalAutoLockRenewDuration = Date.now() + this.maxAutoRenewDurationInSeconds * 1000;
+          await this._ensureTokenRenewal();
+          await this._ensureSessionLockRenewal();
+        });
       } else {
         log.error(
           "[%s] The receiver '%s' for sessionId '%s' is open -> %s and is connecting " +
@@ -683,40 +699,44 @@ export class MessageSession extends LinkEntity {
    * closed due to expiry.
    */
   async close(isClosedDueToExpiry?: boolean): Promise<void> {
-    try {
-      log.messageSession(
-        "[%s] Closing the MessageSession '%s' for queue '%s'.",
-        this._context.namespace.connectionId,
-        this.sessionId,
-        this.name
-      );
+    this._wasCloseInitiated = true;
 
-      this.isReceivingMessages = false;
-      if (this._newMessageReceivedTimer) clearTimeout(this._newMessageReceivedTimer);
-      if (this._sessionLockRenewalTimer) clearTimeout(this._sessionLockRenewalTimer);
-      log.messageSession(
-        "[%s] Cleared the timers for 'no new message received' task and " +
-          "'session lock renewal' task.",
-        this._context.namespace.connectionId
-      );
+    return await defaultLock.acquire(this._openLock, async () => {
+      try {
+        log.messageSession(
+          "[%s] Closing the MessageSession '%s' for queue '%s'.",
+          this._context.namespace.connectionId,
+          this.sessionId,
+          this.name
+        );
 
-      if (!isClosedDueToExpiry) {
-        delete this._context.expiredMessageSessions[this.sessionId!];
+        this.isReceivingMessages = false;
+        if (this._newMessageReceivedTimer) clearTimeout(this._newMessageReceivedTimer);
+        if (this._sessionLockRenewalTimer) clearTimeout(this._sessionLockRenewalTimer);
+        log.messageSession(
+          "[%s] Cleared the timers for 'no new message received' task and " +
+            "'session lock renewal' task.",
+          this._context.namespace.connectionId
+        );
+
+        if (!isClosedDueToExpiry) {
+          delete this._context.expiredMessageSessions[this.sessionId!];
+        }
+
+        if (this._receiver) {
+          const receiverLink = this._receiver;
+          this._deleteFromCache();
+          await this._closeLink(receiverLink);
+        }
+      } catch (err) {
+        log.error(
+          "[%s] An error occurred while closing the message session with id '%s': %O.",
+          this._context.namespace.connectionId,
+          this.sessionId,
+          err
+        );
       }
-
-      if (this._receiver) {
-        const receiverLink = this._receiver;
-        this._deleteFromCache();
-        await this._closeLink(receiverLink);
-      }
-    } catch (err) {
-      log.error(
-        "[%s] An error occurred while closing the message session with id '%s': %O.",
-        this._context.namespace.connectionId,
-        this.sessionId,
-        err
-      );
-    }
+    });
   }
 
   /**
