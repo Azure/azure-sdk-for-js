@@ -8,7 +8,7 @@
     "sourceMap": true /* Generates corresponding '.map' file. */,
     "outDir": "./dist-esm" /* Redirect output structure to the directory. */,
     "stripInternal": true /* Do not emit declarations for code with @internal annotation*/,
-    "declarationDir": "./typings" /* Output directory for generated declaration files.*/,
+    "declarationDir": "./types" /* Output directory for generated declaration files.*/,
     "importHelpers": true /* Import emit helpers from 'tslib'. */,
 
     /* Strict Type-Checking Options */
@@ -32,11 +32,6 @@
     "resolveJsonModule": true
   },
   "compileOnSave": true,
-  "exclude": [
-    "node_modules",
-    "typings/**",
-    "./samples/**/*.ts",
-    "./test/perf/azure-sb-package/*.ts"
-  ],
+  "exclude": ["node_modules", "types/**", "./samples/**/*.ts", "./test/perf/azure-sb-package/*.ts"],
   "include": ["./src/**/*.ts", "./test/**/*.ts"]
 }

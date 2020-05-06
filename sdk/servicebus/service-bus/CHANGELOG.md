@@ -1,5 +1,13 @@
 # Release History
 
+## 1.1.7 (2020-05-06)
+
+- Relaxes the scheme check for the endpoint while parsing the connection string.
+  This allows "\<anything\>://" as the scheme as opposed to the "sb://" scheme suggested by the connection string in the portal.
+  Fixes [bug 7907](https://github.com/Azure/azure-sdk-for-js/issues/7907).
+- Provided down-leveled type declaration files to support older TypeScript versions 3.1 to 3.6.
+  [PR 8515](https://github.com/Azure/azure-sdk-for-js/pull/8515)
+
 ## 1.1.6 (2020-04-23)
 
 - Removes the `@azure/ms-rest-nodeauth` dependency.
