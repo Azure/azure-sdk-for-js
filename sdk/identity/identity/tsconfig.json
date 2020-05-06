@@ -4,8 +4,7 @@
     "target": "es5",
     "declarationDir": "./types",
     "outDir": "./dist-esm",
-    "skipLibCheck": true,
-    "downlevelIteration": true
+    "skipLibCheck": true
   },
   "compileOnSave": true,
   "exclude": ["node_modules", "./types/**/*.d.ts", "./samples/**/*.ts", "test/manual*"],
