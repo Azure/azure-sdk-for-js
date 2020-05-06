@@ -284,7 +284,6 @@ const getOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.Workspace
     },
-    404: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -354,6 +353,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   responses: {
+    200: {},
     202: {},
     204: {},
     default: {
