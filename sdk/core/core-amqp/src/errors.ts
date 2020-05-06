@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+/* eslint-disable eqeqeq */
 
 import { AmqpResponseStatusCode, isAmqpError as rheaIsAmqpError, AmqpError } from "rhea-promise";
 import { isNode, isString, isNumber } from "../src/util/utils";
@@ -519,7 +520,7 @@ export class MessagingError extends Error {
 
     // copy properties from system error
     for (const propName of systemErrorFieldsToCopy) {
-      if ((originalError as NetworkSystemError)[propName] !== undefined) {
+      if ((originalError as NetworkSystemError)[propName] != undefined) {
         this[propName] = (originalError as NetworkSystemError)[propName];
       }
     }

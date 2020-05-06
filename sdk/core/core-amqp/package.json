@@ -5,7 +5,12 @@
   "description": "Common library for amqp based azure sdks like @azure/event-hubs.",
   "author": "Microsoft Corporation",
   "license": "MIT",
-  "keywords": ["azure", "amqp", "Azure", "cloud"],
+  "keywords": [
+    "azure",
+    "amqp",
+    "Azure",
+    "cloud"
+  ],
   "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
   "types": "./types/latest/core-amqp.d.ts",

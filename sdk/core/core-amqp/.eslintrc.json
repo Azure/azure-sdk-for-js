@@ -2,7 +2,6 @@
   "plugins": ["@azure/azure-sdk"],
   "extends": ["plugin:@azure/azure-sdk/azure-sdk-base"],
   "rules": {
-    "@typescript-eslint/no-unused-vars": "off",
     "@azure/azure-sdk/ts-no-namespaces": "off",
     "no-inner-declarations": "off"
   }

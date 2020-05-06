@@ -11,11 +11,11 @@ import { logger } from "../log";
  */
 export function checkNetworkConnection(host: string): Promise<boolean> {
   return new Promise((resolve) => {
-    logger.verbose("Calling dns.dnsResolve to determine network connection status.");
+    logger.verbose("Calling dns.resolve to determine network connection status.");
     dnsResolve(host, function(err: any): void {
       if (err) {
         logger.verbose(
-          "Error thrown from dns.dnsResolve in network connection check: '%s', %O",
+          "Error thrown from dns.resolve in network connection check: '%s', %O",
           err.code || err.name,
           err
         );
@@ -25,7 +25,7 @@ export function checkNetworkConnection(host: string): Promise<boolean> {
           return resolve(false);
         }
       } else {
-        logger.verbose("Successfully dnsResolved host via dns.dnsResolve in network connection check.");
+        logger.verbose("Successfully resolved host via dns.resolve in network connection check.");
       }
 
       return resolve(true);

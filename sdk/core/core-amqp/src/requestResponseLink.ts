@@ -176,7 +176,7 @@ export class RequestResponseLink implements ReqResLink {
             clearTimeout(waitTimer);
           }
           logger.verbose(
-            "[%s] request-messageId | '%s' === '%s' | response-correlationId.",
+            "[%s] request-messageId | '%s' == '%s' | response-correlationId.",
             this.connection.id,
             request.message_id,
             responseCorrelationId

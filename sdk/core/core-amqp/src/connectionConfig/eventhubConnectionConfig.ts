@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+/* eslint-disable eqeqeq */
 
 import { ConnectionConfig } from "./connectionConfig";
 
@@ -104,7 +105,7 @@ export namespace EventHubConnectionConfig {
     };
 
     (config as EventHubConnectionConfig).getSenderAudience = (partitionId?: string | number) => {
-      if (partitionId !== undefined) {
+      if (partitionId != undefined) {
         return `${config.endpoint}${config.entityPath}/Partitions/${partitionId}`;
       } else {
         return `${config.endpoint}${config.entityPath}`;
@@ -112,7 +113,7 @@ export namespace EventHubConnectionConfig {
     };
 
     (config as EventHubConnectionConfig).getSenderAddress = (partitionId?: string | number) => {
-      if (partitionId !== undefined) {
+      if (partitionId != undefined) {
         return `${config.entityPath}/Partitions/${partitionId}`;
       } else {
         return `${config.entityPath}`;
