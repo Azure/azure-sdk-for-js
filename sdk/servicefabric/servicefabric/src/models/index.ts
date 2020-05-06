@@ -1219,45 +1219,30 @@ export interface ApplicationInfo {
 }
 
 /**
- * Describes capacity information for a custom resource balancing metric. This can be used to limit
- * the total consumption of this metric by the services of this application.
+ * Describes load information for a custom resource balancing metric. This can be used to limit the
+ * total consumption of this metric by the services of this application.
  */
-export interface ApplicationMetricDescription {
+export interface ApplicationLoadMetricInformation {
   /**
    * The name of the metric.
    */
   name?: string;
   /**
-   * The maximum node capacity for Service Fabric application.
-   * This is the maximum Load for an instance of this application on a single node. Even if the
-   * capacity of node is greater than this value, Service Fabric will limit the total load of
-   * services within the application on each node to this value.
-   * If set to zero, capacity for this metric is unlimited on each node.
-   * When creating a new application with application capacity defined, the product of MaximumNodes
-   * and this value must always be smaller than or equal to TotalApplicationCapacity.
-   * When updating existing application with application capacity, the product of MaximumNodes and
-   * this value must always be smaller than or equal to TotalApplicationCapacity.
-   */
-  maximumCapacity?: number;
-  /**
-   * The node reservation capacity for Service Fabric application.
-   * This is the amount of load which is reserved on nodes which have instances of this
-   * application.
-   * If MinimumNodes is specified, then the product of these values will be the capacity reserved
-   * in the cluster for the application.
+   * This is the capacity reserved in the cluster for the application.
+   * It's the product of NodeReservationCapacity and MinimumNodes.
    * If set to zero, no capacity is reserved for this metric.
-   * When setting application capacity or when updating application capacity; this value must be
+   * When setting application capacity or when updating application capacity this value must be
    * smaller than or equal to MaximumCapacity for each metric.
    */
   reservationCapacity?: number;
   /**
-   * The total metric capacity for Service Fabric application.
-   * This is the total metric capacity for this application in the cluster. Service Fabric will try
-   * to limit the sum of loads of services within the application to this value.
-   * When creating a new application with application capacity defined, the product of MaximumNodes
-   * and MaximumCapacity must always be smaller than or equal to this value.
+   * Total capacity for this metric in this application instance.
    */
-  totalApplicationCapacity?: number;
+  applicationCapacity?: number;
+  /**
+   * Current load for this metric in this application instance.
+   */
+  applicationLoad?: number;
 }
 
 /**
@@ -1291,9 +1276,9 @@ export interface ApplicationLoadInfo {
    */
   nodeCount?: number;
   /**
-   * List of application capacity metric description.
+   * List of application load metric information.
    */
-  applicationLoadMetricInformation?: ApplicationMetricDescription[];
+  applicationLoadMetricInformation?: ApplicationLoadMetricInformation[];
 }
 
 /**
@@ -6598,6 +6583,48 @@ export interface WaitingChaosEvent {
 }
 
 /**
+ * Describes capacity information for a custom resource balancing metric. This can be used to limit
+ * the total consumption of this metric by the services of this application.
+ */
+export interface ApplicationMetricDescription {
+  /**
+   * The name of the metric.
+   */
+  name?: string;
+  /**
+   * The maximum node capacity for Service Fabric application.
+   * This is the maximum Load for an instance of this application on a single node. Even if the
+   * capacity of node is greater than this value, Service Fabric will limit the total load of
+   * services within the application on each node to this value.
+   * If set to zero, capacity for this metric is unlimited on each node.
+   * When creating a new application with application capacity defined, the product of MaximumNodes
+   * and this value must always be smaller than or equal to TotalApplicationCapacity.
+   * When updating existing application with application capacity, the product of MaximumNodes and
+   * this value must always be smaller than or equal to TotalApplicationCapacity.
+   */
+  maximumCapacity?: number;
+  /**
+   * The node reservation capacity for Service Fabric application.
+   * This is the amount of load which is reserved on nodes which have instances of this
+   * application.
+   * If MinimumNodes is specified, then the product of these values will be the capacity reserved
+   * in the cluster for the application.
+   * If set to zero, no capacity is reserved for this metric.
+   * When setting application capacity or when updating application capacity; this value must be
+   * smaller than or equal to MaximumCapacity for each metric.
+   */
+  reservationCapacity?: number;
+  /**
+   * The total metric capacity for Service Fabric application.
+   * This is the total metric capacity for this application in the cluster. Service Fabric will try
+   * to limit the sum of loads of services within the application to this value.
+   * When creating a new application with application capacity defined, the product of MaximumNodes
+   * and MaximumCapacity must always be smaller than or equal to this value.
+   */
+  totalApplicationCapacity?: number;
+}
+
+/**
  * Describes capacity information for services of this application. This description can be used
  * for describing the following.
  * - Reserving the capacity for the services on the nodes
@@ -7393,7 +7420,7 @@ export interface StatelessServiceDescription {
    * The endpoint exposed on this instance is removed prior to starting the delay, which prevents
    * new connections to this instance.
    * In addition, clients that have subscribed to service endpoint change
-   * events(https://docs.microsoft.com/en-us/dotnet/api/system.fabric.fabricclient.servicemanagementclient.registerservicenotificationfilterasync),
+   * events(https://docs.microsoft.com/dotnet/api/system.fabric.fabricclient.servicemanagementclient.registerservicenotificationfilterasync),
    * can do
    * the following upon receiving the endpoint removal notification:
    * - Stop sending new requests to this instance.
@@ -8202,7 +8229,7 @@ export interface StatelessServiceUpdateDescription {
    * The endpoint exposed on this instance is removed prior to starting the delay, which prevents
    * new connections to this instance.
    * In addition, clients that have subscribed to service endpoint change
-   * events(https://docs.microsoft.com/en-us/dotnet/api/system.fabric.fabricclient.servicemanagementclient.registerservicenotificationfilterasync),
+   * events(https://docs.microsoft.com/dotnet/api/system.fabric.fabricclient.servicemanagementclient.registerservicenotificationfilterasync),
    * can do
    * the following upon receiving the endpoint removal notification:
    * - Stop sending new requests to this instance.
@@ -8372,15 +8399,15 @@ export interface ImageStoreInfo {
   /**
    * the ImageStore's file system usage for copied application and cluster packages. [Removing
    * application and cluster
-   * packages](https://docs.microsoft.com/en-us/rest/api/servicefabric/sfclient-api-deleteimagestorecontent)
+   * packages](https://docs.microsoft.com/rest/api/servicefabric/sfclient-api-deleteimagestorecontent)
    * will free up this space.
    */
   usedByCopy?: UsageInfo;
   /**
    * the ImageStore's file system usage for registered and cluster packages. [Unregistering
-   * application](https://docs.microsoft.com/en-us/rest/api/servicefabric/sfclient-api-unprovisionapplicationtype)
+   * application](https://docs.microsoft.com/rest/api/servicefabric/sfclient-api-unprovisionapplicationtype)
    * and [cluster
-   * packages](https://docs.microsoft.com/en-us/rest/api/servicefabric/sfclient-api-unprovisionapplicationtype)
+   * packages](https://docs.microsoft.com/rest/api/servicefabric/sfclient-api-unprovisionapplicationtype)
    * will free up this space.
    */
   usedByRegister?: UsageInfo;
@@ -14519,23 +14546,26 @@ export interface ProbeTcpSocket {
  */
 export interface Probe {
   /**
-   * The initial delay in seconds to start executing probe once code package has started.
+   * The initial delay in seconds to start executing probe once codepackage has started. Default
+   * value: 0.
    */
   initialDelaySeconds?: number;
   /**
-   * Periodic seconds to execute probe.
+   * Periodic seconds to execute probe. Default value: 10.
    */
   periodSeconds?: number;
   /**
-   * Period after which probe is considered as failed if it hasn't completed successfully.
+   * Period after which probe is considered as failed if it hasn't completed successfully. Default
+   * value: 1.
    */
   timeoutSeconds?: number;
   /**
-   * The count of successful probe executions after which probe is considered success.
+   * The count of successful probe executions after which probe is considered success. Default
+   * value: 1.
    */
   successThreshold?: number;
   /**
-   * The count of failures after which probe is considered failed.
+   * The count of failures after which probe is considered failed. Default value: 3.
    */
   failureThreshold?: number;
   /**
@@ -14571,7 +14601,7 @@ export interface ContainerCodePackageProperties {
   /**
    * Override for the default entry point in the container.
    */
-  entrypoint?: string;
+  entryPoint?: string;
   /**
    * Command array to execute within the container in exec form.
    */
@@ -14635,7 +14665,7 @@ export interface ContainerCodePackageProperties {
 /**
  * Contains the possible cases for ExecutionPolicy.
  */
-export type ExecutionPolicyUnion = ExecutionPolicy | RunToCompletionExecutionPolicy;
+export type ExecutionPolicyUnion = ExecutionPolicy | DefaultExecutionPolicy | RunToCompletionExecutionPolicy;
 
 /**
  * The execution policy of the service
@@ -15040,16 +15070,29 @@ export interface AutoScalingResourceMetric {
 }
 
 /**
- * The run to completion execution policy
+ * The default execution policy. Always restart the service if an exit occurs.
+ */
+export interface DefaultExecutionPolicy {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "Default";
+}
+
+/**
+ * The run to completion execution policy, the service will perform its desired operation and
+ * complete successfully. If the service encounters failure, it will restarted based on restart
+ * policy specified. If the service completes its operation successfully, it will not be restarted
+ * again.
  */
 export interface RunToCompletionExecutionPolicy {
   /**
    * Polymorphic Discriminator
    */
-  type: "runToCompletion";
+  type: "RunToCompletion";
   /**
    * Enumerates the restart policy for RunToCompletionExecutionPolicy. Possible values include:
-   * 'onFailure', 'never'
+   * 'OnFailure', 'Never'
    */
   restart: RestartPolicy;
 }
@@ -20400,19 +20443,19 @@ export type AutoScalingTriggerKind = 'AverageLoad';
 
 /**
  * Defines values for ExecutionPolicyType.
- * Possible values include: 'runToCompletion'
+ * Possible values include: 'Default', 'RunToCompletion'
  * @readonly
  * @enum {string}
  */
-export type ExecutionPolicyType = 'runToCompletion';
+export type ExecutionPolicyType = 'Default' | 'RunToCompletion';
 
 /**
  * Defines values for RestartPolicy.
- * Possible values include: 'onFailure', 'never'
+ * Possible values include: 'OnFailure', 'Never'
  * @readonly
  * @enum {string}
  */
-export type RestartPolicy = 'onFailure' | 'never';
+export type RestartPolicy = 'OnFailure' | 'Never';
 
 /**
  * Defines values for NodeStatusFilter.

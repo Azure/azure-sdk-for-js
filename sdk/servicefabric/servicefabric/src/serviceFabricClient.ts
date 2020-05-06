@@ -1024,7 +1024,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * number of Down seed nodes. If necessary, add more nodes to the primary node type to achieve
    * this. For standalone cluster, if the Down seed node is not expected to come back up with its
    * state intact, please remove the node from the cluster, see
-   * https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-cluster-windows-server-add-remove-nodes
+   * https://docs.microsoft.com/azure/service-fabric/service-fabric-cluster-windows-server-add-remove-nodes
    * @summary Notifies Service Fabric that the persisted state on a node has been permanently removed
    * or lost.
    * @param nodeName The name of the node.

@@ -1226,22 +1226,16 @@ export const ApplicationInfo: msRest.CompositeMapper = {
   }
 };
 
-export const ApplicationMetricDescription: msRest.CompositeMapper = {
-  serializedName: "ApplicationMetricDescription",
+export const ApplicationLoadMetricInformation: msRest.CompositeMapper = {
+  serializedName: "ApplicationLoadMetricInformation",
   type: {
     name: "Composite",
-    className: "ApplicationMetricDescription",
+    className: "ApplicationLoadMetricInformation",
     modelProperties: {
       name: {
         serializedName: "Name",
         type: {
           name: "String"
-        }
-      },
-      maximumCapacity: {
-        serializedName: "MaximumCapacity",
-        type: {
-          name: "Number"
         }
       },
       reservationCapacity: {
@@ -1250,8 +1244,14 @@ export const ApplicationMetricDescription: msRest.CompositeMapper = {
           name: "Number"
         }
       },
-      totalApplicationCapacity: {
-        serializedName: "TotalApplicationCapacity",
+      applicationCapacity: {
+        serializedName: "ApplicationCapacity",
+        type: {
+          name: "Number"
+        }
+      },
+      applicationLoad: {
+        serializedName: "ApplicationLoad",
         type: {
           name: "Number"
         }
@@ -1297,7 +1297,7 @@ export const ApplicationLoadInfo: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ApplicationMetricDescription"
+              className: "ApplicationLoadMetricInformation"
             }
           }
         }
@@ -7320,6 +7320,40 @@ export const WaitingChaosEvent: msRest.CompositeMapper = {
         serializedName: "Reason",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ApplicationMetricDescription: msRest.CompositeMapper = {
+  serializedName: "ApplicationMetricDescription",
+  type: {
+    name: "Composite",
+    className: "ApplicationMetricDescription",
+    modelProperties: {
+      name: {
+        serializedName: "Name",
+        type: {
+          name: "String"
+        }
+      },
+      maximumCapacity: {
+        serializedName: "MaximumCapacity",
+        type: {
+          name: "Number"
+        }
+      },
+      reservationCapacity: {
+        serializedName: "ReservationCapacity",
+        type: {
+          name: "Number"
+        }
+      },
+      totalApplicationCapacity: {
+        serializedName: "TotalApplicationCapacity",
+        type: {
+          name: "Number"
         }
       }
     }
@@ -16720,30 +16754,35 @@ export const Probe: msRest.CompositeMapper = {
     modelProperties: {
       initialDelaySeconds: {
         serializedName: "initialDelaySeconds",
+        defaultValue: 0,
         type: {
           name: "Number"
         }
       },
       periodSeconds: {
         serializedName: "periodSeconds",
+        defaultValue: 10,
         type: {
           name: "Number"
         }
       },
       timeoutSeconds: {
         serializedName: "timeoutSeconds",
+        defaultValue: 1,
         type: {
           name: "Number"
         }
       },
       successThreshold: {
         serializedName: "successThreshold",
+        defaultValue: 1,
         type: {
           name: "Number"
         }
       },
       failureThreshold: {
         serializedName: "failureThreshold",
+        defaultValue: 3,
         type: {
           name: "Number"
         }
@@ -16800,8 +16839,8 @@ export const ContainerCodePackageProperties: msRest.CompositeMapper = {
           className: "ImageRegistryCredential"
         }
       },
-      entrypoint: {
-        serializedName: "entrypoint",
+      entryPoint: {
+        serializedName: "entryPoint",
         type: {
           name: "String"
         }
@@ -17580,8 +17619,21 @@ export const AutoScalingResourceMetric: msRest.CompositeMapper = {
   }
 };
 
+export const DefaultExecutionPolicy: msRest.CompositeMapper = {
+  serializedName: "Default",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: ExecutionPolicy.type.polymorphicDiscriminator,
+    uberParent: "ExecutionPolicy",
+    className: "DefaultExecutionPolicy",
+    modelProperties: {
+      ...ExecutionPolicy.type.modelProperties
+    }
+  }
+};
+
 export const RunToCompletionExecutionPolicy: msRest.CompositeMapper = {
-  serializedName: "runToCompletion",
+  serializedName: "RunToCompletion",
   type: {
     name: "Composite",
     polymorphicDiscriminator: ExecutionPolicy.type.polymorphicDiscriminator,
@@ -18191,7 +18243,8 @@ export const discriminators = {
   'AutoScalingMechanism.AddRemoveReplica' : AddRemoveReplicaScalingMechanism,
   'AutoScalingMetric' : AutoScalingMetric,
   'AutoScalingMetric.Resource' : AutoScalingResourceMetric,
-  'ExecutionPolicy.runToCompletion' : RunToCompletionExecutionPolicy,
+  'ExecutionPolicy.Default' : DefaultExecutionPolicy,
+  'ExecutionPolicy.RunToCompletion' : RunToCompletionExecutionPolicy,
   'AutoScalingTrigger.AverageLoad' : AverageLoadScalingTrigger
 
 };

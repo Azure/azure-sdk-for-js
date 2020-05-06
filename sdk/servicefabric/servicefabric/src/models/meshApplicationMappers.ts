@@ -26,6 +26,7 @@ export {
   ContainerInstanceView,
   ContainerLabel,
   ContainerState,
+  DefaultExecutionPolicy,
   DiagnosticsDescription,
   DiagnosticsRef,
   DiagnosticsSinkProperties,
