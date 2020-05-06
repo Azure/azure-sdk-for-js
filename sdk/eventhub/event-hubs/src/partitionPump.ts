@@ -181,7 +181,10 @@ export function createProcessingSpan(
     }
 
     links.push({
-      context: spanContext
+      context: spanContext,
+      attributes: {
+        enqueuedTime: receivedEvent.enqueuedTimeUtc.getTime()
+      }
     });
   }
 
