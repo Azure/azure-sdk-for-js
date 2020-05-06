@@ -30,13 +30,13 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
     credentials.push(new EnvironmentCredential(tokenCredentialOptions));
     credentials.push(new ManagedIdentityCredential(tokenCredentialOptions));
     if (process.env.AZURE_CLIENT_ID) {
-      credentials.push(new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID, tokenCredentialOptions));
+      credentials.push(
+        new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID, tokenCredentialOptions)
+      );
     }
     credentials.push(new AzureCliCredential());
     credentials.push(new VSCodeCredential(tokenCredentialOptions));
 
-    super(
-      ...credentials
-    );
+    super(...credentials);
   }
 }

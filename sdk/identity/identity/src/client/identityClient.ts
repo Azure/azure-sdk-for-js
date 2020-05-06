@@ -16,7 +16,7 @@ import { CanonicalCode } from "@opentelemetry/api";
 import { AuthenticationError, AuthenticationErrorName } from "./errors";
 import { createSpan } from "../util/tracing";
 import { logger } from "../util/logging";
-import { getAuthorityHostEnvironment } from "../util/authHostEnv"
+import { getAuthorityHostEnvironment } from "../util/authHostEnv";
 
 const DefaultAuthorityHost = "https://login.microsoftonline.com";
 
