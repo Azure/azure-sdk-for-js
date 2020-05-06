@@ -188,13 +188,50 @@ export class HttpsPipeline implements Pipeline {
   }
 
   private orderPolicies(): PipelinePolicy[] {
+    /**
+     * The goal of this method is to reliably order pipeline policies
+     * based on their declared requirements when they were added.
+     *
+     * Order is first determined by phase:
+     *
+     * 1. Policies not in a phase
+     * 2. Serialize
+     * 3. Retry
+     *
+     * Within each phase, policies are executed in the order
+     * they were added unless they were specified to execute
+     * before/after other policies or after a particular phase.
+     *
+     * To determine the final order, we will walk the policy list
+     * in phase order multiple times until all dependencies are
+     * satisfied.
+     *
+     * `afterPolicies` are the set of policies that must be
+     * executed before a given policy. This requirement is
+     * considered satisfied when each of the listed policies
+     * have been scheduled.
+     *
+     * `beforePolicies` are the set of policies that must be
+     * executed after a given policy. Since this dependency
+     * can be expressed by converting it into a equivalent
+     * `afterPolicies` declarations, they are normalized
+     * into that form for simplicity.
+     *
+     * An `afterPhase` dependency is considered satisfied when all
+     * policies in that phase have scheduled.
+     *
+     */
     const result: PipelinePolicy[] = [];
 
+    // Track all policies we know about.
     const policyMap: Map<string, PolicyGraphNode> = new Map<string, PolicyGraphNode>();
+
+    // Track policies for each phase.
     const noPhase = new Set<PolicyGraphNode>();
     const serializePhase = new Set<PolicyGraphNode>();
     const retryPhase = new Set<PolicyGraphNode>();
 
+    // Small helper function to map phase name to each Set bucket.
     function getPhase(phase: PipelinePhase | undefined): Set<PolicyGraphNode> {
       if (phase === "Retry") {
         return retryPhase;
@@ -205,27 +242,28 @@ export class HttpsPipeline implements Pipeline {
       }
     }
 
+    // First walk each policy and create a node to track metadata.
     for (const descriptor of this._policies) {
       const policy = descriptor.policy;
       const options = descriptor.options;
       const policyName = policy.name;
       if (policyMap.has(policyName)) {
         throw new Error("Duplicate policy names not allowed in pipeline");
-      } else {
-        const node: PolicyGraphNode = {
-          policy,
-          dependsOn: new Set<PolicyGraphNode>(),
-          dependants: new Set<PolicyGraphNode>()
-        };
-        if (options.afterPhase) {
-          node.afterPhase = getPhase(options.afterPhase);
-        }
-        policyMap.set(policyName, node);
-        const phase = getPhase(options.phase);
-        phase.add(node);
       }
+      const node: PolicyGraphNode = {
+        policy,
+        dependsOn: new Set<PolicyGraphNode>(),
+        dependants: new Set<PolicyGraphNode>()
+      };
+      if (options.afterPhase) {
+        node.afterPhase = getPhase(options.afterPhase);
+      }
+      policyMap.set(policyName, node);
+      const phase = getPhase(options.phase);
+      phase.add(node);
     }
 
+    // Now that each policy has a node, connect dependency references.
     for (const descriptor of this._policies) {
       const { policy, options } = descriptor;
       const policyName = policy.name;
@@ -238,6 +276,8 @@ export class HttpsPipeline implements Pipeline {
         for (const afterPolicyName of options.afterPolicies) {
           const afterNode = policyMap.get(afterPolicyName);
           if (afterNode) {
+            // Linking in both directions helps later
+            // when we want to notify dependants.
             node.dependsOn.add(afterNode);
             afterNode.dependants.add(node);
           }
@@ -247,6 +287,8 @@ export class HttpsPipeline implements Pipeline {
         for (const beforePolicyName of options.beforePolicies) {
           const beforeNode = policyMap.get(beforePolicyName);
           if (beforeNode) {
+            // To execute before another node, make it
+            // depend on the current node.
             beforeNode.dependsOn.add(node);
             node.dependants.add(beforeNode);
           }
@@ -255,12 +297,19 @@ export class HttpsPipeline implements Pipeline {
     }
 
     function walkPhase(phase: Set<PolicyGraphNode>): void {
+      // Sets iterate in insertion order
       for (const node of phase) {
         if (node.afterPhase && node.afterPhase.size) {
+          // If this node is waiting on a phase to complete,
+          // we need to skip it for now.
           continue;
         }
         if (node.dependsOn.size === 0) {
+          // If there's nothing else we're waiting for, we can
+          // add this policy to the result list.
           result.push(node.policy);
+          // Notify anything that depends on this policy that
+          // the policy has been scheduled.
           for (const dependant of node.dependants) {
             dependant.dependsOn.delete(node);
           }
@@ -270,11 +319,15 @@ export class HttpsPipeline implements Pipeline {
       }
     }
 
+    // Iterate until we've put every node in the result list.
     while (policyMap.size > 0) {
       const initialResultLength = result.length;
+      // Keep walking each phase in order until we can order every node.
       walkPhase(noPhase);
       walkPhase(serializePhase);
       walkPhase(retryPhase);
+      // The result list *should* get at least one larger each time.
+      // Otherwise, we're going to loop forever.
       if (result.length <= initialResultLength) {
         throw new Error("Cannot satisfy policy dependencies due to requirements cycle.");
       }
