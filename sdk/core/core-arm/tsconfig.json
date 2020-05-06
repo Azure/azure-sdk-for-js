@@ -6,7 +6,6 @@
     "target": "es5",
     "outDir": "es"
   },
-  "compileOnSave": true,
   "exclude": ["node_modules"],
   "include": ["./src/**/*.ts", "./test/**/*.ts"]
 }

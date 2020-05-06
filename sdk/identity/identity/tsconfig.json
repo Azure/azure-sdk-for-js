@@ -6,7 +6,6 @@
     "outDir": "./dist-esm",
     "skipLibCheck": true
   },
-  "compileOnSave": true,
   "exclude": ["node_modules", "./types/**/*.d.ts", "./samples/**/*.ts", "test/manual*"],
   "include": ["./src/**/*.ts", "./test/**/*.ts"]
 }

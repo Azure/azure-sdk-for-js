@@ -7,7 +7,6 @@
     "lib": ["dom"],
     "downlevelIteration": true
   },
-  "compileOnSave": true,
   "exclude": [
     "node_modules",
     "./types/**/*.d.ts",
