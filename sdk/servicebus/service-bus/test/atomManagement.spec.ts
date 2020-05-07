@@ -667,7 +667,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
       entityAvailabilityStatus: "Available",
       filteringMessagesBeforePublishing: false,
       isAnonymousAccessible: false,
-      isExpress: false,
+      isExpress: undefined,
       maxDeliveryCount: undefined,
       maxSizeInMegabytes: 1024,
       messageCount: undefined,
@@ -710,7 +710,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
       enableExpress: false,
       authorizationRules: undefined,
       userMetadata: "test metadata",
-      isExpress: false,
+      isExpress: undefined,
       enableSubscriptionPartitioning: false,
       filteringMessagesBeforePublishing: false,
       messageCountDetails: undefined,
@@ -720,7 +720,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
     }
   }
 ].forEach((testCase) => {
-  describe(`createTopic() using different variations to the input parameter "topicOptions"`, function(): void {
+  describe.only(`createTopic() using different variations to the input parameter "topicOptions"`, function(): void {
     afterEach(async () => {
       await deleteEntity(EntityType.TOPIC, managementTopic1);
     });
