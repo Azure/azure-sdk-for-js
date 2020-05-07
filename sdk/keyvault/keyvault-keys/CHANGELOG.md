@@ -1,5 +1,9 @@
 # Release History
 
+## 4.0.3 (2020-05-08)
+
+- Fixed a bug on related to the challenge based authentication that caused consecutive new authentications on new requests.
+
 ## 4.0.2 (2019-12-03)
 
 - Updated dependencies to their latest available versions.
