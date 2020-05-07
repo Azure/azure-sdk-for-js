@@ -18,20 +18,25 @@ const packageVersion = "2.1.0";
 export class ResourceManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
   subscriptionId: string;
+  subscriptionId1: string;
   apiVersion?: string;
 
   /**
    * Initializes a new instance of the ResourceManagementClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
    * @param subscriptionId The ID of the target subscription.
+   * @param subscriptionId1 The ID of the source subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.ResourceManagementClientOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, subscriptionId1: string, options?: Models.ResourceManagementClientOptions) {
     if (credentials == undefined) {
       throw new Error('\'credentials\' cannot be null.');
     }
     if (subscriptionId == undefined) {
       throw new Error('\'subscriptionId\' cannot be null.');
+    }
+    if (subscriptionId1 == undefined) {
+      throw new Error('\'subscriptionId1\' cannot be null.');
     }
 
     if (!options) {
@@ -44,13 +49,14 @@ export class ResourceManagementClientContext extends msRestAzure.AzureServiceCli
 
     super(credentials, options);
 
-    this.apiVersion = '2019-07-01';
+    this.apiVersion = '2019-10-01';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";
     this.requestContentType = "application/json; charset=utf-8";
     this.credentials = credentials;
     this.subscriptionId = subscriptionId;
+    this.subscriptionId1 = subscriptionId1;
 
     if(options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;
