@@ -10,16 +10,16 @@
 
 import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
-import * as Mappers from "../models/privateEndpointConnectionsMappers";
+import * as Mappers from "../models/objectReplicationPoliciesOperationsMappers";
 import * as Parameters from "../models/parameters";
 import { StorageManagementClientContext } from "../storageManagementClientContext";
 
-/** Class representing a PrivateEndpointConnections. */
-export class PrivateEndpointConnections {
+/** Class representing a ObjectReplicationPoliciesOperations. */
+export class ObjectReplicationPoliciesOperations {
   private readonly client: StorageManagementClientContext;
 
   /**
-   * Create a PrivateEndpointConnections.
+   * Create a ObjectReplicationPoliciesOperations.
    * @param {StorageManagementClientContext} client Reference to the service client.
    */
   constructor(client: StorageManagementClientContext) {
@@ -27,16 +27,16 @@ export class PrivateEndpointConnections {
   }
 
   /**
-   * List all the private endpoint connections associated with the storage account.
+   * List the object replication policies associated with the storage account.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    * account names must be between 3 and 24 characters in length and use numbers and lower-case
    * letters only.
    * @param [options] The optional parameters
-   * @returns Promise<Models.PrivateEndpointConnectionsListResponse>
+   * @returns Promise<Models.ObjectReplicationPoliciesListResponse>
    */
-  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateEndpointConnectionsListResponse>;
+  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.ObjectReplicationPoliciesListResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -45,7 +45,7 @@ export class PrivateEndpointConnections {
    * letters only.
    * @param callback The callback
    */
-  list(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>): void;
+  list(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.ObjectReplicationPolicies>): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -55,8 +55,8 @@ export class PrivateEndpointConnections {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>): void;
-  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>, callback?: msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>): Promise<Models.PrivateEndpointConnectionsListResponse> {
+  list(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ObjectReplicationPolicies>): void;
+  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ObjectReplicationPolicies>, callback?: msRest.ServiceCallback<Models.ObjectReplicationPolicies>): Promise<Models.ObjectReplicationPoliciesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -64,151 +64,154 @@ export class PrivateEndpointConnections {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.PrivateEndpointConnectionsListResponse>;
+      callback) as Promise<Models.ObjectReplicationPoliciesListResponse>;
   }
 
   /**
-   * Gets the specified private endpoint connection associated with the storage account.
+   * Get the object replication policy of the storage account by policy ID.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    * account names must be between 3 and 24 characters in length and use numbers and lower-case
    * letters only.
-   * @param privateEndpointConnectionName The name of the private endpoint connection associated with
-   * the Storage Account
+   * @param objectReplicationPolicyId The ID of object replication policy or 'default' if the policy
+   * ID is unknown.
    * @param [options] The optional parameters
-   * @returns Promise<Models.PrivateEndpointConnectionsGetResponse>
+   * @returns Promise<Models.ObjectReplicationPoliciesGetResponse>
    */
-  get(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateEndpointConnectionsGetResponse>;
+  get(resourceGroupName: string, accountName: string, objectReplicationPolicyId: string, options?: msRest.RequestOptionsBase): Promise<Models.ObjectReplicationPoliciesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    * account names must be between 3 and 24 characters in length and use numbers and lower-case
    * letters only.
-   * @param privateEndpointConnectionName The name of the private endpoint connection associated with
-   * the Storage Account
+   * @param objectReplicationPolicyId The ID of object replication policy or 'default' if the policy
+   * ID is unknown.
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, callback: msRest.ServiceCallback<Models.PrivateEndpointConnection>): void;
+  get(resourceGroupName: string, accountName: string, objectReplicationPolicyId: string, callback: msRest.ServiceCallback<Models.ObjectReplicationPolicy>): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    * account names must be between 3 and 24 characters in length and use numbers and lower-case
    * letters only.
-   * @param privateEndpointConnectionName The name of the private endpoint connection associated with
-   * the Storage Account
+   * @param objectReplicationPolicyId The ID of object replication policy or 'default' if the policy
+   * ID is unknown.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateEndpointConnection>): void;
-  get(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateEndpointConnection>, callback?: msRest.ServiceCallback<Models.PrivateEndpointConnection>): Promise<Models.PrivateEndpointConnectionsGetResponse> {
+  get(resourceGroupName: string, accountName: string, objectReplicationPolicyId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ObjectReplicationPolicy>): void;
+  get(resourceGroupName: string, accountName: string, objectReplicationPolicyId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ObjectReplicationPolicy>, callback?: msRest.ServiceCallback<Models.ObjectReplicationPolicy>): Promise<Models.ObjectReplicationPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         accountName,
-        privateEndpointConnectionName,
+        objectReplicationPolicyId,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.PrivateEndpointConnectionsGetResponse>;
+      callback) as Promise<Models.ObjectReplicationPoliciesGetResponse>;
   }
 
   /**
-   * Update the state of specified private endpoint connection associated with the storage account.
+   * Create or update the object replication policy of the storage account.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    * account names must be between 3 and 24 characters in length and use numbers and lower-case
    * letters only.
-   * @param privateEndpointConnectionName The name of the private endpoint connection associated with
-   * the Storage Account
-   * @param properties The private endpoint connection properties.
+   * @param objectReplicationPolicyId The ID of object replication policy or 'default' if the policy
+   * ID is unknown.
+   * @param properties The object replication policy set to a storage account. A unique policy ID
+   * will be created if absent.
    * @param [options] The optional parameters
-   * @returns Promise<Models.PrivateEndpointConnectionsPutResponse>
+   * @returns Promise<Models.ObjectReplicationPoliciesCreateOrUpdateResponse>
    */
-  put(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, properties: Models.PrivateEndpointConnection, options?: msRest.RequestOptionsBase): Promise<Models.PrivateEndpointConnectionsPutResponse>;
+  createOrUpdate(resourceGroupName: string, accountName: string, objectReplicationPolicyId: string, properties: Models.ObjectReplicationPolicy, options?: msRest.RequestOptionsBase): Promise<Models.ObjectReplicationPoliciesCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    * account names must be between 3 and 24 characters in length and use numbers and lower-case
    * letters only.
-   * @param privateEndpointConnectionName The name of the private endpoint connection associated with
-   * the Storage Account
-   * @param properties The private endpoint connection properties.
+   * @param objectReplicationPolicyId The ID of object replication policy or 'default' if the policy
+   * ID is unknown.
+   * @param properties The object replication policy set to a storage account. A unique policy ID
+   * will be created if absent.
    * @param callback The callback
    */
-  put(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, properties: Models.PrivateEndpointConnection, callback: msRest.ServiceCallback<Models.PrivateEndpointConnection>): void;
+  createOrUpdate(resourceGroupName: string, accountName: string, objectReplicationPolicyId: string, properties: Models.ObjectReplicationPolicy, callback: msRest.ServiceCallback<Models.ObjectReplicationPolicy>): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    * account names must be between 3 and 24 characters in length and use numbers and lower-case
    * letters only.
-   * @param privateEndpointConnectionName The name of the private endpoint connection associated with
-   * the Storage Account
-   * @param properties The private endpoint connection properties.
+   * @param objectReplicationPolicyId The ID of object replication policy or 'default' if the policy
+   * ID is unknown.
+   * @param properties The object replication policy set to a storage account. A unique policy ID
+   * will be created if absent.
    * @param options The optional parameters
    * @param callback The callback
    */
-  put(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, properties: Models.PrivateEndpointConnection, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateEndpointConnection>): void;
-  put(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, properties: Models.PrivateEndpointConnection, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateEndpointConnection>, callback?: msRest.ServiceCallback<Models.PrivateEndpointConnection>): Promise<Models.PrivateEndpointConnectionsPutResponse> {
+  createOrUpdate(resourceGroupName: string, accountName: string, objectReplicationPolicyId: string, properties: Models.ObjectReplicationPolicy, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ObjectReplicationPolicy>): void;
+  createOrUpdate(resourceGroupName: string, accountName: string, objectReplicationPolicyId: string, properties: Models.ObjectReplicationPolicy, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ObjectReplicationPolicy>, callback?: msRest.ServiceCallback<Models.ObjectReplicationPolicy>): Promise<Models.ObjectReplicationPoliciesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         accountName,
-        privateEndpointConnectionName,
+        objectReplicationPolicyId,
         properties,
         options
       },
-      putOperationSpec,
-      callback) as Promise<Models.PrivateEndpointConnectionsPutResponse>;
+      createOrUpdateOperationSpec,
+      callback) as Promise<Models.ObjectReplicationPoliciesCreateOrUpdateResponse>;
   }
 
   /**
-   * Deletes the specified private endpoint connection associated with the storage account.
+   * Deletes the object replication policy associated with the specified storage account.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    * account names must be between 3 and 24 characters in length and use numbers and lower-case
    * letters only.
-   * @param privateEndpointConnectionName The name of the private endpoint connection associated with
-   * the Storage Account
+   * @param objectReplicationPolicyId The ID of object replication policy or 'default' if the policy
+   * ID is unknown.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(resourceGroupName: string, accountName: string, objectReplicationPolicyId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    * account names must be between 3 and 24 characters in length and use numbers and lower-case
    * letters only.
-   * @param privateEndpointConnectionName The name of the private endpoint connection associated with
-   * the Storage Account
+   * @param objectReplicationPolicyId The ID of object replication policy or 'default' if the policy
+   * ID is unknown.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, accountName: string, objectReplicationPolicyId: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    * account names must be between 3 and 24 characters in length and use numbers and lower-case
    * letters only.
-   * @param privateEndpointConnectionName The name of the private endpoint connection associated with
-   * the Storage Account
+   * @param objectReplicationPolicyId The ID of object replication policy or 'default' if the policy
+   * ID is unknown.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, accountName: string, objectReplicationPolicyId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, accountName: string, objectReplicationPolicyId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         accountName,
-        privateEndpointConnectionName,
+        objectReplicationPolicyId,
         options
       },
       deleteMethodOperationSpec,
@@ -220,7 +223,7 @@ export class PrivateEndpointConnections {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/privateEndpointConnections",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/objectReplicationPolicies",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.accountName,
@@ -234,10 +237,10 @@ const listOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionListResult
+      bodyMapper: Mappers.ObjectReplicationPolicies
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -245,12 +248,12 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/objectReplicationPolicies/{objectReplicationPolicyId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.subscriptionId,
-    Parameters.privateEndpointConnectionName
+    Parameters.objectReplicationPolicyId
   ],
   queryParameters: [
     Parameters.apiVersion
@@ -260,7 +263,7 @@ const getOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.ObjectReplicationPolicy
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -269,14 +272,14 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const putOperationSpec: msRest.OperationSpec = {
+const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/objectReplicationPolicies/{objectReplicationPolicyId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.subscriptionId,
-    Parameters.privateEndpointConnectionName
+    Parameters.objectReplicationPolicyId
   ],
   queryParameters: [
     Parameters.apiVersion
@@ -287,13 +290,13 @@ const putOperationSpec: msRest.OperationSpec = {
   requestBody: {
     parameterPath: "properties",
     mapper: {
-      ...Mappers.PrivateEndpointConnection,
+      ...Mappers.ObjectReplicationPolicy,
       required: true
     }
   },
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.ObjectReplicationPolicy
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -304,12 +307,12 @@ const putOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/objectReplicationPolicies/{objectReplicationPolicyId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.subscriptionId,
-    Parameters.privateEndpointConnectionName
+    Parameters.objectReplicationPolicyId
   ],
   queryParameters: [
     Parameters.apiVersion
