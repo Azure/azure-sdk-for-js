@@ -27,7 +27,8 @@ export class Operations {
   }
 
   /**
-   * Lists all of the available insights REST API operations.
+   * List the available operations supported by the Microsoft.EventGrid resource provider.
+   * @summary List available operations.
    * @param [options] The optional parameters
    * @returns Promise<Models.OperationsListResponse>
    */
@@ -35,13 +36,13 @@ export class Operations {
   /**
    * @param callback The callback
    */
-  list(callback: msRest.ServiceCallback<Models.OperationListResult>): void;
+  list(callback: msRest.ServiceCallback<Models.OperationsListResult>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationListResult>, callback?: msRest.ServiceCallback<Models.OperationListResult>): Promise<Models.OperationsListResponse> {
+  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationsListResult>): void;
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationsListResult>, callback?: msRest.ServiceCallback<Models.OperationsListResult>): Promise<Models.OperationsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -51,7 +52,8 @@ export class Operations {
   }
 
   /**
-   * Lists all of the available insights REST API operations.
+   * List the available operations supported by the Microsoft.EventGrid resource provider.
+   * @summary List available operations.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.OperationsListNextResponse>
@@ -61,14 +63,14 @@ export class Operations {
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.OperationListResult>): void;
+  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.OperationsListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationListResult>, callback?: msRest.ServiceCallback<Models.OperationListResult>): Promise<Models.OperationsListNextResponse> {
+  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationsListResult>): void;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationsListResult>, callback?: msRest.ServiceCallback<Models.OperationsListResult>): Promise<Models.OperationsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -83,7 +85,7 @@ export class Operations {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "providers/Microsoft.Insights/operations",
+  path: "providers/microsoft.insights/operations",
   queryParameters: [
     Parameters.apiVersion
   ],
@@ -92,10 +94,10 @@ const listOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.OperationListResult
+      bodyMapper: Mappers.OperationsListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -113,10 +115,10 @@ const listNextOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.OperationListResult
+      bodyMapper: Mappers.OperationsListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
