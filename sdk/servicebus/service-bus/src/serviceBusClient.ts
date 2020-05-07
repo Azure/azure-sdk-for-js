@@ -85,7 +85,7 @@ export class ServiceBusClient {
    * queue.
    *
    * Messages that are not settled will be redelivered as many times as the max delivery count
-   * set on the queue.
+   * set on the queue, after which they get sent to a separate dead letter queue.
    *
    * You can settle a message by calling complete(), abandon(), defer() or deadletter() methods on
    * the message.
@@ -110,7 +110,7 @@ export class ServiceBusClient {
    * subscription.
    *
    * Messages that are not settled will be redelivered as many times as the max delivery count
-   * set on the subscription.
+   * set on the subscription, after which they get sent to a separate dead letter queue.
    *
    * You can settle a message by calling complete(), abandon(), defer() or deadletter() methods on
    * the message.
@@ -180,7 +180,7 @@ export class ServiceBusClient {
    * queue.
    *
    * Messages that are not settled will be redelivered as many times as the max delivery count
-   * set on the queue.
+   * set on the queue, after which they get sent to a separate dead letter queue.
    *
    * You can settle a message by calling complete(), abandon(), defer() or deadletter() methods on
    * the message.
@@ -215,7 +215,7 @@ export class ServiceBusClient {
    * subscription.
    *
    * Messages that are not settled will be redelivered as many times as the max delivery count
-   * set on the subscription.
+   * set on the subscription, after which they get sent to a separate dead letter queue.
    *
    * You can settle a message by calling complete(), abandon(), defer() or deadletter() methods on
    * the message.
@@ -321,7 +321,7 @@ export class ServiceBusClient {
    * queue.
    *
    * Messages that are not settled will be redelivered as many times as the max delivery count
-   * set on the queue.
+   * set on the queue, after which they get sent to a separate dead letter queue.
    *
    * You can settle a message by calling complete(), abandon(), defer() or deadletter() methods on
    * the message.
@@ -352,7 +352,7 @@ export class ServiceBusClient {
    * subscription.
    *
    * Messages that are not settled will be redelivered as many times as the max delivery count
-   * set on the subscription.
+   * set on the subscription, after which they get sent to a separate dead letter queue.
    *
    * You can settle a message by calling complete(), abandon(), defer() or deadletter() methods on
    * the message.
