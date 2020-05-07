@@ -84,6 +84,7 @@ async function receiveFromNextSession(queueClient) {
   });
 
   try {
+   // Use `getState()`, but ignore its result to force open the underlying receiver link
     await sessionReceiver.getState();
   } catch (err) {
     if (
