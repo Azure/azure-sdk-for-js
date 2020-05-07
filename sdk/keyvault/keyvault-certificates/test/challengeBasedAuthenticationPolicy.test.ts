@@ -12,11 +12,6 @@ import {
 } from "../src/core/challengeBasedAuthenticationPolicy";
 import { testPollerProperties } from "./utils/recorderUtils";
 
-// Following the philosophy of not testing the insides if we can test the outsides...
-// I present you with this "Get Out of Jail Free" card (in reference to Monopoly).
-// Once we move to a common folder, and after some refactoring,
-// we will be able to unit test the insides in detail.
-
 describe("Challenge based authentication tests", () => {
   const certificatePrefix = `challengeAuth${env.KEY_NAME || "CertificateName"}`;
   let certificateSuffix: string;
