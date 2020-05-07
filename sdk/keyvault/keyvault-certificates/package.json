@@ -89,7 +89,7 @@
     "@azure/core-tracing": "1.0.0-preview.7",
     "@azure/logger": "^1.0.0",
     "@opentelemetry/types": "^0.2.0",
-    "tslib": "^1.10.0"
+    "tslib": "^1.9.3"
   },
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^2.0.1",
