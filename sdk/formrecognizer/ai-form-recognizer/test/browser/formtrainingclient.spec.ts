@@ -11,7 +11,10 @@ import {
   FormTrainingClient
 } from "../../src";
 import { env, Recorder } from "@azure/test-utils-recorder";
-import { createRecordedTrainingClient, createRecordedRecognizerClient } from '../util/recordedClients';
+import {
+  createRecordedTrainingClient,
+  createRecordedRecognizerClient
+} from "../util/recordedClients";
 
 let unlabeledModelId: string | undefined;
 let modelIdToDelete: string | undefined;
@@ -21,7 +24,7 @@ describe("FormTrainingClient browser only", () => {
   let recorder: Recorder;
 
   beforeEach(function() {
-    ({recorder, client: trainingClient} = createRecordedTrainingClient(this));
+    ({ recorder, client: trainingClient } = createRecordedTrainingClient(this));
     trainingClient = new FormTrainingClient(
       env.FORM_RECOGNIZER_ENDPOINT,
       new AzureKeyCredential(env.FORM_RECOGNIZER_API_KEY)
@@ -32,7 +35,7 @@ describe("FormTrainingClient browser only", () => {
     if (recorder) {
       recorder.stop();
     }
-  })
+  });
 
   const expectedDocumentInfo: TrainingDocumentInfo = {
     documentName: "Form_1.jpg",
@@ -77,7 +80,7 @@ describe("FormTrainingClient browser only", () => {
 
     assert.ok(response!.models && response!.models.length > 0, "Expected non empty sub model list");
     const model = response!.models![0];
-    assert.equal(model.formType, "TBD");
+    assert.equal(model.formType, `form-${response!.modelId}`);
     assert.equal(model.accuracy, 0.973);
     assert.ok(model.fields["Signature"], "Expecting field with name 'Signature' to be valid");
 
@@ -200,14 +203,14 @@ describe("FormRecognizerClient custom form recognition browser only", () => {
   let recorder: Recorder;
 
   beforeEach(function() {
-    ({recorder, client: recognizerClient} = createRecordedRecognizerClient(this));
+    ({ recorder, client: recognizerClient } = createRecordedRecognizerClient(this));
   });
 
   afterEach(function() {
     if (recorder) {
       recorder.stop();
     }
-  })
+  });
   it("recognizes form url unlabeled model", async () => {
     const testingContainerUrl: string = env.FORM_RECOGNIZER_TESTING_CONTAINER_SAS_URL;
     const urlParts = testingContainerUrl.split("?");
@@ -237,7 +240,10 @@ describe("FormRecognizerClient custom form recognition browser only", () => {
   });
 
   it("recognizes form Blob unlabeled model", async () => {
-    recorder.skip("browser", "issue with blob response https://github.com/Azure/azure-sdk-for-js/issues/8663");
+    recorder.skip(
+      "browser",
+      "issue with blob response https://github.com/Azure/azure-sdk-for-js/issues/8663"
+    );
     const testingContainerUrl: string = env.FORM_RECOGNIZER_TESTING_CONTAINER_SAS_URL;
     const urlParts = testingContainerUrl.split("?");
     const url = `${urlParts[0]}/Form_1.jpg?${urlParts[1]}`;
@@ -245,7 +251,7 @@ describe("FormRecognizerClient custom form recognition browser only", () => {
     req.streamResponseBody = true;
     const httpClient = new DefaultHttpClient();
     const blob = await httpClient.sendRequest(req);
-    const data = await blob.blobBody
+    const data = await blob.blobBody;
 
     assert.ok(unlabeledModelId, "Expecting valid model id from training without labels");
     assert.ok(data, "Expect valid Blob data to use as input");
@@ -270,5 +276,4 @@ describe("FormRecognizerClient custom form recognition browser only", () => {
     assert.ok(form.fields["field-1"], "Expecting field-1");
     assert.ok(form.fields["field-2"], "Expecting field-2");
   });
-
 }).timeout(60000);

@@ -5,7 +5,7 @@ import * as dotenv from "dotenv";
 import { DataLakeFileClient, DataLakeDirectoryClient, DataLakeFileSystemClient } from "../src";
 import { getDataLakeServiceClient, recorderEnvSetup } from "./utils";
 
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("LeaseClient from FileSystem", () => {
   let fileSystemName: string;

@@ -55,32 +55,32 @@ export const environmentSetup: RecorderEnvironmentSetup = {
     },
     // replace the SAS token
     (recording: string): string => {
-      return recording.replace(/\?sv[^"]*"/, `?sastoken"`).replace(/\?sv[^\\"]*\\"/, `?sastoken\\"`);
+      return recording
+        .replace(/\?sv[^"]*"/, `?sastoken"`)
+        .replace(/\?sv[^\\"]*\\"/, `?sastoken\\"`);
     }
   ],
   queryParametersToSkip: []
 };
 
-export function createRecordedTrainingClient(
-  context: Context
-): RecordedTrainingClient {
+export function createRecordedTrainingClient(context: Context): RecordedTrainingClient {
   const recorder = record(context, environmentSetup);
   return {
     client: new FormTrainingClient(
       testEnv.FORM_RECOGNIZER_ENDPOINT,
-      new AzureKeyCredential(testEnv.FORM_RECOGNIZER_API_KEY)),
+      new AzureKeyCredential(testEnv.FORM_RECOGNIZER_API_KEY)
+    ),
     recorder
   };
 }
 
-export function createRecordedRecognizerClient(
-  context: Context
-): RecordedRecognizerClient {
+export function createRecordedRecognizerClient(context: Context): RecordedRecognizerClient {
   const recorder = record(context, environmentSetup);
   return {
     client: new FormRecognizerClient(
       testEnv.FORM_RECOGNIZER_ENDPOINT,
-      new AzureKeyCredential(testEnv.FORM_RECOGNIZER_API_KEY)),
+      new AzureKeyCredential(testEnv.FORM_RECOGNIZER_API_KEY)
+    ),
     recorder
   };
 }

@@ -5,7 +5,7 @@ import { record, Recorder } from "@azure/test-utils-recorder";
 import { ShareClient, ShareDirectoryClient, ShareFileClient } from "../src";
 import { FileSystemAttributes } from "../src/FileSystemAttributes";
 
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("LeaseClient", () => {
   let shareName: string;
