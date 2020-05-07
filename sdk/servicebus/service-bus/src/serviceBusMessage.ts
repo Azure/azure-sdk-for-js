@@ -6,7 +6,7 @@ import { Delivery, uuid_to_string, MessageAnnotations, DeliveryAnnotations } fro
 import { Constants, AmqpMessage, translate, ErrorNameConditionMapper } from "@azure/core-amqp";
 import * as log from "./log";
 import { ClientEntityContext } from "./clientEntityContext";
-import { reorderLockToken, getDispositionType } from "./util/utils";
+import { reorderLockToken } from "./util/utils";
 import { getErrorMessageNotSupportedInReceiveAndDeleteMode } from "./util/errors";
 import { Buffer } from "buffer";
 import { DispositionStatusOptions } from "./core/managementClient";
@@ -40,17 +40,6 @@ export enum DispositionType {
   deadletter = "deadletter",
   abandon = "abandon",
   defer = "defer"
-}
-
-/**
- * @internal
- */
-export enum DispositionStatus {
-  completed = "completed",
-  defered = "defered",
-  suspended = "suspended",
-  abandoned = "abandoned",
-  renewed = "renewed"
 }
 
 /**
@@ -900,7 +889,7 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
       this._context.namespace.connectionId,
       this.messageId
     );
-    return this.settleMessage(DispositionStatus.completed);
+    return this.settleMessage(DispositionType.complete);
   }
 
   /**
@@ -913,7 +902,7 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
       this._context.namespace.connectionId,
       this.messageId
     );
-    return this.settleMessage(DispositionStatus.abandoned, {
+    return this.settleMessage(DispositionType.abandon, {
       propertiesToModify: propertiesToModify
     });
   }
@@ -927,7 +916,7 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
       this._context.namespace.connectionId,
       this.messageId
     );
-    return this.settleMessage(DispositionStatus.defered, {
+    return this.settleMessage(DispositionType.defer, {
       propertiesToModify: propertiesToModify
     });
   }
@@ -955,7 +944,7 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
       deadLetterReason: propertiesToModify?.deadLetterReason,
       deadLetterDescription: propertiesToModify?.deadLetterErrorDescription
     };
-    return this.settleMessage(DispositionStatus.suspended, dispositionStatusOptions);
+    return this.settleMessage(DispositionType.deadletter, dispositionStatusOptions);
   }
 
   /**
@@ -1044,11 +1033,9 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
    * @memberof ServiceBusMessageImpl
    */
   private async settleMessage(
-    operation: DispositionStatus,
+    operation: DispositionType,
     options?: DispositionStatusOptions
   ): Promise<void> {
-    const dispositionType = getDispositionType(operation);
-
     const isDeferredMessage = this._context.requestResponseLockedMessages.has(this.lockToken!);
     const receiver = isDeferredMessage
       ? undefined
@@ -1066,16 +1053,14 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
       let error: Error | undefined;
       if (receiver && receiver.receiveMode !== ReceiveMode.peekLock) {
         error = new Error(
-          getErrorMessageNotSupportedInReceiveAndDeleteMode(`${dispositionType} the message`)
+          getErrorMessageNotSupportedInReceiveAndDeleteMode(`${operation} the message`)
         );
       } else if (this.delivery.remote_settled) {
-        error = new Error(
-          `Failed to ${dispositionType} the message as this message is already settled.`
-        );
+        error = new Error(`Failed to ${operation} the message as this message is already settled.`);
       } else if ((!receiver || !receiver.isOpen()) && this.sessionId != undefined) {
         error = translate({
           description:
-            `Failed to ${dispositionType} the message as the AMQP link with which the message was ` +
+            `Failed to ${operation} the message as the AMQP link with which the message was ` +
             `received is no longer alive.`,
           condition: ErrorNameConditionMapper.SessionLockLostError
         });
@@ -1106,6 +1091,6 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
       return;
     }
 
-    return receiver!.settleMessage(this, dispositionType!, options);
+    return receiver!.settleMessage(this, operation, options);
   }
 }

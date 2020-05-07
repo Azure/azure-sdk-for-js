@@ -1,5 +1,7 @@
 # Azure Form Recognizer client library for JavaScript
 
+**Note:** This preview version targets Azure Form Recognizer service API version v2.0-preview.
+
 Azure Cognitive Services [Form Recognizer](https://azure.microsoft.com/services/cognitive-services/form-recognizer/) is a cloud service that uses machine learning to recognize text and table data
 from form documents. It includes the following main functionalities:
 

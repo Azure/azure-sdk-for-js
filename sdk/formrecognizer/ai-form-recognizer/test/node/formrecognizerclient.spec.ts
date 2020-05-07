@@ -5,22 +5,23 @@ import { assert } from "chai";
 import fs from "fs-extra";
 import path from "path";
 
-import { FormRecognizerClient, AzureKeyCredential } from "../../src";
-import { env, isPlaybackMode } from "@azure/test-utils-recorder";
+import { FormRecognizerClient } from "../../src";
+import { createRecordedRecognizerClient } from "../util/recordedClients";
+import { env, Recorder } from "@azure/test-utils-recorder";
 
 describe("FormRecognizerClient NodeJS only", () => {
   const ASSET_PATH = path.resolve(path.join(process.cwd(), "test-assets"));
   let client: FormRecognizerClient;
+  let recorder: Recorder;
 
-  before(function() {
-    // TODO: create recordings
-    if (isPlaybackMode()) {
-      this.skip();
+  beforeEach(function() {
+    ({ recorder, client } = createRecordedRecognizerClient(this));
+  });
+
+  afterEach(function() {
+    if (recorder) {
+      recorder.stop();
     }
-    client = new FormRecognizerClient(
-      env.FORM_RECOGNIZER_ENDPOINT,
-      new AzureKeyCredential(env.FORM_RECOGNIZER_API_KEY)
-    );
   });
 
   it("recognizes content from a pdf file stream", async () => {
@@ -141,9 +142,11 @@ describe("FormRecognizerClient NodeJS only", () => {
     assert.equal(usReceipt.locale, "US"); // default to "US" for now
     assert.equal(usReceipt.receiptType, "itemized");
     assert.equal(usReceipt.locale, "US");
-    assert.equal(usReceipt.tax.name, "Tax");
-    assert.equal(typeof usReceipt.total.value!, "number");
-    assert.equal(usReceipt.total.value!, 1203.39);
+    assert.ok(usReceipt.tax, "Expecting valid 'tax' field");
+    assert.equal(usReceipt.tax!.name, "Tax");
+    assert.ok(usReceipt.total, "Expecting valid 'total' field");
+    assert.equal(typeof usReceipt.total!.value!, "number");
+    assert.equal(usReceipt.total!.value!, 1203.39);
   });
 
   it("recognizes receipt from a jpeg file stream", async () => {

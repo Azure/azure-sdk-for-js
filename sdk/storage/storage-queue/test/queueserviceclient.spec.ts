@@ -4,7 +4,7 @@ import { QueueServiceClient } from "../src/QueueServiceClient";
 import { getAlternateQSU, getQSU, getSASConnectionStringFromEnvironment } from "./utils";
 import { record, delay, Recorder } from "@azure/test-utils-recorder";
 import { recorderEnvSetup } from "./utils/index.browser";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("QueueServiceClient", () => {
   let recorder: Recorder;

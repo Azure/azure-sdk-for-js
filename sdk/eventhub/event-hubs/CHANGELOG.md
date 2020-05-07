@@ -1,5 +1,21 @@
 # Release History
 
+## 5.2.1 (Unreleased)
+
+### Tracing updates:
+
+Tracing functionality is still in preview status and the APIs may have breaking
+changes between patch and minor updates.
+
+- Updates the `peer.address` attribute on "Azure.EventHubs.send" spans to refer
+  to the fully qualified namespace instead of the endpoint.
+  Fixes [#7109](https://github.com/Azure/azure-sdk-for-js/issues/7109)
+
+- Adds a new attribute - `enqueuedTime` - to the links on "Azure.EventHubs.process" spans.
+  `enqueuedTime` maps to the enqueuedTimeUtc field from received events, represented as
+  Unix epoch time in millseconds.
+  Address [#7112](https://github.com/Azure/azure-sdk-for-js/issues/7112)
+
 ## 5.2.0 (2020-05-05)
 
 - Updates the `EventHubProducerClient.sendBatch` API to accept an array of events.

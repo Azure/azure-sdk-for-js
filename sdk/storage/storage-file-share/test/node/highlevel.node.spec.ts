@@ -8,7 +8,7 @@ import { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadabl
 import { ShareClient, ShareDirectoryClient, ShareFileClient } from "../../src";
 import { readStreamToLocalFileWithLogs } from "../../test/utils/testutils.node";
 import { record, Recorder } from "@azure/test-utils-recorder";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 // tslint:disable:no-empty
 describe("Highlevel Node.js only", () => {

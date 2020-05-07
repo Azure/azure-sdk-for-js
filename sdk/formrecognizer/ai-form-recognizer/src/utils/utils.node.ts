@@ -60,5 +60,5 @@ export async function streamToBuffer(
 }
 
 export function getFirstFourBytesFromBlob(_data: Blob): Promise<Uint8Array> {
-  throw new Error("Blob is not supported in NodeJS environment")
+  throw new Error("Blob is not supported in NodeJS environment");
 }

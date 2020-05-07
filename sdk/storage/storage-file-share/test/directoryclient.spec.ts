@@ -9,7 +9,7 @@ import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 import { URLBuilder } from "@azure/core-http";
 import { MockPolicyFactory } from "./utils/MockPolicyFactory";
 import { Pipeline } from "../src/Pipeline";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("DirectoryClient", () => {
   let shareName: string;
