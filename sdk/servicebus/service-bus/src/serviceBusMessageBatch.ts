@@ -159,7 +159,9 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
     }
     if (messageProperties) {
       for (const prop of RheaMessagePropertiesList) {
-        (batchEnvelope as any)[prop] = (messageProperties as any)[prop];
+        if ((messageProperties as any)[prop]) {
+          (batchEnvelope as any)[prop] = (messageProperties as any)[prop];
+        }
       }
     }
     return RheaMessageUtil.encode(batchEnvelope);
@@ -176,7 +178,12 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
    * @readonly
    */
   _generateMessage(): Buffer {
-    return this._generateBatch(this._encodedMessages, this._batchAnnotations);
+    return this._generateBatch(
+      this._encodedMessages,
+      this._batchAnnotations,
+      this._batchApplicationProperties,
+      this._batchMessageProperties
+    );
   }
 
   /**
@@ -218,7 +225,9 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
         this._batchApplicationProperties = amqpMessage.application_properties;
       }
       for (const prop of RheaMessagePropertiesList) {
-        (this._batchMessageProperties as any)[prop] = (amqpMessage as any)[prop];
+        if ((amqpMessage as any)[prop]) {
+          (this._batchMessageProperties as any)[prop] = (amqpMessage as any)[prop];
+        }
       }
       // Figure out the overhead of creating a batch by generating an empty batch
       // with the expected batch annotations.
