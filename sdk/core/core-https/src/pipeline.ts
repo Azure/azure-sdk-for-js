@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-// TODO: use type import when TS 3.8 lands.
 import { PipelineRequest, PipelineResponse, HttpsClient, SendRequest } from "./interfaces";
 
 /**
