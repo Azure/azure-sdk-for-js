@@ -14,7 +14,7 @@ contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additio
 
 # How to contribute to the Azure SDK for Javascript
 
-There are many ways that you can contribute to the Azure Event Hubs client project:
+There are many ways that you can contribute to the Azure SDK for JavaScript project:
 
 - Submit a bug
 - Submit a code fix for a bug

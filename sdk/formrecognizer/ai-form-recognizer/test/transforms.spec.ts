@@ -10,15 +10,16 @@ import {
   toFormText,
   toFormField,
   toFieldValue,
+  toFieldsFromFieldValue,
   toFormTable,
   toRecognizeFormResultResponse,
   toReceiptResultResponse,
   toFormModelResponse
 } from "../src/transforms";
 import {
-  FormRecognizerClientGetAnalyzeFormResultResponse as GetAnalyzeFormResultResponse,
-  FormRecognizerClientGetAnalyzeReceiptResultResponse as GetAnalyzeReceiptResultResponse,
-  FormRecognizerClientGetCustomModelResponse as GetCustomModelResponse,
+  GeneratedClientGetAnalyzeFormResultResponse as GetAnalyzeFormResultResponse,
+  GeneratedClientGetAnalyzeReceiptResultResponse as GetAnalyzeReceiptResultResponse,
+  GeneratedClientGetCustomModelResponse as GetCustomModelResponse,
   ReadResult as ReadResultModel,
   FieldValue as FieldValueModel,
   DataTable as DataTableModel
@@ -191,14 +192,14 @@ describe("Transforms", () => {
     assert.deepStrictEqual(transformed.valueText!.textContent![1], formPages[0].lines![0].words[1]);
   });
 
-  describe("toFieldValue()", () => {
-    const commonProperties = {
-      text: "field value text",
-      boudningBox: [1, 2, 3, 4, 5, 6, 7, 8],
-      confidence: 0.9999,
-      elements: ["#/readResults/0/lines/0/words/0", "#/readResults/0/lines/0/words/1"]
-    };
+  const commonProperties = {
+    text: "field value text",
+    boudningBox: [1, 2, 3, 4, 5, 6, 7, 8],
+    confidence: 0.9999,
+    elements: ["#/readResults/0/lines/0/words/0", "#/readResults/0/lines/0/words/1"]
+  };
 
+  describe("toFieldValue()", () => {
     it("converts field value of string", () => {
       const original: FieldValueModel = {
         type: "string",
@@ -344,6 +345,52 @@ describe("Transforms", () => {
       assert.equal(obj.value!["dateProperty"].value, originalDate.valueDate);
       assert.equal(obj.value!["integerProperty"].value, originalInteger.valueInteger);
     });
+  });
+
+  it("toFieldsFromFieldValue() handles missing field", () => {
+    const originalInteger: FieldValueModel = {
+      type: "integer",
+      valueInteger: 1,
+      ...commonProperties
+    };
+    const original: { [propertyName: string]: FieldValueModel } = {
+      integerProperty: originalInteger
+    };
+    Object.assign(original, {
+      integerProperty: originalInteger,
+      missingField: null
+    });
+
+    const transformed = toFieldsFromFieldValue(original, formPages);
+
+    assert.ok(transformed.integerProperty, "Expecting valid integerField");
+    assert.ok(transformed.missingField, "Expecting valid missingField");
+    assert.equal(transformed.missingField.name, "missingField");
+    assert.equal(
+      transformed.missingField.confidence,
+      undefined,
+      "Expecting missingField has undefined confidence"
+    );
+    assert.equal(
+      transformed.missingField.fieldLabel,
+      undefined,
+      "Expecting missingField has undefined fieldLabel"
+    );
+    assert.equal(
+      transformed.missingField.value,
+      undefined,
+      "Expecting missingField has undefined value"
+    );
+    assert.equal(
+      transformed.missingField.valueText,
+      undefined,
+      "Expecting missingField has undefined valueText"
+    );
+    assert.equal(
+      transformed.missingField.valueType,
+      undefined,
+      "Expecting missingField has undefined valueType"
+    );
   });
 
   it("toTable() converts original data table", () => {
@@ -509,9 +556,12 @@ describe("Transforms", () => {
 
     assert.equal(usReceipt.receiptType, "itemized");
     assert.equal(usReceipt.locale, "US");
-    assert.equal(usReceipt.tax.name, "Tax");
-    assert.equal(typeof usReceipt.tip.value!, "number");
-    assert.equal(usReceipt.total.value!, 14.5);
+    assert.ok(usReceipt.tax, "Expecting valid 'tax' field");
+    assert.equal(usReceipt.tax!.name, "Tax");
+    assert.ok(usReceipt.tip, "Expecting valid 'tip' field");
+    assert.equal(typeof usReceipt.tip!.value!, "number");
+    assert.ok(usReceipt.total, "Expecting valid 'total' field");
+    assert.equal(usReceipt.total!.value!, 14.5);
   });
 });
 

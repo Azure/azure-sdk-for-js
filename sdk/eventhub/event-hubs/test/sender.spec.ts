@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import chai from "chai";
 const should = chai.should();
@@ -7,12 +7,23 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:sender-spec");
-import { EventData, EventHubProducerClient, EventHubConsumerClient } from "../src";
+import {
+  EventData,
+  EventHubProducerClient,
+  EventHubConsumerClient,
+  ReceivedEventData,
+  EventPosition
+} from "../src";
 import { EventHubClient } from "../src/impl/eventHubClient";
-import { SendOptions } from "../src/models/public";
-import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
+import { SendOptions, SendBatchOptions } from "../src/models/public";
+import {
+  EnvVarKeys,
+  getEnvVars,
+  getStartingPositionsForTests,
+  setTracerForTest
+} from "./utils/testUtils";
 import { AbortController } from "@azure/abort-controller";
-import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
+import { SpanGraph, TestSpan } from "@azure/core-tracing";
 import { TRACEPARENT_PROPERTY } from "../src/diagnostics/instrumentEventData";
 import { EventHubProducer } from "../src/sender";
 import { SubscriptionHandlerForTests } from "./utils/subscriptionHandlerForTests";
@@ -113,8 +124,7 @@ describe("EventHub Sender", function(): void {
     });
 
     it("can be manually traced", async function(): Promise<void> {
-      const tracer = new TestTracer();
-      setTracer(tracer);
+      const { tracer, resetTracer } = setTracerForTest();
 
       const rootSpan = tracer.startSpan("root");
 
@@ -159,6 +169,7 @@ describe("EventHub Sender", function(): void {
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
 
       await producer.close();
+      resetTracer();
     });
   });
 
@@ -271,6 +282,24 @@ describe("EventHub Sender", function(): void {
       consumerClient.close();
     });
 
+    describe("tryAdd", function() {
+      it("doesn't grow if invalid events are added", async () => {
+        const batch = await producerClient.createBatch({ maxSizeInBytes: 20 });
+        const event = { body: Buffer.alloc(30).toString() };
+
+        const numToAdd = 5;
+        let failures = 0;
+        for (let i = 0; i < numToAdd; i++) {
+          if (!batch.tryAdd(event)) {
+            failures++;
+          }
+        }
+
+        failures.should.equal(5);
+        batch.sizeInBytes.should.equal(0);
+      });
+    });
+
     it("should be sent successfully", async function(): Promise<void> {
       const list = ["Albert", `${Buffer.from("Mike".repeat(1300000))}`, "Marie"];
 
@@ -283,7 +312,7 @@ describe("EventHub Sender", function(): void {
       batch.maxSizeInBytes.should.be.gt(0);
 
       batch.tryAdd({ body: list[0] }).should.be.ok;
-      batch.tryAdd({ body: list[1] }).should.not.be.ok; //The Mike message will be rejected - it's over the limit.
+      batch.tryAdd({ body: list[1] }).should.not.be.ok; // The Mike message will be rejected - it's over the limit.
       batch.tryAdd({ body: list[2] }).should.be.ok; // Marie should get added";
 
       const {
@@ -312,9 +341,71 @@ describe("EventHub Sender", function(): void {
       );
     });
 
+    it("should be sent successfully with properties", async function(): Promise<void> {
+      const properties = { test: "super" };
+      const list = [
+        { body: "Albert-With-Properties", properties },
+        { body: "Mike-With-Properties", properties },
+        { body: "Marie-With-Properties", properties }
+      ];
+
+      const batch = await producerClient.createBatch({
+        partitionId: "0"
+      });
+
+      batch.maxSizeInBytes.should.be.gt(0);
+
+      batch.tryAdd(list[0]).should.be.ok;
+      batch.tryAdd(list[1]).should.be.ok;
+      batch.tryAdd(list[2]).should.be.ok;
+
+      const receivedEvents: ReceivedEventData[] = [];
+      let waitUntilEventsReceivedResolver: Function;
+      const waitUntilEventsReceived = new Promise((r) => (waitUntilEventsReceivedResolver = r));
+
+      const sequenceNumber = (await consumerClient.getPartitionProperties("0"))
+        .lastEnqueuedSequenceNumber;
+
+      const subscriber = consumerClient.subscribe(
+        "0",
+        {
+          async processError() {},
+          async processEvents(events) {
+            receivedEvents.push(...events);
+            if (receivedEvents.length >= 3) {
+              waitUntilEventsReceivedResolver();
+            }
+          }
+        },
+        {
+          startPosition: {
+            sequenceNumber
+          },
+          maxBatchSize: 3
+        }
+      );
+
+      await producerClient.sendBatch(batch);
+      await waitUntilEventsReceived;
+      await subscriber.close();
+
+      sequenceNumber.should.be.lessThan(receivedEvents[0].sequenceNumber);
+      sequenceNumber.should.be.lessThan(receivedEvents[1].sequenceNumber);
+      sequenceNumber.should.be.lessThan(receivedEvents[2].sequenceNumber);
+
+      [list[0], list[1], list[2]].should.be.deep.eq(
+        receivedEvents.map((event) => {
+          return {
+            body: event.body,
+            properties: event.properties
+          };
+        }),
+        "Received messages should be equal to our sent messages"
+      );
+    });
+
     it("can be manually traced", async function(): Promise<void> {
-      const tracer = new TestTracer();
-      setTracer(tracer);
+      const { tracer, resetTracer } = setTracerForTest();
 
       const rootSpan = tracer.startSpan("root");
 
@@ -354,11 +445,11 @@ describe("EventHub Sender", function(): void {
 
       tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
+      resetTracer();
     });
 
     it("will not instrument already instrumented events", async function(): Promise<void> {
-      const tracer = new TestTracer();
-      setTracer(tracer);
+      const { tracer, resetTracer } = setTracerForTest();
 
       const rootSpan = tracer.startSpan("test");
 
@@ -405,11 +496,11 @@ describe("EventHub Sender", function(): void {
 
       tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
+      resetTracer();
     });
 
     it("will support tracing batch and send", async function(): Promise<void> {
-      const tracer = new TestTracer();
-      setTracer(tracer);
+      const { tracer, resetTracer } = setTracerForTest();
 
       const rootSpan = tracer.startSpan("root");
 
@@ -458,6 +549,7 @@ describe("EventHub Sender", function(): void {
 
       tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
+      resetTracer();
     });
 
     it("with partition key should be sent successfully.", async function(): Promise<void> {
@@ -495,7 +587,7 @@ describe("EventHub Sender", function(): void {
     it("should throw when maxMessageSize is greater than maximum message size on the AMQP sender link", async function(): Promise<
       void
     > {
-      let newClient: EventHubProducerClient = new EventHubProducerClient(
+      const newClient: EventHubProducerClient = new EventHubProducerClient(
         service.connectionString,
         service.path
       );
@@ -698,8 +790,7 @@ describe("EventHub Sender", function(): void {
     });
 
     it("can be manually traced", async function(): Promise<void> {
-      const tracer = new TestTracer();
-      setTracer(tracer);
+      const { tracer, resetTracer } = setTracerForTest();
 
       const rootSpan = tracer.startSpan("root");
 
@@ -760,11 +851,11 @@ describe("EventHub Sender", function(): void {
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
 
       await producer.close();
+      resetTracer();
     });
 
     it("skips already instrumented events when manually traced", async function(): Promise<void> {
-      const tracer = new TestTracer();
-      setTracer(tracer);
+      const { tracer, resetTracer } = setTracerForTest();
 
       const rootSpan = tracer.startSpan("root");
 
@@ -822,6 +913,379 @@ describe("EventHub Sender", function(): void {
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
 
       await producer.close();
+      resetTracer();
+    });
+  });
+
+  describe("Array of events", function() {
+    let consumerClient: EventHubConsumerClient;
+    let startPosition: { [partitionId: string]: EventPosition };
+
+    beforeEach(async () => {
+      consumerClient = new EventHubConsumerClient(
+        EventHubConsumerClient.defaultConsumerGroupName,
+        service.connectionString,
+        service.path
+      );
+
+      startPosition = await getStartingPositionsForTests(consumerClient);
+    });
+
+    afterEach(() => {
+      return consumerClient.close();
+    });
+
+    it("should be sent successfully", async () => {
+      const data: EventData[] = [{ body: "Hello World 1" }, { body: "Hello World 2" }];
+      const receivedEvents: ReceivedEventData[] = [];
+      let receivingResolver: Function;
+
+      const receivingPromise = new Promise((r) => (receivingResolver = r));
+      const subscription = consumerClient.subscribe(
+        {
+          async processError() {},
+          async processEvents(events) {
+            receivedEvents.push(...events);
+            receivingResolver();
+          }
+        },
+        {
+          startPosition,
+          maxBatchSize: data.length
+        }
+      );
+
+      await producerClient.sendBatch(data);
+
+      await receivingPromise;
+      await subscription.close();
+
+      receivedEvents.length.should.equal(data.length);
+      receivedEvents.map((e) => e.body).should.eql(data.map((d) => d.body));
+    });
+
+    it("should be sent successfully with partitionKey", async () => {
+      const data: EventData[] = [{ body: "Hello World 1" }, { body: "Hello World 2" }];
+      const receivedEvents: ReceivedEventData[] = [];
+      let receivingResolver: Function;
+      const receivingPromise = new Promise((r) => (receivingResolver = r));
+      const subscription = consumerClient.subscribe(
+        {
+          async processError() {},
+          async processEvents(events) {
+            receivedEvents.push(...events);
+            receivingResolver();
+          }
+        },
+        {
+          startPosition,
+          maxBatchSize: data.length
+        }
+      );
+
+      await producerClient.sendBatch(data, { partitionKey: "foo" });
+
+      await receivingPromise;
+      await subscription.close();
+
+      receivedEvents.length.should.equal(data.length);
+      receivedEvents.map((e) => e.body).should.eql(data.map((d) => d.body));
+      for (let i = 0; i < receivedEvents.length; i++) {
+        receivedEvents[i].body.should.equal(data[i].body);
+      }
+    });
+
+    it("should be sent successfully with partitionId", async () => {
+      const partitionId = "0";
+      const data: EventData[] = [{ body: "Hello World 1" }, { body: "Hello World 2" }];
+      const receivedEvents: ReceivedEventData[] = [];
+      let receivingResolver: Function;
+      const receivingPromise = new Promise((r) => (receivingResolver = r));
+      const subscription = consumerClient.subscribe(
+        partitionId,
+        {
+          async processError() {},
+          async processEvents(events) {
+            receivedEvents.push(...events);
+            receivingResolver();
+          }
+        },
+        {
+          startPosition,
+          maxBatchSize: data.length
+        }
+      );
+
+      await producerClient.sendBatch(data, { partitionId });
+
+      await receivingPromise;
+      await subscription.close();
+
+      receivedEvents.length.should.equal(data.length);
+      receivedEvents.map((e) => e.body).should.eql(data.map((d) => d.body));
+      for (let i = 0; i < receivedEvents.length; i++) {
+        receivedEvents[i].body.should.equal(data[i].body);
+      }
+    });
+
+    it("can be manually traced", async function(): Promise<void> {
+      const { tracer, resetTracer } = setTracerForTest();
+
+      const rootSpan = tracer.startSpan("root");
+
+      const events = [];
+      for (let i = 0; i < 5; i++) {
+        events.push({ body: `multiple messages - manual trace propgation: ${i}` });
+      }
+      await producerClient.sendBatch(events, {
+        tracingOptions: {
+          spanOptions: {
+            parent: rootSpan.context()
+          }
+        }
+      });
+      rootSpan.end();
+
+      const rootSpans = tracer.getRootSpans();
+      rootSpans.length.should.equal(1, "Should only have one root spans.");
+      rootSpans[0].should.equal(rootSpan, "The root span should match what was passed in.");
+
+      const expectedGraph: SpanGraph = {
+        roots: [
+          {
+            name: rootSpan.name,
+            children: [
+              {
+                name: "Azure.EventHubs.message",
+                children: []
+              },
+              {
+                name: "Azure.EventHubs.message",
+                children: []
+              },
+              {
+                name: "Azure.EventHubs.message",
+                children: []
+              },
+              {
+                name: "Azure.EventHubs.message",
+                children: []
+              },
+              {
+                name: "Azure.EventHubs.message",
+                children: []
+              },
+              {
+                name: "Azure.EventHubs.send",
+                children: []
+              }
+            ]
+          }
+        ]
+      };
+
+      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
+      tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
+
+      const knownSendSpans = tracer
+        .getKnownSpans()
+        .filter((span: TestSpan) => span.name === "Azure.EventHubs.send");
+      knownSendSpans.length.should.equal(1, "There should have been one send span.");
+      knownSendSpans[0].attributes.should.deep.equal({
+        "az.namespace": "Microsoft.EventHub",
+        "message_bus.destination": producerClient.eventHubName,
+        "peer.address": producerClient.fullyQualifiedNamespace
+      });
+      resetTracer();
+    });
+
+    it("skips already instrumented events when manually traced", async function(): Promise<void> {
+      const { tracer, resetTracer } = setTracerForTest();
+
+      const rootSpan = tracer.startSpan("root");
+
+      const events: EventData[] = [];
+      for (let i = 0; i < 5; i++) {
+        events.push({ body: `multiple messages - manual trace propgation: ${i}` });
+      }
+      events[0].properties = { [TRACEPARENT_PROPERTY]: "foo" };
+      await producerClient.sendBatch(events, {
+        tracingOptions: {
+          spanOptions: {
+            parent: rootSpan.context()
+          }
+        }
+      });
+      rootSpan.end();
+
+      const rootSpans = tracer.getRootSpans();
+      rootSpans.length.should.equal(1, "Should only have one root spans.");
+      rootSpans[0].should.equal(rootSpan, "The root span should match what was passed in.");
+
+      const expectedGraph: SpanGraph = {
+        roots: [
+          {
+            name: rootSpan.name,
+            children: [
+              {
+                name: "Azure.EventHubs.message",
+                children: []
+              },
+              {
+                name: "Azure.EventHubs.message",
+                children: []
+              },
+              {
+                name: "Azure.EventHubs.message",
+                children: []
+              },
+              {
+                name: "Azure.EventHubs.message",
+                children: []
+              },
+              {
+                name: "Azure.EventHubs.send",
+                children: []
+              }
+            ]
+          }
+        ]
+      };
+
+      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
+      tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
+      resetTracer();
+    });
+  });
+
+  describe("Validation", function() {
+    describe("sendBatch", function() {
+      describe("with EventDataBatch", function() {
+        it("works if partitionKeys match", async () => {
+          const misconfiguredOptions: SendBatchOptions = {
+            partitionKey: "foo"
+          };
+          const batch = await producerClient.createBatch({ partitionKey: "foo" });
+          await producerClient.sendBatch(batch, misconfiguredOptions);
+        });
+        it("works if partitionIds match", async () => {
+          const misconfiguredOptions: SendBatchOptions = {
+            partitionId: "0"
+          };
+          const batch = await producerClient.createBatch({ partitionId: "0" });
+          await producerClient.sendBatch(batch, misconfiguredOptions);
+        });
+        it("throws an error if partitionKeys don't match", async () => {
+          const badOptions: SendBatchOptions = {
+            partitionKey: "bar"
+          };
+          const batch = await producerClient.createBatch({ partitionKey: "foo" });
+          try {
+            await producerClient.sendBatch(batch, badOptions);
+            throw new Error("Test failure");
+          } catch (err) {
+            err.message.should.equal(
+              "The partitionKey (bar) set on sendBatch does not match the partitionKey (foo) set when creating the batch."
+            );
+          }
+        });
+        it("throws an error if partitionKeys don't match (undefined)", async () => {
+          const badOptions: SendBatchOptions = {
+            partitionKey: "bar"
+          };
+          const batch = await producerClient.createBatch();
+          try {
+            await producerClient.sendBatch(batch, badOptions);
+            throw new Error("Test failure");
+          } catch (err) {
+            err.message.should.equal(
+              "The partitionKey (bar) set on sendBatch does not match the partitionKey (undefined) set when creating the batch."
+            );
+          }
+        });
+        it("throws an error if partitionIds don't match", async () => {
+          const badOptions: SendBatchOptions = {
+            partitionId: "0"
+          };
+          const batch = await producerClient.createBatch({ partitionId: "1" });
+          try {
+            await producerClient.sendBatch(batch, badOptions);
+            throw new Error("Test failure");
+          } catch (err) {
+            err.message.should.equal(
+              "The partitionId (0) set on sendBatch does not match the partitionId (1) set when creating the batch."
+            );
+          }
+        });
+        it("throws an error if partitionIds don't match (undefined)", async () => {
+          const badOptions: SendBatchOptions = {
+            partitionId: "0"
+          };
+          const batch = await producerClient.createBatch();
+          try {
+            await producerClient.sendBatch(batch, badOptions);
+            throw new Error("Test failure");
+          } catch (err) {
+            err.message.should.equal(
+              "The partitionId (0) set on sendBatch does not match the partitionId (undefined) set when creating the batch."
+            );
+          }
+        });
+        it("throws an error if partitionId and partitionKey are set (create, send)", async () => {
+          const badOptions: SendBatchOptions = {
+            partitionKey: "foo"
+          };
+          const batch = await producerClient.createBatch({ partitionId: "0" });
+          try {
+            await producerClient.sendBatch(batch, badOptions);
+            throw new Error("Test failure");
+          } catch (err) {
+            err.message.should.not.equal("Test failure");
+          }
+        });
+        it("throws an error if partitionId and partitionKey are set (send, create)", async () => {
+          const badOptions: SendBatchOptions = {
+            partitionId: "0"
+          };
+          const batch = await producerClient.createBatch({ partitionKey: "foo" });
+          try {
+            await producerClient.sendBatch(batch, badOptions);
+            throw new Error("Test failure");
+          } catch (err) {
+            err.message.should.not.equal("Test failure");
+          }
+        });
+        it("throws an error if partitionId and partitionKey are set (send, send)", async () => {
+          const badOptions: SendBatchOptions = {
+            partitionKey: "foo",
+            partitionId: "0"
+          };
+          const batch = await producerClient.createBatch();
+          try {
+            await producerClient.sendBatch(batch, badOptions);
+            throw new Error("Test failure");
+          } catch (err) {
+            err.message.should.not.equal("Test failure");
+          }
+        });
+      });
+      describe("with events array", function() {
+        it("throws an error if partitionId and partitionKey are set", async () => {
+          const badOptions: SendBatchOptions = {
+            partitionKey: "foo",
+            partitionId: "0"
+          };
+          const batch = [{ body: "Hello 1" }, { body: "Hello 2" }];
+          try {
+            await producerClient.sendBatch(batch, badOptions);
+            throw new Error("Test failure");
+          } catch (err) {
+            err.message.should.equal(
+              "The partitionId (0) and partitionKey (foo) cannot both be specified."
+            );
+          }
+        });
+      });
     });
   });
 

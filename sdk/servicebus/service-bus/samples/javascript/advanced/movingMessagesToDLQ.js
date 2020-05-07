@@ -35,7 +35,7 @@ async function main() {
 
 async function sendMessage() {
   // createSender() can also be used to create a sender for a topic.
-  const sender = sbClient.createSender(queueName);
+  const sender = await sbClient.createSender(queueName);
 
   const message = {
     body: {

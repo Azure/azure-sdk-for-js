@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { logger, logErrorStackTrace } from "../log";
 import {
@@ -291,7 +291,12 @@ export class EventHubClient {
       options.retryOptions = this._clientOptions.retryOptions;
     }
     throwErrorIfConnectionClosed(this._context);
-    return new EventHubProducer(this.eventHubName, this.endpoint, this._context, options);
+    return new EventHubProducer(
+      this.eventHubName,
+      this.fullyQualifiedNamespace,
+      this._context,
+      options
+    );
   }
 
   /**
@@ -361,7 +366,10 @@ export class EventHubClient {
    */
   async getProperties(options: GetEventHubPropertiesOptions = {}): Promise<EventHubProperties> {
     throwErrorIfConnectionClosed(this._context);
-    const clientSpan = this._createClientSpan("getEventHubProperties", getParentSpan(options));
+    const clientSpan = this._createClientSpan(
+      "getEventHubProperties",
+      getParentSpan(options.tracingOptions)
+    );
     try {
       const result = await this._context.managementSession!.getHubRuntimeInformation({
         retryOptions: this._clientOptions.retryOptions,
@@ -391,7 +399,11 @@ export class EventHubClient {
    */
   async getPartitionIds(options: GetPartitionIdsOptions): Promise<Array<string>> {
     throwErrorIfConnectionClosed(this._context);
-    const clientSpan = this._createClientSpan("getPartitionIds", getParentSpan(options), true);
+    const clientSpan = this._createClientSpan(
+      "getPartitionIds",
+      getParentSpan(options.tracingOptions),
+      true
+    );
     try {
       const runtimeInfo = await this.getProperties({
         ...options,
@@ -436,7 +448,10 @@ export class EventHubClient {
       partitionId
     );
     partitionId = String(partitionId);
-    const clientSpan = this._createClientSpan("getPartitionProperties", getParentSpan(options));
+    const clientSpan = this._createClientSpan(
+      "getPartitionProperties",
+      getParentSpan(options.tracingOptions)
+    );
     try {
       const result = await this._context.managementSession!.getPartitionProperties(partitionId, {
         retryOptions: this._clientOptions.retryOptions,

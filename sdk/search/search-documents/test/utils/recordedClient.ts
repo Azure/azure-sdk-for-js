@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import * as dotenv from "dotenv";
-import * as path from "path";
 
 import { env, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 import { isNode } from "@azure/core-http";
@@ -10,7 +9,7 @@ import { isNode } from "@azure/core-http";
 import { AzureKeyCredential, SearchIndexClient, SearchServiceClient } from "../../src/index";
 
 if (isNode) {
-  dotenv.config({ path: path.join(__dirname, "..", ".env") });
+  dotenv.config();
 }
 
 export interface Clients<IndexModel> {

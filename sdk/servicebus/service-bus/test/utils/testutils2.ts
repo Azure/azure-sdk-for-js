@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 // Anything we expect to be available to users should come from this import
 // as a simple sanity check that we've exported things properly.
@@ -129,6 +129,10 @@ export async function drainAllMessages(receiver: Receiver<{}>): Promise<void> {
 
 export type EntityName = ReturnType<typeof getEntityNames>;
 
+/**
+ * A ServiceBusClient with an additional `test` property with useful methods
+ * to create receivers and cleanup resources.
+ */
 export interface ServiceBusClientForTests extends ServiceBusClient {
   test: ServiceBusTestHelpers;
 }
@@ -155,7 +159,7 @@ export class ServiceBusTestHelpers {
     let receiverClient: Receiver<ReceivedMessage> | SessionReceiver<ReceivedMessage>;
     let receivedMsgs: ReceivedMessage[];
     if (!useSessions) {
-      receiverClient = this.getReceiveAndDeleteReceiver({
+      receiverClient = await this.getReceiveAndDeleteReceiver({
         queue: entityNames.queue,
         topic: entityNames.topic,
         subscription: entityNames.subscription,
@@ -171,7 +175,7 @@ export class ServiceBusTestHelpers {
       // From the sentMessages array, creating a set of all the `session-id`s
       const setOfSessionIds: Set<string> = new Set();
       // numOfMsgsWithSessionId - To keep track of number of messages sent per session in the sent messages
-      let numOfMsgsWithSessionId: { [sessionId: string]: number } = {};
+      const numOfMsgsWithSessionId: { [sessionId: string]: number } = {};
       sentMessages.forEach((msg) => {
         setOfSessionIds.add(msg.sessionId!);
         numOfMsgsWithSessionId[msg.sessionId!] = numOfMsgsWithSessionId[msg.sessionId!]
@@ -180,7 +184,7 @@ export class ServiceBusTestHelpers {
       });
       // for-loop to receive messages from those `session-id`s
       for (const id of setOfSessionIds) {
-        receiverClient = this.getReceiveAndDeleteReceiver({
+        receiverClient = await this.getReceiveAndDeleteReceiver({
           queue: entityNames.queue,
           topic: entityNames.topic,
           subscription: entityNames.subscription,
@@ -260,15 +264,17 @@ export class ServiceBusTestHelpers {
    *
    * The receiver created by this method will be cleaned up by `afterEach()`
    */
-  getPeekLockReceiver(
+  async getPeekLockReceiver(
     entityNames: ReturnType<typeof getEntityNames>
-  ): Receiver<ReceivedMessageWithLock> {
+  ): Promise<Receiver<ReceivedMessageWithLock>> {
     try {
       // if you're creating a receiver this way then you'll just use the default
       // session ID for your receiver.
       // if you want to get more specific use the `getPeekLockSessionReceiver` method
       // instead.
-      return this.getSessionPeekLockReceiver(entityNames, { sessionId: TestMessage.sessionId });
+      return await this.getSessionPeekLockReceiver(entityNames, {
+        sessionId: TestMessage.sessionId
+      });
     } catch (err) {
       if (!(err instanceof TypeError)) {
         throw err;
@@ -286,10 +292,10 @@ export class ServiceBusTestHelpers {
     );
   }
 
-  getSessionPeekLockReceiver(
+  async getSessionPeekLockReceiver(
     entityNames: ReturnType<typeof getEntityNames>,
     getSessionReceiverOptions?: CreateSessionReceiverOptions
-  ): SessionReceiver<ReceivedMessageWithLock> {
+  ): Promise<SessionReceiver<ReceivedMessageWithLock>> {
     if (!entityNames.usesSessions) {
       throw new TypeError(
         "Not a session-full entity - can't create a session receiver type for it"
@@ -298,12 +304,12 @@ export class ServiceBusTestHelpers {
 
     return this.addToCleanup(
       entityNames.queue
-        ? this._serviceBusClient.createSessionReceiver(
+        ? await this._serviceBusClient.createSessionReceiver(
             entityNames.queue,
             "peekLock",
             getSessionReceiverOptions
           )
-        : this._serviceBusClient.createSessionReceiver(
+        : await this._serviceBusClient.createSessionReceiver(
             entityNames.topic!,
             entityNames.subscription!,
             "peekLock",
@@ -319,11 +325,11 @@ export class ServiceBusTestHelpers {
    *
    * The receiver created by this method will be cleaned up by `afterEach()`
    */
-  getReceiveAndDeleteReceiver(
+  async getReceiveAndDeleteReceiver(
     entityNames: Omit<ReturnType<typeof getEntityNames>, "isPartitioned"> & {
       sessionId?: string | undefined;
     }
-  ): Receiver<ReceivedMessage> {
+  ): Promise<Receiver<ReceivedMessage>> {
     // TODO: we should generate a random ID here - there's no harm in
     // creating as many sessions as we wish. Some tests will need to change.
     const sessionId = entityNames.sessionId ?? TestMessage.sessionId;
@@ -331,10 +337,14 @@ export class ServiceBusTestHelpers {
     if (entityNames.usesSessions) {
       return this.addToCleanup(
         entityNames.queue
-          ? this._serviceBusClient.createSessionReceiver(entityNames.queue, "receiveAndDelete", {
-              sessionId
-            })
-          : this._serviceBusClient.createSessionReceiver(
+          ? await this._serviceBusClient.createSessionReceiver(
+              entityNames.queue,
+              "receiveAndDelete",
+              {
+                sessionId
+              }
+            )
+          : await this._serviceBusClient.createSessionReceiver(
               entityNames.topic!,
               entityNames.subscription!,
               "receiveAndDelete",
@@ -379,7 +389,7 @@ async function purgeForTestClientType(
   testClientType: TestClientType
 ): Promise<void> {
   let receiver: Receiver<ReceivedMessage> | SessionReceiver<ReceivedMessage> | undefined;
-  let entityPaths = getEntityNames(testClientType);
+  const entityPaths = getEntityNames(testClientType);
   let deadLetterReceiver: Receiver<ReceivedMessage>;
 
   if (entityPaths.queue) {

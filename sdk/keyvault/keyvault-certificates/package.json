@@ -85,8 +85,8 @@
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-http": "^1.1.1",
-    "@azure/core-lro": "^1.0.0",
-    "@azure/core-paging": "^1.1.0",
+    "@azure/core-lro": "^1.0.2",
+    "@azure/core-paging": "^1.1.1",
     "@azure/core-tracing": "1.0.0-preview.8",
     "@azure/logger": "^1.0.0",
     "@opentelemetry/api": "^0.6.1",
@@ -148,7 +148,7 @@
     "rollup-plugin-terser": "^5.1.1",
     "rollup-plugin-visualizer": "^3.1.1",
     "source-map-support": "^0.5.9",
-    "typescript": "~3.7.5",
+    "typescript": "~3.8.3",
     "uglify-js": "^3.4.9",
     "url": "^0.11.0"
   }
