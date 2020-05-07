@@ -1,6 +1,6 @@
 # Release History
 
-## 1.1.2 (2020-05-01)
+## 1.1.2 (2020-05-07)
 
 - Fix issue with null/undefined values in array and tabs/space delimiter arrays during sendOperationRequest. [PR #8604](https://github.com/Azure/azure-sdk-for-js/pull/8604)
 
@@ -8,7 +8,6 @@
 
 - Add support for `text/plain` endpoints. [PR #7963](https://github.com/Azure/azure-sdk-for-js/pull/7963)
 - Updated to use OpenTelemetry 0.6.1 via `@azure/core-tracing`.
-
 
 ## 1.1.0 (2020-03-31)
 
