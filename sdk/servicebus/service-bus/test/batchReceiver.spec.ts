@@ -23,6 +23,7 @@ import {
   TestMessage,
   getServiceBusClient
 } from "./utils/testUtils";
+import { Receiver as RheaReceiver } from "rhea-promise";
 const should = chai.should();
 chai.use(chaiAsPromised);
 
@@ -1189,5 +1190,58 @@ describe("Batching - disconnects", function(): void {
     }
     settledMessageCount.should.equal(2, "Unexpected number of settled messages.");
     refreshConnectionCalled.should.be.greaterThan(0, "refreshConnection was not called.");
+  });
+});
+
+describe("Batching - close() respects an in progress init()", () => {
+  afterEach(() => {
+    return afterEachTest();
+  });
+
+  it("close() while init() is happening", async () => {
+    sbClient = getServiceBusClient();
+
+    const { receiverClient, senderClient } = await getSenderReceiverClients(
+      sbClient,
+      TestClientType.UnpartitionedQueue,
+      TestClientType.UnpartitionedQueue
+    );
+
+    // force the link open - doesn't affect our tests below but it does
+    // let me mock out the proper method that I need to prove things are working
+    await senderClient.createSender().open();
+
+    const receiver = receiverClient.createReceiver(ReceiveMode.receiveAndDelete);
+
+    const origReceiverFn = sbClient["_context"].connection["createReceiver"];
+
+    let closePromise: Promise<void> | undefined;
+    let createdReceiver: RheaReceiver | undefined;
+
+    sbClient["_context"].connection["createReceiver"] = async (...options: any) => {
+      // close() will be blocked at this point
+      closePromise = receiver.close();
+
+      const result = await Promise.race([
+        closePromise,
+        delay(2000, "delay_should_win_because_close_is_blocked")
+      ]);
+
+      if (result !== "delay_should_win_because_close_is_blocked") {
+        throw new Error(
+          "FATAL ERROR - test is incorrect because close() was supposed to be blocked but somehow completed"
+        );
+      }
+
+      return await origReceiverFn.apply(sbClient["_context"].connection, [options]);
+    };
+
+    // it's possible for receiveMessages() to throw here because the
+    // connection has been closed. I'm not testing that here.
+    await receiver.receiveMessages(1).catch(() => {});
+    await closePromise;
+
+    // now that we've properly serialized the two calls the receiver that we created will get properly closed.
+    createdReceiver?.isClosed.should.be.true;
   });
 });
