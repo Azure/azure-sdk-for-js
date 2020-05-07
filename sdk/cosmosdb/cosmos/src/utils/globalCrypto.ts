@@ -6,7 +6,7 @@ if (!globalThis) {
 
 const globalCrypto: Crypto = globalRef.crypto || globalRef.msCrypto;
 
-if (!globalCrypto || globalCrypto.subtle) {
+if (!globalCrypto || !globalCrypto.subtle) {
   throw new Error("Browser does not support cryptography functions");
 }
 
