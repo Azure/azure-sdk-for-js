@@ -1,14 +1,12 @@
 # Getting started with samples
 
-**NOTE**: Samples for @azure/service-bus v1.1.x are available [here](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples-v1)
-
 ## Install the library
 
 There are three ways to work with the samples.
 
 - Download the sample package from [docs.microsoft.com/samples](https://docs.microsoft.com/samples) by browsing to the Azure Service Bus product and choosing either JavaScript or TypeScript in the list of languages.
 - Copy the sample file you want to a folder of your choice and use `npm` to install its requisite dependencies, then edit the file to add the necessary credentials and information, finally running it with NodeJS.
-- In case you have cloned this repo, run `npm install` in either the `samples/javascript` or `samples/typescript` folder to install the library as well as other dependencies that are required by some of the samples.
+- In case you have cloned this repo, run `npm install` in either the `samples-v1/javascript` or `samples-v1/typescript` folder to install the library as well as other dependencies that are required by some of the samples.
 
 ## Get connection string for Service Bus & names for Queues/Topics/Subscriptions
 
@@ -24,6 +22,6 @@ Before running any of the samples, update it with the connection string and the 
 
 # Running the Samples
 
-See the instructions in [`samples/javascript/README.md`](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/javascript/) or [`samples/typescript/README.md`](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/) for instructions on running the JavaScript samples or the TypeScript samples respectively.
+See the instructions in [`samples-v1/javascript/README.md`](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples-v1/javascript/) or [`samples-v1/typescript/README.md`](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples-v1/typescript/) for instructions on running the JavaScript samples or the TypeScript samples respectively.
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fservicebus%2Fservice-bus%2Fsamples%2FREADME.png)
