@@ -720,7 +720,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
     }
   }
 ].forEach((testCase) => {
-  describe.only(`createTopic() using different variations to the input parameter "topicOptions"`, function(): void {
+  describe(`createTopic() using different variations to the input parameter "topicOptions"`, function(): void {
     afterEach(async () => {
       await deleteEntity(EntityType.TOPIC, managementTopic1);
     });
