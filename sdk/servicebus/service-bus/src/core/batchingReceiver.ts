@@ -198,7 +198,7 @@ export class BatchingReceiver extends MessageReceiver {
         }
 
         // Drain any pending credits.
-        if (this._receiver && this._receiver.credit > 0) {
+        if (this._receiver && this._receiver.isOpen() && this._receiver.credit > 0) {
           log.batching(
             "[%s] Receiver '%s': Draining leftover credits(%d).",
             this._context.namespace.connectionId,
