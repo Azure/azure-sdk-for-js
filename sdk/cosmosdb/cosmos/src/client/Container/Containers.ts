@@ -19,6 +19,7 @@ import { Container } from "./Container";
 import { ContainerDefinition } from "./ContainerDefinition";
 import { ContainerRequest } from "./ContainerRequest";
 import { ContainerResponse } from "./ContainerResponse";
+import { validateOffer } from "../../utils/offers";
 
 /**
  * Operations for creating new containers, and reading/querying all containers
@@ -110,6 +111,20 @@ export class Containers {
     }
     const path = getPathFromLink(this.database.url, ResourceType.container);
     const id = getIdFromLink(this.database.url);
+
+    const usesAutoscale = validateOffer(body);
+
+    if (usesAutoscale) {
+      const autopilotHeader = JSON.stringify({
+        maxThroughput: body.maxThroughput,
+        autoUpgradePolicy: body.autoUpgradePolicy
+      });
+      options.initialHeaders = Object.assign({}, options.initialHeaders, {
+        [Constants.HttpHeaders.AutopilotSettings]: autopilotHeader
+      });
+      delete body.maxThroughput;
+      delete body.autoUpgradePolicy;
+    }
 
     if (body.throughput) {
       options.initialHeaders = Object.assign({}, options.initialHeaders, {

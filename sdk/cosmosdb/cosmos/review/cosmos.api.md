@@ -194,6 +194,7 @@ export const Constants: {
         MaxResourceQuota: string;
         OfferType: string;
         OfferThroughput: string;
+        AutopilotSettings: string;
         DisableRUPerMinuteUsage: string;
         IsRUPerMinuteUsed: string;
         OfferIsRUPerMinuteThroughputEnabled: string;

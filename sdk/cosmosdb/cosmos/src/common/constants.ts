@@ -121,6 +121,7 @@ export const Constants = {
     // Offer header
     OfferType: "x-ms-offer-type",
     OfferThroughput: "x-ms-offer-throughput",
+    AutopilotSettings: "x-ms-cosmos-offer-autopilot-settings",
 
     // Custom RUs/minute headers
     DisableRUPerMinuteUsage: "x-ms-documentdb-disable-ru-per-minute-usage",
