@@ -24,6 +24,8 @@ import {
   TestMessage,
   getServiceBusClient
 } from "./utils/testUtils";
+import { Receiver as RheaReceiver } from "rhea-promise";
+
 const should = chai.should();
 chai.use(chaiAsPromised);
 
@@ -1197,5 +1199,67 @@ describe("Sessions Streaming - Not receive messages after receiver is closed", f
       ReceiveMode.receiveAndDelete
     );
     await testReceiveMessages();
+  });
+});
+
+describe("Sessions streaming - close() respects an in progress init()", () => {
+  afterEach(() => {
+    return afterEachTest();
+  });
+
+  it("close() while init() is happening", async () => {
+    sbClient = getServiceBusClient();
+
+    const { receiverClient, senderClient } = await getSenderReceiverClients(
+      sbClient,
+      TestClientType.UnpartitionedQueue,
+      TestClientType.UnpartitionedQueue
+    );
+
+    // force the link open - doesn't affect our tests below but it does
+    // let me mock out the proper method that I need to prove things are working
+    await senderClient.createSender().send({
+      body: "hello",
+      sessionId: TestMessage.sessionId
+    });
+
+    const receiver = receiverClient.createReceiver(ReceiveMode.receiveAndDelete, {
+      sessionId: TestMessage.sessionId
+    });
+
+    const origReceiverFn = sbClient["_context"].connection["createReceiver"];
+
+    let closePromise: Promise<void> | undefined;
+    let createdReceiver: RheaReceiver | undefined;
+
+    sbClient["_context"].connection["createReceiver"] = async (options) => {
+      // close() will be blocked at this point
+      closePromise = receiver.close();
+
+      const result = await Promise.race([
+        closePromise,
+        delay(2000, "delay_should_win_because_close_is_blocked")
+      ]);
+
+      if (result !== "delay_should_win_because_close_is_blocked") {
+        throw new Error(
+          "FATAL ERROR - test is incorrect because close() was supposed to be blocked but somehow completed"
+        );
+      }
+
+      createdReceiver = await origReceiverFn.apply(sbClient["_context"].connection, [options]);
+      return createdReceiver;
+    };
+
+    // the sessionreceiver uses the same internal (for initialization) as `receiveMessages`
+    // does so I'm just using that for this test since it doesn't require us to coordinate connection
+    // start, etc...
+    await receiver.receiveMessages(1).catch(() => {});
+
+    // now the close should complete.
+    await closePromise;
+
+    // now that we've properly serialized the two calls the receiver that we created will get properly closed.
+    createdReceiver!.isClosed().should.be.true;
   });
 });

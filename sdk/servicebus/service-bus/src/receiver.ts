@@ -130,11 +130,16 @@ export class Receiver {
       throw new TypeError("The parameter 'onError' must be of type 'function'.");
     }
 
-    StreamingReceiver.create(this._context, {
+    this._context.streamingReceiver = StreamingReceiver.create(this._context, {
       ...options,
       receiveMode: this._receiveMode
-    })
-      .then(async (sReceiver) => {
+    });
+
+    this._context.streamingReceiver
+      ._init()
+      .then(async () => {
+        const sReceiver = this._context.streamingReceiver;
+
         if (!sReceiver) {
           return;
         }
@@ -432,12 +437,16 @@ export class SessionReceiver {
       return;
     }
     this._context.isSessionEnabled = true;
-    this._messageSession = await MessageSession.create(this._context, {
+
+    this._messageSession = MessageSession.create(this._context, {
       sessionId: this._sessionOptions.sessionId,
       maxSessionAutoRenewLockDurationInSeconds: this._sessionOptions
         .maxSessionAutoRenewLockDurationInSeconds,
       receiveMode: this._receiveMode
     });
+
+    await this._messageSession._init();
+
     // By this point, we should have a valid sessionId on the messageSession
     // If not, the receiver cannot be used, so throw error.
     if (this._messageSession.sessionId == null) {

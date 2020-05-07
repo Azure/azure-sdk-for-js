@@ -1193,7 +1193,7 @@ describe("Batching - disconnects", function(): void {
   });
 });
 
-describe.only("Batching - close() respects an in progress init()", () => {
+describe("Batching - close() respects an in progress init()", () => {
   afterEach(() => {
     return afterEachTest();
   });

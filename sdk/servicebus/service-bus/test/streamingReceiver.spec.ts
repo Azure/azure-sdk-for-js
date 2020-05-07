@@ -1422,34 +1422,44 @@ describe("Streaming - close() respects an in progress init()", () => {
     let closePromise: Promise<void> | undefined;
     let createdReceiver: RheaReceiver | undefined;
 
-    sbClient["_context"].connection["createReceiver"] = async (options) => {
-      // close() will be blocked at this point
-      closePromise = receiver.close();
+    const createReceiverPromise = new Promise((resolve) => {
+      sbClient["_context"].connection["createReceiver"] = async (options) => {
+        resolve();
 
-      const result = await Promise.race([
-        closePromise,
-        delay(2000, "delay_should_win_because_close_is_blocked")
-      ]);
+        // close() will be blocked at this point
+        closePromise = receiver.close();
 
-      if (result !== "delay_should_win_because_close_is_blocked") {
-        throw new Error(
-          "FATAL ERROR - test is incorrect because close() was supposed to be blocked but somehow completed"
-        );
-      }
+        const result = await Promise.race([
+          closePromise,
+          delay(2000, "delay_should_win_because_close_is_blocked")
+        ]);
 
-      createdReceiver = await origReceiverFn.call(sbClient["_context"].connection, options);
-      return createdReceiver;
-    };
+        if (result !== "delay_should_win_because_close_is_blocked") {
+          console.log(`result = ${result}`);
+          throw new Error(
+            "FATAL ERROR - test is incorrect because close() was supposed to be blocked but somehow completed"
+          );
+        }
+
+        createdReceiver = await origReceiverFn.call(sbClient["_context"].connection, options);
+        return createdReceiver;
+      };
+    });
 
     receiver.registerMessageHandler(
       async () => {},
       () => {}
     );
 
+    // we already do a good cut-off here if they close before the initialization even happens
+    // this test makes sure that if they call close() while we're mid-init that the created
+    // receiver is properly tracked and closed.
+    await createReceiverPromise;
+
     // now the close should complete.
     await closePromise;
 
     // now that we've properly serialized the two calls the receiver that we created will get properly closed.
-    createdReceiver?.isClosed.should.be.true;
+    createdReceiver!.isClosed().should.be.true;
   });
 });

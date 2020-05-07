@@ -123,11 +123,13 @@ export class SessionManager {
           }
         };
         // Create the MessageSession.
-        const messageSession = await MessageSession.create(this._context, {
+        const messageSession = MessageSession.create(this._context, {
           sessionId: undefined,
           callee: SessionCallee.sessionManager,
           ...options
         });
+
+        await messageSession._init();
 
         messageSession.newMessageWaitTimeoutInSeconds = options.newMessageWaitTimeoutInSeconds;
 
@@ -258,7 +260,7 @@ export class SessionManager {
    */
   close(): void {
     log.sessionManager(
-      "[%s] Closing the SessionMaanger for entity '%s'.",
+      "[%s] Closing the SessionManager for entity '%s'.",
       this._context.namespace.connectionId,
       this._context.entityPath
     );

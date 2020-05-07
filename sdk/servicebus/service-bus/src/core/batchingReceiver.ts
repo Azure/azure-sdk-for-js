@@ -13,7 +13,7 @@ import {
   OnAmqpEventAsPromise
 } from "./messageReceiver";
 import { ClientEntityContext } from "../clientEntityContext";
-import { throwErrorIfConnectionClosed, getReceiverClosedErrorMsg } from "../util/errors";
+import { throwErrorIfConnectionClosed } from "../util/errors";
 
 /**
  * Describes the batching receiver where the user can receive a specified number of messages for
@@ -422,17 +422,10 @@ export class BatchingReceiver extends MessageReceiver {
         });
         this._init(rcvrOptions)
           .then(() => {
-            // there's a really small window here where the receiver can be closed
-            // just after .init() but before this.
             if (this._receiver == null) {
-              const errorMessage = getReceiverClosedErrorMsg(
-                this._context.entityPath,
-                this._context.clientType,
-                this._context.isClosed,
-                undefined
-              );
-
-              throw new Error(errorMessage);
+              // there's a really small window here where the receiver can be closed
+              // if that happens we'll just resolve to an empty array of messages.
+              return resolve([]);
             }
 
             this._receiver.on(ReceiverEvents.receiverDrained, onReceiveDrain);

@@ -764,7 +764,7 @@ export class MessageReceiver extends LinkEntity {
    *
    * @returns {Promise<void>} Promise<void>.
    */
-  protected async _init(options?: ReceiverOptions): Promise<void> {
+  async _init(options?: ReceiverOptions): Promise<void> {
     const connectionId = this._context.namespace.connectionId;
     try {
       if (!this.isOpen() && !this.isConnecting) {
@@ -781,7 +781,7 @@ export class MessageReceiver extends LinkEntity {
         }
 
         await defaultLock.acquire(this._openLock, async () => {
-          if (this.wasCloseInitiated) {
+          if (this.wasCloseInitiated || this.isOpen()) {
             return;
           }
 
