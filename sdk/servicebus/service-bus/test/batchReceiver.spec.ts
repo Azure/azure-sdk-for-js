@@ -1193,7 +1193,7 @@ describe("Batching - disconnects", function(): void {
   });
 });
 
-describe("Batching - close() respects an in progress init()", () => {
+describe.only("Batching - close() respects an in progress init()", () => {
   afterEach(() => {
     return afterEachTest();
   });
@@ -1233,7 +1233,8 @@ describe("Batching - close() respects an in progress init()", () => {
         );
       }
 
-      return await origReceiverFn.apply(sbClient["_context"].connection, [options]);
+      createdReceiver = await origReceiverFn.apply(sbClient["_context"].connection, [options]);
+      return createdReceiver;
     };
 
     // it's possible for receiveMessages() to throw here because the
@@ -1242,6 +1243,6 @@ describe("Batching - close() respects an in progress init()", () => {
     await closePromise;
 
     // now that we've properly serialized the two calls the receiver that we created will get properly closed.
-    createdReceiver?.isClosed.should.be.true;
+    createdReceiver!.isClosed().should.be.true;
   });
 });
