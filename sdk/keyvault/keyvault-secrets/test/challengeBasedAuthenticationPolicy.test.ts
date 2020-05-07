@@ -11,11 +11,6 @@ import {
   AuthenticationChallenge
 } from "../src/core/challengeBasedAuthenticationPolicy";
 
-// Following the philosophy of not testing the insides if we can test the outsides...
-// I present you with this "Get Out of Jail Free" card (in reference to Monopoly).
-// Once we move to a common folder, and after some refactoring,
-// we will be able to unit test the insides in detail.
-
 describe("Challenge based authentication tests", () => {
   const secretPrefix = `challengeAuth${env.KEY_NAME || "SecretName"}`;
   let secretSuffix: string;
