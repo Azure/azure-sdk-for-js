@@ -311,7 +311,7 @@ export class ServiceBusClient {
    * If the message is not settled during this time it becomes available to other receivers.
    *
    * @param queueName The name of the queue to receive from.
-   * @param receiveMode The receive mode.
+   * @param receiveMode The receive mode, defaulted to peekLock.
    */
   createDeadLetterReceiver(
     queueName: string,
@@ -324,7 +324,7 @@ export class ServiceBusClient {
    * received.
    *
    * @param queueName The name of the queue to receive from.
-   * @param receiveMode The receive mode.
+   * @param receiveMode The receive mode, defaulted to receiveAndDelete.
    */
   createDeadLetterReceiver(
     queueName: string,
@@ -340,7 +340,7 @@ export class ServiceBusClient {
    *
    * @param topicName Name of the topic for the subscription we want to receive from.
    * @param subscriptionName Name of the subscription (under the `topic`) that we want to receive from.
-   * @param receiveMode The receive mode.
+   * @param receiveMode The receive mode, defaulted to peekLock.
    */
   createDeadLetterReceiver(
     topicName: string,
@@ -355,7 +355,7 @@ export class ServiceBusClient {
    *
    * @param topicName Name of the topic for the subscription we want to receive from.
    * @param subscriptionName Name of the subscription (under the `topic`) that we want to receive from.
-   * @param receiveMode The receive mode.
+   * @param receiveMode The receive mode, defaulted to receiveAndDelete.
    */
   createDeadLetterReceiver(
     topicName: string,
