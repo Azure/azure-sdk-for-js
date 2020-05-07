@@ -84,7 +84,8 @@ export class ServiceBusClient {
    * In peekLock mode, the receiver has a lock on the message for the duration specified on the
    * queue or subscription.
    *
-   * If the message is not settled during this time it becomes available to other receivers.
+   * Messages that are not settled will be redelivered as many times as the max delivery count
+   * set on the queue or subscription.
    *
    * You can settle a message by calling complete(), abandon(), defer() or deadletter() methods on
    * the message.
@@ -96,8 +97,7 @@ export class ServiceBusClient {
   /**
    * Creates a receiver for an Azure Service Bus queue in receiveAndDelete mode.
    *
-   * In receiveAndDelete mode, messages are automatically removed from Service Bus as they are
-   * received.
+   * In receiveAndDelete mode, messages are deleted from Service Bus as they are received.
    *
    * @param queueName The name of the queue to receive from.
    * @param receiveMode The receive mode, defaulted to receiveAndDelete.
@@ -109,7 +109,8 @@ export class ServiceBusClient {
    * In peekLock mode, the receiver has a lock on the message for the duration specified on the
    * queue or subscription.
    *
-   * If the message is not settled during this time it becomes available to other receivers.
+   * Messages that are not settled will be redelivered as many times as the max delivery count
+   * set on the queue or subscription.
    *
    * You can settle a message by calling complete(), abandon(), defer() or deadletter() methods on
    * the message.
@@ -126,8 +127,7 @@ export class ServiceBusClient {
   /**
    * Creates a receiver for an Azure Service Bus subscription in receiveAndDelete mode.
    *
-   * In receiveAndDelete mode, messages are automatically removed from Service Bus as they are
-   * received.
+   * In receiveAndDelete mode, messages are deleted from Service Bus as they are received.
    *
    * @param topicName Name of the topic for the subscription we want to receive from.
    * @param subscriptionName Name of the subscription (under the `topic`) that we want to receive from.
@@ -179,7 +179,8 @@ export class ServiceBusClient {
    * In peekLock mode, the receiver has a lock on the message for the duration specified on the
    * queue or subscription.
    *
-   * If the message is not settled during this time it becomes available to other receivers.
+   * Messages that are not settled will be redelivered as many times as the max delivery count
+   * set on the queue or subscription.
    *
    * You can settle a message by calling complete(), abandon(), defer() or deadletter() methods on
    * the message.
@@ -196,8 +197,7 @@ export class ServiceBusClient {
   /**
    * Creates a receiver for an Azure Service Bus queue in receiveAndDelete mode.
    *
-   * In receiveAndDelete mode, messages are automatically removed from Service Bus as they are
-   * received.
+   * In receiveAndDelete mode, messages are deleted from Service Bus as they are received.
    *
    * @param queueName The name of the queue to receive from.
    * @param receiveMode The receive mode, defaulted to receiveAndDelete.
@@ -214,7 +214,8 @@ export class ServiceBusClient {
    * In peekLock mode, the receiver has a lock on the message for the duration specified on the
    * queue or subscription.
    *
-   * If the message is not settled during this time it becomes available to other receivers.
+   * Messages that are not settled will be redelivered as many times as the max delivery count
+   * set on the queue or subscription.
    *
    * You can settle a message by calling complete(), abandon(), defer() or deadletter() methods on
    * the message.
@@ -233,8 +234,7 @@ export class ServiceBusClient {
   /**
    * Creates a receiver for an Azure Service Bus subscription in receiveAndDelete mode.
    *
-   * In receiveAndDelete mode, messages are automatically removed from Service Bus as they are
-   * received.
+   * In receiveAndDelete mode, messages are deleted from Service Bus as they are received.
    *
    * @param topicName Name of the topic for the subscription we want to receive from.
    * @param subscriptionName Name of the subscription (under the `topic`) that we want to receive from.
@@ -320,7 +320,8 @@ export class ServiceBusClient {
    * In peekLock mode, the receiver has a lock on the message for the duration specified on the
    * queue or subscription.
    *
-   * If the message is not settled during this time it becomes available to other receivers.
+   * Messages that are not settled will be redelivered as many times as the max delivery count
+   * set on the queue or subscription.
    *
    * You can settle a message by calling complete(), abandon(), defer() or deadletter() methods on
    * the message.
@@ -335,8 +336,7 @@ export class ServiceBusClient {
   /**
    * Creates a receiver for an Azure Service Bus queue's dead letter queue in receiveAndDelete mode.
    *
-   * In receiveAndDelete mode, messages are automatically removed from Service Bus as they are
-   * received.
+   * In receiveAndDelete mode, messages are deleted from Service Bus as they are received.
    *
    * @param queueName The name of the queue to receive from.
    * @param receiveMode The receive mode, defaulted to receiveAndDelete.
@@ -351,7 +351,8 @@ export class ServiceBusClient {
    * In peekLock mode, the receiver has a lock on the message for the duration specified on the
    * queue or subscription.
    *
-   * If the message is not settled during this time it becomes available to other receivers.
+   * Messages that are not settled will be redelivered as many times as the max delivery count
+   * set on the queue or subscription.
    *
    * You can settle a message by calling complete(), abandon(), defer() or deadletter() methods on
    * the message.
@@ -368,8 +369,7 @@ export class ServiceBusClient {
   /**
    * Creates a receiver for an Azure Service Bus subscription's dead letter queue in receiveAndDelete mode.
    *
-   * In receiveAndDelete mode, messages are automatically removed from Service Bus as they are
-   * received.
+   * In receiveAndDelete mode, messages are deleted from Service Bus as they are received.
    *
    * @param topicName Name of the topic for the subscription we want to receive from.
    * @param subscriptionName Name of the subscription (under the `topic`) that we want to receive from.
