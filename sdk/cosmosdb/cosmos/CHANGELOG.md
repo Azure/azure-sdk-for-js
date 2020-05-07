@@ -2,8 +2,8 @@
 
 ## 3.7.0 (Unreleased)
 
-- FEATURE: Allows string value `partitionKey` parameter when creating containers
 - BUGFIX: Support crypto functions in Internet Explorer browser
+- FEATURE: Allows string value `partitionKey` parameter when creating containers
 
 The following result in the same behavior:
 
@@ -25,6 +25,37 @@ const containerDefinition = {
   partitionKey: "/key" } // must have leading slash "/"
 };
 database.container.create(containerDefinition);
+```
+
+- FEATURE: Adds support for autopilot parameters on container and database create methods
+
+Note that maxThroughput and autoUpgradePolicy must be specified together, and cannot be passed with `throughput`
+
+```js
+// correct
+const containerDefintion = {
+  id: "sample container",
+  indexingPolicy: { indexingMode: IndexingMode.consistent },
+  maxThroughput: 500,
+  autoUpgradePolicy: {
+    throughputPolicy: {
+      incrementPercent: 15
+    }
+  }
+};
+
+// incorrect
+const containerDefintion = {
+  id: "sample container",
+  indexingPolicy: { indexingMode: IndexingMode.consistent },
+  throughput: 500, // do not specify throughput with autopilot params
+  maxThroughput: 500,
+  autoUpgradePolicy: {
+    throughputPolicy: {
+      incrementPercent: 15
+    }
+  }
+};
 ```
 
 ## 3.6.3 (2020-4-08)
