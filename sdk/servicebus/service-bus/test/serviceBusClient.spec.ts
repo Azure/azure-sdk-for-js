@@ -71,7 +71,7 @@ describe("Random scheme in the endpoint from connection string", function(): voi
   async function beforeEachTest(testClientType: TestClientType) {
     sbClient = createServiceBusClientForTests();
     entities = await sbClient.test.createTestEntities(testClientType);
-    await sbClient.close();
+    await sbClient.test.after();
     sbClientWithRelaxedEndPoint = new ServiceBusClient(
       getEnvVars().SERVICEBUS_CONNECTION_STRING.replace("sb://", "CheeseBurger://")
     );
@@ -204,8 +204,9 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
     sbClient = createServiceBusClientForTests();
     errorWasThrown = false;
   });
-  afterEach(() => {
-    return sbClient.test.afterEach();
+  afterEach(async () => {
+    await sbClient.test.afterEach();
+    await sbClient.test.after();
   });
 
   const testError = (err: Error | MessagingError, entityPath: string): void => {
@@ -408,8 +409,9 @@ describe("Errors after close()", function(): void {
   let entityName: EntityName;
   // let subscriptionClient: SubscriptionRuleManager;
 
-  afterEach(() => {
-    return sbClient.test.afterEach();
+  afterEach(async () => {
+    await sbClient.test.afterEach();
+    await sbClient.test.after();
   });
 
   async function beforeEachTest(entityType: TestClientType, entityToClose: string): Promise<void> {
