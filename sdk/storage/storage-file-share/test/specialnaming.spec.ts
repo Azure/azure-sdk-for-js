@@ -6,7 +6,7 @@ import { ShareDirectoryClient } from "../src/ShareDirectoryClient";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
 import { ShareClient } from "../src";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("Special Naming Tests", () => {
   let shareName: string;

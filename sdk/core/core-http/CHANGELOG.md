@@ -1,7 +1,8 @@
 # Release History
 
-## 1.1.2 (Unreleased)
+## 1.1.2 (2020-05-01)
 
+- Fix issue with null/undefined values in array and tabs/space delimiter arrays during sendOperationRequest. [PR #8604](https://github.com/Azure/azure-sdk-for-js/pull/8604)
 
 ## 1.1.1 (2020-04-28)
 

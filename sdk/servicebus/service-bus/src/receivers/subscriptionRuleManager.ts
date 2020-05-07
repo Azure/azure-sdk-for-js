@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { RuleDescription, CorrelationFilter } from "../core/managementClient";
 import { throwErrorIfClientOrConnectionClosed } from "../util/errors";
@@ -8,10 +8,12 @@ import { retry, RetryOperationType, RetryConfig, RetryOptions } from "@azure/cor
 import { OperationOptions } from "../modelsToBeSharedWithEventHubs";
 
 /**
+ * @internal
+ * @ignore
  * Manages rules for subscriptions.
  * More information about subscription rules can be found here: https://docs.microsoft.com/en-us/azure/service-bus-messaging/topic-filters
  */
-export interface SubscriptionRuleManager {
+interface SubscriptionRuleManager {
   /**
    * Gets all rules associated with the subscription
    * @param options - Options bag to pass an abort signal or tracing options.

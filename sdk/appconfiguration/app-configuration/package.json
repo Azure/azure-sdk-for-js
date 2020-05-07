@@ -75,7 +75,7 @@
   "dependencies": {
     "@azure/core-asynciterator-polyfill": "^1.0.0",
     "@azure/core-http": "^1.1.1",
-    "@azure/core-paging": "^1.1.0",
+    "@azure/core-paging": "^1.1.1",
     "@azure/core-tracing": "1.0.0-preview.8",
     "@opentelemetry/api": "^0.6.1",
     "tslib": "^1.10.0"
@@ -112,7 +112,7 @@
     "rollup-plugin-terser": "^5.1.1",
     "sinon": "^7.1.0",
     "ts-node": "^8.3.0",
-    "typescript": "~3.7.5",
+    "typescript": "~3.8.3",
     "uglify-js": "^3.4.9",
     "@rollup/plugin-json": "^4.0.0"
   }

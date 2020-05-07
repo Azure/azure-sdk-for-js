@@ -20,8 +20,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 // Define connection string and related Service Bus entity names here
-const connectionString =
-  process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
+const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
 const sbClient: ServiceBusClient = new ServiceBusClient(connectionString);
@@ -58,20 +57,17 @@ async function processDeadletterMessageQueue() {
 // Send repaired message back to the current queue / topic
 async function fixAndResendMessage(oldMessage: ServiceBusMessage) {
   // createSender() can also be used to create a sender for a topic.
-  const sender = sbClient.createSender(queueName);
+  const sender = await sbClient.createSender(queueName);
 
   // Inspect given message and make any changes if necessary
   const repairedMessage = { ...oldMessage };
 
-  console.log(
-    ">>>>> Cloning the message from DLQ and resending it - ",
-    oldMessage.body
-  );
+  console.log(">>>>> Cloning the message from DLQ and resending it - ", oldMessage.body);
 
   await sender.send(repairedMessage);
   await sender.close();
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.log("Error occurred: ", err);
 });

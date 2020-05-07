@@ -19,7 +19,7 @@ import {
   BlobServiceClient
 } from "../src";
 import { Test_CPK_INFO } from "./utils/constants";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("BlobClient", () => {
   let blobServiceClient: BlobServiceClient;

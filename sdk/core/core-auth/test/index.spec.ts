@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See License.txt in the project root for license information.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import assert from "assert";
 
@@ -64,8 +64,12 @@ describe("isTokenCredential", function() {
   it("should return false for an object that has a 'signRequest' field and getToken that takes no parameters", () => {
     assert.strictEqual(
       isTokenCredential({
-        getToken: function() {},
-        signRequest: function() {}
+        getToken: function(): number {
+          return 1;
+        },
+        signRequest: function(): number {
+          return 1;
+        }
       }),
       false
     );
@@ -74,8 +78,12 @@ describe("isTokenCredential", function() {
   it("should return true for an object that has a 'signRequest' field and getToken that takes parameters", () => {
     assert.strictEqual(
       isTokenCredential({
-        getToken: function(_scope: string) {},
-        signRequest: function() {}
+        getToken: function(scope: string): string {
+          return scope;
+        },
+        signRequest: function(): number {
+          return 1;
+        }
       }),
       true
     );

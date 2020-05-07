@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { EventData } from "./eventData";
 import { EventHubSender } from "./eventHubSender";
@@ -50,7 +50,7 @@ export class EventHubProducer {
   private _eventHubSender: EventHubSender | undefined;
 
   private _eventHubName: string;
-  private _endpoint: string;
+  private _fullyQualifiedNamespace: string;
 
   /**
    * @property Returns `true` if either the producer or the client that created it has been closed.
@@ -69,7 +69,7 @@ export class EventHubProducer {
    */
   constructor(
     eventHubName: string,
-    endpoint: string,
+    fullyQualifiedNamespace: string,
     context: ConnectionContext,
     options?: EventHubProducerOptions
   ) {
@@ -81,7 +81,7 @@ export class EventHubProducer {
         : undefined;
     this._eventHubSender = EventHubSender.create(this._context, partitionId);
     this._eventHubName = eventHubName;
-    this._endpoint = endpoint;
+    this._fullyQualifiedNamespace = fullyQualifiedNamespace;
   }
 
   /**
@@ -197,7 +197,10 @@ export class EventHubProducer {
       spanContextsToLink = eventData._messageSpanContexts;
     }
 
-    const sendSpan = this._createSendSpan(getParentSpan(options.tracingOptions), spanContextsToLink);
+    const sendSpan = this._createSendSpan(
+      getParentSpan(options.tracingOptions),
+      spanContextsToLink
+    );
 
     try {
       const result = await this._eventHubSender!.send(eventData, {
@@ -262,7 +265,7 @@ export class EventHubProducer {
 
     span.setAttribute("az.namespace", "Microsoft.EventHub");
     span.setAttribute("message_bus.destination", this._eventHubName);
-    span.setAttribute("peer.address", this._endpoint);
+    span.setAttribute("peer.address", this._fullyQualifiedNamespace);
 
     return span;
   }

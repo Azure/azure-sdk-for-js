@@ -6,7 +6,7 @@ import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 import { URLBuilder, RestError } from "@azure/core-http";
 import { Recorder, record } from "@azure/test-utils-recorder";
 import { recorderEnvSetup } from "./utils/testutils.common";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("QueueClient", () => {
   let queueServiceClient: QueueServiceClient;

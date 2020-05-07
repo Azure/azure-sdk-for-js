@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { CloseReason, ReceivedEventData, EventHubProducerClient } from "../../src/";
 import {
   SubscriptionEventHandlers,
@@ -148,7 +151,7 @@ export class ReceivedMessagesTester implements Required<SubscriptionEventHandler
       });
     }
 
-    let lastExpectedMessageCount = this.expectedMessageBodies.size;
+    const lastExpectedMessageCount = this.expectedMessageBodies.size;
 
     for (const messageToSend of messagesToSend) {
       const batch = await client.createBatch({ partitionId: messageToSend.partitionId });

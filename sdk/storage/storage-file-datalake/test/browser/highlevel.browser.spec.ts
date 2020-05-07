@@ -14,7 +14,7 @@ import {
 import { MB } from "../../src/utils/constants";
 import { AbortController } from "@azure/abort-controller";
 
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("Highlevel browser only", () => {
   let fileSystemName: string;

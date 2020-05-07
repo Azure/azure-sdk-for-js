@@ -15,7 +15,7 @@ import {
   BlobServiceClient
 } from "../src";
 import { record, Recorder } from "@azure/test-utils-recorder";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("PageBlobClient", () => {
   let blobServiceClient: BlobServiceClient;

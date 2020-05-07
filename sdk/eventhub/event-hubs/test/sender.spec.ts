@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import chai from "chai";
 const should = chai.should();
@@ -11,13 +11,19 @@ import {
   EventData,
   EventHubProducerClient,
   EventHubConsumerClient,
-  ReceivedEventData
+  ReceivedEventData,
+  EventPosition
 } from "../src";
 import { EventHubClient } from "../src/impl/eventHubClient";
 import { SendOptions, SendBatchOptions } from "../src/models/public";
-import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
+import {
+  EnvVarKeys,
+  getEnvVars,
+  getStartingPositionsForTests,
+  setTracerForTest
+} from "./utils/testUtils";
 import { AbortController } from "@azure/abort-controller";
-import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
+import { SpanGraph, TestSpan } from "@azure/core-tracing";
 import { TRACEPARENT_PROPERTY } from "../src/diagnostics/instrumentEventData";
 import { EventHubProducer } from "../src/sender";
 import { SubscriptionHandlerForTests } from "./utils/subscriptionHandlerForTests";
@@ -118,8 +124,7 @@ describe("EventHub Sender", function(): void {
     });
 
     it("can be manually traced", async function(): Promise<void> {
-      const tracer = new TestTracer();
-      setTracer(tracer);
+      const { tracer, resetTracer } = setTracerForTest();
 
       const rootSpan = tracer.startSpan("root");
 
@@ -164,6 +169,7 @@ describe("EventHub Sender", function(): void {
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
 
       await producer.close();
+      resetTracer();
     });
   });
 
@@ -276,6 +282,24 @@ describe("EventHub Sender", function(): void {
       consumerClient.close();
     });
 
+    describe("tryAdd", function() {
+      it("doesn't grow if invalid events are added", async () => {
+        const batch = await producerClient.createBatch({ maxSizeInBytes: 20 });
+        const event = { body: Buffer.alloc(30).toString() };
+
+        const numToAdd = 5;
+        let failures = 0;
+        for (let i = 0; i < numToAdd; i++) {
+          if (!batch.tryAdd(event)) {
+            failures++;
+          }
+        }
+
+        failures.should.equal(5);
+        batch.sizeInBytes.should.equal(0);
+      });
+    });
+
     it("should be sent successfully", async function(): Promise<void> {
       const list = ["Albert", `${Buffer.from("Mike".repeat(1300000))}`, "Marie"];
 
@@ -288,7 +312,7 @@ describe("EventHub Sender", function(): void {
       batch.maxSizeInBytes.should.be.gt(0);
 
       batch.tryAdd({ body: list[0] }).should.be.ok;
-      batch.tryAdd({ body: list[1] }).should.not.be.ok; //The Mike message will be rejected - it's over the limit.
+      batch.tryAdd({ body: list[1] }).should.not.be.ok; // The Mike message will be rejected - it's over the limit.
       batch.tryAdd({ body: list[2] }).should.be.ok; // Marie should get added";
 
       const {
@@ -317,9 +341,71 @@ describe("EventHub Sender", function(): void {
       );
     });
 
+    it("should be sent successfully with properties", async function(): Promise<void> {
+      const properties = { test: "super" };
+      const list = [
+        { body: "Albert-With-Properties", properties },
+        { body: "Mike-With-Properties", properties },
+        { body: "Marie-With-Properties", properties }
+      ];
+
+      const batch = await producerClient.createBatch({
+        partitionId: "0"
+      });
+
+      batch.maxSizeInBytes.should.be.gt(0);
+
+      batch.tryAdd(list[0]).should.be.ok;
+      batch.tryAdd(list[1]).should.be.ok;
+      batch.tryAdd(list[2]).should.be.ok;
+
+      const receivedEvents: ReceivedEventData[] = [];
+      let waitUntilEventsReceivedResolver: Function;
+      const waitUntilEventsReceived = new Promise((r) => (waitUntilEventsReceivedResolver = r));
+
+      const sequenceNumber = (await consumerClient.getPartitionProperties("0"))
+        .lastEnqueuedSequenceNumber;
+
+      const subscriber = consumerClient.subscribe(
+        "0",
+        {
+          async processError() {},
+          async processEvents(events) {
+            receivedEvents.push(...events);
+            if (receivedEvents.length >= 3) {
+              waitUntilEventsReceivedResolver();
+            }
+          }
+        },
+        {
+          startPosition: {
+            sequenceNumber
+          },
+          maxBatchSize: 3
+        }
+      );
+
+      await producerClient.sendBatch(batch);
+      await waitUntilEventsReceived;
+      await subscriber.close();
+
+      sequenceNumber.should.be.lessThan(receivedEvents[0].sequenceNumber);
+      sequenceNumber.should.be.lessThan(receivedEvents[1].sequenceNumber);
+      sequenceNumber.should.be.lessThan(receivedEvents[2].sequenceNumber);
+
+      [list[0], list[1], list[2]].should.be.deep.eq(
+        receivedEvents.map((event) => {
+          return {
+            body: event.body,
+            properties: event.properties
+          };
+        }),
+        "Received messages should be equal to our sent messages"
+      );
+    });
+
     it("can be manually traced", async function(): Promise<void> {
-      const tracer = new TestTracer();
-      setTracer(tracer);
+      const { tracer, resetTracer } = setTracerForTest();
 
       const rootSpan = tracer.startSpan("root");
 
@@ -359,11 +445,11 @@ describe("EventHub Sender", function(): void {
 
       tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
+      resetTracer();
     });
 
     it("will not instrument already instrumented events", async function(): Promise<void> {
-      const tracer = new TestTracer();
-      setTracer(tracer);
+      const { tracer, resetTracer } = setTracerForTest();
 
       const rootSpan = tracer.startSpan("test");
 
@@ -410,11 +496,11 @@ describe("EventHub Sender", function(): void {
 
       tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
+      resetTracer();
     });
 
     it("will support tracing batch and send", async function(): Promise<void> {
-      const tracer = new TestTracer();
-      setTracer(tracer);
+      const { tracer, resetTracer } = setTracerForTest();
 
       const rootSpan = tracer.startSpan("root");
 
@@ -463,6 +549,7 @@ describe("EventHub Sender", function(): void {
 
       tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
+      resetTracer();
     });
 
     it("with partition key should be sent successfully.", async function(): Promise<void> {
@@ -500,7 +587,7 @@ describe("EventHub Sender", function(): void {
     it("should throw when maxMessageSize is greater than maximum message size on the AMQP sender link", async function(): Promise<
       void
     > {
-      let newClient: EventHubProducerClient = new EventHubProducerClient(
+      const newClient: EventHubProducerClient = new EventHubProducerClient(
         service.connectionString,
         service.path
       );
@@ -703,8 +790,7 @@ describe("EventHub Sender", function(): void {
     });
 
     it("can be manually traced", async function(): Promise<void> {
-      const tracer = new TestTracer();
-      setTracer(tracer);
+      const { tracer, resetTracer } = setTracerForTest();
 
       const rootSpan = tracer.startSpan("root");
 
@@ -765,11 +851,11 @@ describe("EventHub Sender", function(): void {
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
 
       await producer.close();
+      resetTracer();
     });
 
     it("skips already instrumented events when manually traced", async function(): Promise<void> {
-      const tracer = new TestTracer();
-      setTracer(tracer);
+      const { tracer, resetTracer } = setTracerForTest();
 
       const rootSpan = tracer.startSpan("root");
 
@@ -827,17 +913,22 @@ describe("EventHub Sender", function(): void {
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
 
       await producer.close();
+      resetTracer();
     });
   });
 
   describe("Array of events", function() {
     let consumerClient: EventHubConsumerClient;
-    beforeEach(() => {
+    let startPosition: { [partitionId: string]: EventPosition };
+
+    beforeEach(async () => {
       consumerClient = new EventHubConsumerClient(
         EventHubConsumerClient.defaultConsumerGroupName,
         service.connectionString,
         service.path
       );
+
+      startPosition = await getStartingPositionsForTests(consumerClient);
     });
 
     afterEach(() => {
@@ -848,6 +939,7 @@ describe("EventHub Sender", function(): void {
       const data: EventData[] = [{ body: "Hello World 1" }, { body: "Hello World 2" }];
       const receivedEvents: ReceivedEventData[] = [];
       let receivingResolver: Function;
+
       const receivingPromise = new Promise((r) => (receivingResolver = r));
       const subscription = consumerClient.subscribe(
         {
@@ -858,7 +950,7 @@ describe("EventHub Sender", function(): void {
           }
         },
         {
-          startPosition: { enqueuedOn: new Date(), isInclusive: true },
+          startPosition,
           maxBatchSize: data.length
         }
       );
@@ -886,7 +978,7 @@ describe("EventHub Sender", function(): void {
           }
         },
         {
-          startPosition: { enqueuedOn: new Date(), isInclusive: true },
+          startPosition,
           maxBatchSize: data.length
         }
       );
@@ -919,7 +1011,7 @@ describe("EventHub Sender", function(): void {
           }
         },
         {
-          startPosition: { enqueuedOn: new Date(), isInclusive: true },
+          startPosition,
           maxBatchSize: data.length
         }
       );
@@ -937,8 +1029,7 @@ describe("EventHub Sender", function(): void {
     });
 
     it("can be manually traced", async function(): Promise<void> {
-      const tracer = new TestTracer();
-      setTracer(tracer);
+      const { tracer, resetTracer } = setTracerForTest();
 
       const rootSpan = tracer.startSpan("root");
 
@@ -995,11 +1086,21 @@ describe("EventHub Sender", function(): void {
 
       tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
+
+      const knownSendSpans = tracer
+        .getKnownSpans()
+        .filter((span: TestSpan) => span.name === "Azure.EventHubs.send");
+      knownSendSpans.length.should.equal(1, "There should have been one send span.");
+      knownSendSpans[0].attributes.should.deep.equal({
+        "az.namespace": "Microsoft.EventHub",
+        "message_bus.destination": producerClient.eventHubName,
+        "peer.address": producerClient.fullyQualifiedNamespace
+      });
+      resetTracer();
     });
 
     it("skips already instrumented events when manually traced", async function(): Promise<void> {
-      const tracer = new TestTracer();
-      setTracer(tracer);
+      const { tracer, resetTracer } = setTracerForTest();
 
       const rootSpan = tracer.startSpan("root");
 
@@ -1053,6 +1154,7 @@ describe("EventHub Sender", function(): void {
 
       tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
+      resetTracer();
     });
   });
 

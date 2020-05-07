@@ -19,7 +19,6 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [advanced/processMessageFromDLQ.ts][advanced-processmessagefromdlq] | retrieves a message from a dead-letter queue, edits it, and sends it back to the main queue                                    |
 | [advanced/sessionRoundRobin.ts][advanced-session-round-robin]       | uses `SessionReceiver`'s ability to get the next available session to round-robin through all sessions in a Queue/Subscription |
 | [advanced/sessionState.ts][advanced-sessionstate]                   | uses a "shopping cart" example to demonstrate how SessionState information can be read and maintained in an application        |
-| [advanced/topicFilters.ts][advanced-topicfilters]                   | use topic subscriptions and filters for splitting up a message stream into multiple streams based on message properties        |
 
 ## Prerequisites
 
@@ -82,7 +81,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [advanced-processmessagefromdlq]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/src/advanced/processMessageFromDLQ.ts
 [advanced-sessionstate]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/src/advanced/sessionState.ts
 [advanced-session-round-robin]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/src/advanced/sessionRoundRobin.ts
-[advanced-topicfilters]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/src/advanced/topicFilters.ts
 [sendmessages]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/src/sendMessages.ts
 [serviceprincipallogin]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/src/servicePrincipalLogin.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/service-bus
