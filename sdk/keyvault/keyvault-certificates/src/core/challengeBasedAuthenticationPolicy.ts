@@ -12,7 +12,7 @@ import { AccessTokenCache, ExpiringAccessTokenCache } from "@azure/core-http";
 /**
  * Representation of the Authentication Challenge
  */
-class AuthenticationChallenge {
+export class AuthenticationChallenge {
   constructor(public authorization: string, public scope: string) {
   }
 
@@ -32,7 +32,7 @@ class AuthenticationChallenge {
  * Helps keep a copy of any previous authentication challenges,
  * so that we can compare on any further request.
  */
-class AuthenticationChallengeCache {
+export class AuthenticationChallengeCache {
   public challenge?: AuthenticationChallenge;
 
   public setCachedChallenge(challenge: AuthenticationChallenge) {
