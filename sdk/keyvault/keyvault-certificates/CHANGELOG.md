@@ -1,5 +1,19 @@
 # Release History
 
+## 4.0.0 (2020-01-07)
+
+This release marks the general availability of the `@azure/keyvault-certificates` package.
+
+## 4.0.0-preview.12 (2019-12-26)
+
+- Updated the long-running operation poller so that it's easier to get information for intermediate states
+- beginRecoverDeletedCertificate now returns a certificate with a policy
+- Flattened properties of CertificateIssuer to make them easier to get to
+- Version parameter in updateCertificateProperties is now optional
+- Made a new type, CertificateKeyType, to represent the JsonWebKeyType
+- Some additional properties are now readonly to better match the underlying service
+- Renamed property -> properties in CertificateIssuer
+
 ## 4.0.0-preview.11 (2019-12-03)
 
 - To better align keyvault-certificate APIs across languages, we've made a number of improvements and updates. For the full list, please see https://github.com/Azure/azure-sdk-for-js/issues/6291

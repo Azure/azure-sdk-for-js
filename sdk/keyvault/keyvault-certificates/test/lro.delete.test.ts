@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as assert from "assert";
-import { CertificateClient, DeletedCertificate, CertificatePolicy } from "../src";
+import { CertificateClient, DeletedCertificate, DefaultCertificatePolicy } from "../src";
 import { testPollerProperties } from "./utils/recorderUtils";
 import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
@@ -34,7 +34,7 @@ describe("Certificates client - lro - delete", () => {
     const certificateName = testClient.formatName(`${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`);
     await client.beginCreateCertificate(
       certificateName,
-      CertificatePolicy.Default,
+      DefaultCertificatePolicy,
       testPollerProperties
     );
     const poller = await client.beginDeleteCertificate(certificateName, testPollerProperties);
@@ -57,7 +57,7 @@ describe("Certificates client - lro - delete", () => {
     const certificateName = testClient.formatName(`${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`);
     await client.beginCreateCertificate(
         certificateName,
-        CertificatePolicy.Default,
+        DefaultCertificatePolicy,
         testPollerProperties
       );
     const poller = await client.beginDeleteCertificate(certificateName, testPollerProperties);

@@ -7,7 +7,10 @@ import {
   RecoverDeletedCertificatePollOperationState,
   makeRecoverDeletedCertificatePollOperation
 } from "./operation";
-import { KeyVaultCertificate, CertificateClientInterface } from "../../certificatesModels";
+import {
+  KeyVaultCertificateWithPolicy,
+  CertificateClientInterface
+} from "../../certificatesModels";
 
 export interface RecoverDeletedCertificatePollerOptions {
   client: CertificateClientInterface;
@@ -22,7 +25,7 @@ export interface RecoverDeletedCertificatePollerOptions {
  */
 export class RecoverDeletedCertificatePoller extends Poller<
   RecoverDeletedCertificatePollOperationState,
-  KeyVaultCertificate
+  KeyVaultCertificateWithPolicy
 > {
   /**
    * Defines how much time the poller is going to wait before making a new request to the service.

@@ -1,16 +1,21 @@
 // Copyright (c) Microsoft corporation.
 // Licensed under the MIT license.
 
-const { CertificateClient } = require("@azure/keyvault-certificates");
-const { DefaultAzureCredential } = require("@azure/identity");
+import { CertificateClient } from "@azure/keyvault-certificates";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-require("dotenv").config();
+import * as dotenv from "dotenv";
+dotenv.config({ path: "../.env" });
 
-// This sample creates a self-signed certificate, then deletes it, then recovers it.
-// Soft-delete is required for this sample to run: https://docs.microsoft.com/en-us/azure/key-vault/key-vault-ovw-soft-delete
+// This sample creates a self-signed certificate, then makes a backup from it,
+// then deletes it and purges it, and finally restores it.
 
-async function main() {
+function delay<T>(t: number, value?: T): Promise<T> {
+  return new Promise((resolve) => setTimeout(() => resolve(value), t));
+}
+
+export async function main(): Promise<void> {
   // If you're using MSI, DefaultAzureCredential should "just work".
   // Otherwise, DefaultAzureCredential expects the following three environment variables:
   // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
@@ -22,7 +27,7 @@ async function main() {
 
   const client = new CertificateClient(url, credential);
 
-  const certificateName = "MyCertificateDeleteAndRecoverJS";
+  const certificateName = "MyCertificateBackupAndRestoreTS";
 
   // Creating a self-signed certificate
   const createPoller = await client.beginCreateCertificate(certificateName, {
@@ -33,13 +38,19 @@ async function main() {
   const pendingCertificate = createPoller.getResult();
   console.log("Certificate: ", pendingCertificate);
 
-  const deletePoller = await client.beginDeleteCertificate(certificateName);
-  const deletedCertificate = await deletePoller.pollUntilDone();
-  console.log("Deleted certificate: ", deletedCertificate);
+  const backup = await client.backupCertificate(certificateName);
 
-  const recoverPoller = await client.beginRecoverDeletedCertificate(certificateName);
-  const certificateWithPolicy = await recoverPoller.pollUntilDone();
-  console.log("Certificate with policy:", certificateWithPolicy);
+  const deletePoller = await client.beginDeleteCertificate(certificateName);
+  await deletePoller.pollUntilDone();
+
+  await client.purgeDeletedCertificate(certificateName);
+  await delay(30000);
+
+  await client.restoreCertificateBackup(backup!);
+
+  const restoredCertificate = await client.getCertificate(certificateName);
+
+  console.log("Restored certificate: ", restoredCertificate);
 }
 
 main().catch((err) => {

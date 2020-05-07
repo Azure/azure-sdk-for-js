@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft corporation.
 // Licensed under the MIT license.
 
-const { CertificateClient } = require("@azure/keyvault-certificates");
-const { DefaultAzureCredential } = require("@azure/identity");
+import { CertificateClient } from "@azure/keyvault-certificates";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-require("dotenv").config();
+import * as dotenv from "dotenv";
+dotenv.config({ path: "../.env" });
 
 // This sample list previously created certificates in a single chunk and by page,
 // then changes one of them and lists all the versions of that certificate,
 // then deletes them, then lists the deleted certificates.
 
-async function main() {
+export async function main(): Promise<void> {
   // If you're using MSI, DefaultAzureCredential should "just work".
   // Otherwise, DefaultAzureCredential expects the following three environment variables:
   // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
@@ -23,8 +24,8 @@ async function main() {
 
   const client = new CertificateClient(url, credential);
 
-  const certificateName1 = "MyCertificateListCertificatesJS1";
-  const certificateName2 = "MyCertificateListCertificatesJS2";
+  const certificateName1 = "MyCertificateLIstCertificatesTS1";
+  const certificateName2 = "MyCertificateLIstCertificatesTS2";
 
   // Creating two self-signed certificates. They will appear as pending initially.
   await client.beginCreateCertificate(certificateName1, {
@@ -38,27 +39,15 @@ async function main() {
 
   // Listing all the available certificates in a single call.
   // The certificates we just created are still pending at this point.
-  let listPropertiesOfCertificates = client.listPropertiesOfCertificates({ includePending: true });
-  while (true) {
-    let { done, value } = await listPropertiesOfCertificates.next();
-    if (done) {
-      break;
-    }
-    console.log("Certificate from a single call: ", value);
+  for await (const certificate of client.listPropertiesOfCertificates({ includePending: true })) {
+    console.log("Certificate from a single call: ", certificate);
   }
 
   // Listing all the available certificates by pages.
   let pageCount = 0;
-  let listPropertiesOfCertificatesByPage = client
-    .listPropertiesOfCertificates({ includePending: true })
-    .byPage();
-  while (true) {
-    let { done, value } = await listPropertiesOfCertificatesByPage.next();
-    if (done) {
-      break;
-    }
-    for (const certificateProperties of value) {
-      console.log(`Certificate properties from page ${pageCount}: `, certificateProperties);
+  for await (const page of client.listPropertiesOfCertificates({ includePending: true }).byPage()) {
+    for (const certificate of page) {
+      console.log(`Certificate from page ${pageCount}: `, certificate);
     }
     pageCount++;
   }
@@ -72,16 +61,8 @@ async function main() {
   console.log("Updated certificate:", updatedCertificate);
 
   // Listing a certificate's versions
-  let listPropertiesOfCertificateVersions = client.listPropertiesOfCertificateVersions(
-    certificateName1,
-    {}
-  );
-  while (true) {
-    let { done, value } = await listPropertiesOfCertificateVersions.next();
-    if (done) {
-      break;
-    }
-    const version = value.version;
+  for await (const item of client.listPropertiesOfCertificateVersions(certificateName1, {})) {
+    const version = item.version!;
     const certificate = await client.getCertificateVersion(certificateName1, version);
     console.log(`Certificate from version ${version}: `, certificate);
   }
@@ -92,13 +73,8 @@ async function main() {
   deletePoller = await client.beginDeleteCertificate(certificateName2);
   await deletePoller.pollUntilDone();
 
-  let listDeletedCertificates = client.listDeletedCertificates({ includePending: true });
-  while (true) {
-    let { done, value } = await listDeletedCertificates.next();
-    if (done) {
-      break;
-    }
-    console.log("Deleted certificate: ", value);
+  for await (const certificate of client.listDeletedCertificates({ includePending: true })) {
+    console.log("Deleted certificate: ", certificate);
   }
 }
 

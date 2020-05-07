@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as assert from "assert";
-import { CertificateClient, DeletedCertificate, CertificatePolicy } from "../src";
+import { CertificateClient, DeletedCertificate, DefaultCertificatePolicy } from "../src";
 import { isNode } from "@azure/core-http";
 import { isPlayingBack, testPollerProperties } from "./utils/recorderUtils";
 import { env } from "@azure/test-utils-recorder";
@@ -36,7 +36,7 @@ describe("Certificates client - LRO - recoverDelete", () => {
     const certificateName = testClient.formatName(`${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`);
     await client.beginCreateCertificate(
       certificateName,
-      CertificatePolicy.Default,
+      DefaultCertificatePolicy,
       testPollerProperties
     );
 
@@ -63,7 +63,7 @@ describe("Certificates client - LRO - recoverDelete", () => {
     const certificateName = testClient.formatName(`${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`);
     await client.beginCreateCertificate(
         certificateName,
-        CertificatePolicy.Default,
+        DefaultCertificatePolicy,
         testPollerProperties
       );
     const deletePoller = await client.beginDeleteCertificate(certificateName, testPollerProperties);
@@ -105,7 +105,7 @@ describe("Certificates client - LRO - recoverDelete", () => {
       const certificateName = testClient.formatName(`${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`);
       await client.beginCreateCertificate(
         certificateName,
-        CertificatePolicy.Default,
+        DefaultCertificatePolicy,
         testPollerProperties
       );
       const deletePoller = await client.beginDeleteCertificate(certificateName, testPollerProperties);

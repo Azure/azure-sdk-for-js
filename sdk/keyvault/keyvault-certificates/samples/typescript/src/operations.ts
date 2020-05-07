@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft corporation.
 // Licensed under the MIT license.
 
-const { CertificateClient } = require("@azure/keyvault-certificates");
-const { DefaultAzureCredential } = require("@azure/identity");
+import { CertificateClient } from "@azure/keyvault-certificates";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-require("dotenv").config();
+import * as dotenv from "dotenv";
+dotenv.config({ path: "../.env" });
 
 // This sample creates, updates and deletes a certificate's operation.
 
-async function main() {
+export async function main(): Promise<void> {
   // If you're using MSI, DefaultAzureCredential should "just work".
   // Otherwise, DefaultAzureCredential expects the following three environment variables:
   // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
@@ -20,7 +21,7 @@ async function main() {
   const credential = new DefaultAzureCredential();
 
   const client = new CertificateClient(url, credential);
-  const certificateName = "MyCertificateOperationJS";
+  const certificateName = "MyCertificateOperationsTS";
 
   // Certificates' operations will be pending for some time right after they're created.
   const createPoller = await client.beginCreateCertificate(certificateName, {

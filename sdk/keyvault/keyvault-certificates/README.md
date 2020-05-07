@@ -1,4 +1,4 @@
-# Azure Key Vault Certificates client library for JS
+# Azure Key Vault Certificates client library for JavaScript
 
 Azure Key Vault is a service that allows you to encrypt authentication keys, storage account keys, data encryption keys, .pfx files, and passwords by using secured keys.
 If you would like to know more about Azure Key Vault, you may want to review: [What is Azure Key Vault?](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-overview)
@@ -16,8 +16,6 @@ Use the client library for Azure Key Vault Certificates in your Node.js applicat
 - Get all certificates.
 - Get all deleted certificates.
 
-**Please Note:** This is a preview version of the Key Vault Certificates library.
-
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates) | [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-certificates) | [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/keyvault-certificates) | [Product documentation](https://azure.microsoft.com/en-us/services/key-vault/) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates/samples)
 
 ## Getting started
@@ -28,7 +26,7 @@ If you are using this package in a Node.js application, then use Node.js 6.x or 
 
 To quickly create the needed Key Vault resources in Azure and to receive a connection string for them, you can deploy our sample template by clicking:
 
-[![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsdk%2Fkeyvault%2Fkeyvault-certificates%2Ftests-resources.json)
+[![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsdk%2Fkeyvault%2Ftest-resources.json)
 
 ### Install the package
 
@@ -92,24 +90,6 @@ Use the [Azure Cloud Shell](https://shell.azure.com/bash) snippet below to creat
   az keyvault show --name <your-key-vault-name>
   ```
 
-## Key concepts
-
-- The **Certificates client** is the primary interface to interact with the API methods
-  related to certificates in the Azure Key Vault API from a JavaScript application.
-  Once initialized, it provides a basic set of methods that can be used to
-  create, read, update and delete certificates.
-- A **Certificate version** is a version of a certificate in the Key Vault.
-  Each time a user assigns a value to a unique certificate name, a new **version**
-  of that certificate is created. Retrieving a certificate by a name will always return
-  the latest value assigned, unless a specific version is provided to the
-  query.
-- **Soft delete** allows Key Vaults to support deletion and purging as two
-  separate steps, so deleted certificates are not immediately lost. This only happens if the Key Vault
-  has [soft-delete](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-ovw-soft-delete)
-  enabled.
-- A **Certificate backup** can be generated from any created certificate. These backups come as
-  binary data, and can only be used to regenerate a previously deleted certificate.
-
 ## Authenticating with Azure Active Directory
 
 The Key Vault service relies on Azure Active Directory to authenticate requests to its APIs. The [`@azure/identity`](https://www.npmjs.com/package/@azure/identity) package provides a variety of credential types that your application can use to do this. The [README for `@azure/identity`](/sdk/identity/identity/README.md) provides more details and samples to get you started.
@@ -141,14 +121,33 @@ const url = `https://${vaultName}.vault.azure.net`;
 const client = new CertificateClient(url, credential);
 ```
 
+## Key concepts
+
+- The **Certificates client** is the primary interface to interact with the API methods
+  related to certificates in the Azure Key Vault API from a JavaScript application.
+  Once initialized, it provides a basic set of methods that can be used to
+  create, read, update and delete certificates.
+- A **Certificate version** is a version of a certificate in the Key Vault.
+  Each time a user assigns a value to a unique certificate name, a new **version**
+  of that certificate is created. Retrieving a certificate by a name will always return
+  the latest value assigned, unless a specific version is provided to the
+  query.
+- **Soft delete** allows Key Vaults to support deletion and purging as two
+  separate steps, so deleted certificates are not immediately lost. This only happens if the Key Vault
+  has [soft-delete](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-ovw-soft-delete)
+  enabled.
+- A **Certificate backup** can be generated from any created certificate. These backups come as
+  binary data, and can only be used to regenerate a previously deleted certificate.
+
 ## Examples
 
 The following sections provide code snippets that cover some of the common
 tasks using Azure Key Vault Certificates. The scenarios that are covered here consist of:
 
 - [Creating and setting a certificate](#creating-and-setting-a-certificate).
-- [Getting a certificate](#getting-a-certificate).
-- [Certificate attributes](#certificate-attributes).
+- [Getting a certificate](#get-a-certificate).
+- [Getting the versions of a certificate](#list-all-versions-of-a-certificate).
+- [Listing all the available certificates](#list-all-certificates).
 - [Updating a certificate](#updating-a-certificate).
 - [Deleting a certificate](#deleting-a-certificate).
 - [Iterating lists of certificates](#iterating-lists-of-certificates).
@@ -595,6 +594,19 @@ Please take a look at the
 [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates/samples)
 directory for detailed examples on how to use this library.
 
+## Testing
+
+To run our tests, first install the dependencies (with `npm install` or `rush install`),
+then run the unit tests with: `npm run unit-test`.
+
+Some of our tests aim to reproduce the behavior of our library against remotely
+available endpoints. These are executed using previously recorded HTTP request and
+responses.
+
+You can read more about the tests of this project [here](test/README.md).
+
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fkeyvault%2Fkeyvault-certificates%2FREADME.png)
+
 ## Contributing
 
 This project welcomes contributions and suggestions. Most contributions require you to agree to a
@@ -610,16 +622,3 @@ For more information see the [Code of Conduct FAQ](https://opensource.microsoft.
 contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code
-
-### Testing
-
-To run our tests, first install the dependencies (with `npm install` or `rush install`),
-then run the unit tests with: `npm run unit-test`.
-
-Some of our tests aim to reproduce the behavior of our library against remotely
-available endpoints. These are executed using previously recorded HTTP request and
-responses.
-
-You can read more about the tests of this project [here](test/README.md).
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fkeyvault%2Fkeyvault-certificates%2FREADME.png)

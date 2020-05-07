@@ -4,13 +4,21 @@
 import { AbortSignalLike } from "@azure/abort-controller";
 import { PollOperationState, PollOperation } from "@azure/core-lro";
 import { RequestOptionsBase } from "@azure/core-http";
-import { KeyVaultCertificate, CertificateClientInterface } from "../../certificatesModels";
+import {
+  KeyVaultCertificateWithPolicy,
+  CertificateClientInterface
+} from "../../certificatesModels";
+
+/**
+ * The public representation of the RecoverDeletedCertificatePoller operation state.
+ */
+export type RecoverDeletedCertificateState = PollOperationState<KeyVaultCertificateWithPolicy>;
 
 /**
  * An interface representing the state of a delete certificate's poll operation
  */
 export interface RecoverDeletedCertificatePollOperationState
-  extends PollOperationState<KeyVaultCertificate> {
+  extends PollOperationState<KeyVaultCertificateWithPolicy> {
   /**
    * The name of the certificate.
    */
@@ -29,7 +37,10 @@ export interface RecoverDeletedCertificatePollOperationState
  * An interface representing a delete certificate's poll operation
  */
 export interface RecoverDeletedCertificatePollOperation
-  extends PollOperation<RecoverDeletedCertificatePollOperationState, KeyVaultCertificate> {}
+  extends PollOperation<
+    RecoverDeletedCertificatePollOperationState,
+    KeyVaultCertificateWithPolicy
+  > {}
 
 /**
  * @summary Reaches to the service and updates the delete certificate's poll operation.

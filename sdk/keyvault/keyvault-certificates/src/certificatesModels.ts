@@ -1,26 +1,21 @@
 import * as coreHttp from "@azure/core-http";
-import {
-  CertificateOperation,
-  DeletionRecoveryLevel,
-  KeyUsageType,
-  IssuerCredentials
-} from "./core/models";
+import { DeletionRecoveryLevel, KeyUsageType } from "./core/models";
 
 /**
- * Defines values for KeyType.
+ * Defines values for CertificateKeyType.
  * Possible values include: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM'
  * @readonly
  * @enum {string}
  */
-export type KeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM";
+export type CertificateKeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM";
 
 /**
- * Defines values for KeyCurveName.
+ * Defines values for CertificateKeyCurveName.
  * Possible values include: 'P-256', 'P-384', 'P-521', 'P-256K'
  * @readonly
  * @enum {string}
  */
-export type KeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
+export type CertificateKeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
 
 /**
  * @internal
@@ -109,6 +104,10 @@ export interface CertificateOperation {
    */
   readonly id?: string;
   /**
+   * The name of certificate.
+   */
+  readonly name?: string;
+  /**
    * Name of the referenced issuer object or reserved names; for example, 'Self' or 'Unknown'.
    */
   issuerName?: string;
@@ -149,6 +148,10 @@ export interface CertificateOperation {
    * Identifier for the certificate operation.
    */
   requestId?: string;
+  /**
+   * The vault URI.
+   */
+  readonly vaultUrl?: string;
 }
 
 /**
@@ -188,7 +191,7 @@ export interface KeyVaultCertificate {
   /**
    * The name of certificate.
    */
-  name: string;
+  readonly name: string;
   /**
    * The properties of the certificate
    */
@@ -314,9 +317,9 @@ export interface LifetimeAction {
 export type CertificatePolicyAction = "EmailContacts" | "AutoRenew";
 
 /**
- * An interface representing a certificate's policy.
+ * An interface representing a certificate's policy (without the subject properties).
  */
-export interface CertificatePolicy {
+export interface CertificatePolicyProperties {
   /**
    * Indicates if the certificates generated under this policy should be published to certificate
    * transparency logs.
@@ -353,7 +356,7 @@ export interface CertificatePolicy {
   /**
    * Elliptic curve name. Possible values include: 'P-256', 'P-384', 'P-521', 'P-256K'
    */
-  keyCurveName?: KeyCurveName;
+  keyCurveName?: CertificateKeyCurveName;
   /**
    * The key size in bits. For example: 2048, 3072, or 4096 for RSA.
    */
@@ -362,7 +365,7 @@ export interface CertificatePolicy {
    * The type of key pair to be used for the certificate. Possible values include: 'EC', 'EC-HSM',
    * 'RSA', 'RSA-HSM', 'oct'
    */
-  keyType?: KeyType;
+  keyType?: CertificateKeyType;
   /**
    * List of key usages.
    */
@@ -383,31 +386,38 @@ export interface CertificatePolicy {
    * The duration that the certificate is valid in months.
    */
   validityInMonths?: number;
-  /**
-   * The subject name. Should be a valid X509 distinguished Name.
-   */
-  subject?: string;
-  /**
-   * The subject alternative names.
-   */
-  subjectAlternativeNames?: SubjectAlternativeNames;
 }
 
 /**
- * The CertificatePolicy module exports values that
+ * An interface representing the possible subject properties of a certificate's policy.
+ * The final type requires at least one of these properties to exist.
+ */
+export interface PolicySubjectProperties {
+  /**
+   * The subject name. Should be a valid X509 distinguished Name.
+   */
+  subject: string;
+  /**
+   * The subject alternative names.
+   */
+  subjectAlternativeNames: SubjectAlternativeNames;
+}
+
+/**
+ * An type representing a certificate's policy with at least one of the subject properties.
+ */
+export type CertificatePolicy = CertificatePolicyProperties &
+  RequireAtLeastOne<PolicySubjectProperties>;
+
+/**
+ * The DefaultCertificatePolicy exports values that
  * are useful as default parameters to methods that
  * modify the certificate's policy.
  */
-export module CertificatePolicy {
-  /**
-   * The minimum working properties for a Certificate's Policy.
-   * If used, the certificate will be a self-signed certificate.
-   */
-  export const Default: CertificatePolicy = {
-    issuerName: "Self",
-    subject: "cn=MyCert"
-  };
-}
+export const DefaultCertificatePolicy = {
+  issuerName: "Self",
+  subject: "cn=MyCert"
+};
 
 /**
  * An interface representing the properties of a certificate
@@ -430,11 +440,11 @@ export interface CertificateProperties {
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  id?: string;
+  readonly id?: string;
   /**
    * The name of certificate.
    */
-  name?: string;
+  readonly name?: string;
   /**
    * Not before date in UTC.
    */
@@ -456,15 +466,15 @@ export interface CertificateProperties {
   /**
    * When the issuer was updated.
    */
-  updatedOn?: Date;
+  readonly updatedOn?: Date;
   /**
    * The vault URI.
    */
-  vaultUrl?: string;
+  readonly vaultUrl?: string;
   /**
    * The version of certificate. May be undefined.
    */
-  version?: string;
+  readonly version?: string;
   /**
    * Thumbprint of the certificate.
    */
@@ -485,7 +495,7 @@ export interface DeletedCertificate extends KeyVaultCertificateWithPolicy {
    * The url of the recovery object, used to
    * identify and recover the deleted certificate.
    */
-  recoveryId?: string;
+  readonly recoveryId?: string;
   /**
    * The time when the certificate is scheduled
    * to be purged, in UTC
@@ -713,9 +723,7 @@ export interface UpdateCertificatePropertiesOptions
 /**
  * Options for {@link updateCertificatePolicy}.
  */
-export interface UpdateCertificatePolicyOptions
-  extends CertificateProperties,
-    coreHttp.OperationOptions {}
+export interface UpdateCertificatePolicyOptions extends coreHttp.OperationOptions {}
 
 /**
  * An interface representing the properties of a certificate issuer
@@ -728,7 +736,7 @@ export interface IssuerProperties {
   /**
    * Name of the issuer.
    */
-  name?: string;
+  readonly name?: string;
   /**
    * The issuer provider.
    */
@@ -738,11 +746,7 @@ export interface IssuerProperties {
 /**
  * An interface representing the properties of an issuer
  */
-export interface CertificateIssuer {
-  /**
-   * Certificate Identifier.
-   */
-  id?: string;
+export interface CertificateIssuer extends IssuerProperties {
   /**
    * Determines whether the object is enabled.
    */
@@ -750,15 +754,11 @@ export interface CertificateIssuer {
   /**
    * When the issuer was created.
    */
-  createdOn?: Date;
+  readonly createdOn?: Date;
   /**
    * When the issuer was updated.
    */
-  updatedOn?: Date;
-  /**
-   * Name of the issuer
-   */
-  name?: string;
+  readonly updatedOn?: Date;
   /**
    * The user name/account name/account id.
    */
@@ -768,10 +768,6 @@ export interface CertificateIssuer {
    */
   password?: string;
   /**
-   * The credentials to be used for the issuer.
-   */
-  credentials?: IssuerCredentials;
-  /**
    * Id of the organization.
    */
   organizationId?: string;
@@ -779,21 +775,12 @@ export interface CertificateIssuer {
    * Details of the organization's administrator contacts, as provided to the issuer.
    */
   administratorContacts?: AdministratorContact[];
-  /**
-   * A small set of useful properties of a certificate issuer
-   */
-  issuerProperties?: IssuerProperties;
 }
 
 /**
  * An interface representing optional parameters for CertificateClient paged operations passed to {@link listPropertiesOfCertificates}.
  */
 export interface ListPropertiesOfCertificatesOptions extends coreHttp.OperationOptions {
-  /**
-   * Maximum number of results to return in a page. If not specified the service will return up to
-   * 25 results.
-   */
-  maxresults?: number;
   /**
    * Specifies whether to include certificates which are not completely provisioned.
    */
@@ -803,34 +790,17 @@ export interface ListPropertiesOfCertificatesOptions extends coreHttp.OperationO
 /**
  * An interface representing optional parameters for CertificateClient paged operations passed to {@link listPropertiesOfCertificateVersions}.
  */
-export interface ListPropertiesOfCertificateVersionsOptions extends coreHttp.OperationOptions {
-  /**
-   * Maximum number of results to return in a page. If not specified the service will return up to
-   * 25 results.
-   */
-  maxresults?: number;
-}
+export interface ListPropertiesOfCertificateVersionsOptions extends coreHttp.OperationOptions {}
 
 /**
  * An interface representing optional parameters for CertificateClient paged operations passed to {@link listPropertiesOfIssuers}.
  */
-export interface ListPropertiesOfIssuersOptions extends coreHttp.OperationOptions {
-  /**
-   * Maximum number of results to return in a page. If not specified the service will return up to
-   * 25 results.
-   */
-  maxresults?: number;
-}
+export interface ListPropertiesOfIssuersOptions extends coreHttp.OperationOptions {}
 
 /**
  * An interface representing optional parameters for CertificateClient paged operations passed to {@link listDeletedCertificates}.
  */
 export interface ListDeletedCertificatesOptions extends coreHttp.OperationOptions {
-  /**
-   * Maximum number of results to return in a page. If not specified the service will return up to
-   * 25 results.
-   */
-  maxresults?: number;
   /**
    * Specifies whether to include certificates which are not completely provisioned.
    */

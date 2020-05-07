@@ -7,6 +7,11 @@ import { RequestOptionsBase } from "@azure/core-http";
 import { DeletedCertificate, CertificateClientInterface } from "../../certificatesModels";
 
 /**
+ * The public representation of the DeleteCertificatePoller operation state.
+ */
+export type DeleteCertificateState = PollOperationState<DeletedCertificate>;
+
+/**
  * An interface representing the state of a delete certificate's poll operation
  */
 export interface DeleteCertificatePollOperationState

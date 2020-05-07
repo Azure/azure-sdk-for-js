@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft corporation.
 // Licensed under the MIT license.
 
-const { CertificateClient } = require("@azure/keyvault-certificates");
-const { DefaultAzureCredential } = require("@azure/identity");
+import { CertificateClient } from "@azure/keyvault-certificates";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-require("dotenv").config();
+import * as dotenv from "dotenv";
+dotenv.config({ path: "../.env" });
 
 // This sample creates, updates and deletes certificate issuers.
 
-async function main() {
+export async function main(): Promise<void> {
   // If you're using MSI, DefaultAzureCredential should "just work".
   // Otherwise, DefaultAzureCredential expects the following three environment variables:
   // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
@@ -21,8 +22,8 @@ async function main() {
 
   const client = new CertificateClient(url, credential);
 
-  const certificateName = "MyCertificateIssuersJS";
-  const issuerName = "issuerNameIssuersJS";
+  const certificateName = "MyCertificateIssuersTS";
+  const issuerName = "issuerNameIssuersTS";
 
   // Create
   await client.createIssuer(issuerName, "Test", {
@@ -31,13 +32,13 @@ async function main() {
       {
         firstName: "John",
         lastName: "Doe",
-        email: "admin@microsoft.com",
+        email: "admin@microsoft2.com",
         phone: "4255555555"
       }
     ]
   });
 
-  // Reading the certificate will give us back the issuer name, but no other information.
+  // We can create a certificate with that issuer's name.
   const createPoller = await client.beginCreateCertificate(certificateName, {
     issuerName,
     subject: "cn=MyCert"
@@ -48,6 +49,11 @@ async function main() {
   // We can retrieve the issuer this way:
   const getResponse = await client.getIssuer(issuerName);
   console.log("Certificate issuer: ", getResponse);
+
+  // We can also list properties for all issuers:
+  for await (const issuerProperties of client.listPropertiesOfIssuers()) {
+    console.log("Certificate properties: ", issuerProperties);
+  }
 
   // We can also delete the issuer.
   await client.deleteIssuer(issuerName);
