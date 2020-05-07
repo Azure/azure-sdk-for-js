@@ -4,8 +4,26 @@
 import { ServiceBusMessage, toAmqpMessage } from "./serviceBusMessage";
 import { throwTypeErrorIfParameterMissing } from "./util/errors";
 import { ClientEntityContext } from "./clientEntityContext";
-import { message as RheaMessageUtil, messageProperties } from "rhea-promise";
+import {
+  message as RheaMessageUtil,
+  messageProperties as RheaMessagePropertiesList,
+  MessageAnnotations,
+  Dictionary
+} from "rhea-promise";
 import { AmqpMessage } from "@azure/core-amqp";
+
+/**
+ * The amount of bytes to reserve as overhead for a small message.
+ */
+const smallMessageOverhead = 5;
+/**
+ * The amount of bytes to reserve as overhead for a large message.
+ */
+const largeMessageOverhead = 8;
+/**
+ * The maximum number of bytes that a message may be to be considered small.
+ */
+const smallMessageMaxBytes = 255;
 
 /**
  * A batch of messages that you can create using the {@link createBatch} method.
@@ -53,7 +71,7 @@ export interface ServiceBusMessageBatch {
    * @internal
    * @ignore
    */
-  readonly _message: Buffer | undefined;
+  _generateMessage(): Buffer;
 }
 
 /**
@@ -81,11 +99,6 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
    */
   private _encodedMessages: Buffer[] = [];
   /**
-   * @property Encoded batch message.
-   */
-  private _batchMessage: Buffer | undefined;
-
-  /**
    * ServiceBusMessageBatch should not be constructed using `new ServiceBusMessageBatch()`
    * Use the `createBatch()` method on your `Sender` instead.
    * @constructor
@@ -96,6 +109,7 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
     this._context = context;
     this._maxSizeInBytes = maxSizeInBytes;
     this._sizeInBytes = 0;
+    this._batchMessageProperties = {};
   }
 
   /**
@@ -124,6 +138,34 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
   }
 
   /**
+   * Generates an AMQP message that contains the provided encoded messages and annotations.
+   * @param encodedMessages The already encoded messages to include in the AMQP batch.
+   * @param annotations The message annotations to set on the batch.
+   */
+  private _generateBatch(
+    encodedMessages: Buffer[],
+    annotations?: MessageAnnotations,
+    applicationProperties?: Dictionary<any>,
+    messageProperties?: { [key: string]: string }
+  ): Buffer {
+    const batchEnvelope: AmqpMessage = {
+      body: RheaMessageUtil.data_sections(encodedMessages)
+    };
+    if (annotations) {
+      batchEnvelope.message_annotations = annotations;
+    }
+    if (applicationProperties) {
+      batchEnvelope.application_properties = applicationProperties;
+    }
+    if (messageProperties) {
+      for (const prop of RheaMessagePropertiesList) {
+        (batchEnvelope as any)[prop] = (messageProperties as any)[prop];
+      }
+    }
+    return RheaMessageUtil.encode(batchEnvelope);
+  }
+
+  /**
    * @property Represents the single AMQP message which is the result of encoding all the events
    * added into the `ServiceBusMessageBatch` instance.
    *
@@ -133,9 +175,18 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
    * this single batched AMQP message is what gets sent over the wire to the service.
    * @readonly
    */
-  get _message(): Buffer | undefined {
-    return this._batchMessage;
+  _generateMessage(): Buffer {
+    return this._generateBatch(this._encodedMessages, this._batchAnnotations);
   }
+
+  /**
+   * The message annotations to apply on the batch envelope.
+   * This will reflect the message annotations on the first message
+   * that was added to the batch.
+   */
+  private _batchAnnotations?: MessageAnnotations;
+  private _batchMessageProperties?: { [key: string]: string };
+  private _batchApplicationProperties?: Dictionary<any>;
 
   /**
    * Tries to add a message to the batch if permitted by the batch's size limit.
@@ -151,30 +202,47 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
     // Convert ServiceBusMessage to AmqpMessage.
     const amqpMessage = toAmqpMessage(message);
     amqpMessage.body = this._context.namespace.dataTransformer.encode(message.body);
+    const encodedMessage = RheaMessageUtil.encode(amqpMessage);
 
-    // Encode every amqp message and then convert every encoded message to amqp data section
-    this._encodedMessages.push(RheaMessageUtil.encode(amqpMessage));
+    let currentSize = this._sizeInBytes;
 
-    const batchMessage: AmqpMessage = {
-      body: RheaMessageUtil.data_sections(this._encodedMessages)
-    };
-
-    batchMessage.message_annotations = amqpMessage.message_annotations;
-    batchMessage.application_properties = amqpMessage.application_properties;
-
-    for (const prop of messageProperties) {
-      (batchMessage as any)[prop] = (amqpMessage as any)[prop];
+    // The first time an event is added, we need to calculate
+    // the overhead of creating an AMQP batch, including the
+    // message_annotations, application_properties and message_properties
+    // that are taken from the 1st message.
+    if (this.count === 0) {
+      if (amqpMessage.message_annotations) {
+        this._batchAnnotations = amqpMessage.message_annotations;
+      }
+      if (amqpMessage.application_properties) {
+        this._batchApplicationProperties = amqpMessage.application_properties;
+      }
+      for (const prop of RheaMessagePropertiesList) {
+        (this._batchMessageProperties as any)[prop] = (amqpMessage as any)[prop];
+      }
+      // Figure out the overhead of creating a batch by generating an empty batch
+      // with the expected batch annotations.
+      currentSize += this._generateBatch(
+        [],
+        this._batchAnnotations,
+        this._batchApplicationProperties,
+        this._batchMessageProperties
+      ).length;
     }
 
-    const encodedBatchMessage = RheaMessageUtil.encode(batchMessage);
-    const currentSize = encodedBatchMessage.length;
-
-    // this._batchMessage will be used for final send operation
+    const messageSize = encodedMessage.length;
+    const messageOverhead =
+      messageSize <= smallMessageMaxBytes ? smallMessageOverhead : largeMessageOverhead;
+    currentSize += messageSize + messageOverhead;
+    // Check if the size of the batch exceeds the maximum allowed size
+    // once we add the new event to it.
     if (currentSize > this._maxSizeInBytes) {
-      this._encodedMessages.pop();
       return false;
     }
-    this._batchMessage = encodedBatchMessage;
+
+    // The message will fit in the batch, so it is now safe to store it.
+    this._encodedMessages.push(encodedMessage);
+
     this._sizeInBytes = currentSize;
     return true;
   }
