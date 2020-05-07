@@ -81,6 +81,11 @@ export class ServiceBusClient {
   /**
    * Creates a receiver for an Azure Service Bus queue in peekLock mode.
    *
+   * In peekLock mode, the receiver has a lock on the message for the duration specified on the
+   * queue or subscription.
+   *
+   * If the message is not settled during this time it becomes available to other receivers.
+   *
    * @param queueName The name of the queue to receive from.
    * @param receiveMode The receive mode, defaulted to peekLock.
    */
@@ -88,12 +93,20 @@ export class ServiceBusClient {
   /**
    * Creates a receiver for an Azure Service Bus queue in receiveAndDelete mode.
    *
+   * In receiveAndDelete mode, messages are automatically removed from Service Bus as they are
+   * received.
+   *
    * @param queueName The name of the queue to receive from.
    * @param receiveMode The receive mode, defaulted to receiveAndDelete.
    */
   createReceiver(queueName: string, receiveMode: "receiveAndDelete"): Receiver<ReceivedMessage>;
   /**
    * Creates a receiver for an Azure Service Bus subscription in peekLock mode.
+   *
+   * In peekLock mode, the receiver has a lock on the message for the duration specified on the
+   * queue or subscription.
+   *
+   * If the message is not settled during this time it becomes available to other receivers.
    *
    * @param topicName Name of the topic for the subscription we want to receive from.
    * @param subscriptionName Name of the subscription (under the `topic`) that we want to receive from.
@@ -106,6 +119,9 @@ export class ServiceBusClient {
   ): Receiver<ReceivedMessageWithLock>;
   /**
    * Creates a receiver for an Azure Service Bus subscription in receiveAndDelete mode.
+   *
+   * In receiveAndDelete mode, messages are automatically removed from Service Bus as they are
+   * received.
    *
    * @param topicName Name of the topic for the subscription we want to receive from.
    * @param subscriptionName Name of the subscription (under the `topic`) that we want to receive from.
@@ -154,6 +170,11 @@ export class ServiceBusClient {
   /**
    * Creates a receiver for an Azure Service Bus queue in peekLock mode.
    *
+   * In peekLock mode, the receiver has a lock on the message for the duration specified on the
+   * queue or subscription.
+   *
+   * If the message is not settled during this time it becomes available to other receivers.
+   *
    * @param queueName The name of the queue to receive from.
    * @param receiveMode The receive mode, defaulted to peekLock.
    * @param options Options for the receiver itself.
@@ -166,6 +187,9 @@ export class ServiceBusClient {
   /**
    * Creates a receiver for an Azure Service Bus queue in receiveAndDelete mode.
    *
+   * In receiveAndDelete mode, messages are automatically removed from Service Bus as they are
+   * received.
+   *
    * @param queueName The name of the queue to receive from.
    * @param receiveMode The receive mode, defaulted to receiveAndDelete.
    * @param options Options for the receiver itself.
@@ -177,6 +201,11 @@ export class ServiceBusClient {
   ): Promise<SessionReceiver<ReceivedMessage>>;
   /**
    * Creates a receiver for an Azure Service Bus subscription in peekLock mode.
+   *
+   * In peekLock mode, the receiver has a lock on the message for the duration specified on the
+   * queue or subscription.
+   *
+   * If the message is not settled during this time it becomes available to other receivers.
    *
    * @param topicName Name of the topic for the subscription we want to receive from.
    * @param subscriptionName Name of the subscription (under the `topic`) that we want to receive from.
@@ -191,6 +220,9 @@ export class ServiceBusClient {
   ): Promise<SessionReceiver<ReceivedMessageWithLock>>;
   /**
    * Creates a receiver for an Azure Service Bus subscription in receiveAndDelete mode.
+   *
+   * In receiveAndDelete mode, messages are automatically removed from Service Bus as they are
+   * received.
    *
    * @param topicName Name of the topic for the subscription we want to receive from.
    * @param subscriptionName Name of the subscription (under the `topic`) that we want to receive from.
@@ -273,6 +305,11 @@ export class ServiceBusClient {
   /**
    * Creates a receiver for an Azure Service Bus queue's dead letter queue in peekLock mode.
    *
+   * In peekLock mode, the receiver has a lock on the message for the duration specified on the
+   * queue or subscription.
+   *
+   * If the message is not settled during this time it becomes available to other receivers.
+   *
    * @param queueName The name of the queue to receive from.
    * @param receiveMode The receive mode.
    */
@@ -283,6 +320,9 @@ export class ServiceBusClient {
   /**
    * Creates a receiver for an Azure Service Bus queue's dead letter queue in receiveAndDelete mode.
    *
+   * In receiveAndDelete mode, messages are automatically removed from Service Bus as they are
+   * received.
+   *
    * @param queueName The name of the queue to receive from.
    * @param receiveMode The receive mode.
    */
@@ -292,6 +332,11 @@ export class ServiceBusClient {
   ): Receiver<ReceivedMessage>;
   /**
    * Creates a receiver for an Azure Service Bus subscription's dead letter queue in peekLock mode.
+   *
+   * In peekLock mode, the receiver has a lock on the message for the duration specified on the
+   * queue or subscription.
+   *
+   * If the message is not settled during this time it becomes available to other receivers.
    *
    * @param topicName Name of the topic for the subscription we want to receive from.
    * @param subscriptionName Name of the subscription (under the `topic`) that we want to receive from.
@@ -304,6 +349,9 @@ export class ServiceBusClient {
   ): Receiver<ReceivedMessageWithLock>;
   /**
    * Creates a receiver for an Azure Service Bus subscription's dead letter queue in receiveAndDelete mode.
+   *
+   * In receiveAndDelete mode, messages are automatically removed from Service Bus as they are
+   * received.
    *
    * @param topicName Name of the topic for the subscription we want to receive from.
    * @param subscriptionName Name of the subscription (under the `topic`) that we want to receive from.
