@@ -3,7 +3,7 @@
   "sdk-type": "client",
   "author": "Microsoft Corporation",
   "description": "An isomorphic client library for the Azure Form Recognizer service.",
-  "version": "1.0.0-preview.2",
+  "version": "1.0.0-preview.3",
   "keywords": [
     "node",
     "azure",
@@ -19,7 +19,7 @@
     "./dist-esm/src/utils/utils.node.js": "./dist-esm/src/utils/utils.browser.js"
   },
   "types": "./types/ai-form-recognizer.d.ts",
-  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/formrecognizers/ai-form-recognizer",
+  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer",
   "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
@@ -35,7 +35,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/generated/formRecognizerClientContext.ts",
+        "path": "src/generated/generatedClientContext.ts",
         "prefix": "packageVersion"
       },
       {
@@ -46,7 +46,7 @@
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build:autorest": "autorest ./swagger/README.md --typescript --package-version=1.0.0-preview.1 --version=3.0.6258",
+    "build:autorest": "autorest ./swagger/README.md --typescript --package-version=1.0.0-preview.3 --version=3.0.6258",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
     "build:samples": "node ../../../common/scripts/prep-samples.js && cd samples && tsc -p .",
@@ -79,7 +79,7 @@
   "dependencies": {
     "@azure/core-auth": "^1.1.2",
     "@azure/core-lro": "^1.0.2",
-    "@azure/core-paging": "^1.1.0",
+    "@azure/core-paging": "^1.1.1",
     "@azure/core-http": "^1.1.1",
     "@azure/core-tracing": "1.0.0-preview.8",
     "@azure/logger": "^1.0.0",
@@ -137,7 +137,7 @@
     "rollup-plugin-visualizer": "^3.1.1",
     "sinon": "^7.1.0",
     "source-map-support": "^0.5.9",
-    "typescript": "~3.7.5",
+    "typescript": "~3.8.3",
     "fs-extra": "^8.1.0",
     "@types/fs-extra": "^8.0.0"
   }

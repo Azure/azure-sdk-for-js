@@ -4,7 +4,7 @@ import { getBSU, getSASConnectionStringFromEnvironment, recorderEnvSetup } from 
 import { record, delay, Recorder } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
 import { ShareServiceClient } from "../src";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("FileServiceClient", () => {
   let recorder: Recorder;

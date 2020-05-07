@@ -700,8 +700,7 @@ async function recognizeLayoutInternal(
   const realOptions = options || {};
   const { span, updatedOptions: finalOptions } = createSpan("analyzeLayoutInternal", realOptions);
   const requestBody = await toRequestBody(body);
-  const requestContentType =
-    contentType ? contentType : await getContentType(requestBody);
+  const requestContentType = contentType ? contentType : await getContentType(requestBody);
 
   try {
     if (requestContentType) {
@@ -738,8 +737,7 @@ async function recognizeCustomFormInternal(
 ): Promise<AnalyzeWithCustomModelResponseModel> {
   const { span, updatedOptions: finalOptions } = createSpan("analyzeCustomFormInternal", options);
   const requestBody = await toRequestBody(body);
-  const requestContentType =
-    contentType ? contentType : await getContentType(requestBody);
+  const requestContentType = contentType ? contentType : await getContentType(requestBody);
 
   try {
     if (requestContentType) {

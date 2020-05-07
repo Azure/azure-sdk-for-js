@@ -5,7 +5,7 @@ import { assert } from "chai";
 import fs from "fs-extra";
 import path from "path";
 
-import { FormRecognizerClient } from '../../src';
+import { FormRecognizerClient } from "../../src";
 import { createRecordedRecognizerClient } from "../util/recordedClients";
 import { env, Recorder } from "@azure/test-utils-recorder";
 
@@ -14,8 +14,8 @@ describe("FormRecognizerClient NodeJS only", () => {
   let client: FormRecognizerClient;
   let recorder: Recorder;
 
-  beforeEach(function () {
-    ({recorder, client } = createRecordedRecognizerClient(this));
+  beforeEach(function() {
+    ({ recorder, client } = createRecordedRecognizerClient(this));
   });
 
   afterEach(function() {
@@ -142,9 +142,11 @@ describe("FormRecognizerClient NodeJS only", () => {
     assert.equal(usReceipt.locale, "US"); // default to "US" for now
     assert.equal(usReceipt.receiptType, "itemized");
     assert.equal(usReceipt.locale, "US");
-    assert.equal(usReceipt.tax.name, "Tax");
-    assert.equal(typeof usReceipt.total.value!, "number");
-    assert.equal(usReceipt.total.value!, 1203.39);
+    assert.ok(usReceipt.tax, "Expecting valid 'tax' field");
+    assert.equal(usReceipt.tax!.name, "Tax");
+    assert.ok(usReceipt.total, "Expecting valid 'total' field");
+    assert.equal(typeof usReceipt.total!.value!, "number");
+    assert.equal(usReceipt.total!.value!, 1203.39);
   });
 
   it("recognizes receipt from a jpeg file stream", async () => {
