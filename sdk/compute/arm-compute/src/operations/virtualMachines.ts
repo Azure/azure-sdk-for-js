@@ -407,6 +407,39 @@ export class VirtualMachines {
   }
 
   /**
+   * The operation to simulate the eviction of spot virtual machine. The eviction will occur within
+   * 30 minutes of calling the API
+   * @param resourceGroupName The name of the resource group.
+   * @param vmName The name of the virtual machine.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  simulateEviction(resourceGroupName: string, vmName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param vmName The name of the virtual machine.
+   * @param callback The callback
+   */
+  simulateEviction(resourceGroupName: string, vmName: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param vmName The name of the virtual machine.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  simulateEviction(resourceGroupName: string, vmName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  simulateEviction(resourceGroupName: string, vmName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        vmName,
+        options
+      },
+      simulateEvictionOperationSpec,
+      callback);
+  }
+
+  /**
    * Run command on the VM.
    * @param resourceGroupName The name of the resource group.
    * @param vmName The name of the virtual machine.
@@ -937,6 +970,29 @@ const listAvailableSizesOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.VirtualMachineSizeListResult
     },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const simulateEvictionOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/simulateEviction",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.vmName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    204: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
