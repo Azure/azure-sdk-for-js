@@ -389,11 +389,11 @@ export class FormTrainingClient {
    *
    * Example usage:
    * ```ts
-   * const blobContainerUrl = "<url to the blob container storing training documents>";
+   * const trainingFilesUrl = "<url to the blob container storing training documents>";
    * const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
    * const trainingClient = client.getFormTrainingClient();
    *
-   * const poller = await trainingClient.beginTraining(blobContainerUrl, {
+   * const poller = await trainingClient.beginTraining(trainingFilesUrl, {
    *   onProgress: (state) => { console.log("training status: "); console.log(state); }
    * });
    * await poller.pollUntilDone();
@@ -401,11 +401,11 @@ export class FormTrainingClient {
    * console.log(response)
    * ```
    * @summary Creats and trains a model
-   * @param {string} blobContainerUrl Accessible url to an Azure Storage Blob container storing the training documents
+   * @param {string} trainingFilesUrl Accessible url to an Azure Storage Blob container storing the training documents
    * @param {BeginTrainingOptions} [options] Options to start model training operation
    */
   public async beginTraining(
-    blobContainerUrl: string,
+    trainingFilesUrl: string,
     useLabels: boolean = false,
     options: BeginTrainingOptions<FormModelResponse> = {}
   ): Promise<PollerLike<PollOperationState<FormModelResponse>, FormModelResponse>> {
@@ -420,7 +420,7 @@ export class FormTrainingClient {
 
     const poller = new BeginTrainingPoller({
       client: trainPollerClient,
-      source: blobContainerUrl,
+      source: trainingFilesUrl,
       intervalInMs: options.intervalInMs,
       onProgress: options.onProgress,
       resumeFrom: options.resumeFrom,
