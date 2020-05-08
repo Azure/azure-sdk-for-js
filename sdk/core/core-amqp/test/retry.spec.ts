@@ -9,7 +9,8 @@ import {
   Constants,
   delay,
   MessagingError,
-  RetryMode
+  RetryMode,
+  getRetryAttemptTimeoutInMs
 } from "../src";
 import * as chai from "chai";
 import debugModule from "debug";
@@ -391,5 +392,55 @@ dotenv.config();
         }
       });
     });
+  });
+});
+
+describe("getRetryAttemptTimeoutInMs", () => {
+  it("Negative timeout", () => {
+    should.equal(
+      getRetryAttemptTimeoutInMs({ timeoutInMs: -5000 }),
+      Constants.defaultOperationTimeoutInMs,
+      "Unexpected timeout returned by getRetryAttemptTimeoutInMs"
+    );
+  });
+
+  it("Random string as timeout", () => {
+    should.equal(
+      getRetryAttemptTimeoutInMs({ timeoutInMs: "random" as any }),
+      Constants.defaultOperationTimeoutInMs,
+      "Unexpected timeout returned by getRetryAttemptTimeoutInMs"
+    );
+  });
+
+  it("Empty array as timeout", () => {
+    should.equal(
+      getRetryAttemptTimeoutInMs({ timeoutInMs: [] as any }),
+      Constants.defaultOperationTimeoutInMs,
+      "Unexpected timeout returned by getRetryAttemptTimeoutInMs"
+    );
+  });
+
+  it("0ms as timeout", () => {
+    should.equal(
+      getRetryAttemptTimeoutInMs({ timeoutInMs: 0 }),
+      Constants.defaultOperationTimeoutInMs,
+      "Unexpected timeout returned by getRetryAttemptTimeoutInMs"
+    );
+  });
+
+  it("Valid timeout", () => {
+    should.equal(
+      getRetryAttemptTimeoutInMs({ timeoutInMs: 1500 }),
+      1500,
+      "Unexpected timeout returned by getRetryAttemptTimeoutInMs"
+    );
+  });
+
+  it("Undefined timeout", () => {
+    should.equal(
+      getRetryAttemptTimeoutInMs({ timeoutInMs: undefined }),
+      Constants.defaultOperationTimeoutInMs,
+      "Unexpected timeout returned by getRetryAttemptTimeoutInMs"
+    );
   });
 });
