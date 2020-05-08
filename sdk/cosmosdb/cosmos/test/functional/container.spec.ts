@@ -466,36 +466,40 @@ describe("container.readOffer", function() {
   };
   let offerDatabase: Database;
   before(async function() {
-    offerDatabase = await getTestDatabase("has offer", undefined);
+    offerDatabase = await getTestDatabase("has offer");
     containerWithOffer = await getTestContainer(
       "offerContainer",
       undefined,
       containerRequestWithOffer
     );
     containerWithoutOffer = await getTestContainer("container", undefined, containerRequest);
-    const response1 = await offerDatabase.containers.create(containerRequest);
-    const response2 = await offerDatabase.containers.create(containerRequestWithOffer);
+    const response1 = await offerDatabase.containers.create(containerRequestWithOffer);
+    const response2 = await offerDatabase.containers.create(containerRequest);
     container2WithOffer = response1.container;
     container2WithoutOffer = response2.container;
   });
   describe("database does not have offer", function() {
     it("has offer", async function() {
       const offer: any = await containerWithOffer.readOffer();
-      assert.equal(offer.resource.offerVersion, "V2");
+      const { resource: readDef } = await containerWithOffer.read();
+      assert.equal(offer.resource.offerResourceId, readDef._rid);
     });
-    it("does not have offer", async function() {
+    it("does not have offer so uses default", async function() {
       const offer: any = await containerWithoutOffer.readOffer();
-      assert.equal(offer.resource.offerVersion, "V2");
+      const { resource: readDef } = await containerWithoutOffer.read();
+      assert.equal(offer.resource.offerResourceId, readDef._rid);
     });
   });
   describe("database has offer", function() {
     it("container does not have offer", async function() {
       const offer: any = await container2WithoutOffer.readOffer();
-      assert.equal(offer.resource.offerVersion, "V2");
+      const { resource: readDef } = await container2WithoutOffer.read();
+      assert.equal(offer.resource.offerResourceId, readDef._rid);
     });
     it("container has offer", async function() {
-      const offer = await container2WithOffer.readOffer();
-      assert.equal(offer.resource.offerVersion, "V2");
+      const offer: any = await container2WithOffer.readOffer();
+      const { resource: readDef } = await container2WithOffer.read();
+      assert.equal(offer.resource.offerResourceId, readDef._rid);
     });
   });
 });

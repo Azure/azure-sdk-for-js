@@ -140,7 +140,7 @@ describe("database.readOffer", function() {
   describe("without offer", async function() {
     let offerlessDatabase: Database;
     before(async function() {
-      offerlessDatabase = await getTestDatabase("has offer db1", undefined);
+      offerlessDatabase = await getTestDatabase("has offer db1");
     });
     it("returns undefined resource", async function() {
       const offer: any = await offerlessDatabase.readOffer();
