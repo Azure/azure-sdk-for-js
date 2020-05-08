@@ -1,8 +1,8 @@
 {
-  "name": "azure-storage-blob-samples-js",
+  "name": "azure-service-bus-samples-js",
   "private": true,
   "version": "0.1.0",
-  "description": "Azure Storage Blob client library samples for TypeScript",
+  "description": "Azure Service Bus client library samples for JavaScript",
   "engine": {
     "node": ">=8.0.0"
   },
@@ -12,8 +12,7 @@
   },
   "keywords": [
     "Azure",
-    "Storage",
-    "Blob",
+    "Service Bus",
     "Node.js",
     "JavaScript"
   ],
@@ -26,9 +25,11 @@
   "sideEffects": false,
   "dependencies": {
     "@azure/abort-controller": "latest",
-    "@azure/identity": "latest",
-    "@azure/storage-blob": "latest",
-    "dotenv": "^8.2.0"
+    "@azure/ms-rest-nodeauth": "^3.0.0",
+    "@azure/service-bus": "latest",
+    "dotenv": "^8.2.0",
+    "https-proxy-agent": "^4.0.0",
+    "ws": "^7.0.0"
   },
   "devDependencies": {
     "rimraf": "^3.0.0"
