@@ -20,7 +20,7 @@ export function checkNetworkConnection(host: string): Promise<boolean> {
           err
         );
         // List of possible DNS error codes: https://nodejs.org/dist/latest-v12.x/docs/api/dns.html#dns_error_codes
-        // Only when dns.resolve returns an error we expect to see when the network is down, dnsResolve as 'false'.
+        // We only resolve with `false` when dnsResolve fails with a network disconnection.
         if (err.code === CONNREFUSED || err.code === TIMEOUT) {
           return resolve(false);
         }

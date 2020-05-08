@@ -160,7 +160,7 @@ export class RequestResponseLink implements ReqResLink {
           // parallel requests listen on the same receiver, so continue waiting until respose that matches
           // request via correlationId is found.
           logger.verbose(
-            "[%s] request-messageId | '%s' !== '%s' | response-correlationId. " +
+            "[%s] request-messageId | '%s' != '%s' | response-correlationId. " +
               "Hence dropping this response and waiting for the next one.",
             this.connection.id,
             request.message_id,
