@@ -8,13 +8,7 @@
   Run the sendMessages sample with different session ids before running this sample.
 */
 
-const {
-  ServiceBusClient,
-  delay,
-  ReceivedMessageWithLock,
-  SessionReceiver,
-  MessagingError
-} = require("@azure/service-bus");
+const { ServiceBusClient, delay } = require("@azure/service-bus");
 const dotenv = require("dotenv");
 const { env } = require("process");
 const { AbortController } = require("@azure/abort-controller");
@@ -134,15 +128,23 @@ async function receiveFromNextSession(serviceBusClient) {
 async function roundRobinThroughAvailableSessions() {
   const serviceBusClient = new ServiceBusClient(serviceBusConnectionString);
 
+  const receiverPromises = [];
+
   for (let i = 0; i < maxSessionsToProcessSimultaneously; ++i) {
-    (async () => {
-      while (!abortController.signal.aborted) {
-        await receiveFromNextSession(serviceBusClient);
-      }
-    })();
+    receiverPromises.push(
+      (async () => {
+        while (!abortController.signal.aborted) {
+          await receiveFromNextSession(serviceBusClient);
+        }
+      })()
+    );
   }
 
   console.log(`Listening for available sessions...`);
+  await Promise.all(receiverPromises);
+
+  await serviceBusClient.close();
+  console.log(`Exiting...`);
 }
 
 // To stop the round-robin processing you can just call abortController.abort()
