@@ -7,8 +7,7 @@ import { ClientEntityContext } from "./clientEntityContext";
 import {
   message as RheaMessageUtil,
   messageProperties as RheaMessagePropertiesList,
-  MessageAnnotations,
-  Dictionary
+  MessageAnnotations
 } from "rhea-promise";
 import { AmqpMessage } from "@azure/core-amqp";
 
@@ -139,13 +138,19 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
 
   /**
    * Generates an AMQP message that contains the provided encoded messages and annotations.
-   * @param encodedMessages The already encoded messages to include in the AMQP batch.
-   * @param annotations The message annotations to set on the batch.
+   *
+   * @private
+   * @param {Buffer[]} encodedMessages The already encoded messages to include in the AMQP batch.
+   * @param {MessageAnnotations} [annotations] The message annotations to set on the batch.
+   * @param {{ [key: string]: any }} [applicationProperties] The application properties to set on the batch.
+   * @param {{ [key: string]: string }} [messageProperties] The message properties to set on the batch.
+   * @returns {Buffer}
+   * @memberof ServiceBusMessageBatchImpl
    */
   private _generateBatch(
     encodedMessages: Buffer[],
     annotations?: MessageAnnotations,
-    applicationProperties?: Dictionary<any>,
+    applicationProperties?: { [key: string]: any },
     messageProperties?: { [key: string]: string }
   ): Buffer {
     const batchEnvelope: AmqpMessage = {
@@ -192,8 +197,18 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
    * that was added to the batch.
    */
   private _batchAnnotations?: MessageAnnotations;
+  /**
+   * The message properties to apply on the batch envelope.
+   * This will reflect the message properties on the first message
+   * that was added to the batch.
+   */
   private _batchMessageProperties?: { [key: string]: string };
-  private _batchApplicationProperties?: Dictionary<any>;
+  /**
+   * The application properties to apply on the batch envelope.
+   * This will reflect the application properties on the first message
+   * that was added to the batch.
+   */
+  private _batchApplicationProperties?: { [key: string]: any };
 
   /**
    * Tries to add a message to the batch if permitted by the batch's size limit.
