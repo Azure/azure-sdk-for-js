@@ -2,6 +2,8 @@
 
 ## 1.1.3 (Unreleased)
 
+- Adds `getRetryAttemptTimeoutInMs` helper method for service-bus and event-hubs libraries.
+  [PR 8805](https://github.com/Azure/azure-sdk-for-js/pull/8805)
 
 ## 1.1.2 (2020-04-28)
 
