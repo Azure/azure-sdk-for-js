@@ -25,7 +25,7 @@ export async function main() {
   );
 
   // Next, we get a paged async iterator of all of our custom models
-  const result = client.listModels();
+  const result = client.listCustomModels();
 
   // We could print out information about first ten models
   // and save the first model id for later use

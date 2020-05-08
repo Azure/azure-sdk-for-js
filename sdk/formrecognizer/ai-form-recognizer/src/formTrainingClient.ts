@@ -275,7 +275,7 @@ export class FormTrainingClient {
    *
    * ```js
    * const client = new FormTrainingClient(endpoint, new AzureKeyCredential(apiKey));
-   * const result = client.listModels();
+   * const result = client.listCustomModels();
    * let i = 1;
    * for await (const model of result) {
    *   console.log(`model ${i++}:`);
@@ -287,7 +287,7 @@ export class FormTrainingClient {
    *
    * ```js
    * let i = 1;
-   * let iter = client.listModels();
+   * let iter = client.listCustomModels();
    * let modelItem = await iter.next();
    * while (!modelItem.done) {
    *   console.log(`model ${i++}: ${modelItem.value}`);
@@ -299,7 +299,7 @@ export class FormTrainingClient {
    *
    * ```js
    *  let i = 1;
-   *  for await (const response of client.listModels().byPage()) {
+   *  for await (const response of client.listCustomModels().byPage()) {
    *    for (const modelInfo of response.modelList!) {
    *      console.log(`model ${i++}: ${modelInfo.modelId}`);
    *    }
@@ -308,7 +308,7 @@ export class FormTrainingClient {
    *
    * @param {ListModelOptions} options Options to the List Models operation
    */
-  public listModels(
+  public listCustomModels(
     options: ListModelsOptions = {}
   ): PagedAsyncIterableIterator<ModelInfo, ListModelsResponseModel> {
     const iter = this.listModelsAll({}, options);

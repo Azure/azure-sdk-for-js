@@ -266,7 +266,7 @@ export class FormTrainingClient {
     readonly endpointUrl: string;
     getAccountProperties(options?: GetAccountPropertiesOptions): Promise<AccountProperties>;
     getCustomModel(modelId: string, options?: GetModelOptions): Promise<FormModelResponse>;
-    listModels(options?: ListModelsOptions): PagedAsyncIterableIterator<ModelInfo, ListModelsResponseModel>;
+    listCustomModels(options?: ListModelsOptions): PagedAsyncIterableIterator<ModelInfo, ListModelsResponseModel>;
     }
 
 // @public

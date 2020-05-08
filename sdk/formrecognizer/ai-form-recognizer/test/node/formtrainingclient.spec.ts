@@ -153,7 +153,7 @@ describe("FormTrainingClient NodeJS only", () => {
 
   it("listModels() iterates models in this account", async () => {
     let count = 0;
-    for await (const _model of trainingClient.listModels()) {
+    for await (const _model of trainingClient.listCustomModels()) {
       count++;
       if (count > 30) {
         break; // work around issue https://github.com/Azure/azure-sdk-for-js/issues/8353
@@ -163,7 +163,7 @@ describe("FormTrainingClient NodeJS only", () => {
   });
 
   it("listModels() allows getting next model info", async () => {
-    const iter = trainingClient.listModels();
+    const iter = trainingClient.listCustomModels();
     const item = await iter.next();
     assert.ok(item, `Expecting a model but got ${item}`);
     assert.ok(item.value.modelId, `Expecting a model id but got ${item.value.modelId}`);
