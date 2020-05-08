@@ -408,7 +408,7 @@ export class MessageSession extends LinkEntity {
             this.sessionId
           );
           log.messageSession(
-            "Promise to create the receiver resolved. " + "Created receiver with name: ",
+            "Promise to create the receiver resolved. Created receiver with name: ",
             this.name
           );
           log.messageSession(
