@@ -332,7 +332,7 @@ export class MessageSession extends LinkEntity {
   }
 
   private _openLock: string = getUniqueName("messageSessionOpen");
-  private _wasCloseCalled: boolean = false;
+  private _wasCloseInitiated: boolean = false;
 
   /**
    * Creates a new AMQP receiver under a new AMQP session.
@@ -342,7 +342,7 @@ export class MessageSession extends LinkEntity {
     try {
       if (!this.isOpen() && !this.isConnecting) {
         await defaultLock.acquire(this._openLock, async () => {
-          if (this._wasCloseCalled || this.isOpen()) {
+          if (this._wasCloseInitiated || this.isOpen()) {
             return;
           }
 
@@ -695,7 +695,7 @@ export class MessageSession extends LinkEntity {
   async close(isClosedDueToExpiry?: boolean): Promise<void> {
     try {
       await defaultLock.acquire(this._openLock, async () => {
-        this._wasCloseCalled = true;
+        this._wasCloseInitiated = true;
 
         log.messageSession(
           "[%s] Closing the MessageSession '%s' for queue '%s'.",
