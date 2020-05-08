@@ -225,7 +225,7 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
     const stream = fs.createReadStream(filePath);
 
     assert.ok(unlabeledModelId, "Expecting valid model id from training without labels");
-    const poller = await recognizerClient.beginRecognizeForms(
+    const poller = await recognizerClient.beginRecognizeCustomForms(
       unlabeledModelId!,
       stream,
       "image/jpeg"
@@ -257,7 +257,7 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
     const url = `${urlParts[0]}/Form_1.jpg?${urlParts[1]}`;
 
     assert.ok(unlabeledModelId, "Expecting valid model id from training without labels");
-    const poller = await recognizerClient.beginRecognizeFormsFromUrl(unlabeledModelId!, url);
+    const poller = await recognizerClient.beginRecognizeCustomFormsFromUrl(unlabeledModelId!, url);
     await poller.pollUntilDone();
     const response = poller.getResult();
 
@@ -284,7 +284,7 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
     const stream = fs.createReadStream(filePath);
 
     assert.ok(unlabeledModelId, "Expecting valid model id from training without labels");
-    const poller = await recognizerClient.beginRecognizeForms(
+    const poller = await recognizerClient.beginRecognizeCustomForms(
       labeledModelId!,
       stream,
       "image/jpeg"
@@ -318,7 +318,7 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
     const stream = fs.createReadStream(filePath);
 
     assert.ok(labeledModelId, "Expecting valid model id from training without labels");
-    const poller = await recognizerClient.beginRecognizeForms(labeledModelId!, stream);
+    const poller = await recognizerClient.beginRecognizeCustomForms(labeledModelId!, stream);
     await poller.pollUntilDone();
     const response = poller.getResult();
 
@@ -348,7 +348,7 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
     const stream = fs.createReadStream(filePath);
 
     assert.ok(labeledModelId, "Expecting valid model id from training without labels");
-    const poller = await recognizerClient.beginRecognizeForms(labeledModelId!, stream);
+    const poller = await recognizerClient.beginRecognizeCustomForms(labeledModelId!, stream);
     await poller.pollUntilDone();
     const response = poller.getResult();
 

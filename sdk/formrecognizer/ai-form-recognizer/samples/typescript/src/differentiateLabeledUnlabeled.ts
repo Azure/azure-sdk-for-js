@@ -73,7 +73,7 @@ async function recognizeCustomForm(
   console.log("# Recognizing...");
   const readStream = fs.createReadStream(path);
   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
-  const poller = await client.beginRecognizeForms(labeledModelId, readStream, "application/pdf", {
+  const poller = await client.beginRecognizeCustomForms(labeledModelId, readStream, "application/pdf", {
     onProgress: (state) => {
       console.log(`\tstatus: ${state.status}`);
     }

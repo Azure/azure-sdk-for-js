@@ -217,7 +217,7 @@ describe("FormRecognizerClient custom form recognition browser only", () => {
     const url = `${urlParts[0]}/Form_1.jpg?${urlParts[1]}`;
 
     assert.ok(unlabeledModelId, "Expecting valid model id from training without labels");
-    const poller = await recognizerClient.beginRecognizeFormsFromUrl(unlabeledModelId!, url);
+    const poller = await recognizerClient.beginRecognizeCustomFormsFromUrl(unlabeledModelId!, url);
     await poller.pollUntilDone();
     const response = poller.getResult();
 
@@ -255,7 +255,7 @@ describe("FormRecognizerClient custom form recognition browser only", () => {
 
     assert.ok(unlabeledModelId, "Expecting valid model id from training without labels");
     assert.ok(data, "Expect valid Blob data to use as input");
-    const poller = await recognizerClient.beginRecognizeForms(unlabeledModelId!, data!);
+    const poller = await recognizerClient.beginRecognizeCustomForms(unlabeledModelId!, data!);
     await poller.pollUntilDone();
     const response = poller.getResult();
 

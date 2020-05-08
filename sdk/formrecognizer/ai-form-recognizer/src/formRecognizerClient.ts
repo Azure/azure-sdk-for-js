@@ -405,7 +405,7 @@ ng", and "image/tiff";
    * const readStream = fs.createReadStream(path);
    *
    * const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
-   * const poller = await client.beginRecognizeForms(modelId, readStream, "application/pdf", {
+   * const poller = await client.beginRecognizeCustomForms(modelId, readStream, "application/pdf", {
    *   onProgress: (state) => { console.log(`status: ${state.status}`); }
    * });
    * await poller.pollUntilDone();
@@ -418,7 +418,7 @@ ng", and "image/tiff";
    * @param {ContentType} contentType Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", and "image/tiff";
    * @param {BeginRecognizeFormsOptions} [options] Options to start the form recognition operation
    */
-  public async beginRecognizeForms(
+  public async beginRecognizeCustomForms(
     modelId: string,
     data: FormRecognizerRequestBody,
     contentType?: ContentType,
@@ -463,7 +463,7 @@ ng", and "image/tiff";
    * const url = "<form document url>";
    *
    * const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
-   * const poller = await client.beginRecognizeFormsFromUrl(modelId, url, {
+   * const poller = await client.beginRecognizeCustomFormsFromUrl(modelId, url, {
    *   onProgress: (state) => { console.log(`status: ${state.status}`); }
    * });
    * await poller.pollUntilDone();
@@ -476,7 +476,7 @@ ng", and "image/tiff";
    ng", and "image/tiff";
    * @param {BeginRecognizeFormsOptions} [options] Options to start the form recognition operation
    */
-  public async beginRecognizeFormsFromUrl(
+  public async beginRecognizeCustomFormsFromUrl(
     modelId: string,
     documentUrl: string,
     options: BeginRecognizeFormsOptions = {}
