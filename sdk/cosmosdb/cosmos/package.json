@@ -1,6 +1,6 @@
 {
   "name": "@azure/cosmos",
-  "version": "3.6.4",
+  "version": "3.7.0",
   "description": "Microsoft Azure Cosmos DB Service Node.js SDK for SQL API",
   "sdk-type": "client",
   "keywords": [
@@ -135,6 +135,6 @@
     "tslint": "^5.0.0",
     "tslint-config-prettier": "^1.14.0",
     "typedoc": "^0.15.0",
-    "typescript": "~3.7.5"
+    "typescript": "~3.8.3"
   }
 }

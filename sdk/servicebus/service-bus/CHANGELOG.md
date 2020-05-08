@@ -1,5 +1,8 @@
 # Release History
 
+## 7.0.0-preview.3 (Unreleased)
+
+
 ## 7.0.0-preview.2 (2020-05-05)
 
 - Fixes reconnection issues by creating a new connection object rather than re-using the existing one.

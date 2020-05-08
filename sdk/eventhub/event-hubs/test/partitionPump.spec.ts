@@ -90,7 +90,13 @@ describe("PartitionPump", () => {
       // the test tracer just hands out a string integer that just gets
       // incremented
       tracer.spanOptions!.links![0]!.context.traceId.should.equal(firstEvent.context().traceId);
+      (tracer.spanOptions!.links![0]!.attributes!.enqueuedTime as number).should.equal(
+        requiredEventProperties.enqueuedTimeUtc.getTime()
+      );
       tracer.spanOptions!.links![1]!.context.traceId.should.equal(thirdEvent.context().traceId);
+      (tracer.spanOptions!.links![1]!.attributes!.enqueuedTime as number).should.equal(
+        requiredEventProperties.enqueuedTimeUtc.getTime()
+      );
 
       resetTracer();
     });

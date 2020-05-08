@@ -4,15 +4,15 @@
 import { assert } from "chai";
 import { DefaultHttpClient, WebResource } from "@azure/core-http";
 import { FormRecognizerClient } from "../../src";
-import { env, Recorder} from "@azure/test-utils-recorder";
-import { createRecordedRecognizerClient } from '../util/recordedClients';
+import { env, Recorder } from "@azure/test-utils-recorder";
+import { createRecordedRecognizerClient } from "../util/recordedClients";
 
 describe("FormRecognizerClient browser only", () => {
   let client: FormRecognizerClient;
   let recorder: Recorder;
 
-  beforeEach(function () {
-    ({recorder, client } = createRecordedRecognizerClient(this));
+  beforeEach(function() {
+    ({ recorder, client } = createRecordedRecognizerClient(this));
   });
 
   afterEach(function() {
@@ -58,7 +58,10 @@ describe("FormRecognizerClient browser only", () => {
   });
 
   it("recognizes receipt from a Blob", async () => {
-    recorder.skip("browser", "issue with blob response https://github.com/Azure/azure-sdk-for-js/issues/8663");
+    recorder.skip(
+      "browser",
+      "issue with blob response https://github.com/Azure/azure-sdk-for-js/issues/8663"
+    );
     const testingContainerUrl: string = env.FORM_RECOGNIZER_TESTING_CONTAINER_SAS_URL;
     const urlParts = testingContainerUrl.split("?");
     const url = `${urlParts[0]}/contoso-allinone.jpg?${urlParts[1]}`;
@@ -66,7 +69,7 @@ describe("FormRecognizerClient browser only", () => {
     req.streamResponseBody = true;
     const httpClient = new DefaultHttpClient();
     const blob = await httpClient.sendRequest(req);
-    const data = await blob.blobBody
+    const data = await blob.blobBody;
 
     assert.ok(data, "Expect valid Blob data to use as input");
     const poller = await client.beginRecognizeReceipts(data!);

@@ -23,7 +23,7 @@ import {
   setTracerForTest
 } from "./utils/testUtils";
 import { AbortController } from "@azure/abort-controller";
-import { SpanGraph } from "@azure/core-tracing";
+import { SpanGraph, TestSpan } from "@azure/core-tracing";
 import { TRACEPARENT_PROPERTY } from "../src/diagnostics/instrumentEventData";
 import { EventHubProducer } from "../src/sender";
 import { SubscriptionHandlerForTests } from "./utils/subscriptionHandlerForTests";
@@ -1086,6 +1086,16 @@ describe("EventHub Sender", function(): void {
 
       tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
+
+      const knownSendSpans = tracer
+        .getKnownSpans()
+        .filter((span: TestSpan) => span.name === "Azure.EventHubs.send");
+      knownSendSpans.length.should.equal(1, "There should have been one send span.");
+      knownSendSpans[0].attributes.should.deep.equal({
+        "az.namespace": "Microsoft.EventHub",
+        "message_bus.destination": producerClient.eventHubName,
+        "peer.address": producerClient.fullyQualifiedNamespace
+      });
       resetTracer();
     });
 
