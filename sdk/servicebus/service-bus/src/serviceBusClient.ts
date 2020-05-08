@@ -84,8 +84,9 @@ export class ServiceBusClient {
    * In peekLock mode, the receiver has a lock on the message for the duration specified on the
    * queue.
    *
-   * Messages that are not settled will be redelivered as many times as the max delivery count
-   * set on the queue, after which they get sent to a separate dead letter queue.
+   * Messages that are not settled within the lock duration will be redelivered as many times as
+   * the max delivery count set on the queue, after which they get sent to a separate dead letter
+   * queue.
    *
    * You can settle a message by calling complete(), abandon(), defer() or deadletter() methods on
    * the message.
@@ -109,8 +110,9 @@ export class ServiceBusClient {
    * In peekLock mode, the receiver has a lock on the message for the duration specified on the
    * subscription.
    *
-   * Messages that are not settled will be redelivered as many times as the max delivery count
-   * set on the subscription, after which they get sent to a separate dead letter queue.
+   * Messages that are not settled within the lock duration will be redelivered as many times as
+   * the max delivery count set on the subscription, after which they get sent to a separate dead letter
+   * queue.
    *
    * You can settle a message by calling complete(), abandon(), defer() or deadletter() methods on
    * the message.
@@ -176,11 +178,12 @@ export class ServiceBusClient {
   /**
    * Creates a receiver for an Azure Service Bus queue in peekLock mode.
    *
-   * In peekLock mode, the receiver has a lock on the message for the duration specified on the
+   * In peekLock mode, the receiver has a lock on the session for the duration specified on the
    * queue.
    *
-   * Messages that are not settled will be redelivered as many times as the max delivery count
-   * set on the queue, after which they get sent to a separate dead letter queue.
+   * Messages that are not settled within the lock duration will be redelivered as many times as
+   * the max delivery count set on the queue, after which they get sent to a separate dead letter
+   * queue.
    *
    * You can settle a message by calling complete(), abandon(), defer() or deadletter() methods on
    * the message.
@@ -211,11 +214,12 @@ export class ServiceBusClient {
   /**
    * Creates a receiver for an Azure Service Bus subscription in peekLock mode.
    *
-   * In peekLock mode, the receiver has a lock on the message for the duration specified on the
+   * In peekLock mode, the receiver has a lock on the session for the duration specified on the
    * subscription.
    *
-   * Messages that are not settled will be redelivered as many times as the max delivery count
-   * set on the subscription, after which they get sent to a separate dead letter queue.
+   * Messages that are not settled within the lock duration will be redelivered as many times as
+   * the max delivery count set on the subscription, after which they get sent to a separate dead letter
+   * queue.
    *
    * You can settle a message by calling complete(), abandon(), defer() or deadletter() methods on
    * the message.
@@ -320,10 +324,10 @@ export class ServiceBusClient {
    * In peekLock mode, the receiver has a lock on the message for the duration specified on the
    * queue.
    *
-   * Messages that are not settled will be redelivered as many times as the max delivery count
-   * set on the queue, after which they get sent to a separate dead letter queue.
+   * In peekLock mode, the receiver has a lock on the message for the duration specified on the
+   * queue. Messages that are not settled within the lock duration will be redelivered.
    *
-   * You can settle a message by calling complete(), abandon(), defer() or deadletter() methods on
+   * You can settle a message by calling complete(), abandon() or defer() methods on
    * the message.
    *
    * @param queueName The name of the queue to receive from.
@@ -349,12 +353,9 @@ export class ServiceBusClient {
    * Creates a receiver for an Azure Service Bus subscription's dead letter queue in peekLock mode.
    *
    * In peekLock mode, the receiver has a lock on the message for the duration specified on the
-   * subscription.
+   * subscription. Messages that are not settled within the lock duration will be redelivered.
    *
-   * Messages that are not settled will be redelivered as many times as the max delivery count
-   * set on the subscription, after which they get sent to a separate dead letter queue.
-   *
-   * You can settle a message by calling complete(), abandon(), defer() or deadletter() methods on
+   * You can settle a message by calling complete(), abandon() or defer() methods on
    * the message.
    *
    * @param topicName Name of the topic for the subscription we want to receive from.
