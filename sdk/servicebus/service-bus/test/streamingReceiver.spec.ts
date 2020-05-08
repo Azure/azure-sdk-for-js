@@ -1426,7 +1426,14 @@ describe("Streaming - close() respects an in progress init()", () => {
       sbClient["_context"].connection["createReceiver"] = async (options) => {
         resolve();
 
-        // close() will be blocked at this point
+        // the call stack at this point is basically this:
+        // init()
+        //    lock acquired
+        //       createReceiver()
+        //          -- us --
+        //
+        // So we're inside of the "locked" area. close() will be blocked since it will
+        // attempt to acquire the same lock.
         closePromise = receiver.close();
 
         const result = await Promise.race([

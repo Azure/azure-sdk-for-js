@@ -1233,7 +1233,14 @@ describe("Sessions streaming - close() respects an in progress init()", () => {
     let createdReceiver: RheaReceiver | undefined;
 
     sbClient["_context"].connection["createReceiver"] = async (options) => {
-      // close() will be blocked at this point
+      // the call stack at this point is basically this:
+      // init()
+      //    lock acquired
+      //       createReceiver()
+      //          -- us --
+      //
+      // So we're inside of the "locked" area. close() will be blocked since it will
+      // attempt to acquire the same lock.
       closePromise = receiver.close();
 
       const result = await Promise.race([
