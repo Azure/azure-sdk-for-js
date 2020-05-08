@@ -6,7 +6,7 @@ import { assert } from "chai";
 import {
   toTextLine,
   toFormPage,
-  toFormElement,
+  toFormContent,
   toFormText,
   toFormField,
   toFieldValue,
@@ -136,7 +136,7 @@ describe("Transforms", () => {
     const stringRef = "#/readResults/0/lines/0/words/0";
     const readResults = [originalReadResult1, originalReadResult2].map(toFormPage);
 
-    const transformed = toFormElement(stringRef, readResults);
+    const transformed = toFormContent(stringRef, readResults);
 
     assert.deepStrictEqual(transformed, readResults[0].lines![0].words[0]);
   });
@@ -146,7 +146,7 @@ describe("Transforms", () => {
   it("toExtractedElement() converts line string reference to extracted line", () => {
     const stringRef = "#/readResults/1/lines/1";
 
-    const transformed = toFormElement(stringRef, formPages);
+    const transformed = toFormContent(stringRef, formPages);
 
     assert.deepStrictEqual(transformed, formPages[1].lines![1]);
   });

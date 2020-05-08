@@ -20,7 +20,7 @@ import {
 import {
   FormPage,
   FormLine,
-  FormElement,
+  FormContent,
   FormTableRow,
   FormTable,
   RecognizedForm,
@@ -96,7 +96,7 @@ export function toFormPage(original: ReadResultModel): FormPage {
 // Note: might need to support other element types in future, e.g., checkbox
 const textPattern = /\/readResults\/(\d+)\/lines\/(\d+)(?:\/words\/(\d+))?/;
 
-export function toFormElement(element: string, readResults: FormPage[]): FormElement {
+export function toFormContent(element: string, readResults: FormPage[]): FormContent {
   const result = textPattern.exec(element);
   if (!result || !result[0] || !result[1] || !result[2]) {
     throw new Error(`Unexpected element reference encountered: ${element}`);
@@ -116,7 +116,7 @@ export function toFormText(original: KeyValueElementModel, readResults?: FormPag
   return {
     text: original.text,
     boundingBox: original.boundingBox ? toBoundingBox(original.boundingBox) : undefined,
-    textContent: original.elements?.map((element) => toFormElement(element, readResults!))
+    textContent: original.elements?.map((element) => toFormContent(element, readResults!))
   };
 }
 
@@ -142,7 +142,7 @@ export function toFormTable(original: DataTableModel, readResults?: FormPage[]):
       columnIndex: cell.columnIndex,
       columnSpan: cell.columnSpan || 1,
       confidence: cell.confidence,
-      textContent: cell.elements?.map((element) => toFormElement(element, readResults!)),
+      textContent: cell.elements?.map((element) => toFormContent(element, readResults!)),
       isFooter: cell.isFooter || false,
       isHeader: cell.isHeader || false,
       rowIndex: cell.rowIndex,
@@ -224,7 +224,7 @@ export function toFieldValue(original: FieldValueModel, readResults: FormPage[])
           boundingBox: original.boundingBox ? toBoundingBox(original.boundingBox) : undefined,
           confidence: original.confidence || 1,
           pageNumber: original.pageNumber,
-          textContent: original.elements?.map((element) => toFormElement(element, readResults))
+          textContent: original.elements?.map((element) => toFormContent(element, readResults))
         };
   switch (original.type) {
     case "string":

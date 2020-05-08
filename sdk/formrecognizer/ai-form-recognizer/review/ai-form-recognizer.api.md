@@ -128,10 +128,10 @@ export type FieldValueTypes = string | Date | number | FieldValue[] | {
 };
 
 // @public
-export type FormElement = FormWord | FormLine;
+export type FormContent = FormWord | FormLine;
 
 // @public
-export interface FormElementCommon {
+export interface FormContentCommon {
     boundingBox: Point2D[];
     pageNumber: number;
     text: string;
@@ -154,7 +154,7 @@ export interface FormFieldsReport {
 }
 
 // @public
-export interface FormLine extends FormElementCommon {
+export interface FormLine extends FormContentCommon {
     kind: "line";
     words: FormWord[];
 }
@@ -243,7 +243,7 @@ export interface FormTableCell {
     rowIndex: number;
     rowSpan?: number;
     text: string;
-    textContent?: FormElement[];
+    textContent?: FormContent[];
 }
 
 // @public
@@ -255,7 +255,7 @@ export interface FormTableRow {
 export interface FormText {
     boundingBox?: Point2D[];
     text?: string;
-    textContent?: FormElement[];
+    textContent?: FormContent[];
 }
 
 // @public
@@ -276,7 +276,7 @@ export interface FormTrainResult {
 }
 
 // @public
-export interface FormWord extends FormElementCommon {
+export interface FormWord extends FormContentCommon {
     confidence?: number;
     containingLine?: FormLine;
     kind: "word";

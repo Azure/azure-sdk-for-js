@@ -58,7 +58,7 @@ export interface Point2D {
 /**
  * Represents common properties of recognized form contents.
  */
-export interface FormElementCommon {
+export interface FormContentCommon {
   /**
    * The 1-based page number in the input document.
    */
@@ -76,7 +76,7 @@ export interface FormElementCommon {
 /**
  * Represents an recognized word.
  */
-export interface FormWord extends FormElementCommon {
+export interface FormWord extends FormContentCommon {
   /**
    * Element kind - "word"
    */
@@ -94,7 +94,7 @@ export interface FormWord extends FormElementCommon {
 /**
  * Represents an recognized text line.
  */
-export interface FormLine extends FormElementCommon {
+export interface FormLine extends FormContentCommon {
   /**
    * Element kind - "line"
    */
@@ -125,7 +125,7 @@ export interface FormLine extends FormElementCommon {
  * Information about an recognized element in the form. Examples include
  * words, lines, checkbox, etc.
  */
-export type FormElement = FormWord | FormLine; // | FormCheckBox;
+export type FormContent = FormWord | FormLine; // | FormCheckBox;
 
 /**
  * Represents a cell in recognized table
@@ -162,7 +162,7 @@ export interface FormTableCell {
   /**
    * When includeTextDetails is set to true, a list of references to the text elements constituting this table cell.
    */
-  textContent?: FormElement[];
+  textContent?: FormContent[];
   /**
    * Is the current cell a header cell?
    */
@@ -214,7 +214,7 @@ export interface FormText {
   /**
    * When includeTextDetails is set to true, a list of references to the text elements constituting this name or value.
    */
-  textContent?: FormElement[];
+  textContent?: FormContent[];
   /**
    * The text content of the recognized label or value
    */
@@ -352,7 +352,7 @@ interface CommonFieldValue {
    * When includeTextDetails is set to true, a list of references to the text elements constituting
    * this field.
    */
-  textContent?: FormElement[];
+  textContent?: FormContent[];
   /**
    * The 1-based page number in the input document.
    */
