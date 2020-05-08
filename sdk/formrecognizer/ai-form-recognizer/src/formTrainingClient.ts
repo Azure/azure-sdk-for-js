@@ -215,13 +215,13 @@ export class FormTrainingClient {
    * @param {string} modelId Id of the model to get information
    * @param {GetModelOptions} options Options to the Get Model operation
    */
-  public async getModel(
+  public async getCustomModel(
     modelId: string,
     options: GetModelOptions = {}
   ): Promise<FormModelResponse> {
     const realOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
-      "FormTrainingClient-getModel",
+      "FormTrainingClient-getCustomModel",
       realOptions
     );
 
@@ -402,20 +402,21 @@ export class FormTrainingClient {
    * ```
    * @summary Creats and trains a model
    * @param {string} trainingFilesUrl Accessible url to an Azure Storage Blob container storing the training documents
+   * @param {boolean} useTrainingLabels specifies whether to training the model using label files
    * @param {BeginTrainingOptions} [options] Options to start model training operation
    */
   public async beginTraining(
     trainingFilesUrl: string,
-    useLabels: boolean = false,
+    useTrainingLabels: boolean = false,
     options: BeginTrainingOptions<FormModelResponse> = {}
   ): Promise<PollerLike<PollOperationState<FormModelResponse>, FormModelResponse>> {
     const trainPollerClient: TrainPollerClient<FormModelResponse> = {
-      getModel: (modelId: string, options: GetModelOptions) => this.getModel(modelId, options),
+      getCustomModel: (modelId: string, options: GetModelOptions) => this.getCustomModel(modelId, options),
       trainCustomModelInternal: (
         source: string,
         _useLabelFile?: boolean,
         options?: TrainModelOptions
-      ) => trainCustomModelInternal(this.client, source, useLabels, options)
+      ) => trainCustomModelInternal(this.client, source, useTrainingLabels, options)
     };
 
     const poller = new BeginTrainingPoller({

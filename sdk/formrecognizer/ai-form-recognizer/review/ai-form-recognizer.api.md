@@ -261,11 +261,11 @@ export interface FormText {
 // @public
 export class FormTrainingClient {
     constructor(endpointUrl: string, credential: KeyCredential, options?: FormRecognizerClientOptions);
-    beginTraining(trainingFilesUrl: string, useLabels?: boolean, options?: BeginTrainingOptions<FormModelResponse>): Promise<PollerLike<PollOperationState<FormModelResponse>, FormModelResponse>>;
+    beginTraining(trainingFilesUrl: string, useTrainingLabels?: boolean, options?: BeginTrainingOptions<FormModelResponse>): Promise<PollerLike<PollOperationState<FormModelResponse>, FormModelResponse>>;
     deleteModel(modelId: string, options?: DeleteModelOptions): Promise<RestResponse>;
     readonly endpointUrl: string;
     getAccountProperties(options?: GetAccountPropertiesOptions): Promise<AccountProperties>;
-    getModel(modelId: string, options?: GetModelOptions): Promise<FormModelResponse>;
+    getCustomModel(modelId: string, options?: GetModelOptions): Promise<FormModelResponse>;
     listModels(options?: ListModelsOptions): PagedAsyncIterableIterator<ModelInfo, ListModelsResponseModel>;
     }
 

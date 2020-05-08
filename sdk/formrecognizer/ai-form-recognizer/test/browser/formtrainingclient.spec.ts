@@ -166,7 +166,7 @@ describe("FormTrainingClient browser only", () => {
       this.skip();
     }
 
-    const modelInfo = await trainingClient.getModel(modelIdToDelete!);
+    const modelInfo = await trainingClient.getCustomModel(modelIdToDelete!);
 
     assert.ok(modelInfo.modelId === modelIdToDelete, "Expecting same model id");
     assert.ok(
@@ -182,7 +182,7 @@ describe("FormTrainingClient browser only", () => {
 
     await trainingClient.deleteModel(modelIdToDelete!);
     try {
-      await trainingClient.getModel(modelIdToDelete!);
+      await trainingClient.getCustomModel(modelIdToDelete!);
       throw new Error("Expect that an error has already been thrown");
     } catch (err) {
       const message = (err as Error).message;

@@ -50,7 +50,7 @@ export async function main() {
   }
 
   // Now we'll get the first custom model in the paged list
-  const model = await client.getModel(firstModel.modelId);
+  const model = await client.getCustomModel(firstModel.modelId);
   console.log(`Model Id: ${model.modelId}`);
   console.log(`Status: ${model.status}`);
   console.log("Documents used in training: [");
@@ -62,7 +62,7 @@ export async function main() {
   // Finally, we can delete this model if we want (for example, if its status is 'invalid')
   //   await client.deleteModel(firstModel.modelId);
   //   try {
-  //     const deleted = await client.getModel(firstModel.modelId);
+  //     const deleted = await client.getCustomModel(firstModel.modelId);
   //     console.log(deleted);
   //   } catch (err) {
   //     // Expected
