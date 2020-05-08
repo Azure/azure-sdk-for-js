@@ -21,7 +21,7 @@ export async function main() {
   // First, we see how many custom models we have, and what our limit is
   const accountProperties = await client.getAccountProperties();
   console.log(
-    `Our account has ${accountProperties.count} custom models, and we can have at most ${accountProperties.limit} custom models`
+    `Our account has ${accountProperties.customModelCount} custom models, and we can have at most ${accountProperties.customModelLimit} custom models`
   );
 
   // Next, we get a paged async iterator of all of our custom models

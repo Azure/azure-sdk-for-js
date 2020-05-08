@@ -165,8 +165,8 @@ export class FormTrainingClient {
       });
 
       return {
-        limit: result.summary!.limit,
-        count: result.summary!.count
+        customModelLimit: result.summary!.limit,
+        customModelCount: result.summary!.count
       };
     } catch (e) {
       span.setStatus({

@@ -17,8 +17,8 @@ import { RestResponse } from '@azure/core-http';
 
 // @public
 export interface AccountProperties {
-    count: number;
-    limit: number;
+    customModelCount: number;
+    customModelLimit: number;
 }
 
 // @public

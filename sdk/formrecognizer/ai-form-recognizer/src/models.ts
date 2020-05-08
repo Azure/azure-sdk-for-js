@@ -871,9 +871,9 @@ export interface AccountProperties {
   /**
    * Current count of trained custom models.
    */
-  count: number;
+  customModelCount: number;
   /**
    * Max number of models that can be trained for this account.
    */
-  limit: number;
+  customModelLimit: number;
 }
