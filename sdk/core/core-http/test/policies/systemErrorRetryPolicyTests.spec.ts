@@ -7,7 +7,7 @@ import { WebResource } from "../../src/webResource";
 import { HttpOperationResponse } from "../../src/httpOperationResponse";
 import { HttpHeaders, RequestPolicyOptions } from "../../src/coreHttp";
 
-describe.only("SystemErrorRetryPolicy", () => {
+describe("SystemErrorRetryPolicy", () => {
   class PassThroughPolicy {
     constructor(private _response: HttpOperationResponse) {}
     public sendRequest(request: WebResource): Promise<HttpOperationResponse> {

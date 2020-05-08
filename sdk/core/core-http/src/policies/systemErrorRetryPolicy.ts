@@ -154,7 +154,7 @@ function updateRetryData(
   return retryData;
 }
 
-function retry(
+async function retry(
   policy: SystemErrorRetryPolicy,
   request: WebResourceLike,
   operationResponse: HttpOperationResponse,
@@ -173,17 +173,19 @@ function retry(
       err.code === "ENOENT")
   ) {
     // If previous operation ended with an error and the policy allows a retry, do that
-    return utils
-      .delay(retryData.retryInterval)
-      .then(() => policy._nextPolicy.sendRequest(request.clone()))
-      .then((res) => retry(policy, request, res))
-      .catch((err) => retry(policy, request, operationResponse, retryData, err));
+    try {
+      await utils.delay(retryData.retryInterval);
+      return policy._nextPolicy.sendRequest(request.clone());
+    }
+    catch (err) {
+      return retry(policy, request, operationResponse, retryData, err);
+    }
   } else {
     if (err != undefined) {
       // If the operation failed in the end, return all errors instead of just the last one
       err = retryData.error;
       return Promise.reject(err);
     }
-    return Promise.resolve(operationResponse);
+    return operationResponse;
   }
 }
