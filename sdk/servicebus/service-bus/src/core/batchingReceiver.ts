@@ -422,7 +422,7 @@ export class BatchingReceiver extends MessageReceiver {
         });
         this._init(rcvrOptions)
           .then(() => {
-            if (this._receiver == null) {
+            if (!this._receiver) {
               // there's a really small window here where the receiver can be closed
               // if that happens we'll just resolve to an empty array of messages.
               return resolve([]);
