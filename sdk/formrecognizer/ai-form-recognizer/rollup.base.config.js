@@ -4,6 +4,7 @@ import multiEntry from "@rollup/plugin-multi-entry";
 import cjs from "@rollup/plugin-commonjs";
 import replace from "@rollup/plugin-replace";
 import { terser } from "rollup-plugin-terser";
+import shim from "rollup-plugin-shim";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import viz from "rollup-plugin-visualizer";
 
@@ -60,6 +61,7 @@ export function nodeConfig(test = false) {
 export function browserConfig(test = false) {
   const baseConfig = {
     input: input,
+    external: ["fs-extra", "nock", "path"],
     output: {
       file: "dist-browser/azure-ai-form-recognizer.js",
       format: "umd",
@@ -79,6 +81,18 @@ export function browserConfig(test = false) {
           "if (isNode)": "if (false)"
         }
       }),
+      shim({
+        fs: `export default {}`,
+        path: `export function join() {}`,
+        stream: `export default {}`,
+        dotenv: `export function config() { }`,
+        os: `
+          export function arch() { return "javascript" }
+          export function type() { return "Browser" }
+          export function release() { typeof navigator === 'undefined' ? '' : navigator.appVersion }
+        `,
+        constants: `export default {}`
+      }),
       nodeResolve({
         mainFields: ["module", "browser"],
         preferBuiltins: false
@@ -87,7 +101,7 @@ export function browserConfig(test = false) {
         namedExports: {
           chai: ["assert"],
           events: ["EventEmitter"],
-          "@opentelemetry/types": ["CanonicalCode", "SpanKind", "TraceFlags"]
+          "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
         }
       }),
       viz({ filename: "dist-browser/browser-stats.html", sourcemap: false })
@@ -98,7 +112,7 @@ export function browserConfig(test = false) {
     // Entry points - test files under the `test` folder(common for both browser and node), browser specific test files
     baseConfig.input = ["dist-esm/test/*.spec.js", "dist-esm/test/browser/*.spec.js"];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
-    baseConfig.output.file = "dist-test/index.browser.js";
+    baseConfig.output.file = "test-browser/index.browser.js";
 
     baseConfig.onwarn = (warning) => {
       if (

@@ -6,7 +6,7 @@ import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http"
 import { TokenCredentialOptions, IdentityClient } from "../client/identityClient";
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
-import { CanonicalCode } from "@opentelemetry/types";
+import { CanonicalCode } from "@opentelemetry/api";
 
 /**
  * Enables authentication to Azure Active Directory with a user's

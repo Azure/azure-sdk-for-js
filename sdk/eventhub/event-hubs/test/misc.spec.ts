@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import uuid from "uuid/v4";
 import chai from "chai";
@@ -22,7 +22,7 @@ import {
   TRACEPARENT_PROPERTY,
   extractSpanContextFromEventData
 } from "../src/diagnostics/instrumentEventData";
-import { TraceFlags } from "@opentelemetry/types";
+import { TraceFlags } from "@opentelemetry/api";
 import { EventHubConsumer } from "../src/receiver";
 import { SubscriptionHandlerForTests } from "./utils/subscriptionHandlerForTests";
 const env = getEnvVars();
@@ -355,7 +355,7 @@ describe("Misc tests", function(): void {
       should.equal(spanContext!.spanId, spanId, "Extracted spanId does not match expectation.");
       should.equal(
         spanContext!.traceFlags,
-        TraceFlags.UNSAMPLED,
+        TraceFlags.NONE,
         "Extracted traceFlags do not match expectations."
       );
     });

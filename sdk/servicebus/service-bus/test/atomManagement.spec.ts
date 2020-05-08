@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { QueueOptions } from "../src/serializers/queueResourceSerializer";
 import { TopicOptions } from "../src/serializers/topicResourceSerializer";
@@ -667,7 +667,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
       entityAvailabilityStatus: "Available",
       filteringMessagesBeforePublishing: false,
       isAnonymousAccessible: false,
-      isExpress: false,
+      isExpress: undefined,
       maxDeliveryCount: undefined,
       maxSizeInMegabytes: 1024,
       messageCount: undefined,
@@ -710,7 +710,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
       enableExpress: false,
       authorizationRules: undefined,
       userMetadata: "test metadata",
-      isExpress: false,
+      isExpress: undefined,
       enableSubscriptionPartitioning: false,
       filteringMessagesBeforePublishing: false,
       messageCountDetails: undefined,

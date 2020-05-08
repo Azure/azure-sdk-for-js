@@ -19,7 +19,7 @@ import {
   BlobServiceClient
 } from "../src";
 import { Test_CPK_INFO } from "./utils/constants";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("BlobClient", () => {
   let blobServiceClient: BlobServiceClient;
@@ -522,7 +522,7 @@ describe("BlobClient", () => {
 
     const result = await blobClient.download(undefined, undefined, {
       tracingOptions: {
-        spanOptions: { parent: rootSpan }
+        spanOptions: { parent: rootSpan.context() }
       }
     });
     assert.deepStrictEqual(await bodyToString(result, content.length), content);

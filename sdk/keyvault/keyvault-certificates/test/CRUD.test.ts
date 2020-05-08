@@ -382,7 +382,7 @@ describe("Certificates client - create, read, update and delete", () => {
         certificateName,
         testPollerProperties
       );
-      let deletedCertificate = await deletePoller.pollUntilDone();
+      const deletedCertificate = await deletePoller.pollUntilDone();
       assert.equal(
         deletedCertificate.name,
         certificateName,

@@ -1,8 +1,8 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { Span, SpanContext } from "@opentelemetry/types";
+import { Span, SpanContext } from "@opentelemetry/api";
 import { OperationTracingOptions } from "@azure/core-tracing";
 
 /**
@@ -26,12 +26,7 @@ export interface OperationOptions {
  * @ignore
  */
 export function getParentSpan(
-  options: Pick<OperationOptions, "tracingOptions">
-): Span | SpanContext | undefined {
-  return (
-    options &&
-    options.tracingOptions &&
-    options.tracingOptions.spanOptions &&
-    options.tracingOptions.spanOptions.parent
-  );
+  options?: OperationTracingOptions
+): Span | SpanContext | null | undefined {
+  return options?.spanOptions?.parent;
 }

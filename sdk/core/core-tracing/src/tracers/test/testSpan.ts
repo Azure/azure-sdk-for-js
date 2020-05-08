@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-import { NoOpSpan } from "../noop/noOpSpan";
 import {
   TimeInput,
   Tracer,
@@ -9,7 +8,8 @@ import {
   SpanContext,
   CanonicalCode,
   Attributes
-} from "@opentelemetry/types";
+} from "@opentelemetry/api";
+import { NoOpSpan } from "../noop/noOpSpan";
 import { TestTracer } from "./testTracer";
 
 /**

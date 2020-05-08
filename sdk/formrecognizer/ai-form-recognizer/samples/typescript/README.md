@@ -1,3 +1,13 @@
+---
+page_type: sample
+languages:
+  - typescript
+products:
+  - azure
+  - azure-cognitive-services
+urlFragment: ai-form-recognizer-typescript
+---
+
 # Azure Form Recognizer client library samples for TypeScript
 
 These sample programs show how to use the TypeScript client libraries for Azure Cognitive Services Text Analytics in some common scenarios.

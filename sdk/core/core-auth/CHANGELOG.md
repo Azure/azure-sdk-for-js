@@ -1,8 +1,12 @@
 # Release History
 
-## 1.1.2 (Unreleased)
-- Remove the below interfaces from the public API of this package as they are defined elsewhere.
-Fixes [bug 8301](https://github.com/Azure/azure-sdk-for-js/issues/8301).
+## 1.1.3 (Unreleased)
+
+
+## 1.1.2 (2020-04-28)
+
+- Remove the below interfaces from the public API of this package as they are defined elsewhere.
+  Fixes [bug 8301](https://github.com/Azure/azure-sdk-for-js/issues/8301).
   - OperationOptions
   - OperationRequestOptions
   - OperationTracingOptions

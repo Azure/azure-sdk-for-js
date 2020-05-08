@@ -110,4 +110,51 @@ describe("ConnectionContextBase", function() {
 
     done();
   });
+
+  describe("#refreshConnection", function() {
+    it("should update fields on the context", function() {
+      const connectionString =
+        "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
+      const path = "mypath";
+      const config = ConnectionConfig.create(connectionString, path);
+      const context = ConnectionContextBase.create({
+        config: config,
+        connectionProperties: {
+          product: "MSJSClient",
+          userAgent: "/js-amqp-client",
+          version: "1.0.0"
+        }
+      });
+      // hold onto the refreshable values of the context
+      // so we can be sure they change after the refresh call.
+      const refreshableFields = {
+        cbsSession: context.cbsSession,
+        connection: context.connection,
+        connectionId: context.connectionId,
+        connectionLock: context.connectionLock,
+        negotiateClaimLock: context.negotiateClaimLock,
+        // change the value so refresh changes it back
+        wasConnectionCloseCalled: !context.wasConnectionCloseCalled
+      };
+      should.exist(context.config);
+      should.exist(context.connection);
+      should.exist(context.connectionId);
+      should.exist(context.connectionLock);
+      should.exist(context.negotiateClaimLock);
+      should.exist(context.tokenCredential);
+      should.exist(context.dataTransformer);
+      context.wasConnectionCloseCalled.should.equal(false);
+      context.cbsSession.should.instanceOf(CbsClient);
+
+      // update wasConnectionCloseCalled so we can make sure it refreshes
+      context.wasConnectionCloseCalled = true;
+
+      context.refreshConnection();
+
+      // ensure the refreshable fields have all been updated
+      for (const field of Object.keys(refreshableFields) as (keyof typeof refreshableFields)[]) {
+        context[field].should.not.equal(refreshableFields[field]);
+      }
+    });
+  });
 });

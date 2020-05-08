@@ -18,13 +18,13 @@ import {
   toRequestBody,
   getContentType
 } from "./common";
-import { CanonicalCode } from "@opentelemetry/types";
+import { CanonicalCode } from "@opentelemetry/api";
 
-import { FormRecognizerClient as GeneratedClient } from "./generated/formRecognizerClient";
+import { GeneratedClient } from "./generated/generatedClient";
 import {
-  FormRecognizerClientAnalyzeWithCustomModelResponse as AnalyzeWithCustomModelResponseModel,
-  FormRecognizerClientAnalyzeLayoutAsyncResponse as AnalyzeLayoutAsyncResponseModel,
-  FormRecognizerClientAnalyzeReceiptAsyncResponse as AnalyzeReceiptAsyncResponseModel,
+  GeneratedClientAnalyzeWithCustomModelResponse as AnalyzeWithCustomModelResponseModel,
+  GeneratedClientAnalyzeLayoutAsyncResponse as AnalyzeLayoutAsyncResponseModel,
+  GeneratedClientAnalyzeReceiptAsyncResponse as AnalyzeReceiptAsyncResponseModel,
   ContentType,
   SourcePath
 } from "./generated/models";
@@ -700,8 +700,7 @@ async function recognizeLayoutInternal(
   const realOptions = options || {};
   const { span, updatedOptions: finalOptions } = createSpan("analyzeLayoutInternal", realOptions);
   const requestBody = await toRequestBody(body);
-  const requestContentType =
-    contentType ? contentType : await getContentType(requestBody);
+  const requestContentType = contentType ? contentType : await getContentType(requestBody);
 
   try {
     if (requestContentType) {
@@ -738,8 +737,7 @@ async function recognizeCustomFormInternal(
 ): Promise<AnalyzeWithCustomModelResponseModel> {
   const { span, updatedOptions: finalOptions } = createSpan("analyzeCustomFormInternal", options);
   const requestBody = await toRequestBody(body);
-  const requestContentType =
-    contentType ? contentType : await getContentType(requestBody);
+  const requestContentType = contentType ? contentType : await getContentType(requestBody);
 
   try {
     if (requestContentType) {

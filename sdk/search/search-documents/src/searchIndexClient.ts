@@ -24,7 +24,7 @@ import {
   IndexDocumentsResult
 } from "./generated/data/models";
 import { createSpan } from "./tracing";
-import { CanonicalCode } from "@opentelemetry/types";
+import { CanonicalCode } from "@opentelemetry/api";
 import { deserialize, serialize } from "./serialization";
 import {
   CountDocumentsOptions,
@@ -144,7 +144,7 @@ export class SearchIndexClient<T> {
       createSearchApiKeyCredentialPolicy(credential)
     );
     if (Array.isArray(pipeline.requestPolicyFactories)) {
-      pipeline.requestPolicyFactories.unshift(odataMetadataPolicy());
+      pipeline.requestPolicyFactories.unshift(odataMetadataPolicy("none"));
     }
 
     // The contract with the generated client requires a credential, even though it is never used

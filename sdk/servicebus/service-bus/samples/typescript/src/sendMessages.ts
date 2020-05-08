@@ -20,8 +20,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 // Define connection string and related Service Bus entity names here
-const connectionString =
-  process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
+const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
 const listOfScientists = [
@@ -41,7 +40,7 @@ export async function main() {
   const sbClient = new ServiceBusClient(connectionString);
 
   // createSender() can also be used to create a sender for a topic.
-  const sender = sbClient.createSender(queueName);
+  const sender = await sbClient.createSender(queueName);
 
   try {
     for (let index = 0; index < listOfScientists.length; index++) {
@@ -61,6 +60,6 @@ export async function main() {
   }
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.log("Error occurred: ", err);
 });

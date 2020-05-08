@@ -1,5 +1,7 @@
 # Azure Form Recognizer client library for JavaScript
 
+**Note:** This preview version targets Azure Form Recognizer service API version v2.0-preview.
+
 Azure Cognitive Services [Form Recognizer](https://azure.microsoft.com/services/cognitive-services/form-recognizer/) is a cloud service that uses machine learning to recognize text and table data
 from form documents. It includes the following main functionalities:
 
@@ -42,7 +44,7 @@ az group create --name my-resource-group --location westus2
 If you use the Azure CLI, replace `<your-resource-group-name>` and `<your-resource-name>` with your own unique names:
 
 ```bash
-az cognitiveservices account create --kind FormRecognizer --resource-group <your-resource-group-name> --name <your-resource-name>
+az cognitiveservices account create --kind FormRecognizer --resource-group <your-resource-group-name> --name <your-resource-name> --sku <your-sku-name> --location <your-location>
 ```
 
 ### Install the `@azure/ai-form-recognizer` package
@@ -153,7 +155,7 @@ async function main() {
   console.log(usReceipt.recognizedForm.fields["MerchantAddress"]);
 }
 
-function optionalToString(value: unknown = undefined) {
+function optionalToString(value) {
   return `${value || "<missing>"}`;
 }
 
@@ -322,7 +324,7 @@ async function main() {
 
   // using `iter.next()`
   i = 1;
-  let iter = client.listModels();
+  let iter = trainingClient.listModels();
   let modelItem = await iter.next();
   while (!modelItem.done) {
     console.log(`model ${i++}: ${modelItem.value.modelId}`);
@@ -331,7 +333,7 @@ async function main() {
 
   // using `byPage()`
   i = 1;
-  for await (const response of client.listModels().byPage()) {
+  for await (const response of trainingClient.listModels().byPage()) {
     for (const modelInfo of response.modelList) {
       console.log(`model ${i++}: ${modelInfo.modelId}`);
     }
@@ -363,23 +365,7 @@ directory for detailed examples on how to use this library.
 
 ## Contributing
 
-This project welcomes contributions and suggestions. Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit https://cla.microsoft.com.
-
-When you submit a pull request, a CLA-bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.
-
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
-contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
-
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
-
-## Related projects
-
-- [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fformrecognizer%2Fai-form-recognizer%2FREADME.png)
 

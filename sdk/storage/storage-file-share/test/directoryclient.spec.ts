@@ -9,7 +9,7 @@ import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 import { URLBuilder } from "@azure/core-http";
 import { MockPolicyFactory } from "./utils/MockPolicyFactory";
 import { Pipeline } from "../src/Pipeline";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("DirectoryClient", () => {
   let shareName: string;
@@ -630,7 +630,7 @@ describe("DirectoryClient", () => {
     const tracer = new TestTracer();
     setTracer(tracer);
     const rootSpan = tracer.startSpan("root");
-    const spanOptions = { parent: rootSpan };
+    const spanOptions = { parent: rootSpan.context() };
     const tracingOptions = { spanOptions };
     const directoryName = recorder.getUniqueName("directory");
     const { directoryClient: subDirClient } = await dirClient.createSubdirectory(directoryName, {

@@ -74,14 +74,14 @@
   },
   "dependencies": {
     "@azure/core-asynciterator-polyfill": "^1.0.0",
-    "@azure/core-http": "^1.0.0",
-    "@azure/core-paging": "^1.1.0",
+    "@azure/core-http": "^1.1.1",
+    "@azure/core-paging": "^1.1.1",
     "@azure/core-tracing": "1.0.0-preview.8",
-    "@opentelemetry/types": "^0.2.0",
+    "@opentelemetry/api": "^0.6.1",
     "tslib": "^1.10.0"
   },
   "devDependencies": {
-    "@azure/identity": "1.1.0-preview.2",
+    "@azure/identity": "^1.1.0-preview",
     "@azure/test-utils-recorder": "^1.0.0",
     "@microsoft/api-extractor": "7.7.11",
     "@rollup/plugin-commonjs": "^11.0.1",
@@ -112,7 +112,7 @@
     "rollup-plugin-terser": "^5.1.1",
     "sinon": "^7.1.0",
     "ts-node": "^8.3.0",
-    "typescript": "~3.7.5",
+    "typescript": "~3.8.3",
     "uglify-js": "^3.4.9",
     "@rollup/plugin-json": "^4.0.0"
   }

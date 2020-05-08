@@ -3,7 +3,7 @@
 import { TokenCredential } from "@azure/core-http";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { ContainerClient } from "@azure/storage-blob";
-import { CanonicalCode } from "@opentelemetry/types";
+import { CanonicalCode } from "@opentelemetry/api";
 
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";

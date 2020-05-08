@@ -9,7 +9,7 @@ import {
   HttpHeaders,
   RequestPolicyOptions
 } from "../../src/coreHttp";
-import { SpanOptions, SpanContext, TraceFlags } from "@opentelemetry/types";
+import { SpanOptions, SpanContext, TraceFlags } from "@opentelemetry/api";
 import { setTracer, NoOpTracer, NoOpSpan } from "@azure/core-tracing";
 import { tracingPolicy } from "../../src/policies/tracingPolicy";
 
@@ -60,7 +60,7 @@ class MockTracer extends NoOpTracer {
   constructor(
     private traceId = "",
     private spanId = "",
-    private flags = TraceFlags.UNSAMPLED,
+    private flags = TraceFlags.NONE,
     private state = ""
   ) {
     super();
@@ -114,7 +114,7 @@ describe("tracingPolicy", function() {
     setTracer(mockTracer);
     const request = new WebResource();
     request.spanOptions = {
-      parent: ROOT_SPAN
+      parent: ROOT_SPAN.context()
     };
     const policy = tracingPolicy().create(mockPolicy, new RequestPolicyOptions());
     await policy.sendRequest(request);
@@ -141,7 +141,7 @@ describe("tracingPolicy", function() {
     setTracer(mockTracer);
     const request = new WebResource();
     request.spanOptions = {
-      parent: ROOT_SPAN
+      parent: ROOT_SPAN.context()
     };
     const policy = tracingPolicy().create(mockPolicy, new RequestPolicyOptions());
     await policy.sendRequest(request);
@@ -168,7 +168,7 @@ describe("tracingPolicy", function() {
     setTracer(mockTracer);
     const request = new WebResource();
     request.spanOptions = {
-      parent: ROOT_SPAN
+      parent: ROOT_SPAN.context()
     };
     const policy = tracingPolicy().create(mockPolicy, new RequestPolicyOptions());
     await policy.sendRequest(request);
@@ -195,7 +195,7 @@ describe("tracingPolicy", function() {
     setTracer(mockTracer);
     const request = new WebResource();
     request.spanOptions = {
-      parent: ROOT_SPAN
+      parent: ROOT_SPAN.context()
     };
     const policy = tracingPolicy().create(
       {
@@ -233,7 +233,7 @@ describe("tracingPolicy", function() {
     setTracer(new NoOpTracer());
     const request = new WebResource();
     request.spanOptions = {
-      parent: ROOT_SPAN
+      parent: ROOT_SPAN.context()
     };
     const policy = tracingPolicy().create(mockPolicy, new RequestPolicyOptions());
     await policy.sendRequest(request);

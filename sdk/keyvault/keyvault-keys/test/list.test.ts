@@ -41,12 +41,16 @@ describe("Keys client - list keys in various ways", () => {
     for await (const properties of client.listPropertiesOfKeys()) {
       try {
         await testClient.flushKey(properties.name);
-      } catch (e) {}
+      } catch {
+        // Nothing to do here.
+      }
     }
     for await (const deletedKey of client.listDeletedKeys()) {
       try {
         await testClient.purgeKey(deletedKey.name);
-      } catch (e) {}
+      } catch {
+        // Nothing to do here.
+      }
     }
   });
 

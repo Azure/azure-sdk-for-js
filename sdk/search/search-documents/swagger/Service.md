@@ -208,3 +208,13 @@ directive:
     transform: >
       $["x-ms-client-name"] = "etag"
 ```
+
+### Make maximumPageLength to maxPageLength
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.SplitSkill.properties.maximumPageLength
+    transform: >
+      $["x-ms-client-name"] = "maxPageLength"
+```

@@ -10,7 +10,7 @@ import {
   recorderEnvSetup
 } from "./utils";
 import { record, delay, Recorder } from "@azure/test-utils-recorder";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("BlobServiceClient", () => {
   let recorder: Recorder;
