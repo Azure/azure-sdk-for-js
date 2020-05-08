@@ -821,7 +821,7 @@ export class MessageReceiver extends LinkEntity {
             this.address
           );
           log[this.receiverType](
-            "Promise to create the receiver resolved. " + "Created receiver with name: ",
+            "Promise to create the receiver resolved. Created receiver with name: ",
             this.name
           );
           log[this.receiverType](
