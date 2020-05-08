@@ -88,7 +88,6 @@ export class SystemErrorRetryPolicy extends BaseRequestPolicy {
   public sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
     return this._nextPolicy
       .sendRequest(request.clone())
-      .then((response) => retry(this, request, response))
       .catch((error) => retry(this, request, error.response, undefined, error))
   }
 }
