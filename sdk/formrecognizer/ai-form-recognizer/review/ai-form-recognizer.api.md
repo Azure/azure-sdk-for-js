@@ -148,7 +148,7 @@ export interface FormContentCommon {
 // @public
 export interface FormField {
     confidence?: number;
-    fieldLabel?: FormText;
+    labelText?: FormText;
     name?: string;
     value?: FieldValueTypes;
     valueText?: FormText;

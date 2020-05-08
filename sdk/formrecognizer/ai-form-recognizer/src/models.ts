@@ -232,7 +232,7 @@ export interface FormField {
   /**
    * Text of the recognized label of the field.
    */
-  fieldLabel?: FormText;
+  labelText?: FormText;
   /**
    * A user defined label for the field.
    */

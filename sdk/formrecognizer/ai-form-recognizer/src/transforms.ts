@@ -124,7 +124,7 @@ export function toFormField(original: KeyValuePairModel, readResults?: FormPage[
   return {
     name: original.label,
     confidence: original.confidence || 1,
-    fieldLabel: toFormText(original.key, readResults),
+    labelText: toFormText(original.key, readResults),
     valueText: toFormText(original.value, readResults),
     value: original.value.text,
     valueType: "string"

@@ -179,14 +179,14 @@ describe("Transforms", () => {
 
     assert.equal(transformed.name, original.label);
     assert.equal(transformed.confidence, original.confidence);
-    assert.ok(transformed.fieldLabel);
-    assert.ok(transformed.fieldLabel!.boundingBox);
+    assert.ok(transformed.labelText);
+    assert.ok(transformed.labelText!.boundingBox);
     assert.ok(transformed.valueText);
     assert.ok(transformed.valueText!.boundingBox);
-    verifyBoundingBox(transformed.fieldLabel!.boundingBox!, original.key.boundingBox);
+    verifyBoundingBox(transformed.labelText!.boundingBox!, original.key.boundingBox);
     verifyBoundingBox(transformed.valueText!.boundingBox!, original.value.boundingBox);
     assert.deepStrictEqual(
-      transformed.fieldLabel!.textContent![0],
+      transformed.labelText!.textContent![0],
       formPages[0].lines![0].words[0]
     );
     assert.deepStrictEqual(transformed.valueText!.textContent![1], formPages[0].lines![0].words[1]);
@@ -372,9 +372,9 @@ describe("Transforms", () => {
       "Expecting missingField has undefined confidence"
     );
     assert.equal(
-      transformed.missingField.fieldLabel,
+      transformed.missingField.labelText,
       undefined,
-      "Expecting missingField has undefined fieldLabel"
+      "Expecting missingField has undefined labelText"
     );
     assert.equal(
       transformed.missingField.value,
