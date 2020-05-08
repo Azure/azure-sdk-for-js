@@ -331,7 +331,7 @@ export class MessageSession extends LinkEntity {
     );
   }
 
-  private _connectionLock: string = getUniqueName("messageSessionOpen");
+  private _openLock: string = getUniqueName("messageSessionOpen");
   private _wasCloseCalled: boolean = false;
 
   /**
@@ -341,7 +341,7 @@ export class MessageSession extends LinkEntity {
     const connectionId = this._context.namespace.connectionId;
     try {
       if (!this.isOpen() && !this.isConnecting) {
-        await defaultLock.acquire(this._connectionLock, async () => {
+        await defaultLock.acquire(this._openLock, async () => {
           if (this._wasCloseCalled || this.isOpen()) {
             return;
           }
@@ -694,7 +694,7 @@ export class MessageSession extends LinkEntity {
    */
   async close(isClosedDueToExpiry?: boolean): Promise<void> {
     try {
-      await defaultLock.acquire(this._connectionLock, async () => {
+      await defaultLock.acquire(this._openLock, async () => {
         this._wasCloseCalled = true;
 
         log.messageSession(
