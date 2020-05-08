@@ -153,6 +153,10 @@ export class Receiver {
         return;
       })
       .catch((err) => {
+        if (this._context.streamingReceiver != null && !this._context.streamingReceiver.isOpen()) {
+          this._context.streamingReceiver = undefined;
+        }
+
         onError(err);
       });
   }
