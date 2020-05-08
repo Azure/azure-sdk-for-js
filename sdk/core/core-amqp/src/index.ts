@@ -62,4 +62,5 @@ export {
   isNode,
   WebSocketOptions
 } from "./util/utils";
+export { getRetryAttemptTimeoutInMs } from "./retry";
 export { logger } from "./log";

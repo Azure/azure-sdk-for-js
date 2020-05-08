@@ -20,15 +20,14 @@ import {
   RetryConfig,
   RetryOperationType,
   RetryOptions,
-  Constants
+  Constants,
+  getRetryAttemptTimeoutInMs
 } from "@azure/core-amqp";
 import { EventData, toAmqpMessage } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import { EventHubProducerOptions } from "./models/private";
 import { SendOptions } from "./models/public";
-
-import { getRetryAttemptTimeoutInMs } from "./util/retries";
 import { AbortSignalLike, AbortError } from "@azure/abort-controller";
 import { EventDataBatch, isEventDataBatch } from "./eventDataBatch";
 
