@@ -27,6 +27,7 @@ import { ServiceBusMessage, DispositionType, ReceiveMode } from "../serviceBusMe
 import { getUniqueName, calculateRenewAfterDuration } from "../util/utils";
 import { MessageHandlerOptions } from "./streamingReceiver";
 import { DispositionStatusOptions } from "./managementClient";
+import { getReceiverClosedErrorMsg } from "../util/errors";
 
 /**
  * @internal
@@ -781,7 +782,20 @@ export class MessageReceiver extends LinkEntity {
         }
 
         await defaultLock.acquire(this._openLock, async () => {
-          if (this.wasCloseInitiated || this.isOpen()) {
+          if (this.wasCloseInitiated) {
+            const err = new MessagingError(
+              getReceiverClosedErrorMsg(
+                this._context.entityPath,
+                this._context.clientType,
+                this._context.isClosed,
+                undefined
+              )
+            );
+            err.retryable = false;
+            throw err;
+          }
+
+          if (this.isOpen()) {
             return;
           }
 

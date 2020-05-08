@@ -130,10 +130,12 @@ export class Receiver {
       throw new TypeError("The parameter 'onError' must be of type 'function'.");
     }
 
-    this._context.streamingReceiver = StreamingReceiver.create(this._context, {
-      ...options,
-      receiveMode: this._receiveMode
-    });
+    if (!this._context.streamingReceiver) {
+      this._context.streamingReceiver = StreamingReceiver.create(this._context, {
+        ...options,
+        receiveMode: this._receiveMode
+      });
+    }
 
     this._context.streamingReceiver
       ._init()
@@ -179,7 +181,7 @@ export class Receiver {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
 
-    if (!this._context.batchingReceiver || !this._context.batchingReceiver.isOpen()) {
+    if (!this._context.batchingReceiver) {
       const options: ReceiveOptions = {
         maxConcurrentCalls: 0,
         receiveMode: this._receiveMode
