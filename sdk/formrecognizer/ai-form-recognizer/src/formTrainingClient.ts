@@ -21,17 +21,16 @@ import { GeneratedClient } from "./generated/generatedClient";
 import {
   GeneratedClientGetCustomModelsResponse as ListModelsResponseModel,
   Model,
-  ModelInfo,
   GeneratedClientTrainCustomModelAsyncResponse
 } from "./generated/models";
 import { TrainPollerClient, BeginTrainingPoller, BeginTrainingPollState } from "./lro/train/poller";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
 import { FormRecognizerClientOptions, FormRecognizerOperationOptions } from "./common";
-import { FormModelResponse, AccountProperties } from "./models";
+import { FormModelResponse, AccountProperties, CustomFormModelInfo } from "./models";
 import { createFormRecognizerAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 import { toFormModelResponse } from "./transforms";
 
-export { ListModelsResponseModel, Model, ModelInfo, RestResponse };
+export { ListModelsResponseModel, Model, RestResponse };
 /**
  * Options for model listing operation.
  */
@@ -260,7 +259,7 @@ export class FormTrainingClient {
   private async *listModelsAll(
     settings: PageSettings,
     options: ListModelsOptions = {}
-  ): AsyncIterableIterator<ModelInfo> {
+  ): AsyncIterableIterator<CustomFormModelInfo> {
     for await (const page of this.listModelsPage(settings, options)) {
       yield* page.modelList || [];
     }
@@ -310,7 +309,7 @@ export class FormTrainingClient {
    */
   public listCustomModels(
     options: ListModelsOptions = {}
-  ): PagedAsyncIterableIterator<ModelInfo, ListModelsResponseModel> {
+  ): PagedAsyncIterableIterator<CustomFormModelInfo, ListModelsResponseModel> {
     const iter = this.listModelsAll({}, options);
 
     return {

@@ -85,6 +85,14 @@ export interface CustomFormModel {
     trainingDocuments?: TrainingDocumentInfo[];
 }
 
+// @public
+export interface CustomFormModelInfo {
+    createdOn: Date;
+    lastModified: Date;
+    modelId: string;
+    status: ModelStatus;
+}
+
 // @public (undocumented)
 export interface CustomFormSubModel {
     accuracy?: number;
@@ -162,7 +170,7 @@ export interface FormLine extends FormContentCommon {
 // @public
 export interface FormModel {
     keys: KeysResult;
-    modelInfo: ModelInfo;
+    modelInfo: CustomFormModelInfo;
     trainResult?: FormTrainResult;
 }
 
@@ -266,7 +274,7 @@ export class FormTrainingClient {
     readonly endpointUrl: string;
     getAccountProperties(options?: GetAccountPropertiesOptions): Promise<AccountProperties>;
     getCustomModel(modelId: string, options?: GetModelOptions): Promise<FormModelResponse>;
-    listCustomModels(options?: ListModelsOptions): PagedAsyncIterableIterator<ModelInfo, ListModelsResponseModel>;
+    listCustomModels(options?: ListModelsOptions): PagedAsyncIterableIterator<CustomFormModelInfo, ListModelsResponseModel>;
     }
 
 // @public
@@ -339,16 +347,9 @@ export type Locale = "US" | "UK";
 // @public
 export interface Model {
     keys?: KeysResult;
+    // Warning: (ae-forgotten-export) The symbol "ModelInfo" needs to be exported by the entry point index.d.ts
     modelInfo: ModelInfo;
     trainResult?: TrainResult;
-}
-
-// @public
-export interface ModelInfo {
-    createdOn: Date;
-    lastModified: Date;
-    modelId: string;
-    status: ModelStatus;
 }
 
 // @public
@@ -589,7 +590,7 @@ export type ValueTypes = "string" | "date" | "time" | "phoneNumber" | "number" |
 // Warnings were encountered during analysis:
 //
 // src/formRecognizerClient.ts:70:3 - (ae-forgotten-export) The symbol "BeginRecognizePollState" needs to be exported by the entry point index.d.ts
-// src/formTrainingClient.ts:68:3 - (ae-forgotten-export) The symbol "BeginTrainingPollState" needs to be exported by the entry point index.d.ts
+// src/formTrainingClient.ts:67:3 - (ae-forgotten-export) The symbol "BeginTrainingPollState" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

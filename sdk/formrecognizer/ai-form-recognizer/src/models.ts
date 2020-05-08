@@ -19,8 +19,7 @@ import {
   TrainingDocumentInfo,
   TrainResult,
   TrainStatus,
-  OperationStatus,
-  ModelInfo
+  OperationStatus
 } from "./generated/models";
 
 export {
@@ -737,13 +736,35 @@ export interface FormTrainResult {
 }
 
 /**
+ * Basic custom model information.
+ */
+export interface CustomFormModelInfo {
+  /**
+   * Model identifier.
+   */
+  modelId: string;
+  /**
+   * Status of the model.
+   */
+  status: ModelStatus;
+  /**
+   * Date and time (UTC) when the model was created.
+   */
+  createdOn: Date;
+  /**
+   * Date and time (UTC) when the status was last updated.
+   */
+  lastModified: Date;
+}
+
+/**
  * Represents a model from unlabeled training.
  */
 export interface FormModel {
   /**
    * Information about the model
    */
-  modelInfo: ModelInfo;
+  modelInfo: CustomFormModelInfo;
   /**
    * Keys recognized from unlabeled training.
    */
