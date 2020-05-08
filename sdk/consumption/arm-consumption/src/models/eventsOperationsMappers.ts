@@ -21,6 +21,7 @@ export {
   CurrentSpend,
   ErrorDetails,
   ErrorResponse,
+  Events,
   EventSummary,
   Filters,
   Forecast,
