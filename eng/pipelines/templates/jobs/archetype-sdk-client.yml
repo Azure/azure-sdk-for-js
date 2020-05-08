@@ -205,9 +205,6 @@ jobs:
       steps:
         - template: ../steps/common.yml
 
-        - script: node --version
-          displayName: "node --version"
-
         - script: |
             node common/scripts/install-run-rush.js install
           displayName: "Install dependencies"
