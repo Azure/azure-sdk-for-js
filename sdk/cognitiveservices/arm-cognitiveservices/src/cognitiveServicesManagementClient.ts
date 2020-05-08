@@ -21,11 +21,13 @@ class CognitiveServicesManagementClient extends CognitiveServicesManagementClien
   accounts: operations.Accounts;
   resourceSkus: operations.ResourceSkus;
   operations: operations.Operations;
+  privateEndpointConnections: operations.PrivateEndpointConnections;
+  privateLinkResources: operations.PrivateLinkResources;
 
   /**
    * Initializes a new instance of the CognitiveServicesManagementClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
-   * @param subscriptionId Azure Subscription ID.
+   * @param subscriptionId The ID of the target subscription.
    * @param [options] The parameter options
    */
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.CognitiveServicesManagementClientOptions) {
@@ -33,6 +35,8 @@ class CognitiveServicesManagementClient extends CognitiveServicesManagementClien
     this.accounts = new operations.Accounts(this);
     this.resourceSkus = new operations.ResourceSkus(this);
     this.operations = new operations.Operations(this);
+    this.privateEndpointConnections = new operations.PrivateEndpointConnections(this);
+    this.privateLinkResources = new operations.PrivateLinkResources(this);
   }
 
   /**
