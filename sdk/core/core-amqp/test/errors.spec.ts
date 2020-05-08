@@ -109,7 +109,8 @@ describe("Errors", function() {
         if (
           translatedError.code === "ServerBusyError" ||
           translatedError.code === "MessagingError" ||
-          translatedError.code === undefined
+          // eslint-disable-next-line eqeqeq
+          translatedError.code == undefined
         ) {
           translatedError.retryable.should.equal(true);
         } else {
