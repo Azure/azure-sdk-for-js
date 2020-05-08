@@ -126,6 +126,7 @@ export interface Sender {
     cancelScheduledMessages(sequenceNumbers: Long[], options?: OperationOptions): Promise<void>;
     close(): Promise<void>;
     createBatch(options?: CreateBatchOptions): Promise<ServiceBusMessageBatch>;
+    entityPath: string;
     isClosed: boolean;
     scheduleMessage(scheduledEnqueueTimeUtc: Date, message: ServiceBusMessage, options?: OperationOptions): Promise<Long>;
     scheduleMessages(scheduledEnqueueTimeUtc: Date, messages: ServiceBusMessage[], options?: OperationOptions): Promise<Long[]>;
