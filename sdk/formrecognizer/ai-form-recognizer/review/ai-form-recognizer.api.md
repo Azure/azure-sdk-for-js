@@ -77,7 +77,7 @@ export type ContentType = "application/pdf" | "image/jpeg" | "image/png" | "imag
 // @public
 export interface CustomFormModel {
     createdOn: Date;
-    errors?: ErrorInformation[];
+    errors?: FormRecognizerError[];
     lastModified: Date;
     modelId: string;
     models?: CustomFormSubModel[];
@@ -118,14 +118,6 @@ export type DateFieldValue = {
 
 // @public
 export type DeleteModelOptions = FormRecognizerOperationOptions;
-
-// @public (undocumented)
-export interface ErrorInformation {
-    // (undocumented)
-    code: string;
-    // (undocumented)
-    message: string;
-}
 
 // @public
 export type FieldValue = StringFieldValue | DateFieldValue | TimeFieldValue | PhoneNumberFieldValue | NumberFieldValue | IntegerFieldValue | ArrayFieldValue | ObjectFieldValue;
@@ -220,6 +212,12 @@ export interface FormRecognizerClientOptions extends PipelineOptions {
 }
 
 // @public
+export interface FormRecognizerError {
+    code: string;
+    message: string;
+}
+
+// @public
 export interface FormRecognizerOperationOptions extends OperationOptions {
 }
 
@@ -228,7 +226,7 @@ export type FormRecognizerRequestBody = Blob | ArrayBuffer | ArrayBufferView | N
 
 // @public
 export interface FormResult {
-    errors?: ErrorInformation[];
+    errors?: FormRecognizerError[];
     forms?: RecognizedForm[];
     version: string;
 }
@@ -279,7 +277,7 @@ export class FormTrainingClient {
 
 // @public
 export interface FormTrainResult {
-    errors?: ErrorInformation[];
+    errors?: FormRecognizerError[];
     trainingDocuments: TrainingDocumentInfo[];
 }
 
@@ -347,9 +345,16 @@ export type Locale = "US" | "UK";
 // @public
 export interface Model {
     keys?: KeysResult;
-    // Warning: (ae-forgotten-export) The symbol "ModelInfo" needs to be exported by the entry point index.d.ts
     modelInfo: ModelInfo;
     trainResult?: TrainResult;
+}
+
+// @public
+export interface ModelInfo {
+    createdOn: Date;
+    lastModified: Date;
+    modelId: string;
+    status: ModelStatus;
 }
 
 // @public
@@ -535,7 +540,7 @@ export type TimeFieldValue = {
 // @public
 export interface TrainingDocumentInfo {
     documentName: string;
-    errors: ErrorInformation[];
+    errors: FormRecognizerError[];
     pageCount: number;
     status: TrainStatus;
 }
@@ -549,7 +554,7 @@ export type TrainModelOptions = FormRecognizerOperationOptions & {
 // @public
 export interface TrainResult {
     averageModelAccuracy?: number;
-    errors?: ErrorInformation[];
+    errors?: FormRecognizerError[];
     fields?: FormFieldsReport[];
     trainingDocuments: TrainingDocumentInfo[];
 }
@@ -590,7 +595,7 @@ export type ValueTypes = "string" | "date" | "time" | "phoneNumber" | "number" |
 // Warnings were encountered during analysis:
 //
 // src/formRecognizerClient.ts:70:3 - (ae-forgotten-export) The symbol "BeginRecognizePollState" needs to be exported by the entry point index.d.ts
-// src/formTrainingClient.ts:67:3 - (ae-forgotten-export) The symbol "BeginTrainingPollState" needs to be exported by the entry point index.d.ts
+// src/formTrainingClient.ts:66:3 - (ae-forgotten-export) The symbol "BeginTrainingPollState" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

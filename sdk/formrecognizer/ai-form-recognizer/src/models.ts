@@ -5,39 +5,34 @@ import * as coreHttp from "@azure/core-http";
 
 import {
   AnalyzeOperationResult as AnalyzeOperationResultModel,
-  ErrorInformation,
   FormFieldsReport,
   KeysResult,
   KeyValueElement as KeyValueElementModel,
   KeyValuePair as KeyValuePairModel,
   Language,
   LengthUnit,
-  Model,
+  ModelInfo,
   Models,
   ModelsSummary,
   ModelStatus,
-  TrainingDocumentInfo,
-  TrainResult,
   TrainStatus,
   OperationStatus
 } from "./generated/models";
 
 export {
   AnalyzeOperationResultModel,
-  ErrorInformation,
   FormFieldsReport,
   KeysResult,
   KeyValueElementModel,
   KeyValuePairModel,
   Language,
   LengthUnit,
+  ModelInfo,
   Models,
   ModelsSummary,
   ModelStatus,
   OperationStatus,
-  TrainingDocumentInfo,
-  TrainStatus,
-  TrainResult
+  TrainStatus
 };
 
 /**
@@ -665,6 +660,20 @@ export type RecognizeContentResultResponse = RecognizeContentOperationResult & {
 };
 
 /**
+ * Represents errors from Azure Form Recognizer service
+ */
+export interface FormRecognizerError {
+  /**
+   * Error code
+   */
+  code: string;
+  /**
+   * Error message
+   */
+  message: string;
+}
+
+/**
  * Represents an recognized form using a custom model.
  */
 export interface FormResult {
@@ -680,7 +689,7 @@ export interface FormResult {
   /**
    * List of errors reported during the form recognition operation.
    */
-  errors?: ErrorInformation[];
+  errors?: FormRecognizerError[];
 }
 
 /**
@@ -722,6 +731,28 @@ export type RecognizeFormResultResponse = RecognizeFormOperationResult & {
 };
 
 /**
+ * Report for a custom model training document.
+ */
+export interface TrainingDocumentInfo {
+  /**
+   * Training document name.
+   */
+  documentName: string;
+  /**
+   * Total number of pages trained.
+   */
+  pageCount: number;
+  /**
+   * List of errors.
+   */
+  errors: FormRecognizerError[];
+  /**
+   * Status of the training operation.
+   */
+  status: TrainStatus;
+}
+
+/**
  * Contains the unlabeled training results.
  */
 export interface FormTrainResult {
@@ -732,7 +763,7 @@ export interface FormTrainResult {
   /**
    * Errors returned during training operation.
    */
-  errors?: ErrorInformation[];
+  errors?: FormRecognizerError[];
 }
 
 /**
@@ -828,11 +859,51 @@ export interface CustomFormModel {
   /**
    * Errors returned during training operation.
    */
-  errors?: ErrorInformation[];
+  errors?: FormRecognizerError[];
   /**
    * Form models created by training.
    */
   models?: CustomFormSubModel[];
+}
+
+/**
+ * Custom model training result.
+ */
+export interface TrainResult {
+  /**
+   * List of the documents used to train the model and any errors reported in each document.
+   */
+  trainingDocuments: TrainingDocumentInfo[];
+  /**
+   * List of fields used to train the model and the train operation error reported by each.
+   */
+  fields?: FormFieldsReport[];
+  /**
+   * Average accuracy.
+   */
+  averageModelAccuracy?: number;
+  /**
+   * Errors returned during the training operation.
+   */
+  errors?: FormRecognizerError[];
+}
+
+/**
+ * Response to the get custom model operation.
+ */
+export interface Model {
+  /**
+   * Basic custom model information.
+   */
+  modelInfo: ModelInfo;
+  /**
+   * Keys extracted by the custom model.
+   */
+  keys?: KeysResult;
+  /**
+   * Custom model training result.
+   */
+  trainResult?: TrainResult;
 }
 
 /**

@@ -20,7 +20,6 @@ import { CanonicalCode } from "@opentelemetry/api";
 import { GeneratedClient } from "./generated/generatedClient";
 import {
   GeneratedClientGetCustomModelsResponse as ListModelsResponseModel,
-  Model,
   GeneratedClientTrainCustomModelAsyncResponse
 } from "./generated/models";
 import { TrainPollerClient, BeginTrainingPoller, BeginTrainingPollState } from "./lro/train/poller";
@@ -30,7 +29,7 @@ import { FormModelResponse, AccountProperties, CustomFormModelInfo } from "./mod
 import { createFormRecognizerAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 import { toFormModelResponse } from "./transforms";
 
-export { ListModelsResponseModel, Model, RestResponse };
+export { ListModelsResponseModel, RestResponse };
 /**
  * Options for model listing operation.
  */
