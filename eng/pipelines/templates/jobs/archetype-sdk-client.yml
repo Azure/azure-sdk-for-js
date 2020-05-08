@@ -205,6 +205,9 @@ jobs:
       steps:
         - template: ../steps/common.yml
 
+        - script: node --version
+          displayName: "node --version"
+
         - script: |
             node common/scripts/install-run-rush.js install
           displayName: "Install dependencies"
@@ -225,6 +228,9 @@ jobs:
           inputs:
             versionSpec: $(NodeTestVersion)
           displayName: "Use NodeJS $(NodeTestVersion)"
+
+        - script: node --version
+          displayName: "node --version"
 
         # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
         # The default on Windows is "cores - 1" (microsoft/rushstack#436).
