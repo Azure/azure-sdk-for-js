@@ -125,13 +125,13 @@ export interface CreateConnectionContextBaseParameters {
   operationTimeoutInMs?: number;
 }
 
-export namespace ConnectionContextBase {
+export const ConnectionContextBase = {
   /**
    * Creates the base connection context.
    * @param {CreateConnectionContextBaseParameters} parameters Parameters to be provided to create
    * the base connection context.
    */
-  export function create(parameters: CreateConnectionContextBaseParameters): ConnectionContextBase {
+  create(parameters: CreateConnectionContextBaseParameters): ConnectionContextBase {
     ConnectionConfig.validate(parameters.config, {
       isEntityPathRequired: parameters.isEntityPathRequired || false
     });
@@ -211,4 +211,4 @@ export namespace ConnectionContextBase {
 
     return connectionContextBase;
   }
-}
+};
