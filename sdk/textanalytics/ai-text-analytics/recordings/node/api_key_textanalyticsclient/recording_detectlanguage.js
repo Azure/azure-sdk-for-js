@@ -1,10 +1,12 @@
 let nock = require('nock');
 
+module.exports.hash = "83fb13a50e9969bc99022f3b3572b0c4";
+
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
-nock('https://endpoint:443', {"encodedQueryParams":true})
-  .post('/text/analytics/v3.0-preview.1/languages', {"documents":[{"id":"0","text":"impossible","countryHint":"fr"}]})
-  .reply(200, {"documents":[{"id":"0","detectedLanguages":[{"name":"French","iso6391Name":"fr","score":1}]}],"errors":[],"modelVersion":"2019-10-01"}, [
+nock('https://endpoint', {"encodedQueryParams":true})
+  .post('/text/analytics/v3.0/languages', {"documents":[{"id":"0","text":"impossible","countryHint":"fr"}]})
+  .reply(200, {"documents":[{"id":"0","detectedLanguage":{"name":"French","iso6391Name":"fr","confidenceScore":1},"warnings":[]}],"errors":[],"modelVersion":"2019-10-01"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -12,13 +14,13 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'csp-billing-usage',
   'CognitiveServices.TextAnalytics.BatchScoring=1',
   'x-envoy-upstream-service-time',
-  '4',
+  '8',
   'apim-request-id',
-  'd6ad6fb7-3e7e-4036-8fd3-6d4ebc6527f6',
+  'eb47353c-6f30-4b66-837d-0a66a28d5095',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 05 Feb 2020 23:50:56 GMT'
+  'Fri, 08 May 2020 21:45:52 GMT'
 ]);

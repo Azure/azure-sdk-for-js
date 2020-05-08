@@ -2,49 +2,28 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
-   "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
-   "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3599,\"ext_expires_in\":3599,\"access_token\":\"access_token\"}",
-   "responseHeaders": {
-    "cache-control": "no-cache, no-store",
-    "content-length": "1417",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 05 Feb 2020 23:51:00 GMT",
-    "expires": "-1",
-    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-    "pragma": "no-cache",
-    "referrer-policy": "strict-origin-when-cross-origin",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.9987.14 - SAN ProdSlices",
-    "x-ms-request-id": "6fb02ad4-1265-4616-984c-1918b8402100"
-   }
-  },
-  {
-   "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.0-preview.1/languages",
+   "url": "https://endpoint/text/analytics/v3.0/languages",
    "query": {},
    "requestBody": "{\"documents\":[{\"id\":\"0\",\"text\":\"impossible\",\"countryHint\":\"fr\"}]}",
    "status": 200,
-   "response": "{\"documents\":[{\"id\":\"0\",\"detectedLanguages\":[{\"name\":\"French\",\"iso6391Name\":\"fr\",\"score\":1.0}]}],\"errors\":[],\"modelVersion\":\"2019-10-01\"}",
+   "response": "{\"documents\":[{\"id\":\"0\",\"detectedLanguage\":{\"name\":\"French\",\"iso6391Name\":\"fr\",\"confidenceScore\":1.0},\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2019-10-01\"}",
    "responseHeaders": {
     "access-control-allow-origin": "*",
-    "access-control-expose-headers": "Operation-Location",
-    "apim-request-id": "4788c2e3-c4d4-4c03-8157-02db8c63bf17",
+    "access-control-expose-headers": "Operation-Location,Location",
+    "apim-request-id": "b58fc076-5332-47be-b96b-19d4faf1542d",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1",
-    "date": "Wed, 05 Feb 2020 23:51:00 GMT",
+    "date": "Fri, 08 May 2020 21:45:59 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "5"
+    "x-envoy-upstream-service-time": "3"
    }
   }
  ],
  "uniqueTestInfo": {
   "uniqueName": {},
   "newDate": {}
- }
+ },
+ "hash": "0549c5e3bcae9d6ccfff981059c03eee"
 }

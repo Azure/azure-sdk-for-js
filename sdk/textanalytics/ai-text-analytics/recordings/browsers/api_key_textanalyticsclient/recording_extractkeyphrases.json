@@ -2,27 +2,28 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.0-preview.1/keyPhrases",
+   "url": "https://endpoint/text/analytics/v3.0/keyPhrases",
    "query": {},
    "requestBody": "{\"documents\":[{\"id\":\"0\",\"text\":\"I had a wonderful trip to Seattle last weekend\",\"language\":\"en\"}]}",
    "status": 200,
-   "response": "{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"wonderful trip\",\"Seattle\",\"weekend\"]}],\"errors\":[],\"modelVersion\":\"2019-10-01\"}",
+   "response": "{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"wonderful trip\",\"Seattle\",\"weekend\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2019-10-01\"}",
    "responseHeaders": {
     "access-control-allow-origin": "*",
     "access-control-expose-headers": "Operation-Location,Location",
-    "apim-request-id": "78817bd6-c39b-4580-8944-d3519602e9db",
+    "apim-request-id": "9b57c7fa-834f-4a05-8360-72aae398a7c7",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1",
-    "date": "Wed, 05 Feb 2020 23:15:44 GMT",
+    "date": "Fri, 08 May 2020 21:45:58 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "6"
+    "x-envoy-upstream-service-time": "5"
    }
   }
  ],
  "uniqueTestInfo": {
   "uniqueName": {},
   "newDate": {}
- }
+ },
+ "hash": "4de919145f207001f2d5fb5efebc9f4e"
 }

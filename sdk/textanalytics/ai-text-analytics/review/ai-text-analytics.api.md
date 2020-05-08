@@ -81,8 +81,6 @@ export type DocumentSentimentLabel = 'positive' | 'neutral' | 'negative' | 'mixe
 export interface Entity {
     category: string;
     confidenceScore: number;
-    graphemeLength: number;
-    graphemeOffset: number;
     subCategory?: string;
     text: string;
 }
@@ -129,8 +127,6 @@ export interface LinkedEntity {
 // @public
 export interface Match {
     confidenceScore: number;
-    graphemeLength: number;
-    graphemeOffset: number;
     text: string;
 }
 
@@ -177,8 +173,6 @@ export interface RecognizeLinkedEntitiesSuccessResult extends TextAnalyticsSucce
 // @public
 export interface SentenceSentiment {
     confidenceScores: SentimentConfidenceScores;
-    graphemeLength: number;
-    graphemeOffset: number;
     sentiment: SentenceSentimentLabel;
     text?: string;
 }
@@ -274,7 +268,7 @@ export interface TextDocumentInput {
 
 // @public
 export interface TextDocumentStatistics {
-    graphemeCount: number;
+    characterCount: number;
     transactionCount: number;
 }
 

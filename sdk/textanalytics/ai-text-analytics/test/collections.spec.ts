@@ -199,8 +199,6 @@ describe("RecognizeCategorizedEntitiesResultCollection", () => {
             {
               text: "Microsoft",
               category: "Organization",
-              graphemeOffset: 10,
-              graphemeLength: 9,
               confidenceScore: 0.9989
             }
           ],
@@ -213,8 +211,6 @@ describe("RecognizeCategorizedEntitiesResultCollection", () => {
               text: "last week",
               category: "DateTime",
               subCategory: "DateRange",
-              graphemeOffset: 34,
-              graphemeLength: 9,
               confidenceScore: 0.8
             }
           ],
@@ -266,8 +262,6 @@ describe("RecognizeLinkedEntitiesResultCollection", () => {
               matches: [
                 {
                   text: "Seattle",
-                  graphemeOffset: 26,
-                  graphemeLength: 7,
                   confidenceScore: 0.15046201222847677
                 }
               ],
@@ -287,8 +281,6 @@ describe("RecognizeLinkedEntitiesResultCollection", () => {
               matches: [
                 {
                   text: "Microsoft",
-                  graphemeOffset: 10,
-                  graphemeLength: 9,
                   confidenceScore: 0.1869365971673207
                 }
               ],

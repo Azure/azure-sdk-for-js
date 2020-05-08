@@ -2,49 +2,28 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "url": "https://endpoint/text/analytics/v3.0/entities/recognition/general",
    "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
+   "requestBody": "{\"documents\":[{\"id\":\"1\",\"text\":\"I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!\",\"language\":\"en\"},{\"id\":\"2\",\"text\":\"Unfortunately, it rained during my entire trip to Seattle. I didn't even get to visit the Space Needle\",\"language\":\"en\"},{\"id\":\"3\",\"text\":\"I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.\",\"language\":\"en\"},{\"id\":\"4\",\"text\":\"Los caminos que llevan hasta Monte Rainier son espectaculares y hermosos.\",\"language\":\"es\"},{\"id\":\"5\",\"text\":\"La carretera estaba atascada. Había mucho tráfico el día de ayer.\",\"language\":\"es\"}]}",
    "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3599,\"ext_expires_in\":3599,\"access_token\":\"access_token\"}",
-   "responseHeaders": {
-    "cache-control": "no-cache, no-store",
-    "content-length": "1417",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 05 Feb 2020 23:15:48 GMT",
-    "expires": "-1",
-    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-    "pragma": "no-cache",
-    "referrer-policy": "strict-origin-when-cross-origin",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.9987.14 - WST ProdSlices",
-    "x-ms-request-id": "81c04908-ca7e-47ad-b478-54c3b4363100"
-   }
-  },
-  {
-   "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.0-preview.1/entities/recognition/general",
-   "query": {},
-   "requestBody": "{\"documents\":[{\"id\":\"1\",\"text\":\"I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!\",\"language\":\"en\"},{\"id\":\"2\",\"text\":\"Unfortunately, it rained during my entire trip to Seattle. I didn't even get to visit the Space Needle\",\"language\":\"en\"},{\"id\":\"3\",\"text\":\"I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.\",\"language\":\"en\"},{\"id\":\"4\",\"text\":\"I didn't like the last book I read at all.\",\"language\":\"en\"},{\"id\":\"5\",\"text\":\"Los caminos que llevan hasta Monte Rainier son espectaculares y hermosos.\",\"language\":\"es\"},{\"id\":\"6\",\"text\":\"La carretera estaba atascada. Había mucho tráfico el día de ayer.\",\"language\":\"es\"}]}",
-   "status": 200,
-   "response": "{\"documents\":[{\"id\":\"1\",\"entities\":[{\"text\":\"Seattle\",\"type\":\"Location\",\"offset\":26,\"length\":7,\"score\":0.82074707746505737},{\"text\":\"last week\",\"type\":\"DateTime\",\"subtype\":\"DateRange\",\"offset\":34,\"length\":9,\"score\":0.8},{\"text\":\"Space Needle\",\"type\":\"Organization\",\"offset\":65,\"length\":12,\"score\":0.94183868169784546},{\"text\":\"2\",\"type\":\"Quantity\",\"subtype\":\"Number\",\"offset\":78,\"length\":1,\"score\":0.8}]},{\"id\":\"2\",\"entities\":[{\"text\":\"Seattle\",\"type\":\"Location\",\"offset\":50,\"length\":7,\"score\":0.93755143880844116},{\"text\":\"Space Needle\",\"type\":\"Organization\",\"offset\":90,\"length\":12,\"score\":0.79052209854125977}]},{\"id\":\"3\",\"entities\":[{\"text\":\"Saturday\",\"type\":\"DateTime\",\"subtype\":\"Date\",\"offset\":25,\"length\":8,\"score\":0.8}]},{\"id\":\"4\",\"entities\":[]},{\"id\":\"5\",\"entities\":[]},{\"id\":\"6\",\"entities\":[{\"text\":\"el día\",\"type\":\"DateTime\",\"subtype\":\"Date\",\"offset\":50,\"length\":6,\"score\":0.8},{\"text\":\"ayer\",\"type\":\"DateTime\",\"subtype\":\"Date\",\"offset\":60,\"length\":4,\"score\":0.8}]}],\"errors\":[],\"modelVersion\":\"2019-10-01\"}",
+   "response": "{\"documents\":[{\"id\":\"1\",\"entities\":[{\"text\":\"Seattle\",\"category\":\"Location\",\"subcategory\":\"GPE\",\"offset\":26,\"length\":7,\"confidenceScore\":0.75},{\"text\":\"last week\",\"category\":\"DateTime\",\"subcategory\":\"DateRange\",\"offset\":34,\"length\":9,\"confidenceScore\":0.8},{\"text\":\"2\",\"category\":\"Quantity\",\"subcategory\":\"Number\",\"offset\":78,\"length\":1,\"confidenceScore\":0.8}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"Seattle\",\"category\":\"Location\",\"subcategory\":\"GPE\",\"offset\":50,\"length\":7,\"confidenceScore\":0.74},{\"text\":\"Space Needle\",\"category\":\"Skill\",\"offset\":90,\"length\":12,\"confidenceScore\":0.8}],\"warnings\":[]},{\"id\":\"3\",\"entities\":[{\"text\":\"Saturday\",\"category\":\"DateTime\",\"subcategory\":\"Date\",\"offset\":25,\"length\":8,\"confidenceScore\":0.8}],\"warnings\":[]},{\"id\":\"4\",\"entities\":[{\"text\":\"Monte Rainier\",\"category\":\"Location\",\"subcategory\":\"GPE\",\"offset\":29,\"length\":13,\"confidenceScore\":0.43}],\"warnings\":[]},{\"id\":\"5\",\"entities\":[{\"text\":\"el día\",\"category\":\"DateTime\",\"subcategory\":\"Date\",\"offset\":50,\"length\":6,\"confidenceScore\":0.8},{\"text\":\"ayer\",\"category\":\"DateTime\",\"subcategory\":\"Date\",\"offset\":60,\"length\":4,\"confidenceScore\":0.8}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-04-01\"}",
    "responseHeaders": {
     "access-control-allow-origin": "*",
-    "access-control-expose-headers": "Operation-Location",
-    "apim-request-id": "92eeb260-7a40-4068-8ed6-fcd55add1e0b",
+    "access-control-expose-headers": "Operation-Location,Location",
+    "apim-request-id": "b8f9bfe8-9339-4726-bf5c-fac2284e3e0c",
     "content-type": "application/json; charset=utf-8",
-    "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=6",
-    "date": "Wed, 05 Feb 2020 23:15:48 GMT",
+    "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=5",
+    "date": "Fri, 08 May 2020 21:45:59 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "15"
+    "x-envoy-upstream-service-time": "126"
    }
   }
  ],
  "uniqueTestInfo": {
   "uniqueName": {},
   "newDate": {}
- }
+ },
+ "hash": "a2ca6d997ea25abdd43d8555949fb0a5"
 }

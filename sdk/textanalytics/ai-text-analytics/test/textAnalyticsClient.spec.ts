@@ -222,7 +222,7 @@ describe("[AAD] TextAnalyticsClient", function() {
     });
 
     it("client accepts mixed-language TextDocumentInput[]", async () => {
-      const enInputs = testDataEn.map(
+      const enInputs = testDataEn.slice(0, -1).map(
         (text): TextDocumentInput => ({
           id: getId(),
           text,
@@ -239,8 +239,31 @@ describe("[AAD] TextAnalyticsClient", function() {
       const allInputs = enInputs.concat(esInputs);
 
       const results = await client.recognizeEntities(allInputs);
-      assert.equal(results.length, testDataEn.length + testDataEs.length);
+      assert.equal(results.length, testDataEn.length - 1 + testDataEs.length);
       assertAllSuccess(results);
+    });
+
+    it("client throws exception for too many inputs", async () => {
+      const enInputs = testDataEn.map(
+        (text): TextDocumentInput => ({
+          id: getId(),
+          text,
+          language: "en"
+        })
+      );
+      const esInputs = testDataEs.map(
+        (text): TextDocumentInput => ({
+          id: getId(),
+          text,
+          language: "es"
+        })
+      );
+      const allInputs = enInputs.concat(esInputs);
+
+      return assert.isRejected(
+        client.recognizeEntities(allInputs),
+        /exceeded the data limitations/
+      );
     });
   });
 
@@ -337,7 +360,7 @@ describe("[AAD] TextAnalyticsClient", function() {
     });
 
     it("client accepts mixed-language TextDocumentInput[]", async () => {
-      const enInputs = testDataEn.map(
+      const enInputs = testDataEn.slice(0, -1).map(
         (text): TextDocumentInput => ({
           id: getId(),
           text,
@@ -354,8 +377,31 @@ describe("[AAD] TextAnalyticsClient", function() {
       const allInputs = enInputs.concat(esInputs);
 
       const results = await client.recognizeLinkedEntities(allInputs);
-      assert.equal(results.length, testDataEn.length + testDataEs.length);
+      assert.equal(results.length, testDataEn.length - 1 + testDataEs.length);
       assertAllSuccess(results);
+    });
+
+    it("client throws exception for too many inputs", async () => {
+      const enInputs = testDataEn.map(
+        (text): TextDocumentInput => ({
+          id: getId(),
+          text,
+          language: "en"
+        })
+      );
+      const esInputs = testDataEs.map(
+        (text): TextDocumentInput => ({
+          id: getId(),
+          text,
+          language: "es"
+        })
+      );
+      const allInputs = enInputs.concat(esInputs);
+
+      return assert.isRejected(
+        client.recognizeLinkedEntities(allInputs),
+        /exceeded the data limitations/
+      );
     });
   });
 });

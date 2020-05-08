@@ -30,7 +30,7 @@ directive:
   - from: swagger-document
     where: $.definitions.DocumentStatistics.properties.charactersCount
     transform: >
-      $["x-ms-client-name"] = "graphemeCount";
+      $["x-ms-client-name"] = "characterCount";
 ```
 
 ```yaml
@@ -157,20 +157,17 @@ directive:
       $["x-ms-client-name"] = "dataSourceEntityId";
 ```
 
-### Rename Entity/Match offset -> graphemeOffset
+### Remove Entity/Match offset/length
 
 ```yaml
 directive:
   - from: swagger-document
-    where: $.definitions..properties.offset
+    where: $.definitions..properties
     transform: >
-      $["x-ms-client-name"] = "graphemeOffset";
-      $.description = $.description.replace("Unicode characters", "Unicode graphemes");
-  - from: swagger-document
-    where: $.definitions..properties.length
-    transform: >
-      $["x-ms-client-name"] = "graphemeLength";
-      $.description = $.description.replace("Unicode characters", "Unicode graphemes");
+      if ($.length !== undefined && $.offset !== undefined) {
+        $.length = undefined;
+        $.offset = undefined;
+      }
 ```
 
 ### Rename SentimentConfidenceScorePerLabel -> SentimentConfidenceScores
@@ -192,7 +189,7 @@ directive:
       }
 ```
 
-### Fix some casing issues
+### Change some casing to use camelCase
 
 ```yaml
 directive:

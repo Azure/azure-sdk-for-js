@@ -12,11 +12,16 @@ describe("util.sortByPreviousOrder", () => {
     assert.deepEqual(result, input);
   });
 
-  it("should throw when input/output lengths do not match", () => {
+  it('should throw when id: "" is present', () => {
     const input = [{ id: "1" }, { id: "2" }, { id: "3" }];
-    const output = [{ id: "3" }, { id: "1" }];
+    const output = [
+      { id: "3" },
+      { id: "1" },
+      { id: "2" },
+      { id: "", error: { message: "A fatal error!" } }
+    ];
     assert.throws(() => {
       sortByPreviousIdOrder(input, output);
-    }, /same length/);
+    }, /^A fatal error\!$/);
   });
 });

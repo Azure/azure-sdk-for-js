@@ -241,7 +241,7 @@ export const TextDocumentStatistics: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "TextDocumentStatistics",
     modelProperties: {
-      graphemeCount: {
+      characterCount: {
         required: true,
         serializedName: "charactersCount",
         type: {
@@ -320,20 +320,6 @@ export const SentenceSentiment: coreHttp.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SentimentConfidenceScores"
-        }
-      },
-      graphemeOffset: {
-        required: true,
-        serializedName: "offset",
-        type: {
-          name: "Number"
-        }
-      },
-      graphemeLength: {
-        required: true,
-        serializedName: "length",
-        type: {
-          name: "Number"
         }
       }
     }
@@ -525,20 +511,6 @@ export const Entity: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      graphemeOffset: {
-        required: true,
-        serializedName: "offset",
-        type: {
-          name: "Number"
-        }
-      },
-      graphemeLength: {
-        required: true,
-        serializedName: "length",
-        type: {
-          name: "Number"
-        }
-      },
       confidenceScore: {
         required: true,
         serializedName: "confidenceScore",
@@ -668,20 +640,6 @@ export const Match: coreHttp.CompositeMapper = {
         serializedName: "text",
         type: {
           name: "String"
-        }
-      },
-      graphemeOffset: {
-        required: true,
-        serializedName: "offset",
-        type: {
-          name: "Number"
-        }
-      },
-      graphemeLength: {
-        required: true,
-        serializedName: "length",
-        type: {
-          name: "Number"
         }
       }
     }

@@ -133,7 +133,7 @@ export interface TextDocumentStatistics {
   /**
    * Number of text elements recognized in the document.
    */
-  graphemeCount: number;
+  characterCount: number;
   /**
    * Number of transactions for the document.
    */
@@ -167,14 +167,6 @@ export interface SentenceSentiment {
    * The sentiment confidence score between 0 and 1 for the sentence for all classes.
    */
   confidenceScores: SentimentConfidenceScores;
-  /**
-   * The sentence offset from the start of the document.
-   */
-  graphemeOffset: number;
-  /**
-   * The length of the sentence by Unicode standard.
-   */
-  graphemeLength: number;
 }
 
 /**
@@ -266,14 +258,6 @@ export interface Entity {
    */
   subCategory?: string;
   /**
-   * Start position (in Unicode graphemes) for the entity text.
-   */
-  graphemeOffset: number;
-  /**
-   * Length (in Unicode graphemes) for the entity text.
-   */
-  graphemeLength: number;
-  /**
    * Confidence score between 0 and 1 of the extracted entity.
    */
   confidenceScore: number;
@@ -334,14 +318,6 @@ export interface Match {
    * Entity text as appears in the request.
    */
   text: string;
-  /**
-   * Start position (in Unicode graphemes) for the entity match text.
-   */
-  graphemeOffset: number;
-  /**
-   * Length (in Unicode graphemes) for the entity match text.
-   */
-  graphemeLength: number;
 }
 
 /**

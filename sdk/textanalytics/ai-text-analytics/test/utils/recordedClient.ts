@@ -27,7 +27,7 @@ const replaceableVariables: { [k: string]: string } = {
   TEXT_ANALYTICS_API_KEY: "api_key",
   // Second API key
   TEXT_ANALYTICS_API_KEY_ALT: "api_key_alt",
-  ENDPOINT: "https://endpoint/"
+  ENDPOINT: "https://endpoint"
 };
 
 export const testEnv = new Proxy(replaceableVariables, {
@@ -46,8 +46,8 @@ export const environmentSetup: RecorderEnvironmentSetup = {
     // https://<endpoint>:443/ and therefore will not match, so we have to do
     // this instead.
     (recording: string): string => {
-      const match = testEnv.ENDPOINT.replace(/^https:\/\//, "").replace(/\/$/, "");
-      return recording.replace(match, "endpoint");
+      const replaced = recording.replace("endpoint:443", "endpoint");
+      return replaced;
     }
   ],
   queryParametersToSkip: []
