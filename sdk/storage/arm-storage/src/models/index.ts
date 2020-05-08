@@ -2559,6 +2559,14 @@ export interface UsageListResult extends Array<Usage> {
 
 /**
  * @interface
+ * List of private endpoint connection associated with the specified storage account
+ * @extends Array<PrivateEndpointConnection>
+ */
+export interface PrivateEndpointConnectionListResult extends Array<PrivateEndpointConnection> {
+}
+
+/**
+ * @interface
  * List storage account object replication policies.
  * @extends Array<ObjectReplicationPolicy>
  */
@@ -3351,6 +3359,26 @@ export type ManagementPoliciesCreateOrUpdateResponse = ManagementPolicy & {
        * The response body as parsed JSON or XML
        */
       parsedBody: ManagementPolicy;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnectionListResult;
     };
 };
 

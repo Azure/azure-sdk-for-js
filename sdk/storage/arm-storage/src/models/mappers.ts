@@ -3864,6 +3864,28 @@ export const UsageListResult: msRest.CompositeMapper = {
   }
 };
 
+export const PrivateEndpointConnectionListResult: msRest.CompositeMapper = {
+  serializedName: "PrivateEndpointConnectionListResult",
+  type: {
+    name: "Composite",
+    className: "PrivateEndpointConnectionListResult",
+    modelProperties: {
+      value: {
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PrivateEndpointConnection"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const ObjectReplicationPolicies: msRest.CompositeMapper = {
   serializedName: "ObjectReplicationPolicies",
   type: {
