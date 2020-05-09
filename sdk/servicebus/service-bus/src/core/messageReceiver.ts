@@ -24,7 +24,7 @@ import * as log from "../log";
 import { LinkEntity } from "./linkEntity";
 import { ClientEntityContext } from "../clientEntityContext";
 import { ServiceBusMessage, DispositionType, ReceiveMode } from "../serviceBusMessage";
-import { getUniqueName, calculateRenewAfterDuration } from "../util/utils";
+import { getUniqueName, calculateRenewAfterDuration, createNonRetryableError } from "../util/utils";
 import { MessageHandlerOptions } from "./streamingReceiver";
 import { DispositionStatusOptions } from "./managementClient";
 import { getReceiverClosedErrorMsg } from "../util/errors";
@@ -783,7 +783,7 @@ export class MessageReceiver extends LinkEntity {
 
         await defaultLock.acquire(this._openLock, async () => {
           if (this.wasCloseInitiated) {
-            const err = new MessagingError(
+            throw createNonRetryableError(
               getReceiverClosedErrorMsg(
                 this._context.entityPath,
                 this._context.clientType,
@@ -791,8 +791,6 @@ export class MessageReceiver extends LinkEntity {
                 undefined
               )
             );
-            err.retryable = false;
-            throw err;
           }
 
           if (this.isOpen()) {

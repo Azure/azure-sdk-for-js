@@ -8,6 +8,7 @@ import isBuffer from "is-buffer";
 import { Buffer } from "buffer";
 import * as Constants from "../util/constants";
 import { DispositionStatus, DispositionType } from "../serviceBusMessage";
+import { MessagingError } from "@azure/amqp-common";
 
 // This is the only dependency we have on DOM types, so rather than require
 // the DOM lib we can just shim this in.
@@ -488,3 +489,15 @@ export type EntityStatus =
   | "Renaming"
   | "Restoring"
   | "Unknown";
+
+/**
+ * @internal
+ * @ignore
+ */
+export function createNonRetryableError(
+  message: string
+): Error & Pick<MessagingError, "retryable"> {
+  const err = new Error(message) as ReturnType<typeof createNonRetryableError>;
+  err.retryable = false;
+  return err;
+}
