@@ -72,7 +72,10 @@ describe("Certificates client - restore certificates and recover backups", () =>
     } catch (e) {
       error = e;
     }
-    assert.equal(error.message, `Certificate not found: ${certificateName}`);
+    assert.equal(
+      error.message.split(".")[0],
+      `A certificate with (name/id) ${certificateName} was not found in this key vault`
+    );
   });
 
   if (isRecordMode() || isPlaybackMode()) {

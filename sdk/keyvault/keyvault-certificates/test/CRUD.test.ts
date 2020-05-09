@@ -299,9 +299,8 @@ describe("Certificates client - create, read, update and delete", () => {
       error = e;
     }
     assert.equal(
-      error.message,
-      `Certificate not found: ${certificateName}`,
-      "Unexpected error after trying to get a certificate"
+      error.message.split(".")[0],
+      `A certificate with (name/id) ${certificateName} was not found in this key vault`
     );
   });
 
@@ -324,7 +323,10 @@ describe("Certificates client - create, read, update and delete", () => {
       throw Error("Expecting an error but not catching one.");
     } catch (e) {
       if (e.statusCode === 404) {
-        assert.equal(e.message, `Certificate not found: ${certificateName}`);
+        assert.equal(
+          e.message.split(".")[0],
+          `A certificate with (name/id) ${certificateName} was not found in this key vault`
+        );
       } else {
         throw e;
       }
@@ -363,9 +365,8 @@ describe("Certificates client - create, read, update and delete", () => {
       error = e;
     }
     assert.equal(
-      error.message,
-      `Certificate not found: ${certificateName}`,
-      "Unexpected error after trying to get a disabled certificate"
+      error.message.split(".")[0],
+      `A certificate with (name/id) ${certificateName} was not found in this key vault`
     );
   });
 
@@ -426,9 +427,8 @@ describe("Certificates client - create, read, update and delete", () => {
         error = e;
       }
       assert.equal(
-        error.message,
-        `Certificate not found: ${certificateName}`,
-        "Unexpected certificate name in result from getKey()."
+        error.message.split(".")[0],
+        `A certificate with (name/id) ${certificateName} was not found in this key vault`
       );
     });
   });

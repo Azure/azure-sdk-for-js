@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "8be7c129c02da9f899c06533c6a9491f";
+module.exports.hash = "baf335b633c38ceade4d791375441320";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -25,11 +25,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '0d702cb4-736a-4e37-82a7-bc92b369345b',
+  '7cd4836c-d23c-4e3a-ae8a-02e4a5430049',
   'x-ms-keyvault-service-version',
-  '1.1.0.897',
+  '1.1.3.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.20.105;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.175.194.115;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -39,12 +39,12 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Wed, 26 Feb 2020 19:08:15 GMT'
+  'Sat, 09 May 2020 15:03:01 GMT'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [
+  .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
   'Cache-Control',
   'no-cache, no-store',
   'Pragma',
@@ -58,33 +58,33 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  '5055dd3a-cab3-45e0-9602-9e6fd41f1200',
+  'c1bf98ed-1d38-4ef4-8f78-3be8d2953300',
   'x-ms-ests-server',
-  '2.1.10104.13 - WUS ProdSlices',
+  '2.1.10519.11 - WUS2 ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AgWuoFa1MgNJjeq4dphYINE_aSJHAQAAAB-56NUOAAAA; expires=Fri, 27-Mar-2020 19:08:16 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AgxXgcMOF5NJh7bPMb9j_60_aSJHAQAAACS9SNYOAAAA; expires=Mon, 08-Jun-2020 15:03:01 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; SameSite=None; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; SameSite=None; secure; HttpOnly',
   'Date',
-  'Wed, 26 Feb 2020 19:08:15 GMT',
+  'Sat, 09 May 2020 15:03:01 GMT',
   'Content-Length',
-  '1231'
+  '1315'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .delete('/certificates/recoverCertificateName-cannotgetacertificatethatneverexisted-')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Certificate not found: recoverCertificateName-cannotgetacertificatethatneverexisted-"}}, [
+  .reply(404, {"error":{"code":"CertificateNotFound","message":"A certificate with (name/id) recoverCertificateName-cannotgetacertificatethatneverexisted- was not found in this key vault. If you recently deleted this certificate you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '153',
+  '389',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -94,11 +94,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '7f0b5554-c20d-4908-9133-f9aac27220f9',
+  '9899e83f-66a8-4edc-ab3e-168bc1435f3a',
   'x-ms-keyvault-service-version',
-  '1.1.0.897',
+  '1.1.3.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.20.105;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.175.194.115;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -108,5 +108,5 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Wed, 26 Feb 2020 19:08:16 GMT'
+  'Sat, 09 May 2020 15:03:01 GMT'
 ]);
