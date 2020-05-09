@@ -24,7 +24,13 @@ import { getRetryAttemptTimeoutInMs } from "./util/utils";
 export class ServiceBusClient {
   private _connectionContext: ConnectionContext;
   private _clientOptions: ServiceBusClientOptions;
-
+  /**
+   * Host name of the service-bus namespace for which the client has been created for.
+   *
+   * @type {string}
+   * @memberof ServiceBusClient
+   */
+  public hostname: string;
   /**
    *
    * @param connectionString A connection string for Azure Service Bus.
@@ -72,6 +78,7 @@ export class ServiceBusClient {
         this._clientOptions
       );
     }
+    this.hostname = this._connectionContext.config.host;
     this._clientOptions.retryOptions = this._clientOptions.retryOptions || {};
     this._clientOptions.retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(
       this._clientOptions.retryOptions
