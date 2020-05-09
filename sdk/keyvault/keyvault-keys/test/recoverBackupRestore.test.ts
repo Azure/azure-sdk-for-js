@@ -62,7 +62,10 @@ describe("Keys client - restore keys and recover backups", () => {
     } catch (e) {
       error = e;
     }
-    assert.equal(error.message, `Key not found: ${keyName}`);
+    assert.equal(
+      error.message.split(".")[0],
+      `A key with (name/id) ${keyName} was not found in this key vault`
+    );
   });
 
   it("can generate a backup of a key", async function() {
@@ -95,7 +98,10 @@ describe("Keys client - restore keys and recover backups", () => {
     } catch (e) {
       error = e;
     }
-    assert.equal(error.message, `Key not found: ${keyName}`);
+    assert.equal(
+      error.message.split(".")[0],
+      `A key with (name/id) ${keyName} was not found in this key vault`
+    );
   });
 
   if (isRecordMode() || isPlaybackMode()) {

@@ -241,7 +241,10 @@ describe("Keys client - create, read, update and delete operations", () => {
       throw Error("Expecting an error but not catching one.");
     } catch (e) {
       if (e instanceof RestError) {
-        assert.equal(e.message, `Key not found: ${keyName}`);
+        assert.equal(
+          e.message.split(".")[0],
+          `A key with (name/id) ${keyName} was not found in this key vault`
+        );
       } else {
         throw e;
       }
@@ -271,7 +274,10 @@ describe("Keys client - create, read, update and delete operations", () => {
       throw Error("Expecting an error but not catching one.");
     } catch (e) {
       if (e instanceof RestError) {
-        assert.equal(e.message, `Key not found: ${keyName}`);
+        assert.equal(
+          e.message.split(".")[0],
+          `A key with (name/id) ${keyName} was not found in this key vault`
+        );
       } else {
         throw e;
       }
@@ -341,9 +347,8 @@ describe("Keys client - create, read, update and delete operations", () => {
       error = e;
     }
     assert.equal(
-      error.message,
-      `Key not found: ${keyName}`,
-      "Unexpected key name in result from getKey()."
+      error.message.split(".")[0],
+      `A key with (name/id) ${keyName} was not found in this key vault`
     );
   });
 
