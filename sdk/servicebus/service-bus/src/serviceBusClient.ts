@@ -330,6 +330,9 @@ export class ServiceBusClient {
    * You can settle a message by calling complete(), abandon() or defer() methods on
    * the message.
    *
+   * See here for more information about dead letter queues:
+   * https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-dead-letter-queues
+   *
    * @param queueName The name of the queue to receive from.
    * @param receiveMode The receive mode, defaulted to peekLock.
    */
@@ -341,6 +344,9 @@ export class ServiceBusClient {
    * Creates a receiver for an Azure Service Bus queue's dead letter queue in receiveAndDelete mode.
    *
    * In receiveAndDelete mode, messages are deleted from Service Bus as they are received.
+   *
+   * See here for more information about dead letter queues:
+   * https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-dead-letter-queues
    *
    * @param queueName The name of the queue to receive from.
    * @param receiveMode The receive mode, defaulted to receiveAndDelete.
@@ -358,6 +364,9 @@ export class ServiceBusClient {
    * You can settle a message by calling complete(), abandon() or defer() methods on
    * the message.
    *
+   * See here for more information about dead letter queues:
+   * https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-dead-letter-queues
+   *
    * @param topicName Name of the topic for the subscription we want to receive from.
    * @param subscriptionName Name of the subscription (under the `topic`) that we want to receive from.
    * @param receiveMode The receive mode, defaulted to peekLock.
@@ -371,6 +380,9 @@ export class ServiceBusClient {
    * Creates a receiver for an Azure Service Bus subscription's dead letter queue in receiveAndDelete mode.
    *
    * In receiveAndDelete mode, messages are deleted from Service Bus as they are received.
+   *
+   * See here for more information about dead letter queues:
+   * https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-dead-letter-queues
    *
    * @param topicName Name of the topic for the subscription we want to receive from.
    * @param subscriptionName Name of the subscription (under the `topic`) that we want to receive from.
