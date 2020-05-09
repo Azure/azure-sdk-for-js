@@ -7,7 +7,17 @@
  */
 
 export {
+  AdPrincipal,
+  CanceledSubscriptionId,
+  EnabledSubscriptionId,
   ErrorResponse,
-  SubscriptionOperation,
-  SubscriptionOperationListResult
+  ModernCspSubscriptionCreationParameters,
+  ModernSubscriptionCreationParameters,
+  RenamedSubscriptionId,
+  SubscriptionCreateCspSubscriptionHeaders,
+  SubscriptionCreateSubscriptionHeaders,
+  SubscriptionCreateSubscriptionInEnrollmentAccountHeaders,
+  SubscriptionCreationParameters,
+  SubscriptionCreationResult,
+  SubscriptionName
 } from "../models/mappers";
