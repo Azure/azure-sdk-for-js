@@ -9,6 +9,7 @@
  */
 
 import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/loadBalancerBackendAddressPoolsMappers";
 import * as Parameters from "../models/parameters";
@@ -95,6 +96,77 @@ export class LoadBalancerBackendAddressPools {
   }
 
   /**
+   * Creates or updates a load balancer backend address pool.
+   * @param resourceGroupName The name of the resource group.
+   * @param loadBalancerName The name of the load balancer.
+   * @param backendAddressPoolName The name of the backend address pool.
+   * @param parameters Parameters supplied to the create or update load balancer backend address pool
+   * operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.LoadBalancerBackendAddressPoolsCreateOrUpdateResponse>
+   */
+  createOrUpdate(resourceGroupName: string, loadBalancerName: string, backendAddressPoolName: string, parameters: Models.BackendAddressPool, options?: msRest.RequestOptionsBase): Promise<Models.LoadBalancerBackendAddressPoolsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(resourceGroupName,loadBalancerName,backendAddressPoolName,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.LoadBalancerBackendAddressPoolsCreateOrUpdateResponse>;
+  }
+
+  /**
+   * Deletes the specified load balancer backend address pool.
+   * @param resourceGroupName The name of the resource group.
+   * @param loadBalancerName The name of the load balancer.
+   * @param backendAddressPoolName The name of the backend address pool.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  deleteMethod(resourceGroupName: string, loadBalancerName: string, backendAddressPoolName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName,loadBalancerName,backendAddressPoolName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * Creates or updates a load balancer backend address pool.
+   * @param resourceGroupName The name of the resource group.
+   * @param loadBalancerName The name of the load balancer.
+   * @param backendAddressPoolName The name of the backend address pool.
+   * @param parameters Parameters supplied to the create or update load balancer backend address pool
+   * operation.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginCreateOrUpdate(resourceGroupName: string, loadBalancerName: string, backendAddressPoolName: string, parameters: Models.BackendAddressPool, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        loadBalancerName,
+        backendAddressPoolName,
+        parameters,
+        options
+      },
+      beginCreateOrUpdateOperationSpec,
+      options);
+  }
+
+  /**
+   * Deletes the specified load balancer backend address pool.
+   * @param resourceGroupName The name of the resource group.
+   * @param loadBalancerName The name of the load balancer.
+   * @param backendAddressPoolName The name of the backend address pool.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginDeleteMethod(resourceGroupName: string, loadBalancerName: string, backendAddressPoolName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        loadBalancerName,
+        backendAddressPoolName,
+        options
+      },
+      beginDeleteMethodOperationSpec,
+      options);
+  }
+
+  /**
    * Gets all the load balancer backed address pools.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -169,6 +241,68 @@ const getOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.BackendAddressPool
     },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/backendAddressPools/{backendAddressPoolName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.loadBalancerName,
+    Parameters.backendAddressPoolName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.BackendAddressPool,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.BackendAddressPool
+    },
+    201: {
+      bodyMapper: Mappers.BackendAddressPool
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/backendAddressPools/{backendAddressPoolName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.loadBalancerName,
+    Parameters.backendAddressPoolName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
+    202: {},
+    204: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
