@@ -167,7 +167,7 @@ describe("ManagedIdentityCredential", function() {
       const bodyParams = qs.parse(authRequest.body);
       assert.equal(authRequest.method, "POST");
       assert.equal(bodyParams.client_id, "client");
-      assert.equal(decodeURIComponent(bodyParams.resource), "https://service");
+      assert.equal(decodeURIComponent(bodyParams.resource as string), "https://service");
       assert.ok(
         authRequest.url.startsWith(process.env.MSI_ENDPOINT),
         "URL does not start with expected host and path"
