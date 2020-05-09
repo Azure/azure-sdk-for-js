@@ -152,6 +152,7 @@ export class ServiceBusClient {
     createSessionReceiver(queueName: string, receiveMode: "receiveAndDelete", options?: CreateSessionReceiverOptions): Promise<SessionReceiver<ReceivedMessage>>;
     createSessionReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock", options?: CreateSessionReceiverOptions): Promise<SessionReceiver<ReceivedMessageWithLock>>;
     createSessionReceiver(topicName: string, subscriptionName: string, receiveMode: "receiveAndDelete", options?: CreateSessionReceiverOptions): Promise<SessionReceiver<ReceivedMessage>>;
+    hostname: string;
 }
 
 // @public
