@@ -254,9 +254,8 @@ describe("Secret client - create, read, update and delete operations", () => {
       error = e;
     }
     assert.equal(
-      error.message,
-      `Secret not found: ${secretName}`,
-      "Unexpected error after trying to get a disabled secret"
+      error.message.split(".")[0],
+      `A secret with (name/id) ${secretName} was not found in this key vault`
     );
   });
 
@@ -282,7 +281,10 @@ describe("Secret client - create, read, update and delete operations", () => {
       throw Error("Expecting an error but not catching one.");
     } catch (e) {
       if (e.statusCode === 404) {
-        assert.equal(e.message, `Secret not found: ${secretName}`);
+        assert.equal(
+          e.message.split(".")[0],
+          `A secret with (name/id) ${secretName} was not found in this key vault`
+        );
       } else {
         throw e;
       }
@@ -319,9 +321,8 @@ describe("Secret client - create, read, update and delete operations", () => {
       error = e;
     }
     assert.equal(
-      error.message,
-      `Secret not found: ${secretName}`,
-      "Unexpected error after trying to get a disabled secret"
+      error.message.split(".")[0],
+      `A secret with (name/id) ${secretName} was not found in this key vault`
     );
   });
 
@@ -365,9 +366,8 @@ describe("Secret client - create, read, update and delete operations", () => {
       error = e;
     }
     assert.equal(
-      error.message,
-      `Secret not found: ${secretName}`,
-      "Unexpected secret name in result from getKey()."
+      error.message.split(".")[0],
+      `A secret with (name/id) ${secretName} was not found in this key vault`
     );
   });
 });
