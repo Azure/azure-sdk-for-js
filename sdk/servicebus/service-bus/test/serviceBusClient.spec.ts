@@ -71,7 +71,7 @@ describe("Random scheme in the endpoint from connection string", function(): voi
   async function beforeEachTest(testClientType: TestClientType) {
     sbClient = createServiceBusClientForTests();
     entities = await sbClient.test.createTestEntities(testClientType);
-    await sbClient.test.after();
+    await sbClient.close();
     sbClientWithRelaxedEndPoint = new ServiceBusClient(
       getEnvVars().SERVICEBUS_CONNECTION_STRING.replace("sb://", "CheeseBurger://")
     );
@@ -84,6 +84,7 @@ describe("Random scheme in the endpoint from connection string", function(): voi
   }
 
   afterEach(async () => {
+    await sbClient.test.after();
     await senderClient.close();
     await receiverClient.close();
     await sbClientWithRelaxedEndPoint.close();
