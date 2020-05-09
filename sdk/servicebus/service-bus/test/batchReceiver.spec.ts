@@ -1244,9 +1244,7 @@ describe("Batching - close() respects an in progress init()", () => {
       return createdReceiver;
     };
 
-    // it's possible for receiveMessages() to throw here because the
-    // connection has been closed. I'm not testing that here.
-    await receiver.receiveMessages(1).catch(() => {});
+    await receiver.receiveMessages(1);
     await closePromise;
 
     // now that we've properly serialized the two calls the receiver that we created will get properly closed.

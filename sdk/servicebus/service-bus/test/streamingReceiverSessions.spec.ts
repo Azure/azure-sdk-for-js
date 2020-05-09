@@ -1212,8 +1212,8 @@ describe("Sessions streaming - close() respects an in progress init()", () => {
 
     const { receiverClient, senderClient } = await getSenderReceiverClients(
       sbClient,
-      TestClientType.UnpartitionedQueue,
-      TestClientType.UnpartitionedQueue
+      TestClientType.UnpartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
     );
 
     // force the link open - doesn't affect our tests below but it does
@@ -1258,10 +1258,18 @@ describe("Sessions streaming - close() respects an in progress init()", () => {
       return createdReceiver;
     };
 
-    // the sessionreceiver uses the same internal (for initialization) as `receiveMessages`
+    // the sessionreceiver uses the same internal method for initialization as `registerMessageHandler`
     // does so I'm just using that for this test since it doesn't require us to coordinate connection
     // start, etc...
-    await receiver.receiveMessages(1).catch(() => {});
+    await receiver.receiveMessages(1).catch((err) => {
+      // NOTE: I'm not 100% sure I can rely on the JS scheduler to guarantee that my close promise is
+      // going to execute before the promise that executes the receive. So we're okay with getting this connection
+      // closed error (and we will probably _always_ get it) but I'm okay if we don't since the "is the receiver
+      // closed" part below is the actual critical piece.
+      if (err.message.indexOf("is already closed. Hence cannot receive messages in a batch.") < 0) {
+        throw err;
+      }
+    });
 
     // now the close should complete.
     await closePromise;
