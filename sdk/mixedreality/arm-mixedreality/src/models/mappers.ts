@@ -65,42 +65,6 @@ export const CheckNameAvailabilityResponse: msRest.CompositeMapper = {
   }
 };
 
-export const ErrorResponse: msRest.CompositeMapper = {
-  serializedName: "ErrorResponse",
-  type: {
-    name: "Composite",
-    className: "ErrorResponse",
-    modelProperties: {
-      message: {
-        required: true,
-        serializedName: "message",
-        type: {
-          name: "String"
-        }
-      },
-      code: {
-        required: true,
-        serializedName: "code",
-        type: {
-          name: "String"
-        }
-      },
-      target: {
-        serializedName: "target",
-        type: {
-          name: "String"
-        }
-      },
-      details: {
-        serializedName: "details",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const OperationDisplay: msRest.CompositeMapper = {
   serializedName: "OperationDisplay",
   type: {
@@ -247,47 +211,6 @@ export const SpatialAnchorsAccount: msRest.CompositeMapper = {
   }
 };
 
-export const SpatialAnchorsAccountKeys: msRest.CompositeMapper = {
-  serializedName: "SpatialAnchorsAccountKeys",
-  type: {
-    name: "Composite",
-    className: "SpatialAnchorsAccountKeys",
-    modelProperties: {
-      primaryKey: {
-        readOnly: true,
-        serializedName: "primaryKey",
-        type: {
-          name: "String"
-        }
-      },
-      secondaryKey: {
-        readOnly: true,
-        serializedName: "secondaryKey",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const SpatialAnchorsAccountKeyRegenerateRequest: msRest.CompositeMapper = {
-  serializedName: "SpatialAnchorsAccountKeyRegenerateRequest",
-  type: {
-    name: "Composite",
-    className: "SpatialAnchorsAccountKeyRegenerateRequest",
-    modelProperties: {
-      serial: {
-        serializedName: "serial",
-        defaultValue: 1,
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
 export const ProxyResource: msRest.CompositeMapper = {
   serializedName: "ProxyResource",
   type: {
@@ -317,11 +240,52 @@ export const AzureEntityResource: msRest.CompositeMapper = {
   }
 };
 
-export const OperationList: msRest.CompositeMapper = {
-  serializedName: "OperationList",
+export const AccountKeys: msRest.CompositeMapper = {
+  serializedName: "AccountKeys",
   type: {
     name: "Composite",
-    className: "OperationList",
+    className: "AccountKeys",
+    modelProperties: {
+      primaryKey: {
+        readOnly: true,
+        serializedName: "primaryKey",
+        type: {
+          name: "String"
+        }
+      },
+      secondaryKey: {
+        readOnly: true,
+        serializedName: "secondaryKey",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AccountKeyRegenerateRequest: msRest.CompositeMapper = {
+  serializedName: "AccountKeyRegenerateRequest",
+  type: {
+    name: "Composite",
+    className: "AccountKeyRegenerateRequest",
+    modelProperties: {
+      serial: {
+        serializedName: "serial",
+        defaultValue: 1,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const OperationPage: msRest.CompositeMapper = {
+  serializedName: "OperationPage",
+  type: {
+    name: "Composite",
+    className: "OperationPage",
     modelProperties: {
       value: {
         serializedName: "",
@@ -345,11 +309,11 @@ export const OperationList: msRest.CompositeMapper = {
   }
 };
 
-export const SpatialAnchorsAccountList: msRest.CompositeMapper = {
-  serializedName: "SpatialAnchorsAccountList",
+export const SpatialAnchorsAccountPage: msRest.CompositeMapper = {
+  serializedName: "SpatialAnchorsAccountPage",
   type: {
     name: "Composite",
-    className: "SpatialAnchorsAccountList",
+    className: "SpatialAnchorsAccountPage",
     modelProperties: {
       value: {
         serializedName: "",

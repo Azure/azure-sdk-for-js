@@ -24,7 +24,8 @@ class MixedRealityClient extends MixedRealityClientContext {
   /**
    * Initializes a new instance of the MixedRealityClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
-   * @param subscriptionId Azure subscription ID.
+   * @param subscriptionId The Azure subscription ID. This is a GUID-formatted string (e.g.
+   * 00000000-0000-0000-0000-000000000000)
    * @param [options] The parameter options
    */
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.MixedRealityClientOptions) {
@@ -34,7 +35,7 @@ class MixedRealityClient extends MixedRealityClientContext {
   }
 
   /**
-   * Check Name Availability for global uniqueness
+   * Check Name Availability for local uniqueness
    * @param location The location in which uniqueness will be verified.
    * @param checkNameAvailability Check Name Availability Request.
    * @param [options] The optional parameters
@@ -93,7 +94,7 @@ const checkNameAvailabilityLocalOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.CheckNameAvailabilityResponse
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
