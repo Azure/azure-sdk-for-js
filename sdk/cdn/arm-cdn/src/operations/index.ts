@@ -15,3 +15,5 @@ export * from "./customDomains";
 export * from "./resourceUsageOperations";
 export * from "./operations";
 export * from "./edgeNodes";
+export * from "./policies";
+export * from "./managedRuleSets";
