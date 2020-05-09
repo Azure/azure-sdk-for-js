@@ -176,7 +176,7 @@ export class ServiceBusClient {
   }
 
   /**
-   * Creates a receiver for an Azure Service Bus queue in peekLock mode.
+   * Creates a receiver for a session enabled Azure Service Bus queue in peekLock mode.
    *
    * In peekLock mode, the receiver has a lock on the session for the duration specified on the
    * queue.
@@ -198,7 +198,7 @@ export class ServiceBusClient {
     options?: CreateSessionReceiverOptions
   ): Promise<SessionReceiver<ReceivedMessageWithLock>>;
   /**
-   * Creates a receiver for an Azure Service Bus queue in receiveAndDelete mode.
+   * Creates a receiver for a session enabled Azure Service Bus queue in receiveAndDelete mode.
    *
    * In receiveAndDelete mode, messages are deleted from Service Bus as they are received.
    *
@@ -212,7 +212,7 @@ export class ServiceBusClient {
     options?: CreateSessionReceiverOptions
   ): Promise<SessionReceiver<ReceivedMessage>>;
   /**
-   * Creates a receiver for an Azure Service Bus subscription in peekLock mode.
+   * Creates a receiver for a session enabled Azure Service Bus subscription in peekLock mode.
    *
    * In peekLock mode, the receiver has a lock on the session for the duration specified on the
    * subscription.
@@ -236,7 +236,7 @@ export class ServiceBusClient {
     options?: CreateSessionReceiverOptions
   ): Promise<SessionReceiver<ReceivedMessageWithLock>>;
   /**
-   * Creates a receiver for an Azure Service Bus subscription in receiveAndDelete mode.
+   * Creates a receiver for a session enabled Azure Service Bus subscription in receiveAndDelete mode.
    *
    * In receiveAndDelete mode, messages are deleted from Service Bus as they are received.
    *
