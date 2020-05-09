@@ -575,7 +575,7 @@ describe("Errors after close()", function(): void {
    * Tests that each feature of the receiver throws expected error
    */
   async function testReceiver(expectedErrorMsg: string): Promise<void> {
-    // should.equal(receiver.isClosed, true, "Receiver is not marked as closed.");
+    should.equal(receiver.isClosed, true, "Receiver is not marked as closed.");
 
     let errorReceiveBatch: string = "";
     await receiver.receiveBatch(1, { maxWaitTimeInMs: 1000 }).catch((err) => {
