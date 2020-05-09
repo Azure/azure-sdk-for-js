@@ -11,6 +11,7 @@
 import * as msRest from "@azure/ms-rest-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
+import * as Parameters from "./models/parameters";
 import * as operations from "./operations";
 import { StorageManagementClientContext } from "./storageManagementClientContext";
 
@@ -24,11 +25,14 @@ class StorageManagementClient extends StorageManagementClientContext {
   managementPolicies: operations.ManagementPolicies;
   privateEndpointConnections: operations.PrivateEndpointConnections;
   privateLinkResources: operations.PrivateLinkResources;
+  objectReplicationPolicies: operations.ObjectReplicationPoliciesOperations;
   encryptionScopes: operations.EncryptionScopes;
   blobServices: operations.BlobServices;
   blobContainers: operations.BlobContainers;
   fileServices: operations.FileServices;
   fileShares: operations.FileShares;
+  queueServices: operations.QueueServices;
+  tableServices: operations.TableServices;
 
   /**
    * Initializes a new instance of the StorageManagementClient class.
@@ -45,15 +49,1030 @@ class StorageManagementClient extends StorageManagementClientContext {
     this.managementPolicies = new operations.ManagementPolicies(this);
     this.privateEndpointConnections = new operations.PrivateEndpointConnections(this);
     this.privateLinkResources = new operations.PrivateLinkResources(this);
+    this.objectReplicationPolicies = new operations.ObjectReplicationPoliciesOperations(this);
     this.encryptionScopes = new operations.EncryptionScopes(this);
     this.blobServices = new operations.BlobServices(this);
     this.blobContainers = new operations.BlobContainers(this);
     this.fileServices = new operations.FileServices(this);
     this.fileShares = new operations.FileShares(this);
+    this.queueServices = new operations.QueueServices(this);
+    this.tableServices = new operations.TableServices(this);
+  }
+
+  /**
+   * List all queue services for the storage account
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ListQueueServiceResponse>
+   */
+  listQueueService(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.ListQueueServiceResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param callback The callback
+   */
+  listQueueService(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.ListQueueServices>): void;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listQueueService(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListQueueServices>): void;
+  listQueueService(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListQueueServices>, callback?: msRest.ServiceCallback<Models.ListQueueServices>): Promise<Models.ListQueueServiceResponse> {
+    return this.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        options
+      },
+      listQueueServiceOperationSpec,
+      callback) as Promise<Models.ListQueueServiceResponse>;
+  }
+
+  /**
+   * Creates a new queue with the specified queue name, under the specified account.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param queueName A queue name must be unique within a storage account and must be between 3 and
+   * 63 characters.The name must comprise of lowercase alphanumeric and dash(-) characters only, it
+   * should begin and end with an alphanumeric character and it cannot have two consecutive dash(-)
+   * characters.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PutQueueResponse>
+   */
+  putQueue(resourceGroupName: string, accountName: string, queueName: string, options?: Models.StorageManagementClientPutQueueOptionalParams): Promise<Models.PutQueueResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param queueName A queue name must be unique within a storage account and must be between 3 and
+   * 63 characters.The name must comprise of lowercase alphanumeric and dash(-) characters only, it
+   * should begin and end with an alphanumeric character and it cannot have two consecutive dash(-)
+   * characters.
+   * @param callback The callback
+   */
+  putQueue(resourceGroupName: string, accountName: string, queueName: string, callback: msRest.ServiceCallback<Models.StorageQueue>): void;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param queueName A queue name must be unique within a storage account and must be between 3 and
+   * 63 characters.The name must comprise of lowercase alphanumeric and dash(-) characters only, it
+   * should begin and end with an alphanumeric character and it cannot have two consecutive dash(-)
+   * characters.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  putQueue(resourceGroupName: string, accountName: string, queueName: string, options: Models.StorageManagementClientPutQueueOptionalParams, callback: msRest.ServiceCallback<Models.StorageQueue>): void;
+  putQueue(resourceGroupName: string, accountName: string, queueName: string, options?: Models.StorageManagementClientPutQueueOptionalParams | msRest.ServiceCallback<Models.StorageQueue>, callback?: msRest.ServiceCallback<Models.StorageQueue>): Promise<Models.PutQueueResponse> {
+    return this.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        queueName,
+        options
+      },
+      putQueueOperationSpec,
+      callback) as Promise<Models.PutQueueResponse>;
+  }
+
+  /**
+   * Creates a new queue with the specified queue name, under the specified account.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param queueName A queue name must be unique within a storage account and must be between 3 and
+   * 63 characters.The name must comprise of lowercase alphanumeric and dash(-) characters only, it
+   * should begin and end with an alphanumeric character and it cannot have two consecutive dash(-)
+   * characters.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PatchQueueResponse>
+   */
+  patchQueue(resourceGroupName: string, accountName: string, queueName: string, options?: Models.StorageManagementClientPatchQueueOptionalParams): Promise<Models.PatchQueueResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param queueName A queue name must be unique within a storage account and must be between 3 and
+   * 63 characters.The name must comprise of lowercase alphanumeric and dash(-) characters only, it
+   * should begin and end with an alphanumeric character and it cannot have two consecutive dash(-)
+   * characters.
+   * @param callback The callback
+   */
+  patchQueue(resourceGroupName: string, accountName: string, queueName: string, callback: msRest.ServiceCallback<Models.StorageQueue>): void;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param queueName A queue name must be unique within a storage account and must be between 3 and
+   * 63 characters.The name must comprise of lowercase alphanumeric and dash(-) characters only, it
+   * should begin and end with an alphanumeric character and it cannot have two consecutive dash(-)
+   * characters.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  patchQueue(resourceGroupName: string, accountName: string, queueName: string, options: Models.StorageManagementClientPatchQueueOptionalParams, callback: msRest.ServiceCallback<Models.StorageQueue>): void;
+  patchQueue(resourceGroupName: string, accountName: string, queueName: string, options?: Models.StorageManagementClientPatchQueueOptionalParams | msRest.ServiceCallback<Models.StorageQueue>, callback?: msRest.ServiceCallback<Models.StorageQueue>): Promise<Models.PatchQueueResponse> {
+    return this.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        queueName,
+        options
+      },
+      patchQueueOperationSpec,
+      callback) as Promise<Models.PatchQueueResponse>;
+  }
+
+  /**
+   * Gets the queue with the specified queue name, under the specified account if it exists.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param queueName A queue name must be unique within a storage account and must be between 3 and
+   * 63 characters.The name must comprise of lowercase alphanumeric and dash(-) characters only, it
+   * should begin and end with an alphanumeric character and it cannot have two consecutive dash(-)
+   * characters.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.GetQueueResponse>
+   */
+  getQueue(resourceGroupName: string, accountName: string, queueName: string, options?: msRest.RequestOptionsBase): Promise<Models.GetQueueResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param queueName A queue name must be unique within a storage account and must be between 3 and
+   * 63 characters.The name must comprise of lowercase alphanumeric and dash(-) characters only, it
+   * should begin and end with an alphanumeric character and it cannot have two consecutive dash(-)
+   * characters.
+   * @param callback The callback
+   */
+  getQueue(resourceGroupName: string, accountName: string, queueName: string, callback: msRest.ServiceCallback<Models.StorageQueue>): void;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param queueName A queue name must be unique within a storage account and must be between 3 and
+   * 63 characters.The name must comprise of lowercase alphanumeric and dash(-) characters only, it
+   * should begin and end with an alphanumeric character and it cannot have two consecutive dash(-)
+   * characters.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getQueue(resourceGroupName: string, accountName: string, queueName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageQueue>): void;
+  getQueue(resourceGroupName: string, accountName: string, queueName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageQueue>, callback?: msRest.ServiceCallback<Models.StorageQueue>): Promise<Models.GetQueueResponse> {
+    return this.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        queueName,
+        options
+      },
+      getQueueOperationSpec,
+      callback) as Promise<Models.GetQueueResponse>;
+  }
+
+  /**
+   * Deletes the queue with the specified queue name, under the specified account if it exists.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param queueName A queue name must be unique within a storage account and must be between 3 and
+   * 63 characters.The name must comprise of lowercase alphanumeric and dash(-) characters only, it
+   * should begin and end with an alphanumeric character and it cannot have two consecutive dash(-)
+   * characters.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  deleteQueue(resourceGroupName: string, accountName: string, queueName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param queueName A queue name must be unique within a storage account and must be between 3 and
+   * 63 characters.The name must comprise of lowercase alphanumeric and dash(-) characters only, it
+   * should begin and end with an alphanumeric character and it cannot have two consecutive dash(-)
+   * characters.
+   * @param callback The callback
+   */
+  deleteQueue(resourceGroupName: string, accountName: string, queueName: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param queueName A queue name must be unique within a storage account and must be between 3 and
+   * 63 characters.The name must comprise of lowercase alphanumeric and dash(-) characters only, it
+   * should begin and end with an alphanumeric character and it cannot have two consecutive dash(-)
+   * characters.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  deleteQueue(resourceGroupName: string, accountName: string, queueName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  deleteQueue(resourceGroupName: string, accountName: string, queueName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+    return this.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        queueName,
+        options
+      },
+      deleteQueueOperationSpec,
+      callback);
+  }
+
+  /**
+   * Gets a list of all the queues under the specified storage account
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ListQueueMethodResponse>
+   */
+  listQueueMethod(resourceGroupName: string, accountName: string, options?: Models.StorageManagementClientListQueueMethodOptionalParams): Promise<Models.ListQueueMethodResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param callback The callback
+   */
+  listQueueMethod(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.ListQueueResource>): void;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listQueueMethod(resourceGroupName: string, accountName: string, options: Models.StorageManagementClientListQueueMethodOptionalParams, callback: msRest.ServiceCallback<Models.ListQueueResource>): void;
+  listQueueMethod(resourceGroupName: string, accountName: string, options?: Models.StorageManagementClientListQueueMethodOptionalParams | msRest.ServiceCallback<Models.ListQueueResource>, callback?: msRest.ServiceCallback<Models.ListQueueResource>): Promise<Models.ListQueueMethodResponse> {
+    return this.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        options
+      },
+      listQueueMethodOperationSpec,
+      callback) as Promise<Models.ListQueueMethodResponse>;
+  }
+
+  /**
+   * List all table services for the storage account.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ListTableServiceResponse>
+   */
+  listTableService(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.ListTableServiceResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param callback The callback
+   */
+  listTableService(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.ListTableServices>): void;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listTableService(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListTableServices>): void;
+  listTableService(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListTableServices>, callback?: msRest.ServiceCallback<Models.ListTableServices>): Promise<Models.ListTableServiceResponse> {
+    return this.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        options
+      },
+      listTableServiceOperationSpec,
+      callback) as Promise<Models.ListTableServiceResponse>;
+  }
+
+  /**
+   * Creates a new table with the specified table name, under the specified account.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param tableName A table name must be unique within a storage account and must be between 3 and
+   * 63 characters.The name must comprise of only alphanumeric characters and it cannot begin with a
+   * numeric character.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PutTableResponse>
+   */
+  putTable(resourceGroupName: string, accountName: string, tableName: string, options?: msRest.RequestOptionsBase): Promise<Models.PutTableResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param tableName A table name must be unique within a storage account and must be between 3 and
+   * 63 characters.The name must comprise of only alphanumeric characters and it cannot begin with a
+   * numeric character.
+   * @param callback The callback
+   */
+  putTable(resourceGroupName: string, accountName: string, tableName: string, callback: msRest.ServiceCallback<Models.Table>): void;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param tableName A table name must be unique within a storage account and must be between 3 and
+   * 63 characters.The name must comprise of only alphanumeric characters and it cannot begin with a
+   * numeric character.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  putTable(resourceGroupName: string, accountName: string, tableName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Table>): void;
+  putTable(resourceGroupName: string, accountName: string, tableName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Table>, callback?: msRest.ServiceCallback<Models.Table>): Promise<Models.PutTableResponse> {
+    return this.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        tableName,
+        options
+      },
+      putTableOperationSpec,
+      callback) as Promise<Models.PutTableResponse>;
+  }
+
+  /**
+   * Creates a new table with the specified table name, under the specified account.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param tableName A table name must be unique within a storage account and must be between 3 and
+   * 63 characters.The name must comprise of only alphanumeric characters and it cannot begin with a
+   * numeric character.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PatchTableResponse>
+   */
+  patchTable(resourceGroupName: string, accountName: string, tableName: string, options?: msRest.RequestOptionsBase): Promise<Models.PatchTableResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param tableName A table name must be unique within a storage account and must be between 3 and
+   * 63 characters.The name must comprise of only alphanumeric characters and it cannot begin with a
+   * numeric character.
+   * @param callback The callback
+   */
+  patchTable(resourceGroupName: string, accountName: string, tableName: string, callback: msRest.ServiceCallback<Models.Table>): void;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param tableName A table name must be unique within a storage account and must be between 3 and
+   * 63 characters.The name must comprise of only alphanumeric characters and it cannot begin with a
+   * numeric character.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  patchTable(resourceGroupName: string, accountName: string, tableName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Table>): void;
+  patchTable(resourceGroupName: string, accountName: string, tableName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Table>, callback?: msRest.ServiceCallback<Models.Table>): Promise<Models.PatchTableResponse> {
+    return this.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        tableName,
+        options
+      },
+      patchTableOperationSpec,
+      callback) as Promise<Models.PatchTableResponse>;
+  }
+
+  /**
+   * Gets the table with the specified table name, under the specified account if it exists.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param tableName A table name must be unique within a storage account and must be between 3 and
+   * 63 characters.The name must comprise of only alphanumeric characters and it cannot begin with a
+   * numeric character.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.GetTableResponse>
+   */
+  getTable(resourceGroupName: string, accountName: string, tableName: string, options?: msRest.RequestOptionsBase): Promise<Models.GetTableResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param tableName A table name must be unique within a storage account and must be between 3 and
+   * 63 characters.The name must comprise of only alphanumeric characters and it cannot begin with a
+   * numeric character.
+   * @param callback The callback
+   */
+  getTable(resourceGroupName: string, accountName: string, tableName: string, callback: msRest.ServiceCallback<Models.Table>): void;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param tableName A table name must be unique within a storage account and must be between 3 and
+   * 63 characters.The name must comprise of only alphanumeric characters and it cannot begin with a
+   * numeric character.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getTable(resourceGroupName: string, accountName: string, tableName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Table>): void;
+  getTable(resourceGroupName: string, accountName: string, tableName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Table>, callback?: msRest.ServiceCallback<Models.Table>): Promise<Models.GetTableResponse> {
+    return this.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        tableName,
+        options
+      },
+      getTableOperationSpec,
+      callback) as Promise<Models.GetTableResponse>;
+  }
+
+  /**
+   * Deletes the table with the specified table name, under the specified account if it exists.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param tableName A table name must be unique within a storage account and must be between 3 and
+   * 63 characters.The name must comprise of only alphanumeric characters and it cannot begin with a
+   * numeric character.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  deleteTable(resourceGroupName: string, accountName: string, tableName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param tableName A table name must be unique within a storage account and must be between 3 and
+   * 63 characters.The name must comprise of only alphanumeric characters and it cannot begin with a
+   * numeric character.
+   * @param callback The callback
+   */
+  deleteTable(resourceGroupName: string, accountName: string, tableName: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param tableName A table name must be unique within a storage account and must be between 3 and
+   * 63 characters.The name must comprise of only alphanumeric characters and it cannot begin with a
+   * numeric character.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  deleteTable(resourceGroupName: string, accountName: string, tableName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  deleteTable(resourceGroupName: string, accountName: string, tableName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+    return this.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        tableName,
+        options
+      },
+      deleteTableOperationSpec,
+      callback);
+  }
+
+  /**
+   * Gets a list of all the tables under the specified storage account
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.QueryTableResponse>
+   */
+  queryTable(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.QueryTableResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param callback The callback
+   */
+  queryTable(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.ListTableResource>): void;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  queryTable(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListTableResource>): void;
+  queryTable(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListTableResource>, callback?: msRest.ServiceCallback<Models.ListTableResource>): Promise<Models.QueryTableResponse> {
+    return this.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        options
+      },
+      queryTableOperationSpec,
+      callback) as Promise<Models.QueryTableResponse>;
+  }
+
+  /**
+   * Gets a list of all the queues under the specified storage account
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ListQueueMethodNextResponse>
+   */
+  listQueueMethodNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ListQueueMethodNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listQueueMethodNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ListQueueResource>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listQueueMethodNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListQueueResource>): void;
+  listQueueMethodNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListQueueResource>, callback?: msRest.ServiceCallback<Models.ListQueueResource>): Promise<Models.ListQueueMethodNextResponse> {
+    return this.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listQueueMethodNextOperationSpec,
+      callback) as Promise<Models.ListQueueMethodNextResponse>;
+  }
+
+  /**
+   * Gets a list of all the tables under the specified storage account
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.QueryTableNextResponse>
+   */
+  queryTableNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.QueryTableNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  queryTableNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ListTableResource>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  queryTableNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListTableResource>): void;
+  queryTableNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListTableResource>, callback?: msRest.ServiceCallback<Models.ListTableResource>): Promise<Models.QueryTableNextResponse> {
+    return this.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      queryTableNextOperationSpec,
+      callback) as Promise<Models.QueryTableNextResponse>;
   }
 }
 
 // Operation Specifications
+const serializer = new msRest.Serializer(Mappers);
+const listQueueServiceOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/queueServices",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ListQueueServices
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const putQueueOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/queueServices/default/queues/{queueName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.subscriptionId,
+    Parameters.queueName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: {
+      metadata: [
+        "options",
+        "metadata"
+      ]
+    },
+    mapper: {
+      ...Mappers.StorageQueue,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.StorageQueue
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const patchQueueOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/queueServices/default/queues/{queueName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.subscriptionId,
+    Parameters.queueName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: {
+      metadata: [
+        "options",
+        "metadata"
+      ]
+    },
+    mapper: {
+      ...Mappers.StorageQueue,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.StorageQueue
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const getQueueOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/queueServices/default/queues/{queueName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.subscriptionId,
+    Parameters.queueName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.StorageQueue
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const deleteQueueOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/queueServices/default/queues/{queueName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.subscriptionId,
+    Parameters.queueName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listQueueMethodOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/queueServices/default/queues",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.maxpagesize,
+    Parameters.filter
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ListQueueResource
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listTableServiceOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ListTableServices
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const putTableOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/default/tables/{tableName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.subscriptionId,
+    Parameters.tableName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.Table
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const patchTableOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/default/tables/{tableName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.subscriptionId,
+    Parameters.tableName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.Table
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const getTableOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/default/tables/{tableName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.subscriptionId,
+    Parameters.tableName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.Table
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const deleteTableOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/default/tables/{tableName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.subscriptionId,
+    Parameters.tableName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const queryTableOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/default/tables",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ListTableResource
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listQueueMethodNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ListQueueResource
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const queryTableNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ListTableResource
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
 
 export {
   StorageManagementClient,
