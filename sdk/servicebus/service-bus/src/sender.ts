@@ -152,7 +152,7 @@ export interface Sender {
    */
   cancelScheduledMessages(sequenceNumbers: Long[], options?: OperationOptions): Promise<void>;
   /**
-   * Path for the client entity.
+   * Path of the entity for which the sender has been created.
    */
   entityPath: string;
   /**
