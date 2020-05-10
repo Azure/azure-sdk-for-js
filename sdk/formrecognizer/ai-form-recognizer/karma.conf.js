@@ -37,7 +37,10 @@ module.exports = function(config) {
     ],
 
     // list of files / patterns to load in the browser
-    files: ["test-browser/index.browser.js"].concat(
+    files: [
+      "test-browser/index.browser.js",
+      "test-browser/index.browser.js.map"
+    ].concat(
       isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : []
     ),
 
@@ -51,7 +54,7 @@ module.exports = function(config) {
       "recordings/browsers/**/*.json": ["json"],
       // IMPORTANT: COMMENT following line if you want to debug in your browsers!!
       // Preprocess source file to calculate code coverage, however this will make source file unreadable
-      "dist-test/index.browser.js": ["coverage"]
+      "test-browser/index.browser.js": ["coverage"]
     },
 
     envPreprocessor: [
