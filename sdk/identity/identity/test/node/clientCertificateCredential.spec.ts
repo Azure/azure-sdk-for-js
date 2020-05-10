@@ -64,7 +64,7 @@ describe("ClientCertificateCredential", function() {
         "Request URL doesn't contain expected clientId"
       );
 
-      const queryParams = qs.parse(authRequest.body);
+      const queryParams: any = qs.parse(authRequest.body);
       const jwtToken = jws.decode(queryParams.client_assertion);
 
       assert.strictEqual(jwtToken.header.x5t, (credential as any).certificateX5t);

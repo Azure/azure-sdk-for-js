@@ -163,7 +163,7 @@ describe("ManagedIdentityCredential", function() {
 
     assert.ok(authRequest.body !== undefined, "No body on request");
     if (authRequest.body) {
-      const bodyParams = qs.parse(authRequest.body);
+      const bodyParams: any = qs.parse(authRequest.body);
       assert.equal(authRequest.method, "POST");
       assert.equal(bodyParams.client_id, "client");
       assert.equal(decodeURIComponent(bodyParams.resource), "https://service");
