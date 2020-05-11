@@ -501,29 +501,32 @@ export class EventHubSender extends LinkEntity {
             this._context.connectionId,
             this.name
           );
-
-          try {
-            this._sender!.sendTimeoutInSeconds =
-              (retryOptions.timeoutInMs! - timeTakenByInit) / 1000;
-            const delivery = await this._sender!.send(message, undefined, 0x80013700);
-            logger.info(
-              "[%s] Sender '%s', sent message with delivery id: %d",
-              this._context.connectionId,
-              this.name,
-              delivery.id
-            );
-            return resolve();
-          } catch (err) {
-            err = translate(err.innerError || err);
-            logger.warning(
-              "[%s] An error occurred while sending the message",
-              this._context.connectionId,
-              err
-            );
-            logErrorStackTrace(err);
-            return reject(err);
-          } finally {
-            removeListeners();
+          if (retryOptions.timeoutInMs! <= timeTakenByInit) {
+            actionAfterTimeout();
+          } else {
+            try {
+              this._sender!.sendTimeoutInSeconds =
+                (retryOptions.timeoutInMs! - timeTakenByInit) / 1000;
+              const delivery = await this._sender!.send(message, undefined, 0x80013700);
+              logger.info(
+                "[%s] Sender '%s', sent message with delivery id: %d",
+                this._context.connectionId,
+                this.name,
+                delivery.id
+              );
+              return resolve();
+            } catch (err) {
+              err = translate(err.innerError || err);
+              logger.warning(
+                "[%s] An error occurred while sending the message",
+                this._context.connectionId,
+                err
+              );
+              logErrorStackTrace(err);
+              return reject(err);
+            } finally {
+              removeListeners();
+            }
           }
         } else {
           // let us retry to send the message after some time.
