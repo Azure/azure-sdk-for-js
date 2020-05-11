@@ -29,37 +29,39 @@ import {
   testPeekMsgsLength
 } from "./utils/testutils2";
 
-// describe("Create ServiceBusClient and Queue/Topic/Subscription Clients", function(): void {
-//   let sbClient: ServiceBusClient;
+describe("Create ServiceBusClient", function(): void {
+  let sbClient: ServiceBusClient;
 
-//   afterEach(async () => {
-//     if (sbClient) {
-//       await sbClient.close();
-//     }
-//   });
+  afterEach(async () => {
+    await sbClient.close();
+  });
 
-// it("Creates an Namespace from a connection string", function(): void {
-//   sbClient = new ServiceBusClient(
-//     "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
-//   );
-//   sbClient.should.be.an.instanceof(ServiceBusClient);
-//   should.equal(sbClient.name, "sb://a/", "Name of the namespace is different than expected");
-// });
+  it("hostname gets populated from the connection string", function(): void {
+    sbClient = new ServiceBusClient(
+      "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
+    );
+    sbClient.should.be.an.instanceof(ServiceBusClient);
+    should.equal(
+      sbClient.fullyQualifiedNamespace,
+      "a",
+      "Name of the namespace is different than expected"
+    );
+  });
 
-// it("Creates clients after coercing name to string", function(): void {
-//   sbClient = new ServiceBusClient(
-//     "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
-//   );
-//   const queueClient = sbClient.createQueueClient(1 as any);
-//   should.equal(queueClient.entityPath, "1");
+  // it("Creates clients after coercing name to string", function(): void {
+  //   sbClient = new ServiceBusClient(
+  //     "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
+  //   );
+  //   const queueClient = sbClient.createQueueClient(1 as any);
+  //   should.equal(queueClient.entityPath, "1");
 
-//   const topicClient = sbClient.createTopicClient(1 as any);
-//   should.equal(topicClient.entityPath, "1");
+  //   const topicClient = sbClient.createTopicClient(1 as any);
+  //   should.equal(topicClient.entityPath, "1");
 
-//   const subscriptionClient = sbClient.createSubscriptionClient(1 as any, 2 as any);
-//   should.equal(subscriptionClient.entityPath, "1/Subscriptions/2");
-// });
-// });
+  //   const subscriptionClient = sbClient.createSubscriptionClient(1 as any, 2 as any);
+  //   should.equal(subscriptionClient.entityPath, "1/Subscriptions/2");
+  // });
+});
 
 describe("Random scheme in the endpoint from connection string", function(): void {
   let sbClient: ServiceBusClientForTests;
