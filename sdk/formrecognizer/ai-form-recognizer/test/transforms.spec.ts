@@ -569,7 +569,8 @@ describe("Transforms", () => {
     const receiptResult = toReceiptResultResponse(original);
     const usReceipt = receiptResult.receipts![0];
 
-    assert.equal(usReceipt.receiptType, "itemized");
+    assert.equal(usReceipt.receiptType.confidence, 0.692);
+    assert.equal(usReceipt.receiptType.type, "itemized");
     assert.equal(usReceipt.locale, "US");
     assert.ok(usReceipt.tax, "Expecting valid 'tax' field");
     assert.equal(usReceipt.tax!.name, "Tax");

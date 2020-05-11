@@ -402,11 +402,15 @@ function toRecognizedReceipt(result: DocumentResultModel, pages: FormPage[]): Re
 }
 
 function toReceiptType(type: FormField): USReceiptType {
-  if (type.valueType === "string" && type.value === "Itemized") {
-    return "itemized";
-  } else {
-    return "unrecognized";
+  if (type.valueType === "string") {
+    if (type.value === "Itemized") {
+      return { confidence: type.confidence, type: "itemized" };
+    } else if (type.value === "CreditCard") {
+      return  { confidence: type.confidence, type: "creditCard" };
+    }
   }
+
+  return { confidence: type.confidence, type: "unrecognized"};
 }
 
 function toUSReceiptItems(items: ReceiptItemArrayField): USReceiptItem[] {
@@ -470,7 +474,7 @@ function toUSReceipt(receipt: RecognizedReceipt): ReceiptWithLocale {
   return {
     locale: "US",
     recognizedForm: receipt.recognizedForm,
-    items: toUSReceiptItems((form.fields["Items"] as unknown) as ReceiptItemArrayField),
+    items: form.fields["Items"] ? toUSReceiptItems((form.fields["Items"] as unknown) as ReceiptItemArrayField) : [],
     merchantAddress: form.fields["MerchantAddress"],
     merchantName: form.fields["MerchantName"],
     merchantPhoneNumber: form.fields["MerchantPhoneNumber"],

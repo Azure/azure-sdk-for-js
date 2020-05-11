@@ -504,7 +504,13 @@ export interface USReceiptItem {
   totalPrice?: FormField;
 }
 
-export type USReceiptType = "unrecognized" | "itemized" | "creditCard" | "gas" | "parking";
+export type USReceiptType = {
+  type: "unrecognized" | "itemized" | "creditCard" | "gas" | "parking";
+  /**
+   * Confidence value.
+   */
+  confidence?: number;
+}
 
 /**
  * United States receipt
