@@ -10,7 +10,6 @@ import {
   Response
 } from "../../dist-esm";
 import {
-  ContainerDefinition,
   ItemDefinition,
   ItemResponse,
   PermissionResponse,
@@ -19,6 +18,8 @@ import {
 } from "../../dist-esm/client";
 import { UserResponse } from "../../dist-esm/client/User/UserResponse";
 import { endpoint, masterKey } from "./_testConfig";
+import { DatabaseRequest } from "../../dist-esm/client/Database/DatabaseRequest";
+import { ContainerRequest } from "../../dist-esm/client/Container/ContainerRequest";
 
 const defaultClient = new CosmosClient({ endpoint, key: masterKey });
 
@@ -52,17 +53,21 @@ export async function removeAllDatabases(client: CosmosClient = defaultClient) {
   }
 }
 
-export async function getTestDatabase(testName: string, client: CosmosClient = defaultClient) {
+export async function getTestDatabase(
+  testName: string,
+  client: CosmosClient = defaultClient,
+  attrs?: Partial<DatabaseRequest>
+) {
   const entropy = Math.floor(Math.random() * 10000);
   const id = `${testName.replace(" ", "").substring(0, 30)}${entropy}`;
-  await client.databases.create({ id });
+  await client.databases.create({ id, ...attrs });
   return client.database(id);
 }
 
 export async function getTestContainer(
   testName: string,
   client: CosmosClient = defaultClient,
-  containerDef?: ContainerDefinition,
+  containerDef?: ContainerRequest,
   options?: RequestOptions
 ) {
   const db = await getTestDatabase(testName, client);
