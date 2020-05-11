@@ -241,10 +241,8 @@ describe("Keys client - create, read, update and delete operations", () => {
       throw Error("Expecting an error but not catching one.");
     } catch (e) {
       if (e instanceof RestError) {
-        assert.equal(
-          e.message.split(".")[0],
-          `A key with (name/id) ${keyName} was not found in this key vault`
-        );
+        assert.equal(e.code, "KeyNotFound");
+        assert.equal(e.statusCode, 404);
       } else {
         throw e;
       }
@@ -274,10 +272,8 @@ describe("Keys client - create, read, update and delete operations", () => {
       throw Error("Expecting an error but not catching one.");
     } catch (e) {
       if (e instanceof RestError) {
-        assert.equal(
-          e.message.split(".")[0],
-          `A key with (name/id) ${keyName} was not found in this key vault`
-        );
+        assert.equal(e.code, "KeyNotFound");
+        assert.equal(e.statusCode, 404);
       } else {
         throw e;
       }
@@ -346,10 +342,8 @@ describe("Keys client - create, read, update and delete operations", () => {
     } catch (e) {
       error = e;
     }
-    assert.equal(
-      error.message.split(".")[0],
-      `A key with (name/id) ${keyName} was not found in this key vault`
-    );
+    assert.equal(error.code, "KeyNotFound");
+    assert.equal(error.statusCode, 404);
   });
 
   it("can purge a deleted key", async function() {
