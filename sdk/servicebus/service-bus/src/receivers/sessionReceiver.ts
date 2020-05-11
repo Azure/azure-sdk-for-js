@@ -253,9 +253,10 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    */
   async renewSessionLock(options?: OperationOptions): Promise<Date> {
     this._throwIfReceiverOrConnectionClosed();
-
+    if (!this._messageSession) {
+      throw new Error("Cannot renew the session lock on a non-existing message session.");
+    }
     const renewSessionLockOperationPromise = async () => {
-      await this._createMessageSessionIfDoesntExist();
       this._messageSession!.sessionLockedUntilUtc = await this._context.managementClient!.renewSessionLock(
         this.sessionId,
         {
