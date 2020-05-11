@@ -88,7 +88,7 @@ export class SystemErrorRetryPolicy extends BaseRequestPolicy {
   public sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
     return this._nextPolicy
       .sendRequest(request.clone())
-      .catch((error) => retry(this, request, error.response, undefined, error))
+      .catch((error) => retry(this, request, error.response, error))
   }
 }
 
@@ -142,7 +142,7 @@ function updateRetryData(
   let incrementDelta = Math.pow(2, retryData.retryCount) - 1;
   const boundedRandDelta =
     policy.retryInterval * 0.8 +
-    Math.floor(Math.random() * (policy.retryInterval * 1.2 - policy.retryInterval * 0.8));
+    Math.floor(Math.random() * policy.retryInterval * 0.4);
   incrementDelta *= boundedRandDelta;
 
   retryData.retryInterval = Math.min(
@@ -157,8 +157,8 @@ async function retry(
   policy: SystemErrorRetryPolicy,
   request: WebResourceLike,
   operationResponse: HttpOperationResponse,
-  retryData?: RetryData,
-  err?: RetryError
+  err?: RetryError,
+  retryData?: RetryData
 ): Promise<HttpOperationResponse> {
   retryData = updateRetryData(policy, retryData, err);
   if (
@@ -177,13 +177,12 @@ async function retry(
       return policy._nextPolicy.sendRequest(request.clone());
     }
     catch (err) {
-      return retry(policy, request, operationResponse, retryData, err);
+      return retry(policy, request, operationResponse, err, retryData);
     }
   } else {
-    if (err != undefined) {
+    if (err) {
       // If the operation failed in the end, return all errors instead of just the last one
-      err = retryData.error;
-      return Promise.reject(err);
+      return Promise.reject(retryData.error);
     }
     return operationResponse;
   }
