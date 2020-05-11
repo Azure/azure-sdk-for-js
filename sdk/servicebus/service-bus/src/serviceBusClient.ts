@@ -30,7 +30,7 @@ export class ServiceBusClient {
    * @type {string}
    * @memberof ServiceBusClient
    */
-  public hostname: string;
+  public fullyQualifiedNamespace: string;
   /**
    *
    * @param connectionString A connection string for Azure Service Bus.
@@ -78,7 +78,7 @@ export class ServiceBusClient {
         this._clientOptions
       );
     }
-    this.hostname = this._connectionContext.config.host;
+    this.fullyQualifiedNamespace = this._connectionContext.config.host;
     this._clientOptions.retryOptions = this._clientOptions.retryOptions || {};
     this._clientOptions.retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(
       this._clientOptions.retryOptions

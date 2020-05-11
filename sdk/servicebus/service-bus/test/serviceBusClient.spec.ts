@@ -41,7 +41,11 @@ describe("Create ServiceBusClient", function(): void {
       "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
     );
     sbClient.should.be.an.instanceof(ServiceBusClient);
-    should.equal(sbClient.hostname, "a", "Name of the namespace is different than expected");
+    should.equal(
+      sbClient.fullyQualifiedNamespace,
+      "a",
+      "Name of the namespace is different than expected"
+    );
   });
 
   // it("Creates clients after coercing name to string", function(): void {
