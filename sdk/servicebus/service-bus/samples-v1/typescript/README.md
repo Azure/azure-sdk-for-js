@@ -25,7 +25,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [useProxy.ts][useproxy]                                             | creates a ServiceBusClient that uses an HTTP(S) proxy server to make requests                                           |
 | [advanced/movingMessagesToDLQ.ts][advanced-movingmessagestodlq]     | moves a message explicitly to the dead-letter queue                                                                     |
 | [advanced/deferral.ts][advanced-deferral]                           | uses the defer() function to defer a message for later processing                                                       |
-| [advanced/processMessageFromDLQ.ts][advanced-processmessagefromdlq] | retrieves a message from a dead-letter queue, edits it, and sends it back to the main queue     
+| [advanced/processMessageFromDLQ.ts][advanced-processmessagefromdlq] | retrieves a message from a dead-letter queue, edits it, and sends it back to the main queue                                  |
 | [advanced/sessionRoundRobin.ts][advanced-sessionroundrobin]       | uses `SessionReceiver`'s ability to get the next available session to round-robin through all sessions in a Queue/Subscription |
 | [advanced/sessionState.ts][advanced-sessionstate]                   | uses a "shopping cart" example to demonstrate how SessionState information can be read and maintained in an application |
 | [advanced/topicFilters.ts][advanced-topicfilters]                   | use topic subscriptions and filters for splitting up a message stream into multiple streams based on message properties |
