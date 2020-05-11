@@ -14,21 +14,5 @@ jobs:
       PackageName: "@azure/event-processor-host"
       ResourceServiceDirectory: eventhub
       TimeoutInMinutes: 90
-      # Remove Browser tests from matrix since they are currently a no-op
-      Matrix:
-        Linux_Node10:
-          OSVmImage: "ubuntu-16.04"
-          TestType: "node"
-        Windows_Node10:
-          OSVmImage: "windows-2019"
-          TestType: "node"
-        macOS_Node10:
-          OSVmImage: "macOS-10.15"
-          TestType: "node"
-      EnvVars:
-        EVENTHUB_NAME: $(EVENTHUB_NAME)
-        EVENTHUB_CONNECTION_STRING: $(EVENTHUB_CONNECTION_STRING)
-        IOTHUB_CONNECTION_STRING: $(IOTHUB_CONNECTION_STRING)
-        STORAGE_CONNECTION_STRING: $(STORAGE_CONNECTION_STRING)
-      # Event Hubs tests do not support concurrent execution
-      MaxParallel: 1
+      TestBrowser: false
+      TestSamples: false

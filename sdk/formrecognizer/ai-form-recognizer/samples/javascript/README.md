@@ -1,18 +1,28 @@
+---
+page_type: sample
+languages:
+  - javascript
+products:
+  - azure
+  - azure-cognitive-services
+urlFragment: ai-form-recognizer-javascript
+---
+
 # Azure Form Recognizer client library samples for JavaScript
 
 These sample programs show how to use the JavaScript client libraries for Azure Cognitive Services Form Recognizer in some common scenarios.
 
 |**File Name**|**Description**|
 |----------------|-------------|
+|[recognizeContent.js][recognizeContent]|Recognize text and table structures of a document|
 |[recognizeReceipt.js][recognizeReceipt]|Recognize data from a file of a US sales receipt using a prebuilt model|
 |[recognizeReceiptFromUrl.js][recognizeReceiptFromUrl]|Recognize data from a URL of a US sales receipt using a prebuilt model|
-|[recognizeContent.js][recognizeContent]|Recognize text and table structures of a document|
 |[recognizeCustomForm.js][recognizeCustomForm]|Recognize forms with your custom model|
 |[trainLabeledModel.js][trainLabeledModel]|Train a custom model with labeled data|
 |[trainUnlabeledModel.js][trainUnlabeledModel]|Train a custom model with unlabeled data|
 |[customModelManagement.js][customModelManagement]|Manage the custom models in your account|
 |[iteratorModels.js][iteratorModels]|List custom models using different ways|
-|[getValidationInfo.js][getValidationInfo]|Get information to help with manually validating recognition results|
+|[getBoundingBoxes.js][getBoundingBoxes]|Get information to to visualize outlines of form content and field.|
 |[differentiateLabeledUnlabeled.js][differentiateLabeledUnlabeled]|See the differences in output when using a custom model trained with labeled data and one trained with unlabeled data|
 
 ## Prerequisites
@@ -54,7 +64,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [trainUnlabeledModel]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/trainUnlabeledModel.js
 [customModelManagement]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/customModelManagement.js
 [iteratorModels]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/iteratorModels.js
-[getValidationInfo]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/getValidationInfo.js
+[getBoundingBoxes]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/getBoundingBoxes.js
 [differentiateLabeledUnlabeled]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/differentiateLabeledUnlabeled.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/ai-form-recognizer
 [azcogsvc]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account

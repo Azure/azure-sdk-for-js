@@ -21,7 +21,7 @@ import {
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
 import { record, delay } from "@azure/test-utils-recorder";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("BlobClient Node.js only", () => {
   let containerName: string;

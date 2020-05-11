@@ -11,7 +11,7 @@ import {
 import { getDataLakeServiceClient, recorderEnvSetup } from "./utils";
 import { URLBuilder } from "@azure/core-http";
 
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("DataLakeFileSystemClient", () => {
   let fileSystemName: string;
@@ -56,7 +56,7 @@ describe("DataLakeFileSystemClient", () => {
       keyb: "valb"
     };
     await fileSystemClient.setMetadata(metadata, {
-      tracingOptions: { spanOptions: { parent: rootSpan } }
+      tracingOptions: { spanOptions: { parent: rootSpan.context() } }
     });
     rootSpan.end();
 

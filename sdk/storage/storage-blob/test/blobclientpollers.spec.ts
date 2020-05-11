@@ -15,7 +15,7 @@ import {
   PollerLike,
   PollOperationState
 } from "../src";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("BlobClient beginCopyFromURL Poller", () => {
   let containerName: string;

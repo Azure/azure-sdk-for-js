@@ -1,10 +1,12 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { isNode } from "@azure/core-http";
 import * as dotenv from "dotenv";
-import * as path from "path";
 import { isPlaybackMode } from "@azure/test-utils-recorder";
 
 if (isNode) {
-  dotenv.config({ path: path.resolve(__dirname, "../../.env") });
+  dotenv.config();
 }
 
 export function uniqueString(): string {

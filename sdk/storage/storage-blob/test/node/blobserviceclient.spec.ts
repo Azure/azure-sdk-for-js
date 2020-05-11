@@ -4,7 +4,7 @@ import * as dotenv from "dotenv";
 import { BlobServiceClient, newPipeline, StorageSharedKeyCredential } from "../../src";
 import { getBSU, getConnectionStringFromEnvironment, recorderEnvSetup } from "../utils";
 import { record, Recorder } from "@azure/test-utils-recorder";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("BlobServiceClient Node.js only", () => {
   let recorder: Recorder;

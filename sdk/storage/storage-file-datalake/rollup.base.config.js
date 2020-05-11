@@ -65,7 +65,7 @@ export function nodeConfig(test = false) {
             "notDeepEqual",
             "notDeepStrictEqual"
           ],
-          "@opentelemetry/types": ["CanonicalCode", "SpanKind", "TraceFlags"]
+          "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
         }
       })
     ],
@@ -161,7 +161,7 @@ export function browserConfig(test = false) {
             "notDeepEqual",
             "notDeepStrictEqual"
           ],
-          "@opentelemetry/types": ["CanonicalCode", "SpanKind", "TraceFlags"]
+          "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
         }
       })
     ],

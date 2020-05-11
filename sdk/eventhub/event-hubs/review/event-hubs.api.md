@@ -8,8 +8,8 @@ import { AbortSignalLike } from '@azure/abort-controller';
 import { MessagingError } from '@azure/core-amqp';
 import { OperationTracingOptions } from '@azure/core-tracing';
 import { RetryOptions } from '@azure/core-amqp';
-import { Span } from '@opentelemetry/types';
-import { SpanContext } from '@opentelemetry/types';
+import { Span } from '@opentelemetry/api';
+import { SpanContext } from '@opentelemetry/api';
 import { TokenCredential } from '@azure/core-amqp';
 import { WebSocketImpl } from 'rhea-promise';
 import { WebSocketOptions } from '@azure/core-amqp';
@@ -59,9 +59,9 @@ export interface EventData {
 // @public
 export interface EventDataBatch {
     readonly count: number;
-    readonly maxSizeInBytes: number;
     // @internal
-    readonly _message: Buffer | undefined;
+    _generateMessage(): Buffer;
+    readonly maxSizeInBytes: number;
     // @internal
     readonly _messageSpanContexts: SpanContext[];
     // @internal
@@ -110,7 +110,8 @@ export class EventHubProducerClient {
     getEventHubProperties(options?: GetEventHubPropertiesOptions): Promise<EventHubProperties>;
     getPartitionIds(options?: GetPartitionIdsOptions): Promise<Array<string>>;
     getPartitionProperties(partitionId: string, options?: GetPartitionPropertiesOptions): Promise<PartitionProperties>;
-    sendBatch(batch: EventDataBatch, options?: SendBatchOptions): Promise<void>;
+    sendBatch(batch: EventData[], options?: SendBatchOptions): Promise<void>;
+    sendBatch(batch: EventDataBatch, options?: OperationOptions): Promise<void>;
 }
 
 // @public
@@ -225,6 +226,8 @@ export { RetryOptions }
 
 // @public
 export interface SendBatchOptions extends OperationOptions {
+    partitionId?: string;
+    partitionKey?: string;
 }
 
 // @public

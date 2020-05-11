@@ -14,7 +14,7 @@ import { truncatedISO8061Date } from "../src/utils/utils.common";
 import { bodyToString, getBSU, recorderEnvSetup } from "./utils";
 import { MockPolicyFactory } from "./utils/MockPolicyFactory";
 
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("FileClient", () => {
   let shareName: string;
@@ -682,7 +682,7 @@ describe("FileClient", () => {
     const rootSpan = tracer.startSpan("root");
     await fileClient.create(content.length, {
       tracingOptions: {
-        spanOptions: { parent: rootSpan }
+        spanOptions: { parent: rootSpan.context() }
       }
     });
     rootSpan.end();

@@ -5,9 +5,10 @@ import { KeyCredential } from "@azure/core-auth";
 import {
   RequestPolicyFactory,
   RequestPolicy,
-  RequestPolicyOptions,
   BaseRequestPolicy,
-  WebResource
+  WebResourceLike,
+  HttpOperationResponse,
+  RequestPolicyOptionsLike
 } from "@azure/core-http";
 
 const API_KEY_HEADER_NAME = "Ocp-Apim-Subscription-Key";
@@ -20,7 +21,7 @@ export function createTextAnalyticsAzureKeyCredentialPolicy(
   credential: KeyCredential
 ): RequestPolicyFactory {
   return {
-    create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
+    create: (nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike) => {
       return new TextAnalyticsAzureKeyCredentialPolicy(nextPolicy, options, credential);
     }
   };
@@ -33,12 +34,16 @@ export function createTextAnalyticsAzureKeyCredentialPolicy(
 class TextAnalyticsAzureKeyCredentialPolicy extends BaseRequestPolicy {
   private credential: KeyCredential;
 
-  constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, credential: KeyCredential) {
+  constructor(
+    nextPolicy: RequestPolicy,
+    options: RequestPolicyOptionsLike,
+    credential: KeyCredential
+  ) {
     super(nextPolicy, options);
     this.credential = credential;
   }
 
-  public async sendRequest(webResource: WebResource) {
+  public async sendRequest(webResource: WebResourceLike): Promise<HttpOperationResponse> {
     if (!webResource) {
       throw new Error("webResource cannot be null or undefined");
     }

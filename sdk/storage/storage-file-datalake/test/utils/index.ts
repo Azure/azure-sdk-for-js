@@ -10,7 +10,7 @@ import { DataLakeServiceClient } from "../../src/DataLakeServiceClient";
 import { newPipeline } from "../../src/Pipeline";
 import { getUniqueName, SimpleTokenCredential } from "./testutils.common";
 
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 export * from "./testutils.common";
 

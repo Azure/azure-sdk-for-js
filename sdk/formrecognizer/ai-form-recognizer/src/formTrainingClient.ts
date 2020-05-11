@@ -12,16 +12,17 @@ import {
 } from "@azure/core-http";
 import { KeyCredential } from "@azure/core-auth";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import "@azure/core-paging";
 import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
 import { createSpan } from "./tracing";
-import { CanonicalCode } from "@opentelemetry/types";
-import { FormRecognizerClient as GeneratedClient } from "./generated/formRecognizerClient";
+import { CanonicalCode } from "@opentelemetry/api";
+import { GeneratedClient } from "./generated/generatedClient";
 import {
-  FormRecognizerClientGetCustomModelsResponse as ListModelsResponseModel,
+  GeneratedClientGetCustomModelsResponse as ListModelsResponseModel,
   Model,
   ModelInfo,
-  FormRecognizerClientTrainCustomModelAsyncResponse
+  GeneratedClientTrainCustomModelAsyncResponse
 } from "./generated/models";
 import { TrainPollerClient, BeginTrainingPoller, BeginTrainingPollState } from "./lro/train/poller";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
@@ -209,7 +210,7 @@ export class FormTrainingClient {
   }
 
   /**
-   * Get detailed information about a model from training without labels.
+   * Get detailed information about a custom model from training.
    *
    * @param {string} modelId Id of the model to get information
    * @param {GetModelOptions} options Options to the Get Model operation
@@ -439,7 +440,7 @@ async function trainCustomModelInternal(
   source: string,
   useLabelFile?: boolean,
   options?: TrainModelOptions
-): Promise<FormRecognizerClientTrainCustomModelAsyncResponse> {
+): Promise<GeneratedClientTrainCustomModelAsyncResponse> {
   const realOptions = options || {};
   const { span, updatedOptions: finalOptions } = createSpan(
     "trainCustomModelInternal",

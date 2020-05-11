@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { ServiceBusMessage, toAmqpMessage } from "./serviceBusMessage";
 import { throwTypeErrorIfParameterMissing } from "./util/errors";
 import { ClientEntityContext } from "./clientEntityContext";

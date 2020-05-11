@@ -181,8 +181,7 @@ function makeBeginRecognizePollOperation<T extends { status: OperationStatus }>(
           state.result = response;
           state.isCompleted = true;
         } else if (response.status === "failed") {
-          state.error = new Error(`Model training failed with invalid model status.`);
-          state.isCompleted = true;
+          throw new Error(`Recognition failed ${(response as any)._response.bodyAsText}`);
         }
       }
 

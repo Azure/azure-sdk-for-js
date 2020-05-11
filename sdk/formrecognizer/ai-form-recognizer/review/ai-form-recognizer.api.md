@@ -589,7 +589,7 @@ export type ValueTypes = "string" | "date" | "time" | "phoneNumber" | "number" |
 // Warnings were encountered during analysis:
 //
 // src/formRecognizerClient.ts:70:3 - (ae-forgotten-export) The symbol "BeginRecognizePollState" needs to be exported by the entry point index.d.ts
-// src/formTrainingClient.ts:67:3 - (ae-forgotten-export) The symbol "BeginTrainingPollState" needs to be exported by the entry point index.d.ts
+// src/formTrainingClient.ts:68:3 - (ae-forgotten-export) The symbol "BeginTrainingPollState" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

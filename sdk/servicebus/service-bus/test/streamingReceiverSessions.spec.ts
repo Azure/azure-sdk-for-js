@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
@@ -52,7 +52,7 @@ describe("Streaming with sessions", () => {
     const entityNames = await createReceiverForTests(testClientType, receiveMode);
 
     senderClient = serviceBusClient.test.addToCleanup(
-      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+      await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
 
     deadLetterClient = serviceBusClient.test.createDeadLetterReceiver(entityNames);
@@ -70,10 +70,10 @@ describe("Streaming with sessions", () => {
     receiverClient = serviceBusClient.test.addToCleanup(
       receiveMode === "receiveAndDelete"
         ? entityNames.queue
-          ? serviceBusClient.createSessionReceiver(entityNames.queue, "receiveAndDelete", {
+          ? await serviceBusClient.createSessionReceiver(entityNames.queue, "receiveAndDelete", {
               sessionId: TestMessage.sessionId
             })
-          : serviceBusClient.createSessionReceiver(
+          : await serviceBusClient.createSessionReceiver(
               entityNames.topic!,
               entityNames.subscription!,
               "receiveAndDelete",
@@ -83,10 +83,10 @@ describe("Streaming with sessions", () => {
               }
             )
         : entityNames.queue
-        ? serviceBusClient.createSessionReceiver(entityNames.queue, "peekLock", {
+        ? await serviceBusClient.createSessionReceiver(entityNames.queue, "peekLock", {
             sessionId: TestMessage.sessionId
           })
-        : serviceBusClient.createSessionReceiver(
+        : await serviceBusClient.createSessionReceiver(
             entityNames.topic!,
             entityNames.subscription!,
             "peekLock",
@@ -866,7 +866,7 @@ describe("Streaming with sessions", () => {
       for (const message of testMessages) {
         batchMessageToSend.tryAdd(message);
       }
-      await senderClient.sendBatch(batchMessageToSend);
+      await senderClient.send(batchMessageToSend);
 
       const settledMsgs: ReceivedMessageWithLock[] = [];
       const receivedMsgs: ReceivedMessageWithLock[] = [];
@@ -1016,7 +1016,7 @@ describe("Streaming with sessions", () => {
         messages.push(message);
         batch.tryAdd(message);
       }
-      await senderClient.sendBatch(batch);
+      await senderClient.send(batch);
 
       const receivedMsgs: ReceivedMessageWithLock[] = [];
 
@@ -1040,7 +1040,7 @@ describe("Streaming with sessions", () => {
         0,
         `Expected 0 messages, but received ${receivedMsgs.length}`
       );
-      receiverClient = serviceBusClient.test.getSessionPeekLockReceiver(entityNames);
+      receiverClient = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames);
       await testPeekMsgsLength(receiverClient, totalNumOfMessages);
     }
 

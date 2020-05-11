@@ -4,11 +4,7 @@
 import { translate, MessagingError } from "./errors";
 import { delay } from "./util/utils";
 import { logger } from "./log";
-import {
-  defaultMaxRetries,
-  defaultDelayBetweenOperationRetriesInMs,
-  defaultMaxDelayForExponentialRetryInMs
-} from "./util/constants";
+import { Constants } from "./util/constants";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { checkNetworkConnection } from "./util/checkNetworkConnection";
 
@@ -159,16 +155,16 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
     config.retryOptions = {};
   }
   if (config.retryOptions.maxRetries == undefined || config.retryOptions.maxRetries < 0) {
-    config.retryOptions.maxRetries = defaultMaxRetries;
+    config.retryOptions.maxRetries = Constants.defaultMaxRetries;
   }
   if (config.retryOptions.retryDelayInMs == undefined || config.retryOptions.retryDelayInMs < 0) {
-    config.retryOptions.retryDelayInMs = defaultDelayBetweenOperationRetriesInMs;
+    config.retryOptions.retryDelayInMs = Constants.defaultDelayBetweenOperationRetriesInMs;
   }
   if (
     config.retryOptions.maxRetryDelayInMs == undefined ||
     config.retryOptions.maxRetryDelayInMs < 0
   ) {
-    config.retryOptions.maxRetryDelayInMs = defaultMaxDelayForExponentialRetryInMs;
+    config.retryOptions.maxRetryDelayInMs = Constants.defaultMaxDelayForExponentialRetryInMs;
   }
   if (config.retryOptions.mode == undefined) {
     config.retryOptions.mode = RetryMode.Fixed;

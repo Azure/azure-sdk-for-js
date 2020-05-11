@@ -13,32 +13,3 @@ jobs:
     parameters:
       PackageName: "@azure/search-documents"
       ResourceServiceDirectory: search
-      Matrix:
-        Linux_Node10:
-          OSVmImage: "ubuntu-16.04"
-          TestType: "node"
-          PublishCodeCoverage: true
-        Windows_Node10:
-          OSVmImage: "windows-2019"
-          TestType: "node"
-        macOS_Node10:
-          OSVmImage: "macOS-10.15"
-          TestType: "node"
-        Browser_Linux_Node10:
-          OSVmImage: "ubuntu-16.04"
-          TestType: "browser"
-          PublishCodeCoverage: true
-        Browser_Windows_Node10:
-          OSVmImage: "windows-2019"
-          TestType: "browser"
-        Browser_macOS_Node10:
-          OSVmImage: "macOS-10.15"
-          TestType: "browser"
-        Linux_Sample10:
-          OSVmImage: "ubuntu-16.04"
-          NodeVersion: "10.x"
-          TestType: "sample"
-      EnvVars:
-        ENDPOINT: $(ENDPOINT)
-        SEARCH_API_ADMIN_KEY: $(SEARCH_API_ADMIN_KEY)
-        SEARCH_API_ADMIN_KEY_ALT: $(SEARCH_API_ADMIN_KEY_ALT)

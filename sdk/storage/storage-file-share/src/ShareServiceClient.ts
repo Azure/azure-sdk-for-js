@@ -23,7 +23,7 @@ import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { isNode } from "@azure/core-http";
-import { CanonicalCode } from "@opentelemetry/types";
+import { CanonicalCode } from "@opentelemetry/api";
 import { createSpan } from "./utils/tracing";
 
 /**

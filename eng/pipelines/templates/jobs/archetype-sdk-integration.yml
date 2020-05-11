@@ -7,27 +7,22 @@ parameters:
   MaxParallel: 0
   TimeoutInMinutes: 60
   PublishCodeCoverage: false
+  TestBrowser: true
+  TestSamples: true
   Matrix:
-    Linux_Node10:
-      OSVmImage: "ubuntu-16.04"
+    Linux Node 8:
+      OSVmImage: "ubuntu-18.04"
       TestType: "node"
+      NodeVersion: "8.x"
       PublishCodeCoverage: true
-    Windows_Node10:
+    Windows Node 10:
       OSVmImage: "windows-2019"
       TestType: "node"
-    macOS_Node10:
+      NodeVersion: "10.x"
+    MacOS Node 12:
       OSVmImage: "macOS-10.15"
       TestType: "node"
-    Browser_Linux_Node10:
-      OSVmImage: "ubuntu-16.04"
-      TestType: "browser"
-      PublishCodeCoverage: true
-    Browser_Windows_Node10:
-      OSVmImage: "windows-2019"
-      TestType: "browser"
-    Browser_macOS_Node10:
-      OSVmImage: "macOS-10.15"
-      TestType: "browser"
+      NodeVersion: "12.x"
 
 jobs:
   - job: "IntegrationTest"
@@ -51,6 +46,23 @@ jobs:
 
             # Remaining entries from the matrix object
             ${{ insert }}: ${{ matrixEntry.value }}
+
+        # Add matrix entry for browser testing
+        ${{ if eq(parameters.TestBrowser, 'true') }}:
+          Windows Browser:
+            OSVmImage: "windows-2019"
+            TestType: "browser"
+            NodeVersion: "12.x"
+            CloudType: "AzureCloud"
+            TestResultsFiles: "**/test-results.browser.xml"
+
+        # Add matrix entry for sample testing
+        ${{ if eq(parameters.TestSamples, 'true') }}:
+          Samples Linux Node 10:
+            OSVmImage: "ubuntu-18.04"
+            TestType: "sample"
+            NodeVersion: "10.x"
+            CloudType: "AzureCloud"
 
     pool:
       vmImage: "$(OSVmImage)"
@@ -84,15 +96,22 @@ jobs:
       - ${{if ne(parameters.PreIntegrationSteps, '')}}:
           - template: ../steps/${{parameters.PreIntegrationSteps}}.yml
 
+      - pwsh: |
+          npm install
+          node getPackagePath.js --repo-root "$(Build.SourcesDirectory)" --package-name "${{parameters.PackageName}}"
+        workingDirectory: $(Build.SourcesDirectory)/eng/tools/eng-package-utils
+        displayName: "Get package path"
+
       # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
       # The default on Windows is "cores - 1" (microsoft/rushstack#436).
       - script: |
-          node common/scripts/install-run-rush.js integration-test:$(TestType) -t "${{parameters.PackageName}}" --verbose -p max
+          node ../../../common/scripts/install-run-rushx.js integration-test:$(TestType) --verbose -p max
         displayName: "Integration test libraries"
+        workingDirectory: $(PackagePath)
         env:
           TEST_MODE: "live"
           ${{ insert }}: ${{ parameters.EnvVars }}
-        condition: ne(variables['TestType'],'sample')
+        condition: and(succeededOrFailed(),ne(variables['TestType'],'sample'))
 
       - ${{if ne(parameters.PostIntegrationSteps, '')}}:
           - template: ../steps/${{parameters.PostIntegrationSteps}}.yml
@@ -103,20 +122,12 @@ jobs:
         env:
           TEST_MODE: "live"
           ${{ insert }}: ${{ parameters.EnvVars }}
-        condition: eq(variables['TestType'],'sample')
+        condition: and(succeededOrFailed(),eq(variables['TestType'],'sample'))
 
       - ${{ if ne(parameters.ResourceServiceDirectory, '') }}:
         - template: /eng/common/TestResources/remove-test-resources.yml
-
-      - script: |
-          npm install
-        workingDirectory: $(Build.SourcesDirectory)/eng/tools/eng-package-utils
-        displayName: "Install script dependencies"
-
-      - script: |
-          node getPackagePath.js --repo-root "$(Build.SourcesDirectory)" --package-name "${{parameters.PackageName}}"
-        workingDirectory: $(Build.SourcesDirectory)/eng/tools/eng-package-utils
-        displayName: "Get package path"
+          parameters:
+            ServiceDirectory: "${{ parameters.ResourceServiceDirectory }}"
 
       - task: PublishCodeCoverageResults@1
         displayName: "Publish NodeJs Code Coverage to DevOps"
@@ -136,9 +147,19 @@ jobs:
 
       # Unlink node_modules folders to significantly improve performance of subsequent tasks
       # which need to walk the directory tree (and are hardcoded to follow symlinks).
-      - script: |
-          node eng/tools/rush-runner.js unlink
-        condition: succeededOrFailed()
+      # Retry for 30 seconds, since this command may fail with error "Another rush command is already
+      # running in this repository" if the previous rush command was killed.
+      - pwsh: |
+          for ($i=0; $i -lt 30; $i++) {
+            node eng/tools/rush-runner.js unlink
+            if ($lastexitcode -eq 0) {
+              break
+            }
+            else {
+              start-sleep 1
+            }
+          }
+        condition: always()
         displayName: "Unlink dependencies"
 
       # It's important for performance to pass "sdk" as "searchFolder" to avoid looking under root "node_modules".

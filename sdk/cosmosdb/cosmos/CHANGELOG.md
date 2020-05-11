@@ -1,7 +1,31 @@
 # Release History
 
-## 3.6.4 (Unreleased)
+## 3.7.0 (Unreleased)
 
+- FEATURE: Allows string value `partitionKey` parameter when creating containers
+- BUGFIX: Support crypto functions in Internet Explorer browser
+
+The following result in the same behavior:
+
+```js
+const containerDefinition = {
+  id: "sample container",
+  indexingPolicy: { indexingMode: IndexingMode.consistent },
+  throughput: 400,
+  partitionKey: { paths: ["/key"] }
+};
+database.container.create(containerDefinition);
+
+// OR as a string
+
+const containerDefinition = {
+  id: "sample container",
+  indexingPolicy: { indexingMode: IndexingMode.consistent },
+  throughput: 400,
+  partitionKey: "/key" } // must have leading slash "/"
+};
+database.container.create(containerDefinition);
+```
 
 ## 3.6.3 (2020-4-08)
 
@@ -44,7 +68,7 @@ Based on customer feedback, we identified scenarios where it still makes sense t
 ## 3.5.3 (2020-1-06)
 
 - BUG FIX: maxDegreeOfParallelism was defaulting to 1 and should default to the number of partitions of the collection
-- BUF FIX: maxItemCount was defaulting to 10 and should default to undefined
+- BUG FIX: maxItemCount was defaulting to 10 and should default to undefined
 - Set default TLS version to 1.2 (#6761)
 - Use tslib 1.10.0 (#6710)
 - Add partition key to code sample (#6612)
@@ -210,16 +234,16 @@ for await(const { result: item } in client.databases.readAll().getAsyncIterator(
 v2 has two different but equivalent ways to specify the partition key for a query:
 
 ```js
-// v2. These are effectively the same 
-container.items.query('SELECT * from c', { partitionKey: "foo" }).toArray()
-container.items.query('SELECT * from c WHERE c.yourPartitionKey = "foo"').toArray()
+// v2. These are effectively the same
+container.items.query("SELECT * from c", { partitionKey: "foo" }).toArray();
+container.items.query('SELECT * from c WHERE c.yourPartitionKey = "foo"').toArray();
 ```
 
 v3 removed `partitionKey` from `FeedOptions` so there is now only one way to specify the partition key:
 
 ```js
 // v3
-container.items.query('SELECT * from c WHERE c.yourPartitionKey = "foo"').fetchAll()
+container.items.query('SELECT * from c WHERE c.yourPartitionKey = "foo"').fetchAll();
 ```
 
 #### Fixed Containers are now Paritioned (#308)

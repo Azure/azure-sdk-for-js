@@ -1,5 +1,7 @@
 # Azure Form Recognizer client library for JavaScript
 
+**Note:** This preview version targets Azure Form Recognizer service API version v2.0-preview.
+
 Azure Cognitive Services [Form Recognizer](https://azure.microsoft.com/services/cognitive-services/form-recognizer/) is a cloud service that uses machine learning to recognize text and table data
 from form documents. It includes the following main functionalities:
 
@@ -42,7 +44,7 @@ az group create --name my-resource-group --location westus2
 If you use the Azure CLI, replace `<your-resource-group-name>` and `<your-resource-name>` with your own unique names:
 
 ```bash
-az cognitiveservices account create --kind FormRecognizer --resource-group <your-resource-group-name> --name <your-resource-name>
+az cognitiveservices account create --kind FormRecognizer --resource-group <your-resource-group-name> --name <your-resource-name> --sku <your-sku-name> --location <your-location>
 ```
 
 ### Install the `@azure/ai-form-recognizer` package
@@ -83,58 +85,22 @@ const client = new FormRecognizerClient("<endpoint>", new AzureKeyCredential("<A
 
 ## Key concepts
 
+
 ### FormRecognizerClient
-A `FormRecognizerClient` is the Form Recognizer interface to use for recognizing data from forms using custom trained models,
-recognizing content from forms, and analyzing receipts. It provides different methods for providing the input document, allowing you to pass it in as a file stream or through a URL path to the document.
+`FormRecognizerClient` provides operations for:
 
-#### Recognizing Custom Forms
-Our method for recognizing custom forms takes in the ID of a custom model. The model can be trained either using the `FormTrainingClient` in our [library](#training-models "Training models")
-or via a UI such as the service's [labeling tool][fr-labeling-tool].
-
-#### Recognizing Content in Forms
-This method recognizes text and table structures, along with their bounding box coordinates, from documents. An object's bounding boxes refer to the coordinates wherein the object can be found.
-
-#### Recognizing US receipts
-This method is used for analyzing receipts. It provides operations to extract receipt field values and locations from receipts from the United States.
-
-#### RecognizedForm
-`RecognizedForm` is what our service returns when it recognizes a [form](#recognizing-custom-forms "Recognizing Custom Forms"). It contains the type of the form(`form_type`),
-the [fields](#FormField "FormField") found in the form (`fields`), and information about each [page](#FormPage "FormPage") in the form document (`pages`).
-
-#### FormField
-Each field in a form contains the unique identifier of the field (`name`), the recognized value of the field (`value`), and information about its label and value (`label_data` and `value_data`). If the form is recognized with an unlabelled model, the label of the field will be denoted with indices, and if it's recognized with a labeled model,
-the label will be the same as specified in the custom model's training documents.
-
-#### FormPage
-Contains the recognized metadata, text lines (`lines`), and tables (`tables`) found on a single page of the form document.
+ - Recognizing form fields and content using custom models trained to recognize your custom forms. These values are returned in a collection of `RecognizedForm` objects.
+ - Recognizing form content, including tables, lines and words, without the need to train a model. Form content is returned in a collection of `FormPage` objects.
+ - Recognizing common fields from US receipts, using a pre-trained receipt model on the Form Recognizer service. These fields and meta-data are returned in a collection of `ReceiptWithLocale` objects with `US` locale.
 
 ### FormTrainingClient
-A `FormTrainingClient` is the Form Recognizer interface to use for creating and managing custom machine-learned models. It provides operations for training models on forms you provide and operations for viewing and deleting models, as well as understanding how close you are to reaching subscription limits for the number of models you can train.
+`FormTrainingClient` provides operations for:
 
-#### Training models
-Using the `FormTrainingClient`, you can train a machine-learned model on your own form types. The resulting model will
-be able to recognize values from the types of forms it was trained on. You can train your custom model with multiple form types. Once trained, you can use your custom models to recognize forms of these form types. If you prefer a graphical user interface to do that training, you can
-use the service's [labeling tool][fr-labeling-tool].
+- Training custom models to recognize all fields and values found in your custom forms. A `CustomFormModel` is returned indicating the form types the model will recognize, and the fields it will extract for each form type. See the [service's documents][fr-train-without-labels] for a more detailed explanation.
+- Training custom models to recognize specific fields and values you specify by labeling your custom forms. A `CustomFormModel` is returned indicating the fields the model will extract, as well as the estimated accuracy for each field. See the [service's documents][fr-train-with-labels] for a more detailed explanation.
+- Managing models created in your account.
 
-##### Training without labels
-A model trained without labels uses machine learning to understand the layout and relationships between field
-names and values in your forms. The learning algorithm clusters the training forms by type and learns what fields and
-tables are present in each form type.
-
-This approach doesn't require manual data labeling or intensive coding and maintenance, and we recommend you try this
-method first when training custom models.
-
-##### Training with labels
-A model trained with labels uses machine learning to recognize values you specify by adding labels to your training forms.
-The learning algorithm uses a label file you provide to learn what fields are found at various locations in the form,
-and learns to recognize just those values you are interested in.
-
-This approach can result in better-performing models, and those models can work with more complex form structures.
-
-You can use the [labeling tool][fr-labeling-tool] to create labels.
-
-### Managing Custom Models
-Using the `FormTrainingClient`, you can get, list, and delete the custom models you've trained.  You can also view the count of models you've trained and the maximum number of models your subscription will allow you to store.
+Please note that models can also be trained using a graphical user interface such as the [Form Recognizer Labeling Tool][fr-labeling-tool].
 
 ### Long-Running Operations
 Long-running operations are operations which consist of an initial request sent to the service to start an operation,followed by polling the service at intervals to determine whether the operation has completed or failed, and if it has succeeded, to get the result.
@@ -189,7 +155,7 @@ async function main() {
   console.log(usReceipt.recognizedForm.fields["MerchantAddress"]);
 }
 
-function optionalToString(value: unknown = undefined) {
+function optionalToString(value) {
   return `${value || "<missing>"}`;
 }
 
@@ -358,7 +324,7 @@ async function main() {
 
   // using `iter.next()`
   i = 1;
-  let iter = client.listModels();
+  let iter = trainingClient.listModels();
   let modelItem = await iter.next();
   while (!modelItem.done) {
     console.log(`model ${i++}: ${modelItem.value.modelId}`);
@@ -367,7 +333,7 @@ async function main() {
 
   // using `byPage()`
   i = 1;
-  for await (const response of client.listModels().byPage()) {
+  for await (const response of trainingClient.listModels().byPage()) {
     for (const modelInfo of response.modelList) {
       console.log(`model ${i++}: ${modelInfo.modelId}`);
     }
@@ -399,23 +365,7 @@ directory for detailed examples on how to use this library.
 
 ## Contributing
 
-This project welcomes contributions and suggestions. Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit https://cla.microsoft.com.
-
-When you submit a pull request, a CLA-bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.
-
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
-contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
-
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
-
-## Related projects
-
-- [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fformrecognizer%2Fai-form-recognizer%2FREADME.png)
 
@@ -423,12 +373,10 @@ If you'd like to contribute to this library, please read the [contributing guide
 [azure_sub]: https://azure.microsoft.com/free/
 [FR_or_CS_resource]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account?tabs=multiservice%2Cwindows
 [azure_portal]: https://portal.azure.com
-[azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity
-[cognitive_auth]: https://docs.microsoft.com/azure/cognitive-services/authentication
-[register_aad_app]: https://docs.microsoft.com/azure/cognitive-services/authentication#assign-a-role-to-a-service-principal
-[defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity#defaultazurecredential
 [quickstart_training]: https://docs.microsoft.com/azure/cognitive-services/form-recognizer/quickstarts/curl-train-extract#train-a-form-recognizer-model
 [multi_and_single_service]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account?tabs=multiservice%2Cwindows
 [azure_portal_create_FR_resource]: https://ms.portal.azure.com/#create/Microsoft.CognitiveServicesFormRecognizer
 [azure_cli_create_FR_resource]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account-cli?tabs=windows
 [fr-labeling-tool]: https://docs.microsoft.com/en-us/azure/cognitive-services/form-recognizer/quickstarts/label-tool
+[fr-train-without-labels]: https://docs.microsoft.com/en-us/azure/cognitive-services/form-recognizer/overview#train-without-labels
+[fr-train-with-labels]: https://docs.microsoft.com/en-us/azure/cognitive-services/form-recognizer/overview#train-with-labels

@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { ClientEntityContext } from "../clientEntityContext";
 import {
@@ -43,9 +43,8 @@ export interface SessionReceiver<
 > extends Receiver<ReceivedMessageT> {
   /**
    * The session ID.
-   * Can be undefined until a AMQP receiver link has been successfully set up for the session
    */
-  sessionId: string | undefined;
+  readonly sessionId: string;
 
   /**
    * @property The time in UTC until which the session is locked.
@@ -94,7 +93,7 @@ export interface SessionReceiver<
 export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMessageWithLock>
   implements SessionReceiver<ReceivedMessageT> {
   public entityPath: string;
-  public sessionId: string | undefined;
+  public sessionId: string;
 
   /**
    * @property {ClientEntityContext} _context Describes the amqp connection context for the QueueClient.
@@ -113,7 +112,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    * @throws Error if the underlying connection is closed.
    * @throws Error if an open receiver is already existing for given sessionId.
    */
-  constructor(
+  private constructor(
     context: ClientEntityContext,
     public receiveMode: "peekLock" | "receiveAndDelete",
     private _sessionOptions: CreateSessionReceiverOptions,
@@ -141,6 +140,30 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
         throw error;
       }
     }
+
+    // `createInitializedSessionReceiver` will set this value by calling init()
+    // so we just temporarily set it to "" so we can get away with it never being
+    // `undefined`.
+    this.sessionId = "";
+  }
+
+  static async createInitializedSessionReceiver<
+    ReceivedMessageT extends ReceivedMessage | ReceivedMessageWithLock
+  >(
+    context: ClientEntityContext,
+    receiveMode: "peekLock" | "receiveAndDelete",
+    sessionOptions: CreateSessionReceiverOptions,
+    retryOptions: RetryOptions = {}
+  ): Promise<SessionReceiver<ReceivedMessageT>> {
+    const sessionReceiver = new SessionReceiverImpl<ReceivedMessageT>(
+      context,
+      receiveMode,
+      sessionOptions,
+      retryOptions
+    );
+
+    await sessionReceiver._createMessageSessionIfDoesntExist();
+    return sessionReceiver;
   }
 
   private _throwIfReceiverOrConnectionClosed(): void {
@@ -234,7 +257,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     const renewSessionLockOperationPromise = async () => {
       await this._createMessageSessionIfDoesntExist();
       this._messageSession!.sessionLockedUntilUtc = await this._context.managementClient!.renewSessionLock(
-        this.sessionId!,
+        this.sessionId,
         {
           ...options,
           requestName: "renewSessionLock",
@@ -296,7 +319,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
 
     const getSessionStateOperationPromise = async () => {
       await this._createMessageSessionIfDoesntExist();
-      return this._context.managementClient!.getSessionState(this.sessionId!, {
+      return this._context.managementClient!.getSessionState(this.sessionId, {
         ...options,
         requestName: "getState",
         timeoutInMs: this._retryOptions.timeoutInMs
@@ -325,12 +348,12 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
         return await this._context.managementClient!.peekBySequenceNumber(
           options.fromSequenceNumber,
           options.maxMessageCount,
-          this.sessionId!,
+          this.sessionId,
           managementRequestOptions
         );
       } else {
         return await this._context.managementClient!.peekMessagesBySession(
-          this.sessionId!,
+          this.sessionId,
           options.maxMessageCount,
           managementRequestOptions
         );

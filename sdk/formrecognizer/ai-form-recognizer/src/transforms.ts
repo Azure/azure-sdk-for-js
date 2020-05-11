@@ -11,10 +11,10 @@ import {
   PageResult as PageResultModel,
   ReadResult as ReadResultModel,
   TextLine as TextLineModel,
-  FormRecognizerClientGetAnalyzeFormResultResponse as GetAnalyzeFormResultResponse,
-  FormRecognizerClientGetAnalyzeLayoutResultResponse as GetAnalyzeLayoutResultResponse,
-  FormRecognizerClientGetAnalyzeReceiptResultResponse as GetAnalyzeReceiptResultResponse,
-  FormRecognizerClientGetCustomModelResponse as GetCustomModelResponse
+  GeneratedClientGetAnalyzeFormResultResponse as GetAnalyzeFormResultResponse,
+  GeneratedClientGetAnalyzeLayoutResultResponse as GetAnalyzeLayoutResultResponse,
+  GeneratedClientGetAnalyzeReceiptResultResponse as GetAnalyzeReceiptResultResponse,
+  GeneratedClientGetCustomModelResponse as GetCustomModelResponse
 } from "./generated/models";
 
 import {
@@ -285,17 +285,22 @@ export function toFields(
 }
 
 export function toFieldsFromFieldValue(
-  original: { [propertyName: string]: FieldValueModel },
+  original: { [propertyName: string]: FieldValueModel | null },
   readResults: FormPage[]
 ): { [propertyName: string]: FormField } {
   const result: { [propertyName: string]: FormField } = {};
   for (const key in original) {
     // eslint-disable-next-line no-prototype-builtins
     if (original.hasOwnProperty(key)) {
-      const fieldValue = toFieldValue(original[key], readResults);
+      if (!original[key]) {
+        result[key] = { name: key };
+        continue;
+      }
+      const fieldValue = toFieldValue(original[key]!, readResults);
       if (fieldValue.type === "array" || fieldValue.type === "object") {
         const formField: FormField = {
           confidence: 1,
+          name: key,
           value: fieldValue.value,
           valueType: fieldValue.type
         };
@@ -523,7 +528,7 @@ export function toFormModelResponse(response: GetCustomModelResponse): FormModel
   }
 
   if (response.trainResult?.averageModelAccuracy || response.trainResult?.fields) {
-    // labeled, populate from trainingResult.fields
+    // training with forms and labels, populate from trainingResult.fields
     const fields: { [propertyName: string]: CustomFormSubModelField } = {};
     for (const f of response.trainResult.fields!) {
       fields[f.fieldName] = { name: f.fieldName, accuracy: f.accuracy };
@@ -532,10 +537,16 @@ export function toFormModelResponse(response: GetCustomModelResponse): FormModel
       ...common,
       trainingDocuments: response.trainResult.trainingDocuments,
       errors: response.trainResult.errors,
-      models: [{ accuracy: response.trainResult.averageModelAccuracy, formType: "TBD", fields }]
+      models: [
+        {
+          accuracy: response.trainResult.averageModelAccuracy,
+          formType: `form-${response.modelInfo.modelId}`,
+          fields
+        }
+      ]
     };
   } else if (response.keys) {
-    // unlabeled, populate from trainingResult.keys
+    // training with forms, populate from trainingResult.keys
     const models: CustomFormSubModel[] = [];
     for (const clusterKey in response.keys.clusters) {
       const cluster = response.keys.clusters[clusterKey];

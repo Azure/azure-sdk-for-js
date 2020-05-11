@@ -440,7 +440,7 @@ export enum ErrorNameConditionMapper {
  * Omits fields that are not related to network calls (e.g. file system calls).
  * See https://nodejs.org/dist/latest-v12.x/docs/api/errors.html#errors_class_systemerror
  */
-interface NetworkSystemError {
+export interface NetworkSystemError {
   address?: string;
   code: string;
   errno: string | number;
