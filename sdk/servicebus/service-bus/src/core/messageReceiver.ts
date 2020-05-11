@@ -24,10 +24,9 @@ import * as log from "../log";
 import { LinkEntity } from "./linkEntity";
 import { ClientEntityContext } from "../clientEntityContext";
 import { ServiceBusMessage, DispositionType, ReceiveMode } from "../serviceBusMessage";
-import { getUniqueName, calculateRenewAfterDuration, createNonRetryableError } from "../util/utils";
+import { getUniqueName, calculateRenewAfterDuration } from "../util/utils";
 import { MessageHandlerOptions } from "./streamingReceiver";
 import { DispositionStatusOptions } from "./managementClient";
-import { getReceiverClosedErrorMsg } from "../util/errors";
 
 /**
  * @internal
@@ -783,14 +782,10 @@ export class MessageReceiver extends LinkEntity {
 
         await defaultLock.acquire(this._openLock, async () => {
           if (this.wasCloseInitiated) {
-            throw createNonRetryableError(
-              getReceiverClosedErrorMsg(
-                this._context.entityPath,
-                this._context.clientType,
-                this._context.isClosed,
-                undefined
-              )
-            );
+            // in track 1 we'll maintain backwards compatible behavior for the codebase and
+            // just treat this as a no-op. There are cases, like in onDetached, where throwing 
+            // an error here could have unintended consequences.
+            return;
           }
 
           if (this.isOpen()) {
