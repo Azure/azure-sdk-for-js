@@ -298,10 +298,8 @@ describe("Certificates client - create, read, update and delete", () => {
     } catch (e) {
       error = e;
     }
-    assert.equal(
-      error.message.split(".")[0],
-      `A certificate with (name/id) ${certificateName} was not found in this key vault`
-    );
+    assert.equal(error.code, "CertificateNotFound");
+    assert.equal(error.statusCode, 404);
   });
 
   it("can delete a certificate", async function() {
@@ -323,10 +321,7 @@ describe("Certificates client - create, read, update and delete", () => {
       throw Error("Expecting an error but not catching one.");
     } catch (e) {
       if (e.statusCode === 404) {
-        assert.equal(
-          e.message.split(".")[0],
-          `A certificate with (name/id) ${certificateName} was not found in this key vault`
-        );
+        assert.equal(e.code, "CertificateNotFound");
       } else {
         throw e;
       }
@@ -364,10 +359,8 @@ describe("Certificates client - create, read, update and delete", () => {
     } catch (e) {
       error = e;
     }
-    assert.equal(
-      error.message.split(".")[0],
-      `A certificate with (name/id) ${certificateName} was not found in this key vault`
-    );
+    assert.equal(error.code, "CertificateNotFound");
+    assert.equal(error.statusCode, 404);
   });
 
   describe("can get a deleted certificate", () => {
@@ -426,10 +419,8 @@ describe("Certificates client - create, read, update and delete", () => {
       } catch (e) {
         error = e;
       }
-      assert.equal(
-        error.message.split(".")[0],
-        `A certificate with (name/id) ${certificateName} was not found in this key vault`
-      );
+      assert.equal(error.code, "CertificateNotFound");
+      assert.equal(error.statusCode, 404);
     });
   });
 
