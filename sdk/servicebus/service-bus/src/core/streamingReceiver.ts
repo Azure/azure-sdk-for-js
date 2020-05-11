@@ -100,7 +100,7 @@ export class StreamingReceiver extends MessageReceiver {
    *
    * @param {ClientEntityContext} context    The connection context.
    * @param {ReceiveOptions} [options]     Receive options.
-   * @return {Promise<StreamingReceiver>} A promise that resolves with an instance of StreamingReceiver.
+   * @return {StreamingReceiver} A promise that resolves with an instance of StreamingReceiver.
    */
   static create(context: ClientEntityContext, options?: ReceiveOptions): StreamingReceiver {
     throwErrorIfConnectionClosed(context.namespace);
