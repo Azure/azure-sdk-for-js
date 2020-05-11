@@ -104,7 +104,7 @@ export interface Receiver<ReceivedMessageT> {
    */
   browseMessages(options?: BrowseMessagesOptions): Promise<ReceivedMessage[]>;
   /**
-   * Path for the client entity.
+   * Path of the entity for which the receiver has been created.
    */
   entityPath: string;
   /**
