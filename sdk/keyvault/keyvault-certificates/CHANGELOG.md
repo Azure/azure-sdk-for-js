@@ -1,5 +1,9 @@
 # Release History
 
+## 4.0.1 (2020-05-11)
+
+- Fixed a bug on related to the challenge based authentication that caused consecutive new authentications on new requests.
+
 ## 4.0.0 (2020-01-07)
 
 This release marks the general availability of the `@azure/keyvault-certificates` package.

@@ -220,11 +220,8 @@ describe("Certificates client - create, read, update and delete", () => {
     } catch (e) {
       error = e;
     }
-    assert.equal(
-      error.message,
-      `Certificate not found: ${certificateName}`,
-      "Unexpected error after trying to get a certificate"
-    );
+    assert.equal(error.code, "CertificateNotFound");
+    assert.equal(error.statusCode, 404);
   });
 
   it("can delete a certificate", async function() {
@@ -246,7 +243,7 @@ describe("Certificates client - create, read, update and delete", () => {
       throw Error("Expecting an error but not catching one.");
     } catch (e) {
       if (e.statusCode === 404) {
-        assert.equal(e.message, `Certificate not found: ${certificateName}`);
+        assert.equal(e.code, "CertificateNotFound");
       } else {
         throw e;
       }
@@ -283,11 +280,8 @@ describe("Certificates client - create, read, update and delete", () => {
     } catch (e) {
       error = e;
     }
-    assert.equal(
-      error.message,
-      `Certificate not found: ${certificateName}`,
-      "Unexpected error after trying to get a disabled certificate"
-    );
+    assert.equal(error.code, "CertificateNotFound");
+    assert.equal(error.statusCode, 404);
   });
 
   it("can get a deleted certificate", async function() {
@@ -316,11 +310,8 @@ describe("Certificates client - create, read, update and delete", () => {
     } catch (e) {
       error = e;
     }
-    assert.equal(
-      error.message,
-      `Certificate not found: ${certificateName}`,
-      "Unexpected certificate name in result from getKey()."
-    );
+    assert.equal(error.code, "CertificateNotFound");
+    assert.equal(error.statusCode, 404);
   });
 
   it("can create, read, and delete a certificate issuer", async function() {
@@ -448,7 +439,7 @@ describe("Certificates client - create, read, update and delete", () => {
     } catch (e) {
       error = e;
     }
-    assert.equal(error.message, `Pending certificate not found: ${certificateName}`);
+    assert.equal(error.code, "CertificateNotFound");
 
     await testClient.flushCertificate(certificateName);
   });
