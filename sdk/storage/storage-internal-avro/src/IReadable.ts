@@ -30,10 +30,14 @@ export class ReadableFromStream extends IReadable {
   }
 
   public async read(size: number): Promise<Uint8Array> {
+    if (size <= 0) {
+      throw new Error(`size parameter should be positive: ${size}`);
+    }
+
     // readable is true if it is safe to call readable.read(), which means the stream has not been destroyed or emitted 'error' or 'end'.
     // if (!this._stillReadable || this._readable.destroyed) {
     if (!this._readable.readable) {
-      throw Error("Stream no longer readable.");
+      throw new Error("Stream no longer readable.");
     }
 
     // See if there is already enough data, note that "Only after readable.read() returns null, 'readable' will be emitted."
@@ -69,14 +73,15 @@ import * as fs from "fs";
 
 async function main() {
   let rs = fs.createReadStream("README.md");
+  console.log(rs.read(0));
 
   let rfs = new ReadableFromStream(rs);
   console.log(rfs.position);
+  console.log(rs.readable);
 
   const buf = await rfs.read(10);
   console.log(buf.toString());
   console.log(rs.readable);
-  console.log(rs.readableLength);
 
   const buf2 = await rfs.read(100000);
   console.log(buf2.toString());

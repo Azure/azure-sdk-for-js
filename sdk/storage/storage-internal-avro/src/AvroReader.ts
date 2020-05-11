@@ -1,11 +1,7 @@
 import { IReadable } from "./IReadable";
-
-interface Metadata {
-  /**
-   * A name-value pair.
-   */
-  [propertyName: string]: string;
-}
+import { AvroConstants } from "./AvroConstants";
+import { Metadata, arraysEqual } from "./utils/utils.common";
+import { AvroType, AvroParser } from "./AvroParser"
 
 export class AvroReader {
   private readonly _dataStream: IReadable;
@@ -33,19 +29,19 @@ export class AvroReader {
   private _initialized: boolean;
 
   constructor(
-    dataStream: Readable
+    dataStream: IReadable
   );
 
   constructor(
-    dataStream: Readable,
-    headerStream: Readable,
+    dataStream: IReadable,
+    headerStream: IReadable,
     currentBlockOffset: number,
     indexWithinCurrentBlock: number
   );
 
   constructor(
-    dataStream: Readable,
-    headerStream?: Readable,
+    dataStream: IReadable,
+    headerStream?: IReadable,
     currentBlockOffset?: number,
     indexWithinCurrentBlock?: number
   ) {
@@ -56,10 +52,10 @@ export class AvroReader {
     this._objectIndex = indexWithinCurrentBlock || 0;
   }
 
-  // TODO: cancellation / aborter?
+  // FUTURE: cancellation / aborter?
   private async initialize() {
-    const header = await AvroParser.readFixedBytes(this._headerStream, AvroConstants.InitBytes.Length);
-    if (header == AvroConstants.InitBytes) {
+    const header = await AvroParser.readFixedBytes(this._headerStream, AvroConstants.INIT_BYTES.length);
+    if (!arraysEqual(header, AvroConstants.INIT_BYTES)) {
       throw new Error("Stream is not an Avro file.");
     }
 
@@ -68,33 +64,30 @@ export class AvroReader {
     this._metadata = await AvroParser.readMap(this._headerStream, AvroParser.readString);
 
     // Validate codec
-    const codec = this._metadata![AvroConstants.CodecKey];
+    const codec = this._metadata![AvroConstants.CODEC_KEY];
     if (!(codec == undefined || codec == "null")) {
       throw new Error("Codecs are not supported");
     }
 
     // The 16-byte, randomly-generated sync marker for this file.
-    this._syncMarker = await AvroParser.readFixedBytes(this._headerStream, AvroConstants.SyncMarkerSize);
+    this._syncMarker = await AvroParser.readFixedBytes(this._headerStream, AvroConstants.SYNC_MARKER_SIZE);
 
     // Parse the schema
-    const schema = JSON.parse(this._metadata![AvroConstants.SchemaKey]);
+    const schema = JSON.parse(this._metadata![AvroConstants.SCHEMA_KEY]);
     this._itemType = AvroType.fromSchema(schema.RootElement);
 
     if (this._blockOffset == 0) {
-      this._blockOffset = this._dataStream.
+      this._blockOffset = this._dataStream.position;
     }
 
-    // Populate _itemsRemainingInCurrentBlock
     this._itemsRemainingInBlock = await AvroParser.readLong(this._dataStream);
-
     // skip block length
     await AvroParser.readLong(this._dataStream);
 
     this._initialized = true;
-
     if (this._objectIndex && this._objectIndex > 0) {
       for (let i = 0; i < this._objectIndex; i++) {
-        await this._itemType.Read(this._dataStream);
+        await this._itemType.read(this._dataStream);
         this._itemsRemainingInBlock!--;
       }
     }
@@ -104,13 +97,13 @@ export class AvroReader {
     return !this._initialized || this._itemsRemainingInBlock! > 0;
   }
 
-  public async *parseObjects(): AsyncIterableIterator<Object> {
+  public async *parseObjects(): AsyncIterableIterator<Object | null> {
     if (!this._initialized) {
       await this.initialize();
     }
 
     while (this.hasNext) {
-      const result = await this._itemType.read(this._dataStream);
+      const result = await this._itemType!.read(this._dataStream);
 
       this._itemsRemainingInBlock!--;
       this._objectIndex!++;
@@ -118,10 +111,10 @@ export class AvroReader {
       if (this._itemsRemainingInBlock == 0) {
         const marker = await AvroParser.readFixedBytes(this._dataStream, 16);
 
-        BlockOffset = _dataStream.Position;
+        this._blockOffset = this._dataStream.position;
         this._objectIndex = 0;
 
-        if (!this._syncMarker == marker) {
+        if (!arraysEqual(this._syncMarker!, marker)) {
           throw new Error("Stream is not a valid Avro file.");
         }
 

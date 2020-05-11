@@ -1,16 +1,18 @@
 {
   "name": "storage-internal-avro",
-  "version": "1.0.0",
+  "author": "Microsoft Corporation",
+  "version": "1.0.0-preview.1",
   "description": "internal avro parser",
-  "main": "index.js",
-  "directories": {
-    "test": "tests"
+  "license": "MIT",
+  "main": "./srt/index.ts",
+  "module": "dist-esm/index.js",
+  "types": "./types/index.d.ts",
+  "engines": {
+    "node": ">=8.0.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build:es6": "tsc -p tsconfig.json"
   },
-  "author": "Microsoft Corporation",
-  "license": "MIT",
   "dependencies": {
     "tslib": "^1.10.0"
   },
