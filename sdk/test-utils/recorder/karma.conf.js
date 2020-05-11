@@ -31,7 +31,7 @@ module.exports = function(config) {
       // Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.assign,Object.keys
       "https://cdn.polyfill.io/v2/polyfill.js?features=Symbol,Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.assign,Object.keys|always",
       "dist-test/index.browser.js",
-      "dist-test/index.browser.js.map"
+      { pattern: "dist-test/index.browser.js.map", type: "html", included: false, served: false }
     ],
 
     // list of files / patterns to exclude
