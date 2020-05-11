@@ -86,6 +86,7 @@ describe("Random scheme in the endpoint from connection string", function(): voi
   }
 
   afterEach(async () => {
+    await sbClient.test.after();
     await senderClient.close();
     await receiverClient.close();
     await sbClientWithRelaxedEndPoint.close();
@@ -206,8 +207,9 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
     sbClient = createServiceBusClientForTests();
     errorWasThrown = false;
   });
-  afterEach(() => {
-    return sbClient.test.afterEach();
+  afterEach(async () => {
+    await sbClient.test.afterEach();
+    await sbClient.test.after();
   });
 
   const testError = (err: Error | MessagingError, entityPath: string): void => {
@@ -410,8 +412,9 @@ describe("Errors after close()", function(): void {
   let entityName: EntityName;
   // let subscriptionClient: SubscriptionRuleManager;
 
-  afterEach(() => {
-    return sbClient.test.afterEach();
+  afterEach(async () => {
+    await sbClient.test.afterEach();
+    await sbClient.test.after();
   });
 
   async function beforeEachTest(entityType: TestClientType, entityToClose: string): Promise<void> {

@@ -38,8 +38,10 @@ describe("controlled connection initialization", () => {
     senderEntityPath = queue!;
   });
 
-  afterEach(() => {
-    return serviceBusClient.test.afterEach();
+  afterEach(async () => {
+    await serviceBusClient.test.afterEach();
+    // Cleaning the client as well since we are using a new client for each test
+    await serviceBusClient.test.after();
   });
 
   it("createSender() is no longer lazy", async () => {
