@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "f4c2070d4742415a241878306305f61a";
+module.exports.hash = "3bd885a96055544ab927ab576f9659ff";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -25,11 +25,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'a8ba3d53-5e00-4f81-8b90-ff6502a4df43',
+  'd22edad5-d0cc-4f9a-b0c4-a1a8beb3bc9a',
   'x-ms-keyvault-service-version',
-  '1.1.3.0',
+  '1.1.0.897',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=52.175.194.115;act_addr_fam=InterNetwork;',
+  'addr=52.250.6.200;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -39,12 +39,12 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 09 May 2020 14:17:54 GMT'
+  'Fri, 06 Mar 2020 21:47:14 GMT'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
+  .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [
   'Cache-Control',
   'no-cache, no-store',
   'Pragma',
@@ -58,33 +58,33 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  'b8bddecb-4b5a-4995-bc3f-c9a3007f2c00',
+  '6f641db1-1663-4484-8913-b2a192611300',
   'x-ms-ests-server',
-  '2.1.10519.11 - EUS ProdSlices',
+  '2.1.10155.16 - WST ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=ApNWzwWrBNVOjZRpR11XH6g_aSJHAQAAAJKySNYOAAAA; expires=Mon, 08-Jun-2020 14:17:54 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Ags9rqlC9ytJr5l8H-clgMs_aSJHAQAAAOK79NUOAAAA; expires=Sun, 05-Apr-2020 21:47:15 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'x-ms-gateway-slice=estsfd; path=/; SameSite=None; secure; HttpOnly',
+  'x-ms-gateway-slice=prod; path=/; SameSite=None; secure; HttpOnly',
   'Set-Cookie',
-  'stsservicecookie=estsfd; path=/; SameSite=None; secure; HttpOnly',
+  'stsservicecookie=ests; path=/; SameSite=None; secure; HttpOnly',
   'Date',
-  'Sat, 09 May 2020 14:17:54 GMT',
+  'Fri, 06 Mar 2020 21:47:14 GMT',
   'Content-Length',
-  '1315'
+  '1231'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .get('/secrets/CRUDSecretName-canrecoveradeletedsecretnonexisting-/')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"A secret with (name/id) CRUDSecretName-canrecoveradeletedsecretnonexisting- was not found in this key vault. If you recently deleted this secret you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Secret not found: CRUDSecretName-canrecoveradeletedsecretnonexisting-"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '364',
+  '133',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -94,11 +94,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '482f463d-d83a-4401-8727-88ba3800813a',
+  'f0326378-d301-4847-9e63-18f216752a82',
   'x-ms-keyvault-service-version',
-  '1.1.3.0',
+  '1.1.0.897',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=52.175.194.115;act_addr_fam=InterNetwork;',
+  'addr=52.250.6.200;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -108,7 +108,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 09 May 2020 14:17:54 GMT'
+  'Fri, 06 Mar 2020 21:47:14 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
@@ -132,11 +132,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'cb132e35-5b62-421a-a0a8-5a850ef12865',
+  'a4f29975-ce62-4331-bd20-d168523bd779',
   'x-ms-keyvault-service-version',
-  '1.1.3.0',
+  '1.1.0.897',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=52.175.194.115;act_addr_fam=InterNetwork;',
+  'addr=52.250.6.200;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -146,12 +146,12 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 09 May 2020 14:17:54 GMT'
+  'Fri, 06 Mar 2020 21:47:14 GMT'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
+  .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [
   'Cache-Control',
   'no-cache, no-store',
   'Pragma',
@@ -165,33 +165,33 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  'fd0e3bd0-2b27-44e8-9ef5-7321dbf92f00',
+  '135997b0-113a-4390-adf0-4a8a8fb71300',
   'x-ms-ests-server',
-  '2.1.10519.11 - WUS2 ProdSlices',
+  '2.1.10155.16 - WST ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=ApNWzwWrBNVOjZRpR11XH6g_aSJHAgAAAJKySNYOAAAA; expires=Mon, 08-Jun-2020 14:17:55 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Ags9rqlC9ytJr5l8H-clgMs_aSJHAgAAAOK79NUOAAAA; expires=Sun, 05-Apr-2020 21:47:15 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'x-ms-gateway-slice=estsfd; path=/; SameSite=None; secure; HttpOnly',
+  'x-ms-gateway-slice=prod; path=/; SameSite=None; secure; HttpOnly',
   'Set-Cookie',
-  'stsservicecookie=estsfd; path=/; SameSite=None; secure; HttpOnly',
+  'stsservicecookie=ests; path=/; SameSite=None; secure; HttpOnly',
   'Date',
-  'Sat, 09 May 2020 14:17:54 GMT',
+  'Fri, 06 Mar 2020 21:47:14 GMT',
   'Content-Length',
-  '1315'
+  '1231'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .post('/deletedsecrets/CRUDSecretName-canrecoveradeletedsecretnonexisting-/recover')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"A secret with (name/id) CRUDSecretName-canrecoveradeletedsecretnonexisting- was not found in this key vault. If you recently deleted this secret you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Secret not found: CRUDSecretName-canrecoveradeletedsecretnonexisting-"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '364',
+  '133',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -201,11 +201,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '503b0803-4867-4ab6-b0b4-a264f9ff48af',
+  'f5f8404f-3bc4-4e31-a37e-b88402c65242',
   'x-ms-keyvault-service-version',
-  '1.1.3.0',
+  '1.1.0.897',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=52.175.194.115;act_addr_fam=InterNetwork;',
+  'addr=52.250.6.200;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -215,5 +215,5 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Sat, 09 May 2020 14:17:54 GMT'
+  'Fri, 06 Mar 2020 21:47:14 GMT'
 ]);
