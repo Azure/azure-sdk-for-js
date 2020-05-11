@@ -370,11 +370,14 @@ describe("Retries - Receive methods", () => {
       throw new MessagingError("Hello there, I'm an error");
     };
     // Mocking batchingReceiver.receive to throw the error and fail
-    const batchingReceiver = BatchingReceiver.create((receiver as any)._context);
+    const batchingReceiver = BatchingReceiver.create((receiver as any)._context, async () => {
+      fakeFunction();
+      // This line won't run since we throw in fakeFunction.
+      return {} as any;
+    });
+
     batchingReceiver.isOpen = () => true;
     batchingReceiver.receive = fakeFunction;
-    // Mocking session creation to throw the error and fail
-    (receiver as any)._createMessageSessionIfDoesntExist = fakeFunction;
   }
 
   async function mockReceiveAndVerifyRetries(func: Function) {

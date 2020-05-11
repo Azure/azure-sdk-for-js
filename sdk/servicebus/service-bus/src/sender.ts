@@ -23,6 +23,7 @@ import {
   MessagingError
 } from "@azure/core-amqp";
 import { OperationOptions } from "./modelsToBeSharedWithEventHubs";
+import { openLink } from "./shared/openLink";
 
 /**
  * A Sender can be used to send messages, schedule messages to be sent at a later time
@@ -188,11 +189,15 @@ export class SenderImpl implements Sender {
    * @internal
    * @throws Error if the underlying connection is closed.
    */
-  constructor(context: ClientEntityContext, retryOptions: RetryOptions = {}) {
+  constructor(
+    context: ClientEntityContext,
+    retryOptions: RetryOptions = {},
+    openLinkFn: typeof openLink
+  ) {
     throwErrorIfConnectionClosed(context.namespace);
     this._context = context;
     this.entityPath = context.entityPath;
-    this._sender = MessageSender.create(this._context, retryOptions);
+    this._sender = MessageSender.create(this._context, retryOptions, openLinkFn);
     this._retryOptions = retryOptions;
   }
 
@@ -409,7 +414,7 @@ export class SenderImpl implements Sender {
     this._throwIfSenderOrConnectionClosed();
 
     const config: RetryConfig<void> = {
-      operation: () => this._sender.open(),
+      operation: () => this._sender.open(options),
       connectionId: this._context.namespace.connectionId,
       operationType: RetryOperationType.senderLink,
       retryOptions: this._retryOptions,

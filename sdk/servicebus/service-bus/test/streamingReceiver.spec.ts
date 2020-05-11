@@ -7,6 +7,7 @@ import { delay, ReceivedMessage } from "../src";
 import { getAlreadyReceivingErrorMsg } from "../src/util/errors";
 import { checkWithTimeout, TestClientType, TestMessage } from "./utils/testUtils";
 import { StreamingReceiver } from "../src/core/streamingReceiver";
+import { AbortController } from "@azure/abort-controller";
 
 import {
   DispositionType,
@@ -14,7 +15,7 @@ import {
   ReceivedMessageWithLock,
   ReceiveMode
 } from "../src/serviceBusMessage";
-import { Receiver } from "../src/receivers/receiver";
+import { Receiver, ReceiverImpl } from "../src/receivers/receiver";
 import { Sender } from "../src/sender";
 import {
   ServiceBusClientForTests,
@@ -23,6 +24,7 @@ import {
 } from "./utils/testutils2";
 import { getDeliveryProperty } from "./utils/misc";
 import { translate, MessagingError, isNode } from "@azure/core-amqp";
+import { openLink } from "../src/shared/openLink";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -248,7 +250,7 @@ describe("Streaming", () => {
       let streamingReceiver: StreamingReceiver | undefined;
       try {
         let actualError: Error | undefined;
-        streamingReceiver = await StreamingReceiver.create((receiver as any)._context, {
+        streamingReceiver = await StreamingReceiver.create((receiver as any)._context, openLink, {
           receiveMode: ReceiveMode.peekLock
         });
 
@@ -1407,5 +1409,60 @@ describe("Streaming - disconnects", function(): void {
     settledMessageCount.should.equal(2, "Unexpected number of settled messages.");
     receivedErrors.length.should.equal(0, "Encountered an unexpected number of errors.");
     refreshConnectionCalled.should.be.greaterThan(0, "refreshConnection was not called.");
+  });
+
+  it("subscribe, abortSignal", async () => {
+    await beforeEachTest(TestClientType.UnpartitionedQueue);
+
+    await sender.send({
+      body: "test message"
+    });
+
+    const abortController = new AbortController();
+
+    const closeCalledAfterAbortPromise = new Promise((resolve, reject) => {
+      receiver.subscribe(
+        {
+          processError: async () => {},
+          processMessage: async (message) => {
+            await message.complete();
+
+            const context = (receiver as ReceiverImpl<any>)["_context"];
+
+            const origClose = context.streamingReceiver!["close"];
+
+            context.streamingReceiver!["close"] = async () => {
+              if (!context.streamingReceiver!["_cleanupAbortHandler"]) {
+                reject(
+                  `_cleanupAbortHandler wasn't set up and should have been when we subscribed with an abortSignal`
+                );
+                return;
+              }
+
+              await origClose.call(context.streamingReceiver);
+
+              if (context.streamingReceiver) {
+                reject(
+                  `close() didn't properly get called in the super class (MessageReceiver) - we still have a streaming receiver on the context.`
+                );
+              } else {
+                resolve();
+              }
+            };
+
+            abortController.abort();
+          }
+        },
+        {
+          abortSignal: abortController.signal
+        }
+      );
+    });
+
+    const result = await Promise.race([
+      delay(10000, undefined, undefined, "TIMEDOUT_INSTEAD_OF_PROPERLY_ABORTING"),
+      closeCalledAfterAbortPromise
+    ]);
+    should.not.exist(result);
   });
 });

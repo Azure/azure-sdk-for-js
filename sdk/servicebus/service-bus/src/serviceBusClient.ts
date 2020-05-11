@@ -15,6 +15,7 @@ import { CreateSessionReceiverOptions, CreateSenderOptions } from "./models";
 import { Receiver, ReceiverImpl } from "./receivers/receiver";
 import { SessionReceiver, SessionReceiverImpl } from "./receivers/sessionReceiver";
 import { ReceivedMessageWithLock, ReceivedMessage } from "./serviceBusMessage";
+import { openLink } from "./shared/openLink";
 
 /**
  * A client that can create Sender instances for sending messages to queues and
@@ -183,13 +184,15 @@ export class ServiceBusClient {
       return new ReceiverImpl<ReceivedMessageWithLock>(
         clientEntityContext,
         receiveMode,
-        this._clientOptions.retryOptions
+        this._clientOptions.retryOptions,
+        openLink
       );
     } else {
       return new ReceiverImpl<ReceivedMessage>(
         clientEntityContext,
         receiveMode,
-        this._clientOptions.retryOptions
+        this._clientOptions.retryOptions,
+        openLink
       );
     }
   }
@@ -318,7 +321,7 @@ export class ServiceBusClient {
       this._connectionContext,
       `${queueOrTopicName}/${generate_uuid()}`
     );
-    const sender = new SenderImpl(clientEntityContext, this._clientOptions.retryOptions);
+    const sender = new SenderImpl(clientEntityContext, this._clientOptions.retryOptions, openLink);
     await sender.open(options);
     return sender;
   }

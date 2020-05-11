@@ -267,18 +267,14 @@ export class ServiceBusTestHelpers {
   async getPeekLockReceiver(
     entityNames: ReturnType<typeof getEntityNames>
   ): Promise<Receiver<ReceivedMessageWithLock>> {
-    try {
+    if (entityNames.usesSessions) {
       // if you're creating a receiver this way then you'll just use the default
       // session ID for your receiver.
       // if you want to get more specific use the `getPeekLockSessionReceiver` method
       // instead.
-      return await this.getSessionPeekLockReceiver(entityNames, {
+      return this.getSessionPeekLockReceiver(entityNames, {
         sessionId: TestMessage.sessionId
       });
-    } catch (err) {
-      if (!(err instanceof TypeError)) {
-        throw err;
-      }
     }
 
     return this.addToCleanup(

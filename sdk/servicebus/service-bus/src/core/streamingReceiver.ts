@@ -13,7 +13,11 @@ import { ClientEntityContext } from "../clientEntityContext";
 
 import * as log from "../log";
 import { throwErrorIfConnectionClosed } from "../util/errors";
-import { RetryOperationType, RetryConfig, retry } from "@azure/core-amqp";
+import { RetryOperationType, RetryConfig, retry, translate } from "@azure/core-amqp";
+import { OperationOptions } from "..";
+import { checkAndRegisterWithAbortSignal } from "../util/utils";
+import { AbortError } from "@azure/abort-controller";
+import { openLink } from "../shared/openLink";
 
 /**
  * @internal
@@ -30,8 +34,8 @@ export class StreamingReceiver extends MessageReceiver {
    * @param {ClientEntityContext} context                      The client entity context.
    * @param {ReceiveOptions} [options]                         Options for how you'd like to connect.
    */
-  constructor(context: ClientEntityContext, options?: ReceiveOptions) {
-    super(context, ReceiverType.streaming, options);
+  constructor(context: ClientEntityContext, openLinkFn: typeof openLink, options?: ReceiveOptions) {
+    super(context, ReceiverType.streaming, openLinkFn, options);
 
     this.resetTimerOnNewMessageReceived = () => {
       if (this._newMessageReceivedTimer) clearTimeout(this._newMessageReceivedTimer);
@@ -54,11 +58,25 @@ export class StreamingReceiver extends MessageReceiver {
    *
    * @param {OnMessage} onMessage The message handler to receive servicebus messages.
    * @param {OnError} onError The error handler to receive an error that occurs while receivin messages.
+   * @param abortSignal An abort signal that, when fired, closes this streaming receiver.
    */
-  receive(onMessage: OnMessage, onError: OnError): void {
+  receive(
+    onMessage: OnMessage,
+    onError: OnError,
+    options?: Pick<OperationOptions, "abortSignal">
+  ): void {
     throwErrorIfConnectionClosed(this._context.namespace);
     this._onMessage = onMessage;
     this._onError = onError;
+
+    this._cleanupAbortHandler = checkAndRegisterWithAbortSignal(
+      () => {
+        this.close();
+        onError(translate(new AbortError("Receive was cancelled by user.")));
+      },
+      "Receive was cancelled by user.",
+      options?.abortSignal
+    );
 
     if (this._receiver) {
       this._receiver.addCredit(this.maxConcurrentCalls);
@@ -75,12 +93,13 @@ export class StreamingReceiver extends MessageReceiver {
    */
   static async create(
     context: ClientEntityContext,
+    openLinkFn: typeof openLink,
     options?: ReceiveOptions
   ): Promise<StreamingReceiver> {
     throwErrorIfConnectionClosed(context.namespace);
     if (!options) options = {};
     if (options.autoComplete == null) options.autoComplete = true;
-    const sReceiver = new StreamingReceiver(context, options);
+    const sReceiver = new StreamingReceiver(context, openLinkFn, options);
 
     const config: RetryConfig<void> = {
       operation: () => {
@@ -94,4 +113,15 @@ export class StreamingReceiver extends MessageReceiver {
     context.streamingReceiver = sReceiver;
     return sReceiver;
   }
+
+  close(): Promise<void> {
+    if (this._cleanupAbortHandler) {
+      this._cleanupAbortHandler();
+      this._cleanupAbortHandler = undefined;
+    }
+
+    return super.close();
+  }
+
+  private _cleanupAbortHandler: undefined | (() => void);
 }

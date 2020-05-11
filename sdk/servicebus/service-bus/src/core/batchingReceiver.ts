@@ -14,6 +14,9 @@ import {
 } from "./messageReceiver";
 import { ClientEntityContext } from "../clientEntityContext";
 import { throwErrorIfConnectionClosed } from "../util/errors";
+import { checkAndRegisterWithAbortSignal } from "../util/utils";
+import { AbortSignalLike } from "@azure/abort-controller";
+import { openLink } from "../shared/openLink";
 
 /**
  * Describes the batching receiver where the user can receive a specified number of messages for
@@ -44,8 +47,8 @@ export class BatchingReceiver extends MessageReceiver {
    * @param {ClientEntityContext} context The client entity context.
    * @param {ReceiveOptions} [options]  Options for how you'd like to connect.
    */
-  constructor(context: ClientEntityContext, options?: ReceiveOptions) {
-    super(context, ReceiverType.batching, options);
+  constructor(context: ClientEntityContext, openLinkFn: typeof openLink, options?: ReceiveOptions) {
+    super(context, ReceiverType.batching, openLinkFn, options);
     this.newMessageWaitTimeoutInMs = 1000;
   }
 
@@ -84,7 +87,8 @@ export class BatchingReceiver extends MessageReceiver {
    */
   async receive(
     maxMessageCount: number,
-    maxWaitTimeInMs?: number
+    maxWaitTimeInMs?: number,
+    abortSignal?: AbortSignalLike
   ): Promise<ServiceBusMessageImpl[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
 
@@ -95,7 +99,7 @@ export class BatchingReceiver extends MessageReceiver {
     this.isReceivingMessages = true;
 
     try {
-      return await this._receiveImpl(maxMessageCount, maxWaitTimeInMs);
+      return await this._receiveImpl(maxMessageCount, maxWaitTimeInMs, abortSignal);
     } catch (error) {
       log.error(
         "[%s] Receiver '%s': Rejecting receiveMessages() with error %O: ",
@@ -112,7 +116,8 @@ export class BatchingReceiver extends MessageReceiver {
 
   private _receiveImpl(
     maxMessageCount: number,
-    maxWaitTimeInMs: number
+    maxWaitTimeInMs: number,
+    abortSignal?: AbortSignalLike
   ): Promise<ServiceBusMessageImpl[]> {
     const brokeredMessages: ServiceBusMessageImpl[] = [];
 
@@ -179,11 +184,18 @@ export class BatchingReceiver extends MessageReceiver {
         reject(translate(error));
       };
 
+      let cleanupAbortSignal: (() => void) | undefined;
+
       // Final action to be performed after
       // - maxMessageCount is reached or
       // - maxWaitTime is passed or
       // - newMessageWaitTimeoutInSeconds is passed since the last message was received
       const finalAction = (): void => {
+        if (cleanupAbortSignal) {
+          cleanupAbortSignal();
+          cleanupAbortSignal = undefined;
+        }
+
         if (this._newMessageReceivedTimer) {
           clearTimeout(this._newMessageReceivedTimer);
         }
@@ -225,6 +237,12 @@ export class BatchingReceiver extends MessageReceiver {
           resolve(brokeredMessages);
         }
       };
+
+      cleanupAbortSignal = checkAndRegisterWithAbortSignal(
+        () => finalAction(),
+        "Receive has been cancelled by user",
+        abortSignal
+      );
 
       // Action to be performed on the "message" event.
       const onReceiveMessage: OnAmqpEventAsPromise = async (context: EventContext) => {
@@ -462,7 +480,7 @@ export class BatchingReceiver extends MessageReceiver {
           onClose: onReceiveClose,
           onSessionClose: onSessionClose
         });
-        this._init(rcvrOptions)
+        this._init({ ...rcvrOptions, abortSignal })
           .then(() => {
             if (!this._receiver) {
               // there's a really small window here where the receiver can be closed
@@ -492,9 +510,13 @@ export class BatchingReceiver extends MessageReceiver {
    * @param {ClientEntityContext} context    The connection context.
    * @param {ReceiveOptions} [options]     Receive options.
    */
-  static create(context: ClientEntityContext, options?: ReceiveOptions): BatchingReceiver {
+  static create(
+    context: ClientEntityContext,
+    openLinkFn: typeof openLink,
+    options?: ReceiveOptions
+  ): BatchingReceiver {
     throwErrorIfConnectionClosed(context.namespace);
-    const bReceiver = new BatchingReceiver(context, options);
+    const bReceiver = new BatchingReceiver(context, openLinkFn, options);
     context.batchingReceiver = bReceiver;
     return bReceiver;
   }

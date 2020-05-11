@@ -13,7 +13,6 @@ import {
   generate_uuid
 } from "rhea-promise";
 import {
-  defaultLock,
   retry,
   translate,
   AmqpMessage,
@@ -32,12 +31,13 @@ import {
 } from "../serviceBusMessage";
 import { ClientEntityContext } from "../clientEntityContext";
 import { LinkEntity } from "./linkEntity";
-import { getUniqueName } from "../util/utils";
+import { getUniqueName, waitForTimeoutAbortOrResolve } from "../util/utils";
 import { throwErrorIfConnectionClosed } from "../util/errors";
 import { ServiceBusMessageBatch, ServiceBusMessageBatchImpl } from "../serviceBusMessageBatch";
 import { CreateBatchOptions } from "../models";
 import { OperationOptions } from "../modelsToBeSharedWithEventHubs";
-import { AbortError, AbortSignalLike } from "@azure/abort-controller";
+import { AbortError } from "@azure/abort-controller";
+import { openLink } from "../shared/openLink";
 
 /**
  * @internal
@@ -84,7 +84,11 @@ export class MessageSender extends LinkEntity {
    * @constructor
    * @param {ClientEntityContext} context The client entity context.
    */
-  constructor(context: ClientEntityContext, retryOptions: RetryOptions) {
+  constructor(
+    context: ClientEntityContext,
+    retryOptions: RetryOptions,
+    private _openLinkFn: typeof openLink
+  ) {
     super(context.entityPath, context, {
       address: context.entityPath,
       audience: `${context.namespace.config.endpoint}${context.entityPath}`
@@ -261,44 +265,36 @@ export class MessageSender extends LinkEntity {
 
     const sendEventPromise = () =>
       new Promise<void>(async (resolve, reject) => {
-        let initTimeoutTimer: any;
-
-        this._checkAndSetupAbortSignalCleanup(
-          abortSignal,
-          () => clearTimeout(initTimeoutTimer),
-          reject
-        );
-
         const initStartTime = Date.now();
         if (!this.isOpen()) {
-          const initTimeoutPromise = new Promise((_res, rejectInitTimeoutPromise) => {
-            initTimeoutTimer = setTimeout(() => {
-              const desc: string =
-                `[${this._context.namespace.connectionId}] Sender "${this.name}" ` +
-                `with address "${this.address}", was not able to send the message right now, due ` +
-                `to operation timeout.`;
-              log.error(desc);
-              const e: AmqpError = {
-                condition: ErrorNameConditionMapper.ServiceUnavailableError,
-                description: desc
-              };
-              return rejectInitTimeoutPromise(translate(e));
-            }, timeoutInMs);
-          });
-
           try {
-            await Promise.race([this.open(), initTimeoutPromise]);
+            await waitForTimeoutAbortOrResolve({
+              actionFn: () => this.open({ abortSignal: options?.abortSignal }),
+              timeoutMs: timeoutInMs,
+              abortSignal,
+              // TODO: not sure why we don't just use the same message we log below as the message for the
+              // Error itself.
+              abortMessage: "The send operation has been cancelled by the user.",
+              timeoutMessage: `[${this._context.namespace.connectionId}] Sender "${this.name}" with address "${this.address}", was not able to send the message right now, due to operation timeout.`
+            });
           } catch (err) {
-            err = translate(err);
+            if (err.name === "AbortError") {
+              // Cancellation is user-intended, so log to info instead of warning.
+              log.error(
+                `[${this._context.namespace.connectionId}] The send operation on the Sender "${this.name}" with address "${this.address}" has been cancelled by the user.`
+              );
+            }
+
+            const translatedError = translate(err);
+
             log.warning(
               "[%s] An error occurred while creating the sender %s",
               this._context.namespace.connectionId,
               this.name,
-              err
+              translatedError
             );
-            return reject(err);
-          } finally {
-            clearTimeout(initTimeoutTimer);
+
+            return reject(translatedError);
           }
         }
         const timeTakenByInit = Date.now() - initStartTime;
@@ -392,77 +388,33 @@ export class MessageSender extends LinkEntity {
   /**
    * Initializes the sender session on the connection.
    */
-  public async open(options?: AwaitableSenderOptions): Promise<void> {
-    if (this.isOpen()) {
-      return;
-    }
-
-    log.sender(
-      "Acquiring lock %s for initializing the session, sender and possibly the connection.",
-      this.openLock
-    );
-
-    return await defaultLock.acquire(this.openLock, async () => {
-      try {
-        // isOpen isConnecting  Should establish
-        // true     false          No
-        // true     true           No
-        // false    true           No
-        // false    false          Yes
-        if (!this.isOpen()) {
-          log.error(
-            "[%s] The sender '%s' with address '%s' is not open and is not currently " +
-              "establishing itself. Hence let's try to connect.",
-            this._context.namespace.connectionId,
-            this.name,
-            this.address
-          );
-          this.isConnecting = true;
-          await this._negotiateClaim();
-          log.error(
-            "[%s] Trying to create sender '%s'...",
-            this._context.namespace.connectionId,
-            this.name
-          );
-          if (!options) {
-            options = this._createSenderOptions(Constants.defaultOperationTimeoutInMs);
-          }
-          this._sender = await this._context.namespace.connection.createAwaitableSender(options);
-          this.isConnecting = false;
-          log.error(
-            "[%s] Sender '%s' with address '%s' has established itself.",
-            this._context.namespace.connectionId,
-            this.name,
-            this.address
-          );
-          this._sender.setMaxListeners(1000);
-          log.error(
-            "[%s] Promise to create the sender resolved. Created sender with name: %s",
-            this._context.namespace.connectionId,
-            this.name
-          );
-          log.error(
-            "[%s] Sender '%s' created with sender options: %O",
-            this._context.namespace.connectionId,
-            this.name,
-            options
-          );
-          // It is possible for someone to close the sender and then start it again.
-          // Thus make sure that the sender is present in the client cache.
-          if (!this._sender) this._context.sender = this;
-          await this._ensureTokenRenewal();
+  public async open(
+    options?: AwaitableSenderOptions & Pick<OperationOptions, "abortSignal">
+  ): Promise<void> {
+    const sender = await this._openLinkFn({
+      create: async () => {
+        if (!options) {
+          options = this._createSenderOptions(Constants.defaultOperationTimeoutInMs);
         }
-      } catch (err) {
-        err = translate(err);
-        log.error(
-          "[%s] An error occurred while creating the sender %s",
-          this._context.namespace.connectionId,
-          this.name,
-          err
-        );
-        throw err;
-      }
+
+        const sender = await this._context.namespace.connection.createAwaitableSender(options);
+        sender.setMaxListeners(1000);
+        return sender;
+      },
+      ensureTokenRenewal: () => this._ensureTokenRenewal(),
+      negotiateClaim: () => this._negotiateClaim(),
+      isConnecting: () => this.isConnecting,
+      setIsConnecting: (value: boolean) => (this.isConnecting = value),
+      isOpen: () => this.isOpen(),
+      logger: log.sender,
+      logPrefix: `[${this._context.namespace.connectionId}] The sender '${this.name}' with address '${this.address}'`,
+      openLock: this.openLock,
+      abortSignal: options?.abortSignal
     });
+
+    if (sender != null) {
+      this._sender = sender;
+    }
   }
 
   /**
@@ -726,38 +678,34 @@ export class MessageSender extends LinkEntity {
    * @param {{retryOptions?: RetryOptions}} [options={}]
    * @returns {Promise<number>}
    */
-  async getMaxMessageSize(
-    options: {
-      retryOptions?: RetryOptions;
-    } = {}
+  private async getMaxMessageSize(
+    options?: Pick<OperationOptions, "abortSignal">
   ): Promise<number> {
-    const retryOptions = options.retryOptions || {};
     if (this.isOpen()) {
       return this._sender!.maxMessageSize;
     }
-    return new Promise<number>(async (resolve, reject) => {
-      try {
-        const config: RetryConfig<void> = {
-          operation: () => this.open(),
-          connectionId: this._context.namespace.connectionId,
-          operationType: RetryOperationType.senderLink,
-          retryOptions: retryOptions
-        };
 
-        await retry<void>(config);
+    const config: RetryConfig<void> = {
+      operation: () => this.open(options),
+      connectionId: this._context.namespace.connectionId,
+      operationType: RetryOperationType.senderLink,
+      retryOptions: this._retryOptions ?? {},
+      abortSignal: options?.abortSignal
+    };
 
-        return resolve(this._sender!.maxMessageSize);
-      } catch (err) {
-        reject(err);
-      }
-    });
+    await retry<void>(config);
+
+    return this._sender!.maxMessageSize;
   }
 
   async createBatch(options?: CreateBatchOptions): Promise<ServiceBusMessageBatch> {
     throwErrorIfConnectionClosed(this._context.namespace);
-    let maxMessageSize = await this.getMaxMessageSize({
-      retryOptions: this._retryOptions
-    });
+
+    if (options?.abortSignal?.aborted) {
+      throw new AbortError("createBatch has been cancelled by user.");
+    }
+
+    let maxMessageSize = await this.getMaxMessageSize(options);
     if (options?.maxSizeInBytes) {
       if (options.maxSizeInBytes > maxMessageSize!) {
         const error = new Error(
@@ -792,48 +740,20 @@ export class MessageSender extends LinkEntity {
     }
   }
 
-  private _checkAndSetupAbortSignalCleanup(
-    abortSignal: AbortSignalLike | undefined,
-    clearStateFn: () => void,
-    reject: (err: Error) => void
-  ) {
-    if (abortSignal == null) {
-      return;
-    }
-
-    const rejectOnAbort = () => {
-      const desc: string =
-        `[${this._context.namespace.connectionId}] The send operation on the Sender "${this.name}" with ` +
-        `address "${this.address}" has been cancelled by the user.`;
-      // Cancellation is user-intended, so log to info instead of warning.
-      log.error(desc);
-      return reject(new AbortError("The send operation has been cancelled by the user."));
-    };
-
-    if (abortSignal.aborted) {
-      // operation has been cancelled, so exit quickly
-      return rejectOnAbort();
-    }
-
-    const onAborted = () => {
-      clearStateFn();
-      abortSignal.removeEventListener("abort", onAborted);
-      return rejectOnAbort();
-    };
-
-    abortSignal.addEventListener("abort", onAborted);
-  }
-
   /**
    * Creates a new sender to the specific ServiceBus entity, and optionally to a given
    * partition if it is not present in the context or returns the one present in the context.
    * @static
    * @returns {Promise<MessageSender>}
    */
-  static create(context: ClientEntityContext, retryOptions: RetryOptions): MessageSender {
+  static create(
+    context: ClientEntityContext,
+    retryOptions: RetryOptions,
+    openLinkFn: typeof openLink
+  ): MessageSender {
     throwErrorIfConnectionClosed(context.namespace);
     if (!context.sender) {
-      context.sender = new MessageSender(context, retryOptions);
+      context.sender = new MessageSender(context, retryOptions, openLinkFn);
     }
     return context.sender;
   }

@@ -31,6 +31,8 @@ import Long from "long";
 import { ServiceBusMessageImpl, ReceivedMessageWithLock } from "../serviceBusMessage";
 import { RetryConfig, RetryOperationType, retry, Constants, RetryOptions } from "@azure/core-amqp";
 import "@azure/core-asynciterator-polyfill";
+import { AbortError } from "@azure/abort-controller";
+import { openLink } from "../shared/openLink";
 
 /**
  * A receiver that does not handle sessions.
@@ -146,7 +148,8 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
   constructor(
     context: ClientEntityContext,
     public receiveMode: "peekLock" | "receiveAndDelete",
-    retryOptions: RetryOptions = {}
+    retryOptions: RetryOptions = {},
+    private _openLinkFn: typeof openLink
   ) {
     throwErrorIfConnectionClosed(context.namespace);
     this.entityPath = context.entityPath;
@@ -209,7 +212,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
   private _registerMessageHandler(
     onMessage: OnMessage,
     onError: OnError,
-    options?: MessageHandlerOptions
+    options?: MessageHandlerOptions & Pick<OperationOptions, "abortSignal">
   ): void {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
@@ -223,7 +226,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       throw new TypeError("The parameter 'onError' must be of type 'function'.");
     }
 
-    StreamingReceiver.create(this._context, {
+    StreamingReceiver.create(this._context, this._openLinkFn, {
       ...options,
       receiveMode: convertToInternalReceiveMode(this.receiveMode),
       retryOptions: this._retryOptions
@@ -233,7 +236,9 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
           return;
         }
         if (!this.isClosed) {
-          sReceiver.receive(onMessage, onError);
+          sReceiver.receive(onMessage, onError, {
+            abortSignal: options?.abortSignal
+          });
         } else {
           await sReceiver.close();
         }
@@ -272,11 +277,16 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
           maxConcurrentCalls: 0,
           receiveMode: convertToInternalReceiveMode(this.receiveMode)
         };
-        this._context.batchingReceiver = BatchingReceiver.create(this._context, options);
+        this._context.batchingReceiver = BatchingReceiver.create(
+          this._context,
+          this._openLinkFn,
+          options
+        );
       }
       const receivedMessages = await this._context.batchingReceiver.receive(
         maxMessageCount,
-        options?.maxWaitTimeInMs ?? Constants.defaultOperationTimeoutInMs
+        options?.maxWaitTimeInMs ?? Constants.defaultOperationTimeoutInMs,
+        options?.abortSignal
       );
       return (receivedMessages as unknown) as ReceivedMessageT[];
     };
@@ -451,6 +461,10 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
 
   subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SubscribeOptions): void {
     assertValidMessageHandlers(handlers);
+
+    if (options?.abortSignal?.aborted) {
+      throw new AbortError("Subscribe was cancelled by user.");
+    }
 
     this._registerMessageHandler(
       async (message: ServiceBusMessageImpl) => {
