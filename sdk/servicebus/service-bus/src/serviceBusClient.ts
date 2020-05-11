@@ -25,7 +25,8 @@ export class ServiceBusClient {
   private _connectionContext: ConnectionContext;
   private _clientOptions: ServiceBusClientOptions;
   /**
-   * Host name of the service-bus namespace for which the client has been created for.
+   * The fully qualified namespace of the Service Bus instance for which this client is created.
+   * This is likely to be similar to <yournamespace>.servicebus.windows.net.
    *
    * @type {string}
    * @memberof ServiceBusClient
