@@ -253,10 +253,8 @@ describe("Secret client - create, read, update and delete operations", () => {
     } catch (e) {
       error = e;
     }
-    assert.equal(
-      error.message.split(".")[0],
-      `A secret with (name/id) ${secretName} was not found in this key vault`
-    );
+    assert.equal(error.code, "SecretNotFound");
+    assert.equal(error.statusCode, 404);
   });
 
   it("can delete a secret", async function() {
@@ -281,10 +279,7 @@ describe("Secret client - create, read, update and delete operations", () => {
       throw Error("Expecting an error but not catching one.");
     } catch (e) {
       if (e.statusCode === 404) {
-        assert.equal(
-          e.message.split(".")[0],
-          `A secret with (name/id) ${secretName} was not found in this key vault`
-        );
+        assert.equal(e.code, "SecretNotFound");
       } else {
         throw e;
       }
@@ -320,10 +315,8 @@ describe("Secret client - create, read, update and delete operations", () => {
     } catch (e) {
       error = e;
     }
-    assert.equal(
-      error.message.split(".")[0],
-      `A secret with (name/id) ${secretName} was not found in this key vault`
-    );
+    assert.equal(error.code, "SecretNotFound");
+    assert.equal(error.statusCode, 404);
   });
 
   it("can get a deleted secret", async function() {
@@ -365,9 +358,7 @@ describe("Secret client - create, read, update and delete operations", () => {
     } catch (e) {
       error = e;
     }
-    assert.equal(
-      error.message.split(".")[0],
-      `A secret with (name/id) ${secretName} was not found in this key vault`
-    );
+    assert.equal(error.code, "SecretNotFound");
+    assert.equal(error.statusCode, 404);
   });
 });
