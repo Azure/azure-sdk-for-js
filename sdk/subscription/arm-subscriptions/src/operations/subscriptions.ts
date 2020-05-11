@@ -27,66 +27,6 @@ export class Subscriptions {
   }
 
   /**
-   * The operation to cancel a subscription
-   * @param subscriptionId Subscription Id.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.SubscriptionsCancelResponse>
-   */
-  cancel(subscriptionId: string, options?: msRest.RequestOptionsBase): Promise<Models.SubscriptionsCancelResponse>;
-  /**
-   * @param subscriptionId Subscription Id.
-   * @param callback The callback
-   */
-  cancel(subscriptionId: string, callback: msRest.ServiceCallback<Models.CanceledSubscriptionId>): void;
-  /**
-   * @param subscriptionId Subscription Id.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  cancel(subscriptionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CanceledSubscriptionId>): void;
-  cancel(subscriptionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CanceledSubscriptionId>, callback?: msRest.ServiceCallback<Models.CanceledSubscriptionId>): Promise<Models.SubscriptionsCancelResponse> {
-    return this.client.sendOperationRequest(
-      {
-        subscriptionId,
-        options
-      },
-      cancelOperationSpec,
-      callback) as Promise<Models.SubscriptionsCancelResponse>;
-  }
-
-  /**
-   * The operation to rename a subscription
-   * @param subscriptionId Subscription Id.
-   * @param body Subscription Name
-   * @param [options] The optional parameters
-   * @returns Promise<Models.SubscriptionsRenameResponse>
-   */
-  rename(subscriptionId: string, body: Models.SubscriptionName, options?: msRest.RequestOptionsBase): Promise<Models.SubscriptionsRenameResponse>;
-  /**
-   * @param subscriptionId Subscription Id.
-   * @param body Subscription Name
-   * @param callback The callback
-   */
-  rename(subscriptionId: string, body: Models.SubscriptionName, callback: msRest.ServiceCallback<Models.RenamedSubscriptionId>): void;
-  /**
-   * @param subscriptionId Subscription Id.
-   * @param body Subscription Name
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  rename(subscriptionId: string, body: Models.SubscriptionName, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RenamedSubscriptionId>): void;
-  rename(subscriptionId: string, body: Models.SubscriptionName, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RenamedSubscriptionId>, callback?: msRest.ServiceCallback<Models.RenamedSubscriptionId>): Promise<Models.SubscriptionsRenameResponse> {
-    return this.client.sendOperationRequest(
-      {
-        subscriptionId,
-        body,
-        options
-      },
-      renameOperationSpec,
-      callback) as Promise<Models.SubscriptionsRenameResponse>;
-  }
-
-  /**
    * This operation provides all the locations that are available for resource providers; however,
    * each resource provider may support a subset of this list.
    * @summary Gets all available geo-locations.
@@ -199,59 +139,6 @@ export class Subscriptions {
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
-const cancelOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Subscription/cancel",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.CanceledSubscriptionId
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  serializer
-};
-
-const renameOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Subscription/rename",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "body",
-    mapper: {
-      ...Mappers.SubscriptionName,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.RenamedSubscriptionId
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  serializer
-};
-
 const listLocationsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/locations",
@@ -259,7 +146,7 @@ const listLocationsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -282,7 +169,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -302,7 +189,7 @@ const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions",
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage

@@ -7,14 +7,10 @@
  */
 
 export {
-  CanceledSubscriptionId,
   CloudError,
-  ErrorResponse,
   Location,
   LocationListResult,
-  RenamedSubscriptionId,
   Subscription,
   SubscriptionListResult,
-  SubscriptionName,
   SubscriptionPolicies
 } from "../models/mappers";
