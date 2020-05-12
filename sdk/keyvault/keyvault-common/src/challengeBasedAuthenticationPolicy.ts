@@ -12,7 +12,7 @@ import { AccessTokenCache, ExpiringAccessTokenCache } from "@azure/core-http";
 /**
  * Representation of the Authentication Challenge
  */
-class AuthenticationChallenge {
+export class AuthenticationChallenge {
   constructor(public authorization: string, public scope: string) {
   }
 
