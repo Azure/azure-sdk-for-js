@@ -27,27 +27,6 @@ function isDelivery(obj: any): boolean {
 }
 
 /**
- * TODO: We should question whether it's even a legitimate way of setting the timeout
- * because it just squashes all timeouts beneath 60 seconds to be 60 seconds instead.
- *
- * @export
- * @param {(RetryOptions | undefined)} retryOptions
- * @returns {number}
- */
-export function getRetryAttemptTimeoutInMs(retryOptions: RetryOptions | undefined): number {
-  const timeoutInMs =
-    retryOptions == undefined ||
-    typeof retryOptions.timeoutInMs !== "number" ||
-    !isFinite(retryOptions.timeoutInMs) ||
-    // TODO: not sure what the justification is for always forcing at least 60 seconds.
-    retryOptions.timeoutInMs < Constants.defaultOperationTimeoutInMs
-      ? Constants.defaultOperationTimeoutInMs
-      : retryOptions.timeoutInMs;
-
-  return timeoutInMs;
-}
-
-/**
  * Describes the Retry Mode type
  * @enum RetryMode
  */

@@ -32,7 +32,7 @@ import {
 } from "../serviceBusMessage";
 import { ClientEntityContext } from "../clientEntityContext";
 import { LinkEntity } from "./linkEntity";
-import { getUniqueName, normalizeRetryOptions, RetryOptionsInternal } from "../util/utils";
+import { getUniqueName } from "../util/utils";
 import { throwErrorIfConnectionClosed } from "../util/errors";
 import { ServiceBusMessageBatch, ServiceBusMessageBatchImpl } from "../serviceBusMessageBatch";
 import { CreateBatchOptions } from "../models";
@@ -77,7 +77,7 @@ export class MessageSender extends LinkEntity {
    * @property {Sender} [_sender] The AMQP sender link.
    */
   private _sender?: AwaitableSender;
-  private _retryOptions: RetryOptionsInternal;
+  private _retryOptions: RetryOptions;
 
   /**
    * Creates a new MessageSender instance.
@@ -89,7 +89,7 @@ export class MessageSender extends LinkEntity {
       address: context.entityPath,
       audience: `${context.namespace.config.endpoint}${context.entityPath}`
     });
-    this._retryOptions = normalizeRetryOptions(retryOptions);
+    this._retryOptions = retryOptions;
     this._onAmqpError = (context: EventContext) => {
       const senderError = context.sender && context.sender.error;
       if (senderError) {
@@ -327,7 +327,7 @@ export class MessageSender extends LinkEntity {
         if (this._sender!.sendable()) {
           try {
             this._sender!.sendTimeoutInSeconds =
-              (this._retryOptions.timeoutInMs - timeTakenByInit) / 1000;
+              (this._retryOptions.timeoutInMs! - timeTakenByInit) / 1000;
             const delivery = await this._sender!.send(
               encodedMessage,
               undefined,
