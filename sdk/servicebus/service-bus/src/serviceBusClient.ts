@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { generate_uuid } from "rhea-promise";
-import { isTokenCredential, TokenCredential } from "@azure/core-amqp";
+import { isTokenCredential, TokenCredential, Constants } from "@azure/core-amqp";
 import {
   ServiceBusClientOptions,
   createConnectionContextForTokenCredential,
@@ -15,7 +15,6 @@ import { CreateSessionReceiverOptions, CreateSenderOptions } from "./models";
 import { Receiver, ReceiverImpl } from "./receivers/receiver";
 import { SessionReceiver, SessionReceiverImpl } from "./receivers/sessionReceiver";
 import { ReceivedMessageWithLock, ReceivedMessage } from "./serviceBusMessage";
-import { getRetryAttemptTimeoutInMs } from "./util/utils";
 
 /**
  * A client that can create Sender instances for sending messages to queues and
@@ -73,9 +72,13 @@ export class ServiceBusClient {
       );
     }
     this._clientOptions.retryOptions = this._clientOptions.retryOptions || {};
-    this._clientOptions.retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(
-      this._clientOptions.retryOptions
-    );
+
+    // Invalid timeouts, non-positive timeouts are defaulted to the `Constants.defaultOperationTimeoutInMs`
+    const timeoutInMs = this._clientOptions.retryOptions.timeoutInMs;
+    this._clientOptions.retryOptions.timeoutInMs =
+      typeof timeoutInMs !== "number" || !isFinite(timeoutInMs) || timeoutInMs <= 0
+        ? Constants.defaultOperationTimeoutInMs
+        : timeoutInMs;
   }
 
   /**

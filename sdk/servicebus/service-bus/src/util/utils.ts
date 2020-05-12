@@ -7,7 +7,6 @@ import { generate_uuid } from "rhea-promise";
 import isBuffer from "is-buffer";
 import { Buffer } from "buffer";
 import * as Constants from "../util/constants";
-import { RetryOptions, Constants as ConstantsFromAMQP } from "@azure/core-amqp";
 
 // This is the only dependency we have on DOM types, so rather than require
 // the DOM lib we can just shim this in.
@@ -40,24 +39,6 @@ export const isNode = typeof navigator === "undefined" && typeof process !== "un
  */
 export function getUniqueName(name: string): string {
   return `${name}-${generate_uuid()}`;
-}
-
-/**
- * Invalid timeouts, non-positive timeouts are defaulted to the `Constants.defaultOperationTimeoutInMs`
- *
- * @export
- * @param {(RetryOptions | undefined)} retryOptions
- * @returns {number}
- */
-export function getRetryAttemptTimeoutInMs(retryOptions: RetryOptions | undefined): number {
-  const timeoutInMs =
-    retryOptions == undefined ||
-    typeof retryOptions.timeoutInMs !== "number" ||
-    !isFinite(retryOptions.timeoutInMs) ||
-    retryOptions.timeoutInMs <= 0
-      ? ConstantsFromAMQP.defaultOperationTimeoutInMs
-      : retryOptions.timeoutInMs;
-  return timeoutInMs;
 }
 
 /**
