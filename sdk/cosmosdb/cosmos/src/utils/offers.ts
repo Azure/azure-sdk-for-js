@@ -1,19 +1,14 @@
 import { ContainerRequest } from "../client/Container/ContainerRequest";
 
-export function validateOffer(body: ContainerRequest): boolean {
-  if (body.maxThroughput || body.autoUpgradePolicy) {
-    const policyIsValid =
-      body.autoUpgradePolicy &&
-      body.autoUpgradePolicy.throughputPolicy &&
-      body.autoUpgradePolicy.throughputPolicy.incrementPercent &&
-      typeof body.autoUpgradePolicy.throughputPolicy.incrementPercent === "number";
-    const bodyIsValid = typeof body.maxThroughput === "number" && policyIsValid;
-    if (!bodyIsValid) {
-      throw new Error("Must specify maxThroughput with autoUpgradePolicy");
+export function validateOffer(body: ContainerRequest): void {
+  if (body.throughput) {
+    if (body.maxThroughput) {
+      throw new Error("Cannot specify throughput with maxThroughput");
     }
-    if (body.throughput) {
-      throw new Error("Cannot specify throughput with maxThroughput and autoUpgradePolicy");
+    if (body.autoUpgradePolicy) {
+      throw new Error(
+        "Cannot specify autoUpgradePolicy with throughput. Use `maxThroughtput` instead"
+      );
     }
-    return bodyIsValid;
   }
 }

@@ -3,6 +3,7 @@
 ## 3.7.0 (Unreleased)
 
 - BUGFIX: Support crypto functions in Internet Explorer browser
+- FEATURE: Adds `readOffer` methods to container and database
 - FEATURE: Allows string value `partitionKey` parameter when creating containers
 
 The following result in the same behavior:
@@ -29,11 +30,11 @@ database.container.create(containerDefinition);
 
 - FEATURE: Adds support for autopilot parameters on container and database create methods
 
-Note that maxThroughput and autoUpgradePolicy must be specified together, and cannot be passed with `throughput`
+Note that `maxThroughput` cannot be passed with `throughput`.
 
 ```js
 // correct
-const containerDefintion = {
+const containerDefinition = {
   id: "sample container",
   indexingPolicy: { indexingMode: IndexingMode.consistent },
   maxThroughput: 500,
@@ -43,19 +44,21 @@ const containerDefintion = {
     }
   }
 };
+database.container.create(containerDefinition)
 
 // incorrect
-const containerDefintion = {
+const containerDefinition = {
   id: "sample container",
   indexingPolicy: { indexingMode: IndexingMode.consistent },
-  throughput: 500, // do not specify throughput with autopilot params
-  maxThroughput: 500,
+  throughput: 500, // do not specify throughput with maxThroughput
+  maxThroughput: 500
   autoUpgradePolicy: {
     throughputPolicy: {
       incrementPercent: 15
     }
   }
 };
+database.container.create(containerDefinition)
 ```
 
 ## 3.6.3 (2020-4-08)

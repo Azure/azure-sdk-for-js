@@ -25,6 +25,7 @@ export {
 } from "./documents";
 
 export { UniqueKeyPolicy, UniqueKey } from "./client/Container/UniqueKeyPolicy";
+export { ContainerRequest } from "./client/Container/ContainerRequest";
 export { Constants, OperationType } from "./common";
 export { RetryOptions } from "./retry";
 export { Response, RequestOptions, FeedOptions, ErrorResponse, ResourceResponse } from "./request";

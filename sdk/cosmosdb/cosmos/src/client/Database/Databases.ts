@@ -104,13 +104,19 @@ export class Databases {
       throw err;
     }
 
-    const usesAutoscale = validateOffer(body);
+    validateOffer(body);
 
-    if (usesAutoscale) {
-      const autopilotHeader = JSON.stringify({
-        maxThroughput: body.maxThroughput,
-        autoUpgradePolicy: body.autoUpgradePolicy
-      });
+    if (body.maxThroughput) {
+      const autoPilotParams: {
+        maxThroughput: number;
+        autoUpgradePolicy?: object;
+      } = {
+        maxThroughput: body.maxThroughput
+      };
+      if (body.autoUpgradePolicy) {
+        autoPilotParams.autoUpgradePolicy = body.autoUpgradePolicy;
+      }
+      const autopilotHeader = JSON.stringify(autoPilotParams);
       options.initialHeaders = Object.assign({}, options.initialHeaders, {
         [Constants.HttpHeaders.AutopilotSettings]: autopilotHeader
       });

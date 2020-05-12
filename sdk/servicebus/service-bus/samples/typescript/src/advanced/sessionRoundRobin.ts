@@ -137,15 +137,23 @@ async function receiveFromNextSession(serviceBusClient: ServiceBusClient): Promi
 async function roundRobinThroughAvailableSessions(): Promise<void> {
   const serviceBusClient = new ServiceBusClient(serviceBusConnectionString);
 
+  const receiverPromises = [];
+
   for (let i = 0; i < maxSessionsToProcessSimultaneously; ++i) {
-    (async () => {
-      while (!abortController.signal.aborted) {
-        await receiveFromNextSession(serviceBusClient);
-      }
-    })();
+    receiverPromises.push(
+      (async () => {
+        while (!abortController.signal.aborted) {
+          await receiveFromNextSession(serviceBusClient);
+        }
+      })()
+    );
   }
 
   console.log(`Listening for available sessions...`);
+  await Promise.all(receiverPromises);
+
+  await serviceBusClient.close();
+  console.log(`Exiting...`);
 }
 
 // To stop the round-robin processing you can just call abortController.abort()
