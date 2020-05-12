@@ -154,14 +154,10 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
     messageProperties?: { [key: string]: string }
   ): Buffer {
     const batchEnvelope: AmqpMessage = {
-      body: RheaMessageUtil.data_sections(encodedMessages)
+      body: RheaMessageUtil.data_sections(encodedMessages),
+      message_annotations: annotations,
+      application_properties: applicationProperties
     };
-    if (annotations) {
-      batchEnvelope.message_annotations = annotations;
-    }
-    if (applicationProperties) {
-      batchEnvelope.application_properties = applicationProperties;
-    }
     if (messageProperties) {
       for (const prop of RheaMessagePropertiesList) {
         if ((messageProperties as any)[prop]) {
