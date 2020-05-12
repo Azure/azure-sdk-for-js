@@ -128,7 +128,7 @@ export enum ConditionErrorNameMapper {
   /**
    * Error is thrown when timeout happens for the said operation.
    */
-  "amqp:operation-timeout" = "OperationTimeoutError",
+  "amqp:operation-timeout" = "OperationTimeoutError", // Retryable
   /**
    * Error is thrown when an argument has a value that is out of the admissible range.
    */
@@ -334,7 +334,7 @@ export enum ErrorNameConditionMapper {
   /**
    * Error is thrown when timeout happens for the said operation.
    */
-  OperationTimeoutError = "amqp:operation-timeout",
+  OperationTimeoutError = "amqp:operation-timeout", // Retryable
   /**
    * Error is thrown when an argument has a value that is out of the admissible range.
    */
@@ -482,7 +482,7 @@ export class MessagingError extends Error {
  * Provides a list of retryable AMQP errors.
  * "InternalServerError", "ServerBusyError", "ServiceUnavailableError", "OperationCancelledError",
  * "SenderBusyError", "MessagingError", "DetachForcedError", "ConnectionForcedError",
- * "TransferLimitExceededError"
+ * "TransferLimitExceededError", "OperationTimeoutError"
  */
 export const retryableErrors: string[] = [
   "InternalServerError",
@@ -493,7 +493,8 @@ export const retryableErrors: string[] = [
   "MessagingError",
   "DetachForcedError",
   "ConnectionForcedError",
-  "TransferLimitExceededError"
+  "TransferLimitExceededError",
+  "OperationTimeoutError"
 ];
 
 /**
