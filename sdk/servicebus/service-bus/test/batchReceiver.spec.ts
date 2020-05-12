@@ -23,6 +23,8 @@ import {
   TestMessage,
   getServiceBusClient
 } from "./utils/testUtils";
+import { BatchingReceiver } from '../src/core/batchingReceiver';
+import { ClientEntityContext } from '../src/clientEntityContext';
 const should = chai.should();
 chai.use(chaiAsPromised);
 
@@ -1189,5 +1191,27 @@ describe("Batching - disconnects", function(): void {
     }
     settledMessageCount.should.equal(2, "Unexpected number of settled messages.");
     refreshConnectionCalled.should.be.greaterThan(0, "refreshConnection was not called.");
+  });
+});
+
+describe("init() related issues", () => {
+  it("close() called just after init() but before the next step", async () => {
+    const batchingReceiver = new BatchingReceiver({
+      namespace: {
+        config: {},
+      }
+    } as unknown as ClientEntityContext);
+    
+    let initWasCalled = false;
+    batchingReceiver['_init'] = async () => {
+      initWasCalled = true;
+      // ie, pretend that somebody called close() and the 
+      // call happened between .init().then()
+      batchingReceiver['_receiver'] = undefined;
+    };
+    
+    const emptyArrayOfMessages =  await batchingReceiver.receive(1);
+    emptyArrayOfMessages.should.be.empty;
+    initWasCalled.should.be.true;
   });
 });
