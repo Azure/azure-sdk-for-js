@@ -37,7 +37,8 @@ module.exports = function(config) {
       // polyfill service supporting IE11 missing features
       // Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.assign,Object.keys,Symbol.iterator
       "https://cdn.polyfill.io/v2/polyfill.js?features=Symbol,Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.assign,Object.keys|always,Symbol.iterator",
-      "dist-test/index.browser.js"
+      "dist-test/index.browser.js",
+      { pattern: "dist-test/index.browser.js.map", type: "html", included: false, served: false },
     ].concat(isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : []),
 
     // list of files / patterns to exclude
