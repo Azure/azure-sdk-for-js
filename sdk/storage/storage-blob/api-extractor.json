@@ -1,6 +1,6 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json",
-  "mainEntryPointFilePath": "typings/latest/src/index.d.ts",
+  "mainEntryPointFilePath": "typings/latest/storage-blob/src/index.d.ts",
   "docModel": {
     "enabled": false
   },

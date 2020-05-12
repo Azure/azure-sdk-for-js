@@ -48,3 +48,6 @@ export {
   BlobBeginCopyFromUrlPollState,
   CopyPollerBlobClient
 } from "./pollers/BlobStartCopyFromUrlPoller";
+
+import { IReadable } from '../../storage-internal-avro/src'
+export { IReadable }
