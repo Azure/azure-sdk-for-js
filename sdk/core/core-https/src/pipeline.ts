@@ -335,3 +335,7 @@ export class HttpsPipeline implements Pipeline {
     return result;
   }
 }
+
+export function createPipeline(): Pipeline {
+  return HttpsPipeline.create();
+}

@@ -6,5 +6,6 @@ export {
   AddPolicyOptions as AddPipelineOptions,
   PipelinePhase,
   PipelinePolicy,
-  Pipeline
+  Pipeline,
+  createPipeline
 } from "./pipeline";

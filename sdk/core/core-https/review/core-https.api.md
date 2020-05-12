@@ -12,6 +12,9 @@ export interface AddPipelineOptions {
     phase?: PipelinePhase;
 }
 
+// @public (undocumented)
+export function createPipeline(): Pipeline;
+
 // @public
 export interface HttpsClient {
     sendRequest: SendRequest;
