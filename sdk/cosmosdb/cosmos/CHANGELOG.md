@@ -2,8 +2,9 @@
 
 ## 3.7.0 (Unreleased)
 
-- FEATURE: Allows string value `partitionKey` parameter when creating containers
 - BUGFIX: Support crypto functions in Internet Explorer browser
+- FEATURE: Adds `readOffer` methods to container and database
+- FEATURE: Allows string value `partitionKey` parameter when creating containers
 
 The following result in the same behavior:
 

@@ -72,7 +72,8 @@ describe("Certificates client - restore certificates and recover backups", () =>
     } catch (e) {
       error = e;
     }
-    assert.equal(error.message, `Certificate not found: ${certificateName}`);
+    assert.equal(error.code, "CertificateNotFound");
+    assert.equal(error.statusCode, 404);
   });
 
   if (isRecordMode() || isPlaybackMode()) {
