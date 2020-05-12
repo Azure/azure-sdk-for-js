@@ -10,7 +10,7 @@
     "moduleResolution": "node",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "strict": true,                 
+    "strict": true,
     "module": "esNext",
     "outDir": "./dist-esm",
     "declaration": true,

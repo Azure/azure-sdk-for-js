@@ -6,10 +6,7 @@ import { CertificateClient } from "../src";
 import { env, Recorder } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
-import {
-  AuthenticationChallengeCache,
-  AuthenticationChallenge
-} from "../../keyvault-common/src";
+import { AuthenticationChallengeCache, AuthenticationChallenge } from "../../keyvault-common/src";
 import { testPollerProperties } from "./utils/recorderUtils";
 
 describe("Challenge based authentication tests", () => {

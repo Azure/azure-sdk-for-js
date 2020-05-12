@@ -52,7 +52,7 @@ describe("Certificates client - list certificates in various ways", () => {
       try {
         await testClient.flushCertificate(certificate.name!);
       } catch (e) {
-        // Nothing to do here        
+        // Nothing to do here
       }
     }
     for await (const certificate of client.listDeletedCertificates({ includePending: true })) {
