@@ -1,8 +1,8 @@
 # Release History
 
-## 4.0.3 (2020-05-11)
+## 4.0.3 (2020-05-13)
 
-- Fixed a bug on related to the challenge based authentication that caused consecutive new authentications on new requests.
+- Fixed [bug 8378](https://github.com/Azure/azure-sdk-for-js/issues/8378), which caused the challenge based authentication to re-authenticate on every new request.
 
 ## 4.0.2 (2019-12-03)
 
