@@ -1,6 +1,6 @@
 # Getting started with samples
 
-**NOTE**: Samples for @azure/service-bus v1.1.x are still available [here](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples)
+**NOTE**: Samples for @azure/service-bus v1.1.x are available [here](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples-v1)
 
 ## Install the library
 
