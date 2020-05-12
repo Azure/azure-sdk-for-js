@@ -806,7 +806,7 @@ export interface FormModel {
   trainResult?: FormTrainResult;
 }
 
-export interface CustomFormSubModelField {
+export interface CustomFormField {
   /**
    * Estimated extraction accuracy for this field.
    */
@@ -825,7 +825,7 @@ export interface CustomFormSubModel {
   /**
    * Form fields
    */
-  fields: { [propertyName: string]: CustomFormSubModelField };
+  fields: { [propertyName: string]: CustomFormField };
   /**
    * Form type
    */

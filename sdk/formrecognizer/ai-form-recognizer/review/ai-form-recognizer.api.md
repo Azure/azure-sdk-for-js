@@ -74,6 +74,12 @@ export type ContentPollerLike = PollerLike<PollOperationState<RecognizeContentRe
 // @public
 export type ContentType = "application/pdf" | "image/jpeg" | "image/png" | "image/tiff";
 
+// @public (undocumented)
+export interface CustomFormField {
+    accuracy?: number;
+    name: string;
+}
+
 // @public
 export interface CustomFormModel {
     createdOn: Date;
@@ -97,15 +103,9 @@ export interface CustomFormModelInfo {
 export interface CustomFormSubModel {
     accuracy?: number;
     fields: {
-        [propertyName: string]: CustomFormSubModelField;
+        [propertyName: string]: CustomFormField;
     };
     formType: string;
-}
-
-// @public (undocumented)
-export interface CustomFormSubModelField {
-    accuracy?: number;
-    name: string;
 }
 
 // Warning: (ae-forgotten-export) The symbol "CommonFieldValue" needs to be exported by the entry point index.d.ts
