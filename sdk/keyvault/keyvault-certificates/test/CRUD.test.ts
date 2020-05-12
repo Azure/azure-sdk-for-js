@@ -439,7 +439,7 @@ describe("Certificates client - create, read, update and delete", () => {
     } catch (e) {
       error = e;
     }
-    assert.equal(error.code, "CertificateNotFound");
+    assert.equal(error.code, "PendingCertificateNotFound");
 
     await testClient.flushCertificate(certificateName);
   });
