@@ -11,7 +11,8 @@ import {
   TestInfo,
   isPlaybackMode,
   isRecordMode,
-  parseUrl
+  parseUrl,
+  findRecordingsFolderPath
 } from "./utils";
 import { customConsoleLog } from "./customConsoleLog";
 
@@ -54,7 +55,9 @@ export function setEnvironmentOnLoad() {
 }
 
 export abstract class BaseRecorder {
-  protected readonly filepath: string;
+  // relative file path of the test recording inside the `recordings` folder
+  // Example - node/some_random_test_suite/recording_first_test.js
+  protected readonly relativeTestRecordingFilePath: string;
   public uniqueTestInfo: TestInfo = { uniqueName: {}, newDate: {} };
 
   constructor(platform: "node" | "browsers", testSuiteTitle: string, testTitle: string) {
@@ -62,8 +65,8 @@ export abstract class BaseRecorder {
     // nock recordings for node tests - .js extension
     // recordings are saved in json format for browser tests - .json extension
     const ext = platform === "node" ? "js" : "json";
-    // Filepath - `recordings/{node|browsers}/<describe-block-title>/recording_<test-title>.{js|json}`
-    this.filepath =
+    // Filepath - `{node|browsers}/<describe-block-title>/recording_<test-title>.{js|json}`
+    this.relativeTestRecordingFilePath =
       platform +
       "/" +
       this.formatPath(testSuiteTitle) +
@@ -107,6 +110,13 @@ export abstract class BaseRecorder {
   }
 
   public abstract record(): void;
+  /**
+   * Finds the recording for the corresponding test and replays the saved responses from the recording.
+   *
+   * @abstract
+   * @param {string} filePath Test file path (can be obtained from the mocha's context object - Mocha.Context.currentTest)
+   * @memberof BaseRecorder
+   */
   public abstract playback(filePath: string): void;
   public abstract stop(): void;
 }
@@ -133,10 +143,16 @@ export class NockRecorder extends BaseRecorder {
      * [A diiferent strategy is in place to import recordings for browser tests by leveraging `karma` plugins.]
      */
     let path = require("path");
-    this.uniqueTestInfo = require(path.resolve(
-      filePath,
-      "../../recordings/" + this.filepath
-    )).testInfo;
+    // Get the full path of the `recordings` folder by navigating through the hierarchy of the test file path.
+    const recordingsFolderPath = findRecordingsFolderPath(filePath);
+    const recordingPath = path.resolve(recordingsFolderPath, this.relativeTestRecordingFilePath);
+    if (fs.existsSync(recordingPath)) {
+      this.uniqueTestInfo = require(recordingPath).testInfo;
+    } else {
+      throw new Error(
+        `Recording (${this.relativeTestRecordingFilePath}) is not found at ${recordingsFolderPath}`
+      );
+    }
   }
 
   public stop(): void {
@@ -154,13 +170,17 @@ export class NockRecorder extends BaseRecorder {
     try {
       // Stripping away the filename from the filepath and retaining the directory structure
       fs.ensureDirSync(
-        "./recordings/" + this.filepath.substring(0, this.filepath.lastIndexOf("/") + 1)
+        "./recordings/" +
+          this.relativeTestRecordingFilePath.substring(
+            0,
+            this.relativeTestRecordingFilePath.lastIndexOf("/") + 1
+          )
       );
     } catch (err) {
       if (err.code !== "EEXIST") throw err;
     }
 
-    const file = fs.createWriteStream("./recordings/" + this.filepath, {
+    const file = fs.createWriteStream("./recordings/" + this.relativeTestRecordingFilePath, {
       flags: "w"
     });
 
@@ -324,8 +344,12 @@ export class NiseRecorder extends BaseRecorder {
     const xhr = nise.fakeXhr.useFakeXMLHttpRequest();
 
     // 'karma-json-preprocessor' helps us to retrieve recordings
-    this.recordings = (window as any).__json__["recordings/" + this.filepath].recordings;
-    this.uniqueTestInfo = (window as any).__json__["recordings/" + this.filepath].uniqueTestInfo;
+    this.recordings = (window as any).__json__[
+      "recordings/" + this.relativeTestRecordingFilePath
+    ].recordings;
+    this.uniqueTestInfo = (window as any).__json__[
+      "recordings/" + this.relativeTestRecordingFilePath
+    ].uniqueTestInfo;
 
     // 'onCreate' function is called when a new fake XMLHttpRequest object (req) is created
     xhr.onCreate = function(req: any) {
@@ -386,7 +410,7 @@ export class NiseRecorder extends BaseRecorder {
     console.log(
       JSON.stringify({
         writeFile: true,
-        path: "./recordings/" + this.filepath,
+        path: "./recordings/" + this.relativeTestRecordingFilePath,
         content: { recordings: this.recordings, uniqueTestInfo: this.uniqueTestInfo }
       })
     );
