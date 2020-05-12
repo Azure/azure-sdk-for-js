@@ -17,16 +17,15 @@ import {
     MessagingError
   } from "@azure/service-bus";
   import * as dotenv from "dotenv";
-  import { env } from "process";
   import { AbortController } from "@azure/abort-controller";
   
   dotenv.config();
   
   const serviceBusConnectionString =
-    env["SERVICEBUS_CONNECTION_STRING"] || "<service bus connection string not in environment>";
+  process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
   
   // NOTE: this sample uses a queue but would also work a session enabled subscription.
-  const queueName = env["QUEUE_NAME_WITH_SESSIONS"] || "<queue name not in environment>";
+  const queueName = process.env.QUEUE_NAME || "<queue name>";
   
   const maxSessionsToProcessSimultaneously = 8;
   const sessionIdleTimeoutSeconds = 3;
