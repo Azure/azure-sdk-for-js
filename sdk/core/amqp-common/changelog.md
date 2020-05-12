@@ -1,3 +1,8 @@
+### 2020-05-13 1.0.0-preview.15
+
+- Fixes [bug 8835](https://github.com/Azure/azure-sdk-for-js/issues/8835) where OperationTimeoutError was not
+  considered retryable.
+
 ### 2020-05-05 1.0.0-preview.14
 
 - Relaxes the scheme check for the endpoint while parsing the connection string.
