@@ -9,7 +9,7 @@ import TestClient from "./utils/testClient";
 import {
   AuthenticationChallengeCache,
   AuthenticationChallenge
-} from "../src/core/challengeBasedAuthenticationPolicy";
+} from "../../keyvault-common/src";
 import { testPollerProperties } from "./utils/recorderUtils";
 
 describe("Challenge based authentication tests", () => {

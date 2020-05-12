@@ -28,7 +28,8 @@
   "files": [
     "types/keyvault-certificates.d.ts",
     "dist/",
-    "dist-esm/",
+    "dist-esm/keyvault-certificates/src",
+    "dist-esm/keyvault-common/src",
     "README.md",
     "LICENSE"
   ],

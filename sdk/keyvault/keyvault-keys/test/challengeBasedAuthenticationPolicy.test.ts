@@ -9,7 +9,7 @@ import TestClient from "./utils/testClient";
 import {
   AuthenticationChallengeCache,
   AuthenticationChallenge
-} from "../src/core/challengeBasedAuthenticationPolicy";
+} from "../../keyvault-common/src";
 
 // Following the philosophy of not testing the insides if we can test the outsides...
 // I present you with this "Get Out of Jail Free" card (in reference to Monopoly).

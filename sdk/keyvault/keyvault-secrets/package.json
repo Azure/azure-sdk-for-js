@@ -20,7 +20,7 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "main": "./dist/index.js",
-  "module": "dist-esm/src/index.js",
+  "module": "dist-esm/keyvault-secrets/src/index.js",
   "types": "./types/keyvault-secrets.d.ts",
   "engine": {
     "node": ">=8.0.0"
@@ -31,7 +31,8 @@
   "files": [
     "types/keyvault-secrets.d.ts",
     "dist/",
-    "dist-esm/src",
+    "dist-esm/keyvault-secrets/src",
+    "dist-esm/keyvault-common/src",
     "README.md",
     "LICENSE"
   ],
@@ -55,8 +56,8 @@
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "karma start --single-run",
-    "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace dist-esm/test/*.test.js",
-    "integration-test:node:no-timeout": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --no-timeouts --full-trace dist-esm/test/*.test.js",
+    "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace dist-esm/keyvault-secrets/test/*.test.js",
+    "integration-test:node:no-timeout": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --no-timeouts --full-trace dist-esm/keyvault-secrets/test/*.test.js",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
     "lint": "eslint package.json api-extractor.json src test --ext .ts -f html -o keyvault-secrets-lintReport.html",

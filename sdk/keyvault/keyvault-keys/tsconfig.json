@@ -22,6 +22,6 @@
     "resolveJsonModule": true
   },
   "compileOnSave": true,
-  "exclude": ["node_modules", "./samples/**/*.ts"],
-  "include": ["./src/**/*.ts", "./test/**/*.ts"]
+  "exclude": ["node_modules", "../keyvault-common/node_modules", "./samples/**/*.ts"],
+  "include": ["./src/**/*.ts", "./test/**/*.ts", "../keyvault-common/**/*.ts"]
 }
