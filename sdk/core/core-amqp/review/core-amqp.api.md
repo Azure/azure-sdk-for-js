@@ -450,9 +450,6 @@ export type Func<T, V> = (a: T) => V;
 // @public
 export function getNewAsyncLock(options?: AsyncLockOptions): AsyncLock;
 
-// @public
-export function getRetryAttemptTimeoutInMs(retryOptions: RetryOptions | undefined): number;
-
 // @public (undocumented)
 export interface IotHubConnectionConfig {
     connectionString: string;
