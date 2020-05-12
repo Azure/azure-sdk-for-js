@@ -3,7 +3,6 @@ export abstract class IReadable {
   public abstract async read(size: number): Promise<Uint8Array>;
 }
 
-
 import { Readable } from "stream";
 export class ReadableFromStream extends IReadable {
   private _position: number;
@@ -55,43 +54,14 @@ export class ReadableFromStream extends IReadable {
             this._position += chunk.length;
             // chunk.lenght maybe less than desired size if the stream ends.
             resolve(chunk);
-            this._readable.removeListener('readable', callback);
+            this._readable.removeListener("readable", callback);
           }
-        }
-        this._readable.on('readable', callback);
-        this._readable.once('error', reject);
-        this._readable.once('end', reject);
-        this._readable.once('close', reject);
+        };
+        this._readable.on("readable", callback);
+        this._readable.once("error", reject);
+        this._readable.once("end", reject);
+        this._readable.once("close", reject);
       });
     }
   }
 }
-
-
-/* TEST CODE */
-import * as fs from "fs";
-
-async function main() {
-  let rs = fs.createReadStream("README.md");
-  console.log(rs.read(0));
-
-  let rfs = new ReadableFromStream(rs);
-  console.log(rfs.position);
-  console.log(rs.readable);
-
-  const buf = await rfs.read(10);
-  console.log(buf.toString());
-  console.log(rs.readable);
-
-  const buf2 = await rfs.read(100000);
-  console.log(buf2.toString());
-  console.log(rfs.position);
-
-  const buf3 = await rfs.read(10);
-  console.log(buf3.toString());
-  console.log(rfs.position);
-}
-
-main().catch((err) => {
-  console.error("Error running test:", err.message);
-});

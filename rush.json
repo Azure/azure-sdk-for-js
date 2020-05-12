@@ -448,11 +448,6 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/keyvault-common",
-      "projectFolder": "sdk/keyvault/keyvault-common",
-      "versionPolicyName": "utility"
-    },
-    {
       "packageName": "@azure/storage-internal-avro",
       "projectFolder": "sdk/storage/storage-internal-avro",
       "versionPolicyName": "utility"

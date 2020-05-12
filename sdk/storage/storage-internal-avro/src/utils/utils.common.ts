@@ -1,26 +1,26 @@
 export interface Metadata {
-    /**
-     * A name-value pair.
-     */
-    [propertyName: string]: string;
+  /**
+   * A name-value pair.
+   */
+  [propertyName: string]: string;
 }
 
 export interface Dictionary<T> {
-    [key: string]: T;
+  [key: string]: T;
 }
 
 export interface KeyValuePair<T> {
-    key: string;
-    value: T;
+  key: string;
+  value: T;
 }
 
-export function arraysEqual(a: Uint8Array, b : Uint8Array) {
-    if (a === b) return true;
-    if (a == null || b == null) return false;
-    if (a.length != b.length) return false;
+export function arraysEqual(a: Uint8Array, b: Uint8Array) {
+  if (a === b) return true;
+  if (a == null || b == null) return false;
+  if (a.length != b.length) return false;
 
-    for (let i = 0; i < a.length; ++i) {
-        if (a[i] !== b[i]) return false;
-    }
-    return true;
+  for (let i = 0; i < a.length; ++i) {
+    if (a[i] !== b[i]) return false;
+  }
+  return true;
 }

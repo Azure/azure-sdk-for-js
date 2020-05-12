@@ -1,50 +1,50 @@
 export const AvroConstants = {
-    SYNC_MARKER_SIZE: 16,
+  SYNC_MARKER_SIZE: 16,
 
-    // 'O', 'b', 'j', 1
-    INIT_BYTES: new Uint8Array([79, 98, 106, 1]),
+  // 'O', 'b', 'j', 1
+  INIT_BYTES: new Uint8Array([79, 98, 106, 1]),
 
-    CODEC_KEY: "avro.codec",
+  CODEC_KEY: "avro.codec",
 
-    SCHEMA_KEY: "avro.schema",
+  SCHEMA_KEY: "avro.schema",
 
-    NULL: "null",
+  NULL: "null",
 
-    BOOLEAN: "boolean",
+  BOOLEAN: "boolean",
 
-    INT: "int",
+  INT: "int",
 
-    LONG: "long",
+  LONG: "long",
 
-    FLOAT: "float",
+  FLOAT: "float",
 
-    DOUBLE: "double",
+  DOUBLE: "double",
 
-    BYTES: "bytes",
+  BYTES: "bytes",
 
-    STRING: "string",
+  STRING: "string",
 
-    RECORD: "record",
+  RECORD: "record",
 
-    ENUM: "enum",
+  ENUM: "enum",
 
-    MAP: "map",
+  MAP: "map",
 
-    ARRAY: "array",
+  ARRAY: "array",
 
-    UNION: "union",
+  UNION: "union",
 
-    FIXED: "fixed",
+  FIXED: "fixed",
 
-    ALIASES: "aliases",
+  ALIASES: "aliases",
 
-    NAME: "name",
+  NAME: "name",
 
-    FIELDS: "fields",
+  FIELDS: "fields",
 
-    TYPE: "type",
+  TYPE: "type",
 
-    SYMBOLS: "symbols",
+  SYMBOLS: "symbols",
 
-    VALUES: "values",
+  VALUES: "values"
 };

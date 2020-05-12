@@ -1,7 +1,7 @@
 import { IReadable } from "./IReadable";
 import { AvroConstants } from "./AvroConstants";
 import { Metadata, arraysEqual } from "./utils/utils.common";
-import { AvroType, AvroParser } from "./AvroParser"
+import { AvroType, AvroParser } from "./AvroParser";
 
 export class AvroReader {
   private readonly _dataStream: IReadable;
@@ -28,9 +28,7 @@ export class AvroReader {
 
   private _initialized: boolean;
 
-  constructor(
-    dataStream: IReadable
-  );
+  constructor(dataStream: IReadable);
 
   constructor(
     dataStream: IReadable,
@@ -54,7 +52,10 @@ export class AvroReader {
 
   // FUTURE: cancellation / aborter?
   private async initialize() {
-    const header = await AvroParser.readFixedBytes(this._headerStream, AvroConstants.INIT_BYTES.length);
+    const header = await AvroParser.readFixedBytes(
+      this._headerStream,
+      AvroConstants.INIT_BYTES.length
+    );
     if (!arraysEqual(header, AvroConstants.INIT_BYTES)) {
       throw new Error("Stream is not an Avro file.");
     }
@@ -70,11 +71,14 @@ export class AvroReader {
     }
 
     // The 16-byte, randomly-generated sync marker for this file.
-    this._syncMarker = await AvroParser.readFixedBytes(this._headerStream, AvroConstants.SYNC_MARKER_SIZE);
+    this._syncMarker = await AvroParser.readFixedBytes(
+      this._headerStream,
+      AvroConstants.SYNC_MARKER_SIZE
+    );
 
     // Parse the schema
     const schema = JSON.parse(this._metadata![AvroConstants.SCHEMA_KEY]);
-    this._itemType = AvroType.fromSchema(schema.RootElement);
+    this._itemType = AvroType.fromSchema(schema);
 
     if (this._blockOffset == 0) {
       this._blockOffset = this._dataStream.position;
@@ -102,7 +106,7 @@ export class AvroReader {
       await this.initialize();
     }
 
-    while (this.hasNext) {
+    while (this.hasNext()) {
       const result = await this._itemType!.read(this._dataStream);
 
       this._itemsRemainingInBlock!--;
@@ -120,8 +124,7 @@ export class AvroReader {
 
         try {
           this._itemsRemainingInBlock = await AvroParser.readLong(this._dataStream);
-        }
-        catch (err) {
+        } catch (err) {
           // We hit the end of the stream.
           this._itemsRemainingInBlock = 0;
         }

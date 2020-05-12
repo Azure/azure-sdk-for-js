@@ -1,3 +1,3 @@
 import { AvroReader } from "./AvroReader";
-import { IReadable } from "./IReadable";
-export { AvroReader, IReadable }
+import { IReadable, ReadableFromStream } from "./IReadable";
+export { AvroReader, IReadable, ReadableFromStream };
