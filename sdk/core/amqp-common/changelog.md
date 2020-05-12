@@ -1,4 +1,4 @@
-### 2020-05-13 1.0.0-preview.15
+### 2020-05-12 1.0.0-preview.15
 
 - Fixes [bug 8835](https://github.com/Azure/azure-sdk-for-js/issues/8835) where OperationTimeoutError was not
   considered retryable.
