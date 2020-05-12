@@ -111,7 +111,7 @@ jobs:
         env:
           TEST_MODE: "live"
           ${{ insert }}: ${{ parameters.EnvVars }}
-        condition: and(succeededOrFailed(),ne(variables['TestType'],'sample'))
+        condition: and(succeeded(),ne(variables['TestType'],'sample'))
 
       - ${{if ne(parameters.PostIntegrationSteps, '')}}:
           - template: ../steps/${{parameters.PostIntegrationSteps}}.yml
@@ -122,7 +122,7 @@ jobs:
         env:
           TEST_MODE: "live"
           ${{ insert }}: ${{ parameters.EnvVars }}
-        condition: and(succeededOrFailed(),eq(variables['TestType'],'sample'))
+        condition: and(succeeded(),eq(variables['TestType'],'sample'))
 
       - ${{ if ne(parameters.ResourceServiceDirectory, '') }}:
         - template: /eng/common/TestResources/remove-test-resources.yml
