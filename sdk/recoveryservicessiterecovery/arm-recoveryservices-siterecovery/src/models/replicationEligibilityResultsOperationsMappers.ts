@@ -9,8 +9,8 @@
 export {
   discriminators,
   CloudError,
-  ComputeSizeErrorDetails,
-  TargetComputeSize,
-  TargetComputeSizeCollection,
-  TargetComputeSizeProperties
+  ReplicationEligibilityResults,
+  ReplicationEligibilityResultsCollection,
+  ReplicationEligibilityResultsErrorInfo,
+  ReplicationEligibilityResultsProperties
 } from "../models/mappers";
