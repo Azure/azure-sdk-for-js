@@ -12,8 +12,7 @@ import {
   RetryConfig,
   RetryOptions,
   RetryOperationType,
-  SharedKeyCredential,
-  getRetryAttemptTimeoutInMs
+  SharedKeyCredential
 } from "@azure/core-amqp";
 import {
   Message,
@@ -27,6 +26,7 @@ import {
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import { logger, logErrorStackTrace } from "./log";
+import { getRetryAttemptTimeoutInMs } from "./util/retries";
 import { AbortSignalLike, AbortError } from "@azure/abort-controller";
 /**
  * Describes the runtime information of an Event Hub.
