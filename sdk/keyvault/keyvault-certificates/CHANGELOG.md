@@ -1,5 +1,9 @@
 # Release History
 
+## 4.0.1 (2020-05-13)
+
+- Fixed [bug 8378](https://github.com/Azure/azure-sdk-for-js/issues/8378), which caused the challenge based authentication to re-authenticate on every new request.
+
 ## 4.0.0 (2020-01-07)
 
 This release marks the general availability of the `@azure/keyvault-certificates` package.
