@@ -41,6 +41,7 @@ this class using one of the 3 static methods on it
     from the Azure portal.
 - [createFromTokenProvider](https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/servicebusclient#createfromtokenprovider-string--tokenprovider--servicebusclientoptions-)
   - This method takes the host name of your Service Bus instance and your custom implementation of the [TokenProvider](https://github.com/Azure/amqp-common-js/blob/master/lib/auth/token.ts) interface.The host name is of the format `name-of-service-bus-instance.servicebus.windows.net`.
+    If you're using an own token provider against AAD, then set the "scopes" for service-bus to be `["https://servicebus.azure.net//user_impersonation"]` to get the appropriate token.
 - [createFromAADTokenCredentials](https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/servicebusclient#createfromaadtokencredentials-string--applicationtokencredentials---usertokencredentials---devicetokencredentials---msitokencredentials--servicebusclientoptions-)
   - This method takes the host name of your Service Bus instance and a credentials object that you need
     to generate using the [@azure/ms-rest-nodeauth](https://www.npmjs.com/package/@azure/ms-rest-nodeauth)
