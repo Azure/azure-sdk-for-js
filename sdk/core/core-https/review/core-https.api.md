@@ -4,6 +4,8 @@
 
 ```ts
 
+import { AbortSignalLike } from '@azure/abort-controller';
+
 // @public
 export interface AddPipelineOptions {
     afterPhase?: PipelinePhase;
@@ -14,6 +16,33 @@ export interface AddPipelineOptions {
 
 // @public (undocumented)
 export function createPipeline(): Pipeline;
+
+// @public (undocumented)
+export type FormDataMap = {
+    [key: string]: FormDataValue | FormDataValue[];
+};
+
+// @public (undocumented)
+export type FormDataValue = string | Blob;
+
+// @public (undocumented)
+export interface HttpHeaders extends Iterable<[string, string]> {
+    // (undocumented)
+    clone(): HttpHeaders;
+    // (undocumented)
+    delete(name: string): void;
+    // (undocumented)
+    get(name: string): string | undefined;
+    // (undocumented)
+    has(name: string): boolean;
+    // (undocumented)
+    raw(): RawHttpHeaders;
+    // (undocumented)
+    set(name: string, value: string | number): void;
+}
+
+// @public (undocumented)
+export type HttpMethods = "GET" | "PUT" | "POST" | "DELETE" | "PATCH" | "HEAD" | "OPTIONS" | "TRACE";
 
 // @public
 export interface HttpsClient {
@@ -43,17 +72,52 @@ export interface PipelinePolicy {
 
 // @public
 export interface PipelineRequest {
+    abortSignal?: AbortSignalLike;
+    body?: Blob | ArrayBuffer | ArrayBufferView | FormData | string | null;
+    formData?: FormDataMap;
+    headers: HttpHeaders;
+    method: HttpMethods;
+    onDownloadProgress?: (progress: TransferProgressEvent) => void;
+    onUploadProgress?: (progress: TransferProgressEvent) => void;
+    proxySettings?: ProxySettings;
+    streamResponseBody?: boolean;
+    timeout: number;
     url: string;
+    withCredentials: boolean;
 }
 
 // @public
 export interface PipelineResponse {
+    blobBody?: Promise<Blob>;
+    bodyAsText?: string | null;
+    headers: HttpHeaders;
+    readableStreamBody?: NodeJS.ReadableStream;
     request: PipelineRequest;
     status: number;
 }
 
 // @public
+export interface ProxySettings {
+    // (undocumented)
+    host: string;
+    password?: string;
+    // (undocumented)
+    port: number;
+    username?: string;
+}
+
+// @public
+export type RawHttpHeaders = {
+    [headerName: string]: string;
+};
+
+// @public
 export type SendRequest = (request: PipelineRequest) => Promise<PipelineResponse>;
+
+// @public
+export type TransferProgressEvent = {
+    loadedBytes: number;
+};
 
 
 // (No @packageDocumentation comment for this package)

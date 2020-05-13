@@ -3,6 +3,8 @@
 
 import { assert } from "chai";
 import { createPipeline, PipelinePolicy, HttpsClient } from "../src";
+import { createHttpHeaders } from "../src/httpHeaders";
+import { createPipelineRequest } from "../src/pipelineRequest";
 
 describe("HttpsPipeline", function() {
   it("Newly created pipeline has no policies", function() {
@@ -319,12 +321,16 @@ describe("HttpsPipeline", function() {
         assert.strictEqual(request.url, "afterTest3");
         return {
           request,
+          headers: createHttpHeaders(),
           status: 200
         };
       }
     };
 
-    const response = await pipeline.sendRequest(testHttpsClient, { url: "initialUrl" });
+    const response = await pipeline.sendRequest(
+      testHttpsClient,
+      createPipelineRequest({ url: "initialUrl" })
+    );
     assert.strictEqual(response.request.url, "afterTest3");
     assert.strictEqual(response.status, 200);
   });

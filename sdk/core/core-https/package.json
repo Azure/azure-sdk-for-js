@@ -7,8 +7,9 @@
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "browser": {
-    "stream": "./node_modules/stream-browserify/index.js",
-    "./dist-esm/src/print.js": "./dist-esm/src/print.browser.js"
+    "./dist-esm/src/defaultHttpClient.js": "./dist-esm/src/defaultHttpClient.browser.js",
+    "./dist-esm/src/util/inspect.js": "./dist-esm/src/util/inspect.browser.js",
+    "./dist-esm/src/util/url.js": "./dist-esm/src/util/url.browser.js"
   },
   "types": "types/latest/coreHttps.d.ts",
   "typesVersions": {
@@ -70,6 +71,7 @@
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
+    "@azure/abort-controller": "^1.0.0",
     "@opentelemetry/api": "^0.6.1",
     "tslib": "^1.10.0"
   },

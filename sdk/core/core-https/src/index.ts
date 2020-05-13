@@ -1,7 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export { HttpsClient, PipelineRequest, PipelineResponse, SendRequest } from "./interfaces";
+export {
+  HttpsClient,
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest,
+  FormDataMap,
+  FormDataValue,
+  HttpHeaders,
+  HttpMethods,
+  ProxySettings,
+  RawHttpHeaders,
+  TransferProgressEvent
+} from "./interfaces";
 export {
   AddPolicyOptions as AddPipelineOptions,
   PipelinePhase,
