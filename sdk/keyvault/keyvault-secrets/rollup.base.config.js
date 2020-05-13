@@ -49,7 +49,7 @@ export function nodeConfig(test = false) {
         values: {
           // replace dynamic checks with if (true) since this is for node only.
           // Allows rollup's dead code elimination to be more aggressive.
-          "if (isNode)": ";isNode; if (true)"
+          "if (isNode)": "if (true)"
         }
       }),
       nodeResolve({ preferBuiltins: true }),
@@ -106,7 +106,7 @@ export function browserConfig(test = false) {
           // replace dynamic checks with if (false) since this is for
           // browser only. Rollup's dead code elimination will remove
           // any code guarded by if (isNode) { ... }
-          "if (isNode)": ";isNode; if (false)"
+          "if (isNode)": "if (false)"
         }
       }),
       // os is not used by the browser bundle, so just shim it
