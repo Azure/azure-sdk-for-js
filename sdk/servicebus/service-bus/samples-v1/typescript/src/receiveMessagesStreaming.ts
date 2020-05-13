@@ -30,7 +30,7 @@ export async function main() {
   // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
   const queueClient = sbClient.createQueueClient(queueName);
 
-  // To receive messages from sessions, use getSessionReceiver instead of getReceiver or look at
+  // To receive messages from sessions, use createSessionReceiver instead of createReceiver or look at
   // the sample in sessions.ts file
 
   // controls whether we continue to recover from fatal Receiver failures.
