@@ -233,6 +233,7 @@ jobs:
         - script: |
             npm install --no-package-lock keytar
           workingDirectory: $(Build.SourcesDirectory)/common/temp/node_modules/.pnpm/registry.npmjs.org/keytar/5.4.0
+          displayName: Reinstall keytar
 
         # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
         # The default on Windows is "cores - 1" (microsoft/rushstack#436).
