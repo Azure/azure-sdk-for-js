@@ -13,16 +13,16 @@ parameters:
     Linux Node 8:
       OSVmImage: "ubuntu-18.04"
       TestType: "node"
-      NodeVersion: "8.x"
+      NodeTestVersion: "8.x"
       PublishCodeCoverage: true
     Windows Node 10:
       OSVmImage: "windows-2019"
       TestType: "node"
-      NodeVersion: "10.x"
+      NodeTestVersion: "10.x"
     MacOS Node 12:
       OSVmImage: "macOS-10.15"
       TestType: "node"
-      NodeVersion: "12.x"
+      NodeTestVersion: "12.x"
 
 jobs:
   - job: "IntegrationTest"
@@ -102,6 +102,17 @@ jobs:
           node getPackagePath.js --repo-root "$(Build.SourcesDirectory)" --package-name "${{parameters.PackageName}}"
         workingDirectory: $(Build.SourcesDirectory)/eng/tools/eng-package-utils
         displayName: "Get package path"
+
+      - task: NodeTool@0
+        inputs:
+          versionSpec: $(NodeTestVersion)
+        displayName: "Use NodeJS $(NodeTestVersion)"
+
+      - script: |
+          node --version && npm --version
+        displayName: Node versions
+
+      - template: ../steps/reinstall-native-dependencies.yml
 
       # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
       # The default on Windows is "cores - 1" (microsoft/rushstack#436).
