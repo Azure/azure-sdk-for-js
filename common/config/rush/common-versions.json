@@ -53,6 +53,10 @@
     // TODO: Remove this once Service Bus is updated to use current depenedencies as part of Track 2
     "rhea-promise": ["^0.1.15"],
     // Following is required to allow for backward compatibility with Event Processor Host Track 1
-    "@azure/event-hubs": ["^2.1.4"]
+    "@azure/event-hubs": ["^2.1.4"],
+    // The following is required for keyvault-certificates's hotfix 4.0.1
+    "@azure/core-http": ["^1.0.0", "^1.1.1"],
+    "@azure/core-tracing": ["1.0.0-preview.7", "1.0.0-preview.8"],
+    "@azure/identity": ["^1.0.0", "1.1.0-preview.3"]
   }
 }
