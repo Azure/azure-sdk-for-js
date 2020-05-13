@@ -8,16 +8,11 @@
 
 export {
   BaseResource,
-  Disk,
   ErrorResponse,
-  HanaInstance,
-  HanaInstancesListResult,
-  HardwareProfile,
-  IpAddress,
-  NetworkProfile,
-  OSProfile,
+  ProviderInstance,
+  ProviderInstanceListResult,
+  ProxyResource,
   Resource,
   SapMonitor,
-  StorageProfile,
-  Tags
+  TrackedResource
 } from "../models/mappers";

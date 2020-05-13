@@ -30,16 +30,6 @@ export const apiVersion: msRest.OperationQueryParameter = {
     }
   }
 };
-export const hanaInstanceName: msRest.OperationURLParameter = {
-  parameterPath: "hanaInstanceName",
-  mapper: {
-    required: true,
-    serializedName: "hanaInstanceName",
-    type: {
-      name: "String"
-    }
-  }
-};
 export const nextPageLink: msRest.OperationURLParameter = {
   parameterPath: "nextPageLink",
   mapper: {
@@ -50,6 +40,16 @@ export const nextPageLink: msRest.OperationURLParameter = {
     }
   },
   skipEncoding: true
+};
+export const providerInstanceName: msRest.OperationURLParameter = {
+  parameterPath: "providerInstanceName",
+  mapper: {
+    required: true,
+    serializedName: "providerInstanceName",
+    type: {
+      name: "String"
+    }
+  }
 };
 export const resourceGroupName: msRest.OperationURLParameter = {
   parameterPath: "resourceGroupName",
