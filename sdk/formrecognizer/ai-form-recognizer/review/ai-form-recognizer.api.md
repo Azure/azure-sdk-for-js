@@ -42,6 +42,13 @@ export interface ArrayFieldValue {
 export { AzureKeyCredential }
 
 // @public
+export type BeginCopyModelOptions = FormRecognizerOperationOptions & {
+    intervalInMs?: number;
+    onProgress?: (state: BeginCopyModelPollState) => void;
+    resumeFrom?: string;
+};
+
+// @public
 export type BeginRecognizeContentOptions = RecognizeContentOptions & {
     intervalInMs?: number;
     onProgress?: (state: BeginRecognizePollState<RecognizeContentResultResponse>) => void;
@@ -74,6 +81,27 @@ export type ContentPollerLike = PollerLike<PollOperationState<RecognizeContentRe
 
 // @public
 export type ContentType = "application/pdf" | "image/jpeg" | "image/png" | "image/tiff";
+
+// @public
+export interface CopyAuthorization {
+    accessToken: string;
+    expirationOn: number;
+    modelId: string;
+    targetResourceId: string;
+    targetResourceRegion: string;
+}
+
+// @public
+export type CopyModelOptions = FormRecognizerOperationOptions;
+
+// @public
+export interface CopyResult {
+    createdOn: Date;
+    errors?: FormRecognizerError[];
+    lastModified: Date;
+    modelId: string;
+    status: OperationStatus;
+}
 
 // @public (undocumented)
 export interface CustomFormField {
@@ -271,10 +299,13 @@ export interface FormText {
 // @public
 export class FormTrainingClient {
     constructor(endpointUrl: string, credential: TokenCredential | KeyCredential, options?: FormRecognizerClientOptions);
+    beginCopyModel(modelId: string, target: CopyAuthorization, options?: BeginCopyModelOptions): Promise<PollerLike<PollOperationState<CopyResult>, CopyResult>>;
     beginTraining(trainingFilesUrl: string, useTrainingLabels?: boolean, options?: BeginTrainingOptions<FormModelResponse>): Promise<PollerLike<PollOperationState<FormModelResponse>, FormModelResponse>>;
     deleteModel(modelId: string, options?: DeleteModelOptions): Promise<RestResponse>;
     readonly endpointUrl: string;
     getAccountProperties(options?: GetAccountPropertiesOptions): Promise<AccountProperties>;
+    // (undocumented)
+    getCopyAuthorization(targetResourceId: string, targetResourceRegion: string, options?: GetCopyAuthorizationOptions): Promise<CopyAuthorization>;
     getCustomModel(modelId: string, options?: GetModelOptions): Promise<FormModelResponse>;
     listCustomModels(options?: ListModelsOptions): PagedAsyncIterableIterator<CustomFormModelInfo, ListModelsResponseModel>;
     }
@@ -294,6 +325,12 @@ export interface FormWord extends FormContentCommon {
 
 // @public
 export type GetAccountPropertiesOptions = FormRecognizerOperationOptions;
+
+// @public
+export type GetCopyAuthorizationOptions = FormRecognizerOperationOptions;
+
+// @public
+export type GetCopyModelResultOptions = FormRecognizerOperationOptions;
 
 // @public
 export type GetModelOptions = FormRecognizerOperationOptions;
@@ -599,7 +636,8 @@ export type ValueTypes = "string" | "date" | "time" | "phoneNumber" | "number" |
 // Warnings were encountered during analysis:
 //
 // src/formRecognizerClient.ts:73:3 - (ae-forgotten-export) The symbol "BeginRecognizePollState" needs to be exported by the entry point index.d.ts
-// src/formTrainingClient.ts:69:3 - (ae-forgotten-export) The symbol "BeginTrainingPollState" needs to be exported by the entry point index.d.ts
+// src/formTrainingClient.ts:79:3 - (ae-forgotten-export) The symbol "BeginCopyModelPollState" needs to be exported by the entry point index.d.ts
+// src/formTrainingClient.ts:96:3 - (ae-forgotten-export) The symbol "BeginTrainingPollState" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

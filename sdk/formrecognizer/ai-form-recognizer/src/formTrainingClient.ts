@@ -23,14 +23,17 @@ import { CanonicalCode } from "@opentelemetry/api";
 import { GeneratedClient } from "./generated/generatedClient";
 import {
   GeneratedClientGetCustomModelsResponse as ListModelsResponseModel,
+  GeneratedClientGetCustomModelCopyResultResponse as GetCustomModelCopyResultResponseModel,
+  GeneratedClientCopyCustomModelResponse as CopyCustomModelResponseModel,
   GeneratedClientTrainCustomModelAsyncResponse
 } from "./generated/models";
 import { TrainPollerClient, BeginTrainingPoller, BeginTrainingPollState } from "./lro/train/poller";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
 import { FormRecognizerClientOptions, FormRecognizerOperationOptions } from "./common";
-import { FormModelResponse, AccountProperties, CustomFormModelInfo } from "./models";
+import { FormModelResponse, AccountProperties, CustomFormModelInfo, CopyAuthorization, CopyResult } from "./models";
 import { createFormRecognizerAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 import { toFormModelResponse } from "./transforms";
+import { CopyModelPollerClient, BeginCopyModelPoller, BeginCopyModelPollState } from './lro/copy/poller';
 
 export { ListModelsResponseModel, RestResponse };
 /**
@@ -52,6 +55,30 @@ export type DeleteModelOptions = FormRecognizerOperationOptions;
  * Options for the get model operation.
  */
 export type GetModelOptions = FormRecognizerOperationOptions;
+
+/**
+ * Options for the generate copy model authorization operation.
+ */
+export type GetCopyAuthorizationOptions = FormRecognizerOperationOptions;
+
+/**
+ * Options for the copy custom model operation.
+ */
+export type CopyModelOptions = FormRecognizerOperationOptions;
+
+/**
+ * Options for the get copy model result operation.
+ */
+export type GetCopyModelResultOptions = FormRecognizerOperationOptions;
+
+/**
+* Options for begin copy model operation
+ */
+export type BeginCopyModelOptions = FormRecognizerOperationOptions & {
+  intervalInMs?: number;
+  onProgress?: (state: BeginCopyModelPollState) => void;
+  resumeFrom?: string;
+};
 
 /**
  * Options for training models
@@ -157,7 +184,7 @@ export class FormTrainingClient {
   public async getAccountProperties(
     options?: GetAccountPropertiesOptions
   ): Promise<AccountProperties> {
-    const realOptions: ListModelsOptions = options || {};
+    const realOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
       "FormTrainingClient-listCustomModels",
       realOptions
@@ -385,8 +412,7 @@ export class FormTrainingClient {
   /**
    * Creates and trains a custom form model.
    * This method returns a long running operation poller that allows you to wait
-   * indefinitely until the copy is completed.
-   * You can also cancel a copy before it is completed by calling `cancelOperation` on the poller.
+   * indefinitely until the operation is completed.
    * Note that the onProgress callback will not be invoked if the operation completes in the first
    * request, and attempting to cancel a completed copy will result in an error being thrown.
    *
@@ -403,7 +429,7 @@ export class FormTrainingClient {
    * const response = poller.getResult();
    * console.log(response)
    * ```
-   * @summary Creats and trains a model
+   * @summary Creates and trains a model
    * @param {string} trainingFilesUrl Accessible url to an Azure Storage Blob container storing the training documents
    * @param {boolean} useTrainingLabels specifies whether to training the model using label files
    * @param {BeginTrainingOptions} [options] Options to start model training operation
@@ -433,6 +459,135 @@ export class FormTrainingClient {
 
     await poller.poll();
     return poller;
+  }
+
+  public async getCopyAuthorization(
+    targetResourceId: string,
+    targetResourceRegion: string,
+    options: GetCopyAuthorizationOptions = {}
+  ): Promise<CopyAuthorization> {
+    const { span, updatedOptions: finalOptions } = createSpan(
+      "FormTrainingClient-getCopyAuthorization",
+      options
+    );
+
+    try {
+      const response = await this.client.generateModelCopyAuthorization(
+        operationOptionsToRequestOptionsBase(finalOptions));
+      return {
+        targetResourceId,
+        targetResourceRegion,
+        accessToken: response.accessToken,
+        modelId: response.modelId,
+        // TODO use expiresOn after service changed this field to seconds
+        // expiresOn: new Date(response.expirationDateTimeSeconds * 1000)
+        expirationOn: response.expirationDateTimeTicks
+      };
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Copies a custom model from this resource to the specified target Form Recognizer resource.
+   * This method returns a long running operation poller that allows you to wait
+   * indefinitely until the operation is completed.
+   * Note that the onProgress callback will not be invoked if the operation completes in the first
+   * request, and attempting to cancel a completed copy will result in an error being thrown.
+   *
+   * @summary Copies custom model to target resource
+   * @param {string} modelId Id of the custom model in this resource to copied to the target Form Recognizer resource
+   * @param {CopyAuthorization} target Copy authorization produced by calling `targetTrainingClient.getCopyAuthorization()`
+   * @param {BeginTrainingOptions} [options] Options to copy model operation
+   */
+  public async beginCopyModel(
+    modelId: string,
+    target: CopyAuthorization,
+    options: BeginCopyModelOptions = {}
+  ): Promise<PollerLike<PollOperationState<CopyResult>, CopyResult>> {
+    const copyModelClient: CopyModelPollerClient = {
+      beginCopyModel: (...args) => this.beginCopyModelInternal(...args),
+      getCopyModelResult: (...args) => this.getCopyModelResult(...args)
+    };
+
+    const poller = new BeginCopyModelPoller({
+      client: copyModelClient,
+      modelId,
+      targetResourceId: target.targetResourceId,
+      targetResourceRegion: target.targetResourceRegion,
+      copyAuthorization: target,
+      onProgress: options.onProgress,
+      resumeFrom: options.resumeFrom,
+      ...options
+    });
+
+    await poller.poll();
+    return poller;
+  }
+
+  private async beginCopyModelInternal(
+    modelId: string,
+    copyAuthorization: CopyAuthorization,
+    options: BeginCopyModelOptions = {}
+  ): Promise<CopyCustomModelResponseModel> {
+    const { span, updatedOptions: finalOptions } = createSpan(
+      "FormTrainingClient-beginCopyModelInternal",
+      options
+    );
+
+    try {
+      return await this.client.copyCustomModel(
+        modelId, {
+          targetResourceId: copyAuthorization.targetResourceId,
+          targetResourceRegion: copyAuthorization.targetResourceRegion,
+          copyAuthorization: {
+            modelId: copyAuthorization.modelId,
+            accessToken: copyAuthorization.accessToken,
+            expirationDateTimeTicks: copyAuthorization.expirationOn
+          }
+        },
+        operationOptionsToRequestOptionsBase(finalOptions));
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  private async getCopyModelResult(
+    modelId: string,
+    resultId: string,
+    options: GetCopyModelResultOptions = {}
+  ): Promise<GetCustomModelCopyResultResponseModel> {
+    const { span, updatedOptions: finalOptions } = createSpan(
+      "FormTrainingClient-getCopyModelResult",
+      options
+    );
+
+    try {
+      return await this.client.getCustomModelCopyResult(
+        modelId,
+        resultId,
+        operationOptionsToRequestOptionsBase(finalOptions));
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 }
 

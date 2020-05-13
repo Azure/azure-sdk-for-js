@@ -954,3 +954,59 @@ export interface AccountProperties {
    */
   customModelLimit: number;
 }
+
+/**
+ * Request parameter that contains authorization claims for copy operation.
+ */
+export interface CopyAuthorization {
+  /**
+   * Target resource Id.
+   */
+  targetResourceId: string,
+  /**
+   * Target resource region.
+   */
+  targetResourceRegion: string,
+  /**
+   * Model identifier.
+   */
+  modelId: string;
+  /**
+   * Token claim used to authorize the request.
+   */
+  accessToken: string;
+  /**
+   * The time when the access token expires. The date is represented as the number of seconds from 1970-01-01T0:0:0Z UTC until the expiration time.
+   */
+  expirationOn: number;
+  /**
+   * The time when the access token expires.
+   */
+  // expiresOn: Date
+}
+
+/**
+ * Status and result of the queued copy operation.
+ */
+export interface CopyResult {
+  /**
+   * Operation status.
+   */
+  status: OperationStatus;
+  /**
+   * Date and time (UTC) when the copy operation was submitted.
+   */
+  createdOn: Date;
+  /**
+   * Date and time (UTC) when the status was last updated.
+   */
+  lastModified: Date;
+  /**
+   * Identifier of the target model.
+   */
+  modelId: string;
+  /**
+   * Errors returned during the copy operation.
+   */
+  errors?: FormRecognizerError[];
+}

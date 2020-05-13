@@ -271,8 +271,7 @@ export class FormRecognizerClient {
    * Recognizes content, including text and table structure from a form document.
    *
    * This method returns a long running operation poller that allows you to wait
-   * indefinitely until the copy is completed.
-   * You can also cancel a copy before it is completed by calling `cancelOperation` on the poller.
+   * indefinitely until the operation is completed.
    * Note that the onProgress callback will not be invoked if the operation completes in the first
    * request, and attempting to cancel a completed copy will result in an error being thrown.
    *
@@ -322,8 +321,7 @@ export class FormRecognizerClient {
    * Recognizes content, including text and table structure from a url to a form document.
    *
    * This method returns a long running operation poller that allows you to wait
-   * indefinitely until the copy is completed.
-   * You can also cancel a copy before it is completed by calling `cancelOperation` on the poller.
+   * indefinitely until the operation is completed.
    * Note that the onProgress callback will not be invoked if the operation completes in the first
    * request, and attempting to cancel a completed copy will result in an error being thrown.
    *
@@ -399,8 +397,7 @@ ng", and "image/tiff";
   /**
    * Recognizes forms from a given document using a custom form model from training.
    * This method returns a long running operation poller that allows you to wait
-   * indefinitely until the copy is completed.
-   * You can also cancel a copy before it is completed by calling `cancelOperation` on the poller.
+   * indefinitely until the operation is completed.
    * Note that the onProgress callback will not be invoked if the operation completes in the first
    * request, and attempting to cancel a completed copy will result in an error being thrown.
    *
@@ -458,8 +455,7 @@ ng", and "image/tiff";
   /**
    * Recognizes forms from a url to a form document using a custom form model from training.
    * This method returns a long running operation poller that allows you to wait
-   * indefinitely until the copy is completed.
-   * You can also cancel a copy before it is completed by calling `cancelOperation` on the poller.
+   * indefinitely until the operation is completed.
    * Note that the onProgress callback will not be invoked if the operation completes in the first
    * request, and attempting to cancel a completed copy will result in an error being thrown.
    *
@@ -552,8 +548,7 @@ ng", and "image/tiff";
    * from receipts such as merchant name, merchant phone number, transaction date, and more.
    *
    * This method returns a long running operation poller that allows you to wait
-   * indefinitely until the copy is completed.
-   * You can also cancel a copy before it is completed by calling `cancelOperation` on the poller.
+   * indefinitely until the operation is completed.
    * Note that the onProgress callback will not be invoked if the operation completes in the first
    * request, and attempting to cancel a completed copy will result in an error being thrown.
    *
@@ -610,8 +605,7 @@ ng", and "image/tiff";
    * from receipts such as merchant name, merchant phone number, transaction date, and more.
    *
    * This method returns a long running operation poller that allows you to wait
-   * indefinitely until the copy is completed.
-   * You can also cancel a copy before it is completed by calling `cancelOperation` on the poller.
+   * indefinitely until the operation is completed.
    * Note that the onProgress callback will not be invoked if the operation completes in the first
    * request, and attempting to cancel a completed copy will result in an error being thrown.
    *
