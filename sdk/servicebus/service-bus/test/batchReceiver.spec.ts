@@ -7,16 +7,17 @@ import chaiAsPromised from "chai-as-promised";
 import { delay, ServiceBusMessage } from "../src";
 import { getAlreadyReceivingErrorMsg } from "../src/util/errors";
 import { TestClientType, TestMessage } from "./utils/testUtils";
-import { Receiver } from "../src/receivers/receiver";
+import { Receiver, ReceiverImpl } from "../src/receivers/receiver";
 import { Sender } from "../src/sender";
 import {
   createServiceBusClientForTests,
   ServiceBusClientForTests,
   testPeekMsgsLength
 } from "./utils/testutils2";
-import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
+import { ReceivedMessageWithLock, ReceivedMessage } from "../src/serviceBusMessage";
 import { AbortController } from "@azure/abort-controller";
 import { isNode } from "@azure/core-amqp";
+import { ReceiverEvents } from "rhea-promise";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -1014,14 +1015,21 @@ describe("batchReceiver", () => {
   });
 });
 
-describe("Batching - disconnects", function(): void {
+describe.only("Batching - disconnects", function(): void {
   let serviceBusClient: ServiceBusClientForTests;
   let senderClient: Sender;
-  let receiverClient: Receiver<ReceivedMessageWithLock>;
+  let receiverClient: Receiver<ReceivedMessageWithLock> | Receiver<ReceivedMessage>;
 
-  async function beforeEachTest(entityType: TestClientType): Promise<void> {
+  async function beforeEachTest(
+    entityType: TestClientType,
+    receiveMode: "peekLock" | "receiveAndDelete" = "peekLock"
+  ): Promise<void> {
     const entityNames = await serviceBusClient.test.createTestEntities(entityType);
-    receiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+    if (receiveMode == "receiveAndDelete") {
+      receiverClient = await serviceBusClient.test.getReceiveAndDeleteReceiver(entityNames);
+    } else {
+      receiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+    }
 
     senderClient = serviceBusClient.test.addToCleanup(
       await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
@@ -1058,7 +1066,9 @@ describe("Batching - disconnects", function(): void {
 
     let settledMessageCount = 0;
 
-    const messages1 = await receiverClient.receiveBatch(1, { maxWaitTimeInMs: 5000 });
+    const messages1 = await (receiverClient as Receiver<ReceivedMessageWithLock>).receiveBatch(1, {
+      maxWaitTimeInMs: 5000
+    });
     for (const message of messages1) {
       await message.complete();
       settledMessageCount++;
@@ -1084,12 +1094,230 @@ describe("Batching - disconnects", function(): void {
     await senderClient.send(TestMessage.getSample());
 
     // wait for the 2nd message to be received.
-    const messages2 = await receiverClient.receiveBatch(1, { maxWaitTimeInMs: 5000 });
+    const messages2 = await (receiverClient as Receiver<ReceivedMessageWithLock>).receiveBatch(1, {
+      maxWaitTimeInMs: 5000
+    });
     for (const message of messages2) {
       await message.complete();
       settledMessageCount++;
     }
     settledMessageCount.should.equal(2, "Unexpected number of settled messages.");
     refreshConnectionCalled.should.be.greaterThan(0, "refreshConnection was not called.");
+  });
+
+  it("returns messages if drain is in progress (receiveAndDelete)", async function(): Promise<
+    void
+  > {
+    // Create the sender and receiver.
+    await beforeEachTest(TestClientType.UnpartitionedQueue, "receiveAndDelete");
+
+    // The first time `receiveMessages` is called the receiver link is created.
+    // The `receiver_drained` handler is only added after the link is created,
+    // which is a non-blocking task.
+    await receiverClient.receiveBatch(1, { maxWaitTimeInMs: 1000 });
+    const receiverContext = (receiverClient as ReceiverImpl<ReceivedMessage>)["_context"];
+    if (!receiverContext.batchingReceiver!.isOpen()) {
+      throw new Error(`Unable to initialize receiver link.`);
+    }
+
+    // Send a message so we have something to receive.
+    await senderClient.send(TestMessage.getSample());
+
+    // Since the receiver has already been initialized,
+    // the `receiver_drained` handler is attached as soon
+    // as receiveMessages is invoked.
+    // We remove the `receiver_drained` timeout after `receiveMessages`
+    // does it's initial setup by wrapping it in a `setTimeout`.
+    // This triggers the `receiver_drained` handler removal on the next
+    // tick of the event loop; after the handler has been attached.
+    setTimeout(() => {
+      // remove `receiver_drained` event
+      receiverContext.batchingReceiver!["_receiver"]!.removeAllListeners(
+        ReceiverEvents.receiverDrained
+      );
+    }, 0);
+
+    // We want to simulate a disconnect once the batching receiver is draining.
+    // We can detect when the receiver enters a draining state when `addCredit` is
+    // called while `drain` is set to true.
+    let didRequestDrain = false;
+    const addCredit = receiverContext.batchingReceiver!["_receiver"]!.addCredit;
+    receiverContext.batchingReceiver!["_receiver"]!.addCredit = function(credits) {
+      addCredit.call(this, credits);
+      if (receiverContext.batchingReceiver!["_receiver"]!.drain) {
+        didRequestDrain = true;
+        // Simulate a disconnect being called with a non-retryable error.
+        receiverContext.namespace.connection["_connection"].idle();
+      }
+    };
+
+    // Purposefully request more messages than what's available
+    // so that the receiver will have to drain.
+    const messages1 = await receiverClient.receiveBatch(10, { maxWaitTimeInMs: 1000 });
+
+    didRequestDrain.should.equal(true, "Drain was not requested.");
+    messages1.length.should.equal(1, "Unexpected number of messages received.");
+
+    // Make sure that a 2nd receiveMessages call still works
+    // by sending and receiving a single message again.
+    await senderClient.send(TestMessage.getSample());
+
+    // wait for the 2nd message to be received.
+    const messages2 = await receiverClient.receiveBatch(1, { maxWaitTimeInMs: 5000 });
+
+    messages2.length.should.equal(1, "Unexpected number of messages received.");
+  });
+
+  it("throws an error if drain is in progress (peekLock)", async function(): Promise<void> {
+    // Create the sender and receiver.
+    await beforeEachTest(TestClientType.UnpartitionedQueue);
+
+    // The first time `receiveMessages` is called the receiver link is created.
+    // The `receiver_drained` handler is only added after the link is created,
+    // which is a non-blocking task.
+    await receiverClient.receiveBatch(1, { maxWaitTimeInMs: 1000 });
+    const receiverContext = (receiverClient as ReceiverImpl<ReceivedMessageWithLock>)["_context"];
+
+    if (!receiverContext.batchingReceiver!.isOpen()) {
+      throw new Error(`Unable to initialize receiver link.`);
+    }
+
+    // Send a message so we have something to receive.
+    await senderClient.send(TestMessage.getSample());
+
+    // Since the receiver has already been initialized,
+    // the `receiver_drained` handler is attached as soon
+    // as receiveMessages is invoked.
+    // We remove the `receiver_drained` timeout after `receiveMessages`
+    // does it's initial setup by wrapping it in a `setTimeout`.
+    // This triggers the `receiver_drained` handler removal on the next
+    // tick of the event loop; after the handler has been attached.
+    setTimeout(() => {
+      // remove `receiver_drained` event
+      receiverContext.batchingReceiver!["_receiver"]!.removeAllListeners(
+        ReceiverEvents.receiverDrained
+      );
+    }, 0);
+
+    // We want to simulate a disconnect once the batching receiver is draining.
+    // We can detect when the receiver enters a draining state when `addCredit` is
+    // called while `drain` is set to true.
+    let didRequestDrain = false;
+    const addCredit = receiverContext.batchingReceiver!["_receiver"]!.addCredit;
+    receiverContext.batchingReceiver!["_receiver"]!.addCredit = function(credits) {
+      didRequestDrain = true;
+      addCredit.call(this, credits);
+      if (receiverContext.batchingReceiver!["_receiver"]!.drain) {
+        // Simulate a disconnect being called with a non-retryable error.
+        receiverContext.namespace.connection["_connection"].idle();
+      }
+    };
+
+    // Purposefully request more messages than what's available
+    // so that the receiver will have to drain.
+    const testFailureMessage = "Test failure";
+    try {
+      await receiverClient.receiveBatch(10, { maxWaitTimeInMs: 1000 });
+      throw new Error(testFailureMessage);
+    } catch (err) {
+      err.message.should.not.equal(testFailureMessage);
+    }
+
+    didRequestDrain.should.equal(true, "Drain was not requested.");
+
+    // Make sure that a 2nd receiveMessages call still works
+    // by sending and receiving a single message again.
+    await senderClient.send(TestMessage.getSample());
+
+    // wait for the 2nd message to be received.
+    const messages = await receiverClient.receiveBatch(1, { maxWaitTimeInMs: 5000 });
+
+    messages.length.should.equal(1, "Unexpected number of messages received.");
+  });
+
+  it("returns messages if receive in progress (receiveAndDelete)", async function(): Promise<void> {
+    // Create the sender and receiver.
+    await beforeEachTest(TestClientType.UnpartitionedQueue, "receiveAndDelete");
+
+    // The first time `receiveMessages` is called the receiver link is created.
+    // The `receiver_drained` handler is only added after the link is created,
+    // which is a non-blocking task.
+    await receiverClient.receiveBatch(1, { maxWaitTimeInMs: 1000 });
+    const receiverContext = (receiverClient as ReceiverImpl<ReceivedMessage>)["_context"];
+
+    if (!receiverContext.batchingReceiver!.isOpen()) {
+      throw new Error(`Unable to initialize receiver link.`);
+    }
+
+    // Send a message so we have something to receive.
+    await senderClient.send(TestMessage.getSample());
+
+    // Simulate a disconnect after a message has been received.
+    receiverContext.batchingReceiver!["_receiver"]!.once("message", function() {
+      setTimeout(() => {
+        // Simulate a disconnect being called with a non-retryable error.
+        receiverContext.namespace.connection["_connection"].idle();
+      }, 0);
+    });
+
+    // Purposefully request more messages than what's available
+    // so that the receiver will have to drain.
+    const messages1 = await receiverClient.receiveBatch(10, { maxWaitTimeInMs: 10000 });
+
+    messages1.length.should.equal(1, "Unexpected number of messages received.");
+
+    // Make sure that a 2nd receiveMessages call still works
+    // by sending and receiving a single message again.
+    await senderClient.send(TestMessage.getSample());
+
+    // wait for the 2nd message to be received.
+    const messages2 = await receiverClient.receiveBatch(1, { maxWaitTimeInMs: 5000 });
+
+    messages2.length.should.equal(1, "Unexpected number of messages received.");
+  });
+
+  it("throws an error if receive is in progress (peekLock)", async function(): Promise<void> {
+    // Create the sender and receiver.
+    await beforeEachTest(TestClientType.UnpartitionedQueue);
+
+    // The first time `receiveMessages` is called the receiver link is created.
+    // The `receiver_drained` handler is only added after the link is created,
+    // which is a non-blocking task.
+    await receiverClient.receiveBatch(1, { maxWaitTimeInMs: 1000 });
+    const receiverContext = (receiverClient as ReceiverImpl<ReceivedMessageWithLock>)["_context"];
+
+    if (!receiverContext.batchingReceiver!.isOpen()) {
+      throw new Error(`Unable to initialize receiver link.`);
+    }
+
+    // Send a message so we have something to receive.
+    await senderClient.send(TestMessage.getSample());
+
+    // Simulate a disconnect after a message has been received.
+    receiverContext.batchingReceiver!["_receiver"]!.once("message", function() {
+      setTimeout(() => {
+        // Simulate a disconnect being called with a non-retryable error.
+        receiverContext.namespace.connection["_connection"].idle();
+      }, 0);
+    });
+
+    // Purposefully request more messages than what's available
+    // so that the receiver will have to drain.
+    const testFailureMessage = "Test failure";
+    try {
+      await receiverClient.receiveBatch(10, { maxWaitTimeInMs: 10000 });
+      throw new Error(testFailureMessage);
+    } catch (err) {
+      err.message.should.not.equal(testFailureMessage);
+    }
+
+    // Make sure that a 2nd receiveMessages call still works
+    // by sending and receiving a single message again.
+    await senderClient.send(TestMessage.getSample());
+
+    // wait for the 2nd message to be received.
+    const messages = await receiverClient.receiveBatch(1, { maxWaitTimeInMs: 5000 });
+
+    messages.length.should.equal(1, "Unexpected number of messages received.");
   });
 });
