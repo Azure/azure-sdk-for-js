@@ -144,6 +144,28 @@ export const MetricSpecification: msRest.CompositeMapper = {
   }
 };
 
+export const LogSpecification: msRest.CompositeMapper = {
+  serializedName: "LogSpecification",
+  type: {
+    name: "Composite",
+    className: "LogSpecification",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      displayName: {
+        serializedName: "displayName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ServiceSpecification: msRest.CompositeMapper = {
   serializedName: "ServiceSpecification",
   type: {
@@ -158,6 +180,18 @@ export const ServiceSpecification: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "MetricSpecification"
+            }
+          }
+        }
+      },
+      logSpecifications: {
+        serializedName: "logSpecifications",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "LogSpecification"
             }
           }
         }
@@ -213,6 +247,65 @@ export const Operation: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "OperationProperties"
+        }
+      }
+    }
+  }
+};
+
+export const ErrorResponseBody: msRest.CompositeMapper = {
+  serializedName: "ErrorResponseBody",
+  type: {
+    name: "Composite",
+    className: "ErrorResponseBody",
+    modelProperties: {
+      code: {
+        required: true,
+        serializedName: "code",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        required: true,
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        type: {
+          name: "String"
+        }
+      },
+      details: {
+        serializedName: "details",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorResponseBody"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ErrorResponse: msRest.CompositeMapper = {
+  serializedName: "ErrorResponse",
+  type: {
+    name: "Composite",
+    className: "ErrorResponse",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorResponseBody"
         }
       }
     }
@@ -463,9 +556,7 @@ export const SignalRFeature: msRest.CompositeMapper = {
     modelProperties: {
       flag: {
         required: true,
-        isConstant: true,
         serializedName: "flag",
-        defaultValue: 'ServiceMode',
         type: {
           name: "String"
         }

@@ -101,6 +101,20 @@ export interface MetricSpecification {
 }
 
 /**
+ * Specifications of the Logs for Azure Monitoring.
+ */
+export interface LogSpecification {
+  /**
+   * Name of the log.
+   */
+  name?: string;
+  /**
+   * Localized friendly display name of the log.
+   */
+  displayName?: string;
+}
+
+/**
  * An object that describes a specification.
  */
 export interface ServiceSpecification {
@@ -108,6 +122,10 @@ export interface ServiceSpecification {
    * Specifications of the Metrics for Azure Monitoring.
    */
   metricSpecifications?: MetricSpecification[];
+  /**
+   * Specifications of the Logs for Azure Monitoring.
+   */
+  logSpecifications?: LogSpecification[];
 }
 
 /**
@@ -141,6 +159,39 @@ export interface Operation {
    * Extra properties for the operation.
    */
   properties?: OperationProperties;
+}
+
+/**
+ * Describes a particular API error with an error code and a message.
+ */
+export interface ErrorResponseBody {
+  /**
+   * An error code that describes the error condition more precisely than an HTTP status code.
+   * Can be used to programmatically handle specific error cases.
+   */
+  code: string;
+  /**
+   * A message that describes the error in detail and provides debugging information.
+   */
+  message: string;
+  /**
+   * The target of the particular error (for example, the name of the property in error).
+   */
+  target?: string;
+  /**
+   * Contains nested errors that are related to this error.
+   */
+  details?: ErrorResponseBody[];
+}
+
+/**
+ * Contains information about an API error.
+ */
+export interface ErrorResponse {
+  /**
+   * Describes a particular API error with an error code and a message.
+   */
+  error?: ErrorResponseBody;
 }
 
 /**
@@ -314,8 +365,18 @@ export interface SignalRResource extends TrackedResource {
  */
 export interface SignalRFeature {
   /**
+   * FeatureFlags is the supported features of Azure SignalR service.
+   * - ServiceMode: Flag for backend server for SignalR service. Values allowed: "Default": have
+   * your own backend server; "Serverless": your application doesn't have a backend server;
+   * "Classic": for backward compatibility. Support both Default and Serverless mode but not
+   * recommended; "PredefinedOnly": for future use.
+   * - EnableConnectivityLogs: "true"/"false", to enable/disable the connectivity log category
+   * respectively. Possible values include: 'ServiceMode', 'EnableConnectivityLogs'
+   */
+  flag: FeatureFlags;
+  /**
    * Value of the feature flag. See Azure SignalR service document
-   * https://docs.microsoft.com/en-us/azure/azure-signalr/ for allowed values.
+   * https://docs.microsoft.com/azure/azure-signalr/ for allowed values.
    */
   value: string;
   /**
@@ -599,6 +660,14 @@ export type SignalRSkuTier = 'Free' | 'Basic' | 'Standard' | 'Premium';
  * @enum {string}
  */
 export type ProvisioningState = 'Unknown' | 'Succeeded' | 'Failed' | 'Canceled' | 'Running' | 'Creating' | 'Updating' | 'Deleting' | 'Moving';
+
+/**
+ * Defines values for FeatureFlags.
+ * Possible values include: 'ServiceMode', 'EnableConnectivityLogs'
+ * @readonly
+ * @enum {string}
+ */
+export type FeatureFlags = 'ServiceMode' | 'EnableConnectivityLogs';
 
 /**
  * Defines values for KeyType.

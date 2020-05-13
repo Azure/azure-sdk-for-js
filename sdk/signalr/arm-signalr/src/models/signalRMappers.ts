@@ -8,7 +8,8 @@
 
 export {
   BaseResource,
-  CloudError,
+  ErrorResponse,
+  ErrorResponseBody,
   NameAvailability,
   NameAvailabilityParameters,
   RegenerateKeyParameters,
