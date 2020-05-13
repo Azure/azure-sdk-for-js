@@ -581,7 +581,7 @@ export interface USReceiptItem {
 
 // @public (undocumented)
 export type USReceiptType = {
-    type: "unrecognized" | "itemized" | "creditCard" | "gas" | "parking";
+    type: "Unrecognized" | "Itemized" | "CreditCard" | "Gas" | "Parking";
     confidence?: number;
 };
 

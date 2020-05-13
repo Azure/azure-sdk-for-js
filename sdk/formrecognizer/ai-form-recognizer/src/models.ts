@@ -505,7 +505,7 @@ export interface USReceiptItem {
 }
 
 export type USReceiptType = {
-  type: "unrecognized" | "itemized" | "creditCard" | "gas" | "parking";
+  type: "Unrecognized" | "Itemized" | "CreditCard" | "Gas" | "Parking";
   /**
    * Confidence value.
    */

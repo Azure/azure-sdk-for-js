@@ -401,16 +401,21 @@ function toRecognizedReceipt(result: DocumentResultModel, pages: FormPage[]): Re
   };
 }
 
-function toReceiptType(type: FormField): USReceiptType {
-  if (type.valueType === "string") {
-    if (type.value === "Itemized") {
-      return { confidence: type.confidence, type: "itemized" };
-    } else if (type.value === "CreditCard") {
-      return  { confidence: type.confidence, type: "creditCard" };
+function toReceiptType(field: FormField): USReceiptType {
+  if (field.valueType === "string") {
+    const stringValue = field.value as string;
+    switch (stringValue) {
+      case "Itemized":
+      case "CreditCard":
+      case "Gas":
+      case "Parking":
+        return  { confidence: field.confidence, type: stringValue };
+      default:
+        return  { confidence: field.confidence, type: "Unrecognized" };
     }
   }
 
-  return { confidence: type.confidence, type: "unrecognized"};
+  throw new Error(`Expect receipt type field to have 'string' type but got ${field.valueType}`);
 }
 
 function toUSReceiptItems(items: ReceiptItemArrayField): USReceiptItem[] {
