@@ -1,0 +1,20 @@
+steps:
+  - pwsh: |
+      $keytarsymlinkpath = "common/temp/node_modules/.pnpm/node_modules/keytar"
+
+      # Map from the symlink path to the target path (npm has issues installing into symlink dirs)
+      # Example: common\temp\node_modules\.pnpm\registry.npmjs.org\keytar\5.4.0\node_modules\keytar
+      $keytartargetpath = (get-item $keytarsymlinkpath).target
+
+      # Need to run "npm install" at path containing "node_modules" folder
+      # Example: common\temp\node_modules\.pnpm\registry.npmjs.org\keytar\5.4.0
+      $keytarinstallpath = join-path $keytartargetpath "../.."
+
+      # The version is the leaf node of the path
+      $keytarversion = split-path -leaf $keytarinstallpath
+
+      set-location $keytarinstallpath
+
+      # Install matching version of package
+      npm install --no-package-lock keytar@$keytarversion
+    displayName: Reinstall dependencies with native modules
