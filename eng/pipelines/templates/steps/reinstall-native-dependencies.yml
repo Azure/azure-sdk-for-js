@@ -11,10 +11,12 @@ steps:
       $keytarinstallpath = join-path $keytartargetpath "../.."
 
       # The version is the leaf node of the path
+      # Example: 5.4.0
       $keytarversion = split-path -leaf $keytarinstallpath
 
       set-location $keytarinstallpath
 
       # Install matching version of package
       npm install --no-package-lock keytar@$keytarversion
+
     displayName: Reinstall native dependencies
