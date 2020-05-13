@@ -29,7 +29,8 @@ async function main() {
   const proxyAgent = new HttpsProxyAgent(proxyInfo);
 
   const sbClient = ServiceBusClient.createFromConnectionString(connectionString, {
-    // No need to pass the `WebSocket` from "ws" package if you're in the browser.
+    // No need to pass the `WebSocket` from "ws" package if you're in the browser
+    // in which case the `window.WebSocket` is used by the library.
     webSocket: WebSocket,
     webSocketConstructorOptions: {
       agent: proxyAgent
