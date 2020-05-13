@@ -37,6 +37,9 @@
 
 /sdk/search/ @xirzec
 
+# Smoke Tests
+/common/smoke-test/ @ramya-rao-a @chradek @daviwil @sadasant @HarshaNalluru @southpolesteve
+
 # API review files
 /sdk/**/review/*api.md @bterlson
 
