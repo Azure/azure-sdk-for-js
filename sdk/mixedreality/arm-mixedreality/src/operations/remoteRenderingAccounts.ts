@@ -10,16 +10,16 @@
 
 import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
-import * as Mappers from "../models/spatialAnchorsAccountsMappers";
+import * as Mappers from "../models/remoteRenderingAccountsMappers";
 import * as Parameters from "../models/parameters";
 import { MixedRealityClientContext } from "../mixedRealityClientContext";
 
-/** Class representing a SpatialAnchorsAccounts. */
-export class SpatialAnchorsAccounts {
+/** Class representing a RemoteRenderingAccounts. */
+export class RemoteRenderingAccounts {
   private readonly client: MixedRealityClientContext;
 
   /**
-   * Create a SpatialAnchorsAccounts.
+   * Create a RemoteRenderingAccounts.
    * @param {MixedRealityClientContext} client Reference to the service client.
    */
   constructor(client: MixedRealityClientContext) {
@@ -27,59 +27,59 @@ export class SpatialAnchorsAccounts {
   }
 
   /**
-   * List Spatial Anchors Accounts by Subscription
+   * List Remote Rendering Accounts by Subscription
    * @param [options] The optional parameters
-   * @returns Promise<Models.SpatialAnchorsAccountsListBySubscriptionResponse>
+   * @returns Promise<Models.RemoteRenderingAccountsListBySubscriptionResponse>
    */
-  listBySubscription(options?: msRest.RequestOptionsBase): Promise<Models.SpatialAnchorsAccountsListBySubscriptionResponse>;
+  listBySubscription(options?: msRest.RequestOptionsBase): Promise<Models.RemoteRenderingAccountsListBySubscriptionResponse>;
   /**
    * @param callback The callback
    */
-  listBySubscription(callback: msRest.ServiceCallback<Models.SpatialAnchorsAccountPage>): void;
+  listBySubscription(callback: msRest.ServiceCallback<Models.RemoteRenderingAccountPage>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SpatialAnchorsAccountPage>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SpatialAnchorsAccountPage>, callback?: msRest.ServiceCallback<Models.SpatialAnchorsAccountPage>): Promise<Models.SpatialAnchorsAccountsListBySubscriptionResponse> {
+  listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RemoteRenderingAccountPage>): void;
+  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RemoteRenderingAccountPage>, callback?: msRest.ServiceCallback<Models.RemoteRenderingAccountPage>): Promise<Models.RemoteRenderingAccountsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listBySubscriptionOperationSpec,
-      callback) as Promise<Models.SpatialAnchorsAccountsListBySubscriptionResponse>;
+      callback) as Promise<Models.RemoteRenderingAccountsListBySubscriptionResponse>;
   }
 
   /**
    * List Resources by Resource Group
    * @param resourceGroupName Name of an Azure resource group.
    * @param [options] The optional parameters
-   * @returns Promise<Models.SpatialAnchorsAccountsListByResourceGroupResponse>
+   * @returns Promise<Models.RemoteRenderingAccountsListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.SpatialAnchorsAccountsListByResourceGroupResponse>;
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.RemoteRenderingAccountsListByResourceGroupResponse>;
   /**
    * @param resourceGroupName Name of an Azure resource group.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.SpatialAnchorsAccountPage>): void;
+  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.RemoteRenderingAccountPage>): void;
   /**
    * @param resourceGroupName Name of an Azure resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SpatialAnchorsAccountPage>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SpatialAnchorsAccountPage>, callback?: msRest.ServiceCallback<Models.SpatialAnchorsAccountPage>): Promise<Models.SpatialAnchorsAccountsListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RemoteRenderingAccountPage>): void;
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RemoteRenderingAccountPage>, callback?: msRest.ServiceCallback<Models.RemoteRenderingAccountPage>): Promise<Models.RemoteRenderingAccountsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.SpatialAnchorsAccountsListByResourceGroupResponse>;
+      callback) as Promise<Models.RemoteRenderingAccountsListByResourceGroupResponse>;
   }
 
   /**
-   * Delete a Spatial Anchors Account.
+   * Delete a Remote Rendering Account.
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
    * @param [options] The optional parameters
@@ -111,27 +111,27 @@ export class SpatialAnchorsAccounts {
   }
 
   /**
-   * Retrieve a Spatial Anchors Account.
+   * Retrieve a Remote Rendering Account.
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
    * @param [options] The optional parameters
-   * @returns Promise<Models.SpatialAnchorsAccountsGetResponse>
+   * @returns Promise<Models.RemoteRenderingAccountsGetResponse>
    */
-  get(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.SpatialAnchorsAccountsGetResponse>;
+  get(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.RemoteRenderingAccountsGetResponse>;
   /**
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.SpatialAnchorsAccount>): void;
+  get(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.RemoteRenderingAccount>): void;
   /**
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SpatialAnchorsAccount>): void;
-  get(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SpatialAnchorsAccount>, callback?: msRest.ServiceCallback<Models.SpatialAnchorsAccount>): Promise<Models.SpatialAnchorsAccountsGetResponse> {
+  get(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RemoteRenderingAccount>): void;
+  get(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RemoteRenderingAccount>, callback?: msRest.ServiceCallback<Models.RemoteRenderingAccount>): Promise<Models.RemoteRenderingAccountsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -139,89 +139,89 @@ export class SpatialAnchorsAccounts {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.SpatialAnchorsAccountsGetResponse>;
+      callback) as Promise<Models.RemoteRenderingAccountsGetResponse>;
   }
 
   /**
-   * Updating a Spatial Anchors Account
+   * Updating a Remote Rendering Account
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
-   * @param spatialAnchorsAccount Spatial Anchors Account parameter.
+   * @param remoteRenderingAccount Remote Rendering Account parameter.
    * @param [options] The optional parameters
-   * @returns Promise<Models.SpatialAnchorsAccountsUpdateResponse>
+   * @returns Promise<Models.RemoteRenderingAccountsUpdateResponse>
    */
-  update(resourceGroupName: string, accountName: string, spatialAnchorsAccount: Models.SpatialAnchorsAccount, options?: msRest.RequestOptionsBase): Promise<Models.SpatialAnchorsAccountsUpdateResponse>;
+  update(resourceGroupName: string, accountName: string, remoteRenderingAccount: Models.RemoteRenderingAccount, options?: msRest.RequestOptionsBase): Promise<Models.RemoteRenderingAccountsUpdateResponse>;
   /**
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
-   * @param spatialAnchorsAccount Spatial Anchors Account parameter.
+   * @param remoteRenderingAccount Remote Rendering Account parameter.
    * @param callback The callback
    */
-  update(resourceGroupName: string, accountName: string, spatialAnchorsAccount: Models.SpatialAnchorsAccount, callback: msRest.ServiceCallback<Models.SpatialAnchorsAccount>): void;
+  update(resourceGroupName: string, accountName: string, remoteRenderingAccount: Models.RemoteRenderingAccount, callback: msRest.ServiceCallback<Models.RemoteRenderingAccount>): void;
   /**
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
-   * @param spatialAnchorsAccount Spatial Anchors Account parameter.
+   * @param remoteRenderingAccount Remote Rendering Account parameter.
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, accountName: string, spatialAnchorsAccount: Models.SpatialAnchorsAccount, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SpatialAnchorsAccount>): void;
-  update(resourceGroupName: string, accountName: string, spatialAnchorsAccount: Models.SpatialAnchorsAccount, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SpatialAnchorsAccount>, callback?: msRest.ServiceCallback<Models.SpatialAnchorsAccount>): Promise<Models.SpatialAnchorsAccountsUpdateResponse> {
+  update(resourceGroupName: string, accountName: string, remoteRenderingAccount: Models.RemoteRenderingAccount, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RemoteRenderingAccount>): void;
+  update(resourceGroupName: string, accountName: string, remoteRenderingAccount: Models.RemoteRenderingAccount, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RemoteRenderingAccount>, callback?: msRest.ServiceCallback<Models.RemoteRenderingAccount>): Promise<Models.RemoteRenderingAccountsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         accountName,
-        spatialAnchorsAccount,
+        remoteRenderingAccount,
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.SpatialAnchorsAccountsUpdateResponse>;
+      callback) as Promise<Models.RemoteRenderingAccountsUpdateResponse>;
   }
 
   /**
-   * Creating or Updating a Spatial Anchors Account.
+   * Creating or Updating a Remote Rendering Account.
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
-   * @param spatialAnchorsAccount Spatial Anchors Account parameter.
+   * @param remoteRenderingAccount Remote Rendering Account parameter.
    * @param [options] The optional parameters
-   * @returns Promise<Models.SpatialAnchorsAccountsCreateResponse>
+   * @returns Promise<Models.RemoteRenderingAccountsCreateResponse>
    */
-  create(resourceGroupName: string, accountName: string, spatialAnchorsAccount: Models.SpatialAnchorsAccount, options?: msRest.RequestOptionsBase): Promise<Models.SpatialAnchorsAccountsCreateResponse>;
+  create(resourceGroupName: string, accountName: string, remoteRenderingAccount: Models.RemoteRenderingAccount, options?: msRest.RequestOptionsBase): Promise<Models.RemoteRenderingAccountsCreateResponse>;
   /**
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
-   * @param spatialAnchorsAccount Spatial Anchors Account parameter.
+   * @param remoteRenderingAccount Remote Rendering Account parameter.
    * @param callback The callback
    */
-  create(resourceGroupName: string, accountName: string, spatialAnchorsAccount: Models.SpatialAnchorsAccount, callback: msRest.ServiceCallback<Models.SpatialAnchorsAccount>): void;
+  create(resourceGroupName: string, accountName: string, remoteRenderingAccount: Models.RemoteRenderingAccount, callback: msRest.ServiceCallback<Models.RemoteRenderingAccount>): void;
   /**
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
-   * @param spatialAnchorsAccount Spatial Anchors Account parameter.
+   * @param remoteRenderingAccount Remote Rendering Account parameter.
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(resourceGroupName: string, accountName: string, spatialAnchorsAccount: Models.SpatialAnchorsAccount, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SpatialAnchorsAccount>): void;
-  create(resourceGroupName: string, accountName: string, spatialAnchorsAccount: Models.SpatialAnchorsAccount, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SpatialAnchorsAccount>, callback?: msRest.ServiceCallback<Models.SpatialAnchorsAccount>): Promise<Models.SpatialAnchorsAccountsCreateResponse> {
+  create(resourceGroupName: string, accountName: string, remoteRenderingAccount: Models.RemoteRenderingAccount, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RemoteRenderingAccount>): void;
+  create(resourceGroupName: string, accountName: string, remoteRenderingAccount: Models.RemoteRenderingAccount, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RemoteRenderingAccount>, callback?: msRest.ServiceCallback<Models.RemoteRenderingAccount>): Promise<Models.RemoteRenderingAccountsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         accountName,
-        spatialAnchorsAccount,
+        remoteRenderingAccount,
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.SpatialAnchorsAccountsCreateResponse>;
+      callback) as Promise<Models.RemoteRenderingAccountsCreateResponse>;
   }
 
   /**
-   * List Both of the 2 Keys of a Spatial Anchors Account
+   * List Both of the 2 Keys of a Remote Rendering Account
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
    * @param [options] The optional parameters
-   * @returns Promise<Models.SpatialAnchorsAccountsListKeysResponse>
+   * @returns Promise<Models.RemoteRenderingAccountsListKeysResponse>
    */
-  listKeys(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.SpatialAnchorsAccountsListKeysResponse>;
+  listKeys(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.RemoteRenderingAccountsListKeysResponse>;
   /**
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
@@ -235,7 +235,7 @@ export class SpatialAnchorsAccounts {
    * @param callback The callback
    */
   listKeys(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccountKeys>): void;
-  listKeys(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccountKeys>, callback?: msRest.ServiceCallback<Models.AccountKeys>): Promise<Models.SpatialAnchorsAccountsListKeysResponse> {
+  listKeys(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccountKeys>, callback?: msRest.ServiceCallback<Models.AccountKeys>): Promise<Models.RemoteRenderingAccountsListKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -243,18 +243,18 @@ export class SpatialAnchorsAccounts {
         options
       },
       listKeysOperationSpec,
-      callback) as Promise<Models.SpatialAnchorsAccountsListKeysResponse>;
+      callback) as Promise<Models.RemoteRenderingAccountsListKeysResponse>;
   }
 
   /**
-   * Regenerate specified Key of a Spatial Anchors Account
+   * Regenerate specified Key of a Remote Rendering Account
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
    * @param regenerate Required information for key regeneration.
    * @param [options] The optional parameters
-   * @returns Promise<Models.SpatialAnchorsAccountsRegenerateKeysResponse>
+   * @returns Promise<Models.RemoteRenderingAccountsRegenerateKeysResponse>
    */
-  regenerateKeys(resourceGroupName: string, accountName: string, regenerate: Models.AccountKeyRegenerateRequest, options?: msRest.RequestOptionsBase): Promise<Models.SpatialAnchorsAccountsRegenerateKeysResponse>;
+  regenerateKeys(resourceGroupName: string, accountName: string, regenerate: Models.AccountKeyRegenerateRequest, options?: msRest.RequestOptionsBase): Promise<Models.RemoteRenderingAccountsRegenerateKeysResponse>;
   /**
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
@@ -270,7 +270,7 @@ export class SpatialAnchorsAccounts {
    * @param callback The callback
    */
   regenerateKeys(resourceGroupName: string, accountName: string, regenerate: Models.AccountKeyRegenerateRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccountKeys>): void;
-  regenerateKeys(resourceGroupName: string, accountName: string, regenerate: Models.AccountKeyRegenerateRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccountKeys>, callback?: msRest.ServiceCallback<Models.AccountKeys>): Promise<Models.SpatialAnchorsAccountsRegenerateKeysResponse> {
+  regenerateKeys(resourceGroupName: string, accountName: string, regenerate: Models.AccountKeyRegenerateRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccountKeys>, callback?: msRest.ServiceCallback<Models.AccountKeys>): Promise<Models.RemoteRenderingAccountsRegenerateKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -279,63 +279,63 @@ export class SpatialAnchorsAccounts {
         options
       },
       regenerateKeysOperationSpec,
-      callback) as Promise<Models.SpatialAnchorsAccountsRegenerateKeysResponse>;
+      callback) as Promise<Models.RemoteRenderingAccountsRegenerateKeysResponse>;
   }
 
   /**
-   * List Spatial Anchors Accounts by Subscription
+   * List Remote Rendering Accounts by Subscription
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
-   * @returns Promise<Models.SpatialAnchorsAccountsListBySubscriptionNextResponse>
+   * @returns Promise<Models.RemoteRenderingAccountsListBySubscriptionNextResponse>
    */
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.SpatialAnchorsAccountsListBySubscriptionNextResponse>;
+  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.RemoteRenderingAccountsListBySubscriptionNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SpatialAnchorsAccountPage>): void;
+  listBySubscriptionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.RemoteRenderingAccountPage>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SpatialAnchorsAccountPage>): void;
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SpatialAnchorsAccountPage>, callback?: msRest.ServiceCallback<Models.SpatialAnchorsAccountPage>): Promise<Models.SpatialAnchorsAccountsListBySubscriptionNextResponse> {
+  listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RemoteRenderingAccountPage>): void;
+  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RemoteRenderingAccountPage>, callback?: msRest.ServiceCallback<Models.RemoteRenderingAccountPage>): Promise<Models.RemoteRenderingAccountsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listBySubscriptionNextOperationSpec,
-      callback) as Promise<Models.SpatialAnchorsAccountsListBySubscriptionNextResponse>;
+      callback) as Promise<Models.RemoteRenderingAccountsListBySubscriptionNextResponse>;
   }
 
   /**
    * List Resources by Resource Group
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
-   * @returns Promise<Models.SpatialAnchorsAccountsListByResourceGroupNextResponse>
+   * @returns Promise<Models.RemoteRenderingAccountsListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.SpatialAnchorsAccountsListByResourceGroupNextResponse>;
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.RemoteRenderingAccountsListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SpatialAnchorsAccountPage>): void;
+  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.RemoteRenderingAccountPage>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SpatialAnchorsAccountPage>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SpatialAnchorsAccountPage>, callback?: msRest.ServiceCallback<Models.SpatialAnchorsAccountPage>): Promise<Models.SpatialAnchorsAccountsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RemoteRenderingAccountPage>): void;
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RemoteRenderingAccountPage>, callback?: msRest.ServiceCallback<Models.RemoteRenderingAccountPage>): Promise<Models.RemoteRenderingAccountsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.SpatialAnchorsAccountsListByResourceGroupNextResponse>;
+      callback) as Promise<Models.RemoteRenderingAccountsListByResourceGroupNextResponse>;
   }
 }
 
@@ -343,19 +343,19 @@ export class SpatialAnchorsAccounts {
 const serializer = new msRest.Serializer(Mappers);
 const listBySubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.MixedReality/spatialAnchorsAccounts",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.MixedReality/remoteRenderingAccounts",
   urlParameters: [
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.SpatialAnchorsAccountPage
+      bodyMapper: Mappers.RemoteRenderingAccountPage
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -366,20 +366,20 @@ const listBySubscriptionOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/spatialAnchorsAccounts",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/remoteRenderingAccounts",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.SpatialAnchorsAccountPage
+      bodyMapper: Mappers.RemoteRenderingAccountPage
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -390,14 +390,14 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/spatialAnchorsAccounts/{accountName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/remoteRenderingAccounts/{accountName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -414,21 +414,21 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/spatialAnchorsAccounts/{accountName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/remoteRenderingAccounts/{accountName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.SpatialAnchorsAccount
+      bodyMapper: Mappers.RemoteRenderingAccount
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -439,28 +439,28 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/spatialAnchorsAccounts/{accountName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/remoteRenderingAccounts/{accountName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
   ],
   requestBody: {
-    parameterPath: "spatialAnchorsAccount",
+    parameterPath: "remoteRenderingAccount",
     mapper: {
-      ...Mappers.SpatialAnchorsAccount,
+      ...Mappers.RemoteRenderingAccount,
       required: true
     }
   },
   responses: {
     200: {
-      bodyMapper: Mappers.SpatialAnchorsAccount
+      bodyMapper: Mappers.RemoteRenderingAccount
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -471,31 +471,31 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/spatialAnchorsAccounts/{accountName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/remoteRenderingAccounts/{accountName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
   ],
   requestBody: {
-    parameterPath: "spatialAnchorsAccount",
+    parameterPath: "remoteRenderingAccount",
     mapper: {
-      ...Mappers.SpatialAnchorsAccount,
+      ...Mappers.RemoteRenderingAccount,
       required: true
     }
   },
   responses: {
     200: {
-      bodyMapper: Mappers.SpatialAnchorsAccount
+      bodyMapper: Mappers.RemoteRenderingAccount
     },
     201: {
-      bodyMapper: Mappers.SpatialAnchorsAccount
+      bodyMapper: Mappers.RemoteRenderingAccount
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -506,14 +506,14 @@ const createOperationSpec: msRest.OperationSpec = {
 
 const listKeysOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/spatialAnchorsAccounts/{accountName}/listKeys",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/remoteRenderingAccounts/{accountName}/listKeys",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -531,14 +531,14 @@ const listKeysOperationSpec: msRest.OperationSpec = {
 
 const regenerateKeysOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/spatialAnchorsAccounts/{accountName}/regenerateKeys",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/remoteRenderingAccounts/{accountName}/regenerateKeys",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -573,7 +573,7 @@ const listBySubscriptionNextOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.SpatialAnchorsAccountPage
+      bodyMapper: Mappers.RemoteRenderingAccountPage
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -594,7 +594,7 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.SpatialAnchorsAccountPage
+      bodyMapper: Mappers.RemoteRenderingAccountPage
     },
     default: {
       bodyMapper: Mappers.CloudError
