@@ -8,7 +8,7 @@
   Setup: Please run "sendMessages.ts" sample before running this to populate the queue/topic
 */
 
-import { OnMessage, OnError, delay, ServiceBusClient, ReceiveMode } from "@azure/service-bus";
+import { OnMessage, OnError, ServiceBusClient, ReceiveMode, MessagingError } from "@azure/service-bus";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -26,27 +26,44 @@ export async function main() {
 
   // To receive messages from sessions, use getSessionReceiver instead of getReceiver or look at
   // the sample in sessions.ts file
-  const receiver = queueClient.createReceiver(ReceiveMode.peekLock);
 
-  const onMessageHandler: OnMessage = async (brokeredMessage) => {
-    console.log(`Received message: ${brokeredMessage.body}`);
-    await brokeredMessage.complete();
-  };
-  const onErrorHandler: OnError = (err) => {
-    console.log("Error occurred: ", err);
-  };
+  // controls whether we continue to recover from fatal Receiver failures.
+  let enableReceiverRecovery = true;
 
-  try {
-    receiver.registerMessageHandler(onMessageHandler, onErrorHandler, { autoComplete: false });
+  do {
+    const receiver = queueClient.createReceiver(ReceiveMode.peekLock);
 
-    // Waiting long enough before closing the receiver to receive messages
-    await delay(5000);
+    const receiverPromise = new Promise((resolve, _reject) => {
+      const onMessageHandler: OnMessage = async (brokeredMessage) => {
+        console.log(`Received message: ${brokeredMessage.body}`);
+        await brokeredMessage.complete();
+      };
 
+      const onErrorHandler: OnError = (err) => {
+        if (!(err as MessagingError).retryable) {
+          console.log("Receiver will be recreated. A fatal error occurred:", err);
+          resolve();
+        } else {
+          console.log("Non-fatal error occurred: ", err);
+        }
+      };      
+      
+      receiver.registerMessageHandler(onMessageHandler, onErrorHandler, { autoComplete: false });
+    });
+    
+    // This will only resolve if our receiver has failed in a way that is not recoverable.
+    await receiverPromise; 
+
+    // the Service Bus package is intended to be resilient in the face of transitive issues, like network
+    // interruptions. If there are continual restarts this might indicate a more serious issue, like a network
+    // outage.
+        
+    // we can close the old receiver and just let the loop start again.
     await receiver.close();
-    await queueClient.close();
-  } finally {
-    await sbClient.close();
-  }
+  } while (enableReceiverRecovery);
+
+  await queueClient.close();
+  await sbClient.close();
 }
 
 main().catch((err) => {
