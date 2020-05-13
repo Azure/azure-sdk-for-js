@@ -97,19 +97,19 @@ stages:
                           Get-ChildItem -Recurse $(Pipeline.Workspace)/${{artifact.safeName}}
                         workingDirectory: $(Pipeline.Workspace)
                         displayName: Output Visible Artifacts
-                    - template: /eng/common/pipelines/templates/steps/docs-metadata-release.yml
-                      parameters:
-                        ArtifactLocation: $(Pipeline.Workspace)/${{artifact.safeName}}
-                        PackageRepository: NPM
-                        ReleaseSha: $(Build.SourceVersion)
-                        RepoId: Azure/azure-sdk-for-js
-                        WorkingDirectory: $(System.DefaultWorkingDirectory)
-                        TargetDocRepoOwner: ${{parameters.TargetDocRepoOwner}}
-                        TargetDocRepoName: ${{parameters.TargetDocRepoName}}
-                        PRBranchName: 'smoke-test-rdme'
-                        ArtifactName: ${{parameters.ArtifactName}}
-                        Language: 'python'
-                        DocRepoDestinationPath: 'docs-ref-services/' 
+                      - template: /eng/common/pipelines/templates/steps/docs-metadata-release.yml
+                        parameters:
+                          ArtifactLocation: $(Pipeline.Workspace)/${{artifact.safeName}}
+                          PackageRepository: NPM
+                          ReleaseSha: $(Build.SourceVersion)
+                          RepoId: Azure/azure-sdk-for-js
+                          WorkingDirectory: $(System.DefaultWorkingDirectory)
+                          TargetDocRepoOwner: ${{parameters.TargetDocRepoOwner}}
+                          TargetDocRepoName: ${{parameters.TargetDocRepoName}}
+                          PRBranchName: 'smoke-test-rdme'
+                          ArtifactName: ${{parameters.ArtifactName}}
+                          Language: 'javascript'
+                          DocRepoDestinationPath: 'docs-ref-services/' 
 
           - ${{if ne(artifact.options.skipPublishDocs, 'true')}}:
             - deployment: PublishDocsGitHubIO
