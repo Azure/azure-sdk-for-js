@@ -25,7 +25,10 @@ module.exports = function(config) {
     ],
 
     // list of files / patterns to load in the browser
-    files: ["test-browser/index.js"],
+    files: [
+      "test-browser/index.js",
+      { pattern: "test-browser/index.js.map", type: "html", included: false, served: false }
+    ],
 
     // list of files / patterns to exclude
     exclude: [],

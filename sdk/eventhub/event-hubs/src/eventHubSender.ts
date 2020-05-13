@@ -166,7 +166,7 @@ export class EventHubSender extends LinkEntity {
   }
 
   /**
-   * Deletes the sender fromt the context. Clears the token renewal timer. Closes the sender link.
+   * Deletes the sender from the context. Clears the token renewal timer. Closes the sender link.
    * @ignore
    * @returns Promise<void>
    */
@@ -412,6 +412,7 @@ export class EventHubSender extends LinkEntity {
   ): Promise<void> {
     const abortSignal: AbortSignalLike | undefined = options.abortSignal;
     const retryOptions = options.retryOptions || {};
+    retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
     const sendEventPromise = () =>
       new Promise<void>(async (resolve, reject) => {
         const rejectOnAbort = () => {
@@ -458,11 +459,8 @@ export class EventHubSender extends LinkEntity {
           return reject(translate(e));
         };
 
-        const waitTimer = setTimeout(
-          actionAfterTimeout,
-          getRetryAttemptTimeoutInMs(options.retryOptions)
-        );
-
+        const waitTimer = setTimeout(actionAfterTimeout, retryOptions.timeoutInMs);
+        const initStartTime = Date.now();
         if (!this.isOpen()) {
           logger.verbose(
             "Acquiring lock %s for initializing the session, sender and " +
@@ -471,9 +469,7 @@ export class EventHubSender extends LinkEntity {
           );
 
           try {
-            const senderOptions = this._createSenderOptions(
-              getRetryAttemptTimeoutInMs(options.retryOptions)
-            );
+            const senderOptions = this._createSenderOptions(retryOptions.timeoutInMs!);
             await defaultLock.acquire(this.senderLock, () => {
               return this._init(senderOptions);
             });
@@ -490,6 +486,7 @@ export class EventHubSender extends LinkEntity {
             return reject(err);
           }
         }
+        const timeTakenByInit = Date.now() - initStartTime;
 
         logger.verbose(
           "[%s] Sender '%s', credit: %d available: %d",
@@ -504,8 +501,13 @@ export class EventHubSender extends LinkEntity {
             this._context.connectionId,
             this.name
           );
-
+          if (retryOptions.timeoutInMs! <= timeTakenByInit) {
+            actionAfterTimeout();
+            return;
+          }
           try {
+            this._sender!.sendTimeoutInSeconds =
+              (retryOptions.timeoutInMs! - timeTakenByInit) / 1000;
             const delivery = await this._sender!.send(message, undefined, 0x80013700);
             logger.info(
               "[%s] Sender '%s', sent message with delivery id: %d",

@@ -133,11 +133,11 @@ export class TextAnalyticsClient {
    *
    * Example usage:
    * ```ts
-   * import { TextAnalyticsClient, KeyCredential } from "@azure/ai-text-analytics";
+   * import { TextAnalyticsClient, AzureKeyCredential } from "@azure/ai-text-analytics";
    *
    * const client = new TextAnalyticsClient(
    *    "<service endpoint>",
-   *    new KeyCredential("<api key>")
+   *    new AzureKeyCredential("<api key>")
    * );
    * ```
    * @param {string} endpointUrl The URL to the TextAnalytics endpoint

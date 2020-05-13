@@ -1,0 +1,761 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://keyvault_name.vault.azure.net/certificates/challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined/create",
+   "query": {
+    "api-version": "7.1-preview"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "{\"error\":{\"code\":\"Unauthorized\",\"message\":\"Request is missing a Bearer or PoP token.\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "87",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 07 May 2020 03:20:13 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "status": "401",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/azure_tenant_id\", resource=\"https://vault.azure.net\"",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.250.6.243;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.0.898",
+    "x-ms-request-id": "2262c3da-01d8-41ff-a8b5-a84a2b1988c6",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-cache, no-store",
+    "content-length": "1315",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 07 May 2020 03:20:13 GMT",
+    "expires": "-1",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.10519.7 - EUS ProdSlices",
+    "x-ms-request-id": "045ed163-9c6b-4ef0-9cd0-48a594fa2a00"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://keyvault_name.vault.azure.net/certificates/challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined/create",
+   "query": {
+    "api-version": "7.1-preview"
+   },
+   "requestBody": "{\"policy\":{\"key_props\":{},\"secret_props\":{},\"x509_props\":{\"subject\":\"cn=MyCert\",\"sans\":{}},\"issuer\":{\"name\":\"Self\"},\"attributes\":{}},\"attributes\":{}}",
+   "status": 202,
+   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined/pending\",\"issuer\":{\"name\":\"Self\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAru56tUcmXli/Tsm2XOwHE7MhCyhoD5K042WJ/CFlz+F+JI9lQspK4pHHBkvmh5QGAKEHhG5vbCxe0LpicbZ3brE84EUic4SitAjIcFvCgNDk8rB2LWmNXMJjedo4wFQuKw75E8ns9+F7PAQPnEYVR+TXhqCqChuGUl0An9EJQ1gxnmonWaYJu9RYNV8Pp3px6g9lSe3hibMuGp0ZhDiLgCN3I23IS/zIicaV28fjuKfqmZTiB6F2Yjybda5tQTMR62Wfbmlzaod058CbvOo7+tTvgBG1PQFzL7IuXgXVWRkZMEucVC1dInntppdbsJeGfn3xlz53eQdlhAADvTjBlQIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAHpokwrOc3CU+234WgWkc2lDeVT/aV4XYrT6caEakqWofpLP+wA2sRGEMu33aHky/0n8vEluzNDZ7uQjBHsrc1iUOQnt4/8jujnv0sr8AnGxXFU3PAiYEjtGwBUlmUXmwreK/o+PNFb1i9AAjfTxQr7TgWQuTyTJ5mn/2EpER6BzpGdHF7FXMfo5NFWnGk7i0yLaSILFCGtK2ZE9X67KHEqbORyyqiadiFUtmqAJ8V9I3N+5/PLaksWC6GBj5EmdSmHZAZ2y/QsPFIaM+aiJK4RBwa9NO8dWdwyDPOtFuNtC3UkSaEtzpgAhYqBlReAn80rXaAgw9ogCnQG79XnAWRg=\",\"cancellation_requested\":false,\"status\":\"inProgress\",\"status_details\":\"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.\",\"request_id\":\"5c877975ea8847489d2c9c4e99a871e9\"}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "1369",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 07 May 2020 03:20:14 GMT",
+    "expires": "-1",
+    "location": "https://keyvault_name.vault.azure.net/certificates/challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined/pending?api-version=7.1-preview&request_id=5c877975ea8847489d2c9c4e99a871e9",
+    "pragma": "no-cache",
+    "retry-after": "10",
+    "server": "Microsoft-IIS/10.0",
+    "status": "202",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.250.6.243;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.0.898",
+    "x-ms-request-id": "69ef03f8-a6b5-4c20-97b4-fbe43d20aec2",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/certificates/challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined/pending",
+   "query": {
+    "api-version": "7.1-preview"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined/pending\",\"issuer\":{\"name\":\"Self\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAru56tUcmXli/Tsm2XOwHE7MhCyhoD5K042WJ/CFlz+F+JI9lQspK4pHHBkvmh5QGAKEHhG5vbCxe0LpicbZ3brE84EUic4SitAjIcFvCgNDk8rB2LWmNXMJjedo4wFQuKw75E8ns9+F7PAQPnEYVR+TXhqCqChuGUl0An9EJQ1gxnmonWaYJu9RYNV8Pp3px6g9lSe3hibMuGp0ZhDiLgCN3I23IS/zIicaV28fjuKfqmZTiB6F2Yjybda5tQTMR62Wfbmlzaod058CbvOo7+tTvgBG1PQFzL7IuXgXVWRkZMEucVC1dInntppdbsJeGfn3xlz53eQdlhAADvTjBlQIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAHpokwrOc3CU+234WgWkc2lDeVT/aV4XYrT6caEakqWofpLP+wA2sRGEMu33aHky/0n8vEluzNDZ7uQjBHsrc1iUOQnt4/8jujnv0sr8AnGxXFU3PAiYEjtGwBUlmUXmwreK/o+PNFb1i9AAjfTxQr7TgWQuTyTJ5mn/2EpER6BzpGdHF7FXMfo5NFWnGk7i0yLaSILFCGtK2ZE9X67KHEqbORyyqiadiFUtmqAJ8V9I3N+5/PLaksWC6GBj5EmdSmHZAZ2y/QsPFIaM+aiJK4RBwa9NO8dWdwyDPOtFuNtC3UkSaEtzpgAhYqBlReAn80rXaAgw9ogCnQG79XnAWRg=\",\"cancellation_requested\":false,\"status\":\"inProgress\",\"status_details\":\"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.\",\"request_id\":\"5c877975ea8847489d2c9c4e99a871e9\"}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "1369",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 07 May 2020 03:20:14 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "retry-after": "10",
+    "server": "Microsoft-IIS/10.0",
+    "status": "200",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.250.6.243;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.0.898",
+    "x-ms-request-id": "9eaddbb1-905c-4a6e-89f4-36aa1815299d",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/certificates/challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined",
+   "query": {
+    "api-version": "7.1-preview"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedcertificates/challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined\",\"deletedDate\":1588821615,\"scheduledPurgeDate\":1596597615,\"id\":\"https://keyvault_name.vault.azure.net/certificates/challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined/47260ca3e5e744348f671259b3aa4b25\",\"attributes\":{\"enabled\":false,\"nbf\":1588821014,\"exp\":1620357614,\"created\":1588821614,\"updated\":1588821614,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90},\"policy\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined/policy\",\"key_props\":{\"exportable\":true,\"kty\":\"RSA\",\"key_size\":2048,\"reuse_key\":false},\"secret_props\":{\"contentType\":\"application/x-pkcs12\"},\"x509_props\":{\"subject\":\"cn=MyCert\",\"sans\":{},\"ekus\":[\"1.3.6.1.5.5.7.3.1\",\"1.3.6.1.5.5.7.3.2\"],\"key_usage\":[\"digitalSignature\",\"keyEncipherment\"],\"validity_months\":12,\"basic_constraints\":{\"ca\":false}},\"lifetime_actions\":[{\"trigger\":{\"lifetime_percentage\":80},\"action\":{\"action_type\":\"AutoRenew\"}}],\"issuer\":{\"name\":\"Self\"},\"attributes\":{\"enabled\":true,\"created\":1588821614,\"updated\":1588821614}},\"pending\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined/pending\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "1467",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 07 May 2020 03:20:14 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "status": "200",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.250.6.243;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.0.898",
+    "x-ms-request-id": "58d71d8f-3583-459d-b828-258f5f6478db",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined",
+   "query": {
+    "api-version": "7.1-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "177",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 07 May 2020 03:20:14 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.250.6.243;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.0.898",
+    "x-ms-request-id": "ff54885d-51ca-47c9-b80c-714cf8df2385",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined",
+   "query": {
+    "api-version": "7.1-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "177",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 07 May 2020 03:20:15 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.250.6.243;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.0.898",
+    "x-ms-request-id": "8d66d0ad-cf75-49d5-9c82-8ec0586023f2",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined",
+   "query": {
+    "api-version": "7.1-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "177",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 07 May 2020 03:20:16 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.250.6.243;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.0.898",
+    "x-ms-request-id": "ff2d4092-a667-4dfd-9b2e-5fe5abe20860",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined",
+   "query": {
+    "api-version": "7.1-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "177",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 07 May 2020 03:20:18 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.250.6.243;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.0.898",
+    "x-ms-request-id": "b772bc38-65b3-459b-9144-70040c9f51a1",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined",
+   "query": {
+    "api-version": "7.1-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "177",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 07 May 2020 03:20:20 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.250.6.243;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.0.898",
+    "x-ms-request-id": "470a1527-0ca1-4164-b3eb-d95fe3c0d96d",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined",
+   "query": {
+    "api-version": "7.1-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "177",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 07 May 2020 03:20:23 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.250.6.243;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.0.898",
+    "x-ms-request-id": "bc5fa133-5eac-4b2f-8bd6-99fdea547b38",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined",
+   "query": {
+    "api-version": "7.1-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "177",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 07 May 2020 03:20:25 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.250.6.243;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.0.898",
+    "x-ms-request-id": "307c9003-cb19-4e5f-af11-d881b6bb69df",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined",
+   "query": {
+    "api-version": "7.1-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "177",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 07 May 2020 03:20:27 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.250.6.243;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.0.898",
+    "x-ms-request-id": "37fc42b8-4d80-4537-9dad-43876c73ee3e",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined",
+   "query": {
+    "api-version": "7.1-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "177",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 07 May 2020 03:20:29 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.250.6.243;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.0.898",
+    "x-ms-request-id": "a42e4a06-a477-4cf7-aba3-c529a803e2e1",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined",
+   "query": {
+    "api-version": "7.1-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "177",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 07 May 2020 03:20:31 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.250.6.243;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.0.898",
+    "x-ms-request-id": "c2174319-18c1-433f-bf72-b1d451985d84",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined",
+   "query": {
+    "api-version": "7.1-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "177",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 07 May 2020 03:20:33 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.250.6.243;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.0.898",
+    "x-ms-request-id": "fd242d77-f307-4b77-b351-2bc5e3696862",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined",
+   "query": {
+    "api-version": "7.1-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "177",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 07 May 2020 03:20:35 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.250.6.243;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.0.898",
+    "x-ms-request-id": "06a5123b-e952-462d-afc8-134cc68b1f94",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined",
+   "query": {
+    "api-version": "7.1-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "177",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 07 May 2020 03:20:37 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.250.6.243;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.0.898",
+    "x-ms-request-id": "5b05e8c0-0e51-4a75-b994-532783ff69bb",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined",
+   "query": {
+    "api-version": "7.1-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "177",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 07 May 2020 03:20:39 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.250.6.243;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.0.898",
+    "x-ms-request-id": "638872fa-e7d3-470d-96f3-3340e624e524",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined",
+   "query": {
+    "api-version": "7.1-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "177",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 07 May 2020 03:20:41 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.250.6.243;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.0.898",
+    "x-ms-request-id": "2b80b0b8-f321-4602-a677-b38b6108ab5d",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined",
+   "query": {
+    "api-version": "7.1-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "177",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 07 May 2020 03:20:43 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.250.6.243;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.0.898",
+    "x-ms-request-id": "6c99cabf-3512-4dae-b2e2-4fc57e019cb8",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined",
+   "query": {
+    "api-version": "7.1-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "177",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 07 May 2020 03:20:45 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.250.6.243;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.0.898",
+    "x-ms-request-id": "a3686efb-2d85-4056-a183-2fa5082f91d1",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined",
+   "query": {
+    "api-version": "7.1-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "177",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 07 May 2020 03:20:47 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.250.6.243;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.0.898",
+    "x-ms-request-id": "99d2bae3-b0d9-48d1-97c5-26d7b16aab83",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined",
+   "query": {
+    "api-version": "7.1-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "177",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 07 May 2020 03:20:50 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.250.6.243;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.0.898",
+    "x-ms-request-id": "39aa0642-043a-4d2b-909b-7f3cb3220833",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined",
+   "query": {
+    "api-version": "7.1-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "177",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 07 May 2020 03:20:52 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.250.6.243;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.0.898",
+    "x-ms-request-id": "8378d2d7-46f4-42e1-b5ae-2843b78fd59c",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined",
+   "query": {
+    "api-version": "7.1-preview"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedcertificates/challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined\",\"deletedDate\":1588821615,\"scheduledPurgeDate\":1596597615,\"id\":\"https://keyvault_name.vault.azure.net/certificates/challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined/47260ca3e5e744348f671259b3aa4b25\",\"attributes\":{\"enabled\":false,\"nbf\":1588821014,\"exp\":1620357614,\"created\":1588821614,\"updated\":1588821614,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90},\"policy\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined/policy\",\"key_props\":{\"exportable\":true,\"kty\":\"RSA\",\"key_size\":2048,\"reuse_key\":false},\"secret_props\":{\"contentType\":\"application/x-pkcs12\"},\"x509_props\":{\"subject\":\"cn=MyCert\",\"sans\":{},\"ekus\":[\"1.3.6.1.5.5.7.3.1\",\"1.3.6.1.5.5.7.3.2\"],\"key_usage\":[\"digitalSignature\",\"keyEncipherment\"],\"validity_months\":12,\"basic_constraints\":{\"ca\":false}},\"lifetime_actions\":[{\"trigger\":{\"lifetime_percentage\":80},\"action\":{\"action_type\":\"AutoRenew\"}}],\"issuer\":{\"name\":\"Self\"},\"attributes\":{\"enabled\":true,\"created\":1588821614,\"updated\":1588821614}},\"pending\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined/pending\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "1467",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 07 May 2020 03:20:54 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "status": "200",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.250.6.243;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.0.898",
+    "x-ms-request-id": "f6e9f07c-6b95-4e06-bd33-a1da0cfb9899",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/challengeAuthCertificateName-Onceauthenticatednewrequestsshouldnotauthenticateagain-undefined",
+   "query": {
+    "api-version": "7.1-preview"
+   },
+   "requestBody": null,
+   "status": 204,
+   "response": "",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "date": "Thu, 07 May 2020 03:20:54 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "status": "204",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.250.6.243;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.0.898",
+    "x-ms-request-id": "c6dc569f-2867-4b10-a5f9-8c97e3f8c7c1",
+    "x-powered-by": "ASP.NET"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "ada78cc1aafff4c80e377bfa89aae6da"
+}

@@ -6,9 +6,7 @@ steps:
     inputs:
       versionSpec: "3.6"
 
-  - template: eng/pipelines/templates/scripts/verify-agent-os.yml@azure-sdk-tools
-    parameters:
-      OSName: $(OSVmImage)
+  - template: /eng/common/pipelines/templates/steps/verify-agent-os.yml
 
   - task: NodeTool@0
     inputs:
