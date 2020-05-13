@@ -106,6 +106,14 @@ packages:
     dev: false
     resolution:
       integrity: sha512-pkFCw6OiJrpR+aH1VQe6DYm3fK2KWCC5Jf3m/Pv1RxF08M1Xm08RCyQ5Qe0YyW5L16yYT2nnV48krVhYZ6SGFA==
+  /@azure/core-tracing/1.0.0-preview.8:
+    dependencies:
+      '@opencensus/web-types': 0.0.7
+      '@opentelemetry/api': 0.6.1
+      tslib: 1.11.1
+    dev: false
+    resolution:
+      integrity: sha512-ZKUpCd7Dlyfn7bdc+/zC/sf0aRIaNQMDuSj2RhYRFe3p70hVAnYGp3TX4cnG2yoEALp/LTj/XnZGQ8Xzf6Ja/Q==
   /@azure/eslint-plugin-azure-sdk/2.0.1_9e31f0f459c1656d0a7ef30429cc70f8:
     dependencies:
       '@typescript-eslint/parser': 2.27.0_eslint@6.8.0+typescript@3.8.3
@@ -7313,7 +7321,7 @@ packages:
     version: 0.0.0
   'file:projects/ai-form-recognizer.tgz':
     dependencies:
-      '@azure/core-tracing': 1.0.0-preview.7
+      '@azure/core-tracing': 1.0.0-preview.8
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.6.1
       '@opentelemetry/types': 0.2.0
@@ -7370,12 +7378,12 @@ packages:
     dev: false
     name: '@rush-temp/ai-form-recognizer'
     resolution:
-      integrity: sha512-Ao0d7JXmIrRY1F2sU2AaDr2pEJrT65rMPJwPDCoLfKNOdLEZub4SgwiEgwsf2/WEyn4NWSccqHI2PiKz46W69g==
+      integrity: sha512-l4X7sHTBanJ5M6Br9ZFASahsqVQeUGq2iFaLLQ9XKfts9AWgSGDurlSNkuiaZ1JmxP8D6IcSlm17fXRy/elylg==
       tarball: 'file:projects/ai-form-recognizer.tgz'
     version: 0.0.0
   'file:projects/ai-text-analytics.tgz':
     dependencies:
-      '@azure/core-tracing': 1.0.0-preview.7
+      '@azure/core-tracing': 1.0.0-preview.8
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.6.1
       '@opentelemetry/types': 0.2.0
@@ -7430,12 +7438,12 @@ packages:
     dev: false
     name: '@rush-temp/ai-text-analytics'
     resolution:
-      integrity: sha512-KM8zJMojpb6LI5TCwiEVO4nEJfZz1ri538TycBoIHR0zsChOa6dak8an/JArEK3fPALzRS3fhGo/rkwxBTLYrw==
+      integrity: sha512-qV7V4ynv2z6L9HAx8z2hFUTsBBT1/lMIk1CJ0bhwrsNFLFFNJ+HCRHYCNihuNhUwJ1bpKylMR5w6jP2bBE3jVA==
       tarball: 'file:projects/ai-text-analytics.tgz'
     version: 0.0.0
   'file:projects/app-configuration.tgz':
     dependencies:
-      '@azure/core-tracing': 1.0.0-preview.7
+      '@azure/core-tracing': 1.0.0-preview.8
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.6.1
       '@opentelemetry/types': 0.2.0
@@ -7474,7 +7482,7 @@ packages:
     dev: false
     name: '@rush-temp/app-configuration'
     resolution:
-      integrity: sha512-hZkySag/91/80qQYOKnJqgnYy6KPFEFG0tn4xLIrUzyYJIQzMockclsM4escQClD7z8jR+bc2oecctS7kXYY2A==
+      integrity: sha512-aBdfkZ94TTsGOdbb6m/mthoM0SIWNs2o/ncMk2yLxVbY13JWWFCcpyHwRUWPJ9Mhiw7ltTz8LRRFpX0z63rQ1g==
       tarball: 'file:projects/app-configuration.tgz'
     version: 0.0.0
   'file:projects/core-amqp.tgz':
@@ -7598,7 +7606,7 @@ packages:
     version: 0.0.0
   'file:projects/core-auth.tgz':
     dependencies:
-      '@azure/core-tracing': 1.0.0-preview.7
+      '@azure/core-tracing': 1.0.0-preview.8
       '@azure/eslint-plugin-azure-sdk': 2.0.1_9e31f0f459c1656d0a7ef30429cc70f8
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.6.1
@@ -7635,12 +7643,12 @@ packages:
     dev: false
     name: '@rush-temp/core-auth'
     resolution:
-      integrity: sha512-hAXX6Lm0RIktCklZLT+dh3mNFxqFyCtyZJbDj22RuIKiV4jbGfx3Xav+lGf3MSi5Tfk9uBa09piBA3D3548yqQ==
+      integrity: sha512-259kzcoMw/te4KcgxBzBU2SWj8Y1Y4tTeMFMvrlJ+m4Gj+jiIOJyLfdT1m/KaReihMRtsJ4gHg+PB2pT54rV1w==
       tarball: 'file:projects/core-auth.tgz'
     version: 0.0.0
   'file:projects/core-http.tgz':
     dependencies:
-      '@azure/core-tracing': 1.0.0-preview.7
+      '@azure/core-tracing': 1.0.0-preview.8
       '@azure/eslint-plugin-azure-sdk': 2.0.1_9e31f0f459c1656d0a7ef30429cc70f8
       '@azure/logger-js': 1.3.2
       '@microsoft/api-extractor': 7.7.11
@@ -7713,7 +7721,7 @@ packages:
     dev: false
     name: '@rush-temp/core-http'
     resolution:
-      integrity: sha512-vXJ842t1g552ODgisb6NQHi40JMdnGMGGpImEae7FA9v5VYuCAwZXuPnwY52xcotV2Nt44285/UTzyWMs2ucxQ==
+      integrity: sha512-EM+RjuP9x/GIP/1gyPgVTnv0vpk5StxurWhErFuwaMyrD86wRYsQO8AFqR+iefOXFJVewCqgLH8kkfA+Y+nvWg==
       tarball: 'file:projects/core-http.tgz'
     version: 0.0.0
   'file:projects/core-https.tgz':
@@ -7879,7 +7887,7 @@ packages:
     dev: false
     name: '@rush-temp/core-tracing'
     resolution:
-      integrity: sha512-sSPHEdC5JQXC8+qbokEc5xwPD9f5W0oCduoXLn6NCRDhCMpbbMrI6hIBmscVYJBSvZdkU8GUTYFvKmHKXzecoQ==
+      integrity: sha512-ouK3NNDCH+7Dmq5bNh+vwENHAbqfhGRZsSXqGBC0O0Lq+r+chlfq7AgfN29HTDywR06F9qmklBO/XWoM1TA0xw==
       tarball: 'file:projects/core-tracing.tgz'
     version: 0.0.0
   'file:projects/cosmos.tgz':
@@ -7978,7 +7986,7 @@ packages:
     version: 0.0.0
   'file:projects/event-hubs.tgz':
     dependencies:
-      '@azure/core-tracing': 1.0.0-preview.7
+      '@azure/core-tracing': 1.0.0-preview.8
       '@azure/eslint-plugin-azure-sdk': 2.0.1_9e31f0f459c1656d0a7ef30429cc70f8
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.6.1
@@ -8053,7 +8061,7 @@ packages:
     dev: false
     name: '@rush-temp/event-hubs'
     resolution:
-      integrity: sha512-Z5M7X620xxuNgwlypjPjyGdW+KCui8Iqf+I5EClpV0GQvaMmbCyCKJlX4wotJJi92bWSue8Nb+MzqZgqWl/TTw==
+      integrity: sha512-wNh3S/AWainfTFMpiudjPrm9iNk2KoS7MTxOBY3xrMGygNVj3JK9NJCUaQ8l+zlaCtFiT+YREeuadTg9xXfZ4w==
       tarball: 'file:projects/event-hubs.tgz'
     version: 0.0.0
   'file:projects/event-processor-host.tgz':
@@ -8179,7 +8187,7 @@ packages:
     version: 0.0.0
   'file:projects/identity.tgz':
     dependencies:
-      '@azure/core-tracing': 1.0.0-preview.7
+      '@azure/core-tracing': 1.0.0-preview.8
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.6.1
       '@opentelemetry/types': 0.2.0
@@ -8231,12 +8239,12 @@ packages:
     dev: false
     name: '@rush-temp/identity'
     resolution:
-      integrity: sha512-gsy60CjEMY1P/snRLR9JAdLKK8ySdvmALRSTVPAiYTYjb1oMIy0zV/nAm6MZybhbjitJ/ynSjlAEZKb4iN26uQ==
+      integrity: sha512-LkRmVh8QH2+wDtDTrdS7gPhp2bf01iTUcQOvCQbS8c6OYCBNWeOSsC5HgRZTU/7OEjJMvCgT5LfO+HKBgUy5XQ==
       tarball: 'file:projects/identity.tgz'
     version: 0.0.0
   'file:projects/keyvault-certificates.tgz':
     dependencies:
-      '@azure/core-tracing': 1.0.0-preview.7
+      '@azure/core-tracing': 1.0.0-preview.8
       '@azure/eslint-plugin-azure-sdk': 2.0.1_9e31f0f459c1656d0a7ef30429cc70f8
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.6.1
@@ -8297,12 +8305,12 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-certificates'
     resolution:
-      integrity: sha512-eTTnKfI3qL/ZO6iQSZYG/bbAoHlE40LElq7gLsvvbdFEpsc72Qks0TqEBRHauqiemtC9AtdL9ORTWWjLXxJCXA==
+      integrity: sha512-DwYDslJybgA95gIEZklP6GTXEbs06gU5DgC588cfbOgvzDyguw2Idofe3unWBa/J8vdZZ168v+ImMAfgcQ6PUw==
       tarball: 'file:projects/keyvault-certificates.tgz'
     version: 0.0.0
   'file:projects/keyvault-keys.tgz':
     dependencies:
-      '@azure/core-tracing': 1.0.0-preview.7
+      '@azure/core-tracing': 1.0.0-preview.8
       '@azure/eslint-plugin-azure-sdk': 2.0.1_9e31f0f459c1656d0a7ef30429cc70f8
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.6.1
@@ -8363,12 +8371,12 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-keys'
     resolution:
-      integrity: sha512-mgnEqL+U6Ro31Vh726sQYPt/yOg5KuZ9ckfreXEsr+/HckKG0ttWmYMf0reu/0bg1otauSQF07YEmBEqqOploA==
+      integrity: sha512-VnOwC93vTB9UtEsOY87ZShso+IeW6oh6addrBzP7EcttPelANRe+7VJkqgPpn1Xu7m8qk7wg87FrI/B2/I1zAg==
       tarball: 'file:projects/keyvault-keys.tgz'
     version: 0.0.0
   'file:projects/keyvault-secrets.tgz':
     dependencies:
-      '@azure/core-tracing': 1.0.0-preview.7
+      '@azure/core-tracing': 1.0.0-preview.8
       '@azure/eslint-plugin-azure-sdk': 2.0.1_9e31f0f459c1656d0a7ef30429cc70f8
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.6.1
@@ -8429,7 +8437,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-secrets'
     resolution:
-      integrity: sha512-Z/CSz0jIxAWPR25zhabz+jJE0ZTd/tMF5bdmcpcgP+MlM7xbzAwKZVtzKLIq/Bg0mkA++GesvO3cJbjLCYOUUA==
+      integrity: sha512-iCGHLNgM19lKc8lYb3G+zWziJtLcjX5H4b2kbyXIEu4pOAJndkcyqHyj/0G03FlMYU08LU8XILjaG9t6K8EuVA==
       tarball: 'file:projects/keyvault-secrets.tgz'
     version: 0.0.0
   'file:projects/logger.tgz':
@@ -8487,7 +8495,7 @@ packages:
     version: 0.0.0
   'file:projects/search-documents.tgz':
     dependencies:
-      '@azure/core-tracing': 1.0.0-preview.7
+      '@azure/core-tracing': 1.0.0-preview.8
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.6.1
       '@opentelemetry/types': 0.2.0
@@ -8542,11 +8550,12 @@ packages:
     dev: false
     name: '@rush-temp/search-documents'
     resolution:
-      integrity: sha512-56TsptrOd/5mqAEDaJ5I1T3xyuq3BcYA+OFJPpNAXc5A/1ZIh20E5a+93sNFHd/WV+2L3gTnpqFxwfJP466uUg==
+      integrity: sha512-02n9tjrDnEyqaTEDh4qZed/8pYgMoM8MVZ2T1XbwJGhB0cd5TNeffE1bAo2CjZGVvrOiyE6JtSifdql3wel2fA==
       tarball: 'file:projects/search-documents.tgz'
     version: 0.0.0
   'file:projects/service-bus.tgz':
     dependencies:
+      '@azure/core-tracing': 1.0.0-preview.8
       '@azure/eslint-plugin-azure-sdk': 2.0.1_9e31f0f459c1656d0a7ef30429cc70f8
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.6.1
@@ -8621,12 +8630,12 @@ packages:
     dev: false
     name: '@rush-temp/service-bus'
     resolution:
-      integrity: sha512-b8RjYQXVMWRSCpDulvUI2ImpUtjw7KZ21rJ9+/tbySxYwuakUVzcsnZzfFFRzxkFDxlOzHnfZESCNUUV5AZkNg==
+      integrity: sha512-TRs1eHRi9bCrh82xstrdutPO5KbhO0OJUNuFy5DD5FgB1BgMTTYUgxer679T3DEXFi9dEIuYwPhxbapmAziTlw==
       tarball: 'file:projects/service-bus.tgz'
     version: 0.0.0
   'file:projects/storage-blob.tgz':
     dependencies:
-      '@azure/core-tracing': 1.0.0-preview.7
+      '@azure/core-tracing': 1.0.0-preview.8
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.6.1
       '@opentelemetry/types': 0.2.0
@@ -8683,12 +8692,12 @@ packages:
     dev: false
     name: '@rush-temp/storage-blob'
     resolution:
-      integrity: sha512-u5ucEw2+eTi1epOR1QjzEZ2maP2Nh1IDpjiQOq4++RpLcfMOxH6zr4YJjWljr46KpuET7vQS+AiLbd/6I1k3yw==
+      integrity: sha512-3akj11369N1co5jXB3xjnLP6vL7NHycIuTqCrqKzNnIaYvd1NLePeIqZUA7rPWZXIlwR/uZn4//jkv/IuXWjTg==
       tarball: 'file:projects/storage-blob.tgz'
     version: 0.0.0
   'file:projects/storage-file-datalake.tgz':
     dependencies:
-      '@azure/core-tracing': 1.0.0-preview.7
+      '@azure/core-tracing': 1.0.0-preview.8
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.6.1
       '@opentelemetry/types': 0.2.0
@@ -8753,12 +8762,12 @@ packages:
     dev: false
     name: '@rush-temp/storage-file-datalake'
     resolution:
-      integrity: sha512-XUj6C468dyk+Wxw5BVnJPTzsjoj+47ej3IuZ/bvRer++4lhmnElO2QGb6gxO5qiCnqw52Sj2BFIjIm2vdOCHiA==
+      integrity: sha512-QPoduCqZq3MIXDeqJkh/DUmzfOrLC+Fl0XsIqmsrmVGQZQbZhaKuEvJBHu2kC4lvIOAngCLnKtRATZ5ir7ikIw==
       tarball: 'file:projects/storage-file-datalake.tgz'
     version: 0.0.0
   'file:projects/storage-file-share.tgz':
     dependencies:
-      '@azure/core-tracing': 1.0.0-preview.7
+      '@azure/core-tracing': 1.0.0-preview.8
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.6.1
       '@opentelemetry/types': 0.2.0
@@ -8815,12 +8824,12 @@ packages:
     dev: false
     name: '@rush-temp/storage-file-share'
     resolution:
-      integrity: sha512-ayncdpB7p2EeeubYjp6qYKDLnL2I4elI25Y8LHKeens3+EM6O+99fHN9e+5KWfpQuPzhrOO34MTZSroYaXPoWw==
+      integrity: sha512-tu3NTIb5UjQCxwFypS0jVsQqLAj8+RK3Thtgl5Fy5cVlXVhoSA6unAze/YMOR6rtHnjqGWQ12XkJ1OrHQU9kTA==
       tarball: 'file:projects/storage-file-share.tgz'
     version: 0.0.0
   'file:projects/storage-queue.tgz':
     dependencies:
-      '@azure/core-tracing': 1.0.0-preview.7
+      '@azure/core-tracing': 1.0.0-preview.8
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.6.1
       '@opentelemetry/types': 0.2.0
@@ -8876,7 +8885,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-queue'
     resolution:
-      integrity: sha512-4xwugSTP+n1vGiUcWCvOBVPrusDOdKc/TzIi3zEJberlHFfjYn8XrKEbfxi1Lj9r4QSZks3LjR0bFugj4cCB5Q==
+      integrity: sha512-0iq+Q8Xd4AVc6M9wbnJt5QgnK2DKHttfr3amGqRCy0bgyYN1arvUd43RpQMQdnv9B333tKIJCBRjiQdrBexANA==
       tarball: 'file:projects/storage-queue.tgz'
     version: 0.0.0
   'file:projects/template.tgz':
