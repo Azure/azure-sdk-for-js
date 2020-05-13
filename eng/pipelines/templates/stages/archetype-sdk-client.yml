@@ -2,7 +2,9 @@ parameters:
   Artifacts: []
   ServiceDirectory: not-specified
   IncludeRelease: true
-
+  TargetDocRepoOwner: 'MicrosoftDocs'
+  TargetDocRepoName: 'azure-docs-sdk-node'
+  
 stages:
 - stage: Build
   jobs:
@@ -19,3 +21,6 @@ stages:
       ServiceDirectory: ${{parameters.ServiceDirectory}}
       Artifacts: ${{parameters.Artifacts}}
       ArtifactName: packages
+      TargetDocRepoOwner: 'MicrosoftDocs'
+      TargetDocRepoName: 'azure-docs-sdk-node'
+      
