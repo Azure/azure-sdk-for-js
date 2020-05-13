@@ -17,4 +17,4 @@ steps:
 
       # Install matching version of package
       npm install --no-package-lock keytar@$keytarversion
-    displayName: Reinstall dependencies with native modules
+    displayName: Reinstall native dependencies
