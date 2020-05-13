@@ -1237,9 +1237,9 @@ describe("Batching - disconnects", function(): void {
     let didRequestDrain = false;
     const addCredit = receiver["_context"].batchingReceiver!["_receiver"]!.addCredit;
     receiver["_context"].batchingReceiver!["_receiver"]!.addCredit = function(credits) {
-      didRequestDrain = true;
       addCredit.call(this, credits);
       if (receiver["_context"].batchingReceiver!["_receiver"]!.drain) {
+        didRequestDrain = true;
         // Simulate a disconnect being called with a non-retryable error.
         receiver["_context"].namespace.connection["_connection"].idle();
       }
