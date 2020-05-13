@@ -209,15 +209,6 @@ jobs:
             node common/scripts/install-run-rush.js install
           displayName: "Install dependencies"
 
-        - task: NodeTool@0
-          inputs:
-            versionSpec: $(NodeTestVersion)
-          displayName: "Use NodeJS $(NodeTestVersion)"
-
-        - script: |
-            node --version && npm --version
-          displayName: Node versions
-
         # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
         # The default on Windows is "cores - 1" (microsoft/rushstack#436).
         - script: |
@@ -229,6 +220,15 @@ jobs:
         - script: |
             node eng/tools/rush-runner.js build:test --verbose -p max
           displayName: "Build test assets"
+
+        - task: NodeTool@0
+          inputs:
+            versionSpec: $(NodeTestVersion)
+          displayName: "Use NodeJS $(NodeTestVersion)"
+
+        - script: |
+            node --version && npm --version
+          displayName: Node versions
 
         # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
         # The default on Windows is "cores - 1" (microsoft/rushstack#436).
