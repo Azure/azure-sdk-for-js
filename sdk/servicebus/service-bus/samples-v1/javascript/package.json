@@ -1,8 +1,8 @@
 {
-  "name": "azure-service-bus-samples-ts",
+  "name": "azure-service-bus-samples-js",
   "private": true,
   "version": "0.1.0",
-  "description": "Azure Service Bus client library samples for TypeScript",
+  "description": "Azure Service Bus client library samples for JavaScript",
   "engine": {
     "node": ">=8.0.0"
   },
@@ -28,7 +28,8 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
   "sideEffects": false,
   "dependencies": {
-    "@azure/identity": "^1.0.2",
+    "@azure/abort-controller": "latest",
+    "@azure/ms-rest-nodeauth": "^3.0.0",
     "@azure/service-bus": "^1.1.6",
     "dotenv": "^8.2.0",
     "https-proxy-agent": "^4.0.0",
