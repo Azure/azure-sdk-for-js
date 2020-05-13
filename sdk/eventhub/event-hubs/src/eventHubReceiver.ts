@@ -17,6 +17,7 @@ import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import { EventPosition, getEventPositionFilter } from "./eventPosition";
 import { AbortSignalLike, AbortError } from "@azure/abort-controller";
+import { isConnectionClosing, waitForConnectionDisconnected } from "./util/connectionUtils";
 
 /**
  * @ignore
@@ -511,6 +512,22 @@ export class EventHubReceiver extends LinkEntity {
     try {
       if (!this.isOpen() && !this.isConnecting) {
         this.isConnecting = true;
+
+        // Check that the connection isn't in the process of closing.
+        // This can happen when the idle timeout has been reached but
+        // the underlying socket is waiting to be destroyed.
+        if (isConnectionClosing(this._context)) {
+          // Wait for the disconnected event that indicates the underlying socket has closed.
+          await waitForConnectionDisconnected(this._context);
+          // Now that the previous connection has disconnected,
+          // create a new rhea connection object by refreshing.
+          const originalConnectionId = this._context.connectionId;
+          await this._context.refreshConnection();
+          logger.verbose(
+            `The connection "${originalConnectionId}" has been updated to "${this._context.connectionId}".`
+          );
+        }
+
         await this._negotiateClaim();
 
         const receiverOptions: CreateReceiverOptions = {

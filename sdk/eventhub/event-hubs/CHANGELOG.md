@@ -2,6 +2,9 @@
 
 ## 5.2.1 (Unreleased)
 
+- Fixes issue [#8584](https://github.com/Azure/azure-sdk-for-js/issues/8584)
+  where a `TypeError` was sometimes thrown as an uncaught exception.
+
 ### Tracing updates:
 
 Tracing functionality is still in preview status and the APIs may have breaking
