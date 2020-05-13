@@ -8,7 +8,21 @@
  * regenerated.
  */
 
-export * from "./linkedServices";
+export * from "./dataExports";
 export * from "./dataSources";
-export * from "./workspaces";
+export * from "./intelligencePacks";
+export * from "./linkedServices";
+export * from "./linkedStorageAccounts";
+export * from "./managementGroups";
 export * from "./operations";
+export * from "./operationStatuses";
+export * from "./sharedKeysOperations";
+export * from "./usages";
+export * from "./workspaces";
+export * from "./deletedWorkspaces";
+export * from "./clusters";
+export * from "./storageInsightConfigs";
+export * from "./savedSearches";
+export * from "./gateways";
+export * from "./schema";
+export * from "./workspacePurge";

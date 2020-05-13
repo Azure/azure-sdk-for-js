@@ -18,7 +18,6 @@ export {
   Identity,
   KeyVaultProperties,
   LinkedService,
-  LinkedServiceListResult,
   LinkedStorageAccountsResource,
   PrivateLinkScopedResource,
   ProxyResource,
@@ -30,6 +29,7 @@ export {
   Tag,
   TrackedResource,
   Workspace,
+  WorkspaceListResult,
   WorkspacePatch,
   WorkspaceSku
 } from "../models/mappers";
