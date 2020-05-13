@@ -42,6 +42,7 @@ export {
   LegalHoldProperties,
   ListContainerItem,
   ListQueue,
+  ListTableResource,
   ManagementPolicy,
   ManagementPolicyAction,
   ManagementPolicyBaseBlob,

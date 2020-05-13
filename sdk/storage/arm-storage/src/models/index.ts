@@ -720,11 +720,11 @@ export interface GeoReplicationStats {
  */
 export interface BlobRestoreRange {
   /**
-   * Blob start range. Empty means account start.
+   * Blob start range. This is inclusive. Empty means account start.
    */
   startRange: string;
   /**
-   * Blob end range. Empty means account end.
+   * Blob end range. This is exclusive. Empty means account end.
    */
   endRange: string;
 }
@@ -1362,6 +1362,26 @@ export interface ManagementPolicyAction {
 }
 
 /**
+ * Blob index tag based filtering for blob objects
+ */
+export interface TagFilter {
+  /**
+   * This is the filter tag name, it can have 1 - 128 characters
+   */
+  name: string;
+  /**
+   * This is the comparison operator which is used for object comparison and filtering. Only ==
+   * (equality operator) is currently supported
+   */
+  op: string;
+  /**
+   * This is the filter tag value field used for tag based filtering, it can have 0 - 256
+   * characters
+   */
+  value: string;
+}
+
+/**
  * Filters limit rule actions to a subset of blobs within the storage account. If multiple filters
  * are defined, a logical AND is performed on all filters.
  */
@@ -1374,6 +1394,10 @@ export interface ManagementPolicyFilter {
    * An array of predefined enum values. Only blockBlob is supported.
    */
   blobTypes: string[];
+  /**
+   * An array of blob index tag based filters, there can be at most 10 tag filters
+   */
+  blobIndexMatch?: TagFilter[];
 }
 
 /**
@@ -1439,36 +1463,6 @@ export interface ManagementPolicy extends Resource {
 }
 
 /**
- * A private link resource
- */
-export interface PrivateLinkResource extends Resource {
-  /**
-   * The private link resource group id.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly groupId?: string;
-  /**
-   * The private link resource required member names.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly requiredMembers?: string[];
-  /**
-   * The private link resource Private link DNS zone name.
-   */
-  requiredZoneNames?: string[];
-}
-
-/**
- * A list of private link resources
- */
-export interface PrivateLinkResourceListResult {
-  /**
-   * Array of private link resources
-   */
-  value?: PrivateLinkResource[];
-}
-
-/**
  * The key vault properties for the encryption scope. This is a required field if encryption scope
  * 'source' attribute is set to 'Microsoft.KeyVault'.
  */
@@ -1513,6 +1507,76 @@ export interface EncryptionScope extends Resource {
 }
 
 /**
+ * Filters limit replication to a subset of blobs within the storage account. A logical OR is
+ * performed on values in the filter. If multiple filters are defined, a logical AND is performed
+ * on all filters.
+ */
+export interface ObjectReplicationPolicyFilter {
+  /**
+   * Optional. Filters the results to replicate only blobs whose names begin with the specified
+   * prefix.
+   */
+  prefixMatch?: string[];
+  /**
+   * Blobs created after the time will be replicated to the destination. It must be in datetime
+   * format 'yyyy-MM-ddTHH:mm:ssZ'. Example: 2020-02-19T16:05:00Z
+   */
+  minCreationTime?: string;
+}
+
+/**
+ * The replication policy rule between two containers.
+ */
+export interface ObjectReplicationPolicyRule {
+  /**
+   * Rule Id is auto-generated for each new rule on destination account. It is required for put
+   * policy on source account.
+   */
+  ruleId?: string;
+  /**
+   * Required. Source container name.
+   */
+  sourceContainer: string;
+  /**
+   * Required. Destination container name.
+   */
+  destinationContainer: string;
+  /**
+   * Optional. An object that defines the filter set.
+   */
+  filters?: ObjectReplicationPolicyFilter;
+}
+
+/**
+ * The replication policy between two storage accounts. Multiple rules can be defined in one
+ * policy.
+ */
+export interface ObjectReplicationPolicy extends Resource {
+  /**
+   * A unique id for object replication policy.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly policyId?: string;
+  /**
+   * Indicates when the policy is enabled on the source account.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly enabledTime?: Date;
+  /**
+   * Required. Source account name.
+   */
+  sourceAccount: string;
+  /**
+   * Required. Destination account name.
+   */
+  destinationAccount: string;
+  /**
+   * The storage account object replication rules.
+   */
+  rules?: ObjectReplicationPolicyRule[];
+}
+
+/**
  * An error response from the storage resource provider.
  */
 export interface ErrorResponse {
@@ -1543,6 +1607,36 @@ export interface AzureEntityResource extends Resource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly etag?: string;
+}
+
+/**
+ * A private link resource
+ */
+export interface PrivateLinkResource extends Resource {
+  /**
+   * The private link resource group id.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly groupId?: string;
+  /**
+   * The private link resource required member names.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly requiredMembers?: string[];
+  /**
+   * The private link resource Private link DNS zone name.
+   */
+  requiredZoneNames?: string[];
+}
+
+/**
+ * A list of private link resources
+ */
+export interface PrivateLinkResourceListResult {
+  /**
+   * Array of private link resources
+   */
+  value?: PrivateLinkResource[];
 }
 
 /**
@@ -1924,6 +2018,11 @@ export interface RestorePolicyProperties {
    * DeleteRetentionPolicy.days.
    */
   days?: number;
+  /**
+   * Returns the date and time the restore policy was last enabled.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lastEnabledTime?: Date;
 }
 
 /**
@@ -2067,6 +2166,72 @@ export interface FileShare extends AzureEntityResource {
    * 5TB (5120). For Large File Shares, the maximum size is 102400.
    */
   shareQuota?: number;
+  /**
+   * The authentication protocol that is used for the file share. Can only be specified when
+   * creating a share. Possible values include: 'SMB', 'NFS'
+   */
+  enabledProtocols?: EnabledProtocols;
+  /**
+   * The property is for NFS share only. The default is NoRootSquash. Possible values include:
+   * 'NoRootSquash', 'RootSquash', 'AllSquash'
+   */
+  rootSquash?: RootSquashType;
+  /**
+   * The version of the share.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly version?: string;
+  /**
+   * Indicates whether the share was deleted.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly deleted?: boolean;
+  /**
+   * The deleted time if the share was deleted.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly deletedTime?: Date;
+  /**
+   * Remaining retention days for share that was soft deleted.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly remainingRetentionDays?: number;
+  /**
+   * Access tier for specific share. GpV2 account can choose between TransactionOptimized
+   * (default), Hot, and Cool. FileStorage account can choose Premium. Possible values include:
+   * 'TransactionOptimized', 'Hot', 'Cool', 'Premium'
+   */
+  accessTier?: ShareAccessTier;
+  /**
+   * Indicates the last modification time for share access tier.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly accessTierChangeTime?: Date;
+  /**
+   * Indicates if there is a pending transition for access tier.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly accessTierStatus?: string;
+  /**
+   * The approximate size of the data stored on the share. Note that this value may not include all
+   * recently created or recently resized files.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly shareUsageBytes?: number;
+}
+
+/**
+ * The deleted share to be restored.
+ */
+export interface DeletedShare {
+  /**
+   * Required. Identify the name of the deleted share that will be restored.
+   */
+  deletedShareName: string;
+  /**
+   * Required. Identify the version of the deleted share that will be restored.
+   */
+  deletedShareVersion: string;
 }
 
 /**
@@ -2087,6 +2252,141 @@ export interface FileShareItem extends AzureEntityResource {
    * 5TB (5120). For Large File Shares, the maximum size is 102400.
    */
   shareQuota?: number;
+  /**
+   * The authentication protocol that is used for the file share. Can only be specified when
+   * creating a share. Possible values include: 'SMB', 'NFS'
+   */
+  enabledProtocols?: EnabledProtocols;
+  /**
+   * The property is for NFS share only. The default is NoRootSquash. Possible values include:
+   * 'NoRootSquash', 'RootSquash', 'AllSquash'
+   */
+  rootSquash?: RootSquashType;
+  /**
+   * The version of the share.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly version?: string;
+  /**
+   * Indicates whether the share was deleted.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly deleted?: boolean;
+  /**
+   * The deleted time if the share was deleted.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly deletedTime?: Date;
+  /**
+   * Remaining retention days for share that was soft deleted.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly remainingRetentionDays?: number;
+  /**
+   * Access tier for specific share. GpV2 account can choose between TransactionOptimized
+   * (default), Hot, and Cool. FileStorage account can choose Premium. Possible values include:
+   * 'TransactionOptimized', 'Hot', 'Cool', 'Premium'
+   */
+  accessTier?: ShareAccessTier;
+  /**
+   * Indicates the last modification time for share access tier.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly accessTierChangeTime?: Date;
+  /**
+   * Indicates if there is a pending transition for access tier.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly accessTierStatus?: string;
+  /**
+   * The approximate size of the data stored on the share. Note that this value may not include all
+   * recently created or recently resized files.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly shareUsageBytes?: number;
+}
+
+/**
+ * The properties of a storage account’s Queue service.
+ */
+export interface QueueServiceProperties extends Resource {
+  /**
+   * Specifies CORS rules for the Queue service. You can include up to five CorsRule elements in
+   * the request. If no CorsRule elements are included in the request body, all CORS rules will be
+   * deleted, and CORS will be disabled for the Queue service.
+   */
+  cors?: CorsRules;
+}
+
+/**
+ * An interface representing ListQueueServices.
+ */
+export interface ListQueueServices {
+  /**
+   * List of queue services returned.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: QueueServiceProperties[];
+}
+
+/**
+ * An interface representing StorageQueue.
+ */
+export interface StorageQueue extends Resource {
+  /**
+   * A name-value pair that represents queue metadata.
+   */
+  metadata?: { [propertyName: string]: string };
+  /**
+   * Integer indicating an approximate number of messages in the queue. This number is not lower
+   * than the actual number of messages in the queue, but could be higher.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly approximateMessageCount?: number;
+}
+
+/**
+ * An interface representing ListQueue.
+ */
+export interface ListQueue extends Resource {
+  /**
+   * A name-value pair that represents queue metadata.
+   */
+  metadata?: { [propertyName: string]: string };
+}
+
+/**
+ * The properties of a storage account’s Table service.
+ */
+export interface TableServiceProperties extends Resource {
+  /**
+   * Specifies CORS rules for the Table service. You can include up to five CorsRule elements in
+   * the request. If no CorsRule elements are included in the request body, all CORS rules will be
+   * deleted, and CORS will be disabled for the Table service.
+   */
+  cors?: CorsRules;
+}
+
+/**
+ * An interface representing ListTableServices.
+ */
+export interface ListTableServices {
+  /**
+   * List of table services returned.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: TableServiceProperties[];
+}
+
+/**
+ * Properties of the table, including Id, resource name, resource type.
+ */
+export interface Table extends Resource {
+  /**
+   * Table name under the specified account
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tableName?: string;
 }
 
 /**
@@ -2216,36 +2516,81 @@ export interface FileSharesListOptionalParams extends msRest.RequestOptionsBase 
    * Optional. When specified, only share names starting with the filter will be listed.
    */
   filter?: string;
+  /**
+   * Optional, used to expand the properties within share's properties. Possible values include:
+   * 'deleted'
+   */
+  expand?: ListSharesExpand;
 }
 
 /**
  * Optional Parameters.
  */
-export interface FileSharesCreateOptionalParams extends msRest.RequestOptionsBase {
+export interface FileSharesGetOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * A name-value pair to associate with the share as metadata.
+   * Optional, used to expand the properties within share's properties. Possible values include:
+   * 'stats'
    */
-  metadata?: { [propertyName: string]: string };
-  /**
-   * The maximum size of the share, in gigabytes. Must be greater than 0, and less than or equal to
-   * 5TB (5120). For Large File Shares, the maximum size is 102400.
-   */
-  shareQuota?: number;
+  expand?: GetShareExpand;
 }
 
 /**
  * Optional Parameters.
  */
-export interface FileSharesUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface QueueServicesSetServicePropertiesOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * A name-value pair to associate with the share as metadata.
+   * Specifies CORS rules for the Queue service. You can include up to five CorsRule elements in
+   * the request. If no CorsRule elements are included in the request body, all CORS rules will be
+   * deleted, and CORS will be disabled for the Queue service.
+   */
+  cors?: CorsRules;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface QueueCreateOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * A name-value pair that represents queue metadata.
    */
   metadata?: { [propertyName: string]: string };
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface QueueUpdateOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * The maximum size of the share, in gigabytes. Must be greater than 0, and less than or equal to
-   * 5TB (5120). For Large File Shares, the maximum size is 102400.
+   * A name-value pair that represents queue metadata.
    */
-  shareQuota?: number;
+  metadata?: { [propertyName: string]: string };
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface QueueListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Optional, a maximum number of queues that should be included in a list queue response
+   */
+  maxpagesize?: string;
+  /**
+   * Optional, When specified, only the queues with a name starting with the given filter will be
+   * listed.
+   */
+  filter?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface TableServicesSetServicePropertiesOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Specifies CORS rules for the Table service. You can include up to five CorsRule elements in
+   * the request. If no CorsRule elements are included in the request body, all CORS rules will be
+   * deleted, and CORS will be disabled for the Table service.
+   */
+  cors?: CorsRules;
 }
 
 /**
@@ -2356,6 +2701,22 @@ export interface UsageListResult extends Array<Usage> {
 
 /**
  * @interface
+ * List of private endpoint connection associated with the specified storage account
+ * @extends Array<PrivateEndpointConnection>
+ */
+export interface PrivateEndpointConnectionListResult extends Array<PrivateEndpointConnection> {
+}
+
+/**
+ * @interface
+ * List storage account object replication policies.
+ * @extends Array<ObjectReplicationPolicy>
+ */
+export interface ObjectReplicationPolicies extends Array<ObjectReplicationPolicy> {
+}
+
+/**
+ * @interface
  * List of encryption scopes requested, and if paging is required, a URL to the next page of
  * encryption scopes.
  * @extends Array<EncryptionScope>
@@ -2402,6 +2763,32 @@ export interface FileShareItems extends Array<FileShareItem> {
   /**
    * Request URL that can be used to query next page of shares. Returned when total number of
    * requested shares exceed maximum page size.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * Response schema. Contains list of queues returned
+ * @extends Array<ListQueue>
+ */
+export interface ListQueueResource extends Array<ListQueue> {
+  /**
+   * Request URL that can be used to list next page of queues
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * Response schema. Contains list of tables returned
+ * @extends Array<Table>
+ */
+export interface ListTableResource extends Array<Table> {
+  /**
+   * Request URL that can be used to query next page of tables
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly nextLink?: string;
@@ -2700,6 +3087,30 @@ export type ImmutabilityPolicyState = 'Locked' | 'Unlocked';
 export type ImmutabilityPolicyUpdateType = 'put' | 'lock' | 'extend';
 
 /**
+ * Defines values for EnabledProtocols.
+ * Possible values include: 'SMB', 'NFS'
+ * @readonly
+ * @enum {string}
+ */
+export type EnabledProtocols = 'SMB' | 'NFS';
+
+/**
+ * Defines values for RootSquashType.
+ * Possible values include: 'NoRootSquash', 'RootSquash', 'AllSquash'
+ * @readonly
+ * @enum {string}
+ */
+export type RootSquashType = 'NoRootSquash' | 'RootSquash' | 'AllSquash';
+
+/**
+ * Defines values for ShareAccessTier.
+ * Possible values include: 'TransactionOptimized', 'Hot', 'Cool', 'Premium'
+ * @readonly
+ * @enum {string}
+ */
+export type ShareAccessTier = 'TransactionOptimized' | 'Hot' | 'Cool' | 'Premium';
+
+/**
  * Defines values for StorageAccountExpand.
  * Possible values include: 'geoReplicationStats', 'blobRestoreStatus'
  * @readonly
@@ -2714,6 +3125,22 @@ export type StorageAccountExpand = 'geoReplicationStats' | 'blobRestoreStatus';
  * @enum {string}
  */
 export type ListKeyExpand = 'kerb';
+
+/**
+ * Defines values for ListSharesExpand.
+ * Possible values include: 'deleted'
+ * @readonly
+ * @enum {string}
+ */
+export type ListSharesExpand = 'deleted';
+
+/**
+ * Defines values for GetShareExpand.
+ * Possible values include: 'stats'
+ * @readonly
+ * @enum {string}
+ */
+export type GetShareExpand = 'stats';
 
 /**
  * Defines values for Action1.
@@ -3104,6 +3531,26 @@ export type ManagementPoliciesCreateOrUpdateResponse = ManagementPolicy & {
 };
 
 /**
+ * Contains response data for the list operation.
+ */
+export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnectionListResult;
+    };
+};
+
+/**
  * Contains response data for the get operation.
  */
 export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection & {
@@ -3160,6 +3607,66 @@ export type PrivateLinkResourcesListByStorageAccountResponse = PrivateLinkResour
        * The response body as parsed JSON or XML
        */
       parsedBody: PrivateLinkResourceListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type ObjectReplicationPoliciesListResponse = ObjectReplicationPolicies & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ObjectReplicationPolicies;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ObjectReplicationPoliciesGetResponse = ObjectReplicationPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ObjectReplicationPolicy;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ObjectReplicationPoliciesCreateOrUpdateResponse = ObjectReplicationPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ObjectReplicationPolicy;
     };
 };
 
@@ -3765,5 +4272,325 @@ export type FileSharesListNextResponse = FileShareItems & {
        * The response body as parsed JSON or XML
        */
       parsedBody: FileShareItems;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type QueueServicesListResponse = ListQueueServices & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListQueueServices;
+    };
+};
+
+/**
+ * Contains response data for the setServiceProperties operation.
+ */
+export type QueueServicesSetServicePropertiesResponse = QueueServiceProperties & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: QueueServiceProperties;
+    };
+};
+
+/**
+ * Contains response data for the getServiceProperties operation.
+ */
+export type QueueServicesGetServicePropertiesResponse = QueueServiceProperties & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: QueueServiceProperties;
+    };
+};
+
+/**
+ * Contains response data for the create operation.
+ */
+export type QueueCreateResponse = StorageQueue & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: StorageQueue;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type QueueUpdateResponse = StorageQueue & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: StorageQueue;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type QueueGetResponse = StorageQueue & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: StorageQueue;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type QueueListResponse = ListQueueResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListQueueResource;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type QueueListNextResponse = ListQueueResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListQueueResource;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type TableServicesListResponse = ListTableServices & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListTableServices;
+    };
+};
+
+/**
+ * Contains response data for the setServiceProperties operation.
+ */
+export type TableServicesSetServicePropertiesResponse = TableServiceProperties & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TableServiceProperties;
+    };
+};
+
+/**
+ * Contains response data for the getServiceProperties operation.
+ */
+export type TableServicesGetServicePropertiesResponse = TableServiceProperties & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TableServiceProperties;
+    };
+};
+
+/**
+ * Contains response data for the create operation.
+ */
+export type TableCreateResponse = Table & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Table;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type TableUpdateResponse = Table & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Table;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type TableGetResponse = Table & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Table;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type TableListResponse = ListTableResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListTableResource;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type TableListNextResponse = ListTableResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListTableResource;
     };
 };
