@@ -8,7 +8,13 @@
   Setup: Please run "sendMessages.ts" sample before running this to populate the queue/topic
 */
 
-import { OnMessage, OnError, ServiceBusClient, ReceiveMode, MessagingError } from "@azure/service-bus";
+import {
+  OnMessage,
+  OnError,
+  ServiceBusClient,
+  ReceiveMode,
+  MessagingError
+} from "@azure/service-bus";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -35,6 +41,7 @@ export async function main() {
 
     const receiverPromise = new Promise((resolve, _reject) => {
       const onMessageHandler: OnMessage = async (brokeredMessage) => {
+       
         console.log(`Received message: ${brokeredMessage.body}`);
         await brokeredMessage.complete();
       };
@@ -46,18 +53,19 @@ export async function main() {
         } else {
           console.log("Non-fatal error occurred: ", err);
         }
-      };      
-      
+      };
+
       receiver.registerMessageHandler(onMessageHandler, onErrorHandler, { autoComplete: false });
     });
-    
+
     // This will only resolve if our receiver has failed in a way that is not recoverable.
-    await receiverPromise; 
+    await receiverPromise;
 
     // the Service Bus package is intended to be resilient in the face of transitive issues, like network
     // interruptions. If there are continual restarts this might indicate a more serious issue, like a network
     // outage.
-        
+    console.log(`Closing previous receiver and recreating - a fatal error has occurred.`);
+
     // we can close the old receiver and just let the loop start again.
     await receiver.close();
   } while (enableReceiverRecovery);
