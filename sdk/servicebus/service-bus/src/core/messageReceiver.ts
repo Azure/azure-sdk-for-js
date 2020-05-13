@@ -768,6 +768,13 @@ export class MessageReceiver extends LinkEntity {
     const connectionId = this._context.namespace.connectionId;
     try {
       if (!this.isOpen() && !this.isConnecting) {
+        if (this.wasCloseInitiated) {
+          // in track 1 we'll maintain backwards compatible behavior for the codebase and
+          // just treat this as a no-op. There are cases, like in onDetached, where throwing
+          // an error here could have unintended consequences.
+          return;
+        }
+
         log.error(
           "[%s] The receiver '%s' with address '%s' is not open and is not currently " +
             "establishing itself. Hence let's try to connect.",
@@ -783,10 +790,22 @@ export class MessageReceiver extends LinkEntity {
         await defaultLock.acquire(this._openLock, async () => {
           if (this.wasCloseInitiated) {
             // in track 1 we'll maintain backwards compatible behavior for the codebase and
-            // just treat this as a no-op. There are cases, like in onDetached, where throwing 
+            // just treat this as a no-op. There are cases, like in onDetached, where throwing
             // an error here could have unintended consequences.
             return;
           }
+
+          this.isConnecting = true;
+          await this._negotiateClaim();
+          if (!options) {
+            options = this._createReceiverOptions();
+          }
+          log.error(
+            "[%s] Trying to create receiver '%s' with options %O",
+            connectionId,
+            this.name,
+            options
+          );
 
           if (this.isOpen()) {
             return;
