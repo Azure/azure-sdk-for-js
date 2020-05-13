@@ -14,6 +14,7 @@ import { PipelineOptions } from '@azure/core-http';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 import { RestResponse } from '@azure/core-http';
+import { TokenCredential } from '@azure/identity';
 
 // @public
 export interface AccountProperties {
@@ -196,7 +197,7 @@ export type FormPollerLike = PollerLike<PollOperationState<RecognizeFormResultRe
 
 // @public
 export class FormRecognizerClient {
-    constructor(endpointUrl: string, credential: KeyCredential, options?: FormRecognizerClientOptions);
+    constructor(endpointUrl: string, credential: TokenCredential | KeyCredential, options?: FormRecognizerClientOptions);
     beginRecognizeContent(data: FormRecognizerRequestBody, contentType?: ContentType, options?: BeginRecognizeContentOptions): Promise<ContentPollerLike>;
     beginRecognizeContentFromUrl(documentUrl: string, options?: BeginRecognizeContentOptions): Promise<ContentPollerLike>;
     beginRecognizeForms(modelId: string, data: FormRecognizerRequestBody, contentType?: ContentType, options?: BeginRecognizeFormsOptions): Promise<FormPollerLike>;
@@ -260,7 +261,7 @@ export interface FormText {
 
 // @public
 export class FormTrainingClient {
-    constructor(endpointUrl: string, credential: KeyCredential, options?: FormRecognizerClientOptions);
+    constructor(endpointUrl: string, credential: TokenCredential | KeyCredential, options?: FormRecognizerClientOptions);
     beginTraining(blobContainerUrl: string, useLabels?: boolean, options?: BeginTrainingOptions<FormModelResponse>): Promise<PollerLike<PollOperationState<FormModelResponse>, FormModelResponse>>;
     deleteModel(modelId: string, options?: DeleteModelOptions): Promise<RestResponse>;
     readonly endpointUrl: string;
@@ -588,8 +589,8 @@ export type ValueTypes = "string" | "date" | "time" | "phoneNumber" | "number" |
 
 // Warnings were encountered during analysis:
 //
-// src/formRecognizerClient.ts:70:3 - (ae-forgotten-export) The symbol "BeginRecognizePollState" needs to be exported by the entry point index.d.ts
-// src/formTrainingClient.ts:68:3 - (ae-forgotten-export) The symbol "BeginTrainingPollState" needs to be exported by the entry point index.d.ts
+// src/formRecognizerClient.ts:73:3 - (ae-forgotten-export) The symbol "BeginRecognizePollState" needs to be exported by the entry point index.d.ts
+// src/formTrainingClient.ts:71:3 - (ae-forgotten-export) The symbol "BeginTrainingPollState" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 
