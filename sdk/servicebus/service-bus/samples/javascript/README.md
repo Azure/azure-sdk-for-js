@@ -12,22 +12,23 @@ urlFragment: service-bus-javascript
 
 These sample programs show how to use the JavaScript client libraries for Azure Service Bus in some common scenarios.
 
-| **File Name**                                                       | **Description**                                                                                                         |
-| ------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| [sendMessages.js][sendmessages]                                     | uses the send() function to send messages to Service Bus Queue/Topic                                                    |
-| [receiveMessagesStreaming.js][receivemessagesstreaming]             | uses the receive() function to receive Service Bus messages in a stream                                                 |
-| [receiveMessagesLoop.js][receivemessagesloop]                       | uses the receiveMessages() function to receive Service Bus messages in a loop                                           |
-| [scheduledMessages.js][scheduledmessages]                           | uses the scheduleMessage() function to schedule messages to appear on a Service Bus Queue/Subscription at a later time  |
-| [session.js][session]                                               | sends/receives messages to/from session enabled queues/subscriptions in Service Bus                                     |
-| [browseMessages.js][browsemessages]                                 | uses the peek() function to browse a Service Bus                                                                        |
-| [serviceprincipallogin.js][serviceprincipallogin]                   | creates a namespace using aad token credentials obtained from using service principal secrets                           |
-| [interactivelogin.js][interactivelogin]                             | creates a namespace using aad token credentials obtained from interactive login                                         |
-| [useProxy.js][useproxy]                                             | creates a ServiceBusClient that uses an HTTP(S) proxy server to make requests                                           |
-| [advanced/movingMessagesToDLQ.js][advanced-movingmessagestodlq]     | moves a message explicitly to the dead-letter queue                                                                     |
-| [advanced/deferral.js][advanced-deferral]                           | uses the defer() function to defer a message for later processing                                                       |
-| [advanced/processMessageFromDLQ.js][advanced-processmessagefromdlq] | retrieves a message from a dead-letter queue, edits it, and sends it back to the main queue                             |
-| [advanced/sessionState.js][advanced-sessionstate]                   | uses a "shopping cart" example to demonstrate how SessionState information can be read and maintained in an application |
-| [advanced/topicFilters.js][advanced-topicfilters]                   | use topic subscriptions and filters for splitting up a message stream into multiple streams based on message properties |
+| **File Name**                                                       | **Description**                                                                                                                |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| [sendMessages.js][sendmessages]                                     | uses the send() function to send messages to Service Bus Queue/Topic                                                           |
+| [receiveMessagesStreaming.js][receivemessagesstreaming]             | uses the receive() function to receive Service Bus messages in a stream                                                        |
+| [receiveMessagesLoop.js][receivemessagesloop]                       | uses the receiveMessages() function to receive Service Bus messages in a loop                                                  |
+| [scheduledMessages.js][scheduledmessages]                           | uses the scheduleMessage() function to schedule messages to appear on a Service Bus Queue/Subscription at a later time         |
+| [session.js][session]                                               | sends/receives messages to/from session enabled queues/subscriptions in Service Bus                                            |
+| [browseMessages.js][browsemessages]                                 | uses the peek() function to browse a Service Bus                                                                               |
+| [serviceprincipallogin.js][serviceprincipallogin]                   | creates a namespace using aad token credentials obtained from using service principal secrets                                  |
+| [interactivelogin.js][interactivelogin]                             | creates a namespace using aad token credentials obtained from interactive login                                                |
+| [useProxy.js][useproxy]                                             | creates a ServiceBusClient that uses an HTTP(S) proxy server to make requests                                                  |
+| [advanced/movingMessagesToDLQ.js][advanced-movingmessagestodlq]     | moves a message explicitly to the dead-letter queue                                                                            |
+| [advanced/deferral.js][advanced-deferral]                           | uses the defer() function to defer a message for later processing                                                              |
+| [advanced/processMessageFromDLQ.js][advanced-processmessagefromdlq] | retrieves a message from a dead-letter queue, edits it, and sends it back to the main queue                                    |
+| [advanced/sessionRoundRobin.js][advanced-session-round-robin]       | uses `SessionReceiver`'s ability to get the next available session to round-robin through all sessions in a Queue/Subscription |
+| [advanced/sessionState.js][advanced-sessionstate]                   | uses a "shopping cart" example to demonstrate how SessionState information can be read and maintained in an application        |
+| [advanced/topicFilters.js][advanced-topicfilters]                   | use topic subscriptions and filters for splitting up a message stream into multiple streams based on message properties        |
 
 ## Prerequisites
 
@@ -83,4 +84,3 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [azsvcbus]: https://docs.microsoft.com/azure/service-bus-messaging/service-bus-create-namespace-portal
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/README.md
-
