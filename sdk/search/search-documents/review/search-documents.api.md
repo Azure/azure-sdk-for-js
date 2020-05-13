@@ -109,9 +109,7 @@ export type CognitiveServicesAccount = DefaultCognitiveServicesAccount | Cogniti
 
 // @public
 export interface CognitiveServicesAccountKey {
-    // (undocumented)
     description?: string;
-    // (undocumented)
     key: string;
     odatatype: "#Microsoft.Azure.Search.CognitiveServicesByKey";
 }
@@ -155,10 +153,16 @@ export interface CorsOptions {
 export type CountDocumentsOptions = OperationOptions;
 
 // @public
+export type CreateDataSourceOptions = OperationOptions;
+
+// @public
 export type CreateIndexerOptions = OperationOptions;
 
 // @public
 export type CreateIndexOptions = OperationOptions;
+
+// @public
+export type CreateorUpdateDataSourceOptions = OperationOptions & ETagOperationOptions;
 
 // @public
 export type CreateorUpdateIndexerOptions = OperationOptions & ETagOperationOptions;
@@ -190,11 +194,45 @@ export interface CustomAnalyzer {
 }
 
 // @public
+export type DataChangeDetectionPolicy = HighWaterMarkChangeDetectionPolicy | SqlIntegratedChangeTrackingPolicy;
+
+// @public
+export interface DataContainer {
+    name: string;
+    query?: string;
+}
+
+// @public
+export type DataDeletionDetectionPolicy = SoftDeleteColumnDeletionDetectionPolicy;
+
+// @public
+export interface DataSource {
+    container: DataContainer;
+    credentials: DataSourceCredentials;
+    dataChangeDetectionPolicy?: DataChangeDetectionPolicy;
+    dataDeletionDetectionPolicy?: DataDeletionDetectionPolicy;
+    description?: string;
+    etag?: string;
+    name: string;
+    type: DataSourceType;
+}
+
+// @public
+export interface DataSourceCredentials {
+    connectionString?: string;
+}
+
+// @public
+export type DataSourceType = 'azuresql' | 'cosmosdb' | 'azureblob' | 'azuretable' | 'mysql';
+
+// @public
 export interface DefaultCognitiveServicesAccount {
-    // (undocumented)
     description?: string;
     odatatype: "#Microsoft.Azure.Search.DefaultCognitiveServices";
 }
+
+// @public
+export type DeleteDataSourceOptions = OperationOptions & ETagOperationOptions;
 
 // @public
 export type DeleteDocumentsOptions = IndexDocuments;
@@ -354,6 +392,9 @@ export class GeographyPoint {
 }
 
 // @public
+export type GetDataSourceOptions = OperationOptions;
+
+// @public
 export interface GetDocumentOptions<Fields> extends OperationOptions {
     selectedFields?: Fields[];
 }
@@ -377,10 +418,19 @@ export interface GetIndexStatisticsResult {
 }
 
 // @public
+export type GetServiceStatisticsOptions = OperationOptions;
+
+// @public
 export type GetSkillSetOptions = OperationOptions;
 
 // @public
 export type GetSynonymMapsOptions = OperationOptions;
+
+// @public
+export interface HighWaterMarkChangeDetectionPolicy {
+    highWaterMarkColumnName: string;
+    odatatype: "#Microsoft.Azure.Search.HighWaterMarkChangeDetectionPolicy";
+}
 
 // @public
 export interface ImageAnalysisSkill {
@@ -775,6 +825,11 @@ export interface LimitTokenFilter {
 }
 
 // @public
+export interface ListDataSourcesOptions<Fields> extends OperationOptions {
+    select?: Fields[];
+}
+
+// @public
 export interface ListIndexersOptions<Fields> extends OperationOptions {
     select?: Fields[];
 }
@@ -1008,6 +1063,12 @@ export type RegexFlags = 'CANON_EQ' | 'CASE_INSENSITIVE' | 'COMMENTS' | 'DOTALL'
 export type ResetIndexerOptions = OperationOptions;
 
 // @public
+export interface ResourceCounter {
+    quota?: number;
+    usage: number;
+}
+
+// @public
 export type RunIndexerOptions = OperationOptions;
 
 // @public
@@ -1111,25 +1172,32 @@ export class SearchServiceClient {
     constructor(endpoint: string, credential: KeyCredential, options?: SearchServiceClientOptions);
     analyzeText(indexName: string, options: AnalyzeTextOptions): Promise<AnalyzeResult>;
     readonly apiVersion: string;
+    createDataSource(dataSource: DataSource, options?: CreateDataSourceOptions): Promise<DataSource>;
     createIndex(index: Index, options?: CreateIndexOptions): Promise<Index>;
     createIndexer(indexer: Indexer, options?: CreateIndexerOptions): Promise<Indexer>;
+    createOrUpdateDataSource(dataSource: DataSource, options?: CreateorUpdateDataSourceOptions): Promise<DataSource>;
     createOrUpdateIndex(index: Index, options?: CreateOrUpdateIndexOptions): Promise<Index>;
     createOrUpdateIndexer(indexer: Indexer, options?: CreateorUpdateIndexerOptions): Promise<Indexer>;
     createOrUpdateSkillset(skillset: Skillset, options?: CreateOrUpdateSkillsetOptions): Promise<Skillset>;
     createOrUpdateSynonymMap(synonymMap: SynonymMap, options?: CreateOrUpdateSynonymMapOptions): Promise<SynonymMap>;
     createSkillset(skillset: Skillset, options?: CreateSkillsetOptions): Promise<Skillset>;
     createSynonymMap(synonymMap: SynonymMap, options?: CreateSynonymMapOptions): Promise<SynonymMap>;
+    deleteDataSource(dataSourceName: string, options?: DeleteDataSourceOptions): Promise<void>;
     deleteIndex(indexName: string, options?: DeleteIndexOptions): Promise<void>;
     deleteIndexer(indexerName: string, options?: DeleteIndexerOptions): Promise<void>;
     deleteSkillset(skillsetName: string, options?: DeleteSkillsetOptions): Promise<void>;
     deleteSynonymMap(synonymMapName: string, options?: DeleteSynonymMapOptions): Promise<void>;
     readonly endpoint: string;
+    getDataSource(dataSourceName: string, options?: GetDataSourceOptions): Promise<DataSource>;
     getIndex(indexName: string, options?: GetIndexOptions): Promise<Index>;
     getIndexer(indexerName: string, options?: GetIndexerOptions): Promise<Indexer>;
     getIndexerStatus(indexerName: string, options?: GetIndexerStatusOptions): Promise<IndexerExecutionInfo>;
     getIndexStatistics(indexName: string, options?: GetIndexStatisticsOptions): Promise<GetIndexStatisticsResult>;
+    getSearchIndexClient<T>(indexName: string, options?: SearchIndexClientOptions): SearchIndexClient<T>;
+    getServiceStatistics(options?: GetServiceStatisticsOptions): Promise<ServiceStatistics>;
     getSkillset(skillsetName: string, options?: GetSkillSetOptions): Promise<Skillset>;
     getSynonymMap(synonymMapName: string, options?: GetSynonymMapsOptions): Promise<SynonymMap>;
+    listDataSources<Fields extends keyof DataSource>(options?: ListDataSourcesOptions<Fields>): Promise<Array<Pick<DataSource, Fields>>>;
     listIndexers<Fields extends keyof Indexer>(options?: ListIndexersOptions<Fields>): Promise<Array<Pick<Indexer, Fields>>>;
     listIndexes<Fields extends keyof Index>(options?: ListIndexesOptions<Fields>): Promise<Array<Pick<Index, Fields>>>;
     listSkillsets(options?: ListSkillsetsOptions): Promise<Skillset[]>;
@@ -1154,6 +1222,31 @@ export interface SentimentSkill {
 
 // @public
 export type SentimentSkillLanguage = 'da' | 'nl' | 'en' | 'fi' | 'fr' | 'de' | 'el' | 'it' | 'no' | 'pl' | 'pt-PT' | 'ru' | 'es' | 'sv' | 'tr';
+
+// @public
+export interface ServiceCounters {
+    dataSourceCounter: ResourceCounter;
+    documentCounter: ResourceCounter;
+    indexCounter: ResourceCounter;
+    indexerCounter: ResourceCounter;
+    skillsetCounter: ResourceCounter;
+    storageSizeCounter: ResourceCounter;
+    synonymMapCounter: ResourceCounter;
+}
+
+// @public
+export interface ServiceLimits {
+    maxComplexCollectionFieldsPerIndex?: number;
+    maxComplexObjectsInCollectionsPerDocument?: number;
+    maxFieldNestingDepthPerIndex?: number;
+    maxFieldsPerIndex?: number;
+}
+
+// @public
+export interface ServiceStatistics {
+    counters: ServiceCounters;
+    limits: ServiceLimits;
+}
 
 // @public
 export interface ShaperSkill {
@@ -1219,12 +1312,19 @@ export interface SnowballTokenFilter {
 export type SnowballTokenFilterLanguage = 'armenian' | 'basque' | 'catalan' | 'danish' | 'dutch' | 'english' | 'finnish' | 'french' | 'german' | 'german2' | 'hungarian' | 'italian' | 'kp' | 'lovins' | 'norwegian' | 'porter' | 'portuguese' | 'romanian' | 'russian' | 'spanish' | 'swedish' | 'turkish';
 
 // @public
+export interface SoftDeleteColumnDeletionDetectionPolicy {
+    odatatype: "#Microsoft.Azure.Search.SoftDeleteColumnDeletionDetectionPolicy";
+    softDeleteColumnName?: string;
+    softDeleteMarkerValue?: string;
+}
+
+// @public
 export interface SplitSkill {
     context?: string;
     defaultLanguageCode?: SplitSkillLanguage;
     description?: string;
     inputs: InputFieldMappingEntry[];
-    maximumPageLength?: number;
+    maxPageLength?: number;
     name?: string;
     odatatype: "#Microsoft.Skills.Text.SplitSkill";
     outputs: OutputFieldMappingEntry[];
@@ -1233,6 +1333,11 @@ export interface SplitSkill {
 
 // @public
 export type SplitSkillLanguage = 'da' | 'de' | 'en' | 'es' | 'fi' | 'fr' | 'it' | 'ko' | 'pt';
+
+// @public
+export interface SqlIntegratedChangeTrackingPolicy {
+    odatatype: "#Microsoft.Azure.Search.SqlIntegratedChangeTrackingPolicy";
+}
 
 // @public
 export interface StandardAnalyzer {

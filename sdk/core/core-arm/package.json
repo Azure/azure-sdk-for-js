@@ -85,7 +85,7 @@
     "test": "npm run build && npm run unit-test && npm run integration-test",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "echo skipped",
-    "unit-test:node": "nyc mocha",
+    "unit-test:node": "nyc mocha --require ts-node/register --timeout 50000 --reporter ../../../common/tools/mocha-multi-reporter.js --colors \"test/**/*.ts\"",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean"
   },
@@ -99,7 +99,7 @@
     ]
   },
   "dependencies": {
-    "@azure/core-http": "^1.0.0",
+    "@azure/core-http": "^1.1.1",
     "tslib": "^1.10.0"
   },
   "devDependencies": {
@@ -125,7 +125,7 @@
     "rollup-plugin-visualizer": "^3.1.1",
     "shx": "^0.3.2",
     "ts-node": "^8.3.0",
-    "typescript": "~3.7.5",
+    "typescript": "~3.8.3",
     "uglify-js": "^3.4.9"
   }
 }

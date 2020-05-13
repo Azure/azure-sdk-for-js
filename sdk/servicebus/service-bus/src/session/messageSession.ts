@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import {
   translate,
@@ -18,18 +18,13 @@ import {
   isAmqpError
 } from "rhea-promise";
 import * as log from "../log";
-import {
-  OnError,
-  OnAmqpEventAsPromise,
-  PromiseLike,
-  DispositionOptions,
-  OnMessage
-} from "../core/messageReceiver";
+import { OnError, OnAmqpEventAsPromise, PromiseLike, OnMessage } from "../core/messageReceiver";
 import { LinkEntity } from "../core/linkEntity";
 import { ClientEntityContext } from "../clientEntityContext";
 import { convertTicksToDate, calculateRenewAfterDuration } from "../util/utils";
 import { throwErrorIfConnectionClosed } from "../util/errors";
 import { ServiceBusMessageImpl, DispositionType, ReceiveMode } from "../serviceBusMessage";
+import { DispositionStatusOptions } from "../core/managementClient";
 
 /**
  * Enum to denote who is calling the session receiver
@@ -62,7 +57,7 @@ export interface SessionReceiverOptions {
    * @property The id of the session from which messages need to be received. If null or undefined is
    * provided, Service Bus chooses a random session from available sessions.
    */
-  sessionId: string | undefined;
+  sessionId?: string;
   /**
    * @property The maximum duration in milliseconds
    * until which, the lock on the session will be renewed automatically by the sdk.
@@ -367,11 +362,17 @@ export class MessageSession extends LinkEntity {
           this._receiver.source.filter[Constants.sessionFilterName];
         let errorMessage: string = "";
         // SB allows a sessionId with empty string value :)
+
         if (receivedSessionId == null) {
-          errorMessage =
-            `Received an incorrect sessionId '${receivedSessionId}' while creating ` +
-            `the receiver '${this.name}'.`;
+          if (this.sessionId == null) {
+            errorMessage = `No unlocked sessions were available`;
+          } else {
+            errorMessage =
+              `Received an incorrect sessionId '${receivedSessionId}' while creating ` +
+              `the receiver '${this.name}'.`;
+          }
         }
+
         if (this.sessionId != null && receivedSessionId !== this.sessionId) {
           errorMessage =
             `Received sessionId '${receivedSessionId}' does not match the provided ` +
@@ -1123,7 +1124,7 @@ export class MessageSession extends LinkEntity {
   async settleMessage(
     message: ServiceBusMessageImpl,
     operation: DispositionType,
-    options?: DispositionOptions
+    options?: DispositionStatusOptions
   ): Promise<any> {
     return new Promise((resolve, reject) => {
       if (!options) options = {};
@@ -1169,7 +1170,15 @@ export class MessageSession extends LinkEntity {
         if (options.propertiesToModify) params.message_annotations = options.propertiesToModify;
         delivery.modified(params);
       } else if (operation === DispositionType.deadletter) {
-        delivery.reject(options.error || {});
+        const error: AmqpError = {
+          condition: Constants.deadLetterName,
+          info: {
+            ...options.propertiesToModify,
+            DeadLetterReason: options.deadLetterReason,
+            DeadLetterErrorDescription: options.deadLetterDescription
+          }
+        };
+        delivery.reject(error);
       }
     });
   }

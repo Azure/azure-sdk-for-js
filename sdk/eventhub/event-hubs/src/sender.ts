@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { EventData } from "./eventData";
 import { EventHubSender } from "./eventHubSender";
@@ -10,7 +10,7 @@ import { logger, logErrorStackTrace } from "./log";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
 import { EventDataBatch, isEventDataBatch, EventDataBatchImpl } from "./eventDataBatch";
 import { getTracer } from "@azure/core-tracing";
-import { SpanContext, Span, SpanKind, CanonicalCode, Link } from "@opentelemetry/types";
+import { SpanContext, Span, SpanKind, CanonicalCode, Link } from "@opentelemetry/api";
 import { instrumentEventData, TRACEPARENT_PROPERTY } from "./diagnostics/instrumentEventData";
 import { createMessageSpan } from "./diagnostics/messageSpan";
 import { getParentSpan } from "./util/operationOptions";
@@ -50,7 +50,7 @@ export class EventHubProducer {
   private _eventHubSender: EventHubSender | undefined;
 
   private _eventHubName: string;
-  private _endpoint: string;
+  private _fullyQualifiedNamespace: string;
 
   /**
    * @property Returns `true` if either the producer or the client that created it has been closed.
@@ -63,14 +63,13 @@ export class EventHubProducer {
   /**
    * EventHubProducer should not be constructed using `new EventHubProduer()`
    * Use the `createProducer()` method on your `EventHubClient` instead.
-   * @private
    * @constructor
    * @internal
    * @ignore
    */
   constructor(
     eventHubName: string,
-    endpoint: string,
+    fullyQualifiedNamespace: string,
     context: ConnectionContext,
     options?: EventHubProducerOptions
   ) {
@@ -82,7 +81,7 @@ export class EventHubProducer {
         : undefined;
     this._eventHubSender = EventHubSender.create(this._context, partitionId);
     this._eventHubName = eventHubName;
-    this._endpoint = endpoint;
+    this._fullyQualifiedNamespace = fullyQualifiedNamespace;
   }
 
   /**
@@ -186,7 +185,7 @@ export class EventHubProducer {
       for (let i = 0; i < eventData.length; i++) {
         const event = eventData[i];
         if (!event.properties || !event.properties[TRACEPARENT_PROPERTY]) {
-          const messageSpan = createMessageSpan(getParentSpan(options));
+          const messageSpan = createMessageSpan(getParentSpan(options.tracingOptions));
           // since these message spans are created from same context as the send span,
           // these message spans don't need to be linked.
           // replace the original event with the instrumented one
@@ -198,7 +197,10 @@ export class EventHubProducer {
       spanContextsToLink = eventData._messageSpanContexts;
     }
 
-    const sendSpan = this._createSendSpan(getParentSpan(options), spanContextsToLink);
+    const sendSpan = this._createSendSpan(
+      getParentSpan(options.tracingOptions),
+      spanContextsToLink
+    );
 
     try {
       const result = await this._eventHubSender!.send(eventData, {
@@ -246,12 +248,12 @@ export class EventHubProducer {
   }
 
   private _createSendSpan(
-    parentSpan?: Span | SpanContext,
+    parentSpan?: Span | SpanContext | null,
     spanContextsToLink: SpanContext[] = []
   ): Span {
-    const links: Link[] = spanContextsToLink.map((spanContext) => {
+    const links: Link[] = spanContextsToLink.map((context) => {
       return {
-        spanContext
+        context
       };
     });
     const tracer = getTracer();
@@ -263,7 +265,7 @@ export class EventHubProducer {
 
     span.setAttribute("az.namespace", "Microsoft.EventHub");
     span.setAttribute("message_bus.destination", this._eventHubName);
-    span.setAttribute("peer.address", this._endpoint);
+    span.setAttribute("peer.address", this._fullyQualifiedNamespace);
 
     return span;
   }

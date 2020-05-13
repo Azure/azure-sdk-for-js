@@ -9,7 +9,7 @@ import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import { recorderEnvSetup } from "./utils/index.browser";
 
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("RetryPolicy", () => {
   let queueServiceClient: QueueServiceClient;

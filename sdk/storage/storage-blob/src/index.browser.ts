@@ -18,7 +18,7 @@ export * from "./Pipeline";
 export * from "./policies/AnonymousCredentialPolicy";
 export * from "./policies/CredentialPolicy";
 export * from "./StorageRetryPolicyFactory";
-export { CommonOptions, OperationTracingOptions } from "./StorageClient";
+export { CommonOptions } from "./StorageClient";
 export * from "./generatedModels";
 export { RestError };
 export {

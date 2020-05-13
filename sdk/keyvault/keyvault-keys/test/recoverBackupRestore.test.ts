@@ -62,7 +62,8 @@ describe("Keys client - restore keys and recover backups", () => {
     } catch (e) {
       error = e;
     }
-    assert.equal(error.message, `Key not found: ${keyName}`);
+    assert.equal(error.code, "KeyNotFound");
+    assert.equal(error.statusCode, 404);
   });
 
   it("can generate a backup of a key", async function() {
@@ -95,7 +96,8 @@ describe("Keys client - restore keys and recover backups", () => {
     } catch (e) {
       error = e;
     }
-    assert.equal(error.message, `Key not found: ${keyName}`);
+    assert.equal(error.code, "KeyNotFound");
+    assert.equal(error.statusCode, 404);
   });
 
   if (isRecordMode() || isPlaybackMode()) {
@@ -106,6 +108,7 @@ describe("Keys client - restore keys and recover backups", () => {
       await client.createKey(keyName, "RSA");
       const backup = await client.backupKey(keyName);
       await testClient.flushKey(keyName);
+      // eslint-disable-next-line no-constant-condition
       while (true) {
         try {
           await client.restoreKeyBackup(backup as Uint8Array);

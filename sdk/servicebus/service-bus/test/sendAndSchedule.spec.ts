@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import chai from "chai";
 import Long from "long";
@@ -33,10 +33,10 @@ describe("send scheduled messages", () => {
 
   async function beforeEachTest(entityType: TestClientType): Promise<void> {
     const entityNames = await serviceBusClient.test.createTestEntities(entityType);
-    receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
 
     senderClient = serviceBusClient.test.addToCleanup(
-      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+      await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
   }
 
@@ -76,7 +76,7 @@ describe("send scheduled messages", () => {
       await testSimpleSend(false, true);
     });
 
-    it("Unpartitioned Queue: Simple Send #RunInBrowser", async function(): Promise<void> {
+    it("Unpartitioned Queue: Simple Send", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedQueue);
       await testSimpleSend(false, false);
     });
@@ -151,7 +151,7 @@ describe("send scheduled messages", () => {
   //     await testSimpleSendBatch(false, true);
   //   });
 
-  //   it("Unpartitioned Queue: Simple SendBatch #RunInBrowser", async function(): Promise<void> {
+  //   it("Unpartitioned Queue: Simple SendBatch", async function(): Promise<void> {
   //     await beforeEachTest(TestClientType.UnpartitionedQueue);
   //     await testSimpleSendBatch(false, false);
   //   });
@@ -355,9 +355,7 @@ describe("send scheduled messages", () => {
       await testScheduleMessages();
     });
 
-    it("UnPartitioned Queue: Schedule multiple messages #RunInBrowser", async function(): Promise<
-      void
-    > {
+    it("UnPartitioned Queue: Schedule multiple messages", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedQueue);
       await testScheduleMessages();
     });
@@ -381,7 +379,7 @@ describe("send scheduled messages", () => {
       await testScheduleMessages(true);
     });
 
-    it("Unpartitioned Queue with Sessions: Schedule multiple messages #RunInBrowser", async function(): Promise<
+    it("Unpartitioned Queue with Sessions: Schedule multiple messages", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
@@ -495,9 +493,7 @@ describe("send scheduled messages", () => {
       await testCancelScheduleMessages(false);
     });
 
-    it("Unpartitioned Queue: Cancel scheduled messages #RunInBrowser", async function(): Promise<
-      void
-    > {
+    it("Unpartitioned Queue: Cancel scheduled messages", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedQueue);
       await testCancelScheduleMessages(false);
     });
@@ -521,7 +517,7 @@ describe("send scheduled messages", () => {
       await testCancelScheduleMessages(true);
     });
 
-    it("Unpartitioned Queue with Sessions: Cancel scheduled messages #RunInBrowser", async function(): Promise<
+    it("Unpartitioned Queue with Sessions: Cancel scheduled messages", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
@@ -536,7 +532,7 @@ describe("send scheduled messages", () => {
     });
   });
 
-  describe("ServiceBusMessage validations #RunInBrowser", function(): void {
+  describe("ServiceBusMessage validations", function(): void {
     const longString =
       "A very very very very very very very very very very very very very very very very very very very very very very very very very long string.";
     after(async () => {

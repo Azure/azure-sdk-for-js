@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import * as log from "./log";
 import * as os from "os";
@@ -16,11 +16,10 @@ import {
 } from "@azure/core-amqp";
 import { ServiceBusClientOptions } from "./constructorHelpers";
 import { ClientEntityContext } from "./clientEntityContext";
-import { OnAmqpEvent, EventContext, ConnectionEvents } from "rhea-promise";
+import { OnAmqpEvent, EventContext, ConnectionEvents, Connection } from "rhea-promise";
 
 /**
  * @internal
- * @interface ConnectionContext
  * Provides contextual information like the underlying amqp connection, cbs session, management session,
  * tokenCredential, senders, receivers, etc. about the ServiceBus client.
  */
@@ -118,6 +117,7 @@ export namespace ConnectionContext {
         }
       }
 
+      await refreshConnection(connectionContext);
       // The connection should always be brought back up if the sdk did not call connection.close()
       // and there was atleast one sender/receiver link on the connection before it went down.
       log.error("[%s] state: %O", connectionContext.connectionId, state);
@@ -182,11 +182,46 @@ export namespace ConnectionContext {
       }
     };
 
-    // Add listeners on the connection object.
-    connectionContext.connection.on(ConnectionEvents.connectionOpen, onConnectionOpen);
-    connectionContext.connection.on(ConnectionEvents.disconnected, disconnected);
-    connectionContext.connection.on(ConnectionEvents.protocolError, protocolError);
-    connectionContext.connection.on(ConnectionEvents.error, error);
+    async function refreshConnection(connectionContext: ConnectionContext) {
+      const originalConnectionId = connectionContext.connectionId;
+      try {
+        await cleanConnectionContext(connectionContext);
+      } catch (err) {
+        log.error(
+          `[${connectionContext.connectionId}] There was an error closing the connection before reconnecting: %O`,
+          err
+        );
+      }
+      // Create a new connection, id, locks, and cbs client.
+      connectionContext.refreshConnection();
+      addConnectionListeners(connectionContext.connection);
+      log.error(
+        `The connection "${originalConnectionId}" has been updated to "${connectionContext.connectionId}".`
+      );
+    }
+
+    function addConnectionListeners(connection: Connection) {
+      // Add listeners on the connection object.
+      connection.on(ConnectionEvents.connectionOpen, onConnectionOpen);
+      connection.on(ConnectionEvents.disconnected, disconnected);
+      connection.on(ConnectionEvents.protocolError, protocolError);
+      connection.on(ConnectionEvents.error, error);
+    }
+
+    async function cleanConnectionContext(connectionContext: ConnectionContext) {
+      // Remove listeners from the connection object.
+      connectionContext.connection.removeListener(
+        ConnectionEvents.connectionOpen,
+        onConnectionOpen
+      );
+      connectionContext.connection.removeListener(ConnectionEvents.disconnected, disconnected);
+      connectionContext.connection.removeListener(ConnectionEvents.protocolError, protocolError);
+      connectionContext.connection.removeListener(ConnectionEvents.error, error);
+      // Close the connection
+      await connectionContext.connection.close();
+    }
+
+    addConnectionListeners(connectionContext.connection);
 
     log.connectionCtxt(
       "[%s] Created connection context successfully.",

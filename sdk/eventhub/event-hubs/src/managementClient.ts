@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import uuid from "uuid/v4";
 import {
@@ -30,7 +30,6 @@ import { getRetryAttemptTimeoutInMs } from "./util/retries";
 import { AbortSignalLike, AbortError } from "@azure/abort-controller";
 /**
  * Describes the runtime information of an Event Hub.
- * @interface HubRuntimeInformation
  */
 export interface EventHubProperties {
   /**
@@ -49,7 +48,6 @@ export interface EventHubProperties {
 
 /**
  * Describes the runtime information of an EventHub Partition.
- * @interface PartitionProperties
  */
 export interface PartitionProperties {
   /**
@@ -111,7 +109,6 @@ export class ManagementClient extends LinkEntity {
   replyTo: string = uuid();
   /**
    * $management sender, receiver on the same session.
-   * @private
    */
   private _mgmtReqResLink?: RequestResponseLink;
 
@@ -340,7 +337,6 @@ export class ManagementClient extends LinkEntity {
   }
 
   /**
-   * @private
    * Helper method to make the management request
    * @param request The AMQP message to send
    * @param options The options to use when sending a request over a $management link

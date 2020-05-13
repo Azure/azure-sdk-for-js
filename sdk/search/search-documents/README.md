@@ -24,35 +24,30 @@ Use the client library to:
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/search/search/samples)
 
 ## Getting started
-
-### Currently supported environments
-
-- [Node.js](https://nodejs.org/) version 8.x.x or higher
-
-### Prerequisites
-
-- An [Azure subscription][azure_sub].
-- An existing [Azure Cognitive Search][search_resource] resource. If you need to create the resource, you can use the [Azure Portal][azure_portal] or [Azure CLI][azure_cli].
-
-If you use the Azure CLI, replace `<your-resource-group-name>` and `<your-resource-name>` with your own unique names:
-
-```PowerShell
-az search service create --resource-group <your-resource-group-name> --name <your-resource-name> --sku S
-```
-
-The above creates a resource with the "Standard" pricing tier. See [choosing a pricing tier](https://docs.microsoft.com/azure/search/search-sku-tier) for more information.
-
-### 1. Install the `@azure/search-documents` package
+### Install the `@azure/search-documents` package
 
 ```bash
 npm install @azure/search-documents
 ```
 
-### 2. Create and authenticate a `SearchIndexClient` or `SearchServiceClient`
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) version 8.x.x or higher
+- An [Azure subscription][azure_sub].
+- An existing [Azure Cognitive Search][search_resource] resource. If you need to create the resource, you can use the [Azure portal][azure_portal] or [Azure CLI][azure_cli].
+
+If you use the Azure CLI, replace `<your-resource-group-name>` and `<your-resource-name>` with your own unique names:
+
+```PowerShell
+az search service create --resource-group <your-resource-group-name> --name <your-resource-name> --sku Standard
+```
+
+The above creates a resource with the "Standard" pricing tier. See [choosing a pricing tier](https://docs.microsoft.com/azure/search/search-sku-tier) for more information.
+
+
+### Authenticate the client
 
 Azure Cognitive Search uses keys for authentication.
-
-#### Using an Admin Key
 
 Use the [Azure CLI][azure_cli] snippet below to get the Admin Key from the Azure Cognitive Search resource.
 
@@ -82,8 +77,49 @@ const indexClient = new SearchIndexClient(
 const serviceClient = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
 ```
 
+### Send your first search query
+To get running immediately, we're going to connect to a well known sandbox Search service provided by Microsoft.  This means you do not need an Azure subscription or Azure Cognitive Search service to try out this query.
+
+```js
+const { SearchIndexClient, AzureKeyCredential } = require("@azure/search-documents");
+
+// We'll connect to the Azure Cognitive Search public sandbox and send a
+// query to its "nycjobs" index built from a public dataset of available jobs
+// in New York.
+const indexName = "nycjobs";
+const apiKey = "252044BE3886FE4A8E3BAA4F595114BB";
+
+// Create a SearchIndexClient to send queries
+const client = new SearchIndexClient(
+  `https://azs-playground.search.windows.net/`,
+  indexName,
+  new AzureKeyCredential(apiKey)
+);
+
+async function main() {
+  // Let's get the top 5 jobs related to Microsoft
+  const searchResults = await client.search({ searchText: "Microsoft", top: 5 });
+  for await (const result of searchResults.results) {
+    console.log(`${result.business_title}\n${result.job_description}\n`);
+  }
+}
+
+main();
+```
+
 ## Key concepts
 
+Azure Cognitive Search has the concepts of search services and indexes and documents, where a search service contains one or more indexes that provides persistent storage of searchable data, and data is loaded in the form of JSON documents. Data can be pushed to an index from an external data source, but if you use an indexer, it's possible to crawl a data source to extract and load data into an index.
+
+There are several types of operations that can be executed against the service:
+
+-   [Index management operations](https://docs.microsoft.com/rest/api/searchservice/index-operations). Create, delete, update, or configure a search index.
+-   [Document operations](https://docs.microsoft.com/rest/api/searchservice/document-operations). Add, update, or delete documents in the index, query the index, or look up specific documents by ID.
+-   [Indexer operations](https://docs.microsoft.com/rest/api/searchservice/indexer-operations). Automate aspects of an indexing operation by configuring a data source and an indexer that you can schedule or run on demand. This feature is supported for a limited number of data source types.
+-   [Skillset operations](https://docs.microsoft.com/rest/api/searchservice/skillset-operations). Part of a cognitive search workload, a skillset defines a series of enrichment processing steps. A skillset is consumed by an indexer.
+-   [Synonym map operations](https://docs.microsoft.com/rest/api/searchservice/synonym-map-operations). A synonym map is a service-level resource that contains user-defined synonyms. This resource is maintained independently from search indexes. Once uploaded, you can point any searchable field to the synonym map (one per field).
+
+## TypeScript/JavaScript specific concepts
 ### SearchIndexClient
 
 `SearchIndexClient` provides methods for working with documents in an index. Its methods allow you to query, upload, update, and delete documents. It also has methods for building auto-completion and search suggestion experiences based on partial queries.
@@ -91,6 +127,8 @@ const serviceClient = new SearchServiceClient("<endpoint>", new AzureKeyCredenti
 ### SearchServiceClient
 
 `SearchServiceClient` provides methods for configuring and customizing an Azure Cognitive Search instance. The client currently has support for creating and managing search indexes and will later expand to support creating and managing other service entities such as indexers, synonym maps, cognitive skillsets, and data sources.
+
+**Note**: This client cannot function in the browser because the APIs it calls do not have support for Cross-Origin Resource Sharing (CORS).
 
 ### Documents
 
@@ -112,9 +150,110 @@ Typically you will only wish to [show a subset of search results](https://docs.m
 
 ## Examples
 
-### SearchIndexClient Examples
+### Create an Index
 
-#### Query documents in an index
+```js
+const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-documents");
+
+const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
+
+async function main() {
+  const result = await client.createIndex({
+    name: "example-index",
+    fields: [
+      {
+        type: "Edm.String",
+        name: "id",
+        key: true
+      },
+      {
+        type: "Edm.Double",
+        name: "awesomenessLevel",
+        sortable: true,
+        filterable: true,
+        facetable: true
+      },
+      {
+        type: "Edm.String",
+        name: "description",
+        searchable: true
+      },
+      {
+        type: "Edm.ComplexType",
+        name: "details",
+        fields: [
+          {
+            type: "Collection(Edm.String)",
+            name: "tags",
+            searchable: true
+          }
+        ]
+      },
+      {
+        type: "Edm.Int32",
+        name: "hiddenWeight",
+        hidden: true
+      }
+    ]
+  });
+
+  console.log(result);
+}
+
+main();
+```
+
+### Upload documents into an index
+
+You can upload multiple documents into index inside a batch:
+
+```js
+const { SearchIndexClient, AzureKeyCredential } = require("@azure/search-documents");
+
+const client = new SearchIndexClient(
+  "<endpoint>",
+  "<indexName>",
+  new AzureKeyCredential("<apiKey>")
+);
+
+async function main() {
+  const uploadResult = await client.uploadDocuments([
+    // JSON objects matching the shape of the client's index
+    {},
+    {},
+    {}
+  ]);
+  for (const result of uploadResult.results) {
+    console.log(`Uploaded ${result.key}; succeeded? ${result.succeeded}`);
+  }
+}
+
+main();
+```
+
+### Retrieve a specific document from an index
+
+A specific document can be retrieved by its primary key value:
+
+```js
+const { SearchIndexClient, AzureKeyCredential } = require("@azure/search-documents");
+
+const client = new SearchIndexClient(
+  "<endpoint>",
+  "<indexName>",
+  new AzureKeyCredential("<apiKey>")
+);
+
+async function main() {
+  const result = await client.getDocument("1234");
+  console.log(result);
+}
+
+main();
+```
+
+
+### Perform a search on documents
 
 To list all results of a particular query, you can use `search` with a search string that uses [simple query syntax](https://docs.microsoft.com/azure/search/query-simple-syntax):
 
@@ -274,28 +413,7 @@ main();
 
 When retrieving results, a `facets` property will be available that will indicate the number of results that fall into each facet bucket. This can be used to drive refinement (e.g. issuing a follow-up search that filters on the `Rating` being greater than or equal to 3 and less than 4.)
 
-#### Retrieving documents by id
-
-A specific document can be retrieved by its primary key value:
-
-```js
-const { SearchIndexClient, AzureKeyCredential } = require("@azure/search-documents");
-
-const client = new SearchIndexClient(
-  "<endpoint>",
-  "<indexName>",
-  new AzureKeyCredential("<apiKey>")
-);
-
-async function main() {
-  const result = await client.getDocument("1234");
-  console.log(result);
-}
-
-main();
-```
-
-#### Retrieve suggestions from an index
+### Retrieve suggestions from an index
 
 If you [created a suggester](https://docs.microsoft.com/azure/search/index-add-suggesters) on your index, you can use it to return result suggestions for a user query.
 
@@ -328,7 +446,7 @@ async function main() {
 main();
 ```
 
-#### Autocomplete a partial query using an index
+### Autocomplete a partial query using an index
 
 To implement type-ahead behavior in your application, you can query the index with partial user input and return a list of suggested completions. You must have [created a suggester](https://docs.microsoft.com/azure/search/index-add-suggesters) on your index first.
 
@@ -357,282 +475,7 @@ async function main() {
 main();
 ```
 
-#### Return the count of documents in an index
-
-```js
-const { SearchIndexClient, AzureKeyCredential } = require("@azure/search-documents");
-
-const client = new SearchIndexClient(
-  "<endpoint>",
-  "<indexName>",
-  new AzureKeyCredential("<apiKey>")
-);
-
-async function main() {
-  const count = await client.countDocuments();
-  console.log(`${count} documents in index ${client.indexName}`);
-}
-
-main();
-```
-
-#### Delete documents in an index
-
-Given the name of a primary key and a list of indexes, you can delete multiple documents from the index at the same time:
-
-```js
-const { SearchIndexClient, AzureKeyCredential } = require("@azure/search-documents");
-
-const client = new SearchIndexClient(
-  "<endpoint>",
-  "<indexName>",
-  new AzureKeyCredential("<apiKey>")
-);
-
-async function main() {
-  const deleteResult = await client.deleteDocuments("HotelId", ["1", "2", "3"]);
-  for (const result of deleteResult.results) {
-    console.log(`Deleting ${result.key}; succeeded? ${result.succeeded}`);
-  }
-}
-
-main();
-```
-
-#### Upload documents into an index
-
-You can upload multiple documents into index inside a batch:
-
-```js
-const { SearchIndexClient, AzureKeyCredential } = require("@azure/search-documents");
-
-const client = new SearchIndexClient(
-  "<endpoint>",
-  "<indexName>",
-  new AzureKeyCredential("<apiKey>")
-);
-
-async function main() {
-  const uploadResult = await client.uploadDocuments([
-    // JSON objects matching the shape of the client's index
-    {},
-    {},
-    {}
-  ]);
-  for (const result of uploadResult.results) {
-    console.log(`Uploaded ${result.key}; succeeded? ${result.succeeded}`);
-  }
-}
-
-main();
-```
-
-#### Update existing documents in an index
-
-You can update multiple documents in an index at once, or create them if they do not exist. For more details about how merging works, see: https://docs.microsoft.com/rest/api/searchservice/AddUpdate-or-Delete-Documents
-
-```js
-const { SearchIndexClient, AzureKeyCredential } = require("@azure/search-documents");
-
-const client = new SearchIndexClient(
-  "<endpoint>",
-  "<indexName>",
-  new AzureKeyCredential("<apiKey>")
-);
-
-async function main() {
-  // use mergeOrUploadDocuments if the document might not be upload
-  const updateResult = await client.mergeDocuments(
-    [
-      // JSON objects matching the shape of the client's index
-      {},
-      {},
-      {}
-    ],
-    {
-      // throw if updating any document in this batch fails
-      throwOnAnyFailure: true
-    }
-  );
-  for (const result of updateResult.results) {
-    console.log(`Update ${result.key}; succeeded? ${result.succeeded}`);
-  }
-}
-
-main();
-```
-
-### SearchServiceClient Examples
-
-#### Get a list of existing indexes in the service
-
-```js
-const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-documents");
-
-const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
-
-async function main() {
-  const listOfIndexes = await client.listIndexes();
-  for (let index of listOfIndexes) {
-    console.log(`Index: ${index.name}`);
-    for (let field of index.fields) {
-      console.log(`\tField: ${field.name}`);
-    }
-  }
-}
-
-main();
-```
-
-#### Get a list of existing skillsets in the service
-
-```js
-const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-documents");
-
-const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
-
-async function main() {
-  const listOfSkillSets = await client.listSkillsets();
-  for (let skillset of listOfSkillSets) {
-    console.log(`Name: ${skillset.name}`);
-    console.log(`Description: ${skillset.description}`);
-    console.log(`Skills`);
-    for (let skill of skillset.skills) {
-      console.log(`\tOdatatype: ${skill.odatatype}`);
-      console.log(`\tName: ${skill.name}`);
-      console.log(`\tDescription: ${skill.description}`);
-    }
-  }
-}
-
-main();
-```
-
-#### Get a list of existing synonymMaps in the service
-
-```js
-const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-documents");
-
-const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
-
-async function main() {
-  const listOfSynonymMaps = await client.listSynonymMaps();
-  for (let synonymMap of listOfSynonymMaps) {
-    console.log(`Name: ${synonymMap.name}`);
-    console.log(`Synonyms`);
-    for (let synonym of synonymMap.synonyms) {
-      console.log(`Synonym: ${synonym}`);
-    }
-  }
-}
-
-main();
-```
-
-#### Get a list of existing indexers in the service
-```js
-const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-documents");
-
-const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
-
-async function main() {
-  let listOfIndexers = await client.listIndexers();
-
-  for(let indexer of listOfIndexers) {
-    console.log(`Name: ${indexer.name}`);
-    console.log(`Datasource Name: ${indexer.dataSourceName}`);
-    console.log(`Skillset Name: ${indexer.skillsetName}`);
-    console.log();
-  }
-}
-
-main();
-```
-
-#### Create an Index
-
-```js
-const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-documents");
-
-const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
-
-async function main() {
-  const result = await client.createIndex({
-    name: "example-index",
-    fields: [
-      {
-        type: "Edm.String",
-        name: "id",
-        key: true
-      },
-      {
-        type: "Edm.Double",
-        name: "awesomenessLevel",
-        sortable: true,
-        filterable: true,
-        facetable: true
-      },
-      {
-        type: "Edm.String",
-        name: "description",
-        searchable: true
-      },
-      {
-        type: "Edm.ComplexType",
-        name: "details",
-        fields: [
-          {
-            type: "Collection(Edm.String)",
-            name: "tags",
-            searchable: true
-          }
-        ]
-      },
-      {
-        type: "Edm.Int32",
-        name: "hiddenWeight",
-        hidden: true
-      }
-    ]
-  });
-
-  console.log(result);
-}
-
-main();
-```
-
-#### Retrieve an existing index and add a new field to it
-
-A common scenario is extending an existing index definition with an additional field. This can be done without repopulating the index, as all fields that are not key fields are nullable.
-
-```js
-const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-documents");
-
-const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
-
-async function main() {
-  const index = await client.getIndex("example-index");
-
-  index.fields.push({
-    type: "Edm.DateTimeOffset",
-    name: "lastUpdatedOn",
-    filterable: true
-  });
-
-  const updatedIndex = await client.createOrUpdateIndex(index);
-
-  console.log("Fields after updating:");
-
-  for (const field of updatedIndex.fields) {
-    console.log(`\t ${field.name}`);
-  }
-}
-
-main();
-```
-
-#### Define a custom analyzer and test its output
+### Define a custom analyzer and test its output
 
 Custom analyzers can be defined per-index and then referenced by name when defining a field in order to influence how searching is performed against that field.
 
@@ -693,146 +536,6 @@ async function main() {
 main();
 ```
 
-#### Create a Skillset
-
-```js
-const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-documents");
-
-const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
-
-async function main() {
-  const skillset = await client.createSkillset({
-    name: `my-azureblob-skillset`,
-    description: `Skillset description`,
-    skills: [
-      {
-        odatatype: "#Microsoft.Skills.Text.EntityRecognitionSkill",
-        inputs: [
-          {
-            name: "text",
-            source: "/document/merged_content"
-          },
-          {
-            name: "languageCode",
-            source: "/document/language"
-          }
-        ],
-        outputs: [
-          {
-            name: "persons",
-            targetName: "people"
-          },
-          {
-            name: "organizations",
-            targetName: "organizations"
-          },
-          {
-            name: "locations",
-            targetName: "locations"
-          }
-        ]
-      }
-    ]
-  });
-}
-
-main();
-```
-
-#### Create an Indexer
-```js
-const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-documents");
-
-const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
-
-async function main() {
-  const indexer = await client.createIndexer({
-    name: 'my-azure-indexer-1',
-    description: "My Azure Indexer 1",
-    dataSourceName: "testblobstoragesjama",  
-    targetIndexName: "azureblob-index-2",
-    isDisabled: false,
-    fieldMappings: [{
-      sourceFieldName: "metadata_storage_path",
-      targetFieldName: "metadata_storage_path",
-      mappingFunction: {
-        name: "base64Encode"
-      }
-    }]
-  });
-}
-
-main();
-```
-
-#### Create a SynonymMap
-
-```js
-const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-documents");
-
-const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
-
-async function main() {
-  const synonymMap = await client.createSynonymMap({
-    name: `my-synonymmap`,
-    synonyms: ["United States, United States of America => USA", "Washington, Wash. => WA"]
-  });
-}
-
-main();
-```
-
-#### Retrieve an existing indexer and modify a field in it
-```js
-const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-documents");
-
-const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
-
-async function main() {
-  const indexer = await client.getIndexer("my-azure-indexer-1");
-  indexer.isDisabled = true;
-  indexer = await client.createOrUpdateIndexer(indexer);
-  
-  console.log(`Name: ${indexer.name}`);
-  console.log(`Description: ${indexer.description}`);
-  console.log(`Datasource Name: ${indexer.dataSourceName}`);
-  console.log(`Target Index Name: ${indexer.targetIndexName}`);
-  console.log(`IsDisabled: ${indexer.isDisabled}`);
-  console.log(`Field Mappings`);
-  for(let fieldMapping of indexer.fieldMappings) {
-    console.log(`\tSource Field Name: ${fieldMapping.sourceFieldName}`);
-    console.log(`\tTarget Field Name: ${fieldMapping.targetFieldName}`);
-    console.log(`\tMapping Function Name: ${fieldMapping.mappingFunction.name}`);
-  }
-}
-
-
-
-main();
-```
-
-### Get the status of an indexer
-```js
-const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-documents");
-
-const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
-
-async function main() {
-  const indexerStatus = await client.getIndexerStatus('my-azure-indexer-1');
-  console.log(`Name: ${indexerStatus.name}`);
-  console.log(`OData Context: ${indexerStatus["@odata.context"]}`);
-  console.log(`Status: ${indexerStatus.status}`);
-  console.log(`Execution History`);
-  for(let execution of indexerStatus.executionHistory) {
-    console.log(`\tStatus: ${execution.status}`);
-    console.log(`\tFinal Tracking State: ${execution.finalTrackingState}`);
-    console.log(`\tInitial Tracking State: ${execution.initialTrackingState}`);
-  }
-}
-
-main();
-```
-
 ## Troubleshooting
 
 ### Enable logs
@@ -854,18 +557,6 @@ Please take a look at the
 directory for detailed examples on how to use this library.
 
 ## Contributing
-
-This project welcomes contributions and suggestions. Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit https://cla.microsoft.com.
-
-When you submit a pull request, a CLA-bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.
-
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
-contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
 

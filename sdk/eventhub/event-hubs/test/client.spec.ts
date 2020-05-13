@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import chai from "chai";
 import * as os from "os";
@@ -14,12 +14,11 @@ import { TokenCredential, earliestEventPosition } from "../src";
 import { EventHubClient } from "../src/impl/eventHubClient";
 import { packageJsonInfo } from "../src/util/constants";
 import { EnvVarKeys, getEnvVars, isNode } from "./utils/testUtils";
-import { EnvironmentCredential } from "@azure/identity";
 import { EventHubConsumer } from "../src/receiver";
 import { EventHubProducer } from "../src/sender";
 const env = getEnvVars();
 
-describe("Create EventHubClient using connection string #RunnableInBrowser", function(): void {
+describe("Create EventHubClient using connection string", function(): void {
   it("throws when it cannot find the Event Hub name", function(): void {
     const connectionString = "Endpoint=sb://abc";
     const test = function(): EventHubClient {
@@ -85,48 +84,7 @@ describe("Create EventHubClient using connection string #RunnableInBrowser", fun
   });
 });
 
-describe("Create EventHubClient using Azure Identity", function(): void {
-  it("creates an EventHubClient from an Azure.Identity credential", async function(): Promise<
-    void
-  > {
-    should.exist(
-      env[EnvVarKeys.AZURE_CLIENT_ID],
-      "define AZURE_CLIENT_ID in your environment before running integration tests."
-    );
-    should.exist(
-      env[EnvVarKeys.AZURE_TENANT_ID],
-      "define AZURE_TENANT_ID in your environment before running integration tests."
-    );
-    should.exist(
-      env[EnvVarKeys.AZURE_CLIENT_SECRET],
-      "define AZURE_CLIENT_SECRET in your environment before running integration tests."
-    );
-    should.exist(
-      env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-      "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
-    );
-
-    // This is of the form <your-namespace>.servicebus.windows.net
-    const endpoint = (env.EVENTHUB_CONNECTION_STRING.match("Endpoint=sb://(.*)/;") || "")[1];
-
-    const credential = new EnvironmentCredential();
-    const client = new EventHubClient(endpoint, env.EVENTHUB_NAME, credential);
-
-    // Extra check involving actual call to the service to ensure this works
-    const hubInfo = await client.getProperties();
-    should.equal(hubInfo.name, client.eventHubName);
-    await client.close();
-  });
-
-  it("Verify fullyQualifiedNamespace when creating an EventHubClient from an Azure.Identity credential", function(): void {
-    const endpoint = "test.servicebus.windows.net";
-    const credential = new EnvironmentCredential();
-    const client = new EventHubClient(endpoint, "my-event-hub-name", credential);
-    should.equal(client.fullyQualifiedNamespace, "test.servicebus.windows.net");
-  });
-});
-
-describe("ServiceCommunicationError for non existent namespace #RunnableInBrowser", function(): void {
+describe("ServiceCommunicationError for non existent namespace", function(): void {
   let client: EventHubClient;
   const expectedErrCode = isNode ? "ENOTFOUND" : "ServiceCommunicationError";
   beforeEach(() => {
@@ -194,7 +152,7 @@ describe("ServiceCommunicationError for non existent namespace #RunnableInBrowse
   });
 });
 
-describe("MessagingEntityNotFoundError for non existent eventhub #RunnableInBrowser", function(): void {
+describe("MessagingEntityNotFoundError for non existent eventhub", function(): void {
   let client: EventHubClient;
 
   beforeEach(() => {
@@ -264,7 +222,7 @@ describe("MessagingEntityNotFoundError for non existent eventhub #RunnableInBrow
   });
 });
 
-describe("User Agent on EventHubClient on #RunnableInBrowser", function(): void {
+describe("User Agent on EventHubClient on", function(): void {
   let client: EventHubClient;
 
   beforeEach(() => {
@@ -327,7 +285,7 @@ describe("User Agent on EventHubClient on #RunnableInBrowser", function(): void 
   });
 });
 
-describe("Errors after close() #RunnableInBrowser", function(): void {
+describe("Errors after close()", function(): void {
   let client: EventHubClient;
   let sender: EventHubProducer;
   let receiver: EventHubConsumer;

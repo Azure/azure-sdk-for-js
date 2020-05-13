@@ -84,7 +84,8 @@ export class Items {
         resourceId: id,
         resultFn: (result) => (result ? result.Documents : []),
         query,
-        options: innerOptions
+        options: innerOptions,
+        partitionKey: options.partitionKey
       });
     };
 

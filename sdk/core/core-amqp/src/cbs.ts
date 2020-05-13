@@ -13,7 +13,7 @@ import {
   SenderOptions,
   generate_uuid
 } from "rhea-promise";
-import * as Constants from "./util/constants";
+import { Constants } from "./util/constants";
 import { logger, logErrorStackTrace } from "./log";
 import { translate } from "./errors";
 import { defaultLock } from "./util/utils";
@@ -21,7 +21,6 @@ import { RequestResponseLink } from "./requestResponseLink";
 
 /**
  * Describes the CBS Response.
- * @interface CbsResponse
  */
 export interface CbsResponse {
   correlationId: string;
@@ -59,7 +58,6 @@ export class CbsClient {
 
   /**
    * CBS sender, receiver on the same session.
-   * @private
    */
   private _cbsSenderReceiverLink?: RequestResponseLink;
 
@@ -261,7 +259,6 @@ export class CbsClient {
 
   /**
    * Indicates whether the cbs sender receiver link is open or closed.
-   * @private
    * @return {boolean} `true` open, `false` closed.
    */
   private _isCbsSenderReceiverLinkOpen(): boolean {

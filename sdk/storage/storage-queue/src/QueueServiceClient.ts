@@ -7,7 +7,7 @@ import {
   isNode,
   getDefaultProxySettings
 } from "@azure/core-http";
-import { CanonicalCode } from "@opentelemetry/types";
+import { CanonicalCode } from "@opentelemetry/api";
 import {
   ListQueuesIncludeType,
   QueueCreateResponse,

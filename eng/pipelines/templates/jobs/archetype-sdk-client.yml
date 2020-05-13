@@ -3,7 +3,7 @@ parameters:
   ServiceDirectory: not-specified
   Matrix:
     Linux_Node8:
-      OSVmImage: "ubuntu-16.04"
+      OSVmImage: "ubuntu-18.04"
       NodeVersion: "8.x"
       TestType: "node"
     Windows_Node10:
@@ -15,7 +15,7 @@ parameters:
       NodeVersion: "12.x"
       TestType: "node"
     Browser_Linux_Node12:
-      OSVmImage: "ubuntu-16.04"
+      OSVmImage: "ubuntu-18.04"
       NodeVersion: "12.x"
       TestType: "browser"
 
@@ -31,7 +31,7 @@ jobs:
       - script: |
           echo "##vso[build.addbuildtag]Scheduled"
         displayName: "Tag scheduled builds"
-        condition: and(eq(variables['Build.SourceBranchName'],'master'),eq(variables['Build.Reason'],'Schedule'))
+        condition: and(always(),and(eq(variables['Build.SourceBranchName'],'master'),eq(variables['Build.Reason'],'Schedule')))
 
       - template: ../steps/common.yml
 
@@ -47,12 +47,12 @@ jobs:
           npm install ./eng/tools/versioning
           node eng/tools/versioning/set-dev.js --build-id "$(Build.BuildNumber)" --repo-root "$(Build.SourcesDirectory)" --service "$(folder)"
           node common/scripts/install-run-rush.js update
-        condition: eq(variables['SetDevVersion'],'true')
+        condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))
         displayName: "Update package versions for dev build"
 
       - script: |
           node common/scripts/install-run-rush.js install
-        condition: ne(variables['SetDevVersion'],'true')
+        condition: and(succeeded(),ne(variables['SetDevVersion'],'true'))
         displayName: "Install dependencies"
 
       - template: eng/pipelines/templates/scripts/replace-relative-links.yml@azure-sdk-tools
@@ -150,9 +150,10 @@ jobs:
           node common/scripts/install-run-rush.js install
         displayName: "Install library dependencies"
 
-      - script: |
+      - pwsh: |
+          node common/scripts/install-run-rush.js build -t @azure/eslint-plugin-azure-sdk
           node eng/tools/rush-runner.js lint "${{parameters.ServiceDirectory}}"
-        displayName: "Lint libraries"
+        displayName: "Build ESLint Plugin and Lint Libraries"
 
       - script: |
           node eng/tools/rush-runner.js audit "${{parameters.ServiceDirectory}}"
@@ -225,20 +226,30 @@ jobs:
         - script: |
             node eng/tools/rush-runner.js unit-test:node "${{parameters.ServiceDirectory}}" --verbose -p max
           displayName: "Test libraries"
-          condition: eq(variables['TestType'], 'node')
+          condition: and(succeeded(),eq(variables['TestType'], 'node'))
         
         # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
         # The default on Windows is "cores - 1" (microsoft/rushstack#436).
         - script: |
             node eng/tools/rush-runner.js unit-test:browser "${{parameters.ServiceDirectory}}" --verbose -p max
           displayName: "Test libraries"
-          condition: eq(variables['TestType'], 'browser')
+          condition: and(succeeded(),eq(variables['TestType'], 'browser'))
 
         # Unlink node_modules folders to significantly improve performance of subsequent tasks
         # which need to walk the directory tree (and are hardcoded to follow symlinks).
-        - script: |
-            node eng/tools/rush-runner.js unlink
-          condition: succeededOrFailed()
+        # Retry for 30 seconds, since this command may fail with error "Another rush command is already
+        # running in this repository" if the previous rush command was killed.
+        - pwsh: |
+            for ($i=0; $i -lt 30; $i++) {
+              node eng/tools/rush-runner.js unlink
+              if ($lastexitcode -eq 0) {
+                break
+              }
+              else {
+                start-sleep 1
+              }
+            }
+          condition: always()
           displayName: "Unlink dependencies"
 
         # It's important for performance to pass "sdk" as "searchFolder" to avoid looking under root "node_modules".

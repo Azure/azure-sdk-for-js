@@ -8,12 +8,11 @@ import { TokenCredential } from "@azure/core-auth";
 import { ConnectionConfig } from "./connectionConfig/connectionConfig";
 import { SharedKeyCredential } from "./auth/sas";
 
-import * as Constants from "./util/constants";
+import { Constants } from "./util/constants";
 import { getPlatformInfo, getFrameworkInfo } from "./util/runtimeInfo";
 import { isNode } from "./util/utils";
 
 /**
- * @interface ConnectionContextBase
  * Provides contextual information like the underlying amqp connection, cbs session, tokenProvider,
  * Connection config, data transformer, etc.
  */
@@ -27,12 +26,12 @@ export interface ConnectionContextBase {
    * @property {string} connectionLock The unqiue lock name per connection that is used to
    * acquire the lock for establishing an aqmp connection per client if one does not exist.
    */
-  readonly connectionLock: string;
+  connectionLock: string;
   /**
    * @property {string} negotiateClaimLock The unqiue lock name per connection that is used to
    * acquire the lock for negotiating cbs claim by an entity on that connection.
    */
-  readonly negotiateClaimLock: string;
+  negotiateClaimLock: string;
   /**
    * @property {SharedKeyCredential | TokenCredential} tokenCredential The credential to be used for getting tokens
    * for authentication for the EventHub client.
@@ -63,11 +62,14 @@ export interface ConnectionContextBase {
    * underlying AMQP connection for the EventHub Client.
    */
   cbsSession: CbsClient;
+  /**
+   * Updates the context to use a new underlying AMQP connection and new cbs session.
+   */
+  refreshConnection: () => void;
 }
 
 /**
  * Defines the properties that need to be set while establishing the AMQP connection.
- * @interface ConnectionProperties
  */
 export interface ConnectionProperties {
   /**
@@ -88,7 +90,6 @@ export interface ConnectionProperties {
 
 /**
  * Describes the parameters that can be provided to create the base connection context.
- * @interface CreateConnectionContextBaseParameters
  */
 export interface CreateConnectionContextBaseParameters {
   /**
@@ -195,7 +196,17 @@ export module ConnectionContextBase {
           parameters.config.sharedAccessKeyName,
           parameters.config.sharedAccessKey
         ),
-      dataTransformer: parameters.dataTransformer || new DefaultDataTransformer()
+      dataTransformer: parameters.dataTransformer || new DefaultDataTransformer(),
+      refreshConnection() {
+        const connection = new Connection(connectionOptions);
+        const connectionLock = `${Constants.establishConnection}-${generate_uuid()}`;
+        this.wasConnectionCloseCalled = false;
+        this.connectionLock = connectionLock;
+        this.negotiateClaimLock = `${Constants.negotiateClaim} - ${generate_uuid()}`;
+        this.connection = connection;
+        this.connectionId = connection.id;
+        this.cbsSession = new CbsClient(connection, connectionLock);
+      }
     };
 
     return connectionContextBase;

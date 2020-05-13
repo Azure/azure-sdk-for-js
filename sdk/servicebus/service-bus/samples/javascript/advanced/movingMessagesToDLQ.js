@@ -35,7 +35,7 @@ async function main() {
 
 async function sendMessage() {
   // createSender() can also be used to create a sender for a topic.
-  const sender = sbClient.createSender(queueName);
+  const sender = await sbClient.createSender(queueName);
 
   const message = {
     body: {
@@ -62,8 +62,8 @@ async function receiveMessage() {
     );
     // Deadletter the message received
     await messages[0].deadLetter({
-      deadletterReason: "Incorrect Recipe type",
-      deadLetterErrorDescription: "Recipe type does not  match preferences."
+      deadLetterReason: "Incorrect Recipe type",
+      deadLetterErrorDescription: "Recipe type does not match preferences."
     });
   } else {
     console.log(">>>> Error: No messages were received from the main queue.");

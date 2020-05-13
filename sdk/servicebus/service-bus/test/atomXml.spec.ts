@@ -1,4 +1,7 @@
 // Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 import chai from "chai";
@@ -72,7 +75,7 @@ const mockServiceBusAtomManagementClient: ServiceBusAtomManagementClient = new S
   "Endpoint=test/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=test"
 );
 
-describe("atomSerializationPolicy #RunInBrowser", function() {
+describe("atomSerializationPolicy", function() {
   it("should throw an error if receiving a non-XML response body", async function() {
     const request = new WebResource();
     mockServiceBusAtomManagementClient.sendRequest = async () => {
@@ -137,7 +140,7 @@ describe("atomSerializationPolicy #RunInBrowser", function() {
   });
 });
 
-describe("deserializeAtomXmlResponse #RunInBrowser", function() {
+describe("deserializeAtomXmlResponse", function() {
   it("should throw an error if receiving a valid XML but invalid Atom XML", async function() {
     const request: WebResource = new WebResource();
     const _response = {
@@ -184,7 +187,7 @@ describe("deserializeAtomXmlResponse #RunInBrowser", function() {
   });
 });
 
-describe("Serializer construct requests with properties in specific order #RunInBrowser", function() {
+describe("Serializer construct requests with properties in specific order", function() {
   it("Queue serializer generates XML in expected order", async function() {
     const queueOptions = {
       messageCount: 5,
@@ -369,7 +372,7 @@ function checkXmlHasPropertiesInExpectedOrder(
   xml: string,
   expectedOrderedProperties: Array<string>
 ) {
-  let orderedPropertyIndices: Array<number> = [];
+  const orderedPropertyIndices: Array<number> = [];
   for (let i = 0; i < expectedOrderedProperties.length; i++) {
     const index = xml.indexOf(`<${expectedOrderedProperties[i]}>`);
     if (index < 0) {
@@ -523,7 +526,7 @@ class MockSerializer implements AtomXmlSerializer {
     }
   }
 ].forEach((testCase) => {
-  describe(`Type validation errors on SQL parameter inputs #RunInBrowser`, function(): void {
+  describe(`Type validation errors on SQL parameter inputs`, function(): void {
     it(`${testCase.testCaseTitle}`, async () => {
       try {
         const request = new WebResource();
@@ -582,7 +585,7 @@ class MockSerializer implements AtomXmlSerializer {
     }
   }
 ].forEach((testCase) => {
-  describe(`Type validation errors on authorization rule inputs #RunInBrowser`, function(): void {
+  describe(`Type validation errors on authorization rule inputs`, function(): void {
     it(`${testCase.testCaseTitle}`, async () => {
       mockServiceBusAtomManagementClient.sendRequest = async () => {
         return {
@@ -729,7 +732,7 @@ class MockSerializer implements AtomXmlSerializer {
     }
   }
 ].forEach((testCase) => {
-  describe(`Verify error codes and messages get constructed correctly for different scenarios #RunInBrowser`, function(): void {
+  describe(`Verify error codes and messages get constructed correctly for different scenarios`, function(): void {
     it(`${testCase.testCaseTitle}`, async () => {
       mockServiceBusAtomManagementClient.sendRequest = async () => {
         const response = {
@@ -875,7 +878,7 @@ class MockSerializer implements AtomXmlSerializer {
     errorCode: "HttpVersionNotSupported"
   }
 ].forEach((testCase) => {
-  describe(`Verify error code mapping for non-specialized failed HTTP status codes #RunInBrowser`, function(): void {
+  describe(`Verify error code mapping for non-specialized failed HTTP status codes`, function(): void {
     it(`Verify mapping for response status code "${testCase.responseStatus}" to result in "${testCase.errorCode}" error code.`, async () => {
       mockServiceBusAtomManagementClient.sendRequest = async () => {
         return {
@@ -895,7 +898,7 @@ class MockSerializer implements AtomXmlSerializer {
   });
 });
 
-describe(`Parse empty response for list() requests to return as empty array #RunInBrowser`, function(): void {
+describe(`Parse empty response for list() requests to return as empty array`, function(): void {
   function assertEmptyArray(result: any) {
     mockServiceBusAtomManagementClient.sendRequest = async () => {
       return {

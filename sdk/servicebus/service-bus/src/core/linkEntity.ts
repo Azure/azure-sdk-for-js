@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import {
   defaultLock,
@@ -78,18 +78,15 @@ export class LinkEntity {
   /**
    * @property {ClientEntityContext} _context Provides relevant information about the amqp connection,
    * cbs and $management sessions, token provider, sender and receivers.
-   * @protected
    */
   protected _context: ClientEntityContext;
   /**
    * @property {NodeJS.Timer} _tokenRenewalTimer The token renewal timer that keeps track of when
    * the Client Entity is due for token renewal.
-   * @protected
    */
   protected _tokenRenewalTimer?: NodeJS.Timer;
   /**
    * @property _tokenTimeout Indicates token timeout
-   * @protected
    */
   protected _tokenTimeout?: number;
   /**
@@ -108,7 +105,6 @@ export class LinkEntity {
 
   /**
    * Negotiates the cbs claim for the ClientEntity.
-   * @protected
    * @param {boolean} [setTokenRenewal] Set the token renewal timer. Default false.
    * @return {Promise<void>} Promise<void>
    */
@@ -186,7 +182,6 @@ export class LinkEntity {
 
   /**
    * Ensures that the token is renewed within the predefined renewal margin.
-   * @protected
    * @returns {void}
    */
   protected async _ensureTokenRenewal(): Promise<void> {

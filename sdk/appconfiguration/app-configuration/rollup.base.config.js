@@ -4,18 +4,37 @@ import cjs from "@rollup/plugin-commonjs";
 import replace from "@rollup/plugin-replace";
 import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
+import shim from "rollup-plugin-shim";
+import json from "@rollup/plugin-json";
 
 const pkg = require("./package.json");
 const depNames = Object.keys(pkg.dependencies);
 const input = "dist-esm/src/index.js";
 const production = process.env.NODE_ENV === "production";
 
+const version = pkg.version;
+const banner = [
+  "/*!",
+  " * Copyright (c) Microsoft and contributors. All rights reserved.",
+  " * Licensed under the MIT License. See License.txt in the project root for",
+  " * license information.",
+  " * ",
+  ` * Azure App Configuration SDK for JavaScript - ${version}`,
+  " */"
+].join("\n");
+
 export function nodeConfig(test = false) {
   const externalNodeBuiltins = ["events"];
   const baseConfig = {
     input: input,
     external: depNames.concat(externalNodeBuiltins),
-    output: { file: "dist/index.js", format: "cjs", sourcemap: true },
+    output: {
+      file: "dist/index.js",
+      format: "cjs",
+      sourcemap: true,
+      banner: banner,
+      name: "azureappconfiguration"
+    },
     preserveSymlinks: false,
     plugins: [
       sourcemaps(),
@@ -34,11 +53,14 @@ export function nodeConfig(test = false) {
 
   if (test) {
     // Entry points - test files under the `test` folder(common for both browser and node), node specific test files
-    baseConfig.input = ["dist-esm/test/**/*.spec.js"];
-    baseConfig.plugins.unshift(multiEntry({ exports: false }));
+    baseConfig.input = ["dist-esm/test/*.spec.js", "dist-esm/test/**/*.spec.js"];
+    baseConfig.plugins.unshift(
+      multiEntry({ exports: false }),
+      json() // This allows us to import/require the package.json file, to get the version and test it against the user agent.
+    );
 
     // different output file
-    baseConfig.output.file = "test-dist/index.node.js";
+    baseConfig.output.file = "dist-test/index.node.js";
 
     // mark assert packages we use as external
     baseConfig.external.push("assert");

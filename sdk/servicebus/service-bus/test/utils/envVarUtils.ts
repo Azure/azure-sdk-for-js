@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 export const isNode =
   !!process && !!process.version && !!process.versions && !!process.versions.node;
@@ -34,7 +34,7 @@ let envVars: any;
  * Utility to return cached map of environment variables,
  * or create and return one from configured values if not existing.
  */
-export function getEnvVars(): { [key in EnvVarNames]: any } {
+export function getEnvVars(): { [key in EnvVarNames]: string } {
   if (envVars != undefined) {
     return envVars;
   }

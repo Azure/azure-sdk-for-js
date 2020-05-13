@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import chai from "chai";
 import Long from "long";
@@ -12,7 +12,6 @@ import { Receiver } from "../src/receivers/receiver";
 import { Sender } from "../src/sender";
 import { SessionReceiver } from "../src/receivers/sessionReceiver";
 import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
-import { SubscriptionRuleManager } from "../src/receivers/subscriptionRuleManager";
 
 describe("invalid parameters", () => {
   let serviceBusClient: ServiceBusClientForTests;
@@ -25,7 +24,7 @@ describe("invalid parameters", () => {
     return serviceBusClient.test.after();
   });
 
-  describe("Invalid parameters in Sender/ReceiverClients for PartitionedQueue #RunInBrowser", function(): void {
+  describe("Invalid parameters in Sender/ReceiverClients for PartitionedQueue", function(): void {
     let receiver: Receiver<ReceivedMessageWithLock>;
 
     // Since, the below tests never actually make use of any AMQP links, there is no need to create
@@ -35,7 +34,7 @@ describe("invalid parameters", () => {
         TestClientType.PartitionedQueue
       );
 
-      receiver = serviceBusClient.test.getPeekLockReceiver(entityNames);
+      receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
     });
 
     after(async () => {
@@ -105,9 +104,9 @@ describe("invalid parameters", () => {
     });
   });
 
-  describe("Invalid parameters in Sender/ReceiverClients for PartitionedSubscription #RunInBrowser", function(): void {
+  describe("Invalid parameters in Sender/ReceiverClients for PartitionedSubscription", function(): void {
     let subscriptionReceiverClient: Receiver<ReceivedMessageWithLock>;
-    let subscriptionRuleManager: SubscriptionRuleManager;
+    // let subscriptionRuleManager: SubscriptionRuleManager;
 
     // Since, the below tests never actually make use of any AMQP links, there is no need to create
     // new sender/receiver clients before each test. Doing it once for each describe block.
@@ -116,11 +115,11 @@ describe("invalid parameters", () => {
         TestClientType.PartitionedSubscription
       );
 
-      subscriptionReceiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
+      subscriptionReceiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
 
-      subscriptionRuleManager = serviceBusClient.test.addToCleanup(
-        serviceBusClient.getSubscriptionRuleManager(entityNames.topic!, entityNames.subscription!)
-      );
+      // subscriptionRuleManager = serviceBusClient.test.addToCleanup(
+      //   serviceBusClient.getSubscriptionRuleManager(entityNames.topic!, entityNames.subscription!)
+      // );
     });
 
     after(() => {
@@ -195,110 +194,110 @@ describe("invalid parameters", () => {
       );
     });
 
-    it("AddRule: Missing ruleName", async function(): Promise<void> {
-      let caughtError: Error | undefined;
-      try {
-        await subscriptionRuleManager.addRule(undefined as any, undefined as any);
-      } catch (error) {
-        caughtError = error;
-      }
-      should.equal(caughtError && caughtError.name, "TypeError");
-      should.equal(caughtError && caughtError.message, `Missing parameter "ruleName"`);
-    });
+    // it("AddRule: Missing ruleName", async function(): Promise<void> {
+    //   let caughtError: Error | undefined;
+    //   try {
+    //     await subscriptionRuleManager.addRule(undefined as any, undefined as any);
+    //   } catch (error) {
+    //     caughtError = error;
+    //   }
+    //   should.equal(caughtError && caughtError.name, "TypeError");
+    //   should.equal(caughtError && caughtError.message, `Missing parameter "ruleName"`);
+    // });
 
-    it("AddRule: Empty string as ruleName", async function(): Promise<void> {
-      let caughtError: Error | undefined;
-      try {
-        await subscriptionRuleManager.addRule("", false);
-      } catch (error) {
-        caughtError = error;
-      }
-      should.equal(caughtError && caughtError.name, "TypeError");
-      should.equal(
-        caughtError && caughtError.message,
-        `Empty string not allowed in parameter "ruleName"`
-      );
-    });
+    // it("AddRule: Empty string as ruleName", async function(): Promise<void> {
+    //   let caughtError: Error | undefined;
+    //   try {
+    //     await subscriptionRuleManager.addRule("", false);
+    //   } catch (error) {
+    //     caughtError = error;
+    //   }
+    //   should.equal(caughtError && caughtError.name, "TypeError");
+    //   should.equal(
+    //     caughtError && caughtError.message,
+    //     `Empty string not allowed in parameter "ruleName"`
+    //   );
+    // });
 
-    it("AddRule: Missing filter", async function(): Promise<void> {
-      let caughtError: Error | undefined;
-      try {
-        await subscriptionRuleManager.addRule("myrule", undefined as any);
-      } catch (error) {
-        caughtError = error;
-      }
-      should.equal(caughtError && caughtError.name, "TypeError");
-      should.equal(caughtError && caughtError.message, `Missing parameter "filter"`);
-    });
+    // it("AddRule: Missing filter", async function(): Promise<void> {
+    //   let caughtError: Error | undefined;
+    //   try {
+    //     await subscriptionRuleManager.addRule("myrule", undefined as any);
+    //   } catch (error) {
+    //     caughtError = error;
+    //   }
+    //   should.equal(caughtError && caughtError.name, "TypeError");
+    //   should.equal(caughtError && caughtError.message, `Missing parameter "filter"`);
+    // });
 
-    it("AddRule: Invalid filter", async function(): Promise<void> {
-      let caughtError: Error | undefined;
-      try {
-        await subscriptionRuleManager.addRule("myrule", { random: "value" } as any);
-      } catch (error) {
-        caughtError = error;
-      }
-      should.equal(caughtError && caughtError.name, "TypeError");
-      should.equal(
-        caughtError && caughtError.message,
-        `The parameter "filter" should be either a boolean, string or implement the CorrelationFilter interface.`
-      );
-    });
+    // it("AddRule: Invalid filter", async function(): Promise<void> {
+    //   let caughtError: Error | undefined;
+    //   try {
+    //     await subscriptionRuleManager.addRule("myrule", { random: "value" } as any);
+    //   } catch (error) {
+    //     caughtError = error;
+    //   }
+    //   should.equal(caughtError && caughtError.name, "TypeError");
+    //   should.equal(
+    //     caughtError && caughtError.message,
+    //     `The parameter "filter" should be either a boolean, string or implement the CorrelationFilter interface.`
+    //   );
+    // });
 
-    it("RemoveRule: Missing ruleName", async function(): Promise<void> {
-      let caughtError: Error | undefined;
-      try {
-        await subscriptionRuleManager.removeRule(undefined as any);
-      } catch (error) {
-        caughtError = error;
-      }
-      should.equal(caughtError && caughtError.name, "TypeError");
-      should.equal(caughtError && caughtError.message, `Missing parameter "ruleName"`);
-    });
+    // it("RemoveRule: Missing ruleName", async function(): Promise<void> {
+    //   let caughtError: Error | undefined;
+    //   try {
+    //     await subscriptionRuleManager.removeRule(undefined as any);
+    //   } catch (error) {
+    //     caughtError = error;
+    //   }
+    //   should.equal(caughtError && caughtError.name, "TypeError");
+    //   should.equal(caughtError && caughtError.message, `Missing parameter "ruleName"`);
+    // });
 
-    it("RemoveRule: Empty string as ruleName", async function(): Promise<void> {
-      let caughtError: Error | undefined;
-      try {
-        await subscriptionRuleManager.removeRule("");
-      } catch (error) {
-        caughtError = error;
-      }
-      should.equal(caughtError && caughtError.name, "TypeError");
-      should.equal(
-        caughtError && caughtError.message,
-        `Empty string not allowed in parameter "ruleName"`
-      );
-    });
+    // it("RemoveRule: Empty string as ruleName", async function(): Promise<void> {
+    //   let caughtError: Error | undefined;
+    //   try {
+    //     await subscriptionRuleManager.removeRule("");
+    //   } catch (error) {
+    //     caughtError = error;
+    //   }
+    //   should.equal(caughtError && caughtError.name, "TypeError");
+    //   should.equal(
+    //     caughtError && caughtError.message,
+    //     `Empty string not allowed in parameter "ruleName"`
+    //   );
+    // });
 
-    it("Add and Remove Rule: Coerce RuleName into string", async function(): Promise<void> {
-      // Clean up existing rules
-      let rules = await subscriptionRuleManager.getRules();
-      await Promise.all(rules.map((rule) => subscriptionRuleManager.removeRule(rule.name)));
+    // it("Add and Remove Rule: Coerce RuleName into string", async function(): Promise<void> {
+    //   // Clean up existing rules
+    //   let rules = await subscriptionRuleManager.getRules();
+    //   await Promise.all(rules.map((rule) => subscriptionRuleManager.removeRule(rule.name)));
 
-      // Add rule with number as name
-      await subscriptionRuleManager.addRule(123 as any, true);
-      rules = await subscriptionRuleManager.getRules();
-      should.equal(
-        rules.some((rule) => rule.name === "123"),
-        true,
-        "Added rule not found"
-      );
+    //   // Add rule with number as name
+    //   await subscriptionRuleManager.addRule(123 as any, true);
+    //   rules = await subscriptionRuleManager.getRules();
+    //   should.equal(
+    //     rules.some((rule) => rule.name === "123"),
+    //     true,
+    //     "Added rule not found"
+    //   );
 
-      // Remove rule with number as name
-      await subscriptionRuleManager.removeRule(123 as any);
-      rules = await subscriptionRuleManager.getRules();
-      should.equal(
-        rules.some((rule) => rule.name === "123"),
-        false,
-        "Removed rule still found"
-      );
+    //   // Remove rule with number as name
+    //   await subscriptionRuleManager.removeRule(123 as any);
+    //   rules = await subscriptionRuleManager.getRules();
+    //   should.equal(
+    //     rules.some((rule) => rule.name === "123"),
+    //     false,
+    //     "Removed rule still found"
+    //   );
 
-      // Add default rule so that other tests are not affected
-      await subscriptionRuleManager.addRule(subscriptionRuleManager.defaultRuleName, true);
-    });
+    //   // Add default rule so that other tests are not affected
+    //   await subscriptionRuleManager.addRule(subscriptionRuleManager.defaultRuleName, true);
+    // });
   });
 
-  describe("Invalid parameters in SessionReceiver #RunInBrowser", function(): void {
+  describe("Invalid parameters in SessionReceiver", function(): void {
     let sender: Sender;
     let receiver: SessionReceiver<ReceivedMessageWithLock>;
 
@@ -310,10 +309,10 @@ describe("invalid parameters", () => {
       );
 
       sender = serviceBusClient.test.addToCleanup(
-        serviceBusClient.createSender(entityNames.queue!)
+        await serviceBusClient.createSender(entityNames.queue!)
       );
 
-      receiver = serviceBusClient.test.getSessionPeekLockReceiver(entityNames, {
+      receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames, {
         sessionId: TestMessage.sessionId
       });
 
@@ -515,7 +514,7 @@ describe("invalid parameters", () => {
     });
   });
 
-  describe("Invalid parameters in Receiver #RunInBrowser", function(): void {
+  describe("Invalid parameters in Receiver", function(): void {
     let sender: Sender;
     let receiver: Receiver<ReceivedMessageWithLock>;
 
@@ -527,10 +526,10 @@ describe("invalid parameters", () => {
       );
 
       sender = serviceBusClient.test.addToCleanup(
-        serviceBusClient.createSender(entityNames.queue!)
+        await serviceBusClient.createSender(entityNames.queue!)
       );
 
-      receiver = serviceBusClient.test.getPeekLockReceiver(entityNames);
+      receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
 
       await sender.send(TestMessage.getSessionSample());
     });
@@ -658,7 +657,7 @@ describe("invalid parameters", () => {
     });
   });
 
-  describe("Invalid parameters in Sender #RunInBrowser", function(): void {
+  describe("Invalid parameters in Sender", function(): void {
     let sender: Sender;
 
     // Since, the below tests never actually make use of any AMQP links, there is no need to create
@@ -668,8 +667,8 @@ describe("invalid parameters", () => {
         TestClientType.PartitionedQueue
       );
 
-      //const clients = await getSenderReceiverClients(TestClientType.PartitionedQueue, "peekLock");
-      sender = serviceBusClient.test.addToCleanup(serviceBusClient.createSender(queue!));
+      // const clients = await getSenderReceiverClients(TestClientType.PartitionedQueue, "peekLock");
+      sender = serviceBusClient.test.addToCleanup(await serviceBusClient.createSender(queue!));
     });
 
     after(() => {
@@ -684,18 +683,24 @@ describe("invalid parameters", () => {
         caughtError = error;
       }
       should.equal(caughtError && caughtError.name, "TypeError");
-      should.equal(caughtError && caughtError.message, `Missing parameter "message"`);
+      should.equal(
+        caughtError && caughtError.message,
+        `Missing parameter "message, messages or messageBatch"`
+      );
     });
 
     it("Sendbatch: Missing messageBatch in Sender", async function(): Promise<void> {
       let caughtError: Error | undefined;
       try {
-        await sender.sendBatch(undefined as any);
+        await sender.send(undefined as any);
       } catch (error) {
         caughtError = error;
       }
       should.equal(caughtError && caughtError.name, "TypeError");
-      should.equal(caughtError && caughtError.message, `Missing parameter "messageBatch"`);
+      should.equal(
+        caughtError && caughtError.message,
+        `Missing parameter "message, messages or messageBatch"`
+      );
     });
 
     it("ScheduledMessage: Missing date in Sender", async function(): Promise<void> {

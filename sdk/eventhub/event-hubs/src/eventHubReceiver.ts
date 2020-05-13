@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import uuid from "uuid/v4";
 import { logger, logErrorStackTrace } from "./log";
@@ -34,7 +34,6 @@ interface CreateReceiverOptions {
 /**
  * A set of information about the last enqueued event of a partition, as observed by the consumer as
  * events are received from the Event Hubs service
- * @interface LastEnqueuedEventProperties
  */
 export interface LastEnqueuedEventProperties {
   /**
@@ -110,52 +109,42 @@ export class EventHubReceiver extends LinkEntity {
   options: EventHubConsumerOptions;
   /**
    * @property [_receiver] The RHEA AMQP-based receiver link.
-   * @private
    */
   private _receiver?: Receiver;
   /**
    * @property _onMessage The message handler provided by the batching or streaming flavors of receive operations on the `EventHubConsumer`
-   * @private
    */
   private _onMessage?: OnMessage;
   /**
    * @property _OnError The error handler provided by the batching or streaming flavors of receive operations on the `EventHubConsumer`
-   * @private
    */
   private _onError?: OnError;
   /**
    * @property _onAbort The abort handler provided by the batching or streaming flavors of receive operations on the `EventHubConsumer`
-   * @private
    */
   private _onAbort?: OnAbort;
   /**
    * @property _abortSignal An implementation of the `AbortSignalLike` interface to signal cancelling a receiver operation.
-   * @private
    */
   private _abortSignal?: AbortSignalLike;
   /**
    * @property _checkpoint The sequence number of the most recently received AMQP message.
-   * @private
    */
   private _checkpoint: number = -1;
   /**
    * @property _internalQueue A queue of events that were received from the AMQP link but not consumed externally by `EventHubConsumer`
-   * @private
    */
   private _internalQueue: ReceivedEventData[] = [];
   /**
    * @property _usingInternalQueue Indicates that events in the internal queue are being processed to be consumed by `EventHubConsumer`
-   * @private
    */
   private _usingInternalQueue: boolean = false;
   /**
    * @property _isReceivingMessages Indicates if messages are being received from this receiver.
-   * @private
    */
   private _isReceivingMessages: boolean = false;
   /**
    * @property _isStreaming Indicated if messages are being received in streaming mode.
-   * @private
    */
   private _isStreaming: boolean = false;
 

@@ -19,7 +19,7 @@ describe("Features Module Functionality", () => {
         }
         let app = JSON.parse(data);
         let appId = await client.apps.importMethod(app, { appName: "features of LUIS App" });
-        var versionId = "0.1";
+        var versionId = "0.2";
         var features = await client.features.list(appId.body, versionId);
         await client.apps.deleteMethod(appId.body);
         chai.expect(features.patternFeatures.length > 0).to.be.true;

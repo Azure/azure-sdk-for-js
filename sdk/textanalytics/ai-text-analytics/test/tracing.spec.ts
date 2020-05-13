@@ -5,8 +5,8 @@ import { assert } from "chai";
 import * as sinon from "sinon";
 import { createSpan } from "../src/tracing";
 import { setTracer, TestTracer, TestSpan } from "@azure/core-tracing";
-import { SpanKind } from "@opentelemetry/types";
-import { OperationOptions } from "@azure/core-auth";
+import { SpanKind, TraceFlags } from "@opentelemetry/api";
+import { OperationOptions } from "@azure/core-http";
 
 describe("tracing.createSpan", () => {
   it("returns a created span with the right metadata", () => {
@@ -14,7 +14,7 @@ describe("tracing.createSpan", () => {
     const testSpan = new TestSpan(
       tracer,
       "testing",
-      { traceId: "", spanId: "" },
+      { traceId: "", spanId: "", traceFlags: TraceFlags.NONE },
       SpanKind.INTERNAL
     );
     const setAttributeSpy = sinon.spy(testSpan, "setAttribute");
@@ -40,7 +40,7 @@ describe("tracing.createSpan", () => {
     const expected: OperationOptions = {
       tracingOptions: {
         spanOptions: {
-          parent: span,
+          parent: span.context(),
           attributes: {
             "az.namespace": "Microsoft.CognitiveServices"
           }
@@ -65,7 +65,7 @@ describe("tracing.createSpan", () => {
     const expected: OperationOptions = {
       tracingOptions: {
         spanOptions: {
-          parent: span,
+          parent: span.context(),
           attributes: {
             "az.namespace": "Microsoft.CognitiveServices",
             foo: "bar"

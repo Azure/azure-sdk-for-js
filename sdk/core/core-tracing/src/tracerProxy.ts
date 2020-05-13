@@ -1,8 +1,8 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { NoOpTracer } from "./tracers/noop/noOpTracer";
-import { Tracer } from "@opentelemetry/types";
+import { Tracer } from "@opentelemetry/api";
 import { getCache } from "./utils/cache";
 
 let defaultTracer: Tracer;
@@ -18,7 +18,7 @@ function getDefaultTracer(): Tracer {
  * Sets the global tracer, enabling tracing for the Azure SDK.
  * @param tracer An OpenTelemetry Tracer instance.
  */
-export function setTracer(tracer: Tracer) {
+export function setTracer(tracer: Tracer): void {
   const cache = getCache();
   cache.tracer = tracer;
 }
@@ -27,7 +27,7 @@ export function setTracer(tracer: Tracer) {
  * Retrieves the active tracer, or returns a
  * no-op implementation if one is not set.
  */
-export function getTracer() {
+export function getTracer(): Tracer {
   const cache = getCache();
   if (!cache.tracer) {
     return getDefaultTracer();

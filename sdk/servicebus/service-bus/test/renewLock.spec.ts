@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import chai from "chai";
 const should = chai.should();
@@ -27,10 +27,10 @@ describe("renew lock", () => {
 
   async function beforeEachTest(entityType: TestClientType): Promise<void> {
     const entityNames = await serviceBusClient.test.createTestEntities(entityType);
-    receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
 
     senderClient = serviceBusClient.test.addToCleanup(
-      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+      await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
   }
 
@@ -38,7 +38,7 @@ describe("renew lock", () => {
     return serviceBusClient.test.afterEach();
   }
 
-  describe("Unpartitioned Queue - Lock Renewal #RunInBrowser", function(): void {
+  describe("Unpartitioned Queue - Lock Renewal", function(): void {
     beforeEach(async () => {
       await beforeEachTest(TestClientType.UnpartitionedQueue);
     });
@@ -108,7 +108,7 @@ describe("renew lock", () => {
         },
         TestClientType.UnpartitionedQueue
       );
-    }).timeout(95000);
+    }).timeout(95000 + 30000);
 
     it("Streaming Receiver: No lock renewal when config value is less than lock duration", async function(): Promise<
       void
@@ -480,7 +480,7 @@ describe("renew lock", () => {
       // Clean up any left over messages
       await receiverClient.close();
 
-      receiverClient = serviceBusClient.test.getPeekLockReceiver(
+      receiverClient = await serviceBusClient.test.getPeekLockReceiver(
         await serviceBusClient.test.createTestEntities(entityType)
       );
 
@@ -498,7 +498,7 @@ describe("renew lock", () => {
   ): void {
     if (actualTimeInUTC) {
       should.equal(
-        Math.pow((actualTimeInUTC.valueOf() - expectedTimeInUTC.valueOf()) / 1000, 2) < 100, // Within +/- 10 seconds
+        Math.pow((actualTimeInUTC.valueOf() - expectedTimeInUTC.valueOf()) / 1000, 2) < 9, // Within +/- 3 seconds
         true,
         `${label}: Actual time ${actualTimeInUTC} must be approximately equal to ${expectedTimeInUTC}`
       );

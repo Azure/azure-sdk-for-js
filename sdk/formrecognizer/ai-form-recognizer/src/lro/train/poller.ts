@@ -7,7 +7,7 @@ import { TrainModelOptions, GetModelOptions } from "../../formTrainingClient";
 
 import {
   ModelStatus,
-  FormRecognizerClientTrainCustomModelAsyncResponse as TrainCustomModelAsyncResponse
+  GeneratedClientTrainCustomModelAsyncResponse as TrainCustomModelAsyncResponse
 } from "../../generated/models";
 export { ModelStatus, TrainCustomModelAsyncResponse };
 
@@ -50,7 +50,7 @@ export interface BeginTrainingPollerOptions<T> {
 /**
  * Class that represents a poller that waits until a model has been trained.
  */
-export class BeginTrainingPoller<T extends { modelInfo: { status: ModelStatus } }> extends Poller<
+export class BeginTrainingPoller<T extends { status: ModelStatus }> extends Poller<
   BeginTrainingPollState<T>,
   T
 > {
@@ -98,7 +98,7 @@ export class BeginTrainingPoller<T extends { modelInfo: { status: ModelStatus } 
  * Creates a poll operation given the provided state.
  * @ignore
  */
-function makeBeginTrainingPollOperation<T extends { modelInfo: { status: ModelStatus } }>(
+function makeBeginTrainingPollOperation<T extends { status: ModelStatus }>(
   state: BeginTrainingPollState<T>
 ): BeginTrainingPollerOperation<T> {
   return {
@@ -130,15 +130,15 @@ function makeBeginTrainingPollOperation<T extends { modelInfo: { status: ModelSt
         abortSignal: trainModelOptions?.abortSignal
       });
 
-      state.status = model.modelInfo.status;
+      state.status = model.status;
 
       if (!state.isCompleted) {
-        if (model.modelInfo.status === "creating" && typeof options.fireProgress === "function") {
+        if (model.status === "creating" && typeof options.fireProgress === "function") {
           options.fireProgress(state);
-        } else if (model.modelInfo.status === "ready") {
+        } else if (model.status === "ready") {
           state.result = model;
           state.isCompleted = true;
-        } else if (model.modelInfo.status === "invalid") {
+        } else if (model.status === "invalid") {
           state.error = new Error(`Model training failed with invalid model status.`);
           state.result = model;
           state.isCompleted = true;

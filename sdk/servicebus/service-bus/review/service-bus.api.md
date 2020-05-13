@@ -8,10 +8,10 @@ import { AbortSignalLike } from '@azure/abort-controller';
 import { AmqpMessage } from '@azure/core-amqp';
 import { delay } from '@azure/core-amqp';
 import { Delivery } from 'rhea-promise';
-import { default as Long_2 } from 'long';
+import Long from 'long';
 import { MessagingError } from '@azure/core-amqp';
+import { OperationTracingOptions } from '@azure/core-tracing';
 import { RetryOptions } from '@azure/core-amqp';
-import { SpanOptions } from '@opentelemetry/types';
 import { TokenCredential } from '@azure/core-amqp';
 import { TokenType } from '@azure/core-amqp';
 import { WebSocketImpl } from 'rhea-promise';
@@ -19,26 +19,18 @@ import { WebSocketOptions } from '@azure/core-amqp';
 
 // @public
 export interface BrowseMessagesOptions extends OperationOptions {
-    fromSequenceNumber?: Long_2;
+    fromSequenceNumber?: Long;
     maxMessageCount?: number;
-}
-
-// @public
-export interface CorrelationFilter {
-    contentType?: string;
-    correlationId?: string;
-    label?: string;
-    messageId?: string;
-    replyTo?: string;
-    replyToSessionId?: string;
-    sessionId?: string;
-    to?: string;
-    userProperties?: any;
 }
 
 // @public
 export interface CreateBatchOptions extends OperationOptions {
     maxSizeInBytes?: number;
+}
+
+// @public
+export interface CreateSenderOptions {
+    abortSignal?: AbortSignalLike;
 }
 
 // @public
@@ -75,8 +67,9 @@ export interface MessageHandlers<ReceivedMessageT> {
 export { MessagingError }
 
 // @public
-export interface OperationOptions extends TracingOptions {
+export interface OperationOptions {
     abortSignal?: AbortSignalLike;
+    tracingOptions?: OperationTracingOptions;
 }
 
 // @public
@@ -93,7 +86,7 @@ export interface ReceivedMessage extends ServiceBusMessage {
     readonly expiresAtUtc?: Date;
     lockedUntilUtc?: Date;
     readonly lockToken?: string;
-    readonly sequenceNumber?: Long_2;
+    readonly sequenceNumber?: Long;
 }
 
 // @public
@@ -117,10 +110,11 @@ export interface Receiver<ReceivedMessageT> {
     close(): Promise<void>;
     entityPath: string;
     getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<ReceivedMessageT>;
+    isClosed: boolean;
     isReceivingMessages(): boolean;
     receiveBatch(maxMessages: number, options?: ReceiveBatchOptions): Promise<ReceivedMessageT[]>;
-    receiveDeferredMessage(sequenceNumber: Long_2, options?: OperationOptions): Promise<ReceivedMessageT | undefined>;
-    receiveDeferredMessages(sequenceNumbers: Long_2[], options?: OperationOptions): Promise<ReceivedMessageT[]>;
+    receiveDeferredMessage(sequenceNumber: Long, options?: OperationOptions): Promise<ReceivedMessageT | undefined>;
+    receiveDeferredMessages(sequenceNumbers: Long[], options?: OperationOptions): Promise<ReceivedMessageT[]>;
     receiveMode: "peekLock" | "receiveAndDelete";
     subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SubscribeOptions): void;
 }
@@ -128,23 +122,18 @@ export interface Receiver<ReceivedMessageT> {
 export { RetryOptions }
 
 // @public
-export interface RuleDescription {
-    action?: string;
-    filter?: string | CorrelationFilter;
-    name: string;
-}
-
-// @public
 export interface Sender {
-    cancelScheduledMessage(sequenceNumber: Long_2, options?: OperationOptions): Promise<void>;
-    cancelScheduledMessages(sequenceNumbers: Long_2[], options?: OperationOptions): Promise<void>;
+    cancelScheduledMessage(sequenceNumber: Long, options?: OperationOptions): Promise<void>;
+    cancelScheduledMessages(sequenceNumbers: Long[], options?: OperationOptions): Promise<void>;
     close(): Promise<void>;
     createBatch(options?: CreateBatchOptions): Promise<ServiceBusMessageBatch>;
+    entityPath: string;
     isClosed: boolean;
-    scheduleMessage(scheduledEnqueueTimeUtc: Date, message: ServiceBusMessage, options?: OperationOptions): Promise<Long_2>;
-    scheduleMessages(scheduledEnqueueTimeUtc: Date, messages: ServiceBusMessage[], options?: OperationOptions): Promise<Long_2[]>;
+    scheduleMessage(scheduledEnqueueTimeUtc: Date, message: ServiceBusMessage, options?: OperationOptions): Promise<Long>;
+    scheduleMessages(scheduledEnqueueTimeUtc: Date, messages: ServiceBusMessage[], options?: OperationOptions): Promise<Long[]>;
     send(message: ServiceBusMessage, options?: OperationOptions): Promise<void>;
-    sendBatch(messageBatch: ServiceBusMessageBatch, options?: OperationOptions): Promise<void>;
+    send(messages: ServiceBusMessage[], options?: OperationOptions): Promise<void>;
+    send(messageBatch: ServiceBusMessageBatch, options?: OperationOptions): Promise<void>;
 }
 
 // @public
@@ -160,12 +149,12 @@ export class ServiceBusClient {
     createReceiver(queueName: string, receiveMode: "receiveAndDelete"): Receiver<ReceivedMessage>;
     createReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock"): Receiver<ReceivedMessageWithLock>;
     createReceiver(topicName: string, subscriptionName: string, receiveMode: "receiveAndDelete"): Receiver<ReceivedMessage>;
-    createSender(queueOrTopicName: string): Sender;
-    createSessionReceiver(queueName: string, receiveMode: "peekLock", options?: CreateSessionReceiverOptions): SessionReceiver<ReceivedMessageWithLock>;
-    createSessionReceiver(queueName: string, receiveMode: "receiveAndDelete", options?: CreateSessionReceiverOptions): SessionReceiver<ReceivedMessage>;
-    createSessionReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock", options?: CreateSessionReceiverOptions): SessionReceiver<ReceivedMessageWithLock>;
-    createSessionReceiver(topicName: string, subscriptionName: string, receiveMode: "receiveAndDelete", options?: CreateSessionReceiverOptions): SessionReceiver<ReceivedMessage>;
-    getSubscriptionRuleManager(topic: string, subscription: string): SubscriptionRuleManager;
+    createSender(queueOrTopicName: string, options?: CreateSenderOptions): Promise<Sender>;
+    createSessionReceiver(queueName: string, receiveMode: "peekLock", options?: CreateSessionReceiverOptions): Promise<SessionReceiver<ReceivedMessageWithLock>>;
+    createSessionReceiver(queueName: string, receiveMode: "receiveAndDelete", options?: CreateSessionReceiverOptions): Promise<SessionReceiver<ReceivedMessage>>;
+    createSessionReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock", options?: CreateSessionReceiverOptions): Promise<SessionReceiver<ReceivedMessageWithLock>>;
+    createSessionReceiver(topicName: string, subscriptionName: string, receiveMode: "receiveAndDelete", options?: CreateSessionReceiverOptions): Promise<SessionReceiver<ReceivedMessage>>;
+    fullyQualifiedNamespace: string;
 }
 
 // @public
@@ -212,7 +201,7 @@ export interface SessionMessageHandlerOptions {
 export interface SessionReceiver<ReceivedMessageT extends ReceivedMessage | ReceivedMessageWithLock> extends Receiver<ReceivedMessageT> {
     getState(options?: OperationOptions): Promise<any>;
     renewSessionLock(options?: OperationOptions): Promise<Date>;
-    sessionId: string | undefined;
+    readonly sessionId: string;
     sessionLockedUntilUtc: Date | undefined;
     setState(state: any, options?: OperationOptions): Promise<void>;
 }
@@ -220,32 +209,16 @@ export interface SessionReceiver<ReceivedMessageT extends ReceivedMessage | Rece
 // @public
 export interface SessionReceiverOptions {
     autoRenewLockDurationInMs?: number;
-    sessionId: string | undefined;
+    sessionId?: string;
 }
 
 // @public
 export interface SubscribeOptions extends OperationOptions, MessageHandlerOptions {
 }
 
-// @public
-export interface SubscriptionRuleManager {
-    addRule(ruleName: string, filter: boolean | string | CorrelationFilter, sqlRuleActionExpression?: string, options?: OperationOptions): Promise<void>;
-    close(): Promise<void>;
-    readonly defaultRuleName: string;
-    getRules(options?: OperationOptions): Promise<RuleDescription[]>;
-    removeRule(ruleName: string, options?: OperationOptions): Promise<void>;
-}
-
 export { TokenCredential }
 
 export { TokenType }
-
-// @public
-export interface TracingOptions {
-    tracingOptions?: {
-        spanOptions?: SpanOptions;
-    };
-}
 
 // @public
 export interface WaitTimeOptions {

@@ -36,7 +36,10 @@ module.exports = function(config) {
     ],
 
     // list of files / patterns to load in the browser
-    files: ["dist-test/index.browser.js"].concat(
+    files: [
+      "test-browser/index.js",
+      { pattern: "test-browser/index.js.map", type: "html", included: false, served: false }
+    ].concat(
       isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : []
     ),
 
@@ -47,17 +50,18 @@ module.exports = function(config) {
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
       "**/*.js": ["env"],
-      "recordings/browsers/**/*.json": ["json"]
+      "recordings/browsers/**/*.json": ["json"],
       // IMPORTANT: COMMENT following line if you want to debug in your browsers!!
       // Preprocess source file to calculate code coverage, however this will make source file unreadable
-      // "test-browser/index.js": ["coverage"]
+      "test-browser/index.js": ["coverage"]
     },
 
     envPreprocessor: [
       "TEST_MODE",
-      "ENDPOINT",
+      "FORM_RECOGNIZER_ENDPOINT",
       "FORM_RECOGNIZER_API_KEY",
-      "FORM_RECOGNIZER_API_KEY_ALT",
+      "FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL",
+      "FORM_RECOGNIZER_TESTING_CONTAINER_SAS_URL",
       "AZURE_CLIENT_ID",
       "AZURE_CLIENT_SECRET",
       "AZURE_TENANT_ID"

@@ -80,10 +80,7 @@ async function update(
  * @summary Reaches to the service and cancels the key's operation, also updating the key's poll operation
  * @param [options] The optional parameters, which is only an abortSignal from @azure/abort-controller
  */
-async function cancel(
-  this: DeleteKeyPollOperation,
-  _: { abortSignal?: AbortSignal } = {}
-): Promise<DeleteKeyPollOperation> {
+async function cancel(this: DeleteKeyPollOperation): Promise<DeleteKeyPollOperation> {
   throw new Error("Canceling the deletion of a key is not supported.");
 }
 

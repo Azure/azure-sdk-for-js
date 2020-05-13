@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import Long from "long";
 import * as log from "../log";
@@ -14,7 +14,6 @@ import { Constants as CoreAMQPConstants, RetryOptions } from "@azure/core-amqp";
 /**
  * @ignore
  * @internal
- * @interface Navigator
  */
 interface Navigator {
   hardwareConcurrency: number;

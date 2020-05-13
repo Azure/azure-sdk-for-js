@@ -24,7 +24,7 @@
    * Specify one of: "pnpmVersion", "npmVersion", or "yarnVersion".  See the Rush documentation
    * for details about these alternatives.
    */
-  "pnpmVersion": "4.6.0",
+  "pnpmVersion": "4.12.5",
   // "npmVersion": "4.5.0",
   // "yarnVersion": "1.9.4",
   /**
@@ -373,6 +373,11 @@
       "versionPolicyName": "core"
     },
     {
+      "packageName": "@azure/core-https",
+      "projectFolder": "sdk/core/core-https",
+      "versionPolicyName": "core"
+    },
+    {
       "packageName": "@azure/core-lro",
       "projectFolder": "sdk/core/core-lro",
       "versionPolicyName": "core"
@@ -480,6 +485,11 @@
     {
       "packageName": "@azure/test-utils-recorder",
       "projectFolder": "sdk/test-utils/recorder",
+      "versionPolicyName": "utility"
+    },
+    {
+      "packageName": "@azure/test-utils-perfstress",
+      "projectFolder": "sdk/test-utils/perfstress",
       "versionPolicyName": "utility"
     }
   ]

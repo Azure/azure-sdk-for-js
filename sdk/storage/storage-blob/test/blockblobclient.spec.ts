@@ -12,7 +12,7 @@ import {
 import { ContainerClient, BlobClient, BlockBlobClient } from "../src";
 import { Test_CPK_INFO } from "./utils/constants";
 import { BlockBlobTier } from "../src";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("BlockBlobClient", () => {
   let containerName: string;

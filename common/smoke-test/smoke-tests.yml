@@ -36,6 +36,8 @@ jobs:
 
     variables:
       - template: ../../eng/pipelines/templates/variables/globals.yml
+      - name: Location
+        value: ""
       - name: azureCloudArmParameters
         value: "@{ storageEndpointSuffix = 'core.windows.net'; azureCloud = 'AzureCloud'; }"
       - name: azureUSGovernmentArmParameters
@@ -77,9 +79,12 @@ jobs:
         parameters:
           ServiceDirectory: "$(Build.SourcesDirectory)/common/smoke-test/"
           CloudType: $(CloudType)
+          Location: $(Location)
           ArmTemplateParameters: $(ArmTemplateParameters)
 
       - script: node ./common/smoke-test/app.js
         displayName: Run Smoke Test
 
       - template: ../../eng/common/TestResources/remove-test-resources.yml
+        parameters:
+          ServiceDirectory: "$(Build.SourcesDirectory)/common/smoke-test/"

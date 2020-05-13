@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import {
   MessageHandlers,
@@ -80,7 +80,6 @@ export interface Receiver<ReceivedMessageT> {
    * - Returns an empty list if no messages are found.
    * @throws Error if the underlying connection or receiver is closed.
    * @throws MessagingError if the service returns an error while receiving deferred messages.
-   * @memberof SessionReceiver
    */
   receiveDeferredMessages(
     sequenceNumbers: Long[],
@@ -90,7 +89,6 @@ export interface Receiver<ReceivedMessageT> {
    * Indicates whether the receiver is currently receiving messages or not.
    * When this returns true, new `registerMessageHandler()` or `receiveMessages()` calls cannot be made.
    * @returns {boolean}
-   * @memberof SessionReceiver
    */
   isReceivingMessages(): boolean;
 
@@ -105,24 +103,19 @@ export interface Receiver<ReceivedMessageT> {
    * the sequenceNumber to start browsing from or an abortSignal to abort the operation.
    */
   browseMessages(options?: BrowseMessagesOptions): Promise<ReceivedMessage[]>;
-
-  // TODO: not sure these need to be on the interface
-
   /**
-   * Path for the client entity.
-   *
-   * @type {string}
-   * @memberof SessionReceiver
+   * Path of the entity for which the receiver has been created.
    */
   entityPath: string;
   /**
    * ReceiveMode provided to the client.
-   *
-   * @type {("peekLock" | "receiveAndDelete")}
-   * @memberof SessionReceiver
    */
   receiveMode: "peekLock" | "receiveAndDelete";
-
+  /**
+   * @property Returns `true` if either the receiver or the client that created it has been closed
+   * @readonly
+   */
+  isClosed: boolean;
   /**
    * Closes the receiver.
    */

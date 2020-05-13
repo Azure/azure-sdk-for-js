@@ -72,7 +72,8 @@ describe("Certificates client - restore certificates and recover backups", () =>
     } catch (e) {
       error = e;
     }
-    assert.equal(error.message, `Certificate not found: ${certificateName}`);
+    assert.equal(error.code, "CertificateNotFound");
+    assert.equal(error.statusCode, 404);
   });
 
   if (isRecordMode() || isPlaybackMode()) {
@@ -87,6 +88,7 @@ describe("Certificates client - restore certificates and recover backups", () =>
       );
       const backup = await client.backupCertificate(certificateName);
       await testClient.flushCertificate(certificateName);
+      // eslint-disable-next-line no-constant-condition
       while (true) {
         try {
           await client.restoreCertificateBackup(backup as Uint8Array);

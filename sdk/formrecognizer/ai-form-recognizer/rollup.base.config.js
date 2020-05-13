@@ -4,6 +4,7 @@ import multiEntry from "@rollup/plugin-multi-entry";
 import cjs from "@rollup/plugin-commonjs";
 import replace from "@rollup/plugin-replace";
 import { terser } from "rollup-plugin-terser";
+import shim from "rollup-plugin-shim";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import viz from "rollup-plugin-visualizer";
 
@@ -14,7 +15,7 @@ const input = "dist-esm/src/index.js";
 const production = process.env.NODE_ENV === "production";
 
 export function nodeConfig(test = false) {
-  const externalNodeBuiltins = [ "stream" ];
+  const externalNodeBuiltins = ["stream"];
   const baseConfig = {
     input: input,
     external: depNames.concat(externalNodeBuiltins),
@@ -44,7 +45,7 @@ export function nodeConfig(test = false) {
     baseConfig.output.file = "dist-test/index.node.js";
 
     // mark devdeps as external
-    baseConfig.external.push(...devDepNames);
+    baseConfig.external.push(...devDepNames, "path");
 
     // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0, rollup started respecting
     // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also
@@ -60,6 +61,7 @@ export function nodeConfig(test = false) {
 export function browserConfig(test = false) {
   const baseConfig = {
     input: input,
+    external: ["fs-extra", "nock", "path"],
     output: {
       file: "dist-browser/azure-ai-form-recognizer.js",
       format: "umd",
@@ -79,6 +81,18 @@ export function browserConfig(test = false) {
           "if (isNode)": "if (false)"
         }
       }),
+      shim({
+        fs: `export default {}`,
+        path: `export function join() {}`,
+        stream: `export default {}`,
+        dotenv: `export function config() { }`,
+        os: `
+          export function arch() { return "javascript" }
+          export function type() { return "Browser" }
+          export function release() { typeof navigator === 'undefined' ? '' : navigator.appVersion }
+        `,
+        constants: `export default {}`
+      }),
       nodeResolve({
         mainFields: ["module", "browser"],
         preferBuiltins: false
@@ -87,7 +101,7 @@ export function browserConfig(test = false) {
         namedExports: {
           chai: ["assert"],
           events: ["EventEmitter"],
-          "@opentelemetry/types": ["CanonicalCode", "SpanKind", "TraceFlags"]
+          "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
         }
       }),
       viz({ filename: "dist-browser/browser-stats.html", sourcemap: false })
@@ -98,7 +112,7 @@ export function browserConfig(test = false) {
     // Entry points - test files under the `test` folder(common for both browser and node), browser specific test files
     baseConfig.input = ["dist-esm/test/*.spec.js", "dist-esm/test/browser/*.spec.js"];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
-    baseConfig.output.file = "dist-test/index.browser.js";
+    baseConfig.output.file = "test-browser/index.js";
 
     baseConfig.onwarn = (warning) => {
       if (

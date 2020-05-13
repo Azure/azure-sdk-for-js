@@ -76,7 +76,8 @@ describe("Secret client - restore secrets and recover backups", () => {
     } catch (e) {
       error = e;
     }
-    assert.equal(error.message, `Secret not found: ${secretName}`);
+    assert.equal(error.code, "SecretNotFound");
+    assert.equal(error.statusCode, 404);
   });
 
   if (isNode && !isPlaybackMode()) {
@@ -128,7 +129,8 @@ describe("Secret client - restore secrets and recover backups", () => {
     } catch (e) {
       error = e;
     }
-    assert.equal(error.message, `Secret not found: ${secretName}`);
+    assert.equal(error.code, "SecretNotFound");
+    assert.equal(error.statusCode, 404);
   });
 
   if (isRecordMode() || isPlaybackMode()) {
@@ -141,6 +143,7 @@ describe("Secret client - restore secrets and recover backups", () => {
       await client.setSecret(secretName, "RSA");
       const backup = await client.backupSecret(secretName);
       await testClient.flushSecret(secretName);
+      // eslint-disable-next-line no-constant-condition
       while (true) {
         try {
           await client.restoreSecretBackup(backup as Uint8Array);

@@ -29,15 +29,8 @@ Using the cryptography client available in this library you also have access to
 
 **Prerequisites**: You must have an [Azure subscription](https://azure.microsoft.com/free/) and a
 [Key Vault resource](https://docs.microsoft.com/en-us/azure/key-vault/quick-create-portal) to use this package.
-If you are using this package in a Node.js application, then use Node.js 6.x or higher.
 
-You can deploy our sample template for Key Vault resources in Azure by clicking here:
-
-[![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsdk%2Fkeyvault%2Ftest-resources.json)
-
-Deploying these resources constitutes a purchase of Azure services that will be billed to your active account.
-
-To read more information about how this form works, and how to fill it, please read our [TEST_RESOURCES_README.md guide](../TEST_RESOURCES_README.md).
+If you are using this package in a Node.js application, then use Node.js 8.x or higher.
 
 ### Install the package
 
@@ -798,27 +791,6 @@ You can find more code samples through the following links:
 
 ## Contributing
 
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit https://cla.microsoft.com.
-
-When you submit a pull request, a CLA-bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.
-
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
-contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
-
-### Testing
-
-To run our tests, first install the dependencies (with `npm install` or `rush install`),
-then run the unit tests with: `npm run unit-test`.
-
-Some of our tests aim to reproduce the behavior of our library against remotely
-available endpoints. These are executed using previously recorded HTTP request and
-responses.
-
-You can read more about the tests of this project [here](test/README.md).
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fkeyvault%2Fkeyvault-keys%2FREADME.png)

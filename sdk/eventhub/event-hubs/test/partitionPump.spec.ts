@@ -1,12 +1,13 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { createProcessingSpan, trace } from "../src/partitionPump";
-import { NoOpSpan, TestTracer, setTracer, TestSpan } from "@azure/core-tracing";
-import { CanonicalCode, SpanOptions, SpanKind } from "@opentelemetry/types";
+import { TestTracer, TestSpan, NoOpSpan } from "@azure/core-tracing";
+import { CanonicalCode, SpanOptions, SpanKind } from "@opentelemetry/api";
 import chai from "chai";
 import { ReceivedEventData } from "../src/eventData";
 import { instrumentEventData } from "../src/diagnostics/instrumentEventData";
+import { setTracerForTest } from "./utils/testUtils";
 
 const should = chai.should();
 
@@ -33,14 +34,13 @@ describe("PartitionPump", () => {
     }
 
     it("basic span properties are set", async () => {
-      const fakeParentSpan = new NoOpSpan();
-      const tracer = new TestTracer2();
-      setTracer(tracer);
+      const fakeParentSpanContext = new NoOpSpan().context();
+      const { tracer, resetTracer } = setTracerForTest(new TestTracer2());
 
       await createProcessingSpan([], eventHubProperties, {
         tracingOptions: {
           spanOptions: {
-            parent: fakeParentSpan
+            parent: fakeParentSpanContext
           }
         }
       });
@@ -49,17 +49,17 @@ describe("PartitionPump", () => {
 
       should.exist(tracer.spanOptions);
       tracer.spanOptions!.kind!.should.equal(SpanKind.CONSUMER);
-      tracer.spanOptions!.parent!.should.equal(fakeParentSpan);
+      tracer.spanOptions!.parent!.should.equal(fakeParentSpanContext);
 
-      // TODO: re-enable the following verification after moving to @azure/core-tracing 1.0.0-preview.8
-      //       attributes is added after preview.7.
-      // const attributes = tracer.getRootSpans()[0].attributes;
+      const attributes = tracer.getRootSpans()[0].attributes;
 
-      // attributes!.should.deep.equal({
-      //   component: "eventhubs",
-      //   "message_bus.destination": "theeventhubname",
-      //   "peer.address": "theendpoint"
-      // });
+      attributes!.should.deep.equal({
+        "az.namespace": "Microsoft.EventHub",
+        "message_bus.destination": "theeventhubname",
+        "peer.address": "theendpoint"
+      });
+
+      resetTracer();
     });
 
     it("received events are linked to this span using Diagnostic-Id", async () => {
@@ -71,8 +71,7 @@ describe("PartitionPump", () => {
         sequenceNumber: 0
       };
 
-      const tracer = new TestTracer2();
-      setTracer(tracer);
+      const { tracer, resetTracer } = setTracerForTest(new TestTracer2());
 
       const firstEvent = tracer.startSpan("a");
       const thirdEvent = tracer.startSpan("c");
@@ -90,8 +89,16 @@ describe("PartitionPump", () => {
       tracer.spanOptions!.links!.length.should.equal(3 - 1);
       // the test tracer just hands out a string integer that just gets
       // incremented
-      tracer.spanOptions!.links![0]!.spanContext.traceId.should.equal(firstEvent.context().traceId);
-      tracer.spanOptions!.links![1]!.spanContext.traceId.should.equal(thirdEvent.context().traceId);
+      tracer.spanOptions!.links![0]!.context.traceId.should.equal(firstEvent.context().traceId);
+      (tracer.spanOptions!.links![0]!.attributes!.enqueuedTime as number).should.equal(
+        requiredEventProperties.enqueuedTimeUtc.getTime()
+      );
+      tracer.spanOptions!.links![1]!.context.traceId.should.equal(thirdEvent.context().traceId);
+      (tracer.spanOptions!.links![1]!.attributes!.enqueuedTime as number).should.equal(
+        requiredEventProperties.enqueuedTimeUtc.getTime()
+      );
+
+      resetTracer();
     });
 
     it("trace - normal", async () => {

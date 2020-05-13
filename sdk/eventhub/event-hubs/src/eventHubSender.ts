@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import uuid from "uuid/v4";
 import { logger, logErrorStackTrace } from "./log";
@@ -60,18 +60,15 @@ export class EventHubSender extends LinkEntity {
   /**
    * @property _onSessionError The message handler that will be set as the handler on
    * the underlying rhea sender's session for the "session_error" event.
-   * @private
    */
   private _onSessionError: OnAmqpEvent;
   /**
    * @property _onSessionClose The message handler that will be set as the handler on
    * the underlying rhea sender's session for the "session_close" event.
-   * @private
    */
   private _onSessionClose: OnAmqpEvent;
   /**
    * @property [_sender] The AMQP sender link.
-   * @private
    */
   private _sender?: AwaitableSender;
 
@@ -169,7 +166,7 @@ export class EventHubSender extends LinkEntity {
   }
 
   /**
-   * Deletes the sender fromt the context. Clears the token renewal timer. Closes the sender link.
+   * Deletes the sender from the context. Clears the token renewal timer. Closes the sender link.
    * @ignore
    * @returns Promise<void>
    */
@@ -333,7 +330,7 @@ export class EventHubSender extends LinkEntity {
 
       let encodedBatchMessage: Buffer | undefined;
       if (isEventDataBatch(events)) {
-        encodedBatchMessage = events._message!;
+        encodedBatchMessage = events._generateMessage();
       } else {
         const partitionKey = (options && options.partitionKey) || undefined;
         const messages: AmqpMessage[] = [];
@@ -415,6 +412,7 @@ export class EventHubSender extends LinkEntity {
   ): Promise<void> {
     const abortSignal: AbortSignalLike | undefined = options.abortSignal;
     const retryOptions = options.retryOptions || {};
+    retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
     const sendEventPromise = () =>
       new Promise<void>(async (resolve, reject) => {
         const rejectOnAbort = () => {
@@ -461,11 +459,8 @@ export class EventHubSender extends LinkEntity {
           return reject(translate(e));
         };
 
-        const waitTimer = setTimeout(
-          actionAfterTimeout,
-          getRetryAttemptTimeoutInMs(options.retryOptions)
-        );
-
+        const waitTimer = setTimeout(actionAfterTimeout, retryOptions.timeoutInMs);
+        const initStartTime = Date.now();
         if (!this.isOpen()) {
           logger.verbose(
             "Acquiring lock %s for initializing the session, sender and " +
@@ -474,9 +469,7 @@ export class EventHubSender extends LinkEntity {
           );
 
           try {
-            const senderOptions = this._createSenderOptions(
-              getRetryAttemptTimeoutInMs(options.retryOptions)
-            );
+            const senderOptions = this._createSenderOptions(retryOptions.timeoutInMs!);
             await defaultLock.acquire(this.senderLock, () => {
               return this._init(senderOptions);
             });
@@ -493,6 +486,7 @@ export class EventHubSender extends LinkEntity {
             return reject(err);
           }
         }
+        const timeTakenByInit = Date.now() - initStartTime;
 
         logger.verbose(
           "[%s] Sender '%s', credit: %d available: %d",
@@ -507,8 +501,13 @@ export class EventHubSender extends LinkEntity {
             this._context.connectionId,
             this.name
           );
-
+          if (retryOptions.timeoutInMs! <= timeTakenByInit) {
+            actionAfterTimeout();
+            return;
+          }
           try {
+            this._sender!.sendTimeoutInSeconds =
+              (retryOptions.timeoutInMs! - timeTakenByInit) / 1000;
             const delivery = await this._sender!.send(message, undefined, 0x80013700);
             logger.info(
               "[%s] Sender '%s', sent message with delivery id: %d",

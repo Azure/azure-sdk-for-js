@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 /// <reference lib="es2015" />
 /// <reference lib="esnext.asynciterable" />
@@ -16,8 +16,6 @@ export {
 
 export { SessionReceiverOptions, SessionMessageHandlerOptions } from "./session/messageSession";
 
-export { CorrelationFilter, RuleDescription } from "./core/managementClient";
-
 export {
   ReceivedMessage,
   ServiceBusMessage,
@@ -31,6 +29,7 @@ export { Delivery, WebSocketImpl } from "rhea-promise";
 export {
   GetMessageIteratorOptions,
   CreateSessionReceiverOptions,
+  CreateSenderOptions,
   MessageHandlerOptions,
   MessageHandlers,
   ReceiveBatchOptions,
@@ -39,10 +38,9 @@ export {
   CreateBatchOptions,
   BrowseMessagesOptions
 } from "./models";
-export { OperationOptions, TracingOptions } from "./modelsToBeSharedWithEventHubs";
+export { OperationOptions } from "./modelsToBeSharedWithEventHubs";
 
 export { Receiver } from "./receivers/receiver";
-export { SubscriptionRuleManager } from "./receivers/subscriptionRuleManager";
 export { SessionReceiver } from "./receivers/sessionReceiver";
 export { Sender } from "./sender";
 export { ServiceBusClient } from "./serviceBusClient";

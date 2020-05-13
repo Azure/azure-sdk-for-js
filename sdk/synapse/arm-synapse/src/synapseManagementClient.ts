@@ -43,6 +43,17 @@ class SynapseManagementClient extends SynapseManagementClientContext {
   workspaces: operations.Workspaces;
   workspaceAadAdmins: operations.WorkspaceAadAdmins;
   workspaceManagedIdentitySqlControlSettings: operations.WorkspaceManagedIdentitySqlControlSettings;
+  integrationRuntimes: operations.IntegrationRuntimes;
+  integrationRuntimeNodeIpAddress: operations.IntegrationRuntimeNodeIpAddressOperations;
+  integrationRuntimeObjectMetadata: operations.IntegrationRuntimeObjectMetadata;
+  integrationRuntimeNodes: operations.IntegrationRuntimeNodes;
+  integrationRuntimeCredentials: operations.IntegrationRuntimeCredentials;
+  integrationRuntimeConnectionInfos: operations.IntegrationRuntimeConnectionInfos;
+  integrationRuntimeAuthKeys: operations.IntegrationRuntimeAuthKeysOperations;
+  integrationRuntimeMonitoringData: operations.IntegrationRuntimeMonitoringDataOperations;
+  integrationRuntimeStatus: operations.IntegrationRuntimeStatusOperations;
+  privateLinkResources: operations.PrivateLinkResources;
+  privateEndpointConnections: operations.PrivateEndpointConnections;
 
   /**
    * Initializes a new instance of the SynapseManagementClient class.
@@ -78,6 +89,17 @@ class SynapseManagementClient extends SynapseManagementClientContext {
     this.workspaces = new operations.Workspaces(this);
     this.workspaceAadAdmins = new operations.WorkspaceAadAdmins(this);
     this.workspaceManagedIdentitySqlControlSettings = new operations.WorkspaceManagedIdentitySqlControlSettings(this);
+    this.integrationRuntimes = new operations.IntegrationRuntimes(this);
+    this.integrationRuntimeNodeIpAddress = new operations.IntegrationRuntimeNodeIpAddressOperations(this);
+    this.integrationRuntimeObjectMetadata = new operations.IntegrationRuntimeObjectMetadata(this);
+    this.integrationRuntimeNodes = new operations.IntegrationRuntimeNodes(this);
+    this.integrationRuntimeCredentials = new operations.IntegrationRuntimeCredentials(this);
+    this.integrationRuntimeConnectionInfos = new operations.IntegrationRuntimeConnectionInfos(this);
+    this.integrationRuntimeAuthKeys = new operations.IntegrationRuntimeAuthKeysOperations(this);
+    this.integrationRuntimeMonitoringData = new operations.IntegrationRuntimeMonitoringDataOperations(this);
+    this.integrationRuntimeStatus = new operations.IntegrationRuntimeStatusOperations(this);
+    this.privateLinkResources = new operations.PrivateLinkResources(this);
+    this.privateEndpointConnections = new operations.PrivateEndpointConnections(this);
   }
 }
 

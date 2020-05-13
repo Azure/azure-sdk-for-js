@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import chai from "chai";
 const should = chai.should();
@@ -42,12 +42,12 @@ describe("receive and delete", () => {
     const entityNames = await serviceBusClient.test.createTestEntities(entityType);
 
     senderClient = serviceBusClient.test.addToCleanup(
-      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+      await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
     if (receiveMode === "peekLock") {
-      receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
+      receiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
     } else {
-      receiverClient = serviceBusClient.test.getReceiveAndDeleteReceiver(entityNames);
+      receiverClient = await serviceBusClient.test.getReceiveAndDeleteReceiver(entityNames);
     }
 
     errorWasThrown = false;
@@ -85,7 +85,7 @@ describe("receive and delete", () => {
       await testPeekMsgsLength(receiverClient, 0);
     }
 
-    it("Partitioned Queue: No settlement of the message removes message #RunInBrowser", async function(): Promise<
+    it("Partitioned Queue: No settlement of the message removes message", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.PartitionedQueue);
@@ -113,7 +113,7 @@ describe("receive and delete", () => {
     await testNoSettlement();
   });*/
 
-    it("Partitioned Queue with Sessions: No settlement of the message removes message #RunInBrowser", async function(): Promise<
+    it("Partitioned Queue with Sessions: No settlement of the message removes message", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
@@ -396,9 +396,7 @@ describe("receive and delete", () => {
       await testSettlement(DispositionType.complete);
     });*/
 
-    it("Partitioned Queue with Sessions: complete() throws error #RunInBrowser", async function(): Promise<
-      void
-    > {
+    it("Partitioned Queue with Sessions: complete() throws error", async function(): Promise<void> {
       await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
       await testSettlement(DispositionType.complete, true);
     });
@@ -432,9 +430,7 @@ describe("receive and delete", () => {
       await testSettlement(DispositionType.abandon);
     });*/
 
-    it("Partitioned Queue with Sessions: abandon() throws error #RunInBrowser", async function(): Promise<
-      void
-    > {
+    it("Partitioned Queue with Sessions: abandon() throws error", async function(): Promise<void> {
       await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
       await testSettlement(DispositionType.abandon, true);
     });
@@ -468,9 +464,7 @@ describe("receive and delete", () => {
       await testSettlement(DispositionType.defer);
     });*/
 
-    it("Partitioned Queue with Sessions: defer() throws error #RunInBrowser", async function(): Promise<
-      void
-    > {
+    it("Partitioned Queue with Sessions: defer() throws error", async function(): Promise<void> {
       await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
       await testSettlement(DispositionType.defer, true);
     });
@@ -504,7 +498,7 @@ describe("receive and delete", () => {
       await testSettlement(DispositionType.deadletter);
     });*/
 
-    it("Partitioned Queue with Sessions: deadLetter() throws error #RunInBrowser", async function(): Promise<
+    it("Partitioned Queue with Sessions: deadLetter() throws error", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
@@ -535,9 +529,7 @@ describe("receive and delete", () => {
       await testSettlement(DispositionType.complete);
     });*/
 
-    it("Partitioned Queue with Sessions: complete() throws error #RunInBrowser", async function(): Promise<
-      void
-    > {
+    it("Partitioned Queue with Sessions: complete() throws error", async function(): Promise<void> {
       await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
       await testSettlement(DispositionType.complete, true);
     });
@@ -571,9 +563,7 @@ describe("receive and delete", () => {
       await testSettlement(DispositionType.abandon);
     });*/
 
-    it("Partitioned Queue with Sessions: abandon() throws error #RunInBrowser", async function(): Promise<
-      void
-    > {
+    it("Partitioned Queue with Sessions: abandon() throws error", async function(): Promise<void> {
       await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
       await testSettlement(DispositionType.abandon, true);
     });
@@ -607,9 +597,7 @@ describe("receive and delete", () => {
       await testSettlement(DispositionType.defer);
     });*/
 
-    it("Partitioned Queue with Sessions: defer() throws error #RunInBrowser", async function(): Promise<
-      void
-    > {
+    it("Partitioned Queue with Sessions: defer() throws error", async function(): Promise<void> {
       await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
       await testSettlement(DispositionType.defer, true);
     });
@@ -643,7 +631,7 @@ describe("receive and delete", () => {
       await testSettlement(DispositionType.deadletter);
     });*/
 
-    it("Partitioned Queue with Sessions: deadLetter() throws error #RunInBrowser", async function(): Promise<
+    it("Partitioned Queue with Sessions: deadLetter() throws error", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
@@ -673,9 +661,7 @@ describe("receive and delete", () => {
       should.equal(errorWasThrown, true, "Error thrown flag must be true");
     }
 
-    it("Partitioned Queue: Renew message lock throws error #RunInBrowser", async function(): Promise<
-      void
-    > {
+    it("Partitioned Queue: Renew message lock throws error", async function(): Promise<void> {
       await beforeEachTest(TestClientType.PartitionedQueue);
       await testRenewLock();
     });
@@ -770,11 +756,11 @@ describe("receive and delete", () => {
       const entityNames = await beforeEachTest(testClientType, "peekLock");
       await deferMessage(entityNames.usesSessions);
       await receiverClient.close();
-      receiverClient = serviceBusClient.test.getReceiveAndDeleteReceiver(entityNames);
+      receiverClient = await serviceBusClient.test.getReceiveAndDeleteReceiver(entityNames);
       await receiveDeferredMessage();
     }
 
-    it("Unpartitioned Queue: No settlement of the message removes message #RunInBrowser", async function(): Promise<
+    it("Unpartitioned Queue: No settlement of the message removes message", async function(): Promise<
       void
     > {
       await deferAndReceiveMessage(TestClientType.UnpartitionedQueue);
@@ -798,7 +784,7 @@ describe("receive and delete", () => {
       await deferAndReceiveMessage(TestClientType.PartitionedSubscriptionWithSessions);
     });
 
-    it("Unpartitioned Queue with Sessions: No settlement of the message removes message #RunInBrowser", async function(): Promise<
+    it("Unpartitioned Queue with Sessions: No settlement of the message removes message", async function(): Promise<
       void
     > {
       await deferAndReceiveMessage(TestClientType.UnpartitionedQueueWithSessions);

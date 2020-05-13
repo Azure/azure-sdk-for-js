@@ -6,7 +6,6 @@ import { WebSocketImpl } from "rhea-promise";
 
 /**
  * Describes the options that can be provided while creating a connection config.
- * @interface ConnectionConfigOptions
  */
 export interface ConnectionConfigOptions {
   /**
@@ -19,7 +18,6 @@ export interface ConnectionConfigOptions {
 /**
  * Describes the connection config object that is created after parsing an EventHub or ServiceBus
  * connection string.
- * @interface ConnectionConfig
  */
 export interface ConnectionConfig {
   /**
@@ -95,7 +93,7 @@ export namespace ConnectionConfig {
     const result: ConnectionConfig = {
       connectionString: connectionString,
       endpoint: parsedCS.Endpoint,
-      host: parsedCS && parsedCS.Endpoint ? (parsedCS.Endpoint.match("sb://([^/]*)") || [])[1] : "",
+      host: parsedCS && parsedCS.Endpoint ? (parsedCS.Endpoint.match(".*://([^/]*)") || [])[1] : "",
       sharedAccessKeyName: parsedCS.SharedAccessKeyName,
       sharedAccessKey: parsedCS.SharedAccessKey
     };

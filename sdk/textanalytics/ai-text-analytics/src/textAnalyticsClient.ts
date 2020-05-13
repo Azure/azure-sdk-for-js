@@ -40,7 +40,7 @@ import {
   makeRecognizeLinkedEntitiesResultCollection
 } from "./recognizeLinkedEntitiesResultCollection";
 import { createSpan } from "./tracing";
-import { CanonicalCode } from "@opentelemetry/types";
+import { CanonicalCode } from "@opentelemetry/api";
 import { createTextAnalyticsAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 
 const DEFAULT_COGNITIVE_SCOPE = "https://cognitiveservices.azure.com/.default";
@@ -133,11 +133,11 @@ export class TextAnalyticsClient {
    *
    * Example usage:
    * ```ts
-   * import { TextAnalyticsClient, KeyCredential } from "@azure/ai-text-analytics";
+   * import { TextAnalyticsClient, AzureKeyCredential } from "@azure/ai-text-analytics";
    *
    * const client = new TextAnalyticsClient(
    *    "<service endpoint>",
-   *    new KeyCredential("<api key>")
+   *    new AzureKeyCredential("<api key>")
    * );
    * ```
    * @param {string} endpointUrl The URL to the TextAnalytics endpoint
@@ -236,7 +236,7 @@ export class TextAnalyticsClient {
     let realOptions: DetectLanguageOptions;
     let realInputs: DetectLanguageInput[];
 
-    if (!Array.isArray(documents) || documents.length == 0) {
+    if (!Array.isArray(documents) || documents.length === 0) {
       throw new Error("'documents' must be a non-empty array");
     }
 
@@ -303,6 +303,7 @@ export class TextAnalyticsClient {
   public async recognizeEntities(
     documents: string[],
     language?: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: RecognizeCategorizedEntitiesOptions
   ): Promise<RecognizeCategorizedEntitiesResultCollection>;
   /**
@@ -318,17 +319,19 @@ export class TextAnalyticsClient {
    */
   public async recognizeEntities(
     documents: TextDocumentInput[],
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: RecognizeCategorizedEntitiesOptions
   ): Promise<RecognizeCategorizedEntitiesResultCollection>;
   public async recognizeEntities(
     documents: string[] | TextDocumentInput[],
     languageOrOptions?: string | RecognizeCategorizedEntitiesOptions,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: RecognizeCategorizedEntitiesOptions
   ): Promise<RecognizeCategorizedEntitiesResultCollection> {
     let realOptions: RecognizeCategorizedEntitiesOptions;
     let realInputs: TextDocumentInput[];
 
-    if (!Array.isArray(documents) || documents.length == 0) {
+    if (!Array.isArray(documents) || documents.length === 0) {
       throw new Error("'documents' must be a non-empty array");
     }
 
@@ -412,7 +415,7 @@ export class TextAnalyticsClient {
     let realOptions: AnalyzeSentimentOptions;
     let realInputs: TextDocumentInput[];
 
-    if (!Array.isArray(documents) || documents.length == 0) {
+    if (!Array.isArray(documents) || documents.length === 0) {
       throw new Error("'documents' must be a non-empty array");
     }
 
@@ -494,7 +497,7 @@ export class TextAnalyticsClient {
     let realOptions: ExtractKeyPhrasesOptions;
     let realInputs: TextDocumentInput[];
 
-    if (!Array.isArray(documents) || documents.length == 0) {
+    if (!Array.isArray(documents) || documents.length === 0) {
       throw new Error("'documents' must be a non-empty array");
     }
 
@@ -578,7 +581,7 @@ export class TextAnalyticsClient {
     let realOptions: RecognizeLinkedEntitiesOptions;
     let realInputs: TextDocumentInput[];
 
-    if (!Array.isArray(documents) || documents.length == 0) {
+    if (!Array.isArray(documents) || documents.length === 0) {
       throw new Error("'documents' must be a non-empty array");
     }
 

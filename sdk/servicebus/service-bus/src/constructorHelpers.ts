@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { ReceiveMode } from "./serviceBusMessage";
 import {
@@ -13,13 +13,10 @@ import { ConnectionContext } from "./connectionContext";
 
 /**
  * Describes the options that can be provided while creating the ServiceBusClient.
- * @interface ServiceBusClientOptions
  */
 export interface ServiceBusClientOptions {
   /**
    * Retry policy options that determine the mode, number of retries, retry interval etc.
-   *
-   * @type {RetryOptions}
    */
   retryOptions?: RetryOptions;
   /**
