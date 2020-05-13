@@ -62,6 +62,7 @@ You can instantiate this class using its constructors:
   - This method takes the host name of your Service Bus instance and a credentials object that you need
     to generate using the [@azure/identity](https://www.npmjs.com/package/@azure/identity)
     library. The host name is of the format `name-of-service-bus-instance.servicebus.windows.net`.
+    If you're using an own token provider against AAD, then set the "scopes" for service-bus to be `["https://servicebus.azure.net//user_impersonation"]` to get the appropriate token.
 
 ### Key concepts
 
