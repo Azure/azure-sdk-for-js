@@ -22,6 +22,7 @@ pr:
 variables:
   NodeVersion: '10.x'
 
+
 jobs:
   - job: 'Build'
     displayName: 'Build auto-generated projects'
