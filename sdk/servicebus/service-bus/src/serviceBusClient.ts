@@ -186,6 +186,9 @@ export class ServiceBusClient {
   /**
    * Creates a ServiceBusClient for the Service Bus Namespace represented by the given host using
    * the given TokenProvider.
+   * If you're using an own token provider against AAD, then set the "scopes" for service-bus
+   * to be `["https://servicebus.azure.net//user_impersonation"]` to get the appropriate token.
+   *
    * @param {string} host - Fully qualified domain name for Servicebus. Most likely,
    * `<yournamespace>.servicebus.windows.net`.
    * @param {TokenProvider} tokenProvider - Your custom implementation of the {@link https://github.com/Azure/amqp-common-js/blob/master/lib/auth/token.ts Token Provider}
