@@ -17,24 +17,51 @@ import { OperationalInsightsManagementClientContext } from "./operationalInsight
 
 class OperationalInsightsManagementClient extends OperationalInsightsManagementClientContext {
   // Operation groups
-  linkedServices: operations.LinkedServices;
+  dataExports: operations.DataExports;
   dataSources: operations.DataSources;
-  workspaces: operations.Workspaces;
+  intelligencePacks: operations.IntelligencePacks;
+  linkedServices: operations.LinkedServices;
+  linkedStorageAccounts: operations.LinkedStorageAccounts;
+  managementGroups: operations.ManagementGroups;
   operations: operations.Operations;
+  operationStatuses: operations.OperationStatuses;
+  sharedKeys: operations.SharedKeysOperations;
+  usages: operations.Usages;
+  workspaces: operations.Workspaces;
+  deletedWorkspaces: operations.DeletedWorkspaces;
+  clusters: operations.Clusters;
+  storageInsightConfigs: operations.StorageInsightConfigs;
+  savedSearches: operations.SavedSearches;
+  gateways: operations.Gateways;
+  schema: operations.Schema;
+  workspacePurge: operations.WorkspacePurge;
 
   /**
    * Initializes a new instance of the OperationalInsightsManagementClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
-   * @param subscriptionId Gets subscription credentials which uniquely identify Microsoft Azure
-   * subscription. The subscription ID forms part of the URI for every service call.
+   * @param subscriptionId The ID of the target subscription.
    * @param [options] The parameter options
    */
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.OperationalInsightsManagementClientOptions) {
     super(credentials, subscriptionId, options);
-    this.linkedServices = new operations.LinkedServices(this);
+    this.dataExports = new operations.DataExports(this);
     this.dataSources = new operations.DataSources(this);
-    this.workspaces = new operations.Workspaces(this);
+    this.intelligencePacks = new operations.IntelligencePacks(this);
+    this.linkedServices = new operations.LinkedServices(this);
+    this.linkedStorageAccounts = new operations.LinkedStorageAccounts(this);
+    this.managementGroups = new operations.ManagementGroups(this);
     this.operations = new operations.Operations(this);
+    this.operationStatuses = new operations.OperationStatuses(this);
+    this.sharedKeys = new operations.SharedKeysOperations(this);
+    this.usages = new operations.Usages(this);
+    this.workspaces = new operations.Workspaces(this);
+    this.deletedWorkspaces = new operations.DeletedWorkspaces(this);
+    this.clusters = new operations.Clusters(this);
+    this.storageInsightConfigs = new operations.StorageInsightConfigs(this);
+    this.savedSearches = new operations.SavedSearches(this);
+    this.gateways = new operations.Gateways(this);
+    this.schema = new operations.Schema(this);
+    this.workspacePurge = new operations.WorkspacePurge(this);
   }
 }
 

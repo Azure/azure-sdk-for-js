@@ -8,7 +8,10 @@
 
 export {
   CloudError,
-  Operation,
-  OperationDisplay,
-  OperationListResult
+  CoreSummary,
+  SearchGetSchemaResponse,
+  SearchMetadata,
+  SearchMetadataSchema,
+  SearchSchemaValue,
+  SearchSort
 } from "../models/mappers";
