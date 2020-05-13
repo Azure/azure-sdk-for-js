@@ -7,8 +7,7 @@
   Fixes [bug 7907](https://github.com/Azure/azure-sdk-for-js/issues/7907).
 - Provided down-leveled type declaration files to support older TypeScript versions 3.1 to 3.6.
   [PR 8515](https://github.com/Azure/azure-sdk-for-js/pull/8515)
-- Updates `@azure/amqp-common` to version 1.0.0-preview.15, fixing an issue with OperationTimeoutError's not being 
-  considered retryable.
+- Updates `@azure/amqp-common` to version 1.0.0-preview.15, fixing an issue with 'OperationTimeoutError's not being considered retryable.
 
 ## 1.1.6 (2020-04-23)
 
