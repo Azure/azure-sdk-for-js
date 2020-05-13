@@ -1,5 +1,8 @@
 # Release History
 
+## 1.1.8 (Unreleased)
+
+
 ## 1.1.7 (2020-05-13)
 
 - Relaxes the scheme check for the endpoint while parsing the connection string.
