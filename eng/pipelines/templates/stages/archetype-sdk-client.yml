@@ -21,6 +21,6 @@ stages:
       ServiceDirectory: ${{parameters.ServiceDirectory}}
       Artifacts: ${{parameters.Artifacts}}
       ArtifactName: packages
-      TargetDocRepoOwner: 'MicrosoftDocs'
-      TargetDocRepoName: 'azure-docs-sdk-node'
+      TargetDocRepoOwner: ${{ parameters.TargetDocRepoOwner }}
+      TargetDocRepoName: ${{ parameters.TargetDocRepoName }}
       
