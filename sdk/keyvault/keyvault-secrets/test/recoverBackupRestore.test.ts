@@ -77,7 +77,8 @@ describe("Secret client - restore secrets and recover backups", () => {
     } catch (e) {
       error = e;
     }
-    assert.equal(error.message, `Secret not found: ${secretName}`);
+    assert.equal(error.code, "SecretNotFound");
+    assert.equal(error.statusCode, 404);
   });
 
   if (isNode && !isPlayingBack) {
@@ -129,7 +130,8 @@ describe("Secret client - restore secrets and recover backups", () => {
     } catch (e) {
       error = e;
     }
-    assert.equal(error.message, `Secret not found: ${secretName}`);
+    assert.equal(error.code, "SecretNotFound");
+    assert.equal(error.statusCode, 404);
   });
 
   it("can restore a secret", async function() {
