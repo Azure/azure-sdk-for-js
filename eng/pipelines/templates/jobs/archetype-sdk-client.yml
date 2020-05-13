@@ -269,7 +269,7 @@ jobs:
           inputs:
             searchFolder: '$(System.DefaultWorkingDirectory)/sdk'
             testResultsFiles: "**/test-results.xml"
-            testRunTitle: "$(OSName) - NodeJS - Unit Tests - [Node $(NodeVersionTest)]"
+            testRunTitle: "$(OSName) - NodeJS - Unit Tests - [Node $(NodeTestVersion)]"
           condition: and(always(),eq(variables['TestType'], 'node'))
           displayName: "Publish NodeJS unit test results"
 
@@ -279,6 +279,6 @@ jobs:
           inputs:
             searchFolder: '$(System.DefaultWorkingDirectory)/sdk'
             testResultsFiles: "**/test-results.browser.xml"
-            testRunTitle: "$(OSName) - Browser - Unit Tests - [Node $(NodeVersionTest)]"
+            testRunTitle: "$(OSName) - Browser - Unit Tests - [Node $(NodeTestVersion)]"
           condition: and(always(),eq(variables['TestType'], 'browser'))
           displayName: "Publish browser unit test results"
