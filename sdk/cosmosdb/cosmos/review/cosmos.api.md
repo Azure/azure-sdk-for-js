@@ -293,6 +293,24 @@ export interface ContainerDefinition {
     uniqueKeyPolicy?: UniqueKeyPolicy;
 }
 
+// Warning: (ae-forgotten-export) The symbol "VerboseOmit" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+export interface ContainerRequest extends VerboseOmit<ContainerDefinition, "partitionKey"> {
+    // (undocumented)
+    autoUpgradePolicy?: {
+        throughputPolicy: {
+            incrementPercent: number;
+        };
+    };
+    // (undocumented)
+    maxThroughput?: number;
+    // (undocumented)
+    partitionKey?: string | PartitionKeyDefinition;
+    // (undocumented)
+    throughput?: number;
+}
+
 // @public
 export class ContainerResponse extends ResourceResponse<ContainerDefinition & Resource> {
     constructor(resource: ContainerDefinition & Resource, headers: CosmosHeaders, statusCode: number, container: Container);
@@ -302,7 +320,6 @@ export class ContainerResponse extends ResourceResponse<ContainerDefinition & Re
 // @public
 export class Containers {
     constructor(database: Database, clientContext: ClientContext);
-    // Warning: (ae-forgotten-export) The symbol "ContainerRequest" needs to be exported by the entry point index.d.ts
     create(body: ContainerRequest, options?: RequestOptions): Promise<ContainerResponse>;
     createIfNotExists(body: ContainerRequest, options?: RequestOptions): Promise<ContainerResponse>;
     // (undocumented)

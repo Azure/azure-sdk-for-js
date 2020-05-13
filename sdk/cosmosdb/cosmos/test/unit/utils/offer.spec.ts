@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
-import { validateOffer } from "../../../src/utils/offers";
-import { ContainerRequest } from "../../../src/client/Container/ContainerRequest";
+import { validateOffer } from "../../../dist-esm/utils/offers";
+import { ContainerRequest } from "../../../dist-esm";
 
 describe("Offer utils", function() {
   describe("validateOffer", function() {
@@ -15,7 +15,7 @@ describe("Offer utils", function() {
           }
         }
       };
-      assert.throws(validateOffer(body));
+      assert.throws(() => validateOffer(body));
     });
     it("fails with throughput and autoUpgradePolicy specified", function() {
       const body: ContainerRequest = {
@@ -26,24 +26,24 @@ describe("Offer utils", function() {
           }
         }
       };
-      assert.throws(validateOffer(body));
+      assert.throws(() => validateOffer(body));
     });
     it("passes with autopilot params", function() {
       const body: ContainerRequest = {
-        maxThroughput: 400,
+        maxThroughput: 50000,
         autoUpgradePolicy: {
           throughputPolicy: {
-            incrementPercent: 15
+            incrementPercent: 50
           }
         }
       };
-      assert.ok(validateOffer(body));
+      assert.equal(validateOffer(body), undefined);
     });
     it("passes with throughput", function() {
       const body: ContainerRequest = {
         throughput: 400
       };
-      assert.ok(validateOffer(body));
+      assert.equal(validateOffer(body), undefined);
     });
   });
 });

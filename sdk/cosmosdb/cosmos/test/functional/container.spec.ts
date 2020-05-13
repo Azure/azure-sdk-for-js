@@ -13,7 +13,12 @@ import {
 } from "../../dist-esm/documents";
 import { SpatialType } from "../../dist-esm/documents/IndexingPolicy";
 import { GeospatialType } from "../../dist-esm/documents/GeospatialType";
-import { getTestDatabase, removeAllDatabases, getTestContainer } from "../common/TestHelpers";
+import {
+  getTestDatabase,
+  removeAllDatabases,
+  getTestContainer,
+  assertThrowsAsync
+} from "../common/TestHelpers";
 
 describe("Containers", function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
@@ -501,5 +506,31 @@ describe("container.readOffer", function() {
       const { resource: readDef } = await container2WithOffer.read();
       assert.equal(offer.resource.offerResourceId, readDef._rid);
     });
+  });
+});
+
+describe("container.create", function() {
+  let database: Database;
+  before(async () => {
+    database = await getTestDatabase("autopilot test");
+  });
+  it("uses autopilot", async function() {
+    const maxThroughput = 50000;
+    const containerRequest: ContainerRequest = {
+      id: "sample",
+      maxThroughput
+    };
+    const { container } = await database.containers.create(containerRequest);
+    const { resource: offer } = await container.readOffer();
+    const settings = offer.content.offerAutopilotSettings;
+    assert.equal(settings.maxThroughput, maxThroughput);
+  });
+  it("throws with maxThroughput and throughput", function() {
+    const containerRequest: ContainerRequest = {
+      id: "sample",
+      throughput: 400,
+      maxThroughput: 400
+    };
+    assertThrowsAsync(() => database.containers.create(containerRequest));
   });
 });
