@@ -499,7 +499,8 @@ describe("BlobClient", () => {
     assert.deepStrictEqual(properties2.copyId, result.copyId);
     assert.equal(properties2.accessTier, initialTier);
 
-    // Some data center will sanitize the sig field
+    // A service feature is being rolling out which will sanitize the sig field
+    // so we remove it before comparing urls.
     assert.ok(properties2.copySource, "Expecting valid 'properties2.copySource");
 
     const sanitizedActualUrl = URLBuilder.parse(properties2.copySource!);

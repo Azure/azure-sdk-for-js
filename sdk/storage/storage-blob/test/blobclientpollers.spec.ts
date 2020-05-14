@@ -73,7 +73,8 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     assert.deepStrictEqual(properties1.contentMD5, properties2.contentMD5);
     assert.deepStrictEqual(properties2.copyId, result.copyId);
 
-    // Some data center will sanitize the sig field
+    // A service feature is being rolling out which will sanitize the sig field
+    // so we remove it before comparing urls.
     assert.ok(properties2.copySource, "Expecting valid 'properties2.copySource");
 
     const sanitizedActualUrl = URLBuilder.parse(properties2.copySource!);
@@ -115,7 +116,8 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     assert.deepStrictEqual(properties1.contentMD5, properties2.contentMD5);
     assert.deepStrictEqual(properties2.copyId, result!.copyId);
 
-    // Some data center will sanitize the sig field
+    // A service feature is being rolling out which will sanitize the sig field
+    // so we remove it before comparing urls.
     assert.ok(properties2.copySource, "Expecting valid 'properties2.copySource");
 
     const sanitizedActualUrl = URLBuilder.parse(properties2.copySource!);
