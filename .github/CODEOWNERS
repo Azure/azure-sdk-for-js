@@ -22,7 +22,7 @@
 /sdk/appconfiguration/ @richardpark-msft @chradek
 
 /sdk/batch/ @xingwu1 @matthchr @bgklein
-/sdk/cosmosdb/ @southpolesteve
+/sdk/cosmosdb/ @southpolesteve @zfoster
 
 /sdk/eventhub/ @ramya-rao-a @chradek @richardpark-msft
 /sdk/servicebus/ @ramya-rao-a @chradek @richardpark-msft @HarshaNalluru
