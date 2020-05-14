@@ -108,166 +108,166 @@ jobs:
           artifactName: documentation
           path: $(Build.ArtifactStagingDirectory)/Documentation
 
-  # - job: "Analyze"
-  #   dependsOn: "Build"
-  #   variables:
-  #     - template: ../variables/globals.yml
+  - job: "Analyze"
+    dependsOn: "Build"
+    variables:
+      - template: ../variables/globals.yml
 
-  #   pool:
-  #     vmImage: "$(OSVmImage)"
+    pool:
+      vmImage: "$(OSVmImage)"
 
-  #   steps:
-  #     - template: ../steps/common.yml
+    steps:
+      - template: ../steps/common.yml
 
-  #     - task: PublishPipelineArtifact@1
-  #       condition: succeededOrFailed()
-  #       displayName: "Publish Report Artifacts"
-  #       inputs:
-  #         artifactName: package-diffs
-  #         path: $(Build.ArtifactStagingDirectory)
+      - task: PublishPipelineArtifact@1
+        condition: succeededOrFailed()
+        displayName: "Publish Report Artifacts"
+        inputs:
+          artifactName: package-diffs
+          path: $(Build.ArtifactStagingDirectory)
 
-  #     - script: |
-  #         pip install setuptools wheel
-  #         pip install doc-warden==$(DocWardenVersion)
-  #         ward scan -d $(Build.SourcesDirectory) -c $(Build.SourcesDirectory)/eng/.docsettings.yml
-  #       displayName: "Verify Readmes"
+      - script: |
+          pip install setuptools wheel
+          pip install doc-warden==$(DocWardenVersion)
+          ward scan -d $(Build.SourcesDirectory) -c $(Build.SourcesDirectory)/eng/.docsettings.yml
+        displayName: "Verify Readmes"
 
-  #     - template: eng/pipelines/templates/scripts/verify-path-length.yml@azure-sdk-tools
-  #       parameters:
-  #         SourceDirectory: $(Build.SourcesDirectory)
+      - template: eng/pipelines/templates/scripts/verify-path-length.yml@azure-sdk-tools
+        parameters:
+          SourceDirectory: $(Build.SourcesDirectory)
 
-  #     - script: |
-  #         npm ci
-  #       workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/analyze-deps
-  #       displayName: "Install tool dependencies"
+      - script: |
+          npm ci
+        workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/analyze-deps
+        displayName: "Install tool dependencies"
 
-  #     - script: |
-  #         node index.js --verbose --dump "$(Build.ArtifactStagingDirectory)/data.js" --out "$(Build.ArtifactStagingDirectory)/dependencies.html"
-  #       workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/analyze-deps
-  #       displayName: "Analyze library dependencies"
+      - script: |
+          node index.js --verbose --dump "$(Build.ArtifactStagingDirectory)/data.js" --out "$(Build.ArtifactStagingDirectory)/dependencies.html"
+        workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/analyze-deps
+        displayName: "Analyze library dependencies"
 
-  #     - script: |
-  #         node common/scripts/install-run-rush.js install
-  #       displayName: "Install library dependencies"
+      - script: |
+          node common/scripts/install-run-rush.js install
+        displayName: "Install library dependencies"
 
-  #     - pwsh: |
-  #         node common/scripts/install-run-rush.js build -t @azure/eslint-plugin-azure-sdk
-  #         node eng/tools/rush-runner.js lint "${{parameters.ServiceDirectory}}"
-  #       displayName: "Build ESLint Plugin and Lint Libraries"
+      - pwsh: |
+          node common/scripts/install-run-rush.js build -t @azure/eslint-plugin-azure-sdk
+          node eng/tools/rush-runner.js lint "${{parameters.ServiceDirectory}}"
+        displayName: "Build ESLint Plugin and Lint Libraries"
 
-  #     - script: |
-  #         node eng/tools/rush-runner.js audit "${{parameters.ServiceDirectory}}"
-  #       condition: and(succeeded(), eq(variables['RunNpmAudit'], 'true'))
-  #       displayName: "Audit libraries"
+      - script: |
+          node eng/tools/rush-runner.js audit "${{parameters.ServiceDirectory}}"
+        condition: and(succeeded(), eq(variables['RunNpmAudit'], 'true'))
+        displayName: "Audit libraries"
 
-  #     - task: ms.vss-governance-buildtask.governance-build-task-component-detection.ComponentGovernanceComponentDetection@0
-  #       # ComponentGovernance is currently unable to run on pull requests of public projects. Running on non-PR
-  #       # builds should be sufficient.
-  #       condition: and(succeededOrFailed(), ne(variables['Build.Reason'], 'PullRequest'))
-  #       displayName: "Component Detection"
+      - task: ms.vss-governance-buildtask.governance-build-task-component-detection.ComponentGovernanceComponentDetection@0
+        # ComponentGovernance is currently unable to run on pull requests of public projects. Running on non-PR
+        # builds should be sufficient.
+        condition: and(succeededOrFailed(), ne(variables['Build.Reason'], 'PullRequest'))
+        displayName: "Component Detection"
 
-  #     # Unlink node_modules folders to significantly improve performance of subsequent tasks
-  #     # which need to walk the directory tree (and are hardcoded to follow symlinks).
-  #     - script: |
-  #         node eng/tools/rush-runner.js unlink
-  #       displayName: "Unlink dependencies"
+      # Unlink node_modules folders to significantly improve performance of subsequent tasks
+      # which need to walk the directory tree (and are hardcoded to follow symlinks).
+      - script: |
+          node eng/tools/rush-runner.js unlink
+        displayName: "Unlink dependencies"
 
-  #     # It's important for performance to pass "sdk" as "sourceFolder" rather than as a prefix in "contents".
-  #     # The task first enumerates all files under "sourceFolder", then matches them against the "contents" pattern.
-  #     - task: CopyFiles@2
-  #       inputs:
-  #         sourceFolder: sdk
-  #         contents: "**/**/*lintReport.html"
-  #         targetFolder: $(Build.ArtifactStagingDirectory)
-  #         flattenFolders: true
-  #       displayName: "Copy lint reports"
+      # It's important for performance to pass "sdk" as "sourceFolder" rather than as a prefix in "contents".
+      # The task first enumerates all files under "sourceFolder", then matches them against the "contents" pattern.
+      - task: CopyFiles@2
+        inputs:
+          sourceFolder: sdk
+          contents: "**/**/*lintReport.html"
+          targetFolder: $(Build.ArtifactStagingDirectory)
+          flattenFolders: true
+        displayName: "Copy lint reports"
 
-  #     - task: PublishPipelineArtifact@1
-  #       condition: succeededOrFailed()
-  #       displayName: "Publish Report Artifacts"
-  #       inputs:
-  #         artifactName: reports
-  #         path: $(Build.ArtifactStagingDirectory)
+      - task: PublishPipelineArtifact@1
+        condition: succeededOrFailed()
+        displayName: "Publish Report Artifacts"
+        inputs:
+          artifactName: reports
+          path: $(Build.ArtifactStagingDirectory)
 
-  # # Only run tests if the matrix has entries
-  # - ${{ if ne(parameters.RunUnitTests, false) }}:
-  #   - job: "UnitTest"
+  # Only run tests if the matrix has entries
+  - ${{ if ne(parameters.RunUnitTests, false) }}:
+    - job: "UnitTest"
 
-  #     strategy:
-  #       matrix: ${{parameters.Matrix}}
+      strategy:
+        matrix: ${{parameters.Matrix}}
 
-  #     pool:
-  #       vmImage: "$(OSVmImage)"
+      pool:
+        vmImage: "$(OSVmImage)"
 
-  #     variables:
-  #       - template: ../variables/globals.yml
+      variables:
+        - template: ../variables/globals.yml
 
-  #     steps:
-  #       - template: ../steps/common.yml
+      steps:
+        - template: ../steps/common.yml
 
-  #       - script: |
-  #           node common/scripts/install-run-rush.js install
-  #         displayName: "Install dependencies"
+        - script: |
+            node common/scripts/install-run-rush.js install
+          displayName: "Install dependencies"
 
-  #       # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
-  #       # The default on Windows is "cores - 1" (microsoft/rushstack#436).
-  #       - script: |
-  #           node eng/tools/rush-runner.js build --verbose -p max
-  #         displayName: "Build libraries"
+        # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
+        # The default on Windows is "cores - 1" (microsoft/rushstack#436).
+        - script: |
+            node eng/tools/rush-runner.js build --verbose -p max
+          displayName: "Build libraries"
 
-  #       # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
-  #       # The default on Windows is "cores - 1" (microsoft/rushstack#436).
-  #       - script: |
-  #           node eng/tools/rush-runner.js build:test --verbose -p max
-  #         displayName: "Build test assets"
+        # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
+        # The default on Windows is "cores - 1" (microsoft/rushstack#436).
+        - script: |
+            node eng/tools/rush-runner.js build:test --verbose -p max
+          displayName: "Build test assets"
 
-  #       # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
-  #       # The default on Windows is "cores - 1" (microsoft/rushstack#436).
-  #       - script: |
-  #           node eng/tools/rush-runner.js unit-test:node "${{parameters.ServiceDirectory}}" --verbose -p max
-  #         displayName: "Test libraries"
-  #         condition: and(succeeded(),eq(variables['TestType'], 'node'))
+        # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
+        # The default on Windows is "cores - 1" (microsoft/rushstack#436).
+        - script: |
+            node eng/tools/rush-runner.js unit-test:node "${{parameters.ServiceDirectory}}" --verbose -p max
+          displayName: "Test libraries"
+          condition: and(succeeded(),eq(variables['TestType'], 'node'))
         
-  #       # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
-  #       # The default on Windows is "cores - 1" (microsoft/rushstack#436).
-  #       - script: |
-  #           node eng/tools/rush-runner.js unit-test:browser "${{parameters.ServiceDirectory}}" --verbose -p max
-  #         displayName: "Test libraries"
-  #         condition: and(succeeded(),eq(variables['TestType'], 'browser'))
+        # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
+        # The default on Windows is "cores - 1" (microsoft/rushstack#436).
+        - script: |
+            node eng/tools/rush-runner.js unit-test:browser "${{parameters.ServiceDirectory}}" --verbose -p max
+          displayName: "Test libraries"
+          condition: and(succeeded(),eq(variables['TestType'], 'browser'))
 
-  #       # Unlink node_modules folders to significantly improve performance of subsequent tasks
-  #       # which need to walk the directory tree (and are hardcoded to follow symlinks).
-  #       # Retry for 30 seconds, since this command may fail with error "Another rush command is already
-  #       # running in this repository" if the previous rush command was killed.
-  #       - pwsh: |
-  #           for ($i=0; $i -lt 30; $i++) {
-  #             node eng/tools/rush-runner.js unlink
-  #             if ($lastexitcode -eq 0) {
-  #               break
-  #             }
-  #             else {
-  #               start-sleep 1
-  #             }
-  #           }
-  #         condition: always()
-  #         displayName: "Unlink dependencies"
+        # Unlink node_modules folders to significantly improve performance of subsequent tasks
+        # which need to walk the directory tree (and are hardcoded to follow symlinks).
+        # Retry for 30 seconds, since this command may fail with error "Another rush command is already
+        # running in this repository" if the previous rush command was killed.
+        - pwsh: |
+            for ($i=0; $i -lt 30; $i++) {
+              node eng/tools/rush-runner.js unlink
+              if ($lastexitcode -eq 0) {
+                break
+              }
+              else {
+                start-sleep 1
+              }
+            }
+          condition: always()
+          displayName: "Unlink dependencies"
 
-  #       # It's important for performance to pass "sdk" as "searchFolder" to avoid looking under root "node_modules".
-  #       # PublishTestResults.searchFolder only supports absolute paths, not relative.
-  #       - task: PublishTestResults@2
-  #         inputs:
-  #           searchFolder: '$(System.DefaultWorkingDirectory)/sdk'
-  #           testResultsFiles: "**/test-results.xml"
-  #           testRunTitle: "$(OSName) - NodeJS - Unit Tests - [Node $(NodeVersion)]"
-  #         condition: and(always(),eq(variables['TestType'], 'node'))
-  #         displayName: "Publish NodeJS unit test results"
+        # It's important for performance to pass "sdk" as "searchFolder" to avoid looking under root "node_modules".
+        # PublishTestResults.searchFolder only supports absolute paths, not relative.
+        - task: PublishTestResults@2
+          inputs:
+            searchFolder: '$(System.DefaultWorkingDirectory)/sdk'
+            testResultsFiles: "**/test-results.xml"
+            testRunTitle: "$(OSName) - NodeJS - Unit Tests - [Node $(NodeVersion)]"
+          condition: and(always(),eq(variables['TestType'], 'node'))
+          displayName: "Publish NodeJS unit test results"
 
-  #       # It's important for performance to pass "sdk" as "searchFolder" to avoid looking under root "node_modules".
-  #       # PublishTestResults.searchFolder only supports absolute paths, not relative.
-  #       - task: PublishTestResults@2
-  #         inputs:
-  #           searchFolder: '$(System.DefaultWorkingDirectory)/sdk'
-  #           testResultsFiles: "**/test-results.browser.xml"
-  #           testRunTitle: "$(OSName) - Browser - Unit Tests - [Node $(NodeVersion)]"
-  #         condition: and(always(),eq(variables['TestType'], 'browser'))
-  #         displayName: "Publish browser unit test results"
+        # It's important for performance to pass "sdk" as "searchFolder" to avoid looking under root "node_modules".
+        # PublishTestResults.searchFolder only supports absolute paths, not relative.
+        - task: PublishTestResults@2
+          inputs:
+            searchFolder: '$(System.DefaultWorkingDirectory)/sdk'
+            testResultsFiles: "**/test-results.browser.xml"
+            testRunTitle: "$(OSName) - Browser - Unit Tests - [Node $(NodeVersion)]"
+          condition: and(always(),eq(variables['TestType'], 'browser'))
+          displayName: "Publish browser unit test results"
