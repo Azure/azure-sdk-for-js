@@ -267,6 +267,7 @@ export namespace ClientEntityContext {
     };
 
     (entityContext as ClientEntityContext).close = async () => {
+      entityContext.isClosed = true;
       if (!context.connection || !context.connection.isOpen()) {
         return;
       }
@@ -311,10 +312,7 @@ export namespace ClientEntityContext {
       // Close the managementClient unless it is shared with other clients
       if (entityContext.managementClient && !isManagementClientSharedWithOtherClients()) {
         await entityContext.managementClient.close();
-        entityContext.managementClient = undefined;
       }
-
-      entityContext.isClosed = true;
 
       log.entityCtxt(
         "[%s] Closed client entity context for %s: %O",
@@ -356,7 +354,10 @@ function getManagementClient(
 ): ManagementClient | undefined {
   let result: ManagementClient | undefined;
   for (const id of Object.keys(clients)) {
-    if (clients[id].entityPath === entityPath) {
+    if (
+      clients[id].entityPath === entityPath &&
+      !(clients[id].managementClient as any)._context.isClosed
+    ) {
       result = clients[id].managementClient;
       break;
     }
