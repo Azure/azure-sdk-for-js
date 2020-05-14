@@ -28,7 +28,7 @@ const containerDefinition = {
 database.container.create(containerDefinition);
 ```
 
-- FEATURE: Adds support for autopilot parameters on container and database create methods
+- FEATURE: Adds support for autoscale parameters on container and database create methods
 
 Note that `maxThroughput` cannot be passed with `throughput`.
 

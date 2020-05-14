@@ -512,9 +512,9 @@ describe("container.readOffer", function() {
 describe("container.create", function() {
   let database: Database;
   before(async () => {
-    database = await getTestDatabase("autopilot test");
+    database = await getTestDatabase("autoscale test");
   });
-  it("uses autopilot", async function() {
+  it("uses autoscale", async function() {
     const maxThroughput = 50000;
     const containerRequest: ContainerRequest = {
       id: "sample",
@@ -522,7 +522,7 @@ describe("container.create", function() {
     };
     const { container } = await database.containers.create(containerRequest);
     const { resource: offer } = await container.readOffer();
-    const settings = offer.content.offerAutopilotSettings;
+    const settings = offer.content.offerAutoscaleSettings;
     assert.equal(settings.maxThroughput, maxThroughput);
   });
   it("throws with maxThroughput and throughput", function() {

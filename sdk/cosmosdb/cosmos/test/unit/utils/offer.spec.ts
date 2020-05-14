@@ -28,7 +28,7 @@ describe("Offer utils", function() {
       };
       assert.throws(() => validateOffer(body));
     });
-    it("passes with autopilot params", function() {
+    it("passes with autoscale params", function() {
       const body: ContainerRequest = {
         maxThroughput: 50000,
         autoUpgradePolicy: {

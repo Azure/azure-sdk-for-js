@@ -107,18 +107,18 @@ export class Databases {
     validateOffer(body);
 
     if (body.maxThroughput) {
-      const autoPilotParams: {
+      const autoscaleParams: {
         maxThroughput: number;
         autoUpgradePolicy?: object;
       } = {
         maxThroughput: body.maxThroughput
       };
       if (body.autoUpgradePolicy) {
-        autoPilotParams.autoUpgradePolicy = body.autoUpgradePolicy;
+        autoscaleParams.autoUpgradePolicy = body.autoUpgradePolicy;
       }
-      const autopilotHeader = JSON.stringify(autoPilotParams);
+      const autoscaleHeaders = JSON.stringify(autoscaleParams);
       options.initialHeaders = Object.assign({}, options.initialHeaders, {
-        [Constants.HttpHeaders.AutopilotSettings]: autopilotHeader
+        [Constants.HttpHeaders.AutoscaleSettings]: autoscaleHeaders
       });
       delete body.maxThroughput;
       delete body.autoUpgradePolicy;
