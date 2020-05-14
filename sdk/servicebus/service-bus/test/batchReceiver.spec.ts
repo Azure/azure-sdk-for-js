@@ -1024,6 +1024,7 @@ describe("Batching - disconnects", function(): void {
     entityType: TestClientType,
     receiveMode: "peekLock" | "receiveAndDelete" = "peekLock"
   ): Promise<void> {
+    serviceBusClient = createServiceBusClientForTests();
     const entityNames = await serviceBusClient.test.createTestEntities(entityType);
     if (receiveMode == "receiveAndDelete") {
       receiverClient = await serviceBusClient.test.getReceiveAndDeleteReceiver(entityNames);
@@ -1035,13 +1036,6 @@ describe("Batching - disconnects", function(): void {
       await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
   }
-  before(() => {
-    serviceBusClient = createServiceBusClientForTests();
-  });
-
-  after(() => {
-    return serviceBusClient.test.after();
-  });
 
   beforeEach(function() {
     if (!isNode) {
@@ -1050,11 +1044,10 @@ describe("Batching - disconnects", function(): void {
       this.skip();
     }
   });
-  function afterEachTest(): Promise<void> {
-    return serviceBusClient.test.afterEach();
-  }
+
   afterEach(async () => {
-    await afterEachTest();
+    await serviceBusClient.test.afterEach();
+    await serviceBusClient.test.after();
   });
 
   it("can receive and settle messages after a disconnect", async function(): Promise<void> {
