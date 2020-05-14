@@ -130,11 +130,11 @@ export namespace ConnectionContext {
       return Boolean(!this.connection.isOpen() && this.connection.isRemoteOpen());
     };
     connectionContext.isDisconnecting = false;
-    let waitForResolve: () => void;
-    let waitForPromise: Promise<void> | undefined;
+    let waitForDisconnectResolve: () => void;
+    let waitForDisconnectPromise: Promise<void> | undefined;
     connectionContext.waitForConnectionReset = function() {
-      if (this.isDisconnecting && waitForPromise) {
-        return waitForPromise;
+      if (this.isDisconnecting && waitForDisconnectPromise) {
+        return waitForDisconnectPromise;
       }
       return Promise.resolve();
     };
@@ -155,8 +155,8 @@ export namespace ConnectionContext {
         return;
       }
       connectionContext.isDisconnecting = true;
-      waitForPromise = new Promise((resolve) => {
-        waitForResolve = resolve;
+      waitForDisconnectPromise = new Promise((resolve) => {
+        waitForDisconnectResolve = resolve;
       });
 
       logger.verbose(
@@ -241,8 +241,8 @@ export namespace ConnectionContext {
       }
 
       await refreshConnection(connectionContext);
-      waitForResolve();
-      waitForPromise = undefined;
+      waitForDisconnectResolve();
+      waitForDisconnectPromise = undefined;
       connectionContext.isDisconnecting = false;
     };
 
