@@ -52,7 +52,7 @@ jobs:
           Windows Browser:
             OSVmImage: "windows-2019"
             TestType: "browser"
-            NodeVersion: "12.x"
+            NodeTestVersion: "12.x"
             SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
             TestResultsFiles: "**/test-results.browser.xml"
 
@@ -61,7 +61,7 @@ jobs:
           Samples Linux Node 10:
             OSVmImage: "ubuntu-18.04"
             TestType: "sample"
-            NodeVersion: "10.x"
+            NodeTestVersion: "10.x"
             SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
 
     pool:
