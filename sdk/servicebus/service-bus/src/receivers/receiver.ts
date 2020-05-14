@@ -18,8 +18,7 @@ import {
   getReceiverClosedErrorMsg,
   throwTypeErrorIfParameterMissing,
   throwTypeErrorIfParameterNotLong,
-  throwTypeErrorIfParameterNotLongArray,
-  throwErrorIfClientOrConnectionClosed
+  throwTypeErrorIfParameterNotLongArray
 } from "../util/errors";
 import * as log from "../log";
 import { OnMessage, OnError, ReceiveOptions } from "../core/messageReceiver";
@@ -166,10 +165,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
   private _throwIfReceiverOrConnectionClosed(): void {
     throwErrorIfConnectionClosed(this._context.namespace);
     if (this.isClosed) {
-      const errorMessage = getReceiverClosedErrorMsg(
-        this._context.entityPath,
-        this._context.isClosed
-      );
+      const errorMessage = getReceiverClosedErrorMsg(this._context.entityPath);
       const error = new Error(errorMessage);
       log.error(`[${this._context.namespace.connectionId}] %O`, error);
       throw error;
@@ -409,15 +405,8 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
     return retry<ReceivedMessageT[]>(config);
   }
 
-  // ManagementClient methods # Begin
-
   async browseMessages(options: BrowseMessagesOptions = {}): Promise<ReceivedMessage[]> {
-    throwErrorIfClientOrConnectionClosed(
-      this._context.namespace,
-      this._context.entityPath,
-      this._context.isClosed
-    );
-
+    this._throwIfReceiverOrConnectionClosed();
     const managementRequestOptions = {
       ...options,
       requestName: "browseMessages",
