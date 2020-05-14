@@ -16,7 +16,7 @@ import { MockPolicyFactory } from "./utils/MockPolicyFactory";
 
 dotenv.config();
 
-describe.only("FileClient", () => {
+describe("FileClient", () => {
   let shareName: string;
   let shareClient: ShareClient;
   let dirName: string;

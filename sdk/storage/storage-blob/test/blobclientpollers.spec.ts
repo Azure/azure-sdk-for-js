@@ -18,7 +18,7 @@ import {
 import { URLBuilder, URLQuery } from '@azure/core-http';
 dotenv.config();
 
-describe.only("BlobClient beginCopyFromURL Poller", () => {
+describe("BlobClient beginCopyFromURL Poller", () => {
   let containerName: string;
   let containerClient: ContainerClient;
   let blobName: string;

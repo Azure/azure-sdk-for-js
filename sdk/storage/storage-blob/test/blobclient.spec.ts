@@ -21,7 +21,7 @@ import {
 import { Test_CPK_INFO } from "./utils/constants";
 dotenv.config();
 
-describe.only("BlobClient", () => {
+describe("BlobClient", () => {
   let blobServiceClient: BlobServiceClient;
   let containerName: string;
   let containerClient: ContainerClient;
