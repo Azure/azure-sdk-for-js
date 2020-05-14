@@ -40,6 +40,16 @@ export const agreementName: msRest.OperationURLParameter = {
     }
   }
 };
+export const apiName: msRest.OperationURLParameter = {
+  parameterPath: "apiName",
+  mapper: {
+    required: true,
+    serializedName: "apiName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const apiVersion: msRest.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
@@ -112,6 +122,16 @@ export const integrationAccountName: msRest.OperationURLParameter = {
     }
   }
 };
+export const integrationServiceEnvironmentName: msRest.OperationURLParameter = {
+  parameterPath: "integrationServiceEnvironmentName",
+  mapper: {
+    required: true,
+    serializedName: "integrationServiceEnvironmentName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const location: msRest.OperationURLParameter = {
   parameterPath: "location",
   mapper: {
@@ -178,6 +198,16 @@ export const requestHistoryName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "requestHistoryName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const resourceGroup: msRest.OperationURLParameter = {
+  parameterPath: "resourceGroup",
+  mapper: {
+    required: true,
+    serializedName: "resourceGroup",
     type: {
       name: "String"
     }
