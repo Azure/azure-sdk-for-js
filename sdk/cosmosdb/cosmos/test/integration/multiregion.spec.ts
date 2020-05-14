@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 import assert from "assert";
 
-import { CosmosClient } from "../../dist-esm/CosmosClient";
+import { CosmosClient } from "../../src/CosmosClient";
 import { masterKey } from "../common/_testConfig";
-import { PluginOn, PluginConfig, CosmosClientOptions } from "../../dist-esm";
+import { PluginOn, PluginConfig, CosmosClientOptions } from "../../src";
 
 const endpoint = "https://failovertest.documents.azure.com/";
 

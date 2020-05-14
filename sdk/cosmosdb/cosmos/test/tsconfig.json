@@ -13,6 +13,9 @@
     "sourceMap": true,
     "newLine": "LF",
     "composite": true,
-    "noUnusedLocals": true
-  }
+    "noUnusedLocals": true,
+    "rootDir": "../src",
+    "outDir": "../dist-esm"
+  },
+  "include": ["../src"]
 }
