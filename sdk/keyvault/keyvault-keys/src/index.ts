@@ -333,7 +333,7 @@ export class KeyClient {
    * @param {DeleteKeyOptions} [options] Optional parameters for the underlying HTTP request.
    */
   private async deleteKey(name: string, options: DeleteKeyOptions = {}): Promise<DeletedKey> {
-    let reqOptions: RequestOptionsBase = toRequestOptionsBase(options);
+    const reqOptions: RequestOptionsBase = toRequestOptionsBase(options);
 
     const response = await trace<DeleteKeyResponse>("deleteKey", reqOptions, async (options) =>
       this.client.deleteKey(this.vaultUrl, name, options)
@@ -354,7 +354,7 @@ export class KeyClient {
     name: string,
     options: RecoverDeletedKeyOptions = {}
   ): Promise<KeyVaultKey> {
-    let reqOptions: RequestOptionsBase = toRequestOptionsBase(options);
+    const reqOptions: RequestOptionsBase = toRequestOptionsBase(options);
 
     const response = await trace<RecoverDeletedKeyResponse>(
       "recoverDeletedKey",
@@ -410,7 +410,7 @@ export class KeyClient {
    * @param {CreateEcKeyOptions} [options] The optional parameters.
    */
   public async createEcKey(name: string, options?: CreateEcKeyOptions): Promise<KeyVaultKey> {
-    let reqOptions: RequestOptionsBase = toRequestOptionsBase(options);
+    const reqOptions: RequestOptionsBase = toRequestOptionsBase(options);
 
     const response = await trace<CreateKeyResponse>("createEcKey", reqOptions, async (options) =>
       this.client.createKey(this.vaultUrl, name, options.hsm ? "EC-HSM" : "EC", options)
@@ -434,7 +434,7 @@ export class KeyClient {
    * @param {CreateRsaKeyOptions} [options] The optional parameters.
    */
   public async createRsaKey(name: string, options?: CreateRsaKeyOptions): Promise<KeyVaultKey> {
-    let reqOptions: RequestOptionsBase = toRequestOptionsBase(options);
+    const reqOptions: RequestOptionsBase = toRequestOptionsBase(options);
 
     const response = await trace<CreateKeyResponse>("createRsaKey", reqOptions, async (options) =>
       this.client.createKey(this.vaultUrl, name, options.hsm ? "RSA-HSM" : "RSA", options)
@@ -465,7 +465,7 @@ export class KeyClient {
     key: JsonWebKey,
     options?: ImportKeyOptions
   ): Promise<KeyVaultKey> {
-    let reqOptions: RequestOptionsBase = toRequestOptionsBase(options);
+    const reqOptions: RequestOptionsBase = toRequestOptionsBase(options);
 
     const response = await trace<ImportKeyResponse>("importKey", reqOptions, async (options) =>
       this.client.importKey(this.vaultUrl, name, key, options)
@@ -542,7 +542,7 @@ export class KeyClient {
     keyVersion: string,
     options?: UpdateKeyPropertiesOptions
   ): Promise<KeyVaultKey> {
-    let reqOptions: RequestOptionsBase = toRequestOptionsBase(options);
+    const reqOptions: RequestOptionsBase = toRequestOptionsBase(options);
 
     const response = await trace<UpdateKeyResponse>(
       "updateKeyProperties",
@@ -567,7 +567,7 @@ export class KeyClient {
    * @param {GetKeyOptions} [options] The optional parameters.
    */
   public async getKey(name: string, options: GetKeyOptions = {}): Promise<KeyVaultKey> {
-    let reqOptions: RequestOptionsBase = toRequestOptionsBase(options);
+    const reqOptions: RequestOptionsBase = toRequestOptionsBase(options);
 
     const response = await trace<GetKeyResponse>("getKey", reqOptions, async (options) =>
       this.client.getKey(
@@ -598,7 +598,7 @@ export class KeyClient {
     name: string,
     options: GetDeletedKeyOptions = {}
   ): Promise<DeletedKey> {
-    let reqOptions: RequestOptionsBase = toRequestOptionsBase(options);
+    const reqOptions: RequestOptionsBase = toRequestOptionsBase(options);
 
     const response = await trace<GetDeletedKeyResponse>(
       "getDeletedKey",
