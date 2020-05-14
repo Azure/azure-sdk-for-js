@@ -9,7 +9,7 @@ export interface ContainerRequest extends VerboseOmit<ContainerDefinition, "part
   throughput?: number;
   /* Max throughput for this container. Specify to use Autopilot */
   maxThroughput?: number;
-  /* Autopilot scaling defined by throughput increment percent */
+  /* Autoscale scaling defined by throughput increment percent */
   autoUpgradePolicy?: {
     throughputPolicy: {
       incrementPercent: number;
