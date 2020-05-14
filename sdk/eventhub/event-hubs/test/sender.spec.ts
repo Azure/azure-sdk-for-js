@@ -1351,58 +1351,6 @@ describe("EventHub Sender", function(): void {
     });
   });
 
-  describe("disconnected", function(): void {
-    it("should send after a disconnect", async () => {
-      const client = new EventHubProducerClient(service.connectionString, service.path);
-      const clientConnectionContext = client["_client"]["_context"];
-
-      await client.sendBatch([{ body: "test" }]);
-      const originalConnectionId = clientConnectionContext.connectionId;
-
-      // Trigger a disconnect on the underlying connection.
-      clientConnectionContext.connection["_connection"].idle();
-
-      await client.sendBatch([{ body: "test2" }]);
-      const newConnectionId = clientConnectionContext.connectionId;
-
-      should.not.equal(originalConnectionId, newConnectionId);
-
-      await client.close();
-    });
-
-    it("should not throw an uncaught exception", async () => {
-      const client = new EventHubProducerClient(service.connectionString, service.path);
-      const clientConnectionContext = client["_client"]["_context"];
-
-      // Send an event to open the connection.
-      await client.sendBatch([{ body: "test" }]);
-      const originalConnectionId = clientConnectionContext.connectionId;
-
-      // We need to dig deep into the internals to get the awaitable sender so that .
-      const awaitableSender = client["_producersMap"].get("")!["_eventHubSender"]!["_sender"]!;
-
-      // Change the timeout on the awaitableSender so it forces an OperationTimeoutError
-      awaitableSender.sendTimeoutInSeconds = 0;
-      // Ensure that the connection will disconnect, and another sendBatch occurs while a sendBatch is in-flight.
-      setTimeout(() => {
-        // Trigger a disconnect on the underlying connection while the `sendBatch` is in flight.
-        clientConnectionContext.connection["_connection"].idle();
-        // Triggering another sendBatch immediately after an idle
-        // used to cause the rhea connection remote state to be cleared.
-        // This caused the in-flight sendBatch to throw an uncaught error
-        // if it timed out.
-        client.sendBatch([{ body: "test3" }]);
-      }, 0);
-
-      await client.sendBatch([{ body: "test2" }]);
-      const newConnectionId = clientConnectionContext.connectionId;
-
-      should.not.equal(originalConnectionId, newConnectionId);
-
-      await client.close();
-    });
-  });
-
   async function sendBatch(
     bodies: any[],
     partitionId: string,
