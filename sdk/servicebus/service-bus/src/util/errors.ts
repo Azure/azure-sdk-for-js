@@ -4,6 +4,7 @@
 import * as log from "../log";
 import Long from "long";
 import { ConnectionContext } from "../connectionContext";
+import { ClientEntityContext } from "../clientEntityContext";
 
 /**
  * @internal
@@ -27,15 +28,22 @@ export function throwErrorIfConnectionClosed(context: ConnectionContext): void {
  * @param isClientClosed Boolean denoting if the client is closed or not
  */
 export function throwErrorIfClientOrConnectionClosed(
-  context: ConnectionContext,
-  entityPath: string,
-  isClientClosed: boolean
+  clientEntityContext: ClientEntityContext,
+  owner: "sender" | "receiver" | "ruleManager",
+  sessionId?: string
 ): void {
-  throwErrorIfConnectionClosed(context);
-  if (context && isClientClosed) {
-    const errorMessage = getClientClosedErrorMsg(entityPath);
+  throwErrorIfConnectionClosed(clientEntityContext.namespace);
+  if (clientEntityContext.namespace && clientEntityContext.isClosed) {
+    let errorMessage: string;
+    if (owner == "sender") {
+      errorMessage = getSenderClosedErrorMsg(clientEntityContext.entityPath);
+    } else if (owner == "receiver") {
+      errorMessage = getReceiverClosedErrorMsg(clientEntityContext.entityPath, sessionId);
+    } else {
+      errorMessage = getSubscriptionRuleManagerClosedErrorMsg(clientEntityContext.entityPath);
+    }
     const error = new Error(errorMessage);
-    log.error(`[${context.connectionId}] %O`, error);
+    log.error(`[${clientEntityContext.namespace.connectionId}] %O`, error);
     throw error;
   }
 }
@@ -66,18 +74,11 @@ export function getClientClosedErrorMsg(entityPath: string): string {
  * @internal
  * Gets the error message when a sender is used when its already closed
  * @param entityPath Value of the `entityPath` property on the client which denotes its name
- * @param isClientClosed Denotes if the close() was called on the client that created the sender
  */
-export function getSenderClosedErrorMsg(entityPath: string, isClientClosed: boolean): string {
-  if (isClientClosed) {
-    return (
-      `The client for "${entityPath}" has been closed. The sender created by it can no longer be used. ` +
-      `Please create a new client using an instance of ServiceBusClient.`
-    );
-  }
+export function getSenderClosedErrorMsg(entityPath: string): string {
   return (
     `The sender for "${entityPath}" has been closed and can no longer be used. ` +
-    `Please create a new sender using the "getSender" method on the ServiceBusClient.`
+    `Please create a new sender using the "createSender" method on the ServiceBusClient.`
   );
 }
 
@@ -85,29 +86,30 @@ export function getSenderClosedErrorMsg(entityPath: string, isClientClosed: bool
  * @internal
  * Gets the error message when a receiver is used when its already closed
  * @param entityPath Value of the `entityPath` property on the client which denotes its name
- * @param isClientClosed Denotes if the close() was called on the client that created the sender
  * @param sessionId If using session receiver, then the id of the session
  */
-export function getReceiverClosedErrorMsg(
-  entityPath: string,
-  isClientClosed: boolean,
-  sessionId?: string
-): string {
-  if (isClientClosed) {
-    return (
-      `The client for "${entityPath}" has been closed. The receiver created by it can no longer be used. ` +
-      `Please create a new client using an instance of ServiceBusClient.`
-    );
-  }
+export function getReceiverClosedErrorMsg(entityPath: string, sessionId?: string): string {
   if (sessionId == undefined) {
     return (
       `The receiver for "${entityPath}" has been closed and can no longer be used. ` +
-      `Please create a new receiver using the "getReceiver" method on the ServiceBusClient.`
+      `Please create a new receiver using the "createReceiver" method on the ServiceBusClient.`
     );
   }
   return (
     `The receiver for session "${sessionId}" in "${entityPath}" has been closed and can no ` +
-    `longer be used. Please create a new receiver using the "getSessionReceiver" method on the ServiceBusClient.`
+    `longer be used. Please create a new receiver using the "createSessionReceiver" method on the ServiceBusClient.`
+  );
+}
+
+/**
+ * @internal
+ * Gets the error message when a sender is used when its already closed
+ * @param entityPath Value of the `entityPath` property on the client which denotes its name
+ */
+export function getSubscriptionRuleManagerClosedErrorMsg(entityPath: string): string {
+  return (
+    `The rule manager for "${entityPath}" has been closed and can no longer be used. ` +
+    `Please create a new rule manager using the "getSubscriptionRuleManager" method on the ServiceBusClient.`
   );
 }
 
