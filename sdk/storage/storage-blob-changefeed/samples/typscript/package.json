@@ -1,0 +1,44 @@
+{
+  "name": "azure-storage-blob-changefeed-samples-ts",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Azure Storage Blob Change Feed client library samples for TypeScript",
+  "engine": {
+    "node": ">=8.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "rimraf dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git"
+  },
+  "keywords": [
+    "Azure",
+    "Storage",
+    "Blob",
+    "Change Feed",
+    "Node.js",
+    "TypeScript"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
+  "sideEffects": false,
+  "dependencies": {
+    "@azure/abort-controller": "latest",
+    "@azure/identity": "latest",
+    "@azure/storage-blob": "latest",
+    "@azure/storage-blob-changefeed": "latest",
+    "dotenv": "^8.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^8.0.0",
+    "rimraf": "^3.0.0",
+    "typescript": "~3.6.4"
+  }
+}

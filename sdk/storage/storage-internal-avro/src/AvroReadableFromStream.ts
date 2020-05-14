@@ -29,6 +29,7 @@ export class AvroReadableFromStream extends AvroReadable {
     return this._position;
   }
   public async read(size: number): Promise<Uint8Array> {
+    // console.log(`reading stream for size ${size} at position ${this._position}`);
     if (size < 0) {
       throw new Error(`size parameter should be positive: ${size}`);
     }
