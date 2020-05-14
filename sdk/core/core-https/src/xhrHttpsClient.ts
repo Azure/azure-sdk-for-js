@@ -14,11 +14,15 @@ import {
 import { RestError } from "./restError";
 import { createHttpHeaders } from "./httpHeaders";
 
+function isReadableStream(body: any): body is NodeJS.ReadableStream {
+  return body && typeof body.pipe === "function";
+}
+
 /**
  * A HttpsClient implementation that uses XMLHttpRequest to send HTTPS requests.
  */
 export class XhrHttpsClient implements HttpsClient {
-  public sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
+  public async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
     const xhr = new XMLHttpRequest();
 
     if (request.proxySettings) {
@@ -28,7 +32,7 @@ export class XhrHttpsClient implements HttpsClient {
     const abortSignal = request.abortSignal;
     if (abortSignal) {
       if (abortSignal.aborted) {
-        return Promise.reject(new AbortError("The operation was aborted."));
+        throw new AbortError("The operation was aborted.");
       }
 
       const listener = (): void => {
@@ -75,6 +79,10 @@ export class XhrHttpsClient implements HttpsClient {
       xhr.setRequestHeader(name, value);
     }
     xhr.responseType = request.streamResponseBody ? "blob" : "text";
+
+    if (isReadableStream(request.body)) {
+      throw new Error("Node streams are not supported in browser environment.");
+    }
 
     xhr.send(request.body === undefined ? null : request.body);
 
@@ -151,12 +159,10 @@ function rejectOnTerminalEvent(
 ): void {
   xhr.addEventListener("error", () =>
     reject(
-      new RestError(
-        `Failed to send request to ${request.url}`,
-        RestError.REQUEST_SEND_ERROR,
-        undefined,
+      new RestError(`Failed to send request to ${request.url}`, {
+        code: RestError.REQUEST_SEND_ERROR,
         request
-      )
+      })
     )
   );
   const abortError = new AbortError("The operation was aborted.");

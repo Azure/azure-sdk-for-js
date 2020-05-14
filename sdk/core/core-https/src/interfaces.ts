@@ -77,7 +77,7 @@ export interface PipelineRequest {
   /**
    * The HTTP body content (if any)
    */
-  body?: Blob | ArrayBuffer | ArrayBufferView | FormData | string | null;
+  body?: NodeJS.ReadableStream | Blob | ArrayBuffer | ArrayBufferView | FormData | string | null;
 
   /**
    * To simulate a browser form post
@@ -93,6 +93,16 @@ export interface PipelineRequest {
    * Proxy configuration.
    */
   proxySettings?: ProxySettings;
+
+  /**
+   * If the connection should be reused.
+   */
+  keepAlive?: boolean;
+
+  /**
+   * Whether or not to decompress response according to Accept-Encoding header (node only)
+   */
+  decompressResponse?: boolean;
 
   /**
    * Used to abort the request later.

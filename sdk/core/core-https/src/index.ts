@@ -21,3 +21,4 @@ export {
   Pipeline,
   createPipeline
 } from "./pipeline";
+export { DefaultHttpsClient } from "./defaultHttpsClient";

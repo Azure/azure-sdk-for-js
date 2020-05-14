@@ -7,6 +7,13 @@ import { Sanitizer } from "./util/sanitizer";
 
 const errorSanitizer = new Sanitizer();
 
+export interface RestErrorOptions {
+  code?: string;
+  statusCode?: number;
+  request?: PipelineRequest;
+  response?: PipelineResponse;
+}
+
 export class RestError extends Error {
   static readonly REQUEST_SEND_ERROR: string = "REQUEST_SEND_ERROR";
   static readonly PARSE_ERROR: string = "PARSE_ERROR";
@@ -17,19 +24,13 @@ export class RestError extends Error {
   public response?: PipelineResponse;
   public details?: unknown;
 
-  constructor(
-    message: string,
-    code?: string,
-    statusCode?: number,
-    request?: PipelineRequest,
-    response?: PipelineResponse
-  ) {
+  constructor(message: string, options: RestErrorOptions = {}) {
     super(message);
     this.name = "RestError";
-    this.code = code;
-    this.statusCode = statusCode;
-    this.request = request;
-    this.response = response;
+    this.code = options.code;
+    this.statusCode = options.statusCode;
+    this.request = options.request;
+    this.response = options.response;
 
     Object.setPrototypeOf(this, RestError.prototype);
   }

@@ -17,6 +17,12 @@ export interface AddPipelineOptions {
 // @public (undocumented)
 export function createPipeline(): Pipeline;
 
+// @public
+export class DefaultHttpsClient implements HttpsClient {
+    // (undocumented)
+    sendRequest(request: PipelineRequest): Promise<PipelineResponse>;
+}
+
 // @public (undocumented)
 export type FormDataMap = {
     [key: string]: FormDataValue | FormDataValue[];
@@ -73,9 +79,11 @@ export interface PipelinePolicy {
 // @public
 export interface PipelineRequest {
     abortSignal?: AbortSignalLike;
-    body?: Blob | ArrayBuffer | ArrayBufferView | FormData | string | null;
+    body?: NodeJS.ReadableStream | Blob | ArrayBuffer | ArrayBufferView | FormData | string | null;
+    decompressResponse?: boolean;
     formData?: FormDataMap;
     headers: HttpHeaders;
+    keepAlive?: boolean;
     method: HttpMethods;
     onDownloadProgress?: (progress: TransferProgressEvent) => void;
     onUploadProgress?: (progress: TransferProgressEvent) => void;

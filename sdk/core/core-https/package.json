@@ -7,7 +7,7 @@
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "browser": {
-    "./dist-esm/src/defaultHttpClient.js": "./dist-esm/src/defaultHttpClient.browser.js",
+    "./dist-esm/src/defaultHttpsClient.js": "./dist-esm/src/defaultHttpsClient.browser.js",
     "./dist-esm/src/util/inspect.js": "./dist-esm/src/util/inspect.browser.js",
     "./dist-esm/src/util/url.js": "./dist-esm/src/util/url.browser.js"
   },
@@ -73,7 +73,9 @@
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
     "@opentelemetry/api": "^0.6.1",
-    "tslib": "^1.10.0"
+    "form-data": "^3.0.0",
+    "tslib": "^1.10.0",
+    "https-proxy-agent": "^3.0.1"
   },
   "devDependencies": {
     "@microsoft/api-extractor": "7.7.11",
