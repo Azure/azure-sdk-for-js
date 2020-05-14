@@ -563,23 +563,17 @@ export type ReceiptWithLocale = { locale: "US" } & USReceipt;
 // ...
 
 /**
- * Recognize receipt result.
+ * Results of a Recognize Receipt operation
  */
-export interface RecognizeReceiptResult {
+export interface RecognizedReceipts {
   /**
    * Version of schema used for this result.
    */
-  version: string;
+  version?: string;
   /**
    * List of receipts recognized from input document
    */
   receipts?: ReceiptWithLocale[];
-}
-
-/**
- * Results of a Recognize Receipt operation
- */
-export type RecognizeReceiptOperationResult = Partial<RecognizeReceiptResult> & {
   /**
    * Operation status.
    */
@@ -597,7 +591,7 @@ export type RecognizeReceiptOperationResult = Partial<RecognizeReceiptResult> & 
 /**
  * Contains response data for an recognize receipt operation.
  */
-export type RecognizeReceiptResultResponse = RecognizeReceiptOperationResult & {
+export type RecognizeReceiptResultResponse = RecognizedReceipts & {
   /**
    * The underlying HTTP response.
    */
@@ -615,23 +609,17 @@ export type RecognizeReceiptResultResponse = RecognizeReceiptOperationResult & {
 };
 
 /**
- * Recognized layout information of the input document
+ * Represents the result from an Recognize Content operation
  */
 export interface RecognizedContent {
   /**
    * Version of schema used for this result.
    */
-  version: string;
+  version?: string;
   /**
    * Texts and tables extracted from a page in the input
    */
-  pages: FormPage[];
-}
-
-/**
- * Represents the result from an Recognize Content operation
- */
-export type RecognizeContentOperationResult = Partial<RecognizedContent> & {
+  pages?: FormPage[];
   /**
    * Operation status.
    */
@@ -649,7 +637,7 @@ export type RecognizeContentOperationResult = Partial<RecognizedContent> & {
 /**
  * Contains response data for the Recognize Content operation.
  */
-export type RecognizeContentResultResponse = RecognizeContentOperationResult & {
+export type RecognizeContentResultResponse = RecognizedContent & {
   /**
    * The underlying HTTP response.
    */
@@ -666,13 +654,13 @@ export type RecognizeContentResultResponse = RecognizeContentOperationResult & {
 };
 
 /**
- * Represents an recognized form using a custom model.
+ * Represents the result from an recognize form operation using a custom model from training.
  */
-export interface FormResult {
+export interface RecognizedForms {
   /**
    * Version of schema used for this result.
    */
-  version: string;
+  version?: string;
   /**
    * Document-level information recognized from the input using machine learning. They include
    * recognized fields that have meaning beyond text, for example, addresses, phone numbers, dates, etc.
@@ -682,12 +670,6 @@ export interface FormResult {
    * List of errors reported during the form recognition operation.
    */
   errors?: ErrorInformation[];
-}
-
-/**
- * Represents the result from an recognize form operation using a custom model from training.
- */
-export type RecognizeFormOperationResult = Partial<FormResult> & {
   /**
    * Operation status.
    */
@@ -705,7 +687,7 @@ export type RecognizeFormOperationResult = Partial<FormResult> & {
 /**
  * Contains the response data for recognize form operation using a custom model from training.
  */
-export type RecognizeFormResultResponse = RecognizeFormOperationResult & {
+export type RecognizeFormResultResponse = RecognizedForms & {
   /**
    * The underlying HTTP response.
    */
@@ -855,4 +837,18 @@ export interface AccountProperties {
    * Max number of models that can be trained for this account.
    */
   limit: number;
+}
+
+/**
+ * Error from recognize custom forms operation
+ */
+export class RecognizeFormsError extends Error {
+  /**
+   * Original errors from the service response
+   */
+  innerErrors?: ErrorInformation[]
+  constructor(message: string, innerErrors?: ErrorInformation[]) {
+    super(message);
+    this.innerErrors = innerErrors;
+  }
 }

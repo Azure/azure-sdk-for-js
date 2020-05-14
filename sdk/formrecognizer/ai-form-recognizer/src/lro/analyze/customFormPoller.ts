@@ -5,20 +5,16 @@ import { delay, AbortSignalLike } from "@azure/core-http";
 import { Poller, PollOperation, PollOperationState } from "@azure/core-lro";
 import {
   RecognizeFormsOptions,
-  RecognizeContentOptions,
-  RecognizeReceiptsOptions
 } from "../../formRecognizerClient";
 
-import { OperationStatus, ContentType } from "../../generated/models";
-import { FormRecognizerRequestBody } from "../../models";
+import {
+  GeneratedClientAnalyzeWithCustomModelResponse as AnalyzeWithCustomModelResponseModel,
+  OperationStatus,
+  ContentType } from "../../generated/models";
+import { FormRecognizerRequestBody, RecognizeFormResultResponse, RecognizedForm, RecognizeFormsError } from "../../models";
 export { OperationStatus };
 
-export type RecognizeOptions =
-  | RecognizeReceiptsOptions
-  | RecognizeContentOptions
-  | RecognizeFormsOptions;
-
-export interface PollerOperationOptions<T> {
+export interface CustomFormPollerOperationOptions {
   /**
    * Time between each polling in milliseconds.
    */
@@ -26,7 +22,7 @@ export interface PollerOperationOptions<T> {
   /**
    * callback to receive events on the progress of download operation.
    */
-  onProgress?: (state: BeginRecognizePollState<T>) => void;
+  onProgress?: (state: BeginRecognizeCustomFormPollState) => void;
   /**
    * A serialized poller, used to resume an existing operation
    */
@@ -37,55 +33,55 @@ export interface PollerOperationOptions<T> {
  * Defines the operations from a analyze client that are needed for the poller
  * to work
  */
-export type RecognizePollerClient<T> = {
+export type RecognizeCustomFormPollerClient = {
   // returns a result id to retrieve results
   beginRecognize: (
     source: FormRecognizerRequestBody | string,
     contentType?: ContentType,
-    analyzeOptions?: RecognizeOptions,
+    analyzeOptions?: RecognizeFormsOptions,
     modelId?: string
-  ) => Promise<{ operationLocation?: string }>;
+  ) => Promise<AnalyzeWithCustomModelResponseModel>;
   // retrieves analyze result
-  getRecognizeResult: (resultId: string, options: { abortSignal?: AbortSignalLike }) => Promise<T>;
+  getRecognizeResult: (resultId: string, options: { abortSignal?: AbortSignalLike }) => Promise<RecognizeFormResultResponse>;
 };
 
-export interface BeginRecognizePollState<T> extends PollOperationState<T> {
-  readonly client: RecognizePollerClient<T>;
+export interface BeginRecognizeCustomFormPollState extends PollOperationState<RecognizedForm[]> {
+  readonly client: RecognizeCustomFormPollerClient;
   source?: FormRecognizerRequestBody | string;
   contentType?: ContentType;
   modelId?: string;
   resultId?: string;
   status: OperationStatus;
-  readonly analyzeOptions?: RecognizeOptions;
+  readonly analyzeOptions?: RecognizeFormsOptions;
 }
 
-export interface BeginRecognizePollerOperation<T>
-  extends PollOperation<BeginRecognizePollState<T>, T> {}
+export interface BeginRecognizeCustomFormPollerOperation
+  extends PollOperation<BeginRecognizeCustomFormPollState, RecognizedForm[]> {}
 
 /**
  * @internal
  */
-export type BeginRecognizePollerOptions<T> = {
-  client: RecognizePollerClient<T>;
+export type BeginRecognizeCustomFormPollerOptions = {
+  client: RecognizeCustomFormPollerClient;
   source: FormRecognizerRequestBody | string;
   contentType?: ContentType;
   modelId?: string;
   intervalInMs?: number;
   resultId?: string;
-  onProgress?: (state: BeginRecognizePollState<T>) => void;
+  onProgress?: (state: BeginRecognizeCustomFormPollState) => void;
   resumeFrom?: string;
-} & RecognizeOptions;
+} & RecognizeFormsOptions;
 
 /**
  * Class that represents a poller that waits until a model has been trained.
  */
-export class BeginRecognizePoller<T extends { status: OperationStatus }> extends Poller<
-  BeginRecognizePollState<T>,
-  T
+export class BeginRecognizeCustomFormPoller extends Poller<
+  BeginRecognizeCustomFormPollState,
+  RecognizedForm[]
 > {
   public intervalInMs: number;
 
-  constructor(options: BeginRecognizePollerOptions<T>) {
+  constructor(options: BeginRecognizeCustomFormPollerOptions) {
     const {
       client,
       source,
@@ -97,7 +93,7 @@ export class BeginRecognizePoller<T extends { status: OperationStatus }> extends
       resumeFrom
     } = options;
 
-    let state: BeginRecognizePollState<T> | undefined;
+    let state: BeginRecognizeCustomFormPollState | undefined;
 
     if (resumeFrom) {
       state = JSON.parse(resumeFrom).state;
@@ -131,17 +127,17 @@ export class BeginRecognizePoller<T extends { status: OperationStatus }> extends
  * Creates a poll operation given the provided state.
  * @ignore
  */
-function makeBeginRecognizePollOperation<T extends { status: OperationStatus }>(
-  state: BeginRecognizePollState<T>
-): BeginRecognizePollerOperation<T> {
+function makeBeginRecognizePollOperation(
+  state: BeginRecognizeCustomFormPollState
+): BeginRecognizeCustomFormPollerOperation {
   return {
     state: { ...state },
 
-    async cancel(_options = {}): Promise<BeginRecognizePollerOperation<T>> {
+    async cancel(_options = {}): Promise<BeginRecognizeCustomFormPollerOperation> {
       throw new Error("Cancel operation is not supported.");
     },
 
-    async update(options = {}): Promise<BeginRecognizePollerOperation<T>> {
+    async update(options = {}): Promise<BeginRecognizeCustomFormPollerOperation> {
       const state = this.state;
       const { client, source, contentType, analyzeOptions, modelId } = state;
 
@@ -178,10 +174,12 @@ function makeBeginRecognizePollOperation<T extends { status: OperationStatus }>(
         ) {
           options.fireProgress(state);
         } else if (response.status === "succeeded") {
-          state.result = response;
+          state.result = response.forms;
           state.isCompleted = true;
         } else if (response.status === "failed") {
-          throw new Error(`Recognition failed ${(response as any)._response.bodyAsText}`);
+          throw new RecognizeFormsError(
+            `Recognition failed ${response._response.bodyAsText}`,
+            response.errors);
         }
       }
 

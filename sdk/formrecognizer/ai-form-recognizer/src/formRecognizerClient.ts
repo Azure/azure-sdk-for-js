@@ -30,16 +30,28 @@ import {
 } from "./generated/models";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
 import {
-  RecognizePollerClient,
-  BeginRecognizePoller,
-  BeginRecognizePollState,
-  RecognizeOptions
-} from "./lro/analyze/poller";
+  RecognizeContentPollerClient,
+  BeginRecognizeContentPoller,
+  BeginRecognizeContentPollState
+} from "./lro/analyze/contentPoller";
+import {
+  RecognizeCustomFormPollerClient,
+  BeginRecognizeCustomFormPoller,
+  BeginRecognizeCustomFormPollState
+} from "./lro/analyze/customFormPoller";
+import {
+  RecognizeReceiptPollerClient,
+  BeginRecognizeReceiptPoller,
+  BeginRecognizeReceiptPollState
+} from "./lro/analyze/receiptPoller";
 import {
   RecognizeContentResultResponse,
   RecognizeFormResultResponse,
   RecognizeReceiptResultResponse,
-  FormRecognizerRequestBody
+  FormRecognizerRequestBody,
+  RecognizedForm,
+  FormPage,
+  ReceiptWithLocale
 } from "./models";
 import {
   toRecognizeFormResultResponse,
@@ -67,7 +79,7 @@ export type BeginRecognizeContentOptions = RecognizeContentOptions & {
   /**
    * Callback to progress events triggered in the content recognition Long-Running-Operation (LRO)
    */
-  onProgress?: (state: BeginRecognizePollState<RecognizeContentResultResponse>) => void;
+  onProgress?: (state: BeginRecognizeContentPollState) => void;
   /**
    * A serialized poller which can be used to resume an existing paused Long-Running-Operation.
    */
@@ -78,8 +90,8 @@ export type BeginRecognizeContentOptions = RecognizeContentOptions & {
  * The Long-Running-Operation (LRO) poller that allows you to wait until form content is recognized.
  */
 export type ContentPollerLike = PollerLike<
-  PollOperationState<RecognizeContentResultResponse>,
-  RecognizeContentResultResponse
+  PollOperationState<FormPage[]>,
+  FormPage[]
 >;
 
 /**
@@ -108,7 +120,7 @@ export type BeginRecognizeFormsOptions = RecognizeFormsOptions & {
   /**
    * Callback to progress events triggered in the Recognize Form Long-Running-Operation (LRO)
    */
-  onProgress?: (state: BeginRecognizePollState<RecognizeFormResultResponse>) => void;
+  onProgress?: (state: BeginRecognizeCustomFormPollState) => void;
   /**
    * A serialized poller which can be used to resume an existing paused Long-Running-Operation.
    */
@@ -119,8 +131,8 @@ export type BeginRecognizeFormsOptions = RecognizeFormsOptions & {
  * Result type of the Recognize Form Long-Running-Operation (LRO)
  */
 export type FormPollerLike = PollerLike<
-  PollOperationState<RecognizeFormResultResponse>,
-  RecognizeFormResultResponse
+  PollOperationState<RecognizedForm[]>,
+  RecognizedForm[]
 >;
 
 /**
@@ -154,7 +166,7 @@ export type BeginRecognizeReceiptsOptions = RecognizeReceiptsOptions & {
   /**
    * Callback to progress events triggered in the receipt recognition Long-Running-Operation (LRO)
    */
-  onProgress?: (state: BeginRecognizePollState<RecognizeReceiptResultResponse>) => void;
+  onProgress?: (state: BeginRecognizeReceiptPollState) => void;
   /**
    * A serialized poller which can be used to resume an existing paused Long-Running-Operation.
    */
@@ -165,8 +177,8 @@ export type BeginRecognizeReceiptsOptions = RecognizeReceiptsOptions & {
  * The Long-Running-Operation (LRO) poller that allows you to wait until receipt(s) are recognized.
  */
 export type ReceiptPollerLike = PollerLike<
-  PollOperationState<RecognizeReceiptResultResponse>,
-  RecognizeReceiptResultResponse
+  PollOperationState<ReceiptWithLocale[]>,
+  ReceiptWithLocale[]
 >;
 
 /**
@@ -297,12 +309,12 @@ export class FormRecognizerClient {
     contentType?: ContentType,
     options: BeginRecognizeContentOptions = {}
   ): Promise<ContentPollerLike> {
-    const analyzePollerClient: RecognizePollerClient<RecognizeContentResultResponse> = {
+    const analyzePollerClient: RecognizeContentPollerClient = {
       beginRecognize: (...args) => recognizeLayoutInternal(this.client, ...args),
       getRecognizeResult: (...args) => this.getRecognizedContent(...args)
     };
 
-    const poller = new BeginRecognizePoller<RecognizeContentResultResponse>({
+    const poller = new BeginRecognizeContentPoller({
       client: analyzePollerClient,
       source: data,
       contentType,
@@ -346,12 +358,12 @@ ng", and "image/tiff";
     documentUrl: string,
     options: BeginRecognizeContentOptions = {}
   ): Promise<ContentPollerLike> {
-    const analyzePollerClient: RecognizePollerClient<RecognizeContentResultResponse> = {
+    const analyzePollerClient: RecognizeContentPollerClient = {
       beginRecognize: (...args) => recognizeLayoutInternal(this.client, ...args),
       getRecognizeResult: (...args) => this.getRecognizedContent(...args)
     };
 
-    const poller = new BeginRecognizePoller<RecognizeContentResultResponse>({
+    const poller = new BeginRecognizeContentPoller({
       client: analyzePollerClient,
       source: documentUrl,
       contentType: undefined,
@@ -427,18 +439,18 @@ ng", and "image/tiff";
     if (!modelId) {
       throw new RangeError("Invalid model id");
     }
-    const analyzePollerClient: RecognizePollerClient<RecognizeFormResultResponse> = {
+    const analyzePollerClient: RecognizeCustomFormPollerClient = {
       beginRecognize: (
         body: FormRecognizerRequestBody | string,
         contentType?: ContentType,
-        analyzeOptions: RecognizeOptions = {},
+        analyzeOptions: RecognizeFormsOptions = {},
         modelId?: string
       ) => recognizeCustomFormInternal(this.client, body, contentType, analyzeOptions, modelId!),
       getRecognizeResult: (resultId: string, options: { abortSignal?: AbortSignalLike }) =>
         this.getRecognizedForm(modelId, resultId, options)
     };
 
-    const poller = new BeginRecognizePoller({
+    const poller = new BeginRecognizeCustomFormPoller({
       client: analyzePollerClient,
       modelId,
       source: data,
@@ -480,24 +492,22 @@ ng", and "image/tiff";
     modelId: string,
     documentUrl: string,
     options: BeginRecognizeFormsOptions = {}
-  ): Promise<
-    PollerLike<PollOperationState<RecognizeFormResultResponse>, RecognizeFormResultResponse>
-  > {
+  ): Promise<FormPollerLike> {
     if (!modelId) {
       throw new RangeError("Invalid modelId");
     }
-    const analyzePollerClient: RecognizePollerClient<RecognizeFormResultResponse> = {
+    const analyzePollerClient: RecognizeCustomFormPollerClient = {
       beginRecognize: (
         body: FormRecognizerRequestBody | string,
         contentType?: ContentType,
-        analyzeOptions: RecognizeOptions = {},
+        analyzeOptions: RecognizeFormsOptions = {},
         modelId?: string
       ) => recognizeCustomFormInternal(this.client, body, contentType, analyzeOptions, modelId!),
       getRecognizeResult: (resultId: string, options: { abortSignal?: AbortSignalLike }) =>
         this.getRecognizedForm(modelId, resultId, options)
     };
 
-    const poller = new BeginRecognizePoller({
+    const poller = new BeginRecognizeCustomFormPoller({
       client: analyzePollerClient,
       modelId,
       source: documentUrl,
@@ -584,12 +594,12 @@ ng", and "image/tiff";
     contentType?: ContentType,
     options: BeginRecognizeReceiptsOptions = {}
   ): Promise<ReceiptPollerLike> {
-    const analyzePollerClient: RecognizePollerClient<RecognizeReceiptResultResponse> = {
+    const analyzePollerClient: RecognizeReceiptPollerClient = {
       beginRecognize: (...args) => recognizeReceiptInternal(this.client, ...args),
       getRecognizeResult: (...args) => this.getreceipts(...args)
     };
 
-    const poller = new BeginRecognizePoller({
+    const poller = new BeginRecognizeReceiptPoller({
       client: analyzePollerClient,
       source: data,
       contentType,
@@ -639,12 +649,12 @@ ng", and "image/tiff";
     documentUrl: string,
     options: BeginRecognizeReceiptsOptions = {}
   ): Promise<ReceiptPollerLike> {
-    const analyzePollerClient: RecognizePollerClient<RecognizeReceiptResultResponse> = {
+    const analyzePollerClient: RecognizeReceiptPollerClient = {
       beginRecognize: (...args) => recognizeReceiptInternal(this.client, ...args),
       getRecognizeResult: (...args) => this.getreceipts(...args)
     };
 
-    const poller = new BeginRecognizePoller({
+    const poller = new BeginRecognizeReceiptPoller({
       client: analyzePollerClient,
       source: documentUrl,
       contentType: undefined,

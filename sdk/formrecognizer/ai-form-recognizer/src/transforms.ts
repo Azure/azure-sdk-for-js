@@ -28,7 +28,6 @@ import {
   FormField,
   RecognizeFormResultResponse,
   RecognizeContentResultResponse,
-  RecognizedContent,
   RecognizeReceiptResultResponse,
   FieldValue,
   StringFieldValue,
@@ -362,14 +361,14 @@ export function toRecognizedForm(original: DocumentResultModel, pages: FormPage[
 export function toRecognizeContentResultResponse(
   original: GetAnalyzeLayoutResultResponse
 ): RecognizeContentResultResponse {
-  function toRecognizeContentResult(model?: AnalyzeResultModel): RecognizedContent | undefined {
+  function toRecognizeContentResult(model?: AnalyzeResultModel): { version?: string, pages?: FormPage[] } | undefined {
     if (!model) {
       return undefined;
     }
     const pages = toFormPages(model.readResults, model.pageResults);
     return {
       version: model.version,
-      pages: pages
+      pages: pages,
     };
   }
 

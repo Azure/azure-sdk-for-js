@@ -43,21 +43,21 @@ export { AzureKeyCredential }
 // @public
 export type BeginRecognizeContentOptions = RecognizeContentOptions & {
     intervalInMs?: number;
-    onProgress?: (state: BeginRecognizePollState<RecognizeContentResultResponse>) => void;
+    onProgress?: (state: BeginRecognizeContentPollState) => void;
     resumeFrom?: string;
 };
 
 // @public
 export type BeginRecognizeFormsOptions = RecognizeFormsOptions & {
     intervalInMs?: number;
-    onProgress?: (state: BeginRecognizePollState<RecognizeFormResultResponse>) => void;
+    onProgress?: (state: BeginRecognizeCustomFormPollState) => void;
     resumeFrom?: string;
 };
 
 // @public
 export type BeginRecognizeReceiptsOptions = RecognizeReceiptsOptions & {
     intervalInMs?: number;
-    onProgress?: (state: BeginRecognizePollState<RecognizeReceiptResultResponse>) => void;
+    onProgress?: (state: BeginRecognizeReceiptPollState) => void;
     resumeFrom?: string;
 };
 
@@ -69,7 +69,7 @@ export type BeginTrainingOptions<T> = TrainModelOptions & {
 };
 
 // @public
-export type ContentPollerLike = PollerLike<PollOperationState<RecognizeContentResultResponse>, RecognizeContentResultResponse>;
+export type ContentPollerLike = PollerLike<PollOperationState<FormPage[]>, FormPage[]>;
 
 // @public
 export type ContentType = "application/pdf" | "image/jpeg" | "image/png" | "image/tiff";
@@ -192,7 +192,7 @@ export interface FormPageRange {
 }
 
 // @public
-export type FormPollerLike = PollerLike<PollOperationState<RecognizeFormResultResponse>, RecognizeFormResultResponse>;
+export type FormPollerLike = PollerLike<PollOperationState<RecognizedForm[]>, RecognizedForm[]>;
 
 // @public
 export class FormRecognizerClient {
@@ -200,7 +200,7 @@ export class FormRecognizerClient {
     beginRecognizeContent(data: FormRecognizerRequestBody, contentType?: ContentType, options?: BeginRecognizeContentOptions): Promise<ContentPollerLike>;
     beginRecognizeContentFromUrl(documentUrl: string, options?: BeginRecognizeContentOptions): Promise<ContentPollerLike>;
     beginRecognizeForms(modelId: string, data: FormRecognizerRequestBody, contentType?: ContentType, options?: BeginRecognizeFormsOptions): Promise<FormPollerLike>;
-    beginRecognizeFormsFromUrl(modelId: string, documentUrl: string, options?: BeginRecognizeFormsOptions): Promise<PollerLike<PollOperationState<RecognizeFormResultResponse>, RecognizeFormResultResponse>>;
+    beginRecognizeFormsFromUrl(modelId: string, documentUrl: string, options?: BeginRecognizeFormsOptions): Promise<FormPollerLike>;
     beginRecognizeReceipts(data: FormRecognizerRequestBody, contentType?: ContentType, options?: BeginRecognizeReceiptsOptions): Promise<ReceiptPollerLike>;
     beginRecognizeReceiptsFromUrl(documentUrl: string, options?: BeginRecognizeReceiptsOptions): Promise<ReceiptPollerLike>;
     readonly endpointUrl: string;
@@ -217,13 +217,6 @@ export interface FormRecognizerOperationOptions extends OperationOptions {
 
 // @public
 export type FormRecognizerRequestBody = Blob | ArrayBuffer | ArrayBufferView | NodeJS.ReadableStream;
-
-// @public
-export interface FormResult {
-    errors?: ErrorInformation[];
-    forms?: RecognizedForm[];
-    version: string;
-}
 
 // @public
 export interface FormTable {
@@ -423,7 +416,7 @@ export type ReceiptItemField = {
 } & CommonFieldValue;
 
 // @public
-export type ReceiptPollerLike = PollerLike<PollOperationState<RecognizeReceiptResultResponse>, RecognizeReceiptResultResponse>;
+export type ReceiptPollerLike = PollerLike<PollOperationState<ReceiptWithLocale[]>, ReceiptWithLocale[]>;
 
 // @public (undocumented)
 export type ReceiptWithLocale = {
@@ -431,17 +424,10 @@ export type ReceiptWithLocale = {
 } & USReceipt;
 
 // @public
-export type RecognizeContentOperationResult = Partial<RecognizedContent> & {
-    status: OperationStatus;
-    createdOn: Date;
-    lastModified: Date;
-};
-
-// @public
 export type RecognizeContentOptions = FormRecognizerOperationOptions;
 
 // @public
-export type RecognizeContentResultResponse = RecognizeContentOperationResult & {
+export type RecognizeContentResultResponse = RecognizedContent & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
         parsedBody: AnalyzeOperationResultModel;
@@ -450,8 +436,11 @@ export type RecognizeContentResultResponse = RecognizeContentOperationResult & {
 
 // @public
 export interface RecognizedContent {
-    pages: FormPage[];
-    version: string;
+    createdOn: Date;
+    lastModified: Date;
+    pages?: FormPage[];
+    status: OperationStatus;
+    version?: string;
 }
 
 // @public
@@ -464,6 +453,16 @@ export interface RecognizedForm {
     pages: FormPage[];
 }
 
+// @public
+export interface RecognizedForms {
+    createdOn: Date;
+    errors?: ErrorInformation[];
+    forms?: RecognizedForm[];
+    lastModified: Date;
+    status: OperationStatus;
+    version?: string;
+}
+
 // @public (undocumented)
 export interface RecognizedReceipt {
     locale?: string;
@@ -472,14 +471,16 @@ export interface RecognizedReceipt {
 }
 
 // @public
-export type RecognizeFormOperationResult = Partial<FormResult> & {
-    status: OperationStatus;
+export interface RecognizedReceipts {
     createdOn: Date;
     lastModified: Date;
-};
+    receipts?: ReceiptWithLocale[];
+    status: OperationStatus;
+    version?: string;
+}
 
 // @public
-export type RecognizeFormResultResponse = RecognizeFormOperationResult & {
+export type RecognizeFormResultResponse = RecognizedForms & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
         parsedBody: AnalyzeOperationResultModel;
@@ -487,25 +488,18 @@ export type RecognizeFormResultResponse = RecognizeFormOperationResult & {
 };
 
 // @public
+export class RecognizeFormsError extends Error {
+    constructor(message: string, innerErrors?: ErrorInformation[]);
+    innerErrors?: ErrorInformation[];
+}
+
+// @public
 export type RecognizeFormsOptions = FormRecognizerOperationOptions & {
     includeTextDetails?: boolean;
 };
 
 // @public
-export type RecognizeReceiptOperationResult = Partial<RecognizeReceiptResult> & {
-    status: OperationStatus;
-    createdOn: Date;
-    lastModified: Date;
-};
-
-// @public
-export interface RecognizeReceiptResult {
-    receipts?: ReceiptWithLocale[];
-    version: string;
-}
-
-// @public
-export type RecognizeReceiptResultResponse = RecognizeReceiptOperationResult & {
+export type RecognizeReceiptResultResponse = RecognizedReceipts & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
         parsedBody: AnalyzeOperationResultModel;
@@ -588,7 +582,9 @@ export type ValueTypes = "string" | "date" | "time" | "phoneNumber" | "number" |
 
 // Warnings were encountered during analysis:
 //
-// src/formRecognizerClient.ts:70:3 - (ae-forgotten-export) The symbol "BeginRecognizePollState" needs to be exported by the entry point index.d.ts
+// src/formRecognizerClient.ts:82:3 - (ae-forgotten-export) The symbol "BeginRecognizeContentPollState" needs to be exported by the entry point index.d.ts
+// src/formRecognizerClient.ts:123:3 - (ae-forgotten-export) The symbol "BeginRecognizeCustomFormPollState" needs to be exported by the entry point index.d.ts
+// src/formRecognizerClient.ts:169:3 - (ae-forgotten-export) The symbol "BeginRecognizeReceiptPollState" needs to be exported by the entry point index.d.ts
 // src/formTrainingClient.ts:68:3 - (ae-forgotten-export) The symbol "BeginTrainingPollState" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)

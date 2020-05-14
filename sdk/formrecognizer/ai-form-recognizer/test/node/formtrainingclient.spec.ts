@@ -231,15 +231,13 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
       "image/jpeg"
     );
     await poller.pollUntilDone();
-    const response = poller.getResult();
+    const forms = poller.getResult();
 
-    assert.ok(response, "Expect valid response object");
-    assert.equal(response!.status, "succeeded");
     assert.ok(
-      response!.forms && response!.forms.length > 0,
-      `Expect no-empty pages but got ${response!.forms}`
+      forms && forms.length > 0,
+      `Expect no-empty pages but got ${forms}`
     );
-    const form = response!.forms![0];
+    const form = forms![0];
     assert.equal(form.formType, "form-0");
     assert.deepStrictEqual(form.pageRange, {
       firstPageNumber: 1,
@@ -259,15 +257,13 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
     assert.ok(unlabeledModelId, "Expecting valid model id from training without labels");
     const poller = await recognizerClient.beginRecognizeFormsFromUrl(unlabeledModelId!, url);
     await poller.pollUntilDone();
-    const response = poller.getResult();
+    const forms = poller.getResult();
 
-    assert.ok(response, "Expect valid response object");
-    assert.equal(response!.status, "succeeded");
     assert.ok(
-      response!.forms && response!.forms.length > 0,
-      `Expect no-empty pages but got ${response!.forms}`
+      forms && forms.length > 0,
+      `Expect no-empty pages but got ${forms}`
     );
-    const form = response!.forms![0];
+    const form = forms![0];
     assert.equal(form.formType, "form-0");
     assert.deepStrictEqual(form.pageRange, {
       firstPageNumber: 1,
@@ -290,15 +286,13 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
       "image/jpeg"
     );
     await poller.pollUntilDone();
-    const response = poller.getResult();
+    const forms = poller.getResult();
 
-    assert.ok(response, "Expect valid response object");
-    assert.equal(response!.status, "succeeded");
     assert.ok(
-      response!.forms && response!.forms.length > 0,
-      `Expect no-empty pages but got ${response!.forms}`
+      forms && forms.length > 0,
+      `Expect no-empty pages but got ${forms}`
     );
-    const form = response!.forms![0];
+    const form = forms![0];
     assert.equal(form.formType, "custom:form");
     assert.deepStrictEqual(form.pageRange, {
       firstPageNumber: 1,
@@ -320,15 +314,13 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
     assert.ok(labeledModelId, "Expecting valid model id from training without labels");
     const poller = await recognizerClient.beginRecognizeForms(labeledModelId!, stream);
     await poller.pollUntilDone();
-    const response = poller.getResult();
+    const forms = poller.getResult();
 
-    assert.ok(response, "Expect valid response object");
-    assert.equal(response!.status, "succeeded");
     assert.ok(
-      response!.forms && response!.forms.length > 0,
-      `Expect no-empty pages but got ${response!.forms}`
+      forms && forms.length > 0,
+      `Expect no-empty pages but got ${forms}`
     );
-    const form = response!.forms![0];
+    const form = forms![0];
     assert.equal(form.formType, "custom:form");
     assert.deepStrictEqual(form.pageRange, {
       firstPageNumber: 1,
@@ -350,15 +342,13 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
     assert.ok(labeledModelId, "Expecting valid model id from training without labels");
     const poller = await recognizerClient.beginRecognizeForms(labeledModelId!, stream);
     await poller.pollUntilDone();
-    const response = poller.getResult();
+    const forms = poller.getResult();
 
-    assert.ok(response, "Expect valid response object");
-    assert.equal(response!.status, "succeeded");
     assert.ok(
-      response!.forms && response!.forms.length > 0,
-      `Expect no-empty pages but got ${response!.forms}`
+      forms && forms.length > 0,
+      `Expect no-empty pages but got ${forms}`
     );
-    const form = response!.forms![0];
+    const form = forms![0];
     assert.equal(form.formType, "custom:form");
     assert.deepStrictEqual(form.pageRange, {
       firstPageNumber: 1,
