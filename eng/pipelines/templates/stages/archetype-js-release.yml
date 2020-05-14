@@ -133,7 +133,7 @@ stages:
                       - template: /eng/pipelines/templates/steps/stage-artifacts.yml
                         parameters:
                           SourceFolder: ${{parameters.DocArtifact}}
-                          TargetFolder: ${{artifact.safeName}}
+                          TargetFolder: ${{artifact.safeName}}/${{parameters.DocArtifact}}
                           PackageName: $(Documentation.Zip)
                       - pwsh: |
                           Get-ChildItem -Recurse $(Pipeline.Workspace)/${{artifact.safeName}}
