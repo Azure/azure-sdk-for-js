@@ -2,7 +2,7 @@ import * as assert from "assert";
 import * as dotenv from "dotenv";
 
 import { AbortController } from "@azure/abort-controller";
-import { isNode, URLBuilder } from "@azure/core-http";
+import { isNode, URLBuilder, URLQuery } from "@azure/core-http";
 import { setTracer, SpanGraph, TestTracer } from "@azure/core-tracing";
 import { delay, record, Recorder } from "@azure/test-utils-recorder";
 
@@ -16,7 +16,7 @@ import { MockPolicyFactory } from "./utils/MockPolicyFactory";
 
 dotenv.config();
 
-describe("FileClient", () => {
+describe.only("FileClient", () => {
   let shareName: string;
   let shareClient: ShareClient;
   let dirName: string;
@@ -299,7 +299,21 @@ describe("FileClient", () => {
     const properties2 = await newFileClient.getProperties();
     assert.deepStrictEqual(properties1.contentMD5, properties2.contentMD5);
     assert.deepStrictEqual(properties2.copyId, result.copyId);
-    assert.deepStrictEqual(properties2.copySource, fileClient.url);
+
+    // Some data center will sanitize the sig field
+    assert.ok(properties2.copySource, "Expecting valid 'properties2.copySource");
+
+    const sanitizedActualUrl = URLBuilder.parse(properties2.copySource!);
+    const sanitizedQuery = URLQuery.parse(sanitizedActualUrl.getQuery()!)!;
+    sanitizedQuery.set("sig", undefined);
+    sanitizedActualUrl.setQuery(sanitizedQuery.toString());
+
+    const sanitizedExpectedUrl = URLBuilder.parse(fileClient.url);
+    const sanitizedQuery2 = URLQuery.parse(sanitizedActualUrl.getQuery()!)!;
+    sanitizedQuery2.set("sig", undefined);
+    sanitizedExpectedUrl.setQuery(sanitizedQuery.toString());
+
+    assert.strictEqual(sanitizedActualUrl, sanitizedExpectedUrl);
   });
 
   it("startCopyFromURL with smb options", async () => {
