@@ -9,7 +9,7 @@
 import {
   FormRecognizerClient,
   AzureKeyCredential,
-  RecognizeFormResultResponse
+  RecognizedForm
 } from "@azure/ai-form-recognizer";
 import * as fs from "fs";
 
@@ -30,14 +30,14 @@ export async function main() {
     throw new Error(`Expecting file ${path} exists`);
   }
 
-  const labeledResponse = await recognizeCustomForm(path, endpoint, apiKey, labeledModelId);
-  const unlabeledResponse = await recognizeCustomForm(path, endpoint, apiKey, unlabeledModelId);
+  const labeledForms = await recognizeCustomForm(path, endpoint, apiKey, labeledModelId);
+  const unlabeledForms = await recognizeCustomForm(path, endpoint, apiKey, unlabeledModelId);
 
   // The main difference is found in the labels of its fields
   // The form recognized with a labeled model will have the labels it was trained with,
   // the unlabeled one will be denoted with indices
   console.log("# Recognized fields using labeled custom model");
-  for (const form of labeledResponse.forms || []) {
+  for (const form of labeledForms || []) {
     for (const fieldName in form.fields) {
       // With your labeled custom model, you will not get back label data but will get back value data
       // This is because your custom model didn't have to use any machine learning to deduce the label,
@@ -50,7 +50,7 @@ export async function main() {
   }
 
   console.log("# Recognized fields using unlabeled custom model");
-  for (const form of unlabeledResponse.forms || []) {
+  for (const form of unlabeledForms || []) {
     for (const fieldName in form.fields) {
       // The recognized form fields with an unlabeled custom model will also include data about recognized labels.
       const field = form.fields[fieldName];
@@ -69,7 +69,7 @@ async function recognizeCustomForm(
   endpoint: string,
   apiKey: string,
   labeledModelId: string
-): Promise<RecognizeFormResultResponse> {
+): Promise<RecognizedForm[] | undefined> {
   console.log("# Recognizing...");
   const readStream = fs.createReadStream(path);
   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
@@ -79,11 +79,11 @@ async function recognizeCustomForm(
     }
   });
   await poller.pollUntilDone();
-  const response = poller.getResult();
-  if (!response) {
+  const forms = poller.getResult();
+  if (!forms || forms?.length <= 0) {
     throw new Error("Expecting valid response!");
   }
-  return response;
+  return forms;
 }
 
 main().catch((err) => {

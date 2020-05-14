@@ -26,15 +26,13 @@ export async function main() {
   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
   const poller = await client.beginRecognizeContent(readStream);
   await poller.pollUntilDone();
-  const response = poller.getResult();
+  const pages = poller.getResult();
 
-  if (!response) {
-    throw new Error("Expecting valid response!");
+  if (!pages || pages.length === 0) {
+    throw new Error("Expecting non-empty list of pages!");
   }
 
-  console.log(response.status);
-
-  for (const page of response.pages!) {
+  for (const page of pages!) {
     console.log(
       `Page ${page.pageNumber}: width ${page.width} and height ${page.height} with unit ${page.unit}`
     );
