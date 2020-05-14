@@ -112,7 +112,7 @@ export class BatchingReceiver extends MessageReceiver {
 
   private _receiveImpl(
     maxMessageCount: number,
-    maxWaitTimeInMs?: number
+    maxWaitTimeInMs: number
   ): Promise<ServiceBusMessageImpl[]> {
     const brokeredMessages: ServiceBusMessageImpl[] = [];
 
@@ -430,7 +430,7 @@ export class BatchingReceiver extends MessageReceiver {
         let msg: string = "[%s] Setting the wait timer for %d milliseconds for receiver '%s'.";
         if (reuse) msg += " Receiver link already present, hence reusing it.";
         log.batching(msg, this._context.namespace.connectionId, maxWaitTimeInMs, this.name);
-        totalWaitTimer = setTimeout(actionAfterWaitTimeout, maxWaitTimeInMs as number);
+        totalWaitTimer = setTimeout(actionAfterWaitTimeout, maxWaitTimeInMs);
         // TODO: Disabling this for now. We would want to give the user a decent chance to receive
         // the first message and only timeout faster if successive messages from there onwards are
         // not received quickly. However, it may be possible that there are no pending messages
