@@ -304,16 +304,20 @@ describe("FileClient", () => {
     assert.ok(properties2.copySource, "Expecting valid 'properties2.copySource");
 
     const sanitizedActualUrl = URLBuilder.parse(properties2.copySource!);
-    const sanitizedQuery = URLQuery.parse(sanitizedActualUrl.getQuery()!)!;
+    const sanitizedQuery = URLQuery.parse(sanitizedActualUrl.getQuery()!);
     sanitizedQuery.set("sig", undefined);
     sanitizedActualUrl.setQuery(sanitizedQuery.toString());
 
     const sanitizedExpectedUrl = URLBuilder.parse(fileClient.url);
-    const sanitizedQuery2 = URLQuery.parse(sanitizedActualUrl.getQuery()!)!;
+    const sanitizedQuery2 = URLQuery.parse(sanitizedActualUrl.getQuery()!);
     sanitizedQuery2.set("sig", undefined);
     sanitizedExpectedUrl.setQuery(sanitizedQuery.toString());
 
-    assert.strictEqual(sanitizedActualUrl, sanitizedExpectedUrl);
+    assert.strictEqual(
+      sanitizedActualUrl.toString(),
+      sanitizedExpectedUrl.toString(),
+      "copySource does not match original source"
+    );
   });
 
   it("startCopyFromURL with smb options", async () => {
