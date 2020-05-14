@@ -22,6 +22,7 @@ class ComputeManagementClient extends ComputeManagementClientContext {
   proximityPlacementGroups: operations.ProximityPlacementGroups;
   dedicatedHostGroups: operations.DedicatedHostGroups;
   dedicatedHosts: operations.DedicatedHosts;
+  sshPublicKeys: operations.SshPublicKeys;
   virtualMachineExtensionImages: operations.VirtualMachineExtensionImages;
   virtualMachineExtensions: operations.VirtualMachineExtensions;
   virtualMachineImages: operations.VirtualMachineImages;
@@ -61,6 +62,7 @@ class ComputeManagementClient extends ComputeManagementClientContext {
     this.proximityPlacementGroups = new operations.ProximityPlacementGroups(this);
     this.dedicatedHostGroups = new operations.DedicatedHostGroups(this);
     this.dedicatedHosts = new operations.DedicatedHosts(this);
+    this.sshPublicKeys = new operations.SshPublicKeys(this);
     this.virtualMachineExtensionImages = new operations.VirtualMachineExtensionImages(this);
     this.virtualMachineExtensions = new operations.VirtualMachineExtensions(this);
     this.virtualMachineImages = new operations.VirtualMachineImages(this);
