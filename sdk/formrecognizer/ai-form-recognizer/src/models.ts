@@ -745,6 +745,10 @@ export interface CustomFormSubModelField {
    * Training field name.
    */
   name: string;
+  /**
+   * Training field label.
+   */
+  label: string | null;
 }
 
 export interface CustomFormSubModel {

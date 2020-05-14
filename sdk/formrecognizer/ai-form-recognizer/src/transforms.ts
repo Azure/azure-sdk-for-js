@@ -530,7 +530,7 @@ export function toFormModelResponse(response: GetCustomModelResponse): FormModel
     // training with forms and labels, populate from trainingResult.fields
     const fields: { [propertyName: string]: CustomFormSubModelField } = {};
     for (const f of response.trainResult.fields!) {
-      fields[f.fieldName] = { name: f.fieldName, accuracy: f.accuracy };
+      fields[f.fieldName] = { name: f.fieldName, accuracy: f.accuracy, label: null };
     }
     return {
       ...common,
@@ -552,7 +552,7 @@ export function toFormModelResponse(response: GetCustomModelResponse): FormModel
       const fields: { [propertyName: string]: CustomFormSubModelField } = {};
 
       for (let i = 0; i < cluster.length; i++) {
-        fields[`field-${i}`] = { name: `field-${i}` };
+        fields[`field-${i}`] = { name: `field-${i}`, label: cluster[i] };
       }
       models.push({ formType: `form-${clusterKey}`, fields });
     }
