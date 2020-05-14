@@ -80,11 +80,7 @@ export class SubscriptionRuleManagerImpl implements SubscriptionRuleManager {
 
   // #region topic-filters
   getRules(options: OperationOptions = {}): Promise<RuleDescription[]> {
-    throwErrorIfClientOrConnectionClosed(
-      this._context.namespace,
-      this._context.entityPath,
-      this._context.isClosed
-    );
+    throwErrorIfClientOrConnectionClosed(this._context, "ruleManager");
 
     const getRulesOperationPromise = async () => {
       return this._context.managementClient!.getRules({
@@ -104,11 +100,7 @@ export class SubscriptionRuleManagerImpl implements SubscriptionRuleManager {
   }
 
   removeRule(ruleName: string, options: OperationOptions = {}): Promise<void> {
-    throwErrorIfClientOrConnectionClosed(
-      this._context.namespace,
-      this._context.entityPath,
-      this._context.isClosed
-    );
+    throwErrorIfClientOrConnectionClosed(this._context, "ruleManager");
 
     const removeRuleOperationPromise = () => {
       return this._context.managementClient!.removeRule(ruleName, {
@@ -133,11 +125,7 @@ export class SubscriptionRuleManagerImpl implements SubscriptionRuleManager {
     sqlRuleActionExpression?: string,
     options: OperationOptions = {}
   ): Promise<void> {
-    throwErrorIfClientOrConnectionClosed(
-      this._context.namespace,
-      this._context.entityPath,
-      this._context.isClosed
-    );
+    throwErrorIfClientOrConnectionClosed(this._context, "ruleManager");
 
     const addRuleOperationPromise = async () => {
       return this._context.managementClient!.addRule(ruleName, filter, sqlRuleActionExpression, {
