@@ -40,9 +40,11 @@ As an alternative to creating a service principal, you can use a simple user acc
 
 Once you are logged in, the `DefaultAzureCredential` will use the identity of the account when communicating with the Cognitive Services endpoint.
 
-### Assign owner role to the registered application
+### Assign the Cognitive Services User role to your user
 
 - In the Azure portal, go to your Cognitive Services resource and assign the **Cognitive Services User** role to the registered application (if using an Application Service Principal) or to your user account.
   - This can be done from `Role assignment` section of `Access control (IAM)` tab (in the left-side-navbar of your Cognitive Services resource in the Azure portal)<br>_Doing this will allow anyone with your application or user's credentials and/or access token to utilize the endpoint resources._
+
+After configuring your account's permissions and setting up the authenticated environment, you should be able to run the live tests.
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Ftextanalytics%2Fai-text-analytics%2Ftest%2FREADME.png)
