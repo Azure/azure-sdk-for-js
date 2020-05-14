@@ -852,3 +852,17 @@ export class RecognizeFormsError extends Error {
     this.innerErrors = innerErrors;
   }
 }
+
+/**
+ * Error from custom model training operation
+ */
+export class TrainCustomFormModelError extends Error {
+  /**
+   * Original errors from the service response
+   */
+  innerErrors?: ErrorInformation[]
+  constructor(message: string, innerErrors?: ErrorInformation[]) {
+    super(message);
+    this.innerErrors = innerErrors;
+  }
+}

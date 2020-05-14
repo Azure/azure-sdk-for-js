@@ -62,9 +62,9 @@ export type BeginRecognizeReceiptsOptions = RecognizeReceiptsOptions & {
 };
 
 // @public
-export type BeginTrainingOptions<T> = TrainModelOptions & {
+export type BeginTrainingOptions = TrainModelOptions & {
     intervalInMs?: number;
-    onProgress?: (state: BeginTrainingPollState<T>) => void;
+    onProgress?: (state: BeginTrainingPollState) => void;
     resumeFrom?: string;
 };
 
@@ -254,7 +254,7 @@ export interface FormText {
 // @public
 export class FormTrainingClient {
     constructor(endpointUrl: string, credential: KeyCredential, options?: FormRecognizerClientOptions);
-    beginTraining(blobContainerUrl: string, useLabels?: boolean, options?: BeginTrainingOptions<FormModelResponse>): Promise<PollerLike<PollOperationState<FormModelResponse>, FormModelResponse>>;
+    beginTraining(blobContainerUrl: string, useLabels?: boolean, options?: BeginTrainingOptions): Promise<PollerLike<PollOperationState<CustomFormModel>, CustomFormModel>>;
     deleteModel(modelId: string, options?: DeleteModelOptions): Promise<RestResponse>;
     readonly endpointUrl: string;
     getAccountProperties(options?: GetAccountPropertiesOptions): Promise<AccountProperties>;
@@ -524,6 +524,12 @@ export type TimeFieldValue = {
     type: "time";
     value?: string;
 } & CommonFieldValue;
+
+// @public
+export class TrainCustomFormModelError extends Error {
+    constructor(message: string, innerErrors?: ErrorInformation[]);
+    innerErrors?: ErrorInformation[];
+}
 
 // @public
 export interface TrainingDocumentInfo {

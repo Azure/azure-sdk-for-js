@@ -27,7 +27,7 @@ import {
 import { TrainPollerClient, BeginTrainingPoller, BeginTrainingPollState } from "./lro/train/poller";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
 import { FormRecognizerClientOptions, FormRecognizerOperationOptions } from "./common";
-import { FormModelResponse, AccountProperties } from "./models";
+import { FormModelResponse, AccountProperties, CustomFormModel } from "./models";
 import { createFormRecognizerAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 import { toFormModelResponse } from "./transforms";
 
@@ -63,9 +63,9 @@ export type TrainModelOptions = FormRecognizerOperationOptions & {
 /**
  * Options for starting model training operation.
  */
-export type BeginTrainingOptions<T> = TrainModelOptions & {
+export type BeginTrainingOptions = TrainModelOptions & {
   intervalInMs?: number;
-  onProgress?: (state: BeginTrainingPollState<T>) => void;
+  onProgress?: (state: BeginTrainingPollState) => void;
   resumeFrom?: string;
 };
 
@@ -407,9 +407,9 @@ export class FormTrainingClient {
   public async beginTraining(
     blobContainerUrl: string,
     useLabels: boolean = false,
-    options: BeginTrainingOptions<FormModelResponse> = {}
-  ): Promise<PollerLike<PollOperationState<FormModelResponse>, FormModelResponse>> {
-    const trainPollerClient: TrainPollerClient<FormModelResponse> = {
+    options: BeginTrainingOptions = {}
+  ): Promise<PollerLike<PollOperationState<CustomFormModel>, CustomFormModel>> {
+    const trainPollerClient: TrainPollerClient = {
       getModel: (modelId: string, options: GetModelOptions) => this.getModel(modelId, options),
       trainCustomModelInternal: (
         source: string,
