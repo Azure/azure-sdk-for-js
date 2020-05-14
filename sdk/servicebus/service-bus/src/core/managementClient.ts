@@ -41,7 +41,8 @@ import {
   throwTypeErrorIfParameterMissing,
   throwTypeErrorIfParameterNotLong,
   throwTypeErrorIfParameterTypeMismatch,
-  throwTypeErrorIfParameterIsEmptyString
+  throwTypeErrorIfParameterIsEmptyString,
+  throwErrorIfClientOrConnectionClosed
 } from "../util/errors";
 import { Typed } from "rhea-promise";
 import { max32BitNumber } from "../util/constants";
@@ -433,7 +434,7 @@ export class ManagementClient extends LinkEntity {
     messageCount?: number,
     options?: OperationOptions & SendManagementRequestOptions
   ): Promise<ReceivedMessage[]> {
-    throwErrorIfConnectionClosed(this._context.namespace);
+    throwErrorIfClientOrConnectionClosed(this._context, "receiver");
     return this.peekBySequenceNumber(
       this._lastPeekedSequenceNumber.add(1),
       messageCount,
@@ -459,7 +460,7 @@ export class ManagementClient extends LinkEntity {
     messageCount?: number,
     options?: OperationOptions & SendManagementRequestOptions
   ): Promise<ReceivedMessage[]> {
-    throwErrorIfConnectionClosed(this._context.namespace);
+    throwErrorIfClientOrConnectionClosed(this._context, "receiver", sessionId);
     return this.peekBySequenceNumber(
       this._lastPeekedSequenceNumber.add(1),
       messageCount,
@@ -481,7 +482,7 @@ export class ManagementClient extends LinkEntity {
     sessionId?: string,
     options?: OperationOptions & SendManagementRequestOptions
   ): Promise<ReceivedMessage[]> {
-    throwErrorIfConnectionClosed(this._context.namespace);
+    throwErrorIfClientOrConnectionClosed(this._context, "receiver", sessionId);
     const connId = this._context.namespace.connectionId;
 
     // Checks for fromSequenceNumber
@@ -568,6 +569,7 @@ export class ManagementClient extends LinkEntity {
    * @returns {Promise<Date>} Promise<Date> New lock token expiry date and time in UTC format.
    */
   async renewLock(lockToken: string, options?: SendManagementRequestOptions): Promise<Date> {
+    // This is allowed even if the receiver is closed
     throwErrorIfConnectionClosed(this._context.namespace);
     if (!options) options = {};
     if (options.timeoutInMs == null) options.timeoutInMs = 5000;
@@ -625,7 +627,7 @@ export class ManagementClient extends LinkEntity {
     messages: ServiceBusMessage[],
     options?: OperationOptions & SendManagementRequestOptions
   ): Promise<Long[]> {
-    throwErrorIfConnectionClosed(this._context.namespace);
+    throwErrorIfClientOrConnectionClosed(this._context, "sender");
     const messageBody: any[] = [];
     for (let i = 0; i < messages.length; i++) {
       const item = messages[i];
@@ -718,7 +720,7 @@ export class ManagementClient extends LinkEntity {
     sequenceNumbers: Long[],
     options?: OperationOptions & SendManagementRequestOptions
   ): Promise<void> {
-    throwErrorIfConnectionClosed(this._context.namespace);
+    throwErrorIfClientOrConnectionClosed(this._context, "sender");
     const messageBody: any = {};
     messageBody[Constants.sequenceNumbers] = [];
     for (let i = 0; i < sequenceNumbers.length; i++) {
@@ -790,7 +792,7 @@ export class ManagementClient extends LinkEntity {
     sessionId?: string,
     options?: OperationOptions & SendManagementRequestOptions
   ): Promise<ServiceBusMessageImpl[]> {
-    throwErrorIfConnectionClosed(this._context.namespace);
+    throwErrorIfClientOrConnectionClosed(this._context, "receiver", sessionId);
 
     const messageList: ServiceBusMessageImpl[] = [];
     const messageBody: any = {};
@@ -888,6 +890,7 @@ export class ManagementClient extends LinkEntity {
     dispositionType: DispositionType,
     options?: DispositionStatusOptions & SendManagementRequestOptions
   ): Promise<void> {
+    // This is allowed even if the receiver is closed.
     throwErrorIfConnectionClosed(this._context.namespace);
     if (!options) options = {};
     try {
@@ -956,7 +959,7 @@ export class ManagementClient extends LinkEntity {
     sessionId: string,
     options?: OperationOptions & SendManagementRequestOptions
   ): Promise<Date> {
-    throwErrorIfConnectionClosed(this._context.namespace);
+    throwErrorIfClientOrConnectionClosed(this._context, "receiver", sessionId);
     try {
       const messageBody: any = {};
       messageBody[Constants.sessionIdMapKey] = sessionId;
@@ -1007,8 +1010,7 @@ export class ManagementClient extends LinkEntity {
     state: any,
     options?: OperationOptions & SendManagementRequestOptions
   ): Promise<void> {
-    throwErrorIfConnectionClosed(this._context.namespace);
-
+    throwErrorIfClientOrConnectionClosed(this._context, "receiver", sessionId);
     try {
       const messageBody: any = {};
       messageBody[Constants.sessionIdMapKey] = sessionId;
@@ -1050,7 +1052,7 @@ export class ManagementClient extends LinkEntity {
     sessionId: string,
     options?: OperationOptions & SendManagementRequestOptions
   ): Promise<any> {
-    throwErrorIfConnectionClosed(this._context.namespace);
+    throwErrorIfClientOrConnectionClosed(this._context, "receiver", sessionId);
     try {
       const messageBody: any = {};
       messageBody[Constants.sessionIdMapKey] = sessionId;
@@ -1098,7 +1100,7 @@ export class ManagementClient extends LinkEntity {
     lastUpdatedTime?: Date,
     options?: OperationOptions & SendManagementRequestOptions
   ): Promise<string[]> {
-    throwErrorIfConnectionClosed(this._context.namespace);
+    throwErrorIfClientOrConnectionClosed(this._context, "receiver");
     const defaultLastUpdatedTimeForListingSessions: number = 259200000; // 3 * 24 * 3600 * 1000
     if (typeof skip !== "number") {
       throw new Error("'skip' is a required parameter and must be of type 'number'.");
@@ -1150,7 +1152,7 @@ export class ManagementClient extends LinkEntity {
   async getRules(
     options?: OperationOptions & SendManagementRequestOptions
   ): Promise<RuleDescription[]> {
-    throwErrorIfConnectionClosed(this._context.namespace);
+    throwErrorIfClientOrConnectionClosed(this._context, "ruleManager");
     try {
       const request: AmqpMessage = {
         body: {
@@ -1261,7 +1263,7 @@ export class ManagementClient extends LinkEntity {
     ruleName: string,
     options?: OperationOptions & SendManagementRequestOptions
   ): Promise<void> {
-    throwErrorIfConnectionClosed(this._context.namespace);
+    throwErrorIfClientOrConnectionClosed(this._context, "ruleManager");
     throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "ruleName", ruleName);
     ruleName = String(ruleName);
     throwTypeErrorIfParameterIsEmptyString(
@@ -1310,8 +1312,7 @@ export class ManagementClient extends LinkEntity {
     sqlRuleActionExpression?: string,
     options?: OperationOptions & SendManagementRequestOptions
   ): Promise<void> {
-    throwErrorIfConnectionClosed(this._context.namespace);
-
+    throwErrorIfClientOrConnectionClosed(this._context, "ruleManager");
     throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "ruleName", ruleName);
     ruleName = String(ruleName);
     throwTypeErrorIfParameterIsEmptyString(
