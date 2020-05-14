@@ -453,6 +453,30 @@ describe("EventHub Receiver", function(): void {
   });
 
   describe("in batch mode", function(): void {
+    describe("disconnected", function() {
+      it("should receive after a disconnect", async () => {
+        const client = new EventHubClient(service.connectionString, service.path);
+        const receiver = client.createConsumer(EventHubClient.defaultConsumerGroupName, "0", {
+          sequenceNumber: 0
+        });
+        const clientConnectionContext = receiver["_context"];
+
+        await receiver.receiveBatch(1, 1);
+        const originalConnectionId = clientConnectionContext.connectionId;
+
+        // Trigger a disconnect on the underlying connection.
+        clientConnectionContext.connection["_connection"].idle();
+
+        await receiver.receiveBatch(1, 1);
+        const newConnectionId = clientConnectionContext.connectionId;
+
+        should.not.equal(originalConnectionId, newConnectionId);
+
+        await receiver.close();
+        await client.close();
+      });
+    });
+
     it("should receive messages correctly", async function(): Promise<void> {
       const partitionId = partitionIds[0];
       receiver = client.createConsumer(

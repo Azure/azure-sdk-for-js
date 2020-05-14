@@ -40,6 +40,24 @@ describe("RuntimeInformation", function(): void {
     });
   }
 
+  describe("disconnected", function() {
+    it("should work after disconnect", async () => {
+      client = new EventHubClient(service.connectionString, service.path);
+      const clientConnectionContext = client["_context"];
+
+      await client.getPartitionIds({});
+      const originalConnectionId = clientConnectionContext.connectionId;
+
+      // Trigger a disconnect on the underlying connection.
+      clientConnectionContext.connection["_connection"].idle();
+
+      await client.getPartitionIds({});
+      const newConnectionId = clientConnectionContext.connectionId;
+
+      should.not.equal(originalConnectionId, newConnectionId);
+    });
+  });
+
   describe("getPartitionIds", function(): void {
     it("returns an array of partition IDs", async function(): Promise<void> {
       client = new EventHubClient(service.connectionString, service.path);
