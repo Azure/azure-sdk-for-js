@@ -2,6 +2,7 @@
 
 ## 12.0.5 (Unreleased)
 
+- Fix un-handled TypeError [issue #](https://github.com/Azure/azure-sdk-for-js/issues/8499) in Electron applications. [PR #8568](https://github.com/Azure/azure-sdk-for-js/pull/8568)
 
 ## 12.0.4 (2020.03)
 

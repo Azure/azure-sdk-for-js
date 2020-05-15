@@ -2,6 +2,8 @@
 
 ## 12.1.2 (Unreleased)
 
+- Fix data corruption failure error [issue #6411](https://github.com/Azure/azure-sdk-for-js/issues/6411) when downloading compressed files. [PR #7993](https://github.com/Azure/azure-sdk-for-js/pull/7993)
+- Fix un-handled TypeError [issue #](https://github.com/Azure/azure-sdk-for-js/issues/8499) in Electron applications. [PR #8568](https://github.com/Azure/azure-sdk-for-js/pull/8568)
 
 ## 12.1.1 (2020.03)
 
