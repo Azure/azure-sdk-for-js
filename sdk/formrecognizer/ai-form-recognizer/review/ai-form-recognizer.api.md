@@ -87,7 +87,7 @@ export interface CustomFormModel {
     lastModified: Date;
     modelId: string;
     models?: CustomFormSubModel[];
-    status: ModelStatus;
+    status: CustomFormModelStatus;
     trainingDocuments?: TrainingDocumentInfo[];
 }
 
@@ -96,8 +96,11 @@ export interface CustomFormModelInfo {
     createdOn: Date;
     lastModified: Date;
     modelId: string;
-    status: ModelStatus;
+    status: CustomFormModelStatus;
 }
+
+// @public
+export type CustomFormModelStatus = "creating" | "ready" | "invalid";
 
 // @public (undocumented)
 export interface CustomFormSubModel {
@@ -354,7 +357,7 @@ export interface ModelInfo {
     createdOn: Date;
     lastModified: Date;
     modelId: string;
-    status: ModelStatus;
+    status: CustomFormModelStatus;
 }
 
 // @public
@@ -370,9 +373,6 @@ export interface ModelsSummary {
     lastModified: Date;
     limit: number;
 }
-
-// @public
-export type ModelStatus = "creating" | "ready" | "invalid";
 
 // @public
 export type NumberFieldValue = {
@@ -542,8 +542,11 @@ export interface TrainingDocumentInfo {
     documentName: string;
     errors: FormRecognizerError[];
     pageCount: number;
-    status: TrainStatus;
+    status: TrainingStatus;
 }
+
+// @public
+export type TrainingStatus = "succeeded" | "partiallySucceeded" | "failed";
 
 // @public
 export type TrainModelOptions = FormRecognizerOperationOptions & {
@@ -558,9 +561,6 @@ export interface TrainResult {
     fields?: FormFieldsReport[];
     trainingDocuments: TrainingDocumentInfo[];
 }
-
-// @public
-export type TrainStatus = "succeeded" | "partiallySucceeded" | "failed";
 
 // @public
 export interface USReceipt extends RecognizedReceipt {

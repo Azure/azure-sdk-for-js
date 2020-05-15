@@ -14,8 +14,8 @@ import {
   ModelInfo,
   Models,
   ModelsSummary,
-  ModelStatus,
-  TrainStatus,
+  ModelStatus as CustomFormModelStatus,
+  TrainStatus as TrainingStatus,
   OperationStatus
 } from "./generated/models";
 
@@ -30,9 +30,9 @@ export {
   ModelInfo,
   Models,
   ModelsSummary,
-  ModelStatus,
+  CustomFormModelStatus,
   OperationStatus,
-  TrainStatus
+  TrainingStatus
 };
 
 /**
@@ -749,7 +749,7 @@ export interface TrainingDocumentInfo {
   /**
    * Status of the training operation.
    */
-  status: TrainStatus;
+  status: TrainingStatus;
 }
 
 /**
@@ -777,7 +777,7 @@ export interface CustomFormModelInfo {
   /**
    * Status of the model.
    */
-  status: ModelStatus;
+  status: CustomFormModelStatus;
   /**
    * Date and time (UTC) when the model was created.
    */
@@ -843,7 +843,7 @@ export interface CustomFormModel {
   /**
    * Status of the model.
    */
-  status: ModelStatus;
+  status: CustomFormModelStatus;
   /**
    * Date and time (UTC) when the model was created.
    */
