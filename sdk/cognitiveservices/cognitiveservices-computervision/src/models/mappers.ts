@@ -1224,14 +1224,10 @@ export const Word: msRest.CompositeMapper = {
         }
       },
       confidence: {
-        nullable: true,
+        required: true,
         serializedName: "confidence",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "High",
-            "Low"
-          ]
+          name: "Number"
         }
       }
     }
@@ -1244,7 +1240,14 @@ export const Line: msRest.CompositeMapper = {
     name: "Composite",
     className: "Line",
     modelProperties: {
+      language: {
+        serializedName: "language",
+        type: {
+          name: "String"
+        }
+      },
       boundingBox: {
+        required: true,
         serializedName: "boundingBox",
         type: {
           name: "Sequence",
@@ -1256,12 +1259,14 @@ export const Line: msRest.CompositeMapper = {
         }
       },
       text: {
+        required: true,
         serializedName: "text",
         type: {
           name: "String"
         }
       },
       words: {
+        required: true,
         serializedName: "words",
         type: {
           name: "Sequence",
@@ -1277,38 +1282,49 @@ export const Line: msRest.CompositeMapper = {
   }
 };
 
-export const TextRecognitionResult: msRest.CompositeMapper = {
-  serializedName: "TextRecognitionResult",
+export const ReadResult: msRest.CompositeMapper = {
+  serializedName: "ReadResult",
   type: {
     name: "Composite",
-    className: "TextRecognitionResult",
+    className: "ReadResult",
     modelProperties: {
       page: {
+        required: true,
         serializedName: "page",
         type: {
           name: "Number"
         }
       },
-      clockwiseOrientation: {
-        serializedName: "clockwiseOrientation",
+      language: {
+        serializedName: "language",
+        type: {
+          name: "String"
+        }
+      },
+      angle: {
+        required: true,
+        serializedName: "angle",
         type: {
           name: "Number"
         }
       },
       width: {
+        required: true,
         serializedName: "width",
         type: {
           name: "Number"
         }
       },
       height: {
+        required: true,
         serializedName: "height",
         type: {
           name: "Number"
         }
       },
       unit: {
-        nullable: true,
+        required: true,
+        nullable: false,
         serializedName: "unit",
         type: {
           name: "Enum",
@@ -1335,30 +1351,30 @@ export const TextRecognitionResult: msRest.CompositeMapper = {
   }
 };
 
-export const TextOperationResult: msRest.CompositeMapper = {
-  serializedName: "TextOperationResult",
+export const AnalyzeResults: msRest.CompositeMapper = {
+  serializedName: "analyzeResults",
   type: {
     name: "Composite",
-    className: "TextOperationResult",
+    className: "AnalyzeResults",
     modelProperties: {
-      status: {
-        nullable: false,
-        serializedName: "status",
+      version: {
+        required: true,
+        serializedName: "version",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "NotStarted",
-            "Running",
-            "Failed",
-            "Succeeded"
-          ]
+          name: "String"
         }
       },
-      recognitionResult: {
-        serializedName: "recognitionResult",
+      readResults: {
+        required: true,
+        serializedName: "readResults",
         type: {
-          name: "Composite",
-          className: "TextRecognitionResult"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ReadResult"
+            }
+          }
         }
       }
     }
@@ -1377,34 +1393,43 @@ export const ReadOperationResult: msRest.CompositeMapper = {
         type: {
           name: "Enum",
           allowedValues: [
-            "NotStarted",
-            "Running",
-            "Failed",
-            "Succeeded"
+            "notStarted",
+            "running",
+            "failed",
+            "succeeded"
           ]
         }
       },
-      recognitionResults: {
-        serializedName: "recognitionResults",
+      createdDateTime: {
+        nullable: false,
+        serializedName: "createdDateTime",
         type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "TextRecognitionResult"
-            }
-          }
+          name: "String"
+        }
+      },
+      lastUpdatedDateTime: {
+        nullable: false,
+        serializedName: "lastUpdatedDateTime",
+        type: {
+          name: "String"
+        }
+      },
+      analyzeResult: {
+        serializedName: "analyzeResult",
+        type: {
+          name: "Composite",
+          className: "AnalyzeResults"
         }
       }
     }
   }
 };
 
-export const RecognizeTextHeaders: msRest.CompositeMapper = {
-  serializedName: "recognizetext-headers",
+export const ReadHeaders: msRest.CompositeMapper = {
+  serializedName: "read-headers",
   type: {
     name: "Composite",
-    className: "RecognizeTextHeaders",
+    className: "ReadHeaders",
     modelProperties: {
       operationLocation: {
         serializedName: "operation-location",
@@ -1416,43 +1441,11 @@ export const RecognizeTextHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const BatchReadFileHeaders: msRest.CompositeMapper = {
-  serializedName: "batchreadfile-headers",
+export const ReadInStreamHeaders: msRest.CompositeMapper = {
+  serializedName: "readinstream-headers",
   type: {
     name: "Composite",
-    className: "BatchReadFileHeaders",
-    modelProperties: {
-      operationLocation: {
-        serializedName: "operation-location",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const RecognizeTextInStreamHeaders: msRest.CompositeMapper = {
-  serializedName: "recognizetextinstream-headers",
-  type: {
-    name: "Composite",
-    className: "RecognizeTextInStreamHeaders",
-    modelProperties: {
-      operationLocation: {
-        serializedName: "operation-location",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const BatchReadFileInStreamHeaders: msRest.CompositeMapper = {
-  serializedName: "batchreadfileinstream-headers",
-  type: {
-    name: "Composite",
-    className: "BatchReadFileInStreamHeaders",
+    className: "ReadInStreamHeaders",
     modelProperties: {
       operationLocation: {
         serializedName: "operation-location",

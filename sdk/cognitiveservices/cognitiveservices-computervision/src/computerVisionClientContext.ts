@@ -42,7 +42,7 @@ export class ComputerVisionClientContext extends msRest.ServiceClient {
 
     super(credentials, options);
 
-    this.baseUri = "{Endpoint}/vision/v2.1";
+    this.baseUri = "{Endpoint}/vision/v3.0";
     this.requestContentType = "application/json; charset=utf-8";
     this.endpoint = endpoint;
     this.credentials = credentials;
