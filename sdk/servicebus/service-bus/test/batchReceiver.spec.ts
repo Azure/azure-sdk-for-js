@@ -1015,7 +1015,7 @@ describe("batchReceiver", () => {
   });
 });
 
-describe.only("Batching - disconnects", function(): void {
+describe("Batching - disconnects", function(): void {
   let serviceBusClient: ServiceBusClientForTests;
   let senderClient: Sender;
   let receiverClient: Receiver<ReceivedMessageWithLock> | Receiver<ReceivedMessage>;
