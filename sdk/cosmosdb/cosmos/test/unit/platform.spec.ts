@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
-import { Constants } from "../../src/index";
+import { Constants } from "../../dist-esm/index";
 import { getUserAgent } from "../../src/common";
 
 const packageJson = require("../../package.json");
@@ -23,8 +23,10 @@ describe("getUserAgent", function() {
   });
 });
 
-describe("Version", function() {
+describe.only("Version", function() {
   it("should have matching constant version & package version", function() {
+    console.log(process.env);
+    if (process.env.NODE_ENV !== "development") return this.skip();
     assert.equal(
       constantVersion,
       packageVersion,
