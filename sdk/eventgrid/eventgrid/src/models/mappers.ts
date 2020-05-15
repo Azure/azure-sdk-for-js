@@ -3728,7 +3728,7 @@ export const MachineLearningServicesModelRegisteredEventData: msRest.CompositeMa
       modelVersion: {
         serializedName: "modelVersion",
         type: {
-          name: "Number"
+          name: "String"
         }
       },
       modelTags: {
@@ -3885,6 +3885,950 @@ export const MachineLearningServicesDatasetDriftDetectedEventData: msRest.Compos
         serializedName: "endTime",
         type: {
           name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const MachineLearningServicesRunStatusChangedEventData: msRest.CompositeMapper = {
+  serializedName: "MachineLearningServicesRunStatusChangedEventData",
+  type: {
+    name: "Composite",
+    className: "MachineLearningServicesRunStatusChangedEventData",
+    modelProperties: {
+      experimentId: {
+        serializedName: "experimentId",
+        type: {
+          name: "String"
+        }
+      },
+      experimentName: {
+        serializedName: "experimentName",
+        type: {
+          name: "String"
+        }
+      },
+      runId: {
+        serializedName: "runId",
+        type: {
+          name: "String"
+        }
+      },
+      runType: {
+        serializedName: "runType",
+        type: {
+          name: "String"
+        }
+      },
+      runTags: {
+        serializedName: "runTags",
+        type: {
+          name: "Object"
+        }
+      },
+      runProperties: {
+        serializedName: "runProperties",
+        type: {
+          name: "Object"
+        }
+      },
+      runStatus: {
+        serializedName: "runStatus",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RedisPatchingCompletedEventData: msRest.CompositeMapper = {
+  serializedName: "RedisPatchingCompletedEventData",
+  type: {
+    name: "Composite",
+    className: "RedisPatchingCompletedEventData",
+    modelProperties: {
+      timestamp: {
+        serializedName: "timestamp",
+        type: {
+          name: "DateTime"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RedisScalingCompletedEventData: msRest.CompositeMapper = {
+  serializedName: "RedisScalingCompletedEventData",
+  type: {
+    name: "Composite",
+    className: "RedisScalingCompletedEventData",
+    modelProperties: {
+      timestamp: {
+        serializedName: "timestamp",
+        type: {
+          name: "DateTime"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RedisExportRDBCompletedEventData: msRest.CompositeMapper = {
+  serializedName: "RedisExportRDBCompletedEventData",
+  type: {
+    name: "Composite",
+    className: "RedisExportRDBCompletedEventData",
+    modelProperties: {
+      timestamp: {
+        serializedName: "timestamp",
+        type: {
+          name: "DateTime"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RedisImportRDBCompletedEventData: msRest.CompositeMapper = {
+  serializedName: "RedisImportRDBCompletedEventData",
+  type: {
+    name: "Composite",
+    className: "RedisImportRDBCompletedEventData",
+    modelProperties: {
+      timestamp: {
+        serializedName: "timestamp",
+        type: {
+          name: "DateTime"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AppEventTypeDetail: msRest.CompositeMapper = {
+  serializedName: "AppEventTypeDetail",
+  type: {
+    name: "Composite",
+    className: "AppEventTypeDetail",
+    modelProperties: {
+      action: {
+        serializedName: "action",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const WebAppUpdatedEventData: msRest.CompositeMapper = {
+  serializedName: "WebAppUpdatedEventData",
+  type: {
+    name: "Composite",
+    className: "WebAppUpdatedEventData",
+    modelProperties: {
+      appEventTypeDetail: {
+        serializedName: "appEventTypeDetail",
+        type: {
+          name: "Composite",
+          className: "AppEventTypeDetail"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      clientRequestId: {
+        serializedName: "clientRequestId",
+        type: {
+          name: "String"
+        }
+      },
+      correlationRequestId: {
+        serializedName: "correlationRequestId",
+        type: {
+          name: "String"
+        }
+      },
+      requestId: {
+        serializedName: "requestId",
+        type: {
+          name: "String"
+        }
+      },
+      address: {
+        serializedName: "address",
+        type: {
+          name: "String"
+        }
+      },
+      verb: {
+        serializedName: "verb",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const WebBackupOperationStartedEventData: msRest.CompositeMapper = {
+  serializedName: "WebBackupOperationStartedEventData",
+  type: {
+    name: "Composite",
+    className: "WebBackupOperationStartedEventData",
+    modelProperties: {
+      appEventTypeDetail: {
+        serializedName: "appEventTypeDetail",
+        type: {
+          name: "Composite",
+          className: "AppEventTypeDetail"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      clientRequestId: {
+        serializedName: "clientRequestId",
+        type: {
+          name: "String"
+        }
+      },
+      correlationRequestId: {
+        serializedName: "correlationRequestId",
+        type: {
+          name: "String"
+        }
+      },
+      requestId: {
+        serializedName: "requestId",
+        type: {
+          name: "String"
+        }
+      },
+      address: {
+        serializedName: "address",
+        type: {
+          name: "String"
+        }
+      },
+      verb: {
+        serializedName: "verb",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const WebBackupOperationCompletedEventData: msRest.CompositeMapper = {
+  serializedName: "WebBackupOperationCompletedEventData",
+  type: {
+    name: "Composite",
+    className: "WebBackupOperationCompletedEventData",
+    modelProperties: {
+      appEventTypeDetail: {
+        serializedName: "appEventTypeDetail",
+        type: {
+          name: "Composite",
+          className: "AppEventTypeDetail"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      clientRequestId: {
+        serializedName: "clientRequestId",
+        type: {
+          name: "String"
+        }
+      },
+      correlationRequestId: {
+        serializedName: "correlationRequestId",
+        type: {
+          name: "String"
+        }
+      },
+      requestId: {
+        serializedName: "requestId",
+        type: {
+          name: "String"
+        }
+      },
+      address: {
+        serializedName: "address",
+        type: {
+          name: "String"
+        }
+      },
+      verb: {
+        serializedName: "verb",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const WebBackupOperationFailedEventData: msRest.CompositeMapper = {
+  serializedName: "WebBackupOperationFailedEventData",
+  type: {
+    name: "Composite",
+    className: "WebBackupOperationFailedEventData",
+    modelProperties: {
+      appEventTypeDetail: {
+        serializedName: "appEventTypeDetail",
+        type: {
+          name: "Composite",
+          className: "AppEventTypeDetail"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      clientRequestId: {
+        serializedName: "clientRequestId",
+        type: {
+          name: "String"
+        }
+      },
+      correlationRequestId: {
+        serializedName: "correlationRequestId",
+        type: {
+          name: "String"
+        }
+      },
+      requestId: {
+        serializedName: "requestId",
+        type: {
+          name: "String"
+        }
+      },
+      address: {
+        serializedName: "address",
+        type: {
+          name: "String"
+        }
+      },
+      verb: {
+        serializedName: "verb",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const WebRestoreOperationStartedEventData: msRest.CompositeMapper = {
+  serializedName: "WebRestoreOperationStartedEventData",
+  type: {
+    name: "Composite",
+    className: "WebRestoreOperationStartedEventData",
+    modelProperties: {
+      appEventTypeDetail: {
+        serializedName: "appEventTypeDetail",
+        type: {
+          name: "Composite",
+          className: "AppEventTypeDetail"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      clientRequestId: {
+        serializedName: "clientRequestId",
+        type: {
+          name: "String"
+        }
+      },
+      correlationRequestId: {
+        serializedName: "correlationRequestId",
+        type: {
+          name: "String"
+        }
+      },
+      requestId: {
+        serializedName: "requestId",
+        type: {
+          name: "String"
+        }
+      },
+      address: {
+        serializedName: "address",
+        type: {
+          name: "String"
+        }
+      },
+      verb: {
+        serializedName: "verb",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const WebRestoreOperationCompletedEventData: msRest.CompositeMapper = {
+  serializedName: "WebRestoreOperationCompletedEventData",
+  type: {
+    name: "Composite",
+    className: "WebRestoreOperationCompletedEventData",
+    modelProperties: {
+      appEventTypeDetail: {
+        serializedName: "appEventTypeDetail",
+        type: {
+          name: "Composite",
+          className: "AppEventTypeDetail"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      clientRequestId: {
+        serializedName: "clientRequestId",
+        type: {
+          name: "String"
+        }
+      },
+      correlationRequestId: {
+        serializedName: "correlationRequestId",
+        type: {
+          name: "String"
+        }
+      },
+      requestId: {
+        serializedName: "requestId",
+        type: {
+          name: "String"
+        }
+      },
+      address: {
+        serializedName: "address",
+        type: {
+          name: "String"
+        }
+      },
+      verb: {
+        serializedName: "verb",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const WebRestoreOperationFailedEventData: msRest.CompositeMapper = {
+  serializedName: "WebRestoreOperationFailedEventData",
+  type: {
+    name: "Composite",
+    className: "WebRestoreOperationFailedEventData",
+    modelProperties: {
+      appEventTypeDetail: {
+        serializedName: "appEventTypeDetail",
+        type: {
+          name: "Composite",
+          className: "AppEventTypeDetail"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      clientRequestId: {
+        serializedName: "clientRequestId",
+        type: {
+          name: "String"
+        }
+      },
+      correlationRequestId: {
+        serializedName: "correlationRequestId",
+        type: {
+          name: "String"
+        }
+      },
+      requestId: {
+        serializedName: "requestId",
+        type: {
+          name: "String"
+        }
+      },
+      address: {
+        serializedName: "address",
+        type: {
+          name: "String"
+        }
+      },
+      verb: {
+        serializedName: "verb",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const WebSlotSwapStartedEventData: msRest.CompositeMapper = {
+  serializedName: "WebSlotSwapStartedEventData",
+  type: {
+    name: "Composite",
+    className: "WebSlotSwapStartedEventData",
+    modelProperties: {
+      appEventTypeDetail: {
+        serializedName: "appEventTypeDetail",
+        type: {
+          name: "Composite",
+          className: "AppEventTypeDetail"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      clientRequestId: {
+        serializedName: "clientRequestId",
+        type: {
+          name: "String"
+        }
+      },
+      correlationRequestId: {
+        serializedName: "correlationRequestId",
+        type: {
+          name: "String"
+        }
+      },
+      requestId: {
+        serializedName: "requestId",
+        type: {
+          name: "String"
+        }
+      },
+      address: {
+        serializedName: "address",
+        type: {
+          name: "String"
+        }
+      },
+      verb: {
+        serializedName: "verb",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const WebSlotSwapCompletedEventData: msRest.CompositeMapper = {
+  serializedName: "WebSlotSwapCompletedEventData",
+  type: {
+    name: "Composite",
+    className: "WebSlotSwapCompletedEventData",
+    modelProperties: {
+      appEventTypeDetail: {
+        serializedName: "appEventTypeDetail",
+        type: {
+          name: "Composite",
+          className: "AppEventTypeDetail"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      clientRequestId: {
+        serializedName: "clientRequestId",
+        type: {
+          name: "String"
+        }
+      },
+      correlationRequestId: {
+        serializedName: "correlationRequestId",
+        type: {
+          name: "String"
+        }
+      },
+      requestId: {
+        serializedName: "requestId",
+        type: {
+          name: "String"
+        }
+      },
+      address: {
+        serializedName: "address",
+        type: {
+          name: "String"
+        }
+      },
+      verb: {
+        serializedName: "verb",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const WebSlotSwapFailedEventData: msRest.CompositeMapper = {
+  serializedName: "WebSlotSwapFailedEventData",
+  type: {
+    name: "Composite",
+    className: "WebSlotSwapFailedEventData",
+    modelProperties: {
+      appEventTypeDetail: {
+        serializedName: "appEventTypeDetail",
+        type: {
+          name: "Composite",
+          className: "AppEventTypeDetail"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      clientRequestId: {
+        serializedName: "clientRequestId",
+        type: {
+          name: "String"
+        }
+      },
+      correlationRequestId: {
+        serializedName: "correlationRequestId",
+        type: {
+          name: "String"
+        }
+      },
+      requestId: {
+        serializedName: "requestId",
+        type: {
+          name: "String"
+        }
+      },
+      address: {
+        serializedName: "address",
+        type: {
+          name: "String"
+        }
+      },
+      verb: {
+        serializedName: "verb",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const WebSlotSwapWithPreviewStartedEventData: msRest.CompositeMapper = {
+  serializedName: "WebSlotSwapWithPreviewStartedEventData",
+  type: {
+    name: "Composite",
+    className: "WebSlotSwapWithPreviewStartedEventData",
+    modelProperties: {
+      appEventTypeDetail: {
+        serializedName: "appEventTypeDetail",
+        type: {
+          name: "Composite",
+          className: "AppEventTypeDetail"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      clientRequestId: {
+        serializedName: "clientRequestId",
+        type: {
+          name: "String"
+        }
+      },
+      correlationRequestId: {
+        serializedName: "correlationRequestId",
+        type: {
+          name: "String"
+        }
+      },
+      requestId: {
+        serializedName: "requestId",
+        type: {
+          name: "String"
+        }
+      },
+      address: {
+        serializedName: "address",
+        type: {
+          name: "String"
+        }
+      },
+      verb: {
+        serializedName: "verb",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const WebSlotSwapWithPreviewCancelledEventData: msRest.CompositeMapper = {
+  serializedName: "WebSlotSwapWithPreviewCancelledEventData",
+  type: {
+    name: "Composite",
+    className: "WebSlotSwapWithPreviewCancelledEventData",
+    modelProperties: {
+      appEventTypeDetail: {
+        serializedName: "appEventTypeDetail",
+        type: {
+          name: "Composite",
+          className: "AppEventTypeDetail"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      clientRequestId: {
+        serializedName: "clientRequestId",
+        type: {
+          name: "String"
+        }
+      },
+      correlationRequestId: {
+        serializedName: "correlationRequestId",
+        type: {
+          name: "String"
+        }
+      },
+      requestId: {
+        serializedName: "requestId",
+        type: {
+          name: "String"
+        }
+      },
+      address: {
+        serializedName: "address",
+        type: {
+          name: "String"
+        }
+      },
+      verb: {
+        serializedName: "verb",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AppServicePlanEventTypeDetail: msRest.CompositeMapper = {
+  serializedName: "AppServicePlanEventTypeDetail",
+  type: {
+    name: "Composite",
+    className: "AppServicePlanEventTypeDetail",
+    modelProperties: {
+      stampKind: {
+        serializedName: "stampKind",
+        type: {
+          name: "String"
+        }
+      },
+      action: {
+        serializedName: "action",
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const WebAppServicePlanUpdatedEventDataSku: msRest.CompositeMapper = {
+  serializedName: "WebAppServicePlanUpdatedEventData_sku",
+  type: {
+    name: "Composite",
+    className: "WebAppServicePlanUpdatedEventDataSku",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      tier: {
+        serializedName: "Tier",
+        type: {
+          name: "String"
+        }
+      },
+      size: {
+        serializedName: "Size",
+        type: {
+          name: "String"
+        }
+      },
+      family: {
+        serializedName: "Family",
+        type: {
+          name: "String"
+        }
+      },
+      capacity: {
+        serializedName: "Capacity",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const WebAppServicePlanUpdatedEventData: msRest.CompositeMapper = {
+  serializedName: "WebAppServicePlanUpdatedEventData",
+  type: {
+    name: "Composite",
+    className: "WebAppServicePlanUpdatedEventData",
+    modelProperties: {
+      appServicePlanEventTypeDetail: {
+        serializedName: "appServicePlanEventTypeDetail",
+        type: {
+          name: "Composite",
+          className: "AppServicePlanEventTypeDetail"
+        }
+      },
+      sku: {
+        serializedName: "sku",
+        type: {
+          name: "Composite",
+          className: "WebAppServicePlanUpdatedEventDataSku"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      clientRequestId: {
+        serializedName: "clientRequestId",
+        type: {
+          name: "String"
+        }
+      },
+      correlationRequestId: {
+        serializedName: "correlationRequestId",
+        type: {
+          name: "String"
+        }
+      },
+      requestId: {
+        serializedName: "requestId",
+        type: {
+          name: "String"
+        }
+      },
+      address: {
+        serializedName: "address",
+        type: {
+          name: "String"
+        }
+      },
+      verb: {
+        serializedName: "verb",
+        type: {
+          name: "String"
         }
       }
     }
