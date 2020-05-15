@@ -1283,12 +1283,7 @@ describe.only("Batching - disconnects", function(): void {
       throw new Error(`Unable to initialize receiver link.`);
     }
 
-    // Send a message so we have something to receive.
-    // await senderClient.send(TestMessage.getSample());
-
-    // Simulate a disconnect after a message has been received.
-    // receiverContext.batchingReceiver!["_receiver"]!.once("message", function() {
-    // });
+    // Simulate a disconnect
     setTimeout(() => {
       // Simulate a disconnect being called with a non-retryable error.
       receiverContext.namespace.connection["_connection"].idle();
@@ -1300,8 +1295,6 @@ describe.only("Batching - disconnects", function(): void {
     try {
       const msgs = await receiverClient.receiveBatch(10, { maxWaitTimeInMs: 10000 });
       console.log(msgs.length);
-      // msgs = await receiverClient.receiveBatch(10, { maxWaitTimeInMs: 10000 });
-      // console.log(msgs.length);
       throw new Error(testFailureMessage);
     } catch (err) {
       err.message.should.not.equal(testFailureMessage);
