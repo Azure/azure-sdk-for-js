@@ -6,14 +6,17 @@
 import {
   createPipelineFromOptions,
   InternalPipelineOptions,
+  isTokenCredential,
+  bearerTokenAuthenticationPolicy,
   operationOptionsToRequestOptionsBase,
   RestResponse,
   ServiceClientCredentials
 } from "@azure/core-http";
+import { TokenCredential } from '@azure/identity';
 import { KeyCredential } from "@azure/core-auth";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import "@azure/core-paging";
-import { SDK_VERSION } from "./constants";
+import { SDK_VERSION, DEFAULT_COGNITIVE_SCOPE } from "./constants";
 import { logger } from "./logger";
 import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/api";
@@ -96,12 +99,12 @@ export class FormTrainingClient {
    * );
    * ```
    * @param {string} endpointUrl Url to an Azure Form Recognizer service endpoint
-   * @param {AzureKeyCredential} credential Used to authenticate requests to the service.
+   * @param {TokenCredential | KeyCredential} credential Used to authenticate requests to the service.
    * @param {FormRecognizerClientOptions} [options] Used to configure the client.
    */
   constructor(
     endpointUrl: string,
-    credential: KeyCredential,
+    credential: TokenCredential | KeyCredential,
     options: FormRecognizerClientOptions = {}
   ) {
     this.endpointUrl = endpointUrl;
@@ -117,7 +120,9 @@ export class FormTrainingClient {
       pipelineOptions.userAgentOptions.userAgentPrefix = libInfo;
     }
 
-    const authPolicy = createFormRecognizerAzureKeyCredentialPolicy(credential);
+    const authPolicy = isTokenCredential(credential)
+      ? bearerTokenAuthenticationPolicy(credential, DEFAULT_COGNITIVE_SCOPE)
+      : createFormRecognizerAzureKeyCredentialPolicy(credential);
 
     const internalPipelineOptions: InternalPipelineOptions = {
       ...pipelineOptions,
