@@ -1269,7 +1269,7 @@ describe.only("Batching - disconnects", function(): void {
     messages2.length.should.equal(1, "Unexpected number of messages received.");
   });
 
-  it.only("throws an error if receive is in progress (peekLock)", async function(): Promise<void> {
+  it("throws an error if receive is in progress (peekLock)", async function(): Promise<void> {
     // Create the sender and receiver.
     await beforeEachTest(TestClientType.UnpartitionedQueue);
 
@@ -1284,15 +1284,15 @@ describe.only("Batching - disconnects", function(): void {
     }
 
     // Send a message so we have something to receive.
-    await senderClient.send(TestMessage.getSample());
+    // await senderClient.send(TestMessage.getSample());
 
     // Simulate a disconnect after a message has been received.
-    receiverContext.batchingReceiver!["_receiver"]!.once("message", function() {
-      setTimeout(() => {
-        // Simulate a disconnect being called with a non-retryable error.
-        receiverContext.namespace.connection["_connection"].idle();
-      }, 0);
-    });
+    // receiverContext.batchingReceiver!["_receiver"]!.once("message", function() {
+    // });
+    setTimeout(() => {
+      // Simulate a disconnect being called with a non-retryable error.
+      receiverContext.namespace.connection["_connection"].idle();
+    }, 0);
 
     // Purposefully request more messages than what's available
     // so that the receiver will have to drain.
