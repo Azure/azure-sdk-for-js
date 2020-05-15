@@ -62,6 +62,7 @@ async function insertPackageJson(repoRoot, packageJsonContents, targetPackagePat
   depList[targetPackageName] = packageJsonContents.version;//works
   allowedVersionList[targetPackageName] = depList[targetPackageName];
   for (const package of Object.keys(packageJsonContents.dependencies)) {
+    depList[package] = packageJsonContents.dependencies[package];
     if (package.startsWith("@azure/")) {
       depList[package] = await findAppropriateVersion(package, packageJsonContents.dependencies[package], repoRoot, versionType);
       if (packageJsonContents.dependencies[package] !== depList[package]) {
