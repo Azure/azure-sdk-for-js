@@ -343,12 +343,12 @@ export class FormRecognizerClient {
    * console.log(response.pages);
    * ```
    * @summary Recognizes content/layout information from a url to a form document
-   * @param {string} url Url to an accessible form document
+   * @param {string} formFileUrl Url to an accessible form document
 ng", and "image/tiff";
    * @param {BeginRecognizeContentOptions} [options] Options to start content recognition operation
    */
   public async beginRecognizeContentFromUrl(
-    documentUrl: string,
+    formFileUrl: string,
     options: BeginRecognizeContentOptions = {}
   ): Promise<ContentPollerLike> {
     const analyzePollerClient: RecognizePollerClient<RecognizeContentResultResponse> = {
@@ -358,7 +358,7 @@ ng", and "image/tiff";
 
     const poller = new BeginRecognizePoller<RecognizeContentResultResponse>({
       client: analyzePollerClient,
-      source: documentUrl,
+      source: formFileUrl,
       contentType: undefined,
       ...options
     });
@@ -410,7 +410,7 @@ ng", and "image/tiff";
    * const readStream = fs.createReadStream(path);
    *
    * const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
-   * const poller = await client.beginRecognizeForms(modelId, readStream, "application/pdf", {
+   * const poller = await client.beginRecognizeCustomForms(modelId, readStream, "application/pdf", {
    *   onProgress: (state) => { console.log(`status: ${state.status}`); }
    * });
    * await poller.pollUntilDone();
@@ -423,7 +423,7 @@ ng", and "image/tiff";
    * @param {ContentType} contentType Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", and "image/tiff";
    * @param {BeginRecognizeFormsOptions} [options] Options to start the form recognition operation
    */
-  public async beginRecognizeForms(
+  public async beginRecognizeCustomForms(
     modelId: string,
     data: FormRecognizerRequestBody,
     contentType?: ContentType,
@@ -468,7 +468,7 @@ ng", and "image/tiff";
    * const url = "<form document url>";
    *
    * const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
-   * const poller = await client.beginRecognizeFormsFromUrl(modelId, url, {
+   * const poller = await client.beginRecognizeCustomFormsFromUrl(modelId, url, {
    *   onProgress: (state) => { console.log(`status: ${state.status}`); }
    * });
    * await poller.pollUntilDone();
@@ -477,13 +477,13 @@ ng", and "image/tiff";
    * ```
    * @summary Recognizes form information from a url to a form document using a custom form model.
    * @param {string} modelId Id of the custom form model to use
-   * @param {string} url Url to an accessible form document
+   * @param {string} formFileUrl Url to an accessible form document
    ng", and "image/tiff";
    * @param {BeginRecognizeFormsOptions} [options] Options to start the form recognition operation
    */
-  public async beginRecognizeFormsFromUrl(
+  public async beginRecognizeCustomFormsFromUrl(
     modelId: string,
-    documentUrl: string,
+    formFileUrl: string,
     options: BeginRecognizeFormsOptions = {}
   ): Promise<
     PollerLike<PollOperationState<RecognizeFormResultResponse>, RecognizeFormResultResponse>
@@ -505,7 +505,7 @@ ng", and "image/tiff";
     const poller = new BeginRecognizePoller({
       client: analyzePollerClient,
       modelId,
-      source: documentUrl,
+      source: formFileUrl,
       contentType: undefined,
       ...options
     });
@@ -617,10 +617,10 @@ ng", and "image/tiff";
    *
    * Example usage:
    * ```ts
-   * const receiptUrl = "<url to the receipt document>";
+   * const url = "<url to the receipt document>";
    * const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
    * const poller = await client.beginRecognizeReceiptsFromUrl(
-   *   receiptUrl, {
+   *   url, {
    *     includeTextDetails: true,
    *     onProgress: (state) => { console.log(`analyzing status: ${state.status}`); }
    * });
@@ -637,11 +637,11 @@ ng", and "image/tiff";
    * console.log(usReceipt.recognizedForm.fields["MerchantAddress"]);
    * ```
    * @summary Recognizes receipt information from a given accessible url to input document
-   * @param {string} documentUrl url to the input receipt document
+   * @param {string} receiptFileUrl url to the input receipt document
    * @param {BeginRecognizeReceiptsOptions} [options] Options to start receipt recognition operation
    */
   public async beginRecognizeReceiptsFromUrl(
-    documentUrl: string,
+    receiptFileUrl: string,
     options: BeginRecognizeReceiptsOptions = {}
   ): Promise<ReceiptPollerLike> {
     const analyzePollerClient: RecognizePollerClient<RecognizeReceiptResultResponse> = {
@@ -651,7 +651,7 @@ ng", and "image/tiff";
 
     const poller = new BeginRecognizePoller({
       client: analyzePollerClient,
-      source: documentUrl,
+      source: receiptFileUrl,
       contentType: undefined,
       ...options
     });
@@ -709,16 +709,17 @@ async function recognizeLayoutInternal(
 
   try {
     if (requestContentType) {
-      return await client.analyzeLayoutAsync({
-        ...operationOptionsToRequestOptionsBase(finalOptions),
-        contentType: requestContentType,
-        fileStream: requestBody as Blob | ArrayBuffer | ArrayBufferView
-      });
+      return await client.analyzeLayoutAsync(
+        requestContentType,
+        requestBody as Blob | ArrayBuffer | ArrayBufferView,
+        operationOptionsToRequestOptionsBase(finalOptions)
+      );
     }
-    return await client.analyzeLayoutAsync({
-      ...operationOptionsToRequestOptionsBase(finalOptions),
-      fileStream: requestBody as SourcePath
-    });
+    return await client.analyzeLayoutAsync(
+      "application/json", {
+      fileStream: requestBody as SourcePath,
+        ...operationOptionsToRequestOptionsBase(finalOptions)
+      });
   } catch (e) {
     span.setStatus({
       code: CanonicalCode.UNKNOWN,
@@ -746,15 +747,18 @@ async function recognizeCustomFormInternal(
 
   try {
     if (requestContentType) {
-      return await client.analyzeWithCustomModel(modelId!, {
-        ...operationOptionsToRequestOptionsBase(finalOptions),
-        contentType: requestContentType,
-        fileStream: requestBody as Blob | ArrayBuffer | ArrayBufferView
-      });
+      return await client.analyzeWithCustomModel(
+        modelId!,
+        requestContentType,
+        requestBody as Blob | ArrayBuffer | ArrayBufferView,
+        operationOptionsToRequestOptionsBase(finalOptions)
+      );
     }
-    return await client.analyzeWithCustomModel(modelId!, {
-      ...operationOptionsToRequestOptionsBase(finalOptions),
-      fileStream: requestBody as SourcePath
+    return await client.analyzeWithCustomModel(
+      modelId!,
+      "application/json", {
+        fileStream: requestBody as SourcePath,
+        ...operationOptionsToRequestOptionsBase(finalOptions)
     });
   } catch (e) {
     span.setStatus({
@@ -785,15 +789,16 @@ async function recognizeReceiptInternal(
 
   try {
     if (requestContentType) {
-      return await client.analyzeReceiptAsync({
-        ...operationOptionsToRequestOptionsBase(finalOptions),
-        contentType: requestContentType,
-        fileStream: requestBody as Blob | ArrayBuffer | ArrayBufferView
-      });
+      return await client.analyzeReceiptAsync(
+        requestContentType,
+        requestBody as Blob | ArrayBuffer | ArrayBufferView,
+        operationOptionsToRequestOptionsBase(finalOptions)
+      );
     }
-    return await client.analyzeReceiptAsync({
-      ...operationOptionsToRequestOptionsBase(finalOptions),
-      fileStream: requestBody as SourcePath
+    return await client.analyzeReceiptAsync(
+      "application/json", {
+        fileStream: requestBody as SourcePath,
+        ...operationOptionsToRequestOptionsBase(finalOptions)
     });
   } catch (e) {
     span.setStatus({

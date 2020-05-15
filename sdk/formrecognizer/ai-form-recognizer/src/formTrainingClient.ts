@@ -23,18 +23,16 @@ import { CanonicalCode } from "@opentelemetry/api";
 import { GeneratedClient } from "./generated/generatedClient";
 import {
   GeneratedClientGetCustomModelsResponse as ListModelsResponseModel,
-  Model,
-  ModelInfo,
   GeneratedClientTrainCustomModelAsyncResponse
 } from "./generated/models";
 import { TrainPollerClient, BeginTrainingPoller, BeginTrainingPollState } from "./lro/train/poller";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
 import { FormRecognizerClientOptions, FormRecognizerOperationOptions } from "./common";
-import { FormModelResponse, AccountProperties } from "./models";
+import { FormModelResponse, AccountProperties, CustomFormModelInfo } from "./models";
 import { createFormRecognizerAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 import { toFormModelResponse } from "./transforms";
 
-export { ListModelsResponseModel, Model, ModelInfo, RestResponse };
+export { ListModelsResponseModel, RestResponse };
 /**
  * Options for model listing operation.
  */
@@ -171,8 +169,8 @@ export class FormTrainingClient {
       });
 
       return {
-        limit: result.summary!.limit,
-        count: result.summary!.count
+        customModelLimit: result.summary!.limit,
+        customModelCount: result.summary!.count
       };
     } catch (e) {
       span.setStatus({
@@ -220,13 +218,13 @@ export class FormTrainingClient {
    * @param {string} modelId Id of the model to get information
    * @param {GetModelOptions} options Options to the Get Model operation
    */
-  public async getModel(
+  public async getCustomModel(
     modelId: string,
     options: GetModelOptions = {}
   ): Promise<FormModelResponse> {
     const realOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
-      "FormTrainingClient-getModel",
+      "FormTrainingClient-getCustomModel",
       realOptions
     );
 
@@ -265,7 +263,7 @@ export class FormTrainingClient {
   private async *listModelsAll(
     settings: PageSettings,
     options: ListModelsOptions = {}
-  ): AsyncIterableIterator<ModelInfo> {
+  ): AsyncIterableIterator<CustomFormModelInfo> {
     for await (const page of this.listModelsPage(settings, options)) {
       yield* page.modelList || [];
     }
@@ -280,7 +278,7 @@ export class FormTrainingClient {
    *
    * ```js
    * const client = new FormTrainingClient(endpoint, new AzureKeyCredential(apiKey));
-   * const result = client.listModels();
+   * const result = client.listCustomModels();
    * let i = 1;
    * for await (const model of result) {
    *   console.log(`model ${i++}:`);
@@ -292,7 +290,7 @@ export class FormTrainingClient {
    *
    * ```js
    * let i = 1;
-   * let iter = client.listModels();
+   * let iter = client.listCustomModels();
    * let modelItem = await iter.next();
    * while (!modelItem.done) {
    *   console.log(`model ${i++}: ${modelItem.value}`);
@@ -304,7 +302,7 @@ export class FormTrainingClient {
    *
    * ```js
    *  let i = 1;
-   *  for await (const response of client.listModels().byPage()) {
+   *  for await (const response of client.listCustomModels().byPage()) {
    *    for (const modelInfo of response.modelList!) {
    *      console.log(`model ${i++}: ${modelInfo.modelId}`);
    *    }
@@ -313,9 +311,9 @@ export class FormTrainingClient {
    *
    * @param {ListModelOptions} options Options to the List Models operation
    */
-  public listModels(
+  public listCustomModels(
     options: ListModelsOptions = {}
-  ): PagedAsyncIterableIterator<ModelInfo, ListModelsResponseModel> {
+  ): PagedAsyncIterableIterator<CustomFormModelInfo, ListModelsResponseModel> {
     const iter = this.listModelsAll({}, options);
 
     return {
@@ -394,11 +392,11 @@ export class FormTrainingClient {
    *
    * Example usage:
    * ```ts
-   * const blobContainerUrl = "<url to the blob container storing training documents>";
+   * const trainingFilesUrl = "<url to the blob container storing training documents>";
    * const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
    * const trainingClient = client.getFormTrainingClient();
    *
-   * const poller = await trainingClient.beginTraining(blobContainerUrl, {
+   * const poller = await trainingClient.beginTraining(trainingFilesUrl, {
    *   onProgress: (state) => { console.log("training status: "); console.log(state); }
    * });
    * await poller.pollUntilDone();
@@ -406,26 +404,27 @@ export class FormTrainingClient {
    * console.log(response)
    * ```
    * @summary Creats and trains a model
-   * @param {string} blobContainerUrl Accessible url to an Azure Storage Blob container storing the training documents
+   * @param {string} trainingFilesUrl Accessible url to an Azure Storage Blob container storing the training documents
+   * @param {boolean} useTrainingLabels specifies whether to training the model using label files
    * @param {BeginTrainingOptions} [options] Options to start model training operation
    */
   public async beginTraining(
-    blobContainerUrl: string,
-    useLabels: boolean = false,
+    trainingFilesUrl: string,
+    useTrainingLabels: boolean = false,
     options: BeginTrainingOptions<FormModelResponse> = {}
   ): Promise<PollerLike<PollOperationState<FormModelResponse>, FormModelResponse>> {
     const trainPollerClient: TrainPollerClient<FormModelResponse> = {
-      getModel: (modelId: string, options: GetModelOptions) => this.getModel(modelId, options),
+      getCustomModel: (modelId: string, options: GetModelOptions) => this.getCustomModel(modelId, options),
       trainCustomModelInternal: (
         source: string,
         _useLabelFile?: boolean,
         options?: TrainModelOptions
-      ) => trainCustomModelInternal(this.client, source, useLabels, options)
+      ) => trainCustomModelInternal(this.client, source, useTrainingLabels, options)
     };
 
     const poller = new BeginTrainingPoller({
       client: trainPollerClient,
-      source: blobContainerUrl,
+      source: trainingFilesUrl,
       intervalInMs: options.intervalInMs,
       onProgress: options.onProgress,
       resumeFrom: options.resumeFrom,
