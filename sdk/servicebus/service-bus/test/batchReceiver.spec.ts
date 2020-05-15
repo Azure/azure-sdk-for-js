@@ -1269,7 +1269,7 @@ describe.only("Batching - disconnects", function(): void {
     messages2.length.should.equal(1, "Unexpected number of messages received.");
   });
 
-  it("throws an error if receive is in progress (peekLock)", async function(): Promise<void> {
+  it.only("throws an error if receive is in progress (peekLock)", async function(): Promise<void> {
     // Create the sender and receiver.
     await beforeEachTest(TestClientType.UnpartitionedQueue);
 
@@ -1282,6 +1282,9 @@ describe.only("Batching - disconnects", function(): void {
     if (!receiverContext.batchingReceiver!.isOpen()) {
       throw new Error(`Unable to initialize receiver link.`);
     }
+
+    // Send a message so we have something to receive.
+    await senderClient.send(TestMessage.getSample());
 
     // Simulate a disconnect after a message has been received.
     receiverContext.batchingReceiver!["_receiver"]!.once("message", function() {
@@ -1297,6 +1300,8 @@ describe.only("Batching - disconnects", function(): void {
     try {
       const msgs = await receiverClient.receiveBatch(10, { maxWaitTimeInMs: 10000 });
       console.log(msgs.length);
+      // msgs = await receiverClient.receiveBatch(10, { maxWaitTimeInMs: 10000 });
+      // console.log(msgs.length);
       throw new Error(testFailureMessage);
     } catch (err) {
       err.message.should.not.equal(testFailureMessage);
