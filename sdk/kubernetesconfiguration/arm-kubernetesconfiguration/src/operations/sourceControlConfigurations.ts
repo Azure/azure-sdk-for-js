@@ -38,11 +38,10 @@ export class SourceControlConfigurations {
    * 'managedClusters', 'connectedClusters'
    * @param clusterName The name of the kubernetes cluster.
    * @param sourceControlConfigurationName Name of the Source Control Configuration.
-   * @param apiVersion The API version to be used with the HTTP request.
    * @param [options] The optional parameters
    * @returns Promise<Models.SourceControlConfigurationsGetResponse>
    */
-  get(resourceGroupName: string, clusterRp: Models.ClusterRp, clusterResourceName: Models.ClusterResourceName, clusterName: string, sourceControlConfigurationName: string, apiVersion: string, options?: msRest.RequestOptionsBase): Promise<Models.SourceControlConfigurationsGetResponse>;
+  get(resourceGroupName: string, clusterRp: Models.ClusterRp, clusterResourceName: Models.ClusterResourceName, clusterName: string, sourceControlConfigurationName: string, options?: msRest.RequestOptionsBase): Promise<Models.SourceControlConfigurationsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param clusterRp The Kubernetes cluster RP - either Microsoft.ContainerService (for AKS
@@ -53,10 +52,9 @@ export class SourceControlConfigurations {
    * 'managedClusters', 'connectedClusters'
    * @param clusterName The name of the kubernetes cluster.
    * @param sourceControlConfigurationName Name of the Source Control Configuration.
-   * @param apiVersion The API version to be used with the HTTP request.
    * @param callback The callback
    */
-  get(resourceGroupName: string, clusterRp: Models.ClusterRp, clusterResourceName: Models.ClusterResourceName, clusterName: string, sourceControlConfigurationName: string, apiVersion: string, callback: msRest.ServiceCallback<Models.SourceControlConfiguration>): void;
+  get(resourceGroupName: string, clusterRp: Models.ClusterRp, clusterResourceName: Models.ClusterResourceName, clusterName: string, sourceControlConfigurationName: string, callback: msRest.ServiceCallback<Models.SourceControlConfiguration>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param clusterRp The Kubernetes cluster RP - either Microsoft.ContainerService (for AKS
@@ -67,12 +65,11 @@ export class SourceControlConfigurations {
    * 'managedClusters', 'connectedClusters'
    * @param clusterName The name of the kubernetes cluster.
    * @param sourceControlConfigurationName Name of the Source Control Configuration.
-   * @param apiVersion The API version to be used with the HTTP request.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, clusterRp: Models.ClusterRp, clusterResourceName: Models.ClusterResourceName, clusterName: string, sourceControlConfigurationName: string, apiVersion: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SourceControlConfiguration>): void;
-  get(resourceGroupName: string, clusterRp: Models.ClusterRp, clusterResourceName: Models.ClusterResourceName, clusterName: string, sourceControlConfigurationName: string, apiVersion: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SourceControlConfiguration>, callback?: msRest.ServiceCallback<Models.SourceControlConfiguration>): Promise<Models.SourceControlConfigurationsGetResponse> {
+  get(resourceGroupName: string, clusterRp: Models.ClusterRp, clusterResourceName: Models.ClusterResourceName, clusterName: string, sourceControlConfigurationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SourceControlConfiguration>): void;
+  get(resourceGroupName: string, clusterRp: Models.ClusterRp, clusterResourceName: Models.ClusterResourceName, clusterName: string, sourceControlConfigurationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SourceControlConfiguration>, callback?: msRest.ServiceCallback<Models.SourceControlConfiguration>): Promise<Models.SourceControlConfigurationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -80,7 +77,6 @@ export class SourceControlConfigurations {
         clusterResourceName,
         clusterName,
         sourceControlConfigurationName,
-        apiVersion,
         options
       },
       getOperationSpec,
@@ -98,12 +94,11 @@ export class SourceControlConfigurations {
    * 'managedClusters', 'connectedClusters'
    * @param clusterName The name of the kubernetes cluster.
    * @param sourceControlConfigurationName Name of the Source Control Configuration.
-   * @param apiVersion The API version to be used with the HTTP request.
    * @param sourceControlConfiguration Properties necessary to Create KubernetesConfiguration.
    * @param [options] The optional parameters
    * @returns Promise<Models.SourceControlConfigurationsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, clusterRp: Models.ClusterRp1, clusterResourceName: Models.ClusterResourceName1, clusterName: string, sourceControlConfigurationName: string, apiVersion: string, sourceControlConfiguration: Models.SourceControlConfiguration, options?: msRest.RequestOptionsBase): Promise<Models.SourceControlConfigurationsCreateOrUpdateResponse>;
+  createOrUpdate(resourceGroupName: string, clusterRp: Models.ClusterRp1, clusterResourceName: Models.ClusterResourceName1, clusterName: string, sourceControlConfigurationName: string, sourceControlConfiguration: Models.SourceControlConfiguration, options?: msRest.RequestOptionsBase): Promise<Models.SourceControlConfigurationsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param clusterRp The Kubernetes cluster RP - either Microsoft.ContainerService (for AKS
@@ -114,11 +109,10 @@ export class SourceControlConfigurations {
    * 'managedClusters', 'connectedClusters'
    * @param clusterName The name of the kubernetes cluster.
    * @param sourceControlConfigurationName Name of the Source Control Configuration.
-   * @param apiVersion The API version to be used with the HTTP request.
    * @param sourceControlConfiguration Properties necessary to Create KubernetesConfiguration.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, clusterRp: Models.ClusterRp1, clusterResourceName: Models.ClusterResourceName1, clusterName: string, sourceControlConfigurationName: string, apiVersion: string, sourceControlConfiguration: Models.SourceControlConfiguration, callback: msRest.ServiceCallback<Models.SourceControlConfiguration>): void;
+  createOrUpdate(resourceGroupName: string, clusterRp: Models.ClusterRp1, clusterResourceName: Models.ClusterResourceName1, clusterName: string, sourceControlConfigurationName: string, sourceControlConfiguration: Models.SourceControlConfiguration, callback: msRest.ServiceCallback<Models.SourceControlConfiguration>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param clusterRp The Kubernetes cluster RP - either Microsoft.ContainerService (for AKS
@@ -129,13 +123,12 @@ export class SourceControlConfigurations {
    * 'managedClusters', 'connectedClusters'
    * @param clusterName The name of the kubernetes cluster.
    * @param sourceControlConfigurationName Name of the Source Control Configuration.
-   * @param apiVersion The API version to be used with the HTTP request.
    * @param sourceControlConfiguration Properties necessary to Create KubernetesConfiguration.
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, clusterRp: Models.ClusterRp1, clusterResourceName: Models.ClusterResourceName1, clusterName: string, sourceControlConfigurationName: string, apiVersion: string, sourceControlConfiguration: Models.SourceControlConfiguration, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SourceControlConfiguration>): void;
-  createOrUpdate(resourceGroupName: string, clusterRp: Models.ClusterRp1, clusterResourceName: Models.ClusterResourceName1, clusterName: string, sourceControlConfigurationName: string, apiVersion: string, sourceControlConfiguration: Models.SourceControlConfiguration, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SourceControlConfiguration>, callback?: msRest.ServiceCallback<Models.SourceControlConfiguration>): Promise<Models.SourceControlConfigurationsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, clusterRp: Models.ClusterRp1, clusterResourceName: Models.ClusterResourceName1, clusterName: string, sourceControlConfigurationName: string, sourceControlConfiguration: Models.SourceControlConfiguration, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SourceControlConfiguration>): void;
+  createOrUpdate(resourceGroupName: string, clusterRp: Models.ClusterRp1, clusterResourceName: Models.ClusterResourceName1, clusterName: string, sourceControlConfigurationName: string, sourceControlConfiguration: Models.SourceControlConfiguration, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SourceControlConfiguration>, callback?: msRest.ServiceCallback<Models.SourceControlConfiguration>): Promise<Models.SourceControlConfigurationsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -143,7 +136,6 @@ export class SourceControlConfigurations {
         clusterResourceName,
         clusterName,
         sourceControlConfigurationName,
-        apiVersion,
         sourceControlConfiguration,
         options
       },
@@ -163,12 +155,11 @@ export class SourceControlConfigurations {
    * 'managedClusters', 'connectedClusters'
    * @param clusterName The name of the kubernetes cluster.
    * @param sourceControlConfigurationName Name of the Source Control Configuration.
-   * @param apiVersion The API version to be used with the HTTP request.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, clusterRp: Models.ClusterRp2, clusterResourceName: Models.ClusterResourceName2, clusterName: string, sourceControlConfigurationName: string, apiVersion: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,clusterRp,clusterResourceName,clusterName,sourceControlConfigurationName,apiVersion,options)
+  deleteMethod(resourceGroupName: string, clusterRp: Models.ClusterRp2, clusterResourceName: Models.ClusterResourceName2, clusterName: string, sourceControlConfigurationName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName,clusterRp,clusterResourceName,clusterName,sourceControlConfigurationName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
@@ -182,11 +173,10 @@ export class SourceControlConfigurations {
    * AKS clusters) or connectedClusters (for OnPrem K8S clusters). Possible values include:
    * 'managedClusters', 'connectedClusters'
    * @param clusterName The name of the kubernetes cluster.
-   * @param apiVersion The API version to be used with the HTTP request.
    * @param [options] The optional parameters
    * @returns Promise<Models.SourceControlConfigurationsListResponse>
    */
-  list(resourceGroupName: string, clusterRp: Models.ClusterRp3, clusterResourceName: Models.ClusterResourceName3, clusterName: string, apiVersion: string, options?: msRest.RequestOptionsBase): Promise<Models.SourceControlConfigurationsListResponse>;
+  list(resourceGroupName: string, clusterRp: Models.ClusterRp3, clusterResourceName: Models.ClusterResourceName3, clusterName: string, options?: msRest.RequestOptionsBase): Promise<Models.SourceControlConfigurationsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param clusterRp The Kubernetes cluster RP - either Microsoft.ContainerService (for AKS
@@ -196,10 +186,9 @@ export class SourceControlConfigurations {
    * AKS clusters) or connectedClusters (for OnPrem K8S clusters). Possible values include:
    * 'managedClusters', 'connectedClusters'
    * @param clusterName The name of the kubernetes cluster.
-   * @param apiVersion The API version to be used with the HTTP request.
    * @param callback The callback
    */
-  list(resourceGroupName: string, clusterRp: Models.ClusterRp3, clusterResourceName: Models.ClusterResourceName3, clusterName: string, apiVersion: string, callback: msRest.ServiceCallback<Models.SourceControlConfigurationList>): void;
+  list(resourceGroupName: string, clusterRp: Models.ClusterRp3, clusterResourceName: Models.ClusterResourceName3, clusterName: string, callback: msRest.ServiceCallback<Models.SourceControlConfigurationList>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param clusterRp The Kubernetes cluster RP - either Microsoft.ContainerService (for AKS
@@ -209,19 +198,17 @@ export class SourceControlConfigurations {
    * AKS clusters) or connectedClusters (for OnPrem K8S clusters). Possible values include:
    * 'managedClusters', 'connectedClusters'
    * @param clusterName The name of the kubernetes cluster.
-   * @param apiVersion The API version to be used with the HTTP request.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, clusterRp: Models.ClusterRp3, clusterResourceName: Models.ClusterResourceName3, clusterName: string, apiVersion: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SourceControlConfigurationList>): void;
-  list(resourceGroupName: string, clusterRp: Models.ClusterRp3, clusterResourceName: Models.ClusterResourceName3, clusterName: string, apiVersion: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SourceControlConfigurationList>, callback?: msRest.ServiceCallback<Models.SourceControlConfigurationList>): Promise<Models.SourceControlConfigurationsListResponse> {
+  list(resourceGroupName: string, clusterRp: Models.ClusterRp3, clusterResourceName: Models.ClusterResourceName3, clusterName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SourceControlConfigurationList>): void;
+  list(resourceGroupName: string, clusterRp: Models.ClusterRp3, clusterResourceName: Models.ClusterResourceName3, clusterName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SourceControlConfigurationList>, callback?: msRest.ServiceCallback<Models.SourceControlConfigurationList>): Promise<Models.SourceControlConfigurationsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         clusterRp,
         clusterResourceName,
         clusterName,
-        apiVersion,
         options
       },
       listOperationSpec,
@@ -240,11 +227,10 @@ export class SourceControlConfigurations {
    * 'managedClusters', 'connectedClusters'
    * @param clusterName The name of the kubernetes cluster.
    * @param sourceControlConfigurationName Name of the Source Control Configuration.
-   * @param apiVersion The API version to be used with the HTTP request.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, clusterRp: Models.ClusterRp2, clusterResourceName: Models.ClusterResourceName2, clusterName: string, sourceControlConfigurationName: string, apiVersion: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, clusterRp: Models.ClusterRp2, clusterResourceName: Models.ClusterResourceName2, clusterName: string, sourceControlConfigurationName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -252,7 +238,6 @@ export class SourceControlConfigurations {
         clusterResourceName,
         clusterName,
         sourceControlConfigurationName,
-        apiVersion,
         options
       },
       beginDeleteMethodOperationSpec,

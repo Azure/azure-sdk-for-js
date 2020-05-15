@@ -33,14 +33,6 @@ describe("session tests", () => {
   let sender: Sender;
   let receiver: SessionReceiver<ReceivedMessageWithLock>;
 
-  before(async () => {
-    serviceBusClient = createServiceBusClientForTests();
-  });
-
-  after(() => {
-    return serviceBusClient.test.after();
-  });
-
   async function beforeEachTest(testClientType: TestClientType, sessionId: string): Promise<void> {
     serviceBusClient = createServiceBusClientForTests();
     const entityNames = await serviceBusClient.test.createTestEntities(testClientType);
@@ -72,6 +64,7 @@ describe("session tests", () => {
 
   async function afterEachTest(): Promise<void> {
     await serviceBusClient.test.afterEach();
+    await serviceBusClient.test.after();
   }
 
   describe("SessionReceiver with invalid sessionId", function(): void {
@@ -314,6 +307,10 @@ describe("session tests", () => {
   });
 
   describe("Cancel operations on the session receiver", function(): void {
+    afterEach(async () => {
+      await afterEachTest();
+    });
+
     it("Abort getState request", async function(): Promise<void> {
       await beforeEachTest(TestClientType.PartitionedQueueWithSessions, TestMessage.sessionId);
       const controller = new AbortController();

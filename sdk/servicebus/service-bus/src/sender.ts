@@ -151,7 +151,10 @@ export interface Sender {
    * @throws MessagingError if the service returns an error while canceling scheduled messages.
    */
   cancelScheduledMessages(sequenceNumbers: Long[], options?: OperationOptions): Promise<void>;
-
+  /**
+   * Path of the entity for which the sender has been created.
+   */
+  entityPath: string;
   /**
    * Closes the underlying AMQP sender link.
    * Once closed, the sender cannot be used for any further operations.
@@ -179,6 +182,7 @@ export class SenderImpl implements Sender {
    */
   private _isClosed: boolean = false;
   private _sender: MessageSender;
+  public entityPath: string;
 
   /**
    * @internal
@@ -187,6 +191,7 @@ export class SenderImpl implements Sender {
   constructor(context: ClientEntityContext, retryOptions: RetryOptions = {}) {
     throwErrorIfConnectionClosed(context.namespace);
     this._context = context;
+    this.entityPath = context.entityPath;
     this._sender = MessageSender.create(this._context, retryOptions);
     this._retryOptions = retryOptions;
   }

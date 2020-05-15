@@ -24,7 +24,14 @@ import { getRetryAttemptTimeoutInMs } from "./util/utils";
 export class ServiceBusClient {
   private _connectionContext: ConnectionContext;
   private _clientOptions: ServiceBusClientOptions;
-
+  /**
+   * The fully qualified namespace of the Service Bus instance for which this client is created.
+   * This is likely to be similar to <yournamespace>.servicebus.windows.net.
+   *
+   * @type {string}
+   * @memberof ServiceBusClient
+   */
+  public fullyQualifiedNamespace: string;
   /**
    *
    * @param connectionString A connection string for Azure Service Bus.
@@ -72,6 +79,7 @@ export class ServiceBusClient {
         this._clientOptions
       );
     }
+    this.fullyQualifiedNamespace = this._connectionContext.config.host;
     this._clientOptions.retryOptions = this._clientOptions.retryOptions || {};
     this._clientOptions.retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(
       this._clientOptions.retryOptions

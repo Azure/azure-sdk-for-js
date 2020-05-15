@@ -650,35 +650,6 @@ export const EventChannelFilter: msRest.CompositeMapper = {
     name: "Composite",
     className: "EventChannelFilter",
     modelProperties: {
-      subjectBeginsWith: {
-        serializedName: "subjectBeginsWith",
-        type: {
-          name: "String"
-        }
-      },
-      subjectEndsWith: {
-        serializedName: "subjectEndsWith",
-        type: {
-          name: "String"
-        }
-      },
-      includedEventTypes: {
-        serializedName: "includedEventTypes",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      isSubjectCaseSensitive: {
-        serializedName: "isSubjectCaseSensitive",
-        type: {
-          name: "Boolean"
-        }
-      },
       advancedFilters: {
         serializedName: "advancedFilters",
         type: {
@@ -986,11 +957,30 @@ export const EventChannel: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      partnerTopicReadinessState: {
+        readOnly: true,
+        serializedName: "properties.partnerTopicReadinessState",
+        type: {
+          name: "String"
+        }
+      },
+      expirationTimeIfNotActivatedUtc: {
+        serializedName: "properties.expirationTimeIfNotActivatedUtc",
+        type: {
+          name: "DateTime"
+        }
+      },
       filter: {
         serializedName: "properties.filter",
         type: {
           name: "Composite",
           className: "EventChannelFilter"
+        }
+      },
+      partnerTopicFriendlyDescription: {
+        serializedName: "properties.partnerTopicFriendlyDescription",
+        type: {
+          name: "String"
         }
       }
     }
@@ -1771,6 +1761,30 @@ export const PartnerRegistration: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      longDescription: {
+        serializedName: "properties.longDescription",
+        type: {
+          name: "String"
+        }
+      },
+      partnerCustomerServiceNumber: {
+        serializedName: "properties.partnerCustomerServiceNumber",
+        type: {
+          name: "String"
+        }
+      },
+      partnerCustomerServiceExtension: {
+        serializedName: "properties.partnerCustomerServiceExtension",
+        type: {
+          name: "String"
+        }
+      },
+      customerServiceUri: {
+        serializedName: "properties.customerServiceUri",
+        type: {
+          name: "String"
+        }
+      },
       setupUri: {
         serializedName: "properties.setupUri",
         type: {
@@ -1963,6 +1977,12 @@ export const PartnerTopic: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      expirationTimeIfNotActivatedUtc: {
+        serializedName: "properties.expirationTimeIfNotActivatedUtc",
+        type: {
+          name: "DateTime"
+        }
+      },
       provisioningState: {
         readOnly: true,
         serializedName: "properties.provisioningState",
@@ -1972,6 +1992,12 @@ export const PartnerTopic: msRest.CompositeMapper = {
       },
       activationState: {
         serializedName: "properties.activationState",
+        type: {
+          name: "String"
+        }
+      },
+      partnerTopicFriendlyDescription: {
+        serializedName: "properties.partnerTopicFriendlyDescription",
         type: {
           name: "String"
         }
