@@ -397,16 +397,25 @@ function toRecognizedReceipt(result: DocumentResultModel, pages: FormPage[]): Re
   const form = toRecognizedForm(result, pages);
   return {
     recognizedForm: form,
-    locale: undefined
+    locale: undefined // in the future service would return locale info
   };
 }
 
-function toReceiptType(type: FormField): USReceiptType {
-  if (type.valueType === "string" && type.value === "Itemized") {
-    return "itemized";
-  } else {
-    return "unrecognized";
+function toReceiptType(field: FormField): USReceiptType {
+  if (field.valueType === "string") {
+    const stringValue = field.value as string;
+    switch (stringValue) {
+      case "Itemized":
+      case "CreditCard":
+      case "Gas":
+      case "Parking":
+        return  { confidence: field.confidence, type: stringValue };
+      default:
+        return  { confidence: field.confidence, type: "Unrecognized" };
+    }
   }
+
+  throw new Error(`Expect receipt type field to have 'string' type but got ${field.valueType}`);
 }
 
 function toUSReceiptItems(items: ReceiptItemArrayField): USReceiptItem[] {
@@ -470,7 +479,7 @@ function toUSReceipt(receipt: RecognizedReceipt): ReceiptWithLocale {
   return {
     locale: "US",
     recognizedForm: receipt.recognizedForm,
-    items: toUSReceiptItems((form.fields["Items"] as unknown) as ReceiptItemArrayField),
+    items: form.fields["Items"] ? toUSReceiptItems((form.fields["Items"] as unknown) as ReceiptItemArrayField) : [],
     merchantAddress: form.fields["MerchantAddress"],
     merchantName: form.fields["MerchantName"],
     merchantPhoneNumber: form.fields["MerchantPhoneNumber"],
@@ -506,11 +515,17 @@ export function toReceiptResultResponse(
     return common;
   }
 
+  if (!result.analyzeResult) {
+    throw new Error("Expecting valid analyzeResult from the service response")
+  }
+
   const pages = result.analyzeResult!.readResults.map(toFormPage);
   return {
     ...common,
     version: result.analyzeResult!.version,
-    receipts: result.analyzeResult!.documentResults!.map((d) => {
+    receipts: result.analyzeResult!.documentResults!.filter(d => {
+      return !!d.fields
+    }).map((d) => {
       const receipt = toRecognizedReceipt(d, pages);
       return toReceiptWithLocale({ ...receipt, locale: "US" }); // default to US until service returns locale info.
     })

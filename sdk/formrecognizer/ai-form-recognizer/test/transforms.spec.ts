@@ -14,7 +14,8 @@ import {
   toFormTable,
   toRecognizeFormResultResponse,
   toReceiptResultResponse,
-  toFormModelResponse
+  toFormModelResponse,
+  toRecognizedForm
 } from "../src/transforms";
 import {
   GeneratedClientGetAnalyzeFormResultResponse as GetAnalyzeFormResultResponse,
@@ -22,7 +23,8 @@ import {
   GeneratedClientGetCustomModelResponse as GetCustomModelResponse,
   ReadResult as ReadResultModel,
   FieldValue as FieldValueModel,
-  DataTable as DataTableModel
+  DataTable as DataTableModel,
+  DocumentResult as DocumentResultModel
 } from "../src/generated/models";
 import {
   StringFieldValue,
@@ -456,6 +458,19 @@ describe("Transforms", () => {
     assert.equal(transformed.rows[2].cells[0].columnSpan, 2);
   });
 
+  it("toRecognizedForm() should handle empty page", () => {
+    const original: DocumentResultModel = {
+      docType: "prebuilt:receipt",
+      pageRange: [1, 1],
+      fields: {}
+    }
+
+    const transformed = toRecognizedForm(original, formPages);
+
+    assert.ok(transformed, "Expected valid recognized form");
+    assert.deepStrictEqual(transformed.fields, {}, "expected empty fields in recognzied form");
+  });
+
   it("toRecognizeFormResultResponse() converts unsupervised response into recognized forms", () => {
     const original: GetAnalyzeFormResultResponse = JSON.parse(unsupervisedResponseString);
     const transformed = toRecognizeFormResultResponse(original);
@@ -554,7 +569,8 @@ describe("Transforms", () => {
     const receiptResult = toReceiptResultResponse(original);
     const usReceipt = receiptResult.receipts![0];
 
-    assert.equal(usReceipt.receiptType, "itemized");
+    assert.equal(usReceipt.receiptType.confidence, 0.692);
+    assert.equal(usReceipt.receiptType.type, "Itemized");
     assert.equal(usReceipt.locale, "US");
     assert.ok(usReceipt.tax, "Expecting valid 'tax' field");
     assert.equal(usReceipt.tax!.name, "Tax");

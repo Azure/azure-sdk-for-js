@@ -580,7 +580,10 @@ export interface USReceiptItem {
 }
 
 // @public (undocumented)
-export type USReceiptType = "unrecognized" | "itemized" | "creditCard" | "gas" | "parking";
+export type USReceiptType = {
+    type: "Unrecognized" | "Itemized" | "CreditCard" | "Gas" | "Parking";
+    confidence?: number;
+};
 
 // @public (undocumented)
 export type ValueTypes = "string" | "date" | "time" | "phoneNumber" | "number" | "integer" | "array" | "object";
