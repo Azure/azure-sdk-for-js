@@ -144,16 +144,16 @@ describe("FormTrainingClient NodeJS only", () => {
   it("getAccountProperties() gets model count and limit for this account", async () => {
     const properties = await trainingClient.getAccountProperties();
 
-    assert.ok(properties.count > 0, `Expecting models in account but got ${properties.count}`);
+    assert.ok(properties.customModelCount > 0, `Expecting models in account but got ${properties.customModelCount}`);
     assert.ok(
-      properties.limit > 0,
-      `Expecting maximum number of models in account but got ${properties.limit}`
+      properties.customModelLimit > 0,
+      `Expecting maximum number of models in account but got ${properties.customModelLimit}`
     );
   });
 
   it("listModels() iterates models in this account", async () => {
     let count = 0;
-    for await (const _model of trainingClient.listModels()) {
+    for await (const _model of trainingClient.listCustomModels()) {
       count++;
       if (count > 30) {
         break; // work around issue https://github.com/Azure/azure-sdk-for-js/issues/8353
@@ -163,7 +163,7 @@ describe("FormTrainingClient NodeJS only", () => {
   });
 
   it("listModels() allows getting next model info", async () => {
-    const iter = trainingClient.listModels();
+    const iter = trainingClient.listCustomModels();
     const item = await iter.next();
     assert.ok(item, `Expecting a model but got ${item}`);
     assert.ok(item.value.modelId, `Expecting a model id but got ${item.value.modelId}`);
@@ -174,7 +174,7 @@ describe("FormTrainingClient NodeJS only", () => {
       this.skip();
     }
 
-    const modelInfo = await trainingClient.getModel(modelIdToDelete!);
+    const modelInfo = await trainingClient.getCustomModel(modelIdToDelete!);
 
     assert.ok(modelInfo.modelId === modelIdToDelete, "Expecting same model id");
     assert.ok(
@@ -190,7 +190,7 @@ describe("FormTrainingClient NodeJS only", () => {
 
     await trainingClient.deleteModel(modelIdToDelete!);
     try {
-      await trainingClient.getModel(modelIdToDelete!);
+      await trainingClient.getCustomModel(modelIdToDelete!);
       throw new Error("Expect that an error has already been thrown");
     } catch (err) {
       const message = (err as Error).message;
@@ -225,7 +225,7 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
     const stream = fs.createReadStream(filePath);
 
     assert.ok(unlabeledModelId, "Expecting valid model id from training without labels");
-    const poller = await recognizerClient.beginRecognizeForms(
+    const poller = await recognizerClient.beginRecognizeCustomForms(
       unlabeledModelId!,
       stream,
       "image/jpeg"
@@ -257,7 +257,7 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
     const url = `${urlParts[0]}/Form_1.jpg?${urlParts[1]}`;
 
     assert.ok(unlabeledModelId, "Expecting valid model id from training without labels");
-    const poller = await recognizerClient.beginRecognizeFormsFromUrl(unlabeledModelId!, url);
+    const poller = await recognizerClient.beginRecognizeCustomFormsFromUrl(unlabeledModelId!, url);
     await poller.pollUntilDone();
     const response = poller.getResult();
 
@@ -284,7 +284,7 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
     const stream = fs.createReadStream(filePath);
 
     assert.ok(unlabeledModelId, "Expecting valid model id from training without labels");
-    const poller = await recognizerClient.beginRecognizeForms(
+    const poller = await recognizerClient.beginRecognizeCustomForms(
       labeledModelId!,
       stream,
       "image/jpeg"
@@ -318,7 +318,7 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
     const stream = fs.createReadStream(filePath);
 
     assert.ok(labeledModelId, "Expecting valid model id from training without labels");
-    const poller = await recognizerClient.beginRecognizeForms(labeledModelId!, stream);
+    const poller = await recognizerClient.beginRecognizeCustomForms(labeledModelId!, stream);
     await poller.pollUntilDone();
     const response = poller.getResult();
 
@@ -348,7 +348,7 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
     const stream = fs.createReadStream(filePath);
 
     assert.ok(labeledModelId, "Expecting valid model id from training without labels");
-    const poller = await recognizerClient.beginRecognizeForms(labeledModelId!, stream);
+    const poller = await recognizerClient.beginRecognizeCustomForms(labeledModelId!, stream);
     await poller.pollUntilDone();
     const response = poller.getResult();
 
@@ -373,9 +373,9 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
       "Expecting 'Merchant' field has undefined confidence"
     );
     assert.equal(
-      form.fields["Merchant"].fieldLabel,
+      form.fields["Merchant"].labelText,
       undefined,
-      "Expecting 'Merchant' field has undefined fieldLabel"
+      "Expecting 'Merchant' field has undefined labelText"
     );
     assert.equal(
       form.fields["Merchant"].value,

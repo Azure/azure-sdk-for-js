@@ -6,7 +6,7 @@ import { assert } from "chai";
 import {
   toTextLine,
   toFormPage,
-  toFormElement,
+  toFormContent,
   toFormText,
   toFormField,
   toFieldValue,
@@ -138,7 +138,7 @@ describe("Transforms", () => {
     const stringRef = "#/readResults/0/lines/0/words/0";
     const readResults = [originalReadResult1, originalReadResult2].map(toFormPage);
 
-    const transformed = toFormElement(stringRef, readResults);
+    const transformed = toFormContent(stringRef, readResults);
 
     assert.deepStrictEqual(transformed, readResults[0].lines![0].words[0]);
   });
@@ -148,7 +148,7 @@ describe("Transforms", () => {
   it("toExtractedElement() converts line string reference to extracted line", () => {
     const stringRef = "#/readResults/1/lines/1";
 
-    const transformed = toFormElement(stringRef, formPages);
+    const transformed = toFormContent(stringRef, formPages);
 
     assert.deepStrictEqual(transformed, formPages[1].lines![1]);
   });
@@ -181,14 +181,14 @@ describe("Transforms", () => {
 
     assert.equal(transformed.name, original.label);
     assert.equal(transformed.confidence, original.confidence);
-    assert.ok(transformed.fieldLabel);
-    assert.ok(transformed.fieldLabel!.boundingBox);
+    assert.ok(transformed.labelText);
+    assert.ok(transformed.labelText!.boundingBox);
     assert.ok(transformed.valueText);
     assert.ok(transformed.valueText!.boundingBox);
-    verifyBoundingBox(transformed.fieldLabel!.boundingBox!, original.key.boundingBox);
+    verifyBoundingBox(transformed.labelText!.boundingBox!, original.key.boundingBox);
     verifyBoundingBox(transformed.valueText!.boundingBox!, original.value.boundingBox);
     assert.deepStrictEqual(
-      transformed.fieldLabel!.textContent![0],
+      transformed.labelText!.textContent![0],
       formPages[0].lines![0].words[0]
     );
     assert.deepStrictEqual(transformed.valueText!.textContent![1], formPages[0].lines![0].words[1]);
@@ -374,9 +374,9 @@ describe("Transforms", () => {
       "Expecting missingField has undefined confidence"
     );
     assert.equal(
-      transformed.missingField.fieldLabel,
+      transformed.missingField.labelText,
       undefined,
-      "Expecting missingField has undefined fieldLabel"
+      "Expecting missingField has undefined labelText"
     );
     assert.equal(
       transformed.missingField.value,

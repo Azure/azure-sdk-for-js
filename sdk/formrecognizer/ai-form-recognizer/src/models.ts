@@ -5,40 +5,34 @@ import * as coreHttp from "@azure/core-http";
 
 import {
   AnalyzeOperationResult as AnalyzeOperationResultModel,
-  ErrorInformation,
   FormFieldsReport,
   KeysResult,
   KeyValueElement as KeyValueElementModel,
   KeyValuePair as KeyValuePairModel,
   Language,
   LengthUnit,
-  Model,
+  ModelInfo,
   Models,
   ModelsSummary,
-  ModelStatus,
-  TrainingDocumentInfo,
-  TrainResult,
-  TrainStatus,
-  OperationStatus,
-  ModelInfo
+  ModelStatus as CustomFormModelStatus,
+  TrainStatus as TrainingStatus,
+  OperationStatus
 } from "./generated/models";
 
 export {
   AnalyzeOperationResultModel,
-  ErrorInformation,
   FormFieldsReport,
   KeysResult,
   KeyValueElementModel,
   KeyValuePairModel,
   Language,
   LengthUnit,
+  ModelInfo,
   Models,
   ModelsSummary,
-  ModelStatus,
+  CustomFormModelStatus,
   OperationStatus,
-  TrainingDocumentInfo,
-  TrainStatus,
-  TrainResult
+  TrainingStatus
 };
 
 /**
@@ -58,7 +52,7 @@ export interface Point2D {
 /**
  * Represents common properties of recognized form contents.
  */
-export interface FormElementCommon {
+export interface FormContentCommon {
   /**
    * The 1-based page number in the input document.
    */
@@ -76,7 +70,7 @@ export interface FormElementCommon {
 /**
  * Represents an recognized word.
  */
-export interface FormWord extends FormElementCommon {
+export interface FormWord extends FormContentCommon {
   /**
    * Element kind - "word"
    */
@@ -94,7 +88,7 @@ export interface FormWord extends FormElementCommon {
 /**
  * Represents an recognized text line.
  */
-export interface FormLine extends FormElementCommon {
+export interface FormLine extends FormContentCommon {
   /**
    * Element kind - "line"
    */
@@ -125,7 +119,7 @@ export interface FormLine extends FormElementCommon {
  * Information about an recognized element in the form. Examples include
  * words, lines, checkbox, etc.
  */
-export type FormElement = FormWord | FormLine; // | FormCheckBox;
+export type FormContent = FormWord | FormLine; // | FormCheckBox;
 
 /**
  * Represents a cell in recognized table
@@ -162,7 +156,7 @@ export interface FormTableCell {
   /**
    * When includeTextDetails is set to true, a list of references to the text elements constituting this table cell.
    */
-  textContent?: FormElement[];
+  textContent?: FormContent[];
   /**
    * Is the current cell a header cell?
    */
@@ -214,7 +208,7 @@ export interface FormText {
   /**
    * When includeTextDetails is set to true, a list of references to the text elements constituting this name or value.
    */
-  textContent?: FormElement[];
+  textContent?: FormContent[];
   /**
    * The text content of the recognized label or value
    */
@@ -233,7 +227,7 @@ export interface FormField {
   /**
    * Text of the recognized label of the field.
    */
-  fieldLabel?: FormText;
+  labelText?: FormText;
   /**
    * A user defined label for the field.
    */
@@ -352,7 +346,7 @@ interface CommonFieldValue {
    * When includeTextDetails is set to true, a list of references to the text elements constituting
    * this field.
    */
-  textContent?: FormElement[];
+  textContent?: FormContent[];
   /**
    * The 1-based page number in the input document.
    */
@@ -672,6 +666,20 @@ export type RecognizeContentResultResponse = RecognizeContentOperationResult & {
 };
 
 /**
+ * Represents errors from Azure Form Recognizer service
+ */
+export interface FormRecognizerError {
+  /**
+   * Error code
+   */
+  code: string;
+  /**
+   * Error message
+   */
+  message: string;
+}
+
+/**
  * Represents an recognized form using a custom model.
  */
 export interface FormResult {
@@ -687,7 +695,7 @@ export interface FormResult {
   /**
    * List of errors reported during the form recognition operation.
    */
-  errors?: ErrorInformation[];
+  errors?: FormRecognizerError[];
 }
 
 /**
@@ -729,6 +737,28 @@ export type RecognizeFormResultResponse = RecognizeFormOperationResult & {
 };
 
 /**
+ * Report for a custom model training document.
+ */
+export interface TrainingDocumentInfo {
+  /**
+   * Training document name.
+   */
+  documentName: string;
+  /**
+   * Total number of pages trained.
+   */
+  pageCount: number;
+  /**
+   * List of errors.
+   */
+  errors: FormRecognizerError[];
+  /**
+   * Status of the training operation.
+   */
+  status: TrainingStatus;
+}
+
+/**
  * Contains the unlabeled training results.
  */
 export interface FormTrainResult {
@@ -739,7 +769,29 @@ export interface FormTrainResult {
   /**
    * Errors returned during training operation.
    */
-  errors?: ErrorInformation[];
+  errors?: FormRecognizerError[];
+}
+
+/**
+ * Basic custom model information.
+ */
+export interface CustomFormModelInfo {
+  /**
+   * Model identifier.
+   */
+  modelId: string;
+  /**
+   * Status of the model.
+   */
+  status: CustomFormModelStatus;
+  /**
+   * Date and time (UTC) when the model was created.
+   */
+  createdOn: Date;
+  /**
+   * Date and time (UTC) when the status was last updated.
+   */
+  lastModified: Date;
 }
 
 /**
@@ -749,7 +801,7 @@ export interface FormModel {
   /**
    * Information about the model
    */
-  modelInfo: ModelInfo;
+  modelInfo: CustomFormModelInfo;
   /**
    * Keys recognized from unlabeled training.
    */
@@ -760,7 +812,7 @@ export interface FormModel {
   trainResult?: FormTrainResult;
 }
 
-export interface CustomFormSubModelField {
+export interface CustomFormField {
   /**
    * Estimated extraction accuracy for this field.
    */
@@ -779,7 +831,7 @@ export interface CustomFormSubModel {
   /**
    * Form fields
    */
-  fields: { [propertyName: string]: CustomFormSubModelField };
+  fields: { [propertyName: string]: CustomFormField };
   /**
    * Form type
    */
@@ -797,7 +849,7 @@ export interface CustomFormModel {
   /**
    * Status of the model.
    */
-  status: ModelStatus;
+  status: CustomFormModelStatus;
   /**
    * Date and time (UTC) when the model was created.
    */
@@ -813,11 +865,51 @@ export interface CustomFormModel {
   /**
    * Errors returned during training operation.
    */
-  errors?: ErrorInformation[];
+  errors?: FormRecognizerError[];
   /**
    * Form models created by training.
    */
   models?: CustomFormSubModel[];
+}
+
+/**
+ * Custom model training result.
+ */
+export interface TrainResult {
+  /**
+   * List of the documents used to train the model and any errors reported in each document.
+   */
+  trainingDocuments: TrainingDocumentInfo[];
+  /**
+   * List of fields used to train the model and the train operation error reported by each.
+   */
+  fields?: FormFieldsReport[];
+  /**
+   * Average accuracy.
+   */
+  averageModelAccuracy?: number;
+  /**
+   * Errors returned during the training operation.
+   */
+  errors?: FormRecognizerError[];
+}
+
+/**
+ * Response to the get custom model operation.
+ */
+export interface Model {
+  /**
+   * Basic custom model information.
+   */
+  modelInfo: ModelInfo;
+  /**
+   * Keys extracted by the custom model.
+   */
+  keys?: KeysResult;
+  /**
+   * Custom model training result.
+   */
+  trainResult?: TrainResult;
 }
 
 /**
@@ -856,9 +948,9 @@ export interface AccountProperties {
   /**
    * Current count of trained custom models.
    */
-  count: number;
+  customModelCount: number;
   /**
    * Max number of models that can be trained for this account.
    */
-  limit: number;
+  customModelLimit: number;
 }

@@ -20,7 +20,7 @@ import {
 import {
   FormPage,
   FormLine,
-  FormElement,
+  FormContent,
   FormTableRow,
   FormTable,
   RecognizedForm,
@@ -41,7 +41,7 @@ import {
   ArrayFieldValue,
   Point2D,
   FormModelResponse,
-  CustomFormSubModelField,
+  CustomFormField,
   CustomFormSubModel,
   RecognizedReceipt,
   USReceiptType,
@@ -96,7 +96,7 @@ export function toFormPage(original: ReadResultModel): FormPage {
 // Note: might need to support other element types in future, e.g., checkbox
 const textPattern = /\/readResults\/(\d+)\/lines\/(\d+)(?:\/words\/(\d+))?/;
 
-export function toFormElement(element: string, readResults: FormPage[]): FormElement {
+export function toFormContent(element: string, readResults: FormPage[]): FormContent {
   const result = textPattern.exec(element);
   if (!result || !result[0] || !result[1] || !result[2]) {
     throw new Error(`Unexpected element reference encountered: ${element}`);
@@ -116,7 +116,7 @@ export function toFormText(original: KeyValueElementModel, readResults?: FormPag
   return {
     text: original.text,
     boundingBox: original.boundingBox ? toBoundingBox(original.boundingBox) : undefined,
-    textContent: original.elements?.map((element) => toFormElement(element, readResults!))
+    textContent: original.elements?.map((element) => toFormContent(element, readResults!))
   };
 }
 
@@ -124,7 +124,7 @@ export function toFormField(original: KeyValuePairModel, readResults?: FormPage[
   return {
     name: original.label,
     confidence: original.confidence || 1,
-    fieldLabel: toFormText(original.key, readResults),
+    labelText: toFormText(original.key, readResults),
     valueText: toFormText(original.value, readResults),
     value: original.value.text,
     valueType: "string"
@@ -142,7 +142,7 @@ export function toFormTable(original: DataTableModel, readResults?: FormPage[]):
       columnIndex: cell.columnIndex,
       columnSpan: cell.columnSpan || 1,
       confidence: cell.confidence,
-      textContent: cell.elements?.map((element) => toFormElement(element, readResults!)),
+      textContent: cell.elements?.map((element) => toFormContent(element, readResults!)),
       isFooter: cell.isFooter || false,
       isHeader: cell.isHeader || false,
       rowIndex: cell.rowIndex,
@@ -224,7 +224,7 @@ export function toFieldValue(original: FieldValueModel, readResults: FormPage[])
           boundingBox: original.boundingBox ? toBoundingBox(original.boundingBox) : undefined,
           confidence: original.confidence || 1,
           pageNumber: original.pageNumber,
-          textContent: original.elements?.map((element) => toFormElement(element, readResults))
+          textContent: original.elements?.map((element) => toFormContent(element, readResults))
         };
   switch (original.type) {
     case "string":
@@ -544,7 +544,7 @@ export function toFormModelResponse(response: GetCustomModelResponse): FormModel
 
   if (response.trainResult?.averageModelAccuracy || response.trainResult?.fields) {
     // training with forms and labels, populate from trainingResult.fields
-    const fields: { [propertyName: string]: CustomFormSubModelField } = {};
+    const fields: { [propertyName: string]: CustomFormField } = {};
     for (const f of response.trainResult.fields!) {
       fields[f.fieldName] = { name: f.fieldName, accuracy: f.accuracy };
     }
@@ -565,7 +565,7 @@ export function toFormModelResponse(response: GetCustomModelResponse): FormModel
     const models: CustomFormSubModel[] = [];
     for (const clusterKey in response.keys.clusters) {
       const cluster = response.keys.clusters[clusterKey];
-      const fields: { [propertyName: string]: CustomFormSubModelField } = {};
+      const fields: { [propertyName: string]: CustomFormField } = {};
 
       for (let i = 0; i < cluster.length; i++) {
         fields[`field-${i}`] = { name: `field-${i}` };
