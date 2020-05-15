@@ -113,7 +113,7 @@ describe("SystemErrorRetryPolicy", () => {
       });
     });
 
-    it("should do nothing when status code is not one of the retriable errors", async () => {
+    it("should do nothing when error code is not one of the retriable errors", async () => {
       const request = new WebResource();
       const faultyPolicy = new FailFirstRequestPolicy(defaultResponse, "NonRetriableError");
       const policy = new SystemErrorRetryPolicy(
