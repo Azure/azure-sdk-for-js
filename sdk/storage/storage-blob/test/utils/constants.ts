@@ -1,4 +1,4 @@
-import { CpkInfo } from "../../src/generated/src/models";
+import { CpkInfo } from "../../src";
 
 export const Test_CPK_INFO: CpkInfo = {
   encryptionKey: "MDEyMzQ1NjcwMTIzNDU2NzAxMjM0NTY3MDEyMzQ1Njc=",
