@@ -17,7 +17,7 @@ input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/
 add-credentials: true
 override-client-name: GeneratedClient
 use-extension:
-  "@autorest/typescript": "6.0.0-dev.20200320.1"
+  "@autorest/typescript": "6.0.0-dev.20200505.1"
 ```
 
 ## Customizations for Track 2 Generator
@@ -63,4 +63,19 @@ directive:
     where: $.definitions.TrainingDocumentInfo.properties.pages
     transform: >
       $["x-ms-client-name"] = "pageCount";
+```
+
+### Hide LROs
+``` yaml
+directive:
+- from: swagger-document
+  where: $["paths"]
+  transform: >
+    for (var path in $) {
+        for (var op of Object.values($[path])) {
+            if (op["x-ms-long-running-operation"]) {
+                delete op["x-ms-long-running-operation"];
+            }
+        }
+    }
 ```
