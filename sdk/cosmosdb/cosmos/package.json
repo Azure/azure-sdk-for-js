@@ -48,6 +48,7 @@
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "node prep-samples.js && tsc -b samples",
     "build:src": "echo Using TypeScript && tsc --version && tsc -b --pretty",
+    "build:test": "echo skipped",
     "build:types": "downlevel-dts dist/types/latest dist/types/3.1",
     "build": "npm run clean && tslint --project ./src/tsconfig.json && npm run extract-api && npm run build:types && node writeSDKVersion.js && npm run bundle",
     "bundle": "rollup -c",
