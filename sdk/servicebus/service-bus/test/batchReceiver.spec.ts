@@ -1015,7 +1015,7 @@ describe("batchReceiver", () => {
   });
 });
 
-describe("Batching - disconnects", function(): void {
+describe.only("Batching - disconnects", function(): void {
   let serviceBusClient: ServiceBusClientForTests;
   let senderClient: Sender;
   let receiverClient: Receiver<ReceivedMessageWithLock> | Receiver<ReceivedMessage>;
@@ -1283,9 +1283,6 @@ describe("Batching - disconnects", function(): void {
       throw new Error(`Unable to initialize receiver link.`);
     }
 
-    // Send a message so we have something to receive.
-    await senderClient.send(TestMessage.getSample());
-
     // Simulate a disconnect after a message has been received.
     receiverContext.batchingReceiver!["_receiver"]!.once("message", function() {
       setTimeout(() => {
@@ -1298,7 +1295,8 @@ describe("Batching - disconnects", function(): void {
     // so that the receiver will have to drain.
     const testFailureMessage = "Test failure";
     try {
-      await receiverClient.receiveBatch(10, { maxWaitTimeInMs: 10000 });
+      const msgs = await receiverClient.receiveBatch(10, { maxWaitTimeInMs: 10000 });
+      console.log(msgs.length);
       throw new Error(testFailureMessage);
     } catch (err) {
       err.message.should.not.equal(testFailureMessage);
