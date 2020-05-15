@@ -36,21 +36,25 @@ jobs:
         MaxVersion_Node:
           OSVmImage: "ubuntu-18.04"
           TestType: "node"
+          CloudType: "AzureCloud"
           DependencyVersion: max
           TestResultsFiles: "**/test-results.xml"
         MaxVersion_Browser:
           OSVmImage: "ubuntu-18.04"
           TestType: "browser"
           DependencyVersion: max
+          CloudType: "AzureCloud"
           TestResultsFiles: "**/test-results.browser.xml"
         MinVersion_Node:
           OSVmImage: "ubuntu-18.04"
           TestType: "node"
+          CloudType: "AzureCloud"
           DependencyVersion: min
           TestResultsFiles: "**/test-results.xml"
         MinVersion_Browser:
           OSVmImage: "ubuntu-18.04"
           TestType: "browser"
+          CloudType: "AzureCloud"
           DependencyVersion: min
           TestResultsFiles: "**/test-results.browser.xml"
         ${{ each matrixEntry in parameters.Matrix }}:
