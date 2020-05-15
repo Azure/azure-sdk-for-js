@@ -65,7 +65,7 @@ describe("ClientCertificateCredential", function() {
       );
 
       const queryParams = qs.parse(authRequest.body);
-      const jwtToken = jws.decode(queryParams.client_assertion);
+      const jwtToken = jws.decode(queryParams.client_assertion as string);
 
       assert.strictEqual(jwtToken.header.x5t, (credential as any).certificateX5t);
       assert.strictEqual(jwtToken.payload.iss, clientId);

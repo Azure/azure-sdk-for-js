@@ -764,7 +764,7 @@ export class MessageSender extends LinkEntity {
         this.name,
         batchMessage
       );
-      return await this._trySend(batchMessage._message!, true, options);
+      return await this._trySend(batchMessage._generateMessage(), true, options);
     } catch (err) {
       log.error(
         "[%s] Sender '%s': An error occurred while sending the messages: %O\nError: %O",

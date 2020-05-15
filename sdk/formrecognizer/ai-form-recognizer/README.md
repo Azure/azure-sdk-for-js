@@ -1,5 +1,7 @@
 # Azure Form Recognizer client library for JavaScript
 
+**Note:** This preview version targets Azure Form Recognizer service API version v2.0-preview.
+
 Azure Cognitive Services [Form Recognizer](https://azure.microsoft.com/services/cognitive-services/form-recognizer/) is a cloud service that uses machine learning to recognize text and table data
 from form documents. It includes the following main functionalities:
 
@@ -264,7 +266,7 @@ async function main() {
   const readStream = fs.createReadStream(path);
 
   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
-  const poller = await client.beginRecognizeForms(modelId, readStream, "application/pdf", {
+  const poller = await client.beginRecognizeCustomForms(modelId, readStream, "application/pdf", {
     onProgress: (state) => { console.log(`status: ${state.status}`); }
   });
   await poller.pollUntilDone();
@@ -313,7 +315,7 @@ async function main() {
   const trainingClient = client.getFormTrainingClient();
 
   // returns an async iteratable iterator that supports paging
-  const result = await trainingClient.listModels();
+  const result = await trainingClient.listCustomModels();
   let i = 0;
   for await (const modelInfo of result) {
     console.log(`model ${i++}:`);
@@ -322,7 +324,7 @@ async function main() {
 
   // using `iter.next()`
   i = 1;
-  let iter = trainingClient.listModels();
+  let iter = trainingClient.listCustomModels();
   let modelItem = await iter.next();
   while (!modelItem.done) {
     console.log(`model ${i++}: ${modelItem.value.modelId}`);
@@ -331,7 +333,7 @@ async function main() {
 
   // using `byPage()`
   i = 1;
-  for await (const response of trainingClient.listModels().byPage()) {
+  for await (const response of trainingClient.listCustomModels().byPage()) {
     for (const modelInfo of response.modelList) {
       console.log(`model ${i++}: ${modelInfo.modelId}`);
     }

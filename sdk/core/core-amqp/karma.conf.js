@@ -16,7 +16,10 @@ module.exports = function(config) {
     plugins: ["karma-mocha", require("karma-chrome-launcher")],
 
     // list of files / patterns to load in the browser
-    files: ["test-browser/index.js"],
+    files: [
+      "test-browser/index.js",
+      { pattern: "test-browser/index.js.map", type: "html", included: false, served: true }
+    ],
 
     // list of files / patterns to exclude
     exclude: [],

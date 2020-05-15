@@ -1,2 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 interface Window {}
-declare var self: Window & typeof globalThis;
+declare let self: Window & typeof globalThis;

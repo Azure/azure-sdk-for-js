@@ -114,7 +114,7 @@ await sender.send([
     body: "my-message-body"
   },
   {
-    body: "another-message-body
+    body: "another-message-body"
   }
 ]);
 ```

@@ -2,7 +2,7 @@ import * as assert from "assert";
 import * as dotenv from "dotenv";
 
 import { AbortController } from "@azure/abort-controller";
-import { isNode, URLBuilder } from "@azure/core-http";
+import { isNode, URLBuilder, URLQuery } from "@azure/core-http";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 import {
   bodyToString,
@@ -19,7 +19,7 @@ import {
   BlobServiceClient
 } from "../src";
 import { Test_CPK_INFO } from "./utils/constants";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("BlobClient", () => {
   let blobServiceClient: BlobServiceClient;
@@ -497,8 +497,27 @@ describe("BlobClient", () => {
     const properties2 = await newBlobURL.getProperties();
     assert.deepStrictEqual(properties1.contentMD5, properties2.contentMD5);
     assert.deepStrictEqual(properties2.copyId, result.copyId);
-    assert.deepStrictEqual(properties2.copySource, blobClient.url);
     assert.equal(properties2.accessTier, initialTier);
+
+    // A service feature is being rolling out which will sanitize the sig field
+    // so we remove it before comparing urls.
+    assert.ok(properties2.copySource, "Expecting valid 'properties2.copySource");
+
+    const sanitizedActualUrl = URLBuilder.parse(properties2.copySource!);
+    const sanitizedQuery = URLQuery.parse(sanitizedActualUrl.getQuery()!);
+    sanitizedQuery.set("sig", undefined);
+    sanitizedActualUrl.setQuery(sanitizedQuery.toString());
+
+    const sanitizedExpectedUrl = URLBuilder.parse(blobClient.url);
+    const sanitizedQuery2 = URLQuery.parse(sanitizedActualUrl.getQuery()!);
+    sanitizedQuery2.set("sig", undefined);
+    sanitizedExpectedUrl.setQuery(sanitizedQuery.toString());
+
+    assert.strictEqual(
+      sanitizedActualUrl.toString(),
+      sanitizedExpectedUrl.toString(),
+      "copySource does not match original source"
+    );
 
     await newBlobURL.setAccessTier(BlockBlobTier.Hot);
     const properties3 = await newBlobURL.getProperties();

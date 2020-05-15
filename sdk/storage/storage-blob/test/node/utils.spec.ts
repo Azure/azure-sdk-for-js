@@ -6,7 +6,7 @@ import * as path from "path";
 import { extractConnectionStringParts } from "../../src/utils/utils.common";
 import { Readable, ReadableOptions, PassThrough } from "stream";
 import { readStreamToLocalFile, streamToBuffer2 } from "../../src/utils/utils.node";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("Utility Helpers Node.js only", () => {
   const protocol = "https";
@@ -43,7 +43,7 @@ describe("Utility Helpers Node.js only", () => {
     } catch (error) {
       assert.ok(
         error.message ===
-          "Invalid DefaultEndpointsProtocol in the provided Connection String. Expecting 'https' or 'http'"
+        "Invalid DefaultEndpointsProtocol in the provided Connection String. Expecting 'https' or 'http'"
       );
     }
   });
@@ -341,7 +341,7 @@ describe("Utility Helpers Node.js only", () => {
       }
     ];
 
-    tests.forEach(function(test) {
+    tests.forEach(function (test) {
       it(test.title, async () => {
         const inputBuffer = randomBytes(test.streamLength);
 

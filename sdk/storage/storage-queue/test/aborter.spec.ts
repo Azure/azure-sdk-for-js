@@ -6,7 +6,7 @@ import { getQSU } from "./utils";
 import * as dotenv from "dotenv";
 import { recorderEnvSetup } from "./utils/testutils.common";
 import { Recorder, record } from "@azure/test-utils-recorder";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 // tslint:disable:no-empty
 describe("Aborter", () => {

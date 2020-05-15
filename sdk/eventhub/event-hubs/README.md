@@ -261,14 +261,14 @@ async function main() {
   };
 
   const subscription = client.subscribe({
-    processEvents: (events, context) => {
-      // event processing code goes here
+      processEvents: (events, context) => {
+        // event processing code goes here
+      },
+      processError: (err, context) => {
+        // error reporting/handling code here
+      }
     },
-    processError: (err, context) => {
-      // error reporting/handling code here
-    }
-  },
-  subscriptionOptions
+    subscriptionOptions
   );
 
   // Wait for a few seconds to receive events before closing
@@ -316,8 +316,8 @@ async function main() {
   );
 
   const subscription = consumerClient.subscribe({
-    processEvents: (events, context) => {
-      // event processing code goes here 
+    processEvents: async (events, context) => {
+      // event processing code goes here
 
       // Mark the last event in the batch as processed, so that when the program is restarted
       // or when the partition is picked up by another process, it can start from the next event
@@ -331,7 +331,7 @@ async function main() {
   // Wait for a few seconds to receive events before closing
   setTimeout(async () => {
     await subscription.close();
-    await client.close();
+    await consumerClient.close();
     console.log(`Exiting sample`);
   }, 3 * 1000);
 }
@@ -370,14 +370,14 @@ async function main() {
   };
 
   const subscription = client.subscribe(partitionIds[0], {
-    processEvents: (events, context) => {
-      // event processing code goes here
+      processEvents: (events, context) => {
+        // event processing code goes here
+      },
+      processError: (err, context) => {
+        // error reporting/handling code here
+      }
     },
-    processError: (err, context) => {
-      // error reporting/handling code here
-    }
-  },
-  subscriptionOptions
+    subscriptionOptions
   );
 
   // Wait for a few seconds to receive events before closing

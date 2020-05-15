@@ -8,7 +8,7 @@ import {
   recorderEnvSetup
 } from "./utils";
 import { record, Recorder } from "@azure/test-utils-recorder";
-import { BlobBatch } from "../src/BlobBatch";
+import { BlobBatch } from "../src";
 import {
   ContainerClient,
   BlockBlobClient,
@@ -18,7 +18,7 @@ import {
   StorageSharedKeyCredential
 } from "../src";
 
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("BlobBatch", () => {
   let blobServiceClient: BlobServiceClient;

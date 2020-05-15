@@ -6,14 +6,16 @@ import { assert } from "chai";
 import {
   toTextLine,
   toFormPage,
-  toFormElement,
+  toFormContent,
   toFormText,
   toFormField,
   toFieldValue,
+  toFieldsFromFieldValue,
   toFormTable,
   toRecognizeFormResultResponse,
   toReceiptResultResponse,
-  toFormModelResponse
+  toFormModelResponse,
+  toRecognizedForm
 } from "../src/transforms";
 import {
   GeneratedClientGetAnalyzeFormResultResponse as GetAnalyzeFormResultResponse,
@@ -21,7 +23,8 @@ import {
   GeneratedClientGetCustomModelResponse as GetCustomModelResponse,
   ReadResult as ReadResultModel,
   FieldValue as FieldValueModel,
-  DataTable as DataTableModel
+  DataTable as DataTableModel,
+  DocumentResult as DocumentResultModel
 } from "../src/generated/models";
 import {
   StringFieldValue,
@@ -135,7 +138,7 @@ describe("Transforms", () => {
     const stringRef = "#/readResults/0/lines/0/words/0";
     const readResults = [originalReadResult1, originalReadResult2].map(toFormPage);
 
-    const transformed = toFormElement(stringRef, readResults);
+    const transformed = toFormContent(stringRef, readResults);
 
     assert.deepStrictEqual(transformed, readResults[0].lines![0].words[0]);
   });
@@ -145,7 +148,7 @@ describe("Transforms", () => {
   it("toExtractedElement() converts line string reference to extracted line", () => {
     const stringRef = "#/readResults/1/lines/1";
 
-    const transformed = toFormElement(stringRef, formPages);
+    const transformed = toFormContent(stringRef, formPages);
 
     assert.deepStrictEqual(transformed, formPages[1].lines![1]);
   });
@@ -178,27 +181,27 @@ describe("Transforms", () => {
 
     assert.equal(transformed.name, original.label);
     assert.equal(transformed.confidence, original.confidence);
-    assert.ok(transformed.fieldLabel);
-    assert.ok(transformed.fieldLabel!.boundingBox);
+    assert.ok(transformed.labelText);
+    assert.ok(transformed.labelText!.boundingBox);
     assert.ok(transformed.valueText);
     assert.ok(transformed.valueText!.boundingBox);
-    verifyBoundingBox(transformed.fieldLabel!.boundingBox!, original.key.boundingBox);
+    verifyBoundingBox(transformed.labelText!.boundingBox!, original.key.boundingBox);
     verifyBoundingBox(transformed.valueText!.boundingBox!, original.value.boundingBox);
     assert.deepStrictEqual(
-      transformed.fieldLabel!.textContent![0],
+      transformed.labelText!.textContent![0],
       formPages[0].lines![0].words[0]
     );
     assert.deepStrictEqual(transformed.valueText!.textContent![1], formPages[0].lines![0].words[1]);
   });
 
-  describe("toFieldValue()", () => {
-    const commonProperties = {
-      text: "field value text",
-      boudningBox: [1, 2, 3, 4, 5, 6, 7, 8],
-      confidence: 0.9999,
-      elements: ["#/readResults/0/lines/0/words/0", "#/readResults/0/lines/0/words/1"]
-    };
+  const commonProperties = {
+    text: "field value text",
+    boudningBox: [1, 2, 3, 4, 5, 6, 7, 8],
+    confidence: 0.9999,
+    elements: ["#/readResults/0/lines/0/words/0", "#/readResults/0/lines/0/words/1"]
+  };
 
+  describe("toFieldValue()", () => {
     it("converts field value of string", () => {
       const original: FieldValueModel = {
         type: "string",
@@ -346,6 +349,52 @@ describe("Transforms", () => {
     });
   });
 
+  it("toFieldsFromFieldValue() handles missing field", () => {
+    const originalInteger: FieldValueModel = {
+      type: "integer",
+      valueInteger: 1,
+      ...commonProperties
+    };
+    const original: { [propertyName: string]: FieldValueModel } = {
+      integerProperty: originalInteger
+    };
+    Object.assign(original, {
+      integerProperty: originalInteger,
+      missingField: null
+    });
+
+    const transformed = toFieldsFromFieldValue(original, formPages);
+
+    assert.ok(transformed.integerProperty, "Expecting valid integerField");
+    assert.ok(transformed.missingField, "Expecting valid missingField");
+    assert.equal(transformed.missingField.name, "missingField");
+    assert.equal(
+      transformed.missingField.confidence,
+      undefined,
+      "Expecting missingField has undefined confidence"
+    );
+    assert.equal(
+      transformed.missingField.labelText,
+      undefined,
+      "Expecting missingField has undefined labelText"
+    );
+    assert.equal(
+      transformed.missingField.value,
+      undefined,
+      "Expecting missingField has undefined value"
+    );
+    assert.equal(
+      transformed.missingField.valueText,
+      undefined,
+      "Expecting missingField has undefined valueText"
+    );
+    assert.equal(
+      transformed.missingField.valueType,
+      undefined,
+      "Expecting missingField has undefined valueType"
+    );
+  });
+
   it("toTable() converts original data table", () => {
     const originalTable: DataTableModel = {
       rows: 3,
@@ -407,6 +456,19 @@ describe("Transforms", () => {
     assert.equal(transformed.rows[2].cells[0].isFooter, true);
     assert.equal(transformed.rows[2].cells[0].rowSpan, 1);
     assert.equal(transformed.rows[2].cells[0].columnSpan, 2);
+  });
+
+  it("toRecognizedForm() should handle empty page", () => {
+    const original: DocumentResultModel = {
+      docType: "prebuilt:receipt",
+      pageRange: [1, 1],
+      fields: {}
+    }
+
+    const transformed = toRecognizedForm(original, formPages);
+
+    assert.ok(transformed, "Expected valid recognized form");
+    assert.deepStrictEqual(transformed.fields, {}, "expected empty fields in recognzied form");
   });
 
   it("toRecognizeFormResultResponse() converts unsupervised response into recognized forms", () => {
@@ -507,11 +569,15 @@ describe("Transforms", () => {
     const receiptResult = toReceiptResultResponse(original);
     const usReceipt = receiptResult.receipts![0];
 
-    assert.equal(usReceipt.receiptType, "itemized");
+    assert.equal(usReceipt.receiptType.confidence, 0.692);
+    assert.equal(usReceipt.receiptType.type, "Itemized");
     assert.equal(usReceipt.locale, "US");
-    assert.equal(usReceipt.tax.name, "Tax");
-    assert.equal(typeof usReceipt.tip.value!, "number");
-    assert.equal(usReceipt.total.value!, 14.5);
+    assert.ok(usReceipt.tax, "Expecting valid 'tax' field");
+    assert.equal(usReceipt.tax!.name, "Tax");
+    assert.ok(usReceipt.tip, "Expecting valid 'tip' field");
+    assert.equal(typeof usReceipt.tip!.value!, "number");
+    assert.ok(usReceipt.total, "Expecting valid 'total' field");
+    assert.equal(usReceipt.total!.value!, 14.5);
   });
 });
 

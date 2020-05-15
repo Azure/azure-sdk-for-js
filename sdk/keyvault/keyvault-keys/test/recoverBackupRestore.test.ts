@@ -62,7 +62,8 @@ describe("Keys client - restore keys and recover backups", () => {
     } catch (e) {
       error = e;
     }
-    assert.equal(error.message, `Key not found: ${keyName}`);
+    assert.equal(error.code, "KeyNotFound");
+    assert.equal(error.statusCode, 404);
   });
 
   it("can generate a backup of a key", async function() {
@@ -95,7 +96,8 @@ describe("Keys client - restore keys and recover backups", () => {
     } catch (e) {
       error = e;
     }
-    assert.equal(error.message, `Key not found: ${keyName}`);
+    assert.equal(error.code, "KeyNotFound");
+    assert.equal(error.statusCode, 404);
   });
 
   if (isRecordMode() || isPlaybackMode()) {
