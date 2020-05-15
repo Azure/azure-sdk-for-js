@@ -140,7 +140,7 @@ describe("FormRecognizerClient NodeJS only", () => {
     const usReceipt = response!.receipts![0];
     assert.equal(usReceipt.recognizedForm.formType, "prebuilt:receipt");
     assert.equal(usReceipt.locale, "US"); // default to "US" for now
-    assert.equal(usReceipt.receiptType.type, "itemized");
+    assert.equal(usReceipt.receiptType.type, "Itemized");
     assert.equal(usReceipt.locale, "US");
     assert.ok(usReceipt.tax, "Expecting valid 'tax' field");
     assert.equal(usReceipt.tax!.name, "Tax");
@@ -205,7 +205,7 @@ describe("FormRecognizerClient NodeJS only", () => {
     const usReceipt = response!.receipts![0];
     assert.equal(usReceipt.recognizedForm.formType, "prebuilt:receipt");
     assert.equal(usReceipt.locale, "US"); // default to "US" for now
-    assert.equal(usReceipt.receiptType.type, "itemized");
+    assert.equal(usReceipt.receiptType.type, "Itemized");
     assert.equal(usReceipt.locale, "US");
   });
 }).timeout(60000);
