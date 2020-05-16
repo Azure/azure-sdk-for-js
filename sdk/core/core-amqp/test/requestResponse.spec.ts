@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 import {
   RequestResponseLink,
   AmqpMessage,
@@ -276,7 +276,7 @@ describe("RequestResponseLink", function() {
 
     const message = await retry<Message>(config);
     assert.equal(count, 2, "It should retry twice");
-    assert.equal(message === undefined, false, "It should return a valid message");
+    assert.exists(message, "It should return a valid message");
     assert.equal(message.body, "Hello World!!", `Message '${message.body}' is not as expected`);
   });
 
