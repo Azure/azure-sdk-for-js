@@ -1,27 +1,27 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import assert from "assert";
+// // Copyright (c) Microsoft Corporation.
+// // Licensed under the MIT license.
+// import assert from "assert";
 // import { Constants } from "../../src/index";
-import { getUserAgent } from "../../src/common";
+// import { getUserAgent } from "../../src/common";
 
-const packageJson = require("../../package.json");
-const packageVersion = packageJson["version"];
+// const packageJson = require("../../package.json");
+// const packageVersion = packageJson["version"];
 // const constantVersion = Constants.SDKVersion;
 
-describe("getUserAgent", function() {
-  it("should contain the current SDK version", () => {
-    assert(getUserAgent().includes(packageVersion));
-  });
+// describe("getUserAgent", function() {
+//   it("should contain the current SDK version", () => {
+//     assert(getUserAgent().includes(packageVersion));
+//   });
 
-  it("should contain the current node version", () => {
-    assert(getUserAgent().includes(process.version.replace("v", "")));
-  });
+//   it("should contain the current node version", () => {
+//     assert(getUserAgent().includes(process.version.replace("v", "")));
+//   });
 
-  it("should allow a custom suffix", () => {
-    const suffix = "myApp";
-    assert(getUserAgent(suffix).includes(suffix));
-  });
-});
+//   it("should allow a custom suffix", () => {
+//     const suffix = "myApp";
+//     assert(getUserAgent(suffix).includes(suffix));
+//   });
+// });
 
 // describe("Version", function() {
 //   it("should have matching constant version & package version", function() {
