@@ -81,12 +81,12 @@ export class ServiceBusClient {
     this.fullyQualifiedNamespace = this._connectionContext.config.host;
     this._clientOptions.retryOptions = this._clientOptions.retryOptions || {};
 
-    // Invalid timeouts, non-positive timeouts are defaulted to the `Constants.defaultOperationTimeoutInMs`
-    const timeoutInMs = this._clientOptions.retryOptions.timeoutInMs;
-    this._clientOptions.retryOptions.timeoutInMs =
-      typeof timeoutInMs !== "number" || !isFinite(timeoutInMs) || timeoutInMs <= 0
-        ? Constants.defaultOperationTimeoutInMs
-        : timeoutInMs;
+    let timeoutInMs = this._clientOptions.retryOptions.timeoutInMs;
+    timeoutInMs = timeoutInMs == undefined ? Constants.defaultOperationTimeoutInMs : timeoutInMs;
+    if (typeof timeoutInMs !== "number" || !isFinite(timeoutInMs) || timeoutInMs <= 0) {
+      throw new Error(`${timeoutInMs} is an invalid value for retryOptions.timeoutInMs`);
+    }
+    this._clientOptions.retryOptions.timeoutInMs = timeoutInMs;
   }
 
   /**
@@ -101,7 +101,7 @@ export class ServiceBusClient {
    *
    * You can settle a message by calling complete(), abandon(), defer() or deadletter() methods on
    * the message.
-   * 
+   *
    * More information about how peekLock and message settlement works here:
    * https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
    *
@@ -130,7 +130,7 @@ export class ServiceBusClient {
    *
    * You can settle a message by calling complete(), abandon(), defer() or deadletter() methods on
    * the message.
-   * 
+   *
    * More information about how peekLock and message settlement works here:
    * https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
    *
@@ -204,7 +204,7 @@ export class ServiceBusClient {
    *
    * You can settle a message by calling complete(), abandon(), defer() or deadletter() methods on
    * the message.
-   * 
+   *
    * More information about how peekLock and message settlement works here:
    * https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
    *
@@ -243,7 +243,7 @@ export class ServiceBusClient {
    *
    * You can settle a message by calling complete(), abandon(), defer() or deadletter() methods on
    * the message.
-   * 
+   *
    * More information about how peekLock and message settlement works here:
    * https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
    *
@@ -355,7 +355,7 @@ export class ServiceBusClient {
    *
    * See here for more information about dead letter queues:
    * https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-dead-letter-queues
-   * 
+   *
    * More information about how peekLock and message settlement works here:
    * https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
    *
@@ -392,7 +392,7 @@ export class ServiceBusClient {
    *
    * See here for more information about dead letter queues:
    * https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-dead-letter-queues
-   * 
+   *
    * More information about how peekLock and message settlement works here:
    * https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
    *
