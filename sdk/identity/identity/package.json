@@ -1,7 +1,7 @@
 {
   "name": "@azure/identity",
   "sdk-type": "client",
-  "version": "1.1.0-preview.3",
+  "version": "1.1.0-preview.4",
   "description": "Provides credential implementations for Azure SDK libraries that can authenticate with Azure Active Directory",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
@@ -90,6 +90,7 @@
   },
   "devDependencies": {
     "@azure/abort-controller": "^1.0.0",
+    "@azure/test-utils-recorder": "^1.0.0",
     "@microsoft/api-extractor": "7.7.11",
     "@rollup/plugin-commonjs": "^11.0.1",
     "@rollup/plugin-json": "^4.0.0",
@@ -127,7 +128,7 @@
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-terser": "^5.1.1",
     "rollup-plugin-visualizer": "^3.1.1",
-    "typescript": "~3.7.5",
+    "typescript": "~3.8.3",
     "util": "^0.12.1"
   }
 }

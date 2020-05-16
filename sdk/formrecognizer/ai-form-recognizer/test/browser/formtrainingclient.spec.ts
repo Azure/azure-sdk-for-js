@@ -3,7 +3,6 @@
 
 import { assert } from "chai";
 import { DefaultHttpClient, WebResource } from "@azure/core-http";
-import * as recorder from "@azure/test-utils-recorder";
 
 import {
   FormRecognizerClient,
@@ -11,24 +10,31 @@ import {
   TrainingDocumentInfo,
   FormTrainingClient
 } from "../../src";
-import { env } from "@azure/test-utils-recorder";
+import { env, Recorder } from "@azure/test-utils-recorder";
+import {
+  createRecordedTrainingClient,
+  createRecordedRecognizerClient
+} from "../util/recordedClients";
 
 let unlabeledModelId: string | undefined;
 let modelIdToDelete: string | undefined;
 
 describe("FormTrainingClient browser only", () => {
   let trainingClient: FormTrainingClient;
+  let recorder: Recorder;
 
-  before(function() {
-    // TODO: create recordings
-    if (recorder.isPlaybackMode()) {
-      this.skip();
-    }
-
+  beforeEach(function() {
+    ({ recorder, client: trainingClient } = createRecordedTrainingClient(this));
     trainingClient = new FormTrainingClient(
       env.FORM_RECOGNIZER_ENDPOINT,
       new AzureKeyCredential(env.FORM_RECOGNIZER_API_KEY)
     );
+  });
+
+  afterEach(function() {
+    if (recorder) {
+      recorder.stop();
+    }
   });
 
   const expectedDocumentInfo: TrainingDocumentInfo = {
@@ -74,7 +80,7 @@ describe("FormTrainingClient browser only", () => {
 
     assert.ok(response!.models && response!.models.length > 0, "Expected non empty sub model list");
     const model = response!.models![0];
-    assert.equal(model.formType, "TBD");
+    assert.equal(model.formType, `form-${response!.modelId}`);
     assert.equal(model.accuracy, 0.973);
     assert.ok(model.fields["Signature"], "Expecting field with name 'Signature' to be valid");
 
@@ -130,16 +136,16 @@ describe("FormTrainingClient browser only", () => {
   it("getAccountProperties() gets model count and limit for this account", async () => {
     const properties = await trainingClient.getAccountProperties();
 
-    assert.ok(properties.count > 0, `Expecting models in account but got ${properties.count}`);
+    assert.ok(properties.customModelCount > 0, `Expecting models in account but got ${properties.customModelCount}`);
     assert.ok(
-      properties.limit > 0,
-      `Expecting maximum number of models in account but got ${properties.limit}`
+      properties.customModelLimit > 0,
+      `Expecting maximum number of models in account but got ${properties.customModelLimit}`
     );
   });
 
   it("listModels() iterates models in this account", async () => {
     let count = 0;
-    for await (const _model of trainingClient.listModels()) {
+    for await (const _model of trainingClient.listCustomModels()) {
       count++;
       if (count > 30) {
         break; // work around issue https://github.com/Azure/azure-sdk-for-js/issues/8353
@@ -149,7 +155,7 @@ describe("FormTrainingClient browser only", () => {
   });
 
   it("listModels() allows getting next model info", async () => {
-    const iter = trainingClient.listModels();
+    const iter = trainingClient.listCustomModels();
     const item = await iter.next();
     assert.ok(item, `Expecting a model but got ${item}`);
     assert.ok(item.value.modelId, `Expecting a model id but got ${item.value.modelId}`);
@@ -160,7 +166,7 @@ describe("FormTrainingClient browser only", () => {
       this.skip();
     }
 
-    const modelInfo = await trainingClient.getModel(modelIdToDelete!);
+    const modelInfo = await trainingClient.getCustomModel(modelIdToDelete!);
 
     assert.ok(modelInfo.modelId === modelIdToDelete, "Expecting same model id");
     assert.ok(
@@ -176,7 +182,7 @@ describe("FormTrainingClient browser only", () => {
 
     await trainingClient.deleteModel(modelIdToDelete!);
     try {
-      await trainingClient.getModel(modelIdToDelete!);
+      await trainingClient.getCustomModel(modelIdToDelete!);
       throw new Error("Expect that an error has already been thrown");
     } catch (err) {
       const message = (err as Error).message;
@@ -194,26 +200,24 @@ describe("FormTrainingClient browser only", () => {
 
 describe("FormRecognizerClient custom form recognition browser only", () => {
   let recognizerClient: FormRecognizerClient;
+  let recorder: Recorder;
 
-  before(function() {
-    // TODO: create recordings
-    if (recorder.isPlaybackMode()) {
-      this.skip();
-    }
-
-    recognizerClient = new FormRecognizerClient(
-      env.FORM_RECOGNIZER_ENDPOINT,
-      new AzureKeyCredential(env.FORM_RECOGNIZER_API_KEY)
-    );
+  beforeEach(function() {
+    ({ recorder, client: recognizerClient } = createRecordedRecognizerClient(this));
   });
 
-  it("recognizes form from a url to a jpeg file using model trained without labels", async () => {
+  afterEach(function() {
+    if (recorder) {
+      recorder.stop();
+    }
+  });
+  it("recognizes form url unlabeled model", async () => {
     const testingContainerUrl: string = env.FORM_RECOGNIZER_TESTING_CONTAINER_SAS_URL;
     const urlParts = testingContainerUrl.split("?");
     const url = `${urlParts[0]}/Form_1.jpg?${urlParts[1]}`;
 
     assert.ok(unlabeledModelId, "Expecting valid model id from training without labels");
-    const poller = await recognizerClient.beginRecognizeFormsFromUrl(unlabeledModelId!, url);
+    const poller = await recognizerClient.beginRecognizeCustomFormsFromUrl(unlabeledModelId!, url);
     await poller.pollUntilDone();
     const response = poller.getResult();
 
@@ -235,7 +239,11 @@ describe("FormRecognizerClient custom form recognition browser only", () => {
     assert.ok(form.fields["field-2"], "Expecting field-2");
   });
 
-  it("recognizes form from a Blob using model trained without labels", async () => {
+  it("recognizes form Blob unlabeled model", async () => {
+    recorder.skip(
+      "browser",
+      "issue with blob response https://github.com/Azure/azure-sdk-for-js/issues/8663"
+    );
     const testingContainerUrl: string = env.FORM_RECOGNIZER_TESTING_CONTAINER_SAS_URL;
     const urlParts = testingContainerUrl.split("?");
     const url = `${urlParts[0]}/Form_1.jpg?${urlParts[1]}`;
@@ -243,11 +251,11 @@ describe("FormRecognizerClient custom form recognition browser only", () => {
     req.streamResponseBody = true;
     const httpClient = new DefaultHttpClient();
     const blob = await httpClient.sendRequest(req);
-    const data = await blob.blobBody
+    const data = await blob.blobBody;
 
     assert.ok(unlabeledModelId, "Expecting valid model id from training without labels");
     assert.ok(data, "Expect valid Blob data to use as input");
-    const poller = await recognizerClient.beginRecognizeForms(unlabeledModelId!, data!);
+    const poller = await recognizerClient.beginRecognizeCustomForms(unlabeledModelId!, data!);
     await poller.pollUntilDone();
     const response = poller.getResult();
 
@@ -268,5 +276,4 @@ describe("FormRecognizerClient custom form recognition browser only", () => {
     assert.ok(form.fields["field-1"], "Expecting field-1");
     assert.ok(form.fields["field-2"], "Expecting field-2");
   });
-
 }).timeout(60000);

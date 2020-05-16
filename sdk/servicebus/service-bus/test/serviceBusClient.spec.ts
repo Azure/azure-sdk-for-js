@@ -29,37 +29,39 @@ import {
   testPeekMsgsLength
 } from "./utils/testutils2";
 
-// describe("Create ServiceBusClient and Queue/Topic/Subscription Clients", function(): void {
-//   let sbClient: ServiceBusClient;
+describe("Create ServiceBusClient", function(): void {
+  let sbClient: ServiceBusClient;
 
-//   afterEach(async () => {
-//     if (sbClient) {
-//       await sbClient.close();
-//     }
-//   });
+  afterEach(async () => {
+    await sbClient.close();
+  });
 
-// it("Creates an Namespace from a connection string", function(): void {
-//   sbClient = new ServiceBusClient(
-//     "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
-//   );
-//   sbClient.should.be.an.instanceof(ServiceBusClient);
-//   should.equal(sbClient.name, "sb://a/", "Name of the namespace is different than expected");
-// });
+  it("hostname gets populated from the connection string", function(): void {
+    sbClient = new ServiceBusClient(
+      "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
+    );
+    sbClient.should.be.an.instanceof(ServiceBusClient);
+    should.equal(
+      sbClient.fullyQualifiedNamespace,
+      "a",
+      "Name of the namespace is different than expected"
+    );
+  });
 
-// it("Creates clients after coercing name to string", function(): void {
-//   sbClient = new ServiceBusClient(
-//     "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
-//   );
-//   const queueClient = sbClient.createQueueClient(1 as any);
-//   should.equal(queueClient.entityPath, "1");
+  // it("Creates clients after coercing name to string", function(): void {
+  //   sbClient = new ServiceBusClient(
+  //     "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
+  //   );
+  //   const queueClient = sbClient.createQueueClient(1 as any);
+  //   should.equal(queueClient.entityPath, "1");
 
-//   const topicClient = sbClient.createTopicClient(1 as any);
-//   should.equal(topicClient.entityPath, "1");
+  //   const topicClient = sbClient.createTopicClient(1 as any);
+  //   should.equal(topicClient.entityPath, "1");
 
-//   const subscriptionClient = sbClient.createSubscriptionClient(1 as any, 2 as any);
-//   should.equal(subscriptionClient.entityPath, "1/Subscriptions/2");
-// });
-// });
+  //   const subscriptionClient = sbClient.createSubscriptionClient(1 as any, 2 as any);
+  //   should.equal(subscriptionClient.entityPath, "1/Subscriptions/2");
+  // });
+});
 
 describe("Random scheme in the endpoint from connection string", function(): void {
   let sbClient: ServiceBusClientForTests;
@@ -84,6 +86,7 @@ describe("Random scheme in the endpoint from connection string", function(): voi
   }
 
   afterEach(async () => {
+    await sbClient.test.after();
     await senderClient.close();
     await receiverClient.close();
     await sbClientWithRelaxedEndPoint.close();
@@ -204,8 +207,9 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
     sbClient = createServiceBusClientForTests();
     errorWasThrown = false;
   });
-  afterEach(() => {
-    return sbClient.test.afterEach();
+  afterEach(async () => {
+    await sbClient.test.afterEach();
+    await sbClient.test.after();
   });
 
   const testError = (err: Error | MessagingError, entityPath: string): void => {
@@ -408,8 +412,9 @@ describe("Errors after close()", function(): void {
   let entityName: EntityName;
   // let subscriptionClient: SubscriptionRuleManager;
 
-  afterEach(() => {
-    return sbClient.test.afterEach();
+  afterEach(async () => {
+    await sbClient.test.afterEach();
+    await sbClient.test.after();
   });
 
   async function beforeEachTest(entityType: TestClientType, entityToClose: string): Promise<void> {
@@ -575,7 +580,7 @@ describe("Errors after close()", function(): void {
    * Tests that each feature of the receiver throws expected error
    */
   async function testReceiver(expectedErrorMsg: string): Promise<void> {
-    // should.equal(receiver.isClosed, true, "Receiver is not marked as closed.");
+    should.equal(receiver.isClosed, true, "Receiver is not marked as closed.");
 
     let errorReceiveBatch: string = "";
     await receiver.receiveBatch(1, { maxWaitTimeInMs: 1000 }).catch((err) => {
@@ -968,4 +973,68 @@ describe("Errors after close()", function(): void {
   //     );
   //   });
   // });
+});
+
+describe("entityPath on sender and receiver", async () => {
+  const sbClient = createServiceBusClientForTests();
+  afterEach(async () => {
+    await sbClient.test.afterEach();
+  });
+  after(async () => {
+    await sbClient.test.after();
+  });
+  it("UnpartitionedQueue", async () => {
+    const entityName = await sbClient.test.createTestEntities(TestClientType.UnpartitionedQueue);
+    const sender = sbClient.test.addToCleanup(await sbClient.createSender(entityName.queue!));
+    const receiver = sbClient.test.addToCleanup(
+      sbClient.createReceiver(entityName.queue!, "receiveAndDelete")
+    );
+    const deadLetterReceiver = sbClient.test.addToCleanup(
+      sbClient.createDeadLetterReceiver(entityName.queue!, "receiveAndDelete")
+    );
+    should.equal(sender.entityPath, entityName.queue, "Entity path on the sender did not match!");
+    should.equal(
+      receiver.entityPath,
+      entityName.queue,
+      "Entity path on the receiver did not match!"
+    );
+    should.equal(
+      deadLetterReceiver.entityPath,
+      `${entityName.queue}/$DeadLetterQueue`,
+      "Entity path on the deadLetterReceiver did not match!"
+    );
+  });
+
+  it("PartitionedSubscriptionWithSessions", async () => {
+    const entityName = await sbClient.test.createTestEntities(
+      TestClientType.PartitionedSubscriptionWithSessions
+    );
+    const sender = sbClient.test.addToCleanup(await sbClient.createSender(entityName.topic!));
+    const receiver = sbClient.test.addToCleanup(
+      await sbClient.createSessionReceiver(
+        entityName.topic!,
+        entityName.subscription!,
+        "receiveAndDelete",
+        { sessionId: TestMessage.sessionId }
+      )
+    );
+    const deadLetterReceiver = sbClient.test.addToCleanup(
+      sbClient.createDeadLetterReceiver(
+        entityName.topic!,
+        entityName.subscription!,
+        "receiveAndDelete"
+      )
+    );
+    should.equal(sender.entityPath, entityName.topic, "Entity path on the sender did not match!");
+    should.equal(
+      receiver.entityPath,
+      `${entityName.topic}/Subscriptions/${entityName.subscription}`,
+      "Entity path on the receiver did not match!"
+    );
+    should.equal(
+      deadLetterReceiver.entityPath,
+      `${entityName.topic}/Subscriptions/${entityName.subscription}/$DeadLetterQueue`,
+      "Entity path on the deadLetterReceiver did not match!"
+    );
+  });
 });

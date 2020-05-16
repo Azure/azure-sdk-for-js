@@ -1,6 +1,6 @@
 {
   "name": "@azure/search-documents",
-  "version": "1.0.0-preview.3",
+  "version": "1.0.0-preview.4",
   "description": "Azure client library to use Cognitive Search for node.js and browser.",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -78,7 +78,7 @@
   "dependencies": {
     "@azure/core-auth": "^1.1.2",
     "@azure/core-http": "^1.1.1",
-    "@azure/core-paging": "^1.1.0",
+    "@azure/core-paging": "^1.1.1",
     "@azure/core-tracing": "1.0.0-preview.8",
     "@azure/logger": "^1.0.0",
     "@opentelemetry/api": "^0.6.1",
@@ -133,7 +133,7 @@
     "rollup-plugin-visualizer": "^3.1.1",
     "sinon": "^7.1.0",
     "ts-node": "^8.3.0",
-    "typescript": "~3.7.5",
+    "typescript": "~3.8.3",
     "util": "^0.12.1"
   }
 }

@@ -8,7 +8,7 @@ import {
   ShareClient
 } from "../../src";
 import { record, Recorder } from "@azure/test-utils-recorder";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("DirectoryClient Node.js only", () => {
   let shareName: string;

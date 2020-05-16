@@ -83,7 +83,7 @@
     "is-buffer": "^2.0.3",
     "jssha": "^2.3.1",
     "process": "^0.11.10",
-    "rhea": "^1.0.18",
+    "rhea": "^1.0.21",
     "rhea-promise": "^1.0.0",
     "stream-browserify": "^2.0.2",
     "tslib": "^1.10.0",
@@ -135,7 +135,7 @@
     "rollup-plugin-terser": "^5.1.1",
     "sinon": "^7.1.0",
     "ts-node": "^8.3.0",
-    "typescript": "~3.7.5",
+    "typescript": "~3.8.3",
     "ws": "^7.1.1"
   }
 }

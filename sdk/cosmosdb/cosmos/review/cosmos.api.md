@@ -269,6 +269,7 @@ export class Container {
     item(id: string, partitionKeyValue?: any): Item;
     get items(): Items;
     read(options?: RequestOptions): Promise<ContainerResponse>;
+    readOffer(options?: RequestOptions): Promise<OfferResponse>;
     readPartitionKeyDefinition(): Promise<ResourceResponse<PartitionKeyDefinition>>;
     // (undocumented)
     readPartitionKeyRanges(feedOptions?: FeedOptions): QueryIterator<PartitionKeyRange>;
@@ -360,6 +361,7 @@ export class Database {
     // (undocumented)
     readonly id: string;
     read(options?: RequestOptions): Promise<DatabaseResponse>;
+    readOffer(options?: RequestOptions): Promise<OfferResponse>;
     get url(): string;
     user(id: string): User;
     readonly users: Users;
@@ -641,7 +643,7 @@ export interface OfferDefinition {
 
 // @public (undocumented)
 export class OfferResponse extends ResourceResponse<OfferDefinition & Resource> {
-    constructor(resource: OfferDefinition & Resource, headers: CosmosHeaders, statusCode: number, offer: Offer);
+    constructor(resource: OfferDefinition & Resource, headers: CosmosHeaders, statusCode: number, offer?: Offer);
     readonly offer: Offer;
 }
 
