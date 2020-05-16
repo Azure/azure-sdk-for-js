@@ -10,7 +10,7 @@ import { logger } from "./log";
 export interface MessageHeader {
   /**
    * @property {boolean} [firstAcquirer] If this value is true, then this message has not been
-   * acquired by any other link. Ifthis value is false, then this message MAY have previously
+   * acquired by any other link. If this value is false, then this message MAY have previously
    * been acquired by another link or links.
    */
   firstAcquirer?: boolean;

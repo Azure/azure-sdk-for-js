@@ -62,7 +62,7 @@ describe("message", function() {
     });
   });
 
-  describe("poperties", function() {
+  describe("properties", function() {
     it("should be able to convert empty MessageProperties to AmqpMessageProperties", function(done) {
       const msgProperties: MessageProperties = {};
       const amqpMsgProperties: AmqpMessageProperties = MessageProperties.toAmqpMessageProperties(

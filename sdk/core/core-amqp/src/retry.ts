@@ -207,7 +207,7 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
       }
       lastError = err;
       logger.verbose(
-        "[%s] Error occured for '%s' in attempt number %d: %O",
+        "[%s] Error occurred for '%s' in attempt number %d: %O",
         config.connectionId,
         config.operationType,
         i,

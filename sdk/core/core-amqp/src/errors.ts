@@ -49,7 +49,7 @@ export enum ConditionErrorNameMapper {
    */
   "com.microsoft:no-matching-subscription" = "NoMatchingSubscriptionError",
   /**
-   * Error is thrown when an attempt is made to access a parition that is not owned by the
+   * Error is thrown when an attempt is made to access a partition that is not owned by the
    * requesting entity.
    */
   "com.microsoft:partition-not-owned" = "PartitionNotOwnedError",
@@ -78,7 +78,7 @@ export enum ConditionErrorNameMapper {
    */
   "com.microsoft:session-cannot-be-locked" = "SessionCannotBeLockedError",
   /**
-   * Error is thrown when an internal server error occured. You may have found a bug?
+   * Error is thrown when an internal server error occurred. You may have found a bug?
    */
   "amqp:internal-error" = "InternalServerError", // Retryable
   /**
@@ -255,7 +255,7 @@ export enum ErrorNameConditionMapper {
    */
   NoMatchingSubscriptionError = "com.microsoft:no-matching-subscription",
   /**
-   * Error is thrown when an attempt is made to access a parition that is not owned by the
+   * Error is thrown when an attempt is made to access a partition that is not owned by the
    * requesting entity.
    */
   PartitionNotOwnedError = "com.microsoft:partition-not-owned",
@@ -284,7 +284,7 @@ export enum ErrorNameConditionMapper {
    */
   SessionCannotBeLockedError = "com.microsoft:session-cannot-be-locked",
   /**
-   * Error is thrown when an internal server error occured. You may have found a bug?
+   * Error is thrown when an internal server error occurred. You may have found a bug?
    */
   InternalServerError = "amqp:internal-error", // Retryable
   /**
@@ -554,7 +554,7 @@ export const retryableErrors: string[] = [
 ];
 
 /**
- * Maps some SytemErrors to amqp error conditions
+ * Maps some SystemErrors to amqp error conditions
  * @enum SystemErrorConditionMapper
  */
 export enum SystemErrorConditionMapper {
@@ -592,7 +592,7 @@ export function isSystemError(err: any): err is NetworkSystemError {
 
 /**
  * @internal
- * Since browser doesnt differentiate between the various kinds of service communication errors,
+ * Since browser doesn't differentiate between the various kinds of service communication errors,
  * this utility is used to look at the error target to identify such category of errors.
  * For more information refer to - https://html.spec.whatwg.org/multipage/comms.html#feedback-from-the-protocol
  * @param err object that may contain error information
@@ -622,7 +622,7 @@ const rheaPromiseErrors = [
 ];
 
 /**
- * Translates the AQMP error received at the protocol layer or a SystemError into a MessagingError.
+ * Translates the AMQP error received at the protocol layer or a SystemError into a MessagingError.
  * All other errors are returned unaltered.
  *
  * @param {AmqpError} err The amqp error that was received.
@@ -684,7 +684,7 @@ export function translate(err: AmqpError | Error): MessagingError | Error {
   }
 
   if (isBrowserWebsocketError(err)) {
-    // Translate browser communication errors during opening handshake to generic SeviceCommunicationError
+    // Translate browser communication errors during opening handshake to generic ServiceCommunicationError
     const error = new MessagingError("Websocket connection failed.");
     error.code = ConditionErrorNameMapper[ErrorNameConditionMapper.ServiceCommunicationError];
     error.retryable = false;

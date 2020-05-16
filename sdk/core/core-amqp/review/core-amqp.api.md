@@ -61,9 +61,9 @@ export interface CbsResponse {
     // (undocumented)
     correlationId: string;
     // (undocumented)
-    satusDescription: string;
-    // (undocumented)
     statusCode: string;
+    // (undocumented)
+    statusDescription: string;
 }
 
 // @public

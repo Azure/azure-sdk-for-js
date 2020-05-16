@@ -80,7 +80,7 @@ export interface EventHubConnectionStringModel {
 }
 
 /**
- * Describes the stroage connection string model.
+ * Describes the storage connection string model.
  */
 export interface StorageConnectionStringModel {
   DefaultEndpointsProtocol: string;
@@ -169,7 +169,7 @@ export const defaultLock: AsyncLock = new AsyncLock({ maxPending: 10000 });
 /**
  * Describes a Timeout class that can wait for the specified amount of time and then resolve/reject
  * the promise with the given value.
- * @class Timout
+ * @class Timeout
  */
 export class Timeout {
   // Node and browsers return different types from setTimeout
