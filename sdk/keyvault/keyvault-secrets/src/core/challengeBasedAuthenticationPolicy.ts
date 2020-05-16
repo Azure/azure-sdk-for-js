@@ -94,7 +94,7 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
     // ```
     // Bearer authorization="some_authorization", resource="https://some.url"
     // ```
-    let spaceSep = www_authenticate.split(" ");
+    const spaceSep = www_authenticate.split(" ");
 
     // Split the KV comma-separated list
     for (const spaceItem of spaceSep) {
