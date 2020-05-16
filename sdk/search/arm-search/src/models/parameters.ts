@@ -77,6 +77,27 @@ export const name: msRest.OperationURLParameter = {
     }
   }
 };
+export const nextPageLink: msRest.OperationURLParameter = {
+  parameterPath: "nextPageLink",
+  mapper: {
+    required: true,
+    serializedName: "nextLink",
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
+};
+export const privateEndpointConnectionName: msRest.OperationURLParameter = {
+  parameterPath: "privateEndpointConnectionName",
+  mapper: {
+    required: true,
+    serializedName: "privateEndpointConnectionName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const resourceGroupName: msRest.OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
@@ -92,6 +113,16 @@ export const searchServiceName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "searchServiceName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const sharedPrivateLinkResourceName: msRest.OperationURLParameter = {
+  parameterPath: "sharedPrivateLinkResourceName",
+  mapper: {
+    required: true,
+    serializedName: "sharedPrivateLinkResourceName",
     type: {
       name: "String"
     }

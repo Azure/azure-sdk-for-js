@@ -32,12 +32,12 @@ export class Services {
    * exists, all properties will be updated with the given values.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    * obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Search service to create or update. Search
-   * service names must only contain lowercase letters, digits or dashes, cannot use dash as the
-   * first two or last one characters, cannot contain consecutive dashes, and must be between 2 and
-   * 60 characters in length. Search service names must be globally unique since they are part of the
-   * service URI (https://<name>.search.windows.net). You cannot change the service name after the
-   * service is created.
+   * @param searchServiceName The name of the Azure Cognitive Search service to create or update.
+   * Search service names must only contain lowercase letters, digits or dashes, cannot use dash as
+   * the first two or last one characters, cannot contain consecutive dashes, and must be between 2
+   * and 60 characters in length. Search service names must be globally unique since they are part of
+   * the service URI (https://<name>.search.windows.net). You cannot change the service name after
+   * the service is created.
    * @param service The definition of the Search service to create or update.
    * @param [options] The optional parameters
    * @returns Promise<Models.ServicesCreateOrUpdateResponse>
@@ -51,7 +51,7 @@ export class Services {
    * Updates an existing Search service in the given resource group.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    * obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Search service to update.
+   * @param searchServiceName The name of the Azure Cognitive Search service to update.
    * @param service The definition of the Search service to update.
    * @param [options] The optional parameters
    * @returns Promise<Models.ServicesUpdateResponse>
@@ -60,7 +60,7 @@ export class Services {
   /**
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    * obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Search service to update.
+   * @param searchServiceName The name of the Azure Cognitive Search service to update.
    * @param service The definition of the Search service to update.
    * @param callback The callback
    */
@@ -68,7 +68,7 @@ export class Services {
   /**
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    * obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Search service to update.
+   * @param searchServiceName The name of the Azure Cognitive Search service to update.
    * @param service The definition of the Search service to update.
    * @param options The optional parameters
    * @param callback The callback
@@ -90,8 +90,8 @@ export class Services {
    * Gets the Search service with the given name in the given resource group.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    * obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Search service associated with the specified
-   * resource group.
+   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
+   * specified resource group.
    * @param [options] The optional parameters
    * @returns Promise<Models.ServicesGetResponse>
    */
@@ -99,16 +99,16 @@ export class Services {
   /**
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    * obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Search service associated with the specified
-   * resource group.
+   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
+   * specified resource group.
    * @param callback The callback
    */
   get(resourceGroupName: string, searchServiceName: string, callback: msRest.ServiceCallback<Models.SearchService>): void;
   /**
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    * obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Search service associated with the specified
-   * resource group.
+   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
+   * specified resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -128,8 +128,8 @@ export class Services {
    * Deletes a Search service in the given resource group, along with its associated resources.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    * obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Search service associated with the specified
-   * resource group.
+   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
+   * specified resource group.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
@@ -137,16 +137,16 @@ export class Services {
   /**
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    * obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Search service associated with the specified
-   * resource group.
+   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
+   * specified resource group.
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, searchServiceName: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    * obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Search service associated with the specified
-   * resource group.
+   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
+   * specified resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -194,6 +194,30 @@ export class Services {
   }
 
   /**
+   * Gets a list of all Search services in the given subscription.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ServicesListBySubscriptionResponse>
+   */
+  listBySubscription(options?: Models.ServicesListBySubscriptionOptionalParams): Promise<Models.ServicesListBySubscriptionResponse>;
+  /**
+   * @param callback The callback
+   */
+  listBySubscription(callback: msRest.ServiceCallback<Models.SearchServiceListResult>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listBySubscription(options: Models.ServicesListBySubscriptionOptionalParams, callback: msRest.ServiceCallback<Models.SearchServiceListResult>): void;
+  listBySubscription(options?: Models.ServicesListBySubscriptionOptionalParams | msRest.ServiceCallback<Models.SearchServiceListResult>, callback?: msRest.ServiceCallback<Models.SearchServiceListResult>): Promise<Models.ServicesListBySubscriptionResponse> {
+    return this.client.sendOperationRequest(
+      {
+        options
+      },
+      listBySubscriptionOperationSpec,
+      callback) as Promise<Models.ServicesListBySubscriptionResponse>;
+  }
+
+  /**
    * Checks whether or not the given Search service name is available for use. Search service names
    * must be globally unique since they are part of the service URI
    * (https://<name>.search.windows.net).
@@ -234,12 +258,12 @@ export class Services {
    * exists, all properties will be updated with the given values.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    * obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Search service to create or update. Search
-   * service names must only contain lowercase letters, digits or dashes, cannot use dash as the
-   * first two or last one characters, cannot contain consecutive dashes, and must be between 2 and
-   * 60 characters in length. Search service names must be globally unique since they are part of the
-   * service URI (https://<name>.search.windows.net). You cannot change the service name after the
-   * service is created.
+   * @param searchServiceName The name of the Azure Cognitive Search service to create or update.
+   * Search service names must only contain lowercase letters, digits or dashes, cannot use dash as
+   * the first two or last one characters, cannot contain consecutive dashes, and must be between 2
+   * and 60 characters in length. Search service names must be globally unique since they are part of
+   * the service URI (https://<name>.search.windows.net). You cannot change the service name after
+   * the service is created.
    * @param service The definition of the Search service to create or update.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
@@ -254,6 +278,62 @@ export class Services {
       },
       beginCreateOrUpdateOperationSpec,
       options);
+  }
+
+  /**
+   * Gets a list of all Search services in the given resource group.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ServicesListByResourceGroupNextResponse>
+   */
+  listByResourceGroupNext(nextPageLink: string, options?: Models.ServicesListByResourceGroupNextOptionalParams): Promise<Models.ServicesListByResourceGroupNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SearchServiceListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listByResourceGroupNext(nextPageLink: string, options: Models.ServicesListByResourceGroupNextOptionalParams, callback: msRest.ServiceCallback<Models.SearchServiceListResult>): void;
+  listByResourceGroupNext(nextPageLink: string, options?: Models.ServicesListByResourceGroupNextOptionalParams | msRest.ServiceCallback<Models.SearchServiceListResult>, callback?: msRest.ServiceCallback<Models.SearchServiceListResult>): Promise<Models.ServicesListByResourceGroupNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listByResourceGroupNextOperationSpec,
+      callback) as Promise<Models.ServicesListByResourceGroupNextResponse>;
+  }
+
+  /**
+   * Gets a list of all Search services in the given subscription.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ServicesListBySubscriptionNextResponse>
+   */
+  listBySubscriptionNext(nextPageLink: string, options?: Models.ServicesListBySubscriptionNextOptionalParams): Promise<Models.ServicesListBySubscriptionNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listBySubscriptionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SearchServiceListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listBySubscriptionNext(nextPageLink: string, options: Models.ServicesListBySubscriptionNextOptionalParams, callback: msRest.ServiceCallback<Models.SearchServiceListResult>): void;
+  listBySubscriptionNext(nextPageLink: string, options?: Models.ServicesListBySubscriptionNextOptionalParams | msRest.ServiceCallback<Models.SearchServiceListResult>, callback?: msRest.ServiceCallback<Models.SearchServiceListResult>): Promise<Models.ServicesListBySubscriptionNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listBySubscriptionNextOperationSpec,
+      callback) as Promise<Models.ServicesListBySubscriptionNextResponse>;
   }
 }
 
@@ -369,6 +449,30 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const listBySubscriptionOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.Search/searchServices",
+  urlParameters: [
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage,
+    Parameters.clientRequestId
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.SearchServiceListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
 const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Search/checkNameAvailability",
@@ -430,6 +534,50 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     },
     201: {
       bodyMapper: Mappers.SearchService
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage,
+    Parameters.clientRequestId
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.SearchServiceListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listBySubscriptionNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage,
+    Parameters.clientRequestId
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.SearchServiceListResult
     },
     default: {
       bodyMapper: Mappers.CloudError

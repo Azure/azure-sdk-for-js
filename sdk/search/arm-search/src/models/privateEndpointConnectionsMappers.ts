@@ -8,19 +8,17 @@
 
 export {
   BaseResource,
-  CheckNameAvailabilityInput,
-  CheckNameAvailabilityOutput,
   CloudError,
   Identity,
   IpRule,
   NetworkRuleSet,
   PrivateEndpointConnection,
+  PrivateEndpointConnectionListResult,
   PrivateEndpointConnectionProperties,
   PrivateEndpointConnectionPropertiesPrivateEndpoint,
   PrivateEndpointConnectionPropertiesPrivateLinkServiceConnectionState,
   Resource,
   SearchService,
-  SearchServiceListResult,
   SharedPrivateLinkResource,
   SharedPrivateLinkResourceProperties,
   Sku

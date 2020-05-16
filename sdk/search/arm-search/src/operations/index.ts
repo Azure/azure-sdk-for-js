@@ -12,3 +12,6 @@ export * from "./operations";
 export * from "./adminKeys";
 export * from "./queryKeys";
 export * from "./services";
+export * from "./privateLinkResources";
+export * from "./privateEndpointConnections";
+export * from "./sharedPrivateLinkResources";
