@@ -14,7 +14,7 @@ let argv = require("yargs")
     },
     "version-type": {
       type: "string",
-      describe: "whether you want to test max or min version of dependencies",
+      describe: "whether you want to test max or min version or same version of dependencies",
       demandOption: true
     },
     "source-dir": {
@@ -141,6 +141,9 @@ async function findAppropriateVersion(package, packageJsonDepVersion, repoRoot, 
           console.log(version);
           return version;
         }
+      }
+      else if (versionType === "same") {
+        return packageJsonDepVersion;
       }
     }
   }

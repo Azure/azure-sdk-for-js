@@ -39,6 +39,12 @@ jobs:
           CloudType: "AzureCloud"
           DependencyVersion: max
           TestResultsFiles: "**/test-results.xml"
+        SameVersion_Node:
+          OSVmImage: "ubuntu-18.04"
+          TestType: "node"
+          CloudType: "AzureCloud"
+          DependencyVersion: same
+          TestResultsFiles: "**/test-results.xml"
         # MaxVersion_Browser:
         #   OSVmImage: "ubuntu-18.04"
         #   TestType: "browser"
