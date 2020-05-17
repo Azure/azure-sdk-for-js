@@ -179,6 +179,7 @@ export class AppendBlobClient extends BlobClient {
     appendBlock(body: HttpRequestBody, contentLength: number, options?: AppendBlobAppendBlockOptions): Promise<AppendBlobAppendBlockResponse>;
     appendBlockFromURL(sourceURL: string, sourceOffset: number, count: number, options?: AppendBlobAppendBlockFromURLOptions): Promise<AppendBlobAppendBlockFromUrlResponse>;
     create(options?: AppendBlobCreateOptions): Promise<AppendBlobCreateResponse>;
+    createIfNotExists(options?: AppendBlobCreateIfNotExistsOptions): Promise<AppendBlobCreateResponse | null>;
     withSnapshot(snapshot: string): AppendBlobClient;
 }
 
@@ -196,6 +197,15 @@ export interface AppendBlobCreateHeaders {
     lastModified?: Date;
     requestId?: string;
     version?: string;
+}
+
+// @public
+export interface AppendBlobCreateIfNotExistsOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    blobHTTPHeaders?: BlobHTTPHeaders;
+    customerProvidedKey?: CpkInfo;
+    encryptionScope?: string;
+    metadata?: Metadata;
 }
 
 // @public
@@ -361,6 +371,7 @@ export class BlobClient extends StorageClient {
     get containerName(): string;
     createSnapshot(options?: BlobCreateSnapshotOptions): Promise<BlobCreateSnapshotResponse>;
     delete(options?: BlobDeleteOptions): Promise<BlobDeleteResponse>;
+    deleteIfExists(options?: BlobDeleteOptions): Promise<BlobDeleteResponse | null>;
     download(offset?: number, count?: number, options?: BlobDownloadOptions): Promise<BlobDownloadResponseModel>;
     downloadToBuffer(offset?: number, count?: number, options?: BlobDownloadToBufferOptions): Promise<Buffer>;
     downloadToBuffer(buffer: Buffer, offset?: number, count?: number, options?: BlobDownloadToBufferOptions): Promise<Buffer>;
@@ -1236,8 +1247,10 @@ export class ContainerClient extends StorageClient {
     constructor(url: string, pipeline: Pipeline);
     get containerName(): string;
     create(options?: ContainerCreateOptions): Promise<ContainerCreateResponse>;
+    createIfNotExists(options?: ContainerCreateOptions): Promise<ContainerCreateResponse | null>;
     delete(options?: ContainerDeleteMethodOptions): Promise<ContainerDeleteResponse>;
     deleteBlob(blobName: string, options?: BlobDeleteOptions): Promise<BlobDeleteResponse>;
+    deleteIfExists(options?: ContainerDeleteMethodOptions): Promise<ContainerDeleteResponse | null>;
     exists(options?: ContainerExistsOptions): Promise<boolean>;
     getAccessPolicy(options?: ContainerGetAccessPolicyOptions): Promise<ContainerGetAccessPolicyResponse>;
     getAppendBlobClient(blobName: string): AppendBlobClient;
@@ -1791,6 +1804,7 @@ export class PageBlobClient extends BlobClient {
     constructor(url: string, pipeline: Pipeline);
     clearPages(offset?: number, count?: number, options?: PageBlobClearPagesOptions): Promise<PageBlobClearPagesResponse>;
     create(size: number, options?: PageBlobCreateOptions): Promise<PageBlobCreateResponse>;
+    createIfNotExists(size: number, options?: PageBlobCreateIfNotExistsOptions): Promise<PageBlobCreateResponse | null>;
     getPageRanges(offset?: number, count?: number, options?: PageBlobGetPageRangesOptions): Promise<PageBlobGetPageRangesResponse>;
     getPageRangesDiff(offset: number, count: number, prevSnapshot: string, options?: PageBlobGetPageRangesDiffOptions): Promise<PageBlobGetPageRangesDiffResponse>;
     getPageRangesDiffForManagedDisks(offset: number, count: number, prevSnapshotUrl: string, options?: PageBlobGetPageRangesDiffOptions): Promise<PageBlobGetPageRangesDiffResponse>;
@@ -1837,6 +1851,17 @@ export interface PageBlobCreateHeaders {
     lastModified?: Date;
     requestId?: string;
     version?: string;
+}
+
+// @public
+export interface PageBlobCreateIfNotExistsOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    blobHTTPHeaders?: BlobHTTPHeaders;
+    blobSequenceNumber?: number;
+    customerProvidedKey?: CpkInfo;
+    encryptionScope?: string;
+    metadata?: Metadata;
+    tier?: PremiumPageBlobTier | string;
 }
 
 // @public

@@ -64,6 +64,11 @@ describe("AppendBlobClient", () => {
     assert.equal(properties.metadata!.key2, options.metadata.key2);
   });
 
+  it("createIfNotExists", async () => {
+    await appendBlobClient.createIfNotExists();
+    await appendBlobClient.createIfNotExists();
+  });
+
   it("appendBlock", async () => {
     await appendBlobClient.create();
 

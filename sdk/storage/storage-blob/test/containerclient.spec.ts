@@ -65,6 +65,30 @@ describe("ContainerClient", () => {
     assert.ok(result.clientRequestId); // As default pipeline involves UniqueRequestIDPolicy
   });
 
+  it("createIfNotExists", async () => {
+    const res = await containerClient.createIfNotExists();
+    assert.equal(res, null);
+
+    const containerName2 = recorder.getUniqueName("container2");
+    const containerClient2 = blobServiceClient.getContainerClient(containerName2);
+    const createRes = await containerClient2.createIfNotExists();
+    assert.notEqual(createRes, null);
+    await containerClient2.delete();
+  });
+
+  it("deleteIfExists", async () => {
+    const containerName2 = recorder.getUniqueName("container2");
+    const containerClient2 = blobServiceClient.getContainerClient(containerName2);
+    await containerClient2.create();
+    const res = await containerClient2.deleteIfExists();
+    assert.notEqual(null, res);
+
+    const containerName3 = recorder.getUniqueName("container3");
+    const containerClient3 = blobServiceClient.getContainerClient(containerName3);
+    const res2 = await containerClient3.deleteIfExists();
+    assert.equal(null, res2);
+  });
+
   it("create with default parameters", (done) => {
     // create() with default parameters has been tested in beforeEach
     done();

@@ -173,6 +173,13 @@ describe("BlobClient", () => {
     await blobClient.delete();
   });
 
+  it("deleteIfExists", async () => {
+    const blobName2 = recorder.getUniqueName("blob2");
+    const blobClient2 = containerClient.getBlobClient(blobName2);
+    // delete a non-existent blob
+    await blobClient2.deleteIfExists();
+  });
+
   // The following code illustrates deleting a snapshot after creating one
   it("delete snapshot", async () => {
     const result = await blobClient.createSnapshot();

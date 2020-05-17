@@ -7,7 +7,7 @@ import {
   TokenCredential,
   isTokenCredential,
   getDefaultProxySettings,
-  URLBuilder
+  URLBuilder,
 } from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/api";
 import {
@@ -29,7 +29,7 @@ import {
   BlobAbortCopyFromURLResponse,
   BlobCopyFromURLResponse,
   BlobSetTierResponse,
-  ContainerEncryptionScope
+  ContainerEncryptionScope,
 } from "./generatedModels";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { BlobDownloadResponse } from "./BlobDownloadResponse";
@@ -41,19 +41,19 @@ import {
   ensureCpkIfSpecified,
   BlockBlobTier,
   PremiumPageBlobTier,
-  toAccessTier
+  toAccessTier,
 } from "./models";
 import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
 import {
   DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS,
   URLConstants,
   DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES,
-  DEFAULT_BLOCK_BUFFER_SIZE_BYTES
+  DEFAULT_BLOCK_BUFFER_SIZE_BYTES,
 } from "./utils/constants";
 import {
   setURLParameter,
   extractConnectionStringParts,
-  appendToURLPath
+  appendToURLPath,
 } from "./utils/utils.common";
 import { fsStat, readStreamToLocalFile, streamToBuffer } from "./utils/utils.node";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
@@ -64,7 +64,7 @@ import { HttpRequestBody } from "@azure/core-http";
 import {
   AppendBlobCreateResponse,
   AppendBlobAppendBlockFromUrlResponse,
-  AppendBlobAppendBlockResponse
+  AppendBlobAppendBlockResponse,
 } from "./generatedModels";
 import { AppendBlob } from "./generated/src/operations";
 import { AppendBlobRequestConditions } from "./models";
@@ -78,7 +78,7 @@ import {
   BlockBlobStageBlockFromURLResponse,
   BlockBlobCommitBlockListResponse,
   BlockBlobGetBlockListResponse,
-  BlockListType
+  BlockListType,
 } from "./generatedModels";
 import { BlockBlob } from "./generated/src/operations";
 import { Range } from "./Range";
@@ -86,7 +86,8 @@ import { generateBlockID } from "./utils/utils.common";
 import {
   BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES,
   BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES,
-  BLOCK_BLOB_MAX_BLOCKS
+  BLOCK_BLOB_MAX_BLOCKS,
+  ETagAny,
 } from "./utils/constants";
 import { BufferScheduler } from "./utils/BufferScheduler";
 import { Readable } from "stream";
@@ -98,19 +99,19 @@ import {
   PageBlobResizeResponse,
   SequenceNumberActionType,
   PageBlobUpdateSequenceNumberResponse,
-  PageBlobCopyIncrementalResponse
+  PageBlobCopyIncrementalResponse,
 } from "./generatedModels";
 import { PageBlob } from "./generated/src/operations";
 import { PageBlobRequestConditions } from "./models";
 import {
   PageBlobGetPageRangesDiffResponse,
   PageBlobGetPageRangesResponse,
-  rangeResponseFromModel
+  rangeResponseFromModel,
 } from "./PageBlobRangeResponse";
 import {
   BlobBeginCopyFromUrlPoller,
   BlobBeginCopyFromUrlPollState,
-  CopyPollerBlobClient
+  CopyPollerBlobClient,
 } from "./pollers/BlobStartCopyFromUrlPoller";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import { ContainerBreakLeaseOptionalParams } from "./generatedModels";
@@ -128,7 +129,7 @@ import {
   ContainerListBlobFlatSegmentResponse,
   ContainerListBlobHierarchySegmentResponse,
   BlobItem,
-  BlobPrefix
+  BlobPrefix,
 } from "./generatedModels";
 import { Container } from "./generated/src/operations";
 import { ETagNone } from "./utils/constants";
@@ -1020,7 +1021,7 @@ export class BlobClient extends StorageClient {
     super(url, pipeline);
     ({
       blobName: this._name,
-      containerName: this._containerName
+      containerName: this._containerName,
     } = this.getBlobAndContainerNamesFromUrl());
     this.blobContext = new StorageBlob(this.storageClientContext);
   }
@@ -1156,7 +1157,7 @@ export class BlobClient extends StorageClient {
         rangeGetContentCRC64: options.rangeGetContentCrc64,
         snapshot: options.snapshot,
         cpkInfo: options.customerProvidedKey,
-        spanOptions
+        spanOptions,
       });
 
       // Return browser response immediately
@@ -1191,16 +1192,16 @@ export class BlobClient extends StorageClient {
               ifMatch: options.conditions!.ifMatch || res.etag,
               ifModifiedSince: options.conditions!.ifModifiedSince,
               ifNoneMatch: options.conditions!.ifNoneMatch,
-              ifUnmodifiedSince: options.conditions!.ifUnmodifiedSince
+              ifUnmodifiedSince: options.conditions!.ifUnmodifiedSince,
             },
             range: rangeToString({
               count: offset + res.contentLength! - start,
-              offset: start
+              offset: start,
             }),
             rangeGetContentMD5: options.rangeGetContentMD5,
             rangeGetContentCRC64: options.rangeGetContentCrc64,
             snapshot: options.snapshot,
-            cpkInfo: options.customerProvidedKey
+            cpkInfo: options.customerProvidedKey,
           };
 
           // Debug purpose only
@@ -1213,7 +1214,7 @@ export class BlobClient extends StorageClient {
           return (
             await this.blobContext.download({
               abortSignal: options.abortSignal,
-              ...updatedOptions
+              ...updatedOptions,
             })
           ).readableStreamBody!;
         },
@@ -1222,13 +1223,13 @@ export class BlobClient extends StorageClient {
         {
           abortSignal: options.abortSignal,
           maxRetryRequests: options.maxRetryRequests,
-          onProgress: options.onProgress
+          onProgress: options.onProgress,
         }
       );
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1256,21 +1257,21 @@ export class BlobClient extends StorageClient {
         customerProvidedKey: options.customerProvidedKey,
         tracingOptions: {
           ...options.tracingOptions,
-          spanOptions
-        }
+          spanOptions,
+        },
       });
       return true;
     } catch (e) {
       if (e.statusCode === 404) {
         span.setStatus({
           code: CanonicalCode.NOT_FOUND,
-          message: "Expected exception when checking blob existence"
+          message: "Expected exception when checking blob existence",
         });
         return false;
       }
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1304,12 +1305,12 @@ export class BlobClient extends StorageClient {
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
         cpkInfo: options.customerProvidedKey,
-        spanOptions
+        spanOptions,
       });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1337,12 +1338,48 @@ export class BlobClient extends StorageClient {
         deleteSnapshots: options.deleteSnapshots,
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
-        spanOptions
+        spanOptions,
       });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: e.message,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Marks the specified blob or snapshot for deletion if it exists. The blob is later deleted
+   * during garbage collection. Note that in order to delete a blob, you must delete
+   * all of its snapshots. You can delete both at the same time with the Delete
+   * Blob operation.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-blob
+   *
+   * @param {BlobDeleteOptions} [options] Optional options to Blob Delete operation.
+   * @returns {Promise<BlobDeleteResponse | null>} Returns null if the blob/snapshot does not exist.
+   * @memberof BlobClient
+   */
+  public async deleteIfExists(options: BlobDeleteOptions = {}): Promise<BlobDeleteResponse | null> {
+    const { span, spanOptions } = createSpan("BlobClient-deleteIfExists", options.tracingOptions);
+    try {
+      return await this.delete({
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions },
+      });
+    } catch (e) {
+      if (e.details?.errorCode === "BlobNotFound") {
+        span.setStatus({
+          code: CanonicalCode.NOT_FOUND,
+          message: "Expected exception when deleting blob or snapshot only if it exists.",
+        });
+        return null;
+      }
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1365,12 +1402,12 @@ export class BlobClient extends StorageClient {
     try {
       return await this.blobContext.undelete({
         abortSignal: options.abortSignal,
-        spanOptions
+        spanOptions,
       });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1406,12 +1443,12 @@ export class BlobClient extends StorageClient {
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
         cpkInfo: options.customerProvidedKey,
-        spanOptions
+        spanOptions,
       });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1447,12 +1484,12 @@ export class BlobClient extends StorageClient {
         modifiedAccessConditions: options.conditions,
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
-        spanOptions
+        spanOptions,
       });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1493,12 +1530,12 @@ export class BlobClient extends StorageClient {
         modifiedAccessConditions: options.conditions,
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
-        spanOptions
+        spanOptions,
       });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1587,7 +1624,7 @@ export class BlobClient extends StorageClient {
     const client: CopyPollerBlobClient = {
       abortCopyFromURL: (...args) => this.abortCopyFromURL(...args),
       getProperties: (...args) => this.getProperties(...args),
-      startCopyFromURL: (...args) => this.startCopyFromURL(...args)
+      startCopyFromURL: (...args) => this.startCopyFromURL(...args),
     };
     const poller = new BlobBeginCopyFromUrlPoller({
       blobClient: client,
@@ -1595,7 +1632,7 @@ export class BlobClient extends StorageClient {
       intervalInMs: options.intervalInMs,
       onProgress: options.onProgress,
       resumeFrom: options.resumeFrom,
-      startCopyFromURLOptions: options
+      startCopyFromURLOptions: options,
     });
 
     // Trigger the startCopyFromURL call by calling poll.
@@ -1624,12 +1661,12 @@ export class BlobClient extends StorageClient {
       return await this.blobContext.abortCopyFromURL(copyId, {
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
-        spanOptions
+        spanOptions,
       });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1665,15 +1702,15 @@ export class BlobClient extends StorageClient {
           sourceIfMatch: options.sourceConditions.ifMatch,
           sourceIfModifiedSince: options.sourceConditions.ifModifiedSince,
           sourceIfNoneMatch: options.sourceConditions.ifNoneMatch,
-          sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince
+          sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince,
         },
         sourceContentMD5: options.sourceContentMD5,
-        spanOptions
+        spanOptions,
       });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1704,12 +1741,12 @@ export class BlobClient extends StorageClient {
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
         rehydratePriority: options.rehydratePriority,
-        spanOptions
+        spanOptions,
       });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1815,8 +1852,8 @@ export class BlobClient extends StorageClient {
           ...options,
           tracingOptions: {
             ...options.tracingOptions,
-            spanOptions
-          }
+            spanOptions,
+          },
         });
         count = response.contentLength! - offset;
         if (count < 0) {
@@ -1858,8 +1895,8 @@ export class BlobClient extends StorageClient {
             maxRetryRequests: options.maxRetryRequestsPerBlock,
             tracingOptions: {
               ...options.tracingOptions,
-              spanOptions
-            }
+              spanOptions,
+            },
           });
           const stream = response.readableStreamBody!;
           await streamToBuffer(stream, buffer!, off - offset, chunkEnd - offset);
@@ -1877,7 +1914,7 @@ export class BlobClient extends StorageClient {
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1914,8 +1951,8 @@ export class BlobClient extends StorageClient {
         ...options,
         tracingOptions: {
           ...options.tracingOptions,
-          spanOptions
-        }
+          spanOptions,
+        },
       });
       if (response.readableStreamBody) {
         await readStreamToLocalFile(response.readableStreamBody, filePath);
@@ -1927,7 +1964,7 @@ export class BlobClient extends StorageClient {
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2017,16 +2054,16 @@ export class BlobClient extends StorageClient {
           sourceIfMatch: options.sourceConditions.ifMatch,
           sourceIfModifiedSince: options.sourceConditions.ifModifiedSince,
           sourceIfNoneMatch: options.sourceConditions.ifNoneMatch,
-          sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince
+          sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince,
         },
         rehydratePriority: options.rehydratePriority,
         tier: toAccessTier(options.tier),
-        spanOptions
+        spanOptions,
       });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2087,6 +2124,54 @@ export interface AppendBlobCreateOptions extends CommonOptions {
    *
    * @type {string}
    * @memberof AppendBlobCreateOptions
+   */
+  encryptionScope?: string;
+}
+
+/**
+ * Options to configure {@link AppendBlobClient.createIfNotExists} operation.
+ *
+ * @export
+ * @interface AppendBlobCreateIfNotExistsOptions
+ */
+export interface AppendBlobCreateIfNotExistsOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof AppendBlobCreateIfNotExistsOptions
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * HTTP headers to set when creating append blobs.
+   *
+   * @type {BlobHTTPHeaders}
+   * @memberof AppendBlobCreateIfNotExistsOptions
+   */
+  blobHTTPHeaders?: BlobHTTPHeaders;
+  /**
+   * A collection of key-value string pair to associate with the blob when creating append blobs.
+   *
+   * @type {Metadata}
+   * @memberof AppendBlobCreateIfNotExistsOptions
+   */
+  metadata?: Metadata;
+  /**
+   * Customer Provided Key Info.
+   *
+   * @type {CpkInfo}
+   * @memberof AppendBlobCreateIfNotExistsOptions
+   */
+  customerProvidedKey?: CpkInfo;
+  /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   *
+   * @type {string}
+   * @memberof AppendBlobCreateIfNotExistsOptions
    */
   encryptionScope?: string;
 }
@@ -2442,12 +2527,53 @@ export class AppendBlobClient extends BlobClient {
         modifiedAccessConditions: options.conditions,
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
-        spanOptions
+        spanOptions,
       });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: e.message,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Creates a 0-length append blob. Call AppendBlock to append data to an append blob.
+   * If the blob with the same name already exists, the content of the existing blob will remain unchanged.
+   * @see https://docs.microsoft.com/rest/api/storageservices/put-blob
+   *
+   * @param {AppendBlobCreateIfNotExistsOptions} [options]
+   * @returns {Promise<AppendBlobCreateResponse | null>} If the blob does not already exist, an AppendBlobCreateResponse. Otherwise, null.
+   * @memberof AppendBlobClient
+   */
+  public async createIfNotExists(
+    options: AppendBlobCreateIfNotExistsOptions = {}
+  ): Promise<AppendBlobCreateResponse | null> {
+    const { span, spanOptions } = createSpan(
+      "AppendBlobClient-createIfNotExists",
+      options.tracingOptions
+    );
+    const conditions = { ifNoneMatch: ETagAny };
+    try {
+      return await this.create({
+        ...options,
+        conditions,
+        tracingOptions: { ...options!.tracingOptions, spanOptions },
+      });
+    } catch (e) {
+      if (e.details?.errorCode === "BlobAlreadyExists") {
+        span.setStatus({
+          code: CanonicalCode.ALREADY_EXISTS,
+          message: "Expected exception when creating blob only if it does not already exist.",
+        });
+        return null;
+      }
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2503,12 +2629,12 @@ export class AppendBlobClient extends BlobClient {
         transactionalContentCrc64: options.transactionalContentCrc64,
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
-        spanOptions
+        spanOptions,
       });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2559,16 +2685,16 @@ export class AppendBlobClient extends BlobClient {
           sourceIfMatch: options.sourceConditions.ifMatch,
           sourceIfModifiedSince: options.sourceConditions.ifModifiedSince,
           sourceIfNoneMatch: options.sourceConditions.ifNoneMatch,
-          sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince
+          sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince,
         },
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
-        spanOptions
+        spanOptions,
       });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -3269,12 +3395,12 @@ export class BlockBlobClient extends BlobClient {
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
         tier: toAccessTier(options.tier),
-        spanOptions
+        spanOptions,
       });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -3311,12 +3437,12 @@ export class BlockBlobClient extends BlobClient {
         transactionalContentCrc64: options.transactionalContentCrc64,
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
-        spanOptions
+        spanOptions,
       });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -3367,12 +3493,12 @@ export class BlockBlobClient extends BlobClient {
         sourceRange: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
-        spanOptions
+        spanOptions,
       });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -3415,13 +3541,13 @@ export class BlockBlobClient extends BlobClient {
           cpkInfo: options.customerProvidedKey,
           encryptionScope: options.encryptionScope,
           tier: toAccessTier(options.tier),
-          spanOptions
+          spanOptions,
         }
       );
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -3452,7 +3578,7 @@ export class BlockBlobClient extends BlobClient {
       const res = await this.blockBlobContext.getBlockList(listType, {
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
-        spanOptions
+        spanOptions,
       });
 
       if (!res.committedBlocks) {
@@ -3467,7 +3593,7 @@ export class BlockBlobClient extends BlobClient {
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -3512,7 +3638,7 @@ export class BlockBlobClient extends BlobClient {
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -3589,7 +3715,7 @@ export class BlockBlobClient extends BlobClient {
       if (size <= options.maxSingleShotSize) {
         return await this.upload(blobFactory(0, size), size, {
           ...options,
-          tracingOptions: { ...options!.tracingOptions, spanOptions }
+          tracingOptions: { ...options!.tracingOptions, spanOptions },
         });
       }
 
@@ -3618,14 +3744,14 @@ export class BlockBlobClient extends BlobClient {
               abortSignal: options.abortSignal,
               conditions: options.conditions,
               encryptionScope: options.encryptionScope,
-              tracingOptions: { ...options!.tracingOptions, spanOptions }
+              tracingOptions: { ...options!.tracingOptions, spanOptions },
             });
             // Update progress after block is successfully uploaded to server, in case of block trying
             // TODO: Hook with convenience layer progress event in finer level
             transferProgress += contentLength;
             if (options.onProgress) {
               options.onProgress!({
-                loadedBytes: transferProgress
+                loadedBytes: transferProgress,
               });
             }
           }
@@ -3635,12 +3761,12 @@ export class BlockBlobClient extends BlobClient {
 
       return this.commitBlockList(blockList, {
         ...options,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
+        tracingOptions: { ...options!.tracingOptions, spanOptions },
       });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -3674,7 +3800,7 @@ export class BlockBlobClient extends BlobClient {
           fs.createReadStream(filePath, {
             autoClose: true,
             end: count ? offset + count - 1 : Infinity,
-            start: offset
+            start: offset,
           }),
         size,
         { ...options, tracingOptions: { ...options!.tracingOptions, spanOptions } }
@@ -3682,7 +3808,7 @@ export class BlockBlobClient extends BlobClient {
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -3743,7 +3869,7 @@ export class BlockBlobClient extends BlobClient {
           await this.stageBlock(blockID, buffer, buffer.length, {
             conditions: options.conditions,
             encryptionScope: options.encryptionScope,
-            tracingOptions: { ...options!.tracingOptions, spanOptions }
+            tracingOptions: { ...options!.tracingOptions, spanOptions },
           });
 
           // Update progress after block is successfully uploaded to server, in case of block trying
@@ -3762,12 +3888,12 @@ export class BlockBlobClient extends BlobClient {
 
       return await this.commitBlockList(blockList, {
         ...options,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
+        tracingOptions: { ...options!.tracingOptions, spanOptions },
       });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -3847,7 +3973,7 @@ export class BlockBlobClient extends BlobClient {
       if (size <= options.maxSingleShotSize) {
         return await this.upload(() => streamFactory(0), size, {
           ...options,
-          tracingOptions: { ...options!.tracingOptions, spanOptions }
+          tracingOptions: { ...options!.tracingOptions, spanOptions },
         });
       }
 
@@ -3880,7 +4006,7 @@ export class BlockBlobClient extends BlobClient {
                 abortSignal: options.abortSignal,
                 conditions: options.conditions,
                 encryptionScope: options.encryptionScope,
-                tracingOptions: { ...options!.tracingOptions, spanOptions }
+                tracingOptions: { ...options!.tracingOptions, spanOptions },
               }
             );
             // Update progress after block is successfully uploaded to server, in case of block trying
@@ -3895,12 +4021,12 @@ export class BlockBlobClient extends BlobClient {
 
       return await this.commitBlockList(blockList, {
         ...options,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
+        tracingOptions: { ...options!.tracingOptions, spanOptions },
       });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -3976,6 +4102,70 @@ export interface PageBlobCreateOptions extends CommonOptions {
    *
    * @type {PremiumPageBlobTier | string}
    * @memberof PageBlobCreateOptions
+   */
+  tier?: PremiumPageBlobTier | string;
+}
+
+/**
+ * Options to configure the {@link PageBlobClient.createIfNotExists} operation.
+ *
+ * @export
+ * @interface PageBlobCreateIfNotExistsOptions
+ */
+export interface PageBlobCreateIfNotExistsOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof PageBlobCreateIfNotExistsOptions
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * A user-controlled value that can be used to track requests.
+   * The value must be between 0 and 2^63 - 1. The default value is 0.
+   *
+   * @type {number}
+   * @memberof PageBlobCreateIfNotExistsOptions
+   */
+  blobSequenceNumber?: number;
+  /**
+   * HTTP headers to set when creating a page blob.
+   *
+   * @type {BlobHTTPHeaders}
+   * @memberof PageBlobCreateIfNotExistsOptions
+   */
+  blobHTTPHeaders?: BlobHTTPHeaders;
+  /**
+   * A collection of key-value string pair to associate with the blob when creating append blobs.
+   *
+   * @type {Metadata}
+   * @memberof PageBlobCreateIfNotExistsOptions
+   */
+  metadata?: Metadata;
+  /**
+   * Customer Provided Key Info.
+   *
+   * @type {CpkInfo}
+   * @memberof PageBlobCreateIfNotExistsOptions
+   */
+  customerProvidedKey?: CpkInfo;
+  /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   *
+   * @type {string}
+   * @memberof PageBlobCreateIfNotExistsOptions
+   */
+  encryptionScope?: string;
+  /**
+   * Access tier.
+   * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
+   *
+   * @type {PremiumPageBlobTier | string}
+   * @memberof PageBlobCreateIfNotExistsOptions
    */
   tier?: PremiumPageBlobTier | string;
 }
@@ -4500,12 +4690,56 @@ export class PageBlobClient extends BlobClient {
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
         tier: toAccessTier(options.tier),
-        spanOptions
+        spanOptions,
       });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: e.message,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Creates a page blob of the specified length. Call uploadPages to upload data
+   * data to a page blob. If the blob with the same name already exists, the content
+   * of the existing blob will remain unchanged.
+   * @see https://docs.microsoft.com/rest/api/storageservices/put-blob
+   *
+   * @param {number} size size of the page blob.
+   * @param {PageBlobCreateIfNotExistsOptions} [options]
+   * @returns {Promise<PageBlobCreateResponse | null>} If the blob does not already exist, an PageBlobCreateResponse. Otherwise, null.
+   * @memberof PageBlobClient
+   */
+  public async createIfNotExists(
+    size: number,
+    options: PageBlobCreateIfNotExistsOptions = {}
+  ): Promise<PageBlobCreateResponse | null> {
+    const { span, spanOptions } = createSpan(
+      "PageBlobClient-createIfNotExists",
+      options.tracingOptions
+    );
+    try {
+      const conditions = { ifNoneMatch: ETagAny };
+      return await this.create(size, {
+        ...options,
+        conditions,
+        tracingOptions: { ...options!.tracingOptions, spanOptions },
+      });
+    } catch (e) {
+      if (e.details?.errorCode === "BlobAlreadyExists") {
+        span.setStatus({
+          code: CanonicalCode.ALREADY_EXISTS,
+          message: "Expected exception when creating blob only if it does not already exist.",
+        });
+        return null;
+      }
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message,
       });
       throw e;
     } finally {
@@ -4545,12 +4779,12 @@ export class PageBlobClient extends BlobClient {
         transactionalContentCrc64: options.transactionalContentCrc64,
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
-        spanOptions
+        spanOptions,
       });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -4602,17 +4836,17 @@ export class PageBlobClient extends BlobClient {
             sourceIfMatch: options.sourceConditions.ifMatch,
             sourceIfModifiedSince: options.sourceConditions.ifModifiedSince,
             sourceIfNoneMatch: options.sourceConditions.ifNoneMatch,
-            sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince
+            sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince,
           },
           cpkInfo: options.customerProvidedKey,
           encryptionScope: options.encryptionScope,
-          spanOptions
+          spanOptions,
         }
       );
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -4646,12 +4880,12 @@ export class PageBlobClient extends BlobClient {
         sequenceNumberAccessConditions: options.conditions,
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
-        spanOptions
+        spanOptions,
       });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -4686,13 +4920,13 @@ export class PageBlobClient extends BlobClient {
           leaseAccessConditions: options.conditions,
           modifiedAccessConditions: options.conditions,
           range: rangeToString({ offset, count }),
-          spanOptions
+          spanOptions,
         })
         .then(rangeResponseFromModel);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -4731,13 +4965,13 @@ export class PageBlobClient extends BlobClient {
           modifiedAccessConditions: options.conditions,
           prevsnapshot: prevSnapshot,
           range: rangeToString({ offset, count }),
-          spanOptions
+          spanOptions,
         })
         .then(rangeResponseFromModel);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -4776,13 +5010,13 @@ export class PageBlobClient extends BlobClient {
           modifiedAccessConditions: options.conditions,
           prevSnapshotUrl,
           range: rangeToString({ offset, count }),
-          spanOptions
+          spanOptions,
         })
         .then(rangeResponseFromModel);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -4811,12 +5045,12 @@ export class PageBlobClient extends BlobClient {
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
         encryptionScope: options.encryptionScope,
-        spanOptions
+        spanOptions,
       });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -4850,12 +5084,12 @@ export class PageBlobClient extends BlobClient {
         blobSequenceNumber: sequenceNumber,
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
-        spanOptions
+        spanOptions,
       });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -4889,12 +5123,12 @@ export class PageBlobClient extends BlobClient {
       return await this.pageBlobContext.copyIncremental(copySource, {
         abortSignal: options.abortSignal,
         modifiedAccessConditions: options.conditions,
-        spanOptions
+        spanOptions,
       });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -5078,12 +5312,12 @@ export class BlobLeaseClient {
         duration,
         modifiedAccessConditions: options.conditions,
         proposedLeaseId: this._leaseId,
-        spanOptions
+        spanOptions,
       });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -5114,7 +5348,7 @@ export class BlobLeaseClient {
         {
           abortSignal: options.abortSignal,
           modifiedAccessConditions: options.conditions,
-          spanOptions
+          spanOptions,
         }
       );
       this._leaseId = proposedLeaseId;
@@ -5122,7 +5356,7 @@ export class BlobLeaseClient {
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -5150,12 +5384,12 @@ export class BlobLeaseClient {
       return await this._containerOrBlobOperation.releaseLease(this._leaseId, {
         abortSignal: options.abortSignal,
         modifiedAccessConditions: options.conditions,
-        spanOptions
+        spanOptions,
       });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -5179,12 +5413,12 @@ export class BlobLeaseClient {
       return await this._containerOrBlobOperation.renewLease(this._leaseId, {
         abortSignal: options.abortSignal,
         modifiedAccessConditions: options.conditions,
-        spanOptions
+        spanOptions,
       });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -5215,13 +5449,13 @@ export class BlobLeaseClient {
         abortSignal: options.abortSignal,
         breakPeriod,
         modifiedAccessConditions: options.conditions,
-        spanOptions
+        spanOptions,
       };
       return await this._containerOrBlobOperation.breakLease(operationOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -5854,12 +6088,51 @@ export class ContainerClient extends StorageClient {
       // this will filter out unwanted properties from the response object into result object
       return await this.containerContext.create({
         ...options,
-        spanOptions
+        spanOptions,
       });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: e.message,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Creates a new container under the specified account. If the container with
+   * the same name already exists, it is not changed.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-container
+   *
+   * @param {ContainerCreateOptions} [options]
+   * @returns {Promise<ContainerCreateResponse | null>} If the container with the same name does not already exist, a ContainerCreateResponse. Otherwise, null.
+   * @memberof ContainerClient
+   */
+  public async createIfNotExists(
+    options: ContainerCreateOptions = {}
+  ): Promise<ContainerCreateResponse | null> {
+    const { span, spanOptions } = createSpan(
+      "ContainerClient-createIfNotExists",
+      options.tracingOptions
+    );
+    try {
+      return await this.create({
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions },
+      });
+    } catch (e) {
+      if (e.details?.errorCode === "ContainerAlreadyExists") {
+        span.setStatus({
+          code: CanonicalCode.ALREADY_EXISTS,
+          message: "Expected exception when creating container only if it does not already exist.",
+        });
+        return null;
+      }
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message,
       });
       throw e;
     } finally {
@@ -5883,20 +6156,20 @@ export class ContainerClient extends StorageClient {
     try {
       await this.getProperties({
         abortSignal: options.abortSignal,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
+        tracingOptions: { ...options!.tracingOptions, spanOptions },
       });
       return true;
     } catch (e) {
       if (e.statusCode === 404) {
         span.setStatus({
           code: CanonicalCode.NOT_FOUND,
-          message: "Expected exception when checking container existence"
+          message: "Expected exception when checking container existence",
         });
         return false;
       }
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -5995,12 +6268,12 @@ export class ContainerClient extends StorageClient {
       return await this.containerContext.getProperties({
         abortSignal: options.abortSignal,
         ...options.conditions,
-        spanOptions
+        spanOptions,
       });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -6041,12 +6314,52 @@ export class ContainerClient extends StorageClient {
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
-        spanOptions
+        spanOptions,
       });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: e.message,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Marks the specified container for deletion if it exists. The container and any blobs
+   * contained within it are later deleted during garbage collection.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-container
+   *
+   * @param {ContainerDeleteMethodOptions} [options] Options to Container Delete operation.
+   * @returns {Promise<ContainerDeleteResponse | null>} Returns null if the container does not exist.
+   * @memberof ContainerClient
+   */
+  public async deleteIfExists(
+    options: ContainerDeleteMethodOptions = {}
+  ): Promise<ContainerDeleteResponse | null> {
+    const { span, spanOptions } = createSpan(
+      "ContainerClient-deleteIfExists",
+      options.tracingOptions
+    );
+
+    try {
+      return await this.delete({
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions },
+      });
+    } catch (e) {
+      if (e.details?.errorCode === "ContainerNotFound") {
+        span.setStatus({
+          code: CanonicalCode.NOT_FOUND,
+          message: "Expected exception when deleting container only if it exists.",
+        });
+        return null;
+      }
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message,
       });
       throw e;
     } finally {
@@ -6095,12 +6408,12 @@ export class ContainerClient extends StorageClient {
         leaseAccessConditions: options.conditions,
         metadata,
         modifiedAccessConditions: options.conditions,
-        spanOptions
+        spanOptions,
       });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -6137,7 +6450,7 @@ export class ContainerClient extends StorageClient {
       const response = await this.containerContext.getAccessPolicy({
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
-        spanOptions
+        spanOptions,
       });
 
       const res: ContainerGetAccessPolicyResponse = {
@@ -6150,14 +6463,14 @@ export class ContainerClient extends StorageClient {
         requestId: response.requestId,
         clientRequestId: response.clientRequestId,
         signedIdentifiers: [],
-        version: response.version
+        version: response.version,
       };
 
       for (const identifier of response) {
         let accessPolicy: any = undefined;
         if (identifier.accessPolicy) {
           accessPolicy = {
-            permissions: identifier.accessPolicy.permissions
+            permissions: identifier.accessPolicy.permissions,
           };
 
           if (identifier.accessPolicy.expiresOn) {
@@ -6171,7 +6484,7 @@ export class ContainerClient extends StorageClient {
 
         res.signedIdentifiers.push({
           accessPolicy,
-          id: identifier.id
+          id: identifier.id,
         });
       }
 
@@ -6179,7 +6492,7 @@ export class ContainerClient extends StorageClient {
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -6227,9 +6540,9 @@ export class ContainerClient extends StorageClient {
             permissions: identifier.accessPolicy.permissions,
             startsOn: identifier.accessPolicy.startsOn
               ? truncatedISO8061Date(identifier.accessPolicy.startsOn)
-              : ""
+              : "",
           },
-          id: identifier.id
+          id: identifier.id,
         });
       }
 
@@ -6239,12 +6552,12 @@ export class ContainerClient extends StorageClient {
         containerAcl: acl,
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
-        spanOptions
+        spanOptions,
       });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -6300,16 +6613,16 @@ export class ContainerClient extends StorageClient {
       const blockBlobClient = this.getBlockBlobClient(blobName);
       const response = await blockBlobClient.upload(body, contentLength, {
         ...options,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
+        tracingOptions: { ...options!.tracingOptions, spanOptions },
       });
       return {
         blockBlobClient,
-        response
+        response,
       };
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -6338,12 +6651,12 @@ export class ContainerClient extends StorageClient {
       const blobClient = this.getBlobClient(blobName);
       return await blobClient.delete({
         ...options,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
+        tracingOptions: { ...options!.tracingOptions, spanOptions },
       });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -6375,12 +6688,12 @@ export class ContainerClient extends StorageClient {
       return await this.containerContext.listBlobFlatSegment({
         marker,
         ...options,
-        spanOptions
+        spanOptions,
       });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -6414,12 +6727,12 @@ export class ContainerClient extends StorageClient {
       return await this.containerContext.listBlobHierarchySegment(delimiter, {
         marker,
         ...options,
-        spanOptions
+        spanOptions,
       });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -6569,7 +6882,7 @@ export class ContainerClient extends StorageClient {
 
     const updatedOptions: ContainerListBlobsSegmentOptions = {
       ...options,
-      ...(include.length > 0 ? { include: include } : {})
+      ...(include.length > 0 ? { include: include } : {}),
     };
 
     // AsyncIterableIterator to iterate over blobs
@@ -6593,9 +6906,9 @@ export class ContainerClient extends StorageClient {
       byPage: (settings: PageSettings = {}) => {
         return this.listSegments(settings.continuationToken, {
           maxPageSize: settings.maxPageSize,
-          ...updatedOptions
+          ...updatedOptions,
         });
-      }
+      },
     };
   }
 
@@ -6774,7 +7087,7 @@ export class ContainerClient extends StorageClient {
 
     const updatedOptions: ContainerListBlobsSegmentOptions = {
       ...options,
-      ...(include.length > 0 ? { include: include } : {})
+      ...(include.length > 0 ? { include: include } : {}),
     };
     // AsyncIterableIterator to iterate over blob prefixes and blobs
     const iter = this.listItemsByHierarchy(delimiter, updatedOptions);
@@ -6797,9 +7110,9 @@ export class ContainerClient extends StorageClient {
       byPage: (settings: PageSettings = {}) => {
         return this.listHierarchySegments(delimiter, settings.continuationToken, {
           maxPageSize: settings.maxPageSize,
-          ...updatedOptions
+          ...updatedOptions,
         });
-      }
+      },
     };
   }
 

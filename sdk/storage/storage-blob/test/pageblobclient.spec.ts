@@ -98,6 +98,11 @@ describe("PageBlobClient", () => {
     }
   });
 
+  it("createIfNotExists", async () => {
+    await pageBlobClient.createIfNotExists(512);
+    await pageBlobClient.createIfNotExists(512);
+  });
+
   it("uploadPages", async () => {
     await pageBlobClient.create(1024);
 
