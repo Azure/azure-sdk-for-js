@@ -208,6 +208,11 @@ export type DirectoryDeleteResponse = DirectoryDeleteHeaders & {
 };
 
 // @public
+export interface DirectoryExistsOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+}
+
+// @public
 export interface DirectoryForceCloseHandlesHeaders {
     date?: Date;
     // (undocumented)
@@ -578,6 +583,11 @@ export interface FileDownloadToBufferOptions extends CommonOptions {
     maxRetryRequestsPerRange?: number;
     onProgress?: (progress: TransferProgressEvent) => void;
     rangeSize?: number;
+}
+
+// @public
+export interface FileExistsOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
 }
 
 // @public
@@ -1286,11 +1296,14 @@ export class ShareClient extends StorageClient {
         fileClient: ShareFileClient;
         fileCreateResponse: FileCreateResponse;
     }>;
+    createIfNotExists(options?: ShareCreateOptions): Promise<ShareCreateResponse | null>;
     createPermission(filePermission: string, options?: ShareCreatePermissionOptions): Promise<ShareCreatePermissionResponse>;
     createSnapshot(options?: ShareCreateSnapshotOptions): Promise<ShareCreateSnapshotResponse>;
     delete(options?: ShareDeleteMethodOptions): Promise<ShareDeleteResponse>;
     deleteDirectory(directoryName: string, options?: DirectoryDeleteOptions): Promise<DirectoryDeleteResponse>;
     deleteFile(fileName: string, options?: FileDeleteOptions): Promise<FileDeleteResponse>;
+    deletIfExists(options?: ShareDeleteMethodOptions): Promise<ShareDeleteResponse | null>;
+    exists(options?: ShareExistsOptions): Promise<boolean>;
     getAccessPolicy(options?: ShareGetAccessPolicyOptions): Promise<ShareGetAccessPolicyResponse>;
     getDirectoryClient(directoryName: string): ShareDirectoryClient;
     getPermission(filePermissionKey: string, options?: ShareGetPermissionOptions): Promise<ShareGetPermissionResponse>;
@@ -1411,13 +1424,16 @@ export class ShareDirectoryClient extends StorageClient {
         fileClient: ShareFileClient;
         fileCreateResponse: FileCreateResponse;
     }>;
+    createIfNotExists(options?: DirectoryCreateOptions): Promise<DirectoryCreateResponse | null>;
     createSubdirectory(directoryName: string, options?: DirectoryCreateOptions): Promise<{
         directoryClient: ShareDirectoryClient;
         directoryCreateResponse: DirectoryCreateResponse;
     }>;
     delete(options?: DirectoryDeleteOptions): Promise<DirectoryDeleteResponse>;
     deleteFile(fileName: string, options?: FileDeleteOptions): Promise<FileDeleteResponse>;
+    deleteIfExists(options?: DirectoryDeleteOptions): Promise<DirectoryDeleteResponse | null>;
     deleteSubdirectory(directoryName: string, options?: DirectoryDeleteOptions): Promise<DirectoryDeleteResponse>;
+    exists(options?: DirectoryExistsOptions): Promise<boolean>;
     forceCloseAllHandles(options?: DirectoryForceCloseHandlesSegmentOptions): Promise<CloseHandlesInfo>;
     forceCloseHandle(handleId: string, options?: DirectoryForceCloseHandlesOptions): Promise<DirectoryForceCloseHandlesResponse>;
     getDirectoryClient(subDirectoryName: string): ShareDirectoryClient;
@@ -1437,6 +1453,11 @@ export class ShareDirectoryClient extends StorageClient {
     }
 
 // @public
+export interface ShareExistsOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+}
+
+// @public
 export class ShareFileClient extends StorageClient {
     constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
@@ -1444,10 +1465,12 @@ export class ShareFileClient extends StorageClient {
     clearRange(offset: number, contentLength: number, options?: FileClearRangeOptions): Promise<FileUploadRangeResponse>;
     create(size: number, options?: FileCreateOptions): Promise<FileCreateResponse>;
     delete(options?: FileDeleteOptions): Promise<FileDeleteResponse>;
+    deleteIfExists(options?: FileDeleteOptions): Promise<FileDeleteResponse | null>;
     download(offset?: number, count?: number, options?: FileDownloadOptions): Promise<FileDownloadResponseModel>;
     downloadToBuffer(buffer: Buffer, offset?: number, count?: number, options?: FileDownloadToBufferOptions): Promise<Buffer>;
     downloadToBuffer(offset?: number, count?: number, options?: FileDownloadToBufferOptions): Promise<Buffer>;
     downloadToFile(filePath: string, offset?: number, count?: number, options?: FileDownloadOptions): Promise<FileDownloadResponseModel>;
+    exists(options?: FileExistsOptions): Promise<boolean>;
     forceCloseAllHandles(options?: FileForceCloseHandlesOptions): Promise<CloseHandlesInfo>;
     forceCloseHandle(handleId: string, options?: FileForceCloseHandlesOptions): Promise<FileForceCloseHandlesResponse>;
     getProperties(options?: FileGetPropertiesOptions): Promise<FileGetPropertiesResponse>;

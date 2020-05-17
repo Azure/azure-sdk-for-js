@@ -40,7 +40,7 @@ describe("FileClient", () => {
   fullFileAttributes.notContentIndexed = true;
   fullFileAttributes.noScrubData = true;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     recorder = record(this, recorderEnvSetup);
     const serviceClient = getBSU();
     shareName = recorder.getUniqueName("share");
@@ -56,7 +56,7 @@ describe("FileClient", () => {
     fileClient = dirClient.getFileClient(fileName);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     if (!this.currentTest?.isPending()) {
       await shareClient.delete();
       recorder.stop();
@@ -292,6 +292,12 @@ describe("FileClient", () => {
     await fileClient.deleteIfExists();
     await fileClient.create(content.length);
     await fileClient.deleteIfExists();
+  });
+
+  it("exists", async () => {
+    assert.ok(!(await fileClient.exists()));
+    await fileClient.create(content.length);
+    assert.ok(await fileClient.exists());
   });
 
   it("startCopyFromURL", async () => {
@@ -539,7 +545,7 @@ describe("FileClient", () => {
     await fileClient.create(content.length);
     await fileClient.uploadRange(content, 0, content.length);
     const result = await fileClient.download(0, undefined, {
-      onProgress: () => {}
+      onProgress: () => { }
     });
     assert.deepStrictEqual(await bodyToString(result), content);
   });
@@ -576,7 +582,7 @@ describe("FileClient", () => {
           const rs = result.readableStreamBody!;
 
           // tslint:disable-next-line:no-empty
-          rs.on("data", () => {});
+          rs.on("data", () => { });
           rs.on("end", resolve);
           rs.on("error", reject);
         } else {

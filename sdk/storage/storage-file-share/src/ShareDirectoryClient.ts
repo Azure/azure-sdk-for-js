@@ -54,7 +54,7 @@ export interface DirectoryCreateOptions extends FileAndDirectoryCreateCommonOpti
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
+   * @memberof DirectoryCreateOptions
    */
   abortSignal?: AbortSignalLike;
   /**
@@ -95,7 +95,7 @@ interface DirectoryListFilesAndDirectoriesSegmentOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
+   * @memberof DirectoryListFilesAndDirectoriesSegmentOptions
    */
   abortSignal?: AbortSignalLike;
   /**
@@ -155,7 +155,24 @@ export interface DirectoryDeleteOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
+   * @memberof DirectoryDeleteOptions
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
+ * Options to configure the {@link ShareDirectoryClient.exists} operation.
+ *
+ * @export
+ * @interface DirectoryExistsOptions
+ */
+export interface DirectoryExistsOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof DirectoryExistsOptions
    */
   abortSignal?: AbortSignalLike;
 }
@@ -172,7 +189,7 @@ export interface DirectoryGetPropertiesOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
+   * @memberof DirectoryGetPropertiesOptions
    */
   abortSignal?: AbortSignalLike;
 }
@@ -189,7 +206,7 @@ export interface DirectorySetMetadataOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
+   * @memberof DirectorySetMetadataOptions
    */
   abortSignal?: AbortSignalLike;
 }
@@ -782,6 +799,46 @@ export class ShareDirectoryClient extends StorageClient {
       appendToURLPath(this.url, encodeURIComponent(fileName)),
       this.pipeline
     );
+  }
+
+  /**
+   * Returns true if the specified directory exists; false otherwise.
+   *
+   * NOTE: use this function with care since an existing directory might be deleted by other clients or
+   * applications. Vice versa new directories might be added by other clients or applications after this
+   * function completes.
+   *
+   * @param {DirectoryExistsOptions} [options] options to Exists operation.
+   * @returns {Promise<boolean>}
+   * @memberof ShareDirectoryClient
+   */
+  public async exists(options: DirectoryExistsOptions = {}): Promise<boolean> {
+    const { span, spanOptions } = createSpan("ShareDirectoryClient-exists", options.tracingOptions);
+    try {
+      await this.getProperties({
+        abortSignal: options.abortSignal,
+        tracingOptions: {
+          ...options.tracingOptions,
+          spanOptions
+        }
+      });
+      return true;
+    } catch (e) {
+      if (e.statusCode === 404) {
+        span.setStatus({
+          code: CanonicalCode.NOT_FOUND,
+          message: "Expected exception when checking directory existence"
+        });
+        return false;
+      }
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**

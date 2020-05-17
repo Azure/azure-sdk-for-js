@@ -12,7 +12,7 @@ describe("ShareClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     recorder = record(this, recorderEnvSetup);
     serviceClient = getBSU();
     shareName = recorder.getUniqueName("share");
@@ -20,7 +20,7 @@ describe("ShareClient", () => {
     await shareClient.create();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await shareClient.delete();
     recorder.stop();
   });
@@ -35,6 +35,13 @@ describe("ShareClient", () => {
 
     const result = await shareClient.getProperties();
     assert.deepEqual(result.metadata, metadata);
+  });
+
+  it("exists", async () => {
+    assert.ok(await shareClient.exists());
+
+    const shareClient2 = serviceClient.getShareClient(recorder.getUniqueName(shareName));
+    assert.ok(!(await shareClient2.exists()));
   });
 
   it("getProperties", async () => {

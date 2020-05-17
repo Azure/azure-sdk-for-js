@@ -157,6 +157,23 @@ export interface ShareGetAccessPolicyOptions extends CommonOptions {
 }
 
 /**
+ * Options to configure the {@link ShareClient.exists} operation.
+ *
+ * @export
+ * @interface ShareExistsOptions
+ */
+export interface ShareExistsOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof ShareExistsOptions
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
  * Options to configure the {@link ShareClient.getProperties} operation.
  *
  * @export
@@ -712,6 +729,43 @@ export class ShareClient extends StorageClient {
         tracingOptions: { ...options.tracingOptions, spanOptions }
       });
     } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Returns true if the Azrue share resource represented by this client exists; false otherwise.
+   *
+   * NOTE: use this function with care since an existing share might be deleted by other clients or
+   * applications. Vice versa new shares might be added by other clients or applications after this
+   * function completes.
+   *
+   * @param {ShareExistsOptions} [options] options to Exists operation.
+   * @returns {Promise<boolean>}
+   * @memberof ShareClient
+   */
+  public async exists(options: ShareExistsOptions = {}): Promise<boolean> {
+    const { span, spanOptions } = createSpan("ShareClient-exists", options.tracingOptions);
+    try {
+      await this.getProperties({
+        abortSignal: options.abortSignal,
+        tracingOptions: { ...options.tracingOptions, spanOptions }
+      });
+      return true;
+    } catch (e) {
+      if (e.statusCode === 404) {
+        span.setStatus({
+          code: CanonicalCode.NOT_FOUND,
+          message: "Expected exception when checking share existence"
+        });
+        return false;
+      }
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
         message: e.message

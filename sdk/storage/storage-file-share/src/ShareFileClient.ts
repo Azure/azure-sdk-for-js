@@ -76,7 +76,7 @@ export interface FileCreateOptions extends FileAndDirectoryCreateCommonOptions, 
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
+   * @memberof FileCreateOptions
    */
   abortSignal?: AbortSignalLike;
   /**
@@ -170,7 +170,7 @@ export interface FileDownloadOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
+   * @memberof FileDownloadOptions
    */
   abortSignal?: AbortSignalLike;
   /**
@@ -227,7 +227,7 @@ export interface FileUploadRangeOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
+   * @memberof FileUploadRangeOptions
    */
   abortSignal?: AbortSignalLike;
   /**
@@ -331,7 +331,7 @@ export interface FileGetRangeListOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
+   * @memberof FileGetRangeListOptions
    */
   abortSignal?: AbortSignalLike;
   /**
@@ -351,6 +351,23 @@ export interface FileGetRangeListOptions extends CommonOptions {
 }
 
 /**
+ * Options to configure the {@link ShareFileClient.exists} operation.
+ *
+ * @export
+ * @interface FileExistsOptions
+ */
+export interface FileExistsOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof FileExistsOptions
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
  * Options to configure the {@link ShareFileClient.getProperties} operation.
  *
  * @export
@@ -362,7 +379,7 @@ export interface FileGetPropertiesOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
+   * @memberof FileGetPropertiesOptions
    */
   abortSignal?: AbortSignalLike;
   /**
@@ -1181,6 +1198,46 @@ export class ShareFileClient extends StorageClient {
         }
       );
     } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Returns true if the specified file exists; false otherwise.
+   *
+   * NOTE: use this function with care since an existing file might be deleted by other clients or
+   * applications. Vice versa new files might be added by other clients or applications after this
+   * function completes.
+   *
+   * @param {FileExistsOptions} [options] options to Exists operation.
+   * @returns {Promise<boolean>}
+   * @memberof ShareFileClient
+   */
+  public async exists(options: FileExistsOptions = {}): Promise<boolean> {
+    const { span, spanOptions } = createSpan("ShareFileClient-exists", options.tracingOptions);
+    try {
+      await this.getProperties({
+        abortSignal: options.abortSignal,
+        tracingOptions: {
+          ...options.tracingOptions,
+          spanOptions
+        }
+      });
+      return true;
+    } catch (e) {
+      if (e.statusCode === 404) {
+        span.setStatus({
+          code: CanonicalCode.NOT_FOUND,
+          message: "Expected exception when checking file existence"
+        });
+        return false;
+      }
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
         message: e.message

@@ -28,7 +28,7 @@ describe("DirectoryClient", () => {
   fullDirAttributes.notContentIndexed = true;
   fullDirAttributes.noScrubData = true;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     recorder = record(this, recorderEnvSetup);
     const serviceClient = getBSU();
     shareName = recorder.getUniqueName("share");
@@ -49,7 +49,7 @@ describe("DirectoryClient", () => {
     assert.ok(defaultDirCreateResp.filePermissionKey!);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await shareClient.delete();
     recorder.stop();
   });
@@ -166,6 +166,12 @@ describe("DirectoryClient", () => {
 
     await dirClient2.create();
     await dirClient2.deleteIfExists();
+  });
+
+  it("exists", async () => {
+    assert.ok(await dirClient.exists());
+    const dirClient2 = shareClient.getDirectoryClient(recorder.getUniqueName(dirName));
+    assert.ok(!(await dirClient2.exists()));
   });
 
   it("setProperties with default parameters", async () => {
