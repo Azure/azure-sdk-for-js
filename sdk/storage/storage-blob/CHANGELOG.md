@@ -2,7 +2,8 @@
 
 ## 12.2.0 (unreleased)
 
-- Added CreateIfNotExists and DeleteIfNotExists convenience methods for Blobs and Containers.
+- Added convenience method `createIfNotExists` for `ContainerClient`, `AppendBlobClient` and `PageBlobClient`.
+- Added convenience method `deleteIfExists` for `ContainerClient` and `BlobClients`.
 
 ## 12.1.2 (2020.05)
 

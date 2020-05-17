@@ -2,8 +2,8 @@
 
 ## 12.2.0 (unreleased)
 
-- Added `DeleteIfExists()` to `ShareClient`, `ShareDirectoryClient`, and `ShareFileClient`.
-- Added `CreateIfNotExists()` to `ShareClient` and `ShareDirectoryClient`.
+- Added `deleteIfExists()` to `ShareClient`, `ShareDirectoryClient`, and `ShareFileClient`.
+- Added `createIfNotExists()` to `ShareClient` and `ShareDirectoryClient`.
 
 ## 12.1.2 (2020.05)
 

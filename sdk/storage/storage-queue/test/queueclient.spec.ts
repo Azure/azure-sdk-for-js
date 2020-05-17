@@ -15,7 +15,7 @@ describe("QueueClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     recorder = record(this, recorderEnvSetup);
     queueServiceClient = getQSU();
     queueName = recorder.getUniqueName("queue");
@@ -23,7 +23,7 @@ describe("QueueClient", () => {
     await queueClient.create();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await queueClient.delete();
     recorder.stop();
   });
@@ -94,6 +94,30 @@ describe("QueueClient", () => {
       "Unable to extract queueName with provided information.",
       "Unexpected error caught: " + error
     );
+  });
+
+  it("exists", async () => {
+    assert.ok(await queueClient.exists());
+
+    const qClient = queueServiceClient.getQueueClient(recorder.getUniqueName(queueName));
+    assert.ok(!(await qClient.exists()));
+  });
+
+  it("createIfNotExists", async () => {
+    const res = await queueClient.createIfNotExists();
+    assert.equal(null, res);
+
+    const metadata = { key: "value" };
+    const res2 = await queueClient.createIfNotExists({ metadata });
+    assert.equal(null, res2);
+  });
+
+  it("deleteIfExists", async () => {
+    const qClient = queueServiceClient.getQueueClient(recorder.getUniqueName(queueName));
+    await qClient.deleteIfExists();
+
+    await qClient.create();
+    await qClient.deleteIfExists();
   });
 
   it("delete", (done) => {

@@ -241,24 +241,24 @@ export interface SignedIdentifier {
 export declare type ShareGetAccessPolicyResponse = {
   signedIdentifiers: SignedIdentifier[];
 } & ShareGetAccessPolicyHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
     /**
-     * The underlying HTTP response.
+     * The parsed HTTP response headers.
      */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ShareGetAccessPolicyHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SignedIdentifierModel[];
-    };
+    parsedHeaders: ShareGetAccessPolicyHeaders;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SignedIdentifierModel[];
   };
+};
 
 /**
  * Options to configure the {@link ShareClient.createSnapshot} operation.
@@ -529,7 +529,7 @@ export class ShareClient extends StorageClient {
       if (e.details?.errorCode === "ShareAlreadyExists") {
         span.setStatus({
           code: CanonicalCode.ALREADY_EXISTS,
-          message: "Expected exception when creating share only if it doesn't already exist."
+          message: "Expected exception when creating a share only if it doesn't already exist."
         });
         return null;
       }
@@ -804,7 +804,7 @@ export class ShareClient extends StorageClient {
       if (e.details?.errorCode === "ShareNotFound") {
         span.setStatus({
           code: CanonicalCode.NOT_FOUND,
-          message: "Expected exception when deleting share only if it exists."
+          message: "Expected exception when deleting a share only if it exists."
         });
         return null;
       }

@@ -68,7 +68,7 @@ export interface DirectoryCreateOptions extends FileAndDirectoryCreateCommonOpti
 
 export interface DirectoryProperties
   extends FileAndDirectorySetPropertiesCommonOptions,
-    CommonOptions {
+  CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -519,7 +519,7 @@ export class ShareDirectoryClient extends StorageClient {
       if (e.details?.errorCode === "ResourceAlreadyExists") {
         span.setStatus({
           code: CanonicalCode.ALREADY_EXISTS,
-          message: "Expected exception when creating directory only if it does not already exist."
+          message: "Expected exception when creating a directory only if it does not already exist."
         });
         return null;
       }
@@ -869,7 +869,7 @@ export class ShareDirectoryClient extends StorageClient {
       if (e.details?.errorCode === "ResourceNotFound") {
         span.setStatus({
           code: CanonicalCode.NOT_FOUND,
-          message: "Expected exception when deleting directory only if it exists."
+          message: "Expected exception when deleting a directory only if it exists."
         });
         return null;
       }

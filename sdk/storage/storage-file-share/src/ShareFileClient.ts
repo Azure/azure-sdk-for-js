@@ -1338,7 +1338,7 @@ export class ShareFileClient extends StorageClient {
       if (e.details?.errorCode === "ResourceNotFound") {
         span.setStatus({
           code: CanonicalCode.NOT_FOUND,
-          message: "Expected exception when deleting file only if it exists."
+          message: "Expected exception when deleting a file only if it exists."
         });
         return null;
       }

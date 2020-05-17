@@ -1373,7 +1373,7 @@ export class BlobClient extends StorageClient {
       if (e.details?.errorCode === "BlobNotFound") {
         span.setStatus({
           code: CanonicalCode.NOT_FOUND,
-          message: "Expected exception when deleting blob or snapshot only if it exists.",
+          message: "Expected exception when deleting a blob or snapshot only if it exists.",
         });
         return null;
       }
@@ -2567,7 +2567,7 @@ export class AppendBlobClient extends BlobClient {
       if (e.details?.errorCode === "BlobAlreadyExists") {
         span.setStatus({
           code: CanonicalCode.ALREADY_EXISTS,
-          message: "Expected exception when creating blob only if it does not already exist.",
+          message: "Expected exception when creating a blob only if it does not already exist.",
         });
         return null;
       }
@@ -4733,7 +4733,7 @@ export class PageBlobClient extends BlobClient {
       if (e.details?.errorCode === "BlobAlreadyExists") {
         span.setStatus({
           code: CanonicalCode.ALREADY_EXISTS,
-          message: "Expected exception when creating blob only if it does not already exist.",
+          message: "Expected exception when creating a blob only if it does not already exist.",
         });
         return null;
       }
@@ -6126,7 +6126,8 @@ export class ContainerClient extends StorageClient {
       if (e.details?.errorCode === "ContainerAlreadyExists") {
         span.setStatus({
           code: CanonicalCode.ALREADY_EXISTS,
-          message: "Expected exception when creating container only if it does not already exist.",
+          message:
+            "Expected exception when creating a container only if it does not already exist.",
         });
         return null;
       }
@@ -6353,7 +6354,7 @@ export class ContainerClient extends StorageClient {
       if (e.details?.errorCode === "ContainerNotFound") {
         span.setStatus({
           code: CanonicalCode.NOT_FOUND,
-          message: "Expected exception when deleting container only if it exists.",
+          message: "Expected exception when deleting a container only if it exists.",
         });
         return null;
       }
