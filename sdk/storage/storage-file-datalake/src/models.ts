@@ -260,12 +260,12 @@ export interface SignedIdentifier<T> {
 export type FileSystemGetAccessPolicyResponse = {
   signedIdentifiers: SignedIdentifier<AccessPolicy>[];
 } & FileSystemGetAccessPolicyHeaders & {
-    _response: HttpResponse & {
-      parsedHeaders: FileSystemGetAccessPolicyHeaders;
-      bodyAsText: string;
-      parsedBody: SignedIdentifier<RawAccessPolicy>[];
-    };
+  _response: HttpResponse & {
+    parsedHeaders: FileSystemGetAccessPolicyHeaders;
+    bodyAsText: string;
+    parsedBody: SignedIdentifier<RawAccessPolicy>[];
   };
+};
 
 export interface FileSystemSetAccessPolicyOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
@@ -352,7 +352,7 @@ export interface Metadata {
 
 export interface DataLakeRequestConditions
   extends ModifiedAccessConditions,
-    LeaseAccessConditions {}
+  LeaseAccessConditions { }
 
 export interface RolePermissions {
   read: boolean;
@@ -391,6 +391,14 @@ export interface PathCreateOptions extends CommonOptions {
   permissions?: string; // TODO: model or string?
   umask?: string; // TODO: model or string?
   conditions?: DataLakeRequestConditions;
+  pathHttpHeaders?: PathCreateHttpHeaders;
+}
+
+export interface PathCreateIfNotExistsOptions extends CommonOptions {
+  abortSignal?: AbortSignalLike;
+  metadata?: Metadata;
+  permissions?: string;
+  umask?: string;
   pathHttpHeaders?: PathCreateHttpHeaders;
 }
 
@@ -591,9 +599,11 @@ export interface PathExistsOptions extends CommonOptions {
 /** DataLakeDirectoryClient option and response related models **/
 /****************************************************************/
 
-export interface DirectoryCreateOptions extends PathCreateOptions {}
+export interface DirectoryCreateOptions extends PathCreateOptions { }
 
-export interface DirectoryCreateResponse extends PathCreateResponse {}
+export interface DirectoryCreateIfNotExistsOptions extends PathCreateIfNotExistsOptions { }
+
+export interface DirectoryCreateResponse extends PathCreateResponse { }
 
 /***********************************************************/
 /** DataLakeFileClient option and response related models **/
@@ -665,9 +675,11 @@ export interface FileFlushOptions extends CommonOptions {
   pathHttpHeaders?: PathHttpHeaders;
 }
 
-export interface FileCreateOptions extends PathCreateOptions {}
+export interface FileCreateOptions extends PathCreateOptions { }
 
-export interface FileCreateResponse extends PathCreateResponse {}
+export interface FileCreateIfNotExistsOptions extends PathCreateIfNotExistsOptions { }
+
+export interface FileCreateResponse extends PathCreateResponse { }
 
 /**
  * Option interface for Data Lake file - Upload operations

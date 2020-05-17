@@ -204,6 +204,38 @@ export class DataLakeFileSystemClient extends StorageClient {
   }
 
   /**
+   * Creates a new file system under the specified account. If the file system with
+   * the same name already exists, it is not changed and this operation returns null.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-container
+   *
+   * @param {FileSystemCreateOptions} [options={}]
+   * @returns {Promise<FileSystemCreateResponse | null>}
+   * @memberof DataLakeFileSystemClient
+   */
+  public async createIfNotExists(options: FileSystemCreateOptions = {}): Promise<FileSystemCreateResponse | null> {
+    const { span, spanOptions } = createSpan(
+      "DataLakeFileSystemClient-createIfNotExists",
+      options.tracingOptions
+    );
+    try {
+      return await this.blobContainerClient.createIfNotExists({
+        ...options,
+        access: toContainerPublicAccessType(options.access),
+        tracingOptions: { ...options.tracingOptions, spanOptions }
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
    * Returns true if the File system represented by this client exists; false otherwise.
    *
    * NOTE: use this function with care since an existing file system might be deleted by other clients or
@@ -251,6 +283,36 @@ export class DataLakeFileSystemClient extends StorageClient {
     );
     try {
       return await this.blobContainerClient.delete({
+        ...options,
+        tracingOptions: { ...options.tracingOptions, spanOptions }
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Delete current file system if it exists.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-container
+   *
+   * @param {FileSystemDeleteOptions} [options={}]
+   * @returns {Promise<FileSystemDeleteResponse | null>} Returns null if the specified file system doesn't exists.
+   * @memberof DataLakeFileSystemClient
+   */
+  public async deleteIfExists(options: FileSystemDeleteOptions = {}): Promise<FileSystemDeleteResponse | null> {
+    const { span, spanOptions } = createSpan(
+      "DataLakeFileSystemClient-deleteIfExists",
+      options.tracingOptions
+    );
+    try {
+      return await this.blobContainerClient.deleteIfExists({
         ...options,
         tracingOptions: { ...options.tracingOptions, spanOptions }
       });

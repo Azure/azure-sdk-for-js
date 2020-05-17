@@ -20,7 +20,7 @@ describe("DataLakePathClient", () => {
 
   let recorder: any;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     recorder = record(this, recorderEnvSetup);
     const serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("filesystem");
@@ -33,7 +33,7 @@ describe("DataLakePathClient", () => {
     await fileClient.flush(content.length);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await fileSystemClient.delete();
     recorder.stop();
   });
@@ -331,5 +331,25 @@ describe("DataLakePathClient", () => {
     );
     const dirResult = await newDirectoryClient.exists();
     assert.ok(dirResult === false, "exists() should return false for a non-existing directory");
+  });
+
+  it("DataLakeDirectoryClient-createIfNotExists", async () => {
+    const directoryName = recorder.getUniqueName("dir");
+    const directoryClient = fileSystemClient.getDirectoryClient(directoryName);
+    assert.notEqual(null, await directoryClient.createIfNotExists());
+    assert.equal(null, await directoryClient.createIfNotExists());
+  });
+
+  it("DataLakeFileClient-createIfNotExists", async () => {
+    await fileClient.createIfNotExists();
+  });
+
+  it("DataLakePathClient-deleteIfExists", async () => {
+    const directoryName = recorder.getUniqueName("dir");
+    const directoryClient = fileSystemClient.getDirectoryClient(directoryName);
+    assert.equal(null, await directoryClient.deleteIfExists());
+
+    await directoryClient.create();
+    assert.notEqual(null, await directoryClient.deleteIfExists());
   });
 });
