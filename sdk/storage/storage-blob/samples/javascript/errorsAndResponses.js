@@ -68,7 +68,7 @@ async function main() {
   blockBlobClient = containerClient.getBlockBlobClient(blobName);
   const blobProperties = await blockBlobClient.getProperties();
   console.log(
-    `getProperties() on blob - ${blobName}, blobType = ${blobProperties.blobType}, accesTier = ${blobProperties.accessTier} `
+    `getProperties() on blob - ${blobName}, blobType = ${blobProperties.blobType}, accessTier = ${blobProperties.accessTier} `
   );
   console.log(
     `requestId - ${blobProperties.requestId}, statusCode - ${blobProperties._response.status}\n`

@@ -59,7 +59,7 @@ This library depends on following ES features which need external polyfills load
 - `String.prototype.includes`
 - `Array.prototype.includes`
 - `Object.assign`
-- `Object.keys` (Override IE11's `Object.keys` with ES6 polyfill forcely to enable [ES6 behavior](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys#Notes))
+- `Object.keys` (Overrides the IE11's `Object.keys` with a polyfill to enable the [ES6 behavior](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys#Notes))
 - `Symbol`
 - `Symbol.iterator`
 
@@ -144,7 +144,7 @@ const account = "<account>";
 const accountKey = "<accountkey>";
 
 // Use StorageSharedKeyCredential with storage account and account key
-// StorageSharedKeyCredential is only avaiable in Node.js runtime, not in browsers
+// StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
 const credential = new StorageSharedKeyCredential(account, accountKey);
 const serviceClient = new ShareServiceClient(
   // When using AnonymousCredential, following url should include a valid SAS
