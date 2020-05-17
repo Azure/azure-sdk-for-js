@@ -152,6 +152,22 @@ describe("DirectoryClient", () => {
     assert.ok(result.fileParentId!);
   });
 
+  it("createIfNotExists", async () => {
+    await dirClient.createIfNotExists();
+
+    const dirClient2 = shareClient.getDirectoryClient(recorder.getUniqueName(dirName));
+    await dirClient2.createIfNotExists();
+    await dirClient2.delete();
+  });
+
+  it("deleteIfExists", async () => {
+    const dirClient2 = shareClient.getDirectoryClient(recorder.getUniqueName(dirName));
+    await dirClient2.deleteIfExists();
+
+    await dirClient2.create();
+    await dirClient2.deleteIfExists();
+  });
+
   it("setProperties with default parameters", async () => {
     await dirClient.setProperties();
 

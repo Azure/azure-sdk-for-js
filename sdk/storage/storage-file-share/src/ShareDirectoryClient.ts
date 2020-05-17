@@ -495,6 +495,45 @@ export class ShareDirectoryClient extends StorageClient {
   }
 
   /**
+   * Creates a new directory under the specified share or parent directory if it does not already exists.
+   * If the directory already exists, it is not modified and this operation returns null.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-directory
+   *
+   * @param {DirectoryCreateOptions} [options]
+   * @returns {Promise<DirectoryCreateResponse | null>} Returns null if the directory with the same name already exists.
+   * @memberof ShareDirectoryClient
+   */
+  public async createIfNotExists(
+    options: DirectoryCreateOptions = {}
+  ): Promise<DirectoryCreateResponse | null> {
+    const { span, spanOptions } = createSpan(
+      "ShareDirectoryClient-createIfNotExists",
+      options.tracingOptions
+    );
+    try {
+      return await this.create({
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
+    } catch (e) {
+      if (e.details?.errorCode === "ResourceAlreadyExists") {
+        span.setStatus({
+          code: CanonicalCode.ALREADY_EXISTS,
+          message: "Expected exception when creating directory only if it does not already exist."
+        });
+        return null;
+      }
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
    * Sets properties on the directory.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-directory-properties
    *
@@ -795,6 +834,45 @@ export class ShareDirectoryClient extends StorageClient {
         spanOptions
       });
     } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Removes the specified empty directory if it exists. Note that the directory must be empty before it can be
+   * deleted.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-directory
+   *
+   * @param {DirectoryDeleteOptions} [options]
+   * @returns {Promise<DirectoryDeleteResponse | null>} Returns null if the directory doesn't exists.
+   * @memberof ShareDirectoryClient
+   */
+  public async deleteIfExists(
+    options: DirectoryDeleteOptions = {}
+  ): Promise<DirectoryDeleteResponse | null> {
+    const { span, spanOptions } = createSpan(
+      "ShareDirectoryClient-deleteIfExists",
+      options.tracingOptions
+    );
+    try {
+      return await this.delete({
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
+    } catch (e) {
+      if (e.details?.errorCode === "ResourceNotFound") {
+        span.setStatus({
+          code: CanonicalCode.NOT_FOUND,
+          message: "Expected exception when deleting directory only if it exists."
+        });
+        return null;
+      }
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
         message: e.message

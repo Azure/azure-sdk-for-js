@@ -505,6 +505,45 @@ export class ShareClient extends StorageClient {
   }
 
   /**
+   * Creates a new share under the specified account. If the share with
+   * the same name already exists, it is not changed and the operation returns null.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-share
+   *
+   * @param {ShareCreateOptions} [options]
+   * @returns {Promise<ShareCreateResponse | null>} If the share already exists, returns null.
+   * @memberof ShareClient
+   */
+  public async createIfNotExists(
+    options: ShareCreateOptions = {}
+  ): Promise<ShareCreateResponse | null> {
+    const { span, spanOptions } = createSpan(
+      "ShareClient-createIfNotExists",
+      options.tracingOptions
+    );
+    try {
+      return await this.create({
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
+    } catch (e) {
+      if (e.details?.errorCode === "ShareAlreadyExists") {
+        span.setStatus({
+          code: CanonicalCode.ALREADY_EXISTS,
+          message: "Expected exception when creating share only if it doesn't already exist."
+        });
+        return null;
+      }
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
    * Creates a {@link ShareDirectoryClient} object.
    *
    * @param directoryName A directory name
@@ -733,6 +772,42 @@ export class ShareClient extends StorageClient {
         spanOptions
       });
     } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Marks the specified share for deletion if it exists. The share and any directories or files
+   * contained within it are later deleted during garbage collection.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-share
+   *
+   * @param {ShareDeleteMethodOptions} [options]
+   * @returns {Promise<ShareDeleteResponse | null>} Return null if the share does not exist.
+   * @memberof ShareClient
+   */
+  public async deletIfExists(
+    options: ShareDeleteMethodOptions = {}
+  ): Promise<ShareDeleteResponse | null> {
+    const { span, spanOptions } = createSpan("ShareClient-deletIfExists", options.tracingOptions);
+    try {
+      return await this.delete({
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
+    } catch (e) {
+      if (e.details?.errorCode === "ShareNotFound") {
+        span.setStatus({
+          code: CanonicalCode.NOT_FOUND,
+          message: "Expected exception when deleting share only if it exists."
+        });
+        return null;
+      }
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
         message: e.message

@@ -288,6 +288,12 @@ describe("FileClient", () => {
     await fileClient.delete();
   });
 
+  it("deleteIfExists", async () => {
+    await fileClient.deleteIfExists();
+    await fileClient.create(content.length);
+    await fileClient.deleteIfExists();
+  });
+
   it("startCopyFromURL", async () => {
     recorder.skip("browser");
     await fileClient.create(1024);

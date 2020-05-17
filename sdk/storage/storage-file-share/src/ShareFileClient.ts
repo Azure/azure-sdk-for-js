@@ -1307,6 +1307,52 @@ export class ShareFileClient extends StorageClient {
   }
 
   /**
+   * Removes the file from the storage account if it exists.
+   * When a file is successfully deleted, it is immediately removed from the storage
+   * account's index and is no longer accessible to clients. The file's data is later
+   * removed from the service during garbage collection.
+   *
+   * Delete File will fail with status code 409 (Conflict) and error code SharingViolation
+   * if the file is open on an SMB client.
+   *
+   * Delete File is not supported on a share snapshot, which is a read-only copy of
+   * a share. An attempt to perform this operation on a share snapshot will fail with 400 (InvalidQueryParameterValue)
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-file2
+   *
+   * @param {FileDeleteOptions} [options]
+   * @returns {Promise<FileDeleteResponse | null>} Return null if the file does not exist.
+   * @memberof ShareFileClient
+   */
+  public async deleteIfExists(options: FileDeleteOptions = {}): Promise<FileDeleteResponse | null> {
+    const { span, spanOptions } = createSpan(
+      "ShareFileClient-deleteIfExists",
+      options.tracingOptions
+    );
+    try {
+      return await this.delete({
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
+    } catch (e) {
+      if (e.details?.errorCode === "ResourceNotFound") {
+        span.setStatus({
+          code: CanonicalCode.NOT_FOUND,
+          message: "Expected exception when deleting file only if it exists."
+        });
+        return null;
+      }
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
    * Sets HTTP headers on the file.
    *
    * If no option provided, or no value provided for the file HTTP headers in the options,

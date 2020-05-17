@@ -59,9 +59,27 @@ describe("ShareClient", () => {
     assert.deepEqual(result.metadata, metadata);
   });
 
+  it("createIfNotExists", async () => {
+    const shareClient2 = serviceClient.getShareClient(recorder.getUniqueName(shareName));
+    const res = await shareClient2.createIfNotExists();
+    assert.notEqual(null, res);
+    const res2 = await shareClient2.createIfNotExists();
+    assert.equal(null, res2);
+    await shareClient2.delete();
+  });
+
   it("delete", (done) => {
     // delete() with default parameters has been tested in afterEach
     done();
+  });
+
+  it("deletIfExists", async () => {
+    const shareClient2 = serviceClient.getShareClient(recorder.getUniqueName(shareName));
+    await shareClient2.create();
+    await shareClient2.deletIfExists();
+
+    const shareClient3 = serviceClient.getShareClient(recorder.getUniqueName(shareName));
+    await shareClient3.deletIfExists();
   });
 
   it("setQuota", async () => {
