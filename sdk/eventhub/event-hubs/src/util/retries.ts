@@ -4,18 +4,15 @@
 import { Constants, RetryOptions } from "@azure/core-amqp";
 
 /**
- * Invalid timeouts, non-positive timeouts are defaulted to the `Constants.defaultOperationTimeoutInMs`
- *
- * @export
- * @param {(RetryOptions | undefined)} retryOptions
- * @returns {number}
+ * @internal
+ * @ignore
  */
 export function getRetryAttemptTimeoutInMs(retryOptions: RetryOptions | undefined): number {
   const timeoutInMs =
     retryOptions == undefined ||
     typeof retryOptions.timeoutInMs !== "number" ||
     !isFinite(retryOptions.timeoutInMs) ||
-    retryOptions.timeoutInMs <= 0
+    retryOptions.timeoutInMs < Constants.defaultOperationTimeoutInMs
       ? Constants.defaultOperationTimeoutInMs
       : retryOptions.timeoutInMs;
   return timeoutInMs;
