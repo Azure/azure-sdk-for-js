@@ -21,7 +21,7 @@ const should = chai.should();
 chai.use(chaiAsPromised);
 
 describe("Streaming with sessions", () => {
-  let senderClient: Sender;
+  let sender: Sender;
   let receiver: SessionReceiver<ReceivedMessageWithLock> | SessionReceiver<ReceivedMessage>;
   let deadLetterClient: Receiver<ReceivedMessageWithLock>;
   let errorWasThrown: boolean;
@@ -51,7 +51,7 @@ describe("Streaming with sessions", () => {
   ): Promise<EntityName> {
     const entityNames = await createReceiverForTests(testClientType, receiveMode);
 
-    senderClient = serviceBusClient.test.addToCleanup(
+    sender = serviceBusClient.test.addToCleanup(
       await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
 
@@ -106,7 +106,7 @@ describe("Streaming with sessions", () => {
 
     async function testAutoComplete(): Promise<void> {
       const testMessage = TestMessage.getSessionSample();
-      await senderClient.send(testMessage);
+      await sender.send(testMessage);
 
       const receivedMsgs: ReceivedMessage[] = [];
       receiver.subscribe({
@@ -170,7 +170,7 @@ describe("Streaming with sessions", () => {
 
     async function testManualComplete(): Promise<void> {
       const testMessage = TestMessage.getSessionSample();
-      await senderClient.send(testMessage);
+      await sender.send(testMessage);
       const receivedMsgs: ReceivedMessageWithLock[] = [];
       receiver.subscribe(
         {
@@ -237,7 +237,7 @@ describe("Streaming with sessions", () => {
 
     async function testComplete(autoComplete: boolean): Promise<void> {
       const testMessage = TestMessage.getSessionSample();
-      await senderClient.send(testMessage);
+      await sender.send(testMessage);
 
       const receivedMsgs: ReceivedMessageWithLock[] = [];
       receiver.subscribe(
@@ -336,7 +336,7 @@ describe("Streaming with sessions", () => {
       autoComplete: boolean
     ): Promise<void> {
       const testMessage = TestMessage.getSessionSample();
-      await senderClient.send(testMessage);
+      await sender.send(testMessage);
       let abandonFlag = 0;
 
       receiver.subscribe(
@@ -433,7 +433,7 @@ describe("Streaming with sessions", () => {
 
     async function testDefer(autoComplete: boolean): Promise<void> {
       const testMessage = TestMessage.getSessionSample();
-      await senderClient.send(testMessage);
+      await sender.send(testMessage);
 
       let sequenceNum: any = 0;
       receiver.subscribe(
@@ -536,7 +536,7 @@ describe("Streaming with sessions", () => {
 
     async function testDeadletter(autoComplete: boolean): Promise<void> {
       const testMessage = TestMessage.getSessionSample();
-      await senderClient.send(testMessage);
+      await sender.send(testMessage);
 
       let msgCount = 0;
       receiver.subscribe(
@@ -699,7 +699,7 @@ describe("Streaming with sessions", () => {
 
     async function testSettlement(operation: DispositionType): Promise<void> {
       const testMessage = TestMessage.getSessionSample();
-      await senderClient.send(testMessage);
+      await sender.send(testMessage);
 
       const receivedMsgs: ReceivedMessageWithLock[] = [];
       receiver.subscribe({
@@ -812,7 +812,7 @@ describe("Streaming with sessions", () => {
 
     async function testUserError(): Promise<void> {
       const testMessage = TestMessage.getSessionSample();
-      await senderClient.send(testMessage);
+      await sender.send(testMessage);
       const errorMessage = "Will we see this error message?";
 
       const receivedMsgs: ReceivedMessageWithLock[] = [];
@@ -862,11 +862,11 @@ describe("Streaming with sessions", () => {
       }
 
       const testMessages = [TestMessage.getSessionSample(), TestMessage.getSessionSample()];
-      const batchMessageToSend = await senderClient.createBatch();
+      const batchMessageToSend = await sender.createBatch();
       for (const message of testMessages) {
         batchMessageToSend.tryAdd(message);
       }
-      await senderClient.send(batchMessageToSend);
+      await sender.send(batchMessageToSend);
 
       const settledMsgs: ReceivedMessageWithLock[] = [];
       const receivedMsgs: ReceivedMessageWithLock[] = [];
@@ -1003,7 +1003,7 @@ describe("Streaming with sessions", () => {
       const totalNumOfMessages = 5;
       let num = 1;
       const messages = [];
-      const batch = await senderClient.createBatch();
+      const batch = await sender.createBatch();
       while (num <= totalNumOfMessages) {
         const message = {
           messageId: num,
@@ -1016,7 +1016,7 @@ describe("Streaming with sessions", () => {
         messages.push(message);
         batch.tryAdd(message);
       }
-      await senderClient.send(batch);
+      await sender.send(batch);
 
       const receivedMsgs: ReceivedMessageWithLock[] = [];
 

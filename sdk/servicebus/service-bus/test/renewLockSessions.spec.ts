@@ -334,12 +334,12 @@ describe("renew lock sessions", () => {
    * Test manual renewLock() using Batch Receiver, with autoLockRenewal disabled
    */
   async function testBatchReceiverManualLockRenewalHappyCase(
-    senderClient: Sender,
+    sender: Sender,
     receiver: SessionReceiver<ReceivedMessageWithLock>
   ): Promise<void> {
     const testMessage = getTestMessage();
     testMessage.body = `testBatchReceiverManualLockRenewalHappyCase-${Date.now().toString()}`;
-    await senderClient.send(testMessage);
+    await sender.send(testMessage);
 
     const msgs = await receiver.receiveBatch(1);
 
@@ -382,12 +382,12 @@ describe("renew lock sessions", () => {
    */
   async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
     entityType: TestClientType,
-    senderClient: Sender,
+    sender: Sender,
     receiver: SessionReceiver<ReceivedMessageWithLock>
   ): Promise<void> {
     const testMessage = getTestMessage();
     testMessage.body = `testBatchReceiverManualLockRenewalErrorOnLockExpiry-${Date.now().toString()}`;
-    await senderClient.send(testMessage);
+    await sender.send(testMessage);
 
     const msgs = await receiver.receiveBatch(1);
 
@@ -421,13 +421,13 @@ describe("renew lock sessions", () => {
    * Test manual renewLock() using Streaming Receiver with autoLockRenewal disabled
    */
   async function testStreamingReceiverManualLockRenewalHappyCase(
-    senderClient: Sender,
+    sender: Sender,
     receiver: SessionReceiver<ReceivedMessageWithLock>
   ): Promise<void> {
     let numOfMessagesReceived = 0;
     const testMessage = getTestMessage();
     testMessage.body = `testStreamingReceiverManualLockRenewalHappyCase-${Date.now().toString()}`;
-    await senderClient.send(testMessage);
+    await sender.send(testMessage);
 
     async function processMessage(brokeredMessage: ReceivedMessageWithLock) {
       if (numOfMessagesReceived < 1) {
@@ -497,14 +497,14 @@ describe("renew lock sessions", () => {
   }
 
   async function testAutoLockRenewalConfigBehavior(
-    senderClient: Sender,
+    sender: Sender,
     receiver: SessionReceiver<ReceivedMessageWithLock>,
     options: AutoLockRenewalTestOptions
   ): Promise<void> {
     let numOfMessagesReceived = 0;
     const testMessage = getTestMessage();
     testMessage.body = `testAutoLockRenewalConfigBehavior-${Date.now().toString()}`;
-    await senderClient.send(testMessage);
+    await sender.send(testMessage);
 
     let sessionLockLostErrorThrown = false;
     const messagesReceived: ReceivedMessageWithLock[] = [];

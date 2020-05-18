@@ -19,7 +19,7 @@ import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
 import { AbortController } from "@azure/abort-controller";
 
 describe("send scheduled messages", () => {
-  let senderClient: Sender;
+  let sender: Sender;
   let receiver: Receiver<ReceivedMessageWithLock>;
   let serviceBusClient: ServiceBusClientForTests;
 
@@ -35,13 +35,13 @@ describe("send scheduled messages", () => {
     const entityNames = await serviceBusClient.test.createTestEntities(entityType);
     receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
 
-    senderClient = serviceBusClient.test.addToCleanup(
+    sender = serviceBusClient.test.addToCleanup(
       await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
   }
 
   async function afterEachTest(): Promise<void> {
-    await senderClient.close();
+    await sender.close();
     await receiver.close();
   }
 
@@ -52,7 +52,7 @@ describe("send scheduled messages", () => {
 
     async function testSimpleSend(useSessions: boolean, usePartitions: boolean): Promise<void> {
       const testMessage = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
-      await senderClient.send(testMessage);
+      await sender.send(testMessage);
       const msgs = await receiver.receiveBatch(1);
 
       should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
@@ -121,7 +121,7 @@ describe("send scheduled messages", () => {
   //     testMessages.push(useSessions ? TestMessage.getSessionSample() : TestMessage.getSample());
   //     testMessages.push(useSessions ? TestMessage.getSessionSample() : TestMessage.getSample());
 
-  //     await senderClient.sendBatch(testMessages);
+  //     await sender.sendBatch(testMessages);
   //     const msgs = await receiver.receiveBatch(2);
 
   //     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
@@ -203,9 +203,9 @@ describe("send scheduled messages", () => {
       // Randomly choose scheduleMessage/scheduleMessages as the latter is expected to convert single
       // input to array and then use it
       if (useScheduleMessages) {
-        await senderClient.scheduleMessages(scheduleTime, testMessage as any);
+        await sender.scheduleMessages(scheduleTime, testMessage as any);
       } else {
-        await senderClient.scheduleMessage(scheduleTime, testMessage);
+        await sender.scheduleMessage(scheduleTime, testMessage);
       }
 
       const msgs = await receiver.receiveBatch(1);
@@ -308,7 +308,7 @@ describe("send scheduled messages", () => {
     async function testScheduleMessages(useSessions?: boolean): Promise<void> {
       const testMessages = useSessions ? messageWithSessions : messages;
       const scheduleTime = new Date(Date.now() + 10000); // 10 seconds from now
-      await senderClient.scheduleMessages(scheduleTime, testMessages);
+      await sender.scheduleMessages(scheduleTime, testMessages);
 
       const msgs = await receiver.receiveBatch(2);
       should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
@@ -402,11 +402,11 @@ describe("send scheduled messages", () => {
     async function testCancelScheduleMessage(useSessions?: boolean): Promise<void> {
       const testMessage = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
       const scheduleTime = new Date(Date.now() + 30000); // 30 seconds from now as anything less gives inconsistent results for cancelling
-      const sequenceNumber = await senderClient.scheduleMessage(scheduleTime, testMessage);
+      const sequenceNumber = await sender.scheduleMessage(scheduleTime, testMessage);
 
       await delay(2000);
 
-      await senderClient.cancelScheduledMessage(sequenceNumber);
+      await sender.cancelScheduledMessage(sequenceNumber);
 
       // Wait until we are sure we have passed the schedule time
       await delay(30000);
@@ -471,12 +471,12 @@ describe("send scheduled messages", () => {
       const testMessage = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
 
       const scheduleTime = new Date(Date.now() + 30000); // 30 seconds from now as anything less gives inconsistent results for cancelling
-      const sequenceNumber1 = await senderClient.scheduleMessage(scheduleTime, testMessage);
-      const sequenceNumber2 = await senderClient.scheduleMessage(scheduleTime, testMessage);
+      const sequenceNumber1 = await sender.scheduleMessage(scheduleTime, testMessage);
+      const sequenceNumber2 = await sender.scheduleMessage(scheduleTime, testMessage);
 
       await delay(2000);
 
-      await senderClient.cancelScheduledMessages([sequenceNumber1, sequenceNumber2]);
+      await sender.cancelScheduledMessages([sequenceNumber1, sequenceNumber2]);
 
       // Wait until we are sure we have passed the schedule time
       await delay(30000);
@@ -625,7 +625,7 @@ describe("send scheduled messages", () => {
     testInputs.forEach(function(testInput: any): void {
       it("Send() throws if " + testInput.title, async function(): Promise<void> {
         let actualErrorMsg = "";
-        await senderClient.send(testInput.message).catch((err) => {
+        await sender.send(testInput.message).catch((err) => {
           actualErrorMsg = err.message;
         });
         should.equal(
@@ -640,7 +640,7 @@ describe("send scheduled messages", () => {
       //   "SendBatch() throws if in the first message, " + testInput.title,
       //   async function(): Promise<void> {
       //     let actualErrorMsg = "";
-      //     await senderClient.sendBatch([testInput.message, { body: "random" }]).catch((err) => {
+      //     await sender.sendBatch([testInput.message, { body: "random" }]).catch((err) => {
       //       actualErrorMsg = err.message;
       //     });
       //     should.equal(
@@ -655,7 +655,7 @@ describe("send scheduled messages", () => {
       //   "SendBatch() throws if in the subsequent message, " + testInput.title,
       //   async function(): Promise<void> {
       //     let actualErrorMsg = "";
-      //     await senderClient.sendBatch([{ body: "random" }, testInput.message]).catch((err) => {
+      //     await sender.sendBatch([{ body: "random" }, testInput.message]).catch((err) => {
       //       actualErrorMsg = err.message;
       //     });
       //     should.equal(
@@ -669,7 +669,7 @@ describe("send scheduled messages", () => {
       it("ScheduleMessage() throws if " + testInput.title, async function(): Promise<void> {
         let actualErrorMsg = "";
         let actualErr;
-        await senderClient.scheduleMessage(new Date(), testInput.message).catch((err) => {
+        await sender.scheduleMessage(new Date(), testInput.message).catch((err) => {
           actualErr = err;
           actualErrorMsg = err.message;
         });
@@ -699,7 +699,7 @@ describe("send scheduled messages", () => {
       const controller = new AbortController();
       setTimeout(() => controller.abort(), 1);
       try {
-        await senderClient.scheduleMessage(new Date(), TestMessage.getSample(), {
+        await sender.scheduleMessage(new Date(), TestMessage.getSample(), {
           abortSignal: controller.signal
         });
         throw new Error(`Test failure`);
@@ -713,7 +713,7 @@ describe("send scheduled messages", () => {
       const controller = new AbortController();
       setTimeout(() => controller.abort(), 1);
       try {
-        await senderClient.scheduleMessages(new Date(), [TestMessage.getSample()], {
+        await sender.scheduleMessages(new Date(), [TestMessage.getSample()], {
           abortSignal: controller.signal
         });
         throw new Error(`Test failure`);
@@ -727,7 +727,7 @@ describe("send scheduled messages", () => {
       const controller = new AbortController();
       setTimeout(() => controller.abort(), 1);
       try {
-        await senderClient.cancelScheduledMessage(Long.ZERO, { abortSignal: controller.signal });
+        await sender.cancelScheduledMessage(Long.ZERO, { abortSignal: controller.signal });
         throw new Error(`Test failure`);
       } catch (err) {
         err.message.should.equal(
@@ -741,7 +741,7 @@ describe("send scheduled messages", () => {
       const controller = new AbortController();
       setTimeout(() => controller.abort(), 1);
       try {
-        await senderClient.cancelScheduledMessages([Long.ZERO], { abortSignal: controller.signal });
+        await sender.cancelScheduledMessages([Long.ZERO], { abortSignal: controller.signal });
         throw new Error(`Test failure`);
       } catch (err) {
         err.message.should.equal(

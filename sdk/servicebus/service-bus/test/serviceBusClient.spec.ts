@@ -67,7 +67,7 @@ describe("Random scheme in the endpoint from connection string", function(): voi
   let sbClient: ServiceBusClientForTests;
   let sbClientWithRelaxedEndPoint: ServiceBusClient;
   let entities: EntityName;
-  let senderClient: Sender;
+  let sender: Sender;
   let receiver: Receiver<ReceivedMessageWithLock>;
 
   async function beforeEachTest(testClientType: TestClientType) {
@@ -77,7 +77,7 @@ describe("Random scheme in the endpoint from connection string", function(): voi
     sbClientWithRelaxedEndPoint = new ServiceBusClient(
       getEnvVars().SERVICEBUS_CONNECTION_STRING.replace("sb://", "CheeseBurger://")
     );
-    senderClient = await sbClientWithRelaxedEndPoint.createSender(entities.queue!);
+    sender = await sbClientWithRelaxedEndPoint.createSender(entities.queue!);
     receiver = !entities.usesSessions
       ? sbClientWithRelaxedEndPoint.createReceiver(entities.queue!, "peekLock")
       : await sbClientWithRelaxedEndPoint.createSessionReceiver(entities.queue!, "peekLock", {
@@ -87,13 +87,13 @@ describe("Random scheme in the endpoint from connection string", function(): voi
 
   afterEach(async () => {
     await sbClient.test.after();
-    await senderClient.close();
+    await sender.close();
     await receiver.close();
     await sbClientWithRelaxedEndPoint.close();
   });
 
   async function sendReceiveMsg(testMessages: ServiceBusMessage): Promise<void> {
-    await senderClient.send(testMessages);
+    await sender.send(testMessages);
     await testPeekMsgsLength(receiver, 1);
 
     const msgs = await receiver.receiveBatch(1);
@@ -793,21 +793,21 @@ describe("Errors after close()", function(): void {
     });
   });
 
-  // describe("Errors after close() on senderClient", function(): void {
-  //   const entityToClose = "senderClient";
+  // describe("Errors after close() on sender", function(): void {
+  //   const entityToClose = "sender";
 
-  //   it("Unpartitioned Queue: errors after close() on senderClient", async function(): Promise<
+  //   it("Unpartitioned Queue: errors after close() on sender", async function(): Promise<
   //     void
   //   > {
   //     await beforeEachTest(TestClientType.UnpartitionedQueue, entityToClose);
 
   //     await testSender(
-  //       getSenderClosedErrorMsg(senderClient.entityPath, ClientType.QueueClient, true)
+  //       getSenderClosedErrorMsg(sender.entityPath, ClientType.QueueClient, true)
   //     );
-  //     await testCreateSender(getClientClosedErrorMsg(senderClient.entityPath));
+  //     await testCreateSender(getClientClosedErrorMsg(sender.entityPath));
   //   });
 
-  //   it("Unpartitioned Topic: errors after close() on senderClient", async function(): Promise<
+  //   it("Unpartitioned Topic: errors after close() on sender", async function(): Promise<
   //     void
   //   > {
   //     await beforeEachTest(
@@ -817,9 +817,9 @@ describe("Errors after close()", function(): void {
   //     );
 
   //     await testSender(
-  //       getSenderClosedErrorMsg(senderClient.entityPath, ClientType.TopicClient, true)
+  //       getSenderClosedErrorMsg(sender.entityPath, ClientType.TopicClient, true)
   //     );
-  //     await testCreateSender(getClientClosedErrorMsg(senderClient.entityPath));
+  //     await testCreateSender(getClientClosedErrorMsg(sender.entityPath));
   //   });
   // });
 
@@ -875,7 +875,7 @@ describe("Errors after close()", function(): void {
   //     await beforeEachTest(TestClientType.UnpartitionedQueue, entityToClose);
 
   //     await testSender(
-  //       getSenderClosedErrorMsg(senderClient.entityPath, ClientType.QueueClient, false)
+  //       getSenderClosedErrorMsg(sender.entityPath, ClientType.QueueClient, false)
   //     );
   //   });
   // });
@@ -901,7 +901,7 @@ describe("Errors after close()", function(): void {
   //     await beforeEachTest(TestClientType.PartitionedQueue, "");
 
   //     await testCreateSender(
-  //       getOpenSenderErrorMsg(ClientType.QueueClient, senderClient.entityPath)
+  //       getOpenSenderErrorMsg(ClientType.QueueClient, sender.entityPath)
   //     );
   //   });
 
@@ -912,7 +912,7 @@ describe("Errors after close()", function(): void {
   //       ""
   //     );
 
-  //     await testCreateSender(getOpenSenderErrorMsg("TopicClient", senderClient.entityPath));
+  //     await testCreateSender(getOpenSenderErrorMsg("TopicClient", sender.entityPath));
   //   });
 
   // it("Open receiver exists on QueueClient", async function(): Promise<void> {

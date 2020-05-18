@@ -25,7 +25,7 @@ describe("batchReceiver", () => {
   let serviceBusClient: ServiceBusClientForTests;
   let errorWasThrown: boolean;
 
-  let senderClient: Sender;
+  let sender: Sender;
   let receiver: Receiver<ReceivedMessageWithLock>;
   let deadLetterClient: Receiver<ReceivedMessageWithLock>;
   const maxDeliveryCount = 10;
@@ -42,7 +42,7 @@ describe("batchReceiver", () => {
     const entityNames = await serviceBusClient.test.createTestEntities(entityType);
     receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
 
-    senderClient = serviceBusClient.test.addToCleanup(
+    sender = serviceBusClient.test.addToCleanup(
       await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
 
@@ -61,7 +61,7 @@ describe("batchReceiver", () => {
     async function sendReceiveMsg(
       testMessages: ServiceBusMessage
     ): Promise<ReceivedMessageWithLock> {
-      await senderClient.send(testMessages);
+      await sender.send(testMessages);
       const msgs = await receiver.receiveBatch(1);
 
       should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
@@ -214,7 +214,7 @@ describe("batchReceiver", () => {
 
     async function testAbandonMsgsTillMaxDeliveryCount(useSessions?: boolean): Promise<void> {
       const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
-      await senderClient.send(testMessages);
+      await sender.send(testMessages);
       let abandonMsgCount = 0;
 
       while (abandonMsgCount < maxDeliveryCount) {
@@ -497,7 +497,7 @@ describe("batchReceiver", () => {
     async function deadLetterMessage(
       testMessage: ServiceBusMessage
     ): Promise<ReceivedMessageWithLock> {
-      await senderClient.send(testMessage);
+      await sender.send(testMessage);
       const batch = await receiver.receiveBatch(1);
 
       should.equal(batch.length, 1, "Unexpected number of messages");
@@ -794,11 +794,11 @@ describe("batchReceiver", () => {
     // See https://github.com/Azure/azure-service-bus-node/issues/31
     async function testSequentialReceiveBatchCalls(useSessions?: boolean): Promise<void> {
       const testMessages = useSessions ? messageWithSessions : messages;
-      const batchMessageToSend = await senderClient.createBatch();
+      const batchMessageToSend = await sender.createBatch();
       for (const message of testMessages) {
         batchMessageToSend.tryAdd(message);
       }
-      await senderClient.send(batchMessageToSend);
+      await sender.send(batchMessageToSend);
       const msgs1 = await receiver.receiveBatch(1);
       const msgs2 = await receiver.receiveBatch(1);
 
@@ -847,7 +847,7 @@ describe("batchReceiver", () => {
 
     async function testNoSettlement(useSessions?: boolean): Promise<void> {
       const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
-      await senderClient.send(testMessages);
+      await sender.send(testMessages);
 
       let batch = await receiver.receiveBatch(1);
 
@@ -904,7 +904,7 @@ describe("batchReceiver", () => {
 
     async function testAskForMore(useSessions?: boolean): Promise<void> {
       const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
-      await senderClient.send(testMessages);
+      await sender.send(testMessages);
       const batch = await receiver.receiveBatch(2);
 
       should.equal(batch.length, 1, "Unexpected number of messages");
@@ -1016,14 +1016,14 @@ describe("batchReceiver", () => {
 
 describe("Batching - disconnects", function(): void {
   let serviceBusClient: ServiceBusClientForTests;
-  let senderClient: Sender;
+  let sender: Sender;
   let receiver: Receiver<ReceivedMessageWithLock>;
 
   async function beforeEachTest(entityType: TestClientType): Promise<void> {
     const entityNames = await serviceBusClient.test.createTestEntities(entityType);
     receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
 
-    senderClient = serviceBusClient.test.addToCleanup(
+    sender = serviceBusClient.test.addToCleanup(
       await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
   }
@@ -1054,7 +1054,7 @@ describe("Batching - disconnects", function(): void {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
 
     // Send a message so we can be sure when the receiver is open and active.
-    await senderClient.send(TestMessage.getSample());
+    await sender.send(TestMessage.getSample());
 
     let settledMessageCount = 0;
 
@@ -1081,7 +1081,7 @@ describe("Batching - disconnects", function(): void {
     // Otherwise, it will get into a bad internal state with uncaught exceptions.
     await delay(2000);
     // send a second message to trigger the message handler again.
-    await senderClient.send(TestMessage.getSample());
+    await sender.send(TestMessage.getSample());
 
     // wait for the 2nd message to be received.
     const messages2 = await receiver.receiveBatch(1, { maxWaitTimeInMs: 5000 });

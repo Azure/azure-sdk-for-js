@@ -21,7 +21,7 @@ chai.use(chaiAsPromised);
 describe("Backup message settlement - Through ManagementLink", () => {
   let serviceBusClient: ServiceBusClientForTests;
 
-  let senderClient: Sender;
+  let sender: Sender;
   let receiver: Receiver<ReceivedMessageWithLock>;
   let deadLetterClient: Receiver<ReceivedMessageWithLock>;
   let entityNames: EntityName;
@@ -38,7 +38,7 @@ describe("Backup message settlement - Through ManagementLink", () => {
     entityNames = await serviceBusClient.test.createTestEntities(entityType);
     receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
 
-    senderClient = serviceBusClient.test.addToCleanup(
+    sender = serviceBusClient.test.addToCleanup(
       await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
 
@@ -57,7 +57,7 @@ describe("Backup message settlement - Through ManagementLink", () => {
     async function sendReceiveMsg(
       testMessages: ServiceBusMessage
     ): Promise<ReceivedMessageWithLock> {
-      await senderClient.send(testMessages);
+      await sender.send(testMessages);
       const msgs = await receiver.receiveBatch(1);
 
       should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");

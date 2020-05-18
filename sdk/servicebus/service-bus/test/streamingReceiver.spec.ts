@@ -39,7 +39,7 @@ async function processError(err: Error): Promise<void> {
 
 describe("Streaming", () => {
   let serviceBusClient: ServiceBusClientForTests;
-  let senderClient: Sender;
+  let sender: Sender;
   let receiver: Receiver<ReceivedMessageWithLock> | Receiver<ReceivedMessage>;
   let deadLetterClient: Receiver<ReceivedMessageWithLock>;
 
@@ -62,7 +62,7 @@ describe("Streaming", () => {
     } else {
       receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
     }
-    senderClient = serviceBusClient.test.addToCleanup(
+    sender = serviceBusClient.test.addToCleanup(
       await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
 
@@ -79,7 +79,7 @@ describe("Streaming", () => {
 
     async function testAutoComplete(): Promise<void> {
       const testMessage = TestMessage.getSample();
-      await senderClient.send(testMessage);
+      await sender.send(testMessage);
 
       const receivedMsgs: ReceivedMessage[] = [];
       receiver.subscribe({
@@ -117,7 +117,7 @@ describe("Streaming", () => {
     }
     async function testAutoCompleteWithSenderAndReceiver(): Promise<void> {
       const testMessage = TestMessage.getSample();
-      await senderClient.send(testMessage);
+      await sender.send(testMessage);
 
       const receivedMsgs: ReceivedMessage[] = [];
       receiver.subscribe({
@@ -181,7 +181,7 @@ describe("Streaming", () => {
 
     async function testManualComplete(): Promise<void> {
       const testMessage = TestMessage.getSample();
-      await senderClient.send(testMessage);
+      await sender.send(testMessage);
 
       const receivedMsgs: ReceivedMessageWithLock[] = [];
       receiver.subscribe(
@@ -291,7 +291,7 @@ describe("Streaming", () => {
 
     async function testComplete(autoComplete: boolean): Promise<void> {
       const testMessage = TestMessage.getSample();
-      await senderClient.send(testMessage);
+      await sender.send(testMessage);
 
       const receivedMsgs: ReceivedMessageWithLock[] = [];
       receiver.subscribe(
@@ -374,7 +374,7 @@ describe("Streaming", () => {
 
     async function testMultipleAbandons(): Promise<void> {
       const testMessage = TestMessage.getSample();
-      await senderClient.send(testMessage);
+      await sender.send(testMessage);
 
       let checkDeliveryCount = 0;
 
@@ -458,7 +458,7 @@ describe("Streaming", () => {
 
     async function testDefer(autoComplete: boolean): Promise<void> {
       const testMessage = TestMessage.getSample();
-      await senderClient.send(testMessage);
+      await sender.send(testMessage);
       let sequenceNum: any = 0;
 
       receiver.subscribe(
@@ -564,7 +564,7 @@ describe("Streaming", () => {
 
     async function testDeadletter(autoComplete: boolean): Promise<void> {
       const testMessage = TestMessage.getSample();
-      await senderClient.send(testMessage);
+      await sender.send(testMessage);
 
       const receivedMsgs: ReceivedMessage[] = [];
 
@@ -726,7 +726,7 @@ describe("Streaming", () => {
 
     async function testSettlement(operation: DispositionType): Promise<void> {
       const testMessage = TestMessage.getSample();
-      await senderClient.send(testMessage);
+      await sender.send(testMessage);
       const receivedMsgs: ReceivedMessageWithLock[] = [];
       receiver.subscribe({
         async processMessage(msg: ReceivedMessageWithLock) {
@@ -824,7 +824,7 @@ describe("Streaming", () => {
     });
 
     async function testUserError(): Promise<void> {
-      await senderClient.send(TestMessage.getSample());
+      await sender.send(TestMessage.getSample());
       const errorMessage = "Will we see this error message?";
 
       const receivedMsgs: ReceivedMessageWithLock[] = [];
@@ -891,10 +891,10 @@ describe("Streaming", () => {
 
     //   // Send a message using service bus client created with connection string
     //   let clients = await getSenderReceiverClients(TestClientType.UnpartitionedQueue, "peekLock");
-    //   senderClient = clients.senderClient;
+    //   sender = clients.sender;
     //   receiver = clients.receiver;
-    //   await senderClient.send(TestMessage.getSample());
-    //   await senderClient.close();
+    //   await sender.send(TestMessage.getSample());
+    //   await sender.close();
     //   await receiver.close();
 
     //   // Receive using service bus client created with faulty token provider
@@ -946,11 +946,11 @@ describe("Streaming", () => {
 
     async function testConcurrency(maxConcurrentCalls?: number): Promise<void> {
       const testMessages = [TestMessage.getSample(), TestMessage.getSample()];
-      const batchMessageToSend = await senderClient.createBatch();
+      const batchMessageToSend = await sender.createBatch();
       testMessages.forEach((message) => {
         batchMessageToSend.tryAdd(message);
       });
-      await senderClient.send(batchMessageToSend);
+      await sender.send(batchMessageToSend);
 
       const settledMsgs: ReceivedMessage[] = [];
       const receivedMsgs: ReceivedMessage[] = [];
@@ -1057,7 +1057,7 @@ describe("Streaming", () => {
       const totalNumOfMessages = 5;
       let num = 1;
       const messages = [];
-      const batch = await senderClient.createBatch();
+      const batch = await sender.createBatch();
       while (num <= totalNumOfMessages) {
         const message = {
           messageId: num,
@@ -1069,7 +1069,7 @@ describe("Streaming", () => {
         messages.push(message);
         batch.tryAdd(message);
       }
-      await senderClient.send(batch);
+      await sender.send(batch);
 
       const receivedMsgs: ReceivedMessageWithLock[] = [];
 
@@ -1114,7 +1114,7 @@ describe("Streaming", () => {
 
 describe("Streaming - onDetached", function(): void {
   let serviceBusClient: ServiceBusClientForTests;
-  let senderClient: Sender;
+  let sender: Sender;
   let receiver: Receiver<ReceivedMessageWithLock> | Receiver<ReceivedMessage>;
 
   before(() => {
@@ -1136,7 +1136,7 @@ describe("Streaming - onDetached", function(): void {
     } else {
       receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
     }
-    senderClient = serviceBusClient.test.addToCleanup(
+    sender = serviceBusClient.test.addToCleanup(
       await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
 
@@ -1157,7 +1157,7 @@ describe("Streaming - onDetached", function(): void {
     // Create the sender and receiver.
     await beforeEachTest(TestClientType.UnpartitionedQueue, "receiveAndDelete");
     // Send a message so we can be sure when the receiver is open and active.
-    await senderClient.send(TestMessage.getSample());
+    await sender.send(TestMessage.getSample());
     const receivedErrors: any[] = [];
 
     let receiverIsActiveResolver: Function;
@@ -1192,7 +1192,7 @@ describe("Streaming - onDetached", function(): void {
     // Create the sender and receiver.
     await beforeEachTest(TestClientType.UnpartitionedQueue, "receiveAndDelete");
     // Send a message so we can be sure when the receiver is open and active.
-    await senderClient.send(TestMessage.getSample());
+    await sender.send(TestMessage.getSample());
     const receivedErrors: any[] = [];
 
     let receiverIsActiveResolver: Function;
@@ -1227,7 +1227,7 @@ describe("Streaming - onDetached", function(): void {
     // Create the sender and receiver.
     await beforeEachTest(TestClientType.UnpartitionedQueue, "receiveAndDelete");
     // Send a message so we can be sure when the receiver is open and active.
-    await senderClient.send(TestMessage.getSample());
+    await sender.send(TestMessage.getSample());
     const receivedErrors: any[] = [];
 
     let receiverIsActiveResolver: Function;
@@ -1265,7 +1265,7 @@ describe("Streaming - onDetached", function(): void {
     // Create the sender and receiver.
     await beforeEachTest(TestClientType.UnpartitionedQueue, "receiveAndDelete");
     // Send a message so we can be sure when the receiver is open and active.
-    await senderClient.send(TestMessage.getSample());
+    await sender.send(TestMessage.getSample());
     const receivedErrors: any[] = [];
 
     let receiverIsActiveResolver: Function;
@@ -1302,7 +1302,7 @@ describe("Streaming - onDetached", function(): void {
 
 describe("Streaming - disconnects", function(): void {
   let serviceBusClient: ServiceBusClientForTests;
-  let senderClient: Sender;
+  let sender: Sender;
   let receiver: Receiver<ReceivedMessageWithLock> | Receiver<ReceivedMessage>;
 
   before(() => {
@@ -1316,7 +1316,7 @@ describe("Streaming - disconnects", function(): void {
   async function beforeEachTest(testClientType: TestClientType): Promise<void> {
     const entityNames = await serviceBusClient.test.createTestEntities(testClientType);
     receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
-    senderClient = serviceBusClient.test.addToCleanup(
+    sender = serviceBusClient.test.addToCleanup(
       await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
   }
@@ -1342,7 +1342,7 @@ describe("Streaming - disconnects", function(): void {
     // Create the sender and receiver.
     await beforeEachTest(TestClientType.UnpartitionedQueue);
     // Send a message so we can be sure when the receiver is open and active.
-    await senderClient.send(TestMessage.getSample());
+    await sender.send(TestMessage.getSample());
     const receivedErrors: any[] = [];
     let settledMessageCount = 0;
 
@@ -1400,7 +1400,7 @@ describe("Streaming - disconnects", function(): void {
     // Otherwise, it will get into a bad internal state with uncaught exceptions.
     await delay(2000);
     // send a second message to trigger the message handler again.
-    await senderClient.send(TestMessage.getSample());
+    await sender.send(TestMessage.getSample());
 
     // wait for the 2nd message to be received.
     await receiverSecondMessage;

@@ -14,7 +14,7 @@ import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
 
 describe("deferred messages", () => {
   let serviceBusClient: ReturnType<typeof createServiceBusClientForTests>;
-  let senderClient: Sender;
+  let sender: Sender;
   let receiver: Receiver<ReceivedMessageWithLock>;
   let deadLetterClient: Receiver<ReceivedMessageWithLock>;
 
@@ -31,7 +31,7 @@ describe("deferred messages", () => {
 
     receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
 
-    senderClient = serviceBusClient.test.addToCleanup(
+    sender = serviceBusClient.test.addToCleanup(
       await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
 
@@ -52,7 +52,7 @@ describe("deferred messages", () => {
     testMessage: ServiceBusMessage,
     useReceiveDeferredMessages: boolean
   ): Promise<ReceivedMessageWithLock> {
-    await senderClient.send(testMessage);
+    await sender.send(testMessage);
     const receivedMsgs = await receiver.receiveBatch(1);
 
     should.equal(receivedMsgs.length, 1, "Unexpected number of messages");

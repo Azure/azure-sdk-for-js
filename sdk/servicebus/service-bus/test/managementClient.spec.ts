@@ -9,14 +9,14 @@ chai.use(chaiAsPromised);
 
 describe("ManagementClient - disconnects", function(): void {
   let serviceBusClient: ServiceBusClientForTests;
-  let senderClient: Sender;
+  let sender: Sender;
   let receiver: Receiver<ReceivedMessageWithLock>;
 
   async function beforeEachTest(entityType: TestClientType): Promise<void> {
     const entityNames = await serviceBusClient.test.createTestEntities(entityType);
     receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
 
-    senderClient = serviceBusClient.test.addToCleanup(
+    sender = serviceBusClient.test.addToCleanup(
       await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
   }
@@ -48,8 +48,8 @@ describe("ManagementClient - disconnects", function(): void {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
     // Send a message so we have something to peek.
 
-    await senderClient.send(TestMessage.getSample());
-    await senderClient.send(TestMessage.getSample());
+    await sender.send(TestMessage.getSample());
+    await sender.send(TestMessage.getSample());
 
     let peekedMessageCount = 0;
     let messages = await receiver.browseMessages({ maxMessageCount: 1 });
@@ -88,7 +88,7 @@ describe("ManagementClient - disconnects", function(): void {
     // Send a message so we have something to peek.
 
     const deliveryIds = [];
-    let deliveryId = await senderClient.scheduleMessage(
+    let deliveryId = await sender.scheduleMessage(
       new Date("2020-04-25T12:00:00Z"),
       TestMessage.getSample()
     );
@@ -112,7 +112,7 @@ describe("ManagementClient - disconnects", function(): void {
     await delay(2000);
 
     // peek additional messages
-    deliveryId = await senderClient.scheduleMessage(
+    deliveryId = await sender.scheduleMessage(
       new Date("2020-04-25T12:00:00Z"),
       TestMessage.getSample()
     );

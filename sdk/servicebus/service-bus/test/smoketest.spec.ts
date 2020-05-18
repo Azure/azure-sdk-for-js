@@ -430,7 +430,7 @@ describe("Sample scenarios for track 2", () => {
     });
   });
 
-  async function sendSampleMessage(senderClient: Sender, body: string, sessionId?: string) {
+  async function sendSampleMessage(sender: Sender, body: string, sessionId?: string) {
     const message: ServiceBusMessage = {
       body
     };
@@ -439,7 +439,7 @@ describe("Sample scenarios for track 2", () => {
       message.sessionId = sessionId;
     }
 
-    await senderClient.send(message);
+    await sender.send(message);
   }
 });
 

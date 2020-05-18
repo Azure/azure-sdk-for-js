@@ -23,7 +23,7 @@ import { DispositionType, ReceivedMessageWithLock } from "../src/serviceBusMessa
 let errorWasThrown: boolean;
 
 describe("receive and delete", () => {
-  let senderClient: Sender;
+  let sender: Sender;
   let receiver: Receiver<ReceivedMessage>;
   let serviceBusClient: ServiceBusClientForTests;
 
@@ -41,7 +41,7 @@ describe("receive and delete", () => {
   ): Promise<EntityName> {
     const entityNames = await serviceBusClient.test.createTestEntities(entityType);
 
-    senderClient = serviceBusClient.test.addToCleanup(
+    sender = serviceBusClient.test.addToCleanup(
       await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
     if (receiveMode === "peekLock") {
@@ -64,7 +64,7 @@ describe("receive and delete", () => {
     });
 
     async function sendReceiveMsg(testMessages: ServiceBusMessage): Promise<void> {
-      await senderClient.send(testMessages);
+      await sender.send(testMessages);
       const msgs = await receiver.receiveBatch(1);
 
       should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
@@ -153,7 +153,7 @@ describe("receive and delete", () => {
       testMessages: ServiceBusMessage,
       autoCompleteFlag: boolean
     ): Promise<void> {
-      await senderClient.send(testMessages);
+      await sender.send(testMessages);
 
       const errors: string[] = [];
       const receivedMsgs: ReceivedMessage[] = [];
@@ -323,7 +323,7 @@ describe("receive and delete", () => {
     });
 
     async function sendReceiveMsg(testMessages: ServiceBusMessage): Promise<ReceivedMessage> {
-      await senderClient.send(testMessages);
+      await sender.send(testMessages);
       const msgs = await receiver.receiveBatch(1);
 
       should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
@@ -694,7 +694,7 @@ describe("receive and delete", () => {
     });
     async function deferMessage(useSessions?: boolean): Promise<void> {
       const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
-      await senderClient.send(testMessages);
+      await sender.send(testMessages);
       const batch = await receiver.receiveBatch(1);
       const msgs = batch;
 
