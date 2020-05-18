@@ -57,7 +57,7 @@ jobs:
           ${{ matrixEntry.key }}:
             # If no CloudType, use "AzureCloud"
             ${{ if eq(matrixEntry.value.CloudType, '') }}:
-              CloudType: "AzureCloud"
+              SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
             # TestResultsFiles
             ${{ if eq(matrixEntry.value.TestType, 'browser' )}}:
               TestResultsFiles: "**/test-results.browser.xml"
@@ -75,7 +75,7 @@ jobs:
             OSVmImage: "windows-2019"
             TestType: "browser"
             NodeVersion: "12.x"
-            CloudType: "AzureCloud"
+            SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
             TestResultsFiles: "**/test-results.browser.xml"
 
         # Add matrix entry for sample testing
@@ -84,7 +84,7 @@ jobs:
             OSVmImage: "ubuntu-18.04"
             TestType: "sample"
             NodeVersion: "10.x"
-            CloudType: "AzureCloud"
+            SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
 
     pool:
       vmImage: "$(OSVmImage)"
@@ -98,6 +98,7 @@ jobs:
         - template: /eng/common/TestResources/deploy-test-resources.yml
           parameters:
             ServiceDirectory: "${{ parameters.ResourceServiceDirectory }}"
+            SubscriptionConfiguration: $(SubscriptionConfiguration)
 
       - script: |
           node common/scripts/install-run-rush.js install
@@ -184,6 +185,7 @@ jobs:
         - template: /eng/common/TestResources/remove-test-resources.yml
           parameters:
             ServiceDirectory: "${{ parameters.ResourceServiceDirectory }}"
+            SubscriptionConfiguration: $(SubscriptionConfiguration)
          
       - script: |
           npm install

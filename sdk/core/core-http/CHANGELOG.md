@@ -2,6 +2,7 @@
 
 ## 1.1.3 (Unreleased)
 
+- Fix issue of `SystemErrorRetryPolicy` didn't retry on errors [PR #8803](https://github.com/Azure/azure-sdk-for-js/pull/8803)
 
 ## 1.1.2 (2020-05-07)
 

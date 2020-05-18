@@ -11,8 +11,8 @@ import { MessageSender } from "../src/core/messageSender";
 import { OperationOptions } from "../src/modelsToBeSharedWithEventHubs";
 import { DefaultDataTransformer } from "@azure/core-amqp";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { ServiceBusMessageBatch } from "../src/serviceBusMessageBatch";
 import { delay, AwaitableSender } from "rhea-promise";
+import { ServiceBusMessageBatchImpl } from "../src/serviceBusMessageBatch";
 
 describe("AbortSignal", () => {
   const testMessageThatDoesntMatter = {
@@ -41,7 +41,8 @@ describe("AbortSignal", () => {
 
       assert.equal((passedInOptions?.abortSignal as any).tag, "passed with send");
 
-      await sender.sendBatch({} as ServiceBusMessageBatch, {
+      const batchMessage = new ServiceBusMessageBatchImpl(clientEntityContext, 1000);
+      await sender.sendBatch(batchMessage, {
         abortSignal: createTaggedAbortSignal("passed with sendBatch", false)
       });
 
