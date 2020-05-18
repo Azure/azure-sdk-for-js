@@ -275,7 +275,7 @@ export class WebResource implements WebResourceLike {
       throw new Error("options object is required");
     }
 
-    if (options.method === undefined || typeof options.method.valueOf() !== "string") {
+    if (options.method === undefined || options.method === null || typeof options.method.valueOf() !== "string") {
       throw new Error("options.method must be a string.");
     }
 
@@ -286,8 +286,8 @@ export class WebResource implements WebResourceLike {
     }
 
     if (
-      (options.pathTemplate === undefined || typeof options.pathTemplate.valueOf() !== "string") &&
-      (options.url === undefined || typeof options.url.valueOf() !== "string")
+      (options.pathTemplate === undefined || options.pathTemplate === null || typeof options.pathTemplate.valueOf() !== "string") &&
+      (options.url === undefined || options.url === null || typeof options.url.valueOf() !== "string")
     ) {
       throw new Error("Please provide exactly one of options.pathTemplate or options.url.");
     }
@@ -440,7 +440,7 @@ export class WebResource implements WebResourceLike {
 
     // set the request body. request.js automatically sets the Content-Length request header, so we need not set it explicilty
     this.body = options.body;
-    if (options.body !== undefined) {
+    if (options.body !== undefined && options.body !== null) {
       // body as a stream special case. set the body as-is and check for some special request headers specific to sending a stream.
       if (options.bodyIsStream) {
         if (!this.headers.get("Transfer-Encoding")) {

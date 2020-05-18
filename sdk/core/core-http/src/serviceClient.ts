@@ -216,7 +216,7 @@ export class ServiceClient {
           const serviceClient = this;
           return {
             create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): RequestPolicy {
-              if (bearerTokenPolicyFactory === undefined) {
+              if (bearerTokenPolicyFactory === undefined || bearerTokenPolicyFactory === null) {
                 bearerTokenPolicyFactory = bearerTokenAuthenticationPolicy(
                   credentials,
                   `${serviceClient.baseUri || ""}/.default`
@@ -232,7 +232,7 @@ export class ServiceClient {
       } else if (credentials && typeof credentials.signRequest === "function") {
         logger.info("ServiceClient: creating signing policy from provided credentials");
         authPolicyFactory = signingPolicy(credentials);
-      } else if (credentials !== undefined) {
+      } else if (credentials !== undefined && credentials !== null) {
         throw new Error("The credentials argument must implement the TokenCredential interface");
       }
 
@@ -349,20 +349,20 @@ export class ServiceClient {
             queryParameter,
             operationSpec.serializer
           );
-          if (queryParameterValue !== undefined) {
+          if (queryParameterValue !== undefined && queryParameterValue !== null) {
             queryParameterValue = operationSpec.serializer.serialize(
               queryParameter.mapper,
               queryParameterValue,
               getPathStringFromParameter(queryParameter)
             );
-            if (queryParameter.collectionFormat !== undefined) {
+            if (queryParameter.collectionFormat !== undefined && queryParameter.collectionFormat !== null) {
               if (queryParameter.collectionFormat === QueryCollectionFormat.Multi) {
                 if (queryParameterValue.length === 0) {
                   queryParameterValue = "";
                 } else {
                   for (const index in queryParameterValue) {
                     const item = queryParameterValue[index];
-                    queryParameterValue[index] = item === undefined ? "" : item.toString();
+                    queryParameterValue[index] = (item === undefined || item === null) ? "" : item.toString();
                   }
                 }
               } else if (
@@ -388,6 +388,7 @@ export class ServiceClient {
             }
             if (
               queryParameter.collectionFormat !== undefined &&
+              queryParameter.collectionFormat !== null &&
               queryParameter.collectionFormat !== QueryCollectionFormat.Multi &&
               queryParameter.collectionFormat !== QueryCollectionFormat.Ssv &&
               queryParameter.collectionFormat !== QueryCollectionFormat.Tsv
@@ -416,7 +417,7 @@ export class ServiceClient {
             headerParameter,
             operationSpec.serializer
           );
-          if (headerValue !== undefined) {
+          if (headerValue !== undefined && headerValue !== null) {
             headerValue = operationSpec.serializer.serialize(
               headerParameter.mapper,
               headerValue,
@@ -467,7 +468,7 @@ export class ServiceClient {
           httpRequest.spanOptions = options.spanOptions;
         }
 
-        if (options.shouldDeserialize !== undefined) {
+        if (options.shouldDeserialize !== undefined && options.shouldDeserialize !== null) {
           httpRequest.shouldDeserialize = options.shouldDeserialize;
         }
       }
@@ -476,7 +477,7 @@ export class ServiceClient {
 
       serializeRequestBody(this, httpRequest, operationArguments, operationSpec);
 
-      if (httpRequest.streamResponseBody === undefined) {
+      if (httpRequest.streamResponseBody === undefined || httpRequest.streamResponseBody === null) {
         httpRequest.streamResponseBody = isStreamOperation(operationSpec);
       }
 
@@ -536,7 +537,7 @@ export function serializeRequestBody(
     const typeName = bodyMapper.type.name;
 
     try {
-      if (httpRequest.body !== undefined || required) {
+      if ((httpRequest.body !== undefined && httpRequest.body !== null) || required) {
         const requestBodyParameterPathString: string = getPathStringFromParameter(
           operationSpec.requestBody
         );
@@ -591,7 +592,7 @@ export function serializeRequestBody(
         formDataParameter,
         operationSpec.serializer
       );
-      if (formDataParameterValue !== undefined) {
+      if (formDataParameterValue !== undefined && formDataParameterValue !== null) {
         const formDataParameterPropertyName: string =
           formDataParameter.mapper.serializedName || getPathStringFromParameter(formDataParameter);
         httpRequest.formData[formDataParameterPropertyName] = operationSpec.serializer.serialize(
@@ -847,7 +848,7 @@ export function getOperationArgumentValueFromParameterPath(
         propertyMapper
       );
       serializer.serialize(propertyMapper, propertyValue, propertyPathString);
-      if (propertyValue !== undefined) {
+      if (propertyValue !== undefined && propertyValue !== null) {
         if (!value) {
           value = {};
         }
@@ -872,7 +873,7 @@ function getPropertyFromParameterPath(
   for (; i < parameterPath.length; ++i) {
     const parameterPathPart: string = parameterPath[i];
     // Make sure to check inherited properties too, so don't use hasOwnProperty().
-    if (parent !== undefined && parameterPathPart in parent) {
+    if ((parent !== undefined && parent !== null) && parameterPathPart in parent) {
       parent = parent[parameterPathPart];
     } else {
       break;

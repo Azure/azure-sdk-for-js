@@ -157,6 +157,7 @@ function shouldRetry(
 ): boolean {
   if (
     statusCode === undefined ||
+    statusCode === null ||
     (statusCode < 500 && statusCode !== 408) ||
     statusCode === 501 ||
     statusCode === 505
