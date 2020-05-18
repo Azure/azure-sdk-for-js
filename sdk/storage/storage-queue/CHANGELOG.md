@@ -3,6 +3,8 @@
 ## 12.0.5 (2020.05)
 
 - Fix un-handled TypeError [issue #8499](https://github.com/Azure/azure-sdk-for-js/issues/8499) in Electron applications. [PR #8568](https://github.com/Azure/azure-sdk-for-js/pull/8568)
+- Updated to use `@opentelemetry/api` 0.6.1 via `@azure/core-tracing`.
+- Updated to use `typescript` 3.8.3.
 
 ## 12.0.4 (2020.03)
 
