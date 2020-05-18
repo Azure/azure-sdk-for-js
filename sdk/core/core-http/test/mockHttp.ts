@@ -160,10 +160,7 @@ export class BrowserHttpMock implements HttpMockFacade {
     return this.mockHttpMethod(
       method,
       url,
-      () =>
-        new Promise(() => {
-          // Nothing to do here.
-        })
+      () => Promise.resolve({})
     );
   }
 }
