@@ -254,6 +254,10 @@ export class MessageSender extends LinkEntity {
     options: OperationOptions | undefined
   ): Promise<void> {
     const abortSignal = options?.abortSignal;
+    let timeoutInMs =
+      this._retryOptions.timeoutInMs == undefined
+        ? Constants.defaultOperationTimeoutInMs
+        : this._retryOptions.timeoutInMs;
 
     const sendEventPromise = () =>
       new Promise<void>(async (resolve, reject) => {
@@ -279,7 +283,7 @@ export class MessageSender extends LinkEntity {
                 description: desc
               };
               return rejectInitTimeoutPromise(translate(e));
-            }, this._retryOptions.timeoutInMs);
+            }, timeoutInMs);
           });
 
           try {
@@ -325,7 +329,7 @@ export class MessageSender extends LinkEntity {
           );
         }
         if (this._sender!.sendable()) {
-          if (this._retryOptions.timeoutInMs! <= timeTakenByInit) {
+          if (timeoutInMs <= timeTakenByInit) {
             const desc: string =
               `[${this._context.namespace.connectionId}] Sender "${this.name}" ` +
               `with address "${this.address}", was not able to send the message right now, due ` +
@@ -338,8 +342,7 @@ export class MessageSender extends LinkEntity {
             return reject(translate(e));
           }
           try {
-            this._sender!.sendTimeoutInSeconds =
-              (this._retryOptions.timeoutInMs! - timeTakenByInit) / 1000;
+            this._sender!.sendTimeoutInSeconds = (timeoutInMs - timeTakenByInit) / 1000;
             const delivery = await this._sender!.send(
               encodedMessage,
               undefined,
