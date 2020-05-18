@@ -377,24 +377,26 @@ function serializeEnumType(objectName: string, allowedValues: Array<any>, value:
   return value;
 }
 
-function serializeByteArrayType(objectName: string, value: any): any {
+function serializeByteArrayType(objectName: string, value: Uint8Array): string {
+  let returnValue: string = "";
   if (value != undefined) {
     if (!(value instanceof Uint8Array)) {
       throw new Error(`${objectName} must be of type Uint8Array.`);
     }
-    value = base64.encodeByteArray(value);
+    returnValue = base64.encodeByteArray(value);
   }
-  return value;
+  return returnValue;
 }
 
-function serializeBase64UrlType(objectName: string, value: any): any {
+function serializeBase64UrlType(objectName: string, value: Uint8Array): string {
+  let returnValue: string = "";
   if (value != undefined) {
     if (!(value instanceof Uint8Array)) {
       throw new Error(`${objectName} must be of type Uint8Array.`);
     }
-    value = bufferToBase64Url(value);
+    returnValue = bufferToBase64Url(value) || "";
   }
-  return value;
+  return returnValue;
 }
 
 function serializeDateTypes(typeName: string, value: any, objectName: string): any {
@@ -793,7 +795,7 @@ function deserializeDictionaryType(
   mapper: DictionaryMapper,
   responseBody: any,
   objectName: string
-): any {
+): { [key: string]: any } {
   const value = mapper.type.value;
   if (!value || typeof value !== "object") {
     throw new Error(
@@ -816,7 +818,7 @@ function deserializeSequenceType(
   mapper: SequenceMapper,
   responseBody: any,
   objectName: string
-): any {
+): any[] {
   const element = mapper.type.element;
   if (!element || typeof element !== "object") {
     throw new Error(
