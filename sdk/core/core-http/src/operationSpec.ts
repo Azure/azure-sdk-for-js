@@ -44,6 +44,11 @@ export interface OperationSpec {
   readonly contentType?: string;
 
   /**
+   * The media type of the request body.
+   * This value can be used to aide in serialization if it is provided.
+   */
+  readonly mediaType?: string;
+  /**
    * The parameter that will be used to construct the HTTP request's body.
    */
   readonly requestBody?: OperationParameter;
