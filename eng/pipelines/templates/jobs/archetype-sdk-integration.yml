@@ -36,21 +36,21 @@ jobs:
         MaxVersion_Node:
           OSVmImage: "ubuntu-18.04"
           TestType: "node"
-          CloudType: "AzureCloud"
+          SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
           DependencyVersion: max
           TestResultsFiles: "**/test-results.xml"
+        # MinVersion_Node:
+        #   OSVmImage: "ubuntu-18.04"
+        #   TestType: "node"
+        #   SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
+        #   DependencyVersion: min
+        #   TestResultsFiles: "**/test-results.xml"
         # MaxVersion_Browser:
         #   OSVmImage: "ubuntu-18.04"
         #   TestType: "browser"
         #   CloudType: "AzureCloud"
         #   DependencyVersion: max
         #   TestResultsFiles: "**/test-results.browser.xml"
-        # MinVersion_Node:
-        #   OSVmImage: "ubuntu-18.04"
-        #   TestType: "node"
-        #   CloudType: "AzureCloud"
-        #   DependencyVersion: min
-        #   TestResultsFiles: "**/test-results.xml"
         # MinVersion_Browser:
         #   OSVmImage: "ubuntu-18.04"
         #   TestType: "browser"
