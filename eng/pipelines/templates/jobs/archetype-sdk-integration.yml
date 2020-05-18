@@ -10,6 +10,22 @@ parameters:
   TestBrowser: true
   TestSamples: true
   Matrix:
+    MaxVersion_Node:
+      OSVmImage: "ubuntu-18.04"
+      TestType: "node"
+      DependencyVersion: max
+    # MinVersion_Node:
+    #   OSVmImage: "ubuntu-18.04"
+    #   TestType: "node"
+    #   DependencyVersion: min
+    # MaxVersion_Browser:
+    #   OSVmImage: "ubuntu-18.04"
+    #   TestType: "browser"
+    #   DependencyVersion: max
+    # MinVersion_Browser:
+    #   OSVmImage: "ubuntu-18.04"
+    #   TestType: "browser"
+    #   DependencyVersion: min
     Linux Node 8:
       OSVmImage: "ubuntu-18.04"
       TestType: "node"
@@ -33,30 +49,6 @@ jobs:
     strategy:
       maxParallel: ${{ parameters.MaxParallel }}
       matrix:
-        MaxVersion_Node:
-          OSVmImage: "ubuntu-18.04"
-          TestType: "node"
-          SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
-          DependencyVersion: max
-          TestResultsFiles: "**/test-results.xml"
-        # MinVersion_Node:
-        #   OSVmImage: "ubuntu-18.04"
-        #   TestType: "node"
-        #   SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
-        #   DependencyVersion: min
-        #   TestResultsFiles: "**/test-results.xml"
-        # MaxVersion_Browser:
-        #   OSVmImage: "ubuntu-18.04"
-        #   TestType: "browser"
-        #   CloudType: "AzureCloud"
-        #   DependencyVersion: max
-        #   TestResultsFiles: "**/test-results.browser.xml"
-        # MinVersion_Browser:
-        #   OSVmImage: "ubuntu-18.04"
-        #   TestType: "browser"
-        #   CloudType: "AzureCloud"
-        #   DependencyVersion: min
-        #   TestResultsFiles: "**/test-results.browser.xml"
         ${{ each matrixEntry in parameters.Matrix }}:
           ${{ matrixEntry.key }}:
             # If no CloudType, use "AzureCloud"
