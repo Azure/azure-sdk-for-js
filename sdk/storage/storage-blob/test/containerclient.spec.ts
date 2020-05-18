@@ -72,7 +72,7 @@ describe("ContainerClient", () => {
     const containerName2 = recorder.getUniqueName("container2");
     const containerClient2 = blobServiceClient.getContainerClient(containerName2);
     const createRes = await containerClient2.createIfNotExists();
-    assert.notEqual(createRes, null);
+    assert.notDeepStrictEqual(createRes, null);
     await containerClient2.delete();
   });
 
@@ -81,7 +81,7 @@ describe("ContainerClient", () => {
     const containerClient2 = blobServiceClient.getContainerClient(containerName2);
     await containerClient2.create();
     const res = await containerClient2.deleteIfExists();
-    assert.notEqual(null, res);
+    assert.notDeepStrictEqual(null, res);
 
     const containerName3 = recorder.getUniqueName("container3");
     const containerClient3 = blobServiceClient.getContainerClient(containerName3);

@@ -336,7 +336,7 @@ describe("DataLakePathClient", () => {
   it("DataLakeDirectoryClient-createIfNotExists", async () => {
     const directoryName = recorder.getUniqueName("dir");
     const directoryClient = fileSystemClient.getDirectoryClient(directoryName);
-    assert.notEqual(null, await directoryClient.createIfNotExists());
+    assert.notDeepStrictEqual(null, await directoryClient.createIfNotExists());
     assert.equal(null, await directoryClient.createIfNotExists());
   });
 
@@ -350,6 +350,6 @@ describe("DataLakePathClient", () => {
     assert.equal(null, await directoryClient.deleteIfExists());
 
     await directoryClient.create();
-    assert.notEqual(null, await directoryClient.deleteIfExists());
+    assert.notDeepStrictEqual(null, await directoryClient.deleteIfExists());
   });
 });
