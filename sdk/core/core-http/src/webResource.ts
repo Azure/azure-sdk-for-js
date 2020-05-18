@@ -275,7 +275,11 @@ export class WebResource implements WebResourceLike {
       throw new Error("options object is required");
     }
 
-    if (options.method === undefined || options.method === null || typeof options.method.valueOf() !== "string") {
+    if (
+      options.method === undefined ||
+      options.method === null ||
+      typeof options.method.valueOf() !== "string"
+    ) {
       throw new Error("options.method must be a string.");
     }
 
@@ -286,8 +290,12 @@ export class WebResource implements WebResourceLike {
     }
 
     if (
-      (options.pathTemplate === undefined || options.pathTemplate === null || typeof options.pathTemplate.valueOf() !== "string") &&
-      (options.url === undefined || options.url === null || typeof options.url.valueOf() !== "string")
+      (options.pathTemplate === undefined ||
+        options.pathTemplate === null ||
+        typeof options.pathTemplate.valueOf() !== "string") &&
+      (options.url === undefined ||
+        options.url === null ||
+        typeof options.url.valueOf() !== "string")
     ) {
       throw new Error("Please provide exactly one of options.pathTemplate or options.url.");
     }

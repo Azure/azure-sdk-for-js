@@ -355,14 +355,18 @@ export class ServiceClient {
               queryParameterValue,
               getPathStringFromParameter(queryParameter)
             );
-            if (queryParameter.collectionFormat !== undefined && queryParameter.collectionFormat !== null) {
+            if (
+              queryParameter.collectionFormat !== undefined &&
+              queryParameter.collectionFormat !== null
+            ) {
               if (queryParameter.collectionFormat === QueryCollectionFormat.Multi) {
                 if (queryParameterValue.length === 0) {
                   queryParameterValue = "";
                 } else {
                   for (const index in queryParameterValue) {
                     const item = queryParameterValue[index];
-                    queryParameterValue[index] = (item === undefined || item === null) ? "" : item.toString();
+                    queryParameterValue[index] =
+                      item === undefined || item === null ? "" : item.toString();
                   }
                 }
               } else if (
@@ -873,7 +877,7 @@ function getPropertyFromParameterPath(
   for (; i < parameterPath.length; ++i) {
     const parameterPathPart: string = parameterPath[i];
     // Make sure to check inherited properties too, so don't use hasOwnProperty().
-    if ((parent !== undefined && parent !== null) && parameterPathPart in parent) {
+    if (parent !== undefined && parent !== null && parameterPathPart in parent) {
       parent = parent[parameterPathPart];
     } else {
       break;

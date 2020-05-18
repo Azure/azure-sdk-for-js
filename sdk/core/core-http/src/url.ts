@@ -442,7 +442,7 @@ export class URLTokenizer {
 
   public constructor(readonly _text: string, state?: URLTokenizerState) {
     this._textLength = _text ? _text.length : 0;
-    this._currentState = (state !== undefined && state !== null) ? state : "SCHEME_OR_HOST";
+    this._currentState = state !== undefined && state !== null ? state : "SCHEME_OR_HOST";
     this._currentIndex = 0;
   }
 
