@@ -14,18 +14,18 @@ parameters:
       OSVmImage: "ubuntu-18.04"
       TestType: "node"
       DependencyVersion: max
-  # MinVersion_Node:
-  #   OSVmImage: "ubuntu-18.04"
-  #   TestType: "node"
-  #   DependencyVersion: min
-  # MaxVersion_Browser:
-  #   OSVmImage: "ubuntu-18.04"
-  #   TestType: "browser"
-  #   DependencyVersion: max
-  # MinVersion_Browser:
-  #   OSVmImage: "ubuntu-18.04"
-  #   TestType: "browser"
-  #   DependencyVersion: min
+    # MinVersion_Node:
+    #   OSVmImage: "ubuntu-18.04"
+    #   TestType: "node"
+    #   DependencyVersion: min
+    # MaxVersion_Browser:
+    #   OSVmImage: "ubuntu-18.04"
+    #   TestType: "browser"
+    #   DependencyVersion: max
+    # MinVersion_Browser:
+    #   OSVmImage: "ubuntu-18.04"
+    #   TestType: "browser"
+    #   DependencyVersion: min
     Linux Node 8:
       OSVmImage: "ubuntu-18.04"
       TestType: "node"
