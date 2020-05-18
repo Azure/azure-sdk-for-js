@@ -24,7 +24,7 @@ let errorWasThrown: boolean;
 
 describe("receive and delete", () => {
   let senderClient: Sender;
-  let receiverClient: Receiver<ReceivedMessage>;
+  let receiver: Receiver<ReceivedMessage>;
   let serviceBusClient: ServiceBusClientForTests;
 
   before(() => {
@@ -45,9 +45,9 @@ describe("receive and delete", () => {
       await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
     if (receiveMode === "peekLock") {
-      receiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+      receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
     } else {
-      receiverClient = await serviceBusClient.test.getReceiveAndDeleteReceiver(entityNames);
+      receiver = await serviceBusClient.test.getReceiveAndDeleteReceiver(entityNames);
     }
 
     errorWasThrown = false;
@@ -65,7 +65,7 @@ describe("receive and delete", () => {
 
     async function sendReceiveMsg(testMessages: ServiceBusMessage): Promise<void> {
       await senderClient.send(testMessages);
-      const msgs = await receiverClient.receiveBatch(1);
+      const msgs = await receiver.receiveBatch(1);
 
       should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
       should.equal(msgs.length, 1, "Unexpected number of messages");
@@ -82,7 +82,7 @@ describe("receive and delete", () => {
       const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
       await sendReceiveMsg(testMessages);
 
-      await testPeekMsgsLength(receiverClient, 0);
+      await testPeekMsgsLength(receiver, 0);
     }
 
     it("Partitioned Queue: No settlement of the message removes message", async function(): Promise<
@@ -158,7 +158,7 @@ describe("receive and delete", () => {
       const errors: string[] = [];
       const receivedMsgs: ReceivedMessage[] = [];
 
-      receiverClient.subscribe(
+      receiver.subscribe(
         {
           async processMessage(message: ReceivedMessage): Promise<void> {
             receivedMsgs.push(message);
@@ -191,7 +191,7 @@ describe("receive and delete", () => {
         errorFromErrorHandler && errorFromErrorHandler.message
       );
 
-      await testPeekMsgsLength(receiverClient, 0);
+      await testPeekMsgsLength(receiver, 0);
     }
 
     async function testNoSettlement(
@@ -201,7 +201,7 @@ describe("receive and delete", () => {
       const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
       await sendReceiveMsg(testMessages, autoCompleteFlag);
 
-      await testPeekMsgsLength(receiverClient, 0);
+      await testPeekMsgsLength(receiver, 0);
     }
 
     it("Partitioned Queue: With auto-complete enabled, no settlement of the message removes message", async function(): Promise<
@@ -324,7 +324,7 @@ describe("receive and delete", () => {
 
     async function sendReceiveMsg(testMessages: ServiceBusMessage): Promise<ReceivedMessage> {
       await senderClient.send(testMessages);
-      const msgs = await receiverClient.receiveBatch(1);
+      const msgs = await receiver.receiveBatch(1);
 
       should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
       should.equal(msgs.length, 1, "Unexpected number of messages");
@@ -371,7 +371,7 @@ describe("receive and delete", () => {
 
       should.equal(errorWasThrown, true, "Error thrown flag must be true");
 
-      await testPeekMsgsLength(receiverClient, 0);
+      await testPeekMsgsLength(receiver, 0);
     }
 
     it("Partitioned Queue: complete() throws error", async function(): Promise<void> {
@@ -695,7 +695,7 @@ describe("receive and delete", () => {
     async function deferMessage(useSessions?: boolean): Promise<void> {
       const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
       await senderClient.send(testMessages);
-      const batch = await receiverClient.receiveBatch(1);
+      const batch = await receiver.receiveBatch(1);
       const msgs = batch;
 
       should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
@@ -713,13 +713,13 @@ describe("receive and delete", () => {
     }
 
     async function receiveDeferredMessage(): Promise<void> {
-      const deferredMsgs = await receiverClient.receiveDeferredMessage(sequenceNumber);
+      const deferredMsgs = await receiver.receiveDeferredMessage(sequenceNumber);
       if (!deferredMsgs) {
         throw `No message received for sequence number ${sequenceNumber}`;
       }
 
       should.equal(deferredMsgs!.deliveryCount, 1, "DeliveryCount is different than expected");
-      await testPeekMsgsLength(receiverClient, 0);
+      await testPeekMsgsLength(receiver, 0);
     }
 
     /* it("Partitioned Queue: No settlement of the message removes message", async function(): Promise<
@@ -733,7 +733,7 @@ describe("receive and delete", () => {
       );
       await deferMessage();
       await receiver.close();
-      receiver = receiverClient.createReceiver(ReceiveMode.receiveAndDelete);
+      receiver = receiver.createReceiver(ReceiveMode.receiveAndDelete);
       await receiveDeferredMessage();
     });
 
@@ -748,15 +748,15 @@ describe("receive and delete", () => {
       );
       await deferMessage();
       await receiver.close();
-      receiver = receiverClient.createReceiver(ReceiveMode.receiveAndDelete);
+      receiver = receiver.createReceiver(ReceiveMode.receiveAndDelete);
       await receiveDeferredMessage();
     }); */
 
     async function deferAndReceiveMessage(testClientType: TestClientType) {
       const entityNames = await beforeEachTest(testClientType, "peekLock");
       await deferMessage(entityNames.usesSessions);
-      await receiverClient.close();
-      receiverClient = await serviceBusClient.test.getReceiveAndDeleteReceiver(entityNames);
+      await receiver.close();
+      receiver = await serviceBusClient.test.getReceiveAndDeleteReceiver(entityNames);
       await receiveDeferredMessage();
     }
 

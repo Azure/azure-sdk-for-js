@@ -68,7 +68,7 @@ describe("Random scheme in the endpoint from connection string", function(): voi
   let sbClientWithRelaxedEndPoint: ServiceBusClient;
   let entities: EntityName;
   let senderClient: Sender;
-  let receiverClient: Receiver<ReceivedMessageWithLock>;
+  let receiver: Receiver<ReceivedMessageWithLock>;
 
   async function beforeEachTest(testClientType: TestClientType) {
     sbClient = createServiceBusClientForTests();
@@ -78,7 +78,7 @@ describe("Random scheme in the endpoint from connection string", function(): voi
       getEnvVars().SERVICEBUS_CONNECTION_STRING.replace("sb://", "CheeseBurger://")
     );
     senderClient = await sbClientWithRelaxedEndPoint.createSender(entities.queue!);
-    receiverClient = !entities.usesSessions
+    receiver = !entities.usesSessions
       ? sbClientWithRelaxedEndPoint.createReceiver(entities.queue!, "peekLock")
       : await sbClientWithRelaxedEndPoint.createSessionReceiver(entities.queue!, "peekLock", {
           sessionId: TestMessage.sessionId
@@ -88,15 +88,15 @@ describe("Random scheme in the endpoint from connection string", function(): voi
   afterEach(async () => {
     await sbClient.test.after();
     await senderClient.close();
-    await receiverClient.close();
+    await receiver.close();
     await sbClientWithRelaxedEndPoint.close();
   });
 
   async function sendReceiveMsg(testMessages: ServiceBusMessage): Promise<void> {
     await senderClient.send(testMessages);
-    await testPeekMsgsLength(receiverClient, 1);
+    await testPeekMsgsLength(receiver, 1);
 
-    const msgs = await receiverClient.receiveBatch(1);
+    const msgs = await receiver.receiveBatch(1);
 
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
     should.equal(msgs.length, 1, "Unexpected number of messages");
@@ -105,7 +105,7 @@ describe("Random scheme in the endpoint from connection string", function(): voi
     should.equal(msgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
     await msgs[0].complete();
 
-    await testPeekMsgsLength(receiverClient, 0);
+    await testPeekMsgsLength(receiver, 0);
   }
 
   it("Partitioned Queue: send and receive message", async function(): Promise<void> {
@@ -637,7 +637,7 @@ describe("Errors after close()", function(): void {
     // should.equal(
     //   errorPeek,
     //   expectedErrorMsg,
-    //   "Expected error not thrown for peek() from receiverClient"
+    //   "Expected error not thrown for peek() from receiver"
     // );
 
     // let errorPeekBySequence: string = "";
@@ -647,7 +647,7 @@ describe("Errors after close()", function(): void {
     // should.equal(
     //   errorPeekBySequence,
     //   expectedErrorMsg,
-    //   "Expected error not thrown for peekBySequenceNumber() from receiverClient"
+    //   "Expected error not thrown for peekBySequenceNumber() from receiver"
     // );
 
     // if (!entityName.usesSessions) {
@@ -919,7 +919,7 @@ describe("Errors after close()", function(): void {
   //   await beforeEachTest(TestClientType.PartitionedQueue, "");
 
   //   await testCreateReceiver(
-  //     getOpenReceiverErrorMsg(ClientType.QueueClient, receiverClient.entityPath)
+  //     getOpenReceiverErrorMsg(ClientType.QueueClient, receiver.entityPath)
   //   );
   // });
 
@@ -931,7 +931,7 @@ describe("Errors after close()", function(): void {
   //     );
 
   //     await testCreateReceiver(
-  //       getOpenReceiverErrorMsg(ClientType.SubscriptionClient, receiverClient.entityPath)
+  //       getOpenReceiverErrorMsg(ClientType.SubscriptionClient, receiver.entityPath)
   //     );
   //   });
 
@@ -948,7 +948,7 @@ describe("Errors after close()", function(): void {
   //     await testCreateReceiver(
   //       getOpenReceiverErrorMsg(
   //         ClientType.QueueClient,
-  //         receiverClient.entityPath,
+  //         receiver.entityPath,
   //         TestMessage.sessionId
   //       ),
   //       true
@@ -966,7 +966,7 @@ describe("Errors after close()", function(): void {
   //     await testCreateReceiver(
   //       getOpenReceiverErrorMsg(
   //         ClientType.SubscriptionClient,
-  //         receiverClient.entityPath,
+  //         receiver.entityPath,
   //         TestMessage.sessionId
   //       ),
   //       true

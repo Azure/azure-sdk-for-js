@@ -15,7 +15,7 @@ import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
 describe("deferred messages", () => {
   let serviceBusClient: ReturnType<typeof createServiceBusClientForTests>;
   let senderClient: Sender;
-  let receiverClient: Receiver<ReceivedMessageWithLock>;
+  let receiver: Receiver<ReceivedMessageWithLock>;
   let deadLetterClient: Receiver<ReceivedMessageWithLock>;
 
   before(() => {
@@ -29,7 +29,7 @@ describe("deferred messages", () => {
   async function beforeEachTest(entityType: TestClientType): Promise<void> {
     const entityNames = await serviceBusClient.test.createTestEntities(entityType);
 
-    receiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
 
     senderClient = serviceBusClient.test.addToCleanup(
       await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
@@ -53,7 +53,7 @@ describe("deferred messages", () => {
     useReceiveDeferredMessages: boolean
   ): Promise<ReceivedMessageWithLock> {
     await senderClient.send(testMessage);
-    const receivedMsgs = await receiverClient.receiveBatch(1);
+    const receivedMsgs = await receiver.receiveBatch(1);
 
     should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
     should.equal(receivedMsgs[0].body, testMessage.body, "MessageBody is different than expected");
@@ -75,9 +75,9 @@ describe("deferred messages", () => {
     // Randomly choose receiveDeferredMessage/receiveDeferredMessages as the latter is expected to
     // convert single input to array and then use it
     if (useReceiveDeferredMessages) {
-      [deferredMsg] = await receiverClient.receiveDeferredMessages(sequenceNumber as any);
+      [deferredMsg] = await receiver.receiveDeferredMessages(sequenceNumber as any);
     } else {
-      deferredMsg = await receiverClient.receiveDeferredMessage(sequenceNumber);
+      deferredMsg = await receiver.receiveDeferredMessage(sequenceNumber);
     }
 
     if (!deferredMsg) {
@@ -99,9 +99,9 @@ describe("deferred messages", () => {
     expectedDeliverCount: number,
     testMessages: ServiceBusMessage
   ): Promise<void> {
-    await testPeekMsgsLength(receiverClient, 1);
+    await testPeekMsgsLength(receiver, 1);
 
-    const deferredMsg = await receiverClient.receiveDeferredMessage(sequenceNumber);
+    const deferredMsg = await receiver.receiveDeferredMessage(sequenceNumber);
     if (!deferredMsg) {
       throw "No message received for sequence number";
     }
@@ -120,7 +120,7 @@ describe("deferred messages", () => {
 
     await deferredMsg.complete();
 
-    await testPeekMsgsLength(receiverClient, 0);
+    await testPeekMsgsLength(receiver, 0);
   }
 
   describe("Abandon/Defer/Deadletter deferred message", function(): void {
@@ -268,7 +268,7 @@ describe("deferred messages", () => {
 
       await deferredMsg.deadLetter();
 
-      await testPeekMsgsLength(receiverClient, 0);
+      await testPeekMsgsLength(receiver, 0);
 
       const deadLetterMsgs = await deadLetterClient.receiveBatch(1);
 

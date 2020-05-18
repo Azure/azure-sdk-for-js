@@ -20,7 +20,7 @@ import { AbortController } from "@azure/abort-controller";
 
 describe("send scheduled messages", () => {
   let senderClient: Sender;
-  let receiverClient: Receiver<ReceivedMessageWithLock>;
+  let receiver: Receiver<ReceivedMessageWithLock>;
   let serviceBusClient: ServiceBusClientForTests;
 
   before(() => {
@@ -33,7 +33,7 @@ describe("send scheduled messages", () => {
 
   async function beforeEachTest(entityType: TestClientType): Promise<void> {
     const entityNames = await serviceBusClient.test.createTestEntities(entityType);
-    receiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
 
     senderClient = serviceBusClient.test.addToCleanup(
       await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
@@ -42,7 +42,7 @@ describe("send scheduled messages", () => {
 
   async function afterEachTest(): Promise<void> {
     await senderClient.close();
-    await receiverClient.close();
+    await receiver.close();
   }
 
   describe("Simple Send", function(): void {
@@ -53,7 +53,7 @@ describe("send scheduled messages", () => {
     async function testSimpleSend(useSessions: boolean, usePartitions: boolean): Promise<void> {
       const testMessage = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
       await senderClient.send(testMessage);
-      const msgs = await receiverClient.receiveBatch(1);
+      const msgs = await receiver.receiveBatch(1);
 
       should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
       should.equal(msgs.length, 1, "Unexpected number of messages");
@@ -63,7 +63,7 @@ describe("send scheduled messages", () => {
 
       await msgs[0].complete();
 
-      await testPeekMsgsLength(receiverClient, 0);
+      await testPeekMsgsLength(receiver, 0);
     }
 
     it("Partitioned Queue: Simple Send", async function(): Promise<void> {
@@ -122,7 +122,7 @@ describe("send scheduled messages", () => {
   //     testMessages.push(useSessions ? TestMessage.getSessionSample() : TestMessage.getSample());
 
   //     await senderClient.sendBatch(testMessages);
-  //     const msgs = await receiverClient.receiveBatch(2);
+  //     const msgs = await receiver.receiveBatch(2);
 
   //     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
   //     should.equal(msgs.length, 2, "Unexpected number of messages");
@@ -138,7 +138,7 @@ describe("send scheduled messages", () => {
   //     await msgs[0].complete();
   //     await msgs[1].complete();
 
-  //     await testPeekMsgsLength(receiverClient, 0);
+  //     await testPeekMsgsLength(receiver, 0);
   //   }
 
   //   it("Partitioned Queue: Simple SendBatch", async function(): Promise<void> {
@@ -208,7 +208,7 @@ describe("send scheduled messages", () => {
         await senderClient.scheduleMessage(scheduleTime, testMessage);
       }
 
-      const msgs = await receiverClient.receiveBatch(1);
+      const msgs = await receiver.receiveBatch(1);
       const msgEnqueueTime = msgs[0].enqueuedTimeUtc ? msgs[0].enqueuedTimeUtc.valueOf() : 0;
 
       should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
@@ -227,7 +227,7 @@ describe("send scheduled messages", () => {
 
       await msgs[0].complete();
 
-      await testPeekMsgsLength(receiverClient, 0);
+      await testPeekMsgsLength(receiver, 0);
     }
 
     it("Partitioned Queue: Schedule single message", async function(): Promise<void> {
@@ -310,7 +310,7 @@ describe("send scheduled messages", () => {
       const scheduleTime = new Date(Date.now() + 10000); // 10 seconds from now
       await senderClient.scheduleMessages(scheduleTime, testMessages);
 
-      const msgs = await receiverClient.receiveBatch(2);
+      const msgs = await receiver.receiveBatch(2);
       should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
       should.equal(msgs.length, 2, "Unexpected number of messages");
 
@@ -342,7 +342,7 @@ describe("send scheduled messages", () => {
       await msgs[0].complete();
       await msgs[1].complete();
 
-      await testPeekMsgsLength(receiverClient, 0);
+      await testPeekMsgsLength(receiver, 0);
     }
 
     it("Partitioned Queue: Schedule multiple messages", async function(): Promise<void> {
@@ -410,7 +410,7 @@ describe("send scheduled messages", () => {
 
       // Wait until we are sure we have passed the schedule time
       await delay(30000);
-      await testReceivedMsgsLength(receiverClient, 0);
+      await testReceivedMsgsLength(receiver, 0);
     }
 
     it("Partitioned Queue: Cancel single Scheduled message", async function(): Promise<void> {
@@ -480,7 +480,7 @@ describe("send scheduled messages", () => {
 
       // Wait until we are sure we have passed the schedule time
       await delay(30000);
-      await testReceivedMsgsLength(receiverClient, 0);
+      await testReceivedMsgsLength(receiver, 0);
     }
 
     it("Partitioned Queue: Cancel scheduled messages", async function(): Promise<void> {
@@ -679,10 +679,10 @@ describe("send scheduled messages", () => {
   });
 
   async function testReceivedMsgsLength(
-    receiverClient: Receiver<ReceivedMessageWithLock>,
+    receiver: Receiver<ReceivedMessageWithLock>,
     expectedReceivedMsgsLength: number
   ): Promise<void> {
-    const receivedMsgs = await receiverClient.receiveBatch(expectedReceivedMsgsLength + 1, {
+    const receivedMsgs = await receiver.receiveBatch(expectedReceivedMsgsLength + 1, {
       maxWaitTimeInMs: 5000
     });
 

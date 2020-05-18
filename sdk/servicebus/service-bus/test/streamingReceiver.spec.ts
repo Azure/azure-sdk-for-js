@@ -40,7 +40,7 @@ async function processError(err: Error): Promise<void> {
 describe("Streaming", () => {
   let serviceBusClient: ServiceBusClientForTests;
   let senderClient: Sender;
-  let receiverClient: Receiver<ReceivedMessageWithLock> | Receiver<ReceivedMessage>;
+  let receiver: Receiver<ReceivedMessageWithLock> | Receiver<ReceivedMessage>;
   let deadLetterClient: Receiver<ReceivedMessageWithLock>;
 
   before(() => {
@@ -58,9 +58,9 @@ describe("Streaming", () => {
     const entityNames = await serviceBusClient.test.createTestEntities(testClientType);
 
     if (receiveMode === "receiveAndDelete") {
-      receiverClient = await serviceBusClient.test.getReceiveAndDeleteReceiver(entityNames);
+      receiver = await serviceBusClient.test.getReceiveAndDeleteReceiver(entityNames);
     } else {
-      receiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+      receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
     }
     senderClient = serviceBusClient.test.addToCleanup(
       await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
@@ -82,7 +82,7 @@ describe("Streaming", () => {
       await senderClient.send(testMessage);
 
       const receivedMsgs: ReceivedMessage[] = [];
-      receiverClient.subscribe({
+      receiver.subscribe({
         async processMessage(msg: ReceivedMessage) {
           receivedMsgs.push(msg);
           should.equal(msg.body, testMessage.body, "MessageBody is different than expected");
@@ -113,14 +113,14 @@ describe("Streaming", () => {
 
       should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
       should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
-      await testPeekMsgsLength(receiverClient, 0);
+      await testPeekMsgsLength(receiver, 0);
     }
     async function testAutoCompleteWithSenderAndReceiver(): Promise<void> {
       const testMessage = TestMessage.getSample();
       await senderClient.send(testMessage);
 
       const receivedMsgs: ReceivedMessage[] = [];
-      receiverClient.subscribe({
+      receiver.subscribe({
         async processMessage(msg: ReceivedMessage) {
           receivedMsgs.push(msg);
           should.equal(msg.body, testMessage.body, "MessageBody is different than expected");
@@ -151,7 +151,7 @@ describe("Streaming", () => {
       should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
       should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
 
-      const browsedMsgs = await receiverClient.browseMessages();
+      const browsedMsgs = await receiver.browseMessages();
       should.equal(browsedMsgs.length, 0, "Unexpected number of msgs found when peeking");
     }
 
@@ -184,7 +184,7 @@ describe("Streaming", () => {
       await senderClient.send(testMessage);
 
       const receivedMsgs: ReceivedMessageWithLock[] = [];
-      receiverClient.subscribe(
+      receiver.subscribe(
         {
           async processMessage(msg: ReceivedMessageWithLock) {
             receivedMsgs.push(msg);
@@ -204,13 +204,13 @@ describe("Streaming", () => {
       const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);
       should.equal(msgsCheck, true, `Expected 1, received ${receivedMsgs.length} messages`);
 
-      await testPeekMsgsLength(receiverClient, 1);
+      await testPeekMsgsLength(receiver, 1);
       should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
 
       await receivedMsgs[0].complete();
 
       should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
-      await testPeekMsgsLength(receiverClient, 0);
+      await testPeekMsgsLength(receiver, 0);
     }
 
     it("Partitioned Queue: Disabled autoComplete, no manual complete retains the message", async function(): Promise<
@@ -248,7 +248,7 @@ describe("Streaming", () => {
       let streamingReceiver: StreamingReceiver | undefined;
       try {
         let actualError: Error | undefined;
-        streamingReceiver = await StreamingReceiver.create((receiverClient as any)._context, {
+        streamingReceiver = await StreamingReceiver.create((receiver as any)._context, {
           receiveMode: ReceiveMode.peekLock
         });
 
@@ -294,7 +294,7 @@ describe("Streaming", () => {
       await senderClient.send(testMessage);
 
       const receivedMsgs: ReceivedMessageWithLock[] = [];
-      receiverClient.subscribe(
+      receiver.subscribe(
         {
           async processMessage(msg: ReceivedMessageWithLock) {
             should.equal(msg.body, testMessage.body, "MessageBody is different than expected");
@@ -316,7 +316,7 @@ describe("Streaming", () => {
 
       should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
       should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
-      await testPeekMsgsLength(receiverClient, 0);
+      await testPeekMsgsLength(receiver, 0);
     }
     it("Partitioned Queue: complete() removes message", async function(): Promise<void> {
       await beforeEachTest(TestClientType.PartitionedQueue);
@@ -378,7 +378,7 @@ describe("Streaming", () => {
 
       let checkDeliveryCount = 0;
 
-      receiverClient.subscribe(
+      receiver.subscribe(
         {
           async processMessage(msg: ReceivedMessageWithLock) {
             should.equal(
@@ -401,7 +401,7 @@ describe("Streaming", () => {
 
       should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
-      await testPeekMsgsLength(receiverClient, 0); // No messages in the queue
+      await testPeekMsgsLength(receiver, 0); // No messages in the queue
 
       const deadLetterMsgs = await deadLetterClient.receiveBatch(1);
       should.equal(Array.isArray(deadLetterMsgs), true, "`ReceivedMessages` is not an array");
@@ -461,7 +461,7 @@ describe("Streaming", () => {
       await senderClient.send(testMessage);
       let sequenceNum: any = 0;
 
-      receiverClient.subscribe(
+      receiver.subscribe(
         {
           async processMessage(msg: ReceivedMessageWithLock) {
             await msg.defer();
@@ -479,7 +479,7 @@ describe("Streaming", () => {
       );
 
       should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
-      const deferredMsgs = await receiverClient.receiveDeferredMessages([sequenceNum]);
+      const deferredMsgs = await receiver.receiveDeferredMessages([sequenceNum]);
       if (!deferredMsgs) {
         throw "No message received for sequence number";
       }
@@ -497,7 +497,7 @@ describe("Streaming", () => {
       should.equal(deferredMsgs[0].deliveryCount, 1, "DeliveryCount is different than expected");
 
       await (deferredMsgs[0] as ReceivedMessageWithLock).complete();
-      await testPeekMsgsLength(receiverClient, 0);
+      await testPeekMsgsLength(receiver, 0);
     }
 
     it("Partitioned Queue: defer() moves message to deferred queue", async function(): Promise<
@@ -568,7 +568,7 @@ describe("Streaming", () => {
 
       const receivedMsgs: ReceivedMessage[] = [];
 
-      receiverClient.subscribe(
+      receiver.subscribe(
         {
           async processMessage(msg: ReceivedMessageWithLock) {
             await msg.deadLetter();
@@ -584,7 +584,7 @@ describe("Streaming", () => {
       should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
       should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
 
-      await testPeekMsgsLength(receiverClient, 0);
+      await testPeekMsgsLength(receiver, 0);
 
       const deadLetterMsgs = await deadLetterClient.receiveBatch(1);
       should.equal(Array.isArray(deadLetterMsgs), true, "`ReceivedMessages` is not an array");
@@ -663,9 +663,9 @@ describe("Streaming", () => {
 
     async function testMultipleReceiveCalls(): Promise<void> {
       let errorMessage;
-      const expectedErrorMessage = getAlreadyReceivingErrorMsg(receiverClient.entityPath);
+      const expectedErrorMessage = getAlreadyReceivingErrorMsg(receiver.entityPath);
 
-      receiverClient.subscribe({
+      receiver.subscribe({
         async processMessage(msg: ReceivedMessageWithLock) {
           await msg.complete();
         },
@@ -673,7 +673,7 @@ describe("Streaming", () => {
       });
       await delay(5000);
       try {
-        receiverClient.subscribe({
+        receiver.subscribe({
           async processMessage() {
             return Promise.resolve();
           },
@@ -691,7 +691,7 @@ describe("Streaming", () => {
 
       errorMessage = "";
       try {
-        await receiverClient.receiveBatch(1);
+        await receiver.receiveBatch(1);
       } catch (err) {
         errorMessage = err && err.message;
       }
@@ -728,7 +728,7 @@ describe("Streaming", () => {
       const testMessage = TestMessage.getSample();
       await senderClient.send(testMessage);
       const receivedMsgs: ReceivedMessageWithLock[] = [];
-      receiverClient.subscribe({
+      receiver.subscribe({
         async processMessage(msg: ReceivedMessageWithLock) {
           receivedMsgs.push(msg);
           return Promise.resolve();
@@ -762,7 +762,7 @@ describe("Streaming", () => {
         "MessageId is different than expected"
       );
 
-      await testPeekMsgsLength(receiverClient, 0);
+      await testPeekMsgsLength(receiver, 0);
 
       if (operation === DispositionType.complete) {
         await receivedMsgs[0].complete().catch((err) => testError(err, operation));
@@ -828,7 +828,7 @@ describe("Streaming", () => {
       const errorMessage = "Will we see this error message?";
 
       const receivedMsgs: ReceivedMessageWithLock[] = [];
-      receiverClient.subscribe({
+      receiver.subscribe({
         async processMessage(msg: ReceivedMessageWithLock) {
           await msg.complete();
           receivedMsgs.push(msg);
@@ -841,7 +841,7 @@ describe("Streaming", () => {
 
       should.equal(msgsCheck, true, `Expected 1, received ${receivedMsgs.length} messages.`);
       should.equal(
-        !!(receiverClient as any)._context.streamingReceiver,
+        !!(receiver as any)._context.streamingReceiver,
         true,
         "Expected streaming receiver not to be cached."
       );
@@ -892,10 +892,10 @@ describe("Streaming", () => {
     //   // Send a message using service bus client created with connection string
     //   let clients = await getSenderReceiverClients(TestClientType.UnpartitionedQueue, "peekLock");
     //   senderClient = clients.senderClient;
-    //   receiverClient = clients.receiverClient;
+    //   receiver = clients.receiver;
     //   await senderClient.send(TestMessage.getSample());
     //   await senderClient.close();
-    //   await receiverClient.close();
+    //   await receiver.close();
 
     //   // Receive using service bus client created with faulty token provider
     //   const connectionObject: {
@@ -904,7 +904,7 @@ describe("Streaming", () => {
     //     SharedAccessKey: string;
     //   } = parseConnectionString(env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]);
     //   const tokenProvider = new TestTokenCredential();
-    //   receiverClient = new ServiceBusReceiverClient(
+    //   receiver = new ServiceBusReceiverClient(
     //     {
     //       host: connectionObject.Endpoint.substr(5),
     //       tokenCredential: tokenProvider,
@@ -914,7 +914,7 @@ describe("Streaming", () => {
     //   );
 
     //   let actualError: Error;
-    //   receiverClient.subscribe({
+    //   receiver.subscribe({
     //     async processMessage(msg: ReceivedMessage) {
     //       throw new Error("No messages should have been received with faulty token provider");
     //     },
@@ -932,7 +932,7 @@ describe("Streaming", () => {
     //     "Expected error from token provider, but unexpected error found."
     //   );
     //   should.equal(
-    //     !!(clients.receiverClient as any)._context.streamingReceiver,
+    //     !!(clients.receiver as any)._context.streamingReceiver,
     //     false,
     //     "Expected Streaming receiver to not be cached"
     //   );
@@ -955,7 +955,7 @@ describe("Streaming", () => {
       const settledMsgs: ReceivedMessage[] = [];
       const receivedMsgs: ReceivedMessage[] = [];
 
-      receiverClient.subscribe(
+      receiver.subscribe(
         {
           async processMessage(msg: ReceivedMessageWithLock) {
             if (receivedMsgs.length === 1) {
@@ -1073,7 +1073,7 @@ describe("Streaming", () => {
 
       const receivedMsgs: ReceivedMessageWithLock[] = [];
 
-      receiverClient.subscribe(
+      receiver.subscribe(
         {
           async processMessage(brokeredMessage: ReceivedMessageWithLock) {
             receivedMsgs.push(brokeredMessage);
@@ -1085,7 +1085,7 @@ describe("Streaming", () => {
           autoComplete: false
         }
       );
-      await receiverClient.close();
+      await receiver.close();
 
       await delay(5000);
       should.equal(
@@ -1093,7 +1093,7 @@ describe("Streaming", () => {
         0,
         `Expected 0 messages, but received ${receivedMsgs.length}`
       );
-      await testPeekMsgsLength(receiverClient, totalNumOfMessages);
+      await testPeekMsgsLength(receiver, totalNumOfMessages);
     }
 
     it("UnPartitioned Queue: Not receive messages after receiver is closed", async function(): Promise<
@@ -1115,7 +1115,7 @@ describe("Streaming", () => {
 describe("Streaming - onDetached", function(): void {
   let serviceBusClient: ServiceBusClientForTests;
   let senderClient: Sender;
-  let receiverClient: Receiver<ReceivedMessageWithLock> | Receiver<ReceivedMessage>;
+  let receiver: Receiver<ReceivedMessageWithLock> | Receiver<ReceivedMessage>;
 
   before(() => {
     serviceBusClient = createServiceBusClientForTests();
@@ -1132,9 +1132,9 @@ describe("Streaming - onDetached", function(): void {
     const entityNames = await serviceBusClient.test.createTestEntities(testClientType);
 
     if (receiveMode === "receiveAndDelete") {
-      receiverClient = await serviceBusClient.test.getReceiveAndDeleteReceiver(entityNames);
+      receiver = await serviceBusClient.test.getReceiveAndDeleteReceiver(entityNames);
     } else {
-      receiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+      receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
     }
     senderClient = serviceBusClient.test.addToCleanup(
       await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
@@ -1165,7 +1165,7 @@ describe("Streaming - onDetached", function(): void {
       receiverIsActiveResolver = resolve;
     });
     // Start the receiver.
-    receiverClient.subscribe({
+    receiver.subscribe({
       async processMessage() {
         // Since we've received a message, mark the receiver as active.
         receiverIsActiveResolver();
@@ -1181,7 +1181,7 @@ describe("Streaming - onDetached", function(): void {
     // Simulate onDetached being called with a non-retryable error.
     const nonRetryableError = translate(new Error(`I break systems.`));
     (nonRetryableError as MessagingError).retryable = false;
-    await (receiverClient as any)["_context"].streamingReceiver!.onDetached(nonRetryableError);
+    await (receiver as any)["_context"].streamingReceiver!.onDetached(nonRetryableError);
 
     receivedErrors.length.should.equal(0, "Unexpected number of errors received.");
   });
@@ -1200,7 +1200,7 @@ describe("Streaming - onDetached", function(): void {
       receiverIsActiveResolver = resolve;
     });
     // Start the receiver.
-    receiverClient.subscribe({
+    receiver.subscribe({
       async processMessage() {
         // Since we've received a message, mark the receiver as active.
         receiverIsActiveResolver();
@@ -1216,10 +1216,7 @@ describe("Streaming - onDetached", function(): void {
     // Simulate onDetached being called with a non-retryable error.
     const nonRetryableError = new MessagingError(`I break systems.`);
     (nonRetryableError as MessagingError).retryable = false;
-    await (receiverClient as any)["_context"].streamingReceiver!.onDetached(
-      nonRetryableError,
-      true
-    );
+    await (receiver as any)["_context"].streamingReceiver!.onDetached(nonRetryableError, true);
 
     receivedErrors.length.should.equal(1, "Unexpected number of errors received.");
   });
@@ -1238,7 +1235,7 @@ describe("Streaming - onDetached", function(): void {
       receiverIsActiveResolver = resolve;
     });
     // Start the receiver.
-    receiverClient.subscribe({
+    receiver.subscribe({
       async processMessage() {
         // Since we've received a message, mark the receiver as active.
         receiverIsActiveResolver();
@@ -1255,8 +1252,8 @@ describe("Streaming - onDetached", function(): void {
     const nonRetryableError = new MessagingError(`I break systems.`);
     (nonRetryableError as MessagingError).retryable = false;
     await Promise.all([
-      (receiverClient as any)["_context"].streamingReceiver!.onDetached(nonRetryableError, true),
-      (receiverClient as any)["_context"].streamingReceiver!.onDetached(nonRetryableError, true)
+      (receiver as any)["_context"].streamingReceiver!.onDetached(nonRetryableError, true),
+      (receiver as any)["_context"].streamingReceiver!.onDetached(nonRetryableError, true)
     ]);
 
     receivedErrors.length.should.equal(1, "Unexpected number of errors received.");
@@ -1276,7 +1273,7 @@ describe("Streaming - onDetached", function(): void {
       receiverIsActiveResolver = resolve;
     });
     // Start the receiver.
-    receiverClient.subscribe({
+    receiver.subscribe({
       async processMessage() {
         // Since we've received a message, mark the receiver as active.
         receiverIsActiveResolver();
@@ -1295,8 +1292,8 @@ describe("Streaming - onDetached", function(): void {
     const retryableError = new Error("I temporarily break systems.");
     (retryableError as any).retryable = true;
     await Promise.all([
-      (receiverClient as any)["_context"].streamingReceiver!.onDetached(nonRetryableError, true),
-      (receiverClient as any)["_context"].streamingReceiver!.onDetached(retryableError)
+      (receiver as any)["_context"].streamingReceiver!.onDetached(nonRetryableError, true),
+      (receiver as any)["_context"].streamingReceiver!.onDetached(retryableError)
     ]);
 
     receivedErrors.length.should.equal(1, "Unexpected number of errors received.");
@@ -1306,7 +1303,7 @@ describe("Streaming - onDetached", function(): void {
 describe("Streaming - disconnects", function(): void {
   let serviceBusClient: ServiceBusClientForTests;
   let senderClient: Sender;
-  let receiverClient: Receiver<ReceivedMessageWithLock> | Receiver<ReceivedMessage>;
+  let receiver: Receiver<ReceivedMessageWithLock> | Receiver<ReceivedMessage>;
 
   before(() => {
     serviceBusClient = createServiceBusClientForTests();
@@ -1318,7 +1315,7 @@ describe("Streaming - disconnects", function(): void {
 
   async function beforeEachTest(testClientType: TestClientType): Promise<void> {
     const entityNames = await serviceBusClient.test.createTestEntities(testClientType);
-    receiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
     senderClient = serviceBusClient.test.addToCleanup(
       await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
@@ -1360,7 +1357,7 @@ describe("Streaming - disconnects", function(): void {
     });
 
     // Start the receiver.
-    receiverClient.subscribe({
+    receiver.subscribe({
       async processMessage(message) {
         messageHandlerCount++;
         try {
@@ -1388,7 +1385,7 @@ describe("Streaming - disconnects", function(): void {
     settledMessageCount.should.equal(1, "Unexpected number of settled messages.");
     receivedErrors.length.should.equal(0, "Encountered an unexpected number of errors.");
 
-    const connectionContext = (receiverClient as any)["_context"].namespace;
+    const connectionContext = (receiver as any)["_context"].namespace;
     const refreshConnection = connectionContext.refreshConnection;
     let refreshConnectionCalled = 0;
     connectionContext.refreshConnection = function(...args: any) {
@@ -1397,7 +1394,7 @@ describe("Streaming - disconnects", function(): void {
     };
 
     // Simulate a disconnect being called with a non-retryable error.
-    (receiverClient as any)["_context"].namespace.connection["_connection"].idle();
+    (receiver as any)["_context"].namespace.connection["_connection"].idle();
 
     // Allow rhea to clear internal setTimeouts (since we're triggering idle manually).
     // Otherwise, it will get into a bad internal state with uncaught exceptions.
