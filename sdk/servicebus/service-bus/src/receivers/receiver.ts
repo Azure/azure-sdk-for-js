@@ -104,14 +104,18 @@ export interface Receiver<ReceivedMessageT> {
    */
   browseMessages(options?: BrowseMessagesOptions): Promise<ReceivedMessage[]>;
   /**
-   * Path for the client entity.
+   * Path of the entity for which the receiver has been created.
    */
   entityPath: string;
   /**
    * ReceiveMode provided to the client.
    */
   receiveMode: "peekLock" | "receiveAndDelete";
-
+  /**
+   * @property Returns `true` if either the receiver or the client that created it has been closed
+   * @readonly
+   */
+  isClosed: boolean;
   /**
    * Closes the receiver.
    */

@@ -13,7 +13,7 @@
     "cache-control": "no-cache",
     "content-length": "87",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 06 Mar 2020 22:51:56 GMT",
+    "date": "Thu, 30 Apr 2020 16:27:52 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
@@ -22,10 +22,10 @@
     "www-authenticate": "Bearer authorization=\"https://login.windows.net/azure_tenant_id\", resource=\"https://vault.azure.net\"",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=52.250.6.200;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "addr=52.151.14.88;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.897",
-    "x-ms-request-id": "3e7c041d-411c-4a34-87ca-d6afb3f23cdb",
+    "x-ms-keyvault-service-version": "1.1.0.898",
+    "x-ms-request-id": "953330ec-52a2-42ce-8822-118c5d0cbab2",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -35,20 +35,20 @@
    "query": {},
    "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
    "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3599,\"ext_expires_in\":3599,\"access_token\":\"access_token\"}",
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
    "responseHeaders": {
     "cache-control": "no-cache, no-store",
-    "content-length": "1231",
+    "content-length": "1315",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 06 Mar 2020 22:51:56 GMT",
+    "date": "Thu, 30 Apr 2020 16:27:52 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.10155.16 - WST ProdSlices",
-    "x-ms-request-id": "2051b8a6-cb6b-4dc9-86a7-b1d357fe1100"
+    "x-ms-ests-server": "2.1.10476.10 - WUS2 ProdSlices",
+    "x-ms-request-id": "73406e20-506a-4d7a-9cb3-2867f2ac1300"
    }
   },
   {
@@ -64,7 +64,7 @@
     "cache-control": "no-cache",
     "content-length": "125",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 06 Mar 2020 22:51:56 GMT",
+    "date": "Thu, 30 Apr 2020 16:27:52 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
@@ -72,10 +72,10 @@
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=52.250.6.200;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "addr=52.151.14.88;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.897",
-    "x-ms-request-id": "2f3fd9ab-bbef-4db7-8a05-ac8ebcc54449",
+    "x-ms-keyvault-service-version": "1.1.0.898",
+    "x-ms-request-id": "5b153c0c-53b1-4e29-8e7a-0a66721b2c9e",
     "x-powered-by": "ASP.NET"
    }
   }
@@ -84,5 +84,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "5f40086b02273ed4b243215d9f6b16c8"
+ "hash": "20d288c09dfd915d8b9c1e123f55c317"
 }
