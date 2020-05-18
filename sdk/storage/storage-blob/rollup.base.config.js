@@ -22,12 +22,22 @@ const pkg = require("./package.json");
 const depNames = Object.keys(pkg.dependencies);
 const production = process.env.NODE_ENV === "production";
 
-// This method throws an error if any circular dependencies are caught,
-// this also whitelists "nock" library since it has circular references which we can't fix and are unaffected to.
+// This method throws an error if any circular references are caught,
+// this also whitelists non-@azure libraries since such circular references are out of our control.
 // More Info - https://github.com/Azure/azure-sdk-for-js/pull/8642#issuecomment-622201377
 const overrideOnwarnForTests = (warning, warn) => {
-  if (warning.code === "CIRCULAR_DEPENDENCY" && !warning.message.includes("nock")) {
-    throw new Error(warning.message);
+  if (warning.code === "CIRCULAR_DEPENDENCY") {
+    let throwError = true;
+    if (
+      warning.message.includes("node_modules") &&
+      !(
+        warning.message.includes("node_modules/@azure") ||
+        warning.message.includes("node_modules\\@azure")
+      )
+    ) {
+      throwError = false;
+    }
+    if (throwError) throw new Error(warning.message);
   }
   warn(warning);
 };
