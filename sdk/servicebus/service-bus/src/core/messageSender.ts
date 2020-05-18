@@ -325,6 +325,18 @@ export class MessageSender extends LinkEntity {
           );
         }
         if (this._sender!.sendable()) {
+          if (this._retryOptions.timeoutInMs! <= timeTakenByInit) {
+            const desc: string =
+              `[${this._context.namespace.connectionId}] Sender "${this.name}" ` +
+              `with address "${this.address}", was not able to send the message right now, due ` +
+              `to operation timeout.`;
+            log.error(desc);
+            const e: AmqpError = {
+              condition: ErrorNameConditionMapper.ServiceUnavailableError,
+              description: desc
+            };
+            return reject(translate(e));
+          }
           try {
             this._sender!.sendTimeoutInSeconds =
               (this._retryOptions.timeoutInMs! - timeTakenByInit) / 1000;
