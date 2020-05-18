@@ -16,7 +16,7 @@ describe("deferred messages", () => {
   let serviceBusClient: ReturnType<typeof createServiceBusClientForTests>;
   let sender: Sender;
   let receiver: Receiver<ReceivedMessageWithLock>;
-  let deadLetterClient: Receiver<ReceivedMessageWithLock>;
+  let deadLetterReceiver: Receiver<ReceivedMessageWithLock>;
 
   before(() => {
     serviceBusClient = createServiceBusClientForTests();
@@ -35,7 +35,7 @@ describe("deferred messages", () => {
       await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
 
-    deadLetterClient = serviceBusClient.test.createDeadLetterReceiver(entityNames);
+    deadLetterReceiver = serviceBusClient.test.createDeadLetterReceiver(entityNames);
   }
 
   async function afterEachTest(): Promise<void> {
@@ -270,7 +270,7 @@ describe("deferred messages", () => {
 
       await testPeekMsgsLength(receiver, 0);
 
-      const deadLetterMsgs = await deadLetterClient.receiveBatch(1);
+      const deadLetterMsgs = await deadLetterReceiver.receiveBatch(1);
 
       should.equal(deadLetterMsgs.length, 1, "Unexpected number of messages");
       should.equal(
@@ -287,7 +287,7 @@ describe("deferred messages", () => {
 
       await deadLetterMsgs[0].complete();
 
-      await testPeekMsgsLength(deadLetterClient, 0);
+      await testPeekMsgsLength(deadLetterReceiver, 0);
     }
 
     it("Partitioned Queue: Deadlettering a deferred message moves it to dead letter queue.", async function(): Promise<

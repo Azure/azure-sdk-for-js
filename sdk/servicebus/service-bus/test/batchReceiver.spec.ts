@@ -27,7 +27,7 @@ describe("batchReceiver", () => {
 
   let sender: Sender;
   let receiver: Receiver<ReceivedMessageWithLock>;
-  let deadLetterClient: Receiver<ReceivedMessageWithLock>;
+  let deadLetterReceiver: Receiver<ReceivedMessageWithLock>;
   const maxDeliveryCount = 10;
 
   before(() => {
@@ -46,7 +46,7 @@ describe("batchReceiver", () => {
       await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
 
-    deadLetterClient = serviceBusClient.test.createDeadLetterReceiver(entityNames);
+    deadLetterReceiver = serviceBusClient.test.createDeadLetterReceiver(entityNames);
   }
 
   function afterEachTest(): Promise<void> {
@@ -238,7 +238,7 @@ describe("batchReceiver", () => {
 
       await testPeekMsgsLength(receiver, 0);
 
-      const deadLetterMsgsBatch = await deadLetterClient.receiveBatch(1);
+      const deadLetterMsgsBatch = await deadLetterReceiver.receiveBatch(1);
 
       should.equal(
         Array.isArray(deadLetterMsgsBatch),
@@ -259,7 +259,7 @@ describe("batchReceiver", () => {
 
       await deadLetterMsgsBatch[0].complete();
 
-      await testPeekMsgsLength(deadLetterClient, 0);
+      await testPeekMsgsLength(deadLetterReceiver, 0);
     }
 
     it("Partitioned Queue: Multiple abandons until maxDeliveryCount.", async function(): Promise<
@@ -408,7 +408,7 @@ describe("batchReceiver", () => {
 
       await testPeekMsgsLength(receiver, 0);
 
-      const deadLetterMsgsBatch = await deadLetterClient.receiveBatch(1);
+      const deadLetterMsgsBatch = await deadLetterReceiver.receiveBatch(1);
 
       should.equal(
         Array.isArray(deadLetterMsgsBatch),
@@ -429,7 +429,7 @@ describe("batchReceiver", () => {
 
       await deadLetterMsgsBatch[0].complete();
 
-      await testPeekMsgsLength(deadLetterClient, 0);
+      await testPeekMsgsLength(deadLetterReceiver, 0);
     }
 
     it("Partitioned Queue: deadLetter() moves message to deadletter queue", async function(): Promise<
@@ -513,7 +513,7 @@ describe("batchReceiver", () => {
 
       await testPeekMsgsLength(receiver, 0);
 
-      const deadLetterMsgsBatch = await deadLetterClient.receiveBatch(1);
+      const deadLetterMsgsBatch = await deadLetterReceiver.receiveBatch(1);
 
       should.equal(deadLetterMsgsBatch.length, 1, "Unexpected number of messages");
       should.equal(
@@ -540,7 +540,7 @@ describe("batchReceiver", () => {
       deadletterClient: Receiver<ReceivedMessageWithLock>,
       expectedDeliverCount: number
     ): Promise<void> {
-      const deadLetterMsgsBatch = await deadLetterClient.receiveBatch(1);
+      const deadLetterMsgsBatch = await deadLetterReceiver.receiveBatch(1);
 
       should.equal(deadLetterMsgsBatch.length, 1, "Unexpected number of messages");
       should.equal(
@@ -573,7 +573,7 @@ describe("batchReceiver", () => {
 
       should.equal(errorWasThrown, true, "Error thrown flag must be true");
 
-      await completeDeadLetteredMessage(testMessage, deadLetterClient, 0);
+      await completeDeadLetteredMessage(testMessage, deadLetterReceiver, 0);
     }
 
     it("Partitioned Queue: Throws error when dead lettering a dead lettered message", async function(): Promise<
@@ -609,7 +609,7 @@ describe("batchReceiver", () => {
 
       await deadLetterMsg.abandon();
 
-      await completeDeadLetteredMessage(testMessage, deadLetterClient, 0);
+      await completeDeadLetteredMessage(testMessage, deadLetterReceiver, 0);
     }
 
     it("Partitioned Queue: Abandon a message received from dead letter queue", async function(): Promise<
@@ -650,7 +650,7 @@ describe("batchReceiver", () => {
       const sequenceNumber = deadLetterMsg.sequenceNumber;
       await deadLetterMsg.defer();
 
-      const deferredMsgs = await deadLetterClient.receiveDeferredMessage(sequenceNumber);
+      const deferredMsgs = await deadLetterReceiver.receiveDeferredMessage(sequenceNumber);
       if (!deferredMsgs) {
         throw "No message received for sequence number";
       }
@@ -665,7 +665,7 @@ describe("batchReceiver", () => {
 
       await testPeekMsgsLength(receiver, 0);
 
-      await testPeekMsgsLength(deadLetterClient, 0);
+      await testPeekMsgsLength(deadLetterReceiver, 0);
     }
 
     it("Partitioned Queue: Defer a message received from dead letter queue", async function(): Promise<

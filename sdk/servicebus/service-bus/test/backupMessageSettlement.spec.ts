@@ -23,7 +23,7 @@ describe("Backup message settlement - Through ManagementLink", () => {
 
   let sender: Sender;
   let receiver: Receiver<ReceivedMessageWithLock>;
-  let deadLetterClient: Receiver<ReceivedMessageWithLock>;
+  let deadLetterReceiver: Receiver<ReceivedMessageWithLock>;
   let entityNames: EntityName;
 
   before(() => {
@@ -42,7 +42,7 @@ describe("Backup message settlement - Through ManagementLink", () => {
       await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
 
-    deadLetterClient = serviceBusClient.test.createDeadLetterReceiver(entityNames);
+    deadLetterReceiver = serviceBusClient.test.createDeadLetterReceiver(entityNames);
   }
 
   function afterEachTest(): Promise<void> {
@@ -369,7 +369,7 @@ describe("Backup message settlement - Through ManagementLink", () => {
         receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
 
         if (!entityNames.usesSessions) {
-          const deadLetterMsgsBatch = await deadLetterClient.receiveBatch(1);
+          const deadLetterMsgsBatch = await deadLetterReceiver.receiveBatch(1);
 
           should.equal(
             Array.isArray(deadLetterMsgsBatch),
@@ -390,7 +390,7 @@ describe("Backup message settlement - Through ManagementLink", () => {
 
           await deadLetterMsgsBatch[0].complete();
 
-          await testPeekMsgsLength(deadLetterClient, 0);
+          await testPeekMsgsLength(deadLetterReceiver, 0);
         } else {
           const messageBatch = await receiver.receiveBatch(1);
           await messageBatch[0].complete();

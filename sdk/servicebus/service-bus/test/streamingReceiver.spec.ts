@@ -41,7 +41,7 @@ describe("Streaming", () => {
   let serviceBusClient: ServiceBusClientForTests;
   let sender: Sender;
   let receiver: Receiver<ReceivedMessageWithLock> | Receiver<ReceivedMessage>;
-  let deadLetterClient: Receiver<ReceivedMessageWithLock>;
+  let deadLetterReceiver: Receiver<ReceivedMessageWithLock>;
 
   before(() => {
     serviceBusClient = createServiceBusClientForTests();
@@ -66,7 +66,7 @@ describe("Streaming", () => {
       await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
 
-    deadLetterClient = serviceBusClient.test.createDeadLetterReceiver(entityNames);
+    deadLetterReceiver = serviceBusClient.test.createDeadLetterReceiver(entityNames);
 
     errorWasThrown = false;
     unexpectedError = undefined;
@@ -403,7 +403,7 @@ describe("Streaming", () => {
 
       await testPeekMsgsLength(receiver, 0); // No messages in the queue
 
-      const deadLetterMsgs = await deadLetterClient.receiveBatch(1);
+      const deadLetterMsgs = await deadLetterReceiver.receiveBatch(1);
       should.equal(Array.isArray(deadLetterMsgs), true, "`ReceivedMessages` is not an array");
       should.equal(deadLetterMsgs.length, 1, "Unexpected number of messages");
       should.equal(
@@ -419,7 +419,7 @@ describe("Streaming", () => {
 
       await deadLetterMsgs[0].complete();
 
-      await testPeekMsgsLength(deadLetterClient, 0);
+      await testPeekMsgsLength(deadLetterReceiver, 0);
     }
 
     it("Partitioned Queue: Multiple abandons until maxDeliveryCount", async function(): Promise<
@@ -586,7 +586,7 @@ describe("Streaming", () => {
 
       await testPeekMsgsLength(receiver, 0);
 
-      const deadLetterMsgs = await deadLetterClient.receiveBatch(1);
+      const deadLetterMsgs = await deadLetterReceiver.receiveBatch(1);
       should.equal(Array.isArray(deadLetterMsgs), true, "`ReceivedMessages` is not an array");
       should.equal(deadLetterMsgs.length, 1, "Unexpected number of messages");
       should.equal(
@@ -596,7 +596,7 @@ describe("Streaming", () => {
       );
 
       await deadLetterMsgs[0].complete();
-      await testPeekMsgsLength(deadLetterClient, 0);
+      await testPeekMsgsLength(deadLetterReceiver, 0);
     }
 
     it("Partitioned Queue: deadLetter() moves message to deadletter queue", async function(): Promise<
