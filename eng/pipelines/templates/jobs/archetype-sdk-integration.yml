@@ -14,6 +14,10 @@ parameters:
       OSVmImage: "ubuntu-18.04"
       TestType: "node"
       DependencyVersion: max
+    SameVersion_Node:
+      OSVmImage: "ubuntu-18.04"
+      TestType: "node"
+      DependencyVersion: same
     # MinVersion_Node:
     #   OSVmImage: "ubuntu-18.04"
     #   TestType: "node"
