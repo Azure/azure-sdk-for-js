@@ -81,7 +81,7 @@ export class SearchClient<T> {
   /**
    * @internal
    * @ignore
-   * A reference to the auto-generated SearchsClient
+   * A reference to the auto-generated SearchClient
    */
   private readonly client: GeneratedClient;
 
