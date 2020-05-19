@@ -154,7 +154,7 @@ export {
   IpTag,
   Ipv6CircuitConnectionConfig,
   Ipv6ExpressRouteCircuitPeeringConfig,
-  ListVpnSiteLinksResult,
+  ListHubRouteTablesResult,
   LoadBalancer,
   LoadBalancerBackendAddress,
   LoadBalancerSku,
