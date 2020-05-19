@@ -26,9 +26,6 @@ import {
   RecognizedForm,
   FormText,
   FormField,
-  RecognizeFormResultResponse,
-  RecognizeContentResultResponse,
-  RecognizeReceiptResultResponse,
   FieldValue,
   StringFieldValue,
   DateFieldValue,
@@ -48,6 +45,11 @@ import {
   ReceiptItemArrayField,
   RecognizedReceipt
 } from "./models";
+import {
+  RecognizeFormResultResponse,
+  RecognizeContentResultResponse,
+  RecognizeReceiptResultResponse
+} from "./internalModels";
 
 export function toBoundingBox(original: number[]): Point2D[] {
   return [

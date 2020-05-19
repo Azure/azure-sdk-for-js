@@ -11,7 +11,8 @@ import {
   GeneratedClientAnalyzeLayoutAsyncResponse as AnalyzeLayoutAsyncResponseModel,
   OperationStatus,
   ContentType } from "../../generated/models";
-import { FormRecognizerRequestBody, RecognizeContentResultResponse, FormPage } from "../../models";
+import { FormRecognizerRequestBody, FormPage } from "../../models";
+import { RecognizeContentResultResponse } from "../../internalModels";
 export { OperationStatus };
 
 export interface ContentPollerOperationOptions {

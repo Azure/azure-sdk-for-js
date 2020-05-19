@@ -11,7 +11,8 @@ import {
   GeneratedClientAnalyzeReceiptAsyncResponse as AnalyzeReceiptAsyncResponseModel,
   OperationStatus,
   ContentType } from "../../generated/models";
-import { FormRecognizerRequestBody, RecognizeReceiptResultResponse, RecognizedReceipt } from "../../models";
+import { FormRecognizerRequestBody, RecognizedReceipt } from "../../models";
+import { RecognizeReceiptResultResponse } from "../../internalModels";
 export { OperationStatus };
 
 export interface ReceiptPollerOperationOptions {

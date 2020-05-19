@@ -430,23 +430,6 @@ export interface ReceiptWithLocale {
 export type RecognizeContentOptions = FormRecognizerOperationOptions;
 
 // @public
-export type RecognizeContentResultResponse = RecognizedContent & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: AnalyzeOperationResultModel;
-    };
-};
-
-// @public
-export interface RecognizedContent {
-    createdOn: Date;
-    lastModified: Date;
-    pages?: FormPage[];
-    status: OperationStatus;
-    version?: string;
-}
-
-// @public
 export interface RecognizedForm {
     fields: {
         [propertyName: string]: FormField;
@@ -456,37 +439,10 @@ export interface RecognizedForm {
     pages: FormPage[];
 }
 
-// @public
-export interface RecognizedForms {
-    createdOn: Date;
-    errors?: ErrorInformation[];
-    forms?: RecognizedForm[];
-    lastModified: Date;
-    status: OperationStatus;
-    version?: string;
-}
-
 // @public (undocumented)
 export type RecognizedReceipt = {
     locale: "US";
 } & USReceipt;
-
-// @public
-export interface RecognizedReceipts {
-    createdOn: Date;
-    lastModified: Date;
-    receipts?: RecognizedReceipt[];
-    status: OperationStatus;
-    version?: string;
-}
-
-// @public
-export type RecognizeFormResultResponse = RecognizedForms & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: AnalyzeOperationResultModel;
-    };
-};
 
 // @public
 export class RecognizeFormsError extends Error {
@@ -497,14 +453,6 @@ export class RecognizeFormsError extends Error {
 // @public
 export type RecognizeFormsOptions = FormRecognizerOperationOptions & {
     includeTextDetails?: boolean;
-};
-
-// @public
-export type RecognizeReceiptResultResponse = RecognizedReceipts & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: AnalyzeOperationResultModel;
-    };
 };
 
 // @public
@@ -589,9 +537,9 @@ export type ValueTypes = "string" | "date" | "time" | "phoneNumber" | "number" |
 
 // Warnings were encountered during analysis:
 //
-// src/formRecognizerClient.ts:82:3 - (ae-forgotten-export) The symbol "BeginRecognizeContentPollState" needs to be exported by the entry point index.d.ts
-// src/formRecognizerClient.ts:123:3 - (ae-forgotten-export) The symbol "BeginRecognizeCustomFormPollState" needs to be exported by the entry point index.d.ts
-// src/formRecognizerClient.ts:169:3 - (ae-forgotten-export) The symbol "BeginRecognizeReceiptPollState" needs to be exported by the entry point index.d.ts
+// src/formRecognizerClient.ts:84:3 - (ae-forgotten-export) The symbol "BeginRecognizeContentPollState" needs to be exported by the entry point index.d.ts
+// src/formRecognizerClient.ts:125:3 - (ae-forgotten-export) The symbol "BeginRecognizeCustomFormPollState" needs to be exported by the entry point index.d.ts
+// src/formRecognizerClient.ts:171:3 - (ae-forgotten-export) The symbol "BeginRecognizeReceiptPollState" needs to be exported by the entry point index.d.ts
 // src/formTrainingClient.ts:68:3 - (ae-forgotten-export) The symbol "BeginTrainingPollState" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)

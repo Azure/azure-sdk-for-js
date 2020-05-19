@@ -45,14 +45,16 @@ import {
   BeginRecognizeReceiptPollState
 } from "./lro/analyze/receiptPoller";
 import {
-  RecognizeContentResultResponse,
-  RecognizeFormResultResponse,
-  RecognizeReceiptResultResponse,
   FormRecognizerRequestBody,
   RecognizedForm,
   FormPage,
   RecognizedReceipt
 } from "./models";
+import {
+  RecognizeContentResultResponse,
+  RecognizeFormResultResponse,
+  RecognizeReceiptResultResponse
+} from "./internalModels";
 import {
   toRecognizeFormResultResponse,
   toRecognizeContentResultResponse,

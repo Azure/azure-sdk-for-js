@@ -11,7 +11,8 @@ import {
   GeneratedClientAnalyzeWithCustomModelResponse as AnalyzeWithCustomModelResponseModel,
   OperationStatus,
   ContentType } from "../../generated/models";
-import { FormRecognizerRequestBody, RecognizeFormResultResponse, RecognizedForm, RecognizeFormsError } from "../../models";
+import { FormRecognizerRequestBody, RecognizedForm, RecognizeFormsError } from "../../models";
+import { RecognizeFormResultResponse } from "../../internalModels";
 export { OperationStatus };
 
 export interface CustomFormPollerOperationOptions {
