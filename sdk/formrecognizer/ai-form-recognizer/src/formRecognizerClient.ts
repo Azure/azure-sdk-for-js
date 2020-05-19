@@ -51,7 +51,7 @@ import {
   FormRecognizerRequestBody,
   RecognizedForm,
   FormPage,
-  ReceiptWithLocale
+  RecognizedReceipt
 } from "./models";
 import {
   toRecognizeFormResultResponse,
@@ -177,8 +177,8 @@ export type BeginRecognizeReceiptsOptions = RecognizeReceiptsOptions & {
  * The Long-Running-Operation (LRO) poller that allows you to wait until receipt(s) are recognized.
  */
 export type ReceiptPollerLike = PollerLike<
-  PollOperationState<ReceiptWithLocale[]>,
-  ReceiptWithLocale[]
+  PollOperationState<RecognizedReceipt[]>,
+  RecognizedReceipt[]
 >;
 
 /**

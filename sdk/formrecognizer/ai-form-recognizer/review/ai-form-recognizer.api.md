@@ -97,6 +97,7 @@ export interface CustomFormSubModel {
 // @public (undocumented)
 export interface CustomFormSubModelField {
     accuracy?: number;
+    label: string | null;
     name: string;
 }
 
@@ -416,12 +417,14 @@ export type ReceiptItemField = {
 } & CommonFieldValue;
 
 // @public
-export type ReceiptPollerLike = PollerLike<PollOperationState<ReceiptWithLocale[]>, ReceiptWithLocale[]>;
+export type ReceiptPollerLike = PollerLike<PollOperationState<RecognizedReceipt[]>, RecognizedReceipt[]>;
 
 // @public (undocumented)
-export type ReceiptWithLocale = {
-    locale: "US";
-} & USReceipt;
+export interface ReceiptWithLocale {
+    locale?: string;
+    // (undocumented)
+    recognizedForm: RecognizedForm;
+}
 
 // @public
 export type RecognizeContentOptions = FormRecognizerOperationOptions;
@@ -464,17 +467,15 @@ export interface RecognizedForms {
 }
 
 // @public (undocumented)
-export interface RecognizedReceipt {
-    locale?: string;
-    // (undocumented)
-    recognizedForm: RecognizedForm;
-}
+export type RecognizedReceipt = {
+    locale: "US";
+} & USReceipt;
 
 // @public
 export interface RecognizedReceipts {
     createdOn: Date;
     lastModified: Date;
-    receipts?: ReceiptWithLocale[];
+    receipts?: RecognizedReceipt[];
     status: OperationStatus;
     version?: string;
 }
@@ -557,7 +558,7 @@ export interface TrainResult {
 export type TrainStatus = "succeeded" | "partiallySucceeded" | "failed";
 
 // @public
-export interface USReceipt extends RecognizedReceipt {
+export interface USReceipt extends ReceiptWithLocale {
     items: USReceiptItem[];
     merchantAddress: FormField;
     merchantName: FormField;

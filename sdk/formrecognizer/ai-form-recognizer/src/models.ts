@@ -477,7 +477,7 @@ export interface ReceiptItemArrayField {
 /*
  * Recognized Receipt
  */
-export interface RecognizedReceipt {
+export interface ReceiptWithLocale {
   /**
    * Locale of the receipt
    */
@@ -509,7 +509,7 @@ export type USReceiptType = "unrecognized" | "itemized" | "creditCard" | "gas" |
 /**
  * United States receipt
  */
-export interface USReceipt extends RecognizedReceipt {
+export interface USReceipt extends ReceiptWithLocale {
   /**
    * Receipt type field
    */
@@ -558,7 +558,7 @@ export interface USReceipt extends RecognizedReceipt {
 
 export type Locale = "US" | "UK";
 
-export type ReceiptWithLocale = { locale: "US" } & USReceipt;
+export type RecognizedReceipt = { locale: "US" } & USReceipt;
 //  | { receiptLocale: "UK" } & UKReceipt
 // ...
 
@@ -573,7 +573,7 @@ export interface RecognizedReceipts {
   /**
    * List of receipts recognized from input document
    */
-  receipts?: ReceiptWithLocale[];
+  receipts?: RecognizedReceipt[];
   /**
    * Operation status.
    */

@@ -42,11 +42,11 @@ import {
   FormModelResponse,
   CustomFormSubModelField,
   CustomFormSubModel,
-  RecognizedReceipt,
+  ReceiptWithLocale,
   USReceiptType,
   USReceiptItem,
   ReceiptItemArrayField,
-  ReceiptWithLocale
+  RecognizedReceipt
 } from "./models";
 
 export function toBoundingBox(original: number[]): Point2D[] {
@@ -388,7 +388,7 @@ export function toRecognizeContentResultResponse(
   }
 }
 
-function toRecognizedReceipt(result: DocumentResultModel, pages: FormPage[]): RecognizedReceipt {
+function toRecognizedReceipt(result: DocumentResultModel, pages: FormPage[]): ReceiptWithLocale {
   if (result.docType !== "prebuilt:receipt") {
     throw new RangeError("The document type is not 'prebuilt:receipt'");
   }
@@ -464,7 +464,7 @@ function toUSReceiptItems(items: ReceiptItemArrayField): USReceiptItem[] {
   });
 }
 
-function toUSReceipt(receipt: RecognizedReceipt): ReceiptWithLocale {
+function toUSReceipt(receipt: ReceiptWithLocale): RecognizedReceipt {
   const form = receipt.recognizedForm;
   return {
     locale: "US",
@@ -483,7 +483,7 @@ function toUSReceipt(receipt: RecognizedReceipt): ReceiptWithLocale {
   };
 }
 
-function toReceiptWithLocale(receipt: RecognizedReceipt): ReceiptWithLocale {
+function toReceiptWithLocale(receipt: ReceiptWithLocale): RecognizedReceipt {
   switch (receipt.locale) {
     case "US":
       return toUSReceipt(receipt);

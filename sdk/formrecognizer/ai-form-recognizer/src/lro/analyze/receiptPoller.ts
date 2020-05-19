@@ -11,7 +11,7 @@ import {
   GeneratedClientAnalyzeReceiptAsyncResponse as AnalyzeReceiptAsyncResponseModel,
   OperationStatus,
   ContentType } from "../../generated/models";
-import { FormRecognizerRequestBody, RecognizeReceiptResultResponse, ReceiptWithLocale } from "../../models";
+import { FormRecognizerRequestBody, RecognizeReceiptResultResponse, RecognizedReceipt } from "../../models";
 export { OperationStatus };
 
 export interface ReceiptPollerOperationOptions {
@@ -45,7 +45,7 @@ export type RecognizeReceiptPollerClient = {
   getRecognizeResult: (resultId: string, options: { abortSignal?: AbortSignalLike }) => Promise<RecognizeReceiptResultResponse>;
 };
 
-export interface BeginRecognizeReceiptPollState extends PollOperationState<ReceiptWithLocale[]> {
+export interface BeginRecognizeReceiptPollState extends PollOperationState<RecognizedReceipt[]> {
   readonly client: RecognizeReceiptPollerClient;
   source?: FormRecognizerRequestBody | string;
   contentType?: ContentType;
@@ -56,7 +56,7 @@ export interface BeginRecognizeReceiptPollState extends PollOperationState<Recei
 }
 
 export interface BeginRecognizeReceiptPollerOperation
-extends PollOperation<BeginRecognizeReceiptPollState, ReceiptWithLocale[]> {}
+extends PollOperation<BeginRecognizeReceiptPollState, RecognizedReceipt[]> {}
 
 /**
  * @internal
@@ -77,7 +77,7 @@ export type BeginRecognizeReceiptPollerOptions = {
  */
 export class BeginRecognizeReceiptPoller extends Poller<
   BeginRecognizeReceiptPollState,
-  ReceiptWithLocale[]
+  RecognizedReceipt[]
 > {
   public intervalInMs: number;
 
