@@ -1,7 +1,7 @@
 import * as assert from "assert";
 
 import { getBSU, getConnectionStringFromEnvironment, recorderEnvSetup } from "../utils";
-import { PublicAccessType } from "../../src/generated/src/models/index";
+import { PublicAccessType } from "../../src";
 import {
   ContainerClient,
   newPipeline,

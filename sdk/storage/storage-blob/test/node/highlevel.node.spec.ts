@@ -8,7 +8,7 @@ import { createRandomLocalFile, getBSU, recorderEnvSetup } from "../utils";
 import { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../../src";
-import { readStreamToLocalFileWithLogs } from "../../test/utils/testutils.node";
+import { readStreamToLocalFileWithLogs } from "../utils/testutils.node";
 
 // tslint:disable:no-empty
 describe("Highlevel", () => {

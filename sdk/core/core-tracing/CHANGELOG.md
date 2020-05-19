@@ -1,5 +1,8 @@
 # Release History
 
+## 1.0.0-preview.9 (Unreleased)
+
+
 ## 1.0.0-preview.8 (2020-04-28)
 
 - Update `TestSpan` to allow setting span attributes [PR link](https://github.com/Azure/azure-sdk-for-js/pull/6565).

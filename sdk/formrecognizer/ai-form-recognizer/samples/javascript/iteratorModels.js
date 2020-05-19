@@ -18,7 +18,7 @@ async function main() {
 
   const client = new FormTrainingClient(endpoint, new AzureKeyCredential(apiKey));
 
-  const result = await client.listModels();
+  const result = await client.listCustomModels();
   let i = 0;
   for await (const modelInfo of result) {
     console.log(`model ${i++}:`);
@@ -27,7 +27,7 @@ async function main() {
 
   // using `iter.next()`
   i = 1;
-  let iter = client.listModels();
+  let iter = client.listCustomModels();
   let modelItem = await iter.next();
   while (!modelItem.done) {
     console.log(`model ${i++}: ${modelItem.value.modelId}`);
@@ -36,7 +36,7 @@ async function main() {
 
   // using `byPage()`
   i = 1;
-  for await (const response of client.listModels().byPage()) {
+  for await (const response of client.listCustomModels().byPage()) {
     for (const modelInfo of response.modelList) {
       console.log(`model ${i++}: ${modelInfo.modelId}`);
     }
