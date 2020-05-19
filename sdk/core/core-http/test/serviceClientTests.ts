@@ -653,6 +653,34 @@ describe("ServiceClient", function() {
       );
       assert.strictEqual(httpRequest.body, "body value");
     });
+
+    it("should serialize a string send with the mediaType 'text' as just a string", () => {
+      const httpRequest = new WebResource();
+      serializeRequestBody(
+        new ServiceClient(),
+        httpRequest,
+        {
+          bodyArg: "body value"
+        },
+        {
+          httpMethod: "POST",
+          mediaType: "text",
+          requestBody: {
+            parameterPath: "bodyArg",
+            mapper: {
+              required: true,
+              serializedName: "bodyArg",
+              type: {
+                name: MapperType.String
+              }
+            }
+          },
+          responses: { 200: {} },
+          serializer: new Serializer()
+        }
+      );
+      assert.strictEqual(httpRequest.body, "body value");
+    });
   });
 
   describe("getOperationArgumentValueFromParameterPath()", () => {
