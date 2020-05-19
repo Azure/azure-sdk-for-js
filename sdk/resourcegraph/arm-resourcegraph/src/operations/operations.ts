@@ -29,31 +29,31 @@ export class Operations {
   /**
    * Lists all of the available REST API operations.
    * @param [options] The optional parameters
-   * @returns Promise<Models.OperationsListResponse>
+   * @returns Promise<Models.OperationsListMethodResponse>
    */
-  list(options?: msRest.RequestOptionsBase): Promise<Models.OperationsListResponse>;
+  listMethod(options?: msRest.RequestOptionsBase): Promise<Models.OperationsListMethodResponse>;
   /**
    * @param callback The callback
    */
-  list(callback: msRest.ServiceCallback<Models.OperationListResult>): void;
+  listMethod(callback: msRest.ServiceCallback<Models.OperationListResult>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationListResult>, callback?: msRest.ServiceCallback<Models.OperationListResult>): Promise<Models.OperationsListResponse> {
+  listMethod(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationListResult>): void;
+  listMethod(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationListResult>, callback?: msRest.ServiceCallback<Models.OperationListResult>): Promise<Models.OperationsListMethodResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
-      listOperationSpec,
-      callback) as Promise<Models.OperationsListResponse>;
+      listMethodOperationSpec,
+      callback) as Promise<Models.OperationsListMethodResponse>;
   }
 }
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
-const listOperationSpec: msRest.OperationSpec = {
+const listMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.ResourceGraph/operations",
   queryParameters: [

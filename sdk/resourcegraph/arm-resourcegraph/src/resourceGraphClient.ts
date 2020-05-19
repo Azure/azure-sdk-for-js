@@ -18,6 +18,8 @@ import { ResourceGraphClientContext } from "./resourceGraphClientContext";
 
 class ResourceGraphClient extends ResourceGraphClientContext {
   // Operation groups
+  list: operations.List;
+  get: operations.Get;
   operations: operations.Operations;
 
   /**
@@ -27,6 +29,8 @@ class ResourceGraphClient extends ResourceGraphClientContext {
    */
   constructor(credentials: msRest.ServiceClientCredentials, options?: Models.ResourceGraphClientOptions) {
     super(credentials, options);
+    this.list = new operations.List(this);
+    this.get = new operations.Get(this);
     this.operations = new operations.Operations(this);
   }
 
