@@ -55,7 +55,7 @@ export async function main() {
       // The recognized form fields with an unlabeled custom model will also include data about recognized labels.
       const field = form.fields[fieldName];
       console.log(
-        `\tField ${fieldName} has label '${field.fieldLabel?.text}' with a confidence score of ${field.confidence}`
+        `\tField ${fieldName} has label '${field.labelText?.text}' with a confidence score of ${field.confidence}`
       );
       console.log(
         `\tField ${fieldName} has value '${field.value}' with a confidence score of ${field.confidence}`
@@ -73,7 +73,7 @@ async function recognizeCustomForm(
   console.log("# Recognizing...");
   const readStream = fs.createReadStream(path);
   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
-  const poller = await client.beginRecognizeForms(labeledModelId, readStream, "application/pdf", {
+  const poller = await client.beginRecognizeCustomForms(labeledModelId, readStream, "application/pdf", {
     onProgress: (state) => {
       console.log(`\tstatus: ${state.status}`);
     }

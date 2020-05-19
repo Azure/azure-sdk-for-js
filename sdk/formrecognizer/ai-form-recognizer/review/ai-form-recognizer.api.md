@@ -14,11 +14,12 @@ import { PipelineOptions } from '@azure/core-http';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 import { RestResponse } from '@azure/core-http';
+import { TokenCredential } from '@azure/identity';
 
 // @public
 export interface AccountProperties {
-    count: number;
-    limit: number;
+    customModelCount: number;
+    customModelLimit: number;
 }
 
 // @public
@@ -74,31 +75,42 @@ export type ContentPollerLike = PollerLike<PollOperationState<FormPageArray>, Fo
 // @public
 export type ContentType = "application/pdf" | "image/jpeg" | "image/png" | "image/tiff";
 
+// @public (undocumented)
+export interface CustomFormField {
+    accuracy?: number;
+    label: string | null;
+    name: string;
+}
+
 // @public
 export interface CustomFormModel {
     createdOn: Date;
-    errors?: ErrorInformation[];
+    errors?: FormRecognizerError[];
     lastModified: Date;
     modelId: string;
     models?: CustomFormSubModel[];
-    status: ModelStatus;
+    status: CustomFormModelStatus;
     trainingDocuments?: TrainingDocumentInfo[];
 }
+
+// @public
+export interface CustomFormModelInfo {
+    createdOn: Date;
+    lastModified: Date;
+    modelId: string;
+    status: CustomFormModelStatus;
+}
+
+// @public
+export type CustomFormModelStatus = "creating" | "ready" | "invalid";
 
 // @public (undocumented)
 export interface CustomFormSubModel {
     accuracy?: number;
     fields: {
-        [propertyName: string]: CustomFormSubModelField;
+        [propertyName: string]: CustomFormField;
     };
     formType: string;
-}
-
-// @public (undocumented)
-export interface CustomFormSubModelField {
-    accuracy?: number;
-    label: string | null;
-    name: string;
 }
 
 // Warning: (ae-forgotten-export) The symbol "CommonFieldValue" needs to be exported by the entry point index.d.ts
@@ -112,14 +124,6 @@ export type DateFieldValue = {
 // @public
 export type DeleteModelOptions = FormRecognizerOperationOptions;
 
-// @public (undocumented)
-export interface ErrorInformation {
-    // (undocumented)
-    code: string;
-    // (undocumented)
-    message: string;
-}
-
 // @public
 export type FieldValue = StringFieldValue | DateFieldValue | TimeFieldValue | PhoneNumberFieldValue | NumberFieldValue | IntegerFieldValue | ArrayFieldValue | ObjectFieldValue;
 
@@ -129,10 +133,10 @@ export type FieldValueTypes = string | Date | number | FieldValue[] | {
 };
 
 // @public
-export type FormElement = FormWord | FormLine;
+export type FormContent = FormWord | FormLine;
 
 // @public
-export interface FormElementCommon {
+export interface FormContentCommon {
     boundingBox: Point2D[];
     pageNumber: number;
     text: string;
@@ -141,7 +145,7 @@ export interface FormElementCommon {
 // @public
 export interface FormField {
     confidence?: number;
-    fieldLabel?: FormText;
+    labelText?: FormText;
     name?: string;
     value?: FieldValueTypes;
     valueText?: FormText;
@@ -155,7 +159,7 @@ export interface FormFieldsReport {
 }
 
 // @public
-export interface FormLine extends FormElementCommon {
+export interface FormLine extends FormContentCommon {
     kind: "line";
     words: FormWord[];
 }
@@ -163,7 +167,7 @@ export interface FormLine extends FormElementCommon {
 // @public
 export interface FormModel {
     keys: KeysResult;
-    modelInfo: ModelInfo;
+    modelInfo: CustomFormModelInfo;
     trainResult?: FormTrainResult;
 }
 
@@ -201,19 +205,25 @@ export type FormPollerLike = PollerLike<PollOperationState<RecognizedFormArray>,
 
 // @public
 export class FormRecognizerClient {
-    constructor(endpointUrl: string, credential: KeyCredential, options?: FormRecognizerClientOptions);
+    constructor(endpointUrl: string, credential: TokenCredential | KeyCredential, options?: FormRecognizerClientOptions);
     beginRecognizeContent(data: FormRecognizerRequestBody, contentType?: ContentType, options?: BeginRecognizeContentOptions): Promise<ContentPollerLike>;
-    beginRecognizeContentFromUrl(documentUrl: string, options?: BeginRecognizeContentOptions): Promise<ContentPollerLike>;
-    beginRecognizeForms(modelId: string, data: FormRecognizerRequestBody, contentType?: ContentType, options?: BeginRecognizeFormsOptions): Promise<FormPollerLike>;
-    beginRecognizeFormsFromUrl(modelId: string, documentUrl: string, options?: BeginRecognizeFormsOptions): Promise<FormPollerLike>;
+    beginRecognizeContentFromUrl(formFileUrl: string, options?: BeginRecognizeContentOptions): Promise<ContentPollerLike>;
+    beginRecognizeCustomForms(modelId: string, data: FormRecognizerRequestBody, contentType?: ContentType, options?: BeginRecognizeFormsOptions): Promise<FormPollerLike>;
+    beginRecognizeCustomFormsFromUrl(modelId: string, formFileUrl: string, options?: BeginRecognizeFormsOptions): Promise<FormPollerLike>;
     beginRecognizeReceipts(data: FormRecognizerRequestBody, contentType?: ContentType, options?: BeginRecognizeReceiptsOptions): Promise<ReceiptPollerLike>;
-    beginRecognizeReceiptsFromUrl(documentUrl: string, options?: BeginRecognizeReceiptsOptions): Promise<ReceiptPollerLike>;
+    beginRecognizeReceiptsFromUrl(receiptFileUrl: string, options?: BeginRecognizeReceiptsOptions): Promise<ReceiptPollerLike>;
     readonly endpointUrl: string;
     getFormTrainingClient(): FormTrainingClient;
     }
 
 // @public
 export interface FormRecognizerClientOptions extends PipelineOptions {
+}
+
+// @public
+export interface FormRecognizerError {
+    code: string;
+    message: string;
 }
 
 // @public
@@ -241,7 +251,7 @@ export interface FormTableCell {
     rowIndex: number;
     rowSpan?: number;
     text: string;
-    textContent?: FormElement[];
+    textContent?: FormContent[];
 }
 
 // @public
@@ -253,28 +263,28 @@ export interface FormTableRow {
 export interface FormText {
     boundingBox?: Point2D[];
     text?: string;
-    textContent?: FormElement[];
+    textContent?: FormContent[];
 }
 
 // @public
 export class FormTrainingClient {
-    constructor(endpointUrl: string, credential: KeyCredential, options?: FormRecognizerClientOptions);
-    beginTraining(blobContainerUrl: string, useLabels?: boolean, options?: BeginTrainingOptions): Promise<PollerLike<PollOperationState<CustomFormModel>, CustomFormModel>>;
+    constructor(endpointUrl: string, credential: TokenCredential | KeyCredential, options?: FormRecognizerClientOptions);
+    beginTraining(trainingFilesUrl: string, useTrainingLabels?: boolean, options?: BeginTrainingOptions): Promise<PollerLike<PollOperationState<CustomFormModel>, CustomFormModel>>;
     deleteModel(modelId: string, options?: DeleteModelOptions): Promise<RestResponse>;
     readonly endpointUrl: string;
     getAccountProperties(options?: GetAccountPropertiesOptions): Promise<AccountProperties>;
-    getModel(modelId: string, options?: GetModelOptions): Promise<FormModelResponse>;
-    listModels(options?: ListModelsOptions): PagedAsyncIterableIterator<ModelInfo, ListModelsResponseModel>;
+    getCustomModel(modelId: string, options?: GetModelOptions): Promise<FormModelResponse>;
+    listCustomModels(options?: ListModelsOptions): PagedAsyncIterableIterator<CustomFormModel, ListModelsResponseModel>;
     }
 
 // @public
 export interface FormTrainResult {
-    errors?: ErrorInformation[];
+    errors?: FormRecognizerError[];
     trainingDocuments: TrainingDocumentInfo[];
 }
 
 // @public
-export interface FormWord extends FormElementCommon {
+export interface FormWord extends FormContentCommon {
     confidence?: number;
     containingLine?: FormLine;
     kind: "word";
@@ -346,7 +356,7 @@ export interface ModelInfo {
     createdOn: Date;
     lastModified: Date;
     modelId: string;
-    status: ModelStatus;
+    status: CustomFormModelStatus;
 }
 
 // @public
@@ -362,9 +372,6 @@ export interface ModelsSummary {
     lastModified: Date;
     limit: number;
 }
-
-// @public
-export type ModelStatus = "creating" | "ready" | "invalid";
 
 // @public
 export type NumberFieldValue = {
@@ -458,8 +465,8 @@ export interface RecognizedReceiptArray extends Array<RecognizedReceipt> {
 
 // @public
 export class RecognizeFormsError extends Error {
-    constructor(message: string, innerErrors?: ErrorInformation[]);
-    innerErrors?: ErrorInformation[];
+    constructor(message: string, innerErrors?: FormRecognizerError[]);
+    innerErrors?: FormRecognizerError[];
 }
 
 // @public
@@ -488,17 +495,20 @@ export type TimeFieldValue = {
 
 // @public
 export class TrainCustomFormModelError extends Error {
-    constructor(message: string, innerErrors?: ErrorInformation[]);
-    innerErrors?: ErrorInformation[];
+    constructor(message: string, innerErrors?: FormRecognizerError[]);
+    innerErrors?: FormRecognizerError[];
 }
 
 // @public
 export interface TrainingDocumentInfo {
     documentName: string;
-    errors: ErrorInformation[];
+    errors: FormRecognizerError[];
     pageCount: number;
-    status: TrainStatus;
+    status: TrainingStatus;
 }
+
+// @public
+export type TrainingStatus = "succeeded" | "partiallySucceeded" | "failed";
 
 // @public
 export type TrainModelOptions = FormRecognizerOperationOptions & {
@@ -509,13 +519,10 @@ export type TrainModelOptions = FormRecognizerOperationOptions & {
 // @public
 export interface TrainResult {
     averageModelAccuracy?: number;
-    errors?: ErrorInformation[];
+    errors?: FormRecognizerError[];
     fields?: FormFieldsReport[];
     trainingDocuments: TrainingDocumentInfo[];
 }
-
-// @public
-export type TrainStatus = "succeeded" | "partiallySucceeded" | "failed";
 
 // @public
 export interface USReceipt extends ReceiptWithLocale {
@@ -541,7 +548,10 @@ export interface USReceiptItem {
 }
 
 // @public (undocumented)
-export type USReceiptType = "unrecognized" | "itemized" | "creditCard" | "gas" | "parking";
+export type USReceiptType = {
+    type: "Unrecognized" | "Itemized" | "CreditCard" | "Gas" | "Parking";
+    confidence?: number;
+};
 
 // @public (undocumented)
 export type ValueTypes = "string" | "date" | "time" | "phoneNumber" | "number" | "integer" | "array" | "object";
@@ -549,10 +559,10 @@ export type ValueTypes = "string" | "date" | "time" | "phoneNumber" | "number" |
 
 // Warnings were encountered during analysis:
 //
-// src/formRecognizerClient.ts:84:3 - (ae-forgotten-export) The symbol "BeginRecognizeContentPollState" needs to be exported by the entry point index.d.ts
-// src/formRecognizerClient.ts:125:3 - (ae-forgotten-export) The symbol "BeginRecognizeCustomFormPollState" needs to be exported by the entry point index.d.ts
-// src/formRecognizerClient.ts:171:3 - (ae-forgotten-export) The symbol "BeginRecognizeReceiptPollState" needs to be exported by the entry point index.d.ts
-// src/formTrainingClient.ts:68:3 - (ae-forgotten-export) The symbol "BeginTrainingPollState" needs to be exported by the entry point index.d.ts
+// src/formRecognizerClient.ts:87:3 - (ae-forgotten-export) The symbol "BeginRecognizeContentPollState" needs to be exported by the entry point index.d.ts
+// src/formRecognizerClient.ts:128:3 - (ae-forgotten-export) The symbol "BeginRecognizeCustomFormPollState" needs to be exported by the entry point index.d.ts
+// src/formRecognizerClient.ts:174:3 - (ae-forgotten-export) The symbol "BeginRecognizeReceiptPollState" needs to be exported by the entry point index.d.ts
+// src/formTrainingClient.ts:69:3 - (ae-forgotten-export) The symbol "BeginTrainingPollState" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

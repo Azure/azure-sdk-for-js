@@ -126,7 +126,7 @@ describe("FormRecognizerClient NodeJS only", () => {
     const usReceipt = receipts![0];
     assert.equal(usReceipt.recognizedForm.formType, "prebuilt:receipt");
     assert.equal(usReceipt.locale, "US"); // default to "US" for now
-    assert.equal(usReceipt.receiptType, "itemized");
+    assert.equal(usReceipt.receiptType.type, "Itemized");
     assert.equal(usReceipt.locale, "US");
     assert.ok(usReceipt.tax, "Expecting valid 'tax' field");
     assert.equal(usReceipt.tax!.name, "Tax");
@@ -166,5 +166,26 @@ describe("FormRecognizerClient NodeJS only", () => {
     );
     const usReceipt = receipts![0];
     assert.equal(usReceipt.recognizedForm.formType, "prebuilt:receipt");
+  });
+
+  it("recognizes multi-page receipt with blank page", async () => {
+    const filePath = path.join(ASSET_PATH, "receipt", "multipage_invoice1.pdf");
+    const stream = fs.createReadStream(filePath);
+
+    const poller = await client.beginRecognizeReceipts(stream, "application/pdf", {
+      includeTextDetails: true
+    });
+    await poller.pollUntilDone();
+    const receipts = poller.getResult();
+
+    assert.ok(
+      receipts && receipts.length > 0,
+      `Expect no-empty pages but got ${receipts}`
+    );
+    const usReceipt = receipts![0];
+    assert.equal(usReceipt.recognizedForm.formType, "prebuilt:receipt");
+    assert.equal(usReceipt.locale, "US"); // default to "US" for now
+    assert.equal(usReceipt.receiptType.type, "Itemized");
+    assert.equal(usReceipt.locale, "US");
   });
 }).timeout(60000);
