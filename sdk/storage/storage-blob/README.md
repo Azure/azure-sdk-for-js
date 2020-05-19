@@ -97,7 +97,7 @@ Currently only `Parcel` and `Rollup` work well with Storage client libraries for
 
 If `Parcel` is used  then no further work is needed. Otherwise, an additional step is needed to transform the bundled output to the format that IE11 supports:
 
-(Assuming `bundled-output.js` is the result from `Rollup`.)
+Assuming `bundled-output.js` is the result from `Rollup`:
 
 ```bash
 tsc --allowJS --target es5 bundled-output.js --outfile final-output.js
