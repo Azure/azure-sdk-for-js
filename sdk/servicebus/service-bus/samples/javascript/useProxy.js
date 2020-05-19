@@ -17,8 +17,7 @@ const HttpsProxyAgent = require("https-proxy-agent");
 require("dotenv").config();
 
 // Define connection string for your Service Bus instance here
-const connectionString =
-  process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
+const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
 
 async function main() {
   const proxyInfo = process.env.HTTP_PROXY || process.env.HTTPS_PROXY;
@@ -34,6 +33,8 @@ async function main() {
 
   const sbClient = new ServiceBusClient(connectionString, {
     webSocketOptions: {
+      // No need to pass the `WebSocket` from "ws" package if you're in the browser
+      // in which case the `window.WebSocket` is used by the library.
       webSocket: WebSocket,
       webSocketConstructorOptions: { agent: proxyAgent }
     }
@@ -46,6 +47,6 @@ async function main() {
   await sbClient.close();
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.log("Error occurred: ", err);
 });
