@@ -311,7 +311,12 @@ export interface FormPage {
 }
 
 /**
- * Represent recognized forms consists of text fields that have semantic meanings.
+ * Array of {@link FormPage}
+ */
+export interface FormPageArray extends Array<FormPage> {}
+
+/**
+ * Represent recognized form consists of text fields that have semantic meanings.
  */
 export interface RecognizedForm {
   /**
@@ -331,6 +336,11 @@ export interface RecognizedForm {
    */
   pages: FormPage[];
 }
+
+/**
+ * Array of {@link RecognizedForm}
+ */
+export interface RecognizedFormArray extends Array<RecognizedForm> {}
 
 /**
  * Properties common to the recognized text field
@@ -474,9 +484,6 @@ export interface ReceiptItemArrayField {
   value: ReceiptItemField[];
 }
 
-/*
- * Recognized Receipt
- */
 export interface ReceiptWithLocale {
   /**
    * Locale of the receipt
@@ -558,9 +565,17 @@ export interface USReceipt extends ReceiptWithLocale {
 
 export type Locale = "US" | "UK";
 
+/*
+ * Recognized Receipt
+ */
 export type RecognizedReceipt = { locale: "US" } & USReceipt;
 //  | { receiptLocale: "UK" } & UKReceipt
 // ...
+
+/*
+ * Array of {@link RecognizedReceipt}
+ */
+export interface RecognizedReceiptArray extends Array<RecognizedReceipt> {}
 
 /**
  * Contains the unlabeled training results.

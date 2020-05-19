@@ -69,7 +69,7 @@ export type BeginTrainingOptions = TrainModelOptions & {
 };
 
 // @public
-export type ContentPollerLike = PollerLike<PollOperationState<FormPage[]>, FormPage[]>;
+export type ContentPollerLike = PollerLike<PollOperationState<FormPageArray>, FormPageArray>;
 
 // @public
 export type ContentType = "application/pdf" | "image/jpeg" | "image/png" | "image/tiff";
@@ -187,13 +187,17 @@ export interface FormPage {
 }
 
 // @public
+export interface FormPageArray extends Array<FormPage> {
+}
+
+// @public
 export interface FormPageRange {
     firstPageNumber: number;
     lastPageNumber: number;
 }
 
 // @public
-export type FormPollerLike = PollerLike<PollOperationState<RecognizedForm[]>, RecognizedForm[]>;
+export type FormPollerLike = PollerLike<PollOperationState<RecognizedFormArray>, RecognizedFormArray>;
 
 // @public
 export class FormRecognizerClient {
@@ -417,7 +421,7 @@ export type ReceiptItemField = {
 } & CommonFieldValue;
 
 // @public
-export type ReceiptPollerLike = PollerLike<PollOperationState<RecognizedReceipt[]>, RecognizedReceipt[]>;
+export type ReceiptPollerLike = PollerLike<PollOperationState<RecognizedReceiptArray>, RecognizedReceiptArray>;
 
 // @public (undocumented)
 export interface ReceiptWithLocale {
@@ -439,10 +443,18 @@ export interface RecognizedForm {
     pages: FormPage[];
 }
 
+// @public
+export interface RecognizedFormArray extends Array<RecognizedForm> {
+}
+
 // @public (undocumented)
 export type RecognizedReceipt = {
     locale: "US";
 } & USReceipt;
+
+// @public (undocumented)
+export interface RecognizedReceiptArray extends Array<RecognizedReceipt> {
+}
 
 // @public
 export class RecognizeFormsError extends Error {

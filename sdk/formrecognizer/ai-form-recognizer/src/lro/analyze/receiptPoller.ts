@@ -11,7 +11,7 @@ import {
   GeneratedClientAnalyzeReceiptAsyncResponse as AnalyzeReceiptAsyncResponseModel,
   OperationStatus,
   ContentType } from "../../generated/models";
-import { FormRecognizerRequestBody, RecognizedReceipt } from "../../models";
+import { FormRecognizerRequestBody, RecognizedReceiptArray } from "../../models";
 import { RecognizeReceiptResultResponse } from "../../internalModels";
 export { OperationStatus };
 
@@ -46,7 +46,7 @@ export type RecognizeReceiptPollerClient = {
   getRecognizeResult: (resultId: string, options: { abortSignal?: AbortSignalLike }) => Promise<RecognizeReceiptResultResponse>;
 };
 
-export interface BeginRecognizeReceiptPollState extends PollOperationState<RecognizedReceipt[]> {
+export interface BeginRecognizeReceiptPollState extends PollOperationState<RecognizedReceiptArray> {
   readonly client: RecognizeReceiptPollerClient;
   source?: FormRecognizerRequestBody | string;
   contentType?: ContentType;
@@ -57,7 +57,7 @@ export interface BeginRecognizeReceiptPollState extends PollOperationState<Recog
 }
 
 export interface BeginRecognizeReceiptPollerOperation
-extends PollOperation<BeginRecognizeReceiptPollState, RecognizedReceipt[]> {}
+extends PollOperation<BeginRecognizeReceiptPollState, RecognizedReceiptArray> {}
 
 /**
  * @internal
@@ -78,7 +78,7 @@ export type BeginRecognizeReceiptPollerOptions = {
  */
 export class BeginRecognizeReceiptPoller extends Poller<
   BeginRecognizeReceiptPollState,
-  RecognizedReceipt[]
+  RecognizedReceiptArray
 > {
   public intervalInMs: number;
 

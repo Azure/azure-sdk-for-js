@@ -11,7 +11,7 @@ import {
   GeneratedClientAnalyzeWithCustomModelResponse as AnalyzeWithCustomModelResponseModel,
   OperationStatus,
   ContentType } from "../../generated/models";
-import { FormRecognizerRequestBody, RecognizedForm, RecognizeFormsError } from "../../models";
+import { FormRecognizerRequestBody, RecognizedFormArray, RecognizeFormsError } from "../../models";
 import { RecognizeFormResultResponse } from "../../internalModels";
 export { OperationStatus };
 
@@ -46,7 +46,7 @@ export type RecognizeCustomFormPollerClient = {
   getRecognizeResult: (resultId: string, options: { abortSignal?: AbortSignalLike }) => Promise<RecognizeFormResultResponse>;
 };
 
-export interface BeginRecognizeCustomFormPollState extends PollOperationState<RecognizedForm[]> {
+export interface BeginRecognizeCustomFormPollState extends PollOperationState<RecognizedFormArray> {
   readonly client: RecognizeCustomFormPollerClient;
   source?: FormRecognizerRequestBody | string;
   contentType?: ContentType;
@@ -57,7 +57,7 @@ export interface BeginRecognizeCustomFormPollState extends PollOperationState<Re
 }
 
 export interface BeginRecognizeCustomFormPollerOperation
-  extends PollOperation<BeginRecognizeCustomFormPollState, RecognizedForm[]> {}
+  extends PollOperation<BeginRecognizeCustomFormPollState, RecognizedFormArray> {}
 
 /**
  * @internal
@@ -78,7 +78,7 @@ export type BeginRecognizeCustomFormPollerOptions = {
  */
 export class BeginRecognizeCustomFormPoller extends Poller<
   BeginRecognizeCustomFormPollState,
-  RecognizedForm[]
+  RecognizedFormArray
 > {
   public intervalInMs: number;
 

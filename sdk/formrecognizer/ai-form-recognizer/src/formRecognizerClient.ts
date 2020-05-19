@@ -46,9 +46,9 @@ import {
 } from "./lro/analyze/receiptPoller";
 import {
   FormRecognizerRequestBody,
-  RecognizedForm,
-  FormPage,
-  RecognizedReceipt
+  RecognizedFormArray,
+  FormPageArray,
+  RecognizedReceiptArray
 } from "./models";
 import {
   RecognizeContentResultResponse,
@@ -92,8 +92,8 @@ export type BeginRecognizeContentOptions = RecognizeContentOptions & {
  * The Long-Running-Operation (LRO) poller that allows you to wait until form content is recognized.
  */
 export type ContentPollerLike = PollerLike<
-  PollOperationState<FormPage[]>,
-  FormPage[]
+  PollOperationState<FormPageArray>,
+  FormPageArray
 >;
 
 /**
@@ -133,8 +133,8 @@ export type BeginRecognizeFormsOptions = RecognizeFormsOptions & {
  * Result type of the Recognize Form Long-Running-Operation (LRO)
  */
 export type FormPollerLike = PollerLike<
-  PollOperationState<RecognizedForm[]>,
-  RecognizedForm[]
+  PollOperationState<RecognizedFormArray>,
+  RecognizedFormArray
 >;
 
 /**
@@ -179,8 +179,8 @@ export type BeginRecognizeReceiptsOptions = RecognizeReceiptsOptions & {
  * The Long-Running-Operation (LRO) poller that allows you to wait until receipt(s) are recognized.
  */
 export type ReceiptPollerLike = PollerLike<
-  PollOperationState<RecognizedReceipt[]>,
-  RecognizedReceipt[]
+  PollOperationState<RecognizedReceiptArray>,
+  RecognizedReceiptArray
 >;
 
 /**

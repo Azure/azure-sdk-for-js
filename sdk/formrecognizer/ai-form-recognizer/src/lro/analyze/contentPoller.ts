@@ -11,7 +11,7 @@ import {
   GeneratedClientAnalyzeLayoutAsyncResponse as AnalyzeLayoutAsyncResponseModel,
   OperationStatus,
   ContentType } from "../../generated/models";
-import { FormRecognizerRequestBody, FormPage } from "../../models";
+import { FormRecognizerRequestBody, FormPageArray } from "../../models";
 import { RecognizeContentResultResponse } from "../../internalModels";
 export { OperationStatus };
 
@@ -46,7 +46,7 @@ export type RecognizeContentPollerClient = {
   getRecognizeResult: (resultId: string, options: { abortSignal?: AbortSignalLike }) => Promise<RecognizeContentResultResponse>;
 };
 
-export interface BeginRecognizeContentPollState extends PollOperationState<FormPage[]> {
+export interface BeginRecognizeContentPollState extends PollOperationState<FormPageArray> {
   readonly client: RecognizeContentPollerClient;
   source?: FormRecognizerRequestBody | string;
   contentType?: ContentType;
@@ -57,7 +57,7 @@ export interface BeginRecognizeContentPollState extends PollOperationState<FormP
 }
 
 export interface BeginRecognizeContentPollerOperation
-extends PollOperation<BeginRecognizeContentPollState, FormPage[]> {}
+extends PollOperation<BeginRecognizeContentPollState, FormPageArray> {}
 
 /**
  * @internal
@@ -78,7 +78,7 @@ export type BeginRecognizeContentPollerOptions = {
  */
 export class BeginRecognizeContentPoller extends Poller<
   BeginRecognizeContentPollState,
-  FormPage[]
+  FormPageArray
 > {
   public intervalInMs: number;
 
