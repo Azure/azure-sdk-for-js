@@ -100,9 +100,9 @@ export interface PipelineRequest {
   keepAlive?: boolean;
 
   /**
-   * Whether or not to decompress response according to Accept-Encoding header (node only)
+   * Disable automatic decompression based on Accept-Encoding header (Node only)
    */
-  decompressResponse?: boolean;
+  skipDecompressResponse?: boolean;
 
   /**
    * Used to abort the request later.

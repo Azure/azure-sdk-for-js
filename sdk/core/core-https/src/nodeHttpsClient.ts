@@ -11,7 +11,8 @@ import {
   HttpsClient,
   PipelineRequest,
   PipelineResponse,
-  TransferProgressEvent
+  TransferProgressEvent,
+  HttpHeaders
 } from "./interfaces";
 import { createHttpHeaders } from "./httpHeaders";
 import { RestError } from "./restError";
@@ -123,7 +124,7 @@ export class NodeHttpsClient implements HttpsClient {
       }
     }
 
-    if (request.decompressResponse) {
+    if (!request.skipDecompressResponse) {
       request.headers.set("Accept-Encoding", "gzip,deflate");
     }
 
@@ -179,11 +180,13 @@ export class NodeHttpsClient implements HttpsClient {
             headers,
             request
           };
+
+          const responseStream = getResponseStream(res, headers, request.skipDecompressResponse);
+
           if (request.streamResponseBody) {
-            response.readableStreamBody = res;
+            response.readableStreamBody = responseStream;
           } else {
-            const encoding = headers.get("Content-Encoding");
-            response.bodyAsText = await streamToText(res, encoding);
+            response.bodyAsText = await streamToText(responseStream);
           }
 
           const onDownloadProgress = request.onDownloadProgress;
@@ -230,31 +233,44 @@ export class NodeHttpsClient implements HttpsClient {
   }
 }
 
-function streamToText(stream: IncomingMessage, contentEncoding?: string): Promise<string> {
+function getResponseStream(
+  stream: IncomingMessage,
+  headers: HttpHeaders,
+  skipDecompressResponse = false
+): NodeJS.ReadableStream {
+  if (skipDecompressResponse) {
+    return stream;
+  }
+
+  const contentEncoding = headers.get("Content-Encoding");
+  if (contentEncoding === "gzip") {
+    const unzip = zlib.createGunzip();
+    stream.pipe(unzip);
+    return unzip;
+  } else if (contentEncoding === "deflate") {
+    const inflate = zlib.createInflate();
+    stream.pipe(inflate);
+    return inflate;
+  }
+
+  return stream;
+}
+
+function streamToText(stream: NodeJS.ReadableStream): Promise<string> {
   return new Promise<string>((resolve, reject) => {
     const buffer: string[] = [];
-    let readStream: IncomingMessage | zlib.Inflate | zlib.Gunzip = stream;
-    if (contentEncoding === "gzip") {
-      const unzip = zlib.createGunzip();
-      stream.pipe(unzip);
-      readStream = unzip;
-    } else if (contentEncoding === "deflate") {
-      const inflate = zlib.createInflate();
-      stream.pipe(inflate);
-      readStream = inflate;
-    }
 
-    readStream.on("data", (chunk) => {
+    stream.on("data", (chunk) => {
       if (typeof chunk === "string") {
         buffer.push(chunk);
       } else {
         buffer.push(chunk.toString());
       }
     });
-    readStream.on("end", () => {
+    stream.on("end", () => {
       resolve(buffer.join(""));
     });
-    readStream.on("error", (e) => {
+    stream.on("error", (e) => {
       reject(
         new RestError(`Error reading response as text: ${e.message}`, {
           code: RestError.PARSE_ERROR
