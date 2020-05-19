@@ -283,6 +283,7 @@ function _cleanInstallFolder(rushTempFolder, packageInstallFolder) {
         const nodeModulesFolder = path.resolve(packageInstallFolder, NODE_MODULES_FOLDER_NAME);
         if (fs.existsSync(nodeModulesFolder)) {
             const rushRecyclerFolder = _ensureAndJoinPath(rushTempFolder, 'rush-recycler', `install-run-${Date.now().toString()}`);
+            fs.rmdirSync(rushRecyclerFolder);
             fs.renameSync(nodeModulesFolder, rushRecyclerFolder);
         }
     }
