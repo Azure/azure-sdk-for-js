@@ -50,7 +50,7 @@ export interface AutocompleteItem {
 }
 
 // @public
-export type AutocompleteMode = 'oneTerm' | 'twoTerms' | 'oneTermWithContext';
+export type AutocompleteMode = "oneTerm" | "twoTerms" | "oneTermWithContext";
 
 // @public
 export type AutocompleteOptions<Fields> = OperationOptions & AutocompleteRequest<Fields>;
@@ -468,7 +468,7 @@ export interface Index {
 }
 
 // @public
-export type IndexActionType = 'upload' | 'merge' | 'mergeOrUpload' | 'delete';
+export type IndexActionType = "upload" | "merge" | "mergeOrUpload" | "delete";
 
 // @public
 export interface IndexDocuments extends OperationOptions {
@@ -1035,7 +1035,7 @@ export interface PhoneticTokenFilter {
 }
 
 // @public
-export type QueryType = 'simple' | 'full';
+export type QueryType = "simple" | "full";
 
 // @public
 export interface RawSearchRequest {
@@ -1135,7 +1135,7 @@ export interface SearchDocumentsResultBase {
 export type SearchIterator<Fields> = PagedAsyncIterableIterator<SearchResult<Fields>, SearchDocumentsPageResult<Fields>, ListSearchResultsPageSettings>;
 
 // @public
-export type SearchMode = 'any' | 'all';
+export type SearchMode = "any" | "all";
 
 // @public
 export type SearchOptions<Fields> = OperationOptions & SearchRequest<Fields>;
