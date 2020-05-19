@@ -32,18 +32,18 @@ class GeneratedClient extends GeneratedClientContext {
    * API</a>. See the <a href="https://aka.ms/talangs">Supported languages in Text Analytics API</a>
    * for the list of enabled languages.
    * @summary Named Entity Recognition
-   * @param input Array of documents to analyze.
+   * @param input Collection of documents to analyze.
    * @param [options] The optional parameters
    * @returns Promise<Models.EntitiesRecognitionGeneralResponse>
    */
   entitiesRecognitionGeneral(input: Models.MultiLanguageBatchInput, options?: Models.GeneratedClientEntitiesRecognitionGeneralOptionalParams): Promise<Models.EntitiesRecognitionGeneralResponse>;
   /**
-   * @param input Array of documents to analyze.
+   * @param input Collection of documents to analyze.
    * @param callback The callback
    */
   entitiesRecognitionGeneral(input: Models.MultiLanguageBatchInput, callback: coreHttp.ServiceCallback<Models.EntitiesResult>): void;
   /**
-   * @param input Array of documents to analyze.
+   * @param input Collection of documents to analyze.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -63,18 +63,18 @@ class GeneratedClient extends GeneratedClientContext {
    * <a href="https://aka.ms/talangs">Supported languages in Text Analytics API</a> for the list of
    * enabled languages.
    * @summary Linked entities from a well-known knowledge base
-   * @param input Array of documents to analyze.
+   * @param input Collection of documents to analyze.
    * @param [options] The optional parameters
    * @returns Promise<Models.EntitiesLinkingResponse>
    */
   entitiesLinking(input: Models.MultiLanguageBatchInput, options?: Models.GeneratedClientEntitiesLinkingOptionalParams): Promise<Models.EntitiesLinkingResponse>;
   /**
-   * @param input Array of documents to analyze.
+   * @param input Collection of documents to analyze.
    * @param callback The callback
    */
   entitiesLinking(input: Models.MultiLanguageBatchInput, callback: coreHttp.ServiceCallback<Models.EntityLinkingResult>): void;
   /**
-   * @param input Array of documents to analyze.
+   * @param input Collection of documents to analyze.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -94,20 +94,20 @@ class GeneratedClient extends GeneratedClientContext {
    * href="https://aka.ms/talangs">Supported languages in Text Analytics API</a> for the list of
    * enabled languages.
    * @summary Key Phrases
-   * @param input Array of documents to analyze. Documents can now contain a language field to
+   * @param input Collection of documents to analyze. Documents can now contain a language field to
    * indicate the text language
    * @param [options] The optional parameters
    * @returns Promise<Models.KeyPhrasesResponse>
    */
   keyPhrases(input: Models.MultiLanguageBatchInput, options?: Models.GeneratedClientKeyPhrasesOptionalParams): Promise<Models.KeyPhrasesResponse>;
   /**
-   * @param input Array of documents to analyze. Documents can now contain a language field to
+   * @param input Collection of documents to analyze. Documents can now contain a language field to
    * indicate the text language
    * @param callback The callback
    */
   keyPhrases(input: Models.MultiLanguageBatchInput, callback: coreHttp.ServiceCallback<Models.KeyPhraseResult>): void;
   /**
-   * @param input Array of documents to analyze. Documents can now contain a language field to
+   * @param input Collection of documents to analyze. Documents can now contain a language field to
    * indicate the text language
    * @param options The optional parameters
    * @param callback The callback
@@ -129,18 +129,18 @@ class GeneratedClient extends GeneratedClientContext {
    * href="https://aka.ms/talangs">Supported languages in Text Analytics API</a> for the list of
    * enabled languages.
    * @summary Detect Language
-   * @param input Array of documents to analyze.
+   * @param input Collection of documents to analyze.
    * @param [options] The optional parameters
    * @returns Promise<Models.LanguagesResponse>
    */
   languages(input: Models.LanguageBatchInput, options?: Models.GeneratedClientLanguagesOptionalParams): Promise<Models.LanguagesResponse>;
   /**
-   * @param input Array of documents to analyze.
+   * @param input Collection of documents to analyze.
    * @param callback The callback
    */
   languages(input: Models.LanguageBatchInput, callback: coreHttp.ServiceCallback<Models.LanguageResult>): void;
   /**
-   * @param input Array of documents to analyze.
+   * @param input Collection of documents to analyze.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -161,18 +161,18 @@ class GeneratedClient extends GeneratedClientContext {
    * href="https://aka.ms/talangs">Supported languages in Text Analytics API</a> for the list of
    * enabled languages.
    * @summary Sentiment
-   * @param input Array of documents to analyze.
+   * @param input Collection of documents to analyze.
    * @param [options] The optional parameters
    * @returns Promise<Models.SentimentResponse2>
    */
   sentiment(input: Models.MultiLanguageBatchInput, options?: Models.GeneratedClientSentimentOptionalParams): Promise<Models.SentimentResponse2>;
   /**
-   * @param input Array of documents to analyze.
+   * @param input Collection of documents to analyze.
    * @param callback The callback
    */
   sentiment(input: Models.MultiLanguageBatchInput, callback: coreHttp.ServiceCallback<Models.SentimentResponse>): void;
   /**
-   * @param input Array of documents to analyze.
+   * @param input Collection of documents to analyze.
    * @param options The optional parameters
    * @param callback The callback
    */

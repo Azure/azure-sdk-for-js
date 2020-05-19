@@ -114,7 +114,7 @@ export interface TextAnalyticsWarning {
   /**
    * Error code. Possible values include: 'LongWordsInDocument', 'DocumentTruncated'
    */
-  code: WarningCodeValue;
+  code: WarningCode;
   /**
    * Warning message.
    */
@@ -611,12 +611,12 @@ export type ErrorCodeValue = 'InvalidRequest' | 'InvalidArgument' | 'InternalSer
 export type InnerErrorCodeValue = 'InvalidParameterValue' | 'InvalidRequestBodyFormat' | 'EmptyRequest' | 'MissingInputRecords' | 'InvalidDocument' | 'ModelVersionIncorrect' | 'InvalidDocumentBatch' | 'UnsupportedLanguageCode' | 'InvalidCountryHint';
 
 /**
- * Defines values for WarningCodeValue.
+ * Defines values for WarningCode.
  * Possible values include: 'LongWordsInDocument', 'DocumentTruncated'
  * @readonly
  * @enum {string}
  */
-export type WarningCodeValue = 'LongWordsInDocument' | 'DocumentTruncated';
+export type WarningCode = 'LongWordsInDocument' | 'DocumentTruncated';
 
 /**
  * Defines values for DocumentSentimentLabel.

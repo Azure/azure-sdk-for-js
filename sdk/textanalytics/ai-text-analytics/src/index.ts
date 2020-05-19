@@ -66,7 +66,7 @@ export {
   SentenceSentimentLabel,
   ErrorCodeValue,
   InnerErrorCodeValue,
-  WarningCodeValue,
+  WarningCode,
   LinkedEntity,
   Match,
   TextAnalyticsWarning

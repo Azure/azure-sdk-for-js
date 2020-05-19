@@ -207,3 +207,13 @@ directive:
       $["x-ms-client-name"] = "innerError";
 ```
 
+### WarningCodeValue => WarningCode
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.TextAnalyticsWarning.properties.code
+    transform: >
+      $["x-ms-enum"].name = "WarningCode";
+```
+

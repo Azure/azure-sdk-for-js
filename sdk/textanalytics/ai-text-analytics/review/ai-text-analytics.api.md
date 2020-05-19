@@ -246,7 +246,7 @@ export interface TextAnalyticsSuccessResult {
 
 // @public
 export interface TextAnalyticsWarning {
-    code: WarningCodeValue;
+    code: WarningCode;
     message: string;
     targetRef?: string;
 }
@@ -273,7 +273,7 @@ export interface TextDocumentStatistics {
 }
 
 // @public
-export type WarningCodeValue = 'LongWordsInDocument' | 'DocumentTruncated';
+export type WarningCode = 'LongWordsInDocument' | 'DocumentTruncated';
 
 
 // (No @packageDocumentation comment for this package)
