@@ -4,6 +4,7 @@
 import { TextAnalyticsError } from "./generated/models";
 
 import { logger } from "./logger";
+import { RestError } from "@azure/core-http";
 
 export interface IdObject {
   id: string;
@@ -27,8 +28,7 @@ export function sortByPreviousIdOrder<T extends IdObject, U extends IdObject>(
   const unsortedMap = new Map<string, U>();
   for (const item of unsortedArray) {
     if (isGenericError(item)) {
-      // This item is a generic error, so we will throw it
-      throw item.error;
+      throw new RestError(item.error.message, item.error.code, 400);
     }
     unsortedMap.set(item.id, item);
   }

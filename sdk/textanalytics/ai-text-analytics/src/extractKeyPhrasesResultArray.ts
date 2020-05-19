@@ -4,21 +4,21 @@
 import {
   TextDocumentBatchStatistics,
   DocumentError,
-  DocumentSentiment,
+  DocumentKeyPhrases,
   MultiLanguageInput
 } from "./generated/models";
 import {
-  AnalyzeSentimentResult,
-  makeAnalyzeSentimentResult,
-  makeAnalyzeSentimentErrorResult
-} from "./analyzeSentimentResult";
+  ExtractKeyPhrasesResult,
+  makeExtractKeyPhrasesResult,
+  makeExtractKeyPhrasesErrorResult
+} from "./extractKeyPhrasesResult";
 import { sortByPreviousIdOrder } from "./util";
 
 /**
- * Collection of `AnalyzeSentimentResult` objects corresponding to a batch of input documents, and
+ * Array of `ExtractKeyPhrasesResult` objects corresponding to a batch of input documents, and
  * annotated with information about the batch operation.
  */
-export interface AnalyzeSentimentResultCollection extends Array<AnalyzeSentimentResult> {
+export interface ExtractKeyPhrasesResultArray extends Array<ExtractKeyPhrasesResult> {
   /**
    * Statistics about the input document batch and how it was processed
    * by the service. This property will have a value when includeStatistics is set to true
@@ -32,21 +32,19 @@ export interface AnalyzeSentimentResultCollection extends Array<AnalyzeSentiment
   modelVersion: string;
 }
 
-export function makeAnalyzeSentimentResultCollection(
+export function makeExtractKeyPhrasesResultArray(
   input: MultiLanguageInput[],
-  documents: DocumentSentiment[],
+  documents: DocumentKeyPhrases[],
   errors: DocumentError[],
   modelVersion: string,
   statistics?: TextDocumentBatchStatistics
-): AnalyzeSentimentResultCollection {
+): ExtractKeyPhrasesResultArray {
   const unsortedResult = documents
     .map(
-      (document): AnalyzeSentimentResult => {
-        return makeAnalyzeSentimentResult(
+      (document): ExtractKeyPhrasesResult => {
+        return makeExtractKeyPhrasesResult(
           document.id,
-          document.sentiment,
-          document.confidenceScores,
-          document.sentenceSentiments,
+          document.keyPhrases,
           document.warnings,
           document.statistics
         );
@@ -54,8 +52,8 @@ export function makeAnalyzeSentimentResultCollection(
     )
     .concat(
       errors.map(
-        (error): AnalyzeSentimentResult => {
-          return makeAnalyzeSentimentErrorResult(error.id, error.error);
+        (error): ExtractKeyPhrasesResult => {
+          return makeExtractKeyPhrasesErrorResult(error.id, error.error);
         }
       )
     );

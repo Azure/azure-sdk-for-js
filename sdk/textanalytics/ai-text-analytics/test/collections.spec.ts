@@ -3,14 +3,14 @@
 
 import { assert } from "chai";
 
-import { makeAnalyzeSentimentResultCollection } from "../src/analyzeSentimentResultCollection";
-import { makeDetectLanguageResultCollection } from "../src/detectLanguageResultCollection";
-import { makeExtractKeyPhrasesResultCollection } from "../src/extractKeyPhrasesResultCollection";
-import { makeRecognizeLinkedEntitiesResultCollection } from "../src/recognizeLinkedEntitiesResultCollection";
-import { makeRecognizeCategorizedEntitiesResultCollection } from "../src/recognizeCategorizedEntitiesResultCollection";
+import { makeAnalyzeSentimentResultArray } from "../src/analyzeSentimentResultArray";
+import { makeDetectLanguageResultArray } from "../src/detectLanguageResultArray";
+import { makeExtractKeyPhrasesResultArray } from "../src/extractKeyPhrasesResultArray";
+import { makeRecognizeLinkedEntitiesResultArray } from "../src/recognizeLinkedEntitiesResultArray";
+import { makeRecognizeCategorizedEntitiesResultArray } from "../src/recognizeCategorizedEntitiesResultArray";
 import { LanguageInput, MultiLanguageInput } from "../src/generated/models";
 
-describe("SentimentResultCollection", () => {
+describe("SentimentResultArray", () => {
   it("merges items in order", () => {
     const input: MultiLanguageInput[] = [
       {
@@ -26,7 +26,7 @@ describe("SentimentResultCollection", () => {
         text: "test3"
       }
     ];
-    const result = makeAnalyzeSentimentResultCollection(
+    const result = makeAnalyzeSentimentResultArray(
       input,
       [
         {
@@ -70,7 +70,7 @@ describe("SentimentResultCollection", () => {
   });
 });
 
-describe("DetectLanguageResultCollection", () => {
+describe("DetectLanguageResultArray", () => {
   it("merges items in order", () => {
     const input: LanguageInput[] = [
       {
@@ -86,7 +86,7 @@ describe("DetectLanguageResultCollection", () => {
         text: "test3"
       }
     ];
-    const result = makeDetectLanguageResultCollection(
+    const result = makeDetectLanguageResultArray(
       input,
       [
         {
@@ -126,7 +126,7 @@ describe("DetectLanguageResultCollection", () => {
   });
 });
 
-describe("ExtractKeyPhrasesResultCollection", () => {
+describe("ExtractKeyPhrasesResultArray", () => {
   it("merges items in order", () => {
     const input: MultiLanguageInput[] = [
       {
@@ -142,7 +142,7 @@ describe("ExtractKeyPhrasesResultCollection", () => {
         text: "test3"
       }
     ];
-    const result = makeExtractKeyPhrasesResultCollection(
+    const result = makeExtractKeyPhrasesResultArray(
       input,
       [
         {
@@ -174,7 +174,7 @@ describe("ExtractKeyPhrasesResultCollection", () => {
   });
 });
 
-describe("RecognizeCategorizedEntitiesResultCollection", () => {
+describe("RecognizeCategorizedEntitiesResultArray", () => {
   it("merges items in order", () => {
     const input: MultiLanguageInput[] = [
       {
@@ -190,7 +190,7 @@ describe("RecognizeCategorizedEntitiesResultCollection", () => {
         text: "test3"
       }
     ];
-    const result = makeRecognizeCategorizedEntitiesResultCollection(
+    const result = makeRecognizeCategorizedEntitiesResultArray(
       input,
       [
         {
@@ -235,7 +235,7 @@ describe("RecognizeCategorizedEntitiesResultCollection", () => {
   });
 });
 
-describe("RecognizeLinkedEntitiesResultCollection", () => {
+describe("RecognizeLinkedEntitiesResultArray", () => {
   it("merges items in order", () => {
     const input: MultiLanguageInput[] = [
       {
@@ -251,7 +251,7 @@ describe("RecognizeLinkedEntitiesResultCollection", () => {
         text: "test3"
       }
     ];
-    const result = makeRecognizeLinkedEntitiesResultCollection(
+    const result = makeRecognizeLinkedEntitiesResultArray(
       input,
       [
         {

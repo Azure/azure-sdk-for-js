@@ -3,22 +3,22 @@
 
 import {
   TextDocumentBatchStatistics,
+  DocumentLanguage,
   DocumentError,
-  DocumentKeyPhrases,
-  MultiLanguageInput
+  LanguageInput
 } from "./generated/models";
 import {
-  ExtractKeyPhrasesResult,
-  makeExtractKeyPhrasesResult,
-  makeExtractKeyPhrasesErrorResult
-} from "./extractKeyPhrasesResult";
+  DetectLanguageResult,
+  makeDetectLanguageResult,
+  makeDetectLanguageErrorResult
+} from "./detectLanguageResult";
 import { sortByPreviousIdOrder } from "./util";
 
 /**
- * Collection of `ExtractKeyPhrasesResult` objects corresponding to a batch of input documents, and
+ * Array of `DetectLanguageResult` objects corresponding to a batch of input documents, and
  * annotated with information about the batch operation.
  */
-export interface ExtractKeyPhrasesResultCollection extends Array<ExtractKeyPhrasesResult> {
+export interface DetectLanguageResultArray extends Array<DetectLanguageResult> {
   /**
    * Statistics about the input document batch and how it was processed
    * by the service. This property will have a value when includeStatistics is set to true
@@ -32,19 +32,19 @@ export interface ExtractKeyPhrasesResultCollection extends Array<ExtractKeyPhras
   modelVersion: string;
 }
 
-export function makeExtractKeyPhrasesResultCollection(
-  input: MultiLanguageInput[],
-  documents: DocumentKeyPhrases[],
+export function makeDetectLanguageResultArray(
+  input: LanguageInput[],
+  documents: DocumentLanguage[],
   errors: DocumentError[],
   modelVersion: string,
   statistics?: TextDocumentBatchStatistics
-): ExtractKeyPhrasesResultCollection {
+): DetectLanguageResultArray {
   const unsortedResult = documents
     .map(
-      (document): ExtractKeyPhrasesResult => {
-        return makeExtractKeyPhrasesResult(
+      (document): DetectLanguageResult => {
+        return makeDetectLanguageResult(
           document.id,
-          document.keyPhrases,
+          document.detectedLanguage,
           document.warnings,
           document.statistics
         );
@@ -52,8 +52,8 @@ export function makeExtractKeyPhrasesResultCollection(
     )
     .concat(
       errors.map(
-        (error): ExtractKeyPhrasesResult => {
-          return makeExtractKeyPhrasesErrorResult(error.id, error.error);
+        (error): DetectLanguageResult => {
+          return makeDetectLanguageErrorResult(error.id, error.error);
         }
       )
     );

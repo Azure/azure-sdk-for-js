@@ -4,22 +4,22 @@
 import {
   TextDocumentBatchStatistics,
   DocumentError,
-  DocumentLinkedEntities,
+  DocumentEntities,
   MultiLanguageInput
 } from "./generated/models";
 import {
-  RecognizeLinkedEntitiesResult,
-  makeRecognizeLinkedEntitiesResult,
-  makeRecognizeLinkedEntitiesErrorResult
-} from "./recognizeLinkedEntitiesResult";
+  RecognizeCategorizedEntitiesResult,
+  makeRecognizeCategorizedEntitiesResult,
+  makeRecognizeCategorizedEntitiesErrorResult
+} from "./recognizeCategorizedEntitiesResult";
 import { sortByPreviousIdOrder } from "./util";
 
 /**
- * Collection of `RecognizeLinkedEntitiesResult` objects corresponding to a batch of input documents, and
+ * Array of `RecognizeCategorizedEntitiesResult` objects corresponding to a batch of input documents, and
  * annotated with information about the batch operation.
  */
-export interface RecognizeLinkedEntitiesResultCollection
-  extends Array<RecognizeLinkedEntitiesResult> {
+export interface RecognizeCategorizedEntitiesResultArray
+  extends Array<RecognizeCategorizedEntitiesResult> {
   /**
    * Statistics about the input document batch and how it was processed
    * by the service. This property will have a value when includeStatistics is set to true
@@ -33,17 +33,17 @@ export interface RecognizeLinkedEntitiesResultCollection
   modelVersion: string;
 }
 
-export function makeRecognizeLinkedEntitiesResultCollection(
+export function makeRecognizeCategorizedEntitiesResultArray(
   input: MultiLanguageInput[],
-  documents: DocumentLinkedEntities[],
+  documents: DocumentEntities[],
   errors: DocumentError[],
   modelVersion: string,
   statistics?: TextDocumentBatchStatistics
-): RecognizeLinkedEntitiesResultCollection {
+): RecognizeCategorizedEntitiesResultArray {
   const unsortedResult = documents
     .map(
-      (document): RecognizeLinkedEntitiesResult => {
-        return makeRecognizeLinkedEntitiesResult(
+      (document): RecognizeCategorizedEntitiesResult => {
+        return makeRecognizeCategorizedEntitiesResult(
           document.id,
           document.entities,
           document.warnings,
@@ -53,8 +53,8 @@ export function makeRecognizeLinkedEntitiesResultCollection(
     )
     .concat(
       errors.map(
-        (error): RecognizeLinkedEntitiesResult => {
-          return makeRecognizeLinkedEntitiesErrorResult(error.id, error.error);
+        (error): RecognizeCategorizedEntitiesResult => {
+          return makeRecognizeCategorizedEntitiesErrorResult(error.id, error.error);
         }
       )
     );

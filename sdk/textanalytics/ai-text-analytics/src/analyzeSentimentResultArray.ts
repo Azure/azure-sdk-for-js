@@ -4,22 +4,21 @@
 import {
   TextDocumentBatchStatistics,
   DocumentError,
-  DocumentEntities,
+  DocumentSentiment,
   MultiLanguageInput
 } from "./generated/models";
 import {
-  RecognizeCategorizedEntitiesResult,
-  makeRecognizeCategorizedEntitiesResult,
-  makeRecognizeCategorizedEntitiesErrorResult
-} from "./recognizeCategorizedEntitiesResult";
+  AnalyzeSentimentResult,
+  makeAnalyzeSentimentResult,
+  makeAnalyzeSentimentErrorResult
+} from "./analyzeSentimentResult";
 import { sortByPreviousIdOrder } from "./util";
 
 /**
- * Collection of `RecognizeCategorizedEntitiesResult` objects corresponding to a batch of input documents, and
+ * Array of `AnalyzeSentimentResult` objects corresponding to a batch of input documents, and
  * annotated with information about the batch operation.
  */
-export interface RecognizeCategorizedEntitiesResultCollection
-  extends Array<RecognizeCategorizedEntitiesResult> {
+export interface AnalyzeSentimentResultArray extends Array<AnalyzeSentimentResult> {
   /**
    * Statistics about the input document batch and how it was processed
    * by the service. This property will have a value when includeStatistics is set to true
@@ -33,19 +32,21 @@ export interface RecognizeCategorizedEntitiesResultCollection
   modelVersion: string;
 }
 
-export function makeRecognizeCategorizedEntitiesResultCollection(
+export function makeAnalyzeSentimentResultArray(
   input: MultiLanguageInput[],
-  documents: DocumentEntities[],
+  documents: DocumentSentiment[],
   errors: DocumentError[],
   modelVersion: string,
   statistics?: TextDocumentBatchStatistics
-): RecognizeCategorizedEntitiesResultCollection {
+): AnalyzeSentimentResultArray {
   const unsortedResult = documents
     .map(
-      (document): RecognizeCategorizedEntitiesResult => {
-        return makeRecognizeCategorizedEntitiesResult(
+      (document): AnalyzeSentimentResult => {
+        return makeAnalyzeSentimentResult(
           document.id,
-          document.entities,
+          document.sentiment,
+          document.confidenceScores,
+          document.sentenceSentiments,
           document.warnings,
           document.statistics
         );
@@ -53,8 +54,8 @@ export function makeRecognizeCategorizedEntitiesResultCollection(
     )
     .concat(
       errors.map(
-        (error): RecognizeCategorizedEntitiesResult => {
-          return makeRecognizeCategorizedEntitiesErrorResult(error.id, error.error);
+        (error): AnalyzeSentimentResult => {
+          return makeAnalyzeSentimentErrorResult(error.id, error.error);
         }
       )
     );

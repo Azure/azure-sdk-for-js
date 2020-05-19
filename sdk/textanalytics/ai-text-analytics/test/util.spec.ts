@@ -18,7 +18,7 @@ describe("util.sortByPreviousOrder", () => {
       { id: "3" },
       { id: "1" },
       { id: "2" },
-      { id: "", error: { message: "A fatal error!" } }
+      { id: "", error: { code: "Oops", message: "A fatal error!" } }
     ];
     assert.throws(() => {
       sortByPreviousIdOrder(input, output);

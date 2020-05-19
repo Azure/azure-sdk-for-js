@@ -3,22 +3,23 @@
 
 import {
   TextDocumentBatchStatistics,
-  DocumentLanguage,
   DocumentError,
-  LanguageInput
+  DocumentLinkedEntities,
+  MultiLanguageInput
 } from "./generated/models";
 import {
-  DetectLanguageResult,
-  makeDetectLanguageResult,
-  makeDetectLanguageErrorResult
-} from "./detectLanguageResult";
+  RecognizeLinkedEntitiesResult,
+  makeRecognizeLinkedEntitiesResult,
+  makeRecognizeLinkedEntitiesErrorResult
+} from "./recognizeLinkedEntitiesResult";
 import { sortByPreviousIdOrder } from "./util";
 
 /**
- * Collection of `DetectLanguageResult` objects corresponding to a batch of input documents, and
+ * Array of `RecognizeLinkedEntitiesResult` objects corresponding to a batch of input documents, and
  * annotated with information about the batch operation.
  */
-export interface DetectLanguageResultCollection extends Array<DetectLanguageResult> {
+export interface RecognizeLinkedEntitiesResultArray
+  extends Array<RecognizeLinkedEntitiesResult> {
   /**
    * Statistics about the input document batch and how it was processed
    * by the service. This property will have a value when includeStatistics is set to true
@@ -32,19 +33,19 @@ export interface DetectLanguageResultCollection extends Array<DetectLanguageResu
   modelVersion: string;
 }
 
-export function makeDetectLanguageResultCollection(
-  input: LanguageInput[],
-  documents: DocumentLanguage[],
+export function makeRecognizeLinkedEntitiesResultArray(
+  input: MultiLanguageInput[],
+  documents: DocumentLinkedEntities[],
   errors: DocumentError[],
   modelVersion: string,
   statistics?: TextDocumentBatchStatistics
-): DetectLanguageResultCollection {
+): RecognizeLinkedEntitiesResultArray {
   const unsortedResult = documents
     .map(
-      (document): DetectLanguageResult => {
-        return makeDetectLanguageResult(
+      (document): RecognizeLinkedEntitiesResult => {
+        return makeRecognizeLinkedEntitiesResult(
           document.id,
-          document.detectedLanguage,
+          document.entities,
           document.warnings,
           document.statistics
         );
@@ -52,8 +53,8 @@ export function makeDetectLanguageResultCollection(
     )
     .concat(
       errors.map(
-        (error): DetectLanguageResult => {
-          return makeDetectLanguageErrorResult(error.id, error.error);
+        (error): RecognizeLinkedEntitiesResult => {
+          return makeRecognizeLinkedEntitiesErrorResult(error.id, error.error);
         }
       )
     );
