@@ -19,7 +19,7 @@ export type MockResponseFunction = (
   method?: string,
   body?: any,
   headers?: any
-) => Promise<MockResponseData>;
+) => Promise<MockResponseData | void>;
 
 export type MockResponse = MockResponseData | MockResponseFunction;
 
@@ -117,12 +117,13 @@ export class BrowserHttpMock implements HttpMockFacade {
   mockHttpMethod(method: HttpMethods, url: UrlFilter, response: MockResponse): void {
     if (typeof response === "function") {
       xhrMock.use(method, url, async (req, res) => {
-        const result = await response(
-          req.url().toString(),
-          req.method().toString(),
-          req.body(),
-          req.headers()
-        );
+        const result =
+          (await response(
+            req.url().toString(),
+            req.method().toString(),
+            req.body(),
+            req.headers()
+          )) || {};
         return res
           .status(result.status || 200)
           .body(result.body || {})
@@ -157,6 +158,8 @@ export class BrowserHttpMock implements HttpMockFacade {
   }
 
   timeout(method: HttpMethods, url: UrlFilter): void {
-    return this.mockHttpMethod(method, url, () => new Promise(() => {}));
+    return this.mockHttpMethod(method, url, async () => {
+      throw new Error("Timeout");
+    });
   }
 }
