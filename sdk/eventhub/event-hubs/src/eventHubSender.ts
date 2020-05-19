@@ -459,7 +459,7 @@ export class EventHubSender extends LinkEntity {
           return reject(translate(e));
         };
 
-        const waitTimer = setTimeout(actionAfterTimeout, retryOptions.timeoutInMs);
+        const waitTimer = setTimeout(actionAfterTimeout, retryOptions.timeoutInMs!);
         const initStartTime = Date.now();
         if (!this.isOpen()) {
           logger.verbose(
