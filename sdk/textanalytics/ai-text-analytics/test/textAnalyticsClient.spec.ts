@@ -260,10 +260,14 @@ describe("[AAD] TextAnalyticsClient", function() {
       );
       const allInputs = enInputs.concat(esInputs);
 
-      return assert.isRejected(
-        client.recognizeEntities(allInputs),
-        /exceeded the data limitations/
-      );
+      try {
+        await client.recognizeEntities(allInputs);
+        assert.fail("Oops, an exception didn't happen.");
+      } catch (e) {
+        assert.equal(e.statusCode, 400);
+        assert.equal(e.code, "InvalidDocumentBatch");
+        assert.match(e.message, /exceeded the data limitations/);
+      }
     });
   });
 
@@ -398,10 +402,14 @@ describe("[AAD] TextAnalyticsClient", function() {
       );
       const allInputs = enInputs.concat(esInputs);
 
-      return assert.isRejected(
-        client.recognizeLinkedEntities(allInputs),
-        /exceeded the data limitations/
-      );
+      try {
+        await client.recognizeEntities(allInputs);
+        assert.fail("Oops, an exception didn't happen.");
+      } catch (e) {
+        assert.equal(e.statusCode, 400);
+        assert.equal(e.code, "InvalidDocumentBatch");
+        assert.match(e.message, /exceeded the data limitations/);
+      }
     });
   });
 });
