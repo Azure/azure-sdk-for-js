@@ -216,12 +216,15 @@ export class SearchServiceClient {
    * Retrieves a list of existing Skillsets in the service.
    * @param options Options to the list Skillsets operation.
    */
-  public async listSkillsets(options: ListSkillsetsOptions = {}): Promise<Skillset[]> {
+  public async listSkillsets<Fields extends keyof Skillset>(
+    options: ListSkillsetsOptions<Fields> = {}
+  ): Promise<Array<Pick<Skillset, Fields>>> {
     const { span, updatedOptions } = createSpan("SearchServiceClient-listSkillsets", options);
     try {
-      const result = await this.client.skillsets.list(
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
+      const result = await this.client.skillsets.list({
+        ...operationOptionsToRequestOptionsBase(updatedOptions),
+        select: updatedOptions.select?.join(",")
+      });
       return result.skillsets.map(utils.generatedSkillsetToPublicSkillset);
     } catch (e) {
       span.setStatus({

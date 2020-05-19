@@ -845,7 +845,9 @@ export interface ListSearchResultsPageSettings {
 }
 
 // @public
-export type ListSkillsetsOptions = OperationOptions;
+export interface ListSkillsetsOptions<Fields> extends OperationOptions {
+    select?: Fields[];
+}
 
 // @public
 export interface ListSynonymMapsOptions<Fields> extends OperationOptions {
@@ -1200,7 +1202,7 @@ export class SearchServiceClient {
     listDataSources<Fields extends keyof DataSource>(options?: ListDataSourcesOptions<Fields>): Promise<Array<Pick<DataSource, Fields>>>;
     listIndexers<Fields extends keyof Indexer>(options?: ListIndexersOptions<Fields>): Promise<Array<Pick<Indexer, Fields>>>;
     listIndexes<Fields extends keyof Index>(options?: ListIndexesOptions<Fields>): Promise<Array<Pick<Index, Fields>>>;
-    listSkillsets(options?: ListSkillsetsOptions): Promise<Skillset[]>;
+    listSkillsets<Fields extends keyof Skillset>(options?: ListSkillsetsOptions<Fields>): Promise<Array<Pick<Skillset, Fields>>>;
     listSynonymMaps<Fields extends keyof SynonymMap>(options?: ListSynonymMapsOptions<Fields>): Promise<Array<Pick<SynonymMap, Fields>>>;
     resetIndexer(indexerName: string, options?: ResetIndexerOptions): Promise<void>;
     runIndexer(indexerName: string, options?: RunIndexerOptions): Promise<void>;
