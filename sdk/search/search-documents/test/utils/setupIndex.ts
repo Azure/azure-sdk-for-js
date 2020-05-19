@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import {
-  SearchIndexClient,
+  SearchClient,
   SearchServiceClient,
   GeographyPoint,
   Index,
@@ -224,7 +224,7 @@ export async function createIndex(client: SearchServiceClient, name: string): Pr
 }
 
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
-export async function populateIndex(client: SearchIndexClient<Hotel>): Promise<void> {
+export async function populateIndex(client: SearchClient<Hotel>): Promise<void> {
   // test data from https://github.com/Azure/azure-sdk-for-net/blob/master/sdk/search/Azure.Search.Documents/tests/Utilities/SearchResources.Data.cs
   const testDocuments: Hotel[] = [
     {

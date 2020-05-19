@@ -50,7 +50,7 @@ export interface AutocompleteItem {
 }
 
 // @public
-export type AutocompleteMode = 'oneTerm' | 'twoTerms' | 'oneTermWithContext';
+export type AutocompleteMode = "oneTerm" | "twoTerms" | "oneTermWithContext";
 
 // @public
 export type AutocompleteOptions<Fields> = OperationOptions & AutocompleteRequest<Fields>;
@@ -468,7 +468,7 @@ export interface Index {
 }
 
 // @public
-export type IndexActionType = 'upload' | 'merge' | 'mergeOrUpload' | 'delete';
+export type IndexActionType = "upload" | "merge" | "mergeOrUpload" | "delete";
 
 // @public
 export interface IndexDocuments extends OperationOptions {
@@ -1035,7 +1035,7 @@ export interface PhoneticTokenFilter {
 }
 
 // @public
-export type QueryType = 'simple' | 'full';
+export type QueryType = "simple" | "full";
 
 // @public
 export interface RawSearchRequest {
@@ -1091,6 +1091,27 @@ export interface ScoringProfile {
 }
 
 // @public
+export class SearchClient<T> {
+    constructor(endpoint: string, indexName: string, credential: KeyCredential, options?: SearchClientOptions);
+    readonly apiVersion: string;
+    autocomplete<Fields extends keyof T>(options: AutocompleteOptions<Fields>): Promise<AutocompleteResult>;
+    countDocuments(options?: CountDocumentsOptions): Promise<number>;
+    deleteDocuments(keyName: keyof T, keyValues: string[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
+    readonly endpoint: string;
+    getDocument<Fields extends keyof T>(key: string, options?: GetDocumentOptions<Fields>): Promise<T>;
+    indexDocuments(batch: IndexDocumentsBatch<T>, options?: IndexDocuments): Promise<IndexDocumentsResult>;
+    readonly indexName: string;
+    mergeDocuments(documents: T[], options?: MergeDocumentsOptions): Promise<IndexDocumentsResult>;
+    mergeOrUploadDocuments(documents: T[], options?: MergeOrUploadDocumentsOptions): Promise<IndexDocumentsResult>;
+    search<Fields extends keyof T>(options?: SearchOptions<Fields>): Promise<SearchDocumentsResult<Pick<T, Fields>>>;
+    suggest<Fields extends keyof T = never>(options: SuggestOptions<Fields>): Promise<SuggestDocumentsResult<Pick<T, Fields>>>;
+    uploadDocuments(documents: T[], options?: UploadDocumentsOptions): Promise<IndexDocumentsResult>;
+}
+
+// @public
+export type SearchClientOptions = PipelineOptions;
+
+// @public
 export interface SearchDocumentsPageResult<T> extends SearchDocumentsResultBase {
     continuationToken?: string;
     readonly results: SearchResult<T>[];
@@ -1111,31 +1132,10 @@ export interface SearchDocumentsResultBase {
 }
 
 // @public
-export class SearchIndexClient<T> {
-    constructor(endpoint: string, indexName: string, credential: KeyCredential, options?: SearchIndexClientOptions);
-    readonly apiVersion: string;
-    autocomplete<Fields extends keyof T>(options: AutocompleteOptions<Fields>): Promise<AutocompleteResult>;
-    countDocuments(options?: CountDocumentsOptions): Promise<number>;
-    deleteDocuments(keyName: keyof T, keyValues: string[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
-    readonly endpoint: string;
-    getDocument<Fields extends keyof T>(key: string, options?: GetDocumentOptions<Fields>): Promise<T>;
-    indexDocuments(batch: IndexDocumentsBatch<T>, options?: IndexDocuments): Promise<IndexDocumentsResult>;
-    readonly indexName: string;
-    mergeDocuments(documents: T[], options?: MergeDocumentsOptions): Promise<IndexDocumentsResult>;
-    mergeOrUploadDocuments(documents: T[], options?: MergeOrUploadDocumentsOptions): Promise<IndexDocumentsResult>;
-    search<Fields extends keyof T>(options?: SearchOptions<Fields>): Promise<SearchDocumentsResult<Pick<T, Fields>>>;
-    suggest<Fields extends keyof T = never>(options: SuggestOptions<Fields>): Promise<SuggestDocumentsResult<Pick<T, Fields>>>;
-    uploadDocuments(documents: T[], options?: UploadDocumentsOptions): Promise<IndexDocumentsResult>;
-}
-
-// @public
-export type SearchIndexClientOptions = PipelineOptions;
-
-// @public
 export type SearchIterator<Fields> = PagedAsyncIterableIterator<SearchResult<Fields>, SearchDocumentsPageResult<Fields>, ListSearchResultsPageSettings>;
 
 // @public
-export type SearchMode = 'any' | 'all';
+export type SearchMode = "any" | "all";
 
 // @public
 export type SearchOptions<Fields> = OperationOptions & SearchRequest<Fields>;
@@ -1195,7 +1195,7 @@ export class SearchServiceClient {
     getIndexer(indexerName: string, options?: GetIndexerOptions): Promise<Indexer>;
     getIndexerStatus(indexerName: string, options?: GetIndexerStatusOptions): Promise<IndexerExecutionInfo>;
     getIndexStatistics(indexName: string, options?: GetIndexStatisticsOptions): Promise<GetIndexStatisticsResult>;
-    getSearchIndexClient<T>(indexName: string, options?: SearchIndexClientOptions): SearchIndexClient<T>;
+    getSearchClient<T>(indexName: string, options?: SearchClientOptions): SearchClient<T>;
     getServiceStatistics(options?: GetServiceStatisticsOptions): Promise<ServiceStatistics>;
     getSkillset(skillsetName: string, options?: GetSkillSetOptions): Promise<Skillset>;
     getSynonymMap(synonymMapName: string, options?: GetSynonymMapsOptions): Promise<SynonymMap>;
