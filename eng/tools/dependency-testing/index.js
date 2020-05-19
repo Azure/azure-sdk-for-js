@@ -209,7 +209,9 @@ async function readAndReplaceSourceReferences(filePath, packageName) {
   /* ["']+[../]*src[/a-z]+["'] */
   var internalrefs = fileContent.match(/[\"\']+[..//]*src[//a-z]+[\"\']+/g);
   var writeContent = "";
-  if (internalrefs.length > 0) {
+  if (internalrefs) {
+    console.log("internal refs = ");
+    console.log(internalrefs);
     console.log("This file has internal references");
   }
   else {
