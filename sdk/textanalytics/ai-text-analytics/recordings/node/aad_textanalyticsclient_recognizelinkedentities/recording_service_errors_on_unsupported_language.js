@@ -12,13 +12,13 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '3',
+  '2',
   'apim-request-id',
-  '8cb3426c-3d88-4b1e-89bf-db1859796c2a',
+  '9f1dbe0d-ea3d-4b20-964c-4d02b0c65568',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 08 May 2020 21:45:57 GMT'
+  'Tue, 19 May 2020 20:33:33 GMT'
 ]);

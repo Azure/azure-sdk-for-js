@@ -11,16 +11,14 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
-  'csp-billing-usage',
-  'CognitiveServices.TextAnalytics.BatchScoring=0',
   'x-envoy-upstream-service-time',
   '2',
   'apim-request-id',
-  'b2ac9f3d-ce97-4e25-8612-9d36877936ea',
+  '747e28d4-6db5-4ec9-8dbf-f20ff1760707',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 08 May 2020 21:45:55 GMT'
+  'Tue, 19 May 2020 20:33:31 GMT'
 ]);
