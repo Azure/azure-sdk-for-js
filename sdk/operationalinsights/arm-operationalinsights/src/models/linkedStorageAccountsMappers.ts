@@ -18,7 +18,7 @@ export {
   Identity,
   KeyVaultProperties,
   LinkedService,
-  LinkedServiceListResult,
+  LinkedStorageAccountsListResult,
   LinkedStorageAccountsResource,
   PrivateLinkScopedResource,
   ProxyResource,
