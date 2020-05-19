@@ -93,7 +93,7 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 #### Special bundling notes for IE11
 
-Currently only `Parcel` and `Rollup` work well with Storage client libraries.
+Currently only `Parcel` and `Rollup` work well with Storage client libraries for IE11.
 
 If `Parcel` is used  then no further work is needed. Otherwise, an additional step is needed to transform the bundled output to the format that IE11 supports:
 
