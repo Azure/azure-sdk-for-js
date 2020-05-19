@@ -1046,8 +1046,10 @@ describe("Batching - disconnects", function(): void {
   });
 
   afterEach(async () => {
-    await serviceBusClient.test.afterEach();
-    await serviceBusClient.test.after();
+    if (serviceBusClient) {
+      await serviceBusClient.test.afterEach();
+      await serviceBusClient.test.after();
+    }
   });
 
   it("can receive and settle messages after a disconnect", async function(): Promise<void> {
