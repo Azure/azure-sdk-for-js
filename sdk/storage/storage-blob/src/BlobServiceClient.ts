@@ -155,7 +155,7 @@ interface ServiceListContainersSegmentOptions extends CommonOptions {
    * specify that the container's metadata be returned as part of the response
    * body. Possible values include: 'metadata'
    */
-  include?: ListContainersIncludeType;
+  include?: ListContainersIncludeType | ListContainersIncludeType[];
 }
 
 /**
@@ -647,11 +647,15 @@ export class BlobServiceClient extends StorageClient {
       "BlobServiceClient-listContainersSegment",
       options.tracingOptions
     );
+
     try {
       return await this.serviceContext.listContainersSegment({
         abortSignal: options.abortSignal,
         marker,
-        ...options,
+        options: {
+          ...options,
+          include: typeof options.include === "string" ? [options.include] : options.include
+        },
         spanOptions
       });
     } catch (e) {

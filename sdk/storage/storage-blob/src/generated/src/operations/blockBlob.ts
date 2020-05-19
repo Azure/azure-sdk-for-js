@@ -236,6 +236,7 @@ const uploadOperationSpec: coreHttp.OperationSpec = {
     Parameters.tier0,
     Parameters.version,
     Parameters.requestId,
+    Parameters.blobTagsString,
     Parameters.blobType2,
     Parameters.blobContentType,
     Parameters.blobContentEncoding,
@@ -285,7 +286,7 @@ const stageBlockOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.blockId,
     Parameters.timeoutInSeconds,
-    Parameters.comp16
+    Parameters.comp21
   ],
   headerParameters: [
     Parameters.contentLength,
@@ -332,7 +333,7 @@ const stageBlockFromURLOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.blockId,
     Parameters.timeoutInSeconds,
-    Parameters.comp16
+    Parameters.comp21
   ],
   headerParameters: [
     Parameters.contentLength,
@@ -373,7 +374,7 @@ const commitBlockListOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeoutInSeconds,
-    Parameters.comp17
+    Parameters.comp22
   ],
   headerParameters: [
     Parameters.transactionalContentMD5,
@@ -383,6 +384,7 @@ const commitBlockListOperationSpec: coreHttp.OperationSpec = {
     Parameters.tier0,
     Parameters.version,
     Parameters.requestId,
+    Parameters.blobTagsString,
     Parameters.blobCacheControl,
     Parameters.blobContentType,
     Parameters.blobContentEncoding,
@@ -429,7 +431,7 @@ const getBlockListOperationSpec: coreHttp.OperationSpec = {
     Parameters.snapshot,
     Parameters.listType,
     Parameters.timeoutInSeconds,
-    Parameters.comp17
+    Parameters.comp22
   ],
   headerParameters: [
     Parameters.version,
