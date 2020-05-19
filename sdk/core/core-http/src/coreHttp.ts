@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import "../dom-shim.d.ts";
+/* eslint-disable-next-line @typescript-eslint/triple-slash-reference */
+/// <reference path="../dom-shim.d.ts" />
 
 export {
   WebResource,

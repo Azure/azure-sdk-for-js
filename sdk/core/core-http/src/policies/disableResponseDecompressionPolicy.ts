@@ -28,6 +28,18 @@ export function disableResponseDecompressionPolicy(): {
  */
 export class DisableResponseDecompressionPolicy extends BaseRequestPolicy {
   /**
+   * Creates an instance of DisableResponseDecompressionPolicy.
+   *
+   * @param {RequestPolicy} nextPolicy
+   * @param {RequestPolicyOptions} options
+   */
+  // The parent constructor is protected.
+  /* eslint-disable-next-line @typescript-eslint/no-useless-constructor */
+  constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions) {
+    super(nextPolicy, options);
+  }
+
+  /**
    * Sends out request.
    *
    * @param {WebResource} request
