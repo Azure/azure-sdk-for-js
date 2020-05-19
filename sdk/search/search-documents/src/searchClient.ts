@@ -11,7 +11,7 @@ import {
   operationOptionsToRequestOptionsBase,
   ServiceClientCredentials
 } from "@azure/core-http";
-import { SearchIndexClient as GeneratedClient } from "./generated/data/searchIndexClient";
+import { SearchClient as GeneratedClient } from "./generated/data/searchClient";
 import { KeyCredential } from "@azure/core-auth";
 import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy";
 import { SDK_VERSION } from "./constants";
@@ -52,14 +52,14 @@ import { encode, decode } from "./base64";
 /**
  * Client options used to configure Cognitive Search API requests.
  */
-export type SearchIndexClientOptions = PipelineOptions;
+export type SearchClientOptions = PipelineOptions;
 
 /**
  * Class used to perform operations against a search index,
  * including querying documents in the index as well as
  * adding, updating, and removing them.
  */
-export class SearchIndexClient<T> {
+export class SearchClient<T> {
   /// Maintenance note: when updating supported API versions,
   /// the ContinuationToken logic will need to be updated below.
 
@@ -81,18 +81,18 @@ export class SearchIndexClient<T> {
   /**
    * @internal
    * @ignore
-   * A reference to the auto-generated SearchIndexClient
+   * A reference to the auto-generated SearchsClient
    */
   private readonly client: GeneratedClient;
 
   /**
-   * Creates an instance of SearchIndexClient.
+   * Creates an instance of SearchClient.
    *
    * Example usage:
    * ```ts
-   * const { SearchIndexClient, AzureKeyCredential } = require("@azure/search-documents");
+   * const { SearchClient, AzureKeyCredential } = require("@azure/search-documents");
    *
-   * const client = new SearchIndexClient(
+   * const client = new SearchClient(
    *   "<endpoint>",
    *   "<indexName>",
    *   new AzureKeyCredential("<Admin Key>");
@@ -107,7 +107,7 @@ export class SearchIndexClient<T> {
     endpoint: string,
     indexName: string,
     credential: KeyCredential,
-    options: SearchIndexClientOptions = {}
+    options: SearchClientOptions = {}
   ) {
     this.endpoint = endpoint;
     this.indexName = indexName;
@@ -172,7 +172,7 @@ export class SearchIndexClient<T> {
    * @param options Options to the count operation.
    */
   public async countDocuments(options: CountDocumentsOptions = {}): Promise<number> {
-    const { span, updatedOptions } = createSpan("SearchIndexClient-countDocuments", options);
+    const { span, updatedOptions } = createSpan("SearchClient-countDocuments", options);
     try {
       const result = await this.client.documents.count(
         operationOptionsToRequestOptionsBase(updatedOptions)
@@ -212,7 +212,7 @@ export class SearchIndexClient<T> {
       throw new RangeError("suggesterName must be provided.");
     }
 
-    const { span, updatedOptions } = createSpan("SearchIndexClient-autocomplete", operationOptions);
+    const { span, updatedOptions } = createSpan("SearchClient-autocomplete", operationOptions);
 
     try {
       const result = await this.client.documents.autocompletePost(
@@ -245,10 +245,7 @@ export class SearchIndexClient<T> {
       ...nextPageParameters
     };
 
-    const { span, updatedOptions } = createSpan(
-      "SearchIndexClient-searchDocuments",
-      operationOptions
-    );
+    const { span, updatedOptions } = createSpan("SearchClient-searchDocuments", operationOptions);
 
     try {
       const result = await this.client.documents.searchPost(
@@ -339,7 +336,7 @@ export class SearchIndexClient<T> {
   public async search<Fields extends keyof T>(
     options: SearchOptions<Fields> = {}
   ): Promise<SearchDocumentsResult<Pick<T, Fields>>> {
-    const { span, updatedOptions } = createSpan("SearchIndexClient-search", options);
+    const { span, updatedOptions } = createSpan("SearchClient-search", options);
 
     try {
       const pageResult = await this.searchDocuments(updatedOptions);
@@ -387,7 +384,7 @@ export class SearchIndexClient<T> {
       throw new RangeError("suggesterName must be provided.");
     }
 
-    const { span, updatedOptions } = createSpan("SearchIndexClient-suggest", operationOptions);
+    const { span, updatedOptions } = createSpan("SearchClient-suggest", operationOptions);
 
     try {
       const result = await this.client.documents.suggestPost(
@@ -415,7 +412,7 @@ export class SearchIndexClient<T> {
     key: string,
     options: GetDocumentOptions<Fields> = {}
   ): Promise<T> {
-    const { span, updatedOptions } = createSpan("SearchIndexClient-getDocument", options);
+    const { span, updatedOptions } = createSpan("SearchClient-getDocument", options);
     try {
       const result = await this.client.documents.get(
         key,
@@ -448,7 +445,7 @@ export class SearchIndexClient<T> {
     batch: IndexDocumentsBatch<T>,
     options: IndexDocuments = {}
   ): Promise<IndexDocumentsResult> {
-    const { span, updatedOptions } = createSpan("SearchIndexClient-indexDocuments", options);
+    const { span, updatedOptions } = createSpan("SearchClient-indexDocuments", options);
     try {
       const result = await this.client.documents.index(
         { actions: serialize(batch.actions) },
@@ -478,7 +475,7 @@ export class SearchIndexClient<T> {
     documents: T[],
     options: UploadDocumentsOptions = {}
   ): Promise<IndexDocumentsResult> {
-    const { span, updatedOptions } = createSpan("SearchIndexClient-uploadDocuments", options);
+    const { span, updatedOptions } = createSpan("SearchClient-uploadDocuments", options);
 
     const batch = new IndexDocumentsBatch<T>();
     batch.upload(documents);
@@ -506,7 +503,7 @@ export class SearchIndexClient<T> {
     documents: T[],
     options: MergeDocumentsOptions = {}
   ): Promise<IndexDocumentsResult> {
-    const { span, updatedOptions } = createSpan("SearchIndexClient-mergeDocuments", options);
+    const { span, updatedOptions } = createSpan("SearchClient-mergeDocuments", options);
 
     const batch = new IndexDocumentsBatch<T>();
     batch.merge(documents);
@@ -534,7 +531,7 @@ export class SearchIndexClient<T> {
     documents: T[],
     options: MergeOrUploadDocumentsOptions = {}
   ): Promise<IndexDocumentsResult> {
-    const { span, updatedOptions } = createSpan("SearchIndexClient-mergeDocuments", options);
+    const { span, updatedOptions } = createSpan("SearchClient-mergeDocuments", options);
 
     const batch = new IndexDocumentsBatch<T>();
     batch.mergeOrUpload(documents);
@@ -563,7 +560,7 @@ export class SearchIndexClient<T> {
     keyValues: string[],
     options: DeleteDocumentsOptions = {}
   ): Promise<IndexDocumentsResult> {
-    const { span, updatedOptions } = createSpan("SearchIndexClient-deleteDocuments", options);
+    const { span, updatedOptions } = createSpan("SearchClient-deleteDocuments", options);
 
     const batch = new IndexDocumentsBatch<T>();
     batch.delete(keyName, keyValues);

@@ -47,7 +47,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/generated/data/searchIndexClientContext.ts",
+        "path": "src/generated/data/searchClientContext.ts",
         "prefix": "packageVersion"
       },
       {
