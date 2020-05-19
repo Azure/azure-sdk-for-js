@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/// <reference path="../dom-shim.d.ts" />
+import "../dom-shim.d.ts";
 
 export {
   WebResource,

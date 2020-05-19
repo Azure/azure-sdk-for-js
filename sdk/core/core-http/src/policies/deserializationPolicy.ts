@@ -134,7 +134,7 @@ function shouldDeserializeResponse(parsedResponse: HttpOperationResponse): boole
   return result;
 }
 
-export function deserializeResponseBody(
+export async function deserializeResponseBody(
   jsonContentTypes: string[],
   xmlContentTypes: string[],
   response: HttpOperationResponse
@@ -217,7 +217,7 @@ export function deserializeResponseBody(
       } catch (defaultError) {
         error.message = `Error "${defaultError.message}" occurred in deserializing the responseBody - "${parsedResponse.bodyAsText}" for the default response.`;
       }
-      return Promise.reject(error);
+      throw error;
     }
 
     // An operation response spec does exist for current status code, so
@@ -245,7 +245,7 @@ export function deserializeResponseBody(
             parsedResponse.request,
             parsedResponse
           );
-          return Promise.reject(restError);
+          throw restError;
         }
       } else if (operationSpec.httpMethod === "HEAD") {
         // head methods never have a body, but we return a boolean to indicate presence/absence of the resource

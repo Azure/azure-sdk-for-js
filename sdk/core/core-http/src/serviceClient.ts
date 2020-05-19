@@ -184,6 +184,7 @@ export class ServiceClient {
    */
   constructor(
     credentials?: TokenCredential | ServiceClientCredentials,
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
     options?: ServiceClientOptions
   ) {
     if (!options) {

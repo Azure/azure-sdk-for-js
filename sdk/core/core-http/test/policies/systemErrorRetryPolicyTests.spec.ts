@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { assert } from "chai";
 import { SystemErrorRetryPolicy, RetryError } from "../../src/policies/systemErrorRetryPolicy";
@@ -50,7 +50,7 @@ describe("SystemErrorRetryPolicy", () => {
     headers: new HttpHeaders()
   };
 
-  function createDefaultSystemErrorRetryPolicy(response?: HttpOperationResponse) {
+  function createDefaultSystemErrorRetryPolicy(response?: HttpOperationResponse): SystemErrorRetryPolicy {
     if (!response) {
       response = defaultResponse;
     }
