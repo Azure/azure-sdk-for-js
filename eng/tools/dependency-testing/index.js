@@ -208,7 +208,7 @@ async function readAndReplaceSourceReferences(filePath, packageName) {
   var fileContent = await packageUtils.readFile(filePath);
   console.log("Reading filePath = " + filePath);
   /* ["']+[../]*src[/a-z]+["'] */
-  var internalrefs = fileContent.match(/[\"\']+[..//]*src[//a-z]+[\"\']+/g);
+  var internalrefs = fileContent.match(/[\"\']+[..//]*src[//a-zA-Z]+[\"\']+/g);
   var writeContent = "";
   if (internalrefs) {
     console.log("internal refs = ");
