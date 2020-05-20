@@ -221,7 +221,7 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.IntegrationAccountCertificateListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -247,7 +247,7 @@ const getOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.IntegrationAccountCertificate
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -283,7 +283,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.IntegrationAccountCertificate
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -308,7 +308,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -329,7 +329,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.IntegrationAccountCertificateListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
