@@ -478,14 +478,9 @@ export interface ReceiptItemArrayField {
   value: ReceiptItemField[];
 }
 
-export interface ReceiptWithLocale {
-  /**
-   * Locale of the receipt
-   */
-  locale?: string;
-  recognizedForm: RecognizedForm;
-}
-
+/**
+ * Represents a line item in a receipt.
+ */
 export interface USReceiptItem {
   /**
    * Name of the receipt item
@@ -516,7 +511,15 @@ export type USReceiptType = {
 /**
  * United States receipt
  */
-export interface USReceipt extends ReceiptWithLocale {
+export interface USReceipt {
+  /**
+   * Locale of the receipt
+   */
+  locale?: string;
+  /**
+   * Recognized form
+   */
+  recognizedForm: RecognizedForm;
   /**
    * Receipt type field
    */

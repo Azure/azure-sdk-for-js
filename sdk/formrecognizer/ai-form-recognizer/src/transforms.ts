@@ -39,7 +39,6 @@ import {
   FormModelResponse,
   CustomFormField,
   CustomFormSubModel,
-  ReceiptWithLocale,
   USReceiptType,
   USReceiptItem,
   ReceiptItemArrayField,
@@ -390,16 +389,22 @@ export function toRecognizeContentResultResponse(
   }
 }
 
-function toRecognizedReceipt(result: DocumentResultModel, pages: FormPage[]): ReceiptWithLocale {
+function toRecognizedReceipt(result: DocumentResultModel, pages: FormPage[]): RecognizedReceipt {
   if (result.docType !== "prebuilt:receipt") {
     throw new RangeError("The document type is not 'prebuilt:receipt'");
   }
 
   const form = toRecognizedForm(result, pages);
-  return {
-    recognizedForm: form,
-    locale: undefined // in the future service would return locale info
-  };
+  // in the future service would return locale info
+  const locale = "US";
+  switch (locale) {
+    case "US":
+      return toUSReceipt(form);
+    // case "UK":
+    //   return toUKReceipt(form);
+    default:
+      throw new RangeError(`Unsupported receipt with locale '${locale}'`);
+  }
 }
 
 function toReceiptType(field: FormField): USReceiptType {
@@ -475,11 +480,10 @@ function toUSReceiptItems(items: ReceiptItemArrayField): USReceiptItem[] {
   });
 }
 
-function toUSReceipt(receipt: ReceiptWithLocale): RecognizedReceipt {
-  const form = receipt.recognizedForm;
+function toUSReceipt(form: RecognizedForm): RecognizedReceipt {
   return {
     locale: "US",
-    recognizedForm: receipt.recognizedForm,
+    recognizedForm: form,
     items: form.fields["Items"] ? toUSReceiptItems((form.fields["Items"] as unknown) as ReceiptItemArrayField) : [],
     merchantAddress: form.fields["MerchantAddress"],
     merchantName: form.fields["MerchantName"],
@@ -492,15 +496,6 @@ function toUSReceipt(receipt: ReceiptWithLocale): RecognizedReceipt {
     transactionDate: form.fields["TransactionDate"],
     transactionTime: form.fields["TransactionTime"]
   };
-}
-
-function toReceiptWithLocale(receipt: ReceiptWithLocale): RecognizedReceipt {
-  switch (receipt.locale) {
-    case "US":
-      return toUSReceipt(receipt);
-    default:
-      throw new RangeError(`Unsupported receipt with locale ${receipt.locale}`);
-  }
 }
 
 export function toReceiptResultResponse(
@@ -526,10 +521,7 @@ export function toReceiptResultResponse(
     version: result.analyzeResult!.version,
     receipts: result.analyzeResult!.documentResults!.filter(d => {
       return !!d.fields
-    }).map((d) => {
-      const receipt = toRecognizedReceipt(d, pages);
-      return toReceiptWithLocale({ ...receipt, locale: "US" }); // default to US until service returns locale info.
-    })
+    }).map((d) => toRecognizedReceipt(d, pages))
   };
 }
 
