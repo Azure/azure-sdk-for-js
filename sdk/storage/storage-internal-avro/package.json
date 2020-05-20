@@ -4,6 +4,7 @@
   "version": "1.0.0-preview.1",
   "description": "internal avro parser",
   "license": "MIT",
+  "private": true,
   "main": "./srt/index.ts",
   "module": "dist-esm/index.js",
   "types": "./types/index.d.ts",
