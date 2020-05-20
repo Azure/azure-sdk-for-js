@@ -42,6 +42,20 @@ export class Solutions {
   }
 
   /**
+   * Patch a Solution. Only updating tags supported.
+   * @summary Patch a Solution.
+   * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
+   * @param solutionName User Solution Name.
+   * @param parameters The parameters required to patch a Solution.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.SolutionsUpdateResponse>
+   */
+  update(resourceGroupName: string, solutionName: string, parameters: Models.SolutionPatch, options?: msRest.RequestOptionsBase): Promise<Models.SolutionsUpdateResponse> {
+    return this.beginUpdate(resourceGroupName,solutionName,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SolutionsUpdateResponse>;
+  }
+
+  /**
    * Deletes the solution in the subscription.
    * @summary Deletes the solution
    * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
@@ -163,6 +177,27 @@ export class Solutions {
   }
 
   /**
+   * Patch a Solution. Only updating tags supported.
+   * @summary Patch a Solution.
+   * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
+   * @param solutionName User Solution Name.
+   * @param parameters The parameters required to patch a Solution.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginUpdate(resourceGroupName: string, solutionName: string, parameters: Models.SolutionPatch, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        solutionName,
+        parameters,
+        options
+      },
+      beginUpdateOperationSpec,
+      options);
+  }
+
+  /**
    * Deletes the solution in the subscription.
    * @summary Deletes the solution
    * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
@@ -279,6 +314,38 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   },
   responses: {
     201: {
+      bodyMapper: Mappers.Solution
+    },
+    default: {
+      bodyMapper: Mappers.CodeMessageError
+    }
+  },
+  serializer
+};
+
+const beginUpdateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationsManagement/solutions/{solutionName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.solutionName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.SolutionPatch,
+      required: true
+    }
+  },
+  responses: {
+    200: {
       bodyMapper: Mappers.Solution
     },
     default: {
