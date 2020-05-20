@@ -177,7 +177,7 @@ Fixes broken session tokens in the browser. Cosmos uses file system friendly bas
   - User cancelable requests
 - Update to the latest Cosmos REST API version where [all containers have unlimited scale](https://docs.microsoft.com/en-us/azure/cosmos-db/migrate-containers-partitioned-to-nonpartitioned)
 - Make it easier to use Cosmos from the browser
-- Better align with the new [Azure JS SDK guidlines](https://azuresdkspecs.z5.web.core.windows.net/TypeScriptSpec.html)
+- Better align with the new [Azure JS SDK guidlines](https://azure.github.io/azure-sdk/typescript_introduction.html)
 
 ### Migration Guide for Breaking Changes
 
