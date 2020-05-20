@@ -1,7 +1,7 @@
 import * as assert from "assert";
 
 import * as dotenv from "dotenv";
-import { BlobServiceClient } from "../src/BlobServiceClient";
+import { BlobServiceClient } from "../src";
 import {
   getAlternateBSU,
   getBSU,

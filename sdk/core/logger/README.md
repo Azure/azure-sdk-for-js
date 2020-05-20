@@ -31,7 +31,7 @@ specified in order of most verbose to least verbose:
 - warning
 - error
 
-When setting a log level, either programmitcally or via the `AZURE_LOG_LEVEL` environment variable,
+When setting a log level, either programmatically or via the `AZURE_LOG_LEVEL` environment variable,
 any logs that are written using a log level equal to or less than the one you choose
 will be emitted.
 
@@ -56,7 +56,7 @@ client.getPartitionIds()
 });
 ```
 
-### Example 2 - redirect log ouput
+### Example 2 - redirect log output
 
 ```js
 const { AzureLogger, setLogLevel } = require("@azure/logger");

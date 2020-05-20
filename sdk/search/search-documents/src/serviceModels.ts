@@ -81,7 +81,14 @@ import {
 /**
  * Options for a list skillsets operation.
  */
-export type ListSkillsetsOptions = OperationOptions;
+export interface ListSkillsetsOptions<Fields> extends OperationOptions {
+  /**
+   * Selects which top-level properties of the synonym maps to retrieve. Specified as a
+   * comma-separated list of JSON property names, or '*' for all properties. The default is all
+   * properties.
+   */
+  select?: Fields[];
+}
 
 /**
  * Options for a list synonymMaps operation.

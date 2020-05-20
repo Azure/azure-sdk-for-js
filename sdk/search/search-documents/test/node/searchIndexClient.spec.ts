@@ -8,15 +8,15 @@ import { assert } from "chai";
 import { Recorder, record, isPlaybackMode } from "@azure/test-utils-recorder";
 
 import { createClients, environmentSetup } from "../utils/recordedClient";
-import { SearchIndexClient, SearchServiceClient } from "../../src/index";
+import { SearchClient, SearchServiceClient } from "../../src/index";
 import { Hotel } from "../utils/interfaces";
 import { createIndex, populateIndex } from "../utils/setupIndex";
 
 const TEST_INDEX_NAME = "hotel-live-test";
 
-describe("SearchIndexClient", function() {
+describe("SearchClient", function() {
   let recorder: Recorder;
-  let indexClient: SearchIndexClient<Hotel>;
+  let indexClient: SearchClient<Hotel>;
   let serviceClient: SearchServiceClient;
 
   this.timeout(30000);
