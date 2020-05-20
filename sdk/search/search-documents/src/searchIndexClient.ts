@@ -181,7 +181,7 @@ export class SearchIndexClient {
    * Retrieves a list of names of existing indexes in the service.
    * @param options Options to the list index operation.
    */
-  public async listIndexesNames(options: ListIndexesOptions = {}): Promise<Array<String>> {
+  public async listIndexesNames(options: ListIndexesOptions = {}): Promise<Array<string>> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-listIndexesNames", options);
     try {
       const result = await this.client.indexes.list({
@@ -228,7 +228,7 @@ export class SearchIndexClient {
    * Retrieves a list of names of existing SynonymMaps in the service.
    * @param options Options to the list SynonymMaps operation.
    */
-  public async listSynonymMapsNames(options: ListSynonymMapsOptions = {}): Promise<Array<String>> {
+  public async listSynonymMapsNames(options: ListSynonymMapsOptions = {}): Promise<Array<string>> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-listSynonymMapsNames", options);
     try {
       const result = await this.client.synonymMaps.list({
@@ -410,12 +410,14 @@ export class SearchIndexClient {
 
   /**
    * Deletes an existing index.
-   * @param indexName The name of the index to delete.
+   * @param indexName Index/Name of the index to delete.
    * @param options Additional optional arguments.
    */
-  public async deleteIndex(indexName: string, options: DeleteIndexOptions = {}): Promise<void> {
+  public async deleteIndex(index: string | Index, options: DeleteIndexOptions = {}): Promise<void> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-deleteIndex", options);
     try {
+      const indexName: string = typeof index === "string" ? index : index.name;
+
       await this.client.indexes.deleteMethod(
         indexName,
         operationOptionsToRequestOptionsBase(updatedOptions)
@@ -433,15 +435,17 @@ export class SearchIndexClient {
 
   /**
    * Deletes an existing SynonymMap.
-   * @param synonymMapName The name of the synonymMap to delete.
+   * @param synonymMapName SynonymMap/Name of the synonymMap to delete.
    * @param options Additional optional arguments.
    */
   public async deleteSynonymMap(
-    synonymMapName: string,
+    synonymMap: string | SynonymMap,
     options: DeleteSynonymMapOptions = {}
   ): Promise<void> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-deleteSynonymMap", options);
     try {
+      const synonymMapName: string = typeof synonymMap === "string" ? synonymMap : synonymMap.name;
+
       await this.client.synonymMaps.deleteMethod(
         synonymMapName,
         operationOptionsToRequestOptionsBase(updatedOptions)

@@ -1130,8 +1130,8 @@ export class SearchIndexClient {
     createOrUpdateIndex(index: Index, options?: CreateOrUpdateIndexOptions): Promise<Index>;
     createOrUpdateSynonymMap(synonymMap: SynonymMap, options?: CreateOrUpdateSynonymMapOptions): Promise<SynonymMap>;
     createSynonymMap(synonymMap: SynonymMap, options?: CreateSynonymMapOptions): Promise<SynonymMap>;
-    deleteIndex(indexName: string, options?: DeleteIndexOptions): Promise<void>;
-    deleteSynonymMap(synonymMapName: string, options?: DeleteSynonymMapOptions): Promise<void>;
+    deleteIndex(index: string | Index, options?: DeleteIndexOptions): Promise<void>;
+    deleteSynonymMap(synonymMap: string | SynonymMap, options?: DeleteSynonymMapOptions): Promise<void>;
     readonly endpoint: string;
     getIndex(indexName: string, options?: GetIndexOptions): Promise<Index>;
     getIndexStatistics(indexName: string, options?: GetIndexStatisticsOptions): Promise<GetIndexStatisticsResult>;
@@ -1139,9 +1139,9 @@ export class SearchIndexClient {
     getServiceStatistics(options?: GetServiceStatisticsOptions): Promise<ServiceStatistics>;
     getSynonymMap(synonymMapName: string, options?: GetSynonymMapsOptions): Promise<SynonymMap>;
     listIndexes<Fields extends keyof Index>(options?: ListIndexesOptions): Promise<Array<Pick<Index, Fields>>>;
-    listIndexesNames(options?: ListIndexesOptions): Promise<Array<String>>;
+    listIndexesNames(options?: ListIndexesOptions): Promise<Array<string>>;
     listSynonymMaps<Fields extends keyof SynonymMap>(options?: ListSynonymMapsOptions): Promise<Array<Pick<SynonymMap, Fields>>>;
-    listSynonymMapsNames(options?: ListSynonymMapsOptions): Promise<Array<String>>;
+    listSynonymMapsNames(options?: ListSynonymMapsOptions): Promise<Array<string>>;
     }
 
 // @public
@@ -1157,20 +1157,20 @@ export class SearchIndexerClient {
     createOrUpdateIndexer(indexer: Indexer, options?: CreateorUpdateIndexerOptions): Promise<Indexer>;
     createOrUpdateSkillset(skillset: Skillset, options?: CreateOrUpdateSkillsetOptions): Promise<Skillset>;
     createSkillset(skillset: Skillset, options?: CreateSkillsetOptions): Promise<Skillset>;
-    deleteDataSource(dataSourceName: string, options?: DeleteDataSourceOptions): Promise<void>;
-    deleteIndexer(indexerName: string, options?: DeleteIndexerOptions): Promise<void>;
-    deleteSkillset(skillsetName: string, options?: DeleteSkillsetOptions): Promise<void>;
+    deleteDataSource(dataSource: string | DataSource, options?: DeleteDataSourceOptions): Promise<void>;
+    deleteIndexer(indexer: string | Indexer, options?: DeleteIndexerOptions): Promise<void>;
+    deleteSkillset(skillset: string | Skillset, options?: DeleteSkillsetOptions): Promise<void>;
     readonly endpoint: string;
     getDataSource(dataSourceName: string, options?: GetDataSourceOptions): Promise<DataSource>;
     getIndexer(indexerName: string, options?: GetIndexerOptions): Promise<Indexer>;
     getIndexerStatus(indexerName: string, options?: GetIndexerStatusOptions): Promise<IndexerExecutionInfo>;
     getSkillset(skillsetName: string, options?: GetSkillSetOptions): Promise<Skillset>;
     listDataSources<Fields extends keyof DataSource>(options?: ListDataSourcesOptions): Promise<Array<Pick<DataSource, Fields>>>;
-    listDataSourcesNames(options?: ListDataSourcesOptions): Promise<Array<String>>;
+    listDataSourcesNames(options?: ListDataSourcesOptions): Promise<Array<string>>;
     listIndexers<Fields extends keyof Indexer>(options?: ListIndexersOptions): Promise<Array<Pick<Indexer, Fields>>>;
-    listIndexersNames(options?: ListIndexersOptions): Promise<Array<String>>;
+    listIndexersNames(options?: ListIndexersOptions): Promise<Array<string>>;
     listSkillsets<Fields extends keyof Skillset>(options?: ListSkillsetsOptions): Promise<Array<Pick<Skillset, Fields>>>;
-    listSkillsetsNames(options?: ListSkillsetsOptions): Promise<Array<String>>;
+    listSkillsetsNames(options?: ListSkillsetsOptions): Promise<Array<string>>;
     resetIndexer(indexerName: string, options?: ResetIndexerOptions): Promise<void>;
     runIndexer(indexerName: string, options?: RunIndexerOptions): Promise<void>;
 }

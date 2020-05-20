@@ -170,7 +170,7 @@ export class SearchIndexerClient {
    * Retrieves a list of names of existing indexers in the service.
    * @param options Options to the list indexers operation.
    */
-  public async listIndexersNames(options: ListIndexersOptions = {}): Promise<Array<String>> {
+  public async listIndexersNames(options: ListIndexersOptions = {}): Promise<Array<string>> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-listIndexersNames", options);
     try {
       const result = await this.client.indexers.list({
@@ -217,7 +217,7 @@ export class SearchIndexerClient {
    * Retrieves a list of names of existing data sources in the service.
    * @param options Options to the list indexers operation.
    */
-  public async listDataSourcesNames(options: ListDataSourcesOptions = {}): Promise<Array<String>> {
+  public async listDataSourcesNames(options: ListDataSourcesOptions = {}): Promise<Array<string>> {
     const { span, updatedOptions } = createSpan(
       "SearchIndexerClient-listDataSourcesNames",
       options
@@ -267,7 +267,7 @@ export class SearchIndexerClient {
    * Retrieves a list of names of existing Skillsets in the service.
    * @param options Options to the list Skillsets operation.
    */
-  public async listSkillsetsNames(options: ListSkillsetsOptions = {}): Promise<Array<String>> {
+  public async listSkillsetsNames(options: ListSkillsetsOptions = {}): Promise<Array<string>> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-listSkillsetsNames", options);
     try {
       const result = await this.client.skillsets.list({
@@ -540,15 +540,17 @@ export class SearchIndexerClient {
 
   /**
    * Deletes an existing indexer.
-   * @param indexerName The name of the indexer to delete.
+   * @param indexer Indexer/Name of the indexer to delete.
    * @param options Additional optional arguments.
    */
   public async deleteIndexer(
-    indexerName: string,
+    indexer: string | Indexer,
     options: DeleteIndexerOptions = {}
   ): Promise<void> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-deleteIndexer", options);
     try {
+      const indexerName: string = typeof indexer === "string" ? indexer : indexer.name;
+
       await this.client.indexers.deleteMethod(
         indexerName,
         operationOptionsToRequestOptionsBase(updatedOptions)
@@ -566,15 +568,17 @@ export class SearchIndexerClient {
 
   /**
    * Deletes an existing datasource.
-   * @param dataSourceName The name of the datasource to delete.
+   * @param dataSource Datasource/Name of the datasource to delete.
    * @param options Additional optional arguments.
    */
   public async deleteDataSource(
-    dataSourceName: string,
+    dataSource: string | DataSource,
     options: DeleteDataSourceOptions = {}
   ): Promise<void> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-deleteDataSource", options);
     try {
+      const dataSourceName: string = typeof dataSource === "string" ? dataSource : dataSource.name;
+
       await this.client.dataSources.deleteMethod(
         dataSourceName,
         operationOptionsToRequestOptionsBase(updatedOptions)
@@ -592,15 +596,17 @@ export class SearchIndexerClient {
 
   /**
    * Deletes an existing Skillset.
-   * @param skillsetName The name of the Skillset to delete.
+   * @param skillset Skillset/Name of the Skillset to delete.
    * @param options Additional optional arguments.
    */
   public async deleteSkillset(
-    skillsetName: string,
+    skillset: string | Skillset,
     options: DeleteSkillsetOptions = {}
   ): Promise<void> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-deleteSkillset", options);
     try {
+      const skillsetName: string = typeof skillset === "string" ? skillset : skillset.name;
+
       await this.client.skillsets.deleteMethod(
         skillsetName,
         operationOptionsToRequestOptionsBase(updatedOptions)
