@@ -1135,14 +1135,13 @@ export class SearchIndexClient {
     readonly endpoint: string;
     getIndex(indexName: string, options?: GetIndexOptions): Promise<Index>;
     getIndexStatistics(indexName: string, options?: GetIndexStatisticsOptions): Promise<GetIndexStatisticsResult>;
-    getSearchClient<T>(indexName: string, options?: SearchClientOptions): SearchClient<T>;
     getServiceStatistics(options?: GetServiceStatisticsOptions): Promise<ServiceStatistics>;
     getSynonymMap(synonymMapName: string, options?: GetSynonymMapsOptions): Promise<SynonymMap>;
-    listIndexes<Fields extends keyof Index>(options?: ListIndexesOptions): Promise<Array<Pick<Index, Fields>>>;
+    listIndexes(options?: ListIndexesOptions): Promise<Array<Index>>;
     listIndexesNames(options?: ListIndexesOptions): Promise<Array<string>>;
-    listSynonymMaps<Fields extends keyof SynonymMap>(options?: ListSynonymMapsOptions): Promise<Array<Pick<SynonymMap, Fields>>>;
+    listSynonymMaps(options?: ListSynonymMapsOptions): Promise<Array<SynonymMap>>;
     listSynonymMapsNames(options?: ListSynonymMapsOptions): Promise<Array<string>>;
-    }
+}
 
 // @public
 export type SearchIndexClientOptions = PipelineOptions;
@@ -1165,11 +1164,11 @@ export class SearchIndexerClient {
     getIndexer(indexerName: string, options?: GetIndexerOptions): Promise<Indexer>;
     getIndexerStatus(indexerName: string, options?: GetIndexerStatusOptions): Promise<IndexerExecutionInfo>;
     getSkillset(skillsetName: string, options?: GetSkillSetOptions): Promise<Skillset>;
-    listDataSources<Fields extends keyof DataSource>(options?: ListDataSourcesOptions): Promise<Array<Pick<DataSource, Fields>>>;
+    listDataSources(options?: ListDataSourcesOptions): Promise<Array<DataSource>>;
     listDataSourcesNames(options?: ListDataSourcesOptions): Promise<Array<string>>;
-    listIndexers<Fields extends keyof Indexer>(options?: ListIndexersOptions): Promise<Array<Pick<Indexer, Fields>>>;
+    listIndexers(options?: ListIndexersOptions): Promise<Array<Indexer>>;
     listIndexersNames(options?: ListIndexersOptions): Promise<Array<string>>;
-    listSkillsets<Fields extends keyof Skillset>(options?: ListSkillsetsOptions): Promise<Array<Pick<Skillset, Fields>>>;
+    listSkillsets(options?: ListSkillsetsOptions): Promise<Array<Skillset>>;
     listSkillsetsNames(options?: ListSkillsetsOptions): Promise<Array<string>>;
     resetIndexer(indexerName: string, options?: ResetIndexerOptions): Promise<void>;
     runIndexer(indexerName: string, options?: RunIndexerOptions): Promise<void>;

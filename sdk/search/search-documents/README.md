@@ -130,7 +130,9 @@ There are several types of operations that can be executed against the service:
 
 ### SearchIndexClient & SearchIndexerClient
 
-`SearchIndexClient` and `SearchIndexerClient` provide methods for configuring and customizing an Azure Cognitive Search instance. The client currently has support for creating and managing search indexes and will later expand to support creating and managing other service entities such as indexers, synonym maps, cognitive skillsets, and data sources.
+`SearchIndexClient` provides methods for configuring and customizing an Azure Cognitive Search instance. The client currently has support for creating and managing search indexes and synonym maps.
+
+`SearchIndexerClient` provide methods for configuring and customizing an Azure Cognitive Search instance. The client currently has support for creating and managing indexers, cognitive skillsets, and data sources.
 
 **Note**: This client cannot function in the browser because the APIs it calls do not have support for Cross-Origin Resource Sharing (CORS).
 
@@ -537,6 +539,44 @@ async function main() {
   // ]
 }
 
+main();
+```
+
+### Create a Skillset
+```js
+const { SearchIndexerClient, AzureKeyCredential } = require("@azure/search");
+async function main() {
+  const client = new SearchIndexerClient(
+    "<endpoint>",
+    new AzureKeyCredential("<apikey>")
+  );
+  
+  const skillset = await client.createSkillset({
+    name: `my-azureblob-skillset`,
+    description: `Skillset description`,
+    skills: [{
+      odatatype: "#Microsoft.Skills.Text.EntityRecognitionSkill",
+      inputs: [{
+        name: "text",
+        source: "/document/merged_content"
+      },{
+        name: "languageCode",
+        source: "/document/language"
+      }],
+      outputs: [{
+        name: "persons",
+        targetName: "people"
+      },{
+        name: "organizations",
+        targetName: "organizations"
+      },{
+        name: "locations",
+        targetName: "locations"
+      }]
+    }
+    ]
+  });
+}
 main();
 ```
 

@@ -146,9 +146,7 @@ export class SearchIndexerClient {
    * Retrieves a list of existing indexers in the service.
    * @param options Options to the list indexers operation.
    */
-  public async listIndexers<Fields extends keyof Indexer>(
-    options: ListIndexersOptions = {}
-  ): Promise<Array<Pick<Indexer, Fields>>> {
+  public async listIndexers(options: ListIndexersOptions = {}): Promise<Array<Indexer>> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-listIndexers", options);
     try {
       const result = await this.client.indexers.list(
@@ -193,9 +191,7 @@ export class SearchIndexerClient {
    * Retrieves a list of existing data sources in the service.
    * @param options Options to the list indexers operation.
    */
-  public async listDataSources<Fields extends keyof DataSource>(
-    options: ListDataSourcesOptions = {}
-  ): Promise<Array<Pick<DataSource, Fields>>> {
+  public async listDataSources(options: ListDataSourcesOptions = {}): Promise<Array<DataSource>> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-listDataSources", options);
     try {
       const result = await this.client.dataSources.list(
@@ -243,9 +239,7 @@ export class SearchIndexerClient {
    * Retrieves a list of existing Skillsets in the service.
    * @param options Options to the list Skillsets operation.
    */
-  public async listSkillsets<Fields extends keyof Skillset>(
-    options: ListSkillsetsOptions = {}
-  ): Promise<Array<Pick<Skillset, Fields>>> {
+  public async listSkillsets(options: ListSkillsetsOptions = {}): Promise<Array<Skillset>> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-listSkillsets", options);
     try {
       const result = await this.client.skillsets.list(

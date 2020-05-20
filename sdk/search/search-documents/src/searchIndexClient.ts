@@ -39,7 +39,6 @@ import {
 import * as utils from "./serviceUtils";
 import { createSpan } from "./tracing";
 import { odataMetadataPolicy } from "./odataMetadataPolicy";
-import { SearchClient, SearchClientOptions } from "./searchClient";
 
 /**
  * Client options used to configure Cognitive Search API requests.
@@ -69,10 +68,6 @@ export class SearchIndexClient {
    */
   private readonly client: GeneratedClient;
 
-  private readonly credential: KeyCredential;
-
-  private readonly options: SearchIndexClientOptions;
-
   /**
    * Creates an instance of SearchIndexClient.
    *
@@ -91,8 +86,6 @@ export class SearchIndexClient {
    */
   constructor(endpoint: string, credential: KeyCredential, options: SearchIndexClientOptions = {}) {
     this.endpoint = endpoint;
-    this.credential = credential;
-    this.options = options;
 
     const libInfo = `azsdk-js-search-documents/${SDK_VERSION}`;
     if (!options.userAgentOptions) {
@@ -145,21 +138,10 @@ export class SearchIndexClient {
   }
 
   /**
-   * Retrieves the SearchClient corresponding to this SearchIndexClient
-   * @param indexName Name of the index
-   * @param options SearchClient Options
-   */
-  public getSearchClient<T>(indexName: string, options?: SearchClientOptions): SearchClient<T> {
-    return new SearchClient<T>(this.endpoint, indexName, this.credential, options || this.options);
-  }
-
-  /**
    * Retrieves a list of existing indexes in the service.
    * @param options Options to the list index operation.
    */
-  public async listIndexes<Fields extends keyof Index>(
-    options: ListIndexesOptions = {}
-  ): Promise<Array<Pick<Index, Fields>>> {
+  public async listIndexes(options: ListIndexesOptions = {}): Promise<Array<Index>> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-listIndexes", options);
     try {
       const result = await this.client.indexes.list(
@@ -204,9 +186,7 @@ export class SearchIndexClient {
    * Retrieves a list of existing SynonymMaps in the service.
    * @param options Options to the list SynonymMaps operation.
    */
-  public async listSynonymMaps<Fields extends keyof SynonymMap>(
-    options: ListSynonymMapsOptions = {}
-  ): Promise<Array<Pick<SynonymMap, Fields>>> {
+  public async listSynonymMaps(options: ListSynonymMapsOptions = {}): Promise<Array<SynonymMap>> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-listSynonymMaps", options);
     try {
       const result = await this.client.synonymMaps.list(
