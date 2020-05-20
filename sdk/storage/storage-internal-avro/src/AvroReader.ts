@@ -1,6 +1,6 @@
 import { AvroReadable } from "./AvroReadable";
 import { AvroConstants } from "./AvroConstants";
-import { Metadata, arraysEqual } from "./utils/utils.common";
+import { arraysEqual } from "./utils/utils.common";
 import { AvroType, AvroParser } from "./AvroParser";
 
 export class AvroReader {
@@ -10,7 +10,7 @@ export class AvroReader {
 
   private _syncMarker: Uint8Array | undefined;
 
-  private _metadata: Metadata | undefined;
+  private _metadata: Record<string,string> | undefined;
 
   private _itemType: AvroType | undefined;
 

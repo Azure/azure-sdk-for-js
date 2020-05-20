@@ -1,5 +1,5 @@
 import { AvroReadable } from "./AvroReadable";
-import { Dictionary, KeyValuePair } from "./utils/utils.common";
+import { KeyValuePair } from "./utils/utils.common";
 import { AvroConstants } from "./AvroConstants";
 
 export class AvroParser {
@@ -122,13 +122,13 @@ export class AvroParser {
   public static async readMap<T>(
     stream: AvroReadable,
     readItemMethod: (s: AvroReadable) => Promise<T>
-  ): Promise<Dictionary<T>> {
+  ): Promise<Record<string, T>> {
     const readPairMethod = async (stream: AvroReadable): Promise<KeyValuePair<T>> => {
       return await AvroParser.readMapPair(stream, readItemMethod);
     };
 
     const pairs: KeyValuePair<T>[] = await AvroParser.readArray(stream, readPairMethod);
-    let dict: Dictionary<T> = {};
+    let dict: Record<string, T> = {};
     for (const pair of pairs) {
       dict[pair.key] = pair.value;
     }
@@ -233,7 +233,7 @@ export abstract class AvroType {
           throw new Error(`Required attribute 'name' doesn't exist on schema: ${schema}`);
         }
 
-        let fields: Dictionary<AvroType> = {};
+        let fields: Record<string, AvroType> = {};
         if (!schema.fields) {
           throw new Error(`Required attribute 'fields' doesn't exist on schema: ${schema}`);
         }
@@ -343,16 +343,16 @@ class AvroMapType extends AvroType {
 
 class AvroRecordType extends AvroType {
   private readonly _name: string;
-  private readonly _fields: Dictionary<AvroType>;
+  private readonly _fields: Record<string, AvroType>;
 
-  constructor(fields: Dictionary<AvroType>, name: string) {
+  constructor(fields: Record<string, AvroType>, name: string) {
     super();
     this._fields = fields;
     this._name = name;
   }
 
   public async read(stream: AvroReadable): Promise<Object> {
-    let record: Dictionary<Object | null> = {};
+    let record: Record<string, Object | null> = {};
     //  FIXME: what for?
     record["$schema"] = this._name;
     for (const key in this._fields) {
