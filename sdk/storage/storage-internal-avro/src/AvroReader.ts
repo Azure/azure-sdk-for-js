@@ -1,12 +1,12 @@
-import { IReadable } from "./IReadable";
+import { AvroReadable } from "./AvroReadable";
 import { AvroConstants } from "./AvroConstants";
 import { Metadata, arraysEqual } from "./utils/utils.common";
 import { AvroType, AvroParser } from "./AvroParser";
 
 export class AvroReader {
-  private readonly _dataStream: IReadable;
+  private readonly _dataStream: AvroReadable;
 
-  private readonly _headerStream: IReadable;
+  private readonly _headerStream: AvroReadable;
 
   private _syncMarker: Uint8Array | undefined;
 
@@ -28,18 +28,18 @@ export class AvroReader {
 
   private _initialized: boolean;
 
-  constructor(dataStream: IReadable);
+  constructor(dataStream: AvroReadable);
 
   constructor(
-    dataStream: IReadable,
-    headerStream: IReadable,
+    dataStream: AvroReadable,
+    headerStream: AvroReadable,
     currentBlockOffset: number,
     indexWithinCurrentBlock: number
   );
 
   constructor(
-    dataStream: IReadable,
-    headerStream?: IReadable,
+    dataStream: AvroReadable,
+    headerStream?: AvroReadable,
     currentBlockOffset?: number,
     indexWithinCurrentBlock?: number
   ) {

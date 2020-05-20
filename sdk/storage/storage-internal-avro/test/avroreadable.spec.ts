@@ -1,12 +1,12 @@
 import * as fs from "fs";
 import * as assert from "assert";
-import { ReadableFromStream } from "../src";
+import { AvroReadableFromStream } from "../src";
 
-describe("ReadableFromStream", () => {
+describe("AvroReadableFromStream", () => {
   it("read pass end should throw", async () => {
     let rs = fs.createReadStream("../README.md");
 
-    let rfs = new ReadableFromStream(rs);
+    let rfs = new AvroReadableFromStream(rs);
     assert.equal(rfs.position, 0);
 
     await rfs.read(10);

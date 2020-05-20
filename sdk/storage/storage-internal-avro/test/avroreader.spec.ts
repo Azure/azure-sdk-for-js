@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import * as assert from "assert";
-import { AvroReader, ReadableFromStream } from "../src";
+import { AvroReader, AvroReadableFromStream } from "../src";
 import { arraysEqual } from "../src/utils/utils.common";
 
 describe.only("AvroReader", () => {
@@ -37,7 +37,7 @@ describe.only("AvroReader", () => {
 
     for (const testcase of testCases) {
       const rs = fs.createReadStream(`./test/resources/${testcase.path}`);
-      const rfs = new ReadableFromStream(rs);
+      const rfs = new AvroReadableFromStream(rs);
 
       const avroReader = new AvroReader(rfs);
       const iter = avroReader.parseObjects();

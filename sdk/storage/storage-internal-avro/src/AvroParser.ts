@@ -1,4 +1,4 @@
-import { IReadable } from "./IReadable";
+import { AvroReadable } from "./AvroReadable";
 import { Dictionary, KeyValuePair } from "./utils/utils.common";
 import { AvroConstants } from "./AvroConstants";
 
@@ -10,7 +10,7 @@ export class AvroParser {
    * @param stream
    * @param length
    */
-  public static async readFixedBytes(stream: IReadable, length: number): Promise<Uint8Array> {
+  public static async readFixedBytes(stream: AvroReadable, length: number): Promise<Uint8Array> {
     const bytes = await stream.read(length);
     if (bytes.length != length) {
       throw new Error("Hit stream end.");
@@ -24,12 +24,12 @@ export class AvroParser {
    * @static
    * @param stream
    */
-  private static async readByte(stream: IReadable): Promise<number> {
+  private static async readByte(stream: AvroReadable): Promise<number> {
     const buf = await AvroParser.readFixedBytes(stream, 1);
     return buf[0];
   }
 
-  private static async readZigZagLong(stream: IReadable): Promise<number> {
+  private static async readZigZagLong(stream: AvroReadable): Promise<number> {
     // copied from https://github.com/apache/avro/blob/master/lang/js/lib/utils.js#L321
     let n = 0;
     let k = 0;
@@ -57,11 +57,11 @@ export class AvroParser {
     return (n >> 1) ^ -(n & 1);
   }
 
-  public static async readLong(stream: IReadable): Promise<number> {
+  public static async readLong(stream: AvroReadable): Promise<number> {
     return AvroParser.readZigZagLong(stream);
   }
 
-  public static async readInt(stream: IReadable): Promise<number> {
+  public static async readInt(stream: AvroReadable): Promise<number> {
     return AvroParser.readZigZagLong(stream);
   }
 
@@ -69,7 +69,7 @@ export class AvroParser {
     return null;
   }
 
-  public static async readBoolean(stream: IReadable): Promise<Boolean> {
+  public static async readBoolean(stream: AvroReadable): Promise<Boolean> {
     const b = await AvroParser.readByte(stream);
     if (b == 1) {
       return true;
@@ -80,19 +80,19 @@ export class AvroParser {
     }
   }
 
-  public static async readFloat(stream: IReadable): Promise<number> {
+  public static async readFloat(stream: AvroReadable): Promise<number> {
     const u8arr = await AvroParser.readFixedBytes(stream, 4);
     const view = new DataView(u8arr.buffer, u8arr.byteOffset, u8arr.byteLength);
     return view.getFloat32(0, true); // littleEndian = true
   }
 
-  public static async readDouble(stream: IReadable): Promise<number> {
+  public static async readDouble(stream: AvroReadable): Promise<number> {
     const u8arr = await AvroParser.readFixedBytes(stream, 8);
     const view = new DataView(u8arr.buffer, u8arr.byteOffset, u8arr.byteLength);
     return view.getFloat64(0, true); // littleEndian = true
   }
 
-  public static async readBytes(stream: IReadable): Promise<Uint8Array> {
+  public static async readBytes(stream: AvroReadable): Promise<Uint8Array> {
     const size = await AvroParser.readLong(stream);
     if (size < 0) {
       throw new Error("Bytes size was negative.");
@@ -101,7 +101,7 @@ export class AvroParser {
     return await stream.read(size);
   }
 
-  public static async readString(stream: IReadable): Promise<string> {
+  public static async readString(stream: AvroReadable): Promise<string> {
     const u8arr = await AvroParser.readBytes(stream);
 
     // FIXME: need TextDecoder polyfill for IE
@@ -110,8 +110,8 @@ export class AvroParser {
   }
 
   private static async readMapPair<T>(
-    stream: IReadable,
-    readItemMethod: (s: IReadable) => Promise<T>
+    stream: AvroReadable,
+    readItemMethod: (s: AvroReadable) => Promise<T>
   ): Promise<KeyValuePair<T>> {
     const key = await AvroParser.readString(stream);
     // FIXME: what about readFixed which need a length as parameter.
@@ -120,10 +120,10 @@ export class AvroParser {
   }
 
   public static async readMap<T>(
-    stream: IReadable,
-    readItemMethod: (s: IReadable) => Promise<T>
+    stream: AvroReadable,
+    readItemMethod: (s: AvroReadable) => Promise<T>
   ): Promise<Dictionary<T>> {
-    const readPairMethod = async (stream: IReadable): Promise<KeyValuePair<T>> => {
+    const readPairMethod = async (stream: AvroReadable): Promise<KeyValuePair<T>> => {
       return await AvroParser.readMapPair(stream, readItemMethod);
     };
 
@@ -136,8 +136,8 @@ export class AvroParser {
   }
 
   private static async readArray<T>(
-    stream: IReadable,
-    readItemMethod: (s: IReadable) => Promise<T>
+    stream: AvroReadable,
+    readItemMethod: (s: AvroReadable) => Promise<T>
   ): Promise<T[]> {
     let items: T[] = [];
     for (
@@ -181,7 +181,7 @@ export abstract class AvroType {
    *
    * @param stream
    */
-  public abstract read(stream: IReadable): Promise<Object | null>;
+  public abstract read(stream: AvroReadable): Promise<Object | null>;
 
   /**
    * Determinds the AvroType from the Avro Schema.
@@ -273,7 +273,7 @@ class AvroPrimitiveType extends AvroType {
     this._primitive = primitive;
   }
 
-  public async read(stream: IReadable): Promise<Object | null> {
+  public async read(stream: AvroReadable): Promise<Object | null> {
     switch (this._primitive) {
       case AvroConstants.NULL:
         return await AvroParser.readNull();
@@ -305,7 +305,7 @@ class AvroEnumType extends AvroType {
     this._symbols = symbols;
   }
 
-  public async read(stream: IReadable): Promise<Object> {
+  public async read(stream: AvroReadable): Promise<Object> {
     const value = await AvroParser.readInt(stream);
     return this._symbols[value];
   }
@@ -319,7 +319,7 @@ class AvroUnionType extends AvroType {
     this._types = types;
   }
 
-  public async read(stream: IReadable): Promise<Object | null> {
+  public async read(stream: AvroReadable): Promise<Object | null> {
     const typeIndex = await AvroParser.readInt(stream);
     return await this._types[typeIndex].read(stream);
   }
@@ -333,8 +333,8 @@ class AvroMapType extends AvroType {
     this._itemType = itemType;
   }
 
-  public async read(stream: IReadable): Promise<Object> {
-    const readItemMethod = async (s: IReadable): Promise<Object | null> => {
+  public async read(stream: AvroReadable): Promise<Object> {
+    const readItemMethod = async (s: AvroReadable): Promise<Object | null> => {
       return await this._itemType.read(s);
     };
     return await AvroParser.readMap(stream, readItemMethod);
@@ -351,7 +351,7 @@ class AvroRecordType extends AvroType {
     this._name = name;
   }
 
-  public async read(stream: IReadable): Promise<Object> {
+  public async read(stream: AvroReadable): Promise<Object> {
     let record: Dictionary<Object | null> = {};
     //  FIXME: what for?
     record["$schema"] = this._name;
