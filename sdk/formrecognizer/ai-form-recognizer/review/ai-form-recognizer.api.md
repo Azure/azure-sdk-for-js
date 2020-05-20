@@ -274,7 +274,7 @@ export class FormTrainingClient {
     readonly endpointUrl: string;
     getAccountProperties(options?: GetAccountPropertiesOptions): Promise<AccountProperties>;
     getCustomModel(modelId: string, options?: GetModelOptions): Promise<FormModelResponse>;
-    listCustomModels(options?: ListModelsOptions): PagedAsyncIterableIterator<CustomFormModel, ListModelsResponseModel>;
+    listCustomModels(options?: ListModelsOptions): PagedAsyncIterableIterator<CustomFormModelInfo, ListModelsResponseModel>;
     }
 
 // @public
@@ -340,9 +340,6 @@ export type ListModelsResponseModel = Models & {
         parsedBody: Models;
     };
 };
-
-// @public (undocumented)
-export type Locale = "US" | "UK";
 
 // @public
 export interface Model {
@@ -430,13 +427,6 @@ export type ReceiptItemField = {
 // @public
 export type ReceiptPollerLike = PollerLike<PollOperationState<RecognizedReceiptArray>, RecognizedReceiptArray>;
 
-// @public (undocumented)
-export interface ReceiptWithLocale {
-    locale?: string;
-    // (undocumented)
-    recognizedForm: RecognizedForm;
-}
-
 // @public
 export type RecognizeContentOptions = FormRecognizerOperationOptions;
 
@@ -454,10 +444,13 @@ export interface RecognizedForm {
 export interface RecognizedFormArray extends Array<RecognizedForm> {
 }
 
-// @public (undocumented)
+// @public
 export type RecognizedReceipt = {
+    locale: string;
+    recognizedForm: RecognizedForm;
+} & ({
     locale: "US";
-} & USReceipt;
+} & USReceipt);
 
 // @public (undocumented)
 export interface RecognizedReceiptArray extends Array<RecognizedReceipt> {
@@ -525,7 +518,7 @@ export interface TrainResult {
 }
 
 // @public
-export interface USReceipt extends ReceiptWithLocale {
+export interface USReceipt {
     items: USReceiptItem[];
     merchantAddress: FormField;
     merchantName: FormField;
@@ -539,7 +532,7 @@ export interface USReceipt extends ReceiptWithLocale {
     transactionTime: FormField;
 }
 
-// @public (undocumented)
+// @public
 export interface USReceiptItem {
     name?: FormField;
     price?: FormField;

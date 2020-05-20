@@ -513,14 +513,6 @@ export type USReceiptType = {
  */
 export interface USReceipt {
   /**
-   * Locale of the receipt
-   */
-  locale?: string;
-  /**
-   * Recognized form
-   */
-  recognizedForm: RecognizedForm;
-  /**
    * Receipt type field
    */
   receiptType: USReceiptType;
@@ -566,14 +558,23 @@ export interface USReceipt {
   transactionTime: FormField;
 }
 
-export type Locale = "US" | "UK";
-
-/*
+/**
  * Recognized Receipt
  */
-export type RecognizedReceipt = { locale: "US" } & USReceipt;
-//  | { receiptLocale: "UK" } & UKReceipt
+export type RecognizedReceipt = {
+  /**
+   * Locale of the receipt
+   */
+  locale: string;
+  /**
+   * Recognized form
+   */
+  recognizedForm: RecognizedForm;
+} & (
+  | { locale: "US" } & USReceipt
+//  | { locale: "UK" } & UKReceipt
 // ...
+)
 
 /*
  * Array of {@link RecognizedReceipt}
