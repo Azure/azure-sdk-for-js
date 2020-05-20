@@ -147,15 +147,37 @@ export class SearchIndexerClient {
    * @param options Options to the list indexers operation.
    */
   public async listIndexers<Fields extends keyof Indexer>(
-    options: ListIndexersOptions<Fields> = {}
+    options: ListIndexersOptions = {}
   ): Promise<Array<Pick<Indexer, Fields>>> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-listIndexers", options);
     try {
+      const result = await this.client.indexers.list(
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return result.indexers;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Retrieves a list of names of existing indexers in the service.
+   * @param options Options to the list indexers operation.
+   */
+  public async listIndexersNames(options: ListIndexersOptions = {}): Promise<Array<String>> {
+    const { span, updatedOptions } = createSpan("SearchIndexerClient-listIndexersNames", options);
+    try {
       const result = await this.client.indexers.list({
         ...operationOptionsToRequestOptionsBase(updatedOptions),
-        select: updatedOptions.select?.join(",")
+        select: "name"
       });
-      return result.indexers;
+      return result.indexers.map((idx) => idx.name);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -172,15 +194,40 @@ export class SearchIndexerClient {
    * @param options Options to the list indexers operation.
    */
   public async listDataSources<Fields extends keyof DataSource>(
-    options: ListDataSourcesOptions<Fields> = {}
+    options: ListDataSourcesOptions = {}
   ): Promise<Array<Pick<DataSource, Fields>>> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-listDataSources", options);
     try {
+      const result = await this.client.dataSources.list(
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return result.dataSources.map(utils.generatedDataSourceToPublicDataSource);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Retrieves a list of names of existing data sources in the service.
+   * @param options Options to the list indexers operation.
+   */
+  public async listDataSourcesNames(options: ListDataSourcesOptions = {}): Promise<Array<String>> {
+    const { span, updatedOptions } = createSpan(
+      "SearchIndexerClient-listDataSourcesNames",
+      options
+    );
+    try {
       const result = await this.client.dataSources.list({
         ...operationOptionsToRequestOptionsBase(updatedOptions),
-        select: updatedOptions.select?.join(",s")
+        select: "name"
       });
-      return result.dataSources.map(utils.generatedDataSourceToPublicDataSource);
+      return result.dataSources.map((ds) => ds.name);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -197,15 +244,37 @@ export class SearchIndexerClient {
    * @param options Options to the list Skillsets operation.
    */
   public async listSkillsets<Fields extends keyof Skillset>(
-    options: ListSkillsetsOptions<Fields> = {}
+    options: ListSkillsetsOptions = {}
   ): Promise<Array<Pick<Skillset, Fields>>> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-listSkillsets", options);
     try {
+      const result = await this.client.skillsets.list(
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return result.skillsets.map(utils.generatedSkillsetToPublicSkillset);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Retrieves a list of names of existing Skillsets in the service.
+   * @param options Options to the list Skillsets operation.
+   */
+  public async listSkillsetsNames(options: ListSkillsetsOptions = {}): Promise<Array<String>> {
+    const { span, updatedOptions } = createSpan("SearchIndexerClient-listSkillsetsNames", options);
+    try {
       const result = await this.client.skillsets.list({
         ...operationOptionsToRequestOptionsBase(updatedOptions),
-        select: updatedOptions.select?.join(",")
+        select: "name"
       });
-      return result.skillsets.map(utils.generatedSkillsetToPublicSkillset);
+      return result.skillsets.map((sks) => sks.name);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

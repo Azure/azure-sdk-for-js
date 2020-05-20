@@ -158,15 +158,37 @@ export class SearchIndexClient {
    * @param options Options to the list index operation.
    */
   public async listIndexes<Fields extends keyof Index>(
-    options: ListIndexesOptions<Fields> = {}
+    options: ListIndexesOptions = {}
   ): Promise<Array<Pick<Index, Fields>>> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-listIndexes", options);
     try {
+      const result = await this.client.indexes.list(
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return result.indexes.map(utils.generatedIndexToPublicIndex);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Retrieves a list of names of existing indexes in the service.
+   * @param options Options to the list index operation.
+   */
+  public async listIndexesNames(options: ListIndexesOptions = {}): Promise<Array<String>> {
+    const { span, updatedOptions } = createSpan("SearchIndexClient-listIndexesNames", options);
+    try {
       const result = await this.client.indexes.list({
         ...operationOptionsToRequestOptionsBase(updatedOptions),
-        select: updatedOptions.select?.join(",")
+        select: "name"
       });
-      return result.indexes.map(utils.generatedIndexToPublicIndex);
+      return result.indexes.map((idx) => idx.name);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -183,15 +205,37 @@ export class SearchIndexClient {
    * @param options Options to the list SynonymMaps operation.
    */
   public async listSynonymMaps<Fields extends keyof SynonymMap>(
-    options: ListSynonymMapsOptions<Fields> = {}
+    options: ListSynonymMapsOptions = {}
   ): Promise<Array<Pick<SynonymMap, Fields>>> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-listSynonymMaps", options);
     try {
+      const result = await this.client.synonymMaps.list(
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return result.synonymMaps.map(utils.generatedSynonymMapToPublicSynonymMap);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Retrieves a list of names of existing SynonymMaps in the service.
+   * @param options Options to the list SynonymMaps operation.
+   */
+  public async listSynonymMapsNames(options: ListSynonymMapsOptions = {}): Promise<Array<String>> {
+    const { span, updatedOptions } = createSpan("SearchIndexClient-listSynonymMapsNames", options);
+    try {
       const result = await this.client.synonymMaps.list({
         ...operationOptionsToRequestOptionsBase(updatedOptions),
-        select: updatedOptions.select?.join(",")
+        select: "name"
       });
-      return result.synonymMaps.map(utils.generatedSynonymMapToPublicSynonymMap);
+      return result.synonymMaps.map((sm) => sm.name);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
