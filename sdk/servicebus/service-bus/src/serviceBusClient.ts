@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { generate_uuid } from "rhea-promise";
-import { isTokenCredential, TokenCredential, Constants } from "@azure/core-amqp";
+import { isTokenCredential, TokenCredential } from "@azure/core-amqp";
 import {
   ServiceBusClientOptions,
   createConnectionContextForTokenCredential,
@@ -82,11 +82,12 @@ export class ServiceBusClient {
     this._clientOptions.retryOptions = this._clientOptions.retryOptions || {};
 
     let timeoutInMs = this._clientOptions.retryOptions.timeoutInMs;
-    timeoutInMs = timeoutInMs == undefined ? Constants.defaultOperationTimeoutInMs : timeoutInMs;
-    if (typeof timeoutInMs !== "number" || !isFinite(timeoutInMs) || timeoutInMs <= 0) {
+    if (
+      timeoutInMs != undefined &&
+      (typeof timeoutInMs !== "number" || !isFinite(timeoutInMs) || timeoutInMs <= 0)
+    ) {
       throw new Error(`${timeoutInMs} is an invalid value for retryOptions.timeoutInMs`);
     }
-    this._clientOptions.retryOptions.timeoutInMs = timeoutInMs;
   }
 
   /**
