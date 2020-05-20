@@ -25,7 +25,7 @@ import { RequestResponseLink } from "./requestResponseLink";
 export interface CbsResponse {
   correlationId: string;
   statusCode: string;
-  statusDescription: string;
+  satusDescription: string;
 }
 
 /**
@@ -269,7 +269,7 @@ export class CbsClient {
     const cbsResponse = {
       correlationId: msg.correlation_id! as string,
       statusCode: msg.application_properties ? msg.application_properties["status-code"] : "",
-      statusDescription: msg.application_properties
+      satusDescription: msg.application_properties
         ? msg.application_properties["status-description"]
         : ""
     };
