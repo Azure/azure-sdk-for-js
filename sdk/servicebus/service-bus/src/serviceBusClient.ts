@@ -15,7 +15,6 @@ import { CreateSessionReceiverOptions, CreateSenderOptions } from "./models";
 import { Receiver, ReceiverImpl } from "./receivers/receiver";
 import { SessionReceiver, SessionReceiverImpl } from "./receivers/sessionReceiver";
 import { ReceivedMessageWithLock, ReceivedMessage } from "./serviceBusMessage";
-import { getRetryAttemptTimeoutInMs } from "./util/utils";
 
 /**
  * A client that can create Sender instances for sending messages to queues and
@@ -83,9 +82,14 @@ export class ServiceBusClient {
     }
     this.fullyQualifiedNamespace = this._connectionContext.config.host;
     this._clientOptions.retryOptions = this._clientOptions.retryOptions || {};
-    this._clientOptions.retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(
-      this._clientOptions.retryOptions
-    );
+
+    const timeoutInMs = this._clientOptions.retryOptions.timeoutInMs;
+    if (
+      timeoutInMs != undefined &&
+      (typeof timeoutInMs !== "number" || !isFinite(timeoutInMs) || timeoutInMs <= 0)
+    ) {
+      throw new Error(`${timeoutInMs} is an invalid value for retryOptions.timeoutInMs`);
+    }
   }
 
   /**
