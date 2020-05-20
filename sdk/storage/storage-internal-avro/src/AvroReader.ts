@@ -8,13 +8,13 @@ export class AvroReader {
 
   private readonly _headerStream: AvroReadable;
 
-  private _syncMarker: Uint8Array | undefined;
+  private _syncMarker?: Uint8Array;
 
-  private _metadata: Record<string,string> | undefined;
+  private _metadata?: Record<string, string>;
 
-  private _itemType: AvroType | undefined;
+  private _itemType?: AvroType;
 
-  private _itemsRemainingInBlock: number | undefined;
+  private _itemsRemainingInBlock?: number;
 
   private _blockOffset: number;
   public get blockOffset(): number {
