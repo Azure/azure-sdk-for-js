@@ -33,5 +33,5 @@ steps:
   # After changing Node versions, Rush will attempt to reinstall itself, but will be blocked on
   # Windows due to issue microsoft/rushstack#1878.  A workaround is to manually delete the Rush
   # install folder.
-  - pwsh: Remove-Item -Recurse common/temp/install-run
+  - pwsh: Remove-Item -Recurse -Force common/temp/install-run
     displayName: Delete Rush install folder
