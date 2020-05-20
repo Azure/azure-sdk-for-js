@@ -81,7 +81,7 @@ export class ServiceBusClient {
     this.fullyQualifiedNamespace = this._connectionContext.config.host;
     this._clientOptions.retryOptions = this._clientOptions.retryOptions || {};
 
-    let timeoutInMs = this._clientOptions.retryOptions.timeoutInMs;
+    const timeoutInMs = this._clientOptions.retryOptions.timeoutInMs;
     if (
       timeoutInMs != undefined &&
       (typeof timeoutInMs !== "number" || !isFinite(timeoutInMs) || timeoutInMs <= 0)
