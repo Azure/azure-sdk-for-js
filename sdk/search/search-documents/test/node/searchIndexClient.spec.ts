@@ -8,7 +8,7 @@ import { assert } from "chai";
 import { Recorder, record, isPlaybackMode } from "@azure/test-utils-recorder";
 
 import { createClients, environmentSetup } from "../utils/recordedClient";
-import { SearchClient, SearchServiceClient } from "../../src/index";
+import { SearchClient, SearchIndexClient } from "../../src/index";
 import { Hotel } from "../utils/interfaces";
 import { createIndex, populateIndex } from "../utils/setupIndex";
 
@@ -16,20 +16,20 @@ const TEST_INDEX_NAME = "hotel-live-test";
 
 describe("SearchClient", function() {
   let recorder: Recorder;
-  let indexClient: SearchClient<Hotel>;
-  let serviceClient: SearchServiceClient;
+  let searchClient: SearchClient<Hotel>;
+  let indexClient: SearchIndexClient;
 
   this.timeout(30000);
 
   beforeEach(async function() {
-    ({ indexClient, serviceClient } = createClients<Hotel>(TEST_INDEX_NAME));
+    ({ searchClient, indexClient } = createClients<Hotel>(TEST_INDEX_NAME));
     if (!isPlaybackMode()) {
-      await createIndex(serviceClient, TEST_INDEX_NAME);
-      await populateIndex(indexClient);
+      await createIndex(indexClient, TEST_INDEX_NAME);
+      await populateIndex(searchClient);
     }
     recorder = record(this, environmentSetup);
     // create the clients again, but hooked up to the recorder
-    ({ indexClient, serviceClient } = createClients<Hotel>(TEST_INDEX_NAME));
+    ({ searchClient, indexClient } = createClients<Hotel>(TEST_INDEX_NAME));
   });
 
   afterEach(async function() {
@@ -37,13 +37,13 @@ describe("SearchClient", function() {
       recorder.stop();
     }
     if (!isPlaybackMode()) {
-      await serviceClient.deleteIndex(TEST_INDEX_NAME);
+      await indexClient.deleteIndex(TEST_INDEX_NAME);
     }
   });
 
   describe("#count", function() {
     it("returns the correct document count", async function() {
-      const documentCount = await indexClient.countDocuments();
+      const documentCount = await searchClient.countDocuments();
       assert.equal(documentCount, 10);
     });
   });

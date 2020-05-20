@@ -1132,6 +1132,58 @@ export interface SearchDocumentsResultBase {
 }
 
 // @public
+export class SearchIndexClient {
+    constructor(endpoint: string, credential: KeyCredential, options?: SearchIndexClientOptions);
+    analyzeText(indexName: string, options: AnalyzeTextOptions): Promise<AnalyzeResult>;
+    readonly apiVersion: string;
+    createIndex(index: Index, options?: CreateIndexOptions): Promise<Index>;
+    createOrUpdateIndex(index: Index, options?: CreateOrUpdateIndexOptions): Promise<Index>;
+    createOrUpdateSynonymMap(synonymMap: SynonymMap, options?: CreateOrUpdateSynonymMapOptions): Promise<SynonymMap>;
+    createSynonymMap(synonymMap: SynonymMap, options?: CreateSynonymMapOptions): Promise<SynonymMap>;
+    deleteIndex(indexName: string, options?: DeleteIndexOptions): Promise<void>;
+    deleteSynonymMap(synonymMapName: string, options?: DeleteSynonymMapOptions): Promise<void>;
+    readonly endpoint: string;
+    getIndex(indexName: string, options?: GetIndexOptions): Promise<Index>;
+    getIndexStatistics(indexName: string, options?: GetIndexStatisticsOptions): Promise<GetIndexStatisticsResult>;
+    getSearchClient<T>(indexName: string, options?: SearchClientOptions): SearchClient<T>;
+    getServiceStatistics(options?: GetServiceStatisticsOptions): Promise<ServiceStatistics>;
+    getSynonymMap(synonymMapName: string, options?: GetSynonymMapsOptions): Promise<SynonymMap>;
+    listIndexes<Fields extends keyof Index>(options?: ListIndexesOptions<Fields>): Promise<Array<Pick<Index, Fields>>>;
+    listSynonymMaps<Fields extends keyof SynonymMap>(options?: ListSynonymMapsOptions<Fields>): Promise<Array<Pick<SynonymMap, Fields>>>;
+    }
+
+// @public
+export type SearchIndexClientOptions = PipelineOptions;
+
+// @public
+export class SearchIndexerClient {
+    constructor(endpoint: string, credential: KeyCredential, options?: SearchIndexerClientOptions);
+    readonly apiVersion: string;
+    createDataSource(dataSource: DataSource, options?: CreateDataSourceOptions): Promise<DataSource>;
+    createIndexer(indexer: Indexer, options?: CreateIndexerOptions): Promise<Indexer>;
+    createOrUpdateDataSource(dataSource: DataSource, options?: CreateorUpdateDataSourceOptions): Promise<DataSource>;
+    createOrUpdateIndexer(indexer: Indexer, options?: CreateorUpdateIndexerOptions): Promise<Indexer>;
+    createOrUpdateSkillset(skillset: Skillset, options?: CreateOrUpdateSkillsetOptions): Promise<Skillset>;
+    createSkillset(skillset: Skillset, options?: CreateSkillsetOptions): Promise<Skillset>;
+    deleteDataSource(dataSourceName: string, options?: DeleteDataSourceOptions): Promise<void>;
+    deleteIndexer(indexerName: string, options?: DeleteIndexerOptions): Promise<void>;
+    deleteSkillset(skillsetName: string, options?: DeleteSkillsetOptions): Promise<void>;
+    readonly endpoint: string;
+    getDataSource(dataSourceName: string, options?: GetDataSourceOptions): Promise<DataSource>;
+    getIndexer(indexerName: string, options?: GetIndexerOptions): Promise<Indexer>;
+    getIndexerStatus(indexerName: string, options?: GetIndexerStatusOptions): Promise<IndexerExecutionInfo>;
+    getSkillset(skillsetName: string, options?: GetSkillSetOptions): Promise<Skillset>;
+    listDataSources<Fields extends keyof DataSource>(options?: ListDataSourcesOptions<Fields>): Promise<Array<Pick<DataSource, Fields>>>;
+    listIndexers<Fields extends keyof Indexer>(options?: ListIndexersOptions<Fields>): Promise<Array<Pick<Indexer, Fields>>>;
+    listSkillsets<Fields extends keyof Skillset>(options?: ListSkillsetsOptions<Fields>): Promise<Array<Pick<Skillset, Fields>>>;
+    resetIndexer(indexerName: string, options?: ResetIndexerOptions): Promise<void>;
+    runIndexer(indexerName: string, options?: RunIndexerOptions): Promise<void>;
+}
+
+// @public
+export type SearchIndexerClientOptions = PipelineOptions;
+
+// @public
 export type SearchIterator<Fields> = PagedAsyncIterableIterator<SearchResult<Fields>, SearchDocumentsPageResult<Fields>, ListSearchResultsPageSettings>;
 
 // @public
@@ -1168,48 +1220,6 @@ export type SearchResult<T> = {
         [propertyName: string]: string[];
     };
 } & T;
-
-// @public
-export class SearchServiceClient {
-    constructor(endpoint: string, credential: KeyCredential, options?: SearchServiceClientOptions);
-    analyzeText(indexName: string, options: AnalyzeTextOptions): Promise<AnalyzeResult>;
-    readonly apiVersion: string;
-    createDataSource(dataSource: DataSource, options?: CreateDataSourceOptions): Promise<DataSource>;
-    createIndex(index: Index, options?: CreateIndexOptions): Promise<Index>;
-    createIndexer(indexer: Indexer, options?: CreateIndexerOptions): Promise<Indexer>;
-    createOrUpdateDataSource(dataSource: DataSource, options?: CreateorUpdateDataSourceOptions): Promise<DataSource>;
-    createOrUpdateIndex(index: Index, options?: CreateOrUpdateIndexOptions): Promise<Index>;
-    createOrUpdateIndexer(indexer: Indexer, options?: CreateorUpdateIndexerOptions): Promise<Indexer>;
-    createOrUpdateSkillset(skillset: Skillset, options?: CreateOrUpdateSkillsetOptions): Promise<Skillset>;
-    createOrUpdateSynonymMap(synonymMap: SynonymMap, options?: CreateOrUpdateSynonymMapOptions): Promise<SynonymMap>;
-    createSkillset(skillset: Skillset, options?: CreateSkillsetOptions): Promise<Skillset>;
-    createSynonymMap(synonymMap: SynonymMap, options?: CreateSynonymMapOptions): Promise<SynonymMap>;
-    deleteDataSource(dataSourceName: string, options?: DeleteDataSourceOptions): Promise<void>;
-    deleteIndex(indexName: string, options?: DeleteIndexOptions): Promise<void>;
-    deleteIndexer(indexerName: string, options?: DeleteIndexerOptions): Promise<void>;
-    deleteSkillset(skillsetName: string, options?: DeleteSkillsetOptions): Promise<void>;
-    deleteSynonymMap(synonymMapName: string, options?: DeleteSynonymMapOptions): Promise<void>;
-    readonly endpoint: string;
-    getDataSource(dataSourceName: string, options?: GetDataSourceOptions): Promise<DataSource>;
-    getIndex(indexName: string, options?: GetIndexOptions): Promise<Index>;
-    getIndexer(indexerName: string, options?: GetIndexerOptions): Promise<Indexer>;
-    getIndexerStatus(indexerName: string, options?: GetIndexerStatusOptions): Promise<IndexerExecutionInfo>;
-    getIndexStatistics(indexName: string, options?: GetIndexStatisticsOptions): Promise<GetIndexStatisticsResult>;
-    getSearchClient<T>(indexName: string, options?: SearchClientOptions): SearchClient<T>;
-    getServiceStatistics(options?: GetServiceStatisticsOptions): Promise<ServiceStatistics>;
-    getSkillset(skillsetName: string, options?: GetSkillSetOptions): Promise<Skillset>;
-    getSynonymMap(synonymMapName: string, options?: GetSynonymMapsOptions): Promise<SynonymMap>;
-    listDataSources<Fields extends keyof DataSource>(options?: ListDataSourcesOptions<Fields>): Promise<Array<Pick<DataSource, Fields>>>;
-    listIndexers<Fields extends keyof Indexer>(options?: ListIndexersOptions<Fields>): Promise<Array<Pick<Indexer, Fields>>>;
-    listIndexes<Fields extends keyof Index>(options?: ListIndexesOptions<Fields>): Promise<Array<Pick<Index, Fields>>>;
-    listSkillsets<Fields extends keyof Skillset>(options?: ListSkillsetsOptions<Fields>): Promise<Array<Pick<Skillset, Fields>>>;
-    listSynonymMaps<Fields extends keyof SynonymMap>(options?: ListSynonymMapsOptions<Fields>): Promise<Array<Pick<SynonymMap, Fields>>>;
-    resetIndexer(indexerName: string, options?: ResetIndexerOptions): Promise<void>;
-    runIndexer(indexerName: string, options?: RunIndexerOptions): Promise<void>;
-}
-
-// @public
-export type SearchServiceClientOptions = PipelineOptions;
 
 // @public
 export interface SentimentSkill {

@@ -26,7 +26,8 @@ export {
   MergeOrUploadDocumentsOptions,
   UploadDocumentsOptions
 } from "./indexModels";
-export { SearchServiceClient, SearchServiceClientOptions } from "./searchServiceClient";
+export { SearchIndexClient, SearchIndexClientOptions } from "./searchIndexClient";
+export { SearchIndexerClient, SearchIndexerClientOptions } from "./searchIndexerClient";
 export {
   Index,
   Analyzer,

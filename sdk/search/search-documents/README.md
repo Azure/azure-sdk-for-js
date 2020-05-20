@@ -62,19 +62,23 @@ Once you have an Admin Key, you can use it as follows:
 ```js
 const {
   SearchClient,
-  SearchServiceClient,
+  SearchIndexClient,
+  SearchIndexerClient,
   AzureKeyCredential
 } = require("@azure/search-documents");
 
 // To query and manipulate documents
-const indexClient = new SearchClient(
+const searchClient = new SearchClient(
   "<endpoint>",
   "<indexName>",
   new AzureKeyCredential("<apiKey>")
 );
 
-// To manage indexes, datasources, skillsets and more
-const serviceClient = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
+// To manage indexes and synonymmaps
+const indexClient = new SearchIndexClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
+
+// To manage indexers, datasources and skillsets
+const indexerClient = new SearchIndexerClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
 ```
 
 ### Send your first search query
@@ -124,9 +128,9 @@ There are several types of operations that can be executed against the service:
 
 `SearchClient` provides methods for working with documents in an index. Its methods allow you to query, upload, update, and delete documents. It also has methods for building auto-completion and search suggestion experiences based on partial queries.
 
-### SearchServiceClient
+### SearchIndexClient & SearchIndexerClient
 
-`SearchServiceClient` provides methods for configuring and customizing an Azure Cognitive Search instance. The client currently has support for creating and managing search indexes and will later expand to support creating and managing other service entities such as indexers, synonym maps, cognitive skillsets, and data sources.
+`SearchIndexClient` and `SearchIndexerClient` provide methods for configuring and customizing an Azure Cognitive Search instance. The client currently has support for creating and managing search indexes and will later expand to support creating and managing other service entities such as indexers, synonym maps, cognitive skillsets, and data sources.
 
 **Note**: This client cannot function in the browser because the APIs it calls do not have support for Cross-Origin Resource Sharing (CORS).
 
@@ -153,9 +157,9 @@ Typically you will only wish to [show a subset of search results](https://docs.m
 ### Create an Index
 
 ```js
-const { SearchServiceClient, AzureKeyCredential } = require("@azure/search-documents");
+const { SearchIndexClient, AzureKeyCredential } = require("@azure/search-documents");
 
-const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
+const client = new SearchIndexClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
 
 async function main() {
   const result = await client.createIndex({
@@ -483,12 +487,12 @@ In order to ensure that analysis is configured correctly, developers can directl
 
 ```js
 const {
-  SearchServiceClient,
+  SearchIndexClient,
   AzureKeyCredential,
   KnownTokenFilterNames
 } = require("@azure/search-documents");
 
-const client = new SearchServiceClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
+const client = new SearchIndexClient("<endpoint>", new AzureKeyCredential("<apiKey>"));
 
 async function main() {
   const index = await client.getIndex("example-index");
