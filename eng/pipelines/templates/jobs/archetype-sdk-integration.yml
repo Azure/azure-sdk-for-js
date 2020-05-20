@@ -13,16 +13,16 @@ parameters:
     Linux Node 8:
       OSVmImage: "ubuntu-18.04"
       TestType: "node"
-      NodeVersion: "8.x"
+      NodeTestVersion: "8.x"
       PublishCodeCoverage: true
     Windows Node 10:
       OSVmImage: "windows-2019"
       TestType: "node"
-      NodeVersion: "10.x"
+      NodeTestVersion: "10.x"
     MacOS Node 12:
       OSVmImage: "macOS-10.15"
       TestType: "node"
-      NodeVersion: "12.x"
+      NodeTestVersion: "12.x"
 
 jobs:
   - job: "IntegrationTest"
@@ -37,7 +37,7 @@ jobs:
           ${{ matrixEntry.key }}:
             # If no CloudType, use "AzureCloud"
             ${{ if eq(matrixEntry.value.CloudType, '') }}:
-              CloudType: "AzureCloud"
+              SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
             # TestResultsFiles
             ${{ if eq(matrixEntry.value.TestType, 'browser' )}}:
               TestResultsFiles: "**/test-results.browser.xml"
@@ -52,8 +52,8 @@ jobs:
           Windows Browser:
             OSVmImage: "windows-2019"
             TestType: "browser"
-            NodeVersion: "12.x"
-            CloudType: "AzureCloud"
+            NodeTestVersion: "12.x"
+            SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
             TestResultsFiles: "**/test-results.browser.xml"
 
         # Add matrix entry for sample testing
@@ -61,8 +61,8 @@ jobs:
           Samples Linux Node 10:
             OSVmImage: "ubuntu-18.04"
             TestType: "sample"
-            NodeVersion: "10.x"
-            CloudType: "AzureCloud"
+            NodeTestVersion: "10.x"
+            SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
 
     pool:
       vmImage: "$(OSVmImage)"
@@ -76,6 +76,7 @@ jobs:
         - template: /eng/common/TestResources/deploy-test-resources.yml
           parameters:
             ServiceDirectory: "${{ parameters.ResourceServiceDirectory }}"
+            SubscriptionConfiguration: $(SubscriptionConfiguration)
 
       - script: |
           node common/scripts/install-run-rush.js install
@@ -102,6 +103,8 @@ jobs:
         workingDirectory: $(Build.SourcesDirectory)/eng/tools/eng-package-utils
         displayName: "Get package path"
 
+      - template: ../steps/use-node-test-version.yml
+
       # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
       # The default on Windows is "cores - 1" (microsoft/rushstack#436).
       - script: |
@@ -111,7 +114,7 @@ jobs:
         env:
           TEST_MODE: "live"
           ${{ insert }}: ${{ parameters.EnvVars }}
-        condition: and(succeededOrFailed(),ne(variables['TestType'],'sample'))
+        condition: and(succeeded(),ne(variables['TestType'],'sample'))
 
       - ${{if ne(parameters.PostIntegrationSteps, '')}}:
           - template: ../steps/${{parameters.PostIntegrationSteps}}.yml
@@ -122,12 +125,13 @@ jobs:
         env:
           TEST_MODE: "live"
           ${{ insert }}: ${{ parameters.EnvVars }}
-        condition: and(succeededOrFailed(),eq(variables['TestType'],'sample'))
+        condition: and(succeeded(),eq(variables['TestType'],'sample'))
 
       - ${{ if ne(parameters.ResourceServiceDirectory, '') }}:
         - template: /eng/common/TestResources/remove-test-resources.yml
           parameters:
             ServiceDirectory: "${{ parameters.ResourceServiceDirectory }}"
+            SubscriptionConfiguration: $(SubscriptionConfiguration)
 
       - task: PublishCodeCoverageResults@1
         displayName: "Publish NodeJs Code Coverage to DevOps"
@@ -168,7 +172,7 @@ jobs:
         inputs:
           searchFolder: "$(System.DefaultWorkingDirectory)/sdk"
           testResultsFiles: "**/test-results.xml"
-          testRunTitle: "$(OSName) - NodeJS - Integration Tests - [Node $(NodeVersion)]"
+          testRunTitle: "$(OSName) - NodeJS - Integration Tests - [Node $(NodeTestVersion)]"
         condition: and(always(), eq(variables['TestType'], 'node'))
         displayName: "Publish NodeJS integration test results"
 
@@ -178,6 +182,6 @@ jobs:
         inputs:
           searchFolder: "$(System.DefaultWorkingDirectory)/sdk"
           testResultsFiles: "**/test-results.browser.xml"
-          testRunTitle: "$(OSName) - Browser - Integration Tests - [Node $(NodeVersion)]"
+          testRunTitle: "$(OSName) - Browser - Integration Tests - [Node $(NodeTestVersion)]"
         condition: and(always(), eq(variables['TestType'], 'browser'))
         displayName: "Publish browser integration test results"

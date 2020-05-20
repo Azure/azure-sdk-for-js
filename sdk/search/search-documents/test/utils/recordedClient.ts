@@ -6,14 +6,14 @@ import * as dotenv from "dotenv";
 import { env, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 import { isNode } from "@azure/core-http";
 
-import { AzureKeyCredential, SearchIndexClient, SearchServiceClient } from "../../src/index";
+import { AzureKeyCredential, SearchClient, SearchServiceClient } from "../../src/index";
 
 if (isNode) {
   dotenv.config();
 }
 
 export interface Clients<IndexModel> {
-  indexClient: SearchIndexClient<IndexModel>;
+  indexClient: SearchClient<IndexModel>;
   serviceClient: SearchServiceClient;
 }
 
@@ -48,7 +48,7 @@ export const environmentSetup: RecorderEnvironmentSetup = {
 
 export function createClients<IndexModel>(indexName: string): Clients<IndexModel> {
   const credential = new AzureKeyCredential(testEnv.SEARCH_API_ADMIN_KEY);
-  const indexClient = new SearchIndexClient<IndexModel>(testEnv.ENDPOINT, indexName, credential);
+  const indexClient = new SearchClient<IndexModel>(testEnv.ENDPOINT, indexName, credential);
   const serviceClient = new SearchServiceClient(testEnv.ENDPOINT, credential);
 
   return {

@@ -121,8 +121,8 @@ export interface InboundIpRule {
  */
 export interface ResourceSku {
   /**
-   * the Sku name of the resource.
-   * the possible values: Basic; Premium. Possible values include: 'Basic', 'Premium'
+   * The Sku name of the resource. The possible values are: Basic or Premium. Possible values
+   * include: 'Basic', 'Premium'
    */
   name?: Sku;
 }
@@ -428,27 +428,6 @@ export interface AdvancedFilter {
  */
 export interface EventChannelFilter {
   /**
-   * An optional string to filter events for an event channel based on a resource path prefix.
-   * The format of this depends on the publisher of the events. Wildcard characters are not
-   * supported in this path.
-   */
-  subjectBeginsWith?: string;
-  /**
-   * An optional string to filter events for an event channel based on a resource path suffix.
-   * Wildcard characters are not supported in this path.
-   */
-  subjectEndsWith?: string;
-  /**
-   * A list of applicable event types that need to be part of the event channel. If it is desired
-   * to subscribe to all default event types, set the IncludedEventTypes to null.
-   */
-  includedEventTypes?: string[];
-  /**
-   * Specifies if the SubjectBeginsWith and SubjectEndsWith properties of the filter
-   * should be compared in a case sensitive manner.
-   */
-  isSubjectCaseSensitive?: boolean;
-  /**
    * An array of advanced filters that are used for filtering event channels.
    */
   advancedFilters?: AdvancedFilterUnion[];
@@ -690,9 +669,28 @@ export interface EventChannel extends Resource {
    */
   readonly provisioningState?: EventChannelProvisioningState;
   /**
+   * The readiness state of the corresponding partner topic. Possible values include:
+   * 'NotActivatedByUserYet', 'ActivatedByUser', 'DeactivatedByUser', 'DeletedByUser'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly partnerTopicReadinessState?: PartnerTopicReadinessState;
+  /**
+   * Expiration time of the event channel. If this timer expires while the corresponding partner
+   * topic is never activated,
+   * the event channel and corresponding partner topic are deleted.
+   */
+  expirationTimeIfNotActivatedUtc?: Date;
+  /**
    * Information about the filter for the event channel.
    */
   filter?: EventChannelFilter;
+  /**
+   * Friendly description about the topic. This can be set by the publisher/partner to show custom
+   * description for the customer partner topic.
+   * This will be helpful to remove any ambiguity of the origin of creation of the partner topic
+   * for the customer.
+   */
+  partnerTopicFriendlyDescription?: string;
 }
 
 /**
@@ -1238,9 +1236,36 @@ export interface PartnerRegistration extends TrackedResource {
    */
   partnerResourceTypeDisplayName?: string;
   /**
-   * Description of the partner resource type.
+   * Short description of the partner resource type. The length of this description should not
+   * exceed 256 characters.
    */
   partnerResourceTypeDescription?: string;
+  /**
+   * Long description for the custom scenarios and integration to be displayed in the portal if
+   * needed.
+   * Length of this description should not exceed 2048 characters.
+   */
+  longDescription?: string;
+  /**
+   * The customer service number of the publisher. The expected phone format should start with a
+   * '+' sign
+   * followed by the country code. The remaining digits are then followed. Only digits and spaces
+   * are allowed and its
+   * length cannot exceed 16 digits including country code. Examples of valid phone numbers are: +1
+   * 515 123 4567 and
+   * +966 7 5115 2471. Examples of invalid phone numbers are: +1 (515) 123-4567, 1 515 123 4567 and
+   * +966 121 5115 24 7 551 1234 43
+   */
+  partnerCustomerServiceNumber?: string;
+  /**
+   * The extension of the customer service number of the publisher. Only digits are allowed and
+   * number of digits should not exceed 10.
+   */
+  partnerCustomerServiceExtension?: string;
+  /**
+   * The extension of the customer service URI of the publisher.
+   */
+  customerServiceUri?: string;
   /**
    * URI of the partner website that can be used by Azure customers to setup Event Grid
    * integration on an event source.
@@ -1357,6 +1382,12 @@ export interface PartnerTopic extends TrackedResource {
    */
   source?: string;
   /**
+   * Expiration time of the partner topic. If this timer expires while the partner topic is still
+   * never activated,
+   * the partner topic and corresponding event channel are deleted.
+   */
+  expirationTimeIfNotActivatedUtc?: Date;
+  /**
    * Provisioning state of the partner topic. Possible values include: 'Creating', 'Updating',
    * 'Deleting', 'Succeeded', 'Canceled', 'Failed'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -1367,6 +1398,13 @@ export interface PartnerTopic extends TrackedResource {
    * 'Deactivated'
    */
   activationState?: PartnerTopicActivationState;
+  /**
+   * Friendly description about the topic. This can be set by the publisher/partner to show custom
+   * description for the customer partner topic.
+   * This will be helpful to remove any ambiguity of the origin of creation of the partner topic
+   * for the customer.
+   */
+  partnerTopicFriendlyDescription?: string;
 }
 
 /**
@@ -2460,6 +2498,15 @@ export type DomainTopicProvisioningState = 'Creating' | 'Updating' | 'Deleting' 
  * @enum {string}
  */
 export type EventChannelProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Canceled' | 'Failed';
+
+/**
+ * Defines values for PartnerTopicReadinessState.
+ * Possible values include: 'NotActivatedByUserYet', 'ActivatedByUser', 'DeactivatedByUser',
+ * 'DeletedByUser'
+ * @readonly
+ * @enum {string}
+ */
+export type PartnerTopicReadinessState = 'NotActivatedByUserYet' | 'ActivatedByUser' | 'DeactivatedByUser' | 'DeletedByUser';
 
 /**
  * Defines values for EventSubscriptionProvisioningState.

@@ -39,7 +39,7 @@ export async function main() {
 
   const usReceipt = response.receipts[0];
   console.log("First receipt:");
-  console.log(`Receipt type: ${usReceipt.receiptType}`);
+  console.log(`Receipt type: ${usReceipt.receiptType.type} with confidence ${usReceipt.receiptType.confidence}`);
   console.log(
     `Merchant Name: ${usReceipt.merchantName.value} (confidence: ${usReceipt.merchantName.confidence})`
   );

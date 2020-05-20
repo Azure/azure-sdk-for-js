@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export { SearchIndexClient, SearchIndexClientOptions } from "./searchIndexClient";
+export { SearchClient, SearchClientOptions } from "./searchClient";
 export {
   AutocompleteRequest,
   AutocompleteOptions,
