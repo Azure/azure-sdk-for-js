@@ -30,14 +30,14 @@ export async function main() {
     throw new Error(`Expecting file ${path} exists`);
   }
 
-  const labeledForms = await recognizeCustomForm(path, endpoint, apiKey, labeledModelId);
-  const unlabeledForms = await recognizeCustomForm(path, endpoint, apiKey, unlabeledModelId);
+  const formsWithLabels = await recognizeCustomForm(path, endpoint, apiKey, labeledModelId);
+  const forms = await recognizeCustomForm(path, endpoint, apiKey, unlabeledModelId);
 
   // The main difference is found in the labels of its fields
   // The form recognized with a labeled model will have the labels it was trained with,
   // the unlabeled one will be denoted with indices
   console.log("# Recognized fields using labeled custom model");
-  for (const form of labeledForms || []) {
+  for (const form of formsWithLabels || []) {
     for (const fieldName in form.fields) {
       // With your labeled custom model, you will not get back label data but will get back value data
       // This is because your custom model didn't have to use any machine learning to deduce the label,
@@ -50,7 +50,7 @@ export async function main() {
   }
 
   console.log("# Recognized fields using unlabeled custom model");
-  for (const form of unlabeledForms || []) {
+  for (const form of forms || []) {
     for (const fieldName in form.fields) {
       // The recognized form fields with an unlabeled custom model will also include data about recognized labels.
       const field = form.fields[fieldName];
