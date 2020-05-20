@@ -336,6 +336,6 @@ class HttpsPipeline implements Pipeline {
   }
 }
 
-export function createPipeline(): Pipeline {
+export function createEmptyPipeline(): Pipeline {
   return HttpsPipeline.create();
 }

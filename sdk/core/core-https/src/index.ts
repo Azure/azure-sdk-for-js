@@ -19,6 +19,6 @@ export {
   PipelinePhase,
   PipelinePolicy,
   Pipeline,
-  createPipeline
+  createEmptyPipeline
 } from "./pipeline";
 export { DefaultHttpsClient } from "./defaultHttpsClient";
