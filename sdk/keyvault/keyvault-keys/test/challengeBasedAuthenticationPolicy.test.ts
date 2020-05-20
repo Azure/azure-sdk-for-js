@@ -77,4 +77,19 @@ describe("Challenge based authentication tests", () => {
     // Failing to authenticate will make network requests throw.
     assert.equal(challenges.length, 1);
   });
+
+  it.only("Authentication should work for parallel requests", async function() {
+    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    const keyNames = [`${keyName}-0`, `${keyName}-1`];
+
+    const promises = keyNames.map((name) => {
+      const promise = client.createKey(name, "RSA");
+      return { promise, name };
+    });
+
+    for (const promise of promises) {
+      await promise.promise;
+      await testClient.flushKey(promise.name);
+    }
+  });
 });
