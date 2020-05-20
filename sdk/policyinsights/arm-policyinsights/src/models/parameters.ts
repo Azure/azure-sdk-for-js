@@ -50,18 +50,6 @@ export const apiVersion2: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2018-04-04',
-    type: {
-      name: "String"
-    }
-  }
-};
-export const apiVersion3: msRest.OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    required: true,
-    isConstant: true,
-    serializedName: "api-version",
     defaultValue: '2019-10-01',
     type: {
       name: "String"
@@ -306,17 +294,6 @@ export const resourceName: msRest.OperationURLParameter = {
   },
   skipEncoding: true
 };
-export const scope: msRest.OperationURLParameter = {
-  parameterPath: "scope",
-  mapper: {
-    required: true,
-    serializedName: "scope",
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
 export const select: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
@@ -325,6 +302,19 @@ export const select: msRest.OperationQueryParameter = {
   ],
   mapper: {
     serializedName: "$select",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const skipToken: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "queryOptions",
+    "skipToken"
+  ],
+  mapper: {
+    serializedName: "$skiptoken",
     type: {
       name: "String"
     }
