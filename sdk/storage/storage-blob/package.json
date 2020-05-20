@@ -64,6 +64,7 @@
     "BreakingChanges.md",
     "dist/",
     "dist-esm/storage-blob/src/",
+    "dist-esm/storage-internal-avro/src/",
     "typings/latest/storage-blob.d.ts",
     "typings/3.1/storage-blob.d.ts",
     "README.md",

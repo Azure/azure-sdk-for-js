@@ -3,7 +3,7 @@ import * as assert from "assert";
 import { AvroReader, AvroReadableFromStream } from "../src";
 import { arraysEqual } from "../src/utils/utils.common";
 
-describe.only("AvroReader", () => {
+describe("AvroReader", () => {
   it("test with local avro files", async () => {
     const testCases: TestCase[] = [
       new TestCase("test_null_0.avro", (o) => assert.strictEqual(null, o)), // null
