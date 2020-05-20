@@ -48,6 +48,70 @@ export interface Operation {
 }
 
 /**
+ * An interface representing KeyVaultProperties.
+ */
+export interface KeyVaultProperties {
+  /**
+   * The ArmId of the keyVault where the customer owned encryption key is present.
+   */
+  keyVaultArmId: string;
+  /**
+   * Key vault uri to access the encryption key.
+   */
+  keyIdentifier: string;
+  /**
+   * For future use - The client id of the identity which will be used to access key vault.
+   */
+  identityClientId?: string;
+}
+
+/**
+ * An interface representing EncryptionProperty.
+ */
+export interface EncryptionProperty {
+  /**
+   * Indicates whether or not the encryption is enabled for the workspace. Possible values include:
+   * 'Enabled', 'Disabled'
+   */
+  status: EncryptionStatus;
+  /**
+   * Customer Key vault properties.
+   */
+  keyVaultProperties: KeyVaultProperties;
+}
+
+/**
+ * The Private Endpoint resource.
+ */
+export interface PrivateEndpoint {
+  /**
+   * The ARM identifier for Private Endpoint
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+}
+
+/**
+ * A collection of information about the state of the connection between service consumer and
+ * provider.
+ */
+export interface PrivateLinkServiceConnectionState {
+  /**
+   * Indicates whether the connection has been Approved/Rejected/Removed by the owner of the
+   * service. Possible values include: 'Pending', 'Approved', 'Rejected', 'Disconnected', 'Timeout'
+   */
+  status?: PrivateEndpointServiceConnectionStatus;
+  /**
+   * The reason for approval/rejection of the connection.
+   */
+  description?: string;
+  /**
+   * A message indicating if changes on the service provider require any updates on the consumer.
+   */
+  actionsRequired?: string;
+}
+
+/**
  * Azure Resource Manager resource envelope.
  */
 export interface Resource extends BaseResource {
@@ -63,9 +127,8 @@ export interface Resource extends BaseResource {
   readonly name?: string;
   /**
    * The identity of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly identity?: Identity;
+  identity?: Identity;
   /**
    * Specifies the location of the resource.
    */
@@ -79,6 +142,57 @@ export interface Resource extends BaseResource {
    * Contains resource tags defined as key/value pairs.
    */
   tags?: { [propertyName: string]: string };
+  /**
+   * The sku of the workspace.
+   */
+  sku?: Sku;
+}
+
+/**
+ * The Private Endpoint Connection resource.
+ */
+export interface PrivateEndpointConnection extends Resource {
+  /**
+   * The resource of private end point.
+   */
+  privateEndpoint?: PrivateEndpoint;
+  /**
+   * A collection of information about the state of the connection between service consumer and
+   * provider.
+   */
+  privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
+  /**
+   * The provisioning state of the private endpoint connection resource. Possible values include:
+   * 'Succeeded', 'Creating', 'Deleting', 'Failed'
+   */
+  provisioningState?: PrivateEndpointConnectionProvisioningState;
+}
+
+/**
+ * An interface representing SharedPrivateLinkResource.
+ */
+export interface SharedPrivateLinkResource {
+  /**
+   * Unique name of the private link.
+   */
+  name?: string;
+  /**
+   * The resource id that private link links to.
+   */
+  privateLinkResourceId?: string;
+  /**
+   * The private link resource group id.
+   */
+  groupId?: string;
+  /**
+   * Request message.
+   */
+  requestMessage?: string;
+  /**
+   * Indicates whether the connection has been Approved/Rejected/Removed by the owner of the
+   * service. Possible values include: 'Pending', 'Approved', 'Rejected', 'Disconnected', 'Timeout'
+   */
+  status?: PrivateEndpointServiceConnectionStatus;
 }
 
 /**
@@ -135,6 +249,57 @@ export interface Workspace extends Resource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * The encryption settings of Azure ML workspace.
+   */
+  encryption?: EncryptionProperty;
+  /**
+   * The flag to signal HBI data in the workspace and reduce diagnostic data collected by the
+   * service. Default value: false.
+   */
+  hbiWorkspace?: boolean;
+  /**
+   * The name of the managed resource group created by workspace RP in customer subscription if the
+   * workspace is CMK workspace
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly serviceProvisionedResourceGroup?: string;
+  /**
+   * Count of private connections in the workspace
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly privateLinkCount?: number;
+  /**
+   * The compute name for image build
+   */
+  imageBuildCompute?: string;
+  /**
+   * The flag to indicate whether to allow public access when behind VNet. Default value: false.
+   */
+  allowPublicAccessWhenBehindVnet?: boolean;
+  /**
+   * The list of private endpoint connections in the workspace.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  /**
+   * The list of shared private link resources in this workspace.
+   */
+  sharedPrivateLinkResources?: SharedPrivateLinkResource[];
+}
+
+/**
+ * Sku of the resource
+ */
+export interface Sku {
+  /**
+   * Name of the sku
+   */
+  name?: string;
+  /**
+   * Tier of the sku like Basic or Enterprise
+   */
+  tier?: string;
 }
 
 /**
@@ -146,6 +311,10 @@ export interface WorkspaceUpdateParameters {
    */
   tags?: { [propertyName: string]: string };
   /**
+   * The sku of the workspace.
+   */
+  sku?: Sku;
+  /**
    * The description of this workspace.
    */
   description?: string;
@@ -153,6 +322,24 @@ export interface WorkspaceUpdateParameters {
    * The friendly name for this workspace.
    */
   friendlyName?: string;
+}
+
+/**
+ * Features enabled for a workspace
+ */
+export interface AmlUserFeature {
+  /**
+   * Specifies the feature ID
+   */
+  id?: string;
+  /**
+   * Specifies the feature name
+   */
+  displayName?: string;
+  /**
+   * Describes the feature for user experience
+   */
+  description?: string;
 }
 
 /**
@@ -227,6 +414,11 @@ export interface VirtualMachineSize {
    */
   readonly vCPUs?: number;
   /**
+   * Number of gPUs. The number of gPUs supported by the virtual machine size.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly gpus?: number;
+  /**
    * OS VHD Disk size. The OS VHD disk size, in MB, allowed by the virtual machine size.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -264,6 +456,150 @@ export interface VirtualMachineSizeListResult {
 }
 
 /**
+ * The properties for Quota update or retrieval.
+ */
+export interface QuotaBaseProperties {
+  /**
+   * Specifies the resource ID.
+   */
+  id?: string;
+  /**
+   * Specifies the resource type.
+   */
+  type?: string;
+  /**
+   * Limit. The maximum permitted quota of the resource.
+   */
+  limit?: number;
+  /**
+   * An enum describing the unit of quota measurement. Possible values include: 'Count'
+   */
+  unit?: QuotaUnit;
+}
+
+/**
+ * Quota update parameters.
+ */
+export interface QuotaUpdateParameters {
+  /**
+   * The list for update quota.
+   */
+  value?: QuotaBaseProperties[];
+}
+
+/**
+ * The properties for update Quota response.
+ */
+export interface UpdateWorkspaceQuotas {
+  /**
+   * Specifies the resource ID.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Specifies the resource type.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Limit. The maximum permitted quota of the resource.
+   */
+  limit?: number;
+  /**
+   * An enum describing the unit of quota measurement. Possible values include: 'Count'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly unit?: QuotaUnit;
+  /**
+   * Update Workspace Quota Status. Status of update workspace quota. Possible values include:
+   * 'Undefined', 'Success', 'Failure', 'InvalidQuotaBelowClusterMinimum',
+   * 'InvalidQuotaExceedsSubscriptionLimit', 'InvalidVMFamilyName', 'OperationNotSupportedForSku',
+   * 'OperationNotEnabledForRegion'
+   */
+  status?: Status;
+}
+
+/**
+ * The result of update workspace quota.
+ */
+export interface UpdateWorkspaceQuotasResult {
+  /**
+   * The list of workspace quota update result.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: UpdateWorkspaceQuotas[];
+  /**
+   * The URI to fetch the next page of workspace quota update result. Call ListNext() with this to
+   * fetch the next page of Workspace Quota update result.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * The Resource Name.
+ */
+export interface ResourceName {
+  /**
+   * The name of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: string;
+  /**
+   * The localized name of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly localizedValue?: string;
+}
+
+/**
+ * The quota assigned to a resource.
+ */
+export interface ResourceQuota {
+  /**
+   * Specifies the resource ID.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Specifies the resource type.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Name of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: ResourceName;
+  /**
+   * Limit. The maximum permitted quota of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly limit?: number;
+  /**
+   * An enum describing the unit of quota measurement. Possible values include: 'Count'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly unit?: QuotaUnit;
+}
+
+/**
+ * An interface representing IdentityUserAssignedIdentitiesValue.
+ */
+export interface IdentityUserAssignedIdentitiesValue {
+  /**
+   * The principal id of user assigned identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * The client id of user assigned identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly clientId?: string;
+}
+
+/**
  * Identity for the resource.
  */
 export interface Identity {
@@ -278,9 +614,16 @@ export interface Identity {
    */
   readonly tenantId?: string;
   /**
-   * The identity type. Possible values include: 'SystemAssigned'
+   * The identity type. Possible values include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned,
+   * UserAssigned', 'None'
    */
-  type?: ResourceIdentityType;
+  type: ResourceIdentityType;
+  /**
+   * The list of user identities associated with resource. The user identity dictionary key
+   * references will be ARM resource ids in the form:
+   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+   */
+  userAssignedIdentities?: { [propertyName: string]: IdentityUserAssignedIdentitiesValue };
 }
 
 /**
@@ -483,7 +826,7 @@ export interface SslConfiguration {
   /**
    * Enable or disable ssl for scoring. Possible values include: 'Disabled', 'Enabled'
    */
-  status?: Status;
+  status?: Status1;
   /**
    * Cert data
    */
@@ -705,6 +1048,16 @@ export interface AmlComputeProperties {
    * Subnet. Virtual network subnet resource ID the compute nodes belong to.
    */
   subnet?: ResourceId;
+  /**
+   * Close remote Login Access Port. State of the public SSH port. Possible values are: Disabled -
+   * Indicates that the public ssh port is closed on all nodes of the cluster. Enabled - Indicates
+   * that the public ssh port is open on all nodes of the cluster. NotSpecified - Indicates that
+   * the public ssh port is closed on all nodes of the cluster if VNet is defined, else is open all
+   * public nodes. It can be default only during cluster creation time, after creation it will be
+   * either enabled or disabled. Possible values include: 'Enabled', 'Disabled', 'NotSpecified'.
+   * Default value: 'NotSpecified'.
+   */
+  remoteLoginPortPublicAccess?: RemoteLoginPortPublicAccess;
   /**
    * Allocation state. Allocation state of the compute. Possible values are: steady - Indicates
    * that the compute is not resizing. There are no changes to the number of compute nodes in the
@@ -1191,15 +1544,32 @@ export interface AmlComputeNodeInformation {
    */
   readonly nodeId?: string;
   /**
-   * IP address. Public IP address of the compute node.
+   * Private IP address. Private IP address of the compute node.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly ipAddress?: string;
+  readonly privateIpAddress?: string;
+  /**
+   * Public IP address. Public IP address of the compute node.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly publicIpAddress?: string;
   /**
    * Port. SSH port number of the node.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly port?: number;
+  /**
+   * State of the compute node. Values are idle, running, preparing, unusable, leaving and
+   * preempted. Possible values include: 'idle', 'running', 'preparing', 'unusable', 'leaving',
+   * 'preempted'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nodeState?: NodeState;
+  /**
+   * Run ID. ID of the Experiment running on the node, if any else null.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly runId?: string;
 }
 
 /**
@@ -1288,6 +1658,149 @@ export interface DatabricksComputeSecrets {
 }
 
 /**
+ * Features/user capabilities associated with the sku
+ */
+export interface SKUCapability {
+  /**
+   * Capability/Feature ID
+   */
+  name?: string;
+  /**
+   * Details about the feature/capability
+   */
+  value?: string;
+}
+
+/**
+ * Describes The zonal capabilities of a SKU.
+ */
+export interface ResourceSkuZoneDetails {
+  /**
+   * The set of zones that the SKU is available in with the specified capabilities.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string[];
+  /**
+   * A list of capabilities that are available for the SKU in the specified list of zones.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly capabilities?: SKUCapability[];
+}
+
+/**
+ * An interface representing ResourceSkuLocationInfo.
+ */
+export interface ResourceSkuLocationInfo {
+  /**
+   * Location of the SKU
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly location?: string;
+  /**
+   * List of availability zones where the SKU is supported.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly zones?: string[];
+  /**
+   * Details of capabilities available to a SKU in specific zones.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly zoneDetails?: ResourceSkuZoneDetails[];
+}
+
+/**
+ * The restriction because of which SKU cannot be used.
+ */
+export interface Restriction {
+  /**
+   * The type of restrictions. As of now only possible value for this is location.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * The value of restrictions. If the restriction type is set to location. This would be different
+   * locations where the SKU is restricted.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly values?: string[];
+  /**
+   * The reason for the restriction. Possible values include: 'NotSpecified',
+   * 'NotAvailableForRegion', 'NotAvailableForSubscription'
+   */
+  reasonCode?: ReasonCode;
+}
+
+/**
+ * Describes Workspace Sku details and features
+ */
+export interface WorkspaceSku {
+  /**
+   * The set of locations that the SKU is available. This will be supported and registered Azure
+   * Geo Regions (e.g. West US, East US, Southeast Asia, etc.).
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly locations?: string[];
+  /**
+   * A list of locations and availability zones in those locations where the SKU is available.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly locationInfo?: ResourceSkuLocationInfo[];
+  /**
+   * Sku Tier like Basic or Enterprise
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tier?: string;
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly resourceType?: string;
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * List of features/user capabilities associated with the sku
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly capabilities?: SKUCapability[];
+  /**
+   * The restrictions because of which SKU cannot be used. This is empty if there are no
+   * restrictions.
+   */
+  restrictions?: Restriction[];
+}
+
+/**
+ * A private link resource
+ */
+export interface PrivateLinkResource extends Resource {
+  /**
+   * The private link resource group id.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly groupId?: string;
+  /**
+   * The private link resource required member names.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly requiredMembers?: string[];
+  /**
+   * The private link resource Private link DNS zone name.
+   */
+  requiredZoneNames?: string[];
+}
+
+/**
+ * A list of private link resources
+ */
+export interface PrivateLinkResourceListResult {
+  /**
+   * Array of private link resources
+   */
+  value?: PrivateLinkResource[];
+}
+
+/**
  * Optional Parameters.
  */
 export interface WorkspacesListByResourceGroupOptionalParams extends msRest.RequestOptionsBase {
@@ -1370,6 +1883,20 @@ export interface WorkspaceListResult extends Array<Workspace> {
 
 /**
  * @interface
+ * The List Aml user feature operation response.
+ * @extends Array<AmlUserFeature>
+ */
+export interface ListAmlUserFeatureResult extends Array<AmlUserFeature> {
+  /**
+   * The URI to fetch the next page of AML user features information. Call ListNext() with this to
+   * fetch the next page of AML user features information.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
  * The List Usages operation response.
  * @extends Array<Usage>
  */
@@ -1377,6 +1904,20 @@ export interface ListUsagesResult extends Array<Usage> {
   /**
    * The URI to fetch the next page of AML resource usage information. Call ListNext() with this to
    * fetch the next page of AML resource usage information.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * The List WorkspaceQuotasByVMFamily operation response.
+ * @extends Array<ResourceQuota>
+ */
+export interface ListWorkspaceQuotas extends Array<ResourceQuota> {
+  /**
+   * The URI to fetch the next page of workspace quota information by VM Family. Call ListNext()
+   * with this to fetch the next page of Workspace Quota information.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly nextLink?: string;
@@ -1395,6 +1936,19 @@ export interface PaginatedComputeResourcesList extends Array<ComputeResource> {
 }
 
 /**
+ * @interface
+ * List of skus with features
+ * @extends Array<WorkspaceSku>
+ */
+export interface SkuListResult extends Array<WorkspaceSku> {
+  /**
+   * The URI to fetch the next page of Workspace Skus. Call ListNext() with this URI to fetch the
+   * next page of Workspace Skus
+   */
+  nextLink?: string;
+}
+
+/**
  * Defines values for ProvisioningState.
  * Possible values include: 'Unknown', 'Updating', 'Creating', 'Deleting', 'Succeeded', 'Failed',
  * 'Canceled'
@@ -1402,6 +1956,30 @@ export interface PaginatedComputeResourcesList extends Array<ComputeResource> {
  * @enum {string}
  */
 export type ProvisioningState = 'Unknown' | 'Updating' | 'Creating' | 'Deleting' | 'Succeeded' | 'Failed' | 'Canceled';
+
+/**
+ * Defines values for EncryptionStatus.
+ * Possible values include: 'Enabled', 'Disabled'
+ * @readonly
+ * @enum {string}
+ */
+export type EncryptionStatus = 'Enabled' | 'Disabled';
+
+/**
+ * Defines values for PrivateEndpointServiceConnectionStatus.
+ * Possible values include: 'Pending', 'Approved', 'Rejected', 'Disconnected', 'Timeout'
+ * @readonly
+ * @enum {string}
+ */
+export type PrivateEndpointServiceConnectionStatus = 'Pending' | 'Approved' | 'Rejected' | 'Disconnected' | 'Timeout';
+
+/**
+ * Defines values for PrivateEndpointConnectionProvisioningState.
+ * Possible values include: 'Succeeded', 'Creating', 'Deleting', 'Failed'
+ * @readonly
+ * @enum {string}
+ */
+export type PrivateEndpointConnectionProvisioningState = 'Succeeded' | 'Creating' | 'Deleting' | 'Failed';
 
 /**
  * Defines values for UsageUnit.
@@ -1412,12 +1990,31 @@ export type ProvisioningState = 'Unknown' | 'Updating' | 'Creating' | 'Deleting'
 export type UsageUnit = 'Count';
 
 /**
- * Defines values for ResourceIdentityType.
- * Possible values include: 'SystemAssigned'
+ * Defines values for QuotaUnit.
+ * Possible values include: 'Count'
  * @readonly
  * @enum {string}
  */
-export type ResourceIdentityType = 'SystemAssigned';
+export type QuotaUnit = 'Count';
+
+/**
+ * Defines values for Status.
+ * Possible values include: 'Undefined', 'Success', 'Failure', 'InvalidQuotaBelowClusterMinimum',
+ * 'InvalidQuotaExceedsSubscriptionLimit', 'InvalidVMFamilyName', 'OperationNotSupportedForSku',
+ * 'OperationNotEnabledForRegion'
+ * @readonly
+ * @enum {string}
+ */
+export type Status = 'Undefined' | 'Success' | 'Failure' | 'InvalidQuotaBelowClusterMinimum' | 'InvalidQuotaExceedsSubscriptionLimit' | 'InvalidVMFamilyName' | 'OperationNotSupportedForSku' | 'OperationNotEnabledForRegion';
+
+/**
+ * Defines values for ResourceIdentityType.
+ * Possible values include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned, UserAssigned',
+ * 'None'
+ * @readonly
+ * @enum {string}
+ */
+export type ResourceIdentityType = 'SystemAssigned' | 'UserAssigned' | 'SystemAssigned, UserAssigned' | 'None';
 
 /**
  * Defines values for VmPriority.
@@ -1428,12 +2025,28 @@ export type ResourceIdentityType = 'SystemAssigned';
 export type VmPriority = 'Dedicated' | 'LowPriority';
 
 /**
+ * Defines values for RemoteLoginPortPublicAccess.
+ * Possible values include: 'Enabled', 'Disabled', 'NotSpecified'
+ * @readonly
+ * @enum {string}
+ */
+export type RemoteLoginPortPublicAccess = 'Enabled' | 'Disabled' | 'NotSpecified';
+
+/**
  * Defines values for AllocationState.
  * Possible values include: 'Steady', 'Resizing'
  * @readonly
  * @enum {string}
  */
 export type AllocationState = 'Steady' | 'Resizing';
+
+/**
+ * Defines values for NodeState.
+ * Possible values include: 'idle', 'running', 'preparing', 'unusable', 'leaving', 'preempted'
+ * @readonly
+ * @enum {string}
+ */
+export type NodeState = 'idle' | 'running' | 'preparing' | 'unusable' | 'leaving' | 'preempted';
 
 /**
  * Defines values for ComputeType.
@@ -1445,6 +2058,14 @@ export type AllocationState = 'Steady' | 'Resizing';
 export type ComputeType = 'AKS' | 'AmlCompute' | 'DataFactory' | 'VirtualMachine' | 'HDInsight' | 'Databricks' | 'DataLakeAnalytics';
 
 /**
+ * Defines values for ReasonCode.
+ * Possible values include: 'NotSpecified', 'NotAvailableForRegion', 'NotAvailableForSubscription'
+ * @readonly
+ * @enum {string}
+ */
+export type ReasonCode = 'NotSpecified' | 'NotAvailableForRegion' | 'NotAvailableForSubscription';
+
+/**
  * Defines values for UnderlyingResourceAction.
  * Possible values include: 'Delete', 'Detach'
  * @readonly
@@ -1453,12 +2074,12 @@ export type ComputeType = 'AKS' | 'AmlCompute' | 'DataFactory' | 'VirtualMachine
 export type UnderlyingResourceAction = 'Delete' | 'Detach';
 
 /**
- * Defines values for Status.
+ * Defines values for Status1.
  * Possible values include: 'Disabled', 'Enabled'
  * @readonly
  * @enum {string}
  */
-export type Status = 'Disabled' | 'Enabled';
+export type Status1 = 'Disabled' | 'Enabled';
 
 /**
  * Contains response data for the list operation.
@@ -1601,6 +2222,26 @@ export type WorkspacesListBySubscriptionResponse = WorkspaceListResult & {
 };
 
 /**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type WorkspacesBeginCreateOrUpdateResponse = Workspace & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Workspace;
+    };
+};
+
+/**
  * Contains response data for the listByResourceGroupNext operation.
  */
 export type WorkspacesListByResourceGroupNextResponse = WorkspaceListResult & {
@@ -1637,6 +2278,46 @@ export type WorkspacesListBySubscriptionNextResponse = WorkspaceListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: WorkspaceListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type WorkspaceFeaturesListResponse = ListAmlUserFeatureResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListAmlUserFeatureResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type WorkspaceFeaturesListNextResponse = ListAmlUserFeatureResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListAmlUserFeatureResult;
     };
 };
 
@@ -1697,6 +2378,66 @@ export type VirtualMachineSizesListResponse = VirtualMachineSizeListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: VirtualMachineSizeListResult;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type QuotasUpdateResponse = UpdateWorkspaceQuotasResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: UpdateWorkspaceQuotasResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type QuotasListResponse = ListWorkspaceQuotas & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListWorkspaceQuotas;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type QuotasListNextResponse = ListWorkspaceQuotas & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListWorkspaceQuotas;
     };
 };
 
@@ -1877,5 +2618,105 @@ export type MachineLearningComputeListByWorkspaceNextResponse = PaginatedCompute
        * The response body as parsed JSON or XML
        */
       parsedBody: PaginatedComputeResourcesList;
+    };
+};
+
+/**
+ * Contains response data for the listSkus operation.
+ */
+export type ListSkusResponse = SkuListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SkuListResult;
+    };
+};
+
+/**
+ * Contains response data for the listSkusNext operation.
+ */
+export type ListSkusNextResponse = SkuListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SkuListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
+};
+
+/**
+ * Contains response data for the put operation.
+ */
+export type PrivateEndpointConnectionsPutResponse = PrivateEndpointConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
+};
+
+/**
+ * Contains response data for the listByWorkspace operation.
+ */
+export type PrivateLinkResourcesListByWorkspaceResponse = PrivateLinkResourceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkResourceListResult;
     };
 };

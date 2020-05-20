@@ -9,6 +9,7 @@
  */
 
 import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/workspacesMappers";
 import * as Parameters from "../models/parameters";
@@ -66,32 +67,9 @@ export class Workspaces {
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkspacesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, workspaceName: string, parameters: Models.Workspace, options?: msRest.RequestOptionsBase): Promise<Models.WorkspacesCreateOrUpdateResponse>;
-  /**
-   * @param resourceGroupName Name of the resource group in which workspace is located.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param parameters The parameters for creating or updating a machine learning workspace.
-   * @param callback The callback
-   */
-  createOrUpdate(resourceGroupName: string, workspaceName: string, parameters: Models.Workspace, callback: msRest.ServiceCallback<Models.Workspace>): void;
-  /**
-   * @param resourceGroupName Name of the resource group in which workspace is located.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param parameters The parameters for creating or updating a machine learning workspace.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  createOrUpdate(resourceGroupName: string, workspaceName: string, parameters: Models.Workspace, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Workspace>): void;
-  createOrUpdate(resourceGroupName: string, workspaceName: string, parameters: Models.Workspace, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Workspace>, callback?: msRest.ServiceCallback<Models.Workspace>): Promise<Models.WorkspacesCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        workspaceName,
-        parameters,
-        options
-      },
-      createOrUpdateOperationSpec,
-      callback) as Promise<Models.WorkspacesCreateOrUpdateResponse>;
+  createOrUpdate(resourceGroupName: string, workspaceName: string, parameters: Models.Workspace, options?: msRest.RequestOptionsBase): Promise<Models.WorkspacesCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(resourceGroupName,workspaceName,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.WorkspacesCreateOrUpdateResponse>;
   }
 
   /**
@@ -281,6 +259,26 @@ export class Workspaces {
   }
 
   /**
+   * Creates or updates a workspace with the specified parameters.
+   * @param resourceGroupName Name of the resource group in which workspace is located.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param parameters The parameters for creating or updating a machine learning workspace.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, parameters: Models.Workspace, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        workspaceName,
+        parameters,
+        options
+      },
+      beginCreateOrUpdateOperationSpec,
+      options);
+  }
+
+  /**
    * Lists all the available machine learning workspaces under the specified resource group.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -355,41 +353,6 @@ const getOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.Workspace
-    },
-    default: {
-      bodyMapper: Mappers.MachineLearningServiceError
-    }
-  },
-  serializer
-};
-
-const createOrUpdateOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "parameters",
-    mapper: {
-      ...Mappers.Workspace,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.Workspace
-    },
-    201: {
       bodyMapper: Mappers.Workspace
     },
     default: {
@@ -545,6 +508,42 @@ const listBySubscriptionOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.WorkspaceListResult
     },
+    default: {
+      bodyMapper: Mappers.MachineLearningServiceError
+    }
+  },
+  serializer
+};
+
+const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.Workspace,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.Workspace
+    },
+    201: {
+      bodyMapper: Mappers.Workspace
+    },
+    202: {},
     default: {
       bodyMapper: Mappers.MachineLearningServiceError
     }
