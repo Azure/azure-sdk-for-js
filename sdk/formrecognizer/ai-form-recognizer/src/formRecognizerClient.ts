@@ -49,7 +49,6 @@ import {
   toRecognizeContentResultResponse,
   toReceiptResultResponse
 } from "./transforms";
-import { FormTrainingClient } from "./formTrainingClient";
 import { createFormRecognizerAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 
 export { ContentType, PollOperationState, PollerLike };
@@ -184,12 +183,6 @@ export class FormRecognizerClient {
   /**
    * @internal
    * @ignore
-   */
-  private readonly credential: TokenCredential | KeyCredential;
-
-  /**
-   * @internal
-   * @ignore
    * A reference to the auto-generated FormRecognizer HTTP client.
    */
   private readonly client: GeneratedClient;
@@ -216,7 +209,6 @@ export class FormRecognizerClient {
     options: FormRecognizerClientOptions = {}
   ) {
     this.endpointUrl = endpointUrl;
-    this.credential = credential;
     const { ...pipelineOptions } = options;
 
     const libInfo = `azsdk-js-ai-formrecognizer/${SDK_VERSION}`;
@@ -257,14 +249,6 @@ export class FormRecognizerClient {
     };
 
     this.client = new GeneratedClient(dummyCredential, this.endpointUrl, pipeline);
-  }
-
-  /**
-   * Creates an instance of {@link FormTrainingClient} to perform training operations
-   * and to manage trained custom form models.
-   */
-  public getFormTrainingClient(): FormTrainingClient {
-    return new FormTrainingClient(this.endpointUrl, this.credential);
   }
 
   /**
