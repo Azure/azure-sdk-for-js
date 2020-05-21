@@ -27,7 +27,16 @@ export function nodeConfig(test = false) {
         "if (isNode)": "if (true)"
       }),
       nodeResolve({ preferBuiltins: true }),
-      cjs()
+      cjs({
+        // "Error: Dynamic requires are not currently supported by @rollup/plugin-commonjs"
+        //         is an error thrown if dynamic requires are present.
+        // Reference: https://github.com/rollup/plugins/tree/master/packages/commonjs#dynamicrequiretargets
+        //    Some modules contain dynamic require calls, or require modules that contain circular dependencies are
+        //    not handled well by static imports. Including those modules as dynamicRequireTargets will simulate
+        //    a CommonJS (NodeJS-like) environment for them with support for dynamic and circular dependencies.
+        // `src/utils.ts` relies on a dynamic require to import the recordings, we need to specify the file here to get it working.
+        dynamicRequireTargets: ["dist-esm/src/utils.js"]
+      })
     ]
   };
 
