@@ -612,12 +612,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-5tXH6Bx/kNGd3MgffdmP4dy2Z+G4eaXw0SE81Tq3BNadtnMR5/ySMzX4SLEzHJzSmPNn4HIdpQsBvXMUykr58w==
-  /@types/md5/2.1.33:
+  /@types/md5/2.2.0:
     dependencies:
-      '@types/node': 8.10.61
+      '@types/node': 14.0.4
     dev: false
     resolution:
-      integrity: sha512-8+X960EtKLoSblhauxLKy3zzotagjoj3Jt1Tx9oaxUdZEPIBl+mkrUz6PNKpzJgkrKSN9YgkWTA29c0KnLshmA==
+      integrity: sha512-JN8OVL/wiDlCWTPzplsgMPu0uE9Q6blwp68rYsfk2G8aokRUQ8XD9MEhZwihfAiQvoyE+m31m6i3GFXwYWomKQ==
   /@types/mime-types/2.1.0:
     dev: false
     resolution:
@@ -9055,7 +9055,7 @@ packages:
       '@rollup/plugin-replace': 2.3.2_rollup@1.32.1
       '@types/chai': 4.2.11
       '@types/fs-extra': 8.1.1
-      '@types/md5': 2.1.33
+      '@types/md5': 2.2.0
       '@types/mocha': 7.0.2
       '@types/mock-fs': 4.10.0
       '@types/mock-require': 2.0.0
@@ -9103,7 +9103,7 @@ packages:
     dev: false
     name: '@rush-temp/test-utils-recorder'
     resolution:
-      integrity: sha512-C1muEQ5h7AVq2wY2lR5FIYNg1dy8p8CZ+446TbVcN744D37bc7P4kI+Wn+MXB6twOyT390AVX8qN7TSSCuqRMQ==
+      integrity: sha512-GKA11oDF4vbUc0nPILCZhLrTZLiiv/shvqxIKY7nuUlxiin2q5CsV9Pf2mXViyT00SGJpnPCNPZV4G6FEGTgfA==
       tarball: 'file:projects/test-utils-recorder.tgz'
     version: 0.0.0
   'file:projects/testhub.tgz':
