@@ -456,14 +456,14 @@ describe("Errors after close()", function(): void {
   }
 
   /**
-   * Tests the error from settling a message after the receiver is closed
+   * Tests the error from settling a message after the receiver is closed - only valid for sessions.
+   * For non-sessions, managementLink allows backup message settlement even after the receiver is closed.
    */
   async function testAllDispositions(): Promise<void> {
     await testDisposition(DispositionType.complete);
     await testDisposition(DispositionType.abandon);
     await testDisposition(DispositionType.defer);
     await testDisposition(DispositionType.deadletter);
-    // TODO - add test for renewing message lock
   }
 
   async function testDisposition(operation: DispositionType): Promise<void> {
