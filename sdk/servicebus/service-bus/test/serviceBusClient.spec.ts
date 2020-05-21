@@ -6,7 +6,7 @@ import chaiAsPromised from "chai-as-promised";
 import Long from "long";
 import { MessagingError, ServiceBusClient, Receiver, SessionReceiver } from "../src";
 import { Sender } from "../src/sender";
-import { getReceiverClosedErrorMsg } from "../src/util/errors";
+import { getReceiverClosedErrorMsg, getSenderClosedErrorMsg } from "../src/util/errors";
 import { TestClientType, TestMessage, isMessagingError, checkWithTimeout } from "./utils/testUtils";
 import {
   DispositionType,
@@ -811,20 +811,14 @@ describe("Errors after close()", function(): void {
     });
   });
 
-  // TODO - getOpenSenderErrorMsg doesn't exist, make that exist and update the test
-  // describe("Errors after close() on sender", function(): void {
-  //   const entityToClose = "sender";
+  describe("Errors after close() on sender", function(): void {
+    const entityToClose = "sender";
 
-  //   it("Unpartitioned Queue: errors after close() on sender", async function(): Promise<
-  //     void
-  //   > {
-  //     await beforeEachTest(TestClientType.UnpartitionedQueue, entityToClose);
-
-  //     await testSender(
-  //       getSenderClosedErrorMsg(sender.entityPath, ClientType.QueueClient, false)
-  //     );
-  //   });
-  // });
+    it("Unpartitioned Queue: errors after close() on sender", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.UnpartitionedQueue, entityToClose);
+      await testSender(getSenderClosedErrorMsg(sender.entityPath));
+    });
+  });
 
   describe("Errors after close() on receiver", function(): void {
     const entityToClose = "receiver";
