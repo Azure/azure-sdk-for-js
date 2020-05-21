@@ -3,7 +3,7 @@
   "sideEffects": false,
   "private": true,
   "author": "Microsoft Corporation",
-  "version": "4.1.0-preview.2",
+  "version": "1.0.0",
   "license": "MIT",
   "description": "Isomorphic client library for Azure KeyVault's certificates.",
   "repository": "github:Azure/azure-sdk-for-js",
