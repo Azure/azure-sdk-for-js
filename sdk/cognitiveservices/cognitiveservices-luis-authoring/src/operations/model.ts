@@ -5365,7 +5365,8 @@ const listIntentSuggestionsOperationSpec: msRest.OperationSpec = {
     Parameters.intentId
   ],
   queryParameters: [
-    Parameters.take
+    Parameters.take,
+    Parameters.enableNestedChildren
   ],
   responses: {
     200: {
@@ -5399,7 +5400,8 @@ const listEntitySuggestionsOperationSpec: msRest.OperationSpec = {
     Parameters.entityId
   ],
   queryParameters: [
-    Parameters.take
+    Parameters.take,
+    Parameters.enableNestedChildren
   ],
   responses: {
     200: {

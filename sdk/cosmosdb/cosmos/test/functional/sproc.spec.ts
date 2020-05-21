@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
-import { Constants } from "../../dist-esm";
-import { Container, StoredProcedureDefinition } from "../../dist-esm/client";
+import { Constants } from "../../src";
+import { Container, StoredProcedureDefinition } from "../../src/client";
 import {
   bulkInsertItems,
   getTestContainer,

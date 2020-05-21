@@ -30,20 +30,23 @@ export class StorageTargets {
   /**
    * Returns a list of Storage Targets for the specified Cache.
    * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache.
+   * @param cacheName Name of Cache. Length of name must be not greater than 80 and chars must be in
+   * list of [-0-9a-zA-Z_] char class.
    * @param [options] The optional parameters
    * @returns Promise<Models.StorageTargetsListByCacheResponse>
    */
   listByCache(resourceGroupName: string, cacheName: string, options?: msRest.RequestOptionsBase): Promise<Models.StorageTargetsListByCacheResponse>;
   /**
    * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache.
+   * @param cacheName Name of Cache. Length of name must be not greater than 80 and chars must be in
+   * list of [-0-9a-zA-Z_] char class.
    * @param callback The callback
    */
   listByCache(resourceGroupName: string, cacheName: string, callback: msRest.ServiceCallback<Models.StorageTargetsResult>): void;
   /**
    * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache.
+   * @param cacheName Name of Cache. Length of name must be not greater than 80 and chars must be in
+   * list of [-0-9a-zA-Z_] char class.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -65,7 +68,8 @@ export class StorageTargets {
    * healthy again. Note that if the Cache has data to flush to the Storage Target, the data will be
    * flushed before the Storage Target will be deleted.
    * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache.
+   * @param cacheName Name of Cache. Length of name must be not greater than 80 and chars must be in
+   * list of [-0-9a-zA-Z_] char class.
    * @param storageTargetName Name of Storage Target.
    * @param [options] The optional parameters
    * @returns Promise<Models.StorageTargetsDeleteMethodResponse>
@@ -78,23 +82,29 @@ export class StorageTargets {
   /**
    * Returns a Storage Target from a Cache.
    * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache.
-   * @param storageTargetName Name of the Storage Target.
+   * @param cacheName Name of Cache. Length of name must be not greater than 80 and chars must be in
+   * list of [-0-9a-zA-Z_] char class.
+   * @param storageTargetName Name of the Storage Target. Length of name must be not greater than 80
+   * and chars must be in list of [-0-9a-zA-Z_] char class.
    * @param [options] The optional parameters
    * @returns Promise<Models.StorageTargetsGetResponse>
    */
   get(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: msRest.RequestOptionsBase): Promise<Models.StorageTargetsGetResponse>;
   /**
    * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache.
-   * @param storageTargetName Name of the Storage Target.
+   * @param cacheName Name of Cache. Length of name must be not greater than 80 and chars must be in
+   * list of [-0-9a-zA-Z_] char class.
+   * @param storageTargetName Name of the Storage Target. Length of name must be not greater than 80
+   * and chars must be in list of [-0-9a-zA-Z_] char class.
    * @param callback The callback
    */
   get(resourceGroupName: string, cacheName: string, storageTargetName: string, callback: msRest.ServiceCallback<Models.StorageTarget>): void;
   /**
    * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache.
-   * @param storageTargetName Name of the Storage Target.
+   * @param cacheName Name of Cache. Length of name must be not greater than 80 and chars must be in
+   * list of [-0-9a-zA-Z_] char class.
+   * @param storageTargetName Name of the Storage Target. Length of name must be not greater than 80
+   * and chars must be in list of [-0-9a-zA-Z_] char class.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -116,8 +126,10 @@ export class StorageTargets {
    * down or unhealthy, the actual creation/modification of the Storage Target may be delayed until
    * the Cache is healthy again.
    * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache.
-   * @param storageTargetName Name of the Storage Target.
+   * @param cacheName Name of Cache. Length of name must be not greater than 80 and chars must be in
+   * list of [-0-9a-zA-Z_] char class.
+   * @param storageTargetName Name of the Storage Target. Length of name must be not greater than 80
+   * and chars must be in list of [-0-9a-zA-Z_] char class.
    * @param [options] The optional parameters
    * @returns Promise<Models.StorageTargetsCreateOrUpdateResponse>
    */
@@ -132,7 +144,8 @@ export class StorageTargets {
    * healthy again. Note that if the Cache has data to flush to the Storage Target, the data will be
    * flushed before the Storage Target will be deleted.
    * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache.
+   * @param cacheName Name of Cache. Length of name must be not greater than 80 and chars must be in
+   * list of [-0-9a-zA-Z_] char class.
    * @param storageTargetName Name of Storage Target.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
@@ -154,8 +167,10 @@ export class StorageTargets {
    * down or unhealthy, the actual creation/modification of the Storage Target may be delayed until
    * the Cache is healthy again.
    * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache.
-   * @param storageTargetName Name of the Storage Target.
+   * @param cacheName Name of Cache. Length of name must be not greater than 80 and chars must be in
+   * list of [-0-9a-zA-Z_] char class.
+   * @param storageTargetName Name of the Storage Target. Length of name must be not greater than 80
+   * and chars must be in list of [-0-9a-zA-Z_] char class.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */

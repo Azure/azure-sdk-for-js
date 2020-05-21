@@ -734,7 +734,7 @@ export class ShareDirectoryClient extends StorageClient {
    * await fileClient.create(content.length);
    * console.log("Created file successfully!");
    *
-   * await fileClient.uplaodRange(content, 0, content.length);
+   * await fileClient.uploadRange(content, 0, content.length);
    * console.log("Updated file successfully!")
    * ```
    */

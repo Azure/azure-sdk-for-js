@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
-import { UserDefinition } from "../../dist-esm/client";
+import { UserDefinition } from "../../src/client";
 import { createOrUpsertUser, getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
 
 describe("NodeJS CRUD Tests", function() {

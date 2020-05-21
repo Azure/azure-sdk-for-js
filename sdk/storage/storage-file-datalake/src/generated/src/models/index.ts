@@ -378,7 +378,7 @@ export interface PathCreateOptionalParams extends coreHttp.RequestOptionsBase {
   renameSource?: string;
   /**
    * A lease ID for the source path. If specified, the source path must have an active lease and
-   * the leaase ID must match.
+   * the lease ID must match.
    */
   sourceLeaseId?: string;
   /**
