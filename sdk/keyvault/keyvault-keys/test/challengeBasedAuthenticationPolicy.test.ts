@@ -111,10 +111,10 @@ describe("Challenge based authentication tests", () => {
         resource: "https://some.url"
       });
 
-      const wwwAuthenticate2 = `Bearer authorization_uri="some_authorization", scope="https://some.url"`;
+      const wwwAuthenticate2 = `Bearer authorization="some_authorization", scope="https://some.url"`;
       const parsed2 = parseWWWAuthenticate(wwwAuthenticate2);
       assert.deepEqual(parsed2, {
-        authorization_uri: "some_authorization",
+        authorization: "some_authorization",
         scope: "https://some.url"
       });
     });

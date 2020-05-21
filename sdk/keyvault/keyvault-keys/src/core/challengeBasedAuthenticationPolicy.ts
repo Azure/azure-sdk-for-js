@@ -14,8 +14,11 @@ import { WebResource } from "@azure/core-http";
 import { AccessTokenCache, ExpiringAccessTokenCache } from "@azure/core-http";
 
 type ValidParsedWWWAuthenticateProperties =
+  // "authorization_uri" was used in the track 1 version of KeyVault.
+  // This is not a relevant property anymore, since the service is consistently answering with "authorization".
+  // | "authorization_uri"
   | "authorization"
-  | "authorization_uri"
+  // Even though the service is moving to "scope", both "resource" and "scope" should be supported.
   | "resource"
   | "scope";
 
@@ -35,7 +38,10 @@ export class AuthenticationChallenge {
    * @param other The other AuthenticationChallenge
    */
   public equalTo(other: AuthenticationChallenge | undefined) {
-    return other ? this.scope.toLowerCase() === other.scope.toLowerCase() : false;
+    return other ? (
+      this.scope.toLowerCase() === other.scope.toLowerCase() &&
+      this.authorization.toLowerCase() === other.authorization.toLowerCase()
+    ) : false;
   }
 }
 
@@ -164,7 +170,7 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
     // - An authorization URI with a token,
     // - The resource to which that token is valid against (also called the scope).
     const parsedWWWAuth = this.parseWWWAuthenticate(wwwAuthenticate);
-    const authorization = parsedWWWAuth.authorization! || parsedWWWAuth.authorization_uri!;
+    const authorization = parsedWWWAuth.authorization!;
     const resource = parsedWWWAuth.resource! || parsedWWWAuth.scope!;
 
     const challenge = new AuthenticationChallenge(authorization, resource + "/.default");
