@@ -122,7 +122,10 @@ export class BatchingReceiver extends MessageReceiver {
     const brokeredMessages: ServiceBusMessageImpl[] = [];
 
     this.isReceivingMessages = true;
-    return new Promise<ServiceBusMessageImpl[]>((resolve, reject) => {
+
+    let cleanupAbortSignal: (() => void) | undefined;
+
+    const receivePromise = new Promise<ServiceBusMessageImpl[]>((resolve, reject) => {
       let totalWaitTimer: NodeJS.Timer | undefined;
 
       const onSessionError: OnAmqpEvent = (context: EventContext) => {
@@ -184,17 +187,18 @@ export class BatchingReceiver extends MessageReceiver {
         reject(translate(error));
       };
 
-      let cleanupAbortSignal: (() => void) | undefined;
+      let finalActionCalled = false;
 
       // Final action to be performed after
       // - maxMessageCount is reached or
       // - maxWaitTime is passed or
       // - newMessageWaitTimeoutInSeconds is passed since the last message was received
       const finalAction = (): void => {
-        if (cleanupAbortSignal) {
-          cleanupAbortSignal();
-          cleanupAbortSignal = undefined;
+        if (finalActionCalled) {
+          return;
         }
+
+        finalActionCalled = true;
 
         if (this._newMessageReceivedTimer) {
           clearTimeout(this._newMessageReceivedTimer);
@@ -501,6 +505,20 @@ export class BatchingReceiver extends MessageReceiver {
         this._receiver!.session.on(SessionEvents.sessionError, onSessionError);
       }
     });
+
+    return receivePromise
+      .then((messages) => {
+        if (cleanupAbortSignal) {
+          cleanupAbortSignal();
+        }
+        return messages;
+      })
+      .catch((err) => {
+        if (cleanupAbortSignal) {
+          cleanupAbortSignal();
+        }
+        throw err;
+      });
   }
 
   /**
