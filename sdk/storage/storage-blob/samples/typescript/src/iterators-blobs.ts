@@ -100,7 +100,7 @@ export async function main() {
   }
 
   // 7. Passing marker as an argument (similar to the previous example)
-  console.log("Listing all blobs by page, using iteartor.next() and continuation token");
+  console.log("Listing all blobs by page, using iterator.next() and continuation token");
   i = 1;
   iterator = containerClient.listBlobsFlat().byPage({ maxPageSize: 2 });
   response = await iterator.next();
