@@ -43,7 +43,12 @@
     "LICENSE"
   ],
   "repository": "github:Azure/azure-sdk-for-js",
-  "keywords": ["azure", "tracing", "Azure", "cloud"],
+  "keywords": [
+    "azure",
+    "tracing",
+    "Azure",
+    "cloud"
+  ],
   "author": "Microsoft Corporation",
   "license": "MIT",
   "bugs": {
@@ -55,13 +60,13 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-tracing/README.md",
   "sideEffects": false,
   "dependencies": {
-    "@opencensus/web-types": "0.0.7",
     "@opentelemetry/api": "^0.6.1",
     "tslib": "^1.10.0"
   },
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@microsoft/api-extractor": "7.7.11",
+    "@opencensus/web-types": "0.0.7",
     "@rollup/plugin-commonjs": "11.0.2",
     "@rollup/plugin-json": "^4.0.0",
     "@rollup/plugin-multi-entry": "^3.0.0",
