@@ -600,14 +600,14 @@ packages:
     dev: false
     resolution:
       integrity: sha512-S0ohSSX8ioT65zu8KbG99xKyFV3InIjbM3c8roYqWy4+5HpYPyUHLYykfhM6MEI5B/3s7KSZPGFyCzCrZ2TOZA==
-  /@types/karma/4.4.3:
+  /@types/karma/3.0.9:
     dependencies:
       '@types/bluebird': 3.5.32
-      '@types/node': 14.0.4
+      '@types/node': 8.10.61
       log4js: 4.5.1
     dev: false
     resolution:
-      integrity: sha512-NlPO+w7RRmEePneSpqMOI9hH8J45YaixroJzYNBjJtc4+EQkKl8xApKs9Gg/TVCMBzljuMmQM7lGC9j85Vk1pQ==
+      integrity: sha512-GEhyutKIjZstOI1o9HHu58ApHLdgpyvihiUzLaPK3Ig5LIjRTagtSB5RbwKsmfKjmoh0qPNOCmZTYL37VTTcbA==
   /@types/long/4.0.1:
     dev: false
     resolution:
@@ -7763,7 +7763,7 @@ packages:
       '@types/chai': 4.2.11
       '@types/express': 4.17.6
       '@types/glob': 7.1.1
-      '@types/karma': 4.4.3
+      '@types/karma': 3.0.9
       '@types/mocha': 7.0.2
       '@types/node': 8.10.61
       '@types/node-fetch': 2.5.7
@@ -7823,7 +7823,7 @@ packages:
     dev: false
     name: '@rush-temp/core-http'
     resolution:
-      integrity: sha512-ET2yxXuoa74jJSLxXW+jqnRCx0fcQBf34CzxuZsTkg5CZ2JBHYbmSKqe94mFoDWeIt8P975DeyEp56r9zXmFYA==
+      integrity: sha512-C3Rzc3Ll8X1bMewSo78GuDbLJrBvlG934evHz110L/pbHgkIMpwCHZgeyCiu+4BX7+J5hvMr9n4+a9nO6o7MZQ==
       tarball: 'file:projects/core-http.tgz'
     version: 0.0.0
   'file:projects/core-https.tgz':
