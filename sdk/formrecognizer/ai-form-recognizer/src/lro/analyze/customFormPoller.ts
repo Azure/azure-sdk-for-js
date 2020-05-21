@@ -11,7 +11,7 @@ import {
   GeneratedClientAnalyzeWithCustomModelResponse as AnalyzeWithCustomModelResponseModel,
   OperationStatus,
   ContentType } from "../../generated/models";
-import { FormRecognizerRequestBody, RecognizedFormArray, RecognizeFormsError } from "../../models";
+import { FormRecognizerRequestBody, RecognizedFormArray, FormRecognizerError } from "../../models";
 import { RecognizeFormResultResponse } from "../../internalModels";
 export { OperationStatus };
 
@@ -178,7 +178,7 @@ function makeBeginRecognizePollOperation(
           state.result = response.forms;
           state.isCompleted = true;
         } else if (response.status === "failed") {
-          throw new RecognizeFormsError(
+          throw new FormRecognizerError(
             `Recognition failed ${response._response.bodyAsText}`,
             response.errors);
         }

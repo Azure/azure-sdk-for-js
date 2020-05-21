@@ -85,7 +85,7 @@ export interface CustomFormField {
 // @public
 export interface CustomFormModel {
     createdOn: Date;
-    errors?: FormRecognizerError[];
+    errors?: FormRecognizerErrorDetails[];
     lastModified: Date;
     modelId: string;
     models?: CustomFormSubModel[];
@@ -221,7 +221,13 @@ export interface FormRecognizerClientOptions extends PipelineOptions {
 }
 
 // @public
-export interface FormRecognizerError {
+export class FormRecognizerError extends Error {
+    constructor(message: string, innerErrors?: FormRecognizerErrorDetails[]);
+    innerErrors?: FormRecognizerErrorDetails[];
+}
+
+// @public
+export interface FormRecognizerErrorDetails {
     code: string;
     message: string;
 }
@@ -279,7 +285,7 @@ export class FormTrainingClient {
 
 // @public
 export interface FormTrainResult {
-    errors?: FormRecognizerError[];
+    errors?: FormRecognizerErrorDetails[];
     trainingDocuments: TrainingDocumentInfo[];
 }
 
@@ -457,12 +463,6 @@ export interface RecognizedReceiptArray extends Array<RecognizedReceipt> {
 }
 
 // @public
-export class RecognizeFormsError extends Error {
-    constructor(message: string, innerErrors?: FormRecognizerError[]);
-    innerErrors?: FormRecognizerError[];
-}
-
-// @public
 export type RecognizeFormsOptions = FormRecognizerOperationOptions & {
     includeTextDetails?: boolean;
 };
@@ -487,15 +487,9 @@ export type TimeFieldValue = {
 } & CommonFieldValue;
 
 // @public
-export class TrainCustomFormModelError extends Error {
-    constructor(message: string, innerErrors?: FormRecognizerError[]);
-    innerErrors?: FormRecognizerError[];
-}
-
-// @public
 export interface TrainingDocumentInfo {
     documentName: string;
-    errors: FormRecognizerError[];
+    errors: FormRecognizerErrorDetails[];
     pageCount: number;
     status: TrainingStatus;
 }
@@ -512,7 +506,7 @@ export type TrainModelOptions = FormRecognizerOperationOptions & {
 // @public
 export interface TrainResult {
     averageModelAccuracy?: number;
-    errors?: FormRecognizerError[];
+    errors?: FormRecognizerErrorDetails[];
     fields?: FormFieldsReport[];
     trainingDocuments: TrainingDocumentInfo[];
 }

@@ -596,7 +596,7 @@ export interface TrainingDocumentInfo {
   /**
    * List of errors.
    */
-  errors: FormRecognizerError[];
+  errors: FormRecognizerErrorDetails[];
   /**
    * Status of the training operation.
    */
@@ -614,7 +614,7 @@ export interface FormTrainResult {
   /**
    * Errors returned during training operation.
    */
-  errors?: FormRecognizerError[];
+  errors?: FormRecognizerErrorDetails[];
 }
 
 /**
@@ -714,7 +714,7 @@ export interface CustomFormModel {
   /**
    * Errors returned during training operation.
    */
-  errors?: FormRecognizerError[];
+  errors?: FormRecognizerErrorDetails[];
   /**
    * Form models created by training.
    */
@@ -740,7 +740,7 @@ export interface TrainResult {
   /**
    * Errors returned during the training operation.
    */
-  errors?: FormRecognizerError[];
+  errors?: FormRecognizerErrorDetails[];
 }
 
 /**
@@ -807,7 +807,7 @@ export interface AccountProperties {
 /**
  * Represents errors from Azure Form Recognizer service
  */
-export interface FormRecognizerError {
+export interface FormRecognizerErrorDetails {
   /**
    * Error code
    */
@@ -821,26 +821,12 @@ export interface FormRecognizerError {
 /**
  * Error from recognize custom forms operation
  */
-export class RecognizeFormsError extends Error {
+export class FormRecognizerError extends Error {
   /**
    * Original errors from the service response
    */
-  innerErrors?: FormRecognizerError[]
-  constructor(message: string, innerErrors?: FormRecognizerError[]) {
-    super(message);
-    this.innerErrors = innerErrors;
-  }
-}
-
-/**
- * Error from custom model training operation
- */
-export class TrainCustomFormModelError extends Error {
-  /**
-   * Original errors from the service response
-   */
-  innerErrors?: FormRecognizerError[]
-  constructor(message: string, innerErrors?: FormRecognizerError[]) {
+  innerErrors?: FormRecognizerErrorDetails[]
+  constructor(message: string, innerErrors?: FormRecognizerErrorDetails[]) {
     super(message);
     this.innerErrors = innerErrors;
   }

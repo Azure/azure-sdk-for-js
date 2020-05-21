@@ -9,7 +9,7 @@ import {
   ModelStatus,
   GeneratedClientTrainCustomModelAsyncResponse as TrainCustomModelAsyncResponse,
 } from "../../generated/models";
-import { CustomFormModel, FormModelResponse, TrainCustomFormModelError } from '../../models';
+import { CustomFormModel, FormModelResponse, FormRecognizerError } from '../../models';
 export { ModelStatus, TrainCustomModelAsyncResponse };
 
 /**
@@ -140,7 +140,7 @@ function makeBeginTrainingPollOperation(
           state.result = model;
           state.isCompleted = true;
         } else if (model.status === "invalid") {
-          throw new TrainCustomFormModelError("Model training failed with invalid model status.", model.errors);
+          throw new FormRecognizerError("Model training failed with invalid model status.", model.errors);
         }
       }
 
