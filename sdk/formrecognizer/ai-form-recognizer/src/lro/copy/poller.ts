@@ -10,7 +10,7 @@ import {
   GeneratedClientCopyCustomModelResponse as CopyCustomModelResponseModel,
   OperationStatus
 } from "../../generated/models";
-import { CopyAuthorization, CopyResult } from '../../models';
+import { CopyAuthorization, CustomFormModelInfo } from '../../models';
 export { OperationStatus };
 
 export interface CopyPollerOperationOptions {
@@ -46,7 +46,7 @@ export type CopyModelPollerClient = {
     options: GetCopyModelResultOptions) => Promise<GetCustomModelCopyResultResponse>;
 };
 
-export interface BeginCopyModelPollState extends PollOperationState<CopyResult> {
+export interface BeginCopyModelPollState extends PollOperationState<CustomFormModelInfo> {
   readonly client:CopyModelPollerClient;
   modelId: string;
   targetResourceId: string;
@@ -58,7 +58,7 @@ export interface BeginCopyModelPollState extends PollOperationState<CopyResult> 
 }
 
 export interface BeginCopyModelPollerOperation
-  extends PollOperation<BeginCopyModelPollState, CopyResult> {}
+  extends PollOperation<BeginCopyModelPollState, CustomFormModelInfo> {}
 
 /**
  * @internal
@@ -80,7 +80,7 @@ export type BeginCopyModelPollerOptions = {
  */
 export class BeginCopyModelPoller extends Poller<
   BeginCopyModelPollState,
-  CopyResult
+  CustomFormModelInfo
 > {
   public intervalInMs: number;
 
@@ -177,11 +177,10 @@ function makeBeginCopyModelPollOperation(
           options.fireProgress(state);
         } else if (response.status === "succeeded") {
           state.result = {
-            status: response.status,
+            status: "ready",
             createdOn: response.createdOn,
             lastModified: response.lastModified,
-            modelId: response.copyResult!.modelId,
-            errors: response.copyResult!.errors
+            modelId: copyAuthorization.modelId
           };
           state.isCompleted = true;
         } else if (response.status === "failed") {

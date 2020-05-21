@@ -34,17 +34,17 @@ export async function main() {
     }
   });
   await poller.pollUntilDone();
-  const copyResult = poller.getResult();
+  const result = poller.getResult();
 
-  if (!copyResult) {
+  if (!result) {
       throw new Error("Expecting valid result from copy model operation");
   }
 
   // now verify that the copy in the target Form Recognizer resource
-  console.log(`Model id: ${copyResult.modelId}`);
-  console.log(`Status: ${copyResult.status}`);
+  console.log(`Model id: ${result.modelId}`);
+  console.log(`Status: ${result.status}`);
 
-  const model = await targetClient.getCustomModel(copyResult.modelId);
+  const model = await targetClient.getCustomModel(result.modelId);
   console.log(model);
 }
 

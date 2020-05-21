@@ -30,7 +30,7 @@ import {
 import { TrainPollerClient, BeginTrainingPoller, BeginTrainingPollState } from "./lro/train/poller";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
 import { FormRecognizerClientOptions, FormRecognizerOperationOptions } from "./common";
-import { FormModelResponse, AccountProperties, CustomFormModelInfo, CopyAuthorization, CopyResult } from "./models";
+import { FormModelResponse, AccountProperties, CustomFormModelInfo, CopyAuthorization } from "./models";
 import { createFormRecognizerAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 import { toFormModelResponse } from "./transforms";
 import { CopyModelPollerClient, BeginCopyModelPoller, BeginCopyModelPollState } from './lro/copy/poller';
@@ -521,7 +521,7 @@ export class FormTrainingClient {
    *   }
    * });
    * await poller.pollUntilDone();
-   * const copyResult = poller.getResult();
+   * const result = poller.getResult();
    * ```
    * @summary Copies custom model to target resource
    * @param {string} modelId Id of the custom model in this resource to copied to the target Form Recognizer resource
@@ -532,7 +532,7 @@ export class FormTrainingClient {
     modelId: string,
     target: CopyAuthorization,
     options: BeginCopyModelOptions = {}
-  ): Promise<PollerLike<PollOperationState<CopyResult>, CopyResult>> {
+  ): Promise<PollerLike<PollOperationState<CustomFormModelInfo>, CustomFormModelInfo>> {
     const copyModelClient: CopyModelPollerClient = {
       beginCopyModel: (...args) => this.beginCopyModelInternal(...args),
       getCopyModelResult: (...args) => this.getCopyModelResult(...args)

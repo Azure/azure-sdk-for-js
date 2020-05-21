@@ -299,7 +299,7 @@ export interface FormText {
 // @public
 export class FormTrainingClient {
     constructor(endpointUrl: string, credential: TokenCredential | KeyCredential, options?: FormRecognizerClientOptions);
-    beginCopyModel(modelId: string, target: CopyAuthorization, options?: BeginCopyModelOptions): Promise<PollerLike<PollOperationState<CopyResult>, CopyResult>>;
+    beginCopyModel(modelId: string, target: CopyAuthorization, options?: BeginCopyModelOptions): Promise<PollerLike<PollOperationState<CustomFormModelInfo>, CustomFormModelInfo>>;
     beginTraining(trainingFilesUrl: string, useTrainingLabels?: boolean, options?: BeginTrainingOptions<FormModelResponse>): Promise<PollerLike<PollOperationState<FormModelResponse>, FormModelResponse>>;
     deleteModel(modelId: string, options?: DeleteModelOptions): Promise<RestResponse>;
     readonly endpointUrl: string;

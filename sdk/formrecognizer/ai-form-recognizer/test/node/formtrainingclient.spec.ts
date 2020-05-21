@@ -14,7 +14,6 @@ import {
 } from "../util/recordedClients";
 import {
   FormRecognizerClient,
-  AzureKeyCredential,
   TrainingDocumentInfo,
   FormTrainingClient
 } from "../../src";
@@ -31,10 +30,6 @@ describe("FormTrainingClient NodeJS only", () => {
 
   beforeEach(function() {
     ({ recorder, client: trainingClient } = createRecordedTrainingClient(this));
-    trainingClient = new FormTrainingClient(
-      env.FORM_RECOGNIZER_ENDPOINT,
-      new AzureKeyCredential(env.FORM_RECOGNIZER_API_KEY)
-    );
   });
 
   afterEach(function() {
@@ -203,6 +198,25 @@ describe("FormTrainingClient NodeJS only", () => {
         `Expecting error message "${message}" to end with " not found."`
       );
     }
+  });
+
+  // TODO: re-enabling is tracked by https://github.com/azure/azure-sdk-for-js/issues/9072
+  it.skip("copies model", async function() {
+    // for testing purpose, copy into the same resource
+    const resourceId = env.FORM_RECOGNIZER_TARGET_RESOURCE_ID;
+    const resourceRegion = env.FORM_RECOGNIZER_TARGET_RESOURCE_REGION;
+    const targetAuth = await trainingClient.getCopyAuthorization(resourceId, resourceRegion);
+
+    assert.ok(labeledModelId, "Expecting valide model id in source")
+    const poller = await trainingClient.beginCopyModel(labeledModelId!, targetAuth);
+    await poller.pollUntilDone();
+    const result = poller.getResult();
+
+    assert.ok(result, "Expecting valid copy result");
+    assert.equal(result?.modelId, targetAuth.modelId, "Expecting matching model ids");
+    assert.equal(result!.status, "ready");
+    assert.ok(result!.createdOn, "Expecting valid 'createOn' property");
+    assert.ok(result!.lastModified, "Expecting valid 'lastModified' property");
   });
 }).timeout(60000);
 
