@@ -1,5 +1,8 @@
 # Release History
 
+## 12.0.2 (Unreleased)
+
+
 ## 12.0.1 (2020.05)
 
 - Fix data corruption failure error [issue #6411](https://github.com/Azure/azure-sdk-for-js/issues/6411) when downloading compressed files. [PR #7993](https://github.com/Azure/azure-sdk-for-js/pull/7993)
