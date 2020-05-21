@@ -697,35 +697,6 @@ describe("Errors after close()", function(): void {
     should.equal(errorSetState, expectedErrorMsg, "Expected error not thrown for setState()");
   }
 
-  // /**
-  //  * Tests that each feature of the topic filters throws expected error
-  //  */
-  // async function testRules(expectedErrorMsg: string): Promise<void> {
-  //   let errorAddRule: string = "";
-  //   try {
-  //     await subscriptionClient.addRule("myRule", true);
-  //   } catch (error) {
-  //     errorAddRule = error.message;
-  //   }
-  //   should.equal(errorAddRule, expectedErrorMsg, "Expected error not thrown for addRule()");
-
-  //   let errorRemoveRule: string = "";
-  //   try {
-  //     await subscriptionClient.removeRule("myRule");
-  //   } catch (err) {
-  //     errorRemoveRule = err.message;
-  //   }
-  //   should.equal(errorRemoveRule, expectedErrorMsg, "Expected error not thrown for removeRule()");
-
-  //   let errorGetRules: string = "";
-  //   try {
-  //     await subscriptionClient.getRules();
-  //   } catch (err) {
-  //     errorGetRules = err.message;
-  //   }
-  //   should.equal(errorGetRules, expectedErrorMsg, "Expected error not thrown for getRule()");
-  // }
-
   describe("Errors after close() on namespace", function(): void {
     const entityToClose = "namespace";
     const expectedErrorMsg = "The underlying AMQP connection is closed.";
@@ -758,7 +729,6 @@ describe("Errors after close()", function(): void {
       await testCreateSender(expectedErrorMsg);
       await testReceiver(expectedErrorMsg);
       await testCreateReceiver(expectedErrorMsg);
-      // await testRules(expectedErrorMsg);
     });
 
     it("Unpartitioned Topic/Subscription with sessions: errors after close() on namespace", async function(): Promise<
@@ -770,7 +740,6 @@ describe("Errors after close()", function(): void {
       await testCreateSender(expectedErrorMsg);
       await testSessionReceiver(expectedErrorMsg);
       await testCreateReceiver(expectedErrorMsg);
-      // await testRules(expectedErrorMsg);
     });
   });
 
@@ -829,8 +798,6 @@ describe("Errors after close()", function(): void {
       await beforeEachTest(TestClientType.UnpartitionedSubscription, entityToClose);
 
       await testReceiver(getReceiverClosedErrorMsg(receiver.entityPath, false));
-      // TODO - rules are independent of receiver
-      // await testRules(getClientClosedErrorMsg(receiver.entityPath));
     });
 
     it("Unpartitioned Topic/Subscription with sessions: errors after close() on receiver", async function(): Promise<
@@ -841,8 +808,6 @@ describe("Errors after close()", function(): void {
       await testSessionReceiver(
         getReceiverClosedErrorMsg(receiver.entityPath, false, TestMessage.sessionId)
       );
-      // TODO - rules are independent of receiver
-      // await testRules(getClientClosedErrorMsg(receiver.entityPath));
     });
   });
 
