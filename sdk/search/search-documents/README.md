@@ -128,7 +128,7 @@ There are several types of operations that can be executed against the service:
 
 `SearchClient` provides methods for working with documents in an index. Its methods allow you to query, upload, update, and delete documents. It also has methods for building auto-completion and search suggestion experiences based on partial queries.
 
-### SearchIndexClient & SearchIndexerClient   
+### SearchIndexClient & SearchIndexerClient
 
 `SearchIndexClient` provides methods for configuring and customizing an Azure Cognitive Search instance. The client currently has support for creating and managing search indexes and synonym maps.
 
