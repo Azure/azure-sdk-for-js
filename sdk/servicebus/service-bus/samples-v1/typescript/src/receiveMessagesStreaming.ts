@@ -47,7 +47,7 @@ export async function main() {
       };
 
       const onErrorHandler: OnError = (err) => {
-        if (!(err as MessagingError).retryable) {
+        if ((err as MessagingError).retryable === false) {
           console.log("Receiver will be recreated. A fatal error occurred:", err);
           resolve();
         } else {
