@@ -132,7 +132,7 @@ There are several types of operations that can be executed against the service:
 
 `SearchIndexClient` provides methods for configuring and customizing an Azure Cognitive Search instance. The client currently has support for creating and managing search indexes and synonym maps.
 
-`SearchIndexerClient` provide methods for configuring and customizing an Azure Cognitive Search instance. The client currently has support for creating and managing indexers, cognitive skillsets, and data sources.
+`SearchIndexerClient` provides methods for configuring and customizing an Azure Cognitive Search instance. The client currently has support for creating and managing indexers, cognitive skillsets, and data sources.
 
 **Note**: This client cannot function in the browser because the APIs it calls do not have support for Cross-Origin Resource Sharing (CORS).
 
