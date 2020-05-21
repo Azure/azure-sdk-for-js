@@ -47,20 +47,6 @@ describe("Create ServiceBusClient", function(): void {
       "Name of the namespace is different than expected"
     );
   });
-
-  // it("Creates clients after coercing name to string", function(): void {
-  //   sbClient = new ServiceBusClient(
-  //     "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
-  //   );
-  //   const queueClient = sbClient.createQueueClient(1 as any);
-  //   should.equal(queueClient.entityPath, "1");
-
-  //   const topicClient = sbClient.createTopicClient(1 as any);
-  //   should.equal(topicClient.entityPath, "1");
-
-  //   const subscriptionClient = sbClient.createSubscriptionClient(1 as any, 2 as any);
-  //   should.equal(subscriptionClient.entityPath, "1/Subscriptions/2");
-  // });
 });
 
 describe("Random scheme in the endpoint from connection string", function(): void {
@@ -743,36 +729,6 @@ describe("Errors after close()", function(): void {
     });
   });
 
-  // describe("Errors after close() on sender", function(): void {
-  //   const entityToClose = "sender";
-
-  //   it("Unpartitioned Queue: errors after close() on sender", async function(): Promise<
-  //     void
-  //   > {
-  //     await beforeEachTest(TestClientType.UnpartitionedQueue, entityToClose);
-
-  //     await testSender(
-  //       getSenderClosedErrorMsg(sender.entityPath, ClientType.QueueClient, true)
-  //     );
-  //     await testCreateSender(getClientClosedErrorMsg(sender.entityPath));
-  //   });
-
-  //   it("Unpartitioned Topic: errors after close() on sender", async function(): Promise<
-  //     void
-  //   > {
-  //     await beforeEachTest(
-  //       TestClientType.UnpartitionedTopic,
-  //       TestClientType.UnpartitionedSubscription,
-  //       entityToClose
-  //     );
-
-  //     await testSender(
-  //       getSenderClosedErrorMsg(sender.entityPath, ClientType.TopicClient, true)
-  //     );
-  //     await testCreateSender(getClientClosedErrorMsg(sender.entityPath));
-  //   });
-  // });
-
   describe("Errors after close() on receiver", function(): void {
     const entityToClose = "receiver";
 
@@ -816,6 +772,11 @@ describe("Errors after close()", function(): void {
 
     it("Unpartitioned Queue: errors after close() on sender", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedQueue, entityToClose);
+      await testSender(getSenderClosedErrorMsg(sender.entityPath));
+    });
+
+    it("Unpartitioned Topic: errors after close() on sender", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.UnpartitionedSubscription, entityToClose);
       await testSender(getSenderClosedErrorMsg(sender.entityPath));
     });
   });
