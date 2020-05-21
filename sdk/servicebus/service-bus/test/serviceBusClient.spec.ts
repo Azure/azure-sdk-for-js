@@ -639,16 +639,6 @@ describe("Errors after close()", function(): void {
       "Expected error not thrown for browseMessages() from receiver"
     );
 
-    // let errorPeekBySequence: string = "";
-    // await receiver.diagnostics.peekBySequenceNumber(Long.ZERO).catch((err) => {
-    //   errorPeekBySequence = err.message;
-    // });
-    // should.equal(
-    //   errorPeekBySequence,
-    //   expectedErrorMsg,
-    //   "Expected error not thrown for peekBySequenceNumber() from receiver"
-    // );
-
     // if (!entityName.usesSessions) {
     //   let errorRenewLock: string = "";
     //   await (<InternalReceiver>receiver).renewMessageLock("randomLockToken").catch((err) => {
