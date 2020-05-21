@@ -19,6 +19,7 @@ dependencies:
   '@rush-temp/eventhubs-checkpointstore-blob': 'file:projects/eventhubs-checkpointstore-blob.tgz'
   '@rush-temp/identity': 'file:projects/identity.tgz'
   '@rush-temp/keyvault-certificates': 'file:projects/keyvault-certificates.tgz'
+  '@rush-temp/keyvault-common': 'file:projects/keyvault-common.tgz'
   '@rush-temp/keyvault-keys': 'file:projects/keyvault-keys.tgz'
   '@rush-temp/keyvault-secrets': 'file:projects/keyvault-secrets.tgz'
   '@rush-temp/logger': 'file:projects/logger.tgz'
@@ -7688,7 +7689,7 @@ packages:
     dev: false
     name: '@rush-temp/core-arm'
     resolution:
-      integrity: sha512-1qMPTU5XX+O3mEz4qLE0XDqGlnMxYZn/m6/6/Z5tx8b4Ax/SbMlhA0ZAc/HxZmGuOxVo//aN3rSWatio1drukg==
+      integrity: sha512-y72NF/p/IZ3as7ufRovTNlFaSEcFd/mIxbVJLQrccfE7HDcS9halFpkIqiksBnkrVeBF0xklsDR6Bn1ywcUk/A==
       tarball: 'file:projects/core-arm.tgz'
     version: 0.0.0
   'file:projects/core-asynciterator-polyfill.tgz':
@@ -7706,7 +7707,7 @@ packages:
     dev: false
     name: '@rush-temp/core-asynciterator-polyfill'
     resolution:
-      integrity: sha512-69f+DjfbfiipGVM6Vx0KXehWvmc5YstJn+Fayg8f1/OzRbqIBw1skZTIxQATkZUOOSFHhYg5ALjbkdNRTNgMng==
+      integrity: sha512-qGNd+3a+AdlxapQL+4lLrXTpUEs8IeWq5C+noADY1zSNVqYL/tx2qVgmbqSbfWheoE7OiItP4nwE1LNHYhteaA==
       tarball: 'file:projects/core-asynciterator-polyfill.tgz'
     version: 0.0.0
   'file:projects/core-auth.tgz':
@@ -7945,7 +7946,7 @@ packages:
     dev: false
     name: '@rush-temp/core-paging'
     resolution:
-      integrity: sha512-YM2ktK/Xu8ZPTM8d3yWvGN1SdHr+Ekw3j6bu8PcxVO8PjCqkkQZ/cetvFKWRJtiApxNjMRC+YnBbPRgRhn8nWA==
+      integrity: sha512-nNyFWdkKTdL8EO4VPpxhwDAVtfBcse6brXYxXbEc6GtEUqfos3aTkWxdTlibezaaqNV1irqaSuX2dPEZYhLC8A==
       tarball: 'file:projects/core-paging.tgz'
     version: 0.0.0
   'file:projects/core-tracing.tgz':
@@ -8045,7 +8046,7 @@ packages:
     dev: false
     name: '@rush-temp/cosmos'
     resolution:
-      integrity: sha512-KQvL7GazobTLvfKydVCzGymriq5ryD4MWzKdofwEG0KYiQf/UANkqcVagjJjGJhUg6ivN9iLOKztCMvHyj0VFw==
+      integrity: sha512-p2hWUM4kq4AXylc0ROcZVNgF8dutDaLF+gOMt1YGkQDEItT8idCNPUWOW7G8Oaxus/T4KvUFKAnc+G6MxspXpw==
       tarball: 'file:projects/cosmos.tgz'
     version: 0.0.0
   'file:projects/eslint-plugin-azure-sdk.tgz':
@@ -8078,7 +8079,7 @@ packages:
     dev: false
     name: '@rush-temp/eslint-plugin-azure-sdk'
     resolution:
-      integrity: sha512-4rgkTckc9Q3R25MDEIybhrx1ZpMwK6PXTh2/cLjbpZ04+AVT0yctfN5HQuFKWOoJ/j/duroFLNoTs38/dsgtRA==
+      integrity: sha512-3i6N04JYkV/kTlY9lQ5Y3uLPaG7jdkH4U8yUCxS0yngldgon/IkvbOgPr/pA6QOjluCe1fM4yQlNFsyZTVBxPg==
       tarball: 'file:projects/eslint-plugin-azure-sdk.tgz'
     version: 0.0.0
   'file:projects/event-hubs.tgz':
@@ -8399,6 +8400,16 @@ packages:
     resolution:
       integrity: sha512-8zMe3ibaW81OgzRunWJHW57GK5WXNhYwHEwrl4Z9/whvItZgPGuk9F7E+S5PIRk801MRfO8Ipq9YpL7co9Sa2A==
       tarball: 'file:projects/keyvault-certificates.tgz'
+    version: 0.0.0
+  'file:projects/keyvault-common.tgz':
+    dependencies:
+      tslib: 1.13.0
+      typescript: 3.8.3
+    dev: false
+    name: '@rush-temp/keyvault-common'
+    resolution:
+      integrity: sha512-5MOFfUPW9AQY3bnJmqKg7OUdsDvbMzl+9YWpkwxmETYT1Aa00Y/dap5UL0rOmqeQl0fHq9aRHtLZsMPyFvnOLQ==
+      tarball: 'file:projects/keyvault-common.tgz'
     version: 0.0.0
   'file:projects/keyvault-keys.tgz':
     dependencies:
@@ -9043,7 +9054,7 @@ packages:
     dev: false
     name: '@rush-temp/test-utils-perfstress'
     resolution:
-      integrity: sha512-4ZLFBeVDO2cVkeIIQOdTOZx/9voPj+vrJuEvp18smNkJ36vFb0h7RqbNPVfzCO8F756AvCPsIpKcA7xvJnujwQ==
+      integrity: sha512-d0iI+yQ40i/Hv+jAr/0lrX7rMzaNUxNG8s9ZaEar7QrE8M1aO6FNRU5Pq0061qkYn9dMzlaZY4BE9uvkHJa/Cw==
       tarball: 'file:projects/test-utils-perfstress.tgz'
     version: 0.0.0
   'file:projects/test-utils-recorder.tgz':
@@ -9124,7 +9135,7 @@ packages:
     dev: false
     name: '@rush-temp/testhub'
     resolution:
-      integrity: sha512-Z6HTwhIIFE79DucKmLYyHiLO/5MWSxWLowoNyqcCIJgl0p54t1oRpa6SRRiVZwrTwzkLU5iA8vrYAnUmfSeGbQ==
+      integrity: sha512-H8H8FcoHTgCvn43Y7AfVvJdHCU5d9sb4OC1DCU3gNL3B6SCBBbi17cAs4hLVTxRThth+HqLFfSDDRY5qUFjIGA==
       tarball: 'file:projects/testhub.tgz'
     version: 0.0.0
 registry: ''
@@ -9149,6 +9160,7 @@ specifiers:
   '@rush-temp/eventhubs-checkpointstore-blob': 'file:./projects/eventhubs-checkpointstore-blob.tgz'
   '@rush-temp/identity': 'file:./projects/identity.tgz'
   '@rush-temp/keyvault-certificates': 'file:./projects/keyvault-certificates.tgz'
+  '@rush-temp/keyvault-common': 'file:./projects/keyvault-common.tgz'
   '@rush-temp/keyvault-keys': 'file:./projects/keyvault-keys.tgz'
   '@rush-temp/keyvault-secrets': 'file:./projects/keyvault-secrets.tgz'
   '@rush-temp/logger': 'file:./projects/logger.tgz'
