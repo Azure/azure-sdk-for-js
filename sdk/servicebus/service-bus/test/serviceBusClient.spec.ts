@@ -638,14 +638,6 @@ describe("Errors after close()", function(): void {
       expectedErrorMsg,
       "Expected error not thrown for browseMessages() from receiver"
     );
-
-    // if (!entityName.usesSessions) {
-    //   let errorRenewLock: string = "";
-    //   await (<InternalReceiver>receiver).renewMessageLock("randomLockToken").catch((err) => {
-    //     errorRenewLock = err.message;
-    //   });
-    //   should.equal(errorRenewLock, expectedErrorMsg, "Expected error not thrown for renewLock()");
-    // }
   }
 
   /**
