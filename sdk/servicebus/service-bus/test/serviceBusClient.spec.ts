@@ -629,16 +629,15 @@ describe("Errors after close()", function(): void {
       "Expected error not thrown for receiveDeferredMessages()"
     );
 
-    // TODO - closing the receiver doesn't matter for peek
-    // let errorPeek: string = "";
-    // await receiver.diagnostics.peek().catch((err) => {
-    //   errorPeek = err.message;
-    // });
-    // should.equal(
-    //   errorPeek,
-    //   expectedErrorMsg,
-    //   "Expected error not thrown for peek() from receiver"
-    // );
+    let errorPeek: string = "";
+    await receiver.browseMessages().catch((err) => {
+      errorPeek = err.message;
+    });
+    should.equal(
+      errorPeek,
+      expectedErrorMsg,
+      "Expected error not thrown for browseMessages() from receiver"
+    );
 
     // let errorPeekBySequence: string = "";
     // await receiver.diagnostics.peekBySequenceNumber(Long.ZERO).catch((err) => {

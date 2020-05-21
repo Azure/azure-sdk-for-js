@@ -18,8 +18,7 @@ import {
   getReceiverClosedErrorMsg,
   throwTypeErrorIfParameterMissing,
   throwTypeErrorIfParameterNotLong,
-  throwTypeErrorIfParameterNotLongArray,
-  throwErrorIfClientOrConnectionClosed
+  throwTypeErrorIfParameterNotLongArray
 } from "../util/errors";
 import * as log from "../log";
 import { OnMessage, OnError, ReceiveOptions } from "../core/messageReceiver";
@@ -412,12 +411,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
   // ManagementClient methods # Begin
 
   async browseMessages(options: BrowseMessagesOptions = {}): Promise<ReceivedMessage[]> {
-    throwErrorIfClientOrConnectionClosed(
-      this._context.namespace,
-      this._context.entityPath,
-      this._context.isClosed
-    );
-
+    this._throwIfReceiverOrConnectionClosed();
     const managementRequestOptions = {
       ...options,
       requestName: "browseMessages",
