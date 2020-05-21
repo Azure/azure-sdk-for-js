@@ -137,7 +137,7 @@
     "form-data": "^3.0.0",
     "node-fetch": "^2.6.0",
     "process": "^0.11.10",
-    "tough-cookie": "^3.0.1",
+    "tough-cookie": "^4.0.0",
     "tslib": "^1.10.0",
     "tunnel": "^0.0.6",
     "uuid": "^3.3.2",
@@ -158,8 +158,13 @@
     "@types/node-fetch": "^2.5.0",
     "@types/tunnel": "^0.0.1",
     "@types/node": "^8.0.0",
+<<<<<<< HEAD
     "@types/sinon": "^9.0.4",
     "@types/tough-cookie": "^2.3.5",
+=======
+    "@types/sinon": "^7.0.13",
+    "@types/tough-cookie": "^4.0.0",
+>>>>>>> Update runtime dependency "tough-cookie"
     "@types/uuid": "^3.4.3",
     "@types/xml2js": "^0.4.3",
     "@typescript-eslint/eslint-plugin": "^2.0.0",
