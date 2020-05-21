@@ -28,6 +28,8 @@ If this is your first time using `@azure/identity` or the Microsoft identity pla
 
 Azure Identity offers a variety of credential classes that are accepted by Azure SDK data plane clients. Each client library documents its Azure Identity integration in its README and samples. Azure SDK management plane libraries (those starting with `@azure/arm-*`) do not accept these credentials.
 
+> For outdated documentation links, please go instead to https://aka.ms/azsdk/js/docs/identity/1.0.0
+
 Credentials differ mostly in configuration:
 
 | credential class                    | identity                              | configuration                                                                                    |
@@ -139,15 +141,15 @@ If you encounter bugs or have suggestions, please [open an issue](https://github
 
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
 
-[1]: https://aka.ms/azsdk/js/docs/ref/azure-identity/1.0.0/classes/defaultazurecredential.html
-[2]: https://aka.ms/azsdk/js/docs/ref/azure-identity/1.0.0/classes/managedidentitycredential.html
-[3]: https://aka.ms/azsdk/js/docs/ref/azure-identity/1.0.0/classes/environmentcredential.html
-[4]: https://aka.ms/azsdk/js/docs/ref/azure-identity/1.0.0/classes/clientsecretcredential.html
-[5]: https://aka.ms/azsdk/js/docs/ref/azure-identity/1.0.0/classes/clientcertificatecredential.html
-[6]: https://aka.ms/azsdk/js/docs/ref/azure-identity/1.0.0/classes/devicecodecredential.html
-[7]: https://aka.ms/azsdk/js/docs/ref/azure-identity/1.0.0/classes/authorizationcodecredential.html
-[8]: https://aka.ms/azsdk/js/docs/ref/azure-identity/1.0.0/classes/interactivebrowsercredential.html
-[9]: https://aka.ms/azsdk/js/docs/ref/azure-identity/1.0.0/classes/usernamepasswordcredential.html
+[1]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-identity/1.0.0/classes/defaultazurecredential.html
+[2]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-identity/1.0.0/classes/managedidentitycredential.html
+[3]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-identity/1.0.0/classes/environmentcredential.html
+[4]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-identity/1.0.0/classes/clientsecretcredential.html
+[5]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-identity/1.0.0/classes/clientcertificatecredential.html
+[6]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-identity/1.0.0/classes/devicecodecredential.html
+[7]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-identity/1.0.0/classes/authorizationcodecredential.html
+[8]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-identity/1.0.0/classes/interactivebrowsercredential.html
+[9]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-identity/1.0.0/classes/usernamepasswordcredential.html
 
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fidentity%2Fidentity%2FREADME.png)

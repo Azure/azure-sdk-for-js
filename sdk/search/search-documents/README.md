@@ -19,7 +19,7 @@ Use the client library to:
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/search/search/) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/search-documents) |
-[API reference documentation](https://aka.ms/azsdk-js-search-ref-docs) |
+[API reference documentation](https://aka.ms/azsdk/js/docs/search) |
 [Product documentation](https://docs.microsoft.com/azure/search/) |
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/search/search/samples)
 

@@ -301,19 +301,19 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fservicebus%2Fservice-bus%2FREADME.png)
 
-[apiref]: https://aka.ms/azsdk/js/docs/ref/azure-service-bus/7.0.0-preview.2/index.html
-[sbclient]: https://aka.ms/azsdk/js/docs/ref/azure-service-bus/7.0.0-preview.2/classes/servicebusclient.html
-[sbclient_constructor]: https://aka.ms/azsdk/js/docs/ref/azure-service-bus/7.0.0-preview.2/classes/servicebusclient.html#constructor
-[sbclient_createsender]: https://aka.ms/azsdk/js/docs/ref/azure-service-bus/7.0.0-preview.2/classes/servicebusclient.html#createsender
-[sbclient_createreceiver]: https://aka.ms/azsdk/js/docs/ref/azure-service-bus/7.0.0-preview.2/classes/servicebusclient.html#createreceiver
-[sbclient_createsessionreceiver]: https://aka.ms/azsdk/js/docs/ref/azure-service-bus/7.0.0-preview.2/classes/servicebusclient.html#createsessionreceiver
-[sender]: https://aka.ms/azsdk/js/docs/ref/azure-service-bus/7.0.0-preview.2/interfaces/sender.html
-[sender_send]: https://aka.ms/azsdk/js/docs/ref/azure-service-bus/7.0.0-preview.2/interfaces/sender.html#send
-[receiver]: https://aka.ms/azsdk/js/docs/ref/azure-service-bus/7.0.0-preview.2/interfaces/receiver.html
-[receiverreceivebatch]: https://aka.ms/azsdk/js/docs/ref/azure-service-bus/7.0.0-preview.2/interfaces/receiver.html#receivebatch
-[receiver_subscribe]: https://aka.ms/azsdk/js/docs/ref/azure-service-bus/7.0.0-preview.2/interfaces/receiver.html#subscribe
-[receiver_getmessageiterator]: https://aka.ms/azsdk/js/docs/ref/azure-service-bus/7.0.0-preview.2/interfaces/receiver.html#getmessageiterator
-[sessionreceiver]: https://aka.ms/azsdk/js/docs/ref/azure-service-bus/7.0.0-preview.2/interfaces/sessionreceiver.html
+[apiref]: https://aka.ms/azsdk/js/docs/service-bus/7.0.0-preview.2
+[sbclient]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.2/classes/servicebusclient.html
+[sbclient_constructor]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.2/classes/servicebusclient.html#constructor
+[sbclient_createsender]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.2/classes/servicebusclient.html#createsender
+[sbclient_createreceiver]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.2/classes/servicebusclient.html#createreceiver
+[sbclient_createsessionreceiver]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.2/classes/servicebusclient.html#createsessionreceiver
+[sender]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.2/interfaces/sender.html
+[sender_send]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.2/interfaces/sender.html#send
+[receiver]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.2/interfaces/receiver.html
+[receiverreceivebatch]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.2/interfaces/receiver.html#receivebatch
+[receiver_subscribe]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.2/interfaces/receiver.html#subscribe
+[receiver_getmessageiterator]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.2/interfaces/receiver.html#getmessageiterator
+[sessionreceiver]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.2/interfaces/sessionreceiver.html
 [migrationguide]: https://github.com/Azure/azure-sdk-for-js/blob/%40azure/service-bus_7.0.0-preview.2/sdk/servicebus/service-bus/migrationguide.md
 [docsms_messagesessions]: https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sessions
 [docsms_messagesessions_fifo]: https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sessions#first-in-first-out-fifo-pattern
