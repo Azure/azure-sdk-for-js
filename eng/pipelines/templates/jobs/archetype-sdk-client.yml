@@ -68,6 +68,10 @@ jobs:
           node eng/tools/rush-runner.js build "${{parameters.ServiceDirectory}}" --verbose -p max
         displayName: "Build libraries"
 
+      - pwsh: |
+          eng/tools/check-api-warning.ps1 
+        displayName: "Check api extractor output changes"
+
       - script: |
           node eng/tools/rush-runner.js pack "${{parameters.ServiceDirectory}}" --verbose
         displayName: "Pack libraries"
