@@ -3,7 +3,7 @@
 
 import {
   SearchClient,
-  SearchServiceClient,
+  SearchIndexClient,
   GeographyPoint,
   Index,
   KnownAnalyzerNames
@@ -12,7 +12,7 @@ import { Hotel } from "./interfaces";
 import { delay } from "@azure/core-http";
 
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
-export async function createIndex(client: SearchServiceClient, name: string): Promise<void> {
+export async function createIndex(client: SearchIndexClient, name: string): Promise<void> {
   const hotelIndex: Index = {
     name,
     fields: [
