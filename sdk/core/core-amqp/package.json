@@ -94,7 +94,7 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@microsoft/api-extractor": "7.7.11",
     "@azure/identity": "^1.1.0-preview",
-    "@rollup/plugin-commonjs": "^11.0.1",
+    "@rollup/plugin-commonjs": "11.0.2",
     "@rollup/plugin-inject": "^4.0.0",
     "@rollup/plugin-json": "^4.0.0",
     "@rollup/plugin-multi-entry": "^3.0.0",
