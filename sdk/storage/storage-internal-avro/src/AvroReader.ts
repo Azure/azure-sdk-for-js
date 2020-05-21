@@ -115,7 +115,7 @@ export class AvroReader {
       this._objectIndex!++;
 
       if (this._itemsRemainingInBlock == 0) {
-        const marker = await AvroParser.readFixedBytes(this._dataStream, 16);
+        const marker = await AvroParser.readFixedBytes(this._dataStream, AVRO_SYNC_MARKER_SIZE);
 
         this._blockOffset = this._dataStream.position;
         this._objectIndex = 0;
