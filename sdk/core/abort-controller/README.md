@@ -10,7 +10,7 @@ in an Azure SDK that accept a parameter of type `AbortSignalLike`.
 
 ### Installation
 
-Install this libray using npm as follows
+Install this library using npm as follows
 
 ```
 npm install @azure/abort-controller
