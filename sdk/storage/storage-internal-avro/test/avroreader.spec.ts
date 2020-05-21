@@ -41,9 +41,9 @@ describe("AvroReader", () => {
 
       const avroReader = new AvroReader(rfs);
       const iter = avroReader.parseObjects();
-
-      let o = await iter.next();
-      testcase.predict(o.value);
+      for await (const o of iter) {
+        testcase.predict(o);
+      }
     }
   });
 });
