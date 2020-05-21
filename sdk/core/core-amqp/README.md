@@ -185,7 +185,7 @@ You can set the `AZURE_LOG_LEVEL` environment variable to one of the following v
 - warning
 - error
 
-You can also set the log level programatically by importing the
+You can also set the log level programmatically by importing the
 [@azure/logger](https://www.npmjs.com/package/@azure/logger) package and calling the
 `setLogLevel` function with one of the log level values.
 For example, when you set the log level to `info`, the logs that are written for levels
@@ -193,7 +193,7 @@ For example, when you set the log level to `info`, the logs that are written for
 This SDK follows the Azure SDK for TypeScript [guidelines](https://azure.github.io/azure-sdk/typescript_implementation.html#general-logging)
 when determining which level to log to.
 
-When setting a log level either programatically or via the `AZURE_LOG_LEVEL` environment variable,
+When setting a log level either programmatically or via the `AZURE_LOG_LEVEL` environment variable,
 any logs that are written using a log level equal to or less than the one you choose will be emitted.
 
 You can alternatively set the `DEBUG` environment variable to get logs when using this library.

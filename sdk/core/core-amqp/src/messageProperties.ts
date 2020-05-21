@@ -10,7 +10,7 @@ import { logger } from "./log";
  */
 export interface MessageProperties {
   /**
-   * @property {string | number | Buffer} [messageId] The application message identifier that uniquely idenitifes a message.
+   * @property {string | number | Buffer} [messageId] The application message identifier that uniquely identifies a message.
    * The user is responsible for making sure that this is unique in the given context. Guids usually make a good fit.
    */
   messageId?: string | number | Buffer;
@@ -32,7 +32,7 @@ export interface MessageProperties {
   contentType?: string;
   /**
    * @property {string} [contentEncoding] The content-encoding property is used as a modifier to the content-type.
-   * When present, its valueindicates what additional content encodings have been applied to the application-data.
+   * When present, its value indicates what additional content encodings have been applied to the application-data.
    */
   contentEncoding?: string;
   /**

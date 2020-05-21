@@ -157,7 +157,7 @@ export class RequestResponseLink implements ReqResLink {
           request.correlation_id !== responseCorrelationId
         ) {
           // do not remove message listener.
-          // parallel requests listen on the same receiver, so continue waiting until respose that matches
+          // parallel requests listen on the same receiver, so continue waiting until response that matches
           // request via correlationId is found.
           logger.verbose(
             "[%s] request-messageId | '%s' != '%s' | response-correlationId. " +
@@ -219,7 +219,7 @@ export class RequestResponseLink implements ReqResLink {
       logger.verbose(
         "[%s] %s request sent: %O",
         this.connection.id,
-        request.to || "$managment",
+        request.to || "$management",
         request
       );
       this.sender.send(request);
