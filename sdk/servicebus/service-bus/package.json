@@ -135,6 +135,7 @@
     "eslint-plugin-no-only-tests": "^2.3.0",
     "eslint-plugin-promise": "^4.1.1",
     "esm": "^3.2.18",
+    "events": "^3.0.0",
     "glob": "^7.1.2",
     "https-proxy-agent": "^3.0.1",
     "karma": "^4.0.1",
