@@ -390,8 +390,8 @@ async function main() {
   const containerClient = blobServiceClient.getContainerClient(containerName);
 
   let i = 1;
-  let iter = await containerClient.listBlobsFlat();
-  for await (const blob of iter) {
+  let blobs = containerClient.listBlobsFlat();
+  for await (const blob of blobs) {
     console.log(`Blob ${i++}: ${blob.name}`);
   }
 }
