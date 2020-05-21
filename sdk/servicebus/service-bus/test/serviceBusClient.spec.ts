@@ -301,7 +301,8 @@ describe("Test ServiceBusClient creation", function(): void {
   const serviceBusEndpoint = (env.SERVICEBUS_CONNECTION_STRING.match(
     "Endpoint=sb://((.*).servicebus.windows.net)"
   ) || "")[1];
-
+  
+  // `keytar` being used in `@azure/identity` is causing the build to fail when imported for the tests.
   // /**
   //  * Utility to create EnvironmentCredential using `@azure/identity`
   //  */
