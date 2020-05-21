@@ -40,10 +40,10 @@ export class AuthenticationChallenge {
    * @param other The other AuthenticationChallenge
    */
   public equalTo(other: AuthenticationChallenge | undefined) {
-    return other ? (
-      this.scope.toLowerCase() === other.scope.toLowerCase() &&
-      this.authorization.toLowerCase() === other.authorization.toLowerCase()
-    ) : false;
+    return other
+      ? this.scope.toLowerCase() === other.scope.toLowerCase() &&
+          this.authorization.toLowerCase() === other.authorization.toLowerCase()
+      : false;
   }
 }
 
