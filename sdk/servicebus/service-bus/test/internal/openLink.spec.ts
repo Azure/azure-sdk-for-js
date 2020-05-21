@@ -36,6 +36,7 @@ describe("openLink", () => {
         ensureTokenRenewal: NOTUSEDFORTEST,
         isConnecting: NOTUSEDFORTEST,
         setIsConnecting: NOTUSEDFORTEST,
+        getCloseInitiated: NOTUSEDFORTEST,
         logPrefix: "log prefix",
         logger: log.receiver,
         openLock: "a lock value",
@@ -57,6 +58,7 @@ describe("openLink", () => {
       ensureTokenRenewal: NOTUSEDFORTEST,
       isConnecting: NOTUSEDFORTEST,
       setIsConnecting: NOTUSEDFORTEST,
+      getCloseInitiated: NOTUSEDFORTEST,
       logPrefix: "log prefix",
       logger: log.receiver,
       openLock: "a lock value",
@@ -74,6 +76,7 @@ describe("openLink", () => {
       isOpen: () => false,
       isConnecting: () => true,
       setIsConnecting: NOTUSEDFORTEST,
+      getCloseInitiated: NOTUSEDFORTEST,
       create: NOTUSEDFORTEST,
       ensureTokenRenewal: NOTUSEDFORTEST,
       logPrefix: "log prefix",
@@ -89,6 +92,24 @@ describe("openLink", () => {
       result,
       "Connection isn't open _but_ we are connecting (this.isConnecting === true)"
     );
+
+    result = await openLink({
+      getCloseInitiated: () => true, // this will halt the open()
+      isOpen: () => false,
+      isConnecting: () => false,
+      setIsConnecting: () => false,
+      create: NOTUSEDFORTEST,
+      ensureTokenRenewal: NOTUSEDFORTEST,
+      logPrefix: "log prefix",
+      logger: log.receiver,
+      openLock: "a lock value",
+      negotiateClaim: () => {
+        throw new Error("Won't get called");
+      }
+    });
+
+    // connection is not open but we're in the middle of connecting, not bothering to create a new receiver.
+    assert.notExists(result, "Close has been initiated so we shouldn't try to open");
   });
 
   it("withinlock: critical calls are protected by the lock", async () => {
@@ -105,6 +126,7 @@ describe("openLink", () => {
         }
         return isConnecting;
       },
+      getCloseInitiated: () => false,
       create: async () => {
         callsWithinLock.push("create");
         return {} as RheaReceiver;
@@ -219,18 +241,22 @@ describe("openLink", () => {
     }
   });
 
-  function setupIsConnecting(): Pick<OpenArgs<RheaReceiver>, "isConnecting" | "setIsConnecting"> {
+  function setupIsConnecting(): Pick<
+    OpenArgs<RheaReceiver>,
+    "isConnecting" | "setIsConnecting" | "getCloseInitiated"
+  > {
     isConnecting = false;
 
     return {
       isConnecting: () => isConnecting,
-      setIsConnecting: (value) => (isConnecting = value)
+      setIsConnecting: (value) => (isConnecting = value),
+      getCloseInitiated: () => false
     };
   }
 
   function skipToAsyncPortionOfOpen(): Pick<
     OpenArgs<RheaReceiver>,
-    "isOpen" | "isConnecting" | "setIsConnecting"
+    "isOpen" | "isConnecting" | "setIsConnecting" | "getCloseInitiated"
   > {
     return {
       isOpen: () => false,

@@ -20,7 +20,9 @@ describe("init() and close() interactions", () => {
   }
 
   it("close() called just after init() but before the next step", async () => {
-    const batchingReceiver = new BatchingReceiver(fakeContext());
+    const batchingReceiver = new BatchingReceiver(fakeContext(), () => {
+      throw new Error("Not used");
+    });
 
     let initWasCalled = false;
     batchingReceiver["_init"] = async () => {
@@ -38,7 +40,13 @@ describe("init() and close() interactions", () => {
   });
 
   it("message receiver init() bails out early if object is closed()", async () => {
-    const messageReceiver2 = new MessageReceiver(fakeContext(), ReceiverType.streaming);
+    const messageReceiver2 = new MessageReceiver(
+      fakeContext(),
+      ReceiverType.streaming,
+      async () => {
+        return {} as any;
+      }
+    );
 
     // so our object basically looks like an unopened receiver
     messageReceiver2["isOpen"] = () => false;

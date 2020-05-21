@@ -404,7 +404,8 @@ export class MessageSender extends LinkEntity {
       ensureTokenRenewal: () => this._ensureTokenRenewal(),
       negotiateClaim: () => this._negotiateClaim(),
       isConnecting: () => this.isConnecting,
-      setIsConnecting: (value: boolean) => (this.isConnecting = value),
+      setIsConnecting: (value) => (this.isConnecting = value),
+      getCloseInitiated: () => false, // at this time sender's don't close forever...
       isOpen: () => this.isOpen(),
       logger: log.sender,
       logPrefix: `[${this._context.namespace.connectionId}] The sender '${this.name}' with address '${this.address}'`,

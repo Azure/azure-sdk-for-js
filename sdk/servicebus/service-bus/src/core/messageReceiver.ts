@@ -211,7 +211,7 @@ export class MessageReceiver extends LinkEntity {
   /**
    * @property {boolean} wasCloseInitiated Denotes if receiver was explicitly closed by user.
    */
-  protected wasCloseInitiated?: boolean;
+  protected wasCloseInitiated: boolean;
   /**
    * @property {Map<string, Function>} _messageRenewLockTimers Maintains a map of messages for which
    * the lock is automatically renewed.
@@ -774,8 +774,7 @@ export class MessageReceiver extends LinkEntity {
       abortSignal: options?.abortSignal,
       isConnecting: () => this.isConnecting,
       setIsConnecting: (value: boolean) => (this.isConnecting = value),
-      wasCloseInitiated: () => !!this.wasCloseInitiated,
-      setCloseInitialized: (value) => (this.wasCloseInitiated = value),
+      getCloseInitiated: () => this.wasCloseInitiated,
       create: () => {
         if (options && options.name) {
           this.name = options.name;

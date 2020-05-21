@@ -35,8 +35,7 @@ export interface OpenArgs<RheaLinkT extends RheaLink> {
   isConnecting(): boolean;
   setIsConnecting(value: boolean): boolean;
 
-  wasCloseInitiated(): boolean;
-  setCloseInitialized(value: boolean): void;
+  getCloseInitiated(): boolean;
 
   // these are more candidates to move out from LinkEntity. They don't really depend on anything special
   // in LinkEntity and are just clutter.
@@ -59,7 +58,7 @@ export function openLink<T extends RheaLink>(args: OpenArgs<T>): Promise<T | und
 
   checkAborted();
 
-  if (args.isOpen() || args.isConnecting()) {
+  if (args.isOpen() || args.isConnecting() || args.getCloseInitiated()) {
     return Promise.resolve(undefined);
   }
 
