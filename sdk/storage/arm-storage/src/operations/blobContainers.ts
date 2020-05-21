@@ -826,7 +826,8 @@ const listOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion,
     Parameters.maxpagesize,
-    Parameters.filter
+    Parameters.filter,
+    Parameters.include
   ],
   headerParameters: [
     Parameters.acceptLanguage

@@ -206,6 +206,18 @@ export const immutabilityPolicyName: msRest.OperationURLParameter = {
     }
   }
 };
+export const include: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "include"
+  ],
+  mapper: {
+    serializedName: "$include",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const location: msRest.OperationURLParameter = {
   parameterPath: "location",
   mapper: {
@@ -274,6 +286,33 @@ export const privateEndpointConnectionName: msRest.OperationURLParameter = {
     }
   }
 };
+export const queueName: msRest.OperationURLParameter = {
+  parameterPath: "queueName",
+  mapper: {
+    required: true,
+    serializedName: "queueName",
+    constraints: {
+      MaxLength: 63,
+      MinLength: 3,
+      Pattern: /^[a-z0-9]([a-z0-9]|(-(?!-))){1,61}[a-z0-9]$/
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
+export const queueServiceName: msRest.OperationURLParameter = {
+  parameterPath: "queueServiceName",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "queueServiceName",
+    defaultValue: 'default',
+    type: {
+      name: "String"
+    }
+  }
+};
 export const resourceGroupName: msRest.OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
@@ -311,6 +350,33 @@ export const subscriptionId: msRest.OperationURLParameter = {
     constraints: {
       MinLength: 1
     },
+    type: {
+      name: "String"
+    }
+  }
+};
+export const tableName: msRest.OperationURLParameter = {
+  parameterPath: "tableName",
+  mapper: {
+    required: true,
+    serializedName: "tableName",
+    constraints: {
+      MaxLength: 63,
+      MinLength: 3,
+      Pattern: /^[A-Za-z][A-Za-z0-9]{2,62}$/
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
+export const tableServiceName: msRest.OperationURLParameter = {
+  parameterPath: "tableServiceName",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "tableServiceName",
+    defaultValue: 'default',
     type: {
       name: "String"
     }
