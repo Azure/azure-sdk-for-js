@@ -2606,6 +2606,38 @@ export type ResourceRegionType = 'RegionalResource' | 'GlobalResource';
 export type TopicTypeProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Canceled' | 'Failed';
 
 /**
+ * Defines values for ParentType.
+ * Possible values include: 'topics', 'domains'
+ * @readonly
+ * @enum {string}
+ */
+export type ParentType = 'topics' | 'domains';
+
+/**
+ * Defines values for ParentType1.
+ * Possible values include: 'topics', 'domains'
+ * @readonly
+ * @enum {string}
+ */
+export type ParentType1 = 'topics' | 'domains';
+
+/**
+ * Defines values for ParentType2.
+ * Possible values include: 'topics', 'domains'
+ * @readonly
+ * @enum {string}
+ */
+export type ParentType2 = 'topics' | 'domains';
+
+/**
+ * Defines values for ParentType3.
+ * Possible values include: 'topics', 'domains'
+ * @readonly
+ * @enum {string}
+ */
+export type ParentType3 = 'topics' | 'domains';
+
+/**
  * Contains response data for the get operation.
  */
 export type DomainsGetResponse = Domain & {
