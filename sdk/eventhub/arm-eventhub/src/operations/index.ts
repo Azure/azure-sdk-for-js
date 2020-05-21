@@ -8,9 +8,11 @@
  * regenerated.
  */
 
-export * from "./operations";
+export * from "./clusters";
 export * from "./namespaces";
+export * from "./configuration";
 export * from "./disasterRecoveryConfigs";
 export * from "./eventHubs";
 export * from "./consumerGroups";
+export * from "./operations";
 export * from "./regions";
