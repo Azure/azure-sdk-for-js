@@ -16,6 +16,8 @@ export class AvroReader {
 
   private _itemsRemainingInBlock?: number;
 
+  /// The byte offset within the Avro file (both header and data)
+  /// of the start of the current block.
   private _blockOffset: number;
   public get blockOffset(): number {
     return this._blockOffset;
