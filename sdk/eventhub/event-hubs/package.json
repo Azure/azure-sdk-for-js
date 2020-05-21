@@ -116,7 +116,7 @@
     "@types/node": "^8.0.0",
     "@types/sinon": "^9.0.4",
     "@types/uuid": "^3.4.3",
-    "@types/ws": "^6.0.1",
+    "@types/ws": "^7.2.4",
     "@typescript-eslint/eslint-plugin": "^2.0.0",
     "@typescript-eslint/parser": "^2.0.0",
     "assert": "^1.4.1",
