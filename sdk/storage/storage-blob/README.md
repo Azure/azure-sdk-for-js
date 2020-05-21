@@ -273,8 +273,8 @@ const blobServiceClient = new BlobServiceClient(
 
 async function main() {
   let i = 1;
-  let iter = await blobServiceClient.listContainers();
-  for await (const container of iter) {
+  let containers = blobServiceClient.listContainers();
+  for await (const container of containers) {
     console.log(`Container ${i++}: ${container.name}`);
   }
 }
