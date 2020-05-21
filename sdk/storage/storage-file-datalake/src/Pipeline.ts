@@ -209,7 +209,7 @@ export function newPipeline(
   ];
 
   if (isNode) {
-    // policies only avaiable in Node.js runtime, not in browsers
+    // policies only available in Node.js runtime, not in browsers
     factories.push(proxyPolicy(pipelineOptions.proxyOptions));
     factories.push(disableResponseDecompressionPolicy());
   }

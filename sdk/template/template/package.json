@@ -1,6 +1,6 @@
 {
   "name": "@azure/template",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Template Library with typescript type definitions for node.js and browser.",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -68,7 +68,7 @@
   },
   "devDependencies": {
     "@microsoft/api-extractor": "7.7.11",
-    "@rollup/plugin-commonjs": "^11.0.1",
+    "@rollup/plugin-commonjs": "11.0.2",
     "@rollup/plugin-json": "^4.0.0",
     "@rollup/plugin-multi-entry": "^3.0.0",
     "@rollup/plugin-node-resolve": "^7.0.0",

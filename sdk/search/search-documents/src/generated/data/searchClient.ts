@@ -12,14 +12,14 @@ import * as coreHttp from "@azure/core-http";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
-import { SearchIndexClientContext } from "./searchIndexClientContext";
+import { SearchClientContext } from "./searchClientContext";
 
-class SearchIndexClient extends SearchIndexClientContext {
+class SearchClient extends SearchClientContext {
   // Operation groups
   documents: operations.Documents;
 
   /**
-   * Initializes a new instance of the SearchIndexClient class.
+   * Initializes a new instance of the SearchClient class.
    * @param apiVersion Client Api Version.
    * @param endpoint The endpoint URL of the search service.
    * @param indexName The name of the index.
@@ -35,9 +35,9 @@ class SearchIndexClient extends SearchIndexClientContext {
 // Operation Specifications
 
 export {
-  SearchIndexClient,
-  SearchIndexClientContext,
-  Models as SearchIndexModels,
-  Mappers as SearchIndexMappers
+  SearchClient,
+  SearchClientContext,
+  Models as SearchModels,
+  Mappers as SearchMappers
 };
 export * from "./operations";
