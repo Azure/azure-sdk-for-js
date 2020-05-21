@@ -1,5 +1,5 @@
 import { AvroReadable } from "./AvroReadable";
-import { AvroConstants } from "./AvroConstants";
+import { AVRO_SYNC_MARKER_SIZE, AVRO_INIT_BYTES, AVRO_CODEC_KEY, AVRO_SCHEMA_KEY } from "./AvroConstants";
 import { arraysEqual } from "./utils/utils.common";
 import { AvroType, AvroParser } from "./AvroParser";
 
@@ -54,9 +54,9 @@ export class AvroReader {
   private async initialize() {
     const header = await AvroParser.readFixedBytes(
       this._headerStream,
-      AvroConstants.INIT_BYTES.length
+      AVRO_INIT_BYTES.length
     );
-    if (!arraysEqual(header, AvroConstants.INIT_BYTES)) {
+    if (!arraysEqual(header, AVRO_INIT_BYTES)) {
       throw new Error("Stream is not an Avro file.");
     }
 
@@ -65,7 +65,7 @@ export class AvroReader {
     this._metadata = await AvroParser.readMap(this._headerStream, AvroParser.readString);
 
     // Validate codec
-    const codec = this._metadata![AvroConstants.CODEC_KEY];
+    const codec = this._metadata![AVRO_CODEC_KEY];
     if (!(codec == undefined || codec == "null")) {
       throw new Error("Codecs are not supported");
     }
@@ -73,11 +73,11 @@ export class AvroReader {
     // The 16-byte, randomly-generated sync marker for this file.
     this._syncMarker = await AvroParser.readFixedBytes(
       this._headerStream,
-      AvroConstants.SYNC_MARKER_SIZE
+      AVRO_SYNC_MARKER_SIZE
     );
 
     // Parse the schema
-    const schema = JSON.parse(this._metadata![AvroConstants.SCHEMA_KEY]);
+    const schema = JSON.parse(this._metadata![AVRO_SCHEMA_KEY]);
     this._itemType = AvroType.fromSchema(schema);
 
     if (this._blockOffset == 0) {

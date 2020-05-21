@@ -1,6 +1,5 @@
 import { AvroReadable } from "./AvroReadable";
 import { KeyValuePair } from "./utils/utils.common";
-import { AvroConstants } from "./AvroConstants";
 
 export class AvroParser {
   /**
@@ -165,8 +164,17 @@ interface RecordField {
   type: string | ObjectSchema | (string | ObjectSchema)[]; // Unions may not immediately contain other unions.
 }
 
+enum AvroComplex {
+  RECORD = 'record',
+  ENUM = 'enum',
+  ARRAY = 'array',
+  MAP = 'map',
+  UNION = 'union',
+  FIXED = 'fixed',
+}
+
 interface ObjectSchema {
-  type: "record" | "enum" | "array" | "map" | "fixed";
+  type: Exclude<AvroComplex, AvroComplex.UNION>;
   name?: string;
   aliases?: string;
   fields?: RecordField[];
@@ -184,7 +192,7 @@ export abstract class AvroType {
   public abstract read(stream: AvroReadable): Promise<Object | null>;
 
   /**
-   * Determinds the AvroType from the Avro Schema.
+   * Determines the AvroType from the Avro Schema.
    */
   public static fromSchema(schema: string | Object): AvroType {
     if (typeof schema == "string") {
@@ -199,14 +207,14 @@ export abstract class AvroType {
   private static fromStringSchema(schema: string): AvroType {
     // FIXME: simpler way to tell if schema is of type AvroPrimitive?
     switch (schema) {
-      case AvroConstants.NULL:
-      case AvroConstants.BOOLEAN:
-      case AvroConstants.INT:
-      case AvroConstants.LONG:
-      case AvroConstants.FLOAT:
-      case AvroConstants.DOUBLE:
-      case AvroConstants.BYTES:
-      case AvroConstants.STRING:
+      case AvroPrimitive.NULL:
+      case AvroPrimitive.BOOLEAN:
+      case AvroPrimitive.INT:
+      case AvroPrimitive.LONG:
+      case AvroPrimitive.FLOAT:
+      case AvroPrimitive.DOUBLE:
+      case AvroPrimitive.BYTES:
+      case AvroPrimitive.STRING:
         return new AvroPrimitiveType(schema as AvroPrimitive);
       default:
         throw new Error(`Unexpected Avro type ${schema}`);
@@ -222,10 +230,10 @@ export abstract class AvroType {
     // Primitives can be defined as strings or objects
     try {
       return AvroType.fromStringSchema(type);
-    } catch (err) {}
+    } catch (err) { }
 
     switch (type) {
-      case AvroConstants.RECORD:
+      case AvroComplex.RECORD:
         if (schema.aliases) {
           throw new Error(`aliases currently is not supported, schema: ${schema}`);
         }
@@ -241,7 +249,7 @@ export abstract class AvroType {
           fields[field.name] = AvroType.fromSchema(field.type);
         }
         return new AvroRecordType(fields, schema.name);
-      case AvroConstants.ENUM:
+      case AvroComplex.ENUM:
         if (schema.aliases) {
           throw new Error(`aliases currently is not supported, schema: ${schema}`);
         }
@@ -249,21 +257,29 @@ export abstract class AvroType {
           throw new Error(`Required attribute 'symbols' doesn't exist on schema: ${schema}`);
         }
         return new AvroEnumType(schema.symbols);
-      case AvroConstants.MAP:
+      case AvroComplex.MAP:
         if (!schema.values) {
           throw new Error(`Required attribute 'values' doesn't exist on schema: ${schema}`);
         }
         return new AvroMapType(AvroType.fromSchema(schema.values));
-      case AvroConstants.ARRAY: // Unused today
-      case AvroConstants.UNION: // Unused today
-      case AvroConstants.FIXED: // Unused today
+      case AvroComplex.ARRAY: // Unused today
+      case AvroComplex.FIXED: // Unused today
       default:
         throw new Error(`Unexpected Avro type ${type} in ${schema}`);
     }
   }
 }
 
-type AvroPrimitive = "null" | "boolean" | "int " | "long" | "float" | "double" | "bytes" | "string";
+enum AvroPrimitive {
+  NULL = "null",
+  BOOLEAN = 'boolean',
+  INT = 'int',
+  LONG = 'long',
+  FLOAT = 'float',
+  DOUBLE = 'double',
+  BYTES = 'bytes',
+  STRING = 'string'
+}
 
 class AvroPrimitiveType extends AvroType {
   private _primitive: AvroPrimitive;
@@ -275,21 +291,21 @@ class AvroPrimitiveType extends AvroType {
 
   public async read(stream: AvroReadable): Promise<Object | null> {
     switch (this._primitive) {
-      case AvroConstants.NULL:
+      case AvroPrimitive.NULL:
         return await AvroParser.readNull();
-      case AvroConstants.BOOLEAN:
+      case AvroPrimitive.BOOLEAN:
         return await AvroParser.readBoolean(stream);
-      case AvroConstants.INT:
+      case AvroPrimitive.INT:
         return await AvroParser.readInt(stream);
-      case AvroConstants.LONG:
+      case AvroPrimitive.LONG:
         return await AvroParser.readLong(stream);
-      case AvroConstants.FLOAT:
+      case AvroPrimitive.FLOAT:
         return await AvroParser.readFloat(stream);
-      case AvroConstants.DOUBLE:
+      case AvroPrimitive.DOUBLE:
         return await AvroParser.readDouble(stream);
-      case AvroConstants.BYTES:
+      case AvroPrimitive.BYTES:
         return await AvroParser.readBytes(stream);
-      case AvroConstants.STRING:
+      case AvroPrimitive.STRING:
         return await AvroParser.readString(stream);
       default:
         throw new Error("Unknown Avro Primitive");
