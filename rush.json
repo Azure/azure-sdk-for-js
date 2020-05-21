@@ -448,6 +448,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/storage-internal-avro",
+      "projectFolder": "sdk/storage/storage-internal-avro",
+      "versionPolicyName": "utility"
+    },
+    {
       "packageName": "@azure/storage-blob",
       "projectFolder": "sdk/storage/storage-blob",
       "versionPolicyName": "client"

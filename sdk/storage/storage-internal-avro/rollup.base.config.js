@@ -33,7 +33,7 @@ export function nodeConfig(test = false) {
     "util"
   ];
   const baseConfig = {
-    input: "dist-esm/storage-blob/src/index.js",
+    input: "dist-esm/src/index.js",
     external: depNames.concat(externalNodeBuiltins),
     output: {
       file: "dist/index.js",
@@ -65,9 +65,9 @@ export function nodeConfig(test = false) {
   if (test) {
     // entry point is every test file
     baseConfig.input = [
-      "dist-esm/storage-blob/test/*.spec.js",
-      "dist-esm/storage-blob/test/node/*.spec.js",
-      "dist-esm/storage-blob/src/index.js"
+      "dist-esm/test/*.spec.js",
+      "dist-esm/test/node/*.spec.js",
+      "dist-esm/src/index.js"
     ];
     baseConfig.plugins.unshift(multiEntry());
 
@@ -92,9 +92,9 @@ export function nodeConfig(test = false) {
 
 export function browserConfig(test = false) {
   const baseConfig = {
-    input: "dist-esm/storage-blob/src/index.browser.js",
+    input: "dist-esm/src/index.browser.js",
     output: {
-      file: "dist-browser/azure-storage-blob.js",
+      file: "dist-browser/azure-internal-avro.js",
       banner: banner,
       format: "umd",
       name: "azblob",
@@ -159,7 +159,7 @@ export function browserConfig(test = false) {
   };
 
   if (test) {
-    baseConfig.input = ["dist-esm/storage-blob/test/*.spec.js", "dist-esm/storage-blob/test/browser/*.spec.js"];
+    baseConfig.input = ["dist-esm/test/*.spec.js", "dist-esm/test/browser/*.spec.js"];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "dist-test/index.browser.js";
     // mark fs-extra as external
