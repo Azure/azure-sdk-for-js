@@ -924,7 +924,7 @@ export class ShareDirectoryClient extends StorageClient {
    *
    * ```js
    * let i = 1;
-   * let iter = await directoryClient.listFilesAndDirectories();
+   * let iter = directoryClient.listFilesAndDirectories();
    * let entity = await iter.next();
    * while (!entity.done) {
    *   if (entity.value.kind === "directory") {
@@ -1138,7 +1138,7 @@ export class ShareDirectoryClient extends StorageClient {
    *
    * ```js
    * let i = 1;
-   * let iter = await dirClient.listHandles();
+   * let iter = dirClient.listHandles();
    * let handleItem = await iter.next();
    * while (!handleItem.done) {
    *   console.log(`Handle ${i++}: ${handleItem.value.path}, opened time ${handleItem.value.openTime}, clientIp ${handleItem.value.clientIp}`);

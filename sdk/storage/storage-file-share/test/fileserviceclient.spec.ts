@@ -160,7 +160,7 @@ describe("FileServiceClient", () => {
     await shareClient1.create({ metadata: { key: "val" } });
     await shareClient2.create({ metadata: { key: "val" } });
 
-    const iter = await serviceClient.listShares({
+    const iter = serviceClient.listShares({
       includeMetadata: true,
       includeSnapshots: true,
       prefix: shareNamePrefix

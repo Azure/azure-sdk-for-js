@@ -315,7 +315,7 @@ async function main() {
   const trainingClient = client.getFormTrainingClient();
 
   // returns an async iteratable iterator that supports paging
-  const result = await trainingClient.listCustomModels();
+  const result = trainingClient.listCustomModels();
   let i = 0;
   for await (const modelInfo of result) {
     console.log(`model ${i++}:`);

@@ -382,7 +382,7 @@ export class QueueServiceClient extends StorageClient {
 
     let listQueuesResponse;
     do {
-      listQueuesResponse = await this.listQueuesSegment(marker, options);
+      listQueuesResponse = this.listQueuesSegment(marker, options);
       marker = listQueuesResponse.continuationToken;
       yield await listQueuesResponse;
     } while (marker);

@@ -144,7 +144,7 @@ describe("QueueServiceClient", () => {
     await queueClient1.create({ metadata: { key: "val" } });
     await queueClient2.create({ metadata: { key: "val" } });
 
-    let iter1 = await queueServiceClient.listQueues({
+    let iter1 = queueServiceClient.listQueues({
       includeMetadata: true,
       prefix: queueNamePrefix
     });

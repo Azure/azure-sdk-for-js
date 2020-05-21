@@ -168,7 +168,7 @@ describe("BlobServiceClient", () => {
     await containerClient1.create({ metadata: { key: "val" } });
     await containerClient2.create({ metadata: { key: "val" } });
 
-    const iterator = await blobServiceClient.listContainers({
+    const iterator = blobServiceClient.listContainers({
       includeMetadata: true,
       prefix: containerNamePrefix
     });
