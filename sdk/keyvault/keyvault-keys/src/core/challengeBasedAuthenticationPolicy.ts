@@ -35,6 +35,8 @@ export class AuthenticationChallenge {
   /**
    * Checks that this AuthenticationChallenge is equal to another one given.
    * Only compares the scope.
+   * This is exactly what C# is doing, as we can see here:
+   * https://github.com/Azure/azure-sdk-for-net/blob/70e54b878ff1d01a45266fb3674a396b4ab9c1d2/sdk/keyvault/Azure.Security.KeyVault.Shared/src/ChallengeBasedAuthenticationPolicy.cs#L143-L147
    * @param other The other AuthenticationChallenge
    */
   public equalTo(other: AuthenticationChallenge | undefined) {
@@ -178,8 +180,6 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
     // Either if there's no cached challenge at this point (could have happen in parallel),
     // or if the cached challenge has a different scope,
     // we store the just received challenge and reset the cached token, to force a re-authentication.
-    // This is exactly what C# is doing, as we can see here:
-    // https://github.com/heaths/azure-sdk-for-net/blob/a35434c1ce955d4cdeb393748f9f6407d4a984e2/sdk/keyvault/Azure.Security.KeyVault.Shared/src/ChallengeBasedAuthenticationPolicy.cs#L233
     if (!this.challengeCache.challenge?.equalTo(challenge)) {
       this.challengeCache.setCachedChallenge(challenge);
       this.tokenCache.setCachedToken(undefined);
