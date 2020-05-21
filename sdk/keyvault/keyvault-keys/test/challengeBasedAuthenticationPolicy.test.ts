@@ -78,7 +78,7 @@ describe("Challenge based authentication tests", () => {
     assert.equal(challenges.length, 1);
   });
 
-  it.only("Authentication should work for parallel requests", async function() {
+  it("Authentication should work for parallel requests", async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const keyNames = [`${keyName}-0`, `${keyName}-1`];
 
