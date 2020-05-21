@@ -85,7 +85,7 @@ describe("Challenge based authentication tests", () => {
       await promise.promise;
       await testClient.flushKey(promise.name);
     }
-    
+
     // Even though we had parallel requests, only one authentication should have happened.
 
     // This is determined by the comparison between the cached challenge and the new receive challenge.
@@ -101,7 +101,8 @@ describe("Challenge based authentication tests", () => {
 
   describe("parseWWWAuthenticate tests", () => {
     it("Should work for known shapes of the WWW-Authenticate header", () => {
-      const parseWWWAuthenticate = ChallengeBasedAuthenticationPolicy.prototype.parseWWWAuthenticate;
+      const parseWWWAuthenticate =
+        ChallengeBasedAuthenticationPolicy.prototype.parseWWWAuthenticate;
 
       const wwwAuthenticate1 = `Bearer authorization="some_authorization", resource="https://some.url"`;
       const parsed1 = parseWWWAuthenticate(wwwAuthenticate1);
@@ -110,11 +111,32 @@ describe("Challenge based authentication tests", () => {
         resource: "https://some.url"
       });
 
-      const wwwAuthenticate2 = `Bearer authorization_url="some_authorization", scope="https://some.url"`;
+      const wwwAuthenticate2 = `Bearer authorization_uri="some_authorization", scope="https://some.url"`;
       const parsed2 = parseWWWAuthenticate(wwwAuthenticate2);
       assert.deepEqual(parsed2, {
-        authorization_url: "some_authorization",
+        authorization_uri: "some_authorization",
         scope: "https://some.url"
+      });
+    });
+
+    it("Should skip unexpected properties on the WWW-Authenticate header", () => {
+      const parseWWWAuthenticate =
+        ChallengeBasedAuthenticationPolicy.prototype.parseWWWAuthenticate;
+
+      const wwwAuthenticate1 = `Bearer authorization="some_authorization", a="a", b="b"`;
+      const parsed1 = parseWWWAuthenticate(wwwAuthenticate1);
+      assert.deepEqual(parsed1, {
+        authorization: "some_authorization",
+        a: "a",
+        b: "b"
+      });
+
+      const wwwAuthenticate2 = `scope="https://some.url", a="a", c="c"`;
+      const parsed2 = parseWWWAuthenticate(wwwAuthenticate2);
+      assert.deepEqual(parsed2, {
+        scope: "https://some.url",
+        a: "a",
+        c: "c"
       });
     });
   });

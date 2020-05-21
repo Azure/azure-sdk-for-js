@@ -10,13 +10,12 @@ import {
 } from "@azure/core-http";
 import { Constants } from "@azure/core-http";
 import { HttpOperationResponse } from "@azure/core-http";
-import { HttpHeaders } from "@azure/core-http";
 import { WebResource } from "@azure/core-http";
 import { AccessTokenCache, ExpiringAccessTokenCache } from "@azure/core-http";
 
 type ValidParsedWWWAuthenticateProperties =
   | "authorization"
-  | "authorization_url"
+  | "authorization_uri"
   | "resource"
   | "scope";
 
@@ -36,7 +35,7 @@ export class AuthenticationChallenge {
    * @param other The other AuthenticationChallenge
    */
   public equalTo(other: AuthenticationChallenge | undefined) {
-    return other ? this.scope === other.scope : false;
+    return other ? this.scope.toLowerCase() === other.scope.toLowerCase() : false;
   }
 }
 
@@ -102,15 +101,93 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
   }
 
   /**
-   * Applies the Bearer token to the request through the Authorization header.
-   * @param webResource
+   * Gets or updates the token from the token cache into the headers of the received web resource.
    */
-  public async sendRequest(webResource: WebResource): Promise<HttpOperationResponse> {
-    // Headers must exist in the webResource object.
-    if (!webResource.headers) {
-      webResource.headers = new HttpHeaders();
+  private async loadToken(webResource: WebResource): Promise<void> {
+    let accessToken = this.tokenCache.getCachedToken();
+
+    // If there's no cached token in the cache, we try to get a new one.
+    if (accessToken === undefined) {
+      const receivedToken = await this.credential.getToken(this.challengeCache.challenge!.scope);
+      accessToken = receivedToken || undefined;
+      this.tokenCache.setCachedToken(accessToken);
     }
 
+    if (accessToken) {
+      webResource.headers.set(
+        Constants.HeaderConstants.AUTHORIZATION,
+        `Bearer ${accessToken.token}`
+      );
+    }
+  }
+
+  /**
+   * Parses an WWW-Authenticate response.
+   * This transforms a string value like:
+   * `Bearer authorization="some_authorization", resource="https://some.url"`
+   * into an object like:
+   * `{ authorization: "some_authorization", resource: "https://some.url" }`
+   * @param wwwAuthenticate string value in the WWW-Authenticate header
+   */
+  public parseWWWAuthenticate(wwwAuthenticate: string): ParsedWWWAuthenticate {
+    // First we split the string by either `, ` or ` `.
+    const parts = wwwAuthenticate.split(/,* +/);
+    // Then we only keep the strings with an equal sign after a word and before a quote.
+    // also splitting these sections by their equal sign
+    const keyValues = parts.reduce(
+      (parts, str) => (str.match(/\w="/) ? [...parts, str.split("=")] : parts),
+      [] as string[][]
+    );
+    // Then we transform these key-value pairs back into an object.
+    const parsed = keyValues.reduce(
+      (result, [key, value]: string[]) => ({
+        ...result,
+        [key]: value.slice(1, -1)
+      }),
+      {} as ParsedWWWAuthenticate
+    );
+    return parsed;
+  }
+
+  /**
+   * Parses the given WWW-Authenticate header, generates a new AuthenticationChallenge,
+   * then if the challenge is different from the one cached, resets the token and forces
+   * a re-authentication, otherwise continues with the existing challenge and token.
+   * @param wwwAuthenticate Value of the incoming WWW-Authenticate header.
+   * @param webResource Ongoing HTTP request.
+   */
+  private async regenerateChallenge(
+    wwwAuthenticate: string,
+    webResource: WebResource
+  ): Promise<HttpOperationResponse> {
+    // The challenge based authentication will contain both:
+    // - An authorization URI with a token,
+    // - The resource to which that token is valid against (also called the scope).
+    const parsedWWWAuth = this.parseWWWAuthenticate(wwwAuthenticate);
+    const authorization = parsedWWWAuth.authorization! || parsedWWWAuth.authorization_uri!;
+    const resource = parsedWWWAuth.resource! || parsedWWWAuth.scope!;
+
+    const challenge = new AuthenticationChallenge(authorization, resource + "/.default");
+
+    // Either if there's no cached challenge at this point (could have happen in parallel),
+    // or if the cached challenge has a different scope,
+    // we store the just received challenge and reset the cached token, to force a re-authentication.
+    // This is exactly what C# is doing, as we can see here:
+    // https://github.com/heaths/azure-sdk-for-net/blob/a35434c1ce955d4cdeb393748f9f6407d4a984e2/sdk/keyvault/Azure.Security.KeyVault.Shared/src/ChallengeBasedAuthenticationPolicy.cs#L233
+    if (!this.challengeCache.challenge?.equalTo(challenge)) {
+      this.challengeCache.setCachedChallenge(challenge);
+      this.tokenCache.setCachedToken(undefined);
+    }
+
+    await this.loadToken(webResource);
+    return this._nextPolicy.sendRequest(webResource);
+  }
+
+  /**
+   * Applies the Bearer token to the request through the Authorization header.
+   * @param webResource Ongoing HTTP request.
+   */
+  public async sendRequest(webResource: WebResource): Promise<HttpOperationResponse> {
     // Ensure that we're about to use a secure connection.
     if (!webResource.url.startsWith("https:")) {
       throw new Error("The resource address for authorization must use the 'https' protocol.");
@@ -144,75 +221,7 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
       return response;
     }
 
-    // The challenge based authentication will contain both:
-    // - An authorization URI with a token,
-    // - The resource to which that token is valid against (also called the scope).
-    const parsedWWWAuth = this.parseWWWAuthenticate(wwwAuthenticate);
-    const authorization = parsedWWWAuth.authorization! || parsedWWWAuth.authorization_url!;
-    const resource = parsedWWWAuth.resource! || parsedWWWAuth.scope!;
-
-    const challenge = new AuthenticationChallenge(authorization, resource + "/.default");
-
-    // Either if there's no cached challenge at this point (could have happen in parallel),
-    // or if the cached challenge has a different scope,
-    // we store the just received challenge and reset the cached token, to force a re-authentication.
-    // This is exactly what C# is doing, as we can see here:
-    // https://github.com/heaths/azure-sdk-for-net/blob/a35434c1ce955d4cdeb393748f9f6407d4a984e2/sdk/keyvault/Azure.Security.KeyVault.Shared/src/ChallengeBasedAuthenticationPolicy.cs#L233
-    if (!this.challengeCache.challenge?.equalTo(challenge)) {
-      this.challengeCache.setCachedChallenge(challenge);
-      this.tokenCache.setCachedToken(undefined);
-    }
-
-    await this.loadToken(webResource);
-    return this._nextPolicy.sendRequest(webResource);
-  }
-
-  /**
-   * Gets or updates the token from the token cache into the headers of the received web resource.
-   */
-  private async loadToken(webResource: WebResource): Promise<void> {
-    let accessToken = this.tokenCache.getCachedToken();
-
-    // If there's no cached token in the cache, we try to get a new one.
-    if (accessToken === undefined) {
-      const receivedToken = await this.credential.getToken(this.challengeCache.challenge!.scope);
-      accessToken = receivedToken || undefined;
-      this.tokenCache.setCachedToken(accessToken);
-    }
-
-    if (accessToken) {
-      webResource.headers.set(
-        Constants.HeaderConstants.AUTHORIZATION,
-        `Bearer ${accessToken.token}`
-      );
-    }
-  }
-
-  /**
-   * Parses an WWW-Authenticate response.
-   * This transforms a string value like:
-   * `Bearer authorization="some_authorization", resource="https://some.url"`
-   * into an object like:
-   * `{ authorization: "some_authorization", resource: "https://some.url" }`
-   * @param wwwAuthenticate string value in the WWW-Authenticate header
-   */
-  public parseWWWAuthenticate(wwwAuthenticate: string): ParsedWWWAuthenticate {
-    // First we split the string by either `, ` or ` `.
-    const parts = wwwAuthenticate.split(/,* /);
-    // Then we only keep the strings with an equal sign after a word and before a quote.
-    // also splitting these sections by their equal sign
-    const keyValues = parts.reduce(
-      (parts, str) => (str.match(/\w="/) ? [...parts, str.split("=")] : parts),
-      [] as string[][]
-    );
-    // Then we transform these key-value pairs back into an object.
-    const parsed = keyValues.reduce(
-      (result, keyValues: string[]) => ({
-        ...result,
-        [keyValues[0]]: keyValues[1].slice(1, -1)
-      }),
-      {} as ParsedWWWAuthenticate
-    );
-    return parsed;
+    // We re-generate the challenge and see if we have to re-authenticate.
+    return await this.regenerateChallenge(wwwAuthenticate, webResource);
   }
 }
