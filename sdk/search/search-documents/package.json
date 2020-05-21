@@ -125,7 +125,7 @@
     "prettier": "^1.16.4",
     "rimraf": "^3.0.0",
     "rollup": "^1.16.3",
-    "@rollup/plugin-commonjs": "11.0.2",
+    "@rollup/plugin-commonjs": "^12.0.0",
     "@rollup/plugin-node-resolve": "^7.0.0",
     "rollup-plugin-shim": "^1.0.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
