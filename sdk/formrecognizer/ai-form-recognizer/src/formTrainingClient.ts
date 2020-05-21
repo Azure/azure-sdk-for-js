@@ -461,9 +461,17 @@ export class FormTrainingClient {
     return poller;
   }
 
+  /**
+   * Generates authorization for copying a custom model into this Azure Form Recognizer resource.
+   *
+   * @param {string} resourceId Id of the Azure Form Recognizer resource where a custom model will be copied to
+   * @param {string} resourceRegion Location of the Azure Form Recognizer resource
+   * @param {GetCopyAuthorizationOptions} [options={}] Options to get copy authorization operation
+   * @returns {Promise<CopyAuthorization>} The authorization to copy a custom model
+   */
   public async getCopyAuthorization(
-    targetResourceId: string,
-    targetResourceRegion: string,
+    resourceId: string,
+    resourceRegion: string,
     options: GetCopyAuthorizationOptions = {}
   ): Promise<CopyAuthorization> {
     const { span, updatedOptions: finalOptions } = createSpan(
@@ -475,11 +483,11 @@ export class FormTrainingClient {
       const response = await this.client.generateModelCopyAuthorization(
         operationOptionsToRequestOptionsBase(finalOptions));
       return {
-        targetResourceId,
-        targetResourceRegion,
+        targetResourceId: resourceId,
+        targetResourceRegion: resourceRegion,
         accessToken: response.accessToken,
         modelId: response.modelId,
-        // TODO use expiresOn after service changed this field to seconds
+        // TODO: use Date after service changed this field to seconds
         // expiresOn: new Date(response.expirationDateTimeSeconds * 1000)
         expirationOn: response.expirationDateTimeTicks
       };
@@ -495,12 +503,26 @@ export class FormTrainingClient {
   }
 
   /**
-   * Copies a custom model from this resource to the specified target Form Recognizer resource.
+   * Copies a custom model from this resource (the source) to the specified target Form Recognizer resource.
    * This method returns a long running operation poller that allows you to wait
    * indefinitely until the operation is completed.
    * Note that the onProgress callback will not be invoked if the operation completes in the first
    * request, and attempting to cancel a completed copy will result in an error being thrown.
    *
+   * Example usage:
+   * ```ts
+   * const targetClient = new FormTrainingClient(targetEndpoint, new AzureKeyCredential(targetApiKey));
+   * const authorization = await targetClient.getCopyAuthorization(targetResourceId, targetResourceRegion);
+   *
+   * const sourceClient = new FormTrainingClient(endpoint, new AzureKeyCredential(apiKey));
+   * const poller = await sourceClient.beginCopyModel(sourceModelId, authorization, {
+   *   onProgress: (state) => {
+   *     console.log(`Copy model status: ${state.status}`);
+   *   }
+   * });
+   * await poller.pollUntilDone();
+   * const copyResult = poller.getResult();
+   * ```
    * @summary Copies custom model to target resource
    * @param {string} modelId Id of the custom model in this resource to copied to the target Form Recognizer resource
    * @param {CopyAuthorization} target Copy authorization produced by calling `targetTrainingClient.getCopyAuthorization()`
@@ -549,7 +571,7 @@ export class FormTrainingClient {
           copyAuthorization: {
             modelId: copyAuthorization.modelId,
             accessToken: copyAuthorization.accessToken,
-            expirationDateTimeTicks: copyAuthorization.expirationOn
+            expirationDateTimeTicks: copyAuthorization.expirationOn // TODO: converts expiresOn into seconds after it is chagned to Date
           }
         },
         operationOptionsToRequestOptionsBase(finalOptions));

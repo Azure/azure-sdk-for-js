@@ -304,8 +304,7 @@ export class FormTrainingClient {
     deleteModel(modelId: string, options?: DeleteModelOptions): Promise<RestResponse>;
     readonly endpointUrl: string;
     getAccountProperties(options?: GetAccountPropertiesOptions): Promise<AccountProperties>;
-    // (undocumented)
-    getCopyAuthorization(targetResourceId: string, targetResourceRegion: string, options?: GetCopyAuthorizationOptions): Promise<CopyAuthorization>;
+    getCopyAuthorization(resourceId: string, resourceRegion: string, options?: GetCopyAuthorizationOptions): Promise<CopyAuthorization>;
     getCustomModel(modelId: string, options?: GetModelOptions): Promise<FormModelResponse>;
     listCustomModels(options?: ListModelsOptions): PagedAsyncIterableIterator<CustomFormModelInfo, ListModelsResponseModel>;
     }
