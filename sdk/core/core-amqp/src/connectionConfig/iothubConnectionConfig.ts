@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { ConnectionConfig } from "./connectionConfig";
 import { EventHubConnectionConfig } from "./eventhubConnectionConfig";
@@ -43,14 +43,14 @@ export interface IotHubConnectionConfig {
  * @module IotHubConnectionConfig
  * @ignore
  */
-export namespace IotHubConnectionConfig {
+export const IotHubConnectionConfig = {
   /**
    * Creates the connection config.
    * @ignore
    * @param {string} connectionString - The event hub connection string
    * @param {string} [path]           - The name/path of the entity (hub name) to which the connection needs to happen
    */
-  export function create(connectionString: string, path?: string): IotHubConnectionConfig {
+  create(connectionString: string, path?: string): IotHubConnectionConfig {
     connectionString = String(connectionString);
 
     const parsedCS = parseConnectionString<IotHubConnectionStringModel>(connectionString);
@@ -67,14 +67,14 @@ export namespace IotHubConnectionConfig {
       deviceId: parsedCS.DeviceId
     };
     return result;
-  }
+  },
 
   /**
    * Validates the properties of connection config.
    * @ignore
    * @param {ConnectionConfig} config The connection config to be validated.
    */
-  export function validate(config: IotHubConnectionConfig): void {
+  validate(config: IotHubConnectionConfig): void {
     if (!config) {
       throw new TypeError("Missing configuration");
     }
@@ -102,16 +102,17 @@ export namespace IotHubConnectionConfig {
     if (config.deviceId) {
       config.deviceId = String(config.deviceId);
     }
-  }
+  },
+
   /**
    * Convert iothub connection config to eventhub connection config.
    * @ignore
    * @param {IotHubConnectionConfig} iotHubConfig
    */
-  export function convertToEventHubConnectionConfig(
+  convertToEventHubConnectionConfig(
     iotHubConfig: IotHubConnectionConfig
   ): EventHubConnectionConfig {
-    validate(iotHubConfig);
+    IotHubConnectionConfig.validate(iotHubConfig);
     const config: ConnectionConfig = {
       sharedAccessKey: iotHubConfig.sharedAccessKey,
       sharedAccessKeyName: iotHubConfig.sharedAccessKeyName,
@@ -123,4 +124,4 @@ export namespace IotHubConnectionConfig {
     };
     return EventHubConnectionConfig.createFromConnectionConfig(config);
   }
-}
+};

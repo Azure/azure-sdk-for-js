@@ -61,14 +61,14 @@
   "dependencies": {
     "@azure/event-hubs": "^5.0.0",
     "@azure/logger": "^1.0.0",
-    "@azure/storage-blob": "^12.2.0",
+    "@azure/storage-blob": "^12.1.2",
     "debug": "^4.1.1",
     "events": "^3.0.0",
     "tslib": "^1.10.0"
   },
   "devDependencies": {
     "@microsoft/api-extractor": "7.7.11",
-    "@rollup/plugin-commonjs": "^11.0.1",
+    "@rollup/plugin-commonjs": "11.0.2",
     "@rollup/plugin-inject": "^4.0.0",
     "@rollup/plugin-json": "^4.0.0",
     "@rollup/plugin-multi-entry": "^3.0.0",

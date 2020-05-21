@@ -156,21 +156,21 @@ export class ServiceBusTestHelpers {
     useSessions: boolean,
     sentMessages: ServiceBusMessage[]
   ): Promise<void> {
-    let receiverClient: Receiver<ReceivedMessage> | SessionReceiver<ReceivedMessage>;
+    let receiver: Receiver<ReceivedMessage> | SessionReceiver<ReceivedMessage>;
     let receivedMsgs: ReceivedMessage[];
     if (!useSessions) {
-      receiverClient = await this.getReceiveAndDeleteReceiver({
+      receiver = await this.getReceiveAndDeleteReceiver({
         queue: entityNames.queue,
         topic: entityNames.topic,
         subscription: entityNames.subscription,
         usesSessions: false
       });
-      receivedMsgs = await receiverClient.receiveBatch(sentMessages.length, {
+      receivedMsgs = await receiver.receiveBatch(sentMessages.length, {
         // To Do - Maybe change the maxWaitTime
         // Currently set same as numberOfMessages being received
         maxWaitTimeInMs: sentMessages.length * 1000
       });
-      await receiverClient.close();
+      await receiver.close();
     } else {
       // From the sentMessages array, creating a set of all the `session-id`s
       const setOfSessionIds: Set<string> = new Set();
@@ -184,14 +184,14 @@ export class ServiceBusTestHelpers {
       });
       // for-loop to receive messages from those `session-id`s
       for (const id of setOfSessionIds) {
-        receiverClient = await this.getReceiveAndDeleteReceiver({
+        receiver = await this.getReceiveAndDeleteReceiver({
           queue: entityNames.queue,
           topic: entityNames.topic,
           subscription: entityNames.subscription,
           usesSessions: true,
           sessionId: id
         });
-        const msgs = await receiverClient.receiveBatch(numOfMsgsWithSessionId[id], {
+        const msgs = await receiver.receiveBatch(numOfMsgsWithSessionId[id], {
           // Since we know the exact number of messages to be received per session-id,
           //   a higher `maxWaitTimeInMs` is not a problem
           maxWaitTimeInMs: 5000 * numOfMsgsWithSessionId[id]
@@ -202,7 +202,7 @@ export class ServiceBusTestHelpers {
           `Unexpected number of messages received with session-id - "${id}".`
         );
         receivedMsgs = !receivedMsgs! ? msgs : receivedMsgs!.concat(msgs);
-        await receiverClient.close();
+        await receiver.close();
       }
     }
     should.equal(

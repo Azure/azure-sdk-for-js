@@ -16,7 +16,7 @@ export { ModelStatus, TrainCustomModelAsyncResponse };
  * returned by {@link FormRecognizerClient.beginTraining} to work.
  */
 export type TrainPollerClient<T> = {
-  getModel: (modelId: string, options: GetModelOptions) => Promise<T>;
+  getCustomModel: (modelId: string, options: GetModelOptions) => Promise<T>;
   trainCustomModelInternal: (
     source: string,
     useLabelFile?: boolean,
@@ -126,7 +126,7 @@ function makeBeginTrainingPollOperation<T extends { status: ModelStatus }>(
         state.modelId = result.location.substring(lastSlashIndex + 1);
       }
 
-      const model = await client.getModel(state.modelId!, {
+      const model = await client.getCustomModel(state.modelId!, {
         abortSignal: trainModelOptions?.abortSignal
       });
 

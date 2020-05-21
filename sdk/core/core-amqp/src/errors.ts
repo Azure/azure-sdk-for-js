@@ -1,5 +1,6 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+/* eslint-disable eqeqeq */
 
 import { AmqpResponseStatusCode, isAmqpError as rheaIsAmqpError, AmqpError } from "rhea-promise";
 import { isNode, isString, isNumber } from "../src/util/utils";

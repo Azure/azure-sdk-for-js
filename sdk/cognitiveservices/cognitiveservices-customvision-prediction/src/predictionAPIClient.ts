@@ -17,12 +17,12 @@ import { PredictionAPIClientContext } from "./predictionAPIClientContext";
 class PredictionAPIClient extends PredictionAPIClientContext {
   /**
    * Initializes a new instance of the PredictionAPIClient class.
-   * @param apiKey API key.
    * @param endpoint Supported Cognitive Services endpoints.
+   * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(apiKey: string, endpoint: string, options?: msRest.ServiceClientOptions) {
-    super(apiKey, endpoint, options);
+  constructor(credentials: msRest.ServiceClientCredentials, endpoint: string, options?: msRest.ServiceClientOptions) {
+    super(credentials, endpoint, options);
   }
 
   /**
@@ -345,9 +345,6 @@ const classifyImageUrlOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.application
   ],
-  headerParameters: [
-    Parameters.apiKey
-  ],
   requestBody: {
     parameterPath: "imageUrl",
     mapper: {
@@ -377,9 +374,6 @@ const classifyImageOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.application
   ],
-  headerParameters: [
-    Parameters.apiKey
-  ],
   formDataParameters: [
     Parameters.imageData
   ],
@@ -405,9 +399,6 @@ const classifyImageUrlWithNoStoreOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.application
-  ],
-  headerParameters: [
-    Parameters.apiKey
   ],
   requestBody: {
     parameterPath: "imageUrl",
@@ -438,9 +429,6 @@ const classifyImageWithNoStoreOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.application
   ],
-  headerParameters: [
-    Parameters.apiKey
-  ],
   formDataParameters: [
     Parameters.imageData
   ],
@@ -466,9 +454,6 @@ const detectImageUrlOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.application
-  ],
-  headerParameters: [
-    Parameters.apiKey
   ],
   requestBody: {
     parameterPath: "imageUrl",
@@ -499,9 +484,6 @@ const detectImageOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.application
   ],
-  headerParameters: [
-    Parameters.apiKey
-  ],
   formDataParameters: [
     Parameters.imageData
   ],
@@ -527,9 +509,6 @@ const detectImageUrlWithNoStoreOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.application
-  ],
-  headerParameters: [
-    Parameters.apiKey
   ],
   requestBody: {
     parameterPath: "imageUrl",
@@ -559,9 +538,6 @@ const detectImageWithNoStoreOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.application
-  ],
-  headerParameters: [
-    Parameters.apiKey
   ],
   formDataParameters: [
     Parameters.imageData
