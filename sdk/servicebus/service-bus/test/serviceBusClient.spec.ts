@@ -222,9 +222,9 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
         "Error code is different than expected"
       );
       should.equal(
-        // TODO - update this check once sbClient has a `name` property
-        // err.message.includes(`The messaging entity '<insert-endpoint-here>${entityPath}' could not be found.`),
-        err.message.includes(`${entityPath}' could not be found.`),
+        err.message.includes(
+          `The messaging entity 'sb://${sbClient.fullyQualifiedNamespace}/${entityPath}' could not be found.`
+        ),
         true
       );
       errorWasThrown = true;
