@@ -151,14 +151,10 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
         const { authorization, resource } = this.parseWWWAuthenticate(www_authenticate);
         const challenge = new AuthenticationChallenge(authorization, resource + "/.default")
 
-        if (!challenge.equalTo(this.challengeCache.challenge)) {
-          this.challengeCache.setCachedChallenge(challenge);
-          this.tokenCache.setCachedToken(undefined);
-
-          await this.authenticateRequest(webResource);
-          return this._nextPolicy.sendRequest(webResource);
-        }
-        return response;
+        this.challengeCache.setCachedChallenge(challenge);
+        this.tokenCache.setCachedToken(undefined);
+        await this.authenticateRequest(webResource);
+        return this._nextPolicy.sendRequest(webResource);
       }
       return response;
     } else {
