@@ -88,8 +88,10 @@ describe("XhrHttpsClient", function() {
     });
     const promise = client.sendRequest(request);
     assert.equal(requests.length, 1);
-    requests[0].respond(200, {}, "An appropriate response");
-    await promise;
+    const responseText = "An appropriate response.";
+    requests[0].respond(200, {}, responseText);
+    const response = await promise;
+    assert.strictEqual(response.bodyAsText, responseText);
     assert.isTrue(downloadCalled, "no download progress");
     assert.isTrue(uploadCalled, "no upload progress");
   });

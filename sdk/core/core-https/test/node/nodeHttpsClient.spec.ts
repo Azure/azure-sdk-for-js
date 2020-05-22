@@ -114,8 +114,10 @@ describe("NodeHttpsClient", function() {
       }
     });
     const promise = client.sendRequest(request);
-    stubbedRequest.yield(createResponse(200, "An appropriate response."));
-    await promise;
+    const responseText = "An appropriate response.";
+    stubbedRequest.yield(createResponse(200, responseText));
+    const response = await promise;
+    assert.strictEqual(response.bodyAsText, responseText);
     assert.isTrue(downloadCalled, "no download progress");
     assert.isTrue(uploadCalled, "no upload progress");
   });

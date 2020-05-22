@@ -14,8 +14,14 @@ export interface AddPipelineOptions {
     phase?: PipelinePhase;
 }
 
-// @public (undocumented)
+// @public
 export function createEmptyPipeline(): Pipeline;
+
+// @public
+export function createHttpHeaders(rawHeaders?: RawHttpHeaders): HttpHeaders;
+
+// @public
+export function createPipelineRequest(options: PipelineRequestOptions): PipelineRequest;
 
 // @public
 export class DefaultHttpsClient implements HttpsClient {
@@ -23,31 +29,25 @@ export class DefaultHttpsClient implements HttpsClient {
     sendRequest(request: PipelineRequest): Promise<PipelineResponse>;
 }
 
-// @public (undocumented)
+// @public
 export type FormDataMap = {
     [key: string]: FormDataValue | FormDataValue[];
 };
 
-// @public (undocumented)
+// @public
 export type FormDataValue = string | Blob;
 
-// @public (undocumented)
+// @public
 export interface HttpHeaders extends Iterable<[string, string]> {
-    // (undocumented)
     clone(): HttpHeaders;
-    // (undocumented)
     delete(name: string): void;
-    // (undocumented)
     get(name: string): string | undefined;
-    // (undocumented)
     has(name: string): boolean;
-    // (undocumented)
     raw(): RawHttpHeaders;
-    // (undocumented)
     set(name: string, value: string | number): void;
 }
 
-// @public (undocumented)
+// @public
 export type HttpMethods = "GET" | "PUT" | "POST" | "DELETE" | "PATCH" | "HEAD" | "OPTIONS" | "TRACE";
 
 // @public
@@ -79,7 +79,7 @@ export interface PipelinePolicy {
 // @public
 export interface PipelineRequest {
     abortSignal?: AbortSignalLike;
-    body?: NodeJS.ReadableStream | Blob | ArrayBuffer | ArrayBufferView | FormData | string | null;
+    body?: RequestBodyType;
     formData?: FormDataMap;
     headers: HttpHeaders;
     keepAlive?: boolean;
@@ -95,6 +95,24 @@ export interface PipelineRequest {
 }
 
 // @public
+export interface PipelineRequestOptions {
+    abortSignal?: AbortSignalLike;
+    body?: RequestBodyType;
+    formData?: FormDataMap;
+    headers?: HttpHeaders;
+    keepAlive?: boolean;
+    method?: HttpMethods;
+    onDownloadProgress?: (progress: TransferProgressEvent) => void;
+    onUploadProgress?: (progress: TransferProgressEvent) => void;
+    proxySettings?: ProxySettings;
+    skipDecompressResponse?: boolean;
+    streamResponseBody?: boolean;
+    timeout?: number;
+    url: string;
+    withCredentials?: boolean;
+}
+
+// @public
 export interface PipelineResponse {
     blobBody?: Promise<Blob>;
     bodyAsText?: string | null;
@@ -106,10 +124,8 @@ export interface PipelineResponse {
 
 // @public
 export interface ProxySettings {
-    // (undocumented)
     host: string;
     password?: string;
-    // (undocumented)
     port: number;
     username?: string;
 }
@@ -118,6 +134,29 @@ export interface ProxySettings {
 export type RawHttpHeaders = {
     [headerName: string]: string;
 };
+
+// @public
+export type RequestBodyType = NodeJS.ReadableStream | Blob | ArrayBuffer | ArrayBufferView | FormData | string | null;
+
+// @public
+export class RestError extends Error {
+    constructor(message: string, options?: RestErrorOptions);
+    code?: string;
+    details?: unknown;
+    static readonly PARSE_ERROR: string;
+    request?: PipelineRequest;
+    static readonly REQUEST_SEND_ERROR: string;
+    response?: PipelineResponse;
+    statusCode?: number;
+}
+
+// @public
+export interface RestErrorOptions {
+    code?: string;
+    request?: PipelineRequest;
+    response?: PipelineResponse;
+    statusCode?: number;
+}
 
 // @public
 export type SendRequest = (request: PipelineRequest) => Promise<PipelineResponse>;

@@ -336,6 +336,10 @@ class HttpsPipeline implements Pipeline {
   }
 }
 
+/**
+ * Creates a totally empty pipeline.
+ * Useful for testing or creating a custom one.
+ */
 export function createEmptyPipeline(): Pipeline {
   return HttpsPipeline.create();
 }

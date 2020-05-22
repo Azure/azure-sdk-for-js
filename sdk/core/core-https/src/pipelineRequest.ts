@@ -13,6 +13,10 @@ import {
 import { createHttpHeaders } from "./httpHeaders";
 import { AbortSignalLike } from "@azure/abort-controller";
 
+/**
+ * Settings to initialize a request.
+ * Almost equivalent to Partial<PipelineRequest>, but url is mandatory.
+ */
 export interface PipelineRequestOptions {
   /**
    * The URL to make the request to.
@@ -86,6 +90,11 @@ export interface PipelineRequestOptions {
   onDownloadProgress?: (progress: TransferProgressEvent) => void;
 }
 
+/**
+ * Creates a new pipeline request with the given options.
+ * This method is to allow for the easy setting of default values and not required.
+ * @param options The options to create the request with.
+ */
 export function createPipelineRequest(options: PipelineRequestOptions): PipelineRequest {
   return {
     url: options.url,

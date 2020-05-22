@@ -12,7 +12,8 @@ export {
   HttpMethods,
   ProxySettings,
   RawHttpHeaders,
-  TransferProgressEvent
+  TransferProgressEvent,
+  RequestBodyType
 } from "./interfaces";
 export {
   AddPolicyOptions as AddPipelineOptions,
@@ -23,5 +24,5 @@ export {
 } from "./pipeline";
 export { DefaultHttpsClient } from "./defaultHttpsClient";
 export { createHttpHeaders } from "./httpHeaders";
-export { createPipelineRequest } from "./pipelineRequest";
+export { createPipelineRequest, PipelineRequestOptions } from "./pipelineRequest";
 export { RestError, RestErrorOptions } from "./restError";

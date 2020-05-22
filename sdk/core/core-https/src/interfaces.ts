@@ -33,15 +33,48 @@ declare global {
  */
 export type RawHttpHeaders = { [headerName: string]: string };
 
+/**
+ * Represents a set of HTTP headers on a request/response.
+ * Header names are treated as case insensitive.
+ */
 export interface HttpHeaders extends Iterable<[string, string]> {
+  /**
+   * Returns the value of a specific header or undefined if not set.
+   * @param name The name of the header to retrieve.
+   */
   get(name: string): string | undefined;
+  /**
+   * Returns true if the specified header exists.
+   * @param name The name of the header to check.
+   */
   has(name: string): boolean;
+  /**
+   * Sets a specific header with a given value.
+   * @param name The name of the header to set.
+   * @param value The value to use for the header.
+   */
   set(name: string, value: string | number): void;
+  /**
+   * Removes a specific header from the collection.
+   * @param name The name of the header to delete.
+   */
   delete(name: string): void;
+  /**
+   * Duplicates this collection.
+   */
   clone(): HttpHeaders;
+  /**
+   * Accesses a raw JS object that acts as a simple map
+   * of header names to values.
+   */
   raw(): RawHttpHeaders;
 }
 
+/**
+ * Types of bodies supported on the request.
+ * NodeJS.ReadableStream is Node only.
+ * Blob is browser only.
+ */
 export type RequestBodyType =
   | NodeJS.ReadableStream
   | Blob
@@ -192,6 +225,9 @@ export type TransferProgressEvent = {
   loadedBytes: number;
 };
 
+/**
+ * Supported HTTP methods to use when making requests.
+ */
 export type HttpMethods =
   | "GET"
   | "PUT"
@@ -206,12 +242,12 @@ export type HttpMethods =
  * Options to configure a proxy for outgoing requests (Node.js only).
  */
 export interface ProxySettings {
-  /*
+  /**
    * The proxy's host address.
    */
   host: string;
 
-  /*
+  /**
    * The proxy host's port.
    */
   port: number;
@@ -227,5 +263,12 @@ export interface ProxySettings {
   password?: string;
 }
 
+/**
+ * Each form data entry can be a string or (in the browser) a Blob.
+ */
 export type FormDataValue = string | Blob;
+
+/**
+ * A simple object that provides form data, as if from a browser form.
+ */
 export type FormDataMap = { [key: string]: FormDataValue | FormDataValue[] };
