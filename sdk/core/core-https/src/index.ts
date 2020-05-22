@@ -22,3 +22,6 @@ export {
   createEmptyPipeline
 } from "./pipeline";
 export { DefaultHttpsClient } from "./defaultHttpsClient";
+export { createHttpHeaders } from "./httpHeaders";
+export { createPipelineRequest } from "./pipelineRequest";
+export { RestError, RestErrorOptions } from "./restError";

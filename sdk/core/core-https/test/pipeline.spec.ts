@@ -2,9 +2,13 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { createEmptyPipeline, PipelinePolicy, HttpsClient } from "../src";
-import { createHttpHeaders } from "../src/httpHeaders";
-import { createPipelineRequest } from "../src/pipelineRequest";
+import {
+  createEmptyPipeline,
+  PipelinePolicy,
+  HttpsClient,
+  createPipelineRequest,
+  createHttpHeaders
+} from "../src";
 
 describe("HttpsPipeline", function() {
   it("Newly created pipeline has no policies", function() {

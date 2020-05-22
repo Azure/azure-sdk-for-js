@@ -4,8 +4,7 @@
 import { assert } from "chai";
 import * as sinon from "sinon";
 import { AbortController } from "@azure/abort-controller";
-import { DefaultHttpsClient } from "../../src";
-import { createPipelineRequest } from "../../src/pipelineRequest";
+import { DefaultHttpsClient, createPipelineRequest } from "../../src";
 
 describe("XhrHttpsClient", function() {
   let xhrMock: sinon.SinonFakeXMLHttpRequestStatic;
