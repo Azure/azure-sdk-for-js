@@ -777,12 +777,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-FA/BWv8t8ZWJ+gEOnLLd8ygxH/2UFbAvgEonyfN6yWGLKc7zVjbpl2Y4CTjid9h2RfgPP6SEt6uHwEOply00yw==
-  /@types/yargs/13.0.9:
+  /@types/yargs/15.0.5:
     dependencies:
       '@types/yargs-parser': 15.0.0
     dev: false
     resolution:
-      integrity: sha512-xrvhZ4DZewMDhoH1utLtOAwYQy60eYFoXeje30TzM3VOvQlBwQaEpKFq5m34k1wOw2AKIi2pwtiAjdmhvlBUzg==
+      integrity: sha512-Dk/IDOPtOgubt/IaevIUbTgV7doaKkoorvOyYM2CMwuDyP89bekI7H4xLIwunNYiK9jhCkmc6pUrJk3cj2AB9w==
   /@typescript-eslint/eslint-plugin-tslint/2.34.0_fecc5d28141122f1c31d1ed9d728f517:
     dependencies:
       '@typescript-eslint/experimental-utils': 2.34.0_eslint@6.8.0+typescript@3.8.3
@@ -9144,7 +9144,7 @@ packages:
       '@azure/event-hubs': 2.1.4
       '@types/node': 8.10.61
       '@types/uuid': 3.4.9
-      '@types/yargs': 13.0.9
+      '@types/yargs': 15.0.5
       async-lock: 1.2.4
       death: 1.1.0
       debug: 4.1.1
@@ -9157,7 +9157,7 @@ packages:
     dev: false
     name: '@rush-temp/testhub'
     resolution:
-      integrity: sha512-Z6HTwhIIFE79DucKmLYyHiLO/5MWSxWLowoNyqcCIJgl0p54t1oRpa6SRRiVZwrTwzkLU5iA8vrYAnUmfSeGbQ==
+      integrity: sha512-2zYxzVOOYl29LTPmM3dDcFAYD5WiGoUr/d5I5PKKjTJQwXYZ8l77e4fpdE7zEbi7u+EtbGaI4vzJIbofrmVG6Q==
       tarball: 'file:projects/testhub.tgz'
     version: 0.0.0
 registry: ''
