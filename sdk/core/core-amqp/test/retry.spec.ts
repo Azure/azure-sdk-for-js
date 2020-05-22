@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft. All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import {
   retry,
@@ -21,7 +21,7 @@ dotenv.config();
 
 [RetryMode.Exponential, RetryMode.Fixed].forEach((mode) => {
   describe(`retry function for "${
-    mode == RetryMode.Exponential ? "Exponential" : "Fixed"
+    mode === RetryMode.Exponential ? "Exponential" : "Fixed"
   }" retry mode`, function() {
     it("should succeed if the operation succeeds.", async function() {
       let counter = 0;
@@ -81,7 +81,7 @@ dotenv.config();
           operation: async () => {
             await delay(200);
             debug("counter: %d", ++counter);
-            if (counter == 1) {
+            if (counter === 1) {
               throw translate({
                 condition: "com.microsoft:server-busy",
                 description: "The server is busy right now. Retry later."
@@ -114,11 +114,11 @@ dotenv.config();
           operation: async () => {
             await delay(200);
             debug("counter: %d", ++counter);
-            if (counter == 1) {
+            if (counter === 1) {
               const e = new MessagingError("A retryable error.");
               e.retryable = true;
               throw e;
-            } else if (counter == 2) {
+            } else if (counter === 2) {
               const e = new MessagingError("A retryable error.");
               e.retryable = true;
               throw e;
@@ -150,11 +150,11 @@ dotenv.config();
           operation: async () => {
             await delay(200);
             debug("counter: %d", ++counter);
-            if (counter == 1) {
+            if (counter === 1) {
               const e = new MessagingError("A retryable error.");
               e.retryable = true;
               throw e;
-            } else if (counter == 2) {
+            } else if (counter === 2) {
               const e = new MessagingError("A retryable error.");
               e.retryable = true;
               throw e;
@@ -289,7 +289,7 @@ dotenv.config();
             operation: async () => {
               await delay(200);
               debug("counter: %d", ++counter);
-              if (counter == 1) {
+              if (counter === 1) {
                 throw translate({
                   condition: "com.microsoft:server-busy",
                   description: "The server is busy right now. Retry later."
@@ -322,11 +322,11 @@ dotenv.config();
             operation: async () => {
               await delay(200);
               debug("counter: %d", ++counter);
-              if (counter == 1) {
+              if (counter === 1) {
                 const e = new MessagingError("A retryable error.");
                 e.retryable = true;
                 throw e;
-              } else if (counter == 2) {
+              } else if (counter === 2) {
                 const e = new MessagingError("A retryable error.");
                 e.retryable = true;
                 throw e;
@@ -358,11 +358,11 @@ dotenv.config();
             operation: async () => {
               await delay(200);
               debug("counter: %d", ++counter);
-              if (counter == 1) {
+              if (counter === 1) {
                 const e = new MessagingError("A retryable error.");
                 e.retryable = true;
                 throw e;
-              } else if (counter == 2) {
+              } else if (counter === 2) {
                 const e = new MessagingError("A retryable error.");
                 e.retryable = true;
                 throw e;

@@ -80,10 +80,11 @@ export class FileShares {
    * names must be between 3 and 63 characters in length and use numbers, lower-case letters and dash
    * (-) only. Every dash (-) character must be immediately preceded and followed by a letter or
    * number.
+   * @param fileShare Properties of the file share to create.
    * @param [options] The optional parameters
    * @returns Promise<Models.FileSharesCreateResponse>
    */
-  create(resourceGroupName: string, accountName: string, shareName: string, options?: Models.FileSharesCreateOptionalParams): Promise<Models.FileSharesCreateResponse>;
+  create(resourceGroupName: string, accountName: string, shareName: string, fileShare: Models.FileShare, options?: msRest.RequestOptionsBase): Promise<Models.FileSharesCreateResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -94,9 +95,10 @@ export class FileShares {
    * names must be between 3 and 63 characters in length and use numbers, lower-case letters and dash
    * (-) only. Every dash (-) character must be immediately preceded and followed by a letter or
    * number.
+   * @param fileShare Properties of the file share to create.
    * @param callback The callback
    */
-  create(resourceGroupName: string, accountName: string, shareName: string, callback: msRest.ServiceCallback<Models.FileShare>): void;
+  create(resourceGroupName: string, accountName: string, shareName: string, fileShare: Models.FileShare, callback: msRest.ServiceCallback<Models.FileShare>): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -107,16 +109,18 @@ export class FileShares {
    * names must be between 3 and 63 characters in length and use numbers, lower-case letters and dash
    * (-) only. Every dash (-) character must be immediately preceded and followed by a letter or
    * number.
+   * @param fileShare Properties of the file share to create.
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(resourceGroupName: string, accountName: string, shareName: string, options: Models.FileSharesCreateOptionalParams, callback: msRest.ServiceCallback<Models.FileShare>): void;
-  create(resourceGroupName: string, accountName: string, shareName: string, options?: Models.FileSharesCreateOptionalParams | msRest.ServiceCallback<Models.FileShare>, callback?: msRest.ServiceCallback<Models.FileShare>): Promise<Models.FileSharesCreateResponse> {
+  create(resourceGroupName: string, accountName: string, shareName: string, fileShare: Models.FileShare, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FileShare>): void;
+  create(resourceGroupName: string, accountName: string, shareName: string, fileShare: Models.FileShare, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FileShare>, callback?: msRest.ServiceCallback<Models.FileShare>): Promise<Models.FileSharesCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         accountName,
         shareName,
+        fileShare,
         options
       },
       createOperationSpec,
@@ -135,10 +139,11 @@ export class FileShares {
    * names must be between 3 and 63 characters in length and use numbers, lower-case letters and dash
    * (-) only. Every dash (-) character must be immediately preceded and followed by a letter or
    * number.
+   * @param fileShare Properties to update for the file share.
    * @param [options] The optional parameters
    * @returns Promise<Models.FileSharesUpdateResponse>
    */
-  update(resourceGroupName: string, accountName: string, shareName: string, options?: Models.FileSharesUpdateOptionalParams): Promise<Models.FileSharesUpdateResponse>;
+  update(resourceGroupName: string, accountName: string, shareName: string, fileShare: Models.FileShare, options?: msRest.RequestOptionsBase): Promise<Models.FileSharesUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -149,9 +154,10 @@ export class FileShares {
    * names must be between 3 and 63 characters in length and use numbers, lower-case letters and dash
    * (-) only. Every dash (-) character must be immediately preceded and followed by a letter or
    * number.
+   * @param fileShare Properties to update for the file share.
    * @param callback The callback
    */
-  update(resourceGroupName: string, accountName: string, shareName: string, callback: msRest.ServiceCallback<Models.FileShare>): void;
+  update(resourceGroupName: string, accountName: string, shareName: string, fileShare: Models.FileShare, callback: msRest.ServiceCallback<Models.FileShare>): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -162,16 +168,18 @@ export class FileShares {
    * names must be between 3 and 63 characters in length and use numbers, lower-case letters and dash
    * (-) only. Every dash (-) character must be immediately preceded and followed by a letter or
    * number.
+   * @param fileShare Properties to update for the file share.
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, accountName: string, shareName: string, options: Models.FileSharesUpdateOptionalParams, callback: msRest.ServiceCallback<Models.FileShare>): void;
-  update(resourceGroupName: string, accountName: string, shareName: string, options?: Models.FileSharesUpdateOptionalParams | msRest.ServiceCallback<Models.FileShare>, callback?: msRest.ServiceCallback<Models.FileShare>): Promise<Models.FileSharesUpdateResponse> {
+  update(resourceGroupName: string, accountName: string, shareName: string, fileShare: Models.FileShare, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FileShare>): void;
+  update(resourceGroupName: string, accountName: string, shareName: string, fileShare: Models.FileShare, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FileShare>, callback?: msRest.ServiceCallback<Models.FileShare>): Promise<Models.FileSharesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         accountName,
         shareName,
+        fileShare,
         options
       },
       updateOperationSpec,
@@ -192,7 +200,7 @@ export class FileShares {
    * @param [options] The optional parameters
    * @returns Promise<Models.FileSharesGetResponse>
    */
-  get(resourceGroupName: string, accountName: string, shareName: string, options?: msRest.RequestOptionsBase): Promise<Models.FileSharesGetResponse>;
+  get(resourceGroupName: string, accountName: string, shareName: string, options?: Models.FileSharesGetOptionalParams): Promise<Models.FileSharesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -219,8 +227,8 @@ export class FileShares {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, shareName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FileShare>): void;
-  get(resourceGroupName: string, accountName: string, shareName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FileShare>, callback?: msRest.ServiceCallback<Models.FileShare>): Promise<Models.FileSharesGetResponse> {
+  get(resourceGroupName: string, accountName: string, shareName: string, options: Models.FileSharesGetOptionalParams, callback: msRest.ServiceCallback<Models.FileShare>): void;
+  get(resourceGroupName: string, accountName: string, shareName: string, options?: Models.FileSharesGetOptionalParams | msRest.ServiceCallback<Models.FileShare>, callback?: msRest.ServiceCallback<Models.FileShare>): Promise<Models.FileSharesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -287,6 +295,71 @@ export class FileShares {
   }
 
   /**
+   * Restore a file share within a valid retention days if share soft delete is enabled
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param shareName The name of the file share within the specified storage account. File share
+   * names must be between 3 and 63 characters in length and use numbers, lower-case letters and dash
+   * (-) only. Every dash (-) character must be immediately preceded and followed by a letter or
+   * number.
+   * @param deletedShareName Required. Identify the name of the deleted share that will be restored.
+   * @param deletedShareVersion Required. Identify the version of the deleted share that will be
+   * restored.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  restore(resourceGroupName: string, accountName: string, shareName: string, deletedShareName: string, deletedShareVersion: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param shareName The name of the file share within the specified storage account. File share
+   * names must be between 3 and 63 characters in length and use numbers, lower-case letters and dash
+   * (-) only. Every dash (-) character must be immediately preceded and followed by a letter or
+   * number.
+   * @param deletedShareName Required. Identify the name of the deleted share that will be restored.
+   * @param deletedShareVersion Required. Identify the version of the deleted share that will be
+   * restored.
+   * @param callback The callback
+   */
+  restore(resourceGroupName: string, accountName: string, shareName: string, deletedShareName: string, deletedShareVersion: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param shareName The name of the file share within the specified storage account. File share
+   * names must be between 3 and 63 characters in length and use numbers, lower-case letters and dash
+   * (-) only. Every dash (-) character must be immediately preceded and followed by a letter or
+   * number.
+   * @param deletedShareName Required. Identify the name of the deleted share that will be restored.
+   * @param deletedShareVersion Required. Identify the version of the deleted share that will be
+   * restored.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  restore(resourceGroupName: string, accountName: string, shareName: string, deletedShareName: string, deletedShareVersion: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  restore(resourceGroupName: string, accountName: string, shareName: string, deletedShareName: string, deletedShareVersion: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        shareName,
+        deletedShareName,
+        deletedShareVersion,
+        options
+      },
+      restoreOperationSpec,
+      callback);
+  }
+
+  /**
    * Lists all shares.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -328,7 +401,8 @@ const listOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion,
     Parameters.maxpagesize,
-    Parameters.filter
+    Parameters.filter,
+    Parameters.expand2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -360,16 +434,7 @@ const createOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   requestBody: {
-    parameterPath: {
-      metadata: [
-        "options",
-        "metadata"
-      ],
-      shareQuota: [
-        "options",
-        "shareQuota"
-      ]
-    },
+    parameterPath: "fileShare",
     mapper: {
       ...Mappers.FileShare,
       required: true
@@ -405,16 +470,7 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   requestBody: {
-    parameterPath: {
-      metadata: [
-        "options",
-        "metadata"
-      ],
-      shareQuota: [
-        "options",
-        "shareQuota"
-      ]
-    },
+    parameterPath: "fileShare",
     mapper: {
       ...Mappers.FileShare,
       required: true
@@ -441,7 +497,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion,
+    Parameters.expand3
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -475,6 +532,40 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {},
     204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const restoreOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares/{shareName}/restore",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.shareName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: {
+      deletedShareName: "deletedShareName",
+      deletedShareVersion: "deletedShareVersion"
+    },
+    mapper: {
+      ...Mappers.DeletedShare,
+      required: true
+    }
+  },
+  responses: {
+    200: {},
     default: {
       bodyMapper: Mappers.CloudError
     }

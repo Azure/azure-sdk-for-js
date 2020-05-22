@@ -12,6 +12,7 @@ output-folder: ../
 source-code-folder-path: ./src/generated/data
 input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/search/data-plane/Azure.Search/preview/2019-05-06-preview/searchindex.json
 add-credentials: true
+title: SearchClient
 use-extension:
   "@microsoft.azure/autorest.typescript": "5.0.1"
 ```

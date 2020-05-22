@@ -437,7 +437,7 @@ describe("FileClient", () => {
     assert.deepStrictEqual(await bodyToString(response, 8), "HelloWor");
   });
 
-  it("uploadRange with conent MD5", async () => {
+  it("uploadRange with content MD5", async () => {
     await fileClient.create(10);
     await fileClient.uploadRange("Hello", 0, 5, {
       contentMD5: new Uint8Array([

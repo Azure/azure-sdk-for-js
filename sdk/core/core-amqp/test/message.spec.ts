@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft. All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { MessageHeader, AmqpMessageHeader, MessageProperties, AmqpMessageProperties } from "../src";
 import * as chai from "chai";
@@ -62,7 +62,7 @@ describe("message", function() {
     });
   });
 
-  describe("poperties", function() {
+  describe("properties", function() {
     it("should be able to convert empty MessageProperties to AmqpMessageProperties", function(done) {
       const msgProperties: MessageProperties = {};
       const amqpMsgProperties: AmqpMessageProperties = MessageProperties.toAmqpMessageProperties(

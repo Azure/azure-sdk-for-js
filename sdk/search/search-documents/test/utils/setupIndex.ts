@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import {
+  SearchClient,
   SearchIndexClient,
-  SearchServiceClient,
   GeographyPoint,
   Index,
   KnownAnalyzerNames
@@ -12,7 +12,7 @@ import { Hotel } from "./interfaces";
 import { delay } from "@azure/core-http";
 
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
-export async function createIndex(client: SearchServiceClient, name: string): Promise<void> {
+export async function createIndex(client: SearchIndexClient, name: string): Promise<void> {
   const hotelIndex: Index = {
     name,
     fields: [
@@ -224,7 +224,7 @@ export async function createIndex(client: SearchServiceClient, name: string): Pr
 }
 
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
-export async function populateIndex(client: SearchIndexClient<Hotel>): Promise<void> {
+export async function populateIndex(client: SearchClient<Hotel>): Promise<void> {
   // test data from https://github.com/Azure/azure-sdk-for-net/blob/master/sdk/search/Azure.Search.Documents/tests/Utilities/SearchResources.Data.cs
   const testDocuments: Hotel[] = [
     {

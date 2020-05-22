@@ -563,7 +563,7 @@ export function serializeRequestBody(
           }
         } else if (
           typeName === MapperType.String &&
-          operationSpec.contentType?.match("text/plain")
+          (operationSpec.contentType?.match("text/plain") || operationSpec.mediaType === "text")
         ) {
           // the String serializer has validated that request body is a string
           // so just send the string.
