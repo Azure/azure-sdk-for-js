@@ -1027,8 +1027,7 @@ const readOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ReadHeaders
     },
     default: {
-      bodyMapper: Mappers.ComputerVisionError,
-      headersMapper: Mappers.ReadHeaders
+      bodyMapper: Mappers.ComputerVisionError
     }
   },
   serializer
@@ -1331,8 +1330,7 @@ const readInStreamOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ReadInStreamHeaders
     },
     default: {
-      bodyMapper: Mappers.ComputerVisionError,
-      headersMapper: Mappers.ReadInStreamHeaders
+      bodyMapper: Mappers.ComputerVisionError
     }
   },
   serializer
