@@ -37,7 +37,8 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
   const client = new PeeringManagementClient(creds, subscriptionId);
   const peeringLocation = "testpeeringLocation";
   const kind = "Direct";
-  client.legacyPeerings.list(peeringLocation, kind).then((result) => {
+  const asn = 1;
+  client.legacyPeerings.list(peeringLocation, kind, asn).then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -82,7 +83,8 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
         const client = new Azure.ArmPeering.PeeringManagementClient(res.creds, subscriptionId);
         const peeringLocation = "testpeeringLocation";
         const kind = "Direct";
-        client.legacyPeerings.list(peeringLocation, kind).then((result) => {
+        const asn = 1;
+        client.legacyPeerings.list(peeringLocation, kind, asn).then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {
@@ -100,4 +102,4 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fpeering%2Farm-peering%2FREADME.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/peering/arm-peering/README.png)

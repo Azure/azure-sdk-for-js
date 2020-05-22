@@ -10,16 +10,16 @@
 
 import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
-import * as Mappers from "../models/peeringServiceLocationsMappers";
+import * as Mappers from "../models/peeringServiceCountriesMappers";
 import * as Parameters from "../models/parameters";
 import { PeeringManagementClientContext } from "../peeringManagementClientContext";
 
-/** Class representing a PeeringServiceLocations. */
-export class PeeringServiceLocations {
+/** Class representing a PeeringServiceCountries. */
+export class PeeringServiceCountries {
   private readonly client: PeeringManagementClientContext;
 
   /**
-   * Create a PeeringServiceLocations.
+   * Create a PeeringServiceCountries.
    * @param {PeeringManagementClientContext} client Reference to the service client.
    */
   constructor(client: PeeringManagementClientContext) {
@@ -27,55 +27,55 @@ export class PeeringServiceLocations {
   }
 
   /**
-   * Lists all of the available locations for peering service.
+   * Lists all of the available countries for peering service.
    * @param [options] The optional parameters
-   * @returns Promise<Models.PeeringServiceLocationsListResponse>
+   * @returns Promise<Models.PeeringServiceCountriesListResponse>
    */
-  list(options?: Models.PeeringServiceLocationsListOptionalParams): Promise<Models.PeeringServiceLocationsListResponse>;
+  list(options?: msRest.RequestOptionsBase): Promise<Models.PeeringServiceCountriesListResponse>;
   /**
    * @param callback The callback
    */
-  list(callback: msRest.ServiceCallback<Models.PeeringServiceLocationListResult>): void;
+  list(callback: msRest.ServiceCallback<Models.PeeringServiceCountryListResult>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: Models.PeeringServiceLocationsListOptionalParams, callback: msRest.ServiceCallback<Models.PeeringServiceLocationListResult>): void;
-  list(options?: Models.PeeringServiceLocationsListOptionalParams | msRest.ServiceCallback<Models.PeeringServiceLocationListResult>, callback?: msRest.ServiceCallback<Models.PeeringServiceLocationListResult>): Promise<Models.PeeringServiceLocationsListResponse> {
+  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PeeringServiceCountryListResult>): void;
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PeeringServiceCountryListResult>, callback?: msRest.ServiceCallback<Models.PeeringServiceCountryListResult>): Promise<Models.PeeringServiceCountriesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.PeeringServiceLocationsListResponse>;
+      callback) as Promise<Models.PeeringServiceCountriesListResponse>;
   }
 
   /**
-   * Lists all of the available locations for peering service.
+   * Lists all of the available countries for peering service.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
-   * @returns Promise<Models.PeeringServiceLocationsListNextResponse>
+   * @returns Promise<Models.PeeringServiceCountriesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PeeringServiceLocationsListNextResponse>;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PeeringServiceCountriesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PeeringServiceLocationListResult>): void;
+  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PeeringServiceCountryListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PeeringServiceLocationListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PeeringServiceLocationListResult>, callback?: msRest.ServiceCallback<Models.PeeringServiceLocationListResult>): Promise<Models.PeeringServiceLocationsListNextResponse> {
+  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PeeringServiceCountryListResult>): void;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PeeringServiceCountryListResult>, callback?: msRest.ServiceCallback<Models.PeeringServiceCountryListResult>): Promise<Models.PeeringServiceCountriesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.PeeringServiceLocationsListNextResponse>;
+      callback) as Promise<Models.PeeringServiceCountriesListNextResponse>;
   }
 }
 
@@ -83,12 +83,11 @@ export class PeeringServiceLocations {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Peering/peeringServiceLocations",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.Peering/peeringServiceCountries",
   urlParameters: [
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.country,
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -96,7 +95,7 @@ const listOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.PeeringServiceLocationListResult
+      bodyMapper: Mappers.PeeringServiceCountryListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -117,7 +116,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.PeeringServiceLocationListResult
+      bodyMapper: Mappers.PeeringServiceCountryListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
