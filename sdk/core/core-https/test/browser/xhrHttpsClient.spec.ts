@@ -10,6 +10,7 @@ import { createPipelineRequest } from "../../src/pipelineRequest";
 describe("XhrHttpsClient", function() {
   let xhrMock: sinon.SinonFakeXMLHttpRequestStatic;
   let requests: Array<sinon.SinonFakeXMLHttpRequest>;
+  let clock: sinon.SinonFakeTimers;
 
   beforeEach(function() {
     requests = [];
@@ -17,10 +18,12 @@ describe("XhrHttpsClient", function() {
     xhrMock.onCreate = (xhr) => {
       requests.push(xhr);
     };
+    clock = sinon.useFakeTimers();
   });
 
   afterEach(function() {
     xhrMock.restore();
+    clock.restore();
     sinon.restore();
   });
 
@@ -90,5 +93,23 @@ describe("XhrHttpsClient", function() {
     await promise;
     assert.isTrue(downloadCalled, "no download progress");
     assert.isTrue(uploadCalled, "no upload progress");
+  });
+
+  it("should honor timeout", async function() {
+    const client = new DefaultHttpsClient();
+
+    const timeoutLength = 2000;
+    const request = createPipelineRequest({
+      url: "https://example.com",
+      timeout: timeoutLength
+    });
+    const promise = client.sendRequest(request);
+    clock.tick(timeoutLength);
+    try {
+      await promise;
+      assert.fail("Expected await to throw");
+    } catch (e) {
+      assert.strictEqual(e.name, "AbortError");
+    }
   });
 });

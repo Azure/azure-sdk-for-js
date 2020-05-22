@@ -12,6 +12,14 @@ export interface PipelineRequestOptions {
    * The HTTP body content (if any)
    */
   body?: RequestBodyType;
+
+  /**
+   * The number of milliseconds a request can take before automatically being terminated.
+   * If the request is terminated, an `AbortError` is thrown.
+   * Defaults to 0, which disables the timeout.
+   */
+  timeout?: number;
+
   /**
    * Callback which fires upon upload progress.
    */
@@ -27,7 +35,7 @@ export function createPipelineRequest(options: PipelineRequestOptions): Pipeline
     body: options.body,
     headers: createHttpHeaders(),
     method: "GET",
-    timeout: 0,
+    timeout: options.timeout ?? 0,
     withCredentials: false,
     abortSignal: options.abortSignal,
     onUploadProgress: options.onUploadProgress,

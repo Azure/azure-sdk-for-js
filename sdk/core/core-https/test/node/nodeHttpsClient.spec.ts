@@ -39,12 +39,15 @@ function createRequest(): ClientRequest {
 
 describe("NodeHttpsClient", function() {
   let stubbedRequest: sinon.SinonStub;
+  let clock: sinon.SinonFakeTimers;
 
   beforeEach(function() {
     stubbedRequest = sinon.stub(https, "request");
+    clock = sinon.useFakeTimers();
   });
 
   afterEach(function() {
+    clock.restore();
     sinon.restore();
   });
 
@@ -116,5 +119,24 @@ describe("NodeHttpsClient", function() {
     await promise;
     assert.isTrue(downloadCalled, "no download progress");
     assert.isTrue(uploadCalled, "no upload progress");
+  });
+
+  it("should honor timeout", async function() {
+    const client = new DefaultHttpsClient();
+
+    const timeoutLength = 2000;
+    stubbedRequest.returns(createRequest());
+    const request = createPipelineRequest({
+      url: "https://example.com",
+      timeout: timeoutLength
+    });
+    const promise = client.sendRequest(request);
+    clock.tick(timeoutLength);
+    try {
+      await promise;
+      assert.fail("Expected await to throw");
+    } catch (e) {
+      assert.strictEqual(e.name, "AbortError");
+    }
   });
 });
