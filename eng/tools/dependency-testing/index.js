@@ -207,16 +207,17 @@ async function insertTsConfigJson(targetPackagePath) {
 async function readAndReplaceSourceReferences(filePath, packageName) {
   var fileContent = await packageUtils.readFile(filePath);
   console.log("Reading filePath = " + filePath);
-  /* ["']+[../]*src[/a-z]+["'] */
+  // Regex for internal references = /* ["']+[../]*src[/a-z]+["'] */
   var internalrefs = fileContent.match(/[\"\']+[..//]*src[//a-zA-Z]+[\"\']+/g);
   var writeContent = "";
   if (internalrefs) {
     console.log("internal refs = ");
     console.log(internalrefs);
-    console.log("This file has internal references");
+    console.log("This file has internal references will be replaced by empty content");
   }
   else {
     var replaceText = "\"" + packageName + "\"";
+    //Regex for public api references to be replaced by package name
     writeContent = fileContent.replace(/[\"\']+[..//]*src[\"\']+/g, replaceText);
   }
   await packageUtils.writeFile(filePath, writeContent);
