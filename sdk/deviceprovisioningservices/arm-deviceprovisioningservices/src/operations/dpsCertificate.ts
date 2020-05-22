@@ -107,7 +107,7 @@ export class DpsCertificate {
   }
 
   /**
-   * Deletes the specified certificate assosciated with the Provisioning Service
+   * Deletes the specified certificate associated with the Provisioning Service
    * @summary Delete the Provisioning Service Certificate.
    * @param resourceGroupName Resource group identifier.
    * @param ifMatch ETag of the certificate
