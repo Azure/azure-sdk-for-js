@@ -13,7 +13,12 @@ import {
 import { TestClientType, TestMessage } from "./testUtils";
 import { getEnvVars, EnvVarNames } from "./envVarUtils";
 import * as dotenv from "dotenv";
-import { recreateQueue, recreateTopic, recreateSubscription } from "./managementUtils";
+import {
+  recreateQueue,
+  recreateTopic,
+  recreateSubscription,
+  verifyMessageCount
+} from "./managementUtils";
 import { ServiceBusClientOptions } from "../../src";
 import chai from "chai";
 import {
@@ -220,21 +225,10 @@ export class ServiceBusTestHelpers {
       });
     });
     should.equal(sentMessages.length, 0, "Unexpected messages received.");
-    receiver = !useSessions
-      ? await this.getPeekLockReceiver({
-          queue: entityNames.queue,
-          topic: entityNames.topic,
-          subscription: entityNames.subscription,
-          usesSessions: false
-        })
-      : await this.getSessionPeekLockReceiver({
-          queue: entityNames.queue,
-          topic: entityNames.topic,
-          subscription: entityNames.subscription,
-          usesSessions: true
-        });
-    await testPeekMsgsLength(receiver, 0);
-    await receiver.close();
+    // Relying on Atom mgmt client for the message count verification instead of the `testPeekMsgsLength`
+    // because creating the session receivers might encounter timeouts or
+    // "MessagingError: No unlocked sessions were available" when there are no available sessions
+    await verifyMessageCount(0, entityNames.queue, entityNames.topic, entityNames.subscription);
   }
 
   async after(): Promise<void> {
