@@ -15,7 +15,7 @@ export interface AddPipelineOptions {
 }
 
 // @public (undocumented)
-export function createPipeline(): Pipeline;
+export function createEmptyPipeline(): Pipeline;
 
 // @public
 export class DefaultHttpsClient implements HttpsClient {
@@ -80,7 +80,6 @@ export interface PipelinePolicy {
 export interface PipelineRequest {
     abortSignal?: AbortSignalLike;
     body?: NodeJS.ReadableStream | Blob | ArrayBuffer | ArrayBufferView | FormData | string | null;
-    decompressResponse?: boolean;
     formData?: FormDataMap;
     headers: HttpHeaders;
     keepAlive?: boolean;
@@ -88,6 +87,7 @@ export interface PipelineRequest {
     onDownloadProgress?: (progress: TransferProgressEvent) => void;
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     proxySettings?: ProxySettings;
+    skipDecompressResponse?: boolean;
     streamResponseBody?: boolean;
     timeout: number;
     url: string;

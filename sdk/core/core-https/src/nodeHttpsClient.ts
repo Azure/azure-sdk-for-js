@@ -181,7 +181,14 @@ export class NodeHttpsClient implements HttpsClient {
             request
           };
 
-          const responseStream = getResponseStream(res, headers, request.skipDecompressResponse);
+          let responseStream = getResponseStream(res, headers, request.skipDecompressResponse);
+
+          const onDownloadProgress = request.onDownloadProgress;
+          if (onDownloadProgress) {
+            const downloadReportStream = new ReportTransform(onDownloadProgress);
+            responseStream.pipe(downloadReportStream);
+            responseStream = downloadReportStream;
+          }
 
           if (request.streamResponseBody) {
             response.readableStreamBody = responseStream;
@@ -189,20 +196,6 @@ export class NodeHttpsClient implements HttpsClient {
             response.bodyAsText = await streamToText(responseStream);
           }
 
-          const onDownloadProgress = request.onDownloadProgress;
-          if (onDownloadProgress) {
-            if (response.readableStreamBody) {
-              const downloadReportStream = new ReportTransform(onDownloadProgress);
-              response.readableStreamBody.pipe(downloadReportStream);
-              response.readableStreamBody = downloadReportStream;
-            } else {
-              const length = parseInt(headers.get("Content-Length") || "") || 0;
-              if (length) {
-                // Calling callback for non-stream response for consistency with browser
-                onDownloadProgress({ loadedBytes: length });
-              }
-            }
-          }
           resolve(response);
         });
         req.on("error", (err) => {

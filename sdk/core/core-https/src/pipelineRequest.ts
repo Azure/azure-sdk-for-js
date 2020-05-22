@@ -1,19 +1,36 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineRequest } from "./interfaces";
+import { PipelineRequest, TransferProgressEvent, RequestBodyType } from "./interfaces";
 import { createHttpHeaders } from "./httpHeaders";
+import { AbortSignalLike } from "@azure/abort-controller";
 
 export interface PipelineRequestOptions {
   url: string;
+  abortSignal?: AbortSignalLike;
+  /**
+   * The HTTP body content (if any)
+   */
+  body?: RequestBodyType;
+  /**
+   * Callback which fires upon upload progress.
+   */
+  onUploadProgress?: (progress: TransferProgressEvent) => void;
+
+  /** Callback which fires upon download progress. */
+  onDownloadProgress?: (progress: TransferProgressEvent) => void;
 }
 
 export function createPipelineRequest(options: PipelineRequestOptions): PipelineRequest {
   return {
     url: options.url,
+    body: options.body,
     headers: createHttpHeaders(),
     method: "GET",
     timeout: 0,
-    withCredentials: false
+    withCredentials: false,
+    abortSignal: options.abortSignal,
+    onUploadProgress: options.onUploadProgress,
+    onDownloadProgress: options.onDownloadProgress
   };
 }

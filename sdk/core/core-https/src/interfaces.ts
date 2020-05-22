@@ -42,6 +42,15 @@ export interface HttpHeaders extends Iterable<[string, string]> {
   raw(): RawHttpHeaders;
 }
 
+export type RequestBodyType =
+  | NodeJS.ReadableStream
+  | Blob
+  | ArrayBuffer
+  | ArrayBufferView
+  | FormData
+  | string
+  | null;
+
 /**
  * Metadata about a request being made by the pipeline.
  */
@@ -77,7 +86,7 @@ export interface PipelineRequest {
   /**
    * The HTTP body content (if any)
    */
-  body?: NodeJS.ReadableStream | Blob | ArrayBuffer | ArrayBufferView | FormData | string | null;
+  body?: RequestBodyType;
 
   /**
    * To simulate a browser form post
