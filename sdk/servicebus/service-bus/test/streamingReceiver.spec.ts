@@ -20,7 +20,8 @@ import {
   ServiceBusClientForTests,
   createServiceBusClientForTests,
   testPeekMsgsLength,
-  EntityName
+  EntityName,
+  drainReceiveAndDeleteReceiver
 } from "./utils/testutils2";
 import { getDeliveryProperty } from "./utils/misc";
 import { translate, MessagingError, isNode } from "@azure/core-amqp";
@@ -1096,7 +1097,10 @@ describe("Streaming", () => {
         0,
         `Expected 0 messages, but received ${receivedMsgs.length}`
       );
-      await verifyMessageCount(totalNumOfMessages, entityNames.queue);
+      receiver = await serviceBusClient.test.getReceiveAndDeleteReceiver(entityNames);
+      await testPeekMsgsLength(receiver, totalNumOfMessages);
+      await drainReceiveAndDeleteReceiver(receiver);
+      await verifyMessageCount(0, entityNames.queue);
     }
 
     it("UnPartitioned Queue: Not receive messages after receiver is closed", async function(): Promise<
