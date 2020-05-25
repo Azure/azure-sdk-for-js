@@ -74,7 +74,7 @@ export class AssessedMachines {
   }
 
   /**
-   * Get an assessed machine with its size & cost estimnate that was evaluated in the specified
+   * Get an assessed machine with its size & cost estimate that was evaluated in the specified
    * assessment.
    * @summary Get an assessed machine.
    * @param resourceGroupName Name of the Azure Resource Group that project is part of.
