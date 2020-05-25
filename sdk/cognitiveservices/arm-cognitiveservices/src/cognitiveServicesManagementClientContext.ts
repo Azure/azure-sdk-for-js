@@ -23,7 +23,7 @@ export class CognitiveServicesManagementClientContext extends msRestAzure.AzureS
   /**
    * Initializes a new instance of the CognitiveServicesManagementClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
-   * @param subscriptionId Azure Subscription ID.
+   * @param subscriptionId The ID of the target subscription.
    * @param [options] The parameter options
    */
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.CognitiveServicesManagementClientOptions) {
