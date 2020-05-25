@@ -19,6 +19,10 @@ export {
   FilesNotTieringError,
   PrivateEndpoint,
   PrivateEndpointConnection,
+  PrivateEndpointConnectionListResult,
+  PrivateEndpointConnectionsCreateHeaders,
+  PrivateEndpointConnectionsDeleteHeaders,
+  PrivateEndpointConnectionsListByStorageSyncServiceHeaders,
   PrivateLinkResource,
   PrivateLinkServiceConnectionState,
   ProxyResource,
@@ -39,12 +43,7 @@ export {
   StorageSyncErrorDetails,
   StorageSyncService,
   SyncGroup,
-  SyncGroupArray,
   SyncGroupCreateParameters,
-  SyncGroupsCreateHeaders,
-  SyncGroupsDeleteHeaders,
-  SyncGroupsGetHeaders,
-  SyncGroupsListByStorageSyncServiceHeaders,
   TrackedResource,
   Workflow
 } from "../models/mappers";
