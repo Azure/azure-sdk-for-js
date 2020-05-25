@@ -20,11 +20,40 @@ export const acceptLanguage: msRest.OperationParameter = {
     }
   }
 };
-export const apiVersion: msRest.OperationQueryParameter = {
+export const accountName: msRest.OperationURLParameter = {
+  parameterPath: "accountName",
+  mapper: {
+    required: true,
+    serializedName: "accountName",
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1,
+      Pattern: /^[-\w\._\(\)]+$/
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
+export const apiVersion0: msRest.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     required: true,
+    isConstant: true,
     serializedName: "api-version",
+    defaultValue: '2020-05-01',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const apiVersion1: msRest.OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "api-version",
+    defaultValue: '2020-04-06-preview',
     type: {
       name: "String"
     }
@@ -61,21 +90,6 @@ export const resourceGroupName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "resourceGroupName",
-    constraints: {
-      MaxLength: 90,
-      MinLength: 1,
-      Pattern: /^[-\w\._\(\)]+$/
-    },
-    type: {
-      name: "String"
-    }
-  }
-};
-export const spatialAnchorsAccountName: msRest.OperationURLParameter = {
-  parameterPath: "spatialAnchorsAccountName",
-  mapper: {
-    required: true,
-    serializedName: "spatialAnchorsAccountName",
     constraints: {
       MaxLength: 90,
       MinLength: 1,
