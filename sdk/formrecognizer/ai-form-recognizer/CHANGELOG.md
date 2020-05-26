@@ -23,9 +23,9 @@
     - `beginRecognizeForms` and `beginRecognizeFormsFromUrl` now return `RecognizedFormArray` instead of `RecognizeFormResultResponse` from the poller.
     - `beginRecognizeReceipts` and `beginRecognizeReceiptsFromUrl` now return `RecognizedReceiptArray` instead of `RecognizeReceiptResultResponse` from the poller.
   - [Breaking] Remove `getFormTrainingClient()` from `FormRecognizerClient`. A new method `getFormRecognizerClient()` is added to `FormTrainingClient`
-  - Rename the first parameter of `beginRecognizeContentFromUrl()` from `documentUrl` to `formFileUrl`.
-  - Rename the second parameter of `beginRecognizeFormsFromUrl()` from `documentUrl` to `formFileUrl`.
-  - Rename the first parameter of `beginRecognizeReceiptsFromUrl()` from `documentUrl` to `receiptFileUrl`.
+  - Rename the first parameter of `beginRecognizeContentFromUrl()` from `documentUrl` to `formUrl`.
+  - Rename the second parameter of `beginRecognizeFormsFromUrl()` from `documentUrl` to `formUrl`.
+  - Rename the first parameter of `beginRecognizeReceiptsFromUrl()` from `documentUrl` to `receiptUrl`.
   - Rename the first parameter of `beginTraining` from `blobContainerUrl` to `trainingFilesUrl`.
 
 ## 1.0.0-preview.2 (2020-05-06)
