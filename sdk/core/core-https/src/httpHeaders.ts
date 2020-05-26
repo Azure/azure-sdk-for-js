@@ -55,9 +55,9 @@ class HttpHeadersImpl implements HttpHeaders {
   }
 
   /**
-   * Get the headers that are contained this collection as a simple object.
+   * Get the JSON object representation of this HTTP header collection.
    */
-  public raw(): RawHttpHeaders {
+  public toJSON(): RawHttpHeaders {
     const result: RawHttpHeaders = {};
     for (const [key, value] of this._headersMap) {
       result[key] = value;
@@ -66,24 +66,17 @@ class HttpHeadersImpl implements HttpHeaders {
   }
 
   /**
-   * Get the JSON object representation of this HTTP header collection.
-   */
-  public toJson(): RawHttpHeaders {
-    return this.raw();
-  }
-
-  /**
    * Get the string representation of this HTTP header collection.
    */
   public toString(): string {
-    return JSON.stringify(this.toJson());
+    return JSON.stringify(this.toJSON());
   }
 
   /**
    * Create a deep clone/copy of this HttpHeaders collection.
    */
   public clone(): HttpHeaders {
-    return new HttpHeadersImpl(this.raw());
+    return new HttpHeadersImpl(this.toJSON());
   }
 
   /**

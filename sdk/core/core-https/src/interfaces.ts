@@ -67,7 +67,7 @@ export interface HttpHeaders extends Iterable<[string, string]> {
    * Accesses a raw JS object that acts as a simple map
    * of header names to values.
    */
-  raw(): RawHttpHeaders;
+  toJSON(): RawHttpHeaders;
 }
 
 /**
@@ -210,7 +210,7 @@ export type SendRequest = (request: PipelineRequest) => Promise<PipelineResponse
  */
 export interface HttpsClient {
   /**
-   * The method that makes the request.
+   * The method that makes the request and returns a response.
    */
   sendRequest: SendRequest;
 }

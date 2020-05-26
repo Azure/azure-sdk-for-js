@@ -25,7 +25,6 @@ export function createPipelineRequest(options: PipelineRequestOptions): Pipeline
 
 // @public
 export class DefaultHttpsClient implements HttpsClient {
-    // (undocumented)
     sendRequest(request: PipelineRequest): Promise<PipelineResponse>;
 }
 
@@ -43,8 +42,8 @@ export interface HttpHeaders extends Iterable<[string, string]> {
     delete(name: string): void;
     get(name: string): string | undefined;
     has(name: string): boolean;
-    raw(): RawHttpHeaders;
     set(name: string, value: string | number): void;
+    toJSON(): RawHttpHeaders;
 }
 
 // @public

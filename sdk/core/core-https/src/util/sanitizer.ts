@@ -92,8 +92,8 @@ export class Sanitizer {
       };
     }
 
-    if (key === "_headersMap") {
-      return this.sanitizeHeaders(value as Map<string, string>);
+    if (key === "headers") {
+      return this.sanitizeHeaders(value as UnknownObject);
     } else if (key === "url") {
       return this.sanitizeUrl(value as string);
     } else if (key === "query") {
@@ -113,16 +113,16 @@ export class Sanitizer {
     return value;
   }
 
-  private sanitizeHeaders(map: Map<string, string>): UnknownObject {
-    const result: UnknownObject = {};
-    for (const [key, value] of map) {
+  private sanitizeHeaders(obj: UnknownObject): UnknownObject {
+    const sanitized: UnknownObject = {};
+    for (const key of Object.keys(obj)) {
       if (this.allowedHeaderNames.has(key.toLowerCase())) {
-        result[key] = value;
+        sanitized[key] = obj[key];
       } else {
-        result[key] = RedactedString;
+        sanitized[key] = RedactedString;
       }
     }
-    return result;
+    return sanitized;
   }
 
   private sanitizeQuery(value: UnknownObject): UnknownObject {

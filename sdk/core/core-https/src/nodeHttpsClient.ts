@@ -32,7 +32,7 @@ function getOrCreateAgent(request: PipelineRequest): https.Agent {
       const proxyAgentOptions: httpsProxyAgent.HttpsProxyAgentOptions = {
         host: proxySettings.host,
         port: proxySettings.port,
-        headers: request.headers.raw()
+        headers: request.headers.toJSON()
       };
       if (proxySettings.username && proxySettings.password) {
         proxyAgentOptions.auth = `${proxySettings.username}:${proxySettings.password}`;
@@ -77,6 +77,10 @@ class ReportTransform extends Transform {
  * A HttpsClient implementation that uses Node's "https" module to send HTTPS requests.
  */
 export class NodeHttpsClient implements HttpsClient {
+  /**
+   * Makes a request over an underlying transport layer and returns the response.
+   * @param request The request to be made.
+   */
   public async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
     const abortController = new AbortController();
     let abortListener: ((event: any) => void) | undefined;
@@ -160,7 +164,7 @@ export class NodeHttpsClient implements HttpsClient {
           path: `${url.pathname}${url.search}`,
           port: url.port,
           method: request.method,
-          headers: request.headers.raw()
+          headers: request.headers.toJSON()
         };
         const req = https.request(options, async (res) => {
           const headers = createHttpHeaders();
