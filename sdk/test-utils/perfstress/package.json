@@ -84,6 +84,6 @@
     "karma-env-preprocessor": "^0.1.1",
     "prettier": "^1.16.4",
     "rimraf": "^3.0.0",
-    "typescript": "~3.9.2"
+    "typescript": "~3.9.3"
   }
 }

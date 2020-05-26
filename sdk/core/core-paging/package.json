@@ -70,6 +70,6 @@
     "eslint-plugin-no-only-tests": "^2.3.0",
     "eslint-plugin-promise": "^4.1.1",
     "prettier": "^1.16.4",
-    "typescript": "~3.9.2"
+    "typescript": "~3.9.3"
   }
 }
