@@ -26,7 +26,7 @@ const replaceableVariables: { [k: string]: string } = {
   TEXT_ANALYTICS_API_KEY: "api_key",
   // Second API key
   TEXT_ANALYTICS_API_KEY_ALT: "api_key_alt",
-  ENDPOINT: "https://endpoint"
+  ENDPOINT: "https://endpoint/"
 };
 
 export const testEnv = new Proxy(replaceableVariables, {

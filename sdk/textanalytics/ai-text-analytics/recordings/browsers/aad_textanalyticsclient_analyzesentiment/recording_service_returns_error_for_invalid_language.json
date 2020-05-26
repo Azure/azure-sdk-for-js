@@ -11,7 +11,7 @@
     "cache-control": "no-cache, no-store",
     "content-length": "1417",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 26 May 2020 17:17:50 GMT",
+    "date": "Tue, 26 May 2020 18:16:24 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
@@ -19,12 +19,12 @@
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
     "x-ms-ests-server": "2.1.10571.11 - WUS2 ProdSlices",
-    "x-ms-request-id": "d5ab7d8d-c6d1-4eba-a547-6e7335a24101"
+    "x-ms-request-id": "3a5d29a4-2237-4002-bb9d-4a32e976db01"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpointtext/analytics/v3.0/sentiment",
+   "url": "https://endpoint/text/analytics/v3.0/sentiment",
    "query": {},
    "requestBody": "{\"documents\":[{\"id\":\"0\",\"text\":\"Hello world!\",\"language\":\"notalanguage\"}]}",
    "status": 200,
@@ -32,9 +32,9 @@
    "responseHeaders": {
     "access-control-allow-origin": "*",
     "access-control-expose-headers": "Operation-Location",
-    "apim-request-id": "24390ac6-a976-451c-840d-0e9812b132b4",
+    "apim-request-id": "47ec180a-413e-422e-aac3-4cea01459a18",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 26 May 2020 17:17:50 GMT",
+    "date": "Tue, 26 May 2020 18:16:24 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",

@@ -11,7 +11,7 @@
     "cache-control": "no-cache, no-store",
     "content-length": "1417",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 26 May 2020 17:17:54 GMT",
+    "date": "Tue, 26 May 2020 18:16:28 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
@@ -19,12 +19,12 @@
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
     "x-ms-ests-server": "2.1.10571.11 - WUS2 ProdSlices",
-    "x-ms-request-id": "3e960993-c094-4864-85be-f205c8698200"
+    "x-ms-request-id": "4eed527d-6794-4faa-8b14-2666811c0802"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpointtext/analytics/v3.0/entities/linking",
+   "url": "https://endpoint/text/analytics/v3.0/entities/linking",
    "query": {},
    "requestBody": "{\"documents\":[{\"id\":\"0\",\"text\":\"This is some text, but it doesn't matter.\",\"language\":\"notalanguage\"}]}",
    "status": 200,
@@ -32,9 +32,9 @@
    "responseHeaders": {
     "access-control-allow-origin": "*",
     "access-control-expose-headers": "Operation-Location",
-    "apim-request-id": "5b825e92-a838-44e5-9d74-bf239a88b390",
+    "apim-request-id": "f72b9295-4b75-485b-948a-a7b0bf53c9d5",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 26 May 2020 17:17:54 GMT",
+    "date": "Tue, 26 May 2020 18:16:28 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",

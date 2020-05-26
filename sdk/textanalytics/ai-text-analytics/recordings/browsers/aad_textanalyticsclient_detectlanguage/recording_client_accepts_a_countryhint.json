@@ -11,7 +11,7 @@
     "cache-control": "no-cache, no-store",
     "content-length": "1417",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 26 May 2020 17:17:51 GMT",
+    "date": "Tue, 26 May 2020 18:16:25 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
@@ -19,12 +19,12 @@
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
     "x-ms-ests-server": "2.1.10571.11 - WUS2 ProdSlices",
-    "x-ms-request-id": "d81f49ad-157b-40d0-8248-dc3a306c8b00"
+    "x-ms-request-id": "93869a83-384e-466f-830a-541efd3c2c01"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpointtext/analytics/v3.0/languages",
+   "url": "https://endpoint/text/analytics/v3.0/languages",
    "query": {},
    "requestBody": "{\"documents\":[{\"id\":\"0\",\"text\":\"impossible\",\"countryHint\":\"fr\"}]}",
    "status": 200,
@@ -32,14 +32,14 @@
    "responseHeaders": {
     "access-control-allow-origin": "*",
     "access-control-expose-headers": "Operation-Location",
-    "apim-request-id": "f3c2984f-3513-49a8-af27-68a30ea868eb",
+    "apim-request-id": "94180870-cb54-4910-8bca-7809b347f6d5",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1",
-    "date": "Tue, 26 May 2020 17:17:51 GMT",
+    "date": "Tue, 26 May 2020 18:16:25 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "6"
+    "x-envoy-upstream-service-time": "9"
    }
   }
  ],

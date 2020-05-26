@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpointtext/analytics/v3.0/entities/linking",
+   "url": "https://endpoint/text/analytics/v3.0/entities/linking",
    "query": {},
    "requestBody": "{\"documents\":[{\"id\":\"0\",\"text\":\"the Roman god Mars\",\"language\":\"en\"}]}",
    "status": 200,
@@ -10,10 +10,10 @@
    "responseHeaders": {
     "access-control-allow-origin": "*",
     "access-control-expose-headers": "Operation-Location,Location",
-    "apim-request-id": "fb46c816-f937-4534-b782-17e3d90f2809",
+    "apim-request-id": "089b1376-451a-4633-b181-1199d1f53e86",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1",
-    "date": "Tue, 26 May 2020 17:17:49 GMT",
+    "date": "Tue, 26 May 2020 18:16:24 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",

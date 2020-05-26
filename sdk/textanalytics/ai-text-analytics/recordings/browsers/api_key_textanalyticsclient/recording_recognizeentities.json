@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpointtext/analytics/v3.0/entities/recognition/general",
+   "url": "https://endpoint/text/analytics/v3.0/entities/recognition/general",
    "query": {},
    "requestBody": "{\"documents\":[{\"id\":\"0\",\"text\":\"I had a wonderful trip to Seattle last weekend.\",\"language\":\"en\"}]}",
    "status": 200,
@@ -10,14 +10,14 @@
    "responseHeaders": {
     "access-control-allow-origin": "*",
     "access-control-expose-headers": "Operation-Location,Location",
-    "apim-request-id": "3c085198-47e1-4979-ba33-fc6efcde375c",
+    "apim-request-id": "a95ebc70-4231-42bc-9fbc-943b9fd8df5d",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1",
-    "date": "Tue, 26 May 2020 17:17:49 GMT",
+    "date": "Tue, 26 May 2020 18:16:23 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "72"
+    "x-envoy-upstream-service-time": "82"
    }
   }
  ],
