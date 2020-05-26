@@ -327,12 +327,12 @@ export class FormRecognizerClient {
    * console.log(response.pages);
    * ```
    * @summary Recognizes content/layout information from a url to a form document
-   * @param {string} formFileUrl Url to an accessible form document
+   * @param {string} formUrl Url to an accessible form document
 ng", and "image/tiff";
    * @param {BeginRecognizeContentOptions} [options] Options to start content recognition operation
    */
   public async beginRecognizeContentFromUrl(
-    formFileUrl: string,
+    formUrl: string,
     options: BeginRecognizeContentOptions = {}
   ): Promise<ContentPollerLike> {
     const analyzePollerClient: RecognizePollerClient<RecognizeContentResultResponse> = {
@@ -342,7 +342,7 @@ ng", and "image/tiff";
 
     const poller = new BeginRecognizePoller<RecognizeContentResultResponse>({
       client: analyzePollerClient,
-      source: formFileUrl,
+      source: formUrl,
       contentType: undefined,
       ...options
     });
@@ -461,13 +461,13 @@ ng", and "image/tiff";
    * ```
    * @summary Recognizes form information from a url to a form document using a custom form model.
    * @param {string} modelId Id of the custom form model to use
-   * @param {string} formFileUrl Url to an accessible form document
+   * @param {string} formUrl Url to an accessible form document
    ng", and "image/tiff";
    * @param {BeginRecognizeFormsOptions} [options] Options to start the form recognition operation
    */
   public async beginRecognizeCustomFormsFromUrl(
     modelId: string,
-    formFileUrl: string,
+    formUrl: string,
     options: BeginRecognizeFormsOptions = {}
   ): Promise<
     PollerLike<PollOperationState<RecognizeFormResultResponse>, RecognizeFormResultResponse>
@@ -489,7 +489,7 @@ ng", and "image/tiff";
     const poller = new BeginRecognizePoller({
       client: analyzePollerClient,
       modelId,
-      source: formFileUrl,
+      source: formUrl,
       contentType: undefined,
       ...options
     });
@@ -621,11 +621,11 @@ ng", and "image/tiff";
    * console.log(usReceipt.recognizedForm.fields["MerchantAddress"]);
    * ```
    * @summary Recognizes receipt information from a given accessible url to input document
-   * @param {string} receiptFileUrl url to the input receipt document
+   * @param {string} receiptUrl url to the input receipt document
    * @param {BeginRecognizeReceiptsOptions} [options] Options to start receipt recognition operation
    */
   public async beginRecognizeReceiptsFromUrl(
-    receiptFileUrl: string,
+    receiptUrl: string,
     options: BeginRecognizeReceiptsOptions = {}
   ): Promise<ReceiptPollerLike> {
     const analyzePollerClient: RecognizePollerClient<RecognizeReceiptResultResponse> = {
@@ -635,7 +635,7 @@ ng", and "image/tiff";
 
     const poller = new BeginRecognizePoller({
       client: analyzePollerClient,
-      source: receiptFileUrl,
+      source: receiptUrl,
       contentType: undefined,
       ...options
     });
