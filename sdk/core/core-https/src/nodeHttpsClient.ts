@@ -136,28 +136,10 @@ export class NodeHttpsClient implements HttpsClient {
 
     try {
       const result = await new Promise<PipelineResponse>((resolve, reject) => {
-        const agent = getOrCreateAgent(request);
-        const url = new URL(request.url);
-        const options: https.RequestOptions = {
-          agent,
-          hostname: url.hostname,
-          path: `${url.pathname}${url.search}`,
-          port: url.port,
-          method: request.method,
-          headers: request.headers.toJSON()
-        };
+        const options = getRequestOptions(request);
         const req = https.request(options, async (res) => {
-          const headers = createHttpHeaders();
-          for (const header of Object.keys(res.headers)) {
-            const value = res.headers[header];
-            if (Array.isArray(value)) {
-              if (value.length > 0) {
-                headers.set(header, value[0]);
-              }
-            } else if (value) {
-              headers.set(header, value);
-            }
-          }
+          const headers = getResponseHeaders(res);
+
           const status = res.statusCode ?? 0;
           const response: PipelineResponse = {
             status,
@@ -232,6 +214,35 @@ function prepareFormData(formData: FormDataMap, request: PipelineRequest): void 
       `multipart/form-data; boundary=${requestForm.getBoundary()}`
     );
   }
+}
+
+function getRequestOptions(request: PipelineRequest): https.RequestOptions {
+  const agent = getOrCreateAgent(request);
+  const url = new URL(request.url);
+  const options: https.RequestOptions = {
+    agent,
+    hostname: url.hostname,
+    path: `${url.pathname}${url.search}`,
+    port: url.port,
+    method: request.method,
+    headers: request.headers.toJSON()
+  };
+  return options;
+}
+
+function getResponseHeaders(res: IncomingMessage): HttpHeaders {
+  const headers = createHttpHeaders();
+  for (const header of Object.keys(res.headers)) {
+    const value = res.headers[header];
+    if (Array.isArray(value)) {
+      if (value.length > 0) {
+        headers.set(header, value[0]);
+      }
+    } else if (value) {
+      headers.set(header, value);
+    }
+  }
+  return headers;
 }
 
 function getResponseStream(
