@@ -196,6 +196,7 @@ export interface AppendBlobCreateHeaders {
     lastModified?: Date;
     requestId?: string;
     version?: string;
+    versionId?: string;
 }
 
 // @public
@@ -393,6 +394,7 @@ export interface BlobCopyFromURLHeaders {
     lastModified?: Date;
     requestId?: string;
     version?: string;
+    versionId?: string;
     xMsContentCrc64?: Uint8Array;
 }
 
@@ -415,6 +417,7 @@ export interface BlobCreateSnapshotHeaders {
     requestId?: string;
     snapshot?: string;
     version?: string;
+    versionId?: string;
 }
 
 // @public
@@ -487,6 +490,7 @@ export interface BlobDownloadHeaders {
     // (undocumented)
     errorCode?: string;
     etag?: string;
+    isSealed?: boolean;
     isServerEncrypted?: boolean;
     lastModified?: Date;
     leaseDuration?: LeaseDurationType;
@@ -496,8 +500,15 @@ export interface BlobDownloadHeaders {
     metadata?: {
         [propertyName: string]: string;
     };
+    objectReplicationPolicyId?: string;
+    // (undocumented)
+    objectReplicationRules?: {
+        [propertyName: string]: string;
+    };
     requestId?: string;
+    tagCount?: number;
     version?: string;
+    versionId?: string;
 }
 
 // @public
@@ -511,6 +522,7 @@ export interface BlobDownloadOptionalParams extends coreHttp.RequestOptionsBase 
     requestId?: string;
     snapshot?: string;
     timeoutInSeconds?: number;
+    versionId?: string;
 }
 
 // @public
@@ -588,7 +600,10 @@ export interface BlobGetPropertiesHeaders {
     // (undocumented)
     errorCode?: string;
     etag?: string;
+    expiresOn?: Date;
+    isCurrentVersion?: boolean;
     isIncrementalCopy?: boolean;
+    isSealed?: boolean;
     isServerEncrypted?: boolean;
     lastModified?: Date;
     leaseDuration?: LeaseDurationType;
@@ -598,8 +613,15 @@ export interface BlobGetPropertiesHeaders {
     metadata?: {
         [propertyName: string]: string;
     };
+    objectReplicationPolicyId?: string;
+    // (undocumented)
+    objectReplicationRules?: {
+        [propertyName: string]: string;
+    };
     requestId?: string;
+    tagCount?: number;
     version?: string;
+    versionId?: string;
 }
 
 // @public
@@ -636,8 +658,14 @@ export interface BlobHTTPHeaders {
 
 // @public
 export interface BlobItem {
+    // Warning: (ae-forgotten-export) The symbol "BlobTags" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    blobTags?: BlobTags;
     // (undocumented)
     deleted: boolean;
+    // (undocumented)
+    isCurrentVersion?: boolean;
     // (undocumented)
     metadata?: {
         [propertyName: string]: string;
@@ -645,9 +673,17 @@ export interface BlobItem {
     // (undocumented)
     name: string;
     // (undocumented)
+    objectReplicationPolicyId?: string;
+    // (undocumented)
+    objectReplicationRules?: {
+        [propertyName: string]: string;
+    };
+    // (undocumented)
     properties: BlobProperties;
     // (undocumented)
     snapshot: string;
+    // (undocumented)
+    versionId?: string;
 }
 
 // @public
@@ -715,7 +751,11 @@ export interface BlobProperties {
     // (undocumented)
     etag: string;
     // (undocumented)
+    expiresOn?: Date;
+    // (undocumented)
     incrementalCopy?: boolean;
+    // (undocumented)
+    isSealed?: boolean;
     // (undocumented)
     lastModified: Date;
     leaseDuration?: LeaseDurationType;
@@ -725,6 +765,8 @@ export interface BlobProperties {
     remainingRetentionDays?: number;
     // (undocumented)
     serverEncrypted?: boolean;
+    // (undocumented)
+    tagCount?: number;
 }
 
 // @public
@@ -855,6 +897,7 @@ export interface BlobSetMetadataHeaders {
     lastModified?: Date;
     requestId?: string;
     version?: string;
+    versionId?: string;
 }
 
 // @public
@@ -907,6 +950,7 @@ export interface BlobStartCopyFromURLHeaders {
     lastModified?: Date;
     requestId?: string;
     version?: string;
+    versionId?: string;
 }
 
 // @public
@@ -1002,6 +1046,7 @@ export interface BlockBlobCommitBlockListHeaders {
     lastModified?: Date;
     requestId?: string;
     version?: string;
+    versionId?: string;
     xMsContentCrc64?: Uint8Array;
 }
 
@@ -1154,6 +1199,7 @@ export interface BlockBlobUploadHeaders {
     lastModified?: Date;
     requestId?: string;
     version?: string;
+    versionId?: string;
 }
 
 // @public
@@ -1391,6 +1437,8 @@ export type ContainerGetPropertiesResponse = ContainerGetPropertiesHeaders & {
 // @public
 export interface ContainerItem {
     // (undocumented)
+    deleted?: boolean;
+    // (undocumented)
     metadata?: {
         [propertyName: string]: string;
     };
@@ -1398,6 +1446,8 @@ export interface ContainerItem {
     name: string;
     // (undocumented)
     properties: ContainerProperties;
+    // (undocumented)
+    version?: string;
 }
 
 // @public
@@ -1456,6 +1506,8 @@ export interface ContainerProperties {
     // (undocumented)
     defaultEncryptionScope?: string;
     // (undocumented)
+    deletedOn?: Date;
+    // (undocumented)
     etag: string;
     // (undocumented)
     hasImmutabilityPolicy?: boolean;
@@ -1469,6 +1521,8 @@ export interface ContainerProperties {
     // (undocumented)
     preventEncryptionScopeOverride?: boolean;
     publicAccess?: PublicAccessType;
+    // (undocumented)
+    remainingRetentionDays?: number;
 }
 
 // @public
@@ -1695,10 +1749,10 @@ export interface ListBlobsHierarchySegmentResponse {
 }
 
 // @public
-export type ListBlobsIncludeItem = 'copy' | 'deleted' | 'metadata' | 'snapshots' | 'uncommittedblobs';
+export type ListBlobsIncludeItem = 'copy' | 'deleted' | 'metadata' | 'snapshots' | 'uncommittedblobs' | 'versions' | 'tags';
 
 // @public
-export type ListContainersIncludeType = 'metadata';
+export type ListContainersIncludeType = 'metadata' | 'deleted';
 
 // @public
 export interface ListContainersSegmentResponse {
@@ -1837,6 +1891,7 @@ export interface PageBlobCreateHeaders {
     lastModified?: Date;
     requestId?: string;
     version?: string;
+    versionId?: string;
 }
 
 // @public
