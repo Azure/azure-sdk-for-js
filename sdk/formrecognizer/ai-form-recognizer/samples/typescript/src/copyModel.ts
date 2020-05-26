@@ -6,8 +6,7 @@
  * to a target Form Recognizer resource.
  */
 
-//import { FormTrainingClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
-import { FormTrainingClient, AzureKeyCredential } from "../../../types/ai-form-recognizer";
+import { FormTrainingClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
 
 // Load the .env file if it exists
 require("dotenv").config();
