@@ -524,7 +524,7 @@ export class FormTrainingClient {
    * const result = poller.getResult();
    * ```
    * @summary Copies custom model to target resource
-   * @param {string} modelId Id of the custom model in this resource to copied to the target Form Recognizer resource
+   * @param {string} modelId Id of the custom model in this resource to be copied to the target Form Recognizer resource
    * @param {CopyAuthorization} target Copy authorization produced by calling `targetTrainingClient.getCopyAuthorization()`
    * @param {BeginTrainingOptions} [options] Options to copy model operation
    */
