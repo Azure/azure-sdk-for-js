@@ -308,8 +308,6 @@ export function getCountDetailsOrUndefined(value: any): MessageCountDetails | un
 }
 
 /**
- * @internal
- * @ignore
  * Represents type of message count details in ATOM based management operations.
  */
 export type MessageCountDetails = {
@@ -321,8 +319,6 @@ export type MessageCountDetails = {
 };
 
 /**
- * @internal
- * @ignore
  * Represents type of `AuthorizationRule` in ATOM based management operations.
  */
 export type AuthorizationRule = {
@@ -471,8 +467,6 @@ export function isAbsoluteUrl(url: string) {
 }
 
 /**
- * @internal
- * @ignore
  * Possible values for `status` of the Service Bus messaging entities.
  */
 export type EntityStatus =

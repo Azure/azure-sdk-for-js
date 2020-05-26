@@ -103,14 +103,10 @@ function getRuleActionOrUndefined(value: any): SqlAction | undefined {
 }
 
 /**
- * @internal
- * @ignore
  * Represents settable options on a rule
  */
 export interface RuleOptions {
   /**
-   * @internal
-   * @ignore
    * Defines the filter expression that the rule evaluates. For `SqlFilter` input,
    * the expression string is interpreted as a SQL92 expression which must
    * evaluate to True or False. Only one between a `CorrelationFilter` or
@@ -119,8 +115,6 @@ export interface RuleOptions {
   filter?: SqlFilter | CorrelationFilter;
 
   /**
-   * @internal
-   * @ignore
    * The SQL like expression that can be executed on the message should the
    * associated filter apply.
    */
@@ -142,8 +136,6 @@ export interface InternalRuleOptions extends RuleOptions {
 }
 
 /**
- * @internal
- * @ignore
  * Represents all attributes of a rule entity
  */
 export interface RuleDetails {
@@ -195,15 +187,11 @@ export interface RuleDetails {
 }
 
 /**
- * @internal
- * @ignore
  * Represents all possible fields on SqlAction
  */
 export type SqlAction = SqlFilter;
 
 /**
- * @internal
- * @ignore
  * Represents all possible fields on SqlFilter
  */
 export interface SqlFilter {

@@ -350,7 +350,7 @@ export interface ListRulesResponse extends Array<RuleDetails> {
  * These objects also have a property called `_response` that you can use if you want to
  * access the direct response from the service.
  */
-export class ServiceBusAtomManagementClient extends ServiceClient {
+export class ServiceBusManagementClient extends ServiceClient {
   /**
    * Reference to the endpoint as extracted from input connection string.
    */

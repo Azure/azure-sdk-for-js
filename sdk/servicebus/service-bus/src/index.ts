@@ -44,3 +44,9 @@ export { Receiver } from "./receivers/receiver";
 export { SessionReceiver } from "./receivers/sessionReceiver";
 export { Sender } from "./sender";
 export { ServiceBusClient } from "./serviceBusClient";
+
+export { QueueOptions } from "./serializers/queueResourceSerializer";
+export { TopicOptions } from "./serializers/topicResourceSerializer";
+export { SubscriptionOptions } from "./serializers/subscriptionResourceSerializer";
+export { ServiceBusManagementClient } from "./serviceBusAtomManagementClient";
+export { MessageCountDetails, AuthorizationRule, EntityStatus } from "./util/utils";

@@ -134,8 +134,6 @@ export function buildQueueMetrics(rawQueue: any): QueueMetrics {
 }
 
 /**
- * @internal
- * @ignore
  * Represents settable options on a queue
  */
 export interface QueueOptions {
@@ -378,8 +376,6 @@ export interface InternalQueueOptions {
 }
 
 /**
- * @internal
- * @ignore
  * Represents all attributes of a queue entity
  */
 export interface QueueProperties {
@@ -522,8 +518,6 @@ export interface QueueProperties {
   status?: EntityStatus;
 }
 /**
- * @internal
- * @ignore
  * Represents all attributes of a queue entity
  */
 export interface QueueMetrics {

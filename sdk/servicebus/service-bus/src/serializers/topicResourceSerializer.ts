@@ -109,8 +109,6 @@ export function buildTopic(rawTopic: any): TopicDetails {
 }
 
 /**
- * @internal
- * @ignore
  * Represents settable options on a topic
  */
 export interface TopicOptions {
@@ -272,8 +270,6 @@ export interface InternalTopicOptions {
 }
 
 /**
- * @internal
- * @ignore
  * Represents all attributes of a topic entity
  */
 export interface TopicDetails {

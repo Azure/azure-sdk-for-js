@@ -115,8 +115,6 @@ export function buildSubscription(rawSubscription: any): SubscriptionDetails {
 }
 
 /**
- * @internal
- * @ignore
  * Represents settable options on a subscription
  */
 export interface SubscriptionOptions {
@@ -309,8 +307,6 @@ export interface InternalSubscriptionOptions {
 }
 
 /**
- * @internal
- * @ignore
  * Represents all attributes of a subscription entity
  */
 export interface SubscriptionDetails {

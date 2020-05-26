@@ -50,8 +50,6 @@ import { OperationOptions } from "../modelsToBeSharedWithEventHubs";
 import { AbortError } from "@azure/abort-controller";
 
 /**
- * @internal
- * @ignore
  * Represents a Rule on a Subscription that is used to filter the incoming message from the
  * Subscription.
  */
@@ -75,9 +73,6 @@ export interface RuleDescription {
 }
 
 /**
- * @internal
- * @ignore
- *
  * Represents the correlation filter expression.
  * A CorrelationFilter holds a set of conditions that are matched against user and system properties
  * of incoming messages from a Subscription.
