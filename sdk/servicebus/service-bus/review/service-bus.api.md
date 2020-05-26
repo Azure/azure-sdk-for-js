@@ -43,6 +43,20 @@ export interface CreateBatchOptions extends OperationOptions {
     maxSizeInBytes?: number;
 }
 
+// Warning: (ae-forgotten-export) The symbol "QueueProperties" needs to be exported by the entry point index.d.ts
+//
+// @public
+export interface CreateQueueResponse extends QueueProperties {
+    _response: HttpOperationResponse;
+}
+
+// Warning: (ae-forgotten-export) The symbol "RuleDetails" needs to be exported by the entry point index.d.ts
+//
+// @public
+export interface CreateRuleResponse extends RuleDetails {
+    _response: HttpOperationResponse;
+}
+
 // @public
 export interface CreateSenderOptions {
     abortSignal?: AbortSignalLike;
@@ -50,6 +64,20 @@ export interface CreateSenderOptions {
 
 // @public
 export interface CreateSessionReceiverOptions extends SessionReceiverOptions, OperationOptions {
+}
+
+// Warning: (ae-forgotten-export) The symbol "SubscriptionDetails" needs to be exported by the entry point index.d.ts
+//
+// @public
+export interface CreateSubscriptionResponse extends SubscriptionDetails {
+    _response: HttpOperationResponse;
+}
+
+// Warning: (ae-forgotten-export) The symbol "TopicDetails" needs to be exported by the entry point index.d.ts
+//
+// @public
+export interface CreateTopicResponse extends TopicDetails {
+    _response: HttpOperationResponse;
 }
 
 // @public
@@ -60,6 +88,26 @@ export interface DeadLetterOptions {
 
 export { delay }
 
+// @public
+export interface DeleteQueueResponse {
+    _response: HttpOperationResponse;
+}
+
+// @public
+export interface DeleteRuleResponse {
+    _response: HttpOperationResponse;
+}
+
+// @public
+export interface DeleteSubscriptionResponse {
+    _response: HttpOperationResponse;
+}
+
+// @public
+export interface DeleteTopicResponse {
+    _response: HttpOperationResponse;
+}
+
 export { Delivery }
 
 // @public
@@ -67,6 +115,64 @@ export type EntityStatus = "Active" | "Creating" | "Deleting" | "ReceiveDisabled
 
 // @public
 export interface GetMessageIteratorOptions extends OperationOptions, WaitTimeOptions {
+}
+
+// Warning: (ae-forgotten-export) The symbol "QueueMetrics" needs to be exported by the entry point index.d.ts
+//
+// @public
+export interface GetQueueMetricsResponse extends QueueMetrics {
+    _response: HttpOperationResponse;
+}
+
+// @public
+export interface GetQueueResponse extends QueueProperties {
+    _response: HttpOperationResponse;
+}
+
+// @public
+export interface GetQueuesMetricsResponse extends Array<QueueMetrics> {
+    _response: HttpOperationResponse;
+}
+
+// @public
+export interface GetQueuesResponse extends Array<QueueProperties> {
+    _response: HttpOperationResponse;
+}
+
+// @public
+export interface GetRuleResponse extends RuleDetails {
+    _response: HttpOperationResponse;
+}
+
+// @public
+export interface GetSubscriptionResponse extends SubscriptionDetails {
+    _response: HttpOperationResponse;
+}
+
+// @public
+export interface GetTopicResponse extends TopicDetails {
+    _response: HttpOperationResponse;
+}
+
+// @public
+export interface ListRequestOptions {
+    skip?: number;
+    top?: number;
+}
+
+// @public
+export interface ListRulesResponse extends Array<RuleDetails> {
+    _response: HttpOperationResponse;
+}
+
+// @public
+export interface ListSubscriptionsResponse extends Array<SubscriptionDetails> {
+    _response: HttpOperationResponse;
+}
+
+// @public
+export interface ListTopicsResponse extends Array<TopicDetails> {
+    _response: HttpOperationResponse;
 }
 
 // @public
@@ -170,6 +276,15 @@ export interface Receiver<ReceivedMessageT> {
 export { RetryOptions }
 
 // @public
+export interface RuleOptions {
+    // Warning: (ae-forgotten-export) The symbol "SqlAction" needs to be exported by the entry point index.d.ts
+    action?: SqlAction;
+    // Warning: (ae-forgotten-export) The symbol "SqlFilter" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "CorrelationFilter" needs to be exported by the entry point index.d.ts
+    filter?: SqlFilter | CorrelationFilter;
+}
+
+// @public
 export interface Sender {
     cancelScheduledMessage(sequenceNumber: Long, options?: OperationOptions): Promise<void>;
     cancelScheduledMessages(sequenceNumbers: Long[], options?: OperationOptions): Promise<void>;
@@ -213,56 +328,36 @@ export interface ServiceBusClientOptions {
 
 // @public
 export class ServiceBusManagementClient extends ServiceClient {
-    // Warning: (ae-forgotten-export) The symbol "ServiceBusAtomManagementClientOptions" needs to be exported by the entry point index.d.ts
-    constructor(connectionString: string, options?: ServiceBusAtomManagementClientOptions);
-    // Warning: (ae-forgotten-export) The symbol "CreateQueueResponse" needs to be exported by the entry point index.d.ts
+    constructor(connectionString: string, options?: ServiceBusManagementClientOptions);
     createQueue(queueName: string): Promise<CreateQueueResponse>;
     createQueue(queueOptions: QueueOptions): Promise<CreateQueueResponse>;
-    // Warning: (ae-forgotten-export) The symbol "RuleOptions" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "CreateRuleResponse" needs to be exported by the entry point index.d.ts
     createRule(topicName: string, subscriptionName: string, ruleName: string, ruleOptions?: RuleOptions): Promise<CreateRuleResponse>;
-    // Warning: (ae-forgotten-export) The symbol "CreateSubscriptionResponse" needs to be exported by the entry point index.d.ts
     createSubscription(topicName: string, subscriptionName: string, subscriptionOptions?: SubscriptionOptions): Promise<CreateSubscriptionResponse>;
-    // Warning: (ae-forgotten-export) The symbol "CreateTopicResponse" needs to be exported by the entry point index.d.ts
     createTopic(topicName: string, topicOptions?: TopicOptions): Promise<CreateTopicResponse>;
-    // Warning: (ae-forgotten-export) The symbol "DeleteQueueResponse" needs to be exported by the entry point index.d.ts
     deleteQueue(queueName: string): Promise<DeleteQueueResponse>;
-    // Warning: (ae-forgotten-export) The symbol "DeleteRuleResponse" needs to be exported by the entry point index.d.ts
     deleteRule(topicName: string, subscriptionName: string, ruleName: string): Promise<DeleteRuleResponse>;
-    // Warning: (ae-forgotten-export) The symbol "DeleteSubscriptionResponse" needs to be exported by the entry point index.d.ts
     deleteSubscription(topicName: string, subscriptionName: string): Promise<DeleteSubscriptionResponse>;
-    // Warning: (ae-forgotten-export) The symbol "DeleteTopicResponse" needs to be exported by the entry point index.d.ts
     deleteTopic(topicName: string): Promise<DeleteTopicResponse>;
-    // Warning: (ae-forgotten-export) The symbol "GetQueueResponse" needs to be exported by the entry point index.d.ts
     getQueue(queueName: string): Promise<GetQueueResponse>;
-    // Warning: (ae-forgotten-export) The symbol "GetQueueMetricsResponse" needs to be exported by the entry point index.d.ts
     getQueueMetrics(queueName: string): Promise<GetQueueMetricsResponse>;
-    // Warning: (ae-forgotten-export) The symbol "ListRequestOptions" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "GetQueuesResponse" needs to be exported by the entry point index.d.ts
     getQueues(listRequestOptions?: ListRequestOptions): Promise<GetQueuesResponse>;
-    // Warning: (ae-forgotten-export) The symbol "GetQueuesMetricsResponse" needs to be exported by the entry point index.d.ts
     getQueuesMetrics(listRequestOptions?: ListRequestOptions): Promise<GetQueuesMetricsResponse>;
-    // Warning: (ae-forgotten-export) The symbol "GetRuleResponse" needs to be exported by the entry point index.d.ts
     getRuleDetails(topicName: string, subscriptioName: string, ruleName: string): Promise<GetRuleResponse>;
-    // Warning: (ae-forgotten-export) The symbol "GetSubscriptionResponse" needs to be exported by the entry point index.d.ts
     getSubscriptionDetails(topicName: string, subscriptionName: string): Promise<GetSubscriptionResponse>;
-    // Warning: (ae-forgotten-export) The symbol "GetTopicResponse" needs to be exported by the entry point index.d.ts
     getTopicDetails(topicName: string): Promise<GetTopicResponse>;
-    // Warning: (ae-forgotten-export) The symbol "ListRulesResponse" needs to be exported by the entry point index.d.ts
     listRules(topicName: string, subscriptionName: string, listRequestOptions?: ListRequestOptions): Promise<ListRulesResponse>;
-    // Warning: (ae-forgotten-export) The symbol "ListSubscriptionsResponse" needs to be exported by the entry point index.d.ts
     listSubscriptions(topicName: string, listRequestOptions?: ListRequestOptions): Promise<ListSubscriptionsResponse>;
-    // Warning: (ae-forgotten-export) The symbol "ListTopicsResponse" needs to be exported by the entry point index.d.ts
     listTopics(listRequestOptions?: ListRequestOptions): Promise<ListTopicsResponse>;
-    // Warning: (ae-forgotten-export) The symbol "UpdateQueueResponse" needs to be exported by the entry point index.d.ts
     updateQueue(queueName: string): Promise<UpdateQueueResponse>;
     updateQueue(queueOptions: QueueOptions): Promise<UpdateQueueResponse>;
-    // Warning: (ae-forgotten-export) The symbol "UpdateRuleResponse" needs to be exported by the entry point index.d.ts
     updateRule(topicName: string, subscriptionName: string, ruleName: string, ruleOptions: RuleOptions): Promise<UpdateRuleResponse>;
-    // Warning: (ae-forgotten-export) The symbol "UpdateSubscriptionResponse" needs to be exported by the entry point index.d.ts
     updateSubscription(topicName: string, subscriptionName: string, subscriptionOptions: SubscriptionOptions): Promise<UpdateSubscriptionResponse>;
-    // Warning: (ae-forgotten-export) The symbol "UpdateTopicResponse" needs to be exported by the entry point index.d.ts
     updateTopic(topicName: string, topicOptions: TopicOptions): Promise<UpdateTopicResponse>;
+}
+
+// @public
+export interface ServiceBusManagementClientOptions {
+    proxySettings?: ProxySettings;
 }
 
 // @public
@@ -351,6 +446,26 @@ export interface TopicOptions {
     status?: EntityStatus;
     supportOrdering?: boolean;
     userMetadata?: string;
+}
+
+// @public
+export interface UpdateQueueResponse extends QueueProperties {
+    _response: HttpOperationResponse;
+}
+
+// @public
+export interface UpdateRuleResponse extends RuleDetails {
+    _response: HttpOperationResponse;
+}
+
+// @public
+export interface UpdateSubscriptionResponse extends SubscriptionDetails {
+    _response: HttpOperationResponse;
+}
+
+// @public
+export interface UpdateTopicResponse extends TopicDetails {
+    _response: HttpOperationResponse;
 }
 
 // @public

@@ -61,9 +61,9 @@ import {
 import { isJSONLikeObject, isAbsoluteUrl } from "./util/utils";
 
 /**
- * Options to use with ServiceBusAtomManagementClient creation
+ * Options to use with ServiceBusManagementClient creation
  */
-export interface ServiceBusAtomManagementClientOptions {
+export interface ServiceBusManagementClientOptions {
   /**
    * Proxy related settings
    */
@@ -379,7 +379,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @param connectionString The connection string needed for the client to connect to Azure.
    * @param options ServiceBusAtomManagementClientOptions
    */
-  constructor(connectionString: string, options?: ServiceBusAtomManagementClientOptions) {
+  constructor(connectionString: string, options?: ServiceBusManagementClientOptions) {
     const connectionStringObj: any = parseConnectionString(connectionString);
 
     if (connectionStringObj.Endpoint == undefined) {

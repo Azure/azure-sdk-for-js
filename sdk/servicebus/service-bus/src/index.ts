@@ -48,5 +48,32 @@ export { ServiceBusClient } from "./serviceBusClient";
 export { QueueOptions } from "./serializers/queueResourceSerializer";
 export { TopicOptions } from "./serializers/topicResourceSerializer";
 export { SubscriptionOptions } from "./serializers/subscriptionResourceSerializer";
-export { ServiceBusManagementClient } from "./serviceBusAtomManagementClient";
+export { RuleOptions } from "./serializers/ruleResourceSerializer";
+export {
+  ServiceBusManagementClient,
+  ServiceBusManagementClientOptions,
+  CreateQueueResponse,
+  CreateRuleResponse,
+  CreateSubscriptionResponse,
+  CreateTopicResponse,
+  DeleteQueueResponse,
+  DeleteRuleResponse,
+  DeleteTopicResponse,
+  DeleteSubscriptionResponse,
+  GetQueueResponse,
+  GetQueueMetricsResponse,
+  GetQueuesResponse,
+  GetQueuesMetricsResponse,
+  ListRequestOptions,
+  GetRuleResponse,
+  GetSubscriptionResponse,
+  GetTopicResponse,
+  ListRulesResponse,
+  ListSubscriptionsResponse,
+  ListTopicsResponse,
+  UpdateQueueResponse,
+  UpdateRuleResponse,
+  UpdateSubscriptionResponse,
+  UpdateTopicResponse
+} from "./serviceBusAtomManagementClient";
 export { MessageCountDetails, AuthorizationRule, EntityStatus } from "./util/utils";
