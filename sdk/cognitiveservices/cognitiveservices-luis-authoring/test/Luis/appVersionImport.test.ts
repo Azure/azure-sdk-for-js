@@ -79,10 +79,10 @@ describe("Import Tests", () => {
           usageScenario: "IoT"
         });
         let app = JSON.parse(data);
-        const newVersion = await client.versions.importV2App(importV2Version.body, app, { appName: "Test Import V2 Version LUIS App" });
-        var newVersionApp = await client.apps.get(newVersion.body);
+        const newVersion = await client.versions.importV2App(importV2Version.body, app);
+        var newVersionApp = await client.apps.get(importV2Version.body);
 
-        chai.expect(newVersionApp).to.exist;
+        chai.expect(newVersionApp.versionsCount).equal(2);
 
         await delay(1000);
         var deleteRespose = await client.apps.deleteMethod(importV2Version.body);

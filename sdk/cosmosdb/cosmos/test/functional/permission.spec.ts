@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
-import { PermissionMode } from "../../dist-esm";
-import { PermissionDefinition } from "../../dist-esm/client";
+import { PermissionMode } from "../../src";
+import { PermissionDefinition } from "../../src/client";
 import {
   createOrUpsertPermission,
   getTestContainer,

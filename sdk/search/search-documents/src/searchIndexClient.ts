@@ -1,53 +1,44 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/// <reference lib="esnext.asynciterable" />
-
+import { KeyCredential } from "@azure/core-auth";
 import {
-  PipelineOptions,
-  InternalPipelineOptions,
   createPipelineFromOptions,
-  OperationOptions,
+  InternalPipelineOptions,
   operationOptionsToRequestOptionsBase,
+  PipelineOptions,
   ServiceClientCredentials
 } from "@azure/core-http";
-import { SearchIndexClient as GeneratedClient } from "./generated/data/searchIndexClient";
-import { KeyCredential } from "@azure/core-auth";
-import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy";
-import { SDK_VERSION } from "./constants";
-import { logger } from "./logger";
-import {
-  AutocompleteResult,
-  AutocompleteRequest,
-  SearchRequest,
-  SuggestRequest,
-  IndexDocumentsResult
-} from "./generated/data/models";
-import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/api";
-import { deserialize, serialize } from "./serialization";
+import { SDK_VERSION } from "./constants";
 import {
-  CountDocumentsOptions,
-  AutocompleteOptions,
-  SearchOptions,
-  SearchDocumentsResult,
-  SearchIterator,
-  ListSearchResultsPageSettings,
-  SearchResult,
-  SuggestOptions,
-  SuggestDocumentsResult,
-  GetDocumentOptions,
-  IndexDocuments,
-  UploadDocumentsOptions,
-  MergeDocumentsOptions,
-  DeleteDocumentsOptions,
-  SearchDocumentsPageResult,
-  MergeOrUploadDocumentsOptions,
-  ContinuableSearchResult
-} from "./indexModels";
+  AnalyzeResult,
+  GetIndexStatisticsResult,
+  ServiceStatistics
+} from "./generated/service/models";
+import { SearchServiceClient as GeneratedClient } from "./generated/service/searchServiceClient";
+import { logger } from "./logger";
+import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy";
+import {
+  AnalyzeTextOptions,
+  CreateIndexOptions,
+  CreateOrUpdateIndexOptions,
+  CreateOrUpdateSynonymMapOptions,
+  CreateSynonymMapOptions,
+  DeleteIndexOptions,
+  DeleteSynonymMapOptions,
+  GetIndexOptions,
+  GetIndexStatisticsOptions,
+  GetSynonymMapsOptions,
+  Index,
+  ListIndexesOptions,
+  ListSynonymMapsOptions,
+  SynonymMap,
+  GetServiceStatisticsOptions
+} from "./serviceModels";
+import * as utils from "./serviceUtils";
+import { createSpan } from "./tracing";
 import { odataMetadataPolicy } from "./odataMetadataPolicy";
-import { IndexDocumentsBatch } from "./indexDocumentsBatch";
-import { encode, decode } from "./base64";
 
 /**
  * Client options used to configure Cognitive Search API requests.
@@ -55,14 +46,11 @@ import { encode, decode } from "./base64";
 export type SearchIndexClientOptions = PipelineOptions;
 
 /**
- * Class used to perform operations against a search index,
- * including querying documents in the index as well as
- * adding, updating, and removing them.
+ * Class to perform operations to manage
+ * (create, update, list/delete)
+ * indexes, & synonymmaps.
  */
-export class SearchIndexClient<T> {
-  /// Maintenance note: when updating supported API versions,
-  /// the ContinuationToken logic will need to be updated below.
-
+export class SearchIndexClient {
   /**
    * The API version to use when communicating with the service.
    */
@@ -74,14 +62,9 @@ export class SearchIndexClient<T> {
   public readonly endpoint: string;
 
   /**
-   * The name of the index
-   */
-  public readonly indexName: string;
-
-  /**
    * @internal
    * @ignore
-   * A reference to the auto-generated SearchIndexClient
+   * A reference to the auto-generated SearchServiceClient
    */
   private readonly client: GeneratedClient;
 
@@ -94,23 +77,15 @@ export class SearchIndexClient<T> {
    *
    * const client = new SearchIndexClient(
    *   "<endpoint>",
-   *   "<indexName>",
    *   new AzureKeyCredential("<Admin Key>");
    * );
    * ```
    * @param {string} endpoint The endpoint of the search service
-   * @param {string} indexName The name of the index
    * @param {KeyCredential} credential Used to authenticate requests to the service.
-   * @param {SearchClientOptions} [options] Used to configure the Search client.
+   * @param {SearchIndexClientOptions} [options] Used to configure the Search client.
    */
-  constructor(
-    endpoint: string,
-    indexName: string,
-    credential: KeyCredential,
-    options: SearchIndexClientOptions = {}
-  ) {
+  constructor(endpoint: string, credential: KeyCredential, options: SearchIndexClientOptions = {}) {
     this.endpoint = endpoint;
-    this.indexName = indexName;
 
     const libInfo = `azsdk-js-search-documents/${SDK_VERSION}`;
     if (!options.userAgentOptions) {
@@ -139,14 +114,6 @@ export class SearchIndexClient<T> {
       }
     };
 
-    const pipeline = createPipelineFromOptions(
-      internalPipelineOptions,
-      createSearchApiKeyCredentialPolicy(credential)
-    );
-    if (Array.isArray(pipeline.requestPolicyFactories)) {
-      pipeline.requestPolicyFactories.unshift(odataMetadataPolicy("none"));
-    }
-
     // The contract with the generated client requires a credential, even though it is never used
     // when a pipeline is provided. Until that contract can be changed, this dummy credential will
     // throw an error if the client ever attempts to use it.
@@ -158,26 +125,29 @@ export class SearchIndexClient<T> {
       }
     };
 
-    this.client = new GeneratedClient(
-      dummyCredential,
-      this.apiVersion,
-      this.endpoint,
-      this.indexName,
-      pipeline
+    const pipeline = createPipelineFromOptions(
+      internalPipelineOptions,
+      createSearchApiKeyCredentialPolicy(credential)
     );
+
+    if (Array.isArray(pipeline.requestPolicyFactories)) {
+      pipeline.requestPolicyFactories.unshift(odataMetadataPolicy("minimal"));
+    }
+
+    this.client = new GeneratedClient(dummyCredential, this.apiVersion, this.endpoint, pipeline);
   }
 
   /**
-   * Retrieves the number of documents in the index.
-   * @param options Options to the count operation.
+   * Retrieves a list of existing indexes in the service.
+   * @param options Options to the list index operation.
    */
-  public async countDocuments(options: CountDocumentsOptions = {}): Promise<number> {
-    const { span, updatedOptions } = createSpan("SearchIndexClient-countDocuments", options);
+  public async listIndexes(options: ListIndexesOptions = {}): Promise<Array<Index>> {
+    const { span, updatedOptions } = createSpan("SearchIndexClient-listIndexes", options);
     try {
-      const result = await this.client.documents.count(
+      const result = await this.client.indexes.list(
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return Number(result._response.bodyAsText);
+      return result.indexes.map(utils.generatedIndexToPublicIndex);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -190,36 +160,17 @@ export class SearchIndexClient<T> {
   }
 
   /**
-   * Based on a partial searchText from the user, return a list
-   * of potential completion strings based on a specified suggester.
-   * @param options Options to the autocomplete operation.
+   * Retrieves a list of names of existing indexes in the service.
+   * @param options Options to the list index operation.
    */
-  public async autocomplete<Fields extends keyof T>(
-    options: AutocompleteOptions<Fields>
-  ): Promise<AutocompleteResult> {
-    const { operationOptions, restOptions } = this.extractOperationOptions({ ...options });
-    const { searchFields, ...nonFieldOptions } = restOptions;
-    const fullOptions: AutocompleteRequest = {
-      searchFields: this.convertSearchFields<Fields>(searchFields),
-      ...nonFieldOptions
-    };
-
-    if (!fullOptions.searchText) {
-      throw new RangeError("searchText must be provided.");
-    }
-
-    if (!fullOptions.suggesterName) {
-      throw new RangeError("suggesterName must be provided.");
-    }
-
-    const { span, updatedOptions } = createSpan("SearchIndexClient-autocomplete", operationOptions);
-
+  public async listIndexesNames(options: ListIndexesOptions = {}): Promise<Array<string>> {
+    const { span, updatedOptions } = createSpan("SearchIndexClient-listIndexesNames", options);
     try {
-      const result = await this.client.documents.autocompletePost(
-        fullOptions,
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
-      return result;
+      const result = await this.client.indexes.list({
+        ...operationOptionsToRequestOptionsBase(updatedOptions),
+        select: "name"
+      });
+      return result.indexes.map((idx) => idx.name);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -231,126 +182,215 @@ export class SearchIndexClient<T> {
     }
   }
 
-  private async searchDocuments<Fields extends keyof T>(
-    options: SearchOptions<Fields> = {},
-    nextPageParameters: SearchRequest = {}
-  ): Promise<SearchDocumentsPageResult<Pick<T, Fields>>> {
-    const { operationOptions, restOptions } = this.extractOperationOptions({ ...options });
-    const { select, searchFields, orderBy, ...nonFieldOptions } = restOptions;
-    const fullOptions: SearchRequest = {
-      searchFields: this.convertSearchFields<Fields>(searchFields),
-      select: this.convertSelect<Fields>(select),
-      orderBy: this.convertOrderBy(orderBy),
-      ...nonFieldOptions,
-      ...nextPageParameters
-    };
+  /**
+   * Retrieves a list of existing SynonymMaps in the service.
+   * @param options Options to the list SynonymMaps operation.
+   */
+  public async listSynonymMaps(options: ListSynonymMapsOptions = {}): Promise<Array<SynonymMap>> {
+    const { span, updatedOptions } = createSpan("SearchIndexClient-listSynonymMaps", options);
+    try {
+      const result = await this.client.synonymMaps.list(
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return result.synonymMaps.map(utils.generatedSynonymMapToPublicSynonymMap);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
 
+  /**
+   * Retrieves a list of names of existing SynonymMaps in the service.
+   * @param options Options to the list SynonymMaps operation.
+   */
+  public async listSynonymMapsNames(options: ListSynonymMapsOptions = {}): Promise<Array<string>> {
+    const { span, updatedOptions } = createSpan("SearchIndexClient-listSynonymMapsNames", options);
+    try {
+      const result = await this.client.synonymMaps.list({
+        ...operationOptionsToRequestOptionsBase(updatedOptions),
+        select: "name"
+      });
+      return result.synonymMaps.map((sm) => sm.name);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Retrieves information about an index.
+   * @param indexName The name of the index.
+   * @param options Additional optional arguments.
+   */
+  public async getIndex(indexName: string, options: GetIndexOptions = {}): Promise<Index> {
+    const { span, updatedOptions } = createSpan("SearchIndexClient-getIndex", options);
+    try {
+      const result = await this.client.indexes.get(
+        indexName,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return utils.generatedIndexToPublicIndex(result);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Retrieves information about a SynonymMap.
+   * @param indexName The name of the Skillset.
+   * @param options Additional optional arguments.
+   */
+  public async getSynonymMap(
+    synonymMapName: string,
+    options: GetSynonymMapsOptions = {}
+  ): Promise<SynonymMap> {
+    const { span, updatedOptions } = createSpan("SearchIndexClient-getSynonymMaps", options);
+    try {
+      const result = await this.client.synonymMaps.get(
+        synonymMapName,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return utils.generatedSynonymMapToPublicSynonymMap(result);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Creates a new index.
+   * @param index The information describing the index to be created.
+   * @param options Additional optional arguments.
+   */
+  public async createIndex(index: Index, options: CreateIndexOptions = {}): Promise<Index> {
+    const { span, updatedOptions } = createSpan("SearchIndexClient-createIndex", options);
+    try {
+      const result = await this.client.indexes.create(
+        utils.publicIndexToGeneratedIndex(index),
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return utils.generatedIndexToPublicIndex(result);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Creates a new SynonymMap in a search service.
+   * @param synonymMap The synonymMap definition to create in a search service.
+   * @param options Additional optional arguments.
+   */
+  public async createSynonymMap(
+    synonymMap: SynonymMap,
+    options: CreateSynonymMapOptions = {}
+  ): Promise<SynonymMap> {
+    const { span, updatedOptions } = createSpan("SearchIndexClient-createSynonymMaps", options);
+    try {
+      const result = await this.client.synonymMaps.create(
+        utils.publicSynonymMapToGeneratedSynonymMap(synonymMap),
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return utils.generatedSynonymMapToPublicSynonymMap(result);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Creates a new index or modifies an existing one.
+   * @param index The information describing the index to be created.
+   * @param options Additional optional arguments.
+   */
+  public async createOrUpdateIndex(
+    index: Index,
+    options: CreateOrUpdateIndexOptions = {}
+  ): Promise<Index> {
+    const { span, updatedOptions } = createSpan("SearchIndexClient-createOrUpdateIndex", options);
+    try {
+      const etag = options.onlyIfUnchanged ? index.etag : undefined;
+
+      const result = await this.client.indexes.createOrUpdate(
+        index.name,
+        utils.publicIndexToGeneratedIndex(index),
+        {
+          ...operationOptionsToRequestOptionsBase(updatedOptions),
+          accessCondition: {
+            ifMatch: etag
+          }
+        }
+      );
+      return utils.generatedIndexToPublicIndex(result);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Creates a new SynonymMap or modifies an existing one.
+   * @param synonymMap The information describing the SynonymMap to be created.
+   * @param options Additional optional arguments.
+   */
+  public async createOrUpdateSynonymMap(
+    synonymMap: SynonymMap,
+    options: CreateOrUpdateSynonymMapOptions = {}
+  ): Promise<SynonymMap> {
     const { span, updatedOptions } = createSpan(
-      "SearchIndexClient-searchDocuments",
-      operationOptions
+      "SearchIndexClient-createOrUpdateSynonymMap",
+      options
     );
-
     try {
-      const result = await this.client.documents.searchPost(
-        fullOptions,
-        operationOptionsToRequestOptionsBase(updatedOptions)
+      const etag = options.onlyIfUnchanged ? synonymMap.etag : undefined;
+
+      const result = await this.client.synonymMaps.createOrUpdate(
+        synonymMap.name,
+        utils.publicSynonymMapToGeneratedSynonymMap(synonymMap),
+        {
+          ...operationOptionsToRequestOptionsBase(updatedOptions),
+          accessCondition: {
+            ifMatch: etag
+          }
+        }
       );
-
-      const { results, count, coverage, facets, nextLink, nextPageParameters } = result;
-      const converted: ContinuableSearchResult = {
-        results,
-        count,
-        coverage,
-        facets,
-        continuationToken: this.encodeContinuationToken(nextLink, nextPageParameters)
-      };
-
-      return deserialize<SearchDocumentsPageResult<Pick<T, Fields>>>(converted);
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  private async *listSearchResultsPage<Fields extends keyof T>(
-    options: SearchOptions<Fields> = {},
-    settings: ListSearchResultsPageSettings = {}
-  ): AsyncIterableIterator<SearchDocumentsPageResult<Pick<T, Fields>>> {
-    const decodedContinuation = this.decodeContinuationToken(settings.continuationToken);
-    let result = await this.searchDocuments<Fields>(
-      options,
-      decodedContinuation?.nextPageParameters
-    );
-
-    yield result;
-
-    // Technically, we should also leverage nextLink, but the generated code
-    // doesn't support this yet.
-    while (result.continuationToken) {
-      const decodedContinuation = this.decodeContinuationToken(settings.continuationToken);
-      result = await this.searchDocuments(options, decodedContinuation?.nextPageParameters);
-      yield result;
-    }
-  }
-
-  private async *listSearchResultsAll<Fields extends keyof T>(
-    firstPage: SearchDocumentsPageResult<Pick<T, Fields>>,
-    options: SearchOptions<Fields> = {}
-  ): AsyncIterableIterator<SearchResult<Pick<T, Fields>>> {
-    yield* firstPage.results;
-    if (firstPage.continuationToken) {
-      for await (const page of this.listSearchResultsPage(options, {
-        continuationToken: firstPage.continuationToken
-      })) {
-        yield* page.results;
-      }
-    }
-  }
-
-  private listSearchResults<Fields extends keyof T>(
-    firstPage: SearchDocumentsPageResult<Pick<T, Fields>>,
-    options: SearchOptions<Fields> = {}
-  ): SearchIterator<Pick<T, Fields>> {
-    const iter = this.listSearchResultsAll(firstPage, options);
-
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings: ListSearchResultsPageSettings = {}) => {
-        return this.listSearchResultsPage(options, settings);
-      }
-    };
-  }
-
-  /**
-   * Performs a search on the current index given
-   * the specified arguments.
-   * @param options Options for the search operation.
-   */
-  public async search<Fields extends keyof T>(
-    options: SearchOptions<Fields> = {}
-  ): Promise<SearchDocumentsResult<Pick<T, Fields>>> {
-    const { span, updatedOptions } = createSpan("SearchIndexClient-search", options);
-
-    try {
-      const pageResult = await this.searchDocuments(updatedOptions);
-
-      const { count, coverage, facets } = pageResult;
-      return {
-        count,
-        coverage,
-        facets,
-        results: this.listSearchResults(pageResult, updatedOptions)
-      };
+      return utils.generatedSynonymMapToPublicSynonymMap(result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -363,38 +403,23 @@ export class SearchIndexClient<T> {
   }
 
   /**
-   * Returns a short list of suggestions based on the searchText
-   * and specified suggester.
-   * @param options Options for the suggest operation
+   * Deletes an existing index.
+   * @param indexName Index/Name of the index to delete.
+   * @param options Additional optional arguments.
    */
-  public async suggest<Fields extends keyof T = never>(
-    options: SuggestOptions<Fields>
-  ): Promise<SuggestDocumentsResult<Pick<T, Fields>>> {
-    const { operationOptions, restOptions } = this.extractOperationOptions({ ...options });
-    const { select, searchFields, orderBy, ...nonFieldOptions } = restOptions;
-    const fullOptions: SuggestRequest = {
-      searchFields: this.convertSearchFields<Fields>(searchFields),
-      select: this.convertSelect<Fields>(select),
-      orderBy: this.convertOrderBy(orderBy),
-      ...nonFieldOptions
-    };
-
-    if (!fullOptions.searchText) {
-      throw new RangeError("searchText must be provided.");
-    }
-
-    if (!fullOptions.suggesterName) {
-      throw new RangeError("suggesterName must be provided.");
-    }
-
-    const { span, updatedOptions } = createSpan("SearchIndexClient-suggest", operationOptions);
-
+  public async deleteIndex(index: string | Index, options: DeleteIndexOptions = {}): Promise<void> {
+    const { span, updatedOptions } = createSpan("SearchIndexClient-deleteIndex", options);
     try {
-      const result = await this.client.documents.suggestPost(
-        fullOptions,
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
-      return deserialize<SuggestDocumentsResult<Pick<T, Fields>>>(result);
+      const indexName: string = typeof index === "string" ? index : index.name;
+      const etag =
+        typeof index === "string" ? undefined : options.onlyIfUnchanged ? index.etag : undefined;
+
+      await this.client.indexes.deleteMethod(indexName, {
+        ...operationOptionsToRequestOptionsBase(updatedOptions),
+        accessCondition: {
+          ifMatch: etag
+        }
+      });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -407,21 +432,30 @@ export class SearchIndexClient<T> {
   }
 
   /**
-   * Retrieve a particular document from the index by key.
-   * @param key The primary key value of the document
-   * @param options Additional options
+   * Deletes an existing SynonymMap.
+   * @param synonymMapName SynonymMap/Name of the synonymMap to delete.
+   * @param options Additional optional arguments.
    */
-  public async getDocument<Fields extends keyof T>(
-    key: string,
-    options: GetDocumentOptions<Fields> = {}
-  ): Promise<T> {
-    const { span, updatedOptions } = createSpan("SearchIndexClient-getDocument", options);
+  public async deleteSynonymMap(
+    synonymMap: string | SynonymMap,
+    options: DeleteSynonymMapOptions = {}
+  ): Promise<void> {
+    const { span, updatedOptions } = createSpan("SearchIndexClient-deleteSynonymMap", options);
     try {
-      const result = await this.client.documents.get(
-        key,
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
-      return deserialize<T>(result.body);
+      const synonymMapName: string = typeof synonymMap === "string" ? synonymMap : synonymMap.name;
+      const etag =
+        typeof synonymMap === "string"
+          ? undefined
+          : options.onlyIfUnchanged
+          ? synonymMap.etag
+          : undefined;
+
+      await this.client.synonymMaps.deleteMethod(synonymMapName, {
+        ...operationOptionsToRequestOptionsBase(updatedOptions),
+        accessCondition: {
+          ifMatch: etag
+        }
+      });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -434,29 +468,21 @@ export class SearchIndexClient<T> {
   }
 
   /**
-   * Perform a set of index modifications (upload, merge, mergeOrUpload, delete)
-   * for the given set of documents.
-   * This operation may partially succeed and not all document operations will
-   * be reflected in the index. If you would like to treat this as an exception,
-   * set the `throwOnAnyFailure` option to true.
-   * For more details about how merging works, see: https://docs.microsoft.com/en-us/rest/api/searchservice/AddUpdate-or-Delete-Documents
-   * @param batch An array of actions to perform on the index.
-   * @param options Additional options.
+   * Retrieves statistics about an index, such as the count of documents and the size
+   * of index storage.
+   * @param indexName The name of the index.
+   * @param options Additional optional arguments.
    */
-  public async indexDocuments(
-    // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
-    batch: IndexDocumentsBatch<T>,
-    options: IndexDocuments = {}
-  ): Promise<IndexDocumentsResult> {
-    const { span, updatedOptions } = createSpan("SearchIndexClient-indexDocuments", options);
+  public async getIndexStatistics(
+    indexName: string,
+    options: GetIndexStatisticsOptions = {}
+  ): Promise<GetIndexStatisticsResult> {
+    const { span, updatedOptions } = createSpan("SearchIndexClient-getIndexStatistics", options);
     try {
-      const result = await this.client.documents.index(
-        { actions: serialize(batch.actions) },
+      const result = await this.client.indexes.getStatistics(
+        indexName,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      if (options.throwOnAnyFailure && result._response.status === 207) {
-        throw result;
-      }
       return result;
     } catch (e) {
       span.setStatus({
@@ -470,21 +496,21 @@ export class SearchIndexClient<T> {
   }
 
   /**
-   * Upload an array of documents to the index.
-   * @param documents The documents to upload.
-   * @param options Additional options.
+   * Calls an analyzer or tokenizer manually on provided text.
+   * @param indexName The name of the index that contains the field to analyze
+   * @param options Additional arguments
    */
-  public async uploadDocuments(
-    documents: T[],
-    options: UploadDocumentsOptions = {}
-  ): Promise<IndexDocumentsResult> {
-    const { span, updatedOptions } = createSpan("SearchIndexClient-uploadDocuments", options);
+  public async analyzeText(indexName: string, options: AnalyzeTextOptions): Promise<AnalyzeResult> {
+    const { operationOptions, restOptions } = utils.extractOperationOptions(options);
 
-    const batch = new IndexDocumentsBatch<T>();
-    batch.upload(documents);
-
+    const { span, updatedOptions } = createSpan("SearchIndexClient-analyzeText", operationOptions);
     try {
-      return await this.indexDocuments(batch, updatedOptions);
+      const result = await this.client.indexes.analyze(
+        indexName,
+        restOptions,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return result;
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -497,22 +523,18 @@ export class SearchIndexClient<T> {
   }
 
   /**
-   * Update a set of documents in the index.
-   * For more details about how merging works, see https://docs.microsoft.com/en-us/rest/api/searchservice/AddUpdate-or-Delete-Documents
-   * @param documents The updated documents.
-   * @param options Additional options.
+   * Retrieves statistics about the service, such as the count of documents, index, etc.
+   * @param options Additional optional arguments.
    */
-  public async mergeDocuments(
-    documents: T[],
-    options: MergeDocumentsOptions = {}
-  ): Promise<IndexDocumentsResult> {
-    const { span, updatedOptions } = createSpan("SearchIndexClient-mergeDocuments", options);
-
-    const batch = new IndexDocumentsBatch<T>();
-    batch.merge(documents);
-
+  public async getServiceStatistics(
+    options: GetServiceStatisticsOptions = {}
+  ): Promise<ServiceStatistics> {
+    const { span, updatedOptions } = createSpan("SearchIndexClient-getServiceStatistics", options);
     try {
-      return await this.indexDocuments(batch, updatedOptions);
+      const result = await this.client.getServiceStatistics(
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return result;
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -522,145 +544,5 @@ export class SearchIndexClient<T> {
     } finally {
       span.end();
     }
-  }
-
-  /**
-   * Update a set of documents in the index or upload them if they don't exist.
-   * For more details about how merging works, see https://docs.microsoft.com/en-us/rest/api/searchservice/AddUpdate-or-Delete-Documents
-   * @param documents The updated documents.
-   * @param options Additional options.
-   */
-  public async mergeOrUploadDocuments(
-    documents: T[],
-    options: MergeOrUploadDocumentsOptions = {}
-  ): Promise<IndexDocumentsResult> {
-    const { span, updatedOptions } = createSpan("SearchIndexClient-mergeDocuments", options);
-
-    const batch = new IndexDocumentsBatch<T>();
-    batch.mergeOrUpload(documents);
-
-    try {
-      return await this.indexDocuments(batch, updatedOptions);
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * Delete a set of documents by their primary key.
-   * @param keyName The name of their primary key in the index.
-   * @param keyValues The primary key values of documents to delete.
-   * @param options Additional options.
-   */
-  public async deleteDocuments(
-    keyName: keyof T,
-    keyValues: string[],
-    options: DeleteDocumentsOptions = {}
-  ): Promise<IndexDocumentsResult> {
-    const { span, updatedOptions } = createSpan("SearchIndexClient-deleteDocuments", options);
-
-    const batch = new IndexDocumentsBatch<T>();
-    batch.delete(keyName, keyValues);
-
-    try {
-      return await this.indexDocuments(batch, updatedOptions);
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  private encodeContinuationToken(
-    nextLink: string | undefined,
-    nextPageParameters: SearchRequest | undefined
-  ): string | undefined {
-    if (!nextLink || !nextPageParameters) {
-      return undefined;
-    }
-    const payload = JSON.stringify({
-      apiVersion: this.apiVersion,
-      nextLink,
-      nextPageParameters
-    });
-    return encode(payload);
-  }
-
-  private decodeContinuationToken(
-    token?: string
-  ): { nextPageParameters: SearchRequest; nextLink: string } | undefined {
-    if (!token) {
-      return undefined;
-    }
-
-    const decodedToken = decode(token);
-
-    try {
-      const result: {
-        apiVersion: string;
-        nextLink: string;
-        nextPageParameters: SearchRequest;
-      } = JSON.parse(decodedToken);
-
-      if (result.apiVersion !== this.apiVersion) {
-        throw new RangeError(`Continuation token uses unsupported apiVersion "${this.apiVersion}"`);
-      }
-
-      return {
-        nextLink: result.nextLink,
-        nextPageParameters: result.nextPageParameters
-      };
-    } catch (e) {
-      throw new Error(`Corrupted or invalid continuation token: ${decodedToken}`);
-    }
-  }
-
-  private extractOperationOptions<T extends OperationOptions>(
-    obj: T
-  ): {
-    operationOptions: OperationOptions;
-    restOptions: Pick<T, Exclude<keyof T, keyof OperationOptions>>;
-  } {
-    const { abortSignal, requestOptions, tracingOptions, ...restOptions } = obj;
-
-    return {
-      operationOptions: {
-        abortSignal,
-        requestOptions,
-        tracingOptions
-      },
-      restOptions
-    };
-  }
-
-  private convertSelect<Fields>(select?: Fields[]): string | undefined {
-    if (select) {
-      return select.join(",");
-    }
-    return select;
-  }
-
-  private convertSearchFields<Fields>(searchFields?: Fields[]): string | undefined {
-    if (searchFields) {
-      return searchFields.join(",");
-    }
-    return searchFields;
-  }
-
-  private convertOrderBy(orderBy?: string[]): string | undefined {
-    if (orderBy) {
-      return orderBy.join(",");
-    }
-    return orderBy;
   }
 }
