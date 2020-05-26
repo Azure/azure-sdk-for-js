@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "05434aebc271891cd65b4fe50b254d3f";
+module.exports.hash = "140acec4cbb6fbb1a6e70ddfbb6e21df";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -20,26 +20,26 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  'cfc71d7d-75a2-4d19-8989-71a00016fa01',
+  'aa90e1b2-316f-4eb6-a3e5-076ff3f89b00',
   'x-ms-ests-server',
-  '2.1.10571.11 - WUS2 ProdSlices',
+  '2.1.10620.9 - WUS2 ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AtELdDDVSt5KuE72otInIN_0CyfMAQAAAPBTX9YOAAAA; expires=Thu, 25-Jun-2020 18:16:16 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AtsGiMwq2-hOtDABlDw9Onn0CyfMAQAAAPRTX9YOAAAA; expires=Thu, 25-Jun-2020 18:16:20 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=prod; path=/; SameSite=None; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=ests; path=/; SameSite=None; secure; HttpOnly',
   'Date',
-  'Tue, 26 May 2020 18:16:16 GMT',
+  'Tue, 26 May 2020 18:16:20 GMT',
   'Content-Length',
   '1417'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('/text/analytics/v3.0/languages', {"documents":[{"id":"0","text":"I use Azure Functions to develop my service.","countryHint":""}]})
-  .reply(200, {"documents":[{"id":"0","detectedLanguage":{"name":"English","iso6391Name":"en","confidenceScore":1},"warnings":[]}],"errors":[],"modelVersion":"2019-10-01"}, [
+  .post('/text/analytics/v3.0/keyPhrases', {"documents":[{"id":"0","text":"Hello world, thisisanextremelymassivesequenceoflettersthatislongerthansixtyfourcharacters.","language":"en"}]})
+  .reply(200, {"documents":[{"id":"0","keyPhrases":["world","thisisanextremelymassivesequenceoflettersthatislongerthansixtyfo"],"warnings":[{"code":"LongWordsInDocument","message":"The document contains very long words (longer than 64 characters). These words will be truncated and may result in unreliable model predictions."}]}],"errors":[],"modelVersion":"2019-10-01"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -49,11 +49,11 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'x-envoy-upstream-service-time',
   '7',
   'apim-request-id',
-  'eabef592-3e92-4e72-84ce-6e3a1bd61a97',
+  '97037803-1eab-47e4-b4d0-f7db9d53c70f',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 26 May 2020 18:16:16 GMT'
+  'Tue, 26 May 2020 18:16:20 GMT'
 ]);
