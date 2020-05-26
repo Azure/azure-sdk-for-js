@@ -113,4 +113,28 @@ describe("XhrHttpsClient", function() {
       assert.strictEqual(e.name, "AbortError");
     }
   });
+
+  it("parses headers", async function() {
+    const client = new DefaultHttpsClient();
+    const request = createPipelineRequest({ url: "https://example.com" });
+    const promise = client.sendRequest(request);
+    assert.equal(requests.length, 1);
+    requests[0].respond(200, { "Content-Length": 42, value: "hello" }, "");
+    const response = await promise;
+    const headers = response.headers;
+    assert.strictEqual(headers.get("content-length"), "42");
+    assert.strictEqual(headers.get("value"), "hello");
+  });
+
+  it("parses empty string headers", async function() {
+    const client = new DefaultHttpsClient();
+    const request = createPipelineRequest({ url: "https://example.com" });
+    const promise = client.sendRequest(request);
+    assert.equal(requests.length, 1);
+    requests[0].respond(200, { "Content-Type": "", value: "" }, "");
+    const response = await promise;
+    const headers = response.headers;
+    assert.strictEqual(headers.get("content-type"), "");
+    assert.strictEqual(headers.get("value"), "");
+  });
 });
