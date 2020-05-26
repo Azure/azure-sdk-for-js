@@ -59,7 +59,7 @@ export interface TextAnalyticsSuccessResult {
   readonly statistics?: TextDocumentStatistics;
 
   /**
-   * An optional array of warning data corresponding to this document.
+   * An array of warning data corresponding to this document.
    *
    * If no warnings were returned, this array will be empty.
    */

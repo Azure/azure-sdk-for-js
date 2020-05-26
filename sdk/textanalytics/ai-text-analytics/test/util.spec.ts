@@ -2,13 +2,13 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { sortByPreviousIdOrder } from "../src/util";
+import { sortResponseIdObjects } from "../src/util";
 
 describe("util.sortByPreviousOrder", () => {
   it("should sort outputs correctly", () => {
     const input = [{ id: "1" }, { id: "2" }, { id: "3" }];
     const output = [{ id: "3" }, { id: "1" }, { id: "2" }];
-    const result = sortByPreviousIdOrder(input, output);
+    const result = sortResponseIdObjects(input, output);
     assert.deepEqual(result, input);
   });
 
@@ -21,7 +21,7 @@ describe("util.sortByPreviousOrder", () => {
       { id: "", error: { code: "Oops", message: "A fatal error!" } }
     ];
     assert.throws(() => {
-      sortByPreviousIdOrder(input, output);
+      sortResponseIdObjects(input, output);
     }, /^A fatal error\!$/);
   });
 });

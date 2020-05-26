@@ -2,8 +2,8 @@
 
 ## 1.0.0-preview.5 (2020-05-26)
 - [Breaking] Renamed all result array types that extend JavaScript's base `Array` class to end with the word `Array` instead of `Collection` (e.g. `AnalyzeSentimentResultCollection` is now `AnalyzeSentimentResultArray`)
-- [Breaking] Renamed `score` to `confidenceScore` in both the `Match` and `Entity` types.
-- [Breaking] Removed the `graphemeOffset` and `graphemeLength` properties of both the `Match` and `Entity` types.
+- [Breaking] Renamed `score` to `confidenceScore` in the `Match`, `Entity`, and `DetectedLanguage` types.
+- [Breaking] Removed the `graphemeOffset` and `graphemeLength` properties of the `Match`, `Entity`, and `SentenceSentiment` types.
 - [Breaking] Renamed the `graphemeCount` property of `TextDocumentStatistics` back to `characterCount`
 - Added a `text` property to `SentenceSentiment` that contains the sentence text
 - [Breaking] Removed the `warnings` property of `SentenceSentiment`.

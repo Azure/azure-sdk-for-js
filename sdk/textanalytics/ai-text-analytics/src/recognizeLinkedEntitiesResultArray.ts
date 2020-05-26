@@ -12,7 +12,7 @@ import {
   makeRecognizeLinkedEntitiesResult,
   makeRecognizeLinkedEntitiesErrorResult
 } from "./recognizeLinkedEntitiesResult";
-import { sortByPreviousIdOrder } from "./util";
+import { sortResponseIdObjects } from "./util";
 
 /**
  * Array of `RecognizeLinkedEntitiesResult` objects corresponding to a batch of input documents, and
@@ -58,7 +58,7 @@ export function makeRecognizeLinkedEntitiesResultArray(
         }
       )
     );
-  const result = sortByPreviousIdOrder(input, unsortedResult);
+  const result = sortResponseIdObjects(input, unsortedResult);
   return Object.assign(result, {
     statistics,
     modelVersion

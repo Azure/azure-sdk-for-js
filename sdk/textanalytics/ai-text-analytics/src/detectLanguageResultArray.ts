@@ -12,7 +12,7 @@ import {
   makeDetectLanguageResult,
   makeDetectLanguageErrorResult
 } from "./detectLanguageResult";
-import { sortByPreviousIdOrder } from "./util";
+import { sortResponseIdObjects } from "./util";
 
 /**
  * Array of `DetectLanguageResult` objects corresponding to a batch of input documents, and
@@ -57,7 +57,7 @@ export function makeDetectLanguageResultArray(
         }
       )
     );
-  const result = sortByPreviousIdOrder(input, unsortedResult);
+  const result = sortResponseIdObjects(input, unsortedResult);
   return Object.assign(result, {
     statistics,
     modelVersion

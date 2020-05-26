@@ -12,7 +12,7 @@ import {
   makeAnalyzeSentimentResult,
   makeAnalyzeSentimentErrorResult
 } from "./analyzeSentimentResult";
-import { sortByPreviousIdOrder } from "./util";
+import { sortResponseIdObjects } from "./util";
 
 /**
  * Array of `AnalyzeSentimentResult` objects corresponding to a batch of input documents, and
@@ -59,7 +59,7 @@ export function makeAnalyzeSentimentResultArray(
         }
       )
     );
-  const result = sortByPreviousIdOrder(input, unsortedResult);
+  const result = sortResponseIdObjects(input, unsortedResult);
   return Object.assign(result, {
     statistics,
     modelVersion

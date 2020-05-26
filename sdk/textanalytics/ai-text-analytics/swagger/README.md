@@ -217,3 +217,13 @@ directive:
       $["x-ms-enum"].name = "WarningCode";
 ```
 
+### Remove targetRef
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.TextAnalyticsWarning.properties
+    transform: >
+      delete $["targetRef"];
+```
+

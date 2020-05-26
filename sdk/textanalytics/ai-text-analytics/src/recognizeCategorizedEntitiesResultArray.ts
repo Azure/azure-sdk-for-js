@@ -12,7 +12,7 @@ import {
   makeRecognizeCategorizedEntitiesResult,
   makeRecognizeCategorizedEntitiesErrorResult
 } from "./recognizeCategorizedEntitiesResult";
-import { sortByPreviousIdOrder } from "./util";
+import { sortResponseIdObjects } from "./util";
 
 /**
  * Array of `RecognizeCategorizedEntitiesResult` objects corresponding to a batch of input documents, and
@@ -58,7 +58,7 @@ export function makeRecognizeCategorizedEntitiesResultArray(
         }
       )
     );
-  const result = sortByPreviousIdOrder(input, unsortedResult);
+  const result = sortResponseIdObjects(input, unsortedResult);
   return Object.assign(result, {
     statistics,
     modelVersion

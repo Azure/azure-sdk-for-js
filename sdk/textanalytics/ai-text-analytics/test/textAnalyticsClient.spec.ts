@@ -3,7 +3,7 @@
 
 import { assert } from "chai";
 
-import { Recorder, env } from "@azure/test-utils-recorder";
+import { Recorder } from "@azure/test-utils-recorder";
 
 import { createRecordedClient } from "./utils/recordedClient";
 import {
@@ -11,7 +11,6 @@ import {
   TextDocumentInput,
   DetectLanguageInput,
   DetectLanguageSuccessResult,
-  AzureKeyCredential,
   ExtractKeyPhrasesSuccessResult
 } from "../src/index";
 import { assertAllSuccess } from "./utils/resultHelper";
@@ -27,10 +26,6 @@ const testDataEs = [
   "Los caminos que llevan hasta Monte Rainier son espectaculares y hermosos.",
   "La carretera estaba atascada. Había mucho tráfico el día de ayer."
 ];
-
-/*
- * TODO: Patch this back to actually use AAD before GA release
- */
 describe("[AAD] TextAnalyticsClient", function() {
   let recorder: Recorder;
   let client: TextAnalyticsClient;
@@ -40,11 +35,7 @@ describe("[AAD] TextAnalyticsClient", function() {
   this.timeout(10000);
 
   beforeEach(function() {
-    // TODO: s/, new.*)));/);/
-    ({ client, recorder } = createRecordedClient(
-      this,
-      new AzureKeyCredential(env.TEXT_ANALYTICS_API_KEY)
-    ));
+    ({ client, recorder } = createRecordedClient(this));
     let nextId = 0;
     getId = () => {
       nextId += 1;

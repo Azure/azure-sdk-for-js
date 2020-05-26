@@ -224,12 +224,6 @@ export const TextAnalyticsWarning: coreHttp.CompositeMapper = {
         type: {
           name: "String"
         }
-      },
-      targetRef: {
-        serializedName: "targetRef",
-        type: {
-          name: "String"
-        }
       }
     }
   }

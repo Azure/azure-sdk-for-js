@@ -248,7 +248,6 @@ export interface TextAnalyticsSuccessResult {
 export interface TextAnalyticsWarning {
     code: WarningCode;
     message: string;
-    targetRef?: string;
 }
 
 // @public

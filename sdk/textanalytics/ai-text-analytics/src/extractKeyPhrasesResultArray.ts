@@ -12,7 +12,7 @@ import {
   makeExtractKeyPhrasesResult,
   makeExtractKeyPhrasesErrorResult
 } from "./extractKeyPhrasesResult";
-import { sortByPreviousIdOrder } from "./util";
+import { sortResponseIdObjects } from "./util";
 
 /**
  * Array of `ExtractKeyPhrasesResult` objects corresponding to a batch of input documents, and
@@ -57,7 +57,7 @@ export function makeExtractKeyPhrasesResultArray(
         }
       )
     );
-  const result = sortByPreviousIdOrder(input, unsortedResult);
+  const result = sortResponseIdObjects(input, unsortedResult);
   return Object.assign(result, {
     statistics,
     modelVersion

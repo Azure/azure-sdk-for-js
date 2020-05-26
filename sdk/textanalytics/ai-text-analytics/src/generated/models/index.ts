@@ -119,10 +119,6 @@ export interface TextAnalyticsWarning {
    * Warning message.
    */
   message: string;
-  /**
-   * A JSON pointer reference indicating the target object.
-   */
-  targetRef?: string;
 }
 
 /**
