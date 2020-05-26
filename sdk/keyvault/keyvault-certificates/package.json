@@ -67,6 +67,18 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "sideEffects": false,
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/core/keyVaultClientContext.ts",
+        "prefix": "packageVersion"
+      },
+      {
+        "path": "src/core/utils/constants.ts",
+        "prefix": "SDK_VERSION"
+      }
+    ]
+  },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-http": "^1.1.0",
@@ -83,7 +95,7 @@
     "@azure/keyvault-keys": "^4.0.0",
     "@azure/keyvault-secrets": "^4.0.0",
     "@azure/test-utils-recorder": "^1.0.0",
-    "@microsoft/api-extractor": "^7.5.4",
+    "@microsoft/api-extractor": "7.7.11",
     "@rollup/plugin-replace": "^2.2.0",
     "@types/chai": "^4.1.6",
     "@types/fs-extra": "^8.0.0",
@@ -135,17 +147,5 @@
     "typescript": "~3.6.4",
     "uglify-js": "^3.4.9",
     "url": "^0.11.0"
-  },
-  "//metadata": {
-    "constantPaths": [
-      {
-        "path": "src/core/keyVaultClientContext.ts",
-        "prefix": "packageVersion"
-      },
-      {
-        "path": "src/core/utils/constants.ts",
-        "prefix": "SDK_VERSION"
-      }
-    ]
   }
 }

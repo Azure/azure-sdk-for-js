@@ -58,6 +58,14 @@
     "unit-test:node": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/util/constants.ts",
+        "prefix": "version"
+      }
+    ]
+  },
   "dependencies": {
     "@azure/event-hubs": "^2.1.1",
     "@azure/ms-rest-nodeauth": "^0.9.2",
@@ -70,7 +78,7 @@
   },
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^2.0.1",
-    "@microsoft/api-extractor": "^7.5.4",
+    "@microsoft/api-extractor": "7.7.11",
     "@rollup/plugin-json": "^4.0.0",
     "@rollup/plugin-replace": "^2.2.0",
     "@types/async-lock": "^1.1.0",
@@ -110,13 +118,5 @@
     "ts-node": "^8.3.0",
     "typescript": "~3.6.4",
     "ws": "^7.1.1"
-  },
-  "//metadata": {
-    "constantPaths": [
-      {
-        "path": "src/util/constants.ts",
-        "prefix": "version"
-      }
-    ]
   }
 }
