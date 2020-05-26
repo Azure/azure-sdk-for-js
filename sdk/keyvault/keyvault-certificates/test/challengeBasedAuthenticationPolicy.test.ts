@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import { KeyClient } from "../src";
+import { CertificateClient } from "../src";
 import { env, Recorder } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
@@ -12,6 +12,7 @@ import {
   AuthenticationChallenge
 } from "../src/core/challengeBasedAuthenticationPolicy";
 import { createSandbox } from "sinon";
+import { testPollerProperties } from './utils/recorderUtils';
 
 // Following the philosophy of not testing the insides if we can test the outsides...
 // I present you with this "Get Out of Jail Free" card (in reference to Monopoly).
@@ -19,15 +20,20 @@ import { createSandbox } from "sinon";
 // we will be able to unit test the insides in detail.
 
 describe("Challenge based authentication tests", () => {
-  const keyPrefix = `challengeAuth${env.KEY_NAME || "KeyName"}`;
-  let keySuffix: string;
-  let client: KeyClient;
+  const certificatePrefix = `challengeAuth${env.KEY_NAME || "CertificateName"}`;
+  let certificateSuffix: string;
+  let client: CertificateClient;
   let testClient: TestClient;
   let recorder: Recorder;
 
+  const basicCertificatePolicy = {
+    issuerName: "Self",
+    subject: "cn=MyCert"
+  };
+
   beforeEach(async function() {
     const authentication = await authenticate(this);
-    keySuffix = authentication.keySuffix;
+    certificateSuffix = authentication.suffix;
     client = authentication.client;
     testClient = authentication.testClient;
     recorder = authentication.recorder;
@@ -49,14 +55,15 @@ describe("Challenge based authentication tests", () => {
 
     // Now we run what would be a normal use of the client.
     // Here we will create two keys, then flush them.
-    // testClient.flushKey deletes, then purges the keys.
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
-    const keyNames = [`${keyName}-0`, `${keyName}-1`];
-    for (const name of keyNames) {
-      await client.createKey(name, "RSA");
+    // testClient.flushCertificate deletes, then purges the keys.
+    const certificateName = testClient.formatName(`${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`);
+    const certificateNames = [`${certificateName}-0`, `${certificateName}-1`];
+    for (const name of certificateNames) {
+      const poller = await client.beginCreateCertificate(name, basicCertificatePolicy, testPollerProperties);
+      await poller.pollUntilDone();
     }
-    for (const name of keyNames) {
-      await testClient.flushKey(name);
+    for (const name of certificateNames) {
+      await testClient.flushCertificate(name);
     }
 
     // The challenge should have been written to the cache exactly ONCE.
@@ -69,21 +76,22 @@ describe("Challenge based authentication tests", () => {
   });
 
   it("Authentication should work for parallel requests", async function() {
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
-    const keyNames = [`${keyName}-0`, `${keyName}-1`];
+    const certificateName = testClient.formatName(`${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`);
+    const certificateNames = [`${certificateName}-0`, `${certificateName}-1`];
 
     const sandbox = createSandbox();
     const spy = sandbox.spy(AuthenticationChallengeCache.prototype, "setCachedChallenge");
     const spyEqualTo = sandbox.spy(AuthenticationChallenge.prototype, "equalTo");
 
-    const promises = keyNames.map((name) => {
-      const promise = client.createKey(name, "RSA");
+    const promises = certificateNames.map((name) => {
+      const promise = client.beginCreateCertificate(name, basicCertificatePolicy, testPollerProperties);
       return { promise, name };
     });
 
     for (const promise of promises) {
-      await promise.promise;
-      await testClient.flushKey(promise.name);
+      const poller = await promise.promise;
+      await poller.pollUntilDone();
+      await testClient.flushCertificate(promise.name);
     }
 
     // Even though we had parallel requests, only one authentication should have happened.

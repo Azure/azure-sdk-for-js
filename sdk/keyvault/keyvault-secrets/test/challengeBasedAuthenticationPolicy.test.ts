@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import { KeyClient } from "../src";
+import { SecretClient } from "../src";
 import { env, Recorder } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
@@ -19,15 +19,15 @@ import { createSandbox } from "sinon";
 // we will be able to unit test the insides in detail.
 
 describe("Challenge based authentication tests", () => {
-  const keyPrefix = `challengeAuth${env.KEY_NAME || "KeyName"}`;
-  let keySuffix: string;
-  let client: KeyClient;
+  const secretPrefix = `challengeAuth${env.KEY_NAME || "SecretName"}`;
+  let secretSuffix: string;
+  let client: SecretClient;
   let testClient: TestClient;
   let recorder: Recorder;
 
   beforeEach(async function() {
     const authentication = await authenticate(this);
-    keySuffix = authentication.keySuffix;
+    secretSuffix = authentication.secretSuffix;
     client = authentication.client;
     testClient = authentication.testClient;
     recorder = authentication.recorder;
@@ -48,15 +48,15 @@ describe("Challenge based authentication tests", () => {
     const spy = sandbox.spy(AuthenticationChallengeCache.prototype, "setCachedChallenge");
 
     // Now we run what would be a normal use of the client.
-    // Here we will create two keys, then flush them.
-    // testClient.flushKey deletes, then purges the keys.
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
-    const keyNames = [`${keyName}-0`, `${keyName}-1`];
-    for (const name of keyNames) {
-      await client.createKey(name, "RSA");
+    // Here we will create two secrets, then flush them.
+    // testClient.flushSecret deletes, then purges the secrets.
+    const secretName = testClient.formatName(`${secretPrefix}-${this!.test!.title}-${secretSuffix}`);
+    const secretNames = [`${secretName}-0`, `${secretName}-1`];
+    for (const name of secretNames) {
+      await client.setSecret(name, "value");
     }
-    for (const name of keyNames) {
-      await testClient.flushKey(name);
+    for (const name of secretNames) {
+      await testClient.flushSecret(name);
     }
 
     // The challenge should have been written to the cache exactly ONCE.
@@ -69,21 +69,21 @@ describe("Challenge based authentication tests", () => {
   });
 
   it("Authentication should work for parallel requests", async function() {
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
-    const keyNames = [`${keyName}-0`, `${keyName}-1`];
+    const secretName = testClient.formatName(`${secretPrefix}-${this!.test!.title}-${secretSuffix}`);
+    const secretNames = [`${secretName}-0`, `${secretName}-1`];
 
     const sandbox = createSandbox();
     const spy = sandbox.spy(AuthenticationChallengeCache.prototype, "setCachedChallenge");
     const spyEqualTo = sandbox.spy(AuthenticationChallenge.prototype, "equalTo");
 
-    const promises = keyNames.map((name) => {
-      const promise = client.createKey(name, "RSA");
+    const promises = secretNames.map((name) => {
+      const promise = client.setSecret(name, "value");
       return { promise, name };
     });
 
     for (const promise of promises) {
       await promise.promise;
-      await testClient.flushKey(promise.name);
+      await testClient.flushSecret(promise.name);
     }
 
     // Even though we had parallel requests, only one authentication should have happened.
