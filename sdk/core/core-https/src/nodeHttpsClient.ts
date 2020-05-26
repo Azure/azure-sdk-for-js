@@ -12,7 +12,8 @@ import {
   PipelineRequest,
   PipelineResponse,
   TransferProgressEvent,
-  HttpHeaders
+  HttpHeaders,
+  FormDataMap
 } from "./interfaces";
 import { createHttpHeaders } from "./httpHeaders";
 import { RestError } from "./restError";
@@ -104,28 +105,7 @@ export class NodeHttpsClient implements HttpsClient {
     }
 
     if (request.formData) {
-      const formData = request.formData;
-      const requestForm = new FormData();
-      for (const formKey of Object.keys(formData)) {
-        const formValue = formData[formKey];
-        if (Array.isArray(formValue)) {
-          for (const subValue of formValue) {
-            requestForm.append(formKey, subValue);
-          }
-        } else {
-          requestForm.append(formKey, formValue);
-        }
-      }
-
-      request.body = requestForm;
-      request.formData = undefined;
-      const contentType = request.headers.get("Content-Type");
-      if (contentType && contentType.indexOf("multipart/form-data") !== -1) {
-        request.headers.set(
-          "Content-Type",
-          `multipart/form-data; boundary=${requestForm.getBoundary()}`
-        );
-      }
+      prepareFormData(request.formData, request);
     }
 
     if (!request.skipDecompressResponse) {
@@ -227,6 +207,30 @@ export class NodeHttpsClient implements HttpsClient {
         request.abortSignal.removeEventListener("abort", abortListener);
       }
     }
+  }
+}
+
+function prepareFormData(formData: FormDataMap, request: PipelineRequest): void {
+  const requestForm = new FormData();
+  for (const formKey of Object.keys(formData)) {
+    const formValue = formData[formKey];
+    if (Array.isArray(formValue)) {
+      for (const subValue of formValue) {
+        requestForm.append(formKey, subValue);
+      }
+    } else {
+      requestForm.append(formKey, formValue);
+    }
+  }
+
+  request.body = requestForm;
+  request.formData = undefined;
+  const contentType = request.headers.get("Content-Type");
+  if (contentType && contentType.indexOf("multipart/form-data") !== -1) {
+    request.headers.set(
+      "Content-Type",
+      `multipart/form-data; boundary=${requestForm.getBoundary()}`
+    );
   }
 }
 
