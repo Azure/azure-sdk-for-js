@@ -552,7 +552,7 @@ export function toFormModelResponse(response: GetCustomModelResponse): FormModel
       ...common,
       trainingDocuments: response.trainResult.trainingDocuments,
       errors: response.trainResult.errors,
-      models: [
+      subModels: [
         {
           accuracy: response.trainResult.averageModelAccuracy,
           formType: `form-${response.modelInfo.modelId}`,
@@ -562,7 +562,7 @@ export function toFormModelResponse(response: GetCustomModelResponse): FormModel
     };
   } else if (response.keys) {
     // training with forms, populate from trainingResult.keys
-    const models: CustomFormSubModel[] = [];
+    const subModels: CustomFormSubModel[] = [];
     for (const clusterKey in response.keys.clusters) {
       const cluster = response.keys.clusters[clusterKey];
       const fields: { [propertyName: string]: CustomFormField } = {};
@@ -570,14 +570,14 @@ export function toFormModelResponse(response: GetCustomModelResponse): FormModel
       for (let i = 0; i < cluster.length; i++) {
         fields[`field-${i}`] = { name: `field-${i}` };
       }
-      models.push({ formType: `form-${clusterKey}`, fields });
+      subModels.push({ formType: `form-${clusterKey}`, fields });
     }
 
     return {
       ...common,
       trainingDocuments: response.trainResult?.trainingDocuments,
       errors: response.trainResult?.errors,
-      models
+      subModels
     };
   } else {
     throw new Error("Expecting model(s) from traning result but got none");

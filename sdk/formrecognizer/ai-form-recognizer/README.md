@@ -230,8 +230,8 @@ async function main() {
   console.log(`Created on: ${response.createdOn}`);
   console.log(`Last modified: ${response.lastModified}`);
 
-  if (response.models) {
-    for (const submodel of response.models) {
+  if (response.subModels) {
+    for (const submodel of response.subModels) {
       console.log("We have recognized the following fields");
       for (const key in submodel.fields) {
         const field = submodel.fields[key];
