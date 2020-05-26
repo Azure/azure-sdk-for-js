@@ -87,8 +87,8 @@ export interface CustomFormModel {
     errors?: FormRecognizerError[];
     lastModified: Date;
     modelId: string;
-    models?: CustomFormSubModel[];
     status: CustomFormModelStatus;
+    submodels?: CustomFormSubModel[];
     trainingDocuments?: TrainingDocumentInfo[];
 }
 
