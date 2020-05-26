@@ -29,8 +29,10 @@ import {
   InternalQueueOptions,
   QueueOptions,
   buildQueueOptions,
-  QueueDetails,
-  buildQueue
+  buildQueue,
+  QueueProperties,
+  buildQueueMetrics,
+  QueueMetrics
 } from "./serializers/queueResourceSerializer";
 import {
   TopicResourceSerializer,
@@ -59,8 +61,6 @@ import {
 import { isJSONLikeObject, isAbsoluteUrl } from "./util/utils";
 
 /**
- * @internal
- * @ignore
  * Options to use with ServiceBusAtomManagementClient creation
  */
 export interface ServiceBusAtomManagementClientOptions {
@@ -71,8 +71,6 @@ export interface ServiceBusAtomManagementClientOptions {
 }
 
 /**
- * @internal
- * @ignore
  * Request options for list<entity-type>() operations
  */
 export interface ListRequestOptions {
@@ -88,11 +86,9 @@ export interface ListRequestOptions {
 }
 
 /**
- * @internal
- * @ignore
  * Represents result of create, get, update and delete operations on queue.
  */
-export interface QueueResponse extends QueueDetails {
+export interface GetQueueMetricsResponse extends QueueMetrics {
   /**
    * The underlying HTTP response.
    */
@@ -100,11 +96,29 @@ export interface QueueResponse extends QueueDetails {
 }
 
 /**
- * @internal
- * @ignore
+ * Represents result of create, get, update and delete operations on queue.
+ */
+export interface GetQueuesMetricsResponse extends Array<QueueMetrics> {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
+
+/**
+ * Represents result of create, get, update and delete operations on queue.
+ */
+export interface QueueResponse extends QueueProperties {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
+
+/**
  * Create Queue response
  */
-export interface CreateQueueResponse extends QueueDetails {
+export interface CreateQueueResponse extends QueueProperties {
   /**
    * The underlying HTTP response.
    */
@@ -112,11 +126,9 @@ export interface CreateQueueResponse extends QueueDetails {
 }
 
 /**
- * @internal
- * @ignore
  * Get Queue response
  */
-export interface GetQueueResponse extends QueueDetails {
+export interface GetQueueResponse extends QueueProperties {
   /**
    * The underlying HTTP response.
    */
@@ -124,11 +136,9 @@ export interface GetQueueResponse extends QueueDetails {
 }
 
 /**
- * @internal
- * @ignore
  * Update Queue response
  */
-export interface UpdateQueueResponse extends QueueDetails {
+export interface UpdateQueueResponse extends QueueProperties {
   /**
    * The underlying HTTP response.
    */
@@ -136,8 +146,6 @@ export interface UpdateQueueResponse extends QueueDetails {
 }
 
 /**
- * @internal
- * @ignore
  * Delete Queue response
  */
 export interface DeleteQueueResponse {
@@ -148,11 +156,9 @@ export interface DeleteQueueResponse {
 }
 
 /**
- * @internal
- * @ignore
  * Represents result of list operation on queues.
  */
-export interface ListQueuesResponse extends Array<QueueDetails> {
+export interface GetQueuesResponse extends Array<QueueProperties> {
   /**
    * The underlying HTTP response.
    */
@@ -160,8 +166,6 @@ export interface ListQueuesResponse extends Array<QueueDetails> {
 }
 
 /**
- * @internal
- * @ignore
  * Represents result of create, get, update and delete operations on topic.
  */
 export interface TopicResponse extends TopicDetails {
@@ -172,8 +176,6 @@ export interface TopicResponse extends TopicDetails {
 }
 
 /**
- * @internal
- * @ignore
  * Create Topic response
  */
 export interface CreateTopicResponse extends TopicDetails {
@@ -184,8 +186,6 @@ export interface CreateTopicResponse extends TopicDetails {
 }
 
 /**
- * @internal
- * @ignore
  * Get Topic response
  */
 export interface GetTopicResponse extends TopicDetails {
@@ -196,8 +196,6 @@ export interface GetTopicResponse extends TopicDetails {
 }
 
 /**
- * @internal
- * @ignore
  * Update Topic response
  */
 export interface UpdateTopicResponse extends TopicDetails {
@@ -208,8 +206,6 @@ export interface UpdateTopicResponse extends TopicDetails {
 }
 
 /**
- * @internal
- * @ignore
  * Delete Topic response
  */
 export interface DeleteTopicResponse {
@@ -220,8 +216,6 @@ export interface DeleteTopicResponse {
 }
 
 /**
- * @internal
- * @ignore
  * Represents result of list operation on topics.
  */
 export interface ListTopicsResponse extends Array<TopicDetails> {
@@ -232,8 +226,6 @@ export interface ListTopicsResponse extends Array<TopicDetails> {
 }
 
 /**
- * @internal
- * @ignore
  * Represents result of create, get, update and delete operations on subscription.
  */
 export interface SubscriptionResponse extends SubscriptionDetails {
@@ -244,8 +236,6 @@ export interface SubscriptionResponse extends SubscriptionDetails {
 }
 
 /**
- * @internal
- * @ignore
  * Create Subscription response
  */
 export interface CreateSubscriptionResponse extends SubscriptionDetails {
@@ -256,8 +246,6 @@ export interface CreateSubscriptionResponse extends SubscriptionDetails {
 }
 
 /**
- * @internal
- * @ignore
  * Get Subscription response
  */
 export interface GetSubscriptionResponse extends SubscriptionDetails {
@@ -268,8 +256,6 @@ export interface GetSubscriptionResponse extends SubscriptionDetails {
 }
 
 /**
- * @internal
- * @ignore
  * Update Subscription response
  */
 export interface UpdateSubscriptionResponse extends SubscriptionDetails {
@@ -280,8 +266,6 @@ export interface UpdateSubscriptionResponse extends SubscriptionDetails {
 }
 
 /**
- * @internal
- * @ignore
  * Delete Subscription response
  */
 export interface DeleteSubscriptionResponse {
@@ -292,8 +276,6 @@ export interface DeleteSubscriptionResponse {
 }
 
 /**
- * @internal
- * @ignore
  * Represents result of list operation on subscriptions.
  */
 export interface ListSubscriptionsResponse extends Array<SubscriptionDetails> {
@@ -304,8 +286,6 @@ export interface ListSubscriptionsResponse extends Array<SubscriptionDetails> {
 }
 
 /**
- * @internal
- * @ignore
  * Represents result of create, get, update and delete operations on rule.
  */
 export interface RuleResponse extends RuleDetails {
@@ -316,8 +296,6 @@ export interface RuleResponse extends RuleDetails {
 }
 
 /**
- * @internal
- * @ignore
  * Create Rule response
  */
 export interface CreateRuleResponse extends RuleDetails {
@@ -328,8 +306,6 @@ export interface CreateRuleResponse extends RuleDetails {
 }
 
 /**
- * @internal
- * @ignore
  * Get Rule response
  */
 export interface GetRuleResponse extends RuleDetails {
@@ -340,8 +316,6 @@ export interface GetRuleResponse extends RuleDetails {
 }
 
 /**
- * @internal
- * @ignore
  * Update Rule response
  */
 export interface UpdateRuleResponse extends RuleDetails {
@@ -352,8 +326,6 @@ export interface UpdateRuleResponse extends RuleDetails {
 }
 
 /**
- * @internal
- * @ignore
  * Delete Rule response
  */
 export interface DeleteRuleResponse {
@@ -364,8 +336,6 @@ export interface DeleteRuleResponse {
 }
 
 /**
- * @internal
- * @ignore
  * Represents result of list operation on rules.
  */
 export interface ListRulesResponse extends Array<RuleDetails> {
@@ -376,8 +346,6 @@ export interface ListRulesResponse extends Array<RuleDetails> {
 }
 
 /**
- * @internal
- * @ignore
  * All operations return promises that resolve to an object that has the relevant output.
  * These objects also have a property called `_response` that you can use if you want to
  * access the direct response from the service.
@@ -450,6 +418,21 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   /**
    * Creates a queue with given name, configured using the given options
    * @param queueName
+   *
+   * Following are errors that can be expected from this operation
+   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
+   * @throws `RestError` with code `MessageEntityAlreadyExistsError` when requested messaging entity already exists,
+   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
+   * @throws `RestError` with code `QuotaExceededError` when requested operation fails due to quote limits exceeding from service side,
+   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
+   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
+   * bad requests or requests resulting in conflicting operation on the server,
+   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
+   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   */
+  async createQueue(queueName: string): Promise<CreateQueueResponse>;
+  /**
+   * Creates a queue configured using the given options
    * @param queueOptions Options to configure the Queue being created.
    * For example, you can configure a queue to support partitions or sessions.
    *
@@ -464,15 +447,54 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async createQueue(queueName: string, queueOptions?: QueueOptions): Promise<CreateQueueResponse> {
-    log.httpAtomXml(
-      `Performing management operation - createQueue() for "${queueName}" with options: ${queueOptions}`
-    );
-    const response: HttpOperationResponse = await this.putResource(
+  async createQueue(queueOptions: QueueOptions): Promise<CreateQueueResponse>;
+  async createQueue(queueNameOrOptions: string | QueueOptions): Promise<CreateQueueResponse> {
+    if (typeof queueNameOrOptions == "string") {
+      log.httpAtomXml(
+        `Performing management operation - createQueue() for "${queueNameOrOptions}"`
+      );
+      const response: HttpOperationResponse = await this.putResource(
+        queueNameOrOptions,
+        buildQueueOptions({ queueName: queueNameOrOptions }),
+        this.queueResourceSerializer,
+        false
+      );
+
+      return this.buildQueueResponse(response);
+    } else {
+      log.httpAtomXml(
+        `Performing management operation - createQueue() for "${queueNameOrOptions.queueName}" with options: ${queueNameOrOptions}`
+      );
+      const response: HttpOperationResponse = await this.putResource(
+        queueNameOrOptions.queueName,
+        buildQueueOptions(queueNameOrOptions || {}),
+        this.queueResourceSerializer,
+        false
+      );
+
+      return this.buildQueueResponse(response);
+    }
+  }
+
+  /**
+   * Returns an object representing the Queue with the given name along with all its properties
+   * @param queueName
+   *
+   * Following are errors that can be expected from this operation
+   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
+   * @throws `RestError` with code `MessageEntityNotFoundError` when requested messaging entity does not exist,
+   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
+   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
+   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
+   * bad requests or requests resulting in conflicting operation on the server,
+   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
+   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   */
+  async getQueue(queueName: string): Promise<GetQueueResponse> {
+    log.httpAtomXml(`Performing management operation - getQueue() for "${queueName}"`);
+    const response: HttpOperationResponse = await this.getResource(
       queueName,
-      buildQueueOptions(queueOptions || {}),
-      this.queueResourceSerializer,
-      false
+      this.queueResourceSerializer
     );
 
     return this.buildQueueResponse(response);
@@ -492,14 +514,14 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async getQueueDetails(queueName: string): Promise<GetQueueResponse> {
+  async getQueueMetrics(queueName: string): Promise<GetQueueMetricsResponse> {
     log.httpAtomXml(`Performing management operation - getQueue() for "${queueName}"`);
     const response: HttpOperationResponse = await this.getResource(
       queueName,
       this.queueResourceSerializer
     );
 
-    return this.buildQueueResponse(response);
+    return this.buildQueueMetricsResponse(response);
   }
 
   /**
@@ -515,7 +537,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async listQueues(listRequestOptions?: ListRequestOptions): Promise<ListQueuesResponse> {
+  async getQueues(listRequestOptions?: ListRequestOptions): Promise<GetQueuesResponse> {
     log.httpAtomXml(
       `Performing management operation - listQueues() with options: ${listRequestOptions}`
     );
@@ -529,8 +551,50 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   }
 
   /**
+   * Lists existing queues.
+   * @param listRequestOptions
+   *
+   * Following are errors that can be expected from this operation
+   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
+   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
+   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
+   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
+   * bad requests or requests resulting in conflicting operation on the server,
+   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
+   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   */
+  async getQueuesMetrics(
+    listRequestOptions?: ListRequestOptions
+  ): Promise<GetQueuesMetricsResponse> {
+    log.httpAtomXml(
+      `Performing management operation - listQueues() with options: ${listRequestOptions}`
+    );
+    const response: HttpOperationResponse = await this.listResources(
+      "$Resources/Queues",
+      listRequestOptions,
+      this.queueResourceSerializer
+    );
+
+    return this.buildListQueuesMetricsResponse(response);
+  }
+
+  /**
    * Updates properties on the Queue by the given name based on the given options
    * @param queueName
+   *
+   * Following are errors that can be expected from this operation
+   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
+   * @throws `RestError` with code `MessageEntityNotFoundError` when requested messaging entity does not exist,
+   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
+   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
+   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
+   * bad requests or requests resulting in conflicting operation on the server,
+   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
+   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   */
+  async updateQueue(queueName: string): Promise<UpdateQueueResponse>;
+  /**
+   * Updates properties on the Queue by the given name based on the given options
    * @param queueOptions Options to configure the Queue being updated.
    * For example, you can configure a queue to support partitions or sessions.
    *
@@ -544,29 +608,49 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async updateQueue(queueName: string, queueOptions: QueueOptions): Promise<UpdateQueueResponse> {
-    log.httpAtomXml(
-      `Performing management operation - updateQueue() for "${queueName}" with options: ${queueOptions}`
-    );
-
-    if (!isJSONLikeObject(queueOptions) || queueOptions === null) {
-      throw new TypeError(
-        `Parameter "queueOptions" must be an object of type "QueueOptions" and cannot be undefined or null.`
+  async updateQueue(queueOptions: QueueOptions): Promise<UpdateQueueResponse>;
+  async updateQueue(queueNameOrOptions: string | QueueOptions): Promise<UpdateQueueResponse> {
+    if (typeof queueNameOrOptions == "string") {
+      log.httpAtomXml(
+        `Performing management operation - updateQueue() for "${queueNameOrOptions}"`
       );
+
+      const finalQueueOptions: QueueOptions = { queueName: queueNameOrOptions };
+      const getQueueResult = await this.getQueue(queueNameOrOptions);
+      Object.assign(finalQueueOptions, getQueueResult);
+
+      const response: HttpOperationResponse = await this.putResource(
+        queueNameOrOptions,
+        buildQueueOptions(finalQueueOptions),
+        this.queueResourceSerializer,
+        true
+      );
+
+      return this.buildQueueResponse(response);
+    } else {
+      log.httpAtomXml(
+        `Performing management operation - updateQueue() for "${queueNameOrOptions.queueName}" with options: ${queueNameOrOptions}`
+      );
+
+      if (!isJSONLikeObject(queueNameOrOptions) || queueNameOrOptions === null) {
+        throw new TypeError(
+          `Parameter "queueOptions" must be an object of type "QueueOptions" and cannot be undefined or null.`
+        );
+      }
+
+      const finalQueueOptions: QueueOptions = { queueName: queueNameOrOptions.queueName };
+      const getQueueResult = await this.getQueue(queueNameOrOptions.queueName);
+      Object.assign(finalQueueOptions, getQueueResult, queueNameOrOptions);
+
+      const response: HttpOperationResponse = await this.putResource(
+        queueNameOrOptions.queueName,
+        buildQueueOptions(finalQueueOptions),
+        this.queueResourceSerializer,
+        true
+      );
+
+      return this.buildQueueResponse(response);
     }
-
-    const finalQueueOptions: QueueOptions = {};
-    const getQueueResult = await this.getQueueDetails(queueName);
-    Object.assign(finalQueueOptions, getQueueResult, queueOptions);
-
-    const response: HttpOperationResponse = await this.putResource(
-      queueName,
-      buildQueueOptions(finalQueueOptions),
-      this.queueResourceSerializer,
-      true
-    );
-
-    return this.buildQueueResponse(response);
   }
 
   /**
@@ -1237,9 +1321,9 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     return topicName + "/Subscriptions/" + subscriptionName + "/Rules/" + ruleName;
   }
 
-  private buildListQueuesResponse(response: HttpOperationResponse): ListQueuesResponse {
+  private buildListQueuesResponse(response: HttpOperationResponse): GetQueuesResponse {
     try {
-      const queues: QueueDetails[] = [];
+      const queues: QueueProperties[] = [];
       if (!Array.isArray(response.parsedBody)) {
         throw new TypeError(`${response.parsedBody} was expected to be of type Array`);
       }
@@ -1250,7 +1334,38 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
           queues.push(queue);
         }
       }
-      const listQueuesResponse: ListQueuesResponse = Object.assign(queues, {
+      const listQueuesResponse: GetQueuesResponse = Object.assign(queues, {
+        _response: response
+      });
+      return listQueuesResponse;
+    } catch (err) {
+      log.warning("Failure parsing response from service - %0 ", err);
+      throw new RestError(
+        `Error occurred while parsing the response body - cannot form a list of queues using the response from the service.`,
+        RestError.PARSE_ERROR,
+        response.status,
+        stripRequest(response.request),
+        stripResponse(response)
+      );
+    }
+  }
+
+  private buildListQueuesMetricsResponse(
+    response: HttpOperationResponse
+  ): GetQueuesMetricsResponse {
+    try {
+      const queues: QueueMetrics[] = [];
+      if (!Array.isArray(response.parsedBody)) {
+        throw new TypeError(`${response.parsedBody} was expected to be of type Array`);
+      }
+      const rawQueueArray: any = response.parsedBody;
+      for (let i = 0; i < rawQueueArray.length; i++) {
+        const queue = buildQueueMetrics(rawQueueArray[i]);
+        if (queue) {
+          queues.push(queue);
+        }
+      }
+      const listQueuesResponse: GetQueuesMetricsResponse = Object.assign(queues, {
         _response: response
       });
       return listQueuesResponse;
@@ -1270,6 +1385,25 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     try {
       const queue = buildQueue(response.parsedBody);
       const queueResponse: QueueResponse = Object.assign(queue || {}, {
+        _response: response
+      });
+      return queueResponse;
+    } catch (err) {
+      log.warning("Failure parsing response from service - %0 ", err);
+      throw new RestError(
+        `Error occurred while parsing the response body - cannot form a queue object using the response from the service.`,
+        RestError.PARSE_ERROR,
+        response.status,
+        stripRequest(response.request),
+        stripResponse(response)
+      );
+    }
+  }
+
+  private buildQueueMetricsResponse(response: HttpOperationResponse): GetQueueMetricsResponse {
+    try {
+      const queue = buildQueueMetrics(response.parsedBody);
+      const queueResponse: GetQueueMetricsResponse = Object.assign(queue || {}, {
         _response: response
       });
       return queueResponse;

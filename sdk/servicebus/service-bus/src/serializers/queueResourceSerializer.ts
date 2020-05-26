@@ -61,7 +61,7 @@ export function buildQueueOptions(queueOptions: QueueOptions): InternalQueueOpti
  * response from the service
  * @param rawQueue
  */
-export function buildQueue(rawQueue: any): QueueDetails {
+export function buildQueue(rawQueue: any): QueueProperties {
   return {
     queueName: getString(rawQueue[Constants.QUEUE_NAME], "queueName"),
 
@@ -69,10 +69,8 @@ export function buildQueue(rawQueue: any): QueueDetails {
     userMetadata: rawQueue[Constants.USER_METADATA],
 
     lockDuration: getString(rawQueue[Constants.LOCK_DURATION], "lockDuration"),
-    sizeInBytes: getIntegerOrUndefined(rawQueue[Constants.SIZE_IN_BYTES]),
     maxSizeInMegabytes: getInteger(rawQueue[Constants.MAX_SIZE_IN_MEGABYTES], "maxSizeInMegabytes"),
 
-    messageCount: getIntegerOrUndefined(rawQueue[Constants.MESSAGE_COUNT]),
     maxDeliveryCount: getInteger(rawQueue[Constants.MAX_DELIVERY_COUNT], "maxDeliveryCount"),
 
     enablePartitioning: getBoolean(rawQueue[Constants.ENABLE_PARTITIONING], "enablePartitioning"),
@@ -104,7 +102,6 @@ export function buildQueue(rawQueue: any): QueueDetails {
       rawQueue[Constants.FORWARD_DEADLETTERED_MESSAGES_TO]
     ),
 
-    messageCountDetails: getCountDetailsOrUndefined(rawQueue[Constants.COUNT_DETAILS]),
     supportOrdering: getBooleanOrUndefined(rawQueue[Constants.SUPPORT_ORDERING]),
     enableExpress: getBooleanOrUndefined(rawQueue[Constants.ENABLE_EXPRESS]),
 
@@ -113,7 +110,23 @@ export function buildQueue(rawQueue: any): QueueDetails {
 
     entityAvailabilityStatus: rawQueue[Constants.ENTITY_AVAILABILITY_STATUS],
 
-    status: rawQueue[Constants.STATUS],
+    status: rawQueue[Constants.STATUS]
+  };
+}
+
+/**
+ * @internal
+ * @ignore
+ * Builds the queue object from the raw json object gotten after deserializing the
+ * response from the service
+ * @param rawQueue
+ */
+export function buildQueueMetrics(rawQueue: any): QueueMetrics {
+  return {
+    queueName: getString(rawQueue[Constants.QUEUE_NAME], "queueName"),
+    sizeInBytes: getIntegerOrUndefined(rawQueue[Constants.SIZE_IN_BYTES]),
+    messageCount: getIntegerOrUndefined(rawQueue[Constants.MESSAGE_COUNT]),
+    messageCountDetails: getCountDetailsOrUndefined(rawQueue[Constants.COUNT_DETAILS]),
     createdOn: rawQueue[Constants.CREATED_AT],
     updatedOn: rawQueue[Constants.UPDATED_AT],
     accessedOn: rawQueue[Constants.ACCESSED_AT]
@@ -126,6 +139,11 @@ export function buildQueue(rawQueue: any): QueueDetails {
  * Represents settable options on a queue
  */
 export interface QueueOptions {
+  /**
+   * Name of the queue
+   */
+  queueName: string;
+
   /**
    * Determines the amount of time in seconds in which a message should be locked for
    * processing by a receiver. After this period, the message is unlocked and available
@@ -364,7 +382,7 @@ export interface InternalQueueOptions {
  * @ignore
  * Represents all attributes of a queue entity
  */
-export interface QueueDetails {
+export interface QueueProperties {
   /**
    * Name of the queue
    */
@@ -381,22 +399,10 @@ export interface QueueDetails {
   lockDuration: string;
 
   /**
-   * The entity's size in bytes.
-   *
-   */
-  sizeInBytes?: number;
-
-  /**
    * Specifies the maximum queue size in megabytes. Any attempt to enqueue
    * a message that will cause the queue to exceed this value will fail.
    */
   maxSizeInMegabytes: number;
-
-  /**
-   * The entity's message count.
-   *
-   */
-  messageCount?: number;
 
   /**
    * Depending on whether DeadLettering is enabled, a message is automatically
@@ -491,11 +497,6 @@ export interface QueueDetails {
   authorizationRules?: AuthorizationRule[];
 
   /**
-   * Message count details
-   */
-  messageCountDetails?: MessageCountDetails;
-
-  /**
    * Ordering support for messages
    */
   supportOrdering?: boolean;
@@ -519,6 +520,17 @@ export interface QueueDetails {
    * Status of the messaging entity.
    */
   status?: EntityStatus;
+}
+/**
+ * @internal
+ * @ignore
+ * Represents all attributes of a queue entity
+ */
+export interface QueueMetrics {
+  /**
+   * Name of the queue
+   */
+  queueName: string;
 
   /**
    * Created at timestamp
@@ -534,6 +546,23 @@ export interface QueueDetails {
    * Accessed at timestamp
    */
   accessedOn?: string;
+
+  /**
+   * The entity's message count.
+   *
+   */
+  messageCount?: number;
+
+  /**
+   * Message count details
+   */
+  messageCountDetails?: MessageCountDetails;
+
+  /**
+   * The entity's size in bytes.
+   *
+   */
+  sizeInBytes?: number;
 }
 
 /**
