@@ -83,12 +83,19 @@ export type ContentPollerLike = PollerLike<PollOperationState<RecognizeContentRe
 export type ContentType = "application/pdf" | "image/jpeg" | "image/png" | "image/tiff";
 
 // @public
-export interface CopyAuthorization {
-    accessToken: string;
-    expirationOn: number;
-    modelId: string;
+export type CopyAuthorization = {
     targetResourceId: string;
     targetResourceRegion: string;
+    modelId: string;
+    accessToken: string;
+    expirationOn: number;
+} & CopyAuthorizationResultModel;
+
+// @public
+export interface CopyAuthorizationResultModel {
+    accessToken: string;
+    expirationDateTimeTicks: number;
+    modelId: string;
 }
 
 // @public

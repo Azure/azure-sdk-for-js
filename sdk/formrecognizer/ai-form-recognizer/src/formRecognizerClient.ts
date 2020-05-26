@@ -10,7 +10,7 @@ import {
   AbortSignalLike,
   ServiceClientCredentials
 } from "@azure/core-http";
-import { TokenCredential } from '@azure/identity';
+import { TokenCredential } from "@azure/identity";
 import { KeyCredential } from "@azure/core-auth";
 import { SDK_VERSION, DEFAULT_COGNITIVE_SCOPE } from "./constants";
 import { logger } from "./logger";
@@ -709,11 +709,10 @@ async function recognizeLayoutInternal(
         operationOptionsToRequestOptionsBase(finalOptions)
       );
     }
-    return await client.analyzeLayoutAsync(
-      "application/json", {
+    return await client.analyzeLayoutAsync("application/json", {
       fileStream: requestBody as SourcePath,
-        ...operationOptionsToRequestOptionsBase(finalOptions)
-      });
+      ...operationOptionsToRequestOptionsBase(finalOptions)
+    });
   } catch (e) {
     span.setStatus({
       code: CanonicalCode.UNKNOWN,
@@ -748,11 +747,9 @@ async function recognizeCustomFormInternal(
         operationOptionsToRequestOptionsBase(finalOptions)
       );
     }
-    return await client.analyzeWithCustomModel(
-      modelId!,
-      "application/json", {
-        fileStream: requestBody as SourcePath,
-        ...operationOptionsToRequestOptionsBase(finalOptions)
+    return await client.analyzeWithCustomModel(modelId!, "application/json", {
+      fileStream: requestBody as SourcePath,
+      ...operationOptionsToRequestOptionsBase(finalOptions)
     });
   } catch (e) {
     span.setStatus({
@@ -789,10 +786,9 @@ async function recognizeReceiptInternal(
         operationOptionsToRequestOptionsBase(finalOptions)
       );
     }
-    return await client.analyzeReceiptAsync(
-      "application/json", {
-        fileStream: requestBody as SourcePath,
-        ...operationOptionsToRequestOptionsBase(finalOptions)
+    return await client.analyzeReceiptAsync("application/json", {
+      fileStream: requestBody as SourcePath,
+      ...operationOptionsToRequestOptionsBase(finalOptions)
     });
   } catch (e) {
     span.setStatus({

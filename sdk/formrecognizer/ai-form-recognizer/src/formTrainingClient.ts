@@ -30,10 +30,20 @@ import {
 import { TrainPollerClient, BeginTrainingPoller, BeginTrainingPollState } from "./lro/train/poller";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
 import { FormRecognizerClientOptions, FormRecognizerOperationOptions } from "./common";
-import { FormModelResponse, AccountProperties, CustomFormModelInfo, CopyAuthorization } from "./models";
+import {
+  FormModelResponse,
+  AccountProperties,
+  CustomFormModelInfo,
+  CopyAuthorization,
+  CopyAuthorizationResultModel
+} from "./models";
 import { createFormRecognizerAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 import { toFormModelResponse } from "./transforms";
-import { CopyModelPollerClient, BeginCopyModelPoller, BeginCopyModelPollState } from './lro/copy/poller';
+import {
+  CopyModelPollerClient,
+  BeginCopyModelPoller,
+  BeginCopyModelPollState
+} from "./lro/copy/poller";
 
 export { ListModelsResponseModel, RestResponse };
 /**
@@ -489,7 +499,8 @@ export class FormTrainingClient {
         modelId: response.modelId,
         // TODO: use Date after service changed this field to seconds
         // expiresOn: new Date(response.expirationDateTimeSeconds * 1000)
-        expirationOn: response.expirationDateTimeTicks
+        expirationOn: response.expirationDateTimeTicks,
+        ...(response as CopyAuthorizationResultModel)
       };
     } catch (e) {
       span.setStatus({
