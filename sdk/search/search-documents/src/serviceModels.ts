@@ -3,7 +3,6 @@
 
 import { OperationOptions } from "@azure/core-http";
 import {
-  AccessCondition,
   AnalyzeRequest,
   CustomAnalyzer,
   StandardAnalyzer,
@@ -86,49 +85,22 @@ export type ListSkillsetsOptions = OperationOptions;
 /**
  * Options for a list synonymMaps operation.
  */
-export interface ListSynonymMapsOptions<Fields> extends OperationOptions {
-  /**
-   * Selects which top-level properties of the synonym maps to retrieve. Specified as a
-   * comma-separated list of JSON property names, or '*' for all properties. The default is all
-   * properties.
-   */
-  select?: Fields[];
-}
+export type ListSynonymMapsOptions = OperationOptions;
 
 /**
  * Options for a list indexes operation.
  */
-export interface ListIndexesOptions<Fields> extends OperationOptions {
-  /**
-   * Selects which top-level properties of the index definitions to retrieve. Specified as a
-   * comma-separated list of JSON property names, or '*' for all properties. The default is all
-   * properties.
-   */
-  select?: Fields[];
-}
+export type ListIndexesOptions = OperationOptions;
+
 /**
  * Options for a list indexers operation.
  */
-export interface ListIndexersOptions<Fields> extends OperationOptions {
-  /**
-   * Selects which top-level properties of the index definitions to retrieve. Specified as a
-   * comma-separated list of JSON property names, or '*' for all properties. The default is all
-   * properties.
-   */
-  select?: Fields[];
-}
+export type ListIndexersOptions = OperationOptions;
 
 /**
  * Options for a list data sources operation.
  */
-export interface ListDataSourcesOptions<Fields> extends OperationOptions {
-  /**
-   * Selects which top-level properties of the index definitions to retrieve. Specified as a
-   * comma-separated list of JSON property names, or '*' for all properties. The default is all
-   * properties.
-   */
-  select?: Fields[];
-}
+export type ListDataSourcesOptions = OperationOptions;
 
 /**
  * Options for get index operation.
@@ -206,19 +178,9 @@ export type CreateIndexerOptions = OperationOptions;
 export type CreateDataSourceOptions = OperationOptions;
 
 /**
- * Options for all operations with etag parameters.
- */
-export interface ETagOperationOptions {
-  /**
-   * ETag parameters
-   */
-  accessCondition?: AccessCondition;
-}
-
-/**
  * Options for create/update index operation.
  */
-export interface CreateOrUpdateIndexOptions extends OperationOptions, ETagOperationOptions {
+export interface CreateOrUpdateIndexOptions extends OperationOptions {
   /**
    * Allows new analyzers, tokenizers, token filters, or char filters to be added to an index by
    * taking the index offline for at least a few seconds. This temporarily causes indexing and
@@ -226,52 +188,101 @@ export interface CreateOrUpdateIndexOptions extends OperationOptions, ETagOperat
    * several minutes after the index is updated, or longer for very large indexes.
    */
   allowIndexDowntime?: boolean;
+  /**
+   * If set to true, Resource will be deleted only if the etag matches.
+   */
+  onlyIfUnchanged?: boolean;
 }
 
 /**
  * Options for create/update skillset operation.
  */
-export type CreateOrUpdateSkillsetOptions = OperationOptions & ETagOperationOptions;
+export interface CreateOrUpdateSkillsetOptions extends OperationOptions {
+  /**
+   * If set to true, Resource will be deleted only if the etag matches.
+   */
+  onlyIfUnchanged?: boolean;
+}
 
 /**
  * Options for create/update synonymmap operation.
  */
-export type CreateOrUpdateSynonymMapOptions = OperationOptions & ETagOperationOptions;
+export interface CreateOrUpdateSynonymMapOptions extends OperationOptions {
+  /**
+   * If set to true, Resource will be deleted only if the etag matches.
+   */
+  onlyIfUnchanged?: boolean;
+}
 
 /**
  * Options for create/update indexer operation.
  */
-export type CreateorUpdateIndexerOptions = OperationOptions & ETagOperationOptions;
+export interface CreateorUpdateIndexerOptions extends OperationOptions {
+  /**
+   * If set to true, Resource will be deleted only if the etag matches.
+   */
+  onlyIfUnchanged?: boolean;
+}
 
 /**
  * Options for create/update datasource operation.
  */
-export type CreateorUpdateDataSourceOptions = OperationOptions & ETagOperationOptions;
+export interface CreateorUpdateDataSourceOptions extends OperationOptions {
+  /**
+   * If set to true, Resource will be deleted only if the etag matches.
+   */
+  onlyIfUnchanged?: boolean;
+}
 
 /**
  * Options for delete index operation.
  */
-export type DeleteIndexOptions = OperationOptions & ETagOperationOptions;
+export interface DeleteIndexOptions extends OperationOptions {
+  /**
+   * If set to true, Resource will be deleted only if the etag matches.
+   */
+  onlyIfUnchanged?: boolean;
+}
 
 /**
  * Options for delete skillset operaion.
  */
-export type DeleteSkillsetOptions = OperationOptions & ETagOperationOptions;
+export interface DeleteSkillsetOptions extends OperationOptions {
+  /**
+   * If set to true, Resource will be deleted only if the etag matches.
+   */
+  onlyIfUnchanged?: boolean;
+}
 
 /**
  * Options for delete synonymmap operation.
  */
-export type DeleteSynonymMapOptions = OperationOptions & ETagOperationOptions;
+export interface DeleteSynonymMapOptions extends OperationOptions {
+  /**
+   * If set to true, Resource will be deleted only if the etag matches.
+   */
+  onlyIfUnchanged?: boolean;
+}
 
 /**
  * Options for delete indexer operation.
  */
-export type DeleteIndexerOptions = OperationOptions & ETagOperationOptions;
+export interface DeleteIndexerOptions extends OperationOptions {
+  /**
+   * If set to true, Resource will be deleted only if the etag matches.
+   */
+  onlyIfUnchanged?: boolean;
+}
 
 /**
  * Options for delete datasource operation.
  */
-export type DeleteDataSourceOptions = OperationOptions & ETagOperationOptions;
+export interface DeleteDataSourceOptions extends OperationOptions {
+  /**
+   * If set to true, Resource will be deleted only if the etag matches.
+   */
+  onlyIfUnchanged?: boolean;
+}
 
 /**
  * Options for analyze text operation.

@@ -501,6 +501,7 @@ export interface OperationSpec {
     readonly headerParameters?: ReadonlyArray<OperationParameter>;
     readonly httpMethod: HttpMethods;
     readonly isXML?: boolean;
+    readonly mediaType?: "json" | "xml" | "form" | "binary" | "multipart" | "text" | "unknown" | string;
     readonly path?: string;
     readonly queryParameters?: ReadonlyArray<OperationQueryParameter>;
     readonly requestBody?: OperationParameter;

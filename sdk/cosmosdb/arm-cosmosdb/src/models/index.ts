@@ -134,14 +134,14 @@ export interface PrivateLinkServiceConnectionStateProperty {
    */
   status?: string;
   /**
-   * The private link service connection description.
-   */
-  description?: string;
-  /**
    * Any action that is required beyond basic workflow (approve/ reject/ disconnect)
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly actionsRequired?: string;
+  /**
+   * The private link service connection description.
+   */
+  description?: string;
 }
 
 /**
@@ -294,8 +294,9 @@ export interface DatabaseAccountGetResults extends ARMResourceProperties {
   virtualNetworkRules?: VirtualNetworkRule[];
   /**
    * List of Private Endpoint Connections configured for the Cosmos DB account.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  privateEndpointConnections?: PrivateEndpointConnection[];
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
   /**
    * Enables the account to write in multiple locations
    */

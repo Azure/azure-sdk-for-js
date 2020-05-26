@@ -1,5 +1,6 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 export const Constants = {
   associatedLinkName: "associated-link-name",
   partitionKey: "x-opt-partition-key",

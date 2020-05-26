@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
-import { CosmosClient, DatabaseDefinition, Database } from "../../dist-esm";
+import { CosmosClient, DatabaseDefinition, Database } from "../../src/index";
 import { endpoint, masterKey } from "../common/_testConfig";
 import { addEntropy, removeAllDatabases, getTestDatabase } from "../common/TestHelpers";
 

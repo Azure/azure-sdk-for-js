@@ -50,7 +50,7 @@ export interface AutocompleteItem {
 }
 
 // @public
-export type AutocompleteMode = 'oneTerm' | 'twoTerms' | 'oneTermWithContext';
+export type AutocompleteMode = "oneTerm" | "twoTerms" | "oneTermWithContext";
 
 // @public
 export type AutocompleteOptions<Fields> = OperationOptions & AutocompleteRequest<Fields>;
@@ -162,21 +162,30 @@ export type CreateIndexerOptions = OperationOptions;
 export type CreateIndexOptions = OperationOptions;
 
 // @public
-export type CreateorUpdateDataSourceOptions = OperationOptions & ETagOperationOptions;
-
-// @public
-export type CreateorUpdateIndexerOptions = OperationOptions & ETagOperationOptions;
-
-// @public
-export interface CreateOrUpdateIndexOptions extends OperationOptions, ETagOperationOptions {
-    allowIndexDowntime?: boolean;
+export interface CreateorUpdateDataSourceOptions extends OperationOptions {
+    onlyIfUnchanged?: boolean;
 }
 
 // @public
-export type CreateOrUpdateSkillsetOptions = OperationOptions & ETagOperationOptions;
+export interface CreateorUpdateIndexerOptions extends OperationOptions {
+    onlyIfUnchanged?: boolean;
+}
 
 // @public
-export type CreateOrUpdateSynonymMapOptions = OperationOptions & ETagOperationOptions;
+export interface CreateOrUpdateIndexOptions extends OperationOptions {
+    allowIndexDowntime?: boolean;
+    onlyIfUnchanged?: boolean;
+}
+
+// @public
+export interface CreateOrUpdateSkillsetOptions extends OperationOptions {
+    onlyIfUnchanged?: boolean;
+}
+
+// @public
+export interface CreateOrUpdateSynonymMapOptions extends OperationOptions {
+    onlyIfUnchanged?: boolean;
+}
 
 // @public
 export type CreateSkillsetOptions = OperationOptions;
@@ -232,22 +241,32 @@ export interface DefaultCognitiveServicesAccount {
 }
 
 // @public
-export type DeleteDataSourceOptions = OperationOptions & ETagOperationOptions;
+export interface DeleteDataSourceOptions extends OperationOptions {
+    onlyIfUnchanged?: boolean;
+}
 
 // @public
 export type DeleteDocumentsOptions = IndexDocuments;
 
 // @public
-export type DeleteIndexerOptions = OperationOptions & ETagOperationOptions;
+export interface DeleteIndexerOptions extends OperationOptions {
+    onlyIfUnchanged?: boolean;
+}
 
 // @public
-export type DeleteIndexOptions = OperationOptions & ETagOperationOptions;
+export interface DeleteIndexOptions extends OperationOptions {
+    onlyIfUnchanged?: boolean;
+}
 
 // @public
-export type DeleteSkillsetOptions = OperationOptions & ETagOperationOptions;
+export interface DeleteSkillsetOptions extends OperationOptions {
+    onlyIfUnchanged?: boolean;
+}
 
 // @public
-export type DeleteSynonymMapOptions = OperationOptions & ETagOperationOptions;
+export interface DeleteSynonymMapOptions extends OperationOptions {
+    onlyIfUnchanged?: boolean;
+}
 
 // @public
 export interface DictionaryDecompounderTokenFilter {
@@ -339,11 +358,6 @@ export interface EntityRecognitionSkill {
 
 // @public
 export type EntityRecognitionSkillLanguage = 'ar' | 'cs' | 'zh-Hans' | 'zh-Hant' | 'da' | 'nl' | 'en' | 'fi' | 'fr' | 'de' | 'el' | 'hu' | 'it' | 'ja' | 'ko' | 'no' | 'pl' | 'pt-PT' | 'pt-BR' | 'ru' | 'es' | 'sv' | 'tr';
-
-// @public
-export interface ETagOperationOptions {
-    accessCondition?: AccessCondition;
-}
 
 // @public
 export interface FacetResult {
@@ -468,7 +482,7 @@ export interface Index {
 }
 
 // @public
-export type IndexActionType = 'upload' | 'merge' | 'mergeOrUpload' | 'delete';
+export type IndexActionType = "upload" | "merge" | "mergeOrUpload" | "delete";
 
 // @public
 export interface IndexDocuments extends OperationOptions {
@@ -825,19 +839,13 @@ export interface LimitTokenFilter {
 }
 
 // @public
-export interface ListDataSourcesOptions<Fields> extends OperationOptions {
-    select?: Fields[];
-}
+export type ListDataSourcesOptions = OperationOptions;
 
 // @public
-export interface ListIndexersOptions<Fields> extends OperationOptions {
-    select?: Fields[];
-}
+export type ListIndexersOptions = OperationOptions;
 
 // @public
-export interface ListIndexesOptions<Fields> extends OperationOptions {
-    select?: Fields[];
-}
+export type ListIndexesOptions = OperationOptions;
 
 // @public
 export interface ListSearchResultsPageSettings {
@@ -848,9 +856,7 @@ export interface ListSearchResultsPageSettings {
 export type ListSkillsetsOptions = OperationOptions;
 
 // @public
-export interface ListSynonymMapsOptions<Fields> extends OperationOptions {
-    select?: Fields[];
-}
+export type ListSynonymMapsOptions = OperationOptions;
 
 // @public
 export interface MagnitudeScoringFunction {
@@ -1033,7 +1039,7 @@ export interface PhoneticTokenFilter {
 }
 
 // @public
-export type QueryType = 'simple' | 'full';
+export type QueryType = "simple" | "full";
 
 // @public
 export interface RawSearchRequest {
@@ -1089,6 +1095,27 @@ export interface ScoringProfile {
 }
 
 // @public
+export class SearchClient<T> {
+    constructor(endpoint: string, indexName: string, credential: KeyCredential, options?: SearchClientOptions);
+    readonly apiVersion: string;
+    autocomplete<Fields extends keyof T>(options: AutocompleteOptions<Fields>): Promise<AutocompleteResult>;
+    countDocuments(options?: CountDocumentsOptions): Promise<number>;
+    deleteDocuments(keyName: keyof T, keyValues: string[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
+    readonly endpoint: string;
+    getDocument<Fields extends keyof T>(key: string, options?: GetDocumentOptions<Fields>): Promise<T>;
+    indexDocuments(batch: IndexDocumentsBatch<T>, options?: IndexDocuments): Promise<IndexDocumentsResult>;
+    readonly indexName: string;
+    mergeDocuments(documents: T[], options?: MergeDocumentsOptions): Promise<IndexDocumentsResult>;
+    mergeOrUploadDocuments(documents: T[], options?: MergeOrUploadDocumentsOptions): Promise<IndexDocumentsResult>;
+    search<Fields extends keyof T>(options?: SearchOptions<Fields>): Promise<SearchDocumentsResult<Pick<T, Fields>>>;
+    suggest<Fields extends keyof T = never>(options: SuggestOptions<Fields>): Promise<SuggestDocumentsResult<Pick<T, Fields>>>;
+    uploadDocuments(documents: T[], options?: UploadDocumentsOptions): Promise<IndexDocumentsResult>;
+}
+
+// @public
+export type SearchClientOptions = PipelineOptions;
+
+// @public
 export interface SearchDocumentsPageResult<T> extends SearchDocumentsResultBase {
     continuationToken?: string;
     readonly results: SearchResult<T>[];
@@ -1109,31 +1136,66 @@ export interface SearchDocumentsResultBase {
 }
 
 // @public
-export class SearchIndexClient<T> {
-    constructor(endpoint: string, indexName: string, credential: KeyCredential, options?: SearchIndexClientOptions);
+export class SearchIndexClient {
+    constructor(endpoint: string, credential: KeyCredential, options?: SearchIndexClientOptions);
+    analyzeText(indexName: string, options: AnalyzeTextOptions): Promise<AnalyzeResult>;
     readonly apiVersion: string;
-    autocomplete<Fields extends keyof T>(options: AutocompleteOptions<Fields>): Promise<AutocompleteResult>;
-    countDocuments(options?: CountDocumentsOptions): Promise<number>;
-    deleteDocuments(keyName: keyof T, keyValues: string[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
+    createIndex(index: Index, options?: CreateIndexOptions): Promise<Index>;
+    createOrUpdateIndex(index: Index, options?: CreateOrUpdateIndexOptions): Promise<Index>;
+    createOrUpdateSynonymMap(synonymMap: SynonymMap, options?: CreateOrUpdateSynonymMapOptions): Promise<SynonymMap>;
+    createSynonymMap(synonymMap: SynonymMap, options?: CreateSynonymMapOptions): Promise<SynonymMap>;
+    deleteIndex(index: string | Index, options?: DeleteIndexOptions): Promise<void>;
+    deleteSynonymMap(synonymMap: string | SynonymMap, options?: DeleteSynonymMapOptions): Promise<void>;
     readonly endpoint: string;
-    getDocument<Fields extends keyof T>(key: string, options?: GetDocumentOptions<Fields>): Promise<T>;
-    indexDocuments(batch: IndexDocumentsBatch<T>, options?: IndexDocuments): Promise<IndexDocumentsResult>;
-    readonly indexName: string;
-    mergeDocuments(documents: T[], options?: MergeDocumentsOptions): Promise<IndexDocumentsResult>;
-    mergeOrUploadDocuments(documents: T[], options?: MergeOrUploadDocumentsOptions): Promise<IndexDocumentsResult>;
-    search<Fields extends keyof T>(options?: SearchOptions<Fields>): Promise<SearchDocumentsResult<Pick<T, Fields>>>;
-    suggest<Fields extends keyof T = never>(options: SuggestOptions<Fields>): Promise<SuggestDocumentsResult<Pick<T, Fields>>>;
-    uploadDocuments(documents: T[], options?: UploadDocumentsOptions): Promise<IndexDocumentsResult>;
+    getIndex(indexName: string, options?: GetIndexOptions): Promise<Index>;
+    getIndexStatistics(indexName: string, options?: GetIndexStatisticsOptions): Promise<GetIndexStatisticsResult>;
+    getServiceStatistics(options?: GetServiceStatisticsOptions): Promise<ServiceStatistics>;
+    getSynonymMap(synonymMapName: string, options?: GetSynonymMapsOptions): Promise<SynonymMap>;
+    listIndexes(options?: ListIndexesOptions): Promise<Array<Index>>;
+    listIndexesNames(options?: ListIndexesOptions): Promise<Array<string>>;
+    listSynonymMaps(options?: ListSynonymMapsOptions): Promise<Array<SynonymMap>>;
+    listSynonymMapsNames(options?: ListSynonymMapsOptions): Promise<Array<string>>;
 }
 
 // @public
 export type SearchIndexClientOptions = PipelineOptions;
 
 // @public
+export class SearchIndexerClient {
+    constructor(endpoint: string, credential: KeyCredential, options?: SearchIndexerClientOptions);
+    readonly apiVersion: string;
+    createDataSource(dataSource: DataSource, options?: CreateDataSourceOptions): Promise<DataSource>;
+    createIndexer(indexer: Indexer, options?: CreateIndexerOptions): Promise<Indexer>;
+    createOrUpdateDataSource(dataSource: DataSource, options?: CreateorUpdateDataSourceOptions): Promise<DataSource>;
+    createOrUpdateIndexer(indexer: Indexer, options?: CreateorUpdateIndexerOptions): Promise<Indexer>;
+    createOrUpdateSkillset(skillset: Skillset, options?: CreateOrUpdateSkillsetOptions): Promise<Skillset>;
+    createSkillset(skillset: Skillset, options?: CreateSkillsetOptions): Promise<Skillset>;
+    deleteDataSource(dataSource: string | DataSource, options?: DeleteDataSourceOptions): Promise<void>;
+    deleteIndexer(indexer: string | Indexer, options?: DeleteIndexerOptions): Promise<void>;
+    deleteSkillset(skillset: string | Skillset, options?: DeleteSkillsetOptions): Promise<void>;
+    readonly endpoint: string;
+    getDataSource(dataSourceName: string, options?: GetDataSourceOptions): Promise<DataSource>;
+    getIndexer(indexerName: string, options?: GetIndexerOptions): Promise<Indexer>;
+    getIndexerStatus(indexerName: string, options?: GetIndexerStatusOptions): Promise<IndexerExecutionInfo>;
+    getSkillset(skillsetName: string, options?: GetSkillSetOptions): Promise<Skillset>;
+    listDataSources(options?: ListDataSourcesOptions): Promise<Array<DataSource>>;
+    listDataSourcesNames(options?: ListDataSourcesOptions): Promise<Array<string>>;
+    listIndexers(options?: ListIndexersOptions): Promise<Array<Indexer>>;
+    listIndexersNames(options?: ListIndexersOptions): Promise<Array<string>>;
+    listSkillsets(options?: ListSkillsetsOptions): Promise<Array<Skillset>>;
+    listSkillsetsNames(options?: ListSkillsetsOptions): Promise<Array<string>>;
+    resetIndexer(indexerName: string, options?: ResetIndexerOptions): Promise<void>;
+    runIndexer(indexerName: string, options?: RunIndexerOptions): Promise<void>;
+}
+
+// @public
+export type SearchIndexerClientOptions = PipelineOptions;
+
+// @public
 export type SearchIterator<Fields> = PagedAsyncIterableIterator<SearchResult<Fields>, SearchDocumentsPageResult<Fields>, ListSearchResultsPageSettings>;
 
 // @public
-export type SearchMode = 'any' | 'all';
+export type SearchMode = "any" | "all";
 
 // @public
 export type SearchOptions<Fields> = OperationOptions & SearchRequest<Fields>;
@@ -1166,48 +1228,6 @@ export type SearchResult<T> = {
         [propertyName: string]: string[];
     };
 } & T;
-
-// @public
-export class SearchServiceClient {
-    constructor(endpoint: string, credential: KeyCredential, options?: SearchServiceClientOptions);
-    analyzeText(indexName: string, options: AnalyzeTextOptions): Promise<AnalyzeResult>;
-    readonly apiVersion: string;
-    createDataSource(dataSource: DataSource, options?: CreateDataSourceOptions): Promise<DataSource>;
-    createIndex(index: Index, options?: CreateIndexOptions): Promise<Index>;
-    createIndexer(indexer: Indexer, options?: CreateIndexerOptions): Promise<Indexer>;
-    createOrUpdateDataSource(dataSource: DataSource, options?: CreateorUpdateDataSourceOptions): Promise<DataSource>;
-    createOrUpdateIndex(index: Index, options?: CreateOrUpdateIndexOptions): Promise<Index>;
-    createOrUpdateIndexer(indexer: Indexer, options?: CreateorUpdateIndexerOptions): Promise<Indexer>;
-    createOrUpdateSkillset(skillset: Skillset, options?: CreateOrUpdateSkillsetOptions): Promise<Skillset>;
-    createOrUpdateSynonymMap(synonymMap: SynonymMap, options?: CreateOrUpdateSynonymMapOptions): Promise<SynonymMap>;
-    createSkillset(skillset: Skillset, options?: CreateSkillsetOptions): Promise<Skillset>;
-    createSynonymMap(synonymMap: SynonymMap, options?: CreateSynonymMapOptions): Promise<SynonymMap>;
-    deleteDataSource(dataSourceName: string, options?: DeleteDataSourceOptions): Promise<void>;
-    deleteIndex(indexName: string, options?: DeleteIndexOptions): Promise<void>;
-    deleteIndexer(indexerName: string, options?: DeleteIndexerOptions): Promise<void>;
-    deleteSkillset(skillsetName: string, options?: DeleteSkillsetOptions): Promise<void>;
-    deleteSynonymMap(synonymMapName: string, options?: DeleteSynonymMapOptions): Promise<void>;
-    readonly endpoint: string;
-    getDataSource(dataSourceName: string, options?: GetDataSourceOptions): Promise<DataSource>;
-    getIndex(indexName: string, options?: GetIndexOptions): Promise<Index>;
-    getIndexer(indexerName: string, options?: GetIndexerOptions): Promise<Indexer>;
-    getIndexerStatus(indexerName: string, options?: GetIndexerStatusOptions): Promise<IndexerExecutionInfo>;
-    getIndexStatistics(indexName: string, options?: GetIndexStatisticsOptions): Promise<GetIndexStatisticsResult>;
-    getSearchIndexClient<T>(indexName: string, options?: SearchIndexClientOptions): SearchIndexClient<T>;
-    getServiceStatistics(options?: GetServiceStatisticsOptions): Promise<ServiceStatistics>;
-    getSkillset(skillsetName: string, options?: GetSkillSetOptions): Promise<Skillset>;
-    getSynonymMap(synonymMapName: string, options?: GetSynonymMapsOptions): Promise<SynonymMap>;
-    listDataSources<Fields extends keyof DataSource>(options?: ListDataSourcesOptions<Fields>): Promise<Array<Pick<DataSource, Fields>>>;
-    listIndexers<Fields extends keyof Indexer>(options?: ListIndexersOptions<Fields>): Promise<Array<Pick<Indexer, Fields>>>;
-    listIndexes<Fields extends keyof Index>(options?: ListIndexesOptions<Fields>): Promise<Array<Pick<Index, Fields>>>;
-    listSkillsets(options?: ListSkillsetsOptions): Promise<Skillset[]>;
-    listSynonymMaps<Fields extends keyof SynonymMap>(options?: ListSynonymMapsOptions<Fields>): Promise<Array<Pick<SynonymMap, Fields>>>;
-    resetIndexer(indexerName: string, options?: ResetIndexerOptions): Promise<void>;
-    runIndexer(indexerName: string, options?: RunIndexerOptions): Promise<void>;
-}
-
-// @public
-export type SearchServiceClientOptions = PipelineOptions;
 
 // @public
 export interface SentimentSkill {

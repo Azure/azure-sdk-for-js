@@ -18,32 +18,32 @@ export {
   DetectLanguageErrorResult,
   DetectLanguageSuccessResult
 } from "./detectLanguageResult";
-export { DetectLanguageResultCollection } from "./detectLanguageResultCollection";
+export { DetectLanguageResultArray } from "./detectLanguageResultArray";
 export {
   CategorizedEntity,
   RecognizeCategorizedEntitiesResult,
   RecognizeCategorizedEntitiesErrorResult,
   RecognizeCategorizedEntitiesSuccessResult
 } from "./recognizeCategorizedEntitiesResult";
-export { RecognizeCategorizedEntitiesResultCollection } from "./recognizeCategorizedEntitiesResultCollection";
+export { RecognizeCategorizedEntitiesResultArray } from "./recognizeCategorizedEntitiesResultArray";
 export {
   AnalyzeSentimentResult,
   AnalyzeSentimentErrorResult,
   AnalyzeSentimentSuccessResult
 } from "./analyzeSentimentResult";
-export { AnalyzeSentimentResultCollection } from "./analyzeSentimentResultCollection";
+export { AnalyzeSentimentResultArray } from "./analyzeSentimentResultArray";
 export {
   ExtractKeyPhrasesResult,
   ExtractKeyPhrasesErrorResult,
   ExtractKeyPhrasesSuccessResult
 } from "./extractKeyPhrasesResult";
-export { ExtractKeyPhrasesResultCollection } from "./extractKeyPhrasesResultCollection";
+export { ExtractKeyPhrasesResultArray } from "./extractKeyPhrasesResultArray";
 export {
   RecognizeLinkedEntitiesResult,
   RecognizeLinkedEntitiesErrorResult,
   RecognizeLinkedEntitiesSuccessResult
 } from "./recognizeLinkedEntitiesResult";
-export { RecognizeLinkedEntitiesResultCollection } from "./recognizeLinkedEntitiesResultCollection";
+export { RecognizeLinkedEntitiesResultArray } from "./recognizeLinkedEntitiesResultArray";
 export {
   TextAnalyticsResult,
   ErrorCode,
@@ -66,6 +66,8 @@ export {
   SentenceSentimentLabel,
   ErrorCodeValue,
   InnerErrorCodeValue,
+  WarningCode,
   LinkedEntity,
-  Match
+  Match,
+  TextAnalyticsWarning
 } from "./generated/models";

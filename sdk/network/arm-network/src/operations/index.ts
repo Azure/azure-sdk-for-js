@@ -100,4 +100,5 @@ export * from "./vpnServerConfigurationsAssociatedWithVirtualWan";
 export * from "./virtualHubRouteTableV2s";
 export * from "./expressRouteGateways";
 export * from "./expressRouteConnections";
+export * from "./hubRouteTables";
 export * from "./webApplicationFirewallPolicies";

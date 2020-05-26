@@ -111,6 +111,7 @@ class NetworkManagementClient extends NetworkManagementClientContext {
   virtualHubRouteTableV2s: operations.VirtualHubRouteTableV2s;
   expressRouteGateways: operations.ExpressRouteGateways;
   expressRouteConnections: operations.ExpressRouteConnections;
+  hubRouteTables: operations.HubRouteTables;
   webApplicationFirewallPolicies: operations.WebApplicationFirewallPolicies;
 
   /**
@@ -214,6 +215,7 @@ class NetworkManagementClient extends NetworkManagementClientContext {
     this.virtualHubRouteTableV2s = new operations.VirtualHubRouteTableV2s(this);
     this.expressRouteGateways = new operations.ExpressRouteGateways(this);
     this.expressRouteConnections = new operations.ExpressRouteConnections(this);
+    this.hubRouteTables = new operations.HubRouteTables(this);
     this.webApplicationFirewallPolicies = new operations.WebApplicationFirewallPolicies(this);
   }
 
