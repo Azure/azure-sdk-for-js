@@ -10,7 +10,7 @@ import {
   GeneratedClientCopyCustomModelResponse as CopyCustomModelResponseModel,
   OperationStatus
 } from "../../generated/models";
-import { CopyAuthorization, CustomFormModelInfo } from '../../models';
+import { CopyAuthorization, CustomFormModelInfo } from "../../models";
 export { OperationStatus };
 
 export interface CopyPollerOperationOptions {
@@ -37,17 +37,18 @@ export type CopyModelPollerClient = {
   beginCopyModel: (
     modelId: string,
     copyAuthorization: CopyAuthorization,
-    copyModelOptions?: CopyModelOptions,
+    copyModelOptions?: CopyModelOptions
   ) => Promise<CopyCustomModelResponseModel>;
   // retrieves copy model result
   getCopyModelResult: (
     modelId: string,
     resultId: string,
-    options: GetCopyModelResultOptions) => Promise<GetCustomModelCopyResultResponse>;
+    options: GetCopyModelResultOptions
+  ) => Promise<GetCustomModelCopyResultResponse>;
 };
 
 export interface BeginCopyModelPollState extends PollOperationState<CustomFormModelInfo> {
-  readonly client:CopyModelPollerClient;
+  readonly client: CopyModelPollerClient;
   modelId: string;
   targetResourceId: string;
   targetResourceRegion: string;
@@ -78,10 +79,7 @@ export type BeginCopyModelPollerOptions = {
 /**
  * Class that represents a poller that waits until a model has been trained.
  */
-export class BeginCopyModelPoller extends Poller<
-  BeginCopyModelPollState,
-  CustomFormModelInfo
-> {
+export class BeginCopyModelPoller extends Poller<BeginCopyModelPollState, CustomFormModelInfo> {
   public intervalInMs: number;
 
   constructor(options: BeginCopyModelPollerOptions) {
@@ -147,7 +145,6 @@ function makeBeginCopyModelPollOperation(
       const { client, modelId, copyAuthorization, copyModelOptions } = state;
 
       if (!state.isStarted) {
-
         state.isStarted = true;
         const result = await client.beginCopyModel(
           modelId,
@@ -161,12 +158,9 @@ function makeBeginCopyModelPollOperation(
         state.resultId = result.operationLocation.substring(lastSlashIndex + 1);
       }
 
-      const response = await client.getCopyModelResult(
-        modelId,
-        state.resultId!, {
-          abortSignal: copyModelOptions?.abortSignal
-        }
-      );
+      const response = await client.getCopyModelResult(modelId, state.resultId!, {
+        abortSignal: copyModelOptions?.abortSignal
+      });
 
       state.status = response.status;
       if (!state.isCompleted) {

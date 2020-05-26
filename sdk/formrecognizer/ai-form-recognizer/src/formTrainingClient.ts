@@ -12,7 +12,7 @@ import {
   RestResponse,
   ServiceClientCredentials
 } from "@azure/core-http";
-import { TokenCredential } from '@azure/identity';
+import { TokenCredential } from "@azure/identity";
 import { KeyCredential } from "@azure/core-auth";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import "@azure/core-paging";
@@ -82,7 +82,7 @@ export type CopyModelOptions = FormRecognizerOperationOptions;
 export type GetCopyModelResultOptions = FormRecognizerOperationOptions;
 
 /**
-* Options for begin copy model operation
+ * Options for begin copy model operation
  */
 export type BeginCopyModelOptions = FormRecognizerOperationOptions & {
   intervalInMs?: number;
@@ -450,7 +450,8 @@ export class FormTrainingClient {
     options: BeginTrainingOptions<FormModelResponse> = {}
   ): Promise<PollerLike<PollOperationState<FormModelResponse>, FormModelResponse>> {
     const trainPollerClient: TrainPollerClient<FormModelResponse> = {
-      getCustomModel: (modelId: string, options: GetModelOptions) => this.getCustomModel(modelId, options),
+      getCustomModel: (modelId: string, options: GetModelOptions) =>
+        this.getCustomModel(modelId, options),
       trainCustomModelInternal: (
         source: string,
         _useLabelFile?: boolean,
@@ -491,7 +492,8 @@ export class FormTrainingClient {
 
     try {
       const response = await this.client.generateModelCopyAuthorization(
-        operationOptionsToRequestOptionsBase(finalOptions));
+        operationOptionsToRequestOptionsBase(finalOptions)
+      );
       return {
         targetResourceId: resourceId,
         targetResourceRegion: resourceRegion,
@@ -576,7 +578,8 @@ export class FormTrainingClient {
 
     try {
       return await this.client.copyCustomModel(
-        modelId, {
+        modelId,
+        {
           targetResourceId: copyAuthorization.targetResourceId,
           targetResourceRegion: copyAuthorization.targetResourceRegion,
           copyAuthorization: {
@@ -585,7 +588,8 @@ export class FormTrainingClient {
             expirationDateTimeTicks: copyAuthorization.expirationOn // TODO: converts expiresOn into seconds after it is chagned to Date
           }
         },
-        operationOptionsToRequestOptionsBase(finalOptions));
+        operationOptionsToRequestOptionsBase(finalOptions)
+      );
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -611,7 +615,8 @@ export class FormTrainingClient {
       return await this.client.getCustomModelCopyResult(
         modelId,
         resultId,
-        operationOptionsToRequestOptionsBase(finalOptions));
+        operationOptionsToRequestOptionsBase(finalOptions)
+      );
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

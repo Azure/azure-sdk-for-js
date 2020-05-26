@@ -6,6 +6,7 @@ import * as coreHttp from "@azure/core-http";
 import {
   AnalyzeOperationResult as AnalyzeOperationResultModel,
   FormFieldsReport,
+  CopyAuthorizationResult as CopyAuthorizationResultModel,
   KeysResult,
   KeyValueElement as KeyValueElementModel,
   KeyValuePair as KeyValuePairModel,
@@ -21,6 +22,7 @@ import {
 
 export {
   AnalyzeOperationResultModel,
+  CopyAuthorizationResultModel,
   FormFieldsReport,
   KeysResult,
   KeyValueElementModel,
@@ -504,7 +506,7 @@ export type USReceiptType = {
    * Confidence value.
    */
   confidence?: number;
-}
+};
 
 /**
  * United States receipt
@@ -958,15 +960,15 @@ export interface AccountProperties {
 /**
  * Request parameter that contains authorization claims for copy operation.
  */
-export interface CopyAuthorization {
+export type CopyAuthorization = {
   /**
    * Target resource Id.
    */
-  targetResourceId: string,
+  targetResourceId: string;
   /**
    * Target resource region.
    */
-  targetResourceRegion: string,
+  targetResourceRegion: string;
   /**
    * Model identifier.
    */
@@ -983,7 +985,7 @@ export interface CopyAuthorization {
    * The time when the access token expires.
    */
   // expiresOn: Date
-}
+} & CopyAuthorizationResultModel;
 
 /**
  * Status and result of the queued copy operation.

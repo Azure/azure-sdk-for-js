@@ -12,11 +12,7 @@ import {
   createRecordedTrainingClient,
   createRecordedRecognizerClient
 } from "../util/recordedClients";
-import {
-  FormRecognizerClient,
-  TrainingDocumentInfo,
-  FormTrainingClient
-} from "../../src";
+import { FormRecognizerClient, TrainingDocumentInfo, FormTrainingClient } from "../../src";
 import { env, Recorder } from "@azure/test-utils-recorder";
 
 const ASSET_PATH = path.resolve(path.join(process.cwd(), "test-assets"));
@@ -139,7 +135,10 @@ describe("FormTrainingClient NodeJS only", () => {
   it("getAccountProperties() gets model count and limit for this account", async () => {
     const properties = await trainingClient.getAccountProperties();
 
-    assert.ok(properties.customModelCount > 0, `Expecting models in account but got ${properties.customModelCount}`);
+    assert.ok(
+      properties.customModelCount > 0,
+      `Expecting models in account but got ${properties.customModelCount}`
+    );
     assert.ok(
       properties.customModelLimit > 0,
       `Expecting maximum number of models in account but got ${properties.customModelLimit}`
@@ -207,7 +206,7 @@ describe("FormTrainingClient NodeJS only", () => {
     const resourceRegion = env.FORM_RECOGNIZER_TARGET_RESOURCE_REGION;
     const targetAuth = await trainingClient.getCopyAuthorization(resourceId, resourceRegion);
 
-    assert.ok(labeledModelId, "Expecting valide model id in source")
+    assert.ok(labeledModelId, "Expecting valide model id in source");
     const poller = await trainingClient.beginCopyModel(labeledModelId!, targetAuth);
     await poller.pollUntilDone();
     const result = poller.getResult();

@@ -409,9 +409,9 @@ function toReceiptType(field: FormField): USReceiptType {
       case "CreditCard":
       case "Gas":
       case "Parking":
-        return  { confidence: field.confidence, type: stringValue };
+        return { confidence: field.confidence, type: stringValue };
       default:
-        return  { confidence: field.confidence, type: "Unrecognized" };
+        return { confidence: field.confidence, type: "Unrecognized" };
     }
   }
 
@@ -479,7 +479,9 @@ function toUSReceipt(receipt: RecognizedReceipt): ReceiptWithLocale {
   return {
     locale: "US",
     recognizedForm: receipt.recognizedForm,
-    items: form.fields["Items"] ? toUSReceiptItems((form.fields["Items"] as unknown) as ReceiptItemArrayField) : [],
+    items: form.fields["Items"]
+      ? toUSReceiptItems((form.fields["Items"] as unknown) as ReceiptItemArrayField)
+      : [],
     merchantAddress: form.fields["MerchantAddress"],
     merchantName: form.fields["MerchantName"],
     merchantPhoneNumber: form.fields["MerchantPhoneNumber"],
@@ -516,19 +518,21 @@ export function toReceiptResultResponse(
   }
 
   if (!result.analyzeResult) {
-    throw new Error("Expecting valid analyzeResult from the service response")
+    throw new Error("Expecting valid analyzeResult from the service response");
   }
 
   const pages = result.analyzeResult!.readResults.map(toFormPage);
   return {
     ...common,
     version: result.analyzeResult!.version,
-    receipts: result.analyzeResult!.documentResults!.filter(d => {
-      return !!d.fields
-    }).map((d) => {
-      const receipt = toRecognizedReceipt(d, pages);
-      return toReceiptWithLocale({ ...receipt, locale: "US" }); // default to US until service returns locale info.
-    })
+    receipts: result
+      .analyzeResult!.documentResults!.filter((d) => {
+        return !!d.fields;
+      })
+      .map((d) => {
+        const receipt = toRecognizedReceipt(d, pages);
+        return toReceiptWithLocale({ ...receipt, locale: "US" }); // default to US until service returns locale info.
+      })
   };
 }
 
