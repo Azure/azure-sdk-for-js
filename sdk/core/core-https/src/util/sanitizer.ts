@@ -113,13 +113,13 @@ export class Sanitizer {
     return value;
   }
 
-  private sanitizeHeaders(map: Map<string, string>): Map<string, string> {
-    const result = new Map<string, string>();
+  private sanitizeHeaders(map: Map<string, string>): UnknownObject {
+    const result: UnknownObject = {};
     for (const [key, value] of map) {
       if (this.allowedHeaderNames.has(key.toLowerCase())) {
-        result.set(key, value);
+        result[key] = value;
       } else {
-        result.set(key, RedactedString);
+        result[key] = RedactedString;
       }
     }
     return result;

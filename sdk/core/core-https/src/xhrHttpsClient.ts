@@ -136,8 +136,7 @@ function addProgressListener(
   }
 }
 
-// exported locally for testing
-export function parseHeaders(xhr: XMLHttpRequest): HttpHeaders {
+function parseHeaders(xhr: XMLHttpRequest): HttpHeaders {
   const responseHeaders = createHttpHeaders();
   const headerLines = xhr
     .getAllResponseHeaders()
