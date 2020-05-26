@@ -38,8 +38,8 @@ async function main() {
   console.log(`Created on: ${response.createdOn}`);
   console.log(`Last modified: ${response.lastModified}`);
 
-  if (response.subModels) {
-    for (const submodel of response.subModels) {
+  if (response.submodels) {
+    for (const submodel of response.submodels) {
       // since the training data is unlabeled, we are unable to return the accuracy of this model
       console.log("We have recognized the following fields");
       for (const key in submodel.fields) {

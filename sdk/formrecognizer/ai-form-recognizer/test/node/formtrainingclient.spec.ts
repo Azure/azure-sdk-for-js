@@ -63,8 +63,8 @@ describe("FormTrainingClient NodeJS only", () => {
     // save the id for recognition tests
     unlabeledModelId = response!.modelId;
 
-    assert.ok(response!.subModels && response!.subModels.length > 0, "Expected non empty sub model list");
-    const model = response!.subModels![0];
+    assert.ok(response!.submodels && response!.submodels.length > 0, "Expected non empty sub model list");
+    const model = response!.submodels![0];
     assert.equal(model.formType, "form-0");
     assert.equal(model.accuracy, undefined);
     assert.ok(model.fields["field-0"], "Expecting field with name 'field-0' to be valid");
@@ -86,8 +86,8 @@ describe("FormTrainingClient NodeJS only", () => {
     // save the id for recognition tests
     labeledModelId = response!.modelId;
 
-    assert.ok(response!.subModels && response!.subModels.length > 0, "Expected non empty sub model list");
-    const model = response!.subModels![0];
+    assert.ok(response!.submodels && response!.submodels.length > 0, "Expected non empty sub model list");
+    const model = response!.submodels![0];
     assert.equal(model.formType, `form-${response!.modelId}`);
     assert.equal(model.accuracy, 0.973);
     assert.ok(model.fields["Signature"], "Expecting field with name 'Signature' to be valid");
@@ -178,7 +178,7 @@ describe("FormTrainingClient NodeJS only", () => {
 
     assert.ok(modelInfo.modelId === modelIdToDelete, "Expecting same model id");
     assert.ok(
-      modelInfo.subModels && modelInfo.subModels.length > 0,
+      modelInfo.submodels && modelInfo.submodels.length > 0,
       "Expecting no empty list of custom form sub models"
     );
   });
