@@ -40,6 +40,7 @@ export {
   BlobItemInternal as BlobItem,
   BlobPrefix,
   BlobDownloadHeaders,
+  BlobQueryResponse as BlobQueryResponseModel,
   BlobDownloadResponse as BlobDownloadResponseModel,
   BlobType,
   BlobUndeleteHeaders,

@@ -12,6 +12,7 @@
     "./dist-esm/storage-blob/test/utils/index.js": "./dist-esm/storage-blob/test/utils/index.browser.js",
     "./dist-esm/storage-blob/src/BatchUtils.js": "./dist-esm/storage-blob/src/BatchUtils.browser.js",
     "./dist-esm/storage-blob/src/BlobDownloadResponse.js": "./dist-esm/storage-blob/src/BlobDownloadResponse.browser.js",
+    "./dist-esm/storage-blob/src/BlobQueryResponse.js": "./dist-esm/storage-blob/src/BlobQueryResponse.browser.js",
     "fs": false,
     "os": false,
     "process": false

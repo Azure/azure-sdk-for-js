@@ -3,7 +3,10 @@
 
 import { AbortSignalLike } from "@azure/abort-controller";
 import { HttpHeaders, isNode, URLBuilder } from "@azure/core-http";
-import { HeaderConstants, URLConstants, DevelopmentConnectionString } from "./constants";
+
+import { BlobQueryCsvTextConfiguration, BlobQueryJsonTextConfiguration } from "../Clients";
+import { QuerySerialization } from "../generated/src/models";
+import { DevelopmentConnectionString, HeaderConstants, URLConstants } from "./constants";
 
 /**
  * Reserved URL characters must be properly escaped for Storage services like Blob or File.
@@ -548,5 +551,47 @@ export function getAccountNameFromUrl(url: string): string {
     return accountName;
   } catch (error) {
     throw new Error("Unable to extract accountName with provided information.");
+  }
+}
+
+/**
+ * Convert BlobQueryTextConfiguration to QuerySerialization type.
+ *
+ * @export
+ * @param {(BlobQueryJsonTextConfiguration | BlobQueryCsvTextConfiguration)} [textConfiguration]
+ * @returns {(QuerySerialization | undefined)}
+ */
+export function toQuerySerialization(
+  textConfiguration?: BlobQueryJsonTextConfiguration | BlobQueryCsvTextConfiguration
+): QuerySerialization | undefined {
+  if (textConfiguration === undefined) {
+    return undefined;
+  }
+
+  switch (textConfiguration.kind) {
+    case "csv":
+      return {
+        format: {
+          type: "delimited",
+          delimitedTextConfiguration: {
+            columnSeparator: textConfiguration.columnSeparator,
+            fieldQuote: textConfiguration.fieldQuote || "",
+            recordSeparator: textConfiguration.recordSeparator,
+            escapeChar: textConfiguration.escapeCharacter || "",
+            headersPresent: textConfiguration.hasHeaders
+          }
+        }
+      };
+    case "json":
+      return {
+        format: {
+          type: "json",
+          jsonTextConfiguration: {
+            recordSeparator: textConfiguration.recordSeparator
+          }
+        }
+      };
+    default:
+      throw Error("Invalid BlobQueryTextConfiguration.");
   }
 }

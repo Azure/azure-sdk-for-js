@@ -1,26 +1,32 @@
 import * as assert from "assert";
-
-import { isNode } from "@azure/core-http";
 import * as dotenv from "dotenv";
+import { readFileSync, unlinkSync } from "fs";
+import { join } from "path";
+
+import { AbortController } from "@azure/abort-controller";
+import { isNode, TokenCredential } from "@azure/core-http";
+import { delay, record } from "@azure/test-utils-recorder";
+
 import {
   BlobClient,
-  newPipeline,
-  StorageSharedKeyCredential,
-  ContainerClient,
-  BlockBlobClient,
-  generateBlobSASQueryParameters,
   BlobSASPermissions,
-  BlobServiceClient
+  BlobServiceClient,
+  BlockBlobClient,
+  ContainerClient,
+  generateBlobSASQueryParameters,
+  newPipeline,
+  StorageSharedKeyCredential
 } from "../../src";
 import {
   bodyToString,
+  createRandomLocalFile,
   getBSU,
   getConnectionStringFromEnvironment,
   recorderEnvSetup
 } from "../utils";
-import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
-import { record, delay } from "@azure/test-utils-recorder";
+import { readStreamToLocalFileWithLogs } from "../utils/testutils.node";
+
 dotenv.config();
 
 describe("BlobClient Node.js only", () => {
@@ -30,6 +36,7 @@ describe("BlobClient Node.js only", () => {
   let blobClient: BlobClient;
   let blockBlobClient: BlockBlobClient;
   const content = "Hello World";
+  const tempFolderPath = "temp";
 
   let recorder: any;
 
@@ -338,5 +345,283 @@ describe("BlobClient Node.js only", () => {
     await newClient.setMetadata(metadata);
     const result = await newClient.getProperties();
     assert.deepStrictEqual(result.metadata, metadata);
+  });
+
+  it.only("query should work", async () => {
+    recorder.skip("node", "TODO: Avor reader doesn't work with recorder yet.");
+    const csvContent = "100,200,300,400\n150,250,350,450\n";
+    await blockBlobClient.upload(csvContent, csvContent.length);
+
+    const response = await blockBlobClient.query("select * from BlobStorage");
+    assert.deepStrictEqual(await bodyToString(response), csvContent);
+  });
+
+  it.only("query should work with access conditions", async () => {
+    recorder.skip("node", "TODO: Avor reader doesn't work with recorder yet.");
+    const csvContent = "100,200,300,400\n150,250,350,450\n";
+    const uploadResponse = await blockBlobClient.upload(csvContent, csvContent.length);
+
+    const response = await blockBlobClient.query("select * from BlobStorage", {
+      conditions: {
+        ifModifiedSince: new Date("2010/01/01"),
+        ifUnmodifiedSince: new Date("2100/01/01"),
+        ifMatch: uploadResponse.etag,
+        ifNoneMatch: "invalidetag"
+      }
+    });
+    assert.deepStrictEqual(await bodyToString(response), csvContent);
+  });
+
+  it.only("query should not work with access conditions ifModifiedSince", async () => {
+    recorder.skip("node", "TODO: Avor reader doesn't work with recorder yet.");
+    const csvContent = "100,200,300,400\n150,250,350,450\n";
+    await blockBlobClient.upload(csvContent, csvContent.length);
+
+    try {
+      await blockBlobClient.query("select * from BlobStorage", {
+        conditions: {
+          ifModifiedSince: new Date("2100/01/01")
+        }
+      });
+    } catch (err) {
+      assert.deepStrictEqual(err.statusCode, 304);
+      return;
+    }
+    assert.fail();
+  });
+
+  it.only("query should not work with access conditions leaseId", async () => {
+    recorder.skip("node", "TODO: Avor reader doesn't work with recorder yet.");
+    const csvContent = "100,200,300,400\n150,250,350,450\n";
+    await blockBlobClient.upload(csvContent, csvContent.length);
+
+    try {
+      await blockBlobClient.query("select * from BlobStorage", {
+        conditions: {
+          leaseId: "invalid"
+        }
+      });
+    } catch (err) {
+      assert.deepStrictEqual(err.statusCode, 400);
+      return;
+    }
+    assert.fail();
+  });
+
+  it.only("query should work with snapshot", async () => {
+    recorder.skip("node", "TODO: Avor reader doesn't work with recorder yet.");
+    const csvContent = "100,200,300,400\n150,250,350,450\n";
+    await blockBlobClient.upload(csvContent, csvContent.length);
+    const snapshotResponse = await blockBlobClient.createSnapshot();
+    const blockBlobSnapshotClient = blockBlobClient.withSnapshot(snapshotResponse.snapshot!);
+
+    const response = await blockBlobSnapshotClient.query("select * from BlobStorage");
+    assert.deepStrictEqual(await bodyToString(response), csvContent);
+  });
+
+  it.only("query should work with where conditionals", async () => {
+    recorder.skip("node", "TODO: Avor reader doesn't work with recorder yet.");
+    const csvContent = "100,200,300,400\n150,250,350,450\n";
+    await blockBlobClient.upload(csvContent, csvContent.length);
+
+    const response = await blockBlobClient.query("select _2 from BlobStorage where _1 > 100");
+    assert.deepStrictEqual(await bodyToString(response), "250\n");
+  });
+
+  it.only("query should work with empty results", async () => {
+    recorder.skip("node", "TODO: Avor reader doesn't work with recorder yet.");
+    const csvContent = "100,200,300,400\n150,250,350,450\n";
+    await blockBlobClient.upload(csvContent, csvContent.length);
+
+    const response = await blockBlobClient.query("select _2 from BlobStorage where _1 > 200");
+
+    assert.deepStrictEqual(await bodyToString(response), "");
+  });
+
+  it.only("query should work with blob properties", async () => {
+    recorder.skip("node", "TODO: Avor reader doesn't work with recorder yet.");
+    const csvContent = "100,200,300,400\n150,250,350,450\n";
+    await blockBlobClient.upload(csvContent, csvContent.length);
+
+    const response = await blockBlobClient.query("select * from BlobStorage");
+    assert.deepStrictEqual(response.contentType, "avro/binary");
+    assert.deepStrictEqual(typeof response.etag, "string");
+    assert.deepStrictEqual(response.blobType, "BlockBlob");
+    assert.deepStrictEqual(response.leaseState, "available");
+    assert.deepStrictEqual(response.leaseStatus, "unlocked");
+    assert.deepStrictEqual(response.acceptRanges, "bytes");
+    assert.deepStrictEqual(typeof response.clientRequestId, "string");
+    assert.deepStrictEqual(typeof response.requestId, "string");
+    assert.deepStrictEqual(typeof response.version, "string");
+    assert.deepStrictEqual(typeof response.date, "object");
+  });
+
+  it.only("query should work with large file", async () => {
+    recorder.skip("node", "TODO: Avor reader doesn't work with recorder yet.");
+    // TODO: Avor reader emiter listener leak MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 error listeners added. Use emitter.setMaxListeners() to increase limit
+    const csvContentUnit = "100,200,300,400\n150,250,350,450\n";
+    const tempFileLarge = await createRandomLocalFile(
+      tempFolderPath,
+      1024 * 1024,
+      Buffer.from(csvContentUnit)
+    );
+    await blockBlobClient.uploadFile(tempFileLarge);
+
+    const response = await blockBlobClient.query("select * from BlobStorage");
+
+    const downloadedFile = join(tempFolderPath, recorder.getUniqueName("downloadfile."));
+    await readStreamToLocalFileWithLogs(response.readableStreamBody!, downloadedFile);
+
+    const downloadedData = await readFileSync(downloadedFile);
+    const uploadedData = await readFileSync(tempFileLarge);
+
+    unlinkSync(downloadedFile);
+    unlinkSync(tempFileLarge);
+
+    assert.ok(downloadedData.equals(uploadedData));
+  });
+
+  it.only("query should work with aborter", async () => {
+    recorder.skip("node", "TODO: Avor reader doesn't work with recorder yet.");
+    const csvContentUnit = "100,200,300,400\n150,250,350,450\n";
+    const tempFileLarge = await createRandomLocalFile(
+      tempFolderPath,
+      1024 * 256 * 2,
+      Buffer.from(csvContentUnit)
+    );
+    await blockBlobClient.uploadFile(tempFileLarge);
+
+    const aborter = new AbortController();
+    const response = await blockBlobClient.query("select * from BlobStorage", {
+      abortSignal: aborter.signal,
+      onProgress: () => {
+        // Abort parser when first progress event trigger (by default 4MB)
+        aborter.abort();
+      }
+    });
+
+    const downloadedFile = join(tempFolderPath, recorder.getUniqueName("downloadfile."));
+
+    try {
+      await readStreamToLocalFileWithLogs(response.readableStreamBody!, downloadedFile);
+    } catch (error) {
+      // TODO: Avor reader should abort reading from internal stream
+      assert.deepStrictEqual(error.name, "AbortError");
+      unlinkSync(downloadedFile);
+      return;
+    }
+    assert.fail();
+  });
+
+  it.only("query should work with progress event", async () => {
+    recorder.skip("node", "TODO: Avor reader doesn't work with recorder yet.");
+    const csvContent = "100,200,300,400\n150,250,350,450\n";
+    await blockBlobClient.upload(csvContent, csvContent.length);
+
+    await new Promise((resolve, reject) => {
+      blockBlobClient
+        .query("select * from BlobStorage", {
+          onProgress: (progress) => {
+            assert.deepStrictEqual(progress.loadedBytes, csvContent.length);
+            resolve();
+          }
+        })
+        .then((response) => {
+          return bodyToString(response);
+        })
+        .then((_data) => {})
+        .catch(reject);
+    });
+  });
+
+  it.only("query should work with fatal error event", async () => {
+    recorder.skip("node", "TODO: Avor reader doesn't work with recorder yet.");
+    const csvContent = "100,200,300,400\n150,250,350,450\n";
+    await blockBlobClient.upload(csvContent, csvContent.length);
+
+    const response = await blockBlobClient.query("select * from BlobStorage", {
+      inputTextConfiguration: {
+        kind: "json",
+        recordSeparator: "\n"
+      },
+      onError: (err) => {
+        assert.deepStrictEqual(err.isFatal, true);
+        assert.deepStrictEqual(err.name, "ParseError");
+        assert.deepStrictEqual(err.position, 0);
+        assert.deepStrictEqual(
+          err.description,
+          "Unexpected token ',' at [byte: 3]. Expecting tokens '{', or '['."
+        );
+        return;
+      }
+    });
+    assert.deepStrictEqual(await bodyToString(response), "\n");
+  });
+
+  it.only("query should work with non fatal error event", async () => {
+    recorder.skip("node", "TODO: Avor reader doesn't work with recorder yet.");
+    const csvContent = "100,hello,300,400\n150,250,350,450\n";
+    await blockBlobClient.upload(csvContent, csvContent.length);
+
+    const response = await blockBlobClient.query("select _2 from BlobStorage where _2 > 100", {
+      onError: (err) => {
+        assert.deepStrictEqual(err.isFatal, false);
+        assert.deepStrictEqual(err.name, "InvalidTypeConversion");
+        assert.deepStrictEqual(err.position, 0);
+        assert.deepStrictEqual(err.description, "Invalid type conversion.");
+        return;
+      }
+    });
+    assert.deepStrictEqual(await bodyToString(response), "250\n");
+  });
+
+  it.only("query should work with CSV input and output configurations", async () => {
+    recorder.skip("node", "TODO: Avor reader doesn't work with recorder yet.");
+    const csvContent = "100.200.300.400!150.250.350.450!180.280.380.480!";
+    await blockBlobClient.upload(csvContent, csvContent.length);
+
+    const response = await blockBlobClient.query("select _1 from BlobStorage", {
+      inputTextConfiguration: {
+        kind: "csv",
+        recordSeparator: "!",
+        columnSeparator: ".",
+        // escapeCharacter: "\\", // What does this do?
+        // fieldQuote: '"', // What does this do?
+        hasHeaders: true
+      },
+      outputTextConfiguration: {
+        kind: "csv",
+        recordSeparator: "!",
+        columnSeparator: ".",
+        // escapeCharacter: "\\",
+        // fieldQuote: '"',
+        hasHeaders: false
+      }
+    });
+    assert.deepStrictEqual(await bodyToString(response), "150!180!");
+  });
+
+  it.only("query should work with JSON input and output configurations", async () => {
+    recorder.skip("node", "TODO: Avor reader doesn't work with recorder yet.");
+    const recordSeparator = "\n";
+    const jsonContent =
+      [
+        JSON.stringify({ _1: "100", _2: "200", _3: "300", _4: "400" }),
+        JSON.stringify({ _1: "150", _2: "250", _3: "350", _4: "450" }),
+        JSON.stringify({ _1: "180", _2: "280", _3: "380", _4: "480" })
+      ].join(recordSeparator) + recordSeparator;
+    await blockBlobClient.upload(jsonContent, jsonContent.length);
+
+    const response = await blockBlobClient.query("select * from BlobStorage", {
+      inputTextConfiguration: {
+        kind: "json",
+        recordSeparator
+      },
+      outputTextConfiguration: {
+        kind: "json",
+        recordSeparator
+      }
+    });
+    assert.deepStrictEqual(await bodyToString(response), jsonContent);
   });
 });
