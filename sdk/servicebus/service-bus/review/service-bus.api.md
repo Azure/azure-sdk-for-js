@@ -39,19 +39,28 @@ export interface BrowseMessagesOptions extends OperationOptions {
 }
 
 // @public
+export interface CorrelationFilter {
+    contentType?: string;
+    correlationId?: string;
+    label?: string;
+    messageId?: string;
+    replyTo?: string;
+    replyToSessionId?: string;
+    sessionId?: string;
+    to?: string;
+    userProperties?: any;
+}
+
+// @public
 export interface CreateBatchOptions extends OperationOptions {
     maxSizeInBytes?: number;
 }
 
-// Warning: (ae-forgotten-export) The symbol "QueueProperties" needs to be exported by the entry point index.d.ts
-//
 // @public
 export interface CreateQueueResponse extends QueueProperties {
     _response: HttpOperationResponse;
 }
 
-// Warning: (ae-forgotten-export) The symbol "RuleDetails" needs to be exported by the entry point index.d.ts
-//
 // @public
 export interface CreateRuleResponse extends RuleDetails {
     _response: HttpOperationResponse;
@@ -66,15 +75,11 @@ export interface CreateSenderOptions {
 export interface CreateSessionReceiverOptions extends SessionReceiverOptions, OperationOptions {
 }
 
-// Warning: (ae-forgotten-export) The symbol "SubscriptionDetails" needs to be exported by the entry point index.d.ts
-//
 // @public
 export interface CreateSubscriptionResponse extends SubscriptionDetails {
     _response: HttpOperationResponse;
 }
 
-// Warning: (ae-forgotten-export) The symbol "TopicDetails" needs to be exported by the entry point index.d.ts
-//
 // @public
 export interface CreateTopicResponse extends TopicDetails {
     _response: HttpOperationResponse;
@@ -117,8 +122,6 @@ export type EntityStatus = "Active" | "Creating" | "Deleting" | "ReceiveDisabled
 export interface GetMessageIteratorOptions extends OperationOptions, WaitTimeOptions {
 }
 
-// Warning: (ae-forgotten-export) The symbol "QueueMetrics" needs to be exported by the entry point index.d.ts
-//
 // @public
 export interface GetQueueMetricsResponse extends QueueMetrics {
     _response: HttpOperationResponse;
@@ -206,6 +209,17 @@ export interface OperationOptions {
 }
 
 // @public
+export interface QueueMetrics {
+    accessedOn?: string;
+    createdOn?: string;
+    messageCount?: number;
+    messageCountDetails?: MessageCountDetails;
+    queueName: string;
+    sizeInBytes?: number;
+    updatedOn?: string;
+}
+
+// @public
 export interface QueueOptions {
     authorizationRules?: AuthorizationRule[];
     autoDeleteOnIdle?: string;
@@ -223,6 +237,31 @@ export interface QueueOptions {
     requiresDuplicateDetection?: boolean;
     requiresSession?: boolean;
     status?: EntityStatus;
+    userMetadata?: string;
+}
+
+// @public
+export interface QueueProperties {
+    authorizationRules?: AuthorizationRule[];
+    autoDeleteOnIdle: string;
+    deadLetteringOnMessageExpiration: boolean;
+    defaultMessageTtl: string;
+    duplicateDetectionHistoryTimeWindow: string;
+    enableBatchedOperations: boolean;
+    enableExpress?: boolean;
+    enablePartitioning: boolean;
+    entityAvailabilityStatus?: string;
+    forwardDeadLetteredMessagesTo?: string;
+    forwardTo?: string;
+    isAnonymousAccessible?: boolean;
+    lockDuration: string;
+    maxDeliveryCount: number;
+    maxSizeInMegabytes: number;
+    queueName: string;
+    requiresDuplicateDetection: boolean;
+    requiresSession: boolean;
+    status?: EntityStatus;
+    supportOrdering?: boolean;
     userMetadata?: string;
 }
 
@@ -276,11 +315,12 @@ export interface Receiver<ReceivedMessageT> {
 export { RetryOptions }
 
 // @public
+export interface RuleDetails {
+}
+
+// @public
 export interface RuleOptions {
-    // Warning: (ae-forgotten-export) The symbol "SqlAction" needs to be exported by the entry point index.d.ts
     action?: SqlAction;
-    // Warning: (ae-forgotten-export) The symbol "SqlFilter" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "CorrelationFilter" needs to be exported by the entry point index.d.ts
     filter?: SqlFilter | CorrelationFilter;
 }
 
@@ -410,7 +450,42 @@ export interface SessionReceiverOptions {
 }
 
 // @public
+export type SqlAction = SqlFilter;
+
+// @public
+export interface SqlFilter {
+}
+
+// @public
 export interface SubscribeOptions extends OperationOptions, MessageHandlerOptions {
+}
+
+// @public
+export interface SubscriptionDetails {
+    accessedOn?: string;
+    autoDeleteOnIdle: string;
+    createdOn: string;
+    deadLetteringOnFilterEvaluationExceptions: boolean;
+    deadLetteringOnMessageExpiration: boolean;
+    defaultMessageTtl?: string;
+    defaultRuleDescription?: any;
+    enableBatchedOperations: boolean;
+    enablePartitioning?: boolean;
+    entityAvailabilityStatus: string;
+    forwardDeadLetteredMessagesTo?: string;
+    forwardTo?: string;
+    lockDuration: string;
+    maxDeliveryCount: number;
+    maxSizeInMegabytes?: number;
+    messageCount: number;
+    messageCountDetails?: MessageCountDetails;
+    requiresSession: boolean;
+    sizeInBytes?: number;
+    status?: EntityStatus;
+    subscriptionName: string;
+    topicName: string;
+    updatedOn: string;
+    userMetadata?: string;
 }
 
 // @public
@@ -432,6 +507,36 @@ export interface SubscriptionOptions {
 export { TokenCredential }
 
 export { TokenType }
+
+// @public
+export interface TopicDetails {
+    accessedOn?: string;
+    authorizationRules?: AuthorizationRule[];
+    autoDeleteOnIdle?: string;
+    createdOn?: string;
+    defaultMessageTtl: string;
+    duplicateDetectionHistoryTimeWindow: string;
+    enableBatchedOperations: boolean;
+    enableExpress?: boolean;
+    enablePartitioning: boolean;
+    enableSubscriptionPartitioning?: boolean;
+    entityAvailabilityStatus?: string;
+    filteringMessagesBeforePublishing?: boolean;
+    isAnonymousAccessible?: boolean;
+    isExpress?: boolean;
+    maxDeliveryCount?: number;
+    maxSizeInMegabytes: number;
+    messageCount?: number;
+    messageCountDetails?: MessageCountDetails;
+    requiresDuplicateDetection: boolean;
+    sizeInBytes?: number;
+    status?: EntityStatus;
+    subscriptionCount?: number;
+    supportOrdering: boolean;
+    topicName: string;
+    updatedOn?: string;
+    userMetadata?: string;
+}
 
 // @public
 export interface TopicOptions {

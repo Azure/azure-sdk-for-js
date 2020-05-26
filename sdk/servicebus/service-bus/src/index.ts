@@ -45,10 +45,19 @@ export { SessionReceiver } from "./receivers/sessionReceiver";
 export { Sender } from "./sender";
 export { ServiceBusClient } from "./serviceBusClient";
 
-export { QueueOptions } from "./serializers/queueResourceSerializer";
-export { TopicOptions } from "./serializers/topicResourceSerializer";
-export { SubscriptionOptions } from "./serializers/subscriptionResourceSerializer";
-export { RuleOptions } from "./serializers/ruleResourceSerializer";
+export { QueueOptions, QueueProperties, QueueMetrics } from "./serializers/queueResourceSerializer";
+export { TopicOptions, TopicDetails } from "./serializers/topicResourceSerializer";
+export {
+  SubscriptionOptions,
+  SubscriptionDetails
+} from "./serializers/subscriptionResourceSerializer";
+export {
+  RuleOptions,
+  RuleDetails,
+  SqlAction,
+  SqlFilter
+} from "./serializers/ruleResourceSerializer";
+export { CorrelationFilter } from "./core/managementClient";
 export {
   ServiceBusManagementClient,
   ServiceBusManagementClientOptions,
