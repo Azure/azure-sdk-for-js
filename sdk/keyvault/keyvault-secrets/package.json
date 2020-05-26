@@ -67,6 +67,18 @@
     "test:node:record": "cross-env TEST_MODE=record npm run integration-test:node"
   },
   "sideEffects": false,
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/core/keyVaultClientContext.ts",
+        "prefix": "packageVersion"
+      },
+      {
+        "path": "src/core/utils/constants.ts",
+        "prefix": "SDK_VERSION"
+      }
+    ]
+  },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-http": "^1.1.0",
@@ -88,6 +100,7 @@
     "@types/mocha": "^5.2.5",
     "@types/node": "^8.0.0",
     "@types/query-string": "6.2.0",
+    "@types/sinon": "^7.0.13",
     "@typescript-eslint/eslint-plugin": "^2.0.0",
     "@typescript-eslint/parser": "^2.0.0",
     "assert": "^1.4.1",
@@ -129,21 +142,10 @@
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-terser": "^5.1.1",
     "rollup-plugin-visualizer": "^3.1.1",
+    "sinon": "^7.1.0",
     "source-map-support": "^0.5.9",
     "typescript": "~3.6.4",
     "uglify-js": "^3.4.9",
     "url": "^0.11.0"
-  },
-  "//metadata": {
-    "constantPaths": [
-      {
-        "path": "src/core/keyVaultClientContext.ts",
-        "prefix": "packageVersion"
-      },
-      {
-        "path": "src/core/utils/constants.ts",
-        "prefix": "SDK_VERSION"
-      }
-    ]
   }
 }
