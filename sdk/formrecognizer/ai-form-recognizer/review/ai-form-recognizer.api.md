@@ -88,7 +88,7 @@ export interface CustomFormModel {
     lastModified: Date;
     modelId: string;
     status: CustomFormModelStatus;
-    subModels?: CustomFormSubModel[];
+    submodels?: CustomFormSubModel[];
     trainingDocuments?: TrainingDocumentInfo[];
 }
 
