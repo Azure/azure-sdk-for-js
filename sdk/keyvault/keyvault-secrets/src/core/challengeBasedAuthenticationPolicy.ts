@@ -180,7 +180,7 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
     // Either if there's no cached challenge at this point (could have happen in parallel),
     // or if the cached challenge has a different scope,
     // we store the just received challenge and reset the cached token, to force a re-authentication.
-    if (!this.challengeCache.challenge?.equalTo(challenge)) {
+    if (!(this.challengeCache.challenge && this.challengeCache.challenge.equalTo(challenge))) {
       this.challengeCache.setCachedChallenge(challenge);
       this.tokenCache.setCachedToken(undefined);
     }
