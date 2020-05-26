@@ -9,6 +9,13 @@
         "description": "The base resource name."
       }
     },
+    "location": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]",
+      "metadata": {
+        "description": "The location of the resource. By default, this is the same as the resource group."
+      }
+    },
     "testApplicationOid": {
       "type": "string",
       "metadata": {
@@ -100,8 +107,8 @@
       "value": "[parameters('location')]"
     },
     "FORM_RECOGNIZER_TARGET_RESOURCE_ID": {
-        "type": "string",
-        "value": "[resourceId('Microsoft.CognitiveServices/accounts', variables('uniqueSubDomainName'))]"
+      "type": "string",
+      "value": "[resourceId('Microsoft.CognitiveServices/accounts', parameters('baseName'))]"
     }
   }
 }
