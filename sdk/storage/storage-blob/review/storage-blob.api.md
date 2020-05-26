@@ -770,6 +770,44 @@ export interface BlobProperties {
 }
 
 // @public
+export interface BlobQueryCsvTextConfiguration extends BlobQueryTextConfiguration {
+    columnSeparator: string;
+    escapeCharacter?: string;
+    fieldQuote?: string;
+    hasHeaders: boolean;
+    kind: "csv";
+}
+
+// @public
+export interface BlobQueryError {
+    description: string;
+    isFatal: boolean;
+    name: string;
+    position: number;
+}
+
+// @public
+export interface BlobQueryJsonTextConfiguration extends BlobQueryTextConfiguration {
+    kind: "json";
+}
+
+// Warning: (ae-forgotten-export) The symbol "BlobQueryHeaders" needs to be exported by the entry point index.d.ts
+//
+// @public
+export type BlobQueryResponseModel = BlobQueryHeaders & {
+    blobBody?: Promise<Blob>;
+    readableStreamBody?: NodeJS.ReadableStream;
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: BlobQueryHeaders;
+    };
+};
+
+// @public
+export interface BlobQueryTextConfiguration {
+    recordSeparator: string;
+}
+
+// @public
 export interface BlobReleaseLeaseOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: ModifiedAccessConditions;
@@ -1023,6 +1061,7 @@ export class BlockBlobClient extends BlobClient {
     constructor(url: string, pipeline: Pipeline);
     commitBlockList(blocks: string[], options?: BlockBlobCommitBlockListOptions): Promise<BlockBlobCommitBlockListResponse>;
     getBlockList(listType: BlockListType, options?: BlockBlobGetBlockListOptions): Promise<BlockBlobGetBlockListResponse>;
+    query(query: string, options?: BlockBlobQueryOptions): Promise<BlobDownloadResponseModel>;
     stageBlock(blockId: string, body: HttpRequestBody, contentLength: number, options?: BlockBlobStageBlockOptions): Promise<BlockBlobStageBlockResponse>;
     stageBlockFromURL(blockId: string, sourceURL: string, offset?: number, count?: number, options?: BlockBlobStageBlockFromURLOptions): Promise<BlockBlobStageBlockFromURLResponse>;
     upload(body: HttpRequestBody, contentLength: number, options?: BlockBlobUploadOptions): Promise<BlockBlobUploadResponse>;
@@ -1110,6 +1149,17 @@ export interface BlockBlobParallelUploadOptions extends CommonOptions {
         [propertyName: string]: string;
     };
     onProgress?: (progress: TransferProgressEvent) => void;
+}
+
+// @public
+export interface BlockBlobQueryOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    conditions?: BlobRequestConditions;
+    customerProvidedKey?: CpkInfo;
+    inputTextConfiguration?: BlobQueryJsonTextConfiguration | BlobQueryCsvTextConfiguration;
+    onError?: (error: BlobQueryError) => void;
+    onProgress?: (progress: TransferProgressEvent) => void;
+    outputTextConfiguration?: BlobQueryJsonTextConfiguration | BlobQueryCsvTextConfiguration;
 }
 
 // @public
