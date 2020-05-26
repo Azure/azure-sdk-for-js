@@ -495,13 +495,9 @@ export class FormTrainingClient {
         operationOptionsToRequestOptionsBase(finalOptions)
       );
       return {
-        targetResourceId: resourceId,
-        targetResourceRegion: resourceRegion,
-        accessToken: response.accessToken,
-        modelId: response.modelId,
-        // TODO: use Date after service changed this field to seconds
-        // expiresOn: new Date(response.expirationDateTimeSeconds * 1000)
-        expirationOn: response.expirationDateTimeTicks,
+        resourceId: resourceId,
+        resourceRegion: resourceRegion,
+        //expiresOn: new Date(response.expirationDateTimeTicks),
         ...(response as CopyAuthorizationResultModel)
       };
     } catch (e) {
@@ -554,8 +550,8 @@ export class FormTrainingClient {
     const poller = new BeginCopyModelPoller({
       client: copyModelClient,
       modelId,
-      targetResourceId: target.targetResourceId,
-      targetResourceRegion: target.targetResourceRegion,
+      targetResourceId: target.resourceId,
+      targetResourceRegion: target.resourceRegion,
       copyAuthorization: target,
       onProgress: options.onProgress,
       resumeFrom: options.resumeFrom,
@@ -580,13 +576,9 @@ export class FormTrainingClient {
       return await this.client.copyCustomModel(
         modelId,
         {
-          targetResourceId: copyAuthorization.targetResourceId,
-          targetResourceRegion: copyAuthorization.targetResourceRegion,
-          copyAuthorization: {
-            modelId: copyAuthorization.modelId,
-            accessToken: copyAuthorization.accessToken,
-            expirationDateTimeTicks: copyAuthorization.expirationOn // TODO: converts expiresOn into seconds after it is chagned to Date
-          }
+          targetResourceId: copyAuthorization.resourceId,
+          targetResourceRegion: copyAuthorization.resourceRegion,
+          copyAuthorization: copyAuthorization
         },
         operationOptionsToRequestOptionsBase(finalOptions)
       );

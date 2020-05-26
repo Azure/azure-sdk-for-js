@@ -84,11 +84,8 @@ export type ContentType = "application/pdf" | "image/jpeg" | "image/png" | "imag
 
 // @public
 export type CopyAuthorization = {
-    targetResourceId: string;
-    targetResourceRegion: string;
-    modelId: string;
-    accessToken: string;
-    expirationOn: number;
+    resourceId: string;
+    resourceRegion: string;
 } & CopyAuthorizationResultModel;
 
 // @public
@@ -642,8 +639,8 @@ export type ValueTypes = "string" | "date" | "time" | "phoneNumber" | "number" |
 // Warnings were encountered during analysis:
 //
 // src/formRecognizerClient.ts:73:3 - (ae-forgotten-export) The symbol "BeginRecognizePollState" needs to be exported by the entry point index.d.ts
-// src/formTrainingClient.ts:79:3 - (ae-forgotten-export) The symbol "BeginCopyModelPollState" needs to be exported by the entry point index.d.ts
-// src/formTrainingClient.ts:96:3 - (ae-forgotten-export) The symbol "BeginTrainingPollState" needs to be exported by the entry point index.d.ts
+// src/formTrainingClient.ts:89:3 - (ae-forgotten-export) The symbol "BeginCopyModelPollState" needs to be exported by the entry point index.d.ts
+// src/formTrainingClient.ts:106:3 - (ae-forgotten-export) The symbol "BeginTrainingPollState" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

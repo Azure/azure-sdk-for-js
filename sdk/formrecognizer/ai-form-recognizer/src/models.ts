@@ -964,27 +964,15 @@ export type CopyAuthorization = {
   /**
    * Target resource Id.
    */
-  targetResourceId: string;
+  resourceId: string;
   /**
    * Target resource region.
    */
-  targetResourceRegion: string;
-  /**
-   * Model identifier.
-   */
-  modelId: string;
-  /**
-   * Token claim used to authorize the request.
-   */
-  accessToken: string;
-  /**
-   * The time when the access token expires. The date is represented as the number of seconds from 1970-01-01T0:0:0Z UTC until the expiration time.
-   */
-  expirationOn: number;
+  resourceRegion: string;
   /**
    * The time when the access token expires.
    */
-  // expiresOn: Date
+  //expiresOn: Date
 } & CopyAuthorizationResultModel;
 
 /**
