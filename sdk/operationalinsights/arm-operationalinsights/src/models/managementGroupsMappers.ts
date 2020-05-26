@@ -8,7 +8,6 @@
 
 export {
   CloudError,
-  Operation,
-  OperationDisplay,
-  OperationListResult
+  ManagementGroup,
+  WorkspaceListManagementGroupsResult
 } from "../models/mappers";
