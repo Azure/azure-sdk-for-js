@@ -453,11 +453,14 @@ export class SearchIndexerClient {
       options
     );
     try {
-      const result = await this.client.indexers.createOrUpdate(
-        indexer.name,
-        indexer,
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
+      const etag = options.onlyIfUnchanged ? indexer.etag : undefined;
+
+      const result = await this.client.indexers.createOrUpdate(indexer.name, indexer, {
+        ...operationOptionsToRequestOptionsBase(updatedOptions),
+        accessCondition: {
+          ifMatch: etag
+        }
+      });
       return result;
     } catch (e) {
       span.setStatus({
@@ -484,11 +487,14 @@ export class SearchIndexerClient {
       options
     );
     try {
-      const result = await this.client.dataSources.createOrUpdate(
-        dataSource.name,
-        dataSource,
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
+      const etag = options.onlyIfUnchanged ? dataSource.etag : undefined;
+
+      const result = await this.client.dataSources.createOrUpdate(dataSource.name, dataSource, {
+        ...operationOptionsToRequestOptionsBase(updatedOptions),
+        accessCondition: {
+          ifMatch: etag
+        }
+      });
       return utils.generatedDataSourceToPublicDataSource(result);
     } catch (e) {
       span.setStatus({
@@ -515,11 +521,19 @@ export class SearchIndexerClient {
       options
     );
     try {
+      const etag = options.onlyIfUnchanged ? skillset.etag : undefined;
+
       const result = await this.client.skillsets.createOrUpdate(
         skillset.name,
         utils.publicSkillsetToGeneratedSkillset(skillset),
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        {
+          ...operationOptionsToRequestOptionsBase(updatedOptions),
+          accessCondition: {
+            ifMatch: etag
+          }
+        }
       );
+
       return utils.generatedSkillsetToPublicSkillset(result);
     } catch (e) {
       span.setStatus({
@@ -544,11 +558,19 @@ export class SearchIndexerClient {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-deleteIndexer", options);
     try {
       const indexerName: string = typeof indexer === "string" ? indexer : indexer.name;
+      const etag =
+        typeof indexer === "string"
+          ? undefined
+          : options.onlyIfUnchanged
+          ? indexer.etag
+          : undefined;
 
-      await this.client.indexers.deleteMethod(
-        indexerName,
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
+      await this.client.indexers.deleteMethod(indexerName, {
+        ...operationOptionsToRequestOptionsBase(updatedOptions),
+        accessCondition: {
+          ifMatch: etag
+        }
+      });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -572,11 +594,19 @@ export class SearchIndexerClient {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-deleteDataSource", options);
     try {
       const dataSourceName: string = typeof dataSource === "string" ? dataSource : dataSource.name;
+      const etag =
+        typeof dataSource === "string"
+          ? undefined
+          : options.onlyIfUnchanged
+          ? dataSource.etag
+          : undefined;
 
-      await this.client.dataSources.deleteMethod(
-        dataSourceName,
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
+      await this.client.dataSources.deleteMethod(dataSourceName, {
+        ...operationOptionsToRequestOptionsBase(updatedOptions),
+        accessCondition: {
+          ifMatch: etag
+        }
+      });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -600,11 +630,19 @@ export class SearchIndexerClient {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-deleteSkillset", options);
     try {
       const skillsetName: string = typeof skillset === "string" ? skillset : skillset.name;
+      const etag =
+        typeof skillset === "string"
+          ? undefined
+          : options.onlyIfUnchanged
+          ? skillset.etag
+          : undefined;
 
-      await this.client.skillsets.deleteMethod(
-        skillsetName,
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
+      await this.client.skillsets.deleteMethod(skillsetName, {
+        ...operationOptionsToRequestOptionsBase(updatedOptions),
+        accessCondition: {
+          ifMatch: etag
+        }
+      });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

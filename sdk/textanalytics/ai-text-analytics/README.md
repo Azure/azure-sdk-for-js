@@ -225,7 +225,7 @@ async function main() {
     if (result.error === undefined) {
       console.log(" -- Recognized entities for input", result.id, "--");
       for (const entity of result.entities) {
-        console.log(entity.text, ":", entity.category, "(Score:", entity.score, ")");
+        console.log(entity.text, ":", entity.category, "(Score:", entity.confidenceScore, ")");
       }
     } else {
       console.error("Encountered an error:", result.error);
@@ -263,7 +263,7 @@ async function main() {
       for (const entity of result.entities) {
         console.log(entity.name, "(URL:", entity.url, ", Source:", entity.dataSource, ")");
         for (const match of entity.matches) {
-          console.log("  Occurrence:", "\"" + match.text + "\"", "(Score:", match.score, ")");
+          console.log("  Occurrence:", "\"" + match.text + "\"", "(Score:", match.confidenceScore, ")");
         }
       }
     } else {
@@ -343,7 +343,7 @@ async function main() {
         "( ISO6391:",
         primaryLanguage.iso6391Name,
         ", Score:",
-        primaryLanguage.score,
+        primaryLanguage.confidenceScore,
         ")"
       );
     } else {

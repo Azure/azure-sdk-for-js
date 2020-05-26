@@ -7,7 +7,12 @@ import {
   TextAnalyticsErrorResult,
   makeTextAnalyticsErrorResult
 } from "./textAnalyticsResult";
-import { TextDocumentStatistics, TextAnalyticsError, LinkedEntity } from "./generated/models";
+import {
+  TextDocumentStatistics,
+  TextAnalyticsError,
+  LinkedEntity,
+  TextAnalyticsWarning
+} from "./generated/models";
 
 /**
  * The result of the recognize linked entities operation on a single document.
@@ -35,10 +40,11 @@ export type RecognizeLinkedEntitiesErrorResult = TextAnalyticsErrorResult;
 export function makeRecognizeLinkedEntitiesResult(
   id: string,
   entities: LinkedEntity[],
+  warnings: TextAnalyticsWarning[],
   statistics?: TextDocumentStatistics
 ): RecognizeLinkedEntitiesSuccessResult {
   return {
-    ...makeTextAnalyticsSuccessResult(id, statistics),
+    ...makeTextAnalyticsSuccessResult(id, warnings, statistics),
     entities
   };
 }

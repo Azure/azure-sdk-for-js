@@ -761,12 +761,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-XDwyIlt/47l2kWLTzw/mtrpLdB+GPSskR2n/PIcPn+VYhVO77rGhRncIR5GPU0KRzXuqkDO+J5qqrG0Y8P6jzQ==
-  /@types/ws/6.0.4:
+  /@types/ws/7.2.4:
     dependencies:
-      '@types/node': 8.10.61
+      '@types/node': 14.0.4
     dev: false
     resolution:
-      integrity: sha512-PpPrX7SZW9re6+Ha8ojZG4Se8AZXgf0GK6zmfqEuCsY49LFDNXO3SByp44X3dFEqtB73lkCDAdUazhAjVPiNwg==
+      integrity: sha512-9S6Ask71vujkVyeEXKxjBSUV8ZUB0mjL5la4IncBoheu04bDaYyUKErh1BQcY9+WzOUOiKqz/OnpJHYckbMfNg==
   /@types/xml2js/0.4.5:
     dependencies:
       '@types/node': 8.10.61
@@ -7856,7 +7856,7 @@ packages:
     dev: false
     name: '@rush-temp/core-http'
     resolution:
-      integrity: sha512-T5U10ZN+iBs2RNLBfGKMsiLlU5FF/NCmOzwPc/ljjb/aB0wAIpU/3e0KlpUHSU0Uzk9N5V7AGsODojWy1SK5Dg==
+      integrity: sha512-IEnxAN1ZAfM+o+fghqJFb/JCDhJXH5V8sSz1lkxIG8w8IEwjp9ARXK4BgM7VOkZ4wGYoysjNndu9DA0ffVG0LA==
       tarball: 'file:projects/core-http.tgz'
     version: 0.0.0
   'file:projects/core-https.tgz':
@@ -8135,7 +8135,7 @@ packages:
       '@types/node': 8.10.61
       '@types/sinon': 9.0.4
       '@types/uuid': 3.4.9
-      '@types/ws': 6.0.4
+      '@types/ws': 7.2.4
       '@typescript-eslint/eslint-plugin': 2.34.0_fbe180e5e50b8ec89ec2be5e2ce5513b
       '@typescript-eslint/parser': 2.34.0_eslint@6.8.0+typescript@3.8.3
       assert: 1.5.0
@@ -8189,7 +8189,7 @@ packages:
     dev: false
     name: '@rush-temp/event-hubs'
     resolution:
-      integrity: sha512-3iCt1BBUih1kArIlBL0B4Nw2uTONXXisCjv85GoslTQaMGCsFjldoig3Ruc98FTRY4jTGJbKVRKB0UdmDuECCw==
+      integrity: sha512-YbccLWxNzNyvoe5c8/0zKID3uXUenG/5pqJocC/aqcjXGVVhW9+FolKaaKZrVkJ/XuMHAG39kccgxqsfRICbUw==
       tarball: 'file:projects/event-hubs.tgz'
     version: 0.0.0
   'file:projects/event-processor-host.tgz':
@@ -8211,7 +8211,7 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 8.10.61
       '@types/uuid': 3.4.9
-      '@types/ws': 6.0.4
+      '@types/ws': 7.2.4
       '@typescript-eslint/eslint-plugin': 2.34.0_fbe180e5e50b8ec89ec2be5e2ce5513b
       '@typescript-eslint/parser': 2.34.0_eslint@6.8.0+typescript@3.8.3
       async-lock: 1.2.4
@@ -8246,7 +8246,7 @@ packages:
     dev: false
     name: '@rush-temp/event-processor-host'
     resolution:
-      integrity: sha512-o0lja9JmvdssBTAv5EqriAn2EQ3/xc3EQOFfbtHmwVSdlmXANyFx69xu7mcWnGd3dvDfJVCCYnlEC8ZN6LX5dw==
+      integrity: sha512-olDWV0u0c9Lm7rtpr4yah1Hh9EPafuZzQLo4REyCry2APMaOIOsGQ0ARtFSEcQozQ+gCxoSkbGjZArSlK9s1eg==
       tarball: 'file:projects/event-processor-host.tgz'
     version: 0.0.0
   'file:projects/eventhubs-checkpointstore-blob.tgz':
@@ -8693,7 +8693,7 @@ packages:
       '@types/long': 4.0.1
       '@types/mocha': 7.0.2
       '@types/node': 8.10.61
-      '@types/ws': 6.0.4
+      '@types/ws': 7.2.4
       '@typescript-eslint/eslint-plugin': 2.34.0_fbe180e5e50b8ec89ec2be5e2ce5513b
       '@typescript-eslint/parser': 2.34.0_eslint@6.8.0+typescript@3.8.3
       assert: 1.5.0
@@ -8748,7 +8748,7 @@ packages:
     dev: false
     name: '@rush-temp/service-bus'
     resolution:
-      integrity: sha512-b828xmJrpi/+VYklayvTWJdkjz/Qvl6R7n2VGqZ1FuRcrruU4guNtaXPLr2CbUonsWeihhv5qhXKR4lc+j5ciQ==
+      integrity: sha512-tcX6xJXGL3qUMOCA4ReUoej5ZTor4ofjctRTsPoYfgkEsDoDZIONwVkxIhhz+DRmthRarAcfzBcgaVC8zpGs1g==
       tarball: 'file:projects/service-bus.tgz'
     version: 0.0.0
   'file:projects/storage-blob.tgz':

@@ -12,7 +12,8 @@ import {
   TextAnalyticsError,
   DocumentSentimentLabel,
   SentenceSentiment,
-  SentimentConfidenceScores
+  SentimentConfidenceScores,
+  TextAnalyticsWarning
 } from "./generated/models";
 
 /**
@@ -50,10 +51,11 @@ export function makeAnalyzeSentimentResult(
   sentiment: DocumentSentimentLabel,
   confidenceScores: SentimentConfidenceScores,
   sentences: SentenceSentiment[],
+  warnings: TextAnalyticsWarning[],
   statistics?: TextDocumentStatistics
 ): AnalyzeSentimentSuccessResult {
   return {
-    ...makeTextAnalyticsSuccessResult(id, statistics),
+    ...makeTextAnalyticsSuccessResult(id, warnings, statistics),
     sentiment,
     confidenceScores,
     sentences
