@@ -27,7 +27,7 @@
  */
 
 import {
-  blockBlobClient,
+  BlockBlobClient,
   AnonymousCredential,
   BaseRequestPolicy,
   newPipeline

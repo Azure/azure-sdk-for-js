@@ -5,7 +5,7 @@
 
 ## 1.1.2 (2020-04-28)
 
-- Adds compatiblity with TypeScript versions 3.1 through 3.6+.
+- Adds compatibility with TypeScript versions 3.1 through 3.6+.
   [PR 8540](https://github.com/Azure/azure-sdk-for-js/pull/8540)
 - Add a new method `refreshConnection()` on the `ConnectionContextBase` to replace the `connection` property on it with a new rhea-promise `Connection` object.
   [PR 8563](https://github.com/Azure/azure-sdk-for-js/pull/8563)
@@ -46,7 +46,7 @@
 
 ## 1.0.0-preview.4 (2019-10-07)
 
-- Fixes bug where calling `sendRequest` from a `RequestResponseLink` mulitple
+- Fixes bug where calling `sendRequest` from a `RequestResponseLink` multiple
   times in parallel would result in all but 1 calls being retried.
 
 ## 1.0.0-preview.3 (2019-09-09)
@@ -60,7 +60,7 @@ Updates types for better compatibility with TypeScript 3.6.x. (PR #4928)
   - Support for exponential retry has been added
   - Support for cancellation has been added via an optional `AbortSignal` from the [@azure/abort-controller](https://www.npmjs.com/package/@azure/abort-controller) package.
   - The `RequestResponseLink` class has been updated to not have retries anymore for the `sendRequest()` method. The caller of this method is expected to add the relevant retries.
-- All time related entites have been updated to use milli seconds as the unit of time for consistency.
+- All time related entities have been updated to use milliseconds as the unit of time for consistency.
 - New error `InsufficientCreditError` is introduced for the scenario where [rhea](https://www.npmjs.com/package/rhea) is unable to send events due to its internal buffer being full. This is a transient error and so is treated as retryable.
 - The error `OperationTimeoutError` was previously mistakenly classified as an AMQP error which is now corrected. Since this can also be a transient error, it is treated as retryable.
 

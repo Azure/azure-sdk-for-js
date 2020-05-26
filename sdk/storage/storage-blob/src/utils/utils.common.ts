@@ -10,7 +10,7 @@ import { HeaderConstants, URLConstants, DevelopmentConnectionString } from "./co
  *
  * ## URL encode and escape strategy for JS SDKs
  *
- * When customers pass a URL string into XxxClient classes constrcutor, the URL string may already be URL encoded or not.
+ * When customers pass a URL string into XxxClient classes constructor, the URL string may already be URL encoded or not.
  * But before sending to Azure Storage server, the URL must be encoded. However, it's hard for a SDK to guess whether the URL
  * string has been encoded or not. We have 2 potential strategies, and chose strategy two for the XxxClient constructors.
  *
@@ -40,7 +40,7 @@ import { HeaderConstants, URLConstants, DevelopmentConnectionString } from "./co
  *
  * This strategy gives us flexibility to create with any special characters. But "%" will be treated as a special characters, if the URL string
  * is not encoded, there shouldn't a "%" in the URL string, otherwise the URL is not a valid URL.
- * If customer needs to create a blob with "%" in it's blob name, use "%25" insead of "%". Just like above 3rd sample.
+ * If customer needs to create a blob with "%" in it's blob name, use "%25" instead of "%". Just like above 3rd sample.
  * And following URL strings are invalid:
  * - "http://account.blob.core.windows.net/con/b%"
  * - "http://account.blob.core.windows.net/con/b%2"
@@ -202,7 +202,7 @@ export function extractConnectionStringParts(connectionString: string): Connecti
 }
 
 /**
- * Internal escape method implmented Strategy Two mentioned in escapeURL() description.
+ * Internal escape method implemented Strategy Two mentioned in escapeURL() description.
  *
  * @param {string} text
  * @returns {string}

@@ -20,7 +20,7 @@ Use the client libraries in this package to:
 
 **Prerequisites**: You must have an [Azure subscription](https://azure.microsoft.com/free/) and a [Storage Account](https://docs.microsoft.com/azure/storage/queues/storage-quickstart-queues-portal) to use this package. If you are using this package in a Node.js application, then Node.js version 8.0.0 or higher is required.
 
-### Install the pacakge
+### Install the package
 
 The preferred way to install the Azure Storage Queue client library for JavaScript is to use the npm package manager. Type the following into a terminal window:
 
@@ -58,7 +58,7 @@ This library depends on following ES features which need external polyfills load
 - `String.prototype.includes`
 - `Array.prototype.includes`
 - `Object.assign`
-- `Object.keys` (Override IE11's `Object.keys` with ES6 polyfill forcely to enable [ES6 behavior](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/keys#Notes))
+- `Object.keys` (Overrides the IE11's `Object.keys` with a polyfill to enable the [ES6 behavior](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/keys#Notes))
 - `Symbol`
 - `Symbol.iterator`
 
@@ -110,7 +110,7 @@ between connected clients.
 Key data types in our library related to these services are:
 
 - A `QueueServiceClient` represents a connection (via a URL) to a given _storage account_ in the Azure Storage Queue service and provides APIs for manipulating its queues. It is authenticated to the service and can be used to create `QueueClient` objects, as well as create, delete, list queues from the service.
-- A `QueueClient` represents a single _queue_ in the storage acccount. It can be used to manipulate the queue's messages, for example to send, receive, and peek messages in the queue.
+- A `QueueClient` represents a single _queue_ in the storage account. It can be used to manipulate the queue's messages, for example to send, receive, and peek messages in the queue.
 
 ## Examples
 
@@ -181,7 +181,7 @@ Alternatively, you instantiate a `QueueServiceClient` with a `StorageSharedKeyCr
   const accountKey = "<accountkey>";
 
   // Use StorageSharedKeyCredential with storage account and account key
-  // StorageSharedKeyCredential is only avaiable in Node.js runtime, not in browsers
+  // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
   const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
 
   const queueServiceClient = new QueueServiceClient(
@@ -386,7 +386,7 @@ async function main() {
       receivedMessageItem.popReceipt
     );
     console.log(
-      `Delete message succesfully, service assigned request Id: ${deleteMessageResponse.requestId}`
+      `Delete message successfully, service assigned request Id: ${deleteMessageResponse.requestId}`
     );
   }
 }

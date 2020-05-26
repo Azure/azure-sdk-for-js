@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export { SearchIndexClient, SearchIndexClientOptions } from "./searchIndexClient";
+export { SearchClient, SearchClientOptions } from "./searchClient";
 export {
   AutocompleteRequest,
   AutocompleteOptions,
@@ -26,7 +26,8 @@ export {
   MergeOrUploadDocumentsOptions,
   UploadDocumentsOptions
 } from "./indexModels";
-export { SearchServiceClient, SearchServiceClientOptions } from "./searchServiceClient";
+export { SearchIndexClient, SearchIndexClientOptions } from "./searchIndexClient";
+export { SearchIndexerClient, SearchIndexerClientOptions } from "./searchIndexerClient";
 export {
   Index,
   Analyzer,
@@ -48,7 +49,6 @@ export {
   Skillset,
   ListSynonymMapsOptions,
   DeleteIndexOptions,
-  ETagOperationOptions,
   AnalyzeTextOptions,
   GetIndexOptions,
   GetIndexStatisticsOptions,
