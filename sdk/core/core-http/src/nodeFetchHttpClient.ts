@@ -4,7 +4,7 @@
 import * as tough from "tough-cookie";
 import * as http from "http";
 import * as https from "https";
-import "node-fetch";
+import node_fetch from "node-fetch";
 
 import { FetchHttpClient, CommonRequestInfo } from "./fetchHttpClient";
 import { HttpOperationResponse } from "./httpOperationResponse";
@@ -12,13 +12,12 @@ import { WebResourceLike } from "./webResource";
 import { createProxyAgent, ProxyAgent, isUrlHttps } from "./proxyAgent";
 
 interface GlobalWithFetch extends NodeJS.Global {
-  fetch: typeof import("node-fetch")["default"];
+  fetch: typeof node_fetch;
 }
 
 const globalWithFetch = global as GlobalWithFetch;
 if (typeof globalWithFetch.fetch !== "function") {
-  const fetch = require("node-fetch").default;
-  globalWithFetch.fetch = fetch;
+  globalWithFetch.fetch = node_fetch;
 }
 
 interface AgentCache {
