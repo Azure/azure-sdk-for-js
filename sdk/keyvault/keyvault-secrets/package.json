@@ -152,7 +152,7 @@
     "typescript": "~3.8.3",
     "uglify-js": "^3.4.9",
     "url": "^0.11.0",
-    "sinon": "^7.1.0",
-    "@types/sinon": "^7.0.13"
+    "sinon": "^9.0.2",
+    "@types/sinon": "^9.0.4"
   }
 }
