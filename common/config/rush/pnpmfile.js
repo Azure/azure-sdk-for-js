@@ -34,9 +34,5 @@ function readPackage(packageJson, context) {
   //  packageJson.dependencies['log4js'] = '0.6.38';
   // }
 
-  if (packageJson.name === 'acorn-jsx') {
-    delete packageJson.peerDependencies['acorn'];
-  }
-
   return packageJson;
 }
