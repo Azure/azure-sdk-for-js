@@ -25,6 +25,36 @@ import { PartitionGate } from "./impl/partitionGate";
 import uuid from "uuid/v4";
 import { validateEventPositions } from "./eventPosition";
 
+/**
+ * Describes the options that can be provided while creating the EventHubConsumerClient.
+ */
+export interface EventHubConsumerClientOptions extends EventHubClientOptions {
+  /**
+   * An options bag to configure load balancing settings.
+   */
+  loadBalancingOptions: LoadBalancingOptions;
+}
+
+/**
+ * An options bag to configure load balancing settings.
+ */
+export interface LoadBalancingOptions {
+  /**
+   * Whether to apply a greedy or a more balanced approach when
+   * claiming partitions.
+   * Default: balanced
+   */
+  strategy: "balanced" | "greedy";
+  /**
+   * The length of time between attempts to claim partitions.
+   */
+  updateIntervalInMs: number;
+  /**
+   * The length of time a partition claim is valid.
+   */
+  partitionOwnershipExpirationIntervalInMs: number;
+}
+
 const defaultConsumerClientOptions: Required<Pick<
   FullEventProcessorOptions,
   "maxWaitTimeInSeconds" | "maxBatchSize"
@@ -97,7 +127,11 @@ export class EventHubConsumerClient {
    * - `webSocketOptions`: Configures the channelling of the AMQP connection over Web Sockets.
    * - `userAgent`      : A string to append to the built in user agent string that is passed to the service.
    */
-  constructor(consumerGroup: string, connectionString: string, options?: EventHubClientOptions); // #1
+  constructor(
+    consumerGroup: string,
+    connectionString: string,
+    options?: EventHubConsumerClientOptions
+  ); // #1
   /**
    * @constructor
    * The `EventHubConsumerClient` class is used to consume events from an Event Hub.
@@ -119,7 +153,7 @@ export class EventHubConsumerClient {
     consumerGroup: string,
     connectionString: string,
     checkpointStore: CheckpointStore,
-    options?: EventHubClientOptions
+    options?: EventHubConsumerClientOptions
   ); // #1.1
   /**
    * @constructor
@@ -140,7 +174,7 @@ export class EventHubConsumerClient {
     consumerGroup: string,
     connectionString: string,
     eventHubName: string,
-    options?: EventHubClientOptions
+    options?: EventHubConsumerClientOptions
   ); // #2
   /**
    * @constructor
@@ -165,7 +199,7 @@ export class EventHubConsumerClient {
     connectionString: string,
     eventHubName: string,
     checkpointStore: CheckpointStore,
-    options?: EventHubClientOptions
+    options?: EventHubConsumerClientOptions
   ); // #2.1
   /**
    * @constructor
@@ -188,7 +222,7 @@ export class EventHubConsumerClient {
     fullyQualifiedNamespace: string,
     eventHubName: string,
     credential: TokenCredential,
-    options?: EventHubClientOptions
+    options?: EventHubConsumerClientOptions
   ); // #3
   /**
    * @constructor
@@ -215,24 +249,27 @@ export class EventHubConsumerClient {
     eventHubName: string,
     credential: TokenCredential,
     checkpointStore: CheckpointStore,
-    options?: EventHubClientOptions
+    options?: EventHubConsumerClientOptions
   ); // #3.1
   constructor(
     private _consumerGroup: string,
     connectionStringOrFullyQualifiedNamespace2: string,
-    checkpointStoreOrEventHubNameOrOptions3?: CheckpointStore | EventHubClientOptions | string,
+    checkpointStoreOrEventHubNameOrOptions3?:
+      | CheckpointStore
+      | EventHubConsumerClientOptions
+      | string,
     checkpointStoreOrCredentialOrOptions4?:
       | CheckpointStore
-      | EventHubClientOptions
+      | EventHubConsumerClientOptions
       | TokenCredential,
-    checkpointStoreOrOptions5?: CheckpointStore | EventHubClientOptions,
-    options6?: EventHubClientOptions
+    checkpointStoreOrOptions5?: CheckpointStore | EventHubConsumerClientOptions,
+    options6?: EventHubConsumerClientOptions
   ) {
     if (isTokenCredential(checkpointStoreOrCredentialOrOptions4)) {
       // #3 or 3.1
       logger.info("Creating EventHubConsumerClient with TokenCredential.");
 
-      let eventHubClientOptions: EventHubClientOptions | undefined;
+      let eventHubClientOptions: EventHubConsumerClientOptions | undefined;
 
       if (isCheckpointStore(checkpointStoreOrOptions5)) {
         // 3.1
@@ -255,13 +292,15 @@ export class EventHubConsumerClient {
       // #2 or 2.1
       logger.info("Creating EventHubConsumerClient with connection string and event hub name.");
 
-      let eventHubClientOptions: EventHubClientOptions | undefined;
+      let eventHubClientOptions: EventHubConsumerClientOptions | undefined;
 
       if (isCheckpointStore(checkpointStoreOrCredentialOrOptions4)) {
         // 2.1
         this._checkpointStore = checkpointStoreOrCredentialOrOptions4;
         this._userChoseCheckpointStore = true;
-        eventHubClientOptions = checkpointStoreOrOptions5 as EventHubClientOptions | undefined;
+        eventHubClientOptions = checkpointStoreOrOptions5 as
+          | EventHubConsumerClientOptions
+          | undefined;
       } else {
         // 2
         this._checkpointStore = new InMemoryCheckpointStore();
@@ -272,27 +311,27 @@ export class EventHubConsumerClient {
       this._eventHubClient = new EventHubClient(
         connectionStringOrFullyQualifiedNamespace2,
         checkpointStoreOrEventHubNameOrOptions3,
-        eventHubClientOptions as EventHubClientOptions
+        eventHubClientOptions as EventHubConsumerClientOptions
       );
     } else {
       // #1 or 1.1
       logger.info("Creating EventHubConsumerClient with connection string.");
 
-      let eventHubClientOptions: EventHubClientOptions | undefined;
+      let eventHubClientOptions: EventHubConsumerClientOptions | undefined;
 
       if (isCheckpointStore(checkpointStoreOrEventHubNameOrOptions3)) {
         // 1.1
         this._checkpointStore = checkpointStoreOrEventHubNameOrOptions3;
         this._userChoseCheckpointStore = true;
         eventHubClientOptions = checkpointStoreOrCredentialOrOptions4 as
-          | EventHubClientOptions
+          | EventHubConsumerClientOptions
           | undefined;
       } else {
         // 1
         this._checkpointStore = new InMemoryCheckpointStore();
         this._userChoseCheckpointStore = false;
         eventHubClientOptions = checkpointStoreOrEventHubNameOrOptions3 as
-          | EventHubClientOptions
+          | EventHubConsumerClientOptions
           | undefined;
       }
 

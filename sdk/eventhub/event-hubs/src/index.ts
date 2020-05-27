@@ -15,7 +15,11 @@ export {
   GetPartitionPropertiesOptions,
   GetEventHubPropertiesOptions
 } from "./models/public";
-export { EventHubConsumerClient } from "./eventHubConsumerClient";
+export {
+  EventHubConsumerClient,
+  EventHubConsumerClientOptions,
+  LoadBalancingOptions
+} from "./eventHubConsumerClient";
 export { EventHubProducerClient } from "./eventHubProducerClient";
 export {
   SubscribeOptions,
