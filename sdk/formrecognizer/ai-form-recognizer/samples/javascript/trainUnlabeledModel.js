@@ -6,7 +6,7 @@
  * See recognizeForm.js to recognize forms using a custom model.
  */
 
-const { FormRecognizerClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
+const { FormTrainingClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
 
 // Load the .env file if it exists
 require("dotenv").config();
@@ -18,8 +18,7 @@ async function main() {
 
   const containerSasUrl = process.env["UNLABELED_CONTAINER_SAS_URL"] || "<SAS url to the blob container storing training documents>";
 
-  const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
-  const trainingClient = client.getFormTrainingClient();
+  const trainingClient = new FormTrainingClient(endpoint, new AzureKeyCredential(apiKey));
 
   const poller = await trainingClient.beginTraining(containerSasUrl, false, {
     onProgress: (state) => {
@@ -38,8 +37,8 @@ async function main() {
   console.log(`Created on: ${response.createdOn}`);
   console.log(`Last modified: ${response.lastModified}`);
 
-  if (response.models) {
-    for (const submodel of response.models) {
+  if (response.submodels) {
+    for (const submodel of response.submodels) {
       // since the training data is unlabeled, we are unable to return the accuracy of this model
       console.log("We have recognized the following fields");
       for (const key in submodel.fields) {

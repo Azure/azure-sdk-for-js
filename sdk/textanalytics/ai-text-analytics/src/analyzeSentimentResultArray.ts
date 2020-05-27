@@ -4,21 +4,21 @@
 import {
   TextDocumentBatchStatistics,
   DocumentError,
-  DocumentKeyPhrases,
+  DocumentSentiment,
   MultiLanguageInput
 } from "./generated/models";
 import {
-  ExtractKeyPhrasesResult,
-  makeExtractKeyPhrasesResult,
-  makeExtractKeyPhrasesErrorResult
-} from "./extractKeyPhrasesResult";
-import { sortByPreviousIdOrder } from "./util";
+  AnalyzeSentimentResult,
+  makeAnalyzeSentimentResult,
+  makeAnalyzeSentimentErrorResult
+} from "./analyzeSentimentResult";
+import { sortResponseIdObjects } from "./util";
 
 /**
- * Collection of `ExtractKeyPhrasesResult` objects corresponding to a batch of input documents, and
+ * Array of `AnalyzeSentimentResult` objects corresponding to a batch of input documents, and
  * annotated with information about the batch operation.
  */
-export interface ExtractKeyPhrasesResultCollection extends Array<ExtractKeyPhrasesResult> {
+export interface AnalyzeSentimentResultArray extends Array<AnalyzeSentimentResult> {
   /**
    * Statistics about the input document batch and how it was processed
    * by the service. This property will have a value when includeStatistics is set to true
@@ -32,27 +32,34 @@ export interface ExtractKeyPhrasesResultCollection extends Array<ExtractKeyPhras
   modelVersion: string;
 }
 
-export function makeExtractKeyPhrasesResultCollection(
+export function makeAnalyzeSentimentResultArray(
   input: MultiLanguageInput[],
-  documents: DocumentKeyPhrases[],
+  documents: DocumentSentiment[],
   errors: DocumentError[],
   modelVersion: string,
   statistics?: TextDocumentBatchStatistics
-): ExtractKeyPhrasesResultCollection {
+): AnalyzeSentimentResultArray {
   const unsortedResult = documents
     .map(
-      (document): ExtractKeyPhrasesResult => {
-        return makeExtractKeyPhrasesResult(document.id, document.keyPhrases, document.statistics);
+      (document): AnalyzeSentimentResult => {
+        return makeAnalyzeSentimentResult(
+          document.id,
+          document.sentiment,
+          document.confidenceScores,
+          document.sentenceSentiments,
+          document.warnings,
+          document.statistics
+        );
       }
     )
     .concat(
       errors.map(
-        (error): ExtractKeyPhrasesResult => {
-          return makeExtractKeyPhrasesErrorResult(error.id, error.error);
+        (error): AnalyzeSentimentResult => {
+          return makeAnalyzeSentimentErrorResult(error.id, error.error);
         }
       )
     );
-  const result = sortByPreviousIdOrder(input, unsortedResult);
+  const result = sortResponseIdObjects(input, unsortedResult);
   return Object.assign(result, {
     statistics,
     modelVersion

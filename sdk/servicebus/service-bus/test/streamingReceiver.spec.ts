@@ -19,10 +19,13 @@ import { Sender } from "../src/sender";
 import {
   ServiceBusClientForTests,
   createServiceBusClientForTests,
-  testPeekMsgsLength
+  testPeekMsgsLength,
+  EntityName,
+  drainReceiveAndDeleteReceiver
 } from "./utils/testutils2";
 import { getDeliveryProperty } from "./utils/misc";
 import { translate, MessagingError, isNode } from "@azure/core-amqp";
+import { verifyMessageCount } from "./utils/managementUtils";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -42,6 +45,7 @@ describe("Streaming", () => {
   let sender: Sender;
   let receiver: Receiver<ReceivedMessageWithLock> | Receiver<ReceivedMessage>;
   let deadLetterReceiver: Receiver<ReceivedMessageWithLock>;
+  let entityNames: EntityName;
 
   before(() => {
     serviceBusClient = createServiceBusClientForTests();
@@ -55,7 +59,7 @@ describe("Streaming", () => {
     testClientType: TestClientType,
     receiveMode?: "peekLock" | "receiveAndDelete"
   ): Promise<void> {
-    const entityNames = await serviceBusClient.test.createTestEntities(testClientType);
+    entityNames = await serviceBusClient.test.createTestEntities(testClientType);
 
     if (receiveMode === "receiveAndDelete") {
       receiver = await serviceBusClient.test.getReceiveAndDeleteReceiver(entityNames);
@@ -1093,7 +1097,10 @@ describe("Streaming", () => {
         0,
         `Expected 0 messages, but received ${receivedMsgs.length}`
       );
+      receiver = await serviceBusClient.test.getReceiveAndDeleteReceiver(entityNames);
       await testPeekMsgsLength(receiver, totalNumOfMessages);
+      await drainReceiveAndDeleteReceiver(receiver);
+      await verifyMessageCount(0, entityNames.queue);
     }
 
     it("UnPartitioned Queue: Not receive messages after receiver is closed", async function(): Promise<
