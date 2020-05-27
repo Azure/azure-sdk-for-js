@@ -13,7 +13,7 @@ export type RheaLink = AwaitableSender | RheaReceiver;
  * we can stop passing in some of these functions.
  *
  * For instance
- * - negotiateClaim + ensureTokenRenewal can be lifted out of LinkEntity
+ * - negotiateClaim + ensureTokenRenewal can be lifted out of LinkEntity into openLink.ts.
  * - openLock can be moved into here if we allow openLink to have some manageable state
  *  - same for isConnecting, which might need to be readable external from here but not writable.
  *
