@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { openLink, OpenArgs } from "../../src/shared/openLink";
-import * as log from "../../src/log";
 import { AbortController } from "@azure/abort-controller";
 import { Receiver as RheaReceiver } from "rhea-promise";
 import chai from "chai";
@@ -38,7 +37,6 @@ describe("openLink", () => {
         setIsConnecting: NOTUSEDFORTEST,
         getCloseInitiated: NOTUSEDFORTEST,
         logPrefix: "log prefix",
-        logger: log.receiver,
         openLock: "a lock value",
         negotiateClaim: () => {
           throw new Error("Won't get called");
@@ -60,7 +58,6 @@ describe("openLink", () => {
       setIsConnecting: NOTUSEDFORTEST,
       getCloseInitiated: NOTUSEDFORTEST,
       logPrefix: "log prefix",
-      logger: log.receiver,
       openLock: "a lock value",
       negotiateClaim: () => {
         throw new Error("Won't get called");
@@ -80,7 +77,6 @@ describe("openLink", () => {
       create: NOTUSEDFORTEST,
       ensureTokenRenewal: NOTUSEDFORTEST,
       logPrefix: "log prefix",
-      logger: log.receiver,
       openLock: "a lock value",
       negotiateClaim: () => {
         throw new Error("Won't get called");
@@ -101,7 +97,6 @@ describe("openLink", () => {
       create: NOTUSEDFORTEST,
       ensureTokenRenewal: NOTUSEDFORTEST,
       logPrefix: "log prefix",
-      logger: log.receiver,
       openLock: "a lock value",
       negotiateClaim: () => {
         throw new Error("Won't get called");
@@ -135,7 +130,6 @@ describe("openLink", () => {
         callsWithinLock.push("ensureTokenRenewal");
       },
       logPrefix: "log prefix",
-      logger: log.receiver,
       openLock: "a lock value",
       negotiateClaim: async () => {
         callsWithinLock.push("negotiateClaim");
@@ -170,7 +164,6 @@ describe("openLink", () => {
       create: NOTUSEDFORTEST,
       ensureTokenRenewal: NOTUSEDFORTEST,
       logPrefix: "log prefix",
-      logger: log.receiver,
       openLock: "a lock value",
       negotiateClaim: async () => {
         return;
@@ -198,7 +191,6 @@ describe("openLink", () => {
         throw new Error("Error after receiver is created will cause the receiver to be closed.");
       },
       logPrefix: "log prefix",
-      logger: log.receiver,
       openLock: "a lock value",
       negotiateClaim: async () => {
         return;
@@ -228,7 +220,6 @@ describe("openLink", () => {
         return {} as RheaReceiver;
       },
       logPrefix: "log prefix",
-      logger: log.receiver,
       openLock: "a lock value",
       ensureTokenRenewal: NOTUSEDFORTEST
     });

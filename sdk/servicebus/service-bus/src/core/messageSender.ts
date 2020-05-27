@@ -407,7 +407,6 @@ export class MessageSender extends LinkEntity {
       setIsConnecting: (value) => (this.isConnecting = value),
       getCloseInitiated: () => false, // at this time sender's don't close forever...
       isOpen: () => this.isOpen(),
-      logger: log.sender,
       logPrefix: `[${this._context.namespace.connectionId}] The sender '${this.name}' with address '${this.address}'`,
       openLock: this.openLock,
       abortSignal: options?.abortSignal

@@ -25,7 +25,6 @@ export interface OpenArgs<RheaLinkT extends RheaLink> {
   isOpen(): boolean;
 
   // logging related stuff.
-  logger: typeof log.sender;
   logPrefix: string;
 
   // TODO: I'd like to let openLink have some state (object?) and then these would be internal details
@@ -64,7 +63,7 @@ export function openLink<T extends RheaLink>(args: OpenArgs<T>): Promise<T | und
 
   // TODO: set isConnecting up here, cleanup on finally?
 
-  args.logger(
+  log.error(
     `${args.logPrefix} is not open or connecting. Acquiring lock ${args.openLock} for initializing the session, link and possibly the connection.`
   );
 

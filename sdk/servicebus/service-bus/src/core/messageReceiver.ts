@@ -788,7 +788,6 @@ export class MessageReceiver extends LinkEntity {
       },
       ensureTokenRenewal: () => this._ensureTokenRenewal(),
       isOpen: () => this.isOpen(),
-      logger: log.receiver,
       logPrefix: `[${this._context.namespace.connectionId}] The receiver '${this.name}' with address '${this.address}'`,
       negotiateClaim: () => this._negotiateClaim(),
       openLock: this._openLock
