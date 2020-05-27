@@ -48,7 +48,7 @@ export type SearchIndexClientOptions = PipelineOptions;
 /**
  * Class to perform operations to manage
  * (create, update, list/delete)
- * indexes, & synonymmaps.
+ * SearchIndexes, & synonymmaps.
  */
 export class SearchIndexClient {
   /**
@@ -138,8 +138,8 @@ export class SearchIndexClient {
   }
 
   /**
-   * Retrieves a list of existing indexes in the service.
-   * @param options Options to the list searchindex operation.
+   * Retrieves a list of existing SearchIndexes in the service.
+   * @param options Options to list SearchIndexes operation.
    */
   public async listSearchIndexes(
     options: ListSearchIndexesOptions = {}
@@ -162,8 +162,8 @@ export class SearchIndexClient {
   }
 
   /**
-   * Retrieves a list of names of existing indexes in the service.
-   * @param options Options to the list searchindex operation.
+   * Retrieves a list of names of existing SearchIndexes in the service.
+   * @param options Options to list SearchIndexes operation.
    */
   public async listSearchIndexesNames(
     options: ListSearchIndexesOptions = {}
@@ -191,7 +191,7 @@ export class SearchIndexClient {
 
   /**
    * Retrieves a list of existing SynonymMaps in the service.
-   * @param options Options to the list SynonymMaps operation.
+   * @param options Options to list SynonymMaps operation.
    */
   public async listSynonymMaps(options: ListSynonymMapsOptions = {}): Promise<Array<SynonymMap>> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-listSynonymMaps", options);
@@ -213,7 +213,7 @@ export class SearchIndexClient {
 
   /**
    * Retrieves a list of names of existing SynonymMaps in the service.
-   * @param options Options to the list SynonymMaps operation.
+   * @param options Options to list SynonymMaps operation.
    */
   public async listSynonymMapsNames(options: ListSynonymMapsOptions = {}): Promise<Array<string>> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-listSynonymMapsNames", options);
@@ -235,8 +235,8 @@ export class SearchIndexClient {
   }
 
   /**
-   * Retrieves information about an searchindex.
-   * @param searchIndexName The name of the searchindex.
+   * Retrieves information about an SearchIndex.
+   * @param searchIndexName The name of the SearchIndex.
    * @param options Additional optional arguments.
    */
   public async getSearchIndex(
@@ -289,8 +289,8 @@ export class SearchIndexClient {
   }
 
   /**
-   * Creates a new searchindex.
-   * @param searchIndex The information describing the searchindex to be created.
+   * Creates a new SearchIndex.
+   * @param searchIndex The information describing the SearchIndex to be created.
    * @param options Additional optional arguments.
    */
   public async createSearchIndex(
@@ -343,8 +343,8 @@ export class SearchIndexClient {
   }
 
   /**
-   * Creates a new searchindex or modifies an existing one.
-   * @param searchIndex The information describing the searchindex to be created.
+   * Creates a new SearchIndex or modifies an existing one.
+   * @param searchIndex The information describing the SearchIndex to be created.
    * @param options Additional optional arguments.
    */
   public async createOrUpdateSearchIndex(
@@ -415,8 +415,8 @@ export class SearchIndexClient {
   }
 
   /**
-   * Deletes an existing searchindex.
-   * @param searchIndexName SearchIndex/Name of the searchindex to delete.
+   * Deletes an existing SearchIndex.
+   * @param searchIndexName SearchIndex/Name of the SearchIndex to delete.
    * @param options Additional optional arguments.
    */
   public async deleteSearchIndex(
@@ -483,9 +483,9 @@ export class SearchIndexClient {
   }
 
   /**
-   * Retrieves statistics about an searchindex, such as the count of documents and the size
-   * of searchindex storage.
-   * @param searchIndexName The name of the searchindex.
+   * Retrieves statistics about an SearchIndex, such as the count of documents and the size
+   * of SearchIndex storage.
+   * @param searchIndexName The name of the SearchIndex.
    * @param options Additional optional arguments.
    */
   public async getIndexStatistics(
@@ -512,7 +512,7 @@ export class SearchIndexClient {
 
   /**
    * Calls an analyzer or tokenizer manually on provided text.
-   * @param searchIndexName The name of the searchIndex that contains the field to analyze
+   * @param searchIndexName The name of the SearchIndex that contains the field to analyze
    * @param options Additional arguments
    */
   public async analyzeText(

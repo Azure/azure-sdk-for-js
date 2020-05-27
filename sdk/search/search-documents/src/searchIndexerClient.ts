@@ -143,8 +143,8 @@ export class SearchIndexerClient {
   }
 
   /**
-   * Retrieves a list of existing searchindexers in the service.
-   * @param options Options to the list searchindexers operation.
+   * Retrieves a list of existing SearchIndexers in the service.
+   * @param options Options to list SearchIndexers operation.
    */
   public async listSearchIndexers(
     options: ListSearchIndexersOptions = {}
@@ -167,8 +167,8 @@ export class SearchIndexerClient {
   }
 
   /**
-   * Retrieves a list of names of existing searchindexers in the service.
-   * @param options Options to the list searchindexers operation.
+   * Retrieves a list of names of existing SearchIndexers in the service.
+   * @param options Options to list SearchIndexers operation.
    */
   public async listSearchIndexersNames(
     options: ListSearchIndexersOptions = {}
@@ -195,8 +195,8 @@ export class SearchIndexerClient {
   }
 
   /**
-   * Retrieves a list of existing searchindexerdatasources in the service.
-   * @param options Options to the list searchindexerindexers operation.
+   * Retrieves a list of existing SearchIndexerDataSources in the service.
+   * @param options Options to list SearchIndexerDataSources operation.
    */
   public async listSearchIndexerDataSources(
     options: ListSearchIndexerDataSourcesOptions = {}
@@ -224,8 +224,8 @@ export class SearchIndexerClient {
   }
 
   /**
-   * Retrieves a list of names of existing data sources in the service.
-   * @param options Options to the list indexers operation.
+   * Retrieves a list of names of existing SearchIndexerDataSources in the service.
+   * @param options Options to list SearchIndexerDataSources operation.
    */
   public async listSearchIndexerDataSourcesNames(
     options: ListSearchIndexerDataSourcesOptions = {}
@@ -253,7 +253,7 @@ export class SearchIndexerClient {
 
   /**
    * Retrieves a list of existing SearchIndexerSkillsets in the service.
-   * @param options Options to the list SearchIndexerSkillsets operation.
+   * @param options Options to list SearchIndexerSkillsets operation.
    */
   public async listSearchIndexerSkillsets(
     options: ListSearchIndexerSkillsetsOptions = {}
@@ -282,7 +282,7 @@ export class SearchIndexerClient {
 
   /**
    * Retrieves a list of names of existing SearchIndexerSkillsets in the service.
-   * @param options Options to the list SearchIndexerSkillsets operation.
+   * @param options Options to the SearchIndexerSkillsets operation.
    */
   public async listSearchIndexerSkillsetsNames(
     options: ListSearchIndexerSkillsetsOptions = {}
@@ -396,8 +396,8 @@ export class SearchIndexerClient {
   }
 
   /**
-   * Creates a new searchindexer in a search service.
-   * @param searchIndexer The searchIndexer definition to create in a search service.
+   * Creates a new SearchIndexer in a search service.
+   * @param searchIndexer The SearchIndexer definition to create in a search service.
    * @param options Additional optional arguments.
    */
   public async createSearchIndexer(
@@ -423,8 +423,8 @@ export class SearchIndexerClient {
   }
 
   /**
-   * Creates a new searchIndexerDataSource in a search service.
-   * @param searchIndexerDataSource The searchIndexerDataSource definition to create in a search service.
+   * Creates a new SearchIndexerDataSource in a search service.
+   * @param searchIndexerDataSource The SearchIndexerDataSource definition to create in a search service.
    * @param options Additional optional arguments.
    */
   public async createSearchIndexerDataSource(
@@ -453,8 +453,8 @@ export class SearchIndexerClient {
   }
 
   /**
-   * Creates a new searchIndexerskillset in a search service.
-   * @param searchIndexerskillset The searchIndexerskillset containing one or more skills to create in a search service.
+   * Creates a new SearchIndexerSkillset in a search service.
+   * @param searchIndexerskillset The SearchIndexerSkillset containing one or more skills to create in a search service.
    * @param options Additional optional arguments.
    */
   public async createSearchIndexerSkillset(
@@ -483,7 +483,7 @@ export class SearchIndexerClient {
   }
 
   /**
-   * Creates a new searchIndexer or modifies an existing one.
+   * Creates a new SearchIndexer or modifies an existing one.
    * @param searchIndexer The information describing the searchIndexer to be created/updated.
    * @param options Additional optional arguments.
    */
@@ -515,8 +515,8 @@ export class SearchIndexerClient {
   }
 
   /**
-   * Creates/Updates a new searchIndexerDatasource or modifies an existing one.
-   * @param searchIndexerDataSource The information describing the searchIndexerDatasource to be created/updated.
+   * Creates/Updates a new SearchIndexerDatasource or modifies an existing one.
+   * @param searchIndexerDataSource The information describing the SearchIndexerDatasource to be created/updated.
    * @param options Additional optional arguments.
    */
   public async createOrUpdateSearchIndexerDataSource(
@@ -551,8 +551,8 @@ export class SearchIndexerClient {
   }
 
   /**
-   * Creates a new searchIndexerSkillset or modifies an existing one.
-   * @param searchIndexerskillset The information describing the searchIndexer to be created.
+   * Creates a new SearchIndexerSkillset or modifies an existing one.
+   * @param searchIndexerskillset The information describing the SearchIndexerSkillset to be created.
    * @param options Additional optional arguments.
    */
   public async createOrUpdateSearchIndexerSkillset(
@@ -588,8 +588,8 @@ export class SearchIndexerClient {
   }
 
   /**
-   * Deletes an existing searchindexer.
-   * @param searchIndexer SearchIndexer/Name of the searchindexer to delete.
+   * Deletes an existing SearchIndexer.
+   * @param searchIndexer SearchIndexer/Name of the SearchIndexer to delete.
    * @param options Additional optional arguments.
    */
   public async deleteSearchIndexer(
@@ -623,8 +623,8 @@ export class SearchIndexerClient {
   }
 
   /**
-   * Deletes an existing searchDatasource.
-   * @param searchIndexerDataSource SearchIndexerDatasource/Name of the searchIndexerDatasource to delete.
+   * Deletes an existing SearchIndexerDatasource.
+   * @param searchIndexerDataSource SearchIndexerDatasource/Name of the SearchIndexerDatasource to delete.
    * @param options Additional optional arguments.
    */
   public async deleteSearchIndexerDataSource(
@@ -704,7 +704,7 @@ export class SearchIndexerClient {
 
   /**
    * Returns the current status and execution history of an searchindexer.
-   * @param searchIndexerName The name of the searchIndexer.
+   * @param searchIndexerName The name of the SearchIndexer.
    * @param options Additional optional arguments.
    */
   public async getSearchIndexerStatus(
@@ -733,8 +733,8 @@ export class SearchIndexerClient {
   }
 
   /**
-   * Resets the change tracking state associated with an searchIndexer.
-   * @param searchIndexerName The name of the searchIndexer to reset.
+   * Resets the change tracking state associated with an SearchIndexer.
+   * @param searchIndexerName The name of the SearchIndexer to reset.
    * @param options Additional optional arguments.
    */
   public async resetSearchIndexer(
@@ -759,8 +759,8 @@ export class SearchIndexerClient {
   }
 
   /**
-   * Runs an searchIndexer on-demand.
-   * @param searchIndexerName The name of the searchIndexer to run.
+   * Runs an SearchIndexer on-demand.
+   * @param searchIndexerName The name of the SearchIndexer to run.
    * @param options Additional optional arguments.
    */
   public async runSearchIndexer(

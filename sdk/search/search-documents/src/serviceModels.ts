@@ -83,22 +83,22 @@ import {
 export type ListSearchIndexerSkillsetsOptions = OperationOptions;
 
 /**
- * Options for a list synonymMaps operation.
+ * Options for a list SynonymMaps operation.
  */
 export type ListSynonymMapsOptions = OperationOptions;
 
 /**
- * Options for a list searchindexes operation.
+ * Options for a list SearchIndexes operation.
  */
 export type ListSearchIndexesOptions = OperationOptions;
 
 /**
- * Options for a list searchIndexers operation.
+ * Options for a list SearchIndexers operation.
  */
 export type ListSearchIndexersOptions = OperationOptions;
 
 /**
- * Options for a list searchIndexers data sources operation.
+ * Options for a list SearchIndexersDataSources operation.
  */
 export type ListSearchIndexerDataSourcesOptions = OperationOptions;
 
@@ -113,22 +113,22 @@ export type GetSearchIndexOptions = OperationOptions;
 export type GetSearchIndexerSkillSetOptions = OperationOptions;
 
 /**
- * Options for get synonymmaps operation.
+ * Options for get SynonymMaps operation.
  */
 export type GetSynonymMapsOptions = OperationOptions;
 
 /**
- * Options for get searchIndexer operation.
+ * Options for get SearchIndexer operation.
  */
 export type GetSearchIndexerOptions = OperationOptions;
 
 /**
- * Options for get searchindexerdatasource operation.
+ * Options for get SearchIndexerDataSource operation.
  */
 export type GetSearchIndexerDataSourceOptions = OperationOptions;
 
 /**
- * Options for get SearchIndex statistics operation.
+ * Options for get SearchIndexStatistics operation.
  */
 export type GetSearchIndexStatisticsOptions = OperationOptions;
 
@@ -143,12 +143,12 @@ export type GetServiceStatisticsOptions = OperationOptions;
 export type GetSearchIndexerStatusOptions = OperationOptions;
 
 /**
- * Options for reset searchIndexer operation.
+ * Options for reset SearchIndexer operation.
  */
 export type ResetSearchIndexerOptions = OperationOptions;
 
 /**
- * Options for run searchIndexer operation.
+ * Options for run SearchIndexer operation.
  */
 export type RunSearchIndexerOptions = OperationOptions;
 
@@ -163,22 +163,22 @@ export type CreateSearchIndexOptions = OperationOptions;
 export type CreateSearchIndexerSkillsetOptions = OperationOptions;
 
 /**
- * Options for create synonymmap operation.
+ * Options for create SynonymMap operation.
  */
 export type CreateSynonymMapOptions = OperationOptions;
 
 /**
- * Options for create searchIndexer operation.
+ * Options for create SearchIndexer operation.
  */
 export type CreateSearchIndexerOptions = OperationOptions;
 
 /**
- * Options for create searchindexerdatasource operation.
+ * Options for create SearchIndexerDataSource operation.
  */
 export type CreateSearchIndexerDataSourceOptions = OperationOptions;
 
 /**
- * Options for create/update searchindex operation.
+ * Options for create/update SearchIndex operation.
  */
 export interface CreateOrUpdateSearchIndexOptions extends OperationOptions {
   /**
@@ -205,7 +205,7 @@ export interface CreateOrUpdateSearchIndexerSkillsetOptions extends OperationOpt
 }
 
 /**
- * Options for create/update synonymmap operation.
+ * Options for create/update SynonymMap operation.
  */
 export interface CreateOrUpdateSynonymMapOptions extends OperationOptions {
   /**
@@ -215,7 +215,7 @@ export interface CreateOrUpdateSynonymMapOptions extends OperationOptions {
 }
 
 /**
- * Options for create/update searchIndexer operation.
+ * Options for create/update SearchIndexer operation.
  */
 export interface CreateorUpdateSearchIndexerOptions extends OperationOptions {
   /**
@@ -225,7 +225,7 @@ export interface CreateorUpdateSearchIndexerOptions extends OperationOptions {
 }
 
 /**
- * Options for create/update searchindexerdatasource operation.
+ * Options for create/update SearchIndexerDataSource operation.
  */
 export interface CreateorUpdateSearchIndexerDataSourceOptions extends OperationOptions {
   /**
@@ -235,7 +235,7 @@ export interface CreateorUpdateSearchIndexerDataSourceOptions extends OperationO
 }
 
 /**
- * Options for delete searchindex operation.
+ * Options for delete SearchIndex operation.
  */
 export interface DeleteSearchIndexOptions extends OperationOptions {
   /**
@@ -255,7 +255,7 @@ export interface DeleteSearchIndexerSkillsetOptions extends OperationOptions {
 }
 
 /**
- * Options for delete synonymmap operation.
+ * Options for delete SynonymMap operation.
  */
 export interface DeleteSynonymMapOptions extends OperationOptions {
   /**
@@ -265,7 +265,7 @@ export interface DeleteSynonymMapOptions extends OperationOptions {
 }
 
 /**
- * Options for delete searchIndexer operation.
+ * Options for delete SearchIndexer operation.
  */
 export interface DeleteSearchIndexerOptions extends OperationOptions {
   /**
@@ -275,7 +275,7 @@ export interface DeleteSearchIndexerOptions extends OperationOptions {
 }
 
 /**
- * Options for delete searchindexerdatasource operation.
+ * Options for delete SearchIndexerDataSource operation.
  */
 export interface DeleteSearchIndexerDataSourceOptions extends OperationOptions {
   /**
