@@ -501,7 +501,7 @@ export type EntityStatus =
  * @internal
  * @ignore
  */
-export function waitForTimeoutAbortOrResolve<T>(args: {
+export function waitForTimeoutOrAbortOrResolve<T>(args: {
   actionFn: () => Promise<T>;
   timeoutMs: number;
   timeoutMessage: string;
@@ -515,7 +515,7 @@ export function waitForTimeoutAbortOrResolve<T>(args: {
   let timer: any | undefined = undefined;
   let clearAbortSignal: (() => void) | undefined = undefined;
 
-  const clearListenersAndTimer = (): void => {
+  const clearAbortSignalAndTimer = (): void => {
     clearTimeout(timer);
 
     if (clearAbortSignal) {
@@ -526,7 +526,6 @@ export function waitForTimeoutAbortOrResolve<T>(args: {
   const abortAndTimeoutPromise = new Promise((resolve, reject) => {
     clearAbortSignal = checkAndRegisterWithAbortSignal(
       () => {
-        clearTimeout(timer);
         reject(new AbortError(args.abortMessage));
       },
       args.abortMessage,
@@ -548,11 +547,11 @@ export function waitForTimeoutAbortOrResolve<T>(args: {
   const actionPromise = args.actionFn();
   return Promise.race([abortAndTimeoutPromise, actionPromise])
     .then(() => {
-      clearListenersAndTimer();
+      clearAbortSignalAndTimer();
       return actionPromise;
     })
     .catch((err) => {
-      clearListenersAndTimer();
+      clearAbortSignalAndTimer();
       throw err;
     });
 }
