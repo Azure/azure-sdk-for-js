@@ -3,10 +3,12 @@
 
 import Long from "long";
 import * as log from "../log";
-import { generate_uuid } from "rhea-promise";
+import { generate_uuid, AmqpError } from "rhea-promise";
 import isBuffer from "is-buffer";
 import { Buffer } from "buffer";
 import * as Constants from "../util/constants";
+import { ErrorNameConditionMapper } from "@azure/core-amqp";
+import { AbortSignalLike, AbortError } from "@azure/abort-controller";
 
 // This is the only dependency we have on DOM types, so rather than require
 // the DOM lib we can just shim this in.
@@ -485,3 +487,105 @@ export type EntityStatus =
   | "Renaming"
   | "Restoring"
   | "Unknown";
+
+/**
+ * An executor for a Promise (or function that returns a Promise) that obeys both a timeout and an
+ * optional AbortSignal.
+ * @param timeoutMs - The number of milliseconds to allow before throwing an AMQP error with condition ServiceUnavailableError
+ * @param timeoutMessage - The message to place in the .description field for the thrown exception for Timeout.
+ * @param abortSignal - The abortSignal associated with containing operation.
+ * @param abortErrorMsg - The abort error message associated with containing operation.
+ * @param value - The value to be resolved with after a timeout of t milliseconds.
+ * @returns {Promise<T>} - Resolved promise
+ *
+ * @internal
+ * @ignore
+ */
+export function waitForTimeoutAbortOrResolve<T>(args: {
+  actionFn: () => Promise<T>;
+  timeoutMs: number;
+  timeoutMessage: string;
+  abortSignal?: AbortSignalLike;
+  abortMessage?: string;
+}): Promise<T> {
+  if (args.abortSignal && args.abortSignal.aborted) {
+    throw new AbortError(args.abortMessage);
+  }
+
+  let timer: any | undefined = undefined;
+  let clearAbortSignal: (() => void) | undefined = undefined;
+
+  const clearListenersAndTimer = (): void => {
+    clearTimeout(timer);
+
+    if (clearAbortSignal) {
+      clearAbortSignal();
+    }
+  };
+
+  const abortAndTimeoutPromise = new Promise((resolve, reject) => {
+    clearAbortSignal = checkAndRegisterWithAbortSignal(
+      () => {
+        clearTimeout(timer);
+        reject(new AbortError(args.abortMessage));
+      },
+      args.abortMessage,
+      args.abortSignal
+    );
+
+    timer = setTimeout(function clearForTimeout() {
+      if (clearAbortSignal) {
+        clearAbortSignal();
+      }
+
+      reject({
+        condition: ErrorNameConditionMapper.ServiceUnavailableError,
+        description: args.timeoutMessage
+      } as AmqpError);
+    }, args.timeoutMs);
+  });
+
+  const actionPromise = args.actionFn();
+  return Promise.race([abortAndTimeoutPromise, actionPromise])
+    .then(() => {
+      clearListenersAndTimer();
+      return actionPromise;
+    })
+    .catch((err) => {
+      clearListenersAndTimer();
+      throw err;
+    });
+}
+
+/**
+ * Checks the abort signal to see if it's already aborted (and if so, throws an AbortError).
+ *
+ * If it is not signalled, adds an event listener that will call your abortFn.
+ *
+ * @returns A function that removes any of our attached event listeners on the abort signal or undefined, if the abortSignal was undefined.
+ *
+ * @internal
+ * @ignore
+ */
+export function checkAndRegisterWithAbortSignal(
+  abortFn: () => void,
+  abortMessage?: string,
+  abortSignal?: AbortSignalLike
+): (() => void) | undefined {
+  if (abortSignal == null) {
+    return undefined;
+  }
+
+  if (abortSignal.aborted) {
+    throw new AbortError(abortMessage);
+  }
+
+  const onAbort = (): void => {
+    abortSignal.removeEventListener("abort", onAbort);
+    abortFn();
+  };
+
+  abortSignal.addEventListener("abort", onAbort);
+
+  return () => abortSignal?.removeEventListener("abort", onAbort);
+}
