@@ -718,7 +718,7 @@ export interface CustomFormModel {
   /**
    * Form models created by training.
    */
-  models?: CustomFormSubModel[];
+  submodels?: CustomFormSubModel[];
 }
 
 /**

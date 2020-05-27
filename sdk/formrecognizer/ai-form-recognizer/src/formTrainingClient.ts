@@ -31,6 +31,7 @@ import { FormRecognizerClientOptions, FormRecognizerOperationOptions } from "./c
 import { FormModelResponse, AccountProperties, CustomFormModel, CustomFormModelInfo } from "./models";
 import { createFormRecognizerAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 import { toFormModelResponse } from "./transforms";
+import { FormRecognizerClient } from './formRecognizerClient';
 
 export { ListModelsResponseModel, RestResponse };
 /**
@@ -82,6 +83,12 @@ export class FormTrainingClient {
   /**
    * @internal
    * @ignore
+   */
+  private readonly credential: TokenCredential | KeyCredential;
+
+  /**
+   * @internal
+   * @ignore
    * A reference to the auto-generated FormRecognizer HTTP client.
    */
   private readonly client: GeneratedClient;
@@ -108,6 +115,7 @@ export class FormTrainingClient {
     options: FormRecognizerClientOptions = {}
   ) {
     this.endpointUrl = endpointUrl;
+    this.credential = credential;
     const { ...pipelineOptions } = options;
 
     const libInfo = `azsdk-js-ai-formrecognizer/${SDK_VERSION}`;
@@ -149,6 +157,7 @@ export class FormTrainingClient {
 
     this.client = new GeneratedClient(dummyCredential, this.endpointUrl, pipeline);
   }
+
   /**
    * Retrieves summary information about the cognitive service account
    *
@@ -181,6 +190,15 @@ export class FormTrainingClient {
     } finally {
       span.end();
     }
+  }
+
+
+  /**
+   * Creates an instance of {@link FormTrainingClient} to perform training operations
+   * and to manage trained custom form models.
+   */
+  public getFormRecognizerClient(): FormRecognizerClient {
+    return new FormRecognizerClient(this.endpointUrl, this.credential);
   }
 
   /**
@@ -393,8 +411,7 @@ export class FormTrainingClient {
    * Example usage:
    * ```ts
    * const trainingFilesUrl = "<url to the blob container storing training documents>";
-   * const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
-   * const trainingClient = client.getFormTrainingClient();
+   * const trainingClient = new FormTrainingClient(endpoint, new AzureKeyCredential(apiKey));
    *
    * const poller = await trainingClient.beginTraining(trainingFilesUrl, {
    *   onProgress: (state) => { console.log("training status: "); console.log(state); }

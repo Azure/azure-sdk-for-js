@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { DatabaseAccount, ResourceResponse, RequestOptions } from "../../dist-esm";
+import { DatabaseAccount, ResourceResponse, RequestOptions } from "../../src";
 import { masterKey } from "../common/_testConfig";
-import { GlobalEndpointManager } from "../../dist-esm/globalEndpointManager";
-import { OperationType, ResourceType } from "../../dist-esm/common";
+import { GlobalEndpointManager } from "../../src/globalEndpointManager";
+import { OperationType, ResourceType } from "../../src/common";
 
 import assert from "assert";
 

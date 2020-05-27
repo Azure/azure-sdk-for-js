@@ -9,7 +9,7 @@ import { BaseTest } from "../baseTest";
 import { LUISAuthoringClient } from "../../src/lUISAuthoringClient";
 import { AppsAddResponse } from "../../src/models";
 
-const trainedAppID = "4a696805-d784-4040-a0ba-043cc831b779";
+const trainedAppID = BaseTest.GlobalAppId;
 let testingApp: AppsAddResponse; 
 
 describe("Apps Module Functionality Tests", () => {
@@ -272,7 +272,7 @@ describe("Apps Module Functionality Tests", () => {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       let resultsUS = await client.apps.listAvailableCustomPrebuiltDomainsForCulture("en-us");
       let resultsCN = await client.apps.listAvailableCustomPrebuiltDomainsForCulture("zh-cn");
-
+      
       for (let resultUS of resultsUS) {
         chai.expect(BaseTest.doesListContain(resultsCN, "description", resultUS.description)).to.be.false;
       }

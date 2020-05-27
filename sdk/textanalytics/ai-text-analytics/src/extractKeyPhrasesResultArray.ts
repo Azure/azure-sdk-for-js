@@ -3,22 +3,22 @@
 
 import {
   TextDocumentBatchStatistics,
-  DocumentLanguage,
   DocumentError,
-  LanguageInput
+  DocumentKeyPhrases,
+  MultiLanguageInput
 } from "./generated/models";
 import {
-  DetectLanguageResult,
-  makeDetectLanguageResult,
-  makeDetectLanguageErrorResult
-} from "./detectLanguageResult";
-import { sortByPreviousIdOrder } from "./util";
+  ExtractKeyPhrasesResult,
+  makeExtractKeyPhrasesResult,
+  makeExtractKeyPhrasesErrorResult
+} from "./extractKeyPhrasesResult";
+import { sortResponseIdObjects } from "./util";
 
 /**
- * Collection of `DetectLanguageResult` objects corresponding to a batch of input documents, and
+ * Array of `ExtractKeyPhrasesResult` objects corresponding to a batch of input documents, and
  * annotated with information about the batch operation.
  */
-export interface DetectLanguageResultCollection extends Array<DetectLanguageResult> {
+export interface ExtractKeyPhrasesResultArray extends Array<ExtractKeyPhrasesResult> {
   /**
    * Statistics about the input document batch and how it was processed
    * by the service. This property will have a value when includeStatistics is set to true
@@ -32,31 +32,32 @@ export interface DetectLanguageResultCollection extends Array<DetectLanguageResu
   modelVersion: string;
 }
 
-export function makeDetectLanguageResultCollection(
-  input: LanguageInput[],
-  documents: DocumentLanguage[],
+export function makeExtractKeyPhrasesResultArray(
+  input: MultiLanguageInput[],
+  documents: DocumentKeyPhrases[],
   errors: DocumentError[],
   modelVersion: string,
   statistics?: TextDocumentBatchStatistics
-): DetectLanguageResultCollection {
+): ExtractKeyPhrasesResultArray {
   const unsortedResult = documents
     .map(
-      (document): DetectLanguageResult => {
-        return makeDetectLanguageResult(
+      (document): ExtractKeyPhrasesResult => {
+        return makeExtractKeyPhrasesResult(
           document.id,
-          document.detectedLanguages,
+          document.keyPhrases,
+          document.warnings,
           document.statistics
         );
       }
     )
     .concat(
       errors.map(
-        (error): DetectLanguageResult => {
-          return makeDetectLanguageErrorResult(error.id, error.error);
+        (error): ExtractKeyPhrasesResult => {
+          return makeExtractKeyPhrasesErrorResult(error.id, error.error);
         }
       )
     );
-  const result = sortByPreviousIdOrder(input, unsortedResult);
+  const result = sortResponseIdObjects(input, unsortedResult);
   return Object.assign(result, {
     statistics,
     modelVersion
