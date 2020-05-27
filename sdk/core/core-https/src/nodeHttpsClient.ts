@@ -13,49 +13,20 @@ import {
   PipelineResponse,
   TransferProgressEvent,
   HttpHeaders,
-  FormDataMap
+  FormDataMap,
+  RequestBodyType
 } from "./interfaces";
 import { createHttpHeaders } from "./httpHeaders";
 import { RestError } from "./restError";
 import { URL } from "./util/url";
 import { IncomingMessage } from "http";
 
-let keepAliveAgent: https.Agent;
-let proxyAgent: https.Agent;
-
-function getOrCreateAgent(request: PipelineRequest): https.Agent {
-  // At the moment, proxy settings and keepAlive are mutually
-  // exclusive because the proxy library currently lacks the
-  // ability to create a proxy with keepAlive turned on.
-  const proxySettings = request.proxySettings;
-  if (proxySettings) {
-    if (!proxyAgent) {
-      const proxyAgentOptions: httpsProxyAgent.HttpsProxyAgentOptions = {
-        host: proxySettings.host,
-        port: proxySettings.port,
-        headers: request.headers.toJSON()
-      };
-      if (proxySettings.username && proxySettings.password) {
-        proxyAgentOptions.auth = `${proxySettings.username}:${proxySettings.password}`;
-      }
-      proxyAgent = new httpsProxyAgent(proxyAgentOptions);
-    }
-    return proxyAgent;
-  } else if (request.keepAlive) {
-    if (!keepAliveAgent) {
-      keepAliveAgent = new https.Agent({
-        keepAlive: true
-      });
-    }
-
-    return keepAliveAgent;
-  } else {
-    return https.globalAgent;
-  }
-}
-
 function isReadableStream(body: any): body is NodeJS.ReadableStream {
   return body && typeof body.pipe === "function";
+}
+
+function isArrayBuffer(body: any): body is ArrayBuffer | ArrayBufferView {
+  return body && typeof body.byteLength === "number";
 }
 
 class ReportTransform extends Transform {
@@ -64,8 +35,11 @@ class ReportTransform extends Transform {
   _transform(chunk: string | Buffer, _encoding: string, callback: Function): void {
     this.push(chunk);
     this.loadedBytes += chunk.length;
-    this.progressCallback({ loadedBytes: this.loadedBytes });
-    callback();
+    try {
+      this.progressCallback({ loadedBytes: this.loadedBytes });
+    } finally {
+      callback();
+    }
   }
 
   constructor(progressCallback: (progress: TransferProgressEvent) => void) {
@@ -78,6 +52,9 @@ class ReportTransform extends Transform {
  * A HttpsClient implementation that uses Node's "https" module to send HTTPS requests.
  */
 export class NodeHttpsClient implements HttpsClient {
+  private keepAliveAgent?: https.Agent;
+  private proxyAgent?: https.Agent;
+
   /**
    * Makes a request over an underlying transport layer and returns the response.
    * @param request The request to be made.
@@ -126,17 +103,16 @@ export class NodeHttpsClient implements HttpsClient {
       body = uploadReportStream;
     }
 
-    if (body) {
-      if (isReadableStream(body)) {
-        request.headers.set("Transfer-Encoding", "chunked");
-      } else if (typeof body === "string") {
-        request.headers.set("Content-Length", body.length);
+    if (body && !request.headers.has("Content-Length")) {
+      const bodyLength = getBodyLength(body);
+      if (bodyLength !== null) {
+        request.headers.set("Content-Length", bodyLength);
       }
     }
 
     try {
       const result = await new Promise<PipelineResponse>((resolve, reject) => {
-        const options = getRequestOptions(request);
+        const options = this.getRequestOptions(request);
         const req = https.request(options, async (res) => {
           const headers = getResponseHeaders(res);
 
@@ -190,9 +166,54 @@ export class NodeHttpsClient implements HttpsClient {
       }
     }
   }
+
+  private getOrCreateAgent(request: PipelineRequest): https.Agent {
+    // At the moment, proxy settings and keepAlive are mutually
+    // exclusive because the proxy library currently lacks the
+    // ability to create a proxy with keepAlive turned on.
+    const proxySettings = request.proxySettings;
+    if (proxySettings) {
+      if (!this.proxyAgent) {
+        const proxyAgentOptions: httpsProxyAgent.HttpsProxyAgentOptions = {
+          host: proxySettings.host,
+          port: proxySettings.port,
+          headers: request.headers.toJSON()
+        };
+        if (proxySettings.username && proxySettings.password) {
+          proxyAgentOptions.auth = `${proxySettings.username}:${proxySettings.password}`;
+        }
+        this.proxyAgent = new httpsProxyAgent(proxyAgentOptions);
+      }
+      return this.proxyAgent;
+    } else if (request.keepAlive) {
+      if (!this.keepAliveAgent) {
+        this.keepAliveAgent = new https.Agent({
+          keepAlive: true
+        });
+      }
+
+      return this.keepAliveAgent;
+    } else {
+      return https.globalAgent;
+    }
+  }
+
+  private getRequestOptions(request: PipelineRequest): https.RequestOptions {
+    const agent = this.getOrCreateAgent(request);
+    const url = new URL(request.url);
+    const options: https.RequestOptions = {
+      agent,
+      hostname: url.hostname,
+      path: `${url.pathname}${url.search}`,
+      port: url.port,
+      method: request.method,
+      headers: request.headers.toJSON()
+    };
+    return options;
+  }
 }
 
-function prepareFormData(formData: FormDataMap, request: PipelineRequest): void {
+async function prepareFormData(formData: FormDataMap, request: PipelineRequest): Promise<void> {
   const requestForm = new FormData();
   for (const formKey of Object.keys(formData)) {
     const formValue = formData[formKey];
@@ -214,20 +235,20 @@ function prepareFormData(formData: FormDataMap, request: PipelineRequest): void 
       `multipart/form-data; boundary=${requestForm.getBoundary()}`
     );
   }
-}
-
-function getRequestOptions(request: PipelineRequest): https.RequestOptions {
-  const agent = getOrCreateAgent(request);
-  const url = new URL(request.url);
-  const options: https.RequestOptions = {
-    agent,
-    hostname: url.hostname,
-    path: `${url.pathname}${url.search}`,
-    port: url.port,
-    method: request.method,
-    headers: request.headers.toJSON()
-  };
-  return options;
+  try {
+    const contentLength = await new Promise<number>((resolve, reject) => {
+      requestForm.getLength((err, length) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(length);
+        }
+      });
+    });
+    request.headers.set("Content-Length", contentLength);
+  } catch (e) {
+    // ignore setting the length if this fails
+  }
 }
 
 function getResponseHeaders(res: IncomingMessage): HttpHeaders {
@@ -290,4 +311,20 @@ function streamToText(stream: NodeJS.ReadableStream): Promise<string> {
       );
     });
   });
+}
+
+function getBodyLength(body: RequestBodyType): number | null {
+  if (!body) {
+    return 0;
+  } else if (typeof body === "string") {
+    return body.length;
+  } else if (Buffer.isBuffer(body)) {
+    return body.length;
+  } else if (isReadableStream(body)) {
+    return null;
+  } else if (isArrayBuffer(body)) {
+    return body.byteLength;
+  } else {
+    return null;
+  }
 }
