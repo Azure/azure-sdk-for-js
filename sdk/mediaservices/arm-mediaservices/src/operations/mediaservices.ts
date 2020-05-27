@@ -234,6 +234,43 @@ export class Mediaservices {
   }
 
   /**
+   * List the media edge policies associated with the Media Services account.
+   * @summary List the media edge policies associated with the Media Services account.
+   * @param resourceGroupName The name of the resource group within the Azure subscription.
+   * @param accountName The Media Services account name.
+   * @param parameters The request parameters
+   * @param [options] The optional parameters
+   * @returns Promise<Models.MediaservicesListEdgePoliciesResponse>
+   */
+  listEdgePolicies(resourceGroupName: string, accountName: string, parameters: Models.ListEdgePoliciesInput, options?: msRest.RequestOptionsBase): Promise<Models.MediaservicesListEdgePoliciesResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group within the Azure subscription.
+   * @param accountName The Media Services account name.
+   * @param parameters The request parameters
+   * @param callback The callback
+   */
+  listEdgePolicies(resourceGroupName: string, accountName: string, parameters: Models.ListEdgePoliciesInput, callback: msRest.ServiceCallback<Models.EdgePolicies>): void;
+  /**
+   * @param resourceGroupName The name of the resource group within the Azure subscription.
+   * @param accountName The Media Services account name.
+   * @param parameters The request parameters
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listEdgePolicies(resourceGroupName: string, accountName: string, parameters: Models.ListEdgePoliciesInput, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EdgePolicies>): void;
+  listEdgePolicies(resourceGroupName: string, accountName: string, parameters: Models.ListEdgePoliciesInput, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EdgePolicies>, callback?: msRest.ServiceCallback<Models.EdgePolicies>): Promise<Models.MediaservicesListEdgePoliciesResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        parameters,
+        options
+      },
+      listEdgePoliciesOperationSpec,
+      callback) as Promise<Models.MediaservicesListEdgePoliciesResponse>;
+  }
+
+  /**
    * List Media Services accounts in the subscription.
    * @summary List Media Services accounts
    * @param [options] The optional parameters
@@ -510,6 +547,38 @@ const syncStorageKeysOperationSpec: msRest.OperationSpec = {
   },
   responses: {
     200: {},
+    default: {
+      bodyMapper: Mappers.ApiError
+    }
+  },
+  serializer
+};
+
+const listEdgePoliciesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/listEdgePolicies",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.ListEdgePoliciesInput,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.EdgePolicies
+    },
     default: {
       bodyMapper: Mappers.ApiError
     }
