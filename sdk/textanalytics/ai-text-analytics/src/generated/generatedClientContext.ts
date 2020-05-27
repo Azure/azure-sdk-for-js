@@ -11,7 +11,7 @@
 import * as coreHttp from "@azure/core-http";
 
 const packageName = "@azure/ai-text-analytics";
-const packageVersion = "1.0.0-preview.5";
+const packageVersion = "1.0.0-preview.6";
 
 export class GeneratedClientContext extends coreHttp.ServiceClient {
   endpoint: string;

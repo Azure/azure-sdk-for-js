@@ -1,5 +1,8 @@
 # Release History
 
+## 1.0.0-preview.6 (Unreleased)
+
+
 ## 1.0.0-preview.5 (2020-05-26)
 - [Breaking] Renamed all result array types that extend JavaScript's base `Array` class to end with the word `Array` instead of `Collection` (e.g. `AnalyzeSentimentResultCollection` is now `AnalyzeSentimentResultArray`)
 - [Breaking] Renamed `score` to `confidenceScore` in the `Match`, `Entity`, and `DetectedLanguage` types.
