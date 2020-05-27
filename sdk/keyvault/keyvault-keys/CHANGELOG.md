@@ -1,6 +1,6 @@
 # Release History
 
-## 4.0.4 (2020-05-27)
+## 4.0.4 (2020-05-28)
 
 - Fixed [bug 9005](https://github.com/Azure/azure-sdk-for-js/issues/9005), which caused parallel requests to throw if one of them needed to authenticate.
 
