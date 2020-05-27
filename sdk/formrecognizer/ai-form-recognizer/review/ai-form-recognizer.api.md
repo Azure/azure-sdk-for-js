@@ -119,8 +119,8 @@ export interface CustomFormModel {
     errors?: FormRecognizerError[];
     lastModified: Date;
     modelId: string;
-    models?: CustomFormSubModel[];
     status: CustomFormModelStatus;
+    submodels?: CustomFormSubModel[];
     trainingDocuments?: TrainingDocumentInfo[];
 }
 
@@ -234,13 +234,12 @@ export type FormPollerLike = PollerLike<PollOperationState<RecognizeFormResultRe
 export class FormRecognizerClient {
     constructor(endpointUrl: string, credential: TokenCredential | KeyCredential, options?: FormRecognizerClientOptions);
     beginRecognizeContent(data: FormRecognizerRequestBody, contentType?: ContentType, options?: BeginRecognizeContentOptions): Promise<ContentPollerLike>;
-    beginRecognizeContentFromUrl(formFileUrl: string, options?: BeginRecognizeContentOptions): Promise<ContentPollerLike>;
+    beginRecognizeContentFromUrl(formUrl: string, options?: BeginRecognizeContentOptions): Promise<ContentPollerLike>;
     beginRecognizeCustomForms(modelId: string, data: FormRecognizerRequestBody, contentType?: ContentType, options?: BeginRecognizeFormsOptions): Promise<FormPollerLike>;
-    beginRecognizeCustomFormsFromUrl(modelId: string, formFileUrl: string, options?: BeginRecognizeFormsOptions): Promise<PollerLike<PollOperationState<RecognizeFormResultResponse>, RecognizeFormResultResponse>>;
+    beginRecognizeCustomFormsFromUrl(modelId: string, formUrl: string, options?: BeginRecognizeFormsOptions): Promise<PollerLike<PollOperationState<RecognizeFormResultResponse>, RecognizeFormResultResponse>>;
     beginRecognizeReceipts(data: FormRecognizerRequestBody, contentType?: ContentType, options?: BeginRecognizeReceiptsOptions): Promise<ReceiptPollerLike>;
-    beginRecognizeReceiptsFromUrl(receiptFileUrl: string, options?: BeginRecognizeReceiptsOptions): Promise<ReceiptPollerLike>;
+    beginRecognizeReceiptsFromUrl(receiptUrl: string, options?: BeginRecognizeReceiptsOptions): Promise<ReceiptPollerLike>;
     readonly endpointUrl: string;
-    getFormTrainingClient(): FormTrainingClient;
     }
 
 // @public
@@ -310,6 +309,7 @@ export class FormTrainingClient {
     getAccountProperties(options?: GetAccountPropertiesOptions): Promise<AccountProperties>;
     getCopyAuthorization(resourceId: string, resourceRegion: string, options?: GetCopyAuthorizationOptions): Promise<CopyAuthorization>;
     getCustomModel(modelId: string, options?: GetModelOptions): Promise<FormModelResponse>;
+    getFormRecognizerClient(): FormRecognizerClient;
     listCustomModels(options?: ListModelsOptions): PagedAsyncIterableIterator<CustomFormModelInfo, ListModelsResponseModel>;
     }
 
@@ -638,9 +638,9 @@ export type ValueTypes = "string" | "date" | "time" | "phoneNumber" | "number" |
 
 // Warnings were encountered during analysis:
 //
-// src/formRecognizerClient.ts:73:3 - (ae-forgotten-export) The symbol "BeginRecognizePollState" needs to be exported by the entry point index.d.ts
-// src/formTrainingClient.ts:89:3 - (ae-forgotten-export) The symbol "BeginCopyModelPollState" needs to be exported by the entry point index.d.ts
-// src/formTrainingClient.ts:106:3 - (ae-forgotten-export) The symbol "BeginTrainingPollState" needs to be exported by the entry point index.d.ts
+// src/formRecognizerClient.ts:72:3 - (ae-forgotten-export) The symbol "BeginRecognizePollState" needs to be exported by the entry point index.d.ts
+// src/formTrainingClient.ts:90:3 - (ae-forgotten-export) The symbol "BeginCopyModelPollState" needs to be exported by the entry point index.d.ts
+// src/formTrainingClient.ts:107:3 - (ae-forgotten-export) The symbol "BeginTrainingPollState" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

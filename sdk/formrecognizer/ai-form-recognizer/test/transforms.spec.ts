@@ -512,7 +512,7 @@ describe("Transforms", () => {
   it("toFormModelResponse() converts labeled model response", () => {
     const original: GetCustomModelResponse = JSON.parse(labeledModelResponse);
     const transformed = toFormModelResponse(original);
-    const models = transformed.models;
+    const models = transformed.submodels;
 
     assert.deepStrictEqual(
       transformed.trainingDocuments,
@@ -535,7 +535,7 @@ describe("Transforms", () => {
   it("toFormModelResponse() converts unlabeled model response", () => {
     const original: GetCustomModelResponse = JSON.parse(unlabeledModelResponse);
     const transformed = toFormModelResponse(original);
-    const models = transformed.models;
+    const models = transformed.submodels;
 
     assert.deepStrictEqual(
       transformed.trainingDocuments,

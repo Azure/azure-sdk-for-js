@@ -4,21 +4,22 @@
 import {
   TextDocumentBatchStatistics,
   DocumentError,
-  DocumentSentiment,
+  DocumentEntities,
   MultiLanguageInput
 } from "./generated/models";
 import {
-  AnalyzeSentimentResult,
-  makeAnalyzeSentimentResult,
-  makeAnalyzeSentimentErrorResult
-} from "./analyzeSentimentResult";
-import { sortByPreviousIdOrder } from "./util";
+  RecognizeCategorizedEntitiesResult,
+  makeRecognizeCategorizedEntitiesResult,
+  makeRecognizeCategorizedEntitiesErrorResult
+} from "./recognizeCategorizedEntitiesResult";
+import { sortResponseIdObjects } from "./util";
 
 /**
- * Collection of `AnalyzeSentimentResult` objects corresponding to a batch of input documents, and
+ * Array of `RecognizeCategorizedEntitiesResult` objects corresponding to a batch of input documents, and
  * annotated with information about the batch operation.
  */
-export interface AnalyzeSentimentResultCollection extends Array<AnalyzeSentimentResult> {
+export interface RecognizeCategorizedEntitiesResultArray
+  extends Array<RecognizeCategorizedEntitiesResult> {
   /**
    * Statistics about the input document batch and how it was processed
    * by the service. This property will have a value when includeStatistics is set to true
@@ -32,33 +33,32 @@ export interface AnalyzeSentimentResultCollection extends Array<AnalyzeSentiment
   modelVersion: string;
 }
 
-export function makeAnalyzeSentimentResultCollection(
+export function makeRecognizeCategorizedEntitiesResultArray(
   input: MultiLanguageInput[],
-  documents: DocumentSentiment[],
+  documents: DocumentEntities[],
   errors: DocumentError[],
   modelVersion: string,
   statistics?: TextDocumentBatchStatistics
-): AnalyzeSentimentResultCollection {
+): RecognizeCategorizedEntitiesResultArray {
   const unsortedResult = documents
     .map(
-      (document): AnalyzeSentimentResult => {
-        return makeAnalyzeSentimentResult(
+      (document): RecognizeCategorizedEntitiesResult => {
+        return makeRecognizeCategorizedEntitiesResult(
           document.id,
-          document.sentiment,
-          document.documentScores,
-          document.sentenceSentiments,
+          document.entities,
+          document.warnings,
           document.statistics
         );
       }
     )
     .concat(
       errors.map(
-        (error): AnalyzeSentimentResult => {
-          return makeAnalyzeSentimentErrorResult(error.id, error.error);
+        (error): RecognizeCategorizedEntitiesResult => {
+          return makeRecognizeCategorizedEntitiesErrorResult(error.id, error.error);
         }
       )
     );
-  const result = sortByPreviousIdOrder(input, unsortedResult);
+  const result = sortResponseIdObjects(input, unsortedResult);
   return Object.assign(result, {
     statistics,
     modelVersion

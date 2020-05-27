@@ -162,21 +162,30 @@ export type CreateIndexerOptions = OperationOptions;
 export type CreateIndexOptions = OperationOptions;
 
 // @public
-export type CreateorUpdateDataSourceOptions = OperationOptions & ETagOperationOptions;
-
-// @public
-export type CreateorUpdateIndexerOptions = OperationOptions & ETagOperationOptions;
-
-// @public
-export interface CreateOrUpdateIndexOptions extends OperationOptions, ETagOperationOptions {
-    allowIndexDowntime?: boolean;
+export interface CreateorUpdateDataSourceOptions extends OperationOptions {
+    onlyIfUnchanged?: boolean;
 }
 
 // @public
-export type CreateOrUpdateSkillsetOptions = OperationOptions & ETagOperationOptions;
+export interface CreateorUpdateIndexerOptions extends OperationOptions {
+    onlyIfUnchanged?: boolean;
+}
 
 // @public
-export type CreateOrUpdateSynonymMapOptions = OperationOptions & ETagOperationOptions;
+export interface CreateOrUpdateIndexOptions extends OperationOptions {
+    allowIndexDowntime?: boolean;
+    onlyIfUnchanged?: boolean;
+}
+
+// @public
+export interface CreateOrUpdateSkillsetOptions extends OperationOptions {
+    onlyIfUnchanged?: boolean;
+}
+
+// @public
+export interface CreateOrUpdateSynonymMapOptions extends OperationOptions {
+    onlyIfUnchanged?: boolean;
+}
 
 // @public
 export type CreateSkillsetOptions = OperationOptions;
@@ -232,22 +241,32 @@ export interface DefaultCognitiveServicesAccount {
 }
 
 // @public
-export type DeleteDataSourceOptions = OperationOptions & ETagOperationOptions;
+export interface DeleteDataSourceOptions extends OperationOptions {
+    onlyIfUnchanged?: boolean;
+}
 
 // @public
 export type DeleteDocumentsOptions = IndexDocuments;
 
 // @public
-export type DeleteIndexerOptions = OperationOptions & ETagOperationOptions;
+export interface DeleteIndexerOptions extends OperationOptions {
+    onlyIfUnchanged?: boolean;
+}
 
 // @public
-export type DeleteIndexOptions = OperationOptions & ETagOperationOptions;
+export interface DeleteIndexOptions extends OperationOptions {
+    onlyIfUnchanged?: boolean;
+}
 
 // @public
-export type DeleteSkillsetOptions = OperationOptions & ETagOperationOptions;
+export interface DeleteSkillsetOptions extends OperationOptions {
+    onlyIfUnchanged?: boolean;
+}
 
 // @public
-export type DeleteSynonymMapOptions = OperationOptions & ETagOperationOptions;
+export interface DeleteSynonymMapOptions extends OperationOptions {
+    onlyIfUnchanged?: boolean;
+}
 
 // @public
 export interface DictionaryDecompounderTokenFilter {
@@ -339,11 +358,6 @@ export interface EntityRecognitionSkill {
 
 // @public
 export type EntityRecognitionSkillLanguage = 'ar' | 'cs' | 'zh-Hans' | 'zh-Hant' | 'da' | 'nl' | 'en' | 'fi' | 'fr' | 'de' | 'el' | 'hu' | 'it' | 'ja' | 'ko' | 'no' | 'pl' | 'pt-PT' | 'pt-BR' | 'ru' | 'es' | 'sv' | 'tr';
-
-// @public
-export interface ETagOperationOptions {
-    accessCondition?: AccessCondition;
-}
 
 // @public
 export interface FacetResult {
