@@ -37,7 +37,7 @@ describe("SearchClient", function() {
       recorder.stop();
     }
     if (!isPlaybackMode()) {
-      await indexClient.deleteIndex(TEST_INDEX_NAME);
+      await indexClient.deleteSearchIndex(TEST_INDEX_NAME);
     }
   });
 

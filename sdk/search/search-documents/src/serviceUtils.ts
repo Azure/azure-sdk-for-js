@@ -3,18 +3,18 @@
 
 import { OperationOptions } from "@azure/core-http";
 import {
-  AnalyzerUnion,
+  LexicalAnalyzerUnion,
   CognitiveServicesAccountKey,
   CognitiveServicesAccountUnion,
   DefaultCognitiveServicesAccount,
-  Field as GeneratedField,
-  Index as GeneratedIndex,
+  SearchField as GeneratedSearchField,
+  SearchIndex as GeneratedIndex,
   RegexFlags,
-  Skillset as GeneratedSkillset,
-  SkillUnion,
-  TokenizerUnion,
+  SearchIndexerSkillset as GeneratedSearchIndexerSkillset,
+  SearchIndexerSkillUnion,
+  LexicalTokenizerUnion,
   SynonymMap as GeneratedSynonymMap,
-  DataSource as GeneratedDataSource,
+  SearchIndexerDataSource as GeneratedSearchIndexerDataSource,
   DataChangeDetectionPolicyUnion,
   HighWaterMarkChangeDetectionPolicy,
   SqlIntegratedChangeTrackingPolicy,
@@ -22,34 +22,36 @@ import {
   SoftDeleteColumnDeletionDetectionPolicy
 } from "./generated/service/models";
 import {
-  Analyzer,
+  LexicalAnalyzer,
   CharFilter,
   CognitiveServicesAccount,
   ComplexField,
-  Field,
-  Index,
+  SearchField,
+  SearchIndex,
   isComplexField,
   ScoringProfile,
   SimpleField,
-  Skill,
-  Skillset,
+  SearchIndexerSkill,
+  SearchIndexerSkillset,
   TokenFilter,
-  Tokenizer,
+  LexicalTokenizer,
   SynonymMap,
-  DataSource,
+  SearchIndexerDataSource,
   DataChangeDetectionPolicy,
   DataDeletionDetectionPolicy
 } from "./serviceModels";
 
-export function convertSkillsToPublic(skills: SkillUnion[]): Skill[] {
-  if (!skills) {
-    return skills;
+export function convertSearchIndexerSkillsToPublic(
+  searchIndexerSkills: SearchIndexerSkillUnion[]
+): SearchIndexerSkill[] {
+  if (!searchIndexerSkills) {
+    return searchIndexerSkills;
   }
 
-  const result: Skill[] = [];
-  for (const skill of skills) {
-    if (skill.odatatype !== "Skill") {
-      result.push(skill);
+  const result: SearchIndexerSkill[] = [];
+  for (const searchIndexerSkill of searchIndexerSkills) {
+    if (searchIndexerSkill.odatatype !== "SearchIndexerSkill") {
+      result.push(searchIndexerSkill);
     }
   }
   return result;
@@ -79,60 +81,66 @@ export function convertCognitiveServicesAccountToPublic(
   }
 }
 
-export function convertAnalyzersToGenerated(analyzers?: Analyzer[]): AnalyzerUnion[] | undefined {
-  if (!analyzers) {
-    return analyzers;
+export function convertLexicalAnalyzersToGenerated(
+  lexicalAnalyzers?: LexicalAnalyzer[]
+): LexicalAnalyzerUnion[] | undefined {
+  if (!lexicalAnalyzers) {
+    return lexicalAnalyzers;
   }
 
-  const result: AnalyzerUnion[] = [];
-  for (const analyzer of analyzers) {
-    switch (analyzer.odatatype) {
+  const result: LexicalAnalyzerUnion[] = [];
+  for (const lexicalAnalyzer of lexicalAnalyzers) {
+    switch (lexicalAnalyzer.odatatype) {
       case "#Microsoft.Azure.Search.CustomAnalyzer":
       case "#Microsoft.Azure.Search.StandardAnalyzer":
       case "#Microsoft.Azure.Search.StopAnalyzer":
-        result.push(analyzer);
+        result.push(lexicalAnalyzer);
         break;
       case "#Microsoft.Azure.Search.PatternAnalyzer":
         result.push({
-          ...analyzer,
-          flags: analyzer.flags ? analyzer.flags.join("|") : undefined
+          ...lexicalAnalyzer,
+          flags: lexicalAnalyzer.flags ? lexicalAnalyzer.flags.join("|") : undefined
         });
     }
   }
   return result;
 }
 
-export function convertAnalyzersToPublic(analyzers?: AnalyzerUnion[]): Analyzer[] | undefined {
-  if (!analyzers) {
-    return analyzers;
+export function convertLexicalAnalyzersToPublic(
+  lexicalAnalyzers?: LexicalAnalyzerUnion[]
+): LexicalAnalyzer[] | undefined {
+  if (!lexicalAnalyzers) {
+    return lexicalAnalyzers;
   }
 
-  const result: Analyzer[] = [];
-  for (const analyzer of analyzers) {
-    switch (analyzer.odatatype) {
+  const result: LexicalAnalyzer[] = [];
+  for (const lexicalAnalyzer of lexicalAnalyzers) {
+    switch (lexicalAnalyzer.odatatype) {
       case "#Microsoft.Azure.Search.CustomAnalyzer":
       case "#Microsoft.Azure.Search.StandardAnalyzer":
       case "#Microsoft.Azure.Search.StopAnalyzer":
-        result.push(analyzer);
+        result.push(lexicalAnalyzer);
         break;
       case "#Microsoft.Azure.Search.PatternAnalyzer":
         result.push({
-          ...analyzer,
-          flags: analyzer.flags ? (analyzer.flags.split("|") as RegexFlags[]) : undefined
+          ...lexicalAnalyzer,
+          flags: lexicalAnalyzer.flags
+            ? (lexicalAnalyzer.flags.split("|") as RegexFlags[])
+            : undefined
         });
     }
   }
   return result;
 }
 
-export function convertFieldsToPublic(fields: GeneratedField[]): Field[] {
-  if (!fields) {
-    return fields;
+export function convertSearchFieldsToPublic(searchFields: GeneratedSearchField[]): SearchField[] {
+  if (!searchFields) {
+    return searchFields;
   }
 
-  return fields.map<Field>((field) => {
-    let result: Field;
-    if (field.type === "Collection(Edm.ComplexType)" || field.type === "Edm.ComplexType") {
+  return searchFields.map<SearchField>((field) => {
+    let result: SearchField;
+    if (field.type === "Edm.ComplexType") {
       result = field as ComplexField;
     } else {
       const { retrievable, ...restField } = field;
@@ -146,8 +154,8 @@ export function convertFieldsToPublic(fields: GeneratedField[]): Field[] {
   });
 }
 
-export function convertFieldsToGenerated(fields: Field[]): GeneratedField[] {
-  return fields.map<GeneratedField>((field) => {
+export function convertFieldsToGenerated(fields: SearchField[]): GeneratedSearchField[] {
+  return fields.map<GeneratedSearchField>((field) => {
     if (isComplexField(field)) {
       return field;
     } else {
@@ -166,41 +174,45 @@ export function convertFieldsToGenerated(fields: Field[]): GeneratedField[] {
   });
 }
 
-export function convertTokenizersToGenerated(
-  tokenizers?: Tokenizer[]
-): TokenizerUnion[] | undefined {
-  if (!tokenizers) {
-    return tokenizers;
+export function convertLexicalTokenizersToGenerated(
+  lexicalTokenizers?: LexicalTokenizer[]
+): LexicalTokenizerUnion[] | undefined {
+  if (!lexicalTokenizers) {
+    return lexicalTokenizers;
   }
 
-  const result: TokenizerUnion[] = [];
-  for (const tokenizer of tokenizers) {
-    if (tokenizer.odatatype === "#Microsoft.Azure.Search.PatternTokenizer") {
+  const result: LexicalTokenizerUnion[] = [];
+  for (const lexicalTokenizer of lexicalTokenizers) {
+    if (lexicalTokenizer.odatatype === "#Microsoft.Azure.Search.PatternTokenizer") {
       result.push({
-        ...tokenizer,
-        flags: tokenizer.flags ? tokenizer.flags.join("|") : undefined
+        ...lexicalTokenizer,
+        flags: lexicalTokenizer.flags ? lexicalTokenizer.flags.join("|") : undefined
       });
     } else {
-      result.push(tokenizer);
+      result.push(lexicalTokenizer);
     }
   }
   return result;
 }
 
-export function convertTokenizersToPublic(tokenizers?: TokenizerUnion[]): Tokenizer[] | undefined {
-  if (!tokenizers) {
-    return tokenizers;
+export function convertLexicalTokenizersToPublic(
+  lexicalTokenizers?: LexicalTokenizerUnion[]
+): LexicalTokenizer[] | undefined {
+  if (!lexicalTokenizers) {
+    return lexicalTokenizers;
   }
 
-  const result: Tokenizer[] = [];
-  for (const tokenizer of tokenizers) {
-    if (tokenizer.odatatype === "#Microsoft.Azure.Search.PatternTokenizer") {
+  const result: LexicalTokenizer[] = [];
+  for (const lexicalTokenizer of lexicalTokenizers) {
+    if (lexicalTokenizer.odatatype === "#Microsoft.Azure.Search.PatternTokenizer") {
       result.push({
-        ...tokenizer,
-        flags: tokenizer.flags ? (tokenizer.flags.split("|") as RegexFlags[]) : undefined
+        ...lexicalTokenizer,
+        flags: lexicalTokenizer.flags
+          ? (lexicalTokenizer.flags.split("|") as RegexFlags[])
+          : undefined
       });
-    } else if (tokenizer.odatatype !== "Tokenizer") {
-      result.push(tokenizer);
+    } else if (lexicalTokenizer.odatatype !== "LexicalTokenizer") {
+      result.push(lexicalTokenizer);
     }
   }
   return result;
@@ -224,7 +236,9 @@ export function extractOperationOptions<T extends OperationOptions>(
   };
 }
 
-export function generatedIndexToPublicIndex(generatedIndex: GeneratedIndex): Index {
+export function generatedSearchIndexToPublicSearchIndex(
+  generatedIndex: GeneratedIndex
+): SearchIndex {
   return {
     name: generatedIndex.name,
     defaultScoringProfile: generatedIndex.defaultScoringProfile,
@@ -232,37 +246,39 @@ export function generatedIndexToPublicIndex(generatedIndex: GeneratedIndex): Ind
     suggesters: generatedIndex.suggesters,
     encryptionKey: generatedIndex.encryptionKey,
     etag: generatedIndex.etag,
-    analyzers: convertAnalyzersToPublic(generatedIndex.analyzers),
-    tokenizers: convertTokenizersToPublic(generatedIndex.tokenizers),
+    analyzers: convertLexicalAnalyzersToPublic(generatedIndex.analyzers),
+    tokenizers: convertLexicalTokenizersToPublic(generatedIndex.tokenizers),
     tokenFilters: generatedIndex.tokenFilters as TokenFilter[],
     charFilters: generatedIndex.charFilters as CharFilter[],
     scoringProfiles: generatedIndex.scoringProfiles as ScoringProfile[],
-    fields: convertFieldsToPublic(generatedIndex.fields)
+    fields: convertSearchFieldsToPublic(generatedIndex.fields)
   };
 }
 
-export function publicIndexToGeneratedIndex(index: Index): GeneratedIndex {
+export function publicSearchIndexToGeneratedSearchIndex(searchIndex: SearchIndex): GeneratedIndex {
   return {
-    name: index.name,
-    defaultScoringProfile: index.defaultScoringProfile,
-    corsOptions: index.corsOptions,
-    suggesters: index.suggesters,
-    encryptionKey: index.encryptionKey,
-    etag: index.etag,
-    tokenFilters: index.tokenFilters,
-    charFilters: index.charFilters,
-    scoringProfiles: index.scoringProfiles,
-    analyzers: convertAnalyzersToGenerated(index.analyzers),
-    tokenizers: convertTokenizersToGenerated(index.tokenizers),
-    fields: convertFieldsToGenerated(index.fields)
+    name: searchIndex.name,
+    defaultScoringProfile: searchIndex.defaultScoringProfile,
+    corsOptions: searchIndex.corsOptions,
+    suggesters: searchIndex.suggesters,
+    encryptionKey: searchIndex.encryptionKey,
+    etag: searchIndex.etag,
+    tokenFilters: searchIndex.tokenFilters,
+    charFilters: searchIndex.charFilters,
+    scoringProfiles: searchIndex.scoringProfiles,
+    analyzers: convertLexicalAnalyzersToGenerated(searchIndex.analyzers),
+    tokenizers: convertLexicalTokenizersToGenerated(searchIndex.tokenizers),
+    fields: convertFieldsToGenerated(searchIndex.fields)
   };
 }
 
-export function generatedSkillsetToPublicSkillset(generatedSkillset: GeneratedSkillset): Skillset {
+export function generatedSearchIndexerSkillsetToPublicSearchIndexerSkillset(
+  generatedSkillset: GeneratedSearchIndexerSkillset
+): SearchIndexerSkillset {
   return {
     name: generatedSkillset.name,
     description: generatedSkillset.description,
-    skills: convertSkillsToPublic(generatedSkillset.skills),
+    skills: convertSearchIndexerSkillsToPublic(generatedSkillset.skills),
     cognitiveServicesAccount: convertCognitiveServicesAccountToPublic(
       generatedSkillset.cognitiveServicesAccount
     ),
@@ -270,14 +286,16 @@ export function generatedSkillsetToPublicSkillset(generatedSkillset: GeneratedSk
   };
 }
 
-export function publicSkillsetToGeneratedSkillset(skillset: Skillset): GeneratedSkillset {
+export function publicSearchIndexerSkillsetToGeneratedSearchIndexerSkillset(
+  searchIndexerSkillset: SearchIndexerSkillset
+): GeneratedSearchIndexerSkillset {
   return {
-    name: skillset.name,
-    description: skillset.description,
-    etag: skillset.etag,
-    skills: skillset.skills,
+    name: searchIndexerSkillset.name,
+    description: searchIndexerSkillset.description,
+    etag: searchIndexerSkillset.etag,
+    skills: searchIndexerSkillset.skills,
     cognitiveServicesAccount: convertCognitiveServicesAccountToGenerated(
-      skillset.cognitiveServicesAccount
+      searchIndexerSkillset.cognitiveServicesAccount
     )
   };
 }
@@ -306,19 +324,21 @@ export function publicSynonymMapToGeneratedSynonymMap(synonymMap: SynonymMap): G
   };
 }
 
-export function generatedDataSourceToPublicDataSource(dataSource: GeneratedDataSource): DataSource {
+export function generatedSearchIndexerDataSourceToPublicSearchIndexerDataSource(
+  searchIndexerdataSource: GeneratedSearchIndexerDataSource
+): SearchIndexerDataSource {
   return {
-    name: dataSource.name,
-    description: dataSource.name,
-    type: dataSource.type,
-    credentials: dataSource.credentials,
-    container: dataSource.container,
-    etag: dataSource.etag,
+    name: searchIndexerdataSource.name,
+    description: searchIndexerdataSource.name,
+    type: searchIndexerdataSource.type,
+    credentials: searchIndexerdataSource.credentials,
+    container: searchIndexerdataSource.container,
+    etag: searchIndexerdataSource.etag,
     dataChangeDetectionPolicy: convertDataChangeDetectionPolicyToPublic(
-      dataSource.dataChangeDetectionPolicy
+      searchIndexerdataSource.dataChangeDetectionPolicy
     ),
     dataDeletionDetectionPolicy: convertDataDeletionDetectionPolicyToPublic(
-      dataSource.dataDeletionDetectionPolicy
+      searchIndexerdataSource.dataDeletionDetectionPolicy
     )
   };
 }

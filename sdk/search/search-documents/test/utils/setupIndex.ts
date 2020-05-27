@@ -5,7 +5,7 @@ import {
   SearchClient,
   SearchIndexClient,
   GeographyPoint,
-  Index,
+  SearchIndex,
   KnownAnalyzerNames
 } from "../../src/index";
 import { Hotel } from "./interfaces";
@@ -13,7 +13,7 @@ import { delay } from "@azure/core-http";
 
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
 export async function createIndex(client: SearchIndexClient, name: string): Promise<void> {
-  const hotelIndex: Index = {
+  const hotelIndex: SearchIndex = {
     name,
     fields: [
       {
@@ -51,7 +51,7 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
         facetable: true
       },
       {
-        type: "Collection(Edm.String)",
+        type: "Edm.String",
         name: "tags",
         searchable: true,
         filterable: true,
@@ -135,7 +135,7 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
         ]
       },
       {
-        type: "Collection(Edm.ComplexType)",
+        type: "Edm.ComplexType",
         name: "rooms",
         fields: [
           {
@@ -181,13 +181,6 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
             name: "smokingAllowed",
             filterable: true,
             facetable: true
-          },
-          {
-            type: "Collection(Edm.String)",
-            name: "tags",
-            searchable: true,
-            filterable: true,
-            facetable: true
           }
         ]
       }
@@ -220,7 +213,7 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
       allowedOrigins: ["*"]
     }
   };
-  await client.createIndex(hotelIndex);
+  await client.createSearchIndex(hotelIndex);
 }
 
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters

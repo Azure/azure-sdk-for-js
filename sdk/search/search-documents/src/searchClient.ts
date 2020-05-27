@@ -74,9 +74,9 @@ export class SearchClient<T> {
   public readonly endpoint: string;
 
   /**
-   * The name of the index
+   * The name of the searchIndex
    */
-  public readonly indexName: string;
+  public readonly searchIndexName: string;
 
   /**
    * @internal
@@ -99,18 +99,18 @@ export class SearchClient<T> {
    * );
    * ```
    * @param {string} endpoint The endpoint of the search service
-   * @param {string} indexName The name of the index
+   * @param {string} searchIndexName The name of the searchindex
    * @param {KeyCredential} credential Used to authenticate requests to the service.
    * @param {SearchClientOptions} [options] Used to configure the Search client.
    */
   constructor(
     endpoint: string,
-    indexName: string,
+    searchIndexName: string,
     credential: KeyCredential,
     options: SearchClientOptions = {}
   ) {
     this.endpoint = endpoint;
-    this.indexName = indexName;
+    this.searchIndexName = searchIndexName;
 
     const libInfo = `azsdk-js-search-documents/${SDK_VERSION}`;
     if (!options.userAgentOptions) {
@@ -162,13 +162,13 @@ export class SearchClient<T> {
       dummyCredential,
       this.apiVersion,
       this.endpoint,
-      this.indexName,
+      this.searchIndexName,
       pipeline
     );
   }
 
   /**
-   * Retrieves the number of documents in the index.
+   * Retrieves the number of documents in the searchindex.
    * @param options Options to the count operation.
    */
   public async countDocuments(options: CountDocumentsOptions = {}): Promise<number> {

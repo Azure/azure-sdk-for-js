@@ -5,10 +5,10 @@ import { OperationOptions } from "@azure/core-http";
 import {
   AnalyzeRequest,
   CustomAnalyzer,
-  StandardAnalyzer,
+  LuceneStandardAnalyzer,
   StopAnalyzer,
   CorsOptions,
-  EncryptionKey,
+  SearchResourceEncryptionKey,
   Suggester,
   ClassicTokenizer,
   EdgeNGramTokenizer,
@@ -18,8 +18,8 @@ import {
   MicrosoftLanguageStemmingTokenizer,
   NGramTokenizer,
   PathHierarchyTokenizerV2,
-  StandardTokenizer,
-  StandardTokenizerV2,
+  LuceneStandardTokenizer,
+  LuceneStandardTokenizerV2,
   UaxUrlEmailTokenizer,
   AsciiFoldingTokenFilter,
   CjkBigramTokenFilter,
@@ -72,15 +72,16 @@ import {
   HighWaterMarkChangeDetectionPolicy,
   SqlIntegratedChangeTrackingPolicy,
   SoftDeleteColumnDeletionDetectionPolicy,
-  DataSourceType,
+  SearchIndexerDataSourceType,
   DataSourceCredentials,
-  DataContainer
+  SearchIndexerDataContainer,
+  LexicalAnalyzerName
 } from "./generated/service/models";
 
 /**
- * Options for a list skillsets operation.
+ * Options for a list SearchIndexerSkillsets operation.
  */
-export type ListSkillsetsOptions = OperationOptions;
+export type ListSearchIndexerSkillsetsOptions = OperationOptions;
 
 /**
  * Options for a list synonymMaps operation.
@@ -88,29 +89,29 @@ export type ListSkillsetsOptions = OperationOptions;
 export type ListSynonymMapsOptions = OperationOptions;
 
 /**
- * Options for a list indexes operation.
+ * Options for a list searchindexes operation.
  */
-export type ListIndexesOptions = OperationOptions;
+export type ListSearchIndexesOptions = OperationOptions;
 
 /**
- * Options for a list indexers operation.
+ * Options for a list searchIndexers operation.
  */
-export type ListIndexersOptions = OperationOptions;
+export type ListSearchIndexersOptions = OperationOptions;
 
 /**
- * Options for a list data sources operation.
+ * Options for a list searchIndexers data sources operation.
  */
-export type ListDataSourcesOptions = OperationOptions;
+export type ListSearchIndexerDataSourcesOptions = OperationOptions;
 
 /**
- * Options for get index operation.
+ * Options for get SearchIndex operation.
  */
-export type GetIndexOptions = OperationOptions;
+export type GetSearchIndexOptions = OperationOptions;
 
 /**
- * Options for get skillset operation.
+ * Options for get SearchIndexerSkillset operation.
  */
-export type GetSkillSetOptions = OperationOptions;
+export type GetSearchIndexerSkillSetOptions = OperationOptions;
 
 /**
  * Options for get synonymmaps operation.
@@ -118,19 +119,19 @@ export type GetSkillSetOptions = OperationOptions;
 export type GetSynonymMapsOptions = OperationOptions;
 
 /**
- * Options for get indexer operation.
+ * Options for get searchIndexer operation.
  */
-export type GetIndexerOptions = OperationOptions;
+export type GetSearchIndexerOptions = OperationOptions;
 
 /**
- * Options for get datasource operation.
+ * Options for get searchindexerdatasource operation.
  */
-export type GetDataSourceOptions = OperationOptions;
+export type GetSearchIndexerDataSourceOptions = OperationOptions;
 
 /**
- * Options for get index statistics operation.
+ * Options for get SearchIndex statistics operation.
  */
-export type GetIndexStatisticsOptions = OperationOptions;
+export type GetSearchIndexStatisticsOptions = OperationOptions;
 
 /**
  * Options for get service statistics operation.
@@ -138,29 +139,29 @@ export type GetIndexStatisticsOptions = OperationOptions;
 export type GetServiceStatisticsOptions = OperationOptions;
 
 /**
- * Options for get indexer status operation.
+ * Options for get searchIndexer status operation.
  */
-export type GetIndexerStatusOptions = OperationOptions;
+export type GetSearchIndexerStatusOptions = OperationOptions;
 
 /**
- * Options for reset indexer operation.
+ * Options for reset searchIndexer operation.
  */
-export type ResetIndexerOptions = OperationOptions;
+export type ResetSearchIndexerOptions = OperationOptions;
 
 /**
- * Options for run indexer operation.
+ * Options for run searchIndexer operation.
  */
-export type RunIndexerOptions = OperationOptions;
+export type RunSearchIndexerOptions = OperationOptions;
 
 /**
- * Options for create index operation.
+ * Options for create SearchIndex operation.
  */
-export type CreateIndexOptions = OperationOptions;
+export type CreateSearchIndexOptions = OperationOptions;
 
 /**
- * Options for create skillset operation.
+ * Options for create SearchIndexerSkillset operation.
  */
-export type CreateSkillsetOptions = OperationOptions;
+export type CreateSearchIndexerSkillsetOptions = OperationOptions;
 
 /**
  * Options for create synonymmap operation.
@@ -168,24 +169,24 @@ export type CreateSkillsetOptions = OperationOptions;
 export type CreateSynonymMapOptions = OperationOptions;
 
 /**
- * Options for create indexer operation.
+ * Options for create searchIndexer operation.
  */
-export type CreateIndexerOptions = OperationOptions;
+export type CreateSearchIndexerOptions = OperationOptions;
 
 /**
- * Options for create datasource operation.
+ * Options for create searchindexerdatasource operation.
  */
-export type CreateDataSourceOptions = OperationOptions;
+export type CreateSearchIndexerDataSourceOptions = OperationOptions;
 
 /**
- * Options for create/update index operation.
+ * Options for create/update searchindex operation.
  */
-export interface CreateOrUpdateIndexOptions extends OperationOptions {
+export interface CreateOrUpdateSearchIndexOptions extends OperationOptions {
   /**
-   * Allows new analyzers, tokenizers, token filters, or char filters to be added to an index by
-   * taking the index offline for at least a few seconds. This temporarily causes indexing and
-   * query requests to fail. Performance and write availability of the index can be impaired for
-   * several minutes after the index is updated, or longer for very large indexes.
+   * Allows new analyzers, tokenizers, token filters, or char filters to be added to an searchindex by
+   * taking the searchIndex offline for at least a few seconds. This temporarily causes indexing and
+   * query requests to fail. Performance and write availability of the searchindex can be impaired for
+   * several minutes after the searchIndex is updated, or longer for very large indexes.
    */
   allowIndexDowntime?: boolean;
   /**
@@ -195,9 +196,9 @@ export interface CreateOrUpdateIndexOptions extends OperationOptions {
 }
 
 /**
- * Options for create/update skillset operation.
+ * Options for create/update SearchIndexerSkillset operation.
  */
-export interface CreateOrUpdateSkillsetOptions extends OperationOptions {
+export interface CreateOrUpdateSearchIndexerSkillsetOptions extends OperationOptions {
   /**
    * If set to true, Resource will be deleted only if the etag matches.
    */
@@ -215,9 +216,9 @@ export interface CreateOrUpdateSynonymMapOptions extends OperationOptions {
 }
 
 /**
- * Options for create/update indexer operation.
+ * Options for create/update searchIndexer operation.
  */
-export interface CreateorUpdateIndexerOptions extends OperationOptions {
+export interface CreateorUpdateSearchIndexerOptions extends OperationOptions {
   /**
    * If set to true, Resource will be deleted only if the etag matches.
    */
@@ -225,9 +226,9 @@ export interface CreateorUpdateIndexerOptions extends OperationOptions {
 }
 
 /**
- * Options for create/update datasource operation.
+ * Options for create/update searchindexerdatasource operation.
  */
-export interface CreateorUpdateDataSourceOptions extends OperationOptions {
+export interface CreateorUpdateSearchIndexerDataSourceOptions extends OperationOptions {
   /**
    * If set to true, Resource will be deleted only if the etag matches.
    */
@@ -235,9 +236,9 @@ export interface CreateorUpdateDataSourceOptions extends OperationOptions {
 }
 
 /**
- * Options for delete index operation.
+ * Options for delete searchindex operation.
  */
-export interface DeleteIndexOptions extends OperationOptions {
+export interface DeleteSearchIndexOptions extends OperationOptions {
   /**
    * If set to true, Resource will be deleted only if the etag matches.
    */
@@ -245,9 +246,9 @@ export interface DeleteIndexOptions extends OperationOptions {
 }
 
 /**
- * Options for delete skillset operaion.
+ * Options for delete SearchIndexerSkillset operaion.
  */
-export interface DeleteSkillsetOptions extends OperationOptions {
+export interface DeleteSearchIndexerSkillsetOptions extends OperationOptions {
   /**
    * If set to true, Resource will be deleted only if the etag matches.
    */
@@ -265,9 +266,9 @@ export interface DeleteSynonymMapOptions extends OperationOptions {
 }
 
 /**
- * Options for delete indexer operation.
+ * Options for delete searchIndexer operation.
  */
-export interface DeleteIndexerOptions extends OperationOptions {
+export interface DeleteSearchIndexerOptions extends OperationOptions {
   /**
    * If set to true, Resource will be deleted only if the etag matches.
    */
@@ -275,9 +276,9 @@ export interface DeleteIndexerOptions extends OperationOptions {
 }
 
 /**
- * Options for delete datasource operation.
+ * Options for delete searchindexerdatasource operation.
  */
-export interface DeleteDataSourceOptions extends OperationOptions {
+export interface DeleteSearchIndexerDataSourceOptions extends OperationOptions {
   /**
    * If set to true, Resource will be deleted only if the etag matches.
    */
@@ -331,14 +332,18 @@ export interface PatternAnalyzer {
 }
 
 /**
- * Contains the possible cases for Analyzer.
+ * Contains the possible cases for LexicalAnalyzer.
  */
-export type Analyzer = CustomAnalyzer | PatternAnalyzer | StandardAnalyzer | StopAnalyzer;
+export type LexicalAnalyzer =
+  | CustomAnalyzer
+  | PatternAnalyzer
+  | LuceneStandardAnalyzer
+  | StopAnalyzer;
 
 /**
- * Contains the possible cases for Skill.
+ * Contains the possible cases for SearchIndexerSkill.
  */
-export type Skill =
+export type SearchIndexerSkill =
   | ConditionalSkill
   | KeyPhraseExtractionSkill
   | OcrSkill
@@ -392,9 +397,9 @@ export interface PatternTokenizer {
 }
 
 /**
- * Contains the possible cases for Tokenizer.
+ * Contains the possible cases for LexicalTokenizers.
  */
-export type Tokenizer =
+export type LexicalTokenizer =
   | ClassicTokenizer
   | EdgeNGramTokenizer
   | KeywordTokenizer
@@ -404,8 +409,8 @@ export type Tokenizer =
   | NGramTokenizer
   | PathHierarchyTokenizerV2
   | PatternTokenizer
-  | StandardTokenizer
-  | StandardTokenizerV2
+  | LuceneStandardTokenizer
+  | LuceneStandardTokenizerV2
   | UaxUrlEmailTokenizer;
 
 /**
@@ -468,14 +473,7 @@ export type SimpleDataType =
   | "Edm.Double"
   | "Edm.Boolean"
   | "Edm.DateTimeOffset"
-  | "Edm.GeographyPoint"
-  | "Collection(Edm.String)"
-  | "Collection(Edm.Int32)"
-  | "Collection(Edm.Int64)"
-  | "Collection(Edm.Double)"
-  | "Collection(Edm.Boolean)"
-  | "Collection(Edm.DateTimeOffset)"
-  | "Collection(Edm.GeographyPoint)";
+  | "Edm.GeographyPoint";
 
 /**
  * Defines values for ComplexDataType.
@@ -483,21 +481,21 @@ export type SimpleDataType =
  * @readonly
  * @enum {string}
  */
-export type ComplexDataType = "Edm.ComplexType" | "Collection(Edm.ComplexType)";
+export type ComplexDataType = "Edm.ComplexType";
 
 /**
- * Represents a field in an index definition, which describes the name, data type, and search
+ * Represents a field in an searchindex definition, which describes the name, data type, and search
  * behavior of a field.
  */
-export type Field = SimpleField | ComplexField;
+export type SearchField = SimpleField | ComplexField;
 
 /**
- * Represents a field in an index definition, which describes the name, data type, and search
+ * Represents a field in an searchindex definition, which describes the name, data type, and search
  * behavior of a field.
  */
 export interface SimpleField {
   /**
-   * The name of the field, which must be unique within the fields collection of the index or
+   * The name of the field, which must be unique within the fields collection of the searchindex or
    * parent field.
    */
   name: string;
@@ -510,8 +508,8 @@ export interface SimpleField {
    */
   type: SimpleDataType;
   /**
-   * A value indicating whether the field uniquely identifies documents in the index. Exactly one
-   * top-level field in each index must be chosen as the key field and it must be of type
+   * A value indicating whether the field uniquely identifies documents in the searchindex. Exactly one
+   * top-level field in each searchindex must be chosen as the key field and it must be of type
    * Edm.String. Key fields can be used to look up documents directly and update or delete specific
    * documents. Default is false.
    */
@@ -521,7 +519,7 @@ export interface SimpleField {
    * option if you want to use a field (for example, margin) as a filter, sorting, or scoring
    * mechanism but do not want the field to be visible to the end user. This property must be false
    * for key fields. This property can be changed on existing fields.
-   * Disabling this property does not cause any increase in index storage requirements.
+   * Disabling this property does not cause any increase in searchindex storage requirements.
    * Default is false.
    */
   hidden?: boolean;
@@ -531,7 +529,7 @@ export interface SimpleField {
    * "sunny day", internally it will be split into the individual tokens "sunny" and "day". This
    * enables full-text searches for these terms. This property must be false for simple
    * fields of other non-string data types.
-   * Note: searchable fields consume extra space in your index since Azure Cognitive Search will store an
+   * Note: searchable fields consume extra space in your searchindex since Azure Cognitive Search will store an
    * additional tokenized version of the field value for full-text searches.
    * Defaults to false for simple fields.
    */
@@ -569,21 +567,21 @@ export interface SimpleField {
    * Once the analyzer is chosen, it cannot be changed for the field.
    * KnownAnalyzerNames is an enum containing known values.
    */
-  analyzer?: string;
+  analyzer?: LexicalAnalyzerName;
   /**
    * The name of the analyzer used at search time for the field. This option can be used only with
    * searchable fields. It must be set together with indexAnalyzer and it cannot be set together
    * with the analyzer option. This analyzer can be updated on an existing field.
    * KnownAnalyzerNames is an enum containing known values.
    */
-  searchAnalyzer?: string;
+  searchAnalyzer?: LexicalAnalyzerName;
   /**
    * The name of the analyzer used at indexing time for the field. This option can be used only
    * with searchable fields. It must be set together with searchAnalyzer and it cannot be set
    * together with the analyzer option. Once the analyzer is chosen, it cannot be changed for the
    * field. KnownAnalyzerNames is an enum containing known values.
    */
-  indexAnalyzer?: string;
+  indexAnalyzer?: LexicalAnalyzerName;
   /**
    * A list of the names of synonym maps to associate with this field. This option can be used only
    * with searchable fields. Currently only one synonym map per field is supported. Assigning a
@@ -594,17 +592,17 @@ export interface SimpleField {
   synonymMaps?: string[];
 }
 
-export function isComplexField(field: Field): field is ComplexField {
-  return field.type === "Edm.ComplexType" || field.type === "Collection(Edm.ComplexType)";
+export function isComplexField(searchField: SearchField): searchField is ComplexField {
+  return searchField.type === "Edm.ComplexType";
 }
 
 /**
- * Represents a field in an index definition, which describes the name, data type, and search
+ * Represents a field in an searchindex definition, which describes the name, data type, and search
  * behavior of a field.
  */
 export interface ComplexField {
   /**
-   * The name of the field, which must be unique within the fields collection of the index or
+   * The name of the field, which must be unique within the fields collection of the searchindex or
    * parent field.
    */
   name: string;
@@ -616,7 +614,7 @@ export interface ComplexField {
   /**
    * A list of sub-fields.
    */
-  fields: Field[];
+  fields: SearchField[];
 }
 
 /**
@@ -641,7 +639,7 @@ export interface SynonymMap {
    * keys is not available for free search services, and is only available for paid services
    * created on or after January 1, 2019.
    */
-  encryptionKey?: EncryptionKey;
+  encryptionKey?: SearchResourceEncryptionKey;
   /**
    * The ETag of the synonym map.
    */
@@ -649,20 +647,20 @@ export interface SynonymMap {
 }
 
 /**
- * Represents a search index definition, which describes the fields and search behavior of an
- * index.
+ * Represents a searchIndex definition, which describes the fields and search behavior of an
+ * searchIndex.
  */
-export interface Index {
+export interface SearchIndex {
   /**
-   * The name of the index.
+   * The name of the searchindex.
    */
   name: string;
   /**
-   * The fields of the index.
+   * The fields of the searchindex.
    */
-  fields: Field[];
+  fields: SearchField[];
   /**
-   * The scoring profiles for the index.
+   * The scoring profiles for the searchindex.
    */
   scoringProfiles?: ScoringProfile[];
   /**
@@ -672,27 +670,27 @@ export interface Index {
    */
   defaultScoringProfile?: string;
   /**
-   * Options to control Cross-Origin Resource Sharing (CORS) for the index.
+   * Options to control Cross-Origin Resource Sharing (CORS) for the searchindex.
    */
   corsOptions?: CorsOptions;
   /**
-   * The suggesters for the index.
+   * The suggesters for the searchindex.
    */
   suggesters?: Suggester[];
   /**
-   * The analyzers for the index.
+   * The analyzers for the searchindex.
    */
-  analyzers?: Analyzer[];
+  analyzers?: LexicalAnalyzer[];
   /**
-   * The tokenizers for the index.
+   * The tokenizers for the searchindex.
    */
-  tokenizers?: Tokenizer[];
+  tokenizers?: LexicalTokenizer[];
   /**
-   * The token filters for the index.
+   * The token filters for the searchindex.
    */
   tokenFilters?: TokenFilter[];
   /**
-   * The character filters for the index.
+   * The character filters for the searchindex.
    */
   charFilters?: CharFilter[];
   /**
@@ -705,9 +703,9 @@ export interface Index {
    * keys is not available for free search services, and is only available for paid services
    * created on or after January 1, 2019.
    */
-  encryptionKey?: EncryptionKey;
+  encryptionKey?: SearchResourceEncryptionKey;
   /**
-   * The ETag of the index.
+   * The ETag of the searchindex.
    */
   etag?: string;
 }
@@ -715,31 +713,31 @@ export interface Index {
 /**
  * A list of skills.
  */
-export interface Skillset {
+export interface SearchIndexerSkillset {
   /**
-   * The name of the skillset.
+   * The name of the SearchIndexerSkillset.
    */
   name: string;
   /**
-   * The description of the skillset.
+   * The description of the SearchIndexerSkillset.
    */
   description: string;
   /**
-   * A list of skills in the skillset.
+   * A list of skills in the SearchIndexerSkillset.
    */
-  skills: Skill[];
+  skills: SearchIndexerSkill[];
   /**
    * Details about cognitive services to be used when running skills.
    */
   cognitiveServicesAccount?: CognitiveServicesAccount;
   /**
-   * The ETag of the skillset.
+   * The ETag of the SearchIndexerSkillset.
    */
   etag?: string;
 }
 
 /**
- * Defines parameters for a search index that influence scoring in search queries.
+ * Defines parameters for a search searchindex that influence scoring in search queries.
  */
 export interface ScoringProfile {
   /**
@@ -747,7 +745,7 @@ export interface ScoringProfile {
    */
   name: string;
   /**
-   * Parameters that boost scoring based on text matches in certain index fields.
+   * Parameters that boost scoring based on text matches in certain searchindex fields.
    */
   textWeights?: TextWeights;
   /**
@@ -1032,7 +1030,7 @@ export enum KnownCharFilterNames {
 }
 
 /**
- * Defines values for AnalyzerName.
+ * Defines values for LexicalAnalyzerName.
  * See https://docs.microsoft.com/rest/api/searchservice/Language-support
  * @readonly
  * @enum {string}
@@ -1424,40 +1422,40 @@ export type DataChangeDetectionPolicy =
 export type DataDeletionDetectionPolicy = SoftDeleteColumnDeletionDetectionPolicy;
 
 /**
- * Represents a datasource definition, which can be used to configure an indexer.
+ * Represents a SearchIndexerDataSource definition, which can be used to configure an searchIndexer.
  */
-export interface DataSource {
+export interface SearchIndexerDataSource {
   /**
-   * The name of the datasource.
+   * The name of the SearchIndexerDataSource.
    */
   name: string;
   /**
-   * The description of the datasource.
+   * The description of the SearchIndexerDataSource.
    */
   description?: string;
   /**
-   * The type of the datasource. Possible values include: 'AzureSql', 'CosmosDb', 'AzureBlob',
+   * The type of the SearchIndexerDataSource. Possible values include: 'AzureSql', 'CosmosDb', 'AzureBlob',
    * 'AzureTable', 'MySql'
    */
-  type: DataSourceType;
+  type: SearchIndexerDataSourceType;
   /**
-   * Credentials for the datasource.
+   * Credentials for the SearchIndexerDataSource.
    */
   credentials: DataSourceCredentials;
   /**
-   * The data container for the datasource.
+   * The data container for the SearchIndexerDataSource.
    */
-  container: DataContainer;
+  container: SearchIndexerDataContainer;
   /**
-   * The data change detection policy for the datasource.
+   * The data change detection policy for the SearchIndexerDataSource.
    */
   dataChangeDetectionPolicy?: DataChangeDetectionPolicy;
   /**
-   * The data deletion detection policy for the datasource.
+   * The data deletion detection policy for the SearchIndexerDataSource.
    */
   dataDeletionDetectionPolicy?: DataDeletionDetectionPolicy;
   /**
-   * The ETag of the DataSource.
+   * The ETag of the SearchIndexerDataSource.
    */
   etag?: string;
 }

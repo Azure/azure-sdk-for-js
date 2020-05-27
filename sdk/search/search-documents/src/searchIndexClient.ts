@@ -21,17 +21,17 @@ import { logger } from "./logger";
 import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy";
 import {
   AnalyzeTextOptions,
-  CreateIndexOptions,
-  CreateOrUpdateIndexOptions,
+  CreateSearchIndexOptions,
+  CreateOrUpdateSearchIndexOptions,
   CreateOrUpdateSynonymMapOptions,
   CreateSynonymMapOptions,
-  DeleteIndexOptions,
+  DeleteSearchIndexOptions,
   DeleteSynonymMapOptions,
-  GetIndexOptions,
-  GetIndexStatisticsOptions,
+  GetSearchIndexOptions,
+  GetSearchIndexStatisticsOptions,
   GetSynonymMapsOptions,
-  Index,
-  ListIndexesOptions,
+  SearchIndex,
+  ListSearchIndexesOptions,
   ListSynonymMapsOptions,
   SynonymMap,
   GetServiceStatisticsOptions
@@ -139,15 +139,17 @@ export class SearchIndexClient {
 
   /**
    * Retrieves a list of existing indexes in the service.
-   * @param options Options to the list index operation.
+   * @param options Options to the list searchindex operation.
    */
-  public async listIndexes(options: ListIndexesOptions = {}): Promise<Array<Index>> {
-    const { span, updatedOptions } = createSpan("SearchIndexClient-listIndexes", options);
+  public async listSearchIndexes(
+    options: ListSearchIndexesOptions = {}
+  ): Promise<Array<SearchIndex>> {
+    const { span, updatedOptions } = createSpan("SearchIndexClient-listSearchIndexes", options);
     try {
       const result = await this.client.indexes.list(
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return result.indexes.map(utils.generatedIndexToPublicIndex);
+      return result.indexes.map(utils.generatedSearchIndexToPublicSearchIndex);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -161,10 +163,15 @@ export class SearchIndexClient {
 
   /**
    * Retrieves a list of names of existing indexes in the service.
-   * @param options Options to the list index operation.
+   * @param options Options to the list searchindex operation.
    */
-  public async listIndexesNames(options: ListIndexesOptions = {}): Promise<Array<string>> {
-    const { span, updatedOptions } = createSpan("SearchIndexClient-listIndexesNames", options);
+  public async listSearchIndexesNames(
+    options: ListSearchIndexesOptions = {}
+  ): Promise<Array<string>> {
+    const { span, updatedOptions } = createSpan(
+      "SearchIndexClient-listSearchIndexesNames",
+      options
+    );
     try {
       const result = await this.client.indexes.list({
         ...operationOptionsToRequestOptionsBase(updatedOptions),
@@ -228,18 +235,21 @@ export class SearchIndexClient {
   }
 
   /**
-   * Retrieves information about an index.
-   * @param indexName The name of the index.
+   * Retrieves information about an searchindex.
+   * @param searchIndexName The name of the searchindex.
    * @param options Additional optional arguments.
    */
-  public async getIndex(indexName: string, options: GetIndexOptions = {}): Promise<Index> {
-    const { span, updatedOptions } = createSpan("SearchIndexClient-getIndex", options);
+  public async getSearchIndex(
+    searchIndexName: string,
+    options: GetSearchIndexOptions = {}
+  ): Promise<SearchIndex> {
+    const { span, updatedOptions } = createSpan("SearchIndexClient-getSearchIndex", options);
     try {
       const result = await this.client.indexes.get(
-        indexName,
+        searchIndexName,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return utils.generatedIndexToPublicIndex(result);
+      return utils.generatedSearchIndexToPublicSearchIndex(result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -253,7 +263,7 @@ export class SearchIndexClient {
 
   /**
    * Retrieves information about a SynonymMap.
-   * @param indexName The name of the Skillset.
+   * @param synonymMapName The name of the SynonymMap.
    * @param options Additional optional arguments.
    */
   public async getSynonymMap(
@@ -279,18 +289,21 @@ export class SearchIndexClient {
   }
 
   /**
-   * Creates a new index.
-   * @param index The information describing the index to be created.
+   * Creates a new searchindex.
+   * @param searchIndex The information describing the searchindex to be created.
    * @param options Additional optional arguments.
    */
-  public async createIndex(index: Index, options: CreateIndexOptions = {}): Promise<Index> {
-    const { span, updatedOptions } = createSpan("SearchIndexClient-createIndex", options);
+  public async createSearchIndex(
+    searchIndex: SearchIndex,
+    options: CreateSearchIndexOptions = {}
+  ): Promise<SearchIndex> {
+    const { span, updatedOptions } = createSpan("SearchIndexClient-createSearchIndex", options);
     try {
       const result = await this.client.indexes.create(
-        utils.publicIndexToGeneratedIndex(index),
+        utils.publicSearchIndexToGeneratedSearchIndex(searchIndex),
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return utils.generatedIndexToPublicIndex(result);
+      return utils.generatedSearchIndexToPublicSearchIndex(result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -330,29 +343,30 @@ export class SearchIndexClient {
   }
 
   /**
-   * Creates a new index or modifies an existing one.
-   * @param index The information describing the index to be created.
+   * Creates a new searchindex or modifies an existing one.
+   * @param searchIndex The information describing the searchindex to be created.
    * @param options Additional optional arguments.
    */
-  public async createOrUpdateIndex(
-    index: Index,
-    options: CreateOrUpdateIndexOptions = {}
-  ): Promise<Index> {
-    const { span, updatedOptions } = createSpan("SearchIndexClient-createOrUpdateIndex", options);
+  public async createOrUpdateSearchIndex(
+    searchIndex: SearchIndex,
+    options: CreateOrUpdateSearchIndexOptions = {}
+  ): Promise<SearchIndex> {
+    const { span, updatedOptions } = createSpan(
+      "SearchIndexClient-createOrUpdateSearchIndex",
+      options
+    );
     try {
-      const etag = options.onlyIfUnchanged ? index.etag : undefined;
+      const etag = options.onlyIfUnchanged ? searchIndex.etag : undefined;
 
       const result = await this.client.indexes.createOrUpdate(
-        index.name,
-        utils.publicIndexToGeneratedIndex(index),
+        searchIndex.name,
+        utils.publicSearchIndexToGeneratedSearchIndex(searchIndex),
         {
           ...operationOptionsToRequestOptionsBase(updatedOptions),
-          accessCondition: {
-            ifMatch: etag
-          }
+          ifMatch: etag
         }
       );
-      return utils.generatedIndexToPublicIndex(result);
+      return utils.generatedSearchIndexToPublicSearchIndex(result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -385,9 +399,7 @@ export class SearchIndexClient {
         utils.publicSynonymMapToGeneratedSynonymMap(synonymMap),
         {
           ...operationOptionsToRequestOptionsBase(updatedOptions),
-          accessCondition: {
-            ifMatch: etag
-          }
+          ifMatch: etag
         }
       );
       return utils.generatedSynonymMapToPublicSynonymMap(result);
@@ -403,22 +415,27 @@ export class SearchIndexClient {
   }
 
   /**
-   * Deletes an existing index.
-   * @param indexName Index/Name of the index to delete.
+   * Deletes an existing searchindex.
+   * @param searchIndexName SearchIndex/Name of the searchindex to delete.
    * @param options Additional optional arguments.
    */
-  public async deleteIndex(index: string | Index, options: DeleteIndexOptions = {}): Promise<void> {
-    const { span, updatedOptions } = createSpan("SearchIndexClient-deleteIndex", options);
+  public async deleteSearchIndex(
+    searchIndex: string | SearchIndex,
+    options: DeleteSearchIndexOptions = {}
+  ): Promise<void> {
+    const { span, updatedOptions } = createSpan("SearchIndexClient-deleteSearchIndex", options);
     try {
-      const indexName: string = typeof index === "string" ? index : index.name;
+      const indexName: string = typeof searchIndex === "string" ? searchIndex : searchIndex.name;
       const etag =
-        typeof index === "string" ? undefined : options.onlyIfUnchanged ? index.etag : undefined;
+        typeof searchIndex === "string"
+          ? undefined
+          : options.onlyIfUnchanged
+          ? searchIndex.etag
+          : undefined;
 
       await this.client.indexes.deleteMethod(indexName, {
         ...operationOptionsToRequestOptionsBase(updatedOptions),
-        accessCondition: {
-          ifMatch: etag
-        }
+        ifMatch: etag
       });
     } catch (e) {
       span.setStatus({
@@ -452,9 +469,7 @@ export class SearchIndexClient {
 
       await this.client.synonymMaps.deleteMethod(synonymMapName, {
         ...operationOptionsToRequestOptionsBase(updatedOptions),
-        accessCondition: {
-          ifMatch: etag
-        }
+        ifMatch: etag
       });
     } catch (e) {
       span.setStatus({
@@ -468,19 +483,19 @@ export class SearchIndexClient {
   }
 
   /**
-   * Retrieves statistics about an index, such as the count of documents and the size
-   * of index storage.
-   * @param indexName The name of the index.
+   * Retrieves statistics about an searchindex, such as the count of documents and the size
+   * of searchindex storage.
+   * @param searchIndexName The name of the searchindex.
    * @param options Additional optional arguments.
    */
   public async getIndexStatistics(
-    indexName: string,
-    options: GetIndexStatisticsOptions = {}
+    searchIndexName: string,
+    options: GetSearchIndexStatisticsOptions = {}
   ): Promise<GetIndexStatisticsResult> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-getIndexStatistics", options);
     try {
       const result = await this.client.indexes.getStatistics(
-        indexName,
+        searchIndexName,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
       return result;
@@ -497,16 +512,19 @@ export class SearchIndexClient {
 
   /**
    * Calls an analyzer or tokenizer manually on provided text.
-   * @param indexName The name of the index that contains the field to analyze
+   * @param searchIndexName The name of the searchIndex that contains the field to analyze
    * @param options Additional arguments
    */
-  public async analyzeText(indexName: string, options: AnalyzeTextOptions): Promise<AnalyzeResult> {
+  public async analyzeText(
+    searchIndexName: string,
+    options: AnalyzeTextOptions
+  ): Promise<AnalyzeResult> {
     const { operationOptions, restOptions } = utils.extractOperationOptions(options);
 
     const { span, updatedOptions } = createSpan("SearchIndexClient-analyzeText", operationOptions);
     try {
       const result = await this.client.indexes.analyze(
-        indexName,
+        searchIndexName,
         restOptions,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
@@ -523,7 +541,7 @@ export class SearchIndexClient {
   }
 
   /**
-   * Retrieves statistics about the service, such as the count of documents, index, etc.
+   * Retrieves statistics about the service, such as the count of documents, searchindex, etc.
    * @param options Additional optional arguments.
    */
   public async getServiceStatistics(

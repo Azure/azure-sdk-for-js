@@ -60,11 +60,11 @@ export const AnalyzeRequest: coreHttp.CompositeMapper = {
   }
 };
 
-export const TokenInfo: coreHttp.CompositeMapper = {
-  serializedName: "TokenInfo",
+export const AnalyzedTokenInfo: coreHttp.CompositeMapper = {
+  serializedName: "AnalyzedTokenInfo",
   type: {
     name: "Composite",
-    className: "TokenInfo",
+    className: "AnalyzedTokenInfo",
     modelProperties: {
       token: {
         required: true,
@@ -119,7 +119,7 @@ export const AnalyzeResult: coreHttp.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "TokenInfo"
+              className: "AnalyzedTokenInfo"
             }
           }
         }
@@ -128,16 +128,16 @@ export const AnalyzeResult: coreHttp.CompositeMapper = {
   }
 };
 
-export const Analyzer: coreHttp.CompositeMapper = {
-  serializedName: "Analyzer",
+export const LexicalAnalyzer: coreHttp.CompositeMapper = {
+  serializedName: "LexicalAnalyzer",
   type: {
     name: "Composite",
     polymorphicDiscriminator: {
       serializedName: "@odata.type",
       clientName: "odatatype"
     },
-    uberParent: "Analyzer",
-    className: "Analyzer",
+    uberParent: "LexicalAnalyzer",
+    className: "LexicalAnalyzer",
     modelProperties: {
       name: {
         required: true,
@@ -161,11 +161,11 @@ export const CustomAnalyzer: coreHttp.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.CustomAnalyzer",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: Analyzer.type.polymorphicDiscriminator,
-    uberParent: "Analyzer",
+    polymorphicDiscriminator: LexicalAnalyzer.type.polymorphicDiscriminator,
+    uberParent: "LexicalAnalyzer",
     className: "CustomAnalyzer",
     modelProperties: {
-      ...Analyzer.type.modelProperties,
+      ...LexicalAnalyzer.type.modelProperties,
       tokenizer: {
         required: true,
         serializedName: "tokenizer",
@@ -203,11 +203,11 @@ export const PatternAnalyzer: coreHttp.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.PatternAnalyzer",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: Analyzer.type.polymorphicDiscriminator,
-    uberParent: "Analyzer",
+    polymorphicDiscriminator: LexicalAnalyzer.type.polymorphicDiscriminator,
+    uberParent: "LexicalAnalyzer",
     className: "PatternAnalyzer",
     modelProperties: {
-      ...Analyzer.type.modelProperties,
+      ...LexicalAnalyzer.type.modelProperties,
       lowerCaseTerms: {
         serializedName: "lowercase",
         defaultValue: true,
@@ -243,15 +243,15 @@ export const PatternAnalyzer: coreHttp.CompositeMapper = {
   }
 };
 
-export const StandardAnalyzer: coreHttp.CompositeMapper = {
+export const LuceneStandardAnalyzer: coreHttp.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.StandardAnalyzer",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: Analyzer.type.polymorphicDiscriminator,
-    uberParent: "Analyzer",
-    className: "StandardAnalyzer",
+    polymorphicDiscriminator: LexicalAnalyzer.type.polymorphicDiscriminator,
+    uberParent: "LexicalAnalyzer",
+    className: "LuceneStandardAnalyzer",
     modelProperties: {
-      ...Analyzer.type.modelProperties,
+      ...LexicalAnalyzer.type.modelProperties,
       maxTokenLength: {
         serializedName: "maxTokenLength",
         defaultValue: 255,
@@ -281,11 +281,11 @@ export const StopAnalyzer: coreHttp.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.StopAnalyzer",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: Analyzer.type.polymorphicDiscriminator,
-    uberParent: "Analyzer",
+    polymorphicDiscriminator: LexicalAnalyzer.type.polymorphicDiscriminator,
+    uberParent: "LexicalAnalyzer",
     className: "StopAnalyzer",
     modelProperties: {
-      ...Analyzer.type.modelProperties,
+      ...LexicalAnalyzer.type.modelProperties,
       stopwords: {
         serializedName: "stopwords",
         type: {
@@ -301,16 +301,16 @@ export const StopAnalyzer: coreHttp.CompositeMapper = {
   }
 };
 
-export const Tokenizer: coreHttp.CompositeMapper = {
-  serializedName: "Tokenizer",
+export const LexicalTokenizer: coreHttp.CompositeMapper = {
+  serializedName: "LexicalTokenizer",
   type: {
     name: "Composite",
     polymorphicDiscriminator: {
       serializedName: "@odata.type",
       clientName: "odatatype"
     },
-    uberParent: "Tokenizer",
-    className: "Tokenizer",
+    uberParent: "LexicalTokenizer",
+    className: "LexicalTokenizer",
     modelProperties: {
       name: {
         required: true,
@@ -334,11 +334,11 @@ export const ClassicTokenizer: coreHttp.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.ClassicTokenizer",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: Tokenizer.type.polymorphicDiscriminator,
-    uberParent: "Tokenizer",
+    polymorphicDiscriminator: LexicalTokenizer.type.polymorphicDiscriminator,
+    uberParent: "LexicalTokenizer",
     className: "ClassicTokenizer",
     modelProperties: {
-      ...Tokenizer.type.modelProperties,
+      ...LexicalTokenizer.type.modelProperties,
       maxTokenLength: {
         serializedName: "maxTokenLength",
         defaultValue: 255,
@@ -357,11 +357,11 @@ export const EdgeNGramTokenizer: coreHttp.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.EdgeNGramTokenizer",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: Tokenizer.type.polymorphicDiscriminator,
-    uberParent: "Tokenizer",
+    polymorphicDiscriminator: LexicalTokenizer.type.polymorphicDiscriminator,
+    uberParent: "LexicalTokenizer",
     className: "EdgeNGramTokenizer",
     modelProperties: {
-      ...Tokenizer.type.modelProperties,
+      ...LexicalTokenizer.type.modelProperties,
       minGram: {
         serializedName: "minGram",
         defaultValue: 1,
@@ -408,11 +408,11 @@ export const KeywordTokenizer: coreHttp.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.KeywordTokenizer",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: Tokenizer.type.polymorphicDiscriminator,
-    uberParent: "Tokenizer",
+    polymorphicDiscriminator: LexicalTokenizer.type.polymorphicDiscriminator,
+    uberParent: "LexicalTokenizer",
     className: "KeywordTokenizer",
     modelProperties: {
-      ...Tokenizer.type.modelProperties,
+      ...LexicalTokenizer.type.modelProperties,
       bufferSize: {
         serializedName: "bufferSize",
         defaultValue: 256,
@@ -428,11 +428,11 @@ export const KeywordTokenizerV2: coreHttp.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.KeywordTokenizerV2",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: Tokenizer.type.polymorphicDiscriminator,
-    uberParent: "Tokenizer",
+    polymorphicDiscriminator: LexicalTokenizer.type.polymorphicDiscriminator,
+    uberParent: "LexicalTokenizer",
     className: "KeywordTokenizerV2",
     modelProperties: {
-      ...Tokenizer.type.modelProperties,
+      ...LexicalTokenizer.type.modelProperties,
       maxTokenLength: {
         serializedName: "maxTokenLength",
         defaultValue: 256,
@@ -451,11 +451,11 @@ export const MicrosoftLanguageTokenizer: coreHttp.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.MicrosoftLanguageTokenizer",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: Tokenizer.type.polymorphicDiscriminator,
-    uberParent: "Tokenizer",
+    polymorphicDiscriminator: LexicalTokenizer.type.polymorphicDiscriminator,
+    uberParent: "LexicalTokenizer",
     className: "MicrosoftLanguageTokenizer",
     modelProperties: {
-      ...Tokenizer.type.modelProperties,
+      ...LexicalTokenizer.type.modelProperties,
       maxTokenLength: {
         serializedName: "maxTokenLength",
         defaultValue: 255,
@@ -531,11 +531,11 @@ export const MicrosoftLanguageStemmingTokenizer: coreHttp.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.MicrosoftLanguageStemmingTokenizer",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: Tokenizer.type.polymorphicDiscriminator,
-    uberParent: "Tokenizer",
+    polymorphicDiscriminator: LexicalTokenizer.type.polymorphicDiscriminator,
+    uberParent: "LexicalTokenizer",
     className: "MicrosoftLanguageStemmingTokenizer",
     modelProperties: {
-      ...Tokenizer.type.modelProperties,
+      ...LexicalTokenizer.type.modelProperties,
       maxTokenLength: {
         serializedName: "maxTokenLength",
         defaultValue: 255,
@@ -614,11 +614,11 @@ export const NGramTokenizer: coreHttp.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.NGramTokenizer",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: Tokenizer.type.polymorphicDiscriminator,
-    uberParent: "Tokenizer",
+    polymorphicDiscriminator: LexicalTokenizer.type.polymorphicDiscriminator,
+    uberParent: "LexicalTokenizer",
     className: "NGramTokenizer",
     modelProperties: {
-      ...Tokenizer.type.modelProperties,
+      ...LexicalTokenizer.type.modelProperties,
       minGram: {
         serializedName: "minGram",
         defaultValue: 1,
@@ -665,11 +665,11 @@ export const PathHierarchyTokenizerV2: coreHttp.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.PathHierarchyTokenizerV2",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: Tokenizer.type.polymorphicDiscriminator,
-    uberParent: "Tokenizer",
+    polymorphicDiscriminator: LexicalTokenizer.type.polymorphicDiscriminator,
+    uberParent: "LexicalTokenizer",
     className: "PathHierarchyTokenizerV2",
     modelProperties: {
-      ...Tokenizer.type.modelProperties,
+      ...LexicalTokenizer.type.modelProperties,
       delimiter: {
         serializedName: "delimiter",
         defaultValue: '/',
@@ -716,11 +716,11 @@ export const PatternTokenizer: coreHttp.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.PatternTokenizer",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: Tokenizer.type.polymorphicDiscriminator,
-    uberParent: "Tokenizer",
+    polymorphicDiscriminator: LexicalTokenizer.type.polymorphicDiscriminator,
+    uberParent: "LexicalTokenizer",
     className: "PatternTokenizer",
     modelProperties: {
-      ...Tokenizer.type.modelProperties,
+      ...LexicalTokenizer.type.modelProperties,
       pattern: {
         serializedName: "pattern",
         defaultValue: '\W+',
@@ -745,15 +745,15 @@ export const PatternTokenizer: coreHttp.CompositeMapper = {
   }
 };
 
-export const StandardTokenizer: coreHttp.CompositeMapper = {
+export const LuceneStandardTokenizer: coreHttp.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.StandardTokenizer",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: Tokenizer.type.polymorphicDiscriminator,
-    uberParent: "Tokenizer",
-    className: "StandardTokenizer",
+    polymorphicDiscriminator: LexicalTokenizer.type.polymorphicDiscriminator,
+    uberParent: "LexicalTokenizer",
+    className: "LuceneStandardTokenizer",
     modelProperties: {
-      ...Tokenizer.type.modelProperties,
+      ...LexicalTokenizer.type.modelProperties,
       maxTokenLength: {
         serializedName: "maxTokenLength",
         defaultValue: 255,
@@ -765,15 +765,15 @@ export const StandardTokenizer: coreHttp.CompositeMapper = {
   }
 };
 
-export const StandardTokenizerV2: coreHttp.CompositeMapper = {
+export const LuceneStandardTokenizerV2: coreHttp.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.StandardTokenizerV2",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: Tokenizer.type.polymorphicDiscriminator,
-    uberParent: "Tokenizer",
-    className: "StandardTokenizerV2",
+    polymorphicDiscriminator: LexicalTokenizer.type.polymorphicDiscriminator,
+    uberParent: "LexicalTokenizer",
+    className: "LuceneStandardTokenizerV2",
     modelProperties: {
-      ...Tokenizer.type.modelProperties,
+      ...LexicalTokenizer.type.modelProperties,
       maxTokenLength: {
         serializedName: "maxTokenLength",
         defaultValue: 255,
@@ -792,11 +792,11 @@ export const UaxUrlEmailTokenizer: coreHttp.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.UaxUrlEmailTokenizer",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: Tokenizer.type.polymorphicDiscriminator,
-    uberParent: "Tokenizer",
+    polymorphicDiscriminator: LexicalTokenizer.type.polymorphicDiscriminator,
+    uberParent: "LexicalTokenizer",
     className: "UaxUrlEmailTokenizer",
     modelProperties: {
-      ...Tokenizer.type.modelProperties,
+      ...LexicalTokenizer.type.modelProperties,
       maxTokenLength: {
         serializedName: "maxTokenLength",
         defaultValue: 255,
@@ -1175,7 +1175,7 @@ export const LengthTokenFilter: coreHttp.CompositeMapper = {
     className: "LengthTokenFilter",
     modelProperties: {
       ...TokenFilter.type.modelProperties,
-      min: {
+      minLength: {
         serializedName: "min",
         defaultValue: 0,
         constraints: {
@@ -1185,7 +1185,7 @@ export const LengthTokenFilter: coreHttp.CompositeMapper = {
           name: "Number"
         }
       },
-      max: {
+      maxLength: {
         serializedName: "max",
         defaultValue: 300,
         constraints: {
@@ -1917,6 +1917,66 @@ export const PatternReplaceCharFilter: coreHttp.CompositeMapper = {
   }
 };
 
+export const Similarity: coreHttp.CompositeMapper = {
+  serializedName: "Similarity",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: {
+      serializedName: "@odata.type",
+      clientName: "odatatype"
+    },
+    uberParent: "Similarity",
+    className: "Similarity",
+    modelProperties: {
+      odatatype: {
+        required: true,
+        serializedName: "@odata\\.type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ClassicSimilarity: coreHttp.CompositeMapper = {
+  serializedName: "#Microsoft.Azure.Search.ClassicSimilarity",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: Similarity.type.polymorphicDiscriminator,
+    uberParent: "Similarity",
+    className: "ClassicSimilarity",
+    modelProperties: {
+      ...Similarity.type.modelProperties
+    }
+  }
+};
+
+export const BM25Similarity: coreHttp.CompositeMapper = {
+  serializedName: "#Microsoft.Azure.Search.BM25Similarity",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: Similarity.type.polymorphicDiscriminator,
+    uberParent: "Similarity",
+    className: "BM25Similarity",
+    modelProperties: {
+      ...Similarity.type.modelProperties,
+      k1: {
+        serializedName: "k1",
+        type: {
+          name: "Number"
+        }
+      },
+      b: {
+        serializedName: "b",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const DataSourceCredentials: coreHttp.CompositeMapper = {
   serializedName: "DataSourceCredentials",
   type: {
@@ -1933,11 +1993,11 @@ export const DataSourceCredentials: coreHttp.CompositeMapper = {
   }
 };
 
-export const DataContainer: coreHttp.CompositeMapper = {
-  serializedName: "DataContainer",
+export const SearchIndexerDataContainer: coreHttp.CompositeMapper = {
+  serializedName: "SearchIndexerDataContainer",
   type: {
     name: "Composite",
-    className: "DataContainer",
+    className: "SearchIndexerDataContainer",
     modelProperties: {
       name: {
         required: true,
@@ -2058,11 +2118,11 @@ export const SoftDeleteColumnDeletionDetectionPolicy: coreHttp.CompositeMapper =
   }
 };
 
-export const DataSource: coreHttp.CompositeMapper = {
-  serializedName: "DataSource",
+export const SearchIndexerDataSource: coreHttp.CompositeMapper = {
+  serializedName: "SearchIndexerDataSource",
   type: {
     name: "Composite",
-    className: "DataSource",
+    className: "SearchIndexerDataSource",
     modelProperties: {
       name: {
         required: true,
@@ -2097,7 +2157,7 @@ export const DataSource: coreHttp.CompositeMapper = {
         serializedName: "container",
         type: {
           name: "Composite",
-          className: "DataContainer"
+          className: "SearchIndexerDataContainer"
         }
       },
       dataChangeDetectionPolicy: {
@@ -2139,7 +2199,7 @@ export const ListDataSourcesResult: coreHttp.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "DataSource"
+              className: "SearchIndexerDataSource"
             }
           }
         }
@@ -2270,11 +2330,11 @@ export const FieldMapping: coreHttp.CompositeMapper = {
   }
 };
 
-export const Indexer: coreHttp.CompositeMapper = {
-  serializedName: "Indexer",
+export const SearchIndexer: coreHttp.CompositeMapper = {
+  serializedName: "SearchIndexer",
   type: {
     name: "Composite",
-    className: "Indexer",
+    className: "SearchIndexer",
     modelProperties: {
       name: {
         required: true,
@@ -2379,7 +2439,7 @@ export const ListIndexersResult: coreHttp.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Indexer"
+              className: "SearchIndexer"
             }
           }
         }
@@ -2388,11 +2448,11 @@ export const ListIndexersResult: coreHttp.CompositeMapper = {
   }
 };
 
-export const ItemError: coreHttp.CompositeMapper = {
-  serializedName: "ItemError",
+export const SearchIndexerError: coreHttp.CompositeMapper = {
+  serializedName: "SearchIndexerError",
   type: {
     name: "Composite",
-    className: "ItemError",
+    className: "SearchIndexerError",
     modelProperties: {
       key: {
         readOnly: true,
@@ -2443,11 +2503,11 @@ export const ItemError: coreHttp.CompositeMapper = {
   }
 };
 
-export const ItemWarning: coreHttp.CompositeMapper = {
-  serializedName: "ItemWarning",
+export const SearchIndexerWarning: coreHttp.CompositeMapper = {
+  serializedName: "SearchIndexerWarning",
   type: {
     name: "Composite",
-    className: "ItemWarning",
+    className: "SearchIndexerWarning",
     modelProperties: {
       key: {
         readOnly: true,
@@ -2540,7 +2600,7 @@ export const IndexerExecutionResult: coreHttp.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ItemError"
+              className: "SearchIndexerError"
             }
           }
         }
@@ -2554,7 +2614,7 @@ export const IndexerExecutionResult: coreHttp.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ItemWarning"
+              className: "SearchIndexerWarning"
             }
           }
         }
@@ -2595,11 +2655,11 @@ export const IndexerExecutionResult: coreHttp.CompositeMapper = {
   }
 };
 
-export const IndexerLimits: coreHttp.CompositeMapper = {
-  serializedName: "IndexerLimits",
+export const SearchIndexerLimits: coreHttp.CompositeMapper = {
+  serializedName: "SearchIndexerLimits",
   type: {
     name: "Composite",
-    className: "IndexerLimits",
+    className: "SearchIndexerLimits",
     modelProperties: {
       maxRunTime: {
         readOnly: true,
@@ -2626,11 +2686,11 @@ export const IndexerLimits: coreHttp.CompositeMapper = {
   }
 };
 
-export const IndexerExecutionInfo: coreHttp.CompositeMapper = {
-  serializedName: "IndexerExecutionInfo",
+export const SearchIndexerStatus: coreHttp.CompositeMapper = {
+  serializedName: "SearchIndexerStatus",
   type: {
     name: "Composite",
-    className: "IndexerExecutionInfo",
+    className: "SearchIndexerStatus",
     modelProperties: {
       status: {
         required: true,
@@ -2674,18 +2734,18 @@ export const IndexerExecutionInfo: coreHttp.CompositeMapper = {
         serializedName: "limits",
         type: {
           name: "Composite",
-          className: "IndexerLimits"
+          className: "SearchIndexerLimits"
         }
       }
     }
   }
 };
 
-export const Field: coreHttp.CompositeMapper = {
-  serializedName: "Field",
+export const SearchField: coreHttp.CompositeMapper = {
+  serializedName: "SearchField",
   type: {
     name: "Composite",
-    className: "Field",
+    className: "SearchField",
     modelProperties: {
       name: {
         required: true,
@@ -2773,7 +2833,7 @@ export const Field: coreHttp.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Field"
+              className: "SearchField"
             }
           }
         }
@@ -3162,27 +3222,27 @@ export const AzureActiveDirectoryApplicationCredentials: coreHttp.CompositeMappe
   }
 };
 
-export const EncryptionKey: coreHttp.CompositeMapper = {
-  serializedName: "EncryptionKey",
+export const SearchResourceEncryptionKey: coreHttp.CompositeMapper = {
+  serializedName: "SearchResourceEncryptionKey",
   type: {
     name: "Composite",
-    className: "EncryptionKey",
+    className: "SearchResourceEncryptionKey",
     modelProperties: {
-      keyVaultKeyName: {
+      keyName: {
         required: true,
         serializedName: "keyVaultKeyName",
         type: {
           name: "String"
         }
       },
-      keyVaultKeyVersion: {
+      keyVersion: {
         required: true,
         serializedName: "keyVaultKeyVersion",
         type: {
           name: "String"
         }
       },
-      keyVaultUri: {
+      vaultUri: {
         required: true,
         serializedName: "keyVaultUri",
         type: {
@@ -3200,11 +3260,11 @@ export const EncryptionKey: coreHttp.CompositeMapper = {
   }
 };
 
-export const Index: coreHttp.CompositeMapper = {
-  serializedName: "Index",
+export const SearchIndex: coreHttp.CompositeMapper = {
+  serializedName: "SearchIndex",
   type: {
     name: "Composite",
-    className: "Index",
+    className: "SearchIndex",
     modelProperties: {
       name: {
         required: true,
@@ -3221,7 +3281,7 @@ export const Index: coreHttp.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Field"
+              className: "SearchField"
             }
           }
         }
@@ -3270,7 +3330,7 @@ export const Index: coreHttp.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Analyzer"
+              className: "LexicalAnalyzer"
             }
           }
         }
@@ -3282,7 +3342,7 @@ export const Index: coreHttp.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Tokenizer"
+              className: "LexicalTokenizer"
             }
           }
         }
@@ -3315,7 +3375,14 @@ export const Index: coreHttp.CompositeMapper = {
         serializedName: "encryptionKey",
         type: {
           name: "Composite",
-          className: "EncryptionKey"
+          className: "SearchResourceEncryptionKey"
+        }
+      },
+      similarity: {
+        serializedName: "similarity",
+        type: {
+          name: "Composite",
+          className: "Similarity"
         }
       },
       etag: {
@@ -3371,7 +3438,7 @@ export const ListIndexesResult: coreHttp.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Index"
+              className: "SearchIndex"
             }
           }
         }
@@ -3444,16 +3511,16 @@ export const OutputFieldMappingEntry: coreHttp.CompositeMapper = {
   }
 };
 
-export const Skill: coreHttp.CompositeMapper = {
-  serializedName: "Skill",
+export const SearchIndexerSkill: coreHttp.CompositeMapper = {
+  serializedName: "SearchIndexerSkill",
   type: {
     name: "Composite",
     polymorphicDiscriminator: {
       serializedName: "@odata.type",
       clientName: "odatatype"
     },
-    uberParent: "Skill",
-    className: "Skill",
+    uberParent: "SearchIndexerSkill",
+    className: "SearchIndexerSkill",
     modelProperties: {
       name: {
         serializedName: "name",
@@ -3538,11 +3605,11 @@ export const CognitiveServicesAccount: coreHttp.CompositeMapper = {
   }
 };
 
-export const Skillset: coreHttp.CompositeMapper = {
-  serializedName: "Skillset",
+export const SearchIndexerSkillset: coreHttp.CompositeMapper = {
+  serializedName: "SearchIndexerSkillset",
   type: {
     name: "Composite",
-    className: "Skillset",
+    className: "SearchIndexerSkillset",
     modelProperties: {
       name: {
         required: true,
@@ -3566,7 +3633,7 @@ export const Skillset: coreHttp.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Skill"
+              className: "SearchIndexerSkill"
             }
           }
         }
@@ -3625,11 +3692,11 @@ export const ConditionalSkill: coreHttp.CompositeMapper = {
   serializedName: "#Microsoft.Skills.Util.ConditionalSkill",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: Skill.type.polymorphicDiscriminator,
-    uberParent: "Skill",
+    polymorphicDiscriminator: SearchIndexerSkill.type.polymorphicDiscriminator,
+    uberParent: "SearchIndexerSkill",
     className: "ConditionalSkill",
     modelProperties: {
-      ...Skill.type.modelProperties
+      ...SearchIndexerSkill.type.modelProperties
     }
   }
 };
@@ -3638,11 +3705,11 @@ export const KeyPhraseExtractionSkill: coreHttp.CompositeMapper = {
   serializedName: "#Microsoft.Skills.Text.KeyPhraseExtractionSkill",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: Skill.type.polymorphicDiscriminator,
-    uberParent: "Skill",
+    polymorphicDiscriminator: SearchIndexerSkill.type.polymorphicDiscriminator,
+    uberParent: "SearchIndexerSkill",
     className: "KeyPhraseExtractionSkill",
     modelProperties: {
-      ...Skill.type.modelProperties,
+      ...SearchIndexerSkill.type.modelProperties,
       defaultLanguageCode: {
         serializedName: "defaultLanguageCode",
         type: {
@@ -3664,11 +3731,11 @@ export const OcrSkill: coreHttp.CompositeMapper = {
   serializedName: "#Microsoft.Skills.Vision.OcrSkill",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: Skill.type.polymorphicDiscriminator,
-    uberParent: "Skill",
+    polymorphicDiscriminator: SearchIndexerSkill.type.polymorphicDiscriminator,
+    uberParent: "SearchIndexerSkill",
     className: "OcrSkill",
     modelProperties: {
-      ...Skill.type.modelProperties,
+      ...SearchIndexerSkill.type.modelProperties,
       textExtractionAlgorithm: {
         serializedName: "textExtractionAlgorithm",
         type: {
@@ -3700,11 +3767,11 @@ export const ImageAnalysisSkill: coreHttp.CompositeMapper = {
   serializedName: "#Microsoft.Skills.Vision.ImageAnalysisSkill",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: Skill.type.polymorphicDiscriminator,
-    uberParent: "Skill",
+    polymorphicDiscriminator: SearchIndexerSkill.type.polymorphicDiscriminator,
+    uberParent: "SearchIndexerSkill",
     className: "ImageAnalysisSkill",
     modelProperties: {
-      ...Skill.type.modelProperties,
+      ...SearchIndexerSkill.type.modelProperties,
       defaultLanguageCode: {
         serializedName: "defaultLanguageCode",
         type: {
@@ -3754,11 +3821,11 @@ export const LanguageDetectionSkill: coreHttp.CompositeMapper = {
   serializedName: "#Microsoft.Skills.Text.LanguageDetectionSkill",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: Skill.type.polymorphicDiscriminator,
-    uberParent: "Skill",
+    polymorphicDiscriminator: SearchIndexerSkill.type.polymorphicDiscriminator,
+    uberParent: "SearchIndexerSkill",
     className: "LanguageDetectionSkill",
     modelProperties: {
-      ...Skill.type.modelProperties
+      ...SearchIndexerSkill.type.modelProperties
     }
   }
 };
@@ -3767,11 +3834,11 @@ export const ShaperSkill: coreHttp.CompositeMapper = {
   serializedName: "#Microsoft.Skills.Util.ShaperSkill",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: Skill.type.polymorphicDiscriminator,
-    uberParent: "Skill",
+    polymorphicDiscriminator: SearchIndexerSkill.type.polymorphicDiscriminator,
+    uberParent: "SearchIndexerSkill",
     className: "ShaperSkill",
     modelProperties: {
-      ...Skill.type.modelProperties
+      ...SearchIndexerSkill.type.modelProperties
     }
   }
 };
@@ -3780,11 +3847,11 @@ export const MergeSkill: coreHttp.CompositeMapper = {
   serializedName: "#Microsoft.Skills.Text.MergeSkill",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: Skill.type.polymorphicDiscriminator,
-    uberParent: "Skill",
+    polymorphicDiscriminator: SearchIndexerSkill.type.polymorphicDiscriminator,
+    uberParent: "SearchIndexerSkill",
     className: "MergeSkill",
     modelProperties: {
-      ...Skill.type.modelProperties,
+      ...SearchIndexerSkill.type.modelProperties,
       insertPreTag: {
         serializedName: "insertPreTag",
         defaultValue: '',
@@ -3807,11 +3874,11 @@ export const EntityRecognitionSkill: coreHttp.CompositeMapper = {
   serializedName: "#Microsoft.Skills.Text.EntityRecognitionSkill",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: Skill.type.polymorphicDiscriminator,
-    uberParent: "Skill",
+    polymorphicDiscriminator: SearchIndexerSkill.type.polymorphicDiscriminator,
+    uberParent: "SearchIndexerSkill",
     className: "EntityRecognitionSkill",
     modelProperties: {
-      ...Skill.type.modelProperties,
+      ...SearchIndexerSkill.type.modelProperties,
       categories: {
         serializedName: "categories",
         type: {
@@ -3860,11 +3927,11 @@ export const SentimentSkill: coreHttp.CompositeMapper = {
   serializedName: "#Microsoft.Skills.Text.SentimentSkill",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: Skill.type.polymorphicDiscriminator,
-    uberParent: "Skill",
+    polymorphicDiscriminator: SearchIndexerSkill.type.polymorphicDiscriminator,
+    uberParent: "SearchIndexerSkill",
     className: "SentimentSkill",
     modelProperties: {
-      ...Skill.type.modelProperties,
+      ...SearchIndexerSkill.type.modelProperties,
       defaultLanguageCode: {
         serializedName: "defaultLanguageCode",
         type: {
@@ -3879,11 +3946,11 @@ export const SplitSkill: coreHttp.CompositeMapper = {
   serializedName: "#Microsoft.Skills.Text.SplitSkill",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: Skill.type.polymorphicDiscriminator,
-    uberParent: "Skill",
+    polymorphicDiscriminator: SearchIndexerSkill.type.polymorphicDiscriminator,
+    uberParent: "SearchIndexerSkill",
     className: "SplitSkill",
     modelProperties: {
-      ...Skill.type.modelProperties,
+      ...SearchIndexerSkill.type.modelProperties,
       defaultLanguageCode: {
         serializedName: "defaultLanguageCode",
         type: {
@@ -3915,11 +3982,11 @@ export const TextTranslationSkill: coreHttp.CompositeMapper = {
   serializedName: "#Microsoft.Skills.Text.TranslationSkill",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: Skill.type.polymorphicDiscriminator,
-    uberParent: "Skill",
+    polymorphicDiscriminator: SearchIndexerSkill.type.polymorphicDiscriminator,
+    uberParent: "SearchIndexerSkill",
     className: "TextTranslationSkill",
     modelProperties: {
-      ...Skill.type.modelProperties,
+      ...SearchIndexerSkill.type.modelProperties,
       defaultToLanguageCode: {
         required: true,
         serializedName: "defaultToLanguageCode",
@@ -3947,11 +4014,11 @@ export const WebApiSkill: coreHttp.CompositeMapper = {
   serializedName: "#Microsoft.Skills.Custom.WebApiSkill",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: Skill.type.polymorphicDiscriminator,
-    uberParent: "Skill",
+    polymorphicDiscriminator: SearchIndexerSkill.type.polymorphicDiscriminator,
+    uberParent: "SearchIndexerSkill",
     className: "WebApiSkill",
     modelProperties: {
-      ...Skill.type.modelProperties,
+      ...SearchIndexerSkill.type.modelProperties,
       uri: {
         required: true,
         serializedName: "uri",
@@ -4015,7 +4082,7 @@ export const ListSkillsetsResult: coreHttp.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Skillset"
+              className: "SearchIndexerSkillset"
             }
           }
         }
@@ -4057,7 +4124,7 @@ export const SynonymMap: coreHttp.CompositeMapper = {
         serializedName: "encryptionKey",
         type: {
           name: "Composite",
-          className: "EncryptionKey"
+          className: "SearchResourceEncryptionKey"
         }
       },
       etag: {
@@ -4287,44 +4354,25 @@ export const SearchError: coreHttp.CompositeMapper = {
   }
 };
 
-export const AccessCondition: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AccessCondition",
-    modelProperties: {
-      ifMatch: {
-        type: {
-          name: "String"
-        }
-      },
-      ifNoneMatch: {
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const discriminators = {
-  'Analyzer' : Analyzer,
-  'Analyzer.#Microsoft.Azure.Search.CustomAnalyzer' : CustomAnalyzer,
-  'Analyzer.#Microsoft.Azure.Search.PatternAnalyzer' : PatternAnalyzer,
-  'Analyzer.#Microsoft.Azure.Search.StandardAnalyzer' : StandardAnalyzer,
-  'Analyzer.#Microsoft.Azure.Search.StopAnalyzer' : StopAnalyzer,
-  'Tokenizer' : Tokenizer,
-  'Tokenizer.#Microsoft.Azure.Search.ClassicTokenizer' : ClassicTokenizer,
-  'Tokenizer.#Microsoft.Azure.Search.EdgeNGramTokenizer' : EdgeNGramTokenizer,
-  'Tokenizer.#Microsoft.Azure.Search.KeywordTokenizer' : KeywordTokenizer,
-  'Tokenizer.#Microsoft.Azure.Search.KeywordTokenizerV2' : KeywordTokenizerV2,
-  'Tokenizer.#Microsoft.Azure.Search.MicrosoftLanguageTokenizer' : MicrosoftLanguageTokenizer,
-  'Tokenizer.#Microsoft.Azure.Search.MicrosoftLanguageStemmingTokenizer' : MicrosoftLanguageStemmingTokenizer,
-  'Tokenizer.#Microsoft.Azure.Search.NGramTokenizer' : NGramTokenizer,
-  'Tokenizer.#Microsoft.Azure.Search.PathHierarchyTokenizerV2' : PathHierarchyTokenizerV2,
-  'Tokenizer.#Microsoft.Azure.Search.PatternTokenizer' : PatternTokenizer,
-  'Tokenizer.#Microsoft.Azure.Search.StandardTokenizer' : StandardTokenizer,
-  'Tokenizer.#Microsoft.Azure.Search.StandardTokenizerV2' : StandardTokenizerV2,
-  'Tokenizer.#Microsoft.Azure.Search.UaxUrlEmailTokenizer' : UaxUrlEmailTokenizer,
+  'LexicalAnalyzer' : LexicalAnalyzer,
+  'LexicalAnalyzer.#Microsoft.Azure.Search.CustomAnalyzer' : CustomAnalyzer,
+  'LexicalAnalyzer.#Microsoft.Azure.Search.PatternAnalyzer' : PatternAnalyzer,
+  'LexicalAnalyzer.#Microsoft.Azure.Search.StandardAnalyzer' : LuceneStandardAnalyzer,
+  'LexicalAnalyzer.#Microsoft.Azure.Search.StopAnalyzer' : StopAnalyzer,
+  'LexicalTokenizer' : LexicalTokenizer,
+  'LexicalTokenizer.#Microsoft.Azure.Search.ClassicTokenizer' : ClassicTokenizer,
+  'LexicalTokenizer.#Microsoft.Azure.Search.EdgeNGramTokenizer' : EdgeNGramTokenizer,
+  'LexicalTokenizer.#Microsoft.Azure.Search.KeywordTokenizer' : KeywordTokenizer,
+  'LexicalTokenizer.#Microsoft.Azure.Search.KeywordTokenizerV2' : KeywordTokenizerV2,
+  'LexicalTokenizer.#Microsoft.Azure.Search.MicrosoftLanguageTokenizer' : MicrosoftLanguageTokenizer,
+  'LexicalTokenizer.#Microsoft.Azure.Search.MicrosoftLanguageStemmingTokenizer' : MicrosoftLanguageStemmingTokenizer,
+  'LexicalTokenizer.#Microsoft.Azure.Search.NGramTokenizer' : NGramTokenizer,
+  'LexicalTokenizer.#Microsoft.Azure.Search.PathHierarchyTokenizerV2' : PathHierarchyTokenizerV2,
+  'LexicalTokenizer.#Microsoft.Azure.Search.PatternTokenizer' : PatternTokenizer,
+  'LexicalTokenizer.#Microsoft.Azure.Search.StandardTokenizer' : LuceneStandardTokenizer,
+  'LexicalTokenizer.#Microsoft.Azure.Search.StandardTokenizerV2' : LuceneStandardTokenizerV2,
+  'LexicalTokenizer.#Microsoft.Azure.Search.UaxUrlEmailTokenizer' : UaxUrlEmailTokenizer,
   'TokenFilter' : TokenFilter,
   'TokenFilter.#Microsoft.Azure.Search.AsciiFoldingTokenFilter' : AsciiFoldingTokenFilter,
   'TokenFilter.#Microsoft.Azure.Search.CjkBigramTokenFilter' : CjkBigramTokenFilter,
@@ -4354,6 +4402,9 @@ export const discriminators = {
   'CharFilter' : CharFilter,
   'CharFilter.#Microsoft.Azure.Search.MappingCharFilter' : MappingCharFilter,
   'CharFilter.#Microsoft.Azure.Search.PatternReplaceCharFilter' : PatternReplaceCharFilter,
+  'Similarity' : Similarity,
+  'Similarity.#Microsoft.Azure.Search.ClassicSimilarity' : ClassicSimilarity,
+  'Similarity.#Microsoft.Azure.Search.BM25Similarity' : BM25Similarity,
   'DataChangeDetectionPolicy' : DataChangeDetectionPolicy,
   'DataChangeDetectionPolicy.#Microsoft.Azure.Search.HighWaterMarkChangeDetectionPolicy' : HighWaterMarkChangeDetectionPolicy,
   'DataChangeDetectionPolicy.#Microsoft.Azure.Search.SqlIntegratedChangeTrackingPolicy' : SqlIntegratedChangeTrackingPolicy,
@@ -4364,21 +4415,21 @@ export const discriminators = {
   'ScoringFunction.freshness' : FreshnessScoringFunction,
   'ScoringFunction.magnitude' : MagnitudeScoringFunction,
   'ScoringFunction.tag' : TagScoringFunction,
-  'Skill' : Skill,
+  'SearchIndexerSkill' : SearchIndexerSkill,
   'CognitiveServicesAccount' : CognitiveServicesAccount,
   'CognitiveServicesAccount.#Microsoft.Azure.Search.DefaultCognitiveServices' : DefaultCognitiveServicesAccount,
   'CognitiveServicesAccount.#Microsoft.Azure.Search.CognitiveServicesByKey' : CognitiveServicesAccountKey,
-  'Skill.#Microsoft.Skills.Util.ConditionalSkill' : ConditionalSkill,
-  'Skill.#Microsoft.Skills.Text.KeyPhraseExtractionSkill' : KeyPhraseExtractionSkill,
-  'Skill.#Microsoft.Skills.Vision.OcrSkill' : OcrSkill,
-  'Skill.#Microsoft.Skills.Vision.ImageAnalysisSkill' : ImageAnalysisSkill,
-  'Skill.#Microsoft.Skills.Text.LanguageDetectionSkill' : LanguageDetectionSkill,
-  'Skill.#Microsoft.Skills.Util.ShaperSkill' : ShaperSkill,
-  'Skill.#Microsoft.Skills.Text.MergeSkill' : MergeSkill,
-  'Skill.#Microsoft.Skills.Text.EntityRecognitionSkill' : EntityRecognitionSkill,
-  'Skill.#Microsoft.Skills.Text.SentimentSkill' : SentimentSkill,
-  'Skill.#Microsoft.Skills.Text.SplitSkill' : SplitSkill,
-  'Skill.#Microsoft.Skills.Text.TranslationSkill' : TextTranslationSkill,
-  'Skill.#Microsoft.Skills.Custom.WebApiSkill' : WebApiSkill
+  'SearchIndexerSkill.#Microsoft.Skills.Util.ConditionalSkill' : ConditionalSkill,
+  'SearchIndexerSkill.#Microsoft.Skills.Text.KeyPhraseExtractionSkill' : KeyPhraseExtractionSkill,
+  'SearchIndexerSkill.#Microsoft.Skills.Vision.OcrSkill' : OcrSkill,
+  'SearchIndexerSkill.#Microsoft.Skills.Vision.ImageAnalysisSkill' : ImageAnalysisSkill,
+  'SearchIndexerSkill.#Microsoft.Skills.Text.LanguageDetectionSkill' : LanguageDetectionSkill,
+  'SearchIndexerSkill.#Microsoft.Skills.Util.ShaperSkill' : ShaperSkill,
+  'SearchIndexerSkill.#Microsoft.Skills.Text.MergeSkill' : MergeSkill,
+  'SearchIndexerSkill.#Microsoft.Skills.Text.EntityRecognitionSkill' : EntityRecognitionSkill,
+  'SearchIndexerSkill.#Microsoft.Skills.Text.SentimentSkill' : SentimentSkill,
+  'SearchIndexerSkill.#Microsoft.Skills.Text.SplitSkill' : SplitSkill,
+  'SearchIndexerSkill.#Microsoft.Skills.Text.TranslationSkill' : TextTranslationSkill,
+  'SearchIndexerSkill.#Microsoft.Skills.Custom.WebApiSkill' : WebApiSkill
 
 };
