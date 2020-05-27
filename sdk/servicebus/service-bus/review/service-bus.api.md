@@ -389,6 +389,9 @@ export class ServiceBusManagementClient extends ServiceClient {
     listRules(topicName: string, subscriptionName: string, listRequestOptions?: ListRequestOptions): Promise<ListRulesResponse>;
     listSubscriptions(topicName: string, listRequestOptions?: ListRequestOptions): Promise<ListSubscriptionsResponse>;
     listTopics(listRequestOptions?: ListRequestOptions): Promise<ListTopicsResponse>;
+    queueExists(queueName: string): Promise<boolean>;
+    subscriptionExists(topicName: string, subscriptionName: string): Promise<boolean>;
+    topicExists(topicName: string): Promise<boolean>;
     updateQueue(queueName: string): Promise<UpdateQueueResponse>;
     updateQueue(queueOptions: QueueOptions): Promise<UpdateQueueResponse>;
     updateRule(topicName: string, subscriptionName: string, ruleName: string, ruleOptions: RuleOptions): Promise<UpdateRuleResponse>;
