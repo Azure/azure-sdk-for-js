@@ -495,7 +495,7 @@ describe("BlobClient Node.js only", () => {
     const response = await blockBlobClient.query("select * from BlobStorage", {
       abortSignal: aborter.signal,
       onProgress: () => {
-        // Abort parser when first progress event trigger (by default 4MB)
+        // Abort parse when first progress event trigger (by default 4MB)
         aborter.abort();
       }
     });

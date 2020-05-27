@@ -20,7 +20,7 @@ import { BlobQuickQueryStreamOptions } from "./utils/BlobQuickQueryStream";
  * ONLY AVAILABLE IN BROWSER RUNTIME.
  *
  * BlobQueryResponse implements BlobDownloadResponseModel interface, and in browser runtime it will
- * parser avor data returned by blob query.
+ * parse avor data returned by blob query.
  *
  * @export
  * @class BlobQueryResponse

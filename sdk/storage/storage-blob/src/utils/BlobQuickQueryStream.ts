@@ -39,7 +39,7 @@ const ABORT_ERROR = new AbortError("The operation was aborted.");
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
- * A Node.js BlobQuickQueryStream will internally parser avor data stream for blob query.
+ * A Node.js BlobQuickQueryStream will internally parse avor data stream for blob query.
  *
  * @class BlobQuickQueryStream
  * @extends {Readable}

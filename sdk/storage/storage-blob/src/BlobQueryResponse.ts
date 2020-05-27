@@ -20,7 +20,7 @@ import { BlobQuickQueryStream, BlobQuickQueryStreamOptions } from "./utils/BlobQ
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
  * BlobQueryResponse implements BlobDownloadResponseModel interface, and in Node.js runtime it will
- * parser avor data returned by blob query.
+ * parse avor data returned by blob query.
  *
  * @export
  * @class BlobQueryResponse

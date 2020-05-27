@@ -3410,7 +3410,7 @@ export class BlockBlobClient extends BlobClient {
   }
 
   /**
-   * Quick query for a JSON or CSV formated blob.
+   * Quick query for a JSON or CSV formatted blob.
    *
    * Example usage (Node.js):
    *
