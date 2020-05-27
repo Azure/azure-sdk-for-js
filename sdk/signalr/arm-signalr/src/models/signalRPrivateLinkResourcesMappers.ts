@@ -7,9 +7,24 @@
  */
 
 export {
+  BaseResource,
   ErrorResponse,
   ErrorResponseBody,
-  SignalRUsage,
-  SignalRUsageList,
-  SignalRUsageName
+  NetworkACL,
+  PrivateEndpoint,
+  PrivateEndpointACL,
+  PrivateEndpointConnection,
+  PrivateLinkResource,
+  PrivateLinkResourceList,
+  PrivateLinkServiceConnectionState,
+  ProxyResource,
+  Resource,
+  ResourceSku,
+  ServerlessUpstreamSettings,
+  SignalRCorsSettings,
+  SignalRFeature,
+  SignalRNetworkACLs,
+  SignalRResource,
+  TrackedResource,
+  UpstreamTemplate
 } from "../models/mappers";
