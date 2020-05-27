@@ -83,6 +83,34 @@ export function challengeBasedAuthenticationPolicy(
 }
 
 /**
+ * Parses an WWW-Authenticate response.
+ * This transforms a string value like:
+ * `Bearer authorization="some_authorization", resource="https://some.url"`
+ * into an object like:
+ * `{ authorization: "some_authorization", resource: "https://some.url" }`
+ * @param wwwAuthenticate string value in the WWW-Authenticate header
+ */
+export function parseWWWAuthenticate(wwwAuthenticate: string): ParsedWWWAuthenticate {
+  // First we split the string by either `, ` or ` `.
+  const parts = wwwAuthenticate.split(/,* +/);
+  // Then we only keep the strings with an equal sign after a word and before a quote.
+  // also splitting these sections by their equal sign
+  const keyValues = parts.reduce<string[][]>(
+    (parts, str) => (str.match(/\w="/) ? [...parts, str.split("=")] : parts),
+    []
+  );
+  // Then we transform these key-value pairs back into an object.
+  const parsed = keyValues.reduce<ParsedWWWAuthenticate>(
+    (result, [key, value]: string[]) => ({
+      ...result,
+      [key]: value.slice(1, -1)
+    }),
+    {}
+  );
+  return parsed;
+}
+
+/**
  *
  * Provides a RequestPolicy that can request a token from a TokenCredential
  * implementation and then apply it to the Authorization header of a request
@@ -90,6 +118,10 @@ export function challengeBasedAuthenticationPolicy(
  *
  */
 export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
+  private parseWWWAuthenticate: (
+    wwwAuthenticate: string
+  ) => ParsedWWWAuthenticate = parseWWWAuthenticate;
+
   /**
    * Creates a new ChallengeBasedAuthenticationPolicy object.
    *
@@ -130,34 +162,6 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
   }
 
   /**
-   * Parses an WWW-Authenticate response.
-   * This transforms a string value like:
-   * `Bearer authorization="some_authorization", resource="https://some.url"`
-   * into an object like:
-   * `{ authorization: "some_authorization", resource: "https://some.url" }`
-   * @param wwwAuthenticate string value in the WWW-Authenticate header
-   */
-  public parseWWWAuthenticate(wwwAuthenticate: string): ParsedWWWAuthenticate {
-    // First we split the string by either `, ` or ` `.
-    const parts = wwwAuthenticate.split(/,* +/);
-    // Then we only keep the strings with an equal sign after a word and before a quote.
-    // also splitting these sections by their equal sign
-    const keyValues = parts.reduce(
-      (parts, str) => (str.match(/\w="/) ? [...parts, str.split("=")] : parts),
-      [] as string[][]
-    );
-    // Then we transform these key-value pairs back into an object.
-    const parsed = keyValues.reduce(
-      (result, [key, value]: string[]) => ({
-        ...result,
-        [key]: value.slice(1, -1)
-      }),
-      {} as ParsedWWWAuthenticate
-    );
-    return parsed;
-  }
-
-  /**
    * Parses the given WWW-Authenticate header, generates a new AuthenticationChallenge,
    * then if the challenge is different from the one cached, resets the token and forces
    * a re-authentication, otherwise continues with the existing challenge and token.
@@ -174,6 +178,10 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
     const parsedWWWAuth = this.parseWWWAuthenticate(wwwAuthenticate);
     const authorization = parsedWWWAuth.authorization!;
     const resource = parsedWWWAuth.resource! || parsedWWWAuth.scope!;
+
+    if (!(authorization && resource)) {
+      return this._nextPolicy.sendRequest(webResource);
+    }
 
     const challenge = new AuthenticationChallenge(authorization, resource + "/.default");
 
