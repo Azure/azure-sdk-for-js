@@ -118,7 +118,7 @@
     "@types/glob": "^7.1.1",
     "@types/mocha": "^7.0.2",
     "@types/node": "^8.0.0",
-    "@types/ws": "^6.0.1",
+    "@types/ws": "^7.2.4",
     "@typescript-eslint/eslint-plugin": "^2.0.0",
     "@typescript-eslint/parser": "^2.0.0",
     "assert": "^1.4.1",

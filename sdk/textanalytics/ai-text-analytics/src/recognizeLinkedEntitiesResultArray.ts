@@ -4,22 +4,22 @@
 import {
   TextDocumentBatchStatistics,
   DocumentError,
-  DocumentEntities,
+  DocumentLinkedEntities,
   MultiLanguageInput
 } from "./generated/models";
 import {
-  RecognizeCategorizedEntitiesResult,
-  makeRecognizeCategorizedEntitiesResult,
-  makeRecognizeCategorizedEntitiesErrorResult
-} from "./recognizeCategorizedEntitiesResult";
-import { sortByPreviousIdOrder } from "./util";
+  RecognizeLinkedEntitiesResult,
+  makeRecognizeLinkedEntitiesResult,
+  makeRecognizeLinkedEntitiesErrorResult
+} from "./recognizeLinkedEntitiesResult";
+import { sortResponseIdObjects } from "./util";
 
 /**
- * Collection of `RecognizeCategorizedEntitiesResult` objects corresponding to a batch of input documents, and
+ * Array of `RecognizeLinkedEntitiesResult` objects corresponding to a batch of input documents, and
  * annotated with information about the batch operation.
  */
-export interface RecognizeCategorizedEntitiesResultCollection
-  extends Array<RecognizeCategorizedEntitiesResult> {
+export interface RecognizeLinkedEntitiesResultArray
+  extends Array<RecognizeLinkedEntitiesResult> {
   /**
    * Statistics about the input document batch and how it was processed
    * by the service. This property will have a value when includeStatistics is set to true
@@ -33,31 +33,32 @@ export interface RecognizeCategorizedEntitiesResultCollection
   modelVersion: string;
 }
 
-export function makeRecognizeCategorizedEntitiesResultCollection(
+export function makeRecognizeLinkedEntitiesResultArray(
   input: MultiLanguageInput[],
-  documents: DocumentEntities[],
+  documents: DocumentLinkedEntities[],
   errors: DocumentError[],
   modelVersion: string,
   statistics?: TextDocumentBatchStatistics
-): RecognizeCategorizedEntitiesResultCollection {
+): RecognizeLinkedEntitiesResultArray {
   const unsortedResult = documents
     .map(
-      (document): RecognizeCategorizedEntitiesResult => {
-        return makeRecognizeCategorizedEntitiesResult(
+      (document): RecognizeLinkedEntitiesResult => {
+        return makeRecognizeLinkedEntitiesResult(
           document.id,
           document.entities,
+          document.warnings,
           document.statistics
         );
       }
     )
     .concat(
       errors.map(
-        (error): RecognizeCategorizedEntitiesResult => {
-          return makeRecognizeCategorizedEntitiesErrorResult(error.id, error.error);
+        (error): RecognizeLinkedEntitiesResult => {
+          return makeRecognizeLinkedEntitiesErrorResult(error.id, error.error);
         }
       )
     );
-  const result = sortByPreviousIdOrder(input, unsortedResult);
+  const result = sortResponseIdObjects(input, unsortedResult);
   return Object.assign(result, {
     statistics,
     modelVersion

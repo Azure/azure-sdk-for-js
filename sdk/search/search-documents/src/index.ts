@@ -49,7 +49,6 @@ export {
   Skillset,
   ListSynonymMapsOptions,
   DeleteIndexOptions,
-  ETagOperationOptions,
   AnalyzeTextOptions,
   GetIndexOptions,
   GetIndexStatisticsOptions,

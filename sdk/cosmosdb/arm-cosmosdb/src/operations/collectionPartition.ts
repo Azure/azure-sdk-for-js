@@ -29,7 +29,7 @@ export class CollectionPartition {
   /**
    * Retrieves the metrics determined by the given filter for the given collection, split by
    * partition.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseRid Cosmos DB database rid.
    * @param collectionRid Cosmos DB collection rid.
@@ -41,7 +41,7 @@ export class CollectionPartition {
    */
   listMetrics(resourceGroupName: string, accountName: string, databaseRid: string, collectionRid: string, filter: string, options?: msRest.RequestOptionsBase): Promise<Models.CollectionPartitionListMetricsResponse>;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseRid Cosmos DB database rid.
    * @param collectionRid Cosmos DB collection rid.
@@ -52,7 +52,7 @@ export class CollectionPartition {
    */
   listMetrics(resourceGroupName: string, accountName: string, databaseRid: string, collectionRid: string, filter: string, callback: msRest.ServiceCallback<Models.PartitionMetricListResult>): void;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseRid Cosmos DB database rid.
    * @param collectionRid Cosmos DB collection rid.
@@ -79,7 +79,7 @@ export class CollectionPartition {
 
   /**
    * Retrieves the usages (most recent storage data) for the given collection, split by partition.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseRid Cosmos DB database rid.
    * @param collectionRid Cosmos DB collection rid.
@@ -88,7 +88,7 @@ export class CollectionPartition {
    */
   listUsages(resourceGroupName: string, accountName: string, databaseRid: string, collectionRid: string, options?: Models.CollectionPartitionListUsagesOptionalParams): Promise<Models.CollectionPartitionListUsagesResponse>;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseRid Cosmos DB database rid.
    * @param collectionRid Cosmos DB collection rid.
@@ -96,7 +96,7 @@ export class CollectionPartition {
    */
   listUsages(resourceGroupName: string, accountName: string, databaseRid: string, collectionRid: string, callback: msRest.ServiceCallback<Models.PartitionUsagesResult>): void;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseRid Cosmos DB database rid.
    * @param collectionRid Cosmos DB collection rid.
@@ -124,7 +124,7 @@ const listMetricsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/collections/{collectionRid}/partitions/metrics",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseRid,
@@ -152,7 +152,7 @@ const listUsagesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/collections/{collectionRid}/partitions/usages",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseRid,

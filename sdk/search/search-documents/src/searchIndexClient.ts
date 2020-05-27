@@ -340,10 +340,17 @@ export class SearchIndexClient {
   ): Promise<Index> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-createOrUpdateIndex", options);
     try {
+      const etag = options.onlyIfUnchanged ? index.etag : undefined;
+
       const result = await this.client.indexes.createOrUpdate(
         index.name,
         utils.publicIndexToGeneratedIndex(index),
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        {
+          ...operationOptionsToRequestOptionsBase(updatedOptions),
+          accessCondition: {
+            ifMatch: etag
+          }
+        }
       );
       return utils.generatedIndexToPublicIndex(result);
     } catch (e) {
@@ -371,10 +378,17 @@ export class SearchIndexClient {
       options
     );
     try {
+      const etag = options.onlyIfUnchanged ? synonymMap.etag : undefined;
+
       const result = await this.client.synonymMaps.createOrUpdate(
         synonymMap.name,
         utils.publicSynonymMapToGeneratedSynonymMap(synonymMap),
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        {
+          ...operationOptionsToRequestOptionsBase(updatedOptions),
+          accessCondition: {
+            ifMatch: etag
+          }
+        }
       );
       return utils.generatedSynonymMapToPublicSynonymMap(result);
     } catch (e) {
@@ -397,11 +411,15 @@ export class SearchIndexClient {
     const { span, updatedOptions } = createSpan("SearchIndexClient-deleteIndex", options);
     try {
       const indexName: string = typeof index === "string" ? index : index.name;
+      const etag =
+        typeof index === "string" ? undefined : options.onlyIfUnchanged ? index.etag : undefined;
 
-      await this.client.indexes.deleteMethod(
-        indexName,
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
+      await this.client.indexes.deleteMethod(indexName, {
+        ...operationOptionsToRequestOptionsBase(updatedOptions),
+        accessCondition: {
+          ifMatch: etag
+        }
+      });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -425,11 +443,19 @@ export class SearchIndexClient {
     const { span, updatedOptions } = createSpan("SearchIndexClient-deleteSynonymMap", options);
     try {
       const synonymMapName: string = typeof synonymMap === "string" ? synonymMap : synonymMap.name;
+      const etag =
+        typeof synonymMap === "string"
+          ? undefined
+          : options.onlyIfUnchanged
+          ? synonymMap.etag
+          : undefined;
 
-      await this.client.synonymMaps.deleteMethod(
-        synonymMapName,
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
+      await this.client.synonymMaps.deleteMethod(synonymMapName, {
+        ...operationOptionsToRequestOptionsBase(updatedOptions),
+        accessCondition: {
+          ifMatch: etag
+        }
+      });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
