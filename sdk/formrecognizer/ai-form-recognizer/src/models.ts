@@ -827,7 +827,7 @@ export interface CustomFormField {
   name: string;
 }
 
-export interface CustomFormSubModel {
+export interface CustomFormSubmodel {
   /**
    * Estimated extraction accuracy for this field.
    */
@@ -873,7 +873,7 @@ export interface CustomFormModel {
   /**
    * Form models created by training.
    */
-  submodels?: CustomFormSubModel[];
+  submodels?: CustomFormSubmodel[];
 }
 
 /**

@@ -42,7 +42,7 @@ import {
   Point2D,
   FormModelResponse,
   CustomFormField,
-  CustomFormSubModel,
+  CustomFormSubmodel,
   RecognizedReceipt,
   USReceiptType,
   USReceiptItem,
@@ -569,7 +569,7 @@ export function toFormModelResponse(response: GetCustomModelResponse): FormModel
     };
   } else if (response.keys) {
     // training with forms, populate from trainingResult.keys
-    const submodels: CustomFormSubModel[] = [];
+    const submodels: CustomFormSubmodel[] = [];
     for (const clusterKey in response.keys.clusters) {
       const cluster = response.keys.clusters[clusterKey];
       const fields: { [propertyName: string]: CustomFormField } = {};
