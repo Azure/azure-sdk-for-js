@@ -30,30 +30,18 @@ import { validateEventPositions } from "./eventPosition";
  */
 export interface EventHubConsumerClientOptions extends EventHubClientOptions {
   /**
-   * An options bag to configure load balancing settings.
+   * This setting allows the EventHubConsumerClient to create connections directly to
+   * the Event Hubs partition node.
+   * 
+   * This results in a new connection being created for each partition the client is receiving
+   * events from.
+   * 
+   * Note: Outbound ports to 104xx must be allowed by your firewall when enabling this setting.
+   * Default: false
    */
-  loadBalancingOptions: LoadBalancingOptions;
+  allowDirectPartitionConnections?: boolean;
 }
 
-/**
- * An options bag to configure load balancing settings.
- */
-export interface LoadBalancingOptions {
-  /**
-   * Whether to apply a greedy or a more balanced approach when
-   * claiming partitions.
-   * Default: balanced
-   */
-  strategy: "balanced" | "greedy";
-  /**
-   * The length of time between attempts to claim partitions.
-   */
-  updateIntervalInMs: number;
-  /**
-   * The length of time a partition claim is valid.
-   */
-  partitionOwnershipExpirationIntervalInMs: number;
-}
 
 const defaultConsumerClientOptions: Required<Pick<
   FullEventProcessorOptions,

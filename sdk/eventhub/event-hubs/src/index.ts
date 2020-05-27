@@ -17,8 +17,7 @@ export {
 } from "./models/public";
 export {
   EventHubConsumerClient,
-  EventHubConsumerClientOptions,
-  LoadBalancingOptions
+  EventHubConsumerClientOptions
 } from "./eventHubConsumerClient";
 export { EventHubProducerClient } from "./eventHubProducerClient";
 export {

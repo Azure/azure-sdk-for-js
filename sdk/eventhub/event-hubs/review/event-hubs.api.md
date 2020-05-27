@@ -100,7 +100,7 @@ export class EventHubConsumerClient {
 
 // @public
 export interface EventHubConsumerClientOptions extends EventHubClientOptions {
-    loadBalancingOptions: LoadBalancingOptions;
+    allowDirectPartitionConnections?: boolean;
 }
 
 // @public
@@ -156,13 +156,6 @@ export interface LastEnqueuedEventProperties {
 
 // @public
 export const latestEventPosition: EventPosition;
-
-// @public
-export interface LoadBalancingOptions {
-    partitionOwnershipExpirationIntervalInMs: number;
-    strategy: "balanced" | "greedy";
-    updateIntervalInMs: number;
-}
 
 // @public
 export const logger: import("@azure/logger").AzureLogger;
