@@ -31,7 +31,7 @@ import {
 } from "../serviceBusMessage";
 import { ClientEntityContext } from "../clientEntityContext";
 import { LinkEntity } from "./linkEntity";
-import { getUniqueName, waitForTimeoutAbortOrResolve } from "../util/utils";
+import { getUniqueName, waitForTimeoutOrAbortOrResolve } from "../util/utils";
 import { throwErrorIfConnectionClosed } from "../util/errors";
 import { ServiceBusMessageBatch, ServiceBusMessageBatchImpl } from "../serviceBusMessageBatch";
 import { CreateBatchOptions } from "../models";
@@ -268,7 +268,7 @@ export class MessageSender extends LinkEntity {
         const initStartTime = Date.now();
         if (!this.isOpen()) {
           try {
-            await waitForTimeoutAbortOrResolve({
+            await waitForTimeoutOrAbortOrResolve({
               actionFn: () => this.open({ abortSignal: options?.abortSignal }),
               timeoutMs: timeoutInMs,
               abortSignal,
