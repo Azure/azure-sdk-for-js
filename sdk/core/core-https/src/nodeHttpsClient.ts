@@ -91,6 +91,13 @@ export class NodeHttpsClient implements HttpsClient {
 
     let body = request.body;
 
+    if (body && !request.headers.has("Content-Length")) {
+      const bodyLength = getBodyLength(body);
+      if (bodyLength !== null) {
+        request.headers.set("Content-Length", bodyLength);
+      }
+    }
+
     if (body && request.onUploadProgress) {
       const onUploadProgress = request.onUploadProgress;
       const uploadReportStream = new ReportTransform(onUploadProgress);
@@ -101,13 +108,6 @@ export class NodeHttpsClient implements HttpsClient {
       }
 
       body = uploadReportStream;
-    }
-
-    if (body && !request.headers.has("Content-Length")) {
-      const bodyLength = getBodyLength(body);
-      if (bodyLength !== null) {
-        request.headers.set("Content-Length", bodyLength);
-      }
     }
 
     try {
