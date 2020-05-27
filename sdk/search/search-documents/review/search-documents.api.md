@@ -11,13 +11,12 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
 
 // @public
-export interface AccessCondition {
-    ifMatch?: string;
-    ifNoneMatch?: string;
+export interface AnalyzedTokenInfo {
+    readonly endOffset: number;
+    readonly position: number;
+    readonly startOffset: number;
+    readonly token: string;
 }
-
-// @public
-export type Analyzer = CustomAnalyzer | PatternAnalyzer | StandardAnalyzer | StopAnalyzer;
 
 // @public
 export interface AnalyzeRequest {
@@ -30,7 +29,7 @@ export interface AnalyzeRequest {
 
 // @public
 export interface AnalyzeResult {
-    tokens: TokenInfo[];
+    tokens: AnalyzedTokenInfo[];
 }
 
 // @public
@@ -50,7 +49,7 @@ export interface AutocompleteItem {
 }
 
 // @public
-export type AutocompleteMode = "oneTerm" | "twoTerms" | "oneTermWithContext";
+export type AutocompleteMode = 'oneTerm' | 'twoTerms' | 'oneTermWithContext';
 
 // @public
 export type AutocompleteOptions<Fields> = OperationOptions & AutocompleteRequest<Fields>;
@@ -73,12 +72,6 @@ export interface AutocompleteRequest<Fields> {
 export interface AutocompleteResult {
     readonly coverage?: number;
     readonly results: AutocompleteItem[];
-}
-
-// @public
-export interface AzureActiveDirectoryApplicationCredentials {
-    applicationId: string;
-    applicationSecret?: string;
 }
 
 export { AzureKeyCredential }
@@ -124,11 +117,11 @@ export interface CommonGramTokenFilter {
 }
 
 // @public
-export type ComplexDataType = "Edm.ComplexType" | "Collection(Edm.ComplexType)";
+export type ComplexDataType = "Edm.ComplexType";
 
 // @public
 export interface ComplexField {
-    fields: Field[];
+    fields: SearchField[];
     name: string;
     type: ComplexDataType;
 }
@@ -153,32 +146,23 @@ export interface CorsOptions {
 export type CountDocumentsOptions = OperationOptions;
 
 // @public
-export type CreateDataSourceOptions = OperationOptions;
-
-// @public
-export type CreateIndexerOptions = OperationOptions;
-
-// @public
-export type CreateIndexOptions = OperationOptions;
-
-// @public
-export interface CreateorUpdateDataSourceOptions extends OperationOptions {
+export interface CreateorUpdateSearchIndexerDataSourceOptions extends OperationOptions {
     onlyIfUnchanged?: boolean;
 }
 
 // @public
-export interface CreateorUpdateIndexerOptions extends OperationOptions {
+export interface CreateorUpdateSearchIndexerOptions extends OperationOptions {
     onlyIfUnchanged?: boolean;
 }
 
 // @public
-export interface CreateOrUpdateIndexOptions extends OperationOptions {
+export interface CreateOrUpdateSearchIndexerSkillsetOptions extends OperationOptions {
+    onlyIfUnchanged?: boolean;
+}
+
+// @public
+export interface CreateOrUpdateSearchIndexOptions extends OperationOptions {
     allowIndexDowntime?: boolean;
-    onlyIfUnchanged?: boolean;
-}
-
-// @public
-export interface CreateOrUpdateSkillsetOptions extends OperationOptions {
     onlyIfUnchanged?: boolean;
 }
 
@@ -188,7 +172,16 @@ export interface CreateOrUpdateSynonymMapOptions extends OperationOptions {
 }
 
 // @public
-export type CreateSkillsetOptions = OperationOptions;
+export type CreateSearchIndexerDataSourceOptions = OperationOptions;
+
+// @public
+export type CreateSearchIndexerOptions = OperationOptions;
+
+// @public
+export type CreateSearchIndexerSkillsetOptions = OperationOptions;
+
+// @public
+export type CreateSearchIndexOptions = OperationOptions;
 
 // @public
 export type CreateSynonymMapOptions = OperationOptions;
@@ -206,33 +199,7 @@ export interface CustomAnalyzer {
 export type DataChangeDetectionPolicy = HighWaterMarkChangeDetectionPolicy | SqlIntegratedChangeTrackingPolicy;
 
 // @public
-export interface DataContainer {
-    name: string;
-    query?: string;
-}
-
-// @public
 export type DataDeletionDetectionPolicy = SoftDeleteColumnDeletionDetectionPolicy;
-
-// @public
-export interface DataSource {
-    container: DataContainer;
-    credentials: DataSourceCredentials;
-    dataChangeDetectionPolicy?: DataChangeDetectionPolicy;
-    dataDeletionDetectionPolicy?: DataDeletionDetectionPolicy;
-    description?: string;
-    etag?: string;
-    name: string;
-    type: DataSourceType;
-}
-
-// @public
-export interface DataSourceCredentials {
-    connectionString?: string;
-}
-
-// @public
-export type DataSourceType = 'azuresql' | 'cosmosdb' | 'azureblob' | 'azuretable' | 'mysql';
 
 // @public
 export interface DefaultCognitiveServicesAccount {
@@ -241,25 +208,25 @@ export interface DefaultCognitiveServicesAccount {
 }
 
 // @public
-export interface DeleteDataSourceOptions extends OperationOptions {
-    onlyIfUnchanged?: boolean;
-}
-
-// @public
 export type DeleteDocumentsOptions = IndexDocuments;
 
 // @public
-export interface DeleteIndexerOptions extends OperationOptions {
+export interface DeleteSearchIndexerDataSourceOptions extends OperationOptions {
     onlyIfUnchanged?: boolean;
 }
 
 // @public
-export interface DeleteIndexOptions extends OperationOptions {
+export interface DeleteSearchIndexerOptions extends OperationOptions {
     onlyIfUnchanged?: boolean;
 }
 
 // @public
-export interface DeleteSkillsetOptions extends OperationOptions {
+export interface DeleteSearchIndexerSkillsetOptions extends OperationOptions {
+    onlyIfUnchanged?: boolean;
+}
+
+// @public
+export interface DeleteSearchIndexOptions extends OperationOptions {
     onlyIfUnchanged?: boolean;
 }
 
@@ -332,14 +299,6 @@ export interface ElisionTokenFilter {
 }
 
 // @public
-export interface EncryptionKey {
-    accessCredentials?: AzureActiveDirectoryApplicationCredentials;
-    keyVaultKeyName: string;
-    keyVaultKeyVersion: string;
-    keyVaultUri: string;
-}
-
-// @public
 export type EntityCategory = 'location' | 'organization' | 'person' | 'quantity' | 'datetime' | 'url' | 'email';
 
 // @public
@@ -364,9 +323,6 @@ export interface FacetResult {
     [property: string]: any;
     readonly count?: number;
 }
-
-// @public
-export type Field = SimpleField | ComplexField;
 
 // @public
 export interface FieldMapping {
@@ -406,24 +362,9 @@ export class GeographyPoint {
 }
 
 // @public
-export type GetDataSourceOptions = OperationOptions;
-
-// @public
 export interface GetDocumentOptions<Fields> extends OperationOptions {
     selectedFields?: Fields[];
 }
-
-// @public
-export type GetIndexerOptions = OperationOptions;
-
-// @public
-export type GetIndexerStatusOptions = OperationOptions;
-
-// @public
-export type GetIndexOptions = OperationOptions;
-
-// @public
-export type GetIndexStatisticsOptions = OperationOptions;
 
 // @public
 export interface GetIndexStatisticsResult {
@@ -432,10 +373,25 @@ export interface GetIndexStatisticsResult {
 }
 
 // @public
-export type GetServiceStatisticsOptions = OperationOptions;
+export type GetSearchIndexerDataSourceOptions = OperationOptions;
 
 // @public
-export type GetSkillSetOptions = OperationOptions;
+export type GetSearchIndexerOptions = OperationOptions;
+
+// @public
+export type GetSearchIndexerSkillSetOptions = OperationOptions;
+
+// @public
+export type GetSearchIndexerStatusOptions = OperationOptions;
+
+// @public
+export type GetSearchIndexOptions = OperationOptions;
+
+// @public
+export type GetSearchIndexStatisticsOptions = OperationOptions;
+
+// @public
+export type GetServiceStatisticsOptions = OperationOptions;
 
 // @public
 export type GetSynonymMapsOptions = OperationOptions;
@@ -466,23 +422,7 @@ export type ImageAnalysisSkillLanguage = 'en' | 'es' | 'ja' | 'pt' | 'zh';
 export type ImageDetail = 'celebrities' | 'landmarks';
 
 // @public
-export interface Index {
-    analyzers?: Analyzer[];
-    charFilters?: CharFilter[];
-    corsOptions?: CorsOptions;
-    defaultScoringProfile?: string;
-    encryptionKey?: EncryptionKey;
-    etag?: string;
-    fields: Field[];
-    name: string;
-    scoringProfiles?: ScoringProfile[];
-    suggesters?: Suggester[];
-    tokenFilters?: TokenFilter[];
-    tokenizers?: Tokenizer[];
-}
-
-// @public
-export type IndexActionType = "upload" | "merge" | "mergeOrUpload" | "delete";
+export type IndexActionType = 'upload' | 'merge' | 'mergeOrUpload' | 'delete';
 
 // @public
 export interface IndexDocuments extends OperationOptions {
@@ -510,51 +450,21 @@ export interface IndexDocumentsResult {
 }
 
 // @public
-export interface Indexer {
-    dataSourceName: string;
-    description?: string;
-    etag?: string;
-    fieldMappings?: FieldMapping[];
-    isDisabled?: boolean;
-    name: string;
-    outputFieldMappings?: FieldMapping[];
-    parameters?: IndexingParameters;
-    schedule?: IndexingSchedule;
-    skillsetName?: string;
-    targetIndexName: string;
-}
-
-// @public
-export interface IndexerExecutionInfo {
-    readonly executionHistory: IndexerExecutionResult[];
-    readonly lastResult?: IndexerExecutionResult;
-    readonly limits: IndexerLimits;
-    readonly status: IndexerStatus;
-}
-
-// @public
 export interface IndexerExecutionResult {
     readonly endTime?: Date;
     readonly errorMessage?: string;
-    readonly errors: ItemError[];
+    readonly errors: SearchIndexerError[];
     readonly failedItemCount: number;
     readonly finalTrackingState?: string;
     readonly initialTrackingState?: string;
     readonly itemCount: number;
     readonly startTime?: Date;
     readonly status: IndexerExecutionStatus;
-    readonly warnings: ItemWarning[];
+    readonly warnings: SearchIndexerWarning[];
 }
 
 // @public
 export type IndexerExecutionStatus = 'transientFailure' | 'success' | 'inProgress' | 'reset';
-
-// @public
-export interface IndexerLimits {
-    readonly maxDocumentContentCharactersToExtract?: number;
-    readonly maxDocumentExtractionSize?: number;
-    readonly maxRunTime?: string;
-}
 
 // @public
 export type IndexerStatus = 'unknown' | 'error' | 'running';
@@ -589,25 +499,6 @@ export interface InputFieldMappingEntry {
     name: string;
     source?: string;
     sourceContext?: string;
-}
-
-// @public
-export interface ItemError {
-    readonly details?: string;
-    readonly documentationLink?: string;
-    readonly errorMessage: string;
-    readonly key?: string;
-    readonly name?: string;
-    readonly statusCode: number;
-}
-
-// @public
-export interface ItemWarning {
-    readonly details?: string;
-    readonly documentationLink?: string;
-    readonly key?: string;
-    readonly message: string;
-    readonly name?: string;
 }
 
 // @public
@@ -824,11 +715,17 @@ export interface LanguageDetectionSkill {
 
 // @public
 export interface LengthTokenFilter {
-    max?: number;
-    min?: number;
+    maxLength?: number;
+    minLength?: number;
     name: string;
     odatatype: "#Microsoft.Azure.Search.LengthTokenFilter";
 }
+
+// @public
+export type LexicalAnalyzer = CustomAnalyzer | PatternAnalyzer | LuceneStandardAnalyzer | StopAnalyzer;
+
+// @public
+export type LexicalTokenizer = ClassicTokenizer | EdgeNGramTokenizer | KeywordTokenizer | KeywordTokenizerV2 | MicrosoftLanguageTokenizer | MicrosoftLanguageStemmingTokenizer | NGramTokenizer | PathHierarchyTokenizerV2 | PatternTokenizer | LuceneStandardTokenizer | LuceneStandardTokenizerV2 | UaxUrlEmailTokenizer;
 
 // @public
 export interface LimitTokenFilter {
@@ -839,13 +736,16 @@ export interface LimitTokenFilter {
 }
 
 // @public
-export type ListDataSourcesOptions = OperationOptions;
+export type ListSearchIndexerDataSourcesOptions = OperationOptions;
 
 // @public
-export type ListIndexersOptions = OperationOptions;
+export type ListSearchIndexerSkillsetsOptions = OperationOptions;
 
 // @public
-export type ListIndexesOptions = OperationOptions;
+export type ListSearchIndexersOptions = OperationOptions;
+
+// @public
+export type ListSearchIndexesOptions = OperationOptions;
 
 // @public
 export interface ListSearchResultsPageSettings {
@@ -853,10 +753,29 @@ export interface ListSearchResultsPageSettings {
 }
 
 // @public
-export type ListSkillsetsOptions = OperationOptions;
+export type ListSynonymMapsOptions = OperationOptions;
 
 // @public
-export type ListSynonymMapsOptions = OperationOptions;
+export interface LuceneStandardAnalyzer {
+    maxTokenLength?: number;
+    name: string;
+    odatatype: "#Microsoft.Azure.Search.StandardAnalyzer";
+    stopwords?: string[];
+}
+
+// @public
+export interface LuceneStandardTokenizer {
+    maxTokenLength?: number;
+    name: string;
+    odatatype: "#Microsoft.Azure.Search.StandardTokenizer";
+}
+
+// @public
+export interface LuceneStandardTokenizerV2 {
+    maxTokenLength?: number;
+    name: string;
+    odatatype: "#Microsoft.Azure.Search.StandardTokenizerV2";
+}
 
 // @public
 export interface MagnitudeScoringFunction {
@@ -1039,7 +958,7 @@ export interface PhoneticTokenFilter {
 }
 
 // @public
-export type QueryType = "simple" | "full";
+export type QueryType = 'simple' | 'full';
 
 // @public
 export interface RawSearchRequest {
@@ -1066,7 +985,7 @@ export interface RawSearchRequest {
 export type RegexFlags = 'CANON_EQ' | 'CASE_INSENSITIVE' | 'COMMENTS' | 'DOTALL' | 'LITERAL' | 'MULTILINE' | 'UNICODE_CASE' | 'UNIX_LINES';
 
 // @public
-export type ResetIndexerOptions = OperationOptions;
+export type ResetSearchIndexerOptions = OperationOptions;
 
 // @public
 export interface ResourceCounter {
@@ -1075,7 +994,7 @@ export interface ResourceCounter {
 }
 
 // @public
-export type RunIndexerOptions = OperationOptions;
+export type RunSearchIndexerOptions = OperationOptions;
 
 // @public
 export type ScoringFunction = DistanceScoringFunction | FreshnessScoringFunction | MagnitudeScoringFunction | TagScoringFunction;
@@ -1096,7 +1015,7 @@ export interface ScoringProfile {
 
 // @public
 export class SearchClient<T> {
-    constructor(endpoint: string, indexName: string, credential: KeyCredential, options?: SearchClientOptions);
+    constructor(endpoint: string, searchIndexName: string, credential: KeyCredential, options?: SearchClientOptions);
     readonly apiVersion: string;
     autocomplete<Fields extends keyof T>(options: AutocompleteOptions<Fields>): Promise<AutocompleteResult>;
     countDocuments(options?: CountDocumentsOptions): Promise<number>;
@@ -1104,10 +1023,10 @@ export class SearchClient<T> {
     readonly endpoint: string;
     getDocument<Fields extends keyof T>(key: string, options?: GetDocumentOptions<Fields>): Promise<T>;
     indexDocuments(batch: IndexDocumentsBatch<T>, options?: IndexDocuments): Promise<IndexDocumentsResult>;
-    readonly indexName: string;
     mergeDocuments(documents: T[], options?: MergeDocumentsOptions): Promise<IndexDocumentsResult>;
     mergeOrUploadDocuments(documents: T[], options?: MergeOrUploadDocumentsOptions): Promise<IndexDocumentsResult>;
     search<Fields extends keyof T>(options?: SearchOptions<Fields>): Promise<SearchDocumentsResult<Pick<T, Fields>>>;
+    readonly searchIndexName: string;
     suggest<Fields extends keyof T = never>(options: SuggestOptions<Fields>): Promise<SuggestDocumentsResult<Pick<T, Fields>>>;
     uploadDocuments(documents: T[], options?: UploadDocumentsOptions): Promise<IndexDocumentsResult>;
 }
@@ -1136,23 +1055,42 @@ export interface SearchDocumentsResultBase {
 }
 
 // @public
+export type SearchField = SimpleField | ComplexField;
+
+// @public
+export interface SearchIndex {
+    analyzers?: LexicalAnalyzer[];
+    charFilters?: CharFilter[];
+    corsOptions?: CorsOptions;
+    defaultScoringProfile?: string;
+    encryptionKey?: SearchResourceEncryptionKey;
+    etag?: string;
+    fields: SearchField[];
+    name: string;
+    scoringProfiles?: ScoringProfile[];
+    suggesters?: Suggester[];
+    tokenFilters?: TokenFilter[];
+    tokenizers?: LexicalTokenizer[];
+}
+
+// @public
 export class SearchIndexClient {
     constructor(endpoint: string, credential: KeyCredential, options?: SearchIndexClientOptions);
-    analyzeText(indexName: string, options: AnalyzeTextOptions): Promise<AnalyzeResult>;
+    analyzeText(searchIndexName: string, options: AnalyzeTextOptions): Promise<AnalyzeResult>;
     readonly apiVersion: string;
-    createIndex(index: Index, options?: CreateIndexOptions): Promise<Index>;
-    createOrUpdateIndex(index: Index, options?: CreateOrUpdateIndexOptions): Promise<Index>;
+    createOrUpdateSearchIndex(searchIndex: SearchIndex, options?: CreateOrUpdateSearchIndexOptions): Promise<SearchIndex>;
     createOrUpdateSynonymMap(synonymMap: SynonymMap, options?: CreateOrUpdateSynonymMapOptions): Promise<SynonymMap>;
+    createSearchIndex(searchIndex: SearchIndex, options?: CreateSearchIndexOptions): Promise<SearchIndex>;
     createSynonymMap(synonymMap: SynonymMap, options?: CreateSynonymMapOptions): Promise<SynonymMap>;
-    deleteIndex(index: string | Index, options?: DeleteIndexOptions): Promise<void>;
+    deleteSearchIndex(searchIndex: string | SearchIndex, options?: DeleteSearchIndexOptions): Promise<void>;
     deleteSynonymMap(synonymMap: string | SynonymMap, options?: DeleteSynonymMapOptions): Promise<void>;
     readonly endpoint: string;
-    getIndex(indexName: string, options?: GetIndexOptions): Promise<Index>;
-    getIndexStatistics(indexName: string, options?: GetIndexStatisticsOptions): Promise<GetIndexStatisticsResult>;
+    getIndexStatistics(searchIndexName: string, options?: GetSearchIndexStatisticsOptions): Promise<GetIndexStatisticsResult>;
+    getSearchIndex(searchIndexName: string, options?: GetSearchIndexOptions): Promise<SearchIndex>;
     getServiceStatistics(options?: GetServiceStatisticsOptions): Promise<ServiceStatistics>;
     getSynonymMap(synonymMapName: string, options?: GetSynonymMapsOptions): Promise<SynonymMap>;
-    listIndexes(options?: ListIndexesOptions): Promise<Array<Index>>;
-    listIndexesNames(options?: ListIndexesOptions): Promise<Array<string>>;
+    listSearchIndexes(options?: ListSearchIndexesOptions): Promise<Array<SearchIndex>>;
+    listSearchIndexesNames(options?: ListSearchIndexesOptions): Promise<Array<string>>;
     listSynonymMaps(options?: ListSynonymMapsOptions): Promise<Array<SynonymMap>>;
     listSynonymMapsNames(options?: ListSynonymMapsOptions): Promise<Array<string>>;
 }
@@ -1161,41 +1099,123 @@ export class SearchIndexClient {
 export type SearchIndexClientOptions = PipelineOptions;
 
 // @public
+export interface SearchIndexer {
+    dataSourceName: string;
+    description?: string;
+    etag?: string;
+    fieldMappings?: FieldMapping[];
+    isDisabled?: boolean;
+    name: string;
+    outputFieldMappings?: FieldMapping[];
+    parameters?: IndexingParameters;
+    schedule?: IndexingSchedule;
+    skillsetName?: string;
+    targetIndexName: string;
+}
+
+// @public
 export class SearchIndexerClient {
     constructor(endpoint: string, credential: KeyCredential, options?: SearchIndexerClientOptions);
     readonly apiVersion: string;
-    createDataSource(dataSource: DataSource, options?: CreateDataSourceOptions): Promise<DataSource>;
-    createIndexer(indexer: Indexer, options?: CreateIndexerOptions): Promise<Indexer>;
-    createOrUpdateDataSource(dataSource: DataSource, options?: CreateorUpdateDataSourceOptions): Promise<DataSource>;
-    createOrUpdateIndexer(indexer: Indexer, options?: CreateorUpdateIndexerOptions): Promise<Indexer>;
-    createOrUpdateSkillset(skillset: Skillset, options?: CreateOrUpdateSkillsetOptions): Promise<Skillset>;
-    createSkillset(skillset: Skillset, options?: CreateSkillsetOptions): Promise<Skillset>;
-    deleteDataSource(dataSource: string | DataSource, options?: DeleteDataSourceOptions): Promise<void>;
-    deleteIndexer(indexer: string | Indexer, options?: DeleteIndexerOptions): Promise<void>;
-    deleteSkillset(skillset: string | Skillset, options?: DeleteSkillsetOptions): Promise<void>;
+    createOrUpdateSearchIndexer(searchIndexer: SearchIndexer, options?: CreateorUpdateSearchIndexerOptions): Promise<SearchIndexer>;
+    createOrUpdateSearchIndexerDataSource(searchDataSource: SearchIndexerDataSource, options?: CreateorUpdateSearchIndexerDataSourceOptions): Promise<SearchIndexerDataSource>;
+    createOrUpdateSearchIndexerSkillset(searchIndexerSkillset: SearchIndexerSkillset, options?: CreateOrUpdateSearchIndexerSkillsetOptions): Promise<SearchIndexerSkillset>;
+    createSearchIndexer(searchIndexer: SearchIndexer, options?: CreateSearchIndexerOptions): Promise<SearchIndexer>;
+    createSearchIndexerDataSource(searchIndexerDataSource: SearchIndexerDataSource, options?: CreateSearchIndexerDataSourceOptions): Promise<SearchIndexerDataSource>;
+    createSearchIndexerSkillset(searchIndexerskillset: SearchIndexerSkillset, options?: CreateSearchIndexerSkillsetOptions): Promise<SearchIndexerSkillset>;
+    deleteSearchIndexer(searchIndexer: string | SearchIndexer, options?: DeleteSearchIndexerOptions): Promise<void>;
+    deleteSearchIndexerDataSource(searchIndexerDataSource: string | SearchIndexerDataSource, options?: DeleteSearchIndexerDataSourceOptions): Promise<void>;
+    deleteSearchIndexerSkillset(searchIndexerskillset: string | SearchIndexerSkillset, options?: DeleteSearchIndexerSkillsetOptions): Promise<void>;
     readonly endpoint: string;
-    getDataSource(dataSourceName: string, options?: GetDataSourceOptions): Promise<DataSource>;
-    getIndexer(indexerName: string, options?: GetIndexerOptions): Promise<Indexer>;
-    getIndexerStatus(indexerName: string, options?: GetIndexerStatusOptions): Promise<IndexerExecutionInfo>;
-    getSkillset(skillsetName: string, options?: GetSkillSetOptions): Promise<Skillset>;
-    listDataSources(options?: ListDataSourcesOptions): Promise<Array<DataSource>>;
-    listDataSourcesNames(options?: ListDataSourcesOptions): Promise<Array<string>>;
-    listIndexers(options?: ListIndexersOptions): Promise<Array<Indexer>>;
-    listIndexersNames(options?: ListIndexersOptions): Promise<Array<string>>;
-    listSkillsets(options?: ListSkillsetsOptions): Promise<Array<Skillset>>;
-    listSkillsetsNames(options?: ListSkillsetsOptions): Promise<Array<string>>;
-    resetIndexer(indexerName: string, options?: ResetIndexerOptions): Promise<void>;
-    runIndexer(indexerName: string, options?: RunIndexerOptions): Promise<void>;
+    getSearchIndexer(searchIndexerName: string, options?: GetSearchIndexerOptions): Promise<SearchIndexer>;
+    getSearchIndexerDataSource(searchIndexerDataSourceName: string, options?: GetSearchIndexerDataSourceOptions): Promise<SearchIndexerDataSource>;
+    getSearchIndexerSkillset(searchIndexerSkillsetName: string, options?: GetSearchIndexerSkillSetOptions): Promise<SearchIndexerSkillset>;
+    getSearchIndexerStatus(searchIndexerName: string, options?: GetSearchIndexerStatusOptions): Promise<SearchIndexerStatus>;
+    listSearchIndexerDataSources(options?: ListSearchIndexerDataSourcesOptions): Promise<Array<SearchIndexerDataSource>>;
+    listSearchIndexerDataSourcesNames(options?: ListSearchIndexerDataSourcesOptions): Promise<Array<string>>;
+    listSearchIndexers(options?: ListSearchIndexersOptions): Promise<Array<SearchIndexer>>;
+    listSearchIndexerSkillsets(options?: ListSearchIndexerSkillsetsOptions): Promise<Array<SearchIndexerSkillset>>;
+    listSearchIndexerSkillsetsNames(options?: ListSearchIndexerSkillsetsOptions): Promise<Array<string>>;
+    listSearchIndexersNames(options?: ListSearchIndexersOptions): Promise<Array<string>>;
+    resetSearchIndexer(searchIndexerName: string, options?: ResetSearchIndexerOptions): Promise<void>;
+    runSearchIndexer(searchIndexerName: string, options?: RunSearchIndexerOptions): Promise<void>;
 }
 
 // @public
 export type SearchIndexerClientOptions = PipelineOptions;
 
 // @public
+export interface SearchIndexerDataContainer {
+    name: string;
+    query?: string;
+}
+
+// @public
+export interface SearchIndexerDataSource {
+    connectionString?: string;
+    container: SearchIndexerDataContainer;
+    dataChangeDetectionPolicy?: DataChangeDetectionPolicy;
+    dataDeletionDetectionPolicy?: DataDeletionDetectionPolicy;
+    description?: string;
+    etag?: string;
+    name: string;
+    type: SearchIndexerDataSourceType;
+}
+
+// @public
+export type SearchIndexerDataSourceType = 'azuresql' | 'cosmosdb' | 'azureblob' | 'azuretable' | 'mysql';
+
+// @public
+export interface SearchIndexerError {
+    readonly details?: string;
+    readonly documentationLink?: string;
+    readonly errorMessage: string;
+    readonly key?: string;
+    readonly name?: string;
+    readonly statusCode: number;
+}
+
+// @public
+export interface SearchIndexerLimits {
+    readonly maxDocumentContentCharactersToExtract?: number;
+    readonly maxDocumentExtractionSize?: number;
+    readonly maxRunTime?: string;
+}
+
+// @public
+export type SearchIndexerSkill = ConditionalSkill | KeyPhraseExtractionSkill | OcrSkill | ImageAnalysisSkill | LanguageDetectionSkill | ShaperSkill | MergeSkill | EntityRecognitionSkill | SentimentSkill | SplitSkill | TextTranslationSkill | WebApiSkill;
+
+// @public
+export interface SearchIndexerSkillset {
+    cognitiveServicesAccount?: CognitiveServicesAccount;
+    description: string;
+    etag?: string;
+    name: string;
+    skills: SearchIndexerSkill[];
+}
+
+// @public
+export interface SearchIndexerStatus {
+    readonly executionHistory: IndexerExecutionResult[];
+    readonly lastResult?: IndexerExecutionResult;
+    readonly limits: SearchIndexerLimits;
+    readonly status: IndexerStatus;
+}
+
+// @public
+export interface SearchIndexerWarning {
+    readonly details?: string;
+    readonly documentationLink?: string;
+    readonly key?: string;
+    readonly message: string;
+    readonly name?: string;
+}
+
+// @public
 export type SearchIterator<Fields> = PagedAsyncIterableIterator<SearchResult<Fields>, SearchDocumentsPageResult<Fields>, ListSearchResultsPageSettings>;
 
 // @public
-export type SearchMode = "any" | "all";
+export type SearchMode = 'any' | 'all';
 
 // @public
 export type SearchOptions<Fields> = OperationOptions & SearchRequest<Fields>;
@@ -1219,6 +1239,15 @@ export interface SearchRequest<Fields> {
     select?: Fields[];
     skip?: number;
     top?: number;
+}
+
+// @public
+export interface SearchResourceEncryptionKey {
+    applicationId?: string;
+    applicationSecret?: string;
+    keyName: string;
+    keyVersion: string;
+    vaultUri: string;
 }
 
 // @public
@@ -1291,34 +1320,23 @@ export interface ShingleTokenFilter {
 }
 
 // @public
-export type SimpleDataType = "Edm.String" | "Edm.Int32" | "Edm.Int64" | "Edm.Double" | "Edm.Boolean" | "Edm.DateTimeOffset" | "Edm.GeographyPoint" | "Collection(Edm.String)" | "Collection(Edm.Int32)" | "Collection(Edm.Int64)" | "Collection(Edm.Double)" | "Collection(Edm.Boolean)" | "Collection(Edm.DateTimeOffset)" | "Collection(Edm.GeographyPoint)";
+export type SimpleDataType = "Edm.String" | "Edm.Int32" | "Edm.Int64" | "Edm.Double" | "Edm.Boolean" | "Edm.DateTimeOffset" | "Edm.GeographyPoint";
 
 // @public
 export interface SimpleField {
-    analyzer?: string;
+    // Warning: (ae-forgotten-export) The symbol "LexicalAnalyzerName" needs to be exported by the entry point index.d.ts
+    analyzer?: LexicalAnalyzerName;
     facetable?: boolean;
     filterable?: boolean;
     hidden?: boolean;
-    indexAnalyzer?: string;
+    indexAnalyzer?: LexicalAnalyzerName;
     key?: boolean;
     name: string;
     searchable?: boolean;
-    searchAnalyzer?: string;
+    searchAnalyzer?: LexicalAnalyzerName;
     sortable?: boolean;
     synonymMaps?: string[];
     type: SimpleDataType;
-}
-
-// @public
-export type Skill = ConditionalSkill | KeyPhraseExtractionSkill | OcrSkill | ImageAnalysisSkill | LanguageDetectionSkill | ShaperSkill | MergeSkill | EntityRecognitionSkill | SentimentSkill | SplitSkill | TextTranslationSkill | WebApiSkill;
-
-// @public
-export interface Skillset {
-    cognitiveServicesAccount?: CognitiveServicesAccount;
-    description: string;
-    etag?: string;
-    name: string;
-    skills: Skill[];
 }
 
 // @public
@@ -1357,28 +1375,6 @@ export type SplitSkillLanguage = 'da' | 'de' | 'en' | 'es' | 'fi' | 'fr' | 'it' 
 // @public
 export interface SqlIntegratedChangeTrackingPolicy {
     odatatype: "#Microsoft.Azure.Search.SqlIntegratedChangeTrackingPolicy";
-}
-
-// @public
-export interface StandardAnalyzer {
-    maxTokenLength?: number;
-    name: string;
-    odatatype: "#Microsoft.Azure.Search.StandardAnalyzer";
-    stopwords?: string[];
-}
-
-// @public
-export interface StandardTokenizer {
-    maxTokenLength?: number;
-    name: string;
-    odatatype: "#Microsoft.Azure.Search.StandardTokenizer";
-}
-
-// @public
-export interface StandardTokenizerV2 {
-    maxTokenLength?: number;
-    name: string;
-    odatatype: "#Microsoft.Azure.Search.StandardTokenizerV2";
 }
 
 // @public
@@ -1455,7 +1451,7 @@ export type SuggestResult<T> = {
 
 // @public
 export interface SynonymMap {
-    encryptionKey?: EncryptionKey;
+    encryptionKey?: SearchResourceEncryptionKey;
     etag?: string;
     name: string;
     synonyms: string[];
@@ -1518,17 +1514,6 @@ export type TokenCharacterKind = 'letter' | 'digit' | 'whitespace' | 'punctuatio
 
 // @public
 export type TokenFilter = AsciiFoldingTokenFilter | CjkBigramTokenFilter | CommonGramTokenFilter | DictionaryDecompounderTokenFilter | EdgeNGramTokenFilter | EdgeNGramTokenFilterV2 | ElisionTokenFilter | KeepTokenFilter | KeywordMarkerTokenFilter | LengthTokenFilter | LimitTokenFilter | NGramTokenFilter | NGramTokenFilterV2 | PatternCaptureTokenFilter | PatternReplaceTokenFilter | PhoneticTokenFilter | ShingleTokenFilter | SnowballTokenFilter | StemmerTokenFilter | StemmerOverrideTokenFilter | StopwordsTokenFilter | SynonymTokenFilter | TruncateTokenFilter | UniqueTokenFilter | WordDelimiterTokenFilter;
-
-// @public
-export interface TokenInfo {
-    readonly endOffset: number;
-    readonly position: number;
-    readonly startOffset: number;
-    readonly token: string;
-}
-
-// @public
-export type Tokenizer = ClassicTokenizer | EdgeNGramTokenizer | KeywordTokenizer | KeywordTokenizerV2 | MicrosoftLanguageTokenizer | MicrosoftLanguageStemmingTokenizer | NGramTokenizer | PathHierarchyTokenizerV2 | PatternTokenizer | StandardTokenizer | StandardTokenizerV2 | UaxUrlEmailTokenizer;
 
 // @public
 export interface TruncateTokenFilter {
