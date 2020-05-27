@@ -6,7 +6,7 @@ import chaiAsPromised from "chai-as-promised";
 import Long from "long";
 import { MessagingError, ServiceBusClient, Receiver, SessionReceiver } from "../src";
 import { Sender } from "../src/sender";
-import { getReceiverClosedErrorMsg } from "../src/util/errors";
+import { getReceiverClosedErrorMsg, getSenderClosedErrorMsg } from "../src/util/errors";
 import { TestClientType, TestMessage, isMessagingError, checkWithTimeout } from "./utils/testUtils";
 import {
   DispositionType,
@@ -47,20 +47,6 @@ describe("Create ServiceBusClient", function(): void {
       "Name of the namespace is different than expected"
     );
   });
-
-  // it("Creates clients after coercing name to string", function(): void {
-  //   sbClient = new ServiceBusClient(
-  //     "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
-  //   );
-  //   const queueClient = sbClient.createQueueClient(1 as any);
-  //   should.equal(queueClient.entityPath, "1");
-
-  //   const topicClient = sbClient.createTopicClient(1 as any);
-  //   should.equal(topicClient.entityPath, "1");
-
-  //   const subscriptionClient = sbClient.createSubscriptionClient(1 as any, 2 as any);
-  //   should.equal(subscriptionClient.entityPath, "1/Subscriptions/2");
-  // });
 });
 
 describe("Random scheme in the endpoint from connection string", function(): void {
@@ -222,9 +208,9 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
         "Error code is different than expected"
       );
       should.equal(
-        // TODO - update this check once sbClient has a `name` property
-        // err.message.includes(`The messaging entity '<insert-endpoint-here>${entityPath}' could not be found.`),
-        err.message.includes(`${entityPath}' could not be found.`),
+        err.message.includes(
+          `The messaging entity 'sb://${sbClient.fullyQualifiedNamespace}/${entityPath}' could not be found.`
+        ),
         true
       );
       errorWasThrown = true;
@@ -315,7 +301,8 @@ describe("Test ServiceBusClient creation", function(): void {
   const serviceBusEndpoint = (env.SERVICEBUS_CONNECTION_STRING.match(
     "Endpoint=sb://((.*).servicebus.windows.net)"
   ) || "")[1];
-
+  
+  // `keytar` being used in `@azure/identity` is causing the build to fail when imported for the tests.
   // /**
   //  * Utility to create EnvironmentCredential using `@azure/identity`
   //  */
@@ -456,14 +443,14 @@ describe("Errors after close()", function(): void {
   }
 
   /**
-   * Tests the error from settling a message after the receiver is closed
+   * Tests the error from settling a message after the receiver is closed - only valid for sessions.
+   * For non-sessions, managementLink allows backup message settlement even after the receiver is closed.
    */
   async function testAllDispositions(): Promise<void> {
     await testDisposition(DispositionType.complete);
     await testDisposition(DispositionType.abandon);
     await testDisposition(DispositionType.defer);
     await testDisposition(DispositionType.deadletter);
-    // TODO - add test for renewing message lock
   }
 
   async function testDisposition(operation: DispositionType): Promise<void> {
@@ -629,34 +616,15 @@ describe("Errors after close()", function(): void {
       "Expected error not thrown for receiveDeferredMessages()"
     );
 
-    // TODO - closing the receiver doesn't matter for peek
-    // let errorPeek: string = "";
-    // await receiver.diagnostics.peek().catch((err) => {
-    //   errorPeek = err.message;
-    // });
-    // should.equal(
-    //   errorPeek,
-    //   expectedErrorMsg,
-    //   "Expected error not thrown for peek() from receiver"
-    // );
-
-    // let errorPeekBySequence: string = "";
-    // await receiver.diagnostics.peekBySequenceNumber(Long.ZERO).catch((err) => {
-    //   errorPeekBySequence = err.message;
-    // });
-    // should.equal(
-    //   errorPeekBySequence,
-    //   expectedErrorMsg,
-    //   "Expected error not thrown for peekBySequenceNumber() from receiver"
-    // );
-
-    // if (!entityName.usesSessions) {
-    //   let errorRenewLock: string = "";
-    //   await (<InternalReceiver>receiver).renewMessageLock("randomLockToken").catch((err) => {
-    //     errorRenewLock = err.message;
-    //   });
-    //   should.equal(errorRenewLock, expectedErrorMsg, "Expected error not thrown for renewLock()");
-    // }
+    let errorPeek: string = "";
+    await receiver.browseMessages().catch((err) => {
+      errorPeek = err.message;
+    });
+    should.equal(
+      errorPeek,
+      expectedErrorMsg,
+      "Expected error not thrown for browseMessages() from receiver"
+    );
   }
 
   /**
@@ -716,35 +684,6 @@ describe("Errors after close()", function(): void {
     should.equal(errorSetState, expectedErrorMsg, "Expected error not thrown for setState()");
   }
 
-  // /**
-  //  * Tests that each feature of the topic filters throws expected error
-  //  */
-  // async function testRules(expectedErrorMsg: string): Promise<void> {
-  //   let errorAddRule: string = "";
-  //   try {
-  //     await subscriptionClient.addRule("myRule", true);
-  //   } catch (error) {
-  //     errorAddRule = error.message;
-  //   }
-  //   should.equal(errorAddRule, expectedErrorMsg, "Expected error not thrown for addRule()");
-
-  //   let errorRemoveRule: string = "";
-  //   try {
-  //     await subscriptionClient.removeRule("myRule");
-  //   } catch (err) {
-  //     errorRemoveRule = err.message;
-  //   }
-  //   should.equal(errorRemoveRule, expectedErrorMsg, "Expected error not thrown for removeRule()");
-
-  //   let errorGetRules: string = "";
-  //   try {
-  //     await subscriptionClient.getRules();
-  //   } catch (err) {
-  //     errorGetRules = err.message;
-  //   }
-  //   should.equal(errorGetRules, expectedErrorMsg, "Expected error not thrown for getRule()");
-  // }
-
   describe("Errors after close() on namespace", function(): void {
     const entityToClose = "namespace";
     const expectedErrorMsg = "The underlying AMQP connection is closed.";
@@ -777,7 +716,6 @@ describe("Errors after close()", function(): void {
       await testCreateSender(expectedErrorMsg);
       await testReceiver(expectedErrorMsg);
       await testCreateReceiver(expectedErrorMsg);
-      // await testRules(expectedErrorMsg);
     });
 
     it("Unpartitioned Topic/Subscription with sessions: errors after close() on namespace", async function(): Promise<
@@ -789,39 +727,8 @@ describe("Errors after close()", function(): void {
       await testCreateSender(expectedErrorMsg);
       await testSessionReceiver(expectedErrorMsg);
       await testCreateReceiver(expectedErrorMsg);
-      // await testRules(expectedErrorMsg);
     });
   });
-
-  // describe("Errors after close() on sender", function(): void {
-  //   const entityToClose = "sender";
-
-  //   it("Unpartitioned Queue: errors after close() on sender", async function(): Promise<
-  //     void
-  //   > {
-  //     await beforeEachTest(TestClientType.UnpartitionedQueue, entityToClose);
-
-  //     await testSender(
-  //       getSenderClosedErrorMsg(sender.entityPath, ClientType.QueueClient, true)
-  //     );
-  //     await testCreateSender(getClientClosedErrorMsg(sender.entityPath));
-  //   });
-
-  //   it("Unpartitioned Topic: errors after close() on sender", async function(): Promise<
-  //     void
-  //   > {
-  //     await beforeEachTest(
-  //       TestClientType.UnpartitionedTopic,
-  //       TestClientType.UnpartitionedSubscription,
-  //       entityToClose
-  //     );
-
-  //     await testSender(
-  //       getSenderClosedErrorMsg(sender.entityPath, ClientType.TopicClient, true)
-  //     );
-  //     await testCreateSender(getClientClosedErrorMsg(sender.entityPath));
-  //   });
-  // });
 
   describe("Errors after close() on receiver", function(): void {
     const entityToClose = "receiver";
@@ -848,8 +755,6 @@ describe("Errors after close()", function(): void {
       await beforeEachTest(TestClientType.UnpartitionedSubscription, entityToClose);
 
       await testReceiver(getReceiverClosedErrorMsg(receiver.entityPath, false));
-      // TODO - rules are independent of receiver
-      // await testRules(getClientClosedErrorMsg(receiver.entityPath));
     });
 
     it("Unpartitioned Topic/Subscription with sessions: errors after close() on receiver", async function(): Promise<
@@ -860,25 +765,22 @@ describe("Errors after close()", function(): void {
       await testSessionReceiver(
         getReceiverClosedErrorMsg(receiver.entityPath, false, TestMessage.sessionId)
       );
-      // TODO - rules are independent of receiver
-      // await testRules(getClientClosedErrorMsg(receiver.entityPath));
     });
   });
 
-  // TODO - getOpenSenderErrorMsg doesn't exist, make that exist and update the test
-  // describe("Errors after close() on sender", function(): void {
-  //   const entityToClose = "sender";
+  describe("Errors after close() on sender", function(): void {
+    const entityToClose = "sender";
 
-  //   it("Unpartitioned Queue: errors after close() on sender", async function(): Promise<
-  //     void
-  //   > {
-  //     await beforeEachTest(TestClientType.UnpartitionedQueue, entityToClose);
+    it("Unpartitioned Queue: errors after close() on sender", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.UnpartitionedQueue, entityToClose);
+      await testSender(getSenderClosedErrorMsg(sender.entityPath));
+    });
 
-  //     await testSender(
-  //       getSenderClosedErrorMsg(sender.entityPath, ClientType.QueueClient, false)
-  //     );
-  //   });
-  // });
+    it("Unpartitioned Topic: errors after close() on sender", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.UnpartitionedSubscription, entityToClose);
+      await testSender(getSenderClosedErrorMsg(sender.entityPath));
+    });
+  });
 
   describe("Errors after close() on receiver", function(): void {
     const entityToClose = "receiver";
@@ -894,85 +796,6 @@ describe("Errors after close()", function(): void {
       await testAllDispositions();
     });
   });
-
-  // TODO - getOpenSenderErrorMsg doesn't exist, make that exist and update the tests
-  // describe("Errors when creating second sender/receiver with first not closed", function(): void {
-  //   it("Open sender exists on QueueClient", async function(): Promise<void> {
-  //     await beforeEachTest(TestClientType.PartitionedQueue, "");
-
-  //     await testCreateSender(
-  //       getOpenSenderErrorMsg(ClientType.QueueClient, sender.entityPath)
-  //     );
-  //   });
-
-  //   it("Open sender exists on TopicClient", async function(): Promise<void> {
-  //     await beforeEachTest(
-  //       TestClientType.PartitionedTopic,
-  //       TestClientType.PartitionedSubscription,
-  //       ""
-  //     );
-
-  //     await testCreateSender(getOpenSenderErrorMsg("TopicClient", sender.entityPath));
-  //   });
-
-  // it("Open receiver exists on QueueClient", async function(): Promise<void> {
-  //   await beforeEachTest(TestClientType.PartitionedQueue, "");
-
-  //   await testCreateReceiver(
-  //     getOpenReceiverErrorMsg(ClientType.QueueClient, receiver.entityPath)
-  //   );
-  // });
-
-  //   it("Open receiver exists on SubscriptionClient", async function(): Promise<void> {
-  //     await beforeEachTest(
-  //       TestClientType.PartitionedTopic,
-  //       TestClientType.PartitionedSubscription,
-  //       ""
-  //     );
-
-  //     await testCreateReceiver(
-  //       getOpenReceiverErrorMsg(ClientType.SubscriptionClient, receiver.entityPath)
-  //     );
-  //   });
-
-  //   it("Open receiver exists for session on QueueClient", async function(): Promise<
-  //     void
-  //   > {
-  //     await beforeEachTest(
-  //       TestClientType.PartitionedQueueWithSessions,
-  //       TestClientType.PartitionedQueueWithSessions,
-  //       "",
-  //       true
-  //     );
-
-  //     await testCreateReceiver(
-  //       getOpenReceiverErrorMsg(
-  //         ClientType.QueueClient,
-  //         receiver.entityPath,
-  //         TestMessage.sessionId
-  //       ),
-  //       true
-  //     );
-  //   });
-
-  //   it("Open receiver exists for session on SubscriptionClient", async function(): Promise<void> {
-  //     await beforeEachTest(
-  //       TestClientType.PartitionedTopicWithSessions,
-  //       TestClientType.PartitionedSubscriptionWithSessions,
-  //       "",
-  //       true
-  //     );
-
-  //     await testCreateReceiver(
-  //       getOpenReceiverErrorMsg(
-  //         ClientType.SubscriptionClient,
-  //         receiver.entityPath,
-  //         TestMessage.sessionId
-  //       ),
-  //       true
-  //     );
-  //   });
-  // });
 });
 
 describe("entityPath on sender and receiver", async () => {
