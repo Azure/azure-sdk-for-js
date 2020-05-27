@@ -2,6 +2,8 @@
 
 [Azure TextAnalytics](https://azure.microsoft.com/services/cognitive-services/text-analytics/) is a cloud-based service that provides advanced natural language processing over raw text, and includes six main functions:
 
+__Note:__ This SDK targets Azure Text Analytics service API version 3.0.
+
 - Language Detection
 - Sentiment Analysis
 - Key Phrase Extraction
@@ -35,7 +37,7 @@ Use the client library to:
 If you use the Azure CLI, replace `<your-resource-group-name>` and `<your-resource-name>` with your own unique names:
 
 ```PowerShell
-az cognitiveservices account create --kind TextAnalytics --resource-group <your-resource-group-name> --name <your-resource-name>
+az cognitiveservices account create --kind TextAnalytics --resource-group <your-resource-group-name> --name <your-resource-name> --sku <your-sku-name> --location <your-location>
 ```
 
 ### Install the `@azure/ai-text-analytics` package
@@ -326,15 +328,15 @@ const client = new TextAnalyticsClient(
 const documents = [
   "This is written in English.",
   "Il documento scritto in italiano.",
-  "Dies ist in englischer Sprache verfasst."
+  "Dies ist in deutscher Sprache verfasst."
 ];
 
 async function main() {
   const results = await client.detectLanguage(documents, "none");
 
   for (const result of results) {
-    const { primaryLanguage } = result;
     if (result.error === undefined) {
+      const { primaryLanguage } = result;
       console.log(
         "Input #",
         result.id,
