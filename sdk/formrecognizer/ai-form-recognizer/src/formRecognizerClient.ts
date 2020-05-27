@@ -16,6 +16,7 @@ import { SDK_VERSION, DEFAULT_COGNITIVE_SCOPE } from "./constants";
 import { logger } from "./logger";
 import { createSpan } from "./tracing";
 import {
+  FormContentType,
   FormRecognizerClientOptions,
   FormRecognizerOperationOptions,
   toRequestBody,
@@ -28,7 +29,6 @@ import {
   GeneratedClientAnalyzeWithCustomModelResponse as AnalyzeWithCustomModelResponseModel,
   GeneratedClientAnalyzeLayoutAsyncResponse as AnalyzeLayoutAsyncResponseModel,
   GeneratedClientAnalyzeReceiptAsyncResponse as AnalyzeReceiptAsyncResponseModel,
-  ContentType,
   SourcePath
 } from "./generated/models";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
@@ -51,7 +51,7 @@ import {
 } from "./transforms";
 import { createFormRecognizerAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 
-export { ContentType, PollOperationState, PollerLike };
+export { FormContentType, PollOperationState, PollerLike };
 
 /**
  * Options for content/layout recognition.
@@ -278,12 +278,12 @@ export class FormRecognizerClient {
    * ```
    * @summary Recognizes content/layout information from a given document
    * @param {FormRecognizerRequestBody} data Input document
-   * @param {ContentType} contentType Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", and "image/tiff";
+   * @param {FormContentType} contentType Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", and "image/tiff";
    * @param {BeginRecognizeContentOptions} [options] Options to start content recognition operation
    */
   public async beginRecognizeContent(
     data: FormRecognizerRequestBody,
-    contentType?: ContentType,
+    contentType?: FormContentType,
     options: BeginRecognizeContentOptions = {}
   ): Promise<ContentPollerLike> {
     const analyzePollerClient: RecognizePollerClient<RecognizeContentResultResponse> = {
@@ -404,13 +404,13 @@ ng", and "image/tiff";
    * @summary Recognizes form information from a given document using a custom form model.
    * @param {string} modelId Id of the custom form model to use
    * @param {FormRecognizerRequestBody} data Input form document
-   * @param {ContentType} contentType Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", and "image/tiff";
+   * @param {FormContentType} contentType Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", and "image/tiff";
    * @param {BeginRecognizeFormsOptions} [options] Options to start the form recognition operation
    */
   public async beginRecognizeCustomForms(
     modelId: string,
     data: FormRecognizerRequestBody,
-    contentType?: ContentType,
+    contentType?: FormContentType,
     options: BeginRecognizeFormsOptions = {}
   ): Promise<FormPollerLike> {
     if (!modelId) {
@@ -419,7 +419,7 @@ ng", and "image/tiff";
     const analyzePollerClient: RecognizePollerClient<RecognizeFormResultResponse> = {
       beginRecognize: (
         body: FormRecognizerRequestBody | string,
-        contentType?: ContentType,
+        contentType?: FormContentType,
         analyzeOptions: RecognizeOptions = {},
         modelId?: string
       ) => recognizeCustomFormInternal(this.client, body, contentType, analyzeOptions, modelId!),
@@ -478,7 +478,7 @@ ng", and "image/tiff";
     const analyzePollerClient: RecognizePollerClient<RecognizeFormResultResponse> = {
       beginRecognize: (
         body: FormRecognizerRequestBody | string,
-        contentType?: ContentType,
+        contentType?: FormContentType,
         analyzeOptions: RecognizeOptions = {},
         modelId?: string
       ) => recognizeCustomFormInternal(this.client, body, contentType, analyzeOptions, modelId!),
@@ -565,12 +565,12 @@ ng", and "image/tiff";
    * ```
    * @summary Recognizes receipt information from a given document
    * @param {FormRecognizerRequestBody} data Input document
-   * @param {ContentType} contentType Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", and "image/tiff";
+   * @param {FormContentType} contentType Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", and "image/tiff";
    * @param {BeginRecognizeReceiptsOptions} [options] Options to start the receipt recognition operation
    */
   public async beginRecognizeReceipts(
     data: FormRecognizerRequestBody,
-    contentType?: ContentType,
+    contentType?: FormContentType,
     options: BeginRecognizeReceiptsOptions = {}
   ): Promise<ReceiptPollerLike> {
     const analyzePollerClient: RecognizePollerClient<RecognizeReceiptResultResponse> = {
@@ -682,7 +682,7 @@ ng", and "image/tiff";
 async function recognizeLayoutInternal(
   client: GeneratedClient,
   body: FormRecognizerRequestBody | string,
-  contentType?: ContentType,
+  contentType?: FormContentType,
   options?: RecognizeContentOptions,
   _modelId?: string
 ): Promise<AnalyzeLayoutAsyncResponseModel> {
@@ -721,7 +721,7 @@ async function recognizeLayoutInternal(
 async function recognizeCustomFormInternal(
   client: GeneratedClient,
   body: FormRecognizerRequestBody | string,
-  contentType?: ContentType,
+  contentType?: FormContentType,
   options: RecognizeFormsOptions = {},
   modelId?: string
 ): Promise<AnalyzeWithCustomModelResponseModel> {
@@ -761,7 +761,7 @@ async function recognizeCustomFormInternal(
 async function recognizeReceiptInternal(
   client: GeneratedClient,
   body: FormRecognizerRequestBody | string,
-  contentType?: ContentType,
+  contentType?: FormContentType,
   options?: RecognizeReceiptsOptions,
   _modelId?: string
 ): Promise<AnalyzeReceiptAsyncResponseModel> {
