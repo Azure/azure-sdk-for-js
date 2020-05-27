@@ -8,8 +8,8 @@ import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import {
   AuthenticationChallengeCache,
-  ChallengeBasedAuthenticationPolicy,
-  AuthenticationChallenge
+  AuthenticationChallenge,
+  parseWWWAuthenticate
 } from "../src/core/challengeBasedAuthenticationPolicy";
 import { createSandbox } from "sinon";
 
@@ -101,9 +101,6 @@ describe("Challenge based authentication tests", () => {
 
   describe("parseWWWAuthenticate tests", () => {
     it("Should work for known shapes of the WWW-Authenticate header", () => {
-      const parseWWWAuthenticate =
-        ChallengeBasedAuthenticationPolicy.prototype.parseWWWAuthenticate;
-
       const wwwAuthenticate1 = `Bearer authorization="some_authorization", resource="https://some.url"`;
       const parsed1 = parseWWWAuthenticate(wwwAuthenticate1);
       assert.deepEqual(parsed1, {
@@ -120,9 +117,6 @@ describe("Challenge based authentication tests", () => {
     });
 
     it("Should skip unexpected properties on the WWW-Authenticate header", () => {
-      const parseWWWAuthenticate =
-        ChallengeBasedAuthenticationPolicy.prototype.parseWWWAuthenticate;
-
       const wwwAuthenticate1 = `Bearer authorization="some_authorization", a="a", b="b"`;
       const parsed1 = parseWWWAuthenticate(wwwAuthenticate1);
       assert.deepEqual(parsed1, {
