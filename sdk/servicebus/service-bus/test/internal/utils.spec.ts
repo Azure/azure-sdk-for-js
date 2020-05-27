@@ -13,12 +13,12 @@ import { ErrorNameConditionMapper } from "@azure/core-amqp";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
-describe("utils", () => {
+describe.only("utils", () => {
   describe("waitForTimeoutAbortOrResolve", () => {
     let abortController: AbortController;
     let abortSignal: ReturnType<typeof getAbortSignalWithTracking>;
-    let timeoutsSet: Set<any>;
-    let timeoutWasSet: boolean;
+    let ourTimerId: NodeJS.Timer | undefined;
+    let timerWasCleared: boolean;
 
     let _internalSetTimeout: typeof setTimeout;
     let _internalClearTimeout: typeof clearTimeout;
@@ -28,8 +28,8 @@ describe("utils", () => {
     beforeEach(() => {
       abortController = new AbortController();
       abortSignal = getAbortSignalWithTracking(abortController);
-      timeoutsSet = new Set<any>();
-      timeoutWasSet = false;
+      ourTimerId = undefined;
+      timerWasCleared = false;
 
       const globalObject = getGlobalsForMocking();
 
@@ -43,17 +43,27 @@ describe("utils", () => {
       ): any => {
         const id = _internalSetTimeout.call(globalObject, callback, ms, ...args);
 
-        if (callback.name === "clearForTimeout") {
-          timeoutWasSet = true;
-          timeoutsSet.add(id);
+        if (callback.name === "timeoutCallback") {
+          assert.notExists(
+            ourTimerId,
+            "Definitely shouldn't schedule our timeout callback more than once"
+          );
+
+          ourTimerId = id;
         }
 
         return id;
       };
 
-      globalObject.clearTimeout = (timeoutId: NodeJS.Timer): any => {
-        timeoutsSet.delete(timeoutId);
-        return _internalClearTimeout.call(globalObject, timeoutId);
+      globalObject.clearTimeout = (timerIdToClear: NodeJS.Timer): any => {
+        assert.exists(timerIdToClear, "All timers that are cleared actually exist");
+
+        if (timerIdToClear === ourTimerId) {
+          assert.isFalse(timerWasCleared, "Timer should not be cleared multiple times");
+          timerWasCleared = true;
+        }
+
+        return _internalClearTimeout.call(globalObject, timerIdToClear);
       };
     });
 
@@ -82,16 +92,15 @@ describe("utils", () => {
         await prm;
         assert.fail("Should have thrown an AbortError");
       } catch (err) {
-        assert.equal(err.name, "AbortError");
         assert.equal(err.message, "the message for aborting");
+        assert.equal(err.name, "AbortError");
       }
 
       assert.isTrue(
         abortSignal.ourListenersWereRemoved(),
         "All paths should properly clean up any event listeners on the signal"
       );
-      assert.equal(timeoutsSet.size, 0);
-      assert.isTrue(timeoutWasSet);
+      assert.isTrue(timerWasCleared);
     });
 
     it("abortSignal already aborted", async () => {
@@ -110,18 +119,16 @@ describe("utils", () => {
 
         assert.fail("Should have thrown an AbortError");
       } catch (err) {
-        assert.equal(err.name, "AbortError");
         assert.equal(err.message, "the message for aborting");
+        assert.equal(err.name, "AbortError");
       }
 
       assert.isTrue(
         abortSignal.ourListenersWereRemoved(),
         "All paths should properly clean up any event listeners on the signal"
       );
-      assert.equal(timeoutsSet.size, 0);
-
       // the abort signal is checked early, so the timeout never gets set up here.
-      assert.isFalse(timeoutWasSet);
+      assert.notExists(ourTimerId);
     });
 
     it("abortSignal is optional", async () => {
@@ -143,8 +150,7 @@ describe("utils", () => {
         assert.equal((err as AmqpError).description, "the message for the timeout");
       }
 
-      assert.equal(timeoutsSet.size, 0);
-      assert.isTrue(timeoutWasSet);
+      assert.isTrue(timerWasCleared);
     });
 
     it("timeout expires", async () => {
@@ -172,8 +178,7 @@ describe("utils", () => {
         abortSignal.ourListenersWereRemoved(),
         "All paths should properly clean up any event listeners on the signal"
       );
-      assert.equal(timeoutsSet.size, 0);
-      assert.isTrue(timeoutWasSet);
+      assert.isTrue(timerWasCleared);
     });
 
     it("nothing expires", async () => {
@@ -193,8 +198,31 @@ describe("utils", () => {
         abortSignal.ourListenersWereRemoved(),
         "All paths should properly clean up any event listeners on the signal"
       );
-      assert.equal(timeoutsSet.size, 0);
-      assert.isTrue(timeoutWasSet);
+      assert.isTrue(timerWasCleared);
+    });
+
+    it("actionFn throws an error", async () => {
+      try {
+        await waitForTimeoutOrAbortOrResolve({
+          actionFn: async () => {
+            throw new Error("Error thrown from action");
+          },
+          timeoutMessage: "the message for the timeout",
+          timeoutMs: neverFireMs,
+          abortSignal,
+          abortMessage: "the message for aborting"
+        });
+
+        assert.fail("Should have thrown");
+      } catch (err) {
+        assert.equal(err.message, "Error thrown from action");
+      }
+
+      assert.isTrue(
+        abortSignal.ourListenersWereRemoved(),
+        "All paths should properly clean up any event listeners on the signal"
+      );
+      assert.isTrue(timerWasCleared);
     });
   });
 
