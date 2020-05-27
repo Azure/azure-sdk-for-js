@@ -7,9 +7,15 @@
  */
 
 export {
+  AcceptTransferRequest,
+  DetailedTransferStatus,
   ErrorDetails,
+  ErrorModel,
   ErrorResponse,
-  Operation,
-  OperationDisplay,
-  OperationListResult
+  ProductDetails,
+  RecipientTransferDetails,
+  RecipientTransferDetailsListResult,
+  ValidateTransferListResponse,
+  ValidateTransferResponse,
+  ValidationResultProperties
 } from "../models/mappers";
