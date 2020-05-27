@@ -737,10 +737,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-yYezQwGWty8ziyYLdZjwxyMb0CZR49h8JALHGrxjQHWlqGgc8kLdHEgWrgL0uZ29DMvEVBDnHU2Wg36zKSIUtA==
-  /@types/tough-cookie/2.3.7:
+  /@types/tough-cookie/4.0.0:
     dev: false
     resolution:
-      integrity: sha512-rMQbgMGxnLsdn8e9aPVyuN+zMQLrZ2QW8xlv7eWS1mydfGXN+tsTKffcIzd8rGCcLdmi3xvQw2MDaZI1bBNTaw==
+      integrity: sha512-I99sngh224D0M7XgW1s120zxCt3VYQ3IQsuw3P3jbq5GG4yc79+ZjyKznyOGIQrflfylLgcfekeZW/vk0yng6A==
   /@types/tunnel/0.0.0:
     dependencies:
       '@types/node': 14.0.4
@@ -3439,12 +3439,6 @@ packages:
       node: '>= 0.10'
     resolution:
       integrity: sha512-mT34yGKMNceBQUoVn7iCDKDntA7SC6gycMAWzGx1z/CMCTV7b2AAtXlo3nRyHZ1FelRkQbQjprHSYGwzLtkVbw==
-  /ip-regex/2.1.0:
-    dev: false
-    engines:
-      node: '>=4'
-    resolution:
-      integrity: sha1-+ni/XS5pE8kRzp+BnuUUa7bYROk=
   /ip/1.1.5:
     dev: false
     resolution:
@@ -6732,16 +6726,16 @@ packages:
       node: '>=0.8'
     resolution:
       integrity: sha512-nlLsUzgm1kfLXSXfRZMc1KLAugd4hqJHDTvc2hDIwS3mZAfMEuMbc03SujMF+GEcpaX/qboeycw6iO8JwVv2+g==
-  /tough-cookie/3.0.1:
+  /tough-cookie/4.0.0:
     dependencies:
-      ip-regex: 2.1.0
       psl: 1.8.0
       punycode: 2.1.1
+      universalify: 0.1.2
     dev: false
     engines:
       node: '>=6'
     resolution:
-      integrity: sha512-yQyJ0u4pZsv9D4clxO69OEjLWYw+jbgspjTue4lTQZLfV0c5l1VmK2y1JK8E9ahdpltPOaAThPcp5nKPUgSnsg==
+      integrity: sha512-tHdtEpQCMrc1YLrMaqXXcj6AxhYi/xgit6mZu1+EDWUn+qhUf8wMQoFIy9NXuq23zAwtcB0t/MjACGR18pcRbg==
   /tr46/1.0.1:
     dependencies:
       punycode: 2.1.1
@@ -7801,7 +7795,7 @@ packages:
       '@types/node': 8.10.61
       '@types/node-fetch': 2.5.7
       '@types/sinon': 9.0.4
-      '@types/tough-cookie': 2.3.7
+      '@types/tough-cookie': 4.0.0
       '@types/tunnel': 0.0.1
       '@types/uuid': 3.4.9
       '@types/xml2js': 0.4.5
@@ -7843,7 +7837,7 @@ packages:
       rollup-plugin-visualizer: 3.3.2_rollup@1.32.1
       shx: 0.3.2
       sinon: 9.0.2
-      tough-cookie: 3.0.1
+      tough-cookie: 4.0.0
       ts-loader: 6.2.2_typescript@3.8.3
       ts-node: 8.10.1_typescript@3.8.3
       tslib: 1.13.0
@@ -7856,7 +7850,7 @@ packages:
     dev: false
     name: '@rush-temp/core-http'
     resolution:
-      integrity: sha512-IEnxAN1ZAfM+o+fghqJFb/JCDhJXH5V8sSz1lkxIG8w8IEwjp9ARXK4BgM7VOkZ4wGYoysjNndu9DA0ffVG0LA==
+      integrity: sha512-YSYHxYwUBYkV91AQ87ZtSyGJcY2sFXj3eIBf7K056ikeniLeW0OEHbB3T2COlZBNz/R2iH4jlhI79gelZd9YIg==
       tarball: 'file:projects/core-http.tgz'
     version: 0.0.0
   'file:projects/core-https.tgz':
