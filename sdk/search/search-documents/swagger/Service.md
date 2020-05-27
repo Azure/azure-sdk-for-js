@@ -218,3 +218,29 @@ directive:
     transform: >
       $["x-ms-client-name"] = "maxPageLength"
 ```
+
+### Make credentials of SearchIndexerDataSource/Credentials to ConnectionString
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.SearchIndexerDataSource.properties
+    transform: >
+      delete $['credentials']
+  - from: swagger-document
+    where: $.definitions.SearchIndexerDataSource
+    transform: >
+      $['properties']['connectionString'] = {};
+      $['properties']['connectionString']['type'] = 'string';
+      $['properties']['connectionString']['description'] = 'The connection string for the datasource.';
+```
+
+### Remove DataSourceCredentials model
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions
+    transform: >
+      delete $['DataSourceCredentials']
+```

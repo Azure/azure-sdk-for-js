@@ -73,7 +73,6 @@ import {
   SqlIntegratedChangeTrackingPolicy,
   SoftDeleteColumnDeletionDetectionPolicy,
   SearchIndexerDataSourceType,
-  DataSourceCredentials,
   SearchIndexerDataContainer,
   LexicalAnalyzerName
 } from "./generated/service/models";
@@ -1439,9 +1438,9 @@ export interface SearchIndexerDataSource {
    */
   type: SearchIndexerDataSourceType;
   /**
-   * Credentials for the SearchIndexerDataSource.
+   * ConnectionString for the SearchIndexerDataSource.
    */
-  credentials: DataSourceCredentials;
+  connectionString?: string;
   /**
    * The data container for the SearchIndexerDataSource.
    */

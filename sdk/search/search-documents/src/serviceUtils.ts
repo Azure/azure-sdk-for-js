@@ -331,7 +331,7 @@ export function generatedSearchIndexerDataSourceToPublicSearchIndexerDataSource(
     name: searchIndexerdataSource.name,
     description: searchIndexerdataSource.name,
     type: searchIndexerdataSource.type,
-    credentials: searchIndexerdataSource.credentials,
+    connectionString: searchIndexerdataSource.connectionString,
     container: searchIndexerdataSource.container,
     etag: searchIndexerdataSource.etag,
     dataChangeDetectionPolicy: convertDataChangeDetectionPolicyToPublic(

@@ -1460,16 +1460,6 @@ export interface BM25Similarity {
 }
 
 /**
- * Represents credentials that can be used to connect to a datasource.
- */
-export interface DataSourceCredentials {
-  /**
-   * The connection string for the datasource.
-   */
-  connectionString?: string;
-}
-
-/**
  * Represents information about the entity (such as Azure SQL table or CosmosDB collection) that
  * will be indexed.
  */
@@ -1579,10 +1569,6 @@ export interface SearchIndexerDataSource {
    */
   type: SearchIndexerDataSourceType;
   /**
-   * Credentials for the datasource.
-   */
-  credentials: DataSourceCredentials;
-  /**
    * The data container for the datasource.
    */
   container: SearchIndexerDataContainer;
@@ -1598,6 +1584,10 @@ export interface SearchIndexerDataSource {
    * The ETag of the data source.
    */
   etag?: string;
+  /**
+   * The connection string for the datasource.
+   */
+  connectionString?: string;
 }
 
 /**

@@ -10,7 +10,6 @@ export {
   discriminators,
   DataChangeDetectionPolicy,
   DataDeletionDetectionPolicy,
-  DataSourceCredentials,
   HighWaterMarkChangeDetectionPolicy,
   ListDataSourcesResult,
   SearchError,

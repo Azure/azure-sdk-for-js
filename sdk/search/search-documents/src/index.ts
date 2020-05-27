@@ -213,7 +213,6 @@ export {
   IndexerExecutionStatus,
   SearchIndexerWarning,
   SearchIndexerDataContainer,
-  DataSourceCredentials,
   SearchIndexerDataSourceType,
   SoftDeleteColumnDeletionDetectionPolicy,
   SqlIntegratedChangeTrackingPolicy,

@@ -1977,22 +1977,6 @@ export const BM25Similarity: coreHttp.CompositeMapper = {
   }
 };
 
-export const DataSourceCredentials: coreHttp.CompositeMapper = {
-  serializedName: "DataSourceCredentials",
-  type: {
-    name: "Composite",
-    className: "DataSourceCredentials",
-    modelProperties: {
-      connectionString: {
-        serializedName: "connectionString",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const SearchIndexerDataContainer: coreHttp.CompositeMapper = {
   serializedName: "SearchIndexerDataContainer",
   type: {
@@ -2144,14 +2128,6 @@ export const SearchIndexerDataSource: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      credentials: {
-        required: true,
-        serializedName: "credentials",
-        type: {
-          name: "Composite",
-          className: "DataSourceCredentials"
-        }
-      },
       container: {
         required: true,
         serializedName: "container",
@@ -2176,6 +2152,12 @@ export const SearchIndexerDataSource: coreHttp.CompositeMapper = {
       },
       etag: {
         serializedName: "@odata\\.etag",
+        type: {
+          name: "String"
+        }
+      },
+      connectionString: {
+        serializedName: "connectionString",
         type: {
           name: "String"
         }
