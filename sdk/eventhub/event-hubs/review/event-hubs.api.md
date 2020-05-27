@@ -100,7 +100,7 @@ export class EventHubConsumerClient {
 
 // @public
 export interface EventHubConsumerClientOptions extends EventHubClientOptions {
-    loadBalancingOptions: LoadBalancingOptions;
+    loadBalancingOptions?: LoadBalancingOptions;
 }
 
 // @public
@@ -159,9 +159,9 @@ export const latestEventPosition: EventPosition;
 
 // @public
 export interface LoadBalancingOptions {
-    partitionOwnershipExpirationIntervalInMs: number;
-    strategy: "balanced" | "greedy";
-    updateIntervalInMs: number;
+    partitionOwnershipExpirationIntervalInMs?: number;
+    strategy?: "balanced" | "greedy";
+    updateIntervalInMs?: number;
 }
 
 // @public

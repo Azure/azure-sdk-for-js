@@ -32,7 +32,7 @@ export interface EventHubConsumerClientOptions extends EventHubClientOptions {
   /**
    * An options bag to configure load balancing settings.
    */
-  loadBalancingOptions: LoadBalancingOptions;
+  loadBalancingOptions?: LoadBalancingOptions;
 }
 
 /**
@@ -44,15 +44,17 @@ export interface LoadBalancingOptions {
    * claiming partitions.
    * Default: balanced
    */
-  strategy: "balanced" | "greedy";
+  strategy?: "balanced" | "greedy";
   /**
    * The length of time between attempts to claim partitions.
+   * Default: 10000
    */
-  updateIntervalInMs: number;
+  updateIntervalInMs?: number;
   /**
    * The length of time a partition claim is valid.
+   * Default: 60000
    */
-  partitionOwnershipExpirationIntervalInMs: number;
+  partitionOwnershipExpirationIntervalInMs?: number;
 }
 
 const defaultConsumerClientOptions: Required<Pick<
