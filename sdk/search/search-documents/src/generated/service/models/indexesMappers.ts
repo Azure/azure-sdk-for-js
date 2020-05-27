@@ -12,7 +12,6 @@ export {
   AnalyzeRequest,
   AnalyzeResult,
   AsciiFoldingTokenFilter,
-  AzureActiveDirectoryApplicationCredentials,
   BM25Similarity,
   CharFilter,
   CjkBigramTokenFilter,

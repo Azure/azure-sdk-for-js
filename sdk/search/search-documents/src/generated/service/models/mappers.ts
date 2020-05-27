@@ -3181,29 +3181,6 @@ export const Suggester: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureActiveDirectoryApplicationCredentials: coreHttp.CompositeMapper = {
-  serializedName: "AzureActiveDirectoryApplicationCredentials",
-  type: {
-    name: "Composite",
-    className: "AzureActiveDirectoryApplicationCredentials",
-    modelProperties: {
-      applicationId: {
-        required: true,
-        serializedName: "applicationId",
-        type: {
-          name: "String"
-        }
-      },
-      applicationSecret: {
-        serializedName: "applicationSecret",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const SearchResourceEncryptionKey: coreHttp.CompositeMapper = {
   serializedName: "SearchResourceEncryptionKey",
   type: {
@@ -3231,11 +3208,16 @@ export const SearchResourceEncryptionKey: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      accessCredentials: {
-        serializedName: "accessCredentials",
+      applicationId: {
+        serializedName: "applicationId",
         type: {
-          name: "Composite",
-          className: "AzureActiveDirectoryApplicationCredentials"
+          name: "String"
+        }
+      },
+      applicationSecret: {
+        serializedName: "applicationSecret",
+        type: {
+          name: "String"
         }
       }
     }

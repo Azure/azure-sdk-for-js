@@ -109,7 +109,6 @@ export {
   MappingCharFilter,
   PatternReplaceCharFilter,
   CorsOptions,
-  AzureActiveDirectoryApplicationCredentials,
   SearchResourceEncryptionKey,
   ScoringFunctionAggregation,
   ScoringFunctionInterpolation,

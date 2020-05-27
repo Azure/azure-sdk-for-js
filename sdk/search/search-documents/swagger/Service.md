@@ -244,3 +244,32 @@ directive:
     transform: >
       delete $['DataSourceCredentials']
 ```
+
+### Add properties to SearchResourceEncryptionKey
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.SearchResourceEncryptionKey.properties
+    transform: >
+      delete $['accessCredentials']
+  - from: swagger-document
+    where: $.definitions.SearchResourceEncryptionKey
+    transform: >
+      $['properties']['applicationId'] = {};
+      $['properties']['applicationId']['type'] = 'string';
+      $['properties']['applicationId']['description'] = 'An AAD Application ID that was granted the required access permissions to the Azure Key Vault that is to be used when encrypting your data at rest. The Application ID should not be confused with the Object ID for your AAD Application.';
+      $['properties']['applicationSecret'] = {};
+      $['properties']['applicationSecret']['type'] = 'string';
+      $['properties']['applicationSecret']['description'] = 'The authentication key of the specified AAD application.';
+```
+
+### Remove AzureActiveDirectoryApplicationCredentials model
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions
+    transform: >
+      delete $['AzureActiveDirectoryApplicationCredentials']
+```

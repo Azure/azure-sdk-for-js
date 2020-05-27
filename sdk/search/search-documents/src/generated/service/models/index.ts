@@ -2336,23 +2336,6 @@ export interface Suggester {
 }
 
 /**
- * Credentials of a registered application created for your search service, used for authenticated
- * access to the encryption keys stored in Azure Key Vault.
- */
-export interface AzureActiveDirectoryApplicationCredentials {
-  /**
-   * An AAD Application ID that was granted the required access permissions to the Azure Key Vault
-   * that is to be used when encrypting your data at rest. The Application ID should not be
-   * confused with the Object ID for your AAD Application.
-   */
-  applicationId: string;
-  /**
-   * The authentication key of the specified AAD application.
-   */
-  applicationSecret?: string;
-}
-
-/**
  * A customer-managed encryption key in Azure Key Vault. Keys that you create and manage can be
  * used to encrypt or decrypt data-at-rest in Azure Cognitive Search, such as indexes and synonym
  * maps.
@@ -2373,10 +2356,15 @@ export interface SearchResourceEncryptionKey {
    */
   vaultUri: string;
   /**
-   * Optional Azure Active Directory credentials used for accessing your Azure Key Vault. Not
-   * required if using managed identity instead.
+   * An AAD Application ID that was granted the required access permissions to the Azure Key Vault
+   * that is to be used when encrypting your data at rest. The Application ID should not be
+   * confused with the Object ID for your AAD Application.
    */
-  accessCredentials?: AzureActiveDirectoryApplicationCredentials;
+  applicationId?: string;
+  /**
+   * The authentication key of the specified AAD application.
+   */
+  applicationSecret?: string;
 }
 
 /**

@@ -8,7 +8,6 @@
 
 export {
   discriminators,
-  AzureActiveDirectoryApplicationCredentials,
   ListSynonymMapsResult,
   SearchError,
   SearchResourceEncryptionKey,
