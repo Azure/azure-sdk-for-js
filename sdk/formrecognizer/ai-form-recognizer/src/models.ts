@@ -202,6 +202,10 @@ export interface FormTable {
  */
 export interface FormText {
   /**
+   * The 1-based page number in the input document.
+   */
+  pageNumber: number;
+  /**
    * The bounding box of the recognized label or value
    */
   boundingBox?: Point2D[];
