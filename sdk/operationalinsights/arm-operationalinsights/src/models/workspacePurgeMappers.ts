@@ -8,7 +8,9 @@
 
 export {
   CloudError,
-  Operation,
-  OperationDisplay,
-  OperationListResult
+  WorkspacePurgeBody,
+  WorkspacePurgeBodyFilters,
+  WorkspacePurgePurgeHeaders,
+  WorkspacePurgeResponse,
+  WorkspacePurgeStatusResponse
 } from "../models/mappers";
