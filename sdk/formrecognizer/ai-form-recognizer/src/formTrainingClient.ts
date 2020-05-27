@@ -57,7 +57,7 @@ export type GetModelOptions = FormRecognizerOperationOptions;
 /**
  * Options for training models
  */
-export type TrainModelOptions = FormRecognizerOperationOptions & {
+export type TrainingFileFilter = FormRecognizerOperationOptions & {
   prefix?: string;
   includeSubFolders?: boolean;
 };
@@ -65,7 +65,7 @@ export type TrainModelOptions = FormRecognizerOperationOptions & {
 /**
  * Options for starting model training operation.
  */
-export type BeginTrainingOptions<T> = TrainModelOptions & {
+export type BeginTrainingOptions<T> = TrainingFileFilter & {
   intervalInMs?: number;
   onProgress?: (state: BeginTrainingPollState<T>) => void;
   resumeFrom?: string;
@@ -435,7 +435,7 @@ export class FormTrainingClient {
       trainCustomModelInternal: (
         source: string,
         _useLabelFile?: boolean,
-        options?: TrainModelOptions
+        options?: TrainingFileFilter
       ) => trainCustomModelInternal(this.client, source, useTrainingLabels, options)
     };
 
@@ -460,7 +460,7 @@ async function trainCustomModelInternal(
   client: GeneratedClient,
   source: string,
   useLabelFile?: boolean,
-  options?: TrainModelOptions
+  options?: TrainingFileFilter
 ): Promise<GeneratedClientTrainCustomModelAsyncResponse> {
   const realOptions = options || {};
   const { span, updatedOptions: finalOptions } = createSpan(
