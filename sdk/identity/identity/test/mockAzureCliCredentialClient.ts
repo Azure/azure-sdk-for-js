@@ -21,7 +21,7 @@ export class MockAzureCliCredentialClient extends AzureCliCredential {
    * command.
    * @param resource The resources to use when accessing token
    */
-  protected getAzureCliAccessToken() {
+  protected getAzureCliAccessToken(resource: string) {
     return new Promise((resolve) => {
       resolve({ stdout: this.stdout, stderr: this.stderr });
     });

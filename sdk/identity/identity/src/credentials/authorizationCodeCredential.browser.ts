@@ -3,7 +3,7 @@
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { TokenCredential, AccessToken } from "@azure/core-http";
+import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { TokenCredentialOptions } from "../client/identityClient";
 
 const BrowserNotSupportedError = new Error(
@@ -26,11 +26,21 @@ export class AuthorizationCodeCredential implements TokenCredential {
     redirectUri: string,
     options?: TokenCredentialOptions
   );
-  constructor() {
+  constructor(
+    tenantId: string | "common",
+    clientId: string,
+    clientSecretOrAuthorizationCode: string,
+    authorizationCodeOrRedirectUri: string,
+    redirectUriOrOptions: string | TokenCredentialOptions | undefined,
+    options?: TokenCredentialOptions
+  ) {
     throw BrowserNotSupportedError;
   }
 
-  public getToken(): Promise<AccessToken | null> {
+  public getToken(
+    scopes: string | string[],
+    options?: GetTokenOptions
+  ): Promise<AccessToken | null> {
     throw BrowserNotSupportedError;
   }
 }
