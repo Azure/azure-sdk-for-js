@@ -89,6 +89,12 @@ export class FormTrainingClient {
   /**
    * @internal
    * @ignore
+   */
+  private readonly clientOptions: FormRecognizerClientOptions;
+
+  /**
+   * @internal
+   * @ignore
    * A reference to the auto-generated FormRecognizer HTTP client.
    */
   private readonly client: GeneratedClient;
@@ -116,6 +122,7 @@ export class FormTrainingClient {
   ) {
     this.endpointUrl = endpointUrl;
     this.credential = credential;
+    this.clientOptions = options;
     const { ...pipelineOptions } = options;
 
     const libInfo = `azsdk-js-ai-formrecognizer/${SDK_VERSION}`;
@@ -198,7 +205,7 @@ export class FormTrainingClient {
    * and to manage trained custom form models.
    */
   public getFormRecognizerClient(): FormRecognizerClient {
-    return new FormRecognizerClient(this.endpointUrl, this.credential);
+    return new FormRecognizerClient(this.endpointUrl, this.credential, this.clientOptions);
   }
 
   /**
