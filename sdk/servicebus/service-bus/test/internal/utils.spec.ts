@@ -13,7 +13,7 @@ import { ErrorNameConditionMapper } from "@azure/core-amqp";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
-describe.only("utils", () => {
+describe("utils", () => {
   describe("waitForTimeoutAbortOrResolve", () => {
     let abortController: AbortController;
     let abortSignal: ReturnType<typeof getAbortSignalWithTracking>;
