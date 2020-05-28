@@ -11,8 +11,6 @@ import {
   KeyValuePair as KeyValuePairModel,
   Language,
   LengthUnit,
-  ModelInfo,
-  Models,
   ModelsSummary,
   ModelStatus as CustomFormModelStatus,
   TrainStatus as TrainingStatus,
@@ -27,8 +25,6 @@ export {
   KeyValuePairModel,
   Language,
   LengthUnit,
-  ModelInfo,
-  Models,
   ModelsSummary,
   CustomFormModelStatus,
   OperationStatus,
@@ -608,20 +604,6 @@ export interface TrainingDocumentInfo {
 }
 
 /**
- * Contains the unlabeled training results.
- */
-export interface FormTrainResult {
-  /**
-   * List of document used to train the model and any errors reported for each document.
-   */
-  trainingDocuments: TrainingDocumentInfo[];
-  /**
-   * Errors returned during training operation.
-   */
-  errors?: FormRecognizerErrorDetails[];
-}
-
-/**
  * Basic custom model information.
  */
 export interface CustomFormModelInfo {
@@ -641,24 +623,6 @@ export interface CustomFormModelInfo {
    * Date and time (UTC) when the training operation completed.
    */
   completedOn: Date;
-}
-
-/**
- * Represents a model from unlabeled training.
- */
-export interface FormModel {
-  /**
-   * Information about the model
-   */
-  modelInfo: CustomFormModelInfo;
-  /**
-   * Keys recognized from unlabeled training.
-   */
-  keys: KeysResult;
-  /**
-   * Results of the unlabeled training.
-   */
-  trainResult?: FormTrainResult;
 }
 
 export interface CustomFormField {
@@ -754,7 +718,7 @@ export interface Model {
   /**
    * Basic custom model information.
    */
-  modelInfo: ModelInfo;
+  modelInfo: CustomFormModelInfo;
   /**
    * Keys extracted by the custom model.
    */
@@ -763,6 +727,24 @@ export interface Model {
    * Custom model training result.
    */
   trainResult?: TrainResult;
+}
+
+/**
+ * Response to the list custom models operation.
+ */
+export interface Models {
+  /**
+   * Summary of all trained custom models.
+   */
+  summary?: ModelsSummary;
+  /**
+   * Collection of trained custom models.
+   */
+  modelList?: CustomFormModelInfo[];
+  /**
+   * Link to the next page of custom models.
+   */
+  nextLink?: string;
 }
 
 /**
@@ -782,6 +764,26 @@ export type FormModelResponse = CustomFormModel & {
      * The response body as parsed JSON or XML
      */
     parsedBody: Model;
+  };
+};
+
+/**
+ * Contains response data for the listCustomModels operation.
+ */
+export type ListCustomModelsResponse = Models & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Models;
   };
 };
 

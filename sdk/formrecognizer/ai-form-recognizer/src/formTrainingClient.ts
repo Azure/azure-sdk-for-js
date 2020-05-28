@@ -22,18 +22,17 @@ import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/api";
 import { GeneratedClient } from "./generated/generatedClient";
 import {
-  GeneratedClientGetCustomModelsResponse as ListModelsResponseModel,
   GeneratedClientTrainCustomModelAsyncResponse
 } from "./generated/models";
 import { TrainPollerClient, BeginTrainingPoller, BeginTrainingPollState } from "./lro/train/poller";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
 import { FormRecognizerClientOptions, FormRecognizerOperationOptions } from "./common";
-import { FormModelResponse, AccountProperties, CustomFormModel, CustomFormModelInfo } from "./models";
+import { FormModelResponse, AccountProperties, CustomFormModel, CustomFormModelInfo, ListCustomModelsResponse } from "./models";
 import { createFormRecognizerAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 import { toFormModelResponse } from "./transforms";
 import { FormRecognizerClient } from './formRecognizerClient';
 
-export { ListModelsResponseModel, RestResponse };
+export { RestResponse };
 /**
  * Options for model listing operation.
  */
@@ -275,7 +274,7 @@ export class FormTrainingClient {
   private async *listModelsPage(
     _settings: PageSettings,
     options: ListModelsOptions = {}
-  ): AsyncIterableIterator<ListModelsResponseModel> {
+  ): AsyncIterableIterator<ListCustomModelsResponse> {
     let result = await this.list(options);
     yield result;
 
@@ -338,7 +337,7 @@ export class FormTrainingClient {
    */
   public listCustomModels(
     options: ListModelsOptions = {}
-  ): PagedAsyncIterableIterator<CustomFormModelInfo, ListModelsResponseModel> {
+  ): PagedAsyncIterableIterator<CustomFormModelInfo, ListCustomModelsResponse> {
     const iter = this.listModelsAll({}, options);
 
     return {
@@ -356,7 +355,7 @@ export class FormTrainingClient {
     };
   }
 
-  private async list(options?: ListModelsOptions): Promise<ListModelsResponseModel> {
+  private async list(options?: ListModelsOptions): Promise<ListCustomModelsResponse> {
     const realOptions: ListModelsOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
       "FormTrainingClient-list",
@@ -383,7 +382,7 @@ export class FormTrainingClient {
   private async listNextPage(
     nextLink: string,
     options?: ListModelsOptions
-  ): Promise<ListModelsResponseModel> {
+  ): Promise<ListCustomModelsResponse> {
     const realOptions: ListModelsOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
       "FormTrainingClient-listNextPage",

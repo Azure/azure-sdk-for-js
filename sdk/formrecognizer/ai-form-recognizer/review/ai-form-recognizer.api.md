@@ -173,13 +173,6 @@ export interface FormLine extends FormContentCommon {
 }
 
 // @public
-export interface FormModel {
-    keys: KeysResult;
-    modelInfo: CustomFormModelInfo;
-    trainResult?: FormTrainResult;
-}
-
-// @public
 export type FormModelResponse = CustomFormModel & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
@@ -281,14 +274,8 @@ export class FormTrainingClient {
     getAccountProperties(options?: GetAccountPropertiesOptions): Promise<AccountProperties>;
     getCustomModel(modelId: string, options?: GetModelOptions): Promise<FormModelResponse>;
     getFormRecognizerClient(): FormRecognizerClient;
-    listCustomModels(options?: ListModelsOptions): PagedAsyncIterableIterator<CustomFormModelInfo, ListModelsResponseModel>;
+    listCustomModels(options?: ListModelsOptions): PagedAsyncIterableIterator<CustomFormModelInfo, ListCustomModelsResponse>;
     }
-
-// @public
-export interface FormTrainResult {
-    errors?: FormRecognizerErrorDetails[];
-    trainingDocuments: TrainingDocumentInfo[];
-}
 
 // @public
 export interface FormWord extends FormContentCommon {
@@ -338,10 +325,7 @@ export type Language = "en" | "es";
 export type LengthUnit = "pixel" | "inch";
 
 // @public
-export type ListModelsOptions = FormRecognizerOperationOptions;
-
-// @public
-export type ListModelsResponseModel = Models & {
+export type ListCustomModelsResponse = Models & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
         parsedBody: Models;
@@ -349,23 +333,18 @@ export type ListModelsResponseModel = Models & {
 };
 
 // @public
+export type ListModelsOptions = FormRecognizerOperationOptions;
+
+// @public
 export interface Model {
     keys?: KeysResult;
-    modelInfo: ModelInfo;
+    modelInfo: CustomFormModelInfo;
     trainResult?: TrainResult;
 }
 
 // @public
-export interface ModelInfo {
-    completedOn: Date;
-    modelId: string;
-    requestedOn: Date;
-    status: CustomFormModelStatus;
-}
-
-// @public
 export interface Models {
-    modelList?: ModelInfo[];
+    modelList?: CustomFormModelInfo[];
     nextLink?: string;
     summary?: ModelsSummary;
 }
@@ -550,7 +529,7 @@ export type ValueTypes = "string" | "date" | "time" | "phoneNumber" | "number" |
 // src/formRecognizerClient.ts:86:3 - (ae-forgotten-export) The symbol "BeginRecognizeContentPollState" needs to be exported by the entry point index.d.ts
 // src/formRecognizerClient.ts:127:3 - (ae-forgotten-export) The symbol "BeginRecognizeCustomFormPollState" needs to be exported by the entry point index.d.ts
 // src/formRecognizerClient.ts:173:3 - (ae-forgotten-export) The symbol "BeginRecognizeReceiptPollState" needs to be exported by the entry point index.d.ts
-// src/formTrainingClient.ts:70:3 - (ae-forgotten-export) The symbol "BeginTrainingPollState" needs to be exported by the entry point index.d.ts
+// src/formTrainingClient.ts:69:3 - (ae-forgotten-export) The symbol "BeginTrainingPollState" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 
