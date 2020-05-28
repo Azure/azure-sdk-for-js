@@ -122,6 +122,26 @@ describe("NodeHttpsClient", function() {
     assert.isTrue(uploadCalled, "no upload progress");
   });
 
+  it("should fail if progress callbacks throw", async function() {
+    const client = new DefaultHttpsClient();
+    stubbedRequest.returns(createRequest());
+    const errorMessage = "it failed horribly!";
+    const request = createPipelineRequest({
+      url: "https://example.com",
+      body: "Some kinda witty message",
+      onUploadProgress: () => {
+        throw new Error(errorMessage);
+      }
+    });
+    const promise = client.sendRequest(request);
+    try {
+      await promise;
+      assert.fail("Expected await to throw");
+    } catch (e) {
+      assert.strictEqual(e.message, errorMessage);
+    }
+  });
+
   it("should honor timeout", async function() {
     const client = new DefaultHttpsClient();
 
