@@ -78,9 +78,9 @@ import {
 } from "./generated/service/models";
 
 /**
- * Options for a list SearchIndexerSkillsets operation.
+ * Options for a list Skillsets operation.
  */
-export type ListSearchIndexerSkillsetsOptions = OperationOptions;
+export type ListSkillsetsOptions = OperationOptions;
 
 /**
  * Options for a list SynonymMaps operation.
@@ -88,29 +88,29 @@ export type ListSearchIndexerSkillsetsOptions = OperationOptions;
 export type ListSynonymMapsOptions = OperationOptions;
 
 /**
- * Options for a list SearchIndexes operation.
+ * Options for a list Indexes operation.
  */
-export type ListSearchIndexesOptions = OperationOptions;
+export type ListIndexesOptions = OperationOptions;
 
 /**
- * Options for a list SearchIndexers operation.
+ * Options for a list Indexers operation.
  */
-export type ListSearchIndexersOptions = OperationOptions;
+export type ListIndexersOptions = OperationOptions;
 
 /**
- * Options for a list SearchIndexersDataSources operation.
+ * Options for a list DataSources operation.
  */
-export type ListSearchIndexerDataSourcesOptions = OperationOptions;
+export type ListDataSourcesOptions = OperationOptions;
 
 /**
- * Options for get SearchIndex operation.
+ * Options for get Index operation.
  */
-export type GetSearchIndexOptions = OperationOptions;
+export type GetIndexOptions = OperationOptions;
 
 /**
- * Options for get SearchIndexerSkillset operation.
+ * Options for get Skillset operation.
  */
-export type GetSearchIndexerSkillSetOptions = OperationOptions;
+export type GetSkillSetOptions = OperationOptions;
 
 /**
  * Options for get SynonymMaps operation.
@@ -118,19 +118,19 @@ export type GetSearchIndexerSkillSetOptions = OperationOptions;
 export type GetSynonymMapsOptions = OperationOptions;
 
 /**
- * Options for get SearchIndexer operation.
+ * Options for get Indexer operation.
  */
-export type GetSearchIndexerOptions = OperationOptions;
+export type GetIndexerOptions = OperationOptions;
 
 /**
- * Options for get SearchIndexerDataSource operation.
+ * Options for get DataSource operation.
  */
-export type GetSearchIndexerDataSourceOptions = OperationOptions;
+export type GetDataSourceOptions = OperationOptions;
 
 /**
- * Options for get SearchIndexStatistics operation.
+ * Options for get IndexStatistics operation.
  */
-export type GetSearchIndexStatisticsOptions = OperationOptions;
+export type GetIndexStatisticsOptions = OperationOptions;
 
 /**
  * Options for get service statistics operation.
@@ -138,29 +138,29 @@ export type GetSearchIndexStatisticsOptions = OperationOptions;
 export type GetServiceStatisticsOptions = OperationOptions;
 
 /**
- * Options for get searchIndexer status operation.
+ * Options for get Indexer status operation.
  */
-export type GetSearchIndexerStatusOptions = OperationOptions;
+export type GetIndexerStatusOptions = OperationOptions;
 
 /**
- * Options for reset SearchIndexer operation.
+ * Options for reset Indexer operation.
  */
-export type ResetSearchIndexerOptions = OperationOptions;
+export type ResetIndexerOptions = OperationOptions;
 
 /**
- * Options for run SearchIndexer operation.
+ * Options for run Indexer operation.
  */
-export type RunSearchIndexerOptions = OperationOptions;
+export type RunIndexerOptions = OperationOptions;
 
 /**
- * Options for create SearchIndex operation.
+ * Options for create Index operation.
  */
-export type CreateSearchIndexOptions = OperationOptions;
+export type CreateIndexOptions = OperationOptions;
 
 /**
- * Options for create SearchIndexerSkillset operation.
+ * Options for create Skillset operation.
  */
-export type CreateSearchIndexerSkillsetOptions = OperationOptions;
+export type CreateSkillsetOptions = OperationOptions;
 
 /**
  * Options for create SynonymMap operation.
@@ -168,24 +168,24 @@ export type CreateSearchIndexerSkillsetOptions = OperationOptions;
 export type CreateSynonymMapOptions = OperationOptions;
 
 /**
- * Options for create SearchIndexer operation.
+ * Options for create Indexer operation.
  */
-export type CreateSearchIndexerOptions = OperationOptions;
+export type CreateIndexerOptions = OperationOptions;
 
 /**
- * Options for create SearchIndexerDataSource operation.
+ * Options for create DataSource operation.
  */
-export type CreateSearchIndexerDataSourceOptions = OperationOptions;
+export type CreateDataSourceOptions = OperationOptions;
 
 /**
- * Options for create/update SearchIndex operation.
+ * Options for create/update Index operation.
  */
-export interface CreateOrUpdateSearchIndexOptions extends OperationOptions {
+export interface CreateOrUpdateIndexOptions extends OperationOptions {
   /**
-   * Allows new analyzers, tokenizers, token filters, or char filters to be added to an searchindex by
-   * taking the searchIndex offline for at least a few seconds. This temporarily causes indexing and
-   * query requests to fail. Performance and write availability of the searchindex can be impaired for
-   * several minutes after the searchIndex is updated, or longer for very large indexes.
+   * Allows new analyzers, tokenizers, token filters, or char filters to be added to an index by
+   * taking the Index offline for at least a few seconds. This temporarily causes indexing and
+   * query requests to fail. Performance and write availability of the index can be impaired for
+   * several minutes after the Index is updated, or longer for very large indexes.
    */
   allowIndexDowntime?: boolean;
   /**
@@ -195,9 +195,9 @@ export interface CreateOrUpdateSearchIndexOptions extends OperationOptions {
 }
 
 /**
- * Options for create/update SearchIndexerSkillset operation.
+ * Options for create/update Skillset operation.
  */
-export interface CreateOrUpdateSearchIndexerSkillsetOptions extends OperationOptions {
+export interface CreateOrUpdateSkillsetOptions extends OperationOptions {
   /**
    * If set to true, Resource will be deleted only if the etag matches.
    */
@@ -215,9 +215,9 @@ export interface CreateOrUpdateSynonymMapOptions extends OperationOptions {
 }
 
 /**
- * Options for create/update SearchIndexer operation.
+ * Options for create/update Indexer operation.
  */
-export interface CreateorUpdateSearchIndexerOptions extends OperationOptions {
+export interface CreateorUpdateIndexerOptions extends OperationOptions {
   /**
    * If set to true, Resource will be deleted only if the etag matches.
    */
@@ -225,9 +225,9 @@ export interface CreateorUpdateSearchIndexerOptions extends OperationOptions {
 }
 
 /**
- * Options for create/update SearchIndexerDataSource operation.
+ * Options for create/update DataSource operation.
  */
-export interface CreateorUpdateSearchIndexerDataSourceOptions extends OperationOptions {
+export interface CreateorUpdateDataSourceOptions extends OperationOptions {
   /**
    * If set to true, Resource will be deleted only if the etag matches.
    */
@@ -237,7 +237,7 @@ export interface CreateorUpdateSearchIndexerDataSourceOptions extends OperationO
 /**
  * Options for delete SearchIndex operation.
  */
-export interface DeleteSearchIndexOptions extends OperationOptions {
+export interface DeleteIndexOptions extends OperationOptions {
   /**
    * If set to true, Resource will be deleted only if the etag matches.
    */
@@ -245,9 +245,9 @@ export interface DeleteSearchIndexOptions extends OperationOptions {
 }
 
 /**
- * Options for delete SearchIndexerSkillset operaion.
+ * Options for delete Skillset operaion.
  */
-export interface DeleteSearchIndexerSkillsetOptions extends OperationOptions {
+export interface DeleteSkillsetOptions extends OperationOptions {
   /**
    * If set to true, Resource will be deleted only if the etag matches.
    */
@@ -265,9 +265,9 @@ export interface DeleteSynonymMapOptions extends OperationOptions {
 }
 
 /**
- * Options for delete SearchIndexer operation.
+ * Options for delete Indexer operation.
  */
-export interface DeleteSearchIndexerOptions extends OperationOptions {
+export interface DeleteIndexerOptions extends OperationOptions {
   /**
    * If set to true, Resource will be deleted only if the etag matches.
    */
@@ -275,9 +275,9 @@ export interface DeleteSearchIndexerOptions extends OperationOptions {
 }
 
 /**
- * Options for delete SearchIndexerDataSource operation.
+ * Options for delete DataSource operation.
  */
-export interface DeleteSearchIndexerDataSourceOptions extends OperationOptions {
+export interface DeleteDataSourceOptions extends OperationOptions {
   /**
    * If set to true, Resource will be deleted only if the etag matches.
    */

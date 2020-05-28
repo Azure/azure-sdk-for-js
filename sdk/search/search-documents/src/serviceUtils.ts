@@ -41,17 +41,15 @@ import {
   DataDeletionDetectionPolicy
 } from "./serviceModels";
 
-export function convertSearchIndexerSkillsToPublic(
-  searchIndexerSkills: SearchIndexerSkillUnion[]
-): SearchIndexerSkill[] {
-  if (!searchIndexerSkills) {
-    return searchIndexerSkills;
+export function convertSkillsToPublic(skills: SearchIndexerSkillUnion[]): SearchIndexerSkill[] {
+  if (!skills) {
+    return skills;
   }
 
   const result: SearchIndexerSkill[] = [];
-  for (const searchIndexerSkill of searchIndexerSkills) {
-    if (searchIndexerSkill.odatatype !== "SearchIndexerSkill") {
-      result.push(searchIndexerSkill);
+  for (const skill of skills) {
+    if (skill.odatatype !== "SearchIndexerSkill") {
+      result.push(skill);
     }
   }
   return result;
@@ -133,7 +131,7 @@ export function convertLexicalAnalyzersToPublic(
   return result;
 }
 
-export function convertSearchFieldsToPublic(searchFields: GeneratedSearchField[]): SearchField[] {
+export function convertFieldsToPublic(searchFields: GeneratedSearchField[]): SearchField[] {
   if (!searchFields) {
     return searchFields;
   }
@@ -236,9 +234,7 @@ export function extractOperationOptions<T extends OperationOptions>(
   };
 }
 
-export function generatedSearchIndexToPublicSearchIndex(
-  generatedIndex: GeneratedIndex
-): SearchIndex {
+export function generatedIndexToPublicIndex(generatedIndex: GeneratedIndex): SearchIndex {
   return {
     name: generatedIndex.name,
     defaultScoringProfile: generatedIndex.defaultScoringProfile,
@@ -251,34 +247,34 @@ export function generatedSearchIndexToPublicSearchIndex(
     tokenFilters: generatedIndex.tokenFilters as TokenFilter[],
     charFilters: generatedIndex.charFilters as CharFilter[],
     scoringProfiles: generatedIndex.scoringProfiles as ScoringProfile[],
-    fields: convertSearchFieldsToPublic(generatedIndex.fields)
+    fields: convertFieldsToPublic(generatedIndex.fields)
   };
 }
 
-export function publicSearchIndexToGeneratedSearchIndex(searchIndex: SearchIndex): GeneratedIndex {
+export function publicIndexToGeneratedIndex(index: SearchIndex): GeneratedIndex {
   return {
-    name: searchIndex.name,
-    defaultScoringProfile: searchIndex.defaultScoringProfile,
-    corsOptions: searchIndex.corsOptions,
-    suggesters: searchIndex.suggesters,
-    encryptionKey: searchIndex.encryptionKey,
-    etag: searchIndex.etag,
-    tokenFilters: searchIndex.tokenFilters,
-    charFilters: searchIndex.charFilters,
-    scoringProfiles: searchIndex.scoringProfiles,
-    analyzers: convertLexicalAnalyzersToGenerated(searchIndex.analyzers),
-    tokenizers: convertLexicalTokenizersToGenerated(searchIndex.tokenizers),
-    fields: convertFieldsToGenerated(searchIndex.fields)
+    name: index.name,
+    defaultScoringProfile: index.defaultScoringProfile,
+    corsOptions: index.corsOptions,
+    suggesters: index.suggesters,
+    encryptionKey: index.encryptionKey,
+    etag: index.etag,
+    tokenFilters: index.tokenFilters,
+    charFilters: index.charFilters,
+    scoringProfiles: index.scoringProfiles,
+    analyzers: convertLexicalAnalyzersToGenerated(index.analyzers),
+    tokenizers: convertLexicalTokenizersToGenerated(index.tokenizers),
+    fields: convertFieldsToGenerated(index.fields)
   };
 }
 
-export function generatedSearchIndexerSkillsetToPublicSearchIndexerSkillset(
+export function generatedSkillsetToPublicSkillset(
   generatedSkillset: GeneratedSearchIndexerSkillset
 ): SearchIndexerSkillset {
   return {
     name: generatedSkillset.name,
     description: generatedSkillset.description,
-    skills: convertSearchIndexerSkillsToPublic(generatedSkillset.skills),
+    skills: convertSkillsToPublic(generatedSkillset.skills),
     cognitiveServicesAccount: convertCognitiveServicesAccountToPublic(
       generatedSkillset.cognitiveServicesAccount
     ),
@@ -286,16 +282,16 @@ export function generatedSearchIndexerSkillsetToPublicSearchIndexerSkillset(
   };
 }
 
-export function publicSearchIndexerSkillsetToGeneratedSearchIndexerSkillset(
-  searchIndexerSkillset: SearchIndexerSkillset
+export function publicSkillsetToGeneratedSkillset(
+  skillset: SearchIndexerSkillset
 ): GeneratedSearchIndexerSkillset {
   return {
-    name: searchIndexerSkillset.name,
-    description: searchIndexerSkillset.description,
-    etag: searchIndexerSkillset.etag,
-    skills: searchIndexerSkillset.skills,
+    name: skillset.name,
+    description: skillset.description,
+    etag: skillset.etag,
+    skills: skillset.skills,
     cognitiveServicesAccount: convertCognitiveServicesAccountToGenerated(
-      searchIndexerSkillset.cognitiveServicesAccount
+      skillset.cognitiveServicesAccount
     )
   };
 }
@@ -324,21 +320,21 @@ export function publicSynonymMapToGeneratedSynonymMap(synonymMap: SynonymMap): G
   };
 }
 
-export function generatedSearchIndexerDataSourceToPublicSearchIndexerDataSource(
-  searchIndexerdataSource: GeneratedSearchIndexerDataSource
+export function generatedDataSourceToPublicDataSource(
+  dataSource: GeneratedSearchIndexerDataSource
 ): SearchIndexerDataSource {
   return {
-    name: searchIndexerdataSource.name,
-    description: searchIndexerdataSource.name,
-    type: searchIndexerdataSource.type,
-    connectionString: searchIndexerdataSource.connectionString,
-    container: searchIndexerdataSource.container,
-    etag: searchIndexerdataSource.etag,
+    name: dataSource.name,
+    description: dataSource.name,
+    type: dataSource.type,
+    connectionString: dataSource.connectionString,
+    container: dataSource.container,
+    etag: dataSource.etag,
     dataChangeDetectionPolicy: convertDataChangeDetectionPolicyToPublic(
-      searchIndexerdataSource.dataChangeDetectionPolicy
+      dataSource.dataChangeDetectionPolicy
     ),
     dataDeletionDetectionPolicy: convertDataDeletionDetectionPolicyToPublic(
-      searchIndexerdataSource.dataDeletionDetectionPolicy
+      dataSource.dataDeletionDetectionPolicy
     )
   };
 }

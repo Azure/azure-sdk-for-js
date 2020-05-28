@@ -213,7 +213,7 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
       allowedOrigins: ["*"]
     }
   };
-  await client.createSearchIndex(hotelIndex);
+  await client.createIndex(hotelIndex);
 }
 
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters

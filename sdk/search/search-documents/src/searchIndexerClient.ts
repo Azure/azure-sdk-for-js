@@ -16,26 +16,26 @@ import { SearchServiceClient as GeneratedClient } from "./generated/service/sear
 import { logger } from "./logger";
 import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy";
 import {
-  CreateOrUpdateSearchIndexerSkillsetOptions,
-  CreateSearchIndexerSkillsetOptions,
-  DeleteSearchIndexerSkillsetOptions,
-  GetSearchIndexerSkillSetOptions,
-  ListSearchIndexerSkillsetsOptions,
+  CreateOrUpdateSkillsetOptions,
+  CreateSkillsetOptions,
+  DeleteSkillsetOptions,
+  GetSkillSetOptions,
+  ListSkillsetsOptions,
   SearchIndexerSkillset,
-  ListSearchIndexersOptions,
-  CreateSearchIndexerOptions,
-  GetSearchIndexerOptions,
-  CreateorUpdateSearchIndexerOptions,
-  DeleteSearchIndexerOptions,
-  GetSearchIndexerStatusOptions,
-  ResetSearchIndexerOptions,
-  RunSearchIndexerOptions,
-  ListSearchIndexerDataSourcesOptions,
+  ListIndexersOptions,
+  CreateIndexerOptions,
+  GetIndexerOptions,
+  CreateorUpdateIndexerOptions,
+  DeleteIndexerOptions,
+  GetIndexerStatusOptions,
+  ResetIndexerOptions,
+  RunIndexerOptions,
+  ListDataSourcesOptions,
   SearchIndexerDataSource,
-  CreateSearchIndexerDataSourceOptions,
-  DeleteSearchIndexerDataSourceOptions,
-  GetSearchIndexerDataSourceOptions,
-  CreateorUpdateSearchIndexerDataSourceOptions
+  CreateDataSourceOptions,
+  DeleteDataSourceOptions,
+  GetDataSourceOptions,
+  CreateorUpdateDataSourceOptions
 } from "./serviceModels";
 import * as utils from "./serviceUtils";
 import { createSpan } from "./tracing";
@@ -143,13 +143,11 @@ export class SearchIndexerClient {
   }
 
   /**
-   * Retrieves a list of existing SearchIndexers in the service.
-   * @param options Options to list SearchIndexers operation.
+   * Retrieves a list of existing Indexers in the service.
+   * @param options Options to list Indexers operation.
    */
-  public async listSearchIndexers(
-    options: ListSearchIndexersOptions = {}
-  ): Promise<Array<SearchIndexer>> {
-    const { span, updatedOptions } = createSpan("SearchIndexerClient-listSearchIndexers", options);
+  public async listIndexers(options: ListIndexersOptions = {}): Promise<Array<SearchIndexer>> {
+    const { span, updatedOptions } = createSpan("SearchIndexerClient-listIndexers", options);
     try {
       const result = await this.client.indexers.list(
         operationOptionsToRequestOptionsBase(updatedOptions)
@@ -167,16 +165,11 @@ export class SearchIndexerClient {
   }
 
   /**
-   * Retrieves a list of names of existing SearchIndexers in the service.
-   * @param options Options to list SearchIndexers operation.
+   * Retrieves a list of names of existing Indexers in the service.
+   * @param options Options to list Indexers operation.
    */
-  public async listSearchIndexersNames(
-    options: ListSearchIndexersOptions = {}
-  ): Promise<Array<string>> {
-    const { span, updatedOptions } = createSpan(
-      "SearchIndexerClient-listSearchIndexersNames",
-      options
-    );
+  public async listIndexersNames(options: ListIndexersOptions = {}): Promise<Array<string>> {
+    const { span, updatedOptions } = createSpan("SearchIndexerClient-listIndexersNames", options);
     try {
       const result = await this.client.indexers.list({
         ...operationOptionsToRequestOptionsBase(updatedOptions),
@@ -195,23 +188,18 @@ export class SearchIndexerClient {
   }
 
   /**
-   * Retrieves a list of existing SearchIndexerDataSources in the service.
-   * @param options Options to list SearchIndexerDataSources operation.
+   * Retrieves a list of existing DataSources in the service.
+   * @param options Options to list DataSources operation.
    */
-  public async listSearchIndexerDataSources(
-    options: ListSearchIndexerDataSourcesOptions = {}
+  public async listDataSources(
+    options: ListDataSourcesOptions = {}
   ): Promise<Array<SearchIndexerDataSource>> {
-    const { span, updatedOptions } = createSpan(
-      "SearchIndexerClient-listSearchIndexerDataSources",
-      options
-    );
+    const { span, updatedOptions } = createSpan("SearchIndexerClient-listDataSources", options);
     try {
       const result = await this.client.dataSources.list(
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return result.dataSources.map(
-        utils.generatedSearchIndexerDataSourceToPublicSearchIndexerDataSource
-      );
+      return result.dataSources.map(utils.generatedDataSourceToPublicDataSource);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -224,14 +212,12 @@ export class SearchIndexerClient {
   }
 
   /**
-   * Retrieves a list of names of existing SearchIndexerDataSources in the service.
-   * @param options Options to list SearchIndexerDataSources operation.
+   * Retrieves a list of names of existing DataSources in the service.
+   * @param options Options to list DataSources operation.
    */
-  public async listSearchIndexerDataSourcesNames(
-    options: ListSearchIndexerDataSourcesOptions = {}
-  ): Promise<Array<string>> {
+  public async listDataSourcesNames(options: ListDataSourcesOptions = {}): Promise<Array<string>> {
     const { span, updatedOptions } = createSpan(
-      "SearchIndexerClient-listSearchIndexerDataSourcesNames",
+      "SearchIndexerClient-listDataSourcesNames",
       options
     );
     try {
@@ -252,23 +238,18 @@ export class SearchIndexerClient {
   }
 
   /**
-   * Retrieves a list of existing SearchIndexerSkillsets in the service.
-   * @param options Options to list SearchIndexerSkillsets operation.
+   * Retrieves a list of existing Skillsets in the service.
+   * @param options Options to list Skillsets operation.
    */
-  public async listSearchIndexerSkillsets(
-    options: ListSearchIndexerSkillsetsOptions = {}
+  public async listSkillsets(
+    options: ListSkillsetsOptions = {}
   ): Promise<Array<SearchIndexerSkillset>> {
-    const { span, updatedOptions } = createSpan(
-      "SearchIndexerClient-listSearchIndexerSkillsets",
-      options
-    );
+    const { span, updatedOptions } = createSpan("SearchIndexerClient-listSkillsets", options);
     try {
       const result = await this.client.skillsets.list(
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return result.skillsets.map(
-        utils.generatedSearchIndexerSkillsetToPublicSearchIndexerSkillset
-      );
+      return result.skillsets.map(utils.generatedSkillsetToPublicSkillset);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -281,16 +262,11 @@ export class SearchIndexerClient {
   }
 
   /**
-   * Retrieves a list of names of existing SearchIndexerSkillsets in the service.
-   * @param options Options to the SearchIndexerSkillsets operation.
+   * Retrieves a list of names of existing Skillsets in the service.
+   * @param options Options to the Skillsets operation.
    */
-  public async listSearchIndexerSkillsetsNames(
-    options: ListSearchIndexerSkillsetsOptions = {}
-  ): Promise<Array<string>> {
-    const { span, updatedOptions } = createSpan(
-      "SearchIndexerClient-listSearchIndexerSkillsetsNames",
-      options
-    );
+  public async listSkillsetsNames(options: ListSkillsetsOptions = {}): Promise<Array<string>> {
+    const { span, updatedOptions } = createSpan("SearchIndexerClient-listSkillsetsNames", options);
     try {
       const result = await this.client.skillsets.list({
         ...operationOptionsToRequestOptionsBase(updatedOptions),
@@ -309,18 +285,18 @@ export class SearchIndexerClient {
   }
 
   /**
-   * Retrieves information about an SearchIndexer.
-   * @param searchIndexerName The name of the SearchIndexer.
+   * Retrieves information about an Indexer.
+   * @param indexerName The name of the Indexer.
    * @param options Additional optional arguments.
    */
-  public async getSearchIndexer(
-    searchIndexerName: string,
-    options: GetSearchIndexerOptions = {}
+  public async getIndexer(
+    indexerName: string,
+    options: GetIndexerOptions = {}
   ): Promise<SearchIndexer> {
-    const { span, updatedOptions } = createSpan("SearchIndexerClient-getSearchIndexer", options);
+    const { span, updatedOptions } = createSpan("SearchIndexerClient-getIndexer", options);
     try {
       const result = await this.client.indexers.get(
-        searchIndexerName,
+        indexerName,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
       return result;
@@ -336,24 +312,21 @@ export class SearchIndexerClient {
   }
 
   /**
-   * Retrieves information about a SearchIndexerDataSource
-   * @param searchIndexerDataSourceName The name of the SearchIndexerDataSource
+   * Retrieves information about a DataSource
+   * @param dataSourceName The name of the DataSource
    * @param options Additional optional arguments
    */
-  public async getSearchIndexerDataSource(
-    searchIndexerDataSourceName: string,
-    options: GetSearchIndexerDataSourceOptions = {}
+  public async getDataSource(
+    dataSourceName: string,
+    options: GetDataSourceOptions = {}
   ): Promise<SearchIndexerDataSource> {
-    const { span, updatedOptions } = createSpan(
-      "SearchIndexerClient-getSearchIndexerDataSource",
-      options
-    );
+    const { span, updatedOptions } = createSpan("SearchIndexerClient-getDataSource", options);
     try {
       const result = await this.client.dataSources.get(
-        searchIndexerDataSourceName,
+        dataSourceName,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return utils.generatedSearchIndexerDataSourceToPublicSearchIndexerDataSource(result);
+      return utils.generatedDataSourceToPublicDataSource(result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -366,24 +339,21 @@ export class SearchIndexerClient {
   }
 
   /**
-   * Retrieves information about an SearchIndexerSkillset.
-   * @param skillsetName The name of the SearchIndexerSkillset.
+   * Retrieves information about an Skillset.
+   * @param skillsetName The name of the Skillset.
    * @param options Additional optional arguments.
    */
-  public async getSearchIndexerSkillset(
-    searchIndexerSkillsetName: string,
-    options: GetSearchIndexerSkillSetOptions = {}
+  public async getSkillset(
+    skillsetName: string,
+    options: GetSkillSetOptions = {}
   ): Promise<SearchIndexerSkillset> {
-    const { span, updatedOptions } = createSpan(
-      "SearchIndexerClient-getSearchIndexerSkillset",
-      options
-    );
+    const { span, updatedOptions } = createSpan("SearchIndexerClient-getSkillset", options);
     try {
       const result = await this.client.skillsets.get(
-        searchIndexerSkillsetName,
+        skillsetName,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return utils.generatedSearchIndexerSkillsetToPublicSearchIndexerSkillset(result);
+      return utils.generatedSkillsetToPublicSkillset(result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -396,18 +366,18 @@ export class SearchIndexerClient {
   }
 
   /**
-   * Creates a new SearchIndexer in a search service.
-   * @param searchIndexer The SearchIndexer definition to create in a search service.
+   * Creates a new Indexer in a search service.
+   * @param indexer The Indexer definition to create in a search service.
    * @param options Additional optional arguments.
    */
-  public async createSearchIndexer(
-    searchIndexer: SearchIndexer,
-    options: CreateSearchIndexerOptions = {}
+  public async createIndexer(
+    indexer: SearchIndexer,
+    options: CreateIndexerOptions = {}
   ): Promise<SearchIndexer> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-createSearchIndexer", options);
     try {
       const result = await this.client.indexers.create(
-        searchIndexer,
+        indexer,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
       return result;
@@ -423,24 +393,21 @@ export class SearchIndexerClient {
   }
 
   /**
-   * Creates a new SearchIndexerDataSource in a search service.
-   * @param searchIndexerDataSource The SearchIndexerDataSource definition to create in a search service.
+   * Creates a new DataSource in a search service.
+   * @param dataSource The DataSource definition to create in a search service.
    * @param options Additional optional arguments.
    */
-  public async createSearchIndexerDataSource(
-    searchIndexerDataSource: SearchIndexerDataSource,
-    options: CreateSearchIndexerDataSourceOptions = {}
+  public async createDataSource(
+    dataSource: SearchIndexerDataSource,
+    options: CreateDataSourceOptions = {}
   ): Promise<SearchIndexerDataSource> {
-    const { span, updatedOptions } = createSpan(
-      "SearchIndexerClient-createSearchIndexerDataSource",
-      options
-    );
+    const { span, updatedOptions } = createSpan("SearchIndexerClient-createDataSource", options);
     try {
       const result = await this.client.dataSources.create(
-        searchIndexerDataSource,
+        dataSource,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return utils.generatedSearchIndexerDataSourceToPublicSearchIndexerDataSource(result);
+      return utils.generatedDataSourceToPublicDataSource(result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -453,24 +420,21 @@ export class SearchIndexerClient {
   }
 
   /**
-   * Creates a new SearchIndexerSkillset in a search service.
-   * @param searchIndexerskillset The SearchIndexerSkillset containing one or more skills to create in a search service.
+   * Creates a new Skillset in a search service.
+   * @param skillset The Skillset containing one or more skills to create in a search service.
    * @param options Additional optional arguments.
    */
-  public async createSearchIndexerSkillset(
-    searchIndexerskillset: SearchIndexerSkillset,
-    options: CreateSearchIndexerSkillsetOptions = {}
+  public async createSkillset(
+    skillset: SearchIndexerSkillset,
+    options: CreateSkillsetOptions = {}
   ): Promise<SearchIndexerSkillset> {
-    const { span, updatedOptions } = createSpan(
-      "SearchIndexerClient-createSearchIndexerSkillset",
-      options
-    );
+    const { span, updatedOptions } = createSpan("SearchIndexerClient-createSkillset", options);
     try {
       const result = await this.client.skillsets.create(
-        utils.publicSearchIndexerSkillsetToGeneratedSearchIndexerSkillset(searchIndexerskillset),
+        utils.publicSkillsetToGeneratedSkillset(skillset),
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return utils.generatedSearchIndexerSkillsetToPublicSearchIndexerSkillset(result);
+      return utils.generatedSkillsetToPublicSkillset(result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -483,22 +447,22 @@ export class SearchIndexerClient {
   }
 
   /**
-   * Creates a new SearchIndexer or modifies an existing one.
-   * @param searchIndexer The information describing the searchIndexer to be created/updated.
+   * Creates a new Indexer or modifies an existing one.
+   * @param indexer The information describing the Indexer to be created/updated.
    * @param options Additional optional arguments.
    */
-  public async createOrUpdateSearchIndexer(
-    searchIndexer: SearchIndexer,
-    options: CreateorUpdateSearchIndexerOptions = {}
+  public async createOrUpdateIndexer(
+    indexer: SearchIndexer,
+    options: CreateorUpdateIndexerOptions = {}
   ): Promise<SearchIndexer> {
     const { span, updatedOptions } = createSpan(
-      "SearchIndexerClient-createOrUpdateSearchIndexer",
+      "SearchIndexerClient-createOrUpdateIndexer",
       options
     );
     try {
-      const etag = options.onlyIfUnchanged ? searchIndexer.etag : undefined;
+      const etag = options.onlyIfUnchanged ? indexer.etag : undefined;
 
-      const result = await this.client.indexers.createOrUpdate(searchIndexer.name, searchIndexer, {
+      const result = await this.client.indexers.createOrUpdate(indexer.name, indexer, {
         ...operationOptionsToRequestOptionsBase(updatedOptions),
         ifMatch: etag
       });
@@ -515,30 +479,26 @@ export class SearchIndexerClient {
   }
 
   /**
-   * Creates/Updates a new SearchIndexerDatasource or modifies an existing one.
-   * @param searchIndexerDataSource The information describing the SearchIndexerDatasource to be created/updated.
+   * Creates/Updates a new Datasource or modifies an existing one.
+   * @param dataSource The information describing the Datasource to be created/updated.
    * @param options Additional optional arguments.
    */
-  public async createOrUpdateSearchIndexerDataSource(
-    searchDataSource: SearchIndexerDataSource,
-    options: CreateorUpdateSearchIndexerDataSourceOptions = {}
+  public async createOrUpdateDataSource(
+    dataSource: SearchIndexerDataSource,
+    options: CreateorUpdateDataSourceOptions = {}
   ): Promise<SearchIndexerDataSource> {
     const { span, updatedOptions } = createSpan(
-      "SearchIndexerClient-createOrUpdateSearchDataSource",
+      "SearchIndexerClient-createOrUpdateDataSource",
       options
     );
     try {
-      const etag = options.onlyIfUnchanged ? searchDataSource.etag : undefined;
+      const etag = options.onlyIfUnchanged ? dataSource.etag : undefined;
 
-      const result = await this.client.dataSources.createOrUpdate(
-        searchDataSource.name,
-        searchDataSource,
-        {
-          ...operationOptionsToRequestOptionsBase(updatedOptions),
-          ifMatch: etag
-        }
-      );
-      return utils.generatedSearchIndexerDataSourceToPublicSearchIndexerDataSource(result);
+      const result = await this.client.dataSources.createOrUpdate(dataSource.name, dataSource, {
+        ...operationOptionsToRequestOptionsBase(updatedOptions),
+        ifMatch: etag
+      });
+      return utils.generatedDataSourceToPublicDataSource(result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -551,31 +511,31 @@ export class SearchIndexerClient {
   }
 
   /**
-   * Creates a new SearchIndexerSkillset or modifies an existing one.
-   * @param searchIndexerskillset The information describing the SearchIndexerSkillset to be created.
+   * Creates a new Skillset or modifies an existing one.
+   * @param skillset The information describing the Skillset to be created.
    * @param options Additional optional arguments.
    */
-  public async createOrUpdateSearchIndexerSkillset(
-    searchIndexerSkillset: SearchIndexerSkillset,
-    options: CreateOrUpdateSearchIndexerSkillsetOptions = {}
+  public async createOrUpdateSkillset(
+    skillset: SearchIndexerSkillset,
+    options: CreateOrUpdateSkillsetOptions = {}
   ): Promise<SearchIndexerSkillset> {
     const { span, updatedOptions } = createSpan(
-      "SearchIndexerClient-createOrUpdateSearchIndexerSkillset",
+      "SearchIndexerClient-createOrUpdateSkillset",
       options
     );
     try {
-      const etag = options.onlyIfUnchanged ? searchIndexerSkillset.etag : undefined;
+      const etag = options.onlyIfUnchanged ? skillset.etag : undefined;
 
       const result = await this.client.skillsets.createOrUpdate(
-        searchIndexerSkillset.name,
-        utils.publicSearchIndexerSkillsetToGeneratedSearchIndexerSkillset(searchIndexerSkillset),
+        skillset.name,
+        utils.publicSkillsetToGeneratedSkillset(skillset),
         {
           ...operationOptionsToRequestOptionsBase(updatedOptions),
           ifMatch: etag
         }
       );
 
-      return utils.generatedSearchIndexerSkillsetToPublicSearchIndexerSkillset(result);
+      return utils.generatedSkillsetToPublicSkillset(result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -588,26 +548,25 @@ export class SearchIndexerClient {
   }
 
   /**
-   * Deletes an existing SearchIndexer.
-   * @param searchIndexer SearchIndexer/Name of the SearchIndexer to delete.
+   * Deletes an existing Indexer.
+   * @param indexer Indexer/Name of the Indexer to delete.
    * @param options Additional optional arguments.
    */
-  public async deleteSearchIndexer(
-    searchIndexer: string | SearchIndexer,
-    options: DeleteSearchIndexerOptions = {}
+  public async deleteIndexer(
+    indexer: string | SearchIndexer,
+    options: DeleteIndexerOptions = {}
   ): Promise<void> {
-    const { span, updatedOptions } = createSpan("SearchIndexerClient-deleteSearchIndexer", options);
+    const { span, updatedOptions } = createSpan("SearchIndexerClient-deleteIndexer", options);
     try {
-      const searchIndexerName: string =
-        typeof searchIndexer === "string" ? searchIndexer : searchIndexer.name;
+      const indexerName: string = typeof indexer === "string" ? indexer : indexer.name;
       const etag =
-        typeof searchIndexer === "string"
+        typeof indexer === "string"
           ? undefined
           : options.onlyIfUnchanged
-          ? searchIndexer.etag
+          ? indexer.etag
           : undefined;
 
-      await this.client.indexers.deleteMethod(searchIndexerName, {
+      await this.client.indexers.deleteMethod(indexerName, {
         ...operationOptionsToRequestOptionsBase(updatedOptions),
         ifMatch: etag
       });
@@ -623,28 +582,22 @@ export class SearchIndexerClient {
   }
 
   /**
-   * Deletes an existing SearchIndexerDatasource.
-   * @param searchIndexerDataSource SearchIndexerDatasource/Name of the SearchIndexerDatasource to delete.
+   * Deletes an existing Datasource.
+   * @param dataSource Datasource/Name of the Datasource to delete.
    * @param options Additional optional arguments.
    */
-  public async deleteSearchIndexerDataSource(
-    searchIndexerDataSource: string | SearchIndexerDataSource,
-    options: DeleteSearchIndexerDataSourceOptions = {}
+  public async deleteDataSource(
+    dataSource: string | SearchIndexerDataSource,
+    options: DeleteDataSourceOptions = {}
   ): Promise<void> {
-    const { span, updatedOptions } = createSpan(
-      "SearchIndexerClient-deleteSearchIndexerDataSource",
-      options
-    );
+    const { span, updatedOptions } = createSpan("SearchIndexerClient-deleteDataSource", options);
     try {
-      const dataSourceName: string =
-        typeof searchIndexerDataSource === "string"
-          ? searchIndexerDataSource
-          : searchIndexerDataSource.name;
+      const dataSourceName: string = typeof dataSource === "string" ? dataSource : dataSource.name;
       const etag =
-        typeof searchIndexerDataSource === "string"
+        typeof dataSource === "string"
           ? undefined
           : options.onlyIfUnchanged
-          ? searchIndexerDataSource.etag
+          ? dataSource.etag
           : undefined;
 
       await this.client.dataSources.deleteMethod(dataSourceName, {
@@ -663,28 +616,22 @@ export class SearchIndexerClient {
   }
 
   /**
-   * Deletes an existing SearchIndexerSkillset.
-   * @param searchIndexerSkillset SearchIndexerSkillset/Name of the SearchIndexerSkillset to delete.
+   * Deletes an existing Skillset.
+   * @param skillset Skillset/Name of the Skillset to delete.
    * @param options Additional optional arguments.
    */
-  public async deleteSearchIndexerSkillset(
-    searchIndexerskillset: string | SearchIndexerSkillset,
-    options: DeleteSearchIndexerSkillsetOptions = {}
+  public async deleteSkillset(
+    skillset: string | SearchIndexerSkillset,
+    options: DeleteSkillsetOptions = {}
   ): Promise<void> {
-    const { span, updatedOptions } = createSpan(
-      "SearchIndexerClient-deleteSearchIndexerSkillset",
-      options
-    );
+    const { span, updatedOptions } = createSpan("SearchIndexerClient-deleteSkillset", options);
     try {
-      const skillsetName: string =
-        typeof searchIndexerskillset === "string"
-          ? searchIndexerskillset
-          : searchIndexerskillset.name;
+      const skillsetName: string = typeof skillset === "string" ? skillset : skillset.name;
       const etag =
-        typeof searchIndexerskillset === "string"
+        typeof skillset === "string"
           ? undefined
           : options.onlyIfUnchanged
-          ? searchIndexerskillset.etag
+          ? skillset.etag
           : undefined;
 
       await this.client.skillsets.deleteMethod(skillsetName, {
@@ -703,21 +650,18 @@ export class SearchIndexerClient {
   }
 
   /**
-   * Returns the current status and execution history of an searchindexer.
-   * @param searchIndexerName The name of the SearchIndexer.
+   * Returns the current status and execution history of an Indexer.
+   * @param indexerName The name of the Indexer.
    * @param options Additional optional arguments.
    */
-  public async getSearchIndexerStatus(
-    searchIndexerName: string,
-    options: GetSearchIndexerStatusOptions = {}
+  public async getIndexerStatus(
+    indexerName: string,
+    options: GetIndexerStatusOptions = {}
   ): Promise<SearchIndexerStatus> {
-    const { span, updatedOptions } = createSpan(
-      "SearchIndexerClient-getSearchIndexerStatus",
-      options
-    );
+    const { span, updatedOptions } = createSpan("SearchIndexerClient-getIndexerStatus", options);
     try {
       const result = await this.client.indexers.getStatus(
-        searchIndexerName,
+        indexerName,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
       return result;
@@ -733,18 +677,15 @@ export class SearchIndexerClient {
   }
 
   /**
-   * Resets the change tracking state associated with an SearchIndexer.
-   * @param searchIndexerName The name of the SearchIndexer to reset.
+   * Resets the change tracking state associated with an Indexer.
+   * @param indexerName The name of the Indexer to reset.
    * @param options Additional optional arguments.
    */
-  public async resetSearchIndexer(
-    searchIndexerName: string,
-    options: ResetSearchIndexerOptions = {}
-  ): Promise<void> {
-    const { span, updatedOptions } = createSpan("SearchIndexerClient-resetSearchIndexer", options);
+  public async resetIndexer(indexerName: string, options: ResetIndexerOptions = {}): Promise<void> {
+    const { span, updatedOptions } = createSpan("SearchIndexerClient-resetIndexer", options);
     try {
       await this.client.indexers.reset(
-        searchIndexerName,
+        indexerName,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
     } catch (e) {
@@ -759,18 +700,15 @@ export class SearchIndexerClient {
   }
 
   /**
-   * Runs an SearchIndexer on-demand.
-   * @param searchIndexerName The name of the SearchIndexer to run.
+   * Runs an Indexer on-demand.
+   * @param indexerName The name of the Indexer to run.
    * @param options Additional optional arguments.
    */
-  public async runSearchIndexer(
-    searchIndexerName: string,
-    options: RunSearchIndexerOptions = {}
-  ): Promise<void> {
-    const { span, updatedOptions } = createSpan("SearchIndexerClient-runSearchIndexer", options);
+  public async runIndexer(indexerName: string, options: RunIndexerOptions = {}): Promise<void> {
+    const { span, updatedOptions } = createSpan("SearchIndexerClient-runIndexer", options);
     try {
       await this.client.indexers.run(
-        searchIndexerName,
+        indexerName,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
     } catch (e) {

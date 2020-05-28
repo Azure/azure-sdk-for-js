@@ -146,23 +146,32 @@ export interface CorsOptions {
 export type CountDocumentsOptions = OperationOptions;
 
 // @public
-export interface CreateorUpdateSearchIndexerDataSourceOptions extends OperationOptions {
+export type CreateDataSourceOptions = OperationOptions;
+
+// @public
+export type CreateIndexerOptions = OperationOptions;
+
+// @public
+export type CreateIndexOptions = OperationOptions;
+
+// @public
+export interface CreateorUpdateDataSourceOptions extends OperationOptions {
     onlyIfUnchanged?: boolean;
 }
 
 // @public
-export interface CreateorUpdateSearchIndexerOptions extends OperationOptions {
+export interface CreateorUpdateIndexerOptions extends OperationOptions {
     onlyIfUnchanged?: boolean;
 }
 
 // @public
-export interface CreateOrUpdateSearchIndexerSkillsetOptions extends OperationOptions {
-    onlyIfUnchanged?: boolean;
-}
-
-// @public
-export interface CreateOrUpdateSearchIndexOptions extends OperationOptions {
+export interface CreateOrUpdateIndexOptions extends OperationOptions {
     allowIndexDowntime?: boolean;
+    onlyIfUnchanged?: boolean;
+}
+
+// @public
+export interface CreateOrUpdateSkillsetOptions extends OperationOptions {
     onlyIfUnchanged?: boolean;
 }
 
@@ -172,16 +181,7 @@ export interface CreateOrUpdateSynonymMapOptions extends OperationOptions {
 }
 
 // @public
-export type CreateSearchIndexerDataSourceOptions = OperationOptions;
-
-// @public
-export type CreateSearchIndexerOptions = OperationOptions;
-
-// @public
-export type CreateSearchIndexerSkillsetOptions = OperationOptions;
-
-// @public
-export type CreateSearchIndexOptions = OperationOptions;
+export type CreateSkillsetOptions = OperationOptions;
 
 // @public
 export type CreateSynonymMapOptions = OperationOptions;
@@ -208,25 +208,25 @@ export interface DefaultCognitiveServicesAccount {
 }
 
 // @public
+export interface DeleteDataSourceOptions extends OperationOptions {
+    onlyIfUnchanged?: boolean;
+}
+
+// @public
 export type DeleteDocumentsOptions = IndexDocuments;
 
 // @public
-export interface DeleteSearchIndexerDataSourceOptions extends OperationOptions {
+export interface DeleteIndexerOptions extends OperationOptions {
     onlyIfUnchanged?: boolean;
 }
 
 // @public
-export interface DeleteSearchIndexerOptions extends OperationOptions {
+export interface DeleteIndexOptions extends OperationOptions {
     onlyIfUnchanged?: boolean;
 }
 
 // @public
-export interface DeleteSearchIndexerSkillsetOptions extends OperationOptions {
-    onlyIfUnchanged?: boolean;
-}
-
-// @public
-export interface DeleteSearchIndexOptions extends OperationOptions {
+export interface DeleteSkillsetOptions extends OperationOptions {
     onlyIfUnchanged?: boolean;
 }
 
@@ -362,9 +362,24 @@ export class GeographyPoint {
 }
 
 // @public
+export type GetDataSourceOptions = OperationOptions;
+
+// @public
 export interface GetDocumentOptions<Fields> extends OperationOptions {
     selectedFields?: Fields[];
 }
+
+// @public
+export type GetIndexerOptions = OperationOptions;
+
+// @public
+export type GetIndexerStatusOptions = OperationOptions;
+
+// @public
+export type GetIndexOptions = OperationOptions;
+
+// @public
+export type GetIndexStatisticsOptions = OperationOptions;
 
 // @public
 export interface GetIndexStatisticsResult {
@@ -373,25 +388,10 @@ export interface GetIndexStatisticsResult {
 }
 
 // @public
-export type GetSearchIndexerDataSourceOptions = OperationOptions;
-
-// @public
-export type GetSearchIndexerOptions = OperationOptions;
-
-// @public
-export type GetSearchIndexerSkillSetOptions = OperationOptions;
-
-// @public
-export type GetSearchIndexerStatusOptions = OperationOptions;
-
-// @public
-export type GetSearchIndexOptions = OperationOptions;
-
-// @public
-export type GetSearchIndexStatisticsOptions = OperationOptions;
-
-// @public
 export type GetServiceStatisticsOptions = OperationOptions;
+
+// @public
+export type GetSkillSetOptions = OperationOptions;
 
 // @public
 export type GetSynonymMapsOptions = OperationOptions;
@@ -736,21 +736,21 @@ export interface LimitTokenFilter {
 }
 
 // @public
-export type ListSearchIndexerDataSourcesOptions = OperationOptions;
+export type ListDataSourcesOptions = OperationOptions;
 
 // @public
-export type ListSearchIndexerSkillsetsOptions = OperationOptions;
+export type ListIndexersOptions = OperationOptions;
 
 // @public
-export type ListSearchIndexersOptions = OperationOptions;
-
-// @public
-export type ListSearchIndexesOptions = OperationOptions;
+export type ListIndexesOptions = OperationOptions;
 
 // @public
 export interface ListSearchResultsPageSettings {
     continuationToken?: string;
 }
+
+// @public
+export type ListSkillsetsOptions = OperationOptions;
 
 // @public
 export type ListSynonymMapsOptions = OperationOptions;
@@ -985,7 +985,7 @@ export interface RawSearchRequest {
 export type RegexFlags = 'CANON_EQ' | 'CASE_INSENSITIVE' | 'COMMENTS' | 'DOTALL' | 'LITERAL' | 'MULTILINE' | 'UNICODE_CASE' | 'UNIX_LINES';
 
 // @public
-export type ResetSearchIndexerOptions = OperationOptions;
+export type ResetIndexerOptions = OperationOptions;
 
 // @public
 export interface ResourceCounter {
@@ -994,7 +994,7 @@ export interface ResourceCounter {
 }
 
 // @public
-export type RunSearchIndexerOptions = OperationOptions;
+export type RunIndexerOptions = OperationOptions;
 
 // @public
 export type ScoringFunction = DistanceScoringFunction | FreshnessScoringFunction | MagnitudeScoringFunction | TagScoringFunction;
@@ -1076,21 +1076,21 @@ export interface SearchIndex {
 // @public
 export class SearchIndexClient {
     constructor(endpoint: string, credential: KeyCredential, options?: SearchIndexClientOptions);
-    analyzeText(searchIndexName: string, options: AnalyzeTextOptions): Promise<AnalyzeResult>;
+    analyzeText(indexName: string, options: AnalyzeTextOptions): Promise<AnalyzeResult>;
     readonly apiVersion: string;
-    createOrUpdateSearchIndex(searchIndex: SearchIndex, options?: CreateOrUpdateSearchIndexOptions): Promise<SearchIndex>;
+    createIndex(index: SearchIndex, options?: CreateIndexOptions): Promise<SearchIndex>;
+    createOrUpdateIndex(index: SearchIndex, options?: CreateOrUpdateIndexOptions): Promise<SearchIndex>;
     createOrUpdateSynonymMap(synonymMap: SynonymMap, options?: CreateOrUpdateSynonymMapOptions): Promise<SynonymMap>;
-    createSearchIndex(searchIndex: SearchIndex, options?: CreateSearchIndexOptions): Promise<SearchIndex>;
     createSynonymMap(synonymMap: SynonymMap, options?: CreateSynonymMapOptions): Promise<SynonymMap>;
-    deleteSearchIndex(searchIndex: string | SearchIndex, options?: DeleteSearchIndexOptions): Promise<void>;
+    deleteIndex(index: string | SearchIndex, options?: DeleteIndexOptions): Promise<void>;
     deleteSynonymMap(synonymMap: string | SynonymMap, options?: DeleteSynonymMapOptions): Promise<void>;
     readonly endpoint: string;
-    getIndexStatistics(searchIndexName: string, options?: GetSearchIndexStatisticsOptions): Promise<GetIndexStatisticsResult>;
-    getSearchIndex(searchIndexName: string, options?: GetSearchIndexOptions): Promise<SearchIndex>;
+    getIndex(indexName: string, options?: GetIndexOptions): Promise<SearchIndex>;
+    getIndexStatistics(indexName: string, options?: GetIndexStatisticsOptions): Promise<GetIndexStatisticsResult>;
     getServiceStatistics(options?: GetServiceStatisticsOptions): Promise<ServiceStatistics>;
     getSynonymMap(synonymMapName: string, options?: GetSynonymMapsOptions): Promise<SynonymMap>;
-    listSearchIndexes(options?: ListSearchIndexesOptions): Promise<Array<SearchIndex>>;
-    listSearchIndexesNames(options?: ListSearchIndexesOptions): Promise<Array<string>>;
+    listIndexes(options?: ListIndexesOptions): Promise<Array<SearchIndex>>;
+    listIndexesNames(options?: ListIndexesOptions): Promise<Array<string>>;
     listSynonymMaps(options?: ListSynonymMapsOptions): Promise<Array<SynonymMap>>;
     listSynonymMapsNames(options?: ListSynonymMapsOptions): Promise<Array<string>>;
 }
@@ -1117,28 +1117,28 @@ export interface SearchIndexer {
 export class SearchIndexerClient {
     constructor(endpoint: string, credential: KeyCredential, options?: SearchIndexerClientOptions);
     readonly apiVersion: string;
-    createOrUpdateSearchIndexer(searchIndexer: SearchIndexer, options?: CreateorUpdateSearchIndexerOptions): Promise<SearchIndexer>;
-    createOrUpdateSearchIndexerDataSource(searchDataSource: SearchIndexerDataSource, options?: CreateorUpdateSearchIndexerDataSourceOptions): Promise<SearchIndexerDataSource>;
-    createOrUpdateSearchIndexerSkillset(searchIndexerSkillset: SearchIndexerSkillset, options?: CreateOrUpdateSearchIndexerSkillsetOptions): Promise<SearchIndexerSkillset>;
-    createSearchIndexer(searchIndexer: SearchIndexer, options?: CreateSearchIndexerOptions): Promise<SearchIndexer>;
-    createSearchIndexerDataSource(searchIndexerDataSource: SearchIndexerDataSource, options?: CreateSearchIndexerDataSourceOptions): Promise<SearchIndexerDataSource>;
-    createSearchIndexerSkillset(searchIndexerskillset: SearchIndexerSkillset, options?: CreateSearchIndexerSkillsetOptions): Promise<SearchIndexerSkillset>;
-    deleteSearchIndexer(searchIndexer: string | SearchIndexer, options?: DeleteSearchIndexerOptions): Promise<void>;
-    deleteSearchIndexerDataSource(searchIndexerDataSource: string | SearchIndexerDataSource, options?: DeleteSearchIndexerDataSourceOptions): Promise<void>;
-    deleteSearchIndexerSkillset(searchIndexerskillset: string | SearchIndexerSkillset, options?: DeleteSearchIndexerSkillsetOptions): Promise<void>;
+    createDataSource(dataSource: SearchIndexerDataSource, options?: CreateDataSourceOptions): Promise<SearchIndexerDataSource>;
+    createIndexer(indexer: SearchIndexer, options?: CreateIndexerOptions): Promise<SearchIndexer>;
+    createOrUpdateDataSource(dataSource: SearchIndexerDataSource, options?: CreateorUpdateDataSourceOptions): Promise<SearchIndexerDataSource>;
+    createOrUpdateIndexer(indexer: SearchIndexer, options?: CreateorUpdateIndexerOptions): Promise<SearchIndexer>;
+    createOrUpdateSkillset(skillset: SearchIndexerSkillset, options?: CreateOrUpdateSkillsetOptions): Promise<SearchIndexerSkillset>;
+    createSkillset(skillset: SearchIndexerSkillset, options?: CreateSkillsetOptions): Promise<SearchIndexerSkillset>;
+    deleteDataSource(dataSource: string | SearchIndexerDataSource, options?: DeleteDataSourceOptions): Promise<void>;
+    deleteIndexer(indexer: string | SearchIndexer, options?: DeleteIndexerOptions): Promise<void>;
+    deleteSkillset(skillset: string | SearchIndexerSkillset, options?: DeleteSkillsetOptions): Promise<void>;
     readonly endpoint: string;
-    getSearchIndexer(searchIndexerName: string, options?: GetSearchIndexerOptions): Promise<SearchIndexer>;
-    getSearchIndexerDataSource(searchIndexerDataSourceName: string, options?: GetSearchIndexerDataSourceOptions): Promise<SearchIndexerDataSource>;
-    getSearchIndexerSkillset(searchIndexerSkillsetName: string, options?: GetSearchIndexerSkillSetOptions): Promise<SearchIndexerSkillset>;
-    getSearchIndexerStatus(searchIndexerName: string, options?: GetSearchIndexerStatusOptions): Promise<SearchIndexerStatus>;
-    listSearchIndexerDataSources(options?: ListSearchIndexerDataSourcesOptions): Promise<Array<SearchIndexerDataSource>>;
-    listSearchIndexerDataSourcesNames(options?: ListSearchIndexerDataSourcesOptions): Promise<Array<string>>;
-    listSearchIndexers(options?: ListSearchIndexersOptions): Promise<Array<SearchIndexer>>;
-    listSearchIndexerSkillsets(options?: ListSearchIndexerSkillsetsOptions): Promise<Array<SearchIndexerSkillset>>;
-    listSearchIndexerSkillsetsNames(options?: ListSearchIndexerSkillsetsOptions): Promise<Array<string>>;
-    listSearchIndexersNames(options?: ListSearchIndexersOptions): Promise<Array<string>>;
-    resetSearchIndexer(searchIndexerName: string, options?: ResetSearchIndexerOptions): Promise<void>;
-    runSearchIndexer(searchIndexerName: string, options?: RunSearchIndexerOptions): Promise<void>;
+    getDataSource(dataSourceName: string, options?: GetDataSourceOptions): Promise<SearchIndexerDataSource>;
+    getIndexer(indexerName: string, options?: GetIndexerOptions): Promise<SearchIndexer>;
+    getIndexerStatus(indexerName: string, options?: GetIndexerStatusOptions): Promise<SearchIndexerStatus>;
+    getSkillset(skillsetName: string, options?: GetSkillSetOptions): Promise<SearchIndexerSkillset>;
+    listDataSources(options?: ListDataSourcesOptions): Promise<Array<SearchIndexerDataSource>>;
+    listDataSourcesNames(options?: ListDataSourcesOptions): Promise<Array<string>>;
+    listIndexers(options?: ListIndexersOptions): Promise<Array<SearchIndexer>>;
+    listIndexersNames(options?: ListIndexersOptions): Promise<Array<string>>;
+    listSkillsets(options?: ListSkillsetsOptions): Promise<Array<SearchIndexerSkillset>>;
+    listSkillsetsNames(options?: ListSkillsetsOptions): Promise<Array<string>>;
+    resetIndexer(indexerName: string, options?: ResetIndexerOptions): Promise<void>;
+    runIndexer(indexerName: string, options?: RunIndexerOptions): Promise<void>;
 }
 
 // @public
