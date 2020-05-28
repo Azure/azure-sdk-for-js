@@ -219,7 +219,7 @@ directive:
       $["x-ms-client-name"] = "maxPageLength"
 ```
 
-### Make credentials of SearchIndexerDataSource/Credentials to ConnectionString
+### Make credentials of SearchIndexerDataSource/Credentials to ConnectionString and Remove DataSourceCredentials model
 
 ```yaml
 directive:
@@ -233,19 +233,13 @@ directive:
       $['properties']['connectionString'] = {};
       $['properties']['connectionString']['type'] = 'string';
       $['properties']['connectionString']['description'] = 'The connection string for the datasource.';
-```
-
-### Remove DataSourceCredentials model
-
-```yaml
-directive:
   - from: swagger-document
     where: $.definitions
     transform: >
       delete $['DataSourceCredentials']
 ```
 
-### Add properties to SearchResourceEncryptionKey
+### Add properties to SearchResourceEncryptionKey & Remove AzureActiveDirectoryApplicationCredentials
 
 ```yaml
 directive:
@@ -262,12 +256,6 @@ directive:
       $['properties']['applicationSecret'] = {};
       $['properties']['applicationSecret']['type'] = 'string';
       $['properties']['applicationSecret']['description'] = 'The authentication key of the specified AAD application.';
-```
-
-### Remove AzureActiveDirectoryApplicationCredentials model
-
-```yaml
-directive:
   - from: swagger-document
     where: $.definitions
     transform: >
