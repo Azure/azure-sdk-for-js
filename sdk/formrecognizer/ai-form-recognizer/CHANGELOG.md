@@ -15,7 +15,7 @@
   - [Breaking] Rename type `FormElement` to `FormContent` and `FormElementCommon` to `FormContentCommon`.
   - [Breaking] Rename property `fieldLabel` to `labelText` in `FormField` type.
   - [Breaking] Rename type `ModelInfo` to `CustomFormModelInfo`.
-  - [Breaking] Rename properties `createOn` to `requestedOn` and `lastModified` to `completedOn` in `CustomModelInfo` type.
+  - [Breaking] Rename properties `createdOn` to `requestedOn` and `lastModified` to `completedOn` in `CustomModelInfo` type.
   - [Breaking] Rename type `TrainModelOptions` to `TrainingFileFilter`.
   - [Breaking] Rename type `TrainStatus` to `TrainingStatus`.
   - [Breaking] Rename type `ContentType` to `FormContentType`.
