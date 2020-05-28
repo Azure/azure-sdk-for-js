@@ -1,7 +1,6 @@
 {
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
-    "target": "es5",
     "declarationDir": "./types",
     "outDir": "./dist-esm",
     "downlevelIteration": true
