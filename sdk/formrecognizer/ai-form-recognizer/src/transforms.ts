@@ -24,7 +24,7 @@ import {
   FormTableRow,
   FormTable,
   RecognizedForm,
-  FormText,
+  FieldText,
   FormField,
   RecognizeFormResultResponse,
   RecognizeContentResultResponse,
@@ -112,7 +112,7 @@ export function toFormContent(element: string, readResults: FormPage[]): FormCon
   }
 }
 
-export function toFormText(pageNumber: number, original: KeyValueElementModel, readResults?: FormPage[]): FormText {
+export function toFieldText(pageNumber: number, original: KeyValueElementModel, readResults?: FormPage[]): FieldText {
   return {
     pageNumber,
     text: original.text,
@@ -125,8 +125,8 @@ export function toFormField(pageNumber: number, original: KeyValuePairModel, rea
   return {
     name: original.label,
     confidence: original.confidence || 1,
-    labelText: toFormText(pageNumber, original.key, readResults),
-    valueText: toFormText(pageNumber, original.value, readResults),
+    labelText: toFieldText(pageNumber, original.key, readResults),
+    valueText: toFieldText(pageNumber, original.value, readResults),
     value: original.value.text,
     valueType: "string"
   };

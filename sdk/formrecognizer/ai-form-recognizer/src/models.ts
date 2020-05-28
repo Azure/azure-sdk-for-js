@@ -200,7 +200,7 @@ export interface FormTable {
  * For example, "Work Address" is the label of
  * "Work Address: One Microsoft Way, Redmond, WA"
  */
-export interface FormText {
+export interface FieldText {
   /**
    * The 1-based page number in the input document.
    */
@@ -231,7 +231,7 @@ export interface FormField {
   /**
    * Text of the recognized label of the field.
    */
-  labelText?: FormText;
+  labelText?: FieldText;
   /**
    * A user defined label for the field.
    */
@@ -239,7 +239,7 @@ export interface FormField {
   /**
    * Text of the recognized value of the field.
    */
-  valueText?: FormText;
+  valueText?: FieldText;
   /**
    * Value of the field.
    */

@@ -7,7 +7,7 @@ import {
   toTextLine,
   toFormPage,
   toFormContent,
-  toFormText,
+  toFieldText,
   toFormField,
   toFieldValue,
   toFieldsFromFieldValue,
@@ -160,7 +160,7 @@ describe("Transforms", () => {
   };
 
   it("toKeyValueElement() converts original KeyValueElementModel", () => {
-    const transformed = toFormText(0, originalKeyValueElement1, formPages);
+    const transformed = toFieldText(0, originalKeyValueElement1, formPages);
 
     assert.equal(transformed.pageNumber, 0);
     assert.equal(transformed.text, originalKeyValueElement1.text);

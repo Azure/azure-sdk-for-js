@@ -121,6 +121,14 @@ export type DateFieldValue = {
 export type DeleteModelOptions = FormRecognizerOperationOptions;
 
 // @public
+export interface FieldText {
+    boundingBox?: Point2D[];
+    pageNumber: number;
+    text?: string;
+    textContent?: FormContent[];
+}
+
+// @public
 export type FieldValue = StringFieldValue | DateFieldValue | TimeFieldValue | PhoneNumberFieldValue | NumberFieldValue | IntegerFieldValue | ArrayFieldValue | ObjectFieldValue;
 
 // @public (undocumented)
@@ -144,10 +152,10 @@ export type FormContentType = "application/pdf" | "image/jpeg" | "image/png" | "
 // @public
 export interface FormField {
     confidence?: number;
-    labelText?: FormText;
+    labelText?: FieldText;
     name?: string;
     value?: FieldValueTypes;
-    valueText?: FormText;
+    valueText?: FieldText;
     valueType?: ValueTypes;
 }
 
@@ -258,14 +266,6 @@ export interface FormTableCell {
 // @public
 export interface FormTableRow {
     cells: FormTableCell[];
-}
-
-// @public
-export interface FormText {
-    boundingBox?: Point2D[];
-    pageNumber: number;
-    text?: string;
-    textContent?: FormContent[];
 }
 
 // @public
