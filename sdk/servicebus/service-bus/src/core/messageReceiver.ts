@@ -775,7 +775,7 @@ export class MessageReceiver extends LinkEntity {
       isConnecting: () => this.isConnecting,
       setIsConnecting: (value: boolean) => (this.isConnecting = value),
       getCloseInitiated: () => this.wasCloseInitiated,
-      create: () => {
+      create: async () => {
         if (options && options.name) {
           this.name = options.name;
         }
@@ -784,7 +784,14 @@ export class MessageReceiver extends LinkEntity {
           options = this._createReceiverOptions();
         }
 
-        return this._context.namespace.connection.createReceiver(options);
+        const receiver = await this._context.namespace.connection.createReceiver(options);
+
+        log[this.receiverType](
+          `[${this._context.namespace.connectionId}] The receiver '${this.name}' with address '${this.address} with options %O`,
+          options
+        );
+
+        return receiver;
       },
       ensureTokenRenewal: () => this._ensureTokenRenewal(),
       isOpen: () => this.isOpen(),

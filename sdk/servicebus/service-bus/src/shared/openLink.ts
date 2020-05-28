@@ -67,8 +67,6 @@ export function openLink<T extends RheaLink>(args: OpenArgs<T>): Promise<T | und
     `${args.logPrefix} is not open or connecting. Acquiring lock ${args.openLock} for initializing the session, link and possibly the connection.`
   );
 
-  // TODO: do we _need_ this lock at the moment? If we're not trying to get
-  // open and close to be mutually exclusive?
   return defaultLock.acquire(args.openLock, async () => {
     checkAborted();
 
@@ -88,15 +86,7 @@ export function openLink<T extends RheaLink>(args: OpenArgs<T>): Promise<T | und
         `${args.logPrefix} is not open and is not currently establishing itself. Hence let's try to connect.`
       );
 
-      //     "[%s] The sender '%s' with address '%s' is not open and is not currently " +
-      //       "establishing itself. Hence let's try to connect.",
-      //     this._context.namespace.connectionId,
-      //     this.name,
-      //     this.address
-      //   );
-
       args.setIsConnecting(true);
-      // this.isConnecting = true;
       await args.negotiateClaim();
       checkAborted();
 
@@ -105,28 +95,7 @@ export function openLink<T extends RheaLink>(args: OpenArgs<T>): Promise<T | und
       link = await args.create();
       checkAborted();
 
-      //   if (!options) {
-      //     options = this._createSenderOptions(Constants.defaultOperationTimeoutInMs);
-      //   }
-      //   this._sender = await this._context.namespace.connection.createAwaitableSender(options);
-
-      log.error(`${args.logPrefix}' Has been established.`);
-
-      // TODO: need to move to `create()` for the sender.
-      //   this._sender.setMaxListeners(1000);
-
-      log.error(`${args.logPrefix} Promise to create the link resolved.`);
-
-      //   log.error(
-      //     "[%s] Sender '%s' created with sender options: %O",
-      //     this._context.namespace.connectionId,
-      //     this.name,
-      //     options
-      //   );
-
-      // It is possible for someone to close the sender and then start it again.
-      // Thus make sure that the sender is present in the client cache.
-      //   if (!this._sender) this._context.sender = this;
+      log.error(`${args.logPrefix}' has been created.`);
 
       await args.ensureTokenRenewal();
       checkAborted();

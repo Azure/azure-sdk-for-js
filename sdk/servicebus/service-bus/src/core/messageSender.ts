@@ -398,6 +398,12 @@ export class MessageSender extends LinkEntity {
         }
 
         const sender = await this._context.namespace.connection.createAwaitableSender(options);
+
+        log.error(
+          `[${this._context.namespace.connectionId}] The sender '${this.name}' with address '${this.address}' has been created with options: %O`,
+          options
+        );
+
         sender.setMaxListeners(1000);
         return sender;
       },
