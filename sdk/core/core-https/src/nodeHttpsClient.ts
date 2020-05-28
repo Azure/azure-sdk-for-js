@@ -317,8 +317,6 @@ function streamToText(stream: NodeJS.ReadableStream): Promise<string> {
 function getBodyLength(body: RequestBodyType): number | null {
   if (!body) {
     return 0;
-  } else if (typeof body === "string") {
-    return body.length;
   } else if (Buffer.isBuffer(body)) {
     return body.length;
   } else if (isReadableStream(body)) {
