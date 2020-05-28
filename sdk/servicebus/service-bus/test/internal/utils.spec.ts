@@ -5,7 +5,7 @@ import {
   waitForTimeoutOrAbortOrResolve,
   checkAndRegisterWithAbortSignal
 } from "../../src/util/utils";
-import { AbortController, AbortSignalLike } from "@azure/abort-controller";
+import { AbortController, AbortSignalLike, AbortError } from "@azure/abort-controller";
 import { delay, AmqpError } from "rhea-promise";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
@@ -272,8 +272,9 @@ describe("utils", () => {
     it("abortSignal abort calls handlers", async () => {
       let callbackWasCalled = false;
       const cleanupFn = checkAndRegisterWithAbortSignal(
-        () => {
+        (abortError: AbortError) => {
           callbackWasCalled = true;
+          assert.equal(abortError.message, "the message for aborting");
         },
         "the message for aborting",
         abortSignal
