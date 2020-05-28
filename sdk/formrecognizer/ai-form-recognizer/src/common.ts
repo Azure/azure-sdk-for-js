@@ -3,7 +3,7 @@
 
 import { PipelineOptions, OperationOptions } from "@azure/core-http";
 import { FormRecognizerRequestBody } from "./models";
-import { ContentType, SourcePath } from "./generated/models";
+import { SourcePath } from "./generated/models";
 import { getFirstFourBytesFromBlob, streamToBuffer } from "./utils/utils.node";
 import { MAX_INPUT_DOCUMENT_SIZE } from "./constants";
 
@@ -11,7 +11,11 @@ import { MAX_INPUT_DOCUMENT_SIZE } from "./constants";
 /**
  * Content types supported by Form Recognizer service.
  */
-export type FormContentType = ContentType
+export type FormContentType =
+  | "application/pdf"
+  | "image/jpeg"
+  | "image/png"
+  | "image/tiff";
 
 /**
  * Client options used to configure Form Recognizer API requests.

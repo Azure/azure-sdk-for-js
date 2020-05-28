@@ -63,7 +63,7 @@ export type BeginRecognizeReceiptsOptions = RecognizeReceiptsOptions & {
 };
 
 // @public
-export type BeginTrainingOptions<T> = TrainModelOptions & {
+export type BeginTrainingOptions<T> = TrainingFileFilter & {
     intervalInMs?: number;
     onProgress?: (state: BeginTrainingPollState<T>) => void;
     resumeFrom?: string;
@@ -71,9 +71,6 @@ export type BeginTrainingOptions<T> = TrainModelOptions & {
 
 // @public
 export type ContentPollerLike = PollerLike<PollOperationState<RecognizeContentResultResponse>, RecognizeContentResultResponse>;
-
-// @public
-export type ContentType = "application/pdf" | "image/jpeg" | "image/png" | "image/tiff";
 
 // @public (undocumented)
 export interface CustomFormField {
@@ -83,20 +80,20 @@ export interface CustomFormField {
 
 // @public
 export interface CustomFormModel {
-    createdOn: Date;
+    completedOn: Date;
     errors?: FormRecognizerError[];
-    lastModified: Date;
     modelId: string;
+    requestedOn: Date;
     status: CustomFormModelStatus;
-    submodels?: CustomFormSubModel[];
+    submodels?: CustomFormSubmodel[];
     trainingDocuments?: TrainingDocumentInfo[];
 }
 
 // @public
 export interface CustomFormModelInfo {
-    createdOn: Date;
-    lastModified: Date;
+    completedOn: Date;
     modelId: string;
+    requestedOn: Date;
     status: CustomFormModelStatus;
 }
 
@@ -104,7 +101,7 @@ export interface CustomFormModelInfo {
 export type CustomFormModelStatus = "creating" | "ready" | "invalid";
 
 // @public (undocumented)
-export interface CustomFormSubModel {
+export interface CustomFormSubmodel {
     accuracy?: number;
     fields: {
         [propertyName: string]: CustomFormField;
@@ -140,6 +137,9 @@ export interface FormContentCommon {
     pageNumber: number;
     text: string;
 }
+
+// @public
+export type FormContentType = "application/pdf" | "image/jpeg" | "image/png" | "image/tiff";
 
 // @public
 export interface FormField {
@@ -201,11 +201,11 @@ export type FormPollerLike = PollerLike<PollOperationState<RecognizeFormResultRe
 // @public
 export class FormRecognizerClient {
     constructor(endpointUrl: string, credential: TokenCredential | KeyCredential, options?: FormRecognizerClientOptions);
-    beginRecognizeContent(data: FormRecognizerRequestBody, contentType?: ContentType, options?: BeginRecognizeContentOptions): Promise<ContentPollerLike>;
+    beginRecognizeContent(data: FormRecognizerRequestBody, contentType?: FormContentType, options?: BeginRecognizeContentOptions): Promise<ContentPollerLike>;
     beginRecognizeContentFromUrl(formUrl: string, options?: BeginRecognizeContentOptions): Promise<ContentPollerLike>;
-    beginRecognizeCustomForms(modelId: string, data: FormRecognizerRequestBody, contentType?: ContentType, options?: BeginRecognizeFormsOptions): Promise<FormPollerLike>;
+    beginRecognizeCustomForms(modelId: string, data: FormRecognizerRequestBody, contentType?: FormContentType, options?: BeginRecognizeFormsOptions): Promise<FormPollerLike>;
     beginRecognizeCustomFormsFromUrl(modelId: string, formUrl: string, options?: BeginRecognizeFormsOptions): Promise<PollerLike<PollOperationState<RecognizeFormResultResponse>, RecognizeFormResultResponse>>;
-    beginRecognizeReceipts(data: FormRecognizerRequestBody, contentType?: ContentType, options?: BeginRecognizeReceiptsOptions): Promise<ReceiptPollerLike>;
+    beginRecognizeReceipts(data: FormRecognizerRequestBody, contentType?: FormContentType, options?: BeginRecognizeReceiptsOptions): Promise<ReceiptPollerLike>;
     beginRecognizeReceiptsFromUrl(receiptUrl: string, options?: BeginRecognizeReceiptsOptions): Promise<ReceiptPollerLike>;
     readonly endpointUrl: string;
     }
@@ -263,6 +263,7 @@ export interface FormTableRow {
 // @public
 export interface FormText {
     boundingBox?: Point2D[];
+    pageNumber: number;
     text?: string;
     textContent?: FormContent[];
 }
@@ -355,9 +356,9 @@ export interface Model {
 
 // @public
 export interface ModelInfo {
-    createdOn: Date;
-    lastModified: Date;
+    completedOn: Date;
     modelId: string;
+    requestedOn: Date;
     status: CustomFormModelStatus;
 }
 
@@ -547,13 +548,13 @@ export interface TrainingDocumentInfo {
 }
 
 // @public
-export type TrainingStatus = "succeeded" | "partiallySucceeded" | "failed";
-
-// @public
-export type TrainModelOptions = FormRecognizerOperationOptions & {
+export type TrainingFileFilter = FormRecognizerOperationOptions & {
     prefix?: string;
     includeSubFolders?: boolean;
 };
+
+// @public
+export type TrainingStatus = "succeeded" | "partiallySucceeded" | "failed";
 
 // @public
 export interface TrainResult {

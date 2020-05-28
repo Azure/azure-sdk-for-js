@@ -4,11 +4,11 @@
 import { delay, AbortSignalLike } from "@azure/core-http";
 import { Poller, PollOperation, PollOperationState } from "@azure/core-lro";
 import {
-  FormContentType,
   RecognizeFormsOptions,
   RecognizeContentOptions,
   RecognizeReceiptsOptions
 } from "../../formRecognizerClient";
+import { FormContentType } from "../../common";
 
 import { OperationStatus } from "../../generated/models";
 import { FormRecognizerRequestBody } from "../../models";

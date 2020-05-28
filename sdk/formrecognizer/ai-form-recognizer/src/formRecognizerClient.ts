@@ -51,7 +51,7 @@ import {
 } from "./transforms";
 import { createFormRecognizerAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 
-export { FormContentType, PollOperationState, PollerLike };
+export { PollOperationState, PollerLike };
 
 /**
  * Options for content/layout recognition.
