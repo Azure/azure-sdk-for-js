@@ -170,11 +170,12 @@ function makeBeginRecognizePollOperation(
       state.status = response.status;
       if (!state.isCompleted) {
         if (
-          (response.status === "running" || response.status === "notStarted") &&
           typeof options.fireProgress === "function"
         ) {
           options.fireProgress(state);
-        } else if (response.status === "succeeded") {
+        }
+
+        if (response.status === "succeeded") {
           state.result = response.forms;
           state.isCompleted = true;
         } else if (response.status === "failed") {

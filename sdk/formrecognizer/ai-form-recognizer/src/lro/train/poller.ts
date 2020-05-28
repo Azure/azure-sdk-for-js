@@ -134,9 +134,11 @@ function makeBeginTrainingPollOperation(
       state.status = model.status;
 
       if (!state.isCompleted) {
-        if (model.status === "creating" && typeof options.fireProgress === "function") {
+        if (typeof options.fireProgress === "function") {
           options.fireProgress(state);
-        } else if (model.status === "ready") {
+        }
+
+        if (model.status === "ready") {
           state.result = model;
           state.isCompleted = true;
         } else if (model.status === "invalid") {
