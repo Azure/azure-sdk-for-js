@@ -3,7 +3,7 @@
 
 import { delay } from "@azure/core-http";
 import { Poller, PollOperation, PollOperationState } from "@azure/core-lro";
-import { TrainModelOptions, GetModelOptions } from "../../formTrainingClient";
+import { TrainingFileFilter, GetModelOptions } from "../../formTrainingClient";
 
 import {
   ModelStatus,
@@ -21,7 +21,7 @@ export type TrainPollerClient = {
   trainCustomModelInternal: (
     source: string,
     useLabelFile?: boolean,
-    options?: TrainModelOptions
+    options?: TrainingFileFilter
   ) => Promise<TrainCustomModelAsyncResponse>;
 };
 
@@ -30,7 +30,7 @@ export interface BeginTrainingPollState extends PollOperationState<CustomFormMod
   source: string;
   modelId?: string;
   status: ModelStatus;
-  readonly trainModelOptions?: TrainModelOptions;
+  readonly trainModelOptions?: TrainingFileFilter;
 }
 
 export interface BeginTrainingPollerOperation
@@ -45,7 +45,7 @@ export interface BeginTrainingPollerOptions {
   intervalInMs?: number;
   onProgress?: (state: BeginTrainingPollState) => void;
   resumeFrom?: string;
-  trainModelOptions?: TrainModelOptions;
+  trainModelOptions?: TrainingFileFilter;
 }
 
 /**

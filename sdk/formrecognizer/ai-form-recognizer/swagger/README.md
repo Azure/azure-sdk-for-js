@@ -35,24 +35,74 @@ directive:
       $["x-ms-client-name"] = "pageNumber";
 ```
 
-### `createdDateTime` => `createdOn`
+### CopyOperationResult `createdDateTime` => `createdOn`
 
 ```yaml
 directive:
   - from: swagger-document
-    where: $.definitions..properties.createdDateTime
+    where: $.definitions.CopyOperationResult.properties.createdDateTime
     transform: >
       $["x-ms-client-name"] = "createdOn";
 ```
 
-### `lastUpdatedDateTime` => `lastUpdatedOn`
+### CopyOperationResult `lastUpdatedDateTime` => `lastModified`
 
 ```yaml
 directive:
   - from: swagger-document
-    where: $.definitions..properties.lastUpdatedDateTime
+    where: $.definitions.CopyOperationResult.properties.lastUpdatedDateTime
     transform: >
       $["x-ms-client-name"] = "lastModified";
+```
+
+### AnalyzeOperationResult `createdDateTime` => `createdOn`
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.AnalyzeOperationResult.properties.createdDateTime
+    transform: >
+      $["x-ms-client-name"] = "createdOn";
+```
+
+### AnalyzeOperationResult `lastUpdatedDateTime` => `lastModified`
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.AnalyzeOperationResult.properties.lastUpdatedDateTime
+    transform: >
+      $["x-ms-client-name"] = "lastModified";
+```
+
+### Models `lastUpdatedDateTime` => `lastModified`
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.Models.properties.summary.properties.lastUpdatedDateTime
+    transform: >
+      $["x-ms-client-name"] = "lastModified";
+```
+
+### ModelInfo `createDateTime` => `requestedOn`
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.ModelInfo.properties.createdDateTime
+    transform: >
+      $["x-ms-client-name"] = "requestedOn";
+```
+
+### ModelInfo `lastUpdatedDateTime` => `completedOn`
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.ModelInfo.properties.lastUpdatedDateTime
+    transform: >
+      $["x-ms-client-name"] = "completedOn";
 ```
 
 ### `TrainingDocumentInfo.pages` => `TrainingDocumentInfo.pageCount`

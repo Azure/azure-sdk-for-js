@@ -6,11 +6,12 @@ import { Poller, PollOperation, PollOperationState } from "@azure/core-lro";
 import {
   RecognizeContentOptions,
 } from "../../formRecognizerClient";
+import { FormContentType } from "../../common";
 
 import {
   GeneratedClientAnalyzeLayoutAsyncResponse as AnalyzeLayoutAsyncResponseModel,
-  OperationStatus,
-  ContentType } from "../../generated/models";
+  OperationStatus
+} from "../../generated/models";
 import { FormRecognizerRequestBody, FormPageArray } from "../../models";
 import { RecognizeContentResultResponse } from "../../internalModels";
 export { OperationStatus };
@@ -38,7 +39,7 @@ export type RecognizeContentPollerClient = {
   // returns a result id to retrieve results
   beginRecognize: (
     source: FormRecognizerRequestBody | string,
-    contentType?: ContentType,
+    contentType?: FormContentType,
     analyzeOptions?: RecognizeContentOptions,
     modelId?: string
   ) => Promise<AnalyzeLayoutAsyncResponseModel>;
@@ -49,7 +50,7 @@ export type RecognizeContentPollerClient = {
 export interface BeginRecognizeContentPollState extends PollOperationState<FormPageArray> {
   readonly client: RecognizeContentPollerClient;
   source?: FormRecognizerRequestBody | string;
-  contentType?: ContentType;
+  contentType?: FormContentType;
   modelId?: string;
   resultId?: string;
   status: OperationStatus;
@@ -65,7 +66,7 @@ extends PollOperation<BeginRecognizeContentPollState, FormPageArray> {}
 export type BeginRecognizeContentPollerOptions = {
   client: RecognizeContentPollerClient;
   source: FormRecognizerRequestBody | string;
-  contentType?: ContentType;
+  contentType?: FormContentType;
   modelId?: string;
   intervalInMs?: number;
   resultId?: string;

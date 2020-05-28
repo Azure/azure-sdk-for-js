@@ -140,7 +140,7 @@
     "tough-cookie": "^4.0.0",
     "tslib": "^1.10.0",
     "tunnel": "^0.0.6",
-    "uuid": "^3.3.2",
+    "uuid": "^8.1.0",
     "xml2js": "^0.4.19"
   },
   "devDependencies": {
@@ -160,7 +160,7 @@
     "@types/node": "^8.0.0",
     "@types/sinon": "^9.0.4",
     "@types/tough-cookie": "^4.0.0",
-    "@types/uuid": "^3.4.3",
+    "@types/uuid": "^8.0.0",
     "@types/xml2js": "^0.4.3",
     "@typescript-eslint/eslint-plugin": "^2.0.0",
     "@typescript-eslint/parser": "^2.0.0",

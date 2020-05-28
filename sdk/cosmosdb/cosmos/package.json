@@ -90,7 +90,7 @@
     "priorityqueuejs": "^1.0.0",
     "semaphore": "^1.0.5",
     "tslib": "^1.10.0",
-    "uuid": "^3.3.2"
+    "uuid": "^8.1.0"
   },
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^2.0.1",
@@ -106,7 +106,7 @@
     "@types/sinon": "^9.0.4",
     "@types/tunnel": "^0.0.1",
     "@types/underscore": "^1.8.8",
-    "@types/uuid": "^3.4.3",
+    "@types/uuid": "^8.0.0",
     "@typescript-eslint/eslint-plugin": "^2.0.0",
     "@typescript-eslint/eslint-plugin-tslint": "^2.8.0",
     "@typescript-eslint/parser": "^2.0.0",
