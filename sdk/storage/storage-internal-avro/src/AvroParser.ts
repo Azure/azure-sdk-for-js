@@ -28,32 +28,35 @@ export class AvroParser {
     return buf[0];
   }
 
+  // int and long are stored in variable-length zig-zag coding.
+  // variable-length: https://lucene.apache.org/core/3_5_0/fileformats.html#VInt
+  // zig-zag: https://developers.google.com/protocol-buffers/docs/encoding?csw=1#types
   private static async readZigZagLong(stream: AvroReadable): Promise<number> {
-    // copied from https://github.com/apache/avro/blob/master/lang/js/lib/utils.js#L321
-    let n = 0;
-    let k = 0;
-    let b, h, f, fk;
+    let zigZagEncoded = 0;
+    let significanceInBit = 0;
+    let byte, haveMoreByte, significanceInFloat;
 
     do {
-      b = await AvroParser.readByte(stream);
-      h = b & 0x80;
-      n |= (b & 0x7f) << k;
-      k += 7;
-    } while (h && k < 28);
+      byte = await AvroParser.readByte(stream);
+      haveMoreByte = byte & 0x80;
+      zigZagEncoded |= (byte & 0x7f) << significanceInBit;
+      significanceInBit += 7;
+    } while (haveMoreByte && significanceInBit < 28); // bitwise operation only works for 32-bit integers
 
-    if (h) {
-      // Switch to float arithmetic, otherwise we might overflow.
-      f = n;
-      fk = 268435456; // 2 ** 28.
+    if (haveMoreByte) {
+      // Switch to float arithmetic
+      // FIXME: this only works when zigZagEncoded is no more than Number.MAX_SAFE_INTEGER (2**53 - 1)
+      zigZagEncoded = zigZagEncoded;
+      significanceInFloat = 268435456; // 2 ** 28.
       do {
-        b = await AvroParser.readByte(stream);
-        f += (b & 0x7f) * fk;
-        fk *= 128;
-      } while (b & 0x80);
-      return (f % 2 ? -(f + 1) : f) / 2;
+        byte = await AvroParser.readByte(stream);
+        zigZagEncoded += (byte & 0x7f) * significanceInFloat;
+        significanceInFloat *= 128; // 2 ** 7
+      } while (byte & 0x80);
+      return (zigZagEncoded % 2 ? -(zigZagEncoded + 1) : zigZagEncoded) / 2;
     }
 
-    return (n >> 1) ^ -(n & 1);
+    return (zigZagEncoded >> 1) ^ -(zigZagEncoded & 1);
   }
 
   public static async readLong(stream: AvroReadable): Promise<number> {
