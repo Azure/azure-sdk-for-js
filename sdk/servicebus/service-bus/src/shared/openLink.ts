@@ -39,7 +39,7 @@ export interface OpenArgs<RheaLinkT extends RheaLink> {
   // these are more candidates to move out from LinkEntity. They don't really depend on anything special
   // in LinkEntity and are just clutter.
   negotiateClaim(): Promise<void>;
-  ensureTokenRenewal(): Promise<void>;
+  ensureTokenRenewal(): void;
 
   abortSignal?: AbortSignalLike;
 }
