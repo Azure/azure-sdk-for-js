@@ -68,6 +68,50 @@ export interface CloudErrorBody {
 }
 
 /**
+ * Describes the format of Error response.
+ */
+export interface ErrorResponse {
+  /**
+   * Error code
+   */
+  code?: string;
+  /**
+   * Error message indicating why the operation failed.
+   */
+  message?: string;
+}
+
+/**
+ * The status of operation.
+ */
+export interface AscOperation {
+  /**
+   * The operation Id.
+   */
+  id?: string;
+  /**
+   * The operation name.
+   */
+  name?: string;
+  /**
+   * The start time of the operation.
+   */
+  startTime?: string;
+  /**
+   * The end time of the operation.
+   */
+  endTime?: string;
+  /**
+   * The status of the operation.
+   */
+  status?: string;
+  /**
+   * The error detail of the operation if any.
+   */
+  error?: ErrorResponse;
+}
+
+/**
  * Cache identity properties.
  */
 export interface CacheIdentity {
@@ -950,6 +994,26 @@ export type UsageModelsListNextResponse = UsageModelsResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: UsageModelsResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type AscOperationsGetResponse = AscOperation & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AscOperation;
     };
 };
 
