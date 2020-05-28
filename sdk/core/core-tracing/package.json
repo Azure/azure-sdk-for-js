@@ -43,7 +43,12 @@
     "LICENSE"
   ],
   "repository": "github:Azure/azure-sdk-for-js",
-  "keywords": ["azure", "tracing", "Azure", "cloud"],
+  "keywords": [
+    "azure",
+    "tracing",
+    "Azure",
+    "cloud"
+  ],
   "author": "Microsoft Corporation",
   "license": "MIT",
   "bugs": {
@@ -56,7 +61,7 @@
   "sideEffects": false,
   "dependencies": {
     "@opencensus/web-types": "0.0.7",
-    "@opentelemetry/api": "^0.6.1",
+    "@opentelemetry/api": "^0.8.3",
     "tslib": "^2.0.0"
   },
   "devDependencies": {
