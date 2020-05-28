@@ -983,6 +983,16 @@ export interface Backend {
    */
   privateLinkAlias?: string;
   /**
+   * The Resource Id of the Private Link resource. Populating this optional field indicates that
+   * this backend is 'Private'
+   */
+  privateLinkResourceId?: string;
+  /**
+   * The location of the Private Link resource. Required only if 'privateLinkResourceId' is
+   * populated
+   */
+  privateLinkLocation?: string;
+  /**
    * The Approval status for the connection to the Private Link. Possible values include:
    * 'Pending', 'Approved', 'Rejected', 'Disconnected', 'Timeout'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -2617,9 +2627,9 @@ export type ReportsGetTimeseriesResponse = Timeseries & {
 };
 
 /**
- * Contains response data for the checkFrontDoorNameAvailability operation.
+ * Contains response data for the check operation.
  */
-export type CheckFrontDoorNameAvailabilityResponse = CheckNameAvailabilityOutput & {
+export type FrontDoorNameAvailabilityCheckResponse = CheckNameAvailabilityOutput & {
   /**
    * The underlying HTTP response.
    */
@@ -2637,9 +2647,9 @@ export type CheckFrontDoorNameAvailabilityResponse = CheckNameAvailabilityOutput
 };
 
 /**
- * Contains response data for the checkFrontDoorNameAvailabilityWithSubscription operation.
+ * Contains response data for the check operation.
  */
-export type CheckFrontDoorNameAvailabilityWithSubscriptionResponse = CheckNameAvailabilityOutput & {
+export type FrontDoorNameAvailabilityWithSubscriptionCheckResponse = CheckNameAvailabilityOutput & {
   /**
    * The underlying HTTP response.
    */

@@ -1632,18 +1632,23 @@ export const Backend: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      privateLinkResourceId: {
+        serializedName: "privateLinkResourceId",
+        type: {
+          name: "String"
+        }
+      },
+      privateLinkLocation: {
+        serializedName: "privateLinkLocation",
+        type: {
+          name: "String"
+        }
+      },
       privateEndpointStatus: {
         readOnly: true,
         serializedName: "privateEndpointStatus",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "Pending",
-            "Approved",
-            "Rejected",
-            "Disconnected",
-            "Timeout"
-          ]
+          name: "String"
         }
       },
       privateLinkApprovalMessage: {
