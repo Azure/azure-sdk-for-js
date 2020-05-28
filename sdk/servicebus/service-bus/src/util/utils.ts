@@ -523,7 +523,7 @@ export function waitForTimeoutOrAbortOrResolve<T>(args: {
     }
   };
 
-  const abortAndTimeoutPromise = new Promise((resolve, reject) => {
+  const abortOrTimeoutPromise = new Promise((resolve, reject) => {
     clearAbortSignal = checkAndRegisterWithAbortSignal(
       () => {
         reject(new AbortError(args.abortMessage));
@@ -542,7 +542,7 @@ export function waitForTimeoutOrAbortOrResolve<T>(args: {
   });
 
   const actionPromise = args.actionFn();
-  return Promise.race([abortAndTimeoutPromise, actionPromise])
+  return Promise.race([abortOrTimeoutPromise, actionPromise])
     .then(() => {
       clearAbortSignalAndTimer();
       return actionPromise;
