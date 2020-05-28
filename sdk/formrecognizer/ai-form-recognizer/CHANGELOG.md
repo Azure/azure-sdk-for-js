@@ -5,6 +5,7 @@
 - Blank pages in receipt recognition are now handled properly.
 - Support Azure Active Directory credential.
 - Support to copy a custom model from one Form Recognizer resource to another.
+- Headers and query parameters which don't contain sensitive information are no longer redacted in logging output.
 - Refactoring for cross-language consistency:
   - [Breaking] Rename `beginRecognizeForms()` to `beginRecognizeCustomForms()` in `FormRecognizerClient`.
   - [Breaking] Rename `listModels()` to `listCustomModels()` in `FormTrainingClient`.
