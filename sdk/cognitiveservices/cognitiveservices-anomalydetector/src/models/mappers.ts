@@ -76,6 +76,7 @@ export const Request: msRest.CompositeMapper = {
       },
       granularity: {
         required: true,
+        nullable: false,
         serializedName: "granularity",
         type: {
           name: "Enum",
@@ -85,7 +86,8 @@ export const Request: msRest.CompositeMapper = {
             "weekly",
             "daily",
             "hourly",
-            "minutely"
+            "minutely",
+            "secondly"
           ]
         }
       },
@@ -266,6 +268,111 @@ export const LastDetectResponse: msRest.CompositeMapper = {
         serializedName: "isPositiveAnomaly",
         type: {
           name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const ChangePointDetectRequest: msRest.CompositeMapper = {
+  serializedName: "ChangePointDetectRequest",
+  type: {
+    name: "Composite",
+    className: "ChangePointDetectRequest",
+    modelProperties: {
+      series: {
+        required: true,
+        serializedName: "series",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Point"
+            }
+          }
+        }
+      },
+      granularity: {
+        required: true,
+        nullable: false,
+        serializedName: "granularity",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "yearly",
+            "monthly",
+            "weekly",
+            "daily",
+            "hourly",
+            "minutely",
+            "secondly"
+          ]
+        }
+      },
+      customInterval: {
+        serializedName: "customInterval",
+        type: {
+          name: "Number"
+        }
+      },
+      period: {
+        serializedName: "period",
+        type: {
+          name: "Number"
+        }
+      },
+      stableTrendWindow: {
+        serializedName: "stableTrendWindow",
+        type: {
+          name: "Number"
+        }
+      },
+      threshold: {
+        serializedName: "threshold",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ChangePointDetectResponse: msRest.CompositeMapper = {
+  serializedName: "ChangePointDetectResponse",
+  type: {
+    name: "Composite",
+    className: "ChangePointDetectResponse",
+    modelProperties: {
+      period: {
+        required: true,
+        serializedName: "period",
+        type: {
+          name: "Number"
+        }
+      },
+      isChangePoint: {
+        required: true,
+        serializedName: "isChangePoint",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Boolean"
+            }
+          }
+        }
+      },
+      confidenceScores: {
+        required: true,
+        serializedName: "confidenceScores",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
         }
       }
     }
