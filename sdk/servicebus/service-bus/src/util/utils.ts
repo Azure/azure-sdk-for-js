@@ -583,5 +583,5 @@ export function checkAndRegisterWithAbortSignal(
 
   abortSignal.addEventListener("abort", onAbort);
 
-  return () => abortSignal?.removeEventListener("abort", onAbort);
+  return () => abortSignal.removeEventListener("abort", onAbort);
 }
