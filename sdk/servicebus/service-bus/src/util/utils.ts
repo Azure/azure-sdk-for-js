@@ -558,7 +558,8 @@ export function waitForTimeoutOrAbortOrResolve<T>(args: {
  *
  * If it is not signalled, adds an event listener that will call your abortFn.
  *
- * @returns A function that removes any of our attached event listeners on the abort signal or undefined, if the abortSignal was undefined.
+ * @returns A function that removes any of our attached event listeners on the abort signal or an empty function if
+ * the abortSignal was not defined.
  *
  * @internal
  * @ignore
@@ -567,9 +568,9 @@ export function checkAndRegisterWithAbortSignal(
   abortFn: () => void,
   abortMessage?: string,
   abortSignal?: AbortSignalLike
-): (() => void) | undefined {
+): () => void {
   if (abortSignal == null) {
-    return undefined;
+    return () => {};
   }
 
   if (abortSignal.aborted) {

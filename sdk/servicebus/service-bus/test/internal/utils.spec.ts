@@ -243,7 +243,10 @@ describe("utils", () => {
         "the message for aborting",
         undefined
       );
-      assert.notExists(cleanupFn);
+
+      // we just return a no-op function in this case.
+      assert.exists(cleanupFn);
+      cleanupFn();
     });
 
     it("abortSignal is already aborted", () => {
