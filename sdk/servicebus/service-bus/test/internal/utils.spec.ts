@@ -13,7 +13,7 @@ import { ErrorNameConditionMapper } from "@azure/core-amqp";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
-describe.only("utils", () => {
+describe("utils", () => {
   describe("waitForTimeoutAbortOrResolve", () => {
     let abortController: AbortController;
     let abortSignal: ReturnType<typeof getAbortSignalWithTracking>;
@@ -338,11 +338,14 @@ function getAbortSignalWithTracking(
   const origRemoveEventListener = signal.removeEventListener;
 
   signal.addEventListener = (name, handler) => {
+    assert.isFalse(allFunctions.has(handler), "Handler should not have already been added");
     allFunctions.add(handler);
     origAddEventListener.call(signal, name, handler);
   };
 
   signal.removeEventListener = (name, handler) => {
+    // being less stringent about potentially removing it more than once since it simplifies
+    // our error handling code.
     allFunctions.delete(handler);
     origRemoveEventListener.call(signal, name, handler);
   };
