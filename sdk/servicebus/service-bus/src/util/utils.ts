@@ -524,13 +524,7 @@ export function waitForTimeoutOrAbortOrResolve<T>(args: {
   };
 
   const abortOrTimeoutPromise = new Promise((resolve, reject) => {
-    clearAbortSignal = checkAndRegisterWithAbortSignal(
-      () => {
-        reject(new AbortError(args.abortMessage));
-      },
-      args.abortMessage,
-      args.abortSignal
-    );
+    clearAbortSignal = checkAndRegisterWithAbortSignal(reject, args.abortMessage, args.abortSignal);
 
     // using a named function here so we can identify it in our unit tests
     timer = setTimeout(function timeoutCallback() {
