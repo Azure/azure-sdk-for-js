@@ -534,10 +534,6 @@ export function waitForTimeoutOrAbortOrResolve<T>(args: {
 
     // using a named function here so we can identify it in our unit tests
     timer = setTimeout(function timeoutCallback() {
-      if (clearAbortSignal) {
-        clearAbortSignal();
-      }
-
       reject({
         condition: ErrorNameConditionMapper.ServiceUnavailableError,
         description: args.timeoutMessage
