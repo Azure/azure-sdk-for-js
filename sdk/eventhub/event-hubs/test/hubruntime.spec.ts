@@ -35,9 +35,11 @@ describe("RuntimeInformation", function(): void {
   });
 
   function arrayOfIncreasingNumbersFromZero(length: any): Array<string> {
-    return Array.apply(undefined, new Array(length)).map((_x: any, i: any) => {
-      return `${i}`;
-    });
+    const result = new Array(length);
+    for (let i = 0; i < length; i++) {
+      result[i] = `${i}`;
+    }
+    return result;
   }
 
   describe("getPartitionIds", function(): void {
