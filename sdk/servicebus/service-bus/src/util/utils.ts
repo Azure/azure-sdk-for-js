@@ -565,7 +565,7 @@ export function waitForTimeoutOrAbortOrResolve<T>(args: {
  * @ignore
  */
 export function checkAndRegisterWithAbortSignal(
-  abortFn: () => void,
+  onAbortFn: () => void,
   abortMessage?: string,
   abortSignal?: AbortSignalLike
 ): () => void {
@@ -579,7 +579,7 @@ export function checkAndRegisterWithAbortSignal(
 
   const onAbort = (): void => {
     abortSignal.removeEventListener("abort", onAbort);
-    abortFn();
+    onAbortFn();
   };
 
   abortSignal.addEventListener("abort", onAbort);
