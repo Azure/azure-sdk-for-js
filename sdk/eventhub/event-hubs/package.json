@@ -129,7 +129,7 @@
     "eslint-plugin-no-only-tests": "^2.3.0",
     "eslint-plugin-promise": "^4.1.1",
     "esm": "^3.2.18",
-    "https-proxy-agent": "^3.0.1",
+    "https-proxy-agent": "^5.0.0",
     "karma": "^4.0.1",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
