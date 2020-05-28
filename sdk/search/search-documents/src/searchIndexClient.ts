@@ -48,7 +48,7 @@ export type SearchIndexClientOptions = PipelineOptions;
 /**
  * Class to perform operations to manage
  * (create, update, list/delete)
- * SearchIndexes, & synonymmaps.
+ * indexes, & synonymmaps.
  */
 export class SearchIndexClient {
   /**
