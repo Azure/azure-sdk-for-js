@@ -8,8 +8,9 @@ import {
   RecognizeContentOptions,
   RecognizeReceiptsOptions
 } from "../../formRecognizerClient";
+import { FormContentType } from "../../common";
 
-import { OperationStatus, ContentType } from "../../generated/models";
+import { OperationStatus } from "../../generated/models";
 import { FormRecognizerRequestBody } from "../../models";
 export { OperationStatus };
 
@@ -41,7 +42,7 @@ export type RecognizePollerClient<T> = {
   // returns a result id to retrieve results
   beginRecognize: (
     source: FormRecognizerRequestBody | string,
-    contentType?: ContentType,
+    contentType?: FormContentType,
     analyzeOptions?: RecognizeOptions,
     modelId?: string
   ) => Promise<{ operationLocation?: string }>;
@@ -52,7 +53,7 @@ export type RecognizePollerClient<T> = {
 export interface BeginRecognizePollState<T> extends PollOperationState<T> {
   readonly client: RecognizePollerClient<T>;
   source?: FormRecognizerRequestBody | string;
-  contentType?: ContentType;
+  contentType?: FormContentType;
   modelId?: string;
   resultId?: string;
   status: OperationStatus;
@@ -68,7 +69,7 @@ export interface BeginRecognizePollerOperation<T>
 export type BeginRecognizePollerOptions<T> = {
   client: RecognizePollerClient<T>;
   source: FormRecognizerRequestBody | string;
-  contentType?: ContentType;
+  contentType?: FormContentType;
   modelId?: string;
   intervalInMs?: number;
   resultId?: string;

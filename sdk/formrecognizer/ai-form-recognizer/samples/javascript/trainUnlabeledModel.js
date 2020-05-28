@@ -34,8 +34,8 @@ async function main() {
 
   console.log(`Model ID: ${response.modelId}`);
   console.log(`Status: ${response.status}`);
-  console.log(`Created on: ${response.createdOn}`);
-  console.log(`Last modified: ${response.lastModified}`);
+  console.log(`Requested on: ${response.requestedOn}`);
+  console.log(`Completed on: ${response.completedOn}`);
 
   if (response.submodels) {
     for (const submodel of response.submodels) {
