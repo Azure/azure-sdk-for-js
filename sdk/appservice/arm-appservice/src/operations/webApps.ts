@@ -484,6 +484,180 @@ export class WebApps {
   }
 
   /**
+   * Description for Returns whether Scm basic auth is allowed and whether Ftp is allowed for a given
+   * site.
+   * @summary Returns whether Scm basic auth is allowed and whether Ftp is allowed for a given site.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsGetBasicPublishingCredentialsPoliciesResponse>
+   */
+  getBasicPublishingCredentialsPolicies(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsGetBasicPublishingCredentialsPoliciesResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param callback The callback
+   */
+  getBasicPublishingCredentialsPolicies(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.CsmPublishingCredentialsPoliciesCollection>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getBasicPublishingCredentialsPolicies(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CsmPublishingCredentialsPoliciesCollection>): void;
+  getBasicPublishingCredentialsPolicies(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CsmPublishingCredentialsPoliciesCollection>, callback?: msRest.ServiceCallback<Models.CsmPublishingCredentialsPoliciesCollection>): Promise<Models.WebAppsGetBasicPublishingCredentialsPoliciesResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        options
+      },
+      getBasicPublishingCredentialsPoliciesOperationSpec,
+      callback) as Promise<Models.WebAppsGetBasicPublishingCredentialsPoliciesResponse>;
+  }
+
+  /**
+   * Description for Returns whether FTP is allowed on the site or not.
+   * @summary Returns whether FTP is allowed on the site or not.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsGetFtpAllowedResponse>
+   */
+  getFtpAllowed(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsGetFtpAllowedResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param callback The callback
+   */
+  getFtpAllowed(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.CsmPublishingCredentialsPoliciesEntity>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getFtpAllowed(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CsmPublishingCredentialsPoliciesEntity>): void;
+  getFtpAllowed(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CsmPublishingCredentialsPoliciesEntity>, callback?: msRest.ServiceCallback<Models.CsmPublishingCredentialsPoliciesEntity>): Promise<Models.WebAppsGetFtpAllowedResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        options
+      },
+      getFtpAllowedOperationSpec,
+      callback) as Promise<Models.WebAppsGetFtpAllowedResponse>;
+  }
+
+  /**
+   * Description for Updates whether FTP is allowed on the site or not.
+   * @summary Updates whether FTP is allowed on the site or not.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param csmPublishingAccessPoliciesEntity
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsUpdateFtpAllowedResponse>
+   */
+  updateFtpAllowed(resourceGroupName: string, name: string, csmPublishingAccessPoliciesEntity: Models.CsmPublishingCredentialsPoliciesEntity, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsUpdateFtpAllowedResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param csmPublishingAccessPoliciesEntity
+   * @param callback The callback
+   */
+  updateFtpAllowed(resourceGroupName: string, name: string, csmPublishingAccessPoliciesEntity: Models.CsmPublishingCredentialsPoliciesEntity, callback: msRest.ServiceCallback<Models.CsmPublishingCredentialsPoliciesEntity>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param csmPublishingAccessPoliciesEntity
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  updateFtpAllowed(resourceGroupName: string, name: string, csmPublishingAccessPoliciesEntity: Models.CsmPublishingCredentialsPoliciesEntity, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CsmPublishingCredentialsPoliciesEntity>): void;
+  updateFtpAllowed(resourceGroupName: string, name: string, csmPublishingAccessPoliciesEntity: Models.CsmPublishingCredentialsPoliciesEntity, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CsmPublishingCredentialsPoliciesEntity>, callback?: msRest.ServiceCallback<Models.CsmPublishingCredentialsPoliciesEntity>): Promise<Models.WebAppsUpdateFtpAllowedResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        csmPublishingAccessPoliciesEntity,
+        options
+      },
+      updateFtpAllowedOperationSpec,
+      callback) as Promise<Models.WebAppsUpdateFtpAllowedResponse>;
+  }
+
+  /**
+   * Description for Returns whether Scm basic auth is allowed on the site or not.
+   * @summary Returns whether Scm basic auth is allowed on the site or not.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsGetScmAllowedResponse>
+   */
+  getScmAllowed(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsGetScmAllowedResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param callback The callback
+   */
+  getScmAllowed(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.CsmPublishingCredentialsPoliciesEntity>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getScmAllowed(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CsmPublishingCredentialsPoliciesEntity>): void;
+  getScmAllowed(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CsmPublishingCredentialsPoliciesEntity>, callback?: msRest.ServiceCallback<Models.CsmPublishingCredentialsPoliciesEntity>): Promise<Models.WebAppsGetScmAllowedResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        options
+      },
+      getScmAllowedOperationSpec,
+      callback) as Promise<Models.WebAppsGetScmAllowedResponse>;
+  }
+
+  /**
+   * Description for Updates whether user publishing credentials are allowed on the site or not.
+   * @summary Updates whether user publishing credentials are allowed on the site or not.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param csmPublishingAccessPoliciesEntity
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsUpdateScmAllowedResponse>
+   */
+  updateScmAllowed(resourceGroupName: string, name: string, csmPublishingAccessPoliciesEntity: Models.CsmPublishingCredentialsPoliciesEntity, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsUpdateScmAllowedResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param csmPublishingAccessPoliciesEntity
+   * @param callback The callback
+   */
+  updateScmAllowed(resourceGroupName: string, name: string, csmPublishingAccessPoliciesEntity: Models.CsmPublishingCredentialsPoliciesEntity, callback: msRest.ServiceCallback<Models.CsmPublishingCredentialsPoliciesEntity>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param csmPublishingAccessPoliciesEntity
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  updateScmAllowed(resourceGroupName: string, name: string, csmPublishingAccessPoliciesEntity: Models.CsmPublishingCredentialsPoliciesEntity, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CsmPublishingCredentialsPoliciesEntity>): void;
+  updateScmAllowed(resourceGroupName: string, name: string, csmPublishingAccessPoliciesEntity: Models.CsmPublishingCredentialsPoliciesEntity, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CsmPublishingCredentialsPoliciesEntity>, callback?: msRest.ServiceCallback<Models.CsmPublishingCredentialsPoliciesEntity>): Promise<Models.WebAppsUpdateScmAllowedResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        csmPublishingAccessPoliciesEntity,
+        options
+      },
+      updateScmAllowedOperationSpec,
+      callback) as Promise<Models.WebAppsUpdateScmAllowedResponse>;
+  }
+
+  /**
    * Description for List the configurations of an app
    * @summary List the configurations of an app
    * @param resourceGroupName Name of the resource group to which the resource belongs.
@@ -10636,6 +10810,105 @@ export class WebApps {
   }
 
   /**
+   * Description for Gets a private endpoint connection
+   * @summary Gets a private endpoint connection
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the site.
+   * @param privateEndpointConnectionName
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsGetPrivateEndpointConnectionResponse>
+   */
+  getPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsGetPrivateEndpointConnectionResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the site.
+   * @param privateEndpointConnectionName
+   * @param callback The callback
+   */
+  getPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionResource>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the site.
+   * @param privateEndpointConnectionName
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionResource>): void;
+  getPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateEndpointConnectionResource>, callback?: msRest.ServiceCallback<Models.PrivateEndpointConnectionResource>): Promise<Models.WebAppsGetPrivateEndpointConnectionResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        privateEndpointConnectionName,
+        options
+      },
+      getPrivateEndpointConnectionOperationSpec,
+      callback) as Promise<Models.WebAppsGetPrivateEndpointConnectionResponse>;
+  }
+
+  /**
+   * Description for Approves or rejects a private endpoint connection
+   * @summary Approves or rejects a private endpoint connection
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the site.
+   * @param privateEndpointConnectionName
+   * @param privateEndpointWrapper
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsApproveOrRejectPrivateEndpointConnectionResponse>
+   */
+  approveOrRejectPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: Models.PrivateLinkConnectionApprovalRequestResource, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsApproveOrRejectPrivateEndpointConnectionResponse> {
+    return this.beginApproveOrRejectPrivateEndpointConnection(resourceGroupName,name,privateEndpointConnectionName,privateEndpointWrapper,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.WebAppsApproveOrRejectPrivateEndpointConnectionResponse>;
+  }
+
+  /**
+   * Description for Deletes a private endpoint connection
+   * @summary Deletes a private endpoint connection
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the site.
+   * @param privateEndpointConnectionName
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsDeletePrivateEndpointConnectionResponse>
+   */
+  deletePrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsDeletePrivateEndpointConnectionResponse> {
+    return this.beginDeletePrivateEndpointConnection(resourceGroupName,name,privateEndpointConnectionName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.WebAppsDeletePrivateEndpointConnectionResponse>;
+  }
+
+  /**
+   * Description for Gets the private link resources
+   * @summary Gets the private link resources
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the site.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsGetPrivateLinkResourcesResponse>
+   */
+  getPrivateLinkResources(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsGetPrivateLinkResourcesResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the site.
+   * @param callback The callback
+   */
+  getPrivateLinkResources(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.PrivateLinkResourcesWrapper>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the site.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getPrivateLinkResources(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateLinkResourcesWrapper>): void;
+  getPrivateLinkResources(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkResourcesWrapper>, callback?: msRest.ServiceCallback<Models.PrivateLinkResourcesWrapper>): Promise<Models.WebAppsGetPrivateLinkResourcesResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        options
+      },
+      getPrivateLinkResourcesOperationSpec,
+      callback) as Promise<Models.WebAppsGetPrivateLinkResourcesResponse>;
+  }
+
+  /**
    * Description for Get list of processes for a web site, or a deployment slot, or for a specific
    * scaled-out instance in a web site.
    * @summary Get list of processes for a web site, or a deployment slot, or for a specific
@@ -14252,6 +14525,50 @@ export class WebApps {
   }
 
   /**
+   * Description for Approves or rejects a private endpoint connection
+   * @summary Approves or rejects a private endpoint connection
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the site.
+   * @param privateEndpointConnectionName
+   * @param privateEndpointWrapper
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginApproveOrRejectPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: Models.PrivateLinkConnectionApprovalRequestResource, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        name,
+        privateEndpointConnectionName,
+        privateEndpointWrapper,
+        options
+      },
+      beginApproveOrRejectPrivateEndpointConnectionOperationSpec,
+      options);
+  }
+
+  /**
+   * Description for Deletes a private endpoint connection
+   * @summary Deletes a private endpoint connection
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the site.
+   * @param privateEndpointConnectionName
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginDeletePrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        name,
+        privateEndpointConnectionName,
+        options
+      },
+      beginDeletePrivateEndpointConnectionOperationSpec,
+      options);
+  }
+
+  /**
    * Description for Restores an app from a backup blob in Azure Storage.
    * @summary Restores an app from a backup blob in Azure Storage.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
@@ -16452,6 +16769,145 @@ const listBackupStatusSecretsOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.BackupItem
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const getBasicPublishingCredentialsPoliciesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/basicPublishingCredentialsPolicies",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.CsmPublishingCredentialsPoliciesCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const getFtpAllowedOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/basicPublishingCredentialsPolicies/ftp",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.CsmPublishingCredentialsPoliciesEntity
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const updateFtpAllowedOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/basicPublishingCredentialsPolicies/ftp",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "csmPublishingAccessPoliciesEntity",
+    mapper: {
+      ...Mappers.CsmPublishingCredentialsPoliciesEntity,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.CsmPublishingCredentialsPoliciesEntity
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const getScmAllowedOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/basicPublishingCredentialsPolicies/scm",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.CsmPublishingCredentialsPoliciesEntity
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const updateScmAllowedOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/basicPublishingCredentialsPolicies/scm",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "csmPublishingAccessPoliciesEntity",
+    mapper: {
+      ...Mappers.CsmPublishingCredentialsPoliciesEntity,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.CsmPublishingCredentialsPoliciesEntity
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -23499,6 +23955,57 @@ const putPrivateAccessVnetSlotOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const getPrivateEndpointConnectionOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/privateEndpointConnections/{privateEndpointConnectionName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.privateEndpointConnectionName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateEndpointConnectionResource
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const getPrivateLinkResourcesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/privateLinkResources",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateLinkResourcesWrapper
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
 const listProcessesSlotOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/processes",
@@ -26264,6 +26771,89 @@ const beginStartWebSiteNetworkTraceOperationSlotOperationSpec: msRest.OperationS
               className: "NetworkTrace"
             }
           }
+        }
+      }
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const beginApproveOrRejectPrivateEndpointConnectionOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/privateEndpointConnections/{privateEndpointConnectionName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.privateEndpointConnectionName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "privateEndpointWrapper",
+    mapper: {
+      ...Mappers.PrivateLinkConnectionApprovalRequestResource,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateEndpointConnectionResource
+    },
+    202: {
+      bodyMapper: Mappers.PrivateEndpointConnectionResource
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const beginDeletePrivateEndpointConnectionOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/privateEndpointConnections/{privateEndpointConnectionName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.privateEndpointConnectionName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    202: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    204: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Object"
         }
       }
     },
