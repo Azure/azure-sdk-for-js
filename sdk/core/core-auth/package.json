@@ -67,7 +67,7 @@
   "sideEffects": false,
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
-    "@azure/core-tracing": "1.0.0-preview.8",
+    "@azure/core-tracing": "1.0.0-preview.9",
     "@opentelemetry/api": "^0.8.3",
     "tslib": "^2.0.0"
   },

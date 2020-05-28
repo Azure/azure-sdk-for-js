@@ -75,7 +75,7 @@
   "dependencies": {
     "@azure/core-auth": "^1.1.2",
     "@azure/core-http": "^1.1.1",
-    "@azure/core-tracing": "1.0.0-preview.8",
+    "@azure/core-tracing": "1.0.0-preview.9",
     "@azure/logger": "^1.0.0",
     "@opentelemetry/api": "^0.8.3",
     "tslib": "^2.0.0"
