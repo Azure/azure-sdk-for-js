@@ -2658,11 +2658,13 @@ packages:
     dev: false
     resolution:
       integrity: sha1-JcfInLH5B3+IkbvmHY85Dq4lbx4=
-  /fetch-mock/8.3.2_node-fetch@2.6.0:
+  /fetch-mock/9.10.1_node-fetch@2.6.0:
     dependencies:
       babel-runtime: 6.26.0
       core-js: 3.6.5
+      debug: 4.1.1
       glob-to-regexp: 0.4.1
+      is-subset: 0.1.1
       lodash.isequal: 4.5.0
       node-fetch: 2.6.0
       path-to-regexp: 2.4.0
@@ -2677,7 +2679,7 @@ packages:
       node-fetch:
         optional: true
     resolution:
-      integrity: sha512-RUdLbhIBTvECX20I8htNhmLRrCplCiOP62srst8UQsSV0m8taJe31PBsQybL7OIq5fEf6tnqVGvQ62ZnZ4IFfQ==
+      integrity: sha512-pTSLpg/Z9LvoqTRu8S9Aeyu4wsyNHLcqON6F5iw1nLHkSOZ+snKgkijwtOVtVsgNzyiZCq9NHRwGxPRpLwth7A==
   /figures/3.2.0:
     dependencies:
       escape-string-regexp: 1.0.5
@@ -3606,6 +3608,10 @@ packages:
       node: '>=8'
     resolution:
       integrity: sha512-XCoy+WlUr7d1+Z8GgSuXmpuUFC9fOhRXglJMx+dwLKTkL44Cjd4W1Z5P+BQZpr+cR93aGP4S/s7Ftw6Nd/kiEw==
+  /is-subset/0.1.1:
+    dev: false
+    resolution:
+      integrity: sha1-ilkRfZMt4d4A8kX83TnOQ/HpOaY=
   /is-symbol/1.0.3:
     dependencies:
       has-symbols: 1.0.1
@@ -7830,7 +7836,7 @@ packages:
       eslint-plugin-no-only-tests: 2.4.0
       eslint-plugin-promise: 4.2.1
       express: 4.17.1
-      fetch-mock: 8.3.2_node-fetch@2.6.0
+      fetch-mock: 9.10.1_node-fetch@2.6.0
       form-data: 3.0.0
       glob: 7.1.6
       karma: 4.4.1
@@ -7869,7 +7875,7 @@ packages:
     dev: false
     name: '@rush-temp/core-http'
     resolution:
-      integrity: sha512-0SvlXEzP9jLBvEQ+VJvWWvkg0Xs1qo+JvWO5GFTP292btCtP46e3uR9vQZe5TqkVhsyPN2vYTyBDckBjmE1Rog==
+      integrity: sha512-7sooFWdn4r37p2EWeDvhCbRUZhgLVL9PzRtlKi+0nO4J3Dx9iR32q/+i7Otb/KxCQWhihHMWXdGIHlAeMy0uFg==
       tarball: 'file:projects/core-http.tgz'
     version: 0.0.0
   'file:projects/core-https.tgz':
