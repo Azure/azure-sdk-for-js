@@ -504,8 +504,8 @@ export function waitForTimeoutOrAbortOrResolve<T>(args: {
   actionFn: () => Promise<T>;
   timeoutMs: number;
   timeoutMessage: string;
-  abortSignal?: AbortSignalLike;
   abortMessage: string;
+  abortSignal?: AbortSignalLike;
 }): Promise<T> {
   if (args.abortSignal && args.abortSignal.aborted) {
     throw new AbortError(args.abortMessage);
