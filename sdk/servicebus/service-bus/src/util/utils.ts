@@ -500,7 +500,7 @@ export type EntityStatus =
  * @internal
  * @ignore
  */
-export function waitForTimeoutOrAbortOrResolve<T>(args: {
+export async function waitForTimeoutOrAbortOrResolve<T>(args: {
   actionFn: () => Promise<T>;
   timeoutMs: number;
   timeoutMessage: string;
@@ -522,7 +522,7 @@ export function waitForTimeoutOrAbortOrResolve<T>(args: {
     }
   };
 
-  const abortOrTimeoutPromise = new Promise((resolve, reject) => {
+  const abortOrTimeoutPromise = new Promise<T>((resolve, reject) => {
     clearAbortSignal = checkAndRegisterWithAbortSignal(reject, args.abortMessage, args.abortSignal);
 
     // using a named function here so we can identify it in our unit tests
@@ -532,15 +532,11 @@ export function waitForTimeoutOrAbortOrResolve<T>(args: {
   });
 
   const actionPromise = args.actionFn();
-  return Promise.race([abortOrTimeoutPromise, actionPromise])
-    .then(() => {
-      clearAbortSignalAndTimer();
-      return actionPromise;
-    })
-    .catch((err) => {
-      clearAbortSignalAndTimer();
-      throw err;
-    });
+  try {
+    return await Promise.race([abortOrTimeoutPromise, actionPromise]);
+  } finally {
+    clearAbortSignalAndTimer();
+  }
 }
 
 /**
