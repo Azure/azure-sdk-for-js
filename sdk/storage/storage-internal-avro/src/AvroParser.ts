@@ -46,7 +46,6 @@ export class AvroParser {
     if (haveMoreByte) {
       // Switch to float arithmetic
       // FIXME: this only works when zigZagEncoded is no more than Number.MAX_SAFE_INTEGER (2**53 - 1)
-      zigZagEncoded = zigZagEncoded;
       significanceInFloat = 268435456; // 2 ** 28.
       do {
         byte = await AvroParser.readByte(stream);
