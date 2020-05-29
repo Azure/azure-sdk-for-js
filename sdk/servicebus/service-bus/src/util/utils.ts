@@ -3,11 +3,10 @@
 
 import Long from "long";
 import * as log from "../log";
-import { generate_uuid, AmqpError } from "rhea-promise";
+import { generate_uuid } from "rhea-promise";
 import isBuffer from "is-buffer";
 import { Buffer } from "buffer";
 import * as Constants from "../util/constants";
-import { ErrorNameConditionMapper } from "@azure/core-amqp";
 import { AbortSignalLike, AbortError } from "@azure/abort-controller";
 
 // This is the only dependency we have on DOM types, so rather than require
@@ -528,10 +527,7 @@ export function waitForTimeoutOrAbortOrResolve<T>(args: {
 
     // using a named function here so we can identify it in our unit tests
     timer = setTimeout(function timeoutCallback() {
-      reject({
-        condition: ErrorNameConditionMapper.ServiceUnavailableError,
-        description: args.timeoutMessage
-      } as AmqpError);
+      reject(new AbortError(args.timeoutMessage));
     }, args.timeoutMs);
   });
 

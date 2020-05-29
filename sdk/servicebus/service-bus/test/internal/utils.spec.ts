@@ -6,10 +6,9 @@ import {
   checkAndRegisterWithAbortSignal
 } from "../../src/util/utils";
 import { AbortController, AbortSignalLike, AbortError } from "@azure/abort-controller";
-import { delay, AmqpError } from "rhea-promise";
+import { delay } from "rhea-promise";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { ErrorNameConditionMapper } from "@azure/core-amqp";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
@@ -144,11 +143,8 @@ describe("utils", () => {
 
         assert.fail("Should have thrown an TimeoutError");
       } catch (err) {
-        assert.equal(
-          (err as AmqpError).condition,
-          ErrorNameConditionMapper.ServiceUnavailableError
-        );
-        assert.equal((err as AmqpError).description, "the message for the timeout");
+        assert.equal(err.message, "the message for the timeout");
+        assert.equal(err.name, "AbortError");
       }
 
       assert.isTrue(timerWasCleared);
@@ -168,11 +164,8 @@ describe("utils", () => {
 
         assert.fail("Should have thrown an TimeoutError");
       } catch (err) {
-        assert.equal(
-          (err as AmqpError).condition,
-          ErrorNameConditionMapper.ServiceUnavailableError
-        );
-        assert.equal((err as AmqpError).description, "the message for the timeout");
+        assert.equal(err.message, "the message for the timeout");
+        assert.equal(err.name, "AbortError");
       }
 
       assert.isTrue(
