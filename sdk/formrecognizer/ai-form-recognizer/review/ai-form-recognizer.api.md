@@ -98,15 +98,6 @@ export interface CopyAuthorizationResultModel {
 // @public
 export type CopyModelOptions = FormRecognizerOperationOptions;
 
-// @public
-export interface CopyResult {
-    createdOn: Date;
-    errors?: FormRecognizerError[];
-    lastModified: Date;
-    modelId: string;
-    status: OperationStatus;
-}
-
 // @public (undocumented)
 export interface CustomFormField {
     accuracy?: number;

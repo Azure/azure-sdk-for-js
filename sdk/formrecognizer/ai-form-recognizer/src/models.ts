@@ -974,29 +974,3 @@ export type CopyAuthorization = {
    */
   //expiresOn: Date
 } & CopyAuthorizationResultModel;
-
-/**
- * Status and result of the queued copy operation.
- */
-export interface CopyResult {
-  /**
-   * Operation status.
-   */
-  status: OperationStatus;
-  /**
-   * Date and time (UTC) when the copy operation was submitted.
-   */
-  createdOn: Date;
-  /**
-   * Date and time (UTC) when the status was last updated.
-   */
-  lastModified: Date;
-  /**
-   * Identifier of the target model.
-   */
-  modelId: string;
-  /**
-   * Errors returned during the copy operation.
-   */
-  errors?: FormRecognizerError[];
-}
