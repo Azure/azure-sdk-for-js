@@ -138,7 +138,8 @@ describe("utils", () => {
             await delay(neverFireMs);
           },
           timeoutMs: 500,
-          timeoutMessage: "the message for the timeout"
+          timeoutMessage: "the message for the timeout",
+          abortMessage: "ignored for this test since we don't have an abort signal"
         });
 
         assert.fail("Should have thrown an TimeoutError");
