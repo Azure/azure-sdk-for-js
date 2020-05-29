@@ -58,6 +58,9 @@ export class AvroReadableFromStream extends AvroReadable {
             // chunk.length maybe less than desired size if the stream ends.
             resolve(this.toUint8Array(chunk));
             this._readable.removeListener("readable", callback);
+            this._readable.removeListener("error", reject);
+            this._readable.removeListener("end", reject);
+            this._readable.removeListener("close", reject);
           }
         };
         this._readable.on("readable", callback);
