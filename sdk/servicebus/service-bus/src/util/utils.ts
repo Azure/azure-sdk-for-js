@@ -3,11 +3,10 @@
 
 import Long from "long";
 import * as log from "../log";
-import { generate_uuid, AmqpError } from "rhea-promise";
+import { generate_uuid, OperationTimeoutError } from "rhea-promise";
 import isBuffer from "is-buffer";
 import { Buffer } from "buffer";
 import * as Constants from "../util/constants";
-import { ErrorNameConditionMapper } from "@azure/core-amqp";
 import { AbortSignalLike, AbortError } from "@azure/abort-controller";
 
 // This is the only dependency we have on DOM types, so rather than require
@@ -491,7 +490,7 @@ export type EntityStatus =
 /**
  * An executor for a Promise (or function that returns a Promise) that obeys both a timeout and an
  * optional AbortSignal.
- * @param timeoutMs - The number of milliseconds to allow before throwing an AMQP error with condition ServiceUnavailableError
+ * @param timeoutMs - The number of milliseconds to allow before throwing an OperationTimeoutError.
  * @param timeoutMessage - The message to place in the .description field for the thrown exception for Timeout.
  * @param abortSignal - The abortSignal associated with containing operation.
  * @param abortErrorMsg - The abort error message associated with containing operation.
@@ -501,12 +500,12 @@ export type EntityStatus =
  * @internal
  * @ignore
  */
-export function waitForTimeoutOrAbortOrResolve<T>(args: {
+export async function waitForTimeoutOrAbortOrResolve<T>(args: {
   actionFn: () => Promise<T>;
   timeoutMs: number;
   timeoutMessage: string;
+  abortMessage: string;
   abortSignal?: AbortSignalLike;
-  abortMessage?: string;
 }): Promise<T> {
   if (args.abortSignal && args.abortSignal.aborted) {
     throw new AbortError(args.abortMessage);
@@ -523,28 +522,21 @@ export function waitForTimeoutOrAbortOrResolve<T>(args: {
     }
   };
 
-  const abortOrTimeoutPromise = new Promise((resolve, reject) => {
+  const abortOrTimeoutPromise = new Promise<T>((resolve, reject) => {
     clearAbortSignal = checkAndRegisterWithAbortSignal(reject, args.abortMessage, args.abortSignal);
 
     // using a named function here so we can identify it in our unit tests
     timer = setTimeout(function timeoutCallback() {
-      reject({
-        condition: ErrorNameConditionMapper.ServiceUnavailableError,
-        description: args.timeoutMessage
-      } as AmqpError);
+      reject(new OperationTimeoutError(args.timeoutMessage));
     }, args.timeoutMs);
   });
 
   const actionPromise = args.actionFn();
-  return Promise.race([abortOrTimeoutPromise, actionPromise])
-    .then(() => {
-      clearAbortSignalAndTimer();
-      return actionPromise;
-    })
-    .catch((err) => {
-      clearAbortSignalAndTimer();
-      throw err;
-    });
+  try {
+    return await Promise.race([abortOrTimeoutPromise, actionPromise]);
+  } finally {
+    clearAbortSignalAndTimer();
+  }
 }
 
 /**
@@ -560,7 +552,7 @@ export function waitForTimeoutOrAbortOrResolve<T>(args: {
  */
 export function checkAndRegisterWithAbortSignal(
   onAbortFn: (abortError: AbortError) => void,
-  abortMessage?: string,
+  abortMessage: string,
   abortSignal?: AbortSignalLike
 ): () => void {
   if (abortSignal == null) {
