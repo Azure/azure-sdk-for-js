@@ -433,7 +433,7 @@ export class FormTrainingClient {
    */
   public async beginTraining(
     trainingFilesUrl: string,
-    useTrainingLabels: boolean = false,
+    useTrainingLabels: boolean,
     options: BeginTrainingOptions = {}
   ): Promise<PollerLike<PollOperationState<CustomFormModel>, CustomFormModel>> {
     const trainPollerClient: TrainPollerClient = {

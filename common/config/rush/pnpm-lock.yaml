@@ -8395,6 +8395,7 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 8.10.61
       '@types/query-string': 6.2.0
+      '@types/sinon': 9.0.4
       '@typescript-eslint/eslint-plugin': 2.34.0_fbe180e5e50b8ec89ec2be5e2ce5513b
       '@typescript-eslint/parser': 2.34.0_eslint@6.8.0+typescript@3.8.3
       assert: 1.5.0
@@ -8433,6 +8434,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.0_rollup@1.32.1
       rollup-plugin-visualizer: 3.3.2_rollup@1.32.1
+      sinon: 9.0.2
       source-map-support: 0.5.19
       tslib: 1.13.0
       typescript: 3.8.3
@@ -8441,7 +8443,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-certificates'
     resolution:
-      integrity: sha512-fk/MiJUi2+j/pf2HTbye4+vVi0sjt1yT7SbV5jDjTpuRcwwj2gYXOVLG1AtS0+zkT75lON601rLql7ldyClQ5Q==
+      integrity: sha512-881prvUQH4Zn5g0oNGGnPMfMdlCexugbkY5pM5X6D7zhIhn7Dq7D7eLVRvJQ0/tW6I9CBZhDqRvH3vKOPXESSw==
       tarball: 'file:projects/keyvault-certificates.tgz'
     version: 0.0.0
   'file:projects/keyvault-keys.tgz':
@@ -8459,6 +8461,7 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 8.10.61
       '@types/query-string': 6.2.0
+      '@types/sinon': 9.0.4
       '@typescript-eslint/eslint-plugin': 2.34.0_fbe180e5e50b8ec89ec2be5e2ce5513b
       '@typescript-eslint/parser': 2.34.0_eslint@6.8.0+typescript@3.8.3
       assert: 1.5.0
@@ -8497,6 +8500,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.0_rollup@1.32.1
       rollup-plugin-visualizer: 3.3.2_rollup@1.32.1
+      sinon: 9.0.2
       source-map-support: 0.5.19
       tslib: 1.13.0
       typescript: 3.8.3
@@ -8505,7 +8509,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-keys'
     resolution:
-      integrity: sha512-52+iI/1a2vVlI+VDlpIUrszASnRtI8ZpVb2a1IcCVL3vYlABbwuPh5elj84v5RZROB76hgmvP1dX3mUo37LDgw==
+      integrity: sha512-IRirl3e+en5UQizgQjUTVDbbb5C+/42l0lBYqQa6mjUOwluDW8amBc1XJVeVJA+HE+WIkfuVu0I8MLTIaapHmA==
       tarball: 'file:projects/keyvault-keys.tgz'
     version: 0.0.0
   'file:projects/keyvault-secrets.tgz':
@@ -8523,6 +8527,7 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 8.10.61
       '@types/query-string': 6.2.0
+      '@types/sinon': 9.0.4
       '@typescript-eslint/eslint-plugin': 2.34.0_fbe180e5e50b8ec89ec2be5e2ce5513b
       '@typescript-eslint/parser': 2.34.0_eslint@6.8.0+typescript@3.8.3
       assert: 1.5.0
@@ -8561,6 +8566,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.0_rollup@1.32.1
       rollup-plugin-visualizer: 3.3.2_rollup@1.32.1
+      sinon: 9.0.2
       source-map-support: 0.5.19
       tslib: 1.13.0
       typescript: 3.8.3
@@ -8569,7 +8575,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-secrets'
     resolution:
-      integrity: sha512-altriXrWg5JgLrzTcIZHRYoIqUzehV+HamtDtiTR3xA82p8Ab1yplS2YZvcsUoafmx6MO/hDtf6Yw+X6HX7aBw==
+      integrity: sha512-fz4iLbyUJ9gVvc/OgZRrsT9zSJnT017JzSHZLHp9YvNhf0bSXwztwaOnngZY7R8gztlPcZFUib7m1QVSh8yedQ==
       tarball: 'file:projects/keyvault-secrets.tgz'
     version: 0.0.0
   'file:projects/logger.tgz':

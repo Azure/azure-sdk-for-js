@@ -291,12 +291,12 @@ export class FormRecognizerClient {
    * console.log(response.pages);
    * ```
    * @summary Recognizes content/layout information from a given document
-   * @param {FormRecognizerRequestBody} data Input document
+   * @param {FormRecognizerRequestBody} form Input document
    * @param {FormContentType} contentType Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", and "image/tiff";
    * @param {BeginRecognizeContentOptions} [options] Options to start content recognition operation
    */
   public async beginRecognizeContent(
-    data: FormRecognizerRequestBody,
+    form: FormRecognizerRequestBody,
     contentType?: FormContentType,
     options: BeginRecognizeContentOptions = {}
   ): Promise<ContentPollerLike> {
@@ -307,7 +307,7 @@ export class FormRecognizerClient {
 
     const poller = new BeginRecognizeContentPoller({
       client: analyzePollerClient,
-      source: data,
+      source: form,
       contentType,
       ...options
     });
@@ -417,13 +417,13 @@ ng", and "image/tiff";
    * ```
    * @summary Recognizes form information from a given document using a custom form model.
    * @param {string} modelId Id of the custom form model to use
-   * @param {FormRecognizerRequestBody} data Input form document
+   * @param {FormRecognizerRequestBody} form Input form document
    * @param {FormContentType} contentType Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", and "image/tiff";
    * @param {BeginRecognizeFormsOptions} [options] Options to start the form recognition operation
    */
   public async beginRecognizeCustomForms(
     modelId: string,
-    data: FormRecognizerRequestBody,
+    form: FormRecognizerRequestBody,
     contentType?: FormContentType,
     options: BeginRecognizeFormsOptions = {}
   ): Promise<FormPollerLike> {
@@ -444,7 +444,7 @@ ng", and "image/tiff";
     const poller = new BeginRecognizeCustomFormPoller({
       client: analyzePollerClient,
       modelId,
-      source: data,
+      source: form,
       contentType,
       ...options
     });
@@ -576,12 +576,12 @@ ng", and "image/tiff";
    * console.log(usReceipt.recognizedForm.fields["MerchantAddress"]);
    * ```
    * @summary Recognizes receipt information from a given document
-   * @param {FormRecognizerRequestBody} data Input document
+   * @param {FormRecognizerRequestBody} receipt Input document
    * @param {FormContentType} contentType Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", and "image/tiff";
    * @param {BeginRecognizeReceiptsOptions} [options] Options to start the receipt recognition operation
    */
   public async beginRecognizeReceipts(
-    data: FormRecognizerRequestBody,
+    receipt: FormRecognizerRequestBody,
     contentType?: FormContentType,
     options: BeginRecognizeReceiptsOptions = {}
   ): Promise<ReceiptPollerLike> {
@@ -592,7 +592,7 @@ ng", and "image/tiff";
 
     const poller = new BeginRecognizeReceiptPoller({
       client: analyzePollerClient,
-      source: data,
+      source: receipt,
       contentType,
       ...options
     });
