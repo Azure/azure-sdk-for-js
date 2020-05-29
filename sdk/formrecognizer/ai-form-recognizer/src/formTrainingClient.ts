@@ -57,7 +57,7 @@ export type GetModelOptions = FormRecognizerOperationOptions;
 /**
  * Options for training models
  */
-export type TrainModelOptions = FormRecognizerOperationOptions & {
+export type TrainingFileFilter = FormRecognizerOperationOptions & {
   prefix?: string;
   includeSubFolders?: boolean;
 };
@@ -65,7 +65,7 @@ export type TrainModelOptions = FormRecognizerOperationOptions & {
 /**
  * Options for starting model training operation.
  */
-export type BeginTrainingOptions<T> = TrainModelOptions & {
+export type BeginTrainingOptions<T> = TrainingFileFilter & {
   intervalInMs?: number;
   onProgress?: (state: BeginTrainingPollState<T>) => void;
   resumeFrom?: string;
@@ -85,6 +85,12 @@ export class FormTrainingClient {
    * @ignore
    */
   private readonly credential: TokenCredential | KeyCredential;
+
+  /**
+   * @internal
+   * @ignore
+   */
+  private readonly clientOptions: FormRecognizerClientOptions;
 
   /**
    * @internal
@@ -116,6 +122,7 @@ export class FormTrainingClient {
   ) {
     this.endpointUrl = endpointUrl;
     this.credential = credential;
+    this.clientOptions = options;
     const { ...pipelineOptions } = options;
 
     const libInfo = `azsdk-js-ai-formrecognizer/${SDK_VERSION}`;
@@ -198,7 +205,7 @@ export class FormTrainingClient {
    * and to manage trained custom form models.
    */
   public getFormRecognizerClient(): FormRecognizerClient {
-    return new FormRecognizerClient(this.endpointUrl, this.credential);
+    return new FormRecognizerClient(this.endpointUrl, this.credential, this.clientOptions);
   }
 
   /**
@@ -435,7 +442,7 @@ export class FormTrainingClient {
       trainCustomModelInternal: (
         source: string,
         _useLabelFile?: boolean,
-        options?: TrainModelOptions
+        options?: TrainingFileFilter
       ) => trainCustomModelInternal(this.client, source, useTrainingLabels, options)
     };
 
@@ -460,7 +467,7 @@ async function trainCustomModelInternal(
   client: GeneratedClient,
   source: string,
   useLabelFile?: boolean,
-  options?: TrainModelOptions
+  options?: TrainingFileFilter
 ): Promise<GeneratedClientTrainCustomModelAsyncResponse> {
   const realOptions = options || {};
   const { span, updatedOptions: finalOptions } = createSpan(

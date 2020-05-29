@@ -6,7 +6,12 @@ import { SecretClient } from "../src";
 import { env, Recorder } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
-import { AuthenticationChallengeCache, AuthenticationChallenge } from "../../keyvault-common/src";
+import {
+  AuthenticationChallengeCache,
+  AuthenticationChallenge,
+  parseWWWAuthenticate
+} from "../../keyvault-common/src";
+import { createSandbox } from "sinon";
 
 // Following the philosophy of not testing the insides if we can test the outsides...
 // I present you with this "Get Out of Jail Free" card (in reference to Monopoly).
@@ -19,7 +24,6 @@ describe("Challenge based authentication tests", () => {
   let client: SecretClient;
   let testClient: TestClient;
   let recorder: Recorder;
-  let originalSetCachedChallenge: any;
 
   beforeEach(async function() {
     const authentication = await authenticate(this);
@@ -27,19 +31,10 @@ describe("Challenge based authentication tests", () => {
     client = authentication.client;
     testClient = authentication.testClient;
     recorder = authentication.recorder;
-
-    // Since the Challenge based authentication is protected from writing normally,
-    // and is involved in considerable core-http machinery,
-    // the easiest way to test it is to hack into the `AuthenticationChallengeCache` class.
-    // We will restore it on the `afterEach`.
-    originalSetCachedChallenge = AuthenticationChallengeCache.prototype.setCachedChallenge;
   });
 
   afterEach(async function() {
     recorder.stop();
-
-    // Restoring `AuthenticationChallengeCache` back to normal.
-    AuthenticationChallengeCache.prototype.setCachedChallenge = originalSetCachedChallenge;
   });
 
   // The tests follow
@@ -49,14 +44,8 @@ describe("Challenge based authentication tests", () => {
     // The first network call should indeed set the challenge in memory.
     // Subsequent network calls should not set new challenges.
 
-    const challenges: AuthenticationChallenge[] = [];
-
-    AuthenticationChallengeCache.prototype.setCachedChallenge = function(
-      challenge: AuthenticationChallenge
-    ): void {
-      challenges.push(challenge);
-      originalSetCachedChallenge.call(this, challenge);
-    };
+    const sandbox = createSandbox();
+    const spy = sandbox.spy(AuthenticationChallengeCache.prototype, "setCachedChallenge");
 
     // Now we run what would be a normal use of the client.
     // Here we will create two secrets, then flush them.
@@ -64,16 +53,89 @@ describe("Challenge based authentication tests", () => {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
-    const secretNames = [`${secretName}0`, `${secretName}1`];
+    const secretNames = [`${secretName}-0`, `${secretName}-1`];
     for (const name of secretNames) {
-      await client.setSecret(name, "RSA");
+      await client.setSecret(name, "value");
     }
     for (const name of secretNames) {
       await testClient.flushSecret(name);
     }
 
-    // We should have recorded a total of ONE challenge.
-    // Failing to authenticate will make network requests throw.
-    assert.equal(challenges.length, 1);
+    // The challenge should have been written to the cache exactly ONCE.
+    assert.equal(spy.getCalls().length, 1);
+
+    // Back to normal.
+    sandbox.restore();
+
+    // Note: Failing to authenticate will make network requests throw.
+  });
+
+  it("Authentication should work for parallel requests", async function() {
+    const secretName = testClient.formatName(
+      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+    );
+    const secretNames = [`${secretName}-0`, `${secretName}-1`];
+
+    const sandbox = createSandbox();
+    const spy = sandbox.spy(AuthenticationChallengeCache.prototype, "setCachedChallenge");
+    const spyEqualTo = sandbox.spy(AuthenticationChallenge.prototype, "equalTo");
+
+    const promises = secretNames.map((name) => {
+      const promise = client.setSecret(name, "value");
+      return { promise, name };
+    });
+
+    for (const promise of promises) {
+      await promise.promise;
+      await testClient.flushSecret(promise.name);
+    }
+
+    // Even though we had parallel requests, only one authentication should have happened.
+
+    // This is determined by the comparison between the cached challenge and the new receive challenge.
+    // So, AuthenticationChallenge's equalTo should have returned true at least once.
+    assert.ok(spyEqualTo.returned(true));
+
+    // The challenge should have been written to the cache exactly ONCE.
+    assert.equal(spy.getCalls().length, 1);
+
+    // Back to normal.
+    sandbox.restore();
+  });
+
+  describe("parseWWWAuthenticate tests", () => {
+    it("Should work for known shapes of the WWW-Authenticate header", () => {
+      const wwwAuthenticate1 = `Bearer authorization="some_authorization", resource="https://some.url"`;
+      const parsed1 = parseWWWAuthenticate(wwwAuthenticate1);
+      assert.deepEqual(parsed1, {
+        authorization: "some_authorization",
+        resource: "https://some.url"
+      });
+
+      const wwwAuthenticate2 = `Bearer authorization="some_authorization", scope="https://some.url"`;
+      const parsed2 = parseWWWAuthenticate(wwwAuthenticate2);
+      assert.deepEqual(parsed2, {
+        authorization: "some_authorization",
+        scope: "https://some.url"
+      });
+    });
+
+    it("Should skip unexpected properties on the WWW-Authenticate header", () => {
+      const wwwAuthenticate1 = `Bearer authorization="some_authorization", a="a", b="b"`;
+      const parsed1 = parseWWWAuthenticate(wwwAuthenticate1);
+      assert.deepEqual(parsed1, {
+        authorization: "some_authorization",
+        a: "a",
+        b: "b"
+      });
+
+      const wwwAuthenticate2 = `scope="https://some.url", a="a", c="c"`;
+      const parsed2 = parseWWWAuthenticate(wwwAuthenticate2);
+      assert.deepEqual(parsed2, {
+        scope: "https://some.url",
+        a: "a",
+        c: "c"
+      });
+    });
   });
 });
