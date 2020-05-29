@@ -16,11 +16,11 @@ export { BaseResource, CloudError };
  */
 export interface CheckServiceProviderAvailabilityInput {
   /**
-   * Gets or sets the PeeringServiceLocation
+   * Gets or sets the peering service location.
    */
   peeringServiceLocation?: string;
   /**
-   * Gets or sets the PeeringServiceProvider
+   * Gets or sets the peering service provider.
    */
   peeringServiceProvider?: string;
 }
@@ -30,11 +30,9 @@ export interface CheckServiceProviderAvailabilityInput {
  */
 export interface PeeringSku {
   /**
-   * The name of the peering SKU. Possible values include: 'Basic_Exchange_Free',
-   * 'Basic_Direct_Free', 'Premium_Direct_Free', 'Premium_Exchange_Metered',
-   * 'Premium_Direct_Metered', 'Premium_Direct_Unlimited'
+   * The name of the peering SKU.
    */
-  name?: Name;
+  name?: string;
   /**
    * The tier of the peering SKU. Possible values include: 'Basic', 'Premium'
    */
@@ -63,14 +61,12 @@ export interface BgpSession {
   sessionPrefixV6?: string;
   /**
    * The IPv4 session address on Microsoft's end.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly microsoftSessionIPv4Address?: string;
+  microsoftSessionIPv4Address?: string;
   /**
    * The IPv6 session address on Microsoft's end.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly microsoftSessionIPv6Address?: string;
+  microsoftSessionIPv6Address?: string;
   /**
    * The IPv4 session address on peer's end.
    */
@@ -117,8 +113,9 @@ export interface DirectConnection {
   bandwidthInMbps?: number;
   /**
    * The bandwidth that is actually provisioned.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  provisionedBandwidthInMbps?: number;
+  readonly provisionedBandwidthInMbps?: number;
   /**
    * The field indicating if Microsoft provides session ip addresses. Possible values include:
    * 'Microsoft', 'Peer'
@@ -146,6 +143,11 @@ export interface DirectConnection {
    * The unique identifier (GUID) for the connection.
    */
   connectionIdentifier?: string;
+  /**
+   * The error message related to the connection state, if any.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly errorMessage?: string;
 }
 
 /**
@@ -168,14 +170,16 @@ export interface PeeringPropertiesDirect {
   connections?: DirectConnection[];
   /**
    * The flag that indicates whether or not the peering is used for peering service.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  useForPeeringService?: boolean;
+  readonly useForPeeringService?: boolean;
   /**
    * The reference of the peer ASN.
    */
   peerAsn?: SubResource;
   /**
-   * The type of direct peering. Possible values include: 'Edge', 'Transit', 'Cdn', 'Internal'
+   * The type of direct peering. Possible values include: 'Edge', 'Transit', 'Cdn', 'Internal',
+   * 'Ix', 'IxRs'
    */
   directPeeringType?: DirectPeeringType;
 }
@@ -202,6 +206,11 @@ export interface ExchangeConnection {
    * The unique identifier (GUID) for the connection.
    */
   connectionIdentifier?: string;
+  /**
+   * The error message related to the connection state, if any.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly errorMessage?: string;
 }
 
 /**
@@ -328,17 +337,22 @@ export interface Operation {
 }
 
 /**
- * The contact information of the peer.
+ * The contact detail class.
  */
-export interface ContactInfo {
+export interface ContactDetail {
   /**
-   * The list of email addresses.
+   * The role of the contact. Possible values include: 'Noc', 'Policy', 'Technical', 'Service',
+   * 'Escalation', 'Other'
    */
-  emails?: string[];
+  role?: Role;
   /**
-   * The list of contact numbers.
+   * The e-mail address of the contact.
    */
-  phone?: string[];
+  email?: string;
+  /**
+   * The phone number of the contact.
+   */
+  phone?: string;
 }
 
 /**
@@ -350,9 +364,9 @@ export interface PeerAsn extends Resource {
    */
   peerAsn?: number;
   /**
-   * The contact information of the peer.
+   * The contact details of the peer.
    */
-  peerContactInfo?: ContactInfo;
+  peerContactDetail?: ContactDetail[];
   /**
    * The name of the peer.
    */
@@ -362,6 +376,11 @@ export interface PeerAsn extends Resource {
    * 'Pending', 'Approved', 'Failed'
    */
   validationState?: ValidationState;
+  /**
+   * The error message for the validation state
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly errorMessage?: string;
 }
 
 /**
@@ -373,7 +392,8 @@ export interface DirectPeeringFacility {
    */
   address?: string;
   /**
-   * The type of the direct peering. Possible values include: 'Edge', 'Transit', 'Cdn', 'Internal'
+   * The type of the direct peering. Possible values include: 'Edge', 'Transit', 'Cdn', 'Internal',
+   * 'Ix', 'IxRs'
    */
   directPeeringType?: DirectPeeringType;
   /**
@@ -494,6 +514,59 @@ export interface PeeringLocation extends Resource {
 }
 
 /**
+ * The customer's ASN that is registered by the peering service provider.
+ */
+export interface PeeringRegisteredAsn extends Resource {
+  /**
+   * The customer's ASN from which traffic originates.
+   */
+  asn?: number;
+  /**
+   * The peering service prefix key that is to be shared with the customer.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly peeringServicePrefixKey?: string;
+  /**
+   * The provisioning state of the resource. Possible values include: 'Succeeded', 'Updating',
+   * 'Deleting', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/**
+ * The customer's prefix that is registered by the peering service provider.
+ */
+export interface PeeringRegisteredPrefix extends Resource {
+  /**
+   * The customer's prefix from which traffic originates.
+   */
+  prefix?: string;
+  /**
+   * The prefix validation state. Possible values include: 'None', 'Invalid', 'Verified', 'Failed',
+   * 'Pending', 'Warning', 'Unknown'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly prefixValidationState?: PrefixValidationState;
+  /**
+   * The peering service prefix key that is to be shared with the customer.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly peeringServicePrefixKey?: string;
+  /**
+   * The error message associated with the validation state, if any.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly errorMessage?: string;
+  /**
+   * The provisioning state of the resource. Possible values include: 'Succeeded', 'Updating',
+   * 'Deleting', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/**
  * The resource tags.
  */
 export interface ResourceTags {
@@ -504,7 +577,54 @@ export interface ResourceTags {
 }
 
 /**
- * PeeringService location
+ * The properties that define a received route.
+ */
+export interface PeeringReceivedRoute {
+  /**
+   * The prefix.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly prefix?: string;
+  /**
+   * The next hop for the prefix.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextHop?: string;
+  /**
+   * The AS path for the prefix.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly asPath?: string;
+  /**
+   * The origin AS change information for the prefix.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly originAsValidationState?: string;
+  /**
+   * The RPKI validation state for the prefix and origin AS that's listed in the AS path.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly rpkiValidationState?: string;
+  /**
+   * The authority which holds the Route Origin Authorization record for the prefix, if any.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly trustAnchor?: string;
+  /**
+   * The received timestamp associated with the prefix.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly receivedTimestamp?: string;
+}
+
+/**
+ * The peering service country.
+ */
+export interface PeeringServiceCountry extends Resource {
+}
+
+/**
+ * The peering service location.
  */
 export interface PeeringServiceLocation extends Resource {
   /**
@@ -522,22 +642,69 @@ export interface PeeringServiceLocation extends Resource {
 }
 
 /**
+ * The details of the event associated with a prefix.
+ */
+export interface PeeringServicePrefixEvent {
+  /**
+   * The timestamp of the event associated with a prefix.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly eventTimestamp?: Date;
+  /**
+   * The type of the event associated with a prefix.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly eventType?: string;
+  /**
+   * The summary of the event associated with a prefix.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly eventSummary?: string;
+  /**
+   * The level of the event associated with a prefix.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly eventLevel?: string;
+  /**
+   * The description of the event associated with a prefix.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly eventDescription?: string;
+}
+
+/**
  * The peering service prefix class.
  */
 export interface PeeringServicePrefix extends Resource {
   /**
-   * Valid route prefix
+   * The prefix from which your traffic originates.
    */
   prefix?: string;
   /**
    * The prefix validation state. Possible values include: 'None', 'Invalid', 'Verified', 'Failed',
-   * 'Pending', 'Unknown'
+   * 'Pending', 'Warning', 'Unknown'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  prefixValidationState?: PrefixValidationState;
+  readonly prefixValidationState?: PrefixValidationState;
   /**
-   * The prefix learned type. Possible values include: 'None', 'ViaPartner', 'ViaSession'
+   * The prefix learned type. Possible values include: 'None', 'ViaServiceProvider', 'ViaSession'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  learnedType?: LearnedType;
+  readonly learnedType?: LearnedType;
+  /**
+   * The error message for validation state
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly errorMessage?: string;
+  /**
+   * The list of events for peering service prefix
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly events?: PeeringServicePrefixEvent[];
+  /**
+   * The peering service prefix key
+   */
+  peeringServicePrefixKey?: string;
   /**
    * The provisioning state of the resource. Possible values include: 'Succeeded', 'Updating',
    * 'Deleting', 'Failed'
@@ -557,9 +724,23 @@ export interface PeeringServiceProvider extends Resource {
 }
 
 /**
+ * The SKU that defines the type of the peering service.
+ */
+export interface PeeringServiceSku {
+  /**
+   * The name of the peering service SKU.
+   */
+  name?: string;
+}
+
+/**
  * Peering Service
  */
 export interface PeeringService extends Resource {
+  /**
+   * The SKU that defines the type of the peering service.
+   */
+  sku?: PeeringServiceSku;
   /**
    * The PeeringServiceLocation of the Customer.
    */
@@ -585,9 +766,9 @@ export interface PeeringService extends Resource {
 }
 
 /**
- * The error response that indicates why an operation has failed.
+ * The error detail that describes why an operation has failed.
  */
-export interface ErrorResponse {
+export interface ErrorDetail {
   /**
    * The error code.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -601,15 +782,25 @@ export interface ErrorResponse {
 }
 
 /**
+ * The error response that indicates why an operation has failed.
+ */
+export interface ErrorResponse {
+  /**
+   * The error detail that describes why an operation has failed.
+   */
+  error?: ErrorDetail;
+}
+
+/**
  * Optional Parameters.
  */
 export interface PeeringManagementClientCheckServiceProviderAvailabilityOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * Gets or sets the PeeringServiceLocation
+   * Gets or sets the peering service location.
    */
   peeringServiceLocation?: string;
   /**
-   * Gets or sets the PeeringServiceProvider
+   * Gets or sets the peering service provider.
    */
   peeringServiceProvider?: string;
 }
@@ -617,11 +808,42 @@ export interface PeeringManagementClientCheckServiceProviderAvailabilityOptional
 /**
  * Optional Parameters.
  */
+export interface LegacyPeeringsListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The ASN number associated with a legacy peering.
+   */
+  asn?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
 export interface PeeringLocationsListOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * The type of direct peering. Possible values include: 'Edge', 'Transit', 'Cdn', 'Internal'
+   * The type of direct peering. Possible values include: 'Edge', 'Transit', 'Cdn', 'Internal',
+   * 'Ix', 'IxRs'
    */
   directPeeringType?: DirectPeeringType1;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface RegisteredAsnsCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The customer's ASN from which traffic originates.
+   */
+  asn?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface RegisteredPrefixesCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The customer's prefix from which traffic originates.
+   */
+  prefix?: string;
 }
 
 /**
@@ -632,6 +854,76 @@ export interface PeeringsUpdateOptionalParams extends msRest.RequestOptionsBase 
    * Gets or sets the tags, a dictionary of descriptors arm object
    */
   tags?: { [propertyName: string]: string };
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ReceivedRoutesListByPeeringOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The optional prefix that can be used to filter the routes.
+   */
+  prefix?: string;
+  /**
+   * The optional AS path that can be used to filter the routes.
+   */
+  asPath?: string;
+  /**
+   * The optional origin AS validation state that can be used to filter the routes.
+   */
+  originAsValidationState?: string;
+  /**
+   * The optional RPKI validation state that can be used to filter the routes.
+   */
+  rpkiValidationState?: string;
+  /**
+   * The optional page continuation token that is used in the event of paginated result.
+   */
+  skipToken?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface PeeringServiceLocationsListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The country of interest, in which the locations are to be present.
+   */
+  country?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface PrefixesGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The properties to be expanded.
+   */
+  expand?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface PrefixesCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The prefix from which your traffic originates.
+   */
+  prefix?: string;
+  /**
+   * The peering service prefix key
+   */
+  peeringServicePrefixKey?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface PrefixesListByPeeringServiceOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The properties to be expanded.
+   */
+  expand?: string;
 }
 
 /**
@@ -701,6 +993,54 @@ export interface PeeringLocationListResult extends Array<PeeringLocation> {
 
 /**
  * @interface
+ * The paginated list of peering registered ASNs.
+ * @extends Array<PeeringRegisteredAsn>
+ */
+export interface PeeringRegisteredAsnListResult extends Array<PeeringRegisteredAsn> {
+  /**
+   * The link to fetch the next page of peering registered ASNs.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * The paginated list of peering registered prefixes.
+ * @extends Array<PeeringRegisteredPrefix>
+ */
+export interface PeeringRegisteredPrefixListResult extends Array<PeeringRegisteredPrefix> {
+  /**
+   * The link to fetch the next page of peering registered prefixes.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * The paginated list of received routes for the peering.
+ * @extends Array<PeeringReceivedRoute>
+ */
+export interface PeeringReceivedRouteListResult extends Array<PeeringReceivedRoute> {
+  /**
+   * The link to fetch the next page of received routes for the peering.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * The paginated list of peering service countries.
+ * @extends Array<PeeringServiceCountry>
+ */
+export interface PeeringServiceCountryListResult extends Array<PeeringServiceCountry> {
+  /**
+   * The link to fetch the next page of peering service countries.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
  * The paginated list of peering service locations.
  * @extends Array<PeeringServiceLocation>
  */
@@ -713,12 +1053,12 @@ export interface PeeringServiceLocationListResult extends Array<PeeringServiceLo
 
 /**
  * @interface
- * The paginated list of [T].
+ * The paginated list of peering service prefixes.
  * @extends Array<PeeringServicePrefix>
  */
 export interface PeeringServicePrefixListResult extends Array<PeeringServicePrefix> {
   /**
-   * The link to fetch the next page of [T].
+   * The link to fetch the next page of peering service prefixes.
    */
   nextLink?: string;
 }
@@ -746,15 +1086,6 @@ export interface PeeringServiceListResult extends Array<PeeringService> {
    */
   nextLink?: string;
 }
-
-/**
- * Defines values for Name.
- * Possible values include: 'Basic_Exchange_Free', 'Basic_Direct_Free', 'Premium_Direct_Free',
- * 'Premium_Exchange_Metered', 'Premium_Direct_Metered', 'Premium_Direct_Unlimited'
- * @readonly
- * @enum {string}
- */
-export type Name = 'Basic_Exchange_Free' | 'Basic_Direct_Free' | 'Premium_Direct_Free' | 'Premium_Exchange_Metered' | 'Premium_Direct_Metered' | 'Premium_Direct_Unlimited';
 
 /**
  * Defines values for Tier.
@@ -825,11 +1156,11 @@ export type SessionStateV6 = 'None' | 'Idle' | 'Connect' | 'Active' | 'OpenSent'
 
 /**
  * Defines values for DirectPeeringType.
- * Possible values include: 'Edge', 'Transit', 'Cdn', 'Internal'
+ * Possible values include: 'Edge', 'Transit', 'Cdn', 'Internal', 'Ix', 'IxRs'
  * @readonly
  * @enum {string}
  */
-export type DirectPeeringType = 'Edge' | 'Transit' | 'Cdn' | 'Internal';
+export type DirectPeeringType = 'Edge' | 'Transit' | 'Cdn' | 'Internal' | 'Ix' | 'IxRs';
 
 /**
  * Defines values for ProvisioningState.
@@ -838,6 +1169,14 @@ export type DirectPeeringType = 'Edge' | 'Transit' | 'Cdn' | 'Internal';
  * @enum {string}
  */
 export type ProvisioningState = 'Succeeded' | 'Updating' | 'Deleting' | 'Failed';
+
+/**
+ * Defines values for Role.
+ * Possible values include: 'Noc', 'Policy', 'Technical', 'Service', 'Escalation', 'Other'
+ * @readonly
+ * @enum {string}
+ */
+export type Role = 'Noc' | 'Policy' | 'Technical' | 'Service' | 'Escalation' | 'Other';
 
 /**
  * Defines values for ValidationState.
@@ -849,35 +1188,36 @@ export type ValidationState = 'None' | 'Pending' | 'Approved' | 'Failed';
 
 /**
  * Defines values for PrefixValidationState.
- * Possible values include: 'None', 'Invalid', 'Verified', 'Failed', 'Pending', 'Unknown'
+ * Possible values include: 'None', 'Invalid', 'Verified', 'Failed', 'Pending', 'Warning',
+ * 'Unknown'
  * @readonly
  * @enum {string}
  */
-export type PrefixValidationState = 'None' | 'Invalid' | 'Verified' | 'Failed' | 'Pending' | 'Unknown';
+export type PrefixValidationState = 'None' | 'Invalid' | 'Verified' | 'Failed' | 'Pending' | 'Warning' | 'Unknown';
 
 /**
  * Defines values for LearnedType.
- * Possible values include: 'None', 'ViaPartner', 'ViaSession'
+ * Possible values include: 'None', 'ViaServiceProvider', 'ViaSession'
  * @readonly
  * @enum {string}
  */
-export type LearnedType = 'None' | 'ViaPartner' | 'ViaSession';
+export type LearnedType = 'None' | 'ViaServiceProvider' | 'ViaSession';
 
 /**
  * Defines values for DirectPeeringType1.
- * Possible values include: 'Edge', 'Transit', 'Cdn', 'Internal'
+ * Possible values include: 'Edge', 'Transit', 'Cdn', 'Internal', 'Ix', 'IxRs'
  * @readonly
  * @enum {string}
  */
-export type DirectPeeringType1 = 'Edge' | 'Transit' | 'Cdn' | 'Internal';
+export type DirectPeeringType1 = 'Edge' | 'Transit' | 'Cdn' | 'Internal' | 'Ix' | 'IxRs';
 
 /**
  * Defines values for CheckServiceProviderAvailabilityOKResponse.
- * Possible values include: 'Available', 'UnAvailable'
+ * Possible values include: 'Available', 'Unavailable'
  * @readonly
  * @enum {string}
  */
-export type CheckServiceProviderAvailabilityOKResponse = 'Available' | 'UnAvailable';
+export type CheckServiceProviderAvailabilityOKResponse = 'Available' | 'Unavailable';
 
 /**
  * Defines values for Kind1.
@@ -1123,6 +1463,166 @@ export type PeeringLocationsListNextResponse = PeeringLocationListResult & {
 /**
  * Contains response data for the get operation.
  */
+export type RegisteredAsnsGetResponse = PeeringRegisteredAsn & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PeeringRegisteredAsn;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type RegisteredAsnsCreateOrUpdateResponse = PeeringRegisteredAsn & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PeeringRegisteredAsn;
+    };
+};
+
+/**
+ * Contains response data for the listByPeering operation.
+ */
+export type RegisteredAsnsListByPeeringResponse = PeeringRegisteredAsnListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PeeringRegisteredAsnListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByPeeringNext operation.
+ */
+export type RegisteredAsnsListByPeeringNextResponse = PeeringRegisteredAsnListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PeeringRegisteredAsnListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type RegisteredPrefixesGetResponse = PeeringRegisteredPrefix & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PeeringRegisteredPrefix;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type RegisteredPrefixesCreateOrUpdateResponse = PeeringRegisteredPrefix & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PeeringRegisteredPrefix;
+    };
+};
+
+/**
+ * Contains response data for the listByPeering operation.
+ */
+export type RegisteredPrefixesListByPeeringResponse = PeeringRegisteredPrefixListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PeeringRegisteredPrefixListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByPeeringNext operation.
+ */
+export type RegisteredPrefixesListByPeeringNextResponse = PeeringRegisteredPrefixListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PeeringRegisteredPrefixListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
 export type PeeringsGetResponse = Peering & {
   /**
    * The underlying HTTP response.
@@ -1261,6 +1761,86 @@ export type PeeringsListBySubscriptionNextResponse = PeeringListResult & {
 };
 
 /**
+ * Contains response data for the listByPeering operation.
+ */
+export type ReceivedRoutesListByPeeringResponse = PeeringReceivedRouteListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PeeringReceivedRouteListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByPeeringNext operation.
+ */
+export type ReceivedRoutesListByPeeringNextResponse = PeeringReceivedRouteListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PeeringReceivedRouteListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type PeeringServiceCountriesListResponse = PeeringServiceCountryListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PeeringServiceCountryListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type PeeringServiceCountriesListNextResponse = PeeringServiceCountryListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PeeringServiceCountryListResult;
+    };
+};
+
+/**
  * Contains response data for the list operation.
  */
 export type PeeringServiceLocationsListResponse = PeeringServiceLocationListResult & {
@@ -1303,7 +1883,7 @@ export type PeeringServiceLocationsListNextResponse = PeeringServiceLocationList
 /**
  * Contains response data for the get operation.
  */
-export type PeeringServicePrefixesGetResponse = PeeringServicePrefix & {
+export type PrefixesGetResponse = PeeringServicePrefix & {
   /**
    * The underlying HTTP response.
    */
@@ -1323,7 +1903,7 @@ export type PeeringServicePrefixesGetResponse = PeeringServicePrefix & {
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type PeeringServicePrefixesCreateOrUpdateResponse = PeeringServicePrefix & {
+export type PrefixesCreateOrUpdateResponse = PeeringServicePrefix & {
   /**
    * The underlying HTTP response.
    */

@@ -22,9 +22,12 @@ class PeeringManagementClient extends PeeringManagementClientContext {
   operations: operations.Operations;
   peerAsns: operations.PeerAsns;
   peeringLocations: operations.PeeringLocations;
+  registeredAsns: operations.RegisteredAsns;
+  registeredPrefixes: operations.RegisteredPrefixes;
   peerings: operations.Peerings;
+  receivedRoutes: operations.ReceivedRoutes;
+  peeringServiceCountries: operations.PeeringServiceCountries;
   peeringServiceLocations: operations.PeeringServiceLocations;
-  peeringServicePrefixes: operations.PeeringServicePrefixes;
   prefixes: operations.Prefixes;
   peeringServiceProviders: operations.PeeringServiceProviders;
   peeringServices: operations.PeeringServices;
@@ -41,9 +44,12 @@ class PeeringManagementClient extends PeeringManagementClientContext {
     this.operations = new operations.Operations(this);
     this.peerAsns = new operations.PeerAsns(this);
     this.peeringLocations = new operations.PeeringLocations(this);
+    this.registeredAsns = new operations.RegisteredAsns(this);
+    this.registeredPrefixes = new operations.RegisteredPrefixes(this);
     this.peerings = new operations.Peerings(this);
+    this.receivedRoutes = new operations.ReceivedRoutes(this);
+    this.peeringServiceCountries = new operations.PeeringServiceCountries(this);
     this.peeringServiceLocations = new operations.PeeringServiceLocations(this);
-    this.peeringServicePrefixes = new operations.PeeringServicePrefixes(this);
     this.prefixes = new operations.Prefixes(this);
     this.peeringServiceProviders = new operations.PeeringServiceProviders(this);
     this.peeringServices = new operations.PeeringServices(this);
