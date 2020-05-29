@@ -490,7 +490,7 @@ export type EntityStatus =
 /**
  * An executor for a Promise (or function that returns a Promise) that obeys both a timeout and an
  * optional AbortSignal.
- * @param timeoutMs - The number of milliseconds to allow before throwing an AMQP error with condition ServiceUnavailableError
+ * @param timeoutMs - The number of milliseconds to allow before throwing an OperationTimeoutError.
  * @param timeoutMessage - The message to place in the .description field for the thrown exception for Timeout.
  * @param abortSignal - The abortSignal associated with containing operation.
  * @param abortErrorMsg - The abort error message associated with containing operation.
