@@ -144,7 +144,7 @@ describe("utils", () => {
         assert.fail("Should have thrown an TimeoutError");
       } catch (err) {
         assert.equal(err.message, "the message for the timeout");
-        assert.equal(err.name, "AbortError");
+        assert.equal(err.name, "OperationTimeoutError");
       }
 
       assert.isTrue(timerWasCleared);
@@ -165,7 +165,7 @@ describe("utils", () => {
         assert.fail("Should have thrown an TimeoutError");
       } catch (err) {
         assert.equal(err.message, "the message for the timeout");
-        assert.equal(err.name, "AbortError");
+        assert.equal(err.name, "OperationTimeoutError");
       }
 
       assert.isTrue(

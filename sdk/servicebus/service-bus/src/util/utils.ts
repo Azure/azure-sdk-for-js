@@ -3,7 +3,7 @@
 
 import Long from "long";
 import * as log from "../log";
-import { generate_uuid } from "rhea-promise";
+import { generate_uuid, OperationTimeoutError } from "rhea-promise";
 import isBuffer from "is-buffer";
 import { Buffer } from "buffer";
 import * as Constants from "../util/constants";
@@ -527,7 +527,7 @@ export async function waitForTimeoutOrAbortOrResolve<T>(args: {
 
     // using a named function here so we can identify it in our unit tests
     timer = setTimeout(function timeoutCallback() {
-      reject(new AbortError(args.timeoutMessage));
+      reject(new OperationTimeoutError(args.timeoutMessage));
     }, args.timeoutMs);
   });
 
