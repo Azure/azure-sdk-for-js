@@ -801,14 +801,25 @@ export interface ManagedClusterServicePrincipalProfile {
 }
 
 /**
+ * Settings for upgrading an agentpool
+ */
+export interface AgentPoolUpgradeSettings {
+  /**
+   * Count or percentage of additional nodes to be added during upgrade. If empty uses AKS default
+   */
+  maxSurge?: string;
+}
+
+/**
  * Properties for the container service agent pool profile.
  */
 export interface ManagedClusterAgentPoolProfileProperties {
   /**
-   * Number of agents (VMs) to host docker containers. Allowed values must be in the range of 1 to
-   * 100 (inclusive). The default value is 1. Default value: 1.
+   * Number of agents (VMs) to host docker containers. Allowed values must be in the range of 0 to
+   * 100 (inclusive) for user pools and in the range of 1 to 100 (inclusive) for system pools. The
+   * default value is 1.
    */
-  count: number;
+  count?: number;
   /**
    * Size of agent VMs. Possible values include: 'Standard_A1', 'Standard_A10', 'Standard_A11',
    * 'Standard_A1_v2', 'Standard_A2', 'Standard_A2_v2', 'Standard_A2m_v2', 'Standard_A3',
@@ -849,7 +860,7 @@ export interface ManagedClusterAgentPoolProfileProperties {
    * 'Standard_NC6', 'Standard_NC6s_v2', 'Standard_NC6s_v3', 'Standard_ND12s', 'Standard_ND24rs',
    * 'Standard_ND24s', 'Standard_ND6s', 'Standard_NV12', 'Standard_NV24', 'Standard_NV6'
    */
-  vmSize: ContainerServiceVMSizeTypes;
+  vmSize?: ContainerServiceVMSizeTypes;
   /**
    * OS Disk Size in GB to be used to specify the disk size for every machine in this master/agent
    * pool. If you specify 0, it will apply the default osDisk size according to the vmSize
@@ -887,9 +898,21 @@ export interface ManagedClusterAgentPoolProfileProperties {
    */
   type?: AgentPoolType;
   /**
+   * AgentPoolMode represents mode of an agent pool. Possible values include: 'System', 'User'
+   */
+  mode?: AgentPoolMode;
+  /**
    * Version of orchestrator specified when creating the managed cluster.
    */
   orchestratorVersion?: string;
+  /**
+   * Version of node image
+   */
+  nodeImageVersion?: string;
+  /**
+   * Settings for upgrading the agentpool
+   */
+  upgradeSettings?: AgentPoolUpgradeSettings;
   /**
    * The current deployment or provisioning state, which only appears in the response.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -905,13 +928,13 @@ export interface ManagedClusterAgentPoolProfileProperties {
   enableNodePublicIP?: boolean;
   /**
    * ScaleSetPriority to be used to specify virtual machine scale set priority. Default to regular.
-   * Possible values include: 'Spot', 'Low', 'Regular'. Default value: 'Regular'.
+   * Possible values include: 'Spot', 'Regular'. Default value: 'Regular'.
    */
   scaleSetPriority?: ScaleSetPriority;
   /**
-   * ScaleSetEvictionPolicy to be used to specify eviction policy for Spot or low priority virtual
-   * machine scale set. Default to Delete. Possible values include: 'Delete', 'Deallocate'. Default
-   * value: 'Delete'.
+   * ScaleSetEvictionPolicy to be used to specify eviction policy for Spot virtual machine scale
+   * set. Default to Delete. Possible values include: 'Delete', 'Deallocate'. Default value:
+   * 'Delete'.
    */
   scaleSetEvictionPolicy?: ScaleSetEvictionPolicy;
   /**
@@ -950,10 +973,11 @@ export interface ManagedClusterAgentPoolProfile extends ManagedClusterAgentPoolP
  */
 export interface AgentPool extends SubResource {
   /**
-   * Number of agents (VMs) to host docker containers. Allowed values must be in the range of 1 to
-   * 100 (inclusive). The default value is 1. Default value: 1.
+   * Number of agents (VMs) to host docker containers. Allowed values must be in the range of 0 to
+   * 100 (inclusive) for user pools and in the range of 1 to 100 (inclusive) for system pools. The
+   * default value is 1.
    */
-  count: number;
+  count?: number;
   /**
    * Size of agent VMs. Possible values include: 'Standard_A1', 'Standard_A10', 'Standard_A11',
    * 'Standard_A1_v2', 'Standard_A2', 'Standard_A2_v2', 'Standard_A2m_v2', 'Standard_A3',
@@ -994,7 +1018,7 @@ export interface AgentPool extends SubResource {
    * 'Standard_NC6', 'Standard_NC6s_v2', 'Standard_NC6s_v3', 'Standard_ND12s', 'Standard_ND24rs',
    * 'Standard_ND24s', 'Standard_ND6s', 'Standard_NV12', 'Standard_NV24', 'Standard_NV6'
    */
-  vmSize: ContainerServiceVMSizeTypes;
+  vmSize?: ContainerServiceVMSizeTypes;
   /**
    * OS Disk Size in GB to be used to specify the disk size for every machine in this master/agent
    * pool. If you specify 0, it will apply the default osDisk size according to the vmSize
@@ -1032,9 +1056,21 @@ export interface AgentPool extends SubResource {
    */
   agentPoolType?: AgentPoolType;
   /**
+   * AgentPoolMode represents mode of an agent pool. Possible values include: 'System', 'User'
+   */
+  mode?: AgentPoolMode;
+  /**
    * Version of orchestrator specified when creating the managed cluster.
    */
   orchestratorVersion?: string;
+  /**
+   * Version of node image
+   */
+  nodeImageVersion?: string;
+  /**
+   * Settings for upgrading the agentpool
+   */
+  upgradeSettings?: AgentPoolUpgradeSettings;
   /**
    * The current deployment or provisioning state, which only appears in the response.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -1050,13 +1086,13 @@ export interface AgentPool extends SubResource {
   enableNodePublicIP?: boolean;
   /**
    * ScaleSetPriority to be used to specify virtual machine scale set priority. Default to regular.
-   * Possible values include: 'Spot', 'Low', 'Regular'. Default value: 'Regular'.
+   * Possible values include: 'Spot', 'Regular'. Default value: 'Regular'.
    */
   scaleSetPriority?: ScaleSetPriority;
   /**
-   * ScaleSetEvictionPolicy to be used to specify eviction policy for Spot or low priority virtual
-   * machine scale set. Default to Delete. Possible values include: 'Delete', 'Deallocate'. Default
-   * value: 'Delete'.
+   * ScaleSetEvictionPolicy to be used to specify eviction policy for Spot virtual machine scale
+   * set. Default to Delete. Possible values include: 'Delete', 'Deallocate'. Default value:
+   * 'Delete'.
    */
   scaleSetEvictionPolicy?: ScaleSetEvictionPolicy;
   /**
@@ -1270,13 +1306,21 @@ export interface ManagedClusterAddonProfile {
  */
 export interface ManagedClusterAADProfile {
   /**
+   * Whether to enable managed AAD.
+   */
+  managed?: boolean;
+  /**
+   * AAD group object IDs that will have admin role of the cluster.
+   */
+  adminGroupObjectIDs?: string[];
+  /**
    * The client AAD application ID.
    */
-  clientAppID: string;
+  clientAppID?: string;
   /**
    * The server AAD application ID.
    */
-  serverAppID: string;
+  serverAppID?: string;
   /**
    * The server AAD application secret.
    */
@@ -1292,6 +1336,7 @@ export interface ManagedClusterAADProfile {
  * Parameters to be applied to the cluster-autoscaler when enabled
  */
 export interface ManagedClusterPropertiesAutoScalerProfile {
+  balanceSimilarNodeGroups?: string;
   scanInterval?: string;
   scaleDownDelayAfterAdd?: string;
   scaleDownDelayAfterDelete?: string;
@@ -1343,6 +1388,20 @@ export interface ManagedClusterIdentity {
    * service principal will be used instead. Possible values include: 'SystemAssigned', 'None'
    */
   type?: ResourceIdentityType;
+}
+
+/**
+ * An interface representing ManagedClusterSKU.
+ */
+export interface ManagedClusterSKU {
+  /**
+   * Name of a managed cluster SKU. Possible values include: 'Basic'
+   */
+  name?: ManagedClusterSKUName;
+  /**
+   * Tier of a managed cluster SKU. Possible values include: 'Paid', 'Free'
+   */
+  tier?: ManagedClusterSKUTier;
 }
 
 /**
@@ -1438,6 +1497,10 @@ export interface ManagedCluster extends Resource {
    * The identity of the managed cluster, if configured.
    */
   identity?: ManagedClusterIdentity;
+  /**
+   * The managed cluster SKU.
+   */
+  sku?: ManagedClusterSKU;
 }
 
 /**
@@ -1562,6 +1625,10 @@ export interface AgentPoolUpgradeProfile {
    * List of orchestrator types and versions available for upgrade.
    */
   upgrades?: AgentPoolUpgradeProfilePropertiesUpgradesItem[];
+  /**
+   * LatestNodeImageVersion is the latest AKS supported node image version.
+   */
+  latestNodeImageVersion?: string;
 }
 
 /**
@@ -1812,12 +1879,20 @@ export type ContainerServiceOrchestratorTypes = 'Kubernetes' | 'Swarm' | 'DCOS' 
 export type AgentPoolType = 'VirtualMachineScaleSets' | 'AvailabilitySet';
 
 /**
- * Defines values for ScaleSetPriority.
- * Possible values include: 'Spot', 'Low', 'Regular'
+ * Defines values for AgentPoolMode.
+ * Possible values include: 'System', 'User'
  * @readonly
  * @enum {string}
  */
-export type ScaleSetPriority = 'Spot' | 'Low' | 'Regular';
+export type AgentPoolMode = 'System' | 'User';
+
+/**
+ * Defines values for ScaleSetPriority.
+ * Possible values include: 'Spot', 'Regular'
+ * @readonly
+ * @enum {string}
+ */
+export type ScaleSetPriority = 'Spot' | 'Regular';
 
 /**
  * Defines values for ScaleSetEvictionPolicy.
@@ -1874,6 +1949,22 @@ export type LoadBalancerSku = 'standard' | 'basic';
  * @enum {string}
  */
 export type ResourceIdentityType = 'SystemAssigned' | 'None';
+
+/**
+ * Defines values for ManagedClusterSKUName.
+ * Possible values include: 'Basic'
+ * @readonly
+ * @enum {string}
+ */
+export type ManagedClusterSKUName = 'Basic';
+
+/**
+ * Defines values for ManagedClusterSKUTier.
+ * Possible values include: 'Paid', 'Free'
+ * @readonly
+ * @enum {string}
+ */
+export type ManagedClusterSKUTier = 'Paid' | 'Free';
 
 /**
  * Contains response data for the list operation.
