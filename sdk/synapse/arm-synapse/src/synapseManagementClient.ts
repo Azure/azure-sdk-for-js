@@ -54,6 +54,7 @@ class SynapseManagementClient extends SynapseManagementClientContext {
   integrationRuntimeStatus: operations.IntegrationRuntimeStatusOperations;
   privateLinkResources: operations.PrivateLinkResources;
   privateEndpointConnections: operations.PrivateEndpointConnections;
+  privateLinkHubs: operations.PrivateLinkHubs;
 
   /**
    * Initializes a new instance of the SynapseManagementClient class.
@@ -100,6 +101,7 @@ class SynapseManagementClient extends SynapseManagementClientContext {
     this.integrationRuntimeStatus = new operations.IntegrationRuntimeStatusOperations(this);
     this.privateLinkResources = new operations.PrivateLinkResources(this);
     this.privateEndpointConnections = new operations.PrivateEndpointConnections(this);
+    this.privateLinkHubs = new operations.PrivateLinkHubs(this);
   }
 }
 
