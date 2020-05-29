@@ -49,6 +49,18 @@ export type BeginCopyModelOptions = FormRecognizerOperationOptions & {
 };
 
 // @public
+export interface BeginCopyModelPollState extends PollOperationState<CustomFormModelInfo> {
+    readonly client: CopyModelPollerClient;
+    copyAuthorization: CopyAuthorization;
+    readonly copyModelOptions?: CopyModelOptions;
+    modelId: string;
+    resultId?: string;
+    status: OperationStatus;
+    targetResourceId: string;
+    targetResourceRegion: string;
+}
+
+// @public
 export type BeginRecognizeContentOptions = RecognizeContentOptions & {
     intervalInMs?: number;
     onProgress?: (state: BeginRecognizePollState<RecognizeContentResultResponse>) => void;
@@ -61,6 +73,24 @@ export type BeginRecognizeFormsOptions = RecognizeFormsOptions & {
     onProgress?: (state: BeginRecognizePollState<RecognizeFormResultResponse>) => void;
     resumeFrom?: string;
 };
+
+// @public (undocumented)
+export interface BeginRecognizePollState<T> extends PollOperationState<T> {
+    // (undocumented)
+    readonly analyzeOptions?: RecognizeOptions;
+    // (undocumented)
+    readonly client: RecognizePollerClient<T>;
+    // (undocumented)
+    contentType?: FormContentType;
+    // (undocumented)
+    modelId?: string;
+    // (undocumented)
+    resultId?: string;
+    // (undocumented)
+    source?: FormRecognizerRequestBody | string;
+    // (undocumented)
+    status: OperationStatus;
+}
 
 // @public
 export type BeginRecognizeReceiptsOptions = RecognizeReceiptsOptions & {
@@ -77,13 +107,31 @@ export type BeginTrainingOptions<T> = TrainingFileFilter & {
 };
 
 // @public
+export interface BeginTrainingPollState<T> extends PollOperationState<T> {
+    readonly client: TrainPollerClient<T>;
+    modelId?: string;
+    source: string;
+    status: CustomFormModelStatus;
+    readonly trainModelOptions?: TrainingFileFilter;
+}
+
+// @public
+export interface CommonFieldValue {
+    boundingBox?: Point2D[];
+    confidence?: number;
+    pageNumber?: number;
+    text?: string;
+    textContent?: FormContent[];
+}
+
+// @public
 export type ContentPollerLike = PollerLike<PollOperationState<RecognizeContentResultResponse>, RecognizeContentResultResponse>;
 
 // @public
-export type CopyAuthorization = {
+export interface CopyAuthorization extends CopyAuthorizationResultModel {
     resourceId: string;
     resourceRegion: string;
-} & CopyAuthorizationResultModel;
+}
 
 // @public
 export interface CopyAuthorizationResultModel {
@@ -95,7 +143,13 @@ export interface CopyAuthorizationResultModel {
 // @public
 export type CopyModelOptions = FormRecognizerOperationOptions;
 
-// @public (undocumented)
+// @public
+export type CopyModelPollerClient = {
+    beginCopyModel: (modelId: string, copyAuthorization: CopyAuthorization, copyModelOptions?: CopyModelOptions) => Promise<GeneratedClientCopyCustomModelResponse>;
+    getCopyModelResult: (modelId: string, resultId: string, options: GetCopyModelResultOptions) => Promise<GeneratedClientGetCustomModelCopyResultResponse>;
+};
+
+// @public
 export interface CustomFormField {
     accuracy?: number;
     name: string;
@@ -123,7 +177,7 @@ export interface CustomFormModelInfo {
 // @public
 export type CustomFormModelStatus = "creating" | "ready" | "invalid";
 
-// @public (undocumented)
+// @public
 export interface CustomFormSubmodel {
     accuracy?: number;
     fields: {
@@ -132,8 +186,6 @@ export interface CustomFormSubmodel {
     formType: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "CommonFieldValue" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type DateFieldValue = {
     type: "date";
@@ -154,7 +206,7 @@ export interface FieldText {
 // @public
 export type FieldValue = StringFieldValue | DateFieldValue | TimeFieldValue | PhoneNumberFieldValue | NumberFieldValue | IntegerFieldValue | ArrayFieldValue | ObjectFieldValue;
 
-// @public (undocumented)
+// @public
 export type FieldValueTypes = string | Date | number | FieldValue[] | {
     [propertyName: string]: FieldValue;
 };
@@ -375,7 +427,7 @@ export type ListModelsResponseModel = Models & {
     };
 };
 
-// @public (undocumented)
+// @public
 export type Locale = "US" | "UK";
 
 // @public
@@ -506,7 +558,6 @@ export interface RecognizedForm {
 // @public (undocumented)
 export interface RecognizedReceipt {
     locale?: string;
-    // (undocumented)
     recognizedForm: RecognizedForm;
 }
 
@@ -528,6 +579,19 @@ export type RecognizeFormResultResponse = RecognizeFormOperationResult & {
 // @public
 export type RecognizeFormsOptions = FormRecognizerOperationOptions & {
     includeTextDetails?: boolean;
+};
+
+// @public (undocumented)
+export type RecognizeOptions = RecognizeReceiptsOptions | RecognizeContentOptions | RecognizeFormsOptions;
+
+// @public
+export type RecognizePollerClient<T> = {
+    beginRecognize: (source: FormRecognizerRequestBody | string, contentType?: FormContentType, analyzeOptions?: RecognizeOptions, modelId?: string) => Promise<{
+        operationLocation?: string;
+    }>;
+    getRecognizeResult: (resultId: string, options: {
+        abortSignal?: AbortSignalLike;
+    }) => Promise<T>;
 };
 
 // @public
@@ -588,6 +652,14 @@ export type TrainingFileFilter = FormRecognizerOperationOptions & {
 export type TrainingStatus = "succeeded" | "partiallySucceeded" | "failed";
 
 // @public
+export type TrainPollerClient<T> = {
+    getCustomModel: (modelId: string, options: GetModelOptions) => Promise<T>;
+    trainCustomModelInternal: (source: string, useLabelFile?: boolean, options?: TrainingFileFilter) => Promise<{
+        location?: string;
+    }>;
+};
+
+// @public
 export interface TrainResult {
     averageModelAccuracy?: number;
     errors?: FormRecognizerError[];
@@ -610,7 +682,7 @@ export interface USReceipt extends RecognizedReceipt {
     transactionTime: FormField;
 }
 
-// @public (undocumented)
+// @public
 export interface USReceiptItem {
     name?: FormField;
     price?: FormField;
@@ -618,21 +690,20 @@ export interface USReceiptItem {
     totalPrice?: FormField;
 }
 
-// @public (undocumented)
+// @public
 export type USReceiptType = {
     type: "Unrecognized" | "Itemized" | "CreditCard" | "Gas" | "Parking";
     confidence?: number;
 };
 
-// @public (undocumented)
+// @public
 export type ValueTypes = "string" | "date" | "time" | "phoneNumber" | "number" | "integer" | "array" | "object";
 
 
 // Warnings were encountered during analysis:
 //
-// src/formRecognizerClient.ts:72:3 - (ae-forgotten-export) The symbol "BeginRecognizePollState" needs to be exported by the entry point index.d.ts
-// src/formTrainingClient.ts:90:3 - (ae-forgotten-export) The symbol "BeginCopyModelPollState" needs to be exported by the entry point index.d.ts
-// src/formTrainingClient.ts:107:3 - (ae-forgotten-export) The symbol "BeginTrainingPollState" needs to be exported by the entry point index.d.ts
+// src/lro/copy/poller.ts:37:3 - (ae-forgotten-export) The symbol "GeneratedClientCopyCustomModelResponse" needs to be exported by the entry point index.d.ts
+// src/lro/copy/poller.ts:43:3 - (ae-forgotten-export) The symbol "GeneratedClientGetCustomModelCopyResultResponse" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

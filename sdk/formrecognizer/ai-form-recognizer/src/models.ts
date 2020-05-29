@@ -335,7 +335,7 @@ export interface RecognizedForm {
 /**
  * Properties common to the recognized text field
  */
-interface CommonFieldValue {
+export interface CommonFieldValue {
   /**
    * Text content of the recognized field.
    */
@@ -359,6 +359,9 @@ interface CommonFieldValue {
   pageNumber?: number;
 }
 
+/**
+ * Possible JavaScript types for a field value.
+ */
 export type FieldValueTypes =
   | string
   | Date
@@ -366,6 +369,9 @@ export type FieldValueTypes =
   | FieldValue[]
   | { [propertyName: string]: FieldValue };
 
+/**
+ * Types of a form field.
+ */
 export type ValueTypes =
   | "string"
   | "date"
@@ -479,12 +485,18 @@ export interface ReceiptItemArrayField {
  */
 export interface RecognizedReceipt {
   /**
-   * Locale of the receipt
+   * Locale of the receipt.
    */
   locale?: string;
+  /**
+   * The raw recognized form.
+   */
   recognizedForm: RecognizedForm;
 }
 
+/**
+ * Represents a line item in a US itemized receipt.
+ */
 export interface USReceiptItem {
   /**
    * Name of the receipt item
@@ -504,6 +516,9 @@ export interface USReceiptItem {
   totalPrice?: FormField;
 }
 
+/**
+ * Different types of US receipts.
+ */
 export type USReceiptType = {
   type: "Unrecognized" | "Itemized" | "CreditCard" | "Gas" | "Parking";
   /**
@@ -562,6 +577,9 @@ export interface USReceipt extends RecognizedReceipt {
   transactionTime: FormField;
 }
 
+/**
+ * Supported receipt locales.
+ */
 export type Locale = "US" | "UK";
 
 export type ReceiptWithLocale = { locale: "US" } & USReceipt;
@@ -818,6 +836,9 @@ export interface FormModel {
   trainResult?: FormTrainResult;
 }
 
+/**
+ * Represents a field in custom form sub models.
+ */
 export interface CustomFormField {
   /**
    * Estimated extraction accuracy for this field.
@@ -829,6 +850,9 @@ export interface CustomFormField {
   name: string;
 }
 
+/**
+ * Represents the model for a type of custom form from the training.
+ */
 export interface CustomFormSubmodel {
   /**
    * Estimated extraction accuracy for this field.
@@ -964,7 +988,7 @@ export interface AccountProperties {
 /**
  * Request parameter that contains authorization claims for copy operation.
  */
-export type CopyAuthorization = {
+export interface CopyAuthorization extends CopyAuthorizationResultModel {
   /**
    * Target resource Id.
    */
@@ -977,4 +1001,4 @@ export type CopyAuthorization = {
    * The time when the access token expires.
    */
   //expiresOn: Date
-} & CopyAuthorizationResultModel;
+}

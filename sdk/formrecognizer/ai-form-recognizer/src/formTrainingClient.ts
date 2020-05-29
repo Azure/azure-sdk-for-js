@@ -44,9 +44,16 @@ import {
   BeginCopyModelPoller,
   BeginCopyModelPollState
 } from "./lro/copy/poller";
-import { FormRecognizerClient } from './formRecognizerClient';
+import { FormRecognizerClient } from "./formRecognizerClient";
 
-export { ListModelsResponseModel, RestResponse };
+export {
+  ListModelsResponseModel,
+  RestResponse,
+  TrainPollerClient,
+  BeginTrainingPollState,
+  BeginCopyModelPollState,
+  CopyModelPollerClient
+};
 /**
  * Options for model listing operation.
  */
@@ -235,7 +242,6 @@ export class FormTrainingClient {
       span.end();
     }
   }
-
 
   /**
    * Creates an instance of {@link FormTrainingClient} to perform training operations
