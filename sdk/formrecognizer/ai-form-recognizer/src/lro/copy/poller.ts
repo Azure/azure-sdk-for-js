@@ -172,8 +172,8 @@ function makeBeginCopyModelPollOperation(
         } else if (response.status === "succeeded") {
           state.result = {
             status: "ready",
-            createdOn: response.createdOn,
-            lastModified: response.lastModified,
+            requestedOn: response.createdOn,
+            completedOn: response.lastModified,
             modelId: copyAuthorization.modelId
           };
           state.isCompleted = true;

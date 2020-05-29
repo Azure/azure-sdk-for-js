@@ -202,7 +202,11 @@ export interface FormTable {
  * For example, "Work Address" is the label of
  * "Work Address: One Microsoft Way, Redmond, WA"
  */
-export interface FormText {
+export interface FieldText {
+  /**
+   * The 1-based page number in the input document.
+   */
+  pageNumber: number;
   /**
    * The bounding box of the recognized label or value
    */
@@ -229,7 +233,7 @@ export interface FormField {
   /**
    * Text of the recognized label of the field.
    */
-  labelText?: FormText;
+  labelText?: FieldText;
   /**
    * A user defined label for the field.
    */
@@ -237,7 +241,7 @@ export interface FormField {
   /**
    * Text of the recognized value of the field.
    */
-  valueText?: FormText;
+  valueText?: FieldText;
   /**
    * Value of the field.
    */
@@ -787,13 +791,13 @@ export interface CustomFormModelInfo {
    */
   status: CustomFormModelStatus;
   /**
-   * Date and time (UTC) when the model was created.
+   * Date and time (UTC) when the custom model training request was received.
    */
-  createdOn: Date;
+  requestedOn: Date;
   /**
-   * Date and time (UTC) when the status was last updated.
+   * Date and time (UTC) when the training operation completed.
    */
-  lastModified: Date;
+  completedOn: Date;
 }
 
 /**
@@ -825,7 +829,7 @@ export interface CustomFormField {
   name: string;
 }
 
-export interface CustomFormSubModel {
+export interface CustomFormSubmodel {
   /**
    * Estimated extraction accuracy for this field.
    */
@@ -853,13 +857,13 @@ export interface CustomFormModel {
    */
   status: CustomFormModelStatus;
   /**
-   * Date and time (UTC) when the model was created.
+   * Date and time (UTC) when the custom model training request was received.
    */
-  createdOn: Date;
+  requestedOn: Date;
   /**
-   * Date and time (UTC) when the status was last updated.
+   * Date and time (UTC) when the training operation completed.
    */
-  lastModified: Date;
+  completedOn: Date;
   /**
    * List of document used to train the model and any errors reported for each document.
    */
@@ -871,7 +875,7 @@ export interface CustomFormModel {
   /**
    * Form models created by training.
    */
-  submodels?: CustomFormSubModel[];
+  submodels?: CustomFormSubmodel[];
 }
 
 /**

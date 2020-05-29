@@ -66,15 +66,8 @@ export function getClientClosedErrorMsg(entityPath: string): string {
  * @internal
  * Gets the error message when a sender is used when its already closed
  * @param entityPath Value of the `entityPath` property on the client which denotes its name
- * @param isClientClosed Denotes if the close() was called on the client that created the sender
  */
-export function getSenderClosedErrorMsg(entityPath: string, isClientClosed: boolean): string {
-  if (isClientClosed) {
-    return (
-      `The client for "${entityPath}" has been closed. The sender created by it can no longer be used. ` +
-      `Please create a new client using an instance of ServiceBusClient.`
-    );
-  }
+export function getSenderClosedErrorMsg(entityPath: string): string {
   return (
     `The sender for "${entityPath}" has been closed and can no longer be used. ` +
     `Please create a new sender using the "getSender" method on the ServiceBusClient.`

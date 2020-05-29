@@ -7,7 +7,7 @@ import {
   toTextLine,
   toFormPage,
   toFormContent,
-  toFormText,
+  toFieldText,
   toFormField,
   toFieldValue,
   toFieldsFromFieldValue,
@@ -160,8 +160,9 @@ describe("Transforms", () => {
   };
 
   it("toKeyValueElement() converts original KeyValueElementModel", () => {
-    const transformed = toFormText(originalKeyValueElement1, formPages);
+    const transformed = toFieldText(0, originalKeyValueElement1, formPages);
 
+    assert.equal(transformed.pageNumber, 0);
     assert.equal(transformed.text, originalKeyValueElement1.text);
     assert.ok(transformed.boundingBox);
     verifyBoundingBox(transformed.boundingBox!, originalKeyValueElement1.boundingBox);
@@ -177,13 +178,15 @@ describe("Transforms", () => {
       value: originalKeyValueElement1
     };
 
-    const transformed = toFormField(original, formPages);
+    const transformed = toFormField(1, original, formPages);
 
     assert.equal(transformed.name, original.label);
     assert.equal(transformed.confidence, original.confidence);
     assert.ok(transformed.labelText);
     assert.ok(transformed.labelText!.boundingBox);
+    assert.equal(transformed.labelText!.pageNumber, 1);
     assert.ok(transformed.valueText);
+    assert.equal(transformed.valueText!.pageNumber, 1);
     assert.ok(transformed.valueText!.boundingBox);
     verifyBoundingBox(transformed.labelText!.boundingBox!, original.key.boundingBox);
     verifyBoundingBox(transformed.valueText!.boundingBox!, original.value.boundingBox);

@@ -13,7 +13,12 @@ import {
 import { TestClientType, TestMessage } from "./testUtils";
 import { getEnvVars, EnvVarNames } from "./envVarUtils";
 import * as dotenv from "dotenv";
-import { recreateQueue, recreateTopic, recreateSubscription } from "./managementUtils";
+import {
+  recreateQueue,
+  recreateTopic,
+  recreateSubscription,
+  verifyMessageCount
+} from "./managementUtils";
 import { ServiceBusClientOptions } from "../../src";
 import chai from "chai";
 import {
@@ -166,8 +171,7 @@ export class ServiceBusTestHelpers {
         usesSessions: false
       });
       receivedMsgs = await receiver.receiveBatch(sentMessages.length, {
-        // To Do - Maybe change the maxWaitTime
-        // Currently set same as numberOfMessages being received
+        // maxWaitTime is set same as numberOfMessages being received
         maxWaitTimeInMs: sentMessages.length * 1000
       });
       await receiver.close();
@@ -211,15 +215,20 @@ export class ServiceBusTestHelpers {
       "Unexpected number of messages received."
     );
     receivedMsgs!.forEach((receivedMessage) => {
-      sentMessages = sentMessages.filter(
-        (sentMessage) =>
-          sentMessage.messageId !== receivedMessage.messageId &&
-          sentMessage.body !== receivedMessage.body
-        // To Do - Can check more properties here other than just messageId and body
-      );
+      sentMessages = sentMessages.filter((sentMessage) => {
+        try {
+          TestMessage.checkMessageContents(sentMessage, receivedMessage, useSessions);
+          return true;
+        } catch (err) {
+          return false;
+        }
+      });
     });
     should.equal(sentMessages.length, 0, "Unexpected messages received.");
-    // To Do - Maybe peek into the entity to make sure there are no messages left in the entity
+    // Relying on Atom mgmt client for the message count verification instead of the `testPeekMsgsLength`
+    // because creating the session receivers might encounter timeouts or
+    // "MessagingError: No unlocked sessions were available" when there are no available sessions
+    await verifyMessageCount(0, entityNames.queue, entityNames.topic, entityNames.subscription);
   }
 
   async after(): Promise<void> {
@@ -265,7 +274,7 @@ export class ServiceBusTestHelpers {
    * The receiver created by this method will be cleaned up by `afterEach()`
    */
   async getPeekLockReceiver(
-    entityNames: ReturnType<typeof getEntityNames>
+    entityNames: Omit<ReturnType<typeof getEntityNames>, "isPartitioned">
   ): Promise<Receiver<ReceivedMessageWithLock>> {
     try {
       // if you're creating a receiver this way then you'll just use the default
@@ -293,7 +302,7 @@ export class ServiceBusTestHelpers {
   }
 
   async getSessionPeekLockReceiver(
-    entityNames: ReturnType<typeof getEntityNames>,
+    entityNames: Omit<ReturnType<typeof getEntityNames>, "isPartitioned">,
     getSessionReceiverOptions?: CreateSessionReceiverOptions
   ): Promise<SessionReceiver<ReceivedMessageWithLock>> {
     if (!entityNames.usesSessions) {
