@@ -7,12 +7,16 @@
  */
 
 export {
+  AutoPauseDelayTimeRange,
   CloudError,
   EditionCapability,
   ElasticPoolEditionCapability,
   ElasticPoolPerDatabaseMaxPerformanceLevelCapability,
   ElasticPoolPerDatabaseMinPerformanceLevelCapability,
   ElasticPoolPerformanceLevelCapability,
+  InstancePoolEditionCapability,
+  InstancePoolFamilyCapability,
+  InstancePoolVcoresCapability,
   LicenseTypeCapability,
   LocationCapabilities,
   LogSizeCapability,
@@ -22,8 +26,11 @@ export {
   ManagedInstanceVersionCapability,
   MaxSizeCapability,
   MaxSizeRangeCapability,
+  MinCapacityCapability,
   PerformanceLevelCapability,
+  ReadScaleCapability,
   ServerVersionCapability,
   ServiceObjectiveCapability,
-  Sku
+  Sku,
+  StorageCapability
 } from "../models/mappers";
