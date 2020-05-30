@@ -75,7 +75,7 @@ describe("XML serializer", function() {
         $: {
           healthy: "true"
         },
-        _: "yum"
+        "#": "yum"
       });
     });
 
@@ -111,7 +111,7 @@ describe("XML serializer", function() {
           $: {
             tasty: "true"
           },
-          _: "yum"
+          "#": "yum"
         }
       });
     });
@@ -175,7 +175,7 @@ describe("XML serializer", function() {
           $: {
             healthy: "true"
           },
-          _: "yum"
+          "#": "yum"
         }
       });
     });
@@ -218,7 +218,7 @@ describe("XML serializer", function() {
           $: {
             tasty: "true"
           },
-          _: "yum"
+          "#": "yum"
         }
       });
     });
@@ -293,7 +293,7 @@ describe("XML serializer", function() {
             $: {
               healthy: "true"
             },
-            _: "yum"
+            "#": "yum"
           }
         },
         { rootName: "fruits" }
@@ -311,7 +311,7 @@ describe("XML serializer", function() {
             $: {
               healthy: "true"
             },
-            _: "yum"
+            "#": "yum"
           }
         },
         { rootName: "fruits" }
@@ -374,7 +374,7 @@ describe("XML serializer", function() {
             $: {
               tasty: "true"
             },
-            _: "yum"
+            "#": "yum"
           }
         },
         { rootName: "fruits" }

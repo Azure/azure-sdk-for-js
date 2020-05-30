@@ -170,7 +170,7 @@ describe("deserializationPolicy", function() {
           $: {
             tasty: "yes"
           },
-          _: "3"
+          "#": "3"
         }
       });
       assert.strictEqual(deserializedResponse.parsedHeaders, undefined);
@@ -372,7 +372,7 @@ describe("deserializationPolicy", function() {
           $: {
             taste: "good"
           },
-          _: "3"
+          "#": "3"
         }
       });
       assert.strictEqual(deserializedResponse.parsedHeaders, undefined);
@@ -406,7 +406,7 @@ describe("deserializationPolicy", function() {
           $: {
             taste: "good"
           },
-          _: "3"
+          "#": "3"
         }
       });
       assert.strictEqual(deserializedResponse.parsedHeaders, undefined);
@@ -495,7 +495,7 @@ describe("deserializationPolicy", function() {
           $: {
             type: "text"
           },
-          _: "testQueuePath"
+          "#": "testQueuePath"
         },
         updated: "2018-10-09T19:56:35Z"
       });

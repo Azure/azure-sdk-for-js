@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { XML_ATTRKEY, XML_CHARKEY } from './xml.common';
+
 // tslint:disable-next-line:no-null-keyword
 const doc = document.implementation.createDocument(null, null, null);
 
@@ -67,15 +69,15 @@ function domToObject(node: Node): any {
 
   const elementWithAttributes: Element | undefined = asElementWithAttributes(node);
   if (elementWithAttributes) {
-    result["$"] = {};
+    result[XML_ATTRKEY] = {};
 
     for (let i = 0; i < elementWithAttributes.attributes.length; i++) {
       const attr = elementWithAttributes.attributes[i];
-      result["$"][attr.nodeName] = attr.nodeValue;
+      result[XML_ATTRKEY][attr.nodeName] = attr.nodeValue;
     }
 
     if (onlyChildTextValue) {
-      result["_"] = onlyChildTextValue;
+      result[XML_CHARKEY] = onlyChildTextValue;
     }
   } else if (childNodeCount === 0) {
     result = "";
@@ -145,11 +147,11 @@ function buildNode(obj: any, elementName: string): Node[] {
   } else if (typeof obj === "object") {
     const elem = doc.createElement(elementName);
     for (const key of Object.keys(obj)) {
-      if (key === "$") {
+      if (key === XML_ATTRKEY) {
         for (const attr of buildAttributes(obj[key])) {
           elem.attributes.setNamedItem(attr);
         }
-      } else if (key === "_") {
+      } else if (key === XML_CHARKEY) {
         elem.textContent = obj[key].toString();
       } else {
         for (const child of buildNode(obj[key], key)) {

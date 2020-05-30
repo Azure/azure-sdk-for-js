@@ -4,6 +4,7 @@
 
 import * as base64 from "./util/base64";
 import * as utils from "./util/utils";
+import { XML_ATTRKEY, XML_CHARKEY } from './util/xml.common';
 
 export class Serializer {
   constructor(
@@ -210,11 +211,11 @@ export class Serializer {
       if (this.isXML) {
         /**
          * If the mapper specifies this as a non-composite type value but the responseBody contains
-         * both header ("$") and body ("_") properties, then just reduce the responseBody value to
-         * the body ("_") property.
+         * both header ("$" i.e., XML2JS_ATTRKEY) and body ("#" i.e., XML2JS_CHARKEY) properties,
+         * then just reduce the responseBody value to the body ("#" i.e., XML2JS_CHARKEY) property.
          */
-        if (responseBody["$"] != undefined && responseBody["_"] != undefined) {
-          responseBody = responseBody["_"];
+        if (responseBody[XML_ATTRKEY] != undefined && responseBody[XML_CHARKEY] != undefined) {
+          responseBody = responseBody[XML_CHARKEY];
         }
       }
 
@@ -750,7 +751,7 @@ function getXmlObjectValue(propertyMapper: Mapper, serializedValue: any, isXml: 
 }
 
 function isSpecialXmlProperty(propertyName: string): boolean {
-  return ["$", "_"].includes(propertyName);
+  return [XML_ATTRKEY, XML_CHARKEY].includes(propertyName);
 }
 
 function deserializeCompositeType(
