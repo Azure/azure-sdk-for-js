@@ -2,31 +2,47 @@
 // Licensed under the MIT License.
 
 /**
- * analyzes the sentiment of a piece of text
+ * Demonstrates how to analyze sentiment in documents.
+ * An overall and per-sentence sentiment is returned.
  */
 
-import {
-  TextAnalyticsClient,
-  TextAnalyticsApiKeyCredential
-} from "@azure/ai-text-analytics";
+import { TextAnalyticsClient, AzureKeyCredential } from "@azure/ai-text-analytics";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();
 
+// You will need to set these environment variables or edit the following values
+const endpoint = process.env["ENDPOINT"] || "<cognitive services endpoint>";
+const apiKey = process.env["TEXT_ANALYTICS_API_KEY"] || "<api key>";
+
+const documents = [
+  "I had the best day of my life.",
+  "This was a waste of my time. The speaker put me to sleep.",
+];
+
 export async function main() {
-  console.log(`Running analyzeSentiment sample`);
+  console.log("=== Analyze Sentiment Sample ===");
 
-  // You will need to set these environment variables or edit the following values
-  const endpoint = process.env["ENDPOINT"] || "<cognitive services endpoint>";
-  const apiKey = process.env["TEXT_ANALYTICS_API_KEY"] || "<api key>";
+  const client = new TextAnalyticsClient(endpoint, new AzureKeyCredential(apiKey));
 
-  const client = new TextAnalyticsClient(endpoint, new TextAnalyticsApiKeyCredential(apiKey));
+  const results = await client.analyzeSentiment(documents);
 
-  const [result] = await client.analyzeSentiment(["I love living in Seattle!"]);
-
-  if (!result.error) {
-    console.log(`Sentiment of statement is ${result.sentiment}`);
+  for (let i = 0; i < results.length; i++) {
+    const result = results[i];
+    console.log(`- Document ${result.id}`);
+    if (!result.error) {
+      console.log(`  Document text: ${documents[i]}`);
+      console.log(`  Overall Sentiment: ${result.sentiment}`);
+      console.log(`  Sentiment confidence scores: ${result.confidenceScores}`);
+      console.log("  Sentences");
+      for (const { sentiment, confidenceScores } of result.sentences) {
+        console.log(`  - Sentence sentiment: ${sentiment}`);
+        console.log(`    Confidence scores: ${confidenceScores}`);
+      }
+    } else {
+      console.error(`  Error: ${result.error}`);
+    }
   }
 }
 

@@ -1,6 +1,6 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-import { NoOpSpan } from "../noop/noOpSpan";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import {
   TimeInput,
   Tracer,
@@ -9,8 +9,8 @@ import {
   SpanContext,
   CanonicalCode,
   Attributes
-} from "@opentelemetry/types";
-import { TestTracer } from "./testTracer";
+} from "@opentelemetry/api";
+import { NoOpSpan } from "../noop/noOpSpan";
 
 /**
  * A mock span useful for testing.
@@ -64,7 +64,7 @@ export class TestSpan extends NoOpSpan {
    * @param startTime The startTime of the event (defaults to now)
    */
   constructor(
-    parentTracer: TestTracer,
+    parentTracer: Tracer,
     name: string,
     context: SpanContext,
     kind: SpanKind,

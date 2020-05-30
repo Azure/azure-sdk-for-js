@@ -58,7 +58,7 @@ import { logger } from "./log";
 import { InternalPipelineOptions } from "./pipelineOptions";
 import { DefaultKeepAliveOptions, keepAlivePolicy } from "./policies/keepAlivePolicy";
 import { tracingPolicy } from "./policies/tracingPolicy";
-import { disableResponseDecompressionPolicy } from './policies/disableResponseDecompressionPolicy';
+import { disableResponseDecompressionPolicy } from "./policies/disableResponseDecompressionPolicy";
 
 /**
  * Options to configure a proxy for outgoing requests (Node.js only).
@@ -364,18 +364,34 @@ export class ServiceClient {
                     queryParameterValue[index] = item == undefined ? "" : item.toString();
                   }
                 }
-              } else {
+              } else if (
+                queryParameter.collectionFormat === QueryCollectionFormat.Ssv ||
+                queryParameter.collectionFormat === QueryCollectionFormat.Tsv
+              ) {
                 queryParameterValue = queryParameterValue.join(queryParameter.collectionFormat);
               }
             }
             if (!queryParameter.skipEncoding) {
               if (Array.isArray(queryParameterValue)) {
                 for (const index in queryParameterValue) {
-                  queryParameterValue[index] = encodeURIComponent(queryParameterValue[index]);
+                  if (
+                    queryParameterValue[index] !== undefined &&
+                    queryParameterValue[index] !== null
+                  ) {
+                    queryParameterValue[index] = encodeURIComponent(queryParameterValue[index]);
+                  }
                 }
               } else {
                 queryParameterValue = encodeURIComponent(queryParameterValue);
               }
+            }
+            if (
+              queryParameter.collectionFormat != undefined &&
+              queryParameter.collectionFormat !== QueryCollectionFormat.Multi &&
+              queryParameter.collectionFormat !== QueryCollectionFormat.Ssv &&
+              queryParameter.collectionFormat !== QueryCollectionFormat.Tsv
+            ) {
+              queryParameterValue = queryParameterValue.join(queryParameter.collectionFormat);
             }
             requestUrl.setQueryParameter(
               queryParameter.mapper.serializedName || getPathStringFromParameter(queryParameter),
@@ -449,6 +465,10 @@ export class ServiceClient {
         if (options.spanOptions) {
           httpRequest.spanOptions = options.spanOptions;
         }
+
+        if (options.shouldDeserialize !== undefined) {
+          httpRequest.shouldDeserialize = options.shouldDeserialize;
+        }
       }
 
       httpRequest.withCredentials = this._withCredentials;
@@ -513,6 +533,7 @@ export function serializeRequestBody(
     const bodyMapper = operationSpec.requestBody.mapper;
     const { required, xmlName, xmlElementName, serializedName } = bodyMapper;
     const typeName = bodyMapper.type.name;
+
     try {
       if (httpRequest.body != undefined || required) {
         const requestBodyParameterPathString: string = getPathStringFromParameter(
@@ -523,7 +544,9 @@ export function serializeRequestBody(
           httpRequest.body,
           requestBodyParameterPathString
         );
+
         const isStream = typeName === MapperType.Stream;
+
         if (operationSpec.isXML) {
           if (typeName === MapperType.Sequence) {
             httpRequest.body = stringifyXML(
@@ -538,6 +561,13 @@ export function serializeRequestBody(
               rootName: xmlName || serializedName
             });
           }
+        } else if (
+          typeName === MapperType.String &&
+          (operationSpec.contentType?.match("text/plain") || operationSpec.mediaType === "text")
+        ) {
+          // the String serializer has validated that request body is a string
+          // so just send the string.
+          return;
         } else if (!isStream) {
           httpRequest.body = JSON.stringify(httpRequest.body);
         }

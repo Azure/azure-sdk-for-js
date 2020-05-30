@@ -1,12 +1,12 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 /// <reference lib="esnext.asynciterable" />
 
 export { EventData, ReceivedEventData } from "./eventData";
 export { WebSocketImpl } from "rhea-promise";
 export { LastEnqueuedEventProperties } from "./eventHubReceiver";
-export { OperationOptions, TracingOptions } from "./util/operationOptions";
+export { OperationOptions } from "./util/operationOptions";
 export {
   EventHubClientOptions,
   SendBatchOptions,

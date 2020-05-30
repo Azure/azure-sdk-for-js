@@ -19,7 +19,7 @@ import {
 import { readStreamToLocalFileWithLogs } from "../../test/utils/testutils.node";
 const { Readable } = require("stream");
 import { AbortController } from "@azure/abort-controller";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("Highlevel Node.js only", () => {
   let fileSystemName: string;
@@ -46,8 +46,10 @@ describe("Highlevel Node.js only", () => {
   });
 
   afterEach(async function() {
-    await fileSystemClient.delete();
-    recorder.stop();
+    if (!this.currentTest?.isPending()) {
+      await fileSystemClient.delete();
+      recorder.stop();
+    }
   });
 
   before(async function() {

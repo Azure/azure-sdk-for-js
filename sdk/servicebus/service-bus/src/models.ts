@@ -1,8 +1,10 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
-import { OperationOptions } from "@azure/core-auth";
-import { RetryOptions } from "@azure/core-amqp";
+import { OperationOptions } from "./modelsToBeSharedWithEventHubs";
+import { SessionReceiverOptions } from "./session/messageSession";
+import Long from "long";
+import { AbortSignalLike } from "@azure/abort-controller";
 
 /**
  * The general message handler interface (used for streamMessages).
@@ -12,7 +14,6 @@ export interface MessageHandlers<ReceivedMessageT> {
    * Handler that processes messages from service bus.
    *
    * @param message A message received from Service Bus.
-   * @param context A context that can be used to settle messages when in peekLock mode.
    */
   processMessage(message: ReceivedMessageT): Promise<void>;
   /**
@@ -28,9 +29,9 @@ export interface MessageHandlers<ReceivedMessageT> {
 export interface WaitTimeOptions {
   /**
    * The maximum amount of time to wait for messages to arrive.
-   *  **Default**: `60` seconds.
+   *  **Default**: `60000` milliseconds.
    */
-  maxWaitTimeSeconds: number;
+  maxWaitTimeInMs: number;
 }
 
 /**
@@ -50,13 +51,6 @@ export interface CreateBatchOptions extends OperationOptions {
    * The upper limit for the size of batch. The `tryAdd` function will return `false` after this limit is reached.
    */
   maxSizeInBytes?: number;
-  /**
-   * Retry policy options that determine the mode, number of retries, retry interval etc.
-   *
-   * @type {RetryOptions}
-   * @memberof CreateBatchOptions
-   */
-  retryOptions?: RetryOptions;
 }
 
 /**
@@ -87,17 +81,17 @@ export interface MessageHandlerOptions {
    */
   autoComplete?: boolean;
   /**
-   * @property The maximum duration in seconds until which the lock on the message will be renewed
+   * @property The maximum duration in milliseconds until which the lock on the message will be renewed
    * by the sdk automatically. This auto renewal stops once the message is settled or once the user
    * provided onMessage handler completes ite execution.
    *
-   * - **Default**: `300` seconds (5 minutes).
+   * - **Default**: `300 * 1000` milliseconds (5 minutes).
    * - **To disable autolock renewal**, set this to `0`.
    */
-  maxMessageAutoRenewLockDurationInSeconds?: number;
+  maxMessageAutoRenewLockDurationInMs?: number;
   /**
    * @property The maximum number of concurrent calls that the sdk can make to the user's message
-   * handler. Once this limit has been reached, further messages will not be received until atleast
+   * handler. Once this limit has been reached, further messages will not be received until at least
    * one of the calls to the user's message handler has completed.
    * - **Default**: `1`.
    */
@@ -105,21 +99,32 @@ export interface MessageHandlerOptions {
 }
 
 /**
- * Describes the options passed to the `createReceiver` method when using a Queue/Subscription that
+ * Describes the options passed to the `createSessionReceiver` method when using a Queue/Subscription that
  * has sessions enabled.
  */
-export interface GetSessionReceiverOptions extends OperationOptions {
-  /**
-   * @property The maximum duration in seconds
-   * until which, the lock on the session will be renewed automatically by the sdk.
-   * - **Default**: `300` seconds (5 minutes).
-   * - **To disable autolock renewal**, set this to `0`.
-   */
-  maxSessionAutoRenewLockDurationInSeconds?: number;
+export interface CreateSessionReceiverOptions extends SessionReceiverOptions, OperationOptions {}
 
+/**
+ * Describes the options passed to the `createSender` method on `ServiceBusClient`.
+ */
+export interface CreateSenderOptions {
   /**
-   * The session ID to open. If `undefined` we will connect to the next available
-   * unlocked session.
+   * The signal which can be used to abort requests.
    */
-  sessionId?: string;
+  abortSignal?: AbortSignalLike;
+}
+
+/**
+ * Describes the options passed to the `browseMessages` method on a receiver.
+ */
+export interface BrowseMessagesOptions extends OperationOptions {
+  /**
+   * @property The maximum number of messages to browse.
+   * Default value is 1
+   */
+  maxMessageCount?: number;
+  /**
+   * @property The sequence number to start browsing messages from (inclusive).
+   */
+  fromSequenceNumber?: Long;
 }

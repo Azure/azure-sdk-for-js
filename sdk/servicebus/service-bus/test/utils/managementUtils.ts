@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { delay } from "../../src";
 import { QueueOptions } from "../../src/serializers/queueResourceSerializer";
@@ -8,6 +8,8 @@ import { SubscriptionOptions } from "../../src/serializers/subscriptionResourceS
 import { ServiceBusAtomManagementClient } from "../../src/serviceBusAtomManagementClient";
 
 import { EnvVarNames, getEnvVars } from "./envVarUtils";
+import chai from "chai";
+const should = chai.should();
 
 let client: ServiceBusAtomManagementClient;
 
@@ -178,9 +180,35 @@ export async function recreateSubscription(
 }
 
 /**
+ * Utility that verifies the message count of an entity.
+ *
+ * @export
+ * @param {number} expectedMessageCount
+ * @param {string} [queueName]
+ * @param {string} [topicName]
+ * @param {string} [subscriptionName]
+ * @returns {Promise<void>}
+ */
+export async function verifyMessageCount(
+  expectedMessageCount: number,
+  queueName?: string,
+  topicName?: string,
+  subscriptionName?: string
+): Promise<void> {
+  await getManagementClient();
+  should.equal(
+    queueName
+      ? (await client.getQueueDetails(queueName)).messageCount
+      : (await client.getSubscriptionDetails(topicName!, subscriptionName!)).messageCount,
+    expectedMessageCount,
+    `Unexpected number of messages are present in the entity.`
+  );
+}
+
+/**
  * Utility function to get namespace string from given connection string
  * @param serviceBusConnectionString
  */
 export function getNamespace(serviceBusConnectionString: string): string {
-  return (serviceBusConnectionString.match("Endpoint=sb://(.*).servicebus.windows.net") || "")[1];
+  return (serviceBusConnectionString.match("Endpoint=.*://(.*).servicebus.windows.net") || "")[1];
 }

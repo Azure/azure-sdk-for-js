@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import chai from "chai";
 import {
@@ -24,19 +24,12 @@ describe("sessions tests -  requires completely clean entity for each test", () 
   let sender: Sender;
   let receiver: SessionReceiver<ReceivedMessageWithLock>;
 
-  async function beforeEachNoSessionTest(
-    testClientType: TestClientType,
-    sessionId?: string
-  ): Promise<void> {
+  async function beforeEachNoSessionTest(testClientType: TestClientType): Promise<void> {
     serviceBusClient = createServiceBusClientForTests();
     const entityNames = await serviceBusClient.test.createTestEntities(testClientType);
 
-    receiver = serviceBusClient.test.getSessionPeekLockReceiver(entityNames, {
-      sessionId
-    });
-
     sender = serviceBusClient.test.addToCleanup(
-      serviceBusClient.getSender(entityNames.queue ?? entityNames.topic!)
+      await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
 
     // Observation -
@@ -48,10 +41,10 @@ describe("sessions tests -  requires completely clean entity for each test", () 
     // getSenderReceiverClients creates brand new queues/topic-subscriptions.
     // Hence, commenting the following code since there is no need to purge/peek into a freshly created entity
 
-    // await purge(receiverClient);
-    // const peekedMsgs = await receiverClient.diagnostics.peek();
-    // const receiverEntityType = receiverClient.entityType;
-    // if (peekedMsgs.length) {
+    // await purge(receiver);
+    // const browsedMsgs = await receiver.browseMessages();
+    // const receiverEntityType = receiver.entityType;
+    // if (browsedMsgs.length) {
     //   chai.assert.fail(`Please use an empty ${receiverEntityType} for integration testing`);
     // }
   }
@@ -87,17 +80,17 @@ describe("sessions tests -  requires completely clean entity for each test", () 
       });
 
       // At this point AMQP receiver link has not been established.
-      // peek() will not establish the link if sessionId was provided
-      const peekedMsgs = await receiver.diagnostics.peek(1);
-      should.equal(peekedMsgs.length, 1, "Unexpected number of messages peeked");
-      should.equal(peekedMsgs[0].body, testMessage.body, "MessageBody is different than expected");
+      // browseMessages() will not establish the link if sessionId was provided
+      const browsedMsgs = await receiver.browseMessages();
+      should.equal(browsedMsgs.length, 1, "Unexpected number of messages browsed");
+      should.equal(browsedMsgs[0].body, testMessage.body, "MessageBody is different than expected");
       should.equal(
-        peekedMsgs[0].messageId,
+        browsedMsgs[0].messageId,
         testMessage.messageId,
         "MessageId is different than expected"
       );
       should.equal(
-        peekedMsgs[0].sessionId,
+        browsedMsgs[0].sessionId,
         testMessage.sessionId,
         "SessionId is different than expected"
       );
@@ -125,9 +118,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
     it("Partitioned Subscription - Peek Session with sessionId", async function(): Promise<void> {
       await eachTest(TestClientType.PartitionedSubscriptionWithSessions, true);
     });
-    it("Unpartitioned Queue - Peek Session with sessionId #RunInBrowser", async function(): Promise<
-      void
-    > {
+    it("Unpartitioned Queue - Peek Session with sessionId", async function(): Promise<void> {
       await eachTest(TestClientType.UnpartitionedQueueWithSessions, true);
     });
     it("Unpartitioned Subscription - Peek Session with sessionId", async function(): Promise<void> {
@@ -141,9 +132,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
     > {
       await eachTest(TestClientType.PartitionedSubscriptionWithSessions, false);
     });
-    it("Unpartitioned Queue - Peek Session without sessionId #RunInBrowser", async function(): Promise<
-      void
-    > {
+    it("Unpartitioned Queue - Peek Session without sessionId", async function(): Promise<void> {
       await eachTest(TestClientType.UnpartitionedQueueWithSessions, false);
     });
     it("Unpartitioned Subscription - Peek Session without sessionId", async function(): Promise<
@@ -177,6 +166,9 @@ describe("sessions tests -  requires completely clean entity for each test", () 
       await sender.send(testMessagesWithDifferentSessionIds[0]);
       await sender.send(testMessagesWithDifferentSessionIds[1]);
 
+      const entityNames = serviceBusClient.test.getTestEntities(testClientType);
+      receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames);
+
       let msgs = await receiver.receiveBatch(2);
 
       should.equal(msgs.length, 1, "Unexpected number of messages received");
@@ -194,10 +186,8 @@ describe("sessions tests -  requires completely clean entity for each test", () 
       await msgs[0].complete();
       await receiver.close();
 
-      const entityNames = serviceBusClient.test.getTestEntities(testClientType);
-
       // get the next available session ID rather than specifying one
-      receiver = serviceBusClient.test.getSessionPeekLockReceiver(entityNames);
+      receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames);
 
       msgs = await receiver.receiveBatch(2);
 
@@ -231,7 +221,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
       await testComplete_batching(TestClientType.PartitionedSubscriptionWithSessions);
     });
 
-    it("Unpartitioned Queue: complete() removes message from random session #RunInBrowser", async function(): Promise<
+    it("Unpartitioned Queue: complete() removes message from random session", async function(): Promise<
       void
     > {
       await beforeEachNoSessionTest(TestClientType.UnpartitionedQueueWithSessions);
@@ -273,7 +263,9 @@ describe("sessions tests -  requires completely clean entity for each test", () 
       const entityNames = serviceBusClient.test.getTestEntities(testClientType);
 
       // get the next available session ID rather than specifying one
-      receiver = serviceBusClient.test.getSessionPeekLockReceiver(entityNames, { sessionId: "" });
+      receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames, {
+        sessionId: ""
+      });
 
       const msgs = await receiver.receiveBatch(2);
 
@@ -289,8 +281,8 @@ describe("sessions tests -  requires completely clean entity for each test", () 
       );
       await msgs[0].complete();
 
-      const peekedMsgsInSession = await receiver.diagnostics.peek();
-      should.equal(peekedMsgsInSession.length, 0, "Unexpected number of messages peeked");
+      const browsedMsgsInSession = await receiver.browseMessages();
+      should.equal(browsedMsgsInSession.length, 0, "Unexpected number of messages browsed");
 
       await receiver.close();
     }
@@ -298,28 +290,28 @@ describe("sessions tests -  requires completely clean entity for each test", () 
     it("Partitioned Queue: complete() removes message from random session", async function(): Promise<
       void
     > {
-      await beforeEachNoSessionTest(TestClientType.PartitionedQueueWithSessions, "");
+      await beforeEachNoSessionTest(TestClientType.PartitionedQueueWithSessions);
       await testComplete_batching(TestClientType.PartitionedQueueWithSessions);
     });
 
     it("Partitioned Subscription: complete() removes message from random session", async function(): Promise<
       void
     > {
-      await beforeEachNoSessionTest(TestClientType.PartitionedSubscriptionWithSessions, "");
+      await beforeEachNoSessionTest(TestClientType.PartitionedSubscriptionWithSessions);
       await testComplete_batching(TestClientType.PartitionedSubscriptionWithSessions);
     });
 
     it("Unpartitioned Queue: complete() removes message from random session", async function(): Promise<
       void
     > {
-      await beforeEachNoSessionTest(TestClientType.UnpartitionedQueueWithSessions, "");
+      await beforeEachNoSessionTest(TestClientType.UnpartitionedQueueWithSessions);
       await testComplete_batching(TestClientType.UnpartitionedQueueWithSessions);
     });
 
     it("Unpartitioned Subscription: complete() removes message from random session", async function(): Promise<
       void
     > {
-      await beforeEachNoSessionTest(TestClientType.UnpartitionedSubscriptionWithSessions, "");
+      await beforeEachNoSessionTest(TestClientType.UnpartitionedSubscriptionWithSessions);
       await testComplete_batching(TestClientType.UnpartitionedSubscriptionWithSessions);
     });
   });

@@ -59,39 +59,6 @@ class GeneratedClient extends GeneratedClientContext {
   }
 
   /**
-   * The API returns a list of entities with personal information (\"SSN\", \"Bank Account\" etc) in
-   * the document. For the list of supported entity types, check <a
-   * href="https://aka.ms/tanerpii">Supported Entity Types in Text Analytics API</a>. See the <a
-   * href="https://aka.ms/talangs">Supported languages in Text Analytics API</a> for the list of
-   * enabled languages.
-   * @summary Entities containing personal information
-   * @param input Collection of documents to analyze.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.EntitiesRecognitionPiiResponse>
-   */
-  entitiesRecognitionPii(input: Models.MultiLanguageBatchInput, options?: Models.GeneratedClientEntitiesRecognitionPiiOptionalParams): Promise<Models.EntitiesRecognitionPiiResponse>;
-  /**
-   * @param input Collection of documents to analyze.
-   * @param callback The callback
-   */
-  entitiesRecognitionPii(input: Models.MultiLanguageBatchInput, callback: coreHttp.ServiceCallback<Models.EntitiesResult>): void;
-  /**
-   * @param input Collection of documents to analyze.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  entitiesRecognitionPii(input: Models.MultiLanguageBatchInput, options: Models.GeneratedClientEntitiesRecognitionPiiOptionalParams, callback: coreHttp.ServiceCallback<Models.EntitiesResult>): void;
-  entitiesRecognitionPii(input: Models.MultiLanguageBatchInput, options?: Models.GeneratedClientEntitiesRecognitionPiiOptionalParams | coreHttp.ServiceCallback<Models.EntitiesResult>, callback?: coreHttp.ServiceCallback<Models.EntitiesResult>): Promise<Models.EntitiesRecognitionPiiResponse> {
-    return this.sendOperationRequest(
-      {
-        input,
-        options
-      },
-      entitiesRecognitionPiiOperationSpec,
-      callback) as Promise<Models.EntitiesRecognitionPiiResponse>;
-  }
-
-  /**
    * The API returns a list of recognized entities with links to a well-known knowledge base. See the
    * <a href="https://aka.ms/talangs">Supported languages in Text Analytics API</a> for the list of
    * enabled languages.
@@ -226,34 +193,6 @@ const serializer = new coreHttp.Serializer(Mappers);
 const entitiesRecognitionGeneralOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "entities/recognition/general",
-  urlParameters: [
-    Parameters.endpoint
-  ],
-  queryParameters: [
-    Parameters.modelVersion,
-    Parameters.includeStatistics
-  ],
-  requestBody: {
-    parameterPath: "input",
-    mapper: {
-      ...Mappers.MultiLanguageBatchInput,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.EntitiesResult
-    },
-    default: {
-      bodyMapper: Mappers.TextAnalyticsError
-    }
-  },
-  serializer
-};
-
-const entitiesRecognitionPiiOperationSpec: coreHttp.OperationSpec = {
-  httpMethod: "POST",
-  path: "entities/recognition/pii",
   urlParameters: [
     Parameters.endpoint
   ],

@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import chai from "chai";
 chai.should();
@@ -38,7 +38,7 @@ const testSourceEventData: EventData = {
 const testEventData = fromAmqpMessage(testMessage);
 const messageFromED = toAmqpMessage(testSourceEventData);
 
-describe("EventData #RunnableInBrowser", function(): void {
+describe("EventData", function(): void {
   describe("fromAmqpMessage", function(): void {
     it("populates body with the message body", function(): void {
       testEventData.body.should.equal(testBody);

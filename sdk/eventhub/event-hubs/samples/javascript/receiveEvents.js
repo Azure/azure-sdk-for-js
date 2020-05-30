@@ -11,7 +11,7 @@
   For an example that uses checkpointing, see the sample in the eventhubs-checkpointstore-blob package
   on GitHub at the following link:
 
-  https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/eventhubs-checkpointstore-blob/samples/receiveEventsUsingCheckpointStore.js
+  https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/eventhubs-checkpointstore-blob/samples/javascript/receiveEventsUsingCheckpointStore.js
 
   Note: If you are using version 2.1.0 or lower of @azure/event-hubs library, then please use the samples at
   https://github.com/Azure/azure-sdk-for-js/tree/%40azure/event-hubs_2.1.0/sdk/eventhub/event-hubs/samples instead.

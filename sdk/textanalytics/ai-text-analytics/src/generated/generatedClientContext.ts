@@ -11,7 +11,7 @@
 import * as coreHttp from "@azure/core-http";
 
 const packageName = "@azure/ai-text-analytics";
-const packageVersion = "1.0.0-preview.4";
+const packageVersion = "1.0.0-preview.5";
 
 export class GeneratedClientContext extends coreHttp.ServiceClient {
   endpoint: string;
@@ -43,7 +43,7 @@ export class GeneratedClientContext extends coreHttp.ServiceClient {
 
     super(credentials, options);
 
-    this.baseUri = "{Endpoint}/text/analytics/v3.0-preview.1";
+    this.baseUri = "{Endpoint}/text/analytics/v3.0";
     this.requestContentType = "application/json; charset=utf-8";
     this.endpoint = endpoint;
     this.credentials = credentials;

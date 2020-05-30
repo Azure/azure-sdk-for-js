@@ -1,25 +1,12 @@
-import { retry as realRetry } from "./retry";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { isNode } from "@azure/core-http";
 import * as dotenv from "dotenv";
-import * as path from "path";
 import { isPlaybackMode } from "@azure/test-utils-recorder";
 
 if (isNode) {
-  dotenv.config({ path: path.resolve(__dirname, "../../.env") });
-}
-
-export async function retry<T>(
-  target: () => Promise<T>,
-  delay?: number,
-  timeout?: number,
-  increaseFactor?: number
-): Promise<T> {
-  return realRetry(
-    target,
-    isPlaybackMode() ? 0 : delay || 10000,
-    timeout || Infinity,
-    increaseFactor
-  );
+  dotenv.config();
 }
 
 export function uniqueString(): string {

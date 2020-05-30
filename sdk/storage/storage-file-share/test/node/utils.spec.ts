@@ -3,7 +3,7 @@ import * as dotenv from "dotenv";
 import { extractConnectionStringParts } from "../../src/utils/utils.common";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import { recorderEnvSetup } from "../utils";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("Utility Helpers Node.js only", () => {
   let recorder: Recorder;

@@ -9,7 +9,7 @@ import { HttpOperationResponse } from "./httpOperationResponse";
 import { OperationResponse } from "./operationResponse";
 import { ProxySettings } from "./serviceClient";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { SpanOptions } from "@opentelemetry/types";
+import { SpanOptions } from "@azure/core-tracing";
 
 export type HttpMethods =
   | "GET"
@@ -646,6 +646,12 @@ export interface RequestOptionsBase {
    * Callback which fires upon download progress.
    */
   onDownloadProgress?: (progress: TransferProgressEvent) => void;
+
+  /**
+   * Whether or not the HttpOperationResponse should be deserialized. If this is undefined, then the
+   * HttpOperationResponse should be deserialized.
+   */
+  shouldDeserialize?: boolean | ((response: HttpOperationResponse) => boolean);
 
   /**
    * Options used to create a span when tracing is enabled.

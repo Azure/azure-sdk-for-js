@@ -1,0 +1,40 @@
+{
+  "name": "azure-search-samples-ts",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Azure Cognitive Search client library samples for TypeScript",
+  "engine": {
+    "node": ">=8.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "rimraf dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git"
+  },
+  "keywords": [
+    "Azure",
+    "Search",
+    "Node.js",
+    "TypeScript"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/search/search-documents",
+  "sideEffects": false,
+  "dependencies": {
+    "@azure/search-documents": "latest",
+    "@azure/identity": "latest",
+    "dotenv": "^8.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^8.0.0",
+    "rimraf": "^3.0.0",
+    "typescript": "~3.7.5"
+  }
+}

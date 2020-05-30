@@ -21,10 +21,10 @@ const connectionString =
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 async function main() {
   const sbClient = new ServiceBusClient(connectionString);
-  // - If receiving from a subscription you can use the getReceiver(topic, subscription) overload
+  // - If receiving from a subscription you can use the createReceiver(topic, subscription) overload
   // instead.
   // - See session.ts for how to receive using sessions.
-  const receiver = sbClient.getReceiver(queueName, "peekLock");
+  const receiver = sbClient.createReceiver(queueName, "peekLock");
 
   const processMessage = async brokeredMessage => {
     console.log(`Received message: ${brokeredMessage.body}`);

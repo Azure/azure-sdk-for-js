@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { EventHubClient } from "./impl/eventHubClient";
 import {
@@ -22,7 +22,7 @@ import {
 import { isTokenCredential } from "@azure/core-amqp";
 import { PartitionProperties, EventHubProperties } from "./managementClient";
 import { PartitionGate } from "./impl/partitionGate";
-import uuid from "uuid/v4";
+import { v4 as uuid } from "uuid";
 import { validateEventPositions } from "./eventPosition";
 
 const defaultConsumerClientOptions: Required<Pick<

@@ -8,7 +8,7 @@ import {
   recorderEnvSetup
 } from "./utils";
 import { record, Recorder } from "@azure/test-utils-recorder";
-import { BlobBatch } from "../src/BlobBatch";
+import { BlobBatch } from "../src";
 import {
   ContainerClient,
   BlockBlobClient,
@@ -18,7 +18,7 @@ import {
   StorageSharedKeyCredential
 } from "../src";
 
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("BlobBatch", () => {
   let blobServiceClient: BlobServiceClient;
@@ -53,9 +53,11 @@ describe("BlobBatch", () => {
     blockBlobClients[blockBlobCount - 1] = tmpBlockBlobClient;
   });
 
-  afterEach(async () => {
-    await containerClient.delete();
-    recorder.stop();
+  afterEach(async function() {
+    if (!this.currentTest?.isPending()) {
+      await containerClient.delete();
+      recorder.stop();
+    }
   });
 
   it("submitBatch should work for batch delete", async () => {
@@ -561,7 +563,7 @@ describe("BlobBatch", () => {
     assert.ok(exceptionCaught);
   });
 
-  it("BlobBatch should report error when mixing differnt request types in one batch", async () => {
+  it("BlobBatch should report error when mixing different request types in one batch", async () => {
     let batchRequest = new BlobBatch();
 
     let exceptionCaught = false;

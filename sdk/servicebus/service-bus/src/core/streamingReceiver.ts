@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import {
   MessageReceiver,
@@ -13,6 +13,7 @@ import { ClientEntityContext } from "../clientEntityContext";
 
 import * as log from "../log";
 import { throwErrorIfConnectionClosed } from "../util/errors";
+import { RetryOperationType, RetryConfig, retry } from "@azure/core-amqp";
 
 /**
  * @internal
@@ -34,16 +35,16 @@ export class StreamingReceiver extends MessageReceiver {
 
     this.resetTimerOnNewMessageReceived = () => {
       if (this._newMessageReceivedTimer) clearTimeout(this._newMessageReceivedTimer);
-      if (this.newMessageWaitTimeoutInSeconds) {
+      if (this.newMessageWaitTimeoutInMs) {
         this._newMessageReceivedTimer = setTimeout(async () => {
           const msg =
             `StreamingReceiver '${this.name}' did not receive any messages in ` +
-            `the last ${this.newMessageWaitTimeoutInSeconds} seconds. ` +
+            `the last ${this.newMessageWaitTimeoutInMs} milliseconds. ` +
             `Hence ending this receive operation.`;
           log.error("[%s] %s", this._context.namespace.connectionId, msg);
 
           await this.close();
-        }, this.newMessageWaitTimeoutInSeconds * 1000);
+        }, this.newMessageWaitTimeoutInMs);
       }
     };
   }
@@ -80,7 +81,16 @@ export class StreamingReceiver extends MessageReceiver {
     if (!options) options = {};
     if (options.autoComplete == null) options.autoComplete = true;
     const sReceiver = new StreamingReceiver(context, options);
-    await sReceiver._init();
+
+    const config: RetryConfig<void> = {
+      operation: () => {
+        return sReceiver._init();
+      },
+      connectionId: context.namespace.connectionId,
+      operationType: RetryOperationType.receiveMessage,
+      retryOptions: options.retryOptions
+    };
+    await retry<void>(config);
     context.streamingReceiver = sReceiver;
     return sReceiver;
   }

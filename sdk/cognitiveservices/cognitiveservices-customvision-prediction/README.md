@@ -15,11 +15,14 @@ npm install @azure/cognitiveservices-customvision-prediction
 
 ### How to use
 
+#### nodejs - Authentication, client creation and classifyImageUrl as an example written in TypeScript.
+
 ##### Sample code
 The following sample predicts and classifies the given image based on your custom vision training. To know more, refer to the [Azure Documentation on Custom Vision Services](https://docs.microsoft.com/en-us/azure/cognitive-services/custom-vision-service/home).
 
 ```typescript
 import { PredictionAPIClient } from "@azure/cognitiveservices-customvision-prediction";
+import { CognitiveServicesCredentials } from "@azure/ms-rest-azure-js";
 
 async function main(): Promise<void> {
   const customVisionPredictionKey =
@@ -29,13 +32,11 @@ async function main(): Promise<void> {
     "<customVisionPredictionEndPoint>";
   const projectId = process.env["projectId"] || "<projectId>";
 
+  const cognitiveServiceCredentials = new CognitiveServicesCredentials(customVisionPredictionKey);
+  const client = new PredictionAPIClient(cognitiveServiceCredentials, customVisionPredictionEndPoint);
+
   const imageURL =
     "https://www.atlantatrails.com/wp-content/uploads/2019/02/north-georgia-waterfalls-1024x683.jpg";
-
-  const client = new PredictionAPIClient(
-    customVisionPredictionKey,
-    customVisionPredictionEndPoint
-  );
 
   client
     .classifyImageUrl(projectId, "Iteration1", { url: imageURL })
@@ -69,12 +70,17 @@ main();
       const customVisionPredictionEndPoint =
         "<YOUR_CUSTOM_VISION_PREDICTION_ENDPOINT>";
       const projectId = "<YOUR_CUSTOM_VISION_PREDICTION_PROJECTID>";
+      const cognitiveServiceCredentials = new msRest.ApiKeyCredentials({
+        inHeader: {
+          "Ocp-Apim-Subscription-Key": customVisionPredictionKey
+        }
+      });
 
       const imageURL =
         "https://www.atlantatrails.com/wp-content/uploads/2019/02/north-georgia-waterfalls-1024x683.jpg";
 
       const client = new Azure.CognitiveservicesCustomvisionPrediction.PredictionAPIClient(
-        customVisionPredictionKey,
+        cognitiveServiceCredentials,
         customVisionPredictionEndPoint
       );
 

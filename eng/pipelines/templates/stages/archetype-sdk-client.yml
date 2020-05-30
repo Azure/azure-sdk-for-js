@@ -2,7 +2,9 @@ parameters:
   Artifacts: []
   ServiceDirectory: not-specified
   IncludeRelease: true
-
+  TargetDocRepoOwner: 'MicrosoftDocs'
+  TargetDocRepoName: 'azure-docs-sdk-node'
+  
 stages:
 - stage: Build
   jobs:
@@ -13,9 +15,12 @@ stages:
 
 # The Prerelease and Release stages are conditioned on whether we are building a pull request and the branch.
 - ${{if and(ne(variables['Build.Reason'], 'PullRequest'), eq(variables['System.TeamProject'], 'internal'), eq(parameters.IncludeRelease,true))}}:
-  - template: pipelines/stages/archetype-js-release.yml@azure-sdk-build-tools
+  - template: archetype-js-release.yml
     parameters:
       DependsOn: Build
       ServiceDirectory: ${{parameters.ServiceDirectory}}
       Artifacts: ${{parameters.Artifacts}}
       ArtifactName: packages
+      TargetDocRepoOwner: ${{ parameters.TargetDocRepoOwner }}
+      TargetDocRepoName: ${{ parameters.TargetDocRepoName }}
+      

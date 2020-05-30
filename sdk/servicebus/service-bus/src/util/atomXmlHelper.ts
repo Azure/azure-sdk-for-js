@@ -1,4 +1,7 @@
 // Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 import {
@@ -262,6 +265,12 @@ function parseFeedResult(feed: any): object[] {
   return result;
 }
 
+/**
+ * @internal
+ * @ignore
+ * @param {number} statusCode
+ * @returns {statusCode is keyof typeof Constants.HttpResponseCodes}
+ */
 function isKnownResponseCode(
   statusCode: number
 ): statusCode is keyof typeof Constants.HttpResponseCodes {

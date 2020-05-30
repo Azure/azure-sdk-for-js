@@ -30,6 +30,10 @@ export interface EntityLabelObject {
    * The role the entity plays in the utterance.
    */
   role?: string;
+  /**
+   * The identified entities within the example utterance.
+   */
+  children?: EntityLabelObject[];
 }
 
 /**
@@ -183,6 +187,7 @@ export interface JSONEntity {
    * The role the entity plays in the utterance.
    */
   role?: string;
+  children?: JSONEntity[];
 }
 
 /**
@@ -609,6 +614,16 @@ export interface HierarchicalModel {
 }
 
 /**
+ * An interface representing HierarchicalModelV2.
+ */
+export interface HierarchicalModelV2 {
+  name?: string;
+  children?: string[];
+  inherits?: PrebuiltDomainObject;
+  roles?: string[];
+}
+
+/**
  * Object model for publishing a specific application version.
  */
 export interface ApplicationPublishObject {
@@ -661,6 +676,80 @@ export interface PatternRule {
    * The intent's name where the pattern belongs to.
    */
   intent?: string;
+}
+
+/**
+ * Exported Model - An exported LUIS Application.
+ */
+export interface LuisAppV2 {
+  /**
+   * Luis schema deserialization version.
+   */
+  luisSchemaVersion?: string;
+  /**
+   * The name of the application.
+   */
+  name?: string;
+  /**
+   * The version ID of the application that was exported.
+   */
+  versionId?: string;
+  /**
+   * The description of the application.
+   */
+  desc?: string;
+  /**
+   * The culture of the application. E.g.: en-us.
+   */
+  culture?: string;
+  /**
+   * List of intents.
+   */
+  intents?: HierarchicalModelV2[];
+  /**
+   * List of entities.
+   */
+  entities?: HierarchicalModelV2[];
+  /**
+   * List of list entities.
+   */
+  closedLists?: ClosedList[];
+  /**
+   * List of composite entities.
+   */
+  composites?: HierarchicalModelV2[];
+  /**
+   * List of Pattern.Any entities.
+   */
+  patternAnyEntities?: PatternAny[];
+  /**
+   * List of regular expression entities.
+   */
+  regexEntities?: RegexEntity[];
+  /**
+   * List of prebuilt entities.
+   */
+  prebuiltEntities?: PrebuiltEntity[];
+  /**
+   * List of pattern features.
+   */
+  regexFeatures?: JSONRegexFeature[];
+  /**
+   * List of model features.
+   */
+  modelFeatures?: JSONModelFeature[];
+  /**
+   * List of patterns.
+   */
+  patterns?: PatternRule[];
+  /**
+   * List of example utterances.
+   */
+  utterances?: JSONUtterance[];
+  /**
+   * Describes unknown properties. The value of an unknown property can be of "any" type.
+   */
+  [property: string]: any;
 }
 
 /**
@@ -761,6 +850,7 @@ export interface EntityLabel {
    * The role id for the predicted entity.
    */
   roleId?: string;
+  children?: EntityLabel[];
 }
 
 /**
@@ -797,6 +887,7 @@ export interface EntityPrediction {
    * The actual token(s) that comprise the entity.
    */
   phrase: string;
+  children?: EntityPrediction[];
 }
 
 /**
@@ -1879,6 +1970,7 @@ export interface ModelFeatureInformation {
    * The name of the feature used.
    */
   featureName?: string;
+  isRequired?: boolean;
 }
 
 /**
@@ -1969,6 +2061,26 @@ export interface FeaturesUpdatePhraseListOptionalParams extends msRest.RequestOp
 /**
  * Optional Parameters.
  */
+export interface ExamplesAddOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Toggles nested/flat format. Default value: false.
+   */
+  enableNestedChildren?: boolean;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ExamplesBatchOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Toggles nested/flat format. Default value: false.
+   */
+  enableNestedChildren?: boolean;
+}
+
+/**
+ * Optional Parameters.
+ */
 export interface ExamplesListOptionalParams extends msRest.RequestOptionsBase {
   /**
    * The number of entries to skip. Default value is 0. Default value: 0.
@@ -1978,6 +2090,10 @@ export interface ExamplesListOptionalParams extends msRest.RequestOptionsBase {
    * The number of entries to return. Maximum page size is 500. Default is 100. Default value: 100.
    */
   take?: number;
+  /**
+   * Toggles nested/flat format. Default value: false.
+   */
+  enableNestedChildren?: boolean;
 }
 
 /**
@@ -2111,6 +2227,10 @@ export interface ModelListIntentSuggestionsOptionalParams extends msRest.Request
    * The number of entries to return. Maximum page size is 500. Default is 100. Default value: 100.
    */
   take?: number;
+  /**
+   * Toggles nested/flat format. Default value: false.
+   */
+  enableNestedChildren?: boolean;
 }
 
 /**
@@ -2121,6 +2241,10 @@ export interface ModelListEntitySuggestionsOptionalParams extends msRest.Request
    * The number of entries to return. Maximum page size is 500. Default is 100. Default value: 100.
    */
   take?: number;
+  /**
+   * Toggles nested/flat format. Default value: false.
+   */
+  enableNestedChildren?: boolean;
 }
 
 /**
@@ -2189,6 +2313,28 @@ export interface AppsDeleteMethodOptionalParams extends msRest.RequestOptionsBas
 /**
  * Optional Parameters.
  */
+export interface AppsImportV2AppOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The application name to create. If not specified, the application name will be read from the
+   * imported object. If the application name already exists, an error is returned.
+   */
+  appName?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface AppsImportLuFormatOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The application name to create. If not specified, the application name will be read from the
+   * imported object. If the application name already exists, an error is returned.
+   */
+  appName?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
 export interface VersionsListOptionalParams extends msRest.RequestOptionsBase {
   /**
    * The number of entries to skip. Default value is 0. Default value: 0.
@@ -2204,6 +2350,28 @@ export interface VersionsListOptionalParams extends msRest.RequestOptionsBase {
  * Optional Parameters.
  */
 export interface VersionsImportMethodOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The new versionId to import. If not specified, the versionId will be read from the imported
+   * object.
+   */
+  versionId?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface VersionsImportV2AppOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The new versionId to import. If not specified, the versionId will be read from the imported
+   * object.
+   */
+  versionId?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface VersionsImportLuFormatOptionalParams extends msRest.RequestOptionsBase {
   /**
    * The new versionId to import. If not specified, the versionId will be read from the imported
    * object.
@@ -2244,6 +2412,11 @@ export interface PatternListIntentPatternsOptionalParams extends msRest.RequestO
  */
 export interface AzureAccountsAssignToAppOptionalParams extends msRest.RequestOptionsBase {
   /**
+   * The custom arm token header to use; containing the user's ARM token used to validate azure
+   * accounts information.
+   */
+  armToken?: string;
+  /**
    * The Azure account information object.
    */
   azureAccountInfoObject?: AzureAccountInfoObject;
@@ -2252,11 +2425,38 @@ export interface AzureAccountsAssignToAppOptionalParams extends msRest.RequestOp
 /**
  * Optional Parameters.
  */
+export interface AzureAccountsGetAssignedOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The custom arm token header to use; containing the user's ARM token used to validate azure
+   * accounts information.
+   */
+  armToken?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
 export interface AzureAccountsRemoveFromAppOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The custom arm token header to use; containing the user's ARM token used to validate azure
+   * accounts information.
+   */
+  armToken?: string;
   /**
    * The Azure account information object.
    */
   azureAccountInfoObject?: AzureAccountInfoObject;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface AzureAccountsListUserLUISAccountsOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The custom arm token header to use; containing the user's ARM token used to validate azure
+   * accounts information.
+   */
+  armToken?: string;
 }
 
 /**
@@ -5442,6 +5642,56 @@ export type AppsPackageTrainedApplicationAsGzipResponse = {
 };
 
 /**
+ * Contains response data for the importV2App operation.
+ */
+export type AppsImportV2AppResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: string;
+
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: string;
+    };
+};
+
+/**
+ * Contains response data for the importLuFormat operation.
+ */
+export type AppsImportLuFormatResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: string;
+
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: string;
+    };
+};
+
+/**
  * Contains response data for the clone operation.
  */
 export type VersionsCloneResponse = {
@@ -5612,6 +5862,82 @@ export type VersionsDeleteUnlabelledUtteranceResponse = OperationStatus & {
 };
 
 /**
+ * Contains response data for the importV2App operation.
+ */
+export type VersionsImportV2AppResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: string;
+
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: string;
+    };
+};
+
+/**
+ * Contains response data for the importLuFormat operation.
+ */
+export type VersionsImportLuFormatResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: string;
+
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: string;
+    };
+};
+
+/**
+ * Contains response data for the exportLuFormat operation.
+ */
+export type VersionsExportLuFormatResponse = {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always undefined in node.js.
+   */
+  blobBody?: Promise<Blob>;
+
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always undefined in the browser.
+   */
+  readableStreamBody?: NodeJS.ReadableStream;
+
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse;
+};
+
+/**
  * Contains response data for the trainVersion operation.
  */
 export type TrainTrainVersionResponse = EnqueueTrainingResponse & {
@@ -5648,86 +5974,6 @@ export type TrainGetStatusResponse = Array<ModelTrainingInfo> & {
        * The response body as parsed JSON or XML
        */
       parsedBody: ModelTrainingInfo[];
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type PermissionsListResponse = UserAccessList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UserAccessList;
-    };
-};
-
-/**
- * Contains response data for the add operation.
- */
-export type PermissionsAddResponse = OperationStatus & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
-};
-
-/**
- * Contains response data for the deleteMethod operation.
- */
-export type PermissionsDeleteMethodResponse = OperationStatus & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type PermissionsUpdateResponse = OperationStatus & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
     };
 };
 

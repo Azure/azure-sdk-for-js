@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import chai from "chai";
 const should = chai.should();
@@ -79,7 +79,7 @@ describe("Event Processor", function(): void {
       it("no checkpoint or user specified default", async () => {
         const processor = createEventProcessor(emptyCheckpointStore);
 
-        let eventPosition = await processor["_getStartingPosition"]("0");
+        const eventPosition = await processor["_getStartingPosition"]("0");
         isLatestPosition(eventPosition).should.be.ok;
       });
 
@@ -98,7 +98,7 @@ describe("Event Processor", function(): void {
           latestEventPosition
         );
 
-        let eventPosition = await processor["_getStartingPosition"]("0");
+        const eventPosition = await processor["_getStartingPosition"]("0");
         eventPosition!.offset!.should.equal(1009);
         should.not.exist(eventPosition!.sequenceNumber);
       });
@@ -117,7 +117,7 @@ describe("Event Processor", function(): void {
 
         const processor = createEventProcessor(checkpointStore);
 
-        let eventPosition = await processor["_getStartingPosition"]("0");
+        const eventPosition = await processor["_getStartingPosition"]("0");
         eventPosition!.offset!.should.equal(0);
         should.not.exist(eventPosition!.sequenceNumber);
       });
@@ -125,7 +125,7 @@ describe("Event Processor", function(): void {
       it("using a single default event position for any partition", async () => {
         const processor = createEventProcessor(emptyCheckpointStore, { offset: 1009 });
 
-        let eventPosition = await processor["_getStartingPosition"]("0");
+        const eventPosition = await processor["_getStartingPosition"]("0");
         eventPosition!.offset!.should.equal(1009);
         should.not.exist(eventPosition!.sequenceNumber);
       });
@@ -136,11 +136,11 @@ describe("Event Processor", function(): void {
 
         const processor = createEventProcessor(emptyCheckpointStore, fallbackPositions);
 
-        let eventPositionForPartitionZero = await processor["_getStartingPosition"]("0");
+        const eventPositionForPartitionZero = await processor["_getStartingPosition"]("0");
         eventPositionForPartitionZero!.offset!.should.equal(2001);
         should.not.exist(eventPositionForPartitionZero!.sequenceNumber);
 
-        let eventPositionForPartitionOne = await processor["_getStartingPosition"]("1");
+        const eventPositionForPartitionOne = await processor["_getStartingPosition"]("1");
         isLatestPosition(eventPositionForPartitionOne).should.be.ok;
       });
 
@@ -568,7 +568,7 @@ describe("Event Processor", function(): void {
     }
   });
 
-  it("should expose an id #RunnableInBrowser", async function(): Promise<void> {
+  it("should expose an id", async function(): Promise<void> {
     const processor = new EventProcessor(
       EventHubClient.defaultConsumerGroupName,
       client,
@@ -587,7 +587,7 @@ describe("Event Processor", function(): void {
     id.length.should.be.gt(1);
   });
 
-  it("id can be forced to be a specific value #RunnableInBrowser", async function(): Promise<void> {
+  it("id can be forced to be a specific value", async function(): Promise<void> {
     const processor = new EventProcessor(
       EventHubClient.defaultConsumerGroupName,
       client,
@@ -602,9 +602,7 @@ describe("Event Processor", function(): void {
     processor.id.should.equal("hello");
   });
 
-  it("should treat consecutive start invocations as idempotent #RunnableInBrowser", async function(): Promise<
-    void
-  > {
+  it("should treat consecutive start invocations as idempotent", async function(): Promise<void> {
     const partitionIds = await client.getPartitionIds({});
 
     // ensure we have at least 2 partitions
@@ -643,9 +641,7 @@ describe("Event Processor", function(): void {
     subscriptionEventHandler.allShutdown(partitionIds).should.be.true;
   });
 
-  it("should not throw if stop is called without start #RunnableInBrowser", async function(): Promise<
-    void
-  > {
+  it("should not throw if stop is called without start", async function(): Promise<void> {
     let didPartitionProcessorStart = false;
 
     const processor = new EventProcessor(
@@ -671,13 +667,13 @@ describe("Event Processor", function(): void {
     didPartitionProcessorStart.should.be.false;
   });
 
-  it("should support start after stopping #RunnableInBrowser", async function(): Promise<void> {
+  it("should support start after stopping", async function(): Promise<void> {
     const partitionIds = await client.getPartitionIds({});
 
     // ensure we have at least 2 partitions
     partitionIds.length.should.gte(2);
 
-    let {
+    const {
       subscriptionEventHandler,
       startPosition
     } = await SubscriptionHandlerForTests.startingFromHere(client);
@@ -726,7 +722,7 @@ describe("Event Processor", function(): void {
     subscriptionEventHandler.allShutdown(partitionIds).should.be.true;
   });
 
-  describe("Partition processor #RunnableInBrowser", function(): void {
+  describe("Partition processor", function(): void {
     it("should support processing events across multiple partitions", async function(): Promise<
       void
     > {
@@ -763,7 +759,7 @@ describe("Event Processor", function(): void {
     });
   });
 
-  describe("InMemory Partition Manager #RunnableInBrowser", function(): void {
+  describe("InMemory Partition Manager", function(): void {
     it("should claim ownership, get a list of ownership and update checkpoint", async function(): Promise<
       void
     > {
@@ -830,7 +826,7 @@ describe("Event Processor", function(): void {
 
       let didError = false;
       let processedAtLeastOneEvent = new Set();
-      let checkpointSequenceNumbers: Map<string, number> = new Map();
+      const checkpointSequenceNumbers: Map<string, number> = new Map();
 
       let partionCount: { [x: string]: number } = {};
 
@@ -1268,7 +1264,7 @@ describe("Event Processor", function(): void {
         if (!partitionOwnershipMap.has(ownership.ownerId)) {
           partitionOwnershipMap.set(ownership.ownerId, [ownership.partitionId]);
         } else {
-          let arr = partitionOwnershipMap.get(ownership.ownerId);
+          const arr = partitionOwnershipMap.get(ownership.ownerId);
           arr!.push(ownership.partitionId);
           partitionOwnershipMap.set(ownership.ownerId, arr!);
         }
@@ -1443,7 +1439,7 @@ describe("Event Processor", function(): void {
     });
   });
 
-  describe("with trackLastEnqueuedEventProperties #RunnableInBrowser", function(): void {
+  describe("with trackLastEnqueuedEventProperties", function(): void {
     it("should have lastEnqueuedEventProperties populated when trackLastEnqueuedEventProperties is set to true", async function(): Promise<
       void
     > {
@@ -1455,7 +1451,7 @@ describe("Event Processor", function(): void {
         await producer.close();
       }
 
-      let partitionIdsSet = new Set();
+      const partitionIdsSet = new Set();
       const lastEnqueuedEventPropertiesMap: Map<string, LastEnqueuedEventProperties> = new Map();
       class SimpleEventProcessor implements SubscriptionEventHandlers {
         async processEvents(events: ReceivedEventData[], context: PartitionContext) {
@@ -1517,7 +1513,7 @@ function ownershipListToMap(partitionOwnership: PartitionOwnership[]): Map<strin
     if (!partitionOwnershipMap.has(ownership.ownerId)) {
       partitionOwnershipMap.set(ownership.ownerId, [ownership.partitionId]);
     } else {
-      let arr = partitionOwnershipMap.get(ownership.ownerId);
+      const arr = partitionOwnershipMap.get(ownership.ownerId);
       arr!.push(ownership.partitionId);
       partitionOwnershipMap.set(ownership.ownerId, arr!);
     }

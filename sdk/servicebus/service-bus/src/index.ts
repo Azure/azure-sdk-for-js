@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 /// <reference lib="es2015" />
 /// <reference lib="esnext.asynciterable" />
@@ -8,7 +8,6 @@ export { ServiceBusClientOptions } from "./constructorHelpers";
 export {
   TokenType,
   TokenCredential,
-  DataTransformer,
   delay,
   MessagingError,
   RetryOptions,
@@ -16,8 +15,6 @@ export {
 } from "@azure/core-amqp";
 
 export { SessionReceiverOptions, SessionMessageHandlerOptions } from "./session/messageSession";
-
-export { CorrelationFilter, RuleDescription } from "./core/managementClient";
 
 export {
   ReceivedMessage,
@@ -31,17 +28,19 @@ export { Delivery, WebSocketImpl } from "rhea-promise";
 
 export {
   GetMessageIteratorOptions,
-  GetSessionReceiverOptions,
+  CreateSessionReceiverOptions,
+  CreateSenderOptions,
   MessageHandlerOptions,
   MessageHandlers,
   ReceiveBatchOptions,
   SubscribeOptions,
   WaitTimeOptions,
-  CreateBatchOptions
+  CreateBatchOptions,
+  BrowseMessagesOptions
 } from "./models";
+export { OperationOptions } from "./modelsToBeSharedWithEventHubs";
 
 export { Receiver } from "./receivers/receiver";
-export { SubscriptionRuleManager } from "./receivers/subscriptionRuleManager";
 export { SessionReceiver } from "./receivers/sessionReceiver";
 export { Sender } from "./sender";
 export { ServiceBusClient } from "./serviceBusClient";

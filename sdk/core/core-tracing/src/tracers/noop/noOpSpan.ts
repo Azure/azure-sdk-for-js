@@ -1,6 +1,7 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-import { Span, SpanContext, Attributes, Status } from "@opentelemetry/types";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+import { Span, SpanContext, Attributes, Status, TraceFlags } from "@opentelemetry/api";
 
 /**
  * A no-op implementation of Span that can safely be used without side-effects.
@@ -12,7 +13,8 @@ export class NoOpSpan implements Span {
   context(): SpanContext {
     return {
       spanId: "",
-      traceId: ""
+      traceId: "",
+      traceFlags: TraceFlags.NONE
     };
   }
 

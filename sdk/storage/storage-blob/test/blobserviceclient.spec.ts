@@ -1,7 +1,7 @@
 import * as assert from "assert";
 
 import * as dotenv from "dotenv";
-import { BlobServiceClient } from "../src/BlobServiceClient";
+import { BlobServiceClient } from "../src";
 import {
   getAlternateBSU,
   getBSU,
@@ -10,7 +10,7 @@ import {
   recorderEnvSetup
 } from "./utils";
 import { record, delay, Recorder } from "@azure/test-utils-recorder";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("BlobServiceClient", () => {
   let recorder: Recorder;

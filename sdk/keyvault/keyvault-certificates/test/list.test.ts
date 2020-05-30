@@ -4,7 +4,7 @@
 import * as assert from "assert";
 import chai from "chai";
 import { CertificateClient } from "../src";
-import { env, isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
+import { env, isPlaybackMode, Recorder, isRecordMode } from "@azure/test-utils-recorder";
 import { testPollerProperties } from "./utils/recorderUtils";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
@@ -38,21 +38,29 @@ describe("Certificates client - list certificates in various ways", () => {
 
   // The tests follow
 
-  // Use this while recording to make sure the target keyvault is clean. The next tests will produce a more consistent output.
+  // Use this while recording to make sure the target keyvault is clean.
+  // The next tests will produce a more consistent output.
+  // This test is only useful while developing locally.
   it("can purge all certificates", async function() {
-    // WARNING: When running integration-tests, or having TEST_MODE="record", all of the certificates in the indicated KEYVAULT_NAME will be deleted as part of this test.
-    recorder.skip(undefined, "Skipping this test on playback.");
+    // WARNING: When TEST_MODE equals "record", all of the certificates in the indicated KEYVAULT_NAME will be deleted as part of this test.
+    if (!isRecordMode()) {
+      return this.skip();
+    }
     for await (const certificate of client.listPropertiesOfCertificates({
       includePending: true
     })) {
       try {
         await testClient.flushCertificate(certificate.name!);
-      } catch (e) {}
+      } catch (e) {
+        // Nothing to do here        
+      }
     }
     for await (const certificate of client.listDeletedCertificates({ includePending: true })) {
       try {
         await testClient.purgeCertificate(certificate.name!);
-      } catch (e) {}
+      } catch (e) {
+        // Nothing to do here
+      }
     }
   });
 

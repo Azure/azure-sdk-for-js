@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import Long from "long";
 import * as log from "../log";
@@ -10,9 +10,17 @@ import * as Constants from "../util/constants";
 
 // This is the only dependency we have on DOM types, so rather than require
 // the DOM lib we can just shim this in.
+/**
+ * @ignore
+ * @internal
+ */
 interface Navigator {
   hardwareConcurrency: number;
 }
+/**
+ * @ignore
+ * @internal
+ */
 declare const navigator: Navigator;
 
 /**

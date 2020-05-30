@@ -105,7 +105,7 @@ async function receiveMessages(): Promise<void> {
 
     receiver.registerMessageHandler(onMessageHandler, onErrorHandler, {
       autoComplete: false,
-      maxMessageAutoRenewLockDurationInSeconds: testDurationInMilliseconds / 1000
+      maxMessageAutoRenewLockDurationInMs: testDurationInMilliseconds
     });
 
     await delay(testDurationInMilliseconds + 60000);

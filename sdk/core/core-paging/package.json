@@ -6,7 +6,7 @@
     "url": "https://github.com/Azure/azure-sdk-for-js"
   },
   "sdk-type": "client",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Core types for paging async iterable iterators",
   "tags": [
     "microsoft",
@@ -70,6 +70,6 @@
     "eslint-plugin-no-only-tests": "^2.3.0",
     "eslint-plugin-promise": "^4.1.1",
     "prettier": "^1.16.4",
-    "typescript": "~3.7.5"
+    "typescript": "~3.8.3"
   }
 }

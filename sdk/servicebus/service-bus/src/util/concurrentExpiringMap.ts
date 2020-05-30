@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { generate_uuid } from "rhea-promise";
 import { delay, AsyncLock } from "@azure/core-amqp";
@@ -13,13 +13,13 @@ import * as log from "../log";
 export class ConcurrentExpiringMap<TKey> {
   private readonly _map: Map<TKey, Date> = new Map();
   private _cleanupScheduled: boolean = false;
-  private _delayBetweenCleanupInSeconds: number;
+  private _delayBetweenCleanupInMs: number;
   private _lockId: string = generate_uuid();
   private _lockStore: AsyncLock = new AsyncLock({ maxPending: 1000000 });
 
-  constructor(options?: { delayBetweenCleanupInSeconds?: number }) {
+  constructor(options?: { delayBetweenCleanupInMs?: number }) {
     if (!options) options = {};
-    this._delayBetweenCleanupInSeconds = options.delayBetweenCleanupInSeconds || 30;
+    this._delayBetweenCleanupInMs = options.delayBetweenCleanupInMs || 30 * 1000;
   }
 
   private async _scheduleCleanup(): Promise<void> {
@@ -40,7 +40,7 @@ export class ConcurrentExpiringMap<TKey> {
       return;
     }
 
-    await delay(this._delayBetweenCleanupInSeconds);
+    await delay(this._delayBetweenCleanupInMs);
     this._cleanupScheduled = false;
     for (const key of this._map.keys()) {
       if (Date.now() > this._map.get(key)!.getTime()) {

@@ -22,7 +22,7 @@ export interface PrivateEndpoint {
 }
 
 /**
- * ConnectionState Information.
+ * ConnectionState information.
  */
 export interface ConnectionState {
   /**
@@ -62,7 +62,7 @@ export interface Resource extends BaseResource {
 }
 
 /**
- * PrivateEndpointConnection resource information.
+ * An interface representing PrivateEndpointConnection.
  */
 export interface PrivateEndpointConnection extends Resource {
   /**
@@ -121,8 +121,8 @@ export interface InboundIpRule {
  */
 export interface ResourceSku {
   /**
-   * the Sku name of the resource.
-   * the possible values: Basic; Premium. Possible values include: 'Basic', 'Premium'
+   * The Sku name of the resource. The possible values are: Basic or Premium. Possible values
+   * include: 'Basic', 'Premium'
    */
   name?: Sku;
 }
@@ -402,75 +402,6 @@ export interface EventChannelDestination {
 }
 
 /**
- * Event Channel.
- */
-export interface EventChannel extends Resource {
-  /**
-   * Source of the event channel. This represents a unique resource in the partner's resource
-   * model.
-   */
-  source?: EventChannelSource;
-  /**
-   * Represents the destination of an event channel.
-   */
-  destination?: EventChannelDestination;
-  /**
-   * Provisioning state of the event channel. Possible values include: 'Creating', 'Updating',
-   * 'Deleting', 'Succeeded', 'Canceled', 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: EventChannelProvisioningState;
-}
-
-/**
- * Contains the possible cases for EventSubscriptionDestination.
- */
-export type EventSubscriptionDestinationUnion = EventSubscriptionDestination | WebHookEventSubscriptionDestination | EventHubEventSubscriptionDestination | StorageQueueEventSubscriptionDestination | HybridConnectionEventSubscriptionDestination | ServiceBusQueueEventSubscriptionDestination | ServiceBusTopicEventSubscriptionDestination | AzureFunctionEventSubscriptionDestination;
-
-/**
- * Information about the destination for an event subscription.
- */
-export interface EventSubscriptionDestination {
-  /**
-   * Polymorphic Discriminator
-   */
-  endpointType: "EventSubscriptionDestination";
-}
-
-/**
- * The identity information with the event subscription.
- */
-export interface EventSubscriptionIdentity {
-  /**
-   * The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an
-   * implicitly created identity and a set of user-assigned identities. The type 'None' will remove
-   * any identity. Possible values include: 'SystemAssigned', 'UserAssigned'
-   */
-  type?: EventSubscriptionIdentityType;
-  /**
-   * The user identity associated with the resource.
-   */
-  userAssignedIdentity?: string;
-}
-
-/**
- * Information about the delivery for an event subscription with resource identity.
- */
-export interface DeliveryWithResourceIdentity {
-  /**
-   * The identity to use when delivering events.
-   */
-  identity?: EventSubscriptionIdentity;
-  /**
-   * Information about the destination where events have to be delivered for the event
-   * subscription.
-   * Uses Azure Event Grid's identity to acquire the authentication tokens being used during
-   * delivery / dead-lettering.
-   */
-  destination?: EventSubscriptionDestinationUnion;
-}
-
-/**
  * Contains the possible cases for AdvancedFilter.
  */
 export type AdvancedFilterUnion = AdvancedFilter | NumberInAdvancedFilter | NumberNotInAdvancedFilter | NumberLessThanAdvancedFilter | NumberGreaterThanAdvancedFilter | NumberLessThanOrEqualsAdvancedFilter | NumberGreaterThanOrEqualsAdvancedFilter | BoolEqualsAdvancedFilter | StringInAdvancedFilter | StringNotInAdvancedFilter | StringBeginsWithAdvancedFilter | StringEndsWithAdvancedFilter | StringContainsAdvancedFilter;
@@ -493,83 +424,13 @@ export interface AdvancedFilter {
 }
 
 /**
- * Filter for the Event Subscription.
+ * Filter for the Event Channel.
  */
-export interface EventSubscriptionFilter {
+export interface EventChannelFilter {
   /**
-   * An optional string to filter events for an event subscription based on a resource path prefix.
-   * The format of this depends on the publisher of the events.
-   * Wildcard characters are not supported in this path.
-   */
-  subjectBeginsWith?: string;
-  /**
-   * An optional string to filter events for an event subscription based on a resource path suffix.
-   * Wildcard characters are not supported in this path.
-   */
-  subjectEndsWith?: string;
-  /**
-   * A list of applicable event types that need to be part of the event subscription. If it is
-   * desired to subscribe to all default event types, set the IncludedEventTypes to null.
-   */
-  includedEventTypes?: string[];
-  /**
-   * Specifies if the SubjectBeginsWith and SubjectEndsWith properties of the filter
-   * should be compared in a case sensitive manner. Default value: false.
-   */
-  isSubjectCaseSensitive?: boolean;
-  /**
-   * An array of advanced filters that are used for filtering event subscriptions.
+   * An array of advanced filters that are used for filtering event channels.
    */
   advancedFilters?: AdvancedFilterUnion[];
-}
-
-/**
- * Information about the retry policy for an event subscription.
- */
-export interface RetryPolicy {
-  /**
-   * Maximum number of delivery retry attempts for events.
-   */
-  maxDeliveryAttempts?: number;
-  /**
-   * Time To Live (in minutes) for events.
-   */
-  eventTimeToLiveInMinutes?: number;
-}
-
-/**
- * Contains the possible cases for DeadLetterDestination.
- */
-export type DeadLetterDestinationUnion = DeadLetterDestination | StorageBlobDeadLetterDestination;
-
-/**
- * Information about the dead letter destination for an event subscription. To configure a
- * deadletter destination, do not directly instantiate an object of this class. Instead,
- * instantiate an object of a derived class. Currently, StorageBlobDeadLetterDestination is the
- * only class that derives from this class.
- */
-export interface DeadLetterDestination {
-  /**
-   * Polymorphic Discriminator
-   */
-  endpointType: "DeadLetterDestination";
-}
-
-/**
- * Information about the deadletter destination with resource identity.
- */
-export interface DeadLetterWithResourceIdentity {
-  /**
-   * The identity to use when dead-lettering events.
-   */
-  identity?: EventSubscriptionIdentity;
-  /**
-   * Information about the destination where events have to be delivered for the event
-   * subscription.
-   * Uses the managed identity setup on the parent resource (namely, topic or domain) to acquire
-   * the authentication tokens being used during delivery / dead-lettering.
-   */
-  deadLetterDestination?: DeadLetterDestinationUnion;
 }
 
 /**
@@ -588,24 +449,6 @@ export interface NumberInAdvancedFilter {
    * The set of filter values.
    */
   values?: number[];
-}
-
-/**
- * Information about the storage blob based dead letter destination.
- */
-export interface StorageBlobDeadLetterDestination {
-  /**
-   * Polymorphic Discriminator
-   */
-  endpointType: "StorageBlob";
-  /**
-   * The Azure Resource ID of the storage account that is the destination of the deadletter events
-   */
-  resourceId?: string;
-  /**
-   * The name of the Storage blob container that is the destination of the deadletter events
-   */
-  blobContainerName?: string;
 }
 
 /**
@@ -804,6 +647,196 @@ export interface StringContainsAdvancedFilter {
    * The set of filter values.
    */
   values?: string[];
+}
+
+/**
+ * Event Channel.
+ */
+export interface EventChannel extends Resource {
+  /**
+   * Source of the event channel. This represents a unique resource in the partner's resource
+   * model.
+   */
+  source?: EventChannelSource;
+  /**
+   * Represents the destination of an event channel.
+   */
+  destination?: EventChannelDestination;
+  /**
+   * Provisioning state of the event channel. Possible values include: 'Creating', 'Updating',
+   * 'Deleting', 'Succeeded', 'Canceled', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: EventChannelProvisioningState;
+  /**
+   * The readiness state of the corresponding partner topic. Possible values include:
+   * 'NotActivatedByUserYet', 'ActivatedByUser', 'DeactivatedByUser', 'DeletedByUser'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly partnerTopicReadinessState?: PartnerTopicReadinessState;
+  /**
+   * Expiration time of the event channel. If this timer expires while the corresponding partner
+   * topic is never activated,
+   * the event channel and corresponding partner topic are deleted.
+   */
+  expirationTimeIfNotActivatedUtc?: Date;
+  /**
+   * Information about the filter for the event channel.
+   */
+  filter?: EventChannelFilter;
+  /**
+   * Friendly description about the topic. This can be set by the publisher/partner to show custom
+   * description for the customer partner topic.
+   * This will be helpful to remove any ambiguity of the origin of creation of the partner topic
+   * for the customer.
+   */
+  partnerTopicFriendlyDescription?: string;
+}
+
+/**
+ * Contains the possible cases for EventSubscriptionDestination.
+ */
+export type EventSubscriptionDestinationUnion = EventSubscriptionDestination | WebHookEventSubscriptionDestination | EventHubEventSubscriptionDestination | StorageQueueEventSubscriptionDestination | HybridConnectionEventSubscriptionDestination | ServiceBusQueueEventSubscriptionDestination | ServiceBusTopicEventSubscriptionDestination | AzureFunctionEventSubscriptionDestination;
+
+/**
+ * Information about the destination for an event subscription.
+ */
+export interface EventSubscriptionDestination {
+  /**
+   * Polymorphic Discriminator
+   */
+  endpointType: "EventSubscriptionDestination";
+}
+
+/**
+ * The identity information with the event subscription.
+ */
+export interface EventSubscriptionIdentity {
+  /**
+   * The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an
+   * implicitly created identity and a set of user-assigned identities. The type 'None' will remove
+   * any identity. Possible values include: 'SystemAssigned', 'UserAssigned'
+   */
+  type?: EventSubscriptionIdentityType;
+  /**
+   * The user identity associated with the resource.
+   */
+  userAssignedIdentity?: string;
+}
+
+/**
+ * Information about the delivery for an event subscription with resource identity.
+ */
+export interface DeliveryWithResourceIdentity {
+  /**
+   * The identity to use when delivering events.
+   */
+  identity?: EventSubscriptionIdentity;
+  /**
+   * Information about the destination where events have to be delivered for the event
+   * subscription.
+   * Uses Azure Event Grid's identity to acquire the authentication tokens being used during
+   * delivery / dead-lettering.
+   */
+  destination?: EventSubscriptionDestinationUnion;
+}
+
+/**
+ * Filter for the Event Subscription.
+ */
+export interface EventSubscriptionFilter {
+  /**
+   * An optional string to filter events for an event subscription based on a resource path prefix.
+   * The format of this depends on the publisher of the events.
+   * Wildcard characters are not supported in this path.
+   */
+  subjectBeginsWith?: string;
+  /**
+   * An optional string to filter events for an event subscription based on a resource path suffix.
+   * Wildcard characters are not supported in this path.
+   */
+  subjectEndsWith?: string;
+  /**
+   * A list of applicable event types that need to be part of the event subscription. If it is
+   * desired to subscribe to all default event types, set the IncludedEventTypes to null.
+   */
+  includedEventTypes?: string[];
+  /**
+   * Specifies if the SubjectBeginsWith and SubjectEndsWith properties of the filter
+   * should be compared in a case sensitive manner. Default value: false.
+   */
+  isSubjectCaseSensitive?: boolean;
+  /**
+   * An array of advanced filters that are used for filtering event subscriptions.
+   */
+  advancedFilters?: AdvancedFilterUnion[];
+}
+
+/**
+ * Information about the retry policy for an event subscription.
+ */
+export interface RetryPolicy {
+  /**
+   * Maximum number of delivery retry attempts for events.
+   */
+  maxDeliveryAttempts?: number;
+  /**
+   * Time To Live (in minutes) for events.
+   */
+  eventTimeToLiveInMinutes?: number;
+}
+
+/**
+ * Contains the possible cases for DeadLetterDestination.
+ */
+export type DeadLetterDestinationUnion = DeadLetterDestination | StorageBlobDeadLetterDestination;
+
+/**
+ * Information about the dead letter destination for an event subscription. To configure a
+ * deadletter destination, do not directly instantiate an object of this class. Instead,
+ * instantiate an object of a derived class. Currently, StorageBlobDeadLetterDestination is the
+ * only class that derives from this class.
+ */
+export interface DeadLetterDestination {
+  /**
+   * Polymorphic Discriminator
+   */
+  endpointType: "DeadLetterDestination";
+}
+
+/**
+ * Information about the deadletter destination with resource identity.
+ */
+export interface DeadLetterWithResourceIdentity {
+  /**
+   * The identity to use when dead-lettering events.
+   */
+  identity?: EventSubscriptionIdentity;
+  /**
+   * Information about the destination where events have to be delivered for the event
+   * subscription.
+   * Uses the managed identity setup on the parent resource (namely, topic or domain) to acquire
+   * the authentication tokens being used during delivery / dead-lettering.
+   */
+  deadLetterDestination?: DeadLetterDestinationUnion;
+}
+
+/**
+ * Information about the storage blob based dead letter destination.
+ */
+export interface StorageBlobDeadLetterDestination {
+  /**
+   * Polymorphic Discriminator
+   */
+  endpointType: "StorageBlob";
+  /**
+   * The Azure Resource ID of the storage account that is the destination of the deadletter events
+   */
+  resourceId?: string;
+  /**
+   * The name of the Storage blob container that is the destination of the deadletter events
+   */
+  blobContainerName?: string;
 }
 
 /**
@@ -1203,9 +1236,36 @@ export interface PartnerRegistration extends TrackedResource {
    */
   partnerResourceTypeDisplayName?: string;
   /**
-   * Description of the partner resource type.
+   * Short description of the partner resource type. The length of this description should not
+   * exceed 256 characters.
    */
   partnerResourceTypeDescription?: string;
+  /**
+   * Long description for the custom scenarios and integration to be displayed in the portal if
+   * needed.
+   * Length of this description should not exceed 2048 characters.
+   */
+  longDescription?: string;
+  /**
+   * The customer service number of the publisher. The expected phone format should start with a
+   * '+' sign
+   * followed by the country code. The remaining digits are then followed. Only digits and spaces
+   * are allowed and its
+   * length cannot exceed 16 digits including country code. Examples of valid phone numbers are: +1
+   * 515 123 4567 and
+   * +966 7 5115 2471. Examples of invalid phone numbers are: +1 (515) 123-4567, 1 515 123 4567 and
+   * +966 121 5115 24 7 551 1234 43
+   */
+  partnerCustomerServiceNumber?: string;
+  /**
+   * The extension of the customer service number of the publisher. Only digits are allowed and
+   * number of digits should not exceed 10.
+   */
+  partnerCustomerServiceExtension?: string;
+  /**
+   * The extension of the customer service URI of the publisher.
+   */
+  customerServiceUri?: string;
   /**
    * URI of the partner website that can be used by Azure customers to setup Event Grid
    * integration on an event source.
@@ -1233,6 +1293,10 @@ export interface PartnerRegistration extends TrackedResource {
  * Properties of the Partner Registration update.
  */
 export interface PartnerRegistrationUpdateParameters {
+  /**
+   * Tags of the partner registration resource.
+   */
+  tags?: { [propertyName: string]: string };
   /**
    * Name of the partner topic type.
    */
@@ -1300,6 +1364,16 @@ export interface PartnerRegistrationEventTypesListResult {
 }
 
 /**
+ * Properties of the Partner Topic update.
+ */
+export interface PartnerTopicUpdateParameters {
+  /**
+   * Tags of the partner topic.
+   */
+  tags?: { [propertyName: string]: string };
+}
+
+/**
  * EventGrid Partner Topic.
  */
 export interface PartnerTopic extends TrackedResource {
@@ -1307,6 +1381,12 @@ export interface PartnerTopic extends TrackedResource {
    * Source associated with this partner topic. This represents a unique partner resource.
    */
   source?: string;
+  /**
+   * Expiration time of the partner topic. If this timer expires while the partner topic is still
+   * never activated,
+   * the partner topic and corresponding event channel are deleted.
+   */
+  expirationTimeIfNotActivatedUtc?: Date;
   /**
    * Provisioning state of the partner topic. Possible values include: 'Creating', 'Updating',
    * 'Deleting', 'Succeeded', 'Canceled', 'Failed'
@@ -1318,16 +1398,13 @@ export interface PartnerTopic extends TrackedResource {
    * 'Deactivated'
    */
   activationState?: PartnerTopicActivationState;
-}
-
-/**
- * Properties of the Partner Topic update.
- */
-export interface PartnerTopicUpdateParameters {
   /**
-   * Tags of the partner topic.
+   * Friendly description about the topic. This can be set by the publisher/partner to show custom
+   * description for the customer partner topic.
+   * This will be helpful to remove any ambiguity of the origin of creation of the partner topic
+   * for the customer.
    */
-  tags?: { [propertyName: string]: string };
+  partnerTopicFriendlyDescription?: string;
 }
 
 /**
@@ -1397,34 +1474,6 @@ export interface PrivateLinkResource {
 }
 
 /**
- * Describes an EventGrid Resource Sku Definition.
- */
-export interface SkuDefinitionsForResourceType {
-  /**
-   * The Resource Type applicable for the Sku.
-   */
-  resourceType?: string;
-  /**
-   * The Sku pricing tiers for the resource type.
-   */
-  skus?: ResourceSku[];
-}
-
-/**
- * List collection of Sku Definitions for each Resource Type.
- */
-export interface SkuDefinitionsForResourceTypeListResult {
-  /**
-   * A collection of Sku Definitions for each Resource Type.
-   */
-  value?: SkuDefinitionsForResourceType[];
-  /**
-   * A link for the next page of Sku Definitions.
-   */
-  nextLink?: string;
-}
-
-/**
  * EventGrid System Topic.
  */
 export interface SystemTopic extends TrackedResource {
@@ -1463,9 +1512,6 @@ export interface SystemTopicUpdateParameters {
  * EventGrid Topic
  */
 export interface Topic extends TrackedResource {
-  /**
-   * List of private endpoint connections.
-   */
   privateEndpointConnections?: PrivateEndpointConnection[];
   /**
    * Provisioning state of the topic. Possible values include: 'Creating', 'Updating', 'Deleting',
@@ -1898,6 +1944,48 @@ export interface EventSubscriptionsListByResourceOptionalParams extends msRest.R
  * Optional Parameters.
  */
 export interface EventSubscriptionsListByDomainTopicOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The query used to filter the search results using OData syntax. Filtering is permitted on the
+   * 'name' property only and with limited number of OData operations. These operations are: the
+   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
+   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
+   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
+   * not a valid filter example: $filter=location eq 'westus'.
+   */
+  filter?: string;
+  /**
+   * The number of results to return per page for the list operation. Valid range for top parameter
+   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
+   * page.
+   */
+  top?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface SystemTopicEventSubscriptionsListBySystemTopicOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The query used to filter the search results using OData syntax. Filtering is permitted on the
+   * 'name' property only and with limited number of OData operations. These operations are: the
+   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
+   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
+   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
+   * not a valid filter example: $filter=location eq 'westus'.
+   */
+  filter?: string;
+  /**
+   * The number of results to return per page for the list operation. Valid range for top parameter
+   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
+   * page.
+   */
+  top?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface PartnerTopicEventSubscriptionsListByPartnerTopicOptionalParams extends msRest.RequestOptionsBase {
   /**
    * The query used to filter the search results using OData syntax. Filtering is permitted on the
    * 'name' property only and with limited number of OData operations. These operations are: the
@@ -2410,6 +2498,15 @@ export type DomainTopicProvisioningState = 'Creating' | 'Updating' | 'Deleting' 
  * @enum {string}
  */
 export type EventChannelProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Canceled' | 'Failed';
+
+/**
+ * Defines values for PartnerTopicReadinessState.
+ * Possible values include: 'NotActivatedByUserYet', 'ActivatedByUser', 'DeactivatedByUser',
+ * 'DeletedByUser'
+ * @readonly
+ * @enum {string}
+ */
+export type PartnerTopicReadinessState = 'NotActivatedByUserYet' | 'ActivatedByUser' | 'DeactivatedByUser' | 'DeletedByUser';
 
 /**
  * Defines values for EventSubscriptionProvisioningState.
@@ -3569,6 +3666,26 @@ export type SystemTopicEventSubscriptionsBeginUpdateResponse = EventSubscription
 };
 
 /**
+ * Contains response data for the listBySystemTopicNext operation.
+ */
+export type SystemTopicEventSubscriptionsListBySystemTopicNextResponse = EventSubscriptionsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: EventSubscriptionsListResult;
+    };
+};
+
+/**
  * Contains response data for the get operation.
  */
 export type PartnerTopicEventSubscriptionsGetResponse = EventSubscription & {
@@ -3705,6 +3822,26 @@ export type PartnerTopicEventSubscriptionsBeginUpdateResponse = EventSubscriptio
        * The response body as parsed JSON or XML
        */
       parsedBody: EventSubscription;
+    };
+};
+
+/**
+ * Contains response data for the listByPartnerTopicNext operation.
+ */
+export type PartnerTopicEventSubscriptionsListByPartnerTopicNextResponse = EventSubscriptionsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: EventSubscriptionsListResult;
     };
 };
 

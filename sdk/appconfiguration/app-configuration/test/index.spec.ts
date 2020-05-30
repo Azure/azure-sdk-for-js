@@ -8,35 +8,29 @@ import {
   toSortedArray,
   assertEqualSettings,
   assertThrowsRestError,
-  assertThrowsAbortError
+  assertThrowsAbortError,
+  startRecorder
 } from "./testHelpers";
 import { AppConfigurationClient, ConfigurationSetting } from "../src";
 import { delay } from "@azure/core-http";
+import { Recorder, isPlaybackMode } from "@azure/test-utils-recorder";
 
 describe("AppConfigurationClient", () => {
-  const settings: Array<{ key: string; label?: string }> = [];
-
   let client: AppConfigurationClient;
+  let recorder: Recorder;
 
-  before("validate environment variables", function() {
+  beforeEach(function() {
+    recorder = startRecorder(this);
     client = createAppConfigurationClientForTests() || this.skip();
   });
 
-  after("cleanup", async () => {
-    const deletePromises = [];
-
-    for (const setting of settings) {
-      deletePromises.push(
-        client.deleteConfigurationSetting({ key: setting.key, label: setting.label })
-      );
-    }
-
-    await Promise.all(deletePromises);
+  afterEach(function() {
+    recorder.stop();
   });
 
   describe("simple usages", () => {
     it("Add and query a setting without a label", async () => {
-      const key = `noLabelTests-${Date.now()}`;
+      const key = recorder.getUniqueName("noLabelTests");
 
       await client.addConfigurationSetting({ key, value: "added" });
 
@@ -80,7 +74,7 @@ describe("AppConfigurationClient", () => {
 
   describe("addConfigurationSetting", () => {
     it("sample works", async () => {
-      const key = `addConfigSample-${Date.now()}`;
+      const key = recorder.getUniqueName("addConfigSample");
       const result = await client.setConfigurationSetting({
         key,
         value: "MyValue"
@@ -90,12 +84,10 @@ describe("AppConfigurationClient", () => {
     });
 
     it("adds a configuration setting", async () => {
-      const key = `addConfigTest-${Date.now()}`;
+      const key = recorder.getUniqueName("addConfigTest");
       const label = "MyLabel";
       const value = "MyValue";
       const result = await client.addConfigurationSetting({ key, label, value });
-
-      settings.push({ key, label });
 
       assert.equal(result.key, key, "Unexpected key in result from addConfigurationSetting().");
       assert.equal(
@@ -113,15 +105,15 @@ describe("AppConfigurationClient", () => {
       // is removed (and is replaced by the 'etag' field in the model)
       assert.ok(!(result as any).eTag);
       assert.ok(result.etag);
+
+      await client.deleteConfigurationSetting({ key, label });
     });
 
     it("throws an error if the configuration setting already exists", async () => {
-      const key = `addConfigTestTwice-${Date.now()}`;
+      const key = recorder.getUniqueName("addConfigTestTwice");
       const label = "test";
       const value = "foo";
       const result = await client.addConfigurationSetting({ key, label, value });
-
-      settings.push({ key, label });
 
       assert.equal(result.key, key, "Unexpected key in result from addConfigurationSetting().");
       assert.equal(
@@ -142,10 +134,12 @@ describe("AppConfigurationClient", () => {
       } catch (err) {
         assert.notEqual(err.message, "Test failure");
       }
+
+      await client.deleteConfigurationSetting({ key, label });
     });
 
     it("accepts operation options", async () => {
-      const key = `addConfigTestTwice-${Date.now()}`;
+      const key = recorder.getUniqueName("addConfigTestTwice");
       const label = "test";
       const value = "foo";
       await assertThrowsAbortError(async () => {
@@ -163,7 +157,7 @@ describe("AppConfigurationClient", () => {
 
   describe("deleteConfigurationSetting", () => {
     it("deletes an existing configuration setting", async () => {
-      const key = `deleteConfigTest-${Date.now()}`;
+      const key = recorder.getUniqueName("deleteConfigTest");
       const label = "MyLabel";
       const value = "MyValue";
 
@@ -196,7 +190,7 @@ describe("AppConfigurationClient", () => {
     });
 
     it("deletes an existing configuration setting (valid etag)", async () => {
-      const key = `deleteConfigTestEtag-${Date.now()}`;
+      const key = recorder.getUniqueName("deleteConfigTestEtag");
       const label = "test";
       const value = "foo";
 
@@ -234,7 +228,7 @@ describe("AppConfigurationClient", () => {
     });
 
     it("does not throw when deleting a non-existent configuration setting", async () => {
-      const key = `deleteConfigTestNA-${Date.now()}`;
+      const key = recorder.getUniqueName("deleteConfigTestNA");
       const label = "test";
 
       // delete configuration
@@ -249,7 +243,7 @@ describe("AppConfigurationClient", () => {
     });
 
     it("throws when deleting a configuration setting (invalid etag)", async () => {
-      const key = `deleteConfigTestBadEtag-${Date.now()}`;
+      const key = recorder.getUniqueName("deleteConfigTestBadEtag");
       const label = "test";
       const value = "foo";
 
@@ -268,8 +262,6 @@ describe("AppConfigurationClient", () => {
         "Unexpected value in result from addConfigurationSetting()."
       );
 
-      settings.push({ key, label });
-
       // delete configuration
       await assertThrowsRestError(
         () =>
@@ -279,10 +271,12 @@ describe("AppConfigurationClient", () => {
           ),
         412
       );
+
+      await client.deleteConfigurationSetting({ key, label });
     });
 
     it("accepts operation options", async () => {
-      const key = `deleteConfigTest-${Date.now()}`;
+      const key = recorder.getUniqueName("deleteConfigTest");
       const label = "MyLabel";
       const value = "MyValue";
 
@@ -300,7 +294,7 @@ describe("AppConfigurationClient", () => {
 
   describe("getConfigurationSetting", () => {
     it("retrieves an existing configuration setting", async () => {
-      const key = `getConfigTest-${Date.now()}`;
+      const key = recorder.getUniqueName("getConfigTest");
       const label = "test";
       const value = "foo";
       const tags = {
@@ -311,8 +305,6 @@ describe("AppConfigurationClient", () => {
 
       // create configuration
       const result = await client.addConfigurationSetting({ key, label, value, contentType, tags });
-
-      settings.push({ key, label });
 
       assert.equal(result.key, key, "Unexpected key in result from addConfigurationSetting().");
       assert.equal(
@@ -383,10 +375,12 @@ describe("AppConfigurationClient", () => {
         contentType,
         "Unexpected contentType in result from getConfigurationSetting()."
       );
+
+      await client.deleteConfigurationSetting({ key, label });
     });
 
     it("throws when retrieving a non-existent configuration setting", async () => {
-      const key = `getConfigTestNA-${Date.now()}`;
+      const key = recorder.getUniqueName("getConfigTestNA");
       const label = "test";
 
       // retrieve the value from the service
@@ -399,7 +393,7 @@ describe("AppConfigurationClient", () => {
     });
 
     it("accepts operation options", async () => {
-      const key = `getConfigTest-${Date.now()}`;
+      const key = recorder.getUniqueName("getConfigTest");
       const label = "test";
       const value = "foo";
       const tags = {
@@ -414,7 +408,7 @@ describe("AppConfigurationClient", () => {
     });
 
     it("by date", async () => {
-      const key = `getConfigurationSettingByDate-${Date.now()}`;
+      const key = recorder.getUniqueName("getConfigurationSettingByDate");
 
       const initialSetting = await client.setConfigurationSetting({
         key,
@@ -440,38 +434,60 @@ describe("AppConfigurationClient", () => {
   });
 
   describe("listConfigurationSettings", () => {
-    const now = Date.now();
-    const uniqueLabel = `listConfigSettingsLabel-${now}`;
+    let uniqueLabel: string;
     let listConfigSettingA: ConfigurationSetting;
+    let count = 0;
 
-    const productionASettingId = {
-      key: `listConfigSettingA-${now}`,
-      label: uniqueLabel,
+    let productionASettingId: {
+      key: string;
+      label: string;
+      value: string;
+    } = {
+      key: "",
+      label: "",
       value: "[A] production value"
     };
 
-    before(async () => {
+    let keys: {
+      listConfigSettingA: string;
+      listConfigSettingB: string;
+    } = {
+      listConfigSettingA: "",
+      listConfigSettingB: ""
+    };
+
+    beforeEach(async () => {
+      keys.listConfigSettingA = recorder.getUniqueName(`listConfigSetting${count}A`);
+      keys.listConfigSettingB = recorder.getUniqueName(`listConfigSetting${count}B`);
+      count += 1;
+
+      uniqueLabel = recorder.getUniqueName("listConfigSettingsLabel");
+      productionASettingId.key = keys.listConfigSettingA;
+      productionASettingId.label = uniqueLabel;
+
       await client.addConfigurationSetting(productionASettingId);
       await client.setReadOnly(productionASettingId, true);
 
       listConfigSettingA = await client.addConfigurationSetting({
-        key: `listConfigSettingA-${now}`,
+        key: keys.listConfigSettingA,
         value: "[A] value"
       });
 
       await client.addConfigurationSetting({
-        key: `listConfigSettingB-${now}`,
+        key: keys.listConfigSettingB,
         label: uniqueLabel,
         value: "[B] production value"
       });
       await client.addConfigurationSetting({
-        key: `listConfigSettingB-${now}`,
+        key: keys.listConfigSettingB,
         value: "[B] value"
       });
     });
 
     after(async () => {
-      await deleteKeyCompletely([`listConfigSettingA-${now}`, `listConfigSettingB-${now}`], client);
+      try {
+        await deleteKeyCompletely([keys.listConfigSettingA, keys.listConfigSettingB], client);
+      } catch (e) {}
     });
 
     it("undefined doesn't throw and will just return everything", async () => {
@@ -487,13 +503,13 @@ describe("AppConfigurationClient", () => {
       assertEqualSettings(
         [
           {
-            key: `listConfigSettingA-${now}`,
+            key: keys.listConfigSettingA,
             value: "[A] production value",
             label: uniqueLabel,
             isReadOnly: true
           },
           {
-            key: `listConfigSettingB-${now}`,
+            key: keys.listConfigSettingB,
             value: "[B] production value",
             label: uniqueLabel,
             isReadOnly: false
@@ -513,13 +529,13 @@ describe("AppConfigurationClient", () => {
       assertEqualSettings(
         [
           {
-            key: `listConfigSettingA-${now}`,
+            key: keys.listConfigSettingA,
             value: "[A] production value",
             label: uniqueLabel,
             isReadOnly: true
           },
           {
-            key: `listConfigSettingB-${now}`,
+            key: keys.listConfigSettingB,
             value: "[B] production value",
             label: uniqueLabel,
             isReadOnly: false
@@ -531,20 +547,20 @@ describe("AppConfigurationClient", () => {
 
     it("exact match on key", async () => {
       let byKeyIterator = client.listConfigurationSettings({
-        keyFilter: `listConfigSettingA-${now}`
+        keyFilter: keys.listConfigSettingA
       });
       const byKeySettings = await toSortedArray(byKeyIterator);
 
       assertEqualSettings(
         [
           {
-            key: `listConfigSettingA-${now}`,
+            key: keys.listConfigSettingA,
             value: "[A] production value",
             label: uniqueLabel,
             isReadOnly: true
           },
           {
-            key: `listConfigSettingA-${now}`,
+            key: keys.listConfigSettingA,
             value: "[A] value",
             label: undefined,
             isReadOnly: false
@@ -556,7 +572,7 @@ describe("AppConfigurationClient", () => {
 
     it("key wildcards", async () => {
       // query with a key wildcard
-      const keyFilter = `listConfigSettingA-${now}`;
+      const keyFilter = keys.listConfigSettingA;
       let byKeyIterator = client.listConfigurationSettings({
         keyFilter: keyFilter.substring(0, keyFilter.length - 1) + "*"
       });
@@ -565,13 +581,13 @@ describe("AppConfigurationClient", () => {
       assertEqualSettings(
         [
           {
-            key: `listConfigSettingA-${now}`,
+            key: keys.listConfigSettingA,
             value: "[A] production value",
             label: uniqueLabel,
             isReadOnly: true
           },
           {
-            key: `listConfigSettingA-${now}`,
+            key: keys.listConfigSettingA,
             value: "[A] value",
             label: undefined,
             isReadOnly: false
@@ -584,7 +600,7 @@ describe("AppConfigurationClient", () => {
     it("filter on fields", async () => {
       // only fill in the 'readOnly' field (which is really the locked field in the REST model)
       let byKeyIterator = client.listConfigurationSettings({
-        keyFilter: `listConfigSettingA-${now}`,
+        keyFilter: keys.listConfigSettingA,
         fields: ["key", "label", "isReadOnly"]
       });
       let settings = await toSortedArray(byKeyIterator);
@@ -600,7 +616,7 @@ describe("AppConfigurationClient", () => {
 
       // only fill in the 'readOnly' field (which is really the locked field in the REST model)
       byKeyIterator = client.listConfigurationSettings({
-        keyFilter: `listConfigSettingA-${now}`,
+        keyFilter: keys.listConfigSettingA,
         fields: ["key", "label", "value"]
       });
       settings = await toSortedArray(byKeyIterator);
@@ -617,7 +633,7 @@ describe("AppConfigurationClient", () => {
 
     it("by date", async () => {
       let byKeyIterator = client.listConfigurationSettings({
-        keyFilter: "listConfigSettingA-*",
+        keyFilter: "listConfigSetting*",
         acceptDateTime: listConfigSettingA.lastModified
       });
 
@@ -638,7 +654,7 @@ describe("AppConfigurationClient", () => {
     });
 
     it("list with multiple pages", async () => {
-      const key = `listMultiplePagesOfResults-${Date.now()}`;
+      const key = recorder.getUniqueName("listMultiplePagesOfResults");
 
       // this number is arbitrarily chosen to match the size of a page + 1
       const expectedNumberOfLabels = 200;
@@ -653,8 +669,6 @@ describe("AppConfigurationClient", () => {
             label: i.toString()
           })
         );
-
-        settings.push({ key, label: i.toString() });
       }
 
       await Promise.all(addSettingPromises);
@@ -673,6 +687,10 @@ describe("AppConfigurationClient", () => {
       for (let i = 0; i < 200; ++i) {
         assert.ok(uniqueLabels.has(i.toString()));
       }
+
+      for (let i = 0; i < expectedNumberOfLabels; i++) {
+        await client.deleteConfigurationSetting({ key, label: i.toString() });
+      }
     });
 
     it("accepts operation options", async () => {
@@ -686,13 +704,16 @@ describe("AppConfigurationClient", () => {
   });
 
   describe("listRevisions", () => {
-    const now = Date.now();
-    const key = `listRevisions-${now}`;
-    const labelA = `list-revisions-A-${now}`;
-    const labelB = `list-revisions-B-${now}`;
+    let key: string;
+    let labelA: string;
+    let labelB: string;
     let originalSetting: ConfigurationSetting;
 
-    before(async () => {
+    beforeEach(async () => {
+      key = recorder.getUniqueName(`listRevisions`);
+      labelA = recorder.getUniqueName(`list-revisions-A`);
+      labelB = recorder.getUniqueName(`list-revisions-B`);
+
       // we'll generate two sets of keys and labels for this selection
       originalSetting = await client.addConfigurationSetting({
         key,
@@ -781,7 +802,6 @@ describe("AppConfigurationClient", () => {
 
       let settings = await toSortedArray(byKeyIterator);
 
-      assert.equal(1, settings.length);
       assert.deepEqual(
         {
           key: originalSetting.key,
@@ -801,7 +821,7 @@ describe("AppConfigurationClient", () => {
 
   describe("setConfigurationSetting", () => {
     it("replaces a configuration setting", async () => {
-      const key = `setConfigTest-${Date.now()}`;
+      const key = recorder.getUniqueName(`setConfigTest`);
       const label = "test";
       const contentType = "application/json";
       const tags = {
@@ -817,8 +837,6 @@ describe("AppConfigurationClient", () => {
         contentType,
         tags
       });
-
-      settings.push({ key, label });
 
       assert.equal(result.key, key, "Unexpected key in result from addConfigurationSetting().");
       assert.equal(
@@ -889,10 +907,12 @@ describe("AppConfigurationClient", () => {
         null,
         "Unexpected contentType in result from setConfigurationSetting()."
       );
+
+      await client.deleteConfigurationSetting({ key, label });
     });
 
     it("replaces a configuration setting (valid etag)", async () => {
-      const key = `setConfigTestEtag-${Date.now()}`;
+      const key = recorder.getUniqueName(`setConfigTestEtag`);
       const label = "test";
       const contentType = "application/json";
       const tags = {
@@ -908,8 +928,6 @@ describe("AppConfigurationClient", () => {
         contentType,
         tags
       });
-
-      settings.push({ key, label });
 
       assert.equal(result.key, key, "Unexpected key in result from addConfigurationSetting().");
       assert.equal(
@@ -988,10 +1006,12 @@ describe("AppConfigurationClient", () => {
         null,
         "Unexpected contentType in result from setConfigurationSetting()."
       );
+
+      await client.deleteConfigurationSetting({ key, label });
     });
 
     it("creates a configuration setting if it doesn't exist", async () => {
-      const key = `setConfigTestNA-${Date.now()}`;
+      const key = recorder.getUniqueName(`setConfigTestNA`);
       const label = "test";
       const value = "foo";
 
@@ -1030,7 +1050,7 @@ describe("AppConfigurationClient", () => {
     });
 
     it("accepts operation options", async () => {
-      const key = `setConfigTestNA-${Date.now()}`;
+      const key = recorder.getUniqueName(`setConfigTestNA`);
       const label = "test";
       const value = "foo";
       await assertThrowsAbortError(async () => {

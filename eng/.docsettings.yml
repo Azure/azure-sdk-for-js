@@ -5,7 +5,15 @@ omitted_paths:
   - sdk/cognitiveservices/*
   - sdk/identity/identity/test/manual/*
   - sdk/identity/identity/test/manual-integration/*
-  - sdk/keyvault/*/test/**
+  - sdk/test-utils/perfstress/README.md
+  - sdk/keyvault/*/test/README.md
+  - sdk/appconfiguration/*/test/README.md
+  - sdk/eventhub/*/test/README.md
+  - sdk/search/*/test/README.md
+  - sdk/servicebus/*/test/README.md
+  - sdk/servicebus/service-bus/samples-v1/*
+  - sdk/storage/*/test/README.md
+  - sdk/textanalytics/*/test/README.md
   - sdk/**/samples/*
   - sdk/**/swagger/*
   - common/*
@@ -33,6 +41,7 @@ known_presence_issues:
   - ['sdk/storage/storage-datalake/CHANGELOG.md','#1583']
   - ['sdk/template/template/CHANGELOG.md','#1583']
   - ['sdk/test-utils/recorder/CHANGELOG.md','#1583']
+  - ['sdk/test-utils/perfstress/CHANGELOG.md','#1583']
 
 known_content_issues:
   - ["README.md", "#1583"]
@@ -87,6 +96,7 @@ known_content_issues:
   - ["sdk/synapse/synapse/README.md", "#1583"]
   - ["sdk/template/template/README.md", "#1583"]
   - ["sdk/test-utils/recorder/README.md", "#1583"]
+  - ['sdk/test-utils/perfstress/CHANGELOG.md','#1583']
 
 package_indexing_exclusion_list:
   - "@azure/template"

@@ -9,7 +9,7 @@ import {
   getDefaultProxySettings,
   URLBuilder
 } from "@azure/core-http";
-import { CanonicalCode } from "@opentelemetry/types";
+import { CanonicalCode } from "@opentelemetry/api";
 import {
   EnqueuedMessage,
   DequeuedMessageItem,
@@ -935,7 +935,7 @@ export class QueueClient extends StorageClient {
    *     receivedMessageItem.popReceipt
    *   );
    *   console.log(
-   *     "Delete message succesfully, service assigned request Id:",
+   *     "Delete message successfully, service assigned request Id:",
    *     deleteMessageResponse.requestId
    *   );
    * }

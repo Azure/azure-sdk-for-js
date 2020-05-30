@@ -18,8 +18,7 @@ const { delay, ServiceBusClient } = require("@azure/service-bus");
 require("dotenv").config();
 
 // Define connection string and related Service Bus entity names here
-const connectionString =
-  process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
+const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 const listOfScientists = [
   { lastName: "Einstein", firstName: "Albert" },
@@ -47,10 +46,10 @@ async function main() {
 
 // Scheduling messages to be sent after 10 seconds from now
 async function sendScheduledMessages(sbClient) {
-  // getSender() handles sending to a queue or a topic
-  const sender = sbClient.getSender(queueName);
+  // createSender() handles sending to a queue or a topic
+  const sender = await sbClient.createSender(queueName);
 
-  const messages = listOfScientists.map(scientist => ({
+  const messages = listOfScientists.map((scientist) => ({
     body: `${scientist.firstName} ${scientist.lastName}`,
     label: "Scientist"
   }));
@@ -66,19 +65,17 @@ async function sendScheduledMessages(sbClient) {
 }
 
 async function receiveMessages(sbClient) {
-  // If receiving from a subscription you can use the getReceiver(topic, subscription) overload
+  // If receiving from a subscription you can use the createReceiver(topic, subscription) overload
   // instead.
-  let queueReceiver = sbClient.getReceiver(queueName, "peekLock");
+  let queueReceiver = sbClient.createReceiver(queueName, "peekLock");
 
   let numOfMessagesReceived = 0;
-  const processMessage = async brokeredMessage => {
+  const processMessage = async (brokeredMessage) => {
     numOfMessagesReceived++;
-    console.log(
-      `Received message: ${brokeredMessage.body} - ${brokeredMessage.label}`
-    );
+    console.log(`Received message: ${brokeredMessage.body} - ${brokeredMessage.label}`);
     await brokeredMessage.complete();
   };
-  const processError = async err => {
+  const processError = async (err) => {
     console.log("Error occurred: ", err);
   };
 
@@ -94,7 +91,7 @@ async function receiveMessages(sbClient) {
   await delay(5000);
 
   console.log(`\nStarting receiver at ${new Date(Date.now())}`);
-  queueReceiver = sbClient.getReceiver(queueName, "peekLock");
+  queueReceiver = sbClient.createReceiver(queueName, "peekLock");
   queueReceiver.subscribe({
     processMessage,
     processError
@@ -106,6 +103,6 @@ async function receiveMessages(sbClient) {
   await sbClient.close();
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.log("Error occurred: ", err);
 });

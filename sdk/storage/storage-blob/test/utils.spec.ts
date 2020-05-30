@@ -6,7 +6,7 @@ import {
   sanitizeURL,
   extractConnectionStringParts
 } from "../src/utils/utils.common";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("Utility Helpers", () => {
   const protocol = "https";

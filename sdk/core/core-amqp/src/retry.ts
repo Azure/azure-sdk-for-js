@@ -1,14 +1,11 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+/* eslint-disable eqeqeq */
 
 import { translate, MessagingError } from "./errors";
 import { delay } from "./util/utils";
 import { logger } from "./log";
-import {
-  defaultMaxRetries,
-  defaultDelayBetweenOperationRetriesInMs,
-  defaultMaxDelayForExponentialRetryInMs
-} from "./util/constants";
+import { Constants } from "./util/constants";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { checkNetworkConnection } from "./util/checkNetworkConnection";
 
@@ -88,7 +85,6 @@ export interface RetryOptions {
 
 /**
  * Describes the parameters that need to be configured for the retry operation.
- * @interface RetryConfig
  */
 export interface RetryConfig<T> {
   /**
@@ -160,16 +156,16 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
     config.retryOptions = {};
   }
   if (config.retryOptions.maxRetries == undefined || config.retryOptions.maxRetries < 0) {
-    config.retryOptions.maxRetries = defaultMaxRetries;
+    config.retryOptions.maxRetries = Constants.defaultMaxRetries;
   }
   if (config.retryOptions.retryDelayInMs == undefined || config.retryOptions.retryDelayInMs < 0) {
-    config.retryOptions.retryDelayInMs = defaultDelayBetweenOperationRetriesInMs;
+    config.retryOptions.retryDelayInMs = Constants.defaultDelayBetweenOperationRetriesInMs;
   }
   if (
     config.retryOptions.maxRetryDelayInMs == undefined ||
     config.retryOptions.maxRetryDelayInMs < 0
   ) {
-    config.retryOptions.maxRetryDelayInMs = defaultMaxDelayForExponentialRetryInMs;
+    config.retryOptions.maxRetryDelayInMs = Constants.defaultMaxDelayForExponentialRetryInMs;
   }
   if (config.retryOptions.mode == undefined) {
     config.retryOptions.mode = RetryMode.Fixed;
@@ -198,7 +194,8 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
         );
       }
       break;
-    } catch (err) {
+    } catch (_err) {
+      let err = _err;
       if (!err.translated) {
         err = translate(err);
       }
@@ -212,7 +209,7 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
       }
       lastError = err;
       logger.verbose(
-        "[%s] Error occured for '%s' in attempt number %d: %O",
+        "[%s] Error occurred for '%s' in attempt number %d: %O",
         config.connectionId,
         config.operationType,
         i,

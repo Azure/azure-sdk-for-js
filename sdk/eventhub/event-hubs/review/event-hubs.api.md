@@ -6,10 +6,10 @@
 
 import { AbortSignalLike } from '@azure/abort-controller';
 import { MessagingError } from '@azure/core-amqp';
+import { OperationTracingOptions } from '@azure/core-tracing';
 import { RetryOptions } from '@azure/core-amqp';
-import { Span } from '@opentelemetry/types';
-import { SpanContext } from '@opentelemetry/types';
-import { SpanOptions } from '@opentelemetry/types';
+import { Span } from '@opentelemetry/api';
+import { SpanContext } from '@opentelemetry/api';
 import { TokenCredential } from '@azure/core-amqp';
 import { WebSocketImpl } from 'rhea-promise';
 import { WebSocketOptions } from '@azure/core-amqp';
@@ -59,9 +59,9 @@ export interface EventData {
 // @public
 export interface EventDataBatch {
     readonly count: number;
-    readonly maxSizeInBytes: number;
     // @internal
-    readonly _message: Buffer | undefined;
+    _generateMessage(): Buffer;
+    readonly maxSizeInBytes: number;
     // @internal
     readonly _messageSpanContexts: SpanContext[];
     // @internal
@@ -110,7 +110,8 @@ export class EventHubProducerClient {
     getEventHubProperties(options?: GetEventHubPropertiesOptions): Promise<EventHubProperties>;
     getPartitionIds(options?: GetPartitionIdsOptions): Promise<Array<string>>;
     getPartitionProperties(partitionId: string, options?: GetPartitionPropertiesOptions): Promise<PartitionProperties>;
-    sendBatch(batch: EventDataBatch, options?: SendBatchOptions): Promise<void>;
+    sendBatch(batch: EventData[], options?: SendBatchOptions): Promise<void>;
+    sendBatch(batch: EventDataBatch, options?: OperationOptions): Promise<void>;
 }
 
 // @public
@@ -157,8 +158,9 @@ export const logger: import("@azure/logger").AzureLogger;
 export { MessagingError }
 
 // @public
-export interface OperationOptions extends TracingOptions {
+export interface OperationOptions {
     abortSignal?: AbortSignalLike;
+    tracingOptions?: OperationTracingOptions;
 }
 
 // @public
@@ -224,16 +226,19 @@ export { RetryOptions }
 
 // @public
 export interface SendBatchOptions extends OperationOptions {
+    partitionId?: string;
+    partitionKey?: string;
 }
 
 // @public
-export interface SubscribeOptions extends TracingOptions {
+export interface SubscribeOptions {
     maxBatchSize?: number;
     maxWaitTimeInSeconds?: number;
     ownerLevel?: number;
     startPosition?: EventPosition | {
         [partitionId: string]: EventPosition;
     };
+    tracingOptions?: OperationTracingOptions;
     trackLastEnqueuedEventProperties?: boolean;
 }
 
@@ -252,13 +257,6 @@ export interface SubscriptionEventHandlers {
 }
 
 export { TokenCredential }
-
-// @public
-export interface TracingOptions {
-    tracingOptions?: {
-        spanOptions?: SpanOptions;
-    };
-}
 
 // @public
 export interface TryAddOptions {

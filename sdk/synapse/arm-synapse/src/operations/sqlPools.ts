@@ -406,6 +406,7 @@ const updateOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.SqlPool
     },
+    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }

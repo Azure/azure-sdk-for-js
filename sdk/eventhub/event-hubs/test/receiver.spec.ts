@@ -1,8 +1,8 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import chai from "chai";
-import uuid from "uuid/v4";
+import { v4 as uuid } from "uuid";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
@@ -22,7 +22,7 @@ import { EventHubConsumer } from "../src/receiver";
 import { ReceiveHandler } from "../src/receiveHandler";
 const env = getEnvVars();
 
-describe("EventHub Receiver #RunnableInBrowser", function(): void {
+describe("EventHub Receiver", function(): void {
   const service = {
     connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
     path: env[EnvVarKeys.EVENTHUB_NAME]
@@ -452,7 +452,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
     });
   });
 
-  describe("in batch mode #RunnableInBrowser", function(): void {
+  describe("in batch mode", function(): void {
     it("should receive messages correctly", async function(): Promise<void> {
       const partitionId = partitionIds[0];
       receiver = client.createConsumer(
@@ -671,7 +671,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
         }
       );
 
-      let data = await receiver.receiveBatch(1, 10);
+      const data = await receiver.receiveBatch(1, 10);
       debug("receiver.runtimeInfo ", receiver.lastEnqueuedEventProperties);
       data.length.should.equal(1);
       should.exist(receiver.lastEnqueuedEventProperties);

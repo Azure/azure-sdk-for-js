@@ -1,6 +1,31 @@
 # Release History
 
-## 5.1.0 (Unreleased)
+## 5.2.1 (Unreleased)
+
+### Tracing updates:
+
+Tracing functionality is still in preview status and the APIs may have breaking
+changes between patch and minor updates.
+
+- Updates the `peer.address` attribute on "Azure.EventHubs.send" spans to refer
+  to the fully qualified namespace instead of the endpoint.
+  Fixes [#7109](https://github.com/Azure/azure-sdk-for-js/issues/7109)
+
+- Adds a new attribute - `enqueuedTime` - to the links on "Azure.EventHubs.process" spans.
+  `enqueuedTime` maps to the enqueuedTimeUtc field from received events, represented as
+  Unix epoch time in millseconds.
+  Address [#7112](https://github.com/Azure/azure-sdk-for-js/issues/7112)
+
+## 5.2.0 (2020-05-05)
+
+- Updates the `EventHubProducerClient.sendBatch` API to accept an array of events.
+  ([PR #8622](https://github.com/Azure/azure-sdk-for-js/pull/8622))
+- Adds compatibility with TypeScript versions 3.1 through 3.6+.
+  ([PR #8654](https://github.com/Azure/azure-sdk-for-js/pull/8654))
+- Improves the performance of the `EventDataBatch.tryAdd` method.
+  ([PR #8637](https://github.com/Azure/azure-sdk-for-js/pull/8637))
+
+## 5.1.0 (2020-04-07)
 
 - Addresses [issue #7801](https://github.com/Azure/azure-sdk-for-js/pull/7973) by moving known AMQP message properties to received events' `systemProperties`.
   ([PR #7973](https://github.com/Azure/azure-sdk-for-js/pull/7973))

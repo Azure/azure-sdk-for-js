@@ -1,5 +1,6 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+/* eslint-disable eqeqeq */
 
 import { ConnectionConfig } from "./connectionConfig";
 
@@ -7,7 +8,6 @@ import { ConnectionConfig } from "./connectionConfig";
  * Describes the connection config object that is created after parsing an EventHub connection
  * string. It also provides some convenience methods for getting the address and audience for
  * different entities.
- * @interface EventHubConnectionConfig
  */
 export interface EventHubConnectionConfig extends ConnectionConfig {
   /**
@@ -67,7 +67,7 @@ export interface EventHubConnectionConfig extends ConnectionConfig {
  * different entities.
  * @module EventHubConnectionConfig
  */
-export module EventHubConnectionConfig {
+export const EventHubConnectionConfig = {
   /**
    * Creates the connection config.
    * @param {string} connectionString - The connection string for a given service like
@@ -77,7 +77,7 @@ export module EventHubConnectionConfig {
    * if present.
    * @returns {EventHubConnectionConfig} EventHubConnectionConfig
    */
-  export function create(connectionString: string, path?: string): EventHubConnectionConfig {
+  create(connectionString: string, path?: string): EventHubConnectionConfig {
     const config = ConnectionConfig.create(connectionString, path);
     if (!config.entityPath) {
       throw new TypeError(
@@ -85,8 +85,8 @@ export module EventHubConnectionConfig {
           `must contain EntityPath="<path-to-the-entity>".`
       );
     }
-    return createFromConnectionConfig(config);
-  }
+    return EventHubConnectionConfig.createFromConnectionConfig(config);
+  },
 
   /**
    * Creates an EventHubConnectionConfig from the provided base ConnectionConfig.
@@ -94,7 +94,7 @@ export module EventHubConnectionConfig {
    * created.
    * @returns EventHubConnectionConfig
    */
-  export function createFromConnectionConfig(config: ConnectionConfig): EventHubConnectionConfig {
+  createFromConnectionConfig(config: ConnectionConfig): EventHubConnectionConfig {
     ConnectionConfig.validate(config, { isEntityPathRequired: true });
 
     (config as EventHubConnectionConfig).getManagementAudience = () => {
@@ -139,14 +139,14 @@ export module EventHubConnectionConfig {
       return `${config.entityPath}/ConsumerGroups/${consumergroup}/Partitions/${partitionId}`;
     };
     return config as EventHubConnectionConfig;
-  }
+  },
 
   /**
    * Validates the properties of connection config.
    * @param {ConnectionConfig} config The connection config to be validated.
    * @returns {void} void
    */
-  export function validate(config: EventHubConnectionConfig): void {
+  validate(config: EventHubConnectionConfig): void {
     return ConnectionConfig.validate(config, { isEntityPathRequired: true });
   }
-}
+};

@@ -1,17 +1,17 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+/* eslint-disable eqeqeq */
 
 import { MessageHeader as AmqpMessageHeader } from "rhea-promise";
 import { logger } from "./log";
 
 /**
  * Describes the defined set of standard header properties of the message.
- * @interface MessageHeader
  */
 export interface MessageHeader {
   /**
    * @property {boolean} [firstAcquirer] If this value is true, then this message has not been
-   * acquired by any other link. Ifthis value is false, then this message MAY have previously
+   * acquired by any other link. If this value is false, then this message MAY have previously
    * been acquired by another link or links.
    */
   firstAcquirer?: boolean;
@@ -38,14 +38,14 @@ export interface MessageHeader {
  * Describes the operations that can be performed on the message header.
  * @module MessageHeader
  */
-export namespace MessageHeader {
+export const MessageHeader = {
   /**
    * Converts MessageHeader to AmqpMessageHeader.
    *
    * @param {MessageHeader} props Message header.
    * @returns {AmqpMessageHeader} AmqpMessageHeader
    */
-  export function toAmqpMessageHeader(props: MessageHeader): AmqpMessageHeader {
+  toAmqpMessageHeader(props: MessageHeader): AmqpMessageHeader {
     const amqpHeader: AmqpMessageHeader = {};
     if (props.deliveryCount != undefined) {
       amqpHeader.delivery_count = props.deliveryCount;
@@ -62,7 +62,7 @@ export namespace MessageHeader {
     }
     logger.verbose("To AmqpMessageHeader: %O", amqpHeader);
     return amqpHeader;
-  }
+  },
 
   /**
    * Converts AmqpMessageHeader to MessageHeader.
@@ -70,7 +70,7 @@ export namespace MessageHeader {
    * @param {AmqpMessageHeader} props Amqp Message Header
    * @returns {MessageHeader} MessageHeader.
    */
-  export function fromAmqpMessageHeader(props: AmqpMessageHeader): MessageHeader {
+  fromAmqpMessageHeader(props: AmqpMessageHeader): MessageHeader {
     const msgHeader: MessageHeader = {};
     if (props.delivery_count != undefined) {
       msgHeader.deliveryCount = props.delivery_count;
@@ -90,4 +90,4 @@ export namespace MessageHeader {
     logger.verbose("From AmqpMessageHeader: %O", msgHeader);
     return msgHeader;
   }
-}
+};

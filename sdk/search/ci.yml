@@ -37,5 +37,5 @@ stages:
     parameters:
       ServiceDirectory: search
       Artifacts:
-        - name: azure-search
-          safeName: azuresearch
+        - name: azure-search-documents
+          safeName: azuresearchdocuments
