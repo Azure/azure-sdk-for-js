@@ -9,7 +9,6 @@ import {
   ConnectionConfig,
   isTokenCredential,
   RetryOptions,
-  Constants,
   parseConnectionString,
   EventHubConnectionStringModel
 } from "@azure/core-amqp";
@@ -471,10 +470,4 @@ export class EventHubClient {
       clientSpan.end();
     }
   }
-
-  /**
-   * @property
-   * The name of the default consumer group in the Event Hubs service.
-   */
-  static defaultConsumerGroupName: string = Constants.defaultConsumerGroup;
 }

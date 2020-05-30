@@ -10,7 +10,7 @@ import chaiString from "chai-string";
 chai.use(chaiString);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:client-spec");
-import { TokenCredential, earliestEventPosition } from "../src";
+import { TokenCredential, earliestEventPosition, EventHubConsumerClient } from "../src";
 import { EventHubClient } from "../src/impl/eventHubClient";
 import { packageJsonInfo } from "../src/util/constants";
 import { EnvVarKeys, getEnvVars, isNode } from "./utils/testUtils";
@@ -139,7 +139,7 @@ describe("ServiceCommunicationError for non existent namespace", function(): voi
   > {
     try {
       const receiver = client.createConsumer(
-        EventHubClient.defaultConsumerGroupName,
+        EventHubConsumerClient.defaultConsumerGroupName,
         "0",
         earliestEventPosition
       );
@@ -209,7 +209,7 @@ describe("MessagingEntityNotFoundError for non existent eventhub", function(): v
   > {
     try {
       const receiver = client.createConsumer(
-        EventHubClient.defaultConsumerGroupName,
+        EventHubConsumerClient.defaultConsumerGroupName,
         "0",
         earliestEventPosition
       );
@@ -315,7 +315,7 @@ describe("Errors after close()", function(): void {
     await sender.send({ body: "dummy send to ensure AMQP connection is opened" });
 
     // Ensure receiver link is opened
-    receiver = client.createConsumer(EventHubClient.defaultConsumerGroupName, "0", {
+    receiver = client.createConsumer(EventHubConsumerClient.defaultConsumerGroupName, "0", {
       enqueuedOn: timeNow
     });
     const msgs = await receiver.receiveBatch(1, 10);
@@ -401,7 +401,7 @@ describe("Errors after close()", function(): void {
     let errorNewReceiver: string = "";
     try {
       receiver = client.createConsumer(
-        EventHubClient.defaultConsumerGroupName,
+        EventHubConsumerClient.defaultConsumerGroupName,
         "0",
         earliestEventPosition
       );

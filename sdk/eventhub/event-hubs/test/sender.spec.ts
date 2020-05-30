@@ -562,7 +562,7 @@ describe("EventHub Sender", function(): void {
 
     it("with max message size should be sent successfully.", async function(): Promise<void> {
       const partitionInfo = await client.getPartitionProperties("0");
-      const consumer = client.createConsumer(EventHubClient.defaultConsumerGroupName, "0", {
+      const consumer = client.createConsumer(EventHubConsumerClient.defaultConsumerGroupName, "0", {
         sequenceNumber: partitionInfo.lastEnqueuedSequenceNumber
       });
       const eventDataBatch = await producerClient.createBatch({
