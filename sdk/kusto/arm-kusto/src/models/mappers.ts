@@ -888,7 +888,7 @@ export const ReadWriteDatabase: msRest.CompositeMapper = {
         readOnly: true,
         serializedName: "properties.isFollowed",
         type: {
-          name: "String"
+          name: "Boolean"
         }
       }
     }

@@ -577,7 +577,7 @@ export interface ReadWriteDatabase {
    * Indicates whether the database is followed.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly isFollowed?: string;
+  readonly isFollowed?: boolean;
 }
 
 /**
