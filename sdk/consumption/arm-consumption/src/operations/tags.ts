@@ -27,27 +27,54 @@ export class Tags {
   }
 
   /**
-   * Get all available tag keys for a billing account.
-   * @param billingAccountId BillingAccount ID
+   * Get all available tag keys for the defined scope
+   * @param scope The scope associated with tags operations. This includes
+   * '/subscriptions/{subscriptionId}/' for subscription scope,
+   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resourceGroup scope,
+   * '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for Billing Account scope,
+   * '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/departments/{departmentId}' for
+   * Department scope,
+   * '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/enrollmentAccounts/{enrollmentAccountId}'
+   * for EnrollmentAccount scope and
+   * '/providers/Microsoft.Management/managementGroups/{managementGroupId}' for Management Group
+   * scope..
    * @param [options] The optional parameters
    * @returns Promise<Models.TagsGetResponse>
    */
-  get(billingAccountId: string, options?: msRest.RequestOptionsBase): Promise<Models.TagsGetResponse>;
+  get(scope: string, options?: msRest.RequestOptionsBase): Promise<Models.TagsGetResponse>;
   /**
-   * @param billingAccountId BillingAccount ID
+   * @param scope The scope associated with tags operations. This includes
+   * '/subscriptions/{subscriptionId}/' for subscription scope,
+   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resourceGroup scope,
+   * '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for Billing Account scope,
+   * '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/departments/{departmentId}' for
+   * Department scope,
+   * '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/enrollmentAccounts/{enrollmentAccountId}'
+   * for EnrollmentAccount scope and
+   * '/providers/Microsoft.Management/managementGroups/{managementGroupId}' for Management Group
+   * scope..
    * @param callback The callback
    */
-  get(billingAccountId: string, callback: msRest.ServiceCallback<Models.TagsResult>): void;
+  get(scope: string, callback: msRest.ServiceCallback<Models.TagsResult>): void;
   /**
-   * @param billingAccountId BillingAccount ID
+   * @param scope The scope associated with tags operations. This includes
+   * '/subscriptions/{subscriptionId}/' for subscription scope,
+   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resourceGroup scope,
+   * '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for Billing Account scope,
+   * '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/departments/{departmentId}' for
+   * Department scope,
+   * '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/enrollmentAccounts/{enrollmentAccountId}'
+   * for EnrollmentAccount scope and
+   * '/providers/Microsoft.Management/managementGroups/{managementGroupId}' for Management Group
+   * scope..
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(billingAccountId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagsResult>): void;
-  get(billingAccountId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagsResult>, callback?: msRest.ServiceCallback<Models.TagsResult>): Promise<Models.TagsGetResponse> {
+  get(scope: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagsResult>): void;
+  get(scope: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagsResult>, callback?: msRest.ServiceCallback<Models.TagsResult>): Promise<Models.TagsGetResponse> {
     return this.client.sendOperationRequest(
       {
-        billingAccountId,
+        scope,
         options
       },
       getOperationSpec,
@@ -59,9 +86,9 @@ export class Tags {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "providers/Microsoft.CostManagement/billingAccounts/{billingAccountId}/providers/Microsoft.Consumption/tags",
+  path: "{scope}/providers/Microsoft.Consumption/tags",
   urlParameters: [
-    Parameters.billingAccountId
+    Parameters.scope
   ],
   queryParameters: [
     Parameters.apiVersion
