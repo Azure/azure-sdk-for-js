@@ -117,7 +117,7 @@ describe("EventHub Receiver", function(): void {
         };
         events.push(ed);
       }
-      producerClient.sendBatch(events, { partitionId: partitionId });
+      await producerClient.sendBatch(events, { partitionId: partitionId });
       debug(">>>>>>> Sent 10 messages. We should only receive these 10 messages.");
       const data2 = await receiver.receiveBatch(10, 20);
       debug("received messages: ", data2);
@@ -140,7 +140,7 @@ describe("EventHub Receiver", function(): void {
           stamp: uid
         }
       };
-      producerClient.sendBatch([ed], { partitionId: partitionId });
+      await producerClient.sendBatch([ed], { partitionId: partitionId });
       debug(
         "Sent the new message after creating the receiver. We should only receive this message."
       );
@@ -169,7 +169,7 @@ describe("EventHub Receiver", function(): void {
           stamp: uid
         }
       };
-      producerClient.sendBatch([ed], { partitionId: partitionId });
+      await producerClient.sendBatch([ed], { partitionId: partitionId });
       debug(
         "Sent the new message after creating the receiver. We should only receive this message."
       );
@@ -196,7 +196,7 @@ describe("EventHub Receiver", function(): void {
           stamp: uid
         }
       };
-      producerClient.sendBatch([ed], { partitionId: partitionId });
+      await producerClient.sendBatch([ed], { partitionId: partitionId });
       debug(
         "Sent the new message after getting the partition runtime information. We should only receive this message."
       );
@@ -226,7 +226,7 @@ describe("EventHub Receiver", function(): void {
           stamp: uid
         }
       };
-      producerClient.sendBatch([ed], { partitionId: partitionId });
+      await producerClient.sendBatch([ed], { partitionId: partitionId });
       debug(`Sent message 1 with stamp: ${uid}.`);
       const pInfo = await client.getPartitionProperties(partitionId);
       const uid2 = uuid();
@@ -236,7 +236,7 @@ describe("EventHub Receiver", function(): void {
           stamp: uid2
         }
       };
-      producerClient.sendBatch([ed2], { partitionId: partitionId });
+      await producerClient.sendBatch([ed2], { partitionId: partitionId });
       debug(`Sent message 2 with stamp: ${uid}.`);
       debug(
         `Creating new receiver with last sequence number: "${pInfo.lastEnqueuedSequenceNumber}".`
