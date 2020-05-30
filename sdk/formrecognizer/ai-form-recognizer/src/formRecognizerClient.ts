@@ -10,7 +10,7 @@ import {
   AbortSignalLike,
   ServiceClientCredentials
 } from "@azure/core-http";
-import { TokenCredential } from '@azure/identity';
+import { TokenCredential } from "@azure/identity";
 import { KeyCredential } from "@azure/core-auth";
 import { SDK_VERSION, DEFAULT_COGNITIVE_SCOPE } from "./constants";
 import { logger } from "./logger";
@@ -65,7 +65,16 @@ import {
 } from "./transforms";
 import { createFormRecognizerAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 
-export { PollOperationState, PollerLike };
+export {
+  PollOperationState,
+  PollerLike,
+  BeginRecognizeCustomFormPollState,
+  BeginRecognizeContentPollState,
+  BeginRecognizeReceiptPollState,
+  RecognizeContentPollerClient,
+  RecognizeCustomFormPollerClient,
+  RecognizeReceiptPollerClient
+};
 
 /**
  * Options for content/layout recognition.
@@ -269,8 +278,7 @@ export class FormRecognizerClient {
    * Recognizes content, including text and table structure from a form document.
    *
    * This method returns a long running operation poller that allows you to wait
-   * indefinitely until the copy is completed.
-   * You can also cancel a copy before it is completed by calling `cancelOperation` on the poller.
+   * indefinitely until the operation is completed.
    * Note that the onProgress callback will not be invoked if the operation completes in the first
    * request, and attempting to cancel a completed copy will result in an error being thrown.
    *
@@ -320,8 +328,7 @@ export class FormRecognizerClient {
    * Recognizes content, including text and table structure from a url to a form document.
    *
    * This method returns a long running operation poller that allows you to wait
-   * indefinitely until the copy is completed.
-   * You can also cancel a copy before it is completed by calling `cancelOperation` on the poller.
+   * indefinitely until the operation is completed.
    * Note that the onProgress callback will not be invoked if the operation completes in the first
    * request, and attempting to cancel a completed copy will result in an error being thrown.
    *
@@ -397,8 +404,7 @@ ng", and "image/tiff";
   /**
    * Recognizes forms from a given document using a custom form model from training.
    * This method returns a long running operation poller that allows you to wait
-   * indefinitely until the copy is completed.
-   * You can also cancel a copy before it is completed by calling `cancelOperation` on the poller.
+   * indefinitely until the operation is completed.
    * Note that the onProgress callback will not be invoked if the operation completes in the first
    * request, and attempting to cancel a completed copy will result in an error being thrown.
    *
@@ -456,8 +462,7 @@ ng", and "image/tiff";
   /**
    * Recognizes forms from a url to a form document using a custom form model from training.
    * This method returns a long running operation poller that allows you to wait
-   * indefinitely until the copy is completed.
-   * You can also cancel a copy before it is completed by calling `cancelOperation` on the poller.
+   * indefinitely until the operation is completed.
    * Note that the onProgress callback will not be invoked if the operation completes in the first
    * request, and attempting to cancel a completed copy will result in an error being thrown.
    *
@@ -548,8 +553,7 @@ ng", and "image/tiff";
    * from receipts such as merchant name, merchant phone number, transaction date, and more.
    *
    * This method returns a long running operation poller that allows you to wait
-   * indefinitely until the copy is completed.
-   * You can also cancel a copy before it is completed by calling `cancelOperation` on the poller.
+   * indefinitely until the operation is completed.
    * Note that the onProgress callback will not be invoked if the operation completes in the first
    * request, and attempting to cancel a completed copy will result in an error being thrown.
    *
@@ -587,7 +591,7 @@ ng", and "image/tiff";
   ): Promise<ReceiptPollerLike> {
     const analyzePollerClient: RecognizeReceiptPollerClient = {
       beginRecognize: (...args) => recognizeReceiptInternal(this.client, ...args),
-      getRecognizeResult: (...args) => this.getreceipts(...args)
+      getRecognizeResult: (...args) => this.getReceipts(...args)
     };
 
     const poller = new BeginRecognizeReceiptPoller({
@@ -606,8 +610,7 @@ ng", and "image/tiff";
    * from receipts such as merchant name, merchant phone number, transaction date, and more.
    *
    * This method returns a long running operation poller that allows you to wait
-   * indefinitely until the copy is completed.
-   * You can also cancel a copy before it is completed by calling `cancelOperation` on the poller.
+   * indefinitely until the operation is completed.
    * Note that the onProgress callback will not be invoked if the operation completes in the first
    * request, and attempting to cancel a completed copy will result in an error being thrown.
    *
@@ -642,7 +645,7 @@ ng", and "image/tiff";
   ): Promise<ReceiptPollerLike> {
     const analyzePollerClient: RecognizeReceiptPollerClient = {
       beginRecognize: (...args) => recognizeReceiptInternal(this.client, ...args),
-      getRecognizeResult: (...args) => this.getreceipts(...args)
+      getRecognizeResult: (...args) => this.getReceipts(...args)
     };
 
     const poller = new BeginRecognizeReceiptPoller({
@@ -660,7 +663,7 @@ ng", and "image/tiff";
    * Retrieves result of a receipt recognition operation.
    * @private
    */
-  private async getreceipts(
+  private async getReceipts(
     resultId: string,
     options?: GetReceiptsOptions
   ): Promise<RecognizeReceiptResultResponse> {
@@ -711,11 +714,10 @@ async function recognizeLayoutInternal(
         operationOptionsToRequestOptionsBase(finalOptions)
       );
     }
-    return await client.analyzeLayoutAsync(
-      "application/json", {
+    return await client.analyzeLayoutAsync("application/json", {
       fileStream: requestBody as SourcePath,
-        ...operationOptionsToRequestOptionsBase(finalOptions)
-      });
+      ...operationOptionsToRequestOptionsBase(finalOptions)
+    });
   } catch (e) {
     span.setStatus({
       code: CanonicalCode.UNKNOWN,
@@ -750,11 +752,9 @@ async function recognizeCustomFormInternal(
         operationOptionsToRequestOptionsBase(finalOptions)
       );
     }
-    return await client.analyzeWithCustomModel(
-      modelId!,
-      "application/json", {
-        fileStream: requestBody as SourcePath,
-        ...operationOptionsToRequestOptionsBase(finalOptions)
+    return await client.analyzeWithCustomModel(modelId!, "application/json", {
+      fileStream: requestBody as SourcePath,
+      ...operationOptionsToRequestOptionsBase(finalOptions)
     });
   } catch (e) {
     span.setStatus({
@@ -791,10 +791,9 @@ async function recognizeReceiptInternal(
         operationOptionsToRequestOptionsBase(finalOptions)
       );
     }
-    return await client.analyzeReceiptAsync(
-      "application/json", {
-        fileStream: requestBody as SourcePath,
-        ...operationOptionsToRequestOptionsBase(finalOptions)
+    return await client.analyzeReceiptAsync("application/json", {
+      fileStream: requestBody as SourcePath,
+      ...operationOptionsToRequestOptionsBase(finalOptions)
     });
   } catch (e) {
     span.setStatus({

@@ -10,7 +10,8 @@ import {
 import {
   GeneratedClientAnalyzeWithCustomModelResponse as AnalyzeWithCustomModelResponseModel,
   OperationStatus,
-  ContentType } from "../../generated/models";
+} from "../../generated/models";
+import { FormContentType } from "../../common";
 import { FormRecognizerRequestBody, RecognizedFormArray, FormRecognizerError } from "../../models";
 import { RecognizeFormResultResponse } from "../../internalModels";
 export { OperationStatus };
@@ -38,7 +39,7 @@ export type RecognizeCustomFormPollerClient = {
   // returns a result id to retrieve results
   beginRecognize: (
     source: FormRecognizerRequestBody | string,
-    contentType?: ContentType,
+    contentType?: FormContentType,
     analyzeOptions?: RecognizeFormsOptions,
     modelId?: string
   ) => Promise<AnalyzeWithCustomModelResponseModel>;
@@ -49,7 +50,7 @@ export type RecognizeCustomFormPollerClient = {
 export interface BeginRecognizeCustomFormPollState extends PollOperationState<RecognizedFormArray> {
   readonly client: RecognizeCustomFormPollerClient;
   source?: FormRecognizerRequestBody | string;
-  contentType?: ContentType;
+  contentType?: FormContentType;
   modelId?: string;
   resultId?: string;
   status: OperationStatus;
@@ -65,7 +66,7 @@ export interface BeginRecognizeCustomFormPollerOperation
 export type BeginRecognizeCustomFormPollerOptions = {
   client: RecognizeCustomFormPollerClient;
   source: FormRecognizerRequestBody | string;
-  contentType?: ContentType;
+  contentType?: FormContentType;
   modelId?: string;
   intervalInMs?: number;
   resultId?: string;

@@ -1805,15 +1805,17 @@ packages:
       node: '>=6'
     resolution:
       integrity: sha512-fmvV4caBnofhPe8kOcitBwSn2f39QLjnAnGq3gO9dfd75mUytzKNZB1hde6QHunW2Rt+OwuBOMc3i1tNElbszA==
-  /cross-env/6.0.3:
+  /cross-env/7.0.2:
     dependencies:
       cross-spawn: 7.0.2
     dev: false
     engines:
-      node: '>=8.0'
+      node: '>=10.14'
+      npm: '>=6'
+      yarn: '>=1'
     hasBin: true
     resolution:
-      integrity: sha512-+KqxF6LCvfhWvADcDPqo64yVIB31gv/jQulX2NGzKS/g3GEVz6/pt4wjHFtFWsHMddebWD/sDthJemzM4MaAag==
+      integrity: sha512-KZP/bMEOJEDCkDQAyRhu3RL2ZO/SUVrxQVI0G3YEQ+OLbRA3c6zgixe8Mq8a/z7+HKlNEjo8oiLUs8iRijY2Rw==
   /cross-spawn/4.0.2:
     dependencies:
       lru-cache: 4.1.5
@@ -2656,11 +2658,13 @@ packages:
     dev: false
     resolution:
       integrity: sha1-JcfInLH5B3+IkbvmHY85Dq4lbx4=
-  /fetch-mock/8.3.2_node-fetch@2.6.0:
+  /fetch-mock/9.10.1_node-fetch@2.6.0:
     dependencies:
       babel-runtime: 6.26.0
       core-js: 3.6.5
+      debug: 4.1.1
       glob-to-regexp: 0.4.1
+      is-subset: 0.1.1
       lodash.isequal: 4.5.0
       node-fetch: 2.6.0
       path-to-regexp: 2.4.0
@@ -2675,7 +2679,7 @@ packages:
       node-fetch:
         optional: true
     resolution:
-      integrity: sha512-RUdLbhIBTvECX20I8htNhmLRrCplCiOP62srst8UQsSV0m8taJe31PBsQybL7OIq5fEf6tnqVGvQ62ZnZ4IFfQ==
+      integrity: sha512-pTSLpg/Z9LvoqTRu8S9Aeyu4wsyNHLcqON6F5iw1nLHkSOZ+snKgkijwtOVtVsgNzyiZCq9NHRwGxPRpLwth7A==
   /figures/3.2.0:
     dependencies:
       escape-string-regexp: 1.0.5
@@ -3604,6 +3608,10 @@ packages:
       node: '>=8'
     resolution:
       integrity: sha512-XCoy+WlUr7d1+Z8GgSuXmpuUFC9fOhRXglJMx+dwLKTkL44Cjd4W1Z5P+BQZpr+cR93aGP4S/s7Ftw6Nd/kiEw==
+  /is-subset/0.1.1:
+    dev: false
+    resolution:
+      integrity: sha1-ilkRfZMt4d4A8kX83TnOQ/HpOaY=
   /is-symbol/1.0.3:
     dependencies:
       has-symbols: 1.0.1
@@ -7438,7 +7446,7 @@ packages:
       '@typescript-eslint/eslint-plugin': 2.34.0_fbe180e5e50b8ec89ec2be5e2ce5513b
       '@typescript-eslint/parser': 2.34.0_eslint@6.8.0+typescript@3.8.3
       assert: 1.5.0
-      cross-env: 6.0.3
+      cross-env: 7.0.2
       delay: 4.3.0
       eslint: 6.8.0
       eslint-config-prettier: 6.11.0_eslint@6.8.0
@@ -7470,7 +7478,7 @@ packages:
     dev: false
     name: '@rush-temp/abort-controller'
     resolution:
-      integrity: sha512-t1XcRg8+UYEEJb7YJ24B+SCb2L5qykaDtzq/4bL7OpRyPHDx9/dt4LIWhkGmXeQWhgmhE7HgeLEp97GxpysDnw==
+      integrity: sha512-WjbXe/KlZD7oYbWnwOC9D4jjwkzVpfgrwe3a4m0p8gU2YDODMYTQk9CdSpMlFtNv1mzcp3KZdNCm/ywezJluyA==
       tarball: 'file:projects/abort-controller.tgz'
     version: 0.0.0
   'file:projects/ai-form-recognizer.tgz':
@@ -7492,7 +7500,7 @@ packages:
       '@typescript-eslint/parser': 2.34.0_eslint@6.8.0+typescript@3.8.3
       chai: 4.2.0
       chai-as-promised: 7.1.1_chai@4.2.0
-      cross-env: 6.0.3
+      cross-env: 7.0.2
       dotenv: 8.2.0
       eslint: 6.8.0
       eslint-config-prettier: 6.11.0_eslint@6.8.0
@@ -7530,7 +7538,7 @@ packages:
     dev: false
     name: '@rush-temp/ai-form-recognizer'
     resolution:
-      integrity: sha512-LXkkjHuN8X4L4SVElgtluVHntRjbvVNs9vT3oUVkDwKnZm+9+MYi+qt5/XfQderz9uvK7WcL/denlhsFbJjXJw==
+      integrity: sha512-OBOf+sSQ+2t3THBs/RhJJ7tKTQ/BAOHXirPrVqLexYFdIc61KqOPmrQT/zLs+HhEBQ0O29r9uqO02qZGTIfAVw==
       tarball: 'file:projects/ai-form-recognizer.tgz'
     version: 0.0.0
   'file:projects/ai-text-analytics.tgz':
@@ -7552,7 +7560,7 @@ packages:
       '@typescript-eslint/parser': 2.34.0_eslint@6.8.0+typescript@3.8.3
       chai: 4.2.0
       chai-as-promised: 7.1.1_chai@4.2.0
-      cross-env: 6.0.3
+      cross-env: 7.0.2
       dotenv: 8.2.0
       eslint: 6.8.0
       eslint-config-prettier: 6.11.0_eslint@6.8.0
@@ -7589,7 +7597,7 @@ packages:
     dev: false
     name: '@rush-temp/ai-text-analytics'
     resolution:
-      integrity: sha512-PrM0aSID6lUJUBtUeM82XtWdk29vGzUWwSzSaqKR+ZyAwKGya1eWRovc1iNGITSCVh15FcVM/n4tt7V/6PPNAw==
+      integrity: sha512-WKaoCfw3F9vRqC2nblQrQxSYdYp9k4TosDrg7AKCEHT3Z9fPXIkweiEGqbDFU3FnliZe3zR1hDHB125WWbfQdw==
       tarball: 'file:projects/ai-text-analytics.tgz'
     version: 0.0.0
   'file:projects/app-configuration.tgz':
@@ -7660,7 +7668,7 @@ packages:
       buffer: 5.6.0
       chai: 4.2.0
       chai-as-promised: 7.1.1_chai@4.2.0
-      cross-env: 6.0.3
+      cross-env: 7.0.2
       debug: 4.1.1
       dotenv: 8.2.0
       downlevel-dts: 0.4.0
@@ -7699,7 +7707,7 @@ packages:
     dev: false
     name: '@rush-temp/core-amqp'
     resolution:
-      integrity: sha512-wZ2B79DiSWRuixInwWdVpDd6SN76mdbTan7Zmq33U/0zCaCSM3qY8MbRiBNqgypgAZn9dwZMlUYz0ufSQcHmpA==
+      integrity: sha512-doQCRgyRhm2EbsJAXtTJuWPddZHDpN7CVFWmWjczw1UHUQgG+usgstRQMkgwj7rkuvCj2MPekZMSwntHkoDD4Q==
       tarball: 'file:projects/core-amqp.tgz'
     version: 0.0.0
   'file:projects/core-arm.tgz':
@@ -7768,7 +7776,7 @@ packages:
       '@typescript-eslint/eslint-plugin': 2.34.0_fbe180e5e50b8ec89ec2be5e2ce5513b
       '@typescript-eslint/parser': 2.34.0_eslint@6.8.0+typescript@3.8.3
       assert: 1.5.0
-      cross-env: 6.0.3
+      cross-env: 7.0.2
       downlevel-dts: 0.4.0
       eslint: 6.8.0
       eslint-config-prettier: 6.11.0_eslint@6.8.0
@@ -7790,7 +7798,7 @@ packages:
     dev: false
     name: '@rush-temp/core-auth'
     resolution:
-      integrity: sha512-WSS08ALSWyt1/AD9OormY54Z9Y5/qWDL5bJUAMda3xC4FhmkzvmPacDU+kqYUJP/hfjAr1am1aVWUh+GV9LWqA==
+      integrity: sha512-sffQJZ6qejEbzPo7Q4G0RYzZJAMtVPApnBFzZYOP626AGB/FbwCNUR2CXKGDM+Mla2U7cuNRccMisXYvmdEm9w==
       tarball: 'file:projects/core-auth.tgz'
     version: 0.0.0
   'file:projects/core-http.tgz':
@@ -7820,7 +7828,7 @@ packages:
       '@typescript-eslint/parser': 2.34.0_eslint@6.8.0+typescript@3.8.3
       babel-runtime: 6.26.0
       chai: 4.2.0
-      cross-env: 6.0.3
+      cross-env: 7.0.2
       downlevel-dts: 0.4.0
       eslint: 6.8.0
       eslint-config-prettier: 6.11.0_eslint@6.8.0
@@ -7828,7 +7836,7 @@ packages:
       eslint-plugin-no-only-tests: 2.4.0
       eslint-plugin-promise: 4.2.1
       express: 4.17.1
-      fetch-mock: 8.3.2_node-fetch@2.6.0
+      fetch-mock: 9.10.1_node-fetch@2.6.0
       form-data: 3.0.0
       glob: 7.1.6
       karma: 4.4.1
@@ -7867,7 +7875,7 @@ packages:
     dev: false
     name: '@rush-temp/core-http'
     resolution:
-      integrity: sha512-wh4G+ovKXBsqixZbW2ySkDJlqiLtSgA2YotxgJUh0XoUYrgVaiNFKsqsBtHgVdgApvNkeToSBJtRxPyITT6DrA==
+      integrity: sha512-7sooFWdn4r37p2EWeDvhCbRUZhgLVL9PzRtlKi+0nO4J3Dx9iR32q/+i7Otb/KxCQWhihHMWXdGIHlAeMy0uFg==
       tarball: 'file:projects/core-http.tgz'
     version: 0.0.0
   'file:projects/core-https.tgz':
@@ -7885,7 +7893,7 @@ packages:
       '@typescript-eslint/eslint-plugin': 2.34.0_fbe180e5e50b8ec89ec2be5e2ce5513b
       '@typescript-eslint/parser': 2.34.0_eslint@6.8.0+typescript@3.8.3
       chai: 4.2.0
-      cross-env: 6.0.3
+      cross-env: 7.0.2
       downlevel-dts: 0.4.0
       eslint: 6.8.0
       eslint-config-prettier: 6.11.0_eslint@6.8.0
@@ -7918,7 +7926,7 @@ packages:
     dev: false
     name: '@rush-temp/core-https'
     resolution:
-      integrity: sha512-XII+YvK/L7DKm9b3v+a/IJU1dNSJPL7lAdYQ8z7Nz3gwgHo2fNt4zJSeJXDSL7jti++zWZIcGTGua+3+ewKz2A==
+      integrity: sha512-V/tvdimTlQ+LQDL8lE8AJs6FyzqrBmvCF4xjeE8rvhZKF07MzewimGaRvqZ4B8hrU2pdGZN7BFsZXWdM1KpGnQ==
       tarball: 'file:projects/core-https.tgz'
     version: 0.0.0
   'file:projects/core-lro.tgz':
@@ -8007,7 +8015,7 @@ packages:
       '@typescript-eslint/eslint-plugin': 2.34.0_fbe180e5e50b8ec89ec2be5e2ce5513b
       '@typescript-eslint/parser': 2.34.0_eslint@6.8.0+typescript@3.8.3
       assert: 1.5.0
-      cross-env: 6.0.3
+      cross-env: 7.0.2
       eslint: 6.8.0
       eslint-config-prettier: 6.11.0_eslint@6.8.0
       eslint-plugin-no-null: 1.0.2_eslint@6.8.0
@@ -8028,7 +8036,7 @@ packages:
     dev: false
     name: '@rush-temp/core-tracing'
     resolution:
-      integrity: sha512-IuteqrtocEmF/QOMvZxlcBw0Fvx7kdb46AzB13k9dXXMCnYfpjIFdPtdaZtqvfAKf4dcCpeoCD8mzj+4fNDD+A==
+      integrity: sha512-yG9pQRIp0c/H009Ccmi6bk/69JAzoUs9PjzoIfdKux4AOJYCqfRog2X5Yd0hut5j4OKtTUUhcZeCgEYk4My1Ow==
       tarball: 'file:projects/core-tracing.tgz'
     version: 0.0.0
   'file:projects/cosmos.tgz':
@@ -8051,7 +8059,7 @@ packages:
       '@typescript-eslint/eslint-plugin': 2.34.0_fbe180e5e50b8ec89ec2be5e2ce5513b
       '@typescript-eslint/eslint-plugin-tslint': 2.34.0_fecc5d28141122f1c31d1ed9d728f517
       '@typescript-eslint/parser': 2.34.0_eslint@6.8.0+typescript@3.8.3
-      cross-env: 6.0.3
+      cross-env: 7.0.2
       debug: 4.1.1
       dotenv: 8.2.0
       downlevel-dts: 0.4.0
@@ -8089,7 +8097,7 @@ packages:
     dev: false
     name: '@rush-temp/cosmos'
     resolution:
-      integrity: sha512-1BwLzP45Dx370L1kri3W/g0OdsGdk0jtHo7umYqhiZIfDgB2akrdEz6Rs+kzYWobvhRTHQFxhmDdYWJxdyWHKw==
+      integrity: sha512-5Uz9geFHa+r8790KtJZ897Nk+es60wxr16e8j0x3kQT+mYXtv1CRe7qPCCueREEcP0Rc0QpMI9ke65C/FjYcCQ==
       tarball: 'file:projects/cosmos.tgz'
     version: 0.0.0
   'file:projects/eslint-plugin-azure-sdk.tgz':
@@ -8155,7 +8163,7 @@ packages:
       chai: 4.2.0
       chai-as-promised: 7.1.1_chai@4.2.0
       chai-string: 1.5.0_chai@4.2.0
-      cross-env: 6.0.3
+      cross-env: 7.0.2
       debug: 4.1.1
       dotenv: 8.2.0
       downlevel-dts: 0.4.0
@@ -8200,7 +8208,7 @@ packages:
     dev: false
     name: '@rush-temp/event-hubs'
     resolution:
-      integrity: sha512-tCDq+8c9DgoaF/oMMcDUzX//7K2HnmeglOueqqDJ6k8XqpkLCoJC6Fe6uZROnk3R3BYAVzLMr0WPycQp9REqOg==
+      integrity: sha512-i9h03x29yp8Q3f71c2JLfZCbTHE524BBoMVKvvOMykd6yZuoIasZNWDZMFWK6yT8/f2hXLfHJhA/41CAw7egsQ==
       tarball: 'file:projects/event-hubs.tgz'
     version: 0.0.0
   'file:projects/event-processor-host.tgz':
@@ -8230,7 +8238,7 @@ packages:
       chai: 4.2.0
       chai-as-promised: 7.1.1_chai@4.2.0
       chai-string: 1.5.0_chai@4.2.0
-      cross-env: 6.0.3
+      cross-env: 7.0.2
       debug: 4.1.1
       dotenv: 8.2.0
       eslint: 6.8.0
@@ -8257,7 +8265,7 @@ packages:
     dev: false
     name: '@rush-temp/event-processor-host'
     resolution:
-      integrity: sha512-q74mXqMCDs+ToOyaLjI/hoj+IRNB6nUSV5j8DLDrlCDMkiTBE+hlXQGi561UOCzkgdw6lFaYLeAPmZ658KFkjw==
+      integrity: sha512-Ny9dQ2oRS9uJ5B5oX3Jbb2qiM+pc11RjfKgGVW1Ae3GmCOCm9HF976v4LkoTpqNGzCDDE8vnWCl6VMpDijJOJg==
       tarball: 'file:projects/event-processor-host.tgz'
     version: 0.0.0
   'file:projects/eventhubs-checkpointstore-blob.tgz':
@@ -8281,7 +8289,7 @@ packages:
       chai: 4.2.0
       chai-as-promised: 7.1.1_chai@4.2.0
       chai-string: 1.5.0_chai@4.2.0
-      cross-env: 6.0.3
+      cross-env: 7.0.2
       debug: 4.1.1
       dotenv: 8.2.0
       eslint: 6.8.0
@@ -8321,7 +8329,7 @@ packages:
     dev: false
     name: '@rush-temp/eventhubs-checkpointstore-blob'
     resolution:
-      integrity: sha512-7lafTfvgZ3n+OK6lh7zPr4zu/f1vDtpddqiSrp4o2DcPbzmUUmS0cf9ub/8cb6/OSJ7tek34TrOKJc96jJ3evw==
+      integrity: sha512-fk6/0ySv7R7JcdhG3p0S7p1e0WPMgd5amWeUoLbup75X0axziRxLtj6i19CRj0fQVIIYuAPtXyLNvSrz1zw97A==
       tarball: 'file:projects/eventhubs-checkpointstore-blob.tgz'
     version: 0.0.0
   'file:projects/identity.tgz':
@@ -8343,7 +8351,7 @@ packages:
       '@typescript-eslint/eslint-plugin': 2.34.0_fbe180e5e50b8ec89ec2be5e2ce5513b
       '@typescript-eslint/parser': 2.34.0_eslint@6.8.0+typescript@3.8.3
       assert: 1.5.0
-      cross-env: 6.0.3
+      cross-env: 7.0.2
       eslint: 6.8.0
       events: 3.1.0
       express: 4.17.1
@@ -8377,7 +8385,7 @@ packages:
     dev: false
     name: '@rush-temp/identity'
     resolution:
-      integrity: sha512-6doG7KCHqDzmQ9upBfcWeL10S3kzOlegsWv5NvR86JJXwQRLixmAlbz13Xe0JzSyLV0fkcXDjA7fk/L7A2liWw==
+      integrity: sha512-L7snTRRCbwCvJ/vwDhYUYRzbNzY/tb1ZmJt2al/YgUC0SbVM+wvEfeuNH0aRPy/G1p4Wup7Rt+I1fj/mXQCfiQ==
       tarball: 'file:projects/identity.tgz'
     version: 0.0.0
   'file:projects/keyvault-certificates.tgz':
@@ -8400,7 +8408,7 @@ packages:
       '@typescript-eslint/parser': 2.34.0_eslint@6.8.0+typescript@3.8.3
       assert: 1.5.0
       chai: 4.2.0
-      cross-env: 6.0.3
+      cross-env: 7.0.2
       dotenv: 8.2.0
       eslint: 6.8.0
       eslint-config-prettier: 6.11.0_eslint@6.8.0
@@ -8443,7 +8451,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-certificates'
     resolution:
-      integrity: sha512-881prvUQH4Zn5g0oNGGnPMfMdlCexugbkY5pM5X6D7zhIhn7Dq7D7eLVRvJQ0/tW6I9CBZhDqRvH3vKOPXESSw==
+      integrity: sha512-KhSN01G7f9/8jJas7wQ43hSvzsBzzkkDv4T4kEFqFmYy9UctBtAjKAoQDgWlMeLvzpK4wZrXFIQzw9GOATeimw==
       tarball: 'file:projects/keyvault-certificates.tgz'
     version: 0.0.0
   'file:projects/keyvault-keys.tgz':
@@ -8466,7 +8474,7 @@ packages:
       '@typescript-eslint/parser': 2.34.0_eslint@6.8.0+typescript@3.8.3
       assert: 1.5.0
       chai: 4.2.0
-      cross-env: 6.0.3
+      cross-env: 7.0.2
       dotenv: 8.2.0
       eslint: 6.8.0
       eslint-config-prettier: 6.11.0_eslint@6.8.0
@@ -8509,7 +8517,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-keys'
     resolution:
-      integrity: sha512-IRirl3e+en5UQizgQjUTVDbbb5C+/42l0lBYqQa6mjUOwluDW8amBc1XJVeVJA+HE+WIkfuVu0I8MLTIaapHmA==
+      integrity: sha512-Qbx/IXYUopHVNXpR32sOdPI6LX3UWate2IvgYFhGS2PtOrsFD1bNNYtDXJWGblZDjFQdxmV3blsVxEceZClWpQ==
       tarball: 'file:projects/keyvault-keys.tgz'
     version: 0.0.0
   'file:projects/keyvault-secrets.tgz':
@@ -8532,7 +8540,7 @@ packages:
       '@typescript-eslint/parser': 2.34.0_eslint@6.8.0+typescript@3.8.3
       assert: 1.5.0
       chai: 4.2.0
-      cross-env: 6.0.3
+      cross-env: 7.0.2
       dotenv: 8.2.0
       eslint: 6.8.0
       eslint-config-prettier: 6.11.0_eslint@6.8.0
@@ -8575,7 +8583,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-secrets'
     resolution:
-      integrity: sha512-fz4iLbyUJ9gVvc/OgZRrsT9zSJnT017JzSHZLHp9YvNhf0bSXwztwaOnngZY7R8gztlPcZFUib7m1QVSh8yedQ==
+      integrity: sha512-rq5AGczst2+yIvrLm1EEoEzr25iYO4m+D4CWAg8TRoTNzrM8bI9m2+P0vgMPWWxYIjspKTL2S7vQFpsEQreHZQ==
       tarball: 'file:projects/keyvault-secrets.tgz'
     version: 0.0.0
   'file:projects/logger.tgz':
@@ -8593,7 +8601,7 @@ packages:
       '@typescript-eslint/parser': 2.34.0_eslint@6.8.0+typescript@3.8.3
       assert: 1.5.0
       chai: 4.2.0
-      cross-env: 6.0.3
+      cross-env: 7.0.2
       delay: 4.3.0
       dotenv: 8.2.0
       eslint: 6.8.0
@@ -8628,7 +8636,7 @@ packages:
     dev: false
     name: '@rush-temp/logger'
     resolution:
-      integrity: sha512-Gj42cVp3Sp7Nb3o2Mu9SHebQ/o5XbK/9mZJk8xYoShp6wR6UFAMmuyRYLzbIQB7ivWxgRMQ/y2AdVH9Xu+Gkqw==
+      integrity: sha512-pBOO+Y1HfZGpsmaxZrWyCG0XVt2pDD4++i/+l+cwKdPsKKEc53mM7XNdFBEiQHisdXXe1cBICGSDZBT7UffERg==
       tarball: 'file:projects/logger.tgz'
     version: 0.0.0
   'file:projects/search-documents.tgz':
@@ -8648,7 +8656,7 @@ packages:
       '@typescript-eslint/eslint-plugin': 2.34.0_fbe180e5e50b8ec89ec2be5e2ce5513b
       '@typescript-eslint/parser': 2.34.0_eslint@6.8.0+typescript@3.8.3
       chai: 4.2.0
-      cross-env: 6.0.3
+      cross-env: 7.0.2
       dotenv: 8.2.0
       eslint: 6.8.0
       eslint-config-prettier: 6.11.0_eslint@6.8.0
@@ -8687,7 +8695,7 @@ packages:
     dev: false
     name: '@rush-temp/search-documents'
     resolution:
-      integrity: sha512-Bd52s1lY1edFe52fKCfD70mUvOC0pCQ8iXMXYr+FBuNlsfHytx0Tw1+nwYc48o2ZkWdUhJOhSi8e40w9VEZWBw==
+      integrity: sha512-8Vj9SdqQVoRs491St/C43kPnPUP+C9ABA/UuRp2HYVaY+uBMiQhoQM9VCtpf1y7+w4BetP2fcj19rdDbbOtBmw==
       tarball: 'file:projects/search-documents.tgz'
     version: 0.0.0
   'file:projects/service-bus.tgz':
@@ -8718,7 +8726,7 @@ packages:
       chai: 4.2.0
       chai-as-promised: 7.1.1_chai@4.2.0
       chai-exclude: 2.0.2_chai@4.2.0
-      cross-env: 6.0.3
+      cross-env: 7.0.2
       debug: 4.1.1
       delay: 4.3.0
       dotenv: 8.2.0
@@ -8765,7 +8773,7 @@ packages:
     dev: false
     name: '@rush-temp/service-bus'
     resolution:
-      integrity: sha512-ke+nCNTUawY2wx1u7xLOUc6+g7Prs7j5zeyISpiAnIFfM6EaiKkkJb6wyj0ErhIA1sr/qF58NUcj5zFR6QTXrQ==
+      integrity: sha512-MxvoAXIxfXedntJHa4+hQ0ibGqTjy4SFeoZDdiAkR8vObu/1YQbp5MMRQ7qPc6NPM5zlNmXYcqymGoKORvro4g==
       tarball: 'file:projects/service-bus.tgz'
     version: 0.0.0
   'file:projects/storage-blob.tgz':
@@ -8782,7 +8790,7 @@ packages:
       '@typescript-eslint/eslint-plugin': 2.34.0_fbe180e5e50b8ec89ec2be5e2ce5513b
       '@typescript-eslint/parser': 2.34.0_eslint@6.8.0+typescript@3.8.3
       assert: 1.5.0
-      cross-env: 6.0.3
+      cross-env: 7.0.2
       dotenv: 8.2.0
       downlevel-dts: 0.4.0
       es6-promise: 4.2.8
@@ -8826,7 +8834,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-blob'
     resolution:
-      integrity: sha512-J2NKl7le7y+G2vb/4R2nTuPc5gSbJPC3FPNMmm46z0mhsm3SyVfdFAAQperyUMFGa0wXIs4WHjiX8ER311FcsA==
+      integrity: sha512-GsYLVscSsQKi4cDOCAPJYLQccVrPZNMXwPiIsseQr7kM/4T40vccQLDXmB+HIPJwmNMjpKhjATZy2Go8vTFrzg==
       tarball: 'file:projects/storage-blob.tgz'
     version: 0.0.0
   'file:projects/storage-file-datalake.tgz':
@@ -8846,7 +8854,7 @@ packages:
       '@typescript-eslint/eslint-plugin': 2.34.0_fbe180e5e50b8ec89ec2be5e2ce5513b
       '@typescript-eslint/parser': 2.34.0_eslint@6.8.0+typescript@3.8.3
       assert: 1.5.0
-      cross-env: 6.0.3
+      cross-env: 7.0.2
       dotenv: 8.2.0
       downlevel-dts: 0.4.0
       es6-promise: 4.2.8
@@ -8895,7 +8903,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-file-datalake'
     resolution:
-      integrity: sha512-3LwgEkOd8PB3AEF3hn+LTcwPvIk3uy45atiS1Kh/49lj1aFxiJRiqHy4qQwKiNo6PjTjKjQIvu5EWdi2sZUq6A==
+      integrity: sha512-MBRefMDWkcMrz++RPfU8HTo3//VjsCjgBMtJBqOnKFrQT12u8TuN/Lxovt1kgJPiS6SngTbQuO7AOJRUT/wA/A==
       tarball: 'file:projects/storage-file-datalake.tgz'
     version: 0.0.0
   'file:projects/storage-file-share.tgz':
@@ -8912,7 +8920,7 @@ packages:
       '@typescript-eslint/eslint-plugin': 2.34.0_fbe180e5e50b8ec89ec2be5e2ce5513b
       '@typescript-eslint/parser': 2.34.0_eslint@6.8.0+typescript@3.8.3
       assert: 1.5.0
-      cross-env: 6.0.3
+      cross-env: 7.0.2
       dotenv: 8.2.0
       downlevel-dts: 0.4.0
       es6-promise: 4.2.8
@@ -8956,7 +8964,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-file-share'
     resolution:
-      integrity: sha512-tiAGD/genpH1Djv+XLlpd/nOtNvvMo+w8OkzQ3yprV/vp9KfOHI5Oz3mvlt1W9J/y1D2e7SmdU9mbr7yhcpOWQ==
+      integrity: sha512-1z6Gy0Crd1MEfUUs72/eJI4I7YV9tBbD26BRtE8MCs3tF5mSe/GI184WMrORhbWeKXMr1jN5hPtAUqK8Go7iwA==
       tarball: 'file:projects/storage-file-share.tgz'
     version: 0.0.0
   'file:projects/storage-queue.tgz':
@@ -8973,7 +8981,7 @@ packages:
       '@typescript-eslint/eslint-plugin': 2.34.0_fbe180e5e50b8ec89ec2be5e2ce5513b
       '@typescript-eslint/parser': 2.34.0_eslint@6.8.0+typescript@3.8.3
       assert: 1.5.0
-      cross-env: 6.0.3
+      cross-env: 7.0.2
       dotenv: 8.2.0
       downlevel-dts: 0.4.0
       es6-promise: 4.2.8
@@ -9016,7 +9024,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-queue'
     resolution:
-      integrity: sha512-rmEQ4gbwbRC71hvew/oEQg8wINtSsMxc9hRWrXehyVRVrTqaZrzd8CnrWOG8CyB/u0WmSGOCM4dcEIxxNH2dgw==
+      integrity: sha512-NuiHATe/q/XUEknF8OV8jX/yVmxdXSahJQ+ruAzHtyrV8XNUP4R2+HeoJlx2HStu112Dvdj46odmrGjbuz/npA==
       tarball: 'file:projects/storage-queue.tgz'
     version: 0.0.0
   'file:projects/template.tgz':
@@ -9033,7 +9041,7 @@ packages:
       '@typescript-eslint/eslint-plugin': 2.34.0_fbe180e5e50b8ec89ec2be5e2ce5513b
       '@typescript-eslint/parser': 2.34.0_eslint@6.8.0+typescript@3.8.3
       assert: 1.5.0
-      cross-env: 6.0.3
+      cross-env: 7.0.2
       eslint: 6.8.0
       eslint-config-prettier: 6.11.0_eslint@6.8.0
       eslint-plugin-no-null: 1.0.2_eslint@6.8.0
@@ -9066,7 +9074,7 @@ packages:
     dev: false
     name: '@rush-temp/template'
     resolution:
-      integrity: sha512-RLiUQzQu1wd/1xzd02rJBN57vwOmVlagI70FdO1clDc/n7wR1f1ZMVRCjyVUbpR4L96A5N0CgWaQsm6iG1Hl8Q==
+      integrity: sha512-i9KV+kjdyV2SE/CwAm52TLHAnLJFqI/Jt6O0nUFwAIHPM4as2Y+4G+H7oYhNp9MaOCGSPvq4lN8CMqxJPcfsEQ==
       tarball: 'file:projects/template.tgz'
     version: 0.0.0
   'file:projects/test-utils-perfstress.tgz':

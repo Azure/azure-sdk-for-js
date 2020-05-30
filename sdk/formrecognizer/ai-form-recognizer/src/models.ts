@@ -6,6 +6,7 @@ import * as coreHttp from "@azure/core-http";
 import {
   AnalyzeOperationResult as AnalyzeOperationResultModel,
   FormFieldsReport,
+  CopyAuthorizationResult as CopyAuthorizationResultModel,
   KeysResult,
   KeyValueElement as KeyValueElementModel,
   KeyValuePair as KeyValuePairModel,
@@ -19,6 +20,7 @@ import {
 
 export {
   AnalyzeOperationResultModel,
+  CopyAuthorizationResultModel,
   FormFieldsReport,
   KeysResult,
   KeyValueElementModel,
@@ -339,7 +341,7 @@ export interface RecognizedFormArray extends Array<RecognizedForm> {}
 /**
  * Properties common to the recognized text field
  */
-interface CommonFieldValue {
+export interface CommonFieldValue {
   /**
    * Text content of the recognized field.
    */
@@ -363,6 +365,9 @@ interface CommonFieldValue {
   pageNumber?: number;
 }
 
+/**
+ * Possible JavaScript types for a field value.
+ */
 export type FieldValueTypes =
   | string
   | Date
@@ -370,6 +375,9 @@ export type FieldValueTypes =
   | FieldValue[]
   | { [propertyName: string]: FieldValue };
 
+/**
+ * Types of a form field.
+ */
 export type ValueTypes =
   | "string"
   | "date"
@@ -500,13 +508,16 @@ export interface USReceiptItem {
   totalPrice?: FormField;
 }
 
+/**
+ * Different types of US receipts.
+ */
 export type USReceiptType = {
   type: "Unrecognized" | "Itemized" | "CreditCard" | "Gas" | "Parking";
   /**
    * Confidence value.
    */
   confidence?: number;
-}
+};
 
 /**
  * United States receipt
@@ -640,6 +651,9 @@ export interface CustomFormField {
   label: string | null;
 }
 
+/**
+ * Represents the model for a type of custom form from the training.
+ */
 export interface CustomFormSubmodel {
   /**
    * Estimated extraction accuracy for this field.
@@ -836,4 +850,22 @@ export class FormRecognizerError extends Error {
     super(message);
     this.innerErrors = innerErrors;
   }
+}
+
+/**
+ * Request parameter that contains authorization claims for copy operation.
+ */
+export interface CopyAuthorization extends CopyAuthorizationResultModel {
+  /**
+   * Target resource Id.
+   */
+  resourceId: string;
+  /**
+   * Target resource region.
+   */
+  resourceRegion: string;
+  /**
+   * The time when the access token expires.
+   */
+  //expiresOn: Date
 }

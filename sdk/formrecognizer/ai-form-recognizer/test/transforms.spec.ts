@@ -190,10 +190,7 @@ describe("Transforms", () => {
     assert.ok(transformed.valueText!.boundingBox);
     verifyBoundingBox(transformed.labelText!.boundingBox!, original.key.boundingBox);
     verifyBoundingBox(transformed.valueText!.boundingBox!, original.value.boundingBox);
-    assert.deepStrictEqual(
-      transformed.labelText!.textContent![0],
-      formPages[0].lines![0].words[0]
-    );
+    assert.deepStrictEqual(transformed.labelText!.textContent![0], formPages[0].lines![0].words[0]);
     assert.deepStrictEqual(transformed.valueText!.textContent![1], formPages[0].lines![0].words[1]);
   });
 
@@ -466,7 +463,7 @@ describe("Transforms", () => {
       docType: "prebuilt:receipt",
       pageRange: [1, 1],
       fields: {}
-    }
+    };
 
     const transformed = toRecognizedForm(original, formPages);
 

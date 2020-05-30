@@ -9,8 +9,9 @@ import {
 
 import {
   GeneratedClientAnalyzeReceiptAsyncResponse as AnalyzeReceiptAsyncResponseModel,
-  OperationStatus,
-  ContentType } from "../../generated/models";
+  OperationStatus
+} from "../../generated/models";
+import { FormContentType } from "../../common";
 import { FormRecognizerRequestBody, RecognizedReceiptArray } from "../../models";
 import { RecognizeReceiptResultResponse } from "../../internalModels";
 export { OperationStatus };
@@ -38,7 +39,7 @@ export type RecognizeReceiptPollerClient = {
   // returns a result id to retrieve results
   beginRecognize: (
     source: FormRecognizerRequestBody | string,
-    contentType?: ContentType,
+    contentType?: FormContentType,
     analyzeOptions?: RecognizeReceiptsOptions,
     modelId?: string
   ) => Promise<AnalyzeReceiptAsyncResponseModel>;
@@ -49,7 +50,7 @@ export type RecognizeReceiptPollerClient = {
 export interface BeginRecognizeReceiptPollState extends PollOperationState<RecognizedReceiptArray> {
   readonly client: RecognizeReceiptPollerClient;
   source?: FormRecognizerRequestBody | string;
-  contentType?: ContentType;
+  contentType?: FormContentType;
   modelId?: string;
   resultId?: string;
   status: OperationStatus;
@@ -65,7 +66,7 @@ extends PollOperation<BeginRecognizeReceiptPollState, RecognizedReceiptArray> {}
 export type BeginRecognizeReceiptPollerOptions = {
   client: RecognizeReceiptPollerClient;
   source: FormRecognizerRequestBody | string;
-  contentType?: ContentType;
+  contentType?: FormContentType;
   modelId?: string;
   intervalInMs?: number;
   resultId?: string;

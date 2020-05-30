@@ -25,11 +25,32 @@ export type TrainPollerClient = {
   ) => Promise<TrainCustomModelAsyncResponse>;
 };
 
+/**
+ * The state used by the poller returned from {@link FormTrainingClient.beginTraining}.
+ *
+ * This state is passed into the user-specified `onProgress` callback
+ * whenever copy progress is detected.
+ */
 export interface BeginTrainingPollState extends PollOperationState<CustomFormModel> {
+  /**
+   * The instance of {@link TrainPollerClient} that is used when calling {@link FormTrainingClient.beginTraining}.
+   */
   readonly client: TrainPollerClient;
+  /**
+   * The accessible url to an Azure Blob Storage container holding the training documents.
+   */
   source: string;
+  /**
+   * The id of the custom form model being created from the training operation.
+   */
   modelId?: string;
+  /**
+   * the status of the created model.
+   */
   status: ModelStatus;
+  /**
+   * Option to filter training files.
+   */
   readonly trainModelOptions?: TrainingFileFilter;
 }
 
