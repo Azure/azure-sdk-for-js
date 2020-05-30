@@ -20,7 +20,7 @@ export interface CustomFormPollerOperationOptions {
   /**
    * Time between each polling in milliseconds.
    */
-  intervalInMs?: number;
+  updateIntervalInMs?: number;
   /**
    * callback to receive events on the progress of download operation.
    */
@@ -68,7 +68,7 @@ export type BeginRecognizeCustomFormPollerOptions = {
   source: FormRecognizerRequestBody | string;
   contentType?: FormContentType;
   modelId?: string;
-  intervalInMs?: number;
+  updateIntervalInMs?: number;
   resultId?: string;
   onProgress?: (state: BeginRecognizeCustomFormPollState) => void;
   resumeFrom?: string;
@@ -81,14 +81,14 @@ export class BeginRecognizeCustomFormPoller extends Poller<
   BeginRecognizeCustomFormPollState,
   RecognizedFormArray
 > {
-  public intervalInMs: number;
+  public updateIntervalInMs: number;
 
   constructor(options: BeginRecognizeCustomFormPollerOptions) {
     const {
       client,
       source,
       contentType,
-      intervalInMs = 5000,
+      updateIntervalInMs = 5000,
       resultId,
       modelId,
       onProgress,
@@ -118,11 +118,11 @@ export class BeginRecognizeCustomFormPoller extends Poller<
       this.onProgress(onProgress);
     }
 
-    this.intervalInMs = intervalInMs;
+    this.updateIntervalInMs = updateIntervalInMs;
   }
 
   public delay(): Promise<void> {
-    return delay(this.intervalInMs);
+    return delay(this.updateIntervalInMs);
   }
 }
 /**

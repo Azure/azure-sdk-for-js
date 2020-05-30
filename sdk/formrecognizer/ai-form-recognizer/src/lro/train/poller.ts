@@ -63,7 +63,7 @@ extends PollOperation<BeginTrainingPollState, CustomFormModel> {}
 export interface BeginTrainingPollerOptions {
   client: TrainPollerClient;
   source: string;
-  intervalInMs?: number;
+  updateIntervalInMs?: number;
   onProgress?: (state: BeginTrainingPollState) => void;
   resumeFrom?: string;
   trainModelOptions?: TrainingFileFilter;
@@ -76,13 +76,13 @@ export class BeginTrainingPoller extends Poller<
   BeginTrainingPollState,
   CustomFormModel
 > {
-  public intervalInMs: number;
+  public updateIntervalInMs: number;
 
   constructor(options: BeginTrainingPollerOptions) {
     const {
       client,
       source,
-      intervalInMs = 5000,
+      updateIntervalInMs = 5000,
       onProgress,
       resumeFrom,
       trainModelOptions
@@ -108,11 +108,11 @@ export class BeginTrainingPoller extends Poller<
       this.onProgress(onProgress);
     }
 
-    this.intervalInMs = intervalInMs;
+    this.updateIntervalInMs = updateIntervalInMs;
   }
 
   public delay(): Promise<void> {
-    return delay(this.intervalInMs);
+    return delay(this.updateIntervalInMs);
   }
 }
 

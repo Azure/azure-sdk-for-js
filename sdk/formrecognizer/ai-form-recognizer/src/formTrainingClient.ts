@@ -93,7 +93,7 @@ export type GetCopyModelResultOptions = FormRecognizerOperationOptions;
  * Options for begin copy model operation
  */
 export type BeginCopyModelOptions = FormRecognizerOperationOptions & {
-  intervalInMs?: number;
+  updateIntervalInMs?: number;
   onProgress?: (state: BeginCopyModelPollState) => void;
   resumeFrom?: string;
 };
@@ -110,7 +110,7 @@ export type TrainingFileFilter = FormRecognizerOperationOptions & {
  * Options for starting model training operation.
  */
 export type BeginTrainingOptions = TrainingFileFilter & {
-  intervalInMs?: number;
+  updateIntervalInMs?: number;
   onProgress?: (state: BeginTrainingPollState) => void;
   resumeFrom?: string;
 };
@@ -491,7 +491,7 @@ export class FormTrainingClient {
     const poller = new BeginTrainingPoller({
       client: trainPollerClient,
       source: trainingFilesUrl,
-      intervalInMs: options.intervalInMs,
+      updateIntervalInMs: options.updateIntervalInMs,
       onProgress: options.onProgress,
       resumeFrom: options.resumeFrom,
       trainModelOptions: options

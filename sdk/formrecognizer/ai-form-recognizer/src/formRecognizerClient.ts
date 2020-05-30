@@ -88,7 +88,7 @@ export type BeginRecognizeContentOptions = RecognizeContentOptions & {
   /**
    * Delay to wait until next poll, in milliseconds
    */
-  intervalInMs?: number;
+  updateIntervalInMs?: number;
   /**
    * Callback to progress events triggered in the content recognition Long-Running-Operation (LRO)
    */
@@ -129,7 +129,7 @@ export type BeginRecognizeFormsOptions = RecognizeFormsOptions & {
   /**
    * Delay to wait until next poll, in milliseconds
    */
-  intervalInMs?: number;
+  updateIntervalInMs?: number;
   /**
    * Callback to progress events triggered in the Recognize Form Long-Running-Operation (LRO)
    */
@@ -175,7 +175,7 @@ export type BeginRecognizeReceiptsOptions = RecognizeReceiptsOptions & {
   /**
    * Delay to wait until next poll, in milliseconds
    */
-  intervalInMs?: number;
+  updateIntervalInMs?: number;
   /**
    * Callback to progress events triggered in the receipt recognition Long-Running-Operation (LRO)
    */

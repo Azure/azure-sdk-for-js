@@ -43,7 +43,7 @@ export { AzureKeyCredential }
 
 // @public
 export type BeginCopyModelOptions = FormRecognizerOperationOptions & {
-    intervalInMs?: number;
+    updateIntervalInMs?: number;
     onProgress?: (state: BeginCopyModelPollState) => void;
     resumeFrom?: string;
 };
@@ -62,7 +62,7 @@ export interface BeginCopyModelPollState extends PollOperationState<CustomFormMo
 
 // @public
 export type BeginRecognizeContentOptions = RecognizeContentOptions & {
-    intervalInMs?: number;
+    updateIntervalInMs?: number;
     onProgress?: (state: BeginRecognizeContentPollState) => void;
     resumeFrom?: string;
 };
@@ -105,7 +105,7 @@ export interface BeginRecognizeCustomFormPollState extends PollOperationState<Re
 
 // @public
 export type BeginRecognizeFormsOptions = RecognizeFormsOptions & {
-    intervalInMs?: number;
+    updateIntervalInMs?: number;
     onProgress?: (state: BeginRecognizeCustomFormPollState) => void;
     resumeFrom?: string;
 };
@@ -130,14 +130,14 @@ export interface BeginRecognizeReceiptPollState extends PollOperationState<Recog
 
 // @public
 export type BeginRecognizeReceiptsOptions = RecognizeReceiptsOptions & {
-    intervalInMs?: number;
+    updateIntervalInMs?: number;
     onProgress?: (state: BeginRecognizeReceiptPollState) => void;
     resumeFrom?: string;
 };
 
 // @public
 export type BeginTrainingOptions = TrainingFileFilter & {
-    intervalInMs?: number;
+    updateIntervalInMs?: number;
     onProgress?: (state: BeginTrainingPollState) => void;
     resumeFrom?: string;
 };

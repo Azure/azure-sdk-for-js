@@ -20,7 +20,7 @@ export interface ReceiptPollerOperationOptions {
   /**
    * Time between each polling in milliseconds.
    */
-  intervalInMs?: number;
+  updateIntervalInMs?: number;
   /**
    * callback to receive events on the progress of download operation.
    */
@@ -68,7 +68,7 @@ export type BeginRecognizeReceiptPollerOptions = {
   source: FormRecognizerRequestBody | string;
   contentType?: FormContentType;
   modelId?: string;
-  intervalInMs?: number;
+  updateIntervalInMs?: number;
   resultId?: string;
   onProgress?: (state: BeginRecognizeReceiptPollState) => void;
   resumeFrom?: string;
@@ -81,14 +81,14 @@ export class BeginRecognizeReceiptPoller extends Poller<
   BeginRecognizeReceiptPollState,
   RecognizedReceiptArray
 > {
-  public intervalInMs: number;
+  public updateIntervalInMs: number;
 
   constructor(options: BeginRecognizeReceiptPollerOptions) {
     const {
       client,
       source,
       contentType,
-      intervalInMs = 5000,
+      updateIntervalInMs = 5000,
       resultId,
       modelId,
       onProgress,
@@ -118,11 +118,11 @@ export class BeginRecognizeReceiptPoller extends Poller<
       this.onProgress(onProgress);
     }
 
-    this.intervalInMs = intervalInMs;
+    this.updateIntervalInMs = updateIntervalInMs;
   }
 
   public delay(): Promise<void> {
-    return delay(this.intervalInMs);
+    return delay(this.updateIntervalInMs);
   }
 }
 /**
