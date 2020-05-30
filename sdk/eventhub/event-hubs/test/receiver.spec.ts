@@ -13,7 +13,8 @@ import {
   MessagingError,
   ReceivedEventData,
   latestEventPosition,
-  earliestEventPosition
+  earliestEventPosition,
+  EventHubProducerClient
 } from "../src";
 import { EventHubClient } from "../src/impl/eventHubClient";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
@@ -27,7 +28,9 @@ describe("EventHub Receiver", function(): void {
     connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
     path: env[EnvVarKeys.EVENTHUB_NAME]
   };
-  const client: EventHubClient = new EventHubClient(service.connectionString, service.path);
+  const client = new EventHubClient(service.connectionString, service.path);
+  const producerClient = new EventHubProducerClient(service.connectionString, service.path);
+
   let receiver: EventHubConsumer | undefined;
   let partitionIds: string[];
   before("validate environment", async function(): Promise<void> {
@@ -44,6 +47,7 @@ describe("EventHub Receiver", function(): void {
 
   after("close the connection", async function(): Promise<void> {
     await client.close();
+    await producerClient.close();
   });
 
   afterEach("close the receiver link", async function(): Promise<void> {
@@ -81,7 +85,7 @@ describe("EventHub Receiver", function(): void {
         };
         events.push(ed);
       }
-      await client.createProducer({ partitionId: partitionId }).send(events);
+      await producerClient.sendBatch(events, { partitionId: partitionId });
       debug(">>>>>>> Sent the new messages. We should only receive these messages.");
       const data2 = await receiver.receiveBatch(10, 20);
       debug("received messages: ", data2);
@@ -113,7 +117,7 @@ describe("EventHub Receiver", function(): void {
         };
         events.push(ed);
       }
-      await client.createProducer({ partitionId: partitionId }).send(events);
+      producerClient.sendBatch(events, { partitionId: partitionId });
       debug(">>>>>>> Sent 10 messages. We should only receive these 10 messages.");
       const data2 = await receiver.receiveBatch(10, 20);
       debug("received messages: ", data2);
@@ -136,7 +140,7 @@ describe("EventHub Receiver", function(): void {
           stamp: uid
         }
       };
-      await client.createProducer({ partitionId: partitionId }).send([ed]);
+      producerClient.sendBatch([ed], { partitionId: partitionId });
       debug(
         "Sent the new message after creating the receiver. We should only receive this message."
       );
@@ -165,7 +169,7 @@ describe("EventHub Receiver", function(): void {
           stamp: uid
         }
       };
-      await client.createProducer({ partitionId: partitionId }).send([ed]);
+      producerClient.sendBatch([ed], { partitionId: partitionId });
       debug(
         "Sent the new message after creating the receiver. We should only receive this message."
       );
@@ -192,7 +196,7 @@ describe("EventHub Receiver", function(): void {
           stamp: uid
         }
       };
-      await client.createProducer({ partitionId: partitionId }).send([ed]);
+      producerClient.sendBatch([ed], { partitionId: partitionId });
       debug(
         "Sent the new message after getting the partition runtime information. We should only receive this message."
       );
@@ -222,7 +226,7 @@ describe("EventHub Receiver", function(): void {
           stamp: uid
         }
       };
-      await client.createProducer({ partitionId: partitionId }).send([ed]);
+      producerClient.sendBatch([ed], { partitionId: partitionId });
       debug(`Sent message 1 with stamp: ${uid}.`);
       const pInfo = await client.getPartitionProperties(partitionId);
       const uid2 = uuid();
@@ -232,7 +236,7 @@ describe("EventHub Receiver", function(): void {
           stamp: uid2
         }
       };
-      await client.createProducer({ partitionId: partitionId }).send([ed2]);
+      producerClient.sendBatch([ed2], { partitionId: partitionId });
       debug(`Sent message 2 with stamp: ${uid}.`);
       debug(
         `Creating new receiver with last sequence number: "${pInfo.lastEnqueuedSequenceNumber}".`
@@ -257,13 +261,10 @@ describe("EventHub Receiver", function(): void {
     it("should receive messages correctly", async function(): Promise<void> {
       const partitionId = partitionIds[0];
       const time = Date.now();
+      
       // send a message that can be received
-      const sender = client.createProducer({ partitionId });
-      try {
-        await sender.send({ body: "receive behaves correctly" });
-      } finally {
-        await sender.close();
-      }
+      await producerClient.sendBatch([{ body: "receive behaves correctly" }], { partitionId });
+
       receiver = client.createConsumer(EventHubClient.defaultConsumerGroupName, partitionId, {
         enqueuedOn: time
       });
@@ -290,13 +291,9 @@ describe("EventHub Receiver", function(): void {
     it("should support being cancelled", async function(): Promise<void> {
       const partitionId = partitionIds[0];
       const time = Date.now();
+
       // send a message that can be received
-      const sender = client.createProducer({ partitionId });
-      try {
-        await sender.send({ body: "receive cancellation - timeout 0" });
-      } finally {
-        await sender.close();
-      }
+      await producerClient.sendBatch([{ body: "receive cancellation - timeout 0" }], { partitionId });
 
       receiver = client.createConsumer(EventHubClient.defaultConsumerGroupName, partitionId, {
         enqueuedOn: time
@@ -336,13 +333,9 @@ describe("EventHub Receiver", function(): void {
     > {
       const partitionId = partitionIds[0];
       const time = Date.now();
+
       // send a message that can be received
-      const sender = client.createProducer({ partitionId });
-      try {
-        await sender.send({ body: "receive cancellation - immediate" });
-      } finally {
-        await sender.close();
-      }
+      await producerClient.sendBatch([{ body: "receive cancellation - immediate" }], { partitionId });
 
       receiver = client.createConsumer(EventHubClient.defaultConsumerGroupName, partitionId, {
         enqueuedOn: time
@@ -384,13 +377,9 @@ describe("EventHub Receiver", function(): void {
     > {
       const partitionId = partitionIds[0];
       const time = Date.now();
+
       // send a message that can be received
-      const sender = client.createProducer({ partitionId });
-      try {
-        await sender.send({ body: "receive cancellation - immediate" });
-      } finally {
-        await sender.close();
-      }
+      await producerClient.sendBatch([{ body: "receive cancellation - immediate" }], { partitionId });
 
       receiver = client.createConsumer(EventHubClient.defaultConsumerGroupName, partitionId, {
         enqueuedOn: time
@@ -481,13 +470,9 @@ describe("EventHub Receiver", function(): void {
     it("should support being cancelled", async function(): Promise<void> {
       const partitionId = partitionIds[0];
       const time = Date.now();
+
       // send a message that can be received
-      const sender = client.createProducer({ partitionId });
-      try {
-        await sender.send({ body: "batchReceiver cancellation - timeout 0" });
-      } finally {
-        await sender.close();
-      }
+      await producerClient.sendBatch([{ body: "batchReceiver cancellation - timeout 0" }], { partitionId });
 
       receiver = client.createConsumer(EventHubClient.defaultConsumerGroupName, partitionId, {
         enqueuedOn: time
@@ -509,14 +494,10 @@ describe("EventHub Receiver", function(): void {
     > {
       const partitionId = partitionIds[0];
       const time = Date.now();
-      // send a message that can be received
-      const sender = client.createProducer({ partitionId });
-      try {
-        await sender.send({ body: "batchReceiver cancellation - immediate" });
-      } finally {
-        await sender.close();
-      }
 
+      // send a message that can be received
+      await producerClient.sendBatch([{ body: "batchReceiver cancellation - immediate" }], { partitionId });
+      
       receiver = client.createConsumer(EventHubClient.defaultConsumerGroupName, partitionId, {
         enqueuedOn: time
       });
@@ -538,13 +519,9 @@ describe("EventHub Receiver", function(): void {
     > {
       const partitionId = partitionIds[0];
       const time = Date.now();
+
       // send a message that can be received
-      const sender = client.createProducer({ partitionId });
-      try {
-        await sender.send({ body: "batchReceiver cancellation - timeout 0" });
-      } finally {
-        await sender.close();
-      }
+      await producerClient.sendBatch([{ body: "batchReceiver cancellation - timeout 0" }], { partitionId });
 
       receiver = client.createConsumer(EventHubClient.defaultConsumerGroupName, partitionId, {
         enqueuedOn: time
@@ -568,14 +545,10 @@ describe("EventHub Receiver", function(): void {
     > {
       const partitionId = partitionIds[0];
       const time = Date.now();
-      // send a message that can be received
-      const sender = client.createProducer({ partitionId });
-      try {
-        await sender.send({ body: "batchReceiver post-cancellation - timeout 0" });
-      } finally {
-        await sender.close();
-      }
 
+      // send a message that can be received
+      await producerClient.sendBatch([{ body: "batchReceiver post-cancellation - timeout 0" }], { partitionId });
+      
       receiver = client.createConsumer(EventHubClient.defaultConsumerGroupName, partitionId, {
         enqueuedOn: time
       });
@@ -650,12 +623,11 @@ describe("EventHub Receiver", function(): void {
   describe("with trackLastEnqueuedEventProperties", function(): void {
     it("should have lastEnqueuedEventProperties populated", async function(): Promise<void> {
       const partitionId = partitionIds[0];
-      const producer = client.createProducer({ partitionId: partitionId });
       for (let i = 0; i < 10; i++) {
         const ed: EventData = {
           body: "Hello awesome world " + i
         };
-        await producer.send(ed);
+        await producerClient.sendBatch([ed], { partitionId });
         debug("sent message - " + i);
       }
       debug("Getting the partition information");

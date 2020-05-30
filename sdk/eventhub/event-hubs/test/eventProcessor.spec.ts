@@ -16,7 +16,8 @@ import {
   SubscriptionEventHandlers,
   earliestEventPosition,
   latestEventPosition,
-  CheckpointStore
+  CheckpointStore,
+  EventHubProducerClient
 } from "../src";
 import { EventHubClient } from "../src/impl/eventHubClient";
 import { EnvVarKeys, getEnvVars, loopUntil } from "./utils/testUtils";
@@ -51,6 +52,8 @@ describe("Event Processor", function(): void {
     path: env[EnvVarKeys.EVENTHUB_NAME]
   };
   let client: EventHubClient;
+  let producerClient: EventHubProducerClient;
+
   before("validate environment", async function(): Promise<void> {
     should.exist(
       env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
@@ -64,10 +67,12 @@ describe("Event Processor", function(): void {
 
   beforeEach("create the client", function() {
     client = new EventHubClient(service.connectionString, service.path, {});
+    producerClient = new EventHubProducerClient(service.connectionString, service.path);
   });
 
   afterEach("close the connection", async function(): Promise<void> {
     await client.close();
+    await producerClient.close();
   });
 
   describe("unit tests", () => {
@@ -629,7 +634,7 @@ describe("Event Processor", function(): void {
     processor.start();
     processor.start();
 
-    const expectedMessages = await sendOneMessagePerPartition(partitionIds, client);
+    const expectedMessages = await sendOneMessagePerPartition(partitionIds, producerClient);
     const receivedEvents = await subscriptionEventHandler.waitForEvents(partitionIds);
 
     // shutdown the processor
@@ -694,7 +699,7 @@ describe("Event Processor", function(): void {
     loggerForTest(`Starting processor for the first time`);
     processor.start();
 
-    const expectedMessages = await sendOneMessagePerPartition(partitionIds, client);
+    const expectedMessages = await sendOneMessagePerPartition(partitionIds, producerClient);
     const receivedEvents = await subscriptionEventHandler.waitForEvents(partitionIds);
 
     loggerForTest(`Stopping processor for the first time`);
@@ -746,7 +751,7 @@ describe("Event Processor", function(): void {
 
       processor.start();
 
-      const expectedMessages = await sendOneMessagePerPartition(partitionIds, client);
+      const expectedMessages = await sendOneMessagePerPartition(partitionIds, producerClient);
       const receivedEvents = await subscriptionEventHandler.waitForEvents(partitionIds);
 
       // shutdown the processor
@@ -875,12 +880,10 @@ describe("Event Processor", function(): void {
       const events: EventData[] = [];
 
       for (const partitionId of partitionIds) {
-        const producer = client.createProducer({ partitionId });
         for (let index = 1; index <= 100; index++) {
           events.push({ body: `${expectedMessagePrefix} ${index} ${partitionId}` });
         }
-        await producer.send(events);
-        await producer.close();
+        await producerClient.sendBatch(events, { partitionId });
       }
 
       // set a delay to give a consumers a chance to receive a message
@@ -1088,9 +1091,7 @@ describe("Event Processor", function(): void {
       // create messages
       const expectedMessagePrefix = "EventProcessor test - multiple partitions - ";
       for (const partitionId of partitionIds) {
-        const producer = client.createProducer({ partitionId });
-        await producer.send({ body: expectedMessagePrefix + partitionId });
-        await producer.close();
+        await producerClient.sendBatch([{ body: expectedMessagePrefix + partitionId }], { partitionId });
       }
 
       const processor1LoadBalancingInterval = {
@@ -1221,9 +1222,7 @@ describe("Event Processor", function(): void {
       // create messages
       const expectedMessagePrefix = "EventProcessor test - multiple partitions - ";
       for (const partitionId of partitionIds) {
-        const producer = client.createProducer({ partitionId });
-        await producer.send({ body: expectedMessagePrefix + partitionId });
-        await producer.close();
+        await producerClient.sendBatch([{ body: expectedMessagePrefix + partitionId }], { partitionId });
       }
 
       for (let i = 0; i < 2; i++) {
@@ -1446,9 +1445,7 @@ describe("Event Processor", function(): void {
       const { startPosition } = await SubscriptionHandlerForTests.startingFromHere(client);
       const partitionIds = await client.getPartitionIds({});
       for (const partitionId of partitionIds) {
-        const producer = client.createProducer({ partitionId: `${partitionId}` });
-        await producer.send({ body: `Hello world - ${partitionId}` });
-        await producer.close();
+        await producerClient.sendBatch([{ body: `Hello world - ${partitionId}` }], { partitionId });
       }
 
       const partitionIdsSet = new Set();
