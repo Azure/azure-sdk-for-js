@@ -54,9 +54,9 @@ describe("renew lock sessions", () => {
     // getSenderReceiverClients creates brand new queues/topic-subscriptions.
     // Hence, commenting the following code since there is no need to purge/peek into a freshly created entity
 
-    // await purge(receiverClient);
-    // const browsedMsgs = await receiverClient.browseMessages();
-    // const receiverEntityType = receiverClient.entityType;
+    // await purge(receiver);
+    // const browsedMsgs = await receiver.browseMessages();
+    // const receiverEntityType = receiver.entityType;
     // if (browsedMsgs.length) {
     //   chai.assert.fail(`Please use an empty ${receiverEntityType} for integration testing`);
     // }
@@ -334,14 +334,14 @@ describe("renew lock sessions", () => {
    * Test manual renewLock() using Batch Receiver, with autoLockRenewal disabled
    */
   async function testBatchReceiverManualLockRenewalHappyCase(
-    senderClient: Sender,
-    receiverClient: SessionReceiver<ReceivedMessageWithLock>
+    sender: Sender,
+    receiver: SessionReceiver<ReceivedMessageWithLock>
   ): Promise<void> {
     const testMessage = getTestMessage();
     testMessage.body = `testBatchReceiverManualLockRenewalHappyCase-${Date.now().toString()}`;
-    await senderClient.send(testMessage);
+    await sender.send(testMessage);
 
-    const msgs = await receiverClient.receiveBatch(1);
+    const msgs = await receiver.receiveBatch(1);
 
     // Compute expected initial lock expiry time
     const expectedLockExpiryTimeUtc = new Date();
@@ -356,20 +356,20 @@ describe("renew lock sessions", () => {
 
     // Verify initial lock expiry time on the session
     assertTimestampsAreApproximatelyEqual(
-      receiverClient.sessionLockedUntilUtc,
+      receiver.sessionLockedUntilUtc,
       expectedLockExpiryTimeUtc,
       "Initial"
     );
 
     await delay(5000);
-    await receiverClient.renewSessionLock();
+    await receiver.renewSessionLock();
 
     // Compute expected lock expiry time after renewing lock after 5 seconds
     expectedLockExpiryTimeUtc.setSeconds(expectedLockExpiryTimeUtc.getSeconds() + 5);
 
     // Verify lock expiry time after renewLock()
     assertTimestampsAreApproximatelyEqual(
-      receiverClient.sessionLockedUntilUtc,
+      receiver.sessionLockedUntilUtc,
       expectedLockExpiryTimeUtc,
       "After renewlock()"
     );
@@ -382,12 +382,12 @@ describe("renew lock sessions", () => {
    */
   async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
     entityType: TestClientType,
-    senderClient: Sender,
+    sender: Sender,
     receiver: SessionReceiver<ReceivedMessageWithLock>
   ): Promise<void> {
     const testMessage = getTestMessage();
     testMessage.body = `testBatchReceiverManualLockRenewalErrorOnLockExpiry-${Date.now().toString()}`;
-    await senderClient.send(testMessage);
+    await sender.send(testMessage);
 
     const msgs = await receiver.receiveBatch(1);
 
@@ -421,13 +421,13 @@ describe("renew lock sessions", () => {
    * Test manual renewLock() using Streaming Receiver with autoLockRenewal disabled
    */
   async function testStreamingReceiverManualLockRenewalHappyCase(
-    senderClient: Sender,
-    receiverClient: SessionReceiver<ReceivedMessageWithLock>
+    sender: Sender,
+    receiver: SessionReceiver<ReceivedMessageWithLock>
   ): Promise<void> {
     let numOfMessagesReceived = 0;
     const testMessage = getTestMessage();
     testMessage.body = `testStreamingReceiverManualLockRenewalHappyCase-${Date.now().toString()}`;
-    await senderClient.send(testMessage);
+    await sender.send(testMessage);
 
     async function processMessage(brokeredMessage: ReceivedMessageWithLock) {
       if (numOfMessagesReceived < 1) {
@@ -452,20 +452,20 @@ describe("renew lock sessions", () => {
 
         // Verify initial expiry time on session
         assertTimestampsAreApproximatelyEqual(
-          receiverClient.sessionLockedUntilUtc,
+          receiver.sessionLockedUntilUtc,
           expectedLockExpiryTimeUtc,
           "Initial"
         );
 
         await delay(5000);
-        await receiverClient.renewSessionLock();
+        await receiver.renewSessionLock();
 
         // Compute expected lock expiry time after renewing lock after 5 seconds
         expectedLockExpiryTimeUtc.setSeconds(expectedLockExpiryTimeUtc.getSeconds() + 5);
 
         // Verify actual expiry time on session after renewal
         assertTimestampsAreApproximatelyEqual(
-          receiverClient.sessionLockedUntilUtc,
+          receiver.sessionLockedUntilUtc,
           expectedLockExpiryTimeUtc,
           "After renewlock()"
         );
@@ -474,14 +474,14 @@ describe("renew lock sessions", () => {
       }
     }
 
-    receiverClient.subscribe(
+    receiver.subscribe(
       { processMessage, processError },
       {
         autoComplete: false
       }
     );
     await delay(10000);
-    await receiverClient.close();
+    await receiver.close();
 
     if (uncaughtErrorFromHandlers) {
       chai.assert.fail(uncaughtErrorFromHandlers.message);
@@ -497,14 +497,14 @@ describe("renew lock sessions", () => {
   }
 
   async function testAutoLockRenewalConfigBehavior(
-    senderClient: Sender,
-    receiverClient: SessionReceiver<ReceivedMessageWithLock>,
+    sender: Sender,
+    receiver: SessionReceiver<ReceivedMessageWithLock>,
     options: AutoLockRenewalTestOptions
   ): Promise<void> {
     let numOfMessagesReceived = 0;
     const testMessage = getTestMessage();
     testMessage.body = `testAutoLockRenewalConfigBehavior-${Date.now().toString()}`;
-    await senderClient.send(testMessage);
+    await sender.send(testMessage);
 
     let sessionLockLostErrorThrown = false;
     const messagesReceived: ReceivedMessageWithLock[] = [];
@@ -531,7 +531,7 @@ describe("renew lock sessions", () => {
       }
     }
 
-    receiverClient.subscribe(
+    receiver.subscribe(
       {
         processMessage,
         async processError(err: MessagingError | Error) {
@@ -570,7 +570,7 @@ describe("renew lock sessions", () => {
       "Error Thrown flag value mismatch"
     );
 
-    await receiverClient.close();
+    await receiver.close();
 
     if (uncaughtErrorFromHandlers) {
       chai.assert.fail(uncaughtErrorFromHandlers.message);

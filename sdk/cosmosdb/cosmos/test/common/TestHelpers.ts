@@ -8,18 +8,12 @@ import {
   DatabaseDefinition,
   RequestOptions,
   Response
-} from "../../dist-esm";
-import {
-  ItemDefinition,
-  ItemResponse,
-  PermissionResponse,
-  Resource,
-  User
-} from "../../dist-esm/client";
-import { UserResponse } from "../../dist-esm/client/User/UserResponse";
+} from "../../src";
+import { ItemDefinition, ItemResponse, PermissionResponse, Resource, User } from "../../src/client";
+import { UserResponse } from "../../src/client/User/UserResponse";
 import { endpoint, masterKey } from "./_testConfig";
-import { DatabaseRequest } from "../../dist-esm/client/Database/DatabaseRequest";
-import { ContainerRequest } from "../../dist-esm/client/Container/ContainerRequest";
+import { DatabaseRequest } from "../../src/client/Database/DatabaseRequest";
+import { ContainerRequest } from "../../src/client/Container/ContainerRequest";
 
 const defaultClient = new CosmosClient({ endpoint, key: masterKey });
 

@@ -119,7 +119,7 @@ export function browserConfig(test = false) {
 
       cjs({
         namedExports: {
-          chai: ["should"],
+          chai: ["should", "assert"],
           assert: ["equal", "deepEqual", "notEqual"]
         }
       }),

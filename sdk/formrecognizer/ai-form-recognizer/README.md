@@ -99,6 +99,7 @@ const client = new FormRecognizerClient("<endpoint>", new AzureKeyCredential("<A
 - Training custom models to recognize all fields and values found in your custom forms. A `CustomFormModel` is returned indicating the form types the model will recognize, and the fields it will extract for each form type. See the [service's documents][fr-train-without-labels] for a more detailed explanation.
 - Training custom models to recognize specific fields and values you specify by labeling your custom forms. A `CustomFormModel` is returned indicating the fields the model will extract, as well as the estimated accuracy for each field. See the [service's documents][fr-train-with-labels] for a more detailed explanation.
 - Managing models created in your account.
+- Copying a custom model from one Form Recognizer resource to another.
 
 Please note that models can also be trained using a graphical user interface such as the [Form Recognizer Labeling Tool][fr-labeling-tool].
 
@@ -209,15 +210,14 @@ main();
 Train a machine-learned model on your own form type. The resulting model will be able to recognize values from the types of forms it was trained on. Provide a container SAS url to your Azure Storage Blob container where you're storing the training documents. See details on setting this up in the [service quickstart documentation][quickstart_training]. This sample creates and trains a custom model without using labels.
 
 ```javascript
-const { FormRecognizerClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
+const { FormTrainingClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
 
 async function main() {
   const endpoint = "<cognitive services endpoint>";
   const apiKey = "<api key>";
   const containerSasUrl = "<SAS url to the blob container storing training documents>";
 
-  const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
-  const trainingClient = client.getFormTrainingClient();
+  const trainingClient = new FormTrainingClient(endpoint, new AzureKeyCredential(apiKey));
 
   const poller = await trainingClient.beginTraining(containerSasUrl, false, {
     onProgress: (state) => { console.log(`training status: ${state.status}`); }
@@ -230,8 +230,8 @@ async function main() {
   console.log(`Created on: ${response.createdOn}`);
   console.log(`Last modified: ${response.lastModified}`);
 
-  if (response.models) {
-    for (const submodel of response.models) {
+  if (response.submodels) {
+    for (const submodel of response.submodels) {
       console.log("We have recognized the following fields");
       for (const key in submodel.fields) {
         const field = submodel.fields[key];
@@ -306,13 +306,12 @@ main()
 Listing custom models in the current cognitive service account. This sample shows several ways to iterate through the result.
 
 ```javascript
-const { FormRecognizerClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
+const { FormTrainingClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
 
 async function main() {
   const endpoint = "<cognitive services endpoint>";
   const apiKey = "<api key>";
-  const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
-  const trainingClient = client.getFormTrainingClient();
+  const trainingClient = new FormTrainingClient(endpoint, new AzureKeyCredential(apiKey));
 
   // returns an async iteratable iterator that supports paging
   const result = await trainingClient.listCustomModels();

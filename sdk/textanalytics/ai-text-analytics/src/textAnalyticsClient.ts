@@ -20,25 +20,25 @@ import {
   MultiLanguageInput as TextDocumentInput
 } from "./generated/models";
 import {
-  DetectLanguageResultCollection,
-  makeDetectLanguageResultCollection
-} from "./detectLanguageResultCollection";
+  DetectLanguageResultArray,
+  makeDetectLanguageResultArray
+} from "./detectLanguageResultArray";
 import {
-  RecognizeCategorizedEntitiesResultCollection,
-  makeRecognizeCategorizedEntitiesResultCollection
-} from "./recognizeCategorizedEntitiesResultCollection";
+  RecognizeCategorizedEntitiesResultArray,
+  makeRecognizeCategorizedEntitiesResultArray
+} from "./recognizeCategorizedEntitiesResultArray";
 import {
-  AnalyzeSentimentResultCollection,
-  makeAnalyzeSentimentResultCollection
-} from "./analyzeSentimentResultCollection";
+  AnalyzeSentimentResultArray,
+  makeAnalyzeSentimentResultArray
+} from "./analyzeSentimentResultArray";
 import {
-  makeExtractKeyPhrasesResultCollection,
-  ExtractKeyPhrasesResultCollection
-} from "./extractKeyPhrasesResultCollection";
+  makeExtractKeyPhrasesResultArray,
+  ExtractKeyPhrasesResultArray
+} from "./extractKeyPhrasesResultArray";
 import {
-  RecognizeLinkedEntitiesResultCollection,
-  makeRecognizeLinkedEntitiesResultCollection
-} from "./recognizeLinkedEntitiesResultCollection";
+  RecognizeLinkedEntitiesResultArray,
+  makeRecognizeLinkedEntitiesResultArray
+} from "./recognizeLinkedEntitiesResultArray";
 import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/api";
 import { createTextAnalyticsAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
@@ -214,7 +214,7 @@ export class TextAnalyticsClient {
     documents: string[],
     countryHint?: string,
     options?: DetectLanguageOptions
-  ): Promise<DetectLanguageResultCollection>;
+  ): Promise<DetectLanguageResultArray>;
   /**
    * Runs a predictive model to determine the language that the passed-in
    * input document are written in, and returns, for each one, the detected
@@ -227,12 +227,12 @@ export class TextAnalyticsClient {
   public async detectLanguage(
     documents: DetectLanguageInput[],
     options?: DetectLanguageOptions
-  ): Promise<DetectLanguageResultCollection>;
+  ): Promise<DetectLanguageResultArray>;
   public async detectLanguage(
     documents: string[] | DetectLanguageInput[],
     countryHintOrOptions?: string | DetectLanguageOptions,
     options?: DetectLanguageOptions
-  ): Promise<DetectLanguageResultCollection> {
+  ): Promise<DetectLanguageResultArray> {
     let realOptions: DetectLanguageOptions;
     let realInputs: DetectLanguageInput[];
 
@@ -266,7 +266,7 @@ export class TextAnalyticsClient {
         operationOptionsToRequestOptionsBase(finalOptions)
       );
 
-      return makeDetectLanguageResultCollection(
+      return makeDetectLanguageResultArray(
         realInputs,
         result.documents,
         result.errors,
@@ -305,7 +305,7 @@ export class TextAnalyticsClient {
     language?: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: RecognizeCategorizedEntitiesOptions
-  ): Promise<RecognizeCategorizedEntitiesResultCollection>;
+  ): Promise<RecognizeCategorizedEntitiesResultArray>;
   /**
    * Runs a predictive model to identify a collection of named entities
    * in the passed-in input documents, and categorize those entities into types
@@ -321,13 +321,13 @@ export class TextAnalyticsClient {
     documents: TextDocumentInput[],
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: RecognizeCategorizedEntitiesOptions
-  ): Promise<RecognizeCategorizedEntitiesResultCollection>;
+  ): Promise<RecognizeCategorizedEntitiesResultArray>;
   public async recognizeEntities(
     documents: string[] | TextDocumentInput[],
     languageOrOptions?: string | RecognizeCategorizedEntitiesOptions,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: RecognizeCategorizedEntitiesOptions
-  ): Promise<RecognizeCategorizedEntitiesResultCollection> {
+  ): Promise<RecognizeCategorizedEntitiesResultArray> {
     let realOptions: RecognizeCategorizedEntitiesOptions;
     let realInputs: TextDocumentInput[];
 
@@ -357,7 +357,7 @@ export class TextAnalyticsClient {
         operationOptionsToRequestOptionsBase(finalOptions)
       );
 
-      return makeRecognizeCategorizedEntitiesResultCollection(
+      return makeRecognizeCategorizedEntitiesResultArray(
         realInputs,
         result.documents,
         result.errors,
@@ -393,7 +393,7 @@ export class TextAnalyticsClient {
     documents: string[],
     language?: string,
     options?: AnalyzeSentimentOptions
-  ): Promise<AnalyzeSentimentResultCollection>;
+  ): Promise<AnalyzeSentimentResultArray>;
   /**
    * Runs a predictive model to identify the positive, negative or neutral, or mixed
    * sentiment contained in the input documents, as well as scores indicating
@@ -406,12 +406,12 @@ export class TextAnalyticsClient {
   public async analyzeSentiment(
     documents: TextDocumentInput[],
     options?: AnalyzeSentimentOptions
-  ): Promise<AnalyzeSentimentResultCollection>;
+  ): Promise<AnalyzeSentimentResultArray>;
   public async analyzeSentiment(
     documents: string[] | TextDocumentInput[],
     languageOrOptions?: string | AnalyzeSentimentOptions,
     options?: AnalyzeSentimentOptions
-  ): Promise<AnalyzeSentimentResultCollection> {
+  ): Promise<AnalyzeSentimentResultArray> {
     let realOptions: AnalyzeSentimentOptions;
     let realInputs: TextDocumentInput[];
 
@@ -441,7 +441,7 @@ export class TextAnalyticsClient {
         operationOptionsToRequestOptionsBase(finalOptions)
       );
 
-      return makeAnalyzeSentimentResultCollection(
+      return makeAnalyzeSentimentResultArray(
         realInputs,
         result.documents,
         result.errors,
@@ -476,7 +476,7 @@ export class TextAnalyticsClient {
     documents: string[],
     language?: string,
     options?: ExtractKeyPhrasesOptions
-  ): Promise<ExtractKeyPhrasesResultCollection>;
+  ): Promise<ExtractKeyPhrasesResultArray>;
   /**
    * Runs a model to identify a collection of significant phrases
    * found in the passed-in input documents.
@@ -488,12 +488,12 @@ export class TextAnalyticsClient {
   public async extractKeyPhrases(
     documents: TextDocumentInput[],
     options?: ExtractKeyPhrasesOptions
-  ): Promise<ExtractKeyPhrasesResultCollection>;
+  ): Promise<ExtractKeyPhrasesResultArray>;
   public async extractKeyPhrases(
     documents: string[] | TextDocumentInput[],
     languageOrOptions?: string | ExtractKeyPhrasesOptions,
     options?: ExtractKeyPhrasesOptions
-  ): Promise<ExtractKeyPhrasesResultCollection> {
+  ): Promise<ExtractKeyPhrasesResultArray> {
     let realOptions: ExtractKeyPhrasesOptions;
     let realInputs: TextDocumentInput[];
 
@@ -523,7 +523,7 @@ export class TextAnalyticsClient {
         operationOptionsToRequestOptionsBase(finalOptions)
       );
 
-      return makeExtractKeyPhrasesResultCollection(
+      return makeExtractKeyPhrasesResultArray(
         realInputs,
         result.documents,
         result.errors,
@@ -559,7 +559,7 @@ export class TextAnalyticsClient {
     documents: string[],
     language?: string,
     options?: RecognizeLinkedEntitiesOptions
-  ): Promise<RecognizeLinkedEntitiesResultCollection>;
+  ): Promise<RecognizeLinkedEntitiesResultArray>;
   /**
    * Runs a predictive model to identify a collection of entities
    * found in the passed-in input documents, and include information linking the
@@ -572,12 +572,12 @@ export class TextAnalyticsClient {
   public async recognizeLinkedEntities(
     documents: TextDocumentInput[],
     options?: RecognizeLinkedEntitiesOptions
-  ): Promise<RecognizeLinkedEntitiesResultCollection>;
+  ): Promise<RecognizeLinkedEntitiesResultArray>;
   public async recognizeLinkedEntities(
     documents: string[] | TextDocumentInput[],
     languageOrOptions?: string | RecognizeLinkedEntitiesOptions,
     options?: RecognizeLinkedEntitiesOptions
-  ): Promise<RecognizeLinkedEntitiesResultCollection> {
+  ): Promise<RecognizeLinkedEntitiesResultArray> {
     let realOptions: RecognizeLinkedEntitiesOptions;
     let realInputs: TextDocumentInput[];
 
@@ -607,7 +607,7 @@ export class TextAnalyticsClient {
         operationOptionsToRequestOptionsBase(finalOptions)
       );
 
-      return makeRecognizeLinkedEntitiesResultCollection(
+      return makeRecognizeLinkedEntitiesResultArray(
         realInputs,
         result.documents,
         result.errors,

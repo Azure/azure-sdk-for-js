@@ -82,11 +82,11 @@ export interface ModelInfo {
   /**
    * Date and time (UTC) when the model was created.
    */
-  createdOn: Date;
+  requestedOn: Date;
   /**
    * Date and time (UTC) when the status was last updated.
    */
-  lastModified: Date;
+  completedOn: Date;
 }
 
 /**
