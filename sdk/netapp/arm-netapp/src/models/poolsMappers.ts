@@ -14,7 +14,7 @@ export {
   CapacityPoolPatch,
   CloudError,
   ExportPolicyRule,
-  MountTarget,
+  MountTargetProperties,
   NetAppAccount,
   NetAppAccountPatch,
   ReplicationObject,
