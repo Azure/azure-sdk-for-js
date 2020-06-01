@@ -14,11 +14,7 @@ steps:
 =======
   ServiceDirectory: 'not-specified'
 
-pool:
-  vmImage: 'ubuntu-latest'
-
 steps:
-
 - pwsh: |     
     $directory = Join-Path "$(Build.SourcesDirectory)" "sdk"
     $directory = Join-Path $directory "${{parameters.ServiceDirectory}}"
