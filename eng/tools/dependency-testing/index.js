@@ -22,6 +22,12 @@ let argv = require("yargs")
       describe: "complete local path of the directory of the repo",
       demandOption: true
     },
+    "test-folder": {
+      type: "string",
+      default: "test",
+      describe: "whether to point at test or test/public",
+      demandOption: false
+    },
     "dry-run": {
       type: "boolean"
     }
@@ -36,15 +42,15 @@ const packageUtils = require("eng-package-utils");
 // For more details see - https://www.npmjs.com/package/cross-spawn
 var crossSpawn = require("cross-spawn");
 
-function outputTestPath(projectFolderPath, sourceDir) {
+function outputTestPath(projectFolderPath, sourceDir, testFolder) {
   const projectPath = path.join(sourceDir, projectFolderPath);
-  const testPath = path.join(projectPath, "test");
+  const testPath = path.join(projectPath, testFolder);
   console.log(`##vso[task.setvariable variable=PackageTestPath]${testPath}`)
   console.log(`Emitted variable "PackageTestPath" with content: ${testPath}`)
 }
 
-async function insertPackageJson(repoRoot, packageJsonContents, targetPackagePath, targetPackageName, versionType) {
-  const testPath = path.join(targetPackagePath, "test");
+async function insertPackageJson(repoRoot, packageJsonContents, targetPackagePath, targetPackageName, versionType, testFolder) {
+  const testPath = path.join(targetPackagePath, testFolder);
   var templateJson = await packageUtils.readFileJson("./templates/package.json");
   //console.log(templateJson);
   var testPackageJson = templateJson;
@@ -180,16 +186,16 @@ function fromDir(startPath, filter, resList) {
   return resList;
 };
 
-async function insertMochaReporter(targetPackagePath, repoRoot) {
-  const testPath = path.join(targetPackagePath, "test");
+async function insertMochaReporter(targetPackagePath, repoRoot, testFolder) {
+  const testPath = path.join(targetPackagePath, testFolder);
   const mochaPath = path.join(repoRoot, "./common/tools/mocha-multi-reporter.js");
   const mochaDestPath = path.join(testPath, "./mocha-multi-reporter.js");
   var mochaReporter = await packageUtils.readFile(mochaPath);
   await packageUtils.writeFile(mochaDestPath, mochaReporter);
 }
 
-async function insertTsConfigJson(targetPackagePath) {
-  const testPath = path.join(targetPackagePath, "test");
+async function insertTsConfigJson(targetPackagePath, testFolder) {
+  const testPath = path.join(targetPackagePath, testFolder);
   var tsConfigJson = await packageUtils.readFileJson("./templates/tsconfig.json");
   var tsConfigTestsJson = await packageUtils.readFileJson("./templates/tsconfig.tests.json");
 
@@ -223,8 +229,8 @@ async function readAndReplaceSourceReferences(filePath, packageName) {
   await packageUtils.writeFile(filePath, writeContent);
 }
 
-async function replaceSourceReferences(targetPackagePath, packageName) {
-  const testPath = path.join(targetPackagePath, "test");
+async function replaceSourceReferences(targetPackagePath, packageName, testFolder) {
+  const testPath = path.join(targetPackagePath, testFolder);
   var resList = [];
   resList = fromDir(testPath, '.ts', resList);
   console.dir(resList);
@@ -272,10 +278,10 @@ async function getVersions(packageName) {
   }
 }
 
-async function updateRushConfig(repoRoot, targetPackage) {
+async function updateRushConfig(repoRoot, targetPackage, testFolder) {
   var rushSpec = await packageUtils.getRushSpec(repoRoot);
   const targetPackagePath = path.join(repoRoot, targetPackage.projectFolder);
-  const testPath = path.join(targetPackagePath, "test");
+  const testPath = path.join(targetPackagePath, testFolder);
   const testPackageJsonPath = path.join(testPath, "package.json");
   var testPackageJson = await packageUtils.readFileJson(testPackageJsonPath);
   var testProjectFolder = targetPackage.projectFolder + "/test";
@@ -328,6 +334,7 @@ async function main(argv) {
   const repoRoot = argv["repo-root"];
   const versionType = argv["version-type"];
   const sourceDir = argv["source-dir"];
+  const testFolder = argv["test-folder"];
   const dryRun = argv["dry-run"];
 
   const packageName = artifactName.replace("azure-", "@azure/");
@@ -339,16 +346,16 @@ async function main(argv) {
   const packageJsonContents = await packageUtils.readFileJson(
     packageJsonLocation
   );
-  const allowedVersionList = await insertPackageJson(repoRoot, packageJsonContents, targetPackagePath, targetPackage.packageName, versionType);
-  await insertTsConfigJson(targetPackagePath);
+  const allowedVersionList = await insertPackageJson(repoRoot, packageJsonContents, targetPackagePath, targetPackage.packageName, versionType, testFolder);
+  await insertTsConfigJson(targetPackagePath, testFolder);
   if (dryRun) {
     console.log("Dry run only, no changes");
     return;
   }
-  await replaceSourceReferences(targetPackagePath, targetPackage.packageName);
-  await insertMochaReporter(targetPackagePath, repoRoot);
-  await updateRushConfig(repoRoot, targetPackage);
+  await replaceSourceReferences(targetPackagePath, targetPackage.packageName, testFolder);
+  await insertMochaReporter(targetPackagePath, repoRoot, testFolder);
+  await updateRushConfig(repoRoot, targetPackage, testFolder);
   await updateCommonVersions(repoRoot, allowedVersionList);
-  outputTestPath(targetPackage.projectFolder, sourceDir);
+  outputTestPath(targetPackage.projectFolder, sourceDir, testFolder);
 }
 main(argv);
