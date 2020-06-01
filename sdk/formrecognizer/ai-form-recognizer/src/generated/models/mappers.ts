@@ -153,14 +153,14 @@ export const ModelInfo: coreHttp.CompositeMapper = {
           allowedValues: ["creating", "ready", "invalid"]
         }
       },
-      createdOn: {
+      requestedOn: {
         serializedName: "createdDateTime",
         required: true,
         type: {
           name: "DateTime"
         }
       },
-      lastModified: {
+      completedOn: {
         serializedName: "lastUpdatedDateTime",
         required: true,
         type: {

@@ -6,6 +6,7 @@ import * as coreHttp from "@azure/core-http";
 import {
   AnalyzeOperationResult as AnalyzeOperationResultModel,
   FormFieldsReport,
+  CopyAuthorizationResult as CopyAuthorizationResultModel,
   KeysResult,
   KeyValueElement as KeyValueElementModel,
   KeyValuePair as KeyValuePairModel,
@@ -21,6 +22,7 @@ import {
 
 export {
   AnalyzeOperationResultModel,
+  CopyAuthorizationResultModel,
   FormFieldsReport,
   KeysResult,
   KeyValueElementModel,
@@ -200,7 +202,11 @@ export interface FormTable {
  * For example, "Work Address" is the label of
  * "Work Address: One Microsoft Way, Redmond, WA"
  */
-export interface FormText {
+export interface FieldText {
+  /**
+   * The 1-based page number in the input document.
+   */
+  pageNumber: number;
   /**
    * The bounding box of the recognized label or value
    */
@@ -227,7 +233,7 @@ export interface FormField {
   /**
    * Text of the recognized label of the field.
    */
-  labelText?: FormText;
+  labelText?: FieldText;
   /**
    * A user defined label for the field.
    */
@@ -235,7 +241,7 @@ export interface FormField {
   /**
    * Text of the recognized value of the field.
    */
-  valueText?: FormText;
+  valueText?: FieldText;
   /**
    * Value of the field.
    */
@@ -329,7 +335,7 @@ export interface RecognizedForm {
 /**
  * Properties common to the recognized text field
  */
-interface CommonFieldValue {
+export interface CommonFieldValue {
   /**
    * Text content of the recognized field.
    */
@@ -353,6 +359,9 @@ interface CommonFieldValue {
   pageNumber?: number;
 }
 
+/**
+ * Possible JavaScript types for a field value.
+ */
 export type FieldValueTypes =
   | string
   | Date
@@ -360,6 +369,9 @@ export type FieldValueTypes =
   | FieldValue[]
   | { [propertyName: string]: FieldValue };
 
+/**
+ * Types of a form field.
+ */
 export type ValueTypes =
   | "string"
   | "date"
@@ -473,12 +485,18 @@ export interface ReceiptItemArrayField {
  */
 export interface RecognizedReceipt {
   /**
-   * Locale of the receipt
+   * Locale of the receipt.
    */
   locale?: string;
+  /**
+   * The raw recognized form.
+   */
   recognizedForm: RecognizedForm;
 }
 
+/**
+ * Represents a line item in a US itemized receipt.
+ */
 export interface USReceiptItem {
   /**
    * Name of the receipt item
@@ -498,13 +516,16 @@ export interface USReceiptItem {
   totalPrice?: FormField;
 }
 
+/**
+ * Different types of US receipts.
+ */
 export type USReceiptType = {
   type: "Unrecognized" | "Itemized" | "CreditCard" | "Gas" | "Parking";
   /**
    * Confidence value.
    */
   confidence?: number;
-}
+};
 
 /**
  * United States receipt
@@ -556,6 +577,9 @@ export interface USReceipt extends RecognizedReceipt {
   transactionTime: FormField;
 }
 
+/**
+ * Supported receipt locales.
+ */
 export type Locale = "US" | "UK";
 
 export type ReceiptWithLocale = { locale: "US" } & USReceipt;
@@ -785,13 +809,13 @@ export interface CustomFormModelInfo {
    */
   status: CustomFormModelStatus;
   /**
-   * Date and time (UTC) when the model was created.
+   * Date and time (UTC) when the custom model training request was received.
    */
-  createdOn: Date;
+  requestedOn: Date;
   /**
-   * Date and time (UTC) when the status was last updated.
+   * Date and time (UTC) when the training operation completed.
    */
-  lastModified: Date;
+  completedOn: Date;
 }
 
 /**
@@ -812,6 +836,9 @@ export interface FormModel {
   trainResult?: FormTrainResult;
 }
 
+/**
+ * Represents a field in custom form sub models.
+ */
 export interface CustomFormField {
   /**
    * Estimated extraction accuracy for this field.
@@ -823,7 +850,10 @@ export interface CustomFormField {
   name: string;
 }
 
-export interface CustomFormSubModel {
+/**
+ * Represents the model for a type of custom form from the training.
+ */
+export interface CustomFormSubmodel {
   /**
    * Estimated extraction accuracy for this field.
    */
@@ -851,13 +881,13 @@ export interface CustomFormModel {
    */
   status: CustomFormModelStatus;
   /**
-   * Date and time (UTC) when the model was created.
+   * Date and time (UTC) when the custom model training request was received.
    */
-  createdOn: Date;
+  requestedOn: Date;
   /**
-   * Date and time (UTC) when the status was last updated.
+   * Date and time (UTC) when the training operation completed.
    */
-  lastModified: Date;
+  completedOn: Date;
   /**
    * List of document used to train the model and any errors reported for each document.
    */
@@ -869,7 +899,7 @@ export interface CustomFormModel {
   /**
    * Form models created by training.
    */
-  models?: CustomFormSubModel[];
+  submodels?: CustomFormSubmodel[];
 }
 
 /**
@@ -953,4 +983,22 @@ export interface AccountProperties {
    * Max number of models that can be trained for this account.
    */
   customModelLimit: number;
+}
+
+/**
+ * Request parameter that contains authorization claims for copy operation.
+ */
+export interface CopyAuthorization extends CopyAuthorizationResultModel {
+  /**
+   * Target resource Id.
+   */
+  resourceId: string;
+  /**
+   * Target resource region.
+   */
+  resourceRegion: string;
+  /**
+   * The time when the access token expires.
+   */
+  //expiresOn: Date
 }
