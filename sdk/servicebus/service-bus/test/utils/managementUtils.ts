@@ -3,7 +3,7 @@
 
 import { delay } from "../../src";
 import { QueueDescription } from "../../src/serializers/queueResourceSerializer";
-import { TopicOptions } from "../../src/serializers/topicResourceSerializer";
+import { TopicDescription } from "../../src/serializers/topicResourceSerializer";
 import { SubscriptionOptions } from "../../src/serializers/subscriptionResourceSerializer";
 import { ServiceBusManagementClient } from "../../src/serviceBusAtomManagementClient";
 
@@ -15,7 +15,7 @@ let client: ServiceBusManagementClient;
 
 /**
  * Utility to fetch cached instance of `ServiceBusAtomManagementClient` else creates and returns
- * a new instance constructed based on the connection string configured in environmet.
+ * a new instance constructed based on the connection string configured in environment.
  */
 async function getManagementClient() {
   if (client == undefined) {
@@ -27,7 +27,7 @@ async function getManagementClient() {
 
 /**
  * Utility to apply retries to a given `operationCallBack`.
- * Default policy is performing linear retries of upto `5` attempts that are `1000 milliseconds` apart.
+ * Default policy is performing linear retries of up to `5` attempts that are `1000 milliseconds` apart.
  * The retries will be preempted if given `breakConditionCallback` evaluates to `true` early on.
  * @param operationCallback
  * @param breakConditionCallback
@@ -114,7 +114,10 @@ export async function recreateQueue(
  * @param topicName
  * @param parameters
  */
-export async function recreateTopic(topicName: string, parameters?: TopicOptions): Promise<void> {
+export async function recreateTopic(
+  topicName: string,
+  parameters?: Omit<TopicDescription, "topicName">
+): Promise<void> {
   await getManagementClient();
 
   const deleteTopicOperation = async () => {
@@ -122,12 +125,12 @@ export async function recreateTopic(topicName: string, parameters?: TopicOptions
   };
 
   const createTopicOperation = async () => {
-    await client.createTopic(topicName, parameters);
+    await client.createTopic({ topicName, ...parameters });
   };
 
   const checkIfTopicExistsOperation = async () => {
     try {
-      await client.getTopicDetails(topicName);
+      await client.getTopic(topicName);
     } catch (err) {
       return false;
     }

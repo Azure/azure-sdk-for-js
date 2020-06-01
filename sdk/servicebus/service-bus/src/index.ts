@@ -46,7 +46,7 @@ export { Sender } from "./sender";
 export { ServiceBusClient } from "./serviceBusClient";
 
 export { QueueDescription, QueueRuntimeInfo } from "./serializers/queueResourceSerializer";
-export { TopicOptions, TopicDetails } from "./serializers/topicResourceSerializer";
+export { TopicDescription, TopicRuntimeInfo } from "./serializers/topicResourceSerializer";
 export {
   SubscriptionOptions,
   SubscriptionDetails
@@ -79,7 +79,7 @@ export {
   GetTopicResponse,
   ListRulesResponse,
   ListSubscriptionsResponse,
-  ListTopicsResponse,
+  GetTopicsResponse,
   UpdateQueueResponse,
   UpdateRuleResponse,
   UpdateSubscriptionResponse,
