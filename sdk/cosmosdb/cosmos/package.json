@@ -90,7 +90,7 @@
     "priorityqueuejs": "^1.0.0",
     "semaphore": "^1.0.5",
     "tslib": "^1.10.0",
-    "uuid": "^3.3.2"
+    "uuid": "^8.1.0"
   },
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^2.0.1",
@@ -106,11 +106,11 @@
     "@types/sinon": "^9.0.4",
     "@types/tunnel": "^0.0.1",
     "@types/underscore": "^1.8.8",
-    "@types/uuid": "^3.4.3",
+    "@types/uuid": "^8.0.0",
     "@typescript-eslint/eslint-plugin": "^2.0.0",
     "@typescript-eslint/eslint-plugin-tslint": "^2.8.0",
     "@typescript-eslint/parser": "^2.0.0",
-    "cross-env": "^6.0.3",
+    "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
     "downlevel-dts": "~0.4.0",
     "eslint": "^6.1.0",
@@ -135,6 +135,6 @@
     "tslint": "^5.0.0",
     "tslint-config-prettier": "^1.14.0",
     "typedoc": "^0.15.0",
-    "typescript": "~3.8.3"
+    "typescript": "~3.9.3"
   }
 }

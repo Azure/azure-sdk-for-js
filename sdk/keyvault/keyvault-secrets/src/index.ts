@@ -954,7 +954,6 @@ export class SecretClient {
       value: secretBundle.value,
       name: parsedId.name,
       properties: {
-        vaultUrl: parsedId.vaultUrl,
         expiresOn: (attributes as any).expires,
         createdOn: (attributes as any).created,
         updatedOn: (attributes as any).updated,

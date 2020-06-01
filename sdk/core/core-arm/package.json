@@ -103,7 +103,7 @@
     "tslib": "^1.10.0"
   },
   "devDependencies": {
-    "@rollup/plugin-node-resolve": "^7.0.0",
+    "@rollup/plugin-node-resolve": "^8.0.0",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^7.0.2",
     "@types/node": "^8.0.0",
@@ -125,7 +125,7 @@
     "rollup-plugin-visualizer": "^3.1.1",
     "shx": "^0.3.2",
     "ts-node": "^8.3.0",
-    "typescript": "~3.8.3",
+    "typescript": "~3.9.3",
     "uglify-js": "^3.4.9"
   }
 }

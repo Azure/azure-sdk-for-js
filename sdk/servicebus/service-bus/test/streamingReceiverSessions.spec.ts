@@ -322,7 +322,6 @@ describe("Streaming with sessions", () => {
     });
   });
 
-  // TODO: TEMPORARY
   describe("Sessions Streaming - Abandon message", function(): void {
     afterEach(async () => {
       await afterEachTest();
