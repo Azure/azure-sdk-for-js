@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { QueueDescription } from "../src/serializers/queueResourceSerializer";
-import { TopicOptions } from "../src/serializers/topicResourceSerializer";
+import { TopicDescription } from "../src/serializers/topicResourceSerializer";
 import { SubscriptionOptions } from "../src/serializers/subscriptionResourceSerializer";
 import { RuleOptions } from "../src/serializers/ruleResourceSerializer";
 import { EntityStatus } from "../src/util/utils";
@@ -1894,7 +1894,7 @@ async function createEntity(
   subscriptionPath?: string,
   overrideOptions?: boolean, // If this is false, then the default options will be populated as used for basic testing.
   queueOptions?: Omit<QueueDescription, "queueName">,
-  topicOptions?: TopicOptions,
+  topicOptions?: Omit<TopicDescription, "topicName">,
   subscriptionOptions?: SubscriptionOptions,
   ruleOptions?: RuleOptions
 ): Promise<any> {
@@ -1951,10 +1951,10 @@ async function createEntity(
       });
       return queueResponse;
     case EntityType.TOPIC:
-      const topicResponse = await serviceBusAtomManagementClient.createTopic(
-        entityPath,
-        topicOptions
-      );
+      const topicResponse = await serviceBusAtomManagementClient.createTopic({
+        topicName: entityPath,
+        ...topicOptions
+      });
       return topicResponse;
     case EntityType.SUBSCRIPTION:
       if (!topicPath) {
@@ -1996,7 +1996,7 @@ async function getEntity(
       const queueResponse = await serviceBusAtomManagementClient.getQueue(entityPath);
       return queueResponse;
     case EntityType.TOPIC:
-      const topicResponse = await serviceBusAtomManagementClient.getTopicDetails(entityPath);
+      const topicResponse = await serviceBusAtomManagementClient.getTopic(entityPath);
       return topicResponse;
     case EntityType.SUBSCRIPTION:
       if (!topicPath) {
@@ -2032,7 +2032,7 @@ async function updateEntity(
   subscriptionPath?: string,
   overrideOptions?: boolean, // If this is false, then the default options will be populated as used for basic testing.
   queueOptions?: Omit<QueueDescription, "queueName">,
-  topicOptions?: TopicOptions,
+  topicOptions?: Omit<TopicDescription, "topicName">,
   subscriptionOptions?: SubscriptionOptions,
   ruleOptions?: RuleOptions
 ): Promise<any> {
@@ -2181,7 +2181,7 @@ async function listEntities(
       });
       return queueResponse;
     case EntityType.TOPIC:
-      const topicResponse = await serviceBusAtomManagementClient.listTopics({
+      const topicResponse = await serviceBusAtomManagementClient.getTopics({
         skip: skip,
         top: top
       });
