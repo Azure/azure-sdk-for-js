@@ -2,13 +2,13 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import { SecretClient } from "../src";
+import { SecretClient } from "../../src";
 import { isNode } from "@azure/core-http";
-import { testPollerProperties } from "./utils/recorderUtils";
+import { testPollerProperties } from "../utils/recorderUtils";
 import { env, isPlaybackMode, Recorder, delay, isRecordMode } from "@azure/test-utils-recorder";
-import { authenticate } from "./utils/testAuthentication";
-import TestClient from "./utils/testClient";
-import { assertThrowsAbortError } from "./utils/utils.common";
+import { authenticate } from "../utils/testAuthentication";
+import TestClient from "../utils/testClient";
+import { assertThrowsAbortError } from "../utils/utils.common";
 
 describe("Secret client - restore secrets and recover backups", () => {
   const secretPrefix = `CRUD${env.SECRET_NAME || "SecretName"}`;
