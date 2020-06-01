@@ -153,7 +153,17 @@ export interface GetSubscriptionResponse extends SubscriptionDescription {
 }
 
 // @public
+export interface GetSubscriptionRuntimeInfoResponse extends SubscriptionRuntimeInfo {
+    _response: HttpOperationResponse;
+}
+
+// @public
 export interface GetSubscriptionsResponse extends Array<SubscriptionDescription> {
+    _response: HttpOperationResponse;
+}
+
+// @public
+export interface GetSubscriptionsRuntimeInfoResponse extends Array<SubscriptionRuntimeInfo> {
     _response: HttpOperationResponse;
 }
 
@@ -163,7 +173,17 @@ export interface GetTopicResponse extends TopicDescription {
 }
 
 // @public
+export interface GetTopicRuntimeInfoResponse extends TopicRuntimeInfo {
+    _response: HttpOperationResponse;
+}
+
+// @public
 export interface GetTopicsResponse extends Array<TopicDescription> {
+    _response: HttpOperationResponse;
+}
+
+// @public
+export interface GetTopicsRuntimeInfoResponse extends Array<TopicRuntimeInfo> {
     _response: HttpOperationResponse;
 }
 
@@ -362,16 +382,12 @@ export class ServiceBusManagementClient extends ServiceClient {
     getQueuesRuntimeInfo(listRequestOptions?: ListRequestOptions): Promise<GetQueuesRuntimeInfoResponse>;
     getRuleDescription(topicName: string, subscriptioName: string, ruleName: string): Promise<GetRuleResponse>;
     getSubscription(topicName: string, subscriptionName: string): Promise<GetSubscriptionResponse>;
-    // Warning: (ae-forgotten-export) The symbol "GetSubscriptionRuntimeInfoResponse" needs to be exported by the entry point index.d.ts
     getSubscriptionRuntimeInfo(topicName: string, subscriptionName: string): Promise<GetSubscriptionRuntimeInfoResponse>;
     getSubscriptions(topicName: string, listRequestOptions?: ListRequestOptions): Promise<GetSubscriptionsResponse>;
-    // Warning: (ae-forgotten-export) The symbol "GetSubscriptionsRuntimeInfoResponse" needs to be exported by the entry point index.d.ts
     getSubscriptionsRuntimeInfo(topicName: string, listRequestOptions?: ListRequestOptions): Promise<GetSubscriptionsRuntimeInfoResponse>;
     getTopic(topicName: string): Promise<GetTopicResponse>;
-    // Warning: (ae-forgotten-export) The symbol "GetTopicRuntimeInfoResponse" needs to be exported by the entry point index.d.ts
     getTopicRuntimeInfo(topicName: string): Promise<GetTopicRuntimeInfoResponse>;
     getTopics(listRequestOptions?: ListRequestOptions): Promise<GetTopicsResponse>;
-    // Warning: (ae-forgotten-export) The symbol "GetTopicsRuntimeInfoResponse" needs to be exported by the entry point index.d.ts
     getTopicsRuntimeInfo(listRequestOptions?: ListRequestOptions): Promise<GetTopicsRuntimeInfoResponse>;
     listRules(topicName: string, subscriptionName: string, listRequestOptions?: ListRequestOptions): Promise<ListRulesResponse>;
     queueExists(queueName: string): Promise<boolean>;
