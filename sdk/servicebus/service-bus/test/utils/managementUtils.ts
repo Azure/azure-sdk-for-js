@@ -2,16 +2,16 @@
 // Licensed under the MIT license.
 
 import { delay } from "../../src";
-import { QueueOptions } from "../../src/serializers/queueResourceSerializer";
+import { QueueDescription } from "../../src/serializers/queueResourceSerializer";
 import { TopicOptions } from "../../src/serializers/topicResourceSerializer";
 import { SubscriptionOptions } from "../../src/serializers/subscriptionResourceSerializer";
-import { ServiceBusAtomManagementClient } from "../../src/serviceBusAtomManagementClient";
+import { ServiceBusManagementClient } from "../../src/serviceBusAtomManagementClient";
 
 import { EnvVarNames, getEnvVars } from "./envVarUtils";
 import chai from "chai";
 const should = chai.should();
 
-let client: ServiceBusAtomManagementClient;
+let client: ServiceBusManagementClient;
 
 /**
  * Utility to fetch cached instance of `ServiceBusAtomManagementClient` else creates and returns
@@ -20,7 +20,7 @@ let client: ServiceBusAtomManagementClient;
 async function getManagementClient() {
   if (client == undefined) {
     const env = getEnvVars();
-    client = new ServiceBusAtomManagementClient(env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]);
+    client = new ServiceBusManagementClient(env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]);
   }
   return client;
 }
@@ -76,7 +76,10 @@ async function retry(
  * @param queueName
  * @param parameters
  */
-export async function recreateQueue(queueName: string, parameters?: QueueOptions): Promise<void> {
+export async function recreateQueue(
+  queueName: string,
+  parameters?: Omit<QueueDescription, "queueName">
+): Promise<void> {
   await getManagementClient();
 
   const deleteQueueOperation = async () => {
@@ -84,12 +87,12 @@ export async function recreateQueue(queueName: string, parameters?: QueueOptions
   };
 
   const createQueueOperation = async () => {
-    await client.createQueue(queueName, parameters);
+    await client.createQueue({ queueName: queueName, ...parameters });
   };
 
   const checkIfQueueExistsOperation = async () => {
     try {
-      await client.getQueueDetails(queueName);
+      await client.getQueue(queueName);
     } catch (err) {
       return false;
     }
@@ -198,7 +201,7 @@ export async function verifyMessageCount(
   await getManagementClient();
   should.equal(
     queueName
-      ? (await client.getQueueDetails(queueName)).messageCount
+      ? (await client.getQueueRuntimeInfo(queueName)).messageCount
       : (await client.getSubscriptionDetails(topicName!, subscriptionName!)).messageCount,
     expectedMessageCount,
     `Unexpected number of messages are present in the entity.`
