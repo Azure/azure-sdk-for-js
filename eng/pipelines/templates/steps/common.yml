@@ -14,5 +14,5 @@ steps:
     displayName: "Use NodeJS $(NodeVersion)"
 
   - script: |
-      npm --version
-    displayName: NPM version
+      node --version && npm --version
+    displayName: Node versions

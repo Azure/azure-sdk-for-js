@@ -42,6 +42,10 @@ import {
 } from "./serviceModels";
 
 export function convertSkillsToPublic(skills: SkillUnion[]): Skill[] {
+  if (!skills) {
+    return skills;
+  }
+
   const result: Skill[] = [];
   for (const skill of skills) {
     if (skill.odatatype !== "Skill") {
@@ -122,6 +126,10 @@ export function convertAnalyzersToPublic(analyzers?: AnalyzerUnion[]): Analyzer[
 }
 
 export function convertFieldsToPublic(fields: GeneratedField[]): Field[] {
+  if (!fields) {
+    return fields;
+  }
+
   return fields.map<Field>((field) => {
     let result: Field;
     if (field.type === "Collection(Edm.ComplexType)" || field.type === "Edm.ComplexType") {

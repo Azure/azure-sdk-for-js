@@ -461,6 +461,26 @@ export interface MountTarget {
    */
   readonly ipAddress?: string;
   /**
+   * subnet. The subnet
+   */
+  subnet?: string;
+  /**
+   * startIp. The start of IPv4 address range to use when creating a new mount target
+   */
+  startIp?: string;
+  /**
+   * endIp. The end of IPv4 address range to use when creating a new mount target
+   */
+  endIp?: string;
+  /**
+   * gateway. The gateway of the IPv4 address range to use when creating a new mount target
+   */
+  gateway?: string;
+  /**
+   * netmask. The netmask of the IPv4 address range to use when creating a new mount target
+   */
+  netmask?: string;
+  /**
    * smbServerFQDN. The SMB server's Fully Qualified Domain Name, FQDN
    */
   smbServerFqdn?: string;
@@ -677,16 +697,6 @@ export interface VolumePatch extends BaseResource {
    * exportPolicy. Set of export policy rules
    */
   exportPolicy?: VolumePatchPropertiesExportPolicy;
-}
-
-/**
- * List of Mount Targets
- */
-export interface MountTargetList {
-  /**
-   * A list of Mount targets
-   */
-  value?: MountTarget[];
 }
 
 /**

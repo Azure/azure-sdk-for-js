@@ -1,5 +1,6 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+/* eslint-disable eqeqeq */
 
 import { translate, MessagingError } from "./errors";
 import { delay } from "./util/utils";
@@ -193,7 +194,8 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
         );
       }
       break;
-    } catch (err) {
+    } catch (_err) {
+      let err = _err;
       if (!err.translated) {
         err = translate(err);
       }
@@ -207,7 +209,7 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
       }
       lastError = err;
       logger.verbose(
-        "[%s] Error occured for '%s' in attempt number %d: %O",
+        "[%s] Error occurred for '%s' in attempt number %d: %O",
         config.connectionId,
         config.operationType,
         i,

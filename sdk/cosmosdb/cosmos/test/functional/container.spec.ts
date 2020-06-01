@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
-import { Constants } from "../../dist-esm";
-import { ContainerDefinition, Database, Container } from "../../dist-esm/client";
-import { ContainerRequest } from "../../dist-esm/client/Container/ContainerRequest";
+import { Constants } from "../../src";
+import { ContainerDefinition, Database, Container } from "../../src/client";
+import { ContainerRequest } from "../../src/client/Container/ContainerRequest";
 import {
   DataType,
   IndexedPath,
   IndexingMode,
   IndexingPolicy,
   IndexKind
-} from "../../dist-esm/documents";
-import { SpatialType } from "../../dist-esm/documents/IndexingPolicy";
-import { GeospatialType } from "../../dist-esm/documents/GeospatialType";
+} from "../../src/documents";
+import { SpatialType } from "../../src/documents/IndexingPolicy";
+import { GeospatialType } from "../../src/documents/GeospatialType";
 import { getTestDatabase, removeAllDatabases, getTestContainer } from "../common/TestHelpers";
 
 describe("Containers", function() {

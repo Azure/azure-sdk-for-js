@@ -107,6 +107,19 @@ export const domainName: msRest.OperationURLParameter = {
     }
   }
 };
+export const enableNestedChildren: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "enableNestedChildren"
+  ],
+  mapper: {
+    serializedName: "enableNestedChildren",
+    defaultValue: false,
+    type: {
+      name: "Boolean"
+    }
+  }
+};
 export const endpoint: msRest.OperationURLParameter = {
   parameterPath: "endpoint",
   mapper: {

@@ -3,9 +3,19 @@
 
 import { PipelineOptions, OperationOptions } from "@azure/core-http";
 import { FormRecognizerRequestBody } from "./models";
-import { ContentType, SourcePath } from "./generated/models";
+import { SourcePath } from "./generated/models";
 import { getFirstFourBytesFromBlob, streamToBuffer } from "./utils/utils.node";
 import { MAX_INPUT_DOCUMENT_SIZE } from "./constants";
+
+
+/**
+ * Content types supported by Form Recognizer service.
+ */
+export type FormContentType =
+  | "application/pdf"
+  | "image/jpeg"
+  | "image/png"
+  | "image/tiff";
 
 /**
  * Client options used to configure Form Recognizer API requests.
@@ -65,7 +75,7 @@ function isSourcePath(data: FormRecognizerRequestBody | SourcePath): data is Sou
  */
 export async function getContentType(
   data: Blob | ArrayBuffer | ArrayBufferView | SourcePath
-): Promise<ContentType | undefined> {
+): Promise<FormContentType | undefined> {
   if (isSourcePath(data)) {
     return undefined;
   }

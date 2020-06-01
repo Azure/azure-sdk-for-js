@@ -160,7 +160,7 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
   ): Promise<HttpOperationResponse> {
     const newRequest: WebResource = request.clone();
 
-    const isPrimaryRetry = true; // File doesn't suport secondary endpoint
+    const isPrimaryRetry = true; // File doesn't support secondary endpoint
 
     // Set the server-side timeout query parameter "timeout=[seconds]"
     if (this.retryOptions.tryTimeoutInMs) {
