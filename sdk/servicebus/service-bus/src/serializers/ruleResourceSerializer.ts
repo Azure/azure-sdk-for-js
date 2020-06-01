@@ -44,8 +44,6 @@ export function buildRuleOptions(
 export function buildRule(rawRule: any): RuleDescription {
   return {
     ruleName: getString(rawRule["RuleName"], "ruleName"),
-    topicName: getString(rawRule["TopicName"], "topicName"),
-    subscriptionName: getString(rawRule["SubscriptionName"], "subscriptionName"),
     filter: getTopicFilter(rawRule["Filter"]),
     action: getRuleActionOrUndefined(rawRule["Action"])
   };

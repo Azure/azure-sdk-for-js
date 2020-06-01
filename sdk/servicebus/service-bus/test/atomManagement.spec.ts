@@ -4,7 +4,7 @@
 import { QueueDescription } from "../src/serializers/queueResourceSerializer";
 import { TopicDescription } from "../src/serializers/topicResourceSerializer";
 import { SubscriptionDescription } from "../src/serializers/subscriptionResourceSerializer";
-import { RuleOptions } from "../src/serializers/ruleResourceSerializer";
+import { RuleDescription } from "../src/serializers/ruleResourceSerializer";
 import { EntityStatus } from "../src/util/utils";
 import { ServiceBusManagementClient } from "../src/serviceBusAtomManagementClient";
 
@@ -1896,7 +1896,7 @@ async function createEntity(
   queueOptions?: Omit<QueueDescription, "queueName">,
   topicOptions?: Omit<TopicDescription, "topicName">,
   subscriptionOptions?: Omit<SubscriptionDescription, "topicName" | "subscriptionName">,
-  ruleOptions?: RuleOptions
+  ruleOptions?: Omit<RuleDescription, "ruleName">
 ): Promise<any> {
   if (!overrideOptions) {
     if (queueOptions == undefined) {
@@ -1977,8 +1977,7 @@ async function createEntity(
       const ruleResponse = await serviceBusAtomManagementClient.createRule(
         topicPath,
         subscriptionPath,
-        entityPath,
-        ruleOptions
+        { ruleName: entityPath, ...ruleOptions }
       );
       return ruleResponse;
   }
@@ -2015,7 +2014,7 @@ async function getEntity(
           "TestError: Topic path AND subscription path must be passed when invoking tests on rules"
         );
       }
-      const ruleResponse = await serviceBusAtomManagementClient.getRuleDescription(
+      const ruleResponse = await serviceBusAtomManagementClient.getRule(
         topicPath,
         subscriptionPath,
         entityPath
@@ -2034,7 +2033,7 @@ async function updateEntity(
   queueOptions?: Omit<QueueDescription, "queueName">,
   topicOptions?: Omit<TopicDescription, "topicName">,
   subscriptionOptions?: Omit<SubscriptionDescription, "topicName" | "subscriptionName">,
-  ruleOptions?: RuleOptions
+  ruleOptions?: Omit<RuleDescription, "ruleName">
 ): Promise<any> {
   if (!overrideOptions) {
     if (queueOptions == undefined) {
@@ -2201,7 +2200,7 @@ async function listEntities(
           "TestError: Topic path AND subscription path must be passed when invoking tests on rules"
         );
       }
-      const ruleResponse = await serviceBusAtomManagementClient.listRules(
+      const ruleResponse = await serviceBusAtomManagementClient.getRules(
         topicPath,
         subscriptionPath,
         { skip: skip, top: top }
