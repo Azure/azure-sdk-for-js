@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import uuidv4 from "uuid/v4";
+import { v4 as uuidv4 } from "uuid";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { RestError } from "../restError";
 import { WebResourceLike } from "../webResource";

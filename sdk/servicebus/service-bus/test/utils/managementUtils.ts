@@ -8,6 +8,8 @@ import { SubscriptionOptions } from "../../src/serializers/subscriptionResourceS
 import { ServiceBusAtomManagementClient } from "../../src/serviceBusAtomManagementClient";
 
 import { EnvVarNames, getEnvVars } from "./envVarUtils";
+import chai from "chai";
+const should = chai.should();
 
 let client: ServiceBusAtomManagementClient;
 
@@ -174,6 +176,32 @@ export async function recreateSubscription(
     createSubscriptionOperation,
     checkIfSubscriptionExistsOperation,
     `Create subscription "${subscriptionName}"`
+  );
+}
+
+/**
+ * Utility that verifies the message count of an entity.
+ *
+ * @export
+ * @param {number} expectedMessageCount
+ * @param {string} [queueName]
+ * @param {string} [topicName]
+ * @param {string} [subscriptionName]
+ * @returns {Promise<void>}
+ */
+export async function verifyMessageCount(
+  expectedMessageCount: number,
+  queueName?: string,
+  topicName?: string,
+  subscriptionName?: string
+): Promise<void> {
+  await getManagementClient();
+  should.equal(
+    queueName
+      ? (await client.getQueueDetails(queueName)).messageCount
+      : (await client.getSubscriptionDetails(topicName!, subscriptionName!)).messageCount,
+    expectedMessageCount,
+    `Unexpected number of messages are present in the entity.`
   );
 }
 

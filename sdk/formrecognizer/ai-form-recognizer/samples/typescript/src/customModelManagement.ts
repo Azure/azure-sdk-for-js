@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * TThis sample demonstrates how to manage the custom models in
+ * This sample demonstrates how to manage the custom models in
  * a cognitive service account.
  */
 

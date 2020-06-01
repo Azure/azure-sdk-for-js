@@ -12,12 +12,7 @@ import {
   createRecordedTrainingClient,
   createRecordedRecognizerClient
 } from "../util/recordedClients";
-import {
-  FormRecognizerClient,
-  AzureKeyCredential,
-  TrainingDocumentInfo,
-  FormTrainingClient
-} from "../../src";
+import { FormRecognizerClient, TrainingDocumentInfo, FormTrainingClient } from "../../src";
 import { env, Recorder } from "@azure/test-utils-recorder";
 
 const ASSET_PATH = path.resolve(path.join(process.cwd(), "test-assets"));
@@ -31,10 +26,6 @@ describe("FormTrainingClient NodeJS only", () => {
 
   beforeEach(function() {
     ({ recorder, client: trainingClient } = createRecordedTrainingClient(this));
-    trainingClient = new FormTrainingClient(
-      env.FORM_RECOGNIZER_ENDPOINT,
-      new AzureKeyCredential(env.FORM_RECOGNIZER_API_KEY)
-    );
   });
 
   afterEach(function() {
@@ -63,8 +54,8 @@ describe("FormTrainingClient NodeJS only", () => {
     // save the id for recognition tests
     unlabeledModelId = response!.modelId;
 
-    assert.ok(response!.models && response!.models.length > 0, "Expected non empty sub model list");
-    const model = response!.models![0];
+    assert.ok(response!.submodels && response!.submodels.length > 0, "Expected non empty sub model list");
+    const model = response!.submodels![0];
     assert.equal(model.formType, "form-0");
     assert.equal(model.accuracy, undefined);
     assert.ok(model.fields["field-0"], "Expecting field with name 'field-0' to be valid");
@@ -86,8 +77,8 @@ describe("FormTrainingClient NodeJS only", () => {
     // save the id for recognition tests
     labeledModelId = response!.modelId;
 
-    assert.ok(response!.models && response!.models.length > 0, "Expected non empty sub model list");
-    const model = response!.models![0];
+    assert.ok(response!.submodels && response!.submodels.length > 0, "Expected non empty sub model list");
+    const model = response!.submodels![0];
     assert.equal(model.formType, `form-${response!.modelId}`);
     assert.equal(model.accuracy, 0.973);
     assert.ok(model.fields["Signature"], "Expecting field with name 'Signature' to be valid");
@@ -144,7 +135,10 @@ describe("FormTrainingClient NodeJS only", () => {
   it("getAccountProperties() gets model count and limit for this account", async () => {
     const properties = await trainingClient.getAccountProperties();
 
-    assert.ok(properties.customModelCount > 0, `Expecting models in account but got ${properties.customModelCount}`);
+    assert.ok(
+      properties.customModelCount > 0,
+      `Expecting models in account but got ${properties.customModelCount}`
+    );
     assert.ok(
       properties.customModelLimit > 0,
       `Expecting maximum number of models in account but got ${properties.customModelLimit}`
@@ -178,7 +172,7 @@ describe("FormTrainingClient NodeJS only", () => {
 
     assert.ok(modelInfo.modelId === modelIdToDelete, "Expecting same model id");
     assert.ok(
-      modelInfo.models && modelInfo.models.length > 0,
+      modelInfo.submodels && modelInfo.submodels.length > 0,
       "Expecting no empty list of custom form sub models"
     );
   });
@@ -203,6 +197,25 @@ describe("FormTrainingClient NodeJS only", () => {
         `Expecting error message "${message}" to end with " not found."`
       );
     }
+  });
+
+  // TODO: re-enabling is tracked by https://github.com/azure/azure-sdk-for-js/issues/9072
+  it.skip("copies model", async function() {
+    // for testing purpose, copy into the same resource
+    const resourceId = env.FORM_RECOGNIZER_TARGET_RESOURCE_ID;
+    const resourceRegion = env.FORM_RECOGNIZER_TARGET_RESOURCE_REGION;
+    const targetAuth = await trainingClient.getCopyAuthorization(resourceId, resourceRegion);
+
+    assert.ok(labeledModelId, "Expecting valide model id in source");
+    const poller = await trainingClient.beginCopyModel(labeledModelId!, targetAuth);
+    await poller.pollUntilDone();
+    const result = poller.getResult();
+
+    assert.ok(result, "Expecting valid copy result");
+    assert.equal(result?.modelId, targetAuth.modelId, "Expecting matching model ids");
+    assert.equal(result!.status, "ready");
+    assert.ok(result!.requestedOn, "Expecting valid 'createOn' property");
+    assert.ok(result!.completedOn, "Expecting valid 'lastModified' property");
   });
 }).timeout(60000);
 

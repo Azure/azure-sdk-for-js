@@ -31,7 +31,9 @@ const replaceableVariables: { [k: string]: string } = {
   FORM_RECOGNIZER_API_KEY: "api_key",
   FORM_RECOGNIZER_ENDPOINT: "https://endpoint/",
   FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL: "https://storageaccount/trainingdata?sastoken",
-  FORM_RECOGNIZER_TESTING_CONTAINER_SAS_URL: "https://storageaccount/testingdata?sastoken"
+  FORM_RECOGNIZER_TESTING_CONTAINER_SAS_URL: "https://storageaccount/testingdata?sastoken",
+  FORM_RECOGNIZER_TARGET_RESOURCE_REGION: "resource_region",
+  FORM_RECOGNIZER_TARGET_RESOURCE_ID: "resource_id"
 };
 
 export const testEnv = new Proxy(replaceableVariables, {
