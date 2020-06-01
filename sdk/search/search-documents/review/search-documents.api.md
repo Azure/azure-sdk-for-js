@@ -584,6 +584,12 @@ export interface IndexingSchedule {
 }
 
 // @public
+export type IndexIterator = PagedAsyncIterableIterator<Index, Index[], {}>;
+
+// @public
+export type IndexNameIterator = PagedAsyncIterableIterator<string, string[], {}>;
+
+// @public
 export interface InputFieldMappingEntry {
     inputs?: InputFieldMappingEntry[];
     name: string;
@@ -1151,8 +1157,8 @@ export class SearchIndexClient {
     getIndexStatistics(indexName: string, options?: GetIndexStatisticsOptions): Promise<GetIndexStatisticsResult>;
     getServiceStatistics(options?: GetServiceStatisticsOptions): Promise<ServiceStatistics>;
     getSynonymMap(synonymMapName: string, options?: GetSynonymMapsOptions): Promise<SynonymMap>;
-    listIndexes(options?: ListIndexesOptions): Promise<Array<Index>>;
-    listIndexesNames(options?: ListIndexesOptions): Promise<Array<string>>;
+    listIndexes(options?: ListIndexesOptions): IndexIterator;
+    listIndexesNames(options?: ListIndexesOptions): IndexNameIterator;
     listSynonymMaps(options?: ListSynonymMapsOptions): Promise<Array<SynonymMap>>;
     listSynonymMapsNames(options?: ListSynonymMapsOptions): Promise<Array<string>>;
 }
