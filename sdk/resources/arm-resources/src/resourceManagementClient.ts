@@ -22,7 +22,7 @@ class ResourceManagementClient extends ResourceManagementClientContext {
   providers: operations.Providers;
   resources: operations.Resources;
   resourceGroups: operations.ResourceGroups;
-  tags: operations.Tags;
+  tags: operations.TagsOperations;
   deploymentOperations: operations.DeploymentOperations;
 
   /**
@@ -38,7 +38,7 @@ class ResourceManagementClient extends ResourceManagementClientContext {
     this.providers = new operations.Providers(this);
     this.resources = new operations.Resources(this);
     this.resourceGroups = new operations.ResourceGroups(this);
-    this.tags = new operations.Tags(this);
+    this.tags = new operations.TagsOperations(this);
     this.deploymentOperations = new operations.DeploymentOperations(this);
   }
 }
