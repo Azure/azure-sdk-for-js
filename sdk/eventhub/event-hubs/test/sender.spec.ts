@@ -381,14 +381,15 @@ describe("EventHub Sender", function(): void {
       }
     });
 
-    it("should support being cancelled", async function(): Promise<void> {
+    // TODO: Enable this test https://github.com/Azure/azure-sdk-for-js/issues/9202 is fixed
+    it.skip("should support being cancelled", async function(): Promise<void> {
       try {
         // abortSignal event listeners will be triggered after synchronous paths are executed
         const abortSignal = AbortController.timeout(0);
         await producerClient.createBatch({ abortSignal: abortSignal });
         throw new Error(`Test failure`);
       } catch (err) {
-        // err.name.should.equal("AbortError");
+        err.name.should.equal("AbortError");
         err.message.should.equal("The create batch operation has been cancelled by the user.");
       }
     });
