@@ -32,12 +32,11 @@ import * as Constants from "./util/constants";
 import {
   QueueResourceSerializer,
   InternalQueueOptions,
-  QueueOptions,
+  QueueDescription,
   buildQueueOptions,
   buildQueue,
-  QueueProperties,
-  buildQueueMetrics,
-  QueueMetrics
+  buildQueueRuntimeInfo,
+  QueueRuntimeInfo
 } from "./serializers/queueResourceSerializer";
 import {
   TopicResourceSerializer,
@@ -93,7 +92,7 @@ export interface ListRequestOptions {
 /**
  * Represents result of create, get, update and delete operations on queue.
  */
-export interface GetQueueMetricsResponse extends QueueMetrics {
+export interface GetQueueRuntimeInfoResponse extends QueueRuntimeInfo {
   /**
    * The underlying HTTP response.
    */
@@ -103,7 +102,7 @@ export interface GetQueueMetricsResponse extends QueueMetrics {
 /**
  * Represents result of create, get, update and delete operations on queue.
  */
-export interface GetQueuesMetricsResponse extends Array<QueueMetrics> {
+export interface GetQueuesRuntimeInfoResponse extends Array<QueueRuntimeInfo> {
   /**
    * The underlying HTTP response.
    */
@@ -113,7 +112,7 @@ export interface GetQueuesMetricsResponse extends Array<QueueMetrics> {
 /**
  * Represents result of create, get, update and delete operations on queue.
  */
-export interface QueueResponse extends QueueProperties {
+export interface QueueResponse extends QueueDescription {
   /**
    * The underlying HTTP response.
    */
@@ -123,7 +122,7 @@ export interface QueueResponse extends QueueProperties {
 /**
  * Create Queue response
  */
-export interface CreateQueueResponse extends QueueProperties {
+export interface CreateQueueResponse extends QueueDescription {
   /**
    * The underlying HTTP response.
    */
@@ -133,7 +132,7 @@ export interface CreateQueueResponse extends QueueProperties {
 /**
  * Get Queue response
  */
-export interface GetQueueResponse extends QueueProperties {
+export interface GetQueueResponse extends QueueDescription {
   /**
    * The underlying HTTP response.
    */
@@ -143,7 +142,7 @@ export interface GetQueueResponse extends QueueProperties {
 /**
  * Update Queue response
  */
-export interface UpdateQueueResponse extends QueueProperties {
+export interface UpdateQueueResponse extends QueueDescription {
   /**
    * The underlying HTTP response.
    */
@@ -163,7 +162,7 @@ export interface DeleteQueueResponse {
 /**
  * Represents result of list operation on queues.
  */
-export interface GetQueuesResponse extends Array<QueueProperties> {
+export interface GetQueuesResponse extends Array<QueueDescription> {
   /**
    * The underlying HTTP response.
    */
@@ -475,7 +474,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   async createQueue(queueName: string): Promise<CreateQueueResponse>;
   /**
    * Creates a queue configured using the given options
-   * @param queueOptions Options to configure the Queue being created.
+   * @param queue Options to configure the Queue being created.
    * For example, you can configure a queue to support partitions or sessions.
    *
    * Following are errors that can be expected from this operation
@@ -489,8 +488,8 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async createQueue(queueOptions: QueueOptions): Promise<CreateQueueResponse>;
-  async createQueue(queueNameOrOptions: string | QueueOptions): Promise<CreateQueueResponse> {
+  async createQueue(queue: QueueDescription): Promise<CreateQueueResponse>;
+  async createQueue(queueNameOrOptions: string | QueueDescription): Promise<CreateQueueResponse> {
     if (typeof queueNameOrOptions == "string") {
       log.httpAtomXml(
         `Performing management operation - createQueue() for "${queueNameOrOptions}"`
@@ -556,14 +555,14 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async getQueueMetrics(queueName: string): Promise<GetQueueMetricsResponse> {
+  async getQueueRuntimeInfo(queueName: string): Promise<GetQueueRuntimeInfoResponse> {
     log.httpAtomXml(`Performing management operation - getQueue() for "${queueName}"`);
     const response: HttpOperationResponse = await this.getResource(
       queueName,
       this.queueResourceSerializer
     );
 
-    return this.buildQueueMetricsResponse(response);
+    return this.buildQueueRuntimeInfoResponse(response);
   }
 
   /**
@@ -605,9 +604,9 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async getQueuesMetrics(
+  async getQueuesRuntimeInfo(
     listRequestOptions?: ListRequestOptions
-  ): Promise<GetQueuesMetricsResponse> {
+  ): Promise<GetQueuesRuntimeInfoResponse> {
     log.httpAtomXml(
       `Performing management operation - listQueues() with options: ${listRequestOptions}`
     );
@@ -617,7 +616,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       this.queueResourceSerializer
     );
 
-    return this.buildListQueuesMetricsResponse(response);
+    return this.buildListQueuesRuntimeInfoResponse(response);
   }
 
   /**
@@ -637,7 +636,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   async updateQueue(queueName: string): Promise<UpdateQueueResponse>;
   /**
    * Updates properties on the Queue by the given name based on the given options
-   * @param queueOptions Options to configure the Queue being updated.
+   * @param queue Options to configure the Queue being updated.
    * For example, you can configure a queue to support partitions or sessions.
    *
    * Following are errors that can be expected from this operation
@@ -650,14 +649,14 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async updateQueue(queueOptions: QueueOptions): Promise<UpdateQueueResponse>;
-  async updateQueue(queueNameOrOptions: string | QueueOptions): Promise<UpdateQueueResponse> {
+  async updateQueue(queue: QueueDescription): Promise<UpdateQueueResponse>;
+  async updateQueue(queueNameOrOptions: string | QueueDescription): Promise<UpdateQueueResponse> {
     if (typeof queueNameOrOptions == "string") {
       log.httpAtomXml(
         `Performing management operation - updateQueue() for "${queueNameOrOptions}"`
       );
 
-      const finalQueueOptions: QueueOptions = { queueName: queueNameOrOptions };
+      const finalQueueOptions: QueueDescription = { queueName: queueNameOrOptions };
       const getQueueResult = await this.getQueue(queueNameOrOptions);
       Object.assign(finalQueueOptions, getQueueResult);
 
@@ -676,11 +675,11 @@ export class ServiceBusManagementClient extends ServiceClient {
 
       if (!isJSONLikeObject(queueNameOrOptions) || queueNameOrOptions === null) {
         throw new TypeError(
-          `Parameter "queueOptions" must be an object of type "QueueOptions" and cannot be undefined or null.`
+          `Parameter "queue" must be an object of type "QueueOptions" and cannot be undefined or null.`
         );
       }
 
-      const finalQueueOptions: QueueOptions = { queueName: queueNameOrOptions.queueName };
+      const finalQueueOptions: QueueDescription = { queueName: queueNameOrOptions.queueName };
       const getQueueResult = await this.getQueue(queueNameOrOptions.queueName);
       Object.assign(finalQueueOptions, getQueueResult, queueNameOrOptions);
 
@@ -1417,7 +1416,7 @@ export class ServiceBusManagementClient extends ServiceClient {
 
   private buildListQueuesResponse(response: HttpOperationResponse): GetQueuesResponse {
     try {
-      const queues: QueueProperties[] = [];
+      const queues: QueueDescription[] = [];
       if (!Array.isArray(response.parsedBody)) {
         throw new TypeError(`${response.parsedBody} was expected to be of type Array`);
       }
@@ -1444,22 +1443,22 @@ export class ServiceBusManagementClient extends ServiceClient {
     }
   }
 
-  private buildListQueuesMetricsResponse(
+  private buildListQueuesRuntimeInfoResponse(
     response: HttpOperationResponse
-  ): GetQueuesMetricsResponse {
+  ): GetQueuesRuntimeInfoResponse {
     try {
-      const queues: QueueMetrics[] = [];
+      const queues: QueueRuntimeInfo[] = [];
       if (!Array.isArray(response.parsedBody)) {
         throw new TypeError(`${response.parsedBody} was expected to be of type Array`);
       }
       const rawQueueArray: any = response.parsedBody;
       for (let i = 0; i < rawQueueArray.length; i++) {
-        const queue = buildQueueMetrics(rawQueueArray[i]);
+        const queue = buildQueueRuntimeInfo(rawQueueArray[i]);
         if (queue) {
           queues.push(queue);
         }
       }
-      const listQueuesResponse: GetQueuesMetricsResponse = Object.assign(queues, {
+      const listQueuesResponse: GetQueuesRuntimeInfoResponse = Object.assign(queues, {
         _response: response
       });
       return listQueuesResponse;
@@ -1494,10 +1493,12 @@ export class ServiceBusManagementClient extends ServiceClient {
     }
   }
 
-  private buildQueueMetricsResponse(response: HttpOperationResponse): GetQueueMetricsResponse {
+  private buildQueueRuntimeInfoResponse(
+    response: HttpOperationResponse
+  ): GetQueueRuntimeInfoResponse {
     try {
-      const queue = buildQueueMetrics(response.parsedBody);
-      const queueResponse: GetQueueMetricsResponse = Object.assign(queue || {}, {
+      const queue = buildQueueRuntimeInfo(response.parsedBody);
+      const queueResponse: GetQueueRuntimeInfoResponse = Object.assign(queue || {}, {
         _response: response
       });
       return queueResponse;

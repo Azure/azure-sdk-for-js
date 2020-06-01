@@ -18,7 +18,6 @@ import {
   getInteger,
   getBoolean,
   getString,
-  getBooleanOrUndefined,
   getIntegerOrUndefined,
   EntityStatus
 } from "../util/utils";
@@ -31,7 +30,7 @@ import {
  * converts values to string and ensures the right order as expected by the service
  * @param queueOptions
  */
-export function buildQueueOptions(queueOptions: QueueOptions): InternalQueueOptions {
+export function buildQueueOptions(queueOptions: QueueDescription): InternalQueueOptions {
   return {
     LockDuration: queueOptions.lockDuration,
     MaxSizeInMegabytes: getStringOrUndefined(queueOptions.maxSizeInMegabytes),
@@ -61,7 +60,7 @@ export function buildQueueOptions(queueOptions: QueueOptions): InternalQueueOpti
  * response from the service
  * @param rawQueue
  */
-export function buildQueue(rawQueue: any): QueueProperties {
+export function buildQueue(rawQueue: any): QueueDescription {
   return {
     queueName: getString(rawQueue[Constants.QUEUE_NAME], "queueName"),
 
@@ -102,13 +101,7 @@ export function buildQueue(rawQueue: any): QueueProperties {
       rawQueue[Constants.FORWARD_DEADLETTERED_MESSAGES_TO]
     ),
 
-    supportOrdering: getBooleanOrUndefined(rawQueue[Constants.SUPPORT_ORDERING]),
-    enableExpress: getBooleanOrUndefined(rawQueue[Constants.ENABLE_EXPRESS]),
-
     authorizationRules: getAuthorizationRulesOrUndefined(rawQueue[Constants.AUTHORIZATION_RULES]),
-    isAnonymousAccessible: getBooleanOrUndefined(rawQueue[Constants.IS_ANONYMOUS_ACCESSIBLE]),
-
-    entityAvailabilityStatus: rawQueue[Constants.ENTITY_AVAILABILITY_STATUS],
 
     status: rawQueue[Constants.STATUS]
   };
@@ -121,7 +114,7 @@ export function buildQueue(rawQueue: any): QueueProperties {
  * response from the service
  * @param rawQueue
  */
-export function buildQueueMetrics(rawQueue: any): QueueMetrics {
+export function buildQueueRuntimeInfo(rawQueue: any): QueueRuntimeInfo {
   return {
     queueName: getString(rawQueue[Constants.QUEUE_NAME], "queueName"),
     sizeInBytes: getIntegerOrUndefined(rawQueue[Constants.SIZE_IN_BYTES]),
@@ -136,7 +129,7 @@ export function buildQueueMetrics(rawQueue: any): QueueMetrics {
 /**
  * Represents settable options on a queue
  */
-export interface QueueOptions {
+export interface QueueDescription {
   /**
    * Name of the queue
    */
@@ -376,151 +369,9 @@ export interface InternalQueueOptions {
 }
 
 /**
- * Represents all attributes of a queue entity
+ * Represents runtime info attributes of a queue entity
  */
-export interface QueueProperties {
-  /**
-   * Name of the queue
-   */
-  queueName: string;
-
-  /**
-   * Determines the amount of time in seconds in which a message should be locked
-   * for processing by a receiver. After this period, the message is unlocked and
-   * can be consumed by the next receiver.
-   * Settable only at queue creation time.
-   * This is specified in ISO-8601 duration format
-   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
-   */
-  lockDuration: string;
-
-  /**
-   * Specifies the maximum queue size in megabytes. Any attempt to enqueue
-   * a message that will cause the queue to exceed this value will fail.
-   */
-  maxSizeInMegabytes: number;
-
-  /**
-   * Depending on whether DeadLettering is enabled, a message is automatically
-   * moved to the DeadLetterQueue or deleted if it has been stored in the queue
-   * for longer than the specified time. This value is overwritten by a TTL
-   * specified on the message if and only if the message TTL is smaller than
-   * the TTL set on the queue.
-   * This value is immutable after the Queue has been created.
-   * This is to be specified in ISO-8601 duration format
-   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
-   */
-  defaultMessageTtl: string;
-
-  /**
-   * Specifies the time span during which the Service Bus detects message duplication.
-   * This is to be specified in ISO-8601 duration format
-   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
-   */
-  duplicateDetectionHistoryTimeWindow: string;
-
-  /**
-   * Absolute URL or the name of the queue or topic the dead-lettered
-   * messages are to be forwarded to.
-   * For example, an absolute URL input would be of the form
-   * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
-   */
-  forwardDeadLetteredMessagesTo?: string;
-
-  /**
-   * Max idle time before entity is deleted.
-   * This is specified in ISO-8601 duration format
-   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
-   */
-  autoDeleteOnIdle: string;
-
-  /**
-   * The maximum delivery count of messages after which if it is still not settled,
-   * gets moved to the dead-letter sub-queue.
-   *
-   */
-  maxDeliveryCount: number;
-
-  /**
-   * If set to true, the queue will be session-aware and only SessionReceiver
-   * will be supported. Session-aware queues are not supported through REST.
-   * Settable only at queue creation time.
-   */
-  requiresSession: boolean;
-
-  /**
-   * Specifies if batched operations should be allowed.
-   */
-  enableBatchedOperations: boolean;
-
-  /**
-   *  If enabled, the topic will detect duplicate messages within the time
-   * span specified by the DuplicateDetectionHistoryTimeWindow property.
-   * Settable only at queue creation time.
-   */
-  requiresDuplicateDetection: boolean;
-
-  /**
-   * If it is enabled and a message expires, the Service Bus moves the message
-   * from the queue into the queue’s dead-letter sub-queue. If disabled, message
-   * will be permanently deleted from the queue. Settable only at queue creation time.
-   */
-  deadLetteringOnMessageExpiration: boolean;
-
-  /**
-   * Absolute URL or the name of the queue or topic the
-   * messages are to be forwarded to.
-   * For example, an absolute URL input would be of the form
-   * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
-   */
-  forwardTo?: string;
-
-  /**
-   * The user provided metadata information associated with the queue description.
-   * Used to specify textual content such as tags, labels, etc.
-   * Value must not exceed 1024 bytes encoded in utf-8.
-   */
-  userMetadata?: string;
-
-  /**
-   * Specifies whether the queue should be partitioned.
-   */
-  enablePartitioning: boolean;
-
-  /**
-   * Authorization rules on the queue
-   */
-  authorizationRules?: AuthorizationRule[];
-
-  /**
-   * Ordering support for messages
-   */
-  supportOrdering?: boolean;
-
-  /**
-   * Enable express option
-   */
-  enableExpress?: boolean;
-
-  /**
-   * Is anonymous accessible queue option
-   */
-  isAnonymousAccessible?: boolean;
-
-  /**
-   * Entity availability status
-   */
-  entityAvailabilityStatus?: string;
-
-  /**
-   * Status of the messaging entity.
-   */
-  status?: EntityStatus;
-}
-/**
- * Represents all attributes of a queue entity
- */
-export interface QueueMetrics {
+export interface QueueRuntimeInfo {
   /**
    * Name of the queue
    */
