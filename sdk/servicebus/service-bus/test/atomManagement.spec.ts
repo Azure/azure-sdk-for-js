@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { QueueOptions } from "../src/serializers/queueResourceSerializer";
+import { QueueDescription } from "../src/serializers/queueResourceSerializer";
 import { TopicOptions } from "../src/serializers/topicResourceSerializer";
 import { SubscriptionOptions } from "../src/serializers/subscriptionResourceSerializer";
 import { RuleOptions } from "../src/serializers/ruleResourceSerializer";
 import { EntityStatus } from "../src/util/utils";
-import { ServiceBusAtomManagementClient } from "../src/serviceBusAtomManagementClient";
+import { ServiceBusManagementClient } from "../src/serviceBusAtomManagementClient";
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
@@ -27,7 +27,7 @@ import { EntityNames } from "./utils/testUtils";
 import { parseConnectionString } from "@azure/core-amqp";
 import { recreateQueue, recreateTopic, recreateSubscription } from "./utils/managementUtils";
 
-const serviceBusAtomManagementClient: ServiceBusAtomManagementClient = new ServiceBusAtomManagementClient(
+const serviceBusAtomManagementClient: ServiceBusManagementClient = new ServiceBusManagementClient(
   env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]
 );
 
@@ -1919,7 +1919,7 @@ async function createEntity(
   topicPath?: string,
   subscriptionPath?: string,
   overrideOptions?: boolean, // If this is false, then the default options will be populated as used for basic testing.
-  queueOptions?: QueueOptions,
+  queueOptions?: Omit<QueueDescription, "queueName">,
   topicOptions?: TopicOptions,
   subscriptionOptions?: SubscriptionOptions,
   ruleOptions?: RuleOptions
@@ -1971,10 +1971,10 @@ async function createEntity(
 
   switch (testEntityType) {
     case EntityType.QUEUE:
-      const queueResponse = await serviceBusAtomManagementClient.createQueue(
-        entityPath,
-        queueOptions
-      );
+      const queueResponse = await serviceBusAtomManagementClient.createQueue({
+        queueName: entityPath,
+        ...queueOptions
+      });
       return queueResponse;
     case EntityType.TOPIC:
       const topicResponse = await serviceBusAtomManagementClient.createTopic(
@@ -2019,7 +2019,7 @@ async function getEntity(
 ): Promise<any> {
   switch (testEntityType) {
     case EntityType.QUEUE:
-      const queueResponse = await serviceBusAtomManagementClient.getQueueDetails(entityPath);
+      const queueResponse = await serviceBusAtomManagementClient.getQueue(entityPath);
       return queueResponse;
     case EntityType.TOPIC:
       const topicResponse = await serviceBusAtomManagementClient.getTopicDetails(entityPath);
@@ -2057,7 +2057,7 @@ async function updateEntity(
   topicPath?: string,
   subscriptionPath?: string,
   overrideOptions?: boolean, // If this is false, then the default options will be populated as used for basic testing.
-  queueOptions?: QueueOptions,
+  queueOptions?: Omit<QueueDescription, "queueName">,
   topicOptions?: TopicOptions,
   subscriptionOptions?: SubscriptionOptions,
   ruleOptions?: RuleOptions
@@ -2109,11 +2109,10 @@ async function updateEntity(
 
   switch (testEntityType) {
     case EntityType.QUEUE:
-      const queueResponse = await serviceBusAtomManagementClient.updateQueue(
-        entityPath,
-        // @ts-ignore
-        queueOptions
-      );
+      const queueResponse = await serviceBusAtomManagementClient.updateQueue({
+        queueName: entityPath,
+        ...queueOptions
+      });
       return queueResponse;
     case EntityType.TOPIC:
       const topicResponse = await serviceBusAtomManagementClient.updateTopic(
@@ -2202,7 +2201,7 @@ async function listEntities(
 ): Promise<any> {
   switch (testEntityType) {
     case EntityType.QUEUE:
-      const queueResponse = await serviceBusAtomManagementClient.listQueues({
+      const queueResponse = await serviceBusAtomManagementClient.getQueues({
         skip: skip,
         top: top
       });
