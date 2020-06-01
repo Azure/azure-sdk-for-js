@@ -202,13 +202,14 @@ describe("EventHubConsumerClient with non existent namespace", function(): void 
 
   it("should throw ServiceCommunicationError while subscribe()", async function(): Promise<void> {
     let caughtErr: any;
-    client.subscribe({
+    const subscription = client.subscribe({
       processEvents: async () => {},
       processError: async (err) => {
         caughtErr = err;
       }
     });
     await delay(5000);
+    await subscription.close();
     debug(caughtErr);
     should.equal(caughtErr.code, expectedErrCode);
     await client.close();
@@ -342,13 +343,14 @@ describe("EventHubConsumerClient with non existent event hub", function(): void 
     void
   > {
     let caughtErr: any;
-    client.subscribe({
+    const subscription = client.subscribe({
       processEvents: async () => {},
       processError: async (err) => {
         caughtErr = err;
       }
     });
     await delay(5000);
+    await subscription.close();
     debug(caughtErr);
     should.equal(caughtErr.code, expectedErrCode);
     await client.close();
@@ -583,13 +585,14 @@ describe("EventHubConsumerClient after close()", function(): void {
   it("should throw connection closed error while subscribe()", async function(): Promise<void> {
     await beforeEachTest();
     let caughtErr: any;
-    client.subscribe({
+    const subscription = client.subscribe({
       processEvents: async () => {},
       processError: async (err) => {
         caughtErr = err;
       }
     });
     await delay(5000);
+    await subscription.close();
     debug(caughtErr);
     should.equal(caughtErr.message, expectedErrorMsg);
   });
