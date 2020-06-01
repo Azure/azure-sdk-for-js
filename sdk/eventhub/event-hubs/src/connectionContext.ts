@@ -1,7 +1,8 @@
-/* eslint-disable @azure/azure-sdk/ts-no-namespaces */
-/* eslint-disable no-inner-declarations */
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+
+/* eslint-disable @azure/azure-sdk/ts-no-namespaces */
+/* eslint-disable no-inner-declarations */
 
 import { logger } from "./log";
 import { getRuntimeInfo } from "./util/runtimeInfo";
@@ -51,9 +52,22 @@ export interface ConnectionContext extends ConnectionContextBase {
    */
   managementSession?: ManagementClient;
 
+  /**
+   * Indicates whether the connection is in the process of closing.
+   */
   isConnectionClosing(): boolean;
-
-  isDisconnecting: boolean;
+  /**
+   * Resolves once the connectionContext is ready to be opened.
+   */
+  readyToOpen(): Promise<void>;
+  /**
+   * Resolves once the context's connection emits a `disconnected` event.
+   */
+  waitForConnectionDisconnected(): Promise<void>;
+  /**
+   * Resolves once the connection has finished being reset.
+   * Connections are reset as part of reacting to a `disconnected` event.
+   */
   waitForConnectionReset(): Promise<void>;
 }
 
@@ -65,6 +79,25 @@ export interface ConnectionContextOptions extends EventHubClientOptions {
   managementSessionAddress?: string;
   managementSessionAudience?: string;
 }
+
+/**
+ * Helper type to get the names of all the functions on an object.
+ */
+type FunctionPropertyNames<T> = { [K in keyof T]: T[K] extends Function ? K : never }[keyof T];
+/**
+ * Helper type to get the types of all the functions on an object.
+ */
+type FunctionProperties<T> = Pick<T, FunctionPropertyNames<T>>;
+/**
+ * Helper type to get the types of all the functions on ConnectionContext.
+ * Note that this excludes the functions that ConnectionContext inherits.
+ * Each function also has its `this` type set as `ConnectionContext`.
+ */
+type ConnectionContextMethods = Omit<
+  FunctionProperties<ConnectionContext>,
+  FunctionPropertyNames<ConnectionContextBase>
+> &
+  ThisType<ConnectionContext>;
 
 /**
  * @internal
@@ -124,20 +157,48 @@ export namespace ConnectionContext {
       audience: options.managementSessionAudience
     };
     connectionContext.managementSession = new ManagementClient(connectionContext, mOptions);
-    connectionContext.isConnectionClosing = function() {
-      // When the connection is not open, but the remote end is open,
-      // then the rhea connection is in the process of terminating.
-      return Boolean(!this.connection.isOpen() && this.connection.isRemoteOpen());
-    };
-    connectionContext.isDisconnecting = false;
+
+    let isDisconnecting = false;
     let waitForDisconnectResolve: () => void;
     let waitForDisconnectPromise: Promise<void> | undefined;
-    connectionContext.waitForConnectionReset = function() {
-      if (this.isDisconnecting && waitForDisconnectPromise) {
-        return waitForDisconnectPromise;
+
+    Object.assign<ConnectionContext, ConnectionContextMethods>(connectionContext, {
+      isConnectionClosing() {
+        // When the connection is not open, but the remote end is open,
+        // then the rhea connection is in the process of terminating.
+        return Boolean(!this.connection.isOpen() && this.connection.isRemoteOpen());
+      },
+      async readyToOpen() {
+        // Check that the connection isn't in the process of closing.
+        // This can happen when the idle timeout has been reached but
+        // the underlying socket is waiting to be destroyed.
+        if (this.isConnectionClosing()) {
+          // Wait for the disconnected event that indicates the underlying socket has closed.
+          await this.waitForConnectionDisconnected();
+        }
+        // Check if the connection is currently in the process of disconnecting.
+        if (isDisconnecting) {
+          // Wait for the connection to be reset.
+          await this.waitForConnectionReset();
+        }
+      },
+      waitForConnectionDisconnected() {
+        return new Promise((resolve) => {
+          logger.verbose(
+            `[${this.connectionId}] Attempting to reinitialize connection` +
+              ` but the connection is in the process of closing.` +
+              ` Waiting for the disconnect event before continuing.`
+          );
+          this.connection.once(ConnectionEvents.disconnected, resolve);
+        });
+      },
+      waitForConnectionReset() {
+        if (waitForDisconnectPromise) {
+          return waitForDisconnectPromise;
+        }
+        return Promise.resolve();
       }
-      return Promise.resolve();
-    };
+    });
 
     // Define listeners to be added to the connection object for
     // "connection_open" and "connection_error" events.
@@ -151,10 +212,10 @@ export namespace ConnectionContext {
     };
 
     const disconnected: OnAmqpEvent = async (context: EventContext) => {
-      if (connectionContext.isDisconnecting) {
+      if (isDisconnecting) {
         return;
       }
-      connectionContext.isDisconnecting = true;
+      isDisconnecting = true;
       waitForDisconnectPromise = new Promise((resolve) => {
         waitForDisconnectResolve = resolve;
       });
@@ -198,44 +259,26 @@ export namespace ConnectionContext {
       connectionContext.connection.removeAllSessions();
 
       // Close the cbs session to ensure all the event handlers are released.
-      await connectionContext.cbsSession.close().catch((err) => {
-        logger.verbose(
-          "[%s] Error when closing cbsSession after disconnected event: %O",
-          connectionContext.connection.id,
-          err
-        );
+      await connectionContext.cbsSession.close().catch(() => {
+        /* error already logged, swallow it here */
       });
       // Close the management session to ensure all the event handlers are released.
-      await connectionContext.managementSession!.close().catch((err) => {
-        logger.verbose(
-          "[%s] Error when closing managementSession after disconnected event: %O",
-          connectionContext.connection.id,
-          err
-        );
+      await connectionContext.managementSession!.close().catch(() => {
+        /* error already logged, swallow it here */
       });
 
       // Close all senders and receivers to ensure clean up of timers & other resources.
       if (state.numSenders || state.numReceivers) {
         for (const senderName of Object.keys(connectionContext.senders)) {
           const sender = connectionContext.senders[senderName];
-          await sender.close().catch((err) => {
-            logger.verbose(
-              "[%s] Error when closing sender [%s] after disconnected event: %O",
-              connectionContext.connection.id,
-              senderName,
-              err
-            );
+          await sender.close().catch(() => {
+            /* error already logged, swallow it here */
           });
         }
         for (const receiverName of Object.keys(connectionContext.receivers)) {
           const receiver = connectionContext.receivers[receiverName];
-          await receiver.close().catch((err) => {
-            logger.verbose(
-              "[%s] Error when closing sender [%s] after disconnected event: %O",
-              connectionContext.connection.id,
-              receiverName,
-              err
-            );
+          await receiver.close().catch(() => {
+            /* error already logged, swallow it here */
           });
         }
       }
@@ -243,7 +286,7 @@ export namespace ConnectionContext {
       await refreshConnection(connectionContext);
       waitForDisconnectResolve();
       waitForDisconnectPromise = undefined;
-      connectionContext.isDisconnecting = false;
+      isDisconnecting = false;
     };
 
     const protocolError: OnAmqpEvent = async (context: EventContext) => {

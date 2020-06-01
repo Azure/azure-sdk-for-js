@@ -17,7 +17,6 @@ import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import { EventPosition, getEventPositionFilter } from "./eventPosition";
 import { AbortSignalLike, AbortError } from "@azure/abort-controller";
-import { waitForConnectionDisconnected } from "./util/connectionUtils";
 
 /**
  * @ignore
@@ -359,15 +358,22 @@ export class EventHubReceiver extends LinkEntity {
    * @returns
    */
   async close(): Promise<void> {
-    this.clearHandlers();
+    try {
+      this.clearHandlers();
 
-    if (!this._receiver) {
-      return;
+      if (!this._receiver) {
+        return;
+      }
+
+      const receiverLink = this._receiver;
+      this._deleteFromCache();
+      await this._closeLink(receiverLink);
+    } catch (err) {
+      const msg = `[${this._context.connectionId}] An error occurred while closing receiver ${this.name}: ${err}`;
+      logger.warning(msg);
+      logErrorStackTrace(err);
+      throw err;
     }
-
-    const receiverLink = this._receiver;
-    this._deleteFromCache();
-    await this._closeLink(receiverLink);
   }
 
   /**
@@ -513,17 +519,8 @@ export class EventHubReceiver extends LinkEntity {
       if (!this.isOpen() && !this.isConnecting) {
         this.isConnecting = true;
 
-        // Check that the connection isn't in the process of closing.
-        // This can happen when the idle timeout has been reached but
-        // the underlying socket is waiting to be destroyed.
-        if (this._context.isConnectionClosing()) {
-          // Wait for the disconnected event that indicates the underlying socket has closed.
-          await waitForConnectionDisconnected(this._context);
-        }
-        if (this._context.isDisconnecting) {
-          await this._context.waitForConnectionReset();
-        }
-
+        // Wait for the connectionContext to be ready for opening.
+        await this._context.readyToOpen();
         await this._negotiateClaim();
 
         const receiverOptions: CreateReceiverOptions = {

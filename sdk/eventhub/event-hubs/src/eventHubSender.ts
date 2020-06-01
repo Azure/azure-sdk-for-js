@@ -31,7 +31,6 @@ import { SendOptions } from "./models/public";
 import { getRetryAttemptTimeoutInMs } from "./util/retries";
 import { AbortSignalLike, AbortError } from "@azure/abort-controller";
 import { EventDataBatch, isEventDataBatch } from "./eventDataBatch";
-import { waitForConnectionDisconnected } from "./util/connectionUtils";
 
 /**
  * Describes the EventHubSender that will send event data to EventHub.
@@ -172,15 +171,22 @@ export class EventHubSender extends LinkEntity {
    * @returns Promise<void>
    */
   async close(): Promise<void> {
-    if (this._sender) {
-      logger.info(
-        "[%s] Closing the Sender for the entity '%s'.",
-        this._context.connectionId,
-        this._context.config.entityPath
-      );
-      const senderLink = this._sender;
-      this._deleteFromCache();
-      await this._closeLink(senderLink);
+    try {
+      if (this._sender) {
+        logger.info(
+          "[%s] Closing the Sender for the entity '%s'.",
+          this._context.connectionId,
+          this._context.config.entityPath
+        );
+        const senderLink = this._sender;
+        this._deleteFromCache();
+        await this._closeLink(senderLink);
+      }
+    } catch (err) {
+      const msg = `[${this._context.connectionId}] An error occurred while closing sender ${this.name}: ${err}`;
+      logger.warning(msg);
+      logErrorStackTrace(err);
+      throw err;
     }
   }
 
@@ -563,17 +569,8 @@ export class EventHubSender extends LinkEntity {
       if (!this.isOpen() && !this.isConnecting) {
         this.isConnecting = true;
 
-        // Check that the connection isn't in the process of closing.
-        // This can happen when the idle timeout has been reached but
-        // the underlying socket is waiting to be destroyed.
-        if (this._context.isConnectionClosing()) {
-          // Wait for the disconnected event that indicates the underlying socket has closed.
-          await waitForConnectionDisconnected(this._context);
-        }
-        if (this._context.isDisconnecting) {
-          await this._context.waitForConnectionReset();
-        }
-
+        // Wait for the connectionContext to be ready for opening.
+        await this._context.readyToOpen();
         await this._negotiateClaim();
 
         logger.verbose(

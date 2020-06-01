@@ -28,7 +28,6 @@ import { LinkEntity } from "./linkEntity";
 import { logger, logErrorStackTrace } from "./log";
 import { getRetryAttemptTimeoutInMs } from "./util/retries";
 import { AbortSignalLike, AbortError } from "@azure/abort-controller";
-import { waitForConnectionDisconnected } from "./util/connectionUtils";
 /**
  * Describes the runtime information of an Event Hub.
  */
@@ -276,16 +275,8 @@ export class ManagementClient extends LinkEntity {
   private async _init(): Promise<void> {
     try {
       if (!this._isMgmtRequestResponseLinkOpen()) {
-        // Check that the connection isn't in the process of closing.
-        // This can happen when the idle timeout has been reached but
-        // the underlying socket is waiting to be destroyed.
-        if (this._context.isConnectionClosing()) {
-          // Wait for the disconnected event that indicates the underlying socket has closed.
-          await waitForConnectionDisconnected(this._context);
-        }
-        if (this._context.isDisconnecting) {
-          await this._context.waitForConnectionReset();
-        }
+        // Wait for the connectionContext to be ready for opening.
+        await this._context.readyToOpen();
         await this._negotiateClaim();
         const rxopt: ReceiverOptions = {
           source: { address: this.address },

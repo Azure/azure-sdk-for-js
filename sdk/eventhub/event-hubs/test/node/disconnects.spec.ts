@@ -44,10 +44,11 @@ describe("disconnected", function() {
       // Trigger a disconnect on the underlying connection.
       clientConnectionContext.connection["_connection"].idle();
 
-      await client.getPartitionIds({});
+      const partitionIds = await client.getPartitionIds({});
       const newConnectionId = clientConnectionContext.connectionId;
 
       should.not.equal(originalConnectionId, newConnectionId);
+      partitionIds.length.should.greaterThan(0, "Invalid number of partition ids returned.");
     });
   });
 
@@ -104,6 +105,7 @@ describe("disconnected", function() {
       // We need to dig deep into the internals to get the awaitable sender so that .
       const awaitableSender = client["_producersMap"].get("")!["_eventHubSender"]!["_sender"]!;
 
+      let thirdSend: Promise<void>;
       // Change the timeout on the awaitableSender so it forces an OperationTimeoutError
       awaitableSender.sendTimeoutInSeconds = 0;
       // Ensure that the connection will disconnect, and another sendBatch occurs while a sendBatch is in-flight.
@@ -114,13 +116,17 @@ describe("disconnected", function() {
         // used to cause the rhea connection remote state to be cleared.
         // This caused the in-flight sendBatch to throw an uncaught error
         // if it timed out.
-        client.sendBatch([{ body: "test3" }]);
+        thirdSend = client.sendBatch([{ body: "test3" }]);
       }, 0);
 
       await client.sendBatch([{ body: "test2" }]);
       const newConnectionId = clientConnectionContext.connectionId;
 
       should.not.equal(originalConnectionId, newConnectionId);
+
+      // ensure the sendBatch from the setTimeout succeeded.
+      // Wait for the connectionContext to be ready for opening.
+      await thirdSend!;
 
       await client.close();
     });
