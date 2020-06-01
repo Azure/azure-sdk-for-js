@@ -10,7 +10,7 @@ import {
   AbortSignalLike,
   ServiceClientCredentials
 } from "@azure/core-http";
-import { TokenCredential } from '@azure/identity';
+import { TokenCredential } from "@azure/identity";
 import { KeyCredential } from "@azure/core-auth";
 import { SDK_VERSION, DEFAULT_COGNITIVE_SCOPE } from "./constants";
 import { logger } from "./logger";
@@ -51,7 +51,13 @@ import {
 } from "./transforms";
 import { createFormRecognizerAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 
-export { PollOperationState, PollerLike };
+export {
+  PollOperationState,
+  PollerLike,
+  BeginRecognizePollState,
+  RecognizePollerClient,
+  RecognizeOptions
+};
 
 /**
  * Options for content/layout recognition.
@@ -255,8 +261,7 @@ export class FormRecognizerClient {
    * Recognizes content, including text and table structure from a form document.
    *
    * This method returns a long running operation poller that allows you to wait
-   * indefinitely until the copy is completed.
-   * You can also cancel a copy before it is completed by calling `cancelOperation` on the poller.
+   * indefinitely until the operation is completed.
    * Note that the onProgress callback will not be invoked if the operation completes in the first
    * request, and attempting to cancel a completed copy will result in an error being thrown.
    *
@@ -277,12 +282,12 @@ export class FormRecognizerClient {
    * console.log(response.pages);
    * ```
    * @summary Recognizes content/layout information from a given document
-   * @param {FormRecognizerRequestBody} data Input document
+   * @param {FormRecognizerRequestBody} form Input document
    * @param {FormContentType} contentType Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", and "image/tiff";
    * @param {BeginRecognizeContentOptions} [options] Options to start content recognition operation
    */
   public async beginRecognizeContent(
-    data: FormRecognizerRequestBody,
+    form: FormRecognizerRequestBody,
     contentType?: FormContentType,
     options: BeginRecognizeContentOptions = {}
   ): Promise<ContentPollerLike> {
@@ -293,7 +298,7 @@ export class FormRecognizerClient {
 
     const poller = new BeginRecognizePoller<RecognizeContentResultResponse>({
       client: analyzePollerClient,
-      source: data,
+      source: form,
       contentType,
       ...options
     });
@@ -306,8 +311,7 @@ export class FormRecognizerClient {
    * Recognizes content, including text and table structure from a url to a form document.
    *
    * This method returns a long running operation poller that allows you to wait
-   * indefinitely until the copy is completed.
-   * You can also cancel a copy before it is completed by calling `cancelOperation` on the poller.
+   * indefinitely until the operation is completed.
    * Note that the onProgress callback will not be invoked if the operation completes in the first
    * request, and attempting to cancel a completed copy will result in an error being thrown.
    *
@@ -383,8 +387,7 @@ ng", and "image/tiff";
   /**
    * Recognizes forms from a given document using a custom form model from training.
    * This method returns a long running operation poller that allows you to wait
-   * indefinitely until the copy is completed.
-   * You can also cancel a copy before it is completed by calling `cancelOperation` on the poller.
+   * indefinitely until the operation is completed.
    * Note that the onProgress callback will not be invoked if the operation completes in the first
    * request, and attempting to cancel a completed copy will result in an error being thrown.
    *
@@ -403,13 +406,13 @@ ng", and "image/tiff";
    * ```
    * @summary Recognizes form information from a given document using a custom form model.
    * @param {string} modelId Id of the custom form model to use
-   * @param {FormRecognizerRequestBody} data Input form document
+   * @param {FormRecognizerRequestBody} form Input form document
    * @param {FormContentType} contentType Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", and "image/tiff";
    * @param {BeginRecognizeFormsOptions} [options] Options to start the form recognition operation
    */
   public async beginRecognizeCustomForms(
     modelId: string,
-    data: FormRecognizerRequestBody,
+    form: FormRecognizerRequestBody,
     contentType?: FormContentType,
     options: BeginRecognizeFormsOptions = {}
   ): Promise<FormPollerLike> {
@@ -430,7 +433,7 @@ ng", and "image/tiff";
     const poller = new BeginRecognizePoller({
       client: analyzePollerClient,
       modelId,
-      source: data,
+      source: form,
       contentType,
       ...options
     });
@@ -442,8 +445,7 @@ ng", and "image/tiff";
   /**
    * Recognizes forms from a url to a form document using a custom form model from training.
    * This method returns a long running operation poller that allows you to wait
-   * indefinitely until the copy is completed.
-   * You can also cancel a copy before it is completed by calling `cancelOperation` on the poller.
+   * indefinitely until the operation is completed.
    * Note that the onProgress callback will not be invoked if the operation completes in the first
    * request, and attempting to cancel a completed copy will result in an error being thrown.
    *
@@ -536,8 +538,7 @@ ng", and "image/tiff";
    * from receipts such as merchant name, merchant phone number, transaction date, and more.
    *
    * This method returns a long running operation poller that allows you to wait
-   * indefinitely until the copy is completed.
-   * You can also cancel a copy before it is completed by calling `cancelOperation` on the poller.
+   * indefinitely until the operation is completed.
    * Note that the onProgress callback will not be invoked if the operation completes in the first
    * request, and attempting to cancel a completed copy will result in an error being thrown.
    *
@@ -564,12 +565,12 @@ ng", and "image/tiff";
    * console.log(usReceipt.recognizedForm.fields["MerchantAddress"]);
    * ```
    * @summary Recognizes receipt information from a given document
-   * @param {FormRecognizerRequestBody} data Input document
+   * @param {FormRecognizerRequestBody} receipt Input document
    * @param {FormContentType} contentType Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", and "image/tiff";
    * @param {BeginRecognizeReceiptsOptions} [options] Options to start the receipt recognition operation
    */
   public async beginRecognizeReceipts(
-    data: FormRecognizerRequestBody,
+    receipt: FormRecognizerRequestBody,
     contentType?: FormContentType,
     options: BeginRecognizeReceiptsOptions = {}
   ): Promise<ReceiptPollerLike> {
@@ -580,7 +581,7 @@ ng", and "image/tiff";
 
     const poller = new BeginRecognizePoller({
       client: analyzePollerClient,
-      source: data,
+      source: receipt,
       contentType,
       ...options
     });
@@ -594,8 +595,7 @@ ng", and "image/tiff";
    * from receipts such as merchant name, merchant phone number, transaction date, and more.
    *
    * This method returns a long running operation poller that allows you to wait
-   * indefinitely until the copy is completed.
-   * You can also cancel a copy before it is completed by calling `cancelOperation` on the poller.
+   * indefinitely until the operation is completed.
    * Note that the onProgress callback will not be invoked if the operation completes in the first
    * request, and attempting to cancel a completed copy will result in an error being thrown.
    *
@@ -699,11 +699,10 @@ async function recognizeLayoutInternal(
         operationOptionsToRequestOptionsBase(finalOptions)
       );
     }
-    return await client.analyzeLayoutAsync(
-      "application/json", {
+    return await client.analyzeLayoutAsync("application/json", {
       fileStream: requestBody as SourcePath,
-        ...operationOptionsToRequestOptionsBase(finalOptions)
-      });
+      ...operationOptionsToRequestOptionsBase(finalOptions)
+    });
   } catch (e) {
     span.setStatus({
       code: CanonicalCode.UNKNOWN,
@@ -738,11 +737,9 @@ async function recognizeCustomFormInternal(
         operationOptionsToRequestOptionsBase(finalOptions)
       );
     }
-    return await client.analyzeWithCustomModel(
-      modelId!,
-      "application/json", {
-        fileStream: requestBody as SourcePath,
-        ...operationOptionsToRequestOptionsBase(finalOptions)
+    return await client.analyzeWithCustomModel(modelId!, "application/json", {
+      fileStream: requestBody as SourcePath,
+      ...operationOptionsToRequestOptionsBase(finalOptions)
     });
   } catch (e) {
     span.setStatus({
@@ -779,10 +776,9 @@ async function recognizeReceiptInternal(
         operationOptionsToRequestOptionsBase(finalOptions)
       );
     }
-    return await client.analyzeReceiptAsync(
-      "application/json", {
-        fileStream: requestBody as SourcePath,
-        ...operationOptionsToRequestOptionsBase(finalOptions)
+    return await client.analyzeReceiptAsync("application/json", {
+      fileStream: requestBody as SourcePath,
+      ...operationOptionsToRequestOptionsBase(finalOptions)
     });
   } catch (e) {
     span.setStatus({

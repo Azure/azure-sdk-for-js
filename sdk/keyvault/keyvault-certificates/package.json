@@ -115,7 +115,7 @@
     "@typescript-eslint/parser": "^2.0.0",
     "assert": "^1.4.1",
     "chai": "^4.2.0",
-    "cross-env": "^6.0.3",
+    "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
     "eslint": "^6.1.0",
     "eslint-config-prettier": "^6.0.0",
@@ -151,7 +151,7 @@
     "rollup-plugin-visualizer": "^3.1.1",
     "sinon": "^9.0.2",
     "source-map-support": "^0.5.9",
-    "typescript": "~3.8.3",
+    "typescript": "~3.9.3",
     "uglify-js": "^3.4.9",
     "url": "^0.11.0"
   }

@@ -249,6 +249,8 @@ export async function blobToString(blob: Blob): Promise<string> {
  * @returns {string}
  */
 function padStart(currentString: string, targetLength: number, padString: string = " "): string {
+  // TS doesn't know this code needs to run downlevel sometimes.
+  // @ts-expect-error
   if (String.prototype.padStart) {
     return currentString.padStart(targetLength, padString);
   }

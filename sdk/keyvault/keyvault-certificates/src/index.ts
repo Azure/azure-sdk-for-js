@@ -2155,7 +2155,6 @@ export class CertificateClient {
     const attributes: any = item.attributes || {};
 
     const abstractProperties: any = {
-      name: parsedId.name,
       createdOn: attributes.created,
       updatedOn: attributes.updated,
       expiresOn: attributes.expires,
