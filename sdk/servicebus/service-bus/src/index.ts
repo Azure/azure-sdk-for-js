@@ -45,7 +45,7 @@ export { SessionReceiver } from "./receivers/sessionReceiver";
 export { Sender } from "./sender";
 export { ServiceBusClient } from "./serviceBusClient";
 
-export { QueueOptions, QueueProperties, QueueMetrics } from "./serializers/queueResourceSerializer";
+export { QueueDescription, QueueRuntimeInfo } from "./serializers/queueResourceSerializer";
 export { TopicOptions, TopicDetails } from "./serializers/topicResourceSerializer";
 export {
   SubscriptionOptions,
@@ -70,9 +70,9 @@ export {
   DeleteTopicResponse,
   DeleteSubscriptionResponse,
   GetQueueResponse,
-  GetQueueMetricsResponse,
+  GetQueueRuntimeInfoResponse,
   GetQueuesResponse,
-  GetQueuesMetricsResponse,
+  GetQueuesRuntimeInfoResponse,
   ListRequestOptions,
   GetRuleResponse,
   GetSubscriptionResponse,
