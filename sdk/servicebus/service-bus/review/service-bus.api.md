@@ -76,7 +76,7 @@ export interface CreateSessionReceiverOptions extends SessionReceiverOptions, Op
 }
 
 // @public
-export interface CreateSubscriptionResponse extends SubscriptionDetails {
+export interface CreateSubscriptionResponse extends SubscriptionDescription {
     _response: HttpOperationResponse;
 }
 
@@ -148,7 +148,12 @@ export interface GetRuleResponse extends RuleDescription {
 }
 
 // @public
-export interface GetSubscriptionResponse extends SubscriptionDetails {
+export interface GetSubscriptionResponse extends SubscriptionDescription {
+    _response: HttpOperationResponse;
+}
+
+// @public
+export interface GetSubscriptionsResponse extends Array<SubscriptionDescription> {
     _response: HttpOperationResponse;
 }
 
@@ -170,11 +175,6 @@ export interface ListRequestOptions {
 
 // @public
 export interface ListRulesResponse extends Array<RuleDescription> {
-    _response: HttpOperationResponse;
-}
-
-// @public
-export interface ListSubscriptionsResponse extends Array<SubscriptionDetails> {
     _response: HttpOperationResponse;
 }
 
@@ -348,7 +348,8 @@ export class ServiceBusManagementClient extends ServiceClient {
     createQueue(queueName: string): Promise<CreateQueueResponse>;
     createQueue(queue: QueueDescription): Promise<CreateQueueResponse>;
     createRule(topicName: string, subscriptionName: string, ruleName: string, ruleOptions?: RuleOptions): Promise<CreateRuleResponse>;
-    createSubscription(topicName: string, subscriptionName: string, subscriptionOptions?: SubscriptionOptions): Promise<CreateSubscriptionResponse>;
+    createSubscription(topicName: string, subscriptionName: string): Promise<CreateSubscriptionResponse>;
+    createSubscription(subscription: SubscriptionDescription): Promise<CreateSubscriptionResponse>;
     createTopic(topicName: string): Promise<CreateTopicResponse>;
     createTopic(topicOptions: TopicDescription): Promise<CreateTopicResponse>;
     deleteQueue(queueName: string): Promise<DeleteQueueResponse>;
@@ -360,7 +361,12 @@ export class ServiceBusManagementClient extends ServiceClient {
     getQueues(listRequestOptions?: ListRequestOptions): Promise<GetQueuesResponse>;
     getQueuesRuntimeInfo(listRequestOptions?: ListRequestOptions): Promise<GetQueuesRuntimeInfoResponse>;
     getRuleDescription(topicName: string, subscriptioName: string, ruleName: string): Promise<GetRuleResponse>;
-    getSubscriptionDetails(topicName: string, subscriptionName: string): Promise<GetSubscriptionResponse>;
+    getSubscription(topicName: string, subscriptionName: string): Promise<GetSubscriptionResponse>;
+    // Warning: (ae-forgotten-export) The symbol "GetSubscriptionRuntimeInfoResponse" needs to be exported by the entry point index.d.ts
+    getSubscriptionRuntimeInfo(topicName: string, subscriptionName: string): Promise<GetSubscriptionRuntimeInfoResponse>;
+    getSubscriptions(topicName: string, listRequestOptions?: ListRequestOptions): Promise<GetSubscriptionsResponse>;
+    // Warning: (ae-forgotten-export) The symbol "GetSubscriptionsRuntimeInfoResponse" needs to be exported by the entry point index.d.ts
+    getSubscriptionsRuntimeInfo(topicName: string, listRequestOptions?: ListRequestOptions): Promise<GetSubscriptionsRuntimeInfoResponse>;
     getTopic(topicName: string): Promise<GetTopicResponse>;
     // Warning: (ae-forgotten-export) The symbol "GetTopicRuntimeInfoResponse" needs to be exported by the entry point index.d.ts
     getTopicRuntimeInfo(topicName: string): Promise<GetTopicRuntimeInfoResponse>;
@@ -368,13 +374,12 @@ export class ServiceBusManagementClient extends ServiceClient {
     // Warning: (ae-forgotten-export) The symbol "GetTopicsRuntimeInfoResponse" needs to be exported by the entry point index.d.ts
     getTopicsRuntimeInfo(listRequestOptions?: ListRequestOptions): Promise<GetTopicsRuntimeInfoResponse>;
     listRules(topicName: string, subscriptionName: string, listRequestOptions?: ListRequestOptions): Promise<ListRulesResponse>;
-    listSubscriptions(topicName: string, listRequestOptions?: ListRequestOptions): Promise<ListSubscriptionsResponse>;
     queueExists(queueName: string): Promise<boolean>;
     subscriptionExists(topicName: string, subscriptionName: string): Promise<boolean>;
     topicExists(topicName: string): Promise<boolean>;
     updateQueue(queue: QueueDescription): Promise<UpdateQueueResponse>;
     updateRule(topicName: string, subscriptionName: string, ruleName: string, ruleOptions: RuleOptions): Promise<UpdateRuleResponse>;
-    updateSubscription(topicName: string, subscriptionName: string, subscriptionOptions: SubscriptionOptions): Promise<UpdateSubscriptionResponse>;
+    updateSubscription(subscription: SubscriptionDescription): Promise<UpdateSubscriptionResponse>;
     updateTopic(topic: TopicDescription): Promise<UpdateTopicResponse>;
 }
 
@@ -444,35 +449,7 @@ export interface SubscribeOptions extends OperationOptions, MessageHandlerOption
 }
 
 // @public
-export interface SubscriptionDetails {
-    accessedOn?: string;
-    autoDeleteOnIdle: string;
-    createdOn: string;
-    deadLetteringOnFilterEvaluationExceptions: boolean;
-    deadLetteringOnMessageExpiration: boolean;
-    defaultMessageTtl?: string;
-    defaultRuleDescription?: any;
-    enableBatchedOperations: boolean;
-    enablePartitioning?: boolean;
-    entityAvailabilityStatus: string;
-    forwardDeadLetteredMessagesTo?: string;
-    forwardTo?: string;
-    lockDuration: string;
-    maxDeliveryCount: number;
-    maxSizeInMegabytes?: number;
-    messageCount: number;
-    messageCountDetails?: MessageCountDetails;
-    requiresSession: boolean;
-    sizeInBytes?: number;
-    status?: EntityStatus;
-    subscriptionName: string;
-    topicName: string;
-    updatedOn: string;
-    userMetadata?: string;
-}
-
-// @public
-export interface SubscriptionOptions {
+export interface SubscriptionDescription {
     autoDeleteOnIdle?: string;
     deadLetteringOnFilterEvaluationExceptions?: boolean;
     deadLetteringOnMessageExpiration?: boolean;
@@ -484,7 +461,20 @@ export interface SubscriptionOptions {
     maxDeliveryCount?: number;
     requiresSession?: boolean;
     status?: EntityStatus;
+    subscriptionName: string;
+    topicName: string;
     userMetadata?: string;
+}
+
+// @public
+export interface SubscriptionRuntimeInfo {
+    accessedOn?: string;
+    createdOn: string;
+    messageCount: number;
+    messageCountDetails?: MessageCountDetails;
+    subscriptionName: string;
+    topicName: string;
+    updatedOn: string;
 }
 
 export { TokenCredential }
@@ -528,7 +518,7 @@ export interface UpdateRuleResponse extends RuleDescription {
 }
 
 // @public
-export interface UpdateSubscriptionResponse extends SubscriptionDetails {
+export interface UpdateSubscriptionResponse extends SubscriptionDescription {
     _response: HttpOperationResponse;
 }
 
