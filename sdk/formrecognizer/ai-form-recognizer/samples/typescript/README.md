@@ -25,6 +25,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 |[iteratorModels.ts][iteratorModels]|List custom models using different ways|
 |[getBoundingBoxes.ts][getBoundingBoxes]|Get information to to visualize outlines of form content and field.|
 |[differentiateLabeledUnlabeled.ts][differentiateLabeledUnlabeled]|See the differences in output when using a custom model trained with labeled data and one trained with unlabeled data|                 |
+|[copyModel.ts][copyModel]|Copy a custom model from one Form Recognizer resource to another|
 
 ## Prerequisites
 
@@ -86,6 +87,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [iteratorModels]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/iteratorModels.ts
 [getBoundingBoxes]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/getBoundingBoxes.ts
 [differentiateLabeledUnlabeled]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/differentiateLabeledUnlabeled.ts
+[copyModel]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/copyModel.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/ai-text-analytics
 [azcogsvc]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
 [freesub]: https://azure.microsoft.com/free/

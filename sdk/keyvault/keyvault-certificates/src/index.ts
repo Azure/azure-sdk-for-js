@@ -1441,7 +1441,10 @@ export class CertificateClient {
         this.vaultUrl,
         certificateName,
         version,
-        this.setParentSpan(span, requestOptions)
+        {
+          ...this.setParentSpan(span, requestOptions),
+          certificateAttributes: toCoreAttributes(options)
+        }
       );
     } finally {
       span.end();
@@ -2153,7 +2156,6 @@ export class CertificateClient {
     const attributes: any = item.attributes || {};
 
     const abstractProperties: any = {
-      name: parsedId.name,
       createdOn: attributes.created,
       updatedOn: attributes.updated,
       expiresOn: attributes.expires,

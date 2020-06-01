@@ -60,10 +60,10 @@ describe("MsRestUserAgentPolicy (browser)", () => {
         userAgentHeader.should.be.equal(customUserAgent);
       });
 
-      it("should be space delimited and contain two fields", async () => {
+      it("should be space delimited and contain at least two fields", async () => {
         const userAgent = await getUserAgent();
         const userAgentParts = userAgent.split(" ");
-        userAgentParts.length.should.be.equal(2);
+        userAgentParts.length.should.be.greaterThan(1);
       });
 
       it("should contain runtime information", async () => {

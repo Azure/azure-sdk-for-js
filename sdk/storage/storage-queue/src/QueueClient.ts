@@ -935,7 +935,7 @@ export class QueueClient extends StorageClient {
    *     receivedMessageItem.popReceipt
    *   );
    *   console.log(
-   *     "Delete message succesfully, service assigned request Id:",
+   *     "Delete message successfully, service assigned request Id:",
    *     deleteMessageResponse.requestId
    *   );
    * }

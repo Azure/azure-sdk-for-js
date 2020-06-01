@@ -5,7 +5,10 @@
 
 export { AzureKeyCredential } from "@azure/core-auth";
 
-export { FormRecognizerClientOptions, FormRecognizerOperationOptions } from "./common";
+export {
+  FormContentType,
+  FormRecognizerClientOptions,
+  FormRecognizerOperationOptions } from "./common";
 export * from "./formRecognizerClient";
 export * from "./formTrainingClient";
 

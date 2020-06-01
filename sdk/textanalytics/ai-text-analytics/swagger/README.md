@@ -12,7 +12,7 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/cognitiveservices/data-plane/TextAnalytics/preview/v3.0-preview.1/TextAnalytics.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/cognitiveservices/data-plane/TextAnalytics/stable/v3.0/TextAnalytics.json
 add-credentials: true
 use-extension:
   "@microsoft.azure/autorest.typescript": "5.0.1"
@@ -30,7 +30,7 @@ directive:
   - from: swagger-document
     where: $.definitions.DocumentStatistics.properties.charactersCount
     transform: >
-      $["x-ms-client-name"] = "graphemeCount";
+      $["x-ms-client-name"] = "characterCount";
 ```
 
 ```yaml
@@ -123,27 +123,6 @@ directive:
       }
 ```
 
-### Rename type, subtype -> category, subCategory
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $.definitions.Entity.properties
-    transform: >
-      $.type["x-ms-client-name"] = "category";
-      $.subtype["x-ms-client-name"] = "subCategory";
-```
-
-### Rename sentenceScores -> confidenceScores
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $.definitions.SentenceSentiment.properties.sentenceScores
-    transform: >
-      $["x-ms-client-name"] = "confidenceScores";
-```
-
 ### Rename {Document,Sentence}SentimentValue -> Label 
 
 ```yaml
@@ -178,20 +157,17 @@ directive:
       $["x-ms-client-name"] = "dataSourceEntityId";
 ```
 
-### Rename Entity/Match offset -> graphemeOffset
+### Remove Entity/Match offset/length
 
 ```yaml
 directive:
   - from: swagger-document
-    where: $.definitions..properties.offset
+    where: $.definitions..properties
     transform: >
-      $["x-ms-client-name"] = "graphemeOffset";
-      $.description = $.description.replace("Unicode characters", "Unicode graphemes");
-  - from: swagger-document
-    where: $.definitions..properties.length
-    transform: >
-      $["x-ms-client-name"] = "graphemeLength";
-      $.description = $.description.replace("Unicode characters", "Unicode graphemes");
+      if ($.length !== undefined && $.offset !== undefined) {
+        $.length = undefined;
+        $.offset = undefined;
+      }
 ```
 
 ### Rename SentimentConfidenceScorePerLabel -> SentimentConfidenceScores
@@ -211,5 +187,43 @@ directive:
       if ($["$ref"] && $["$ref"] === "#/definitions/SentimentConfidenceScorePerLabel") {
           $["$ref"] = "#/definitions/SentimentConfidenceScores";
       }
+```
+
+### Change some casing to use camelCase
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.Entity.properties.subcategory
+    transform: >
+      $["x-ms-client-name"] = "subCategory";
+  - from: swagger-document
+    where: $.definitions.TextAnalyticsError.properties.innererror
+    transform: >
+      $["x-ms-client-name"] = "innerError";
+  - from: swagger-document
+    where: $.definitions.InnerError.properties.innererror
+    transform: >
+      $["x-ms-client-name"] = "innerError";
+```
+
+### WarningCodeValue => WarningCode
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.TextAnalyticsWarning.properties.code
+    transform: >
+      $["x-ms-enum"].name = "WarningCode";
+```
+
+### Remove targetRef
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.TextAnalyticsWarning.properties
+    transform: >
+      delete $["targetRef"];
 ```
 

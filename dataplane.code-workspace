@@ -157,6 +157,7 @@
       "**/*.d.ts": true,
       "**/test-browser/*": true
     },
+    "typescript.tsdk": "core-http\\node_modules\\typescript\\lib",
     
   },
   "extensions": {
