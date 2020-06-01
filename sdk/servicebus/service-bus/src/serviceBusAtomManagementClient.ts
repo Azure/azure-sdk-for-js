@@ -59,9 +59,8 @@ import {
 import {
   RuleResourceSerializer,
   InternalRuleOptions,
-  RuleOptions,
-  buildRuleOptions,
   RuleDescription,
+  buildRuleOptions,
   buildRule
 } from "./serializers/ruleResourceSerializer";
 import { isJSONLikeObject, isAbsoluteUrl, areOptionsUndefined } from "./util/utils";
@@ -384,7 +383,7 @@ export interface DeleteRuleResponse {
 /**
  * Represents result of list operation on rules.
  */
-export interface ListRulesResponse extends Array<RuleDescription> {
+export interface GetRulesResponse extends Array<RuleDescription> {
   /**
    * The underlying HTTP response.
    */
@@ -1297,8 +1296,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * Creates a rule with given name, configured using the given options.
    * @param topicName
    * @param subscriptionName
-   * @param ruleName
-   * @param ruleOptions
+   * @param rule
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -1314,16 +1312,15 @@ export class ServiceBusManagementClient extends ServiceClient {
   async createRule(
     topicName: string,
     subscriptionName: string,
-    ruleName: string,
-    ruleOptions?: RuleOptions
+    rule: RuleDescription
   ): Promise<CreateRuleResponse> {
     log.httpAtomXml(
-      `Performing management operation - createRule() for "${ruleName}" with options: "${ruleOptions}"`
+      `Performing management operation - createRule() for "${rule.ruleName}" with options: "${rule}"`
     );
-    const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
+    const fullPath = this.getRulePath(topicName, subscriptionName, rule.ruleName);
     const response: HttpOperationResponse = await this.putResource(
       fullPath,
-      buildRuleOptions(ruleName, ruleOptions),
+      buildRuleOptions(rule.ruleName, rule),
       this.ruleResourceSerializer,
       false
     );
@@ -1346,7 +1343,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async getRuleDescription(
+  async getRule(
     topicName: string,
     subscriptioName: string,
     ruleName: string
@@ -1376,11 +1373,11 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async listRules(
+  async getRules(
     topicName: string,
     subscriptionName: string,
     listRequestOptions?: ListRequestOptions
-  ): Promise<ListRulesResponse> {
+  ): Promise<GetRulesResponse> {
     log.httpAtomXml(
       `Performing management operation - listRules() with options: ${listRequestOptions}`
     );
@@ -1415,23 +1412,22 @@ export class ServiceBusManagementClient extends ServiceClient {
   async updateRule(
     topicName: string,
     subscriptionName: string,
-    ruleName: string,
-    ruleOptions: RuleOptions
+    rule: RuleDescription
   ): Promise<UpdateRuleResponse> {
     log.httpAtomXml(
-      `Performing management operation - updateRule() for "${ruleName}" with options: ${ruleOptions}`
+      `Performing management operation - updateRule() for "${rule.ruleName}" with options: ${rule}`
     );
 
-    if (!isJSONLikeObject(ruleOptions) || ruleOptions === null) {
+    if (!isJSONLikeObject(rule) || rule === null) {
       throw new TypeError(
-        `Parameter "ruleOptions" must be an object of type "RuleOptions" and cannot be undefined or null.`
+        `Parameter "rule" must be an object of type "RuleDescription" and cannot be undefined or null.`
       );
     }
 
-    const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
+    const fullPath = this.getRulePath(topicName, subscriptionName, rule.ruleName);
     const response: HttpOperationResponse = await this.putResource(
       fullPath,
-      buildRuleOptions(ruleName, ruleOptions),
+      buildRuleOptions(rule.ruleName, rule),
       this.ruleResourceSerializer,
       true
     );
@@ -1922,7 +1918,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     }
   }
 
-  private buildListRulesResponse(response: HttpOperationResponse): ListRulesResponse {
+  private buildListRulesResponse(response: HttpOperationResponse): GetRulesResponse {
     try {
       const rules: RuleDescription[] = [];
       if (!Array.isArray(response.parsedBody)) {
@@ -1935,7 +1931,7 @@ export class ServiceBusManagementClient extends ServiceClient {
           rules.push(rule);
         }
       }
-      const listRulesResponse: ListRulesResponse = Object.assign(rules, {
+      const listRulesResponse: GetRulesResponse = Object.assign(rules, {
         _response: response
       });
       return listRulesResponse;

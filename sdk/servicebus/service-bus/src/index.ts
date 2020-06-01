@@ -51,12 +51,7 @@ export {
   SubscriptionDescription,
   SubscriptionRuntimeInfo
 } from "./serializers/subscriptionResourceSerializer";
-export {
-  RuleOptions,
-  RuleDescription,
-  SqlAction,
-  SqlRuleFilter
-} from "./serializers/ruleResourceSerializer";
+export { RuleDescription, SqlAction, SqlRuleFilter } from "./serializers/ruleResourceSerializer";
 export { CorrelationRuleFilter } from "./core/managementClient";
 export {
   ServiceBusManagementClient,
@@ -79,7 +74,7 @@ export {
   GetTopicResponse,
   GetTopicRuntimeInfoResponse,
   GetTopicsRuntimeInfoResponse,
-  ListRulesResponse,
+  GetRulesResponse,
   GetSubscriptionsResponse,
   GetSubscriptionRuntimeInfoResponse,
   GetSubscriptionsRuntimeInfoResponse,

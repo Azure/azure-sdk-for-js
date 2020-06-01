@@ -26,7 +26,10 @@ import { CorrelationRuleFilter } from "../core/managementClient";
  * @param name
  * @param ruleOptions
  */
-export function buildRuleOptions(name: string, ruleOptions: RuleOptions = {}): InternalRuleOptions {
+export function buildRuleOptions(
+  name: string,
+  ruleOptions: Pick<RuleDescription, "filter" | "action"> = {}
+): InternalRuleOptions {
   const internalRuleOptions: InternalRuleOptions = Object.assign({}, ruleOptions, { name: name });
   return internalRuleOptions;
 }
@@ -44,8 +47,7 @@ export function buildRule(rawRule: any): RuleDescription {
     topicName: getString(rawRule["TopicName"], "topicName"),
     subscriptionName: getString(rawRule["SubscriptionName"], "subscriptionName"),
     filter: getTopicFilter(rawRule["Filter"]),
-    action: getRuleActionOrUndefined(rawRule["Action"]),
-    createdOn: getString(rawRule["CreatedAt"], "createdOn")
+    action: getRuleActionOrUndefined(rawRule["Action"])
   };
 }
 
@@ -103,30 +105,11 @@ function getRuleActionOrUndefined(value: any): SqlAction | undefined {
 }
 
 /**
- * Represents settable options on a rule
- */
-export interface RuleOptions {
-  /**
-   * Defines the filter expression that the rule evaluates. For `SqlRuleFilter` input,
-   * the expression string is interpreted as a SQL92 expression which must
-   * evaluate to True or False. Only one between a `CorrelationRuleFilter` or
-   * a `SqlRuleFilter` can be defined.
-   */
-  filter?: SqlRuleFilter | CorrelationRuleFilter;
-
-  /**
-   * The SQL like expression that can be executed on the message should the
-   * associated filter apply.
-   */
-  action?: SqlAction;
-}
-
-/**
  * @internal
  * @ignore
  * Internal representation of settable options on a rule
  */
-export interface InternalRuleOptions extends RuleOptions {
+export interface InternalRuleOptions extends Pick<RuleDescription, "filter" | "action"> {
   /**
    * @internal
    * @ignore
@@ -163,27 +146,6 @@ export interface RuleDescription {
    * associated filter apply.
    */
   action?: SqlAction;
-
-  /**
-   * @internal
-   * @ignore
-   * Name of topic
-   */
-  topicName: string;
-
-  /**
-   * @internal
-   * @ignore
-   * Name of subscription
-   */
-  subscriptionName: string;
-
-  /**
-   * @internal
-   * @ignore
-   * Created at timestamp
-   */
-  createdOn: string;
 }
 
 /**
