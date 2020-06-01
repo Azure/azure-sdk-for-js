@@ -457,6 +457,8 @@ export class FormTrainingClient {
    * Note that the onProgress callback will not be invoked if the operation completes in the first
    * request, and attempting to cancel a completed copy will result in an error being thrown.
    *
+   * Note that when training operation fails, a model is still created in Azure Form Recognizer resource.
+   *
    * Example usage:
    * ```ts
    * const trainingFilesUrl = "<url to the blob container storing training documents>";
