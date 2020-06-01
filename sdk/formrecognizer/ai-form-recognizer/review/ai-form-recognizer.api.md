@@ -195,7 +195,7 @@ export interface CustomFormField {
 // @public
 export interface CustomFormModel {
     completedOn: Date;
-    errors?: FormRecognizerErrorDetails[];
+    errors?: FormRecognizerError[];
     modelId: string;
     requestedOn: Date;
     status: CustomFormModelStatus;
@@ -332,13 +332,7 @@ export interface FormRecognizerClientOptions extends PipelineOptions {
 }
 
 // @public
-export class FormRecognizerError extends Error {
-    constructor(message: string, innerErrors?: FormRecognizerErrorDetails[]);
-    innerErrors?: FormRecognizerErrorDetails[];
-}
-
-// @public
-export interface FormRecognizerErrorDetails {
+export interface FormRecognizerError {
     code: string;
     message: string;
 }
@@ -612,7 +606,7 @@ export type TimeFieldValue = {
 // @public
 export interface TrainingDocumentInfo {
     documentName: string;
-    errors: FormRecognizerErrorDetails[];
+    errors: FormRecognizerError[];
     pageCount: number;
     status: TrainingStatus;
 }
@@ -635,7 +629,7 @@ export type TrainPollerClient = {
 // @public
 export interface TrainResult {
     averageModelAccuracy?: number;
-    errors?: FormRecognizerErrorDetails[];
+    errors?: FormRecognizerError[];
     fields?: FormFieldsReport[];
     trainingDocuments: TrainingDocumentInfo[];
 }

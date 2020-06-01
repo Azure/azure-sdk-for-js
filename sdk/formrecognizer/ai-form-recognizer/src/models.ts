@@ -607,7 +607,7 @@ export interface TrainingDocumentInfo {
   /**
    * List of errors.
    */
-  errors: FormRecognizerErrorDetails[];
+  errors: FormRecognizerError[];
   /**
    * Status of the training operation.
    */
@@ -696,7 +696,7 @@ export interface CustomFormModel {
   /**
    * Errors returned during training operation.
    */
-  errors?: FormRecognizerErrorDetails[];
+  errors?: FormRecognizerError[];
   /**
    * Form models created by training.
    */
@@ -722,7 +722,7 @@ export interface TrainResult {
   /**
    * Errors returned during the training operation.
    */
-  errors?: FormRecognizerErrorDetails[];
+  errors?: FormRecognizerError[];
 }
 
 /**
@@ -827,7 +827,7 @@ export interface AccountProperties {
 /**
  * Represents errors from Azure Form Recognizer service
  */
-export interface FormRecognizerErrorDetails {
+export interface FormRecognizerError {
   /**
    * Error code
    */
@@ -836,20 +836,6 @@ export interface FormRecognizerErrorDetails {
    * Error message
    */
   message: string;
-}
-
-/**
- * Error from recognize custom forms operation
- */
-export class FormRecognizerError extends Error {
-  /**
-   * Original errors from the service response
-   */
-  innerErrors?: FormRecognizerErrorDetails[]
-  constructor(message: string, innerErrors?: FormRecognizerErrorDetails[]) {
-    super(message);
-    this.innerErrors = innerErrors;
-  }
 }
 
 /**

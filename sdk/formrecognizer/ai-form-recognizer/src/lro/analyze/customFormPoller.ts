@@ -12,7 +12,7 @@ import {
   OperationStatus,
 } from "../../generated/models";
 import { FormContentType } from "../../common";
-import { FormRecognizerRequestBody, RecognizedFormArray, FormRecognizerError } from "../../models";
+import { FormRecognizerRequestBody, RecognizedFormArray } from "../../models";
 import { RecognizeFormResultResponse } from "../../internalModels";
 export { OperationStatus };
 
@@ -180,9 +180,12 @@ function makeBeginRecognizePollOperation(
           state.result = response.forms;
           state.isCompleted = true;
         } else if (response.status === "failed") {
-          throw new FormRecognizerError(
-            `Recognition failed ${response._response.bodyAsText}`,
-            response.errors);
+          const details = response.errors?.map((e) => `code ${e.code}, message '${e.message}'`).join("\n");
+          const message = `Custom form recognition failed using model ${state.modelId}.
+${response._response.bodyAsText}
+Error(s):
+${details}`;
+          throw new Error(message);
         }
       }
 
