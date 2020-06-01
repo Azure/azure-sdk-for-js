@@ -148,6 +148,11 @@ export interface GetRuleResponse extends RuleDescription {
 }
 
 // @public
+export interface GetRulesResponse extends Array<RuleDescription> {
+    _response: HttpOperationResponse;
+}
+
+// @public
 export interface GetSubscriptionResponse extends SubscriptionDescription {
     _response: HttpOperationResponse;
 }
@@ -191,11 +196,6 @@ export interface GetTopicsRuntimeInfoResponse extends Array<TopicRuntimeInfo> {
 export interface ListRequestOptions {
     skip?: number;
     top?: number;
-}
-
-// @public
-export interface ListRulesResponse extends Array<RuleDescription> {
-    _response: HttpOperationResponse;
 }
 
 // @public
@@ -314,12 +314,6 @@ export interface RuleDescription {
 }
 
 // @public
-export interface RuleOptions {
-    action?: SqlAction;
-    filter?: SqlRuleFilter | CorrelationRuleFilter;
-}
-
-// @public
 export interface Sender {
     cancelScheduledMessage(sequenceNumber: Long, options?: OperationOptions): Promise<void>;
     cancelScheduledMessages(sequenceNumbers: Long[], options?: OperationOptions): Promise<void>;
@@ -367,7 +361,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     constructor(fullyQualifiedNamespace: string, credential: TokenCredential, options?: ServiceBusManagementClientOptions);
     createQueue(queueName: string): Promise<CreateQueueResponse>;
     createQueue(queue: QueueDescription): Promise<CreateQueueResponse>;
-    createRule(topicName: string, subscriptionName: string, ruleName: string, ruleOptions?: RuleOptions): Promise<CreateRuleResponse>;
+    createRule(topicName: string, subscriptionName: string, rule: RuleDescription): Promise<CreateRuleResponse>;
     createSubscription(topicName: string, subscriptionName: string): Promise<CreateSubscriptionResponse>;
     createSubscription(subscription: SubscriptionDescription): Promise<CreateSubscriptionResponse>;
     createTopic(topicName: string): Promise<CreateTopicResponse>;
@@ -380,7 +374,8 @@ export class ServiceBusManagementClient extends ServiceClient {
     getQueueRuntimeInfo(queueName: string): Promise<GetQueueRuntimeInfoResponse>;
     getQueues(listRequestOptions?: ListRequestOptions): Promise<GetQueuesResponse>;
     getQueuesRuntimeInfo(listRequestOptions?: ListRequestOptions): Promise<GetQueuesRuntimeInfoResponse>;
-    getRuleDescription(topicName: string, subscriptioName: string, ruleName: string): Promise<GetRuleResponse>;
+    getRule(topicName: string, subscriptioName: string, ruleName: string): Promise<GetRuleResponse>;
+    getRules(topicName: string, subscriptionName: string, listRequestOptions?: ListRequestOptions): Promise<GetRulesResponse>;
     getSubscription(topicName: string, subscriptionName: string): Promise<GetSubscriptionResponse>;
     getSubscriptionRuntimeInfo(topicName: string, subscriptionName: string): Promise<GetSubscriptionRuntimeInfoResponse>;
     getSubscriptions(topicName: string, listRequestOptions?: ListRequestOptions): Promise<GetSubscriptionsResponse>;
@@ -389,12 +384,11 @@ export class ServiceBusManagementClient extends ServiceClient {
     getTopicRuntimeInfo(topicName: string): Promise<GetTopicRuntimeInfoResponse>;
     getTopics(listRequestOptions?: ListRequestOptions): Promise<GetTopicsResponse>;
     getTopicsRuntimeInfo(listRequestOptions?: ListRequestOptions): Promise<GetTopicsRuntimeInfoResponse>;
-    listRules(topicName: string, subscriptionName: string, listRequestOptions?: ListRequestOptions): Promise<ListRulesResponse>;
     queueExists(queueName: string): Promise<boolean>;
     subscriptionExists(topicName: string, subscriptionName: string): Promise<boolean>;
     topicExists(topicName: string): Promise<boolean>;
     updateQueue(queue: QueueDescription): Promise<UpdateQueueResponse>;
-    updateRule(topicName: string, subscriptionName: string, ruleName: string, ruleOptions: RuleOptions): Promise<UpdateRuleResponse>;
+    updateRule(topicName: string, subscriptionName: string, rule: RuleDescription): Promise<UpdateRuleResponse>;
     updateSubscription(subscription: SubscriptionDescription): Promise<UpdateSubscriptionResponse>;
     updateTopic(topic: TopicDescription): Promise<UpdateTopicResponse>;
 }
