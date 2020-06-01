@@ -133,7 +133,7 @@ jobs:
         parameters:
           SourceDirectory: $(Build.SourcesDirectory)
 
-      - template: eng/common/pipelines/templates/steps
+      - template: ../../../common/pipelines/templates/steps
         parameters:
           ServiceDirectory: ${{parameters.ServiceDirectory}}
 
