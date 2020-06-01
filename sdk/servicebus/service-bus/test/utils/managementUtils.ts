@@ -4,7 +4,7 @@
 import { delay } from "../../src";
 import { QueueDescription } from "../../src/serializers/queueResourceSerializer";
 import { TopicDescription } from "../../src/serializers/topicResourceSerializer";
-import { SubscriptionOptions } from "../../src/serializers/subscriptionResourceSerializer";
+import { SubscriptionDescription } from "../../src/serializers/subscriptionResourceSerializer";
 import { ServiceBusManagementClient } from "../../src/serviceBusAtomManagementClient";
 
 import { EnvVarNames, getEnvVars } from "./envVarUtils";
@@ -156,7 +156,7 @@ export async function recreateTopic(
 export async function recreateSubscription(
   topicName: string,
   subscriptionName: string,
-  parameters?: SubscriptionOptions
+  parameters?: Omit<SubscriptionDescription, "topicName" | "subscriptionName">
 ): Promise<void> {
   await getManagementClient();
   /*
@@ -166,12 +166,12 @@ export async function recreateSubscription(
   */
 
   const createSubscriptionOperation = async () => {
-    await client.createSubscription(topicName, subscriptionName, parameters);
+    await client.createSubscription({ topicName, subscriptionName, ...parameters });
   };
 
   const checkIfSubscriptionExistsOperation = async () => {
     try {
-      await client.getSubscriptionDetails(topicName, subscriptionName);
+      await client.getSubscription(topicName, subscriptionName);
     } catch (err) {
       return false;
     }
@@ -205,7 +205,7 @@ export async function verifyMessageCount(
   should.equal(
     queueName
       ? (await client.getQueueRuntimeInfo(queueName)).messageCount
-      : (await client.getSubscriptionDetails(topicName!, subscriptionName!)).messageCount,
+      : (await client.getSubscriptionRuntimeInfo(topicName!, subscriptionName!)).messageCount,
     expectedMessageCount,
     `Unexpected number of messages are present in the entity.`
   );

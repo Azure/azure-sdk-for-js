@@ -3,7 +3,7 @@
 
 import { QueueDescription } from "../src/serializers/queueResourceSerializer";
 import { TopicDescription } from "../src/serializers/topicResourceSerializer";
-import { SubscriptionOptions } from "../src/serializers/subscriptionResourceSerializer";
+import { SubscriptionDescription } from "../src/serializers/subscriptionResourceSerializer";
 import { RuleOptions } from "../src/serializers/ruleResourceSerializer";
 import { EntityStatus } from "../src/util/utils";
 import { ServiceBusManagementClient } from "../src/serviceBusAtomManagementClient";
@@ -1895,7 +1895,7 @@ async function createEntity(
   overrideOptions?: boolean, // If this is false, then the default options will be populated as used for basic testing.
   queueOptions?: Omit<QueueDescription, "queueName">,
   topicOptions?: Omit<TopicDescription, "topicName">,
-  subscriptionOptions?: SubscriptionOptions,
+  subscriptionOptions?: Omit<SubscriptionDescription, "topicName" | "subscriptionName">,
   ruleOptions?: RuleOptions
 ): Promise<any> {
   if (!overrideOptions) {
@@ -1962,11 +1962,11 @@ async function createEntity(
           "TestError: Topic path must be passed when invoking tests on subscriptions"
         );
       }
-      const subscriptionResponse = await serviceBusAtomManagementClient.createSubscription(
-        topicPath,
-        entityPath,
-        subscriptionOptions
-      );
+      const subscriptionResponse = await serviceBusAtomManagementClient.createSubscription({
+        topicName: topicPath,
+        subscriptionName: entityPath,
+        ...subscriptionOptions
+      });
       return subscriptionResponse;
     case EntityType.RULE:
       if (!topicPath || !subscriptionPath) {
@@ -2004,7 +2004,7 @@ async function getEntity(
           "TestError: Topic path must be passed when invoking tests on subscriptions"
         );
       }
-      const subscriptionResponse = await serviceBusAtomManagementClient.getSubscriptionDetails(
+      const subscriptionResponse = await serviceBusAtomManagementClient.getSubscription(
         topicPath,
         entityPath
       );
@@ -2033,7 +2033,7 @@ async function updateEntity(
   overrideOptions?: boolean, // If this is false, then the default options will be populated as used for basic testing.
   queueOptions?: Omit<QueueDescription, "queueName">,
   topicOptions?: Omit<TopicDescription, "topicName">,
-  subscriptionOptions?: SubscriptionOptions,
+  subscriptionOptions?: Omit<SubscriptionDescription, "topicName" | "subscriptionName">,
   ruleOptions?: RuleOptions
 ): Promise<any> {
   if (!overrideOptions) {
@@ -2089,11 +2089,10 @@ async function updateEntity(
       });
       return queueResponse;
     case EntityType.TOPIC:
-      const topicResponse = await serviceBusAtomManagementClient.updateTopic(
-        entityPath,
-        // @ts-ignore
-        topicOptions
-      );
+      const topicResponse = await serviceBusAtomManagementClient.updateTopic({
+        topicName: entityPath,
+        ...topicOptions
+      });
       return topicResponse;
     case EntityType.SUBSCRIPTION:
       if (!topicPath) {
@@ -2101,12 +2100,11 @@ async function updateEntity(
           "TestError: Topic path must be passed when invoking tests on subscriptions"
         );
       }
-      const subscriptionResponse = await serviceBusAtomManagementClient.updateSubscription(
-        topicPath,
-        entityPath,
-        // @ts-ignore
-        subscriptionOptions
-      );
+      const subscriptionResponse = await serviceBusAtomManagementClient.updateSubscription({
+        topicName: topicPath,
+        subscriptionName: entityPath,
+        ...subscriptionOptions
+      });
       return subscriptionResponse;
     case EntityType.RULE:
       if (!topicPath || !subscriptionPath) {
@@ -2192,7 +2190,7 @@ async function listEntities(
           "TestError: Topic path must be passed when invoking tests on subscriptions"
         );
       }
-      const subscriptionResponse = await serviceBusAtomManagementClient.listSubscriptions(
+      const subscriptionResponse = await serviceBusAtomManagementClient.getSubscriptions(
         topicPath,
         { skip: skip, top: top }
       );

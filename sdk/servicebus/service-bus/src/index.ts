@@ -48,8 +48,8 @@ export { ServiceBusClient } from "./serviceBusClient";
 export { QueueDescription, QueueRuntimeInfo } from "./serializers/queueResourceSerializer";
 export { TopicDescription, TopicRuntimeInfo } from "./serializers/topicResourceSerializer";
 export {
-  SubscriptionOptions,
-  SubscriptionDetails
+  SubscriptionDescription,
+  SubscriptionRuntimeInfo
 } from "./serializers/subscriptionResourceSerializer";
 export {
   RuleOptions,
@@ -78,7 +78,7 @@ export {
   GetSubscriptionResponse,
   GetTopicResponse,
   ListRulesResponse,
-  ListSubscriptionsResponse,
+  GetSubscriptionsResponse,
   GetTopicsResponse,
   UpdateQueueResponse,
   UpdateRuleResponse,

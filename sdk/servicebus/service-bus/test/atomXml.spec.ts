@@ -967,7 +967,7 @@ describe(`Parse empty response for list() requests to return as empty array`, fu
         headers: new HttpHeaders({})
       };
     };
-    const result = await mockServiceBusAtomManagementClient.listSubscriptions("testTopic");
+    const result = await mockServiceBusAtomManagementClient.getSubscriptions("testTopic");
     assertEmptyArray(result);
   });
 
