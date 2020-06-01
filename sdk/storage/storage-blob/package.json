@@ -77,6 +77,14 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
   "sideEffects": false,
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/utils/constants.ts",
+        "prefix": "SDK_VERSION"
+      }
+    ]
+  },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-http": "^1.0.0",
@@ -89,9 +97,9 @@
     "tslib": "^1.9.3"
   },
   "devDependencies": {
-    "@azure/test-utils-recorder": "^1.0.0",
     "@azure/identity": "^1.0.0",
-    "@microsoft/api-extractor": "^7.5.4",
+    "@azure/test-utils-recorder": "^1.0.0",
+    "@microsoft/api-extractor": "7.7.11",
     "@rollup/plugin-replace": "^2.2.0",
     "@types/fs-extra": "^8.0.0",
     "@types/mocha": "^5.2.5",
@@ -147,13 +155,5 @@
     "ts-node": "^8.3.0",
     "typescript": "~3.6.4",
     "util": "^0.12.1"
-  },
-  "//metadata": {
-    "constantPaths": [
-      {
-        "path": "src/utils/constants.ts",
-        "prefix": "SDK_VERSION"
-      }
-    ]
   }
 }

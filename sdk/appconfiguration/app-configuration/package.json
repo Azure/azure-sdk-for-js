@@ -60,17 +60,25 @@
   },
   "sideEffects": false,
   "autoPublish": false,
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/generated/src/appConfigurationContext.ts",
+        "prefix": "packageVersion"
+      }
+    ]
+  },
   "dependencies": {
     "@azure/core-asynciterator-polyfill": "^1.0.0",
     "@azure/core-http": "^1.0.0",
     "@azure/core-paging": "^1.0.0",
-    "@azure/identity": "^1.0.0",
     "@azure/core-tracing": "1.0.0-preview.7",
+    "@azure/identity": "^1.0.0",
     "@opentelemetry/types": "^0.2.0",
     "tslib": "^1.9.3"
   },
   "devDependencies": {
-    "@microsoft/api-extractor": "^7.5.4",
+    "@microsoft/api-extractor": "7.7.11",
     "@rollup/plugin-replace": "^2.2.0",
     "@types/mocha": "^5.2.5",
     "@types/node": "^8.0.0",
@@ -96,13 +104,5 @@
     "ts-node": "^8.3.0",
     "typescript": "~3.6.4",
     "uglify-js": "^3.4.9"
-  },
-  "//metadata": {
-    "constantPaths": [
-      {
-        "path": "src/generated/src/appConfigurationContext.ts",
-        "prefix": "packageVersion"
-      }
-    ]
   }
 }

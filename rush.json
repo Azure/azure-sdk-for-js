@@ -40,8 +40,13 @@
      *
      * The default value is false to avoid legacy compatibility issues.
      * It is strongly recommended to set strictPeerDependencies=true.
+     *
+     * NOTE: Changed to false due to sudden error:
+     *
+     *     ERROR  @rush-temp/abort-controller > eslint > espree: acorn-jsx@5.2.0 requires a peer of acorn@^6.0.0 || ^7.0.0 but none was installed.
+     *
      */
-    "strictPeerDependencies": true,
+    "strictPeerDependencies": false,
     /**
      * Configures the strategy used to select versions during installation.
      *

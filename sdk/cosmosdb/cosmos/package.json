@@ -87,7 +87,7 @@
   },
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^2.0.1",
-    "@microsoft/api-extractor": "^7.5.4",
+    "@microsoft/api-extractor": "7.7.11",
     "@rollup/plugin-json": "^4.0.0",
     "@types/fast-json-stable-stringify": "^2.0.0",
     "@types/mocha": "^5.2.5",
