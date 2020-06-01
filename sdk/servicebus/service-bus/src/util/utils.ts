@@ -488,7 +488,7 @@ export type EntityStatus =
   | "Unknown";
 
 /**
- * An executor for a Promise (or function that returns a Promise) that obeys both a timeout and an
+ * An executor for a function that returns a Promise that obeys both a timeout and an
  * optional AbortSignal.
  * @param timeoutMs - The number of milliseconds to allow before throwing an OperationTimeoutError.
  * @param timeoutMessage - The message to place in the .description field for the thrown exception for Timeout.
