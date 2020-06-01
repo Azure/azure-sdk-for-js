@@ -50,10 +50,11 @@ import {
 import {
   SubscriptionResourceSerializer,
   InternalSubscriptionOptions,
-  SubscriptionOptions,
+  SubscriptionDescription,
   buildSubscriptionOptions,
-  SubscriptionDetails,
-  buildSubscription
+  SubscriptionRuntimeInfo,
+  buildSubscription,
+  buildSubscriptionRuntimeInfo
 } from "./serializers/subscriptionResourceSerializer";
 import {
   RuleResourceSerializer,
@@ -251,9 +252,29 @@ export interface GetTopicsResponse extends Array<TopicDescription> {
 }
 
 /**
+ * Represents result of create, get, update and delete operations on topic.
+ */
+export interface GetSubscriptionRuntimeInfoResponse extends SubscriptionRuntimeInfo {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
+
+/**
+ * Represents result of create, get, update and delete operations on topic.
+ */
+export interface GetSubscriptionsRuntimeInfoResponse extends Array<SubscriptionRuntimeInfo> {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
+
+/**
  * Represents result of create, get, update and delete operations on subscription.
  */
-export interface SubscriptionResponse extends SubscriptionDetails {
+export interface SubscriptionResponse extends SubscriptionDescription {
   /**
    * The underlying HTTP response.
    */
@@ -263,7 +284,7 @@ export interface SubscriptionResponse extends SubscriptionDetails {
 /**
  * Create Subscription response
  */
-export interface CreateSubscriptionResponse extends SubscriptionDetails {
+export interface CreateSubscriptionResponse extends SubscriptionDescription {
   /**
    * The underlying HTTP response.
    */
@@ -273,7 +294,7 @@ export interface CreateSubscriptionResponse extends SubscriptionDetails {
 /**
  * Get Subscription response
  */
-export interface GetSubscriptionResponse extends SubscriptionDetails {
+export interface GetSubscriptionResponse extends SubscriptionDescription {
   /**
    * The underlying HTTP response.
    */
@@ -283,7 +304,7 @@ export interface GetSubscriptionResponse extends SubscriptionDetails {
 /**
  * Update Subscription response
  */
-export interface UpdateSubscriptionResponse extends SubscriptionDetails {
+export interface UpdateSubscriptionResponse extends SubscriptionDescription {
   /**
    * The underlying HTTP response.
    */
@@ -303,7 +324,7 @@ export interface DeleteSubscriptionResponse {
 /**
  * Represents result of list operation on subscriptions.
  */
-export interface ListSubscriptionsResponse extends Array<SubscriptionDetails> {
+export interface GetSubscriptionsResponse extends Array<SubscriptionDescription> {
   /**
    * The underlying HTTP response.
    */
@@ -973,8 +994,6 @@ export class ServiceBusManagementClient extends ServiceClient {
    * Creates a subscription with given name, configured using the given options
    * @param topicName
    * @param subscriptionName
-   * @param subscriptionOptions Options to configure the Subscription being created.
-   * For example, you can configure a Subscription to support partitions or sessions.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -989,18 +1008,94 @@ export class ServiceBusManagementClient extends ServiceClient {
    */
   async createSubscription(
     topicName: string,
-    subscriptionName: string,
-    subscriptionOptions?: SubscriptionOptions
+    subscriptionName: string
+  ): Promise<CreateSubscriptionResponse>;
+
+  /**
+   * Creates a subscription with given name, configured using the given options
+   * @param subscription Options to configure the Subscription being created.
+   * For example, you can configure a Subscription to support partitions or sessions.
+   *
+   * Following are errors that can be expected from this operation
+   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
+   * @throws `RestError` with code `MessageEntityAlreadyExistsError` when requested messaging entity already exists,
+   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
+   * @throws `RestError` with code `QuotaExceededError` when requested operation fails due to quote limits exceeding from service side,
+   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
+   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
+   * bad requests or requests resulting in conflicting operation on the server,
+   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
+   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   */
+  async createSubscription(
+    subscription: SubscriptionDescription
+  ): Promise<CreateSubscriptionResponse>;
+  async createSubscription(
+    topicNameOrSubscriptionOptions: string | SubscriptionDescription,
+    subscriptionName?: string
   ): Promise<CreateSubscriptionResponse> {
+    if (typeof topicNameOrSubscriptionOptions == "string") {
+      log.httpAtomXml(
+        `Performing management operation - createSubscription() for "${subscriptionName}"`
+      );
+      if (!subscriptionName) {
+        throw new Error("Subscription name is not provided");
+      }
+      const fullPath = this.getSubscriptionPath(topicNameOrSubscriptionOptions, subscriptionName);
+      const response: HttpOperationResponse = await this.putResource(
+        fullPath,
+        buildSubscriptionOptions({
+          topicName: topicNameOrSubscriptionOptions,
+          subscriptionName: subscriptionName
+        }),
+        this.subscriptionResourceSerializer,
+        false
+      );
+
+      return this.buildSubscriptionResponse(response);
+    } else {
+      const options = topicNameOrSubscriptionOptions;
+      log.httpAtomXml(
+        `Performing management operation - createSubscription() for "${subscriptionName}" with options: ${options}`
+      );
+      const fullPath = this.getSubscriptionPath(options.topicName, options.subscriptionName);
+      const response: HttpOperationResponse = await this.putResource(
+        fullPath,
+        buildSubscriptionOptions(options || {}),
+        this.subscriptionResourceSerializer,
+        false
+      );
+
+      return this.buildSubscriptionResponse(response);
+    }
+  }
+
+  /**
+   * Returns an object representing the Subscription with the given name along with all its properties
+   * @param topicName
+   * @param subscriptionName
+   *
+   * Following are errors that can be expected from this operation
+   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
+   * @throws `RestError` with code `MessageEntityNotFoundError` when requested messaging entity does not exist,
+   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
+   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
+   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
+   * bad requests or requests resulting in conflicting operation on the server,
+   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
+   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   */
+  async getSubscription(
+    topicName: string,
+    subscriptionName: string
+  ): Promise<GetSubscriptionResponse> {
     log.httpAtomXml(
-      `Performing management operation - createSubscription() for "${subscriptionName}" with options: ${subscriptionOptions}`
+      `Performing management operation - getSubscription() for "${subscriptionName}"`
     );
     const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
-    const response: HttpOperationResponse = await this.putResource(
+    const response: HttpOperationResponse = await this.getResource(
       fullPath,
-      buildSubscriptionOptions(subscriptionOptions || {}),
-      this.subscriptionResourceSerializer,
-      false
+      this.subscriptionResourceSerializer
     );
 
     return this.buildSubscriptionResponse(response);
@@ -1021,10 +1116,10 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async getSubscriptionDetails(
+  async getSubscriptionRuntimeInfo(
     topicName: string,
     subscriptionName: string
-  ): Promise<GetSubscriptionResponse> {
+  ): Promise<GetSubscriptionRuntimeInfoResponse> {
     log.httpAtomXml(
       `Performing management operation - getSubscription() for "${subscriptionName}"`
     );
@@ -1034,7 +1129,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       this.subscriptionResourceSerializer
     );
 
-    return this.buildSubscriptionResponse(response);
+    return this.buildSubscriptionRuntimeInfoResponse(response);
   }
 
   /**
@@ -1051,10 +1146,10 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async listSubscriptions(
+  async getSubscriptions(
     topicName: string,
     listRequestOptions?: ListRequestOptions
-  ): Promise<ListSubscriptionsResponse> {
+  ): Promise<GetSubscriptionsResponse> {
     log.httpAtomXml(
       `Performing management operation - listSubscriptions() with options: ${listRequestOptions}`
     );
@@ -1068,10 +1163,38 @@ export class ServiceBusManagementClient extends ServiceClient {
   }
 
   /**
-   * Updates properties on the Subscription by the given name based on the given options
+   * Lists existing subscriptions.
    * @param topicName
-   * @param subscriptionName
-   * @param subscriptionOptions Options to configure the Subscription being updated.
+   * @param listRequestOptions
+   *
+   * Following are errors that can be expected from this operation
+   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
+   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
+   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
+   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
+   * bad requests or requests resulting in conflicting operation on the server,
+   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
+   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   */
+  async getSubscriptionsRuntimeInfo(
+    topicName: string,
+    listRequestOptions?: ListRequestOptions
+  ): Promise<GetSubscriptionsRuntimeInfoResponse> {
+    log.httpAtomXml(
+      `Performing management operation - listSubscriptions() with options: ${listRequestOptions}`
+    );
+    const response: HttpOperationResponse = await this.listResources(
+      topicName + "/Subscriptions/",
+      listRequestOptions,
+      this.subscriptionResourceSerializer
+    );
+
+    return this.buildListSubscriptionsRuntimeInfoResponse(response);
+  }
+
+  /**
+   * Updates properties on the Subscription by the given name based on the given options
+   * @param subscription Options to configure the Subscription being updated.
    * For example, you can configure a Subscription to support partitions or sessions.
    *
    * Following are errors that can be expected from this operation
@@ -1085,25 +1208,29 @@ export class ServiceBusManagementClient extends ServiceClient {
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async updateSubscription(
-    topicName: string,
-    subscriptionName: string,
-    subscriptionOptions: SubscriptionOptions
+    subscription: SubscriptionDescription
   ): Promise<UpdateSubscriptionResponse> {
     log.httpAtomXml(
-      `Performing management operation - updateSubscription() for "${subscriptionName}" with options: ${subscriptionOptions}`
+      `Performing management operation - updateSubscription() for "${subscription.subscriptionName}" with options: ${subscription}`
     );
 
-    if (!isJSONLikeObject(subscriptionOptions) || subscriptionOptions === null) {
+    if (!isJSONLikeObject(subscription) || subscription === null) {
       throw new TypeError(
-        `Parameter "subscriptionOptions" must be an object of type "SubscriptionOptions" and cannot be undefined or null.`
+        `Parameter "subscription" must be an object of type "SubscriptionOptions" and cannot be undefined or null.`
       );
     }
 
-    const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
+    const fullPath = this.getSubscriptionPath(
+      subscription.topicName,
+      subscription.subscriptionName
+    );
 
-    const finalSubscriptionOptions: SubscriptionOptions = {};
-    const getSubscriptionResult = await this.getSubscriptionDetails(topicName, subscriptionName);
-    Object.assign(finalSubscriptionOptions, getSubscriptionResult, subscriptionOptions);
+    const finalSubscriptionOptions: SubscriptionDescription = subscription;
+    const getSubscriptionResult = await this.getSubscription(
+      subscription.topicName,
+      subscription.subscriptionName
+    );
+    Object.assign(finalSubscriptionOptions, getSubscriptionResult, subscription);
 
     const response: HttpOperationResponse = await this.putResource(
       fullPath,
@@ -1157,7 +1284,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       `Performing management operation - subscriptionExists() for "${topicName}" and "${subscriptionName}"`
     );
     try {
-      await this.getSubscriptionDetails(topicName, subscriptionName);
+      await this.getSubscription(topicName, subscriptionName);
     } catch (error) {
       if (error.code == "MessageEntityNotFoundError") {
         return false;
@@ -1689,9 +1816,9 @@ export class ServiceBusManagementClient extends ServiceClient {
 
   private buildListSubscriptionsResponse(
     response: HttpOperationResponse
-  ): ListSubscriptionsResponse {
+  ): GetSubscriptionsResponse {
     try {
-      const subscriptions: SubscriptionDetails[] = [];
+      const subscriptions: SubscriptionDescription[] = [];
       if (!Array.isArray(response.parsedBody)) {
         throw new TypeError(`${response.parsedBody} was expected to be of type Array`);
       }
@@ -1702,9 +1829,43 @@ export class ServiceBusManagementClient extends ServiceClient {
           subscriptions.push(subscription);
         }
       }
-      const listSubscriptionsResponse: ListSubscriptionsResponse = Object.assign(subscriptions, {
+      const listSubscriptionsResponse: GetSubscriptionsResponse = Object.assign(subscriptions, {
         _response: response
       });
+      return listSubscriptionsResponse;
+    } catch (err) {
+      log.warning("Failure parsing response from service - %0 ", err);
+      throw new RestError(
+        `Error occurred while parsing the response body - cannot form a list of subscriptions using the response from the service.`,
+        RestError.PARSE_ERROR,
+        response.status,
+        stripRequest(response.request),
+        stripResponse(response)
+      );
+    }
+  }
+
+  private buildListSubscriptionsRuntimeInfoResponse(
+    response: HttpOperationResponse
+  ): GetSubscriptionsRuntimeInfoResponse {
+    try {
+      const subscriptions: SubscriptionRuntimeInfo[] = [];
+      if (!Array.isArray(response.parsedBody)) {
+        throw new TypeError(`${response.parsedBody} was expected to be of type Array`);
+      }
+      const rawSubscriptionArray: any = response.parsedBody;
+      for (let i = 0; i < rawSubscriptionArray.length; i++) {
+        const subscription = buildSubscriptionRuntimeInfo(rawSubscriptionArray[i]);
+        if (subscription) {
+          subscriptions.push(subscription);
+        }
+      }
+      const listSubscriptionsResponse: GetSubscriptionsRuntimeInfoResponse = Object.assign(
+        subscriptions,
+        {
+          _response: response
+        }
+      );
       return listSubscriptionsResponse;
     } catch (err) {
       log.warning("Failure parsing response from service - %0 ", err);
@@ -1724,6 +1885,30 @@ export class ServiceBusManagementClient extends ServiceClient {
       const subscriptionResponse: SubscriptionResponse = Object.assign(subscription || {}, {
         _response: response
       });
+      return subscriptionResponse;
+    } catch (err) {
+      log.warning("Failure parsing response from service - %0 ", err);
+      throw new RestError(
+        `Error occurred while parsing the response body - cannot form a subscription object using the response from the service.`,
+        RestError.PARSE_ERROR,
+        response.status,
+        stripRequest(response.request),
+        stripResponse(response)
+      );
+    }
+  }
+
+  private buildSubscriptionRuntimeInfoResponse(
+    response: HttpOperationResponse
+  ): GetSubscriptionRuntimeInfoResponse {
+    try {
+      const subscription = buildSubscriptionRuntimeInfo(response.parsedBody);
+      const subscriptionResponse: GetSubscriptionRuntimeInfoResponse = Object.assign(
+        subscription || {},
+        {
+          _response: response
+        }
+      );
       return subscriptionResponse;
     } catch (err) {
       log.warning("Failure parsing response from service - %0 ", err);
