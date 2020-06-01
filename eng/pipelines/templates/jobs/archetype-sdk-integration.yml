@@ -122,7 +122,7 @@ jobs:
       
       - pwsh: |
           npm install
-          node index.js --artifact-name "${{parameters.PackageName}}" --version-type $(DependencyVersion) --source-dir "$(Build.SourcesDirectory)"
+          node index.js --artifact-name "${{parameters.PackageName}}" --version-type $(DependencyVersion) --source-dir "$(Build.SourcesDirectory)" --test-folder "test/public"
         displayName: "Convert tests to run against package references"
         workingDirectory: $(Build.SourcesDirectory)/eng/tools/dependency-testing
         condition: and(succeededOrFailed(),ne(variables['DependencyVersion'],''))
