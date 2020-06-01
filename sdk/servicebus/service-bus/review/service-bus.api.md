@@ -81,7 +81,7 @@ export interface CreateSubscriptionResponse extends SubscriptionDetails {
 }
 
 // @public
-export interface CreateTopicResponse extends TopicDetails {
+export interface CreateTopicResponse extends TopicDescription {
     _response: HttpOperationResponse;
 }
 
@@ -153,7 +153,12 @@ export interface GetSubscriptionResponse extends SubscriptionDetails {
 }
 
 // @public
-export interface GetTopicResponse extends TopicDetails {
+export interface GetTopicResponse extends TopicDescription {
+    _response: HttpOperationResponse;
+}
+
+// @public
+export interface GetTopicsResponse extends Array<TopicDescription> {
     _response: HttpOperationResponse;
 }
 
@@ -170,11 +175,6 @@ export interface ListRulesResponse extends Array<RuleDescription> {
 
 // @public
 export interface ListSubscriptionsResponse extends Array<SubscriptionDetails> {
-    _response: HttpOperationResponse;
-}
-
-// @public
-export interface ListTopicsResponse extends Array<TopicDetails> {
     _response: HttpOperationResponse;
 }
 
@@ -349,7 +349,8 @@ export class ServiceBusManagementClient extends ServiceClient {
     createQueue(queue: QueueDescription): Promise<CreateQueueResponse>;
     createRule(topicName: string, subscriptionName: string, ruleName: string, ruleOptions?: RuleOptions): Promise<CreateRuleResponse>;
     createSubscription(topicName: string, subscriptionName: string, subscriptionOptions?: SubscriptionOptions): Promise<CreateSubscriptionResponse>;
-    createTopic(topicName: string, topicOptions?: TopicOptions): Promise<CreateTopicResponse>;
+    createTopic(topicName: string): Promise<CreateTopicResponse>;
+    createTopic(topicOptions: TopicDescription): Promise<CreateTopicResponse>;
     deleteQueue(queueName: string): Promise<DeleteQueueResponse>;
     deleteRule(topicName: string, subscriptionName: string, ruleName: string): Promise<DeleteRuleResponse>;
     deleteSubscription(topicName: string, subscriptionName: string): Promise<DeleteSubscriptionResponse>;
@@ -360,18 +361,21 @@ export class ServiceBusManagementClient extends ServiceClient {
     getQueuesRuntimeInfo(listRequestOptions?: ListRequestOptions): Promise<GetQueuesRuntimeInfoResponse>;
     getRuleDescription(topicName: string, subscriptioName: string, ruleName: string): Promise<GetRuleResponse>;
     getSubscriptionDetails(topicName: string, subscriptionName: string): Promise<GetSubscriptionResponse>;
-    getTopicDetails(topicName: string): Promise<GetTopicResponse>;
+    getTopic(topicName: string): Promise<GetTopicResponse>;
+    // Warning: (ae-forgotten-export) The symbol "GetTopicRuntimeInfoResponse" needs to be exported by the entry point index.d.ts
+    getTopicRuntimeInfo(topicName: string): Promise<GetTopicRuntimeInfoResponse>;
+    getTopics(listRequestOptions?: ListRequestOptions): Promise<GetTopicsResponse>;
+    // Warning: (ae-forgotten-export) The symbol "GetTopicsRuntimeInfoResponse" needs to be exported by the entry point index.d.ts
+    getTopicsRuntimeInfo(listRequestOptions?: ListRequestOptions): Promise<GetTopicsRuntimeInfoResponse>;
     listRules(topicName: string, subscriptionName: string, listRequestOptions?: ListRequestOptions): Promise<ListRulesResponse>;
     listSubscriptions(topicName: string, listRequestOptions?: ListRequestOptions): Promise<ListSubscriptionsResponse>;
-    listTopics(listRequestOptions?: ListRequestOptions): Promise<ListTopicsResponse>;
     queueExists(queueName: string): Promise<boolean>;
     subscriptionExists(topicName: string, subscriptionName: string): Promise<boolean>;
     topicExists(topicName: string): Promise<boolean>;
-    updateQueue(queueName: string): Promise<UpdateQueueResponse>;
     updateQueue(queue: QueueDescription): Promise<UpdateQueueResponse>;
     updateRule(topicName: string, subscriptionName: string, ruleName: string, ruleOptions: RuleOptions): Promise<UpdateRuleResponse>;
     updateSubscription(topicName: string, subscriptionName: string, subscriptionOptions: SubscriptionOptions): Promise<UpdateSubscriptionResponse>;
-    updateTopic(topicName: string, topicOptions: TopicOptions): Promise<UpdateTopicResponse>;
+    updateTopic(topic: TopicDescription): Promise<UpdateTopicResponse>;
 }
 
 // @public
@@ -488,37 +492,7 @@ export { TokenCredential }
 export { TokenType }
 
 // @public
-export interface TopicDetails {
-    accessedOn?: string;
-    authorizationRules?: AuthorizationRule[];
-    autoDeleteOnIdle?: string;
-    createdOn?: string;
-    defaultMessageTtl: string;
-    duplicateDetectionHistoryTimeWindow: string;
-    enableBatchedOperations: boolean;
-    enableExpress?: boolean;
-    enablePartitioning: boolean;
-    enableSubscriptionPartitioning?: boolean;
-    entityAvailabilityStatus?: string;
-    filteringMessagesBeforePublishing?: boolean;
-    isAnonymousAccessible?: boolean;
-    isExpress?: boolean;
-    maxDeliveryCount?: number;
-    maxSizeInMegabytes: number;
-    messageCount?: number;
-    messageCountDetails?: MessageCountDetails;
-    requiresDuplicateDetection: boolean;
-    sizeInBytes?: number;
-    status?: EntityStatus;
-    subscriptionCount?: number;
-    supportOrdering: boolean;
-    topicName: string;
-    updatedOn?: string;
-    userMetadata?: string;
-}
-
-// @public
-export interface TopicOptions {
+export interface TopicDescription {
     authorizationRules?: AuthorizationRule[];
     autoDeleteOnIdle?: string;
     defaultMessageTtl?: string;
@@ -529,7 +503,18 @@ export interface TopicOptions {
     requiresDuplicateDetection?: boolean;
     status?: EntityStatus;
     supportOrdering?: boolean;
+    topicName: string;
     userMetadata?: string;
+}
+
+// @public
+export interface TopicRuntimeInfo {
+    accessedOn?: string;
+    createdOn?: string;
+    sizeInBytes?: number;
+    subscriptionCount?: number;
+    topicName: string;
+    updatedOn?: string;
 }
 
 // @public
@@ -548,7 +533,7 @@ export interface UpdateSubscriptionResponse extends SubscriptionDetails {
 }
 
 // @public
-export interface UpdateTopicResponse extends TopicDetails {
+export interface UpdateTopicResponse extends TopicDescription {
     _response: HttpOperationResponse;
 }
 
