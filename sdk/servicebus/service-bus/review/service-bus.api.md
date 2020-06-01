@@ -39,7 +39,7 @@ export interface BrowseMessagesOptions extends OperationOptions {
 }
 
 // @public
-export interface CorrelationFilter {
+export interface CorrelationRuleFilter {
     contentType?: string;
     correlationId?: string;
     label?: string;
@@ -62,7 +62,7 @@ export interface CreateQueueResponse extends QueueDescription {
 }
 
 // @public
-export interface CreateRuleResponse extends RuleDetails {
+export interface CreateRuleResponse extends RuleDescription {
     _response: HttpOperationResponse;
 }
 
@@ -143,7 +143,7 @@ export interface GetQueuesRuntimeInfoResponse extends Array<QueueRuntimeInfo> {
 }
 
 // @public
-export interface GetRuleResponse extends RuleDetails {
+export interface GetRuleResponse extends RuleDescription {
     _response: HttpOperationResponse;
 }
 
@@ -164,7 +164,7 @@ export interface ListRequestOptions {
 }
 
 // @public
-export interface ListRulesResponse extends Array<RuleDetails> {
+export interface ListRulesResponse extends Array<RuleDescription> {
     _response: HttpOperationResponse;
 }
 
@@ -290,13 +290,13 @@ export interface Receiver<ReceivedMessageT> {
 export { RetryOptions }
 
 // @public
-export interface RuleDetails {
+export interface RuleDescription {
 }
 
 // @public
 export interface RuleOptions {
     action?: SqlAction;
-    filter?: SqlFilter | CorrelationFilter;
+    filter?: SqlRuleFilter | CorrelationRuleFilter;
 }
 
 // @public
@@ -358,7 +358,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     getQueueRuntimeInfo(queueName: string): Promise<GetQueueRuntimeInfoResponse>;
     getQueues(listRequestOptions?: ListRequestOptions): Promise<GetQueuesResponse>;
     getQueuesRuntimeInfo(listRequestOptions?: ListRequestOptions): Promise<GetQueuesRuntimeInfoResponse>;
-    getRuleDetails(topicName: string, subscriptioName: string, ruleName: string): Promise<GetRuleResponse>;
+    getRuleDescription(topicName: string, subscriptioName: string, ruleName: string): Promise<GetRuleResponse>;
     getSubscriptionDetails(topicName: string, subscriptionName: string): Promise<GetSubscriptionResponse>;
     getTopicDetails(topicName: string): Promise<GetTopicResponse>;
     listRules(topicName: string, subscriptionName: string, listRequestOptions?: ListRequestOptions): Promise<ListRulesResponse>;
@@ -429,10 +429,10 @@ export interface SessionReceiverOptions {
 }
 
 // @public
-export type SqlAction = SqlFilter;
+export type SqlAction = SqlRuleFilter;
 
 // @public
-export interface SqlFilter {
+export interface SqlRuleFilter {
 }
 
 // @public
@@ -538,7 +538,7 @@ export interface UpdateQueueResponse extends QueueDescription {
 }
 
 // @public
-export interface UpdateRuleResponse extends RuleDetails {
+export interface UpdateRuleResponse extends RuleDescription {
     _response: HttpOperationResponse;
 }
 

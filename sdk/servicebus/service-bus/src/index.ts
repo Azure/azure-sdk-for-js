@@ -53,11 +53,11 @@ export {
 } from "./serializers/subscriptionResourceSerializer";
 export {
   RuleOptions,
-  RuleDetails,
+  RuleDescription,
   SqlAction,
-  SqlFilter
+  SqlRuleFilter
 } from "./serializers/ruleResourceSerializer";
-export { CorrelationFilter } from "./core/managementClient";
+export { CorrelationRuleFilter } from "./core/managementClient";
 export {
   ServiceBusManagementClient,
   ServiceBusManagementClientOptions,

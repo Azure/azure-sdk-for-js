@@ -59,9 +59,9 @@ export interface RuleDescription {
    * - `string`: SQL-like condition expression that is evaluated against the messages'
    * user-defined properties and system properties. All system properties will be prefixed with
    * `sys.` in the condition expression.
-   * - `CorrelationFilter`: Properties of the filter will be used to match with the message properties.
+   * - `CorrelationRuleFilter`: Properties of the filter will be used to match with the message properties.
    */
-  filter?: string | CorrelationFilter;
+  filter?: string | CorrelationRuleFilter;
   /**
    * Action to perform if the message satisfies the filtering expression.
    */
@@ -74,10 +74,10 @@ export interface RuleDescription {
 
 /**
  * Represents the correlation filter expression.
- * A CorrelationFilter holds a set of conditions that are matched against user and system properties
+ * A CorrelationRuleFilter holds a set of conditions that are matched against user and system properties
  * of incoming messages from a Subscription.
  */
-export interface CorrelationFilter {
+export interface CorrelationRuleFilter {
   /**
    * Value to be matched with the `correlationId` property of the incoming message.
    */
@@ -1301,7 +1301,7 @@ export class ManagementClient extends LinkEntity {
    */
   async addRule(
     ruleName: string,
-    filter: boolean | string | CorrelationFilter,
+    filter: boolean | string | CorrelationRuleFilter,
     sqlRuleActionExpression?: string,
     options?: OperationOptions & SendManagementRequestOptions
   ): Promise<void> {
@@ -1322,7 +1322,7 @@ export class ManagementClient extends LinkEntity {
       !correlationProperties.some((validProperty) => filter.hasOwnProperty(validProperty))
     ) {
       throw new TypeError(
-        `The parameter "filter" should be either a boolean, string or implement the CorrelationFilter interface.`
+        `The parameter "filter" should be either a boolean, string or implement the CorrelationRuleFilter interface.`
       );
     }
 

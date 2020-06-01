@@ -15,7 +15,7 @@ import {
   getString,
   isJSONLikeObject
 } from "../util/utils";
-import { CorrelationFilter } from "../core/managementClient";
+import { CorrelationRuleFilter } from "../core/managementClient";
 
 /**
  * @internal
@@ -38,7 +38,7 @@ export function buildRuleOptions(name: string, ruleOptions: RuleOptions = {}): I
  * response from the service
  * @param rawRule
  */
-export function buildRule(rawRule: any): RuleDetails {
+export function buildRule(rawRule: any): RuleDescription {
   return {
     ruleName: getString(rawRule["RuleName"], "ruleName"),
     topicName: getString(rawRule["TopicName"], "topicName"),
@@ -56,8 +56,8 @@ export function buildRule(rawRule: any): RuleDetails {
  * or undefined if not passed in.
  * @param value
  */
-function getTopicFilter(value: any): SqlFilter | CorrelationFilter {
-  let result: SqlFilter | CorrelationFilter;
+function getTopicFilter(value: any): SqlRuleFilter | CorrelationRuleFilter {
+  let result: SqlRuleFilter | CorrelationRuleFilter;
 
   if (value["SqlExpression"] != undefined) {
     result = {
@@ -107,12 +107,12 @@ function getRuleActionOrUndefined(value: any): SqlAction | undefined {
  */
 export interface RuleOptions {
   /**
-   * Defines the filter expression that the rule evaluates. For `SqlFilter` input,
+   * Defines the filter expression that the rule evaluates. For `SqlRuleFilter` input,
    * the expression string is interpreted as a SQL92 expression which must
-   * evaluate to True or False. Only one between a `CorrelationFilter` or
-   * a `SqlFilter` can be defined.
+   * evaluate to True or False. Only one between a `CorrelationRuleFilter` or
+   * a `SqlRuleFilter` can be defined.
    */
-  filter?: SqlFilter | CorrelationFilter;
+  filter?: SqlRuleFilter | CorrelationRuleFilter;
 
   /**
    * The SQL like expression that can be executed on the message should the
@@ -138,7 +138,7 @@ export interface InternalRuleOptions extends RuleOptions {
 /**
  * Represents all attributes of a rule entity
  */
-export interface RuleDetails {
+export interface RuleDescription {
   /**
    * @internal
    * @ignore
@@ -149,12 +149,12 @@ export interface RuleDetails {
   /**
    * @internal
    * @ignore
-   * Defines the filter expression that the rule evaluates. For `SqlFilter` input,
+   * Defines the filter expression that the rule evaluates. For `SqlRuleFilter` input,
    * the expression string is interpreted as a SQL92 expression which must
-   * evaluate to True or False. Only one between a `CorrelationFilter` or
-   * a `SqlFilter` can be defined.
+   * evaluate to True or False. Only one between a `CorrelationRuleFilter` or
+   * a `SqlRuleFilter` can be defined.
    */
-  filter?: SqlFilter | CorrelationFilter;
+  filter?: SqlRuleFilter | CorrelationRuleFilter;
 
   /**
    * @internal
@@ -189,12 +189,12 @@ export interface RuleDetails {
 /**
  * Represents all possible fields on SqlAction
  */
-export type SqlAction = SqlFilter;
+export type SqlAction = SqlRuleFilter;
 
 /**
- * Represents all possible fields on SqlFilter
+ * Represents all possible fields on SqlRuleFilter
  */
-export interface SqlFilter {
+export interface SqlRuleFilter {
   /**
    * @internal
    * @ignore
@@ -249,7 +249,7 @@ export class RuleResourceSerializer implements AtomXmlSerializer {
       };
     } else {
       if (rule.filter.hasOwnProperty("sqlExpression")) {
-        const sqlFilter: SqlFilter = rule.filter as SqlFilter;
+        const sqlFilter: SqlRuleFilter = rule.filter as SqlRuleFilter;
         resource.Filter = {
           SqlExpression: sqlFilter.sqlExpression,
           Parameters: getRawSqlParameters(sqlFilter.sqlParameters),
@@ -261,7 +261,7 @@ export class RuleResourceSerializer implements AtomXmlSerializer {
           "xmlns:p4": "http://www.w3.org/2001/XMLSchema-instance"
         };
       } else {
-        const correlationFilter: CorrelationFilter = rule.filter as CorrelationFilter;
+        const correlationFilter: CorrelationRuleFilter = rule.filter as CorrelationRuleFilter;
 
         resource.Filter = {
           CorrelationId: correlationFilter.correlationId,

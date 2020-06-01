@@ -59,7 +59,7 @@ import {
   InternalRuleOptions,
   RuleOptions,
   buildRuleOptions,
-  RuleDetails,
+  RuleDescription,
   buildRule
 } from "./serializers/ruleResourceSerializer";
 import { isJSONLikeObject, isAbsoluteUrl } from "./util/utils";
@@ -292,7 +292,7 @@ export interface ListSubscriptionsResponse extends Array<SubscriptionDetails> {
 /**
  * Represents result of create, get, update and delete operations on rule.
  */
-export interface RuleResponse extends RuleDetails {
+export interface RuleResponse extends RuleDescription {
   /**
    * The underlying HTTP response.
    */
@@ -302,7 +302,7 @@ export interface RuleResponse extends RuleDetails {
 /**
  * Create Rule response
  */
-export interface CreateRuleResponse extends RuleDetails {
+export interface CreateRuleResponse extends RuleDescription {
   /**
    * The underlying HTTP response.
    */
@@ -312,7 +312,7 @@ export interface CreateRuleResponse extends RuleDetails {
 /**
  * Get Rule response
  */
-export interface GetRuleResponse extends RuleDetails {
+export interface GetRuleResponse extends RuleDescription {
   /**
    * The underlying HTTP response.
    */
@@ -322,7 +322,7 @@ export interface GetRuleResponse extends RuleDetails {
 /**
  * Update Rule response
  */
-export interface UpdateRuleResponse extends RuleDetails {
+export interface UpdateRuleResponse extends RuleDescription {
   /**
    * The underlying HTTP response.
    */
@@ -342,7 +342,7 @@ export interface DeleteRuleResponse {
 /**
  * Represents result of list operation on rules.
  */
-export interface ListRulesResponse extends Array<RuleDetails> {
+export interface ListRulesResponse extends Array<RuleDescription> {
   /**
    * The underlying HTTP response.
    */
@@ -1146,7 +1146,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async getRuleDetails(
+  async getRuleDescription(
     topicName: string,
     subscriptioName: string,
     ruleName: string
@@ -1614,7 +1614,7 @@ export class ServiceBusManagementClient extends ServiceClient {
 
   private buildListRulesResponse(response: HttpOperationResponse): ListRulesResponse {
     try {
-      const rules: RuleDetails[] = [];
+      const rules: RuleDescription[] = [];
       if (!Array.isArray(response.parsedBody)) {
         throw new TypeError(`${response.parsedBody} was expected to be of type Array`);
       }
