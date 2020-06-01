@@ -2,14 +2,14 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import { SecretClient } from "../src";
+import { SecretClient } from "../../src";
 import { env, Recorder } from "@azure/test-utils-recorder";
-import { authenticate } from "./utils/testAuthentication";
-import TestClient from "./utils/testClient";
+import { authenticate } from "../utils/testAuthentication";
+import TestClient from "../utils/testClient";
 import {
   AuthenticationChallengeCache,
   AuthenticationChallenge
-} from "../src/core/challengeBasedAuthenticationPolicy";
+} from "../../src/core/challengeBasedAuthenticationPolicy";
 
 // Following the philosophy of not testing the insides if we can test the outsides...
 // I present you with this "Get Out of Jail Free" card (in reference to Monopoly).
