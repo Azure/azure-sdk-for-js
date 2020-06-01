@@ -62,7 +62,7 @@ import {
   RuleDescription,
   buildRule
 } from "./serializers/ruleResourceSerializer";
-import { isJSONLikeObject, isAbsoluteUrl } from "./util/utils";
+import { isJSONLikeObject, isAbsoluteUrl, areOptionsUndefined } from "./util/utils";
 
 /**
  * Options to use with ServiceBusManagementClient creation
@@ -675,7 +675,13 @@ export class ServiceBusManagementClient extends ServiceClient {
 
       if (!isJSONLikeObject(queueNameOrOptions) || queueNameOrOptions === null) {
         throw new TypeError(
-          `Parameter "queue" must be an object of type "QueueOptions" and cannot be undefined or null.`
+          `Parameter "queue" must be an object of type "QueueDescription" and cannot be undefined or null.`
+        );
+      }
+
+      if (areOptionsUndefined(queueNameOrOptions, "queueName")) {
+        throw new TypeError(
+          `Parameter "queue" must be an object of type "QueueDescription" and at least one of the parameters other than queueName must be defined.`
         );
       }
 

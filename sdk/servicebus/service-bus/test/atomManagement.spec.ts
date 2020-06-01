@@ -948,26 +948,19 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
     output: {
       authorizationRules: undefined,
       autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
-      messageCountDetails: undefined,
       deadLetteringOnMessageExpiration: false,
       defaultMessageTtl: "P10675199DT2H48M5.4775807S",
       duplicateDetectionHistoryTimeWindow: "PT10M",
       enableBatchedOperations: true,
-      enableExpress: false,
       enablePartitioning: false,
-      entityAvailabilityStatus: "Available",
       forwardDeadLetteredMessagesTo: undefined,
-      isAnonymousAccessible: false,
       lockDuration: "PT1M",
       maxDeliveryCount: 10,
       maxSizeInMegabytes: 1024,
-      messageCount: 0,
       queueName: managementQueue1,
       requiresDuplicateDetection: false,
       requiresSession: false,
-      sizeInBytes: 0,
       status: "Active",
-      supportOrdering: true,
       forwardTo: undefined,
       userMetadata: undefined
     }
@@ -1013,8 +1006,6 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
     output: {
       duplicateDetectionHistoryTimeWindow: "PT1M",
       lockDuration: "PT45S",
-      messageCount: 0,
-      sizeInBytes: 0,
       defaultMessageTtl: "P2D",
       deadLetteringOnMessageExpiration: true,
       enableBatchedOperations: false,
@@ -1047,16 +1038,11 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
 
       enablePartitioning: true,
       maxSizeInMegabytes: 16384,
-      supportOrdering: false,
 
       forwardDeadLetteredMessagesTo: undefined,
       forwardTo: undefined,
       userMetadata: "test metadata",
 
-      messageCountDetails: undefined,
-      enableExpress: false,
-      entityAvailabilityStatus: "Available",
-      isAnonymousAccessible: false,
       status: "ReceiveDisabled",
       queueName: managementQueue1
     }
@@ -1273,7 +1259,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
     testCaseTitle: "Undefined queue options",
     input: undefined,
     output: {
-      testErrorMessage: `Parameter "queueOptions" must be an object of type "QueueOptions" and cannot be undefined or null.`
+      testErrorMessage: `Parameter "queue" must be an object of type "QueueDescription" and at least one of the parameters other than queueName must be defined.`
     }
   },
   {
@@ -1315,12 +1301,9 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
     output: {
       duplicateDetectionHistoryTimeWindow: "PT2M",
       lockDuration: "PT50S",
-      messageCount: undefined,
-      sizeInBytes: undefined,
       defaultMessageTtl: "P1D",
       deadLetteringOnMessageExpiration: true,
       enableBatchedOperations: false,
-
       requiresDuplicateDetection: true,
       requiresSession: true,
       authorizationRules: [
@@ -1345,21 +1328,12 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
           secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
         }
       ],
-
       maxDeliveryCount: 5,
       maxSizeInMegabytes: 16384,
-
       autoDeleteOnIdle: "PT2H",
       forwardDeadLetteredMessagesTo: undefined,
       forwardTo: undefined,
       userMetadata: "test metadata",
-
-      messageCountDetails: undefined,
-
-      enableExpress: undefined,
-      entityAvailabilityStatus: undefined,
-      isAnonymousAccessible: undefined,
-      supportOrdering: undefined,
       status: "ReceiveDisabled",
       enablePartitioning: true,
       queueName: managementQueue1
