@@ -540,9 +540,10 @@ export async function waitForTimeoutOrAbortOrResolve<T>(args: {
 }
 
 /**
- * Checks the abort signal to see if it's already aborted (and if so, throws an AbortError).
+ * Registers listener to the abort event on the abortSignal to call your abortFn and
+ * returns a function that will clear the same listener.
  *
- * If it is not signalled, adds an event listener that will call your abortFn.
+ * If abort signal is already aborted, then throws an AbortError and returns a function that does nothing
  *
  * @returns A function that removes any of our attached event listeners on the abort signal or an empty function if
  * the abortSignal was not defined.
