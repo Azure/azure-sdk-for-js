@@ -103,7 +103,7 @@
     "tslib": "^1.10.0"
   },
   "devDependencies": {
-    "@rollup/plugin-node-resolve": "^7.0.0",
+    "@rollup/plugin-node-resolve": "^8.0.0",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^7.0.2",
     "@types/node": "^8.0.0",

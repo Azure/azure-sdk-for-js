@@ -1441,7 +1441,10 @@ export class CertificateClient {
         this.vaultUrl,
         certificateName,
         version,
-        this.setParentSpan(span, requestOptions)
+        {
+          ...this.setParentSpan(span, requestOptions),
+          certificateAttributes: toCoreAttributes(options)
+        }
       );
     } finally {
       span.end();
