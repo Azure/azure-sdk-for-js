@@ -69,7 +69,6 @@ function ResolveUri ([System.Uri]$referralUri, [string]$link)
     if (!$linkUri.IsAbsoluteUri) {
     # For rooted paths resolve from the baseUrl
       if ($link.StartsWith("/")) {
-        echo "rooturl = $rootUrl"
         $linkUri = new-object System.Uri([System.Uri]$rootUrl, ".$link");
       }
       else {
