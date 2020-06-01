@@ -19,7 +19,7 @@ export interface BeginRestoreKeyBackupOptions extends KeyPollerOptions {}
 export interface TestKeyClientInterface {
   /**
    * Restores a backed up key, and all its versions, to a vault. This operation requires the
-   * keys/restore permission.'
+   * keys/restore permission.
    */
   restoreKeyBackup(
     backup: Uint8Array,
@@ -28,7 +28,7 @@ export interface TestKeyClientInterface {
 }
 
 /**
- * An interface representing the state of a delete key's poll operation
+ * An interface representing the state of the restore key's poll operation
  */
 export interface RestoreKeyBackupPollOperationState extends PollOperationState<KeyVaultKey> {
   /**
@@ -46,13 +46,13 @@ export interface RestoreKeyBackupPollOperationState extends PollOperationState<K
 }
 
 /**
- * An interface representing a delete key's poll operation
+ * An interface representing a restore key's poll operation
  */
 export interface RestoreKeyBackupPollOperation
   extends PollOperation<RestoreKeyBackupPollOperationState, KeyVaultKey> {}
 
 /**
- * @summary Reaches to the service and updates the delete key's poll operation.
+ * @summary Reaches to the service and updates the restore key's poll operation.
  * @param [options] The optional parameters, which are an abortSignal from @azure/abort-controller and a function that triggers the poller's onProgress function.
  */
 async function update(
@@ -89,7 +89,7 @@ async function update(
  * @param [options] The optional parameters, which is only an abortSignal from @azure/abort-controller
  */
 async function cancel(this: RestoreKeyBackupPollOperation): Promise<RestoreKeyBackupPollOperation> {
-  throw new Error("Canceling the deletion of a key is not supported.");
+  throw new Error("Canceling the restoration of a key is not supported.");
 }
 
 /**

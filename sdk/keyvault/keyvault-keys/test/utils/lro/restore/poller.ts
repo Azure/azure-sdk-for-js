@@ -19,7 +19,7 @@ export interface RestoreKeyBackupPollerOptions {
 }
 
 /**
- * Class that deletes a poller that waits until a key finishes being deleted
+ * Class that creates a poller that waits until a key finishes being restored
  */
 export class RestoreKeyBackupPoller extends Poller<
   RestoreKeyBackupPollOperationState,
