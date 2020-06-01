@@ -57,7 +57,7 @@ export interface CreateBatchOptions extends OperationOptions {
 }
 
 // @public
-export interface CreateQueueResponse extends QueueProperties {
+export interface CreateQueueResponse extends QueueDescription {
     _response: HttpOperationResponse;
 }
 
@@ -123,22 +123,22 @@ export interface GetMessageIteratorOptions extends OperationOptions, WaitTimeOpt
 }
 
 // @public
-export interface GetQueueMetricsResponse extends QueueMetrics {
+export interface GetQueueResponse extends QueueDescription {
     _response: HttpOperationResponse;
 }
 
 // @public
-export interface GetQueueResponse extends QueueProperties {
+export interface GetQueueRuntimeInfoResponse extends QueueRuntimeInfo {
     _response: HttpOperationResponse;
 }
 
 // @public
-export interface GetQueuesMetricsResponse extends Array<QueueMetrics> {
+export interface GetQueuesResponse extends Array<QueueDescription> {
     _response: HttpOperationResponse;
 }
 
 // @public
-export interface GetQueuesResponse extends Array<QueueProperties> {
+export interface GetQueuesRuntimeInfoResponse extends Array<QueueRuntimeInfo> {
     _response: HttpOperationResponse;
 }
 
@@ -209,18 +209,7 @@ export interface OperationOptions {
 }
 
 // @public
-export interface QueueMetrics {
-    accessedOn?: string;
-    createdOn?: string;
-    messageCount?: number;
-    messageCountDetails?: MessageCountDetails;
-    queueName: string;
-    sizeInBytes?: number;
-    updatedOn?: string;
-}
-
-// @public
-export interface QueueOptions {
+export interface QueueDescription {
     authorizationRules?: AuthorizationRule[];
     autoDeleteOnIdle?: string;
     deadLetteringOnMessageExpiration?: boolean;
@@ -241,28 +230,14 @@ export interface QueueOptions {
 }
 
 // @public
-export interface QueueProperties {
-    authorizationRules?: AuthorizationRule[];
-    autoDeleteOnIdle: string;
-    deadLetteringOnMessageExpiration: boolean;
-    defaultMessageTtl: string;
-    duplicateDetectionHistoryTimeWindow: string;
-    enableBatchedOperations: boolean;
-    enableExpress?: boolean;
-    enablePartitioning: boolean;
-    entityAvailabilityStatus?: string;
-    forwardDeadLetteredMessagesTo?: string;
-    forwardTo?: string;
-    isAnonymousAccessible?: boolean;
-    lockDuration: string;
-    maxDeliveryCount: number;
-    maxSizeInMegabytes: number;
+export interface QueueRuntimeInfo {
+    accessedOn?: string;
+    createdOn?: string;
+    messageCount?: number;
+    messageCountDetails?: MessageCountDetails;
     queueName: string;
-    requiresDuplicateDetection: boolean;
-    requiresSession: boolean;
-    status?: EntityStatus;
-    supportOrdering?: boolean;
-    userMetadata?: string;
+    sizeInBytes?: number;
+    updatedOn?: string;
 }
 
 // @public
@@ -371,7 +346,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     constructor(connectionString: string, options?: ServiceBusManagementClientOptions);
     constructor(fullyQualifiedNamespace: string, credential: TokenCredential, options?: ServiceBusManagementClientOptions);
     createQueue(queueName: string): Promise<CreateQueueResponse>;
-    createQueue(queueOptions: QueueOptions): Promise<CreateQueueResponse>;
+    createQueue(queue: QueueDescription): Promise<CreateQueueResponse>;
     createRule(topicName: string, subscriptionName: string, ruleName: string, ruleOptions?: RuleOptions): Promise<CreateRuleResponse>;
     createSubscription(topicName: string, subscriptionName: string, subscriptionOptions?: SubscriptionOptions): Promise<CreateSubscriptionResponse>;
     createTopic(topicName: string, topicOptions?: TopicOptions): Promise<CreateTopicResponse>;
@@ -380,9 +355,9 @@ export class ServiceBusManagementClient extends ServiceClient {
     deleteSubscription(topicName: string, subscriptionName: string): Promise<DeleteSubscriptionResponse>;
     deleteTopic(topicName: string): Promise<DeleteTopicResponse>;
     getQueue(queueName: string): Promise<GetQueueResponse>;
-    getQueueMetrics(queueName: string): Promise<GetQueueMetricsResponse>;
+    getQueueRuntimeInfo(queueName: string): Promise<GetQueueRuntimeInfoResponse>;
     getQueues(listRequestOptions?: ListRequestOptions): Promise<GetQueuesResponse>;
-    getQueuesMetrics(listRequestOptions?: ListRequestOptions): Promise<GetQueuesMetricsResponse>;
+    getQueuesRuntimeInfo(listRequestOptions?: ListRequestOptions): Promise<GetQueuesRuntimeInfoResponse>;
     getRuleDetails(topicName: string, subscriptioName: string, ruleName: string): Promise<GetRuleResponse>;
     getSubscriptionDetails(topicName: string, subscriptionName: string): Promise<GetSubscriptionResponse>;
     getTopicDetails(topicName: string): Promise<GetTopicResponse>;
@@ -393,7 +368,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     subscriptionExists(topicName: string, subscriptionName: string): Promise<boolean>;
     topicExists(topicName: string): Promise<boolean>;
     updateQueue(queueName: string): Promise<UpdateQueueResponse>;
-    updateQueue(queueOptions: QueueOptions): Promise<UpdateQueueResponse>;
+    updateQueue(queue: QueueDescription): Promise<UpdateQueueResponse>;
     updateRule(topicName: string, subscriptionName: string, ruleName: string, ruleOptions: RuleOptions): Promise<UpdateRuleResponse>;
     updateSubscription(topicName: string, subscriptionName: string, subscriptionOptions: SubscriptionOptions): Promise<UpdateSubscriptionResponse>;
     updateTopic(topicName: string, topicOptions: TopicOptions): Promise<UpdateTopicResponse>;
@@ -558,7 +533,7 @@ export interface TopicOptions {
 }
 
 // @public
-export interface UpdateQueueResponse extends QueueProperties {
+export interface UpdateQueueResponse extends QueueDescription {
     _response: HttpOperationResponse;
 }
 
