@@ -64,6 +64,11 @@ import {
   buildRule
 } from "./serializers/ruleResourceSerializer";
 import { isJSONLikeObject, isAbsoluteUrl, areOptionsUndefined } from "./util/utils";
+import {
+  NamespaceResourceSerializer,
+  buildNamespace,
+  NamespaceProperties
+} from "./serializers/namespaceResourceSerializer";
 
 /**
  * Options to use with ServiceBusManagementClient creation
@@ -88,6 +93,25 @@ export interface ListRequestOptions {
    * Count of entities to skip from being fetched.
    */
   skip?: number;
+}
+
+/**
+ * Represents properties of the namespace.
+ */
+export interface NamespaceResponse extends NamespaceProperties {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
+/**
+ * Represents properties of the namespace.
+ */
+export interface GetNamespaceResponse extends NamespaceProperties {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
 }
 
 /**
@@ -409,6 +433,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   /**
    * Singleton instances of serializers used across the various operations.
    */
+  private namespaceResourceSerializer: AtomXmlSerializer;
   private queueResourceSerializer: AtomXmlSerializer;
   private topicResourceSerializer: AtomXmlSerializer;
   private subscriptionResourceSerializer: AtomXmlSerializer;
@@ -491,10 +516,27 @@ export class ServiceBusManagementClient extends ServiceClient {
         connectionStringObj.SharedAccessKey
       );
     }
+    this.namespaceResourceSerializer = new NamespaceResourceSerializer();
     this.queueResourceSerializer = new QueueResourceSerializer();
     this.topicResourceSerializer = new TopicResourceSerializer();
     this.subscriptionResourceSerializer = new SubscriptionResourceSerializer();
     this.ruleResourceSerializer = new RuleResourceSerializer();
+  }
+
+  /**
+   * Returns an object representing the Queue with the given name along with all its properties
+   * @param queueName
+   *
+   */
+  async getNamespaceProperties(): Promise<GetNamespaceResponse> {
+    //Promise<GetNamespacePropertiesResponse> {
+    log.httpAtomXml(`Performing management operation - getNamespaceProperties()`);
+    const response: HttpOperationResponse = await this.getResource(
+      "$namespaceinfo",
+      this.namespaceResourceSerializer
+    );
+
+    return this.buildNamespaceResponse(response);
   }
 
   /**
@@ -1608,6 +1650,25 @@ export class ServiceBusManagementClient extends ServiceClient {
 
   private getRulePath(topicName: string, subscriptionName: string, ruleName: string): string {
     return topicName + "/Subscriptions/" + subscriptionName + "/Rules/" + ruleName;
+  }
+
+  private buildNamespaceResponse(response: HttpOperationResponse): NamespaceResponse {
+    try {
+      const namespace = buildNamespace(response.parsedBody);
+      const namespaceResponse: NamespaceResponse = Object.assign(namespace || {}, {
+        _response: response
+      });
+      return namespaceResponse;
+    } catch (err) {
+      log.warning("Failure parsing response from service - %0 ", err);
+      throw new RestError(
+        `Error occurred while parsing the response body - cannot form a namespace object using the response from the service.`,
+        RestError.PARSE_ERROR,
+        response.status,
+        stripRequest(response.request),
+        stripResponse(response)
+      );
+    }
   }
 
   private buildListQueuesResponse(response: HttpOperationResponse): GetQueuesResponse {
