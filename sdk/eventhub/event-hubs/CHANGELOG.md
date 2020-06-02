@@ -13,7 +13,7 @@ changes between patch and minor updates.
 
 - Adds a new attribute - `enqueuedTime` - to the links on "Azure.EventHubs.process" spans.
   `enqueuedTime` maps to the enqueuedTimeUtc field from received events, represented as
-  Unix epoch time in millseconds.
+  Unix epoch time in milliseconds.
   Address [#7112](https://github.com/Azure/azure-sdk-for-js/issues/7112)
 
 ## 5.2.0 (2020-05-05)
@@ -188,7 +188,7 @@ Construction of both objects is the same as it was for the previous client.
 Version 5.0.0-preview.1 is a preview of our efforts to create a client library that is user friendly and
 idiomatic to the Javascript ecosystem. The reasons for most of the changes in this update can be found in the
 [Azure SDK Design Guidelines for TypeScript](https://azure.github.io/azure-sdk/typescript_introduction.html).
-For more information, please visit https://aka.ms/azure-sdk-preview1-js
+For more information, please visit https://aka.ms/azsdk/releases/July2019Preview
 
 ### Breaking changes
 
@@ -196,7 +196,7 @@ For more information, please visit https://aka.ms/azure-sdk-preview1-js
   - If you previously used the `createFromTokenProvider` static helper to provide your own custom token provider,
     you will now need to update the provider to follow the new `TokenCredential` interface instead.
   - If you previously used the `@azure/ms-rest-nodeauth` library to provide AAD credentials, you will now need to use the new
-  [@azure/identity](https://www.npmjs.com/package/@azure/identity) library instead.
+    [@azure/identity](https://www.npmjs.com/package/@azure/identity) library instead.
 - The send methods are moved from the `EventHubClient` class to the new `EventHubProducer` class.
   - Use the `createProducer()` function on the `EventHubClient` to create an instance of a `EventHubProducer`.
   - Each producer represents a dedicated AMQP sender link to Azure Event Hubs.

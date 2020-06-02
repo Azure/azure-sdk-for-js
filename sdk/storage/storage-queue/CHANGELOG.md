@@ -167,7 +167,7 @@
   - Please refer to the `proxyAuth.ts` sample in the `samples/typescript` folder.
 - Request and response headers are now logged at INFO level, with sensitive data redacted.
 
-For release notes and more information please visit https://aka.ms/azure-sdk-preview1-js
+For release notes and more information please visit https://aka.ms/azsdk/releases/July2019Preview
 
 ## 10.3.0 (2019.09)
 
