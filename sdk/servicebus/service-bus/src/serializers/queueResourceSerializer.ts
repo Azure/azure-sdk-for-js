@@ -111,7 +111,7 @@ export function buildQueue(rawQueue: any): QueueDescription {
 /**
  * @internal
  * @ignore
- * Builds the queue object from the raw json object gotten after deserializing the
+ * Builds the queue runtime info object from the raw json object gotten after deserializing the
  * response from the service
  * @param rawQueue
  */

@@ -101,7 +101,7 @@ export function buildSubscription(rawSubscription: any): SubscriptionDescription
 /**
  * @internal
  * @ignore
- * Builds the subscription object from the raw json object gotten after deserializing
+ * Builds the subscription runtime info object from the raw json object gotten after deserializing
  * the response from the service
  * @param rawSubscription
  */

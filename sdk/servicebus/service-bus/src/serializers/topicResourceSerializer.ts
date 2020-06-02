@@ -88,7 +88,7 @@ export function buildTopic(rawTopic: any): TopicDescription {
 /**
  * @internal
  * @ignore
- * Builds the topic object from the raw json object gotten after deserializing the
+ * Builds the topic runtime info object from the raw json object gotten after deserializing the
  * response from the service
  * @param rawTopic
  */
