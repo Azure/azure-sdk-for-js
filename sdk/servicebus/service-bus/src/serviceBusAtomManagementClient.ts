@@ -461,13 +461,9 @@ export class ServiceBusManagementClient extends ServiceClient {
       );
     }
 
-    const finalQueueOptions: QueueDescription = { queueName: queue.queueName };
-    const getQueueResult = await this.getQueue(queue.queueName);
-    Object.assign(finalQueueOptions, getQueueResult, queue);
-
     const response: HttpOperationResponse = await this.putResource(
       queue.queueName,
-      buildQueueOptions(finalQueueOptions),
+      buildQueueOptions(queue),
       this.queueResourceSerializer,
       true
     );
@@ -628,13 +624,9 @@ export class ServiceBusManagementClient extends ServiceClient {
       );
     }
 
-    const finalTopicOptions: TopicDescription = { topicName: topic.topicName };
-    const getTopicResult = await this.getTopic(topic.topicName);
-    Object.assign(finalTopicOptions, getTopicResult, topic);
-
     const response: HttpOperationResponse = await this.putResource(
       topic.topicName,
-      buildTopicOptions(finalTopicOptions),
+      buildTopicOptions(topic),
       this.topicResourceSerializer,
       true
     );
@@ -833,16 +825,9 @@ export class ServiceBusManagementClient extends ServiceClient {
       subscription.subscriptionName
     );
 
-    const finalSubscriptionOptions: SubscriptionDescription = subscription;
-    const getSubscriptionResult = await this.getSubscription(
-      subscription.topicName,
-      subscription.subscriptionName
-    );
-    Object.assign(finalSubscriptionOptions, getSubscriptionResult, subscription);
-
     const response: HttpOperationResponse = await this.putResource(
       fullPath,
-      buildSubscriptionOptions(finalSubscriptionOptions),
+      buildSubscriptionOptions(subscription),
       this.subscriptionResourceSerializer,
       true
     );
