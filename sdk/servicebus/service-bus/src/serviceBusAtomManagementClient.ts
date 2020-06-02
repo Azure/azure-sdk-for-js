@@ -360,31 +360,23 @@ export class ServiceBusManagementClient extends ServiceClient {
    */
   async createQueue(queue: QueueDescription): Promise<CreateQueueResponse>;
   async createQueue(queueNameOrOptions: string | QueueDescription): Promise<CreateQueueResponse> {
+    let queue: QueueDescription;
     if (typeof queueNameOrOptions == "string") {
-      log.httpAtomXml(
-        `Performing management operation - createQueue() for "${queueNameOrOptions}"`
-      );
-      const response: HttpOperationResponse = await this.putResource(
-        queueNameOrOptions,
-        buildQueueOptions({ queueName: queueNameOrOptions }),
-        this.queueResourceSerializer,
-        false
-      );
-
-      return this.buildQueueResponse(response);
+      queue = { queueName: queueNameOrOptions };
     } else {
-      log.httpAtomXml(
-        `Performing management operation - createQueue() for "${queueNameOrOptions.queueName}" with options: ${queueNameOrOptions}`
-      );
-      const response: HttpOperationResponse = await this.putResource(
-        queueNameOrOptions.queueName,
-        buildQueueOptions(queueNameOrOptions || {}),
-        this.queueResourceSerializer,
-        false
-      );
-
-      return this.buildQueueResponse(response);
+      queue = queueNameOrOptions;
     }
+    log.httpAtomXml(
+      `Performing management operation - createQueue() for "${queue.queueName}" with options: ${queue}`
+    );
+    const response: HttpOperationResponse = await this.putResource(
+      queue.queueName,
+      buildQueueOptions(queue),
+      this.queueResourceSerializer,
+      false
+    );
+
+    return this.buildQueueResponse(response);
   }
 
   /**
@@ -541,31 +533,23 @@ export class ServiceBusManagementClient extends ServiceClient {
    */
   async createTopic(topicOptions: TopicDescription): Promise<CreateTopicResponse>;
   async createTopic(topicNameOrOptions: string | TopicDescription): Promise<CreateTopicResponse> {
+    let topic: TopicDescription;
     if (typeof topicNameOrOptions == "string") {
-      log.httpAtomXml(
-        `Performing management operation - createTopic() for "${topicNameOrOptions}"`
-      );
-      const response: HttpOperationResponse = await this.putResource(
-        topicNameOrOptions,
-        buildTopicOptions({ topicName: topicNameOrOptions }),
-        this.topicResourceSerializer,
-        false
-      );
-
-      return this.buildTopicResponse(response);
+      topic = { topicName: topicNameOrOptions };
     } else {
-      log.httpAtomXml(
-        `Performing management operation - createTopic() for "${topicNameOrOptions.topicName}" with options: ${topicNameOrOptions}`
-      );
-      const response: HttpOperationResponse = await this.putResource(
-        topicNameOrOptions.topicName,
-        buildTopicOptions(topicNameOrOptions || {}),
-        this.topicResourceSerializer,
-        false
-      );
-
-      return this.buildTopicResponse(response);
+      topic = topicNameOrOptions;
     }
+    log.httpAtomXml(
+      `Performing management operation - createTopic() for "${topic.topicName}" with options: ${topic}`
+    );
+    const response: HttpOperationResponse = await this.putResource(
+      topic.topicName,
+      buildTopicOptions(topic),
+      this.topicResourceSerializer,
+      false
+    );
+
+    return this.buildTopicResponse(response);
   }
 
   /**
@@ -726,40 +710,33 @@ export class ServiceBusManagementClient extends ServiceClient {
     topicNameOrSubscriptionOptions: string | SubscriptionDescription,
     subscriptionName?: string
   ): Promise<CreateSubscriptionResponse> {
+    let subscription: SubscriptionDescription;
     if (typeof topicNameOrSubscriptionOptions == "string") {
-      log.httpAtomXml(
-        `Performing management operation - createSubscription() for "${subscriptionName}"`
-      );
       if (!subscriptionName) {
         throw new Error("Subscription name is not provided");
       }
-      const fullPath = this.getSubscriptionPath(topicNameOrSubscriptionOptions, subscriptionName);
-      const response: HttpOperationResponse = await this.putResource(
-        fullPath,
-        buildSubscriptionOptions({
-          topicName: topicNameOrSubscriptionOptions,
-          subscriptionName: subscriptionName
-        }),
-        this.subscriptionResourceSerializer,
-        false
-      );
-
-      return this.buildSubscriptionResponse(response);
+      subscription = {
+        topicName: topicNameOrSubscriptionOptions,
+        subscriptionName: subscriptionName
+      };
     } else {
-      const options = topicNameOrSubscriptionOptions;
-      log.httpAtomXml(
-        `Performing management operation - createSubscription() for "${subscriptionName}" with options: ${options}`
-      );
-      const fullPath = this.getSubscriptionPath(options.topicName, options.subscriptionName);
-      const response: HttpOperationResponse = await this.putResource(
-        fullPath,
-        buildSubscriptionOptions(options || {}),
-        this.subscriptionResourceSerializer,
-        false
-      );
-
-      return this.buildSubscriptionResponse(response);
+      subscription = topicNameOrSubscriptionOptions;
     }
+    log.httpAtomXml(
+      `Performing management operation - createSubscription() for "${subscription.subscriptionName}" with options: ${subscription}`
+    );
+    const fullPath = this.getSubscriptionPath(
+      subscription.topicName,
+      subscription.subscriptionName
+    );
+    const response: HttpOperationResponse = await this.putResource(
+      fullPath,
+      buildSubscriptionOptions(subscription),
+      this.subscriptionResourceSerializer,
+      false
+    );
+
+    return this.buildSubscriptionResponse(response);
   }
 
   /**
