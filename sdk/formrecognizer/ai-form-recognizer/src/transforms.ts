@@ -26,15 +26,6 @@ import {
   RecognizedForm,
   FieldText,
   FormField,
-  FieldValue,
-  StringFieldValue,
-  DateFieldValue,
-  TimeFieldValue,
-  PhoneNumberFieldValue,
-  NumberFieldValue,
-  IntegerFieldValue,
-  ObjectFieldValue,
-  ArrayFieldValue,
   Point2D,
   FormModelResponse,
   CustomFormField,
@@ -109,7 +100,11 @@ export function toFormContent(element: string, readResults: FormPage[]): FormCon
   }
 }
 
-export function toFieldText(pageNumber: number, original: KeyValueElementModel, readResults?: FormPage[]): FieldText {
+export function toFieldText(
+  pageNumber: number,
+  original: KeyValueElementModel,
+  readResults?: FormPage[]
+): FieldText {
   return {
     pageNumber,
     text: original.text,
@@ -118,7 +113,11 @@ export function toFieldText(pageNumber: number, original: KeyValueElementModel, 
   };
 }
 
-export function toFormField(pageNumber: number, original: KeyValuePairModel, readResults?: FormPage[]): FormField {
+export function toFormFieldFromKeyValuePairModel(
+  pageNumber: number,
+  original: KeyValuePairModel,
+  readResults?: FormPage[]
+): FormField {
   return {
     name: original.label,
     confidence: original.confidence || 1,
@@ -213,73 +212,65 @@ export function toRecognizeFormResultResponse(
   };
 }
 
-export function toFieldValue(original: FieldValueModel, readResults: FormPage[]): FieldValue {
-  const result =
-    original.type === "object" || original.type === "array"
-      ? {}
-      : {
-          text: original.text,
-          boundingBox: original.boundingBox ? toBoundingBox(original.boundingBox) : undefined,
-          confidence: original.confidence || 1,
-          pageNumber: original.pageNumber,
-          textContent: original.elements?.map((element) => toFormContent(element, readResults))
-        };
+export function toFormFieldFromFieldValueModel(
+  original: FieldValueModel,
+  key: string,
+  readResults: FormPage[]
+): FormField {
+  let formField = {
+    confidence: original.confidence,
+    name: key,
+    valueText: {
+      pageNumber: original.pageNumber || 0,
+      text: original.text,
+      boundingBox: original.boundingBox ? toBoundingBox(original.boundingBox) : undefined,
+      textContent: original.elements?.map((element) => toFormContent(element, readResults))
+    },
+    valueType: original.type
+  };
   switch (original.type) {
     case "string":
-      (result as StringFieldValue).type = "string";
-      (result as StringFieldValue).value = original.valueString;
-      break;
+      return {
+        ...formField,
+        value: original.valueString
+      } as FormField;
     case "date":
-      (result as DateFieldValue).type = "date";
-      (result as DateFieldValue).value = original.valueDate;
-      break;
+      return {
+        ...formField,
+        value: original.valueDate
+      } as FormField;
     case "time":
-      (result as TimeFieldValue).type = "time";
-      (result as TimeFieldValue).value = original.valueTime;
-      break;
-    case "phoneNumber":
-      (result as PhoneNumberFieldValue).type = "phoneNumber";
-      (result as PhoneNumberFieldValue).value = original.valuePhoneNumber;
-      break;
-    case "number":
-      (result as NumberFieldValue).type = "number";
-      (result as NumberFieldValue).value = original.valueNumber;
-      break;
+      return {
+        ...formField,
+        value: original.valueTime
+      } as FormField;
     case "integer":
-      (result as IntegerFieldValue).type = "integer";
-      (result as IntegerFieldValue).value = original.valueInteger;
-      break;
+      return {
+        ...formField,
+        value: original.valueInteger
+      } as FormField;
+    case "number":
+      return {
+        ...formField,
+        value: original.valueNumber
+      } as FormField;
+    case "phoneNumber":
+      return {
+        ...formField,
+        value: original.valuePhoneNumber
+      } as FormField;
     case "array":
-      (result as ArrayFieldValue).type = "array";
-      (result as ArrayFieldValue).value = original.valueArray?.map((a) =>
-        toFieldValue(a, readResults)
-      );
-      break;
+      const result = original.valueArray?.map((fieldValueModel) => toFormFieldFromFieldValueModel(fieldValueModel, key, readResults))
+      return {
+        ...formField,
+        value: result
+      } as FormField;
     case "object":
-      (result as ObjectFieldValue).type = "object";
-      (result as ObjectFieldValue).value = original.valueObject
-        ? toFields(original.valueObject, readResults)
-        : undefined;
-      break;
-    default:
-      throw new Error(`Unknown field value type from ${original}`);
+      return {
+        ...formField,
+        value: original.valueObject ? toFieldsFromFieldValue(original.valueObject, readResults) : undefined
+      } as FormField;
   }
-  return (result as unknown) as FieldValue;
-}
-
-export function toFields(
-  original: { [propertyName: string]: FieldValueModel },
-  readResults: FormPage[]
-): { [propertyName: string]: FieldValue } {
-  const result: { [propertyName: string]: FieldValue } = {};
-  for (const key in original) {
-    // eslint-disable-next-line no-prototype-builtins
-    if (original.hasOwnProperty(key)) {
-      result[key] = toFieldValue(original[key], readResults);
-    }
-  }
-
-  return result;
 }
 
 export function toFieldsFromFieldValue(
@@ -294,30 +285,8 @@ export function toFieldsFromFieldValue(
         result[key] = { name: key };
         continue;
       }
-      const fieldValue = toFieldValue(original[key]!, readResults);
-      if (fieldValue.type === "array" || fieldValue.type === "object") {
-        const formField: FormField = {
-          confidence: 1,
-          name: key,
-          value: fieldValue.value,
-          valueType: fieldValue.type
-        };
-        result[key] = formField;
-      } else {
-        const formField: FormField = {
-          confidence: fieldValue.confidence,
-          name: key,
-          valueText: {
-            pageNumber: fieldValue.pageNumber || 0,
-            text: fieldValue.text,
-            boundingBox: fieldValue.boundingBox,
-            textContent: fieldValue.textContent
-          },
-          value: fieldValue.value,
-          valueType: fieldValue.type
-        };
-        result[key] = formField;
-      }
+      const formField = toFormFieldFromFieldValueModel(original[key]!, key, readResults);
+      result[key] = formField;
     }
   }
 
@@ -332,7 +301,7 @@ export function toFieldsFromKeyValuePairs(
   const result: { [propertyName: string]: FormField } = {};
   for (let i = 0; i < original.length; i++) {
     const pair = original[i];
-    const stringField = toFormField(pageNumber, pair, pages);
+    const stringField = toFormFieldFromKeyValuePairModel(pageNumber, pair, pages);
     stringField.name = stringField.name || `field-${i}`;
 
     result[`field-${i}`] = stringField;
@@ -346,7 +315,9 @@ export function toFormFromPageResult(original: PageResultModel, pages: FormPage[
     formType: `form-${original.clusterId}`,
     pageRange: { firstPageNumber: original.pageNumber, lastPageNumber: original.pageNumber },
     pages,
-    fields: original.keyValuePairs ? toFieldsFromKeyValuePairs(original.pageNumber, original.keyValuePairs, pages) : {}
+    fields: original.keyValuePairs
+      ? toFieldsFromKeyValuePairs(original.pageNumber, original.keyValuePairs, pages)
+      : {}
   };
 }
 
@@ -362,14 +333,16 @@ export function toRecognizedForm(original: DocumentResultModel, pages: FormPage[
 export function toRecognizeContentResultResponse(
   original: GetAnalyzeLayoutResultResponse
 ): RecognizeContentResultResponse {
-  function toRecognizeContentResult(model?: AnalyzeResultModel): { version?: string, pages?: FormPage[] } | undefined {
+  function toRecognizeContentResult(
+    model?: AnalyzeResultModel
+  ): { version?: string; pages?: FormPage[] } | undefined {
     if (!model) {
       return undefined;
     }
     const pages = toFormPages(model.readResults, model.pageResults);
     return {
       version: model.version,
-      pages: pages,
+      pages: pages
     };
   }
 
@@ -397,7 +370,7 @@ function toRecognizedReceipt(result: DocumentResultModel, pages: FormPage[]): Re
   const recognizedForm = toRecognizedForm(result, pages);
   return {
     recognizedForm
-  }
+  };
 }
 
 export function toReceiptResultResponse(
@@ -421,9 +394,11 @@ export function toReceiptResultResponse(
   return {
     ...common,
     version: result.analyzeResult!.version,
-    receipts: result.analyzeResult!.documentResults!.filter((d) => {
-      return !!d.fields
-    }).map((d) => toRecognizedReceipt(d, pages))
+    receipts: result
+      .analyzeResult!.documentResults!.filter((d) => {
+        return !!d.fields;
+      })
+      .map((d) => toRecognizedReceipt(d, pages))
   };
 }
 

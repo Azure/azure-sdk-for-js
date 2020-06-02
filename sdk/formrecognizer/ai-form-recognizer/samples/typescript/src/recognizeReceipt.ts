@@ -5,8 +5,7 @@
  * This sample demonstrates how to recognize US sales receipts from a file.
  */
 
-import { FormRecognizerClient, AzureKeyCredential } from "../../../";
-//import { FormRecognizerClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
+import { FormRecognizerClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
 
 import * as fs from "fs";
 
@@ -44,59 +43,35 @@ export async function main() {
   console.log("First receipt:");
   const receiptTypeField = receipt.recognizedForm.fields["MerchantName"];
   if (receiptTypeField.valueType === "string") {
-    console.log(` : '${receiptTypeField.value}', with confidence of ${receiptTypeField.confidence}`);
+    console.log(`  Receipt Type: '${receiptTypeField.value || "<missing>"}', with confidence of ${receiptTypeField.confidence}`);
   }
   const merchantNameField = receipt.recognizedForm.fields["MerchantName"];
   if (merchantNameField.valueType === "string") {
-    console.log(` : '${merchantNameField.value}', with confidence of ${merchantNameField.confidence}`);
+    console.log(`  Merchant Name: '${merchantNameField.value || "<missing>"}', with confidence of ${merchantNameField.confidence}`);
+  }
+  const transactionDate = receipt.recognizedForm.fields["TransactionDate"];
+  if (transactionDate.valueType === "date") {
+    console.log(`  Transaction Date: '${transactionDate.value || "<missing>"}', with confidence of ${transactionDate.confidence}`);
   }
   const itemsField = receipt.recognizedForm.fields["Items"];
   if (itemsField.valueType === "array") {
-    
-
-    console.log(` : '${.value}', with confidence of ${.confidence}`);
+    for (const itemField of itemsField.value || []) {
+      if (itemField.valueType === "object") {
+        const itemNameField = itemField.value!["Name"];
+        if (itemNameField.valueType === "string") {
+          console.log(`    Item Name: '${itemNameField.value || "<missing>"}', with confidence of ${itemNameField.confidence}`);
+        }
+      }
+    }
   }
-  const  = receipt.recognizedForm.fields[""];
-  if (.valueType === "string") {
-    console.log(` : '${.value}', with confidence of ${.confidence}`);
+  const totalField = receipt.recognizedForm.fields["Total"];
+  if (totalField.valueType === "number") {
+    console.log(`  Total: '${totalField.value || "<missing>"}', with confidence of ${totalField.confidence}`);
   }
-  const  = receipt.recognizedForm.fields[""];
-  if (.valueType === "string") {
-    console.log(` : '${.value}', with confidence of ${.confidence}`);
-  }
-
-  // console.log(`Receipt type: ${usReceipt.receiptType.type} with confidence ${usReceipt.receiptType.confidence}`);
-  // console.log(
-  //   `Merchant Name: ${usReceipt.merchantName.value} (confidence: ${usReceipt.merchantName.confidence})`
-  // );
-  // console.log(
-  //   `Transaction Date: ${usReceipt.transactionDate.value} (confidence: ${usReceipt.transactionDate.confidence})`
-  // );
-  // console.log("Receipt items:");
-  // console.log(`  name\tprice\tquantity\ttotalPrice`);
-  // for (const item of usReceipt.items) {
-  //   const name = `${optionalToString(item.name?.value)} (confidence: ${optionalToString(
-  //     item.name?.confidence
-  //   )})`;
-  //   const price = `${optionalToString(item.price?.value)} (confidence: ${optionalToString(
-  //     item.price?.confidence
-  //   )})`;
-  //   const quantity = `${optionalToString(item.quantity?.value)} (confidence: ${optionalToString(
-  //     item.quantity?.confidence
-  //   )})`;
-  //   const totalPrice = `${optionalToString(item.totalPrice?.value)} (confidence: ${optionalToString(
-  //     item.totalPrice?.confidence
-  //   )})`;
-  //   console.log(`  ${name}\t${price}\t${quantity}\t${totalPrice}`);
-  // }
 
   // raw fields are also included in the result
   console.log("Raw 'MerchantAddress' field:");
-  console.log(usReceipt.recognizedForm.fields["MerchantAddress"]);
-}
-
-function optionalToString(value: unknown = undefined) {
-  return `${value || "<missing>"}`;
+  console.log(receipt.recognizedForm.fields["MerchantAddress"]);
 }
 
 main().catch((err) => {

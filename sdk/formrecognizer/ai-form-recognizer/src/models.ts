@@ -221,7 +221,7 @@ export interface FieldText {
  * Represents recognized text elements in label-value pairs.
  * For example, "Address": "One Microsoft Way, Redmond, WA"
  */
-export interface FormField {
+export type FormField = {
   /**
    * Confidence value.
    */
@@ -238,15 +238,16 @@ export interface FormField {
    * Text of the recognized value of the field.
    */
   valueText?: FieldText;
-  /**
-   * Value of the field.
-   */
-  value?: FieldValueTypes;
-  /**
-   * Data type of the value property
-   */
-  valueType?: ValueTypes;
-}
+} & (
+  | { value?: string, valueType?: "string" }
+  | { value?: number, valueType?: "number" }
+  | { value?: Date, valueType?: "date" }
+  | { value?: string, valueType?: "time" }
+  | { value?: string, valueType?: "phoneNumber" }
+  | { value?: number, valueType?: "integer" }
+  | { value?: FormField[], valueType?: "array" }
+  | { value?: { [propertyName: string]: FormField }, valueType?: "object" }
+)
 
 /**
  * Represents a Form page range
@@ -363,127 +364,6 @@ export interface CommonFieldValue {
    * The 1-based page number in the input document.
    */
   pageNumber?: number;
-}
-
-/**
- * Possible JavaScript types for a field value.
- */
-export type FieldValueTypes =
-  | string
-  | Date
-  | number
-  | FieldValue[]
-  | { [propertyName: string]: FieldValue };
-
-/**
- * Types of a form field.
- */
-export type ValueTypes =
-  | "string"
-  | "date"
-  | "time"
-  | "phoneNumber"
-  | "number"
-  | "integer"
-  | "array"
-  | "object";
-
-/**
- * Represents a field of string value.
- */
-export type StringFieldValue = {
-  type: "string";
-  value?: string;
-} & CommonFieldValue;
-
-/**
- * Represents a date field
- */
-export type DateFieldValue = {
-  type: "date";
-  value?: Date;
-} & CommonFieldValue;
-
-/**
- * Represent a time field
- */
-export type TimeFieldValue = {
-  type: "time";
-  value?: string;
-} & CommonFieldValue;
-
-/**
- * Represents a phone number field
- */
-export type PhoneNumberFieldValue = {
-  type: "phoneNumber";
-  value?: string;
-} & CommonFieldValue;
-
-/**
- * Represents a number field
- */
-export type NumberFieldValue = {
-  type: "number";
-  value?: number;
-} & CommonFieldValue;
-
-/**
- * Represents an integer field
- */
-export type IntegerFieldValue = {
-  type: "integer";
-  value?: number;
-} & CommonFieldValue;
-
-/**
- * Represents a special field that contains an array of fields
- */
-export interface ArrayFieldValue {
-  type: "array";
-  value?: FieldValue[];
-}
-
-/**
- * Represents a special field that contains other fields as its properties
- */
-export interface ObjectFieldValue {
-  type: "object";
-  value?: { [propertyName: string]: FieldValue };
-}
-
-/**
- * Union type of all field types
- */
-export type FieldValue =
-  | StringFieldValue
-  | DateFieldValue
-  | TimeFieldValue
-  | PhoneNumberFieldValue
-  | NumberFieldValue
-  | IntegerFieldValue
-  | ArrayFieldValue
-  | ObjectFieldValue;
-
-/**
- * Represents an recognized item field in a receipt.
- */
-export type ReceiptItemField = {
-  type: "object";
-  value: {
-    Name?: StringFieldValue;
-    Quantity?: NumberFieldValue;
-    Price?: NumberFieldValue;
-    TotalPrice?: NumberFieldValue;
-  };
-} & CommonFieldValue;
-
-/**
- * Represents a list of recognized receipt items in a receipt.
- */
-export interface ReceiptItemArrayField {
-  type: "array";
-  value: ReceiptItemField[];
 }
 
 /**

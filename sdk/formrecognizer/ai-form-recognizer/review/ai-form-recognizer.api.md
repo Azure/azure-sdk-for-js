@@ -31,14 +31,6 @@ export interface AnalyzeOperationResultModel {
     status: OperationStatus;
 }
 
-// @public
-export interface ArrayFieldValue {
-    // (undocumented)
-    type: "array";
-    // (undocumented)
-    value?: FieldValue[];
-}
-
 export { AzureKeyCredential }
 
 // @public
@@ -224,12 +216,6 @@ export interface CustomFormSubmodel {
 }
 
 // @public
-export type DateFieldValue = {
-    type: "date";
-    value?: Date;
-} & CommonFieldValue;
-
-// @public
 export type DeleteModelOptions = FormRecognizerOperationOptions;
 
 // @public
@@ -239,14 +225,6 @@ export interface FieldText {
     text?: string;
     textContent?: FormContent[];
 }
-
-// @public
-export type FieldValue = StringFieldValue | DateFieldValue | TimeFieldValue | PhoneNumberFieldValue | NumberFieldValue | IntegerFieldValue | ArrayFieldValue | ObjectFieldValue;
-
-// @public
-export type FieldValueTypes = string | Date | number | FieldValue[] | {
-    [propertyName: string]: FieldValue;
-};
 
 // @public
 export type FormContent = FormWord | FormLine;
@@ -262,14 +240,38 @@ export interface FormContentCommon {
 export type FormContentType = "application/pdf" | "image/jpeg" | "image/png" | "image/tiff";
 
 // @public
-export interface FormField {
+export type FormField = {
     confidence?: number;
     labelText?: FieldText;
     name?: string;
-    value?: FieldValueTypes;
     valueText?: FieldText;
-    valueType?: ValueTypes;
-}
+} & ({
+    value?: string;
+    valueType?: "string";
+} | {
+    value?: number;
+    valueType?: "number";
+} | {
+    value?: Date;
+    valueType?: "date";
+} | {
+    value?: string;
+    valueType?: "time";
+} | {
+    value?: string;
+    valueType?: "phoneNumber";
+} | {
+    value?: number;
+    valueType?: "integer";
+} | {
+    value?: FormField[];
+    valueType?: "array";
+} | {
+    value?: {
+        [propertyName: string]: FormField;
+    };
+    valueType?: "object";
+});
 
 // @public
 export interface FormFieldsReport {
@@ -404,12 +406,6 @@ export type GetCopyModelResultOptions = FormRecognizerOperationOptions;
 export type GetModelOptions = FormRecognizerOperationOptions;
 
 // @public
-export type IntegerFieldValue = {
-    type: "integer";
-    value?: number;
-} & CommonFieldValue;
-
-// @public
 export interface KeysResult {
     clusters: {
         [propertyName: string]: string[];
@@ -470,29 +466,7 @@ export interface ModelsSummary {
 }
 
 // @public
-export type NumberFieldValue = {
-    type: "number";
-    value?: number;
-} & CommonFieldValue;
-
-// @public
-export interface ObjectFieldValue {
-    // (undocumented)
-    type: "object";
-    // (undocumented)
-    value?: {
-        [propertyName: string]: FieldValue;
-    };
-}
-
-// @public
 export type OperationStatus = "notStarted" | "running" | "succeeded" | "failed";
-
-// @public
-export type PhoneNumberFieldValue = {
-    type: "phoneNumber";
-    value?: string;
-} & CommonFieldValue;
 
 // @public
 export interface Point2D {
@@ -503,25 +477,6 @@ export interface Point2D {
 export { PollerLike }
 
 export { PollOperationState }
-
-// @public
-export interface ReceiptItemArrayField {
-    // (undocumented)
-    type: "array";
-    // (undocumented)
-    value: ReceiptItemField[];
-}
-
-// @public
-export type ReceiptItemField = {
-    type: "object";
-    value: {
-        Name?: StringFieldValue;
-        Quantity?: NumberFieldValue;
-        Price?: NumberFieldValue;
-        TotalPrice?: NumberFieldValue;
-    };
-} & CommonFieldValue;
 
 // @public
 export type ReceiptPollerLike = PollerLike<PollOperationState<RecognizedReceiptArray>, RecognizedReceiptArray>;
@@ -595,18 +550,6 @@ export type RecognizeReceiptsOptions = FormRecognizerOperationOptions & {
 export { RestResponse }
 
 // @public
-export type StringFieldValue = {
-    type: "string";
-    value?: string;
-} & CommonFieldValue;
-
-// @public
-export type TimeFieldValue = {
-    type: "time";
-    value?: string;
-} & CommonFieldValue;
-
-// @public
 export interface TrainingDocumentInfo {
     documentName: string;
     errors: FormRecognizerError[];
@@ -636,9 +579,6 @@ export interface TrainResult {
     fields?: FormFieldsReport[];
     trainingDocuments: TrainingDocumentInfo[];
 }
-
-// @public
-export type ValueTypes = "string" | "date" | "time" | "phoneNumber" | "number" | "integer" | "array" | "object";
 
 
 // Warnings were encountered during analysis:
