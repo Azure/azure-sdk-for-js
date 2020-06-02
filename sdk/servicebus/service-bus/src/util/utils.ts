@@ -516,6 +516,7 @@ export async function waitForTimeoutOrAbortOrResolve<T>(args: {
     }
   };
 
+  // eslint-disable-next-line promise/param-names
   const abortOrTimeoutPromise = new Promise<T>((_resolve, reject) => {
     clearAbortSignal = checkAndRegisterWithAbortSignal(reject, args.abortMessage, args.abortSignal);
 
@@ -525,9 +526,8 @@ export async function waitForTimeoutOrAbortOrResolve<T>(args: {
     }, args.timeoutMs);
   });
 
-  const actionPromise = args.actionFn();
   try {
-    return await Promise.race([abortOrTimeoutPromise, actionPromise]);
+    return await Promise.race([abortOrTimeoutPromise, args.actionFn()]);
   } finally {
     clearAbortSignalAndTimer();
   }

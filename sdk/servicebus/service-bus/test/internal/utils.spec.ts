@@ -55,8 +55,6 @@ describe("utils", () => {
       };
 
       globalObject.clearTimeout = (timerIdToClear: NodeJS.Timer): any => {
-        assert.exists(timerIdToClear, "All timers that are cleared actually exist");
-
         if (timerIdToClear === ourTimerId) {
           assert.isFalse(timerWasCleared, "Timer should not be cleared multiple times");
           timerWasCleared = true;
