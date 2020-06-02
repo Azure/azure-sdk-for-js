@@ -4,78 +4,72 @@
 /// <reference lib="es2015" />
 /// <reference lib="esnext.asynciterable" />
 
-export { ServiceBusClientOptions } from "./constructorHelpers";
 export {
-  TokenType,
-  TokenCredential,
   delay,
   MessagingError,
   RetryOptions,
+  TokenCredential,
+  TokenType,
   WebSocketOptions
 } from "@azure/core-amqp";
-
-export { SessionReceiverOptions, SessionMessageHandlerOptions } from "./session/messageSession";
-
-export {
-  ReceivedMessage,
-  ServiceBusMessage,
-  DeadLetterOptions,
-  ReceivedMessageWithLock
-} from "./serviceBusMessage";
-export { ServiceBusMessageBatch } from "./serviceBusMessageBatch";
-
 export { Delivery, WebSocketImpl } from "rhea-promise";
-
+export { ServiceBusClientOptions } from "./constructorHelpers";
+export { CorrelationRuleFilter } from "./core/managementClient";
 export {
-  GetMessageIteratorOptions,
-  CreateSessionReceiverOptions,
+  BrowseMessagesOptions,
+  CreateBatchOptions,
   CreateSenderOptions,
+  CreateSessionReceiverOptions,
+  GetMessageIteratorOptions,
   MessageHandlerOptions,
   MessageHandlers,
   ReceiveBatchOptions,
   SubscribeOptions,
-  WaitTimeOptions,
-  CreateBatchOptions,
-  BrowseMessagesOptions
+  WaitTimeOptions
 } from "./models";
 export { OperationOptions } from "./modelsToBeSharedWithEventHubs";
-
 export { Receiver } from "./receivers/receiver";
 export { SessionReceiver } from "./receivers/sessionReceiver";
 export { Sender } from "./sender";
-export { ServiceBusClient } from "./serviceBusClient";
-
 export { QueueDescription, QueueRuntimeInfo } from "./serializers/queueResourceSerializer";
-export { TopicDescription, TopicRuntimeInfo } from "./serializers/topicResourceSerializer";
+export { RuleDescription, SqlAction, SqlRuleFilter } from "./serializers/ruleResourceSerializer";
 export {
   SubscriptionDescription,
   SubscriptionRuntimeInfo
 } from "./serializers/subscriptionResourceSerializer";
-export { RuleDescription, SqlAction, SqlRuleFilter } from "./serializers/ruleResourceSerializer";
-export { CorrelationRuleFilter } from "./core/managementClient";
+export { TopicDescription, TopicRuntimeInfo } from "./serializers/topicResourceSerializer";
 export {
-  ServiceBusManagementClient,
-  ServiceBusManagementClientOptions,
   CreateQueueResponse,
   CreateRuleResponse,
   CreateSubscriptionResponse,
   CreateTopicResponse,
   DeleteQueueResponse,
   DeleteRuleResponse,
-  DeleteTopicResponse,
   DeleteSubscriptionResponse,
+  DeleteTopicResponse,
   GetQueueResponse,
   GetQueuesResponse,
-  ListRequestOptions,
   GetRuleResponse,
-  GetSubscriptionResponse,
-  GetTopicResponse,
   GetRulesResponse,
+  GetSubscriptionResponse,
   GetSubscriptionsResponse,
+  GetTopicResponse,
   GetTopicsResponse,
+  ListRequestOptions,
+  ServiceBusManagementClient,
+  ServiceBusManagementClientOptions,
   UpdateQueueResponse,
   UpdateRuleResponse,
   UpdateSubscriptionResponse,
   UpdateTopicResponse
 } from "./serviceBusAtomManagementClient";
-export { MessageCountDetails, AuthorizationRule, EntityStatus } from "./util/utils";
+export { ServiceBusClient } from "./serviceBusClient";
+export {
+  DeadLetterOptions,
+  ReceivedMessage,
+  ReceivedMessageWithLock,
+  ServiceBusMessage
+} from "./serviceBusMessage";
+export { ServiceBusMessageBatch } from "./serviceBusMessageBatch";
+export { SessionMessageHandlerOptions, SessionReceiverOptions } from "./session/messageSession";
+export { AuthorizationRule, EntityStatus, MessageCountDetails } from "./util/utils";
