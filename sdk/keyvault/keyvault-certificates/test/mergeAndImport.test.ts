@@ -95,7 +95,7 @@ describe("Certificates client - merge and import certificates", () => {
 
   // The signed certificate will never be the same, so we can't play it back.
   // This test is only designed to work on NodeJS, since we use child_process to interact with openssl.
-  it("can merge a self signed certificate", async function() {
+  it("can merge a self signed certificate", async function(): Promise<void> {
     recorder.skip(
       undefined,
       "The signed certificate will never be the same, so we can't play it back."

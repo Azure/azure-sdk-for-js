@@ -134,7 +134,7 @@ export class Containers {
       };
     }
 
-    const response = await this.clientContext.create<ContainerRequest>({
+    const response = await this.clientContext.create<ContainerRequest, ContainerDefinition>({
       body,
       path,
       resourceType: ResourceType.container,

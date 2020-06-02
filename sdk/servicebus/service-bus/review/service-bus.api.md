@@ -383,6 +383,8 @@ export interface ServiceBusMessage {
 // @public
 export interface ServiceBusMessageBatch {
     readonly count: number;
+    // @internal
+    _generateMessage(): Buffer;
     readonly maxSizeInBytes: number;
     readonly sizeInBytes: number;
     tryAdd(message: ServiceBusMessage): boolean;
