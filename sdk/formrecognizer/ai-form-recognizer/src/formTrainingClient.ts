@@ -322,10 +322,15 @@ export class FormTrainingClient {
   }
 
   private async *listModelsPage(
-    _settings: PageSettings,
+    settings: PageSettings,
     options: ListModelsOptions = {}
   ): AsyncIterableIterator<ListCustomModelsResponse> {
-    let result = await this.list(options);
+    let result: ListCustomModelsResponse;
+    if (settings.continuationToken) {
+      result = await this.listNextPage(settings.continuationToken, options);
+    } else {
+      result = await this.list(options);
+    }
     yield result;
 
     while (result.nextLink) {
