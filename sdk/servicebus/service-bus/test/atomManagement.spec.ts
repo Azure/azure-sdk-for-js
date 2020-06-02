@@ -731,7 +731,6 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
     input: undefined,
     output: {
       autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
-      messageCountDetails: undefined,
       deadLetteringOnMessageExpiration: false,
       deadLetteringOnFilterEvaluationExceptions: true,
       defaultMessageTtl: "P10675199DT2H48M5.4775807S",
@@ -739,15 +738,10 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
       enableBatchedOperations: true,
       forwardTo: undefined,
       userMetadata: undefined,
-      defaultRuleDescription: undefined,
-      enablePartitioning: undefined,
-      entityAvailabilityStatus: "Available",
       lockDuration: "PT1M",
       maxDeliveryCount: 10,
-      maxSizeInMegabytes: undefined,
       messageCount: 0,
       requiresSession: false,
-      sizeInBytes: undefined,
       status: "Active",
       subscriptionName: managementSubscription1,
       topicName: managementTopic1
@@ -778,17 +772,11 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
       requiresSession: true,
 
       forwardDeadLetteredMessagesTo: undefined,
-      defaultRuleDescription: undefined,
 
       messageCount: 0,
-      enablePartitioning: undefined,
-      maxSizeInMegabytes: undefined,
-      sizeInBytes: undefined,
 
       forwardTo: undefined,
       userMetadata: "test metadata",
-      messageCountDetails: undefined,
-      entityAvailabilityStatus: "Available",
       status: "ReceiveDisabled",
 
       subscriptionName: managementSubscription1,
