@@ -84,7 +84,9 @@ export {
   DataSource,
   DataChangeDetectionPolicy,
   DataDeletionDetectionPolicy,
-  GetServiceStatisticsOptions
+  GetServiceStatisticsOptions,
+  IndexIterator,
+  IndexNameIterator
 } from "./serviceModels";
 export { default as GeographyPoint } from "./geographyPoint";
 export { odata } from "./odata";

@@ -9,7 +9,7 @@ import {
   assertThrowsRestError
 } from "./testHelpers";
 import * as assert from "assert";
-import { Recorder, isRecordMode, isPlaybackMode } from "@azure/test-utils-recorder";
+import { Recorder } from "@azure/test-utils-recorder";
 
 describe("etags", () => {
   let client: AppConfigurationClient;

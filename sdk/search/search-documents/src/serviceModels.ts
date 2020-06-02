@@ -76,6 +76,7 @@ import {
   DataSourceCredentials,
   DataContainer
 } from "./generated/service/models";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /**
  * Options for a list skillsets operation.
@@ -647,6 +648,20 @@ export interface SynonymMap {
    */
   etag?: string;
 }
+
+/**
+ * An iterator for listing the indexes that exist in the Search service. Will make requests
+ * as needed during iteration. Use .byPage() to make one request to the server
+ * per iteration.
+ */
+export type IndexIterator = PagedAsyncIterableIterator<Index, Index[], {}>;
+
+/**
+ * An iterator for listing the indexes that exist in the Search service. Will make requests
+ * as needed during iteration. Use .byPage() to make one request to the server
+ * per iteration.
+ */
+export type IndexNameIterator = PagedAsyncIterableIterator<string, string[], {}>;
 
 /**
  * Represents a search index definition, which describes the fields and search behavior of an
