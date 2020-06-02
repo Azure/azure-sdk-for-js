@@ -562,23 +562,6 @@ describe("Transforms", () => {
 
     assert.ok(transformed.receipts, "Expecting non-empty recognized receipts");
     assert.equal(transformed.receipts![0].recognizedForm.formType, "prebuilt:receipt");
-    assert.equal(transformed.receipts![0].locale, "US"); // default to "US" for now
-  });
-
-  it("toUSReceipt() converts receipt to USA sales receipt", () => {
-    const original: GetAnalyzeReceiptResultResponse = JSON.parse(receiptResponseString);
-    const receiptResult = toReceiptResultResponse(original);
-    const usReceipt = receiptResult.receipts![0];
-
-    assert.equal(usReceipt.receiptType.confidence, 0.692);
-    assert.equal(usReceipt.receiptType.type, "Itemized");
-    assert.equal(usReceipt.locale, "US");
-    assert.ok(usReceipt.tax, "Expecting valid 'tax' field");
-    assert.equal(usReceipt.tax!.name, "Tax");
-    assert.ok(usReceipt.tip, "Expecting valid 'tip' field");
-    assert.equal(typeof usReceipt.tip!.value!, "number");
-    assert.ok(usReceipt.total, "Expecting valid 'total' field");
-    assert.equal(usReceipt.total!.value!, 14.5);
   });
 });
 

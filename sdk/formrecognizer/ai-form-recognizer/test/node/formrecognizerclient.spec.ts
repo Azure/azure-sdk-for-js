@@ -125,14 +125,6 @@ describe("FormRecognizerClient NodeJS only", () => {
     );
     const usReceipt = receipts![0];
     assert.equal(usReceipt.recognizedForm.formType, "prebuilt:receipt");
-    assert.equal(usReceipt.locale, "US"); // default to "US" for now
-    assert.equal(usReceipt.receiptType.type, "Itemized");
-    assert.equal(usReceipt.locale, "US");
-    assert.ok(usReceipt.tax, "Expecting valid 'tax' field");
-    assert.equal(usReceipt.tax!.name, "Tax");
-    assert.ok(usReceipt.total, "Expecting valid 'total' field");
-    assert.equal(typeof usReceipt.total!.value!, "number");
-    assert.equal(usReceipt.total!.value!, 1203.39);
   });
 
   it("recognizes receipt from a jpeg file stream", async () => {
@@ -184,8 +176,5 @@ describe("FormRecognizerClient NodeJS only", () => {
     );
     const usReceipt = receipts![0];
     assert.equal(usReceipt.recognizedForm.formType, "prebuilt:receipt");
-    assert.equal(usReceipt.locale, "US"); // default to "US" for now
-    assert.equal(usReceipt.receiptType.type, "Itemized");
-    assert.equal(usReceipt.locale, "US");
   });
 }).timeout(60000);

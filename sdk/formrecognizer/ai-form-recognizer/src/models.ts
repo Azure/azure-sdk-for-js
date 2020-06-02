@@ -487,31 +487,9 @@ export interface ReceiptItemArrayField {
 }
 
 /**
- * Represents a line item in a receipt.
+ * Different types of receipts.
  */
-export interface USReceiptItem {
-  /**
-   * Name of the receipt item
-   */
-  name?: FormField;
-  /**
-   * Price of the receipt item
-   */
-  price?: FormField;
-  /**
-   * Quantity of the receipt item
-   */
-  quantity?: FormField;
-  /**
-   * Total price of the receipt item
-   */
-  totalPrice?: FormField;
-}
-
-/**
- * Different types of US receipts.
- */
-export type USReceiptType = {
+export type ReceiptType = {
   type: "Unrecognized" | "Itemized" | "CreditCard" | "Gas" | "Parking";
   /**
    * Confidence value.
@@ -520,72 +498,14 @@ export type USReceiptType = {
 };
 
 /**
- * United States receipt
- */
-export interface USReceipt {
-  /**
-   * Receipt type field
-   */
-  receiptType: USReceiptType;
-  /**
-   * Merchant name field
-   */
-  merchantName: FormField;
-  /**
-   * Merchant phone number field
-   */
-  merchantPhoneNumber: FormField;
-  /**
-   * Merchant address field
-   */
-  merchantAddress: FormField;
-  /**
-   * Receipt item list field
-   */
-  items: USReceiptItem[];
-  /**
-   * Subtotal field
-   */
-  subtotal: FormField;
-  /**
-   * Tax field
-   */
-  tax: FormField;
-  /**
-   * Tip field
-   */
-  tip: FormField;
-  /**
-   * Total field
-   */
-  total: FormField;
-  /**
-   * Transaction date field
-   */
-  transactionDate: FormField;
-  /**
-   * Transaction time field
-   */
-  transactionTime: FormField;
-}
-
-/**
  * Recognized Receipt
  */
 export type RecognizedReceipt = {
   /**
-   * Locale of the receipt
-   */
-  locale: string;
-  /**
    * Recognized form
    */
   recognizedForm: RecognizedForm;
-} & (
-  | { locale: "US" } & USReceipt
-//  | { locale: "UK" } & UKReceipt
-// ...
-)
+}
 
 /*
  * Array of {@link RecognizedReceipt}

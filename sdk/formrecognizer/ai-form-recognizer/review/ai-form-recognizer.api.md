@@ -527,6 +527,12 @@ export type ReceiptItemField = {
 export type ReceiptPollerLike = PollerLike<PollOperationState<RecognizedReceiptArray>, RecognizedReceiptArray>;
 
 // @public
+export type ReceiptType = {
+    type: "Unrecognized" | "Itemized" | "CreditCard" | "Gas" | "Parking";
+    confidence?: number;
+};
+
+// @public
 export type RecognizeContentOptions = FormRecognizerOperationOptions;
 
 // @public
@@ -561,11 +567,8 @@ export interface RecognizedFormArray extends Array<RecognizedForm> {
 
 // @public
 export type RecognizedReceipt = {
-    locale: string;
     recognizedForm: RecognizedForm;
-} & ({
-    locale: "US";
-} & USReceipt);
+};
 
 // @public (undocumented)
 export interface RecognizedReceiptArray extends Array<RecognizedReceipt> {
@@ -633,35 +636,6 @@ export interface TrainResult {
     fields?: FormFieldsReport[];
     trainingDocuments: TrainingDocumentInfo[];
 }
-
-// @public
-export interface USReceipt {
-    items: USReceiptItem[];
-    merchantAddress: FormField;
-    merchantName: FormField;
-    merchantPhoneNumber: FormField;
-    receiptType: USReceiptType;
-    subtotal: FormField;
-    tax: FormField;
-    tip: FormField;
-    total: FormField;
-    transactionDate: FormField;
-    transactionTime: FormField;
-}
-
-// @public
-export interface USReceiptItem {
-    name?: FormField;
-    price?: FormField;
-    quantity?: FormField;
-    totalPrice?: FormField;
-}
-
-// @public
-export type USReceiptType = {
-    type: "Unrecognized" | "Itemized" | "CreditCard" | "Gas" | "Parking";
-    confidence?: number;
-};
 
 // @public
 export type ValueTypes = "string" | "date" | "time" | "phoneNumber" | "number" | "integer" | "array" | "object";

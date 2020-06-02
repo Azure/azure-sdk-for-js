@@ -39,10 +39,7 @@ import {
   FormModelResponse,
   CustomFormField,
   CustomFormSubmodel,
-  RecognizedReceipt,
-  USReceiptType,
-  USReceiptItem,
-  ReceiptItemArrayField,
+  RecognizedReceipt
 } from "./models";
 import {
   RecognizeFormResultResponse,
@@ -397,114 +394,10 @@ function toRecognizedReceipt(result: DocumentResultModel, pages: FormPage[]): Re
     throw new RangeError("The document type is not 'prebuilt:receipt'");
   }
 
-  const form = toRecognizedForm(result, pages);
-  // in the future service would return locale info
-  const locale = "US";
-  switch (locale) {
-    case "US":
-      return toUSReceipt(form);
-    // case "UK":
-    //   return toUKReceipt(form);
-    default:
-      throw new RangeError(`Unsupported receipt with locale '${locale}'`);
-  }
-}
-
-function toReceiptType(field: FormField): USReceiptType {
-  if (field.valueType === "string") {
-    const stringValue = field.value as string;
-    switch (stringValue) {
-      case "Itemized":
-      case "CreditCard":
-      case "Gas":
-      case "Parking":
-        return { confidence: field.confidence, type: stringValue };
-      default:
-        return { confidence: field.confidence, type: "Unrecognized" };
-    }
-  }
-
-  throw new Error(`Expect receipt type field to have 'string' type but got ${field.valueType}`);
-}
-
-function toUSReceiptItems(items: ReceiptItemArrayField): USReceiptItem[] {
-  return items.value?.map((item) => {
-    const name: FormField = {
-      name: "Name",
-      confidence: item.value.Name?.confidence,
-      value: item.value.Name?.value,
-      valueType: item.value.Name?.type,
-      valueText: {
-        pageNumber: item.value.Name?.pageNumber || 0,
-        text: item.value.Name?.text,
-        boundingBox: item.value.Name?.boundingBox,
-        textContent: item.value.Name?.textContent
-      }
-    };
-    const quantity: FormField = {
-      name: "Quantity",
-      confidence: item.value.Quantity?.confidence,
-      value: item.value.Quantity?.value,
-      valueType: item.value.Quantity?.type,
-      valueText: {
-        pageNumber: item.value.Quantity?.pageNumber || 0,
-        text: item.value.Quantity?.text,
-        boundingBox: item.value.Quantity?.boundingBox,
-        textContent: item.value.Quantity?.textContent
-      }
-    };
-    const price: FormField = {
-      name: "Price",
-      confidence: item.value.Price?.confidence,
-      value: item.value.Price?.value,
-      valueType: item.value.Price?.type,
-      valueText: {
-        pageNumber: item.value.Price?.pageNumber || 0,
-        text: item.value.Price?.text,
-        boundingBox: item.value.Price?.boundingBox,
-        textContent: item.value.Price?.textContent
-      }
-    };
-    const totalPrice: FormField = {
-      name: "TotalPrice",
-      confidence: item.value.TotalPrice?.confidence,
-      value: item.value.TotalPrice?.value,
-      valueType: item.value.TotalPrice?.type,
-      valueText: {
-        pageNumber: item.value.TotalPrice?.pageNumber || 0,
-        text: item.value.TotalPrice?.text,
-        boundingBox: item.value.TotalPrice?.boundingBox,
-        textContent: item.value.TotalPrice?.textContent
-      }
-    };
-
-    return {
-      name,
-      quantity,
-      price,
-      totalPrice
-    };
-  });
-}
-
-function toUSReceipt(form: RecognizedForm): RecognizedReceipt {
+  const recognizedForm = toRecognizedForm(result, pages);
   return {
-    locale: "US",
-    recognizedForm: form,
-    items: form.fields["Items"]
-      ? toUSReceiptItems((form.fields["Items"] as unknown) as ReceiptItemArrayField)
-      : [],
-    merchantAddress: form.fields["MerchantAddress"],
-    merchantName: form.fields["MerchantName"],
-    merchantPhoneNumber: form.fields["MerchantPhoneNumber"],
-    receiptType: toReceiptType(form.fields["ReceiptType"]),
-    subtotal: form.fields["Subtotal"],
-    tax: form.fields["Tax"],
-    tip: form.fields["Tip"],
-    total: form.fields["Total"],
-    transactionDate: form.fields["TransactionDate"],
-    transactionTime: form.fields["TransactionTime"]
-  };
+    recognizedForm
+  }
 }
 
 export function toReceiptResultResponse(
