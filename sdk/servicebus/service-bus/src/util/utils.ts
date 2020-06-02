@@ -522,7 +522,7 @@ export async function waitForTimeoutOrAbortOrResolve<T>(args: {
     }
   };
 
-  const abortOrTimeoutPromise = new Promise<T>((resolve, reject) => {
+  const abortOrTimeoutPromise = new Promise<T>((_resolve, reject) => {
     clearAbortSignal = checkAndRegisterWithAbortSignal(reject, args.abortMessage, args.abortSignal);
 
     // using a named function here so we can identify it in our unit tests
