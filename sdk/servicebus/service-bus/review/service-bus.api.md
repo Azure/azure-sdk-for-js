@@ -229,7 +229,6 @@ export { MessagingError }
 
 // @public
 export interface NamespaceProperties {
-    // (undocumented)
     createdOn: string;
     messagingSku: string;
     messagingUnits: number | undefined;
