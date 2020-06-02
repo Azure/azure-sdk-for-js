@@ -222,8 +222,12 @@ export class URLBuilder {
     if (!path) {
       this._path = undefined;
     } else {
-      if (path.indexOf("://") !== -1) {
-        this.set(path, "SCHEME");
+      const schemeIndex = path.indexOf("://");
+      if (schemeIndex !== -1) {
+        const schemeStart = path.lastIndexOf("/", schemeIndex);
+        // Make sure to only grab the URL part of the path before setting the state back to SCHEME
+        // this will handle cases such as "/a/b/c/https://microsoft.com" => "https://microsoft.com"
+        this.set(schemeStart === -1 ? path : path.substr(schemeStart + 1), "SCHEME");
       } else {
         this.set(path, "PATH");
       }
