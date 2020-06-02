@@ -16,6 +16,9 @@ import { getString, getInteger } from "../util/utils";
  * @interface NamespaceProperties
  */
 export interface NamespaceProperties {
+  /**
+   * The time at which the namespace was created.
+   */
   createdOn: string;
   /**
    * The SKU/tier of the namespace.

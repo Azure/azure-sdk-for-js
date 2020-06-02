@@ -227,17 +227,14 @@ export interface MessageHandlers<ReceivedMessageT> {
 
 export { MessagingError }
 
-// @public (undocumented)
+// @public
 export interface NamespaceProperties {
     // (undocumented)
     createdOn: string;
-    // (undocumented)
     messagingSku: string;
-    // (undocumented)
+    messagingUnits: number | undefined;
     name: string;
-    // (undocumented)
     namespaceType: string;
-    // (undocumented)
     updatedOn: string;
 }
 
