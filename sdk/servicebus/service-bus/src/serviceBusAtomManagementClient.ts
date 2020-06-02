@@ -570,22 +570,6 @@ export class ServiceBusManagementClient extends ServiceClient {
   }
 
   /**
-   * Checks whether a given queue exists or not.
-   * @param queueName
-   */
-  async queueExists(queueName: string): Promise<boolean> {
-    log.httpAtomXml(`Performing management operation - queueExists() for "${queueName}"`);
-    try {
-      await this.getQueue(queueName);
-    } catch (error) {
-      if (error.code == "MessageEntityNotFoundError") {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  /**
    * Creates a topic with given name, configured using the given options
    * @param topicName
    *
@@ -758,22 +742,6 @@ export class ServiceBusManagementClient extends ServiceClient {
     );
 
     return { _response: response };
-  }
-
-  /**
-   * Checks whether a given topic exists or not.
-   * @param topicName
-   */
-  async topicExists(topicName: string): Promise<boolean> {
-    log.httpAtomXml(`Performing management operation - topicExists() for "${topicName}"`);
-    try {
-      await this.getTopic(topicName);
-    } catch (error) {
-      if (error.code == "MessageEntityNotFoundError") {
-        return false;
-      }
-    }
-    return true;
   }
 
   /**
@@ -996,26 +964,6 @@ export class ServiceBusManagementClient extends ServiceClient {
     );
 
     return { _response: response };
-  }
-
-  /**
-   * Checks whether a given subscription exists in the topic or not.
-   * @param topicName
-   * @param subscriptionName
-   *
-   */
-  async subscriptionExists(topicName: string, subscriptionName: string): Promise<boolean> {
-    log.httpAtomXml(
-      `Performing management operation - subscriptionExists() for "${topicName}" and "${subscriptionName}"`
-    );
-    try {
-      await this.getSubscription(topicName, subscriptionName);
-    } catch (error) {
-      if (error.code == "MessageEntityNotFoundError") {
-        return false;
-      }
-    }
-    return true;
   }
 
   /**
