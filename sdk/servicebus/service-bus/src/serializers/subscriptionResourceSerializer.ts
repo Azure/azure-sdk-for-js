@@ -93,7 +93,8 @@ export function buildSubscription(rawSubscription: any): SubscriptionDescription
     forwardTo: getStringOrUndefined(rawSubscription[Constants.FORWARD_TO]),
     userMetadata: rawSubscription[Constants.USER_METADATA],
 
-    status: getString(rawSubscription[Constants.STATUS], "status") as EntityStatus
+    status: getString(rawSubscription[Constants.STATUS], "status") as EntityStatus,
+    messageCount: getInteger(rawSubscription[Constants.MESSAGE_COUNT], "messageCount")
   };
 }
 
@@ -219,6 +220,9 @@ export interface SubscriptionDescription {
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
   autoDeleteOnIdle?: string;
+
+  // TODO: will be removed once the RuntimeInfo APIs are added
+  messageCount?: number;
 }
 
 /**

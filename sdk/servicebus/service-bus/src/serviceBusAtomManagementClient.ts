@@ -34,27 +34,21 @@ import {
   InternalQueueOptions,
   QueueDescription,
   buildQueueOptions,
-  buildQueue,
-  buildQueueRuntimeInfo,
-  QueueRuntimeInfo
+  buildQueue
 } from "./serializers/queueResourceSerializer";
 import {
   TopicResourceSerializer,
   InternalTopicOptions,
-  TopicRuntimeInfo,
   buildTopicOptions,
   TopicDescription,
-  buildTopic,
-  buildTopicRuntimeInfo
+  buildTopic
 } from "./serializers/topicResourceSerializer";
 import {
   SubscriptionResourceSerializer,
   InternalSubscriptionOptions,
   SubscriptionDescription,
   buildSubscriptionOptions,
-  SubscriptionRuntimeInfo,
-  buildSubscription,
-  buildSubscriptionRuntimeInfo
+  buildSubscription
 } from "./serializers/subscriptionResourceSerializer";
 import {
   RuleResourceSerializer,
@@ -64,11 +58,6 @@ import {
   buildRule
 } from "./serializers/ruleResourceSerializer";
 import { isJSONLikeObject, isAbsoluteUrl, areOptionsUndefined } from "./util/utils";
-import {
-  NamespaceResourceSerializer,
-  buildNamespace,
-  NamespaceProperties
-} from "./serializers/namespaceResourceSerializer";
 
 /**
  * Options to use with ServiceBusManagementClient creation
@@ -94,46 +83,6 @@ export interface ListRequestOptions {
    */
   skip?: number;
 }
-
-/**
- * Represents properties of the namespace.
- */
-export interface NamespaceResponse extends NamespaceProperties {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
-/**
- * Represents properties of the namespace.
- */
-export interface GetNamespaceResponse extends NamespaceProperties {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
-
-/**
- * Represents result of create, get, update and delete operations on queue.
- */
-export interface GetQueueRuntimeInfoResponse extends QueueRuntimeInfo {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
-
-/**
- * Represents result of create, get, update and delete operations on queue.
- */
-export interface GetQueuesRuntimeInfoResponse extends Array<QueueRuntimeInfo> {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
-
 /**
  * Represents result of create, get, update and delete operations on queue.
  */
@@ -197,26 +146,6 @@ export interface GetQueuesResponse extends Array<QueueDescription> {
 /**
  * Represents result of create, get, update and delete operations on topic.
  */
-export interface GetTopicRuntimeInfoResponse extends TopicRuntimeInfo {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
-
-/**
- * Represents result of create, get, update and delete operations on topic.
- */
-export interface GetTopicsRuntimeInfoResponse extends Array<TopicRuntimeInfo> {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
-
-/**
- * Represents result of create, get, update and delete operations on topic.
- */
 export interface TopicResponse extends TopicDescription {
   /**
    * The underlying HTTP response.
@@ -268,26 +197,6 @@ export interface DeleteTopicResponse {
  * Represents result of list operation on topics.
  */
 export interface GetTopicsResponse extends Array<TopicDescription> {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
-
-/**
- * Represents result of create, get, update and delete operations on topic.
- */
-export interface GetSubscriptionRuntimeInfoResponse extends SubscriptionRuntimeInfo {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
-
-/**
- * Represents result of create, get, update and delete operations on topic.
- */
-export interface GetSubscriptionsRuntimeInfoResponse extends Array<SubscriptionRuntimeInfo> {
   /**
    * The underlying HTTP response.
    */
@@ -433,7 +342,6 @@ export class ServiceBusManagementClient extends ServiceClient {
   /**
    * Singleton instances of serializers used across the various operations.
    */
-  private namespaceResourceSerializer: AtomXmlSerializer;
   private queueResourceSerializer: AtomXmlSerializer;
   private topicResourceSerializer: AtomXmlSerializer;
   private subscriptionResourceSerializer: AtomXmlSerializer;
@@ -516,26 +424,10 @@ export class ServiceBusManagementClient extends ServiceClient {
         connectionStringObj.SharedAccessKey
       );
     }
-    this.namespaceResourceSerializer = new NamespaceResourceSerializer();
     this.queueResourceSerializer = new QueueResourceSerializer();
     this.topicResourceSerializer = new TopicResourceSerializer();
     this.subscriptionResourceSerializer = new SubscriptionResourceSerializer();
     this.ruleResourceSerializer = new RuleResourceSerializer();
-  }
-
-  /**
-   * Returns an object representing the metadata related to a service bus namespace.
-   * @param queueName
-   *
-   */
-  async getNamespaceProperties(): Promise<GetNamespaceResponse> {
-    log.httpAtomXml(`Performing management operation - getNamespaceProperties()`);
-    const response: HttpOperationResponse = await this.getResource(
-      "$namespaceinfo",
-      this.namespaceResourceSerializer
-    );
-
-    return this.buildNamespaceResponse(response);
   }
 
   /**
@@ -624,30 +516,6 @@ export class ServiceBusManagementClient extends ServiceClient {
   }
 
   /**
-   * Returns an object representing the Queue with the given name along with all its properties
-   * @param queueName
-   *
-   * Following are errors that can be expected from this operation
-   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
-   * @throws `RestError` with code `MessageEntityNotFoundError` when requested messaging entity does not exist,
-   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
-   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
-   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
-   * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
-   */
-  async getQueueRuntimeInfo(queueName: string): Promise<GetQueueRuntimeInfoResponse> {
-    log.httpAtomXml(`Performing management operation - getQueue() for "${queueName}"`);
-    const response: HttpOperationResponse = await this.getResource(
-      queueName,
-      this.queueResourceSerializer
-    );
-
-    return this.buildQueueRuntimeInfoResponse(response);
-  }
-
-  /**
    * Lists existing queues.
    * @param listRequestOptions
    *
@@ -671,34 +539,6 @@ export class ServiceBusManagementClient extends ServiceClient {
     );
 
     return this.buildListQueuesResponse(response);
-  }
-
-  /**
-   * Lists existing queues.
-   * @param listRequestOptions
-   *
-   * Following are errors that can be expected from this operation
-   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
-   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
-   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
-   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
-   * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
-   */
-  async getQueuesRuntimeInfo(
-    listRequestOptions?: ListRequestOptions
-  ): Promise<GetQueuesRuntimeInfoResponse> {
-    log.httpAtomXml(
-      `Performing management operation - listQueues() with options: ${listRequestOptions}`
-    );
-    const response: HttpOperationResponse = await this.listResources(
-      "$Resources/Queues",
-      listRequestOptions,
-      this.queueResourceSerializer
-    );
-
-    return this.buildListQueuesRuntimeInfoResponse(response);
   }
 
   /**
@@ -873,30 +713,6 @@ export class ServiceBusManagementClient extends ServiceClient {
   }
 
   /**
-   * Returns an object representing the Topic with the given name along with all its properties
-   * @param topicName
-   *
-   * Following are errors that can be expected from this operation
-   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
-   * @throws `RestError` with code `MessageEntityNotFoundError` when requested messaging entity does not exist,
-   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
-   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
-   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
-   * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
-   */
-  async getTopicRuntimeInfo(topicName: string): Promise<GetTopicRuntimeInfoResponse> {
-    log.httpAtomXml(`Performing management operation - getTopic() for "${topicName}"`);
-    const response: HttpOperationResponse = await this.getResource(
-      topicName,
-      this.topicResourceSerializer
-    );
-
-    return this.buildTopicRuntimeInfoResponse(response);
-  }
-
-  /**
    * Lists existing topics.
    * @param listRequestOptions
    *
@@ -920,34 +736,6 @@ export class ServiceBusManagementClient extends ServiceClient {
     );
 
     return this.buildListTopicsResponse(response);
-  }
-
-  /**
-   * Lists existing topics.
-   * @param listRequestOptions
-   *
-   * Following are errors that can be expected from this operation
-   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
-   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
-   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
-   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
-   * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
-   */
-  async getTopicsRuntimeInfo(
-    listRequestOptions?: ListRequestOptions
-  ): Promise<GetTopicsRuntimeInfoResponse> {
-    log.httpAtomXml(
-      `Performing management operation - listTopics() with options: ${listRequestOptions}`
-    );
-    const response: HttpOperationResponse = await this.listResources(
-      "$Resources/Topics",
-      listRequestOptions,
-      this.topicResourceSerializer
-    );
-
-    return this.buildListTopicsRuntimeInfoResponse(response);
   }
 
   /**
@@ -1142,37 +930,6 @@ export class ServiceBusManagementClient extends ServiceClient {
   }
 
   /**
-   * Returns an object representing the Subscription with the given name along with all its properties
-   * @param topicName
-   * @param subscriptionName
-   *
-   * Following are errors that can be expected from this operation
-   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
-   * @throws `RestError` with code `MessageEntityNotFoundError` when requested messaging entity does not exist,
-   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
-   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
-   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
-   * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
-   */
-  async getSubscriptionRuntimeInfo(
-    topicName: string,
-    subscriptionName: string
-  ): Promise<GetSubscriptionRuntimeInfoResponse> {
-    log.httpAtomXml(
-      `Performing management operation - getSubscription() for "${subscriptionName}"`
-    );
-    const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
-    const response: HttpOperationResponse = await this.getResource(
-      fullPath,
-      this.subscriptionResourceSerializer
-    );
-
-    return this.buildSubscriptionRuntimeInfoResponse(response);
-  }
-
-  /**
    * Lists existing subscriptions.
    * @param topicName
    * @param listRequestOptions
@@ -1200,36 +957,6 @@ export class ServiceBusManagementClient extends ServiceClient {
     );
 
     return this.buildListSubscriptionsResponse(response);
-  }
-
-  /**
-   * Lists existing subscriptions.
-   * @param topicName
-   * @param listRequestOptions
-   *
-   * Following are errors that can be expected from this operation
-   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
-   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
-   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
-   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
-   * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
-   */
-  async getSubscriptionsRuntimeInfo(
-    topicName: string,
-    listRequestOptions?: ListRequestOptions
-  ): Promise<GetSubscriptionsRuntimeInfoResponse> {
-    log.httpAtomXml(
-      `Performing management operation - listSubscriptions() with options: ${listRequestOptions}`
-    );
-    const response: HttpOperationResponse = await this.listResources(
-      topicName + "/Subscriptions/",
-      listRequestOptions,
-      this.subscriptionResourceSerializer
-    );
-
-    return this.buildListSubscriptionsRuntimeInfoResponse(response);
   }
 
   /**
@@ -1651,25 +1378,6 @@ export class ServiceBusManagementClient extends ServiceClient {
     return topicName + "/Subscriptions/" + subscriptionName + "/Rules/" + ruleName;
   }
 
-  private buildNamespaceResponse(response: HttpOperationResponse): NamespaceResponse {
-    try {
-      const namespace = buildNamespace(response.parsedBody);
-      const namespaceResponse: NamespaceResponse = Object.assign(namespace || {}, {
-        _response: response
-      });
-      return namespaceResponse;
-    } catch (err) {
-      log.warning("Failure parsing response from service - %0 ", err);
-      throw new RestError(
-        `Error occurred while parsing the response body - cannot form a namespace object using the response from the service.`,
-        RestError.PARSE_ERROR,
-        response.status,
-        stripRequest(response.request),
-        stripResponse(response)
-      );
-    }
-  }
-
   private buildListQueuesResponse(response: HttpOperationResponse): GetQueuesResponse {
     try {
       const queues: QueueDescription[] = [];
@@ -1699,62 +1407,10 @@ export class ServiceBusManagementClient extends ServiceClient {
     }
   }
 
-  private buildListQueuesRuntimeInfoResponse(
-    response: HttpOperationResponse
-  ): GetQueuesRuntimeInfoResponse {
-    try {
-      const queues: QueueRuntimeInfo[] = [];
-      if (!Array.isArray(response.parsedBody)) {
-        throw new TypeError(`${response.parsedBody} was expected to be of type Array`);
-      }
-      const rawQueueArray: any = response.parsedBody;
-      for (let i = 0; i < rawQueueArray.length; i++) {
-        const queue = buildQueueRuntimeInfo(rawQueueArray[i]);
-        if (queue) {
-          queues.push(queue);
-        }
-      }
-      const listQueuesResponse: GetQueuesRuntimeInfoResponse = Object.assign(queues, {
-        _response: response
-      });
-      return listQueuesResponse;
-    } catch (err) {
-      log.warning("Failure parsing response from service - %0 ", err);
-      throw new RestError(
-        `Error occurred while parsing the response body - cannot form a list of queues using the response from the service.`,
-        RestError.PARSE_ERROR,
-        response.status,
-        stripRequest(response.request),
-        stripResponse(response)
-      );
-    }
-  }
-
   private buildQueueResponse(response: HttpOperationResponse): QueueResponse {
     try {
       const queue = buildQueue(response.parsedBody);
       const queueResponse: QueueResponse = Object.assign(queue || {}, {
-        _response: response
-      });
-      return queueResponse;
-    } catch (err) {
-      log.warning("Failure parsing response from service - %0 ", err);
-      throw new RestError(
-        `Error occurred while parsing the response body - cannot form a queue object using the response from the service.`,
-        RestError.PARSE_ERROR,
-        response.status,
-        stripRequest(response.request),
-        stripResponse(response)
-      );
-    }
-  }
-
-  private buildQueueRuntimeInfoResponse(
-    response: HttpOperationResponse
-  ): GetQueueRuntimeInfoResponse {
-    try {
-      const queue = buildQueueRuntimeInfo(response.parsedBody);
-      const queueResponse: GetQueueRuntimeInfoResponse = Object.assign(queue || {}, {
         _response: response
       });
       return queueResponse;
@@ -1798,63 +1454,10 @@ export class ServiceBusManagementClient extends ServiceClient {
       );
     }
   }
-
-  private buildListTopicsRuntimeInfoResponse(
-    response: HttpOperationResponse
-  ): GetTopicsRuntimeInfoResponse {
-    try {
-      const topics: TopicRuntimeInfo[] = [];
-      if (!Array.isArray(response.parsedBody)) {
-        throw new TypeError(`${response.parsedBody} was expected to be of type Array`);
-      }
-      const rawTopicArray: any = response.parsedBody;
-      for (let i = 0; i < rawTopicArray.length; i++) {
-        const topic = buildTopic(rawTopicArray[i]);
-        if (topic) {
-          topics.push(topic);
-        }
-      }
-      const listTopicsResponse: GetTopicsRuntimeInfoResponse = Object.assign(topics, {
-        _response: response
-      });
-      return listTopicsResponse;
-    } catch (err) {
-      log.warning("Failure parsing response from service - %0 ", err);
-      throw new RestError(
-        `Error occurred while parsing the response body - cannot form a list of topics using the response from the service.`,
-        RestError.PARSE_ERROR,
-        response.status,
-        stripRequest(response.request),
-        stripResponse(response)
-      );
-    }
-  }
-
   private buildTopicResponse(response: HttpOperationResponse): TopicResponse {
     try {
       const topic = buildTopic(response.parsedBody);
       const topicResponse: TopicResponse = Object.assign(topic || {}, {
-        _response: response
-      });
-      return topicResponse;
-    } catch (err) {
-      log.warning("Failure parsing response from service - %0 ", err);
-      throw new RestError(
-        `Error occurred while parsing the response body - cannot form a topic object using the response from the service.`,
-        RestError.PARSE_ERROR,
-        response.status,
-        stripRequest(response.request),
-        stripResponse(response)
-      );
-    }
-  }
-
-  private buildTopicRuntimeInfoResponse(
-    response: HttpOperationResponse
-  ): GetTopicRuntimeInfoResponse {
-    try {
-      const topic = buildTopicRuntimeInfo(response.parsedBody);
-      const topicResponse: GetTopicRuntimeInfoResponse = Object.assign(topic || {}, {
         _response: response
       });
       return topicResponse;
@@ -1901,70 +1504,12 @@ export class ServiceBusManagementClient extends ServiceClient {
     }
   }
 
-  private buildListSubscriptionsRuntimeInfoResponse(
-    response: HttpOperationResponse
-  ): GetSubscriptionsRuntimeInfoResponse {
-    try {
-      const subscriptions: SubscriptionRuntimeInfo[] = [];
-      if (!Array.isArray(response.parsedBody)) {
-        throw new TypeError(`${response.parsedBody} was expected to be of type Array`);
-      }
-      const rawSubscriptionArray: any = response.parsedBody;
-      for (let i = 0; i < rawSubscriptionArray.length; i++) {
-        const subscription = buildSubscriptionRuntimeInfo(rawSubscriptionArray[i]);
-        if (subscription) {
-          subscriptions.push(subscription);
-        }
-      }
-      const listSubscriptionsResponse: GetSubscriptionsRuntimeInfoResponse = Object.assign(
-        subscriptions,
-        {
-          _response: response
-        }
-      );
-      return listSubscriptionsResponse;
-    } catch (err) {
-      log.warning("Failure parsing response from service - %0 ", err);
-      throw new RestError(
-        `Error occurred while parsing the response body - cannot form a list of subscriptions using the response from the service.`,
-        RestError.PARSE_ERROR,
-        response.status,
-        stripRequest(response.request),
-        stripResponse(response)
-      );
-    }
-  }
-
   private buildSubscriptionResponse(response: HttpOperationResponse): SubscriptionResponse {
     try {
       const subscription = buildSubscription(response.parsedBody);
       const subscriptionResponse: SubscriptionResponse = Object.assign(subscription || {}, {
         _response: response
       });
-      return subscriptionResponse;
-    } catch (err) {
-      log.warning("Failure parsing response from service - %0 ", err);
-      throw new RestError(
-        `Error occurred while parsing the response body - cannot form a subscription object using the response from the service.`,
-        RestError.PARSE_ERROR,
-        response.status,
-        stripRequest(response.request),
-        stripResponse(response)
-      );
-    }
-  }
-
-  private buildSubscriptionRuntimeInfoResponse(
-    response: HttpOperationResponse
-  ): GetSubscriptionRuntimeInfoResponse {
-    try {
-      const subscription = buildSubscriptionRuntimeInfo(response.parsedBody);
-      const subscriptionResponse: GetSubscriptionRuntimeInfoResponse = Object.assign(
-        subscription || {},
-        {
-          _response: response
-        }
-      );
       return subscriptionResponse;
     } catch (err) {
       log.warning("Failure parsing response from service - %0 ", err);

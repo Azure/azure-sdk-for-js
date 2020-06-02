@@ -47,7 +47,6 @@ export { ServiceBusClient } from "./serviceBusClient";
 
 export { QueueDescription, QueueRuntimeInfo } from "./serializers/queueResourceSerializer";
 export { TopicDescription, TopicRuntimeInfo } from "./serializers/topicResourceSerializer";
-export { NamespaceProperties } from "./serializers/namespaceResourceSerializer";
 export {
   SubscriptionDescription,
   SubscriptionRuntimeInfo
@@ -66,21 +65,14 @@ export {
   DeleteTopicResponse,
   DeleteSubscriptionResponse,
   GetQueueResponse,
-  GetQueueRuntimeInfoResponse,
   GetQueuesResponse,
-  GetQueuesRuntimeInfoResponse,
   ListRequestOptions,
   GetRuleResponse,
   GetSubscriptionResponse,
   GetTopicResponse,
-  GetTopicRuntimeInfoResponse,
-  GetTopicsRuntimeInfoResponse,
   GetRulesResponse,
   GetSubscriptionsResponse,
-  GetSubscriptionRuntimeInfoResponse,
-  GetSubscriptionsRuntimeInfoResponse,
   GetTopicsResponse,
-  GetNamespaceResponse,
   UpdateQueueResponse,
   UpdateRuleResponse,
   UpdateSubscriptionResponse,
