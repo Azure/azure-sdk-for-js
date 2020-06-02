@@ -51,22 +51,31 @@ export class AvroReadableFromStream extends AvroReadable {
     } else {
       // register callback to wait for enough data to read
       return new Promise((resolve, reject) => {
-        const callback = () => {
+        const readableCallback = () => {
           let chunk = this._readable.read(size);
           if (chunk) {
             this._position += chunk.length;
             // chunk.length maybe less than desired size if the stream ends.
             resolve(this.toUint8Array(chunk));
-            this._readable.removeListener("readable", callback);
+            this._readable.removeListener("readable", readableCallback);
             this._readable.removeListener("error", reject);
             this._readable.removeListener("end", reject);
             this._readable.removeListener("close", reject);
           }
         };
-        this._readable.on("readable", callback);
-        this._readable.once("error", reject);
-        this._readable.once("end", reject);
-        this._readable.once("close", reject);
+
+        const rejectCallback = () => {
+          this._readable.removeListener("readable", readableCallback);
+          this._readable.removeListener("error", rejectCallback);
+          this._readable.removeListener("end", rejectCallback);
+          this._readable.removeListener("close", rejectCallback);
+          reject();
+        };
+
+        this._readable.on("readable", readableCallback);
+        this._readable.once("error", rejectCallback);
+        this._readable.once("end", rejectCallback);
+        this._readable.once("close", rejectCallback);
       });
     }
   }
