@@ -923,6 +923,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
       lockDuration: "PT1M",
       maxDeliveryCount: 10,
       maxSizeInMegabytes: 1024,
+      messageCount: 0,
       queueName: managementQueue1,
       requiresDuplicateDetection: false,
       requiresSession: false,
@@ -1004,7 +1005,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
 
       enablePartitioning: true,
       maxSizeInMegabytes: 16384,
-
+      messageCount: 0,
       forwardDeadLetteredMessagesTo: undefined,
       forwardTo: undefined,
       userMetadata: "test metadata",
