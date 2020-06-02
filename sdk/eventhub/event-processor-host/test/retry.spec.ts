@@ -43,7 +43,7 @@ describe("retry function", function(): void {
       .then(() => {
         done();
       })
-      .catch(err => {
+      .catch((err) => {
         done(err);
       });
   });
@@ -81,7 +81,7 @@ describe("retry function", function(): void {
       .then(() => {
         done();
       })
-      .catch(err => {
+      .catch((err) => {
         done(err);
       });
   });
@@ -126,7 +126,7 @@ describe("retry function", function(): void {
       .then(() => {
         done();
       })
-      .catch(err => {
+      .catch((err) => {
         done(err);
       });
   });
@@ -166,7 +166,7 @@ describe("retry function", function(): void {
       .then(() => {
         done();
       })
-      .catch(err => {
+      .catch((err) => {
         done(err);
       });
   });

@@ -31,7 +31,7 @@ describe("AbortSignal", () => {
 
       let passedInOptions: OperationOptions | undefined;
 
-      sender["_trySend"] = async (buffer, sendBatch, options) => {
+      sender["_trySend"] = async (_buffer, _sendBatch, options) => {
         passedInOptions = options;
       };
 
