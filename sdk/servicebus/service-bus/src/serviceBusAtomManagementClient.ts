@@ -79,7 +79,7 @@ export interface ListRequestOptions {
   skip?: number;
 }
 /**
- * Represents result of create, get, update and delete operations on queue.
+ * Represents result of create, get and update operations on queue.
  */
 export interface QueueResponse extends QueueDescription {
   /**
@@ -91,32 +91,17 @@ export interface QueueResponse extends QueueDescription {
 /**
  * Create Queue response
  */
-export interface CreateQueueResponse extends QueueDescription {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
+export type CreateQueueResponse = QueueResponse;
 
 /**
  * Get Queue response
  */
-export interface GetQueueResponse extends QueueDescription {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
+export type GetQueueResponse = QueueResponse;
 
 /**
  * Update Queue response
  */
-export interface UpdateQueueResponse extends QueueDescription {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
+export type UpdateQueueResponse = QueueResponse;
 
 /**
  * Delete Queue response
@@ -151,32 +136,16 @@ export interface TopicResponse extends TopicDescription {
 /**
  * Create Topic response
  */
-export interface CreateTopicResponse extends TopicDescription {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
+export type CreateTopicResponse = TopicResponse;
 
 /**
  * Get Topic response
  */
-export interface GetTopicResponse extends TopicDescription {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
-
+export type GetTopicResponse = TopicResponse;
 /**
  * Update Topic response
  */
-export interface UpdateTopicResponse extends TopicDescription {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
+export type UpdateTopicResponse = TopicResponse;
 
 /**
  * Delete Topic response
@@ -211,32 +180,17 @@ export interface SubscriptionResponse extends SubscriptionDescription {
 /**
  * Create Subscription response
  */
-export interface CreateSubscriptionResponse extends SubscriptionDescription {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
+export type CreateSubscriptionResponse = SubscriptionResponse;
 
 /**
  * Get Subscription response
  */
-export interface GetSubscriptionResponse extends SubscriptionDescription {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
+export type GetSubscriptionResponse = SubscriptionResponse;
 
 /**
  * Update Subscription response
  */
-export interface UpdateSubscriptionResponse extends SubscriptionDescription {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
+export type UpdateSubscriptionResponse = SubscriptionResponse;
 
 /**
  * Delete Subscription response
@@ -271,32 +225,16 @@ export interface RuleResponse extends RuleDescription {
 /**
  * Create Rule response
  */
-export interface CreateRuleResponse extends RuleDescription {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
-
+export type CreateRuleResponse = RuleResponse;
 /**
  * Get Rule response
  */
-export interface GetRuleResponse extends RuleDescription {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
+export type GetRuleResponse = RuleResponse;
 
 /**
  * Update Rule response
  */
-export interface UpdateRuleResponse extends RuleDescription {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
+export type UpdateRuleResponse = RuleResponse;
 
 /**
  * Delete Rule response

@@ -57,14 +57,10 @@ export interface CreateBatchOptions extends OperationOptions {
 }
 
 // @public
-export interface CreateQueueResponse extends QueueDescription {
-    _response: HttpOperationResponse;
-}
+export type CreateQueueResponse = QueueResponse;
 
 // @public
-export interface CreateRuleResponse extends RuleDescription {
-    _response: HttpOperationResponse;
-}
+export type CreateRuleResponse = RuleResponse;
 
 // @public
 export interface CreateSenderOptions {
@@ -76,14 +72,10 @@ export interface CreateSessionReceiverOptions extends SessionReceiverOptions, Op
 }
 
 // @public
-export interface CreateSubscriptionResponse extends SubscriptionDescription {
-    _response: HttpOperationResponse;
-}
+export type CreateSubscriptionResponse = SubscriptionResponse;
 
 // @public
-export interface CreateTopicResponse extends TopicDescription {
-    _response: HttpOperationResponse;
-}
+export type CreateTopicResponse = TopicResponse;
 
 // @public
 export interface DeadLetterOptions {
@@ -123,9 +115,7 @@ export interface GetMessageIteratorOptions extends OperationOptions, WaitTimeOpt
 }
 
 // @public
-export interface GetQueueResponse extends QueueDescription {
-    _response: HttpOperationResponse;
-}
+export type GetQueueResponse = QueueResponse;
 
 // @public
 export interface GetQueuesResponse extends Array<QueueDescription> {
@@ -133,9 +123,7 @@ export interface GetQueuesResponse extends Array<QueueDescription> {
 }
 
 // @public
-export interface GetRuleResponse extends RuleDescription {
-    _response: HttpOperationResponse;
-}
+export type GetRuleResponse = RuleResponse;
 
 // @public
 export interface GetRulesResponse extends Array<RuleDescription> {
@@ -143,9 +131,7 @@ export interface GetRulesResponse extends Array<RuleDescription> {
 }
 
 // @public
-export interface GetSubscriptionResponse extends SubscriptionDescription {
-    _response: HttpOperationResponse;
-}
+export type GetSubscriptionResponse = SubscriptionResponse;
 
 // @public
 export interface GetSubscriptionsResponse extends Array<SubscriptionDescription> {
@@ -153,9 +139,7 @@ export interface GetSubscriptionsResponse extends Array<SubscriptionDescription>
 }
 
 // @public
-export interface GetTopicResponse extends TopicDescription {
-    _response: HttpOperationResponse;
-}
+export type GetTopicResponse = TopicResponse;
 
 // @public
 export interface GetTopicsResponse extends Array<TopicDescription> {
@@ -219,6 +203,11 @@ export interface QueueDescription {
     requiresSession?: boolean;
     status?: EntityStatus;
     userMetadata?: string;
+}
+
+// @public
+export interface QueueResponse extends QueueDescription {
+    _response: HttpOperationResponse;
 }
 
 // @public
@@ -286,6 +275,11 @@ export interface RuleDescription {
     action?: SqlRuleAction;
     filter?: SqlRuleFilter | CorrelationRuleFilter;
     ruleName: string;
+}
+
+// @public
+export interface RuleResponse extends RuleDescription {
+    _response: HttpOperationResponse;
 }
 
 // @public
@@ -457,6 +451,11 @@ export interface SubscriptionDescription {
 }
 
 // @public
+export interface SubscriptionResponse extends SubscriptionDescription {
+    _response: HttpOperationResponse;
+}
+
+// @public
 export interface SubscriptionRuntimeInfo {
     accessedOn?: string;
     createdOn: string;
@@ -488,6 +487,11 @@ export interface TopicDescription {
 }
 
 // @public
+export interface TopicResponse extends TopicDescription {
+    _response: HttpOperationResponse;
+}
+
+// @public
 export interface TopicRuntimeInfo {
     accessedOn?: string;
     createdOn?: string;
@@ -498,24 +502,16 @@ export interface TopicRuntimeInfo {
 }
 
 // @public
-export interface UpdateQueueResponse extends QueueDescription {
-    _response: HttpOperationResponse;
-}
+export type UpdateQueueResponse = QueueResponse;
 
 // @public
-export interface UpdateRuleResponse extends RuleDescription {
-    _response: HttpOperationResponse;
-}
+export type UpdateRuleResponse = RuleResponse;
 
 // @public
-export interface UpdateSubscriptionResponse extends SubscriptionDescription {
-    _response: HttpOperationResponse;
-}
+export type UpdateSubscriptionResponse = SubscriptionResponse;
 
 // @public
-export interface UpdateTopicResponse extends TopicDescription {
-    _response: HttpOperationResponse;
-}
+export type UpdateTopicResponse = TopicResponse;
 
 // @public
 export interface WaitTimeOptions {
