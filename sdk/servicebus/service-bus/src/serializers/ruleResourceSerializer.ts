@@ -26,11 +26,10 @@ import { CorrelationRuleFilter } from "../core/managementClient";
  * @param name
  * @param ruleOptions
  */
-export function buildRuleOptions(
-  name: string,
-  ruleOptions: Pick<RuleDescription, "filter" | "action"> = {}
-): InternalRuleOptions {
-  const internalRuleOptions: InternalRuleOptions = Object.assign({}, ruleOptions, { name: name });
+export function buildRuleOptions(ruleOptions: RuleDescription): InternalRuleOptions {
+  const internalRuleOptions: InternalRuleOptions = Object.assign({}, ruleOptions, {
+    name: ruleOptions.ruleName
+  });
   return internalRuleOptions;
 }
 

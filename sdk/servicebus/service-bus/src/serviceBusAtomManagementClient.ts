@@ -994,7 +994,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     const fullPath = this.getRulePath(topicName, subscriptionName, rule.ruleName);
     const response: HttpOperationResponse = await this.putResource(
       fullPath,
-      buildRuleOptions(rule.ruleName, rule),
+      buildRuleOptions(rule),
       this.ruleResourceSerializer,
       false
     );
@@ -1101,7 +1101,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     const fullPath = this.getRulePath(topicName, subscriptionName, rule.ruleName);
     const response: HttpOperationResponse = await this.putResource(
       fullPath,
-      buildRuleOptions(rule.ruleName, rule),
+      buildRuleOptions(rule),
       this.ruleResourceSerializer,
       true
     );
