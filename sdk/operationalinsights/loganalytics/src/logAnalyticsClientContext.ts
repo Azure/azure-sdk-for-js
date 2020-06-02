@@ -12,7 +12,7 @@ import * as msRest from "@azure/ms-rest-js";
 import * as Models from "./models";
 
 const packageName = "@azure/loganalytics";
-const packageVersion = "0.3.0";
+const packageVersion = "1.3.0";
 
 export class LogAnalyticsClientContext extends msRest.ServiceClient {
   credentials: msRest.ServiceClientCredentials;
