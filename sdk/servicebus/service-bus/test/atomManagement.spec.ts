@@ -2114,9 +2114,10 @@ async function updateEntity(
       const ruleResponse = await serviceBusAtomManagementClient.updateRule(
         topicPath,
         subscriptionPath,
-        entityPath,
-        // @ts-ignore
-        ruleOptions
+        {
+          ruleName: entityPath,
+          ...ruleOptions
+        }
       );
       return ruleResponse;
   }
