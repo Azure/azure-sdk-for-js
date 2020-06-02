@@ -47,6 +47,7 @@ export { ServiceBusClient } from "./serviceBusClient";
 
 export { QueueDescription, QueueRuntimeInfo } from "./serializers/queueResourceSerializer";
 export { TopicDescription, TopicRuntimeInfo } from "./serializers/topicResourceSerializer";
+export { NamespaceProperties } from "./serializers/namespaceResourceSerializer";
 export {
   SubscriptionDescription,
   SubscriptionRuntimeInfo
@@ -79,6 +80,7 @@ export {
   GetSubscriptionRuntimeInfoResponse,
   GetSubscriptionsRuntimeInfoResponse,
   GetTopicsResponse,
+  GetNamespaceResponse,
   UpdateQueueResponse,
   UpdateRuleResponse,
   UpdateSubscriptionResponse,

@@ -524,12 +524,11 @@ export class ServiceBusManagementClient extends ServiceClient {
   }
 
   /**
-   * Returns an object representing the Queue with the given name along with all its properties
+   * Returns an object representing the metadata related to a service bus namespace.
    * @param queueName
    *
    */
   async getNamespaceProperties(): Promise<GetNamespaceResponse> {
-    //Promise<GetNamespacePropertiesResponse> {
     log.httpAtomXml(`Performing management operation - getNamespaceProperties()`);
     const response: HttpOperationResponse = await this.getResource(
       "$namespaceinfo",

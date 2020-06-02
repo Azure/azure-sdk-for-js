@@ -123,6 +123,11 @@ export interface GetMessageIteratorOptions extends OperationOptions, WaitTimeOpt
 }
 
 // @public
+export interface GetNamespaceResponse extends NamespaceProperties {
+    _response: HttpOperationResponse;
+}
+
+// @public
 export interface GetQueueResponse extends QueueDescription {
     _response: HttpOperationResponse;
 }
@@ -221,6 +226,20 @@ export interface MessageHandlers<ReceivedMessageT> {
 }
 
 export { MessagingError }
+
+// @public (undocumented)
+export interface NamespaceProperties {
+    // (undocumented)
+    createdOn: string;
+    // (undocumented)
+    messagingSku: string;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    namespaceType: string;
+    // (undocumented)
+    updatedOn: string;
+}
 
 // @public
 export interface OperationOptions {
@@ -370,6 +389,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     deleteRule(topicName: string, subscriptionName: string, ruleName: string): Promise<DeleteRuleResponse>;
     deleteSubscription(topicName: string, subscriptionName: string): Promise<DeleteSubscriptionResponse>;
     deleteTopic(topicName: string): Promise<DeleteTopicResponse>;
+    getNamespaceProperties(): Promise<GetNamespaceResponse>;
     getQueue(queueName: string): Promise<GetQueueResponse>;
     getQueueRuntimeInfo(queueName: string): Promise<GetQueueRuntimeInfoResponse>;
     getQueues(listRequestOptions?: ListRequestOptions): Promise<GetQueuesResponse>;

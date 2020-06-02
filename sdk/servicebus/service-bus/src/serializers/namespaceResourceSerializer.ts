@@ -7,15 +7,39 @@ import {
   deserializeAtomXmlResponse
 } from "../util/atomXmlHelper";
 import { HttpOperationResponse } from "@azure/core-http";
-import { getString } from "../util/utils";
+import { getString, getInteger } from "../util/utils";
 
-// TODO: Add docs for the attributes and for the interface
+/**
+ * Represents the metadata related to a service bus namespace.
+ *
+ * @export
+ * @interface NamespaceProperties
+ */
 export interface NamespaceProperties {
   createdOn: string;
+  /**
+   * The SKU/tier of the namespace.
+   * "Basic", "Standard" and "Premium"
+   */
   messagingSku: string;
+  /**
+   * The last time at which the namespace was modified.
+   */
   updatedOn: string;
+  /**
+   * Name of the namespace.
+   */
   name: string;
+  /**
+   * Type of entities present in the namespace.
+   */
   namespaceType: string;
+  /**
+   * Number of messaging units allocated for namespace.
+   * Valid only for Premium namespaces.
+   * messagingUnits would be set to `undefined` for Basic and Standard namespaces.
+   */
+  messagingUnits: number | undefined;
 }
 
 /**
@@ -26,19 +50,24 @@ export interface NamespaceProperties {
  * @param rawNamespace
  */
 export function buildNamespace(rawNamespace: any): NamespaceProperties {
+  const messagingSku = getString(rawNamespace["MessagingSKU"], "messagingSku");
   return {
     createdOn: getString(rawNamespace["CreatedTime"], "createdOn"),
-    messagingSku: getString(rawNamespace["MessagingSKU"], "messagingSku"),
+    messagingSku: messagingSku,
     updatedOn: getString(rawNamespace["ModifiedTime"], "updatedOn"),
     name: getString(rawNamespace["Name"], "name"),
-    namespaceType: getString(rawNamespace["NamespaceType"], "namespaceType")
+    namespaceType: getString(rawNamespace["NamespaceType"], "namespaceType"),
+    messagingUnits:
+      messagingSku === "Premium"
+        ? getInteger(rawNamespace["MessagingUnits"], "messagingUnits")
+        : undefined
   };
 }
 
 /**
  * @internal
  * @ignore
- * Atom XML Serializer for Queues.
+ * Atom XML Serializer for Namespaces.
  */
 export class NamespaceResourceSerializer implements AtomXmlSerializer {
   serialize(): object {
