@@ -34,8 +34,8 @@ export { Sender } from "./sender";
 export { QueueDescription, QueueRuntimeInfo } from "./serializers/queueResourceSerializer";
 export {
   RuleDescription,
-  SqlAction,
   SqlParameter,
+  SqlRuleAction,
   SqlRuleFilter
 } from "./serializers/ruleResourceSerializer";
 export {

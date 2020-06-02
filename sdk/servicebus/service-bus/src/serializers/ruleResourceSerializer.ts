@@ -89,7 +89,7 @@ function getTopicFilter(value: any): SqlRuleFilter | CorrelationRuleFilter {
  * or undefined if not passed in.
  * @param value
  */
-function getRuleActionOrUndefined(value: any): SqlAction | undefined {
+function getRuleActionOrUndefined(value: any): SqlRuleAction | undefined {
   if (value == undefined) {
     return undefined;
   } else {
@@ -135,13 +135,13 @@ export interface RuleDescription {
    * The SQL like expression that can be executed on the message should the
    * associated filter apply.
    */
-  action?: SqlAction;
+  action?: SqlRuleAction;
 }
 
 /**
  * Represents all possible fields on SqlAction
  */
-export type SqlAction = SqlRuleFilter;
+export type SqlRuleAction = SqlRuleFilter;
 
 /**
  * Represents all possible fields on SqlRuleFilter
