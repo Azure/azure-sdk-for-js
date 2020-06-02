@@ -531,7 +531,8 @@ describe("Transforms", () => {
     assert.equal(models![0].accuracy, original.trainResult!.averageModelAccuracy);
     assert.deepStrictEqual(models![0].fields!["InvoiceDate"], {
       name: "InvoiceDate",
-      accuracy: 0.8
+      accuracy: 0.8,
+      label: null
     });
   });
 
