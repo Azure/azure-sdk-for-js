@@ -109,8 +109,6 @@ function getRuleActionOrUndefined(value: any): SqlAction | undefined {
  */
 export interface InternalRuleOptions extends Pick<RuleDescription, "filter" | "action"> {
   /**
-   * @internal
-   * @ignore
    * Name of the rule.
    */
   name?: string;
@@ -121,15 +119,11 @@ export interface InternalRuleOptions extends Pick<RuleDescription, "filter" | "a
  */
 export interface RuleDescription {
   /**
-   * @internal
-   * @ignore
    * Name of the rule
    */
   ruleName: string;
 
   /**
-   * @internal
-   * @ignore
    * Defines the filter expression that the rule evaluates. For `SqlRuleFilter` input,
    * the expression string is interpreted as a SQL92 expression which must
    * evaluate to True or False. Only one between a `CorrelationRuleFilter` or
@@ -138,8 +132,6 @@ export interface RuleDescription {
   filter?: SqlRuleFilter | CorrelationRuleFilter;
 
   /**
-   * @internal
-   * @ignore
    * The SQL like expression that can be executed on the message should the
    * associated filter apply.
    */
@@ -156,30 +148,22 @@ export type SqlAction = SqlRuleFilter;
  */
 export interface SqlRuleFilter {
   /**
-   * @internal
-   * @ignore
    * SQL expression to use.
    */
   sqlExpression?: string;
 
   /**
-   * @internal
-   * @ignore
    * SQL parameters to the expression
    */
   sqlParameters?: SqlParameter[];
 
   /**
-   * @internal
-   * @ignore
    * This property is reserved for future use. An integer value showing the
    * compatibility level, currently hard-coded to 20.
    */
   compatibilityLevel?: number;
 
   /**
-   * @internal
-   * @ignore
    * Boolean value indicating whether the SQL filter expression requires preprocessing
    */
   requiresPreprocessing?: boolean;
@@ -187,7 +171,8 @@ export interface SqlRuleFilter {
 
 /**
  * @internal
- * @ignore RuleResourceSerializer for serializing / deserializing Rule entities
+ * @ignore
+ * RuleResourceSerializer for serializing / deserializing Rule entities
  */
 export class RuleResourceSerializer implements AtomXmlSerializer {
   serialize(rule: InternalRuleOptions): object {
@@ -281,8 +266,6 @@ enum SqlParameterType {
   Date = "l28:date"
 }
 /**
- * @internal
- * @ignore
  * Represents type of SQL `Parameter` in ATOM based management operations
  */
 export type SqlParameter = {

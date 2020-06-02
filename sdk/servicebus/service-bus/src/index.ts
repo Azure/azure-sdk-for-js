@@ -32,7 +32,12 @@ export { Receiver } from "./receivers/receiver";
 export { SessionReceiver } from "./receivers/sessionReceiver";
 export { Sender } from "./sender";
 export { QueueDescription, QueueRuntimeInfo } from "./serializers/queueResourceSerializer";
-export { RuleDescription, SqlAction, SqlRuleFilter } from "./serializers/ruleResourceSerializer";
+export {
+  RuleDescription,
+  SqlAction,
+  SqlParameter,
+  SqlRuleFilter
+} from "./serializers/ruleResourceSerializer";
 export {
   SubscriptionDescription,
   SubscriptionRuntimeInfo

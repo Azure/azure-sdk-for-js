@@ -283,6 +283,9 @@ export { RetryOptions }
 
 // @public
 export interface RuleDescription {
+    action?: SqlAction;
+    filter?: SqlRuleFilter | CorrelationRuleFilter;
+    ruleName: string;
 }
 
 // @public
@@ -415,7 +418,18 @@ export interface SessionReceiverOptions {
 export type SqlAction = SqlRuleFilter;
 
 // @public
+export type SqlParameter = {
+    key: string;
+    value: string | number;
+    type: string;
+};
+
+// @public
 export interface SqlRuleFilter {
+    compatibilityLevel?: number;
+    requiresPreprocessing?: boolean;
+    sqlExpression?: string;
+    sqlParameters?: SqlParameter[];
 }
 
 // @public
