@@ -300,8 +300,10 @@ export function areOptionsUndefined(
   options: any,
   name: "queueName" | "topicName" | "subscriptionName"
 ) {
+  const isNotEntityName = (key: string) =>
+    name === "subscriptionName" ? key != "subscriptionName" && key != "topicName" : key != name;
   for (const [key, value] of Object.entries(options)) {
-    if (key != name && value != undefined) {
+    if (isNotEntityName(key) && value != undefined) {
       return false;
     }
   }

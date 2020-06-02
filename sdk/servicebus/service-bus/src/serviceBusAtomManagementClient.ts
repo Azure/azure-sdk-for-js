@@ -620,7 +620,13 @@ export class ServiceBusManagementClient extends ServiceClient {
 
     if (!isJSONLikeObject(topic) || topic === null) {
       throw new TypeError(
-        `Parameter "topicOptions" must be an object of type "TopicOptions" and cannot be undefined or null.`
+        `Parameter "topic" must be an object of type "TopicDescription" and cannot be undefined or null.`
+      );
+    }
+
+    if (areOptionsUndefined(topic, "topicName")) {
+      throw new TypeError(
+        `Parameter "topic" must be an object of type "TopicDescription" and at least one of the parameters other than topicName must be defined.`
       );
     }
 
@@ -816,7 +822,13 @@ export class ServiceBusManagementClient extends ServiceClient {
 
     if (!isJSONLikeObject(subscription) || subscription === null) {
       throw new TypeError(
-        `Parameter "subscription" must be an object of type "SubscriptionOptions" and cannot be undefined or null.`
+        `Parameter "subscription" must be an object of type "SubscriptionDescription" and cannot be undefined or null.`
+      );
+    }
+
+    if (areOptionsUndefined(subscription, "subscriptionName")) {
+      throw new TypeError(
+        `Parameter "subscription" must be an object of type "SubscriptionDescription" and at least one of the parameters other than topicName and subscriptionName must be defined.`
       );
     }
 

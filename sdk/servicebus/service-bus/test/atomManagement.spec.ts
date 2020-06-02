@@ -1481,7 +1481,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
     testCaseTitle: "Undefined topic options",
     input: undefined,
     output: {
-      testErrorMessage: `Parameter "topicOptions" must be an object of type "TopicOptions" and cannot be undefined or null.`
+      testErrorMessage: `Parameter "topic" must be an object of type "TopicDescription" and at least one of the parameters other than topicName must be defined.`
     }
   },
   {
@@ -1563,7 +1563,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
     testCaseTitle: "Undefined subscription options",
     input: undefined,
     output: {
-      testErrorMessage: `Parameter "subscriptionOptions" must be an object of type "SubscriptionOptions" and cannot be undefined or null.`
+      testErrorMessage: `Parameter "subscription" must be an object of type "SubscriptionDescription" and at least one of the parameters other than topicName and subscriptionName must be defined.`
     }
   },
   {
