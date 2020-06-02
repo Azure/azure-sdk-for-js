@@ -2,22 +2,22 @@ parameters:
   Artifacts: []
   ServiceDirectory: not-specified
   Matrix:
-    Linux_Node8:
-      OSVmImage: "ubuntu-18.04"
+    # Linux_Node8:
+    #   OSVmImage: "ubuntu-18.04"
+    #   NodeTestVersion: "8.x"
+    #   TestType: "node"
+    Windows_Node8:
+      OSVmImage: "windows-2019"
       NodeTestVersion: "8.x"
       TestType: "node"
-    Windows_Node10:
-      OSVmImage: "windows-2019"
-      NodeTestVersion: "10.x"
-      TestType: "node"
-    macOS_Node12:
-      OSVmImage: "macOS-10.15"
-      NodeTestVersion: "12.x"
-      TestType: "node"
-    Browser_Linux_Node12:
-      OSVmImage: "ubuntu-18.04"
-      NodeTestVersion: "12.x"
-      TestType: "browser"
+    # macOS_Node12:
+    #   OSVmImage: "macOS-10.15"
+    #   NodeTestVersion: "12.x"
+    #   TestType: "node"
+    # Browser_Linux_Node12:
+    #   OSVmImage: "ubuntu-18.04"
+    #   NodeTestVersion: "12.x"
+    #   TestType: "browser"
 
 jobs:
   - job: "Build"
