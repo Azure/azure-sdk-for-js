@@ -6,9 +6,9 @@ parameters:
       OSVmImage: "ubuntu-18.04"
       NodeTestVersion: "8.x"
       TestType: "node"
-    Windows_Node10:
+    Windows_Node8:
       OSVmImage: "windows-2019"
-      NodeTestVersion: "10.x"
+      NodeTestVersion: "8.x"
       TestType: "node"
     macOS_Node12:
       OSVmImage: "macOS-10.15"
