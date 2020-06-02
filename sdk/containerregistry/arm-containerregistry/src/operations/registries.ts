@@ -295,6 +295,38 @@ export class Registries {
   }
 
   /**
+   * Lists the private link resources for a container registry.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param registryName The name of the container registry.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.RegistriesListPrivateLinkResourcesResponse>
+   */
+  listPrivateLinkResources(resourceGroupName: string, registryName: string, options?: msRest.RequestOptionsBase): Promise<Models.RegistriesListPrivateLinkResourcesResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param registryName The name of the container registry.
+   * @param callback The callback
+   */
+  listPrivateLinkResources(resourceGroupName: string, registryName: string, callback: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>): void;
+  /**
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param registryName The name of the container registry.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listPrivateLinkResources(resourceGroupName: string, registryName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>): void;
+  listPrivateLinkResources(resourceGroupName: string, registryName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkResourceListResult>, callback?: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>): Promise<Models.RegistriesListPrivateLinkResourcesResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        registryName,
+        options
+      },
+      listPrivateLinkResourcesOperationSpec,
+      callback) as Promise<Models.RegistriesListPrivateLinkResourcesResponse>;
+  }
+
+  /**
    * Schedules a new run based on the request parameters and add it to the run queue.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
@@ -525,6 +557,34 @@ export class Registries {
       listNextOperationSpec,
       callback) as Promise<Models.RegistriesListNextResponse>;
   }
+
+  /**
+   * Lists the private link resources for a container registry.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.RegistriesListPrivateLinkResourcesNextResponse>
+   */
+  listPrivateLinkResourcesNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.RegistriesListPrivateLinkResourcesNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listPrivateLinkResourcesNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listPrivateLinkResourcesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>): void;
+  listPrivateLinkResourcesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkResourceListResult>, callback?: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>): Promise<Models.RegistriesListPrivateLinkResourcesNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listPrivateLinkResourcesNextOperationSpec,
+      callback) as Promise<Models.RegistriesListPrivateLinkResourcesNextResponse>;
+  }
 }
 
 // Operation Specifications
@@ -713,6 +773,31 @@ const listUsagesOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const listPrivateLinkResourcesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/privateLinkResources",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.registryName
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateLinkResourceListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
 const getBuildSourceUploadUrlOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/listBuildSourceUploadUrl",
@@ -732,7 +817,7 @@ const getBuildSourceUploadUrlOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.SourceUploadDefinition
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -891,7 +976,7 @@ const beginScheduleRunOperationSpec: msRest.OperationSpec = {
     },
     202: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -964,6 +1049,27 @@ const listNextOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.RegistryListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listPrivateLinkResourcesNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateLinkResourceListResult
     },
     default: {
       bodyMapper: Mappers.CloudError

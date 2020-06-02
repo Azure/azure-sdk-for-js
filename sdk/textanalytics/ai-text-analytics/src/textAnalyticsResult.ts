@@ -6,7 +6,8 @@ import {
   TextAnalyticsError as GeneratedTextAnalyticsErrorModel,
   InnerError,
   ErrorCodeValue,
-  InnerErrorCodeValue
+  InnerErrorCodeValue,
+  TextAnalyticsWarning
 } from "./generated/models";
 
 /**
@@ -58,6 +59,13 @@ export interface TextAnalyticsSuccessResult {
   readonly statistics?: TextDocumentStatistics;
 
   /**
+   * An array of warning data corresponding to this document.
+   *
+   * If no warnings were returned, this array will be empty.
+   */
+  readonly warnings: TextAnalyticsWarning[];
+
+  /**
    * Discriminant to determine if that this is an error result.
    */
   readonly error?: undefined;
@@ -101,11 +109,13 @@ function intoTextAnalyticsError(
 
 export function makeTextAnalyticsSuccessResult(
   id: string,
+  warnings: TextAnalyticsWarning[],
   statistics?: TextDocumentStatistics
 ): TextAnalyticsSuccessResult {
   return {
     id,
-    statistics
+    statistics,
+    warnings
   };
 }
 

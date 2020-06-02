@@ -232,7 +232,10 @@ export {
 /**
  * Deprecated KeyVault copy of core-lro's PollerLike.
  */
-export type KVPollerLike<TState extends PollOperationState<TResult>, TResult> = PollerLike<TState, TResult>;
+export type KVPollerLike<TState extends PollOperationState<TResult>, TResult> = PollerLike<
+  TState,
+  TResult
+>;
 
 function toCoreAttributes(properties: CertificateProperties): CoreCertificateAttributes {
   return {
@@ -1438,7 +1441,10 @@ export class CertificateClient {
         this.vaultUrl,
         certificateName,
         version,
-        this.setParentSpan(span, requestOptions)
+        {
+          ...this.setParentSpan(span, requestOptions),
+          certificateAttributes: toCoreAttributes(options)
+        }
       );
     } finally {
       span.end();
@@ -2150,7 +2156,6 @@ export class CertificateClient {
     const attributes: any = item.attributes || {};
 
     const abstractProperties: any = {
-      name: parsedId.name,
       createdOn: attributes.created,
       updatedOn: attributes.updated,
       expiresOn: attributes.expires,
