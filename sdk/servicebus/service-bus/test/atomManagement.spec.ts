@@ -1115,9 +1115,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
         compatibilityLevel: undefined
       },
 
-      ruleName: managementRule1,
-      subscriptionName: managementSubscription1,
-      topicName: managementTopic1
+      ruleName: managementRule1
     }
   },
   {
@@ -1149,9 +1147,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
         compatibilityLevel: 20
       },
 
-      ruleName: managementRule1,
-      subscriptionName: managementSubscription1,
-      topicName: managementTopic1
+      ruleName: managementRule1
     }
   },
   {
@@ -1181,9 +1177,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
         compatibilityLevel: 20
       },
 
-      ruleName: managementRule1,
-      subscriptionName: managementSubscription1,
-      topicName: managementTopic1
+      ruleName: managementRule1
     }
   }
 ].forEach((testCase) => {
