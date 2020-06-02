@@ -16,12 +16,7 @@ import {
   RestError
 } from "@azure/core-http";
 
-import {
-  parseConnectionString,
-  SharedKeyCredential,
-  TokenCredential,
-  isTokenCredential
-} from "@azure/core-amqp";
+import { parseConnectionString, SharedKeyCredential, TokenCredential } from "@azure/core-amqp";
 
 import { AtomXmlSerializer, executeAtomXmlOperation } from "./util/atomXmlHelper";
 
@@ -357,77 +352,40 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @param connectionString The connection string needed for the client to connect to Azure.
    * @param options ServiceBusManagementClientOptions
    */
-  constructor(connectionString: string, options?: ServiceBusManagementClientOptions);
-  /**
-   *
-   * @param fullyQualifiedNamespace The full namespace of your Service Bus instance which is
-   * likely to be similar to <yournamespace>.servicebus.windows.net.
-   * @param credential A credential object used by the client to get the token to authenticate the connection
-   * with the Azure Service Bus. See &commat;azure/identity for creating the credentials.
-   * If you're using an own implementation of the `TokenCredential` interface against AAD, then set the "scopes" for service-bus
-   * to be `["https://servicebus.azure.net//user_impersonation"]` to get the appropriate token.
-   * @param options ServiceBusManagementClientOptions
-   */
-  constructor(
-    fullyQualifiedNamespace: string,
-    credential: TokenCredential,
-    options?: ServiceBusManagementClientOptions
-  );
+  constructor(connectionString: string, options?: ServiceBusManagementClientOptions) {
+    const connectionStringObj: any = parseConnectionString(connectionString);
 
-  constructor(
-    fullyQualifiedNamespaceOrConnectionString1: string,
-    credentialOrOptions2?: TokenCredential | ServiceBusManagementClientOptions,
-    options3?: ServiceBusManagementClientOptions
-  ) {
-    if (isTokenCredential(credentialOrOptions2)) {
-      const requestPolicyFactories: RequestPolicyFactory[] = [];
-      if (options3 && options3.proxySettings) {
-        requestPolicyFactories.push(proxyPolicy(options3.proxySettings));
-      }
-      const serviceClientOptions: ServiceClientOptions = {
-        requestPolicyFactories: requestPolicyFactories
-      };
-      super(credentialOrOptions2, serviceClientOptions);
-      this.sasTokenProvider = credentialOrOptions2;
-      this.endpoint = fullyQualifiedNamespaceOrConnectionString1;
-      this.endpointWithProtocol = "sb://" + fullyQualifiedNamespaceOrConnectionString1;
-    } else {
-      const connectionString = fullyQualifiedNamespaceOrConnectionString1;
-      const options = credentialOrOptions2;
-      const connectionStringObj: any = parseConnectionString(connectionString);
-
-      if (connectionStringObj.Endpoint == undefined) {
-        throw new Error("Missing Endpoint in connection string.");
-      }
-
-      const credentials = new SasServiceClientCredentials(
-        connectionStringObj.SharedAccessKeyName,
-        connectionStringObj.SharedAccessKey
-      );
-
-      const requestPolicyFactories: RequestPolicyFactory[] = [];
-      requestPolicyFactories.push(signingPolicy(credentials));
-
-      if (options && options.proxySettings) {
-        requestPolicyFactories.push(proxyPolicy(options.proxySettings));
-      }
-      const serviceClientOptions: ServiceClientOptions = {
-        requestPolicyFactories: requestPolicyFactories
-      };
-
-      super(credentials, serviceClientOptions);
-      this.endpoint = (connectionString.match("Endpoint=.*://(.*)/;") || "")[1];
-      this.endpointWithProtocol = connectionStringObj.Endpoint;
-
-      this.sasTokenProvider = new SharedKeyCredential(
-        connectionStringObj.SharedAccessKeyName,
-        connectionStringObj.SharedAccessKey
-      );
+    if (connectionStringObj.Endpoint == undefined) {
+      throw new Error("Missing Endpoint in connection string.");
     }
+
+    const credentials = new SasServiceClientCredentials(
+      connectionStringObj.SharedAccessKeyName,
+      connectionStringObj.SharedAccessKey
+    );
+
+    const requestPolicyFactories: RequestPolicyFactory[] = [];
+    requestPolicyFactories.push(signingPolicy(credentials));
+
+    if (options && options.proxySettings) {
+      requestPolicyFactories.push(proxyPolicy(options.proxySettings));
+    }
+    const serviceClientOptions: ServiceClientOptions = {
+      requestPolicyFactories: requestPolicyFactories
+    };
+
+    super(credentials, serviceClientOptions);
     this.queueResourceSerializer = new QueueResourceSerializer();
     this.topicResourceSerializer = new TopicResourceSerializer();
     this.subscriptionResourceSerializer = new SubscriptionResourceSerializer();
     this.ruleResourceSerializer = new RuleResourceSerializer();
+    this.endpoint = (connectionString.match("Endpoint=.*://(.*)/;") || "")[1];
+    this.endpointWithProtocol = connectionStringObj.Endpoint;
+
+    this.sasTokenProvider = new SharedKeyCredential(
+      connectionStringObj.SharedAccessKeyName,
+      connectionStringObj.SharedAccessKey
+    );
   }
 
   /**
