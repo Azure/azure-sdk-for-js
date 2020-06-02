@@ -61,10 +61,6 @@ async function main() {
   if (totalField.valueType === "number") {
     console.log(`  Total: '${totalField.value || "<missing>"}', with confidence of ${totalField.confidence}`);
   }
-
-  // raw fields are also included in the result
-  console.log("Raw 'MerchantAddress' field:");
-  console.log(receipt.recognizedForm.fields["MerchantAddress"]);
 }
 
 main().catch((err) => {
