@@ -388,12 +388,6 @@ export type GetIndexOptions = OperationOptions;
 export type GetIndexStatisticsOptions = OperationOptions;
 
 // @public
-export interface GetIndexStatisticsResult {
-    readonly documentCount: number;
-    readonly storageSize: number;
-}
-
-// @public
 export type GetServiceStatisticsOptions = OperationOptions;
 
 // @public
@@ -1205,7 +1199,10 @@ export interface SearchIndexerWarning {
 }
 
 // @public
-export type SearchIndexStatistics = GetIndexStatisticsResult;
+export interface SearchIndexStatistics {
+    readonly documentCount: number;
+    readonly storageSize: number;
+}
 
 // @public
 export type SearchIterator<Fields> = PagedAsyncIterableIterator<SearchResult<Fields>, SearchDocumentsPageResult<Fields>, ListSearchResultsPageSettings>;
@@ -1254,7 +1251,10 @@ export type SearchResult<T> = {
 } & T;
 
 // @public
-export type SearchServiceStatistics = ServiceStatistics;
+export interface SearchServiceStatistics {
+    counters: ServiceCounters;
+    limits: ServiceLimits;
+}
 
 // @public
 export interface SearchSuggester {
@@ -1293,12 +1293,6 @@ export interface ServiceLimits {
     maxComplexObjectsInCollectionsPerDocument?: number;
     maxFieldNestingDepthPerIndex?: number;
     maxFieldsPerIndex?: number;
-}
-
-// @public
-export interface ServiceStatistics {
-    counters: ServiceCounters;
-    limits: ServiceLimits;
 }
 
 // @public

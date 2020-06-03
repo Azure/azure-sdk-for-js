@@ -68,8 +68,8 @@ import {
   ClassicSimilarity,
   BM25Similarity,
   EdgeNGramTokenFilterSide,
-  GetIndexStatisticsResult,
-  ServiceStatistics
+  ServiceCounters,
+  ServiceLimits
 } from "./generated/service/models";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
@@ -132,13 +132,33 @@ export type GetIndexStatisticsOptions = OperationOptions;
  * Statistics for a given index. Statistics are collected periodically and are not guaranteed to
  * always be up-to-date.
  */
-export type SearchIndexStatistics = GetIndexStatisticsResult;
+export interface SearchIndexStatistics {
+  /**
+   * The number of documents in the index.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly documentCount: number;
+  /**
+   * The amount of storage in bytes consumed by the index.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly storageSize: number;
+}
 
 /**
  * Response from a get service statistics request. If successful, it includes service level
  * counters and limits.
  */
-export type SearchServiceStatistics = ServiceStatistics;
+export interface SearchServiceStatistics {
+  /**
+   * Service level resource counters.
+   */
+  counters: ServiceCounters;
+  /**
+   * Service level general limits.
+   */
+  limits: ServiceLimits;
+}
 
 /**
  * Options for get service statistics operation.
