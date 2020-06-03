@@ -2,22 +2,22 @@
 // Licensed under the MIT license.
 
 import { HttpOperationResponse } from "@azure/core-http";
-import * as Constants from "../util/constants";
 import {
   AtomXmlSerializer,
   deserializeAtomXmlResponse,
   serializeToAtomXmlRequest
 } from "../util/atomXmlHelper";
+import * as Constants from "../util/constants";
 import {
   AuthorizationRule,
+  EntityStatus,
   getAuthorizationRulesOrUndefined,
   getBoolean,
-  EntityStatus,
+  getInteger,
   getIntegerOrUndefined,
   getRawAuthorizationRules,
   getString,
-  getStringOrUndefined,
-  getInteger
+  getStringOrUndefined
 } from "../util/utils";
 
 /**

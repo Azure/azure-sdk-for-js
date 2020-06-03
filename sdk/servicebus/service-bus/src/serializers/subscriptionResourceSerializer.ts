@@ -2,19 +2,19 @@
 // Licensed under the MIT license.
 
 import { HttpOperationResponse } from "@azure/core-http";
-import * as Constants from "../util/constants";
 import {
   AtomXmlSerializer,
   deserializeAtomXmlResponse,
   serializeToAtomXmlRequest
 } from "../util/atomXmlHelper";
+import * as Constants from "../util/constants";
 import {
-  getStringOrUndefined,
+  EntityStatus,
+  getBoolean,
   getCountDetailsOrUndefined,
   getInteger,
   getString,
-  getBoolean,
-  EntityStatus,
+  getStringOrUndefined,
   MessageCountDetails
 } from "../util/utils";
 

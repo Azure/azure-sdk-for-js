@@ -2,12 +2,13 @@
 // Licensed under the MIT license.
 
 import { HttpOperationResponse } from "@azure/core-http";
-import * as Constants from "../util/constants";
+import { CorrelationRuleFilter } from "../core/managementClient";
 import {
   AtomXmlSerializer,
   deserializeAtomXmlResponse,
   serializeToAtomXmlRequest
 } from "../util/atomXmlHelper";
+import * as Constants from "../util/constants";
 import {
   getBooleanOrUndefined,
   getIntegerOrUndefined,
@@ -15,7 +16,6 @@ import {
   getStringOrUndefined,
   isJSONLikeObject
 } from "../util/utils";
-import { CorrelationRuleFilter } from "../core/managementClient";
 
 /**
  * @internal

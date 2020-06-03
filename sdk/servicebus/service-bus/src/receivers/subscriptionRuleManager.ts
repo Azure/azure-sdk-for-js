@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RuleDescription, CorrelationRuleFilter } from "../core/managementClient";
-import { throwErrorIfClientOrConnectionClosed } from "../util/errors";
+import { retry, RetryConfig, RetryOperationType, RetryOptions } from "@azure/core-amqp";
 import { ClientEntityContext } from "../clientEntityContext";
-import { RetryConfig, RetryOperationType, RetryOptions, retry } from "@azure/core-amqp";
+import { CorrelationRuleFilter, RuleDescription } from "../core/managementClient";
 import { OperationOptions } from "../modelsToBeSharedWithEventHubs";
+import { throwErrorIfClientOrConnectionClosed } from "../util/errors";
 
 /**
  * @internal
