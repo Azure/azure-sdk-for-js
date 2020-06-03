@@ -10,10 +10,10 @@ import chaiString from "chai-string";
 chai.use(chaiString);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:client-spec");
-import { TokenCredential, EventHubProducerClient, EventHubConsumerClient } from "../src";
+import { TokenCredential, EventHubProducerClient, EventHubConsumerClient, Subscription } from "../src";
 import { packageJsonInfo } from "../src/util/constants";
 import { EnvVarKeys, getEnvVars, isNode } from "./utils/testUtils";
-import { delay } from "@azure/core-amqp";
+import { MessagingError } from "@azure/core-amqp";
 import { ConnectionContext } from "../src/connectionContext";
 const env = getEnvVars();
 
@@ -201,17 +201,20 @@ describe("EventHubConsumerClient with non existent namespace", function(): void 
   });
 
   it("should throw ServiceCommunicationError while subscribe()", async function(): Promise<void> {
-    let caughtErr: any;
-    const subscription = client.subscribe({
-      processEvents: async () => {},
-      processError: async (err) => {
-        caughtErr = err;
-      }
+    let subscription: Subscription | undefined;
+    const caughtErr = await new Promise<Error | MessagingError>((resolve) => {
+      subscription = client.subscribe({
+        processEvents: async () => {},
+        processError: async (err) => {
+          resolve(err);
+        }
+      });
     });
-    await delay(5000);
-    await subscription.close();
+    if (subscription) {
+      await subscription.close();
+    }
     debug(caughtErr);
-    should.equal(caughtErr.code, expectedErrCode);
+    should.equal(caughtErr instanceof MessagingError && caughtErr.code, expectedErrCode);
     await client.close();
   });
 });
@@ -342,17 +345,20 @@ describe("EventHubConsumerClient with non existent event hub", function(): void 
   it("should throw MessagingEntityNotFoundError while subscribe()", async function(): Promise<
     void
   > {
-    let caughtErr: any;
-    const subscription = client.subscribe({
-      processEvents: async () => {},
-      processError: async (err) => {
-        caughtErr = err;
-      }
+    let subscription: Subscription | undefined;
+    const caughtErr = await new Promise<Error | MessagingError>((resolve) => {
+      subscription = client.subscribe({
+        processEvents: async () => {},
+        processError: async (err) => {
+          resolve(err);
+        }
+      });
     });
-    await delay(5000);
-    await subscription.close();
+    if (subscription) {
+      await subscription.close();
+    }
     debug(caughtErr);
-    should.equal(caughtErr.code, expectedErrCode);
+    should.equal(caughtErr instanceof MessagingError && caughtErr.code, expectedErrCode);
     await client.close();
   });
 });
@@ -584,15 +590,18 @@ describe("EventHubConsumerClient after close()", function(): void {
 
   it("should throw connection closed error while subscribe()", async function(): Promise<void> {
     await beforeEachTest();
-    let caughtErr: any;
-    const subscription = client.subscribe({
-      processEvents: async () => {},
-      processError: async (err) => {
-        caughtErr = err;
-      }
+    let subscription: Subscription | undefined;
+    const caughtErr = await new Promise<Error | MessagingError>((resolve) => {
+      subscription = client.subscribe({
+        processEvents: async () => {},
+        processError: async (err) => {
+          resolve(err);
+        }
+      });
     });
-    await delay(5000);
-    await subscription.close();
+    if (subscription) {
+      await subscription.close();
+    }
     debug(caughtErr);
     should.equal(caughtErr.message, expectedErrorMsg);
   });
