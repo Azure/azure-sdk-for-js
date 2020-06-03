@@ -5,7 +5,7 @@ import {
   SearchClient,
   SearchIndexClient,
   GeographyPoint,
-  Index,
+  SearchIndex,
   KnownAnalyzerNames
 } from "../../src/index";
 import { Hotel } from "./interfaces";
@@ -13,7 +13,7 @@ import { delay } from "@azure/core-http";
 
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
 export async function createIndex(client: SearchIndexClient, name: string): Promise<void> {
-  const hotelIndex: Index = {
+  const hotelIndex: SearchIndex = {
     name,
     fields: [
       {
@@ -34,13 +34,13 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
         type: "Edm.String",
         name: "description",
         searchable: true,
-        analyzer: KnownAnalyzerNames.EnLucene
+        analyzerName: KnownAnalyzerNames.EnLucene
       },
       {
         type: "Edm.String",
         name: "descriptionFr",
         searchable: true,
-        analyzer: KnownAnalyzerNames.FrLucene
+        analyzerName: KnownAnalyzerNames.FrLucene
       },
       {
         type: "Edm.String",
@@ -142,13 +142,13 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
             type: "Edm.String",
             name: "description",
             searchable: true,
-            analyzer: KnownAnalyzerNames.EnLucene
+            analyzerName: KnownAnalyzerNames.EnLucene
           },
           {
             type: "Edm.String",
             name: "descriptionFr",
             searchable: true,
-            analyzer: KnownAnalyzerNames.FrLucene
+            analyzerName: KnownAnalyzerNames.FrLucene
           },
           {
             type: "Edm.String",
@@ -409,9 +409,9 @@ export async function populateIndex(client: SearchClient<Hotel>): Promise<void> 
 
   await client.uploadDocuments(testDocuments);
 
-  let count = await client.countDocuments();
+  let count = await client.getDocumentsCount();
   while (count !== testDocuments.length) {
     await delay(2000);
-    count = await client.countDocuments();
+    count = await client.getDocumentsCount();
   }
 }
