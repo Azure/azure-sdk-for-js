@@ -147,11 +147,6 @@
     "karma-remap-istanbul": "^0.6.0",
     "mocha": "^7.1.1",
     "mocha-junit-reporter": "^1.18.0",
-<<<<<<< HEAD
-    "nock": "^11.7.0",
-=======
-    "nise": "^1.4.10",
->>>>>>> [storage-file-datalake] Remove unused dev dependency "nock"
     "nyc": "^14.0.0",
     "prettier": "^1.16.4",
     "puppeteer": "^2.0.0",
