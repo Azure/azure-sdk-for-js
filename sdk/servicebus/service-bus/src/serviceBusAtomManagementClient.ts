@@ -100,12 +100,7 @@ export interface NamespaceResponse extends NamespaceProperties {
 /**
  * Represents properties of the namespace.
  */
-export interface GetNamespaceResponse extends NamespaceProperties {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
+export type GetNamespaceResponse = NamespaceResponse;
 
 /**
  * Represents result of create, get, update and delete operations on queue.

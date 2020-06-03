@@ -177,16 +177,6 @@ export interface MessageHandlers<ReceivedMessageT> {
 export { MessagingError }
 
 // @public
-export interface NamespaceProperties {
-    createdOn: string;
-    messagingSku: string;
-    messagingUnits: number | undefined;
-    name: string;
-    namespaceType: string;
-    updatedOn: string;
-}
-
-// @public
 export interface OperationOptions {
     abortSignal?: AbortSignalLike;
     tracingOptions?: OperationTracingOptions;
@@ -220,9 +210,7 @@ export interface QueueResponse extends QueueDescription {
     _response: HttpOperationResponse;
 }
 
-// Warning: (ae-internal-missing-underscore) The name "QueueRuntimeInfo" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal
+// @public
 export interface QueueRuntimeInfo {
     accessedOn?: string;
     createdOn?: string;
@@ -339,6 +327,7 @@ export interface ServiceBusClientOptions {
 // @public
 export class ServiceBusManagementClient extends ServiceClient {
     constructor(connectionString: string, options?: ServiceBusManagementClientOptions);
+    constructor(fullyQualifiedNamespace: string, credential: TokenCredential, options?: ServiceBusManagementClientOptions);
     createQueue(queueName: string): Promise<CreateQueueResponse>;
     createQueue(queue: QueueDescription): Promise<CreateQueueResponse>;
     createRule(topicName: string, subscriptionName: string, rule: RuleDescription): Promise<CreateRuleResponse>;
@@ -350,14 +339,31 @@ export class ServiceBusManagementClient extends ServiceClient {
     deleteRule(topicName: string, subscriptionName: string, ruleName: string): Promise<DeleteRuleResponse>;
     deleteSubscription(topicName: string, subscriptionName: string): Promise<DeleteSubscriptionResponse>;
     deleteTopic(topicName: string): Promise<DeleteTopicResponse>;
+    // Warning: (ae-forgotten-export) The symbol "GetNamespaceResponse" needs to be exported by the entry point index.d.ts
+    getNamespaceProperties(): Promise<GetNamespaceResponse>;
     getQueue(queueName: string): Promise<GetQueueResponse>;
+    // Warning: (ae-forgotten-export) The symbol "GetQueueRuntimeInfoResponse" needs to be exported by the entry point index.d.ts
+    getQueueRuntimeInfo(queueName: string): Promise<GetQueueRuntimeInfoResponse>;
     getQueues(listRequestOptions?: ListRequestOptions): Promise<GetQueuesResponse>;
+    // Warning: (ae-forgotten-export) The symbol "GetQueuesRuntimeInfoResponse" needs to be exported by the entry point index.d.ts
+    getQueuesRuntimeInfo(listRequestOptions?: ListRequestOptions): Promise<GetQueuesRuntimeInfoResponse>;
     getRule(topicName: string, subscriptioName: string, ruleName: string): Promise<GetRuleResponse>;
     getRules(topicName: string, subscriptionName: string, listRequestOptions?: ListRequestOptions): Promise<GetRulesResponse>;
     getSubscription(topicName: string, subscriptionName: string): Promise<GetSubscriptionResponse>;
+    // Warning: (ae-forgotten-export) The symbol "GetSubscriptionRuntimeInfoResponse" needs to be exported by the entry point index.d.ts
+    getSubscriptionRuntimeInfo(topicName: string, subscriptionName: string): Promise<GetSubscriptionRuntimeInfoResponse>;
     getSubscriptions(topicName: string, listRequestOptions?: ListRequestOptions): Promise<GetSubscriptionsResponse>;
+    // Warning: (ae-forgotten-export) The symbol "GetSubscriptionsRuntimeInfoResponse" needs to be exported by the entry point index.d.ts
+    getSubscriptionsRuntimeInfo(topicName: string, listRequestOptions?: ListRequestOptions): Promise<GetSubscriptionsRuntimeInfoResponse>;
     getTopic(topicName: string): Promise<GetTopicResponse>;
+    // Warning: (ae-forgotten-export) The symbol "GetTopicRuntimeInfoResponse" needs to be exported by the entry point index.d.ts
+    getTopicRuntimeInfo(topicName: string): Promise<GetTopicRuntimeInfoResponse>;
     getTopics(listRequestOptions?: ListRequestOptions): Promise<GetTopicsResponse>;
+    // Warning: (ae-forgotten-export) The symbol "GetTopicsRuntimeInfoResponse" needs to be exported by the entry point index.d.ts
+    getTopicsRuntimeInfo(listRequestOptions?: ListRequestOptions): Promise<GetTopicsRuntimeInfoResponse>;
+    queueExists(queueName: string): Promise<boolean>;
+    subscriptionExists(topicName: string, subscriptionName: string): Promise<boolean>;
+    topicExists(topicName: string): Promise<boolean>;
     updateQueue(queue: QueueDescription): Promise<UpdateQueueResponse>;
     updateRule(topicName: string, subscriptionName: string, rule: RuleDescription): Promise<UpdateRuleResponse>;
     updateSubscription(subscription: SubscriptionDescription): Promise<UpdateSubscriptionResponse>;
@@ -467,9 +473,7 @@ export interface SubscriptionResponse extends SubscriptionDescription {
     _response: HttpOperationResponse;
 }
 
-// Warning: (ae-internal-missing-underscore) The name "SubscriptionRuntimeInfo" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal
+// @public
 export interface SubscriptionRuntimeInfo {
     accessedOn?: string;
     createdOn: string;
@@ -505,9 +509,7 @@ export interface TopicResponse extends TopicDescription {
     _response: HttpOperationResponse;
 }
 
-// Warning: (ae-internal-missing-underscore) The name "TopicRuntimeInfo" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal
+// @public
 export interface TopicRuntimeInfo {
     accessedOn?: string;
     createdOn?: string;
