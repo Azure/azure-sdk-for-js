@@ -1675,13 +1675,6 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
 // Rule tests
 [
   {
-    testCaseTitle: "Undefined rule options",
-    input: undefined,
-    output: {
-      testErrorMessage: `Parameter "ruleOptions" must be an object of type "RuleOptions" and cannot be undefined or null.`
-    }
-  },
-  {
     testCaseTitle: "Sql Filter rule options",
     input: {
       filter: {
@@ -1704,9 +1697,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
         compatibilityLevel: 20
       },
 
-      ruleName: managementRule1,
-      subscriptionName: managementSubscription1,
-      topicName: managementTopic1
+      name: managementRule1
     }
   },
   {
@@ -1736,9 +1727,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
         compatibilityLevel: 20
       },
 
-      ruleName: managementRule1,
-      subscriptionName: managementSubscription1,
-      topicName: managementTopic1
+      name: managementRule1
     }
   }
 ].forEach((testCase) => {

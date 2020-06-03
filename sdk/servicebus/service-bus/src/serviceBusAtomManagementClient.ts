@@ -1004,6 +1004,10 @@ export class ServiceBusManagementClient extends ServiceClient {
       );
     }
 
+    if (!rule.name) {
+      throw new TypeError(`"name" attribute of the parameter "rule" cannot be undefined.`);
+    }
+
     const fullPath = this.getRulePath(topicName, subscriptionName, rule.name);
     const response: HttpOperationResponse = await this.putResource(
       fullPath,
