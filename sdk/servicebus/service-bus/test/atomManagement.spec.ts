@@ -924,7 +924,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
       maxDeliveryCount: 10,
       maxSizeInMegabytes: 1024,
       messageCount: 0,
-      queueName: managementQueue1,
+      name: managementQueue1,
       requiresDuplicateDetection: false,
       requiresSession: false,
       status: "Active",
@@ -1011,7 +1011,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
       userMetadata: "test metadata",
 
       status: "ReceiveDisabled",
-      queueName: managementQueue1
+      name: managementQueue1
     }
   }
 ].forEach((testCase) => {
@@ -1115,7 +1115,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
         compatibilityLevel: undefined
       },
 
-      ruleName: managementRule1
+      name: managementRule1
     }
   },
   {
@@ -1147,7 +1147,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
         compatibilityLevel: 20
       },
 
-      ruleName: managementRule1
+      name: managementRule1
     }
   },
   {
@@ -1177,7 +1177,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
         compatibilityLevel: 20
       },
 
-      ruleName: managementRule1
+      name: managementRule1
     }
   }
 ].forEach((testCase) => {
