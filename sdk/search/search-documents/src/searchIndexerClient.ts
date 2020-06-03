@@ -30,12 +30,12 @@ import {
   GetIndexerStatusOptions,
   ResetIndexerOptions,
   RunIndexerOptions,
-  ListDataSourcesOptions,
+  ListDataSourceConnectionsOptions,
   SearchIndexerDataSourceConnection,
-  CreateDataSourceOptions,
-  DeleteDataSourceOptions,
-  GetDataSourceOptions,
-  CreateorUpdateDataSourceOptions
+  CreateDataSourceConnectionOptions,
+  DeleteDataSourceConnectionOptions,
+  GetDataSourceConnectionOptions,
+  CreateorUpdateDataSourceConnectionOptions
 } from "./serviceModels";
 import * as utils from "./serviceUtils";
 import { createSpan } from "./tracing";
@@ -191,10 +191,13 @@ export class SearchIndexerClient {
    * Retrieves a list of existing data sources in the service.
    * @param options Options to the list indexers operation.
    */
-  public async listDataSources(
-    options: ListDataSourcesOptions = {}
+  public async listDataSourceConnections(
+    options: ListDataSourceConnectionsOptions = {}
   ): Promise<Array<SearchIndexerDataSourceConnection>> {
-    const { span, updatedOptions } = createSpan("SearchIndexerClient-listDataSources", options);
+    const { span, updatedOptions } = createSpan(
+      "SearchIndexerClient-listDataSourceConnections",
+      options
+    );
     try {
       const result = await this.client.dataSources.list(
         operationOptionsToRequestOptionsBase(updatedOptions)
@@ -215,9 +218,11 @@ export class SearchIndexerClient {
    * Retrieves a list of names of existing data sources in the service.
    * @param options Options to the list indexers operation.
    */
-  public async listDataSourcesNames(options: ListDataSourcesOptions = {}): Promise<Array<string>> {
+  public async listDataSourceConnectionsNames(
+    options: ListDataSourceConnectionsOptions = {}
+  ): Promise<Array<string>> {
     const { span, updatedOptions } = createSpan(
-      "SearchIndexerClient-listDataSourcesNames",
+      "SearchIndexerClient-listDataSourceConnectionsNames",
       options
     );
     try {
@@ -316,14 +321,17 @@ export class SearchIndexerClient {
    * @param dataSourceName The name of the DataSource
    * @param options Additional optional arguments
    */
-  public async getDataSource(
-    dataSourceName: string,
-    options: GetDataSourceOptions = {}
+  public async getDataSourceConnection(
+    dataSourceConnectionName: string,
+    options: GetDataSourceConnectionOptions = {}
   ): Promise<SearchIndexerDataSourceConnection> {
-    const { span, updatedOptions } = createSpan("SearchIndexerClient-getDataSource", options);
+    const { span, updatedOptions } = createSpan(
+      "SearchIndexerClient-getDataSourceConnection",
+      options
+    );
     try {
       const result = await this.client.dataSources.get(
-        dataSourceName,
+        dataSourceConnectionName,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
       return utils.generatedDataSourceToPublicDataSource(result);
@@ -394,20 +402,23 @@ export class SearchIndexerClient {
 
   /**
    * Creates a new dataSource in a search service.
-   * @param dataSource The dataSource definition to create in a search service.
+   * @param dataSourceConnection The dataSource definition to create in a search service.
    * @param options Additional optional arguments.
    */
-  public async createDataSource(
-    dataSource: SearchIndexerDataSourceConnection,
-    options: CreateDataSourceOptions = {}
+  public async createDataSourceConnection(
+    dataSourceConnection: SearchIndexerDataSourceConnection,
+    options: CreateDataSourceConnectionOptions = {}
   ): Promise<SearchIndexerDataSourceConnection> {
-    const { span, updatedOptions } = createSpan("SearchIndexerClient-createDataSource", options);
+    const { span, updatedOptions } = createSpan(
+      "SearchIndexerClient-createDataSourceConnection",
+      options
+    );
     try {
       const result = await this.client.dataSources.create(
         {
-          ...dataSource,
+          ...dataSourceConnection,
           credentials: {
-            connectionString: dataSource.connectionString
+            connectionString: dataSourceConnection.connectionString
           }
         },
         operationOptionsToRequestOptionsBase(updatedOptions)
@@ -485,26 +496,26 @@ export class SearchIndexerClient {
 
   /**
    * Creates a new datasource or modifies an existing one.
-   * @param dataSource The information describing the datasource to be created/updated.
+   * @param dataSourceConnection The information describing the datasource to be created/updated.
    * @param options Additional optional arguments.
    */
-  public async createOrUpdateDataSource(
-    dataSource: SearchIndexerDataSourceConnection,
-    options: CreateorUpdateDataSourceOptions = {}
+  public async createOrUpdateDataSourceConnection(
+    dataSourceConnection: SearchIndexerDataSourceConnection,
+    options: CreateorUpdateDataSourceConnectionOptions = {}
   ): Promise<SearchIndexerDataSourceConnection> {
     const { span, updatedOptions } = createSpan(
-      "SearchIndexerClient-createOrUpdateDataSource",
+      "SearchIndexerClient-createOrUpdateDataSourceConnection",
       options
     );
     try {
-      const etag = options.onlyIfUnchanged ? dataSource.etag : undefined;
+      const etag = options.onlyIfUnchanged ? dataSourceConnection.etag : undefined;
 
       const result = await this.client.dataSources.createOrUpdate(
-        dataSource.name,
+        dataSourceConnection.name,
         {
-          ...dataSource,
+          ...dataSourceConnection,
           credentials: {
-            connectionString: dataSource.connectionString
+            connectionString: dataSourceConnection.connectionString
           }
         },
         {
@@ -600,21 +611,25 @@ export class SearchIndexerClient {
    * @param dataSource Datasource/Name of the datasource to delete.
    * @param options Additional optional arguments.
    */
-  public async deleteDataSource(
-    dataSource: string | SearchIndexerDataSourceConnection,
-    options: DeleteDataSourceOptions = {}
+  public async deleteDataSourceConnection(
+    dataSourceConnection: string | SearchIndexerDataSourceConnection,
+    options: DeleteDataSourceConnectionOptions = {}
   ): Promise<void> {
-    const { span, updatedOptions } = createSpan("SearchIndexerClient-deleteDataSource", options);
+    const { span, updatedOptions } = createSpan(
+      "SearchIndexerClient-deleteDataSourceConnection",
+      options
+    );
     try {
-      const dataSourceName: string = typeof dataSource === "string" ? dataSource : dataSource.name;
+      const dataSourceConnectionName: string =
+        typeof dataSourceConnection === "string" ? dataSourceConnection : dataSourceConnection.name;
       const etag =
-        typeof dataSource === "string"
+        typeof dataSourceConnection === "string"
           ? undefined
           : options.onlyIfUnchanged
-          ? dataSource.etag
+          ? dataSourceConnection.etag
           : undefined;
 
-      await this.client.dataSources.deleteMethod(dataSourceName, {
+      await this.client.dataSources.deleteMethod(dataSourceConnectionName, {
         ...operationOptionsToRequestOptionsBase(updatedOptions),
         ifMatch: etag
       });

@@ -161,7 +161,7 @@ export interface CorsOptions {
 export type CountDocumentsOptions = OperationOptions;
 
 // @public
-export type CreateDataSourceOptions = OperationOptions;
+export type CreateDataSourceConnectionOptions = OperationOptions;
 
 // @public
 export type CreateIndexerOptions = OperationOptions;
@@ -170,7 +170,7 @@ export type CreateIndexerOptions = OperationOptions;
 export type CreateIndexOptions = OperationOptions;
 
 // @public
-export interface CreateorUpdateDataSourceOptions extends OperationOptions {
+export interface CreateorUpdateDataSourceConnectionOptions extends OperationOptions {
     onlyIfUnchanged?: boolean;
 }
 
@@ -223,7 +223,7 @@ export interface DefaultCognitiveServicesAccount {
 }
 
 // @public
-export interface DeleteDataSourceOptions extends OperationOptions {
+export interface DeleteDataSourceConnectionOptions extends OperationOptions {
     onlyIfUnchanged?: boolean;
 }
 
@@ -368,7 +368,7 @@ export class GeographyPoint {
 }
 
 // @public
-export type GetDataSourceOptions = OperationOptions;
+export type GetDataSourceConnectionOptions = OperationOptions;
 
 // @public
 export interface GetDocumentOptions<Fields> extends OperationOptions {
@@ -738,7 +738,7 @@ export interface LimitTokenFilter {
 }
 
 // @public
-export type ListDataSourcesOptions = OperationOptions;
+export type ListDataSourceConnectionsOptions = OperationOptions;
 
 // @public
 export type ListIndexersOptions = OperationOptions;
@@ -1104,22 +1104,22 @@ export interface SearchIndexer {
 export class SearchIndexerClient {
     constructor(endpoint: string, credential: KeyCredential, options?: SearchIndexerClientOptions);
     readonly apiVersion: string;
-    createDataSource(dataSource: SearchIndexerDataSourceConnection, options?: CreateDataSourceOptions): Promise<SearchIndexerDataSourceConnection>;
+    createDataSourceConnection(dataSourceConnection: SearchIndexerDataSourceConnection, options?: CreateDataSourceConnectionOptions): Promise<SearchIndexerDataSourceConnection>;
     createIndexer(indexer: SearchIndexer, options?: CreateIndexerOptions): Promise<SearchIndexer>;
-    createOrUpdateDataSource(dataSource: SearchIndexerDataSourceConnection, options?: CreateorUpdateDataSourceOptions): Promise<SearchIndexerDataSourceConnection>;
+    createOrUpdateDataSourceConnection(dataSourceConnection: SearchIndexerDataSourceConnection, options?: CreateorUpdateDataSourceConnectionOptions): Promise<SearchIndexerDataSourceConnection>;
     createOrUpdateIndexer(indexer: SearchIndexer, options?: CreateorUpdateIndexerOptions): Promise<SearchIndexer>;
     createOrUpdateSkillset(skillset: SearchIndexerSkillset, options?: CreateOrUpdateSkillsetOptions): Promise<SearchIndexerSkillset>;
     createSkillset(skillset: SearchIndexerSkillset, options?: CreateSkillsetOptions): Promise<SearchIndexerSkillset>;
-    deleteDataSource(dataSource: string | SearchIndexerDataSourceConnection, options?: DeleteDataSourceOptions): Promise<void>;
+    deleteDataSourceConnection(dataSourceConnection: string | SearchIndexerDataSourceConnection, options?: DeleteDataSourceConnectionOptions): Promise<void>;
     deleteIndexer(indexer: string | SearchIndexer, options?: DeleteIndexerOptions): Promise<void>;
     deleteSkillset(skillset: string | SearchIndexerSkillset, options?: DeleteSkillsetOptions): Promise<void>;
     readonly endpoint: string;
-    getDataSource(dataSourceName: string, options?: GetDataSourceOptions): Promise<SearchIndexerDataSourceConnection>;
+    getDataSourceConnection(dataSourceConnectionName: string, options?: GetDataSourceConnectionOptions): Promise<SearchIndexerDataSourceConnection>;
     getIndexer(indexerName: string, options?: GetIndexerOptions): Promise<SearchIndexer>;
     getIndexerStatus(indexerName: string, options?: GetIndexerStatusOptions): Promise<SearchIndexerStatus>;
     getSkillset(skillsetName: string, options?: GetSkillSetOptions): Promise<SearchIndexerSkillset>;
-    listDataSources(options?: ListDataSourcesOptions): Promise<Array<SearchIndexerDataSourceConnection>>;
-    listDataSourcesNames(options?: ListDataSourcesOptions): Promise<Array<string>>;
+    listDataSourceConnections(options?: ListDataSourceConnectionsOptions): Promise<Array<SearchIndexerDataSourceConnection>>;
+    listDataSourceConnectionsNames(options?: ListDataSourceConnectionsOptions): Promise<Array<string>>;
     listIndexers(options?: ListIndexersOptions): Promise<Array<SearchIndexer>>;
     listIndexersNames(options?: ListIndexersOptions): Promise<Array<string>>;
     listSkillsets(options?: ListSkillsetsOptions): Promise<Array<SearchIndexerSkillset>>;

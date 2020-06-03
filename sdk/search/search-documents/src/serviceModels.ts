@@ -96,7 +96,7 @@ export type ListIndexersOptions = OperationOptions;
 /**
  * Options for a list data sources operation.
  */
-export type ListDataSourcesOptions = OperationOptions;
+export type ListDataSourceConnectionsOptions = OperationOptions;
 
 /**
  * Options for get index operation.
@@ -121,7 +121,7 @@ export type GetIndexerOptions = OperationOptions;
 /**
  * Options for get datasource operation.
  */
-export type GetDataSourceOptions = OperationOptions;
+export type GetDataSourceConnectionOptions = OperationOptions;
 
 /**
  * Options for get index statistics operation.
@@ -203,7 +203,7 @@ export type CreateIndexerOptions = OperationOptions;
 /**
  * Options for create datasource operation.
  */
-export type CreateDataSourceOptions = OperationOptions;
+export type CreateDataSourceConnectionOptions = OperationOptions;
 
 /**
  * Options for create/update index operation.
@@ -255,7 +255,7 @@ export interface CreateorUpdateIndexerOptions extends OperationOptions {
 /**
  * Options for create/update datasource operation.
  */
-export interface CreateorUpdateDataSourceOptions extends OperationOptions {
+export interface CreateorUpdateDataSourceConnectionOptions extends OperationOptions {
   /**
    * If set to true, Resource will be deleted only if the etag matches.
    */
@@ -305,7 +305,7 @@ export interface DeleteIndexerOptions extends OperationOptions {
 /**
  * Options for delete datasource operation.
  */
-export interface DeleteDataSourceOptions extends OperationOptions {
+export interface DeleteDataSourceConnectionOptions extends OperationOptions {
   /**
    * If set to true, Resource will be deleted only if the etag matches.
    */
