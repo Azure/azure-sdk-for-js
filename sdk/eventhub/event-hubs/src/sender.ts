@@ -142,9 +142,9 @@ export class EventHubProducer {
   }
 
   /**
-   * Send one or more of events to the associated Event Hub.
+   * Send events to the associated Event Hub.
    *
-   * @param eventData  An individual `EventData` object, or an array of `EventData` objects or an
+   * @param eventData  An array of `EventData` objects or an
    * instance of `EventDataBatch`.
    * @param options The set of options that can be specified to influence the way in which
    * events are sent to the associated Event Hub.
@@ -162,7 +162,7 @@ export class EventHubProducer {
    * Create a new producer using the EventHubClient createProducer method.
    */
   async send(
-    eventData: EventData | EventData[] | EventDataBatch,
+    eventData: EventData[] | EventDataBatch,
     options: SendOptions = {}
   ): Promise<void> {
     this._throwIfSenderOrConnectionClosed();

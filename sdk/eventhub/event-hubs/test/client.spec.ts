@@ -312,7 +312,7 @@ describe("Errors after close()", function(): void {
 
     // Ensure sender link is opened
     sender = client.createProducer({ partitionId: "0" });
-    await sender.send({ body: "dummy send to ensure AMQP connection is opened" });
+    await sender.send([{ body: "dummy send to ensure AMQP connection is opened" }]);
 
     // Ensure receiver link is opened
     receiver = client.createConsumer(EventHubConsumerClient.defaultConsumerGroupName, "0", {
@@ -345,7 +345,7 @@ describe("Errors after close()", function(): void {
 
     const testMessage = { body: "test" };
     let errorSend: string = "";
-    await sender.send(testMessage).catch((err) => {
+    await sender.send([testMessage]).catch((err) => {
       errorSend = err.message;
     });
     should.equal(errorSend, expectedErrorMsg, "Expected error not thrown for send()");
