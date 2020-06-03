@@ -4,11 +4,11 @@
 import * as chai from "chai";
 const should = chai.should();
 import {
+  CbsClient,
   ConnectionConfig,
   ConnectionContextBase,
-  SharedKeyCredential,
   DefaultDataTransformer,
-  CbsClient
+  SharedKeyCredential
 } from "../src";
 import { Connection } from "rhea-promise";
 import { isNode } from "../src/util/utils";

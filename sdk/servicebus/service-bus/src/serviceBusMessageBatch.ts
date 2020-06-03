@@ -5,9 +5,9 @@ import { ServiceBusMessage, toAmqpMessage } from "./serviceBusMessage";
 import { throwTypeErrorIfParameterMissing } from "./util/errors";
 import { ClientEntityContext } from "./clientEntityContext";
 import {
-  message as RheaMessageUtil,
+  MessageAnnotations,
   messageProperties as RheaMessagePropertiesList,
-  MessageAnnotations
+  message as RheaMessageUtil
 } from "rhea-promise";
 import { AmqpMessage } from "@azure/core-amqp";
 

@@ -43,7 +43,7 @@ export { AzureKeyCredential }
 
 // @public
 export type BeginCopyModelOptions = FormRecognizerOperationOptions & {
-    intervalInMs?: number;
+    updateIntervalInMs?: number;
     onProgress?: (state: BeginCopyModelPollState) => void;
     resumeFrom?: string;
 };
@@ -62,24 +62,60 @@ export interface BeginCopyModelPollState extends PollOperationState<CustomFormMo
 
 // @public
 export type BeginRecognizeContentOptions = RecognizeContentOptions & {
-    intervalInMs?: number;
-    onProgress?: (state: BeginRecognizePollState<RecognizeContentResultResponse>) => void;
-    resumeFrom?: string;
-};
-
-// @public
-export type BeginRecognizeFormsOptions = RecognizeFormsOptions & {
-    intervalInMs?: number;
-    onProgress?: (state: BeginRecognizePollState<RecognizeFormResultResponse>) => void;
+    updateIntervalInMs?: number;
+    onProgress?: (state: BeginRecognizeContentPollState) => void;
     resumeFrom?: string;
 };
 
 // @public (undocumented)
-export interface BeginRecognizePollState<T> extends PollOperationState<T> {
+export interface BeginRecognizeContentPollState extends PollOperationState<FormPageArray> {
     // (undocumented)
-    readonly analyzeOptions?: RecognizeOptions;
+    readonly analyzeOptions?: RecognizeContentOptions;
     // (undocumented)
-    readonly client: RecognizePollerClient<T>;
+    readonly client: RecognizeContentPollerClient;
+    // (undocumented)
+    contentType?: FormContentType;
+    // (undocumented)
+    modelId?: string;
+    // (undocumented)
+    resultId?: string;
+    // (undocumented)
+    source?: FormRecognizerRequestBody | string;
+    // (undocumented)
+    status: OperationStatus;
+}
+
+// @public (undocumented)
+export interface BeginRecognizeCustomFormPollState extends PollOperationState<RecognizedFormArray> {
+    // (undocumented)
+    readonly analyzeOptions?: RecognizeFormsOptions;
+    // (undocumented)
+    readonly client: RecognizeCustomFormPollerClient;
+    // (undocumented)
+    contentType?: FormContentType;
+    // (undocumented)
+    modelId?: string;
+    // (undocumented)
+    resultId?: string;
+    // (undocumented)
+    source?: FormRecognizerRequestBody | string;
+    // (undocumented)
+    status: OperationStatus;
+}
+
+// @public
+export type BeginRecognizeFormsOptions = RecognizeFormsOptions & {
+    updateIntervalInMs?: number;
+    onProgress?: (state: BeginRecognizeCustomFormPollState) => void;
+    resumeFrom?: string;
+};
+
+// @public (undocumented)
+export interface BeginRecognizeReceiptPollState extends PollOperationState<RecognizedReceiptArray> {
+    // (undocumented)
+    readonly analyzeOptions?: RecognizeReceiptsOptions;
+    // (undocumented)
+    readonly client: RecognizeReceiptPollerClient;
     // (undocumented)
     contentType?: FormContentType;
     // (undocumented)
@@ -94,21 +130,21 @@ export interface BeginRecognizePollState<T> extends PollOperationState<T> {
 
 // @public
 export type BeginRecognizeReceiptsOptions = RecognizeReceiptsOptions & {
-    intervalInMs?: number;
-    onProgress?: (state: BeginRecognizePollState<RecognizeReceiptResultResponse>) => void;
+    updateIntervalInMs?: number;
+    onProgress?: (state: BeginRecognizeReceiptPollState) => void;
     resumeFrom?: string;
 };
 
 // @public
-export type BeginTrainingOptions<T> = TrainingFileFilter & {
-    intervalInMs?: number;
-    onProgress?: (state: BeginTrainingPollState<T>) => void;
+export type BeginTrainingOptions = TrainingFileFilter & {
+    updateIntervalInMs?: number;
+    onProgress?: (state: BeginTrainingPollState) => void;
     resumeFrom?: string;
 };
 
 // @public
-export interface BeginTrainingPollState<T> extends PollOperationState<T> {
-    readonly client: TrainPollerClient<T>;
+export interface BeginTrainingPollState extends PollOperationState<CustomFormModel> {
+    readonly client: TrainPollerClient;
     modelId?: string;
     source: string;
     status: CustomFormModelStatus;
@@ -125,7 +161,7 @@ export interface CommonFieldValue {
 }
 
 // @public
-export type ContentPollerLike = PollerLike<PollOperationState<RecognizeContentResultResponse>, RecognizeContentResultResponse>;
+export type ContentPollerLike = PollerLike<PollOperationState<FormPageArray>, FormPageArray>;
 
 // @public
 export interface CopyAuthorization extends CopyAuthorizationResultModel {
@@ -149,9 +185,10 @@ export type CopyModelPollerClient = {
     getCopyModelResult: (modelId: string, resultId: string, options: GetCopyModelResultOptions) => Promise<GeneratedClientGetCustomModelCopyResultResponse>;
 };
 
-// @public
+// @public (undocumented)
 export interface CustomFormField {
     accuracy?: number;
+    label: string | null;
     name: string;
 }
 
@@ -247,13 +284,6 @@ export interface FormLine extends FormContentCommon {
 }
 
 // @public
-export interface FormModel {
-    keys: KeysResult;
-    modelInfo: CustomFormModelInfo;
-    trainResult?: FormTrainResult;
-}
-
-// @public
 export type FormModelResponse = CustomFormModel & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
@@ -273,13 +303,17 @@ export interface FormPage {
 }
 
 // @public
+export interface FormPageArray extends Array<FormPage> {
+}
+
+// @public
 export interface FormPageRange {
     firstPageNumber: number;
     lastPageNumber: number;
 }
 
 // @public
-export type FormPollerLike = PollerLike<PollOperationState<RecognizeFormResultResponse>, RecognizeFormResultResponse>;
+export type FormPollerLike = PollerLike<PollOperationState<RecognizedFormArray>, RecognizedFormArray>;
 
 // @public
 export class FormRecognizerClient {
@@ -287,7 +321,7 @@ export class FormRecognizerClient {
     beginRecognizeContent(form: FormRecognizerRequestBody, contentType?: FormContentType, options?: BeginRecognizeContentOptions): Promise<ContentPollerLike>;
     beginRecognizeContentFromUrl(formUrl: string, options?: BeginRecognizeContentOptions): Promise<ContentPollerLike>;
     beginRecognizeCustomForms(modelId: string, form: FormRecognizerRequestBody, contentType?: FormContentType, options?: BeginRecognizeFormsOptions): Promise<FormPollerLike>;
-    beginRecognizeCustomFormsFromUrl(modelId: string, formUrl: string, options?: BeginRecognizeFormsOptions): Promise<PollerLike<PollOperationState<RecognizeFormResultResponse>, RecognizeFormResultResponse>>;
+    beginRecognizeCustomFormsFromUrl(modelId: string, formUrl: string, options?: BeginRecognizeFormsOptions): Promise<FormPollerLike>;
     beginRecognizeReceipts(receipt: FormRecognizerRequestBody, contentType?: FormContentType, options?: BeginRecognizeReceiptsOptions): Promise<ReceiptPollerLike>;
     beginRecognizeReceiptsFromUrl(receiptUrl: string, options?: BeginRecognizeReceiptsOptions): Promise<ReceiptPollerLike>;
     readonly endpointUrl: string;
@@ -309,13 +343,6 @@ export interface FormRecognizerOperationOptions extends OperationOptions {
 
 // @public
 export type FormRecognizerRequestBody = Blob | ArrayBuffer | ArrayBufferView | NodeJS.ReadableStream;
-
-// @public
-export interface FormResult {
-    errors?: FormRecognizerError[];
-    forms?: RecognizedForm[];
-    version: string;
-}
 
 // @public
 export interface FormTable {
@@ -347,21 +374,15 @@ export interface FormTableRow {
 export class FormTrainingClient {
     constructor(endpointUrl: string, credential: TokenCredential | KeyCredential, options?: FormRecognizerClientOptions);
     beginCopyModel(modelId: string, target: CopyAuthorization, options?: BeginCopyModelOptions): Promise<PollerLike<PollOperationState<CustomFormModelInfo>, CustomFormModelInfo>>;
-    beginTraining(trainingFilesUrl: string, useTrainingLabels: boolean, options?: BeginTrainingOptions<FormModelResponse>): Promise<PollerLike<PollOperationState<FormModelResponse>, FormModelResponse>>;
+    beginTraining(trainingFilesUrl: string, useTrainingLabels: boolean, options?: BeginTrainingOptions): Promise<PollerLike<PollOperationState<CustomFormModel>, CustomFormModel>>;
     deleteModel(modelId: string, options?: DeleteModelOptions): Promise<RestResponse>;
     readonly endpointUrl: string;
     getAccountProperties(options?: GetAccountPropertiesOptions): Promise<AccountProperties>;
     getCopyAuthorization(resourceId: string, resourceRegion: string, options?: GetCopyAuthorizationOptions): Promise<CopyAuthorization>;
     getCustomModel(modelId: string, options?: GetModelOptions): Promise<FormModelResponse>;
     getFormRecognizerClient(): FormRecognizerClient;
-    listCustomModels(options?: ListModelsOptions): PagedAsyncIterableIterator<CustomFormModelInfo, ListModelsResponseModel>;
+    listCustomModels(options?: ListModelsOptions): PagedAsyncIterableIterator<CustomFormModelInfo, ListCustomModelsResponse>;
     }
-
-// @public
-export interface FormTrainResult {
-    errors?: FormRecognizerError[];
-    trainingDocuments: TrainingDocumentInfo[];
-}
 
 // @public
 export interface FormWord extends FormContentCommon {
@@ -417,10 +438,7 @@ export type Language = "en" | "es";
 export type LengthUnit = "pixel" | "inch";
 
 // @public
-export type ListModelsOptions = FormRecognizerOperationOptions;
-
-// @public
-export type ListModelsResponseModel = Models & {
+export type ListCustomModelsResponse = Models & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
         parsedBody: Models;
@@ -428,26 +446,18 @@ export type ListModelsResponseModel = Models & {
 };
 
 // @public
-export type Locale = "US" | "UK";
+export type ListModelsOptions = FormRecognizerOperationOptions;
 
 // @public
 export interface Model {
     keys?: KeysResult;
-    modelInfo: ModelInfo;
+    modelInfo: CustomFormModelInfo;
     trainResult?: TrainResult;
 }
 
 // @public
-export interface ModelInfo {
-    completedOn: Date;
-    modelId: string;
-    requestedOn: Date;
-    status: CustomFormModelStatus;
-}
-
-// @public
 export interface Models {
-    modelList?: ModelInfo[];
+    modelList?: CustomFormModelInfo[];
     nextLink?: string;
     summary?: ModelsSummary;
 }
@@ -514,36 +524,26 @@ export type ReceiptItemField = {
 } & CommonFieldValue;
 
 // @public
-export type ReceiptPollerLike = PollerLike<PollOperationState<RecognizeReceiptResultResponse>, RecognizeReceiptResultResponse>;
-
-// @public (undocumented)
-export type ReceiptWithLocale = {
-    locale: "US";
-} & USReceipt;
-
-// @public
-export type RecognizeContentOperationResult = Partial<RecognizedContent> & {
-    status: OperationStatus;
-    createdOn: Date;
-    lastModified: Date;
-};
+export type ReceiptPollerLike = PollerLike<PollOperationState<RecognizedReceiptArray>, RecognizedReceiptArray>;
 
 // @public
 export type RecognizeContentOptions = FormRecognizerOperationOptions;
 
 // @public
-export type RecognizeContentResultResponse = RecognizeContentOperationResult & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: AnalyzeOperationResultModel;
-    };
+export type RecognizeContentPollerClient = {
+    beginRecognize: (source: FormRecognizerRequestBody | string, contentType?: FormContentType, analyzeOptions?: RecognizeContentOptions, modelId?: string) => Promise<GeneratedClientAnalyzeLayoutAsyncResponse>;
+    getRecognizeResult: (resultId: string, options: {
+        abortSignal?: AbortSignalLike;
+    }) => Promise<RecognizeContentResultResponse>;
 };
 
 // @public
-export interface RecognizedContent {
-    pages: FormPage[];
-    version: string;
-}
+export type RecognizeCustomFormPollerClient = {
+    beginRecognize: (source: FormRecognizerRequestBody | string, contentType?: FormContentType, analyzeOptions?: RecognizeFormsOptions, modelId?: string) => Promise<GeneratedClientAnalyzeWithCustomModelResponse>;
+    getRecognizeResult: (resultId: string, options: {
+        abortSignal?: AbortSignalLike;
+    }) => Promise<RecognizeFormResultResponse>;
+};
 
 // @public
 export interface RecognizedForm {
@@ -555,64 +555,33 @@ export interface RecognizedForm {
     pages: FormPage[];
 }
 
-// @public (undocumented)
-export interface RecognizedReceipt {
-    locale?: string;
-    recognizedForm: RecognizedForm;
+// @public
+export interface RecognizedFormArray extends Array<RecognizedForm> {
 }
 
 // @public
-export type RecognizeFormOperationResult = Partial<FormResult> & {
-    status: OperationStatus;
-    createdOn: Date;
-    lastModified: Date;
-};
+export type RecognizedReceipt = {
+    locale: string;
+    recognizedForm: RecognizedForm;
+} & ({
+    locale: "US";
+} & USReceipt);
 
-// @public
-export type RecognizeFormResultResponse = RecognizeFormOperationResult & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: AnalyzeOperationResultModel;
-    };
-};
+// @public (undocumented)
+export interface RecognizedReceiptArray extends Array<RecognizedReceipt> {
+}
 
 // @public
 export type RecognizeFormsOptions = FormRecognizerOperationOptions & {
     includeTextDetails?: boolean;
 };
 
-// @public (undocumented)
-export type RecognizeOptions = RecognizeReceiptsOptions | RecognizeContentOptions | RecognizeFormsOptions;
-
 // @public
-export type RecognizePollerClient<T> = {
-    beginRecognize: (source: FormRecognizerRequestBody | string, contentType?: FormContentType, analyzeOptions?: RecognizeOptions, modelId?: string) => Promise<{
-        operationLocation?: string;
-    }>;
+export type RecognizeReceiptPollerClient = {
+    beginRecognize: (source: FormRecognizerRequestBody | string, contentType?: FormContentType, analyzeOptions?: RecognizeReceiptsOptions, modelId?: string) => Promise<GeneratedClientAnalyzeReceiptAsyncResponse>;
     getRecognizeResult: (resultId: string, options: {
         abortSignal?: AbortSignalLike;
-    }) => Promise<T>;
-};
-
-// @public
-export type RecognizeReceiptOperationResult = Partial<RecognizeReceiptResult> & {
-    status: OperationStatus;
-    createdOn: Date;
-    lastModified: Date;
-};
-
-// @public
-export interface RecognizeReceiptResult {
-    receipts?: ReceiptWithLocale[];
-    version: string;
-}
-
-// @public
-export type RecognizeReceiptResultResponse = RecognizeReceiptOperationResult & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: AnalyzeOperationResultModel;
-    };
+    }) => Promise<RecognizeReceiptResultResponse>;
 };
 
 // @public
@@ -652,11 +621,9 @@ export type TrainingFileFilter = FormRecognizerOperationOptions & {
 export type TrainingStatus = "succeeded" | "partiallySucceeded" | "failed";
 
 // @public
-export type TrainPollerClient<T> = {
-    getCustomModel: (modelId: string, options: GetModelOptions) => Promise<T>;
-    trainCustomModelInternal: (source: string, useLabelFile?: boolean, options?: TrainingFileFilter) => Promise<{
-        location?: string;
-    }>;
+export type TrainPollerClient = {
+    getCustomModel: (modelId: string, options: GetModelOptions) => Promise<FormModelResponse>;
+    trainCustomModelInternal: (source: string, useLabelFile?: boolean, options?: TrainingFileFilter) => Promise<GeneratedClientTrainCustomModelAsyncResponse>;
 };
 
 // @public
@@ -668,7 +635,7 @@ export interface TrainResult {
 }
 
 // @public
-export interface USReceipt extends RecognizedReceipt {
+export interface USReceipt {
     items: USReceiptItem[];
     merchantAddress: FormField;
     merchantName: FormField;
@@ -702,8 +669,15 @@ export type ValueTypes = "string" | "date" | "time" | "phoneNumber" | "number" |
 
 // Warnings were encountered during analysis:
 //
+// src/lro/analyze/contentPoller.ts:40:3 - (ae-forgotten-export) The symbol "GeneratedClientAnalyzeLayoutAsyncResponse" needs to be exported by the entry point index.d.ts
+// src/lro/analyze/contentPoller.ts:47:3 - (ae-forgotten-export) The symbol "RecognizeContentResultResponse" needs to be exported by the entry point index.d.ts
+// src/lro/analyze/customFormPoller.ts:40:3 - (ae-forgotten-export) The symbol "GeneratedClientAnalyzeWithCustomModelResponse" needs to be exported by the entry point index.d.ts
+// src/lro/analyze/customFormPoller.ts:47:3 - (ae-forgotten-export) The symbol "RecognizeFormResultResponse" needs to be exported by the entry point index.d.ts
+// src/lro/analyze/receiptPoller.ts:40:3 - (ae-forgotten-export) The symbol "GeneratedClientAnalyzeReceiptAsyncResponse" needs to be exported by the entry point index.d.ts
+// src/lro/analyze/receiptPoller.ts:47:3 - (ae-forgotten-export) The symbol "RecognizeReceiptResultResponse" needs to be exported by the entry point index.d.ts
 // src/lro/copy/poller.ts:37:3 - (ae-forgotten-export) The symbol "GeneratedClientCopyCustomModelResponse" needs to be exported by the entry point index.d.ts
 // src/lro/copy/poller.ts:43:3 - (ae-forgotten-export) The symbol "GeneratedClientGetCustomModelCopyResultResponse" needs to be exported by the entry point index.d.ts
+// src/lro/train/poller.ts:21:3 - (ae-forgotten-export) The symbol "GeneratedClientTrainCustomModelAsyncResponse" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

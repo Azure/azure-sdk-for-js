@@ -2,24 +2,24 @@
 // Licensed under the MIT license.
 
 import { HttpOperationResponse } from "@azure/core-http";
+import {
+  AtomXmlSerializer,
+  deserializeAtomXmlResponse,
+  serializeToAtomXmlRequest
+} from "../util/atomXmlHelper";
 import * as Constants from "../util/constants";
 import {
-  serializeToAtomXmlRequest,
-  deserializeAtomXmlResponse,
-  AtomXmlSerializer
-} from "../util/atomXmlHelper";
-import {
-  getStringOrUndefined,
-  getCountDetailsOrUndefined,
-  getRawAuthorizationRules,
-  getAuthorizationRulesOrUndefined,
-  MessageCountDetails,
   AuthorizationRule,
-  getInteger,
+  EntityStatus,
+  getAuthorizationRulesOrUndefined,
   getBoolean,
-  getString,
+  getCountDetailsOrUndefined,
+  getInteger,
   getIntegerOrUndefined,
-  EntityStatus
+  getRawAuthorizationRules,
+  getString,
+  getStringOrUndefined,
+  MessageCountDetails
 } from "../util/utils";
 
 /**
@@ -28,28 +28,26 @@ import {
  * Builds the queue options object from the user provided options.
  * Handles the differences in casing for the property names,
  * converts values to string and ensures the right order as expected by the service
- * @param queueOptions
+ * @param queue
  */
-export function buildQueueOptions(queueOptions: QueueDescription): InternalQueueOptions {
+export function buildQueueOptions(queue: QueueDescription): InternalQueueOptions {
   return {
-    LockDuration: queueOptions.lockDuration,
-    MaxSizeInMegabytes: getStringOrUndefined(queueOptions.maxSizeInMegabytes),
-    RequiresDuplicateDetection: getStringOrUndefined(queueOptions.requiresDuplicateDetection),
-    RequiresSession: getStringOrUndefined(queueOptions.requiresSession),
-    DefaultMessageTimeToLive: queueOptions.defaultMessageTtl,
-    DeadLetteringOnMessageExpiration: getStringOrUndefined(
-      queueOptions.deadLetteringOnMessageExpiration
-    ),
-    DuplicateDetectionHistoryTimeWindow: queueOptions.duplicateDetectionHistoryTimeWindow,
-    MaxDeliveryCount: getStringOrUndefined(queueOptions.maxDeliveryCount),
-    EnableBatchedOperations: getStringOrUndefined(queueOptions.enableBatchedOperations),
-    AuthorizationRules: getRawAuthorizationRules(queueOptions.authorizationRules),
-    Status: getStringOrUndefined(queueOptions.status),
-    AutoDeleteOnIdle: getStringOrUndefined(queueOptions.autoDeleteOnIdle),
-    EnablePartitioning: getStringOrUndefined(queueOptions.enablePartitioning),
-    ForwardDeadLetteredMessagesTo: getStringOrUndefined(queueOptions.forwardDeadLetteredMessagesTo),
-    ForwardTo: getStringOrUndefined(queueOptions.forwardTo),
-    UserMetadata: getStringOrUndefined(queueOptions.userMetadata)
+    LockDuration: queue.lockDuration,
+    MaxSizeInMegabytes: getStringOrUndefined(queue.maxSizeInMegabytes),
+    RequiresDuplicateDetection: getStringOrUndefined(queue.requiresDuplicateDetection),
+    RequiresSession: getStringOrUndefined(queue.requiresSession),
+    DefaultMessageTimeToLive: queue.defaultMessageTtl,
+    DeadLetteringOnMessageExpiration: getStringOrUndefined(queue.deadLetteringOnMessageExpiration),
+    DuplicateDetectionHistoryTimeWindow: queue.duplicateDetectionHistoryTimeWindow,
+    MaxDeliveryCount: getStringOrUndefined(queue.maxDeliveryCount),
+    EnableBatchedOperations: getStringOrUndefined(queue.enableBatchedOperations),
+    AuthorizationRules: getRawAuthorizationRules(queue.authorizationRules),
+    Status: getStringOrUndefined(queue.status),
+    AutoDeleteOnIdle: getStringOrUndefined(queue.autoDeleteOnIdle),
+    EnablePartitioning: getStringOrUndefined(queue.enablePartitioning),
+    ForwardDeadLetteredMessagesTo: getStringOrUndefined(queue.forwardDeadLetteredMessagesTo),
+    ForwardTo: getStringOrUndefined(queue.forwardTo),
+    UserMetadata: getStringOrUndefined(queue.userMetadata)
   };
 }
 
@@ -62,7 +60,7 @@ export function buildQueueOptions(queueOptions: QueueDescription): InternalQueue
  */
 export function buildQueue(rawQueue: any): QueueDescription {
   return {
-    queueName: getString(rawQueue[Constants.QUEUE_NAME], "queueName"),
+    name: getString(rawQueue[Constants.QUEUE_NAME], "queueName"),
 
     forwardTo: getStringOrUndefined(rawQueue[Constants.FORWARD_TO]),
     userMetadata: rawQueue[Constants.USER_METADATA],
@@ -103,20 +101,21 @@ export function buildQueue(rawQueue: any): QueueDescription {
 
     authorizationRules: getAuthorizationRulesOrUndefined(rawQueue[Constants.AUTHORIZATION_RULES]),
 
-    status: rawQueue[Constants.STATUS]
+    status: rawQueue[Constants.STATUS],
+    messageCount: getIntegerOrUndefined(rawQueue[Constants.MESSAGE_COUNT])
   };
 }
 
 /**
  * @internal
  * @ignore
- * Builds the queue object from the raw json object gotten after deserializing the
+ * Builds the queue runtime info object from the raw json object gotten after deserializing the
  * response from the service
  * @param rawQueue
  */
 export function buildQueueRuntimeInfo(rawQueue: any): QueueRuntimeInfo {
   return {
-    queueName: getString(rawQueue[Constants.QUEUE_NAME], "queueName"),
+    name: getString(rawQueue[Constants.QUEUE_NAME], "queueName"),
     sizeInBytes: getIntegerOrUndefined(rawQueue[Constants.SIZE_IN_BYTES]),
     messageCount: getIntegerOrUndefined(rawQueue[Constants.MESSAGE_COUNT]),
     messageCountDetails: getCountDetailsOrUndefined(rawQueue[Constants.COUNT_DETAILS]),
@@ -133,7 +132,7 @@ export interface QueueDescription {
   /**
    * Name of the queue
    */
-  queueName: string;
+  name: string;
 
   /**
    * Determines the amount of time in seconds in which a message should be locked for
@@ -246,6 +245,8 @@ export interface QueueDescription {
    * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
   forwardDeadLetteredMessagesTo?: string;
+  // TODO: will be removed once the RuntimeInfo APIs are added
+  messageCount?: number;
 }
 
 /**
@@ -375,7 +376,7 @@ export interface QueueRuntimeInfo {
   /**
    * Name of the queue
    */
-  queueName: string;
+  name: string;
 
   /**
    * Created at timestamp

@@ -78,7 +78,7 @@ async function retry(
  */
 export async function recreateQueue(
   queueName: string,
-  parameters?: Omit<QueueDescription, "queueName">
+  parameters?: Omit<QueueDescription, "name">
 ): Promise<void> {
   await getManagementClient();
 
@@ -87,7 +87,7 @@ export async function recreateQueue(
   };
 
   const createQueueOperation = async () => {
-    await client.createQueue({ queueName: queueName, ...parameters });
+    await client.createQueue({ name: queueName, ...parameters });
   };
 
   const checkIfQueueExistsOperation = async () => {
@@ -116,7 +116,7 @@ export async function recreateQueue(
  */
 export async function recreateTopic(
   topicName: string,
-  parameters?: Omit<TopicDescription, "topicName">
+  parameters?: Omit<TopicDescription, "name">
 ): Promise<void> {
   await getManagementClient();
 
@@ -125,7 +125,7 @@ export async function recreateTopic(
   };
 
   const createTopicOperation = async () => {
-    await client.createTopic({ topicName, ...parameters });
+    await client.createTopic({ name: topicName, ...parameters });
   };
 
   const checkIfTopicExistsOperation = async () => {

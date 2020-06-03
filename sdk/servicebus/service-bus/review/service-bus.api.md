@@ -57,14 +57,10 @@ export interface CreateBatchOptions extends OperationOptions {
 }
 
 // @public
-export interface CreateQueueResponse extends QueueDescription {
-    _response: HttpOperationResponse;
-}
+export type CreateQueueResponse = QueueResponse;
 
 // @public
-export interface CreateRuleResponse extends RuleDescription {
-    _response: HttpOperationResponse;
-}
+export type CreateRuleResponse = RuleResponse;
 
 // @public
 export interface CreateSenderOptions {
@@ -76,14 +72,10 @@ export interface CreateSessionReceiverOptions extends SessionReceiverOptions, Op
 }
 
 // @public
-export interface CreateSubscriptionResponse extends SubscriptionDescription {
-    _response: HttpOperationResponse;
-}
+export type CreateSubscriptionResponse = SubscriptionResponse;
 
 // @public
-export interface CreateTopicResponse extends TopicDescription {
-    _response: HttpOperationResponse;
-}
+export type CreateTopicResponse = TopicResponse;
 
 // @public
 export interface DeadLetterOptions {
@@ -123,19 +115,7 @@ export interface GetMessageIteratorOptions extends OperationOptions, WaitTimeOpt
 }
 
 // @public
-export interface GetNamespaceResponse extends NamespaceProperties {
-    _response: HttpOperationResponse;
-}
-
-// @public
-export interface GetQueueResponse extends QueueDescription {
-    _response: HttpOperationResponse;
-}
-
-// @public
-export interface GetQueueRuntimeInfoResponse extends QueueRuntimeInfo {
-    _response: HttpOperationResponse;
-}
+export type GetQueueResponse = QueueResponse;
 
 // @public
 export interface GetQueuesResponse extends Array<QueueDescription> {
@@ -143,14 +123,7 @@ export interface GetQueuesResponse extends Array<QueueDescription> {
 }
 
 // @public
-export interface GetQueuesRuntimeInfoResponse extends Array<QueueRuntimeInfo> {
-    _response: HttpOperationResponse;
-}
-
-// @public
-export interface GetRuleResponse extends RuleDescription {
-    _response: HttpOperationResponse;
-}
+export type GetRuleResponse = RuleResponse;
 
 // @public
 export interface GetRulesResponse extends Array<RuleDescription> {
@@ -158,14 +131,7 @@ export interface GetRulesResponse extends Array<RuleDescription> {
 }
 
 // @public
-export interface GetSubscriptionResponse extends SubscriptionDescription {
-    _response: HttpOperationResponse;
-}
-
-// @public
-export interface GetSubscriptionRuntimeInfoResponse extends SubscriptionRuntimeInfo {
-    _response: HttpOperationResponse;
-}
+export type GetSubscriptionResponse = SubscriptionResponse;
 
 // @public
 export interface GetSubscriptionsResponse extends Array<SubscriptionDescription> {
@@ -173,27 +139,10 @@ export interface GetSubscriptionsResponse extends Array<SubscriptionDescription>
 }
 
 // @public
-export interface GetSubscriptionsRuntimeInfoResponse extends Array<SubscriptionRuntimeInfo> {
-    _response: HttpOperationResponse;
-}
-
-// @public
-export interface GetTopicResponse extends TopicDescription {
-    _response: HttpOperationResponse;
-}
-
-// @public
-export interface GetTopicRuntimeInfoResponse extends TopicRuntimeInfo {
-    _response: HttpOperationResponse;
-}
+export type GetTopicResponse = TopicResponse;
 
 // @public
 export interface GetTopicsResponse extends Array<TopicDescription> {
-    _response: HttpOperationResponse;
-}
-
-// @public
-export interface GetTopicsRuntimeInfoResponse extends Array<TopicRuntimeInfo> {
     _response: HttpOperationResponse;
 }
 
@@ -257,7 +206,9 @@ export interface QueueDescription {
     lockDuration?: string;
     maxDeliveryCount?: number;
     maxSizeInMegabytes?: number;
-    queueName: string;
+    // (undocumented)
+    messageCount?: number;
+    name: string;
     requiresDuplicateDetection?: boolean;
     requiresSession?: boolean;
     status?: EntityStatus;
@@ -265,12 +216,19 @@ export interface QueueDescription {
 }
 
 // @public
+export interface QueueResponse extends QueueDescription {
+    _response: HttpOperationResponse;
+}
+
+// Warning: (ae-internal-missing-underscore) The name "QueueRuntimeInfo" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal
 export interface QueueRuntimeInfo {
     accessedOn?: string;
     createdOn?: string;
     messageCount?: number;
     messageCountDetails?: MessageCountDetails;
-    queueName: string;
+    name: string;
     sizeInBytes?: number;
     updatedOn?: string;
 }
@@ -326,6 +284,14 @@ export { RetryOptions }
 
 // @public
 export interface RuleDescription {
+    action?: SqlRuleAction;
+    filter?: SqlRuleFilter | CorrelationRuleFilter;
+    name: string;
+}
+
+// @public
+export interface RuleResponse extends RuleDescription {
+    _response: HttpOperationResponse;
 }
 
 // @public
@@ -373,36 +339,25 @@ export interface ServiceBusClientOptions {
 // @public
 export class ServiceBusManagementClient extends ServiceClient {
     constructor(connectionString: string, options?: ServiceBusManagementClientOptions);
-    constructor(fullyQualifiedNamespace: string, credential: TokenCredential, options?: ServiceBusManagementClientOptions);
     createQueue(queueName: string): Promise<CreateQueueResponse>;
     createQueue(queue: QueueDescription): Promise<CreateQueueResponse>;
     createRule(topicName: string, subscriptionName: string, rule: RuleDescription): Promise<CreateRuleResponse>;
     createSubscription(topicName: string, subscriptionName: string): Promise<CreateSubscriptionResponse>;
     createSubscription(subscription: SubscriptionDescription): Promise<CreateSubscriptionResponse>;
     createTopic(topicName: string): Promise<CreateTopicResponse>;
-    createTopic(topicOptions: TopicDescription): Promise<CreateTopicResponse>;
+    createTopic(topic: TopicDescription): Promise<CreateTopicResponse>;
     deleteQueue(queueName: string): Promise<DeleteQueueResponse>;
     deleteRule(topicName: string, subscriptionName: string, ruleName: string): Promise<DeleteRuleResponse>;
     deleteSubscription(topicName: string, subscriptionName: string): Promise<DeleteSubscriptionResponse>;
     deleteTopic(topicName: string): Promise<DeleteTopicResponse>;
-    getNamespaceProperties(): Promise<GetNamespaceResponse>;
     getQueue(queueName: string): Promise<GetQueueResponse>;
-    getQueueRuntimeInfo(queueName: string): Promise<GetQueueRuntimeInfoResponse>;
     getQueues(listRequestOptions?: ListRequestOptions): Promise<GetQueuesResponse>;
-    getQueuesRuntimeInfo(listRequestOptions?: ListRequestOptions): Promise<GetQueuesRuntimeInfoResponse>;
     getRule(topicName: string, subscriptioName: string, ruleName: string): Promise<GetRuleResponse>;
     getRules(topicName: string, subscriptionName: string, listRequestOptions?: ListRequestOptions): Promise<GetRulesResponse>;
     getSubscription(topicName: string, subscriptionName: string): Promise<GetSubscriptionResponse>;
-    getSubscriptionRuntimeInfo(topicName: string, subscriptionName: string): Promise<GetSubscriptionRuntimeInfoResponse>;
     getSubscriptions(topicName: string, listRequestOptions?: ListRequestOptions): Promise<GetSubscriptionsResponse>;
-    getSubscriptionsRuntimeInfo(topicName: string, listRequestOptions?: ListRequestOptions): Promise<GetSubscriptionsRuntimeInfoResponse>;
     getTopic(topicName: string): Promise<GetTopicResponse>;
-    getTopicRuntimeInfo(topicName: string): Promise<GetTopicRuntimeInfoResponse>;
     getTopics(listRequestOptions?: ListRequestOptions): Promise<GetTopicsResponse>;
-    getTopicsRuntimeInfo(listRequestOptions?: ListRequestOptions): Promise<GetTopicsRuntimeInfoResponse>;
-    queueExists(queueName: string): Promise<boolean>;
-    subscriptionExists(topicName: string, subscriptionName: string): Promise<boolean>;
-    topicExists(topicName: string): Promise<boolean>;
     updateQueue(queue: QueueDescription): Promise<UpdateQueueResponse>;
     updateRule(topicName: string, subscriptionName: string, rule: RuleDescription): Promise<UpdateRuleResponse>;
     updateSubscription(subscription: SubscriptionDescription): Promise<UpdateSubscriptionResponse>;
@@ -437,6 +392,8 @@ export interface ServiceBusMessage {
 // @public
 export interface ServiceBusMessageBatch {
     readonly count: number;
+    // @internal
+    _generateMessage(): Buffer;
     readonly maxSizeInBytes: number;
     readonly sizeInBytes: number;
     tryAdd(message: ServiceBusMessage): boolean;
@@ -464,10 +421,21 @@ export interface SessionReceiverOptions {
 }
 
 // @public
-export type SqlAction = SqlRuleFilter;
+export type SqlParameter = {
+    key: string;
+    value: string | number;
+    type: string;
+};
+
+// @public
+export type SqlRuleAction = SqlRuleFilter;
 
 // @public
 export interface SqlRuleFilter {
+    compatibilityLevel?: number;
+    requiresPreprocessing?: boolean;
+    sqlExpression?: string;
+    sqlParameters?: SqlParameter[];
 }
 
 // @public
@@ -485,6 +453,8 @@ export interface SubscriptionDescription {
     forwardTo?: string;
     lockDuration?: string;
     maxDeliveryCount?: number;
+    // (undocumented)
+    messageCount?: number;
     requiresSession?: boolean;
     status?: EntityStatus;
     subscriptionName: string;
@@ -493,6 +463,13 @@ export interface SubscriptionDescription {
 }
 
 // @public
+export interface SubscriptionResponse extends SubscriptionDescription {
+    _response: HttpOperationResponse;
+}
+
+// Warning: (ae-internal-missing-underscore) The name "SubscriptionRuntimeInfo" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal
 export interface SubscriptionRuntimeInfo {
     accessedOn?: string;
     createdOn: string;
@@ -516,42 +493,41 @@ export interface TopicDescription {
     enableBatchedOperations?: boolean;
     enablePartitioning?: boolean;
     maxSizeInMegabytes?: number;
+    name: string;
     requiresDuplicateDetection?: boolean;
     status?: EntityStatus;
     supportOrdering?: boolean;
-    topicName: string;
     userMetadata?: string;
 }
 
 // @public
+export interface TopicResponse extends TopicDescription {
+    _response: HttpOperationResponse;
+}
+
+// Warning: (ae-internal-missing-underscore) The name "TopicRuntimeInfo" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal
 export interface TopicRuntimeInfo {
     accessedOn?: string;
     createdOn?: string;
+    name: string;
     sizeInBytes?: number;
     subscriptionCount?: number;
-    topicName: string;
     updatedOn?: string;
 }
 
 // @public
-export interface UpdateQueueResponse extends QueueDescription {
-    _response: HttpOperationResponse;
-}
+export type UpdateQueueResponse = QueueResponse;
 
 // @public
-export interface UpdateRuleResponse extends RuleDescription {
-    _response: HttpOperationResponse;
-}
+export type UpdateRuleResponse = RuleResponse;
 
 // @public
-export interface UpdateSubscriptionResponse extends SubscriptionDescription {
-    _response: HttpOperationResponse;
-}
+export type UpdateSubscriptionResponse = SubscriptionResponse;
 
 // @public
-export interface UpdateTopicResponse extends TopicDescription {
-    _response: HttpOperationResponse;
-}
+export type UpdateTopicResponse = TopicResponse;
 
 // @public
 export interface WaitTimeOptions {

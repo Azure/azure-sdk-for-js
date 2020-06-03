@@ -426,7 +426,7 @@ const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.NameAvailability
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -434,7 +434,7 @@ const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
 
 const listBySubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.SignalRService/SignalR",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.SignalRService/signalR",
   urlParameters: [
     Parameters.subscriptionId
   ],
@@ -449,7 +449,7 @@ const listBySubscriptionOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.SignalRResourceList
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -457,7 +457,7 @@ const listBySubscriptionOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/SignalR",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName
@@ -473,7 +473,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.SignalRResourceList
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -481,7 +481,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const listKeysOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/SignalR/{resourceName}/listKeys",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/listKeys",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -498,7 +498,7 @@ const listKeysOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.SignalRKeys
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -523,7 +523,7 @@ const getOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.SignalRResource
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -531,7 +531,7 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const beginRegenerateKeyOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/SignalR/{resourceName}/regenerateKey",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/regenerateKey",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -555,7 +555,7 @@ const beginRegenerateKeyOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.SignalRKeys
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -580,15 +580,18 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
       "options",
       "parameters"
     ],
-    mapper: Mappers.SignalRCreateParameters
+    mapper: Mappers.SignalRResource
   },
   responses: {
+    200: {
+      bodyMapper: Mappers.SignalRResource
+    },
     201: {
       bodyMapper: Mappers.SignalRResource
     },
     202: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -612,7 +615,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -637,7 +640,7 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
       "options",
       "parameters"
     ],
-    mapper: Mappers.SignalRUpdateParameters
+    mapper: Mappers.SignalRResource
   },
   responses: {
     200: {
@@ -645,7 +648,7 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
     },
     202: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -669,7 +672,7 @@ const beginRestartOperationSpec: msRest.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -690,7 +693,7 @@ const listBySubscriptionNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.SignalRResourceList
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -711,7 +714,7 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.SignalRResourceList
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer

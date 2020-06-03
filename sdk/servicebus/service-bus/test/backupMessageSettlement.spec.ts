@@ -8,12 +8,12 @@ import { TestClientType, TestMessage } from "./utils/testUtils";
 import { Receiver } from "../src/receivers/receiver";
 import { Sender } from "../src/sender";
 import {
-  createServiceBusClientForTests,
+  EntityName,
   ServiceBusClientForTests,
-  testPeekMsgsLength,
-  EntityName
+  createServiceBusClientForTests,
+  testPeekMsgsLength
 } from "./utils/testutils2";
-import { ReceivedMessageWithLock, DispositionType } from "../src/serviceBusMessage";
+import { DispositionType, ReceivedMessageWithLock } from "../src/serviceBusMessage";
 
 const should = chai.should();
 chai.use(chaiAsPromised);

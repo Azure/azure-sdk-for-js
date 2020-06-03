@@ -2,22 +2,22 @@
 // Licensed under the MIT license.
 
 import { HttpOperationResponse } from "@azure/core-http";
+import {
+  AtomXmlSerializer,
+  deserializeAtomXmlResponse,
+  serializeToAtomXmlRequest
+} from "../util/atomXmlHelper";
 import * as Constants from "../util/constants";
 import {
-  serializeToAtomXmlRequest,
-  deserializeAtomXmlResponse,
-  AtomXmlSerializer
-} from "../util/atomXmlHelper";
-import {
-  getStringOrUndefined,
+  AuthorizationRule,
+  EntityStatus,
+  getAuthorizationRulesOrUndefined,
+  getBoolean,
+  getInteger,
   getIntegerOrUndefined,
   getRawAuthorizationRules,
-  getAuthorizationRulesOrUndefined,
-  AuthorizationRule,
   getString,
-  getInteger,
-  getBoolean,
-  EntityStatus
+  getStringOrUndefined
 } from "../util/utils";
 
 /**
@@ -26,21 +26,21 @@ import {
  * Builds the topic options object from the user provided options.
  * Handles the differences in casing for the property names,
  * converts values to string and ensures the right order as expected by the service
- * @param topicOptions
+ * @param topic
  */
-export function buildTopicOptions(topicOptions: TopicDescription): InternalTopicOptions {
+export function buildTopicOptions(topic: TopicDescription): InternalTopicOptions {
   return {
-    DefaultMessageTimeToLive: topicOptions.defaultMessageTtl,
-    MaxSizeInMegabytes: getStringOrUndefined(topicOptions.maxSizeInMegabytes),
-    RequiresDuplicateDetection: getStringOrUndefined(topicOptions.requiresDuplicateDetection),
-    DuplicateDetectionHistoryTimeWindow: topicOptions.duplicateDetectionHistoryTimeWindow,
-    EnableBatchedOperations: getStringOrUndefined(topicOptions.enableBatchedOperations),
-    AuthorizationRules: getRawAuthorizationRules(topicOptions.authorizationRules),
-    Status: getStringOrUndefined(topicOptions.status),
-    UserMetadata: getStringOrUndefined(topicOptions.userMetadata),
-    SupportOrdering: getStringOrUndefined(topicOptions.supportOrdering),
-    AutoDeleteOnIdle: getStringOrUndefined(topicOptions.autoDeleteOnIdle),
-    EnablePartitioning: getStringOrUndefined(topicOptions.enablePartitioning)
+    DefaultMessageTimeToLive: topic.defaultMessageTtl,
+    MaxSizeInMegabytes: getStringOrUndefined(topic.maxSizeInMegabytes),
+    RequiresDuplicateDetection: getStringOrUndefined(topic.requiresDuplicateDetection),
+    DuplicateDetectionHistoryTimeWindow: topic.duplicateDetectionHistoryTimeWindow,
+    EnableBatchedOperations: getStringOrUndefined(topic.enableBatchedOperations),
+    AuthorizationRules: getRawAuthorizationRules(topic.authorizationRules),
+    Status: getStringOrUndefined(topic.status),
+    UserMetadata: getStringOrUndefined(topic.userMetadata),
+    SupportOrdering: getStringOrUndefined(topic.supportOrdering),
+    AutoDeleteOnIdle: getStringOrUndefined(topic.autoDeleteOnIdle),
+    EnablePartitioning: getStringOrUndefined(topic.enablePartitioning)
   };
 }
 
@@ -53,7 +53,7 @@ export function buildTopicOptions(topicOptions: TopicDescription): InternalTopic
  */
 export function buildTopic(rawTopic: any): TopicDescription {
   return {
-    topicName: getString(rawTopic[Constants.TOPIC_NAME], "topicName"),
+    name: getString(rawTopic[Constants.TOPIC_NAME], "topicName"),
     maxSizeInMegabytes: getInteger(rawTopic[Constants.MAX_SIZE_IN_MEGABYTES], "maxSizeInMegabytes"),
 
     enablePartitioning: getBoolean(rawTopic[Constants.ENABLE_PARTITIONING], "enablePartitioning"),
@@ -88,13 +88,13 @@ export function buildTopic(rawTopic: any): TopicDescription {
 /**
  * @internal
  * @ignore
- * Builds the topic object from the raw json object gotten after deserializing the
+ * Builds the topic runtime info object from the raw json object gotten after deserializing the
  * response from the service
  * @param rawTopic
  */
 export function buildTopicRuntimeInfo(rawTopic: any): TopicRuntimeInfo {
   return {
-    topicName: getString(rawTopic[Constants.TOPIC_NAME], "topicName"),
+    name: getString(rawTopic[Constants.TOPIC_NAME], "topicName"),
     sizeInBytes: getIntegerOrUndefined(rawTopic[Constants.SIZE_IN_BYTES]),
     subscriptionCount: getIntegerOrUndefined(rawTopic[Constants.SUBSCRIPTION_COUNT]),
     createdOn: rawTopic[Constants.CREATED_AT],
@@ -110,7 +110,7 @@ export interface TopicDescription {
   /**
    * Name of the topic
    */
-  topicName: string;
+  name: string;
 
   /**
    * Determines how long a message lives in the associated subscriptions.
@@ -276,7 +276,7 @@ export interface TopicRuntimeInfo {
   /**
    * Name of the topic
    */
-  topicName: string;
+  name: string;
 
   /**
    * Specifies the topic size in bytes.

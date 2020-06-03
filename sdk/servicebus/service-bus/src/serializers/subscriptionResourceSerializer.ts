@@ -2,20 +2,20 @@
 // Licensed under the MIT license.
 
 import { HttpOperationResponse } from "@azure/core-http";
+import {
+  AtomXmlSerializer,
+  deserializeAtomXmlResponse,
+  serializeToAtomXmlRequest
+} from "../util/atomXmlHelper";
 import * as Constants from "../util/constants";
 import {
-  serializeToAtomXmlRequest,
-  deserializeAtomXmlResponse,
-  AtomXmlSerializer
-} from "../util/atomXmlHelper";
-import {
-  getStringOrUndefined,
-  getCountDetailsOrUndefined,
-  MessageCountDetails,
-  getString,
-  getInteger,
+  EntityStatus,
   getBoolean,
-  EntityStatus
+  getCountDetailsOrUndefined,
+  getInteger,
+  getString,
+  getStringOrUndefined,
+  MessageCountDetails
 } from "../util/utils";
 
 /**
@@ -24,30 +24,28 @@ import {
  * Builds the subscription options object from the user provided options.
  * Handles the differences in casing for the property names,
  * converts values to string and ensures the right order as expected by the service
- * @param subscriptionOptions
+ * @param subscription
  */
 export function buildSubscriptionOptions(
-  subscriptionOptions: SubscriptionDescription
+  subscription: SubscriptionDescription
 ): InternalSubscriptionOptions {
   return {
-    LockDuration: subscriptionOptions.lockDuration,
-    RequiresSession: getStringOrUndefined(subscriptionOptions.requiresSession),
-    DefaultMessageTimeToLive: getStringOrUndefined(subscriptionOptions.defaultMessageTtl),
+    LockDuration: subscription.lockDuration,
+    RequiresSession: getStringOrUndefined(subscription.requiresSession),
+    DefaultMessageTimeToLive: getStringOrUndefined(subscription.defaultMessageTtl),
     DeadLetteringOnMessageExpiration: getStringOrUndefined(
-      subscriptionOptions.deadLetteringOnMessageExpiration
+      subscription.deadLetteringOnMessageExpiration
     ),
     DeadLetteringOnFilterEvaluationExceptions: getStringOrUndefined(
-      subscriptionOptions.deadLetteringOnFilterEvaluationExceptions
+      subscription.deadLetteringOnFilterEvaluationExceptions
     ),
-    MaxDeliveryCount: getStringOrUndefined(subscriptionOptions.maxDeliveryCount),
-    EnableBatchedOperations: getStringOrUndefined(subscriptionOptions.enableBatchedOperations),
-    Status: getStringOrUndefined(subscriptionOptions.status),
-    ForwardTo: getStringOrUndefined(subscriptionOptions.forwardTo),
-    UserMetadata: getStringOrUndefined(subscriptionOptions.userMetadata),
-    ForwardDeadLetteredMessagesTo: getStringOrUndefined(
-      subscriptionOptions.forwardDeadLetteredMessagesTo
-    ),
-    AutoDeleteOnIdle: getStringOrUndefined(subscriptionOptions.autoDeleteOnIdle)
+    MaxDeliveryCount: getStringOrUndefined(subscription.maxDeliveryCount),
+    EnableBatchedOperations: getStringOrUndefined(subscription.enableBatchedOperations),
+    Status: getStringOrUndefined(subscription.status),
+    ForwardTo: getStringOrUndefined(subscription.forwardTo),
+    UserMetadata: getStringOrUndefined(subscription.userMetadata),
+    ForwardDeadLetteredMessagesTo: getStringOrUndefined(subscription.forwardDeadLetteredMessagesTo),
+    AutoDeleteOnIdle: getStringOrUndefined(subscription.autoDeleteOnIdle)
   };
 }
 
@@ -100,7 +98,7 @@ export function buildSubscription(rawSubscription: any): SubscriptionDescription
 /**
  * @internal
  * @ignore
- * Builds the subscription object from the raw json object gotten after deserializing
+ * Builds the subscription runtime info object from the raw json object gotten after deserializing
  * the response from the service
  * @param rawSubscription
  */
@@ -219,6 +217,9 @@ export interface SubscriptionDescription {
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
   autoDeleteOnIdle?: string;
+
+  // TODO: will be removed once the RuntimeInfo APIs are added
+  messageCount?: number;
 }
 
 /**

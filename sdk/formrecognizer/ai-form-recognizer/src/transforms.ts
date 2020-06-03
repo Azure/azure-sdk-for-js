@@ -26,10 +26,6 @@ import {
   RecognizedForm,
   FieldText,
   FormField,
-  RecognizeFormResultResponse,
-  RecognizeContentResultResponse,
-  RecognizedContent,
-  RecognizeReceiptResultResponse,
   FieldValue,
   StringFieldValue,
   DateFieldValue,
@@ -47,8 +43,12 @@ import {
   USReceiptType,
   USReceiptItem,
   ReceiptItemArrayField,
-  ReceiptWithLocale
 } from "./models";
+import {
+  RecognizeFormResultResponse,
+  RecognizeContentResultResponse,
+  RecognizeReceiptResultResponse
+} from "./internalModels";
 
 export function toBoundingBox(original: number[]): Point2D[] {
   return [
@@ -365,14 +365,14 @@ export function toRecognizedForm(original: DocumentResultModel, pages: FormPage[
 export function toRecognizeContentResultResponse(
   original: GetAnalyzeLayoutResultResponse
 ): RecognizeContentResultResponse {
-  function toRecognizeContentResult(model?: AnalyzeResultModel): RecognizedContent | undefined {
+  function toRecognizeContentResult(model?: AnalyzeResultModel): { version?: string, pages?: FormPage[] } | undefined {
     if (!model) {
       return undefined;
     }
     const pages = toFormPages(model.readResults, model.pageResults);
     return {
       version: model.version,
-      pages: pages
+      pages: pages,
     };
   }
 
@@ -398,10 +398,16 @@ function toRecognizedReceipt(result: DocumentResultModel, pages: FormPage[]): Re
   }
 
   const form = toRecognizedForm(result, pages);
-  return {
-    recognizedForm: form,
-    locale: undefined // in the future service would return locale info
-  };
+  // in the future service would return locale info
+  const locale = "US";
+  switch (locale) {
+    case "US":
+      return toUSReceipt(form);
+    // case "UK":
+    //   return toUKReceipt(form);
+    default:
+      throw new RangeError(`Unsupported receipt with locale '${locale}'`);
+  }
 }
 
 function toReceiptType(field: FormField): USReceiptType {
@@ -481,11 +487,10 @@ function toUSReceiptItems(items: ReceiptItemArrayField): USReceiptItem[] {
   });
 }
 
-function toUSReceipt(receipt: RecognizedReceipt): ReceiptWithLocale {
-  const form = receipt.recognizedForm;
+function toUSReceipt(form: RecognizedForm): RecognizedReceipt {
   return {
     locale: "US",
-    recognizedForm: receipt.recognizedForm,
+    recognizedForm: form,
     items: form.fields["Items"]
       ? toUSReceiptItems((form.fields["Items"] as unknown) as ReceiptItemArrayField)
       : [],
@@ -500,15 +505,6 @@ function toUSReceipt(receipt: RecognizedReceipt): ReceiptWithLocale {
     transactionDate: form.fields["TransactionDate"],
     transactionTime: form.fields["TransactionTime"]
   };
-}
-
-function toReceiptWithLocale(receipt: RecognizedReceipt): ReceiptWithLocale {
-  switch (receipt.locale) {
-    case "US":
-      return toUSReceipt(receipt);
-    default:
-      throw new RangeError(`Unsupported receipt with locale ${receipt.locale}`);
-  }
 }
 
 export function toReceiptResultResponse(
@@ -532,14 +528,9 @@ export function toReceiptResultResponse(
   return {
     ...common,
     version: result.analyzeResult!.version,
-    receipts: result
-      .analyzeResult!.documentResults!.filter((d) => {
-        return !!d.fields;
-      })
-      .map((d) => {
-        const receipt = toRecognizedReceipt(d, pages);
-        return toReceiptWithLocale({ ...receipt, locale: "US" }); // default to US until service returns locale info.
-      })
+    receipts: result.analyzeResult!.documentResults!.filter((d) => {
+      return !!d.fields
+    }).map((d) => toRecognizedReceipt(d, pages))
   };
 }
 
@@ -557,7 +548,7 @@ export function toFormModelResponse(response: GetCustomModelResponse): FormModel
     // training with forms and labels, populate from trainingResult.fields
     const fields: { [propertyName: string]: CustomFormField } = {};
     for (const f of response.trainResult.fields!) {
-      fields[f.fieldName] = { name: f.fieldName, accuracy: f.accuracy };
+      fields[f.fieldName] = { name: f.fieldName, accuracy: f.accuracy, label: null };
     }
     return {
       ...common,
@@ -579,7 +570,7 @@ export function toFormModelResponse(response: GetCustomModelResponse): FormModel
       const fields: { [propertyName: string]: CustomFormField } = {};
 
       for (let i = 0; i < cluster.length; i++) {
-        fields[`field-${i}`] = { name: `field-${i}` };
+        fields[`field-${i}`] = { name: `field-${i}`, label: cluster[i] };
       }
       submodels.push({ formType: `form-${clusterKey}`, fields });
     }

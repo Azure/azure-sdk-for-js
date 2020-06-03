@@ -41,7 +41,7 @@ describe("Certificates client - list certificates in various ways", () => {
   // Use this while recording to make sure the target keyvault is clean.
   // The next tests will produce a more consistent output.
   // This test is only useful while developing locally.
-  it("can purge all certificates", async function() {
+  it("can purge all certificates", async function(): Promise<void> {
     // WARNING: When TEST_MODE equals "record", all of the certificates in the indicated KEYVAULT_NAME will be deleted as part of this test.
     if (!isRecordMode()) {
       return this.skip();
@@ -52,7 +52,7 @@ describe("Certificates client - list certificates in various ways", () => {
       try {
         await testClient.flushCertificate(certificate.name!);
       } catch (e) {
-        // Nothing to do here        
+        // Nothing to do here
       }
     }
     for await (const certificate of client.listDeletedCertificates({ includePending: true })) {

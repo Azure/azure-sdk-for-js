@@ -3,7 +3,7 @@
 
 import { ConnectionConfig } from "./connectionConfig";
 import { EventHubConnectionConfig } from "./eventhubConnectionConfig";
-import { parseConnectionString, IotHubConnectionStringModel } from "../util/utils";
+import { IotHubConnectionStringModel, parseConnectionString } from "../util/utils";
 
 /**
  * @ignore

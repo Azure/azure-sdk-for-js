@@ -2,28 +2,28 @@
 // Licensed under the MIT license.
 
 import {
-  translate,
   Constants,
   ErrorNameConditionMapper,
+  Func,
   MessagingError,
-  Func
+  translate
 } from "@azure/core-amqp";
 import {
-  Receiver,
-  OnAmqpEvent,
-  EventContext,
-  ReceiverOptions,
-  ReceiverEvents,
   AmqpError,
+  EventContext,
+  OnAmqpEvent,
+  Receiver,
+  ReceiverEvents,
+  ReceiverOptions,
   isAmqpError
 } from "rhea-promise";
 import * as log from "../log";
-import { OnError, OnAmqpEventAsPromise, PromiseLike, OnMessage } from "../core/messageReceiver";
+import { OnAmqpEventAsPromise, OnError, OnMessage, PromiseLike } from "../core/messageReceiver";
 import { LinkEntity } from "../core/linkEntity";
 import { ClientEntityContext } from "../clientEntityContext";
-import { convertTicksToDate, calculateRenewAfterDuration } from "../util/utils";
+import { calculateRenewAfterDuration, convertTicksToDate } from "../util/utils";
 import { throwErrorIfConnectionClosed } from "../util/errors";
-import { ServiceBusMessageImpl, DispositionType, ReceiveMode } from "../serviceBusMessage";
+import { DispositionType, ReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
 import { DispositionStatusOptions } from "../core/managementClient";
 
 /**

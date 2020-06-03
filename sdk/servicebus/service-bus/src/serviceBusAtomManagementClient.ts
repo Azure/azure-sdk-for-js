@@ -2,26 +2,21 @@
 // Licensed under the MIT license.
 
 import {
-  WebResource,
+  HttpOperationResponse,
+  ProxySettings,
+  RequestPolicyFactory,
+  RestError,
   ServiceClient,
   ServiceClientOptions,
-  HttpOperationResponse,
-  signingPolicy,
-  proxyPolicy,
-  RequestPolicyFactory,
   URLBuilder,
-  ProxySettings,
+  WebResource,
+  proxyPolicy,
+  signingPolicy,
   stripRequest,
-  stripResponse,
-  RestError
+  stripResponse
 } from "@azure/core-http";
 
-import {
-  parseConnectionString,
-  SharedKeyCredential,
-  TokenCredential,
-  isTokenCredential
-} from "@azure/core-amqp";
+import { parseConnectionString, SharedKeyCredential, TokenCredential, isTokenCredential } from "@azure/core-amqp";
 
 import { AtomXmlSerializer, executeAtomXmlOperation } from "./util/atomXmlHelper";
 
@@ -30,40 +25,38 @@ import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials"
 import * as Constants from "./util/constants";
 
 import {
-  QueueResourceSerializer,
   InternalQueueOptions,
   QueueDescription,
   buildQueueOptions,
   buildQueue,
   buildQueueRuntimeInfo,
-  QueueRuntimeInfo
+  QueueRuntimeInfo,
+  QueueResourceSerializer
 } from "./serializers/queueResourceSerializer";
 import {
-  TopicResourceSerializer,
   InternalTopicOptions,
   TopicRuntimeInfo,
   buildTopicOptions,
   TopicDescription,
   buildTopic,
-  buildTopicRuntimeInfo
+  buildTopicRuntimeInfo,
+  TopicResourceSerializer
 } from "./serializers/topicResourceSerializer";
 import {
-  SubscriptionResourceSerializer,
   InternalSubscriptionOptions,
   SubscriptionDescription,
   buildSubscriptionOptions,
   SubscriptionRuntimeInfo,
   buildSubscription,
-  buildSubscriptionRuntimeInfo
+  buildSubscriptionRuntimeInfo,
+  SubscriptionResourceSerializer
 } from "./serializers/subscriptionResourceSerializer";
 import {
   RuleResourceSerializer,
-  InternalRuleOptions,
   RuleDescription,
-  buildRuleOptions,
   buildRule
 } from "./serializers/ruleResourceSerializer";
-import { isJSONLikeObject, isAbsoluteUrl, areOptionsUndefined } from "./util/utils";
+import { isJSONLikeObject, isAbsoluteUrl } from "./util/utils";
 import {
   NamespaceResourceSerializer,
   buildNamespace,
@@ -94,7 +87,6 @@ export interface ListRequestOptions {
    */
   skip?: number;
 }
-
 /**
  * Represents properties of the namespace.
  */
@@ -147,32 +139,17 @@ export interface QueueResponse extends QueueDescription {
 /**
  * Create Queue response
  */
-export interface CreateQueueResponse extends QueueDescription {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
+export type CreateQueueResponse = QueueResponse;
 
 /**
  * Get Queue response
  */
-export interface GetQueueResponse extends QueueDescription {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
+export type GetQueueResponse = QueueResponse;
 
 /**
  * Update Queue response
  */
-export interface UpdateQueueResponse extends QueueDescription {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
+export type UpdateQueueResponse = QueueResponse;
 
 /**
  * Delete Queue response
@@ -197,26 +174,6 @@ export interface GetQueuesResponse extends Array<QueueDescription> {
 /**
  * Represents result of create, get, update and delete operations on topic.
  */
-export interface GetTopicRuntimeInfoResponse extends TopicRuntimeInfo {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
-
-/**
- * Represents result of create, get, update and delete operations on topic.
- */
-export interface GetTopicsRuntimeInfoResponse extends Array<TopicRuntimeInfo> {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
-
-/**
- * Represents result of create, get, update and delete operations on topic.
- */
 export interface TopicResponse extends TopicDescription {
   /**
    * The underlying HTTP response.
@@ -227,32 +184,16 @@ export interface TopicResponse extends TopicDescription {
 /**
  * Create Topic response
  */
-export interface CreateTopicResponse extends TopicDescription {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
+export type CreateTopicResponse = TopicResponse;
 
 /**
  * Get Topic response
  */
-export interface GetTopicResponse extends TopicDescription {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
-
+export type GetTopicResponse = TopicResponse;
 /**
  * Update Topic response
  */
-export interface UpdateTopicResponse extends TopicDescription {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
+export type UpdateTopicResponse = TopicResponse;
 
 /**
  * Delete Topic response
@@ -275,26 +216,6 @@ export interface GetTopicsResponse extends Array<TopicDescription> {
 }
 
 /**
- * Represents result of create, get, update and delete operations on topic.
- */
-export interface GetSubscriptionRuntimeInfoResponse extends SubscriptionRuntimeInfo {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
-
-/**
- * Represents result of create, get, update and delete operations on topic.
- */
-export interface GetSubscriptionsRuntimeInfoResponse extends Array<SubscriptionRuntimeInfo> {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
-
-/**
  * Represents result of create, get, update and delete operations on subscription.
  */
 export interface SubscriptionResponse extends SubscriptionDescription {
@@ -307,32 +228,17 @@ export interface SubscriptionResponse extends SubscriptionDescription {
 /**
  * Create Subscription response
  */
-export interface CreateSubscriptionResponse extends SubscriptionDescription {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
+export type CreateSubscriptionResponse = SubscriptionResponse;
 
 /**
  * Get Subscription response
  */
-export interface GetSubscriptionResponse extends SubscriptionDescription {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
+export type GetSubscriptionResponse = SubscriptionResponse;
 
 /**
  * Update Subscription response
  */
-export interface UpdateSubscriptionResponse extends SubscriptionDescription {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
+export type UpdateSubscriptionResponse = SubscriptionResponse;
 
 /**
  * Delete Subscription response
@@ -367,32 +273,16 @@ export interface RuleResponse extends RuleDescription {
 /**
  * Create Rule response
  */
-export interface CreateRuleResponse extends RuleDescription {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
-
+export type CreateRuleResponse = RuleResponse;
 /**
  * Get Rule response
  */
-export interface GetRuleResponse extends RuleDescription {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
+export type GetRuleResponse = RuleResponse;
 
 /**
  * Update Rule response
  */
-export interface UpdateRuleResponse extends RuleDescription {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
+export type UpdateRuleResponse = RuleResponse;
 
 /**
  * Delete Rule response
@@ -572,31 +462,23 @@ export class ServiceBusManagementClient extends ServiceClient {
    */
   async createQueue(queue: QueueDescription): Promise<CreateQueueResponse>;
   async createQueue(queueNameOrOptions: string | QueueDescription): Promise<CreateQueueResponse> {
-    if (typeof queueNameOrOptions == "string") {
-      log.httpAtomXml(
-        `Performing management operation - createQueue() for "${queueNameOrOptions}"`
-      );
-      const response: HttpOperationResponse = await this.putResource(
-        queueNameOrOptions,
-        buildQueueOptions({ queueName: queueNameOrOptions }),
-        this.queueResourceSerializer,
-        false
-      );
-
-      return this.buildQueueResponse(response);
+    let queue: QueueDescription;
+    if (typeof queueNameOrOptions === "string") {
+      queue = { name: queueNameOrOptions };
     } else {
-      log.httpAtomXml(
-        `Performing management operation - createQueue() for "${queueNameOrOptions.queueName}" with options: ${queueNameOrOptions}`
-      );
-      const response: HttpOperationResponse = await this.putResource(
-        queueNameOrOptions.queueName,
-        buildQueueOptions(queueNameOrOptions || {}),
-        this.queueResourceSerializer,
-        false
-      );
-
-      return this.buildQueueResponse(response);
+      queue = queueNameOrOptions;
     }
+    log.httpAtomXml(
+      `Performing management operation - createQueue() for "${queue.name}" with options: ${queue}`
+    );
+    const response: HttpOperationResponse = await this.putResource(
+      queue.name,
+      buildQueueOptions(queue),
+      this.queueResourceSerializer,
+      false
+    );
+
+    return this.buildQueueResponse(response);
   }
 
   /**
@@ -621,30 +503,6 @@ export class ServiceBusManagementClient extends ServiceClient {
     );
 
     return this.buildQueueResponse(response);
-  }
-
-  /**
-   * Returns an object representing the Queue with the given name along with all its properties
-   * @param queueName
-   *
-   * Following are errors that can be expected from this operation
-   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
-   * @throws `RestError` with code `MessageEntityNotFoundError` when requested messaging entity does not exist,
-   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
-   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
-   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
-   * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
-   */
-  async getQueueRuntimeInfo(queueName: string): Promise<GetQueueRuntimeInfoResponse> {
-    log.httpAtomXml(`Performing management operation - getQueue() for "${queueName}"`);
-    const response: HttpOperationResponse = await this.getResource(
-      queueName,
-      this.queueResourceSerializer
-    );
-
-    return this.buildQueueRuntimeInfoResponse(response);
   }
 
   /**
@@ -718,27 +576,25 @@ export class ServiceBusManagementClient extends ServiceClient {
    */
   async updateQueue(queue: QueueDescription): Promise<UpdateQueueResponse> {
     log.httpAtomXml(
-      `Performing management operation - updateQueue() for "${queue.queueName}" with options: ${queue}`
+      `Performing management operation - updateQueue() for "${queue.name}" with options: ${queue}`
     );
 
-    if (!isJSONLikeObject(queue) || queue === null) {
+    if (!isJSONLikeObject(queue) || queue == null) {
       throw new TypeError(
         `Parameter "queue" must be an object of type "QueueDescription" and cannot be undefined or null.`
       );
     }
 
-    if (areOptionsUndefined(queue, "queueName")) {
-      throw new TypeError(
-        `Parameter "queue" must be an object of type "QueueDescription" and at least one of the parameters other than queueName must be defined.`
-      );
+    if (!queue.name) {
+      throw new TypeError(`"name" attribute of the parameter "queue" cannot be undefined.`);
     }
 
-    const finalQueueOptions: QueueDescription = { queueName: queue.queueName };
-    const getQueueResult = await this.getQueue(queue.queueName);
+    const finalQueueOptions: QueueDescription = { name: queue.name };
+    const getQueueResult = await this.getQueue(queue.name);
     Object.assign(finalQueueOptions, getQueueResult, queue);
 
     const response: HttpOperationResponse = await this.putResource(
-      queue.queueName,
+      queue.name,
       buildQueueOptions(finalQueueOptions),
       this.queueResourceSerializer,
       true
@@ -819,54 +675,22 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async createTopic(topicOptions: TopicDescription): Promise<CreateTopicResponse>;
+  async createTopic(topic: TopicDescription): Promise<CreateTopicResponse>;
   async createTopic(topicNameOrOptions: string | TopicDescription): Promise<CreateTopicResponse> {
-    if (typeof topicNameOrOptions == "string") {
-      log.httpAtomXml(
-        `Performing management operation - createTopic() for "${topicNameOrOptions}"`
-      );
-      const response: HttpOperationResponse = await this.putResource(
-        topicNameOrOptions,
-        buildTopicOptions({ topicName: topicNameOrOptions }),
-        this.topicResourceSerializer,
-        false
-      );
-
-      return this.buildTopicResponse(response);
+    let topic: TopicDescription;
+    if (typeof topicNameOrOptions === "string") {
+      topic = { name: topicNameOrOptions };
     } else {
-      log.httpAtomXml(
-        `Performing management operation - createTopic() for "${topicNameOrOptions.topicName}" with options: ${topicNameOrOptions}`
-      );
-      const response: HttpOperationResponse = await this.putResource(
-        topicNameOrOptions.topicName,
-        buildTopicOptions(topicNameOrOptions || {}),
-        this.topicResourceSerializer,
-        false
-      );
-
-      return this.buildTopicResponse(response);
+      topic = topicNameOrOptions;
     }
-  }
-
-  /**
-   * Returns an object representing the Topic with the given name along with all its properties
-   * @param topicName
-   *
-   * Following are errors that can be expected from this operation
-   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
-   * @throws `RestError` with code `MessageEntityNotFoundError` when requested messaging entity does not exist,
-   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
-   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
-   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
-   * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
-   */
-  async getTopic(topicName: string): Promise<GetTopicResponse> {
-    log.httpAtomXml(`Performing management operation - getTopic() for "${topicName}"`);
-    const response: HttpOperationResponse = await this.getResource(
-      topicName,
-      this.topicResourceSerializer
+    log.httpAtomXml(
+      `Performing management operation - createTopic() for "${topic.name}" with options: ${topic}`
+    );
+    const response: HttpOperationResponse = await this.putResource(
+      topic.name,
+      buildTopicOptions(topic),
+      this.topicResourceSerializer,
+      false
     );
 
     return this.buildTopicResponse(response);
@@ -886,7 +710,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async getTopicRuntimeInfo(topicName: string): Promise<GetTopicRuntimeInfoResponse> {
+  async getTopic(topicName: string): Promise<GetTopicResponse> {
     log.httpAtomXml(`Performing management operation - getTopic() for "${topicName}"`);
     const response: HttpOperationResponse = await this.getResource(
       topicName,
@@ -967,21 +791,25 @@ export class ServiceBusManagementClient extends ServiceClient {
    */
   async updateTopic(topic: TopicDescription): Promise<UpdateTopicResponse> {
     log.httpAtomXml(
-      `Performing management operation - updateTopic() for "${topic.topicName}" with options: ${topic}`
+      `Performing management operation - updateTopic() for "${topic.name}" with options: ${topic}`
     );
 
-    if (!isJSONLikeObject(topic) || topic === null) {
+    if (!isJSONLikeObject(topic) || topic == null) {
       throw new TypeError(
-        `Parameter "topicOptions" must be an object of type "TopicOptions" and cannot be undefined or null.`
+        `Parameter "topic" must be an object of type "TopicDescription" and cannot be undefined or null.`
       );
     }
 
-    const finalTopicOptions: TopicDescription = { topicName: topic.topicName };
-    const getTopicResult = await this.getTopic(topic.topicName);
+    if (!topic.name) {
+      throw new TypeError(`"name" attribute of the parameter "topic" cannot be undefined.`);
+    }
+
+    const finalTopicOptions: TopicDescription = { name: topic.name };
+    const getTopicResult = await this.getTopic(topic.name);
     Object.assign(finalTopicOptions, getTopicResult, topic);
 
     const response: HttpOperationResponse = await this.putResource(
-      topic.topicName,
+      topic.name,
       buildTopicOptions(finalTopicOptions),
       this.topicResourceSerializer,
       true
@@ -1074,68 +902,30 @@ export class ServiceBusManagementClient extends ServiceClient {
     topicNameOrSubscriptionOptions: string | SubscriptionDescription,
     subscriptionName?: string
   ): Promise<CreateSubscriptionResponse> {
-    if (typeof topicNameOrSubscriptionOptions == "string") {
-      log.httpAtomXml(
-        `Performing management operation - createSubscription() for "${subscriptionName}"`
-      );
+    let subscription: SubscriptionDescription;
+    if (typeof topicNameOrSubscriptionOptions === "string") {
       if (!subscriptionName) {
         throw new Error("Subscription name is not provided");
       }
-      const fullPath = this.getSubscriptionPath(topicNameOrSubscriptionOptions, subscriptionName);
-      const response: HttpOperationResponse = await this.putResource(
-        fullPath,
-        buildSubscriptionOptions({
-          topicName: topicNameOrSubscriptionOptions,
-          subscriptionName: subscriptionName
-        }),
-        this.subscriptionResourceSerializer,
-        false
-      );
-
-      return this.buildSubscriptionResponse(response);
+      subscription = {
+        topicName: topicNameOrSubscriptionOptions,
+        subscriptionName: subscriptionName
+      };
     } else {
-      const options = topicNameOrSubscriptionOptions;
-      log.httpAtomXml(
-        `Performing management operation - createSubscription() for "${subscriptionName}" with options: ${options}`
-      );
-      const fullPath = this.getSubscriptionPath(options.topicName, options.subscriptionName);
-      const response: HttpOperationResponse = await this.putResource(
-        fullPath,
-        buildSubscriptionOptions(options || {}),
-        this.subscriptionResourceSerializer,
-        false
-      );
-
-      return this.buildSubscriptionResponse(response);
+      subscription = topicNameOrSubscriptionOptions;
     }
-  }
-
-  /**
-   * Returns an object representing the Subscription with the given name along with all its properties
-   * @param topicName
-   * @param subscriptionName
-   *
-   * Following are errors that can be expected from this operation
-   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
-   * @throws `RestError` with code `MessageEntityNotFoundError` when requested messaging entity does not exist,
-   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
-   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
-   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
-   * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
-   */
-  async getSubscription(
-    topicName: string,
-    subscriptionName: string
-  ): Promise<GetSubscriptionResponse> {
     log.httpAtomXml(
-      `Performing management operation - getSubscription() for "${subscriptionName}"`
+      `Performing management operation - createSubscription() for "${subscription.subscriptionName}" with options: ${subscription}`
     );
-    const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
-    const response: HttpOperationResponse = await this.getResource(
+    const fullPath = this.getSubscriptionPath(
+      subscription.topicName,
+      subscription.subscriptionName
+    );
+    const response: HttpOperationResponse = await this.putResource(
       fullPath,
-      this.subscriptionResourceSerializer
+      buildSubscriptionOptions(subscription),
+      this.subscriptionResourceSerializer,
+      false
     );
 
     return this.buildSubscriptionResponse(response);
@@ -1254,9 +1044,15 @@ export class ServiceBusManagementClient extends ServiceClient {
       `Performing management operation - updateSubscription() for "${subscription.subscriptionName}" with options: ${subscription}`
     );
 
-    if (!isJSONLikeObject(subscription) || subscription === null) {
+    if (!isJSONLikeObject(subscription) || subscription == null) {
       throw new TypeError(
-        `Parameter "subscription" must be an object of type "SubscriptionOptions" and cannot be undefined or null.`
+        `Parameter "subscription" must be an object of type "SubscriptionDescription" and cannot be undefined or null.`
+      );
+    }
+
+    if (!subscription.topicName || !subscription.subscriptionName) {
+      throw new TypeError(
+        `The attributes "topicName" and "subscriptionName" of the parameter "subscription" cannot be undefined.`
       );
     }
 
@@ -1265,7 +1061,10 @@ export class ServiceBusManagementClient extends ServiceClient {
       subscription.subscriptionName
     );
 
-    const finalSubscriptionOptions: SubscriptionDescription = subscription;
+    const finalSubscriptionOptions: SubscriptionDescription = {
+      topicName: subscription.topicName,
+      subscriptionName: subscription.subscriptionName
+    };
     const getSubscriptionResult = await this.getSubscription(
       subscription.topicName,
       subscription.subscriptionName
@@ -1356,12 +1155,12 @@ export class ServiceBusManagementClient extends ServiceClient {
     rule: RuleDescription
   ): Promise<CreateRuleResponse> {
     log.httpAtomXml(
-      `Performing management operation - createRule() for "${rule.ruleName}" with options: "${rule}"`
+      `Performing management operation - createRule() for "${rule.name}" with options: "${rule}"`
     );
-    const fullPath = this.getRulePath(topicName, subscriptionName, rule.ruleName);
+    const fullPath = this.getRulePath(topicName, subscriptionName, rule.name);
     const response: HttpOperationResponse = await this.putResource(
       fullPath,
-      buildRuleOptions(rule.ruleName, rule),
+      rule,
       this.ruleResourceSerializer,
       false
     );
@@ -1456,7 +1255,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     rule: RuleDescription
   ): Promise<UpdateRuleResponse> {
     log.httpAtomXml(
-      `Performing management operation - updateRule() for "${rule.ruleName}" with options: ${rule}`
+      `Performing management operation - updateRule() for "${rule.name}" with options: ${rule}`
     );
 
     if (!isJSONLikeObject(rule) || rule === null) {
@@ -1465,10 +1264,14 @@ export class ServiceBusManagementClient extends ServiceClient {
       );
     }
 
-    const fullPath = this.getRulePath(topicName, subscriptionName, rule.ruleName);
+    if (!rule.name) {
+      throw new TypeError(`"name" attribute of the parameter "rule" cannot be undefined.`);
+    }
+
+    const fullPath = this.getRulePath(topicName, subscriptionName, rule.name);
     const response: HttpOperationResponse = await this.putResource(
       fullPath,
-      buildRuleOptions(rule.ruleName, rule),
+      rule,
       this.ruleResourceSerializer,
       true
     );
@@ -1520,7 +1323,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       | InternalQueueOptions
       | InternalTopicOptions
       | InternalSubscriptionOptions
-      | InternalRuleOptions,
+      | RuleDescription,
     serializer: AtomXmlSerializer,
     isUpdate: boolean = false
   ): Promise<HttpOperationResponse> {
@@ -1829,7 +1632,6 @@ export class ServiceBusManagementClient extends ServiceClient {
       );
     }
   }
-
   private buildTopicResponse(response: HttpOperationResponse): TopicResponse {
     try {
       const topic = buildTopic(response.parsedBody);

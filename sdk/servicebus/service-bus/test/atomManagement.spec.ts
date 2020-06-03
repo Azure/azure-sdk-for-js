@@ -25,7 +25,7 @@ const env = getEnvVars();
 import { EntityNames } from "./utils/testUtils";
 
 import { parseConnectionString } from "@azure/core-amqp";
-import { recreateQueue, recreateTopic, recreateSubscription } from "./utils/managementUtils";
+import { recreateQueue, recreateSubscription, recreateTopic } from "./utils/managementUtils";
 
 const serviceBusAtomManagementClient: ServiceBusManagementClient = new ServiceBusManagementClient(
   env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]
@@ -246,7 +246,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
         managementSubscription1
       );
       should.equal(
-        response[testCase.entityType.toLowerCase() + "Name"],
+        response[testCase.entityType === EntityType.SUBSCRIPTION ? "subscriptionName" : "name"],
         testCase.alwaysBeExistingEntity,
         "Entity name mismatch"
       );
@@ -328,7 +328,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
         managementSubscription1
       );
       should.equal(
-        response[testCase.entityType.toLowerCase() + "Name"],
+        response[testCase.entityType === EntityType.SUBSCRIPTION ? "subscriptionName" : "name"],
         testCase.alwaysBeExistingEntity,
         "Entity name mismatch"
       );
@@ -543,7 +543,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
         );
 
         should.equal(
-          response[entityType.toLowerCase() + "Name"],
+          response[entityType === EntityType.SUBSCRIPTION ? "subscriptionName" : "name"],
           newManagementEntity2,
           "Entity name mismatch"
         );
@@ -657,27 +657,16 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
     output: {
       authorizationRules: undefined,
       autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
-      messageCountDetails: undefined,
       defaultMessageTtl: "P10675199DT2H48M5.4775807S",
       duplicateDetectionHistoryTimeWindow: "PT10M",
       enableBatchedOperations: true,
-      enableExpress: false,
       enablePartitioning: false,
-      enableSubscriptionPartitioning: false,
-      entityAvailabilityStatus: "Available",
-      filteringMessagesBeforePublishing: false,
-      isAnonymousAccessible: false,
-      isExpress: undefined,
-      maxDeliveryCount: undefined,
       maxSizeInMegabytes: 1024,
-      messageCount: undefined,
       userMetadata: undefined,
       requiresDuplicateDetection: false,
-      sizeInBytes: 0,
       status: "Active",
-      subscriptionCount: undefined,
       supportOrdering: true,
-      topicName: managementTopic1
+      name: managementTopic1
     }
   },
   {
@@ -700,23 +689,12 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
       enableBatchedOperations: false,
       supportOrdering: false,
       requiresDuplicateDetection: true,
-      sizeInBytes: 0,
-      messageCount: undefined,
-      subscriptionCount: undefined,
-      maxDeliveryCount: undefined,
       enablePartitioning: true,
       maxSizeInMegabytes: 16384,
       autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
-      enableExpress: false,
       authorizationRules: undefined,
       userMetadata: "test metadata",
-      isExpress: undefined,
-      enableSubscriptionPartitioning: false,
-      filteringMessagesBeforePublishing: false,
-      messageCountDetails: undefined,
-      entityAvailabilityStatus: "Available",
-      isAnonymousAccessible: false,
-      topicName: managementTopic1
+      name: managementTopic1
     }
   }
 ].forEach((testCase) => {
@@ -735,7 +713,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
         testCase.input
       );
 
-      should.equal(response.topicName, managementTopic1, "Topic name mismatch");
+      should.equal(response.name, managementTopic1, "Topic name mismatch");
       assert.deepEqualExcluding(response, testCase.output, [
         "_response",
         "createdOn",
@@ -753,7 +731,6 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
     input: undefined,
     output: {
       autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
-      messageCountDetails: undefined,
       deadLetteringOnMessageExpiration: false,
       deadLetteringOnFilterEvaluationExceptions: true,
       defaultMessageTtl: "P10675199DT2H48M5.4775807S",
@@ -761,15 +738,10 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
       enableBatchedOperations: true,
       forwardTo: undefined,
       userMetadata: undefined,
-      defaultRuleDescription: undefined,
-      enablePartitioning: undefined,
-      entityAvailabilityStatus: "Available",
       lockDuration: "PT1M",
       maxDeliveryCount: 10,
-      maxSizeInMegabytes: undefined,
       messageCount: 0,
       requiresSession: false,
-      sizeInBytes: undefined,
       status: "Active",
       subscriptionName: managementSubscription1,
       topicName: managementTopic1
@@ -800,17 +772,11 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
       requiresSession: true,
 
       forwardDeadLetteredMessagesTo: undefined,
-      defaultRuleDescription: undefined,
 
       messageCount: 0,
-      enablePartitioning: undefined,
-      maxSizeInMegabytes: undefined,
-      sizeInBytes: undefined,
 
       forwardTo: undefined,
       userMetadata: "test metadata",
-      messageCountDetails: undefined,
-      entityAvailabilityStatus: "Available",
       status: "ReceiveDisabled",
 
       subscriptionName: managementSubscription1,
@@ -957,7 +923,8 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
       lockDuration: "PT1M",
       maxDeliveryCount: 10,
       maxSizeInMegabytes: 1024,
-      queueName: managementQueue1,
+      messageCount: 0,
+      name: managementQueue1,
       requiresDuplicateDetection: false,
       requiresSession: false,
       status: "Active",
@@ -1038,13 +1005,13 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
 
       enablePartitioning: true,
       maxSizeInMegabytes: 16384,
-
+      messageCount: 0,
       forwardDeadLetteredMessagesTo: undefined,
       forwardTo: undefined,
       userMetadata: "test metadata",
 
       status: "ReceiveDisabled",
-      queueName: managementQueue1
+      name: managementQueue1
     }
   }
 ].forEach((testCase) => {
@@ -1063,7 +1030,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
         testCase.input
       );
 
-      should.equal(response.queueName, managementQueue1, "Queue name mismatch");
+      should.equal(response.name, managementQueue1, "Queue name mismatch");
 
       assert.deepEqualExcluding(response, testCase.output, [
         "_response",
@@ -1148,9 +1115,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
         compatibilityLevel: undefined
       },
 
-      ruleName: managementRule1,
-      subscriptionName: managementSubscription1,
-      topicName: managementTopic1
+      name: managementRule1
     }
   },
   {
@@ -1182,9 +1147,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
         compatibilityLevel: 20
       },
 
-      ruleName: managementRule1,
-      subscriptionName: managementSubscription1,
-      topicName: managementTopic1
+      name: managementRule1
     }
   },
   {
@@ -1214,9 +1177,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
         compatibilityLevel: 20
       },
 
-      ruleName: managementRule1,
-      subscriptionName: managementSubscription1,
-      topicName: managementTopic1
+      name: managementRule1
     }
   }
 ].forEach((testCase) => {
@@ -1242,7 +1203,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
         testCase.input
       );
 
-      should.equal(response.ruleName, managementRule1, "Rule name mismatch");
+      should.equal(response.name, managementRule1, "Rule name mismatch");
       assert.deepEqualExcluding(response, testCase.output, [
         "_response",
         "createdOn",
@@ -1255,13 +1216,6 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
 
 // Queue tests
 [
-  {
-    testCaseTitle: "Undefined queue options",
-    input: undefined,
-    output: {
-      testErrorMessage: `Parameter "queue" must be an object of type "QueueDescription" and at least one of the parameters other than queueName must be defined.`
-    }
-  },
   {
     testCaseTitle: "all properties except forwardTo, forwardDeadLetteredMessagesTo",
     input: {
@@ -1306,6 +1260,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
       enableBatchedOperations: false,
       requiresDuplicateDetection: true,
       requiresSession: true,
+      messageCount: undefined,
       authorizationRules: [
         {
           claimType: "SharedAccessKey",
@@ -1336,7 +1291,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
       userMetadata: "test metadata",
       status: "ReceiveDisabled",
       enablePartitioning: true,
-      queueName: managementQueue1
+      name: managementQueue1
     }
   }
 ].forEach((testCase) => {
@@ -1464,7 +1419,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
       isAnonymousAccessible: undefined,
       supportOrdering: undefined,
       enablePartitioning: true,
-      queueName: managementQueue1
+      name: managementQueue1
     }
   },
   {
@@ -1516,13 +1471,6 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
 // Topic tests
 [
   {
-    testCaseTitle: "Undefined topic options",
-    input: undefined,
-    output: {
-      testErrorMessage: `Parameter "topicOptions" must be an object of type "TopicOptions" and cannot be undefined or null.`
-    }
-  },
-  {
     topicName: managementTopic1,
     testCaseTitle: "all properties",
     input: {
@@ -1536,10 +1484,6 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
       maxSizeInMegabytes: 3072
     },
     output: {
-      maxDeliveryCount: undefined,
-      subscriptionCount: undefined,
-      sizeInBytes: undefined,
-      messageCount: undefined,
       requiresDuplicateDetection: false,
       defaultMessageTtl: "P1D",
       duplicateDetectionHistoryTimeWindow: "PT2M",
@@ -1549,16 +1493,9 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
       enableBatchedOperations: true,
       enablePartitioning: false,
       authorizationRules: undefined,
-      isExpress: undefined,
-      enableSubscriptionPartitioning: undefined,
-      filteringMessagesBeforePublishing: undefined,
-      enableExpress: undefined,
-      entityAvailabilityStatus: undefined,
-      isAnonymousAccessible: undefined,
       status: "SendDisabled",
       userMetadata: "test metadata",
-      messageCountDetails: undefined,
-      topicName: managementTopic1
+      name: managementTopic1
     }
   }
 ].forEach((testCase) => {
@@ -1598,13 +1535,6 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
 // Subscription tests
 [
   {
-    testCaseTitle: "Undefined subscription options",
-    input: undefined,
-    output: {
-      testErrorMessage: `Parameter "subscriptionOptions" must be an object of type "SubscriptionOptions" and cannot be undefined or null.`
-    }
-  },
-  {
     testCaseTitle: "all properties except forwardTo, forwardDeadLetteredMessagesTo",
     input: {
       lockDuration: "PT3M",
@@ -1629,18 +1559,12 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
 
       forwardDeadLetteredMessagesTo: undefined,
       forwardTo: undefined,
-      defaultRuleDescription: undefined,
 
       messageCount: 0,
-      maxSizeInMegabytes: undefined,
-      sizeInBytes: undefined,
 
       requiresSession: false,
-      enablePartitioning: undefined,
 
       userMetadata: "test metadata",
-      messageCountDetails: undefined,
-      entityAvailabilityStatus: "Available",
       status: "ReceiveDisabled",
 
       subscriptionName: managementSubscription1,
@@ -1751,13 +1675,6 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
 // Rule tests
 [
   {
-    testCaseTitle: "Undefined rule options",
-    input: undefined,
-    output: {
-      testErrorMessage: `Parameter "ruleOptions" must be an object of type "RuleOptions" and cannot be undefined or null.`
-    }
-  },
-  {
     testCaseTitle: "Sql Filter rule options",
     input: {
       filter: {
@@ -1780,9 +1697,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
         compatibilityLevel: 20
       },
 
-      ruleName: managementRule1,
-      subscriptionName: managementSubscription1,
-      topicName: managementTopic1
+      name: managementRule1
     }
   },
   {
@@ -1812,9 +1727,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
         compatibilityLevel: 20
       },
 
-      ruleName: managementRule1,
-      subscriptionName: managementSubscription1,
-      topicName: managementTopic1
+      name: managementRule1
     }
   }
 ].forEach((testCase) => {
@@ -1893,10 +1806,10 @@ async function createEntity(
   topicPath?: string,
   subscriptionPath?: string,
   overrideOptions?: boolean, // If this is false, then the default options will be populated as used for basic testing.
-  queueOptions?: Omit<QueueDescription, "queueName">,
-  topicOptions?: Omit<TopicDescription, "topicName">,
+  queueOptions?: Omit<QueueDescription, "name">,
+  topicOptions?: Omit<TopicDescription, "name">,
   subscriptionOptions?: Omit<SubscriptionDescription, "topicName" | "subscriptionName">,
-  ruleOptions?: Omit<RuleDescription, "ruleName">
+  ruleOptions?: Omit<RuleDescription, "name">
 ): Promise<any> {
   if (!overrideOptions) {
     if (queueOptions == undefined) {
@@ -1946,13 +1859,13 @@ async function createEntity(
   switch (testEntityType) {
     case EntityType.QUEUE:
       const queueResponse = await serviceBusAtomManagementClient.createQueue({
-        queueName: entityPath,
+        name: entityPath,
         ...queueOptions
       });
       return queueResponse;
     case EntityType.TOPIC:
       const topicResponse = await serviceBusAtomManagementClient.createTopic({
-        topicName: entityPath,
+        name: entityPath,
         ...topicOptions
       });
       return topicResponse;
@@ -1977,7 +1890,7 @@ async function createEntity(
       const ruleResponse = await serviceBusAtomManagementClient.createRule(
         topicPath,
         subscriptionPath,
-        { ruleName: entityPath, ...ruleOptions }
+        { name: entityPath, ...ruleOptions }
       );
       return ruleResponse;
   }
@@ -2030,10 +1943,10 @@ async function updateEntity(
   topicPath?: string,
   subscriptionPath?: string,
   overrideOptions?: boolean, // If this is false, then the default options will be populated as used for basic testing.
-  queueOptions?: Omit<QueueDescription, "queueName">,
-  topicOptions?: Omit<TopicDescription, "topicName">,
+  queueOptions?: Omit<QueueDescription, "name">,
+  topicOptions?: Omit<TopicDescription, "name">,
   subscriptionOptions?: Omit<SubscriptionDescription, "topicName" | "subscriptionName">,
-  ruleOptions?: Omit<RuleDescription, "ruleName">
+  ruleOptions?: Omit<RuleDescription, "name">
 ): Promise<any> {
   if (!overrideOptions) {
     if (queueOptions == undefined) {
@@ -2083,13 +1996,13 @@ async function updateEntity(
   switch (testEntityType) {
     case EntityType.QUEUE:
       const queueResponse = await serviceBusAtomManagementClient.updateQueue({
-        queueName: entityPath,
+        name: entityPath,
         ...queueOptions
       });
       return queueResponse;
     case EntityType.TOPIC:
       const topicResponse = await serviceBusAtomManagementClient.updateTopic({
-        topicName: entityPath,
+        name: entityPath,
         ...topicOptions
       });
       return topicResponse;
@@ -2114,9 +2027,10 @@ async function updateEntity(
       const ruleResponse = await serviceBusAtomManagementClient.updateRule(
         topicPath,
         subscriptionPath,
-        entityPath,
-        // @ts-ignore
-        ruleOptions
+        {
+          name: entityPath,
+          ...ruleOptions
+        }
       );
       return ruleResponse;
   }
