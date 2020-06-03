@@ -178,7 +178,7 @@ const calculateOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "providers/Microsoft.Capacity/calculatePrice",
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -205,7 +205,7 @@ const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.Capacity/reservationOrders",
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -228,7 +228,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.reservationOrderId
   ],
   queryParameters: [
-    Parameters.apiVersion,
+    Parameters.apiVersion1,
     Parameters.expand1
   ],
   headerParameters: [
@@ -252,7 +252,7 @@ const beginPurchaseOperationSpec: msRest.OperationSpec = {
     Parameters.reservationOrderId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
