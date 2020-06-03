@@ -6398,6 +6398,13 @@ packages:
     dev: false
     resolution:
       integrity: sha512-nX6hmklHs/gr2FuxYDltq8fJA1GDlxKQCz8O/IM4atRqBH8OORmBNgfvW5gG10GT/qQ9u0CzIvr2X5Pkt6ntqg==
+  /stream-browserify/3.0.0:
+    dependencies:
+      inherits: 2.0.4
+      readable-stream: 3.6.0
+    dev: false
+    resolution:
+      integrity: sha512-H73RAHsVBapbim0tU2JwwOiXUj+fikfiaoYAKHF3VJfA0pe2BCzkhAHBlLG6REzE+2WNZcxOXjK7lkso+9euLA==
   /streamroller/1.0.6:
     dependencies:
       async: 2.6.3
@@ -7725,7 +7732,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.0_rollup@1.32.1
       sinon: 9.0.2
-      stream-browserify: 2.0.2
+      stream-browserify: 3.0.0
       ts-node: 8.10.1_typescript@3.9.3
       tslib: 1.13.0
       typescript: 3.9.3
@@ -7735,7 +7742,7 @@ packages:
     dev: false
     name: '@rush-temp/core-amqp'
     resolution:
-      integrity: sha512-QixhZ/lt+7AiOQuu7FCkFfGkbdRxlyMxxNRx/ckPvDCXBXyLDccx9slwQp9QJgs7DVnGPCkjxp4fYqxuIXKeAA==
+      integrity: sha512-9KwkBn6xSJ8d8trzGzChWtLrA5BCGZ9AhOsiHHnCPctnb/IEloqpPCYN4uZbK/1SeSCN4zbZFMvHZRvLYybasw==
       tarball: 'file:projects/core-amqp.tgz'
     version: 0.0.0
   'file:projects/core-arm.tgz':
@@ -8936,7 +8943,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-file-datalake'
     resolution:
-      integrity: sha512-jNaqcwQ7gVkwni3L8U6VyJFQRyJQ8yR2GJ55u0ThNOp29dQxcMf9ctE1rels7SXSZ19lzUtyfPazFezKU7kdUw==
+      integrity: sha512-H/WtAn+OEwMGNuvqzkEZxk51qdlWrMhwxscOcjZzzVS4/luOo7rT7YcXyHL4vP2QW8Gr3wQOPEuI/ii5olxBvw==
       tarball: 'file:projects/storage-file-datalake.tgz'
     version: 0.0.0
   'file:projects/storage-file-share.tgz':
