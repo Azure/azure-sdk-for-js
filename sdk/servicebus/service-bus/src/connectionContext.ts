@@ -6,17 +6,17 @@ import * as os from "os";
 import { packageJsonInfo } from "./util/constants";
 import {
   ConnectionConfig,
-  Constants,
   ConnectionContextBase,
+  Constants,
   CreateConnectionContextBaseParameters,
   Dictionary,
-  delay,
+  SharedKeyCredential,
   TokenCredential,
-  SharedKeyCredential
+  delay
 } from "@azure/core-amqp";
 import { ServiceBusClientOptions } from "./constructorHelpers";
 import { ClientEntityContext } from "./clientEntityContext";
-import { OnAmqpEvent, EventContext, ConnectionEvents, Connection } from "rhea-promise";
+import { Connection, ConnectionEvents, EventContext, OnAmqpEvent } from "rhea-promise";
 
 /**
  * @internal

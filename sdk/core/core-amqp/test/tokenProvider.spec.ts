@@ -5,7 +5,7 @@ import * as chai from "chai";
 chai.should();
 import debugModule from "debug";
 const debug = debugModule("azure:core-amqp:token-spec");
-import { SharedKeyCredential, IotSharedKeyCredential } from "../src";
+import { IotSharedKeyCredential, SharedKeyCredential } from "../src";
 
 describe("SharedKeyCredential", function(): void {
   it("should work as expected with required parameters", async function(): Promise<void> {

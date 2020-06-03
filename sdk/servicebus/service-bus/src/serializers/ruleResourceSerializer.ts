@@ -4,15 +4,15 @@
 import { HttpOperationResponse } from "@azure/core-http";
 import * as Constants from "../util/constants";
 import {
-  serializeToAtomXmlRequest,
+  AtomXmlSerializer,
   deserializeAtomXmlResponse,
-  AtomXmlSerializer
+  serializeToAtomXmlRequest
 } from "../util/atomXmlHelper";
 import {
-  getIntegerOrUndefined,
-  getStringOrUndefined,
   getBooleanOrUndefined,
+  getIntegerOrUndefined,
   getString,
+  getStringOrUndefined,
   isJSONLikeObject
 } from "../util/utils";
 import { CorrelationFilter } from "../core/managementClient";

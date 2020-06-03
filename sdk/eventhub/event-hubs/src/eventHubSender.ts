@@ -2,25 +2,25 @@
 // Licensed under the MIT license.
 
 import { v4 as uuid } from "uuid";
-import { logger, logErrorStackTrace } from "./log";
+import { logErrorStackTrace, logger } from "./log";
 import {
+  AmqpError,
   AwaitableSender,
+  AwaitableSenderOptions,
   EventContext,
   OnAmqpEvent,
-  AwaitableSenderOptions,
-  message,
-  AmqpError
+  message
 } from "rhea-promise";
 import {
-  defaultLock,
-  retry,
-  translate,
   AmqpMessage,
+  Constants,
   ErrorNameConditionMapper,
   RetryConfig,
   RetryOperationType,
   RetryOptions,
-  Constants
+  defaultLock,
+  retry,
+  translate
 } from "@azure/core-amqp";
 import { EventData, toAmqpMessage } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
@@ -29,7 +29,7 @@ import { EventHubProducerOptions } from "./models/private";
 import { SendOptions } from "./models/public";
 
 import { getRetryAttemptTimeoutInMs } from "./util/retries";
-import { AbortSignalLike, AbortError } from "@azure/abort-controller";
+import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { EventDataBatch, isEventDataBatch } from "./eventDataBatch";
 
 /**

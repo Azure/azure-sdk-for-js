@@ -7,16 +7,16 @@ import { packageJsonInfo } from "./util/constants";
 import { EventHubReceiver } from "./eventHubReceiver";
 import { EventHubSender } from "./eventHubSender";
 import {
-  Constants,
   ConnectionContextBase,
+  Constants,
   CreateConnectionContextBaseParameters,
   EventHubConnectionConfig,
-  TokenCredential,
-  SharedKeyCredential
+  SharedKeyCredential,
+  TokenCredential
 } from "@azure/core-amqp";
 import { ManagementClient, ManagementClientOptions } from "./managementClient";
 import { EventHubClientOptions } from "./models/public";
-import { Dictionary, OnAmqpEvent, EventContext, ConnectionEvents } from "rhea-promise";
+import { ConnectionEvents, Dictionary, EventContext, OnAmqpEvent } from "rhea-promise";
 
 /**
  * @internal

@@ -2,19 +2,19 @@
 // Licensed under the MIT license.
 
 import { generate_uuid } from "rhea-promise";
-import { isTokenCredential, TokenCredential } from "@azure/core-amqp";
+import { TokenCredential, isTokenCredential } from "@azure/core-amqp";
 import {
   ServiceBusClientOptions,
-  createConnectionContextForTokenCredential,
-  createConnectionContextForConnectionString
+  createConnectionContextForConnectionString,
+  createConnectionContextForTokenCredential
 } from "./constructorHelpers";
 import { ConnectionContext } from "./connectionContext";
 import { ClientEntityContext } from "./clientEntityContext";
-import { SenderImpl, Sender } from "./sender";
-import { CreateSessionReceiverOptions, CreateSenderOptions } from "./models";
+import { Sender, SenderImpl } from "./sender";
+import { CreateSenderOptions, CreateSessionReceiverOptions } from "./models";
 import { Receiver, ReceiverImpl } from "./receivers/receiver";
 import { SessionReceiver, SessionReceiverImpl } from "./receivers/sessionReceiver";
-import { ReceivedMessageWithLock, ReceivedMessage } from "./serviceBusMessage";
+import { ReceivedMessage, ReceivedMessageWithLock } from "./serviceBusMessage";
 
 /**
  * A client that can create Sender instances for sending messages to queues and

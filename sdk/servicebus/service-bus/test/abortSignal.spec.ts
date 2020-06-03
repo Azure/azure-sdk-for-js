@@ -11,7 +11,7 @@ import { MessageSender } from "../src/core/messageSender";
 import { OperationOptions } from "../src/modelsToBeSharedWithEventHubs";
 import { DefaultDataTransformer } from "@azure/core-amqp";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { delay, AwaitableSender } from "rhea-promise";
+import { AwaitableSender, delay } from "rhea-promise";
 import { ServiceBusMessageBatchImpl } from "../src/serviceBusMessageBatch";
 
 describe("AbortSignal", () => {

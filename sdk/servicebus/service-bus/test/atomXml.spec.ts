@@ -10,14 +10,14 @@ chai.use(chaiAsPromised);
 const assert = chai.assert;
 
 import {
-  executeAtomXmlOperation,
   AtomXmlSerializer,
-  deserializeAtomXmlResponse
+  deserializeAtomXmlResponse,
+  executeAtomXmlOperation
 } from "../src/util/atomXmlHelper";
 import * as Constants from "../src/util/constants";
 import { ServiceBusAtomManagementClient } from "../src/serviceBusAtomManagementClient";
 import { QueueResourceSerializer } from "../src/serializers/queueResourceSerializer";
-import { HttpOperationResponse, WebResource, HttpHeaders } from "@azure/core-http";
+import { HttpHeaders, HttpOperationResponse, WebResource } from "@azure/core-http";
 import { TopicResourceSerializer } from "../src/serializers/topicResourceSerializer";
 import { SubscriptionResourceSerializer } from "../src/serializers/subscriptionResourceSerializer";
 import { RuleResourceSerializer } from "../src/serializers/ruleResourceSerializer";

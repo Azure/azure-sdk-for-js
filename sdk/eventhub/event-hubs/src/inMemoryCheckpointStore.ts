@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PartitionOwnership, CheckpointStore } from "./eventProcessor";
+import { CheckpointStore, PartitionOwnership } from "./eventProcessor";
 import { Checkpoint } from "./partitionProcessor";
 import { generate_uuid } from "rhea-promise";
 import { throwTypeErrorIfParameterMissing } from "./util/error";
