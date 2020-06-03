@@ -370,6 +370,8 @@ export interface InternalQueueOptions {
 }
 
 /**
+ * @internal
+ * @ignore
  * Represents runtime info attributes of a queue entity
  */
 export interface QueueRuntimeInfo {

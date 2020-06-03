@@ -321,6 +321,8 @@ export interface InternalSubscriptionOptions {
 }
 
 /**
+ * @internal
+ * @ignore
  * Represents runtime info attributes of a subscription entity
  */
 export interface SubscriptionRuntimeInfo {
