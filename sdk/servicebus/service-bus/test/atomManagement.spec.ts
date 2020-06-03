@@ -257,6 +257,107 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
 [
   {
     entityType: EntityType.QUEUE,
+    alwaysBeExistingEntity: managementQueue1,
+    output: {
+      sizeInBytes: 0,
+      messageCount: 0,
+      messageCountDetails: {
+        activeMessageCount: 0,
+        deadLetterMessageCount: 0,
+        scheduledMessageCount: 0,
+        transferMessageCount: 0,
+        transferDeadLetterMessageCount: 0
+      },
+      name: managementQueue1
+    }
+  },
+  {
+    entityType: EntityType.TOPIC,
+    alwaysBeExistingEntity: managementTopic1,
+    output: {
+      sizeInBytes: 0,
+      subscriptionCount: 0,
+      name: managementTopic1
+    }
+  },
+  {
+    entityType: EntityType.SUBSCRIPTION,
+    alwaysBeExistingEntity: managementSubscription1,
+    output: {
+      messageCount: 0,
+      messageCountDetails: {
+        activeMessageCount: 0,
+        deadLetterMessageCount: 0,
+        scheduledMessageCount: 0,
+        transferMessageCount: 0,
+        transferDeadLetterMessageCount: 0
+      },
+      topicName: managementTopic1,
+      subscriptionName: managementSubscription1
+    }
+  }
+].forEach((testCase) => {
+  describe(`Atom management - Get runtime info on "${testCase.entityType}" entity`, function(): void {
+    beforeEach(async () => {
+      switch (testCase.entityType) {
+        case EntityType.QUEUE:
+          await recreateQueue(managementQueue1);
+          break;
+
+        case EntityType.TOPIC:
+          await recreateTopic(managementTopic1);
+          break;
+
+        case EntityType.SUBSCRIPTION:
+          await recreateTopic(managementTopic1);
+          await recreateSubscription(managementTopic1, managementSubscription1);
+          break;
+
+        default:
+          throw new Error("TestError: Unrecognized EntityType");
+      }
+    });
+
+    afterEach(async () => {
+      switch (testCase.entityType) {
+        case EntityType.QUEUE:
+          await deleteEntity(EntityType.QUEUE, managementQueue1);
+          break;
+
+        case EntityType.TOPIC:
+        case EntityType.SUBSCRIPTION:
+          await deleteEntity(EntityType.TOPIC, managementTopic1);
+          break;
+
+        default:
+          throw new Error("TestError: Unrecognized EntityType");
+      }
+    });
+
+    it(`Gets runtime info for an existing ${testCase.entityType} entity(single) successfully`, async () => {
+      const response = await getRuntimeInfo(
+        testCase.entityType,
+        testCase.alwaysBeExistingEntity,
+        managementTopic1
+      );
+      should.equal(
+        response[testCase.entityType === EntityType.SUBSCRIPTION ? "subscriptionName" : "name"],
+        testCase.alwaysBeExistingEntity,
+        "Entity name mismatch"
+      );
+      assert.deepEqualExcluding(response, testCase.output, [
+        "_response",
+        "createdOn",
+        "updatedOn",
+        "accessedOn"
+      ]);
+    });
+  });
+});
+
+[
+  {
+    entityType: EntityType.QUEUE,
     alwaysBeExistingEntity: managementQueue1
   },
   {
@@ -1933,6 +2034,33 @@ async function getEntity(
         entityPath
       );
       return ruleResponse;
+  }
+  throw new Error("TestError: Unrecognized EntityType");
+}
+
+async function getRuntimeInfo(
+  testEntityType: EntityType,
+  entityPath: string,
+  topicPath?: string
+): Promise<any> {
+  switch (testEntityType) {
+    case EntityType.QUEUE:
+      const queueResponse = await serviceBusAtomManagementClient.getQueueRuntimeInfo(entityPath);
+      return queueResponse;
+    case EntityType.TOPIC:
+      const topicResponse = await serviceBusAtomManagementClient.getTopicRuntimeInfo(entityPath);
+      return topicResponse;
+    case EntityType.SUBSCRIPTION:
+      if (!topicPath) {
+        throw new Error(
+          "TestError: Topic path must be passed when invoking tests on subscriptions"
+        );
+      }
+      const subscriptionResponse = await serviceBusAtomManagementClient.getSubscriptionRuntimeInfo(
+        topicPath,
+        entityPath
+      );
+      return subscriptionResponse;
   }
   throw new Error("TestError: Unrecognized EntityType");
 }
