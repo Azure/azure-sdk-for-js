@@ -527,7 +527,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async createTopic(topicOptions: TopicDescription): Promise<CreateTopicResponse>;
+  async createTopic(topic: TopicDescription): Promise<CreateTopicResponse>;
   async createTopic(topicNameOrOptions: string | TopicDescription): Promise<CreateTopicResponse> {
     let topic: TopicDescription;
     if (typeof topicNameOrOptions == "string") {
