@@ -96,27 +96,7 @@ export function convertTokenFiltersToGenerated(
 
   const result: TokenFilterUnion[] = [];
   for (const filter of tokenFilters) {
-    switch (filter.odatatype) {
-      case "#Microsoft.Azure.Search.NGramTokenFilter":
-        result.push({
-          name: filter.name,
-          maxGram: filter.maxGram,
-          minGram: filter.minGram,
-          odatatype: "#Microsoft.Azure.Search.NGramTokenFilterV2"
-        });
-        break;
-      case "#Microsoft.Azure.Search.EdgeNGramTokenFilter":
-        result.push({
-          name: filter.name,
-          maxGram: filter.maxGram,
-          minGram: filter.minGram,
-          side: filter.side,
-          odatatype: "#Microsoft.Azure.Search.EdgeNGramTokenFilterV2"
-        });
-        break;
-      default:
-        result.push(filter);
-    }
+    result.push(filter);
   }
 
   return result;
@@ -241,18 +221,6 @@ export function convertTokenizersToGenerated(
         ...tokenizer,
         flags: tokenizer.flags ? tokenizer.flags.join("|") : undefined
       });
-    } else if (tokenizer.odatatype === "#Microsoft.Azure.Search.StandardTokenizer") {
-      result.push({
-        name: tokenizer.name,
-        maxTokenLength: tokenizer.maxTokenLength,
-        odatatype: "#Microsoft.Azure.Search.StandardTokenizerV2"
-      });
-    } else if (tokenizer.odatatype === "#Microsoft.Azure.Search.KeywordTokenizer") {
-      result.push({
-        name: tokenizer.name,
-        maxTokenLength: tokenizer.maxTokenLength,
-        odatatype: "#Microsoft.Azure.Search.KeywordTokenizerV2"
-      });
     } else {
       result.push(tokenizer);
     }
@@ -273,18 +241,6 @@ export function convertTokenizersToPublic(
       result.push({
         ...tokenizer,
         flags: tokenizer.flags ? (tokenizer.flags.split("|") as RegexFlags[]) : undefined
-      });
-    } else if (tokenizer.odatatype === "#Microsoft.Azure.Search.StandardTokenizer") {
-      result.push({
-        name: tokenizer.name,
-        maxTokenLength: tokenizer.maxTokenLength,
-        odatatype: "#Microsoft.Azure.Search.StandardTokenizerV2"
-      });
-    } else if (tokenizer.odatatype === "#Microsoft.Azure.Search.KeywordTokenizer") {
-      result.push({
-        name: tokenizer.name,
-        maxTokenLength: tokenizer.bufferSize,
-        odatatype: "#Microsoft.Azure.Search.KeywordTokenizerV2"
       });
     } else if (tokenizer.odatatype !== "LexicalTokenizer") {
       result.push(tokenizer);
