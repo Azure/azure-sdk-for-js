@@ -32,18 +32,14 @@ export async function main() {
   });
 
   await poller.pollUntilDone();
-  const response = poller.getResult();
+  const receipts = poller.getResult();
 
-  if (!response) {
-    throw new Error("Expecting valid response!");
-  }
-  console.log(`Response status ${response.status}`);
 
-  if (!response.receipts || response.receipts.length <= 0) {
+  if (!receipts || receipts.length <= 0) {
     throw new Error("Expecting at lease one receipt in analysis result");
   }
 
-  const usReceipt = response.receipts[0];
+  const usReceipt = receipts[0];
   console.log("First receipt:");
   console.log(`Receipt type: ${usReceipt.receiptType.type} with confidence ${usReceipt.receiptType.confidence}`);
   console.log(

@@ -4,7 +4,7 @@
 import chai from "chai";
 chai.should();
 
-import { latestEventPosition, earliestEventPosition } from "../src";
+import { earliestEventPosition, latestEventPosition } from "../src";
 import { getEventPositionFilter, validateEventPositions } from "../src/eventPosition";
 
 describe("EventPosition", function(): void {

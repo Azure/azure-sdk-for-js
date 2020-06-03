@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { HttpHeaders, WebResource, ServiceClientCredentials } from "@azure/core-http";
+import { HttpHeaders, ServiceClientCredentials, WebResource } from "@azure/core-http";
 import { generateKey } from "./crypto";
 
 /**

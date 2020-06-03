@@ -20,21 +20,24 @@ class MixedRealityClient extends MixedRealityClientContext {
   // Operation groups
   operations: operations.Operations;
   spatialAnchorsAccounts: operations.SpatialAnchorsAccounts;
+  remoteRenderingAccounts: operations.RemoteRenderingAccounts;
 
   /**
    * Initializes a new instance of the MixedRealityClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
-   * @param subscriptionId Azure subscription ID.
+   * @param subscriptionId The Azure subscription ID. This is a GUID-formatted string (e.g.
+   * 00000000-0000-0000-0000-000000000000)
    * @param [options] The parameter options
    */
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.MixedRealityClientOptions) {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
     this.spatialAnchorsAccounts = new operations.SpatialAnchorsAccounts(this);
+    this.remoteRenderingAccounts = new operations.RemoteRenderingAccounts(this);
   }
 
   /**
-   * Check Name Availability for global uniqueness
+   * Check Name Availability for local uniqueness
    * @param location The location in which uniqueness will be verified.
    * @param checkNameAvailability Check Name Availability Request.
    * @param [options] The optional parameters
@@ -76,7 +79,7 @@ const checkNameAvailabilityLocalOperationSpec: msRest.OperationSpec = {
     Parameters.location
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -93,7 +96,7 @@ const checkNameAvailabilityLocalOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.CheckNameAvailabilityResponse
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer

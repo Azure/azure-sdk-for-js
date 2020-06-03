@@ -7,7 +7,7 @@ import { CommonEventProcessorOptions } from "./models/private";
 import { CloseReason } from "./models/public";
 import { PartitionProcessor } from "./partitionProcessor";
 import { PartitionPump } from "./partitionPump";
-import { logger, logErrorStackTrace } from "./log";
+import { logErrorStackTrace, logger } from "./log";
 import { AbortSignalLike } from "@azure/abort-controller";
 
 /**

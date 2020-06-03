@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { MessageHeader, AmqpMessageHeader, MessageProperties, AmqpMessageProperties } from "../src";
+import { AmqpMessageHeader, AmqpMessageProperties, MessageHeader, MessageProperties } from "../src";
 import * as chai from "chai";
 chai.should();
 

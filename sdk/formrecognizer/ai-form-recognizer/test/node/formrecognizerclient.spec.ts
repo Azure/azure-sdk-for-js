@@ -30,13 +30,11 @@ describe("FormRecognizerClient NodeJS only", () => {
 
     const poller = await client.beginRecognizeContent(stream, "application/pdf");
     await poller.pollUntilDone();
-    const response = poller.getResult();
+    const pages = poller.getResult();
 
-    assert.ok(response, "Expect valid response object");
-    assert.equal(response!.status, "succeeded");
     assert.ok(
-      response!.pages && response!.pages.length > 0,
-      `Expect no-empty pages but got ${response!.pages}`
+      pages && pages.length > 0,
+      `Expect no-empty pages but got ${pages}`
     );
 
     //TODO: verify table rows column cells etc.
@@ -48,13 +46,11 @@ describe("FormRecognizerClient NodeJS only", () => {
 
     const poller = await client.beginRecognizeContent(stream, "image/png");
     await poller.pollUntilDone();
-    const response = poller.getResult();
+    const pages = poller.getResult();
 
-    assert.ok(response, "Expect valid response object");
-    assert.equal(response!.status, "succeeded");
     assert.ok(
-      response!.pages && response!.pages.length > 0,
-      `Expect no-empty pages but got ${response!.pages}`
+      pages && pages.length > 0,
+      `Expect no-empty pages but got ${pages}`
     );
   });
 
@@ -64,13 +60,11 @@ describe("FormRecognizerClient NodeJS only", () => {
 
     const poller = await client.beginRecognizeContent(stream, "image/jpeg");
     await poller.pollUntilDone();
-    const response = poller.getResult();
+    const pages = poller.getResult();
 
-    assert.ok(response, "Expect valid response object");
-    assert.equal(response!.status, "succeeded");
     assert.ok(
-      response!.pages && response!.pages.length > 0,
-      `Expect no-empty pages but got ${response!.pages}`
+      pages && pages.length > 0,
+      `Expect no-empty pages but got ${pages}`
     );
   });
 
@@ -80,13 +74,11 @@ describe("FormRecognizerClient NodeJS only", () => {
 
     const poller = await client.beginRecognizeContent(stream, "image/tiff");
     await poller.pollUntilDone();
-    const response = poller.getResult();
+    const pages = poller.getResult();
 
-    assert.ok(response, "Expect valid response object");
-    assert.equal(response!.status, "succeeded");
     assert.ok(
-      response!.pages && response!.pages.length > 0,
-      `Expect no-empty pages but got ${response!.pages}`
+      pages && pages.length > 0,
+      `Expect no-empty pages but got ${pages}`
     );
   });
 
@@ -96,13 +88,11 @@ describe("FormRecognizerClient NodeJS only", () => {
 
     const poller = await client.beginRecognizeContent(stream);
     await poller.pollUntilDone();
-    const response = poller.getResult();
+    const pages = poller.getResult();
 
-    assert.ok(response, "Expect valid response object");
-    assert.equal(response!.status, "succeeded");
     assert.ok(
-      response!.pages && response!.pages.length > 0,
-      `Expect no-empty pages but got ${response!.pages}`
+      pages && pages.length > 0,
+      `Expect no-empty pages but got ${pages}`
     );
   });
 
@@ -113,13 +103,11 @@ describe("FormRecognizerClient NodeJS only", () => {
 
     const poller = await client.beginRecognizeContentFromUrl(url);
     await poller.pollUntilDone();
-    const response = poller.getResult();
+    const pages = poller.getResult();
 
-    assert.ok(response, "Expect valid response object");
-    assert.equal(response!.status, "succeeded");
     assert.ok(
-      response!.pages && response!.pages.length > 0,
-      `Expect no-empty pages but got ${response!.pages}`
+      pages && pages.length > 0,
+      `Expect no-empty pages but got ${pages}`
     );
   });
 
@@ -129,15 +117,13 @@ describe("FormRecognizerClient NodeJS only", () => {
 
     const poller = await client.beginRecognizeReceipts(stream, "image/png");
     await poller.pollUntilDone();
-    const response = poller.getResult();
+    const receipts = poller.getResult();
 
-    assert.ok(response, "Expect valid response object");
-    assert.equal(response!.status, "succeeded");
     assert.ok(
-      response!.receipts && response!.receipts.length > 0,
-      `Expect no-empty pages but got ${response!.receipts}`
+      receipts && receipts.length > 0,
+      `Expect no-empty pages but got ${receipts}`
     );
-    const usReceipt = response!.receipts![0];
+    const usReceipt = receipts![0];
     assert.equal(usReceipt.recognizedForm.formType, "prebuilt:receipt");
     assert.equal(usReceipt.locale, "US"); // default to "US" for now
     assert.equal(usReceipt.receiptType.type, "Itemized");
@@ -155,15 +141,13 @@ describe("FormRecognizerClient NodeJS only", () => {
 
     const poller = await client.beginRecognizeReceipts(stream, "image/jpeg");
     await poller.pollUntilDone();
-    const response = poller.getResult();
+    const receipts = poller.getResult();
 
-    assert.ok(response, "Expect valid response object");
-    assert.equal(response!.status, "succeeded");
     assert.ok(
-      response!.receipts && response!.receipts.length > 0,
-      `Expect no-empty pages but got ${response!.receipts}`
+      receipts && receipts.length > 0,
+      `Expect no-empty pages but got ${receipts}`
     );
-    const usReceipt = response!.receipts![0];
+    const usReceipt = receipts![0];
     assert.equal(usReceipt.recognizedForm.formType, "prebuilt:receipt");
   });
 
@@ -174,15 +158,13 @@ describe("FormRecognizerClient NodeJS only", () => {
 
     const poller = await client.beginRecognizeReceiptsFromUrl(url);
     await poller.pollUntilDone();
-    const response = poller.getResult();
+    const receipts = poller.getResult();
 
-    assert.ok(response, "Expect valid response object");
-    assert.equal(response!.status, "succeeded");
     assert.ok(
-      response!.receipts && response!.receipts.length > 0,
-      `Expect no-empty pages but got ${response!.receipts}`
+      receipts && receipts.length > 0,
+      `Expect no-empty pages but got ${receipts}`
     );
-    const usReceipt = response!.receipts![0];
+    const usReceipt = receipts![0];
     assert.equal(usReceipt.recognizedForm.formType, "prebuilt:receipt");
   });
 
@@ -194,15 +176,13 @@ describe("FormRecognizerClient NodeJS only", () => {
       includeTextDetails: true
     });
     await poller.pollUntilDone();
-    const response = poller.getResult();
+    const receipts = poller.getResult();
 
-    assert.ok(response, "Expect valid response object");
-    assert.equal(response!.status, "succeeded");
     assert.ok(
-      response!.receipts && response!.receipts.length > 0,
-      `Expect no-empty pages but got ${response!.receipts}`
+      receipts && receipts.length > 0,
+      `Expect no-empty pages but got ${receipts}`
     );
-    const usReceipt = response!.receipts![0];
+    const usReceipt = receipts![0];
     assert.equal(usReceipt.recognizedForm.formType, "prebuilt:receipt");
     assert.equal(usReceipt.locale, "US"); // default to "US" for now
     assert.equal(usReceipt.receiptType.type, "Itemized");

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { parseConnectionString, ServiceBusConnectionStringModel } from "../util/utils";
+import { ServiceBusConnectionStringModel, parseConnectionString } from "../util/utils";
 import { WebSocketImpl } from "rhea-promise";
 
 /**

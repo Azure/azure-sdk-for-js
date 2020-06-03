@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PartitionOwnership, CheckpointStore } from "./eventProcessor";
+import { CheckpointStore, PartitionOwnership } from "./eventProcessor";
 import { Checkpoint } from "./partitionProcessor";
 import { generate_uuid } from "rhea-promise";
 import { throwTypeErrorIfParameterMissing } from "./util/error";
@@ -34,9 +34,9 @@ export class InMemoryCheckpointStore implements CheckpointStore {
    * @return Partition ownership details of all the partitions that have/had an owner..
    */
   async listOwnership(
-    fullyQualifiedNamespace: string,
-    eventHubName: string,
-    consumerGroup: string
+    _fullyQualifiedNamespace: string,
+    _eventHubName: string,
+    _consumerGroup: string
   ): Promise<PartitionOwnership[]> {
     const ownerships = [];
 

@@ -6,7 +6,6 @@
     "declarationDir": "./types",
     "resolveJsonModule": true
   },
-  "compileOnSave": true,
   "exclude": ["node_modules", "types/**", "./samples/**/*.ts"],
   "include": ["./src/**/*.ts", "./test/**/*.ts"]
 }

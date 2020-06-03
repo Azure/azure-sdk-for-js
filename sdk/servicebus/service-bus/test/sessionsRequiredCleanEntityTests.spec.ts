@@ -8,7 +8,7 @@ import {
   testPeekMsgsLength
 } from "./utils/testutils2";
 import { Sender } from "../src/sender";
-import { SessionReceiver, ServiceBusMessage } from "../src";
+import { ServiceBusMessage, SessionReceiver } from "../src";
 import { TestClientType, TestMessage } from "./utils/testUtils";
 import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
 const should = chai.should();

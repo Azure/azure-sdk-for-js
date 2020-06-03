@@ -4,17 +4,17 @@
 import { TokenType } from "./auth/token";
 import { AccessToken } from "@azure/core-auth";
 import {
-  EventContext,
-  ReceiverOptions,
   Message as AmqpMessage,
-  SenderEvents,
-  ReceiverEvents,
   Connection,
+  EventContext,
+  ReceiverEvents,
+  ReceiverOptions,
+  SenderEvents,
   SenderOptions,
   generate_uuid
 } from "rhea-promise";
 import { Constants } from "./util/constants";
-import { logger, logErrorStackTrace } from "./log";
+import { logErrorStackTrace, logger } from "./log";
 import { translate } from "./errors";
 import { defaultLock } from "./util/utils";
 import { RequestResponseLink } from "./requestResponseLink";

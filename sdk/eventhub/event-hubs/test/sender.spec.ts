@@ -9,13 +9,13 @@ import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:sender-spec");
 import {
   EventData,
-  EventHubProducerClient,
   EventHubConsumerClient,
-  ReceivedEventData,
-  EventPosition
+  EventHubProducerClient,
+  EventPosition,
+  ReceivedEventData
 } from "../src";
 import { EventHubClient } from "../src/impl/eventHubClient";
-import { SendOptions, SendBatchOptions } from "../src/models/public";
+import { SendBatchOptions, SendOptions } from "../src/models/public";
 import {
   EnvVarKeys,
   getEnvVars,
@@ -562,7 +562,7 @@ describe("EventHub Sender", function(): void {
 
     it("with max message size should be sent successfully.", async function(): Promise<void> {
       const partitionInfo = await client.getPartitionProperties("0");
-      const consumer = client.createConsumer(EventHubClient.defaultConsumerGroupName, "0", {
+      const consumer = client.createConsumer(EventHubConsumerClient.defaultConsumerGroupName, "0", {
         sequenceNumber: partitionInfo.lastEnqueuedSequenceNumber
       });
       const eventDataBatch = await producerClient.createBatch({

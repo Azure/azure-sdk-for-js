@@ -4,10 +4,10 @@
 import { EventData, toAmqpMessage } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 import { AmqpMessage } from "@azure/core-amqp";
-import { message, MessageAnnotations } from "rhea-promise";
+import { MessageAnnotations, message } from "rhea-promise";
 import { throwTypeErrorIfParameterMissing } from "./util/error";
 import { Span, SpanContext } from "@opentelemetry/api";
-import { instrumentEventData, TRACEPARENT_PROPERTY } from "./diagnostics/instrumentEventData";
+import { TRACEPARENT_PROPERTY, instrumentEventData } from "./diagnostics/instrumentEventData";
 import { createMessageSpan } from "./diagnostics/messageSpan";
 
 /**

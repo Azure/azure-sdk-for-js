@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/// <reference lib="esnext.asynciterable" />
+
 import { KeyCredential } from "@azure/core-auth";
 import {
   createPipelineFromOptions,
@@ -34,7 +36,9 @@ import {
   ListIndexesOptions,
   ListSynonymMapsOptions,
   SynonymMap,
-  GetServiceStatisticsOptions
+  GetServiceStatisticsOptions,
+  IndexIterator,
+  IndexNameIterator
 } from "./serviceModels";
 import * as utils from "./serviceUtils";
 import { createSpan } from "./tracing";
@@ -137,17 +141,14 @@ export class SearchIndexClient {
     this.client = new GeneratedClient(dummyCredential, this.apiVersion, this.endpoint, pipeline);
   }
 
-  /**
-   * Retrieves a list of existing indexes in the service.
-   * @param options Options to the list index operation.
-   */
-  public async listIndexes(options: ListIndexesOptions = {}): Promise<Array<Index>> {
-    const { span, updatedOptions } = createSpan("SearchIndexClient-listIndexes", options);
+  private async *listIndexesPage(options: ListIndexesOptions = {}): AsyncIterableIterator<Index[]> {
+    const { span, updatedOptions } = createSpan("SearchIndexClient-listIndexesPage", options);
     try {
       const result = await this.client.indexes.list(
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return result.indexes.map(utils.generatedIndexToPublicIndex);
+      const mapped = result.indexes.map(utils.generatedIndexToPublicIndex);
+      yield mapped;
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -159,18 +160,43 @@ export class SearchIndexClient {
     }
   }
 
+  private async *listIndexesAll(options: ListIndexesOptions = {}): AsyncIterableIterator<Index> {
+    for await (const page of this.listIndexesPage(options)) {
+      yield* page;
+    }
+  }
+
   /**
-   * Retrieves a list of names of existing indexes in the service.
+   * Retrieves a list of existing indexes in the service.
    * @param options Options to the list index operation.
    */
-  public async listIndexesNames(options: ListIndexesOptions = {}): Promise<Array<string>> {
-    const { span, updatedOptions } = createSpan("SearchIndexClient-listIndexesNames", options);
+  public listIndexes(options: ListIndexesOptions = {}): IndexIterator {
+    const iter = this.listIndexesAll(options);
+
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.listIndexesPage(options);
+      }
+    };
+  }
+
+  private async *listIndexesNamesPage(
+    options: ListIndexesOptions = {}
+  ): AsyncIterableIterator<string[]> {
+    const { span, updatedOptions } = createSpan("SearchIndexClient-listIndexesNamesPage", options);
     try {
       const result = await this.client.indexes.list({
         ...operationOptionsToRequestOptionsBase(updatedOptions),
         select: "name"
       });
-      return result.indexes.map((idx) => idx.name);
+      const mapped = result.indexes.map((idx) => idx.name);
+      yield mapped;
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -180,6 +206,34 @@ export class SearchIndexClient {
     } finally {
       span.end();
     }
+  }
+
+  private async *listIndexesNamesAll(
+    options: ListIndexesOptions = {}
+  ): AsyncIterableIterator<string> {
+    for await (const page of this.listIndexesNamesPage(options)) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Retrieves a list of names of existing indexes in the service.
+   * @param options Options to the list index operation.
+   */
+  public listIndexesNames(options: ListIndexesOptions = {}): IndexNameIterator {
+    const iter = this.listIndexesNamesAll(options);
+
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.listIndexesNamesPage(options);
+      }
+    };
   }
 
   /**

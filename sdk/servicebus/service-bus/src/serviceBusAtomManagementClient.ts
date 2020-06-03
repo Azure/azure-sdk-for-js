@@ -2,21 +2,21 @@
 // Licensed under the MIT license.
 
 import {
-  WebResource,
+  HttpOperationResponse,
+  ProxySettings,
+  RequestPolicyFactory,
+  RestError,
   ServiceClient,
   ServiceClientOptions,
-  HttpOperationResponse,
-  signingPolicy,
-  proxyPolicy,
-  RequestPolicyFactory,
   URLBuilder,
-  ProxySettings,
+  WebResource,
+  proxyPolicy,
+  signingPolicy,
   stripRequest,
-  stripResponse,
-  RestError
+  stripResponse
 } from "@azure/core-http";
 
-import { parseConnectionString, SharedKeyCredential } from "@azure/core-amqp";
+import { SharedKeyCredential, parseConnectionString } from "@azure/core-amqp";
 
 import { AtomXmlSerializer, executeAtomXmlOperation } from "./util/atomXmlHelper";
 
@@ -25,38 +25,38 @@ import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials"
 import * as Constants from "./util/constants";
 
 import {
-  QueueResourceSerializer,
   InternalQueueOptions,
-  QueueOptions,
-  buildQueueOptions,
   QueueDetails,
-  buildQueue
+  QueueOptions,
+  QueueResourceSerializer,
+  buildQueue,
+  buildQueueOptions
 } from "./serializers/queueResourceSerializer";
 import {
-  TopicResourceSerializer,
   InternalTopicOptions,
-  TopicOptions,
-  buildTopicOptions,
   TopicDetails,
-  buildTopic
+  TopicOptions,
+  TopicResourceSerializer,
+  buildTopic,
+  buildTopicOptions
 } from "./serializers/topicResourceSerializer";
 import {
-  SubscriptionResourceSerializer,
   InternalSubscriptionOptions,
-  SubscriptionOptions,
-  buildSubscriptionOptions,
   SubscriptionDetails,
-  buildSubscription
+  SubscriptionOptions,
+  SubscriptionResourceSerializer,
+  buildSubscription,
+  buildSubscriptionOptions
 } from "./serializers/subscriptionResourceSerializer";
 import {
-  RuleResourceSerializer,
   InternalRuleOptions,
-  RuleOptions,
-  buildRuleOptions,
   RuleDetails,
-  buildRule
+  RuleOptions,
+  RuleResourceSerializer,
+  buildRule,
+  buildRuleOptions
 } from "./serializers/ruleResourceSerializer";
-import { isJSONLikeObject, isAbsoluteUrl } from "./util/utils";
+import { isAbsoluteUrl, isJSONLikeObject } from "./util/utils";
 
 /**
  * @internal

@@ -2,14 +2,14 @@
 // Licensed under the MIT license.
 
 import {
-  retry,
-  translate,
-  RetryConfig,
-  RetryOperationType,
   Constants,
-  delay,
   MessagingError,
-  RetryMode
+  RetryConfig,
+  RetryMode,
+  RetryOperationType,
+  delay,
+  retry,
+  translate
 } from "../src";
 import * as chai from "chai";
 import debugModule from "debug";
