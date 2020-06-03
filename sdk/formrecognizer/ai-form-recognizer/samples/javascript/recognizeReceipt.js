@@ -39,7 +39,8 @@ async function main() {
 
   const receipt = receipts[0];
   console.log("First receipt:");
-  const receiptTypeField = receipt.recognizedForm.fields["MerchantName"];
+  // For supported fields recognized by the service, please refer to https://westus2.dev.cognitive.microsoft.com/docs/services/form-recognizer-api-v2-preview/operations/GetAnalyzeReceiptResult.
+  const receiptTypeField = receipt.recognizedForm.fields["ReceiptType"];
   if (receiptTypeField.valueType === "string") {
     console.log(`  Receipt Type: '${receiptTypeField.value || "<missing>"}', with confidence of ${receiptTypeField.confidence}`);
   }
