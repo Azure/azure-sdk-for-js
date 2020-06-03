@@ -482,12 +482,6 @@ export { PollOperationState }
 export type ReceiptPollerLike = PollerLike<PollOperationState<RecognizedReceiptArray>, RecognizedReceiptArray>;
 
 // @public
-export type ReceiptType = {
-    type: "Unrecognized" | "Itemized" | "CreditCard" | "Gas" | "Parking";
-    confidence?: number;
-};
-
-// @public
 export type RecognizeContentOptions = FormRecognizerOperationOptions;
 
 // @public
