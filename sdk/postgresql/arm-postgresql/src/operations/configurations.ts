@@ -29,8 +29,7 @@ export class Configurations {
 
   /**
    * Updates a configuration of a server.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param configurationName The name of the server configuration.
    * @param parameters The required parameters for updating a server configuration.
@@ -44,8 +43,7 @@ export class Configurations {
 
   /**
    * Gets information about a configuration of server.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param configurationName The name of the server configuration.
    * @param [options] The optional parameters
@@ -53,16 +51,14 @@ export class Configurations {
    */
   get(resourceGroupName: string, serverName: string, configurationName: string, options?: msRest.RequestOptionsBase): Promise<Models.ConfigurationsGetResponse>;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param configurationName The name of the server configuration.
    * @param callback The callback
    */
   get(resourceGroupName: string, serverName: string, configurationName: string, callback: msRest.ServiceCallback<Models.Configuration>): void;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param configurationName The name of the server configuration.
    * @param options The optional parameters
@@ -83,23 +79,20 @@ export class Configurations {
 
   /**
    * List all the configurations in a given server.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param [options] The optional parameters
    * @returns Promise<Models.ConfigurationsListByServerResponse>
    */
   listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase): Promise<Models.ConfigurationsListByServerResponse>;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param callback The callback
    */
   listByServer(resourceGroupName: string, serverName: string, callback: msRest.ServiceCallback<Models.ConfigurationListResult>): void;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param options The optional parameters
    * @param callback The callback
@@ -118,8 +111,7 @@ export class Configurations {
 
   /**
    * Updates a configuration of a server.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param configurationName The name of the server configuration.
    * @param parameters The required parameters for updating a server configuration.
@@ -152,7 +144,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.configurationName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -177,7 +169,7 @@ const listByServerOperationSpec: msRest.OperationSpec = {
     Parameters.serverName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -203,7 +195,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.configurationName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
