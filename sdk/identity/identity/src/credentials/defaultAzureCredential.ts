@@ -21,6 +21,11 @@ import { TokenCredential } from "@azure/core-http";
  * on how they attempt authentication.
  */
 export class DefaultAzureCredential extends ChainedTokenCredential {
+  /**
+   * Returns the list of credentials DefaultAzureCredential will use to authenticate.
+   *
+   * @param options Options for configuring the client which makes the authentication request.
+   */
   static credentials(tokenCredentialOptions?: TokenCredentialOptions): TokenCredential[] {
     let credentials = [];
     credentials.push(new EnvironmentCredential(tokenCredentialOptions));
