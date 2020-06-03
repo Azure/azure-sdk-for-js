@@ -1260,7 +1260,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
       enableBatchedOperations: false,
       requiresDuplicateDetection: true,
       requiresSession: true,
-      messageCount: [undefined],
+      messageCount: undefined,
       authorizationRules: [
         {
           claimType: "SharedAccessKey",
