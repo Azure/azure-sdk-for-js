@@ -12,6 +12,7 @@ const debug = debugModule("azure:event-hubs:misc-spec");
 import {
   EventData,
   EventHubConsumerClient,
+  EventHubProducerClient,
   EventHubProperties,
   ReceivedEventData,
   Subscription
@@ -33,6 +34,7 @@ describe("Misc tests", function(): void {
     path: env[EnvVarKeys.EVENTHUB_NAME]
   };
   const client: EventHubClient = new EventHubClient(service.connectionString, service.path);
+  const producerClient = new EventHubProducerClient(service.connectionString, service.path);
   let receiver: EventHubConsumer;
   let hubInfo: EventHubProperties;
   before("validate environment", async function(): Promise<void> {
@@ -49,6 +51,7 @@ describe("Misc tests", function(): void {
 
   after("close the connection", async function(): Promise<void> {
     await client.close();
+    await producerClient.close();
   });
 
   it("should be able to send and receive a large message correctly", async function(): Promise<
@@ -67,8 +70,7 @@ describe("Misc tests", function(): void {
     });
     let data = await receiver.receiveBatch(1, 1);
     should.equal(data.length, 0, "Unexpected to receive message before client sends it");
-    const sender = client.createProducer({ partitionId });
-    await sender.send([obj]);
+    await producerClient.sendBatch([obj], { partitionId });
     debug("Successfully sent the large message.");
     data = await receiver.receiveBatch(1, 30);
     debug("Closing the receiver..");
@@ -103,8 +105,7 @@ describe("Misc tests", function(): void {
     receiver = client.createConsumer(EventHubConsumerClient.defaultConsumerGroupName, partitionId, {
       offset
     });
-    const sender = client.createProducer({ partitionId });
-    await sender.send([obj]);
+    await producerClient.sendBatch([obj], { partitionId });
     debug("Successfully sent the large message.");
     const data = await receiver.receiveBatch(1, 30);
     await receiver.close();
@@ -137,8 +138,7 @@ describe("Misc tests", function(): void {
     receiver = client.createConsumer(EventHubConsumerClient.defaultConsumerGroupName, partitionId, {
       offset
     });
-    const sender = client.createProducer({ partitionId });
-    await sender.send([obj]);
+    await producerClient.sendBatch([obj], { partitionId });
     debug("Successfully sent the large message.");
     const data = await receiver.receiveBatch(1, 30);
     await receiver.close();
@@ -160,8 +160,7 @@ describe("Misc tests", function(): void {
     receiver = client.createConsumer(EventHubConsumerClient.defaultConsumerGroupName, partitionId, {
       offset
     });
-    const sender = client.createProducer({ partitionId });
-    await sender.send([obj]);
+    await producerClient.sendBatch([obj], { partitionId });
     debug("Successfully sent the large message.");
     const data = await receiver.receiveBatch(1, 30);
     await receiver.close();
@@ -187,8 +186,7 @@ describe("Misc tests", function(): void {
         d.push(obj);
       }
 
-      const sender = client.createProducer({ partitionId });
-      await sender.send(d);
+      await producerClient.sendBatch(d, { partitionId });
       debug("Successfully sent 5 messages batched together.");
 
       const receiver = client.createConsumer(EventHubConsumerClient.defaultConsumerGroupName, partitionId, {
@@ -239,8 +237,7 @@ describe("Misc tests", function(): void {
         d.push(obj);
       }
 
-      const sender = client.createProducer({ partitionId });
-      await sender.send(d);
+      await producerClient.sendBatch(d, { partitionId });
       debug("Successfully sent 5 messages batched together.");
 
       const receiver = client.createConsumer(EventHubConsumerClient.defaultConsumerGroupName, partitionId, {
@@ -286,9 +283,8 @@ describe("Misc tests", function(): void {
 
     for (let i = 0; i < msgToSendCount; i++) {
       const partitionKey = getRandomInt(10);
-      const sender = client.createProducer();
       senderPromises.push(
-        sender.send([{ body: "Hello EventHub " + i }], {
+        producerClient.sendBatch([{ body: "Hello EventHub " + i }], {
           partitionKey: partitionKey.toString()
         })
       );

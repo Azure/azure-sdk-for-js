@@ -15,7 +15,7 @@ import {
   executeAtomXmlOperation
 } from "../src/util/atomXmlHelper";
 import * as Constants from "../src/util/constants";
-import { ServiceBusAtomManagementClient } from "../src/serviceBusAtomManagementClient";
+import { ServiceBusManagementClient } from "../src/serviceBusAtomManagementClient";
 import { QueueResourceSerializer } from "../src/serializers/queueResourceSerializer";
 import { HttpHeaders, HttpOperationResponse, WebResource } from "@azure/core-http";
 import { TopicResourceSerializer } from "../src/serializers/topicResourceSerializer";
@@ -71,7 +71,7 @@ const subscriptionProperties = [
 
 const ruleProperties = ["Filter", "Action", "Name"];
 
-const mockServiceBusAtomManagementClient: ServiceBusAtomManagementClient = new ServiceBusAtomManagementClient(
+const mockServiceBusAtomManagementClient: ServiceBusManagementClient = new ServiceBusManagementClient(
   "Endpoint=test/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=test"
 );
 
@@ -595,7 +595,10 @@ class MockSerializer implements AtomXmlSerializer {
         };
       };
       try {
-        await mockServiceBusAtomManagementClient.createQueue("test", testCase.input as any);
+        await mockServiceBusAtomManagementClient.createQueue({
+          queueName: "test",
+          ...(testCase.input as any)
+        });
         assert.fail("Error must be thrown");
       } catch (err) {
         assert.equal(
@@ -751,7 +754,10 @@ class MockSerializer implements AtomXmlSerializer {
         return response;
       };
       try {
-        await mockServiceBusAtomManagementClient.createQueue("test", testCase.input as any);
+        await mockServiceBusAtomManagementClient.createQueue({
+          queueName: "test",
+          ...(testCase.input as any)
+        });
         assert.fail("Error must be thrown");
       } catch (err) {
         assert.equal(err.code, testCase.output.errorCode, `Unexpected error code found.`);
@@ -889,7 +895,10 @@ class MockSerializer implements AtomXmlSerializer {
       };
 
       try {
-        await mockServiceBusAtomManagementClient.createQueue("test", testCase as any);
+        await mockServiceBusAtomManagementClient.createQueue({
+          queueName: "test",
+          ...(testCase as any)
+        });
         assert.fail("Error must be thrown");
       } catch (err) {
         assert.equal(err.code, testCase.errorCode, `Unexpected error code found.`);
@@ -932,7 +941,7 @@ describe(`Parse empty response for list() requests to return as empty array`, fu
         headers: new HttpHeaders({})
       };
     };
-    const result = await mockServiceBusAtomManagementClient.listQueues();
+    const result = await mockServiceBusAtomManagementClient.getQueues();
     assertEmptyArray(result);
   });
 
@@ -945,7 +954,7 @@ describe(`Parse empty response for list() requests to return as empty array`, fu
         headers: new HttpHeaders({})
       };
     };
-    const result = await mockServiceBusAtomManagementClient.listTopics();
+    const result = await mockServiceBusAtomManagementClient.getTopics();
     assertEmptyArray(result);
   });
 
@@ -958,7 +967,7 @@ describe(`Parse empty response for list() requests to return as empty array`, fu
         headers: new HttpHeaders({})
       };
     };
-    const result = await mockServiceBusAtomManagementClient.listSubscriptions("testTopic");
+    const result = await mockServiceBusAtomManagementClient.getSubscriptions("testTopic");
     assertEmptyArray(result);
   });
 
@@ -971,7 +980,7 @@ describe(`Parse empty response for list() requests to return as empty array`, fu
         headers: new HttpHeaders({})
       };
     };
-    const result = await mockServiceBusAtomManagementClient.listRules(
+    const result = await mockServiceBusAtomManagementClient.getRules(
       "testTopic",
       "testSubscription"
     );

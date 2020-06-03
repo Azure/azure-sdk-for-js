@@ -2,22 +2,20 @@
 // Licensed under the MIT license.
 
 import { HttpOperationResponse } from "@azure/core-http";
-import * as Constants from "../util/constants";
 import {
   AtomXmlSerializer,
   deserializeAtomXmlResponse,
   serializeToAtomXmlRequest
 } from "../util/atomXmlHelper";
+import * as Constants from "../util/constants";
 import {
   EntityStatus,
-  MessageCountDetails,
   getBoolean,
-  getBooleanOrUndefined,
   getCountDetailsOrUndefined,
   getInteger,
-  getIntegerOrUndefined,
   getString,
-  getStringOrUndefined
+  getStringOrUndefined,
+  MessageCountDetails
 } from "../util/utils";
 
 /**
@@ -26,30 +24,28 @@ import {
  * Builds the subscription options object from the user provided options.
  * Handles the differences in casing for the property names,
  * converts values to string and ensures the right order as expected by the service
- * @param subscriptionOptions
+ * @param subscription
  */
 export function buildSubscriptionOptions(
-  subscriptionOptions: SubscriptionOptions
+  subscription: SubscriptionDescription
 ): InternalSubscriptionOptions {
   return {
-    LockDuration: subscriptionOptions.lockDuration,
-    RequiresSession: getStringOrUndefined(subscriptionOptions.requiresSession),
-    DefaultMessageTimeToLive: getStringOrUndefined(subscriptionOptions.defaultMessageTtl),
+    LockDuration: subscription.lockDuration,
+    RequiresSession: getStringOrUndefined(subscription.requiresSession),
+    DefaultMessageTimeToLive: getStringOrUndefined(subscription.defaultMessageTtl),
     DeadLetteringOnMessageExpiration: getStringOrUndefined(
-      subscriptionOptions.deadLetteringOnMessageExpiration
+      subscription.deadLetteringOnMessageExpiration
     ),
     DeadLetteringOnFilterEvaluationExceptions: getStringOrUndefined(
-      subscriptionOptions.deadLetteringOnFilterEvaluationExceptions
+      subscription.deadLetteringOnFilterEvaluationExceptions
     ),
-    MaxDeliveryCount: getStringOrUndefined(subscriptionOptions.maxDeliveryCount),
-    EnableBatchedOperations: getStringOrUndefined(subscriptionOptions.enableBatchedOperations),
-    Status: getStringOrUndefined(subscriptionOptions.status),
-    ForwardTo: getStringOrUndefined(subscriptionOptions.forwardTo),
-    UserMetadata: getStringOrUndefined(subscriptionOptions.userMetadata),
-    ForwardDeadLetteredMessagesTo: getStringOrUndefined(
-      subscriptionOptions.forwardDeadLetteredMessagesTo
-    ),
-    AutoDeleteOnIdle: getStringOrUndefined(subscriptionOptions.autoDeleteOnIdle)
+    MaxDeliveryCount: getStringOrUndefined(subscription.maxDeliveryCount),
+    EnableBatchedOperations: getStringOrUndefined(subscription.enableBatchedOperations),
+    Status: getStringOrUndefined(subscription.status),
+    ForwardTo: getStringOrUndefined(subscription.forwardTo),
+    UserMetadata: getStringOrUndefined(subscription.userMetadata),
+    ForwardDeadLetteredMessagesTo: getStringOrUndefined(subscription.forwardDeadLetteredMessagesTo),
+    AutoDeleteOnIdle: getStringOrUndefined(subscription.autoDeleteOnIdle)
   };
 }
 
@@ -60,19 +56,14 @@ export function buildSubscriptionOptions(
  * the response from the service
  * @param rawSubscription
  */
-export function buildSubscription(rawSubscription: any): SubscriptionDetails {
+export function buildSubscription(rawSubscription: any): SubscriptionDescription {
   return {
     subscriptionName: getString(rawSubscription[Constants.SUBSCRIPTION_NAME], "subscriptionName"),
     topicName: getString(rawSubscription[Constants.TOPIC_NAME], "topicName"),
 
     lockDuration: getString(rawSubscription[Constants.LOCK_DURATION], "lockDuration"),
-    sizeInBytes: getIntegerOrUndefined(rawSubscription[Constants.SIZE_IN_BYTES]),
-    maxSizeInMegabytes: getIntegerOrUndefined(rawSubscription[Constants.MAX_SIZE_IN_MEGABYTES]),
-
-    messageCount: getInteger(rawSubscription[Constants.MESSAGE_COUNT], "messageCount"),
     maxDeliveryCount: getInteger(rawSubscription[Constants.MAX_DELIVERY_COUNT], "maxDeliveryCount"),
 
-    enablePartitioning: getBooleanOrUndefined(rawSubscription[Constants.ENABLE_PARTITIONING]),
     requiresSession: getBoolean(rawSubscription[Constants.REQUIRES_SESSION], "requiresSession"),
     enableBatchedOperations: getBoolean(
       rawSubscription[Constants.ENABLE_BATCHED_OPERATIONS],
@@ -96,18 +87,28 @@ export function buildSubscription(rawSubscription: any): SubscriptionDetails {
     forwardDeadLetteredMessagesTo: getStringOrUndefined(
       rawSubscription[Constants.FORWARD_DEADLETTERED_MESSAGES_TO]
     ),
-    defaultRuleDescription: rawSubscription[Constants.DEFAULT_RULE_DESCRIPTION],
-
-    messageCountDetails: getCountDetailsOrUndefined(rawSubscription[Constants.COUNT_DETAILS]),
 
     forwardTo: getStringOrUndefined(rawSubscription[Constants.FORWARD_TO]),
     userMetadata: rawSubscription[Constants.USER_METADATA],
 
-    entityAvailabilityStatus: getString(
-      rawSubscription[Constants.ENTITY_AVAILABILITY_STATUS],
-      "entityAvailabilityStatus"
-    ),
     status: getString(rawSubscription[Constants.STATUS], "status") as EntityStatus,
+    messageCount: getInteger(rawSubscription[Constants.MESSAGE_COUNT], "messageCount")
+  };
+}
+
+/**
+ * @internal
+ * @ignore
+ * Builds the subscription runtime info object from the raw json object gotten after deserializing
+ * the response from the service
+ * @param rawSubscription
+ */
+export function buildSubscriptionRuntimeInfo(rawSubscription: any): SubscriptionRuntimeInfo {
+  return {
+    subscriptionName: getString(rawSubscription[Constants.SUBSCRIPTION_NAME], "subscriptionName"),
+    topicName: getString(rawSubscription[Constants.TOPIC_NAME], "topicName"),
+    messageCount: getInteger(rawSubscription[Constants.MESSAGE_COUNT], "messageCount"),
+    messageCountDetails: getCountDetailsOrUndefined(rawSubscription[Constants.COUNT_DETAILS]),
     createdOn: getString(rawSubscription[Constants.CREATED_AT], "createdOn"),
     updatedOn: getString(rawSubscription[Constants.UPDATED_AT], "updatedOn"),
     accessedOn: rawSubscription[Constants.ACCESSED_AT]
@@ -115,11 +116,19 @@ export function buildSubscription(rawSubscription: any): SubscriptionDetails {
 }
 
 /**
- * @internal
- * @ignore
  * Represents settable options on a subscription
  */
-export interface SubscriptionOptions {
+export interface SubscriptionDescription {
+  /**
+   * Name of the subscription
+   */
+  subscriptionName: string;
+
+  /**
+   * Name of the topic
+   */
+  topicName: string;
+
   /**
    * The default lock duration is applied to subscriptions that do not define a lock
    * duration. Settable only at subscription creation time.
@@ -209,6 +218,9 @@ export interface SubscriptionOptions {
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
   autoDeleteOnIdle?: string;
+
+  // TODO: will be removed once the RuntimeInfo APIs are added
+  messageCount?: number;
 }
 
 /**
@@ -311,9 +323,9 @@ export interface InternalSubscriptionOptions {
 /**
  * @internal
  * @ignore
- * Represents all attributes of a subscription entity
+ * Represents runtime info attributes of a subscription entity
  */
-export interface SubscriptionDetails {
+export interface SubscriptionRuntimeInfo {
   /**
    * Name of the subscription
    */
@@ -325,139 +337,15 @@ export interface SubscriptionDetails {
   topicName: string;
 
   /**
-   * The default lock duration is applied to subscriptions that do not define a
-   * lock duration.
-   * Settable only at subscription creation time.
-   * This is specified in ISO-8601 duration format
-   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
-   */
-  lockDuration: string;
-
-  /**
-   * The entity's size in bytes.
-   *
-   */
-  sizeInBytes?: number;
-
-  /**
-   * Specifies the maximum topic size in megabytes. Any attempt to enqueue a message
-   * that will cause the topic to exceed this value will fail. All messages that are
-   * stored in the topic or any of its subscriptions count towards this value.
-   * Multiple copies of a message that reside in one or multiple subscriptions
-   * count as a single messages. For example, if message m exists once in subscription
-   * s1 and twice in subscription s2, m is counted as a single message.
-   */
-  maxSizeInMegabytes?: number;
-
-  /**
    * The entity's message count.
    *
    */
   messageCount: number;
 
   /**
-   * Specifies whether the topic should be partitioned
-   */
-  enablePartitioning?: boolean;
-
-  /**
-   * If set to true, the subscription will be session-aware and only SessionReceiver
-   * will be supported. Session-aware subscription are not supported through REST.
-   * Settable only at subscription creation time.
-   */
-  requiresSession: boolean;
-
-  /**
-   * Specifies if batched operations should be allowed.
-   */
-  enableBatchedOperations: boolean;
-
-  /**
-   * Determines how long a message lives in the subscription. Based on whether
-   * dead-lettering is enabled, a message whose TTL has expired will either be moved
-   * to the subscription’s associated dead-letter sub-queue or permanently deleted.
-   * This is to be specified in ISO-8601 duration format
-   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
-   */
-  defaultMessageTtl?: string;
-
-  /**
-   * Indicates the default rule description.
-   *
-   */
-  defaultRuleDescription?: any;
-
-  /**
-   * Max idle time before entity is deleted.
-   * This is to be specified in ISO-8601 duration format
-   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
-   */
-  autoDeleteOnIdle: string;
-
-  /**
-   * If it is enabled and a message expires, the Service Bus moves the message from
-   * the queue into the subscription’s dead-letter sub-queue. If disabled, message
-   * will be permanently deleted from the subscription’s main queue. Settable only
-   * at subscription creation time.
-   */
-  deadLetteringOnMessageExpiration: boolean;
-
-  /**
-   * Determines how the Service Bus handles a message that causes an exception
-   * during a subscription’s filter evaluation. If the value is set to true,
-   * the message that caused the exception will be moved to the subscription’s
-   * dead-letter sub-queue. Otherwise, it will be discarded. By default this
-   * parameter is set to true, allowing the user a chance to investigate the
-   * cause of the exception. It can occur from a malformed message or some
-   * incorrect assumptions being made in the filter about the form of the message.
-   * Settable only at topic creation time.
-   */
-  deadLetteringOnFilterEvaluationExceptions: boolean;
-
-  /**
-   * Absolute URL or the name of the queue or topic the dead-lettered
-   * messages are to be forwarded to.
-   * For example, an absolute URL input would be of the form
-   * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
-   */
-  forwardDeadLetteredMessagesTo?: string;
-
-  /**
-   * The maximum delivery count of messages after which if it is still not settled,
-   * gets moved to the dead-letter sub-queue.
-   *
-   */
-  maxDeliveryCount: number;
-
-  /**
-   * Absolute URL or the name of the queue or topic the
-   * messages are to be forwarded to.
-   * For example, an absolute URL input would be of the form
-   * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
-   */
-  forwardTo?: string;
-
-  /**
-   * The user provided metadata information associated with the subscription description.
-   * Used to specify textual content such as tags, labels, etc.
-   * Value must not exceed 1024 bytes encoded in utf-8.
-   */
-  userMetadata?: string;
-
-  /**
    * Message count details
    */
   messageCountDetails?: MessageCountDetails;
-
-  /**
-   * Entity availability status
-   */
-  entityAvailabilityStatus: string;
-
-  /**
-   * Status of the messaging entity.
-   */
-  status?: EntityStatus;
 
   /**
    * Created at timestamp
