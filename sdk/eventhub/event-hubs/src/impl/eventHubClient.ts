@@ -4,7 +4,6 @@
 import { logErrorStackTrace, logger } from "../log";
 import {
   ConnectionConfig,
-  Constants,
   EventHubConnectionConfig,
   EventHubConnectionStringModel,
   RetryOptions,
@@ -471,10 +470,4 @@ export class EventHubClient {
       clientSpan.end();
     }
   }
-
-  /**
-   * @property
-   * The name of the default consumer group in the Event Hubs service.
-   */
-  static defaultConsumerGroupName: string = Constants.defaultConsumerGroup;
 }

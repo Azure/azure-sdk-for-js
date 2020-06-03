@@ -63,13 +63,13 @@ describe("EventHubConsumerClient", () => {
         fakeEventProcessor = createStubInstance(EventProcessor);
 
         client = new EventHubConsumerClient(
-          EventHubClient.defaultConsumerGroupName,
+          EventHubConsumerClient.defaultConsumerGroupName,
           service.connectionString!,
           service.path
         );
 
         clientWithCheckpointStore = new EventHubConsumerClient(
-          EventHubClient.defaultConsumerGroupName,
+          EventHubConsumerClient.defaultConsumerGroupName,
           service.connectionString!,
           service.path,
           // it doesn't actually matter _what_ checkpoint store gets passed in
@@ -88,7 +88,7 @@ describe("EventHubConsumerClient", () => {
           checkpointStore: CheckpointStore,
           options: FullEventProcessorOptions
         ) => {
-          consumerGroup.should.equal(EventHubClient.defaultConsumerGroupName);
+          consumerGroup.should.equal(EventHubConsumerClient.defaultConsumerGroupName);
           subscriptionEventHandlers.should.equal(subscriptionHandlers);
           (typeof eventHubClient.createConsumer).should.equal("function");
           isCheckpointStore(checkpointStore).should.be.ok;
@@ -440,7 +440,7 @@ describe("EventHubConsumerClient", () => {
 
       clients.push(
         new EventHubConsumerClient(
-          EventHubClient.defaultConsumerGroupName,
+          EventHubConsumerClient.defaultConsumerGroupName,
           service.connectionString!,
           service.path
         )
@@ -475,7 +475,7 @@ describe("EventHubConsumerClient", () => {
 
       clients.push(
         new EventHubConsumerClient(
-          EventHubClient.defaultConsumerGroupName,
+          EventHubConsumerClient.defaultConsumerGroupName,
           service.connectionString!,
           service.path
         )
@@ -514,7 +514,7 @@ describe("EventHubConsumerClient", () => {
 
       clients.push(
         new EventHubConsumerClient(
-          EventHubClient.defaultConsumerGroupName,
+          EventHubConsumerClient.defaultConsumerGroupName,
           service.connectionString!,
           service.path
         )
@@ -552,7 +552,7 @@ describe("EventHubConsumerClient", () => {
 
       clients.push(
         new EventHubConsumerClient(
-          EventHubClient.defaultConsumerGroupName,
+          EventHubConsumerClient.defaultConsumerGroupName,
           service.connectionString!,
           service.path,
           // specifying your own checkpoint store activates the "production ready" code path that
@@ -570,7 +570,7 @@ describe("EventHubConsumerClient", () => {
 
       clients.push(
         new EventHubConsumerClient(
-          EventHubClient.defaultConsumerGroupName,
+          EventHubConsumerClient.defaultConsumerGroupName,
           service.connectionString!,
           service.path,
           // specifying your own checkpoint store activates the "production ready" code path that
