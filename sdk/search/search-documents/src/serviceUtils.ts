@@ -345,7 +345,7 @@ export function convertEncryptionKeyToPublic(
   const result: SearchResourceEncryptionKey = {
     keyName: encryptionKey.keyName,
     keyVersion: encryptionKey.keyVersion,
-    vaultUri: encryptionKey.vaultUri
+    vaultUrl: encryptionKey.vaultUri
   };
 
   if (encryptionKey.accessCredentials) {
@@ -366,7 +366,7 @@ export function convertEncryptionKeyToGenerated(
   const result: GeneratedSearchResourceEncryptionKey = {
     keyName: encryptionKey.keyName,
     keyVersion: encryptionKey.keyVersion,
-    vaultUri: encryptionKey.vaultUri
+    vaultUri: encryptionKey.vaultUrl
   };
 
   if (encryptionKey.applicationId) {
@@ -446,7 +446,7 @@ export function publicSkillsetToGeneratedSkillset(
 export function generatedSynonymMapToPublicSynonymMap(synonymMap: GeneratedSynonymMap): SynonymMap {
   const result: SynonymMap = {
     name: synonymMap.name,
-    encryptionKey: synonymMap.encryptionKey,
+    encryptionKey: convertEncryptionKeyToPublic(synonymMap.encryptionKey),
     etag: synonymMap.etag,
     synonyms: []
   };
@@ -455,15 +455,13 @@ export function generatedSynonymMapToPublicSynonymMap(synonymMap: GeneratedSynon
     result.synonyms = synonymMap.synonyms.split("\n");
   }
 
-  result.encryptionKey = convertEncryptionKeyToPublic(synonymMap.encryptionKey);
-
   return result;
 }
 
 export function publicSynonymMapToGeneratedSynonymMap(synonymMap: SynonymMap): GeneratedSynonymMap {
   const result: GeneratedSynonymMap = {
     name: synonymMap.name,
-    encryptionKey: synonymMap.encryptionKey,
+    encryptionKey: convertEncryptionKeyToGenerated(synonymMap.encryptionKey),
     etag: synonymMap.etag,
     synonyms: synonymMap.synonyms.join("\n")
   };

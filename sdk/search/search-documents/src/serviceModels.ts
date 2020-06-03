@@ -918,7 +918,7 @@ export interface SearchResourceEncryptionKey {
    * used to encrypt your data at rest. An example URI might be
    * https://my-keyvault-name.vault.azure.net.
    */
-  vaultUri: string;
+  vaultUrl: string;
   /**
    * An AAD Application ID that was granted the required access permissions to the Azure Key Vault
    * that is to be used when encrypting your data at rest. The Application ID should not be

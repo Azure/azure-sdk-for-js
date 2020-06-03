@@ -1243,7 +1243,7 @@ export interface SearchResourceEncryptionKey {
     applicationSecret?: string;
     keyName: string;
     keyVersion: string;
-    vaultUri: string;
+    vaultUrl: string;
 }
 
 // @public
