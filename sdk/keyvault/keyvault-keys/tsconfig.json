@@ -3,7 +3,7 @@
   "compilerOptions": {
     "declarationDir": "./types",
     "outDir": "./dist-esm",
-    "lib": ["dom"],
+    "lib": ["dom", "esnext.asynciterable"],
     "resolveJsonModule": true
   },
   "exclude": ["node_modules", "./types/**/*.d.ts", "./samples/**/*.ts"],
