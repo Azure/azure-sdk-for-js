@@ -61,6 +61,8 @@ export class ClientSecretCredential implements TokenCredential {
 // @public
 export class DefaultAzureCredential extends ChainedTokenCredential {
     constructor(tokenCredentialOptions?: TokenCredentialOptions);
+    // (undocumented)
+    static credentials(tokenCredentialOptions?: TokenCredentialOptions): TokenCredential[];
 }
 
 // @public

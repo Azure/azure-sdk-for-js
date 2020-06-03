@@ -7,6 +7,7 @@ import { EnvironmentCredential } from "./environmentCredential";
 import { ManagedIdentityCredential } from "./managedIdentityCredential";
 import { AzureCliCredential } from "./azureCliCredential";
 import { VSCodeCredential } from "./vscodeCredential";
+import { TokenCredential } from "@azure/core-http";
 
 /**
  * Provides a default {@link ChainedTokenCredential} configuration for
@@ -20,12 +21,7 @@ import { VSCodeCredential } from "./vscodeCredential";
  * on how they attempt authentication.
  */
 export class DefaultAzureCredential extends ChainedTokenCredential {
-  /**
-   * Creates an instance of the DefaultAzureCredential class.
-   *
-   * @param options Options for configuring the client which makes the authentication request.
-   */
-  constructor(tokenCredentialOptions?: TokenCredentialOptions) {
+  static credentials(tokenCredentialOptions?: TokenCredentialOptions): TokenCredential[] {
     let credentials = [];
     credentials.push(new EnvironmentCredential(tokenCredentialOptions));
     credentials.push(new ManagedIdentityCredential(tokenCredentialOptions));
@@ -35,6 +31,15 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
     credentials.push(new AzureCliCredential());
     credentials.push(new VSCodeCredential(tokenCredentialOptions));
 
+    return credentials;
+  }
+  /**
+   * Creates an instance of the DefaultAzureCredential class.
+   *
+   * @param options Options for configuring the client which makes the authentication request.
+   */
+  constructor(tokenCredentialOptions?: TokenCredentialOptions) {
+    let credentials = DefaultAzureCredential.credentials(tokenCredentialOptions);
     super(
       ...credentials
     );
