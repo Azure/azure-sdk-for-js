@@ -1498,10 +1498,6 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
       maxSizeInMegabytes: 3072
     },
     output: {
-      maxDeliveryCount: undefined,
-      subscriptionCount: undefined,
-      sizeInBytes: undefined,
-      messageCount: undefined,
       requiresDuplicateDetection: false,
       defaultMessageTtl: "P1D",
       duplicateDetectionHistoryTimeWindow: "PT2M",
@@ -1511,15 +1507,8 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
       enableBatchedOperations: true,
       enablePartitioning: false,
       authorizationRules: undefined,
-      isExpress: undefined,
-      enableSubscriptionPartitioning: undefined,
-      filteringMessagesBeforePublishing: undefined,
-      enableExpress: undefined,
-      entityAvailabilityStatus: undefined,
-      isAnonymousAccessible: undefined,
       status: "SendDisabled",
       userMetadata: "test metadata",
-      messageCountDetails: undefined,
       topicName: managementTopic1
     }
   }
