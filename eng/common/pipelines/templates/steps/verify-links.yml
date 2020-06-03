@@ -20,7 +20,7 @@ steps:
     $directory = Join-Path $directory "${{parameters.ServiceDirectory}}"
     Write-Host "directory = $directory"
     foreach ($md in $(dir $directory -r -i *.md)){
-      & './eng/scripts/Verify-Links.ps1' $md
+      ./eng/scripts/Verify-Links.ps1 $md
     }
   displayName: 'Link verification check'
 >>>>>>> 76a02e7ad... verification of links pipelines
