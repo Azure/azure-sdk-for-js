@@ -20,22 +20,6 @@ import {
 /**
  * @internal
  * @ignore
- * Builds the rule options object from the user provided options.
- * Handles the differences in casing for the property names,
- * converts values to string and ensures the right order as expected by the service
- * @param name
- * @param rule
- */
-export function buildRuleOptions(rule: RuleDescription): InternalRuleOptions {
-  const internalRuleOptions: InternalRuleOptions = Object.assign({}, rule, {
-    name: rule.name
-  });
-  return internalRuleOptions;
-}
-
-/**
- * @internal
- * @ignore
  * Builds the rule object from the raw json object gotten after deserializing the
  * response from the service
  * @param rawRule
@@ -102,18 +86,6 @@ function getRuleActionOrUndefined(value: any): SqlRuleAction | undefined {
 }
 
 /**
- * @internal
- * @ignore
- * Internal representation of settable options on a rule
- */
-export interface InternalRuleOptions extends Pick<RuleDescription, "filter" | "action"> {
-  /**
-   * Name of the rule.
-   */
-  name?: string;
-}
-
-/**
  * Represents all attributes of a rule entity
  */
 export interface RuleDescription {
@@ -174,7 +146,7 @@ export interface SqlRuleFilter {
  * RuleResourceSerializer for serializing / deserializing Rule entities
  */
 export class RuleResourceSerializer implements AtomXmlSerializer {
-  serialize(rule: InternalRuleOptions): object {
+  serialize(rule: RuleDescription): object {
     const resource: { Name: any; Filter: any; Action: any } = {
       Filter: {},
       Action: {},

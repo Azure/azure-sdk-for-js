@@ -46,9 +46,7 @@ import {
   SubscriptionResourceSerializer
 } from "./serializers/subscriptionResourceSerializer";
 import {
-  InternalRuleOptions,
   RuleDescription,
-  buildRuleOptions,
   buildRule,
   RuleResourceSerializer
 } from "./serializers/ruleResourceSerializer";
@@ -906,7 +904,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     const fullPath = this.getRulePath(topicName, subscriptionName, rule.name);
     const response: HttpOperationResponse = await this.putResource(
       fullPath,
-      buildRuleOptions(rule),
+      rule,
       this.ruleResourceSerializer,
       false
     );
@@ -1013,7 +1011,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     const fullPath = this.getRulePath(topicName, subscriptionName, rule.name);
     const response: HttpOperationResponse = await this.putResource(
       fullPath,
-      buildRuleOptions(rule),
+      rule,
       this.ruleResourceSerializer,
       true
     );
@@ -1065,7 +1063,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       | InternalQueueOptions
       | InternalTopicOptions
       | InternalSubscriptionOptions
-      | InternalRuleOptions,
+      | RuleDescription,
     serializer: AtomXmlSerializer,
     isUpdate: boolean = false
   ): Promise<HttpOperationResponse> {
