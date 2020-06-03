@@ -94,7 +94,8 @@ export {
   KeywordTokenizer,
   AnalyzeRequest,
   SearchResourceEncryptionKey,
-  SearchIndexStatistics
+  SearchIndexStatistics,
+  SearchServiceStatistics
 } from "./serviceModels";
 export { default as GeographyPoint } from "./geographyPoint";
 export { odata } from "./odata";

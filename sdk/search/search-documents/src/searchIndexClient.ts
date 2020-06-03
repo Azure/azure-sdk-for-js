@@ -13,7 +13,7 @@ import {
 } from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/api";
 import { SDK_VERSION } from "./constants";
-import { AnalyzeResult, ServiceStatistics } from "./generated/service/models";
+import { AnalyzeResult } from "./generated/service/models";
 import { SearchServiceClient as GeneratedClient } from "./generated/service/searchServiceClient";
 import { logger } from "./logger";
 import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy";
@@ -35,7 +35,8 @@ import {
   GetServiceStatisticsOptions,
   IndexIterator,
   IndexNameIterator,
-  SearchIndexStatistics
+  SearchIndexStatistics,
+  SearchServiceStatistics
 } from "./serviceModels";
 import * as utils from "./serviceUtils";
 import { createSpan } from "./tracing";
@@ -589,7 +590,7 @@ export class SearchIndexClient {
    */
   public async getServiceStatistics(
     options: GetServiceStatisticsOptions = {}
-  ): Promise<ServiceStatistics> {
+  ): Promise<SearchServiceStatistics> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-getServiceStatistics", options);
     try {
       const result = await this.client.getServiceStatistics(

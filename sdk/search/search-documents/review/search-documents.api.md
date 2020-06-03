@@ -1080,7 +1080,7 @@ export class SearchIndexClient {
     readonly endpoint: string;
     getIndex(indexName: string, options?: GetIndexOptions): Promise<SearchIndex>;
     getIndexStatistics(indexName: string, options?: GetIndexStatisticsOptions): Promise<SearchIndexStatistics>;
-    getServiceStatistics(options?: GetServiceStatisticsOptions): Promise<ServiceStatistics>;
+    getServiceStatistics(options?: GetServiceStatisticsOptions): Promise<SearchServiceStatistics>;
     getSynonymMap(synonymMapName: string, options?: GetSynonymMapsOptions): Promise<SynonymMap>;
     listIndexes(options?: ListIndexesOptions): IndexIterator;
     listIndexesNames(options?: ListIndexesOptions): IndexNameIterator;
@@ -1252,6 +1252,9 @@ export type SearchResult<T> = {
         [propertyName: string]: string[];
     };
 } & T;
+
+// @public
+export type SearchServiceStatistics = ServiceStatistics;
 
 // @public
 export interface SearchSuggester {

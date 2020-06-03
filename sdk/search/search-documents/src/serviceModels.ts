@@ -68,7 +68,8 @@ import {
   ClassicSimilarity,
   BM25Similarity,
   EdgeNGramTokenFilterSide,
-  GetIndexStatisticsResult
+  GetIndexStatisticsResult,
+  ServiceStatistics
 } from "./generated/service/models";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
@@ -132,6 +133,12 @@ export type GetIndexStatisticsOptions = OperationOptions;
  * always be up-to-date.
  */
 export type SearchIndexStatistics = GetIndexStatisticsResult;
+
+/**
+ * Response from a get service statistics request. If successful, it includes service level
+ * counters and limits.
+ */
+export type SearchServiceStatistics = ServiceStatistics;
 
 /**
  * Options for get service statistics operation.
