@@ -93,7 +93,8 @@ export {
   EdgeNGramTokenFilter,
   KeywordTokenizer,
   AnalyzeRequest,
-  SearchResourceEncryptionKey
+  SearchResourceEncryptionKey,
+  SearchIndexStatistics
 } from "./serviceModels";
 export { default as GeographyPoint } from "./geographyPoint";
 export { odata } from "./odata";

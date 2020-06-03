@@ -1079,7 +1079,7 @@ export class SearchIndexClient {
     deleteSynonymMap(synonymMap: string | SynonymMap, options?: DeleteSynonymMapOptions): Promise<void>;
     readonly endpoint: string;
     getIndex(indexName: string, options?: GetIndexOptions): Promise<SearchIndex>;
-    getIndexStatistics(indexName: string, options?: GetIndexStatisticsOptions): Promise<GetIndexStatisticsResult>;
+    getIndexStatistics(indexName: string, options?: GetIndexStatisticsOptions): Promise<SearchIndexStatistics>;
     getServiceStatistics(options?: GetServiceStatisticsOptions): Promise<ServiceStatistics>;
     getSynonymMap(synonymMapName: string, options?: GetSynonymMapsOptions): Promise<SynonymMap>;
     listIndexes(options?: ListIndexesOptions): IndexIterator;
@@ -1203,6 +1203,9 @@ export interface SearchIndexerWarning {
     readonly message: string;
     readonly name?: string;
 }
+
+// @public
+export type SearchIndexStatistics = GetIndexStatisticsResult;
 
 // @public
 export type SearchIterator<Fields> = PagedAsyncIterableIterator<SearchResult<Fields>, SearchDocumentsPageResult<Fields>, ListSearchResultsPageSettings>;

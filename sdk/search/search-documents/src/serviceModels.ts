@@ -67,7 +67,8 @@ import {
   LexicalAnalyzerName,
   ClassicSimilarity,
   BM25Similarity,
-  EdgeNGramTokenFilterSide
+  EdgeNGramTokenFilterSide,
+  GetIndexStatisticsResult
 } from "./generated/service/models";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
@@ -125,6 +126,12 @@ export type GetDataSourceOptions = OperationOptions;
  * Options for get index statistics operation.
  */
 export type GetIndexStatisticsOptions = OperationOptions;
+
+/**
+ * Statistics for a given index. Statistics are collected periodically and are not guaranteed to
+ * always be up-to-date.
+ */
+export type SearchIndexStatistics = GetIndexStatisticsResult;
 
 /**
  * Options for get service statistics operation.
