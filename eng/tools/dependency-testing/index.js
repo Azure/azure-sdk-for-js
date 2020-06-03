@@ -284,7 +284,7 @@ async function updateRushConfig(repoRoot, targetPackage, testFolder) {
   const testPath = path.join(targetPackagePath, testFolder);
   const testPackageJsonPath = path.join(testPath, "package.json");
   var testPackageJson = await packageUtils.readFileJson(testPackageJsonPath);
-  var testProjectFolder = targetPackage.projectFolder + "/test";
+  var testProjectFolder = targetPackage.projectFolder + "/" + testFolder;
   const testPackageEntry = {
     "packageName": testPackageJson.name,
     "projectFolder": testProjectFolder,
