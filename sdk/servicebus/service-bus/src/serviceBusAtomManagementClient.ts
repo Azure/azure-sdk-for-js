@@ -2,66 +2,67 @@
 // Licensed under the MIT license.
 
 import {
+  isTokenCredential,
+  parseConnectionString,
+  SharedKeyCredential,
+  TokenCredential
+} from "@azure/core-amqp";
+import {
   HttpOperationResponse,
+  proxyPolicy,
   ProxySettings,
   RequestPolicyFactory,
   RestError,
   ServiceClient,
   ServiceClientOptions,
-  URLBuilder,
-  WebResource,
-  proxyPolicy,
   signingPolicy,
   stripRequest,
-  stripResponse
+  stripResponse,
+  URLBuilder,
+  WebResource
 } from "@azure/core-http";
-
-import { parseConnectionString, SharedKeyCredential, TokenCredential, isTokenCredential } from "@azure/core-amqp";
-
-import { AtomXmlSerializer, executeAtomXmlOperation } from "./util/atomXmlHelper";
-
 import * as log from "./log";
-import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials";
-import * as Constants from "./util/constants";
-
 import {
+  buildNamespace,
+  NamespaceProperties,
+  NamespaceResourceSerializer
+} from "./serializers/namespaceResourceSerializer";
+import {
+  buildQueue,
+  buildQueueOptions,
+  buildQueueRuntimeInfo,
   InternalQueueOptions,
   QueueDescription,
-  buildQueueOptions,
-  buildQueue,
-  buildQueueRuntimeInfo,
-  QueueRuntimeInfo,
-  QueueResourceSerializer
+  QueueResourceSerializer,
+  QueueRuntimeInfo
 } from "./serializers/queueResourceSerializer";
 import {
-  InternalTopicOptions,
-  TopicRuntimeInfo,
-  buildTopicOptions,
-  TopicDescription,
-  buildTopic,
-  buildTopicRuntimeInfo,
-  TopicResourceSerializer
-} from "./serializers/topicResourceSerializer";
+  buildRule,
+  RuleDescription,
+  RuleResourceSerializer
+} from "./serializers/ruleResourceSerializer";
 import {
+  buildSubscription,
+  buildSubscriptionOptions,
+  buildSubscriptionRuntimeInfo,
   InternalSubscriptionOptions,
   SubscriptionDescription,
-  buildSubscriptionOptions,
-  SubscriptionRuntimeInfo,
-  buildSubscription,
-  buildSubscriptionRuntimeInfo,
-  SubscriptionResourceSerializer
+  SubscriptionResourceSerializer,
+  SubscriptionRuntimeInfo
 } from "./serializers/subscriptionResourceSerializer";
 import {
-  RuleResourceSerializer,
-  RuleDescription,
-  buildRule
-} from "./serializers/ruleResourceSerializer";
-import { isJSONLikeObject, isAbsoluteUrl } from "./util/utils";
-import {
-  NamespaceResourceSerializer,
-  buildNamespace,
-  NamespaceProperties
-} from "./serializers/namespaceResourceSerializer";
+  buildTopic,
+  buildTopicOptions,
+  buildTopicRuntimeInfo,
+  InternalTopicOptions,
+  TopicDescription,
+  TopicResourceSerializer,
+  TopicRuntimeInfo
+} from "./serializers/topicResourceSerializer";
+import { AtomXmlSerializer, executeAtomXmlOperation } from "./util/atomXmlHelper";
+import * as Constants from "./util/constants";
+import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials";
+import { isAbsoluteUrl, isJSONLikeObject } from "./util/utils";
 
 /**
  * Options to use with ServiceBusManagementClient creation
@@ -216,6 +217,26 @@ export interface GetTopicsResponse extends Array<TopicDescription> {
 }
 
 /**
+ * Represents result of create, get, update and delete operations on topic.
+ */
+export interface GetTopicRuntimeInfoResponse extends TopicRuntimeInfo {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
+
+/**
+ * Represents result of create, get, update and delete operations on topic.
+ */
+export interface GetTopicsRuntimeInfoResponse extends Array<TopicRuntimeInfo> {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
+
+/**
  * Represents result of create, get, update and delete operations on subscription.
  */
 export interface SubscriptionResponse extends SubscriptionDescription {
@@ -254,6 +275,26 @@ export interface DeleteSubscriptionResponse {
  * Represents result of list operation on subscriptions.
  */
 export interface GetSubscriptionsResponse extends Array<SubscriptionDescription> {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
+
+/**
+ * Represents result of create, get, update and delete operations on topic.
+ */
+export interface GetSubscriptionRuntimeInfoResponse extends SubscriptionRuntimeInfo {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
+
+/**
+ * Represents result of create, get, update and delete operations on topic.
+ */
+export interface GetSubscriptionsRuntimeInfoResponse extends Array<SubscriptionRuntimeInfo> {
   /**
    * The underlying HTTP response.
    */
@@ -506,6 +547,30 @@ export class ServiceBusManagementClient extends ServiceClient {
   }
 
   /**
+   * Returns an object representing the Queue with the given name along with all its properties
+   * @param queueName
+   *
+   * Following are errors that can be expected from this operation
+   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
+   * @throws `RestError` with code `MessageEntityNotFoundError` when requested messaging entity does not exist,
+   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
+   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
+   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
+   * bad requests or requests resulting in conflicting operation on the server,
+   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
+   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   */
+  async getQueueRuntimeInfo(queueName: string): Promise<GetQueueRuntimeInfoResponse> {
+    log.httpAtomXml(`Performing management operation - getQueue() for "${queueName}"`);
+    const response: HttpOperationResponse = await this.getResource(
+      queueName,
+      this.queueResourceSerializer
+    );
+
+    return this.buildQueueRuntimeInfoResponse(response);
+  }
+
+  /**
    * Lists existing queues.
    * @param listRequestOptions
    *
@@ -712,6 +777,30 @@ export class ServiceBusManagementClient extends ServiceClient {
    */
   async getTopic(topicName: string): Promise<GetTopicResponse> {
     log.httpAtomXml(`Performing management operation - getTopic() for "${topicName}"`);
+    const response: HttpOperationResponse = await this.getResource(
+      topicName,
+      this.topicResourceSerializer
+    );
+
+    return this.buildTopicResponse(response);
+  }
+
+  /**
+   * Returns an object representing the Topic with the given name along with all its properties
+   * @param topicName
+   *
+   * Following are errors that can be expected from this operation
+   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
+   * @throws `RestError` with code `MessageEntityNotFoundError` when requested messaging entity does not exist,
+   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
+   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
+   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
+   * bad requests or requests resulting in conflicting operation on the server,
+   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
+   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   */
+  async getTopicRuntimeInfo(topicName: string): Promise<GetTopicRuntimeInfoResponse> {
+    log.httpAtomXml(`Performing management operation - getTopicRuntimeInfo() for "${topicName}"`);
     const response: HttpOperationResponse = await this.getResource(
       topicName,
       this.topicResourceSerializer
@@ -929,6 +1018,37 @@ export class ServiceBusManagementClient extends ServiceClient {
     );
 
     return this.buildSubscriptionResponse(response);
+  }
+
+  /**
+   * Returns an object representing the Subscription with the given name along with all its properties
+   * @param topicName
+   * @param subscriptionName
+   *
+   * Following are errors that can be expected from this operation
+   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
+   * @throws `RestError` with code `MessageEntityNotFoundError` when requested messaging entity does not exist,
+   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
+   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
+   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
+   * bad requests or requests resulting in conflicting operation on the server,
+   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
+   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   */
+  async getSubscription(
+    topicName: string,
+    subscriptionName: string
+  ): Promise<GetSubscriptionResponse> {
+    log.httpAtomXml(
+      `Performing management operation - getSubscription() for "${subscriptionName}"`
+    );
+    const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
+    const response: HttpOperationResponse = await this.getResource(
+      fullPath,
+      this.subscriptionResourceSerializer
+    );
+
+    return this.buildSubscriptionRuntimeInfoResponse(response);
   }
 
   /**

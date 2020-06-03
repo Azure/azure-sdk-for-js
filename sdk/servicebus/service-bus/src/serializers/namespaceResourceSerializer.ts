@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { HttpOperationResponse } from "@azure/core-http";
 import {
   AtomXmlSerializer,
-  serializeToAtomXmlRequest,
-  deserializeAtomXmlResponse
+  deserializeAtomXmlResponse,
+  serializeToAtomXmlRequest
 } from "../util/atomXmlHelper";
-import { HttpOperationResponse } from "@azure/core-http";
-import { getString, getInteger } from "../util/utils";
+import { getInteger, getString } from "../util/utils";
 
 /**
  * Represents the metadata related to a service bus namespace.
