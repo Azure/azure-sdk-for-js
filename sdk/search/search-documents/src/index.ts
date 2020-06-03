@@ -63,7 +63,7 @@ export {
   SearchField,
   SimpleField,
   ComplexField,
-  SimpleDataType,
+  SearchFieldDataType,
   ComplexDataType,
   CognitiveServicesAccount,
   SearchIndexerSkill,

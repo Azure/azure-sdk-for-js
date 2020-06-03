@@ -1044,6 +1044,9 @@ export interface SearchDocumentsResultBase {
 export type SearchField = SimpleField | ComplexField;
 
 // @public
+export type SearchFieldDataType = "Edm.String" | "Edm.Int32" | "Edm.Int64" | "Edm.Double" | "Edm.Boolean" | "Edm.DateTimeOffset" | "Edm.GeographyPoint" | "Collection(Edm.String)" | "Collection(Edm.Int32)" | "Collection(Edm.Int64)" | "Collection(Edm.Double)" | "Collection(Edm.Boolean)" | "Collection(Edm.DateTimeOffset)" | "Collection(Edm.GeographyPoint)";
+
+// @public
 export interface SearchIndex {
     analyzers?: LexicalAnalyzer[];
     charFilters?: CharFilter[];
@@ -1322,9 +1325,6 @@ export interface ShingleTokenFilter {
 export type SimilarityAlgorithm = ClassicSimilarity | BM25Similarity;
 
 // @public
-export type SimpleDataType = "Edm.String" | "Edm.Int32" | "Edm.Int64" | "Edm.Double" | "Edm.Boolean" | "Edm.DateTimeOffset" | "Edm.GeographyPoint" | "Collection(Edm.String)" | "Collection(Edm.Int32)" | "Collection(Edm.Int64)" | "Collection(Edm.Double)" | "Collection(Edm.Boolean)" | "Collection(Edm.DateTimeOffset)" | "Collection(Edm.GeographyPoint)";
-
-// @public
 export interface SimpleField {
     analyzerName?: LexicalAnalyzerName;
     facetable?: boolean;
@@ -1337,7 +1337,7 @@ export interface SimpleField {
     searchAnalyzerName?: LexicalAnalyzerName;
     sortable?: boolean;
     synonymMapNames?: string[];
-    type: SimpleDataType;
+    type: SearchFieldDataType;
 }
 
 // @public

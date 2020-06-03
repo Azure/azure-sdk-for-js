@@ -620,7 +620,7 @@ export type ScoringFunction =
   | TagScoringFunction;
 
 /**
- * Defines values for SimpleDataType.
+ * Defines values for SearchFieldDataType.
  * Possible values include: 'Edm.String', 'Edm.Int32', 'Edm.Int64', 'Edm.Double', 'Edm.Boolean',
  * 'Edm.DateTimeOffset', 'Edm.GeographyPoint', 'Collection(Edm.String)',
  * 'Collection(Edm.Int32)', 'Collection(Edm.Int64)', 'Collection(Edm.Double)',
@@ -628,7 +628,7 @@ export type ScoringFunction =
  * @readonly
  * @enum {string}
  */
-export type SimpleDataType =
+export type SearchFieldDataType =
   | "Edm.String"
   | "Edm.Int32"
   | "Edm.Int64"
@@ -675,7 +675,7 @@ export interface SimpleField {
    * 'Collection(Edm.Double)', 'Collection(Edm.Boolean)', 'Collection(Edm.DateTimeOffset)',
    * 'Collection(Edm.GeographyPoint)'
    */
-  type: SimpleDataType;
+  type: SearchFieldDataType;
   /**
    * A value indicating whether the field uniquely identifies documents in the index. Exactly one
    * top-level field in each index must be chosen as the key field and it must be of type
