@@ -328,7 +328,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
         managementSubscription1
       );
       should.equal(
-        response[testCase.entityType.toLowerCase() + "Name"],
+        response[testCase.entityType === EntityType.SUBSCRIPTION ? "subscriptionName" : "name"],
         testCase.alwaysBeExistingEntity,
         "Entity name mismatch"
       );
