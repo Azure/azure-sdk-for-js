@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { message } from "rhea-promise";
-import { logger, logErrorStackTrace } from "./log";
+import { logErrorStackTrace, logger } from "./log";
 import isBuffer from "is-buffer";
 import { Buffer } from "buffer";
 

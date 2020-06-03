@@ -3,12 +3,12 @@
 
 import * as assert from "assert";
 import chai from "chai";
-import { SecretClient } from "../src";
-import { testPollerProperties } from "./utils/recorderUtils";
+import { SecretClient } from "../../src";
+import { testPollerProperties } from "../utils/recorderUtils";
 import { env, Recorder, isRecordMode } from "@azure/test-utils-recorder";
-import { authenticate } from "./utils/testAuthentication";
-import TestClient from "./utils/testClient";
-import { assertThrowsAbortError } from "./utils/utils.common";
+import { authenticate } from "../utils/testAuthentication";
+import TestClient from "../utils/testClient";
+import { assertThrowsAbortError } from "../utils/utils.common";
 const { expect } = chai;
 
 describe("Secret client - list secrets in various ways", () => {
@@ -36,7 +36,7 @@ describe("Secret client - list secrets in various ways", () => {
   // Use this while recording to make sure the target keyvault is clean.
   // The next tests will produce a more consistent output.
   // This test is only useful while developing locally.
-  it("can purge all secrets", async function() {
+  it("can purge all secrets", async function(): Promise<void> {
     // WARNING: When TEST_MODE equals "record", all of the secrets in the indicated KEYVAULT_NAME will be deleted as part of this test.
     if (!isRecordMode()) {
       return this.skip();

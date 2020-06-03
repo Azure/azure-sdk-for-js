@@ -4,26 +4,26 @@
 // Anything we expect to be available to users should come from this import
 // as a simple sanity check that we've exported things properly.
 import {
-  ServiceBusClient,
-  SessionReceiver,
+  CreateSessionReceiverOptions,
   Receiver,
-  CreateSessionReceiverOptions
+  ServiceBusClient,
+  SessionReceiver
 } from "../../src";
 
 import { TestClientType, TestMessage } from "./testUtils";
-import { getEnvVars, EnvVarNames } from "./envVarUtils";
+import { EnvVarNames, getEnvVars } from "./envVarUtils";
 import * as dotenv from "dotenv";
 import {
   recreateQueue,
-  recreateTopic,
   recreateSubscription,
+  recreateTopic,
   verifyMessageCount
 } from "./managementUtils";
 import { ServiceBusClientOptions } from "../../src";
 import chai from "chai";
 import {
-  ReceivedMessageWithLock,
   ReceivedMessage,
+  ReceivedMessageWithLock,
   ServiceBusMessage
 } from "../../src/serviceBusMessage";
 

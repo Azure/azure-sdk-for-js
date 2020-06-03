@@ -572,10 +572,8 @@ export function proxyPolicy(proxySettings?: ProxySettings): RequestPolicyFactory
 
 // @public
 export interface ProxySettings {
-    // (undocumented)
     host: string;
     password?: string;
-    // (undocumented)
     port: number;
     username?: string;
 }

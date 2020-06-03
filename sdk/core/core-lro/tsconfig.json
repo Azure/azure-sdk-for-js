@@ -5,7 +5,6 @@
     "outDir": "./dist-esm",
     "declarationDir": "./types"
   },
-  "compileOnSave": true,
   "exclude": ["node_modules", "./samples/**/*.ts"],
   "include": ["./src/**/*.ts", "./test/**/*.ts"]
 }

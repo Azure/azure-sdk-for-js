@@ -11,9 +11,9 @@ import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:misc-spec");
 import {
   EventData,
+  EventHubConsumerClient,
   EventHubProperties,
   ReceivedEventData,
-  EventHubConsumerClient,
   Subscription
 } from "../src";
 import { EventHubClient } from "../src/impl/eventHubClient";

@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import {
+  CheckpointStore,
   EventHubProducerClient,
   Subscription,
   SubscriptionEventHandlers,
-  CheckpointStore,
   latestEventPosition,
   logger
 } from "../src";
@@ -16,7 +16,7 @@ import chai from "chai";
 import { ReceivedMessagesTester } from "./utils/receivedMessagesTester";
 import { LogTester } from "./utils/logHelpers";
 import { InMemoryCheckpointStore } from "../src/inMemoryCheckpointStore";
-import { FullEventProcessorOptions, EventProcessor } from "../src/eventProcessor";
+import { EventProcessor, FullEventProcessorOptions } from "../src/eventProcessor";
 import { SinonStubbedInstance, createStubInstance } from "sinon";
 
 const should = chai.should();

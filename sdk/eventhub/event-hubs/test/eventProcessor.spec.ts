@@ -8,20 +8,20 @@ chai.use(chaiAsPromised);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:partitionPump");
 import {
-  EventData,
-  PartitionOwnership,
+  CheckpointStore,
   CloseReason,
-  ReceivedEventData,
+  EventData,
   LastEnqueuedEventProperties,
+  PartitionOwnership,
+  ReceivedEventData,
   SubscriptionEventHandlers,
   earliestEventPosition,
   latestEventPosition,
-  CheckpointStore,
   EventHubConsumerClient
 } from "../src";
 import { EventHubClient } from "../src/impl/eventHubClient";
 import { EnvVarKeys, getEnvVars, loopUntil } from "./utils/testUtils";
-import { generate_uuid, Dictionary } from "rhea-promise";
+import { Dictionary, generate_uuid } from "rhea-promise";
 import { EventProcessor, FullEventProcessorOptions } from "../src/eventProcessor";
 import { Checkpoint } from "../src/partitionProcessor";
 import { delay } from "@azure/core-amqp";
@@ -33,7 +33,7 @@ import {
   sendOneMessagePerPartition
 } from "./utils/subscriptionHandlerForTests";
 import { GreedyPartitionLoadBalancer, PartitionLoadBalancer } from "../src/partitionLoadBalancer";
-import { AbortError } from "@azure/abort-controller";
+import { AbortError, AbortSignal } from "@azure/abort-controller";
 import { FakeSubscriptionEventHandlers } from "./utils/fakeSubscriptionEventHandlers";
 import sinon from "sinon";
 import { isLatestPosition } from "../src/eventPosition";
@@ -649,10 +649,10 @@ describe("Event Processor", function(): void {
       EventHubConsumerClient.defaultConsumerGroupName,
       client,
       {
-        processInitialize: async (context) => {
+        processInitialize: async () => {
           didPartitionProcessorStart = true;
         },
-        processEvents: async (event, context) => {},
+        processEvents: async () => {},
         processError: async () => {}
       },
       new InMemoryCheckpointStore(),
@@ -851,7 +851,7 @@ describe("Event Processor", function(): void {
             }
           }
         }
-        async processError(err: Error) {
+        async processError() {
           didError = true;
         }
       }
@@ -1211,7 +1211,7 @@ describe("Event Processor", function(): void {
 
       // The partitionProcess will need to add events to the partitionResultsMap as they are received
       class FooPartitionProcessor {
-        async processEvents(events: ReceivedEventData[], context: PartitionContext) {
+        async processEvents(_events: ReceivedEventData[], context: PartitionContext) {
           partitionOwnershipArr.add(context.partitionId);
         }
         async processError() {
@@ -1455,14 +1455,14 @@ describe("Event Processor", function(): void {
       const partitionIdsSet = new Set();
       const lastEnqueuedEventPropertiesMap: Map<string, LastEnqueuedEventProperties> = new Map();
       class SimpleEventProcessor implements SubscriptionEventHandlers {
-        async processEvents(events: ReceivedEventData[], context: PartitionContext) {
+        async processEvents(_events: ReceivedEventData[], context: PartitionContext) {
           partitionIdsSet.add(context.partitionId);
           lastEnqueuedEventPropertiesMap.set(
             context.partitionId,
             context.lastEnqueuedEventProperties!
           );
         }
-        async processError(err: Error, context: PartitionContext) {}
+        async processError() {}
       }
 
       const processor = new EventProcessor(

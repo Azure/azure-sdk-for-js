@@ -177,7 +177,7 @@ export class AppConfigurationClient {
       getGeneratedClientOptions(appConfigEndpoint, syncTokens, appConfigOptions)
     );
 
-    this.spanner = new Spanner<AppConfigurationClient>("Azure.Data.AppConfiguration", "appconfig");
+    this.spanner = new Spanner<AppConfigurationClient>("Azure.Data.AppConfiguration");
   }
 
   /**

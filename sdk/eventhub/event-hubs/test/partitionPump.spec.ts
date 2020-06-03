@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import { createProcessingSpan, trace } from "../src/partitionPump";
-import { TestTracer, TestSpan, NoOpSpan } from "@azure/core-tracing";
-import { CanonicalCode, SpanOptions, SpanKind } from "@opentelemetry/api";
+import { NoOpSpan, TestSpan, TestTracer } from "@azure/core-tracing";
+import { CanonicalCode, SpanKind, SpanOptions } from "@opentelemetry/api";
 import chai from "chai";
 import { ReceivedEventData } from "../src/eventData";
 import { instrumentEventData } from "../src/diagnostics/instrumentEventData";

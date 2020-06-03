@@ -28,13 +28,11 @@ describe("FormRecognizerClient browser only", () => {
 
     const poller = await client.beginRecognizeContentFromUrl(url);
     await poller.pollUntilDone();
-    const response = poller.getResult();
+    const pages = poller.getResult();
 
-    assert.ok(response, "Expect valid response object");
-    assert.equal(response!.status, "succeeded");
     assert.ok(
-      response!.pages && response!.pages.length > 0,
-      `Expect no-empty pages but got ${response!.pages}`
+      pages && pages.length > 0,
+      `Expect non-empty pages but got ${pages}`
     );
   });
 
@@ -45,15 +43,13 @@ describe("FormRecognizerClient browser only", () => {
 
     const poller = await client.beginRecognizeReceiptsFromUrl(url);
     await poller.pollUntilDone();
-    const response = poller.getResult();
+    const receipts = poller.getResult();
 
-    assert.ok(response, "Expect valid response object");
-    assert.equal(response!.status, "succeeded");
     assert.ok(
-      response!.receipts && response!.receipts.length > 0,
-      `Expect no-empty pages but got ${response!.receipts}`
+      receipts && receipts.length > 0,
+      `Expect no-empty pages but got ${receipts}`
     );
-    const usReceipt = response!.receipts![0];
+    const usReceipt = receipts![0];
     assert.equal(usReceipt.recognizedForm.formType, "prebuilt:receipt");
   });
 
@@ -74,15 +70,13 @@ describe("FormRecognizerClient browser only", () => {
     assert.ok(data, "Expect valid Blob data to use as input");
     const poller = await client.beginRecognizeReceipts(data!);
     await poller.pollUntilDone();
-    const response = poller.getResult();
+    const receipts = poller.getResult();
 
-    assert.ok(response, "Expect valid response object");
-    assert.equal(response!.status, "succeeded");
     assert.ok(
-      response!.receipts && response!.receipts.length > 0,
-      `Expect no-empty pages but got ${response!.receipts}`
+      receipts && receipts.length > 0,
+      `Expect no-empty pages but got ${receipts}`
     );
-    const usReceipt = response!.receipts![0];
+    const usReceipt = receipts![0];
     assert.equal(usReceipt.recognizedForm.formType, "prebuilt:receipt");
   });
 }).timeout(60000);

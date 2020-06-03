@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Message, MessageAnnotations, DeliveryAnnotations } from "rhea-promise";
+import { DeliveryAnnotations, Message, MessageAnnotations } from "rhea-promise";
 import { Constants } from "@azure/core-amqp";
 
 /**

@@ -7,7 +7,7 @@ import { delay } from "@azure/core-amqp";
 import { EventHubConsumerClient } from "../../src/eventHubConsumerClient";
 import { EventHubProducerClient } from "../../src/eventHubProducerClient";
 import { EventPosition } from "../../src/eventPosition";
-import { setTracer, TestTracer, NoOpTracer } from "@azure/core-tracing";
+import { NoOpTracer, TestTracer, setTracer } from "@azure/core-tracing";
 
 dotenv.config();
 

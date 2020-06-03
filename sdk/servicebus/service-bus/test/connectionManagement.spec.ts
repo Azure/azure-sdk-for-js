@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
@@ -5,7 +8,7 @@ import chai from "chai";
 const assert = chai.assert;
 import chaiAsPromised from "chai-as-promised";
 import { delay } from "../src";
-import { createServiceBusClientForTests, ServiceBusClientForTests } from "./utils/testutils2";
+import { ServiceBusClientForTests, createServiceBusClientForTests } from "./utils/testutils2";
 import { defaultLock } from "@azure/core-amqp";
 import { TestClientType } from "./utils/testUtils";
 import { SenderImpl } from "../src/sender";

@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { delay, ServiceBusMessage, ReceivedMessage, Receiver } from "../src";
+import { ReceivedMessage, Receiver, ServiceBusMessage, delay } from "../src";
 import { TestClientType } from "./utils/testUtils";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { getEntityNameFromConnectionString } from "../src/constructorHelpers";
-import { createServiceBusClientForTests, ServiceBusClientForTests } from "./utils/testutils2";
+import { ServiceBusClientForTests, createServiceBusClientForTests } from "./utils/testutils2";
 import { Sender } from "../src/sender";
 import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
 chai.use(chaiAsPromised);

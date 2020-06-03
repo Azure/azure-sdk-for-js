@@ -86,11 +86,8 @@
     "@azure/core-tracing": "1.0.0-preview.8",
     "@azure/logger": "^1.0.0",
     "@opentelemetry/api": "^0.6.1",
-    "async-lock": "^1.1.3",
     "buffer": "^5.2.1",
     "debug": "^4.1.1",
-    "is-buffer": "^2.0.3",
-    "jssha": "^2.3.1",
     "process": "^0.11.10",
     "rhea-promise": "^1.0.0",
     "tslib": "^1.10.0",
@@ -132,7 +129,6 @@
     "eslint-plugin-no-only-tests": "^2.3.0",
     "eslint-plugin-promise": "^4.1.1",
     "esm": "^3.2.18",
-    "https-proxy-agent": "^3.0.1",
     "karma": "^4.0.1",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
@@ -156,7 +152,7 @@
     "rollup-plugin-terser": "^5.1.1",
     "sinon": "^9.0.2",
     "ts-node": "^8.3.0",
-    "typescript": "~3.8.3",
+    "typescript": "~3.9.3",
     "ws": "^7.1.1"
   }
 }
