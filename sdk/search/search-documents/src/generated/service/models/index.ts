@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-
 import * as coreHttp from "@azure/core-http";
 
 /**
@@ -44,7 +43,7 @@ export interface AnalyzeRequest {
 /**
  * Information about a token returned by an analyzer.
  */
-export interface TokenInfo {
+export interface AnalyzedTokenInfo {
   /**
    * The token returned by the analyzer.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -76,22 +75,27 @@ export interface AnalyzeResult {
   /**
    * The list of tokens returned by the analyzer specified in the request.
    */
-  tokens: TokenInfo[];
+  tokens: AnalyzedTokenInfo[];
 }
 
 /**
- * Contains the possible cases for Analyzer.
+ * Contains the possible cases for LexicalAnalyzer.
  */
-export type AnalyzerUnion = Analyzer | CustomAnalyzer | PatternAnalyzer | StandardAnalyzer | StopAnalyzer;
+export type LexicalAnalyzerUnion =
+  | LexicalAnalyzer
+  | CustomAnalyzer
+  | PatternAnalyzer
+  | LuceneStandardAnalyzer
+  | StopAnalyzer;
 
 /**
  * Base type for analyzers.
  */
-export interface Analyzer {
+export interface LexicalAnalyzer {
   /**
    * Polymorphic Discriminator
    */
-  odatatype: "Analyzer";
+  odatatype: "LexicalAnalyzer";
   /**
    * The name of the analyzer. It must only contain letters, digits, spaces, dashes or underscores,
    * can only start and end with alphanumeric characters, and is limited to 128 characters.
@@ -154,7 +158,7 @@ export interface PatternAnalyzer {
   lowerCaseTerms?: boolean;
   /**
    * A regular expression pattern to match token separators. Default is an expression that matches
-   * one or more whitespace characters. Default value: '\W+'.
+   * one or more non-word characters. Default value: '\W+'.
    */
   pattern?: string;
   /**
@@ -171,7 +175,7 @@ export interface PatternAnalyzer {
  * Standard Apache Lucene analyzer; Composed of the standard tokenizer, lowercase filter and stop
  * filter.
  */
-export interface StandardAnalyzer {
+export interface LuceneStandardAnalyzer {
   /**
    * Polymorphic Discriminator
    */
@@ -213,18 +217,31 @@ export interface StopAnalyzer {
 }
 
 /**
- * Contains the possible cases for Tokenizer.
+ * Contains the possible cases for LexicalTokenizer.
  */
-export type TokenizerUnion = Tokenizer | ClassicTokenizer | EdgeNGramTokenizer | KeywordTokenizer | KeywordTokenizerV2 | MicrosoftLanguageTokenizer | MicrosoftLanguageStemmingTokenizer | NGramTokenizer | PathHierarchyTokenizerV2 | PatternTokenizer | StandardTokenizer | StandardTokenizerV2 | UaxUrlEmailTokenizer;
+export type LexicalTokenizerUnion =
+  | LexicalTokenizer
+  | ClassicTokenizer
+  | EdgeNGramTokenizer
+  | KeywordTokenizer
+  | KeywordTokenizerV2
+  | MicrosoftLanguageTokenizer
+  | MicrosoftLanguageStemmingTokenizer
+  | NGramTokenizer
+  | PathHierarchyTokenizerV2
+  | PatternTokenizer
+  | LuceneStandardTokenizer
+  | LuceneStandardTokenizerV2
+  | UaxUrlEmailTokenizer;
 
 /**
  * Base type for tokenizers.
  */
-export interface Tokenizer {
+export interface LexicalTokenizer {
   /**
    * Polymorphic Discriminator
    */
-  odatatype: "Tokenizer";
+  odatatype: "LexicalTokenizer";
   /**
    * The name of the tokenizer. It must only contain letters, digits, spaces, dashes or
    * underscores, can only start and end with alphanumeric characters, and is limited to 128
@@ -353,13 +370,13 @@ export interface MicrosoftLanguageTokenizer {
    */
   isSearchTokenizer?: boolean;
   /**
-   * The language to use. The default is English. Possible values include: 'bangla', 'bulgarian',
-   * 'catalan', 'chineseSimplified', 'chineseTraditional', 'croatian', 'czech', 'danish', 'dutch',
-   * 'english', 'french', 'german', 'greek', 'gujarati', 'hindi', 'icelandic', 'indonesian',
-   * 'italian', 'japanese', 'kannada', 'korean', 'malay', 'malayalam', 'marathi',
-   * 'norwegianBokmaal', 'polish', 'portuguese', 'portugueseBrazilian', 'punjabi', 'romanian',
-   * 'russian', 'serbianCyrillic', 'serbianLatin', 'slovenian', 'spanish', 'swedish', 'tamil',
-   * 'telugu', 'thai', 'ukrainian', 'urdu', 'vietnamese'
+   * The language to use. The default is English. Possible values include: 'Bangla', 'Bulgarian',
+   * 'Catalan', 'ChineseSimplified', 'ChineseTraditional', 'Croatian', 'Czech', 'Danish', 'Dutch',
+   * 'English', 'French', 'German', 'Greek', 'Gujarati', 'Hindi', 'Icelandic', 'Indonesian',
+   * 'Italian', 'Japanese', 'Kannada', 'Korean', 'Malay', 'Malayalam', 'Marathi',
+   * 'NorwegianBokmaal', 'Polish', 'Portuguese', 'PortugueseBrazilian', 'Punjabi', 'Romanian',
+   * 'Russian', 'SerbianCyrillic', 'SerbianLatin', 'Slovenian', 'Spanish', 'Swedish', 'Tamil',
+   * 'Telugu', 'Thai', 'Ukrainian', 'Urdu', 'Vietnamese'
    */
   language?: MicrosoftTokenizerLanguage;
 }
@@ -391,13 +408,13 @@ export interface MicrosoftLanguageStemmingTokenizer {
    */
   isSearchTokenizer?: boolean;
   /**
-   * The language to use. The default is English. Possible values include: 'arabic', 'bangla',
-   * 'bulgarian', 'catalan', 'croatian', 'czech', 'danish', 'dutch', 'english', 'estonian',
-   * 'finnish', 'french', 'german', 'greek', 'gujarati', 'hebrew', 'hindi', 'hungarian',
-   * 'icelandic', 'indonesian', 'italian', 'kannada', 'latvian', 'lithuanian', 'malay',
-   * 'malayalam', 'marathi', 'norwegianBokmaal', 'polish', 'portuguese', 'portugueseBrazilian',
-   * 'punjabi', 'romanian', 'russian', 'serbianCyrillic', 'serbianLatin', 'slovak', 'slovenian',
-   * 'spanish', 'swedish', 'tamil', 'telugu', 'turkish', 'ukrainian', 'urdu'
+   * The language to use. The default is English. Possible values include: 'Arabic', 'Bangla',
+   * 'Bulgarian', 'Catalan', 'Croatian', 'Czech', 'Danish', 'Dutch', 'English', 'Estonian',
+   * 'Finnish', 'French', 'German', 'Greek', 'Gujarati', 'Hebrew', 'Hindi', 'Hungarian',
+   * 'Icelandic', 'Indonesian', 'Italian', 'Kannada', 'Latvian', 'Lithuanian', 'Malay',
+   * 'Malayalam', 'Marathi', 'NorwegianBokmaal', 'Polish', 'Portuguese', 'PortugueseBrazilian',
+   * 'Punjabi', 'Romanian', 'Russian', 'SerbianCyrillic', 'SerbianLatin', 'Slovak', 'Slovenian',
+   * 'Spanish', 'Swedish', 'Tamil', 'Telugu', 'Turkish', 'Ukrainian', 'Urdu'
    */
   language?: MicrosoftStemmingTokenizerLanguage;
 }
@@ -486,7 +503,7 @@ export interface PatternTokenizer {
   name: string;
   /**
    * A regular expression pattern to match token separators. Default is an expression that matches
-   * one or more whitespace characters. Default value: '\W+'.
+   * one or more non-word characters. Default value: '\W+'.
    */
   pattern?: string;
   /**
@@ -505,7 +522,7 @@ export interface PatternTokenizer {
  * Breaks text following the Unicode Text Segmentation rules. This tokenizer is implemented using
  * Apache Lucene.
  */
-export interface StandardTokenizer {
+export interface LuceneStandardTokenizer {
   /**
    * Polymorphic Discriminator
    */
@@ -527,7 +544,7 @@ export interface StandardTokenizer {
  * Breaks text following the Unicode Text Segmentation rules. This tokenizer is implemented using
  * Apache Lucene.
  */
-export interface StandardTokenizerV2 {
+export interface LuceneStandardTokenizerV2 {
   /**
    * Polymorphic Discriminator
    */
@@ -569,7 +586,33 @@ export interface UaxUrlEmailTokenizer {
 /**
  * Contains the possible cases for TokenFilter.
  */
-export type TokenFilterUnion = TokenFilter | AsciiFoldingTokenFilter | CjkBigramTokenFilter | CommonGramTokenFilter | DictionaryDecompounderTokenFilter | EdgeNGramTokenFilter | EdgeNGramTokenFilterV2 | ElisionTokenFilter | KeepTokenFilter | KeywordMarkerTokenFilter | LengthTokenFilter | LimitTokenFilter | NGramTokenFilter | NGramTokenFilterV2 | PatternCaptureTokenFilter | PatternReplaceTokenFilter | PhoneticTokenFilter | ShingleTokenFilter | SnowballTokenFilter | StemmerTokenFilter | StemmerOverrideTokenFilter | StopwordsTokenFilter | SynonymTokenFilter | TruncateTokenFilter | UniqueTokenFilter | WordDelimiterTokenFilter;
+export type TokenFilterUnion =
+  | TokenFilter
+  | AsciiFoldingTokenFilter
+  | CjkBigramTokenFilter
+  | CommonGramTokenFilter
+  | DictionaryDecompounderTokenFilter
+  | EdgeNGramTokenFilter
+  | EdgeNGramTokenFilterV2
+  | ElisionTokenFilter
+  | KeepTokenFilter
+  | KeywordMarkerTokenFilter
+  | LengthTokenFilter
+  | LimitTokenFilter
+  | NGramTokenFilter
+  | NGramTokenFilterV2
+  | PatternCaptureTokenFilter
+  | PatternReplaceTokenFilter
+  | PhoneticTokenFilter
+  | ShingleTokenFilter
+  | SnowballTokenFilter
+  | StemmerTokenFilter
+  | StemmerOverrideTokenFilter
+  | StopwordsTokenFilter
+  | SynonymTokenFilter
+  | TruncateTokenFilter
+  | UniqueTokenFilter
+  | WordDelimiterTokenFilter;
 
 /**
  * Base type for token filters.
@@ -611,7 +654,7 @@ export interface AsciiFoldingTokenFilter {
 }
 
 /**
- * Forms bigrams of CJK terms that are generated from StandardTokenizer. This token filter is
+ * Forms bigrams of CJK terms that are generated from the standard tokenizer. This token filter is
  * implemented using Apache Lucene.
  */
 export interface CjkBigramTokenFilter {
@@ -735,7 +778,7 @@ export interface EdgeNGramTokenFilter {
   maxGram?: number;
   /**
    * Specifies which side of the input the n-gram should be generated from. Default is "front".
-   * Possible values include: 'front', 'back'
+   * Possible values include: 'Front', 'Back'
    */
   side?: EdgeNGramTokenFilterSide;
 }
@@ -766,7 +809,7 @@ export interface EdgeNGramTokenFilterV2 {
   maxGram?: number;
   /**
    * Specifies which side of the input the n-gram should be generated from. Default is "front".
-   * Possible values include: 'front', 'back'
+   * Possible values include: 'Front', 'Back'
    */
   side?: EdgeNGramTokenFilterSide;
 }
@@ -862,11 +905,11 @@ export interface LengthTokenFilter {
    * The minimum length in characters. Default is 0. Maximum is 300. Must be less than the value of
    * max. Default value: 0.
    */
-  min?: number;
+  minLength?: number;
   /**
    * The maximum length in characters. Default and maximum is 300. Default value: 300.
    */
-  max?: number;
+  maxLength?: number;
 }
 
 /**
@@ -1014,9 +1057,9 @@ export interface PhoneticTokenFilter {
    */
   name: string;
   /**
-   * The phonetic encoder to use. Default is "metaphone". Possible values include: 'metaphone',
-   * 'doubleMetaphone', 'soundex', 'refinedSoundex', 'caverphone1', 'caverphone2', 'cologne',
-   * 'nysiis', 'koelnerPhonetik', 'haasePhonetik', 'beiderMorse'
+   * The phonetic encoder to use. Default is "metaphone". Possible values include: 'Metaphone',
+   * 'DoubleMetaphone', 'Soundex', 'RefinedSoundex', 'Caverphone1', 'Caverphone2', 'Cologne',
+   * 'Nysiis', 'KoelnerPhonetik', 'HaasePhonetik', 'BeiderMorse'
    */
   encoder?: PhoneticEncoder;
   /**
@@ -1089,10 +1132,10 @@ export interface SnowballTokenFilter {
    */
   name: string;
   /**
-   * The language to use. Possible values include: 'armenian', 'basque', 'catalan', 'danish',
-   * 'dutch', 'english', 'finnish', 'french', 'german', 'german2', 'hungarian', 'italian', 'kp',
-   * 'lovins', 'norwegian', 'porter', 'portuguese', 'romanian', 'russian', 'spanish', 'swedish',
-   * 'turkish'
+   * The language to use. Possible values include: 'Armenian', 'Basque', 'Catalan', 'Danish',
+   * 'Dutch', 'English', 'Finnish', 'French', 'German', 'German2', 'Hungarian', 'Italian', 'Kp',
+   * 'Lovins', 'Norwegian', 'Porter', 'Portuguese', 'Romanian', 'Russian', 'Spanish', 'Swedish',
+   * 'Turkish'
    */
   language: SnowballTokenFilterLanguage;
 }
@@ -1112,15 +1155,15 @@ export interface StemmerTokenFilter {
    */
   name: string;
   /**
-   * The language to use. Possible values include: 'arabic', 'armenian', 'basque', 'brazilian',
-   * 'bulgarian', 'catalan', 'czech', 'danish', 'dutch', 'dutchKp', 'english', 'lightEnglish',
-   * 'minimalEnglish', 'possessiveEnglish', 'porter2', 'lovins', 'finnish', 'lightFinnish',
-   * 'french', 'lightFrench', 'minimalFrench', 'galician', 'minimalGalician', 'german', 'german2',
-   * 'lightGerman', 'minimalGerman', 'greek', 'hindi', 'hungarian', 'lightHungarian', 'indonesian',
-   * 'irish', 'italian', 'lightItalian', 'sorani', 'latvian', 'norwegian', 'lightNorwegian',
-   * 'minimalNorwegian', 'lightNynorsk', 'minimalNynorsk', 'portuguese', 'lightPortuguese',
-   * 'minimalPortuguese', 'portugueseRslp', 'romanian', 'russian', 'lightRussian', 'spanish',
-   * 'lightSpanish', 'swedish', 'lightSwedish', 'turkish'
+   * The language to use. Possible values include: 'Arabic', 'Armenian', 'Basque', 'Brazilian',
+   * 'Bulgarian', 'Catalan', 'Czech', 'Danish', 'Dutch', 'DutchKp', 'English', 'LightEnglish',
+   * 'MinimalEnglish', 'PossessiveEnglish', 'Porter2', 'Lovins', 'Finnish', 'LightFinnish',
+   * 'French', 'LightFrench', 'MinimalFrench', 'Galician', 'MinimalGalician', 'German', 'German2',
+   * 'LightGerman', 'MinimalGerman', 'Greek', 'Hindi', 'Hungarian', 'LightHungarian', 'Indonesian',
+   * 'Irish', 'Italian', 'LightItalian', 'Sorani', 'Latvian', 'Norwegian', 'LightNorwegian',
+   * 'MinimalNorwegian', 'LightNynorsk', 'MinimalNynorsk', 'Portuguese', 'LightPortuguese',
+   * 'MinimalPortuguese', 'PortugueseRslp', 'Romanian', 'Russian', 'LightRussian', 'Spanish',
+   * 'LightSpanish', 'Swedish', 'LightSwedish', 'Turkish'
    */
   language: StemmerTokenFilterLanguage;
 }
@@ -1168,11 +1211,11 @@ export interface StopwordsTokenFilter {
   stopwords?: string[];
   /**
    * A predefined list of stopwords to use. This property and the stopwords property cannot both be
-   * set. Default is English. Possible values include: 'arabic', 'armenian', 'basque', 'brazilian',
-   * 'bulgarian', 'catalan', 'czech', 'danish', 'dutch', 'english', 'finnish', 'french',
-   * 'galician', 'german', 'greek', 'hindi', 'hungarian', 'indonesian', 'irish', 'italian',
-   * 'latvian', 'norwegian', 'persian', 'portuguese', 'romanian', 'russian', 'sorani', 'spanish',
-   * 'swedish', 'thai', 'turkish'
+   * set. Default is English. Possible values include: 'Arabic', 'Armenian', 'Basque', 'Brazilian',
+   * 'Bulgarian', 'Catalan', 'Czech', 'Danish', 'Dutch', 'English', 'Finnish', 'French',
+   * 'Galician', 'German', 'Greek', 'Hindi', 'Hungarian', 'Indonesian', 'Irish', 'Italian',
+   * 'Latvian', 'Norwegian', 'Persian', 'Portuguese', 'Romanian', 'Russian', 'Sorani', 'Spanish',
+   * 'Swedish', 'Thai', 'Turkish'
    */
   stopwordsList?: StopwordsList;
   /**
@@ -1407,6 +1450,59 @@ export interface PatternReplaceCharFilter {
 }
 
 /**
+ * Contains the possible cases for Similarity.
+ */
+export type SimilarityUnion = Similarity | ClassicSimilarity | BM25Similarity;
+
+/**
+ * Base type for similarity algorithms. Similarity algorithms are used to calculate scores that tie
+ * queries to documents. The higher the score, the more relevant the document is to that specific
+ * query. Those scores are used to rank the search results.
+ */
+export interface Similarity {
+  /**
+   * Polymorphic Discriminator
+   */
+  odatatype: "Similarity";
+}
+
+/**
+ * Legacy similarity algorithm which uses the Lucene TFIDFSimilarity implementation of TF-IDF. This
+ * variation of TF-IDF introduces static document length normalization as well as coordinating
+ * factors that penalize documents that only partially match the searched queries.
+ */
+export interface ClassicSimilarity {
+  /**
+   * Polymorphic Discriminator
+   */
+  odatatype: "#Microsoft.Azure.Search.ClassicSimilarity";
+}
+
+/**
+ * Ranking function based on the Okapi BM25 similarity algorithm. BM25 is a TF-IDF-like algorithm
+ * that includes length normalization (controlled by the 'b' parameter) as well as term frequency
+ * saturation (controlled by the 'k1' parameter).
+ */
+export interface BM25Similarity {
+  /**
+   * Polymorphic Discriminator
+   */
+  odatatype: "#Microsoft.Azure.Search.BM25Similarity";
+  /**
+   * This property controls the scaling function between the term frequency of each matching terms
+   * and the final relevance score of a document-query pair. By default, a value of 1.2 is used. A
+   * value of 0.0 means the score does not scale with an increase in term frequency.
+   */
+  k1?: number;
+  /**
+   * This property controls how the length of a document affects the relevance score. By default, a
+   * value of 0.75 is used. A value of 0.0 means no length normalization is applied, while a value
+   * of 1.0 means the score is fully normalized by the length of the document.
+   */
+  b?: number;
+}
+
+/**
  * Represents credentials that can be used to connect to a datasource.
  */
 export interface DataSourceCredentials {
@@ -1420,7 +1516,7 @@ export interface DataSourceCredentials {
  * Represents information about the entity (such as Azure SQL table or CosmosDB collection) that
  * will be indexed.
  */
-export interface DataContainer {
+export interface SearchIndexerDataContainer {
   /**
    * The name of the table or view (for Azure SQL data source) or collection (for CosmosDB data
    * source) that will be indexed.
@@ -1436,7 +1532,10 @@ export interface DataContainer {
 /**
  * Contains the possible cases for DataChangeDetectionPolicy.
  */
-export type DataChangeDetectionPolicyUnion = DataChangeDetectionPolicy | HighWaterMarkChangeDetectionPolicy | SqlIntegratedChangeTrackingPolicy;
+export type DataChangeDetectionPolicyUnion =
+  | DataChangeDetectionPolicy
+  | HighWaterMarkChangeDetectionPolicy
+  | SqlIntegratedChangeTrackingPolicy;
 
 /**
  * Base type for data change detection policies.
@@ -1477,7 +1576,9 @@ export interface SqlIntegratedChangeTrackingPolicy {
 /**
  * Contains the possible cases for DataDeletionDetectionPolicy.
  */
-export type DataDeletionDetectionPolicyUnion = DataDeletionDetectionPolicy | SoftDeleteColumnDeletionDetectionPolicy;
+export type DataDeletionDetectionPolicyUnion =
+  | DataDeletionDetectionPolicy
+  | SoftDeleteColumnDeletionDetectionPolicy;
 
 /**
  * Base type for data deletion detection policies.
@@ -1511,7 +1612,7 @@ export interface SoftDeleteColumnDeletionDetectionPolicy {
 /**
  * Represents a datasource definition, which can be used to configure an indexer.
  */
-export interface DataSource {
+export interface SearchIndexerDataSource {
   /**
    * The name of the datasource.
    */
@@ -1524,7 +1625,7 @@ export interface DataSource {
    * The type of the datasource. Possible values include: 'AzureSql', 'CosmosDb', 'AzureBlob',
    * 'AzureTable', 'MySql'
    */
-  type: DataSourceType;
+  type: SearchIndexerDataSourceType;
   /**
    * Credentials for the datasource.
    */
@@ -1532,7 +1633,7 @@ export interface DataSource {
   /**
    * The data container for the datasource.
    */
-  container: DataContainer;
+  container: SearchIndexerDataContainer;
   /**
    * The data change detection policy for the datasource.
    */
@@ -1542,7 +1643,7 @@ export interface DataSource {
    */
   dataDeletionDetectionPolicy?: DataDeletionDetectionPolicyUnion;
   /**
-   * The ETag of the DataSource.
+   * The ETag of the data source.
    */
   etag?: string;
 }
@@ -1556,7 +1657,7 @@ export interface ListDataSourcesResult {
    * The datasources in the Search service.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly dataSources: DataSource[];
+  readonly dataSources: SearchIndexerDataSource[];
 }
 
 /**
@@ -1635,7 +1736,7 @@ export interface FieldMapping {
 /**
  * Represents an indexer.
  */
-export interface Indexer {
+export interface SearchIndexer {
   /**
    * The name of the indexer.
    */
@@ -1678,7 +1779,7 @@ export interface Indexer {
    */
   isDisabled?: boolean;
   /**
-   * The ETag of the Indexer.
+   * The ETag of the indexer.
    */
   etag?: string;
 }
@@ -1692,13 +1793,13 @@ export interface ListIndexersResult {
    * The indexers in the Search service.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly indexers: Indexer[];
+  readonly indexers: SearchIndexer[];
 }
 
 /**
  * Represents an item- or document-level indexing error.
  */
-export interface ItemError {
+export interface SearchIndexerError {
   /**
    * The key of the item for which indexing failed.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -1739,7 +1840,7 @@ export interface ItemError {
 /**
  * Represents an item-level warning.
  */
-export interface ItemWarning {
+export interface SearchIndexerWarning {
   /**
    * The key of the item which generated a warning.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -1775,8 +1876,8 @@ export interface ItemWarning {
  */
 export interface IndexerExecutionResult {
   /**
-   * The outcome of this indexer execution. Possible values include: 'transientFailure', 'success',
-   * 'inProgress', 'reset'
+   * The outcome of this indexer execution. Possible values include: 'TransientFailure', 'Success',
+   * 'InProgress', 'Reset'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly status: IndexerExecutionStatus;
@@ -1799,12 +1900,12 @@ export interface IndexerExecutionResult {
    * The item-level indexing errors.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly errors: ItemError[];
+  readonly errors: SearchIndexerError[];
   /**
    * The item-level indexing warnings.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly warnings: ItemWarning[];
+  readonly warnings: SearchIndexerWarning[];
   /**
    * The number of items that were processed during this indexer execution. This includes both
    * successfully processed items and items where indexing was attempted but failed.
@@ -1829,9 +1930,9 @@ export interface IndexerExecutionResult {
 }
 
 /**
- * An interface representing IndexerLimits.
+ * An interface representing SearchIndexerLimits.
  */
-export interface IndexerLimits {
+export interface SearchIndexerLimits {
   /**
    * The maximum duration that the indexer is permitted to run for one execution.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -1853,9 +1954,9 @@ export interface IndexerLimits {
 /**
  * Represents the current status and execution history of an indexer.
  */
-export interface IndexerExecutionInfo {
+export interface SearchIndexerStatus {
   /**
-   * Overall indexer status. Possible values include: 'unknown', 'error', 'running'
+   * Overall indexer status. Possible values include: 'Unknown', 'Error', 'Running'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly status: IndexerStatus;
@@ -1873,27 +1974,27 @@ export interface IndexerExecutionInfo {
    * The execution limits for the indexer.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly limits: IndexerLimits;
+  readonly limits: SearchIndexerLimits;
 }
 
 /**
  * Represents a field in an index definition, which describes the name, data type, and search
  * behavior of a field.
  */
-export interface Field {
+export interface SearchField {
   /**
    * The name of the field, which must be unique within the fields collection of the index or
    * parent field.
    */
   name: string;
   /**
-   * The data type of the field. Possible values include: 'Edm.String', 'Edm.Int32', 'Edm.Int64',
-   * 'Edm.Double', 'Edm.Boolean', 'Edm.DateTimeOffset', 'Edm.GeographyPoint', 'Edm.ComplexType',
-   * 'Collection(Edm.String)', 'Collection(Edm.Int32)', 'Collection(Edm.Int64)',
-   * 'Collection(Edm.Double)', 'Collection(Edm.Boolean)', 'Collection(Edm.DateTimeOffset)',
-   * 'Collection(Edm.GeographyPoint)', 'Collection(Edm.ComplexType)'
+   * The data type of the field. Possible values include: 'String', 'Int32', 'Int64', 'Double',
+   * 'Boolean', 'DateTimeOffset', 'GeographyPoint', 'Complex', 'Collection(Edm.String)',
+   * 'Collection(Edm.Int32)', 'Collection(Edm.Int64)', 'Collection(Edm.Double)',
+   * 'Collection(Edm.Boolean)', 'Collection(Edm.DateTimeOffset)', 'Collection(Edm.GeographyPoint)',
+   * 'Collection(Edm.ComplexType)'
    */
-  type: DataType;
+  type: SearchFieldDataType;
   /**
    * A value indicating whether the field uniquely identifies documents in the index. Exactly one
    * top-level field in each index must be chosen as the key field and it must be of type
@@ -1958,27 +2059,72 @@ export interface Field {
    * The name of the analyzer to use for the field. This option can be used only with searchable
    * fields and it can't be set together with either searchAnalyzer or indexAnalyzer. Once the
    * analyzer is chosen, it cannot be changed for the field. Must be null for complex fields.
-   * KnownAnalyzerNames is an enum containing known values.
+   * Possible values include: 'ArMicrosoft', 'ArLucene', 'HyLucene', 'BnMicrosoft', 'EuLucene',
+   * 'BgMicrosoft', 'BgLucene', 'CaMicrosoft', 'CaLucene', 'ZhHansMicrosoft', 'ZhHansLucene',
+   * 'ZhHantMicrosoft', 'ZhHantLucene', 'HrMicrosoft', 'CsMicrosoft', 'CsLucene', 'DaMicrosoft',
+   * 'DaLucene', 'NlMicrosoft', 'NlLucene', 'EnMicrosoft', 'EnLucene', 'EtMicrosoft',
+   * 'FiMicrosoft', 'FiLucene', 'FrMicrosoft', 'FrLucene', 'GlLucene', 'DeMicrosoft', 'DeLucene',
+   * 'ElMicrosoft', 'ElLucene', 'GuMicrosoft', 'HeMicrosoft', 'HiMicrosoft', 'HiLucene',
+   * 'HuMicrosoft', 'HuLucene', 'IsMicrosoft', 'IdMicrosoft', 'IdLucene', 'GaLucene',
+   * 'ItMicrosoft', 'ItLucene', 'JaMicrosoft', 'JaLucene', 'KnMicrosoft', 'KoMicrosoft',
+   * 'KoLucene', 'LvMicrosoft', 'LvLucene', 'LtMicrosoft', 'MlMicrosoft', 'MsMicrosoft',
+   * 'MrMicrosoft', 'NbMicrosoft', 'NoLucene', 'FaLucene', 'PlMicrosoft', 'PlLucene',
+   * 'PtBrMicrosoft', 'PtBrLucene', 'PtPtMicrosoft', 'PtPtLucene', 'PaMicrosoft', 'RoMicrosoft',
+   * 'RoLucene', 'RuMicrosoft', 'RuLucene', 'SrCyrillicMicrosoft', 'SrLatinMicrosoft',
+   * 'SkMicrosoft', 'SlMicrosoft', 'EsMicrosoft', 'EsLucene', 'SvMicrosoft', 'SvLucene',
+   * 'TaMicrosoft', 'TeMicrosoft', 'ThMicrosoft', 'ThLucene', 'TrMicrosoft', 'TrLucene',
+   * 'UkMicrosoft', 'UrMicrosoft', 'ViMicrosoft', 'StandardLucene', 'StandardAsciiFoldingLucene',
+   * 'Keyword', 'Pattern', 'Simple', 'Stop', 'Whitespace'
    */
-  analyzer?: string;
+  analyzer?: LexicalAnalyzerName;
   /**
    * The name of the analyzer used at search time for the field. This option can be used only with
    * searchable fields. It must be set together with indexAnalyzer and it cannot be set together
    * with the analyzer option. This property cannot be set to the name of a language analyzer; use
    * the analyzer property instead if you need a language analyzer. This analyzer can be updated on
-   * an existing field. Must be null for complex fields. KnownAnalyzerNames is an enum containing
-   * known values.
+   * an existing field. Must be null for complex fields. Possible values include: 'ArMicrosoft',
+   * 'ArLucene', 'HyLucene', 'BnMicrosoft', 'EuLucene', 'BgMicrosoft', 'BgLucene', 'CaMicrosoft',
+   * 'CaLucene', 'ZhHansMicrosoft', 'ZhHansLucene', 'ZhHantMicrosoft', 'ZhHantLucene',
+   * 'HrMicrosoft', 'CsMicrosoft', 'CsLucene', 'DaMicrosoft', 'DaLucene', 'NlMicrosoft',
+   * 'NlLucene', 'EnMicrosoft', 'EnLucene', 'EtMicrosoft', 'FiMicrosoft', 'FiLucene',
+   * 'FrMicrosoft', 'FrLucene', 'GlLucene', 'DeMicrosoft', 'DeLucene', 'ElMicrosoft', 'ElLucene',
+   * 'GuMicrosoft', 'HeMicrosoft', 'HiMicrosoft', 'HiLucene', 'HuMicrosoft', 'HuLucene',
+   * 'IsMicrosoft', 'IdMicrosoft', 'IdLucene', 'GaLucene', 'ItMicrosoft', 'ItLucene',
+   * 'JaMicrosoft', 'JaLucene', 'KnMicrosoft', 'KoMicrosoft', 'KoLucene', 'LvMicrosoft',
+   * 'LvLucene', 'LtMicrosoft', 'MlMicrosoft', 'MsMicrosoft', 'MrMicrosoft', 'NbMicrosoft',
+   * 'NoLucene', 'FaLucene', 'PlMicrosoft', 'PlLucene', 'PtBrMicrosoft', 'PtBrLucene',
+   * 'PtPtMicrosoft', 'PtPtLucene', 'PaMicrosoft', 'RoMicrosoft', 'RoLucene', 'RuMicrosoft',
+   * 'RuLucene', 'SrCyrillicMicrosoft', 'SrLatinMicrosoft', 'SkMicrosoft', 'SlMicrosoft',
+   * 'EsMicrosoft', 'EsLucene', 'SvMicrosoft', 'SvLucene', 'TaMicrosoft', 'TeMicrosoft',
+   * 'ThMicrosoft', 'ThLucene', 'TrMicrosoft', 'TrLucene', 'UkMicrosoft', 'UrMicrosoft',
+   * 'ViMicrosoft', 'StandardLucene', 'StandardAsciiFoldingLucene', 'Keyword', 'Pattern', 'Simple',
+   * 'Stop', 'Whitespace'
    */
-  searchAnalyzer?: string;
+  searchAnalyzer?: LexicalAnalyzerName;
   /**
    * The name of the analyzer used at indexing time for the field. This option can be used only
    * with searchable fields. It must be set together with searchAnalyzer and it cannot be set
    * together with the analyzer option.  This property cannot be set to the name of a language
    * analyzer; use the analyzer property instead if you need a language analyzer. Once the analyzer
-   * is chosen, it cannot be changed for the field. Must be null for complex fields.
-   * KnownAnalyzerNames is an enum containing known values.
+   * is chosen, it cannot be changed for the field. Must be null for complex fields. Possible
+   * values include: 'ArMicrosoft', 'ArLucene', 'HyLucene', 'BnMicrosoft', 'EuLucene',
+   * 'BgMicrosoft', 'BgLucene', 'CaMicrosoft', 'CaLucene', 'ZhHansMicrosoft', 'ZhHansLucene',
+   * 'ZhHantMicrosoft', 'ZhHantLucene', 'HrMicrosoft', 'CsMicrosoft', 'CsLucene', 'DaMicrosoft',
+   * 'DaLucene', 'NlMicrosoft', 'NlLucene', 'EnMicrosoft', 'EnLucene', 'EtMicrosoft',
+   * 'FiMicrosoft', 'FiLucene', 'FrMicrosoft', 'FrLucene', 'GlLucene', 'DeMicrosoft', 'DeLucene',
+   * 'ElMicrosoft', 'ElLucene', 'GuMicrosoft', 'HeMicrosoft', 'HiMicrosoft', 'HiLucene',
+   * 'HuMicrosoft', 'HuLucene', 'IsMicrosoft', 'IdMicrosoft', 'IdLucene', 'GaLucene',
+   * 'ItMicrosoft', 'ItLucene', 'JaMicrosoft', 'JaLucene', 'KnMicrosoft', 'KoMicrosoft',
+   * 'KoLucene', 'LvMicrosoft', 'LvLucene', 'LtMicrosoft', 'MlMicrosoft', 'MsMicrosoft',
+   * 'MrMicrosoft', 'NbMicrosoft', 'NoLucene', 'FaLucene', 'PlMicrosoft', 'PlLucene',
+   * 'PtBrMicrosoft', 'PtBrLucene', 'PtPtMicrosoft', 'PtPtLucene', 'PaMicrosoft', 'RoMicrosoft',
+   * 'RoLucene', 'RuMicrosoft', 'RuLucene', 'SrCyrillicMicrosoft', 'SrLatinMicrosoft',
+   * 'SkMicrosoft', 'SlMicrosoft', 'EsMicrosoft', 'EsLucene', 'SvMicrosoft', 'SvLucene',
+   * 'TaMicrosoft', 'TeMicrosoft', 'ThMicrosoft', 'ThLucene', 'TrMicrosoft', 'TrLucene',
+   * 'UkMicrosoft', 'UrMicrosoft', 'ViMicrosoft', 'StandardLucene', 'StandardAsciiFoldingLucene',
+   * 'Keyword', 'Pattern', 'Simple', 'Stop', 'Whitespace'
    */
-  indexAnalyzer?: string;
+  indexAnalyzer?: LexicalAnalyzerName;
   /**
    * A list of the names of synonym maps to associate with this field. This option can be used only
    * with searchable fields. Currently only one synonym map per field is supported. Assigning a
@@ -1991,7 +2137,7 @@ export interface Field {
    * A list of sub-fields if this is a field of type Edm.ComplexType or
    * Collection(Edm.ComplexType). Must be null or empty for simple fields.
    */
-  fields?: Field[];
+  fields?: SearchField[];
 }
 
 /**
@@ -2008,7 +2154,12 @@ export interface TextWeights {
 /**
  * Contains the possible cases for ScoringFunction.
  */
-export type ScoringFunctionUnion = ScoringFunction | DistanceScoringFunction | FreshnessScoringFunction | MagnitudeScoringFunction | TagScoringFunction;
+export type ScoringFunctionUnion =
+  | ScoringFunction
+  | DistanceScoringFunction
+  | FreshnessScoringFunction
+  | MagnitudeScoringFunction
+  | TagScoringFunction;
 
 /**
  * Base type for functions that can modify document scores during ranking.
@@ -2028,7 +2179,7 @@ export interface ScoringFunction {
   boost: number;
   /**
    * A value indicating how boosting will be interpolated across document scores; defaults to
-   * "Linear". Possible values include: 'linear', 'constant', 'quadratic', 'logarithmic'
+   * "Linear". Possible values include: 'Linear', 'Constant', 'Quadratic', 'Logarithmic'
    */
   interpolation?: ScoringFunctionInterpolation;
 }
@@ -2065,7 +2216,7 @@ export interface DistanceScoringFunction {
   boost: number;
   /**
    * A value indicating how boosting will be interpolated across document scores; defaults to
-   * "Linear". Possible values include: 'linear', 'constant', 'quadratic', 'logarithmic'
+   * "Linear". Possible values include: 'Linear', 'Constant', 'Quadratic', 'Logarithmic'
    */
   interpolation?: ScoringFunctionInterpolation;
   /**
@@ -2102,7 +2253,7 @@ export interface FreshnessScoringFunction {
   boost: number;
   /**
    * A value indicating how boosting will be interpolated across document scores; defaults to
-   * "Linear". Possible values include: 'linear', 'constant', 'quadratic', 'logarithmic'
+   * "Linear". Possible values include: 'Linear', 'Constant', 'Quadratic', 'Logarithmic'
    */
   interpolation?: ScoringFunctionInterpolation;
   /**
@@ -2148,7 +2299,7 @@ export interface MagnitudeScoringFunction {
   boost: number;
   /**
    * A value indicating how boosting will be interpolated across document scores; defaults to
-   * "Linear". Possible values include: 'linear', 'constant', 'quadratic', 'logarithmic'
+   * "Linear". Possible values include: 'Linear', 'Constant', 'Quadratic', 'Logarithmic'
    */
   interpolation?: ScoringFunctionInterpolation;
   /**
@@ -2187,7 +2338,7 @@ export interface TagScoringFunction {
   boost: number;
   /**
    * A value indicating how boosting will be interpolated across document scores; defaults to
-   * "Linear". Possible values include: 'linear', 'constant', 'quadratic', 'logarithmic'
+   * "Linear". Possible values include: 'Linear', 'Constant', 'Quadratic', 'Logarithmic'
    */
   interpolation?: ScoringFunctionInterpolation;
   /**
@@ -2214,8 +2365,8 @@ export interface ScoringProfile {
   functions?: ScoringFunctionUnion[];
   /**
    * A value indicating how the results of individual scoring functions should be combined.
-   * Defaults to "Sum". Ignored if there are no scoring functions. Possible values include: 'sum',
-   * 'average', 'minimum', 'maximum', 'firstMatching'
+   * Defaults to "Sum". Ignored if there are no scoring functions. Possible values include: 'Sum',
+   * 'Average', 'Minimum', 'Maximum', 'FirstMatching'
    */
   functionAggregation?: ScoringFunctionAggregation;
 }
@@ -2272,21 +2423,21 @@ export interface AzureActiveDirectoryApplicationCredentials {
  * used to encrypt or decrypt data-at-rest in Azure Cognitive Search, such as indexes and synonym
  * maps.
  */
-export interface EncryptionKey {
+export interface SearchResourceEncryptionKey {
   /**
    * The name of your Azure Key Vault key to be used to encrypt your data at rest.
    */
-  keyVaultKeyName: string;
+  keyName: string;
   /**
    * The version of your Azure Key Vault key to be used to encrypt your data at rest.
    */
-  keyVaultKeyVersion: string;
+  keyVersion: string;
   /**
    * The URI of your Azure Key Vault, also referred to as DNS name, that contains the key to be
    * used to encrypt your data at rest. An example URI might be
    * https://my-keyvault-name.vault.azure.net.
    */
-  keyVaultUri: string;
+  vaultUri: string;
   /**
    * Optional Azure Active Directory credentials used for accessing your Azure Key Vault. Not
    * required if using managed identity instead.
@@ -2298,7 +2449,7 @@ export interface EncryptionKey {
  * Represents a search index definition, which describes the fields and search behavior of an
  * index.
  */
-export interface Index {
+export interface SearchIndex {
   /**
    * The name of the index.
    */
@@ -2306,7 +2457,7 @@ export interface Index {
   /**
    * The fields of the index.
    */
-  fields: Field[];
+  fields: SearchField[];
   /**
    * The scoring profiles for the index.
    */
@@ -2328,11 +2479,11 @@ export interface Index {
   /**
    * The analyzers for the index.
    */
-  analyzers?: AnalyzerUnion[];
+  analyzers?: LexicalAnalyzerUnion[];
   /**
    * The tokenizers for the index.
    */
-  tokenizers?: TokenizerUnion[];
+  tokenizers?: LexicalTokenizerUnion[];
   /**
    * The token filters for the index.
    */
@@ -2351,7 +2502,13 @@ export interface Index {
    * keys is not available for free search services, and is only available for paid services
    * created on or after January 1, 2019.
    */
-  encryptionKey?: EncryptionKey;
+  encryptionKey?: SearchResourceEncryptionKey;
+  /**
+   * The type of similarity algorithm to be used when scoring and ranking the documents matching a
+   * search query. The similarity algorithm can only be defined at index creation time and cannot
+   * be modified on existing indexes. If null, the ClassicSimilarity algorithm is used.
+   */
+  similarity?: SimilarityUnion;
   /**
    * The ETag of the index.
    */
@@ -2384,7 +2541,7 @@ export interface ListIndexesResult {
    * The indexes in the Search service.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly indexes: Index[];
+  readonly indexes: SearchIndex[];
 }
 
 /**
@@ -2424,18 +2581,31 @@ export interface OutputFieldMappingEntry {
 }
 
 /**
- * Contains the possible cases for Skill.
+ * Contains the possible cases for SearchIndexerSkill.
  */
-export type SkillUnion = Skill | ConditionalSkill | KeyPhraseExtractionSkill | OcrSkill | ImageAnalysisSkill | LanguageDetectionSkill | ShaperSkill | MergeSkill | EntityRecognitionSkill | SentimentSkill | SplitSkill | TextTranslationSkill | WebApiSkill;
+export type SearchIndexerSkillUnion =
+  | SearchIndexerSkill
+  | ConditionalSkill
+  | KeyPhraseExtractionSkill
+  | OcrSkill
+  | ImageAnalysisSkill
+  | LanguageDetectionSkill
+  | ShaperSkill
+  | MergeSkill
+  | EntityRecognitionSkill
+  | SentimentSkill
+  | SplitSkill
+  | TextTranslationSkill
+  | WebApiSkill;
 
 /**
  * Base type for skills.
  */
-export interface Skill {
+export interface SearchIndexerSkill {
   /**
    * Polymorphic Discriminator
    */
-  odatatype: "Skill";
+  odatatype: "SearchIndexerSkill";
   /**
    * The name of the skill which uniquely identifies it within the skillset. A skill with no name
    * defined will be given a default name of its 1-based index in the skills array, prefixed with
@@ -2466,7 +2636,10 @@ export interface Skill {
 /**
  * Contains the possible cases for CognitiveServicesAccount.
  */
-export type CognitiveServicesAccountUnion = CognitiveServicesAccount | DefaultCognitiveServicesAccount | CognitiveServicesAccountKey;
+export type CognitiveServicesAccountUnion =
+  | CognitiveServicesAccount
+  | DefaultCognitiveServicesAccount
+  | CognitiveServicesAccountKey;
 
 /**
  * Base type for describing any cognitive service resource attached to a skillset.
@@ -2485,7 +2658,7 @@ export interface CognitiveServicesAccount {
 /**
  * A list of skills.
  */
-export interface Skillset {
+export interface SearchIndexerSkillset {
   /**
    * The name of the skillset.
    */
@@ -2493,11 +2666,11 @@ export interface Skillset {
   /**
    * The description of the skillset.
    */
-  description: string;
+  description?: string;
   /**
    * A list of skills in the skillset.
    */
-  skills: SkillUnion[];
+  skills: SearchIndexerSkillUnion[];
   /**
    * Details about cognitive services to be used when running skills.
    */
@@ -2654,11 +2827,6 @@ export interface OcrSkill {
    * an input by another skill.
    */
   outputs: OutputFieldMappingEntry[];
-  /**
-   * A value indicating which algorithm to use for extracting text. Default is printed. Possible
-   * values include: 'printed', 'handwritten'
-   */
-  textExtractionAlgorithm?: TextExtractionAlgorithm;
   /**
    * A value indicating which language code to use. Default is en. Possible values include:
    * 'zh-Hans', 'zh-Hant', 'cs', 'da', 'nl', 'en', 'fi', 'fr', 'de', 'el', 'hu', 'it', 'ja', 'ko',
@@ -2977,7 +3145,7 @@ export interface SplitSkill {
    */
   defaultLanguageCode?: SplitSkillLanguage;
   /**
-   * A value indicating which split mode to perform. Possible values include: 'pages', 'sentences'
+   * A value indicating which split mode to perform. Possible values include: 'Pages', 'Sentences'
    */
   textSplitMode?: TextSplitMode;
   /**
@@ -3110,7 +3278,7 @@ export interface WebApiSkill {
 }
 
 /**
- * Response from a list Skillset request. If successful, it includes the full definitions of all
+ * Response from a list skillset request. If successful, it includes the full definitions of all
  * skillsets.
  */
 export interface ListSkillsetsResult {
@@ -3118,7 +3286,7 @@ export interface ListSkillsetsResult {
    * The skillsets defined in the Search service.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly skillsets: Skillset[];
+  readonly skillsets: SearchIndexerSkillset[];
 }
 
 /**
@@ -3144,7 +3312,7 @@ export interface SynonymMap {
    * keys is not available for free search services, and is only available for paid services
    * created on or after January 1, 2019.
    */
-  encryptionKey?: EncryptionKey;
+  encryptionKey?: SearchResourceEncryptionKey;
   /**
    * The ETag of the synonym map.
    */
@@ -3271,9 +3439,9 @@ export interface SearchError {
 }
 
 /**
- * Additional parameters for a set of operations.
+ * Optional Parameters.
  */
-export interface AccessCondition {
+export interface DataSourcesCreateOrUpdateOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Defines the If-Match condition. The operation will be performed only if the ETag on the server
    * matches this value.
@@ -3289,21 +3457,17 @@ export interface AccessCondition {
 /**
  * Optional Parameters.
  */
-export interface DataSourcesCreateOrUpdateOptionalParams extends coreHttp.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  accessCondition?: AccessCondition;
-}
-
-/**
- * Optional Parameters.
- */
 export interface DataSourcesDeleteMethodOptionalParams extends coreHttp.RequestOptionsBase {
   /**
-   * Additional parameters for the operation
+   * Defines the If-Match condition. The operation will be performed only if the ETag on the server
+   * matches this value.
    */
-  accessCondition?: AccessCondition;
+  ifMatch?: string;
+  /**
+   * Defines the If-None-Match condition. The operation will be performed only if the ETag on the
+   * server does not match this value.
+   */
+  ifNoneMatch?: string;
 }
 
 /**
@@ -3323,9 +3487,15 @@ export interface DataSourcesListOptionalParams extends coreHttp.RequestOptionsBa
  */
 export interface IndexersCreateOrUpdateOptionalParams extends coreHttp.RequestOptionsBase {
   /**
-   * Additional parameters for the operation
+   * Defines the If-Match condition. The operation will be performed only if the ETag on the server
+   * matches this value.
    */
-  accessCondition?: AccessCondition;
+  ifMatch?: string;
+  /**
+   * Defines the If-None-Match condition. The operation will be performed only if the ETag on the
+   * server does not match this value.
+   */
+  ifNoneMatch?: string;
 }
 
 /**
@@ -3333,9 +3503,15 @@ export interface IndexersCreateOrUpdateOptionalParams extends coreHttp.RequestOp
  */
 export interface IndexersDeleteMethodOptionalParams extends coreHttp.RequestOptionsBase {
   /**
-   * Additional parameters for the operation
+   * Defines the If-Match condition. The operation will be performed only if the ETag on the server
+   * matches this value.
    */
-  accessCondition?: AccessCondition;
+  ifMatch?: string;
+  /**
+   * Defines the If-None-Match condition. The operation will be performed only if the ETag on the
+   * server does not match this value.
+   */
+  ifNoneMatch?: string;
 }
 
 /**
@@ -3354,9 +3530,15 @@ export interface IndexersListOptionalParams extends coreHttp.RequestOptionsBase 
  */
 export interface SkillsetsCreateOrUpdateOptionalParams extends coreHttp.RequestOptionsBase {
   /**
-   * Additional parameters for the operation
+   * Defines the If-Match condition. The operation will be performed only if the ETag on the server
+   * matches this value.
    */
-  accessCondition?: AccessCondition;
+  ifMatch?: string;
+  /**
+   * Defines the If-None-Match condition. The operation will be performed only if the ETag on the
+   * server does not match this value.
+   */
+  ifNoneMatch?: string;
 }
 
 /**
@@ -3364,9 +3546,15 @@ export interface SkillsetsCreateOrUpdateOptionalParams extends coreHttp.RequestO
  */
 export interface SkillsetsDeleteMethodOptionalParams extends coreHttp.RequestOptionsBase {
   /**
-   * Additional parameters for the operation
+   * Defines the If-Match condition. The operation will be performed only if the ETag on the server
+   * matches this value.
    */
-  accessCondition?: AccessCondition;
+  ifMatch?: string;
+  /**
+   * Defines the If-None-Match condition. The operation will be performed only if the ETag on the
+   * server does not match this value.
+   */
+  ifNoneMatch?: string;
 }
 
 /**
@@ -3386,9 +3574,15 @@ export interface SkillsetsListOptionalParams extends coreHttp.RequestOptionsBase
  */
 export interface SynonymMapsCreateOrUpdateOptionalParams extends coreHttp.RequestOptionsBase {
   /**
-   * Additional parameters for the operation
+   * Defines the If-Match condition. The operation will be performed only if the ETag on the server
+   * matches this value.
    */
-  accessCondition?: AccessCondition;
+  ifMatch?: string;
+  /**
+   * Defines the If-None-Match condition. The operation will be performed only if the ETag on the
+   * server does not match this value.
+   */
+  ifNoneMatch?: string;
 }
 
 /**
@@ -3396,9 +3590,15 @@ export interface SynonymMapsCreateOrUpdateOptionalParams extends coreHttp.Reques
  */
 export interface SynonymMapsDeleteMethodOptionalParams extends coreHttp.RequestOptionsBase {
   /**
-   * Additional parameters for the operation
+   * Defines the If-Match condition. The operation will be performed only if the ETag on the server
+   * matches this value.
    */
-  accessCondition?: AccessCondition;
+  ifMatch?: string;
+  /**
+   * Defines the If-None-Match condition. The operation will be performed only if the ETag on the
+   * server does not match this value.
+   */
+  ifNoneMatch?: string;
 }
 
 /**
@@ -3437,9 +3637,15 @@ export interface IndexesCreateOrUpdateOptionalParams extends coreHttp.RequestOpt
    */
   allowIndexDowntime?: boolean;
   /**
-   * Additional parameters for the operation
+   * Defines the If-Match condition. The operation will be performed only if the ETag on the server
+   * matches this value.
    */
-  accessCondition?: AccessCondition;
+  ifMatch?: string;
+  /**
+   * Defines the If-None-Match condition. The operation will be performed only if the ETag on the
+   * server does not match this value.
+   */
+  ifNoneMatch?: string;
 }
 
 /**
@@ -3447,13 +3653,19 @@ export interface IndexesCreateOrUpdateOptionalParams extends coreHttp.RequestOpt
  */
 export interface IndexesDeleteMethodOptionalParams extends coreHttp.RequestOptionsBase {
   /**
-   * Additional parameters for the operation
+   * Defines the If-Match condition. The operation will be performed only if the ETag on the server
+   * matches this value.
    */
-  accessCondition?: AccessCondition;
+  ifMatch?: string;
+  /**
+   * Defines the If-None-Match condition. The operation will be performed only if the ETag on the
+   * server does not match this value.
+   */
+  ifNoneMatch?: string;
 }
 
 /**
- * Defines values for AnalyzerName.
+ * Defines values for LexicalAnalyzerName.
  * Possible values include: 'ArMicrosoft', 'ArLucene', 'HyLucene', 'BnMicrosoft', 'EuLucene',
  * 'BgMicrosoft', 'BgLucene', 'CaMicrosoft', 'CaLucene', 'ZhHansMicrosoft', 'ZhHansLucene',
  * 'ZhHantMicrosoft', 'ZhHantLucene', 'HrMicrosoft', 'CsMicrosoft', 'CsLucene', 'DaMicrosoft',
@@ -3472,17 +3684,123 @@ export interface IndexesDeleteMethodOptionalParams extends coreHttp.RequestOptio
  * @readonly
  * @enum {string}
  */
-export type AnalyzerName = 'ar.microsoft' | 'ar.lucene' | 'hy.lucene' | 'bn.microsoft' | 'eu.lucene' | 'bg.microsoft' | 'bg.lucene' | 'ca.microsoft' | 'ca.lucene' | 'zh-Hans.microsoft' | 'zh-Hans.lucene' | 'zh-Hant.microsoft' | 'zh-Hant.lucene' | 'hr.microsoft' | 'cs.microsoft' | 'cs.lucene' | 'da.microsoft' | 'da.lucene' | 'nl.microsoft' | 'nl.lucene' | 'en.microsoft' | 'en.lucene' | 'et.microsoft' | 'fi.microsoft' | 'fi.lucene' | 'fr.microsoft' | 'fr.lucene' | 'gl.lucene' | 'de.microsoft' | 'de.lucene' | 'el.microsoft' | 'el.lucene' | 'gu.microsoft' | 'he.microsoft' | 'hi.microsoft' | 'hi.lucene' | 'hu.microsoft' | 'hu.lucene' | 'is.microsoft' | 'id.microsoft' | 'id.lucene' | 'ga.lucene' | 'it.microsoft' | 'it.lucene' | 'ja.microsoft' | 'ja.lucene' | 'kn.microsoft' | 'ko.microsoft' | 'ko.lucene' | 'lv.microsoft' | 'lv.lucene' | 'lt.microsoft' | 'ml.microsoft' | 'ms.microsoft' | 'mr.microsoft' | 'nb.microsoft' | 'no.lucene' | 'fa.lucene' | 'pl.microsoft' | 'pl.lucene' | 'pt-BR.microsoft' | 'pt-BR.lucene' | 'pt-PT.microsoft' | 'pt-PT.lucene' | 'pa.microsoft' | 'ro.microsoft' | 'ro.lucene' | 'ru.microsoft' | 'ru.lucene' | 'sr-cyrillic.microsoft' | 'sr-latin.microsoft' | 'sk.microsoft' | 'sl.microsoft' | 'es.microsoft' | 'es.lucene' | 'sv.microsoft' | 'sv.lucene' | 'ta.microsoft' | 'te.microsoft' | 'th.microsoft' | 'th.lucene' | 'tr.microsoft' | 'tr.lucene' | 'uk.microsoft' | 'ur.microsoft' | 'vi.microsoft' | 'standard.lucene' | 'standardasciifolding.lucene' | 'keyword' | 'pattern' | 'simple' | 'stop' | 'whitespace';
+export type LexicalAnalyzerName =
+  | "ar.microsoft"
+  | "ar.lucene"
+  | "hy.lucene"
+  | "bn.microsoft"
+  | "eu.lucene"
+  | "bg.microsoft"
+  | "bg.lucene"
+  | "ca.microsoft"
+  | "ca.lucene"
+  | "zh-Hans.microsoft"
+  | "zh-Hans.lucene"
+  | "zh-Hant.microsoft"
+  | "zh-Hant.lucene"
+  | "hr.microsoft"
+  | "cs.microsoft"
+  | "cs.lucene"
+  | "da.microsoft"
+  | "da.lucene"
+  | "nl.microsoft"
+  | "nl.lucene"
+  | "en.microsoft"
+  | "en.lucene"
+  | "et.microsoft"
+  | "fi.microsoft"
+  | "fi.lucene"
+  | "fr.microsoft"
+  | "fr.lucene"
+  | "gl.lucene"
+  | "de.microsoft"
+  | "de.lucene"
+  | "el.microsoft"
+  | "el.lucene"
+  | "gu.microsoft"
+  | "he.microsoft"
+  | "hi.microsoft"
+  | "hi.lucene"
+  | "hu.microsoft"
+  | "hu.lucene"
+  | "is.microsoft"
+  | "id.microsoft"
+  | "id.lucene"
+  | "ga.lucene"
+  | "it.microsoft"
+  | "it.lucene"
+  | "ja.microsoft"
+  | "ja.lucene"
+  | "kn.microsoft"
+  | "ko.microsoft"
+  | "ko.lucene"
+  | "lv.microsoft"
+  | "lv.lucene"
+  | "lt.microsoft"
+  | "ml.microsoft"
+  | "ms.microsoft"
+  | "mr.microsoft"
+  | "nb.microsoft"
+  | "no.lucene"
+  | "fa.lucene"
+  | "pl.microsoft"
+  | "pl.lucene"
+  | "pt-BR.microsoft"
+  | "pt-BR.lucene"
+  | "pt-PT.microsoft"
+  | "pt-PT.lucene"
+  | "pa.microsoft"
+  | "ro.microsoft"
+  | "ro.lucene"
+  | "ru.microsoft"
+  | "ru.lucene"
+  | "sr-cyrillic.microsoft"
+  | "sr-latin.microsoft"
+  | "sk.microsoft"
+  | "sl.microsoft"
+  | "es.microsoft"
+  | "es.lucene"
+  | "sv.microsoft"
+  | "sv.lucene"
+  | "ta.microsoft"
+  | "te.microsoft"
+  | "th.microsoft"
+  | "th.lucene"
+  | "tr.microsoft"
+  | "tr.lucene"
+  | "uk.microsoft"
+  | "ur.microsoft"
+  | "vi.microsoft"
+  | "standard.lucene"
+  | "standardasciifolding.lucene"
+  | "keyword"
+  | "pattern"
+  | "simple"
+  | "stop"
+  | "whitespace";
 
 /**
- * Defines values for TokenizerName.
+ * Defines values for LexicalTokenizerName.
  * Possible values include: 'Classic', 'EdgeNGram', 'Keyword', 'Letter', 'Lowercase',
  * 'MicrosoftLanguageTokenizer', 'MicrosoftLanguageStemmingTokenizer', 'NGram', 'PathHierarchy',
  * 'Pattern', 'Standard', 'UaxUrlEmail', 'Whitespace'
  * @readonly
  * @enum {string}
  */
-export type TokenizerName = 'classic' | 'edgeNGram' | 'keyword_v2' | 'letter' | 'lowercase' | 'microsoft_language_tokenizer' | 'microsoft_language_stemming_tokenizer' | 'nGram' | 'path_hierarchy_v2' | 'pattern' | 'standard_v2' | 'uax_url_email' | 'whitespace';
+export type LexicalTokenizerName =
+  | "classic"
+  | "edgeNGram"
+  | "keyword_v2"
+  | "letter"
+  | "lowercase"
+  | "microsoft_language_tokenizer"
+  | "microsoft_language_stemming_tokenizer"
+  | "nGram"
+  | "path_hierarchy_v2"
+  | "pattern"
+  | "standard_v2"
+  | "uax_url_email"
+  | "whitespace";
 
 /**
  * Defines values for TokenFilterName.
@@ -3496,7 +3814,41 @@ export type TokenizerName = 'classic' | 'edgeNGram' | 'keyword_v2' | 'letter' | 
  * @readonly
  * @enum {string}
  */
-export type TokenFilterName = 'arabic_normalization' | 'apostrophe' | 'asciifolding' | 'cjk_bigram' | 'cjk_width' | 'classic' | 'common_grams' | 'edgeNGram_v2' | 'elision' | 'german_normalization' | 'hindi_normalization' | 'indic_normalization' | 'keyword_repeat' | 'kstem' | 'length' | 'limit' | 'lowercase' | 'nGram_v2' | 'persian_normalization' | 'phonetic' | 'porter_stem' | 'reverse' | 'scandinavian_normalization' | 'scandinavian_folding' | 'shingle' | 'snowball' | 'sorani_normalization' | 'stemmer' | 'stopwords' | 'trim' | 'truncate' | 'unique' | 'uppercase' | 'word_delimiter';
+export type TokenFilterName =
+  | "arabic_normalization"
+  | "apostrophe"
+  | "asciifolding"
+  | "cjk_bigram"
+  | "cjk_width"
+  | "classic"
+  | "common_grams"
+  | "edgeNGram_v2"
+  | "elision"
+  | "german_normalization"
+  | "hindi_normalization"
+  | "indic_normalization"
+  | "keyword_repeat"
+  | "kstem"
+  | "length"
+  | "limit"
+  | "lowercase"
+  | "nGram_v2"
+  | "persian_normalization"
+  | "phonetic"
+  | "porter_stem"
+  | "reverse"
+  | "scandinavian_normalization"
+  | "scandinavian_folding"
+  | "shingle"
+  | "snowball"
+  | "sorani_normalization"
+  | "stemmer"
+  | "stopwords"
+  | "trim"
+  | "truncate"
+  | "unique"
+  | "uppercase"
+  | "word_delimiter";
 
 /**
  * Defines values for CharFilterName.
@@ -3504,165 +3856,404 @@ export type TokenFilterName = 'arabic_normalization' | 'apostrophe' | 'asciifold
  * @readonly
  * @enum {string}
  */
-export type CharFilterName = 'html_strip';
+export type CharFilterName = "html_strip";
 
 /**
  * Defines values for RegexFlags.
- * Possible values include: 'CANON_EQ', 'CASE_INSENSITIVE', 'COMMENTS', 'DOTALL', 'LITERAL',
- * 'MULTILINE', 'UNICODE_CASE', 'UNIX_LINES'
+ * Possible values include: 'CanonEq', 'CaseInsensitive', 'Comments', 'DotAll', 'Literal',
+ * 'Multiline', 'UnicodeCase', 'UnixLines'
  * @readonly
  * @enum {string}
  */
-export type RegexFlags = 'CANON_EQ' | 'CASE_INSENSITIVE' | 'COMMENTS' | 'DOTALL' | 'LITERAL' | 'MULTILINE' | 'UNICODE_CASE' | 'UNIX_LINES';
+export type RegexFlags =
+  | "CANON_EQ"
+  | "CASE_INSENSITIVE"
+  | "COMMENTS"
+  | "DOTALL"
+  | "LITERAL"
+  | "MULTILINE"
+  | "UNICODE_CASE"
+  | "UNIX_LINES";
 
 /**
- * Defines values for DataType.
- * Possible values include: 'Edm.String', 'Edm.Int32', 'Edm.Int64', 'Edm.Double', 'Edm.Boolean',
- * 'Edm.DateTimeOffset', 'Edm.GeographyPoint', 'Edm.ComplexType', 'Collection(Edm.String)',
- * 'Collection(Edm.Int32)', 'Collection(Edm.Int64)', 'Collection(Edm.Double)',
- * 'Collection(Edm.Boolean)', 'Collection(Edm.DateTimeOffset)', 'Collection(Edm.GeographyPoint)',
+ * Defines values for SearchFieldDataType.
+ * Possible values include: 'String', 'Int32', 'Int64', 'Double', 'Boolean', 'DateTimeOffset',
+ * 'GeographyPoint', 'Complex', 'Collection(Edm.String)', 'Collection(Edm.Int32)',
+ * 'Collection(Edm.Int64)', 'Collection(Edm.Double)', 'Collection(Edm.Boolean)',
+ * 'Collection(Edm.DateTimeOffset)', 'Collection(Edm.GeographyPoint)',
  * 'Collection(Edm.ComplexType)'
  * @readonly
  * @enum {string}
  */
-export type DataType = 'Edm.String' | 'Edm.Int32' | 'Edm.Int64' | 'Edm.Double' | 'Edm.Boolean' | 'Edm.DateTimeOffset' | 'Edm.GeographyPoint' | 'Edm.ComplexType' | 'Collection(Edm.String)' | 'Collection(Edm.Int32)' | 'Collection(Edm.Int64)' | 'Collection(Edm.Double)' | 'Collection(Edm.Boolean)' | 'Collection(Edm.DateTimeOffset)' | 'Collection(Edm.GeographyPoint)' | 'Collection(Edm.ComplexType)';
+export type SearchFieldDataType =
+  | "Edm.String"
+  | "Edm.Int32"
+  | "Edm.Int64"
+  | "Edm.Double"
+  | "Edm.Boolean"
+  | "Edm.DateTimeOffset"
+  | "Edm.GeographyPoint"
+  | "Edm.ComplexType"
+  | "Collection(Edm.String)"
+  | "Collection(Edm.Int32)"
+  | "Collection(Edm.Int64)"
+  | "Collection(Edm.Double)"
+  | "Collection(Edm.Boolean)"
+  | "Collection(Edm.DateTimeOffset)"
+  | "Collection(Edm.GeographyPoint)"
+  | "Collection(Edm.ComplexType)";
 
 /**
  * Defines values for TokenCharacterKind.
- * Possible values include: 'letter', 'digit', 'whitespace', 'punctuation', 'symbol'
+ * Possible values include: 'Letter', 'Digit', 'Whitespace', 'Punctuation', 'Symbol'
  * @readonly
  * @enum {string}
  */
-export type TokenCharacterKind = 'letter' | 'digit' | 'whitespace' | 'punctuation' | 'symbol';
+export type TokenCharacterKind = "letter" | "digit" | "whitespace" | "punctuation" | "symbol";
 
 /**
  * Defines values for MicrosoftTokenizerLanguage.
- * Possible values include: 'bangla', 'bulgarian', 'catalan', 'chineseSimplified',
- * 'chineseTraditional', 'croatian', 'czech', 'danish', 'dutch', 'english', 'french', 'german',
- * 'greek', 'gujarati', 'hindi', 'icelandic', 'indonesian', 'italian', 'japanese', 'kannada',
- * 'korean', 'malay', 'malayalam', 'marathi', 'norwegianBokmaal', 'polish', 'portuguese',
- * 'portugueseBrazilian', 'punjabi', 'romanian', 'russian', 'serbianCyrillic', 'serbianLatin',
- * 'slovenian', 'spanish', 'swedish', 'tamil', 'telugu', 'thai', 'ukrainian', 'urdu', 'vietnamese'
+ * Possible values include: 'Bangla', 'Bulgarian', 'Catalan', 'ChineseSimplified',
+ * 'ChineseTraditional', 'Croatian', 'Czech', 'Danish', 'Dutch', 'English', 'French', 'German',
+ * 'Greek', 'Gujarati', 'Hindi', 'Icelandic', 'Indonesian', 'Italian', 'Japanese', 'Kannada',
+ * 'Korean', 'Malay', 'Malayalam', 'Marathi', 'NorwegianBokmaal', 'Polish', 'Portuguese',
+ * 'PortugueseBrazilian', 'Punjabi', 'Romanian', 'Russian', 'SerbianCyrillic', 'SerbianLatin',
+ * 'Slovenian', 'Spanish', 'Swedish', 'Tamil', 'Telugu', 'Thai', 'Ukrainian', 'Urdu', 'Vietnamese'
  * @readonly
  * @enum {string}
  */
-export type MicrosoftTokenizerLanguage = 'bangla' | 'bulgarian' | 'catalan' | 'chineseSimplified' | 'chineseTraditional' | 'croatian' | 'czech' | 'danish' | 'dutch' | 'english' | 'french' | 'german' | 'greek' | 'gujarati' | 'hindi' | 'icelandic' | 'indonesian' | 'italian' | 'japanese' | 'kannada' | 'korean' | 'malay' | 'malayalam' | 'marathi' | 'norwegianBokmaal' | 'polish' | 'portuguese' | 'portugueseBrazilian' | 'punjabi' | 'romanian' | 'russian' | 'serbianCyrillic' | 'serbianLatin' | 'slovenian' | 'spanish' | 'swedish' | 'tamil' | 'telugu' | 'thai' | 'ukrainian' | 'urdu' | 'vietnamese';
+export type MicrosoftTokenizerLanguage =
+  | "bangla"
+  | "bulgarian"
+  | "catalan"
+  | "chineseSimplified"
+  | "chineseTraditional"
+  | "croatian"
+  | "czech"
+  | "danish"
+  | "dutch"
+  | "english"
+  | "french"
+  | "german"
+  | "greek"
+  | "gujarati"
+  | "hindi"
+  | "icelandic"
+  | "indonesian"
+  | "italian"
+  | "japanese"
+  | "kannada"
+  | "korean"
+  | "malay"
+  | "malayalam"
+  | "marathi"
+  | "norwegianBokmaal"
+  | "polish"
+  | "portuguese"
+  | "portugueseBrazilian"
+  | "punjabi"
+  | "romanian"
+  | "russian"
+  | "serbianCyrillic"
+  | "serbianLatin"
+  | "slovenian"
+  | "spanish"
+  | "swedish"
+  | "tamil"
+  | "telugu"
+  | "thai"
+  | "ukrainian"
+  | "urdu"
+  | "vietnamese";
 
 /**
  * Defines values for MicrosoftStemmingTokenizerLanguage.
- * Possible values include: 'arabic', 'bangla', 'bulgarian', 'catalan', 'croatian', 'czech',
- * 'danish', 'dutch', 'english', 'estonian', 'finnish', 'french', 'german', 'greek', 'gujarati',
- * 'hebrew', 'hindi', 'hungarian', 'icelandic', 'indonesian', 'italian', 'kannada', 'latvian',
- * 'lithuanian', 'malay', 'malayalam', 'marathi', 'norwegianBokmaal', 'polish', 'portuguese',
- * 'portugueseBrazilian', 'punjabi', 'romanian', 'russian', 'serbianCyrillic', 'serbianLatin',
- * 'slovak', 'slovenian', 'spanish', 'swedish', 'tamil', 'telugu', 'turkish', 'ukrainian', 'urdu'
+ * Possible values include: 'Arabic', 'Bangla', 'Bulgarian', 'Catalan', 'Croatian', 'Czech',
+ * 'Danish', 'Dutch', 'English', 'Estonian', 'Finnish', 'French', 'German', 'Greek', 'Gujarati',
+ * 'Hebrew', 'Hindi', 'Hungarian', 'Icelandic', 'Indonesian', 'Italian', 'Kannada', 'Latvian',
+ * 'Lithuanian', 'Malay', 'Malayalam', 'Marathi', 'NorwegianBokmaal', 'Polish', 'Portuguese',
+ * 'PortugueseBrazilian', 'Punjabi', 'Romanian', 'Russian', 'SerbianCyrillic', 'SerbianLatin',
+ * 'Slovak', 'Slovenian', 'Spanish', 'Swedish', 'Tamil', 'Telugu', 'Turkish', 'Ukrainian', 'Urdu'
  * @readonly
  * @enum {string}
  */
-export type MicrosoftStemmingTokenizerLanguage = 'arabic' | 'bangla' | 'bulgarian' | 'catalan' | 'croatian' | 'czech' | 'danish' | 'dutch' | 'english' | 'estonian' | 'finnish' | 'french' | 'german' | 'greek' | 'gujarati' | 'hebrew' | 'hindi' | 'hungarian' | 'icelandic' | 'indonesian' | 'italian' | 'kannada' | 'latvian' | 'lithuanian' | 'malay' | 'malayalam' | 'marathi' | 'norwegianBokmaal' | 'polish' | 'portuguese' | 'portugueseBrazilian' | 'punjabi' | 'romanian' | 'russian' | 'serbianCyrillic' | 'serbianLatin' | 'slovak' | 'slovenian' | 'spanish' | 'swedish' | 'tamil' | 'telugu' | 'turkish' | 'ukrainian' | 'urdu';
+export type MicrosoftStemmingTokenizerLanguage =
+  | "arabic"
+  | "bangla"
+  | "bulgarian"
+  | "catalan"
+  | "croatian"
+  | "czech"
+  | "danish"
+  | "dutch"
+  | "english"
+  | "estonian"
+  | "finnish"
+  | "french"
+  | "german"
+  | "greek"
+  | "gujarati"
+  | "hebrew"
+  | "hindi"
+  | "hungarian"
+  | "icelandic"
+  | "indonesian"
+  | "italian"
+  | "kannada"
+  | "latvian"
+  | "lithuanian"
+  | "malay"
+  | "malayalam"
+  | "marathi"
+  | "norwegianBokmaal"
+  | "polish"
+  | "portuguese"
+  | "portugueseBrazilian"
+  | "punjabi"
+  | "romanian"
+  | "russian"
+  | "serbianCyrillic"
+  | "serbianLatin"
+  | "slovak"
+  | "slovenian"
+  | "spanish"
+  | "swedish"
+  | "tamil"
+  | "telugu"
+  | "turkish"
+  | "ukrainian"
+  | "urdu";
 
 /**
  * Defines values for CjkBigramTokenFilterScripts.
- * Possible values include: 'han', 'hiragana', 'katakana', 'hangul'
+ * Possible values include: 'Han', 'Hiragana', 'Katakana', 'Hangul'
  * @readonly
  * @enum {string}
  */
-export type CjkBigramTokenFilterScripts = 'han' | 'hiragana' | 'katakana' | 'hangul';
+export type CjkBigramTokenFilterScripts = "han" | "hiragana" | "katakana" | "hangul";
 
 /**
  * Defines values for EdgeNGramTokenFilterSide.
- * Possible values include: 'front', 'back'
+ * Possible values include: 'Front', 'Back'
  * @readonly
  * @enum {string}
  */
-export type EdgeNGramTokenFilterSide = 'front' | 'back';
+export type EdgeNGramTokenFilterSide = "front" | "back";
 
 /**
  * Defines values for PhoneticEncoder.
- * Possible values include: 'metaphone', 'doubleMetaphone', 'soundex', 'refinedSoundex',
- * 'caverphone1', 'caverphone2', 'cologne', 'nysiis', 'koelnerPhonetik', 'haasePhonetik',
- * 'beiderMorse'
+ * Possible values include: 'Metaphone', 'DoubleMetaphone', 'Soundex', 'RefinedSoundex',
+ * 'Caverphone1', 'Caverphone2', 'Cologne', 'Nysiis', 'KoelnerPhonetik', 'HaasePhonetik',
+ * 'BeiderMorse'
  * @readonly
  * @enum {string}
  */
-export type PhoneticEncoder = 'metaphone' | 'doubleMetaphone' | 'soundex' | 'refinedSoundex' | 'caverphone1' | 'caverphone2' | 'cologne' | 'nysiis' | 'koelnerPhonetik' | 'haasePhonetik' | 'beiderMorse';
+export type PhoneticEncoder =
+  | "metaphone"
+  | "doubleMetaphone"
+  | "soundex"
+  | "refinedSoundex"
+  | "caverphone1"
+  | "caverphone2"
+  | "cologne"
+  | "nysiis"
+  | "koelnerPhonetik"
+  | "haasePhonetik"
+  | "beiderMorse";
 
 /**
  * Defines values for SnowballTokenFilterLanguage.
- * Possible values include: 'armenian', 'basque', 'catalan', 'danish', 'dutch', 'english',
- * 'finnish', 'french', 'german', 'german2', 'hungarian', 'italian', 'kp', 'lovins', 'norwegian',
- * 'porter', 'portuguese', 'romanian', 'russian', 'spanish', 'swedish', 'turkish'
+ * Possible values include: 'Armenian', 'Basque', 'Catalan', 'Danish', 'Dutch', 'English',
+ * 'Finnish', 'French', 'German', 'German2', 'Hungarian', 'Italian', 'Kp', 'Lovins', 'Norwegian',
+ * 'Porter', 'Portuguese', 'Romanian', 'Russian', 'Spanish', 'Swedish', 'Turkish'
  * @readonly
  * @enum {string}
  */
-export type SnowballTokenFilterLanguage = 'armenian' | 'basque' | 'catalan' | 'danish' | 'dutch' | 'english' | 'finnish' | 'french' | 'german' | 'german2' | 'hungarian' | 'italian' | 'kp' | 'lovins' | 'norwegian' | 'porter' | 'portuguese' | 'romanian' | 'russian' | 'spanish' | 'swedish' | 'turkish';
+export type SnowballTokenFilterLanguage =
+  | "armenian"
+  | "basque"
+  | "catalan"
+  | "danish"
+  | "dutch"
+  | "english"
+  | "finnish"
+  | "french"
+  | "german"
+  | "german2"
+  | "hungarian"
+  | "italian"
+  | "kp"
+  | "lovins"
+  | "norwegian"
+  | "porter"
+  | "portuguese"
+  | "romanian"
+  | "russian"
+  | "spanish"
+  | "swedish"
+  | "turkish";
 
 /**
  * Defines values for StemmerTokenFilterLanguage.
- * Possible values include: 'arabic', 'armenian', 'basque', 'brazilian', 'bulgarian', 'catalan',
- * 'czech', 'danish', 'dutch', 'dutchKp', 'english', 'lightEnglish', 'minimalEnglish',
- * 'possessiveEnglish', 'porter2', 'lovins', 'finnish', 'lightFinnish', 'french', 'lightFrench',
- * 'minimalFrench', 'galician', 'minimalGalician', 'german', 'german2', 'lightGerman',
- * 'minimalGerman', 'greek', 'hindi', 'hungarian', 'lightHungarian', 'indonesian', 'irish',
- * 'italian', 'lightItalian', 'sorani', 'latvian', 'norwegian', 'lightNorwegian',
- * 'minimalNorwegian', 'lightNynorsk', 'minimalNynorsk', 'portuguese', 'lightPortuguese',
- * 'minimalPortuguese', 'portugueseRslp', 'romanian', 'russian', 'lightRussian', 'spanish',
- * 'lightSpanish', 'swedish', 'lightSwedish', 'turkish'
+ * Possible values include: 'Arabic', 'Armenian', 'Basque', 'Brazilian', 'Bulgarian', 'Catalan',
+ * 'Czech', 'Danish', 'Dutch', 'DutchKp', 'English', 'LightEnglish', 'MinimalEnglish',
+ * 'PossessiveEnglish', 'Porter2', 'Lovins', 'Finnish', 'LightFinnish', 'French', 'LightFrench',
+ * 'MinimalFrench', 'Galician', 'MinimalGalician', 'German', 'German2', 'LightGerman',
+ * 'MinimalGerman', 'Greek', 'Hindi', 'Hungarian', 'LightHungarian', 'Indonesian', 'Irish',
+ * 'Italian', 'LightItalian', 'Sorani', 'Latvian', 'Norwegian', 'LightNorwegian',
+ * 'MinimalNorwegian', 'LightNynorsk', 'MinimalNynorsk', 'Portuguese', 'LightPortuguese',
+ * 'MinimalPortuguese', 'PortugueseRslp', 'Romanian', 'Russian', 'LightRussian', 'Spanish',
+ * 'LightSpanish', 'Swedish', 'LightSwedish', 'Turkish'
  * @readonly
  * @enum {string}
  */
-export type StemmerTokenFilterLanguage = 'arabic' | 'armenian' | 'basque' | 'brazilian' | 'bulgarian' | 'catalan' | 'czech' | 'danish' | 'dutch' | 'dutchKp' | 'english' | 'lightEnglish' | 'minimalEnglish' | 'possessiveEnglish' | 'porter2' | 'lovins' | 'finnish' | 'lightFinnish' | 'french' | 'lightFrench' | 'minimalFrench' | 'galician' | 'minimalGalician' | 'german' | 'german2' | 'lightGerman' | 'minimalGerman' | 'greek' | 'hindi' | 'hungarian' | 'lightHungarian' | 'indonesian' | 'irish' | 'italian' | 'lightItalian' | 'sorani' | 'latvian' | 'norwegian' | 'lightNorwegian' | 'minimalNorwegian' | 'lightNynorsk' | 'minimalNynorsk' | 'portuguese' | 'lightPortuguese' | 'minimalPortuguese' | 'portugueseRslp' | 'romanian' | 'russian' | 'lightRussian' | 'spanish' | 'lightSpanish' | 'swedish' | 'lightSwedish' | 'turkish';
+export type StemmerTokenFilterLanguage =
+  | "arabic"
+  | "armenian"
+  | "basque"
+  | "brazilian"
+  | "bulgarian"
+  | "catalan"
+  | "czech"
+  | "danish"
+  | "dutch"
+  | "dutchKp"
+  | "english"
+  | "lightEnglish"
+  | "minimalEnglish"
+  | "possessiveEnglish"
+  | "porter2"
+  | "lovins"
+  | "finnish"
+  | "lightFinnish"
+  | "french"
+  | "lightFrench"
+  | "minimalFrench"
+  | "galician"
+  | "minimalGalician"
+  | "german"
+  | "german2"
+  | "lightGerman"
+  | "minimalGerman"
+  | "greek"
+  | "hindi"
+  | "hungarian"
+  | "lightHungarian"
+  | "indonesian"
+  | "irish"
+  | "italian"
+  | "lightItalian"
+  | "sorani"
+  | "latvian"
+  | "norwegian"
+  | "lightNorwegian"
+  | "minimalNorwegian"
+  | "lightNynorsk"
+  | "minimalNynorsk"
+  | "portuguese"
+  | "lightPortuguese"
+  | "minimalPortuguese"
+  | "portugueseRslp"
+  | "romanian"
+  | "russian"
+  | "lightRussian"
+  | "spanish"
+  | "lightSpanish"
+  | "swedish"
+  | "lightSwedish"
+  | "turkish";
 
 /**
  * Defines values for StopwordsList.
- * Possible values include: 'arabic', 'armenian', 'basque', 'brazilian', 'bulgarian', 'catalan',
- * 'czech', 'danish', 'dutch', 'english', 'finnish', 'french', 'galician', 'german', 'greek',
- * 'hindi', 'hungarian', 'indonesian', 'irish', 'italian', 'latvian', 'norwegian', 'persian',
- * 'portuguese', 'romanian', 'russian', 'sorani', 'spanish', 'swedish', 'thai', 'turkish'
+ * Possible values include: 'Arabic', 'Armenian', 'Basque', 'Brazilian', 'Bulgarian', 'Catalan',
+ * 'Czech', 'Danish', 'Dutch', 'English', 'Finnish', 'French', 'Galician', 'German', 'Greek',
+ * 'Hindi', 'Hungarian', 'Indonesian', 'Irish', 'Italian', 'Latvian', 'Norwegian', 'Persian',
+ * 'Portuguese', 'Romanian', 'Russian', 'Sorani', 'Spanish', 'Swedish', 'Thai', 'Turkish'
  * @readonly
  * @enum {string}
  */
-export type StopwordsList = 'arabic' | 'armenian' | 'basque' | 'brazilian' | 'bulgarian' | 'catalan' | 'czech' | 'danish' | 'dutch' | 'english' | 'finnish' | 'french' | 'galician' | 'german' | 'greek' | 'hindi' | 'hungarian' | 'indonesian' | 'irish' | 'italian' | 'latvian' | 'norwegian' | 'persian' | 'portuguese' | 'romanian' | 'russian' | 'sorani' | 'spanish' | 'swedish' | 'thai' | 'turkish';
+export type StopwordsList =
+  | "arabic"
+  | "armenian"
+  | "basque"
+  | "brazilian"
+  | "bulgarian"
+  | "catalan"
+  | "czech"
+  | "danish"
+  | "dutch"
+  | "english"
+  | "finnish"
+  | "french"
+  | "galician"
+  | "german"
+  | "greek"
+  | "hindi"
+  | "hungarian"
+  | "indonesian"
+  | "irish"
+  | "italian"
+  | "latvian"
+  | "norwegian"
+  | "persian"
+  | "portuguese"
+  | "romanian"
+  | "russian"
+  | "sorani"
+  | "spanish"
+  | "swedish"
+  | "thai"
+  | "turkish";
 
 /**
- * Defines values for DataSourceType.
+ * Defines values for SearchIndexerDataSourceType.
  * Possible values include: 'AzureSql', 'CosmosDb', 'AzureBlob', 'AzureTable', 'MySql'
  * @readonly
  * @enum {string}
  */
-export type DataSourceType = 'azuresql' | 'cosmosdb' | 'azureblob' | 'azuretable' | 'mysql';
+export type SearchIndexerDataSourceType =
+  | "azuresql"
+  | "cosmosdb"
+  | "azureblob"
+  | "azuretable"
+  | "mysql";
 
 /**
  * Defines values for IndexerExecutionStatus.
- * Possible values include: 'transientFailure', 'success', 'inProgress', 'reset'
+ * Possible values include: 'TransientFailure', 'Success', 'InProgress', 'Reset'
  * @readonly
  * @enum {string}
  */
-export type IndexerExecutionStatus = 'transientFailure' | 'success' | 'inProgress' | 'reset';
+export type IndexerExecutionStatus = "transientFailure" | "success" | "inProgress" | "reset";
 
 /**
  * Defines values for IndexerStatus.
- * Possible values include: 'unknown', 'error', 'running'
+ * Possible values include: 'Unknown', 'Error', 'Running'
  * @readonly
  * @enum {string}
  */
-export type IndexerStatus = 'unknown' | 'error' | 'running';
+export type IndexerStatus = "unknown" | "error" | "running";
 
 /**
  * Defines values for ScoringFunctionInterpolation.
- * Possible values include: 'linear', 'constant', 'quadratic', 'logarithmic'
+ * Possible values include: 'Linear', 'Constant', 'Quadratic', 'Logarithmic'
  * @readonly
  * @enum {string}
  */
-export type ScoringFunctionInterpolation = 'linear' | 'constant' | 'quadratic' | 'logarithmic';
+export type ScoringFunctionInterpolation = "linear" | "constant" | "quadratic" | "logarithmic";
 
 /**
  * Defines values for ScoringFunctionAggregation.
- * Possible values include: 'sum', 'average', 'minimum', 'maximum', 'firstMatching'
+ * Possible values include: 'Sum', 'Average', 'Minimum', 'Maximum', 'FirstMatching'
  * @readonly
  * @enum {string}
  */
-export type ScoringFunctionAggregation = 'sum' | 'average' | 'minimum' | 'maximum' | 'firstMatching';
+export type ScoringFunctionAggregation =
+  | "sum"
+  | "average"
+  | "minimum"
+  | "maximum"
+  | "firstMatching";
 
 /**
  * Defines values for KeyPhraseExtractionSkillLanguage.
@@ -3671,15 +4262,23 @@ export type ScoringFunctionAggregation = 'sum' | 'average' | 'minimum' | 'maximu
  * @readonly
  * @enum {string}
  */
-export type KeyPhraseExtractionSkillLanguage = 'da' | 'nl' | 'en' | 'fi' | 'fr' | 'de' | 'it' | 'ja' | 'ko' | 'no' | 'pl' | 'pt-PT' | 'pt-BR' | 'ru' | 'es' | 'sv';
-
-/**
- * Defines values for TextExtractionAlgorithm.
- * Possible values include: 'printed', 'handwritten'
- * @readonly
- * @enum {string}
- */
-export type TextExtractionAlgorithm = 'printed' | 'handwritten';
+export type KeyPhraseExtractionSkillLanguage =
+  | "da"
+  | "nl"
+  | "en"
+  | "fi"
+  | "fr"
+  | "de"
+  | "it"
+  | "ja"
+  | "ko"
+  | "no"
+  | "pl"
+  | "pt-PT"
+  | "pt-BR"
+  | "ru"
+  | "es"
+  | "sv";
 
 /**
  * Defines values for OcrSkillLanguage.
@@ -3689,7 +4288,33 @@ export type TextExtractionAlgorithm = 'printed' | 'handwritten';
  * @readonly
  * @enum {string}
  */
-export type OcrSkillLanguage = 'zh-Hans' | 'zh-Hant' | 'cs' | 'da' | 'nl' | 'en' | 'fi' | 'fr' | 'de' | 'el' | 'hu' | 'it' | 'ja' | 'ko' | 'nb' | 'pl' | 'pt' | 'ru' | 'es' | 'sv' | 'tr' | 'ar' | 'ro' | 'sr-Cyrl' | 'sr-Latn' | 'sk';
+export type OcrSkillLanguage =
+  | "zh-Hans"
+  | "zh-Hant"
+  | "cs"
+  | "da"
+  | "nl"
+  | "en"
+  | "fi"
+  | "fr"
+  | "de"
+  | "el"
+  | "hu"
+  | "it"
+  | "ja"
+  | "ko"
+  | "nb"
+  | "pl"
+  | "pt"
+  | "ru"
+  | "es"
+  | "sv"
+  | "tr"
+  | "ar"
+  | "ro"
+  | "sr-Cyrl"
+  | "sr-Latn"
+  | "sk";
 
 /**
  * Defines values for ImageAnalysisSkillLanguage.
@@ -3697,33 +4322,47 @@ export type OcrSkillLanguage = 'zh-Hans' | 'zh-Hant' | 'cs' | 'da' | 'nl' | 'en'
  * @readonly
  * @enum {string}
  */
-export type ImageAnalysisSkillLanguage = 'en' | 'es' | 'ja' | 'pt' | 'zh';
+export type ImageAnalysisSkillLanguage = "en" | "es" | "ja" | "pt" | "zh";
 
 /**
  * Defines values for VisualFeature.
- * Possible values include: 'adult', 'brands', 'categories', 'description', 'faces', 'objects',
- * 'tags'
+ * Possible values include: 'Adult', 'Brands', 'Categories', 'Description', 'Faces', 'Objects',
+ * 'Tags'
  * @readonly
  * @enum {string}
  */
-export type VisualFeature = 'adult' | 'brands' | 'categories' | 'description' | 'faces' | 'objects' | 'tags';
+export type VisualFeature =
+  | "adult"
+  | "brands"
+  | "categories"
+  | "description"
+  | "faces"
+  | "objects"
+  | "tags";
 
 /**
  * Defines values for ImageDetail.
- * Possible values include: 'celebrities', 'landmarks'
+ * Possible values include: 'Celebrities', 'Landmarks'
  * @readonly
  * @enum {string}
  */
-export type ImageDetail = 'celebrities' | 'landmarks';
+export type ImageDetail = "celebrities" | "landmarks";
 
 /**
  * Defines values for EntityCategory.
- * Possible values include: 'location', 'organization', 'person', 'quantity', 'datetime', 'url',
- * 'email'
+ * Possible values include: 'Location', 'Organization', 'Person', 'Quantity', 'Datetime', 'Url',
+ * 'Email'
  * @readonly
  * @enum {string}
  */
-export type EntityCategory = 'location' | 'organization' | 'person' | 'quantity' | 'datetime' | 'url' | 'email';
+export type EntityCategory =
+  | "location"
+  | "organization"
+  | "person"
+  | "quantity"
+  | "datetime"
+  | "url"
+  | "email";
 
 /**
  * Defines values for EntityRecognitionSkillLanguage.
@@ -3732,7 +4371,30 @@ export type EntityCategory = 'location' | 'organization' | 'person' | 'quantity'
  * @readonly
  * @enum {string}
  */
-export type EntityRecognitionSkillLanguage = 'ar' | 'cs' | 'zh-Hans' | 'zh-Hant' | 'da' | 'nl' | 'en' | 'fi' | 'fr' | 'de' | 'el' | 'hu' | 'it' | 'ja' | 'ko' | 'no' | 'pl' | 'pt-PT' | 'pt-BR' | 'ru' | 'es' | 'sv' | 'tr';
+export type EntityRecognitionSkillLanguage =
+  | "ar"
+  | "cs"
+  | "zh-Hans"
+  | "zh-Hant"
+  | "da"
+  | "nl"
+  | "en"
+  | "fi"
+  | "fr"
+  | "de"
+  | "el"
+  | "hu"
+  | "it"
+  | "ja"
+  | "ko"
+  | "no"
+  | "pl"
+  | "pt-PT"
+  | "pt-BR"
+  | "ru"
+  | "es"
+  | "sv"
+  | "tr";
 
 /**
  * Defines values for SentimentSkillLanguage.
@@ -3741,7 +4403,22 @@ export type EntityRecognitionSkillLanguage = 'ar' | 'cs' | 'zh-Hans' | 'zh-Hant'
  * @readonly
  * @enum {string}
  */
-export type SentimentSkillLanguage = 'da' | 'nl' | 'en' | 'fi' | 'fr' | 'de' | 'el' | 'it' | 'no' | 'pl' | 'pt-PT' | 'ru' | 'es' | 'sv' | 'tr';
+export type SentimentSkillLanguage =
+  | "da"
+  | "nl"
+  | "en"
+  | "fi"
+  | "fr"
+  | "de"
+  | "el"
+  | "it"
+  | "no"
+  | "pl"
+  | "pt-PT"
+  | "ru"
+  | "es"
+  | "sv"
+  | "tr";
 
 /**
  * Defines values for SplitSkillLanguage.
@@ -3749,15 +4426,15 @@ export type SentimentSkillLanguage = 'da' | 'nl' | 'en' | 'fi' | 'fr' | 'de' | '
  * @readonly
  * @enum {string}
  */
-export type SplitSkillLanguage = 'da' | 'de' | 'en' | 'es' | 'fi' | 'fr' | 'it' | 'ko' | 'pt';
+export type SplitSkillLanguage = "da" | "de" | "en" | "es" | "fi" | "fr" | "it" | "ko" | "pt";
 
 /**
  * Defines values for TextSplitMode.
- * Possible values include: 'pages', 'sentences'
+ * Possible values include: 'Pages', 'Sentences'
  * @readonly
  * @enum {string}
  */
-export type TextSplitMode = 'pages' | 'sentences';
+export type TextSplitMode = "pages" | "sentences";
 
 /**
  * Defines values for TextTranslationSkillLanguage.
@@ -3769,46 +4446,109 @@ export type TextSplitMode = 'pages' | 'sentences';
  * @readonly
  * @enum {string}
  */
-export type TextTranslationSkillLanguage = 'af' | 'ar' | 'bn' | 'bs' | 'bg' | 'yue' | 'ca' | 'zh-Hans' | 'zh-Hant' | 'hr' | 'cs' | 'da' | 'nl' | 'en' | 'et' | 'fj' | 'fil' | 'fi' | 'fr' | 'de' | 'el' | 'ht' | 'he' | 'hi' | 'mww' | 'hu' | 'is' | 'id' | 'it' | 'ja' | 'sw' | 'tlh' | 'ko' | 'lv' | 'lt' | 'mg' | 'ms' | 'mt' | 'nb' | 'fa' | 'pl' | 'pt' | 'otq' | 'ro' | 'ru' | 'sm' | 'sr-Cyrl' | 'sr-Latn' | 'sk' | 'sl' | 'es' | 'sv' | 'ty' | 'ta' | 'te' | 'th' | 'to' | 'tr' | 'uk' | 'ur' | 'vi' | 'cy' | 'yua';
+export type TextTranslationSkillLanguage =
+  | "af"
+  | "ar"
+  | "bn"
+  | "bs"
+  | "bg"
+  | "yue"
+  | "ca"
+  | "zh-Hans"
+  | "zh-Hant"
+  | "hr"
+  | "cs"
+  | "da"
+  | "nl"
+  | "en"
+  | "et"
+  | "fj"
+  | "fil"
+  | "fi"
+  | "fr"
+  | "de"
+  | "el"
+  | "ht"
+  | "he"
+  | "hi"
+  | "mww"
+  | "hu"
+  | "is"
+  | "id"
+  | "it"
+  | "ja"
+  | "sw"
+  | "tlh"
+  | "ko"
+  | "lv"
+  | "lt"
+  | "mg"
+  | "ms"
+  | "mt"
+  | "nb"
+  | "fa"
+  | "pl"
+  | "pt"
+  | "otq"
+  | "ro"
+  | "ru"
+  | "sm"
+  | "sr-Cyrl"
+  | "sr-Latn"
+  | "sk"
+  | "sl"
+  | "es"
+  | "sv"
+  | "ty"
+  | "ta"
+  | "te"
+  | "th"
+  | "to"
+  | "tr"
+  | "uk"
+  | "ur"
+  | "vi"
+  | "cy"
+  | "yua";
 
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type DataSourcesCreateOrUpdateResponse = DataSource & {
+export type DataSourcesCreateOrUpdateResponse = SearchIndexerDataSource & {
   /**
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DataSource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SearchIndexerDataSource;
+  };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type DataSourcesGetResponse = DataSource & {
+export type DataSourcesGetResponse = SearchIndexerDataSource & {
   /**
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DataSource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SearchIndexerDataSource;
+  };
 };
 
 /**
@@ -3819,76 +4559,76 @@ export type DataSourcesListResponse = ListDataSourcesResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ListDataSourcesResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ListDataSourcesResult;
+  };
 };
 
 /**
  * Contains response data for the create operation.
  */
-export type DataSourcesCreateResponse = DataSource & {
+export type DataSourcesCreateResponse = SearchIndexerDataSource & {
   /**
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DataSource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SearchIndexerDataSource;
+  };
 };
 
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type IndexersCreateOrUpdateResponse = Indexer & {
+export type IndexersCreateOrUpdateResponse = SearchIndexer & {
   /**
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Indexer;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SearchIndexer;
+  };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type IndexersGetResponse = Indexer & {
+export type IndexersGetResponse = SearchIndexer & {
   /**
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Indexer;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SearchIndexer;
+  };
 };
 
 /**
@@ -3899,96 +4639,96 @@ export type IndexersListResponse = ListIndexersResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ListIndexersResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ListIndexersResult;
+  };
 };
 
 /**
  * Contains response data for the create operation.
  */
-export type IndexersCreateResponse = Indexer & {
+export type IndexersCreateResponse = SearchIndexer & {
   /**
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Indexer;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SearchIndexer;
+  };
 };
 
 /**
  * Contains response data for the getStatus operation.
  */
-export type IndexersGetStatusResponse = IndexerExecutionInfo & {
+export type IndexersGetStatusResponse = SearchIndexerStatus & {
   /**
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IndexerExecutionInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SearchIndexerStatus;
+  };
 };
 
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type SkillsetsCreateOrUpdateResponse = Skillset & {
+export type SkillsetsCreateOrUpdateResponse = SearchIndexerSkillset & {
   /**
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Skillset;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SearchIndexerSkillset;
+  };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type SkillsetsGetResponse = Skillset & {
+export type SkillsetsGetResponse = SearchIndexerSkillset & {
   /**
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Skillset;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SearchIndexerSkillset;
+  };
 };
 
 /**
@@ -3999,36 +4739,36 @@ export type SkillsetsListResponse = ListSkillsetsResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ListSkillsetsResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ListSkillsetsResult;
+  };
 };
 
 /**
  * Contains response data for the create operation.
  */
-export type SkillsetsCreateResponse = Skillset & {
+export type SkillsetsCreateResponse = SearchIndexerSkillset & {
   /**
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Skillset;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SearchIndexerSkillset;
+  };
 };
 
 /**
@@ -4039,16 +4779,16 @@ export type SynonymMapsCreateOrUpdateResponse = SynonymMap & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SynonymMap;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SynonymMap;
+  };
 };
 
 /**
@@ -4059,16 +4799,16 @@ export type SynonymMapsGetResponse = SynonymMap & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SynonymMap;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SynonymMap;
+  };
 };
 
 /**
@@ -4079,16 +4819,16 @@ export type SynonymMapsListResponse = ListSynonymMapsResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ListSynonymMapsResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ListSynonymMapsResult;
+  };
 };
 
 /**
@@ -4099,36 +4839,36 @@ export type SynonymMapsCreateResponse = SynonymMap & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SynonymMap;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SynonymMap;
+  };
 };
 
 /**
  * Contains response data for the create operation.
  */
-export type IndexesCreateResponse = Index & {
+export type IndexesCreateResponse = SearchIndex & {
   /**
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Index;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SearchIndex;
+  };
 };
 
 /**
@@ -4139,56 +4879,56 @@ export type IndexesListResponse = ListIndexesResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ListIndexesResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ListIndexesResult;
+  };
 };
 
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type IndexesCreateOrUpdateResponse = Index & {
+export type IndexesCreateOrUpdateResponse = SearchIndex & {
   /**
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Index;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SearchIndex;
+  };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type IndexesGetResponse = Index & {
+export type IndexesGetResponse = SearchIndex & {
   /**
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Index;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SearchIndex;
+  };
 };
 
 /**
@@ -4199,16 +4939,16 @@ export type IndexesGetStatisticsResponse = GetIndexStatisticsResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GetIndexStatisticsResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GetIndexStatisticsResult;
+  };
 };
 
 /**
@@ -4219,16 +4959,16 @@ export type IndexesAnalyzeResponse = AnalyzeResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AnalyzeResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AnalyzeResult;
+  };
 };
 
 /**
@@ -4239,14 +4979,14 @@ export type GetServiceStatisticsResponse = ServiceStatistics & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServiceStatistics;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ServiceStatistics;
+  };
 };

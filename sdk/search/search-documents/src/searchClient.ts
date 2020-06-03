@@ -37,7 +37,7 @@ import {
   SuggestOptions,
   SuggestDocumentsResult,
   GetDocumentOptions,
-  IndexDocuments,
+  IndexDocumentsOptions,
   UploadDocumentsOptions,
   MergeDocumentsOptions,
   DeleteDocumentsOptions,
@@ -171,8 +171,8 @@ export class SearchClient<T> {
    * Retrieves the number of documents in the index.
    * @param options Options to the count operation.
    */
-  public async countDocuments(options: CountDocumentsOptions = {}): Promise<number> {
-    const { span, updatedOptions } = createSpan("SearchClient-countDocuments", options);
+  public async getDocumentsCount(options: CountDocumentsOptions = {}): Promise<number> {
+    const { span, updatedOptions } = createSpan("SearchClient-getDocumentsCount", options);
     try {
       const result = await this.client.documents.count(
         operationOptionsToRequestOptionsBase(updatedOptions)
@@ -192,14 +192,20 @@ export class SearchClient<T> {
   /**
    * Based on a partial searchText from the user, return a list
    * of potential completion strings based on a specified suggester.
+   * @param searchText The search text on which to base autocomplete results.
+   * @param suggesterName The name of the suggester as specified in the suggesters collection that's part of the index definition.
    * @param options Options to the autocomplete operation.
    */
   public async autocomplete<Fields extends keyof T>(
+    searchText: string,
+    suggesterName: string,
     options: AutocompleteOptions<Fields>
   ): Promise<AutocompleteResult> {
     const { operationOptions, restOptions } = this.extractOperationOptions({ ...options });
     const { searchFields, ...nonFieldOptions } = restOptions;
     const fullOptions: AutocompleteRequest = {
+      searchText: searchText,
+      suggesterName: suggesterName,
       searchFields: this.convertSearchFields<Fields>(searchFields),
       ...nonFieldOptions
     };
@@ -232,6 +238,7 @@ export class SearchClient<T> {
   }
 
   private async searchDocuments<Fields extends keyof T>(
+    searchText?: string,
     options: SearchOptions<Fields> = {},
     nextPageParameters: SearchRequest = {}
   ): Promise<SearchDocumentsPageResult<Pick<T, Fields>>> {
@@ -249,7 +256,10 @@ export class SearchClient<T> {
 
     try {
       const result = await this.client.documents.searchPost(
-        fullOptions,
+        {
+          ...fullOptions,
+          searchText: searchText
+        },
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
 
@@ -275,11 +285,13 @@ export class SearchClient<T> {
   }
 
   private async *listSearchResultsPage<Fields extends keyof T>(
+    searchText?: string,
     options: SearchOptions<Fields> = {},
     settings: ListSearchResultsPageSettings = {}
   ): AsyncIterableIterator<SearchDocumentsPageResult<Pick<T, Fields>>> {
     const decodedContinuation = this.decodeContinuationToken(settings.continuationToken);
     let result = await this.searchDocuments<Fields>(
+      searchText,
       options,
       decodedContinuation?.nextPageParameters
     );
@@ -290,18 +302,23 @@ export class SearchClient<T> {
     // doesn't support this yet.
     while (result.continuationToken) {
       const decodedContinuation = this.decodeContinuationToken(settings.continuationToken);
-      result = await this.searchDocuments(options, decodedContinuation?.nextPageParameters);
+      result = await this.searchDocuments(
+        searchText,
+        options,
+        decodedContinuation?.nextPageParameters
+      );
       yield result;
     }
   }
 
   private async *listSearchResultsAll<Fields extends keyof T>(
     firstPage: SearchDocumentsPageResult<Pick<T, Fields>>,
+    searchText?: string,
     options: SearchOptions<Fields> = {}
   ): AsyncIterableIterator<SearchResult<Pick<T, Fields>>> {
     yield* firstPage.results;
     if (firstPage.continuationToken) {
-      for await (const page of this.listSearchResultsPage(options, {
+      for await (const page of this.listSearchResultsPage(searchText, options, {
         continuationToken: firstPage.continuationToken
       })) {
         yield* page.results;
@@ -311,9 +328,10 @@ export class SearchClient<T> {
 
   private listSearchResults<Fields extends keyof T>(
     firstPage: SearchDocumentsPageResult<Pick<T, Fields>>,
+    searchText?: string,
     options: SearchOptions<Fields> = {}
   ): SearchIterator<Pick<T, Fields>> {
-    const iter = this.listSearchResultsAll(firstPage, options);
+    const iter = this.listSearchResultsAll(firstPage, searchText, options);
 
     return {
       next() {
@@ -323,7 +341,7 @@ export class SearchClient<T> {
         return this;
       },
       byPage: (settings: ListSearchResultsPageSettings = {}) => {
-        return this.listSearchResultsPage(options, settings);
+        return this.listSearchResultsPage(searchText, options, settings);
       }
     };
   }
@@ -331,22 +349,24 @@ export class SearchClient<T> {
   /**
    * Performs a search on the current index given
    * the specified arguments.
+   * @param searchText Text to search
    * @param options Options for the search operation.
    */
   public async search<Fields extends keyof T>(
+    searchText?: string,
     options: SearchOptions<Fields> = {}
   ): Promise<SearchDocumentsResult<Pick<T, Fields>>> {
     const { span, updatedOptions } = createSpan("SearchClient-search", options);
 
     try {
-      const pageResult = await this.searchDocuments(updatedOptions);
+      const pageResult = await this.searchDocuments(searchText, options);
 
       const { count, coverage, facets } = pageResult;
       return {
         count,
         coverage,
         facets,
-        results: this.listSearchResults(pageResult, updatedOptions)
+        results: this.listSearchResults(pageResult, searchText, updatedOptions)
       };
     } catch (e) {
       span.setStatus({
@@ -362,14 +382,20 @@ export class SearchClient<T> {
   /**
    * Returns a short list of suggestions based on the searchText
    * and specified suggester.
+   * @param searchText The search text to use to suggest documents. Must be at least 1 character, and no more than 100 characters.
+   * @param suggesterName The name of the suggester as specified in the suggesters collection that's part of the index definition.
    * @param options Options for the suggest operation
    */
   public async suggest<Fields extends keyof T = never>(
+    searchText: string,
+    suggesterName: string,
     options: SuggestOptions<Fields>
   ): Promise<SuggestDocumentsResult<Pick<T, Fields>>> {
     const { operationOptions, restOptions } = this.extractOperationOptions({ ...options });
     const { select, searchFields, orderBy, ...nonFieldOptions } = restOptions;
     const fullOptions: SuggestRequest = {
+      searchText: searchText,
+      suggesterName: suggesterName,
       searchFields: this.convertSearchFields<Fields>(searchFields),
       select: this.convertSelect<Fields>(select),
       orderBy: this.convertOrderBy(orderBy),
@@ -443,7 +469,7 @@ export class SearchClient<T> {
   public async indexDocuments(
     // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
     batch: IndexDocumentsBatch<T>,
-    options: IndexDocuments = {}
+    options: IndexDocumentsOptions = {}
   ): Promise<IndexDocumentsResult> {
     const { span, updatedOptions } = createSpan("SearchClient-indexDocuments", options);
     try {
