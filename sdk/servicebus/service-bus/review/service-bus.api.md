@@ -198,7 +198,7 @@ export interface QueueDescription {
     maxSizeInMegabytes?: number;
     // (undocumented)
     messageCount?: number;
-    queueName: string;
+    name: string;
     requiresDuplicateDetection?: boolean;
     requiresSession?: boolean;
     status?: EntityStatus;
@@ -210,13 +210,15 @@ export interface QueueResponse extends QueueDescription {
     _response: HttpOperationResponse;
 }
 
-// @public
+// Warning: (ae-internal-missing-underscore) The name "QueueRuntimeInfo" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal
 export interface QueueRuntimeInfo {
     accessedOn?: string;
     createdOn?: string;
     messageCount?: number;
     messageCountDetails?: MessageCountDetails;
-    queueName: string;
+    name: string;
     sizeInBytes?: number;
     updatedOn?: string;
 }
@@ -274,7 +276,7 @@ export { RetryOptions }
 export interface RuleDescription {
     action?: SqlRuleAction;
     filter?: SqlRuleFilter | CorrelationRuleFilter;
-    ruleName: string;
+    name: string;
 }
 
 // @public
@@ -333,7 +335,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     createSubscription(topicName: string, subscriptionName: string): Promise<CreateSubscriptionResponse>;
     createSubscription(subscription: SubscriptionDescription): Promise<CreateSubscriptionResponse>;
     createTopic(topicName: string): Promise<CreateTopicResponse>;
-    createTopic(topicOptions: TopicDescription): Promise<CreateTopicResponse>;
+    createTopic(topic: TopicDescription): Promise<CreateTopicResponse>;
     deleteQueue(queueName: string): Promise<DeleteQueueResponse>;
     deleteRule(topicName: string, subscriptionName: string, ruleName: string): Promise<DeleteRuleResponse>;
     deleteSubscription(topicName: string, subscriptionName: string): Promise<DeleteSubscriptionResponse>;
@@ -455,7 +457,9 @@ export interface SubscriptionResponse extends SubscriptionDescription {
     _response: HttpOperationResponse;
 }
 
-// @public
+// Warning: (ae-internal-missing-underscore) The name "SubscriptionRuntimeInfo" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal
 export interface SubscriptionRuntimeInfo {
     accessedOn?: string;
     createdOn: string;
@@ -479,10 +483,10 @@ export interface TopicDescription {
     enableBatchedOperations?: boolean;
     enablePartitioning?: boolean;
     maxSizeInMegabytes?: number;
+    name: string;
     requiresDuplicateDetection?: boolean;
     status?: EntityStatus;
     supportOrdering?: boolean;
-    topicName: string;
     userMetadata?: string;
 }
 
@@ -491,13 +495,15 @@ export interface TopicResponse extends TopicDescription {
     _response: HttpOperationResponse;
 }
 
-// @public
+// Warning: (ae-internal-missing-underscore) The name "TopicRuntimeInfo" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal
 export interface TopicRuntimeInfo {
     accessedOn?: string;
     createdOn?: string;
+    name: string;
     sizeInBytes?: number;
     subscriptionCount?: number;
-    topicName: string;
     updatedOn?: string;
 }
 

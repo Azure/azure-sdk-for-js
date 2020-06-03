@@ -362,15 +362,15 @@ export class ServiceBusManagementClient extends ServiceClient {
   async createQueue(queueNameOrOptions: string | QueueDescription): Promise<CreateQueueResponse> {
     let queue: QueueDescription;
     if (typeof queueNameOrOptions == "string") {
-      queue = { queueName: queueNameOrOptions };
+      queue = { name: queueNameOrOptions };
     } else {
       queue = queueNameOrOptions;
     }
     log.httpAtomXml(
-      `Performing management operation - createQueue() for "${queue.queueName}" with options: ${queue}`
+      `Performing management operation - createQueue() for "${queue.name}" with options: ${queue}`
     );
     const response: HttpOperationResponse = await this.putResource(
-      queue.queueName,
+      queue.name,
       buildQueueOptions(queue),
       this.queueResourceSerializer,
       false
@@ -446,7 +446,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    */
   async updateQueue(queue: QueueDescription): Promise<UpdateQueueResponse> {
     log.httpAtomXml(
-      `Performing management operation - updateQueue() for "${queue.queueName}" with options: ${queue}`
+      `Performing management operation - updateQueue() for "${queue.name}" with options: ${queue}`
     );
 
     if (!isJSONLikeObject(queue) || queue === null) {
@@ -462,7 +462,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     }
 
     const response: HttpOperationResponse = await this.putResource(
-      queue.queueName,
+      queue.name,
       buildQueueOptions(queue),
       this.queueResourceSerializer,
       true
@@ -531,15 +531,15 @@ export class ServiceBusManagementClient extends ServiceClient {
   async createTopic(topicNameOrOptions: string | TopicDescription): Promise<CreateTopicResponse> {
     let topic: TopicDescription;
     if (typeof topicNameOrOptions == "string") {
-      topic = { topicName: topicNameOrOptions };
+      topic = { name: topicNameOrOptions };
     } else {
       topic = topicNameOrOptions;
     }
     log.httpAtomXml(
-      `Performing management operation - createTopic() for "${topic.topicName}" with options: ${topic}`
+      `Performing management operation - createTopic() for "${topic.name}" with options: ${topic}`
     );
     const response: HttpOperationResponse = await this.putResource(
-      topic.topicName,
+      topic.name,
       buildTopicOptions(topic),
       this.topicResourceSerializer,
       false
@@ -615,7 +615,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    */
   async updateTopic(topic: TopicDescription): Promise<UpdateTopicResponse> {
     log.httpAtomXml(
-      `Performing management operation - updateTopic() for "${topic.topicName}" with options: ${topic}`
+      `Performing management operation - updateTopic() for "${topic.name}" with options: ${topic}`
     );
 
     if (!isJSONLikeObject(topic) || topic === null) {
@@ -631,7 +631,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     }
 
     const response: HttpOperationResponse = await this.putResource(
-      topic.topicName,
+      topic.name,
       buildTopicOptions(topic),
       this.topicResourceSerializer,
       true
@@ -901,9 +901,9 @@ export class ServiceBusManagementClient extends ServiceClient {
     rule: RuleDescription
   ): Promise<CreateRuleResponse> {
     log.httpAtomXml(
-      `Performing management operation - createRule() for "${rule.ruleName}" with options: "${rule}"`
+      `Performing management operation - createRule() for "${rule.name}" with options: "${rule}"`
     );
-    const fullPath = this.getRulePath(topicName, subscriptionName, rule.ruleName);
+    const fullPath = this.getRulePath(topicName, subscriptionName, rule.name);
     const response: HttpOperationResponse = await this.putResource(
       fullPath,
       buildRuleOptions(rule),
@@ -1001,7 +1001,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     rule: RuleDescription
   ): Promise<UpdateRuleResponse> {
     log.httpAtomXml(
-      `Performing management operation - updateRule() for "${rule.ruleName}" with options: ${rule}`
+      `Performing management operation - updateRule() for "${rule.name}" with options: ${rule}`
     );
 
     if (!isJSONLikeObject(rule) || rule === null) {
@@ -1010,7 +1010,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       );
     }
 
-    const fullPath = this.getRulePath(topicName, subscriptionName, rule.ruleName);
+    const fullPath = this.getRulePath(topicName, subscriptionName, rule.name);
     const response: HttpOperationResponse = await this.putResource(
       fullPath,
       buildRuleOptions(rule),

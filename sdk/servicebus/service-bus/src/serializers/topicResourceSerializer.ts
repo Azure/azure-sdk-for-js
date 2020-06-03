@@ -53,7 +53,7 @@ export function buildTopicOptions(topic: TopicDescription): InternalTopicOptions
  */
 export function buildTopic(rawTopic: any): TopicDescription {
   return {
-    topicName: getString(rawTopic[Constants.TOPIC_NAME], "topicName"),
+    name: getString(rawTopic[Constants.TOPIC_NAME], "topicName"),
     maxSizeInMegabytes: getInteger(rawTopic[Constants.MAX_SIZE_IN_MEGABYTES], "maxSizeInMegabytes"),
 
     enablePartitioning: getBoolean(rawTopic[Constants.ENABLE_PARTITIONING], "enablePartitioning"),
@@ -94,7 +94,7 @@ export function buildTopic(rawTopic: any): TopicDescription {
  */
 export function buildTopicRuntimeInfo(rawTopic: any): TopicRuntimeInfo {
   return {
-    topicName: getString(rawTopic[Constants.TOPIC_NAME], "topicName"),
+    name: getString(rawTopic[Constants.TOPIC_NAME], "topicName"),
     sizeInBytes: getIntegerOrUndefined(rawTopic[Constants.SIZE_IN_BYTES]),
     subscriptionCount: getIntegerOrUndefined(rawTopic[Constants.SUBSCRIPTION_COUNT]),
     createdOn: rawTopic[Constants.CREATED_AT],
@@ -110,7 +110,7 @@ export interface TopicDescription {
   /**
    * Name of the topic
    */
-  topicName: string;
+  name: string;
 
   /**
    * Determines how long a message lives in the associated subscriptions.
@@ -278,7 +278,7 @@ export interface TopicRuntimeInfo {
   /**
    * Name of the topic
    */
-  topicName: string;
+  name: string;
 
   /**
    * Specifies the topic size in bytes.

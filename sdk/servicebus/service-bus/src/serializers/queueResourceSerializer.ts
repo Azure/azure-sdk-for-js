@@ -60,7 +60,7 @@ export function buildQueueOptions(queue: QueueDescription): InternalQueueOptions
  */
 export function buildQueue(rawQueue: any): QueueDescription {
   return {
-    queueName: getString(rawQueue[Constants.QUEUE_NAME], "queueName"),
+    name: getString(rawQueue[Constants.QUEUE_NAME], "queueName"),
 
     forwardTo: getStringOrUndefined(rawQueue[Constants.FORWARD_TO]),
     userMetadata: rawQueue[Constants.USER_METADATA],
@@ -115,7 +115,7 @@ export function buildQueue(rawQueue: any): QueueDescription {
  */
 export function buildQueueRuntimeInfo(rawQueue: any): QueueRuntimeInfo {
   return {
-    queueName: getString(rawQueue[Constants.QUEUE_NAME], "queueName"),
+    name: getString(rawQueue[Constants.QUEUE_NAME], "queueName"),
     sizeInBytes: getIntegerOrUndefined(rawQueue[Constants.SIZE_IN_BYTES]),
     messageCount: getIntegerOrUndefined(rawQueue[Constants.MESSAGE_COUNT]),
     messageCountDetails: getCountDetailsOrUndefined(rawQueue[Constants.COUNT_DETAILS]),
@@ -132,7 +132,7 @@ export interface QueueDescription {
   /**
    * Name of the queue
    */
-  queueName: string;
+  name: string;
 
   /**
    * Determines the amount of time in seconds in which a message should be locked for
@@ -378,7 +378,7 @@ export interface QueueRuntimeInfo {
   /**
    * Name of the queue
    */
-  queueName: string;
+  name: string;
 
   /**
    * Created at timestamp

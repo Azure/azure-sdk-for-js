@@ -28,7 +28,7 @@ import { CorrelationRuleFilter } from "../core/managementClient";
  */
 export function buildRuleOptions(rule: RuleDescription): InternalRuleOptions {
   const internalRuleOptions: InternalRuleOptions = Object.assign({}, rule, {
-    name: rule.ruleName
+    name: rule.name
   });
   return internalRuleOptions;
 }
@@ -42,7 +42,7 @@ export function buildRuleOptions(rule: RuleDescription): InternalRuleOptions {
  */
 export function buildRule(rawRule: any): RuleDescription {
   return {
-    ruleName: getString(rawRule["RuleName"], "ruleName"),
+    name: getString(rawRule["RuleName"], "ruleName"),
     filter: getTopicFilter(rawRule["Filter"]),
     action: getRuleActionOrUndefined(rawRule["Action"])
   };
@@ -120,7 +120,7 @@ export interface RuleDescription {
   /**
    * Name of the rule
    */
-  ruleName: string;
+  name: string;
 
   /**
    * Defines the filter expression that the rule evaluates. For `SqlRuleFilter` input,

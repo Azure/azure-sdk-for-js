@@ -666,7 +666,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
       requiresDuplicateDetection: false,
       status: "Active",
       supportOrdering: true,
-      topicName: managementTopic1
+      name: managementTopic1
     }
   },
   {
@@ -694,7 +694,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
       autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
       authorizationRules: undefined,
       userMetadata: "test metadata",
-      topicName: managementTopic1
+      name: managementTopic1
     }
   }
 ].forEach((testCase) => {
@@ -1298,7 +1298,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
       userMetadata: "test metadata",
       status: "ReceiveDisabled",
       enablePartitioning: true,
-      queueName: managementQueue1
+      name: managementQueue1
     }
   }
 ].forEach((testCase) => {
@@ -1426,7 +1426,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
       isAnonymousAccessible: undefined,
       supportOrdering: undefined,
       enablePartitioning: true,
-      queueName: managementQueue1
+      name: managementQueue1
     }
   },
   {
@@ -1838,10 +1838,10 @@ async function createEntity(
   topicPath?: string,
   subscriptionPath?: string,
   overrideOptions?: boolean, // If this is false, then the default options will be populated as used for basic testing.
-  queueOptions?: Omit<QueueDescription, "queueName">,
-  topicOptions?: Omit<TopicDescription, "topicName">,
+  queueOptions?: Omit<QueueDescription, "name">,
+  topicOptions?: Omit<TopicDescription, "name">,
   subscriptionOptions?: Omit<SubscriptionDescription, "topicName" | "subscriptionName">,
-  ruleOptions?: Omit<RuleDescription, "ruleName">
+  ruleOptions?: Omit<RuleDescription, "name">
 ): Promise<any> {
   if (!overrideOptions) {
     if (queueOptions == undefined) {
@@ -1891,13 +1891,13 @@ async function createEntity(
   switch (testEntityType) {
     case EntityType.QUEUE:
       const queueResponse = await serviceBusAtomManagementClient.createQueue({
-        queueName: entityPath,
+        name: entityPath,
         ...queueOptions
       });
       return queueResponse;
     case EntityType.TOPIC:
       const topicResponse = await serviceBusAtomManagementClient.createTopic({
-        topicName: entityPath,
+        name: entityPath,
         ...topicOptions
       });
       return topicResponse;
@@ -1922,7 +1922,7 @@ async function createEntity(
       const ruleResponse = await serviceBusAtomManagementClient.createRule(
         topicPath,
         subscriptionPath,
-        { ruleName: entityPath, ...ruleOptions }
+        { name: entityPath, ...ruleOptions }
       );
       return ruleResponse;
   }
@@ -1975,10 +1975,10 @@ async function updateEntity(
   topicPath?: string,
   subscriptionPath?: string,
   overrideOptions?: boolean, // If this is false, then the default options will be populated as used for basic testing.
-  queueOptions?: Omit<QueueDescription, "queueName">,
-  topicOptions?: Omit<TopicDescription, "topicName">,
+  queueOptions?: Omit<QueueDescription, "name">,
+  topicOptions?: Omit<TopicDescription, "name">,
   subscriptionOptions?: Omit<SubscriptionDescription, "topicName" | "subscriptionName">,
-  ruleOptions?: Omit<RuleDescription, "ruleName">
+  ruleOptions?: Omit<RuleDescription, "name">
 ): Promise<any> {
   if (!overrideOptions) {
     if (queueOptions == undefined) {
@@ -2028,13 +2028,13 @@ async function updateEntity(
   switch (testEntityType) {
     case EntityType.QUEUE:
       const queueResponse = await serviceBusAtomManagementClient.updateQueue({
-        queueName: entityPath,
+        name: entityPath,
         ...queueOptions
       });
       return queueResponse;
     case EntityType.TOPIC:
       const topicResponse = await serviceBusAtomManagementClient.updateTopic({
-        topicName: entityPath,
+        name: entityPath,
         ...topicOptions
       });
       return topicResponse;
@@ -2060,7 +2060,7 @@ async function updateEntity(
         topicPath,
         subscriptionPath,
         {
-          ruleName: entityPath,
+          name: entityPath,
           ...ruleOptions
         }
       );
