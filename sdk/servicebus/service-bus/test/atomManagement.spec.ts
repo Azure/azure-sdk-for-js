@@ -1580,18 +1580,12 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
 
       forwardDeadLetteredMessagesTo: undefined,
       forwardTo: undefined,
-      defaultRuleDescription: undefined,
 
       messageCount: 0,
-      maxSizeInMegabytes: undefined,
-      sizeInBytes: undefined,
 
       requiresSession: false,
-      enablePartitioning: undefined,
 
       userMetadata: "test metadata",
-      messageCountDetails: undefined,
-      entityAvailabilityStatus: "Available",
       status: "ReceiveDisabled",
 
       subscriptionName: managementSubscription1,
