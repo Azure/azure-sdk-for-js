@@ -457,9 +457,13 @@ export class ServiceBusManagementClient extends ServiceClient {
       throw new TypeError(`"name" attribute of the parameter "queue" cannot be undefined.`);
     }
 
+    const finalQueueOptions: QueueDescription = { name: queue.name };
+    const getQueueResult = await this.getQueue(queue.name);
+    Object.assign(finalQueueOptions, getQueueResult, queue);
+
     const response: HttpOperationResponse = await this.putResource(
       queue.name,
-      buildQueueOptions(queue),
+      buildQueueOptions(finalQueueOptions),
       this.queueResourceSerializer,
       true
     );
@@ -624,9 +628,13 @@ export class ServiceBusManagementClient extends ServiceClient {
       throw new TypeError(`"name" attribute of the parameter "topic" cannot be undefined.`);
     }
 
+    const finalTopicOptions: TopicDescription = { name: topic.name };
+    const getTopicResult = await this.getTopic(topic.name);
+    Object.assign(finalTopicOptions, getTopicResult, topic);
+
     const response: HttpOperationResponse = await this.putResource(
       topic.name,
-      buildTopicOptions(topic),
+      buildTopicOptions(finalTopicOptions),
       this.topicResourceSerializer,
       true
     );
@@ -831,9 +839,19 @@ export class ServiceBusManagementClient extends ServiceClient {
       subscription.subscriptionName
     );
 
+    const finalSubscriptionOptions: SubscriptionDescription = {
+      topicName: subscription.topicName,
+      subscriptionName: subscription.subscriptionName
+    };
+    const getSubscriptionResult = await this.getSubscription(
+      subscription.topicName,
+      subscription.subscriptionName
+    );
+    Object.assign(finalSubscriptionOptions, getSubscriptionResult, subscription);
+
     const response: HttpOperationResponse = await this.putResource(
       fullPath,
-      buildSubscriptionOptions(subscription),
+      buildSubscriptionOptions(finalSubscriptionOptions),
       this.subscriptionResourceSerializer,
       true
     );
