@@ -41,6 +41,7 @@ import {
 import * as utils from "./serviceUtils";
 import { createSpan } from "./tracing";
 import { odataMetadataPolicy } from "./odataMetadataPolicy";
+import { SearchClient, SearchClientOptions } from "./searchClient";
 
 /**
  * Client options used to configure Cognitive Search API requests.
@@ -71,6 +72,16 @@ export class SearchIndexClient {
   private readonly client: GeneratedClient;
 
   /**
+   * Used to authenticate requests to the service.
+   */
+  private readonly credential: KeyCredential;
+
+  /**
+   * Used to configure the Search Index client.
+   */
+  private readonly options: SearchIndexClientOptions;
+
+  /**
    * Creates an instance of SearchIndexClient.
    *
    * Example usage:
@@ -84,10 +95,12 @@ export class SearchIndexClient {
    * ```
    * @param {string} endpoint The endpoint of the search service
    * @param {KeyCredential} credential Used to authenticate requests to the service.
-   * @param {SearchIndexClientOptions} [options] Used to configure the Search client.
+   * @param {SearchIndexClientOptions} [options] Used to configure the Search Index client.
    */
   constructor(endpoint: string, credential: KeyCredential, options: SearchIndexClientOptions = {}) {
     this.endpoint = endpoint;
+    this.credential = credential;
+    this.options = options;
 
     const libInfo = `azsdk-js-search-documents/${SDK_VERSION}`;
     if (!options.userAgentOptions) {
@@ -606,5 +619,14 @@ export class SearchIndexClient {
     } finally {
       span.end();
     }
+  }
+
+  /**
+   * Retrieves the SearchClient corresponding to this SearchIndexClient
+   * @param indexName Name of the index
+   * @param options SearchClient Options
+   */
+  public getSearchClient<T>(indexName: string, options?: SearchClientOptions): SearchClient<T> {
+    return new SearchClient<T>(this.endpoint, indexName, this.credential, options || this.options);
   }
 }
