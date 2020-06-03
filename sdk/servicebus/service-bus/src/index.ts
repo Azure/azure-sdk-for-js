@@ -69,6 +69,7 @@ export {
   GetTopicsResponse,
   GetTopicsRuntimeInfoResponse,
   ListRequestOptions,
+  NamespaceResponse,
   QueueResponse,
   RuleResponse,
   ServiceBusManagementClient,
