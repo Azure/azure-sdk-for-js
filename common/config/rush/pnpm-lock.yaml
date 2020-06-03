@@ -947,6 +947,14 @@ packages:
       node: '>= 6.0.0'
     resolution:
       integrity: sha512-TMeqbNl2fMW0nMjTEPOwe3J/PRFP4vqeoNuQMG0HlMrtm5QxKqdvAkZ1pRBQ/ulIyDD5Yq0nJ7YbdD8ey0TO3g==
+  /agent-base/6.0.0:
+    dependencies:
+      debug: 4.1.1
+    dev: false
+    engines:
+      node: '>= 6.0.0'
+    resolution:
+      integrity: sha512-j1Q7cSCqN+AwrmDd+pzgqc0/NpC655x2bUf5ZjRIO77DcNBFmh+OgRNzF6OKdCC9RSCb19fGd99+bhXFdkRNqw==
   /ajv/6.12.2:
     dependencies:
       fast-deep-equal: 3.1.1
@@ -3355,6 +3363,15 @@ packages:
       node: '>= 6.0.0'
     resolution:
       integrity: sha512-zoDhWrkR3of1l9QAL8/scJZyLu8j/gBkcwcaQOZh7Gyh/+uJQzGVETdgT30akuwkpL8HTRfssqI3BZuV18teDg==
+  /https-proxy-agent/5.0.0:
+    dependencies:
+      agent-base: 6.0.0
+      debug: 4.1.1
+    dev: false
+    engines:
+      node: '>= 6'
+    resolution:
+      integrity: sha512-EkYm5BcKUGiduxzSt3Eppko+PiNWNEpa4ySk9vTC6wDsQJW9rHSa+UhGNJoRYp7bz6Ht1eaRIa6QaJqO5rCFbA==
   /human-signals/1.1.1:
     dev: false
     engines:
@@ -7909,7 +7926,7 @@ packages:
       eslint-plugin-no-only-tests: 2.4.0
       eslint-plugin-promise: 4.2.1
       form-data: 3.0.0
-      https-proxy-agent: 3.0.1
+      https-proxy-agent: 5.0.0
       inherits: 2.0.4
       karma: 4.4.1
       karma-chrome-launcher: 3.1.0
@@ -7938,7 +7955,7 @@ packages:
     dev: false
     name: '@rush-temp/core-https'
     resolution:
-      integrity: sha512-CTwjRk9MwBVtuKBqyO7v7BShemyLGwJEyzXAKDf5qP3zY/+pB+fwjdugcV0cKSPy8uYX5uxKDYMPZ18zeJeevQ==
+      integrity: sha512-1gML0+eRD86LHOnf4ZcMJ2/O1m5EtG4DK0SQEjG94f+wKNmmHvpMzwqZ14P6wdUMk0TCb4tBRnpKe/2jkjA7Hg==
       tarball: 'file:projects/core-https.tgz'
     version: 0.0.0
   'file:projects/core-lro.tgz':
@@ -8220,7 +8237,7 @@ packages:
     dev: false
     name: '@rush-temp/event-hubs'
     resolution:
-      integrity: sha512-Qhte2qP6A4qst7D4WJVc44NxODxxrnHUHZavppfUY4RIGyvlvUj5jRSw6+Vect5xvINh1Nrq663SkmCyfv/VXg==
+      integrity: sha512-xbTUoiBl0HEj7vWxBV3xPQQqa22nagQobiVAKQUYVrtI/hreADQtCZYsyivcXYVooJaCOXnnLofTbFIYQAIMlA==
       tarball: 'file:projects/event-hubs.tgz'
     version: 0.0.0
   'file:projects/event-processor-host.tgz':
@@ -8259,7 +8276,7 @@ packages:
       eslint-plugin-no-only-tests: 2.4.0
       eslint-plugin-promise: 4.2.1
       esm: 3.2.25
-      https-proxy-agent: 3.0.1
+      https-proxy-agent: 5.0.0
       mocha: 7.1.2
       mocha-junit-reporter: 1.23.3_mocha@7.1.2
       nyc: 14.1.1
@@ -8277,7 +8294,7 @@ packages:
     dev: false
     name: '@rush-temp/event-processor-host'
     resolution:
-      integrity: sha512-WhAx0rNFHtjqnHvANyRqVHRpFinmOZ5308vgD/rGqPbSFx47DrkWkae+QXChfnRU+49PcUCgqWf+xQbXbq9D/g==
+      integrity: sha512-zixHmpNmtmjdWRHgCKYB+FcGsMkUeQZ7bmTyGNiYqOuUqlsLxMQB2EeoEW4ghEcBlycbsaCxgRf2L8AIlP+sEw==
       tarball: 'file:projects/event-processor-host.tgz'
     version: 0.0.0
   'file:projects/eventhubs-checkpointstore-blob.tgz':
@@ -8785,7 +8802,7 @@ packages:
     dev: false
     name: '@rush-temp/service-bus'
     resolution:
-      integrity: sha512-M1flUt3qaytvC3ru1yoxB//UUZNP5i+kMXv2PVZnWAnanH+SNYie2yM0GB8tA9cm8lEdOKn07UQ9v+NtcDM9kQ==
+      integrity: sha512-bXMcdF+Bu/7/oHstS0Ppx0tAby8qfZmemqeboHF66xc23mSRDZ6OQC5zyN6FQSzLeTKK1ItWxsl7iWTukpH8XA==
       tarball: 'file:projects/service-bus.tgz'
     version: 0.0.0
   'file:projects/storage-blob.tgz':
