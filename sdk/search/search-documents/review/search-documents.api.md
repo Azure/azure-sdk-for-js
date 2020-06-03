@@ -98,7 +98,7 @@ export interface CjkBigramTokenFilter {
 }
 
 // @public
-export type CjkBigramTokenFilterScripts = "han" | "hiragana" | "katakana" | "hangul";
+export type CjkBigramTokenFilterScripts = 'han' | 'hiragana' | 'katakana' | 'hangul';
 
 // @public
 export interface ClassicSimilarity {
@@ -286,7 +286,7 @@ export interface EdgeNGramTokenFilter {
 }
 
 // @public
-export type EdgeNGramTokenFilterSide = "front" | "back";
+export type EdgeNGramTokenFilterSide = 'front' | 'back';
 
 // @public
 export interface EdgeNGramTokenizer {
@@ -305,7 +305,7 @@ export interface ElisionTokenFilter {
 }
 
 // @public
-export type EntityCategory = "location" | "organization" | "person" | "quantity" | "datetime" | "url" | "email";
+export type EntityCategory = 'location' | 'organization' | 'person' | 'quantity' | 'datetime' | 'url' | 'email';
 
 // @public
 export interface EntityRecognitionSkill {
@@ -322,7 +322,7 @@ export interface EntityRecognitionSkill {
 }
 
 // @public
-export type EntityRecognitionSkillLanguage = "ar" | "cs" | "zh-Hans" | "zh-Hant" | "da" | "nl" | "en" | "fi" | "fr" | "de" | "el" | "hu" | "it" | "ja" | "ko" | "no" | "pl" | "pt-PT" | "pt-BR" | "ru" | "es" | "sv" | "tr";
+export type EntityRecognitionSkillLanguage = 'ar' | 'cs' | 'zh-Hans' | 'zh-Hant' | 'da' | 'nl' | 'en' | 'fi' | 'fr' | 'de' | 'el' | 'hu' | 'it' | 'ja' | 'ko' | 'no' | 'pl' | 'pt-PT' | 'pt-BR' | 'ru' | 'es' | 'sv' | 'tr';
 
 // @public
 export interface FacetResult {
@@ -422,10 +422,10 @@ export interface ImageAnalysisSkill {
 }
 
 // @public
-export type ImageAnalysisSkillLanguage = "en" | "es" | "ja" | "pt" | "zh";
+export type ImageAnalysisSkillLanguage = 'en' | 'es' | 'ja' | 'pt' | 'zh';
 
 // @public
-export type ImageDetail = "celebrities" | "landmarks";
+export type ImageDetail = 'celebrities' | 'landmarks';
 
 // @public
 export type IndexActionType = 'upload' | 'merge' | 'mergeOrUpload' | 'delete';
@@ -470,10 +470,10 @@ export interface IndexerExecutionResult {
 }
 
 // @public
-export type IndexerExecutionStatus = "transientFailure" | "success" | "inProgress" | "reset";
+export type IndexerExecutionStatus = 'transientFailure' | 'success' | 'inProgress' | 'reset';
 
 // @public
-export type IndexerStatus = "unknown" | "error" | "running";
+export type IndexerStatus = 'unknown' | 'error' | 'running';
 
 // @public
 export interface IndexingParameters {
@@ -534,7 +534,7 @@ export interface KeyPhraseExtractionSkill {
 }
 
 // @public
-export type KeyPhraseExtractionSkillLanguage = "da" | "nl" | "en" | "fi" | "fr" | "de" | "it" | "ja" | "ko" | "no" | "pl" | "pt-PT" | "pt-BR" | "ru" | "es" | "sv";
+export type KeyPhraseExtractionSkillLanguage = 'da' | 'nl' | 'en' | 'fi' | 'fr' | 'de' | 'it' | 'ja' | 'ko' | 'no' | 'pl' | 'pt-PT' | 'pt-BR' | 'ru' | 'es' | 'sv';
 
 // @public
 export interface KeywordMarkerTokenFilter {
@@ -730,7 +730,7 @@ export interface LengthTokenFilter {
 export type LexicalAnalyzer = CustomAnalyzer | PatternAnalyzer | LuceneStandardAnalyzer | StopAnalyzer;
 
 // @public
-export type LexicalAnalyzerName = "ar.microsoft" | "ar.lucene" | "hy.lucene" | "bn.microsoft" | "eu.lucene" | "bg.microsoft" | "bg.lucene" | "ca.microsoft" | "ca.lucene" | "zh-Hans.microsoft" | "zh-Hans.lucene" | "zh-Hant.microsoft" | "zh-Hant.lucene" | "hr.microsoft" | "cs.microsoft" | "cs.lucene" | "da.microsoft" | "da.lucene" | "nl.microsoft" | "nl.lucene" | "en.microsoft" | "en.lucene" | "et.microsoft" | "fi.microsoft" | "fi.lucene" | "fr.microsoft" | "fr.lucene" | "gl.lucene" | "de.microsoft" | "de.lucene" | "el.microsoft" | "el.lucene" | "gu.microsoft" | "he.microsoft" | "hi.microsoft" | "hi.lucene" | "hu.microsoft" | "hu.lucene" | "is.microsoft" | "id.microsoft" | "id.lucene" | "ga.lucene" | "it.microsoft" | "it.lucene" | "ja.microsoft" | "ja.lucene" | "kn.microsoft" | "ko.microsoft" | "ko.lucene" | "lv.microsoft" | "lv.lucene" | "lt.microsoft" | "ml.microsoft" | "ms.microsoft" | "mr.microsoft" | "nb.microsoft" | "no.lucene" | "fa.lucene" | "pl.microsoft" | "pl.lucene" | "pt-BR.microsoft" | "pt-BR.lucene" | "pt-PT.microsoft" | "pt-PT.lucene" | "pa.microsoft" | "ro.microsoft" | "ro.lucene" | "ru.microsoft" | "ru.lucene" | "sr-cyrillic.microsoft" | "sr-latin.microsoft" | "sk.microsoft" | "sl.microsoft" | "es.microsoft" | "es.lucene" | "sv.microsoft" | "sv.lucene" | "ta.microsoft" | "te.microsoft" | "th.microsoft" | "th.lucene" | "tr.microsoft" | "tr.lucene" | "uk.microsoft" | "ur.microsoft" | "vi.microsoft" | "standard.lucene" | "standardasciifolding.lucene" | "keyword" | "pattern" | "simple" | "stop" | "whitespace";
+export type LexicalAnalyzerName = 'ar.microsoft' | 'ar.lucene' | 'hy.lucene' | 'bn.microsoft' | 'eu.lucene' | 'bg.microsoft' | 'bg.lucene' | 'ca.microsoft' | 'ca.lucene' | 'zh-Hans.microsoft' | 'zh-Hans.lucene' | 'zh-Hant.microsoft' | 'zh-Hant.lucene' | 'hr.microsoft' | 'cs.microsoft' | 'cs.lucene' | 'da.microsoft' | 'da.lucene' | 'nl.microsoft' | 'nl.lucene' | 'en.microsoft' | 'en.lucene' | 'et.microsoft' | 'fi.microsoft' | 'fi.lucene' | 'fr.microsoft' | 'fr.lucene' | 'gl.lucene' | 'de.microsoft' | 'de.lucene' | 'el.microsoft' | 'el.lucene' | 'gu.microsoft' | 'he.microsoft' | 'hi.microsoft' | 'hi.lucene' | 'hu.microsoft' | 'hu.lucene' | 'is.microsoft' | 'id.microsoft' | 'id.lucene' | 'ga.lucene' | 'it.microsoft' | 'it.lucene' | 'ja.microsoft' | 'ja.lucene' | 'kn.microsoft' | 'ko.microsoft' | 'ko.lucene' | 'lv.microsoft' | 'lv.lucene' | 'lt.microsoft' | 'ml.microsoft' | 'ms.microsoft' | 'mr.microsoft' | 'nb.microsoft' | 'no.lucene' | 'fa.lucene' | 'pl.microsoft' | 'pl.lucene' | 'pt-BR.microsoft' | 'pt-BR.lucene' | 'pt-PT.microsoft' | 'pt-PT.lucene' | 'pa.microsoft' | 'ro.microsoft' | 'ro.lucene' | 'ru.microsoft' | 'ru.lucene' | 'sr-cyrillic.microsoft' | 'sr-latin.microsoft' | 'sk.microsoft' | 'sl.microsoft' | 'es.microsoft' | 'es.lucene' | 'sv.microsoft' | 'sv.lucene' | 'ta.microsoft' | 'te.microsoft' | 'th.microsoft' | 'th.lucene' | 'tr.microsoft' | 'tr.lucene' | 'uk.microsoft' | 'ur.microsoft' | 'vi.microsoft' | 'standard.lucene' | 'standardasciifolding.lucene' | 'keyword' | 'pattern' | 'simple' | 'stop' | 'whitespace';
 
 // @public
 export type LexicalTokenizer = ClassicTokenizer | EdgeNGramTokenizer | KeywordTokenizer | MicrosoftLanguageTokenizer | MicrosoftLanguageStemmingTokenizer | NGramTokenizer | PathHierarchyTokenizer | PatternTokenizer | LuceneStandardTokenizer | UaxUrlEmailTokenizer;
@@ -838,10 +838,10 @@ export interface MicrosoftLanguageTokenizer {
 }
 
 // @public
-export type MicrosoftStemmingTokenizerLanguage = "arabic" | "bangla" | "bulgarian" | "catalan" | "croatian" | "czech" | "danish" | "dutch" | "english" | "estonian" | "finnish" | "french" | "german" | "greek" | "gujarati" | "hebrew" | "hindi" | "hungarian" | "icelandic" | "indonesian" | "italian" | "kannada" | "latvian" | "lithuanian" | "malay" | "malayalam" | "marathi" | "norwegianBokmaal" | "polish" | "portuguese" | "portugueseBrazilian" | "punjabi" | "romanian" | "russian" | "serbianCyrillic" | "serbianLatin" | "slovak" | "slovenian" | "spanish" | "swedish" | "tamil" | "telugu" | "turkish" | "ukrainian" | "urdu";
+export type MicrosoftStemmingTokenizerLanguage = 'arabic' | 'bangla' | 'bulgarian' | 'catalan' | 'croatian' | 'czech' | 'danish' | 'dutch' | 'english' | 'estonian' | 'finnish' | 'french' | 'german' | 'greek' | 'gujarati' | 'hebrew' | 'hindi' | 'hungarian' | 'icelandic' | 'indonesian' | 'italian' | 'kannada' | 'latvian' | 'lithuanian' | 'malay' | 'malayalam' | 'marathi' | 'norwegianBokmaal' | 'polish' | 'portuguese' | 'portugueseBrazilian' | 'punjabi' | 'romanian' | 'russian' | 'serbianCyrillic' | 'serbianLatin' | 'slovak' | 'slovenian' | 'spanish' | 'swedish' | 'tamil' | 'telugu' | 'turkish' | 'ukrainian' | 'urdu';
 
 // @public
-export type MicrosoftTokenizerLanguage = "bangla" | "bulgarian" | "catalan" | "chineseSimplified" | "chineseTraditional" | "croatian" | "czech" | "danish" | "dutch" | "english" | "french" | "german" | "greek" | "gujarati" | "hindi" | "icelandic" | "indonesian" | "italian" | "japanese" | "kannada" | "korean" | "malay" | "malayalam" | "marathi" | "norwegianBokmaal" | "polish" | "portuguese" | "portugueseBrazilian" | "punjabi" | "romanian" | "russian" | "serbianCyrillic" | "serbianLatin" | "slovenian" | "spanish" | "swedish" | "tamil" | "telugu" | "thai" | "ukrainian" | "urdu" | "vietnamese";
+export type MicrosoftTokenizerLanguage = 'bangla' | 'bulgarian' | 'catalan' | 'chineseSimplified' | 'chineseTraditional' | 'croatian' | 'czech' | 'danish' | 'dutch' | 'english' | 'french' | 'german' | 'greek' | 'gujarati' | 'hindi' | 'icelandic' | 'indonesian' | 'italian' | 'japanese' | 'kannada' | 'korean' | 'malay' | 'malayalam' | 'marathi' | 'norwegianBokmaal' | 'polish' | 'portuguese' | 'portugueseBrazilian' | 'punjabi' | 'romanian' | 'russian' | 'serbianCyrillic' | 'serbianLatin' | 'slovenian' | 'spanish' | 'swedish' | 'tamil' | 'telugu' | 'thai' | 'ukrainian' | 'urdu' | 'vietnamese';
 
 // @public
 export interface NGramTokenFilter {
@@ -873,7 +873,7 @@ export interface OcrSkill {
 }
 
 // @public
-export type OcrSkillLanguage = "zh-Hans" | "zh-Hant" | "cs" | "da" | "nl" | "en" | "fi" | "fr" | "de" | "el" | "hu" | "it" | "ja" | "ko" | "nb" | "pl" | "pt" | "ru" | "es" | "sv" | "tr" | "ar" | "ro" | "sr-Cyrl" | "sr-Latn" | "sk";
+export type OcrSkillLanguage = 'zh-Hans' | 'zh-Hant' | 'cs' | 'da' | 'nl' | 'en' | 'fi' | 'fr' | 'de' | 'el' | 'hu' | 'it' | 'ja' | 'ko' | 'nb' | 'pl' | 'pt' | 'ru' | 'es' | 'sv' | 'tr' | 'ar' | 'ro' | 'sr-Cyrl' | 'sr-Latn' | 'sk';
 
 // @public
 export function odata(strings: TemplateStringsArray, ...values: unknown[]): string;
@@ -939,7 +939,7 @@ export interface PatternTokenizer {
 }
 
 // @public
-export type PhoneticEncoder = "metaphone" | "doubleMetaphone" | "soundex" | "refinedSoundex" | "caverphone1" | "caverphone2" | "cologne" | "nysiis" | "koelnerPhonetik" | "haasePhonetik" | "beiderMorse";
+export type PhoneticEncoder = 'metaphone' | 'doubleMetaphone' | 'soundex' | 'refinedSoundex' | 'caverphone1' | 'caverphone2' | 'cologne' | 'nysiis' | 'koelnerPhonetik' | 'haasePhonetik' | 'beiderMorse';
 
 // @public
 export interface PhoneticTokenFilter {
@@ -974,7 +974,7 @@ export interface RawSearchRequest {
 }
 
 // @public
-export type RegexFlags = "CANON_EQ" | "CASE_INSENSITIVE" | "COMMENTS" | "DOTALL" | "LITERAL" | "MULTILINE" | "UNICODE_CASE" | "UNIX_LINES";
+export type RegexFlags = 'CANON_EQ' | 'CASE_INSENSITIVE' | 'COMMENTS' | 'DOTALL' | 'LITERAL' | 'MULTILINE' | 'UNICODE_CASE' | 'UNIX_LINES';
 
 // @public
 export type ResetIndexerOptions = OperationOptions;
@@ -992,10 +992,10 @@ export type RunIndexerOptions = OperationOptions;
 export type ScoringFunction = DistanceScoringFunction | FreshnessScoringFunction | MagnitudeScoringFunction | TagScoringFunction;
 
 // @public
-export type ScoringFunctionAggregation = "sum" | "average" | "minimum" | "maximum" | "firstMatching";
+export type ScoringFunctionAggregation = 'sum' | 'average' | 'minimum' | 'maximum' | 'firstMatching';
 
 // @public
-export type ScoringFunctionInterpolation = "linear" | "constant" | "quadratic" | "logarithmic";
+export type ScoringFunctionInterpolation = 'linear' | 'constant' | 'quadratic' | 'logarithmic';
 
 // @public
 export interface ScoringProfile {
@@ -1156,7 +1156,7 @@ export interface SearchIndexerDataSourceConnection {
 }
 
 // @public
-export type SearchIndexerDataSourceType = "azuresql" | "cosmosdb" | "azureblob" | "azuretable" | "mysql";
+export type SearchIndexerDataSourceType = 'azuresql' | 'cosmosdb' | 'azureblob' | 'azuretable' | 'mysql';
 
 // @public
 export interface SearchIndexerError {
@@ -1235,7 +1235,8 @@ export interface SearchRequest<Fields> {
 
 // @public
 export interface SearchResourceEncryptionKey {
-    accessCredentials?: AzureActiveDirectoryApplicationCredentials;
+    applicationId?: string;
+    applicationSecret?: string;
     keyName: string;
     keyVersion: string;
     vaultUri: string;
@@ -1267,7 +1268,7 @@ export interface SentimentSkill {
 }
 
 // @public
-export type SentimentSkillLanguage = "da" | "nl" | "en" | "fi" | "fr" | "de" | "el" | "it" | "no" | "pl" | "pt-PT" | "ru" | "es" | "sv" | "tr";
+export type SentimentSkillLanguage = 'da' | 'nl' | 'en' | 'fi' | 'fr' | 'de' | 'el' | 'it' | 'no' | 'pl' | 'pt-PT' | 'ru' | 'es' | 'sv' | 'tr';
 
 // @public
 export interface ServiceCounters {
@@ -1346,7 +1347,7 @@ export interface SnowballTokenFilter {
 }
 
 // @public
-export type SnowballTokenFilterLanguage = "armenian" | "basque" | "catalan" | "danish" | "dutch" | "english" | "finnish" | "french" | "german" | "german2" | "hungarian" | "italian" | "kp" | "lovins" | "norwegian" | "porter" | "portuguese" | "romanian" | "russian" | "spanish" | "swedish" | "turkish";
+export type SnowballTokenFilterLanguage = 'armenian' | 'basque' | 'catalan' | 'danish' | 'dutch' | 'english' | 'finnish' | 'french' | 'german' | 'german2' | 'hungarian' | 'italian' | 'kp' | 'lovins' | 'norwegian' | 'porter' | 'portuguese' | 'romanian' | 'russian' | 'spanish' | 'swedish' | 'turkish';
 
 // @public
 export interface SoftDeleteColumnDeletionDetectionPolicy {
@@ -1369,7 +1370,7 @@ export interface SplitSkill {
 }
 
 // @public
-export type SplitSkillLanguage = "da" | "de" | "en" | "es" | "fi" | "fr" | "it" | "ko" | "pt";
+export type SplitSkillLanguage = 'da' | 'de' | 'en' | 'es' | 'fi' | 'fr' | 'it' | 'ko' | 'pt';
 
 // @public
 export interface SqlIntegratedChangeTrackingPolicy {
@@ -1391,7 +1392,7 @@ export interface StemmerTokenFilter {
 }
 
 // @public
-export type StemmerTokenFilterLanguage = "arabic" | "armenian" | "basque" | "brazilian" | "bulgarian" | "catalan" | "czech" | "danish" | "dutch" | "dutchKp" | "english" | "lightEnglish" | "minimalEnglish" | "possessiveEnglish" | "porter2" | "lovins" | "finnish" | "lightFinnish" | "french" | "lightFrench" | "minimalFrench" | "galician" | "minimalGalician" | "german" | "german2" | "lightGerman" | "minimalGerman" | "greek" | "hindi" | "hungarian" | "lightHungarian" | "indonesian" | "irish" | "italian" | "lightItalian" | "sorani" | "latvian" | "norwegian" | "lightNorwegian" | "minimalNorwegian" | "lightNynorsk" | "minimalNynorsk" | "portuguese" | "lightPortuguese" | "minimalPortuguese" | "portugueseRslp" | "romanian" | "russian" | "lightRussian" | "spanish" | "lightSpanish" | "swedish" | "lightSwedish" | "turkish";
+export type StemmerTokenFilterLanguage = 'arabic' | 'armenian' | 'basque' | 'brazilian' | 'bulgarian' | 'catalan' | 'czech' | 'danish' | 'dutch' | 'dutchKp' | 'english' | 'lightEnglish' | 'minimalEnglish' | 'possessiveEnglish' | 'porter2' | 'lovins' | 'finnish' | 'lightFinnish' | 'french' | 'lightFrench' | 'minimalFrench' | 'galician' | 'minimalGalician' | 'german' | 'german2' | 'lightGerman' | 'minimalGerman' | 'greek' | 'hindi' | 'hungarian' | 'lightHungarian' | 'indonesian' | 'irish' | 'italian' | 'lightItalian' | 'sorani' | 'latvian' | 'norwegian' | 'lightNorwegian' | 'minimalNorwegian' | 'lightNynorsk' | 'minimalNynorsk' | 'portuguese' | 'lightPortuguese' | 'minimalPortuguese' | 'portugueseRslp' | 'romanian' | 'russian' | 'lightRussian' | 'spanish' | 'lightSpanish' | 'swedish' | 'lightSwedish' | 'turkish';
 
 // @public
 export interface StopAnalyzer {
@@ -1401,7 +1402,7 @@ export interface StopAnalyzer {
 }
 
 // @public
-export type StopwordsList = "arabic" | "armenian" | "basque" | "brazilian" | "bulgarian" | "catalan" | "czech" | "danish" | "dutch" | "english" | "finnish" | "french" | "galician" | "german" | "greek" | "hindi" | "hungarian" | "indonesian" | "irish" | "italian" | "latvian" | "norwegian" | "persian" | "portuguese" | "romanian" | "russian" | "sorani" | "spanish" | "swedish" | "thai" | "turkish";
+export type StopwordsList = 'arabic' | 'armenian' | 'basque' | 'brazilian' | 'bulgarian' | 'catalan' | 'czech' | 'danish' | 'dutch' | 'english' | 'finnish' | 'french' | 'galician' | 'german' | 'greek' | 'hindi' | 'hungarian' | 'indonesian' | 'irish' | 'italian' | 'latvian' | 'norwegian' | 'persian' | 'portuguese' | 'romanian' | 'russian' | 'sorani' | 'spanish' | 'swedish' | 'thai' | 'turkish';
 
 // @public
 export interface StopwordsTokenFilter {
@@ -1472,7 +1473,7 @@ export interface TagScoringParameters {
 }
 
 // @public
-export type TextSplitMode = "pages" | "sentences";
+export type TextSplitMode = 'pages' | 'sentences';
 
 // @public
 export interface TextTranslationSkill {
@@ -1488,7 +1489,7 @@ export interface TextTranslationSkill {
 }
 
 // @public
-export type TextTranslationSkillLanguage = "af" | "ar" | "bn" | "bs" | "bg" | "yue" | "ca" | "zh-Hans" | "zh-Hant" | "hr" | "cs" | "da" | "nl" | "en" | "et" | "fj" | "fil" | "fi" | "fr" | "de" | "el" | "ht" | "he" | "hi" | "mww" | "hu" | "is" | "id" | "it" | "ja" | "sw" | "tlh" | "ko" | "lv" | "lt" | "mg" | "ms" | "mt" | "nb" | "fa" | "pl" | "pt" | "otq" | "ro" | "ru" | "sm" | "sr-Cyrl" | "sr-Latn" | "sk" | "sl" | "es" | "sv" | "ty" | "ta" | "te" | "th" | "to" | "tr" | "uk" | "ur" | "vi" | "cy" | "yua";
+export type TextTranslationSkillLanguage = 'af' | 'ar' | 'bn' | 'bs' | 'bg' | 'yue' | 'ca' | 'zh-Hans' | 'zh-Hant' | 'hr' | 'cs' | 'da' | 'nl' | 'en' | 'et' | 'fj' | 'fil' | 'fi' | 'fr' | 'de' | 'el' | 'ht' | 'he' | 'hi' | 'mww' | 'hu' | 'is' | 'id' | 'it' | 'ja' | 'sw' | 'tlh' | 'ko' | 'lv' | 'lt' | 'mg' | 'ms' | 'mt' | 'nb' | 'fa' | 'pl' | 'pt' | 'otq' | 'ro' | 'ru' | 'sm' | 'sr-Cyrl' | 'sr-Latn' | 'sk' | 'sl' | 'es' | 'sv' | 'ty' | 'ta' | 'te' | 'th' | 'to' | 'tr' | 'uk' | 'ur' | 'vi' | 'cy' | 'yua';
 
 // @public
 export interface TextWeights {
@@ -1498,7 +1499,7 @@ export interface TextWeights {
 }
 
 // @public
-export type TokenCharacterKind = "letter" | "digit" | "whitespace" | "punctuation" | "symbol";
+export type TokenCharacterKind = 'letter' | 'digit' | 'whitespace' | 'punctuation' | 'symbol';
 
 // @public
 export type TokenFilter = AsciiFoldingTokenFilter | CjkBigramTokenFilter | CommonGramTokenFilter | DictionaryDecompounderTokenFilter | EdgeNGramTokenFilter | ElisionTokenFilter | KeepTokenFilter | KeywordMarkerTokenFilter | LengthTokenFilter | LimitTokenFilter | NGramTokenFilter | PatternCaptureTokenFilter | PatternReplaceTokenFilter | PhoneticTokenFilter | ShingleTokenFilter | SnowballTokenFilter | StemmerTokenFilter | StemmerOverrideTokenFilter | StopwordsTokenFilter | SynonymTokenFilter | TruncateTokenFilter | UniqueTokenFilter | WordDelimiterTokenFilter;
@@ -1528,7 +1529,7 @@ export interface UniqueTokenFilter {
 export type UploadDocumentsOptions = IndexDocumentsOptions;
 
 // @public
-export type VisualFeature = "adult" | "brands" | "categories" | "description" | "faces" | "objects" | "tags";
+export type VisualFeature = 'adult' | 'brands' | 'categories' | 'description' | 'faces' | 'objects' | 'tags';
 
 // @public
 export interface WebApiSkill {
