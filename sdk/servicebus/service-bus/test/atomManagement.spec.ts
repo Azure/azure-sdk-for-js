@@ -543,7 +543,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
         );
 
         should.equal(
-          response[entityType.toLowerCase() + "Name"],
+          response[entityType === EntityType.SUBSCRIPTION ? "subscriptionName" : "name"],
           newManagementEntity2,
           "Entity name mismatch"
         );
@@ -713,7 +713,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
         testCase.input
       );
 
-      should.equal(response.topicName, managementTopic1, "Topic name mismatch");
+      should.equal(response.name, managementTopic1, "Topic name mismatch");
       assert.deepEqualExcluding(response, testCase.output, [
         "_response",
         "createdOn",
@@ -1030,7 +1030,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
         testCase.input
       );
 
-      should.equal(response.queueName, managementQueue1, "Queue name mismatch");
+      should.equal(response.name, managementQueue1, "Queue name mismatch");
 
       assert.deepEqualExcluding(response, testCase.output, [
         "_response",
@@ -1203,7 +1203,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
         testCase.input
       );
 
-      should.equal(response.ruleName, managementRule1, "Rule name mismatch");
+      should.equal(response.name, managementRule1, "Rule name mismatch");
       assert.deepEqualExcluding(response, testCase.output, [
         "_response",
         "createdOn",
@@ -1495,7 +1495,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
       authorizationRules: undefined,
       status: "SendDisabled",
       userMetadata: "test metadata",
-      topicName: managementTopic1
+      name: managementTopic1
     }
   }
 ].forEach((testCase) => {
