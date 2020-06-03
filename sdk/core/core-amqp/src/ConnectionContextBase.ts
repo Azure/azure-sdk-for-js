@@ -9,7 +9,7 @@ import { ConnectionConfig } from "./connectionConfig/connectionConfig";
 import { SharedKeyCredential } from "./auth/sas";
 
 import { Constants } from "./util/constants";
-import { getPlatformInfo, getFrameworkInfo } from "./util/runtimeInfo";
+import { getFrameworkInfo, getPlatformInfo } from "./util/runtimeInfo";
 import { isNode } from "./util/utils";
 
 /**
