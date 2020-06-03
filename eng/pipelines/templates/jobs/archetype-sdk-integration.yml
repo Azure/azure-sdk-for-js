@@ -134,7 +134,7 @@ jobs:
         condition: and(succeededOrFailed(),ne(variables['DependencyVersion'],''))
 
       - pwsh: |
-          node ../../../../common/scripts/install-run-rushx.js build
+          node ../../../../../common/scripts/install-run-rushx.js build
         displayName: "Build test package"
         workingDirectory: $(PackageTestPath)
         condition: and(succeededOrFailed(),ne(variables['DependencyVersion'],''))
@@ -167,7 +167,7 @@ jobs:
           ${{ insert }}: ${{ parameters.EnvVars }}
 
       - script: |
-          node ../../../../common/scripts/install-run-rushx.js integration-test:$(TestType) --verbose -p max
+          node ../../../../../common/scripts/install-run-rushx.js integration-test:$(TestType) --verbose -p max
         displayName: "Integration test libraries"
         workingDirectory: $(PackageTestPath)
         condition: and(succeeded(),ne(variables['TestType'],'sample'),ne(variables['DependencyVersion'],''))
