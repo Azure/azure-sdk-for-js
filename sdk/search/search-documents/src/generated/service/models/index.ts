@@ -6,6 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+
 import * as coreHttp from "@azure/core-http";
 
 /**
@@ -81,12 +82,7 @@ export interface AnalyzeResult {
 /**
  * Contains the possible cases for LexicalAnalyzer.
  */
-export type LexicalAnalyzerUnion =
-  | LexicalAnalyzer
-  | CustomAnalyzer
-  | PatternAnalyzer
-  | LuceneStandardAnalyzer
-  | StopAnalyzer;
+export type LexicalAnalyzerUnion = LexicalAnalyzer | CustomAnalyzer | PatternAnalyzer | LuceneStandardAnalyzer | StopAnalyzer;
 
 /**
  * Base type for analyzers.
@@ -219,20 +215,7 @@ export interface StopAnalyzer {
 /**
  * Contains the possible cases for LexicalTokenizer.
  */
-export type LexicalTokenizerUnion =
-  | LexicalTokenizer
-  | ClassicTokenizer
-  | EdgeNGramTokenizer
-  | KeywordTokenizer
-  | KeywordTokenizerV2
-  | MicrosoftLanguageTokenizer
-  | MicrosoftLanguageStemmingTokenizer
-  | NGramTokenizer
-  | PathHierarchyTokenizerV2
-  | PatternTokenizer
-  | LuceneStandardTokenizer
-  | LuceneStandardTokenizerV2
-  | UaxUrlEmailTokenizer;
+export type LexicalTokenizerUnion = LexicalTokenizer | ClassicTokenizer | EdgeNGramTokenizer | KeywordTokenizer | KeywordTokenizerV2 | MicrosoftLanguageTokenizer | MicrosoftLanguageStemmingTokenizer | NGramTokenizer | PathHierarchyTokenizerV2 | PatternTokenizer | LuceneStandardTokenizer | LuceneStandardTokenizerV2 | UaxUrlEmailTokenizer;
 
 /**
  * Base type for tokenizers.
@@ -586,33 +569,7 @@ export interface UaxUrlEmailTokenizer {
 /**
  * Contains the possible cases for TokenFilter.
  */
-export type TokenFilterUnion =
-  | TokenFilter
-  | AsciiFoldingTokenFilter
-  | CjkBigramTokenFilter
-  | CommonGramTokenFilter
-  | DictionaryDecompounderTokenFilter
-  | EdgeNGramTokenFilter
-  | EdgeNGramTokenFilterV2
-  | ElisionTokenFilter
-  | KeepTokenFilter
-  | KeywordMarkerTokenFilter
-  | LengthTokenFilter
-  | LimitTokenFilter
-  | NGramTokenFilter
-  | NGramTokenFilterV2
-  | PatternCaptureTokenFilter
-  | PatternReplaceTokenFilter
-  | PhoneticTokenFilter
-  | ShingleTokenFilter
-  | SnowballTokenFilter
-  | StemmerTokenFilter
-  | StemmerOverrideTokenFilter
-  | StopwordsTokenFilter
-  | SynonymTokenFilter
-  | TruncateTokenFilter
-  | UniqueTokenFilter
-  | WordDelimiterTokenFilter;
+export type TokenFilterUnion = TokenFilter | AsciiFoldingTokenFilter | CjkBigramTokenFilter | CommonGramTokenFilter | DictionaryDecompounderTokenFilter | EdgeNGramTokenFilter | EdgeNGramTokenFilterV2 | ElisionTokenFilter | KeepTokenFilter | KeywordMarkerTokenFilter | LengthTokenFilter | LimitTokenFilter | NGramTokenFilter | NGramTokenFilterV2 | PatternCaptureTokenFilter | PatternReplaceTokenFilter | PhoneticTokenFilter | ShingleTokenFilter | SnowballTokenFilter | StemmerTokenFilter | StemmerOverrideTokenFilter | StopwordsTokenFilter | SynonymTokenFilter | TruncateTokenFilter | UniqueTokenFilter | WordDelimiterTokenFilter;
 
 /**
  * Base type for token filters.
@@ -1532,10 +1489,7 @@ export interface SearchIndexerDataContainer {
 /**
  * Contains the possible cases for DataChangeDetectionPolicy.
  */
-export type DataChangeDetectionPolicyUnion =
-  | DataChangeDetectionPolicy
-  | HighWaterMarkChangeDetectionPolicy
-  | SqlIntegratedChangeTrackingPolicy;
+export type DataChangeDetectionPolicyUnion = DataChangeDetectionPolicy | HighWaterMarkChangeDetectionPolicy | SqlIntegratedChangeTrackingPolicy;
 
 /**
  * Base type for data change detection policies.
@@ -1576,9 +1530,7 @@ export interface SqlIntegratedChangeTrackingPolicy {
 /**
  * Contains the possible cases for DataDeletionDetectionPolicy.
  */
-export type DataDeletionDetectionPolicyUnion =
-  | DataDeletionDetectionPolicy
-  | SoftDeleteColumnDeletionDetectionPolicy;
+export type DataDeletionDetectionPolicyUnion = DataDeletionDetectionPolicy | SoftDeleteColumnDeletionDetectionPolicy;
 
 /**
  * Base type for data deletion detection policies.
@@ -2154,12 +2106,7 @@ export interface TextWeights {
 /**
  * Contains the possible cases for ScoringFunction.
  */
-export type ScoringFunctionUnion =
-  | ScoringFunction
-  | DistanceScoringFunction
-  | FreshnessScoringFunction
-  | MagnitudeScoringFunction
-  | TagScoringFunction;
+export type ScoringFunctionUnion = ScoringFunction | DistanceScoringFunction | FreshnessScoringFunction | MagnitudeScoringFunction | TagScoringFunction;
 
 /**
  * Base type for functions that can modify document scores during ranking.
@@ -2583,20 +2530,7 @@ export interface OutputFieldMappingEntry {
 /**
  * Contains the possible cases for SearchIndexerSkill.
  */
-export type SearchIndexerSkillUnion =
-  | SearchIndexerSkill
-  | ConditionalSkill
-  | KeyPhraseExtractionSkill
-  | OcrSkill
-  | ImageAnalysisSkill
-  | LanguageDetectionSkill
-  | ShaperSkill
-  | MergeSkill
-  | EntityRecognitionSkill
-  | SentimentSkill
-  | SplitSkill
-  | TextTranslationSkill
-  | WebApiSkill;
+export type SearchIndexerSkillUnion = SearchIndexerSkill | ConditionalSkill | KeyPhraseExtractionSkill | OcrSkill | ImageAnalysisSkill | LanguageDetectionSkill | ShaperSkill | MergeSkill | EntityRecognitionSkill | SentimentSkill | SplitSkill | TextTranslationSkill | WebApiSkill;
 
 /**
  * Base type for skills.
@@ -2636,10 +2570,7 @@ export interface SearchIndexerSkill {
 /**
  * Contains the possible cases for CognitiveServicesAccount.
  */
-export type CognitiveServicesAccountUnion =
-  | CognitiveServicesAccount
-  | DefaultCognitiveServicesAccount
-  | CognitiveServicesAccountKey;
+export type CognitiveServicesAccountUnion = CognitiveServicesAccount | DefaultCognitiveServicesAccount | CognitiveServicesAccountKey;
 
 /**
  * Base type for describing any cognitive service resource attached to a skillset.
@@ -3684,100 +3615,7 @@ export interface IndexesDeleteMethodOptionalParams extends coreHttp.RequestOptio
  * @readonly
  * @enum {string}
  */
-export type LexicalAnalyzerName =
-  | "ar.microsoft"
-  | "ar.lucene"
-  | "hy.lucene"
-  | "bn.microsoft"
-  | "eu.lucene"
-  | "bg.microsoft"
-  | "bg.lucene"
-  | "ca.microsoft"
-  | "ca.lucene"
-  | "zh-Hans.microsoft"
-  | "zh-Hans.lucene"
-  | "zh-Hant.microsoft"
-  | "zh-Hant.lucene"
-  | "hr.microsoft"
-  | "cs.microsoft"
-  | "cs.lucene"
-  | "da.microsoft"
-  | "da.lucene"
-  | "nl.microsoft"
-  | "nl.lucene"
-  | "en.microsoft"
-  | "en.lucene"
-  | "et.microsoft"
-  | "fi.microsoft"
-  | "fi.lucene"
-  | "fr.microsoft"
-  | "fr.lucene"
-  | "gl.lucene"
-  | "de.microsoft"
-  | "de.lucene"
-  | "el.microsoft"
-  | "el.lucene"
-  | "gu.microsoft"
-  | "he.microsoft"
-  | "hi.microsoft"
-  | "hi.lucene"
-  | "hu.microsoft"
-  | "hu.lucene"
-  | "is.microsoft"
-  | "id.microsoft"
-  | "id.lucene"
-  | "ga.lucene"
-  | "it.microsoft"
-  | "it.lucene"
-  | "ja.microsoft"
-  | "ja.lucene"
-  | "kn.microsoft"
-  | "ko.microsoft"
-  | "ko.lucene"
-  | "lv.microsoft"
-  | "lv.lucene"
-  | "lt.microsoft"
-  | "ml.microsoft"
-  | "ms.microsoft"
-  | "mr.microsoft"
-  | "nb.microsoft"
-  | "no.lucene"
-  | "fa.lucene"
-  | "pl.microsoft"
-  | "pl.lucene"
-  | "pt-BR.microsoft"
-  | "pt-BR.lucene"
-  | "pt-PT.microsoft"
-  | "pt-PT.lucene"
-  | "pa.microsoft"
-  | "ro.microsoft"
-  | "ro.lucene"
-  | "ru.microsoft"
-  | "ru.lucene"
-  | "sr-cyrillic.microsoft"
-  | "sr-latin.microsoft"
-  | "sk.microsoft"
-  | "sl.microsoft"
-  | "es.microsoft"
-  | "es.lucene"
-  | "sv.microsoft"
-  | "sv.lucene"
-  | "ta.microsoft"
-  | "te.microsoft"
-  | "th.microsoft"
-  | "th.lucene"
-  | "tr.microsoft"
-  | "tr.lucene"
-  | "uk.microsoft"
-  | "ur.microsoft"
-  | "vi.microsoft"
-  | "standard.lucene"
-  | "standardasciifolding.lucene"
-  | "keyword"
-  | "pattern"
-  | "simple"
-  | "stop"
-  | "whitespace";
+export type LexicalAnalyzerName = 'ar.microsoft' | 'ar.lucene' | 'hy.lucene' | 'bn.microsoft' | 'eu.lucene' | 'bg.microsoft' | 'bg.lucene' | 'ca.microsoft' | 'ca.lucene' | 'zh-Hans.microsoft' | 'zh-Hans.lucene' | 'zh-Hant.microsoft' | 'zh-Hant.lucene' | 'hr.microsoft' | 'cs.microsoft' | 'cs.lucene' | 'da.microsoft' | 'da.lucene' | 'nl.microsoft' | 'nl.lucene' | 'en.microsoft' | 'en.lucene' | 'et.microsoft' | 'fi.microsoft' | 'fi.lucene' | 'fr.microsoft' | 'fr.lucene' | 'gl.lucene' | 'de.microsoft' | 'de.lucene' | 'el.microsoft' | 'el.lucene' | 'gu.microsoft' | 'he.microsoft' | 'hi.microsoft' | 'hi.lucene' | 'hu.microsoft' | 'hu.lucene' | 'is.microsoft' | 'id.microsoft' | 'id.lucene' | 'ga.lucene' | 'it.microsoft' | 'it.lucene' | 'ja.microsoft' | 'ja.lucene' | 'kn.microsoft' | 'ko.microsoft' | 'ko.lucene' | 'lv.microsoft' | 'lv.lucene' | 'lt.microsoft' | 'ml.microsoft' | 'ms.microsoft' | 'mr.microsoft' | 'nb.microsoft' | 'no.lucene' | 'fa.lucene' | 'pl.microsoft' | 'pl.lucene' | 'pt-BR.microsoft' | 'pt-BR.lucene' | 'pt-PT.microsoft' | 'pt-PT.lucene' | 'pa.microsoft' | 'ro.microsoft' | 'ro.lucene' | 'ru.microsoft' | 'ru.lucene' | 'sr-cyrillic.microsoft' | 'sr-latin.microsoft' | 'sk.microsoft' | 'sl.microsoft' | 'es.microsoft' | 'es.lucene' | 'sv.microsoft' | 'sv.lucene' | 'ta.microsoft' | 'te.microsoft' | 'th.microsoft' | 'th.lucene' | 'tr.microsoft' | 'tr.lucene' | 'uk.microsoft' | 'ur.microsoft' | 'vi.microsoft' | 'standard.lucene' | 'standardasciifolding.lucene' | 'keyword' | 'pattern' | 'simple' | 'stop' | 'whitespace';
 
 /**
  * Defines values for LexicalTokenizerName.
@@ -3787,20 +3625,7 @@ export type LexicalAnalyzerName =
  * @readonly
  * @enum {string}
  */
-export type LexicalTokenizerName =
-  | "classic"
-  | "edgeNGram"
-  | "keyword_v2"
-  | "letter"
-  | "lowercase"
-  | "microsoft_language_tokenizer"
-  | "microsoft_language_stemming_tokenizer"
-  | "nGram"
-  | "path_hierarchy_v2"
-  | "pattern"
-  | "standard_v2"
-  | "uax_url_email"
-  | "whitespace";
+export type LexicalTokenizerName = 'classic' | 'edgeNGram' | 'keyword_v2' | 'letter' | 'lowercase' | 'microsoft_language_tokenizer' | 'microsoft_language_stemming_tokenizer' | 'nGram' | 'path_hierarchy_v2' | 'pattern' | 'standard_v2' | 'uax_url_email' | 'whitespace';
 
 /**
  * Defines values for TokenFilterName.
@@ -3814,41 +3639,7 @@ export type LexicalTokenizerName =
  * @readonly
  * @enum {string}
  */
-export type TokenFilterName =
-  | "arabic_normalization"
-  | "apostrophe"
-  | "asciifolding"
-  | "cjk_bigram"
-  | "cjk_width"
-  | "classic"
-  | "common_grams"
-  | "edgeNGram_v2"
-  | "elision"
-  | "german_normalization"
-  | "hindi_normalization"
-  | "indic_normalization"
-  | "keyword_repeat"
-  | "kstem"
-  | "length"
-  | "limit"
-  | "lowercase"
-  | "nGram_v2"
-  | "persian_normalization"
-  | "phonetic"
-  | "porter_stem"
-  | "reverse"
-  | "scandinavian_normalization"
-  | "scandinavian_folding"
-  | "shingle"
-  | "snowball"
-  | "sorani_normalization"
-  | "stemmer"
-  | "stopwords"
-  | "trim"
-  | "truncate"
-  | "unique"
-  | "uppercase"
-  | "word_delimiter";
+export type TokenFilterName = 'arabic_normalization' | 'apostrophe' | 'asciifolding' | 'cjk_bigram' | 'cjk_width' | 'classic' | 'common_grams' | 'edgeNGram_v2' | 'elision' | 'german_normalization' | 'hindi_normalization' | 'indic_normalization' | 'keyword_repeat' | 'kstem' | 'length' | 'limit' | 'lowercase' | 'nGram_v2' | 'persian_normalization' | 'phonetic' | 'porter_stem' | 'reverse' | 'scandinavian_normalization' | 'scandinavian_folding' | 'shingle' | 'snowball' | 'sorani_normalization' | 'stemmer' | 'stopwords' | 'trim' | 'truncate' | 'unique' | 'uppercase' | 'word_delimiter';
 
 /**
  * Defines values for CharFilterName.
@@ -3856,7 +3647,7 @@ export type TokenFilterName =
  * @readonly
  * @enum {string}
  */
-export type CharFilterName = "html_strip";
+export type CharFilterName = 'html_strip';
 
 /**
  * Defines values for RegexFlags.
@@ -3865,15 +3656,7 @@ export type CharFilterName = "html_strip";
  * @readonly
  * @enum {string}
  */
-export type RegexFlags =
-  | "CANON_EQ"
-  | "CASE_INSENSITIVE"
-  | "COMMENTS"
-  | "DOTALL"
-  | "LITERAL"
-  | "MULTILINE"
-  | "UNICODE_CASE"
-  | "UNIX_LINES";
+export type RegexFlags = 'CANON_EQ' | 'CASE_INSENSITIVE' | 'COMMENTS' | 'DOTALL' | 'LITERAL' | 'MULTILINE' | 'UNICODE_CASE' | 'UNIX_LINES';
 
 /**
  * Defines values for SearchFieldDataType.
@@ -3885,23 +3668,7 @@ export type RegexFlags =
  * @readonly
  * @enum {string}
  */
-export type SearchFieldDataType =
-  | "Edm.String"
-  | "Edm.Int32"
-  | "Edm.Int64"
-  | "Edm.Double"
-  | "Edm.Boolean"
-  | "Edm.DateTimeOffset"
-  | "Edm.GeographyPoint"
-  | "Edm.ComplexType"
-  | "Collection(Edm.String)"
-  | "Collection(Edm.Int32)"
-  | "Collection(Edm.Int64)"
-  | "Collection(Edm.Double)"
-  | "Collection(Edm.Boolean)"
-  | "Collection(Edm.DateTimeOffset)"
-  | "Collection(Edm.GeographyPoint)"
-  | "Collection(Edm.ComplexType)";
+export type SearchFieldDataType = 'Edm.String' | 'Edm.Int32' | 'Edm.Int64' | 'Edm.Double' | 'Edm.Boolean' | 'Edm.DateTimeOffset' | 'Edm.GeographyPoint' | 'Edm.ComplexType' | 'Collection(Edm.String)' | 'Collection(Edm.Int32)' | 'Collection(Edm.Int64)' | 'Collection(Edm.Double)' | 'Collection(Edm.Boolean)' | 'Collection(Edm.DateTimeOffset)' | 'Collection(Edm.GeographyPoint)' | 'Collection(Edm.ComplexType)';
 
 /**
  * Defines values for TokenCharacterKind.
@@ -3909,7 +3676,7 @@ export type SearchFieldDataType =
  * @readonly
  * @enum {string}
  */
-export type TokenCharacterKind = "letter" | "digit" | "whitespace" | "punctuation" | "symbol";
+export type TokenCharacterKind = 'letter' | 'digit' | 'whitespace' | 'punctuation' | 'symbol';
 
 /**
  * Defines values for MicrosoftTokenizerLanguage.
@@ -3922,49 +3689,7 @@ export type TokenCharacterKind = "letter" | "digit" | "whitespace" | "punctuatio
  * @readonly
  * @enum {string}
  */
-export type MicrosoftTokenizerLanguage =
-  | "bangla"
-  | "bulgarian"
-  | "catalan"
-  | "chineseSimplified"
-  | "chineseTraditional"
-  | "croatian"
-  | "czech"
-  | "danish"
-  | "dutch"
-  | "english"
-  | "french"
-  | "german"
-  | "greek"
-  | "gujarati"
-  | "hindi"
-  | "icelandic"
-  | "indonesian"
-  | "italian"
-  | "japanese"
-  | "kannada"
-  | "korean"
-  | "malay"
-  | "malayalam"
-  | "marathi"
-  | "norwegianBokmaal"
-  | "polish"
-  | "portuguese"
-  | "portugueseBrazilian"
-  | "punjabi"
-  | "romanian"
-  | "russian"
-  | "serbianCyrillic"
-  | "serbianLatin"
-  | "slovenian"
-  | "spanish"
-  | "swedish"
-  | "tamil"
-  | "telugu"
-  | "thai"
-  | "ukrainian"
-  | "urdu"
-  | "vietnamese";
+export type MicrosoftTokenizerLanguage = 'bangla' | 'bulgarian' | 'catalan' | 'chineseSimplified' | 'chineseTraditional' | 'croatian' | 'czech' | 'danish' | 'dutch' | 'english' | 'french' | 'german' | 'greek' | 'gujarati' | 'hindi' | 'icelandic' | 'indonesian' | 'italian' | 'japanese' | 'kannada' | 'korean' | 'malay' | 'malayalam' | 'marathi' | 'norwegianBokmaal' | 'polish' | 'portuguese' | 'portugueseBrazilian' | 'punjabi' | 'romanian' | 'russian' | 'serbianCyrillic' | 'serbianLatin' | 'slovenian' | 'spanish' | 'swedish' | 'tamil' | 'telugu' | 'thai' | 'ukrainian' | 'urdu' | 'vietnamese';
 
 /**
  * Defines values for MicrosoftStemmingTokenizerLanguage.
@@ -3977,52 +3702,7 @@ export type MicrosoftTokenizerLanguage =
  * @readonly
  * @enum {string}
  */
-export type MicrosoftStemmingTokenizerLanguage =
-  | "arabic"
-  | "bangla"
-  | "bulgarian"
-  | "catalan"
-  | "croatian"
-  | "czech"
-  | "danish"
-  | "dutch"
-  | "english"
-  | "estonian"
-  | "finnish"
-  | "french"
-  | "german"
-  | "greek"
-  | "gujarati"
-  | "hebrew"
-  | "hindi"
-  | "hungarian"
-  | "icelandic"
-  | "indonesian"
-  | "italian"
-  | "kannada"
-  | "latvian"
-  | "lithuanian"
-  | "malay"
-  | "malayalam"
-  | "marathi"
-  | "norwegianBokmaal"
-  | "polish"
-  | "portuguese"
-  | "portugueseBrazilian"
-  | "punjabi"
-  | "romanian"
-  | "russian"
-  | "serbianCyrillic"
-  | "serbianLatin"
-  | "slovak"
-  | "slovenian"
-  | "spanish"
-  | "swedish"
-  | "tamil"
-  | "telugu"
-  | "turkish"
-  | "ukrainian"
-  | "urdu";
+export type MicrosoftStemmingTokenizerLanguage = 'arabic' | 'bangla' | 'bulgarian' | 'catalan' | 'croatian' | 'czech' | 'danish' | 'dutch' | 'english' | 'estonian' | 'finnish' | 'french' | 'german' | 'greek' | 'gujarati' | 'hebrew' | 'hindi' | 'hungarian' | 'icelandic' | 'indonesian' | 'italian' | 'kannada' | 'latvian' | 'lithuanian' | 'malay' | 'malayalam' | 'marathi' | 'norwegianBokmaal' | 'polish' | 'portuguese' | 'portugueseBrazilian' | 'punjabi' | 'romanian' | 'russian' | 'serbianCyrillic' | 'serbianLatin' | 'slovak' | 'slovenian' | 'spanish' | 'swedish' | 'tamil' | 'telugu' | 'turkish' | 'ukrainian' | 'urdu';
 
 /**
  * Defines values for CjkBigramTokenFilterScripts.
@@ -4030,7 +3710,7 @@ export type MicrosoftStemmingTokenizerLanguage =
  * @readonly
  * @enum {string}
  */
-export type CjkBigramTokenFilterScripts = "han" | "hiragana" | "katakana" | "hangul";
+export type CjkBigramTokenFilterScripts = 'han' | 'hiragana' | 'katakana' | 'hangul';
 
 /**
  * Defines values for EdgeNGramTokenFilterSide.
@@ -4038,7 +3718,7 @@ export type CjkBigramTokenFilterScripts = "han" | "hiragana" | "katakana" | "han
  * @readonly
  * @enum {string}
  */
-export type EdgeNGramTokenFilterSide = "front" | "back";
+export type EdgeNGramTokenFilterSide = 'front' | 'back';
 
 /**
  * Defines values for PhoneticEncoder.
@@ -4048,18 +3728,7 @@ export type EdgeNGramTokenFilterSide = "front" | "back";
  * @readonly
  * @enum {string}
  */
-export type PhoneticEncoder =
-  | "metaphone"
-  | "doubleMetaphone"
-  | "soundex"
-  | "refinedSoundex"
-  | "caverphone1"
-  | "caverphone2"
-  | "cologne"
-  | "nysiis"
-  | "koelnerPhonetik"
-  | "haasePhonetik"
-  | "beiderMorse";
+export type PhoneticEncoder = 'metaphone' | 'doubleMetaphone' | 'soundex' | 'refinedSoundex' | 'caverphone1' | 'caverphone2' | 'cologne' | 'nysiis' | 'koelnerPhonetik' | 'haasePhonetik' | 'beiderMorse';
 
 /**
  * Defines values for SnowballTokenFilterLanguage.
@@ -4069,29 +3738,7 @@ export type PhoneticEncoder =
  * @readonly
  * @enum {string}
  */
-export type SnowballTokenFilterLanguage =
-  | "armenian"
-  | "basque"
-  | "catalan"
-  | "danish"
-  | "dutch"
-  | "english"
-  | "finnish"
-  | "french"
-  | "german"
-  | "german2"
-  | "hungarian"
-  | "italian"
-  | "kp"
-  | "lovins"
-  | "norwegian"
-  | "porter"
-  | "portuguese"
-  | "romanian"
-  | "russian"
-  | "spanish"
-  | "swedish"
-  | "turkish";
+export type SnowballTokenFilterLanguage = 'armenian' | 'basque' | 'catalan' | 'danish' | 'dutch' | 'english' | 'finnish' | 'french' | 'german' | 'german2' | 'hungarian' | 'italian' | 'kp' | 'lovins' | 'norwegian' | 'porter' | 'portuguese' | 'romanian' | 'russian' | 'spanish' | 'swedish' | 'turkish';
 
 /**
  * Defines values for StemmerTokenFilterLanguage.
@@ -4107,61 +3754,7 @@ export type SnowballTokenFilterLanguage =
  * @readonly
  * @enum {string}
  */
-export type StemmerTokenFilterLanguage =
-  | "arabic"
-  | "armenian"
-  | "basque"
-  | "brazilian"
-  | "bulgarian"
-  | "catalan"
-  | "czech"
-  | "danish"
-  | "dutch"
-  | "dutchKp"
-  | "english"
-  | "lightEnglish"
-  | "minimalEnglish"
-  | "possessiveEnglish"
-  | "porter2"
-  | "lovins"
-  | "finnish"
-  | "lightFinnish"
-  | "french"
-  | "lightFrench"
-  | "minimalFrench"
-  | "galician"
-  | "minimalGalician"
-  | "german"
-  | "german2"
-  | "lightGerman"
-  | "minimalGerman"
-  | "greek"
-  | "hindi"
-  | "hungarian"
-  | "lightHungarian"
-  | "indonesian"
-  | "irish"
-  | "italian"
-  | "lightItalian"
-  | "sorani"
-  | "latvian"
-  | "norwegian"
-  | "lightNorwegian"
-  | "minimalNorwegian"
-  | "lightNynorsk"
-  | "minimalNynorsk"
-  | "portuguese"
-  | "lightPortuguese"
-  | "minimalPortuguese"
-  | "portugueseRslp"
-  | "romanian"
-  | "russian"
-  | "lightRussian"
-  | "spanish"
-  | "lightSpanish"
-  | "swedish"
-  | "lightSwedish"
-  | "turkish";
+export type StemmerTokenFilterLanguage = 'arabic' | 'armenian' | 'basque' | 'brazilian' | 'bulgarian' | 'catalan' | 'czech' | 'danish' | 'dutch' | 'dutchKp' | 'english' | 'lightEnglish' | 'minimalEnglish' | 'possessiveEnglish' | 'porter2' | 'lovins' | 'finnish' | 'lightFinnish' | 'french' | 'lightFrench' | 'minimalFrench' | 'galician' | 'minimalGalician' | 'german' | 'german2' | 'lightGerman' | 'minimalGerman' | 'greek' | 'hindi' | 'hungarian' | 'lightHungarian' | 'indonesian' | 'irish' | 'italian' | 'lightItalian' | 'sorani' | 'latvian' | 'norwegian' | 'lightNorwegian' | 'minimalNorwegian' | 'lightNynorsk' | 'minimalNynorsk' | 'portuguese' | 'lightPortuguese' | 'minimalPortuguese' | 'portugueseRslp' | 'romanian' | 'russian' | 'lightRussian' | 'spanish' | 'lightSpanish' | 'swedish' | 'lightSwedish' | 'turkish';
 
 /**
  * Defines values for StopwordsList.
@@ -4172,38 +3765,7 @@ export type StemmerTokenFilterLanguage =
  * @readonly
  * @enum {string}
  */
-export type StopwordsList =
-  | "arabic"
-  | "armenian"
-  | "basque"
-  | "brazilian"
-  | "bulgarian"
-  | "catalan"
-  | "czech"
-  | "danish"
-  | "dutch"
-  | "english"
-  | "finnish"
-  | "french"
-  | "galician"
-  | "german"
-  | "greek"
-  | "hindi"
-  | "hungarian"
-  | "indonesian"
-  | "irish"
-  | "italian"
-  | "latvian"
-  | "norwegian"
-  | "persian"
-  | "portuguese"
-  | "romanian"
-  | "russian"
-  | "sorani"
-  | "spanish"
-  | "swedish"
-  | "thai"
-  | "turkish";
+export type StopwordsList = 'arabic' | 'armenian' | 'basque' | 'brazilian' | 'bulgarian' | 'catalan' | 'czech' | 'danish' | 'dutch' | 'english' | 'finnish' | 'french' | 'galician' | 'german' | 'greek' | 'hindi' | 'hungarian' | 'indonesian' | 'irish' | 'italian' | 'latvian' | 'norwegian' | 'persian' | 'portuguese' | 'romanian' | 'russian' | 'sorani' | 'spanish' | 'swedish' | 'thai' | 'turkish';
 
 /**
  * Defines values for SearchIndexerDataSourceType.
@@ -4211,12 +3773,7 @@ export type StopwordsList =
  * @readonly
  * @enum {string}
  */
-export type SearchIndexerDataSourceType =
-  | "azuresql"
-  | "cosmosdb"
-  | "azureblob"
-  | "azuretable"
-  | "mysql";
+export type SearchIndexerDataSourceType = 'azuresql' | 'cosmosdb' | 'azureblob' | 'azuretable' | 'mysql';
 
 /**
  * Defines values for IndexerExecutionStatus.
@@ -4224,7 +3781,7 @@ export type SearchIndexerDataSourceType =
  * @readonly
  * @enum {string}
  */
-export type IndexerExecutionStatus = "transientFailure" | "success" | "inProgress" | "reset";
+export type IndexerExecutionStatus = 'transientFailure' | 'success' | 'inProgress' | 'reset';
 
 /**
  * Defines values for IndexerStatus.
@@ -4232,7 +3789,7 @@ export type IndexerExecutionStatus = "transientFailure" | "success" | "inProgres
  * @readonly
  * @enum {string}
  */
-export type IndexerStatus = "unknown" | "error" | "running";
+export type IndexerStatus = 'unknown' | 'error' | 'running';
 
 /**
  * Defines values for ScoringFunctionInterpolation.
@@ -4240,7 +3797,7 @@ export type IndexerStatus = "unknown" | "error" | "running";
  * @readonly
  * @enum {string}
  */
-export type ScoringFunctionInterpolation = "linear" | "constant" | "quadratic" | "logarithmic";
+export type ScoringFunctionInterpolation = 'linear' | 'constant' | 'quadratic' | 'logarithmic';
 
 /**
  * Defines values for ScoringFunctionAggregation.
@@ -4248,12 +3805,7 @@ export type ScoringFunctionInterpolation = "linear" | "constant" | "quadratic" |
  * @readonly
  * @enum {string}
  */
-export type ScoringFunctionAggregation =
-  | "sum"
-  | "average"
-  | "minimum"
-  | "maximum"
-  | "firstMatching";
+export type ScoringFunctionAggregation = 'sum' | 'average' | 'minimum' | 'maximum' | 'firstMatching';
 
 /**
  * Defines values for KeyPhraseExtractionSkillLanguage.
@@ -4262,23 +3814,7 @@ export type ScoringFunctionAggregation =
  * @readonly
  * @enum {string}
  */
-export type KeyPhraseExtractionSkillLanguage =
-  | "da"
-  | "nl"
-  | "en"
-  | "fi"
-  | "fr"
-  | "de"
-  | "it"
-  | "ja"
-  | "ko"
-  | "no"
-  | "pl"
-  | "pt-PT"
-  | "pt-BR"
-  | "ru"
-  | "es"
-  | "sv";
+export type KeyPhraseExtractionSkillLanguage = 'da' | 'nl' | 'en' | 'fi' | 'fr' | 'de' | 'it' | 'ja' | 'ko' | 'no' | 'pl' | 'pt-PT' | 'pt-BR' | 'ru' | 'es' | 'sv';
 
 /**
  * Defines values for OcrSkillLanguage.
@@ -4288,33 +3824,7 @@ export type KeyPhraseExtractionSkillLanguage =
  * @readonly
  * @enum {string}
  */
-export type OcrSkillLanguage =
-  | "zh-Hans"
-  | "zh-Hant"
-  | "cs"
-  | "da"
-  | "nl"
-  | "en"
-  | "fi"
-  | "fr"
-  | "de"
-  | "el"
-  | "hu"
-  | "it"
-  | "ja"
-  | "ko"
-  | "nb"
-  | "pl"
-  | "pt"
-  | "ru"
-  | "es"
-  | "sv"
-  | "tr"
-  | "ar"
-  | "ro"
-  | "sr-Cyrl"
-  | "sr-Latn"
-  | "sk";
+export type OcrSkillLanguage = 'zh-Hans' | 'zh-Hant' | 'cs' | 'da' | 'nl' | 'en' | 'fi' | 'fr' | 'de' | 'el' | 'hu' | 'it' | 'ja' | 'ko' | 'nb' | 'pl' | 'pt' | 'ru' | 'es' | 'sv' | 'tr' | 'ar' | 'ro' | 'sr-Cyrl' | 'sr-Latn' | 'sk';
 
 /**
  * Defines values for ImageAnalysisSkillLanguage.
@@ -4322,7 +3832,7 @@ export type OcrSkillLanguage =
  * @readonly
  * @enum {string}
  */
-export type ImageAnalysisSkillLanguage = "en" | "es" | "ja" | "pt" | "zh";
+export type ImageAnalysisSkillLanguage = 'en' | 'es' | 'ja' | 'pt' | 'zh';
 
 /**
  * Defines values for VisualFeature.
@@ -4331,14 +3841,7 @@ export type ImageAnalysisSkillLanguage = "en" | "es" | "ja" | "pt" | "zh";
  * @readonly
  * @enum {string}
  */
-export type VisualFeature =
-  | "adult"
-  | "brands"
-  | "categories"
-  | "description"
-  | "faces"
-  | "objects"
-  | "tags";
+export type VisualFeature = 'adult' | 'brands' | 'categories' | 'description' | 'faces' | 'objects' | 'tags';
 
 /**
  * Defines values for ImageDetail.
@@ -4346,7 +3849,7 @@ export type VisualFeature =
  * @readonly
  * @enum {string}
  */
-export type ImageDetail = "celebrities" | "landmarks";
+export type ImageDetail = 'celebrities' | 'landmarks';
 
 /**
  * Defines values for EntityCategory.
@@ -4355,14 +3858,7 @@ export type ImageDetail = "celebrities" | "landmarks";
  * @readonly
  * @enum {string}
  */
-export type EntityCategory =
-  | "location"
-  | "organization"
-  | "person"
-  | "quantity"
-  | "datetime"
-  | "url"
-  | "email";
+export type EntityCategory = 'location' | 'organization' | 'person' | 'quantity' | 'datetime' | 'url' | 'email';
 
 /**
  * Defines values for EntityRecognitionSkillLanguage.
@@ -4371,30 +3867,7 @@ export type EntityCategory =
  * @readonly
  * @enum {string}
  */
-export type EntityRecognitionSkillLanguage =
-  | "ar"
-  | "cs"
-  | "zh-Hans"
-  | "zh-Hant"
-  | "da"
-  | "nl"
-  | "en"
-  | "fi"
-  | "fr"
-  | "de"
-  | "el"
-  | "hu"
-  | "it"
-  | "ja"
-  | "ko"
-  | "no"
-  | "pl"
-  | "pt-PT"
-  | "pt-BR"
-  | "ru"
-  | "es"
-  | "sv"
-  | "tr";
+export type EntityRecognitionSkillLanguage = 'ar' | 'cs' | 'zh-Hans' | 'zh-Hant' | 'da' | 'nl' | 'en' | 'fi' | 'fr' | 'de' | 'el' | 'hu' | 'it' | 'ja' | 'ko' | 'no' | 'pl' | 'pt-PT' | 'pt-BR' | 'ru' | 'es' | 'sv' | 'tr';
 
 /**
  * Defines values for SentimentSkillLanguage.
@@ -4403,22 +3876,7 @@ export type EntityRecognitionSkillLanguage =
  * @readonly
  * @enum {string}
  */
-export type SentimentSkillLanguage =
-  | "da"
-  | "nl"
-  | "en"
-  | "fi"
-  | "fr"
-  | "de"
-  | "el"
-  | "it"
-  | "no"
-  | "pl"
-  | "pt-PT"
-  | "ru"
-  | "es"
-  | "sv"
-  | "tr";
+export type SentimentSkillLanguage = 'da' | 'nl' | 'en' | 'fi' | 'fr' | 'de' | 'el' | 'it' | 'no' | 'pl' | 'pt-PT' | 'ru' | 'es' | 'sv' | 'tr';
 
 /**
  * Defines values for SplitSkillLanguage.
@@ -4426,7 +3884,7 @@ export type SentimentSkillLanguage =
  * @readonly
  * @enum {string}
  */
-export type SplitSkillLanguage = "da" | "de" | "en" | "es" | "fi" | "fr" | "it" | "ko" | "pt";
+export type SplitSkillLanguage = 'da' | 'de' | 'en' | 'es' | 'fi' | 'fr' | 'it' | 'ko' | 'pt';
 
 /**
  * Defines values for TextSplitMode.
@@ -4434,7 +3892,7 @@ export type SplitSkillLanguage = "da" | "de" | "en" | "es" | "fi" | "fr" | "it" 
  * @readonly
  * @enum {string}
  */
-export type TextSplitMode = "pages" | "sentences";
+export type TextSplitMode = 'pages' | 'sentences';
 
 /**
  * Defines values for TextTranslationSkillLanguage.
@@ -4446,70 +3904,7 @@ export type TextSplitMode = "pages" | "sentences";
  * @readonly
  * @enum {string}
  */
-export type TextTranslationSkillLanguage =
-  | "af"
-  | "ar"
-  | "bn"
-  | "bs"
-  | "bg"
-  | "yue"
-  | "ca"
-  | "zh-Hans"
-  | "zh-Hant"
-  | "hr"
-  | "cs"
-  | "da"
-  | "nl"
-  | "en"
-  | "et"
-  | "fj"
-  | "fil"
-  | "fi"
-  | "fr"
-  | "de"
-  | "el"
-  | "ht"
-  | "he"
-  | "hi"
-  | "mww"
-  | "hu"
-  | "is"
-  | "id"
-  | "it"
-  | "ja"
-  | "sw"
-  | "tlh"
-  | "ko"
-  | "lv"
-  | "lt"
-  | "mg"
-  | "ms"
-  | "mt"
-  | "nb"
-  | "fa"
-  | "pl"
-  | "pt"
-  | "otq"
-  | "ro"
-  | "ru"
-  | "sm"
-  | "sr-Cyrl"
-  | "sr-Latn"
-  | "sk"
-  | "sl"
-  | "es"
-  | "sv"
-  | "ty"
-  | "ta"
-  | "te"
-  | "th"
-  | "to"
-  | "tr"
-  | "uk"
-  | "ur"
-  | "vi"
-  | "cy"
-  | "yua";
+export type TextTranslationSkillLanguage = 'af' | 'ar' | 'bn' | 'bs' | 'bg' | 'yue' | 'ca' | 'zh-Hans' | 'zh-Hant' | 'hr' | 'cs' | 'da' | 'nl' | 'en' | 'et' | 'fj' | 'fil' | 'fi' | 'fr' | 'de' | 'el' | 'ht' | 'he' | 'hi' | 'mww' | 'hu' | 'is' | 'id' | 'it' | 'ja' | 'sw' | 'tlh' | 'ko' | 'lv' | 'lt' | 'mg' | 'ms' | 'mt' | 'nb' | 'fa' | 'pl' | 'pt' | 'otq' | 'ro' | 'ru' | 'sm' | 'sr-Cyrl' | 'sr-Latn' | 'sk' | 'sl' | 'es' | 'sv' | 'ty' | 'ta' | 'te' | 'th' | 'to' | 'tr' | 'uk' | 'ur' | 'vi' | 'cy' | 'yua';
 
 /**
  * Contains response data for the createOrUpdate operation.
@@ -4519,16 +3914,16 @@ export type DataSourcesCreateOrUpdateResponse = SearchIndexerDataSource & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SearchIndexerDataSource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SearchIndexerDataSource;
+    };
 };
 
 /**
@@ -4539,16 +3934,16 @@ export type DataSourcesGetResponse = SearchIndexerDataSource & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SearchIndexerDataSource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SearchIndexerDataSource;
+    };
 };
 
 /**
@@ -4559,16 +3954,16 @@ export type DataSourcesListResponse = ListDataSourcesResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ListDataSourcesResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListDataSourcesResult;
+    };
 };
 
 /**
@@ -4579,16 +3974,16 @@ export type DataSourcesCreateResponse = SearchIndexerDataSource & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SearchIndexerDataSource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SearchIndexerDataSource;
+    };
 };
 
 /**
@@ -4599,16 +3994,16 @@ export type IndexersCreateOrUpdateResponse = SearchIndexer & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SearchIndexer;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SearchIndexer;
+    };
 };
 
 /**
@@ -4619,16 +4014,16 @@ export type IndexersGetResponse = SearchIndexer & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SearchIndexer;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SearchIndexer;
+    };
 };
 
 /**
@@ -4639,16 +4034,16 @@ export type IndexersListResponse = ListIndexersResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ListIndexersResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListIndexersResult;
+    };
 };
 
 /**
@@ -4659,16 +4054,16 @@ export type IndexersCreateResponse = SearchIndexer & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SearchIndexer;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SearchIndexer;
+    };
 };
 
 /**
@@ -4679,16 +4074,16 @@ export type IndexersGetStatusResponse = SearchIndexerStatus & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SearchIndexerStatus;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SearchIndexerStatus;
+    };
 };
 
 /**
@@ -4699,16 +4094,16 @@ export type SkillsetsCreateOrUpdateResponse = SearchIndexerSkillset & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SearchIndexerSkillset;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SearchIndexerSkillset;
+    };
 };
 
 /**
@@ -4719,16 +4114,16 @@ export type SkillsetsGetResponse = SearchIndexerSkillset & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SearchIndexerSkillset;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SearchIndexerSkillset;
+    };
 };
 
 /**
@@ -4739,16 +4134,16 @@ export type SkillsetsListResponse = ListSkillsetsResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ListSkillsetsResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListSkillsetsResult;
+    };
 };
 
 /**
@@ -4759,16 +4154,16 @@ export type SkillsetsCreateResponse = SearchIndexerSkillset & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SearchIndexerSkillset;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SearchIndexerSkillset;
+    };
 };
 
 /**
@@ -4779,16 +4174,16 @@ export type SynonymMapsCreateOrUpdateResponse = SynonymMap & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SynonymMap;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SynonymMap;
+    };
 };
 
 /**
@@ -4799,16 +4194,16 @@ export type SynonymMapsGetResponse = SynonymMap & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SynonymMap;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SynonymMap;
+    };
 };
 
 /**
@@ -4819,16 +4214,16 @@ export type SynonymMapsListResponse = ListSynonymMapsResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ListSynonymMapsResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListSynonymMapsResult;
+    };
 };
 
 /**
@@ -4839,16 +4234,16 @@ export type SynonymMapsCreateResponse = SynonymMap & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SynonymMap;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SynonymMap;
+    };
 };
 
 /**
@@ -4859,16 +4254,16 @@ export type IndexesCreateResponse = SearchIndex & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SearchIndex;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SearchIndex;
+    };
 };
 
 /**
@@ -4879,16 +4274,16 @@ export type IndexesListResponse = ListIndexesResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ListIndexesResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListIndexesResult;
+    };
 };
 
 /**
@@ -4899,16 +4294,16 @@ export type IndexesCreateOrUpdateResponse = SearchIndex & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SearchIndex;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SearchIndex;
+    };
 };
 
 /**
@@ -4919,16 +4314,16 @@ export type IndexesGetResponse = SearchIndex & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SearchIndex;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SearchIndex;
+    };
 };
 
 /**
@@ -4939,16 +4334,16 @@ export type IndexesGetStatisticsResponse = GetIndexStatisticsResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: GetIndexStatisticsResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: GetIndexStatisticsResult;
+    };
 };
 
 /**
@@ -4959,16 +4354,16 @@ export type IndexesAnalyzeResponse = AnalyzeResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AnalyzeResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AnalyzeResult;
+    };
 };
 
 /**
@@ -4979,14 +4374,14 @@ export type GetServiceStatisticsResponse = ServiceStatistics & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ServiceStatistics;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServiceStatistics;
+    };
 };
