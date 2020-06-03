@@ -244,8 +244,6 @@ export interface QueueDescription {
     lockDuration?: string;
     maxDeliveryCount?: number;
     maxSizeInMegabytes?: number;
-    // (undocumented)
-    messageCount?: number;
     name: string;
     requiresDuplicateDetection?: boolean;
     requiresSession?: boolean;
@@ -500,8 +498,6 @@ export interface SubscriptionDescription {
     forwardTo?: string;
     lockDuration?: string;
     maxDeliveryCount?: number;
-    // (undocumented)
-    messageCount?: number;
     requiresSession?: boolean;
     status?: EntityStatus;
     subscriptionName: string;

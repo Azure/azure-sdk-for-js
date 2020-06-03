@@ -217,9 +217,6 @@ export interface SubscriptionDescription {
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
   autoDeleteOnIdle?: string;
-
-  // TODO: will be removed once the RuntimeInfo APIs are added
-  messageCount?: number;
 }
 
 /**
