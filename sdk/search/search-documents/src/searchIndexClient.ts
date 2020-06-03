@@ -570,7 +570,7 @@ export class SearchIndexClient {
         indexName,
         {
           ...restOptions,
-          text: text
+          text
         },
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
