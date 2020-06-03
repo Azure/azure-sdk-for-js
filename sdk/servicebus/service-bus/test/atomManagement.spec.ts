@@ -1217,13 +1217,6 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
 // Queue tests
 [
   {
-    testCaseTitle: "Undefined queue options",
-    input: undefined,
-    output: {
-      testErrorMessage: `Parameter "queue" must be an object of type "QueueDescription" and at least one of the parameters other than queueName must be defined.`
-    }
-  },
-  {
     testCaseTitle: "all properties except forwardTo, forwardDeadLetteredMessagesTo",
     input: {
       lockDuration: "PT50S",
@@ -1478,13 +1471,6 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
 // Topic tests
 [
   {
-    testCaseTitle: "Undefined topic options",
-    input: undefined,
-    output: {
-      testErrorMessage: `Parameter "topic" must be an object of type "TopicDescription" and at least one of the parameters other than topicName must be defined.`
-    }
-  },
-  {
     topicName: managementTopic1,
     testCaseTitle: "all properties",
     input: {
@@ -1548,13 +1534,6 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
 
 // Subscription tests
 [
-  {
-    testCaseTitle: "Undefined subscription options",
-    input: undefined,
-    output: {
-      testErrorMessage: `Parameter "subscription" must be an object of type "SubscriptionDescription" and at least one of the parameters other than topicName and subscriptionName must be defined.`
-    }
-  },
   {
     testCaseTitle: "all properties except forwardTo, forwardDeadLetteredMessagesTo",
     input: {

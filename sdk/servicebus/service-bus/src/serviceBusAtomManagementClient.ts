@@ -50,7 +50,7 @@ import {
   buildRule,
   RuleResourceSerializer
 } from "./serializers/ruleResourceSerializer";
-import { isJSONLikeObject, isAbsoluteUrl, areOptionsUndefined } from "./util/utils";
+import { isJSONLikeObject, isAbsoluteUrl } from "./util/utils";
 
 /**
  * Options to use with ServiceBusManagementClient creation
@@ -447,16 +447,14 @@ export class ServiceBusManagementClient extends ServiceClient {
       `Performing management operation - updateQueue() for "${queue.name}" with options: ${queue}`
     );
 
-    if (!isJSONLikeObject(queue) || queue === null) {
+    if (!isJSONLikeObject(queue) || queue == null) {
       throw new TypeError(
         `Parameter "queue" must be an object of type "QueueDescription" and cannot be undefined or null.`
       );
     }
 
-    if (areOptionsUndefined(queue, "queueName")) {
-      throw new TypeError(
-        `Parameter "queue" must be an object of type "QueueDescription" and at least one of the parameters other than queueName must be defined.`
-      );
+    if (!queue.name) {
+      throw new TypeError(`"name" attribute of the parameter "queue" cannot be undefined.`);
     }
 
     const response: HttpOperationResponse = await this.putResource(
@@ -616,16 +614,14 @@ export class ServiceBusManagementClient extends ServiceClient {
       `Performing management operation - updateTopic() for "${topic.name}" with options: ${topic}`
     );
 
-    if (!isJSONLikeObject(topic) || topic === null) {
+    if (!isJSONLikeObject(topic) || topic == null) {
       throw new TypeError(
         `Parameter "topic" must be an object of type "TopicDescription" and cannot be undefined or null.`
       );
     }
 
-    if (areOptionsUndefined(topic, "topicName")) {
-      throw new TypeError(
-        `Parameter "topic" must be an object of type "TopicDescription" and at least one of the parameters other than topicName must be defined.`
-      );
+    if (!topic.name) {
+      throw new TypeError(`"name" attribute of the parameter "topic" cannot be undefined.`);
     }
 
     const response: HttpOperationResponse = await this.putResource(
@@ -818,15 +814,15 @@ export class ServiceBusManagementClient extends ServiceClient {
       `Performing management operation - updateSubscription() for "${subscription.subscriptionName}" with options: ${subscription}`
     );
 
-    if (!isJSONLikeObject(subscription) || subscription === null) {
+    if (!isJSONLikeObject(subscription) || subscription == null) {
       throw new TypeError(
         `Parameter "subscription" must be an object of type "SubscriptionDescription" and cannot be undefined or null.`
       );
     }
 
-    if (areOptionsUndefined(subscription, "subscriptionName")) {
+    if (!subscription.topicName || !subscription.subscriptionName) {
       throw new TypeError(
-        `Parameter "subscription" must be an object of type "SubscriptionDescription" and at least one of the parameters other than topicName and subscriptionName must be defined.`
+        `The attributes "topicName" and "subscriptionName" of the parameter "subscription" cannot be undefined.`
       );
     }
 

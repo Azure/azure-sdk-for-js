@@ -289,27 +289,6 @@ export function isJSONLikeObject(value: any): boolean {
 }
 
 /**
- * Helper method for the update APIs to verify if all the options passed in are undefined.
- *
- * @export
- * @param {*} options
- * @param {("queueName" | "topicName" | "subscriptionName")} name
- * @returns
- */
-export function areOptionsUndefined(
-  options: any,
-  name: "queueName" | "topicName" | "subscriptionName"
-) {
-  const isNotEntityName = (key: string) =>
-    name === "subscriptionName" ? key != "subscriptionName" && key != "topicName" : key != name;
-  for (const [key, value] of Object.entries(options)) {
-    if (isNotEntityName(key) && value != undefined) {
-      return false;
-    }
-  }
-  return true;
-}
-/**
  * @internal
  * @ignore
  * Helper utility to retrieve message count details from given input,
