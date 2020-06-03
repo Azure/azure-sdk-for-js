@@ -367,17 +367,6 @@ export interface CommonFieldValue {
 }
 
 /**
- * Different types of receipts.
- */
-export type ReceiptType = {
-  type: "Unrecognized" | "Itemized" | "CreditCard" | "Gas" | "Parking";
-  /**
-   * Confidence value.
-   */
-  confidence?: number;
-};
-
-/**
  * Recognized Receipt
  */
 export type RecognizedReceipt = {
