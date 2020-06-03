@@ -26,21 +26,21 @@ import {
  * Builds the topic options object from the user provided options.
  * Handles the differences in casing for the property names,
  * converts values to string and ensures the right order as expected by the service
- * @param topicOptions
+ * @param topic
  */
-export function buildTopicOptions(topicOptions: TopicDescription): InternalTopicOptions {
+export function buildTopicOptions(topic: TopicDescription): InternalTopicOptions {
   return {
-    DefaultMessageTimeToLive: topicOptions.defaultMessageTtl,
-    MaxSizeInMegabytes: getStringOrUndefined(topicOptions.maxSizeInMegabytes),
-    RequiresDuplicateDetection: getStringOrUndefined(topicOptions.requiresDuplicateDetection),
-    DuplicateDetectionHistoryTimeWindow: topicOptions.duplicateDetectionHistoryTimeWindow,
-    EnableBatchedOperations: getStringOrUndefined(topicOptions.enableBatchedOperations),
-    AuthorizationRules: getRawAuthorizationRules(topicOptions.authorizationRules),
-    Status: getStringOrUndefined(topicOptions.status),
-    UserMetadata: getStringOrUndefined(topicOptions.userMetadata),
-    SupportOrdering: getStringOrUndefined(topicOptions.supportOrdering),
-    AutoDeleteOnIdle: getStringOrUndefined(topicOptions.autoDeleteOnIdle),
-    EnablePartitioning: getStringOrUndefined(topicOptions.enablePartitioning)
+    DefaultMessageTimeToLive: topic.defaultMessageTtl,
+    MaxSizeInMegabytes: getStringOrUndefined(topic.maxSizeInMegabytes),
+    RequiresDuplicateDetection: getStringOrUndefined(topic.requiresDuplicateDetection),
+    DuplicateDetectionHistoryTimeWindow: topic.duplicateDetectionHistoryTimeWindow,
+    EnableBatchedOperations: getStringOrUndefined(topic.enableBatchedOperations),
+    AuthorizationRules: getRawAuthorizationRules(topic.authorizationRules),
+    Status: getStringOrUndefined(topic.status),
+    UserMetadata: getStringOrUndefined(topic.userMetadata),
+    SupportOrdering: getStringOrUndefined(topic.supportOrdering),
+    AutoDeleteOnIdle: getStringOrUndefined(topic.autoDeleteOnIdle),
+    EnablePartitioning: getStringOrUndefined(topic.enablePartitioning)
   };
 }
 

@@ -28,28 +28,26 @@ import {
  * Builds the queue options object from the user provided options.
  * Handles the differences in casing for the property names,
  * converts values to string and ensures the right order as expected by the service
- * @param queueOptions
+ * @param queue
  */
-export function buildQueueOptions(queueOptions: QueueDescription): InternalQueueOptions {
+export function buildQueueOptions(queue: QueueDescription): InternalQueueOptions {
   return {
-    LockDuration: queueOptions.lockDuration,
-    MaxSizeInMegabytes: getStringOrUndefined(queueOptions.maxSizeInMegabytes),
-    RequiresDuplicateDetection: getStringOrUndefined(queueOptions.requiresDuplicateDetection),
-    RequiresSession: getStringOrUndefined(queueOptions.requiresSession),
-    DefaultMessageTimeToLive: queueOptions.defaultMessageTtl,
-    DeadLetteringOnMessageExpiration: getStringOrUndefined(
-      queueOptions.deadLetteringOnMessageExpiration
-    ),
-    DuplicateDetectionHistoryTimeWindow: queueOptions.duplicateDetectionHistoryTimeWindow,
-    MaxDeliveryCount: getStringOrUndefined(queueOptions.maxDeliveryCount),
-    EnableBatchedOperations: getStringOrUndefined(queueOptions.enableBatchedOperations),
-    AuthorizationRules: getRawAuthorizationRules(queueOptions.authorizationRules),
-    Status: getStringOrUndefined(queueOptions.status),
-    AutoDeleteOnIdle: getStringOrUndefined(queueOptions.autoDeleteOnIdle),
-    EnablePartitioning: getStringOrUndefined(queueOptions.enablePartitioning),
-    ForwardDeadLetteredMessagesTo: getStringOrUndefined(queueOptions.forwardDeadLetteredMessagesTo),
-    ForwardTo: getStringOrUndefined(queueOptions.forwardTo),
-    UserMetadata: getStringOrUndefined(queueOptions.userMetadata)
+    LockDuration: queue.lockDuration,
+    MaxSizeInMegabytes: getStringOrUndefined(queue.maxSizeInMegabytes),
+    RequiresDuplicateDetection: getStringOrUndefined(queue.requiresDuplicateDetection),
+    RequiresSession: getStringOrUndefined(queue.requiresSession),
+    DefaultMessageTimeToLive: queue.defaultMessageTtl,
+    DeadLetteringOnMessageExpiration: getStringOrUndefined(queue.deadLetteringOnMessageExpiration),
+    DuplicateDetectionHistoryTimeWindow: queue.duplicateDetectionHistoryTimeWindow,
+    MaxDeliveryCount: getStringOrUndefined(queue.maxDeliveryCount),
+    EnableBatchedOperations: getStringOrUndefined(queue.enableBatchedOperations),
+    AuthorizationRules: getRawAuthorizationRules(queue.authorizationRules),
+    Status: getStringOrUndefined(queue.status),
+    AutoDeleteOnIdle: getStringOrUndefined(queue.autoDeleteOnIdle),
+    EnablePartitioning: getStringOrUndefined(queue.enablePartitioning),
+    ForwardDeadLetteredMessagesTo: getStringOrUndefined(queue.forwardDeadLetteredMessagesTo),
+    ForwardTo: getStringOrUndefined(queue.forwardTo),
+    UserMetadata: getStringOrUndefined(queue.userMetadata)
   };
 }
 

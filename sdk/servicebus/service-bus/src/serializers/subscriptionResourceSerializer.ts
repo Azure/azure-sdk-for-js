@@ -24,30 +24,28 @@ import {
  * Builds the subscription options object from the user provided options.
  * Handles the differences in casing for the property names,
  * converts values to string and ensures the right order as expected by the service
- * @param subscriptionOptions
+ * @param subscription
  */
 export function buildSubscriptionOptions(
-  subscriptionOptions: SubscriptionDescription
+  subscription: SubscriptionDescription
 ): InternalSubscriptionOptions {
   return {
-    LockDuration: subscriptionOptions.lockDuration,
-    RequiresSession: getStringOrUndefined(subscriptionOptions.requiresSession),
-    DefaultMessageTimeToLive: getStringOrUndefined(subscriptionOptions.defaultMessageTtl),
+    LockDuration: subscription.lockDuration,
+    RequiresSession: getStringOrUndefined(subscription.requiresSession),
+    DefaultMessageTimeToLive: getStringOrUndefined(subscription.defaultMessageTtl),
     DeadLetteringOnMessageExpiration: getStringOrUndefined(
-      subscriptionOptions.deadLetteringOnMessageExpiration
+      subscription.deadLetteringOnMessageExpiration
     ),
     DeadLetteringOnFilterEvaluationExceptions: getStringOrUndefined(
-      subscriptionOptions.deadLetteringOnFilterEvaluationExceptions
+      subscription.deadLetteringOnFilterEvaluationExceptions
     ),
-    MaxDeliveryCount: getStringOrUndefined(subscriptionOptions.maxDeliveryCount),
-    EnableBatchedOperations: getStringOrUndefined(subscriptionOptions.enableBatchedOperations),
-    Status: getStringOrUndefined(subscriptionOptions.status),
-    ForwardTo: getStringOrUndefined(subscriptionOptions.forwardTo),
-    UserMetadata: getStringOrUndefined(subscriptionOptions.userMetadata),
-    ForwardDeadLetteredMessagesTo: getStringOrUndefined(
-      subscriptionOptions.forwardDeadLetteredMessagesTo
-    ),
-    AutoDeleteOnIdle: getStringOrUndefined(subscriptionOptions.autoDeleteOnIdle)
+    MaxDeliveryCount: getStringOrUndefined(subscription.maxDeliveryCount),
+    EnableBatchedOperations: getStringOrUndefined(subscription.enableBatchedOperations),
+    Status: getStringOrUndefined(subscription.status),
+    ForwardTo: getStringOrUndefined(subscription.forwardTo),
+    UserMetadata: getStringOrUndefined(subscription.userMetadata),
+    ForwardDeadLetteredMessagesTo: getStringOrUndefined(subscription.forwardDeadLetteredMessagesTo),
+    AutoDeleteOnIdle: getStringOrUndefined(subscription.autoDeleteOnIdle)
   };
 }
 

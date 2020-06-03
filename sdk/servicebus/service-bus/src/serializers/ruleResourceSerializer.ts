@@ -24,11 +24,11 @@ import { CorrelationRuleFilter } from "../core/managementClient";
  * Handles the differences in casing for the property names,
  * converts values to string and ensures the right order as expected by the service
  * @param name
- * @param ruleOptions
+ * @param rule
  */
-export function buildRuleOptions(ruleOptions: RuleDescription): InternalRuleOptions {
-  const internalRuleOptions: InternalRuleOptions = Object.assign({}, ruleOptions, {
-    name: ruleOptions.ruleName
+export function buildRuleOptions(rule: RuleDescription): InternalRuleOptions {
+  const internalRuleOptions: InternalRuleOptions = Object.assign({}, rule, {
+    name: rule.ruleName
   });
   return internalRuleOptions;
 }
