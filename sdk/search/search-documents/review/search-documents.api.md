@@ -1057,7 +1057,7 @@ export interface SearchIndex {
     fields: SearchField[];
     name: string;
     scoringProfiles?: ScoringProfile[];
-    similarityAlgorithm?: SimilarityAlgorithm;
+    similarity?: SimilarityAlgorithm;
     suggesters?: SearchSuggester[];
     tokenFilters?: TokenFilter[];
     tokenizers?: LexicalTokenizer[];

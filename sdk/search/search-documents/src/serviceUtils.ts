@@ -393,7 +393,7 @@ export function generatedIndexToPublicIndex(generatedIndex: GeneratedSearchIndex
     charFilters: generatedIndex.charFilters as CharFilter[],
     scoringProfiles: generatedIndex.scoringProfiles as ScoringProfile[],
     fields: convertFieldsToPublic(generatedIndex.fields),
-    similarityAlgorithm: convertSimilarityToPublic(generatedIndex.similarity)
+    similarity: convertSimilarityToPublic(generatedIndex.similarity)
   };
 }
 
@@ -411,7 +411,7 @@ export function publicIndexToGeneratedIndex(index: SearchIndex): GeneratedSearch
     analyzers: convertAnalyzersToGenerated(index.analyzers),
     tokenizers: convertTokenizersToGenerated(index.tokenizers),
     fields: convertFieldsToGenerated(index.fields),
-    similarity: convertSimilarityToGenerated(index.similarityAlgorithm)
+    similarity: convertSimilarityToGenerated(index.similarity)
   };
 }
 

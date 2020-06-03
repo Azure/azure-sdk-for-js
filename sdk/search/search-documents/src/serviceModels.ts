@@ -892,7 +892,7 @@ export interface SearchIndex {
    * search query. The similarity algorithm can only be defined at index creation time and cannot
    * be modified on existing indexes. If null, the ClassicSimilarity algorithm is used.
    */
-  similarityAlgorithm?: SimilarityAlgorithm;
+  similarity?: SimilarityAlgorithm;
   /**
    * The ETag of the index.
    */
