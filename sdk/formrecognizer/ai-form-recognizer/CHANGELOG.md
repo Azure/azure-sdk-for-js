@@ -31,6 +31,7 @@
   - [Breaking] Remove `getFormTrainingClient()` from `FormRecognizerClient`. A new method `getFormRecognizerClient()` is added to `FormTrainingClient`
   - [Breaking] `useTrainingLabels` parameter is now required for `beginTraining()` method.
   - [Breaking] Rename `intervalInMs` to `updateIntervalInMs` for all LRO poller options.
+  - [Breaking] Remove `USReceipt` and assoicated types.
   - Rename the first parameter of `beginRecognizeContent()` from `data` to `form`.
   - Rename the second parameter of `beginRecognizeForms()` from `data` to `form`.
   - Rename the first parameter of `beginRecognizeReceipts()` from `data` to `receipt`.
