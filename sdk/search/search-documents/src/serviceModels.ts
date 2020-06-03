@@ -7,7 +7,6 @@ import {
   LuceneStandardAnalyzer,
   StopAnalyzer,
   CorsOptions,
-  SearchResourceEncryptionKey,
   Suggester as SearchSuggester,
   ClassicTokenizer,
   EdgeNGramTokenizer,
@@ -864,6 +863,38 @@ export interface SearchIndex {
    * The ETag of the index.
    */
   etag?: string;
+}
+
+/**
+ * A customer-managed encryption key in Azure Key Vault. Keys that you create and manage can be
+ * used to encrypt or decrypt data-at-rest in Azure Cognitive Search, such as indexes and synonym
+ * maps.
+ */
+export interface SearchResourceEncryptionKey {
+  /**
+   * The name of your Azure Key Vault key to be used to encrypt your data at rest.
+   */
+  keyName: string;
+  /**
+   * The version of your Azure Key Vault key to be used to encrypt your data at rest.
+   */
+  keyVersion: string;
+  /**
+   * The URI of your Azure Key Vault, also referred to as DNS name, that contains the key to be
+   * used to encrypt your data at rest. An example URI might be
+   * https://my-keyvault-name.vault.azure.net.
+   */
+  vaultUri: string;
+  /**
+   * An AAD Application ID that was granted the required access permissions to the Azure Key Vault
+   * that is to be used when encrypting your data at rest. The Application ID should not be
+   * confused with the Object ID for your AAD Application.
+   */
+  applicationId?: string;
+  /**
+   * The authentication key of the specified AAD application.
+   */
+  applicationSecret?: string;
 }
 
 /**

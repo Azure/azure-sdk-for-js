@@ -92,7 +92,8 @@ export {
   LuceneStandardTokenizer,
   EdgeNGramTokenFilter,
   KeywordTokenizer,
-  AnalyzeRequest
+  AnalyzeRequest,
+  SearchResourceEncryptionKey
 } from "./serviceModels";
 export { default as GeographyPoint } from "./geographyPoint";
 export { odata } from "./odata";
@@ -118,7 +119,6 @@ export {
   PatternReplaceCharFilter,
   CorsOptions,
   AzureActiveDirectoryApplicationCredentials,
-  SearchResourceEncryptionKey,
   ScoringFunctionAggregation,
   ScoringFunctionInterpolation,
   DistanceScoringParameters,

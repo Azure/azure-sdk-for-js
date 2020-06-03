@@ -24,7 +24,8 @@ import {
   SimilarityUnion,
   BM25Similarity,
   ClassicSimilarity,
-  TokenFilterUnion
+  TokenFilterUnion,
+  SearchResourceEncryptionKey as GeneratedSearchResourceEncryptionKey
 } from "./generated/service/models";
 import {
   LexicalAnalyzer,
@@ -44,7 +45,8 @@ import {
   SearchIndexerDataSourceConnection,
   DataChangeDetectionPolicy,
   DataDeletionDetectionPolicy,
-  SimilarityAlgorithm
+  SimilarityAlgorithm,
+  SearchResourceEncryptionKey
 } from "./serviceModels";
 
 export function convertSkillsToPublic(skills: SearchIndexerSkillUnion[]): SearchIndexerSkill[] {
@@ -333,13 +335,57 @@ export function extractOperationOptions<T extends OperationOptions>(
   };
 }
 
+export function convertEncryptionKeyToPublic(
+  encryptionKey?: GeneratedSearchResourceEncryptionKey
+): SearchResourceEncryptionKey | undefined {
+  if (!encryptionKey) {
+    return encryptionKey;
+  }
+
+  const result: SearchResourceEncryptionKey = {
+    keyName: encryptionKey.keyName,
+    keyVersion: encryptionKey.keyVersion,
+    vaultUri: encryptionKey.vaultUri
+  };
+
+  if (encryptionKey.accessCredentials) {
+    result.applicationId = encryptionKey.accessCredentials.applicationId;
+    result.applicationSecret = encryptionKey.accessCredentials.applicationSecret;
+  }
+
+  return result;
+}
+
+export function convertEncryptionKeyToGenerated(
+  encryptionKey?: SearchResourceEncryptionKey
+): GeneratedSearchResourceEncryptionKey | undefined {
+  if (!encryptionKey) {
+    return encryptionKey;
+  }
+
+  const result: GeneratedSearchResourceEncryptionKey = {
+    keyName: encryptionKey.keyName,
+    keyVersion: encryptionKey.keyVersion,
+    vaultUri: encryptionKey.vaultUri
+  };
+
+  if (encryptionKey.applicationId) {
+    result.accessCredentials = {
+      applicationId: encryptionKey.applicationId,
+      applicationSecret: encryptionKey.applicationSecret
+    };
+  }
+
+  return result;
+}
+
 export function generatedIndexToPublicIndex(generatedIndex: GeneratedSearchIndex): SearchIndex {
   return {
     name: generatedIndex.name,
     defaultScoringProfile: generatedIndex.defaultScoringProfile,
     corsOptions: generatedIndex.corsOptions,
     suggesters: generatedIndex.suggesters,
-    encryptionKey: generatedIndex.encryptionKey,
+    encryptionKey: convertEncryptionKeyToPublic(generatedIndex.encryptionKey),
     etag: generatedIndex.etag,
     analyzers: convertAnalyzersToPublic(generatedIndex.analyzers),
     tokenizers: convertTokenizersToPublic(generatedIndex.tokenizers),
@@ -357,7 +403,7 @@ export function publicIndexToGeneratedIndex(index: SearchIndex): GeneratedSearch
     defaultScoringProfile: index.defaultScoringProfile,
     corsOptions: index.corsOptions,
     suggesters: index.suggesters,
-    encryptionKey: index.encryptionKey,
+    encryptionKey: convertEncryptionKeyToGenerated(index.encryptionKey),
     etag: index.etag,
     tokenFilters: convertTokenFiltersToGenerated(index.tokenFilters),
     charFilters: index.charFilters,
@@ -409,16 +455,22 @@ export function generatedSynonymMapToPublicSynonymMap(synonymMap: GeneratedSynon
     result.synonyms = synonymMap.synonyms.split("\n");
   }
 
+  result.encryptionKey = convertEncryptionKeyToPublic(synonymMap.encryptionKey);
+
   return result;
 }
 
 export function publicSynonymMapToGeneratedSynonymMap(synonymMap: SynonymMap): GeneratedSynonymMap {
-  return {
+  const result: GeneratedSynonymMap = {
     name: synonymMap.name,
     encryptionKey: synonymMap.encryptionKey,
     etag: synonymMap.etag,
     synonyms: synonymMap.synonyms.join("\n")
   };
+
+  result.encryptionKey = convertEncryptionKeyToGenerated(synonymMap.encryptionKey);
+
+  return result;
 }
 
 export function generatedDataSourceToPublicDataSource(
