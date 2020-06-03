@@ -2,15 +2,15 @@
 // Licensed under the MIT license.
 
 import * as log from "../log";
-import { translate, MessagingError, Constants } from "@azure/core-amqp";
-import { ReceiverEvents, EventContext, OnAmqpEvent, SessionEvents, AmqpError } from "rhea-promise";
-import { ServiceBusMessageImpl, ReceiveMode } from "../serviceBusMessage";
+import { Constants, MessagingError, translate } from "@azure/core-amqp";
+import { AmqpError, EventContext, OnAmqpEvent, ReceiverEvents, SessionEvents } from "rhea-promise";
+import { ReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
 import {
   MessageReceiver,
-  ReceiveOptions,
-  ReceiverType,
+  OnAmqpEventAsPromise,
   PromiseLike,
-  OnAmqpEventAsPromise
+  ReceiveOptions,
+  ReceiverType
 } from "./messageReceiver";
 import { ClientEntityContext } from "../clientEntityContext";
 import { throwErrorIfConnectionClosed } from "../util/errors";

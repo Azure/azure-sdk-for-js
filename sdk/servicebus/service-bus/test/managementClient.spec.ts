@@ -1,6 +1,9 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { delay, Sender, Receiver, ReceivedMessageWithLock } from "../src";
+import { ReceivedMessageWithLock, Receiver, Sender, delay } from "../src";
 import { TestClientType, TestMessage } from "./utils/testUtils";
 import { ServiceBusClientForTests, createServiceBusClientForTests } from "./utils/testutils2";
 import { isNode } from "@azure/core-amqp";

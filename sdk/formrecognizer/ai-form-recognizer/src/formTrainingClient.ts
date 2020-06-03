@@ -22,7 +22,6 @@ import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/api";
 import { GeneratedClient } from "./generated/generatedClient";
 import {
-  GeneratedClientGetCustomModelsResponse as ListModelsResponseModel,
   GeneratedClientGetCustomModelCopyResultResponse as GetCustomModelCopyResultResponseModel,
   GeneratedClientCopyCustomModelResponse as CopyCustomModelResponseModel,
   GeneratedClientTrainCustomModelAsyncResponse
@@ -33,9 +32,11 @@ import { FormRecognizerClientOptions, FormRecognizerOperationOptions } from "./c
 import {
   FormModelResponse,
   AccountProperties,
+  CustomFormModel,
   CustomFormModelInfo,
   CopyAuthorization,
-  CopyAuthorizationResultModel
+  CopyAuthorizationResultModel,
+  ListCustomModelsResponse
 } from "./models";
 import { createFormRecognizerAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 import { toFormModelResponse } from "./transforms";
@@ -47,7 +48,6 @@ import {
 import { FormRecognizerClient } from "./formRecognizerClient";
 
 export {
-  ListModelsResponseModel,
   RestResponse,
   TrainPollerClient,
   BeginTrainingPollState,
@@ -93,7 +93,7 @@ export type GetCopyModelResultOptions = FormRecognizerOperationOptions;
  * Options for begin copy model operation
  */
 export type BeginCopyModelOptions = FormRecognizerOperationOptions & {
-  intervalInMs?: number;
+  updateIntervalInMs?: number;
   onProgress?: (state: BeginCopyModelPollState) => void;
   resumeFrom?: string;
 };
@@ -109,9 +109,9 @@ export type TrainingFileFilter = FormRecognizerOperationOptions & {
 /**
  * Options for starting model training operation.
  */
-export type BeginTrainingOptions<T> = TrainingFileFilter & {
-  intervalInMs?: number;
-  onProgress?: (state: BeginTrainingPollState<T>) => void;
+export type BeginTrainingOptions = TrainingFileFilter & {
+  updateIntervalInMs?: number;
+  onProgress?: (state: BeginTrainingPollState) => void;
   resumeFrom?: string;
 };
 
@@ -318,7 +318,7 @@ export class FormTrainingClient {
   private async *listModelsPage(
     _settings: PageSettings,
     options: ListModelsOptions = {}
-  ): AsyncIterableIterator<ListModelsResponseModel> {
+  ): AsyncIterableIterator<ListCustomModelsResponse> {
     let result = await this.list(options);
     yield result;
 
@@ -381,7 +381,7 @@ export class FormTrainingClient {
    */
   public listCustomModels(
     options: ListModelsOptions = {}
-  ): PagedAsyncIterableIterator<CustomFormModelInfo, ListModelsResponseModel> {
+  ): PagedAsyncIterableIterator<CustomFormModelInfo, ListCustomModelsResponse> {
     const iter = this.listModelsAll({}, options);
 
     return {
@@ -399,7 +399,7 @@ export class FormTrainingClient {
     };
   }
 
-  private async list(options?: ListModelsOptions): Promise<ListModelsResponseModel> {
+  private async list(options?: ListModelsOptions): Promise<ListCustomModelsResponse> {
     const realOptions: ListModelsOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
       "FormTrainingClient-list",
@@ -426,7 +426,7 @@ export class FormTrainingClient {
   private async listNextPage(
     nextLink: string,
     options?: ListModelsOptions
-  ): Promise<ListModelsResponseModel> {
+  ): Promise<ListCustomModelsResponse> {
     const realOptions: ListModelsOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
       "FormTrainingClient-listNextPage",
@@ -457,6 +457,8 @@ export class FormTrainingClient {
    * Note that the onProgress callback will not be invoked if the operation completes in the first
    * request, and attempting to cancel a completed copy will result in an error being thrown.
    *
+   * Note that when training operation fails, a model is still created in Azure Form Recognizer resource.
+   *
    * Example usage:
    * ```ts
    * const trainingFilesUrl = "<url to the blob container storing training documents>";
@@ -477,11 +479,10 @@ export class FormTrainingClient {
   public async beginTraining(
     trainingFilesUrl: string,
     useTrainingLabels: boolean,
-    options: BeginTrainingOptions<FormModelResponse> = {}
-  ): Promise<PollerLike<PollOperationState<FormModelResponse>, FormModelResponse>> {
-    const trainPollerClient: TrainPollerClient<FormModelResponse> = {
-      getCustomModel: (modelId: string, options: GetModelOptions) =>
-        this.getCustomModel(modelId, options),
+    options: BeginTrainingOptions = {}
+  ): Promise<PollerLike<PollOperationState<CustomFormModel>, CustomFormModel>> {
+    const trainPollerClient: TrainPollerClient = {
+      getCustomModel: (modelId: string, options: GetModelOptions) => this.getCustomModel(modelId, options),
       trainCustomModelInternal: (
         source: string,
         _useLabelFile?: boolean,
@@ -492,7 +493,7 @@ export class FormTrainingClient {
     const poller = new BeginTrainingPoller({
       client: trainPollerClient,
       source: trainingFilesUrl,
-      intervalInMs: options.intervalInMs,
+      updateIntervalInMs: options.updateIntervalInMs,
       onProgress: options.onProgress,
       resumeFrom: options.resumeFrom,
       trainModelOptions: options

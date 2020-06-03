@@ -11,11 +11,11 @@ import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:misc-spec");
 import {
   EventData,
+  EventHubConsumerClient,
+  EventHubProducerClient,
   EventHubProperties,
   ReceivedEventData,
-  EventHubConsumerClient,
-  Subscription,
-  EventHubProducerClient
+  Subscription
 } from "../src";
 import { EventHubClient } from "../src/impl/eventHubClient";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
@@ -65,7 +65,7 @@ describe("Misc tests", function(): void {
     const offset = (await client.getPartitionProperties(partitionId)).lastEnqueuedOffset;
     debug(`Partition ${partitionId} has last message with offset ${offset}.`);
     debug("Sending one message with %d bytes.", bodysize);
-    receiver = client.createConsumer(EventHubClient.defaultConsumerGroupName, partitionId, {
+    receiver = client.createConsumer(EventHubConsumerClient.defaultConsumerGroupName, partitionId, {
       offset
     });
     let data = await receiver.receiveBatch(1, 1);
@@ -102,7 +102,7 @@ describe("Misc tests", function(): void {
     const offset = (await client.getPartitionProperties(partitionId)).lastEnqueuedOffset;
     debug(`Partition ${partitionId} has last message with offset ${offset}.`);
     debug("Sending one message %O", obj);
-    receiver = client.createConsumer(EventHubClient.defaultConsumerGroupName, partitionId, {
+    receiver = client.createConsumer(EventHubConsumerClient.defaultConsumerGroupName, partitionId, {
       offset
     });
     await producerClient.sendBatch([obj], { partitionId });
@@ -135,7 +135,7 @@ describe("Misc tests", function(): void {
     const offset = (await client.getPartitionProperties(partitionId)).lastEnqueuedOffset;
     debug(`Partition ${partitionId} has last message with offset ${offset}.`);
     debug("Sending one message %O", obj);
-    receiver = client.createConsumer(EventHubClient.defaultConsumerGroupName, partitionId, {
+    receiver = client.createConsumer(EventHubConsumerClient.defaultConsumerGroupName, partitionId, {
       offset
     });
     await producerClient.sendBatch([obj], { partitionId });
@@ -157,7 +157,7 @@ describe("Misc tests", function(): void {
     const offset = (await client.getPartitionProperties(partitionId)).lastEnqueuedOffset;
     debug(`Partition ${partitionId} has last message with offset ${offset}.`);
     debug("Sending one message %O", obj);
-    receiver = client.createConsumer(EventHubClient.defaultConsumerGroupName, partitionId, {
+    receiver = client.createConsumer(EventHubConsumerClient.defaultConsumerGroupName, partitionId, {
       offset
     });
     await producerClient.sendBatch([obj], { partitionId });
@@ -189,7 +189,7 @@ describe("Misc tests", function(): void {
       await producerClient.sendBatch(d, { partitionId });
       debug("Successfully sent 5 messages batched together.");
 
-      const receiver = client.createConsumer(EventHubClient.defaultConsumerGroupName, partitionId, {
+      const receiver = client.createConsumer(EventHubConsumerClient.defaultConsumerGroupName, partitionId, {
         offset
       });
       const data = await receiver.receiveBatch(5, 30);
@@ -240,7 +240,7 @@ describe("Misc tests", function(): void {
       await producerClient.sendBatch(d, { partitionId });
       debug("Successfully sent 5 messages batched together.");
 
-      const receiver = client.createConsumer(EventHubClient.defaultConsumerGroupName, partitionId, {
+      const receiver = client.createConsumer(EventHubConsumerClient.defaultConsumerGroupName, partitionId, {
         offset
       });
       const data = await receiver.receiveBatch(5, 30);
@@ -262,7 +262,7 @@ describe("Misc tests", function(): void {
     void
   > {
     const consumerClient = new EventHubConsumerClient(
-      EventHubClient.defaultConsumerGroupName,
+      EventHubConsumerClient.defaultConsumerGroupName,
       service.connectionString!,
       service.path
     );

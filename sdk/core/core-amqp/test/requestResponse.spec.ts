@@ -3,9 +3,9 @@
 
 import { assert } from "chai";
 import {
-  RequestResponseLink,
   AmqpMessage,
   ErrorNameConditionMapper,
+  RequestResponseLink,
   RetryConfig,
   RetryOperationType,
   retry

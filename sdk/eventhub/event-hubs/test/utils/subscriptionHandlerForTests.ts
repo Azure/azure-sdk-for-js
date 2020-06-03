@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import {
-  SubscriptionEventHandlers,
-  PartitionContext
+  PartitionContext,
+  SubscriptionEventHandlers
 } from "../../src/eventHubConsumerClientModels";
 import { EventHubConsumerClient } from "../../src/eventHubConsumerClient";
 import { EventHubProducerClient } from "../../src/eventHubProducerClient";

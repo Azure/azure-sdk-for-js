@@ -1,34 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { logger, logErrorStackTrace } from "../log";
+import { logErrorStackTrace, logger } from "../log";
 import {
-  TokenCredential,
-  EventHubConnectionConfig,
-  SharedKeyCredential,
   ConnectionConfig,
-  isTokenCredential,
+  EventHubConnectionConfig,
+  EventHubConnectionStringModel,
   RetryOptions,
-  Constants,
-  parseConnectionString,
-  EventHubConnectionStringModel
+  SharedKeyCredential,
+  TokenCredential,
+  isTokenCredential,
+  parseConnectionString
 } from "@azure/core-amqp";
 
 import { ConnectionContext } from "../connectionContext";
-import { PartitionProperties, EventHubProperties } from "../managementClient";
+import { EventHubProperties, PartitionProperties } from "../managementClient";
 import { EventPosition } from "../eventPosition";
 import { EventHubProducer } from "../sender";
 import { EventHubConsumer } from "../receiver";
-import { throwTypeErrorIfParameterMissing, throwErrorIfConnectionClosed } from "../util/error";
+import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "../util/error";
 import { getTracer } from "@azure/core-tracing";
-import { SpanContext, Span, SpanKind, CanonicalCode } from "@opentelemetry/api";
+import { CanonicalCode, Span, SpanContext, SpanKind } from "@opentelemetry/api";
 import { getParentSpan } from "../util/operationOptions";
-import { OperationNames, EventHubProducerOptions } from "../models/private";
+import { EventHubProducerOptions, OperationNames } from "../models/private";
 import {
+  EventHubClientOptions,
   GetEventHubPropertiesOptions,
   GetPartitionIdsOptions,
-  GetPartitionPropertiesOptions,
-  EventHubClientOptions
+  GetPartitionPropertiesOptions
 } from "../models/public";
 
 /**
@@ -471,10 +470,4 @@ export class EventHubClient {
       clientSpan.end();
     }
   }
-
-  /**
-   * @property
-   * The name of the default consumer group in the Event Hubs service.
-   */
-  static defaultConsumerGroupName: string = Constants.defaultConsumerGroup;
 }

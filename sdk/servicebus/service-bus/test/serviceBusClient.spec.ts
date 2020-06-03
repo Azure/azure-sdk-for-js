@@ -4,10 +4,10 @@
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import Long from "long";
-import { MessagingError, ServiceBusClient, Receiver, SessionReceiver } from "../src";
+import { MessagingError, Receiver, ServiceBusClient, SessionReceiver } from "../src";
 import { Sender } from "../src/sender";
 import { getReceiverClosedErrorMsg, getSenderClosedErrorMsg } from "../src/util/errors";
-import { TestClientType, TestMessage, isMessagingError, checkWithTimeout } from "./utils/testUtils";
+import { TestClientType, TestMessage, checkWithTimeout, isMessagingError } from "./utils/testUtils";
 import {
   DispositionType,
   ReceivedMessageWithLock,
@@ -23,9 +23,9 @@ dotenv.config();
 
 // import { EnvironmentCredential } from "@azure/identity";
 import {
-  createServiceBusClientForTests,
-  ServiceBusClientForTests,
   EntityName,
+  ServiceBusClientForTests,
+  createServiceBusClientForTests,
   testPeekMsgsLength
 } from "./utils/testutils2";
 

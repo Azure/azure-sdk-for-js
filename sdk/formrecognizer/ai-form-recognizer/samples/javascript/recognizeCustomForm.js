@@ -31,15 +31,10 @@ async function main() {
     }
   });
   await poller.pollUntilDone();
-  const response = poller.getResult();
+  const forms = poller.getResult();
 
-  if (!response) {
-    throw new Error("Expecting valid response!");
-  }
-
-  console.log(response.status);
   console.log("Forms:");
-  for (const form of response.forms || []) {
+  for (const form of forms || []) {
     console.log(`${form.formType}, page range: ${form.pageRange}`);
     console.log("Pages:");
     for (const page of form.pages || []) {
@@ -63,9 +58,6 @@ async function main() {
       );
     }
   }
-
-  console.log("Errors:");
-  console.log(response.errors);
 }
 
 main().catch((err) => {

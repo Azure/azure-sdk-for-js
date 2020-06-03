@@ -1,23 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortSignalLike, AbortError } from "@azure/abort-controller";
+import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { Constants } from "./util/constants";
 import {
-  Session,
-  Connection,
-  Sender,
-  Receiver,
-  Message as AmqpMessage,
-  EventContext,
   AmqpError,
-  SenderOptions,
-  ReceiverOptions,
+  Message as AmqpMessage,
+  Connection,
+  EventContext,
+  Receiver,
   ReceiverEvents,
-  ReqResLink
+  ReceiverOptions,
+  ReqResLink,
+  Sender,
+  SenderOptions,
+  Session
 } from "rhea-promise";
-import { translate, ConditionStatusMapper } from "./errors";
-import { logger, logErrorStackTrace } from "./log";
+import { ConditionStatusMapper, translate } from "./errors";
+import { logErrorStackTrace, logger } from "./log";
 
 /**
  * Describes the options that can be specified while sending a request.

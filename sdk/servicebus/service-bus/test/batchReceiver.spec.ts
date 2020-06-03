@@ -4,17 +4,17 @@
 import chai from "chai";
 import Long from "long";
 import chaiAsPromised from "chai-as-promised";
-import { delay, ServiceBusMessage } from "../src";
+import { ServiceBusMessage, delay } from "../src";
 import { getAlreadyReceivingErrorMsg } from "../src/util/errors";
 import { TestClientType, TestMessage } from "./utils/testUtils";
 import { Receiver, ReceiverImpl } from "../src/receivers/receiver";
 import { Sender } from "../src/sender";
 import {
-  createServiceBusClientForTests,
   ServiceBusClientForTests,
+  createServiceBusClientForTests,
   testPeekMsgsLength
 } from "./utils/testutils2";
-import { ReceivedMessageWithLock, ReceivedMessage } from "../src/serviceBusMessage";
+import { ReceivedMessage, ReceivedMessageWithLock } from "../src/serviceBusMessage";
 import { AbortController } from "@azure/abort-controller";
 import { isNode } from "@azure/core-amqp";
 import { ReceiverEvents } from "rhea-promise";

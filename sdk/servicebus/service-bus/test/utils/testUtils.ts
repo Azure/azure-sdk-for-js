@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import chai from "chai";
-import { ServiceBusMessage, delay, MessagingError, ReceivedMessage } from "../../src";
+import { MessagingError, ReceivedMessage, ServiceBusMessage, delay } from "../../src";
 import * as dotenv from "dotenv";
 dotenv.config();
 
