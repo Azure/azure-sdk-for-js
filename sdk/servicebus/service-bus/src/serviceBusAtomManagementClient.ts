@@ -361,7 +361,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   async createQueue(queue: QueueDescription): Promise<CreateQueueResponse>;
   async createQueue(queueNameOrOptions: string | QueueDescription): Promise<CreateQueueResponse> {
     let queue: QueueDescription;
-    if (typeof queueNameOrOptions == "string") {
+    if (typeof queueNameOrOptions === "string") {
       queue = { name: queueNameOrOptions };
     } else {
       queue = queueNameOrOptions;
@@ -530,7 +530,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   async createTopic(topic: TopicDescription): Promise<CreateTopicResponse>;
   async createTopic(topicNameOrOptions: string | TopicDescription): Promise<CreateTopicResponse> {
     let topic: TopicDescription;
-    if (typeof topicNameOrOptions == "string") {
+    if (typeof topicNameOrOptions === "string") {
       topic = { name: topicNameOrOptions };
     } else {
       topic = topicNameOrOptions;
@@ -709,7 +709,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     subscriptionName?: string
   ): Promise<CreateSubscriptionResponse> {
     let subscription: SubscriptionDescription;
-    if (typeof topicNameOrSubscriptionOptions == "string") {
+    if (typeof topicNameOrSubscriptionOptions === "string") {
       if (!subscriptionName) {
         throw new Error("Subscription name is not provided");
       }
