@@ -4,7 +4,7 @@
 import { RuleDescription, CorrelationRuleFilter } from "../core/managementClient";
 import { throwErrorIfClientOrConnectionClosed } from "../util/errors";
 import { ClientEntityContext } from "../clientEntityContext";
-import { retry, RetryOperationType, RetryConfig, RetryOptions } from "@azure/core-amqp";
+import { RetryConfig, RetryOperationType, RetryOptions, retry } from "@azure/core-amqp";
 import { OperationOptions } from "../modelsToBeSharedWithEventHubs";
 
 /**

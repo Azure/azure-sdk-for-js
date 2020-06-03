@@ -81,7 +81,7 @@
     "@opentelemetry/api": "^0.6.1",
     "form-data": "^3.0.0",
     "tslib": "^1.10.0",
-    "https-proxy-agent": "^3.0.1"
+    "https-proxy-agent": "^5.0.0"
   },
   "devDependencies": {
     "@microsoft/api-extractor": "7.7.11",

@@ -3,32 +3,32 @@
 
 import * as log from "../log";
 import {
-  messageProperties,
+  AmqpError,
   AwaitableSender,
   AwaitableSenderOptions,
   EventContext,
   OnAmqpEvent,
   message as RheaMessageUtil,
-  AmqpError,
-  generate_uuid
+  generate_uuid,
+  messageProperties
 } from "rhea-promise";
 import {
-  defaultLock,
-  retry,
-  translate,
   AmqpMessage,
+  Constants,
   ErrorNameConditionMapper,
+  MessagingError,
   RetryConfig,
   RetryOperationType,
-  Constants,
+  RetryOptions,
+  defaultLock,
   delay,
-  MessagingError,
-  RetryOptions
+  retry,
+  translate
 } from "@azure/core-amqp";
 import {
   ServiceBusMessage,
-  toAmqpMessage,
-  getMessagePropertyTypeMismatchError
+  getMessagePropertyTypeMismatchError,
+  toAmqpMessage
 } from "../serviceBusMessage";
 import { ClientEntityContext } from "../clientEntityContext";
 import { LinkEntity } from "./linkEntity";
@@ -254,7 +254,7 @@ export class MessageSender extends LinkEntity {
     options: OperationOptions | undefined
   ): Promise<void> {
     const abortSignal = options?.abortSignal;
-    let timeoutInMs =
+    const timeoutInMs =
       this._retryOptions.timeoutInMs == undefined
         ? Constants.defaultOperationTimeoutInMs
         : this._retryOptions.timeoutInMs;

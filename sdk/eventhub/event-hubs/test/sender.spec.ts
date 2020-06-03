@@ -9,13 +9,13 @@ import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:sender-spec");
 import {
   EventData,
-  EventHubProducerClient,
   EventHubConsumerClient,
-  ReceivedEventData,
-  EventPosition
+  EventHubProducerClient,
+  EventPosition,
+  ReceivedEventData
 } from "../src";
 import { EventHubClient } from "../src/impl/eventHubClient";
-import { SendOptions, SendBatchOptions } from "../src/models/public";
+import { SendBatchOptions, SendOptions } from "../src/models/public";
 import {
   EnvVarKeys,
   getEnvVars,

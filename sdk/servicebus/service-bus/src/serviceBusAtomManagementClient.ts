@@ -2,18 +2,18 @@
 // Licensed under the MIT license.
 
 import {
-  WebResource,
+  HttpOperationResponse,
+  ProxySettings,
+  RequestPolicyFactory,
+  RestError,
   ServiceClient,
   ServiceClientOptions,
-  HttpOperationResponse,
-  signingPolicy,
-  proxyPolicy,
-  RequestPolicyFactory,
   URLBuilder,
-  ProxySettings,
+  WebResource,
+  proxyPolicy,
+  signingPolicy,
   stripRequest,
-  stripResponse,
-  RestError
+  stripResponse
 } from "@azure/core-http";
 
 import { parseConnectionString, SharedKeyCredential, TokenCredential } from "@azure/core-amqp";
@@ -25,32 +25,32 @@ import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials"
 import * as Constants from "./util/constants";
 
 import {
-  QueueResourceSerializer,
   InternalQueueOptions,
   QueueDescription,
   buildQueueOptions,
-  buildQueue
+  buildQueue,
+  QueueResourceSerializer
 } from "./serializers/queueResourceSerializer";
 import {
-  TopicResourceSerializer,
   InternalTopicOptions,
   buildTopicOptions,
   TopicDescription,
-  buildTopic
+  buildTopic,
+  TopicResourceSerializer
 } from "./serializers/topicResourceSerializer";
 import {
-  SubscriptionResourceSerializer,
   InternalSubscriptionOptions,
   SubscriptionDescription,
   buildSubscriptionOptions,
-  buildSubscription
+  buildSubscription,
+  SubscriptionResourceSerializer
 } from "./serializers/subscriptionResourceSerializer";
 import {
-  RuleResourceSerializer,
   InternalRuleOptions,
   RuleDescription,
   buildRuleOptions,
-  buildRule
+  buildRule,
+  RuleResourceSerializer
 } from "./serializers/ruleResourceSerializer";
 import { isJSONLikeObject, isAbsoluteUrl, areOptionsUndefined } from "./util/utils";
 

@@ -947,6 +947,14 @@ packages:
       node: '>= 6.0.0'
     resolution:
       integrity: sha512-TMeqbNl2fMW0nMjTEPOwe3J/PRFP4vqeoNuQMG0HlMrtm5QxKqdvAkZ1pRBQ/ulIyDD5Yq0nJ7YbdD8ey0TO3g==
+  /agent-base/6.0.0:
+    dependencies:
+      debug: 4.1.1
+    dev: false
+    engines:
+      node: '>= 6.0.0'
+    resolution:
+      integrity: sha512-j1Q7cSCqN+AwrmDd+pzgqc0/NpC655x2bUf5ZjRIO77DcNBFmh+OgRNzF6OKdCC9RSCb19fGd99+bhXFdkRNqw==
   /ajv/6.12.2:
     dependencies:
       fast-deep-equal: 3.1.1
@@ -3355,6 +3363,15 @@ packages:
       node: '>= 6.0.0'
     resolution:
       integrity: sha512-zoDhWrkR3of1l9QAL8/scJZyLu8j/gBkcwcaQOZh7Gyh/+uJQzGVETdgT30akuwkpL8HTRfssqI3BZuV18teDg==
+  /https-proxy-agent/5.0.0:
+    dependencies:
+      agent-base: 6.0.0
+      debug: 4.1.1
+    dev: false
+    engines:
+      node: '>= 6'
+    resolution:
+      integrity: sha512-EkYm5BcKUGiduxzSt3Eppko+PiNWNEpa4ySk9vTC6wDsQJW9rHSa+UhGNJoRYp7bz6Ht1eaRIa6QaJqO5rCFbA==
   /human-signals/1.1.1:
     dev: false
     engines:
@@ -3936,6 +3953,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-/jsi/9C0S70zfkT/4UlKQa5E1xKurDnXcQizcww9JSR/Fv+uIbWM2btG+bFcL3iNoK9jIGS0ls9HWLr1iw0kFg==
+  /jssha/3.1.0:
+    dev: false
+    resolution:
+      integrity: sha512-tPCmr8xSLd8ug6N51k0rbF1tAQWZz1i/uCVHpCH9dl+Te+wM/T375R3lTexP3bk1HPmQ+NlJHQPYLmYuyk6slA==
   /just-extend/4.1.0:
     dev: false
     resolution:
@@ -7686,7 +7707,7 @@ packages:
       eslint-plugin-promise: 4.2.1
       events: 3.1.0
       is-buffer: 2.0.4
-      jssha: 2.4.2
+      jssha: 3.1.0
       karma: 4.4.1
       karma-chrome-launcher: 3.1.0
       karma-mocha: 1.3.0
@@ -7714,7 +7735,7 @@ packages:
     dev: false
     name: '@rush-temp/core-amqp'
     resolution:
-      integrity: sha512-h3Qr0hX1sGx1qFCr2SDmTIH0gS49SdoBZjS2RyYHuqG7///ZPpCdRYthRUVk1lDmA536Z+Zsw0IYp5cJEMlHBg==
+      integrity: sha512-QixhZ/lt+7AiOQuu7FCkFfGkbdRxlyMxxNRx/ckPvDCXBXyLDccx9slwQp9QJgs7DVnGPCkjxp4fYqxuIXKeAA==
       tarball: 'file:projects/core-amqp.tgz'
     version: 0.0.0
   'file:projects/core-arm.tgz':
@@ -7897,6 +7918,7 @@ packages:
       '@types/chai': 4.2.11
       '@types/mocha': 7.0.2
       '@types/node': 8.10.61
+      '@types/sinon': 9.0.4
       '@typescript-eslint/eslint-plugin': 2.34.0_4d7b57a2de70d5f860ec42d3f1ecdb5d
       '@typescript-eslint/parser': 2.34.0_eslint@6.8.0+typescript@3.9.3
       chai: 4.2.0
@@ -7907,6 +7929,8 @@ packages:
       eslint-plugin-no-null: 1.0.2_eslint@6.8.0
       eslint-plugin-no-only-tests: 2.4.0
       eslint-plugin-promise: 4.2.1
+      form-data: 3.0.0
+      https-proxy-agent: 5.0.0
       inherits: 2.0.4
       karma: 4.4.1
       karma-chrome-launcher: 3.1.0
@@ -7927,13 +7951,15 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.0_rollup@1.32.1
       rollup-plugin-visualizer: 3.3.2_rollup@1.32.1
+      sinon: 9.0.2
+      source-map-support: 0.5.19
       tslib: 1.13.0
       typescript: 3.9.3
       util: 0.12.3
     dev: false
     name: '@rush-temp/core-https'
     resolution:
-      integrity: sha512-QESYoo6F0rVEL3I8UALQT1/DjEzXOZFS8AR9m6uneeOeq6Gg2kFZ/RF3qYoWuyLP5O94LBIpr2gAQ9HZUyhjmw==
+      integrity: sha512-1gML0+eRD86LHOnf4ZcMJ2/O1m5EtG4DK0SQEjG94f+wKNmmHvpMzwqZ14P6wdUMk0TCb4tBRnpKe/2jkjA7Hg==
       tarball: 'file:projects/core-https.tgz'
     version: 0.0.0
   'file:projects/core-lro.tgz':
@@ -8215,7 +8241,7 @@ packages:
     dev: false
     name: '@rush-temp/event-hubs'
     resolution:
-      integrity: sha512-uVMa/E7Gs6ABNmrWoBN50wU6BKbxSW8y9PxIOYlNx8XWk2f+iRj3vLGVu/zLHv4lssT/fOwjX6LprxIbhJKrXQ==
+      integrity: sha512-xbTUoiBl0HEj7vWxBV3xPQQqa22nagQobiVAKQUYVrtI/hreADQtCZYsyivcXYVooJaCOXnnLofTbFIYQAIMlA==
       tarball: 'file:projects/event-hubs.tgz'
     version: 0.0.0
   'file:projects/event-processor-host.tgz':
@@ -8254,7 +8280,7 @@ packages:
       eslint-plugin-no-only-tests: 2.4.0
       eslint-plugin-promise: 4.2.1
       esm: 3.2.25
-      https-proxy-agent: 3.0.1
+      https-proxy-agent: 5.0.0
       mocha: 7.1.2
       mocha-junit-reporter: 1.23.3_mocha@7.1.2
       nyc: 14.1.1
@@ -8272,7 +8298,7 @@ packages:
     dev: false
     name: '@rush-temp/event-processor-host'
     resolution:
-      integrity: sha512-WhAx0rNFHtjqnHvANyRqVHRpFinmOZ5308vgD/rGqPbSFx47DrkWkae+QXChfnRU+49PcUCgqWf+xQbXbq9D/g==
+      integrity: sha512-zixHmpNmtmjdWRHgCKYB+FcGsMkUeQZ7bmTyGNiYqOuUqlsLxMQB2EeoEW4ghEcBlycbsaCxgRf2L8AIlP+sEw==
       tarball: 'file:projects/event-processor-host.tgz'
     version: 0.0.0
   'file:projects/eventhubs-checkpointstore-blob.tgz':
@@ -8780,7 +8806,7 @@ packages:
     dev: false
     name: '@rush-temp/service-bus'
     resolution:
-      integrity: sha512-M1flUt3qaytvC3ru1yoxB//UUZNP5i+kMXv2PVZnWAnanH+SNYie2yM0GB8tA9cm8lEdOKn07UQ9v+NtcDM9kQ==
+      integrity: sha512-bXMcdF+Bu/7/oHstS0Ppx0tAby8qfZmemqeboHF66xc23mSRDZ6OQC5zyN6FQSzLeTKK1ItWxsl7iWTukpH8XA==
       tarball: 'file:projects/service-bus.tgz'
     version: 0.0.0
   'file:projects/storage-blob.tgz':

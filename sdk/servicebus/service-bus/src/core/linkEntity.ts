@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 
 import {
-  defaultLock,
-  TokenType,
   AccessToken,
   Constants,
-  SharedKeyCredential
+  SharedKeyCredential,
+  TokenType,
+  defaultLock
 } from "@azure/core-amqp";
 import { ClientEntityContext } from "../clientEntityContext";
 import * as log from "../log";

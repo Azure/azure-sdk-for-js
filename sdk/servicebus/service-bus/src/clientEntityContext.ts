@@ -6,7 +6,7 @@ import { StreamingReceiver } from "./core/streamingReceiver";
 import { MessageSender } from "./core/messageSender";
 import { ManagementClient, ManagementClientOptions } from "./core/managementClient";
 import { ConnectionContext } from "./connectionContext";
-import { Dictionary, AmqpError } from "rhea-promise";
+import { AmqpError, Dictionary } from "rhea-promise";
 import { BatchingReceiver } from "./core/batchingReceiver";
 import { ConcurrentExpiringMap } from "./util/concurrentExpiringMap";
 import { MessageReceiver } from "./core/messageReceiver";

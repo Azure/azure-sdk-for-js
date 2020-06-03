@@ -4,18 +4,18 @@
 import { HttpOperationResponse } from "@azure/core-http";
 import * as Constants from "../util/constants";
 import {
-  serializeToAtomXmlRequest,
+  AtomXmlSerializer,
   deserializeAtomXmlResponse,
-  AtomXmlSerializer
+  serializeToAtomXmlRequest
 } from "../util/atomXmlHelper";
 import {
   getStringOrUndefined,
   getCountDetailsOrUndefined,
-  MessageCountDetails,
-  getString,
   getInteger,
+  getString,
   getBoolean,
-  EntityStatus
+  EntityStatus,
+  MessageCountDetails
 } from "../util/utils";
 
 /**

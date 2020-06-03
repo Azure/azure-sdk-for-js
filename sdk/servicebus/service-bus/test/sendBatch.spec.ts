@@ -5,12 +5,12 @@ import chai from "chai";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { ServiceBusMessage, OperationOptions } from "../src";
+import { OperationOptions, ServiceBusMessage } from "../src";
 import { TestClientType } from "./utils/testUtils";
 import {
+  EntityName,
   ServiceBusClientForTests,
-  createServiceBusClientForTests,
-  EntityName
+  createServiceBusClientForTests
 } from "./utils/testutils2";
 import { Sender } from "../src/sender";
 import { ConditionErrorNameMapper } from "@azure/core-amqp";

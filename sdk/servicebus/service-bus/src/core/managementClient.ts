@@ -4,33 +4,33 @@
 import Long from "long";
 import {
   EventContext,
-  SenderEvents,
   ReceiverEvents,
-  SenderOptions,
   ReceiverOptions,
-  types,
   message as RheaMessageUtil,
+  SenderEvents,
+  SenderOptions,
   generate_uuid,
-  string_to_uuid
+  string_to_uuid,
+  types
 } from "rhea-promise";
 import {
-  defaultLock,
-  translate,
-  Constants,
-  RequestResponseLink,
-  ConditionErrorNameMapper,
   AmqpMessage,
+  ConditionErrorNameMapper,
+  Constants,
+  MessagingError,
+  RequestResponseLink,
   SendRequestOptions as SendManagementRequestOptions,
-  MessagingError
+  defaultLock,
+  translate
 } from "@azure/core-amqp";
 import { ClientEntityContext } from "../clientEntityContext";
 import {
+  DispositionType,
   ReceivedMessage,
-  ServiceBusMessageImpl,
   ServiceBusMessage,
-  toAmqpMessage,
+  ServiceBusMessageImpl,
   getMessagePropertyTypeMismatchError,
-  DispositionType
+  toAmqpMessage
 } from "../serviceBusMessage";
 import { LinkEntity } from "./linkEntity";
 import * as log from "../log";
@@ -38,10 +38,10 @@ import { ReceiveMode, fromAmqpMessage } from "../serviceBusMessage";
 import { toBuffer } from "../util/utils";
 import {
   throwErrorIfConnectionClosed,
+  throwTypeErrorIfParameterIsEmptyString,
   throwTypeErrorIfParameterMissing,
   throwTypeErrorIfParameterNotLong,
-  throwTypeErrorIfParameterTypeMismatch,
-  throwTypeErrorIfParameterIsEmptyString
+  throwTypeErrorIfParameterTypeMismatch
 } from "../util/errors";
 import { Typed } from "rhea-promise";
 import { max32BitNumber } from "../util/constants";

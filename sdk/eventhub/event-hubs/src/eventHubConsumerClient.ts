@@ -4,14 +4,14 @@
 import { EventHubClient } from "./impl/eventHubClient";
 import {
   EventHubClientOptions,
-  GetPartitionPropertiesOptions,
   GetEventHubPropertiesOptions,
-  GetPartitionIdsOptions
+  GetPartitionIdsOptions,
+  GetPartitionPropertiesOptions
 } from "./models/public";
 import { InMemoryCheckpointStore } from "./inMemoryCheckpointStore";
-import { EventProcessor, CheckpointStore, FullEventProcessorOptions } from "./eventProcessor";
+import { CheckpointStore, EventProcessor, FullEventProcessorOptions } from "./eventProcessor";
 import { GreedyPartitionLoadBalancer } from "./partitionLoadBalancer";
-import { TokenCredential, Constants } from "@azure/core-amqp";
+import { Constants, TokenCredential } from "@azure/core-amqp";
 import { logger } from "./log";
 
 import {
@@ -20,7 +20,7 @@ import {
   SubscriptionEventHandlers
 } from "./eventHubConsumerClientModels";
 import { isTokenCredential } from "@azure/core-amqp";
-import { PartitionProperties, EventHubProperties } from "./managementClient";
+import { EventHubProperties, PartitionProperties } from "./managementClient";
 import { PartitionGate } from "./impl/partitionGate";
 import { v4 as uuid } from "uuid";
 import { validateEventPositions } from "./eventPosition";

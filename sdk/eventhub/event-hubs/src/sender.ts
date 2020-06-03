@@ -4,14 +4,14 @@
 import { EventData } from "./eventData";
 import { EventHubSender } from "./eventHubSender";
 import { EventHubProducerOptions } from "../src/models/private";
-import { SendOptions, CreateBatchOptions } from "../src/models/public";
+import { CreateBatchOptions, SendOptions } from "../src/models/public";
 import { ConnectionContext } from "./connectionContext";
-import { logger, logErrorStackTrace } from "./log";
+import { logErrorStackTrace, logger } from "./log";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
-import { EventDataBatch, isEventDataBatch, EventDataBatchImpl } from "./eventDataBatch";
+import { EventDataBatch, EventDataBatchImpl, isEventDataBatch } from "./eventDataBatch";
 import { getTracer } from "@azure/core-tracing";
-import { SpanContext, Span, SpanKind, CanonicalCode, Link } from "@opentelemetry/api";
-import { instrumentEventData, TRACEPARENT_PROPERTY } from "./diagnostics/instrumentEventData";
+import { CanonicalCode, Link, Span, SpanContext, SpanKind } from "@opentelemetry/api";
+import { TRACEPARENT_PROPERTY, instrumentEventData } from "./diagnostics/instrumentEventData";
 import { createMessageSpan } from "./diagnostics/messageSpan";
 import { getParentSpan } from "./util/operationOptions";
 

@@ -2,33 +2,33 @@
 // Licensed under the MIT license.
 
 import {
-  MessageHandlers,
-  SubscribeOptions,
+  BrowseMessagesOptions,
   GetMessageIteratorOptions,
-  ReceiveBatchOptions,
   MessageHandlerOptions,
-  BrowseMessagesOptions
+  MessageHandlers,
+  ReceiveBatchOptions,
+  SubscribeOptions
 } from "../models";
 import { OperationOptions } from "../modelsToBeSharedWithEventHubs";
 import { ReceivedMessage } from "..";
 import { ClientEntityContext } from "../clientEntityContext";
 import {
-  throwErrorIfConnectionClosed,
   getAlreadyReceivingErrorMsg,
   getReceiverClosedErrorMsg,
+  throwErrorIfConnectionClosed,
   throwTypeErrorIfParameterMissing,
   throwTypeErrorIfParameterNotLong,
   throwTypeErrorIfParameterNotLongArray
 } from "../util/errors";
 import * as log from "../log";
-import { OnMessage, OnError, ReceiveOptions } from "../core/messageReceiver";
+import { OnError, OnMessage, ReceiveOptions } from "../core/messageReceiver";
 import { StreamingReceiver } from "../core/streamingReceiver";
 import { BatchingReceiver } from "../core/batchingReceiver";
 import { assertValidMessageHandlers, getMessageIterator } from "./shared";
 import { convertToInternalReceiveMode } from "../constructorHelpers";
 import Long from "long";
-import { ServiceBusMessageImpl, ReceivedMessageWithLock } from "../serviceBusMessage";
-import { RetryConfig, RetryOperationType, retry, Constants, RetryOptions } from "@azure/core-amqp";
+import { ReceivedMessageWithLock, ServiceBusMessageImpl } from "../serviceBusMessage";
+import { Constants, RetryConfig, RetryOperationType, RetryOptions, retry } from "@azure/core-amqp";
 import "@azure/core-asynciterator-polyfill";
 
 /**

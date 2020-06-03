@@ -3,11 +3,11 @@
 
 import Long from "long";
 import * as log from "../log";
-import { generate_uuid, OperationTimeoutError } from "rhea-promise";
+import { OperationTimeoutError, generate_uuid } from "rhea-promise";
 import isBuffer from "is-buffer";
 import { Buffer } from "buffer";
 import * as Constants from "../util/constants";
-import { AbortSignalLike, AbortError } from "@azure/abort-controller";
+import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 
 // This is the only dependency we have on DOM types, so rather than require
 // the DOM lib we can just shim this in.

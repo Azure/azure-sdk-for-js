@@ -6,7 +6,7 @@ const should = chai.should();
 
 import { createServiceBusClientForTests } from "./utils/testutils2";
 import { TestClientType, TestMessage } from "./utils/testUtils";
-import { Receiver, ReceivedMessage, ReceivedMessageWithLock } from "../src";
+import { ReceivedMessage, ReceivedMessageWithLock, Receiver } from "../src";
 
 describe("dead lettering", () => {
   let serviceBusClient: ReturnType<typeof createServiceBusClientForTests>;
