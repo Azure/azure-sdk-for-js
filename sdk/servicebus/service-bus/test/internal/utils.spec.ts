@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import {
-  waitForTimeoutOrAbortOrResolve,
-  checkAndRegisterWithAbortSignal
+  checkAndRegisterWithAbortSignal,
+  waitForTimeoutOrAbortOrResolve
 } from "../../src/util/utils";
-import { AbortController, AbortSignalLike, AbortError } from "@azure/abort-controller";
+import { AbortController, AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { delay } from "rhea-promise";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";

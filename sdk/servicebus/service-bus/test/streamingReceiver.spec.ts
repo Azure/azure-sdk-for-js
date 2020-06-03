@@ -3,28 +3,28 @@
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { delay, ReceivedMessage } from "../src";
+import { ReceivedMessage, delay } from "../src";
 import { getAlreadyReceivingErrorMsg } from "../src/util/errors";
-import { checkWithTimeout, TestClientType, TestMessage } from "./utils/testUtils";
+import { TestClientType, TestMessage, checkWithTimeout } from "./utils/testUtils";
 import { StreamingReceiver } from "../src/core/streamingReceiver";
 
 import {
   DispositionType,
-  ServiceBusMessageImpl,
+  ReceiveMode,
   ReceivedMessageWithLock,
-  ReceiveMode
+  ServiceBusMessageImpl
 } from "../src/serviceBusMessage";
 import { Receiver } from "../src/receivers/receiver";
 import { Sender } from "../src/sender";
 import {
+  EntityName,
   ServiceBusClientForTests,
   createServiceBusClientForTests,
-  testPeekMsgsLength,
-  EntityName,
-  drainReceiveAndDeleteReceiver
+  drainReceiveAndDeleteReceiver,
+  testPeekMsgsLength
 } from "./utils/testutils2";
 import { getDeliveryProperty } from "./utils/misc";
-import { translate, MessagingError, isNode } from "@azure/core-amqp";
+import { MessagingError, isNode, translate } from "@azure/core-amqp";
 import { verifyMessageCount } from "./utils/managementUtils";
 
 const should = chai.should();

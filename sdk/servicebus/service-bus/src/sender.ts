@@ -16,11 +16,11 @@ import {
 import { ServiceBusMessageBatch } from "./serviceBusMessageBatch";
 import { CreateBatchOptions, CreateSenderOptions } from "./models";
 import {
-  retry,
-  RetryOperationType,
+  MessagingError,
   RetryConfig,
+  RetryOperationType,
   RetryOptions,
-  MessagingError
+  retry
 } from "@azure/core-amqp";
 import { OperationOptions } from "./modelsToBeSharedWithEventHubs";
 

@@ -3,18 +3,18 @@
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { delay, ReceivedMessage } from "../src";
+import { ReceivedMessage, delay } from "../src";
 import { getAlreadyReceivingErrorMsg } from "../src/util/errors";
-import { checkWithTimeout, TestClientType, TestMessage } from "./utils/testUtils";
+import { TestClientType, TestMessage, checkWithTimeout } from "./utils/testUtils";
 import { DispositionType, ReceivedMessageWithLock } from "../src/serviceBusMessage";
 import { SessionReceiver } from "../src/receivers/sessionReceiver";
 import { Receiver } from "../src/receivers/receiver";
 import { Sender } from "../src/sender";
 import {
-  createServiceBusClientForTests,
+  EntityName,
   ServiceBusClientForTests,
-  testPeekMsgsLength,
-  EntityName
+  createServiceBusClientForTests,
+  testPeekMsgsLength
 } from "./utils/testutils2";
 import { getDeliveryProperty } from "./utils/misc";
 const should = chai.should();

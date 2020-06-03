@@ -8,19 +8,19 @@ chai.use(chaiAsPromised);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:partitionPump");
 import {
-  EventData,
-  PartitionOwnership,
+  CheckpointStore,
   CloseReason,
-  ReceivedEventData,
+  EventData,
   LastEnqueuedEventProperties,
+  PartitionOwnership,
+  ReceivedEventData,
   SubscriptionEventHandlers,
   earliestEventPosition,
-  latestEventPosition,
-  CheckpointStore
+  latestEventPosition
 } from "../src";
 import { EventHubClient } from "../src/impl/eventHubClient";
 import { EnvVarKeys, getEnvVars, loopUntil } from "./utils/testUtils";
-import { generate_uuid, Dictionary } from "rhea-promise";
+import { Dictionary, generate_uuid } from "rhea-promise";
 import { EventProcessor, FullEventProcessorOptions } from "../src/eventProcessor";
 import { Checkpoint } from "../src/partitionProcessor";
 import { delay } from "@azure/core-amqp";

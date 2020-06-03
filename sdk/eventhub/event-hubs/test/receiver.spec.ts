@@ -12,8 +12,8 @@ import {
   EventData,
   MessagingError,
   ReceivedEventData,
-  latestEventPosition,
-  earliestEventPosition
+  earliestEventPosition,
+  latestEventPosition
 } from "../src";
 import { EventHubClient } from "../src/impl/eventHubClient";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
