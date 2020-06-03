@@ -17,6 +17,7 @@ export {
   ProxyResource,
   RemoteRenderingAccount,
   RemoteRenderingAccountIdentity,
+  RemoteRenderingAccountPage,
   Resource,
   ResourceModelWithAllowedPropertySet,
   ResourceModelWithAllowedPropertySetIdentity,
@@ -24,6 +25,5 @@ export {
   ResourceModelWithAllowedPropertySetSku,
   Sku,
   SpatialAnchorsAccount,
-  SpatialAnchorsAccountPage,
   TrackedResource
 } from "../models/mappers";
