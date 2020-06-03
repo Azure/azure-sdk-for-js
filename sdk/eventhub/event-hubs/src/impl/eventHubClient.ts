@@ -4,7 +4,6 @@
 import { logErrorStackTrace, logger } from "../log";
 import {
   ConnectionConfig,
-  Constants,
   EventHubConnectionConfig,
   EventHubConnectionStringModel,
   RetryOptions,
