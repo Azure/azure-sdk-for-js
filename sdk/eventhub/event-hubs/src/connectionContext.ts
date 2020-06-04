@@ -52,11 +52,12 @@ export interface ConnectionContext extends ConnectionContextBase {
    */
   managementSession?: ManagementClient;
   /**
-   * Resolves once the connectionContext is ready to open a link.
-   * A link can be opened when:
-   * - The connection is already opened on both sides.
-   * - The connection has been closed or disconnected.
-   * A link is not ready to be opened if the connection
+   * Function returning a promise that resolves once the connectionContext is ready to open an AMQP link.
+   * ConnectionContext will be ready to open an AMQP link when:
+   * - The AMQP connection is already open on both sides.
+   * - The AMQP connection has been closed or disconnected. In this case, a new AMQP connection is expected
+   * to be created first.
+   * An AMQP link cannot be opened if the AMQP connection
    * is in the process of closing or disconnecting.
    */
   readyToOpenLink(): Promise<void>;
