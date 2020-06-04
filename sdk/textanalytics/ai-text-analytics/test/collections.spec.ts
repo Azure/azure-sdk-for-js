@@ -3,14 +3,14 @@
 
 import { assert } from "chai";
 
-import { makeAnalyzeSentimentResultCollection } from "../src/analyzeSentimentResultCollection";
-import { makeDetectLanguageResultCollection } from "../src/detectLanguageResultCollection";
-import { makeExtractKeyPhrasesResultCollection } from "../src/extractKeyPhrasesResultCollection";
-import { makeRecognizeLinkedEntitiesResultCollection } from "../src/recognizeLinkedEntitiesResultCollection";
-import { makeRecognizeCategorizedEntitiesResultCollection } from "../src/recognizeCategorizedEntitiesResultCollection";
+import { makeAnalyzeSentimentResultArray } from "../src/analyzeSentimentResultArray";
+import { makeDetectLanguageResultArray } from "../src/detectLanguageResultArray";
+import { makeExtractKeyPhrasesResultArray } from "../src/extractKeyPhrasesResultArray";
+import { makeRecognizeLinkedEntitiesResultArray } from "../src/recognizeLinkedEntitiesResultArray";
+import { makeRecognizeCategorizedEntitiesResultArray } from "../src/recognizeCategorizedEntitiesResultArray";
 import { LanguageInput, MultiLanguageInput } from "../src/generated/models";
 
-describe("SentimentResultCollection", () => {
+describe("SentimentResultArray", () => {
   it("merges items in order", () => {
     const input: MultiLanguageInput[] = [
       {
@@ -26,28 +26,30 @@ describe("SentimentResultCollection", () => {
         text: "test3"
       }
     ];
-    const result = makeAnalyzeSentimentResultCollection(
+    const result = makeAnalyzeSentimentResultArray(
       input,
       [
         {
           id: "A",
-          documentScores: {
+          confidenceScores: {
             positive: 1,
             negative: 0,
             neutral: 0
           },
           sentenceSentiments: [],
-          sentiment: "positive"
+          sentiment: "positive",
+          warnings: []
         },
         {
           id: "C",
-          documentScores: {
+          confidenceScores: {
             positive: 0,
             negative: 1,
             neutral: 0
           },
           sentenceSentiments: [],
-          sentiment: "negative"
+          sentiment: "negative",
+          warnings: []
         }
       ],
       [
@@ -68,7 +70,7 @@ describe("SentimentResultCollection", () => {
   });
 });
 
-describe("DetectLanguageResultCollection", () => {
+describe("DetectLanguageResultArray", () => {
   it("merges items in order", () => {
     const input: LanguageInput[] = [
       {
@@ -84,33 +86,26 @@ describe("DetectLanguageResultCollection", () => {
         text: "test3"
       }
     ];
-    const result = makeDetectLanguageResultCollection(
+    const result = makeDetectLanguageResultArray(
       input,
       [
         {
           id: "A",
-          detectedLanguages: [
-            {
-              name: "English",
-              iso6391Name: "en",
-              score: 1
-            }
-          ]
+          detectedLanguage: {
+            name: "English",
+            iso6391Name: "en",
+            confidenceScore: 1
+          },
+          warnings: []
         },
         {
           id: "C",
-          detectedLanguages: [
-            {
-              name: "French",
-              iso6391Name: "fr",
-              score: 1
-            },
-            {
-              name: "English",
-              iso6391Name: "en",
-              score: 0.5
-            }
-          ]
+          detectedLanguage: {
+            name: "French",
+            iso6391Name: "fr",
+            confidenceScore: 1
+          },
+          warnings: []
         }
       ],
       [
@@ -131,7 +126,7 @@ describe("DetectLanguageResultCollection", () => {
   });
 });
 
-describe("ExtractKeyPhrasesResultCollection", () => {
+describe("ExtractKeyPhrasesResultArray", () => {
   it("merges items in order", () => {
     const input: MultiLanguageInput[] = [
       {
@@ -147,16 +142,18 @@ describe("ExtractKeyPhrasesResultCollection", () => {
         text: "test3"
       }
     ];
-    const result = makeExtractKeyPhrasesResultCollection(
+    const result = makeExtractKeyPhrasesResultArray(
       input,
       [
         {
           id: "A",
-          keyPhrases: ["test", "test2"]
+          keyPhrases: ["test", "test2"],
+          warnings: []
         },
         {
           id: "C",
-          keyPhrases: ["awesome"]
+          keyPhrases: ["awesome"],
+          warnings: []
         }
       ],
       [
@@ -177,7 +174,7 @@ describe("ExtractKeyPhrasesResultCollection", () => {
   });
 });
 
-describe("RecognizeCategorizedEntitiesResultCollection", () => {
+describe("RecognizeCategorizedEntitiesResultArray", () => {
   it("merges items in order", () => {
     const input: MultiLanguageInput[] = [
       {
@@ -193,7 +190,7 @@ describe("RecognizeCategorizedEntitiesResultCollection", () => {
         text: "test3"
       }
     ];
-    const result = makeRecognizeCategorizedEntitiesResultCollection(
+    const result = makeRecognizeCategorizedEntitiesResultArray(
       input,
       [
         {
@@ -202,11 +199,10 @@ describe("RecognizeCategorizedEntitiesResultCollection", () => {
             {
               text: "Microsoft",
               category: "Organization",
-              graphemeOffset: 10,
-              graphemeLength: 9,
-              score: 0.9989
+              confidenceScore: 0.9989
             }
-          ]
+          ],
+          warnings: []
         },
         {
           id: "C",
@@ -215,11 +211,10 @@ describe("RecognizeCategorizedEntitiesResultCollection", () => {
               text: "last week",
               category: "DateTime",
               subCategory: "DateRange",
-              graphemeOffset: 34,
-              graphemeLength: 9,
-              score: 0.8
+              confidenceScore: 0.8
             }
-          ]
+          ],
+          warnings: []
         }
       ],
       [
@@ -240,7 +235,7 @@ describe("RecognizeCategorizedEntitiesResultCollection", () => {
   });
 });
 
-describe("RecognizeLinkedEntitiesResultCollection", () => {
+describe("RecognizeLinkedEntitiesResultArray", () => {
   it("merges items in order", () => {
     const input: MultiLanguageInput[] = [
       {
@@ -256,7 +251,7 @@ describe("RecognizeLinkedEntitiesResultCollection", () => {
         text: "test3"
       }
     ];
-    const result = makeRecognizeLinkedEntitiesResultCollection(
+    const result = makeRecognizeLinkedEntitiesResultArray(
       input,
       [
         {
@@ -267,9 +262,7 @@ describe("RecognizeLinkedEntitiesResultCollection", () => {
               matches: [
                 {
                   text: "Seattle",
-                  graphemeOffset: 26,
-                  graphemeLength: 7,
-                  score: 0.15046201222847677
+                  confidenceScore: 0.15046201222847677
                 }
               ],
               language: "en",
@@ -277,7 +270,8 @@ describe("RecognizeLinkedEntitiesResultCollection", () => {
               url: "https://en.wikipedia.org/wiki/Seattle",
               dataSource: "Wikipedia"
             }
-          ]
+          ],
+          warnings: []
         },
         {
           id: "C",
@@ -287,9 +281,7 @@ describe("RecognizeLinkedEntitiesResultCollection", () => {
               matches: [
                 {
                   text: "Microsoft",
-                  graphemeOffset: 10,
-                  graphemeLength: 9,
-                  score: 0.1869365971673207
+                  confidenceScore: 0.1869365971673207
                 }
               ],
               language: "en",
@@ -297,7 +289,8 @@ describe("RecognizeLinkedEntitiesResultCollection", () => {
               url: "https://en.wikipedia.org/wiki/Microsoft",
               dataSource: "Wikipedia"
             }
-          ]
+          ],
+          warnings: []
         }
       ],
       [

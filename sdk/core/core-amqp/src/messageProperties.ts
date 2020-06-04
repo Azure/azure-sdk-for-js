@@ -1,5 +1,6 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+/* eslint-disable eqeqeq */
 
 import { MessageProperties as AmqpMessageProperties } from "rhea-promise";
 import { logger } from "./log";
@@ -9,7 +10,7 @@ import { logger } from "./log";
  */
 export interface MessageProperties {
   /**
-   * @property {string | number | Buffer} [messageId] The application message identifier that uniquely idenitifes a message.
+   * @property {string | number | Buffer} [messageId] The application message identifier that uniquely identifies a message.
    * The user is responsible for making sure that this is unique in the given context. Guids usually make a good fit.
    */
   messageId?: string | number | Buffer;
@@ -31,7 +32,7 @@ export interface MessageProperties {
   contentType?: string;
   /**
    * @property {string} [contentEncoding] The content-encoding property is used as a modifier to the content-type.
-   * When present, its valueindicates what additional content encodings have been applied to the application-data.
+   * When present, its value indicates what additional content encodings have been applied to the application-data.
    */
   contentEncoding?: string;
   /**
@@ -69,13 +70,13 @@ export interface MessageProperties {
  * Describes the operations that can be performed on the amqp message properties.
  * @module MessageProperties
  */
-export namespace MessageProperties {
+export const MessageProperties = {
   /**
    * Converts MessageProperties to AmqpMessageProperties.
    * @param {MessageProperties} props Message properties.
    * @returns {AmqpMessageProperties} AmqpMessageProperties.
    */
-  export function toAmqpMessageProperties(props: MessageProperties): AmqpMessageProperties {
+  toAmqpMessageProperties(props: MessageProperties): AmqpMessageProperties {
     const amqpProperties: AmqpMessageProperties = {};
     if (props.absoluteExpiryTime != undefined) {
       amqpProperties.absolute_expiry_time = props.absoluteExpiryTime;
@@ -119,14 +120,14 @@ export namespace MessageProperties {
 
     logger.verbose("To AmqpMessageProperties: %O", amqpProperties);
     return amqpProperties;
-  }
+  },
 
   /**
    * Converts AmqpMessageProperties to MessageProperties.
    * @param {AmqpMessageProperties} props Amqp message properties.
    * @returns {MessageProperties} MessageProperties.
    */
-  export function fromAmqpMessageProperties(props: AmqpMessageProperties): MessageProperties {
+  fromAmqpMessageProperties(props: AmqpMessageProperties): MessageProperties {
     const msgProperties: MessageProperties = {};
     if (props.absolute_expiry_time != undefined) {
       msgProperties.absoluteExpiryTime = props.absolute_expiry_time;
@@ -171,4 +172,4 @@ export namespace MessageProperties {
     logger.verbose("From AmqpMessageProperties: %O", msgProperties);
     return msgProperties;
   }
-}
+};

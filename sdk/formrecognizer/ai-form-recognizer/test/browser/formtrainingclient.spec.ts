@@ -57,8 +57,8 @@ describe("FormTrainingClient browser only", () => {
     // save the id for recognition tests
     unlabeledModelId = response!.modelId;
 
-    assert.ok(response!.models && response!.models.length > 0, "Expected non empty sub model list");
-    const model = response!.models![0];
+    assert.ok(response!.submodels && response!.submodels.length > 0, "Expected non empty sub model list");
+    const model = response!.submodels![0];
     assert.equal(model.formType, "form-0");
     assert.equal(model.accuracy, undefined);
     assert.ok(model.fields["field-0"], "Expecting field with name 'field-0' to be valid");
@@ -78,8 +78,8 @@ describe("FormTrainingClient browser only", () => {
     assert.ok(response!.status === "ready", "Expecting status to be 'ready'");
     assert.ok(response!.modelId);
 
-    assert.ok(response!.models && response!.models.length > 0, "Expected non empty sub model list");
-    const model = response!.models![0];
+    assert.ok(response!.submodels && response!.submodels.length > 0, "Expected non empty sub model list");
+    const model = response!.submodels![0];
     assert.equal(model.formType, `form-${response!.modelId}`);
     assert.equal(model.accuracy, 0.973);
     assert.ok(model.fields["Signature"], "Expecting field with name 'Signature' to be valid");
@@ -136,16 +136,19 @@ describe("FormTrainingClient browser only", () => {
   it("getAccountProperties() gets model count and limit for this account", async () => {
     const properties = await trainingClient.getAccountProperties();
 
-    assert.ok(properties.count > 0, `Expecting models in account but got ${properties.count}`);
     assert.ok(
-      properties.limit > 0,
-      `Expecting maximum number of models in account but got ${properties.limit}`
+      properties.customModelCount > 0,
+      `Expecting models in account but got ${properties.customModelCount}`
+    );
+    assert.ok(
+      properties.customModelLimit > 0,
+      `Expecting maximum number of models in account but got ${properties.customModelLimit}`
     );
   });
 
   it("listModels() iterates models in this account", async () => {
     let count = 0;
-    for await (const _model of trainingClient.listModels()) {
+    for await (const _model of trainingClient.listCustomModels()) {
       count++;
       if (count > 30) {
         break; // work around issue https://github.com/Azure/azure-sdk-for-js/issues/8353
@@ -155,7 +158,7 @@ describe("FormTrainingClient browser only", () => {
   });
 
   it("listModels() allows getting next model info", async () => {
-    const iter = trainingClient.listModels();
+    const iter = trainingClient.listCustomModels();
     const item = await iter.next();
     assert.ok(item, `Expecting a model but got ${item}`);
     assert.ok(item.value.modelId, `Expecting a model id but got ${item.value.modelId}`);
@@ -166,11 +169,11 @@ describe("FormTrainingClient browser only", () => {
       this.skip();
     }
 
-    const modelInfo = await trainingClient.getModel(modelIdToDelete!);
+    const modelInfo = await trainingClient.getCustomModel(modelIdToDelete!);
 
     assert.ok(modelInfo.modelId === modelIdToDelete, "Expecting same model id");
     assert.ok(
-      modelInfo.models && modelInfo.models.length > 0,
+      modelInfo.submodels && modelInfo.submodels.length > 0,
       "Expecting no empty list of custom form sub models"
     );
   });
@@ -182,7 +185,7 @@ describe("FormTrainingClient browser only", () => {
 
     await trainingClient.deleteModel(modelIdToDelete!);
     try {
-      await trainingClient.getModel(modelIdToDelete!);
+      await trainingClient.getCustomModel(modelIdToDelete!);
       throw new Error("Expect that an error has already been thrown");
     } catch (err) {
       const message = (err as Error).message;
@@ -217,17 +220,15 @@ describe("FormRecognizerClient custom form recognition browser only", () => {
     const url = `${urlParts[0]}/Form_1.jpg?${urlParts[1]}`;
 
     assert.ok(unlabeledModelId, "Expecting valid model id from training without labels");
-    const poller = await recognizerClient.beginRecognizeFormsFromUrl(unlabeledModelId!, url);
+    const poller = await recognizerClient.beginRecognizeCustomFormsFromUrl(unlabeledModelId!, url);
     await poller.pollUntilDone();
-    const response = poller.getResult();
+    const forms = poller.getResult();
 
-    assert.ok(response, "Expect valid response object");
-    assert.equal(response!.status, "succeeded");
     assert.ok(
-      response!.forms && response!.forms.length > 0,
-      `Expect no-empty pages but got ${response!.forms}`
+      forms && forms.length > 0,
+      `Expect no-empty pages but got ${forms}`
     );
-    const form = response!.forms![0];
+    const form = forms![0];
     assert.equal(form.formType, "form-0");
     assert.deepStrictEqual(form.pageRange, {
       firstPageNumber: 1,
@@ -255,17 +256,15 @@ describe("FormRecognizerClient custom form recognition browser only", () => {
 
     assert.ok(unlabeledModelId, "Expecting valid model id from training without labels");
     assert.ok(data, "Expect valid Blob data to use as input");
-    const poller = await recognizerClient.beginRecognizeForms(unlabeledModelId!, data!);
+    const poller = await recognizerClient.beginRecognizeCustomForms(unlabeledModelId!, data!);
     await poller.pollUntilDone();
-    const response = poller.getResult();
+    const forms = poller.getResult();
 
-    assert.ok(response, "Expect valid response object");
-    assert.equal(response!.status, "succeeded");
     assert.ok(
-      response!.forms && response!.forms.length > 0,
-      `Expect no-empty pages but got ${response!.forms}`
+      forms && forms.length > 0,
+      `Expect no-empty pages but got ${forms}`
     );
-    const form = response!.forms![0];
+    const form = forms![0];
     assert.equal(form.formType, "form-0");
     assert.deepStrictEqual(form.pageRange, {
       firstPageNumber: 1,

@@ -5,40 +5,32 @@ import * as coreHttp from "@azure/core-http";
 
 import {
   AnalyzeOperationResult as AnalyzeOperationResultModel,
-  ErrorInformation,
   FormFieldsReport,
+  CopyAuthorizationResult as CopyAuthorizationResultModel,
   KeysResult,
   KeyValueElement as KeyValueElementModel,
   KeyValuePair as KeyValuePairModel,
   Language,
   LengthUnit,
-  Model,
-  Models,
   ModelsSummary,
-  ModelStatus,
-  TrainingDocumentInfo,
-  TrainResult,
-  TrainStatus,
-  OperationStatus,
-  ModelInfo
+  ModelStatus as CustomFormModelStatus,
+  TrainStatus as TrainingStatus,
+  OperationStatus
 } from "./generated/models";
 
 export {
   AnalyzeOperationResultModel,
-  ErrorInformation,
+  CopyAuthorizationResultModel,
   FormFieldsReport,
   KeysResult,
   KeyValueElementModel,
   KeyValuePairModel,
   Language,
   LengthUnit,
-  Models,
   ModelsSummary,
-  ModelStatus,
+  CustomFormModelStatus,
   OperationStatus,
-  TrainingDocumentInfo,
-  TrainStatus,
-  TrainResult
+  TrainingStatus
 };
 
 /**
@@ -58,7 +50,7 @@ export interface Point2D {
 /**
  * Represents common properties of recognized form contents.
  */
-export interface FormElementCommon {
+export interface FormContentCommon {
   /**
    * The 1-based page number in the input document.
    */
@@ -76,7 +68,7 @@ export interface FormElementCommon {
 /**
  * Represents an recognized word.
  */
-export interface FormWord extends FormElementCommon {
+export interface FormWord extends FormContentCommon {
   /**
    * Element kind - "word"
    */
@@ -94,7 +86,7 @@ export interface FormWord extends FormElementCommon {
 /**
  * Represents an recognized text line.
  */
-export interface FormLine extends FormElementCommon {
+export interface FormLine extends FormContentCommon {
   /**
    * Element kind - "line"
    */
@@ -125,7 +117,7 @@ export interface FormLine extends FormElementCommon {
  * Information about an recognized element in the form. Examples include
  * words, lines, checkbox, etc.
  */
-export type FormElement = FormWord | FormLine; // | FormCheckBox;
+export type FormContent = FormWord | FormLine; // | FormCheckBox;
 
 /**
  * Represents a cell in recognized table
@@ -162,7 +154,7 @@ export interface FormTableCell {
   /**
    * When includeTextDetails is set to true, a list of references to the text elements constituting this table cell.
    */
-  textContent?: FormElement[];
+  textContent?: FormContent[];
   /**
    * Is the current cell a header cell?
    */
@@ -206,7 +198,11 @@ export interface FormTable {
  * For example, "Work Address" is the label of
  * "Work Address: One Microsoft Way, Redmond, WA"
  */
-export interface FormText {
+export interface FieldText {
+  /**
+   * The 1-based page number in the input document.
+   */
+  pageNumber: number;
   /**
    * The bounding box of the recognized label or value
    */
@@ -214,7 +210,7 @@ export interface FormText {
   /**
    * When includeTextDetails is set to true, a list of references to the text elements constituting this name or value.
    */
-  textContent?: FormElement[];
+  textContent?: FormContent[];
   /**
    * The text content of the recognized label or value
    */
@@ -233,7 +229,7 @@ export interface FormField {
   /**
    * Text of the recognized label of the field.
    */
-  fieldLabel?: FormText;
+  labelText?: FieldText;
   /**
    * A user defined label for the field.
    */
@@ -241,7 +237,7 @@ export interface FormField {
   /**
    * Text of the recognized value of the field.
    */
-  valueText?: FormText;
+  valueText?: FieldText;
   /**
    * Value of the field.
    */
@@ -311,7 +307,12 @@ export interface FormPage {
 }
 
 /**
- * Represent recognized forms consists of text fields that have semantic meanings.
+ * Array of {@link FormPage}
+ */
+export interface FormPageArray extends Array<FormPage> {}
+
+/**
+ * Represent recognized form consists of text fields that have semantic meanings.
  */
 export interface RecognizedForm {
   /**
@@ -333,9 +334,14 @@ export interface RecognizedForm {
 }
 
 /**
+ * Array of {@link RecognizedForm}
+ */
+export interface RecognizedFormArray extends Array<RecognizedForm> {}
+
+/**
  * Properties common to the recognized text field
  */
-interface CommonFieldValue {
+export interface CommonFieldValue {
   /**
    * Text content of the recognized field.
    */
@@ -352,13 +358,16 @@ interface CommonFieldValue {
    * When includeTextDetails is set to true, a list of references to the text elements constituting
    * this field.
    */
-  textContent?: FormElement[];
+  textContent?: FormContent[];
   /**
    * The 1-based page number in the input document.
    */
   pageNumber?: number;
 }
 
+/**
+ * Possible JavaScript types for a field value.
+ */
 export type FieldValueTypes =
   | string
   | Date
@@ -366,6 +375,9 @@ export type FieldValueTypes =
   | FieldValue[]
   | { [propertyName: string]: FieldValue };
 
+/**
+ * Types of a form field.
+ */
 export type ValueTypes =
   | "string"
   | "date"
@@ -474,17 +486,9 @@ export interface ReceiptItemArrayField {
   value: ReceiptItemField[];
 }
 
-/*
- * Recognized Receipt
+/**
+ * Represents a line item in a receipt.
  */
-export interface RecognizedReceipt {
-  /**
-   * Locale of the receipt
-   */
-  locale?: string;
-  recognizedForm: RecognizedForm;
-}
-
 export interface USReceiptItem {
   /**
    * Name of the receipt item
@@ -504,12 +508,21 @@ export interface USReceiptItem {
   totalPrice?: FormField;
 }
 
-export type USReceiptType = "unrecognized" | "itemized" | "creditCard" | "gas" | "parking";
+/**
+ * Different types of US receipts.
+ */
+export type USReceiptType = {
+  type: "Unrecognized" | "Itemized" | "CreditCard" | "Gas" | "Parking";
+  /**
+   * Confidence value.
+   */
+  confidence?: number;
+};
 
 /**
  * United States receipt
  */
-export interface USReceipt extends RecognizedReceipt {
+export interface USReceipt {
   /**
    * Receipt type field
    */
@@ -556,205 +569,74 @@ export interface USReceipt extends RecognizedReceipt {
   transactionTime: FormField;
 }
 
-export type Locale = "US" | "UK";
-
-export type ReceiptWithLocale = { locale: "US" } & USReceipt;
-//  | { receiptLocale: "UK" } & UKReceipt
+/**
+ * Recognized Receipt
+ */
+export type RecognizedReceipt = {
+  /**
+   * Locale of the receipt
+   */
+  locale: string;
+  /**
+   * Recognized form
+   */
+  recognizedForm: RecognizedForm;
+} & (
+  | { locale: "US" } & USReceipt
+//  | { locale: "UK" } & UKReceipt
 // ...
+)
+
+/*
+ * Array of {@link RecognizedReceipt}
+ */
+export interface RecognizedReceiptArray extends Array<RecognizedReceipt> {}
 
 /**
- * Recognize receipt result.
+ * Report for a custom model training document.
  */
-export interface RecognizeReceiptResult {
+export interface TrainingDocumentInfo {
   /**
-   * Version of schema used for this result.
+   * Training document name.
    */
-  version: string;
+  documentName: string;
   /**
-   * List of receipts recognized from input document
+   * Total number of pages trained.
    */
-  receipts?: ReceiptWithLocale[];
+  pageCount: number;
+  /**
+   * List of errors.
+   */
+  errors: FormRecognizerError[];
+  /**
+   * Status of the training operation.
+   */
+  status: TrainingStatus;
 }
 
 /**
- * Results of a Recognize Receipt operation
+ * Basic custom model information.
  */
-export type RecognizeReceiptOperationResult = Partial<RecognizeReceiptResult> & {
+export interface CustomFormModelInfo {
   /**
-   * Operation status.
+   * Model identifier.
    */
-  status: OperationStatus; // 'notStarted' | 'running' | 'succeeded' | 'failed';
+  modelId: string;
   /**
-   * Date and time (UTC) when the form recognition operation was submitted.
+   * Status of the model.
    */
-  createdOn: Date;
+  status: CustomFormModelStatus;
   /**
-   * Date and time (UTC) when the status was last updated.
+   * Date and time (UTC) when the custom model training request was received.
    */
-  lastModified: Date;
-};
-
-/**
- * Contains response data for an recognize receipt operation.
- */
-export type RecognizeReceiptResultResponse = RecognizeReceiptOperationResult & {
+  requestedOn: Date;
   /**
-   * The underlying HTTP response.
+   * Date and time (UTC) when the training operation completed.
    */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AnalyzeOperationResultModel;
-  };
-};
-
-/**
- * Recognized layout information of the input document
- */
-export interface RecognizedContent {
-  /**
-   * Version of schema used for this result.
-   */
-  version: string;
-  /**
-   * Texts and tables extracted from a page in the input
-   */
-  pages: FormPage[];
+  completedOn: Date;
 }
 
-/**
- * Represents the result from an Recognize Content operation
- */
-export type RecognizeContentOperationResult = Partial<RecognizedContent> & {
-  /**
-   * Operation status.
-   */
-  status: OperationStatus; // 'notStarted' | 'running' | 'succeeded' | 'failed';
-  /**
-   * Date and time (UTC) when the recognition operation was submitted.
-   */
-  createdOn: Date;
-  /**
-   * Date and time (UTC) when the status was last updated.
-   */
-  lastModified: Date;
-};
-
-/**
- * Contains response data for the Recognize Content operation.
- */
-export type RecognizeContentResultResponse = RecognizeContentOperationResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AnalyzeOperationResultModel;
-  };
-};
-
-/**
- * Represents an recognized form using a custom model.
- */
-export interface FormResult {
-  /**
-   * Version of schema used for this result.
-   */
-  version: string;
-  /**
-   * Document-level information recognized from the input using machine learning. They include
-   * recognized fields that have meaning beyond text, for example, addresses, phone numbers, dates, etc.
-   */
-  forms?: RecognizedForm[];
-  /**
-   * List of errors reported during the form recognition operation.
-   */
-  errors?: ErrorInformation[];
-}
-
-/**
- * Represents the result from an recognize form operation using a custom model from training.
- */
-export type RecognizeFormOperationResult = Partial<FormResult> & {
-  /**
-   * Operation status.
-   */
-  status: OperationStatus;
-  /**
-   * Date and time (UTC) when the form recognition operation was submitted.
-   */
-  createdOn: Date;
-  /**
-   * Date and time (UTC) when the status was last updated.
-   */
-  lastModified: Date;
-};
-
-/**
- * Contains the response data for recognize form operation using a custom model from training.
- */
-export type RecognizeFormResultResponse = RecognizeFormOperationResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AnalyzeOperationResultModel;
-  };
-};
-
-/**
- * Contains the unlabeled training results.
- */
-export interface FormTrainResult {
-  /**
-   * List of document used to train the model and any errors reported for each document.
-   */
-  trainingDocuments: TrainingDocumentInfo[];
-  /**
-   * Errors returned during training operation.
-   */
-  errors?: ErrorInformation[];
-}
-
-/**
- * Represents a model from unlabeled training.
- */
-export interface FormModel {
-  /**
-   * Information about the model
-   */
-  modelInfo: ModelInfo;
-  /**
-   * Keys recognized from unlabeled training.
-   */
-  keys: KeysResult;
-  /**
-   * Results of the unlabeled training.
-   */
-  trainResult?: FormTrainResult;
-}
-
-export interface CustomFormSubModelField {
+export interface CustomFormField {
   /**
    * Estimated extraction accuracy for this field.
    */
@@ -763,9 +645,16 @@ export interface CustomFormSubModelField {
    * Training field name.
    */
   name: string;
+  /**
+   * Training field label.
+   */
+  label: string | null;
 }
 
-export interface CustomFormSubModel {
+/**
+ * Represents the model for a type of custom form from the training.
+ */
+export interface CustomFormSubmodel {
   /**
    * Estimated extraction accuracy for this field.
    */
@@ -773,7 +662,7 @@ export interface CustomFormSubModel {
   /**
    * Form fields
    */
-  fields: { [propertyName: string]: CustomFormSubModelField };
+  fields: { [propertyName: string]: CustomFormField };
   /**
    * Form type
    */
@@ -791,15 +680,15 @@ export interface CustomFormModel {
   /**
    * Status of the model.
    */
-  status: ModelStatus;
+  status: CustomFormModelStatus;
   /**
-   * Date and time (UTC) when the model was created.
+   * Date and time (UTC) when the custom model training request was received.
    */
-  createdOn: Date;
+  requestedOn: Date;
   /**
-   * Date and time (UTC) when the status was last updated.
+   * Date and time (UTC) when the training operation completed.
    */
-  lastModified: Date;
+  completedOn: Date;
   /**
    * List of document used to train the model and any errors reported for each document.
    */
@@ -807,11 +696,69 @@ export interface CustomFormModel {
   /**
    * Errors returned during training operation.
    */
-  errors?: ErrorInformation[];
+  errors?: FormRecognizerError[];
   /**
    * Form models created by training.
    */
-  models?: CustomFormSubModel[];
+  submodels?: CustomFormSubmodel[];
+}
+
+/**
+ * Custom model training result.
+ */
+export interface TrainResult {
+  /**
+   * List of the documents used to train the model and any errors reported in each document.
+   */
+  trainingDocuments: TrainingDocumentInfo[];
+  /**
+   * List of fields used to train the model and the train operation error reported by each.
+   */
+  fields?: FormFieldsReport[];
+  /**
+   * Average accuracy.
+   */
+  averageModelAccuracy?: number;
+  /**
+   * Errors returned during the training operation.
+   */
+  errors?: FormRecognizerError[];
+}
+
+/**
+ * Response to the get custom model operation.
+ */
+export interface Model {
+  /**
+   * Basic custom model information.
+   */
+  modelInfo: CustomFormModelInfo;
+  /**
+   * Keys extracted by the custom model.
+   */
+  keys?: KeysResult;
+  /**
+   * Custom model training result.
+   */
+  trainResult?: TrainResult;
+}
+
+/**
+ * Response to the list custom models operation.
+ */
+export interface Models {
+  /**
+   * Summary of all trained custom models.
+   */
+  summary?: ModelsSummary;
+  /**
+   * Collection of trained custom models.
+   */
+  modelList?: CustomFormModelInfo[];
+  /**
+   * Link to the next page of custom models.
+   */
+  nextLink?: string;
 }
 
 /**
@@ -835,6 +782,26 @@ export type FormModelResponse = CustomFormModel & {
 };
 
 /**
+ * Contains response data for the listCustomModels operation.
+ */
+export type ListCustomModelsResponse = Models & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Models;
+  };
+};
+
+/**
  * Types of binary data allowed as input to recognition operations
  */
 export type FormRecognizerRequestBody =
@@ -850,9 +817,41 @@ export interface AccountProperties {
   /**
    * Current count of trained custom models.
    */
-  count: number;
+  customModelCount: number;
   /**
    * Max number of models that can be trained for this account.
    */
-  limit: number;
+  customModelLimit: number;
+}
+
+/**
+ * Represents errors from Azure Form Recognizer service
+ */
+export interface FormRecognizerError {
+  /**
+   * Error code
+   */
+  code: string;
+  /**
+   * Error message
+   */
+  message: string;
+}
+
+/**
+ * Request parameter that contains authorization claims for copy operation.
+ */
+export interface CopyAuthorization extends CopyAuthorizationResultModel {
+  /**
+   * Target resource Id.
+   */
+  resourceId: string;
+  /**
+   * Target resource region.
+   */
+  resourceRegion: string;
+  /**
+   * The time when the access token expires.
+   */
+  //expiresOn: Date
 }

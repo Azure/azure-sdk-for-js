@@ -3,76 +3,98 @@
 
 import { delay } from "@azure/core-http";
 import { Poller, PollOperation, PollOperationState } from "@azure/core-lro";
-import { TrainModelOptions, GetModelOptions } from "../../formTrainingClient";
+import { TrainingFileFilter, GetModelOptions } from "../../formTrainingClient";
 
 import {
   ModelStatus,
-  GeneratedClientTrainCustomModelAsyncResponse as TrainCustomModelAsyncResponse
+  GeneratedClientTrainCustomModelAsyncResponse as TrainCustomModelAsyncResponse,
 } from "../../generated/models";
+import { CustomFormModel, FormModelResponse } from '../../models';
 export { ModelStatus, TrainCustomModelAsyncResponse };
 
 /**
  * Defines the operations from a {@link FormRecognizerClient} that are needed for the poller
  * returned by {@link FormRecognizerClient.beginTraining} to work.
  */
-export type TrainPollerClient<T> = {
-  getModel: (modelId: string, options: GetModelOptions) => Promise<T>;
+export type TrainPollerClient = {
+  getCustomModel: (modelId: string, options: GetModelOptions) => Promise<FormModelResponse>;
   trainCustomModelInternal: (
     source: string,
     useLabelFile?: boolean,
-    options?: TrainModelOptions
-  ) => Promise<{ location?: string }>;
+    options?: TrainingFileFilter
+  ) => Promise<TrainCustomModelAsyncResponse>;
 };
 
-export interface BeginTrainingPollState<T> extends PollOperationState<T> {
-  readonly client: TrainPollerClient<T>;
+/**
+ * The state used by the poller returned from {@link FormTrainingClient.beginTraining}.
+ *
+ * This state is passed into the user-specified `onProgress` callback
+ * whenever copy progress is detected.
+ */
+export interface BeginTrainingPollState extends PollOperationState<CustomFormModel> {
+  /**
+   * The instance of {@link TrainPollerClient} that is used when calling {@link FormTrainingClient.beginTraining}.
+   */
+  readonly client: TrainPollerClient;
+  /**
+   * The accessible url to an Azure Blob Storage container holding the training documents.
+   */
   source: string;
+  /**
+   * The id of the custom form model being created from the training operation.
+   */
   modelId?: string;
+  /**
+   * the status of the created model.
+   */
   status: ModelStatus;
-  readonly trainModelOptions?: TrainModelOptions;
+  /**
+   * Option to filter training files.
+   */
+  readonly trainModelOptions?: TrainingFileFilter;
 }
 
-export interface BeginTrainingPollerOperation<T>
-  extends PollOperation<BeginTrainingPollState<T>, T> {}
+export interface BeginTrainingPollerOperation
+extends PollOperation<BeginTrainingPollState, CustomFormModel> {}
 
 /**
  * @internal
  */
-export interface BeginTrainingPollerOptions<T> {
-  client: TrainPollerClient<T>;
+export interface BeginTrainingPollerOptions {
+  client: TrainPollerClient;
   source: string;
-  intervalInMs?: number;
-  onProgress?: (state: BeginTrainingPollState<T>) => void;
+  updateIntervalInMs?: number;
+  onProgress?: (state: BeginTrainingPollState) => void;
   resumeFrom?: string;
-  trainModelOptions?: TrainModelOptions;
+  trainModelOptions?: TrainingFileFilter;
 }
 
 /**
  * Class that represents a poller that waits until a model has been trained.
  */
-export class BeginTrainingPoller<T extends { status: ModelStatus }> extends Poller<
-  BeginTrainingPollState<T>,
-  T
+export class BeginTrainingPoller extends Poller<
+  BeginTrainingPollState,
+  CustomFormModel
 > {
-  public intervalInMs: number;
+  public updateIntervalInMs: number;
 
-  constructor(options: BeginTrainingPollerOptions<T>) {
+  constructor(options: BeginTrainingPollerOptions) {
     const {
       client,
       source,
-      intervalInMs = 5000,
+      updateIntervalInMs = 5000,
       onProgress,
       resumeFrom,
       trainModelOptions
     } = options;
 
-    let state: BeginTrainingPollState<T> | undefined;
+    let state: BeginTrainingPollState | undefined;
 
     if (resumeFrom) {
       state = JSON.parse(resumeFrom).state;
     }
 
-    const operation = makeBeginTrainingPollOperation<T>({
+    const operation = makeBeginTrainingPollOperation({
       ...state,
       client,
       source,
@@ -86,11 +108,11 @@ export class BeginTrainingPoller<T extends { status: ModelStatus }> extends Poll
       this.onProgress(onProgress);
     }
 
-    this.intervalInMs = intervalInMs;
+    this.updateIntervalInMs = updateIntervalInMs;
   }
 
   public delay(): Promise<void> {
-    return delay(this.intervalInMs);
+    return delay(this.updateIntervalInMs);
   }
 }
 
@@ -98,17 +120,17 @@ export class BeginTrainingPoller<T extends { status: ModelStatus }> extends Poll
  * Creates a poll operation given the provided state.
  * @ignore
  */
-function makeBeginTrainingPollOperation<T extends { status: ModelStatus }>(
-  state: BeginTrainingPollState<T>
-): BeginTrainingPollerOperation<T> {
+function makeBeginTrainingPollOperation(
+  state: BeginTrainingPollState
+): BeginTrainingPollerOperation {
   return {
     state: { ...state },
 
-    async cancel(_options = {}): Promise<BeginTrainingPollerOperation<T>> {
+    async cancel(_options = {}): Promise<BeginTrainingPollerOperation> {
       throw new Error("Cancel operation is not supported.");
     },
 
-    async update(options = {}): Promise<BeginTrainingPollerOperation<T>> {
+    async update(options = {}): Promise<BeginTrainingPollerOperation> {
       const state = this.state;
       const { client, source, trainModelOptions } = state;
 
@@ -126,22 +148,27 @@ function makeBeginTrainingPollOperation<T extends { status: ModelStatus }>(
         state.modelId = result.location.substring(lastSlashIndex + 1);
       }
 
-      const model = await client.getModel(state.modelId!, {
+      const model = await client.getCustomModel(state.modelId!, {
         abortSignal: trainModelOptions?.abortSignal
       });
 
       state.status = model.status;
 
       if (!state.isCompleted) {
-        if (model.status === "creating" && typeof options.fireProgress === "function") {
+        if (typeof options.fireProgress === "function") {
           options.fireProgress(state);
-        } else if (model.status === "ready") {
+        }
+
+        if (model.status === "ready") {
           state.result = model;
           state.isCompleted = true;
         } else if (model.status === "invalid") {
-          state.error = new Error(`Model training failed with invalid model status.`);
-          state.result = model;
-          state.isCompleted = true;
+          const details = model.errors?.map((e) => `code ${e.code}, message '${e.message}'`).join("\n");
+          const message = `Model training failed with invalid model status for model ${state.modelId}.
+${model._response.bodyAsText}
+Error(s):
+${details}`;
+          throw new Error(message);
         }
       }
 

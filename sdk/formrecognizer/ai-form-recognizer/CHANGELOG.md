@@ -2,6 +2,9 @@
 
 ## 1.0.0-preview.3 (Unreleased)
 
+- Blank pages in receipt recognition are now handled properly.
+- Support to copy a custom model from one Form Recognizer resource to another.
+
 ## 1.0.0-preview.2 (2020-05-06)
 
 - `FormTrainingClient.listModels()` now works correctly on NodeJs v8.

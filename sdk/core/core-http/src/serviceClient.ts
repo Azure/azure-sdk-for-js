@@ -64,12 +64,12 @@ import { disableResponseDecompressionPolicy } from "./policies/disableResponseDe
  * Options to configure a proxy for outgoing requests (Node.js only).
  */
 export interface ProxySettings {
-  /*
+  /**
    * The proxy's host address.
    */
   host: string;
 
-  /*
+  /**
    * The proxy host's port.
    */
   port: number;
@@ -563,7 +563,7 @@ export function serializeRequestBody(
           }
         } else if (
           typeName === MapperType.String &&
-          operationSpec.contentType?.match("text/plain")
+          (operationSpec.contentType?.match("text/plain") || operationSpec.mediaType === "text")
         ) {
           // the String serializer has validated that request body is a string
           // so just send the string.

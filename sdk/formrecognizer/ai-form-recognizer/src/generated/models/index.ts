@@ -82,11 +82,11 @@ export interface ModelInfo {
   /**
    * Date and time (UTC) when the model was created.
    */
-  createdOn: Date;
+  requestedOn: Date;
   /**
    * Date and time (UTC) when the status was last updated.
    */
-  lastModified: Date;
+  completedOn: Date;
 }
 
 /**
@@ -496,6 +496,78 @@ export interface FieldValue {
 }
 
 /**
+ * Request parameter to copy an existing custom model from the source resource to a target resource referenced by the resource ID.
+ */
+export interface CopyRequest {
+  /**
+   * Azure Resource Id of the target Form Recognizer resource where the model is copied to.
+   */
+  targetResourceId: string;
+  /**
+   * Location of the target Azure resource. A valid Azure region name supported by Cognitive Services.
+   */
+  targetResourceRegion: string;
+  /**
+   * Entity that encodes claims to authorize the copy request.
+   */
+  copyAuthorization: CopyAuthorizationResult;
+}
+
+/**
+ * Request parameter that contains authorization claims for copy operation.
+ */
+export interface CopyAuthorizationResult {
+  /**
+   * Model identifier.
+   */
+  modelId: string;
+  /**
+   * Token claim used to authorize the request.
+   */
+  accessToken: string;
+  /**
+   * The time when the access token expires. The date is represented as the number of seconds from 1970-01-01T0:0:0Z UTC until the expiration time.
+   */
+  expirationDateTimeTicks: number;
+}
+
+/**
+ * Status and result of the queued copy operation.
+ */
+export interface CopyOperationResult {
+  /**
+   * Operation status.
+   */
+  status: OperationStatus;
+  /**
+   * Date and time (UTC) when the copy operation was submitted.
+   */
+  createdOn: Date;
+  /**
+   * Date and time (UTC) when the status was last updated.
+   */
+  lastModified: Date;
+  /**
+   * Results of the copy operation.
+   */
+  copyResult?: CopyResult;
+}
+
+/**
+ * Custom model copy result.
+ */
+export interface CopyResult {
+  /**
+   * Identifier of the target model.
+   */
+  modelId: string;
+  /**
+   * Errors returned during the copy operation.
+   */
+  errors?: ErrorInformation[];
+}
+
+/**
  * Response to the list custom models operation.
  */
 export interface Models {
@@ -532,28 +604,42 @@ export interface ModelsSummary {
 }
 
 /**
- * Defines headers for generatedClient_trainCustomModelAsync operation.
+ * Defines headers for GeneratedClient_trainCustomModelAsync operation.
  */
 export interface GeneratedClientTrainCustomModelAsyncHeaders {
   location?: string;
 }
 
 /**
- * Defines headers for generatedClient_analyzeWithCustomModel operation.
+ * Defines headers for GeneratedClient_analyzeWithCustomModel operation.
  */
 export interface GeneratedClientAnalyzeWithCustomModelHeaders {
   operationLocation?: string;
 }
 
 /**
- * Defines headers for generatedClient_analyzeReceiptAsync operation.
+ * Defines headers for GeneratedClient_copyCustomModel operation.
+ */
+export interface GeneratedClientCopyCustomModelHeaders {
+  operationLocation?: string;
+}
+
+/**
+ * Defines headers for GeneratedClient_generateModelCopyAuthorization operation.
+ */
+export interface GeneratedClientGenerateModelCopyAuthorizationHeaders {
+  location?: string;
+}
+
+/**
+ * Defines headers for GeneratedClient_analyzeReceiptAsync operation.
  */
 export interface GeneratedClientAnalyzeReceiptAsyncHeaders {
   operationLocation?: string;
 }
 
 /**
- * Defines headers for generatedClient_analyzeLayoutAsync operation.
+ * Defines headers for GeneratedClient_analyzeLayoutAsync operation.
  */
 export interface GeneratedClientAnalyzeLayoutAsyncHeaders {
   operationLocation?: string;
@@ -652,13 +738,9 @@ export type GeneratedClientGetCustomModelResponse = Model & {
 export interface GeneratedClientAnalyzeWithCustomModel$binaryOptionalParams
   extends coreHttp.OperationOptions {
   /**
-   * Upload file type
+   * Include text lines and element references in the result.
    */
-  contentType?: ContentType;
-  /**
-   * .json, .pdf, .jpg, .png or .tiff type file stream.
-   */
-  fileStream?: coreHttp.HttpRequestBody;
+  includeTextDetails?: boolean;
 }
 
 /**
@@ -670,14 +752,11 @@ export interface GeneratedClientAnalyzeWithCustomModel$jsonOptionalParams
    * .json, .pdf, .jpg, .png or .tiff type file stream.
    */
   fileStream?: SourcePath;
+  /**
+   * Include text lines and element references in the result.
+   */
+  includeTextDetails?: boolean;
 }
-
-/**
- * Optional parameters.
- */
-export type GeneratedClientAnalyzeWithCustomModelOptionalParams =
-  | GeneratedClientAnalyzeWithCustomModel$binaryOptionalParams
-  | GeneratedClientAnalyzeWithCustomModel$jsonOptionalParams;
 
 /**
  * Contains response data for the analyzeWithCustomModel operation.
@@ -715,18 +794,74 @@ export type GeneratedClientGetAnalyzeFormResultResponse = AnalyzeOperationResult
 };
 
 /**
+ * Contains response data for the copyCustomModel operation.
+ */
+export type GeneratedClientCopyCustomModelResponse = GeneratedClientCopyCustomModelHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: GeneratedClientCopyCustomModelHeaders;
+  };
+};
+
+/**
+ * Contains response data for the getCustomModelCopyResult operation.
+ */
+export type GeneratedClientGetCustomModelCopyResultResponse = CopyOperationResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CopyOperationResult;
+  };
+};
+
+/**
+ * Contains response data for the generateModelCopyAuthorization operation.
+ */
+export type GeneratedClientGenerateModelCopyAuthorizationResponse = GeneratedClientGenerateModelCopyAuthorizationHeaders &
+  CopyAuthorizationResult & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CopyAuthorizationResult;
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: GeneratedClientGenerateModelCopyAuthorizationHeaders;
+    };
+  };
+
+/**
  * Optional parameters.
  */
 export interface GeneratedClientAnalyzeReceiptAsync$binaryOptionalParams
   extends coreHttp.OperationOptions {
   /**
-   * Upload file type
+   * Include text lines and element references in the result.
    */
-  contentType?: ContentType;
-  /**
-   * .json, .pdf, .jpg, .png or .tiff type file stream.
-   */
-  fileStream?: coreHttp.HttpRequestBody;
+  includeTextDetails?: boolean;
 }
 
 /**
@@ -738,14 +873,11 @@ export interface GeneratedClientAnalyzeReceiptAsync$jsonOptionalParams
    * .json, .pdf, .jpg, .png or .tiff type file stream.
    */
   fileStream?: SourcePath;
+  /**
+   * Include text lines and element references in the result.
+   */
+  includeTextDetails?: boolean;
 }
-
-/**
- * Optional parameters.
- */
-export type GeneratedClientAnalyzeReceiptAsyncOptionalParams =
-  | GeneratedClientAnalyzeReceiptAsync$binaryOptionalParams
-  | GeneratedClientAnalyzeReceiptAsync$jsonOptionalParams;
 
 /**
  * Contains response data for the analyzeReceiptAsync operation.
@@ -786,16 +918,7 @@ export type GeneratedClientGetAnalyzeReceiptResultResponse = AnalyzeOperationRes
  * Optional parameters.
  */
 export interface GeneratedClientAnalyzeLayoutAsync$binaryOptionalParams
-  extends coreHttp.OperationOptions {
-  /**
-   * Upload file type
-   */
-  contentType?: ContentType;
-  /**
-   * .json, .pdf, .jpg, .png or .tiff type file stream.
-   */
-  fileStream?: coreHttp.HttpRequestBody;
-}
+  extends coreHttp.OperationOptions {}
 
 /**
  * Optional parameters.
@@ -807,13 +930,6 @@ export interface GeneratedClientAnalyzeLayoutAsync$jsonOptionalParams
    */
   fileStream?: SourcePath;
 }
-
-/**
- * Optional parameters.
- */
-export type GeneratedClientAnalyzeLayoutAsyncOptionalParams =
-  | GeneratedClientAnalyzeLayoutAsync$binaryOptionalParams
-  | GeneratedClientAnalyzeLayoutAsync$jsonOptionalParams;
 
 /**
  * Contains response data for the analyzeLayoutAsync operation.

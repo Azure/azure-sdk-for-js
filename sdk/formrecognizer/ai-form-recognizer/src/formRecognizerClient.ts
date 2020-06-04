@@ -4,15 +4,19 @@
 import {
   createPipelineFromOptions,
   InternalPipelineOptions,
+  isTokenCredential,
+  bearerTokenAuthenticationPolicy,
   operationOptionsToRequestOptionsBase,
   AbortSignalLike,
   ServiceClientCredentials
 } from "@azure/core-http";
+import { TokenCredential } from "@azure/identity";
 import { KeyCredential } from "@azure/core-auth";
-import { SDK_VERSION } from "./constants";
+import { SDK_VERSION, DEFAULT_COGNITIVE_SCOPE } from "./constants";
 import { logger } from "./logger";
 import { createSpan } from "./tracing";
 import {
+  FormContentType,
   FormRecognizerClientOptions,
   FormRecognizerOperationOptions,
   toRequestBody,
@@ -25,31 +29,52 @@ import {
   GeneratedClientAnalyzeWithCustomModelResponse as AnalyzeWithCustomModelResponseModel,
   GeneratedClientAnalyzeLayoutAsyncResponse as AnalyzeLayoutAsyncResponseModel,
   GeneratedClientAnalyzeReceiptAsyncResponse as AnalyzeReceiptAsyncResponseModel,
-  ContentType,
   SourcePath
 } from "./generated/models";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
 import {
-  RecognizePollerClient,
-  BeginRecognizePoller,
-  BeginRecognizePollState,
-  RecognizeOptions
-} from "./lro/analyze/poller";
+  RecognizeContentPollerClient,
+  BeginRecognizeContentPoller,
+  BeginRecognizeContentPollState
+} from "./lro/analyze/contentPoller";
+import {
+  RecognizeCustomFormPollerClient,
+  BeginRecognizeCustomFormPoller,
+  BeginRecognizeCustomFormPollState
+} from "./lro/analyze/customFormPoller";
+import {
+  RecognizeReceiptPollerClient,
+  BeginRecognizeReceiptPoller,
+  BeginRecognizeReceiptPollState
+} from "./lro/analyze/receiptPoller";
+import {
+  FormRecognizerRequestBody,
+  RecognizedFormArray,
+  FormPageArray,
+  RecognizedReceiptArray
+} from "./models";
 import {
   RecognizeContentResultResponse,
   RecognizeFormResultResponse,
-  RecognizeReceiptResultResponse,
-  FormRecognizerRequestBody
-} from "./models";
+  RecognizeReceiptResultResponse
+} from "./internalModels";
 import {
   toRecognizeFormResultResponse,
   toRecognizeContentResultResponse,
   toReceiptResultResponse
 } from "./transforms";
-import { FormTrainingClient } from "./formTrainingClient";
 import { createFormRecognizerAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 
-export { ContentType, PollOperationState, PollerLike };
+export {
+  PollOperationState,
+  PollerLike,
+  BeginRecognizeCustomFormPollState,
+  BeginRecognizeContentPollState,
+  BeginRecognizeReceiptPollState,
+  RecognizeContentPollerClient,
+  RecognizeCustomFormPollerClient,
+  RecognizeReceiptPollerClient
+};
 
 /**
  * Options for content/layout recognition.
@@ -63,11 +88,11 @@ export type BeginRecognizeContentOptions = RecognizeContentOptions & {
   /**
    * Delay to wait until next poll, in milliseconds
    */
-  intervalInMs?: number;
+  updateIntervalInMs?: number;
   /**
    * Callback to progress events triggered in the content recognition Long-Running-Operation (LRO)
    */
-  onProgress?: (state: BeginRecognizePollState<RecognizeContentResultResponse>) => void;
+  onProgress?: (state: BeginRecognizeContentPollState) => void;
   /**
    * A serialized poller which can be used to resume an existing paused Long-Running-Operation.
    */
@@ -78,8 +103,8 @@ export type BeginRecognizeContentOptions = RecognizeContentOptions & {
  * The Long-Running-Operation (LRO) poller that allows you to wait until form content is recognized.
  */
 export type ContentPollerLike = PollerLike<
-  PollOperationState<RecognizeContentResultResponse>,
-  RecognizeContentResultResponse
+  PollOperationState<FormPageArray>,
+  FormPageArray
 >;
 
 /**
@@ -104,11 +129,11 @@ export type BeginRecognizeFormsOptions = RecognizeFormsOptions & {
   /**
    * Delay to wait until next poll, in milliseconds
    */
-  intervalInMs?: number;
+  updateIntervalInMs?: number;
   /**
    * Callback to progress events triggered in the Recognize Form Long-Running-Operation (LRO)
    */
-  onProgress?: (state: BeginRecognizePollState<RecognizeFormResultResponse>) => void;
+  onProgress?: (state: BeginRecognizeCustomFormPollState) => void;
   /**
    * A serialized poller which can be used to resume an existing paused Long-Running-Operation.
    */
@@ -119,8 +144,8 @@ export type BeginRecognizeFormsOptions = RecognizeFormsOptions & {
  * Result type of the Recognize Form Long-Running-Operation (LRO)
  */
 export type FormPollerLike = PollerLike<
-  PollOperationState<RecognizeFormResultResponse>,
-  RecognizeFormResultResponse
+  PollOperationState<RecognizedFormArray>,
+  RecognizedFormArray
 >;
 
 /**
@@ -150,11 +175,11 @@ export type BeginRecognizeReceiptsOptions = RecognizeReceiptsOptions & {
   /**
    * Delay to wait until next poll, in milliseconds
    */
-  intervalInMs?: number;
+  updateIntervalInMs?: number;
   /**
    * Callback to progress events triggered in the receipt recognition Long-Running-Operation (LRO)
    */
-  onProgress?: (state: BeginRecognizePollState<RecognizeReceiptResultResponse>) => void;
+  onProgress?: (state: BeginRecognizeReceiptPollState) => void;
   /**
    * A serialized poller which can be used to resume an existing paused Long-Running-Operation.
    */
@@ -165,8 +190,8 @@ export type BeginRecognizeReceiptsOptions = RecognizeReceiptsOptions & {
  * The Long-Running-Operation (LRO) poller that allows you to wait until receipt(s) are recognized.
  */
 export type ReceiptPollerLike = PollerLike<
-  PollOperationState<RecognizeReceiptResultResponse>,
-  RecognizeReceiptResultResponse
+  PollOperationState<RecognizedReceiptArray>,
+  RecognizedReceiptArray
 >;
 
 /**
@@ -177,12 +202,6 @@ export class FormRecognizerClient {
    * Url to an Azure Form Recognizer service endpoint
    */
   public readonly endpointUrl: string;
-
-  /**
-   * @internal
-   * @ignore
-   */
-  private readonly credential: KeyCredential;
 
   /**
    * @internal
@@ -204,16 +223,15 @@ export class FormRecognizerClient {
    * );
    * ```
    * @param {string} endpointUrl Url to an Azure Form Recognizer service endpoint
-   * @param {KeyCredential} credential Used to authenticate requests to the service.
+   * @param {TokenCredential | KeyCredential} credential Used to authenticate requests to the service.
    * @param {FormRecognizerClientOptions} [options] Used to configure the Form Recognizer client.
    */
   constructor(
     endpointUrl: string,
-    credential: KeyCredential,
+    credential: TokenCredential | KeyCredential,
     options: FormRecognizerClientOptions = {}
   ) {
     this.endpointUrl = endpointUrl;
-    this.credential = credential;
     const { ...pipelineOptions } = options;
 
     const libInfo = `azsdk-js-ai-formrecognizer/${SDK_VERSION}`;
@@ -226,7 +244,9 @@ export class FormRecognizerClient {
       pipelineOptions.userAgentOptions.userAgentPrefix = libInfo;
     }
 
-    const authPolicy = createFormRecognizerAzureKeyCredentialPolicy(credential);
+    const authPolicy = isTokenCredential(credential)
+      ? bearerTokenAuthenticationPolicy(credential, DEFAULT_COGNITIVE_SCOPE)
+      : createFormRecognizerAzureKeyCredentialPolicy(credential);
 
     const internalPipelineOptions: InternalPipelineOptions = {
       ...pipelineOptions,
@@ -255,19 +275,10 @@ export class FormRecognizerClient {
   }
 
   /**
-   * Creates an instance of {@link FormTrainingClient} to perform training operations
-   * and to manage trained custom form models.
-   */
-  public getFormTrainingClient(): FormTrainingClient {
-    return new FormTrainingClient(this.endpointUrl, this.credential);
-  }
-
-  /**
    * Recognizes content, including text and table structure from a form document.
    *
    * This method returns a long running operation poller that allows you to wait
-   * indefinitely until the copy is completed.
-   * You can also cancel a copy before it is completed by calling `cancelOperation` on the poller.
+   * indefinitely until the operation is completed.
    * Note that the onProgress callback will not be invoked if the operation completes in the first
    * request, and attempting to cancel a completed copy will result in an error being thrown.
    *
@@ -288,23 +299,23 @@ export class FormRecognizerClient {
    * console.log(response.pages);
    * ```
    * @summary Recognizes content/layout information from a given document
-   * @param {FormRecognizerRequestBody} data Input document
-   * @param {ContentType} contentType Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", and "image/tiff";
+   * @param {FormRecognizerRequestBody} form Input document
+   * @param {FormContentType} contentType Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", and "image/tiff";
    * @param {BeginRecognizeContentOptions} [options] Options to start content recognition operation
    */
   public async beginRecognizeContent(
-    data: FormRecognizerRequestBody,
-    contentType?: ContentType,
+    form: FormRecognizerRequestBody,
+    contentType?: FormContentType,
     options: BeginRecognizeContentOptions = {}
   ): Promise<ContentPollerLike> {
-    const analyzePollerClient: RecognizePollerClient<RecognizeContentResultResponse> = {
+    const analyzePollerClient: RecognizeContentPollerClient = {
       beginRecognize: (...args) => recognizeLayoutInternal(this.client, ...args),
       getRecognizeResult: (...args) => this.getRecognizedContent(...args)
     };
 
-    const poller = new BeginRecognizePoller<RecognizeContentResultResponse>({
+    const poller = new BeginRecognizeContentPoller({
       client: analyzePollerClient,
-      source: data,
+      source: form,
       contentType,
       ...options
     });
@@ -317,8 +328,7 @@ export class FormRecognizerClient {
    * Recognizes content, including text and table structure from a url to a form document.
    *
    * This method returns a long running operation poller that allows you to wait
-   * indefinitely until the copy is completed.
-   * You can also cancel a copy before it is completed by calling `cancelOperation` on the poller.
+   * indefinitely until the operation is completed.
    * Note that the onProgress callback will not be invoked if the operation completes in the first
    * request, and attempting to cancel a completed copy will result in an error being thrown.
    *
@@ -338,22 +348,22 @@ export class FormRecognizerClient {
    * console.log(response.pages);
    * ```
    * @summary Recognizes content/layout information from a url to a form document
-   * @param {string} url Url to an accessible form document
+   * @param {string} formUrl Url to an accessible form document
 ng", and "image/tiff";
    * @param {BeginRecognizeContentOptions} [options] Options to start content recognition operation
    */
   public async beginRecognizeContentFromUrl(
-    documentUrl: string,
+    formUrl: string,
     options: BeginRecognizeContentOptions = {}
   ): Promise<ContentPollerLike> {
-    const analyzePollerClient: RecognizePollerClient<RecognizeContentResultResponse> = {
+    const analyzePollerClient: RecognizeContentPollerClient = {
       beginRecognize: (...args) => recognizeLayoutInternal(this.client, ...args),
       getRecognizeResult: (...args) => this.getRecognizedContent(...args)
     };
 
-    const poller = new BeginRecognizePoller<RecognizeContentResultResponse>({
+    const poller = new BeginRecognizeContentPoller({
       client: analyzePollerClient,
-      source: documentUrl,
+      source: formUrl,
       contentType: undefined,
       ...options
     });
@@ -394,8 +404,7 @@ ng", and "image/tiff";
   /**
    * Recognizes forms from a given document using a custom form model from training.
    * This method returns a long running operation poller that allows you to wait
-   * indefinitely until the copy is completed.
-   * You can also cancel a copy before it is completed by calling `cancelOperation` on the poller.
+   * indefinitely until the operation is completed.
    * Note that the onProgress callback will not be invoked if the operation completes in the first
    * request, and attempting to cancel a completed copy will result in an error being thrown.
    *
@@ -405,7 +414,7 @@ ng", and "image/tiff";
    * const readStream = fs.createReadStream(path);
    *
    * const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
-   * const poller = await client.beginRecognizeForms(modelId, readStream, "application/pdf", {
+   * const poller = await client.beginRecognizeCustomForms(modelId, readStream, "application/pdf", {
    *   onProgress: (state) => { console.log(`status: ${state.status}`); }
    * });
    * await poller.pollUntilDone();
@@ -414,34 +423,34 @@ ng", and "image/tiff";
    * ```
    * @summary Recognizes form information from a given document using a custom form model.
    * @param {string} modelId Id of the custom form model to use
-   * @param {FormRecognizerRequestBody} data Input form document
-   * @param {ContentType} contentType Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", and "image/tiff";
+   * @param {FormRecognizerRequestBody} form Input form document
+   * @param {FormContentType} contentType Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", and "image/tiff";
    * @param {BeginRecognizeFormsOptions} [options] Options to start the form recognition operation
    */
-  public async beginRecognizeForms(
+  public async beginRecognizeCustomForms(
     modelId: string,
-    data: FormRecognizerRequestBody,
-    contentType?: ContentType,
+    form: FormRecognizerRequestBody,
+    contentType?: FormContentType,
     options: BeginRecognizeFormsOptions = {}
   ): Promise<FormPollerLike> {
     if (!modelId) {
       throw new RangeError("Invalid model id");
     }
-    const analyzePollerClient: RecognizePollerClient<RecognizeFormResultResponse> = {
+    const analyzePollerClient: RecognizeCustomFormPollerClient = {
       beginRecognize: (
         body: FormRecognizerRequestBody | string,
-        contentType?: ContentType,
-        analyzeOptions: RecognizeOptions = {},
+        contentType?: FormContentType,
+        analyzeOptions: RecognizeFormsOptions = {},
         modelId?: string
       ) => recognizeCustomFormInternal(this.client, body, contentType, analyzeOptions, modelId!),
       getRecognizeResult: (resultId: string, options: { abortSignal?: AbortSignalLike }) =>
         this.getRecognizedForm(modelId, resultId, options)
     };
 
-    const poller = new BeginRecognizePoller({
+    const poller = new BeginRecognizeCustomFormPoller({
       client: analyzePollerClient,
       modelId,
-      source: data,
+      source: form,
       contentType,
       ...options
     });
@@ -453,8 +462,7 @@ ng", and "image/tiff";
   /**
    * Recognizes forms from a url to a form document using a custom form model from training.
    * This method returns a long running operation poller that allows you to wait
-   * indefinitely until the copy is completed.
-   * You can also cancel a copy before it is completed by calling `cancelOperation` on the poller.
+   * indefinitely until the operation is completed.
    * Note that the onProgress callback will not be invoked if the operation completes in the first
    * request, and attempting to cancel a completed copy will result in an error being thrown.
    *
@@ -463,7 +471,7 @@ ng", and "image/tiff";
    * const url = "<form document url>";
    *
    * const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
-   * const poller = await client.beginRecognizeFormsFromUrl(modelId, url, {
+   * const poller = await client.beginRecognizeCustomFormsFromUrl(modelId, url, {
    *   onProgress: (state) => { console.log(`status: ${state.status}`); }
    * });
    * await poller.pollUntilDone();
@@ -472,35 +480,33 @@ ng", and "image/tiff";
    * ```
    * @summary Recognizes form information from a url to a form document using a custom form model.
    * @param {string} modelId Id of the custom form model to use
-   * @param {string} url Url to an accessible form document
+   * @param {string} formUrl Url to an accessible form document
    ng", and "image/tiff";
    * @param {BeginRecognizeFormsOptions} [options] Options to start the form recognition operation
    */
-  public async beginRecognizeFormsFromUrl(
+  public async beginRecognizeCustomFormsFromUrl(
     modelId: string,
-    documentUrl: string,
+    formUrl: string,
     options: BeginRecognizeFormsOptions = {}
-  ): Promise<
-    PollerLike<PollOperationState<RecognizeFormResultResponse>, RecognizeFormResultResponse>
-  > {
+  ): Promise<FormPollerLike> {
     if (!modelId) {
       throw new RangeError("Invalid modelId");
     }
-    const analyzePollerClient: RecognizePollerClient<RecognizeFormResultResponse> = {
+    const analyzePollerClient: RecognizeCustomFormPollerClient = {
       beginRecognize: (
         body: FormRecognizerRequestBody | string,
-        contentType?: ContentType,
-        analyzeOptions: RecognizeOptions = {},
+        contentType?: FormContentType,
+        analyzeOptions: RecognizeFormsOptions = {},
         modelId?: string
       ) => recognizeCustomFormInternal(this.client, body, contentType, analyzeOptions, modelId!),
       getRecognizeResult: (resultId: string, options: { abortSignal?: AbortSignalLike }) =>
         this.getRecognizedForm(modelId, resultId, options)
     };
 
-    const poller = new BeginRecognizePoller({
+    const poller = new BeginRecognizeCustomFormPoller({
       client: analyzePollerClient,
       modelId,
-      source: documentUrl,
+      source: formUrl,
       contentType: undefined,
       ...options
     });
@@ -547,8 +553,7 @@ ng", and "image/tiff";
    * from receipts such as merchant name, merchant phone number, transaction date, and more.
    *
    * This method returns a long running operation poller that allows you to wait
-   * indefinitely until the copy is completed.
-   * You can also cancel a copy before it is completed by calling `cancelOperation` on the poller.
+   * indefinitely until the operation is completed.
    * Note that the onProgress callback will not be invoked if the operation completes in the first
    * request, and attempting to cancel a completed copy will result in an error being thrown.
    *
@@ -575,23 +580,23 @@ ng", and "image/tiff";
    * console.log(usReceipt.recognizedForm.fields["MerchantAddress"]);
    * ```
    * @summary Recognizes receipt information from a given document
-   * @param {FormRecognizerRequestBody} data Input document
-   * @param {ContentType} contentType Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", and "image/tiff";
+   * @param {FormRecognizerRequestBody} receipt Input document
+   * @param {FormContentType} contentType Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", and "image/tiff";
    * @param {BeginRecognizeReceiptsOptions} [options] Options to start the receipt recognition operation
    */
   public async beginRecognizeReceipts(
-    data: FormRecognizerRequestBody,
-    contentType?: ContentType,
+    receipt: FormRecognizerRequestBody,
+    contentType?: FormContentType,
     options: BeginRecognizeReceiptsOptions = {}
   ): Promise<ReceiptPollerLike> {
-    const analyzePollerClient: RecognizePollerClient<RecognizeReceiptResultResponse> = {
+    const analyzePollerClient: RecognizeReceiptPollerClient = {
       beginRecognize: (...args) => recognizeReceiptInternal(this.client, ...args),
-      getRecognizeResult: (...args) => this.getreceipts(...args)
+      getRecognizeResult: (...args) => this.getReceipts(...args)
     };
 
-    const poller = new BeginRecognizePoller({
+    const poller = new BeginRecognizeReceiptPoller({
       client: analyzePollerClient,
-      source: data,
+      source: receipt,
       contentType,
       ...options
     });
@@ -605,17 +610,16 @@ ng", and "image/tiff";
    * from receipts such as merchant name, merchant phone number, transaction date, and more.
    *
    * This method returns a long running operation poller that allows you to wait
-   * indefinitely until the copy is completed.
-   * You can also cancel a copy before it is completed by calling `cancelOperation` on the poller.
+   * indefinitely until the operation is completed.
    * Note that the onProgress callback will not be invoked if the operation completes in the first
    * request, and attempting to cancel a completed copy will result in an error being thrown.
    *
    * Example usage:
    * ```ts
-   * const receiptUrl = "<url to the receipt document>";
+   * const url = "<url to the receipt document>";
    * const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
    * const poller = await client.beginRecognizeReceiptsFromUrl(
-   *   receiptUrl, {
+   *   url, {
    *     includeTextDetails: true,
    *     onProgress: (state) => { console.log(`analyzing status: ${state.status}`); }
    * });
@@ -632,21 +636,21 @@ ng", and "image/tiff";
    * console.log(usReceipt.recognizedForm.fields["MerchantAddress"]);
    * ```
    * @summary Recognizes receipt information from a given accessible url to input document
-   * @param {string} documentUrl url to the input receipt document
+   * @param {string} receiptUrl url to the input receipt document
    * @param {BeginRecognizeReceiptsOptions} [options] Options to start receipt recognition operation
    */
   public async beginRecognizeReceiptsFromUrl(
-    documentUrl: string,
+    receiptUrl: string,
     options: BeginRecognizeReceiptsOptions = {}
   ): Promise<ReceiptPollerLike> {
-    const analyzePollerClient: RecognizePollerClient<RecognizeReceiptResultResponse> = {
+    const analyzePollerClient: RecognizeReceiptPollerClient = {
       beginRecognize: (...args) => recognizeReceiptInternal(this.client, ...args),
-      getRecognizeResult: (...args) => this.getreceipts(...args)
+      getRecognizeResult: (...args) => this.getReceipts(...args)
     };
 
-    const poller = new BeginRecognizePoller({
+    const poller = new BeginRecognizeReceiptPoller({
       client: analyzePollerClient,
-      source: documentUrl,
+      source: receiptUrl,
       contentType: undefined,
       ...options
     });
@@ -659,7 +663,7 @@ ng", and "image/tiff";
    * Retrieves result of a receipt recognition operation.
    * @private
    */
-  private async getreceipts(
+  private async getReceipts(
     resultId: string,
     options?: GetReceiptsOptions
   ): Promise<RecognizeReceiptResultResponse> {
@@ -693,7 +697,7 @@ ng", and "image/tiff";
 async function recognizeLayoutInternal(
   client: GeneratedClient,
   body: FormRecognizerRequestBody | string,
-  contentType?: ContentType,
+  contentType?: FormContentType,
   options?: RecognizeContentOptions,
   _modelId?: string
 ): Promise<AnalyzeLayoutAsyncResponseModel> {
@@ -704,15 +708,15 @@ async function recognizeLayoutInternal(
 
   try {
     if (requestContentType) {
-      return await client.analyzeLayoutAsync({
-        ...operationOptionsToRequestOptionsBase(finalOptions),
-        contentType: requestContentType,
-        fileStream: requestBody as Blob | ArrayBuffer | ArrayBufferView
-      });
+      return await client.analyzeLayoutAsync(
+        requestContentType,
+        requestBody as Blob | ArrayBuffer | ArrayBufferView,
+        operationOptionsToRequestOptionsBase(finalOptions)
+      );
     }
-    return await client.analyzeLayoutAsync({
-      ...operationOptionsToRequestOptionsBase(finalOptions),
-      fileStream: requestBody as SourcePath
+    return await client.analyzeLayoutAsync("application/json", {
+      fileStream: requestBody as SourcePath,
+      ...operationOptionsToRequestOptionsBase(finalOptions)
     });
   } catch (e) {
     span.setStatus({
@@ -731,7 +735,7 @@ async function recognizeLayoutInternal(
 async function recognizeCustomFormInternal(
   client: GeneratedClient,
   body: FormRecognizerRequestBody | string,
-  contentType?: ContentType,
+  contentType?: FormContentType,
   options: RecognizeFormsOptions = {},
   modelId?: string
 ): Promise<AnalyzeWithCustomModelResponseModel> {
@@ -741,15 +745,16 @@ async function recognizeCustomFormInternal(
 
   try {
     if (requestContentType) {
-      return await client.analyzeWithCustomModel(modelId!, {
-        ...operationOptionsToRequestOptionsBase(finalOptions),
-        contentType: requestContentType,
-        fileStream: requestBody as Blob | ArrayBuffer | ArrayBufferView
-      });
+      return await client.analyzeWithCustomModel(
+        modelId!,
+        requestContentType,
+        requestBody as Blob | ArrayBuffer | ArrayBufferView,
+        operationOptionsToRequestOptionsBase(finalOptions)
+      );
     }
-    return await client.analyzeWithCustomModel(modelId!, {
-      ...operationOptionsToRequestOptionsBase(finalOptions),
-      fileStream: requestBody as SourcePath
+    return await client.analyzeWithCustomModel(modelId!, "application/json", {
+      fileStream: requestBody as SourcePath,
+      ...operationOptionsToRequestOptionsBase(finalOptions)
     });
   } catch (e) {
     span.setStatus({
@@ -768,7 +773,7 @@ async function recognizeCustomFormInternal(
 async function recognizeReceiptInternal(
   client: GeneratedClient,
   body: FormRecognizerRequestBody | string,
-  contentType?: ContentType,
+  contentType?: FormContentType,
   options?: RecognizeReceiptsOptions,
   _modelId?: string
 ): Promise<AnalyzeReceiptAsyncResponseModel> {
@@ -780,15 +785,15 @@ async function recognizeReceiptInternal(
 
   try {
     if (requestContentType) {
-      return await client.analyzeReceiptAsync({
-        ...operationOptionsToRequestOptionsBase(finalOptions),
-        contentType: requestContentType,
-        fileStream: requestBody as Blob | ArrayBuffer | ArrayBufferView
-      });
+      return await client.analyzeReceiptAsync(
+        requestContentType,
+        requestBody as Blob | ArrayBuffer | ArrayBufferView,
+        operationOptionsToRequestOptionsBase(finalOptions)
+      );
     }
-    return await client.analyzeReceiptAsync({
-      ...operationOptionsToRequestOptionsBase(finalOptions),
-      fileStream: requestBody as SourcePath
+    return await client.analyzeReceiptAsync("application/json", {
+      fileStream: requestBody as SourcePath,
+      ...operationOptionsToRequestOptionsBase(finalOptions)
     });
   } catch (e) {
     span.setStatus({

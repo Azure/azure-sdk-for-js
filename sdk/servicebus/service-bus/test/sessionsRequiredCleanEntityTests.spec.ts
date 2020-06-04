@@ -8,7 +8,7 @@ import {
   testPeekMsgsLength
 } from "./utils/testutils2";
 import { Sender } from "../src/sender";
-import { SessionReceiver, ServiceBusMessage } from "../src";
+import { ServiceBusMessage, SessionReceiver } from "../src";
 import { TestClientType, TestMessage } from "./utils/testUtils";
 import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
 const should = chai.should();
@@ -41,9 +41,9 @@ describe("sessions tests -  requires completely clean entity for each test", () 
     // getSenderReceiverClients creates brand new queues/topic-subscriptions.
     // Hence, commenting the following code since there is no need to purge/peek into a freshly created entity
 
-    // await purge(receiverClient);
-    // const browsedMsgs = await receiverClient.browseMessages();
-    // const receiverEntityType = receiverClient.entityType;
+    // await purge(receiver);
+    // const browsedMsgs = await receiver.browseMessages();
+    // const receiverEntityType = receiver.entityType;
     // if (browsedMsgs.length) {
     //   chai.assert.fail(`Please use an empty ${receiverEntityType} for integration testing`);
     // }

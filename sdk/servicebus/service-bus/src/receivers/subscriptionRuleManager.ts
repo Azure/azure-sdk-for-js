@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RuleDescription, CorrelationFilter } from "../core/managementClient";
-import { throwErrorIfClientOrConnectionClosed } from "../util/errors";
+import { retry, RetryConfig, RetryOperationType, RetryOptions } from "@azure/core-amqp";
 import { ClientEntityContext } from "../clientEntityContext";
-import { retry, RetryOperationType, RetryConfig, RetryOptions } from "@azure/core-amqp";
+import { CorrelationRuleFilter, RuleDescription } from "../core/managementClient";
 import { OperationOptions } from "../modelsToBeSharedWithEventHubs";
+import { throwErrorIfClientOrConnectionClosed } from "../util/errors";
 
 /**
  * @internal
@@ -51,7 +51,7 @@ interface SubscriptionRuleManager {
    */
   addRule(
     ruleName: string,
-    filter: boolean | string | CorrelationFilter,
+    filter: boolean | string | CorrelationRuleFilter,
     sqlRuleActionExpression?: string,
     options?: OperationOptions
   ): Promise<void>;
@@ -129,7 +129,7 @@ export class SubscriptionRuleManagerImpl implements SubscriptionRuleManager {
 
   addRule(
     ruleName: string,
-    filter: boolean | string | CorrelationFilter,
+    filter: boolean | string | CorrelationRuleFilter,
     sqlRuleActionExpression?: string,
     options: OperationOptions = {}
   ): Promise<void> {

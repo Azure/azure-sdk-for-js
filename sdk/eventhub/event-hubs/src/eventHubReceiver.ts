@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import uuid from "uuid/v4";
-import { logger, logErrorStackTrace } from "./log";
+import { v4 as uuid } from "uuid";
+import { logErrorStackTrace, logger } from "./log";
 import {
-  Receiver,
-  OnAmqpEvent,
   EventContext,
+  OnAmqpEvent,
+  Receiver,
   ReceiverOptions as RheaReceiverOptions,
   types
 } from "rhea-promise";
-import { delay, translate, Constants, MessagingError } from "@azure/core-amqp";
-import { ReceivedEventData, EventDataInternal, fromAmqpMessage } from "./eventData";
+import { Constants, MessagingError, delay, translate } from "@azure/core-amqp";
+import { EventDataInternal, ReceivedEventData, fromAmqpMessage } from "./eventData";
 import { EventHubConsumerOptions } from "./impl/eventHubClient";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import { EventPosition, getEventPositionFilter } from "./eventPosition";
-import { AbortSignalLike, AbortError } from "@azure/abort-controller";
+import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 
 /**
  * @ignore

@@ -8,7 +8,7 @@ import {
   recorderEnvSetup
 } from "./utils";
 import { record, Recorder } from "@azure/test-utils-recorder";
-import { BlobBatch } from "../src/BlobBatch";
+import { BlobBatch } from "../src";
 import {
   ContainerClient,
   BlockBlobClient,
@@ -563,7 +563,7 @@ describe("BlobBatch", () => {
     assert.ok(exceptionCaught);
   });
 
-  it("BlobBatch should report error when mixing differnt request types in one batch", async () => {
+  it("BlobBatch should report error when mixing different request types in one batch", async () => {
     let batchRequest = new BlobBatch();
 
     let exceptionCaught = false;

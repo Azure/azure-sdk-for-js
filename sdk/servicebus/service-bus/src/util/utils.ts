@@ -3,11 +3,11 @@
 
 import Long from "long";
 import * as log from "../log";
-import { generate_uuid } from "rhea-promise";
+import { OperationTimeoutError, generate_uuid } from "rhea-promise";
 import isBuffer from "is-buffer";
 import { Buffer } from "buffer";
 import * as Constants from "../util/constants";
-import { Constants as CoreAMQPConstants, RetryOptions } from "@azure/core-amqp";
+import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 
 // This is the only dependency we have on DOM types, so rather than require
 // the DOM lib we can just shim this in.
@@ -40,47 +40,6 @@ export const isNode = typeof navigator === "undefined" && typeof process !== "un
  */
 export function getUniqueName(name: string): string {
   return `${name}-${generate_uuid()}`;
-}
-
-/**
- * @internal
- * @ignore
- *
- * TODO: I think this is duplicated from core-amqp and should be du-duped, but _before_
- * that happens we should question whether it's even a legitimate way of setting the timeout
- * because it just squashes all timeouts beneath 60 seconds to be 60 seconds instead.
- */
-export function getRetryAttemptTimeoutInMs(retryOptions: RetryOptions | undefined): number {
-  const timeoutInMs =
-    retryOptions == undefined ||
-    typeof retryOptions.timeoutInMs !== "number" ||
-    !isFinite(retryOptions.timeoutInMs) ||
-    // TODO: not sure what the justification is for always forcing at least 60 seconds.
-    retryOptions.timeoutInMs < CoreAMQPConstants.defaultOperationTimeoutInMs
-      ? CoreAMQPConstants.defaultOperationTimeoutInMs
-      : retryOptions.timeoutInMs;
-
-  return timeoutInMs;
-}
-
-/**
- * @internal
- * @ignore
- */
-export type RetryOptionsInternal = Required<Pick<RetryOptions, "timeoutInMs">> &
-  Exclude<RetryOptions, "timeoutInMs">;
-
-/**
- * @internal
- * @ignore
- */
-export function normalizeRetryOptions(
-  retryOptions: RetryOptions | undefined
-): RetryOptionsInternal {
-  return {
-    ...retryOptions,
-    timeoutInMs: getRetryAttemptTimeoutInMs(retryOptions)
-  };
 }
 
 /**
@@ -350,8 +309,6 @@ export function getCountDetailsOrUndefined(value: any): MessageCountDetails | un
 }
 
 /**
- * @internal
- * @ignore
  * Represents type of message count details in ATOM based management operations.
  */
 export type MessageCountDetails = {
@@ -363,8 +320,6 @@ export type MessageCountDetails = {
 };
 
 /**
- * @internal
- * @ignore
  * Represents type of `AuthorizationRule` in ATOM based management operations.
  */
 export type AuthorizationRule = {
@@ -513,8 +468,6 @@ export function isAbsoluteUrl(url: string) {
 }
 
 /**
- * @internal
- * @ignore
  * Possible values for `status` of the Service Bus messaging entities.
  */
 export type EntityStatus =
@@ -527,3 +480,90 @@ export type EntityStatus =
   | "Renaming"
   | "Restoring"
   | "Unknown";
+
+/**
+ * An executor for a function that returns a Promise that obeys both a timeout and an
+ * optional AbortSignal.
+ * @param timeoutMs - The number of milliseconds to allow before throwing an OperationTimeoutError.
+ * @param timeoutMessage - The message to place in the .description field for the thrown exception for Timeout.
+ * @param abortSignal - The abortSignal associated with containing operation.
+ * @param abortErrorMsg - The abort error message associated with containing operation.
+ * @param value - The value to be resolved with after a timeout of t milliseconds.
+ * @returns {Promise<T>} - Resolved promise
+ *
+ * @internal
+ * @ignore
+ */
+export async function waitForTimeoutOrAbortOrResolve<T>(args: {
+  actionFn: () => Promise<T>;
+  timeoutMs: number;
+  timeoutMessage: string;
+  abortMessage: string;
+  abortSignal?: AbortSignalLike;
+}): Promise<T> {
+  if (args.abortSignal && args.abortSignal.aborted) {
+    throw new AbortError(args.abortMessage);
+  }
+
+  let timer: any | undefined = undefined;
+  let clearAbortSignal: (() => void) | undefined = undefined;
+
+  const clearAbortSignalAndTimer = (): void => {
+    clearTimeout(timer);
+
+    if (clearAbortSignal) {
+      clearAbortSignal();
+    }
+  };
+
+  const abortOrTimeoutPromise = new Promise<T>((_resolve, reject) => {
+    clearAbortSignal = checkAndRegisterWithAbortSignal(reject, args.abortMessage, args.abortSignal);
+
+    // using a named function here so we can identify it in our unit tests
+    timer = setTimeout(function timeoutCallback() {
+      reject(new OperationTimeoutError(args.timeoutMessage));
+    }, args.timeoutMs);
+  });
+
+  const actionPromise = args.actionFn();
+  try {
+    return await Promise.race([abortOrTimeoutPromise, actionPromise]);
+  } finally {
+    clearAbortSignalAndTimer();
+  }
+}
+
+/**
+ * Registers listener to the abort event on the abortSignal to call your abortFn and
+ * returns a function that will clear the same listener.
+ *
+ * If abort signal is already aborted, then throws an AbortError and returns a function that does nothing
+ *
+ * @returns A function that removes any of our attached event listeners on the abort signal or an empty function if
+ * the abortSignal was not defined.
+ *
+ * @internal
+ * @ignore
+ */
+export function checkAndRegisterWithAbortSignal(
+  onAbortFn: (abortError: AbortError) => void,
+  abortMessage: string,
+  abortSignal?: AbortSignalLike
+): () => void {
+  if (abortSignal == null) {
+    return () => {};
+  }
+
+  if (abortSignal.aborted) {
+    throw new AbortError(abortMessage);
+  }
+
+  const onAbort = (): void => {
+    abortSignal.removeEventListener("abort", onAbort);
+    onAbortFn(new AbortError(abortMessage));
+  };
+
+  abortSignal.addEventListener("abort", onAbort);
+
+  return () => abortSignal.removeEventListener("abort", onAbort);
+}

@@ -286,9 +286,9 @@ describe("msrest", function() {
         required: false,
         serializedName: "DateTimeRfc1123"
       };
-      const rfc = new Date("Mon, 01 Jan 0001 00:00:00 GMT");
+      const rfc = new Date("Wed, 01 Jan 2020 00:00:00 GMT");
       const serializedDateString = Serializer.serialize(mapper, rfc, "dateTimeObj");
-      serializedDateString.should.equal("Mon, 01 Jan 2001 00:00:00 GMT");
+      serializedDateString.should.equal("Wed, 01 Jan 2020 00:00:00 GMT");
       done();
     });
 

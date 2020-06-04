@@ -1,33 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import uuid from "uuid/v4";
+import { v4 as uuid } from "uuid";
 import {
-  RequestResponseLink,
-  defaultLock,
-  translate,
   Constants,
-  SendRequestOptions,
-  retry,
+  RequestResponseLink,
   RetryConfig,
-  RetryOptions,
   RetryOperationType,
-  SharedKeyCredential
+  RetryOptions,
+  SendRequestOptions,
+  SharedKeyCredential,
+  defaultLock,
+  retry,
+  translate
 } from "@azure/core-amqp";
 import {
-  Message,
   EventContext,
-  SenderEvents,
+  Message,
   ReceiverEvents,
-  SenderOptions,
   ReceiverOptions,
+  SenderEvents,
+  SenderOptions,
   generate_uuid
 } from "rhea-promise";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
-import { logger, logErrorStackTrace } from "./log";
+import { logErrorStackTrace, logger } from "./log";
 import { getRetryAttemptTimeoutInMs } from "./util/retries";
-import { AbortSignalLike, AbortError } from "@azure/abort-controller";
+import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 /**
  * Describes the runtime information of an Event Hub.
  */

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { EventHubReceiver } from "./eventHubReceiver";
-import { logger, logErrorStackTrace } from "./log";
+import { logErrorStackTrace, logger } from "./log";
 
 /**
  * Describes the receive handler object that is returned from the receive() method with handlers.

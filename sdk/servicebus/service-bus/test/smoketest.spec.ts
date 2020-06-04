@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { delay, ServiceBusMessage, ReceivedMessage, Receiver } from "../src";
+import { ReceivedMessage, Receiver, ServiceBusMessage, delay } from "../src";
 import { TestClientType } from "./utils/testUtils";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { getEntityNameFromConnectionString } from "../src/constructorHelpers";
-import { createServiceBusClientForTests, ServiceBusClientForTests } from "./utils/testutils2";
+import { ServiceBusClientForTests, createServiceBusClientForTests } from "./utils/testutils2";
 import { Sender } from "../src/sender";
 import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
 chai.use(chaiAsPromised);
@@ -90,7 +90,7 @@ describe("Sample scenarios for track 2", () => {
       await sendSampleMessage(sender, "Queue, peek/lock, iterate messages");
 
       // etc...
-      // receiverClient.getRules();
+      // receiver.getRules();
       const errors: string[] = [];
       const receivedBodies: string[] = [];
 
@@ -145,7 +145,7 @@ describe("Sample scenarios for track 2", () => {
       await sendSampleMessage(sender, "Queue, receive and delete, iterate messages");
 
       // etc...
-      // receiverClient.getRules();
+      // receiver.getRules();
       const errors: string[] = [];
       const receivedBodies: string[] = [];
 
@@ -207,7 +207,7 @@ describe("Sample scenarios for track 2", () => {
       await sendSampleMessage(sender, "Subscription, peek/lock");
 
       // etc...
-      // receiverClient.getRules();
+      // receiver.getRules();
       const errors: string[] = [];
       const receivedBodies: string[] = [];
 
@@ -232,7 +232,7 @@ describe("Sample scenarios for track 2", () => {
       await sendSampleMessage(sender, "Subscription, receive and delete");
 
       // etc...
-      // receiverClient.getRules();
+      // receiver.getRules();
       const errors: string[] = [];
       const receivedBodies: string[] = [];
 
@@ -256,7 +256,7 @@ describe("Sample scenarios for track 2", () => {
       await sendSampleMessage(sender, "Subscription, peek/lock, iterate messages");
 
       // etc...
-      // receiverClient.getRules();
+      // receiver.getRules();
       const errors: string[] = [];
       const receivedBodies: string[] = [];
 
@@ -294,7 +294,7 @@ describe("Sample scenarios for track 2", () => {
       await sendSampleMessage(sender, "Subscription, receive and delete, iterate messages");
 
       // etc...
-      // receiverClient.getRules();
+      // receiver.getRules();
       const errors: string[] = [];
       const receivedBodies: string[] = [];
 
@@ -430,7 +430,7 @@ describe("Sample scenarios for track 2", () => {
     });
   });
 
-  async function sendSampleMessage(senderClient: Sender, body: string, sessionId?: string) {
+  async function sendSampleMessage(sender: Sender, body: string, sessionId?: string) {
     const message: ServiceBusMessage = {
       body
     };
@@ -439,7 +439,7 @@ describe("Sample scenarios for track 2", () => {
       message.sessionId = sessionId;
     }
 
-    await senderClient.send(message);
+    await sender.send(message);
   }
 });
 
@@ -460,7 +460,7 @@ async function waitAndValidate(
   expectedMessage: string,
   receivedBodies: string[],
   errors: string[],
-  receiverClient: Receiver<ReceivedMessage>
+  receiver: Receiver<ReceivedMessage>
 ) {
   const maxChecks = 20;
   let numChecks = 0;
@@ -472,7 +472,7 @@ async function waitAndValidate(
     await delay(500);
   }
 
-  const remainingMessages = (await receiverClient.browseMessages()).map((m) => m.body);
+  const remainingMessages = (await receiver.browseMessages()).map((m) => m.body);
   assert.isEmpty(errors);
   assert.isEmpty(remainingMessages);
   assert.deepEqual([expectedMessage], receivedBodies);

@@ -7,8 +7,10 @@
  */
 
 export {
-  CloudError,
   Dimension,
+  ErrorResponse,
+  ErrorResponseBody,
+  LogSpecification,
   MetricSpecification,
   Operation,
   OperationDisplay,

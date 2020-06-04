@@ -8,12 +8,12 @@ import { TestClientType, TestMessage } from "./utils/testUtils";
 import { Receiver } from "../src/receivers/receiver";
 import { Sender } from "../src/sender";
 import {
-  createServiceBusClientForTests,
+  EntityName,
   ServiceBusClientForTests,
-  testPeekMsgsLength,
-  EntityName
+  createServiceBusClientForTests,
+  testPeekMsgsLength
 } from "./utils/testutils2";
-import { ReceivedMessageWithLock, DispositionType } from "../src/serviceBusMessage";
+import { DispositionType, ReceivedMessageWithLock } from "../src/serviceBusMessage";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -21,9 +21,9 @@ chai.use(chaiAsPromised);
 describe("Backup message settlement - Through ManagementLink", () => {
   let serviceBusClient: ServiceBusClientForTests;
 
-  let senderClient: Sender;
-  let receiverClient: Receiver<ReceivedMessageWithLock>;
-  let deadLetterClient: Receiver<ReceivedMessageWithLock>;
+  let sender: Sender;
+  let receiver: Receiver<ReceivedMessageWithLock>;
+  let deadLetterReceiver: Receiver<ReceivedMessageWithLock>;
   let entityNames: EntityName;
 
   before(() => {
@@ -36,13 +36,13 @@ describe("Backup message settlement - Through ManagementLink", () => {
 
   async function beforeEachTest(entityType: TestClientType): Promise<void> {
     entityNames = await serviceBusClient.test.createTestEntities(entityType);
-    receiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
 
-    senderClient = serviceBusClient.test.addToCleanup(
+    sender = serviceBusClient.test.addToCleanup(
       await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
 
-    deadLetterClient = serviceBusClient.test.createDeadLetterReceiver(entityNames);
+    deadLetterReceiver = serviceBusClient.test.createDeadLetterReceiver(entityNames);
   }
 
   function afterEachTest(): Promise<void> {
@@ -57,8 +57,8 @@ describe("Backup message settlement - Through ManagementLink", () => {
     async function sendReceiveMsg(
       testMessages: ServiceBusMessage
     ): Promise<ReceivedMessageWithLock> {
-      await senderClient.send(testMessages);
-      const msgs = await receiverClient.receiveBatch(1);
+      await sender.send(testMessages);
+      const msgs = await receiver.receiveBatch(1);
 
       should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
       should.equal(msgs.length, 1, "Unexpected number of messages");
@@ -79,7 +79,7 @@ describe("Backup message settlement - Through ManagementLink", () => {
           ? TestMessage.getSessionSample()
           : TestMessage.getSample();
         const msg = await sendReceiveMsg(testMessages);
-        await receiverClient.close();
+        await receiver.close();
         let errorWasThrown = false;
         try {
           await msg.complete();
@@ -92,15 +92,15 @@ describe("Backup message settlement - Through ManagementLink", () => {
           errorWasThrown = true;
         }
 
-        receiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+        receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
         if (entityNames.usesSessions) {
           should.equal(errorWasThrown, true, "Error was not thrown for messages with session-id");
-          const msgBatch = await receiverClient.receiveBatch(1);
+          const msgBatch = await receiver.receiveBatch(1);
           await msgBatch[0].complete();
         } else {
           should.equal(errorWasThrown, false, "Error was thrown for sessions without session-id");
         }
-        await testPeekMsgsLength(receiverClient, 0);
+        await testPeekMsgsLength(receiver, 0);
       }
 
       it("Partitioned Queue: complete() removes message", async function(): Promise<void> {
@@ -160,7 +160,7 @@ describe("Backup message settlement - Through ManagementLink", () => {
           ? TestMessage.getSessionSample()
           : TestMessage.getSample();
         const msg = await sendReceiveMsg(testMessages);
-        await receiverClient.close();
+        await receiver.close();
         let errorWasThrown = false;
         try {
           await msg.abandon();
@@ -178,14 +178,14 @@ describe("Backup message settlement - Through ManagementLink", () => {
         } else {
           should.equal(errorWasThrown, false, "Error was thrown for sessions without session-id");
         }
-        receiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
-        await testPeekMsgsLength(receiverClient, 1);
+        receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+        await testPeekMsgsLength(receiver, 1);
 
-        const messageBatch = await receiverClient.receiveBatch(1);
+        const messageBatch = await receiver.receiveBatch(1);
 
         await messageBatch[0].complete();
 
-        await testPeekMsgsLength(receiverClient, 0);
+        await testPeekMsgsLength(receiver, 0);
       }
 
       it("Partitioned Queue: abandon() retains message with incremented deliveryCount", async function(): Promise<
@@ -256,7 +256,7 @@ describe("Backup message settlement - Through ManagementLink", () => {
           throw "Sequence Number can not be null";
         }
         const sequenceNumber = msg.sequenceNumber;
-        await receiverClient.close();
+        await receiver.close();
         let errorWasThrown = false;
         try {
           await msg.defer();
@@ -274,18 +274,18 @@ describe("Backup message settlement - Through ManagementLink", () => {
         } else {
           should.equal(errorWasThrown, false, "Error was thrown for sessions without session-id");
         }
-        receiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+        receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
         if (!entityNames.usesSessions) {
-          const deferredMsgs = await receiverClient.receiveDeferredMessage(sequenceNumber);
+          const deferredMsgs = await receiver.receiveDeferredMessage(sequenceNumber);
           if (!deferredMsgs) {
             throw "No message received for sequence number";
           }
           await deferredMsgs.complete();
         } else {
-          const messageBatch = await receiverClient.receiveBatch(1);
+          const messageBatch = await receiver.receiveBatch(1);
           await messageBatch[0].complete();
         }
-        await testPeekMsgsLength(receiverClient, 0);
+        await testPeekMsgsLength(receiver, 0);
       }
 
       it("Partitioned Queue: defer() moves message to deferred queue", async function(): Promise<
@@ -347,7 +347,7 @@ describe("Backup message settlement - Through ManagementLink", () => {
       async function testDeadletter(useSessions?: boolean): Promise<void> {
         const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
         const msg = await sendReceiveMsg(testMessages);
-        await receiverClient.close();
+        await receiver.close();
         let errorWasThrown = false;
         try {
           await msg.deadLetter();
@@ -366,10 +366,10 @@ describe("Backup message settlement - Through ManagementLink", () => {
           should.equal(errorWasThrown, false, "Error was thrown for sessions without session-id");
         }
 
-        receiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+        receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
 
         if (!entityNames.usesSessions) {
-          const deadLetterMsgsBatch = await deadLetterClient.receiveBatch(1);
+          const deadLetterMsgsBatch = await deadLetterReceiver.receiveBatch(1);
 
           should.equal(
             Array.isArray(deadLetterMsgsBatch),
@@ -390,12 +390,12 @@ describe("Backup message settlement - Through ManagementLink", () => {
 
           await deadLetterMsgsBatch[0].complete();
 
-          await testPeekMsgsLength(deadLetterClient, 0);
+          await testPeekMsgsLength(deadLetterReceiver, 0);
         } else {
-          const messageBatch = await receiverClient.receiveBatch(1);
+          const messageBatch = await receiver.receiveBatch(1);
           await messageBatch[0].complete();
 
-          await testPeekMsgsLength(receiverClient, 0);
+          await testPeekMsgsLength(receiver, 0);
         }
       }
 
@@ -462,7 +462,7 @@ describe("Backup message settlement - Through ManagementLink", () => {
           ? TestMessage.getSessionSample()
           : TestMessage.getSample();
         const msg = await sendReceiveMsg(testMessages);
-        await receiverClient.close();
+        await receiver.close();
         let errorWasThrown = false;
         try {
           const lockedUntilBeforeRenewlock = msg.lockedUntilUtc;
@@ -482,15 +482,15 @@ describe("Backup message settlement - Through ManagementLink", () => {
           errorWasThrown = true;
         }
 
-        receiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+        receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
         if (entityNames.usesSessions) {
           should.equal(errorWasThrown, true, "Error was not thrown for messages with session-id");
-          const msgBatch = await receiverClient.receiveBatch(1);
+          const msgBatch = await receiver.receiveBatch(1);
           await msgBatch[0].complete();
         } else {
           should.equal(errorWasThrown, false, "Error was thrown for sessions without session-id");
         }
-        await testPeekMsgsLength(receiverClient, 0);
+        await testPeekMsgsLength(receiver, 0);
       }
 
       it("Partitioned Queue: complete() removes message", async function(): Promise<void> {

@@ -8,14 +8,29 @@ import { AbortSignalLike } from '@azure/abort-controller';
 import { AmqpMessage } from '@azure/core-amqp';
 import { delay } from '@azure/core-amqp';
 import { Delivery } from 'rhea-promise';
+import { HttpOperationResponse } from '@azure/core-http';
 import Long from 'long';
 import { MessagingError } from '@azure/core-amqp';
 import { OperationTracingOptions } from '@azure/core-tracing';
+import { ProxySettings } from '@azure/core-http';
 import { RetryOptions } from '@azure/core-amqp';
+import { ServiceClient } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-amqp';
 import { TokenType } from '@azure/core-amqp';
 import { WebSocketImpl } from 'rhea-promise';
 import { WebSocketOptions } from '@azure/core-amqp';
+
+// @public
+export type AuthorizationRule = {
+    claimType: string;
+    claimValue: string;
+    rights: {
+        accessRights?: string[];
+    };
+    keyName: string;
+    primaryKey?: string;
+    secondaryKey?: string;
+};
 
 // @public
 export interface BrowseMessagesOptions extends OperationOptions {
@@ -24,9 +39,28 @@ export interface BrowseMessagesOptions extends OperationOptions {
 }
 
 // @public
+export interface CorrelationRuleFilter {
+    contentType?: string;
+    correlationId?: string;
+    label?: string;
+    messageId?: string;
+    replyTo?: string;
+    replyToSessionId?: string;
+    sessionId?: string;
+    to?: string;
+    userProperties?: any;
+}
+
+// @public
 export interface CreateBatchOptions extends OperationOptions {
     maxSizeInBytes?: number;
 }
+
+// @public
+export type CreateQueueResponse = QueueResponse;
+
+// @public
+export type CreateRuleResponse = RuleResponse;
 
 // @public
 export interface CreateSenderOptions {
@@ -38,6 +72,12 @@ export interface CreateSessionReceiverOptions extends SessionReceiverOptions, Op
 }
 
 // @public
+export type CreateSubscriptionResponse = SubscriptionResponse;
+
+// @public
+export type CreateTopicResponse = TopicResponse;
+
+// @public
 export interface DeadLetterOptions {
     deadLetterErrorDescription: string;
     deadLetterReason: string;
@@ -45,11 +85,81 @@ export interface DeadLetterOptions {
 
 export { delay }
 
+// @public
+export interface DeleteQueueResponse {
+    _response: HttpOperationResponse;
+}
+
+// @public
+export interface DeleteRuleResponse {
+    _response: HttpOperationResponse;
+}
+
+// @public
+export interface DeleteSubscriptionResponse {
+    _response: HttpOperationResponse;
+}
+
+// @public
+export interface DeleteTopicResponse {
+    _response: HttpOperationResponse;
+}
+
 export { Delivery }
+
+// @public
+export type EntityStatus = "Active" | "Creating" | "Deleting" | "ReceiveDisabled" | "SendDisabled" | "Disabled" | "Renaming" | "Restoring" | "Unknown";
 
 // @public
 export interface GetMessageIteratorOptions extends OperationOptions, WaitTimeOptions {
 }
+
+// @public
+export type GetQueueResponse = QueueResponse;
+
+// @public
+export interface GetQueuesResponse extends Array<QueueDescription> {
+    _response: HttpOperationResponse;
+}
+
+// @public
+export type GetRuleResponse = RuleResponse;
+
+// @public
+export interface GetRulesResponse extends Array<RuleDescription> {
+    _response: HttpOperationResponse;
+}
+
+// @public
+export type GetSubscriptionResponse = SubscriptionResponse;
+
+// @public
+export interface GetSubscriptionsResponse extends Array<SubscriptionDescription> {
+    _response: HttpOperationResponse;
+}
+
+// @public
+export type GetTopicResponse = TopicResponse;
+
+// @public
+export interface GetTopicsResponse extends Array<TopicDescription> {
+    _response: HttpOperationResponse;
+}
+
+// @public
+export interface ListRequestOptions {
+    skip?: number;
+    top?: number;
+}
+
+// @public
+export type MessageCountDetails = {
+    activeMessageCount: number;
+    deadLetterMessageCount: number;
+    scheduledMessageCount: number;
+    transferMessageCount: number;
+    transferDeadLetterMessageCount: number;
+};
 
 // @public
 export interface MessageHandlerOptions {
@@ -70,6 +180,47 @@ export { MessagingError }
 export interface OperationOptions {
     abortSignal?: AbortSignalLike;
     tracingOptions?: OperationTracingOptions;
+}
+
+// @public
+export interface QueueDescription {
+    authorizationRules?: AuthorizationRule[];
+    autoDeleteOnIdle?: string;
+    deadLetteringOnMessageExpiration?: boolean;
+    defaultMessageTtl?: string;
+    duplicateDetectionHistoryTimeWindow?: string;
+    enableBatchedOperations?: boolean;
+    enablePartitioning?: boolean;
+    forwardDeadLetteredMessagesTo?: string;
+    forwardTo?: string;
+    lockDuration?: string;
+    maxDeliveryCount?: number;
+    maxSizeInMegabytes?: number;
+    // (undocumented)
+    messageCount?: number;
+    name: string;
+    requiresDuplicateDetection?: boolean;
+    requiresSession?: boolean;
+    status?: EntityStatus;
+    userMetadata?: string;
+}
+
+// @public
+export interface QueueResponse extends QueueDescription {
+    _response: HttpOperationResponse;
+}
+
+// Warning: (ae-internal-missing-underscore) The name "QueueRuntimeInfo" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal
+export interface QueueRuntimeInfo {
+    accessedOn?: string;
+    createdOn?: string;
+    messageCount?: number;
+    messageCountDetails?: MessageCountDetails;
+    name: string;
+    sizeInBytes?: number;
+    updatedOn?: string;
 }
 
 // @public
@@ -122,6 +273,18 @@ export interface Receiver<ReceivedMessageT> {
 export { RetryOptions }
 
 // @public
+export interface RuleDescription {
+    action?: SqlRuleAction;
+    filter?: SqlRuleFilter | CorrelationRuleFilter;
+    name: string;
+}
+
+// @public
+export interface RuleResponse extends RuleDescription {
+    _response: HttpOperationResponse;
+}
+
+// @public
 export interface Sender {
     cancelScheduledMessage(sequenceNumber: Long, options?: OperationOptions): Promise<void>;
     cancelScheduledMessages(sequenceNumbers: Long[], options?: OperationOptions): Promise<void>;
@@ -164,6 +327,39 @@ export interface ServiceBusClientOptions {
 }
 
 // @public
+export class ServiceBusManagementClient extends ServiceClient {
+    constructor(connectionString: string, options?: ServiceBusManagementClientOptions);
+    createQueue(queueName: string): Promise<CreateQueueResponse>;
+    createQueue(queue: QueueDescription): Promise<CreateQueueResponse>;
+    createRule(topicName: string, subscriptionName: string, rule: RuleDescription): Promise<CreateRuleResponse>;
+    createSubscription(topicName: string, subscriptionName: string): Promise<CreateSubscriptionResponse>;
+    createSubscription(subscription: SubscriptionDescription): Promise<CreateSubscriptionResponse>;
+    createTopic(topicName: string): Promise<CreateTopicResponse>;
+    createTopic(topic: TopicDescription): Promise<CreateTopicResponse>;
+    deleteQueue(queueName: string): Promise<DeleteQueueResponse>;
+    deleteRule(topicName: string, subscriptionName: string, ruleName: string): Promise<DeleteRuleResponse>;
+    deleteSubscription(topicName: string, subscriptionName: string): Promise<DeleteSubscriptionResponse>;
+    deleteTopic(topicName: string): Promise<DeleteTopicResponse>;
+    getQueue(queueName: string): Promise<GetQueueResponse>;
+    getQueues(listRequestOptions?: ListRequestOptions): Promise<GetQueuesResponse>;
+    getRule(topicName: string, subscriptioName: string, ruleName: string): Promise<GetRuleResponse>;
+    getRules(topicName: string, subscriptionName: string, listRequestOptions?: ListRequestOptions): Promise<GetRulesResponse>;
+    getSubscription(topicName: string, subscriptionName: string): Promise<GetSubscriptionResponse>;
+    getSubscriptions(topicName: string, listRequestOptions?: ListRequestOptions): Promise<GetSubscriptionsResponse>;
+    getTopic(topicName: string): Promise<GetTopicResponse>;
+    getTopics(listRequestOptions?: ListRequestOptions): Promise<GetTopicsResponse>;
+    updateQueue(queue: QueueDescription): Promise<UpdateQueueResponse>;
+    updateRule(topicName: string, subscriptionName: string, rule: RuleDescription): Promise<UpdateRuleResponse>;
+    updateSubscription(subscription: SubscriptionDescription): Promise<UpdateSubscriptionResponse>;
+    updateTopic(topic: TopicDescription): Promise<UpdateTopicResponse>;
+}
+
+// @public
+export interface ServiceBusManagementClientOptions {
+    proxySettings?: ProxySettings;
+}
+
+// @public
 export interface ServiceBusMessage {
     body: any;
     contentType?: string;
@@ -186,6 +382,8 @@ export interface ServiceBusMessage {
 // @public
 export interface ServiceBusMessageBatch {
     readonly count: number;
+    // @internal
+    _generateMessage(): Buffer;
     readonly maxSizeInBytes: number;
     readonly sizeInBytes: number;
     tryAdd(message: ServiceBusMessage): boolean;
@@ -213,12 +411,113 @@ export interface SessionReceiverOptions {
 }
 
 // @public
+export type SqlParameter = {
+    key: string;
+    value: string | number;
+    type: string;
+};
+
+// @public
+export type SqlRuleAction = SqlRuleFilter;
+
+// @public
+export interface SqlRuleFilter {
+    compatibilityLevel?: number;
+    requiresPreprocessing?: boolean;
+    sqlExpression?: string;
+    sqlParameters?: SqlParameter[];
+}
+
+// @public
 export interface SubscribeOptions extends OperationOptions, MessageHandlerOptions {
+}
+
+// @public
+export interface SubscriptionDescription {
+    autoDeleteOnIdle?: string;
+    deadLetteringOnFilterEvaluationExceptions?: boolean;
+    deadLetteringOnMessageExpiration?: boolean;
+    defaultMessageTtl?: string;
+    enableBatchedOperations?: boolean;
+    forwardDeadLetteredMessagesTo?: string;
+    forwardTo?: string;
+    lockDuration?: string;
+    maxDeliveryCount?: number;
+    // (undocumented)
+    messageCount?: number;
+    requiresSession?: boolean;
+    status?: EntityStatus;
+    subscriptionName: string;
+    topicName: string;
+    userMetadata?: string;
+}
+
+// @public
+export interface SubscriptionResponse extends SubscriptionDescription {
+    _response: HttpOperationResponse;
+}
+
+// Warning: (ae-internal-missing-underscore) The name "SubscriptionRuntimeInfo" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal
+export interface SubscriptionRuntimeInfo {
+    accessedOn?: string;
+    createdOn: string;
+    messageCount: number;
+    messageCountDetails?: MessageCountDetails;
+    subscriptionName: string;
+    topicName: string;
+    updatedOn: string;
 }
 
 export { TokenCredential }
 
 export { TokenType }
+
+// @public
+export interface TopicDescription {
+    authorizationRules?: AuthorizationRule[];
+    autoDeleteOnIdle?: string;
+    defaultMessageTtl?: string;
+    duplicateDetectionHistoryTimeWindow?: string;
+    enableBatchedOperations?: boolean;
+    enablePartitioning?: boolean;
+    maxSizeInMegabytes?: number;
+    name: string;
+    requiresDuplicateDetection?: boolean;
+    status?: EntityStatus;
+    supportOrdering?: boolean;
+    userMetadata?: string;
+}
+
+// @public
+export interface TopicResponse extends TopicDescription {
+    _response: HttpOperationResponse;
+}
+
+// Warning: (ae-internal-missing-underscore) The name "TopicRuntimeInfo" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal
+export interface TopicRuntimeInfo {
+    accessedOn?: string;
+    createdOn?: string;
+    name: string;
+    sizeInBytes?: number;
+    subscriptionCount?: number;
+    updatedOn?: string;
+}
+
+// @public
+export type UpdateQueueResponse = QueueResponse;
+
+// @public
+export type UpdateRuleResponse = RuleResponse;
+
+// @public
+export type UpdateSubscriptionResponse = SubscriptionResponse;
+
+// @public
+export type UpdateTopicResponse = TopicResponse;
 
 // @public
 export interface WaitTimeOptions {

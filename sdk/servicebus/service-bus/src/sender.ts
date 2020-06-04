@@ -16,11 +16,11 @@ import {
 import { ServiceBusMessageBatch } from "./serviceBusMessageBatch";
 import { CreateBatchOptions, CreateSenderOptions } from "./models";
 import {
-  retry,
-  RetryOperationType,
+  MessagingError,
   RetryConfig,
+  RetryOperationType,
   RetryOptions,
-  MessagingError
+  retry
 } from "@azure/core-amqp";
 import { OperationOptions } from "./modelsToBeSharedWithEventHubs";
 
@@ -199,10 +199,7 @@ export class SenderImpl implements Sender {
   private _throwIfSenderOrConnectionClosed(): void {
     throwErrorIfConnectionClosed(this._context.namespace);
     if (this.isClosed) {
-      const errorMessage = getSenderClosedErrorMsg(
-        this._context.entityPath,
-        this._context.isClosed
-      );
+      const errorMessage = getSenderClosedErrorMsg(this._context.entityPath);
       const error = new Error(errorMessage);
       log.error(`[${this._context.namespace.connectionId}] %O`, error);
       throw error;

@@ -20,11 +20,11 @@ async function main() {
   // First, we see how many custom models we have, and what our limit is
   const accountProperties = await client.getAccountProperties();
   console.log(
-    `Our account has ${accountProperties.count} custom models, and we can have at most ${accountProperties.limit} custom models`
+    `Our account has ${accountProperties.customModelCount} custom models, and we can have at most ${accountProperties.customModelLimit} custom models`
   );
 
   // Next, we get a paged async iterator of all of our custom models
-  const result = client.listModels();
+  const result = client.listCustomModels();
 
   // We could print out information about first ten models
   // and save the first model id for later use
@@ -49,7 +49,7 @@ async function main() {
   }
 
   // Now we'll get the first custom model in the paged list
-  const model = await client.getModel(firstModel.modelId);
+  const model = await client.getCustomModel(firstModel.modelId);
   console.log(`Model Id: ${model.modelId}`);
   console.log(`Status: ${model.status}`);
   console.log("Documents used in training: [");
@@ -61,7 +61,7 @@ async function main() {
   // Finally, we can delete this model if we want (for example, if its status is 'invalid')
   //   await client.deleteModel(firstModel.modelId);
   //   try {
-  //     const deleted = await client.getModel(firstModel.modelId);
+  //     const deleted = await client.getCustomModel(firstModel.modelId);
   //     console.log(deleted);
   //   } catch (err) {
   //     // Expected

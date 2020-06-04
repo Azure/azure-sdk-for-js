@@ -108,7 +108,7 @@ interface PolicyGraphNode {
  * Do not export this class from the package.
  * @internal
  */
-export class HttpsPipeline implements Pipeline {
+class HttpsPipeline implements Pipeline {
   private _policies: PipelineDescriptor[] = [];
   private _orderedPolicies?: PipelinePolicy[];
 
@@ -334,4 +334,12 @@ export class HttpsPipeline implements Pipeline {
 
     return result;
   }
+}
+
+/**
+ * Creates a totally empty pipeline.
+ * Useful for testing or creating a custom one.
+ */
+export function createEmptyPipeline(): Pipeline {
+  return HttpsPipeline.create();
 }
