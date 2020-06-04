@@ -108,7 +108,8 @@ brings this package in line with the [Azure SDK Design Guidelines for Typescript
   ruleManager.removeRule();
   ```
 
-* createSessionReceiver() is now an async method and initialize the connection
+* createSessionReceiver() is now an async method. The promise returned by this method
+is resolved when a receiver link has been initialized with a session in the service.
 
 Prior to v7 `createSessionReceiver()` worked using lazy-initialization, where the
 AMQP connection would only be initialized on first send or receiving of a message.
