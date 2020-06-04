@@ -65,23 +65,18 @@ export class IndexDocumentsBatch<T> {
   }
 
   /**
-   * Delete a set of documents by their primary key.
+   * Delete a set of documents.
    * @param keyName The name of their primary key in the index.
    * @param keyValues The primary key values of documents to delete.
    */
   public delete(keyName: keyof T, keyValues: string[]): void;
 
   /**
-   * Delete a set of documents by their primary key.
+   * Delete a set of documents.
    * @param documents Documents to be deleted.
    */
   public delete(documents: T[]): void;
 
-  /**
-   * Delete a set of documents by their primary key.
-   * @param keyNameOrDocuments The name of their primary key in the index/Documents to be deleted.
-   * @param keyValues The primary key values of documents to delete.
-   */
   public delete(keyNameOrDocuments: keyof T | T[], keyValues?: string[]): void {
     if (keyValues) {
       const keyName = keyNameOrDocuments as keyof T;

@@ -576,8 +576,8 @@ export class SearchClient<T> {
   }
 
   /**
-   * Delete a set of documents by their primary key.
-   * @param documents Documents to bbe deleted.
+   * Delete a set of documents.
+   * @param documents Documents to be deleted.
    * @param options Additional options.
    */
   public async deleteDocuments(
@@ -586,7 +586,7 @@ export class SearchClient<T> {
   ): Promise<IndexDocumentsResult>;
 
   /**
-   * Delete a set of documents by their primary key.
+   * Delete a set of documents.
    * @param keyName The name of their primary key in the index.
    * @param keyValues The primary key values of documents to delete.
    * @param options Additional options.
@@ -597,12 +597,6 @@ export class SearchClient<T> {
     options?: DeleteDocumentsOptions
   ): Promise<IndexDocumentsResult>;
 
-  /**
-   * Delete a set of documents by their primary key.
-   * @param keyNameOrDocuments The name of their primary key in the index/Documents to bbe deleted.
-   * @param keyValuesOrOptions The primary key values of documents to delete/Additional options.
-   * @param options Additional options.
-   */
   public async deleteDocuments(
     keyNameOrDocuments: keyof T | T[],
     keyValuesOrOptions?: string[] | DeleteDocumentsOptions,
