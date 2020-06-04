@@ -31,10 +31,8 @@ export class VSCodeCredential implements TokenCredential {
   }
 
   /**
-   * Returns the first access token returned by one of the chained
-   * `TokenCredential` implementations.  Throws an {@link AggregateAuthenticationError}
-   * when one or more credentials throws an {@link AuthenticationError} and
-   * no credentials have returned an access token.
+   * Returns the token found by searching VSCode's authentication cache or
+   * returns null if no token could be found.
    *
    * @param scopes The list of scopes for which the token will have access.
    * @param options The options used to configure any requests this
