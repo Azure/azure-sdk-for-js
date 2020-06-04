@@ -3,7 +3,8 @@
 ## 5.2.1 (Unreleased)
 
 - Fixes issue [#8584](https://github.com/Azure/azure-sdk-for-js/issues/8584)
-  where a `TypeError` was sometimes thrown as an uncaught exception.
+  where attempting to create AMQP links when the AMQP connection was in the
+  process of closing resulted in a `TypeError` in an uncaught exception.
   ([PR 8884](https://github.com/Azure/azure-sdk-for-js/pull/8884))
 - Fixes reconnection issues by creating a new connection object rather than re-using the existing one. ([PR 8884](https://github.com/Azure/azure-sdk-for-js/pull/8884))
 
