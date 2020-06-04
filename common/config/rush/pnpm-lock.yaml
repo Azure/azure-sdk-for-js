@@ -5382,10 +5382,10 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-s7PoyDv/II1ObgQunCbB9PdLmUcBZcnWOcxDh7O0N/UwDEsHyqkW+Qh28jW+mVuCdx7gLB0BotYI1Y6uI9iyew==
-  /priorityqueuejs/1.0.0:
+  /priorityqueuejs/2.0.0:
     dev: false
     resolution:
-      integrity: sha1-LuTyPCVgkT4IwHzlzN1t498sWvg=
+      integrity: sha512-19BMarhgpq3x4ccvVi8k2QpJZcymo/iFUcrhPd4V96kYGovOdTsWwy7fxChYi4QY+m2EnGBWSX9Buakz+tWNQQ==
   /process-nextick-args/1.0.7:
     dev: false
     resolution:
@@ -8136,7 +8136,7 @@ packages:
       node-fetch: 2.6.0
       os-name: 3.1.0
       prettier: 1.19.1
-      priorityqueuejs: 1.0.0
+      priorityqueuejs: 2.0.0
       proxy-agent: 3.1.1
       requirejs: 2.3.6
       rimraf: 3.0.2
@@ -8156,7 +8156,7 @@ packages:
     dev: false
     name: '@rush-temp/cosmos'
     resolution:
-      integrity: sha512-Zo1Qoju2wFzOL9yDQ8T3hDUlYSiO4M53jPKMmZtZu2czMBgpudw+MYx3D7D8Qtd/wAcQXuNmqDy9u/HoftBr5w==
+      integrity: sha512-xr2kMcD0k1Tr14LalIfSjjOrEDx9Dmtyxoi6ERbv+MMRFdBeA/5/B7m8pY4fThGmC7pdnxww5AmKhq3RGYxEIw==
       tarball: 'file:projects/cosmos.tgz'
     version: 0.0.0
   'file:projects/eslint-plugin-azure-sdk.tgz':
@@ -8267,7 +8267,7 @@ packages:
     dev: false
     name: '@rush-temp/event-hubs'
     resolution:
-      integrity: sha512-xbTUoiBl0HEj7vWxBV3xPQQqa22nagQobiVAKQUYVrtI/hreADQtCZYsyivcXYVooJaCOXnnLofTbFIYQAIMlA==
+      integrity: sha512-QI2JHGXrGYaynRz7GFX0V0tRSZgeJSgoP6tNtTwBXO+dY5bdo4eyKuuf3HDWiMPADgyZH7a+xvLsJJlQb1CE3w==
       tarball: 'file:projects/event-hubs.tgz'
     version: 0.0.0
   'file:projects/event-processor-host.tgz':
@@ -8832,7 +8832,7 @@ packages:
     dev: false
     name: '@rush-temp/service-bus'
     resolution:
-      integrity: sha512-bXMcdF+Bu/7/oHstS0Ppx0tAby8qfZmemqeboHF66xc23mSRDZ6OQC5zyN6FQSzLeTKK1ItWxsl7iWTukpH8XA==
+      integrity: sha512-L/CNbYtBxjdYxxe1SKAv8BUkpDZiI2Bnnr3v9CQzOz8+W+t4eR77bXq9mZ0Ys9nxaEasMGzf2ZSj9DIsIC3Agg==
       tarball: 'file:projects/service-bus.tgz'
     version: 0.0.0
   'file:projects/storage-blob.tgz':
