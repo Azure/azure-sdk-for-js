@@ -180,7 +180,8 @@ export const scope: msRest.OperationURLParameter = {
     type: {
       name: "String"
     }
-  }
+  },
+  skipEncoding: true
 };
 export const sourceResourceGroupName: msRest.OperationURLParameter = {
   parameterPath: "sourceResourceGroupName",
