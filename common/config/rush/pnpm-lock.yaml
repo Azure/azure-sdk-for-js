@@ -9192,7 +9192,7 @@ packages:
       mocha-junit-reporter: 1.23.3_mocha@7.1.2
       mock-fs: 4.12.0
       mock-require: 3.0.3
-      nise: 1.5.3
+      nise: 4.0.3
       nock: 11.9.1
       npm-run-all: 4.1.5
       nyc: 14.1.1
@@ -9209,7 +9209,7 @@ packages:
     dev: false
     name: '@rush-temp/test-utils-recorder'
     resolution:
-      integrity: sha512-1Xmz30GHyQ+HyVJ6F8rsfjJhAs90rKB7yDZE0aQvlrdw61qO4D4QvOIhpp0jxlqDFGiB1GdDclRpS4r2zY1WHA==
+      integrity: sha512-MPBopVzzE/bp3kmEy9/XsEkdYS+qpcUZKVekXbxEypuzKdYWzCT42NiadysBozkpeWStwYiIPb/WrKIf8syzXg==
       tarball: 'file:projects/test-utils-recorder.tgz'
     version: 0.0.0
   'file:projects/testhub.tgz':
