@@ -87,7 +87,7 @@
     "node-abort-controller": "^1.0.4",
     "node-fetch": "^2.6.0",
     "os-name": "^3.1.0",
-    "priorityqueuejs": "^1.0.0",
+    "priorityqueuejs": "^2.0.0",
     "semaphore": "^1.0.5",
     "tslib": "^1.10.0",
     "uuid": "^8.1.0"
