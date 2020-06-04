@@ -366,9 +366,9 @@ export class ServiceBusManagementClient extends ServiceClient {
   private ruleResourceSerializer: AtomXmlSerializer;
 
   /**
-   * SAS token provider used to generate tokens as required for the various operations.
+   * Token provider used to generate tokens as required for the various operations.
    */
-  private sasTokenProvider: SharedKeyCredential | TokenCredential;
+  private tokenProvider: SharedKeyCredential | TokenCredential;
 
   /**
    * Initializes a new instance of the ServiceBusManagementClient class.
@@ -406,7 +406,7 @@ export class ServiceBusManagementClient extends ServiceClient {
         requestPolicyFactories: requestPolicyFactories
       };
       super(credentialOrOptions2, serviceClientOptions);
-      this.sasTokenProvider = credentialOrOptions2;
+      this.tokenProvider = credentialOrOptions2;
       this.endpoint = fullyQualifiedNamespaceOrConnectionString1;
       this.endpointWithProtocol = "sb://" + fullyQualifiedNamespaceOrConnectionString1;
     } else {
@@ -437,7 +437,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       this.endpoint = (connectionString.match("Endpoint=.*://(.*)/;") || "")[1];
       this.endpointWithProtocol = connectionStringObj.Endpoint;
 
-      this.sasTokenProvider = new SharedKeyCredential(
+      this.tokenProvider = new SharedKeyCredential(
         connectionStringObj.SharedAccessKeyName,
         connectionStringObj.SharedAccessKey
       );
@@ -1455,7 +1455,10 @@ export class ServiceBusManagementClient extends ServiceClient {
       queueOrSubscriptionFields.ForwardTo ||
       queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo
     ) {
-      const token = (await this.sasTokenProvider.getToken(this.endpoint))!.token;
+      const token =
+        this.tokenProvider instanceof SharedKeyCredential
+          ? this.tokenProvider.getToken(this.endpoint)!.token
+          : (await this.tokenProvider.getToken([]))!.token;
       if (queueOrSubscriptionFields.ForwardTo) {
         webResource.headers.set("ServiceBusSupplementaryAuthorization", token);
         if (!isAbsoluteUrl(queueOrSubscriptionFields.ForwardTo)) {
