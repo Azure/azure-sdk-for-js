@@ -1727,7 +1727,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       }
       const rawTopicArray: any = response.parsedBody;
       for (let i = 0; i < rawTopicArray.length; i++) {
-        const topic = buildTopic(rawTopicArray[i]);
+        const topic = buildTopicRuntimeInfo(rawTopicArray[i]);
         if (topic) {
           topics.push(topic);
         }
