@@ -4,6 +4,9 @@
 
 - Improves the performance of the `ServiceBusMessageBatch.tryAdd` method.
   [PR 8772](https://github.com/Azure/azure-sdk-for-js/pull/8772)
+
+### Breaking Changes
+
 - `Sender` now has an `open()` method to proactively initialize the connection. In addition `ServiceBusClient.createSender()` is no longer an `async` method.
   [PR 9302](https://github.com/Azure/azure-sdk-for-js/pull/9302)
 
