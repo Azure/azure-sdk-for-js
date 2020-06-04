@@ -109,11 +109,10 @@ brings this package in line with the [Azure SDK Design Guidelines for Typescript
   ```
 
 * createSessionReceiver() is now an async method. The promise returned by this method
-is resolved when a receiver link has been initialized with a session in the service.
+  is resolved when a receiver link has been initialized with a session in the service.
 
 Prior to v7 `createSessionReceiver()` worked using lazy-initialization, where the
-AMQP connection would only be initialized on first send or receiving of a message.
-
-The connection and link are now initialized after calling `createSessionReceiver`.
+receiver link to the session was only initialized when the async methods on the `SessionReceiver`
+were first called.
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fservicebus%2Fservice-bus%2FMIGRATIONGUIDE.png)
