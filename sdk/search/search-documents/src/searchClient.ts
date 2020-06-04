@@ -577,6 +577,16 @@ export class SearchClient<T> {
 
   /**
    * Delete a set of documents by their primary key.
+   * @param documents Documents to bbe deleted.
+   * @param options Additional options.
+   */
+  public async deleteDocuments(
+    documents: T[],
+    options?: DeleteDocumentsOptions
+  ): Promise<IndexDocumentsResult>;
+
+  /**
+   * Delete a set of documents by their primary key.
    * @param keyName The name of their primary key in the index.
    * @param keyValues The primary key values of documents to delete.
    * @param options Additional options.
@@ -584,12 +594,28 @@ export class SearchClient<T> {
   public async deleteDocuments(
     keyName: keyof T,
     keyValues: string[],
+    options?: DeleteDocumentsOptions
+  ): Promise<IndexDocumentsResult>;
+
+  /**
+   * Delete a set of documents by their primary key.
+   * @param keyNameOrDocuments The name of their primary key in the index/Documents to bbe deleted.
+   * @param keyValuesOrOptions The primary key values of documents to delete/Additional options.
+   * @param options Additional options.
+   */
+  public async deleteDocuments(
+    keyNameOrDocuments: keyof T | T[],
+    keyValuesOrOptions?: string[] | DeleteDocumentsOptions,
     options: DeleteDocumentsOptions = {}
   ): Promise<IndexDocumentsResult> {
     const { span, updatedOptions } = createSpan("SearchClient-deleteDocuments", options);
 
     const batch = new IndexDocumentsBatch<T>();
-    batch.delete(keyName, keyValues);
+    if (typeof keyNameOrDocuments === "string") {
+      batch.delete(keyNameOrDocuments, keyValuesOrOptions as string[]);
+    } else {
+      batch.delete(keyNameOrDocuments as T[]);
+    }
 
     try {
       return await this.indexDocuments(batch, updatedOptions);
