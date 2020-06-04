@@ -291,7 +291,7 @@ async function updateRushConfig(repoRoot, targetPackage, testFolder) {
     "versionPolicyName": "client"
   };
   rushSpec.projects.push(testPackageEntry);
-  rushSpec.projectFolderMaxDepth = 4;
+  rushSpec.projectFolderMaxDepth = 5;
   const rushPath = path.resolve(path.join(repoRoot, "rush.json"));
   await packageUtils.writePackageJson(rushPath, rushSpec);
   console.log("rush spec -");
