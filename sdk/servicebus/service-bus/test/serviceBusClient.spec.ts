@@ -617,13 +617,13 @@ describe("Errors after close()", function(): void {
     );
 
     let errorPeek: string = "";
-    await receiver.browseMessages().catch((err) => {
+    await receiver.peekMessages().catch((err) => {
       errorPeek = err.message;
     });
     should.equal(
       errorPeek,
       expectedErrorMsg,
-      "Expected error not thrown for browseMessages() from receiver"
+      "Expected error not thrown for peekMessages() from receiver"
     );
   }
 
@@ -652,7 +652,7 @@ describe("Errors after close()", function(): void {
     const sessionReceiver = receiver as SessionReceiver<ReceivedMessageWithLock>;
 
     let errorPeek: string = "";
-    await sessionReceiver.browseMessages().catch((err) => {
+    await sessionReceiver.peekMessages().catch((err) => {
       errorPeek = err.message;
     });
     should.equal(
@@ -662,7 +662,7 @@ describe("Errors after close()", function(): void {
     );
 
     let errorPeekBySequence: string = "";
-    await sessionReceiver.browseMessages({ fromSequenceNumber: Long.ZERO }).catch((err) => {
+    await sessionReceiver.peekMessages({ fromSequenceNumber: Long.ZERO }).catch((err) => {
       errorPeekBySequence = err.message;
     });
     should.equal(

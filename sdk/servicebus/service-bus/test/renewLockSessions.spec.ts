@@ -55,9 +55,9 @@ describe("renew lock sessions", () => {
     // Hence, commenting the following code since there is no need to purge/peek into a freshly created entity
 
     // await purge(receiver);
-    // const browsedMsgs = await receiver.browseMessages();
+    // const peekedMsgs = await receiver.peekMessages();
     // const receiverEntityType = receiver.entityType;
-    // if (browsedMsgs.length) {
+    // if (peekedMsgs.length) {
     //   chai.assert.fail(`Please use an empty ${receiverEntityType} for integration testing`);
     // }
   }

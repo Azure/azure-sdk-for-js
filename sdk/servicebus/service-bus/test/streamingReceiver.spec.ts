@@ -155,8 +155,8 @@ describe("Streaming", () => {
       should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
       should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
 
-      const browsedMsgs = await receiver.browseMessages();
-      should.equal(browsedMsgs.length, 0, "Unexpected number of msgs found when peeking");
+      const peekedMsgs = await receiver.peekMessages();
+      should.equal(peekedMsgs.length, 0, "Unexpected number of msgs found when peeking");
     }
 
     it("Partitioned Queue: AutoComplete removes the message", async function(): Promise<void> {

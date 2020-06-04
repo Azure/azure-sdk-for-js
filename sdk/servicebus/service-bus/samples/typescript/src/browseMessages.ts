@@ -6,7 +6,7 @@
   For samples using the current stable version of the package, please use the link below:
   https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples
   
-  This sample demonstrates how the browseMessages() function can be used to browse a Service Bus message.
+  This sample demonstrates how the peekMessages() function can be used to browse a Service Bus message.
 
   See https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-browsing to learn
   about message browsing.
@@ -35,7 +35,7 @@ export async function main() {
 
   try {
     for (let i = 0; i < 20; i++) {
-      const messages = await queueReceiver.browseMessages();
+      const messages = await queueReceiver.peekMessages();
       if (!messages.length) {
         console.log("No more messages to peek");
         break;
