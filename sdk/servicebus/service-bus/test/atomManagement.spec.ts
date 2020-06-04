@@ -55,6 +55,17 @@ const managementRule2 = EntityNames.MANAGEMENT_RULE_2;
 const newManagementEntity1 = EntityNames.MANAGEMENT_NEW_ENTITY_1;
 const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
 
+describe("Atom management - Namespace", function(): void {
+  it("Get namespace properties", async () => {
+    const namespaceProperties = await serviceBusAtomManagementClient.getNamespaceProperties();
+    assert.deepEqualExcluding(
+      namespaceProperties,
+      { messagingSku: "Standard", namespaceType: "Messaging", messagingUnits: undefined } as any,
+      ["_response", "createdOn", "updatedOn", "name"]
+    );
+  });
+});
+
 [EntityType.QUEUE, EntityType.TOPIC, EntityType.SUBSCRIPTION, EntityType.RULE].forEach(
   (entityType) => {
     describe(`Atom management - List on "${entityType}" entities`, function(): void {

@@ -78,6 +78,6 @@ export class NamespaceResourceSerializer implements AtomXmlSerializer {
   }
 
   async deserialize(response: HttpOperationResponse): Promise<HttpOperationResponse> {
-    return deserializeAtomXmlResponse(["Name"], response);
+    return deserializeAtomXmlResponse(["name"], response);
   }
 }
