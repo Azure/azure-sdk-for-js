@@ -185,7 +185,7 @@
 - Request and response headers are now logged at INFO level, with sensitive data redacted.
 - `downloadToFile()` is added to `FileClient`.
 
-For release notes and more information please visit https://aka.ms/azsdk/releases/July2019Preview
+For release notes and more information please visit https://aka.ms/azsdk/releases/july2019preview
 
 ## 10.3.0 (2019.09)
 

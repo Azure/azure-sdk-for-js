@@ -73,7 +73,7 @@
 
 ## 1.0.0-preview.1 (2019-06-27)
 
-For release notes and more information please visit https://aka.ms/azsdk/releases/July2019Preview
+For release notes and more information please visit https://aka.ms/azsdk/releases/july2019preview
 
 - Introduced the following credential types:
   - `DefaultAzureCredential`.
