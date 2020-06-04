@@ -172,11 +172,6 @@ export interface MessageHandlers<ReceivedMessageT> {
 export { MessagingError }
 
 // @public
-export interface OpenOptions {
-    abortSignal?: AbortSignalLike;
-}
-
-// @public
 export interface OperationOptions {
     abortSignal?: AbortSignalLike;
     tracingOptions?: OperationTracingOptions;
@@ -292,12 +287,17 @@ export interface Sender {
     createBatch(options?: CreateBatchOptions): Promise<ServiceBusMessageBatch>;
     entityPath: string;
     isClosed: boolean;
-    open(options?: OpenOptions): Promise<void>;
+    open(options?: SenderOpenOptions): Promise<void>;
     scheduleMessage(scheduledEnqueueTimeUtc: Date, message: ServiceBusMessage, options?: OperationOptions): Promise<Long>;
     scheduleMessages(scheduledEnqueueTimeUtc: Date, messages: ServiceBusMessage[], options?: OperationOptions): Promise<Long[]>;
     send(message: ServiceBusMessage, options?: OperationOptions): Promise<void>;
     send(messages: ServiceBusMessage[], options?: OperationOptions): Promise<void>;
     send(messageBatch: ServiceBusMessageBatch, options?: OperationOptions): Promise<void>;
+}
+
+// @public
+export interface SenderOpenOptions {
+    abortSignal?: AbortSignalLike;
 }
 
 // @public

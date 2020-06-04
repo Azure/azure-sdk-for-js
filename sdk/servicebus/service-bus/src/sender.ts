@@ -14,7 +14,7 @@ import {
   throwTypeErrorIfParameterNotLongArray
 } from "./util/errors";
 import { ServiceBusMessageBatch } from "./serviceBusMessageBatch";
-import { CreateBatchOptions, OpenOptions } from "./models";
+import { CreateBatchOptions, SenderOpenOptions } from "./models";
 import {
   MessagingError,
   RetryConfig,
@@ -99,7 +99,7 @@ export interface Sender {
    *
    * @param options - Options bag to pass an abort signal.
    */
-  open(options?: OpenOptions): Promise<void>;
+  open(options?: SenderOpenOptions): Promise<void>;
 
   /**
    * @property Returns `true` if either the sender or the client that created it has been closed
@@ -413,7 +413,7 @@ export class SenderImpl implements Sender {
     return retry<void>(config);
   }
 
-  async open(options?: OpenOptions): Promise<void> {
+  async open(options?: SenderOpenOptions): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
 
     const config: RetryConfig<void> = {

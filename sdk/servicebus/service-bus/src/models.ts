@@ -107,7 +107,7 @@ export interface CreateSessionReceiverOptions extends SessionReceiverOptions, Op
 /**
  * Describes the options passed to the `open` method on a `Sender`.
  */
-export interface OpenOptions {
+export interface SenderOpenOptions {
   /**
    * The signal which can be used to abort requests.
    */
