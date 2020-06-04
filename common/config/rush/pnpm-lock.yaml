@@ -3969,6 +3969,14 @@ packages:
     dev: false
     resolution:
       integrity: sha512-qiLX/xhEEFKUAJ6FiBMbes3w9ATzyk5W7Hvzpa/SLYdxNtng+gcurvrI7TbACjIXlsJyr05/S1oUhZrc63evQA==
+  /jwa/2.0.0:
+    dependencies:
+      buffer-equal-constant-time: 1.0.1
+      ecdsa-sig-formatter: 1.0.11
+      safe-buffer: 5.2.1
+    dev: false
+    resolution:
+      integrity: sha512-jrZ2Qx916EA+fq9cEAeCROWPTfCwi1IVHqT2tapuqLEVVDKFDENFw1oL+MwrTvH6msKxsd1YTDVw6uKEcsrLEA==
   /jws/3.2.2:
     dependencies:
       jwa: 1.4.1
@@ -3976,6 +3984,13 @@ packages:
     dev: false
     resolution:
       integrity: sha512-YHlZCB6lMTllWDtSPHz/ZXTsi8S00usEV6v1tjq8tOUZzw7DpSDWVXjXDre6ed1w/pd495ODpHZYSdkRTsa0HA==
+  /jws/4.0.0:
+    dependencies:
+      jwa: 2.0.0
+      safe-buffer: 5.2.1
+    dev: false
+    resolution:
+      integrity: sha512-KDncfTmOZoOMTFG4mBlG0qUIOlc03fmzH+ru6RgYVZhPkyiy/92Owlt/8UEN+a4TXR1FQetfIpJE8ApdvdVxTg==
   /karma-chai/0.1.0_chai@4.2.0+karma@4.4.1:
     dependencies:
       chai: 4.2.0
@@ -8389,7 +8404,7 @@ packages:
       events: 3.1.0
       express: 4.17.1
       inherits: 2.0.4
-      jws: 3.2.2
+      jws: 4.0.0
       karma: 4.4.1
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.2
@@ -8418,7 +8433,7 @@ packages:
     dev: false
     name: '@rush-temp/identity'
     resolution:
-      integrity: sha512-3hMB6pBZQdXE3OE9nYzUnRbEjGqKaYlgxrd8xcqU/kUj3MgfbpHQ8G3GXY6Fg2+alAHHLdVVtHsq9o7bn61vOg==
+      integrity: sha512-vMkQCKO232rWB/JHuRAod/YewamoyL0irFm6NyWlvzC3zDhxMbkTeqyeGLjjTSzpxdy/rmI4irV76qxF4uHp/A==
       tarball: 'file:projects/identity.tgz'
     version: 0.0.0
   'file:projects/keyvault-certificates.tgz':
@@ -8936,7 +8951,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-file-datalake'
     resolution:
-      integrity: sha512-jNaqcwQ7gVkwni3L8U6VyJFQRyJQ8yR2GJ55u0ThNOp29dQxcMf9ctE1rels7SXSZ19lzUtyfPazFezKU7kdUw==
+      integrity: sha512-H/WtAn+OEwMGNuvqzkEZxk51qdlWrMhwxscOcjZzzVS4/luOo7rT7YcXyHL4vP2QW8Gr3wQOPEuI/ii5olxBvw==
       tarball: 'file:projects/storage-file-datalake.tgz'
     version: 0.0.0
   'file:projects/storage-file-share.tgz':
