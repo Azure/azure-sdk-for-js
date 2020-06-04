@@ -477,7 +477,8 @@ export class ServiceBusManagementClient extends ServiceClient {
   }
 
   /**
-   * Returns an object representing the Queue with the given name along with all its properties
+   * Returns an object representing the Queue with the given name and its properties.
+   * If you want to get the Queue runtime info to get the details such as message count, use `getQueueRuntimeInfo` API.
    * @param queueName
    *
    * Following are errors that can be expected from this operation
@@ -501,7 +502,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   }
 
   /**
-   * Returns an object representing the Queue with the given name along with all its properties
+   * Returns an object representing the Queue runtime info with the given name along with properties such as the message count.
    * @param queueName
    *
    * Following are errors that can be expected from this operation
@@ -525,7 +526,8 @@ export class ServiceBusManagementClient extends ServiceClient {
   }
 
   /**
-   * Lists existing queues.
+   * Returns an object representing the list of Queues each with a name and properties.
+   * If you want to get the runtime info of the queues to get the details such as message count, use `getQueuesRuntimeInfo` API instead.
    * @param listRequestOptions
    *
    * Following are errors that can be expected from this operation
@@ -551,7 +553,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   }
 
   /**
-   * Lists existing queues.
+   * Returns an object representing a list of Queue runtime info objects each with the name along with properties such as the message count.
    * @param listRequestOptions
    *
    * Following are errors that can be expected from this operation
@@ -717,7 +719,8 @@ export class ServiceBusManagementClient extends ServiceClient {
   }
 
   /**
-   * Returns an object representing the Topic with the given name along with all its properties
+   * Returns an object representing the Topic with the given name and its properties.
+   * If you want to get the Topic runtime info to get the details such as subscription count, use `getTopicRuntimeInfo` API.
    * @param topicName
    *
    * Following are errors that can be expected from this operation
@@ -741,7 +744,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   }
 
   /**
-   * Returns an object representing the Topic with the given name along with all its properties
+   * Returns an object representing the Topic runtime info with the given name along with properties such as the subscription count.
    * @param topicName
    *
    * Following are errors that can be expected from this operation
@@ -765,7 +768,8 @@ export class ServiceBusManagementClient extends ServiceClient {
   }
 
   /**
-   * Lists existing topics.
+   * Returns an object representing the list of Topics each with a name and properties.
+   * If you want to get the runtime info of the topics to get the details such as subscription count, use `getTopicsRuntimeInfo` API instead.
    * @param listRequestOptions
    *
    * Following are errors that can be expected from this operation
@@ -791,7 +795,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   }
 
   /**
-   * Lists existing topics.
+   * Returns an object representing a list of Topic runtime info objects each with the name along with properties such as the subscription count.
    * @param listRequestOptions
    *
    * Following are errors that can be expected from this operation
@@ -977,7 +981,8 @@ export class ServiceBusManagementClient extends ServiceClient {
   }
 
   /**
-   * Returns an object representing the Subscription with the given name along with all its properties
+   * Returns an object representing the Subscription with the given name and its properties.
+   * If you want to get the Subscription runtime info to get the details such as message count, use `getSubscriptionRuntimeInfo` API.
    * @param topicName
    * @param subscriptionName
    *
@@ -1008,7 +1013,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   }
 
   /**
-   * Returns an object representing the Subscription with the given name along with all its properties
+   * Returns an object representing the Subscription runtime info with the given topicName and subscriptionName along with properties such as the message count.
    * @param topicName
    * @param subscriptionName
    *
@@ -1039,7 +1044,8 @@ export class ServiceBusManagementClient extends ServiceClient {
   }
 
   /**
-   * Lists existing subscriptions.
+   * Returns an object representing the list of Subscriptions each with a topicName, subscriptionName and properties.
+   * If you want to get the runtime info of the subscriptions to get the details such as message count, use `getSubscriptionsRuntimeInfo` API instead.
    * @param topicName
    * @param listRequestOptions
    *
@@ -1069,7 +1075,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   }
 
   /**
-   * Lists existing subscriptions.
+   * Returns an object representing a list of Subscription runtime info objects each with the topicName, subscriptionName and the properties such as the message count.
    * @param topicName
    * @param listRequestOptions
    *
