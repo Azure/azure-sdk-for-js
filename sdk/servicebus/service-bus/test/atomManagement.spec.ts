@@ -1247,7 +1247,6 @@ describe("Atom management - Namespace", function(): void {
       lockDuration: "PT1M",
       maxDeliveryCount: 10,
       maxSizeInMegabytes: 1024,
-      messageCount: 0,
       name: managementQueue1,
       requiresDuplicateDetection: false,
       requiresSession: false,
@@ -1329,7 +1328,6 @@ describe("Atom management - Namespace", function(): void {
 
       enablePartitioning: true,
       maxSizeInMegabytes: 16384,
-      messageCount: 0,
       forwardDeadLetteredMessagesTo: undefined,
       forwardTo: undefined,
       userMetadata: "test metadata",
