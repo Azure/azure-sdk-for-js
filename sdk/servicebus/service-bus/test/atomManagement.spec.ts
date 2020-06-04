@@ -1100,9 +1100,6 @@ describe("Atom management - Namespace", function(): void {
       requiresSession: true,
 
       forwardDeadLetteredMessagesTo: undefined,
-
-      messageCount: 0,
-
       forwardTo: undefined,
       userMetadata: "test metadata",
       status: "ReceiveDisabled",
