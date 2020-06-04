@@ -1582,7 +1582,6 @@ describe("Atom management - Namespace", function(): void {
       enableBatchedOperations: false,
       requiresDuplicateDetection: true,
       requiresSession: true,
-      messageCount: undefined,
       authorizationRules: [
         {
           claimType: "SharedAccessKey",
