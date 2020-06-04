@@ -126,6 +126,7 @@ export {
   GenericProtectedItem,
   GenericProtectionPolicy,
   GenericRecoveryPoint,
+  HealthDetails,
   IaasVMBackupRequest,
   IaaSVMContainer,
   IaasVMILRRegistrationRequest,

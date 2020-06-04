@@ -337,6 +337,49 @@ export const ErrorResponse: msRest.CompositeMapper = {
   }
 };
 
+export const HealthDetails: msRest.CompositeMapper = {
+  serializedName: "HealthDetails",
+  type: {
+    name: "Composite",
+    className: "HealthDetails",
+    modelProperties: {
+      code: {
+        readOnly: true,
+        serializedName: "code",
+        type: {
+          name: "Number"
+        }
+      },
+      title: {
+        readOnly: true,
+        serializedName: "title",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        readOnly: true,
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      },
+      recommendations: {
+        readOnly: true,
+        serializedName: "recommendations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const AzureFileshareProtectedItemExtendedInfo: msRest.CompositeMapper = {
   serializedName: "AzureFileshareProtectedItemExtendedInfo",
   type: {
@@ -510,6 +553,18 @@ export const AzureFileshareProtectedItem: msRest.CompositeMapper = {
         serializedName: "healthStatus",
         type: {
           name: "String"
+        }
+      },
+      healthDetails: {
+        serializedName: "healthDetails",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "HealthDetails"
+            }
+          }
         }
       },
       lastBackupStatus: {
@@ -1101,39 +1156,7 @@ export const AzureIaaSVMHealthDetails: msRest.CompositeMapper = {
     name: "Composite",
     className: "AzureIaaSVMHealthDetails",
     modelProperties: {
-      code: {
-        readOnly: true,
-        serializedName: "code",
-        type: {
-          name: "Number"
-        }
-      },
-      title: {
-        readOnly: true,
-        serializedName: "title",
-        type: {
-          name: "String"
-        }
-      },
-      message: {
-        readOnly: true,
-        serializedName: "message",
-        type: {
-          name: "String"
-        }
-      },
-      recommendations: {
-        readOnly: true,
-        serializedName: "recommendations",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      }
+      ...HealthDetails.type.modelProperties
     }
   }
 };
@@ -1900,6 +1923,24 @@ export const AzureVmWorkloadProtectedItem: msRest.CompositeMapper = {
         serializedName: "protectedItemHealthStatus",
         type: {
           name: "String"
+        }
+      },
+      healthStatus: {
+        serializedName: "healthStatus",
+        type: {
+          name: "String"
+        }
+      },
+      healthDetails: {
+        serializedName: "healthDetails",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "HealthDetails"
+            }
+          }
         }
       },
       extendedInfo: {
