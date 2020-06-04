@@ -518,7 +518,8 @@ export class ServiceBusManagementClient extends ServiceClient {
   }
 
   /**
-   * Returns an object representing the Queue with the given name along with all its properties
+   * Returns an object representing the Queue and its properties.
+   * If you want to get the Queue runtime info like message count details, use `getQueueRuntimeInfo` API.
    * @param queueName
    *
    * Following are errors that can be expected from this operation
@@ -542,7 +543,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   }
 
   /**
-   * Returns an object representing the Queue with the given name along with all its properties
+   * Returns an object representing the Queue runtime info like message count details.
    * @param queueName
    *
    * Following are errors that can be expected from this operation
@@ -566,7 +567,8 @@ export class ServiceBusManagementClient extends ServiceClient {
   }
 
   /**
-   * Lists existing queues.
+   * Returns a list of objects, each representing a Queue along with its properties.
+   * If you want to get the runtime info of the queues like message count, use `getQueuesRuntimeInfo` API instead.
    * @param listRequestOptions
    *
    * Following are errors that can be expected from this operation
@@ -592,7 +594,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   }
 
   /**
-   * Lists existing queues.
+   * Returns a list of objects, each representing a Queue's runtime info like message count details.
    * @param listRequestOptions
    *
    * Following are errors that can be expected from this operation
@@ -699,6 +701,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       if (error.code == "MessageEntityNotFoundError") {
         return false;
       }
+      throw error;
     }
     return true;
   }
@@ -757,7 +760,8 @@ export class ServiceBusManagementClient extends ServiceClient {
   }
 
   /**
-   * Returns an object representing the Topic with the given name along with all its properties
+   * Returns an object representing the Topic and its properties.
+   * If you want to get the Topic runtime info like subscription count details, use `getTopicRuntimeInfo` API.
    * @param topicName
    *
    * Following are errors that can be expected from this operation
@@ -781,7 +785,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   }
 
   /**
-   * Returns an object representing the Topic with the given name along with all its properties
+   * Returns an object representing the Topic runtime info like subscription count.
    * @param topicName
    *
    * Following are errors that can be expected from this operation
@@ -805,7 +809,8 @@ export class ServiceBusManagementClient extends ServiceClient {
   }
 
   /**
-   * Lists existing topics.
+   * Returns a list of objects, each representing a Topic along with its properties.
+   * If you want to get the runtime info of the topics like subscription count, use `getTopicsRuntimeInfo` API instead.
    * @param listRequestOptions
    *
    * Following are errors that can be expected from this operation
@@ -831,7 +836,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   }
 
   /**
-   * Lists existing topics.
+   * Returns a list of objects, each representing a Topic's runtime info like subscription count.
    * @param listRequestOptions
    *
    * Following are errors that can be expected from this operation
@@ -938,6 +943,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       if (error.code == "MessageEntityNotFoundError") {
         return false;
       }
+      throw error;
     }
     return true;
   }
@@ -1016,7 +1022,8 @@ export class ServiceBusManagementClient extends ServiceClient {
   }
 
   /**
-   * Returns an object representing the Subscription with the given name along with all its properties
+   * Returns an object representing the Subscription and its properties.
+   * If you want to get the Subscription runtime info like message count details, use `getSubscriptionRuntimeInfo` API.
    * @param topicName
    * @param subscriptionName
    *
@@ -1047,7 +1054,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   }
 
   /**
-   * Returns an object representing the Subscription with the given name along with all its properties
+   * Returns an object representing the Subscription runtime info like message count details.
    * @param topicName
    * @param subscriptionName
    *
@@ -1078,7 +1085,8 @@ export class ServiceBusManagementClient extends ServiceClient {
   }
 
   /**
-   * Lists existing subscriptions.
+   * Returns a list of objects, each representing a Subscription along with its properties.
+   * If you want to get the runtime info of the subscriptions like message count, use `getSubscriptionsRuntimeInfo` API instead.
    * @param topicName
    * @param listRequestOptions
    *
@@ -1108,7 +1116,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   }
 
   /**
-   * Lists existing subscriptions.
+   * Returns a list of objects, each representing a Subscription's runtime info like message count details.
    * @param topicName
    * @param listRequestOptions
    *
@@ -1243,6 +1251,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       if (error.code == "MessageEntityNotFoundError") {
         return false;
       }
+      throw error;
     }
     return true;
   }

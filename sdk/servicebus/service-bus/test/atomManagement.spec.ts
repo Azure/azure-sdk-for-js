@@ -1068,7 +1068,6 @@ describe("Atom management - Namespace", function(): void {
       userMetadata: undefined,
       lockDuration: "PT1M",
       maxDeliveryCount: 10,
-      messageCount: 0,
       requiresSession: false,
       status: "Active",
       subscriptionName: managementSubscription1,
@@ -1100,9 +1099,6 @@ describe("Atom management - Namespace", function(): void {
       requiresSession: true,
 
       forwardDeadLetteredMessagesTo: undefined,
-
-      messageCount: 0,
-
       forwardTo: undefined,
       userMetadata: "test metadata",
       status: "ReceiveDisabled",
@@ -1251,7 +1247,6 @@ describe("Atom management - Namespace", function(): void {
       lockDuration: "PT1M",
       maxDeliveryCount: 10,
       maxSizeInMegabytes: 1024,
-      messageCount: 0,
       name: managementQueue1,
       requiresDuplicateDetection: false,
       requiresSession: false,
@@ -1333,7 +1328,6 @@ describe("Atom management - Namespace", function(): void {
 
       enablePartitioning: true,
       maxSizeInMegabytes: 16384,
-      messageCount: 0,
       forwardDeadLetteredMessagesTo: undefined,
       forwardTo: undefined,
       userMetadata: "test metadata",
@@ -1588,7 +1582,6 @@ describe("Atom management - Namespace", function(): void {
       enableBatchedOperations: false,
       requiresDuplicateDetection: true,
       requiresSession: true,
-      messageCount: undefined,
       authorizationRules: [
         {
           claimType: "SharedAccessKey",
@@ -1884,17 +1877,11 @@ describe("Atom management - Namespace", function(): void {
       deadLetteringOnFilterEvaluationExceptions: true,
       deadLetteringOnMessageExpiration: false,
       enableBatchedOperations: true,
-
       forwardDeadLetteredMessagesTo: undefined,
       forwardTo: undefined,
-
-      messageCount: 0,
-
       requiresSession: false,
-
       userMetadata: "test metadata",
       status: "ReceiveDisabled",
-
       subscriptionName: managementSubscription1,
       topicName: managementTopic1
     }

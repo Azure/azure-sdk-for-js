@@ -358,15 +358,22 @@ export class EventHubReceiver extends LinkEntity {
    * @returns
    */
   async close(): Promise<void> {
-    this.clearHandlers();
+    try {
+      this.clearHandlers();
 
-    if (!this._receiver) {
-      return;
+      if (!this._receiver) {
+        return;
+      }
+
+      const receiverLink = this._receiver;
+      this._deleteFromCache();
+      await this._closeLink(receiverLink);
+    } catch (err) {
+      const msg = `[${this._context.connectionId}] An error occurred while closing receiver ${this.name}: ${err}`;
+      logger.warning(msg);
+      logErrorStackTrace(err);
+      throw err;
     }
-
-    const receiverLink = this._receiver;
-    this._deleteFromCache();
-    await this._closeLink(receiverLink);
   }
 
   /**
@@ -511,6 +518,9 @@ export class EventHubReceiver extends LinkEntity {
     try {
       if (!this.isOpen() && !this.isConnecting) {
         this.isConnecting = true;
+
+        // Wait for the connectionContext to be ready to open the link.
+        await this._context.readyToOpenLink();
         await this._negotiateClaim();
 
         const receiverOptions: CreateReceiverOptions = {
