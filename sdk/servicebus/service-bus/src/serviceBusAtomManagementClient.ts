@@ -658,6 +658,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       if (error.code == "MessageEntityNotFoundError") {
         return false;
       }
+      throw error;
     }
     return true;
   }
@@ -897,6 +898,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       if (error.code == "MessageEntityNotFoundError") {
         return false;
       }
+      throw error;
     }
     return true;
   }
@@ -1202,6 +1204,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       if (error.code == "MessageEntityNotFoundError") {
         return false;
       }
+      throw error;
     }
     return true;
   }
