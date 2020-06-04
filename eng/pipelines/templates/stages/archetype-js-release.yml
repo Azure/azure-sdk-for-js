@@ -64,9 +64,7 @@ stages:
                       - script: |
                           export DETECTED_PACKAGE_NAME=`ls $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}-*.tgz`
                           echo "##vso[task.setvariable variable=Package.Archive]$DETECTED_PACKAGE_NAME"
-                          $publicPublish = $false
                           if ('$(Build.Repository.Name)' -eq 'Azure/azure-sdk-for-js') {
-                            $publicPublish = $true
                             $npmToken = $(azure-sdk-npm-token)
                             $registry = ${{parameters.Registry}}
                           }
@@ -74,7 +72,6 @@ stages:
                             $npmToken = $(azure-sdk-devops-npm-token)
                             $registry = ${{parameters.DevopsRegistry}}
                           }
-                          echo "##vso[task.setvariable variable=PublicPublish]$publicPublish"
                           echo "##vso[task.setvariable variable=NpmToken]$npmToken"
                           echo "##vso[task.setvariable variable=Registry]$registry"
                         displayName: Detecting package archive
