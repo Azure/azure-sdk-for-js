@@ -1877,17 +1877,11 @@ describe("Atom management - Namespace", function(): void {
       deadLetteringOnFilterEvaluationExceptions: true,
       deadLetteringOnMessageExpiration: false,
       enableBatchedOperations: true,
-
       forwardDeadLetteredMessagesTo: undefined,
       forwardTo: undefined,
-
-      messageCount: 0,
-
       requiresSession: false,
-
       userMetadata: "test metadata",
       status: "ReceiveDisabled",
-
       subscriptionName: managementSubscription1,
       topicName: managementTopic1
     }
