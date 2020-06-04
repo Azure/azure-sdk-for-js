@@ -176,7 +176,6 @@ export namespace ConnectionContext {
     };
     connectionContext.managementSession = new ManagementClient(connectionContext, mOptions);
 
-    let isDisconnecting = false;
     let waitForDisconnectResolve: () => void;
     let waitForDisconnectPromise: Promise<void> | undefined;
 
@@ -195,7 +194,7 @@ export namespace ConnectionContext {
           await this.waitForDisconnectedEvent();
         }
         // Check if the connection is currently in the process of disconnecting.
-        if (isDisconnecting) {
+        if (waitForDisconnectPromise) {
           // Wait for the connection to be reset.
           await this.waitForConnectionReset();
         }
@@ -230,10 +229,9 @@ export namespace ConnectionContext {
     };
 
     const onDisconnected: OnAmqpEvent = async (context: EventContext) => {
-      if (isDisconnecting) {
+      if (waitForDisconnectPromise) {
         return;
       }
-      isDisconnecting = true;
       waitForDisconnectPromise = new Promise((resolve) => {
         waitForDisconnectResolve = resolve;
       });
@@ -304,7 +302,6 @@ export namespace ConnectionContext {
       await refreshConnection(connectionContext);
       waitForDisconnectResolve();
       waitForDisconnectPromise = undefined;
-      isDisconnecting = false;
     };
 
     const protocolError: OnAmqpEvent = async (context: EventContext) => {
