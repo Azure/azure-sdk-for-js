@@ -42,14 +42,14 @@ describe("invalid parameters", () => {
     });
 
     it("Peek: Invalid maxMessageCount for Queue", async function(): Promise<void> {
-      const browsedMessages = await receiver.browseMessages({ maxMessageCount: -100 });
-      should.equal(browsedMessages.length, 0);
+      const peekedMessages = await receiver.peekMessages({ maxMessageCount: -100 });
+      should.equal(peekedMessages.length, 0);
     });
 
     it("Peek: Wrong type maxMessageCount for Queue", async function(): Promise<void> {
       let caughtError: Error | undefined;
       try {
-        await receiver.browseMessages({ maxMessageCount: "somestring" as any });
+        await receiver.peekMessages({ maxMessageCount: "somestring" as any });
       } catch (error) {
         caughtError = error;
       }
@@ -61,11 +61,11 @@ describe("invalid parameters", () => {
     });
 
     it("PeekBySequenceNumber: Invalid maxMessageCount for Queue", async function(): Promise<void> {
-      const browsedMessages = await receiver.browseMessages({
+      const peekedMessages = await receiver.peekMessages({
         fromSequenceNumber: Long.ZERO,
         maxMessageCount: -100
       });
-      should.equal(browsedMessages.length, 0);
+      should.equal(peekedMessages.length, 0);
     });
 
     it("PeekBySequenceNumber: Wrong type maxMessageCount for Queue", async function(): Promise<
@@ -73,7 +73,7 @@ describe("invalid parameters", () => {
     > {
       let caughtError: Error | undefined;
       try {
-        await receiver.browseMessages({
+        await receiver.peekMessages({
           fromSequenceNumber: Long.ZERO,
           maxMessageCount: "somestring" as any
         });
@@ -92,7 +92,7 @@ describe("invalid parameters", () => {
     > {
       let caughtError: Error | undefined;
       try {
-        await receiver.browseMessages({ fromSequenceNumber: "somestring" as any });
+        await receiver.peekMessages({ fromSequenceNumber: "somestring" as any });
       } catch (error) {
         caughtError = error;
       }
@@ -127,7 +127,7 @@ describe("invalid parameters", () => {
     });
 
     it("Peek: Invalid maxMessageCount for Subscription", async function(): Promise<void> {
-      const browsedMessages = await subscriptionReceiverClient.browseMessages({
+      const browsedMessages = await subscriptionReceiverClient.peekMessages({
         maxMessageCount: -100
       });
       should.equal(browsedMessages.length, 0);
@@ -136,7 +136,7 @@ describe("invalid parameters", () => {
     it("Peek: Wrong type maxMessageCount for Subscription", async function(): Promise<void> {
       let caughtError: Error | undefined;
       try {
-        await subscriptionReceiverClient.browseMessages({ maxMessageCount: "somestring" as any });
+        await subscriptionReceiverClient.peekMessages({ maxMessageCount: "somestring" as any });
       } catch (error) {
         caughtError = error;
       }
@@ -150,7 +150,7 @@ describe("invalid parameters", () => {
     it("PeekBySequenceNumber: Invalid maxMessageCount for Subscription", async function(): Promise<
       void
     > {
-      const browsedMessages = await subscriptionReceiverClient.browseMessages({
+      const browsedMessages = await subscriptionReceiverClient.peekMessages({
         fromSequenceNumber: Long.ZERO,
         maxMessageCount: -100
       });
@@ -162,7 +162,7 @@ describe("invalid parameters", () => {
     > {
       let caughtError: Error | undefined;
       try {
-        await subscriptionReceiverClient.browseMessages({
+        await subscriptionReceiverClient.peekMessages({
           fromSequenceNumber: Long.ZERO,
           maxMessageCount: "somestring" as any
         });
@@ -181,7 +181,7 @@ describe("invalid parameters", () => {
     > {
       let caughtError: Error | undefined;
       try {
-        await subscriptionReceiverClient.browseMessages({
+        await subscriptionReceiverClient.peekMessages({
           fromSequenceNumber: "somestring" as any
         });
       } catch (error) {
@@ -366,14 +366,14 @@ describe("invalid parameters", () => {
     });
 
     it("Peek: Invalid maxMessageCount in SessionReceiver", async function(): Promise<void> {
-      const browsedMessages = await receiver.browseMessages({ maxMessageCount: -100 });
-      should.equal(browsedMessages.length, 0);
+      const peekedMessages = await receiver.peekMessages({ maxMessageCount: -100 });
+      should.equal(peekedMessages.length, 0);
     });
 
     it("Peek: Wrong type maxMessageCount in SessionReceiver", async function(): Promise<void> {
       let caughtError: Error | undefined;
       try {
-        await receiver.browseMessages({ maxMessageCount: "somestring" as any });
+        await receiver.peekMessages({ maxMessageCount: "somestring" as any });
       } catch (error) {
         caughtError = error;
       }
@@ -387,11 +387,11 @@ describe("invalid parameters", () => {
     it("PeekBySequenceNumber: Invalid maxMessageCount in SessionReceiver", async function(): Promise<
       void
     > {
-      const browsedMessages = await receiver.browseMessages({
+      const peekedMessages = await receiver.peekMessages({
         fromSequenceNumber: Long.ZERO,
         maxMessageCount: -100
       });
-      should.equal(browsedMessages.length, 0);
+      should.equal(peekedMessages.length, 0);
     });
 
     it("PeekBySequenceNumber: Wrong type maxMessageCount in SessionReceiver", async function(): Promise<
@@ -399,7 +399,7 @@ describe("invalid parameters", () => {
     > {
       let caughtError: Error | undefined;
       try {
-        await receiver.browseMessages({
+        await receiver.peekMessages({
           fromSequenceNumber: Long.ZERO,
           maxMessageCount: "somestring" as any
         });
@@ -418,7 +418,7 @@ describe("invalid parameters", () => {
     > {
       let caughtError: Error | undefined;
       try {
-        await receiver.browseMessages({ fromSequenceNumber: "somestring" as any });
+        await receiver.peekMessages({ fromSequenceNumber: "somestring" as any });
       } catch (error) {
         caughtError = error;
       }

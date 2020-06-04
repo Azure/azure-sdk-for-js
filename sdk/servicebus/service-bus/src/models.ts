@@ -115,16 +115,16 @@ export interface CreateSenderOptions {
 }
 
 /**
- * Describes the options passed to the `browseMessages` method on a receiver.
+ * Describes the options passed to the `peekMessages` method on a receiver.
  */
-export interface BrowseMessagesOptions extends OperationOptions {
+export interface PeekMessagesOptions extends OperationOptions {
   /**
-   * @property The maximum number of messages to browse.
+   * @property The maximum number of messages to peek.
    * Default value is 1
    */
   maxMessageCount?: number;
   /**
-   * @property The sequence number to start browsing messages from (inclusive).
+   * @property The sequence number to start peeking messages from (inclusive).
    */
   fromSequenceNumber?: Long;
 }

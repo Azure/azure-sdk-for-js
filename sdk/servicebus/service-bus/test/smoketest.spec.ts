@@ -472,7 +472,7 @@ async function waitAndValidate(
     await delay(500);
   }
 
-  const remainingMessages = (await receiver.browseMessages()).map((m) => m.body);
+  const remainingMessages = (await receiver.peekMessages()).map((m) => m.body);
   assert.isEmpty(errors);
   assert.isEmpty(remainingMessages);
   assert.deepEqual([expectedMessage], receivedBodies);
