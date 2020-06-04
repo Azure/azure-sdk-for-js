@@ -569,8 +569,8 @@ export class EventHubSender extends LinkEntity {
       if (!this.isOpen() && !this.isConnecting) {
         this.isConnecting = true;
 
-        // Wait for the connectionContext to be ready for opening.
-        await this._context.readyToOpen();
+        // Wait for the connectionContext to be ready to open the link.
+        await this._context.readyToOpenLink();
         await this._negotiateClaim();
 
         logger.verbose(

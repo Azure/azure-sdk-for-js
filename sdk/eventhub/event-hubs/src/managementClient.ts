@@ -275,8 +275,8 @@ export class ManagementClient extends LinkEntity {
   private async _init(): Promise<void> {
     try {
       if (!this._isMgmtRequestResponseLinkOpen()) {
-        // Wait for the connectionContext to be ready for opening.
-        await this._context.readyToOpen();
+        // Wait for the connectionContext to be ready to open the link.
+        await this._context.readyToOpenLink();
         await this._negotiateClaim();
         const rxopt: ReceiverOptions = {
           source: { address: this.address },
@@ -293,7 +293,9 @@ export class ManagementClient extends LinkEntity {
             );
           }
         };
-        const sropt: SenderOptions = { target: { address: this.address } };
+        const sropt: SenderOptions = {
+          target: { address: this.address }
+        };
         logger.verbose(
           "[%s] Creating sender/receiver links on a session for $management endpoint with " +
             "srOpts: %o, receiverOpts: %O.",

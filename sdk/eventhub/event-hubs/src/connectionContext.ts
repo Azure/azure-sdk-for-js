@@ -51,19 +51,35 @@ export interface ConnectionContext extends ConnectionContextBase {
    * the underlying amqp connection for the EventHub Client.
    */
   managementSession?: ManagementClient;
+  /**
+   * Resolves once the connectionContext is ready to open a link.
+   * A link can be opened when:
+   * - The connection is already opened on both sides.
+   * - The connection has been closed or disconnected.
+   * A link is not ready to be opened if the connection
+   * is in the process of closing or disconnecting.
+   */
+  readyToOpenLink(): Promise<void>;
+}
 
+/**
+ * Describes the members on the ConnectionContext that are only
+ * used by it internally.
+ * @ignore
+ * @internal
+ */
+export interface ConnectionContextInternalMembers extends ConnectionContext {
   /**
    * Indicates whether the connection is in the process of closing.
+   * When this returns `true`, a `disconnected` event will be received
+   * after the connection is closed.
+   *
    */
   isConnectionClosing(): boolean;
   /**
-   * Resolves once the connectionContext is ready to be opened.
-   */
-  readyToOpen(): Promise<void>;
-  /**
    * Resolves once the context's connection emits a `disconnected` event.
    */
-  waitForConnectionDisconnected(): Promise<void>;
+  waitForDisconnectedEvent(): Promise<void>;
   /**
    * Resolves once the connection has finished being reset.
    * Connections are reset as part of reacting to a `disconnected` event.
@@ -89,15 +105,16 @@ type FunctionPropertyNames<T> = { [K in keyof T]: T[K] extends Function ? K : ne
  */
 type FunctionProperties<T> = Pick<T, FunctionPropertyNames<T>>;
 /**
- * Helper type to get the types of all the functions on ConnectionContext.
+ * Helper type to get the types of all the functions on ConnectionContext
+ * and the internal methods from ConnectionContextInternalMembers.
  * Note that this excludes the functions that ConnectionContext inherits.
  * Each function also has its `this` type set as `ConnectionContext`.
  */
 type ConnectionContextMethods = Omit<
-  FunctionProperties<ConnectionContext>,
+  FunctionProperties<ConnectionContextInternalMembers>,
   FunctionPropertyNames<ConnectionContextBase>
 > &
-  ThisType<ConnectionContext>;
+  ThisType<ConnectionContextInternalMembers>;
 
 /**
  * @internal
@@ -168,13 +185,13 @@ export namespace ConnectionContext {
         // then the rhea connection is in the process of terminating.
         return Boolean(!this.connection.isOpen() && this.connection.isRemoteOpen());
       },
-      async readyToOpen() {
+      async readyToOpenLink() {
         // Check that the connection isn't in the process of closing.
         // This can happen when the idle timeout has been reached but
         // the underlying socket is waiting to be destroyed.
         if (this.isConnectionClosing()) {
           // Wait for the disconnected event that indicates the underlying socket has closed.
-          await this.waitForConnectionDisconnected();
+          await this.waitForDisconnectedEvent();
         }
         // Check if the connection is currently in the process of disconnecting.
         if (isDisconnecting) {
@@ -182,7 +199,7 @@ export namespace ConnectionContext {
           await this.waitForConnectionReset();
         }
       },
-      waitForConnectionDisconnected() {
+      waitForDisconnectedEvent() {
         return new Promise((resolve) => {
           logger.verbose(
             `[${this.connectionId}] Attempting to reinitialize connection` +
@@ -211,7 +228,7 @@ export namespace ConnectionContext {
       );
     };
 
-    const disconnected: OnAmqpEvent = async (context: EventContext) => {
+    const onDisconnected: OnAmqpEvent = async (context: EventContext) => {
       if (isDisconnecting) {
         return;
       }
@@ -336,7 +353,7 @@ export namespace ConnectionContext {
     function addConnectionListeners(connection: Connection) {
       // Add listeners on the connection object.
       connection.on(ConnectionEvents.connectionOpen, onConnectionOpen);
-      connection.on(ConnectionEvents.disconnected, disconnected);
+      connection.on(ConnectionEvents.disconnected, onDisconnected);
       connection.on(ConnectionEvents.protocolError, protocolError);
       connection.on(ConnectionEvents.error, error);
     }
@@ -347,7 +364,7 @@ export namespace ConnectionContext {
         ConnectionEvents.connectionOpen,
         onConnectionOpen
       );
-      connectionContext.connection.removeListener(ConnectionEvents.disconnected, disconnected);
+      connectionContext.connection.removeListener(ConnectionEvents.disconnected, onDisconnected);
       connectionContext.connection.removeListener(ConnectionEvents.protocolError, protocolError);
       connectionContext.connection.removeListener(ConnectionEvents.error, error);
       // Close the connection
