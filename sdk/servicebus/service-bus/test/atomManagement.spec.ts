@@ -378,6 +378,75 @@ describe("Atom management - Namespace", function(): void {
   {
     entityType: EntityType.SUBSCRIPTION,
     alwaysBeExistingEntity: managementSubscription1
+  }
+].forEach((testCase) => {
+  describe(`Atom management - "${testCase.entityType}" exists`, function(): void {
+    beforeEach(async () => {
+      switch (testCase.entityType) {
+        case EntityType.QUEUE:
+          await recreateQueue(managementQueue1);
+          break;
+
+        case EntityType.TOPIC:
+          await recreateTopic(managementTopic1);
+          break;
+
+        case EntityType.SUBSCRIPTION:
+          await recreateTopic(managementTopic1);
+          await recreateSubscription(managementTopic1, managementSubscription1);
+          break;
+
+        default:
+          throw new Error("TestError: Unrecognized EntityType");
+      }
+    });
+
+    afterEach(async () => {
+      switch (testCase.entityType) {
+        case EntityType.QUEUE:
+          await deleteEntity(EntityType.QUEUE, managementQueue1);
+          break;
+
+        case EntityType.TOPIC:
+        case EntityType.SUBSCRIPTION:
+          await deleteEntity(EntityType.TOPIC, managementTopic1);
+          break;
+
+        default:
+          throw new Error("TestError: Unrecognized EntityType");
+      }
+    });
+
+    it(`Returns true for an existing ${testCase.entityType} entity`, async () => {
+      should.equal(
+        await entityExists(testCase.entityType, testCase.alwaysBeExistingEntity, managementTopic1),
+        true,
+        "Returned `false` for an existing entity"
+      );
+    });
+
+    it(`Returns false for a non-existing ${testCase.entityType} entity`, async () => {
+      should.equal(
+        await entityExists(testCase.entityType, "non-existing-entity-name", managementTopic1),
+        false,
+        "Returned `true` for a non-existing entity"
+      );
+    });
+  });
+});
+
+[
+  {
+    entityType: EntityType.QUEUE,
+    alwaysBeExistingEntity: managementQueue1
+  },
+  {
+    entityType: EntityType.TOPIC,
+    alwaysBeExistingEntity: managementTopic1
+  },
+  {
+    entityType: EntityType.SUBSCRIPTION,
+    alwaysBeExistingEntity: managementSubscription1
   },
   {
     entityType: EntityType.RULE,
@@ -2068,6 +2137,33 @@ async function getRuntimeInfo(
         );
       }
       const subscriptionResponse = await serviceBusAtomManagementClient.getSubscriptionRuntimeInfo(
+        topicPath,
+        entityPath
+      );
+      return subscriptionResponse;
+  }
+  throw new Error("TestError: Unrecognized EntityType");
+}
+
+async function entityExists(
+  testEntityType: EntityType,
+  entityPath: string,
+  topicPath?: string
+): Promise<any> {
+  switch (testEntityType) {
+    case EntityType.QUEUE:
+      const queueResponse = await serviceBusAtomManagementClient.queueExists(entityPath);
+      return queueResponse;
+    case EntityType.TOPIC:
+      const topicResponse = await serviceBusAtomManagementClient.topicExists(entityPath);
+      return topicResponse;
+    case EntityType.SUBSCRIPTION:
+      if (!topicPath) {
+        throw new Error(
+          "TestError: Topic path must be passed when invoking tests on subscriptions"
+        );
+      }
+      const subscriptionResponse = await serviceBusAtomManagementClient.subscriptionExists(
         topicPath,
         entityPath
       );
