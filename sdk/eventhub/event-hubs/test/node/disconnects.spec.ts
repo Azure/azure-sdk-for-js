@@ -7,7 +7,7 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import { EnvVarKeys, getEnvVars } from "../utils/testUtils";
 import { EventHubClient } from "../../src/impl/eventHubClient";
-import { EventHubProducerClient } from "../../src/index";
+import { EventHubConsumerClient, EventHubProducerClient } from "../../src/index";
 const env = getEnvVars();
 
 describe("disconnected", function() {
@@ -55,7 +55,7 @@ describe("disconnected", function() {
   describe("Receiver", function() {
     it("should receive after a disconnect", async () => {
       client = new EventHubClient(service.connectionString, service.path);
-      const receiver = client.createConsumer(EventHubClient.defaultConsumerGroupName, "0", {
+      const receiver = client.createConsumer(EventHubConsumerClient.defaultConsumerGroupName, "0", {
         sequenceNumber: 0
       });
       const clientConnectionContext = receiver["_context"];
