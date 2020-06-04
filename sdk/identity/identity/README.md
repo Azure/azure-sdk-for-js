@@ -28,8 +28,6 @@ If this is your first time using `@azure/identity` or the Microsoft identity pla
 
 Azure Identity offers a variety of credential classes that are accepted by Azure SDK data plane clients. Each client library documents its Azure Identity integration in its README and samples. Azure SDK management plane libraries (those starting with `@azure/arm-*`) do not accept these credentials.
 
-> For outdated documentation links, please go instead to https://aka.ms/azsdk/js/identity/docs
-
 Credentials differ mostly in configuration:
 
 | credential class                    | identity                              | configuration                                                                                    |
