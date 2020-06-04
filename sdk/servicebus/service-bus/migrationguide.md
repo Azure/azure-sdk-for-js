@@ -87,7 +87,7 @@ brings this package in line with the [Azure SDK Design Guidelines for Typescript
   });
   ```
 
-* `peekBySequenceNumber()`is removed in favor of an overload to `peek()` that would take the sequence number to start peeking from in the options.
+* `peekBySequenceNumber()`is removed in favor of an overload to `peekMessages()` that would take the sequence number to start peeking from in the options.
 
 * Subscription rule management has been moved to its own class, rather than being part of the now-removed `SubscriptionClient`
 
