@@ -79,7 +79,8 @@ export function nodeConfig({ test = false, production = false } = {}) {
       "fs",
       "path",
       "@azure/arm-servicebus",
-      "@azure/ms-rest-nodeauth"
+      "@azure/ms-rest-nodeauth",
+      "@azure/identity"
     );
 
     baseConfig.onwarn = ignoreKnownWarnings;
