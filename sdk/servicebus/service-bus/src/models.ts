@@ -105,9 +105,9 @@ export interface MessageHandlerOptions {
 export interface CreateSessionReceiverOptions extends SessionReceiverOptions, OperationOptions {}
 
 /**
- * Describes the options passed to the `createSender` method on `ServiceBusClient`.
+ * Describes the options passed to the `open` method on a `Sender`.
  */
-export interface CreateSenderOptions {
+export interface OpenOptions {
   /**
    * The signal which can be used to abort requests.
    */

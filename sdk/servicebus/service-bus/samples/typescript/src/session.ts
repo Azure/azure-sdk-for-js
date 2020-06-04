@@ -64,7 +64,7 @@ export async function main() {
 
 async function sendMessage(sbClient: ServiceBusClient, scientist: any, sessionId: string) {
   // createSender() also works with topics
-  const sender = await sbClient.createSender(queueName);
+  const sender = sbClient.createSender(queueName);
 
   const message = {
     body: `${scientist.firstName} ${scientist.lastName}`,

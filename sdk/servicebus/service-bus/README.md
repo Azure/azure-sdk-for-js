@@ -102,7 +102,7 @@ using the [createSender][sbclient_createsender] method.
 This gives you a sender which you can use to [send][sender_send] messages.
 
 ```javascript
-const sender = await serviceBusClient.createSender("my-queue");
+const sender = serviceBusClient.createSender("my-queue");
 
 // sending a single message
 await sender.send({
@@ -189,7 +189,7 @@ When sending the message, set the `sessionId` property in the message to ensure
 your message lands in the right session.
 
 ```javascript
-const sender = await serviceBusClient.createSender("my-session-queue");
+const sender = serviceBusClient.createSender("my-session-queue");
 await sender.send({
   body: "my-message-body",
   sessionId: "my-session"

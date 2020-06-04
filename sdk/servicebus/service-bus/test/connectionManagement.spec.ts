@@ -37,7 +37,7 @@ describe("controlled connection initialization", () => {
 
     // casting because I need access to 'open' and the return type of createSender() is an
     // interface.
-    sender = (await serviceBusClient.createSender(queue!)) as SenderImpl;
+    sender = serviceBusClient.createSender(queue!) as SenderImpl;
     senderEntityPath = queue!;
   });
 

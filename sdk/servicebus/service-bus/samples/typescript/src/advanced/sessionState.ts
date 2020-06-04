@@ -101,7 +101,7 @@ async function getSessionState(sessionId: string) {
 
 async function sendMessagesForSession(shoppingEvents: any[], sessionId: string) {
   // createSender() can also be used to create a sender for a topic.
-  const sender = await sbClient.createSender(userEventsQueueName);
+  const sender = sbClient.createSender(userEventsQueueName);
 
   for (let index = 0; index < shoppingEvents.length; index++) {
     const message = {
