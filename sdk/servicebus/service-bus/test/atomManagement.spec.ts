@@ -1068,7 +1068,6 @@ describe("Atom management - Namespace", function(): void {
       userMetadata: undefined,
       lockDuration: "PT1M",
       maxDeliveryCount: 10,
-      messageCount: 0,
       requiresSession: false,
       status: "Active",
       subscriptionName: managementSubscription1,
