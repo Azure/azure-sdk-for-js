@@ -188,7 +188,7 @@ Construction of both objects is the same as it was for the previous client.
 Version 5.0.0-preview.1 is a preview of our efforts to create a client library that is user friendly and
 idiomatic to the Javascript ecosystem. The reasons for most of the changes in this update can be found in the
 [Azure SDK Design Guidelines for TypeScript](https://azure.github.io/azure-sdk/typescript_introduction.html).
-For more information, please visit https://aka.ms/azsdk/releases/July2019Preview
+For more information, please visit https://aka.ms/azsdk/releases/july2019preview
 
 ### Breaking changes
 
