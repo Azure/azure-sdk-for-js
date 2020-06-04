@@ -187,6 +187,7 @@ export function toRecognizeFormResultResponse(
   const common = {
     status: original.status,
     createdOn: original.createdOn,
+    errors: original.analyzeResult?.errors,
     lastModified: original.lastModified,
     _response: original._response
   };
@@ -202,8 +203,7 @@ export function toRecognizeFormResultResponse(
           original.analyzeResult.documentResults &&
           original.analyzeResult.documentResults.length > 0
             ? original.analyzeResult.documentResults.map((d) => toRecognizedForm(d, pages)) // supervised
-            : original.analyzeResult.pageResults?.map((p) => toFormFromPageResult(p, pages)), // unsupervised
-        errors: original.analyzeResult.errors
+            : original.analyzeResult.pageResults?.map((p) => toFormFromPageResult(p, pages)) // unsupervised
       }
     : undefined;
   return {
@@ -349,6 +349,7 @@ export function toRecognizeContentResultResponse(
   const common = {
     status: original.status,
     createdOn: original.createdOn,
+    errors: original.analyzeResult?.errors,
     lastModified: original.lastModified,
     _response: original._response
   };
@@ -374,27 +375,28 @@ function toRecognizedReceipt(result: DocumentResultModel, pages: FormPage[]): Re
 }
 
 export function toReceiptResultResponse(
-  result: GetAnalyzeReceiptResultResponse
+  original: GetAnalyzeReceiptResultResponse
 ): RecognizeReceiptResultResponse {
   const common = {
-    status: result.status,
-    createdOn: result.createdOn,
-    lastModified: result.lastModified,
-    _response: result._response
+    status: original.status,
+    createdOn: original.createdOn,
+    errors: original.analyzeResult?.errors,
+    lastModified: original.lastModified,
+    _response: original._response
   };
-  if (result.status !== "succeeded") {
+  if (original.status !== "succeeded") {
     return common;
   }
 
-  if (!result.analyzeResult) {
+  if (!original.analyzeResult) {
     throw new Error("Expecting valid analyzeResult from the service response");
   }
 
-  const pages = result.analyzeResult!.readResults.map(toFormPage);
+  const pages = original.analyzeResult!.readResults.map(toFormPage);
   return {
     ...common,
-    version: result.analyzeResult!.version,
-    receipts: result
+    version: original.analyzeResult!.version,
+    receipts: original
       .analyzeResult!.documentResults!.filter((d) => {
         return !!d.fields;
       })
@@ -405,6 +407,8 @@ export function toReceiptResultResponse(
 export function toFormModelResponse(response: GetCustomModelResponse): FormModelResponse {
   const common = {
     ...response.modelInfo,
+    trainingDocuments: response.trainResult?.trainingDocuments,
+    errors: response.trainResult?.errors,
     _response: response._response
   };
 
@@ -420,8 +424,6 @@ export function toFormModelResponse(response: GetCustomModelResponse): FormModel
     }
     return {
       ...common,
-      trainingDocuments: response.trainResult.trainingDocuments,
-      errors: response.trainResult.errors,
       submodels: [
         {
           accuracy: response.trainResult.averageModelAccuracy,
@@ -445,8 +447,6 @@ export function toFormModelResponse(response: GetCustomModelResponse): FormModel
 
     return {
       ...common,
-      trainingDocuments: response.trainResult?.trainingDocuments,
-      errors: response.trainResult?.errors,
       submodels
     };
   } else {

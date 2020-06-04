@@ -39,9 +39,9 @@ export type RecognizeCustomFormPollerClient = {
   // returns a result id to retrieve results
   beginRecognize: (
     source: FormRecognizerRequestBody | string,
+    modelId: string,
     contentType?: FormContentType,
-    analyzeOptions?: RecognizeFormsOptions,
-    modelId?: string
+    analyzeOptions?: RecognizeFormsOptions
   ) => Promise<AnalyzeWithCustomModelResponseModel>;
   // retrieves analyze result
   getRecognizeResult: (resultId: string, options: { abortSignal?: AbortSignalLike }) => Promise<RecognizeFormResultResponse>;
@@ -51,7 +51,7 @@ export interface BeginRecognizeCustomFormPollState extends PollOperationState<Re
   readonly client: RecognizeCustomFormPollerClient;
   source?: FormRecognizerRequestBody | string;
   contentType?: FormContentType;
-  modelId?: string;
+  modelId: string;
   resultId?: string;
   status: OperationStatus;
   readonly analyzeOptions?: RecognizeFormsOptions;
@@ -67,7 +67,7 @@ export type BeginRecognizeCustomFormPollerOptions = {
   client: RecognizeCustomFormPollerClient;
   source: FormRecognizerRequestBody | string;
   contentType?: FormContentType;
-  modelId?: string;
+  modelId: string;
   updateIntervalInMs?: number;
   resultId?: string;
   onProgress?: (state: BeginRecognizeCustomFormPollState) => void;
@@ -151,9 +151,9 @@ function makeBeginRecognizePollOperation(
         state.isStarted = true;
         const result = await client.beginRecognize(
           source,
+          modelId,
           contentType,
-          analyzeOptions || {},
-          modelId
+          analyzeOptions || {}
         );
         if (!result.operationLocation) {
           throw new Error("Expect a valid 'operationLocation' to retrieve analyze results");
@@ -180,11 +180,11 @@ function makeBeginRecognizePollOperation(
           state.result = response.forms;
           state.isCompleted = true;
         } else if (response.status === "failed") {
-          const details = response.errors?.map((e) => `code ${e.code}, message '${e.message}'`).join("\n");
+          const errors = response.errors?.map((e) => `  code ${e.code}, message: '${e.message}'`).join("\n");
           const message = `Custom form recognition failed using model ${state.modelId}.
-${response._response.bodyAsText}
 Error(s):
-${details}`;
+${errors || ""}
+`;
           throw new Error(message);
         }
       }

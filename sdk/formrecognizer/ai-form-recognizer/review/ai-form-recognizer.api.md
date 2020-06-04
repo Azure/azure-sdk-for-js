@@ -68,8 +68,6 @@ export interface BeginRecognizeContentPollState extends PollOperationState<FormP
     // (undocumented)
     contentType?: FormContentType;
     // (undocumented)
-    modelId?: string;
-    // (undocumented)
     resultId?: string;
     // (undocumented)
     source?: FormRecognizerRequestBody | string;
@@ -86,7 +84,7 @@ export interface BeginRecognizeCustomFormPollState extends PollOperationState<Re
     // (undocumented)
     contentType?: FormContentType;
     // (undocumented)
-    modelId?: string;
+    modelId: string;
     // (undocumented)
     resultId?: string;
     // (undocumented)
@@ -110,8 +108,6 @@ export interface BeginRecognizeReceiptPollState extends PollOperationState<Recog
     readonly client: RecognizeReceiptPollerClient;
     // (undocumented)
     contentType?: FormContentType;
-    // (undocumented)
-    modelId?: string;
     // (undocumented)
     resultId?: string;
     // (undocumented)
@@ -486,7 +482,7 @@ export type RecognizeContentOptions = FormRecognizerOperationOptions;
 
 // @public
 export type RecognizeContentPollerClient = {
-    beginRecognize: (source: FormRecognizerRequestBody | string, contentType?: FormContentType, analyzeOptions?: RecognizeContentOptions, modelId?: string) => Promise<GeneratedClientAnalyzeLayoutAsyncResponse>;
+    beginRecognize: (source: FormRecognizerRequestBody | string, contentType?: FormContentType, analyzeOptions?: RecognizeContentOptions) => Promise<GeneratedClientAnalyzeLayoutAsyncResponse>;
     getRecognizeResult: (resultId: string, options: {
         abortSignal?: AbortSignalLike;
     }) => Promise<RecognizeContentResultResponse>;
@@ -494,7 +490,7 @@ export type RecognizeContentPollerClient = {
 
 // @public
 export type RecognizeCustomFormPollerClient = {
-    beginRecognize: (source: FormRecognizerRequestBody | string, contentType?: FormContentType, analyzeOptions?: RecognizeFormsOptions, modelId?: string) => Promise<GeneratedClientAnalyzeWithCustomModelResponse>;
+    beginRecognize: (source: FormRecognizerRequestBody | string, modelId: string, contentType?: FormContentType, analyzeOptions?: RecognizeFormsOptions) => Promise<GeneratedClientAnalyzeWithCustomModelResponse>;
     getRecognizeResult: (resultId: string, options: {
         abortSignal?: AbortSignalLike;
     }) => Promise<RecognizeFormResultResponse>;
@@ -530,7 +526,7 @@ export type RecognizeFormsOptions = FormRecognizerOperationOptions & {
 
 // @public
 export type RecognizeReceiptPollerClient = {
-    beginRecognize: (source: FormRecognizerRequestBody | string, contentType?: FormContentType, analyzeOptions?: RecognizeReceiptsOptions, modelId?: string) => Promise<GeneratedClientAnalyzeReceiptAsyncResponse>;
+    beginRecognize: (source: FormRecognizerRequestBody | string, contentType?: FormContentType, analyzeOptions?: RecognizeReceiptsOptions) => Promise<GeneratedClientAnalyzeReceiptAsyncResponse>;
     getRecognizeResult: (resultId: string, options: {
         abortSignal?: AbortSignalLike;
     }) => Promise<RecognizeReceiptResultResponse>;
@@ -578,11 +574,11 @@ export interface TrainResult {
 // Warnings were encountered during analysis:
 //
 // src/lro/analyze/contentPoller.ts:40:3 - (ae-forgotten-export) The symbol "GeneratedClientAnalyzeLayoutAsyncResponse" needs to be exported by the entry point index.d.ts
-// src/lro/analyze/contentPoller.ts:47:3 - (ae-forgotten-export) The symbol "RecognizeContentResultResponse" needs to be exported by the entry point index.d.ts
+// src/lro/analyze/contentPoller.ts:46:3 - (ae-forgotten-export) The symbol "RecognizeContentResultResponse" needs to be exported by the entry point index.d.ts
 // src/lro/analyze/customFormPoller.ts:40:3 - (ae-forgotten-export) The symbol "GeneratedClientAnalyzeWithCustomModelResponse" needs to be exported by the entry point index.d.ts
 // src/lro/analyze/customFormPoller.ts:47:3 - (ae-forgotten-export) The symbol "RecognizeFormResultResponse" needs to be exported by the entry point index.d.ts
 // src/lro/analyze/receiptPoller.ts:40:3 - (ae-forgotten-export) The symbol "GeneratedClientAnalyzeReceiptAsyncResponse" needs to be exported by the entry point index.d.ts
-// src/lro/analyze/receiptPoller.ts:47:3 - (ae-forgotten-export) The symbol "RecognizeReceiptResultResponse" needs to be exported by the entry point index.d.ts
+// src/lro/analyze/receiptPoller.ts:46:3 - (ae-forgotten-export) The symbol "RecognizeReceiptResultResponse" needs to be exported by the entry point index.d.ts
 // src/lro/copy/poller.ts:37:3 - (ae-forgotten-export) The symbol "GeneratedClientCopyCustomModelResponse" needs to be exported by the entry point index.d.ts
 // src/lro/copy/poller.ts:43:3 - (ae-forgotten-export) The symbol "GeneratedClientGetCustomModelCopyResultResponse" needs to be exported by the entry point index.d.ts
 // src/lro/train/poller.ts:21:3 - (ae-forgotten-export) The symbol "GeneratedClientTrainCustomModelAsyncResponse" needs to be exported by the entry point index.d.ts

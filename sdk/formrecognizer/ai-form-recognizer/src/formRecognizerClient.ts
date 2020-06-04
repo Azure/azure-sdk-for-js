@@ -439,9 +439,9 @@ ng", and "image/tiff";
     const analyzePollerClient: RecognizeCustomFormPollerClient = {
       beginRecognize: (
         body: FormRecognizerRequestBody | string,
+        modelId: string,
         contentType?: FormContentType,
-        analyzeOptions: RecognizeFormsOptions = {},
-        modelId?: string
+        analyzeOptions: RecognizeFormsOptions = {}
       ) => recognizeCustomFormInternal(this.client, body, contentType, analyzeOptions, modelId!),
       getRecognizeResult: (resultId: string, options: { abortSignal?: AbortSignalLike }) =>
         this.getRecognizedForm(modelId, resultId, options)
@@ -495,9 +495,9 @@ ng", and "image/tiff";
     const analyzePollerClient: RecognizeCustomFormPollerClient = {
       beginRecognize: (
         body: FormRecognizerRequestBody | string,
+        modelId: string,
         contentType?: FormContentType,
-        analyzeOptions: RecognizeFormsOptions = {},
-        modelId?: string
+        analyzeOptions: RecognizeFormsOptions = {}
       ) => recognizeCustomFormInternal(this.client, body, contentType, analyzeOptions, modelId!),
       getRecognizeResult: (resultId: string, options: { abortSignal?: AbortSignalLike }) =>
         this.getRecognizedForm(modelId, resultId, options)

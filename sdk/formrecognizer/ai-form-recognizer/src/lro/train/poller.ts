@@ -163,11 +163,15 @@ function makeBeginTrainingPollOperation(
           state.result = model;
           state.isCompleted = true;
         } else if (model.status === "invalid") {
-          const details = model.errors?.map((e) => `code ${e.code}, message '${e.message}'`).join("\n");
-          const message = `Model training failed with invalid model status for model ${state.modelId}.
-${model._response.bodyAsText}
+          const errors = model.errors?.map((e) => `  code ${e.code}, message: '${e.message}'`).join("\n");
+          const additionalInfo = model.trainingDocuments?.map((d) =>
+            `  document: ${d.documentName}, status: ${d.status}, errors: ${d.errors?.map((e) => `code ${e.code}, message: '${e.message}'`).join("\n")}`).join("\n")
+          const message = `Model training failed. Invalid model was created with id '${state.modelId}'.
 Error(s):
-${details}`;
+${errors || ""}
+Additional information:
+${additionalInfo || ""}
+`;
           throw new Error(message);
         }
       }
