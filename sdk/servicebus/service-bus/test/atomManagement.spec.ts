@@ -68,9 +68,9 @@ describe("Atom management - Namespace", function(): void {
 describe("Atom management - Authentication", function(): void {
   if (isNode) {
     it("Token credential - DefaultAzureCredential from `@azure/identity`", async () => {
-      const host = (parseConnectionString(
-        env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]
-      ) as any).Endpoint.match(".*://([^/]*)")[1];
+      const endpoint = (parseConnectionString(env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]) as any)
+        .Endpoint;
+      const host = endpoint.match(".*://([^/]*)")[1];
 
       const serviceBusManagementClient = new ServiceBusManagementClient(
         host,
@@ -93,7 +93,7 @@ describe("Atom management - Authentication", function(): void {
       );
       should.equal(
         createQueue2Response.forwardTo,
-        managementQueue1,
+        endpoint + managementQueue1,
         "Unexpected name in the `forwardTo` field of createQueue response"
       );
       const getQueueResponse = await serviceBusManagementClient.getQueue(managementQueue1);
