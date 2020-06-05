@@ -80,39 +80,42 @@ describe("Atom management - Authentication", function(): void {
       should.equal(
         (await serviceBusManagementClient.createQueue(managementQueue1)).name,
         managementQueue1,
-        "Unexpected queue name in the response"
+        "Unexpected queue name in the createQueue response"
+      );
+      const createQueue2Response = await serviceBusManagementClient.createQueue({
+        name: managementQueue2,
+        forwardTo: managementQueue1
+      });
+      should.equal(
+        createQueue2Response.name,
+        managementQueue2,
+        "Unexpected queue name in the createQueue response"
       );
       should.equal(
-        (await serviceBusManagementClient.createQueue(managementQueue2)).name,
-        managementQueue2,
-        "Unexpected queue name in the response"
+        createQueue2Response.forwardTo,
+        managementQueue1,
+        "Unexpected name in the `forwardTo` field of createQueue response"
       );
       const getQueueResponse = await serviceBusManagementClient.getQueue(managementQueue1);
       should.equal(
         getQueueResponse.name,
         managementQueue1,
-        "Unexpected queue name in the response"
+        "Unexpected queue name in the getQueue response"
       );
       should.equal(
         (await serviceBusManagementClient.updateQueue(getQueueResponse)).name,
         managementQueue1,
-        "Unexpected queue name in the response"
-      );
-      getQueueResponse.forwardTo = managementQueue2;
-      should.equal(
-        (await serviceBusManagementClient.updateQueue(getQueueResponse)).name,
-        managementQueue1,
-        "Unexpected queue name in the response"
+        "Unexpected queue name in the updateQueue response"
       );
       should.equal(
         (await serviceBusManagementClient.getQueueRuntimeInfo(managementQueue1)).name,
         managementQueue1,
-        "Unexpected queue name in the response"
+        "Unexpected queue name in the getQueueRuntimeInfo response"
       );
       should.equal(
         (await serviceBusManagementClient.getNamespaceProperties()).name,
         host.match("(.*).servicebus.windows.net")[1],
-        "Unexpected namespace name in the response"
+        "Unexpected namespace name in the getNamespaceProperties response"
       );
       await serviceBusManagementClient.deleteQueue(managementQueue1);
       await serviceBusManagementClient.deleteQueue(managementQueue2);
