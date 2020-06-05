@@ -38,6 +38,10 @@ We've also merged the functionality from `EventProcessorHost` from the `@azure/e
 `EventHubConsumerClient` in the `@azure/event-hubs` package, allowing `EventHubConsumerClient` to be the single
 point of entry for receiving of any type (from single partition, all partitions, or with load balancing and checkpointing features) within Event Hubs.
 
+Important note on checkpoints: It is unfortunate, but the `EventHubConsumerClient` does not support legacy checkpoint data.
+In order to meet the goals set for unifying checkpoint data across languages for the new set of Event Hubs libraries and to make
+improvements to the algorithm used for managing partition ownership, breaking changes were necessary.
+
 ### Granular control over retries
 
 Retry logic and tuning has been externalized, allowing for better configuration
