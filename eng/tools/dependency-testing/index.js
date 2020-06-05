@@ -201,6 +201,7 @@ async function insertTsConfigJson(targetPackagePath, testFolder) {
 
   const originalTsConfigPath = path.join(targetPackagePath, "tsconfig.json");
   var originalTsConfig = await packageUtils.readFileJson(originalTsConfigPath);
+  tsConfigTestsJson.extends = originalTsConfig.extends;
   tsConfigTestsJson.compilerOptions = originalTsConfig.compilerOptions;
 
   const tsConfigPath = path.join(testPath, "tsconfig.json");
