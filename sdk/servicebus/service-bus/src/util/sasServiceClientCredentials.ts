@@ -4,6 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { AccessToken, SharedKeyCredential } from "@azure/core-amqp";
 import { HttpHeaders, ServiceClientCredentials, WebResource } from "@azure/core-http";
 import { generateKey } from "./crypto";
 
@@ -56,5 +57,9 @@ export class SasServiceClientCredentials implements ServiceClientCredentials {
     );
     webResource.withCredentials = true;
     return webResource;
+  }
+
+  getToken(audience: string): AccessToken {
+    return new SharedKeyCredential(this.keyName, this.keyValue).getToken(audience);
   }
 }
