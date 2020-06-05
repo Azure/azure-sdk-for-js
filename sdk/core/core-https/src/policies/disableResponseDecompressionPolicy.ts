@@ -4,6 +4,9 @@
 import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
 
+/**
+ * The programmatic identifier of the disableResponseDecompressionPolicy.
+ */
 export const disableResponseDecompressionPolicyName = "disableResponseDecompressionPolicy";
 
 /**

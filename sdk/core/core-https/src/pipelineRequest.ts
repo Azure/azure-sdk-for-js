@@ -90,26 +90,64 @@ export interface PipelineRequestOptions {
   onDownloadProgress?: (progress: TransferProgressEvent) => void;
 }
 
+class PipelineRequestImpl implements PipelineRequest {
+  public url: string;
+  public method: HttpMethods;
+  public headers: HttpHeaders;
+  public timeout: number;
+  public withCredentials: boolean;
+  public body?: RequestBodyType;
+  public formData?: FormDataMap;
+  public streamResponseBody: boolean;
+  public proxySettings?: ProxySettings;
+  public keepAlive: boolean;
+  public skipDecompressResponse: boolean;
+  public abortSignal?: AbortSignalLike;
+  public onUploadProgress?: (progress: TransferProgressEvent) => void;
+  public onDownloadProgress?: (progress: TransferProgressEvent) => void;
+
+  constructor(options: PipelineRequestOptions) {
+    this.url = options.url;
+    this.body = options.body;
+    this.headers = options.headers ?? createHttpHeaders();
+    this.method = options.method ?? "GET";
+    this.timeout = options.timeout ?? 0;
+    this.formData = options.formData;
+    this.keepAlive = options.keepAlive ?? false;
+    this.proxySettings = options.proxySettings;
+    this.skipDecompressResponse = options.skipDecompressResponse ?? false;
+    this.streamResponseBody = options.streamResponseBody ?? false;
+    this.withCredentials = options.withCredentials ?? false;
+    this.abortSignal = options.abortSignal;
+    this.onUploadProgress = options.onUploadProgress;
+    this.onDownloadProgress = options.onDownloadProgress;
+  }
+
+  public clone(): PipelineRequest {
+    return new PipelineRequestImpl({
+      url: this.url,
+      abortSignal: this.abortSignal,
+      body: this.body,
+      formData: this.formData,
+      headers: this.headers,
+      keepAlive: this.keepAlive,
+      method: this.method,
+      onDownloadProgress: this.onDownloadProgress,
+      onUploadProgress: this.onUploadProgress,
+      proxySettings: this.proxySettings,
+      skipDecompressResponse: this.skipDecompressResponse,
+      streamResponseBody: this.streamResponseBody,
+      timeout: this.timeout,
+      withCredentials: this.withCredentials
+    });
+  }
+}
+
 /**
  * Creates a new pipeline request with the given options.
  * This method is to allow for the easy setting of default values and not required.
  * @param options The options to create the request with.
  */
 export function createPipelineRequest(options: PipelineRequestOptions): PipelineRequest {
-  return {
-    url: options.url,
-    body: options.body,
-    headers: options.headers ?? createHttpHeaders(),
-    method: options.method ?? "GET",
-    timeout: options.timeout ?? 0,
-    formData: options.formData,
-    keepAlive: options.keepAlive,
-    proxySettings: options.proxySettings,
-    skipDecompressResponse: options.skipDecompressResponse,
-    streamResponseBody: options.streamResponseBody,
-    withCredentials: options.withCredentials ?? false,
-    abortSignal: options.abortSignal,
-    onUploadProgress: options.onUploadProgress,
-    onDownloadProgress: options.onDownloadProgress
-  };
+  return new PipelineRequestImpl(options);
 }

@@ -32,6 +32,22 @@ export class DefaultHttpsClient implements HttpsClient {
 export function disableResponseDecompressionPolicy(): PipelinePolicy;
 
 // @public
+export const disableResponseDecompressionPolicyName = "disableResponseDecompressionPolicy";
+
+// @public
+export function exponentialRetryPolicy(options?: ExponentialRetryPolicyOptions): PipelinePolicy;
+
+// @public
+export interface ExponentialRetryPolicyOptions {
+    maxRetries?: number;
+    maxRetryDelayInMs?: number;
+    retryDelayInMs?: number;
+}
+
+// @public
+export const expontentialRetryPolicyName = "exponentialRetryPolicy";
+
+// @public
 export type FormDataMap = {
     [key: string]: FormDataValue | FormDataValue[];
 };
@@ -82,6 +98,7 @@ export interface PipelinePolicy {
 export interface PipelineRequest {
     abortSignal?: AbortSignalLike;
     body?: RequestBodyType;
+    clone(): PipelineRequest;
     formData?: FormDataMap;
     headers: HttpHeaders;
     keepAlive?: boolean;

@@ -152,6 +152,11 @@ export interface PipelineRequest {
   abortSignal?: AbortSignalLike;
 
   /**
+   * Clone this request object.
+   */
+  clone(): PipelineRequest;
+
+  /**
    * Callback which fires upon upload progress.
    */
   onUploadProgress?: (progress: TransferProgressEvent) => void;
