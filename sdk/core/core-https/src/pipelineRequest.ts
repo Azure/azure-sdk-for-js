@@ -12,6 +12,7 @@ import {
 } from "./interfaces";
 import { createHttpHeaders } from "./httpHeaders";
 import { AbortSignalLike } from "@azure/abort-controller";
+import { generateUuid } from "./util/uuid";
 
 /**
  * Settings to initialize a request.
@@ -45,6 +46,11 @@ export interface PipelineRequestOptions {
    * Defaults to false.
    */
   withCredentials?: boolean;
+
+  /**
+   * A unique identifier for the request. Used for logging and tracing.
+   */
+  requestId?: string;
 
   /**
    * The HTTP body content (if any)
@@ -103,6 +109,7 @@ class PipelineRequestImpl implements PipelineRequest {
   public keepAlive: boolean;
   public skipDecompressResponse: boolean;
   public abortSignal?: AbortSignalLike;
+  public requestId: string;
   public onUploadProgress?: (progress: TransferProgressEvent) => void;
   public onDownloadProgress?: (progress: TransferProgressEvent) => void;
 
@@ -121,6 +128,7 @@ class PipelineRequestImpl implements PipelineRequest {
     this.abortSignal = options.abortSignal;
     this.onUploadProgress = options.onUploadProgress;
     this.onDownloadProgress = options.onDownloadProgress;
+    this.requestId = options.requestId || generateUuid();
   }
 
   public clone(): PipelineRequest {

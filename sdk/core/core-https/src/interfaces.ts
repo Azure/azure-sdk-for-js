@@ -117,6 +117,11 @@ export interface PipelineRequest {
   withCredentials: boolean;
 
   /**
+   * A unique identifier for the request. Used for logging and tracing.
+   */
+  requestId: string;
+
+  /**
    * The HTTP body content (if any)
    */
   body?: RequestBodyType;

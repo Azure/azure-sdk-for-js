@@ -83,7 +83,8 @@
     "@opentelemetry/api": "^0.6.1",
     "form-data": "^3.0.0",
     "tslib": "^1.10.0",
-    "https-proxy-agent": "^5.0.0"
+    "https-proxy-agent": "^5.0.0",
+    "uuid": "^8.1.0"
   },
   "devDependencies": {
     "@microsoft/api-extractor": "7.7.11",
@@ -96,6 +97,7 @@
     "@types/mocha": "^7.0.2",
     "@types/node": "^8.0.0",
     "@types/sinon": "^9.0.4",
+    "@types/uuid": "^8.0.0",
     "@typescript-eslint/eslint-plugin": "^2.0.0",
     "@typescript-eslint/parser": "^2.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",

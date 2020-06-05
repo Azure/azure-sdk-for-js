@@ -106,6 +106,7 @@ export interface PipelineRequest {
     onDownloadProgress?: (progress: TransferProgressEvent) => void;
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     proxySettings?: ProxySettings;
+    requestId: string;
     skipDecompressResponse?: boolean;
     streamResponseBody?: boolean;
     timeout: number;
@@ -124,6 +125,7 @@ export interface PipelineRequestOptions {
     onDownloadProgress?: (progress: TransferProgressEvent) => void;
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     proxySettings?: ProxySettings;
+    requestId?: string;
     skipDecompressResponse?: boolean;
     streamResponseBody?: boolean;
     timeout?: number;
@@ -179,6 +181,12 @@ export interface RestErrorOptions {
 
 // @public
 export type SendRequest = (request: PipelineRequest) => Promise<PipelineResponse>;
+
+// @public
+export function setClientRequestIdPolicy(requestIdHeaderName?: string): PipelinePolicy;
+
+// @public
+export const setClientRequestIdPolicyName = "setClientRequestIdPolicy";
 
 // @public
 export type TransferProgressEvent = {
