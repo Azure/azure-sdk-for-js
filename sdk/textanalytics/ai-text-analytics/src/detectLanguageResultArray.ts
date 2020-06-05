@@ -5,7 +5,7 @@ import {
   TextDocumentBatchStatistics,
   DocumentLanguage,
   DocumentError,
-  LanguageInput
+  DetectLanguageInput
 } from "./generated/models";
 import {
   DetectLanguageResult,
@@ -33,7 +33,7 @@ export interface DetectLanguageResultArray extends Array<DetectLanguageResult> {
 }
 
 export function makeDetectLanguageResultArray(
-  input: LanguageInput[],
+  input: DetectLanguageInput[],
   documents: DocumentLanguage[],
   errors: DocumentError[],
   modelVersion: string,

@@ -10,9 +10,11 @@
 import * as coreHttp from "@azure/core-http";
 
 /**
- * Contains an input document to be analyzed by the service.
+ * An object representing an individual text document to be analyzed by the Text Analytics service.
+ * The document contains a unique document ID, the full text of the document, and the language of
+ * the document's text.
  */
-export interface MultiLanguageInput {
+export interface TextDocumentInput {
   /**
    * A unique, non-empty document identifier.
    */
@@ -35,7 +37,7 @@ export interface MultiLanguageBatchInput {
   /**
    * The set of documents to process as part of this batch.
    */
-  documents: MultiLanguageInput[];
+  documents: TextDocumentInput[];
 }
 
 /**
@@ -108,7 +110,7 @@ export interface DocumentError {
 }
 
 /**
- * An interface representing TextAnalyticsWarning.
+ * Represents a warning encountered while processing a document.
  */
 export interface TextAnalyticsWarning {
   /**
@@ -147,7 +149,9 @@ export interface SentimentConfidenceScores {
 }
 
 /**
- * An interface representing SentenceSentiment.
+ * The predicted sentiment for a given span of text. For more information regarding text sentiment,
+ * see
+ * https://docs.microsoft.com/en-us/azure/cognitive-services/Text-Analytics/how-tos/text-analytics-how-to-sentiment-analysis.
  */
 export interface SentenceSentiment {
   /**
@@ -238,7 +242,9 @@ export interface SentimentResponse {
 }
 
 /**
- * An interface representing Entity.
+ * A word or phrase identified as an entity that is categorized within a taxonomy of types. The set
+ * of categories recognized by the Text Analytics service is described at
+ * https://docs.microsoft.com/en-us/azure/cognitive-services/Text-Analytics/named-entity-types .
  */
 export interface Entity {
   /**
@@ -302,7 +308,8 @@ export interface EntitiesResult {
 }
 
 /**
- * An interface representing Match.
+ * Details about the specific substring in a document that refers to a linked entity identified by
+ * the Text Analytics model.
  */
 export interface Match {
   /**
@@ -317,7 +324,8 @@ export interface Match {
 }
 
 /**
- * An interface representing LinkedEntity.
+ * A word or phrase identified as a well-known entity within a database, including its formal
+ * (disambiguated) name and a link to the entity information within the source database.
  */
 export interface LinkedEntity {
   /**
@@ -432,9 +440,11 @@ export interface KeyPhraseResult {
 }
 
 /**
- * An interface representing LanguageInput.
+ * An input to the language detection operation. This object specifies a unique document id, as
+ * well as the full text of a document and a hint indicating the document's country of origin to
+ * assist the text analytics predictive model in detecting the document's language.
  */
-export interface LanguageInput {
+export interface DetectLanguageInput {
   /**
    * Unique, non-empty document identifier.
    */
@@ -447,11 +457,11 @@ export interface LanguageInput {
  * An interface representing LanguageBatchInput.
  */
 export interface LanguageBatchInput {
-  documents: LanguageInput[];
+  documents: DetectLanguageInput[];
 }
 
 /**
- * An interface representing DetectedLanguage.
+ * Information about the language of a document as identified by the Text Analytics service.
  */
 export interface DetectedLanguage {
   /**

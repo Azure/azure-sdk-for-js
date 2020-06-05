@@ -15,10 +15,7 @@ import { TokenCredential, KeyCredential } from "@azure/core-auth";
 import { SDK_VERSION } from "./constants";
 import { GeneratedClient } from "./generated/generatedClient";
 import { logger } from "./logger";
-import {
-  LanguageInput as DetectLanguageInput,
-  MultiLanguageInput as TextDocumentInput
-} from "./generated/models";
+import { DetectLanguageInput, TextDocumentInput } from "./generated/models";
 import {
   DetectLanguageResultArray,
   makeDetectLanguageResultArray
