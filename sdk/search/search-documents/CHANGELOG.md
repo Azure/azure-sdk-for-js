@@ -1,6 +1,16 @@
 # Release History
 
-## 1.0.0-preview.4 (Unreleased)
+## 1.0.0-preview.4 (2020-06-08)
+
+- [Breaking] Refactored `SearchServiceClient` and split it to `SearchIndexClient` and `SearchIndexerClient`.[#8986](https://github.com/Azure/azure-sdk-for-js/issues/8986)
+- [Breaking] Changed `SearchIndexClient` class to `SearchClient` class.[#9014](https://github.com/Azure/azure-sdk-for-js/issues/9014)
+- [Breaking] Changed `ListIndexes` operation to a pageable operation.[#8484](https://github.com/Azure/azure-sdk-for-js/issues/8484)
+- [Breaking] Added `onlyIfUnchanged` parameter for CreateOrUpdate and Delete operations.[#8517](https://github.com/Azure/azure-sdk-for-js/issues/8517)
+- [Breaking] Handled `$select` property for the List operations.[#8784](https://github.com/Azure/azure-sdk-for-js/issues/8784)
+- [Breaking] Modified the names of several models & parameters. [#9266](https://github.com/Azure/azure-sdk-for-js/pull/9266)
+- [Breaking] Moved non-optional parameters from options bag.[#9238](https://github.com/Azure/azure-sdk-for-js/issues/9238)
+
+Refer [#7166](https://github.com/Azure/azure-sdk-for-js/issues/7166) for a detailed list of changes.
 
 
 ## 1.0.0-preview.3 (2020-05-05)
