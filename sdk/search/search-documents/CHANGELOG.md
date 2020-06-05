@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-preview.4 (2020-06-08) 
+## 1.0.0-preview.4 (2020-06-08)
 
 - [Breaking] Changed `ListIndexes` operation to a pageable operation.
 - [Breaking] Added `onlyIfUnchanged` parameter for CreateOrUpdate and Delete operations.
