@@ -2,16 +2,22 @@
 
 ## 1.0.0-preview.4 (2020-06-08)
 
-- [Breaking] Refactored `SearchServiceClient` and split it to `SearchIndexClient` and `SearchIndexerClient`.[#8986](https://github.com/Azure/azure-sdk-for-js/issues/8986)
-- [Breaking] Changed `SearchIndexClient` class to `SearchClient` class.[#9014](https://github.com/Azure/azure-sdk-for-js/issues/9014)
-- [Breaking] Changed `ListIndexes` operation to a pageable operation.[#8484](https://github.com/Azure/azure-sdk-for-js/issues/8484)
-- [Breaking] Added `onlyIfUnchanged` parameter for CreateOrUpdate and Delete operations.[#8517](https://github.com/Azure/azure-sdk-for-js/issues/8517)
-- [Breaking] Handled `$select` property for the List operations.[#8784](https://github.com/Azure/azure-sdk-for-js/issues/8784)
-- [Breaking] Modified the names of several models & parameters. [#9266](https://github.com/Azure/azure-sdk-for-js/pull/9266)
-- [Breaking] Moved non-optional parameters from options bag.[#9238](https://github.com/Azure/azure-sdk-for-js/issues/9238)
-
-Refer [#7166](https://github.com/Azure/azure-sdk-for-js/issues/7166) for a detailed list of changes.
-
+- [Breaking] Changed `ListIndexes` operation to a pageable operation.
+- [Breaking] Added `onlyIfUnchanged` parameter for CreateOrUpdate and Delete operations.
+- [Breaking] Removed `$select` property for the List operations.
+- [Breaking] Refactored `SearchServiceClient` and split it to `SearchIndexClient` and `SearchIndexerClient` and changed `SearchIndexClient` class to `SearchClient` class.
+- [Breaking] Moved non-optional parameters from options bag.
+- [Breaking] Renamed `countDocuments` method to `getDocumentsCount` method.
+- [Breaking] In `search` method, moved the `searchText` parameter from the options bag to method parameter. 
+- [Breaking] In `indexDocuments` method, the options parameter is renamed to `IndexDocumentsOptions`.
+- [Breaking] Modified `deleteDocuments` method to get documents as a parameter.
+- [Breaking] In `getIndexStatistics` method, renamed the return type from `GetIndexStatisticsResult` to `SearchIndexStatistics`.
+- [Breaking] In `getServiceStatistics` method, renamed the return type from `ServiceStatistics` to `SearchServiceStatistics`.
+- [Breaking] Modified `DataSource` model name to `DataSourceConnection`. Changed all references in the method names, parameters, etc.
+- [Breaking] Renamed `SimpleDataType` model to `SearchFieldDataType` model.
+- [Breaking] Modified the names of several models & parameters. Please refer [#8984](https://github.com/Azure/azure-sdk-for-js/issues/8984), [#9037](https://github.com/Azure/azure-sdk-for-js/issues/9037) and [#8383](https://github.com/Azure/azure-sdk-for-js/issues/8383) for a detailed list of renames.
+- Added separate methods for getting just names such as `listIndexesNames`, `listSynonymMapsNames`, etc.
+- Added `getSearchClient` method to the `SearchIndexClient` class.
 
 ## 1.0.0-preview.3 (2020-05-05)
 
