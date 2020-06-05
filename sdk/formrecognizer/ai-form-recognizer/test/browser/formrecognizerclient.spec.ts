@@ -49,8 +49,8 @@ describe("FormRecognizerClient browser only", () => {
       receipts && receipts.length > 0,
       `Expect no-empty pages but got ${receipts}`
     );
-    const usReceipt = receipts![0];
-    assert.equal(usReceipt.recognizedForm.formType, "prebuilt:receipt");
+    const receipt = receipts![0];
+    assert.equal(receipt.recognizedForm.formType, "prebuilt:receipt");
   });
 
   it("recognizes receipt from a Blob", async () => {
@@ -76,7 +76,7 @@ describe("FormRecognizerClient browser only", () => {
       receipts && receipts.length > 0,
       `Expect no-empty pages but got ${receipts}`
     );
-    const usReceipt = receipts![0];
-    assert.equal(usReceipt.recognizedForm.formType, "prebuilt:receipt");
+    const receipt = receipts![0];
+    assert.equal(receipt.recognizedForm.formType, "prebuilt:receipt");
   });
 }).timeout(60000);

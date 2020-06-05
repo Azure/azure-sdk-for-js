@@ -35,6 +35,10 @@ export interface RecognizedContent {
    * Date and time (UTC) when the status was last updated.
    */
   lastModified: Date;
+  /**
+   * List of errors reported during the content recognition operation.
+   */
+  errors?: ErrorInformation[];
 };
 
 /**
@@ -73,13 +77,17 @@ export interface RecognizedReceipts {
    */
   status: OperationStatus; // 'notStarted' | 'running' | 'succeeded' | 'failed';
   /**
-   * Date and time (UTC) when the form recognition operation was submitted.
+   * Date and time (UTC) when the receipt recognition operation was submitted.
    */
   createdOn: Date;
   /**
    * Date and time (UTC) when the status was last updated.
    */
   lastModified: Date;
+  /**
+   * List of errors reported during the receipt recognition operation.
+   */
+  errors?: ErrorInformation[];
 };
 
 /**
