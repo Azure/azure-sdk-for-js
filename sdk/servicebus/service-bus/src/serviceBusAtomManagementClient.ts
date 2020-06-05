@@ -1,12 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  isTokenCredential,
-  parseConnectionString,
-  SharedKeyCredential,
-  TokenCredential
-} from "@azure/core-amqp";
+import { isTokenCredential, parseConnectionString, TokenCredential } from "@azure/core-amqp";
 import {
   HttpOperationResponse,
   proxyPolicy,
@@ -367,9 +362,9 @@ export class ServiceBusManagementClient extends ServiceClient {
   private ruleResourceSerializer: AtomXmlSerializer;
 
   /**
-   * Token provider used to generate tokens as required for the various operations.
+   * Credentials used to generate tokens as required for the various operations.
    */
-  private tokenProvider: SharedKeyCredential | TokenCredential;
+  private credentials: SasServiceClientCredentials | TokenCredential;
 
   /**
    * Initializes a new instance of the ServiceBusManagementClient class.
@@ -402,7 +397,6 @@ export class ServiceBusManagementClient extends ServiceClient {
     let options: ServiceBusManagementClientOptions;
     let fullyQualifiedNamespace: string;
     let credentials: SasServiceClientCredentials | TokenCredential;
-    let tokenProvider: SharedKeyCredential | TokenCredential;
     if (isTokenCredential(credentialOrOptions2)) {
       fullyQualifiedNamespace = fullyQualifiedNamespaceOrConnectionString1;
       options = options3 || {};
@@ -410,7 +404,6 @@ export class ServiceBusManagementClient extends ServiceClient {
       requestPolicyFactories.push(
         bearerTokenAuthenticationPolicy(credentials, AMQPConstants.aadServiceBusScope)
       );
-      tokenProvider = credentials;
     } else {
       const connectionString = fullyQualifiedNamespaceOrConnectionString1;
       options = credentialOrOptions2 || {};
@@ -428,10 +421,6 @@ export class ServiceBusManagementClient extends ServiceClient {
         connectionStringObj.SharedAccessKey
       );
       requestPolicyFactories.push(signingPolicy(credentials));
-      tokenProvider = new SharedKeyCredential(
-        connectionStringObj.SharedAccessKeyName,
-        connectionStringObj.SharedAccessKey
-      );
     }
     if (options && options.proxySettings) {
       requestPolicyFactories.push(proxyPolicy(options.proxySettings));
@@ -445,7 +434,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     this.endpointWithProtocol = fullyQualifiedNamespace.endsWith("/")
       ? "sb://" + fullyQualifiedNamespace
       : "sb://" + fullyQualifiedNamespace + "/";
-    this.tokenProvider = tokenProvider;
+    this.credentials = credentials;
     this.namespaceResourceSerializer = new NamespaceResourceSerializer();
     this.queueResourceSerializer = new QueueResourceSerializer();
     this.topicResourceSerializer = new TopicResourceSerializer();
@@ -1469,9 +1458,9 @@ export class ServiceBusManagementClient extends ServiceClient {
       queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo
     ) {
       const token =
-        this.tokenProvider instanceof SharedKeyCredential
-          ? this.tokenProvider.getToken(this.endpoint).token
-          : (await this.tokenProvider.getToken([AMQPConstants.aadServiceBusScope]))!.token;
+        this.credentials instanceof SasServiceClientCredentials
+          ? this.credentials.getToken(this.endpoint).token
+          : (await this.credentials.getToken([AMQPConstants.aadServiceBusScope]))!.token;
 
       if (queueOrSubscriptionFields.ForwardTo) {
         webResource.headers.set("ServiceBusSupplementaryAuthorization", token);
