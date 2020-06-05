@@ -12,6 +12,7 @@
 
 - `ServiceBusClient.createSender()` which was made async in the previous preview to include the link initialization is no longer async. Instead, the sender now has an `open()` method that can be used to proactively initialize the link.
   [PR 9302](https://github.com/Azure/azure-sdk-for-js/pull/9302)
+- `Receiver/SessionReceiver.browseMessages()` has been renamed to `Receiver/SessionReceiver.peekMessages()`.
 
 ## 7.0.0-preview.2 (2020-05-05)
 
