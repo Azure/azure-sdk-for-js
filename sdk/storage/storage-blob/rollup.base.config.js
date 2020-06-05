@@ -45,11 +45,10 @@ export function nodeConfig(test = false) {
       sourcemaps(),
       replace({
         delimiters: ["", ""],
-        values: {
-          // replace dynamic checks with if (true) since this is for node only.
-          // Allows rollup's dead code elimination to be more aggressive.
-          "if (isNode)": "if (true)"
-        }
+        // replace dynamic checks with if (true) since this is for node only.
+        // Allows rollup's dead code elimination to be more aggressive.
+        "if (isNode)": "if (true)",
+        "if (!isNode)": "if (false)"
       }),
       nodeResolve({ preferBuiltins: true }),
       cjs()
@@ -105,12 +104,11 @@ export function browserConfig(test = false) {
       sourcemaps(),
       replace({
         delimiters: ["", ""],
-        values: {
-          // replace dynamic checks with if (false) since this is for
-          // browser only. Rollup's dead code elimination will remove
-          // any code guarded by if (isNode) { ... }
-          "if (isNode)": "if (false)"
-        }
+        // replace dynamic checks with if (false) since this is for
+        // browser only. Rollup's dead code elimination will remove
+        // any code guarded by if (isNode) { ... }
+        "if (isNode)": "if (false)",
+        "if (!isNode)": "if (true)"
       }),
       // fs and os are not used by the browser bundle, so just shim it
       // dotenv doesn't work in the browser, so replace it with a no-op function
@@ -146,7 +144,7 @@ export function browserConfig(test = false) {
             "notDeepEqual",
             "notDeepStrictEqual"
           ],
-          "@opentelemetry/types": ["CanonicalCode", "SpanKind", "TraceFlags"]
+          "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
         }
       })
     ],

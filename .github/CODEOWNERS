@@ -22,10 +22,10 @@
 /sdk/appconfiguration/ @richardpark-msft @chradek
 
 /sdk/batch/ @xingwu1 @matthchr @bgklein
-/sdk/cosmosdb/ @southpolesteve
+/sdk/cosmosdb/ @southpolesteve @zfoster
 
 /sdk/eventhub/ @ramya-rao-a @chradek @richardpark-msft
-/sdk/servicebus/ @ramya-rao-a @chradek @richardpark-msft
+/sdk/servicebus/ @ramya-rao-a @chradek @richardpark-msft @HarshaNalluru
 
 /sdk/identity/ @schaabs @daviwil @jonathandturner
 /sdk/keyvault/ @jonathandturner @sadasant
@@ -33,8 +33,12 @@
 
 /sdk/test-utils/ @HarshaNalluru @sadasant
 /sdk/textanalytics/ @xirzec @willmtemple
+/sdk/formrecognizer/ @jeremymeng @willmtemple
 
 /sdk/search/ @xirzec
+
+# Smoke Tests
+/common/smoke-test/ @ramya-rao-a @chradek @jonathandturner @sadasant @jeremymeng @southpolesteve
 
 # API review files
 /sdk/**/review/*api.md @bterlson

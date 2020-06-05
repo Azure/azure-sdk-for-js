@@ -2,7 +2,7 @@
   "name": "@azure/cognitiveservices-luis-authoring",
   "author": "Microsoft Corporation",
   "description": "LUISAuthoringClient Library with typescript type definitions for node.js and browser.",
-  "version": "4.0.0-preview.1",
+  "version": "4.0.0-preview.3",
   "dependencies": {
     "@azure/ms-rest-js": "^2.0.3",
     "tslib": "^1.10.0"

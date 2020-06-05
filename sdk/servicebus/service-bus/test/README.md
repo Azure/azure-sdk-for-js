@@ -1,68 +1,40 @@
-## Pre-requisites
+# Testing
 
-- Run `npm i` to install all the dependencies of this project. This is a one time task.
-- The tests expect a Service Bus namespace to exist.
-  The connection string for the service bus should be in the environment variable `SERVICEBUS_CONNECTION_STRING`. 
+To test this project, make sure to build it by following our [building instructions](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md#building), then follow the [testing instructions](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md#testing).
 
-  Note that the tests will recreate entities to get a clean start before running each test.
+## Azure resources 
 
-  See `testUtils.ts` file for information on names used for the entities against which the tests are run.
+The Azure Azure Service Bus client does not have any recorded tests and so, all the tests require an Azure Service Bus namespace to be set up beforehand.  You can use existing Azure resources for the live tests, or generate new ones by using our [New-TestResources.ps1](https://github.com/Azure/azure-sdk-for-js/blob/master/eng/common/TestResources/New-TestResources.ps1) script, which will use an [ARM template](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/test-resources.json) that already has all of the the necessary configurations.
 
-    The environment variables can be set by adding a file by the name `.env` in the root folder of this project.
-    Following is a sample .env file template:
-    ```
-    SERVICEBUS_CONNECTION_STRING=
+The Azure resource that is used by the tests in this project is:
 
-    ```
+- A standard [Azure Service Bus namespace](https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-messaging-overview#namespaces) with listen, manage and send authorization rules.
+- An Azure Active Directory application for the tests to use. See the [AAD based authentication](#AAD-based-authentication) for steps to register the application.
 
-## Setup for running tests that use AAD based authentication
-Go through the following setup in order to correctly setup the AAD credentials for tests that require it.
+To run the live tests, you will also need to set the below environment variables:
 
-**Register a new application in AAD**
+- `AZURE_CLIENT_ID`: The client ID of an Azure Active Directory application.
+- `AZURE_CLIENT_SECRET`: The client secret of an Azure Active Directory application.
+- `AZURE_TENANT_ID`: The Tenant ID of your organization in Azure Active Directory.
+- `SERVICEBUS_CONNECTION_STRING`: The connection string of your Azure Service Bus namespace.
 
-- Follow [Documentation to register a new application](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app) in the Azure Active Directory(in the azure-portal).
+The live tests in this project will create queues, topics and subscriptions in the provided Service Bus namespace.
+
+## AAD based authentication
+
+The following steps will help you setup the AAD credentials.
+
+### Register a new application in AAD
+
+- Follow [Documentation to register a new application](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app) in the Azure Active Directory (in the Azure portal).
 - Note down the `CLIENT_ID` and `TENANT_ID`.
 - In the "Certificates & Secrets" tab, create a secret and note that down.
 
-**Assign owner role to the registered application**
+### Assign owner role to the registered application
 
-- In the azure-portal, go to your servicebus-namespace and assign **Azure Service Bus Data Owner** role to the registered application.
-- This can be done from `Role assignment` section of `Access control (IAM)` tab (in the left-side-navbar of your servicebus-namespace in the azure-portal)<br>
+- In the Azure portal, go to your Azure Service Bus namespace and assign the **Azure Service Bus Data Owner** role to the registered application.
+- This can be done from `Role assignment` section of `Access control (IAM)` tab (in the left-side-navbar of your Service Bus namespace in the azure-portal)<br>
   _Doing this would allow the registered application manage the namespace, i.e., entity creation, deletion, etc.,_<br>
-- For more information on Service Bus RBAC setup - [Learn more](https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-role-based-access-control)
-
-**Update your environment variables**
-
-Populate the following variables along with the above mentioned environment variables in the `.env`.
-```
-AZURE_CLIENT_ID=""
-AZURE_CLIENT_SECRET=""
-AZURE_TENANT_ID=""
-```
-
-## Run all tests
-
-Run `npm run test:node` or `npm run test:browser` from your terminal to run all the tests under the `./test` folder
-
-## Run all tests in a single test suite
-
-Append the `.only` on the `describe` method corresponding to the test suite.
-
-Then run `npm run test:node` or `npm run test:browser` from your terminal.
-
-## Run a single test
-
-Append the `.only` on the `it` method corresponding to the test.
-
-Then run `npm run test:node` or `npm run test:browser` from your terminal.
-
-## Debug tests using Visual Studio Code
-
-- Select the debug configuration `Debug Unit Tests` from the drop down in the debug viewlet.
-- Add breakpoints in the test you want to debug. Tip: It is helpful to append the `.only` on the test method if you want only that method to be run.
-- Start Debugging
-
-
-
+- For more information on Service Bus RBAC setup: [Learn more](https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-role-based-access-control)
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fservicebus%2Fservice-bus%2Ftest%2FREADME.png)

@@ -21,7 +21,7 @@ let argv = require("yargs")
 
 const process = require("process");
 const semver = require("semver");
-const versionUtils = require("./VersionUtils");
+const packageUtils = require("eng-package-utils");
 
 const commitChanges = async (rushPackages, package) => {
   // Commit the new version to the JSON document
@@ -30,7 +30,7 @@ const commitChanges = async (rushPackages, package) => {
   }
   try {
     // Write out the JSON document to disk
-    await versionUtils.writePackageJson(
+    await packageUtils.writePackageJson(
       rushPackages[package].src,
       rushPackages[package].json
     );
@@ -173,7 +173,7 @@ async function main(argv) {
   const repoRoot = argv["repo-root"];
   const service = argv["service"];
 
-  var rushPackages = await versionUtils.getRushPackageJsons(repoRoot);
+  var rushPackages = await packageUtils.getRushPackageJsons(repoRoot);
 
   let targetPackages = [];
   for (const package of Object.keys(rushPackages)) {

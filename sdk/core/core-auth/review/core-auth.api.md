@@ -5,9 +5,7 @@
 ```ts
 
 import { AbortSignalLike } from '@azure/abort-controller';
-import { SpanOptions } from '@opentelemetry/types';
-
-export { AbortSignalLike }
+import { SpanOptions } from '@azure/core-tracing';
 
 // @public
 export interface AccessToken {
@@ -23,7 +21,14 @@ export class AzureKeyCredential implements KeyCredential {
 }
 
 // @public
-export interface GetTokenOptions extends OperationOptions {
+export interface GetTokenOptions {
+    abortSignal?: AbortSignalLike;
+    requestOptions?: {
+        timeout?: number;
+    };
+    tracingOptions?: {
+        spanOptions?: SpanOptions;
+    };
 }
 
 // @public
@@ -32,23 +37,6 @@ export function isTokenCredential(credential: any): credential is TokenCredentia
 // @public
 export interface KeyCredential {
     readonly key: string;
-}
-
-// @public
-export interface OperationOptions {
-    abortSignal?: AbortSignalLike;
-    requestOptions?: OperationRequestOptions;
-    tracingOptions?: OperationTracingOptions;
-}
-
-// @public (undocumented)
-export interface OperationRequestOptions {
-    timeout?: number;
-}
-
-// @public (undocumented)
-export interface OperationTracingOptions {
-    spanOptions?: SpanOptions;
 }
 
 // @public

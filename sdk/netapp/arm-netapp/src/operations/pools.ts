@@ -122,35 +122,9 @@ export class Pools {
    * @param [options] The optional parameters
    * @returns Promise<Models.PoolsUpdateResponse>
    */
-  update(body: Models.CapacityPoolPatch, resourceGroupName: string, accountName: string, poolName: string, options?: msRest.RequestOptionsBase): Promise<Models.PoolsUpdateResponse>;
-  /**
-   * @param body Capacity pool object supplied in the body of the operation.
-   * @param resourceGroupName The name of the resource group.
-   * @param accountName The name of the NetApp account
-   * @param poolName The name of the capacity pool
-   * @param callback The callback
-   */
-  update(body: Models.CapacityPoolPatch, resourceGroupName: string, accountName: string, poolName: string, callback: msRest.ServiceCallback<Models.CapacityPool>): void;
-  /**
-   * @param body Capacity pool object supplied in the body of the operation.
-   * @param resourceGroupName The name of the resource group.
-   * @param accountName The name of the NetApp account
-   * @param poolName The name of the capacity pool
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  update(body: Models.CapacityPoolPatch, resourceGroupName: string, accountName: string, poolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CapacityPool>): void;
-  update(body: Models.CapacityPoolPatch, resourceGroupName: string, accountName: string, poolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CapacityPool>, callback?: msRest.ServiceCallback<Models.CapacityPool>): Promise<Models.PoolsUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        body,
-        resourceGroupName,
-        accountName,
-        poolName,
-        options
-      },
-      updateOperationSpec,
-      callback) as Promise<Models.PoolsUpdateResponse>;
+  update(body: Models.CapacityPoolPatch, resourceGroupName: string, accountName: string, poolName: string, options?: msRest.RequestOptionsBase): Promise<Models.PoolsUpdateResponse> {
+    return this.beginUpdate(body,resourceGroupName,accountName,poolName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.PoolsUpdateResponse>;
   }
 
   /**
@@ -187,6 +161,29 @@ export class Pools {
         options
       },
       beginCreateOrUpdateOperationSpec,
+      options);
+  }
+
+  /**
+   * Patch the specified capacity pool
+   * @summary Update a capacity pool
+   * @param body Capacity pool object supplied in the body of the operation.
+   * @param resourceGroupName The name of the resource group.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginUpdate(body: Models.CapacityPoolPatch, resourceGroupName: string, accountName: string, poolName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        body,
+        resourceGroupName,
+        accountName,
+        poolName,
+        options
+      },
+      beginUpdateOperationSpec,
       options);
   }
 
@@ -265,40 +262,6 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const updateOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.poolName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "body",
-    mapper: {
-      ...Mappers.CapacityPoolPatch,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.CapacityPool
-    },
-    202: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}",
@@ -326,6 +289,40 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.CapacityPool
     },
     201: {
+      bodyMapper: Mappers.CapacityPool
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginUpdateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.poolName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "body",
+    mapper: {
+      ...Mappers.CapacityPoolPatch,
+      required: true
+    }
+  },
+  responses: {
+    200: {
       bodyMapper: Mappers.CapacityPool
     },
     202: {},

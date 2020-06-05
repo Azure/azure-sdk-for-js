@@ -2,7 +2,8 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
 
-  **NOTE**: If you are using version 1.1.x or lower, then please use the link below:
+  **NOTE**: This sample uses the preview of the next version of the @azure/service-bus package.
+  For samples using the current stable version of the package, please use the link below:
   https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples
   
   This sample demonstrates usage of SessionState.
@@ -29,10 +30,8 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 // Define connection string and related Service Bus entity names here
-const connectionString =
-  process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
-const userEventsQueueName =
-  process.env.QUEUE_NAME_WITH_SESSIONS || "<queue name>";
+const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
+const userEventsQueueName = process.env.QUEUE_NAME_WITH_SESSIONS || "<queue name>";
 const sbClient = new ServiceBusClient(connectionString);
 
 export async function main() {
@@ -84,14 +83,10 @@ async function runScenario() {
 }
 
 async function getSessionState(sessionId: string) {
-  // If receiving from a subscription you can use the getSessionReceiver(topic, subscription) overload
-  const sessionReceiver = sbClient.getSessionReceiver(
-    userEventsQueueName,
-    "peekLock",
-    {
-      sessionId: sessionId
-    }
-  );
+  // If receiving from a subscription you can use the createSessionReceiver(topic, subscription) overload
+  const sessionReceiver = await sbClient.createSessionReceiver(userEventsQueueName, "peekLock", {
+    sessionId: sessionId
+  });
 
   const sessionState = await sessionReceiver.getState();
   if (sessionState) {
@@ -104,12 +99,9 @@ async function getSessionState(sessionId: string) {
   await sessionReceiver.close();
 }
 
-async function sendMessagesForSession(
-  shoppingEvents: any[],
-  sessionId: string
-) {
-  // getSender() can also be used to create a sender for a topic.
-  const sender = sbClient.getSender(userEventsQueueName);
+async function sendMessagesForSession(shoppingEvents: any[], sessionId: string) {
+  // createSender() can also be used to create a sender for a topic.
+  const sender = sbClient.createSender(userEventsQueueName);
 
   for (let index = 0; index < shoppingEvents.length; index++) {
     const message = {
@@ -123,17 +115,13 @@ async function sendMessagesForSession(
 }
 
 async function processMessageFromSession(sessionId: string) {
-  // If receiving from a subscription you can use the getSessionReceiver(topic, subscription) overload
-  const sessionReceiver = sbClient.getSessionReceiver(
-    userEventsQueueName,
-    "peekLock",
-    {
-      sessionId
-    }
-  );
+  // If receiving from a subscription you can use the createSessionReceiver(topic, subscription) overload
+  const sessionReceiver = await sbClient.createSessionReceiver(userEventsQueueName, "peekLock", {
+    sessionId
+  });
 
   const messages = await sessionReceiver.receiveBatch(1, {
-    maxWaitTimeSeconds: 10
+    maxWaitTimeInMs: 10000
   });
 
   // Custom logic for processing the messages
@@ -164,6 +152,6 @@ async function processMessageFromSession(sessionId: string) {
   await sessionReceiver.close();
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.log("Error occurred: ", err);
 });

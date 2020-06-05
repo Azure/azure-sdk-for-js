@@ -9,7 +9,7 @@ import {
 import { record } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
 import { AppendBlobClient, ContainerClient } from "../src";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("AppendBlobClient", () => {
   let containerName: string;

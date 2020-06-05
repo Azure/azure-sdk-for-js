@@ -41,8 +41,10 @@ describe("Highlevel", () => {
   });
 
   afterEach(async function() {
-    await containerClient.delete();
-    recorder.stop();
+    if (!this.currentTest?.isPending()) {
+      await containerClient.delete();
+      recorder.stop();
+    }
   });
 
   before(async function() {

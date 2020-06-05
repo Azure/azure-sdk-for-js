@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 export { AzureKeyCredential, KeyCredential } from "./azureKeyCredential";
 
@@ -9,11 +9,3 @@ export {
   AccessToken,
   isTokenCredential
 } from "./tokenCredential";
-
-export {
-  OperationOptions,
-  OperationTracingOptions,
-  OperationRequestOptions
-} from "./operationOptions";
-
-export { AbortSignalLike } from "@azure/abort-controller";

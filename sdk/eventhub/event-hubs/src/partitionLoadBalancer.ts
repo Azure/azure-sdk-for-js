@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { PartitionOwnership } from "./eventProcessor";
 import { logger } from "./log";
@@ -49,8 +49,8 @@ export class GreedyPartitionLoadBalancer implements PartitionLoadBalancer {
   }
 
   loadBalance(
-    ownerId: string,
-    partitionOwnershipMap: Map<string, PartitionOwnership>,
+    _ownerId: string,
+    _partitionOwnershipMap: Map<string, PartitionOwnership>,
     partitionsToAdd: string[]
   ): string[] {
     let potential: string[] = partitionsToAdd;
@@ -236,7 +236,7 @@ export class FairPartitionLoadBalancer implements PartitionLoadBalancer {
   ): Map<string, PartitionOwnership> {
     const activePartitionOwnershipMap: Map<string, PartitionOwnership> = new Map();
     partitionOwnershipMap.forEach((partitionOwnership: PartitionOwnership, partitionId: string) => {
-      var date = new Date();
+      const date = new Date();
       if (
         partitionOwnership.lastModifiedTimeInMs &&
         date.getTime() - partitionOwnership.lastModifiedTimeInMs < this._inactiveTimeLimitInMS &&

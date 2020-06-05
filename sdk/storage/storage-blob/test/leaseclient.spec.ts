@@ -4,7 +4,7 @@ import * as dotenv from "dotenv";
 import { getBSU, recorderEnvSetup } from "./utils";
 import { record, delay, Recorder } from "@azure/test-utils-recorder";
 import { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../src";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("LeaseClient from Container", () => {
   let blobServiceClient: BlobServiceClient;

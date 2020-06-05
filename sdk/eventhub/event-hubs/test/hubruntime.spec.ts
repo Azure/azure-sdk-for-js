@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import chai from "chai";
 const should = chai.should();
@@ -7,13 +7,13 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:hubruntime-spec");
-import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
+import { EnvVarKeys, getEnvVars, setTracerForTest } from "./utils/testUtils";
 const env = getEnvVars();
 
 import { EventHubClient } from "../src/impl/eventHubClient";
 import { AbortController } from "@azure/abort-controller";
-import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
-describe("RuntimeInformation #RunnableInBrowser", function(): void {
+import { SpanGraph } from "@azure/core-tracing";
+describe("RuntimeInformation", function(): void {
   let client: EventHubClient;
   const service = {
     connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
@@ -35,9 +35,11 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
   });
 
   function arrayOfIncreasingNumbersFromZero(length: any): Array<string> {
-    return Array.apply(undefined, new Array(length)).map((x: any, i: any) => {
-      return `${i}`;
-    });
+    const result = new Array(length);
+    for (let i = 0; i < length; i++) {
+      result[i] = `${i}`;
+    }
+    return result;
   }
 
   describe("getPartitionIds", function(): void {
@@ -76,15 +78,14 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
   });
 
   it("can be manually traced", async function(): Promise<void> {
-    const tracer = new TestTracer();
-    setTracer(tracer);
+    const { tracer, resetTracer } = setTracerForTest();
 
     const rootSpan = tracer.startSpan("root");
     client = new EventHubClient(service.connectionString, service.path);
     const ids = await client.getPartitionIds({
       tracingOptions: {
         spanOptions: {
-          parent: rootSpan
+          parent: rootSpan.context()
         }
       }
     });
@@ -116,6 +117,7 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
 
     tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
     tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
+    resetTracer();
   });
 
   describe("hub runtime information", function(): void {
@@ -150,15 +152,14 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
     });
 
     it("can be manually traced", async function(): Promise<void> {
-      const tracer = new TestTracer();
-      setTracer(tracer);
+      const { tracer, resetTracer } = setTracerForTest();
 
       const rootSpan = tracer.startSpan("root");
       client = new EventHubClient(service.connectionString, service.path);
       const hubRuntimeInfo = await client.getProperties({
         tracingOptions: {
           spanOptions: {
-            parent: rootSpan
+            parent: rootSpan.context()
           }
         }
       });
@@ -187,6 +188,7 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
 
       tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
+      resetTracer();
     });
   });
 
@@ -262,15 +264,14 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
     });
 
     it("can be manually traced", async function(): Promise<void> {
-      const tracer = new TestTracer();
-      setTracer(tracer);
+      const { tracer, resetTracer } = setTracerForTest();
 
       const rootSpan = tracer.startSpan("root");
       client = new EventHubClient(service.connectionString, service.path);
       const partitionRuntimeInfo = await client.getPartitionProperties("0", {
         tracingOptions: {
           spanOptions: {
-            parent: rootSpan
+            parent: rootSpan.context()
           }
         }
       });
@@ -301,6 +302,7 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
 
       tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
       tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
+      resetTracer();
     });
   });
 }).timeout(60000);

@@ -39,7 +39,7 @@ import { Credential } from "./credentials/Credential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { FileSystemAttributes } from "./FileSystemAttributes";
 import { createSpan } from "./utils/tracing";
-import { CanonicalCode } from "@opentelemetry/types";
+import { CanonicalCode } from "@opentelemetry/api";
 import { HttpResponse } from "@azure/core-http";
 
 /**
@@ -734,7 +734,7 @@ export class ShareDirectoryClient extends StorageClient {
    * await fileClient.create(content.length);
    * console.log("Created file successfully!");
    *
-   * await fileClient.uplaodRange(content, 0, content.length);
+   * await fileClient.uploadRange(content, 0, content.length);
    * console.log("Updated file successfully!")
    * ```
    */

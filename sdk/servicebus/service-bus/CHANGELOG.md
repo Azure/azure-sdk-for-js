@@ -1,19 +1,58 @@
 # Release History
 
-## 2.0.0-preview.1 (Unreleased)
+## 7.0.0-preview.3 (Unreleased)
+
+- Improves the performance of the `ServiceBusMessageBatch.tryAdd` method.
+  [PR 8772](https://github.com/Azure/azure-sdk-for-js/pull/8772)
+- Added management api features which allows CRUD operations on the entities of a namespace.
+  [PR 9116](https://github.com/Azure/azure-sdk-for-js/pull/9116)
+  [PR 9221](https://github.com/Azure/azure-sdk-for-js/pull/9221)
+
+### Breaking Changes
+
+- `ServiceBusClient.createSender()` which was made async in the previous preview to include the link initialization is no longer async. Instead, the sender now has an `open()` method that can be used to proactively initialize the link. 
+  [PR 9302](https://github.com/Azure/azure-sdk-for-js/pull/9302)
+
+## 7.0.0-preview.2 (2020-05-05)
+
+- Fixes reconnection issues by creating a new connection object rather than re-using the existing one.
+  [PR 8580](https://github.com/Azure/azure-sdk-for-js/pull/8580)
+- Bug - Unable to settle previously received messages when a receiver recovers from a broken link or connection.
+  Fixed in [PR 8340](https://github.com/Azure/azure-sdk-for-js/pull/8340)
+  Please note that if using sessions, this behavior doesn't change with this release.
+- Provided down-leveled type declaration files to support older TypeScript versions 3.1 to 3.6.
+  [PR 8619](https://github.com/Azure/azure-sdk-for-js/pull/8619)
+- The `ServiceBusSender.send()` method now has an overload that takes an array of events.
+  If you know beforehand that your messages would fit under the message size restrictions, this is an easier way to send events instead of creating an `ServiceBusMessageBatch` and filling it one by one.
+- New sample to demonstrate how to receive messages from multiple sessions in a queue or subscription using session receivers.
+
+### Breaking Changes
+
+- The `createSender` and `createSessionReceiver` methods are now async. The promise returned by them are resolved after the link is successfully established with the service. The same will be done to the `createReceiver` method in the next preview.
+- Remove rule operations from `ServiceBusClient` in favor of having similar operations via the management apis
+  which would apply to queues, topics, subscriptions and rules in the upcoming previews.
+  [PR 8660](https://github.com/Azure/azure-sdk-for-js/pull/8660)
+
+## 7.0.0-preview.1 (2020-04-07)
+
+- This release is a preview of our efforts to create a client library that is user friendly and
+  idiomatic to the JavaScript ecosystem. The reasons for most of the changes in this update can be found in the
+  [Azure SDK Design Guidelines for TypeScript](https://azuresdkspecs.z5.web.core.windows.net/TypeScriptSpec.html).
+
+  We also provide a migration guide for users familiar with the stable package that would like to try the preview: [migration guide to move from Service Bus V1 to Service Bus V7 Preview](https://github.com/azure/azure-sdk-for-js/blob/%40azure/service-bus_7.0.0-preview.1/sdk/servicebus/service-bus/migrationguide.md).
 
 - Fixes [bug 7598][https://github.com/azure/azure-sdk-for-js/issues/7958] where the dead letter error and description could be populated incorrectly.
 
 ### Breaking Changes
 
 - Fixes [bug 6816](https://github.com/Azure/azure-sdk-for-js/issues/6816) affecting messages sent using the `scheduleMessage()` and `scheduleMessages()` methods. [PR 7372](https://github.com/Azure/azure-sdk-for-js/pull/7372).
-  - Users on version-`1.x.x` of `@azure/service-bus` library had to rely on the [workaround of encoding the message body with `DefaultDataTransformer`](https://github.com/Azure/azure-sdk-for-js/pull/6983) before calling `scheduleMessage()`/`scheduleMessages()` methods. The workaround is no longer needed since the bug has been fixed here starting from version-`2.0.0-preview.1`. [PR 7372](https://github.com/Azure/azure-sdk-for-js/pull/7372).
+  - Users on version-`1.x.x` of `@azure/service-bus` library had to rely on the [workaround of encoding the message body with `DefaultDataTransformer`](https://github.com/Azure/azure-sdk-for-js/pull/6983) before calling `scheduleMessage()`/`scheduleMessages()` methods. The workaround is no longer needed since the bug has been fixed here starting from version-`7.0.0-preview.1`. [PR 7372](https://github.com/Azure/azure-sdk-for-js/pull/7372).
 
 ## 1.1.5 (2020-03-24)
 
 - Removed interfaces related to unreleased management api features from the API surface that were accidentally exported in version 1.1.3
   [PR 7992](https://github.com/Azure/azure-sdk-for-js/issues/7992).
-  
+
 ## 1.1.4 (2020-03-17)
 
 - Updated to use the latest version of `@azure/amqp-common` where the timeout for authorization requests sent to the service is increased from 10s to 60s to reduce the frequency of timeout errors.

@@ -3,7 +3,6 @@
 
 import { Context } from "mocha";
 import * as dotenv from "dotenv";
-import * as path from "path";
 
 import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 import { TokenCredential, ClientSecretCredential } from "@azure/identity";
@@ -12,7 +11,7 @@ import { isNode } from "@azure/core-http";
 import { AzureKeyCredential, TextAnalyticsClient } from "../../src/index";
 
 if (isNode) {
-  dotenv.config({ path: path.join(__dirname, "..", ".env") });
+  dotenv.config();
 }
 
 export interface RecordedClient {
@@ -46,8 +45,8 @@ export const environmentSetup: RecorderEnvironmentSetup = {
     // https://<endpoint>:443/ and therefore will not match, so we have to do
     // this instead.
     (recording: string): string => {
-      const match = testEnv.ENDPOINT.replace(/^https:\/\//, "").replace(/\/$/, "");
-      return recording.replace(match, "endpoint");
+      const replaced = recording.replace("endpoint:443", "endpoint");
+      return replaced;
     }
   ],
   queryParametersToSkip: []

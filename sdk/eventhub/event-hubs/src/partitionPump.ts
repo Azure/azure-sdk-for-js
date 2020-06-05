@@ -1,7 +1,7 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
-import { logger, logErrorStackTrace } from "./log";
+import { logErrorStackTrace, logger } from "./log";
 import { CommonEventProcessorOptions } from "./models/private";
 import { CloseReason } from "./models/public";
 import { EventHubClient } from "./impl/eventHubClient";
@@ -10,9 +10,9 @@ import { PartitionProcessor } from "./partitionProcessor";
 import { EventHubConsumer } from "./receiver";
 import { AbortController } from "@azure/abort-controller";
 import { MessagingError } from "@azure/core-amqp";
-import { getParentSpan, TracingOptions } from "./util/operationOptions";
+import { OperationOptions, getParentSpan } from "./util/operationOptions";
 import { getTracer } from "@azure/core-tracing";
-import { Span, SpanKind, Link, CanonicalCode } from "@opentelemetry/types";
+import { CanonicalCode, Link, Span, SpanKind } from "@opentelemetry/api";
 import { extractSpanContextFromEventData } from "./diagnostics/instrumentEventData";
 import { ReceivedEventData } from "./eventData";
 
@@ -169,7 +169,7 @@ export class PartitionPump {
 export function createProcessingSpan(
   receivedEvents: ReceivedEventData[],
   eventHubProperties: { eventHubName: string; endpoint: string },
-  tracingOptions: TracingOptions
+  options?: OperationOptions
 ): Span {
   const links: Link[] = [];
 
@@ -181,14 +181,17 @@ export function createProcessingSpan(
     }
 
     links.push({
-      spanContext
+      context: spanContext,
+      attributes: {
+        enqueuedTime: receivedEvent.enqueuedTimeUtc.getTime()
+      }
     });
   }
 
   const span = getTracer().startSpan("Azure.EventHubs.process", {
     kind: SpanKind.CONSUMER,
     links,
-    parent: getParentSpan(tracingOptions)
+    parent: getParentSpan(options?.tracingOptions)
   });
 
   span.setAttributes({

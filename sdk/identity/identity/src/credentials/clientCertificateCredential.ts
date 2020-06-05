@@ -3,14 +3,14 @@
 
 import qs from "qs";
 import jws from "jws";
-import uuid from "uuid";
+import { v4 as uuidV4 } from "uuid";
 import { readFileSync } from "fs";
 import { createHash } from "crypto";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { TokenCredentialOptions, IdentityClient } from "../client/identityClient";
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
-import { CanonicalCode } from "@opentelemetry/types";
+import { CanonicalCode } from "@opentelemetry/api";
 
 const SelfSignedJwtLifetimeMins = 10;
 
@@ -94,7 +94,7 @@ export class ClientCertificateCredential implements TokenCredential {
       options
     );
     try {
-      const tokenId = uuid.v4();
+      const tokenId = uuidV4();
       const audienceUrl = `${this.identityClient.authorityHost}/${this.tenantId}/oauth2/v2.0/token`;
       const header: jws.Header = {
         typ: "JWT",

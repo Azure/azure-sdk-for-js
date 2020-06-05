@@ -1,14 +1,27 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { EventData, toAmqpMessage } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 import { AmqpMessage } from "@azure/core-amqp";
-import { message } from "rhea-promise";
+import { MessageAnnotations, message } from "rhea-promise";
 import { throwTypeErrorIfParameterMissing } from "./util/error";
-import { Span, SpanContext } from "@opentelemetry/types";
-import { instrumentEventData, TRACEPARENT_PROPERTY } from "./diagnostics/instrumentEventData";
+import { Span, SpanContext } from "@opentelemetry/api";
+import { TRACEPARENT_PROPERTY, instrumentEventData } from "./diagnostics/instrumentEventData";
 import { createMessageSpan } from "./diagnostics/messageSpan";
+
+/**
+ * The amount of bytes to reserve as overhead for a small message.
+ */
+const smallMessageOverhead = 5;
+/**
+ * The amount of bytes to reserve as overhead for a large message.
+ */
+const largeMessageOverhead = 8;
+/**
+ * The maximum number of bytes that a message may be to be considered small.
+ */
+const smallMessageMaxBytes = 255;
 
 /**
  * Checks if the provided eventDataBatch is an instance of `EventDataBatch`.
@@ -37,11 +50,11 @@ export interface TryAddOptions {
 
 /**
  * An interface representing a batch of events which can be used to send events to Event Hub.
- * 
+ *
  * To create the batch, use the `createBatch()` method on the `EventHubProducerClient`.
  * To send the batch, use the `sendBatch()` method on the same client.
  * To fill the batch, use the `tryAdd()` method on the batch itself.
- * 
+ *
  */
 export interface EventDataBatch {
   /**
@@ -98,12 +111,11 @@ export interface EventDataBatch {
    * The AMQP message containing encoded events that were added to the batch.
    * Used internally by the `sendBatch()` method on the `EventHubProducerClient`.
    * This is not meant for the user to use directly.
-   * 
-   * @readonly
+   *
    * @internal
    * @ignore
    */
-  readonly _message: Buffer | undefined;
+  _generateMessage(): Buffer;
 
   /**
    * Gets the "message" span contexts that were created when adding events to the batch.
@@ -116,7 +128,7 @@ export interface EventDataBatch {
 
 /**
  * An internal class representing a batch of events which can be used to send events to Event Hub.
- * 
+ *
  * @class
  * @internal
  * @ignore
@@ -149,13 +161,16 @@ export class EventDataBatchImpl implements EventDataBatch {
    */
   private _count: number;
   /**
-   * @property Encoded batch message.
-   */
-  private _batchMessage: Buffer | undefined;
-  /**
    * List of 'message' span contexts.
    */
   private _spanContexts: SpanContext[] = [];
+  /**
+   * The message annotations to apply on the batch envelope.
+   * This will reflect the message annotations on the first event
+   * that was added to the batch.
+   * A common annotation is the partition key.
+   */
+  private _batchAnnotations?: MessageAnnotations;
 
   /**
    * EventDataBatch should not be constructed using `new EventDataBatch()`
@@ -221,7 +236,31 @@ export class EventDataBatchImpl implements EventDataBatch {
   }
 
   /**
-   * @property Represents the single AMQP message which is the result of encoding all the events
+   * Gets the "message" span contexts that were created when adding events to the batch.
+   * @internal
+   * @ignore
+   */
+  get _messageSpanContexts(): SpanContext[] {
+    return this._spanContexts;
+  }
+
+  /**
+   * Generates an AMQP message that contains the provided encoded events and annotations.
+   * @param encodedEvents The already encoded events to include in the AMQP batch.
+   * @param annotations The message annotations to set on the batch.
+   */
+  private _generateBatch(encodedEvents: Buffer[], annotations?: MessageAnnotations): Buffer {
+    const batchEnvelope: AmqpMessage = {
+      body: message.data_sections(encodedEvents)
+    };
+    if (annotations) {
+      batchEnvelope.message_annotations = annotations;
+    }
+    return message.encode(batchEnvelope);
+  }
+
+  /**
+   * Generates the single AMQP message which is the result of encoding all the events
    * added into the `EventDataBatch` instance.
    *
    * This is not meant for the user to use directly.
@@ -230,17 +269,8 @@ export class EventDataBatchImpl implements EventDataBatch {
    * this single batched AMQP message is what gets sent over the wire to the service.
    * @readonly
    */
-  get _message(): Buffer | undefined {
-    return this._batchMessage;
-  }
-
-  /**
-   * Gets the "message" span contexts that were created when adding events to the batch.
-   * @internal
-   * @ignore
-   */
-  get _messageSpanContexts(): SpanContext[] {
-    return this._spanContexts;
+  _generateMessage(): Buffer {
+    return this._generateBatch(this._encodedMessages, this._batchAnnotations);
   }
 
   /**
@@ -258,42 +288,50 @@ export class EventDataBatchImpl implements EventDataBatch {
     const previouslyInstrumented = Boolean(
       eventData.properties && eventData.properties[TRACEPARENT_PROPERTY]
     );
+    let spanContext: SpanContext | undefined;
     if (!previouslyInstrumented) {
       const messageSpan = createMessageSpan(options.parentSpan);
       eventData = instrumentEventData(eventData, messageSpan);
-      this._spanContexts.push(messageSpan.context());
+      spanContext = messageSpan.context();
       messageSpan.end();
     }
+
     // Convert EventData to AmqpMessage.
     const amqpMessage = toAmqpMessage(eventData, this._partitionKey);
     amqpMessage.body = this._context.dataTransformer.encode(eventData.body);
+    const encodedMessage = message.encode(amqpMessage);
 
-    // Encode every amqp message and then convert every encoded message to amqp data section
-    this._encodedMessages.push(message.encode(amqpMessage));
+    let currentSize = this._sizeInBytes;
+    // The first time an event is added, we need to calculate
+    // the overhead of creating an AMQP batch, including the
+    // message_annotations that are taken from the 1st message.
+    if (this.count === 0) {
+      if (amqpMessage.message_annotations) {
+        this._batchAnnotations = amqpMessage.message_annotations;
+      }
 
-    const batchMessage: AmqpMessage = {
-      body: message.data_sections(this._encodedMessages)
-    };
-
-    if (amqpMessage.message_annotations) {
-      batchMessage.message_annotations = amqpMessage.message_annotations;
+      // Figure out the overhead of creating a batch by generating an empty batch
+      // with the expected batch annotations.
+      currentSize += this._generateBatch([], this._batchAnnotations).length;
     }
 
-    const encodedBatchMessage = message.encode(batchMessage);
-    const currentSize = encodedBatchMessage.length;
+    const messageSize = encodedMessage.length;
+    const messageOverhead =
+      messageSize <= smallMessageMaxBytes ? smallMessageOverhead : largeMessageOverhead;
+    currentSize += messageSize + messageOverhead;
 
-    // this._batchMessage will be used for final send operation
+    // Check if the size of the batch exceeds the maximum allowed size
+    // once we add the new event to it.
     if (currentSize > this._maxSizeInBytes) {
-      this._encodedMessages.pop();
-      if (
-        !previouslyInstrumented &&
-        Boolean(eventData.properties && eventData.properties[TRACEPARENT_PROPERTY])
-      ) {
-        this._spanContexts.pop();
-      }
       return false;
     }
-    this._batchMessage = encodedBatchMessage;
+
+    // The event will fit in the batch, so it is now safe to store it.
+    this._encodedMessages.push(encodedMessage);
+    if (spanContext) {
+      this._spanContexts.push(spanContext);
+    }
+
     this._sizeInBytes = currentSize;
     this._count++;
     return true;

@@ -13,7 +13,7 @@ import {
 } from "@azure/core-http";
 
 import { getTracer } from "@azure/core-tracing";
-import { Span } from "@opentelemetry/types";
+import { Span } from "@opentelemetry/api";
 import { logger } from "./log";
 
 import "@azure/core-paging";
@@ -206,15 +206,16 @@ export class KeyClient {
     this.vaultUrl = vaultUrl;
 
     const libInfo = `azsdk-js-keyvault-keys/${SDK_VERSION}`;
-    if (pipelineOptions.userAgentOptions) {
-      pipelineOptions.userAgentOptions.userAgentPrefix !== undefined
-        ? `${pipelineOptions.userAgentOptions.userAgentPrefix} ${libInfo}`
-        : libInfo;
-    } else {
-      pipelineOptions.userAgentOptions = {
-        userAgentPrefix: libInfo
-      };
-    }
+
+    const userAgentOptions = pipelineOptions.userAgentOptions;
+
+    pipelineOptions.userAgentOptions = {
+      ...pipelineOptions.userAgentOptions,
+      userAgentPrefix:
+        userAgentOptions && userAgentOptions.userAgentPrefix
+          ? `${userAgentOptions.userAgentPrefix} ${libInfo}`
+          : libInfo
+    };
 
     const authPolicy = isTokenCredential(credential)
       ? challengeBasedAuthenticationPolicy(credential)
@@ -1135,7 +1136,7 @@ export class KeyClient {
     const attributes: any = keyBundle.attributes || {};
     delete keyBundle.attributes;
 
-    let resultObject: KeyVaultKey & DeletedKey = {
+    const resultObject: KeyVaultKey & DeletedKey = {
       key: keyBundle.key as JsonWebKey,
       id: keyBundle.key ? keyBundle.key.kid : undefined,
       name: parsedId.name,
@@ -1143,11 +1144,9 @@ export class KeyClient {
       keyType: keyBundle.key ? keyBundle.key.kty : undefined,
       properties: {
         id: keyBundle.key ? keyBundle.key.kid : undefined,
-        name: parsedId.name,
         expiresOn: attributes.expires,
         createdOn: attributes.created,
         updatedOn: attributes.updated,
-        vaultUrl: parsedId.vaultUrl,
         ...keyBundle,
         ...parsedId,
         ...attributes
@@ -1185,9 +1184,8 @@ export class KeyClient {
 
     const attributes = keyItem.attributes || {};
 
-    let abstractProperties: any = {
+    const abstractProperties: any = {
       id: keyItem.kid,
-      name: parsedId.name,
       deletedOn: (attributes as any).deletedDate,
       expiresOn: attributes.expires,
       createdOn: attributes.created,
@@ -1229,10 +1227,9 @@ export class KeyClient {
 
     const attributes = keyItem.attributes || {};
 
-    let resultObject: any = {
+    const resultObject: any = {
       createdOn: attributes.created,
       updatedOn: attributes.updated,
-      vaultUrl: parsedId.vaultUrl,
       ...keyItem,
       ...parsedId,
       ...keyItem.attributes
@@ -1277,7 +1274,7 @@ export class KeyClient {
         ...options,
         spanOptions: {
           ...spanOptions,
-          parent: span,
+          parent: span.context(),
           attributes: {
             ...spanOptions.attributes,
             "az.namespace": "Microsoft.KeyVault"

@@ -20,8 +20,7 @@ require("dotenv").config();
 
 // Define connection string and related Service Bus entity names here
 // Ensure on portal.azure.com that queue/topic has Sessions feature enabled
-const connectionString =
-  process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
+const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
 const queueName = process.env.QUEUE_NAME_WITH_SESSIONS || "<queue name>";
 
 const listOfScientists = [
@@ -60,8 +59,8 @@ async function main() {
 }
 
 async function sendMessage(sbClient, scientist, sessionId) {
-  // getSender() also works with topics
-  const sender = sbClient.getSender(queueName);
+  // createSender() also works with topics
+  const sender = sbClient.createSender(queueName);
 
   const message = {
     body: `${scientist.firstName} ${scientist.lastName}`,
@@ -76,15 +75,15 @@ async function sendMessage(sbClient, scientist, sessionId) {
 }
 
 async function receiveMessages(sbClient, sessionId) {
-  // If receiving from a subscription you can use the getSessionReceiver(topic, subscription) overload
-  const receiver = sbClient.getSessionReceiver(queueName, "peekLock", {
+  // If receiving from a subscription you can use the createSessionReceiver(topic, subscription) overload
+  const receiver = await sbClient.createSessionReceiver(queueName, "peekLock", {
     sessionId: sessionId
   });
 
-  const processMessage = async message => {
+  const processMessage = async (message) => {
     console.log(`Received: ${message.sessionId} - ${message.body} `);
   };
-  const processError = async err => {
+  const processError = async (err) => {
     console.log(">>>>> Error occurred: ", err);
   };
 
@@ -98,6 +97,6 @@ async function receiveMessages(sbClient, sessionId) {
   await receiver.close();
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.log("Error occurred: ", err);
 });

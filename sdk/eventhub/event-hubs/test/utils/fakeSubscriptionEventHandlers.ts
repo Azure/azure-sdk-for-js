@@ -1,4 +1,7 @@
-import { SubscriptionEventHandlers, ReceivedEventData, PartitionContext } from "../../src";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+import { PartitionContext, ReceivedEventData, SubscriptionEventHandlers } from "../../src";
 
 export class FakeSubscriptionEventHandlers implements SubscriptionEventHandlers {
   public events: Map<string, ReceivedEventData[]> = new Map();
@@ -17,7 +20,7 @@ export class FakeSubscriptionEventHandlers implements SubscriptionEventHandlers 
     }
   }
 
-  async processError(err: Error, context: PartitionContext) {
+  async processError(err: Error) {
     this.errors.push(err);
   }
 }

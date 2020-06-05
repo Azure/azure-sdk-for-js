@@ -2,7 +2,7 @@ import * as assert from "assert";
 import * as dotenv from "dotenv";
 
 import { AbortController } from "@azure/abort-controller";
-import { isNode, URLBuilder } from "@azure/core-http";
+import { isNode, URLBuilder, URLQuery } from "@azure/core-http";
 import { setTracer, SpanGraph, TestTracer } from "@azure/core-tracing";
 import { delay, record, Recorder } from "@azure/test-utils-recorder";
 
@@ -14,7 +14,7 @@ import { truncatedISO8061Date } from "../src/utils/utils.common";
 import { bodyToString, getBSU, recorderEnvSetup } from "./utils";
 import { MockPolicyFactory } from "./utils/MockPolicyFactory";
 
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("FileClient", () => {
   let shareName: string;
@@ -57,8 +57,10 @@ describe("FileClient", () => {
   });
 
   afterEach(async function() {
-    await shareClient.delete();
-    recorder.stop();
+    if (!this.currentTest?.isPending()) {
+      await shareClient.delete();
+      recorder.stop();
+    }
   });
 
   it("create with default parameters", async () => {
@@ -297,7 +299,26 @@ describe("FileClient", () => {
     const properties2 = await newFileClient.getProperties();
     assert.deepStrictEqual(properties1.contentMD5, properties2.contentMD5);
     assert.deepStrictEqual(properties2.copyId, result.copyId);
-    assert.deepStrictEqual(properties2.copySource, fileClient.url);
+
+    // A service feature is being rolling out which will sanitize the sig field
+    // so we remove it before comparing urls.
+    assert.ok(properties2.copySource, "Expecting valid 'properties2.copySource");
+
+    const sanitizedActualUrl = URLBuilder.parse(properties2.copySource!);
+    const sanitizedQuery = URLQuery.parse(sanitizedActualUrl.getQuery()!);
+    sanitizedQuery.set("sig", undefined);
+    sanitizedActualUrl.setQuery(sanitizedQuery.toString());
+
+    const sanitizedExpectedUrl = URLBuilder.parse(fileClient.url);
+    const sanitizedQuery2 = URLQuery.parse(sanitizedActualUrl.getQuery()!);
+    sanitizedQuery2.set("sig", undefined);
+    sanitizedExpectedUrl.setQuery(sanitizedQuery.toString());
+
+    assert.strictEqual(
+      sanitizedActualUrl.toString(),
+      sanitizedExpectedUrl.toString(),
+      "copySource does not match original source"
+    );
   });
 
   it("startCopyFromURL with smb options", async () => {
@@ -416,7 +437,7 @@ describe("FileClient", () => {
     assert.deepStrictEqual(await bodyToString(response, 8), "HelloWor");
   });
 
-  it("uploadRange with conent MD5", async () => {
+  it("uploadRange with content MD5", async () => {
     await fileClient.create(10);
     await fileClient.uploadRange("Hello", 0, 5, {
       contentMD5: new Uint8Array([
@@ -680,7 +701,7 @@ describe("FileClient", () => {
     const rootSpan = tracer.startSpan("root");
     await fileClient.create(content.length, {
       tracingOptions: {
-        spanOptions: { parent: rootSpan }
+        spanOptions: { parent: rootSpan.context() }
       }
     });
     rootSpan.end();

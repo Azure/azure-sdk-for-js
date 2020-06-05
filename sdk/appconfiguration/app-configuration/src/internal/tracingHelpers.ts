@@ -2,7 +2,8 @@
 // Licensed under the MIT License.
 
 import { getTracer } from "@azure/core-tracing";
-import { Span, SpanOptions, SpanKind, CanonicalCode } from "@opentelemetry/types";
+import { Span, SpanKind, CanonicalCode } from "@opentelemetry/api";
+import { SpanOptions } from "@azure/core-tracing";
 
 import { RestError } from "@azure/core-http";
 
@@ -19,7 +20,7 @@ export interface Spannable {
  * @ignore
  */
 export class Spanner<TClient> {
-  constructor(private baseOperationName: string, private componentName: string) {}
+  constructor(private baseOperationName: string) {}
 
   /**
    * Traces an operation and properly handles reporting start, end and errors for a given span
@@ -90,7 +91,7 @@ export class Spanner<TClient> {
       ...options,
       spanOptions: {
         ...spanOptions,
-        parent: span,
+        parent: span.context(),
         attributes: {
           ...spanOptions.attributes,
           "az.namespace": "Microsoft.AppConfiguration"

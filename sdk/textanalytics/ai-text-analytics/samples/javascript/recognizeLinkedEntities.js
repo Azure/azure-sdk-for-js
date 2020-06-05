@@ -8,24 +8,42 @@
 const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
 
 // Load the .env file if it exists
-require("dotenv").config();
+const dotenv = require("dotenv");
+dotenv.config();
+
+// You will need to set these environment variables or edit the following values
+const endpoint = process.env["ENDPOINT"] || "<cognitive services endpoint>";
+const apiKey = process.env["TEXT_ANALYTICS_API_KEY"] || "<api key>";
+
+const documents = [
+  "Microsoft moved its headquarters to Bellevue, Washington in January 1979.",
+  "Steve Ballmer stepped down as CEO of Microsoft and was succeeded by Satya Nadella."
+];
 
 async function main() {
-  console.log(`Running extractLinkEntities sample`);
-
-  // You will need to set these environment variables or edit the following values
-  const endpoint = process.env["ENDPOINT"] || "<cognitive services endpoint>";
-  const apiKey = process.env["TEXT_ANALYTICS_API_KEY"] || "<api key>";
+  console.log("== Recognize Linked Entities Sample ==");
 
   const client = new TextAnalyticsClient(endpoint, new AzureKeyCredential(apiKey));
 
-  const [result] = await client.recognizeLinkedEntities(["I love living in Seattle."]);
+  const results = await client.recognizeLinkedEntities(documents);
 
-  if (!result.error) {
-    for (const entity of result.entities) {
-      console.log(
-        `Found entity ${entity.name}; link ${entity.url}; datasource: ${entity.dataSource}`
-      );
+  for (const result of results) {
+    console.log(`- Document ${result.id}`);
+    if (!result.error) {
+      console.log("  Entities:");
+      for (const entity of result.entities) {
+        console.log(
+          `  - Entity ${entity.name}; link ${entity.url}; datasource: ${entity.dataSource}`
+        );
+        console.log("    Matches:");
+        for (const match of entity.matches) {
+          console.log(
+            `    - Entity appears as "${match.text}" (confidence: ${match.confidenceScore}`
+          );
+        }
+      }
+    } else {
+      console.error("  Error:", result.error);
     }
   }
 }

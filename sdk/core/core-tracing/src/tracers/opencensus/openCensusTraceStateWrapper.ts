@@ -1,7 +1,7 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
-import { TraceState } from "@opentelemetry/types";
+import { TraceState } from "@opentelemetry/api";
 
 /**
  * @ignore

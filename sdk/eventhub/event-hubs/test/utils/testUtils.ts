@@ -1,9 +1,14 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import * as dotenv from "dotenv";
 import { loggerForTest } from "./logHelpers";
 import { delay } from "@azure/core-amqp";
+import { EventHubConsumerClient } from "../../src/eventHubConsumerClient";
+import { EventHubProducerClient } from "../../src/eventHubProducerClient";
+import { EventPosition } from "../../src/eventPosition";
+import { NoOpTracer, TestTracer, setTracer } from "@azure/core-tracing";
+
 dotenv.config();
 
 export const isNode =
@@ -12,7 +17,6 @@ export const isNode =
 export enum EnvVarKeys {
   EVENTHUB_CONNECTION_STRING = "EVENTHUB_CONNECTION_STRING",
   EVENTHUB_NAME = "EVENTHUB_NAME",
-  IOTHUB_EH_COMPATIBLE_CONNECTION_STRING = "IOTHUB_EH_COMPATIBLE_CONNECTION_STRING",
   AZURE_TENANT_ID = "AZURE_TENANT_ID",
   AZURE_CLIENT_ID = "AZURE_CLIENT_ID",
   AZURE_CLIENT_SECRET = "AZURE_CLIENT_SECRET"
@@ -31,9 +35,6 @@ export function getEnvVars(): { [key in EnvVarKeys]: any } {
   return {
     [EnvVarKeys.EVENTHUB_CONNECTION_STRING]: getEnvVarValue(EnvVarKeys.EVENTHUB_CONNECTION_STRING),
     [EnvVarKeys.EVENTHUB_NAME]: getEnvVarValue(EnvVarKeys.EVENTHUB_NAME),
-    [EnvVarKeys.IOTHUB_EH_COMPATIBLE_CONNECTION_STRING]: getEnvVarValue(
-      EnvVarKeys.IOTHUB_EH_COMPATIBLE_CONNECTION_STRING
-    ),
     [EnvVarKeys.AZURE_TENANT_ID]: getEnvVarValue(EnvVarKeys.AZURE_TENANT_ID),
     [EnvVarKeys.AZURE_CLIENT_ID]: getEnvVarValue(EnvVarKeys.AZURE_CLIENT_ID),
     [EnvVarKeys.AZURE_CLIENT_SECRET]: getEnvVarValue(EnvVarKeys.AZURE_CLIENT_SECRET)
@@ -61,4 +62,35 @@ export async function loopUntil(args: {
   throw new Error(
     `Waited way too long for ${args.name}: ${args.errorMessageFn ? args.errorMessageFn() : ""}`
   );
+}
+
+export async function getStartingPositionsForTests(
+  client: Pick<
+    EventHubConsumerClient | EventHubProducerClient,
+    "getPartitionProperties" | "getEventHubProperties"
+  >
+): Promise<{ [partitionId: string]: EventPosition }> {
+  const eventHubProperties = await client.getEventHubProperties();
+
+  const startingPositions: { [partitionId: string]: EventPosition } = {};
+
+  for (const partitionId of eventHubProperties.partitionIds) {
+    startingPositions[partitionId] = {
+      sequenceNumber: (await client.getPartitionProperties(partitionId)).lastEnqueuedSequenceNumber
+    };
+  }
+
+  return startingPositions;
+}
+
+export function setTracerForTest<T extends TestTracer>(
+  tracer?: T
+): { tracer: T; resetTracer: () => void } {
+  tracer = tracer ?? (new TestTracer() as T);
+  setTracer(tracer);
+
+  return {
+    tracer,
+    resetTracer: () => setTracer(new NoOpTracer())
+  };
 }

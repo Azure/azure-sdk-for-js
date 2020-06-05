@@ -10,7 +10,8 @@ import {
   TextAnalyticsClient,
   TextDocumentInput,
   DetectLanguageInput,
-  DetectLanguageSuccessResult
+  DetectLanguageSuccessResult,
+  ExtractKeyPhrasesSuccessResult
 } from "../src/index";
 import { assertAllSuccess } from "./utils/resultHelper";
 
@@ -25,7 +26,6 @@ const testDataEs = [
   "Los caminos que llevan hasta Monte Rainier son espectaculares y hermosos.",
   "La carretera estaba atascada. Había mucho tráfico el día de ayer."
 ];
-
 describe("[AAD] TextAnalyticsClient", function() {
   let recorder: Recorder;
   let client: TextAnalyticsClient;
@@ -49,7 +49,7 @@ describe("[AAD] TextAnalyticsClient", function() {
 
   describe("#analyzeSentiment", () => {
     it("client throws on empty list", async () => {
-      return assert.isRejected(client.analyzeSentiment([]));
+      return assert.isRejected(client.analyzeSentiment([]), /non-empty array/);
     });
 
     it("client accepts string[] and language", async () => {
@@ -68,7 +68,6 @@ describe("[AAD] TextAnalyticsClient", function() {
       const [result] = await client.analyzeSentiment(["Hello world!"], "notalanguage");
       if (result.error === undefined) {
         assert.fail("Expected an error from the service.");
-        return;
       }
       assert.equal(result.error.code, "UnsupportedLanguageCode");
     });
@@ -80,7 +79,6 @@ describe("[AAD] TextAnalyticsClient", function() {
       const errorResult = results[1];
       if (errorResult.error === undefined) {
         assert.fail("Expected an error from the service");
-        return;
       }
       assert.equal(
         results.filter((result) => result.error === undefined).length,
@@ -114,7 +112,7 @@ describe("[AAD] TextAnalyticsClient", function() {
 
   describe("#detectLanguage", () => {
     it("client throws on empty list", async () => {
-      return assert.isRejected(client.detectLanguage([]));
+      return assert.isRejected(client.detectLanguage([]), /non-empty array/);
     });
 
     it("client accepts no countryHint", async () => {
@@ -157,7 +155,6 @@ describe("[AAD] TextAnalyticsClient", function() {
       const [result] = await client.detectLanguage(["hello"], "invalidcountry");
       if (result.error === undefined) {
         assert.fail("Expected an error from the service");
-        return;
       }
 
       assert.equal(result.error.code, "InvalidCountryHint");
@@ -187,7 +184,7 @@ describe("[AAD] TextAnalyticsClient", function() {
 
   describe("#recognizeEntities", () => {
     it("client throws on empty list", async () => {
-      return assert.isRejected(client.recognizeEntities([]));
+      return assert.isRejected(client.recognizeEntities([]), /non-empty array/);
     });
 
     it("client accepts string[] with no language", async () => {
@@ -210,14 +207,13 @@ describe("[AAD] TextAnalyticsClient", function() {
 
       if (result.error === undefined) {
         assert.fail("Expected an error from the service");
-        return;
       }
 
       assert.equal(result.error.code, "UnsupportedLanguageCode");
     });
 
     it("client accepts mixed-language TextDocumentInput[]", async () => {
-      const enInputs = testDataEn.map(
+      const enInputs = testDataEn.slice(0, -1).map(
         (text): TextDocumentInput => ({
           id: getId(),
           text,
@@ -234,14 +230,41 @@ describe("[AAD] TextAnalyticsClient", function() {
       const allInputs = enInputs.concat(esInputs);
 
       const results = await client.recognizeEntities(allInputs);
-      assert.equal(results.length, testDataEn.length + testDataEs.length);
+      assert.equal(results.length, testDataEn.length - 1 + testDataEs.length);
       assertAllSuccess(results);
+    });
+
+    it("client throws exception for too many inputs", async () => {
+      const enInputs = testDataEn.map(
+        (text): TextDocumentInput => ({
+          id: getId(),
+          text,
+          language: "en"
+        })
+      );
+      const esInputs = testDataEs.map(
+        (text): TextDocumentInput => ({
+          id: getId(),
+          text,
+          language: "es"
+        })
+      );
+      const allInputs = enInputs.concat(esInputs);
+
+      try {
+        await client.recognizeEntities(allInputs);
+        assert.fail("Oops, an exception didn't happen.");
+      } catch (e) {
+        assert.equal(e.statusCode, 400);
+        assert.equal(e.code, "InvalidDocumentBatch");
+        assert.match(e.message, /exceeded the data limitations/);
+      }
     });
   });
 
   describe("#extractKeyPhrases", () => {
     it("client throws on empty list", async () => {
-      return assert.isRejected(client.extractKeyPhrases([]));
+      return assert.isRejected(client.extractKeyPhrases([]), /non-empty array/);
     });
 
     it("client accepts string[] with no language", async () => {
@@ -264,10 +287,18 @@ describe("[AAD] TextAnalyticsClient", function() {
 
       if (result.error === undefined) {
         assert.fail("Expected an error from the service");
-        return;
       }
 
       assert.equal(result.error.code, "UnsupportedLanguageCode");
+    });
+
+    it("service reports warning for long words", async () => {
+      const results = await client.extractKeyPhrases([
+        "Hello world, thisisanextremelymassivesequenceoflettersthatislongerthansixtyfourcharacters."
+      ]);
+      assertAllSuccess(results);
+      const result = results[0] as ExtractKeyPhrasesSuccessResult;
+      assert.equal(result.warnings[0].code, "LongWordsInDocument");
     });
 
     it("client accepts mixed-language TextDocumentInput[]", async () => {
@@ -295,7 +326,7 @@ describe("[AAD] TextAnalyticsClient", function() {
 
   describe("#recognizeLinkedEntities", () => {
     it("client throws on empty list", async () => {
-      return assert.isRejected(client.recognizeLinkedEntities([]));
+      return assert.isRejected(client.recognizeLinkedEntities([]), /non-empty array/);
     });
 
     it("client accepts string[] with no language", async () => {
@@ -318,14 +349,13 @@ describe("[AAD] TextAnalyticsClient", function() {
 
       if (result.error === undefined) {
         assert.fail("Expected an error from the service");
-        return;
       }
 
       assert.equal(result.error.code, "UnsupportedLanguageCode");
     });
 
     it("client accepts mixed-language TextDocumentInput[]", async () => {
-      const enInputs = testDataEn.map(
+      const enInputs = testDataEn.slice(0, -1).map(
         (text): TextDocumentInput => ({
           id: getId(),
           text,
@@ -342,8 +372,35 @@ describe("[AAD] TextAnalyticsClient", function() {
       const allInputs = enInputs.concat(esInputs);
 
       const results = await client.recognizeLinkedEntities(allInputs);
-      assert.equal(results.length, testDataEn.length + testDataEs.length);
+      assert.equal(results.length, testDataEn.length - 1 + testDataEs.length);
       assertAllSuccess(results);
+    });
+
+    it("client throws exception for too many inputs", async () => {
+      const enInputs = testDataEn.map(
+        (text): TextDocumentInput => ({
+          id: getId(),
+          text,
+          language: "en"
+        })
+      );
+      const esInputs = testDataEs.map(
+        (text): TextDocumentInput => ({
+          id: getId(),
+          text,
+          language: "es"
+        })
+      );
+      const allInputs = enInputs.concat(esInputs);
+
+      try {
+        await client.recognizeEntities(allInputs);
+        assert.fail("Oops, an exception didn't happen.");
+      } catch (e) {
+        assert.equal(e.statusCode, 400);
+        assert.equal(e.code, "InvalidDocumentBatch");
+        assert.match(e.message, /exceeded the data limitations/);
+      }
     });
   });
 });

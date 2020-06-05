@@ -1,11 +1,11 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import chai from "chai";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { MessagingError, delay, ServiceBusMessage } from "../src";
+import { MessagingError, ServiceBusMessage, delay } from "../src";
 import { TestClientType, TestMessage, isMessagingError } from "./utils/testUtils";
 import { ServiceBusClientForTests, createServiceBusClientForTests } from "./utils/testutils2";
 import { Sender } from "../src/sender";
@@ -15,7 +15,7 @@ import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
 describe("renew lock sessions", () => {
   let sender: Sender;
   let receiver: SessionReceiver<ReceivedMessageWithLock>;
-  let maxSessionAutoRenewLockDurationInSeconds: number;
+  let autoRenewLockDurationInMs: number;
   let sessionId: string;
 
   let serviceBusClient: ServiceBusClientForTests;
@@ -30,19 +30,19 @@ describe("renew lock sessions", () => {
 
   async function beforeEachTest(
     entityType: TestClientType,
-    maxSessionAutoRenewLockDurationInSeconds: number
+    autoRenewLockDurationInMs: number
   ): Promise<void> {
     const entityNames = await serviceBusClient.test.createTestEntities(entityType);
 
     sender = serviceBusClient.test.addToCleanup(
-      serviceBusClient.getSender(entityNames.queue ?? entityNames.topic!)
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
 
     sessionId = Date.now().toString();
 
-    receiver = serviceBusClient.test.getSessionPeekLockReceiver(entityNames, {
+    receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames, {
       sessionId,
-      maxSessionAutoRenewLockDurationInSeconds
+      autoRenewLockDurationInMs
     });
 
     // Observation -
@@ -54,9 +54,9 @@ describe("renew lock sessions", () => {
     // getSenderReceiverClients creates brand new queues/topic-subscriptions.
     // Hence, commenting the following code since there is no need to purge/peek into a freshly created entity
 
-    // await purge(receiverClient);
-    // const peekedMsgs = await receiverClient.diagnostics.peek();
-    // const receiverEntityType = receiverClient.entityType;
+    // await purge(receiver);
+    // const peekedMsgs = await receiver.peekMessages();
+    // const receiverEntityType = receiver.entityType;
     // if (peekedMsgs.length) {
     //   chai.assert.fail(`Please use an empty ${receiverEntityType} for integration testing`);
     // }
@@ -64,7 +64,7 @@ describe("renew lock sessions", () => {
 
   describe("Batch Receiver: renewLock() resets lock duration each time", function(): void {
     beforeEach(() => {
-      maxSessionAutoRenewLockDurationInSeconds = 0;
+      autoRenewLockDurationInMs = 0;
     });
 
     afterEach(() => {
@@ -76,7 +76,7 @@ describe("renew lock sessions", () => {
     > {
       await beforeEachTest(
         TestClientType.UnpartitionedQueueWithSessions,
-        maxSessionAutoRenewLockDurationInSeconds
+        autoRenewLockDurationInMs
       );
       await testBatchReceiverManualLockRenewalHappyCase(sender, receiver);
     });
@@ -84,10 +84,7 @@ describe("renew lock sessions", () => {
     it("Partitioned Queue With Sessions - Lock Renewal for Sessions", async function(): Promise<
       void
     > {
-      await beforeEachTest(
-        TestClientType.PartitionedQueueWithSessions,
-        maxSessionAutoRenewLockDurationInSeconds
-      );
+      await beforeEachTest(TestClientType.PartitionedQueueWithSessions, autoRenewLockDurationInMs);
       await testBatchReceiverManualLockRenewalHappyCase(sender, receiver);
     });
 
@@ -96,7 +93,7 @@ describe("renew lock sessions", () => {
     > {
       await beforeEachTest(
         TestClientType.UnpartitionedSubscriptionWithSessions,
-        maxSessionAutoRenewLockDurationInSeconds
+        autoRenewLockDurationInMs
       );
       await testBatchReceiverManualLockRenewalHappyCase(sender, receiver);
     });
@@ -106,7 +103,7 @@ describe("renew lock sessions", () => {
     > {
       await beforeEachTest(
         TestClientType.PartitionedSubscriptionWithSessions,
-        maxSessionAutoRenewLockDurationInSeconds
+        autoRenewLockDurationInMs
       );
       await testBatchReceiverManualLockRenewalHappyCase(sender, receiver);
     });
@@ -114,7 +111,7 @@ describe("renew lock sessions", () => {
 
   describe("Batch Receiver: complete() after lock expiry with throws error", function(): void {
     beforeEach(() => {
-      maxSessionAutoRenewLockDurationInSeconds = 0;
+      autoRenewLockDurationInMs = 0;
     });
 
     afterEach(() => {
@@ -126,7 +123,7 @@ describe("renew lock sessions", () => {
     > {
       await beforeEachTest(
         TestClientType.UnpartitionedQueueWithSessions,
-        maxSessionAutoRenewLockDurationInSeconds
+        autoRenewLockDurationInMs
       );
       await testBatchReceiverManualLockRenewalErrorOnLockExpiry(
         TestClientType.UnpartitionedQueueWithSessions,
@@ -138,10 +135,7 @@ describe("renew lock sessions", () => {
     it("Partitioned Queue With Sessions - Lock Renewal for Sessions", async function(): Promise<
       void
     > {
-      await beforeEachTest(
-        TestClientType.PartitionedQueueWithSessions,
-        maxSessionAutoRenewLockDurationInSeconds
-      );
+      await beforeEachTest(TestClientType.PartitionedQueueWithSessions, autoRenewLockDurationInMs);
       await testBatchReceiverManualLockRenewalErrorOnLockExpiry(
         TestClientType.PartitionedQueueWithSessions,
         sender,
@@ -154,7 +148,7 @@ describe("renew lock sessions", () => {
     > {
       await beforeEachTest(
         TestClientType.UnpartitionedSubscriptionWithSessions,
-        maxSessionAutoRenewLockDurationInSeconds
+        autoRenewLockDurationInMs
       );
       await testBatchReceiverManualLockRenewalErrorOnLockExpiry(
         TestClientType.UnpartitionedSubscriptionWithSessions,
@@ -168,7 +162,7 @@ describe("renew lock sessions", () => {
     > {
       await beforeEachTest(
         TestClientType.PartitionedSubscriptionWithSessions,
-        maxSessionAutoRenewLockDurationInSeconds
+        autoRenewLockDurationInMs
       );
       await testBatchReceiverManualLockRenewalErrorOnLockExpiry(
         TestClientType.PartitionedSubscriptionWithSessions,
@@ -180,7 +174,7 @@ describe("renew lock sessions", () => {
 
   describe("Streaming Receiver: renewLock() resets lock duration each time", function(): void {
     beforeEach(() => {
-      maxSessionAutoRenewLockDurationInSeconds = 0;
+      autoRenewLockDurationInMs = 0;
     });
 
     afterEach(() => {
@@ -192,7 +186,7 @@ describe("renew lock sessions", () => {
     > {
       await beforeEachTest(
         TestClientType.UnpartitionedQueueWithSessions,
-        maxSessionAutoRenewLockDurationInSeconds
+        autoRenewLockDurationInMs
       );
       await testStreamingReceiverManualLockRenewalHappyCase(sender, receiver);
     });
@@ -200,10 +194,7 @@ describe("renew lock sessions", () => {
     it("Partitioned Queue With Sessions - Lock Renewal for Sessions", async function(): Promise<
       void
     > {
-      await beforeEachTest(
-        TestClientType.PartitionedQueueWithSessions,
-        maxSessionAutoRenewLockDurationInSeconds
-      );
+      await beforeEachTest(TestClientType.PartitionedQueueWithSessions, autoRenewLockDurationInMs);
       await testStreamingReceiverManualLockRenewalHappyCase(sender, receiver);
     });
 
@@ -212,7 +203,7 @@ describe("renew lock sessions", () => {
     > {
       await beforeEachTest(
         TestClientType.UnpartitionedSubscriptionWithSessions,
-        maxSessionAutoRenewLockDurationInSeconds
+        autoRenewLockDurationInMs
       );
       await testStreamingReceiverManualLockRenewalHappyCase(sender, receiver);
     });
@@ -222,7 +213,7 @@ describe("renew lock sessions", () => {
     > {
       await beforeEachTest(
         TestClientType.PartitionedSubscriptionWithSessions,
-        maxSessionAutoRenewLockDurationInSeconds
+        autoRenewLockDurationInMs
       );
       await testStreamingReceiverManualLockRenewalHappyCase(sender, receiver);
     });
@@ -234,7 +225,7 @@ describe("renew lock sessions", () => {
     });
 
     const options: AutoLockRenewalTestOptions = {
-      maxSessionAutoRenewLockDurationInSeconds: 0,
+      autoRenewLockDurationInMs: 0,
       delayBeforeAttemptingToCompleteMessageInSeconds: 31,
       expectSessionLockLostErrorToBeThrown: true
     };
@@ -244,7 +235,7 @@ describe("renew lock sessions", () => {
     > {
       await beforeEachTest(
         TestClientType.UnpartitionedQueueWithSessions,
-        options.maxSessionAutoRenewLockDurationInSeconds
+        options.autoRenewLockDurationInMs
       );
       await testAutoLockRenewalConfigBehavior(sender, receiver, options);
     });
@@ -254,7 +245,7 @@ describe("renew lock sessions", () => {
     > {
       await beforeEachTest(
         TestClientType.PartitionedQueueWithSessions,
-        options.maxSessionAutoRenewLockDurationInSeconds
+        options.autoRenewLockDurationInMs
       );
       await testAutoLockRenewalConfigBehavior(sender, receiver, options);
     });
@@ -264,7 +255,7 @@ describe("renew lock sessions", () => {
     > {
       await beforeEachTest(
         TestClientType.UnpartitionedSubscriptionWithSessions,
-        options.maxSessionAutoRenewLockDurationInSeconds
+        options.autoRenewLockDurationInMs
       );
       await testAutoLockRenewalConfigBehavior(sender, receiver, options);
     });
@@ -274,7 +265,7 @@ describe("renew lock sessions", () => {
     > {
       await beforeEachTest(
         TestClientType.PartitionedSubscriptionWithSessions,
-        options.maxSessionAutoRenewLockDurationInSeconds
+        options.autoRenewLockDurationInMs
       );
       await testAutoLockRenewalConfigBehavior(sender, receiver, options);
     });
@@ -288,13 +279,13 @@ describe("renew lock sessions", () => {
     it("Streaming Receiver: lock will not expire until configured time", async function(): Promise<
       void
     > {
-      maxSessionAutoRenewLockDurationInSeconds = 38;
+      autoRenewLockDurationInMs = 38 * 1000;
       await beforeEachTest(
         TestClientType.UnpartitionedQueueWithSessions,
-        maxSessionAutoRenewLockDurationInSeconds
+        autoRenewLockDurationInMs
       );
       await testAutoLockRenewalConfigBehavior(sender, receiver, {
-        maxSessionAutoRenewLockDurationInSeconds,
+        autoRenewLockDurationInMs,
         delayBeforeAttemptingToCompleteMessageInSeconds: 35,
         expectSessionLockLostErrorToBeThrown: false
       });
@@ -303,13 +294,13 @@ describe("renew lock sessions", () => {
     it("Streaming Receiver: lock expires sometime after configured time", async function(): Promise<
       void
     > {
-      maxSessionAutoRenewLockDurationInSeconds = 35;
+      autoRenewLockDurationInMs = 35 * 1000;
       await beforeEachTest(
         TestClientType.UnpartitionedQueueWithSessions,
-        maxSessionAutoRenewLockDurationInSeconds
+        autoRenewLockDurationInMs
       );
       await testAutoLockRenewalConfigBehavior(sender, receiver, {
-        maxSessionAutoRenewLockDurationInSeconds,
+        autoRenewLockDurationInMs,
         delayBeforeAttemptingToCompleteMessageInSeconds: 80,
         expectSessionLockLostErrorToBeThrown: true
       });
@@ -318,13 +309,13 @@ describe("renew lock sessions", () => {
     it("Receive a msg using Streaming Receiver, lock renewal does not take place when config value is less than lock duration", async function(): Promise<
       void
     > {
-      maxSessionAutoRenewLockDurationInSeconds = 15;
+      autoRenewLockDurationInMs = 15 * 1000;
       await beforeEachTest(
         TestClientType.UnpartitionedQueueWithSessions,
-        maxSessionAutoRenewLockDurationInSeconds
+        autoRenewLockDurationInMs
       );
       await testAutoLockRenewalConfigBehavior(sender, receiver, {
-        maxSessionAutoRenewLockDurationInSeconds,
+        autoRenewLockDurationInMs,
         delayBeforeAttemptingToCompleteMessageInSeconds: 31,
         expectSessionLockLostErrorToBeThrown: true
       });
@@ -332,7 +323,7 @@ describe("renew lock sessions", () => {
   });
 
   const lockDurationInMilliseconds = 30000;
-  // const maxSessionAutoRenewLockDurationInSeconds = 300;
+  // const autoRenewLockDurationInMs = 300*1000;
   let uncaughtErrorFromHandlers: Error | undefined;
 
   async function processError(err: MessagingError | Error) {
@@ -343,14 +334,14 @@ describe("renew lock sessions", () => {
    * Test manual renewLock() using Batch Receiver, with autoLockRenewal disabled
    */
   async function testBatchReceiverManualLockRenewalHappyCase(
-    senderClient: Sender,
-    receiverClient: SessionReceiver<ReceivedMessageWithLock>
+    sender: Sender,
+    receiver: SessionReceiver<ReceivedMessageWithLock>
   ): Promise<void> {
     const testMessage = getTestMessage();
     testMessage.body = `testBatchReceiverManualLockRenewalHappyCase-${Date.now().toString()}`;
-    await senderClient.send(testMessage);
+    await sender.send(testMessage);
 
-    const msgs = await receiverClient.receiveBatch(1);
+    const msgs = await receiver.receiveBatch(1);
 
     // Compute expected initial lock expiry time
     const expectedLockExpiryTimeUtc = new Date();
@@ -365,20 +356,20 @@ describe("renew lock sessions", () => {
 
     // Verify initial lock expiry time on the session
     assertTimestampsAreApproximatelyEqual(
-      receiverClient.sessionLockedUntilUtc,
+      receiver.sessionLockedUntilUtc,
       expectedLockExpiryTimeUtc,
       "Initial"
     );
 
     await delay(5000);
-    await receiverClient.renewSessionLock();
+    await receiver.renewSessionLock();
 
     // Compute expected lock expiry time after renewing lock after 5 seconds
     expectedLockExpiryTimeUtc.setSeconds(expectedLockExpiryTimeUtc.getSeconds() + 5);
 
     // Verify lock expiry time after renewLock()
     assertTimestampsAreApproximatelyEqual(
-      receiverClient.sessionLockedUntilUtc,
+      receiver.sessionLockedUntilUtc,
       expectedLockExpiryTimeUtc,
       "After renewlock()"
     );
@@ -391,12 +382,12 @@ describe("renew lock sessions", () => {
    */
   async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
     entityType: TestClientType,
-    senderClient: Sender,
+    sender: Sender,
     receiver: SessionReceiver<ReceivedMessageWithLock>
   ): Promise<void> {
     const testMessage = getTestMessage();
     testMessage.body = `testBatchReceiverManualLockRenewalErrorOnLockExpiry-${Date.now().toString()}`;
-    await senderClient.send(testMessage);
+    await sender.send(testMessage);
 
     const msgs = await receiver.receiveBatch(1);
 
@@ -419,7 +410,7 @@ describe("renew lock sessions", () => {
     await receiver.close();
 
     const entityNames = serviceBusClient.test.getTestEntities(entityType);
-    receiver = serviceBusClient.test.getSessionPeekLockReceiver(entityNames);
+    receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames);
 
     const unprocessedMsgsBatch = await receiver.receiveBatch(1);
     should.equal(unprocessedMsgsBatch[0].deliveryCount, 1, "Unexpected deliveryCount");
@@ -430,13 +421,13 @@ describe("renew lock sessions", () => {
    * Test manual renewLock() using Streaming Receiver with autoLockRenewal disabled
    */
   async function testStreamingReceiverManualLockRenewalHappyCase(
-    senderClient: Sender,
-    receiverClient: SessionReceiver<ReceivedMessageWithLock>
+    sender: Sender,
+    receiver: SessionReceiver<ReceivedMessageWithLock>
   ): Promise<void> {
     let numOfMessagesReceived = 0;
     const testMessage = getTestMessage();
     testMessage.body = `testStreamingReceiverManualLockRenewalHappyCase-${Date.now().toString()}`;
-    await senderClient.send(testMessage);
+    await sender.send(testMessage);
 
     async function processMessage(brokeredMessage: ReceivedMessageWithLock) {
       if (numOfMessagesReceived < 1) {
@@ -461,20 +452,20 @@ describe("renew lock sessions", () => {
 
         // Verify initial expiry time on session
         assertTimestampsAreApproximatelyEqual(
-          receiverClient.sessionLockedUntilUtc,
+          receiver.sessionLockedUntilUtc,
           expectedLockExpiryTimeUtc,
           "Initial"
         );
 
         await delay(5000);
-        await receiverClient.renewSessionLock();
+        await receiver.renewSessionLock();
 
         // Compute expected lock expiry time after renewing lock after 5 seconds
         expectedLockExpiryTimeUtc.setSeconds(expectedLockExpiryTimeUtc.getSeconds() + 5);
 
         // Verify actual expiry time on session after renewal
         assertTimestampsAreApproximatelyEqual(
-          receiverClient.sessionLockedUntilUtc,
+          receiver.sessionLockedUntilUtc,
           expectedLockExpiryTimeUtc,
           "After renewlock()"
         );
@@ -483,14 +474,14 @@ describe("renew lock sessions", () => {
       }
     }
 
-    receiverClient.subscribe(
+    receiver.subscribe(
       { processMessage, processError },
       {
         autoComplete: false
       }
     );
     await delay(10000);
-    await receiverClient.close();
+    await receiver.close();
 
     if (uncaughtErrorFromHandlers) {
       chai.assert.fail(uncaughtErrorFromHandlers.message);
@@ -500,20 +491,20 @@ describe("renew lock sessions", () => {
   }
 
   interface AutoLockRenewalTestOptions {
-    maxSessionAutoRenewLockDurationInSeconds: number;
+    autoRenewLockDurationInMs: number;
     delayBeforeAttemptingToCompleteMessageInSeconds: number;
     expectSessionLockLostErrorToBeThrown: boolean;
   }
 
   async function testAutoLockRenewalConfigBehavior(
-    senderClient: Sender,
-    receiverClient: SessionReceiver<ReceivedMessageWithLock>,
+    sender: Sender,
+    receiver: SessionReceiver<ReceivedMessageWithLock>,
     options: AutoLockRenewalTestOptions
   ): Promise<void> {
     let numOfMessagesReceived = 0;
     const testMessage = getTestMessage();
     testMessage.body = `testAutoLockRenewalConfigBehavior-${Date.now().toString()}`;
-    await senderClient.send(testMessage);
+    await sender.send(testMessage);
 
     let sessionLockLostErrorThrown = false;
     const messagesReceived: ReceivedMessageWithLock[] = [];
@@ -540,7 +531,7 @@ describe("renew lock sessions", () => {
       }
     }
 
-    receiverClient.subscribe(
+    receiver.subscribe(
       {
         processMessage,
         async processError(err: MessagingError | Error) {
@@ -579,7 +570,7 @@ describe("renew lock sessions", () => {
       "Error Thrown flag value mismatch"
     );
 
-    await receiverClient.close();
+    await receiver.close();
 
     if (uncaughtErrorFromHandlers) {
       chai.assert.fail(uncaughtErrorFromHandlers.message);

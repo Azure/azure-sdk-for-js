@@ -1,7 +1,7 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
-import { ReceivedMessage, Delivery } from "../../src";
+import { Delivery, ReceivedMessage } from "../../src";
 import { ServiceBusMessageImpl } from "../../src/serviceBusMessage";
 
 // some functions useful as we transition between interfaces and classes.

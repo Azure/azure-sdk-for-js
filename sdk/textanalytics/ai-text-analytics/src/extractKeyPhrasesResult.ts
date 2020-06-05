@@ -7,7 +7,11 @@ import {
   TextAnalyticsErrorResult,
   makeTextAnalyticsErrorResult
 } from "./textAnalyticsResult";
-import { TextDocumentStatistics, TextAnalyticsError } from "./generated/models";
+import {
+  TextDocumentStatistics,
+  TextAnalyticsError,
+  TextAnalyticsWarning
+} from "./generated/models";
 
 /**
  * The result of the extract key phrases operation on a single document.
@@ -29,15 +33,16 @@ export interface ExtractKeyPhrasesSuccessResult extends TextAnalyticsSuccessResu
 /**
  * An error result from the extract key phrases operation on a single document.
  */
-export type ExtractKeyPhrasesErrorResult = TextAnalyticsErrorResult
+export type ExtractKeyPhrasesErrorResult = TextAnalyticsErrorResult;
 
 export function makeExtractKeyPhrasesResult(
   id: string,
   keyPhrases: string[],
+  warnings: TextAnalyticsWarning[],
   statistics?: TextDocumentStatistics
 ): ExtractKeyPhrasesSuccessResult {
   return {
-    ...makeTextAnalyticsSuccessResult(id, statistics),
+    ...makeTextAnalyticsSuccessResult(id, warnings, statistics),
     keyPhrases
   };
 }

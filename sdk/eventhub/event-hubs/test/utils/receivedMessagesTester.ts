@@ -1,7 +1,10 @@
-import { CloseReason, ReceivedEventData, EventHubProducerClient } from "../../src/";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+import { CloseReason, EventHubProducerClient, ReceivedEventData } from "../../src/";
 import {
-  SubscriptionEventHandlers,
-  PartitionContext
+  PartitionContext,
+  SubscriptionEventHandlers
 } from "../../src/eventHubConsumerClientModels";
 import chai from "chai";
 import { delay } from "@azure/core-amqp";
@@ -148,7 +151,7 @@ export class ReceivedMessagesTester implements Required<SubscriptionEventHandler
       });
     }
 
-    let lastExpectedMessageCount = this.expectedMessageBodies.size;
+    const lastExpectedMessageCount = this.expectedMessageBodies.size;
 
     for (const messageToSend of messagesToSend) {
       const batch = await client.createBatch({ partitionId: messageToSend.partitionId });

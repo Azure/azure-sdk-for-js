@@ -14,6 +14,7 @@ import { HttpRequestBody } from '@azure/core-http';
 import { HttpResponse } from '@azure/core-http';
 import { HttpClient as IHttpClient } from '@azure/core-http';
 import { KeepAliveOptions } from '@azure/core-http';
+import { OperationTracingOptions } from '@azure/core-tracing';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { ProxyOptions } from '@azure/core-http';
 import { RequestPolicy } from '@azure/core-http';
@@ -21,7 +22,6 @@ import { RequestPolicyFactory } from '@azure/core-http';
 import { RequestPolicyOptions } from '@azure/core-http';
 import { RestError } from '@azure/core-http';
 import { ServiceClientOptions } from '@azure/core-http';
-import { SpanOptions } from '@opentelemetry/types';
 import { TokenCredential } from '@azure/core-http';
 import { UserAgentOptions } from '@azure/core-http';
 import { WebResource } from '@azure/core-http';
@@ -92,7 +92,6 @@ export { BaseRequestPolicy }
 
 // @public
 export interface CommonOptions {
-    // Warning: (ae-forgotten-export) The symbol "OperationTracingOptions" needs to be exported by the entry point index.d.ts
     tracingOptions?: OperationTracingOptions;
 }
 

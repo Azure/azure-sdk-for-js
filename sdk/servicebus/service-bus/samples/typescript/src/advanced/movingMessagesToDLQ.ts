@@ -2,7 +2,8 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
 
-  **NOTE**: If you are using version 1.1.x or lower, then please use the link below:
+  **NOTE**: This sample uses the preview of the next version of the @azure/service-bus package.
+  For samples using the current stable version of the package, please use the link below:
   https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples
   
   This sample demonstrates scenarios as to how a Service Bus message can be explicitly moved to
@@ -19,8 +20,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 // Define connection string and related Service Bus entity names here
-const connectionString =
-  process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
+const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 const sbClient: ServiceBusClient = new ServiceBusClient(connectionString);
 
@@ -36,8 +36,8 @@ export async function main() {
 }
 
 async function sendMessage() {
-  // getSender() can also be used to create a sender for a topic.
-  const sender = sbClient.getSender(queueName);
+  // createSender() can also be used to create a sender for a topic.
+  const sender = sbClient.createSender(queueName);
 
   const message = {
     body: {
@@ -52,8 +52,8 @@ async function sendMessage() {
 }
 
 async function receiveMessage() {
-  // If receiving from a subscription you can use the getReceiver(topic, subscription) overload
-  const receiver = sbClient.getReceiver(queueName, "peekLock");
+  // If receiving from a subscription you can use the createReceiver(topic, subscription) overload
+  const receiver = sbClient.createReceiver(queueName, "peekLock");
 
   const messages = await receiver.receiveBatch(1);
 
@@ -64,8 +64,8 @@ async function receiveMessage() {
     );
     // Deadletter the message received
     await messages[0].deadLetter({
-      deadletterReason: "Incorrect Recipe type",
-      deadLetterErrorDescription: "Recipe type does not  match preferences."
+      deadLetterReason: "Incorrect Recipe type",
+      deadLetterErrorDescription: "Recipe type does not match preferences."
     });
   } else {
     console.log(">>>> Error: No messages were received from the main queue.");
@@ -74,6 +74,6 @@ async function receiveMessage() {
   await receiver.close();
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.log("Error occurred: ", err);
 });

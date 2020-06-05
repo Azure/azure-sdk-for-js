@@ -15,7 +15,8 @@ import {
   PollerLike,
   PollOperationState
 } from "../src";
-dotenv.config({ path: "../.env" });
+import { URLBuilder, URLQuery } from "@azure/core-http";
+dotenv.config();
 
 describe("BlobClient beginCopyFromURL Poller", () => {
   let containerName: string;
@@ -45,9 +46,11 @@ describe("BlobClient beginCopyFromURL Poller", () => {
   });
 
   afterEach(async function() {
-    await containerClient.delete();
-    await destinationContainerClient.delete();
-    recorder.stop();
+    if (!this.currentTest?.isPending()) {
+      await containerClient.delete();
+      await destinationContainerClient.delete();
+      recorder.stop();
+    }
   });
 
   it("supports automatic polling via pollUntilDone", async () => {
@@ -69,7 +72,26 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     const properties2 = await newBlobClient.getProperties();
     assert.deepStrictEqual(properties1.contentMD5, properties2.contentMD5);
     assert.deepStrictEqual(properties2.copyId, result.copyId);
-    assert.deepStrictEqual(properties2.copySource, blobClient.url);
+
+    // A service feature is being rolling out which will sanitize the sig field
+    // so we remove it before comparing urls.
+    assert.ok(properties2.copySource, "Expecting valid 'properties2.copySource");
+
+    const sanitizedActualUrl = URLBuilder.parse(properties2.copySource!);
+    const sanitizedQuery = URLQuery.parse(sanitizedActualUrl.getQuery()!);
+    sanitizedQuery.set("sig", undefined);
+    sanitizedActualUrl.setQuery(sanitizedQuery.toString());
+
+    const sanitizedExpectedUrl = URLBuilder.parse(blobClient.url);
+    const sanitizedQuery2 = URLQuery.parse(sanitizedActualUrl.getQuery()!);
+    sanitizedQuery2.set("sig", undefined);
+    sanitizedExpectedUrl.setQuery(sanitizedQuery.toString());
+
+    assert.strictEqual(
+      sanitizedActualUrl.toString(),
+      sanitizedExpectedUrl.toString(),
+      "copySource does not match original source"
+    );
   });
 
   it("supports manual polling via poll", async () => {
@@ -93,7 +115,26 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     const properties2 = await newBlobClient.getProperties();
     assert.deepStrictEqual(properties1.contentMD5, properties2.contentMD5);
     assert.deepStrictEqual(properties2.copyId, result!.copyId);
-    assert.deepStrictEqual(properties2.copySource, blobClient.url);
+
+    // A service feature is being rolling out which will sanitize the sig field
+    // so we remove it before comparing urls.
+    assert.ok(properties2.copySource, "Expecting valid 'properties2.copySource");
+
+    const sanitizedActualUrl = URLBuilder.parse(properties2.copySource!);
+    const sanitizedQuery = URLQuery.parse(sanitizedActualUrl.getQuery()!);
+    sanitizedQuery.set("sig", undefined);
+    sanitizedActualUrl.setQuery(sanitizedQuery.toString());
+
+    const sanitizedExpectedUrl = URLBuilder.parse(blobClient.url);
+    const sanitizedQuery2 = URLQuery.parse(sanitizedActualUrl.getQuery()!);
+    sanitizedQuery2.set("sig", undefined);
+    sanitizedExpectedUrl.setQuery(sanitizedQuery.toString());
+
+    assert.strictEqual(
+      sanitizedActualUrl.toString(),
+      sanitizedExpectedUrl.toString(),
+      "copySource does not match original source"
+    );
   });
 
   it("supports cancellation of the copy", async function() {

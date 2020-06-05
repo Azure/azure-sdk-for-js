@@ -3,29 +3,32 @@
 
 import { AppConfigurationClient } from "../src";
 import {
+  startRecorder,
   createAppConfigurationClientForTests,
   deleteKeyCompletely,
   assertThrowsRestError
 } from "./testHelpers";
 import * as assert from "assert";
+import { Recorder } from "@azure/test-utils-recorder";
 
 describe("etags", () => {
   let client: AppConfigurationClient;
-  const key = `etags-${Date.now()}`;
+  let recorder: Recorder;
+  let key: string;
 
-  before(function() {
+  beforeEach(async function() {
+    recorder = startRecorder(this);
+    key = recorder.getUniqueName("etags");
     client = createAppConfigurationClientForTests() || this.skip();
-  });
-
-  beforeEach(async () => {
     await client.addConfigurationSetting({
       key: key,
       value: "some value"
     });
   });
 
-  afterEach(async () => {
+  afterEach(async function() {
     await deleteKeyCompletely([key], client);
+    recorder.stop();
   });
 
   // etag usage is 'opt-in' via the onlyIfChanged/onlyIfUnchanged options for certain calls

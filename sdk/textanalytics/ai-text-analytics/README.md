@@ -2,6 +2,8 @@
 
 [Azure TextAnalytics](https://azure.microsoft.com/services/cognitive-services/text-analytics/) is a cloud-based service that provides advanced natural language processing over raw text, and includes six main functions:
 
+__Note:__ This SDK targets Azure Text Analytics service API version 3.0.
+
 - Language Detection
 - Sentiment Analysis
 - Key Phrase Extraction
@@ -35,7 +37,7 @@ Use the client library to:
 If you use the Azure CLI, replace `<your-resource-group-name>` and `<your-resource-name>` with your own unique names:
 
 ```PowerShell
-az cognitiveservices account create --kind TextAnalytics --resource-group <your-resource-group-name> --name <your-resource-name>
+az cognitiveservices account create --kind TextAnalytics --resource-group <your-resource-group-name> --name <your-resource-name> --sku <your-sku-name> --location <your-location>
 ```
 
 ### Install the `@azure/ai-text-analytics` package
@@ -86,7 +88,7 @@ or other credential providers provided with the Azure SDK, please install the `@
 npm install @azure/identity
 ```
 
-You will also need to [register a new AAD application][register_aad_app] and grant access to Text Analytics by assigning the `"Cognitive Services User"` role to your service principal.
+You will also need to [register a new AAD application][register_aad_app] and grant access to Text Analytics by assigning the `"Cognitive Services User"` role to your service principal (note: other roles such as `"Owner"` will not grant the necessary permissions, only `"Cognitive Services User"` will suffice to run the examples and the sample code).
 
 Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
@@ -225,7 +227,7 @@ async function main() {
     if (result.error === undefined) {
       console.log(" -- Recognized entities for input", result.id, "--");
       for (const entity of result.entities) {
-        console.log(entity.text, ":", entity.category, "(Score:", entity.score, ")");
+        console.log(entity.text, ":", entity.category, "(Score:", entity.confidenceScore, ")");
       }
     } else {
       console.error("Encountered an error:", result.error);
@@ -263,7 +265,7 @@ async function main() {
       for (const entity of result.entities) {
         console.log(entity.name, "(URL:", entity.url, ", Source:", entity.dataSource, ")");
         for (const match of entity.matches) {
-          console.log("  Occurrence:", "\"" + match.text + "\"", "(Score:", match.score, ")");
+          console.log("  Occurrence:", "\"" + match.text + "\"", "(Score:", match.confidenceScore, ")");
         }
       }
     } else {
@@ -326,15 +328,15 @@ const client = new TextAnalyticsClient(
 const documents = [
   "This is written in English.",
   "Il documento scritto in italiano.",
-  "Dies ist in englischer Sprache verfasst."
+  "Dies ist in deutscher Sprache verfasst."
 ];
 
 async function main() {
   const results = await client.detectLanguage(documents, "none");
 
   for (const result of results) {
-    const { primaryLanguage } = result;
     if (result.error === undefined) {
+      const { primaryLanguage } = result;
       console.log(
         "Input #",
         result.id,
@@ -343,7 +345,7 @@ async function main() {
         "( ISO6391:",
         primaryLanguage.iso6391Name,
         ", Score:",
-        primaryLanguage.score,
+        primaryLanguage.confidenceScore,
         ")"
       );
     } else {
@@ -359,13 +361,15 @@ main();
 
 ### Enable logs
 
-You can set the following environment variable to see debug logs when using this library.
+You can set the following environment variable to get the debug logging output when using this library.
 
-- Getting debug logs from the Azure TextAnalytics client library
+- Getting debug logs from the Azure Text Analytics client library
 
 ```bash
-export DEBUG=azure*
+export AZURE_LOG_LEVEL=verbose
 ```
+
+For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/logger).
 
 ## Next steps
 
@@ -374,18 +378,6 @@ Please take a look at the
 directory for detailed examples on how to use this library.
 
 ## Contributing
-
-This project welcomes contributions and suggestions. Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit https://cla.microsoft.com.
-
-When you submit a pull request, a CLA-bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.
-
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
-contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
 
