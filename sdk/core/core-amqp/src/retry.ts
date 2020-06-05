@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 /* eslint-disable eqeqeq */
 
-import { translate, MessagingError } from "./errors";
+import { MessagingError, translate } from "./errors";
 import { delay } from "./util/utils";
 import { logger } from "./log";
 import { Constants } from "./util/constants";

@@ -98,7 +98,7 @@
     "@typescript-eslint/eslint-plugin": "^2.0.0",
     "@typescript-eslint/parser": "^2.0.0",
     "chai": "^4.2.0",
-    "cross-env": "^6.0.3",
+    "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
     "eslint": "^6.1.0",
     "eslint-config-prettier": "^6.0.0",
@@ -133,7 +133,7 @@
     "rollup-plugin-visualizer": "^3.1.1",
     "sinon": "^9.0.2",
     "ts-node": "^8.3.0",
-    "typescript": "~3.8.3",
+    "typescript": "~3.9.3",
     "util": "^0.12.1"
   }
 }

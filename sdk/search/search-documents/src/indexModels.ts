@@ -43,7 +43,7 @@ export interface GetDocumentOptions<Fields> extends OperationOptions {
 /**
  * Options for the modify index batch operation.
  */
-export interface IndexDocuments extends OperationOptions {
+export interface IndexDocumentsOptions extends OperationOptions {
   /**
    * If true, will cause this operation to throw if any document operation
    * in the batch did not succeed.
@@ -54,22 +54,22 @@ export interface IndexDocuments extends OperationOptions {
 /**
  * Options for the upload documents operation.
  */
-export type UploadDocumentsOptions = IndexDocuments;
+export type UploadDocumentsOptions = IndexDocumentsOptions;
 
 /**
  * Options for the merge documents operation.
  */
-export type MergeDocumentsOptions = IndexDocuments;
+export type MergeDocumentsOptions = IndexDocumentsOptions;
 
 /**
  * Options for the merge or upload documents operation.
  */
-export type MergeOrUploadDocumentsOptions = IndexDocuments;
+export type MergeOrUploadDocumentsOptions = IndexDocumentsOptions;
 
 /**
  * Options for the delete documents operation.
  */
-export type DeleteDocumentsOptions = IndexDocuments;
+export type DeleteDocumentsOptions = IndexDocumentsOptions;
 
 /**
  * Arguments for retrieving the next page of search results.
@@ -179,10 +179,6 @@ export interface SearchRequest<Fields> {
    * the results.
    */
   scoringProfile?: string;
-  /**
-   * A full-text search query expression; Use "*" or omit this parameter to match all documents.
-   */
-  searchText?: string;
   /**
    * The comma-separated list of field names to which to scope the full-text search. When using
    * fielded search (fieldName:searchExpression) in a full Lucene query, the field names of each
@@ -327,11 +323,6 @@ export interface SuggestRequest<Fields> {
    */
   orderBy?: string[];
   /**
-   * The search text to use to suggest documents. Must be at least 1 character, and no more than
-   * 100 characters.
-   */
-  searchText: string;
-  /**
    * The comma-separated list of field names to search for the specified search text. Target fields
    * must be included in the specified suggester.
    */
@@ -341,11 +332,6 @@ export interface SuggestRequest<Fields> {
    * included in the results.
    */
   select?: Fields[];
-  /**
-   * The name of the suggester as specified in the suggesters collection that's part of the index
-   * definition.
-   */
-  suggesterName: string;
   /**
    * The number of suggestions to retrieve. This must be a value between 1 and 100. The default is
    * 5.
@@ -385,10 +371,6 @@ export interface SuggestDocumentsResult<T> {
  * Parameters for fuzzy matching, and other autocomplete query behaviors.
  */
 export interface AutocompleteRequest<Fields> {
-  /**
-   * The search text on which to base autocomplete results.
-   */
-  searchText: string;
   /**
    * Specifies the mode for Autocomplete. The default is 'oneTerm'. Use 'twoTerms' to get shingles
    * and 'oneTermWithContext' to use the current context while producing auto-completed terms.
@@ -430,11 +412,6 @@ export interface AutocompleteRequest<Fields> {
    * Target fields must be included in the specified suggester.
    */
   searchFields?: Fields[];
-  /**
-   * The name of the suggester as specified in the suggesters collection that's part of the index
-   * definition.
-   */
-  suggesterName: string;
   /**
    * The number of auto-completed terms to retrieve. This must be a value between 1 and 100. The
    * default is 5.

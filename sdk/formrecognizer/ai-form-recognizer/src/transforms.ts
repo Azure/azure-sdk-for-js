@@ -24,12 +24,8 @@ import {
   FormTableRow,
   FormTable,
   RecognizedForm,
-  FormText,
+  FieldText,
   FormField,
-  RecognizeFormResultResponse,
-  RecognizeContentResultResponse,
-  RecognizedContent,
-  RecognizeReceiptResultResponse,
   FieldValue,
   StringFieldValue,
   DateFieldValue,
@@ -42,13 +38,17 @@ import {
   Point2D,
   FormModelResponse,
   CustomFormField,
-  CustomFormSubModel,
+  CustomFormSubmodel,
   RecognizedReceipt,
   USReceiptType,
   USReceiptItem,
   ReceiptItemArrayField,
-  ReceiptWithLocale
 } from "./models";
+import {
+  RecognizeFormResultResponse,
+  RecognizeContentResultResponse,
+  RecognizeReceiptResultResponse
+} from "./internalModels";
 
 export function toBoundingBox(original: number[]): Point2D[] {
   return [
@@ -112,20 +112,21 @@ export function toFormContent(element: string, readResults: FormPage[]): FormCon
   }
 }
 
-export function toFormText(original: KeyValueElementModel, readResults?: FormPage[]): FormText {
+export function toFieldText(pageNumber: number, original: KeyValueElementModel, readResults?: FormPage[]): FieldText {
   return {
+    pageNumber,
     text: original.text,
     boundingBox: original.boundingBox ? toBoundingBox(original.boundingBox) : undefined,
     textContent: original.elements?.map((element) => toFormContent(element, readResults!))
   };
 }
 
-export function toFormField(original: KeyValuePairModel, readResults?: FormPage[]): FormField {
+export function toFormField(pageNumber: number, original: KeyValuePairModel, readResults?: FormPage[]): FormField {
   return {
     name: original.label,
     confidence: original.confidence || 1,
-    labelText: toFormText(original.key, readResults),
-    valueText: toFormText(original.value, readResults),
+    labelText: toFieldText(pageNumber, original.key, readResults),
+    valueText: toFieldText(pageNumber, original.value, readResults),
     value: original.value.text,
     valueType: "string"
   };
@@ -310,6 +311,7 @@ export function toFieldsFromFieldValue(
           confidence: fieldValue.confidence,
           name: key,
           valueText: {
+            pageNumber: fieldValue.pageNumber || 0,
             text: fieldValue.text,
             boundingBox: fieldValue.boundingBox,
             textContent: fieldValue.textContent
@@ -326,13 +328,14 @@ export function toFieldsFromFieldValue(
 }
 
 export function toFieldsFromKeyValuePairs(
+  pageNumber: number,
   original: KeyValuePairModel[],
   pages: FormPage[]
 ): { [propertyName: string]: FormField } {
   const result: { [propertyName: string]: FormField } = {};
   for (let i = 0; i < original.length; i++) {
     const pair = original[i];
-    const stringField = toFormField(pair, pages);
+    const stringField = toFormField(pageNumber, pair, pages);
     stringField.name = stringField.name || `field-${i}`;
 
     result[`field-${i}`] = stringField;
@@ -346,7 +349,7 @@ export function toFormFromPageResult(original: PageResultModel, pages: FormPage[
     formType: `form-${original.clusterId}`,
     pageRange: { firstPageNumber: original.pageNumber, lastPageNumber: original.pageNumber },
     pages,
-    fields: original.keyValuePairs ? toFieldsFromKeyValuePairs(original.keyValuePairs, pages) : {}
+    fields: original.keyValuePairs ? toFieldsFromKeyValuePairs(original.pageNumber, original.keyValuePairs, pages) : {}
   };
 }
 
@@ -362,14 +365,14 @@ export function toRecognizedForm(original: DocumentResultModel, pages: FormPage[
 export function toRecognizeContentResultResponse(
   original: GetAnalyzeLayoutResultResponse
 ): RecognizeContentResultResponse {
-  function toRecognizeContentResult(model?: AnalyzeResultModel): RecognizedContent | undefined {
+  function toRecognizeContentResult(model?: AnalyzeResultModel): { version?: string, pages?: FormPage[] } | undefined {
     if (!model) {
       return undefined;
     }
     const pages = toFormPages(model.readResults, model.pageResults);
     return {
       version: model.version,
-      pages: pages
+      pages: pages,
     };
   }
 
@@ -395,10 +398,16 @@ function toRecognizedReceipt(result: DocumentResultModel, pages: FormPage[]): Re
   }
 
   const form = toRecognizedForm(result, pages);
-  return {
-    recognizedForm: form,
-    locale: undefined // in the future service would return locale info
-  };
+  // in the future service would return locale info
+  const locale = "US";
+  switch (locale) {
+    case "US":
+      return toUSReceipt(form);
+    // case "UK":
+    //   return toUKReceipt(form);
+    default:
+      throw new RangeError(`Unsupported receipt with locale '${locale}'`);
+  }
 }
 
 function toReceiptType(field: FormField): USReceiptType {
@@ -409,9 +418,9 @@ function toReceiptType(field: FormField): USReceiptType {
       case "CreditCard":
       case "Gas":
       case "Parking":
-        return  { confidence: field.confidence, type: stringValue };
+        return { confidence: field.confidence, type: stringValue };
       default:
-        return  { confidence: field.confidence, type: "Unrecognized" };
+        return { confidence: field.confidence, type: "Unrecognized" };
     }
   }
 
@@ -426,6 +435,7 @@ function toUSReceiptItems(items: ReceiptItemArrayField): USReceiptItem[] {
       value: item.value.Name?.value,
       valueType: item.value.Name?.type,
       valueText: {
+        pageNumber: item.value.Name?.pageNumber || 0,
         text: item.value.Name?.text,
         boundingBox: item.value.Name?.boundingBox,
         textContent: item.value.Name?.textContent
@@ -437,6 +447,7 @@ function toUSReceiptItems(items: ReceiptItemArrayField): USReceiptItem[] {
       value: item.value.Quantity?.value,
       valueType: item.value.Quantity?.type,
       valueText: {
+        pageNumber: item.value.Quantity?.pageNumber || 0,
         text: item.value.Quantity?.text,
         boundingBox: item.value.Quantity?.boundingBox,
         textContent: item.value.Quantity?.textContent
@@ -448,6 +459,7 @@ function toUSReceiptItems(items: ReceiptItemArrayField): USReceiptItem[] {
       value: item.value.Price?.value,
       valueType: item.value.Price?.type,
       valueText: {
+        pageNumber: item.value.Price?.pageNumber || 0,
         text: item.value.Price?.text,
         boundingBox: item.value.Price?.boundingBox,
         textContent: item.value.Price?.textContent
@@ -459,6 +471,7 @@ function toUSReceiptItems(items: ReceiptItemArrayField): USReceiptItem[] {
       value: item.value.TotalPrice?.value,
       valueType: item.value.TotalPrice?.type,
       valueText: {
+        pageNumber: item.value.TotalPrice?.pageNumber || 0,
         text: item.value.TotalPrice?.text,
         boundingBox: item.value.TotalPrice?.boundingBox,
         textContent: item.value.TotalPrice?.textContent
@@ -474,12 +487,13 @@ function toUSReceiptItems(items: ReceiptItemArrayField): USReceiptItem[] {
   });
 }
 
-function toUSReceipt(receipt: RecognizedReceipt): ReceiptWithLocale {
-  const form = receipt.recognizedForm;
+function toUSReceipt(form: RecognizedForm): RecognizedReceipt {
   return {
     locale: "US",
-    recognizedForm: receipt.recognizedForm,
-    items: form.fields["Items"] ? toUSReceiptItems((form.fields["Items"] as unknown) as ReceiptItemArrayField) : [],
+    recognizedForm: form,
+    items: form.fields["Items"]
+      ? toUSReceiptItems((form.fields["Items"] as unknown) as ReceiptItemArrayField)
+      : [],
     merchantAddress: form.fields["MerchantAddress"],
     merchantName: form.fields["MerchantName"],
     merchantPhoneNumber: form.fields["MerchantPhoneNumber"],
@@ -491,15 +505,6 @@ function toUSReceipt(receipt: RecognizedReceipt): ReceiptWithLocale {
     transactionDate: form.fields["TransactionDate"],
     transactionTime: form.fields["TransactionTime"]
   };
-}
-
-function toReceiptWithLocale(receipt: RecognizedReceipt): ReceiptWithLocale {
-  switch (receipt.locale) {
-    case "US":
-      return toUSReceipt(receipt);
-    default:
-      throw new RangeError(`Unsupported receipt with locale ${receipt.locale}`);
-  }
 }
 
 export function toReceiptResultResponse(
@@ -516,19 +521,16 @@ export function toReceiptResultResponse(
   }
 
   if (!result.analyzeResult) {
-    throw new Error("Expecting valid analyzeResult from the service response")
+    throw new Error("Expecting valid analyzeResult from the service response");
   }
 
   const pages = result.analyzeResult!.readResults.map(toFormPage);
   return {
     ...common,
     version: result.analyzeResult!.version,
-    receipts: result.analyzeResult!.documentResults!.filter(d => {
+    receipts: result.analyzeResult!.documentResults!.filter((d) => {
       return !!d.fields
-    }).map((d) => {
-      const receipt = toRecognizedReceipt(d, pages);
-      return toReceiptWithLocale({ ...receipt, locale: "US" }); // default to US until service returns locale info.
-    })
+    }).map((d) => toRecognizedReceipt(d, pages))
   };
 }
 
@@ -546,7 +548,7 @@ export function toFormModelResponse(response: GetCustomModelResponse): FormModel
     // training with forms and labels, populate from trainingResult.fields
     const fields: { [propertyName: string]: CustomFormField } = {};
     for (const f of response.trainResult.fields!) {
-      fields[f.fieldName] = { name: f.fieldName, accuracy: f.accuracy };
+      fields[f.fieldName] = { name: f.fieldName, accuracy: f.accuracy, label: null };
     }
     return {
       ...common,
@@ -562,13 +564,13 @@ export function toFormModelResponse(response: GetCustomModelResponse): FormModel
     };
   } else if (response.keys) {
     // training with forms, populate from trainingResult.keys
-    const submodels: CustomFormSubModel[] = [];
+    const submodels: CustomFormSubmodel[] = [];
     for (const clusterKey in response.keys.clusters) {
       const cluster = response.keys.clusters[clusterKey];
       const fields: { [propertyName: string]: CustomFormField } = {};
 
       for (let i = 0; i < cluster.length; i++) {
-        fields[`field-${i}`] = { name: `field-${i}` };
+        fields[`field-${i}`] = { name: `field-${i}`, label: cluster[i] };
       }
       submodels.push({ formType: `form-${clusterKey}`, fields });
     }

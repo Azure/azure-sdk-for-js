@@ -2,29 +2,29 @@
 // Licensed under the MIT license.
 
 import {
-  translate,
-  Constants,
-  MessagingError,
-  retry,
-  RetryOperationType,
-  RetryConfig,
   ConditionErrorNameMapper,
+  Constants,
   ErrorNameConditionMapper,
-  RetryOptions
+  MessagingError,
+  RetryConfig,
+  RetryOperationType,
+  RetryOptions,
+  retry,
+  translate
 } from "@azure/core-amqp";
 import {
-  Receiver,
-  OnAmqpEvent,
-  EventContext,
-  ReceiverOptions,
   AmqpError,
+  EventContext,
+  OnAmqpEvent,
+  Receiver,
+  ReceiverOptions,
   isAmqpError
 } from "rhea-promise";
 import * as log from "../log";
 import { LinkEntity } from "./linkEntity";
 import { ClientEntityContext } from "../clientEntityContext";
-import { ServiceBusMessageImpl, DispositionType, ReceiveMode } from "../serviceBusMessage";
-import { getUniqueName, calculateRenewAfterDuration } from "../util/utils";
+import { DispositionType, ReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
+import { calculateRenewAfterDuration, getUniqueName } from "../util/utils";
 import { MessageHandlerOptions } from "../models";
 import { DispositionStatusOptions } from "./managementClient";
 
@@ -915,7 +915,7 @@ export class MessageReceiver extends LinkEntity {
       //   - Any non MessagingError because such errors do not get
       //     translated by `@azure/core-amqp` to a MessagingError
       //   - More details here - https://github.com/Azure/azure-sdk-for-js/pull/8580#discussion_r417087030
-      let shouldReopen =
+      const shouldReopen =
         translatedError instanceof MessagingError ? translatedError.retryable : true;
 
       // Non-retryable errors that aren't caused by disconnect

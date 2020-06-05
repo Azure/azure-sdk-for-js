@@ -55,8 +55,8 @@
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "karma start --single-run",
-    "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace dist-esm/test/*.test.js",
-    "integration-test:node:no-timeout": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --no-timeouts --full-trace dist-esm/test/*.test.js",
+    "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace dist-esm/test/**/*.spec.js",
+    "integration-test:node:no-timeout": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --no-timeouts --full-trace dist-esm/test/**/*.spec.js",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
     "lint": "eslint package.json api-extractor.json src test --ext .ts -f html -o keyvault-secrets-lintReport.html",
@@ -115,7 +115,7 @@
     "@typescript-eslint/parser": "^2.0.0",
     "assert": "^1.4.1",
     "chai": "^4.2.0",
-    "cross-env": "^6.0.3",
+    "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
     "eslint": "^6.1.0",
     "eslint-config-prettier": "^6.0.0",
@@ -151,7 +151,7 @@
     "rollup-plugin-visualizer": "^3.1.1",
     "sinon": "^9.0.2",
     "source-map-support": "^0.5.9",
-    "typescript": "~3.8.3",
+    "typescript": "~3.9.3",
     "uglify-js": "^3.4.9",
     "url": "^0.11.0"
   }

@@ -14,13 +14,13 @@ import {
   throwTypeErrorIfParameterNotLongArray
 } from "./util/errors";
 import { ServiceBusMessageBatch } from "./serviceBusMessageBatch";
-import { CreateBatchOptions, CreateSenderOptions } from "./models";
+import { CreateBatchOptions, SenderOpenOptions } from "./models";
 import {
-  retry,
-  RetryOperationType,
+  MessagingError,
   RetryConfig,
+  RetryOperationType,
   RetryOptions,
-  MessagingError
+  retry
 } from "@azure/core-amqp";
 import { OperationOptions } from "./modelsToBeSharedWithEventHubs";
 
@@ -89,6 +89,17 @@ export interface Sender {
    * @throws Error if the underlying connection or sender has been closed.
    */
   createBatch(options?: CreateBatchOptions): Promise<ServiceBusMessageBatch>;
+
+  /**
+   * Opens the AMQP link to Azure Service Bus from the sender.
+   *
+   * It is not necessary to call this method in order to use the sender. It is
+   * recommended to call this before your first send() or sendBatch() call if you
+   * want to front load the work of setting up the AMQP link to the service.
+   *
+   * @param options - Options bag to pass an abort signal.
+   */
+  open(options?: SenderOpenOptions): Promise<void>;
 
   /**
    * @property Returns `true` if either the sender or the client that created it has been closed
@@ -402,7 +413,7 @@ export class SenderImpl implements Sender {
     return retry<void>(config);
   }
 
-  async open(options?: CreateSenderOptions): Promise<void> {
+  async open(options?: SenderOpenOptions): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
 
     const config: RetryConfig<void> = {

@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import {
-  SubscriptionEventHandlers,
-  PartitionContext
+  PartitionContext,
+  SubscriptionEventHandlers
 } from "../../src/eventHubConsumerClientModels";
 import { EventHubConsumerClient } from "../../src/eventHubConsumerClient";
 import { EventHubProducerClient } from "../../src/eventHubProducerClient";
@@ -173,16 +173,14 @@ export class SubscriptionHandlerForTests implements Required<SubscriptionEventHa
 
 export async function sendOneMessagePerPartition(
   partitionIds: string[],
-  client: EventHubClient
+  producerClient: EventHubProducerClient
 ): Promise<{ body: string; partitionId: string }[]> {
   const expectedMessagePrefix = "EventProcessor test - multiple partitions - ";
   const sentMessages = [];
 
   for (const partitionId of partitionIds) {
-    const producer = client.createProducer({ partitionId });
     const body = expectedMessagePrefix + partitionId;
-    await producer.send({ body });
-    await producer.close();
+    await producerClient.sendBatch([{ body }], { partitionId });
     sentMessages.push({
       body,
       partitionId

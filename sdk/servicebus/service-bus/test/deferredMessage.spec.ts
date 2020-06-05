@@ -6,8 +6,8 @@ const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import { ServiceBusMessage } from "../src";
-import { TestMessage, TestClientType } from "./utils/testUtils";
-import { testPeekMsgsLength, createServiceBusClientForTests } from "./utils/testutils2";
+import { TestClientType, TestMessage } from "./utils/testUtils";
+import { createServiceBusClientForTests, testPeekMsgsLength } from "./utils/testutils2";
 import { Receiver } from "../src/receivers/receiver";
 import { Sender } from "../src/sender";
 import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
@@ -32,7 +32,7 @@ describe("deferred messages", () => {
     receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
 
     sender = serviceBusClient.test.addToCleanup(
-      await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
 
     deadLetterReceiver = serviceBusClient.test.createDeadLetterReceiver(entityNames);

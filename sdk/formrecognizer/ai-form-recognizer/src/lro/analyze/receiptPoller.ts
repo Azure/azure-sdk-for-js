@@ -4,29 +4,27 @@
 import { delay, AbortSignalLike } from "@azure/core-http";
 import { Poller, PollOperation, PollOperationState } from "@azure/core-lro";
 import {
-  RecognizeFormsOptions,
-  RecognizeContentOptions,
-  RecognizeReceiptsOptions
+  RecognizeReceiptsOptions,
 } from "../../formRecognizerClient";
 
-import { OperationStatus, ContentType } from "../../generated/models";
-import { FormRecognizerRequestBody } from "../../models";
+import {
+  GeneratedClientAnalyzeReceiptAsyncResponse as AnalyzeReceiptAsyncResponseModel,
+  OperationStatus
+} from "../../generated/models";
+import { FormContentType } from "../../common";
+import { FormRecognizerRequestBody, RecognizedReceiptArray } from "../../models";
+import { RecognizeReceiptResultResponse } from "../../internalModels";
 export { OperationStatus };
 
-export type RecognizeOptions =
-  | RecognizeReceiptsOptions
-  | RecognizeContentOptions
-  | RecognizeFormsOptions;
-
-export interface PollerOperationOptions<T> {
+export interface ReceiptPollerOperationOptions {
   /**
    * Time between each polling in milliseconds.
    */
-  intervalInMs?: number;
+  updateIntervalInMs?: number;
   /**
    * callback to receive events on the progress of download operation.
    */
-  onProgress?: (state: BeginRecognizePollState<T>) => void;
+  onProgress?: (state: BeginRecognizeReceiptPollState) => void;
   /**
    * A serialized poller, used to resume an existing operation
    */
@@ -37,67 +35,67 @@ export interface PollerOperationOptions<T> {
  * Defines the operations from a analyze client that are needed for the poller
  * to work
  */
-export type RecognizePollerClient<T> = {
+export type RecognizeReceiptPollerClient = {
   // returns a result id to retrieve results
   beginRecognize: (
     source: FormRecognizerRequestBody | string,
-    contentType?: ContentType,
-    analyzeOptions?: RecognizeOptions,
+    contentType?: FormContentType,
+    analyzeOptions?: RecognizeReceiptsOptions,
     modelId?: string
-  ) => Promise<{ operationLocation?: string }>;
+  ) => Promise<AnalyzeReceiptAsyncResponseModel>;
   // retrieves analyze result
-  getRecognizeResult: (resultId: string, options: { abortSignal?: AbortSignalLike }) => Promise<T>;
+  getRecognizeResult: (resultId: string, options: { abortSignal?: AbortSignalLike }) => Promise<RecognizeReceiptResultResponse>;
 };
 
-export interface BeginRecognizePollState<T> extends PollOperationState<T> {
-  readonly client: RecognizePollerClient<T>;
+export interface BeginRecognizeReceiptPollState extends PollOperationState<RecognizedReceiptArray> {
+  readonly client: RecognizeReceiptPollerClient;
   source?: FormRecognizerRequestBody | string;
-  contentType?: ContentType;
+  contentType?: FormContentType;
   modelId?: string;
   resultId?: string;
   status: OperationStatus;
-  readonly analyzeOptions?: RecognizeOptions;
+  readonly analyzeOptions?: RecognizeReceiptsOptions;
 }
 
-export interface BeginRecognizePollerOperation<T>
-  extends PollOperation<BeginRecognizePollState<T>, T> {}
+export interface BeginRecognizeReceiptPollerOperation
+extends PollOperation<BeginRecognizeReceiptPollState, RecognizedReceiptArray> {}
 
 /**
  * @internal
  */
-export type BeginRecognizePollerOptions<T> = {
-  client: RecognizePollerClient<T>;
+export type BeginRecognizeReceiptPollerOptions = {
+  client: RecognizeReceiptPollerClient;
   source: FormRecognizerRequestBody | string;
-  contentType?: ContentType;
+  contentType?: FormContentType;
   modelId?: string;
-  intervalInMs?: number;
+  updateIntervalInMs?: number;
   resultId?: string;
-  onProgress?: (state: BeginRecognizePollState<T>) => void;
+  onProgress?: (state: BeginRecognizeReceiptPollState) => void;
   resumeFrom?: string;
-} & RecognizeOptions;
+} & RecognizeReceiptsOptions;
 
 /**
  * Class that represents a poller that waits until a model has been trained.
  */
-export class BeginRecognizePoller<T extends { status: OperationStatus }> extends Poller<
-  BeginRecognizePollState<T>,
-  T
+export class BeginRecognizeReceiptPoller extends Poller<
+  BeginRecognizeReceiptPollState,
+  RecognizedReceiptArray
 > {
-  public intervalInMs: number;
+  public updateIntervalInMs: number;
 
-  constructor(options: BeginRecognizePollerOptions<T>) {
+  constructor(options: BeginRecognizeReceiptPollerOptions) {
     const {
       client,
       source,
       contentType,
-      intervalInMs = 5000,
+      updateIntervalInMs = 5000,
       resultId,
       modelId,
       onProgress,
       resumeFrom
     } = options;
 
-    let state: BeginRecognizePollState<T> | undefined;
+    let state: BeginRecognizeReceiptPollState | undefined;
 
     if (resumeFrom) {
       state = JSON.parse(resumeFrom).state;
@@ -120,28 +118,28 @@ export class BeginRecognizePoller<T extends { status: OperationStatus }> extends
       this.onProgress(onProgress);
     }
 
-    this.intervalInMs = intervalInMs;
+    this.updateIntervalInMs = updateIntervalInMs;
   }
 
   public delay(): Promise<void> {
-    return delay(this.intervalInMs);
+    return delay(this.updateIntervalInMs);
   }
 }
 /**
  * Creates a poll operation given the provided state.
  * @ignore
  */
-function makeBeginRecognizePollOperation<T extends { status: OperationStatus }>(
-  state: BeginRecognizePollState<T>
-): BeginRecognizePollerOperation<T> {
+function makeBeginRecognizePollOperation(
+  state: BeginRecognizeReceiptPollState
+): BeginRecognizeReceiptPollerOperation {
   return {
     state: { ...state },
 
-    async cancel(_options = {}): Promise<BeginRecognizePollerOperation<T>> {
+    async cancel(_options = {}): Promise<BeginRecognizeReceiptPollerOperation> {
       throw new Error("Cancel operation is not supported.");
     },
 
-    async update(options = {}): Promise<BeginRecognizePollerOperation<T>> {
+    async update(options = {}): Promise<BeginRecognizeReceiptPollerOperation> {
       const state = this.state;
       const { client, source, contentType, analyzeOptions, modelId } = state;
 
@@ -173,15 +171,16 @@ function makeBeginRecognizePollOperation<T extends { status: OperationStatus }>(
       state.status = response.status;
       if (!state.isCompleted) {
         if (
-          (response.status === "running" || response.status === "notStarted") &&
           typeof options.fireProgress === "function"
         ) {
           options.fireProgress(state);
-        } else if (response.status === "succeeded") {
-          state.result = response;
+        }
+
+        if (response.status === "succeeded") {
+          state.result = response.receipts;
           state.isCompleted = true;
         } else if (response.status === "failed") {
-          throw new Error(`Recognition failed ${(response as any)._response.bodyAsText}`);
+          throw new Error(`Recognition failed ${response._response.bodyAsText}`);
         }
       }
 

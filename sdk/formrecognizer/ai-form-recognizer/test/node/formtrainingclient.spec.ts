@@ -12,12 +12,7 @@ import {
   createRecordedTrainingClient,
   createRecordedRecognizerClient
 } from "../util/recordedClients";
-import {
-  FormRecognizerClient,
-  AzureKeyCredential,
-  TrainingDocumentInfo,
-  FormTrainingClient
-} from "../../src";
+import { FormRecognizerClient, TrainingDocumentInfo, FormTrainingClient } from "../../src";
 import { env, Recorder } from "@azure/test-utils-recorder";
 
 const ASSET_PATH = path.resolve(path.join(process.cwd(), "test-assets"));
@@ -31,10 +26,6 @@ describe("FormTrainingClient NodeJS only", () => {
 
   beforeEach(function() {
     ({ recorder, client: trainingClient } = createRecordedTrainingClient(this));
-    trainingClient = new FormTrainingClient(
-      env.FORM_RECOGNIZER_ENDPOINT,
-      new AzureKeyCredential(env.FORM_RECOGNIZER_API_KEY)
-    );
   });
 
   afterEach(function() {
@@ -144,7 +135,10 @@ describe("FormTrainingClient NodeJS only", () => {
   it("getAccountProperties() gets model count and limit for this account", async () => {
     const properties = await trainingClient.getAccountProperties();
 
-    assert.ok(properties.customModelCount > 0, `Expecting models in account but got ${properties.customModelCount}`);
+    assert.ok(
+      properties.customModelCount > 0,
+      `Expecting models in account but got ${properties.customModelCount}`
+    );
     assert.ok(
       properties.customModelLimit > 0,
       `Expecting maximum number of models in account but got ${properties.customModelLimit}`
@@ -204,6 +198,25 @@ describe("FormTrainingClient NodeJS only", () => {
       );
     }
   });
+
+  // TODO: re-enabling is tracked by https://github.com/azure/azure-sdk-for-js/issues/9072
+  it.skip("copies model", async function() {
+    // for testing purpose, copy into the same resource
+    const resourceId = env.FORM_RECOGNIZER_TARGET_RESOURCE_ID;
+    const resourceRegion = env.FORM_RECOGNIZER_TARGET_RESOURCE_REGION;
+    const targetAuth = await trainingClient.getCopyAuthorization(resourceId, resourceRegion);
+
+    assert.ok(labeledModelId, "Expecting valide model id in source");
+    const poller = await trainingClient.beginCopyModel(labeledModelId!, targetAuth);
+    await poller.pollUntilDone();
+    const result = poller.getResult();
+
+    assert.ok(result, "Expecting valid copy result");
+    assert.equal(result?.modelId, targetAuth.modelId, "Expecting matching model ids");
+    assert.equal(result!.status, "ready");
+    assert.ok(result!.requestedOn, "Expecting valid 'createOn' property");
+    assert.ok(result!.completedOn, "Expecting valid 'lastModified' property");
+  });
 }).timeout(60000);
 
 describe("FormRecognizerClient form recognition NodeJS", () => {
@@ -231,15 +244,13 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
       "image/jpeg"
     );
     await poller.pollUntilDone();
-    const response = poller.getResult();
+    const forms = poller.getResult();
 
-    assert.ok(response, "Expect valid response object");
-    assert.equal(response!.status, "succeeded");
     assert.ok(
-      response!.forms && response!.forms.length > 0,
-      `Expect no-empty pages but got ${response!.forms}`
+      forms && forms.length > 0,
+      `Expect no-empty pages but got ${forms}`
     );
-    const form = response!.forms![0];
+    const form = forms![0];
     assert.equal(form.formType, "form-0");
     assert.deepStrictEqual(form.pageRange, {
       firstPageNumber: 1,
@@ -259,15 +270,13 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
     assert.ok(unlabeledModelId, "Expecting valid model id from training without labels");
     const poller = await recognizerClient.beginRecognizeCustomFormsFromUrl(unlabeledModelId!, url);
     await poller.pollUntilDone();
-    const response = poller.getResult();
+    const forms = poller.getResult();
 
-    assert.ok(response, "Expect valid response object");
-    assert.equal(response!.status, "succeeded");
     assert.ok(
-      response!.forms && response!.forms.length > 0,
-      `Expect no-empty pages but got ${response!.forms}`
+      forms && forms.length > 0,
+      `Expect no-empty pages but got ${forms}`
     );
-    const form = response!.forms![0];
+    const form = forms![0];
     assert.equal(form.formType, "form-0");
     assert.deepStrictEqual(form.pageRange, {
       firstPageNumber: 1,
@@ -290,15 +299,13 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
       "image/jpeg"
     );
     await poller.pollUntilDone();
-    const response = poller.getResult();
+    const forms = poller.getResult();
 
-    assert.ok(response, "Expect valid response object");
-    assert.equal(response!.status, "succeeded");
     assert.ok(
-      response!.forms && response!.forms.length > 0,
-      `Expect no-empty pages but got ${response!.forms}`
+      forms && forms.length > 0,
+      `Expect no-empty pages but got ${forms}`
     );
-    const form = response!.forms![0];
+    const form = forms![0];
     assert.equal(form.formType, "custom:form");
     assert.deepStrictEqual(form.pageRange, {
       firstPageNumber: 1,
@@ -320,15 +327,13 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
     assert.ok(labeledModelId, "Expecting valid model id from training without labels");
     const poller = await recognizerClient.beginRecognizeCustomForms(labeledModelId!, stream);
     await poller.pollUntilDone();
-    const response = poller.getResult();
+    const forms = poller.getResult();
 
-    assert.ok(response, "Expect valid response object");
-    assert.equal(response!.status, "succeeded");
     assert.ok(
-      response!.forms && response!.forms.length > 0,
-      `Expect no-empty pages but got ${response!.forms}`
+      forms && forms.length > 0,
+      `Expect no-empty pages but got ${forms}`
     );
-    const form = response!.forms![0];
+    const form = forms![0];
     assert.equal(form.formType, "custom:form");
     assert.deepStrictEqual(form.pageRange, {
       firstPageNumber: 1,
@@ -350,15 +355,13 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
     assert.ok(labeledModelId, "Expecting valid model id from training without labels");
     const poller = await recognizerClient.beginRecognizeCustomForms(labeledModelId!, stream);
     await poller.pollUntilDone();
-    const response = poller.getResult();
+    const forms = poller.getResult();
 
-    assert.ok(response, "Expect valid response object");
-    assert.equal(response!.status, "succeeded");
     assert.ok(
-      response!.forms && response!.forms.length > 0,
-      `Expect no-empty pages but got ${response!.forms}`
+      forms && forms.length > 0,
+      `Expect no-empty pages but got ${forms}`
     );
-    const form = response!.forms![0];
+    const form = forms![0];
     assert.equal(form.formType, "custom:form");
     assert.deepStrictEqual(form.pageRange, {
       firstPageNumber: 1,

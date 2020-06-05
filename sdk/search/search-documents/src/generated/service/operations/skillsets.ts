@@ -34,14 +34,14 @@ export class Skillsets {
    * @param [options] The optional parameters
    * @returns Promise<Models.SkillsetsCreateOrUpdateResponse>
    */
-  createOrUpdate(skillsetName: string, skillset: Models.Skillset, options?: Models.SkillsetsCreateOrUpdateOptionalParams): Promise<Models.SkillsetsCreateOrUpdateResponse>;
+  createOrUpdate(skillsetName: string, skillset: Models.SearchIndexerSkillset, options?: Models.SkillsetsCreateOrUpdateOptionalParams): Promise<Models.SkillsetsCreateOrUpdateResponse>;
   /**
    * @param skillsetName The name of the skillset to create or update.
    * @param skillset The skillset containing one or more skills to create or update in a search
    * service.
    * @param callback The callback
    */
-  createOrUpdate(skillsetName: string, skillset: Models.Skillset, callback: coreHttp.ServiceCallback<Models.Skillset>): void;
+  createOrUpdate(skillsetName: string, skillset: Models.SearchIndexerSkillset, callback: coreHttp.ServiceCallback<Models.SearchIndexerSkillset>): void;
   /**
    * @param skillsetName The name of the skillset to create or update.
    * @param skillset The skillset containing one or more skills to create or update in a search
@@ -49,8 +49,8 @@ export class Skillsets {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(skillsetName: string, skillset: Models.Skillset, options: Models.SkillsetsCreateOrUpdateOptionalParams, callback: coreHttp.ServiceCallback<Models.Skillset>): void;
-  createOrUpdate(skillsetName: string, skillset: Models.Skillset, options?: Models.SkillsetsCreateOrUpdateOptionalParams | coreHttp.ServiceCallback<Models.Skillset>, callback?: coreHttp.ServiceCallback<Models.Skillset>): Promise<Models.SkillsetsCreateOrUpdateResponse> {
+  createOrUpdate(skillsetName: string, skillset: Models.SearchIndexerSkillset, options: Models.SkillsetsCreateOrUpdateOptionalParams, callback: coreHttp.ServiceCallback<Models.SearchIndexerSkillset>): void;
+  createOrUpdate(skillsetName: string, skillset: Models.SearchIndexerSkillset, options?: Models.SkillsetsCreateOrUpdateOptionalParams | coreHttp.ServiceCallback<Models.SearchIndexerSkillset>, callback?: coreHttp.ServiceCallback<Models.SearchIndexerSkillset>): Promise<Models.SkillsetsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         skillsetName,
@@ -100,14 +100,14 @@ export class Skillsets {
    * @param skillsetName The name of the skillset to retrieve.
    * @param callback The callback
    */
-  get(skillsetName: string, callback: coreHttp.ServiceCallback<Models.Skillset>): void;
+  get(skillsetName: string, callback: coreHttp.ServiceCallback<Models.SearchIndexerSkillset>): void;
   /**
    * @param skillsetName The name of the skillset to retrieve.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(skillsetName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.Skillset>): void;
-  get(skillsetName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.Skillset>, callback?: coreHttp.ServiceCallback<Models.Skillset>): Promise<Models.SkillsetsGetResponse> {
+  get(skillsetName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.SearchIndexerSkillset>): void;
+  get(skillsetName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.SearchIndexerSkillset>, callback?: coreHttp.ServiceCallback<Models.SearchIndexerSkillset>): Promise<Models.SkillsetsGetResponse> {
     return this.client.sendOperationRequest(
       {
         skillsetName,
@@ -147,19 +147,19 @@ export class Skillsets {
    * @param [options] The optional parameters
    * @returns Promise<Models.SkillsetsCreateResponse>
    */
-  create(skillset: Models.Skillset, options?: coreHttp.RequestOptionsBase): Promise<Models.SkillsetsCreateResponse>;
+  create(skillset: Models.SearchIndexerSkillset, options?: coreHttp.RequestOptionsBase): Promise<Models.SkillsetsCreateResponse>;
   /**
    * @param skillset The skillset containing one or more skills to create in a search service.
    * @param callback The callback
    */
-  create(skillset: Models.Skillset, callback: coreHttp.ServiceCallback<Models.Skillset>): void;
+  create(skillset: Models.SearchIndexerSkillset, callback: coreHttp.ServiceCallback<Models.SearchIndexerSkillset>): void;
   /**
    * @param skillset The skillset containing one or more skills to create in a search service.
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(skillset: Models.Skillset, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.Skillset>): void;
-  create(skillset: Models.Skillset, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.Skillset>, callback?: coreHttp.ServiceCallback<Models.Skillset>): Promise<Models.SkillsetsCreateResponse> {
+  create(skillset: Models.SearchIndexerSkillset, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.SearchIndexerSkillset>): void;
+  create(skillset: Models.SearchIndexerSkillset, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.SearchIndexerSkillset>, callback?: coreHttp.ServiceCallback<Models.SearchIndexerSkillset>): Promise<Models.SkillsetsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         skillset,
@@ -183,23 +183,23 @@ const createOrUpdateOperationSpec: coreHttp.OperationSpec = {
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.prefer,
     Parameters.ifMatch,
-    Parameters.ifNoneMatch
+    Parameters.ifNoneMatch,
+    Parameters.prefer
   ],
   requestBody: {
     parameterPath: "skillset",
     mapper: {
-      ...Mappers.Skillset,
+      ...Mappers.SearchIndexerSkillset,
       required: true
     }
   },
   responses: {
     200: {
-      bodyMapper: Mappers.Skillset
+      bodyMapper: Mappers.SearchIndexerSkillset
     },
     201: {
-      bodyMapper: Mappers.Skillset
+      bodyMapper: Mappers.SearchIndexerSkillset
     },
     default: {
       bodyMapper: Mappers.SearchError
@@ -244,7 +244,7 @@ const getOperationSpec: coreHttp.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.Skillset
+      bodyMapper: Mappers.SearchIndexerSkillset
     },
     default: {
       bodyMapper: Mappers.SearchError
@@ -286,13 +286,13 @@ const createOperationSpec: coreHttp.OperationSpec = {
   requestBody: {
     parameterPath: "skillset",
     mapper: {
-      ...Mappers.Skillset,
+      ...Mappers.SearchIndexerSkillset,
       required: true
     }
   },
   responses: {
     201: {
-      bodyMapper: Mappers.Skillset
+      bodyMapper: Mappers.SearchIndexerSkillset
     },
     default: {
       bodyMapper: Mappers.SearchError

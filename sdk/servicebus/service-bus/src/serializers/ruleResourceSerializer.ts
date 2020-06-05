@@ -2,34 +2,20 @@
 // Licensed under the MIT license.
 
 import { HttpOperationResponse } from "@azure/core-http";
+import { CorrelationRuleFilter } from "../core/managementClient";
+import {
+  AtomXmlSerializer,
+  deserializeAtomXmlResponse,
+  serializeToAtomXmlRequest
+} from "../util/atomXmlHelper";
 import * as Constants from "../util/constants";
 import {
-  serializeToAtomXmlRequest,
-  deserializeAtomXmlResponse,
-  AtomXmlSerializer
-} from "../util/atomXmlHelper";
-import {
-  getIntegerOrUndefined,
-  getStringOrUndefined,
   getBooleanOrUndefined,
+  getIntegerOrUndefined,
   getString,
+  getStringOrUndefined,
   isJSONLikeObject
 } from "../util/utils";
-import { CorrelationFilter } from "../core/managementClient";
-
-/**
- * @internal
- * @ignore
- * Builds the rule options object from the user provided options.
- * Handles the differences in casing for the property names,
- * converts values to string and ensures the right order as expected by the service
- * @param name
- * @param ruleOptions
- */
-export function buildRuleOptions(name: string, ruleOptions: RuleOptions = {}): InternalRuleOptions {
-  const internalRuleOptions: InternalRuleOptions = Object.assign({}, ruleOptions, { name: name });
-  return internalRuleOptions;
-}
 
 /**
  * @internal
@@ -38,14 +24,11 @@ export function buildRuleOptions(name: string, ruleOptions: RuleOptions = {}): I
  * response from the service
  * @param rawRule
  */
-export function buildRule(rawRule: any): RuleDetails {
+export function buildRule(rawRule: any): RuleDescription {
   return {
-    ruleName: getString(rawRule["RuleName"], "ruleName"),
-    topicName: getString(rawRule["TopicName"], "topicName"),
-    subscriptionName: getString(rawRule["SubscriptionName"], "subscriptionName"),
+    name: getString(rawRule["RuleName"], "ruleName"),
     filter: getTopicFilter(rawRule["Filter"]),
-    action: getRuleActionOrUndefined(rawRule["Action"]),
-    createdOn: getString(rawRule["CreatedAt"], "createdOn")
+    action: getRuleActionOrUndefined(rawRule["Action"])
   };
 }
 
@@ -56,8 +39,8 @@ export function buildRule(rawRule: any): RuleDetails {
  * or undefined if not passed in.
  * @param value
  */
-function getTopicFilter(value: any): SqlFilter | CorrelationFilter {
-  let result: SqlFilter | CorrelationFilter;
+function getTopicFilter(value: any): SqlRuleFilter | CorrelationRuleFilter {
+  let result: SqlRuleFilter | CorrelationRuleFilter;
 
   if (value["SqlExpression"] != undefined) {
     result = {
@@ -89,7 +72,7 @@ function getTopicFilter(value: any): SqlFilter | CorrelationFilter {
  * or undefined if not passed in.
  * @param value
  */
-function getRuleActionOrUndefined(value: any): SqlAction | undefined {
+function getRuleActionOrUndefined(value: any): SqlRuleAction | undefined {
   if (value == undefined) {
     return undefined;
   } else {
@@ -103,135 +86,55 @@ function getRuleActionOrUndefined(value: any): SqlAction | undefined {
 }
 
 /**
- * @internal
- * @ignore
- * Represents settable options on a rule
- */
-export interface RuleOptions {
-  /**
-   * @internal
-   * @ignore
-   * Defines the filter expression that the rule evaluates. For `SqlFilter` input,
-   * the expression string is interpreted as a SQL92 expression which must
-   * evaluate to True or False. Only one between a `CorrelationFilter` or
-   * a `SqlFilter` can be defined.
-   */
-  filter?: SqlFilter | CorrelationFilter;
-
-  /**
-   * @internal
-   * @ignore
-   * The SQL like expression that can be executed on the message should the
-   * associated filter apply.
-   */
-  action?: SqlAction;
-}
-
-/**
- * @internal
- * @ignore
- * Internal representation of settable options on a rule
- */
-export interface InternalRuleOptions extends RuleOptions {
-  /**
-   * @internal
-   * @ignore
-   * Name of the rule.
-   */
-  name?: string;
-}
-
-/**
- * @internal
- * @ignore
  * Represents all attributes of a rule entity
  */
-export interface RuleDetails {
+export interface RuleDescription {
   /**
-   * @internal
-   * @ignore
    * Name of the rule
    */
-  ruleName: string;
+  name: string;
 
   /**
-   * @internal
-   * @ignore
-   * Defines the filter expression that the rule evaluates. For `SqlFilter` input,
+   * Defines the filter expression that the rule evaluates. For `SqlRuleFilter` input,
    * the expression string is interpreted as a SQL92 expression which must
-   * evaluate to True or False. Only one between a `CorrelationFilter` or
-   * a `SqlFilter` can be defined.
+   * evaluate to True or False. Only one between a `CorrelationRuleFilter` or
+   * a `SqlRuleFilter` can be defined.
    */
-  filter?: SqlFilter | CorrelationFilter;
+  filter?: SqlRuleFilter | CorrelationRuleFilter;
 
   /**
-   * @internal
-   * @ignore
    * The SQL like expression that can be executed on the message should the
    * associated filter apply.
    */
-  action?: SqlAction;
-
-  /**
-   * @internal
-   * @ignore
-   * Name of topic
-   */
-  topicName: string;
-
-  /**
-   * @internal
-   * @ignore
-   * Name of subscription
-   */
-  subscriptionName: string;
-
-  /**
-   * @internal
-   * @ignore
-   * Created at timestamp
-   */
-  createdOn: string;
+  action?: SqlRuleAction;
 }
 
 /**
- * @internal
- * @ignore
  * Represents all possible fields on SqlAction
  */
-export type SqlAction = SqlFilter;
+export type SqlRuleAction = SqlRuleFilter;
 
 /**
- * @internal
- * @ignore
- * Represents all possible fields on SqlFilter
+ * Represents all possible fields on SqlRuleFilter
  */
-export interface SqlFilter {
+export interface SqlRuleFilter {
   /**
-   * @internal
-   * @ignore
    * SQL expression to use.
    */
   sqlExpression?: string;
 
   /**
-   * @internal
-   * @ignore
    * SQL parameters to the expression
    */
   sqlParameters?: SqlParameter[];
 
   /**
-   * @internal
-   * @ignore
    * This property is reserved for future use. An integer value showing the
    * compatibility level, currently hard-coded to 20.
    */
   compatibilityLevel?: number;
 
   /**
-   * @internal
-   * @ignore
    * Boolean value indicating whether the SQL filter expression requires preprocessing
    */
   requiresPreprocessing?: boolean;
@@ -239,10 +142,11 @@ export interface SqlFilter {
 
 /**
  * @internal
- * @ignore RuleResourceSerializer for serializing / deserializing Rule entities
+ * @ignore
+ * RuleResourceSerializer for serializing / deserializing Rule entities
  */
 export class RuleResourceSerializer implements AtomXmlSerializer {
-  serialize(rule: InternalRuleOptions): object {
+  serialize(rule: RuleDescription): object {
     const resource: { Name: any; Filter: any; Action: any } = {
       Filter: {},
       Action: {},
@@ -261,7 +165,7 @@ export class RuleResourceSerializer implements AtomXmlSerializer {
       };
     } else {
       if (rule.filter.hasOwnProperty("sqlExpression")) {
-        const sqlFilter: SqlFilter = rule.filter as SqlFilter;
+        const sqlFilter: SqlRuleFilter = rule.filter as SqlRuleFilter;
         resource.Filter = {
           SqlExpression: sqlFilter.sqlExpression,
           Parameters: getRawSqlParameters(sqlFilter.sqlParameters),
@@ -273,7 +177,7 @@ export class RuleResourceSerializer implements AtomXmlSerializer {
           "xmlns:p4": "http://www.w3.org/2001/XMLSchema-instance"
         };
       } else {
-        const correlationFilter: CorrelationFilter = rule.filter as CorrelationFilter;
+        const correlationFilter: CorrelationRuleFilter = rule.filter as CorrelationRuleFilter;
 
         resource.Filter = {
           CorrelationId: correlationFilter.correlationId,
@@ -333,8 +237,6 @@ enum SqlParameterType {
   Date = "l28:date"
 }
 /**
- * @internal
- * @ignore
  * Represents type of SQL `Parameter` in ATOM based management operations
  */
 export type SqlParameter = {

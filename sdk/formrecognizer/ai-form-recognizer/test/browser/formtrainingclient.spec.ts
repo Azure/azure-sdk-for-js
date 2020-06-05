@@ -136,7 +136,10 @@ describe("FormTrainingClient browser only", () => {
   it("getAccountProperties() gets model count and limit for this account", async () => {
     const properties = await trainingClient.getAccountProperties();
 
-    assert.ok(properties.customModelCount > 0, `Expecting models in account but got ${properties.customModelCount}`);
+    assert.ok(
+      properties.customModelCount > 0,
+      `Expecting models in account but got ${properties.customModelCount}`
+    );
     assert.ok(
       properties.customModelLimit > 0,
       `Expecting maximum number of models in account but got ${properties.customModelLimit}`
@@ -219,15 +222,13 @@ describe("FormRecognizerClient custom form recognition browser only", () => {
     assert.ok(unlabeledModelId, "Expecting valid model id from training without labels");
     const poller = await recognizerClient.beginRecognizeCustomFormsFromUrl(unlabeledModelId!, url);
     await poller.pollUntilDone();
-    const response = poller.getResult();
+    const forms = poller.getResult();
 
-    assert.ok(response, "Expect valid response object");
-    assert.equal(response!.status, "succeeded");
     assert.ok(
-      response!.forms && response!.forms.length > 0,
-      `Expect no-empty pages but got ${response!.forms}`
+      forms && forms.length > 0,
+      `Expect no-empty pages but got ${forms}`
     );
-    const form = response!.forms![0];
+    const form = forms![0];
     assert.equal(form.formType, "form-0");
     assert.deepStrictEqual(form.pageRange, {
       firstPageNumber: 1,
@@ -257,15 +258,13 @@ describe("FormRecognizerClient custom form recognition browser only", () => {
     assert.ok(data, "Expect valid Blob data to use as input");
     const poller = await recognizerClient.beginRecognizeCustomForms(unlabeledModelId!, data!);
     await poller.pollUntilDone();
-    const response = poller.getResult();
+    const forms = poller.getResult();
 
-    assert.ok(response, "Expect valid response object");
-    assert.equal(response!.status, "succeeded");
     assert.ok(
-      response!.forms && response!.forms.length > 0,
-      `Expect no-empty pages but got ${response!.forms}`
+      forms && forms.length > 0,
+      `Expect no-empty pages but got ${forms}`
     );
-    const form = response!.forms![0];
+    const form = forms![0];
     assert.equal(form.formType, "form-0");
     assert.deepStrictEqual(form.pageRange, {
       firstPageNumber: 1,

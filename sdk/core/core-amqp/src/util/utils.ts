@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import AsyncLock from "async-lock";
-import { AbortSignalLike, AbortError } from "@azure/abort-controller";
+import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { WebSocketImpl } from "rhea-promise";
 
 export { AsyncLock };
