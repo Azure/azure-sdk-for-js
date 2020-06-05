@@ -14,30 +14,11 @@ import { AbortSignalLike, AbortError } from "@azure/abort-controller";
 import { AwaitableSender, delay } from "rhea-promise";
 import { ServiceBusMessageBatchImpl } from "../../src/serviceBusMessageBatch";
 import { SenderImpl } from "../../src/sender";
-import { ServiceBusClient } from "../../src";
 
 describe("AbortSignal", () => {
   const testMessageThatDoesntMatter = {
     body: "doesn't matter"
   };
-
-  describe("ServiceBusClient", () => {
-    it("createSender", async () => {
-      const serviceBusClient = new ServiceBusClient(
-        "Endpoint=sb://host.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=A"
-      );
-
-      try {
-        await serviceBusClient.createSender("fakequeue", {
-          abortSignal: createTaggedAbortSignal("already aborted", true)
-        });
-        assert.fail("Should have thrown");
-      } catch (err) {
-        assert.equal(err.message, "The createSender operation has been cancelled by the user.");
-        assert.equal(err.name, "AbortError");
-      }
-    });
-  });
 
   describe("sender", () => {
     let clientEntityContext: ReturnType<typeof createClientEntityContextForTests>;
