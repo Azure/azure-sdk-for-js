@@ -57,11 +57,6 @@ export type CreateQueueResponse = QueueResponse;
 export type CreateRuleResponse = RuleResponse;
 
 // @public
-export interface CreateSenderOptions {
-    abortSignal?: AbortSignalLike;
-}
-
-// @public
 export interface CreateSessionReceiverOptions extends SessionReceiverOptions, OperationOptions {
 }
 
@@ -336,11 +331,17 @@ export interface Sender {
     createBatch(options?: CreateBatchOptions): Promise<ServiceBusMessageBatch>;
     entityPath: string;
     isClosed: boolean;
+    open(options?: SenderOpenOptions): Promise<void>;
     scheduleMessage(scheduledEnqueueTimeUtc: Date, message: ServiceBusMessage, options?: OperationOptions): Promise<Long>;
     scheduleMessages(scheduledEnqueueTimeUtc: Date, messages: ServiceBusMessage[], options?: OperationOptions): Promise<Long[]>;
     send(message: ServiceBusMessage, options?: OperationOptions): Promise<void>;
     send(messages: ServiceBusMessage[], options?: OperationOptions): Promise<void>;
     send(messageBatch: ServiceBusMessageBatch, options?: OperationOptions): Promise<void>;
+}
+
+// @public
+export interface SenderOpenOptions {
+    abortSignal?: AbortSignalLike;
 }
 
 // @public
@@ -356,7 +357,7 @@ export class ServiceBusClient {
     createReceiver(queueName: string, receiveMode: "receiveAndDelete"): Receiver<ReceivedMessage>;
     createReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock"): Receiver<ReceivedMessageWithLock>;
     createReceiver(topicName: string, subscriptionName: string, receiveMode: "receiveAndDelete"): Receiver<ReceivedMessage>;
-    createSender(queueOrTopicName: string, options?: CreateSenderOptions): Promise<Sender>;
+    createSender(queueOrTopicName: string): Sender;
     createSessionReceiver(queueName: string, receiveMode: "peekLock", options?: CreateSessionReceiverOptions): Promise<SessionReceiver<ReceivedMessageWithLock>>;
     createSessionReceiver(queueName: string, receiveMode: "receiveAndDelete", options?: CreateSessionReceiverOptions): Promise<SessionReceiver<ReceivedMessage>>;
     createSessionReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock", options?: CreateSessionReceiverOptions): Promise<SessionReceiver<ReceivedMessageWithLock>>;

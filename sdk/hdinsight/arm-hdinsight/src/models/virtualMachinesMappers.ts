@@ -7,19 +7,7 @@
  */
 
 export {
-  BaseResource,
-  CloudError,
-  ProxyResource,
-  RedisAccessKeys,
-  RedisFirewallRule,
-  RedisInstanceDetails,
-  RedisLinkedServer,
-  RedisLinkedServerWithProperties,
-  RedisPatchSchedule,
-  RedisPatchScheduleListResult,
-  RedisResource,
-  Resource,
-  ScheduleEntry,
-  Sku,
-  TrackedResource
+  ErrorResponse,
+  HostInfo,
+  HostInfoListResult
 } from "../models/mappers";

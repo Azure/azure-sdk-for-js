@@ -8,6 +8,11 @@
   [PR 9116](https://github.com/Azure/azure-sdk-for-js/pull/9116)
   [PR 9221](https://github.com/Azure/azure-sdk-for-js/pull/9221)
 
+### Breaking Changes
+
+- `ServiceBusClient.createSender()` which was made async in the previous preview to include the link initialization is no longer async. Instead, the sender now has an `open()` method that can be used to proactively initialize the link. 
+  [PR 9302](https://github.com/Azure/azure-sdk-for-js/pull/9302)
+
 ## 7.0.0-preview.2 (2020-05-05)
 
 - Fixes reconnection issues by creating a new connection object rather than re-using the existing one.
