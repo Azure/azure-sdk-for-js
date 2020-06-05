@@ -1471,7 +1471,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     ) {
       const token =
         this.tokenProvider instanceof SharedKeyCredential
-          ? this.tokenProvider.getToken(this.endpoint)!.token
+          ? this.tokenProvider.getToken(this.endpoint).token
           : (await this.tokenProvider.getToken([AMQPConstants.aadServiceBusScope]))!.token;
 
       if (queueOrSubscriptionFields.ForwardTo) {
