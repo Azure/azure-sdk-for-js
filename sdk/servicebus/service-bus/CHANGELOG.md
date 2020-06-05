@@ -1,6 +1,6 @@
 # Release History
 
-## 7.0.0-preview.3 (Unreleased)
+## 7.0.0-preview.3 (2020-05-08)
 
 - Improves the performance of the `ServiceBusMessageBatch.tryAdd` method.
   [PR 8772](https://github.com/Azure/azure-sdk-for-js/pull/8772)
@@ -10,7 +10,7 @@
 
 ### Breaking Changes
 
-- `ServiceBusClient.createSender()` which was made async in the previous preview to include the link initialization is no longer async. Instead, the sender now has an `open()` method that can be used to proactively initialize the link. 
+- `ServiceBusClient.createSender()` which was made async in the previous preview to include the link initialization is no longer async. Instead, the sender now has an `open()` method that can be used to proactively initialize the link.
   [PR 9302](https://github.com/Azure/azure-sdk-for-js/pull/9302)
 
 ## 7.0.0-preview.2 (2020-05-05)
