@@ -20,6 +20,48 @@ export const acceptLanguage: msRest.OperationParameter = {
     }
   }
 };
+export const adaptiveNetworkHardeningEnforceAction: msRest.OperationURLParameter = {
+  parameterPath: "adaptiveNetworkHardeningEnforceAction",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "adaptiveNetworkHardeningEnforceAction",
+    defaultValue: 'enforce',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const adaptiveNetworkHardeningResourceName: msRest.OperationURLParameter = {
+  parameterPath: "adaptiveNetworkHardeningResourceName",
+  mapper: {
+    required: true,
+    serializedName: "adaptiveNetworkHardeningResourceName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const aggregatedAlertName: msRest.OperationURLParameter = {
+  parameterPath: "aggregatedAlertName",
+  mapper: {
+    required: true,
+    serializedName: "aggregatedAlertName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const aggregatedRecommendationName: msRest.OperationURLParameter = {
+  parameterPath: "aggregatedRecommendationName",
+  mapper: {
+    required: true,
+    serializedName: "aggregatedRecommendationName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const alertName: msRest.OperationURLParameter = {
   parameterPath: "alertName",
   mapper: {
@@ -30,11 +72,23 @@ export const alertName: msRest.OperationURLParameter = {
     }
   }
 };
-export const alertUpdateActionType: msRest.OperationURLParameter = {
-  parameterPath: "alertUpdateActionType",
+export const alertsSuppressionRuleName: msRest.OperationURLParameter = {
+  parameterPath: "alertsSuppressionRuleName",
   mapper: {
     required: true,
-    serializedName: "alertUpdateActionType",
+    serializedName: "alertsSuppressionRuleName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const alertType: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "alertType"
+  ],
+  mapper: {
+    serializedName: "AlertType",
     type: {
       name: "String"
     }
@@ -46,7 +100,7 @@ export const apiVersion0: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2017-08-01-preview',
+    defaultValue: '2017-08-01',
     type: {
       name: "String"
     }
@@ -58,7 +112,91 @@ export const apiVersion1: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
+    defaultValue: '2018-06-01',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const apiVersion2: msRest.OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "api-version",
+    defaultValue: '2019-01-01',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const apiVersion3: msRest.OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "api-version",
+    defaultValue: '2019-08-01',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const apiVersion4: msRest.OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "api-version",
     defaultValue: '2015-06-01-preview',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const apiVersion5: msRest.OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "api-version",
+    defaultValue: '2017-08-01-preview',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const apiVersion6: msRest.OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "api-version",
+    defaultValue: '2019-01-01-preview',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const apiVersion7: msRest.OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "api-version",
+    defaultValue: '2020-01-01',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const apiVersion8: msRest.OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "api-version",
+    defaultValue: '2020-01-01-preview',
     type: {
       name: "String"
     }
@@ -74,6 +212,48 @@ export const ascLocation: msRest.OperationURLParameter = {
     }
   }
 };
+export const assessmentMetadataName: msRest.OperationURLParameter = {
+  parameterPath: "assessmentMetadataName",
+  mapper: {
+    required: true,
+    serializedName: "assessmentMetadataName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const assessmentName: msRest.OperationURLParameter = {
+  parameterPath: "assessmentName",
+  mapper: {
+    required: true,
+    serializedName: "assessmentName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const autoDismissRuleName: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "autoDismissRuleName"
+  ],
+  mapper: {
+    serializedName: "autoDismissRuleName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const automationName: msRest.OperationURLParameter = {
+  parameterPath: "automationName",
+  mapper: {
+    required: true,
+    serializedName: "automationName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const complianceName: msRest.OperationURLParameter = {
   parameterPath: "complianceName",
   mapper: {
@@ -84,11 +264,31 @@ export const complianceName: msRest.OperationURLParameter = {
     }
   }
 };
+export const complianceResultName: msRest.OperationURLParameter = {
+  parameterPath: "complianceResultName",
+  mapper: {
+    required: true,
+    serializedName: "complianceResultName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const connectionType: msRest.OperationURLParameter = {
   parameterPath: "connectionType",
   mapper: {
     required: true,
     serializedName: "connectionType",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const deviceSecurityGroupName: msRest.OperationURLParameter = {
+  parameterPath: "deviceSecurityGroupName",
+  mapper: {
+    required: true,
+    serializedName: "deviceSecurityGroupName",
     type: {
       name: "String"
     }
@@ -135,6 +335,28 @@ export const filter: msRest.OperationQueryParameter = {
     serializedName: "$filter",
     type: {
       name: "String"
+    }
+  }
+};
+export const groupName: msRest.OperationURLParameter = {
+  parameterPath: "groupName",
+  mapper: {
+    required: true,
+    serializedName: "groupName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const includePathRecommendations: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "includePathRecommendations"
+  ],
+  mapper: {
+    serializedName: "includePathRecommendations",
+    type: {
+      name: "Boolean"
     }
   }
 };
@@ -191,6 +413,36 @@ export const pricingName: msRest.OperationURLParameter = {
     }
   }
 };
+export const regulatoryComplianceAssessmentName: msRest.OperationURLParameter = {
+  parameterPath: "regulatoryComplianceAssessmentName",
+  mapper: {
+    required: true,
+    serializedName: "regulatoryComplianceAssessmentName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const regulatoryComplianceControlName: msRest.OperationURLParameter = {
+  parameterPath: "regulatoryComplianceControlName",
+  mapper: {
+    required: true,
+    serializedName: "regulatoryComplianceControlName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const regulatoryComplianceStandardName: msRest.OperationURLParameter = {
+  parameterPath: "regulatoryComplianceStandardName",
+  mapper: {
+    required: true,
+    serializedName: "regulatoryComplianceStandardName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const resourceGroupName: msRest.OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
@@ -216,11 +468,51 @@ export const resourceId: msRest.OperationURLParameter = {
     }
   }
 };
+export const resourceName: msRest.OperationURLParameter = {
+  parameterPath: "resourceName",
+  mapper: {
+    required: true,
+    serializedName: "resourceName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const resourceNamespace: msRest.OperationURLParameter = {
+  parameterPath: "resourceNamespace",
+  mapper: {
+    required: true,
+    serializedName: "resourceNamespace",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const resourceType: msRest.OperationURLParameter = {
+  parameterPath: "resourceType",
+  mapper: {
+    required: true,
+    serializedName: "resourceType",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const scope: msRest.OperationURLParameter = {
   parameterPath: "scope",
   mapper: {
     required: true,
     serializedName: "scope",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const secureScoreName: msRest.OperationURLParameter = {
+  parameterPath: "secureScoreName",
+  mapper: {
+    required: true,
+    serializedName: "secureScoreName",
     type: {
       name: "String"
     }
@@ -248,6 +540,18 @@ export const select: msRest.OperationQueryParameter = {
     }
   }
 };
+export const serverVulnerabilityAssessment: msRest.OperationURLParameter = {
+  parameterPath: "serverVulnerabilityAssessment",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "serverVulnerabilityAssessment",
+    defaultValue: 'default',
+    type: {
+      name: "String"
+    }
+  }
+};
 export const settingName0: msRest.OperationURLParameter = {
   parameterPath: "settingName",
   mapper: {
@@ -270,6 +574,26 @@ export const settingName1: msRest.OperationURLParameter = {
     }
   }
 };
+export const solutionName: msRest.OperationURLParameter = {
+  parameterPath: "solutionName",
+  mapper: {
+    required: true,
+    serializedName: "solutionName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const subAssessmentName: msRest.OperationURLParameter = {
+  parameterPath: "subAssessmentName",
+  mapper: {
+    required: true,
+    serializedName: "subAssessmentName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const subscriptionId: msRest.OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
@@ -280,6 +604,18 @@ export const subscriptionId: msRest.OperationURLParameter = {
     },
     type: {
       name: "String"
+    }
+  }
+};
+export const summary: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "summary"
+  ],
+  mapper: {
+    serializedName: "summary",
+    type: {
+      name: "Boolean"
     }
   }
 };
@@ -300,6 +636,18 @@ export const taskUpdateActionType: msRest.OperationURLParameter = {
     serializedName: "taskUpdateActionType",
     type: {
       name: "String"
+    }
+  }
+};
+export const top: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "top"
+  ],
+  mapper: {
+    serializedName: "$top",
+    type: {
+      name: "Number"
     }
   }
 };
