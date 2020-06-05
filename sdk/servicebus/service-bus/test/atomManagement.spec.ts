@@ -115,6 +115,7 @@ describe("Atom management - Authentication", function(): void {
         "Unexpected namespace name in the response"
       );
       await serviceBusManagementClient.deleteQueue(managementQueue1);
+      await serviceBusManagementClient.deleteQueue(managementQueue2);
     });
   }
 });

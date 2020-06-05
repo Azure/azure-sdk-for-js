@@ -398,56 +398,52 @@ export class ServiceBusManagementClient extends ServiceClient {
     credentialOrOptions2?: TokenCredential | ServiceBusManagementClientOptions,
     options3?: ServiceBusManagementClientOptions
   ) {
+    const requestPolicyFactories: RequestPolicyFactory[] = [];
+    let options: ServiceBusManagementClientOptions;
+    let fullyQualifiedNamespace: string;
+    let credentials: SasServiceClientCredentials | TokenCredential;
+    let tokenProvider: SharedKeyCredential | TokenCredential;
     if (isTokenCredential(credentialOrOptions2)) {
-      const fullyQualifiedNamespace = fullyQualifiedNamespaceOrConnectionString1;
-      const credential = credentialOrOptions2;
-      const requestPolicyFactories: RequestPolicyFactory[] = [];
-      if (options3 && options3.proxySettings) {
-        requestPolicyFactories.push(proxyPolicy(options3.proxySettings));
-      }
+      fullyQualifiedNamespace = fullyQualifiedNamespaceOrConnectionString1;
+      options = options3 || {};
+      credentials = credentialOrOptions2;
       requestPolicyFactories.push(
-        bearerTokenAuthenticationPolicy(credential, AMQPConstants.aadServiceBusScope)
+        bearerTokenAuthenticationPolicy(credentials, AMQPConstants.aadServiceBusScope)
       );
-      const serviceClientOptions: ServiceClientOptions = {
-        requestPolicyFactories: requestPolicyFactories
-      };
-      super(credential, serviceClientOptions);
-      this.tokenProvider = credential;
-      this.endpoint = fullyQualifiedNamespace;
-      this.endpointWithProtocol = "sb://" + fullyQualifiedNamespace;
+      tokenProvider = credentials;
     } else {
       const connectionString = fullyQualifiedNamespaceOrConnectionString1;
-      const options = credentialOrOptions2;
+      options = credentialOrOptions2 || {};
       const connectionStringObj: any = parseConnectionString(connectionString);
-
       if (connectionStringObj.Endpoint == undefined) {
         throw new Error("Missing Endpoint in connection string.");
       }
-
-      const credentials = new SasServiceClientCredentials(
+      try {
+        fullyQualifiedNamespace = connectionStringObj.Endpoint.match(".*://([^/]*)")[1];
+      } catch (error) {
+        throw new Error("Endpoint in the connection string is not valid.");
+      }
+      credentials = new SasServiceClientCredentials(
         connectionStringObj.SharedAccessKeyName,
         connectionStringObj.SharedAccessKey
       );
-
-      const requestPolicyFactories: RequestPolicyFactory[] = [];
       requestPolicyFactories.push(signingPolicy(credentials));
-
-      if (options && options.proxySettings) {
-        requestPolicyFactories.push(proxyPolicy(options.proxySettings));
-      }
-      const serviceClientOptions: ServiceClientOptions = {
-        requestPolicyFactories: requestPolicyFactories
-      };
-
-      super(credentials, serviceClientOptions);
-      this.endpoint = (connectionString.match("Endpoint=.*://(.*)/;") || "")[1];
-      this.endpointWithProtocol = connectionStringObj.Endpoint;
-
-      this.tokenProvider = new SharedKeyCredential(
+      tokenProvider = new SharedKeyCredential(
         connectionStringObj.SharedAccessKeyName,
         connectionStringObj.SharedAccessKey
       );
     }
+    if (options && options.proxySettings) {
+      requestPolicyFactories.push(proxyPolicy(options.proxySettings));
+    }
+    const serviceClientOptions: ServiceClientOptions = {
+      requestPolicyFactories: requestPolicyFactories
+    };
+
+    super(credentials, serviceClientOptions);
+    this.endpoint = fullyQualifiedNamespace;
+    this.endpointWithProtocol = "sb://" + fullyQualifiedNamespace;
+    this.tokenProvider = tokenProvider;
     this.namespaceResourceSerializer = new NamespaceResourceSerializer();
     this.queueResourceSerializer = new QueueResourceSerializer();
     this.topicResourceSerializer = new TopicResourceSerializer();
