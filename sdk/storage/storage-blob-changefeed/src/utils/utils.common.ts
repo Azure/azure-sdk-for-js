@@ -18,15 +18,15 @@ export function floorToNearestHour(date: Date | undefined): Date | undefined {
 }
 
 /**
- * Get URL path from an URL string.
+ * Get URI from an URL string.
  *
  * @export
  * @param {string} url Source URL string
  * @returns {(string | undefined)}
  */
-export function getURLPath(url: string): string | undefined {
+export function getURI(url: string): string | undefined {
   const urlParsed = URLBuilder.parse(url);
-  return urlParsed.getPath();
+  return `${urlParsed.getHost()}${urlParsed.getPort()}${urlParsed.getPath()}`;
 }
 
 // s[0]*31^(n - 1) + s[1]*31^(n - 2) + ... + s[n - 1]
@@ -53,6 +53,11 @@ export async function getYearsPaths(containerClient: ContainerClient): Promise<n
 
 export async function getSegmentsInYear(containerClient: ContainerClient, year: number, startTime?: Date, endTime?: Date): Promise<string[]> {
   let segments: string[] = [];
+  const yearBeginTime = new Date(Date.UTC(year, 0));
+  if (endTime && yearBeginTime >= endTime) {
+    return segments;
+  }
+
   const prefix = `${CHANGE_FEED_SEGMENT_PREFIX}${year}/`
   for await (const item of containerClient.listBlobsFlat({ prefix })) {
     const segmentTime = parseDateFromSegmentPath(item.name);

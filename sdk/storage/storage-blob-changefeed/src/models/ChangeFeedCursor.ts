@@ -1,5 +1,6 @@
 
 export interface ChangeFeedCursor {
+  cursorVersion: number;
   urlHash: number;
   endTime?: string;
   currentSegmentCursor: SegmentCursor;

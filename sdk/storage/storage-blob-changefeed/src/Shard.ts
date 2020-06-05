@@ -34,7 +34,7 @@ export class Shard {
 
   public async getChange(): Promise<BlobChangeFeedEvent | undefined> {
     let event: BlobChangeFeedEvent | undefined = undefined;
-    while (!event && this.hasNext()) {
+    while (event === undefined && this.hasNext()) {
       event = await this._currentChunk.getChange();
 
       // Remove currentChunk if it doesn't have more events.

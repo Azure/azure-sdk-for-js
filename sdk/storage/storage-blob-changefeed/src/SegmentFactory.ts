@@ -17,12 +17,9 @@ export interface SegmentManifest {
 }
 
 export class SegmentFactory {
-  private readonly _shardFactory?: ShardFactory;
+  private readonly _shardFactory: ShardFactory;
 
-  // FIXME: remove this empty constructor is not used.
-  constructor();
-  constructor(shardFactory: ShardFactory);
-  constructor(shardFactory?: ShardFactory) {
+  constructor(shardFactory: ShardFactory) {
     this._shardFactory = shardFactory;
   }
 
@@ -43,9 +40,10 @@ export class SegmentFactory {
 
     if (finalized) {
       let i = 0;
+
       const containerPrefixLength = CHANGE_FEED_CONTAINER_NAME.length + 1; // "$blobchangefeed/"
       for (const shardPath of segmentManifest.chunkFilePaths) {
-        const shard: Shard = await this._shardFactory!.buildShard(containerClient, shardPath.substring(containerPrefixLength), cursor?.shardCursors[i++]);
+        const shard: Shard = await this._shardFactory.buildShard(containerClient, shardPath.substring(containerPrefixLength), cursor?.shardCursors[i++]);
         shards.push(shard);
       }
     }

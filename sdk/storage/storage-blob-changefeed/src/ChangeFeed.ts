@@ -3,7 +3,7 @@ import { Segment } from './Segment';
 import { SegmentFactory } from './SegmentFactory';
 import { BlobChangeFeedEvent } from "./models/BlobChangeFeedEvent";
 import { ChangeFeedCursor } from "./models/ChangeFeedCursor";
-import { getURLPath, hashString, getSegmentsInYear, minDate } from "./utils/utils.common";
+import { getURI, hashString, getSegmentsInYear, minDate } from "./utils/utils.common";
 
 export class ChangeFeed {
   /**
@@ -78,12 +78,8 @@ export class ChangeFeed {
   }
 
   public async getChange(): Promise<BlobChangeFeedEvent | undefined> {
-    if (!this.hasNext()) {
-      throw new Error("Change feed doesn't have any more events");
-    }
-
     let event: BlobChangeFeedEvent | undefined = undefined;
-    while (!event && this.hasNext()) {
+    while (event === undefined && this.hasNext()) {
       event = await this._currentSegment!.getChange();
       await this.advanceSegmentIfNecessary();
     }
@@ -96,7 +92,8 @@ export class ChangeFeed {
     }
 
     return {
-      urlHash: hashString(getURLPath(this._containerClient!.url)!),
+      cursorVersion: 1,
+      urlHash: hashString(getURI(this._containerClient!.url)!),
       endTime: this._endTime?.toJSON(),
       currentSegmentCursor: this._currentSegment!.getCursor()
     };
@@ -124,7 +121,7 @@ export class ChangeFeed {
       if (this._segments.length > 0) {
         this._currentSegment = await this._segmentFactory!.buildSegment(this._containerClient!, this._segments.shift()!);
       } else {
-        throw new Error(`Year ${year} in the middle should have returned valid segments.`);
+        this._currentSegment = undefined;
       }
     }
   }

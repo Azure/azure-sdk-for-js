@@ -49,7 +49,7 @@ export class Segment {
     }
 
     let event: BlobChangeFeedEvent | undefined = undefined;
-    while (!event && this.hasNext()) {
+    while (event === undefined && this.hasNext()) {
       if (this._shardDone[this._shardIndex]) {
         this._shardIndex = (this._shardIndex + 1) % this._shards.length; // find next available shard
         continue;

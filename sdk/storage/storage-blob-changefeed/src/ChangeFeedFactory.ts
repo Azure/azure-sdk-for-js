@@ -75,6 +75,10 @@ export class ChangeFeedFactory {
       throw new Error("Change Feed hasn't been enabled on this account, or is currently being enabled.");
     }
 
+    if (startTime && endTime && startTime >= endTime) {
+      return new ChangeFeed();
+    }
+
     // Get last consumable.
     const blobClient = containerClient.getBlobClient(CHANGE_FEED_META_SEGMENT_PATH);
     const blobDownloadRes = await blobClient.download();

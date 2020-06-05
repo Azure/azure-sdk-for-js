@@ -5,9 +5,6 @@ import { BlobChangeFeedClient, BlobChangeFeedEvent, BlobChangeFeedEventPage } fr
 import * as dotenv from "dotenv";
 dotenv.config();
 
-// import { setLogLevel } from "@azure/logger";
-// setLogLevel("info");
-
 describe("BlobChangeFeedClient", async () => {
   const account = process.env.ACCOUNT_NAME || "";
   const accountKey = process.env.ACCOUNT_KEY || "";
