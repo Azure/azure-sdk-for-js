@@ -1,33 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { EnvironmentCredential } from "@azure/identity";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
+import * as dotenv from "dotenv";
 import Long from "long";
 import { MessagingError, Receiver, ServiceBusClient, SessionReceiver } from "../src";
 import { Sender } from "../src/sender";
-import { getReceiverClosedErrorMsg, getSenderClosedErrorMsg } from "../src/util/errors";
-import { TestClientType, TestMessage, checkWithTimeout, isMessagingError } from "./utils/testUtils";
 import {
   DispositionType,
   ReceivedMessageWithLock,
   ServiceBusMessage
 } from "../src/serviceBusMessage";
+import { getReceiverClosedErrorMsg, getSenderClosedErrorMsg } from "../src/util/errors";
+import { EnvVarNames, getEnvVars, isNode } from "../test/utils/envVarUtils";
+import { checkWithTimeout, isMessagingError, TestClientType, TestMessage } from "./utils/testUtils";
+import {
+  createServiceBusClientForTests,
+  EntityName,
+  ServiceBusClientForTests,
+  testPeekMsgsLength
+} from "./utils/testutils2";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
 
-import { getEnvVars, isNode } from "../test/utils/envVarUtils";
-import * as dotenv from "dotenv";
 dotenv.config();
-
-// import { EnvironmentCredential } from "@azure/identity";
-import {
-  EntityName,
-  ServiceBusClientForTests,
-  createServiceBusClientForTests,
-  testPeekMsgsLength
-} from "./utils/testutils2";
 
 describe("Create ServiceBusClient", function(): void {
   let sbClient: ServiceBusClient;
@@ -63,7 +62,7 @@ describe("Random scheme in the endpoint from connection string", function(): voi
     sbClientWithRelaxedEndPoint = new ServiceBusClient(
       getEnvVars().SERVICEBUS_CONNECTION_STRING.replace("sb://", "CheeseBurger://")
     );
-    sender = sbClientWithRelaxedEndPoint.createSender(entities.queue!);
+    sender = await sbClientWithRelaxedEndPoint.createSender(entities.queue!);
     receiver = !entities.usesSessions
       ? sbClientWithRelaxedEndPoint.createReceiver(entities.queue!, "peekLock")
       : await sbClientWithRelaxedEndPoint.createSessionReceiver(entities.queue!, "peekLock", {
@@ -283,29 +282,28 @@ describe("Test ServiceBusClient creation", function(): void {
     "Endpoint=sb://((.*).servicebus.windows.net)"
   ) || "")[1];
 
-  // `keytar` being used in `@azure/identity` is causing the build to fail when imported for the tests.
-  // /**
-  //  * Utility to create EnvironmentCredential using `@azure/identity`
-  //  */
-  // function getDefaultTokenCredential() {
-  //   should.exist(
-  //     env[EnvVarNames.AZURE_CLIENT_ID],
-  //     "define AZURE_CLIENT_ID in your environment before running integration tests."
-  //   );
-  //   should.exist(
-  //     env[EnvVarNames.AZURE_TENANT_ID],
-  //     "define AZURE_TENANT_ID in your environment before running integration tests."
-  //   );
-  //   should.exist(
-  //     env[EnvVarNames.AZURE_CLIENT_SECRET],
-  //     "define AZURE_CLIENT_SECRET in your environment before running integration tests."
-  //   );
-  //   should.exist(
-  //     env[EnvVarNames.SERVICEBUS_CONNECTION_STRING],
-  //     "define SERVICEBUS_CONNECTION_STRING in your environment before running integration tests."
-  //   );
-  //   return new EnvironmentCredential();
-  // }
+  /**
+   * Utility to create EnvironmentCredential using `@azure/identity`
+   */
+  function getDefaultTokenCredential() {
+    should.exist(
+      env[EnvVarNames.AZURE_CLIENT_ID],
+      "define AZURE_CLIENT_ID in your environment before running integration tests."
+    );
+    should.exist(
+      env[EnvVarNames.AZURE_TENANT_ID],
+      "define AZURE_TENANT_ID in your environment before running integration tests."
+    );
+    should.exist(
+      env[EnvVarNames.AZURE_CLIENT_SECRET],
+      "define AZURE_CLIENT_SECRET in your environment before running integration tests."
+    );
+    should.exist(
+      env[EnvVarNames.SERVICEBUS_CONNECTION_STRING],
+      "define SERVICEBUS_CONNECTION_STRING in your environment before running integration tests."
+    );
+    return new EnvironmentCredential();
+  }
 
   it("throws error for invalid tokenCredentials", async function(): Promise<void> {
     try {
@@ -337,39 +335,45 @@ describe("Test ServiceBusClient creation", function(): void {
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
-  // if (isNode) {
-  //   it("Coerces input to string for host in credential based constructor", async function(): Promise<
-  //     void
-  //   > {
-  //     const tokenCreds = getDefaultTokenCredential();
-  //     sbClient = new ServiceBusClient(123 as any, tokenCreds);
-  //     should.equal(sbClient.name, "sb://123/", "Name of the namespace is different than expected");
-  //   });
+  if (isNode) {
+    it("throws error for invalid host name", async function(): Promise<void> {
+      try {
+        new ServiceBusClient(123 as any, getDefaultTokenCredential());
+      } catch (error) {
+        errorWasThrown = true;
+        should.equal(
+          error.message,
+          "`host` parameter is not a string",
+          "ErrorMessage is different than expected"
+        );
+      }
+      should.equal(errorWasThrown, true, "Error thrown flag must be true");
+    });
 
-  //   it("sends a message to the ServiceBus entity", async function(): Promise<void> {
-  //     const tokenCreds = getDefaultTokenCredential();
+    it("sends a message to the ServiceBus entity", async function(): Promise<void> {
+      const tokenCreds = getDefaultTokenCredential();
 
-  //     const serviceBusClient = createServiceBusClientForTests();
-  //     const entities = await serviceBusClient.test.createTestEntities(
-  //       TestClientType.UnpartitionedQueue
-  //     );
-  //     await serviceBusClient.close();
+      const serviceBusClient = createServiceBusClientForTests();
+      const entities = await serviceBusClient.test.createTestEntities(
+        TestClientType.UnpartitionedQueue
+      );
+      await serviceBusClient.close();
 
-  //     const sbClient = new ServiceBusClient(serviceBusEndpoint, tokenCreds);
-  //     sbClient.should.be.an.instanceof(ServiceBusClient);
+      const sbClient = new ServiceBusClient(serviceBusEndpoint, tokenCreds);
+      sbClient.should.be.an.instanceof(ServiceBusClient);
 
-  //     const sender = sbClient.createSender(entities.queue!);
-  //     const receiver = await sbClient.createReceiver(entities.queue!, "peekLock");
-  //     const testMessages = TestMessage.getSample();
-  //     await sender.send(testMessages);
-  //     const msgs = await receiver.receiveBatch(1);
+      const sender = sbClient.createSender(entities.queue!);
+      const receiver = sbClient.createReceiver(entities.queue!, "peekLock");
+      const testMessages = TestMessage.getSample();
+      await sender.send(testMessages);
+      const msgs = await receiver.receiveBatch(1);
 
-  //     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
-  //     should.equal(msgs[0].body, testMessages.body, "MessageBody is different than expected");
-  //     should.equal(msgs.length, 1, "Unexpected number of messages");
-  //     await sbClient.close();
-  //   });
-  // }
+      should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+      should.equal(msgs[0].body, testMessages.body, "MessageBody is different than expected");
+      should.equal(msgs.length, 1, "Unexpected number of messages");
+      await sbClient.close();
+    });
+  }
 });
 
 describe("Errors after close()", function(): void {
