@@ -1,353 +1,364 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-// import {
-//   checkAndRegisterWithAbortSignal,
-//   waitForTimeoutOrAbortOrResolve
-// } from "../../src/util/utils";
-// import { AbortController, AbortError, AbortSignalLike } from "@azure/abort-controller";
-// import { delay } from "rhea-promise";
-// import chai from "chai";
-// import chaiAsPromised from "chai-as-promised";
-// chai.use(chaiAsPromised);
-// const assert = chai.assert;
+import {
+  checkAndRegisterWithAbortSignal,
+  waitForTimeoutOrAbortOrResolve
+} from "../../src/util/utils";
+import { AbortController, AbortError, AbortSignalLike } from "@azure/abort-controller";
+import { delay } from "rhea-promise";
+import chai from "chai";
+import chaiAsPromised from "chai-as-promised";
+chai.use(chaiAsPromised);
+const assert = chai.assert;
 
-// describe("utils", () => {
-//   describe("waitForTimeoutAbortOrResolve", () => {
-//     let abortController: AbortController;
-//     let abortSignal: ReturnType<typeof getAbortSignalWithTracking>;
-//     let ourTimerId: NodeJS.Timer | undefined;
-//     let timerWasCleared: boolean;
+describe.only("utils", () => {
+  describe("waitForTimeoutAbortOrResolve", () => {
+    let abortController: AbortController;
+    let abortSignal: ReturnType<typeof getAbortSignalWithTracking>;
+    let ourTimerId: NodeJS.Timer | undefined;
+    let timerWasCleared: boolean;
 
-//     let _internalSetTimeout: typeof setTimeout;
-//     let _internalClearTimeout: typeof clearTimeout;
+    let _internalSetTimeout: typeof setTimeout;
+    let _internalClearTimeout: typeof clearTimeout;
+    let _fakeSetTimeoutOrClearTimeoutWasCalled;
 
-//     const neverFireMs = 10 * 1000;
+    const neverFireMs = 10 * 1000;
 
-//     beforeEach(() => {
-//       abortController = new AbortController();
-//       abortSignal = getAbortSignalWithTracking(abortController);
-//       ourTimerId = undefined;
-//       timerWasCleared = false;
+    beforeEach(() => {
+      abortController = new AbortController();
+      abortSignal = getAbortSignalWithTracking(abortController);
+      ourTimerId = undefined;
+      timerWasCleared = false;
 
-//       const globalObject = getGlobalsForMocking();
+      const globalObject = getGlobalsForMocking();
 
-//       _internalSetTimeout = globalObject.setTimeout;
-//       _internalClearTimeout = globalObject.clearTimeout;
+      _internalSetTimeout = globalObject.setTimeout;
+      _internalClearTimeout = globalObject.clearTimeout;
 
-//       globalObject.setTimeout = (
-//         callback: (...args: any[]) => void,
-//         ms: number,
-//         ...args: any[]
-//       ): any => {
-//         const id = _internalSetTimeout.call(globalObject, callback, ms, ...args);
+      globalObject.setTimeout = (
+        callback: (...args: any[]) => void,
+        ms: number,
+        ...args: any[]
+      ): any => {
+        _fakeSetTimeoutOrClearTimeoutWasCalled = true;
+        const id = _internalSetTimeout.call(globalObject, callback, ms, ...args);
 
-//         if (callback.name === "timeoutCallback") {
-//           assert.notExists(
-//             ourTimerId,
-//             "Definitely shouldn't schedule our timeout callback more than once"
-//           );
+        if (callback.name === "timeoutCallback") {
+          assert.notExists(
+            ourTimerId,
+            "Definitely shouldn't schedule our timeout callback more than once"
+          );
 
-//           ourTimerId = id;
-//         }
+          ourTimerId = id;
+        }
 
-//         return id;
-//       };
+        return id;
+      };
 
-//       globalObject.clearTimeout = (timerIdToClear: NodeJS.Timer): any => {
-//         if (timerIdToClear === ourTimerId) {
-//           assert.isFalse(timerWasCleared, "Timer should not be cleared multiple times");
-//           timerWasCleared = true;
-//         }
+      globalObject.clearTimeout = (timerIdToClear: NodeJS.Timer): any => {
+        _fakeSetTimeoutOrClearTimeoutWasCalled = true;
+        if (timerIdToClear === ourTimerId) {
+          assert.isFalse(timerWasCleared, "Timer should not be cleared multiple times");
+          timerWasCleared = true;
+        }
 
-//         return _internalClearTimeout.call(globalObject, timerIdToClear);
-//       };
-//     });
+        return _internalClearTimeout.call(globalObject, timerIdToClear);
+      };
+    });
 
-//     afterEach(() => {
-//       const globalObject = getGlobalsForMocking();
+    afterEach(() => {
+      const globalObject = getGlobalsForMocking();
 
-//       globalObject.setTimeout = _internalSetTimeout;
-//       globalObject.clearTimeout = _internalClearTimeout;
-//     });
+      globalObject.setTimeout = _internalSetTimeout;
+      globalObject.clearTimeout = _internalClearTimeout;
 
-//     it("abortSignal cancelled in mid-flight", async () => {
-//       const prm = waitForTimeoutOrAbortOrResolve({
-//         actionFn: async () => {
-//           await delay(neverFireMs);
-//         },
-//         timeoutMessage: "the message for the timeout",
-//         timeoutMs: neverFireMs,
-//         abortSignal,
-//         abortMessage: "the message for aborting"
-//       });
+      // let's make sure we truly reset state properly
+      _fakeSetTimeoutOrClearTimeoutWasCalled = false;
+      clearTimeout(setTimeout(() => {}, 0));
+      assert.isFalse(
+        _fakeSetTimeoutOrClearTimeoutWasCalled,
+        "Failing to uninstall our fakes could lead to odd test failures."
+      );
+    });
 
-//       await delay(500);
-//       abortController.abort();
+    it("abortSignal cancelled in mid-flight", async () => {
+      const prm = waitForTimeoutOrAbortOrResolve({
+        actionFn: async () => {
+          await delay(neverFireMs);
+        },
+        timeoutMessage: "the message for the timeout",
+        timeoutMs: neverFireMs,
+        abortSignal,
+        abortMessage: "the message for aborting"
+      });
 
-//       try {
-//         await prm;
-//         assert.fail("Should have thrown an AbortError");
-//       } catch (err) {
-//         assert.equal(err.message, "the message for aborting");
-//         assert.equal(err.name, "AbortError");
-//       }
+      await delay(500);
+      abortController.abort();
 
-//       assert.isTrue(
-//         abortSignal.ourListenersWereRemoved(),
-//         "All paths should properly clean up any event listeners on the signal"
-//       );
-//       assert.isTrue(timerWasCleared);
-//     });
+      try {
+        await prm;
+        assert.fail("Should have thrown an AbortError");
+      } catch (err) {
+        assert.equal(err.message, "the message for aborting");
+        assert.equal(err.name, "AbortError");
+      }
 
-//     it("abortSignal already aborted", async () => {
-//       abortController.abort();
+      assert.isTrue(
+        abortSignal.ourListenersWereRemoved(),
+        "All paths should properly clean up any event listeners on the signal"
+      );
+      assert.isTrue(timerWasCleared);
+    });
 
-//       try {
-//         await waitForTimeoutOrAbortOrResolve({
-//           actionFn: async () => {
-//             await delay(neverFireMs);
-//           },
-//           timeoutMessage: "the message for the timeout",
-//           timeoutMs: neverFireMs,
-//           abortSignal,
-//           abortMessage: "the message for aborting"
-//         });
+    it("abortSignal already aborted", async () => {
+      abortController.abort();
 
-//         assert.fail("Should have thrown an AbortError");
-//       } catch (err) {
-//         assert.equal(err.message, "the message for aborting");
-//         assert.equal(err.name, "AbortError");
-//       }
+      try {
+        await waitForTimeoutOrAbortOrResolve({
+          actionFn: async () => {
+            await delay(neverFireMs);
+          },
+          timeoutMessage: "the message for the timeout",
+          timeoutMs: neverFireMs,
+          abortSignal,
+          abortMessage: "the message for aborting"
+        });
 
-//       assert.isTrue(
-//         abortSignal.ourListenersWereRemoved(),
-//         "All paths should properly clean up any event listeners on the signal"
-//       );
-//       // the abort signal is checked early, so the timeout never gets set up here.
-//       assert.notExists(ourTimerId);
-//     });
+        assert.fail("Should have thrown an AbortError");
+      } catch (err) {
+        assert.equal(err.message, "the message for aborting");
+        assert.equal(err.name, "AbortError");
+      }
 
-//     it("abortSignal is optional", async () => {
-//       try {
-//         await waitForTimeoutOrAbortOrResolve({
-//           actionFn: async () => {
-//             await delay(neverFireMs);
-//           },
-//           timeoutMs: 500,
-//           timeoutMessage: "the message for the timeout",
-//           abortMessage: "ignored for this test since we don't have an abort signal"
-//         });
+      assert.isTrue(
+        abortSignal.ourListenersWereRemoved(),
+        "All paths should properly clean up any event listeners on the signal"
+      );
+      // the abort signal is checked early, so the timeout never gets set up here.
+      assert.notExists(ourTimerId);
+    });
 
-//         assert.fail("Should have thrown an TimeoutError");
-//       } catch (err) {
-//         assert.equal(err.message, "the message for the timeout");
-//         assert.equal(err.name, "OperationTimeoutError");
-//       }
+    it("abortSignal is optional", async () => {
+      try {
+        await waitForTimeoutOrAbortOrResolve({
+          actionFn: async () => {
+            await delay(neverFireMs);
+          },
+          timeoutMs: 500,
+          timeoutMessage: "the message for the timeout",
+          abortMessage: "ignored for this test since we don't have an abort signal"
+        });
 
-//       assert.isTrue(timerWasCleared);
-//     });
+        assert.fail("Should have thrown an TimeoutError");
+      } catch (err) {
+        assert.equal(err.message, "the message for the timeout");
+        assert.equal(err.name, "OperationTimeoutError");
+      }
 
-//     it("timeout expires", async () => {
-//       try {
-//         await waitForTimeoutOrAbortOrResolve({
-//           actionFn: async () => {
-//             await delay(neverFireMs);
-//           },
-//           timeoutMessage: "the message for the timeout",
-//           timeoutMs: 500,
-//           abortSignal,
-//           abortMessage: "the message for aborting"
-//         });
+      assert.isTrue(timerWasCleared);
+    });
 
-//         assert.fail("Should have thrown an TimeoutError");
-//       } catch (err) {
-//         assert.equal(err.message, "the message for the timeout");
-//         assert.equal(err.name, "OperationTimeoutError");
-//       }
+    it("timeout expires", async () => {
+      try {
+        await waitForTimeoutOrAbortOrResolve({
+          actionFn: async () => {
+            await delay(neverFireMs);
+          },
+          timeoutMessage: "the message for the timeout",
+          timeoutMs: 500,
+          abortSignal,
+          abortMessage: "the message for aborting"
+        });
 
-//       assert.isTrue(
-//         abortSignal.ourListenersWereRemoved(),
-//         "All paths should properly clean up any event listeners on the signal"
-//       );
-//       assert.isTrue(timerWasCleared);
-//     });
+        assert.fail("Should have thrown an TimeoutError");
+      } catch (err) {
+        assert.equal(err.message, "the message for the timeout");
+        assert.equal(err.name, "OperationTimeoutError");
+      }
 
-//     it("nothing expires", async () => {
-//       const result = await waitForTimeoutOrAbortOrResolve({
-//         actionFn: async () => {
-//           await delay(500);
-//           return 100;
-//         },
-//         timeoutMessage: "the message for the timeout",
-//         timeoutMs: neverFireMs,
-//         abortSignal,
-//         abortMessage: "the message for aborting"
-//       });
+      assert.isTrue(
+        abortSignal.ourListenersWereRemoved(),
+        "All paths should properly clean up any event listeners on the signal"
+      );
+      assert.isTrue(timerWasCleared);
+    });
 
-//       assert.equal(result, 100);
-//       assert.isTrue(
-//         abortSignal.ourListenersWereRemoved(),
-//         "All paths should properly clean up any event listeners on the signal"
-//       );
-//       assert.isTrue(timerWasCleared);
-//     });
+    it("nothing expires", async () => {
+      const result = await waitForTimeoutOrAbortOrResolve({
+        actionFn: async () => {
+          await delay(500);
+          return 100;
+        },
+        timeoutMessage: "the message for the timeout",
+        timeoutMs: neverFireMs,
+        abortSignal,
+        abortMessage: "the message for aborting"
+      });
 
-//     it("actionFn throws an error", async () => {
-//       try {
-//         await waitForTimeoutOrAbortOrResolve({
-//           actionFn: async () => {
-//             throw new Error("Error thrown from action");
-//           },
-//           timeoutMessage: "the message for the timeout",
-//           timeoutMs: neverFireMs,
-//           abortSignal,
-//           abortMessage: "the message for aborting"
-//         });
+      assert.equal(result, 100);
+      assert.isTrue(
+        abortSignal.ourListenersWereRemoved(),
+        "All paths should properly clean up any event listeners on the signal"
+      );
+      assert.isTrue(timerWasCleared);
+    });
 
-//         assert.fail("Should have thrown");
-//       } catch (err) {
-//         assert.equal(err.message, "Error thrown from action");
-//       }
+    it("actionFn throws an error", async () => {
+      try {
+        await waitForTimeoutOrAbortOrResolve({
+          actionFn: async () => {
+            throw new Error("Error thrown from action");
+          },
+          timeoutMessage: "the message for the timeout",
+          timeoutMs: neverFireMs,
+          abortSignal,
+          abortMessage: "the message for aborting"
+        });
 
-//       assert.isTrue(
-//         abortSignal.ourListenersWereRemoved(),
-//         "All paths should properly clean up any event listeners on the signal"
-//       );
-//       assert.isTrue(timerWasCleared);
-//     });
-//   });
+        assert.fail("Should have thrown");
+      } catch (err) {
+        assert.equal(err.message, "Error thrown from action");
+      }
 
-//   describe("checkAndRegisterWithAbortSignal", () => {
-//     let abortController: AbortController;
-//     let abortSignal: ReturnType<typeof getAbortSignalWithTracking>;
+      assert.isTrue(
+        abortSignal.ourListenersWereRemoved(),
+        "All paths should properly clean up any event listeners on the signal"
+      );
+      assert.isTrue(timerWasCleared);
+    });
+  });
 
-//     beforeEach(() => {
-//       abortController = new AbortController();
-//       abortSignal = getAbortSignalWithTracking(abortController);
-//     });
+  describe("checkAndRegisterWithAbortSignal", () => {
+    let abortController: AbortController;
+    let abortSignal: ReturnType<typeof getAbortSignalWithTracking>;
 
-//     it("abortSignal is undefined", () => {
-//       const cleanupFn = checkAndRegisterWithAbortSignal(
-//         () => {
-//           throw new Error("Will never be called");
-//         },
-//         "the message for aborting",
-//         undefined
-//       );
+    beforeEach(() => {
+      abortController = new AbortController();
+      abortSignal = getAbortSignalWithTracking(abortController);
+    });
 
-//       // we just return a no-op function in this case.
-//       assert.exists(cleanupFn);
-//       cleanupFn();
-//     });
+    it("abortSignal is undefined", () => {
+      const cleanupFn = checkAndRegisterWithAbortSignal(
+        () => {
+          throw new Error("Will never be called");
+        },
+        "the message for aborting",
+        undefined
+      );
 
-//     it("abortSignal is already aborted", () => {
-//       abortController.abort();
+      // we just return a no-op function in this case.
+      assert.exists(cleanupFn);
+      cleanupFn();
+    });
 
-//       try {
-//         checkAndRegisterWithAbortSignal(
-//           () => {
-//             throw new Error("Will never be called");
-//           },
-//           "the message for aborting",
-//           abortSignal
-//         );
-//         assert.fail("Should have thrown an AbortError");
-//       } catch (err) {
-//         assert.equal(err.name, "AbortError");
-//         assert.equal(err.message, "the message for aborting");
-//       }
+    it("abortSignal is already aborted", () => {
+      abortController.abort();
 
-//       assert.isTrue(abortSignal.ourListenersWereRemoved());
-//     });
+      try {
+        checkAndRegisterWithAbortSignal(
+          () => {
+            throw new Error("Will never be called");
+          },
+          "the message for aborting",
+          abortSignal
+        );
+        assert.fail("Should have thrown an AbortError");
+      } catch (err) {
+        assert.equal(err.name, "AbortError");
+        assert.equal(err.message, "the message for aborting");
+      }
 
-//     it("abortSignal abort calls handlers", async () => {
-//       let callbackWasCalled = false;
-//       const cleanupFn = checkAndRegisterWithAbortSignal(
-//         (abortError: AbortError) => {
-//           callbackWasCalled = true;
-//           assert.equal(abortError.message, "the message for aborting");
-//         },
-//         "the message for aborting",
-//         abortSignal
-//       );
-//       assert.exists(cleanupFn);
+      assert.isTrue(abortSignal.ourListenersWereRemoved());
+    });
 
-//       assert.isFalse(abortSignal.ourListenersWereRemoved());
-//       assert.isFalse(callbackWasCalled);
+    it("abortSignal abort calls handlers", async () => {
+      let callbackWasCalled = false;
+      const cleanupFn = checkAndRegisterWithAbortSignal(
+        (abortError: AbortError) => {
+          callbackWasCalled = true;
+          assert.equal(abortError.message, "the message for aborting");
+        },
+        "the message for aborting",
+        abortSignal
+      );
+      assert.exists(cleanupFn);
 
-//       abortController.abort();
-//       await delay(0);
+      assert.isFalse(abortSignal.ourListenersWereRemoved());
+      assert.isFalse(callbackWasCalled);
 
-//       assert.isTrue(abortSignal.ourListenersWereRemoved());
-//       assert.isTrue(callbackWasCalled);
+      abortController.abort();
+      await delay(0);
 
-//       // and cleanupFn is harmless to call here.
-//       cleanupFn!();
-//     });
+      assert.isTrue(abortSignal.ourListenersWereRemoved());
+      assert.isTrue(callbackWasCalled);
 
-//     it("calling cleanup removes handlers from abortSignal", async () => {
-//       let callbackWasCalled = false;
-//       const cleanupFn = checkAndRegisterWithAbortSignal(
-//         () => {
-//           callbackWasCalled = true;
-//         },
-//         "the message for aborting",
-//         abortSignal
-//       );
-//       assert.exists(cleanupFn);
+      // and cleanupFn is harmless to call here.
+      cleanupFn!();
+    });
 
-//       assert.isFalse(abortSignal.ourListenersWereRemoved());
-//       assert.isFalse(callbackWasCalled);
+    it("calling cleanup removes handlers from abortSignal", async () => {
+      let callbackWasCalled = false;
+      const cleanupFn = checkAndRegisterWithAbortSignal(
+        () => {
+          callbackWasCalled = true;
+        },
+        "the message for aborting",
+        abortSignal
+      );
+      assert.exists(cleanupFn);
 
-//       if (cleanupFn == null) {
-//         throw new Error("No cleanup function!");
-//       }
+      assert.isFalse(abortSignal.ourListenersWereRemoved());
+      assert.isFalse(callbackWasCalled);
 
-//       cleanupFn();
+      if (cleanupFn == null) {
+        throw new Error("No cleanup function!");
+      }
 
-//       assert.isTrue(abortSignal.ourListenersWereRemoved());
-//       // sanity check - let's make sure we're not accidentally triggering their abort handler!
-//       assert.isFalse(callbackWasCalled);
-//     });
-//   });
-// });
+      cleanupFn();
 
-// function getGlobalsForMocking(): any {
-//   if (typeof global !== "undefined") {
-//     // Node
-//     return global;
-//   } else if (typeof window !== "undefined") {
-//     // Browser
-//     return window;
-//   }
-// }
+      assert.isTrue(abortSignal.ourListenersWereRemoved());
+      // sanity check - let's make sure we're not accidentally triggering their abort handler!
+      assert.isFalse(callbackWasCalled);
+    });
+  });
+});
 
-// function getAbortSignalWithTracking(
-//   abortController: AbortController
-// ): AbortSignalLike & { ourListenersWereRemoved(): boolean } {
-//   const signal = (abortController.signal as any) as ReturnType<typeof getAbortSignalWithTracking>;
+function getGlobalsForMocking(): any {
+  if (typeof global !== "undefined") {
+    // Node
+    return global;
+  } else if (typeof window !== "undefined") {
+    // Browser
+    return window;
+  }
+}
 
-//   const allFunctions = new Set<Function>();
+function getAbortSignalWithTracking(
+  abortController: AbortController
+): AbortSignalLike & { ourListenersWereRemoved(): boolean } {
+  const signal = (abortController.signal as any) as ReturnType<typeof getAbortSignalWithTracking>;
 
-//   const origAddEventListener = signal.addEventListener;
-//   const origRemoveEventListener = signal.removeEventListener;
+  const allFunctions = new Set<Function>();
 
-//   signal.addEventListener = (name, handler) => {
-//     assert.isFalse(allFunctions.has(handler), "Handler should not have already been added");
-//     allFunctions.add(handler);
-//     origAddEventListener.call(signal, name, handler);
-//   };
+  const origAddEventListener = signal.addEventListener;
+  const origRemoveEventListener = signal.removeEventListener;
 
-//   signal.removeEventListener = (name, handler) => {
-//     // being less stringent about potentially removing it more than once since it simplifies
-//     // our error handling code.
-//     allFunctions.delete(handler);
-//     origRemoveEventListener.call(signal, name, handler);
-//   };
+  signal.addEventListener = (name, handler) => {
+    assert.isFalse(allFunctions.has(handler), "Handler should not have already been added");
+    allFunctions.add(handler);
+    origAddEventListener.call(signal, name, handler);
+  };
 
-//   signal.ourListenersWereRemoved = () => {
-//     return allFunctions.size === 0;
-//   };
-//   return signal;
-// }
+  signal.removeEventListener = (name, handler) => {
+    // being less stringent about potentially removing it more than once since it simplifies
+    // our error handling code.
+    allFunctions.delete(handler);
+    origRemoveEventListener.call(signal, name, handler);
+  };
+
+  signal.ourListenersWereRemoved = () => {
+    return allFunctions.size === 0;
+  };
+  return signal;
+}
