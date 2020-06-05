@@ -41,7 +41,7 @@ enum EntityType {
   RULE = "Rule"
 }
 
-let managementQueue1 = EntityNames.MANAGEMENT_QUEUE_1;
+const managementQueue1 = EntityNames.MANAGEMENT_QUEUE_1;
 const managementTopic1 = EntityNames.MANAGEMENT_TOPIC_1;
 const managementSubscription1 = EntityNames.MANAGEMENT_SUBSCRIPTION_1;
 const managementRule1 = EntityNames.MANAGEMENT_RULE_1;
@@ -71,7 +71,6 @@ describe("Atom management - Authentication", function(): void {
       const host = (parseConnectionString(
         env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]
       ) as any).Endpoint.match(".*://([^/]*)")[1];
-      managementQueue1 = managementRule1;
 
       const serviceBusManagementClient = new ServiceBusManagementClient(
         host,
