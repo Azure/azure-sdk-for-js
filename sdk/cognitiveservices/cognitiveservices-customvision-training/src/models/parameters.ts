@@ -92,6 +92,18 @@ export const endpoint: msRest.OperationURLParameter = {
   },
   skipEncoding: true
 };
+export const filter: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "filter"
+  ],
+  mapper: {
+    serializedName: "$filter",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const flavor: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
@@ -185,6 +197,26 @@ export const imageIds1: msRest.OperationQueryParameter = {
     required: true,
     serializedName: "imageIds",
     constraints: {
+      MaxItems: 256,
+      MinItems: 0
+    },
+    type: {
+      name: "Sequence",
+      element: {
+        type: {
+          name: "Uuid"
+        }
+      }
+    }
+  },
+  collectionFormat: msRest.QueryCollectionFormat.Csv
+};
+export const imageIds2: msRest.OperationQueryParameter = {
+  parameterPath: "imageIds",
+  mapper: {
+    required: true,
+    serializedName: "imageIds",
+    constraints: {
       MaxItems: 64,
       MinItems: 0
     },
@@ -221,10 +253,22 @@ export const iterationId1: msRest.OperationQueryParameter = {
     }
   }
 };
-export const name: msRest.OperationQueryParameter = {
+export const name0: msRest.OperationQueryParameter = {
   parameterPath: "name",
   mapper: {
     required: true,
+    serializedName: "name",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const name1: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "name"
+  ],
+  mapper: {
     serializedName: "name",
     type: {
       name: "String"
@@ -264,6 +308,28 @@ export const overlapThreshold: msRest.OperationQueryParameter = {
     serializedName: "overlapThreshold",
     type: {
       name: "Number"
+    }
+  }
+};
+export const overwrite: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "overwrite"
+  ],
+  mapper: {
+    serializedName: "overwrite",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
+export const path: msRest.OperationQueryParameter = {
+  parameterPath: "path",
+  mapper: {
+    required: true,
+    serializedName: "path",
+    type: {
+      name: "String"
     }
   }
 };
@@ -363,6 +429,18 @@ export const store: msRest.OperationQueryParameter = {
     defaultValue: true,
     type: {
       name: "Boolean"
+    }
+  }
+};
+export const taggingStatus: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "taggingStatus"
+  ],
+  mapper: {
+    serializedName: "taggingStatus",
+    type: {
+      name: "String"
     }
   }
 };

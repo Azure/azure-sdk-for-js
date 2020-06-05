@@ -42,7 +42,7 @@ export class TrainingAPIClientContext extends msRest.ServiceClient {
 
     super(credentials, options);
 
-    this.baseUri = "{Endpoint}/customvision/v3.2/training";
+    this.baseUri = "{Endpoint}/customvision/v3.3/training";
     this.requestContentType = "application/json; charset=utf-8";
     this.endpoint = endpoint;
     this.credentials = credentials;
