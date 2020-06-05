@@ -76,7 +76,7 @@ describe("PageBlobClient Node.js only", () => {
         case "success":
           return;
         case "aborted":
-          throw new Error("Copy unexcepted aborted.");
+          throw new Error("Copy unexpected aborted.");
         case "pending":
           await delay(3000);
           copyResponse = await destPageBlobClient.getProperties();

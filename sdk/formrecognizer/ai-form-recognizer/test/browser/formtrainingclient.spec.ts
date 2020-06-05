@@ -57,8 +57,8 @@ describe("FormTrainingClient browser only", () => {
     // save the id for recognition tests
     unlabeledModelId = response!.modelId;
 
-    assert.ok(response!.models && response!.models.length > 0, "Expected non empty sub model list");
-    const model = response!.models![0];
+    assert.ok(response!.submodels && response!.submodels.length > 0, "Expected non empty sub model list");
+    const model = response!.submodels![0];
     assert.equal(model.formType, "form-0");
     assert.equal(model.accuracy, undefined);
     assert.ok(model.fields["field-0"], "Expecting field with name 'field-0' to be valid");
@@ -78,8 +78,8 @@ describe("FormTrainingClient browser only", () => {
     assert.ok(response!.status === "ready", "Expecting status to be 'ready'");
     assert.ok(response!.modelId);
 
-    assert.ok(response!.models && response!.models.length > 0, "Expected non empty sub model list");
-    const model = response!.models![0];
+    assert.ok(response!.submodels && response!.submodels.length > 0, "Expected non empty sub model list");
+    const model = response!.submodels![0];
     assert.equal(model.formType, `form-${response!.modelId}`);
     assert.equal(model.accuracy, 0.973);
     assert.ok(model.fields["Signature"], "Expecting field with name 'Signature' to be valid");
@@ -136,7 +136,10 @@ describe("FormTrainingClient browser only", () => {
   it("getAccountProperties() gets model count and limit for this account", async () => {
     const properties = await trainingClient.getAccountProperties();
 
-    assert.ok(properties.customModelCount > 0, `Expecting models in account but got ${properties.customModelCount}`);
+    assert.ok(
+      properties.customModelCount > 0,
+      `Expecting models in account but got ${properties.customModelCount}`
+    );
     assert.ok(
       properties.customModelLimit > 0,
       `Expecting maximum number of models in account but got ${properties.customModelLimit}`
@@ -170,7 +173,7 @@ describe("FormTrainingClient browser only", () => {
 
     assert.ok(modelInfo.modelId === modelIdToDelete, "Expecting same model id");
     assert.ok(
-      modelInfo.models && modelInfo.models.length > 0,
+      modelInfo.submodels && modelInfo.submodels.length > 0,
       "Expecting no empty list of custom form sub models"
     );
   });
@@ -219,15 +222,13 @@ describe("FormRecognizerClient custom form recognition browser only", () => {
     assert.ok(unlabeledModelId, "Expecting valid model id from training without labels");
     const poller = await recognizerClient.beginRecognizeCustomFormsFromUrl(unlabeledModelId!, url);
     await poller.pollUntilDone();
-    const response = poller.getResult();
+    const forms = poller.getResult();
 
-    assert.ok(response, "Expect valid response object");
-    assert.equal(response!.status, "succeeded");
     assert.ok(
-      response!.forms && response!.forms.length > 0,
-      `Expect no-empty pages but got ${response!.forms}`
+      forms && forms.length > 0,
+      `Expect no-empty pages but got ${forms}`
     );
-    const form = response!.forms![0];
+    const form = forms![0];
     assert.equal(form.formType, "form-0");
     assert.deepStrictEqual(form.pageRange, {
       firstPageNumber: 1,
@@ -257,15 +258,13 @@ describe("FormRecognizerClient custom form recognition browser only", () => {
     assert.ok(data, "Expect valid Blob data to use as input");
     const poller = await recognizerClient.beginRecognizeCustomForms(unlabeledModelId!, data!);
     await poller.pollUntilDone();
-    const response = poller.getResult();
+    const forms = poller.getResult();
 
-    assert.ok(response, "Expect valid response object");
-    assert.equal(response!.status, "succeeded");
     assert.ok(
-      response!.forms && response!.forms.length > 0,
-      `Expect no-empty pages but got ${response!.forms}`
+      forms && forms.length > 0,
+      `Expect no-empty pages but got ${forms}`
     );
-    const form = response!.forms![0];
+    const form = forms![0];
     assert.equal(form.formType, "form-0");
     assert.deepStrictEqual(form.pageRange, {
       firstPageNumber: 1,

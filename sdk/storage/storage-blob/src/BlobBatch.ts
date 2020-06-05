@@ -385,7 +385,7 @@ class InnerBatchRequest {
   }
 
   /**
-   * Create pipeline to assemble sub requests. The idea here is to use exising
+   * Create pipeline to assemble sub requests. The idea here is to use existing
    * credential and serialization/deserialization components, with additional policies to
    * filter unnecessary headers, assemble sub requests into request's body
    * and intercept request from going to wire.
@@ -395,7 +395,7 @@ class InnerBatchRequest {
     credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential
   ): Pipeline {
     const isAnonymousCreds = credential instanceof AnonymousCredential;
-    const policyFactoryLength = 3 + (isAnonymousCreds ? 0 : 1); // [deserilizationPolicy, BatchHeaderFilterPolicyFactory, (Optional)Credential, BatchRequestAssemblePolicyFactory]
+    const policyFactoryLength = 3 + (isAnonymousCreds ? 0 : 1); // [deserializationPolicy, BatchHeaderFilterPolicyFactory, (Optional)Credential, BatchRequestAssemblePolicyFactory]
     let factories: RequestPolicyFactory[] = new Array(policyFactoryLength);
 
     factories[0] = deserializationPolicy(); // Default deserializationPolicy is provided by protocol layer

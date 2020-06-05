@@ -42,12 +42,11 @@ class CosmosDBManagementClient extends CosmosDBManagementClientContext {
   /**
    * Initializes a new instance of the CosmosDBManagementClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
-   * @param subscriptionId Azure subscription ID.
-   * @param subscriptionId1 The ID of the target subscription.
+   * @param subscriptionId The ID of the target subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, subscriptionId1: string, options?: Models.CosmosDBManagementClientOptions) {
-    super(credentials, subscriptionId, subscriptionId1, options);
+  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.CosmosDBManagementClientOptions) {
+    super(credentials, subscriptionId, options);
     this.databaseAccounts = new operations.DatabaseAccounts(this);
     this.operations = new operations.Operations(this);
     this.database = new operations.Database(this);

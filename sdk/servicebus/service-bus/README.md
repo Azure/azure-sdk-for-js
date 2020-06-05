@@ -62,6 +62,7 @@ You can instantiate this class using its constructors:
   - This method takes the host name of your Service Bus instance and a credentials object that you need
     to generate using the [@azure/identity](https://www.npmjs.com/package/@azure/identity)
     library. The host name is of the format `name-of-service-bus-instance.servicebus.windows.net`.
+    If you're using an own implementation of the `TokenCredential` interface against AAD, then set the "scopes" for service-bus to be `["https://servicebus.azure.net//user_impersonation"]` to get the appropriate token.
 
 ### Key concepts
 
@@ -101,7 +102,7 @@ using the [createSender][sbclient_createsender] method.
 This gives you a sender which you can use to [send][sender_send] messages.
 
 ```javascript
-const sender = await serviceBusClient.createSender("my-queue");
+const sender = serviceBusClient.createSender("my-queue");
 
 // sending a single message
 await sender.send({
@@ -188,7 +189,7 @@ When sending the message, set the `sessionId` property in the message to ensure
 your message lands in the right session.
 
 ```javascript
-const sender = await serviceBusClient.createSender("my-session-queue");
+const sender = serviceBusClient.createSender("my-session-queue");
 await sender.send({
   body: "my-message-body",
   sessionId: "my-session"

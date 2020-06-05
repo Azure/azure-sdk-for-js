@@ -230,20 +230,20 @@ export class Directory {
 
   /**
    * Closes all handles open for given directory.
-   * @param handleId Specifies handle ID opened on the file or directory to be closed. Asterix (‘*’)
+   * @param handleId Specifies handle ID opened on the file or directory to be closed. Asterisk (‘*’)
    * is a wildcard that specifies all handles.
    * @param [options] The optional parameters
    * @returns Promise<Models.DirectoryForceCloseHandlesResponse>
    */
   forceCloseHandles(handleId: string, options?: Models.DirectoryForceCloseHandlesOptionalParams): Promise<Models.DirectoryForceCloseHandlesResponse>;
   /**
-   * @param handleId Specifies handle ID opened on the file or directory to be closed. Asterix (‘*’)
+   * @param handleId Specifies handle ID opened on the file or directory to be closed. Asterisk (‘*’)
    * is a wildcard that specifies all handles.
    * @param callback The callback
    */
   forceCloseHandles(handleId: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
-   * @param handleId Specifies handle ID opened on the file or directory to be closed. Asterix (‘*’)
+   * @param handleId Specifies handle ID opened on the file or directory to be closed. Asterisk (‘*’)
    * is a wildcard that specifies all handles.
    * @param options The optional parameters
    * @param callback The callback

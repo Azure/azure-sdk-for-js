@@ -32,19 +32,19 @@ export class Indexes {
    * @param [options] The optional parameters
    * @returns Promise<Models.IndexesCreateResponse>
    */
-  create(index: Models.Index, options?: coreHttp.RequestOptionsBase): Promise<Models.IndexesCreateResponse>;
+  create(index: Models.SearchIndex, options?: coreHttp.RequestOptionsBase): Promise<Models.IndexesCreateResponse>;
   /**
    * @param index The definition of the index to create.
    * @param callback The callback
    */
-  create(index: Models.Index, callback: coreHttp.ServiceCallback<Models.Index>): void;
+  create(index: Models.SearchIndex, callback: coreHttp.ServiceCallback<Models.SearchIndex>): void;
   /**
    * @param index The definition of the index to create.
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(index: Models.Index, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.Index>): void;
-  create(index: Models.Index, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.Index>, callback?: coreHttp.ServiceCallback<Models.Index>): Promise<Models.IndexesCreateResponse> {
+  create(index: Models.SearchIndex, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.SearchIndex>): void;
+  create(index: Models.SearchIndex, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.SearchIndex>, callback?: coreHttp.ServiceCallback<Models.SearchIndex>): Promise<Models.IndexesCreateResponse> {
     return this.client.sendOperationRequest(
       {
         index,
@@ -85,21 +85,21 @@ export class Indexes {
    * @param [options] The optional parameters
    * @returns Promise<Models.IndexesCreateOrUpdateResponse>
    */
-  createOrUpdate(indexName: string, index: Models.Index, options?: Models.IndexesCreateOrUpdateOptionalParams): Promise<Models.IndexesCreateOrUpdateResponse>;
+  createOrUpdate(indexName: string, index: Models.SearchIndex, options?: Models.IndexesCreateOrUpdateOptionalParams): Promise<Models.IndexesCreateOrUpdateResponse>;
   /**
    * @param indexName The definition of the index to create or update.
    * @param index The definition of the index to create or update.
    * @param callback The callback
    */
-  createOrUpdate(indexName: string, index: Models.Index, callback: coreHttp.ServiceCallback<Models.Index>): void;
+  createOrUpdate(indexName: string, index: Models.SearchIndex, callback: coreHttp.ServiceCallback<Models.SearchIndex>): void;
   /**
    * @param indexName The definition of the index to create or update.
    * @param index The definition of the index to create or update.
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(indexName: string, index: Models.Index, options: Models.IndexesCreateOrUpdateOptionalParams, callback: coreHttp.ServiceCallback<Models.Index>): void;
-  createOrUpdate(indexName: string, index: Models.Index, options?: Models.IndexesCreateOrUpdateOptionalParams | coreHttp.ServiceCallback<Models.Index>, callback?: coreHttp.ServiceCallback<Models.Index>): Promise<Models.IndexesCreateOrUpdateResponse> {
+  createOrUpdate(indexName: string, index: Models.SearchIndex, options: Models.IndexesCreateOrUpdateOptionalParams, callback: coreHttp.ServiceCallback<Models.SearchIndex>): void;
+  createOrUpdate(indexName: string, index: Models.SearchIndex, options?: Models.IndexesCreateOrUpdateOptionalParams | coreHttp.ServiceCallback<Models.SearchIndex>, callback?: coreHttp.ServiceCallback<Models.SearchIndex>): Promise<Models.IndexesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         indexName,
@@ -111,7 +111,9 @@ export class Indexes {
   }
 
   /**
-   * Deletes a search index and all the documents it contains.
+   * Deletes a search index and all the documents it contains. This operation is permanent, with no
+   * recovery option. Make sure you have a master copy of your index definition, data ingestion code,
+   * and a backup of the primary data source in case you need to re-build the index.
    * @param indexName The name of the index to delete.
    * @param [options] The optional parameters
    * @returns Promise<coreHttp.RestResponse>
@@ -149,14 +151,14 @@ export class Indexes {
    * @param indexName The name of the index to retrieve.
    * @param callback The callback
    */
-  get(indexName: string, callback: coreHttp.ServiceCallback<Models.Index>): void;
+  get(indexName: string, callback: coreHttp.ServiceCallback<Models.SearchIndex>): void;
   /**
    * @param indexName The name of the index to retrieve.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(indexName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.Index>): void;
-  get(indexName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.Index>, callback?: coreHttp.ServiceCallback<Models.Index>): Promise<Models.IndexesGetResponse> {
+  get(indexName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.SearchIndex>): void;
+  get(indexName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.SearchIndex>, callback?: coreHttp.ServiceCallback<Models.SearchIndex>): Promise<Models.IndexesGetResponse> {
     return this.client.sendOperationRequest(
       {
         indexName,
@@ -241,13 +243,13 @@ const createOperationSpec: coreHttp.OperationSpec = {
   requestBody: {
     parameterPath: "index",
     mapper: {
-      ...Mappers.Index,
+      ...Mappers.SearchIndex,
       required: true
     }
   },
   responses: {
     201: {
-      bodyMapper: Mappers.Index
+      bodyMapper: Mappers.SearchIndex
     },
     default: {
       bodyMapper: Mappers.SearchError
@@ -289,23 +291,23 @@ const createOrUpdateOperationSpec: coreHttp.OperationSpec = {
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.prefer,
     Parameters.ifMatch,
-    Parameters.ifNoneMatch
+    Parameters.ifNoneMatch,
+    Parameters.prefer
   ],
   requestBody: {
     parameterPath: "index",
     mapper: {
-      ...Mappers.Index,
+      ...Mappers.SearchIndex,
       required: true
     }
   },
   responses: {
     200: {
-      bodyMapper: Mappers.Index
+      bodyMapper: Mappers.SearchIndex
     },
     201: {
-      bodyMapper: Mappers.Index
+      bodyMapper: Mappers.SearchIndex
     },
     default: {
       bodyMapper: Mappers.SearchError
@@ -350,7 +352,7 @@ const getOperationSpec: coreHttp.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.Index
+      bodyMapper: Mappers.SearchIndex
     },
     default: {
       bodyMapper: Mappers.SearchError

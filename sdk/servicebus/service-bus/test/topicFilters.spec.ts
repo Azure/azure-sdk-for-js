@@ -47,7 +47,7 @@
 
 //     subscriptionClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
 //     topicClient = serviceBusClient.test.addToCleanup(
-//       await serviceBusClient.createSender(entityNames.topic!)
+//       serviceBusClient.createSender(entityNames.topic!)
 //     );
 
 //     subscriptionRuleManager = subscriptionRuleManager = serviceBusClient.test.addToCleanup(

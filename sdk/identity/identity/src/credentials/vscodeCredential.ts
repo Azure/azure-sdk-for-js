@@ -19,12 +19,25 @@ const VSCodeUserName = 'VS Code Azure';
 export class VSCodeCredential implements TokenCredential {
   private identityClient: IdentityClient;
 
+  /**
+   * Creates an instance of VSCodeCredential to use for automatically authenicating via VSCode.
+   * 
+   * @param options Options for configuring the client which makes the authentication request. 
+   */
   constructor(
     options?: TokenCredentialOptions
   ) {
     this.identityClient = new IdentityClient(options);
   }
 
+  /**
+   * Returns the token found by searching VSCode's authentication cache or
+   * returns null if no token could be found.
+   *
+   * @param scopes The list of scopes for which the token will have access.
+   * @param options The options used to configure any requests this
+   *                `TokenCredential` implementation might make.
+   */
   public async getToken(
     scopes: string | string[],
     options?: GetTokenOptions

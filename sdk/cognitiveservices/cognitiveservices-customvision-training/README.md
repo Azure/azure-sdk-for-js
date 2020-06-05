@@ -25,6 +25,7 @@ import {
   TrainingAPIClient,
   TrainingAPIModels
 } from "@azure/cognitiveservices-customvision-training";
+import { CognitiveServicesCredentials } from "@azure/ms-rest-azure-js";
 
 async function main(): Promise<void> {
   const customVisionTrainingKey =
@@ -35,13 +36,11 @@ async function main(): Promise<void> {
   const projectId = process.env["projectId"] || "<projectId>";
   const iterationId = process.env["iterationId"] || "<iterationId>";
 
+  const cognitiveServiceCredentials = new CognitiveServicesCredentials(customVisionTrainingKey);
+  const client = new TrainingAPIClient(cognitiveServiceCredentials, customVisionTrainingEndPoint);
+
   const imageURL =
     "https://www.atlantatrails.com/wp-content/uploads/2019/02/north-georgia-waterfalls-1024x683.jpg";
-
-  const client = new TrainingAPIClient(
-    customVisionTrainingKey,
-    customVisionTrainingEndPoint
-  );
 
   const options: TrainingAPIModels.TrainingAPIClientQuickTestImageUrlOptionalParams = {
     iterationId: iterationId
@@ -86,12 +85,17 @@ main();
         "<YOUR_CUSTOM_VISION_TRAINING_ENDPOINT>";
       const projectId = "<YOUR_PROJECT_ID>";
       const iterationId = "<YOUR_ITERATION_ID>";
+      const cognitiveServiceCredentials = new msRest.ApiKeyCredentials({
+        inHeader: {
+          "Ocp-Apim-Subscription-Key": customVisionTrainingKey
+        }
+      });
 
       const imageURL =
         "https://www.atlantatrails.com/wp-content/uploads/2019/02/north-georgia-waterfalls-1024x683.jpg";
 
       const client = new Azure.CognitiveservicesCustomvisionTraining.TrainingAPIClient(
-        customVisionTrainingKey,
+        cognitiveServiceCredentials,
         customVisionTrainingEndPoint
       );
 

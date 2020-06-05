@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
-import { Container, ContainerDefinition } from "../../dist-esm/client";
-import { DataType, IndexKind } from "../../dist-esm/documents";
-import { QueryIterator } from "../../dist-esm/index";
-import { SqlQuerySpec } from "../../dist-esm/queryExecutionContext";
-import { FeedOptions } from "../../dist-esm/request";
+import { Container, ContainerDefinition } from "../../src/client";
+import { DataType, IndexKind } from "../../src/documents";
+import { QueryIterator } from "../../src/index";
+import { SqlQuerySpec } from "../../src/queryExecutionContext";
+import { FeedOptions } from "../../src/request";
 import { TestData } from "../common/TestData";
 import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../common/TestHelpers";
 

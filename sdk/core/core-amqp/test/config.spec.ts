@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft. All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { ConnectionConfig, EventHubConnectionConfig, IotHubConnectionConfig } from "../src";
 import * as chai from "chai";

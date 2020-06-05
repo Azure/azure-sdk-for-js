@@ -2,18 +2,18 @@
 // Licensed under the MIT license.
 
 import {
+  SearchClient,
   SearchIndexClient,
-  SearchServiceClient,
   GeographyPoint,
-  Index,
+  SearchIndex,
   KnownAnalyzerNames
 } from "../../src/index";
 import { Hotel } from "./interfaces";
 import { delay } from "@azure/core-http";
 
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
-export async function createIndex(client: SearchServiceClient, name: string): Promise<void> {
-  const hotelIndex: Index = {
+export async function createIndex(client: SearchIndexClient, name: string): Promise<void> {
+  const hotelIndex: SearchIndex = {
     name,
     fields: [
       {
@@ -34,13 +34,13 @@ export async function createIndex(client: SearchServiceClient, name: string): Pr
         type: "Edm.String",
         name: "description",
         searchable: true,
-        analyzer: KnownAnalyzerNames.EnLucene
+        analyzerName: KnownAnalyzerNames.EnLucene
       },
       {
         type: "Edm.String",
         name: "descriptionFr",
         searchable: true,
-        analyzer: KnownAnalyzerNames.FrLucene
+        analyzerName: KnownAnalyzerNames.FrLucene
       },
       {
         type: "Edm.String",
@@ -142,13 +142,13 @@ export async function createIndex(client: SearchServiceClient, name: string): Pr
             type: "Edm.String",
             name: "description",
             searchable: true,
-            analyzer: KnownAnalyzerNames.EnLucene
+            analyzerName: KnownAnalyzerNames.EnLucene
           },
           {
             type: "Edm.String",
             name: "descriptionFr",
             searchable: true,
-            analyzer: KnownAnalyzerNames.FrLucene
+            analyzerName: KnownAnalyzerNames.FrLucene
           },
           {
             type: "Edm.String",
@@ -224,7 +224,7 @@ export async function createIndex(client: SearchServiceClient, name: string): Pr
 }
 
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
-export async function populateIndex(client: SearchIndexClient<Hotel>): Promise<void> {
+export async function populateIndex(client: SearchClient<Hotel>): Promise<void> {
   // test data from https://github.com/Azure/azure-sdk-for-net/blob/master/sdk/search/Azure.Search.Documents/tests/Utilities/SearchResources.Data.cs
   const testDocuments: Hotel[] = [
     {
@@ -409,9 +409,9 @@ export async function populateIndex(client: SearchIndexClient<Hotel>): Promise<v
 
   await client.uploadDocuments(testDocuments);
 
-  let count = await client.countDocuments();
+  let count = await client.getDocumentsCount();
   while (count !== testDocuments.length) {
     await delay(2000);
-    count = await client.countDocuments();
+    count = await client.getDocumentsCount();
   }
 }

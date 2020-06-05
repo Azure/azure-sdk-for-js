@@ -486,6 +486,8 @@ export function padStart(
   targetLength: number,
   padString: string = " "
 ): string {
+  // TS doesn't know this code needs to run downlevel sometimes.
+  // @ts-expect-error
   if (String.prototype.padStart) {
     return currentString.padStart(targetLength, padString);
   }

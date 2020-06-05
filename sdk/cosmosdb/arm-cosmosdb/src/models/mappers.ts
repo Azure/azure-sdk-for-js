@@ -205,15 +205,15 @@ export const PrivateLinkServiceConnectionStateProperty: msRest.CompositeMapper =
           name: "String"
         }
       },
-      description: {
-        serializedName: "description",
+      actionsRequired: {
+        readOnly: true,
+        serializedName: "actionsRequired",
         type: {
           name: "String"
         }
       },
-      actionsRequired: {
-        readOnly: true,
-        serializedName: "actionsRequired",
+      description: {
+        serializedName: "description",
         type: {
           name: "String"
         }
@@ -488,6 +488,7 @@ export const DatabaseAccountGetResults: msRest.CompositeMapper = {
         }
       },
       privateEndpointConnections: {
+        readOnly: true,
         serializedName: "properties.privateEndpointConnections",
         type: {
           name: "Sequence",

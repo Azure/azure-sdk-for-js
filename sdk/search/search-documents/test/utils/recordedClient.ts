@@ -6,15 +6,21 @@ import * as dotenv from "dotenv";
 import { env, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 import { isNode } from "@azure/core-http";
 
-import { AzureKeyCredential, SearchIndexClient, SearchServiceClient } from "../../src/index";
+import {
+  AzureKeyCredential,
+  SearchClient,
+  SearchIndexerClient,
+  SearchIndexClient
+} from "../../src/index";
 
 if (isNode) {
   dotenv.config();
 }
 
 export interface Clients<IndexModel> {
-  indexClient: SearchIndexClient<IndexModel>;
-  serviceClient: SearchServiceClient;
+  searchClient: SearchClient<IndexModel>;
+  indexClient: SearchIndexClient;
+  indexerClient: SearchIndexerClient;
 }
 
 const replaceableVariables: { [k: string]: string } = {
@@ -48,11 +54,13 @@ export const environmentSetup: RecorderEnvironmentSetup = {
 
 export function createClients<IndexModel>(indexName: string): Clients<IndexModel> {
   const credential = new AzureKeyCredential(testEnv.SEARCH_API_ADMIN_KEY);
-  const indexClient = new SearchIndexClient<IndexModel>(testEnv.ENDPOINT, indexName, credential);
-  const serviceClient = new SearchServiceClient(testEnv.ENDPOINT, credential);
+  const searchClient = new SearchClient<IndexModel>(testEnv.ENDPOINT, indexName, credential);
+  const indexClient = new SearchIndexClient(testEnv.ENDPOINT, credential);
+  const indexerClient = new SearchIndexerClient(testEnv.ENDPOINT, credential);
 
   return {
+    searchClient,
     indexClient,
-    serviceClient
+    indexerClient
   };
 }

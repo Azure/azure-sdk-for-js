@@ -33,21 +33,21 @@ export class DataSources {
    * @param [options] The optional parameters
    * @returns Promise<Models.DataSourcesCreateOrUpdateResponse>
    */
-  createOrUpdate(dataSourceName: string, dataSource: Models.DataSource, options?: Models.DataSourcesCreateOrUpdateOptionalParams): Promise<Models.DataSourcesCreateOrUpdateResponse>;
+  createOrUpdate(dataSourceName: string, dataSource: Models.SearchIndexerDataSource, options?: Models.DataSourcesCreateOrUpdateOptionalParams): Promise<Models.DataSourcesCreateOrUpdateResponse>;
   /**
    * @param dataSourceName The name of the datasource to create or update.
    * @param dataSource The definition of the datasource to create or update.
    * @param callback The callback
    */
-  createOrUpdate(dataSourceName: string, dataSource: Models.DataSource, callback: coreHttp.ServiceCallback<Models.DataSource>): void;
+  createOrUpdate(dataSourceName: string, dataSource: Models.SearchIndexerDataSource, callback: coreHttp.ServiceCallback<Models.SearchIndexerDataSource>): void;
   /**
    * @param dataSourceName The name of the datasource to create or update.
    * @param dataSource The definition of the datasource to create or update.
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(dataSourceName: string, dataSource: Models.DataSource, options: Models.DataSourcesCreateOrUpdateOptionalParams, callback: coreHttp.ServiceCallback<Models.DataSource>): void;
-  createOrUpdate(dataSourceName: string, dataSource: Models.DataSource, options?: Models.DataSourcesCreateOrUpdateOptionalParams | coreHttp.ServiceCallback<Models.DataSource>, callback?: coreHttp.ServiceCallback<Models.DataSource>): Promise<Models.DataSourcesCreateOrUpdateResponse> {
+  createOrUpdate(dataSourceName: string, dataSource: Models.SearchIndexerDataSource, options: Models.DataSourcesCreateOrUpdateOptionalParams, callback: coreHttp.ServiceCallback<Models.SearchIndexerDataSource>): void;
+  createOrUpdate(dataSourceName: string, dataSource: Models.SearchIndexerDataSource, options?: Models.DataSourcesCreateOrUpdateOptionalParams | coreHttp.ServiceCallback<Models.SearchIndexerDataSource>, callback?: coreHttp.ServiceCallback<Models.SearchIndexerDataSource>): Promise<Models.DataSourcesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         dataSourceName,
@@ -97,14 +97,14 @@ export class DataSources {
    * @param dataSourceName The name of the datasource to retrieve.
    * @param callback The callback
    */
-  get(dataSourceName: string, callback: coreHttp.ServiceCallback<Models.DataSource>): void;
+  get(dataSourceName: string, callback: coreHttp.ServiceCallback<Models.SearchIndexerDataSource>): void;
   /**
    * @param dataSourceName The name of the datasource to retrieve.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(dataSourceName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.DataSource>): void;
-  get(dataSourceName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.DataSource>, callback?: coreHttp.ServiceCallback<Models.DataSource>): Promise<Models.DataSourcesGetResponse> {
+  get(dataSourceName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.SearchIndexerDataSource>): void;
+  get(dataSourceName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.SearchIndexerDataSource>, callback?: coreHttp.ServiceCallback<Models.SearchIndexerDataSource>): Promise<Models.DataSourcesGetResponse> {
     return this.client.sendOperationRequest(
       {
         dataSourceName,
@@ -144,19 +144,19 @@ export class DataSources {
    * @param [options] The optional parameters
    * @returns Promise<Models.DataSourcesCreateResponse>
    */
-  create(dataSource: Models.DataSource, options?: coreHttp.RequestOptionsBase): Promise<Models.DataSourcesCreateResponse>;
+  create(dataSource: Models.SearchIndexerDataSource, options?: coreHttp.RequestOptionsBase): Promise<Models.DataSourcesCreateResponse>;
   /**
    * @param dataSource The definition of the datasource to create.
    * @param callback The callback
    */
-  create(dataSource: Models.DataSource, callback: coreHttp.ServiceCallback<Models.DataSource>): void;
+  create(dataSource: Models.SearchIndexerDataSource, callback: coreHttp.ServiceCallback<Models.SearchIndexerDataSource>): void;
   /**
    * @param dataSource The definition of the datasource to create.
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(dataSource: Models.DataSource, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.DataSource>): void;
-  create(dataSource: Models.DataSource, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.DataSource>, callback?: coreHttp.ServiceCallback<Models.DataSource>): Promise<Models.DataSourcesCreateResponse> {
+  create(dataSource: Models.SearchIndexerDataSource, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.SearchIndexerDataSource>): void;
+  create(dataSource: Models.SearchIndexerDataSource, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.SearchIndexerDataSource>, callback?: coreHttp.ServiceCallback<Models.SearchIndexerDataSource>): Promise<Models.DataSourcesCreateResponse> {
     return this.client.sendOperationRequest(
       {
         dataSource,
@@ -180,23 +180,23 @@ const createOrUpdateOperationSpec: coreHttp.OperationSpec = {
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.prefer,
     Parameters.ifMatch,
-    Parameters.ifNoneMatch
+    Parameters.ifNoneMatch,
+    Parameters.prefer
   ],
   requestBody: {
     parameterPath: "dataSource",
     mapper: {
-      ...Mappers.DataSource,
+      ...Mappers.SearchIndexerDataSource,
       required: true
     }
   },
   responses: {
     200: {
-      bodyMapper: Mappers.DataSource
+      bodyMapper: Mappers.SearchIndexerDataSource
     },
     201: {
-      bodyMapper: Mappers.DataSource
+      bodyMapper: Mappers.SearchIndexerDataSource
     },
     default: {
       bodyMapper: Mappers.SearchError
@@ -241,7 +241,7 @@ const getOperationSpec: coreHttp.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.DataSource
+      bodyMapper: Mappers.SearchIndexerDataSource
     },
     default: {
       bodyMapper: Mappers.SearchError
@@ -283,13 +283,13 @@ const createOperationSpec: coreHttp.OperationSpec = {
   requestBody: {
     parameterPath: "dataSource",
     mapper: {
-      ...Mappers.DataSource,
+      ...Mappers.SearchIndexerDataSource,
       required: true
     }
   },
   responses: {
     201: {
-      bodyMapper: Mappers.DataSource
+      bodyMapper: Mappers.SearchIndexerDataSource
     },
     default: {
       bodyMapper: Mappers.SearchError

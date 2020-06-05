@@ -27,7 +27,7 @@ export async function main(): Promise<void> {
   const keyName = `key${uniqueString}`;
 
   // Connection to Azure Key Vault Cryptography functionality
-  let myWorkKey = await client.createKey(keyName, "RSA");
+  const myWorkKey = await client.createKey(keyName, "RSA");
 
   const cryptoClient = new CryptographyClient(myWorkKey.id!, credential);
 

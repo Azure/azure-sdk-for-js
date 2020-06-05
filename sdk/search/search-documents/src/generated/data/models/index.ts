@@ -108,7 +108,7 @@ export interface SearchRequest {
   orderBy?: string;
   /**
    * A value that specifies the syntax of the search query. The default is 'simple'. Use 'full' if
-   * your query uses the Lucene query syntax. Possible values include: 'simple', 'full'
+   * your query uses the Lucene query syntax. Possible values include: 'Simple', 'Full'
    */
   queryType?: QueryType;
   /**
@@ -135,7 +135,7 @@ export interface SearchRequest {
   searchFields?: string;
   /**
    * A value that specifies whether any or all of the search terms must be matched in order to
-   * count the document as a match. Possible values include: 'any', 'all'
+   * count the document as a match. Possible values include: 'Any', 'All'
    */
   searchMode?: SearchMode;
   /**
@@ -231,7 +231,7 @@ export interface SearchDocumentsResult {
 export interface IndexAction {
   /**
    * The operation to perform on a document in an indexing batch. Possible values include:
-   * 'upload', 'merge', 'mergeOrUpload', 'delete'
+   * 'Upload', 'Merge', 'MergeOrUpload', 'Delete'
    */
   __actionType: IndexActionType;
   /**
@@ -372,7 +372,7 @@ export interface AutocompleteRequest {
   /**
    * Specifies the mode for Autocomplete. The default is 'oneTerm'. Use 'twoTerms' to get shingles
    * and 'oneTermWithContext' to use the current context while producing auto-completed terms.
-   * Possible values include: 'oneTerm', 'twoTerms', 'oneTermWithContext'
+   * Possible values include: 'OneTerm', 'TwoTerms', 'OneTermWithContext'
    */
   autocompleteMode?: AutocompleteMode;
   /**
@@ -527,7 +527,7 @@ export interface SearchOptions {
   orderBy?: string[];
   /**
    * A value that specifies the syntax of the search query. The default is 'simple'. Use 'full' if
-   * your query uses the Lucene query syntax. Possible values include: 'simple', 'full'
+   * your query uses the Lucene query syntax. Possible values include: 'Simple', 'Full'
    */
   queryType?: QueryType;
   /**
@@ -550,7 +550,7 @@ export interface SearchOptions {
   searchFields?: string[];
   /**
    * A value that specifies whether any or all of the search terms must be matched in order to
-   * count the document as a match. Possible values include: 'any', 'all'
+   * count the document as a match. Possible values include: 'Any', 'All'
    */
   searchMode?: SearchMode;
   /**
@@ -638,7 +638,7 @@ export interface AutocompleteOptions {
   /**
    * Specifies the mode for Autocomplete. The default is 'oneTerm'. Use 'twoTerms' to get shingles
    * and 'oneTermWithContext' to use the current context while producing auto-completed terms.
-   * Possible values include: 'oneTerm', 'twoTerms', 'oneTermWithContext'
+   * Possible values include: 'OneTerm', 'TwoTerms', 'OneTermWithContext'
    */
   autocompleteMode?: AutocompleteMode;
   /**
@@ -729,7 +729,7 @@ export interface DocumentsAutocompleteGetOptionalParams extends coreHttp.Request
 
 /**
  * Defines values for QueryType.
- * Possible values include: 'simple', 'full'
+ * Possible values include: 'Simple', 'Full'
  * @readonly
  * @enum {string}
  */
@@ -737,7 +737,7 @@ export type QueryType = 'simple' | 'full';
 
 /**
  * Defines values for SearchMode.
- * Possible values include: 'any', 'all'
+ * Possible values include: 'Any', 'All'
  * @readonly
  * @enum {string}
  */
@@ -745,7 +745,7 @@ export type SearchMode = 'any' | 'all';
 
 /**
  * Defines values for IndexActionType.
- * Possible values include: 'upload', 'merge', 'mergeOrUpload', 'delete'
+ * Possible values include: 'Upload', 'Merge', 'MergeOrUpload', 'Delete'
  * @readonly
  * @enum {string}
  */
@@ -753,7 +753,7 @@ export type IndexActionType = 'upload' | 'merge' | 'mergeOrUpload' | 'delete';
 
 /**
  * Defines values for AutocompleteMode.
- * Possible values include: 'oneTerm', 'twoTerms', 'oneTermWithContext'
+ * Possible values include: 'OneTerm', 'TwoTerms', 'OneTermWithContext'
  * @readonly
  * @enum {string}
  */

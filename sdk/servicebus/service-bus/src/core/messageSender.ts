@@ -3,36 +3,36 @@
 
 import * as log from "../log";
 import {
-  messageProperties,
+  AmqpError,
   AwaitableSender,
   AwaitableSenderOptions,
   EventContext,
   OnAmqpEvent,
   message as RheaMessageUtil,
-  AmqpError,
-  generate_uuid
+  generate_uuid,
+  messageProperties
 } from "rhea-promise";
 import {
-  defaultLock,
-  retry,
-  translate,
   AmqpMessage,
+  Constants,
   ErrorNameConditionMapper,
+  MessagingError,
   RetryConfig,
   RetryOperationType,
-  Constants,
+  RetryOptions,
+  defaultLock,
   delay,
-  MessagingError,
-  RetryOptions
+  retry,
+  translate
 } from "@azure/core-amqp";
 import {
   ServiceBusMessage,
-  toAmqpMessage,
-  getMessagePropertyTypeMismatchError
+  getMessagePropertyTypeMismatchError,
+  toAmqpMessage
 } from "../serviceBusMessage";
 import { ClientEntityContext } from "../clientEntityContext";
 import { LinkEntity } from "./linkEntity";
-import { getUniqueName, normalizeRetryOptions, RetryOptionsInternal } from "../util/utils";
+import { getUniqueName } from "../util/utils";
 import { throwErrorIfConnectionClosed } from "../util/errors";
 import { ServiceBusMessageBatch, ServiceBusMessageBatchImpl } from "../serviceBusMessageBatch";
 import { CreateBatchOptions } from "../models";
@@ -77,7 +77,7 @@ export class MessageSender extends LinkEntity {
    * @property {Sender} [_sender] The AMQP sender link.
    */
   private _sender?: AwaitableSender;
-  private _retryOptions: RetryOptionsInternal;
+  private _retryOptions: RetryOptions;
 
   /**
    * Creates a new MessageSender instance.
@@ -89,7 +89,7 @@ export class MessageSender extends LinkEntity {
       address: context.entityPath,
       audience: `${context.namespace.config.endpoint}${context.entityPath}`
     });
-    this._retryOptions = normalizeRetryOptions(retryOptions);
+    this._retryOptions = retryOptions;
     this._onAmqpError = (context: EventContext) => {
       const senderError = context.sender && context.sender.error;
       if (senderError) {
@@ -254,6 +254,10 @@ export class MessageSender extends LinkEntity {
     options: OperationOptions | undefined
   ): Promise<void> {
     const abortSignal = options?.abortSignal;
+    const timeoutInMs =
+      this._retryOptions.timeoutInMs == undefined
+        ? Constants.defaultOperationTimeoutInMs
+        : this._retryOptions.timeoutInMs;
 
     const sendEventPromise = () =>
       new Promise<void>(async (resolve, reject) => {
@@ -279,7 +283,7 @@ export class MessageSender extends LinkEntity {
                 description: desc
               };
               return rejectInitTimeoutPromise(translate(e));
-            }, this._retryOptions.timeoutInMs);
+            }, timeoutInMs);
           });
 
           try {
@@ -325,9 +329,20 @@ export class MessageSender extends LinkEntity {
           );
         }
         if (this._sender!.sendable()) {
+          if (timeoutInMs <= timeTakenByInit) {
+            const desc: string =
+              `[${this._context.namespace.connectionId}] Sender "${this.name}" ` +
+              `with address "${this.address}", was not able to send the message right now, due ` +
+              `to operation timeout.`;
+            log.error(desc);
+            const e: AmqpError = {
+              condition: ErrorNameConditionMapper.ServiceUnavailableError,
+              description: desc
+            };
+            return reject(translate(e));
+          }
           try {
-            this._sender!.sendTimeoutInSeconds =
-              (this._retryOptions.timeoutInMs - timeTakenByInit) / 1000;
+            this._sender!.sendTimeoutInSeconds = (timeoutInMs - timeTakenByInit) / 1000;
             const delivery = await this._sender!.send(
               encodedMessage,
               undefined,

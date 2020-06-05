@@ -963,6 +963,28 @@ describe("URLBuilder", () => {
   });
 
   describe("replaceAll()", () => {
+    it("should handle parametrized path containing a full url", () => {
+      const url = URLBuilder.parse("http://localhost");
+      url.appendPath("{nextLink}");
+      url.replaceAll("{nextLink}", "http://localhost:80/paging/multiple/page/2");
+
+      assert.strictEqual(url.toString(), "http://localhost:80/paging/multiple/page/2");
+    });
+
+    it("should handle parametrized path containing a full url, when path contains parts", () => {
+      const url = URLBuilder.parse("https://localhost/formrecognizer/v2.0-preview");
+      url.appendPath("{nextLink}");
+      url.replaceAll(
+        "{nextLink}",
+        "https://localhost/formrecognizer/v2.0-preview/custom/models?nextLink=1"
+      );
+
+      assert.strictEqual(
+        url.toString(),
+        "https://localhost/formrecognizer/v2.0-preview/custom/models?nextLink=1"
+      );
+    });
+
     it(`with undefined path, "{arg}" searchValue, and "cats" replaceValue`, () => {
       const urlBuilder = new URLBuilder();
       urlBuilder.setPath(undefined);
