@@ -42,8 +42,8 @@ export class PredictionAPIClientContext extends msRest.ServiceClient {
 
     super(credentials, options);
 
-    this.baseUri = "{Endpoint}/customvision/v3.0/prediction";
-    this.requestContentType = "application/json; charset=utf-8";
+    this.baseUri = "{Endpoint}/customvision/v3.1/prediction";
+    this.requestContentType = "multipart/form-data";
     this.endpoint = endpoint;
     this.credentials = credentials;
   }

@@ -9,24 +9,6 @@
 import * as msRest from "@azure/ms-rest-js";
 
 
-export const ImageUrl: msRest.CompositeMapper = {
-  serializedName: "ImageUrl",
-  type: {
-    name: "Composite",
-    className: "ImageUrl",
-    modelProperties: {
-      url: {
-        required: true,
-        nullable: false,
-        serializedName: "url",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const BoundingBox: msRest.CompositeMapper = {
   serializedName: "BoundingBox",
   type: {
@@ -63,6 +45,30 @@ export const BoundingBox: msRest.CompositeMapper = {
         serializedName: "height",
         type: {
           name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const CustomVisionError: msRest.CompositeMapper = {
+  serializedName: "CustomVisionError",
+  type: {
+    name: "Composite",
+    className: "CustomVisionError",
+    modelProperties: {
+      code: {
+        required: true,
+        serializedName: "code",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        required: true,
+        serializedName: "message",
+        type: {
+          name: "String"
         }
       }
     }
@@ -106,6 +112,14 @@ export const Prediction: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "BoundingBox"
+        }
+      },
+      tagType: {
+        nullable: true,
+        readOnly: true,
+        serializedName: "tagType",
+        type: {
+          name: "String"
         }
       }
     }
@@ -167,22 +181,16 @@ export const ImagePrediction: msRest.CompositeMapper = {
   }
 };
 
-export const CustomVisionError: msRest.CompositeMapper = {
-  serializedName: "CustomVisionError",
+export const ImageUrl: msRest.CompositeMapper = {
+  serializedName: "ImageUrl",
   type: {
     name: "Composite",
-    className: "CustomVisionError",
+    className: "ImageUrl",
     modelProperties: {
-      code: {
+      url: {
         required: true,
-        serializedName: "code",
-        type: {
-          name: "String"
-        }
-      },
-      message: {
-        required: true,
-        serializedName: "message",
+        nullable: false,
+        serializedName: "url",
         type: {
           name: "String"
         }
