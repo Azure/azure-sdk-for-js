@@ -383,7 +383,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * likely to be similar to <yournamespace>.servicebus.windows.net.
    * @param credential A credential object used by the client to get the token to authenticate the connection
    * with the Azure Service Bus. See &commat;azure/identity for creating the credentials.
-   * If you're using an own implementation of the `TokenCredential` interface against AAD, then set the "scopes" for service-bus
+   * If you're using your own implementation of the `TokenCredential` interface against AAD, then set the "scopes" for service-bus
    * to be `["https://servicebus.azure.net//user_impersonation"]` to get the appropriate token.
    * @param options ServiceBusManagementClientOptions
    */
