@@ -19,7 +19,8 @@ import {
   stripRequest,
   stripResponse,
   URLBuilder,
-  WebResource
+  WebResource,
+  bearerTokenAuthenticationPolicy
 } from "@azure/core-http";
 import * as log from "./log";
 import {
@@ -63,7 +64,7 @@ import { AtomXmlSerializer, executeAtomXmlOperation } from "./util/atomXmlHelper
 import * as Constants from "./util/constants";
 import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials";
 import { isAbsoluteUrl, isJSONLikeObject } from "./util/utils";
-
+import { Constants as AMQPConstants } from "@azure/core-amqp";
 /**
  * Options to use with ServiceBusManagementClient creation
  */
@@ -398,17 +399,22 @@ export class ServiceBusManagementClient extends ServiceClient {
     options3?: ServiceBusManagementClientOptions
   ) {
     if (isTokenCredential(credentialOrOptions2)) {
+      const fullyQualifiedNamespace = fullyQualifiedNamespaceOrConnectionString1;
+      const credential = credentialOrOptions2;
       const requestPolicyFactories: RequestPolicyFactory[] = [];
       if (options3 && options3.proxySettings) {
         requestPolicyFactories.push(proxyPolicy(options3.proxySettings));
       }
+      requestPolicyFactories.push(
+        bearerTokenAuthenticationPolicy(credential, AMQPConstants.aadServiceBusScope)
+      );
       const serviceClientOptions: ServiceClientOptions = {
         requestPolicyFactories: requestPolicyFactories
       };
-      super(credentialOrOptions2, serviceClientOptions);
-      this.tokenProvider = credentialOrOptions2;
-      this.endpoint = fullyQualifiedNamespaceOrConnectionString1;
-      this.endpointWithProtocol = "sb://" + fullyQualifiedNamespaceOrConnectionString1;
+      super(credential, serviceClientOptions);
+      this.tokenProvider = credential;
+      this.endpoint = fullyQualifiedNamespace;
+      this.endpointWithProtocol = "sb://" + fullyQualifiedNamespace;
     } else {
       const connectionString = fullyQualifiedNamespaceOrConnectionString1;
       const options = credentialOrOptions2;
@@ -1467,9 +1473,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       const token =
         this.tokenProvider instanceof SharedKeyCredential
           ? this.tokenProvider.getToken(this.endpoint)!.token
-          : (await this.tokenProvider.getToken([
-              "https://servicebus.azure.net//user_impersonation"
-            ]))!.token;
+          : (await this.tokenProvider.getToken([]))!.token;
       if (queueOrSubscriptionFields.ForwardTo) {
         webResource.headers.set("ServiceBusSupplementaryAuthorization", token);
         if (!isAbsoluteUrl(queueOrSubscriptionFields.ForwardTo)) {
