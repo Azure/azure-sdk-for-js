@@ -441,6 +441,9 @@ export class ServiceBusManagementClient extends ServiceClient {
     };
 
     super(credentials, serviceClientOptions);
+    fullyQualifiedNamespace = fullyQualifiedNamespace.endsWith("/")
+      ? fullyQualifiedNamespace
+      : fullyQualifiedNamespace + "/";
     this.endpoint = fullyQualifiedNamespace;
     this.endpointWithProtocol = "sb://" + fullyQualifiedNamespace;
     this.tokenProvider = tokenProvider;
