@@ -42,7 +42,7 @@ describe("session tests", () => {
     });
 
     sender = serviceBusClient.test.addToCleanup(
-      await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
 
     // Observation -
@@ -405,7 +405,7 @@ describe.skip("SessionReceiver - disconnects", function(): void {
       sessionId: testMessage.sessionId,
       autoRenewLockDurationInMs: 10000 // Lower this value so that test can complete in time.
     });
-    const sender = await serviceBusClient.createSender(entityName.queue!);
+    const sender = serviceBusClient.createSender(entityName.queue!);
     // Send a message so we can be sure when the receiver is open and active.
     await sender.send(testMessage);
     const receivedErrors: any[] = [];

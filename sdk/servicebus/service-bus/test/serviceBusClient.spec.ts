@@ -63,7 +63,7 @@ describe("Random scheme in the endpoint from connection string", function(): voi
     sbClientWithRelaxedEndPoint = new ServiceBusClient(
       getEnvVars().SERVICEBUS_CONNECTION_STRING.replace("sb://", "CheeseBurger://")
     );
-    sender = await sbClientWithRelaxedEndPoint.createSender(entities.queue!);
+    sender = sbClientWithRelaxedEndPoint.createSender(entities.queue!);
     receiver = !entities.usesSessions
       ? sbClientWithRelaxedEndPoint.createReceiver(entities.queue!, "peekLock")
       : await sbClientWithRelaxedEndPoint.createSessionReceiver(entities.queue!, "peekLock", {
@@ -142,19 +142,6 @@ describe("Errors with non existing Namespace", function(): void {
     }
   };
 
-  it("throws error when create a sender for a non existing namespace", async function(): Promise<
-    void
-  > {
-    try {
-      await sbClient.createSender("some-queue");
-      should.fail("Should have thrown");
-    } catch (err) {
-      testError(err);
-    }
-
-    should.equal(errorWasThrown, true, "Error thrown flag must be true");
-  });
-
   it("throws error when receiving batch data to a non existing namespace", async function(): Promise<
     void
   > {
@@ -216,12 +203,6 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
       errorWasThrown = true;
     }
   };
-
-  it("throws error when opening a sender to a non-existent queue", async function(): Promise<void> {
-    await sbClient.createSender("some-name").catch((err) => testError(err, "some-name"));
-
-    should.equal(errorWasThrown, true, "Error thrown flag must be true");
-  });
 
   it("throws error when receiving batch data from a non existing queue", async function(): Promise<
     void
@@ -301,7 +282,7 @@ describe("Test ServiceBusClient creation", function(): void {
   const serviceBusEndpoint = (env.SERVICEBUS_CONNECTION_STRING.match(
     "Endpoint=sb://((.*).servicebus.windows.net)"
   ) || "")[1];
-  
+
   // `keytar` being used in `@azure/identity` is causing the build to fail when imported for the tests.
   // /**
   //  * Utility to create EnvironmentCredential using `@azure/identity`
@@ -409,7 +390,7 @@ describe("Errors after close()", function(): void {
     entityName = await sbClient.test.createTestEntities(entityType);
 
     sender = sbClient.test.addToCleanup(
-      await sbClient.createSender(entityName.queue ?? entityName.topic!)
+      sbClient.createSender(entityName.queue ?? entityName.topic!)
     );
     receiver = await sbClient.test.getPeekLockReceiver(entityName);
 
@@ -556,7 +537,7 @@ describe("Errors after close()", function(): void {
   async function testCreateSender(expectedErrorMsg: string): Promise<void> {
     let errorNewSender: string = "";
     try {
-      await sbClient.createSender(entityName.queue ?? entityName.topic!);
+      sbClient.createSender(entityName.queue ?? entityName.topic!);
     } catch (err) {
       errorNewSender = err.message;
     }
@@ -808,7 +789,7 @@ describe("entityPath on sender and receiver", async () => {
   });
   it("UnpartitionedQueue", async () => {
     const entityName = await sbClient.test.createTestEntities(TestClientType.UnpartitionedQueue);
-    const sender = sbClient.test.addToCleanup(await sbClient.createSender(entityName.queue!));
+    const sender = sbClient.test.addToCleanup(sbClient.createSender(entityName.queue!));
     const receiver = sbClient.test.addToCleanup(
       sbClient.createReceiver(entityName.queue!, "receiveAndDelete")
     );
@@ -832,7 +813,7 @@ describe("entityPath on sender and receiver", async () => {
     const entityName = await sbClient.test.createTestEntities(
       TestClientType.PartitionedSubscriptionWithSessions
     );
-    const sender = sbClient.test.addToCleanup(await sbClient.createSender(entityName.topic!));
+    const sender = sbClient.test.addToCleanup(sbClient.createSender(entityName.topic!));
     const receiver = sbClient.test.addToCleanup(
       await sbClient.createSessionReceiver(
         entityName.topic!,
