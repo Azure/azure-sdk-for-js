@@ -29,6 +29,9 @@ export class DefaultHttpsClient implements HttpsClient {
 }
 
 // @public
+export function disableResponseDecompressionPolicy(): PipelinePolicy;
+
+// @public
 export type FormDataMap = {
     [key: string]: FormDataValue | FormDataValue[];
 };

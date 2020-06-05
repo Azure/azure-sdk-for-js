@@ -8,6 +8,7 @@
   "module": "dist-esm/src/index.js",
   "browser": {
     "./dist-esm/src/defaultHttpsClient.js": "./dist-esm/src/defaultHttpsClient.browser.js",
+    "./dist-esm/src/policies/disableResponseDecompressionPolicy.js": "./dist-esm/src/policies/disableResponseDecompressionPolicy.browser.js",
     "./dist-esm/src/util/inspect.js": "./dist-esm/src/util/inspect.browser.js",
     "./dist-esm/src/util/url.js": "./dist-esm/src/util/url.browser.js"
   },
