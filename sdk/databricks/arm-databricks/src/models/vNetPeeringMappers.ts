@@ -17,13 +17,12 @@ export {
   Sku,
   TrackedResource,
   VirtualNetworkPeering,
+  VirtualNetworkPeeringList,
   VirtualNetworkPeeringPropertiesFormatDatabricksVirtualNetwork,
   VirtualNetworkPeeringPropertiesFormatRemoteVirtualNetwork,
   Workspace,
   WorkspaceCustomBooleanParameter,
   WorkspaceCustomParameters,
   WorkspaceCustomStringParameter,
-  WorkspaceListResult,
-  WorkspaceProviderAuthorization,
-  WorkspaceUpdate
+  WorkspaceProviderAuthorization
 } from "../models/mappers";

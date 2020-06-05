@@ -13,7 +13,7 @@ import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 
 const packageName = "@azure/arm-databricks";
-const packageVersion = "0.1.0";
+const packageVersion = "1.1.0";
 
 export class DatabricksClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;

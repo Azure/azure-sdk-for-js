@@ -41,6 +41,16 @@ export const nextPageLink: msRest.OperationURLParameter = {
   },
   skipEncoding: true
 };
+export const peeringName: msRest.OperationURLParameter = {
+  parameterPath: "peeringName",
+  mapper: {
+    required: true,
+    serializedName: "peeringName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const resourceGroupName: msRest.OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
