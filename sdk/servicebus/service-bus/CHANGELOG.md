@@ -1,6 +1,6 @@
 # Release History
 
-## 7.0.0-preview.3 (2020-05-08)
+## 7.0.0-preview.3 (2020-06-08)
 
 - Improves the performance of the `ServiceBusMessageBatch.tryAdd` method.
   [PR 8772](https://github.com/Azure/azure-sdk-for-js/pull/8772)
