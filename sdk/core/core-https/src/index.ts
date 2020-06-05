@@ -39,3 +39,8 @@ export {
   setClientRequestIdPolicy,
   setClientRequestIdPolicyName
 } from "./policies/setClientRequestIdPolicy";
+export {
+  keepAlivePolicy,
+  keepAlivePolicyName,
+  KeepAlivePolicyOptions
+} from "./policies/keepAlivePolicy";

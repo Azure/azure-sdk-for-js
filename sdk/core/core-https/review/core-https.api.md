@@ -74,6 +74,17 @@ export interface HttpsClient {
 }
 
 // @public
+export function keepAlivePolicy(options?: KeepAlivePolicyOptions): PipelinePolicy;
+
+// @public
+export const keepAlivePolicyName = "keepAlivePolicy";
+
+// @public
+export interface KeepAlivePolicyOptions {
+    enable?: boolean;
+}
+
+// @public
 export interface Pipeline {
     addPolicy(policy: PipelinePolicy, options?: AddPipelineOptions): void;
     clone(): Pipeline;

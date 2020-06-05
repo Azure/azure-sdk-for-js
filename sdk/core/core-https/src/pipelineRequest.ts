@@ -73,7 +73,7 @@ export interface PipelineRequestOptions {
   proxySettings?: ProxySettings;
 
   /**
-   * If the connection should be reused.
+   * If the connection should be reused. Defaults to true.
    */
   keepAlive?: boolean;
 
@@ -120,7 +120,7 @@ class PipelineRequestImpl implements PipelineRequest {
     this.method = options.method ?? "GET";
     this.timeout = options.timeout ?? 0;
     this.formData = options.formData;
-    this.keepAlive = options.keepAlive ?? false;
+    this.keepAlive = options.keepAlive ?? true;
     this.proxySettings = options.proxySettings;
     this.skipDecompressResponse = options.skipDecompressResponse ?? false;
     this.streamResponseBody = options.streamResponseBody ?? false;
