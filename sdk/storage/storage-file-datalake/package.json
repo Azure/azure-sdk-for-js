@@ -101,7 +101,7 @@
     "@azure/logger": "^1.0.0",
     "@azure/storage-blob": "^12.1.2",
     "events": "^3.0.0",
-    "tslib": "^1.10.0"
+    "tslib": "^2.0.0"
   },
   "devDependencies": {
     "@azure/identity": "^1.1.0-preview",

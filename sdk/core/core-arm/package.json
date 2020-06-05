@@ -100,7 +100,7 @@
   },
   "dependencies": {
     "@azure/core-http": "^1.1.1",
-    "tslib": "^1.10.0"
+    "tslib": "^2.0.0"
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^8.0.0",
