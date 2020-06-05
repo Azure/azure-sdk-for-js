@@ -217,7 +217,34 @@ export function toFormFieldFromFieldValueModel(
   key: string,
   readResults: FormPage[]
 ): FormField {
-  let formField = {
+  let value: string | Date | number | FormField[] | { [propertyName: string] : FormField} | undefined;
+  switch (original.type) {
+    case "string":
+      value = original.valueString;
+      break;
+    case "date":
+      value = original.valueDate;
+      break;
+    case "time":
+      value = original.valueTime;
+      break;
+    case "integer":
+      value = original.valueInteger;
+      break;
+    case "number":
+      value = original.valueNumber;
+      break;
+    case "phoneNumber":
+      value = original.valuePhoneNumber;
+      break;
+    case "array":
+      value = original.valueArray?.map((fieldValueModel) => toFormFieldFromFieldValueModel(fieldValueModel, key, readResults));
+      break;
+    case "object":
+      value = original.valueObject ? toFieldsFromFieldValue(original.valueObject, readResults) : undefined;
+      break;
+  }
+  return {
     confidence: original.confidence,
     name: key,
     valueText: {
@@ -226,51 +253,9 @@ export function toFormFieldFromFieldValueModel(
       boundingBox: original.boundingBox ? toBoundingBox(original.boundingBox) : undefined,
       textContent: original.elements?.map((element) => toFormContent(element, readResults))
     },
-    valueType: original.type
-  };
-  switch (original.type) {
-    case "string":
-      return {
-        ...formField,
-        value: original.valueString
-      } as FormField;
-    case "date":
-      return {
-        ...formField,
-        value: original.valueDate
-      } as FormField;
-    case "time":
-      return {
-        ...formField,
-        value: original.valueTime
-      } as FormField;
-    case "integer":
-      return {
-        ...formField,
-        value: original.valueInteger
-      } as FormField;
-    case "number":
-      return {
-        ...formField,
-        value: original.valueNumber
-      } as FormField;
-    case "phoneNumber":
-      return {
-        ...formField,
-        value: original.valuePhoneNumber
-      } as FormField;
-    case "array":
-      const result = original.valueArray?.map((fieldValueModel) => toFormFieldFromFieldValueModel(fieldValueModel, key, readResults))
-      return {
-        ...formField,
-        value: result
-      } as FormField;
-    case "object":
-      return {
-        ...formField,
-        value: original.valueObject ? toFieldsFromFieldValue(original.valueObject, readResults) : undefined
-      } as FormField;
-  }
+    valueType: original.type,
+    value
+  } as FormField;
 }
 
 export function toFieldsFromFieldValue(
