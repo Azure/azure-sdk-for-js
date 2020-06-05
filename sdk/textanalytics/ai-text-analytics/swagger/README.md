@@ -121,6 +121,12 @@ directive:
       if ($.name === "showStats") {
         $["x-ms-client-name"] = "includeStatistics";
       }
+  - from: swagger-document
+    where: $.definitions[*]
+    transform: >
+      if ($.description && $.description.includes("showStats")) {
+        $.description = $.description.replace("showStats", "includeStatistics");
+      }
 ```
 
 ### Rename {Document,Sentence}SentimentValue -> Label 

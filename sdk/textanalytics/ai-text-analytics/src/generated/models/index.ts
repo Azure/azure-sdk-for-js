@@ -124,8 +124,8 @@ export interface TextAnalyticsWarning {
 }
 
 /**
- * if showStats=true was specified in the request this field will contain information about the
- * document payload.
+ * if includeStatistics=true was specified in the request this field will contain information about
+ * the document payload.
  */
 export interface TextDocumentStatistics {
   /**
@@ -198,8 +198,8 @@ export interface DocumentSentiment {
 }
 
 /**
- * if showStats=true was specified in the request this field will contain information about the
- * request payload.
+ * if includeStatistics=true was specified in the request this field will contain information about
+ * the request payload.
  */
 export interface TextDocumentBatchStatistics {
   /**
