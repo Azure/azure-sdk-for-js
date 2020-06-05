@@ -379,7 +379,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   constructor(connectionString: string, options?: ServiceBusManagementClientOptions);
   /**
    *
-   * @param fullyQualifiedNamespace The full namespace of your Service Bus instance which is
+   * @param fullyQualifiedNamespace The fully qualified namespace of your Service Bus instance which is
    * likely to be similar to <yournamespace>.servicebus.windows.net.
    * @param credential A credential object used by the client to get the token to authenticate the connection
    * with the Azure Service Bus. See &commat;azure/identity for creating the credentials.
