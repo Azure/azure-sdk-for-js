@@ -1,6 +1,6 @@
-import { ContainerClient } from '@azure/storage-blob';
-import { Segment } from './Segment';
-import { SegmentFactory } from './SegmentFactory';
+import { ContainerClient } from "@azure/storage-blob";
+import { Segment } from "./Segment";
+import { SegmentFactory } from "./SegmentFactory";
 import { BlobChangeFeedEvent } from "./models/BlobChangeFeedEvent";
 import { ChangeFeedCursor } from "./models/ChangeFeedCursor";
 import { getURI, hashString, getSegmentsInYear, minDate } from "./utils/utils.common";
@@ -32,7 +32,8 @@ export class ChangeFeed {
   private _end?: Date;
 
   constructor();
-  constructor(containerClient: ContainerClient,
+  constructor(
+    containerClient: ContainerClient,
     segmentFactory: SegmentFactory,
     years: number[],
     segments: string[],
@@ -42,7 +43,8 @@ export class ChangeFeed {
     endTime?: Date
   );
 
-  constructor(containerClient?: ContainerClient,
+  constructor(
+    containerClient?: ContainerClient,
     segmentFactory?: SegmentFactory,
     years?: number[],
     segments?: string[],
@@ -70,7 +72,11 @@ export class ChangeFeed {
       return false;
     }
 
-    if (this._segments.length === 0 && this._years.length === 0 && !this._currentSegment.hasNext()) {
+    if (
+      this._segments.length === 0 &&
+      this._years.length === 0 &&
+      !this._currentSegment.hasNext()
+    ) {
       return false;
     }
 
@@ -111,15 +117,26 @@ export class ChangeFeed {
 
     // If the current segment is completed, remove it
     if (this._segments.length > 0) {
-      this._currentSegment = await this._segmentFactory!.buildSegment(this._containerClient!, this._segments.shift()!);
+      this._currentSegment = await this._segmentFactory!.buildSegment(
+        this._containerClient!,
+        this._segments.shift()!
+      );
     }
     // If _segments is empty, refill it
     else if (this._segments.length === 0 && this._years.length > 0) {
       const year = this._years.shift();
-      this._segments = await getSegmentsInYear(this._containerClient!, year!, this._startTime, this._end);
+      this._segments = await getSegmentsInYear(
+        this._containerClient!,
+        year!,
+        this._startTime,
+        this._end
+      );
 
       if (this._segments.length > 0) {
-        this._currentSegment = await this._segmentFactory!.buildSegment(this._containerClient!, this._segments.shift()!);
+        this._currentSegment = await this._segmentFactory!.buildSegment(
+          this._containerClient!,
+          this._segments.shift()!
+        );
       } else {
         this._currentSegment = undefined;
       }

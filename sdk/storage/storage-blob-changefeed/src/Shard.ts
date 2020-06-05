@@ -20,7 +20,8 @@ export class Shard {
     chunkFactory: ChunkFactory,
     chunks: string[],
     currentChunk: Chunk,
-    chunkIndex: number) {
+    chunkIndex: number
+  ) {
     this._containerClient = containerClient;
     this._chunkFactory = chunkFactory;
     this._chunks = chunks;

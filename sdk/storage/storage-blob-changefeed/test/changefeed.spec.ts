@@ -64,19 +64,29 @@ describe("Change Feed", async () => {
     serviceClientStub.getContainerClient.returns(containerClientStub as any);
     containerClientStub.exists.resolves(true);
     containerClientStub.getBlobClient.returns(blobClientStub as any);
-    containerClientStub.listBlobsByHierarchy.withArgs("/").callsFake(() => (fakeList(yearPaths) as any));
-    containerClientStub.listBlobsFlat.withArgs({ prefix: "idx/segments/2019/" }).callsFake(() => (fakeList(segmentsIn2019) as any));
-    containerClientStub.listBlobsFlat.withArgs({ prefix: "idx/segments/2020/" }).callsFake(() => (fakeList(segmentsIn2020) as any));
+    containerClientStub.listBlobsByHierarchy
+      .withArgs("/")
+      .callsFake(() => fakeList(yearPaths) as any);
+    containerClientStub.listBlobsFlat
+      .withArgs({ prefix: "idx/segments/2019/" })
+      .callsFake(() => fakeList(segmentsIn2019) as any);
+    containerClientStub.listBlobsFlat
+      .withArgs({ prefix: "idx/segments/2020/" })
+      .callsFake(() => fakeList(segmentsIn2020) as any);
     // TODO: rewrite for browser
     blobClientStub.download.callsFake(() => {
-      return new Promise((resolve) => { resolve({ readableStreamBody: fs.createReadStream(manifestFilePath) } as any) });
+      return new Promise((resolve) => {
+        resolve({ readableStreamBody: fs.createReadStream(manifestFilePath) } as any);
+      });
     });
 
     segmentStubs = [];
     const segmentIter = listTwoArray(segmentsIn2019, segmentsIn2020);
     for (let i = 0; i < segmentCount; i++) {
       segmentStubs.push(sinon.createStubInstance(Segment));
-      segmentFactoryStub.buildSegment.withArgs(sinon.match.any, (await segmentIter.next()).value.name).resolves(segmentStubs[i] as any);
+      segmentFactoryStub.buildSegment
+        .withArgs(sinon.match.any, (await segmentIter.next()).value.name)
+        .resolves(segmentStubs[i] as any);
     }
     for (let i = 0; i < segmentCount; i++) {
       sinon.stub(segmentStubs[i], "dateTime").value(segmentTimes[i]);
@@ -103,7 +113,11 @@ describe("Change Feed", async () => {
       { kind: "prefix", name: "idx/segments/2019/" }
     ];
     containerClientStub.listBlobsByHierarchy.withArgs("/").returns(fakeList(yearPaths) as any);
-    const changeFeed = await changeFeedFactory.buildChangeFeed(serviceClientStub as any, undefined, new Date(Date.UTC(2020, 0)));
+    const changeFeed = await changeFeedFactory.buildChangeFeed(
+      serviceClientStub as any,
+      undefined,
+      new Date(Date.UTC(2020, 0))
+    );
     assert.ok(!changeFeed.hasNext());
   });
 
@@ -120,12 +134,20 @@ describe("Change Feed", async () => {
     ];
     containerClientStub.listBlobsFlat.returns(fakeList(segments) as any);
 
-    const changeFeed = await changeFeedFactory.buildChangeFeed(serviceClientStub as any, undefined, new Date(Date.UTC(2019, 5)));
+    const changeFeed = await changeFeedFactory.buildChangeFeed(
+      serviceClientStub as any,
+      undefined,
+      new Date(Date.UTC(2019, 5))
+    );
     assert.ok(!changeFeed.hasNext());
   });
 
   it("getChange", async () => {
-    const changeFeed = await changeFeedFactory.buildChangeFeed(serviceClientStub as any, undefined, new Date(Date.UTC(2019, 0)));
+    const changeFeed = await changeFeedFactory.buildChangeFeed(
+      serviceClientStub as any,
+      undefined,
+      new Date(Date.UTC(2019, 0))
+    );
     assert.ok(changeFeed.hasNext());
 
     const event = await changeFeed.getChange();
@@ -170,7 +192,7 @@ describe("Change Feed", async () => {
       serviceClientStub as any,
       undefined,
       new Date(Date.UTC(2019, 3, 3, 22)),
-      new Date(Date.UTC(2019, 4, 3, 22)),
+      new Date(Date.UTC(2019, 4, 3, 22))
     );
     assert.ok(changeFeed2.hasNext());
     const event = await changeFeed2.getChange();
@@ -204,9 +226,16 @@ describe("Change Feed", async () => {
     const cursor = changeFeed.getCursor();
     assert.deepStrictEqual(cursor.urlHash, hashString(getURI(containerUri)!));
 
-    segmentStubs[3].getCursor.returns({ shardCursors: [], shardIndex: 0, segmentTime: (new Date(Date.UTC(2020, 2, 2, 20))).toJSON() });
+    segmentStubs[3].getCursor.returns({
+      shardCursors: [],
+      shardIndex: 0,
+      segmentTime: new Date(Date.UTC(2020, 2, 2, 20)).toJSON()
+    });
     const continuation = JSON.stringify(changeFeed.getCursor());
-    const changeFeed2 = await changeFeedFactory.buildChangeFeed(serviceClientStub as any, continuation);
+    const changeFeed2 = await changeFeedFactory.buildChangeFeed(
+      serviceClientStub as any,
+      continuation
+    );
     assert.ok(changeFeed2.hasNext());
     const event = await changeFeed.getChange();
     assert.equal(event, 3);
@@ -215,7 +244,10 @@ describe("Change Feed", async () => {
     sinon.stub(segmentStubs[4], "finalized").value(true);
     segmentStubs[3].hasNext.returns(false);
     segmentStubs[3].getChange.resolves(undefined);
-    const changeFeed3 = await changeFeedFactory.buildChangeFeed(serviceClientStub as any, continuation);
+    const changeFeed3 = await changeFeedFactory.buildChangeFeed(
+      serviceClientStub as any,
+      continuation
+    );
     assert.ok(changeFeed3.hasNext());
     const event2 = await changeFeed.getChange();
     assert.equal(event2, 4);

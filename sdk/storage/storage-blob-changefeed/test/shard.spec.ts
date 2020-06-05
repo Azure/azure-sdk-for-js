@@ -35,13 +35,18 @@ describe("Shard", async () => {
     const shardCursor: ShardCursor = {
       chunkIndex,
       blockOffset: 0,
-      eventIndex: 0,
-    }
+      eventIndex: 0
+    };
 
     // build shard correctly
     const shardFactory = new ShardFactory(chunkFactoryStub as any);
     const shard = await shardFactory.buildShard(containerClientSub as any, shardPath, shardCursor);
-    assert.ok(chunkFactoryStub.buildChunk.calledWith(containerClientSub, `${shardPath}000${chunkIndex}.avro`));
+    assert.ok(
+      chunkFactoryStub.buildChunk.calledWith(
+        containerClientSub,
+        `${shardPath}000${chunkIndex}.avro`
+      )
+    );
     const cursor = shard.getCursor();
     assert.deepStrictEqual(cursor.chunkIndex, shardCursor.chunkIndex);
 
@@ -54,7 +59,12 @@ describe("Shard", async () => {
     chunkFactoryStub.buildChunk.returns(nextChunkStub);
 
     const change = await shard.getChange();
-    assert.ok(chunkFactoryStub.buildChunk.calledWith(containerClientSub, `${shardPath}000${chunkIndex + 1}.avro`));
+    assert.ok(
+      chunkFactoryStub.buildChunk.calledWith(
+        containerClientSub,
+        `${shardPath}000${chunkIndex + 1}.avro`
+      )
+    );
     assert.deepStrictEqual(change, event);
     const cursor2 = shard.getCursor();
     assert.deepStrictEqual(cursor2.chunkIndex, shardCursor.chunkIndex + 1);
@@ -67,7 +77,12 @@ describe("Shard", async () => {
     chunkFactoryStub.buildChunk.returns(lastChunkStub);
 
     const change2 = await shard.getChange();
-    assert.ok(chunkFactoryStub.buildChunk.calledWith(containerClientSub, `${shardPath}000${chunkIndex + 2}.avro`));
+    assert.ok(
+      chunkFactoryStub.buildChunk.calledWith(
+        containerClientSub,
+        `${shardPath}000${chunkIndex + 2}.avro`
+      )
+    );
     assert.equal(change2, undefined);
     const cursor3 = shard.getCursor();
     assert.deepStrictEqual(cursor3.chunkIndex, shardCursor.chunkIndex + 2);

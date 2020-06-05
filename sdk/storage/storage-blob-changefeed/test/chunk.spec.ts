@@ -10,7 +10,7 @@ class FakeAvroReader {
     public hasNext: boolean,
     private _record: any,
     public blockSize?: number
-  ) { }
+  ) {}
 
   public async *parseObjects(): AsyncIterableIterator<Object | null> {
     while (this.hasNext) {
@@ -20,7 +20,6 @@ class FakeAvroReader {
     }
   }
 }
-
 
 describe("Chunk", async () => {
   afterEach(() => {
@@ -36,20 +35,27 @@ describe("Chunk", async () => {
 
     avroReaderStub.hasNext.returns(false);
     assert.equal(chunk.hasNext(), false);
-
   });
 
   it("getChange", async () => {
     // set up
-    const record = { a: 1 }
+    const record = { a: 1 };
     const fakeAvroReader = new FakeAvroReader(0, 0, true, record);
     const avroReaderStub = sinon.createStubInstance(AvroReader);
     avroReaderStub.hasNext.callsFake(() => fakeAvroReader.hasNext);
     avroReaderStub.parseObjects.returns(fakeAvroReader.parseObjects());
-    sinon.stub(avroReaderStub, "blockOffset").get(() => { return fakeAvroReader.blockOffset });
-    sinon.stub(avroReaderStub, "objectIndex").get(() => { return fakeAvroReader.objectIndex });
+    sinon.stub(avroReaderStub, "blockOffset").get(() => {
+      return fakeAvroReader.blockOffset;
+    });
+    sinon.stub(avroReaderStub, "objectIndex").get(() => {
+      return fakeAvroReader.objectIndex;
+    });
 
-    const chunk = new Chunk(avroReaderStub as any, avroReaderStub.blockOffset, avroReaderStub.objectIndex);
+    const chunk = new Chunk(
+      avroReaderStub as any,
+      avroReaderStub.blockOffset,
+      avroReaderStub.objectIndex
+    );
 
     // act and verify
     const change = await chunk.getChange();

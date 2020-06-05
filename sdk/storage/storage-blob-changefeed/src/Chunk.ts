@@ -1,4 +1,4 @@
-import { AvroReader } from '../../storage-internal-avro/src';
+import { AvroReader } from "../../storage-internal-avro/src";
 import { BlobChangeFeedEvent } from "./models/BlobChangeFeedEvent";
 
 export class Chunk {
@@ -15,11 +15,7 @@ export class Chunk {
     return this._eventIndex;
   }
 
-  constructor(
-    avroReader: AvroReader,
-    blockOffset: number,
-    eventIndex: number
-  ) {
+  constructor(avroReader: AvroReader, blockOffset: number, eventIndex: number) {
     this._avroReader = avroReader;
     this._blockOffset = blockOffset;
     this._eventIndex = eventIndex;

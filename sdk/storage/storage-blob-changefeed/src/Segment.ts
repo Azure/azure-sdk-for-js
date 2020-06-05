@@ -1,6 +1,6 @@
 import { BlobChangeFeedEvent } from "./models/BlobChangeFeedEvent";
-import { Shard } from './Shard';
-import { SegmentCursor, ShardCursor } from './models/ChangeFeedCursor';
+import { Shard } from "./Shard";
+import { SegmentCursor, ShardCursor } from "./models/ChangeFeedCursor";
 
 export class Segment {
   private readonly _shards: Shard[];
@@ -23,12 +23,7 @@ export class Segment {
     return this._dateTime;
   }
 
-  constructor(
-    shards: Shard[],
-    shardIndex: number,
-    dateTime: Date,
-    finalized: boolean
-  ) {
+  constructor(shards: Shard[], shardIndex: number, dateTime: Date, finalized: boolean) {
     this._shards = shards;
     this._shardIndex = shardIndex;
     this._dateTime = dateTime;
@@ -78,6 +73,6 @@ export class Segment {
       shardCursors,
       shardIndex: this._shardIndex,
       segmentTime: this._dateTime.toJSON()
-    }
+    };
   }
 }

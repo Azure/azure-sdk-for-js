@@ -1,10 +1,7 @@
 import { BlobServiceClient, ContainerClient } from "@azure/storage-blob";
 import { ChangeFeed } from "./ChangeFeed";
 import { ChangeFeedCursor } from "./models/ChangeFeedCursor";
-import {
-  CHANGE_FEED_CONTAINER_NAME,
-  CHANGE_FEED_META_SEGMENT_PATH
-} from './utils/constants';
+import { CHANGE_FEED_CONTAINER_NAME, CHANGE_FEED_META_SEGMENT_PATH } from "./utils/constants";
 import {
   ceilToNearestHour,
   floorToNearestHour,
@@ -13,10 +10,8 @@ import {
   getYearsPaths,
   getSegmentsInYear,
   minDate
-} from './utils/utils.common';
-import {
-  bodyToString
-} from './utils/utils.node';
+} from "./utils/utils.common";
+import { bodyToString } from "./utils/utils.node";
 import { SegmentFactory } from "./SegmentFactory";
 import { ShardFactory } from "./ShardFactory";
 import { ChunkFactory } from "./ChunkFactory";
@@ -36,12 +31,10 @@ export class ChangeFeedFactory {
   constructor(segmentFactory?: SegmentFactory) {
     if (segmentFactory) {
       this._segmentFactory = segmentFactory;
-    }
-    else {
+    } else {
       this._segmentFactory = new SegmentFactory(
-        new ShardFactory(
-          new ChunkFactory(
-            new AvroReaderFactory())));
+        new ShardFactory(new ChunkFactory(new AvroReaderFactory()))
+      );
     }
   }
 
@@ -72,7 +65,9 @@ export class ChangeFeedFactory {
     // Check if Change Feed has been enabled for this account.
     let changeFeedContainerExists = await containerClient.exists();
     if (!changeFeedContainerExists) {
-      throw new Error("Change Feed hasn't been enabled on this account, or is currently being enabled.");
+      throw new Error(
+        "Change Feed hasn't been enabled on this account, or is currently being enabled."
+      );
     }
 
     if (startTime && endTime && startTime >= endTime) {
@@ -82,7 +77,9 @@ export class ChangeFeedFactory {
     // Get last consumable.
     const blobClient = containerClient.getBlobClient(CHANGE_FEED_META_SEGMENT_PATH);
     const blobDownloadRes = await blobClient.download();
-    const lastConsumable = new Date((JSON.parse(await bodyToString(blobDownloadRes)) as MetaSegments).lastConsumable);
+    const lastConsumable = new Date(
+      (JSON.parse(await bodyToString(blobDownloadRes)) as MetaSegments).lastConsumable
+    );
 
     // Get year paths
     const years: number[] = await getYearsPaths(containerClient);
@@ -104,7 +101,8 @@ export class ChangeFeedFactory {
         containerClient,
         years.shift()!,
         startTime,
-        minDate(lastConsumable, endTime));
+        minDate(lastConsumable, endTime)
+      );
     }
     if (segments.length === 0) {
       return new ChangeFeed();
@@ -112,7 +110,8 @@ export class ChangeFeedFactory {
     const currentSegment: Segment = await this._segmentFactory.buildSegment(
       containerClient,
       segments.shift()!,
-      cursor?.currentSegmentCursor);
+      cursor?.currentSegmentCursor
+    );
 
     return new ChangeFeed(
       containerClient,
@@ -122,13 +121,11 @@ export class ChangeFeedFactory {
       currentSegment,
       lastConsumable,
       startTime,
-      endTime);
+      endTime
+    );
   }
 
-  private static validateCursor(
-    containerClient: ContainerClient,
-    cursor: ChangeFeedCursor
-  ): void {
+  private static validateCursor(containerClient: ContainerClient, cursor: ChangeFeedCursor): void {
     if (hashString(getURLPath(containerClient.url)!) !== cursor.urlHash) {
       throw new Error("Cursor URL does not match container URL.");
     }

@@ -21,7 +21,9 @@ describe("Shard", async () => {
     const blobClientStub = sinon.createStubInstance(BlobClient);
     containerClientStub.getBlobClient.returns(blobClientStub);
     // TODO: rewrite for browser
-    blobClientStub.download.resolves({ readableStreamBody: fs.createReadStream(segmentManifestFilePath) } as any);
+    blobClientStub.download.resolves({
+      readableStreamBody: fs.createReadStream(segmentManifestFilePath)
+    } as any);
 
     shardFactoryStub = sinon.createStubInstance(ShardFactory);
     shardStubs = [];
@@ -78,7 +80,10 @@ describe("Shard", async () => {
   it("init with non-zero shardIndex", async () => {
     const shardIndex = 1;
     const segmentFactory = new SegmentFactory(shardFactoryStub);
-    const segment = await segmentFactory.buildSegment(containerClientStub, manifestPath, { shardIndex, shardCursors: [] } as any);
+    const segment = await segmentFactory.buildSegment(containerClientStub, manifestPath, {
+      shardIndex,
+      shardCursors: []
+    } as any);
     assert.ok(segment.hasNext());
     assert.equal(segment.dateTime.getTime(), dateTime.getTime());
     assert.ok(segment.finalized);

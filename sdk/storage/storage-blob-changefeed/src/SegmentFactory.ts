@@ -1,9 +1,9 @@
 import { ShardFactory } from "./ShardFactory";
 import { ContainerClient } from "@azure/storage-blob";
-import { CHANGE_FEED_STATUS_FINALIZED, CHANGE_FEED_CONTAINER_NAME } from './utils/constants';
-import { Shard } from './Shard';
-import { Segment } from './Segment';
-import { SegmentCursor } from './models/ChangeFeedCursor';
+import { CHANGE_FEED_STATUS_FINALIZED, CHANGE_FEED_CONTAINER_NAME } from "./utils/constants";
+import { Shard } from "./Shard";
+import { Segment } from "./Segment";
+import { SegmentCursor } from "./models/ChangeFeedCursor";
 import { bodyToString } from "./utils/utils.node";
 import { parseDateFromSegmentPath } from "./utils/utils.common";
 
@@ -23,7 +23,8 @@ export class SegmentFactory {
     this._shardFactory = shardFactory;
   }
 
-  public async buildSegment(containerClient: ContainerClient,
+  public async buildSegment(
+    containerClient: ContainerClient,
     manifestPath: string,
     cursor?: SegmentCursor
   ): Promise<Segment> {
@@ -43,7 +44,11 @@ export class SegmentFactory {
 
       const containerPrefixLength = CHANGE_FEED_CONTAINER_NAME.length + 1; // "$blobchangefeed/"
       for (const shardPath of segmentManifest.chunkFilePaths) {
-        const shard: Shard = await this._shardFactory.buildShard(containerClient, shardPath.substring(containerPrefixLength), cursor?.shardCursors[i++]);
+        const shard: Shard = await this._shardFactory.buildShard(
+          containerClient,
+          shardPath.substring(containerPrefixLength),
+          cursor?.shardCursors[i++]
+        );
         shards.push(shard);
       }
     }

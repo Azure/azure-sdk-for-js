@@ -1,5 +1,5 @@
-import { ChunkFactory } from './ChunkFactory';
-import { ShardCursor } from './models/ChangeFeedCursor';
+import { ChunkFactory } from "./ChunkFactory";
+import { ShardCursor } from "./models/ChangeFeedCursor";
 import { Shard } from "./Shard";
 import { ContainerClient } from "@azure/storage-blob";
 
@@ -41,7 +41,8 @@ export class ShardFactory {
       containerClient,
       chunks.shift()!,
       blockOffset,
-      eventIndex);
+      eventIndex
+    );
     return new Shard(containerClient, this._chunkFactory, chunks, currentChunk, chunkIndex);
   }
 }

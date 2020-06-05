@@ -33,15 +33,17 @@ export function getURI(url: string): string | undefined {
 export function hashString(str: string): number {
   let hash = 0;
   for (let i = 0; i < str.length; i++) {
-    hash = ((hash << 5) - hash) + str.charCodeAt(i);
-    hash |= 0;; // Bit operation converts operands to 32-bit integers
+    hash = (hash << 5) - hash + str.charCodeAt(i);
+    hash |= 0; // Bit operation converts operands to 32-bit integers
   }
   return hash;
 }
 
 export async function getYearsPaths(containerClient: ContainerClient): Promise<number[]> {
   let years: number[] = [];
-  for await (const item of containerClient.listBlobsByHierarchy("/", { prefix: CHANGE_FEED_SEGMENT_PREFIX })) {
+  for await (const item of containerClient.listBlobsByHierarchy("/", {
+    prefix: CHANGE_FEED_SEGMENT_PREFIX
+  })) {
     // TODO: add String.prototype.includes polyfill for IE11
     if (item.kind === "prefix" && !item.name.includes(CHANGE_FEED_INITIALIZATION_SEGMENT)) {
       let yearStr = item.name.slice(CHANGE_FEED_SEGMENT_PREFIX.length, -1);
@@ -51,18 +53,22 @@ export async function getYearsPaths(containerClient: ContainerClient): Promise<n
   return years.sort((a, b) => a - b);
 }
 
-export async function getSegmentsInYear(containerClient: ContainerClient, year: number, startTime?: Date, endTime?: Date): Promise<string[]> {
+export async function getSegmentsInYear(
+  containerClient: ContainerClient,
+  year: number,
+  startTime?: Date,
+  endTime?: Date
+): Promise<string[]> {
   let segments: string[] = [];
   const yearBeginTime = new Date(Date.UTC(year, 0));
   if (endTime && yearBeginTime >= endTime) {
     return segments;
   }
 
-  const prefix = `${CHANGE_FEED_SEGMENT_PREFIX}${year}/`
+  const prefix = `${CHANGE_FEED_SEGMENT_PREFIX}${year}/`;
   for await (const item of containerClient.listBlobsFlat({ prefix })) {
     const segmentTime = parseDateFromSegmentPath(item.name);
-    if (startTime && segmentTime < startTime
-      || endTime && segmentTime >= endTime) {
+    if ((startTime && segmentTime < startTime) || (endTime && segmentTime >= endTime)) {
       continue;
     }
     segments.push(item.name);
@@ -71,7 +77,7 @@ export async function getSegmentsInYear(containerClient: ContainerClient, year: 
 }
 
 export function parseDateFromSegmentPath(segmentPath: string): Date {
-  const splitPath = segmentPath.split('/');
+  const splitPath = segmentPath.split("/");
   if (splitPath.length < 3) {
     throw new Error(`${segmentPath} is not a valid segment path.`);
   }

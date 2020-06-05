@@ -1,9 +1,8 @@
 import { AvroReaderFactory } from "./AvroReaderFactory";
-import { ContainerClient } from '@azure/storage-blob';
+import { ContainerClient } from "@azure/storage-blob";
 import { Chunk } from "./Chunk";
-import { AvroReader } from "../../storage-internal-avro/src"
+import { AvroReader } from "../../storage-internal-avro/src";
 import { bodyToAvroReadable } from "./utils/utils.node";
-
 
 export class ChunkFactory {
   private readonly _avroReaderFactory: AvroReaderFactory;
@@ -29,7 +28,12 @@ export class ChunkFactory {
     if (blockOffset !== 0) {
       const headerDownloadRes = await blobClient.download(0);
       const headerStream = bodyToAvroReadable(headerDownloadRes);
-      avroReader = this._avroReaderFactory.buildAvroReader(dataStream, headerStream, blockOffset, eventIndex);
+      avroReader = this._avroReaderFactory.buildAvroReader(
+        dataStream,
+        headerStream,
+        blockOffset,
+        eventIndex
+      );
     } else {
       avroReader = this._avroReaderFactory.buildAvroReader(dataStream);
     }

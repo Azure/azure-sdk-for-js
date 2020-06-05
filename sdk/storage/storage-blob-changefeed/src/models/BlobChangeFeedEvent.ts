@@ -11,7 +11,6 @@ export interface BlobChangeFeedEvent {
   metadataVersion: string;
 }
 
-
 export type BlobType = "BlockBlob" | "AppendBlob" | "PageBlob";
 
 export interface BlobChangeFeedEventData {

@@ -5,7 +5,7 @@ import { BlobChangeFeedClient, BlobChangeFeedEvent, BlobChangeFeedEventPage } fr
 import * as dotenv from "dotenv";
 dotenv.config();
 
-describe("BlobChangeFeedClient", async () => {
+describe.only("BlobChangeFeedClient", async () => {
   const account = process.env.ACCOUNT_NAME || "";
   const accountKey = process.env.ACCOUNT_KEY || "";
   const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
@@ -15,7 +15,7 @@ describe("BlobChangeFeedClient", async () => {
   );
   const changeFeedClient = new BlobChangeFeedClient(blobServiceClient);
 
-  before(async function () {
+  before(async function() {
     if (process.env.CHANGE_FEED_ENABLED !== "1") {
       this.skip();
     }
@@ -53,7 +53,7 @@ describe("BlobChangeFeedClient", async () => {
   });
 
   it("byPage()", async () => {
-    const maxPageSize = 2
+    const maxPageSize = 2;
     const iter = changeFeedClient.getChanges().byPage({ maxPageSize });
     const nextPage = await iter.next();
     if (nextPage.done) {
@@ -65,7 +65,9 @@ describe("BlobChangeFeedClient", async () => {
     assert.ok(event.data.blobType);
 
     // continuationToken
-    const iter1 = changeFeedClient.getChanges().byPage({ continuationToken: nextPage.value.continuationToken, maxPageSize });
+    const iter1 = changeFeedClient
+      .getChanges()
+      .byPage({ continuationToken: nextPage.value.continuationToken, maxPageSize });
     const nextPage1 = await iter1.next();
     if (nextPage1.done) {
       return;
@@ -80,7 +82,9 @@ describe("BlobChangeFeedClient", async () => {
     const start = new Date(Date.UTC(2020, 1, 21, 22, 30, 0)); // will be ignored
     const end = new Date(Date.UTC(2020, 4, 8, 21, 10, 0)); // will be rounded to 22:00
     const endRounded = new Date(Date.UTC(2020, 4, 8, 22, 0, 0));
-    const iter2 = changeFeedClient.getChanges({ start, end }).byPage({ continuationToken: nextPage1.value.continuationToken });
+    const iter2 = changeFeedClient
+      .getChanges({ start, end })
+      .byPage({ continuationToken: nextPage1.value.continuationToken });
     let i = 0;
     let lastEventPage: BlobChangeFeedEventPage | undefined;
     for await (const eventPage of iter2) {
@@ -100,7 +104,6 @@ describe("BlobChangeFeedClient", async () => {
   });
 });
 
-
 describe("BlobChangeFeedClient: Change Feed not configured", async () => {
   const account = process.env.ACCOUNT_NAME || "";
   const accountKey = process.env.ACCOUNT_KEY || "";
@@ -111,7 +114,7 @@ describe("BlobChangeFeedClient: Change Feed not configured", async () => {
   );
   const changeFeedClient = new BlobChangeFeedClient(blobServiceClient);
 
-  before(async function () {
+  before(async function() {
     if (process.env.CHANGE_FEED_ENABLED === "1") {
       this.skip();
     }

@@ -26,7 +26,7 @@ export class BlobChangeFeedClient {
    *
    * @private
    * @type {BlobServiceClient}
-   * @memberof DataLakeServiceClient
+   * @memberof BlobChangeFeedClient
    */
   private _blobServiceClient: BlobServiceClient;
   private _changeFeedFactory: ChangeFeedFactory;
@@ -36,13 +36,14 @@ export class BlobChangeFeedClient {
     this._changeFeedFactory = new ChangeFeedFactory();
   }
 
-  public getChanges(options: ChangeFeedGetChangesOptions = {})
-    : PagedAsyncIterableIterator<BlobChangeFeedEvent, BlobChangeFeedEventPage> {
+  public getChanges(
+    options: ChangeFeedGetChangesOptions = {}
+  ): PagedAsyncIterableIterator<BlobChangeFeedEvent, BlobChangeFeedEventPage> {
     const iter = this.getChange(options);
     return {
       /**
-      * @member {Promise} [next] The next method, part of the iteration protocol
-      */
+       * @member {Promise} [next] The next method, part of the iteration protocol
+       */
       async next() {
         return iter.next();
       },
@@ -61,8 +62,9 @@ export class BlobChangeFeedClient {
     };
   }
 
-  private async *getChange(options: ChangeFeedGetChangesOptions = {})
-    : AsyncIterableIterator<BlobChangeFeedEvent> {
+  private async *getChange(
+    options: ChangeFeedGetChangesOptions = {}
+  ): AsyncIterableIterator<BlobChangeFeedEvent> {
     const changeFeed: ChangeFeed = await this._changeFeedFactory.buildChangeFeed(
       this._blobServiceClient,
       undefined,
@@ -81,8 +83,11 @@ export class BlobChangeFeedClient {
   }
 
   // start in ChangeFeedGetChangesOptions will be ignored when continuationToken is specified.
-  private async *getPage(continuationToken?: string, maxPageSize?: number, options: ChangeFeedGetChangesOptions = {})
-    : AsyncIterableIterator<BlobChangeFeedEventPage> {
+  private async *getPage(
+    continuationToken?: string,
+    maxPageSize?: number,
+    options: ChangeFeedGetChangesOptions = {}
+  ): AsyncIterableIterator<BlobChangeFeedEventPage> {
     const changeFeed: ChangeFeed = await this._changeFeedFactory.buildChangeFeed(
       this._blobServiceClient,
       continuationToken,
@@ -106,8 +111,7 @@ export class BlobChangeFeedClient {
       }
       if (eventPage.events.length > 0) {
         yield eventPage;
-      }
-      else {
+      } else {
         return;
       }
     }

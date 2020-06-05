@@ -1,4 +1,3 @@
-
 export interface ChangeFeedCursor {
   cursorVersion: number;
   urlHash: number;
@@ -6,13 +5,11 @@ export interface ChangeFeedCursor {
   currentSegmentCursor: SegmentCursor;
 }
 
-
 export interface SegmentCursor {
   shardCursors: ShardCursor[];
   shardIndex: number;
   segmentTime: string;
 }
-
 
 export interface ShardCursor {
   chunkIndex: number;

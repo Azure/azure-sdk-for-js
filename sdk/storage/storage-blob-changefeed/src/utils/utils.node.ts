@@ -1,4 +1,4 @@
-import { AvroReadable, AvroReadableFromStream } from '../../../storage-internal-avro/src';
+import { AvroReadable, AvroReadableFromStream } from "../../../storage-internal-avro/src";
 
 /**
  * Read body from downloading operation methods to string.
@@ -30,12 +30,9 @@ export async function bodyToString(
   });
 }
 
-
-export function bodyToAvroReadable(
-  response: {
-    readableStreamBody?: NodeJS.ReadableStream;
-    blobBody?: Promise<Blob>;
-  }
-): AvroReadable {
+export function bodyToAvroReadable(response: {
+  readableStreamBody?: NodeJS.ReadableStream;
+  blobBody?: Promise<Blob>;
+}): AvroReadable {
   return new AvroReadableFromStream(response.readableStreamBody!);
 }
