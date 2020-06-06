@@ -1,31 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { QueueDescription } from "../src/serializers/queueResourceSerializer";
-import { TopicDescription } from "../src/serializers/topicResourceSerializer";
-import { SubscriptionDescription } from "../src/serializers/subscriptionResourceSerializer";
-import { RuleDescription } from "../src/serializers/ruleResourceSerializer";
-import { EntityStatus } from "../src/util/utils";
-import { ServiceBusManagementClient } from "../src/serviceBusAtomManagementClient";
-
+import { isNode, parseConnectionString } from "@azure/core-amqp";
+import { DefaultAzureCredential } from "@azure/identity";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import chaiExclude from "chai-exclude";
+import * as dotenv from "dotenv";
+import { QueueDescription } from "../src/serializers/queueResourceSerializer";
+import { RuleDescription } from "../src/serializers/ruleResourceSerializer";
+import { SubscriptionDescription } from "../src/serializers/subscriptionResourceSerializer";
+import { TopicDescription } from "../src/serializers/topicResourceSerializer";
+import { ServiceBusManagementClient } from "../src/serviceBusAtomManagementClient";
+import { EntityStatus } from "../src/util/utils";
+import { EnvVarNames, getEnvVars } from "./utils/envVarUtils";
+import { recreateQueue, recreateSubscription, recreateTopic } from "./utils/managementUtils";
+import { EntityNames } from "./utils/testUtils";
+
 chai.use(chaiAsPromised);
 chai.use(chaiExclude);
 const should = chai.should();
 const assert = chai.assert;
 
-import * as dotenv from "dotenv";
 dotenv.config();
 
-import { EnvVarNames, getEnvVars } from "./utils/envVarUtils";
 const env = getEnvVars();
-
-import { EntityNames } from "./utils/testUtils";
-
-import { parseConnectionString } from "@azure/core-amqp";
-import { recreateQueue, recreateSubscription, recreateTopic } from "./utils/managementUtils";
 
 const serviceBusAtomManagementClient: ServiceBusManagementClient = new ServiceBusManagementClient(
   env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]
@@ -64,6 +63,64 @@ describe("Atom management - Namespace", function(): void {
       ["_response", "createdOn", "updatedOn", "name"]
     );
   });
+});
+
+describe("Atom management - Authentication", function(): void {
+  if (isNode) {
+    it("Token credential - DefaultAzureCredential from `@azure/identity`", async () => {
+      const endpoint = (parseConnectionString(env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]) as any)
+        .Endpoint;
+      const host = endpoint.match(".*://([^/]*)")[1];
+
+      const serviceBusManagementClient = new ServiceBusManagementClient(
+        host,
+        new DefaultAzureCredential()
+      );
+
+      should.equal(
+        (await serviceBusManagementClient.createQueue(managementQueue1)).name,
+        managementQueue1,
+        "Unexpected queue name in the createQueue response"
+      );
+      const createQueue2Response = await serviceBusManagementClient.createQueue({
+        name: managementQueue2,
+        forwardTo: managementQueue1
+      });
+      should.equal(
+        createQueue2Response.name,
+        managementQueue2,
+        "Unexpected queue name in the createQueue response"
+      );
+      should.equal(
+        createQueue2Response.forwardTo,
+        endpoint + managementQueue1,
+        "Unexpected name in the `forwardTo` field of createQueue response"
+      );
+      const getQueueResponse = await serviceBusManagementClient.getQueue(managementQueue1);
+      should.equal(
+        getQueueResponse.name,
+        managementQueue1,
+        "Unexpected queue name in the getQueue response"
+      );
+      should.equal(
+        (await serviceBusManagementClient.updateQueue(getQueueResponse)).name,
+        managementQueue1,
+        "Unexpected queue name in the updateQueue response"
+      );
+      should.equal(
+        (await serviceBusManagementClient.getQueueRuntimeInfo(managementQueue1)).name,
+        managementQueue1,
+        "Unexpected queue name in the getQueueRuntimeInfo response"
+      );
+      should.equal(
+        (await serviceBusManagementClient.getNamespaceProperties()).name,
+        host.match("(.*).servicebus.windows.net")[1],
+        "Unexpected namespace name in the getNamespaceProperties response"
+      );
+      await serviceBusManagementClient.deleteQueue(managementQueue1);
+      await serviceBusManagementClient.deleteQueue(managementQueue2);
+    });
+  }
 });
 
 [EntityType.QUEUE, EntityType.TOPIC, EntityType.SUBSCRIPTION, EntityType.RULE].forEach(

@@ -72,7 +72,7 @@ const subscriptionProperties = [
 const ruleProperties = ["Filter", "Action", "Name"];
 
 const mockServiceBusAtomManagementClient: ServiceBusManagementClient = new ServiceBusManagementClient(
-  "Endpoint=test/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=test"
+  "Endpoint=sb://test/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=test"
 );
 
 describe("atomSerializationPolicy", function() {
