@@ -44,3 +44,4 @@ export {
   keepAlivePolicyName,
   KeepAlivePolicyOptions
 } from "./policies/keepAlivePolicy";
+export { logPolicy, logPolicyName, LogPolicyOptions } from "./policies/logPolicy";

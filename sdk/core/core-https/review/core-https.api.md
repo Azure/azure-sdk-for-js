@@ -5,6 +5,7 @@
 ```ts
 
 import { AbortSignalLike } from '@azure/abort-controller';
+import { Debugger } from '@azure/logger';
 
 // @public
 export interface AddPipelineOptions {
@@ -82,6 +83,19 @@ export const keepAlivePolicyName = "keepAlivePolicy";
 // @public
 export interface KeepAlivePolicyOptions {
     enable?: boolean;
+}
+
+// @public
+export function logPolicy(options?: LogPolicyOptions): PipelinePolicy;
+
+// @public
+export const logPolicyName = "logPolicy";
+
+// @public
+export interface LogPolicyOptions {
+    additionalAllowedHeaderNames?: string[];
+    additionalAllowedQueryParameters?: string[];
+    logger?: Debugger;
 }
 
 // @public
