@@ -169,6 +169,12 @@ export interface PipelineResponse {
 }
 
 // @public
+export function proxyPolicy(proxySettings?: ProxySettings | undefined): PipelinePolicy;
+
+// @public
+export const proxyPolicyName = "proxyPolicy";
+
+// @public
 export interface ProxySettings {
     host: string;
     password?: string;
