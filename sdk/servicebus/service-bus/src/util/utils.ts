@@ -500,6 +500,11 @@ export async function waitForTimeoutOrAbortOrResolve<T>(args: {
   timeoutMessage: string;
   abortMessage: string;
   abortSignal?: AbortSignalLike;
+  // these are optional and only here for testing.
+  timeoutFunctions?: {
+    setTimeoutFn: (callback: (...args: any[]) => void, ms: number, ...args: any[]) => any;
+    clearTimeoutFn: (timeoutId: any) => void;
+  };
 }): Promise<T> {
   if (args.abortSignal && args.abortSignal.aborted) {
     throw new AbortError(args.abortMessage);
@@ -509,7 +514,7 @@ export async function waitForTimeoutOrAbortOrResolve<T>(args: {
   let clearAbortSignal: (() => void) | undefined = undefined;
 
   const clearAbortSignalAndTimer = (): void => {
-    clearTimeout(timer);
+    (args.timeoutFunctions?.clearTimeoutFn ?? clearTimeout)(timer);
 
     if (clearAbortSignal) {
       clearAbortSignal();
@@ -520,8 +525,7 @@ export async function waitForTimeoutOrAbortOrResolve<T>(args: {
   const abortOrTimeoutPromise = new Promise<T>((_resolve, reject) => {
     clearAbortSignal = checkAndRegisterWithAbortSignal(reject, args.abortMessage, args.abortSignal);
 
-    // using a named function here so we can identify it in our unit tests
-    timer = setTimeout(function timeoutCallback() {
+    timer = (args.timeoutFunctions?.setTimeoutFn ?? setTimeout)(() => {
       reject(new OperationTimeoutError(args.timeoutMessage));
     }, args.timeoutMs);
   });
