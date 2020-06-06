@@ -46,3 +46,8 @@ export {
 } from "./policies/keepAlivePolicy";
 export { logPolicy, logPolicyName, LogPolicyOptions } from "./policies/logPolicy";
 export { proxyPolicy, proxyPolicyName } from "./policies/proxyPolicy";
+export {
+  redirectPolicy,
+  redirectPolicyName,
+  RedirectPolicyOptions
+} from "./policies/redirectPolicy";

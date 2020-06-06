@@ -188,6 +188,17 @@ export type RawHttpHeaders = {
 };
 
 // @public
+export function redirectPolicy(options?: RedirectPolicyOptions): PipelinePolicy;
+
+// @public
+export const redirectPolicyName = "redirectPolicy";
+
+// @public
+export interface RedirectPolicyOptions {
+    maxRetries?: number;
+}
+
+// @public
 export type RequestBodyType = NodeJS.ReadableStream | Blob | ArrayBuffer | ArrayBufferView | FormData | string | null;
 
 // @public
