@@ -2113,13 +2113,13 @@ export interface MetricAlertAction {
   /**
    * The properties of a webhook object.
    */
-  webhookProperties?: { [propertyName: string]: string };
+  webHookProperties?: { [propertyName: string]: string };
 }
 
 /**
  * Contains the possible cases for MetricAlertCriteria.
  */
-export type MetricAlertCriteriaUnion = MetricAlertCriteria | MetricAlertSingleResourceMultipleMetricCriteria | MetricAlertMultipleResourceMultipleMetricCriteria;
+export type MetricAlertCriteriaUnion = MetricAlertCriteria | MetricAlertSingleResourceMultipleMetricCriteria | WebtestLocationAvailabilityCriteria | MetricAlertMultipleResourceMultipleMetricCriteria;
 
 /**
  * The rule criteria that defines the conditions of the alert rule.
@@ -2179,7 +2179,7 @@ export interface MetricAlertResource extends Resource {
    */
   criteria: MetricAlertCriteriaUnion;
   /**
-   * the flag that indicates whether the alert should be auto resolved or not.
+   * the flag that indicates whether the alert should be auto resolved or not. The default is true.
    */
   autoMitigate?: boolean;
   /**
@@ -2242,7 +2242,7 @@ export interface MetricAlertResourcePatch {
    */
   criteria: MetricAlertCriteriaUnion;
   /**
-   * the flag that indicates whether the alert should be auto resolved or not.
+   * the flag that indicates whether the alert should be auto resolved or not. The default is true.
    */
   autoMitigate?: boolean;
   /**
@@ -2375,9 +2375,10 @@ export interface MetricCriteria {
    */
   dimensions?: MetricDimension[];
   /**
-   * the criteria operator.
+   * the criteria operator. Possible values include: 'Equals', 'NotEquals', 'GreaterThan',
+   * 'GreaterThanOrEqual', 'LessThan', 'LessThanOrEqual'
    */
-  operator: any;
+  operator: Operator;
   /**
    * the criteria threshold value that activates the alert.
    */
@@ -2396,6 +2397,28 @@ export interface MetricAlertSingleResourceMultipleMetricCriteria {
    * The list of metric criteria for this 'all of' operation.
    */
   allOf?: MetricCriteria[];
+}
+
+/**
+ * Specifies the metric alert rule criteria for a web test resource.
+ */
+export interface WebtestLocationAvailabilityCriteria {
+  /**
+   * Polymorphic Discriminator
+   */
+  odatatype: "Microsoft.Azure.Monitor.WebtestLocationAvailabilityCriteria";
+  /**
+   * The Application Insights web test Id.
+   */
+  webTestId: string;
+  /**
+   * The Application Insights resource Id.
+   */
+  componentId: string;
+  /**
+   * The number of failed locations.
+   */
+  failedLocationCount: number;
 }
 
 /**
@@ -2476,14 +2499,15 @@ export interface DynamicMetricCriteria {
    */
   dimensions?: MetricDimension[];
   /**
-   * The operator used to compare the metric value against the threshold.
+   * The operator used to compare the metric value against the threshold. Possible values include:
+   * 'GreaterThan', 'LessThan', 'GreaterOrLessThan'
    */
-  operator: any;
+  operator: DynamicThresholdOperator;
   /**
    * The extent of deviation required to trigger an alert. This will affect how tight the threshold
-   * is to the metric series pattern.
+   * is to the metric series pattern. Possible values include: 'Low', 'Medium', 'High'
    */
-  alertSensitivity: any;
+  alertSensitivity: DynamicThresholdSensitivity;
   /**
    * The minimum number of violations required within the selected lookback time window required to
    * raise an alert.
@@ -3330,6 +3354,31 @@ export type Sensitivity = 'Low' | 'Medium' | 'High';
  * @enum {string}
  */
 export type BaselineSensitivity = 'Low' | 'Medium' | 'High';
+
+/**
+ * Defines values for Operator.
+ * Possible values include: 'Equals', 'NotEquals', 'GreaterThan', 'GreaterThanOrEqual', 'LessThan',
+ * 'LessThanOrEqual'
+ * @readonly
+ * @enum {string}
+ */
+export type Operator = 'Equals' | 'NotEquals' | 'GreaterThan' | 'GreaterThanOrEqual' | 'LessThan' | 'LessThanOrEqual';
+
+/**
+ * Defines values for DynamicThresholdOperator.
+ * Possible values include: 'GreaterThan', 'LessThan', 'GreaterOrLessThan'
+ * @readonly
+ * @enum {string}
+ */
+export type DynamicThresholdOperator = 'GreaterThan' | 'LessThan' | 'GreaterOrLessThan';
+
+/**
+ * Defines values for DynamicThresholdSensitivity.
+ * Possible values include: 'Low', 'Medium', 'High'
+ * @readonly
+ * @enum {string}
+ */
+export type DynamicThresholdSensitivity = 'Low' | 'Medium' | 'High';
 
 /**
  * Defines values for Enabled.
