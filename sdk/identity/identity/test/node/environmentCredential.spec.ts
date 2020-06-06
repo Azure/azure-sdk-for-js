@@ -152,8 +152,8 @@ describe("EnvironmentCredential", function() {
     const credentialDeux = new EnvironmentCredential(mockHttpClient.tokenCredentialOptions);
     await assertRejects(
       credentialDeux.getToken("scope"),
-      (error: AuthenticationError) =>
-        error.errorResponse.errorDescription.match(/^AZURE_TENANT_ID/gm) === null
+      (error: CredentialUnavailable) =>
+        error.message.match(/^AZURE_TENANT_ID/gm) === null
     );
 
     delete process.env.AZURE_TENANT_ID;
