@@ -16,7 +16,7 @@ export class AvroReadableFromStream extends AvroReadable {
     super();
     this._readable = readable;
     this._position = 0;
-    // workaround due to Readable.readable only availabe after Node.js v11.4
+    // workaround due to Readable.readable only available after Node.js v11.4
     // this._stillReadable = true;
     // this._readable.on("end", () => {
     //   this._stillReadable = false;
@@ -46,24 +46,36 @@ export class AvroReadableFromStream extends AvroReadable {
     let chunk = this._readable.read(size);
     if (chunk) {
       this._position += chunk.length;
-      // chunk.lenght maybe less than desired size if the stream ends.
+      // chunk.length maybe less than desired size if the stream ends.
       return this.toUint8Array(chunk);
     } else {
       // register callback to wait for enough data to read
       return new Promise((resolve, reject) => {
-        const callback = () => {
+        const readableCallback = () => {
           let chunk = this._readable.read(size);
           if (chunk) {
             this._position += chunk.length;
-            // chunk.lenght maybe less than desired size if the stream ends.
+            // chunk.length maybe less than desired size if the stream ends.
             resolve(this.toUint8Array(chunk));
-            this._readable.removeListener("readable", callback);
+            this._readable.removeListener("readable", readableCallback);
+            this._readable.removeListener("error", reject);
+            this._readable.removeListener("end", reject);
+            this._readable.removeListener("close", reject);
           }
         };
-        this._readable.on("readable", callback);
-        this._readable.once("error", reject);
-        this._readable.once("end", reject);
-        this._readable.once("close", reject);
+
+        const rejectCallback = () => {
+          this._readable.removeListener("readable", readableCallback);
+          this._readable.removeListener("error", rejectCallback);
+          this._readable.removeListener("end", rejectCallback);
+          this._readable.removeListener("close", rejectCallback);
+          reject();
+        };
+
+        this._readable.on("readable", readableCallback);
+        this._readable.once("error", rejectCallback);
+        this._readable.once("end", rejectCallback);
+        this._readable.once("close", rejectCallback);
       });
     }
   }
