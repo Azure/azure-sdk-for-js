@@ -1,8 +1,9 @@
 # Release History
 
-## 3.7.0 (Unreleased)
+## 3.7.0 (2020-6-08)
 
 - BUGFIX: Support crypto functions in Internet Explorer browser
+- BUGFIX: Incorrect key casing in object returned by `setAuthorizationHeader`
 - FEATURE: Adds `readOffer` methods to container and database
 - FEATURE: Allows string value `partitionKey` parameter when creating containers
 
