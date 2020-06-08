@@ -3,13 +3,13 @@
 
 import qs from "qs";
 import assert from "assert";
-import { ManagedIdentityCredential } from "../../src";
+import { ManagedIdentityCredential, CredentialUnavailable } from "../../src";
 import {
   ImdsEndpoint,
   ImdsApiVersion,
   AppServiceMsiApiVersion
 } from "../../src/credentials/managedIdentityCredential";
-import { MockAuthHttpClient, MockAuthHttpClientOptions } from "../authTestUtils";
+import { MockAuthHttpClient, MockAuthHttpClientOptions, assertRejects } from "../authTestUtils";
 import { WebResource, AccessToken } from "@azure/core-http";
 
 interface AuthRequestDetails {
@@ -108,11 +108,19 @@ describe("ManagedIdentityCredential", function() {
     // Run getToken twice and verify that an auth request is only
     // attempted the first time.  It should be skipped the second
     // time after no IMDS endpoint was found.
-    const firstGetToken = await credential.getToken("scopes");
-    const secondGetToken = await credential.getToken("scopes");
+    await assertRejects(
+      credential.getToken("scope"),
+      (error: CredentialUnavailable) =>
+        error.message.indexOf("The managed identity endpoint is not currently available") == 0
+    );
 
-    assert.strictEqual(firstGetToken, null);
-    assert.strictEqual(secondGetToken, null);
+    
+    await assertRejects(
+      credential.getToken("scope"),
+      (error: CredentialUnavailable) =>
+        error.message.indexOf("The managed identity endpoint is not currently available") == 0
+    );
+
     assert.strictEqual(mockHttpClient.requests.length, 1);
   });
 

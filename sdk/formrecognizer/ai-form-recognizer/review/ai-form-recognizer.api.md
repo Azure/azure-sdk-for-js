@@ -31,14 +31,6 @@ export interface AnalyzeOperationResultModel {
     status: OperationStatus;
 }
 
-// @public
-export interface ArrayFieldValue {
-    // (undocumented)
-    type: "array";
-    // (undocumented)
-    value?: FieldValue[];
-}
-
 export { AzureKeyCredential }
 
 // @public
@@ -76,8 +68,6 @@ export interface BeginRecognizeContentPollState extends PollOperationState<FormP
     // (undocumented)
     contentType?: FormContentType;
     // (undocumented)
-    modelId?: string;
-    // (undocumented)
     resultId?: string;
     // (undocumented)
     source?: FormRecognizerRequestBody | string;
@@ -94,7 +84,7 @@ export interface BeginRecognizeCustomFormPollState extends PollOperationState<Re
     // (undocumented)
     contentType?: FormContentType;
     // (undocumented)
-    modelId?: string;
+    modelId: string;
     // (undocumented)
     resultId?: string;
     // (undocumented)
@@ -118,8 +108,6 @@ export interface BeginRecognizeReceiptPollState extends PollOperationState<Recog
     readonly client: RecognizeReceiptPollerClient;
     // (undocumented)
     contentType?: FormContentType;
-    // (undocumented)
-    modelId?: string;
     // (undocumented)
     resultId?: string;
     // (undocumented)
@@ -224,12 +212,6 @@ export interface CustomFormSubmodel {
 }
 
 // @public
-export type DateFieldValue = {
-    type: "date";
-    value?: Date;
-} & CommonFieldValue;
-
-// @public
 export type DeleteModelOptions = FormRecognizerOperationOptions;
 
 // @public
@@ -239,14 +221,6 @@ export interface FieldText {
     text?: string;
     textContent?: FormContent[];
 }
-
-// @public
-export type FieldValue = StringFieldValue | DateFieldValue | TimeFieldValue | PhoneNumberFieldValue | NumberFieldValue | IntegerFieldValue | ArrayFieldValue | ObjectFieldValue;
-
-// @public
-export type FieldValueTypes = string | Date | number | FieldValue[] | {
-    [propertyName: string]: FieldValue;
-};
 
 // @public
 export type FormContent = FormWord | FormLine;
@@ -262,14 +236,38 @@ export interface FormContentCommon {
 export type FormContentType = "application/pdf" | "image/jpeg" | "image/png" | "image/tiff";
 
 // @public
-export interface FormField {
+export type FormField = {
     confidence?: number;
     labelText?: FieldText;
     name?: string;
-    value?: FieldValueTypes;
     valueText?: FieldText;
-    valueType?: ValueTypes;
-}
+} & ({
+    value?: string;
+    valueType?: "string";
+} | {
+    value?: number;
+    valueType?: "number";
+} | {
+    value?: Date;
+    valueType?: "date";
+} | {
+    value?: string;
+    valueType?: "time";
+} | {
+    value?: string;
+    valueType?: "phoneNumber";
+} | {
+    value?: number;
+    valueType?: "integer";
+} | {
+    value?: FormField[];
+    valueType?: "array";
+} | {
+    value?: {
+        [propertyName: string]: FormField;
+    };
+    valueType?: "object";
+});
 
 // @public
 export interface FormFieldsReport {
@@ -404,12 +402,6 @@ export type GetCopyModelResultOptions = FormRecognizerOperationOptions;
 export type GetModelOptions = FormRecognizerOperationOptions;
 
 // @public
-export type IntegerFieldValue = {
-    type: "integer";
-    value?: number;
-} & CommonFieldValue;
-
-// @public
 export interface KeysResult {
     clusters: {
         [propertyName: string]: string[];
@@ -470,29 +462,7 @@ export interface ModelsSummary {
 }
 
 // @public
-export type NumberFieldValue = {
-    type: "number";
-    value?: number;
-} & CommonFieldValue;
-
-// @public
-export interface ObjectFieldValue {
-    // (undocumented)
-    type: "object";
-    // (undocumented)
-    value?: {
-        [propertyName: string]: FieldValue;
-    };
-}
-
-// @public
 export type OperationStatus = "notStarted" | "running" | "succeeded" | "failed";
-
-// @public
-export type PhoneNumberFieldValue = {
-    type: "phoneNumber";
-    value?: string;
-} & CommonFieldValue;
 
 // @public
 export interface Point2D {
@@ -505,25 +475,6 @@ export { PollerLike }
 export { PollOperationState }
 
 // @public
-export interface ReceiptItemArrayField {
-    // (undocumented)
-    type: "array";
-    // (undocumented)
-    value: ReceiptItemField[];
-}
-
-// @public
-export type ReceiptItemField = {
-    type: "object";
-    value: {
-        Name?: StringFieldValue;
-        Quantity?: NumberFieldValue;
-        Price?: NumberFieldValue;
-        TotalPrice?: NumberFieldValue;
-    };
-} & CommonFieldValue;
-
-// @public
 export type ReceiptPollerLike = PollerLike<PollOperationState<RecognizedReceiptArray>, RecognizedReceiptArray>;
 
 // @public
@@ -531,7 +482,7 @@ export type RecognizeContentOptions = FormRecognizerOperationOptions;
 
 // @public
 export type RecognizeContentPollerClient = {
-    beginRecognize: (source: FormRecognizerRequestBody | string, contentType?: FormContentType, analyzeOptions?: RecognizeContentOptions, modelId?: string) => Promise<GeneratedClientAnalyzeLayoutAsyncResponse>;
+    beginRecognize: (source: FormRecognizerRequestBody | string, contentType?: FormContentType, analyzeOptions?: RecognizeContentOptions) => Promise<GeneratedClientAnalyzeLayoutAsyncResponse>;
     getRecognizeResult: (resultId: string, options: {
         abortSignal?: AbortSignalLike;
     }) => Promise<RecognizeContentResultResponse>;
@@ -539,7 +490,7 @@ export type RecognizeContentPollerClient = {
 
 // @public
 export type RecognizeCustomFormPollerClient = {
-    beginRecognize: (source: FormRecognizerRequestBody | string, contentType?: FormContentType, analyzeOptions?: RecognizeFormsOptions, modelId?: string) => Promise<GeneratedClientAnalyzeWithCustomModelResponse>;
+    beginRecognize: (source: FormRecognizerRequestBody | string, modelId: string, contentType?: FormContentType, analyzeOptions?: RecognizeFormsOptions) => Promise<GeneratedClientAnalyzeWithCustomModelResponse>;
     getRecognizeResult: (resultId: string, options: {
         abortSignal?: AbortSignalLike;
     }) => Promise<RecognizeFormResultResponse>;
@@ -561,11 +512,8 @@ export interface RecognizedFormArray extends Array<RecognizedForm> {
 
 // @public
 export type RecognizedReceipt = {
-    locale: string;
     recognizedForm: RecognizedForm;
-} & ({
-    locale: "US";
-} & USReceipt);
+};
 
 // @public (undocumented)
 export interface RecognizedReceiptArray extends Array<RecognizedReceipt> {
@@ -578,7 +526,7 @@ export type RecognizeFormsOptions = FormRecognizerOperationOptions & {
 
 // @public
 export type RecognizeReceiptPollerClient = {
-    beginRecognize: (source: FormRecognizerRequestBody | string, contentType?: FormContentType, analyzeOptions?: RecognizeReceiptsOptions, modelId?: string) => Promise<GeneratedClientAnalyzeReceiptAsyncResponse>;
+    beginRecognize: (source: FormRecognizerRequestBody | string, contentType?: FormContentType, analyzeOptions?: RecognizeReceiptsOptions) => Promise<GeneratedClientAnalyzeReceiptAsyncResponse>;
     getRecognizeResult: (resultId: string, options: {
         abortSignal?: AbortSignalLike;
     }) => Promise<RecognizeReceiptResultResponse>;
@@ -590,18 +538,6 @@ export type RecognizeReceiptsOptions = FormRecognizerOperationOptions & {
 };
 
 export { RestResponse }
-
-// @public
-export type StringFieldValue = {
-    type: "string";
-    value?: string;
-} & CommonFieldValue;
-
-// @public
-export type TimeFieldValue = {
-    type: "time";
-    value?: string;
-} & CommonFieldValue;
 
 // @public
 export interface TrainingDocumentInfo {
@@ -634,47 +570,15 @@ export interface TrainResult {
     trainingDocuments: TrainingDocumentInfo[];
 }
 
-// @public
-export interface USReceipt {
-    items: USReceiptItem[];
-    merchantAddress: FormField;
-    merchantName: FormField;
-    merchantPhoneNumber: FormField;
-    receiptType: USReceiptType;
-    subtotal: FormField;
-    tax: FormField;
-    tip: FormField;
-    total: FormField;
-    transactionDate: FormField;
-    transactionTime: FormField;
-}
-
-// @public
-export interface USReceiptItem {
-    name?: FormField;
-    price?: FormField;
-    quantity?: FormField;
-    totalPrice?: FormField;
-}
-
-// @public
-export type USReceiptType = {
-    type: "Unrecognized" | "Itemized" | "CreditCard" | "Gas" | "Parking";
-    confidence?: number;
-};
-
-// @public
-export type ValueTypes = "string" | "date" | "time" | "phoneNumber" | "number" | "integer" | "array" | "object";
-
 
 // Warnings were encountered during analysis:
 //
 // src/lro/analyze/contentPoller.ts:40:3 - (ae-forgotten-export) The symbol "GeneratedClientAnalyzeLayoutAsyncResponse" needs to be exported by the entry point index.d.ts
-// src/lro/analyze/contentPoller.ts:47:3 - (ae-forgotten-export) The symbol "RecognizeContentResultResponse" needs to be exported by the entry point index.d.ts
+// src/lro/analyze/contentPoller.ts:46:3 - (ae-forgotten-export) The symbol "RecognizeContentResultResponse" needs to be exported by the entry point index.d.ts
 // src/lro/analyze/customFormPoller.ts:40:3 - (ae-forgotten-export) The symbol "GeneratedClientAnalyzeWithCustomModelResponse" needs to be exported by the entry point index.d.ts
 // src/lro/analyze/customFormPoller.ts:47:3 - (ae-forgotten-export) The symbol "RecognizeFormResultResponse" needs to be exported by the entry point index.d.ts
 // src/lro/analyze/receiptPoller.ts:40:3 - (ae-forgotten-export) The symbol "GeneratedClientAnalyzeReceiptAsyncResponse" needs to be exported by the entry point index.d.ts
-// src/lro/analyze/receiptPoller.ts:47:3 - (ae-forgotten-export) The symbol "RecognizeReceiptResultResponse" needs to be exported by the entry point index.d.ts
+// src/lro/analyze/receiptPoller.ts:46:3 - (ae-forgotten-export) The symbol "RecognizeReceiptResultResponse" needs to be exported by the entry point index.d.ts
 // src/lro/copy/poller.ts:37:3 - (ae-forgotten-export) The symbol "GeneratedClientCopyCustomModelResponse" needs to be exported by the entry point index.d.ts
 // src/lro/copy/poller.ts:43:3 - (ae-forgotten-export) The symbol "GeneratedClientGetCustomModelCopyResultResponse" needs to be exported by the entry point index.d.ts
 // src/lro/train/poller.ts:21:3 - (ae-forgotten-export) The symbol "GeneratedClientTrainCustomModelAsyncResponse" needs to be exported by the entry point index.d.ts
