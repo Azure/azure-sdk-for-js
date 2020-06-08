@@ -77,31 +77,6 @@ describe("ManagedIdentityCredential", function() {
     }
   });
 
-  it("doesn't try IMDS endpoint again once it can't be detected", async function() {
-    const mockHttpClient = new MockAuthHttpClient({ mockTimeout: true });
-    const credential = new ManagedIdentityCredential("client", {
-      ...mockHttpClient.tokenCredentialOptions
-    });
-
-    // Run getToken twice and verify that an auth request is only
-    // attempted the first time.  It should be skipped the second
-    // time after no IMDS endpoint was found.
-    await assertRejects(
-      credential.getToken("scope"),
-      (error: CredentialUnavailable) =>
-        error.message.indexOf("The managed identity endpoint is not currently available") == 0
-    );
-
-    
-    await assertRejects(
-      credential.getToken("scope"),
-      (error: CredentialUnavailable) =>
-        error.message.indexOf("The managed identity endpoint is not currently available") == 0
-    );
-
-    assert.strictEqual(mockHttpClient.requests.length, 1);
-  });
-
   it("returns error when ManagedIdentityCredential authentication failed", async function() {
     process.env.AZURE_CLIENT_ID = "errclient";
 

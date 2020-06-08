@@ -12,7 +12,7 @@ import {
 import { IdentityClient, TokenCredentialOptions } from "../client/identityClient";
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName, AuthenticationError, CredentialUnavailable } from "../client/errors";
-import { CanonicalCode } from "@opentelemetry/types";
+import { CanonicalCode } from "@opentelemetry/api";
 import { logger } from "../util/logging";
 
 const DefaultScopeSuffix = "/.default";

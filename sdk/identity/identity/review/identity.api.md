@@ -13,7 +13,7 @@ export { AccessToken }
 
 // @public
 export class AggregateAuthenticationError extends Error {
-    constructor(errors: any[]);
+    constructor(errors: any[], errMsg?: string);
     errors: any[];
 }
 
@@ -51,7 +51,8 @@ export type BrowserLoginStyle = "redirect" | "popup";
 export class ChainedTokenCredential implements TokenCredential {
     constructor(...sources: TokenCredential[]);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
-    }
+    protected UnavailableMessage: string;
+}
 
 // @public
 export class ClientCertificateCredential implements TokenCredential {
