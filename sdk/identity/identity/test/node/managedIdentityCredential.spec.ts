@@ -113,7 +113,7 @@ describe("ManagedIdentityCredential", function() {
     );
   });
 
-  // unavailable exception throws while IMDS endpoint is unavailable. This test not valid.
+  // Unavailable exception throws while IMDS endpoint is unavailable. This test not valid.
   // it("can extend timeout for IMDS endpoint", async function() {
   //   // Mock a timeout so that the endpoint ping fails
   //   const authDetails = await getMsiTokenAuthRequest(
