@@ -549,13 +549,13 @@ packages:
     dev: false
     resolution:
       integrity: sha512-OCutwjDZ4aFS6PB1UZ988C4YgwlBHJd6wCeQqaLdmadZ/7e+w79+hbMUFC1QXDNCmdyoRfAFdm0RypzwR+Qpag==
-  /@types/eslint/4.16.8:
+  /@types/eslint/6.8.1:
     dependencies:
-      '@types/estree': 0.0.39
+      '@types/estree': 0.0.44
       '@types/json-schema': 7.0.4
     dev: false
     resolution:
-      integrity: sha512-n0ZvaIpPeBxproRvV+tZoCHRxIoNAk+k+XMvQefKgx3qM3IundoogQBAwiNEnqW0GDP1j1ATe5lFy9xxutFAHg==
+      integrity: sha512-eutiEpQ4SN7kdF8QVDPyiSSy7ZFM+werJVw6/mRxLGbG4oet6/p81WFjSIcuY9PzM+dsu25Yh5EAUmQ9aJC1gg==
   /@types/estree/0.0.39:
     dev: false
     resolution:
@@ -7936,7 +7936,7 @@ packages:
     dev: false
     name: '@rush-temp/core-http'
     resolution:
-      integrity: sha512-HD7wTCJGKbLGCja6W3H/FS1Av/nGt35Bd8CRE7zXPwtsHJV0WJeYzc9VCNcBAfoTMV7aA4QC60KJdQk7ktRKrQ==
+      integrity: sha512-Aavb1OtBbj8OIGbhBBJjPIrb5jnfDrUUDpvd+Ojj2rOlgnNaFbaCuQI6ydOK5GTmn1WNmoEf9lYyFRSrNJNHDw==
       tarball: 'file:projects/core-http.tgz'
     version: 0.0.0
   'file:projects/core-https.tgz':
@@ -8170,7 +8170,7 @@ packages:
     dependencies:
       '@types/bluebird': 3.5.32
       '@types/chai': 4.2.11
-      '@types/eslint': 4.16.8
+      '@types/eslint': 6.8.1
       '@types/estree': 0.0.39
       '@types/glob': 7.1.1
       '@types/mocha': 7.0.2
@@ -8196,7 +8196,7 @@ packages:
     dev: false
     name: '@rush-temp/eslint-plugin-azure-sdk'
     resolution:
-      integrity: sha512-5JdwkfeuqYTyu2Plo+FHSRxHC9Ri6hxuXXSASbqaNnC6/jusoKXXf8rau+f2jdkrsXxj36uwZAo58n17by000Q==
+      integrity: sha512-z4C+EZ2wh2QBk4dRh+4p7O+6avOxyZNREUYcmegWjWYnQ1BHOLfaib02TYyKrMpp85uzTY2DtNx+/vjIVzVB9w==
       tarball: 'file:projects/eslint-plugin-azure-sdk.tgz'
     version: 0.0.0
   'file:projects/event-hubs.tgz':
@@ -8274,7 +8274,7 @@ packages:
     dev: false
     name: '@rush-temp/event-hubs'
     resolution:
-      integrity: sha512-xbTUoiBl0HEj7vWxBV3xPQQqa22nagQobiVAKQUYVrtI/hreADQtCZYsyivcXYVooJaCOXnnLofTbFIYQAIMlA==
+      integrity: sha512-QI2JHGXrGYaynRz7GFX0V0tRSZgeJSgoP6tNtTwBXO+dY5bdo4eyKuuf3HDWiMPADgyZH7a+xvLsJJlQb1CE3w==
       tarball: 'file:projects/event-hubs.tgz'
     version: 0.0.0
   'file:projects/event-processor-host.tgz':
@@ -8839,7 +8839,7 @@ packages:
     dev: false
     name: '@rush-temp/service-bus'
     resolution:
-      integrity: sha512-bXMcdF+Bu/7/oHstS0Ppx0tAby8qfZmemqeboHF66xc23mSRDZ6OQC5zyN6FQSzLeTKK1ItWxsl7iWTukpH8XA==
+      integrity: sha512-W48NAAVhOpKsh4KcHtdPXs4dtS7NBjc2XmwBxHGObQU1dsbQ6ld7z4u3YAwd2Eb95LMbkcDa93bh7lw2LfpLEg==
       tarball: 'file:projects/service-bus.tgz'
     version: 0.0.0
   'file:projects/storage-blob.tgz':
