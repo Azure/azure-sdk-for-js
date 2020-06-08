@@ -1,7 +1,7 @@
 # Release History
 
 ## 1.1.4 (Unreleased)
-
+- Fix issue with flattened model serialization, where constant properties are being dropped [PR#8658](https://github.com/Azure/azure-sdk-for-js/pull/8658)
 
 ## 1.1.3 (2020-06-03)
 
@@ -12,7 +12,6 @@
 ## 1.1.2 (2020-05-07)
 
 - Fix issue with null/undefined values in array and tabs/space delimiter arrays during sendOperationRequest. [PR #8604](https://github.com/Azure/azure-sdk-for-js/pull/8604)
-- Fix issue with flattened model serialization, where constant properties are being dropped [PR#8658](https://github.com/Azure/azure-sdk-for-js/pull/8658)
 
 ## 1.1.1 (2020-04-28)
 
