@@ -1,5 +1,8 @@
 # Release History
 
+## 7.0.0-preview.4 (Unreleased)
+
+
 ## 7.0.0-preview.3 (2020-06-08)
 
 - Improves the performance of the `ServiceBusMessageBatch.tryAdd` method.
