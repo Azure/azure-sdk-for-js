@@ -1,6 +1,6 @@
 # Release History
 
-## 5.2.1 (Unreleased)
+## 5.2.1 (2020-06-08)
 
 - Fixes issue [#8584](https://github.com/Azure/azure-sdk-for-js/issues/8584)
   where attempting to create AMQP links when the AMQP connection was in the
@@ -19,7 +19,7 @@ changes between patch and minor updates.
 
 - Adds a new attribute - `enqueuedTime` - to the links on "Azure.EventHubs.process" spans.
   `enqueuedTime` maps to the enqueuedTimeUtc field from received events, represented as
-  Unix epoch time in millseconds.
+  Unix epoch time in milliseconds.
   Address [#7112](https://github.com/Azure/azure-sdk-for-js/issues/7112)
 
 ## 5.2.0 (2020-05-05)
@@ -193,36 +193,32 @@ Construction of both objects is the same as it was for the previous client.
 
 Version 5.0.0-preview.1 is a preview of our efforts to create a client library that is user friendly and
 idiomatic to the Javascript ecosystem. The reasons for most of the changes in this update can be found in the
-[Azure SDK Design Guidelines for TypeScript](https://azuresdkspecs.z5.web.core.windows.net/TypeScriptSpec.html).
-For more information, please visit https://aka.ms/azure-sdk-preview1-js
+[Azure SDK Design Guidelines for TypeScript](https://azure.github.io/azure-sdk/typescript_introduction.html).
+For more information, please visit https://aka.ms/azsdk/releases/july2019preview
 
 ### Breaking changes
 
-- Creating an instance of [EventHubClient](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/eventhubclient.html)
-  is now done using construtor overloads instead of static helpers. - If you previously used the `createFromTokenProvider` static helper to provide your own custom token provider,
-  you will now need to update the provider to follow the new `TokenCredential` interface instead. - If you previously used the `@azure/ms-rest-nodeauth` library to provide AAD credentials, you will now need to use the new
-  [@azure/identity](https://www.npmjs.com/package/@azure/identity) library instead.
-- The send methods are moved from the `EventHubClient` class to the new [EventHubProducer](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/eventhubproducer.html) class.
-  - Use the [createProducer()](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/eventhubclient.html#createproducer)
-    function on the `EventHubClient` to create an instance of a `EventHubProducer`.
+- Creating an instance of `EventHubClient` is now done using constructor overloads instead of static helpers.
+  - If you previously used the `createFromTokenProvider` static helper to provide your own custom token provider,
+    you will now need to update the provider to follow the new `TokenCredential` interface instead.
+  - If you previously used the `@azure/ms-rest-nodeauth` library to provide AAD credentials, you will now need to use the new
+    [@azure/identity](https://www.npmjs.com/package/@azure/identity) library instead.
+- The send methods are moved from the `EventHubClient` class to the new `EventHubProducer` class.
+  - Use the `createProducer()` function on the `EventHubClient` to create an instance of a `EventHubProducer`.
   - Each producer represents a dedicated AMQP sender link to Azure Event Hubs.
-  - The [EventData](https://azure.github.io/azure-sdk-for-js/event-hubs/interfaces/eventdata.html) type used for
-    the data being sent only supports a `body` for the content being sent and a
+  - The `EventData` type used for the data being sent only supports a `body` for the content being sent and a
     `properties` bag to hold any custom metadata you want to send. The properties corresponding to a received event are
-    removed from this type and a separate type [ReceivedEventData](https://azure.github.io/azure-sdk-for-js/event-hubs/interfaces/receivedeventdata.html)
-    is used for received events.
-- The receive methods are moved from the `EventHubClient` class to the new [EventHubConsumer](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/eventhubconsumer.html) class.
-  - Use the [createConsumer()](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/eventhubclient.html#createconsumer)
-    function on the `EventHubClient` to create an instance of a `EventHubConsumer`.
+    removed from this type and a separate type ReceivedEventData is used for received events.
+- The receive methods are moved from the `EventHubClient` class to the new `EventHubConsumer` class.
+  - Use the `createConsumer()` function on the `EventHubClient` to create an instance of a `EventHubConsumer`.
   - Each consumer represents a dedicated AMQP receiver link to Azure Event Hubs based
     on the flavor of receive function being used i.e `receiveBatch()` that receives events in a batch vs `receive()` that provides
     a streaming receiver.
   - The static methods `EventPosition.fromStart()` and `EventPosition.fromEnd()` are renamed to `EventPosition.earliest()` and `EventPosition.latest()` respectively.
 - Inspecting Event Hub
   - The methods `getHubRuntimeInformation()` and `getPartitionInformation()` on the `EventHubClient` are renamed to
-    [getProperties()](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/eventhubclient.html#getproperties) and
-    [getPartitionProperties()](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/eventhubclient.html#getpartitionproperties)
-    respectively. Please refer to the return types of these functions to ensure you are using the right property names.
+    `getProperties()` and `getPartitionProperties()` respectively. Please refer to the return types of these functions
+    to ensure you are using the right property names.
 
 ### New features
 
@@ -231,12 +227,12 @@ For more information, please visit https://aka.ms/azure-sdk-preview1-js
 - You can now pass an abort signal to any of the async operations. This signal can be used to cancel such operations. Use
   the package [@azure/abort-controller](https://www.npmjs.com/package/@azure/abort-controller) to create such abort signals.
 - An async iterator is now available to receive events after you create an instance of `EventHubConsumer`. Use the function
-  [getEventIterator()](https://azure.github.io/azure-sdk-for-js/event-hubs/classes/eventhubconsumer.html#geteventiterator) on the consumer to get a `AsyncIterableIterator` which you can then use in a loop or use it's `next()` function to receive events.
+  `getEventIterator()` on the consumer to get a `AsyncIterableIterator` which you can then use in a loop or use it's `next()`
+  function to receive events.
 
 ### Next Steps
 
-- Refer to the [API reference documentation](https://azure.github.io/azure-sdk-for-js/event-hubs/index.html) to get
-  an overview of the entire API surface.
+- Refer to the `API reference documentation` to get an overview of the entire API surface.
 - Refer to our [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples) to understand the usage of the new APIs.
 
 ## 2.1.0 (2019-06-10)

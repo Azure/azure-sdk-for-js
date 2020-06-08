@@ -5,7 +5,7 @@ import {
   TextDocumentBatchStatistics,
   DocumentError,
   DocumentLinkedEntities,
-  MultiLanguageInput
+  TextDocumentInput
 } from "./generated/models";
 import {
   RecognizeLinkedEntitiesResult,
@@ -34,7 +34,7 @@ export interface RecognizeLinkedEntitiesResultArray
 }
 
 export function makeRecognizeLinkedEntitiesResultArray(
-  input: MultiLanguageInput[],
+  input: TextDocumentInput[],
   documents: DocumentLinkedEntities[],
   errors: DocumentError[],
   modelVersion: string,

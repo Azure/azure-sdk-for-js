@@ -5,7 +5,7 @@ import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http"
 import { TokenCredentialOptions } from "../client/identityClient";
 import { ClientSecretCredential } from "./clientSecretCredential";
 import { createSpan } from "../util/tracing";
-import { AuthenticationError, AuthenticationErrorName } from "../client/errors";
+import { AuthenticationError, AuthenticationErrorName, CredentialUnavailable } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/api";
 import { logger } from "../util/logging";
 import { ClientCertificateCredential } from "./clientCertificateCredential";
@@ -135,14 +135,11 @@ export class EnvironmentCredential implements TokenCredential {
     // the user knows the credential was not configured appropriately
     span.setStatus({ code: CanonicalCode.UNAUTHENTICATED });
     span.end();
-    throw new AuthenticationError(400, {
-      error: "missing_environment_variables",
-      error_description: `EnvironmentCredential cannot return a token because one or more of the following environment variables is missing:
+    throw new CredentialUnavailable(`EnvironmentCredential cannot return a token because one or more of the following environment variables is missing:
 
 ${this._environmentVarsMissing.join("\n")}
 
 To authenticate with a service principal AZURE_TENANT_ID, AZURE_CLIENT_ID, and either AZURE_CLIENT_SECRET or AZURE_CLIENT_CERTIFICATE_PATH must be set.  To authenticate with a user account AZURE_TENANT_ID, AZURE_USERNAME, and AZURE_PASSWORD must be set.
-`
-    });
+`);
   }
 }
