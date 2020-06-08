@@ -55,8 +55,10 @@ describe("disconnected", function() {
   describe("Receiver", function() {
     it("should receive after a disconnect", async () => {
       client = new EventHubClient(service.connectionString, service.path);
+      const partitionId = "0";
+      const partitionProperties = await client.getPartitionProperties(partitionId);
       const receiver = client.createConsumer(EventHubConsumerClient.defaultConsumerGroupName, "0", {
-        enqueuedOn: Date.now()
+        sequenceNumber: partitionProperties.lastEnqueuedSequenceNumber
       });
       const clientConnectionContext = receiver["_context"];
 
