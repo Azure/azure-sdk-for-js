@@ -16,9 +16,9 @@ export { Delivery, WebSocketImpl } from "rhea-promise";
 export { ServiceBusClientOptions } from "./constructorHelpers";
 export { CorrelationRuleFilter } from "./core/managementClient";
 export {
-  BrowseMessagesOptions,
+  PeekMessagesOptions,
   CreateBatchOptions,
-  CreateSenderOptions,
+  SenderOpenOptions,
   CreateSessionReceiverOptions,
   GetMessageIteratorOptions,
   MessageHandlerOptions,
@@ -31,6 +31,7 @@ export { OperationOptions } from "./modelsToBeSharedWithEventHubs";
 export { Receiver } from "./receivers/receiver";
 export { SessionReceiver } from "./receivers/sessionReceiver";
 export { Sender } from "./sender";
+export { NamespaceProperties } from "./serializers/namespaceResourceSerializer";
 export { QueueDescription, QueueRuntimeInfo } from "./serializers/queueResourceSerializer";
 export {
   RuleDescription,
@@ -52,15 +53,23 @@ export {
   DeleteRuleResponse,
   DeleteSubscriptionResponse,
   DeleteTopicResponse,
+  GetNamespaceResponse,
   GetQueueResponse,
+  GetQueueRuntimeInfoResponse,
   GetQueuesResponse,
+  GetQueuesRuntimeInfoResponse,
   GetRuleResponse,
   GetRulesResponse,
   GetSubscriptionResponse,
+  GetSubscriptionRuntimeInfoResponse,
   GetSubscriptionsResponse,
+  GetSubscriptionsRuntimeInfoResponse,
   GetTopicResponse,
+  GetTopicRuntimeInfoResponse,
   GetTopicsResponse,
+  GetTopicsRuntimeInfoResponse,
   ListRequestOptions,
+  NamespaceResponse,
   QueueResponse,
   RuleResponse,
   ServiceBusManagementClient,

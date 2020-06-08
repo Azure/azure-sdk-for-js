@@ -470,7 +470,7 @@
     {
       "packageName": "@azure/template",
       "projectFolder": "sdk/template/template",
-      "versionPolicyName": "utility"
+      "versionPolicyName": "client"
     },
     {
       "packageName": "@azure/eslint-plugin-azure-sdk",

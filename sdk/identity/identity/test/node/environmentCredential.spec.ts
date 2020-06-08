@@ -3,7 +3,7 @@
 
 import assert from "assert";
 import path from "path";
-import { EnvironmentCredential, AuthenticationError } from "../../src";
+import { EnvironmentCredential, AuthenticationError, CredentialUnavailable } from "../../src";
 import {
   MockAuthHttpClient,
   assertClientCredentials,
@@ -136,14 +136,14 @@ describe("EnvironmentCredential", function() {
     assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
   });
 
-  it("throws an AuthenticationError when getToken is called and no credential was configured", async () => {
+  it("throws an CredentialUnavailable when getToken is called and no credential was configured", async () => {
     const mockHttpClient = new MockAuthHttpClient();
 
     const credential = new EnvironmentCredential(mockHttpClient.tokenCredentialOptions);
     await assertRejects(
       credential.getToken("scope"),
-      (error: AuthenticationError) =>
-        error.errorResponse.errorDescription.indexOf(AllSupportedEnvironmentVariables.join("\n")) >
+      (error: CredentialUnavailable) =>
+        error.message.indexOf(AllSupportedEnvironmentVariables.join("\n")) >
         -1
     );
 
@@ -152,8 +152,8 @@ describe("EnvironmentCredential", function() {
     const credentialDeux = new EnvironmentCredential(mockHttpClient.tokenCredentialOptions);
     await assertRejects(
       credentialDeux.getToken("scope"),
-      (error: AuthenticationError) =>
-        error.errorResponse.errorDescription.match(/^AZURE_TENANT_ID/gm) === null
+      (error: CredentialUnavailable) =>
+        error.message.match(/^AZURE_TENANT_ID/gm) === null
     );
 
     delete process.env.AZURE_TENANT_ID;

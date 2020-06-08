@@ -8,11 +8,11 @@ import { makeDetectLanguageResultArray } from "../src/detectLanguageResultArray"
 import { makeExtractKeyPhrasesResultArray } from "../src/extractKeyPhrasesResultArray";
 import { makeRecognizeLinkedEntitiesResultArray } from "../src/recognizeLinkedEntitiesResultArray";
 import { makeRecognizeCategorizedEntitiesResultArray } from "../src/recognizeCategorizedEntitiesResultArray";
-import { LanguageInput, MultiLanguageInput } from "../src/generated/models";
+import { DetectLanguageInput, TextDocumentInput } from "../src/generated/models";
 
 describe("SentimentResultArray", () => {
   it("merges items in order", () => {
-    const input: MultiLanguageInput[] = [
+    const input: TextDocumentInput[] = [
       {
         id: "A",
         text: "test"
@@ -72,7 +72,7 @@ describe("SentimentResultArray", () => {
 
 describe("DetectLanguageResultArray", () => {
   it("merges items in order", () => {
-    const input: LanguageInput[] = [
+    const input: DetectLanguageInput[] = [
       {
         id: "A",
         text: "test"
@@ -128,7 +128,7 @@ describe("DetectLanguageResultArray", () => {
 
 describe("ExtractKeyPhrasesResultArray", () => {
   it("merges items in order", () => {
-    const input: MultiLanguageInput[] = [
+    const input: TextDocumentInput[] = [
       {
         id: "A",
         text: "test"
@@ -176,7 +176,7 @@ describe("ExtractKeyPhrasesResultArray", () => {
 
 describe("RecognizeCategorizedEntitiesResultArray", () => {
   it("merges items in order", () => {
-    const input: MultiLanguageInput[] = [
+    const input: TextDocumentInput[] = [
       {
         id: "A",
         text: "test"
@@ -237,7 +237,7 @@ describe("RecognizeCategorizedEntitiesResultArray", () => {
 
 describe("RecognizeLinkedEntitiesResultArray", () => {
   it("merges items in order", () => {
-    const input: MultiLanguageInput[] = [
+    const input: TextDocumentInput[] = [
       {
         id: "A",
         text: "test"

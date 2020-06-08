@@ -9,11 +9,11 @@
 import * as coreHttp from "@azure/core-http";
 
 
-export const MultiLanguageInput: coreHttp.CompositeMapper = {
-  serializedName: "MultiLanguageInput",
+export const TextDocumentInput: coreHttp.CompositeMapper = {
+  serializedName: "TextDocumentInput",
   type: {
     name: "Composite",
-    className: "MultiLanguageInput",
+    className: "TextDocumentInput",
     modelProperties: {
       id: {
         required: true,
@@ -53,7 +53,7 @@ export const MultiLanguageBatchInput: coreHttp.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "MultiLanguageInput"
+              className: "TextDocumentInput"
             }
           }
         }
@@ -896,11 +896,11 @@ export const KeyPhraseResult: coreHttp.CompositeMapper = {
   }
 };
 
-export const LanguageInput: coreHttp.CompositeMapper = {
-  serializedName: "LanguageInput",
+export const DetectLanguageInput: coreHttp.CompositeMapper = {
+  serializedName: "DetectLanguageInput",
   type: {
     name: "Composite",
-    className: "LanguageInput",
+    className: "DetectLanguageInput",
     modelProperties: {
       id: {
         required: true,
@@ -940,7 +940,7 @@ export const LanguageBatchInput: coreHttp.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "LanguageInput"
+              className: "DetectLanguageInput"
             }
           }
         }

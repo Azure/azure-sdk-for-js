@@ -11,7 +11,7 @@ import {
 } from "@azure/core-http";
 import { IdentityClient, TokenCredentialOptions } from "../client/identityClient";
 import { createSpan } from "../util/tracing";
-import { AuthenticationErrorName } from "../client/errors";
+import { AuthenticationErrorName, CredentialUnavailable } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/api";
 import { logger } from "../util/logging";
 
@@ -70,7 +70,7 @@ export class ManagedIdentityCredential implements TokenCredential {
     let scope = "";
     if (Array.isArray(scopes)) {
       if (scopes.length !== 1) {
-        throw "To convert to a resource string the specified array must be exactly length 1";
+        throw new Error("To convert to a resource string the specified array must be exactly length 1");
       }
 
       scope = scopes[0];
@@ -334,6 +334,8 @@ export class ManagedIdentityCredential implements TokenCredential {
         // endpoints are available.  In this case, don't try them in future
         // requests.
         this.isEndpointUnavailable = result === null;
+      } else {
+        throw new CredentialUnavailable("The managed identity endpoint is not currently available");
       }
 
       return result;

@@ -55,7 +55,7 @@ async function processDeadletterMessageQueue() {
 // Send repaired message back to the current queue / topic
 async function fixAndResendMessage(oldMessage) {
   // createSender() can also be used to create a sender for a topic.
-  const sender = await sbClient.createSender(queueName);
+  const sender = sbClient.createSender(queueName);
 
   // Inspect given message and make any changes if necessary
   const repairedMessage = { ...oldMessage };

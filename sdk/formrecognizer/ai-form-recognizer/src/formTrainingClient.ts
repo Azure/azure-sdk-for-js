@@ -16,7 +16,12 @@ import { TokenCredential } from "@azure/identity";
 import { KeyCredential } from "@azure/core-auth";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import "@azure/core-paging";
-import { SDK_VERSION, DEFAULT_COGNITIVE_SCOPE } from "./constants";
+import {
+  SDK_VERSION,
+  DEFAULT_COGNITIVE_SCOPE,
+  FormRecognizerLoggingAllowedHeaderNames,
+  FormRecognizerLoggingAllowedQueryParameters
+} from "./constants";
 import { logger } from "./logger";
 import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/api";
@@ -188,7 +193,8 @@ export class FormTrainingClient {
       ...{
         loggingOptions: {
           logger: logger.info,
-          allowedHeaderNames: ["x-ms-correlation-request-id", "x-ms-request-id"]
+          allowedHeaderNames: FormRecognizerLoggingAllowedHeaderNames,
+          allowedQueryParameters: FormRecognizerLoggingAllowedQueryParameters
         }
       }
     };

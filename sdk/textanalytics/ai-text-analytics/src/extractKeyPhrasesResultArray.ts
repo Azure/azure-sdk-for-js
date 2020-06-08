@@ -5,7 +5,7 @@ import {
   TextDocumentBatchStatistics,
   DocumentError,
   DocumentKeyPhrases,
-  MultiLanguageInput
+  TextDocumentInput
 } from "./generated/models";
 import {
   ExtractKeyPhrasesResult,
@@ -33,7 +33,7 @@ export interface ExtractKeyPhrasesResultArray extends Array<ExtractKeyPhrasesRes
 }
 
 export function makeExtractKeyPhrasesResultArray(
-  input: MultiLanguageInput[],
+  input: TextDocumentInput[],
   documents: DocumentKeyPhrases[],
   errors: DocumentError[],
   modelVersion: string,
