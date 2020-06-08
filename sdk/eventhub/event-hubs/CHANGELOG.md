@@ -1,5 +1,8 @@
 # Release History
 
+## 5.2.2 (Unreleased)
+
+
 ## 5.2.1 (2020-06-08)
 
 - Fixes issue [#8584](https://github.com/Azure/azure-sdk-for-js/issues/8584)
