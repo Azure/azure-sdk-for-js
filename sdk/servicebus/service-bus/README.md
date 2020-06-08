@@ -106,17 +106,17 @@ const sender = serviceBusClient.createSender("my-queue");
 
 // sending a single message
 await sender.send({
-  body: "my-message-body"
+  body: "my-message-body",
 });
 
 // sending multiple messages
 await sender.send([
   {
-    body: "my-message-body"
+    body: "my-message-body",
   },
   {
-    body: "another-message-body"
-  }
+    body: "another-message-body",
+  },
 ]);
 ```
 
@@ -156,7 +156,7 @@ const myErrorHandler = async (error) => {
 };
 receiver.subscribe({
   processMessage: myMessageHandler,
-  processError: myErrorHandler
+  processError: myErrorHandler,
 });
 ```
 
@@ -192,7 +192,7 @@ your message lands in the right session.
 const sender = serviceBusClient.createSender("my-session-queue");
 await sender.send({
   body: "my-message-body",
-  sessionId: "my-session"
+  sessionId: "my-session",
 });
 ```
 
@@ -217,7 +217,7 @@ There are two ways of choosing which session to open:
 
    ```javascript
    const receiver = await serviceBusClient.createSessionReceiver("my-session-queue", "peekLock", {
-     sessionId: "my-session"
+     sessionId: "my-session",
    });
    ```
 
@@ -302,7 +302,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fservicebus%2Fservice-bus%2FREADME.png)
 
-[apiref]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.2/index.html
+[apiref]: https://aka.ms/azsdk/js/service-bus/docs
 [sbclient]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.2/classes/servicebusclient.html
 [sbclient_constructor]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.2/classes/servicebusclient.html#constructor
 [sbclient_createsender]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.2/classes/servicebusclient.html#createsender
