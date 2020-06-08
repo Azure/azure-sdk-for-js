@@ -247,13 +247,12 @@ export class SenderImpl implements Sender {
       return this._sender.sendBatch(batch, options);
     } else if (isServiceBusMessageBatch(messageOrMessagesOrBatch)) {
       return this._sender.sendBatch(messageOrMessagesOrBatch, options);
-    } else {
-      throwTypeErrorIfParameterMissing(
-        this._context.namespace.connectionId,
-        "message, messages or messageBatch",
-        messageOrMessagesOrBatch
-      );
+    } else if (messageOrMessagesOrBatch != null && typeof messageOrMessagesOrBatch === "object") {
       return this._sender.send(messageOrMessagesOrBatch, options);
+    } else {
+      throw new TypeError(
+        "Invalid type for message. Must be a ServiceBusMessage, an array of ServiceBusMessage or a ServiceBusMessageBatch"
+      );
     }
   }
 
