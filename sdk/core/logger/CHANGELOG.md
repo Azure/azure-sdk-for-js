@@ -2,6 +2,9 @@
 
 ## 1.0.1 (Unreleased)
 
+- Fixed an issue that caused browser bundlers that don't honor `module` mapping
+  to fail to find the package entry point.
+
 ## 1.0.0 (2019-10-29)
 
 This release marks the general availability of the `@azure/logging` package.

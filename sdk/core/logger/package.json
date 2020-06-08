@@ -6,6 +6,7 @@
   "main": "./dist/index.js",
   "module": "./dist-esm/src/logger.js",
   "browser": {
+    "./dist/index.js": "./dist-esm/src/logger.js",
     "./dist-esm/src/log.js": "./dist-esm/src/log.browser.js",
     "process": false
   },

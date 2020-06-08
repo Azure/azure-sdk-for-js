@@ -1,7 +1,11 @@
 # Release History
 
 ## 1.1.4 (Unreleased)
+
 - Fix issue with flattened model serialization, where constant properties are being dropped [PR#8658](https://github.com/Azure/azure-sdk-for-js/pull/8658)
+
+- Fixed an issue that caused browser bundlers that don't honor `module` mapping
+  to fail to find the package entry point.
 
 ## 1.1.3 (2020-06-03)
 

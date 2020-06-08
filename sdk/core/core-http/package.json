@@ -48,6 +48,7 @@
     "LICENSE"
   ],
   "browser": {
+    "./dist/coreHttp.node.js": "./es/src/coreHttp.js",
     "./es/src/policies/msRestUserAgentPolicy.js": "./es/src/policies/msRestUserAgentPolicy.browser.js",
     "./es/src/policies/disableResponseDecompressionPolicy.js": "./es/src/policies/disableResponseDecompressionPolicy.browser.js",
     "./es/src/policies/proxyPolicy.js": "./es/src/policies/proxyPolicy.browser.js",
