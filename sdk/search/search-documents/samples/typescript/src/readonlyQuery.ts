@@ -56,8 +56,7 @@ export async function main() {
 
   const state = "FL";
   const country = "USA";
-  const searchResults = await client.search({
-    searchText: "WiFi",
+  const searchResults = await client.search("WiFi", {
     filter: odata`Address/StateProvince eq ${state} and Address/Country eq ${country}`,
     orderBy: ["Rating desc"],
     select: ["HotelId", "HotelName", "Rating"]

@@ -103,7 +103,7 @@ const client = new SearchClient(
 
 async function main() {
   // Let's get the top 5 jobs related to Microsoft
-  const searchResults = await client.search({ searchText: "Microsoft", top: 5 });
+  const searchResults = await client.search("Microsoft", { top: 5 });
   for await (const result of searchResults.results) {
     console.log(`${result.business_title}\n${result.job_description}\n`);
   }
