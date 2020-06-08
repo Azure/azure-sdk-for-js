@@ -343,6 +343,11 @@ export class ManagedIdentityCredential implements TokenCredential {
         code: CanonicalCode.UNKNOWN,
         message: err.message
       });
+
+      if (err.code == "ENETUNREACH") {
+        throw new CredentialUnavailable("ManagedIdentityCredential is unavailable. No managed identity endpoint found.");
+      }
+      console.log("ERROR: ", err);
       throw new AuthenticationError(400, {
         error: "ManagedIdentityCredential authentication failed.",
         error_description: err.message
