@@ -51,7 +51,7 @@ export async function main() {
   const credential = new AzureKeyCredential(apiKey);
   const client = new SearchClient<Hotel>(endpoint, indexName, credential);
 
-  const count = await client.countDocuments();
+  const count = await client.getDocumentsCount();
   console.log(`${count} documents in index ${client.indexName}`);
 
   const state = "FL";
