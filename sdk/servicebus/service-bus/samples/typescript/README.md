@@ -11,7 +11,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [receiveMessagesLoop.ts][receivemessagesloop]                       | uses the receiveMessages() function to receive Service Bus messages in a loop                                                  |
 | [scheduledMessages.ts][scheduledmessages]                           | uses the scheduleMessage() function to schedule messages to appear on a Service Bus Queue/Subscription at a later time         |
 | [session.ts][session]                                               | sends/receives messages to/from session enabled queues/subscriptions in Service Bus                                            |
-| [browseMessages.ts][browsemessages]                                 | uses the peekMessages() function to browse a Service Bus                                                                     |
+| [browseMessages.ts][browsemessages]                                 | uses the peekMessages() function to browse a Service Bus                                                                       |
 | [usingAadAuth.ts][usingaadauth]                                     | creates a ServiceBusClient that authenticates using AAD credentials                                                            |
 | [useProxy.ts][useproxy]                                             | creates a ServiceBusClient that uses an HTTP(S) proxy server to make requests                                                  |
 | [advanced/movingMessagesToDLQ.ts][advanced-movingmessagestodlq]     | moves a message explicitly to the dead-letter queue                                                                            |
@@ -19,6 +19,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [advanced/processMessageFromDLQ.ts][advanced-processmessagefromdlq] | retrieves a message from a dead-letter queue, edits it, and sends it back to the main queue                                    |
 | [advanced/sessionRoundRobin.ts][advanced-session-round-robin]       | uses `SessionReceiver`'s ability to get the next available session to round-robin through all sessions in a Queue/Subscription |
 | [advanced/sessionState.ts][advanced-sessionstate]                   | uses a "shopping cart" example to demonstrate how SessionState information can be read and maintained in an application        |
+| [advanced/managementClient.ts][advanced-management-client]          | demonstrates how the ServiceBusManagementClient can be used to manage the resources of a service bus namespace                 |
 
 ## Prerequisites
 
@@ -83,6 +84,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [advanced-session-round-robin]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/src/advanced/sessionRoundRobin.ts
 [sendmessages]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/src/sendMessages.ts
 [serviceprincipallogin]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/src/servicePrincipalLogin.ts
+[advanced-management-client]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/src/advanced/managementClient.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/service-bus
 [azsvcbus]: https://docs.microsoft.com/azure/service-bus-messaging/service-bus-create-namespace-portal
 [freesub]: https://azure.microsoft.com/free/
