@@ -92,6 +92,7 @@ The following sections provide code snippets that cover some of the common tasks
 - [Settle a message](#settle-a-message)
 - [Send messages using Sessions](#send-messages-using-sessions)
 - [Receive messages from Sessions](#receive-messages-from-sessions)
+- [Manage resources of a service bus namespace](#manage-resources-of-a-service-bus-namespace)
 - [Additional samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples)
 
 ### Send messages
@@ -106,17 +107,17 @@ const sender = serviceBusClient.createSender("my-queue");
 
 // sending a single message
 await sender.send({
-  body: "my-message-body",
+  body: "my-message-body"
 });
 
 // sending multiple messages
 await sender.send([
   {
-    body: "my-message-body",
+    body: "my-message-body"
   },
   {
-    body: "another-message-body",
-  },
+    body: "another-message-body"
+  }
 ]);
 ```
 
@@ -156,7 +157,7 @@ const myErrorHandler = async (error) => {
 };
 receiver.subscribe({
   processMessage: myMessageHandler,
-  processError: myErrorHandler,
+  processError: myErrorHandler
 });
 ```
 
@@ -192,7 +193,7 @@ your message lands in the right session.
 const sender = serviceBusClient.createSender("my-session-queue");
 await sender.send({
   body: "my-message-body",
-  sessionId: "my-session",
+  sessionId: "my-session"
 });
 ```
 
@@ -217,7 +218,7 @@ There are two ways of choosing which session to open:
 
    ```javascript
    const receiver = await serviceBusClient.createSessionReceiver("my-session-queue", "peekLock", {
-     sessionId: "my-session",
+     sessionId: "my-session"
    });
    ```
 
@@ -237,6 +238,30 @@ Once the receiver is created you can use choose between 3 ways to receive messag
 - [Use async iterator](#use-async-iterator)
 
 You can read more about how sessions work [here][docsms_messagesessions].
+
+### Manage resources of a service bus namespace
+
+`ServiceBusManagementClient` lets you manage a namespace with CRUD operations on the entities(queues, topics, and subscriptions) and on the rules of a subscription.
+
+- Supports authentication with a service bus connection string as well as with the AAD credentials from `@azure/identity` similar to the `ServiceBusClient`.
+
+```js
+// Get the connection string from the portal
+// OR
+// use the token credential overload, provide the host name of your Service Bus instance and the AAD credentials from the @azure/identity library
+const serviceBusManagementClient = new ServiceBusManagementClient("<connectionString>");
+
+// Similarly, you can create topics and subscriptions as well.
+const createQueueResponse = await serviceBusManagementClient.createQueue(queueName);
+console.log("Created queue with name - ", createQueueResponse.name);
+
+const queueRuntimeInfo = await serviceBusManagementClient.getQueueRuntimeInfo(queueName);
+console.log("Number of messages in the queue = ", queueRuntimeInfo.messageCount);
+
+await serviceBusManagementClient.deleteQueue(queueName);
+```
+
+- Sample for reference - [managementClient.ts](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/src/advanced/managementClient.ts)
 
 ## Troubleshooting
 
