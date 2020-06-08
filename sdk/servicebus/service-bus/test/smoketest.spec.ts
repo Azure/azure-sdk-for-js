@@ -35,7 +35,7 @@ describe("Sample scenarios for track 2", () => {
     });
 
     beforeEach(async () => {
-      sender = serviceBusClient.test.addToCleanup(await serviceBusClient.createSender(queueName));
+      sender = serviceBusClient.test.addToCleanup(serviceBusClient.createSender(queueName));
     });
 
     afterEach(async () => {
@@ -192,7 +192,7 @@ describe("Sample scenarios for track 2", () => {
     });
 
     beforeEach(async () => {
-      sender = serviceBusClient.test.addToCleanup(await serviceBusClient.createSender(topic));
+      sender = serviceBusClient.test.addToCleanup(serviceBusClient.createSender(topic));
     });
 
     afterEach(async () => {
@@ -332,7 +332,7 @@ describe("Sample scenarios for track 2", () => {
         TestClientType.UnpartitionedQueueWithSessions
       );
       queue = entities.queue!;
-      sender = serviceBusClient.test.addToCleanup(await serviceBusClient.createSender(queue));
+      sender = serviceBusClient.test.addToCleanup(serviceBusClient.createSender(queue));
     });
 
     it("Queue, next unlocked session, sessions", async () => {
@@ -472,7 +472,7 @@ async function waitAndValidate(
     await delay(500);
   }
 
-  const remainingMessages = (await receiver.browseMessages()).map((m) => m.body);
+  const remainingMessages = (await receiver.peekMessages()).map((m) => m.body);
   assert.isEmpty(errors);
   assert.isEmpty(remainingMessages);
   assert.deepEqual([expectedMessage], receivedBodies);

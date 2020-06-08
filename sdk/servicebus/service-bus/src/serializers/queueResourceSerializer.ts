@@ -101,8 +101,7 @@ export function buildQueue(rawQueue: any): QueueDescription {
 
     authorizationRules: getAuthorizationRulesOrUndefined(rawQueue[Constants.AUTHORIZATION_RULES]),
 
-    status: rawQueue[Constants.STATUS],
-    messageCount: getIntegerOrUndefined(rawQueue[Constants.MESSAGE_COUNT])
+    status: rawQueue[Constants.STATUS]
   };
 }
 
@@ -245,8 +244,6 @@ export interface QueueDescription {
    * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
   forwardDeadLetteredMessagesTo?: string;
-  // TODO: will be removed once the RuntimeInfo APIs are added
-  messageCount?: number;
 }
 
 /**
@@ -370,8 +367,6 @@ export interface InternalQueueOptions {
 }
 
 /**
- * @internal
- * @ignore
  * Represents runtime info attributes of a queue entity
  */
 export interface QueueRuntimeInfo {

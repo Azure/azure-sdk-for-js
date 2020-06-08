@@ -434,6 +434,7 @@ export class IndexDocumentsBatch<T> {
     constructor(actions?: IndexDocumentsAction<T>[]);
     readonly actions: IndexDocumentsAction<T>[];
     delete(keyName: keyof T, keyValues: string[]): void;
+    delete(documents: T[]): void;
     merge(documents: T[]): void;
     mergeOrUpload(documents: T[]): void;
     upload(documents: T[]): void;
@@ -1004,6 +1005,7 @@ export class SearchClient<T> {
     constructor(endpoint: string, indexName: string, credential: KeyCredential, options?: SearchClientOptions);
     readonly apiVersion: string;
     autocomplete<Fields extends keyof T>(searchText: string, suggesterName: string, options: AutocompleteOptions<Fields>): Promise<AutocompleteResult>;
+    deleteDocuments(documents: T[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
     deleteDocuments(keyName: keyof T, keyValues: string[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
     readonly endpoint: string;
     getDocument<Fields extends keyof T>(key: string, options?: GetDocumentOptions<Fields>): Promise<T>;

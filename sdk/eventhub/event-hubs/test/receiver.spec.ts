@@ -261,13 +261,13 @@ describe("EventHub Receiver", function(): void {
   describe("in streaming mode", function(): void {
     it("should receive messages correctly", async function(): Promise<void> {
       const partitionId = partitionIds[0];
-      const time = Date.now();
+      const pInfo = await client.getPartitionProperties(partitionId);
       
       // send a message that can be received
       await producerClient.sendBatch([{ body: "receive behaves correctly" }], { partitionId });
 
       receiver = client.createConsumer(EventHubConsumerClient.defaultConsumerGroupName, partitionId, {
-        enqueuedOn: time
+        sequenceNumber: pInfo.lastEnqueuedSequenceNumber
       });
 
       const received: ReceivedEventData[] = await new Promise((resolve, reject) => {

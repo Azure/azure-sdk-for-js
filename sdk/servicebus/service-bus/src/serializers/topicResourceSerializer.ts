@@ -270,8 +270,6 @@ export interface InternalTopicOptions {
 }
 
 /**
- * @internal
- * @ignore
  * Represents runtime info attributes of a topic entity
  */
 export interface TopicRuntimeInfo {

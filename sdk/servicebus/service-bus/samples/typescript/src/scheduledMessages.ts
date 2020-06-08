@@ -50,7 +50,7 @@ export async function main() {
 // Scheduling messages to be sent after 10 seconds from now
 async function sendScheduledMessages(sbClient: ServiceBusClient) {
   // createSender() handles sending to a queue or a topic
-  const sender = await sbClient.createSender(queueName);
+  const sender = sbClient.createSender(queueName);
 
   const messages: ServiceBusMessage[] = listOfScientists.map((scientist) => ({
     body: `${scientist.firstName} ${scientist.lastName}`,

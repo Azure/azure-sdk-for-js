@@ -52,7 +52,7 @@ describe("Streaming with sessions", () => {
     const entityNames = await createReceiverForTests(testClientType, receiveMode);
 
     sender = serviceBusClient.test.addToCleanup(
-      await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
 
     deadLetterReceiver = serviceBusClient.test.createDeadLetterReceiver(entityNames);

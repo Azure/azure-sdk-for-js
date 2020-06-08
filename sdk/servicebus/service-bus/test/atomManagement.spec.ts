@@ -1,31 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { QueueDescription } from "../src/serializers/queueResourceSerializer";
-import { TopicDescription } from "../src/serializers/topicResourceSerializer";
-import { SubscriptionDescription } from "../src/serializers/subscriptionResourceSerializer";
-import { RuleDescription } from "../src/serializers/ruleResourceSerializer";
-import { EntityStatus } from "../src/util/utils";
-import { ServiceBusManagementClient } from "../src/serviceBusAtomManagementClient";
-
+import { isNode, parseConnectionString } from "@azure/core-amqp";
+import { DefaultAzureCredential } from "@azure/identity";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import chaiExclude from "chai-exclude";
+import * as dotenv from "dotenv";
+import { QueueDescription } from "../src/serializers/queueResourceSerializer";
+import { RuleDescription } from "../src/serializers/ruleResourceSerializer";
+import { SubscriptionDescription } from "../src/serializers/subscriptionResourceSerializer";
+import { TopicDescription } from "../src/serializers/topicResourceSerializer";
+import { ServiceBusManagementClient } from "../src/serviceBusAtomManagementClient";
+import { EntityStatus } from "../src/util/utils";
+import { EnvVarNames, getEnvVars } from "./utils/envVarUtils";
+import { recreateQueue, recreateSubscription, recreateTopic } from "./utils/managementUtils";
+import { EntityNames } from "./utils/testUtils";
+
 chai.use(chaiAsPromised);
 chai.use(chaiExclude);
 const should = chai.should();
 const assert = chai.assert;
 
-import * as dotenv from "dotenv";
 dotenv.config();
 
-import { EnvVarNames, getEnvVars } from "./utils/envVarUtils";
 const env = getEnvVars();
-
-import { EntityNames } from "./utils/testUtils";
-
-import { parseConnectionString } from "@azure/core-amqp";
-import { recreateQueue, recreateSubscription, recreateTopic } from "./utils/managementUtils";
 
 const serviceBusAtomManagementClient: ServiceBusManagementClient = new ServiceBusManagementClient(
   env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]
@@ -54,6 +53,75 @@ const managementRule2 = EntityNames.MANAGEMENT_RULE_2;
 
 const newManagementEntity1 = EntityNames.MANAGEMENT_NEW_ENTITY_1;
 const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
+
+describe("Atom management - Namespace", function(): void {
+  it("Get namespace properties", async () => {
+    const namespaceProperties = await serviceBusAtomManagementClient.getNamespaceProperties();
+    assert.deepEqualExcluding(
+      namespaceProperties,
+      { messagingSku: "Standard", namespaceType: "Messaging", messagingUnits: undefined } as any,
+      ["_response", "createdOn", "updatedOn", "name"]
+    );
+  });
+});
+
+describe("Atom management - Authentication", function(): void {
+  if (isNode) {
+    it("Token credential - DefaultAzureCredential from `@azure/identity`", async () => {
+      const endpoint = (parseConnectionString(env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]) as any)
+        .Endpoint;
+      const host = endpoint.match(".*://([^/]*)")[1];
+
+      const serviceBusManagementClient = new ServiceBusManagementClient(
+        host,
+        new DefaultAzureCredential()
+      );
+
+      should.equal(
+        (await serviceBusManagementClient.createQueue(managementQueue1)).name,
+        managementQueue1,
+        "Unexpected queue name in the createQueue response"
+      );
+      const createQueue2Response = await serviceBusManagementClient.createQueue({
+        name: managementQueue2,
+        forwardTo: managementQueue1
+      });
+      should.equal(
+        createQueue2Response.name,
+        managementQueue2,
+        "Unexpected queue name in the createQueue response"
+      );
+      should.equal(
+        createQueue2Response.forwardTo,
+        endpoint + managementQueue1,
+        "Unexpected name in the `forwardTo` field of createQueue response"
+      );
+      const getQueueResponse = await serviceBusManagementClient.getQueue(managementQueue1);
+      should.equal(
+        getQueueResponse.name,
+        managementQueue1,
+        "Unexpected queue name in the getQueue response"
+      );
+      should.equal(
+        (await serviceBusManagementClient.updateQueue(getQueueResponse)).name,
+        managementQueue1,
+        "Unexpected queue name in the updateQueue response"
+      );
+      should.equal(
+        (await serviceBusManagementClient.getQueueRuntimeInfo(managementQueue1)).name,
+        managementQueue1,
+        "Unexpected queue name in the getQueueRuntimeInfo response"
+      );
+      should.equal(
+        (await serviceBusManagementClient.getNamespaceProperties()).name,
+        host.match("(.*).servicebus.windows.net")[1],
+        "Unexpected namespace name in the getNamespaceProperties response"
+      );
+      await serviceBusManagementClient.deleteQueue(managementQueue1);
+      await serviceBusManagementClient.deleteQueue(managementQueue2);
+    });
+  }
+});
 
 [EntityType.QUEUE, EntityType.TOPIC, EntityType.SUBSCRIPTION, EntityType.RULE].forEach(
   (entityType) => {
@@ -249,6 +317,323 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
         response[testCase.entityType === EntityType.SUBSCRIPTION ? "subscriptionName" : "name"],
         testCase.alwaysBeExistingEntity,
         "Entity name mismatch"
+      );
+    });
+  });
+});
+
+[
+  {
+    entityType: EntityType.QUEUE,
+    alwaysBeExistingEntity: managementQueue1,
+    output: {
+      sizeInBytes: 0,
+      messageCount: 0,
+      messageCountDetails: {
+        activeMessageCount: 0,
+        deadLetterMessageCount: 0,
+        scheduledMessageCount: 0,
+        transferMessageCount: 0,
+        transferDeadLetterMessageCount: 0
+      },
+      name: managementQueue1
+    }
+  },
+  {
+    entityType: EntityType.TOPIC,
+    alwaysBeExistingEntity: managementTopic1,
+    output: {
+      sizeInBytes: 0,
+      subscriptionCount: 0,
+      name: managementTopic1
+    }
+  },
+  {
+    entityType: EntityType.SUBSCRIPTION,
+    alwaysBeExistingEntity: managementSubscription1,
+    output: {
+      messageCount: 0,
+      messageCountDetails: {
+        activeMessageCount: 0,
+        deadLetterMessageCount: 0,
+        scheduledMessageCount: 0,
+        transferMessageCount: 0,
+        transferDeadLetterMessageCount: 0
+      },
+      topicName: managementTopic1,
+      subscriptionName: managementSubscription1
+    }
+  }
+].forEach((testCase) => {
+  describe(`Atom management - Get runtime info on "${testCase.entityType}" entity`, function(): void {
+    beforeEach(async () => {
+      switch (testCase.entityType) {
+        case EntityType.QUEUE:
+          await recreateQueue(managementQueue1);
+          break;
+
+        case EntityType.TOPIC:
+          await recreateTopic(managementTopic1);
+          break;
+
+        case EntityType.SUBSCRIPTION:
+          await recreateTopic(managementTopic1);
+          await recreateSubscription(managementTopic1, managementSubscription1);
+          break;
+
+        default:
+          throw new Error("TestError: Unrecognized EntityType");
+      }
+    });
+
+    afterEach(async () => {
+      switch (testCase.entityType) {
+        case EntityType.QUEUE:
+          await deleteEntity(EntityType.QUEUE, managementQueue1);
+          break;
+
+        case EntityType.TOPIC:
+        case EntityType.SUBSCRIPTION:
+          await deleteEntity(EntityType.TOPIC, managementTopic1);
+          break;
+
+        default:
+          throw new Error("TestError: Unrecognized EntityType");
+      }
+    });
+
+    it(`Gets runtime info for an existing ${testCase.entityType} entity(single) successfully`, async () => {
+      const response = await getEntityRuntimeInfo(
+        testCase.entityType,
+        testCase.alwaysBeExistingEntity,
+        managementTopic1
+      );
+      should.equal(
+        response[testCase.entityType === EntityType.SUBSCRIPTION ? "subscriptionName" : "name"],
+        testCase.alwaysBeExistingEntity,
+        "Entity name mismatch"
+      );
+      assert.deepEqualExcluding(response, testCase.output, [
+        "_response",
+        "createdOn",
+        "updatedOn",
+        "accessedOn"
+      ]);
+    });
+  });
+});
+
+[
+  {
+    entityType: EntityType.QUEUE,
+    1: {
+      alwaysBeExistingEntity: managementQueue1,
+      output: {
+        sizeInBytes: 0,
+        messageCount: 0,
+        messageCountDetails: {
+          activeMessageCount: 0,
+          deadLetterMessageCount: 0,
+          scheduledMessageCount: 0,
+          transferMessageCount: 0,
+          transferDeadLetterMessageCount: 0
+        },
+        name: managementQueue1
+      }
+    },
+    2: {
+      alwaysBeExistingEntity: managementQueue2,
+      output: {
+        sizeInBytes: 0,
+        messageCount: 0,
+        messageCountDetails: {
+          activeMessageCount: 0,
+          deadLetterMessageCount: 0,
+          scheduledMessageCount: 0,
+          transferMessageCount: 0,
+          transferDeadLetterMessageCount: 0
+        },
+        name: managementQueue2
+      }
+    }
+  },
+  {
+    entityType: EntityType.TOPIC,
+    1: {
+      alwaysBeExistingEntity: managementTopic1,
+      output: {
+        sizeInBytes: 0,
+        subscriptionCount: 0,
+        name: managementTopic1
+      }
+    },
+    2: {
+      alwaysBeExistingEntity: managementTopic2,
+      output: {
+        sizeInBytes: 0,
+        subscriptionCount: 0,
+        name: managementTopic2
+      }
+    }
+  },
+  {
+    entityType: EntityType.SUBSCRIPTION,
+    1: {
+      alwaysBeExistingEntity: managementSubscription1,
+      output: {
+        messageCount: 0,
+        messageCountDetails: {
+          activeMessageCount: 0,
+          deadLetterMessageCount: 0,
+          scheduledMessageCount: 0,
+          transferMessageCount: 0,
+          transferDeadLetterMessageCount: 0
+        },
+        topicName: managementTopic1,
+        subscriptionName: managementSubscription1
+      }
+    },
+    2: {
+      alwaysBeExistingEntity: managementSubscription2,
+      output: {
+        messageCount: 0,
+        messageCountDetails: {
+          activeMessageCount: 0,
+          deadLetterMessageCount: 0,
+          scheduledMessageCount: 0,
+          transferMessageCount: 0,
+          transferDeadLetterMessageCount: 0
+        },
+        topicName: managementTopic1,
+        subscriptionName: managementSubscription2
+      }
+    }
+  }
+].forEach((testCase) => {
+  describe(`Atom management - Get runtime info on "${testCase.entityType}" entities`, function(): void {
+    beforeEach(async () => {
+      switch (testCase.entityType) {
+        case EntityType.QUEUE:
+          await recreateQueue(managementQueue1);
+          await recreateQueue(managementQueue2);
+          break;
+
+        case EntityType.TOPIC:
+          await recreateTopic(managementTopic1);
+          await recreateTopic(managementTopic2);
+          break;
+
+        case EntityType.SUBSCRIPTION:
+          await recreateTopic(managementTopic1);
+          await recreateSubscription(managementTopic1, managementSubscription1);
+          await recreateSubscription(managementTopic1, managementSubscription2);
+          break;
+
+        default:
+          throw new Error("TestError: Unrecognized EntityType");
+      }
+    });
+
+    afterEach(async () => {
+      switch (testCase.entityType) {
+        case EntityType.QUEUE:
+          await deleteEntity(EntityType.QUEUE, managementQueue1);
+          await deleteEntity(EntityType.QUEUE, managementQueue2);
+          break;
+
+        case EntityType.TOPIC:
+          await deleteEntity(EntityType.TOPIC, managementTopic1);
+          await deleteEntity(EntityType.TOPIC, managementTopic2);
+          break;
+
+        case EntityType.SUBSCRIPTION:
+          await deleteEntity(EntityType.TOPIC, managementTopic1);
+          break;
+
+        default:
+          throw new Error("TestError: Unrecognized EntityType");
+      }
+    });
+
+    it(`Gets runtime info for existing ${testCase.entityType} entities(multiple) successfully`, async () => {
+      const response = await getEntitiesRuntimeInfo(testCase.entityType, managementTopic1);
+      const name = testCase.entityType === EntityType.SUBSCRIPTION ? "subscriptionName" : "name";
+      const paramsToExclude = ["createdOn", "accessedOn", "updatedOn"];
+      for (const info of response) {
+        if (info[name] == testCase[1].alwaysBeExistingEntity) {
+          assert.deepEqualExcluding(info, testCase[1].output, paramsToExclude);
+        } else if (info[name] == testCase[2].alwaysBeExistingEntity) {
+          assert.deepEqualExcluding(info, testCase[2].output, paramsToExclude);
+        }
+      }
+    });
+  });
+});
+
+[
+  {
+    entityType: EntityType.QUEUE,
+    alwaysBeExistingEntity: managementQueue1
+  },
+  {
+    entityType: EntityType.TOPIC,
+    alwaysBeExistingEntity: managementTopic1
+  },
+  {
+    entityType: EntityType.SUBSCRIPTION,
+    alwaysBeExistingEntity: managementSubscription1
+  }
+].forEach((testCase) => {
+  describe(`Atom management - "${testCase.entityType}" exists`, function(): void {
+    beforeEach(async () => {
+      switch (testCase.entityType) {
+        case EntityType.QUEUE:
+          await recreateQueue(managementQueue1);
+          break;
+
+        case EntityType.TOPIC:
+          await recreateTopic(managementTopic1);
+          break;
+
+        case EntityType.SUBSCRIPTION:
+          await recreateTopic(managementTopic1);
+          await recreateSubscription(managementTopic1, managementSubscription1);
+          break;
+
+        default:
+          throw new Error("TestError: Unrecognized EntityType");
+      }
+    });
+
+    afterEach(async () => {
+      switch (testCase.entityType) {
+        case EntityType.QUEUE:
+          await deleteEntity(EntityType.QUEUE, managementQueue1);
+          break;
+
+        case EntityType.TOPIC:
+        case EntityType.SUBSCRIPTION:
+          await deleteEntity(EntityType.TOPIC, managementTopic1);
+          break;
+
+        default:
+          throw new Error("TestError: Unrecognized EntityType");
+      }
+    });
+
+    it(`Returns true for an existing ${testCase.entityType} entity`, async () => {
+      should.equal(
+        await entityExists(testCase.entityType, testCase.alwaysBeExistingEntity, managementTopic1),
+        true,
+        "Returned `false` for an existing entity"
+      );
+    });
+
+    it(`Returns false for a non-existing ${testCase.entityType} entity`, async () => {
+      should.equal(
+        await entityExists(testCase.entityType, "non-existing-entity-name", managementTopic1),
+        false,
+        "Returned `true` for a non-existing entity"
       );
     });
   });
@@ -740,7 +1125,6 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
       userMetadata: undefined,
       lockDuration: "PT1M",
       maxDeliveryCount: 10,
-      messageCount: 0,
       requiresSession: false,
       status: "Active",
       subscriptionName: managementSubscription1,
@@ -772,9 +1156,6 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
       requiresSession: true,
 
       forwardDeadLetteredMessagesTo: undefined,
-
-      messageCount: 0,
-
       forwardTo: undefined,
       userMetadata: "test metadata",
       status: "ReceiveDisabled",
@@ -923,7 +1304,6 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
       lockDuration: "PT1M",
       maxDeliveryCount: 10,
       maxSizeInMegabytes: 1024,
-      messageCount: 0,
       name: managementQueue1,
       requiresDuplicateDetection: false,
       requiresSession: false,
@@ -1005,7 +1385,6 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
 
       enablePartitioning: true,
       maxSizeInMegabytes: 16384,
-      messageCount: 0,
       forwardDeadLetteredMessagesTo: undefined,
       forwardTo: undefined,
       userMetadata: "test metadata",
@@ -1260,7 +1639,6 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
       enableBatchedOperations: false,
       requiresDuplicateDetection: true,
       requiresSession: true,
-      messageCount: undefined,
       authorizationRules: [
         {
           claimType: "SharedAccessKey",
@@ -1556,17 +1934,11 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
       deadLetteringOnFilterEvaluationExceptions: true,
       deadLetteringOnMessageExpiration: false,
       enableBatchedOperations: true,
-
       forwardDeadLetteredMessagesTo: undefined,
       forwardTo: undefined,
-
-      messageCount: 0,
-
       requiresSession: false,
-
       userMetadata: "test metadata",
       status: "ReceiveDisabled",
-
       subscriptionName: managementSubscription1,
       topicName: managementTopic1
     }
@@ -1933,6 +2305,85 @@ async function getEntity(
         entityPath
       );
       return ruleResponse;
+  }
+  throw new Error("TestError: Unrecognized EntityType");
+}
+
+async function getEntityRuntimeInfo(
+  testEntityType: EntityType,
+  entityPath: string,
+  topicPath?: string
+): Promise<any> {
+  switch (testEntityType) {
+    case EntityType.QUEUE:
+      const queueResponse = await serviceBusAtomManagementClient.getQueueRuntimeInfo(entityPath);
+      return queueResponse;
+    case EntityType.TOPIC:
+      const topicResponse = await serviceBusAtomManagementClient.getTopicRuntimeInfo(entityPath);
+      return topicResponse;
+    case EntityType.SUBSCRIPTION:
+      if (!topicPath) {
+        throw new Error(
+          "TestError: Topic path must be passed when invoking tests on subscriptions"
+        );
+      }
+      const subscriptionResponse = await serviceBusAtomManagementClient.getSubscriptionRuntimeInfo(
+        topicPath,
+        entityPath
+      );
+      return subscriptionResponse;
+  }
+  throw new Error("TestError: Unrecognized EntityType");
+}
+
+async function getEntitiesRuntimeInfo(
+  testEntityType: EntityType,
+  topicPath?: string
+): Promise<any> {
+  switch (testEntityType) {
+    case EntityType.QUEUE:
+      const queueResponse = await serviceBusAtomManagementClient.getQueuesRuntimeInfo();
+      return queueResponse;
+    case EntityType.TOPIC:
+      const topicResponse = await serviceBusAtomManagementClient.getTopicsRuntimeInfo();
+      return topicResponse;
+    case EntityType.SUBSCRIPTION:
+      if (!topicPath) {
+        throw new Error(
+          "TestError: Topic path must be passed when invoking tests on subscriptions"
+        );
+      }
+      const subscriptionResponse = await serviceBusAtomManagementClient.getSubscriptionsRuntimeInfo(
+        topicPath
+      );
+      return subscriptionResponse;
+  }
+  throw new Error("TestError: Unrecognized EntityType");
+}
+
+async function entityExists(
+  testEntityType: EntityType,
+  entityPath: string,
+  topicPath?: string
+): Promise<any> {
+  switch (testEntityType) {
+    case EntityType.QUEUE:
+      const queueResponse = await serviceBusAtomManagementClient.queueExists(entityPath);
+      return queueResponse;
+    case EntityType.TOPIC:
+      const topicResponse = await serviceBusAtomManagementClient.topicExists(entityPath);
+      return topicResponse;
+    case EntityType.SUBSCRIPTION:
+      if (!topicPath) {
+        throw new Error(
+          "TestError: Topic path must be passed when invoking tests on subscriptions"
+        );
+      }
+      const subscriptionResponse = await serviceBusAtomManagementClient.subscriptionExists(
+        topicPath,
+        entityPath
+      );
+      return subscriptionResponse;
   }
   throw new Error("TestError: Unrecognized EntityType");
 }

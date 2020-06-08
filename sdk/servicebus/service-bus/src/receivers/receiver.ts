@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import {
-  BrowseMessagesOptions,
+  PeekMessagesOptions,
   GetMessageIteratorOptions,
   MessageHandlerOptions,
   MessageHandlers,
@@ -92,16 +92,16 @@ export interface Receiver<ReceivedMessageT> {
   isReceivingMessages(): boolean;
 
   /**
-   * Browse the next batch of active messages (including deferred but not deadlettered messages) on the
+   * Peek the next batch of active messages (including deferred but not deadlettered messages) on the
    * queue or subscription without modifying them.
-   * - The first call to `browseMessages()` fetches the first active message. Each subsequent call fetches the
+   * - The first call to `peekMessages()` fetches the first active message. Each subsequent call fetches the
    * subsequent message.
-   * - Unlike a "received" message, "browsed" message is a read-only version of the message.
+   * - Unlike a "received" message, "peeked" message is a read-only version of the message.
    * It cannot be `Completed/Abandoned/Deferred/Deadlettered`.
-   * @param options Options that allow to specify the maximum number of messages to browse,
-   * the sequenceNumber to start browsing from or an abortSignal to abort the operation.
+   * @param options Options that allow to specify the maximum number of messages to peek,
+   * the sequenceNumber to start peeking from or an abortSignal to abort the operation.
    */
-  browseMessages(options?: BrowseMessagesOptions): Promise<ReceivedMessage[]>;
+  peekMessages(options?: PeekMessagesOptions): Promise<ReceivedMessage[]>;
   /**
    * Path of the entity for which the receiver has been created.
    */
@@ -410,11 +410,11 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
 
   // ManagementClient methods # Begin
 
-  async browseMessages(options: BrowseMessagesOptions = {}): Promise<ReceivedMessage[]> {
+  async peekMessages(options: PeekMessagesOptions = {}): Promise<ReceivedMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
     const managementRequestOptions = {
       ...options,
-      requestName: "browseMessages",
+      requestName: "peekMessages",
       timeoutInMs: this._retryOptions?.timeoutInMs
     };
     const peekOperationPromise = async () => {

@@ -171,15 +171,22 @@ export class EventHubSender extends LinkEntity {
    * @returns Promise<void>
    */
   async close(): Promise<void> {
-    if (this._sender) {
-      logger.info(
-        "[%s] Closing the Sender for the entity '%s'.",
-        this._context.connectionId,
-        this._context.config.entityPath
-      );
-      const senderLink = this._sender;
-      this._deleteFromCache();
-      await this._closeLink(senderLink);
+    try {
+      if (this._sender) {
+        logger.info(
+          "[%s] Closing the Sender for the entity '%s'.",
+          this._context.connectionId,
+          this._context.config.entityPath
+        );
+        const senderLink = this._sender;
+        this._deleteFromCache();
+        await this._closeLink(senderLink);
+      }
+    } catch (err) {
+      const msg = `[${this._context.connectionId}] An error occurred while closing sender ${this.name}: ${err}`;
+      logger.warning(msg);
+      logErrorStackTrace(err);
+      throw err;
     }
   }
 
@@ -561,6 +568,9 @@ export class EventHubSender extends LinkEntity {
     try {
       if (!this.isOpen() && !this.isConnecting) {
         this.isConnecting = true;
+
+        // Wait for the connectionContext to be ready to open the link.
+        await this._context.readyToOpenLink();
         await this._negotiateClaim();
 
         logger.verbose(

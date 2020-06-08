@@ -13,5 +13,5 @@ export * from "./deployments";
 export * from "./providers";
 export * from "./resources";
 export * from "./resourceGroups";
-export * from "./tags";
+export * from "./tagsOperations";
 export * from "./deploymentOperations";

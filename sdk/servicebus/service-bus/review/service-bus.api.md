@@ -33,12 +33,6 @@ export type AuthorizationRule = {
 };
 
 // @public
-export interface BrowseMessagesOptions extends OperationOptions {
-    fromSequenceNumber?: Long;
-    maxMessageCount?: number;
-}
-
-// @public
 export interface CorrelationRuleFilter {
     contentType?: string;
     correlationId?: string;
@@ -61,11 +55,6 @@ export type CreateQueueResponse = QueueResponse;
 
 // @public
 export type CreateRuleResponse = RuleResponse;
-
-// @public
-export interface CreateSenderOptions {
-    abortSignal?: AbortSignalLike;
-}
 
 // @public
 export interface CreateSessionReceiverOptions extends SessionReceiverOptions, OperationOptions {
@@ -115,10 +104,23 @@ export interface GetMessageIteratorOptions extends OperationOptions, WaitTimeOpt
 }
 
 // @public
+export type GetNamespaceResponse = NamespaceResponse;
+
+// @public
 export type GetQueueResponse = QueueResponse;
 
 // @public
+export interface GetQueueRuntimeInfoResponse extends QueueRuntimeInfo {
+    _response: HttpOperationResponse;
+}
+
+// @public
 export interface GetQueuesResponse extends Array<QueueDescription> {
+    _response: HttpOperationResponse;
+}
+
+// @public
+export interface GetQueuesRuntimeInfoResponse extends Array<QueueRuntimeInfo> {
     _response: HttpOperationResponse;
 }
 
@@ -134,7 +136,17 @@ export interface GetRulesResponse extends Array<RuleDescription> {
 export type GetSubscriptionResponse = SubscriptionResponse;
 
 // @public
+export interface GetSubscriptionRuntimeInfoResponse extends SubscriptionRuntimeInfo {
+    _response: HttpOperationResponse;
+}
+
+// @public
 export interface GetSubscriptionsResponse extends Array<SubscriptionDescription> {
+    _response: HttpOperationResponse;
+}
+
+// @public
+export interface GetSubscriptionsRuntimeInfoResponse extends Array<SubscriptionRuntimeInfo> {
     _response: HttpOperationResponse;
 }
 
@@ -142,7 +154,17 @@ export interface GetSubscriptionsResponse extends Array<SubscriptionDescription>
 export type GetTopicResponse = TopicResponse;
 
 // @public
+export interface GetTopicRuntimeInfoResponse extends TopicRuntimeInfo {
+    _response: HttpOperationResponse;
+}
+
+// @public
 export interface GetTopicsResponse extends Array<TopicDescription> {
+    _response: HttpOperationResponse;
+}
+
+// @public
+export interface GetTopicsRuntimeInfoResponse extends Array<TopicRuntimeInfo> {
     _response: HttpOperationResponse;
 }
 
@@ -177,9 +199,30 @@ export interface MessageHandlers<ReceivedMessageT> {
 export { MessagingError }
 
 // @public
+export interface NamespaceProperties {
+    createdOn: string;
+    messagingSku: string;
+    messagingUnits: number | undefined;
+    name: string;
+    namespaceType: string;
+    updatedOn: string;
+}
+
+// @public
+export interface NamespaceResponse extends NamespaceProperties {
+    _response: HttpOperationResponse;
+}
+
+// @public
 export interface OperationOptions {
     abortSignal?: AbortSignalLike;
     tracingOptions?: OperationTracingOptions;
+}
+
+// @public
+export interface PeekMessagesOptions extends OperationOptions {
+    fromSequenceNumber?: Long;
+    maxMessageCount?: number;
 }
 
 // @public
@@ -196,8 +239,6 @@ export interface QueueDescription {
     lockDuration?: string;
     maxDeliveryCount?: number;
     maxSizeInMegabytes?: number;
-    // (undocumented)
-    messageCount?: number;
     name: string;
     requiresDuplicateDetection?: boolean;
     requiresSession?: boolean;
@@ -210,9 +251,7 @@ export interface QueueResponse extends QueueDescription {
     _response: HttpOperationResponse;
 }
 
-// Warning: (ae-internal-missing-underscore) The name "QueueRuntimeInfo" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal
+// @public
 export interface QueueRuntimeInfo {
     accessedOn?: string;
     createdOn?: string;
@@ -257,12 +296,12 @@ export interface ReceivedMessageWithLock extends ReceivedMessage {
 
 // @public
 export interface Receiver<ReceivedMessageT> {
-    browseMessages(options?: BrowseMessagesOptions): Promise<ReceivedMessage[]>;
     close(): Promise<void>;
     entityPath: string;
     getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<ReceivedMessageT>;
     isClosed: boolean;
     isReceivingMessages(): boolean;
+    peekMessages(options?: PeekMessagesOptions): Promise<ReceivedMessage[]>;
     receiveBatch(maxMessages: number, options?: ReceiveBatchOptions): Promise<ReceivedMessageT[]>;
     receiveDeferredMessage(sequenceNumber: Long, options?: OperationOptions): Promise<ReceivedMessageT | undefined>;
     receiveDeferredMessages(sequenceNumbers: Long[], options?: OperationOptions): Promise<ReceivedMessageT[]>;
@@ -292,11 +331,17 @@ export interface Sender {
     createBatch(options?: CreateBatchOptions): Promise<ServiceBusMessageBatch>;
     entityPath: string;
     isClosed: boolean;
+    open(options?: SenderOpenOptions): Promise<void>;
     scheduleMessage(scheduledEnqueueTimeUtc: Date, message: ServiceBusMessage, options?: OperationOptions): Promise<Long>;
     scheduleMessages(scheduledEnqueueTimeUtc: Date, messages: ServiceBusMessage[], options?: OperationOptions): Promise<Long[]>;
     send(message: ServiceBusMessage, options?: OperationOptions): Promise<void>;
     send(messages: ServiceBusMessage[], options?: OperationOptions): Promise<void>;
     send(messageBatch: ServiceBusMessageBatch, options?: OperationOptions): Promise<void>;
+}
+
+// @public
+export interface SenderOpenOptions {
+    abortSignal?: AbortSignalLike;
 }
 
 // @public
@@ -312,7 +357,7 @@ export class ServiceBusClient {
     createReceiver(queueName: string, receiveMode: "receiveAndDelete"): Receiver<ReceivedMessage>;
     createReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock"): Receiver<ReceivedMessageWithLock>;
     createReceiver(topicName: string, subscriptionName: string, receiveMode: "receiveAndDelete"): Receiver<ReceivedMessage>;
-    createSender(queueOrTopicName: string, options?: CreateSenderOptions): Promise<Sender>;
+    createSender(queueOrTopicName: string): Sender;
     createSessionReceiver(queueName: string, receiveMode: "peekLock", options?: CreateSessionReceiverOptions): Promise<SessionReceiver<ReceivedMessageWithLock>>;
     createSessionReceiver(queueName: string, receiveMode: "receiveAndDelete", options?: CreateSessionReceiverOptions): Promise<SessionReceiver<ReceivedMessage>>;
     createSessionReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock", options?: CreateSessionReceiverOptions): Promise<SessionReceiver<ReceivedMessageWithLock>>;
@@ -329,6 +374,7 @@ export interface ServiceBusClientOptions {
 // @public
 export class ServiceBusManagementClient extends ServiceClient {
     constructor(connectionString: string, options?: ServiceBusManagementClientOptions);
+    constructor(fullyQualifiedNamespace: string, credential: TokenCredential, options?: ServiceBusManagementClientOptions);
     createQueue(queueName: string): Promise<CreateQueueResponse>;
     createQueue(queue: QueueDescription): Promise<CreateQueueResponse>;
     createRule(topicName: string, subscriptionName: string, rule: RuleDescription): Promise<CreateRuleResponse>;
@@ -340,14 +386,24 @@ export class ServiceBusManagementClient extends ServiceClient {
     deleteRule(topicName: string, subscriptionName: string, ruleName: string): Promise<DeleteRuleResponse>;
     deleteSubscription(topicName: string, subscriptionName: string): Promise<DeleteSubscriptionResponse>;
     deleteTopic(topicName: string): Promise<DeleteTopicResponse>;
+    getNamespaceProperties(): Promise<GetNamespaceResponse>;
     getQueue(queueName: string): Promise<GetQueueResponse>;
+    getQueueRuntimeInfo(queueName: string): Promise<GetQueueRuntimeInfoResponse>;
     getQueues(listRequestOptions?: ListRequestOptions): Promise<GetQueuesResponse>;
+    getQueuesRuntimeInfo(listRequestOptions?: ListRequestOptions): Promise<GetQueuesRuntimeInfoResponse>;
     getRule(topicName: string, subscriptioName: string, ruleName: string): Promise<GetRuleResponse>;
     getRules(topicName: string, subscriptionName: string, listRequestOptions?: ListRequestOptions): Promise<GetRulesResponse>;
     getSubscription(topicName: string, subscriptionName: string): Promise<GetSubscriptionResponse>;
+    getSubscriptionRuntimeInfo(topicName: string, subscriptionName: string): Promise<GetSubscriptionRuntimeInfoResponse>;
     getSubscriptions(topicName: string, listRequestOptions?: ListRequestOptions): Promise<GetSubscriptionsResponse>;
+    getSubscriptionsRuntimeInfo(topicName: string, listRequestOptions?: ListRequestOptions): Promise<GetSubscriptionsRuntimeInfoResponse>;
     getTopic(topicName: string): Promise<GetTopicResponse>;
+    getTopicRuntimeInfo(topicName: string): Promise<GetTopicRuntimeInfoResponse>;
     getTopics(listRequestOptions?: ListRequestOptions): Promise<GetTopicsResponse>;
+    getTopicsRuntimeInfo(listRequestOptions?: ListRequestOptions): Promise<GetTopicsRuntimeInfoResponse>;
+    queueExists(queueName: string): Promise<boolean>;
+    subscriptionExists(topicName: string, subscriptionName: string): Promise<boolean>;
+    topicExists(topicName: string): Promise<boolean>;
     updateQueue(queue: QueueDescription): Promise<UpdateQueueResponse>;
     updateRule(topicName: string, subscriptionName: string, rule: RuleDescription): Promise<UpdateRuleResponse>;
     updateSubscription(subscription: SubscriptionDescription): Promise<UpdateSubscriptionResponse>;
@@ -443,8 +499,6 @@ export interface SubscriptionDescription {
     forwardTo?: string;
     lockDuration?: string;
     maxDeliveryCount?: number;
-    // (undocumented)
-    messageCount?: number;
     requiresSession?: boolean;
     status?: EntityStatus;
     subscriptionName: string;
@@ -457,9 +511,7 @@ export interface SubscriptionResponse extends SubscriptionDescription {
     _response: HttpOperationResponse;
 }
 
-// Warning: (ae-internal-missing-underscore) The name "SubscriptionRuntimeInfo" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal
+// @public
 export interface SubscriptionRuntimeInfo {
     accessedOn?: string;
     createdOn: string;
@@ -495,9 +547,7 @@ export interface TopicResponse extends TopicDescription {
     _response: HttpOperationResponse;
 }
 
-// Warning: (ae-internal-missing-underscore) The name "TopicRuntimeInfo" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal
+// @public
 export interface TopicRuntimeInfo {
     accessedOn?: string;
     createdOn?: string;
