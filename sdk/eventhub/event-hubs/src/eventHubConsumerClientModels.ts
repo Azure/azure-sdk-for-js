@@ -1,8 +1,11 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { CloseReason } from "./models/public";
 import { ReceivedEventData } from "./eventData";
 import { LastEnqueuedEventProperties } from "./eventHubReceiver";
 import { EventPosition } from "./eventPosition";
-import { TracingOptions } from "./util/operationOptions";
+import { OperationTracingOptions } from "@azure/core-tracing";
 import { MessagingError } from "@azure/core-amqp";
 
 /**
@@ -114,6 +117,12 @@ export interface SubscriptionEventHandlers {
    * The `updateCheckpoint()` method on the context can be used to update checkpoints in the `CheckpointStore`
    * (if one was provided to the client). Use this in frequent intervals to mark events that have been processed
    * so that the client can restart from such checkpoints in the event of a restart or error recovery.
+   * 
+   * Note: It is possible for received events to be an empty array.
+   * This can happen if there are no new events to receive
+   * in the `maxWaitTimeInSeconds`, which is defaulted to 60 seconds.
+   * The `maxWaitTimeInSeconds` can be changed by setting
+   * it in the `options` passed to `subscribe()`.
    */
   processEvents: ProcessEventsHandler;
   /**
@@ -157,7 +166,7 @@ export interface SubscriptionEventHandlers {
  * Options to configure the `subscribe` method on the `EventHubConsumerClient`.
  * For example, `{ maxBatchSize: 20, maxWaitTimeInSeconds: 120, startPosition: { sequenceNumber: 123 } }
  */
-export interface SubscribeOptions extends TracingOptions {
+export interface SubscribeOptions {
   /**
    * The number of events to request per batch
    */
@@ -188,6 +197,10 @@ export interface SubscribeOptions extends TracingOptions {
    * The owner level to use as this subscription subscribes to partitions.
    */
   ownerLevel?: number;
+  /**
+   * Options for configuring tracing.
+   */
+  tracingOptions?: OperationTracingOptions;
 }
 
 /**

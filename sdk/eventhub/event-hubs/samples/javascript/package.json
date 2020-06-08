@@ -30,7 +30,7 @@
     "@types/dotenv": "^8.2.0",
     "@types/ws": "^6.0.4",
     "dotenv": "^8.2.0",
-    "https-proxy-agent": "^3.0.1",
+    "https-proxy-agent": "^5.0.0",
     "rhea-promise": "^1.0.0",
     "tslib": "^1.9.3",
     "ws": "^7.2.0"

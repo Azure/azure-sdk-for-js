@@ -118,6 +118,15 @@ export class Containers {
       delete body.throughput;
     }
 
+    if (typeof body.partitionKey === "string") {
+      if (!body.partitionKey.startsWith("/")) {
+        throw new Error("Partition key must start with '/'");
+      }
+      body.partitionKey = {
+        paths: [body.partitionKey]
+      };
+    }
+
     // If they don't specify a partition key, use the default path
     if (!body.partitionKey || !body.partitionKey.paths) {
       body.partitionKey = {
@@ -125,7 +134,7 @@ export class Containers {
       };
     }
 
-    const response = await this.clientContext.create<ContainerRequest>({
+    const response = await this.clientContext.create<ContainerRequest, ContainerDefinition>({
       body,
       path,
       resourceType: ResourceType.container,
@@ -163,8 +172,8 @@ export class Containers {
       throw new Error("body parameter must be an object with an id property");
     }
     /*
-      1. Attempt to read the Database (based on an assumption that most databases will already exist, so its faster)
-      2. If it fails with NotFound error, attempt to create the db. Else, return the read results.
+      1. Attempt to read the Container (based on an assumption that most containers will already exist, so its faster)
+      2. If it fails with NotFound error, attempt to create the container. Else, return the read results.
     */
     try {
       const readResponse = await this.database.container(body.id).read(options);

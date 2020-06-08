@@ -13,33 +13,7 @@ jobs:
     parameters:
       PackageName: "@azure/keyvault-keys"
       ResourceServiceDirectory: keyvault
-      Matrix:
-        Linux_Node10:
-          OSVmImage: "ubuntu-16.04"
-          TestType: "node"
-          PublishCodeCoverage: true
-        Windows_Node10:
-          OSVmImage: "windows-2019"
-          TestType: "node"
-        macOS_Node10:
-          OSVmImage: "macOS-10.15"
-          TestType: "node"
-        Browser_Linux_Node10:
-          OSVmImage: "ubuntu-16.04"
-          TestType: "browser"
-          PublishCodeCoverage: true
-        Browser_Windows_Node10:
-          OSVmImage: "windows-2019"
-          TestType: "browser"
-        Browser_macOS_Node10:
-          OSVmImage: "macOS-10.15"
-          TestType: "browser"
-        Linux_Sample10:
-          OSVmImage: "ubuntu-16.04"
-          NodeVersion: "10.x"
-          TestType: "sample"
       EnvVars:
         AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
         AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
         AZURE_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)
-        KEYVAULT_NAME: $(KEYVAULT_NAME)

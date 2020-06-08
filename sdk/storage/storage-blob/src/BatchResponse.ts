@@ -11,12 +11,12 @@ export interface BatchSubResponse {
   status: number;
 
   /**
-   * The status message of the sub opeartion.
+   * The status message of the sub operation.
    */
   statusMessage: string;
 
   /**
-   * The error code of the sub opeartion, if the sub operation failed.
+   * The error code of the sub operation, if the sub operation failed.
    */
   errorCode?: string;
 

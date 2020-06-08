@@ -1,7 +1,7 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
-import { translate, Constants, ErrorNameConditionMapper } from "@azure/core-amqp";
+import { Constants, ErrorNameConditionMapper, translate } from "@azure/core-amqp";
 
 /**
  * Represents the position of an event in an Event Hub partition, typically used when calling the `subscribe()`

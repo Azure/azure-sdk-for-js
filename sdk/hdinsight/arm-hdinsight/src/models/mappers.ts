@@ -2647,6 +2647,44 @@ export const Operation: msRest.CompositeMapper = {
   }
 };
 
+export const HostInfo: msRest.CompositeMapper = {
+  serializedName: "HostInfo",
+  type: {
+    name: "Composite",
+    className: "HostInfo",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const HostInfoListResult: msRest.CompositeMapper = {
+  serializedName: "HostInfoListResult",
+  type: {
+    name: "Composite",
+    className: "HostInfoListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "HostInfo"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const ClusterListResult: msRest.CompositeMapper = {
   serializedName: "ClusterListResult",
   type: {

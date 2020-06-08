@@ -1,8 +1,17 @@
 # Release History
 
-## 1.1.0-preview.2 (Unreleased)
+## 1.1.0-preview.4 (Unreleased)
+
+## 1.1.0-preview.3 (2020-05-05)
+
+- Add ability to read AZURE_AUTHORITY_HOST from environment ([PR #8226](https://github.com/Azure/azure-sdk-for-js/pull/8226) [PR #8343](https://github.com/Azure/azure-sdk-for-js/pull/8343))
+- Update to OpenTelemetry 0.6 ([PR #7998](https://github.com/Azure/azure-sdk-for-js/pull/7998))
+- Set expires_on at a higher precedence for IMDS ([PR #8591](https://github.com/Azure/azure-sdk-for-js/pull/8591))
+
+## 1.1.0-preview.2 (2020-04-07)
 
 - Make KnownAuthorityHosts constants available
+- Extended DefaultAzureCredential with an experimental credential that uses the login credential from VSCode's Azure Account extension
 
 ## 1.1.0-preview1 (2020-03-10)
 
@@ -41,7 +50,7 @@
 
 ## 1.0.0-preview.4 (2019-10-07)
 
-- Introduced the [`AuthorizationCodeCredential`](https://azure.github.io/azure-sdk-for-js/identity/classes/authorizationcodecredential.html) for performing the [authorization code flow](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow) with AAD ([PR #5356](https://github.com/Azure/azure-sdk-for-js/pull/5356))
+- Introduced the `AuthorizationCodeCredential` for performing the [authorization code flow](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow) with AAD ([PR #5356](https://github.com/Azure/azure-sdk-for-js/pull/5356))
 - Fixed an issue preventing the `ManagedIdentityCredential` from working inside of Azure Function Apps ([PR #5144](https://github.com/Azure/azure-sdk-for-js/pull/5144))
 - Added tracing to `IdentityClient` and credential implementations ([PR #5283](https://github.com/Azure/azure-sdk-for-js/pull/5283))
 - Improved the exception message for `AggregateAuthenticationError` so that errors thrown from `DefaultAzureCredential` are now more actionable ([PR #5409](https://github.com/Azure/azure-sdk-for-js/pull/5409))
@@ -54,22 +63,22 @@
 ## 1.0.0-preview.2 (2019-08-05)
 
 - Introduced the following credential types:
-  - [`DeviceCodeCredential`](https://azure.github.io/azure-sdk-for-js/identity/classes/devicecodecredential.html)
-  - [`InteractiveBrowserCredential`](https://azure.github.io/azure-sdk-for-js/identity/classes/interactivebrowsercredential.html)
-  - [`UsernamePasswordCredential`](https://azure.github.io/azure-sdk-for-js/identity/classes/usernamepasswordcredential.html)
+  - `DeviceCodeCredential`.
+  - `InteractiveBrowserCredential`.
+  - `UsernamePasswordCredential`.
 - This library can now be used in the browser! The following credential types supported in browser builds:
-  - `ClientSecretCredential`
-  - `UsernamePasswordCredential`
-  - `InteractiveBrowserCredential`
+  - `ClientSecretCredential`.
+  - `UsernamePasswordCredential`.
+  - `InteractiveBrowserCredential`.
 
 ## 1.0.0-preview.1 (2019-06-27)
 
-For release notes and more information please visit https://aka.ms/azure-sdk-preview1-js
+For release notes and more information please visit https://aka.ms/azsdk/releases/july2019preview
 
 - Introduced the following credential types:
-  - [`DefaultAzureCredential`](https://azure.github.io/azure-sdk-for-js/identity/classes/defaultazurecredential.html)
-  - [`EnvironmentCredential`](https://azure.github.io/azure-sdk-for-js/identity/classes/environmentcredential.html)
-  - [`ManagedIdentityCredential`](https://azure.github.io/azure-sdk-for-js/identity/classes/managedidentitycredential.html)
-  - [`ClientSecretCredential`](https://azure.github.io/azure-sdk-for-js/identity/classes/clientsecretcredential.html)
-  - [`ClientCertificateCredential`](https://azure.github.io/azure-sdk-for-js/identity/classes/clientcertificatecredential.html)
-  - [`ChainedTokenCredential`](https://azure.github.io/azure-sdk-for-js/identity/classes/chainedtokencredential.html)
+  - `DefaultAzureCredential`.
+  - `EnvironmentCredential`.
+  - `ManagedIdentityCredential`.
+  - `ClientSecretCredential`.
+  - `ClientCertificateCredential`.
+  - `ChainedTokenCredential`.

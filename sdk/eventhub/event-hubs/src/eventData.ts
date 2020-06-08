@@ -1,12 +1,11 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
-import { Message, MessageAnnotations, DeliveryAnnotations } from "rhea-promise";
+import { DeliveryAnnotations, Message, MessageAnnotations } from "rhea-promise";
 import { Constants } from "@azure/core-amqp";
 
 /**
  * Describes the delivery annotations.
- * @interface EventHubDeliveryAnnotations
  * @ignore
  */
 export interface EventHubDeliveryAnnotations extends DeliveryAnnotations {
@@ -34,7 +33,6 @@ export interface EventHubDeliveryAnnotations extends DeliveryAnnotations {
 
 /**
  * Map containing message attributes that will be held in the message header.
- * @interface EventHubMessageAnnotations
  * @ignore
  */
 export interface EventHubMessageAnnotations extends MessageAnnotations {
@@ -62,7 +60,6 @@ export interface EventHubMessageAnnotations extends MessageAnnotations {
 
 /**
  * Describes the structure of an event to be sent or received from the EventHub.
- * @interface
  * @ignore
  */
 export interface EventDataInternal {

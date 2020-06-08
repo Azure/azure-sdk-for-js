@@ -13,7 +13,7 @@ import {
 } from "@azure/core-http";
 
 import { getTracer } from "@azure/core-tracing";
-import { Span } from "@opentelemetry/types";
+import { Span } from "@opentelemetry/api";
 import { logger } from "./log";
 
 import "@azure/core-paging";
@@ -150,15 +150,16 @@ export class SecretClient {
     this.vaultUrl = vaultUrl;
 
     const libInfo = `azsdk-js-keyvault-secrets/${SDK_VERSION}`;
-    if (pipelineOptions.userAgentOptions) {
-      pipelineOptions.userAgentOptions.userAgentPrefix !== undefined
-        ? `${pipelineOptions.userAgentOptions.userAgentPrefix} ${libInfo}`
-        : libInfo;
-    } else {
-      pipelineOptions.userAgentOptions = {
-        userAgentPrefix: libInfo
-      };
-    }
+
+    const userAgentOptions = pipelineOptions.userAgentOptions;
+
+    pipelineOptions.userAgentOptions = {
+      ...pipelineOptions.userAgentOptions,
+      userAgentPrefix:
+        userAgentOptions && userAgentOptions.userAgentPrefix
+          ? `${userAgentOptions.userAgentPrefix} ${libInfo}`
+          : libInfo
+    };
 
     const authPolicy = isTokenCredential(credential)
       ? challengeBasedAuthenticationPolicy(credential)
@@ -949,11 +950,10 @@ export class SecretClient {
     const attributes = secretBundle.attributes;
     delete secretBundle.attributes;
 
-    let resultObject: KeyVaultSecret & DeletedSecret = {
+    const resultObject: KeyVaultSecret & DeletedSecret = {
       value: secretBundle.value,
       name: parsedId.name,
       properties: {
-        vaultUrl: parsedId.vaultUrl,
         expiresOn: (attributes as any).expires,
         createdOn: (attributes as any).created,
         updatedOn: (attributes as any).updated,
@@ -1018,7 +1018,7 @@ export class SecretClient {
         ...options,
         spanOptions: {
           ...spanOptions,
-          parent: span,
+          parent: span.context(),
           attributes: {
             ...spanOptions.attributes,
             "az.namespace": "Microsoft.KeyVault"

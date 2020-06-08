@@ -182,9 +182,6 @@ export function record(
         (runtime === "browser" && isBrowser()) ||
         !runtime
       ) {
-        // record mode - recorder is stopped
-        if (isRecordMode()) recorder.stop();
-
         // record/playback modes
         // - test title is updated with the given reason
         // - test is skipped

@@ -1,6 +1,7 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-import { BinaryFormat, HttpTextFormat, Tracer, Span, SpanOptions } from "@opentelemetry/types";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+import { Tracer, Span, SpanOptions } from "@opentelemetry/api";
 import { OpenCensusSpanWrapper } from "./openCensusSpanWrapper";
 import { TracerBase as OpenCensusTracer } from "@opencensus/web-types";
 
@@ -13,7 +14,7 @@ export class OpenCensusTracerWrapper implements Tracer {
   /**
    * The wrapped OpenCensus Tracer
    */
-  public getWrappedTracer() {
+  public getWrappedTracer(): OpenCensusTracer {
     return this._tracer;
   }
 
@@ -37,8 +38,8 @@ export class OpenCensusTracerWrapper implements Tracer {
   /**
    * Returns the current Span from the current context, if available.
    */
-  getCurrentSpan(): Span | null {
-    return null;
+  getCurrentSpan(): Span | undefined {
+    return undefined;
   }
 
   /**
@@ -56,28 +57,6 @@ export class OpenCensusTracerWrapper implements Tracer {
    * @param _span A specific Span to use. Otherwise, use the current one.
    */
   bind<T>(_target: T, _span?: Span): T {
-    throw new Error("Method not implemented.");
-  }
-
-  /**
-   * Send a pre-populated Span object to the exporter.
-   * @param _span The span to pass along.
-   */
-  recordSpanData(_span: Span): void {
-    throw new Error("Method not implemented.");
-  }
-
-  /**
-   * Returns the BinaryFormat interface for serializing/deserializing Spans.
-   */
-  getBinaryFormat(): BinaryFormat {
-    throw new Error("Method not implemented.");
-  }
-
-  /**
-   * Returns the HttpTextFormat interface for injecting/extracting Spans.
-   */
-  getHttpTextFormat(): HttpTextFormat {
     throw new Error("Method not implemented.");
   }
 }

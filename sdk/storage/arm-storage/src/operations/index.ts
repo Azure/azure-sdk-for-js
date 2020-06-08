@@ -15,6 +15,8 @@ export * from "./usages";
 export * from "./managementPolicies";
 export * from "./privateEndpointConnections";
 export * from "./privateLinkResources";
+export * from "./objectReplicationPoliciesOperations";
+export * from "./encryptionScopes";
 export * from "./blobServices";
 export * from "./blobContainers";
 export * from "./fileServices";

@@ -5,7 +5,7 @@ import { record, Recorder } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
 import { extractConnectionStringParts } from "../src/utils/utils.common";
 import { recorderEnvSetup } from "./utils/testutils.common";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("QueueClient message methods", () => {
   let queueName: string;

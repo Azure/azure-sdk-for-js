@@ -5,7 +5,7 @@ import * as dotenv from "dotenv";
 import { DataLakeServiceClient, ServiceListFileSystemsSegmentResponse } from "../src";
 import { getDataLakeServiceClient, getTokenDataLakeServiceClient, recorderEnvSetup } from "./utils";
 
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("DataLakeServiceClient", () => {
   let recorder: Recorder;

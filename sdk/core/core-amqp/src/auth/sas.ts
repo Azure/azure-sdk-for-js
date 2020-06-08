@@ -1,7 +1,7 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
-import { parseConnectionString, ServiceBusConnectionStringModel } from "../util/utils";
+import { ServiceBusConnectionStringModel, parseConnectionString } from "../util/utils";
 import { AccessToken } from "@azure/core-auth";
 import { Buffer } from "buffer";
 import isBuffer from "is-buffer";
@@ -42,7 +42,6 @@ export class SharedKeyCredential {
   }
 
   /**
-   * @protected
    * Creates the sas token based on the provided information
    * @param {string | number} expiry - The time period in unix time after which the token will expire.
    * @param {string} [audience] - The audience for which the token is desired.

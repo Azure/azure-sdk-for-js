@@ -7,7 +7,7 @@ import { IdentityClient, TokenResponse, TokenCredentialOptions } from "../client
 import { AuthenticationError, AuthenticationErrorName } from "../client/errors";
 import { createSpan } from "../util/tracing";
 import { delay } from "../util/delay";
-import { CanonicalCode } from "@opentelemetry/types";
+import { CanonicalCode } from "@opentelemetry/api";
 import { logger } from "../util/logging";
 
 /**

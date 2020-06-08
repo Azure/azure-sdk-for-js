@@ -1,21 +1,24 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import chai from "chai";
+import Long from "long";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { delay, ReceivedMessage } from "../src";
+import { ReceivedMessage, delay } from "../src";
 
-import { TestMessage, TestClientType, checkWithTimeout } from "./utils/testUtils";
+import { TestClientType, TestMessage, checkWithTimeout } from "./utils/testUtils";
 import { Sender } from "../src/sender";
 import { SessionReceiver } from "../src/receivers/sessionReceiver";
 import {
-  testPeekMsgsLength,
+  EntityName,
   ServiceBusClientForTests,
-  createServiceBusClientForTests
+  createServiceBusClientForTests,
+  testPeekMsgsLength
 } from "./utils/testutils2";
 import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
+import { AbortController } from "@azure/abort-controller";
 
 let unexpectedError: Error | undefined;
 
@@ -30,14 +33,6 @@ describe("session tests", () => {
   let sender: Sender;
   let receiver: SessionReceiver<ReceivedMessageWithLock>;
 
-  before(async () => {
-    serviceBusClient = createServiceBusClientForTests();
-  });
-
-  after(() => {
-    return serviceBusClient.test.after();
-  });
-
   async function beforeEachTest(testClientType: TestClientType, sessionId: string): Promise<void> {
     serviceBusClient = createServiceBusClientForTests();
     const entityNames = await serviceBusClient.test.createTestEntities(testClientType);
@@ -47,7 +42,7 @@ describe("session tests", () => {
     });
 
     sender = serviceBusClient.test.addToCleanup(
-      serviceBusClient.getSender(entityNames.queue ?? entityNames.topic!)
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
 
     // Observation -
@@ -59,9 +54,9 @@ describe("session tests", () => {
     // getSenderReceiverClients creates brand new queues/topic-subscriptions.
     // Hence, commenting the following code since there is no need to purge/peek into a freshly created entity
 
-    // await purge(receiverClient);
-    // const peekedMsgs = await receiverClient.diagnostics.peek();
-    // const receiverEntityType = receiverClient.entityType;
+    // await purge(receiver);
+    // const peekedMsgs = await receiver.peekMessages();
+    // const receiverEntityType = receiver.entityType;
     // if (peekedMsgs.length) {
     //   chai.assert.fail(`Please use an empty ${receiverEntityType} for integration testing`);
     // }
@@ -69,6 +64,7 @@ describe("session tests", () => {
 
   async function afterEachTest(): Promise<void> {
     await serviceBusClient.test.afterEach();
+    await serviceBusClient.test.after();
   }
 
   describe("SessionReceiver with invalid sessionId", function(): void {
@@ -85,7 +81,7 @@ describe("session tests", () => {
       const testMessage = TestMessage.getSessionSample();
       await sender.send(testMessage);
 
-      let msgs = await receiver.receiveBatch(1, { maxWaitTimeSeconds: 10 });
+      let msgs = await receiver.receiveBatch(1, { maxWaitTimeInMs: 10000 });
       should.equal(msgs.length, 0, "Unexpected number of messages received");
 
       await receiver.close();
@@ -93,7 +89,7 @@ describe("session tests", () => {
       const entityNames = serviceBusClient.test.getTestEntities(testClientType);
 
       // get the next available session ID rather than specifying one
-      receiver = serviceBusClient.test.getSessionPeekLockReceiver(entityNames);
+      receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames);
 
       msgs = await receiver.receiveBatch(1);
       should.equal(msgs.length, 1, "Unexpected number of messages received");
@@ -161,7 +157,7 @@ describe("session tests", () => {
       const entityNames = serviceBusClient.test.getTestEntities(testClientType);
 
       // get the next available session ID rather than specifying one
-      receiver = serviceBusClient.test.getSessionPeekLockReceiver(entityNames);
+      receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames);
 
       receivedMsgs = [];
       receiver.subscribe(
@@ -259,7 +255,7 @@ describe("session tests", () => {
       const entityNames = serviceBusClient.test.getTestEntities(testClientType);
 
       // get the next available session ID rather than specifying one
-      receiver = serviceBusClient.test.getSessionPeekLockReceiver(entityNames);
+      receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames);
 
       msgs = await receiver.receiveBatch(2);
 
@@ -295,9 +291,7 @@ describe("session tests", () => {
       );
       await testGetSetState(TestClientType.PartitionedSubscriptionWithSessions);
     });
-    it("Unpartitioned Queue - Testing getState and setState #RunInBrowser", async function(): Promise<
-      void
-    > {
+    it("Unpartitioned Queue - Testing getState and setState", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions, TestMessage.sessionId);
       await testGetSetState(TestClientType.UnpartitionedQueueWithSessions);
     });
@@ -310,5 +304,176 @@ describe("session tests", () => {
       );
       await testGetSetState(TestClientType.UnpartitionedSubscriptionWithSessions);
     });
+  });
+
+  describe("Cancel operations on the session receiver", function(): void {
+    afterEach(async () => {
+      await afterEachTest();
+    });
+
+    it("Abort getState request", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.PartitionedQueueWithSessions, TestMessage.sessionId);
+      const controller = new AbortController();
+      setTimeout(() => controller.abort(), 1);
+      try {
+        await receiver.getState({ abortSignal: controller.signal });
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.message.should.equal("The getState operation has been cancelled by the user.");
+      }
+    });
+
+    it("Abort setState request on the session receiver", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.PartitionedQueueWithSessions, TestMessage.sessionId);
+      const controller = new AbortController();
+      setTimeout(() => controller.abort(), 1);
+      try {
+        await receiver.setState("why", { abortSignal: controller.signal });
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.message.should.equal("The setState operation has been cancelled by the user.");
+      }
+    });
+
+    it("Abort renewSessionLock request on the session receiver", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.PartitionedQueueWithSessions, TestMessage.sessionId);
+      const controller = new AbortController();
+      setTimeout(() => controller.abort(), 1);
+      try {
+        await receiver.renewSessionLock({ abortSignal: controller.signal });
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.message.should.equal("The renewSessionLock operation has been cancelled by the user.");
+      }
+    });
+
+    it("Abort receiveDeferredMessage request on the session receiver", async function(): Promise<
+      void
+    > {
+      await beforeEachTest(TestClientType.PartitionedQueueWithSessions, TestMessage.sessionId);
+      const controller = new AbortController();
+      setTimeout(() => controller.abort(), 1);
+      try {
+        await receiver.receiveDeferredMessage(Long.ZERO, { abortSignal: controller.signal });
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.message.should.equal(
+          "The receiveDeferredMessage operation has been cancelled by the user."
+        );
+      }
+    });
+
+    it("Abort receiveDeferredMessages request on the session receiver", async function(): Promise<
+      void
+    > {
+      await beforeEachTest(TestClientType.PartitionedQueueWithSessions, TestMessage.sessionId);
+      const controller = new AbortController();
+      setTimeout(() => controller.abort(), 1);
+      try {
+        await receiver.receiveDeferredMessages([Long.ZERO], { abortSignal: controller.signal });
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.message.should.equal(
+          "The receiveDeferredMessages operation has been cancelled by the user."
+        );
+      }
+    });
+  });
+});
+
+/**
+ * SessionReceiver intentionally does not recover after a disconnect:
+ * https://github.com/Azure/azure-sdk-for-js/pull/8447#issuecomment-618510245
+ * If support for this is added in the future, we can stop skipping this test.
+ */
+describe.skip("SessionReceiver - disconnects", function(): void {
+  let serviceBusClient: ServiceBusClientForTests;
+  async function beforeEachTest(testClientType: TestClientType): Promise<EntityName> {
+    serviceBusClient = createServiceBusClientForTests();
+    return serviceBusClient.test.createTestEntities(testClientType);
+  }
+
+  after(() => {
+    return serviceBusClient.test.after();
+  });
+
+  it("can receive and settle messages after a disconnect", async function(): Promise<void> {
+    const testMessage = TestMessage.getSessionSample();
+    // Create the sender and receiver.
+    const entityName = await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
+    const receiver = await serviceBusClient.createSessionReceiver(entityName.queue!, "peekLock", {
+      sessionId: testMessage.sessionId,
+      autoRenewLockDurationInMs: 10000 // Lower this value so that test can complete in time.
+    });
+    const sender = serviceBusClient.createSender(entityName.queue!);
+    // Send a message so we can be sure when the receiver is open and active.
+    await sender.send(testMessage);
+    const receivedErrors: any[] = [];
+    let settledMessageCount = 0;
+
+    let messageHandlerCount = 0;
+    let receiverIsActiveResolver: Function;
+    let receiverSecondMessageResolver: Function;
+    const receiverIsActive = new Promise((resolve) => {
+      receiverIsActiveResolver = resolve;
+    });
+    const receiverSecondMessage = new Promise((resolve) => {
+      receiverSecondMessageResolver = resolve;
+    });
+
+    // Start the receiver.
+    receiver.subscribe({
+      async processMessage(message) {
+        console.log(`Received a message`);
+        messageHandlerCount++;
+        try {
+          await message.complete();
+          settledMessageCount++;
+        } catch (err) {
+          receivedErrors.push(err);
+        }
+        if (messageHandlerCount === 1) {
+          // Since we've received a message, mark the receiver as active.
+          receiverIsActiveResolver();
+        } else {
+          // Mark the second message resolver!
+          receiverSecondMessageResolver();
+        }
+      },
+      async processError(err) {
+        console.log(`Got an error`);
+        console.error(err);
+        receivedErrors.push(err);
+      }
+    });
+
+    // Wait until we're sure the receiver is open and receiving messages.
+    await receiverIsActive;
+
+    settledMessageCount.should.equal(1, "Unexpected number of settled messages.");
+    receivedErrors.length.should.equal(0, "Encountered an unexpected number of errors.");
+
+    const connectionContext = (receiver as any)["_context"].namespace;
+    const refreshConnection = connectionContext.refreshConnection;
+    let refreshConnectionCalled = 0;
+    connectionContext.refreshConnection = function(...args: any) {
+      refreshConnectionCalled++;
+      refreshConnection.apply(this, args);
+    };
+
+    // Simulate a disconnect being called with a non-retryable error.
+    (receiver as any)["_context"].namespace.connection["_connection"].idle();
+
+    // Allow rhea to clear internal setTimeouts (since we're triggering idle manually).
+    // Otherwise, it will get into a bad internal state with uncaught exceptions.
+    await delay(2000);
+    // send a second message to trigger the message handler again.
+    await sender.send(TestMessage.getSessionSample());
+    console.log("Waiting for 2nd message");
+    // wait for the 2nd message to be received.
+    await receiverSecondMessage;
+    settledMessageCount.should.equal(2, "Unexpected number of settled messages.");
+    receivedErrors.length.should.equal(0, "Encountered an unexpected number of errors.");
+    refreshConnectionCalled.should.be.greaterThan(0, "refreshConnection was not called.");
   });
 });

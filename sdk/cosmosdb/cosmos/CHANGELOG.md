@@ -1,7 +1,54 @@
 # Release History
 
-## 3.6.3 (Unreleased)
+## 3.7.0 (2020-6-08)
 
+- BUGFIX: Support crypto functions in Internet Explorer browser
+- BUGFIX: Incorrect key casing in object returned by `setAuthorizationHeader`
+- FEATURE: Adds `readOffer` methods to container and database
+- FEATURE: Allows string value `partitionKey` parameter when creating containers
+
+The following result in the same behavior:
+
+```js
+const containerDefinition = {
+  id: "sample container",
+  indexingPolicy: { indexingMode: IndexingMode.consistent },
+  throughput: 400,
+  partitionKey: { paths: ["/key"] }
+};
+database.container.create(containerDefinition);
+
+// OR as a string
+
+const containerDefinition = {
+  id: "sample container",
+  indexingPolicy: { indexingMode: IndexingMode.consistent },
+  throughput: 400,
+  partitionKey: "/key" } // must have leading slash "/"
+};
+database.container.create(containerDefinition);
+```
+
+## 3.6.3 (2020-4-08)
+
+- FEATURE: Add `partitionKey` to `FeedOptions` for scoping a query to a single partition key value
+
+@azure/cosmos V2 has two different but equivalent ways to specify the partition key for a query:
+
+```js
+// V2 These are effectively the same
+container.items.query("SELECT * from c", { partitionKey: "foo" }).toArray();
+container.items.query('SELECT * from c WHERE c.yourPartitionKey = "foo"').toArray();
+```
+
+In an effort to simplify, the V3 SDK removed `partitionKey` from `FeedOptions` so there was only one way to specify the partition key:
+
+```js
+// V3
+container.items.query('SELECT * from c WHERE c.yourPartitionKey = "foo"').fetchAll();
+```
+
+Based on customer feedback, we identified scenarios where it still makes sense to support passing the partition key via `FeedOptions` and have decided to restore the behavior.
 
 ## 3.6.2 (2020-2-20)
 
@@ -23,7 +70,7 @@
 ## 3.5.3 (2020-1-06)
 
 - BUG FIX: maxDegreeOfParallelism was defaulting to 1 and should default to the number of partitions of the collection
-- BUF FIX: maxItemCount was defaulting to 10 and should default to undefined
+- BUG FIX: maxItemCount was defaulting to 10 and should default to undefined
 - Set default TLS version to 1.2 (#6761)
 - Use tslib 1.10.0 (#6710)
 - Add partition key to code sample (#6612)
@@ -131,7 +178,7 @@ Fixes broken session tokens in the browser. Cosmos uses file system friendly bas
   - User cancelable requests
 - Update to the latest Cosmos REST API version where [all containers have unlimited scale](https://docs.microsoft.com/en-us/azure/cosmos-db/migrate-containers-partitioned-to-nonpartitioned)
 - Make it easier to use Cosmos from the browser
-- Better align with the new [Azure JS SDK guidlines](https://azuresdkspecs.z5.web.core.windows.net/TypeScriptSpec.html)
+- Better align with the new [Azure JS SDK guidlines](https://azure.github.io/azure-sdk/typescript_introduction.html)
 
 ### Migration Guide for Breaking Changes
 
@@ -182,6 +229,23 @@ container.items.query('SELECT * from c').fetchNext()
 for await(const { result: item } in client.databases.readAll().getAsyncIterator()) {
     console.log(item.id)
 }
+```
+
+#### Simplified Partition Keys for Queries
+
+v2 has two different but equivalent ways to specify the partition key for a query:
+
+```js
+// v2. These are effectively the same
+container.items.query("SELECT * from c", { partitionKey: "foo" }).toArray();
+container.items.query('SELECT * from c WHERE c.yourPartitionKey = "foo"').toArray();
+```
+
+v3 removed `partitionKey` from `FeedOptions` so there is now only one way to specify the partition key:
+
+```js
+// v3
+container.items.query('SELECT * from c WHERE c.yourPartitionKey = "foo"').fetchAll();
 ```
 
 #### Fixed Containers are now Paritioned (#308)

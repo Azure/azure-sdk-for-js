@@ -1,9 +1,9 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import {
-  GreedyPartitionLoadBalancer,
-  FairPartitionLoadBalancer
+  FairPartitionLoadBalancer,
+  GreedyPartitionLoadBalancer
 } from "../src/partitionLoadBalancer";
 import { PartitionOwnership } from "../src/eventProcessor";
 

@@ -2,14 +2,21 @@
 // Licensed under the MIT license.
 
 import { AppConfigurationClient } from "../src";
-import { getTokenAuthenticationCredential, CredsAndEndpoint } from "./testHelpers";
+import { startRecorder, getTokenAuthenticationCredential, CredsAndEndpoint } from "./testHelpers";
 import * as assert from "assert";
+import { Recorder, isPlaybackMode } from "@azure/test-utils-recorder";
 
 describe("Authentication", () => {
   let credsAndEndpoint: CredsAndEndpoint;
+  let recorder: Recorder;
 
-  before(function() {
+  beforeEach(function() {
+    recorder = startRecorder(this);
     credsAndEndpoint = getTokenAuthenticationCredential() || this.skip();
+  });
+
+  afterEach(function() {
+    recorder.stop();
   });
 
   it("invalid connection string gives a decent error message", () => {
@@ -19,7 +26,10 @@ describe("Authentication", () => {
     );
   });
 
-  it("token authentication works", async () => {
+  it("token authentication works", async function() {
+    if (isPlaybackMode()) {
+      this.skip();
+    }
     const client = new AppConfigurationClient(
       credsAndEndpoint.endpoint,
       credsAndEndpoint.credential

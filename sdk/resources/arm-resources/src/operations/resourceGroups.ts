@@ -171,34 +171,14 @@ export class ResourceGroups {
 
   /**
    * Captures the specified resource group as a template.
-   * @param resourceGroupName The name of the resource group to export as a template.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param parameters Parameters for exporting the template.
    * @param [options] The optional parameters
    * @returns Promise<Models.ResourceGroupsExportTemplateResponse>
    */
-  exportTemplate(resourceGroupName: string, parameters: Models.ExportTemplateRequest, options?: msRest.RequestOptionsBase): Promise<Models.ResourceGroupsExportTemplateResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group to export as a template.
-   * @param parameters Parameters for exporting the template.
-   * @param callback The callback
-   */
-  exportTemplate(resourceGroupName: string, parameters: Models.ExportTemplateRequest, callback: msRest.ServiceCallback<Models.ResourceGroupExportResult>): void;
-  /**
-   * @param resourceGroupName The name of the resource group to export as a template.
-   * @param parameters Parameters for exporting the template.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  exportTemplate(resourceGroupName: string, parameters: Models.ExportTemplateRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceGroupExportResult>): void;
-  exportTemplate(resourceGroupName: string, parameters: Models.ExportTemplateRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceGroupExportResult>, callback?: msRest.ServiceCallback<Models.ResourceGroupExportResult>): Promise<Models.ResourceGroupsExportTemplateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        parameters,
-        options
-      },
-      exportTemplateOperationSpec,
-      callback) as Promise<Models.ResourceGroupsExportTemplateResponse>;
+  exportTemplate(resourceGroupName: string, parameters: Models.ExportTemplateRequest, options?: msRest.RequestOptionsBase): Promise<Models.ResourceGroupsExportTemplateResponse> {
+    return this.beginExportTemplate(resourceGroupName,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ResourceGroupsExportTemplateResponse>;
   }
 
   /**
@@ -240,6 +220,24 @@ export class ResourceGroups {
         options
       },
       beginDeleteMethodOperationSpec,
+      options);
+  }
+
+  /**
+   * Captures the specified resource group as a template.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param parameters Parameters for exporting the template.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginExportTemplate(resourceGroupName: string, parameters: Models.ExportTemplateRequest, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        parameters,
+        options
+      },
+      beginExportTemplateOperationSpec,
       options);
   }
 
@@ -386,37 +384,6 @@ const updateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const exportTemplateOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/exportTemplate",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "parameters",
-    mapper: {
-      ...Mappers.ExportTemplateRequest,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.ResourceGroupExportResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourcegroups",
@@ -457,6 +424,38 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {},
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginExportTemplateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/exportTemplate",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.ExportTemplateRequest,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.ResourceGroupExportResult
+    },
     202: {},
     default: {
       bodyMapper: Mappers.CloudError

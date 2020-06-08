@@ -9,7 +9,7 @@ import {
 } from "../../src";
 import { getBSU, getConnectionStringFromEnvironment, bodyToString, getUniqueName } from "../utils";
 import { env } from "@azure/test-utils-recorder";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 // Expected environment variable to run this test-suite
 // STORAGE_CONNECTION_STRING=UseDevelopmentStorage=true
@@ -37,7 +37,9 @@ describe("Emulator Tests", () => {
   });
 
   afterEach(async function() {
-    await containerClient.delete();
+    if (!this.currentTest?.isPending()) {
+      await containerClient.delete();
+    }
   });
 
   it("BlobClient can be created with a connection string", async () => {

@@ -1,26 +1,26 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
-import { logger, logErrorStackTrace } from "./log";
+import { logErrorStackTrace, logger } from "./log";
 import { ConnectionContext } from "./connectionContext";
 import { EventHubConsumerOptions } from "./impl/eventHubClient";
 import {
-  OnMessage,
-  OnError,
   EventHubReceiver,
-  LastEnqueuedEventProperties
+  LastEnqueuedEventProperties,
+  OnError,
+  OnMessage
 } from "./eventHubReceiver";
 import { ReceivedEventData } from "./eventData";
 import {
-  RetryConfig,
   Constants,
-  RetryOperationType,
-  retry,
   MessagingError,
-  RetryOptions
+  RetryConfig,
+  RetryOperationType,
+  RetryOptions,
+  retry
 } from "@azure/core-amqp";
 import { ReceiveHandler } from "./receiveHandler";
-import { AbortSignalLike, AbortError } from "@azure/abort-controller";
+import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { throwErrorIfConnectionClosed } from "./util/error";
 import { EventPosition } from "./eventPosition";
 import "@azure/core-asynciterator-polyfill";
@@ -139,7 +139,6 @@ export class EventHubConsumer {
   /**
    * EventHubConsumer should not be constructed using `new EventHubConsumer()`
    * Use the `createConsumer()` method on your `EventHubClient` instead.
-   * @private
    * @constructor
    * @internal
    * @ignore

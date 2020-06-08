@@ -19,8 +19,12 @@ export * from "./credentials/StorageSharedKeyCredential";
 export { SasIPRange } from "./SasIPRange";
 export { Range } from "./Range";
 export {
+  FileAndDirectoryCreateCommonOptions,
+  FileAndDirectorySetPropertiesCommonOptions,
+  FileHttpHeaders,
   FilePermissionInheritType,
   FilePermissionPreserveType,
+  Metadata,
   TimeNowType,
   TimePreserveType,
   FileAttributesPreserveType,

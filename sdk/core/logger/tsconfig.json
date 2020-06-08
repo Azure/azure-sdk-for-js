@@ -6,7 +6,6 @@
     "declarationDir": "./types",
     "downlevelIteration": true
   },
-  "compileOnSave": true,
   "exclude": ["node_modules", "./types/**/*.d.ts", "./samples/**/*.ts"],
   "include": ["./src/**/*.ts", "./test/**/*.ts"]
 }

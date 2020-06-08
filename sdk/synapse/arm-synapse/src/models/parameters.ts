@@ -140,6 +140,30 @@ export const geoBackupPolicyName: msRest.OperationURLParameter = {
     }
   }
 };
+export const ifMatch: msRest.OperationParameter = {
+  parameterPath: [
+    "options",
+    "ifMatch"
+  ],
+  mapper: {
+    serializedName: "If-Match",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const ifNoneMatch: msRest.OperationParameter = {
+  parameterPath: [
+    "options",
+    "ifNoneMatch"
+  ],
+  mapper: {
+    serializedName: "If-None-Match",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const includeDisabledRecommendations: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
@@ -149,6 +173,16 @@ export const includeDisabledRecommendations: msRest.OperationQueryParameter = {
     serializedName: "includeDisabledRecommendations",
     type: {
       name: "Boolean"
+    }
+  }
+};
+export const integrationRuntimeName: msRest.OperationURLParameter = {
+  parameterPath: "integrationRuntimeName",
+  mapper: {
+    required: true,
+    serializedName: "integrationRuntimeName",
+    type: {
+      name: "String"
     }
   }
 };
@@ -163,11 +197,41 @@ export const nextPageLink: msRest.OperationURLParameter = {
   },
   skipEncoding: true
 };
+export const nodeName: msRest.OperationURLParameter = {
+  parameterPath: "nodeName",
+  mapper: {
+    required: true,
+    serializedName: "nodeName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const operationId: msRest.OperationURLParameter = {
   parameterPath: "operationId",
   mapper: {
     required: true,
     serializedName: "operationId",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const privateEndpointConnectionName: msRest.OperationURLParameter = {
+  parameterPath: "privateEndpointConnectionName",
+  mapper: {
+    required: true,
+    serializedName: "privateEndpointConnectionName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const privateLinkResourceName: msRest.OperationURLParameter = {
+  parameterPath: "privateLinkResourceName",
+  mapper: {
+    required: true,
+    serializedName: "privateLinkResourceName",
     type: {
       name: "String"
     }

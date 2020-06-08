@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http";
-import { AggregateAuthenticationError } from "../client/errors";
+import { AggregateAuthenticationError, CredentialUnavailable } from "../client/errors";
 import { createSpan } from "../util/tracing";
-import { CanonicalCode } from "@opentelemetry/types";
+import { CanonicalCode } from "@opentelemetry/api";
 
 /**
  * Enables multiple `TokenCredential` implementations to be tried in order
@@ -54,7 +54,11 @@ export class ChainedTokenCredential implements TokenCredential {
       try {
         token = await this._sources[i].getToken(scopes, newOptions);
       } catch (err) {
-        errors.push(err);
+        if (err instanceof CredentialUnavailable) {
+          errors.push(err);
+        } else {
+          throw err;
+        }
       }
     }
 

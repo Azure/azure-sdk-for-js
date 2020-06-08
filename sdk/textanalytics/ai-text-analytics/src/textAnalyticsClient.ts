@@ -4,44 +4,41 @@
 import {
   PipelineOptions,
   createPipelineFromOptions,
-  signingPolicy,
   InternalPipelineOptions,
   isTokenCredential,
   bearerTokenAuthenticationPolicy,
   operationOptionsToRequestOptionsBase,
-  OperationOptions
+  OperationOptions,
+  ServiceClientCredentials
 } from "@azure/core-http";
-import { TokenCredential } from "@azure/identity";
+import { TokenCredential, KeyCredential } from "@azure/core-auth";
 import { SDK_VERSION } from "./constants";
 import { GeneratedClient } from "./generated/generatedClient";
 import { logger } from "./logger";
+import { DetectLanguageInput, TextDocumentInput } from "./generated/models";
 import {
-  LanguageInput as DetectLanguageInput,
-  MultiLanguageInput as TextDocumentInput
-} from "./generated/models";
+  DetectLanguageResultArray,
+  makeDetectLanguageResultArray
+} from "./detectLanguageResultArray";
 import {
-  DetectLanguageResultCollection,
-  makeDetectLanguageResultCollection
-} from "./detectLanguageResultCollection";
+  RecognizeCategorizedEntitiesResultArray,
+  makeRecognizeCategorizedEntitiesResultArray
+} from "./recognizeCategorizedEntitiesResultArray";
 import {
-  RecognizeCategorizedEntitiesResultCollection,
-  makeRecognizeCategorizedEntitiesResultCollection
-} from "./recognizeCategorizedEntitiesResultCollection";
+  AnalyzeSentimentResultArray,
+  makeAnalyzeSentimentResultArray
+} from "./analyzeSentimentResultArray";
 import {
-  AnalyzeSentimentResultCollection,
-  makeAnalyzeSentimentResultCollection
-} from "./analyzeSentimentResultCollection";
+  makeExtractKeyPhrasesResultArray,
+  ExtractKeyPhrasesResultArray
+} from "./extractKeyPhrasesResultArray";
 import {
-  makeExtractKeyPhrasesResultCollection,
-  ExtractKeyPhrasesResultCollection
-} from "./extractKeyPhrasesResultCollection";
-import {
-  RecognizeLinkedEntitiesResultCollection,
-  makeRecognizeLinkedEntitiesResultCollection
-} from "./recognizeLinkedEntitiesResultCollection";
-import { TextAnalyticsApiKeyCredential } from "./textAnalyticsApiKeyCredential";
+  RecognizeLinkedEntitiesResultArray,
+  makeRecognizeLinkedEntitiesResultArray
+} from "./recognizeLinkedEntitiesResultArray";
 import { createSpan } from "./tracing";
-import { CanonicalCode } from "@opentelemetry/types";
+import { CanonicalCode } from "@opentelemetry/api";
+import { createTextAnalyticsAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 
 const DEFAULT_COGNITIVE_SCOPE = "https://cognitiveservices.azure.com/.default";
 
@@ -133,20 +130,20 @@ export class TextAnalyticsClient {
    *
    * Example usage:
    * ```ts
-   * import { TextAnalyticsClient, TextAnalyticsApiKeyCredential } from "@azure/ai-text-analytics";
+   * import { TextAnalyticsClient, AzureKeyCredential } from "@azure/ai-text-analytics";
    *
    * const client = new TextAnalyticsClient(
    *    "<service endpoint>",
-   *    new TextAnalyticsApiKeyCredential("<api key>")
+   *    new AzureKeyCredential("<api key>")
    * );
    * ```
    * @param {string} endpointUrl The URL to the TextAnalytics endpoint
-   * @param {TokenCredential | TextAnalyticsApiKeyCredential} credential Used to authenticate requests to the service.
+   * @param {TokenCredential | KeyCredential} credential Used to authenticate requests to the service.
    * @param {TextAnalyticsClientOptions} [options] Used to configure the TextAnalytics client.
    */
   constructor(
     endpointUrl: string,
-    credential: TokenCredential | TextAnalyticsApiKeyCredential,
+    credential: TokenCredential | KeyCredential,
     options: TextAnalyticsClientOptions = {}
   ) {
     this.endpointUrl = endpointUrl;
@@ -166,7 +163,7 @@ export class TextAnalyticsClient {
 
     const authPolicy = isTokenCredential(credential)
       ? bearerTokenAuthenticationPolicy(credential, DEFAULT_COGNITIVE_SCOPE)
-      : signingPolicy(credential);
+      : createTextAnalyticsAzureKeyCredentialPolicy(credential);
 
     const internalPipelineOptions: InternalPipelineOptions = {
       ...pipelineOptions,
@@ -179,7 +176,19 @@ export class TextAnalyticsClient {
     };
 
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-    this.client = new GeneratedClient(credential, this.endpointUrl, pipeline);
+
+    // The contract with the generated client requires a credential, even though it is never used
+    // when a pipeline is provided. Until that contract can be changed, this dummy credential will
+    // throw an error if the client ever attempts to use it.
+    const dummyCredential: ServiceClientCredentials = {
+      signRequest() {
+        throw new Error(
+          "Internal error: Attempted to use credential from service client, but a pipeline was provided."
+        );
+      }
+    };
+
+    this.client = new GeneratedClient(dummyCredential, this.endpointUrl, pipeline);
   }
 
   /**
@@ -202,7 +211,7 @@ export class TextAnalyticsClient {
     documents: string[],
     countryHint?: string,
     options?: DetectLanguageOptions
-  ): Promise<DetectLanguageResultCollection>;
+  ): Promise<DetectLanguageResultArray>;
   /**
    * Runs a predictive model to determine the language that the passed-in
    * input document are written in, and returns, for each one, the detected
@@ -215,14 +224,18 @@ export class TextAnalyticsClient {
   public async detectLanguage(
     documents: DetectLanguageInput[],
     options?: DetectLanguageOptions
-  ): Promise<DetectLanguageResultCollection>;
+  ): Promise<DetectLanguageResultArray>;
   public async detectLanguage(
     documents: string[] | DetectLanguageInput[],
     countryHintOrOptions?: string | DetectLanguageOptions,
     options?: DetectLanguageOptions
-  ): Promise<DetectLanguageResultCollection> {
+  ): Promise<DetectLanguageResultArray> {
     let realOptions: DetectLanguageOptions;
     let realInputs: DetectLanguageInput[];
+
+    if (!Array.isArray(documents) || documents.length === 0) {
+      throw new Error("'documents' must be a non-empty array");
+    }
 
     if (isStringArray(documents)) {
       const countryHint = (countryHintOrOptions as string) || this.defaultCountryHint;
@@ -250,7 +263,7 @@ export class TextAnalyticsClient {
         operationOptionsToRequestOptionsBase(finalOptions)
       );
 
-      return makeDetectLanguageResultCollection(
+      return makeDetectLanguageResultArray(
         realInputs,
         result.documents,
         result.errors,
@@ -287,8 +300,9 @@ export class TextAnalyticsClient {
   public async recognizeEntities(
     documents: string[],
     language?: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: RecognizeCategorizedEntitiesOptions
-  ): Promise<RecognizeCategorizedEntitiesResultCollection>;
+  ): Promise<RecognizeCategorizedEntitiesResultArray>;
   /**
    * Runs a predictive model to identify a collection of named entities
    * in the passed-in input documents, and categorize those entities into types
@@ -302,15 +316,21 @@ export class TextAnalyticsClient {
    */
   public async recognizeEntities(
     documents: TextDocumentInput[],
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: RecognizeCategorizedEntitiesOptions
-  ): Promise<RecognizeCategorizedEntitiesResultCollection>;
+  ): Promise<RecognizeCategorizedEntitiesResultArray>;
   public async recognizeEntities(
     documents: string[] | TextDocumentInput[],
     languageOrOptions?: string | RecognizeCategorizedEntitiesOptions,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: RecognizeCategorizedEntitiesOptions
-  ): Promise<RecognizeCategorizedEntitiesResultCollection> {
+  ): Promise<RecognizeCategorizedEntitiesResultArray> {
     let realOptions: RecognizeCategorizedEntitiesOptions;
     let realInputs: TextDocumentInput[];
+
+    if (!Array.isArray(documents) || documents.length === 0) {
+      throw new Error("'documents' must be a non-empty array");
+    }
 
     if (isStringArray(documents)) {
       const language = (languageOrOptions as string) || this.defaultLanguage;
@@ -334,7 +354,7 @@ export class TextAnalyticsClient {
         operationOptionsToRequestOptionsBase(finalOptions)
       );
 
-      return makeRecognizeCategorizedEntitiesResultCollection(
+      return makeRecognizeCategorizedEntitiesResultArray(
         realInputs,
         result.documents,
         result.errors,
@@ -370,7 +390,7 @@ export class TextAnalyticsClient {
     documents: string[],
     language?: string,
     options?: AnalyzeSentimentOptions
-  ): Promise<AnalyzeSentimentResultCollection>;
+  ): Promise<AnalyzeSentimentResultArray>;
   /**
    * Runs a predictive model to identify the positive, negative or neutral, or mixed
    * sentiment contained in the input documents, as well as scores indicating
@@ -383,14 +403,18 @@ export class TextAnalyticsClient {
   public async analyzeSentiment(
     documents: TextDocumentInput[],
     options?: AnalyzeSentimentOptions
-  ): Promise<AnalyzeSentimentResultCollection>;
+  ): Promise<AnalyzeSentimentResultArray>;
   public async analyzeSentiment(
     documents: string[] | TextDocumentInput[],
     languageOrOptions?: string | AnalyzeSentimentOptions,
     options?: AnalyzeSentimentOptions
-  ): Promise<AnalyzeSentimentResultCollection> {
+  ): Promise<AnalyzeSentimentResultArray> {
     let realOptions: AnalyzeSentimentOptions;
     let realInputs: TextDocumentInput[];
+
+    if (!Array.isArray(documents) || documents.length === 0) {
+      throw new Error("'documents' must be a non-empty array");
+    }
 
     if (isStringArray(documents)) {
       const language = (languageOrOptions as string) || this.defaultLanguage;
@@ -414,7 +438,7 @@ export class TextAnalyticsClient {
         operationOptionsToRequestOptionsBase(finalOptions)
       );
 
-      return makeAnalyzeSentimentResultCollection(
+      return makeAnalyzeSentimentResultArray(
         realInputs,
         result.documents,
         result.errors,
@@ -449,7 +473,7 @@ export class TextAnalyticsClient {
     documents: string[],
     language?: string,
     options?: ExtractKeyPhrasesOptions
-  ): Promise<ExtractKeyPhrasesResultCollection>;
+  ): Promise<ExtractKeyPhrasesResultArray>;
   /**
    * Runs a model to identify a collection of significant phrases
    * found in the passed-in input documents.
@@ -461,14 +485,18 @@ export class TextAnalyticsClient {
   public async extractKeyPhrases(
     documents: TextDocumentInput[],
     options?: ExtractKeyPhrasesOptions
-  ): Promise<ExtractKeyPhrasesResultCollection>;
+  ): Promise<ExtractKeyPhrasesResultArray>;
   public async extractKeyPhrases(
     documents: string[] | TextDocumentInput[],
     languageOrOptions?: string | ExtractKeyPhrasesOptions,
     options?: ExtractKeyPhrasesOptions
-  ): Promise<ExtractKeyPhrasesResultCollection> {
+  ): Promise<ExtractKeyPhrasesResultArray> {
     let realOptions: ExtractKeyPhrasesOptions;
     let realInputs: TextDocumentInput[];
+
+    if (!Array.isArray(documents) || documents.length === 0) {
+      throw new Error("'documents' must be a non-empty array");
+    }
 
     if (isStringArray(documents)) {
       const language = (languageOrOptions as string) || this.defaultLanguage;
@@ -492,7 +520,7 @@ export class TextAnalyticsClient {
         operationOptionsToRequestOptionsBase(finalOptions)
       );
 
-      return makeExtractKeyPhrasesResultCollection(
+      return makeExtractKeyPhrasesResultArray(
         realInputs,
         result.documents,
         result.errors,
@@ -528,7 +556,7 @@ export class TextAnalyticsClient {
     documents: string[],
     language?: string,
     options?: RecognizeLinkedEntitiesOptions
-  ): Promise<RecognizeLinkedEntitiesResultCollection>;
+  ): Promise<RecognizeLinkedEntitiesResultArray>;
   /**
    * Runs a predictive model to identify a collection of entities
    * found in the passed-in input documents, and include information linking the
@@ -541,14 +569,18 @@ export class TextAnalyticsClient {
   public async recognizeLinkedEntities(
     documents: TextDocumentInput[],
     options?: RecognizeLinkedEntitiesOptions
-  ): Promise<RecognizeLinkedEntitiesResultCollection>;
+  ): Promise<RecognizeLinkedEntitiesResultArray>;
   public async recognizeLinkedEntities(
     documents: string[] | TextDocumentInput[],
     languageOrOptions?: string | RecognizeLinkedEntitiesOptions,
     options?: RecognizeLinkedEntitiesOptions
-  ): Promise<RecognizeLinkedEntitiesResultCollection> {
+  ): Promise<RecognizeLinkedEntitiesResultArray> {
     let realOptions: RecognizeLinkedEntitiesOptions;
     let realInputs: TextDocumentInput[];
+
+    if (!Array.isArray(documents) || documents.length === 0) {
+      throw new Error("'documents' must be a non-empty array");
+    }
 
     if (isStringArray(documents)) {
       const language = (languageOrOptions as string) || this.defaultLanguage;
@@ -572,7 +604,7 @@ export class TextAnalyticsClient {
         operationOptionsToRequestOptionsBase(finalOptions)
       );
 
-      return makeRecognizeLinkedEntitiesResultCollection(
+      return makeRecognizeLinkedEntitiesResultArray(
         realInputs,
         result.documents,
         result.errors,

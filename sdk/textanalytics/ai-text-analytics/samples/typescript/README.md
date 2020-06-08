@@ -5,6 +5,7 @@ languages:
 products:
   - azure
   - azure-cognitive-services
+  - azure-text-analytics
 urlFragment: ai-text-analytics-typescript
 ---
 
@@ -12,14 +13,15 @@ urlFragment: ai-text-analytics-typescript
 
 These sample programs show how to use the TypeScript client libraries for Azure Cognitive Services Text Analytics in some common scenarios.
 
-| **File Name**                                         | **Description**                                                                       |
-| ----------------------------------------------------- | ------------------------------------------------------------------------------------- |
-| [analyzeSentiment.ts][analyzesentiment]               | analyzes the sentiment of a piece of text                                             |
-| [detectLanguage.ts][detectlanguages]                 | detects the language of a piece of text                                               |
-| [extractKeyPhrases.ts][extractkeyphrases]             | extracts key phrases from a piece of text                                             |
-| [recognizeLinkedEntities.ts][recognizelinkedentities] | detects entities that have links to more information on the web                       |
-| [tokenAuth.ts][tokenauth]                             | uses Azure Active Directory (RBAC) to authenticate to the Cognitive Services endpoint |
-| [recognizeEntities.ts][recognizeentities]             | detects entites in a piece of text and prints them along with the entity type         |
+| **File Name**                                           | **Description**                                                                                    |
+| ------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| [alternativeDocumentInput.ts][alternativedocumentinput] | uses object document inputs with attached metadata rather than simple strings for more flexibility |
+| [analyzeSentiment.ts][analyzesentiment]                 | analyzes the sentiment of a piece of text                                                          |
+| [detectLanguage.ts][detectlanguages]                    | detects the language of a piece of text                                                            |
+| [extractKeyPhrases.ts][extractkeyphrases]               | extracts key phrases from a piece of text                                                          |
+| [recognizeLinkedEntities.ts][recognizelinkedentities]   | detects entities that have links to more information on the web                                    |
+| [authenticationMethods.ts][authenticationmethods]       | authenticates a service client using both Azure Active Directory and an API key                    |
+| [recognizeEntities.ts][recognizeentities]               | detects entites in a piece of text and prints them along with the entity type                      |
 
 ## Prerequisites
 
@@ -69,11 +71,12 @@ npx cross-env ENDPOINT="<endpoint>" TEXT_ANALYTICS_API_KEY="<api key>" node dist
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
+[alternativedocumentinput]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/typescript/src/alternativeDocumentInput.ts
 [analyzesentiment]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/typescript/src/analyzeSentiment.ts
+[authenticationmethods]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/typescript/src/authenticationMethods.ts
 [detectlanguages]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/typescript/src/detectLanguage.ts
 [extractkeyphrases]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/typescript/src/extractKeyPhrases.ts
 [recognizelinkedentities]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/typescript/src/recognizeLinkedEntities.ts
-[tokenauth]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/typescript/src/tokenAuth.ts
 [recognizeentities]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/typescript/src/recognizeEntities.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/ai-text-analytics
 [azcogsvc]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account

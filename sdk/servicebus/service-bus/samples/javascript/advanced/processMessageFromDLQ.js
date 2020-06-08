@@ -18,8 +18,7 @@ const { ServiceBusClient } = require("@azure/service-bus");
 require("dotenv").config();
 
 // Define connection string and related Service Bus entity names here
-const connectionString =
-  process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
+const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
 const sbClient = new ServiceBusClient(connectionString);
@@ -33,8 +32,8 @@ async function main() {
 }
 
 async function processDeadletterMessageQueue() {
-  // If connecting to a subscription's dead letter queue you can use the getDeadLetterReceiver(topic, subscription) overload
-  const receiver = sbClient.getDeadLetterReceiver(queueName, "peekLock");
+  // If connecting to a subscription's dead letter queue you can use the createDeadLetterReceiver(topic, subscription) overload
+  const receiver = sbClient.createDeadLetterReceiver(queueName, "peekLock");
 
   const messages = await receiver.receiveBatch(1);
 
@@ -55,21 +54,18 @@ async function processDeadletterMessageQueue() {
 
 // Send repaired message back to the current queue / topic
 async function fixAndResendMessage(oldMessage) {
-  // getSender() can also be used to create a sender for a topic.
-  const sender = sbClient.getSender(queueName);
+  // createSender() can also be used to create a sender for a topic.
+  const sender = sbClient.createSender(queueName);
 
   // Inspect given message and make any changes if necessary
   const repairedMessage = { ...oldMessage };
 
-  console.log(
-    ">>>>> Cloning the message from DLQ and resending it - ",
-    oldMessage.body
-  );
+  console.log(">>>>> Cloning the message from DLQ and resending it - ", oldMessage.body);
 
   await sender.send(repairedMessage);
   await sender.close();
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.log("Error occurred: ", err);
 });

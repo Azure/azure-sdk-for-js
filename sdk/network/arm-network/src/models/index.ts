@@ -318,6 +318,20 @@ export interface PrivateLinkServiceConnection extends SubResource {
 }
 
 /**
+ * Contains custom Dns resolution configuration from customer.
+ */
+export interface CustomDnsConfigPropertiesFormat {
+  /**
+   * Fqdn that resolves to private endpoint ip address.
+   */
+  fqdn?: string;
+  /**
+   * A list of private ip addresses of the private endpoint.
+   */
+  ipAddresses?: string[];
+}
+
+/**
  * Private endpoint resource.
  */
 export interface PrivateEndpoint extends Resource {
@@ -345,6 +359,10 @@ export interface PrivateEndpoint extends Resource {
    * admin does not have access to approve connections to the remote resource.
    */
   manualPrivateLinkServiceConnections?: PrivateLinkServiceConnection[];
+  /**
+   * An array of custom dns configurations.
+   */
+  customDnsConfigs?: CustomDnsConfigPropertiesFormat[];
   /**
    * A unique read-only string that changes whenever the resource is updated.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -1127,6 +1145,10 @@ export interface Subnet extends SubResource {
    */
   readonly ipConfigurationProfiles?: IPConfigurationProfile[];
   /**
+   * Array of IpAllocation which reference this subnet.
+   */
+  ipAllocations?: SubResource[];
+  /**
    * An array of references to the external resources using subnet.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -1290,6 +1312,185 @@ export interface VirtualNetworkTap extends Resource {
 }
 
 /**
+ * AddressSpace contains an array of IP address ranges that can be used by subnets of the virtual
+ * network.
+ */
+export interface AddressSpace {
+  /**
+   * A list of address blocks reserved for this virtual network in CIDR notation.
+   */
+  addressPrefixes?: string[];
+}
+
+/**
+ * DhcpOptions contains an array of DNS servers available to VMs deployed in the virtual network.
+ * Standard DHCP option for a subnet overrides VNET DHCP options.
+ */
+export interface DhcpOptions {
+  /**
+   * The list of DNS servers IP addresses.
+   */
+  dnsServers?: string[];
+}
+
+/**
+ * Peerings in a virtual network resource.
+ */
+export interface VirtualNetworkPeering extends SubResource {
+  /**
+   * Whether the VMs in the local virtual network space would be able to access the VMs in remote
+   * virtual network space.
+   */
+  allowVirtualNetworkAccess?: boolean;
+  /**
+   * Whether the forwarded traffic from the VMs in the local virtual network will be
+   * allowed/disallowed in remote virtual network.
+   */
+  allowForwardedTraffic?: boolean;
+  /**
+   * If gateway links can be used in remote virtual networking to link to this virtual network.
+   */
+  allowGatewayTransit?: boolean;
+  /**
+   * If remote gateways can be used on this virtual network. If the flag is set to true, and
+   * allowGatewayTransit on remote peering is also true, virtual network will use gateways of
+   * remote virtual network for transit. Only one peering can have this flag set to true. This flag
+   * cannot be set if virtual network already has a gateway.
+   */
+  useRemoteGateways?: boolean;
+  /**
+   * The reference to the remote virtual network. The remote virtual network can be in the same or
+   * different region (preview). See here to register for the preview and learn more
+   * (https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-create-peering).
+   */
+  remoteVirtualNetwork?: SubResource;
+  /**
+   * The reference to the remote virtual network address space.
+   */
+  remoteAddressSpace?: AddressSpace;
+  /**
+   * The status of the virtual network peering. Possible values include: 'Initiated', 'Connected',
+   * 'Disconnected'
+   */
+  peeringState?: VirtualNetworkPeeringState;
+  /**
+   * The provisioning state of the virtual network peering resource. Possible values include:
+   * 'Succeeded', 'Updating', 'Deleting', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The name of the resource that is unique within a resource group. This name can be used to
+   * access the resource.
+   */
+  name?: string;
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
+}
+
+/**
+ * Bgp Communities sent over ExpressRoute with each route corresponding to a prefix in this VNET.
+ */
+export interface VirtualNetworkBgpCommunities {
+  /**
+   * The BGP community associated with the virtual network.
+   */
+  virtualNetworkCommunity: string;
+  /**
+   * The BGP community associated with the region of the virtual network.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly regionalCommunity?: string;
+}
+
+/**
+ * Virtual Network resource.
+ */
+export interface VirtualNetwork extends Resource {
+  /**
+   * The AddressSpace that contains an array of IP address ranges that can be used by subnets.
+   */
+  addressSpace?: AddressSpace;
+  /**
+   * The dhcpOptions that contains an array of DNS servers available to VMs deployed in the virtual
+   * network.
+   */
+  dhcpOptions?: DhcpOptions;
+  /**
+   * A list of subnets in a Virtual Network.
+   */
+  subnets?: Subnet[];
+  /**
+   * A list of peerings in a Virtual Network.
+   */
+  virtualNetworkPeerings?: VirtualNetworkPeering[];
+  /**
+   * The resourceGuid property of the Virtual Network resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly resourceGuid?: string;
+  /**
+   * The provisioning state of the virtual network resource. Possible values include: 'Succeeded',
+   * 'Updating', 'Deleting', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Indicates if DDoS protection is enabled for all the protected resources in the virtual
+   * network. It requires a DDoS protection plan associated with the resource. Default value:
+   * false.
+   */
+  enableDdosProtection?: boolean;
+  /**
+   * Indicates if VM protection is enabled for all the subnets in the virtual network. Default
+   * value: false.
+   */
+  enableVmProtection?: boolean;
+  /**
+   * The DDoS protection plan associated with the virtual network.
+   */
+  ddosProtectionPlan?: SubResource;
+  /**
+   * Bgp Communities sent over ExpressRoute with each route corresponding to a prefix in this VNET.
+   */
+  bgpCommunities?: VirtualNetworkBgpCommunities;
+  /**
+   * Array of IpAllocation which reference this VNET.
+   */
+  ipAllocations?: SubResource[];
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
+}
+
+/**
+ * Load balancer backend addresses.
+ */
+export interface LoadBalancerBackendAddress {
+  /**
+   * Reference to an existing virtual network.
+   */
+  virtualNetwork?: VirtualNetwork;
+  /**
+   * IP Address belonging to the referenced virtual network.
+   */
+  ipAddress?: string;
+  /**
+   * Reference to IP address defined in network interfaces.
+   */
+  networkInterfaceIPConfiguration?: NetworkInterfaceIPConfiguration;
+  /**
+   * Name of the backend address.
+   */
+  name?: string;
+}
+
+/**
  * Pool of backend IP addresses.
  */
 export interface BackendAddressPool extends SubResource {
@@ -1298,6 +1499,10 @@ export interface BackendAddressPool extends SubResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly backendIPConfigurations?: NetworkInterfaceIPConfiguration[];
+  /**
+   * An array of backend addresses.
+   */
+  loadBalancerBackendAddresses?: LoadBalancerBackendAddress[];
   /**
    * An array of references to load balancing rules that use this backend address pool.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -2734,6 +2939,11 @@ export interface ApplicationGateway extends Resource {
    */
   customErrorConfigurations?: ApplicationGatewayCustomError[];
   /**
+   * If true, associates a firewall policy with an application gateway regardless whether the
+   * policy differs from the WAF Config.
+   */
+  forceFirewallPolicyAssociation?: boolean;
+  /**
    * A unique read-only string that changes whenever the resource is updated.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -3307,7 +3517,7 @@ export interface AzureFirewallSku {
    */
   name?: AzureFirewallSkuName;
   /**
-   * Tier of an Azure Firewall. Possible values include: 'Standard'
+   * Tier of an Azure Firewall. Possible values include: 'Standard', 'Premium'
    */
   tier?: AzureFirewallSkuTier;
 }
@@ -4550,134 +4760,6 @@ export interface ExpressRouteCrossConnection extends Resource {
 }
 
 /**
- * Virtual Hub identifier.
- */
-export interface VirtualHubId {
-  /**
-   * The resource URI for the Virtual Hub where the ExpressRoute gateway is or will be deployed.
-   * The Virtual Hub resource and the ExpressRoute gateway resource reside in the same
-   * subscription.
-   */
-  id?: string;
-}
-
-/**
- * ExpressRoute circuit peering identifier.
- */
-export interface ExpressRouteCircuitPeeringId {
-  /**
-   * The ID of the ExpressRoute circuit peering.
-   */
-  id?: string;
-}
-
-/**
- * Minimum and maximum number of scale units to deploy.
- */
-export interface ExpressRouteGatewayPropertiesAutoScaleConfigurationBounds {
-  /**
-   * Minimum number of scale units deployed for ExpressRoute gateway.
-   */
-  min?: number;
-  /**
-   * Maximum number of scale units deployed for ExpressRoute gateway.
-   */
-  max?: number;
-}
-
-/**
- * Configuration for auto scaling.
- */
-export interface ExpressRouteGatewayPropertiesAutoScaleConfiguration {
-  /**
-   * Minimum and maximum number of scale units to deploy.
-   */
-  bounds?: ExpressRouteGatewayPropertiesAutoScaleConfigurationBounds;
-}
-
-/**
- * ExpressRouteConnection resource.
- */
-export interface ExpressRouteConnection extends SubResource {
-  /**
-   * The provisioning state of the express route connection resource. Possible values include:
-   * 'Succeeded', 'Updating', 'Deleting', 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * The ExpressRoute circuit peering.
-   */
-  expressRouteCircuitPeering: ExpressRouteCircuitPeeringId;
-  /**
-   * Authorization key to establish the connection.
-   */
-  authorizationKey?: string;
-  /**
-   * The routing weight associated to the connection.
-   */
-  routingWeight?: number;
-  /**
-   * Enable internet security.
-   */
-  enableInternetSecurity?: boolean;
-  /**
-   * The name of the resource.
-   */
-  name: string;
-}
-
-/**
- * ExpressRoute gateway resource.
- */
-export interface ExpressRouteGateway extends Resource {
-  /**
-   * Configuration for auto scaling.
-   */
-  autoScaleConfiguration?: ExpressRouteGatewayPropertiesAutoScaleConfiguration;
-  /**
-   * List of ExpressRoute connections to the ExpressRoute gateway.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly expressRouteConnections?: ExpressRouteConnection[];
-  /**
-   * The provisioning state of the express route gateway resource. Possible values include:
-   * 'Succeeded', 'Updating', 'Deleting', 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * The Virtual Hub where the ExpressRoute gateway is or will be deployed.
-   */
-  virtualHub: VirtualHubId;
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly etag?: string;
-}
-
-/**
- * List of ExpressRoute gateways.
- */
-export interface ExpressRouteGatewayList {
-  /**
-   * List of ExpressRoute gateways.
-   */
-  value?: ExpressRouteGateway[];
-}
-
-/**
- * ExpressRouteConnection list.
- */
-export interface ExpressRouteConnectionList {
-  /**
-   * The list of ExpressRoute connections.
-   */
-  value?: ExpressRouteConnection[];
-}
-
-/**
  * Real-time inventory of available ExpressRoute port bandwidths.
  * @summary ExpressRoutePorts Location Bandwidths
  */
@@ -4864,6 +4946,67 @@ export interface ExpressRoutePort extends Resource {
 }
 
 /**
+ * ThreatIntel Whitelist for Firewall Policy.
+ */
+export interface FirewallPolicyThreatIntelWhitelist {
+  /**
+   * List of IP addresses for the ThreatIntel Whitelist.
+   */
+  ipAddresses?: string[];
+  /**
+   * List of FQDNs for the ThreatIntel Whitelist.
+   */
+  fqdns?: string[];
+}
+
+/**
+ * Trusted Root certificates properties for tls.
+ */
+export interface FirewallPolicyCertificateAuthority {
+  /**
+   * Secret Id of (base-64 encoded unencrypted pfx) 'Secret' or 'Certificate' object stored in
+   * KeyVault.
+   */
+  keyVaultSecretId?: string;
+  /**
+   * Name of the CA certificate.
+   */
+  name?: string;
+}
+
+/**
+ * Trusted Root certificates of a firewall policy.
+ */
+export interface FirewallPolicyTrustedRootCertificate {
+  /**
+   * Secret Id of (base-64 encoded unencrypted pfx) the public certificate data stored in KeyVault.
+   */
+  keyVaultSecretId?: string;
+  /**
+   * Name of the trusted root certificate that is unique within a firewall policy.
+   */
+  name?: string;
+}
+
+/**
+ * Configuration needed to perform TLS termination & initiation.
+ */
+export interface FirewallPolicyTransportSecurity {
+  /**
+   * The CA used for intermediate CA generation.
+   */
+  certificateAuthority?: FirewallPolicyCertificateAuthority;
+  /**
+   * List of domains which are excluded from TLS termination.
+   */
+  excludedDomains?: string[];
+  /**
+   * Certificates which are to be trusted by the firewall.
+   */
+  trustedRootCertificates?: FirewallPolicyTrustedRootCertificate[];
+}
+
+/**
  * FirewallPolicy Resource.
  */
 export interface FirewallPolicy extends Resource {
@@ -4897,10 +5040,26 @@ export interface FirewallPolicy extends Resource {
    */
   threatIntelMode?: AzureFirewallThreatIntelMode;
   /**
+   * ThreatIntel Whitelist for Firewall Policy.
+   */
+  threatIntelWhitelist?: FirewallPolicyThreatIntelWhitelist;
+  /**
+   * The operation mode for Intrusion system. Possible values include: 'Enabled', 'Disabled'
+   */
+  intrusionSystemMode?: FirewallPolicyIntrusionSystemMode;
+  /**
+   * TLS Configuration definition.
+   */
+  transportSecurity?: FirewallPolicyTransportSecurity;
+  /**
    * A unique read-only string that changes whenever the resource is updated.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly etag?: string;
+  /**
+   * The identity of the firewall policy.
+   */
+  identity?: ManagedServiceIdentity;
 }
 
 /**
@@ -5107,6 +5266,10 @@ export interface ApplicationRuleCondition {
    */
   protocols?: FirewallPolicyRuleConditionApplicationProtocol[];
   /**
+   * List of Urls for this rule condition.
+   */
+  targetUrls?: string[];
+  /**
    * List of FQDNs for this rule condition.
    */
   targetFqdns?: string[];
@@ -5156,6 +5319,10 @@ export interface NatRuleCondition {
    * List of source IpGroups for this rule.
    */
   sourceIpGroups?: string[];
+  /**
+   * Terminate TLS connections for this rule.
+   */
+  terminateTLS?: boolean;
 }
 
 /**
@@ -5198,6 +5365,51 @@ export interface NetworkRuleCondition {
    * List of destination IpGroups for this rule.
    */
   destinationIpGroups?: string[];
+}
+
+/**
+ * IpAllocation resource.
+ */
+export interface IpAllocation extends Resource {
+  /**
+   * The Subnet that using the prefix of this IpAllocation resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly subnet?: SubResource;
+  /**
+   * The VirtualNetwork that using the prefix of this IpAllocation resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly virtualNetwork?: SubResource;
+  /**
+   * The type for the IpAllocation. Possible values include: 'Undefined', 'Hypernet'
+   */
+  ipAllocationType?: IpAllocationType;
+  /**
+   * The address prefix for the IpAllocation.
+   */
+  prefix?: string;
+  /**
+   * The address prefix length for the IpAllocation. Default value: 0.
+   */
+  prefixLength?: number;
+  /**
+   * The address prefix Type for the IpAllocation. Possible values include: 'IPv4', 'IPv6'
+   */
+  prefixType?: IPVersion;
+  /**
+   * The IPAM allocation ID.
+   */
+  ipamAllocationId?: string;
+  /**
+   * IpAllocation tags.
+   */
+  allocationTags?: { [propertyName: string]: string };
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
 }
 
 /**
@@ -7874,6 +8086,85 @@ export interface Operation {
 }
 
 /**
+ * A collective group of information about the record set information.
+ */
+export interface RecordSet {
+  /**
+   * Resource record type.
+   */
+  recordType?: string;
+  /**
+   * Recordset name.
+   */
+  recordSetName?: string;
+  /**
+   * Fqdn that resolves to private endpoint ip address.
+   */
+  fqdn?: string;
+  /**
+   * The provisioning state of the recordset. Possible values include: 'Succeeded', 'Updating',
+   * 'Deleting', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Recordset time to live.
+   */
+  ttl?: number;
+  /**
+   * The private ip address of the private endpoint.
+   */
+  ipAddresses?: string[];
+}
+
+/**
+ * PrivateDnsZoneConfig resource.
+ */
+export interface PrivateDnsZoneConfig {
+  /**
+   * Name of the resource that is unique within a resource group. This name can be used to access
+   * the resource.
+   */
+  name?: string;
+  /**
+   * The resource id of the private dns zone.
+   */
+  privateDnsZoneId?: string;
+  /**
+   * A collection of information regarding a recordSet, holding information to identify private
+   * resources.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly recordSets?: RecordSet[];
+}
+
+/**
+ * Private dns zone group resource.
+ */
+export interface PrivateDnsZoneGroup extends SubResource {
+  /**
+   * Name of the resource that is unique within a resource group. This name can be used to access
+   * the resource.
+   */
+  name?: string;
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
+  /**
+   * The provisioning state of the private dns zone group resource. Possible values include:
+   * 'Succeeded', 'Updating', 'Deleting', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * A collection of private dns zone configurations of the private dns zone group.
+   */
+  privateDnsZoneConfigs?: PrivateDnsZoneConfig[];
+}
+
+/**
  * The information of an AvailablePrivateEndpointType.
  */
 export interface AvailablePrivateEndpointType {
@@ -8312,6 +8603,37 @@ export interface PatchRouteFilter extends SubResource {
 }
 
 /**
+ * Security Partner Provider resource.
+ */
+export interface SecurityPartnerProvider extends Resource {
+  /**
+   * The provisioning state of the Security Partner Provider resource. Possible values include:
+   * 'Succeeded', 'Updating', 'Deleting', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The security provider name. Possible values include: 'ZScaler', 'IBoss', 'Checkpoint'
+   */
+  securityProviderName?: SecurityProviderName;
+  /**
+   * The connection status with the Security Partner Provider. Possible values include: 'Unknown',
+   * 'PartiallyConnected', 'Connected', 'NotConnected'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly connectionStatus?: SecurityPartnerProviderConnectionStatus;
+  /**
+   * The virtualHub to which the Security Partner Provider belongs.
+   */
+  virtualHub?: SubResource;
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
+}
+
+/**
  * Contains bgp community information offered in Service Community resources.
  */
 export interface BGPCommunity {
@@ -8477,75 +8799,6 @@ export interface Usage {
 }
 
 /**
- * AddressSpace contains an array of IP address ranges that can be used by subnets of the virtual
- * network.
- */
-export interface AddressSpace {
-  /**
-   * A list of address blocks reserved for this virtual network in CIDR notation.
-   */
-  addressPrefixes?: string[];
-}
-
-/**
- * Peerings in a virtual network resource.
- */
-export interface VirtualNetworkPeering extends SubResource {
-  /**
-   * Whether the VMs in the local virtual network space would be able to access the VMs in remote
-   * virtual network space.
-   */
-  allowVirtualNetworkAccess?: boolean;
-  /**
-   * Whether the forwarded traffic from the VMs in the local virtual network will be
-   * allowed/disallowed in remote virtual network.
-   */
-  allowForwardedTraffic?: boolean;
-  /**
-   * If gateway links can be used in remote virtual networking to link to this virtual network.
-   */
-  allowGatewayTransit?: boolean;
-  /**
-   * If remote gateways can be used on this virtual network. If the flag is set to true, and
-   * allowGatewayTransit on remote peering is also true, virtual network will use gateways of
-   * remote virtual network for transit. Only one peering can have this flag set to true. This flag
-   * cannot be set if virtual network already has a gateway.
-   */
-  useRemoteGateways?: boolean;
-  /**
-   * The reference to the remote virtual network. The remote virtual network can be in the same or
-   * different region (preview). See here to register for the preview and learn more
-   * (https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-create-peering).
-   */
-  remoteVirtualNetwork?: SubResource;
-  /**
-   * The reference to the remote virtual network address space.
-   */
-  remoteAddressSpace?: AddressSpace;
-  /**
-   * The status of the virtual network peering. Possible values include: 'Initiated', 'Connected',
-   * 'Disconnected'
-   */
-  peeringState?: VirtualNetworkPeeringState;
-  /**
-   * The provisioning state of the virtual network peering resource. Possible values include:
-   * 'Succeeded', 'Updating', 'Deleting', 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * The name of the resource that is unique within a resource group. This name can be used to
-   * access the resource.
-   */
-  name?: string;
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly etag?: string;
-}
-
-/**
  * Response for ResourceNavigationLinks_List operation.
  */
 export interface ResourceNavigationLinksListResult {
@@ -8573,90 +8826,6 @@ export interface ServiceAssociationLinksListResult {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly nextLink?: string;
-}
-
-/**
- * DhcpOptions contains an array of DNS servers available to VMs deployed in the virtual network.
- * Standard DHCP option for a subnet overrides VNET DHCP options.
- */
-export interface DhcpOptions {
-  /**
-   * The list of DNS servers IP addresses.
-   */
-  dnsServers?: string[];
-}
-
-/**
- * Bgp Communities sent over ExpressRoute with each route corresponding to a prefix in this VNET.
- */
-export interface VirtualNetworkBgpCommunities {
-  /**
-   * The BGP community associated with the virtual network.
-   */
-  virtualNetworkCommunity: string;
-  /**
-   * The BGP community associated with the region of the virtual network.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly regionalCommunity?: string;
-}
-
-/**
- * Virtual Network resource.
- */
-export interface VirtualNetwork extends Resource {
-  /**
-   * The AddressSpace that contains an array of IP address ranges that can be used by subnets.
-   */
-  addressSpace?: AddressSpace;
-  /**
-   * The dhcpOptions that contains an array of DNS servers available to VMs deployed in the virtual
-   * network.
-   */
-  dhcpOptions?: DhcpOptions;
-  /**
-   * A list of subnets in a Virtual Network.
-   */
-  subnets?: Subnet[];
-  /**
-   * A list of peerings in a Virtual Network.
-   */
-  virtualNetworkPeerings?: VirtualNetworkPeering[];
-  /**
-   * The resourceGuid property of the Virtual Network resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly resourceGuid?: string;
-  /**
-   * The provisioning state of the virtual network resource. Possible values include: 'Succeeded',
-   * 'Updating', 'Deleting', 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * Indicates if DDoS protection is enabled for all the protected resources in the virtual
-   * network. It requires a DDoS protection plan associated with the resource. Default value:
-   * false.
-   */
-  enableDdosProtection?: boolean;
-  /**
-   * Indicates if VM protection is enabled for all the subnets in the virtual network. Default
-   * value: false.
-   */
-  enableVmProtection?: boolean;
-  /**
-   * The DDoS protection plan associated with the virtual network.
-   */
-  ddosProtectionPlan?: SubResource;
-  /**
-   * Bgp Communities sent over ExpressRoute with each route corresponding to a prefix in this VNET.
-   */
-  bgpCommunities?: VirtualNetworkBgpCommunities;
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly etag?: string;
 }
 
 /**
@@ -8930,6 +9099,24 @@ export interface IpsecPolicy {
 }
 
 /**
+ * Radius Server Settings.
+ */
+export interface RadiusServer {
+  /**
+   * The address of this radius server.
+   */
+  radiusServerAddress: string;
+  /**
+   * The initial score assigned to this radius server.
+   */
+  radiusServerScore?: number;
+  /**
+   * The secret used for this radius server.
+   */
+  radiusServerSecret?: string;
+}
+
+/**
  * VpnClientConfiguration for P2S client.
  */
 export interface VpnClientConfiguration {
@@ -8962,6 +9149,10 @@ export interface VpnClientConfiguration {
    * The radius secret property of the VirtualNetworkGateway resource for vpn client connection.
    */
   radiusServerSecret?: string;
+  /**
+   * The radiusServers property for multiple radius server configuration.
+   */
+  radiusServers?: RadiusServer[];
   /**
    * The AADTenant property of the VirtualNetworkGateway resource for vpn client connection used
    * for AAD authentication.
@@ -9359,6 +9550,10 @@ export interface VirtualNetworkGatewayConnection extends Resource {
    * The routing weight.
    */
   routingWeight?: number;
+  /**
+   * The dead peer detection timeout of this connection in seconds.
+   */
+  dpdTimeoutSeconds?: number;
   /**
    * The IPSec shared key.
    */
@@ -10003,6 +10198,66 @@ export interface GetVpnSitesConfigurationRequest {
 }
 
 /**
+ * The list of RouteTables to advertise the routes to.
+ */
+export interface PropagatedRouteTable {
+  /**
+   * The list of labels.
+   */
+  labels?: string[];
+  /**
+   * The list of resource ids of all the RouteTables.
+   */
+  ids?: SubResource[];
+}
+
+/**
+ * List of all Static Routes.
+ */
+export interface StaticRoute {
+  /**
+   * The name of the StaticRoute that is unique within a VnetRoute.
+   */
+  name?: string;
+  /**
+   * List of all address prefixes.
+   */
+  addressPrefixes?: string[];
+  /**
+   * The ip address of the next hop.
+   */
+  nextHopIpAddress?: string;
+}
+
+/**
+ * List of routes that control routing from VirtualHub into a virtual network connection.
+ */
+export interface VnetRoute {
+  /**
+   * List of all Static Routes.
+   */
+  staticRoutes?: StaticRoute[];
+}
+
+/**
+ * Routing Configuration indicating the associated and propagated route tables for this connection.
+ */
+export interface RoutingConfiguration {
+  /**
+   * The resource id RouteTable associated with this RoutingConfiguration.
+   */
+  associatedRouteTable?: SubResource;
+  /**
+   * The list of RouteTables to advertise the routes to.
+   */
+  propagatedRouteTables?: PropagatedRouteTable;
+  /**
+   * List of routes that control routing from VirtualHub into a virtual network connection.
+   */
+  vnetRoutes?: VnetRoute;
+}
+
+/**
  * HubVirtualNetworkConnection Resource.
  */
 export interface HubVirtualNetworkConnection extends SubResource {
@@ -10022,6 +10277,11 @@ export interface HubVirtualNetworkConnection extends SubResource {
    * Enable internet security.
    */
   enableInternetSecurity?: boolean;
+  /**
+   * The Routing Configuration indicating the associated and propagated route tables on this
+   * connection.
+   */
+  routingConfiguration?: RoutingConfiguration;
   /**
    * The provisioning state of the hub virtual network connection resource. Possible values
    * include: 'Succeeded', 'Updating', 'Deleting', 'Failed'
@@ -10140,6 +10400,10 @@ export interface VirtualHub extends Resource {
    * The azureFirewall associated with this VirtualHub.
    */
   azureFirewall?: SubResource;
+  /**
+   * The securityPartnerProvider associated with this VirtualHub.
+   */
+  securityPartnerProvider?: SubResource;
   /**
    * List of all vnet connections with this VirtualHub.
    */
@@ -10272,6 +10536,10 @@ export interface VpnConnection extends SubResource {
    */
   routingWeight?: number;
   /**
+   * The dead peer detection timeout for a vpn connection in seconds.
+   */
+  dpdTimeoutSeconds?: number;
+  /**
    * The connection status. Possible values include: 'Unknown', 'Connecting', 'Connected',
    * 'NotConnected'
    */
@@ -10333,6 +10601,11 @@ export interface VpnConnection extends SubResource {
    */
   vpnLinkConnections?: VpnSiteLinkConnection[];
   /**
+   * The Routing Configuration indicating the associated and propagated route tables on this
+   * connection.
+   */
+  routingConfiguration?: RoutingConfiguration;
+  /**
    * The name of the resource that is unique within a resource group. This name can be used to
    * access the resource.
    */
@@ -10375,6 +10648,78 @@ export interface VpnGateway extends Resource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly etag?: string;
+}
+
+/**
+ * RouteTable route.
+ */
+export interface HubRoute {
+  /**
+   * The name of the Route that is unique within a RouteTable. This name can be used to access this
+   * route.
+   */
+  name: string;
+  /**
+   * The type of destinations (eg: CIDR, ResourceId, Service).
+   */
+  destinationType: string;
+  /**
+   * List of all destinations.
+   */
+  destinations: string[];
+  /**
+   * The type of next hop (eg: ResourceId).
+   */
+  nextHopType: string;
+  /**
+   * NextHop resource ID.
+   */
+  nextHop: string;
+}
+
+/**
+ * RouteTable resource in a virtual hub.
+ */
+export interface HubRouteTable extends SubResource {
+  /**
+   * List of all routes.
+   */
+  routes?: HubRoute[];
+  /**
+   * List of labels associated with this route table.
+   */
+  labels?: string[];
+  /**
+   * List of all connections associated with this route table.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly associatedConnections?: SubResource[];
+  /**
+   * List of all connections that advertise to this route table.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly propagatingConnections?: SubResource[];
+  /**
+   * The provisioning state of the RouteTable resource. Possible values include: 'Succeeded',
+   * 'Updating', 'Deleting', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The name of the resource that is unique within a resource group. This name can be used to
+   * access the resource.
+   */
+  name?: string;
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
+  /**
+   * Resource type.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
 }
 
 /**
@@ -10498,6 +10843,11 @@ export interface P2SConnectionConfiguration extends SubResource {
    * The reference to the address space resource which represents Address space for P2S VpnClient.
    */
   vpnClientAddressPool?: AddressSpace;
+  /**
+   * The Routing Configuration indicating the associated and propagated route tables on this
+   * connection.
+   */
+  routingConfiguration?: RoutingConfiguration;
   /**
    * The provisioning state of the P2SConnectionConfiguration resource. Possible values include:
    * 'Succeeded', 'Updating', 'Deleting', 'Failed'
@@ -10625,6 +10975,10 @@ export interface VpnServerConfiguration extends Resource {
    */
   radiusServerSecret?: string;
   /**
+   * Multiple Radius Server configuration for VpnServerConfiguration.
+   */
+  radiusServers?: RadiusServer[];
+  /**
    * The set of aad vpn authentication parameters.
    */
   aadAuthenticationParameters?: AadAuthenticationParameters;
@@ -10717,6 +11071,139 @@ export interface P2SVpnConnectionHealth {
    * Returned sas url of the blob to which the p2s vpn connection detailed health will be written.
    */
   sasUrl?: string;
+}
+
+/**
+ * Virtual Hub identifier.
+ */
+export interface VirtualHubId {
+  /**
+   * The resource URI for the Virtual Hub where the ExpressRoute gateway is or will be deployed.
+   * The Virtual Hub resource and the ExpressRoute gateway resource reside in the same
+   * subscription.
+   */
+  id?: string;
+}
+
+/**
+ * ExpressRoute circuit peering identifier.
+ */
+export interface ExpressRouteCircuitPeeringId {
+  /**
+   * The ID of the ExpressRoute circuit peering.
+   */
+  id?: string;
+}
+
+/**
+ * Minimum and maximum number of scale units to deploy.
+ */
+export interface ExpressRouteGatewayPropertiesAutoScaleConfigurationBounds {
+  /**
+   * Minimum number of scale units deployed for ExpressRoute gateway.
+   */
+  min?: number;
+  /**
+   * Maximum number of scale units deployed for ExpressRoute gateway.
+   */
+  max?: number;
+}
+
+/**
+ * Configuration for auto scaling.
+ */
+export interface ExpressRouteGatewayPropertiesAutoScaleConfiguration {
+  /**
+   * Minimum and maximum number of scale units to deploy.
+   */
+  bounds?: ExpressRouteGatewayPropertiesAutoScaleConfigurationBounds;
+}
+
+/**
+ * ExpressRouteConnection resource.
+ */
+export interface ExpressRouteConnection extends SubResource {
+  /**
+   * The provisioning state of the express route connection resource. Possible values include:
+   * 'Succeeded', 'Updating', 'Deleting', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The ExpressRoute circuit peering.
+   */
+  expressRouteCircuitPeering: ExpressRouteCircuitPeeringId;
+  /**
+   * Authorization key to establish the connection.
+   */
+  authorizationKey?: string;
+  /**
+   * The routing weight associated to the connection.
+   */
+  routingWeight?: number;
+  /**
+   * Enable internet security.
+   */
+  enableInternetSecurity?: boolean;
+  /**
+   * The Routing Configuration indicating the associated and propagated route tables on this
+   * connection.
+   */
+  routingConfiguration?: RoutingConfiguration;
+  /**
+   * The name of the resource.
+   */
+  name: string;
+}
+
+/**
+ * ExpressRoute gateway resource.
+ */
+export interface ExpressRouteGateway extends Resource {
+  /**
+   * Configuration for auto scaling.
+   */
+  autoScaleConfiguration?: ExpressRouteGatewayPropertiesAutoScaleConfiguration;
+  /**
+   * List of ExpressRoute connections to the ExpressRoute gateway.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly expressRouteConnections?: ExpressRouteConnection[];
+  /**
+   * The provisioning state of the express route gateway resource. Possible values include:
+   * 'Succeeded', 'Updating', 'Deleting', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The Virtual Hub where the ExpressRoute gateway is or will be deployed.
+   */
+  virtualHub: VirtualHubId;
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
+}
+
+/**
+ * List of ExpressRoute gateways.
+ */
+export interface ExpressRouteGatewayList {
+  /**
+   * List of ExpressRoute gateways.
+   */
+  value?: ExpressRouteGateway[];
+}
+
+/**
+ * ExpressRouteConnection list.
+ */
+export interface ExpressRouteConnectionList {
+  /**
+   * The list of ExpressRoute connections.
+   */
+  value?: ExpressRouteConnection[];
 }
 
 /**
@@ -10999,6 +11486,16 @@ export interface ApplicationGatewaysBeginBackendHealthOnDemandOptionalParams ext
  * Optional Parameters.
  */
 export interface FirewallPoliciesGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Expands referenced resources.
+   */
+  expand?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface IpAllocationsGetOptionalParams extends msRest.RequestOptionsBase {
   /**
    * Expands referenced resources.
    */
@@ -11655,6 +12152,18 @@ export interface FirewallPolicyRuleGroupListResult extends Array<FirewallPolicyR
 
 /**
  * @interface
+ * Response for the ListIpAllocations API service call.
+ * @extends Array<IpAllocation>
+ */
+export interface IpAllocationListResult extends Array<IpAllocation> {
+  /**
+   * The URL to get the next set of results.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
  * Response for the ListIpGroups API service call.
  * @extends Array<IpGroup>
  */
@@ -11947,6 +12456,19 @@ export interface AvailablePrivateEndpointTypesResult extends Array<AvailablePriv
 
 /**
  * @interface
+ * Response for the ListPrivateDnsZoneGroups API service call.
+ * @extends Array<PrivateDnsZoneGroup>
+ */
+export interface PrivateDnsZoneGroupListResult extends Array<PrivateDnsZoneGroup> {
+  /**
+   * The URL to get the next set of results.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
  * Response for the ListPrivateLinkService API service call.
  * @extends Array<PrivateLinkService>
  */
@@ -12053,6 +12575,18 @@ export interface RouteTableListResult extends Array<RouteTable> {
 export interface RouteListResult extends Array<Route> {
   /**
    * The URL to get the next set of results.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * Response for ListSecurityPartnerProviders API service call.
+ * @extends Array<SecurityPartnerProvider>
+ */
+export interface SecurityPartnerProviderListResult extends Array<SecurityPartnerProvider> {
+  /**
+   * URL to get the next set of results.
    */
   nextLink?: string;
 }
@@ -12387,6 +12921,18 @@ export interface ListVirtualHubRouteTableV2sResult extends Array<VirtualHubRoute
 
 /**
  * @interface
+ * List of RouteTables and a URL nextLink to get the next set of results.
+ * @extends Array<HubRouteTable>
+ */
+export interface ListHubRouteTablesResult extends Array<HubRouteTable> {
+  /**
+   * URL to get the next set of operation list results if there are any.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
  * Result of the request to list WebApplicationFirewallPolicies. It contains a list of
  * WebApplicationFirewallPolicy objects and a URL link to get the next set of results.
  * @extends Array<WebApplicationFirewallPolicy>
@@ -12487,6 +13033,14 @@ export type PublicIPAddressSkuName = 'Basic' | 'Standard';
  * @enum {string}
  */
 export type DdosSettingsProtectionCoverage = 'Basic' | 'Standard';
+
+/**
+ * Defines values for VirtualNetworkPeeringState.
+ * Possible values include: 'Initiated', 'Connected', 'Disconnected'
+ * @readonly
+ * @enum {string}
+ */
+export type VirtualNetworkPeeringState = 'Initiated' | 'Connected' | 'Disconnected';
 
 /**
  * Defines values for TransportProtocol.
@@ -12675,11 +13229,11 @@ export type AzureFirewallSkuName = 'AZFW_VNet' | 'AZFW_Hub';
 
 /**
  * Defines values for AzureFirewallSkuTier.
- * Possible values include: 'Standard'
+ * Possible values include: 'Standard', 'Premium'
  * @readonly
  * @enum {string}
  */
-export type AzureFirewallSkuTier = 'Standard';
+export type AzureFirewallSkuTier = 'Standard' | 'Premium';
 
 /**
  * Defines values for BastionConnectProtocol.
@@ -12810,6 +13364,14 @@ export type ExpressRouteLinkAdminState = 'Enabled' | 'Disabled';
 export type ExpressRoutePortsEncapsulation = 'Dot1Q' | 'QinQ';
 
 /**
+ * Defines values for FirewallPolicyIntrusionSystemMode.
+ * Possible values include: 'Enabled', 'Disabled'
+ * @readonly
+ * @enum {string}
+ */
+export type FirewallPolicyIntrusionSystemMode = 'Enabled' | 'Disabled';
+
+/**
  * Defines values for FirewallPolicyNatRuleActionType.
  * Possible values include: 'DNAT'
  * @readonly
@@ -12840,6 +13402,14 @@ export type FirewallPolicyRuleConditionApplicationProtocolType = 'Http' | 'Https
  * @enum {string}
  */
 export type FirewallPolicyRuleConditionNetworkProtocol = 'TCP' | 'UDP' | 'Any' | 'ICMP';
+
+/**
+ * Defines values for IpAllocationType.
+ * Possible values include: 'Undefined', 'Hypernet'
+ * @readonly
+ * @enum {string}
+ */
+export type IpAllocationType = 'Undefined' | 'Hypernet';
 
 /**
  * Defines values for LoadBalancerSkuName.
@@ -13133,12 +13703,20 @@ export type ConnectionMonitorSourceStatus = 'Unknown' | 'Active' | 'Inactive';
 export type PublicIPPrefixSkuName = 'Standard';
 
 /**
- * Defines values for VirtualNetworkPeeringState.
- * Possible values include: 'Initiated', 'Connected', 'Disconnected'
+ * Defines values for SecurityProviderName.
+ * Possible values include: 'ZScaler', 'IBoss', 'Checkpoint'
  * @readonly
  * @enum {string}
  */
-export type VirtualNetworkPeeringState = 'Initiated' | 'Connected' | 'Disconnected';
+export type SecurityProviderName = 'ZScaler' | 'IBoss' | 'Checkpoint';
+
+/**
+ * Defines values for SecurityPartnerProviderConnectionStatus.
+ * Possible values include: 'Unknown', 'PartiallyConnected', 'Connected', 'NotConnected'
+ * @readonly
+ * @enum {string}
+ */
+export type SecurityPartnerProviderConnectionStatus = 'Unknown' | 'PartiallyConnected' | 'Connected' | 'NotConnected';
 
 /**
  * Defines values for VirtualNetworkGatewayType.
@@ -14254,6 +14832,26 @@ export type AzureFirewallsListAllResponse = AzureFirewallListResult & {
  * Contains response data for the beginCreateOrUpdate operation.
  */
 export type AzureFirewallsBeginCreateOrUpdateResponse = AzureFirewall & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AzureFirewall;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdateTags operation.
+ */
+export type AzureFirewallsBeginUpdateTagsResponse = AzureFirewall & {
   /**
    * The underlying HTTP response.
    */
@@ -16192,186 +16790,6 @@ export type ExpressRouteCrossConnectionPeeringsListNextResponse = ExpressRouteCr
 };
 
 /**
- * Contains response data for the listBySubscription operation.
- */
-export type ExpressRouteGatewaysListBySubscriptionResponse = ExpressRouteGatewayList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExpressRouteGatewayList;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroup operation.
- */
-export type ExpressRouteGatewaysListByResourceGroupResponse = ExpressRouteGatewayList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExpressRouteGatewayList;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type ExpressRouteGatewaysCreateOrUpdateResponse = ExpressRouteGateway & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExpressRouteGateway;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type ExpressRouteGatewaysGetResponse = ExpressRouteGateway & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExpressRouteGateway;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type ExpressRouteGatewaysBeginCreateOrUpdateResponse = ExpressRouteGateway & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExpressRouteGateway;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type ExpressRouteConnectionsCreateOrUpdateResponse = ExpressRouteConnection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExpressRouteConnection;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type ExpressRouteConnectionsGetResponse = ExpressRouteConnection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExpressRouteConnection;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type ExpressRouteConnectionsListResponse = ExpressRouteConnectionList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExpressRouteConnectionList;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type ExpressRouteConnectionsBeginCreateOrUpdateResponse = ExpressRouteConnection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExpressRouteConnection;
-    };
-};
-
-/**
  * Contains response data for the list operation.
  */
 export type ExpressRoutePortsLocationsListResponse = ExpressRoutePortsLocationListResult & {
@@ -16894,6 +17312,166 @@ export type FirewallPolicyRuleGroupsListNextResponse = FirewallPolicyRuleGroupLi
 /**
  * Contains response data for the get operation.
  */
+export type IpAllocationsGetResponse = IpAllocation & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IpAllocation;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type IpAllocationsCreateOrUpdateResponse = IpAllocation & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IpAllocation;
+    };
+};
+
+/**
+ * Contains response data for the updateTags operation.
+ */
+export type IpAllocationsUpdateTagsResponse = IpAllocation & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IpAllocation;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type IpAllocationsListResponse = IpAllocationListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IpAllocationListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroup operation.
+ */
+export type IpAllocationsListByResourceGroupResponse = IpAllocationListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IpAllocationListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type IpAllocationsBeginCreateOrUpdateResponse = IpAllocation & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IpAllocation;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type IpAllocationsListNextResponse = IpAllocationListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IpAllocationListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroupNext operation.
+ */
+export type IpAllocationsListByResourceGroupNextResponse = IpAllocationListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IpAllocationListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
 export type IpGroupsGetResponse = IpGroup & {
   /**
    * The underlying HTTP response.
@@ -17235,6 +17813,46 @@ export type LoadBalancerBackendAddressPoolsListResponse = LoadBalancerBackendAdd
  * Contains response data for the get operation.
  */
 export type LoadBalancerBackendAddressPoolsGetResponse = BackendAddressPool & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BackendAddressPool;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type LoadBalancerBackendAddressPoolsCreateOrUpdateResponse = BackendAddressPool & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BackendAddressPool;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type LoadBalancerBackendAddressPoolsBeginCreateOrUpdateResponse = BackendAddressPool & {
   /**
    * The underlying HTTP response.
    */
@@ -20214,6 +20832,106 @@ export type AvailablePrivateEndpointTypesListByResourceGroupNextResponse = Avail
 /**
  * Contains response data for the get operation.
  */
+export type PrivateDnsZoneGroupsGetResponse = PrivateDnsZoneGroup & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateDnsZoneGroup;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type PrivateDnsZoneGroupsCreateOrUpdateResponse = PrivateDnsZoneGroup & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateDnsZoneGroup;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type PrivateDnsZoneGroupsListResponse = PrivateDnsZoneGroupListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateDnsZoneGroupListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type PrivateDnsZoneGroupsBeginCreateOrUpdateResponse = PrivateDnsZoneGroup & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateDnsZoneGroup;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type PrivateDnsZoneGroupsListNextResponse = PrivateDnsZoneGroupListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateDnsZoneGroupListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
 export type PrivateLinkServicesGetResponse = PrivateLinkService & {
   /**
    * The underlying HTTP response.
@@ -21488,6 +22206,166 @@ export type RoutesListNextResponse = RouteListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: RouteListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type SecurityPartnerProvidersGetResponse = SecurityPartnerProvider & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SecurityPartnerProvider;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type SecurityPartnerProvidersCreateOrUpdateResponse = SecurityPartnerProvider & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SecurityPartnerProvider;
+    };
+};
+
+/**
+ * Contains response data for the updateTags operation.
+ */
+export type SecurityPartnerProvidersUpdateTagsResponse = SecurityPartnerProvider & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SecurityPartnerProvider;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroup operation.
+ */
+export type SecurityPartnerProvidersListByResourceGroupResponse = SecurityPartnerProviderListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SecurityPartnerProviderListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type SecurityPartnerProvidersListResponse = SecurityPartnerProviderListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SecurityPartnerProviderListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type SecurityPartnerProvidersBeginCreateOrUpdateResponse = SecurityPartnerProvider & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SecurityPartnerProvider;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroupNext operation.
+ */
+export type SecurityPartnerProvidersListByResourceGroupNextResponse = SecurityPartnerProviderListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SecurityPartnerProviderListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type SecurityPartnerProvidersListNextResponse = SecurityPartnerProviderListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SecurityPartnerProviderListResult;
     };
 };
 
@@ -25468,6 +26346,286 @@ export type VirtualHubRouteTableV2sListNextResponse = ListVirtualHubRouteTableV2
        * The response body as parsed JSON or XML
        */
       parsedBody: ListVirtualHubRouteTableV2sResult;
+    };
+};
+
+/**
+ * Contains response data for the listBySubscription operation.
+ */
+export type ExpressRouteGatewaysListBySubscriptionResponse = ExpressRouteGatewayList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExpressRouteGatewayList;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroup operation.
+ */
+export type ExpressRouteGatewaysListByResourceGroupResponse = ExpressRouteGatewayList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExpressRouteGatewayList;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ExpressRouteGatewaysCreateOrUpdateResponse = ExpressRouteGateway & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExpressRouteGateway;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ExpressRouteGatewaysGetResponse = ExpressRouteGateway & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExpressRouteGateway;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type ExpressRouteGatewaysBeginCreateOrUpdateResponse = ExpressRouteGateway & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExpressRouteGateway;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ExpressRouteConnectionsCreateOrUpdateResponse = ExpressRouteConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExpressRouteConnection;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ExpressRouteConnectionsGetResponse = ExpressRouteConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExpressRouteConnection;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type ExpressRouteConnectionsListResponse = ExpressRouteConnectionList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExpressRouteConnectionList;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type ExpressRouteConnectionsBeginCreateOrUpdateResponse = ExpressRouteConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExpressRouteConnection;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type HubRouteTablesCreateOrUpdateResponse = HubRouteTable & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: HubRouteTable;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type HubRouteTablesGetResponse = HubRouteTable & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: HubRouteTable;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type HubRouteTablesListResponse = ListHubRouteTablesResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListHubRouteTablesResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type HubRouteTablesBeginCreateOrUpdateResponse = HubRouteTable & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: HubRouteTable;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type HubRouteTablesListNextResponse = ListHubRouteTablesResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListHubRouteTablesResult;
     };
 };
 

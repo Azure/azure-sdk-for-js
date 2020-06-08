@@ -36,8 +36,10 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
   });
 
   afterEach(async function() {
-    await testClient.flushKey(keyName);
-    recorder.stop();
+    if (!this.currentTest?.isPending()) {
+      await testClient.flushKey(keyName);
+      recorder.stop();
+    }
   });
 
   // The tests follow
@@ -83,7 +85,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
   }
 
   // Local encryption is only supported in NodeJS.
-  it("sign and verify with RS256", async function() {
+  it("sign and verify with RS256", async function(): Promise<void> {
     recorder.skip("browser", "Local encryption is only supported in NodeJS");
     if (!isNode) {
       // recorder.skip is not meant for TEST_MODE=live

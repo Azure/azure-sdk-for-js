@@ -3,7 +3,7 @@
 
 import assert from "assert";
 import path from "path";
-import { EnvironmentCredential, AuthenticationError } from "../../src";
+import { EnvironmentCredential, AuthenticationError, CredentialUnavailable } from "../../src";
 import {
   MockAuthHttpClient,
   assertClientCredentials,
@@ -94,7 +94,7 @@ describe("EnvironmentCredential", function() {
     await credential.getToken("scope", {
       tracingOptions: {
         spanOptions: {
-          parent: rootSpan
+          parent: rootSpan.context()
         }
       }
     });
@@ -136,13 +136,13 @@ describe("EnvironmentCredential", function() {
     assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
   });
 
-  it("throws an AuthenticationError when getToken is called and no credential was configured", async () => {
+  it("throws an CredentialUnavailable when getToken is called and no credential was configured", async () => {
     const mockHttpClient = new MockAuthHttpClient();
 
     const credential = new EnvironmentCredential(mockHttpClient.tokenCredentialOptions);
     await assertRejects(
       credential.getToken("scope"),
-      (error: AuthenticationError) =>
+      (error: CredentialUnavailable) =>
         error.errorResponse.error.indexOf(
           "EnvironmentCredential is unavailable. Environment variables are not fully configured."
         ) > -1
@@ -153,7 +153,7 @@ describe("EnvironmentCredential", function() {
     const credentialDeux = new EnvironmentCredential(mockHttpClient.tokenCredentialOptions);
     await assertRejects(
       credentialDeux.getToken("scope"),
-      (error: AuthenticationError) =>
+      (error: CredentialUnavailable) =>
         error.errorResponse.error.indexOf(
           "EnvironmentCredential is unavailable. Environment variables are not fully configured."
         ) > -1

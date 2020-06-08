@@ -4,11 +4,11 @@
 
 ```ts
 
+import { AzureKeyCredential } from '@azure/core-auth';
+import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-http';
 import { PipelineOptions } from '@azure/core-http';
-import { ServiceClientCredentials } from '@azure/core-http';
-import { TokenCredential } from '@azure/identity';
-import { WebResource } from '@azure/core-http';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type AnalyzeSentimentErrorResult = TextAnalyticsErrorResult;
@@ -20,7 +20,7 @@ export type AnalyzeSentimentOptions = TextAnalyticsOperationOptions;
 export type AnalyzeSentimentResult = AnalyzeSentimentSuccessResult | AnalyzeSentimentErrorResult;
 
 // @public
-export interface AnalyzeSentimentResultCollection extends Array<AnalyzeSentimentResult> {
+export interface AnalyzeSentimentResultArray extends Array<AnalyzeSentimentResult> {
     modelVersion: string;
     statistics?: TextDocumentBatchStatistics;
 }
@@ -32,15 +32,17 @@ export interface AnalyzeSentimentSuccessResult extends TextAnalyticsSuccessResul
     sentiment: DocumentSentimentLabel;
 }
 
+export { AzureKeyCredential }
+
 // @public
 export interface CategorizedEntity extends Entity {
 }
 
 // @public
 export interface DetectedLanguage {
+    confidenceScore: number;
     iso6391Name: string;
     name: string;
-    score: number;
 }
 
 // @public
@@ -62,7 +64,7 @@ export type DetectLanguageOptions = TextAnalyticsOperationOptions;
 export type DetectLanguageResult = DetectLanguageSuccessResult | DetectLanguageErrorResult;
 
 // @public
-export interface DetectLanguageResultCollection extends Array<DetectLanguageResult> {
+export interface DetectLanguageResultArray extends Array<DetectLanguageResult> {
     modelVersion: string;
     statistics?: TextDocumentBatchStatistics;
 }
@@ -78,9 +80,7 @@ export type DocumentSentimentLabel = 'positive' | 'neutral' | 'negative' | 'mixe
 // @public
 export interface Entity {
     category: string;
-    graphemeLength: number;
-    graphemeOffset: number;
-    score: number;
+    confidenceScore: number;
     subCategory?: string;
     text: string;
 }
@@ -101,7 +101,7 @@ export type ExtractKeyPhrasesOptions = TextAnalyticsOperationOptions;
 export type ExtractKeyPhrasesResult = ExtractKeyPhrasesSuccessResult | ExtractKeyPhrasesErrorResult;
 
 // @public
-export interface ExtractKeyPhrasesResultCollection extends Array<ExtractKeyPhrasesResult> {
+export interface ExtractKeyPhrasesResultArray extends Array<ExtractKeyPhrasesResult> {
     modelVersion: string;
     statistics?: TextDocumentBatchStatistics;
 }
@@ -126,9 +126,7 @@ export interface LinkedEntity {
 
 // @public
 export interface Match {
-    graphemeLength: number;
-    graphemeOffset: number;
-    score: number;
+    confidenceScore: number;
     text: string;
 }
 
@@ -142,7 +140,7 @@ export type RecognizeCategorizedEntitiesOptions = TextAnalyticsOperationOptions;
 export type RecognizeCategorizedEntitiesResult = RecognizeCategorizedEntitiesSuccessResult | RecognizeCategorizedEntitiesErrorResult;
 
 // @public
-export interface RecognizeCategorizedEntitiesResultCollection extends Array<RecognizeCategorizedEntitiesResult> {
+export interface RecognizeCategorizedEntitiesResultArray extends Array<RecognizeCategorizedEntitiesResult> {
     modelVersion: string;
     statistics?: TextDocumentBatchStatistics;
 }
@@ -162,7 +160,7 @@ export type RecognizeLinkedEntitiesOptions = TextAnalyticsOperationOptions;
 export type RecognizeLinkedEntitiesResult = RecognizeLinkedEntitiesSuccessResult | RecognizeLinkedEntitiesErrorResult;
 
 // @public
-export interface RecognizeLinkedEntitiesResultCollection extends Array<RecognizeLinkedEntitiesResult> {
+export interface RecognizeLinkedEntitiesResultArray extends Array<RecognizeLinkedEntitiesResult> {
     modelVersion: string;
     statistics?: TextDocumentBatchStatistics;
 }
@@ -175,10 +173,8 @@ export interface RecognizeLinkedEntitiesSuccessResult extends TextAnalyticsSucce
 // @public
 export interface SentenceSentiment {
     confidenceScores: SentimentConfidenceScores;
-    graphemeLength: number;
-    graphemeOffset: number;
     sentiment: SentenceSentimentLabel;
-    warnings?: string[];
+    text?: string;
 }
 
 // @public
@@ -195,28 +191,21 @@ export interface SentimentConfidenceScores {
 }
 
 // @public
-export class TextAnalyticsApiKeyCredential implements ServiceClientCredentials {
-    constructor(apiKey: string);
-    signRequest(webResource: WebResource): Promise<WebResource>;
-    updateKey(apiKey: string): void;
-}
-
-// @public
 export class TextAnalyticsClient {
-    constructor(endpointUrl: string, credential: TokenCredential | TextAnalyticsApiKeyCredential, options?: TextAnalyticsClientOptions);
-    analyzeSentiment(documents: string[], language?: string, options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentResultCollection>;
-    analyzeSentiment(documents: TextDocumentInput[], options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentResultCollection>;
+    constructor(endpointUrl: string, credential: TokenCredential | KeyCredential, options?: TextAnalyticsClientOptions);
+    analyzeSentiment(documents: string[], language?: string, options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentResultArray>;
+    analyzeSentiment(documents: TextDocumentInput[], options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentResultArray>;
     defaultCountryHint: string;
     defaultLanguage: string;
-    detectLanguage(documents: string[], countryHint?: string, options?: DetectLanguageOptions): Promise<DetectLanguageResultCollection>;
-    detectLanguage(documents: DetectLanguageInput[], options?: DetectLanguageOptions): Promise<DetectLanguageResultCollection>;
+    detectLanguage(documents: string[], countryHint?: string, options?: DetectLanguageOptions): Promise<DetectLanguageResultArray>;
+    detectLanguage(documents: DetectLanguageInput[], options?: DetectLanguageOptions): Promise<DetectLanguageResultArray>;
     readonly endpointUrl: string;
-    extractKeyPhrases(documents: string[], language?: string, options?: ExtractKeyPhrasesOptions): Promise<ExtractKeyPhrasesResultCollection>;
-    extractKeyPhrases(documents: TextDocumentInput[], options?: ExtractKeyPhrasesOptions): Promise<ExtractKeyPhrasesResultCollection>;
-    recognizeEntities(documents: string[], language?: string, options?: RecognizeCategorizedEntitiesOptions): Promise<RecognizeCategorizedEntitiesResultCollection>;
-    recognizeEntities(documents: TextDocumentInput[], options?: RecognizeCategorizedEntitiesOptions): Promise<RecognizeCategorizedEntitiesResultCollection>;
-    recognizeLinkedEntities(documents: string[], language?: string, options?: RecognizeLinkedEntitiesOptions): Promise<RecognizeLinkedEntitiesResultCollection>;
-    recognizeLinkedEntities(documents: TextDocumentInput[], options?: RecognizeLinkedEntitiesOptions): Promise<RecognizeLinkedEntitiesResultCollection>;
+    extractKeyPhrases(documents: string[], language?: string, options?: ExtractKeyPhrasesOptions): Promise<ExtractKeyPhrasesResultArray>;
+    extractKeyPhrases(documents: TextDocumentInput[], options?: ExtractKeyPhrasesOptions): Promise<ExtractKeyPhrasesResultArray>;
+    recognizeEntities(documents: string[], language?: string, options?: RecognizeCategorizedEntitiesOptions): Promise<RecognizeCategorizedEntitiesResultArray>;
+    recognizeEntities(documents: TextDocumentInput[], options?: RecognizeCategorizedEntitiesOptions): Promise<RecognizeCategorizedEntitiesResultArray>;
+    recognizeLinkedEntities(documents: string[], language?: string, options?: RecognizeLinkedEntitiesOptions): Promise<RecognizeLinkedEntitiesResultArray>;
+    recognizeLinkedEntities(documents: TextDocumentInput[], options?: RecognizeLinkedEntitiesOptions): Promise<RecognizeLinkedEntitiesResultArray>;
 }
 
 // @public
@@ -252,6 +241,13 @@ export interface TextAnalyticsSuccessResult {
     readonly error?: undefined;
     readonly id: string;
     readonly statistics?: TextDocumentStatistics;
+    readonly warnings: TextAnalyticsWarning[];
+}
+
+// @public
+export interface TextAnalyticsWarning {
+    code: WarningCode;
+    message: string;
 }
 
 // @public
@@ -271,9 +267,12 @@ export interface TextDocumentInput {
 
 // @public
 export interface TextDocumentStatistics {
-    graphemeCount: number;
+    characterCount: number;
     transactionCount: number;
 }
+
+// @public
+export type WarningCode = 'LongWordsInDocument' | 'DocumentTruncated';
 
 
 // (No @packageDocumentation comment for this package)

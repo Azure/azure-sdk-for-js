@@ -7,14 +7,23 @@
  */
 
 export {
+  AccountKeyRegenerateRequest,
+  AccountKeys,
   AzureEntityResource,
   BaseResource,
-  ErrorResponse,
+  CloudError,
+  Identity,
+  Plan,
   ProxyResource,
+  RemoteRenderingAccount,
+  RemoteRenderingAccountIdentity,
   Resource,
+  ResourceModelWithAllowedPropertySet,
+  ResourceModelWithAllowedPropertySetIdentity,
+  ResourceModelWithAllowedPropertySetPlan,
+  ResourceModelWithAllowedPropertySetSku,
+  Sku,
   SpatialAnchorsAccount,
-  SpatialAnchorsAccountKeyRegenerateRequest,
-  SpatialAnchorsAccountKeys,
-  SpatialAnchorsAccountList,
+  SpatialAnchorsAccountPage,
   TrackedResource
 } from "../models/mappers";

@@ -2,15 +2,8 @@
 // Licensed under the MIT License.
 
 import { GetTokenOptions } from "@azure/core-http";
-import { getTracer } from "@azure/core-tracing";
-import { Span, SpanKind, SpanOptions } from "@opentelemetry/types";
-
-interface OperationTracingOptions {
-  /**
-   * OpenTelemetry SpanOptions used to create a span when tracing is enabled.
-   */
-  spanOptions?: SpanOptions;
-}
+import { getTracer, OperationTracingOptions } from "@azure/core-tracing";
+import { Span, SpanKind, SpanOptions as OTSpanOptions } from "@opentelemetry/api";
 
 /**
  * Creates a span using the global tracer.
@@ -28,7 +21,7 @@ export function createSpan(
     ...options.tracingOptions
   };
 
-  const spanOptions: SpanOptions = {
+  const spanOptions: OTSpanOptions = {
     ...tracingOptions.spanOptions,
     kind: SpanKind.INTERNAL
   };
@@ -44,7 +37,7 @@ export function createSpan(
         ...tracingOptions,
         spanOptions: {
           ...tracingOptions.spanOptions,
-          parent: span,
+          parent: span.context(),
           attributes: {
             ...spanOptions.attributes,
             "az.namespace": "Microsoft.AAD"

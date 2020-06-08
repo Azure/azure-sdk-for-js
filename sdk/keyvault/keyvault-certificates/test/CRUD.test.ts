@@ -136,6 +136,54 @@ describe("Certificates client - create, read, update and delete", () => {
     await testClient.flushCertificate(certificateName);
   });
 
+  it("can disable a certificate", async function() {
+    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+
+    const poller = await client.beginCreateCertificate(
+      certificateName,
+      basicCertificatePolicy,
+      testPollerProperties
+    );
+
+    let result = await poller.pollUntilDone();
+    assert.equal(result.properties.enabled, true);
+
+    result = await client.updateCertificateProperties(certificateName, "", {
+      enabled: false
+    });
+    assert.equal(result.properties.enabled, false);
+
+    result = await client.getCertificate(certificateName);
+    assert.equal(result.properties.enabled, false);
+
+    await testClient.flushCertificate(certificateName);
+  });
+
+  it("can disable a certificate version", async function() {
+    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+
+    const poller = await client.beginCreateCertificate(
+      certificateName,
+      basicCertificatePolicy,
+      testPollerProperties
+    );
+
+    let result = await poller.pollUntilDone();
+
+    const version = result.properties.version!;
+    assert.equal(result.properties.enabled, true);
+
+    result = await client.updateCertificateProperties(certificateName, version, {
+      enabled: false
+    });
+    assert.equal(result.properties.enabled, false);
+
+    result = await client.getCertificateVersion(certificateName, version);
+    assert.equal(result.properties.enabled, false);
+
+    await testClient.flushCertificate(certificateName);
+  });
+
   // On playback mode, the tests happen too fast for the timeout to work
   it("can update certificate with requestOptions timeout", async function() {
     recorder.skip(undefined, "Timeout tests don't work on playback mode.");
@@ -298,11 +346,8 @@ describe("Certificates client - create, read, update and delete", () => {
     } catch (e) {
       error = e;
     }
-    assert.equal(
-      error.message,
-      `Certificate not found: ${certificateName}`,
-      "Unexpected error after trying to get a certificate"
-    );
+    assert.equal(error.code, "CertificateNotFound");
+    assert.equal(error.statusCode, 404);
   });
 
   it("can delete a certificate", async function() {
@@ -324,11 +369,13 @@ describe("Certificates client - create, read, update and delete", () => {
       throw Error("Expecting an error but not catching one.");
     } catch (e) {
       if (e.statusCode === 404) {
-        assert.equal(e.message, `Certificate not found: ${certificateName}`);
+        assert.equal(e.code, "CertificateNotFound");
       } else {
         throw e;
       }
     }
+
+    await poller.pollUntilDone();
     await testClient.purgeCertificate(certificateName);
   });
 
@@ -360,11 +407,8 @@ describe("Certificates client - create, read, update and delete", () => {
     } catch (e) {
       error = e;
     }
-    assert.equal(
-      error.message,
-      `Certificate not found: ${certificateName}`,
-      "Unexpected error after trying to get a disabled certificate"
-    );
+    assert.equal(error.code, "CertificateNotFound");
+    assert.equal(error.statusCode, 404);
   });
 
   describe("can get a deleted certificate", () => {
@@ -380,7 +424,7 @@ describe("Certificates client - create, read, update and delete", () => {
         certificateName,
         testPollerProperties
       );
-      let deletedCertificate = await deletePoller.pollUntilDone();
+      const deletedCertificate = await deletePoller.pollUntilDone();
       assert.equal(
         deletedCertificate.name,
         certificateName,
@@ -423,11 +467,8 @@ describe("Certificates client - create, read, update and delete", () => {
       } catch (e) {
         error = e;
       }
-      assert.equal(
-        error.message,
-        `Certificate not found: ${certificateName}`,
-        "Unexpected certificate name in result from getKey()."
-      );
+      assert.equal(error.code, "CertificateNotFound");
+      assert.equal(error.statusCode, 404);
     });
   });
 

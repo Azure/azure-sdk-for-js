@@ -3,7 +3,7 @@
 
 import * as fs from "fs";
 import { HttpRequestBody, HttpResponse, isNode, TransferProgressEvent } from "@azure/core-http";
-import { CanonicalCode } from "@opentelemetry/types";
+import { CanonicalCode } from "@opentelemetry/api";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { FileDownloadResponse } from "./FileDownloadResponse";
 import {
@@ -820,7 +820,7 @@ export interface FileDownloadToBufferOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
   /**
    * When downloading Azure files, download method will try to split large file into small ranges.
-   * Every small range will be downloaded via a separte request.
+   * Every small range will be downloaded via a separate request.
    * This option defines size data every small request trying to download.
    * Must be > 0, will use the default value if undefined,
    *
@@ -2183,7 +2183,7 @@ export class ShareFileClient extends StorageClient {
         } catch (error) {
           throw new Error(
             `Unable to allocate a buffer of size: ${count} bytes. Please try passing your own Buffer to ` +
-              'the "downloadToBuffer method or try using other moethods like "download" or "downloadToFile".' +
+              'the "downloadToBuffer method or try using other methods like "download" or "downloadToFile".' +
               `\t ${error.message}`
           );
         }
@@ -2247,7 +2247,7 @@ export class ShareFileClient extends StorageClient {
    *   parameter, which will avoid Buffer.concat() operations.
    *
    * @param {Readable} stream Node.js Readable stream. Must be less or equal than file size.
-   * @param {number} size Size of file to be created. Maxium size allowed is 1TB.
+   * @param {number} size Size of file to be created. Maximum size allowed is 1TB.
    *                      If this value is larger than stream size, there will be empty bytes in file tail.
    * @param {number} bufferSize Size of every buffer allocated in bytes, also the chunk/range size during
    *                            the uploaded file. Size must be > 0 and <= 4 * 1024 * 1024 (4MB)

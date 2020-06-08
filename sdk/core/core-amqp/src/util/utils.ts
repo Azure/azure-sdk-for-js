@@ -1,14 +1,13 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import AsyncLock from "async-lock";
-import { AbortSignalLike, AbortError } from "@azure/abort-controller";
+import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { WebSocketImpl } from "rhea-promise";
 
 export { AsyncLock };
 /**
  * Describes the options that can be provided to create an async lock.
- * @interface AsyncLockOptions
  */
 export interface AsyncLockOptions {
   /**
@@ -60,7 +59,6 @@ export const isNode =
 
 /**
  * Describes the servicebus connection string model.
- * @interface ServiceBusConnectionStringModel
  */
 export interface ServiceBusConnectionStringModel {
   Endpoint: string;
@@ -72,7 +70,6 @@ export interface ServiceBusConnectionStringModel {
 
 /**
  * Describes the eventhub connection string model.
- * @interface EventHubConnectionStringModel
  */
 export interface EventHubConnectionStringModel {
   Endpoint: string;
@@ -83,8 +80,7 @@ export interface EventHubConnectionStringModel {
 }
 
 /**
- * Describes the stroage connection string model.
- * @interface StorageConnectionStringModel
+ * Describes the storage connection string model.
  */
 export interface StorageConnectionStringModel {
   DefaultEndpointsProtocol: string;
@@ -96,7 +92,6 @@ export interface StorageConnectionStringModel {
 
 /**
  * Describes the iothub connection string model.
- * @interface IotHubConnectionStringModel
  */
 export interface IotHubConnectionStringModel {
   HostName: string;
@@ -174,7 +169,7 @@ export const defaultLock: AsyncLock = new AsyncLock({ maxPending: 10000 });
 /**
  * Describes a Timeout class that can wait for the specified amount of time and then resolve/reject
  * the promise with the given value.
- * @class Timout
+ * @class Timeout
  */
 export class Timeout {
   // Node and browsers return different types from setTimeout
@@ -202,11 +197,11 @@ export class Timeout {
   }
 
   private _promiseFinally<T>(promise: Promise<T>, fn: Function): Promise<T> {
-    const success = (result: T) => {
+    const success = (result: T): T => {
       fn();
       return result;
     };
-    const error = (e: Error) => {
+    const error = (e: Error): Promise<never> => {
       fn();
       return Promise.reject(e);
     };
@@ -237,19 +232,19 @@ export function delay<T>(
   value?: T
 ): Promise<T> {
   return new Promise((resolve, reject) => {
-    const rejectOnAbort = () => {
+    const rejectOnAbort = (): void => {
       return reject(
         new AbortError(abortErrorMsg ? abortErrorMsg : `The delay was cancelled by the user.`)
       );
     };
 
-    const removeListeners = () => {
+    const removeListeners = (): void => {
       if (abortSignal) {
         abortSignal.removeEventListener("abort", onAborted);
       }
     };
 
-    const onAborted = () => {
+    const onAborted = (): void => {
       clearTimeout(timer);
       removeListeners();
       return rejectOnAbort();

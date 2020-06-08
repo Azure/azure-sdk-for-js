@@ -1,31 +1,33 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { delay } from "../../src";
-import { QueueOptions } from "../../src/serializers/queueResourceSerializer";
-import { TopicOptions } from "../../src/serializers/topicResourceSerializer";
-import { SubscriptionOptions } from "../../src/serializers/subscriptionResourceSerializer";
-import { ServiceBusAtomManagementClient } from "../../src/serviceBusAtomManagementClient";
+import { QueueDescription } from "../../src/serializers/queueResourceSerializer";
+import { TopicDescription } from "../../src/serializers/topicResourceSerializer";
+import { SubscriptionDescription } from "../../src/serializers/subscriptionResourceSerializer";
+import { ServiceBusManagementClient } from "../../src/serviceBusAtomManagementClient";
 
 import { EnvVarNames, getEnvVars } from "./envVarUtils";
+import chai from "chai";
+const should = chai.should();
 
-let client: ServiceBusAtomManagementClient;
+let client: ServiceBusManagementClient;
 
 /**
  * Utility to fetch cached instance of `ServiceBusAtomManagementClient` else creates and returns
- * a new instance constructed based on the connection string configured in environmet.
+ * a new instance constructed based on the connection string configured in environment.
  */
 async function getManagementClient() {
   if (client == undefined) {
     const env = getEnvVars();
-    client = new ServiceBusAtomManagementClient(env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]);
+    client = new ServiceBusManagementClient(env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]);
   }
   return client;
 }
 
 /**
  * Utility to apply retries to a given `operationCallBack`.
- * Default policy is performing linear retries of upto `5` attempts that are `1000 milliseconds` apart.
+ * Default policy is performing linear retries of up to `5` attempts that are `1000 milliseconds` apart.
  * The retries will be preempted if given `breakConditionCallback` evaluates to `true` early on.
  * @param operationCallback
  * @param breakConditionCallback
@@ -74,7 +76,10 @@ async function retry(
  * @param queueName
  * @param parameters
  */
-export async function recreateQueue(queueName: string, parameters?: QueueOptions): Promise<void> {
+export async function recreateQueue(
+  queueName: string,
+  parameters?: Omit<QueueDescription, "name">
+): Promise<void> {
   await getManagementClient();
 
   const deleteQueueOperation = async () => {
@@ -82,12 +87,12 @@ export async function recreateQueue(queueName: string, parameters?: QueueOptions
   };
 
   const createQueueOperation = async () => {
-    await client.createQueue(queueName, parameters);
+    await client.createQueue({ name: queueName, ...parameters });
   };
 
   const checkIfQueueExistsOperation = async () => {
     try {
-      await client.getQueueDetails(queueName);
+      await client.getQueue(queueName);
     } catch (err) {
       return false;
     }
@@ -109,7 +114,10 @@ export async function recreateQueue(queueName: string, parameters?: QueueOptions
  * @param topicName
  * @param parameters
  */
-export async function recreateTopic(topicName: string, parameters?: TopicOptions): Promise<void> {
+export async function recreateTopic(
+  topicName: string,
+  parameters?: Omit<TopicDescription, "name">
+): Promise<void> {
   await getManagementClient();
 
   const deleteTopicOperation = async () => {
@@ -117,12 +125,12 @@ export async function recreateTopic(topicName: string, parameters?: TopicOptions
   };
 
   const createTopicOperation = async () => {
-    await client.createTopic(topicName, parameters);
+    await client.createTopic({ name: topicName, ...parameters });
   };
 
   const checkIfTopicExistsOperation = async () => {
     try {
-      await client.getTopicDetails(topicName);
+      await client.getTopic(topicName);
     } catch (err) {
       return false;
     }
@@ -148,7 +156,7 @@ export async function recreateTopic(topicName: string, parameters?: TopicOptions
 export async function recreateSubscription(
   topicName: string,
   subscriptionName: string,
-  parameters?: SubscriptionOptions
+  parameters?: Omit<SubscriptionDescription, "topicName" | "subscriptionName">
 ): Promise<void> {
   await getManagementClient();
   /*
@@ -158,12 +166,12 @@ export async function recreateSubscription(
   */
 
   const createSubscriptionOperation = async () => {
-    await client.createSubscription(topicName, subscriptionName, parameters);
+    await client.createSubscription({ topicName, subscriptionName, ...parameters });
   };
 
   const checkIfSubscriptionExistsOperation = async () => {
     try {
-      await client.getSubscriptionDetails(topicName, subscriptionName);
+      await client.getSubscription(topicName, subscriptionName);
     } catch (err) {
       return false;
     }
@@ -178,9 +186,35 @@ export async function recreateSubscription(
 }
 
 /**
+ * Utility that verifies the message count of an entity.
+ *
+ * @export
+ * @param {number} expectedMessageCount
+ * @param {string} [queueName]
+ * @param {string} [topicName]
+ * @param {string} [subscriptionName]
+ * @returns {Promise<void>}
+ */
+export async function verifyMessageCount(
+  expectedMessageCount: number,
+  queueName?: string,
+  topicName?: string,
+  subscriptionName?: string
+): Promise<void> {
+  await getManagementClient();
+  should.equal(
+    queueName
+      ? (await client.getQueueRuntimeInfo(queueName)).messageCount
+      : (await client.getSubscriptionRuntimeInfo(topicName!, subscriptionName!)).messageCount,
+    expectedMessageCount,
+    `Unexpected number of messages are present in the entity.`
+  );
+}
+
+/**
  * Utility function to get namespace string from given connection string
  * @param serviceBusConnectionString
  */
 export function getNamespace(serviceBusConnectionString: string): string {
-  return (serviceBusConnectionString.match("Endpoint=sb://(.*).servicebus.windows.net") || "")[1];
+  return (serviceBusConnectionString.match("Endpoint=.*://(.*).servicebus.windows.net") || "")[1];
 }

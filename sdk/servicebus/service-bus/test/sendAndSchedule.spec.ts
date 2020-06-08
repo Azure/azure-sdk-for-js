@@ -1,12 +1,13 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import chai from "chai";
+import Long from "long";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { delay, ServiceBusMessage } from "../src";
-import { TestMessage, TestClientType } from "./utils/testUtils";
+import { ServiceBusMessage, delay } from "../src";
+import { TestClientType, TestMessage } from "./utils/testUtils";
 import { Receiver } from "../src/receivers/receiver";
 import {
   ServiceBusClientForTests,
@@ -15,10 +16,11 @@ import {
 } from "./utils/testutils2";
 import { Sender } from "../src/sender";
 import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
+import { AbortController } from "@azure/abort-controller";
 
 describe("send scheduled messages", () => {
-  let senderClient: Sender;
-  let receiverClient: Receiver<ReceivedMessageWithLock>;
+  let sender: Sender;
+  let receiver: Receiver<ReceivedMessageWithLock>;
   let serviceBusClient: ServiceBusClientForTests;
 
   before(() => {
@@ -31,16 +33,16 @@ describe("send scheduled messages", () => {
 
   async function beforeEachTest(entityType: TestClientType): Promise<void> {
     const entityNames = await serviceBusClient.test.createTestEntities(entityType);
-    receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
 
-    senderClient = serviceBusClient.test.addToCleanup(
-      serviceBusClient.getSender(entityNames.queue ?? entityNames.topic!)
+    sender = serviceBusClient.test.addToCleanup(
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
   }
 
   async function afterEachTest(): Promise<void> {
-    await senderClient.close();
-    await receiverClient.close();
+    await sender.close();
+    await receiver.close();
   }
 
   describe("Simple Send", function(): void {
@@ -50,8 +52,8 @@ describe("send scheduled messages", () => {
 
     async function testSimpleSend(useSessions: boolean, usePartitions: boolean): Promise<void> {
       const testMessage = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
-      await senderClient.send(testMessage);
-      const msgs = await receiverClient.receiveBatch(1);
+      await sender.send(testMessage);
+      const msgs = await receiver.receiveBatch(1);
 
       should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
       should.equal(msgs.length, 1, "Unexpected number of messages");
@@ -61,7 +63,7 @@ describe("send scheduled messages", () => {
 
       await msgs[0].complete();
 
-      await testPeekMsgsLength(receiverClient, 0);
+      await testPeekMsgsLength(receiver, 0);
     }
 
     it("Partitioned Queue: Simple Send", async function(): Promise<void> {
@@ -74,7 +76,7 @@ describe("send scheduled messages", () => {
       await testSimpleSend(false, true);
     });
 
-    it("Unpartitioned Queue: Simple Send #RunInBrowser", async function(): Promise<void> {
+    it("Unpartitioned Queue: Simple Send", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedQueue);
       await testSimpleSend(false, false);
     });
@@ -105,80 +107,79 @@ describe("send scheduled messages", () => {
     });
   });
 
-  // sendBatch(<Array of messages>) - Commented
-  // describe("Simple Send Batch", function(): void {
-  //   afterEach(async () => {
-  //     await afterEachTest();
-  //   });
+  describe("Send array of messages", function(): void {
+    afterEach(async () => {
+      await afterEachTest();
+    });
 
-  //   async function testSimpleSendBatch(
-  //     useSessions: boolean,
-  //     usePartitions: boolean
-  //   ): Promise<void> {
-  //     const testMessages = [];
-  //     testMessages.push(useSessions ? TestMessage.getSessionSample() : TestMessage.getSample());
-  //     testMessages.push(useSessions ? TestMessage.getSessionSample() : TestMessage.getSample());
+    async function testSimpleSendBatch(
+      useSessions: boolean,
+      usePartitions: boolean
+    ): Promise<void> {
+      const testMessages = [];
+      testMessages.push(useSessions ? TestMessage.getSessionSample() : TestMessage.getSample());
+      testMessages.push(useSessions ? TestMessage.getSessionSample() : TestMessage.getSample());
 
-  //     await senderClient.sendBatch(testMessages);
-  //     const msgs = await receiverClient.receiveBatch(2);
+      await sender.send(testMessages);
+      const msgs = await receiver.receiveBatch(2);
 
-  //     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
-  //     should.equal(msgs.length, 2, "Unexpected number of messages");
+      should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+      should.equal(msgs.length, 2, "Unexpected number of messages");
 
-  //     if (testMessages[0].messageId === msgs[0].messageId) {
-  //       TestMessage.checkMessageContents(testMessages[0], msgs[0], useSessions, usePartitions);
-  //       TestMessage.checkMessageContents(testMessages[1], msgs[1], useSessions, usePartitions);
-  //     } else {
-  //       TestMessage.checkMessageContents(testMessages[1], msgs[0], useSessions, usePartitions);
-  //       TestMessage.checkMessageContents(testMessages[0], msgs[1], useSessions, usePartitions);
-  //     }
+      if (testMessages[0].messageId === msgs[0].messageId) {
+        TestMessage.checkMessageContents(testMessages[0], msgs[0], useSessions, usePartitions);
+        TestMessage.checkMessageContents(testMessages[1], msgs[1], useSessions, usePartitions);
+      } else {
+        TestMessage.checkMessageContents(testMessages[1], msgs[0], useSessions, usePartitions);
+        TestMessage.checkMessageContents(testMessages[0], msgs[1], useSessions, usePartitions);
+      }
 
-  //     await msgs[0].complete();
-  //     await msgs[1].complete();
+      await msgs[0].complete();
+      await msgs[1].complete();
 
-  //     await testPeekMsgsLength(receiverClient, 0);
-  //   }
+      await testPeekMsgsLength(receiver, 0);
+    }
 
-  //   it("Partitioned Queue: Simple SendBatch", async function(): Promise<void> {
-  //     await beforeEachTest(TestClientType.PartitionedQueue);
-  //     await testSimpleSendBatch(false, true);
-  //   });
+    it("Partitioned Queue: Simple SendBatch", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.PartitionedQueue);
+      await testSimpleSendBatch(false, true);
+    });
 
-  //   it("Partitioned Topic: Simple SendBatch", async function(): Promise<void> {
-  //     await beforeEachTest(TestClientType.PartitionedSubscription);
-  //     await testSimpleSendBatch(false, true);
-  //   });
+    it("Partitioned Topic: Simple SendBatch", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.PartitionedSubscription);
+      await testSimpleSendBatch(false, true);
+    });
 
-  //   it("Unpartitioned Queue: Simple SendBatch #RunInBrowser", async function(): Promise<void> {
-  //     await beforeEachTest(TestClientType.UnpartitionedQueue);
-  //     await testSimpleSendBatch(false, false);
-  //   });
+    it("Unpartitioned Queue: Simple SendBatch", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.UnpartitionedQueue);
+      await testSimpleSendBatch(false, false);
+    });
 
-  //   it("Unpartitioned Topic: Simple SendBatch", async function(): Promise<void> {
-  //     await beforeEachTest(TestClientType.UnpartitionedSubscription);
-  //     await testSimpleSendBatch(false, false);
-  //   });
+    it("Unpartitioned Topic: Simple SendBatch", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.UnpartitionedSubscription);
+      await testSimpleSendBatch(false, false);
+    });
 
-  //   it("Partitioned Queue with Sessions: Simple SendBatch", async function(): Promise<void> {
-  //     await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
-  //     await testSimpleSendBatch(true, true);
-  //   });
+    it("Partitioned Queue with Sessions: Simple SendBatch", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
+      await testSimpleSendBatch(true, true);
+    });
 
-  //   it("Partitioned Topic with Sessions: Simple SendBatch", async function(): Promise<void> {
-  //     await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions);
-  //     await testSimpleSendBatch(true, true);
-  //   });
+    it("Partitioned Topic with Sessions: Simple SendBatch", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions);
+      await testSimpleSendBatch(true, true);
+    });
 
-  //   it("Unpartitioned Queue with Sessions: Simple SendBatch", async function(): Promise<void> {
-  //     await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-  //     await testSimpleSendBatch(true, false);
-  //   });
+    it("Unpartitioned Queue with Sessions: Simple SendBatch", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
+      await testSimpleSendBatch(true, false);
+    });
 
-  //   it("Unpartitioned Topic with Sessions: Simple SendBatch", async function(): Promise<void> {
-  //     await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
-  //     await testSimpleSendBatch(true, false);
-  //   });
-  // });
+    it("Unpartitioned Topic with Sessions: Simple SendBatch", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
+      await testSimpleSendBatch(true, false);
+    });
+  });
 
   describe("Schedule single message", function(): void {
     afterEach(async () => {
@@ -201,12 +202,12 @@ describe("send scheduled messages", () => {
       // Randomly choose scheduleMessage/scheduleMessages as the latter is expected to convert single
       // input to array and then use it
       if (useScheduleMessages) {
-        await senderClient.scheduleMessages(scheduleTime, testMessage as any);
+        await sender.scheduleMessages(scheduleTime, testMessage as any);
       } else {
-        await senderClient.scheduleMessage(scheduleTime, testMessage);
+        await sender.scheduleMessage(scheduleTime, testMessage);
       }
 
-      const msgs = await receiverClient.receiveBatch(1);
+      const msgs = await receiver.receiveBatch(1);
       const msgEnqueueTime = msgs[0].enqueuedTimeUtc ? msgs[0].enqueuedTimeUtc.valueOf() : 0;
 
       should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
@@ -225,7 +226,7 @@ describe("send scheduled messages", () => {
 
       await msgs[0].complete();
 
-      await testPeekMsgsLength(receiverClient, 0);
+      await testPeekMsgsLength(receiver, 0);
     }
 
     it("Partitioned Queue: Schedule single message", async function(): Promise<void> {
@@ -306,9 +307,9 @@ describe("send scheduled messages", () => {
     async function testScheduleMessages(useSessions?: boolean): Promise<void> {
       const testMessages = useSessions ? messageWithSessions : messages;
       const scheduleTime = new Date(Date.now() + 10000); // 10 seconds from now
-      await senderClient.scheduleMessages(scheduleTime, testMessages);
+      await sender.scheduleMessages(scheduleTime, testMessages);
 
-      const msgs = await receiverClient.receiveBatch(2);
+      const msgs = await receiver.receiveBatch(2);
       should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
       should.equal(msgs.length, 2, "Unexpected number of messages");
 
@@ -340,7 +341,7 @@ describe("send scheduled messages", () => {
       await msgs[0].complete();
       await msgs[1].complete();
 
-      await testPeekMsgsLength(receiverClient, 0);
+      await testPeekMsgsLength(receiver, 0);
     }
 
     it("Partitioned Queue: Schedule multiple messages", async function(): Promise<void> {
@@ -353,9 +354,7 @@ describe("send scheduled messages", () => {
       await testScheduleMessages();
     });
 
-    it("UnPartitioned Queue: Schedule multiple messages #RunInBrowser", async function(): Promise<
-      void
-    > {
+    it("UnPartitioned Queue: Schedule multiple messages", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedQueue);
       await testScheduleMessages();
     });
@@ -379,7 +378,7 @@ describe("send scheduled messages", () => {
       await testScheduleMessages(true);
     });
 
-    it("Unpartitioned Queue with Sessions: Schedule multiple messages #RunInBrowser", async function(): Promise<
+    it("Unpartitioned Queue with Sessions: Schedule multiple messages", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
@@ -402,15 +401,15 @@ describe("send scheduled messages", () => {
     async function testCancelScheduleMessage(useSessions?: boolean): Promise<void> {
       const testMessage = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
       const scheduleTime = new Date(Date.now() + 30000); // 30 seconds from now as anything less gives inconsistent results for cancelling
-      const sequenceNumber = await senderClient.scheduleMessage(scheduleTime, testMessage);
+      const sequenceNumber = await sender.scheduleMessage(scheduleTime, testMessage);
 
       await delay(2000);
 
-      await senderClient.cancelScheduledMessage(sequenceNumber);
+      await sender.cancelScheduledMessage(sequenceNumber);
 
       // Wait until we are sure we have passed the schedule time
       await delay(30000);
-      await testReceivedMsgsLength(receiverClient, 0);
+      await testReceivedMsgsLength(receiver, 0);
     }
 
     it("Partitioned Queue: Cancel single Scheduled message", async function(): Promise<void> {
@@ -471,16 +470,16 @@ describe("send scheduled messages", () => {
       const testMessage = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
 
       const scheduleTime = new Date(Date.now() + 30000); // 30 seconds from now as anything less gives inconsistent results for cancelling
-      const sequenceNumber1 = await senderClient.scheduleMessage(scheduleTime, testMessage);
-      const sequenceNumber2 = await senderClient.scheduleMessage(scheduleTime, testMessage);
+      const sequenceNumber1 = await sender.scheduleMessage(scheduleTime, testMessage);
+      const sequenceNumber2 = await sender.scheduleMessage(scheduleTime, testMessage);
 
       await delay(2000);
 
-      await senderClient.cancelScheduledMessages([sequenceNumber1, sequenceNumber2]);
+      await sender.cancelScheduledMessages([sequenceNumber1, sequenceNumber2]);
 
       // Wait until we are sure we have passed the schedule time
       await delay(30000);
-      await testReceivedMsgsLength(receiverClient, 0);
+      await testReceivedMsgsLength(receiver, 0);
     }
 
     it("Partitioned Queue: Cancel scheduled messages", async function(): Promise<void> {
@@ -493,9 +492,7 @@ describe("send scheduled messages", () => {
       await testCancelScheduleMessages(false);
     });
 
-    it("Unpartitioned Queue: Cancel scheduled messages #RunInBrowser", async function(): Promise<
-      void
-    > {
+    it("Unpartitioned Queue: Cancel scheduled messages", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedQueue);
       await testCancelScheduleMessages(false);
     });
@@ -519,7 +516,7 @@ describe("send scheduled messages", () => {
       await testCancelScheduleMessages(true);
     });
 
-    it("Unpartitioned Queue with Sessions: Cancel scheduled messages #RunInBrowser", async function(): Promise<
+    it("Unpartitioned Queue with Sessions: Cancel scheduled messages", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
@@ -534,7 +531,7 @@ describe("send scheduled messages", () => {
     });
   });
 
-  describe("ServiceBusMessage validations #RunInBrowser", function(): void {
+  describe("ServiceBusMessage validations", function(): void {
     const longString =
       "A very very very very very very very very very very very very very very very very very very very very very very very very very long string.";
     after(async () => {
@@ -627,7 +624,7 @@ describe("send scheduled messages", () => {
     testInputs.forEach(function(testInput: any): void {
       it("Send() throws if " + testInput.title, async function(): Promise<void> {
         let actualErrorMsg = "";
-        await senderClient.send(testInput.message).catch((err) => {
+        await sender.send(testInput.message).catch((err) => {
           actualErrorMsg = err.message;
         });
         should.equal(
@@ -642,7 +639,7 @@ describe("send scheduled messages", () => {
       //   "SendBatch() throws if in the first message, " + testInput.title,
       //   async function(): Promise<void> {
       //     let actualErrorMsg = "";
-      //     await senderClient.sendBatch([testInput.message, { body: "random" }]).catch((err) => {
+      //     await sender.sendBatch([testInput.message, { body: "random" }]).catch((err) => {
       //       actualErrorMsg = err.message;
       //     });
       //     should.equal(
@@ -657,7 +654,7 @@ describe("send scheduled messages", () => {
       //   "SendBatch() throws if in the subsequent message, " + testInput.title,
       //   async function(): Promise<void> {
       //     let actualErrorMsg = "";
-      //     await senderClient.sendBatch([{ body: "random" }, testInput.message]).catch((err) => {
+      //     await sender.sendBatch([{ body: "random" }, testInput.message]).catch((err) => {
       //       actualErrorMsg = err.message;
       //     });
       //     should.equal(
@@ -671,7 +668,7 @@ describe("send scheduled messages", () => {
       it("ScheduleMessage() throws if " + testInput.title, async function(): Promise<void> {
         let actualErrorMsg = "";
         let actualErr;
-        await senderClient.scheduleMessage(new Date(), testInput.message).catch((err) => {
+        await sender.scheduleMessage(new Date(), testInput.message).catch((err) => {
           actualErr = err;
           actualErrorMsg = err.message;
         });
@@ -681,11 +678,11 @@ describe("send scheduled messages", () => {
   });
 
   async function testReceivedMsgsLength(
-    receiverClient: Receiver<ReceivedMessageWithLock>,
+    receiver: Receiver<ReceivedMessageWithLock>,
     expectedReceivedMsgsLength: number
   ): Promise<void> {
-    const receivedMsgs = await receiverClient.receiveBatch(expectedReceivedMsgsLength + 1, {
-      maxWaitTimeSeconds: 5
+    const receivedMsgs = await receiver.receiveBatch(expectedReceivedMsgsLength + 1, {
+      maxWaitTimeInMs: 5000
     });
 
     should.equal(
@@ -694,4 +691,62 @@ describe("send scheduled messages", () => {
       "Unexpected number of msgs found when receiving"
     );
   }
+
+  describe("Cancel operations on the sender", function(): void {
+    it("Abort scheduleMessage request on the sender", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.PartitionedQueue);
+      const controller = new AbortController();
+      setTimeout(() => controller.abort(), 1);
+      try {
+        await sender.scheduleMessage(new Date(), TestMessage.getSample(), {
+          abortSignal: controller.signal
+        });
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.message.should.equal("The scheduleMessage operation has been cancelled by the user.");
+      }
+    });
+
+    it("Abort scheduleMessages request on the sender", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.PartitionedQueue);
+      const controller = new AbortController();
+      setTimeout(() => controller.abort(), 1);
+      try {
+        await sender.scheduleMessages(new Date(), [TestMessage.getSample()], {
+          abortSignal: controller.signal
+        });
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.message.should.equal("The scheduleMessages operation has been cancelled by the user.");
+      }
+    });
+
+    it("Abort cancelScheduledMessage request on the sender", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.PartitionedQueue);
+      const controller = new AbortController();
+      setTimeout(() => controller.abort(), 1);
+      try {
+        await sender.cancelScheduledMessage(Long.ZERO, { abortSignal: controller.signal });
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.message.should.equal(
+          "The cancelScheduledMessage operation has been cancelled by the user."
+        );
+      }
+    });
+
+    it("Abort cancelScheduledMessages request on the sender", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.PartitionedQueue);
+      const controller = new AbortController();
+      setTimeout(() => controller.abort(), 1);
+      try {
+        await sender.cancelScheduledMessages([Long.ZERO], { abortSignal: controller.signal });
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.message.should.equal(
+          "The cancelScheduledMessages operation has been cancelled by the user."
+        );
+      }
+    });
+  });
 });

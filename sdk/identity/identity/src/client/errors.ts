@@ -64,6 +64,13 @@ function isErrorResponse(errorResponse: any): errorResponse is OAuthErrorRespons
 }
 
 /**
+ * This signifies that the credential that was tried in a chained credential
+ * was not available to be used as the credential. Rather than treating this as
+ * an error that should halt the chain, it's caught and the chain continues
+ */
+export class CredentialUnavailable extends Error {}
+
+/**
  * The Error.name value of an AuthenticationError
  */
 export const AuthenticationErrorName = "AuthenticationError";

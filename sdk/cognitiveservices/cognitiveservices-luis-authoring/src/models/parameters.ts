@@ -32,6 +32,18 @@ export const appName: msRest.OperationQueryParameter = {
     }
   }
 };
+export const armToken: msRest.OperationParameter = {
+  parameterPath: [
+    "options",
+    "armToken"
+  ],
+  mapper: {
+    serializedName: "ArmToken",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const cChildId: msRest.OperationURLParameter = {
   parameterPath: "cChildId",
   mapper: {
@@ -95,6 +107,19 @@ export const domainName: msRest.OperationURLParameter = {
     }
   }
 };
+export const enableNestedChildren: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "enableNestedChildren"
+  ],
+  mapper: {
+    serializedName: "enableNestedChildren",
+    defaultValue: false,
+    type: {
+      name: "Boolean"
+    }
+  }
+};
 export const endpoint: msRest.OperationURLParameter = {
   parameterPath: "endpoint",
   mapper: {
@@ -137,6 +162,18 @@ export const force: msRest.OperationQueryParameter = {
     defaultValue: false,
     type: {
       name: "Boolean"
+    }
+  }
+};
+export const format: msRest.OperationQueryParameter = {
+  parameterPath: "format",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "format",
+    defaultValue: 'lu',
+    type: {
+      name: "String"
     }
   }
 };

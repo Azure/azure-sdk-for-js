@@ -1,8 +1,8 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import chai from "chai";
-import { ServiceBusMessage, delay, MessagingError, ReceivedMessage } from "../../src";
+import { MessagingError, ReceivedMessage, ServiceBusMessage, delay } from "../../src";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -164,7 +164,7 @@ export async function checkWithTimeout(
  * @param serviceBusConnectionString
  */
 export function getNamespace(serviceBusConnectionString: string): string {
-  return (serviceBusConnectionString.match("Endpoint=sb://(.*).servicebus.windows.net") || "")[1];
+  return (serviceBusConnectionString.match("Endpoint=.*://(.*).servicebus.windows.net") || "")[1];
 }
 
 /**

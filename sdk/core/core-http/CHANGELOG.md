@@ -1,8 +1,28 @@
 # Release History
 
-## 1.1.0 (Unreleased)
+## 1.1.4 (Unreleased)
+
+
+## 1.1.3 (2020-06-03)
+
+- Fix issue of `SystemErrorRetryPolicy` didn't retry on errors [PR #8803](https://github.com/Azure/azure-sdk-for-js/pull/8803)
+- Add support for serialization of text media type. [PR #8977](https://github.com/Azure/azure-sdk-for-js/pull/8977)
+- Fix issue with URLBuilder incorrectly handling full URL in path. [PR #9245](https://github.com/Azure/azure-sdk-for-js/pull/9245)
+
+## 1.1.2 (2020-05-07)
+
+- Fix issue with null/undefined values in array and tabs/space delimiter arrays during sendOperationRequest. [PR #8604](https://github.com/Azure/azure-sdk-for-js/pull/8604)
+
+## 1.1.1 (2020-04-28)
+
+- Add support for `text/plain` endpoints. [PR #7963](https://github.com/Azure/azure-sdk-for-js/pull/7963)
+- Updated to use OpenTelemetry 0.6.1 via `@azure/core-tracing`.
+
+## 1.1.0 (2020-03-31)
 
 - A new interface `WebResourceLike` was introduced to avoid a direct dependency on the class `WebResource` in public interfaces. `HttpHeadersLike` was also added to replace references to `HttpHeaders`. This should improve cross-version compatibility for core-http. [PR #7873](https://github.com/Azure/azure-sdk-for-js/pull/7873)
+
+- Add support to disable response decompression in `node-fetch` Http client. [PR #7878](https://github.com/Azure/azure-sdk-for-js/pull/7878)
 
 ## 1.0.4 (2020-03-03)
 

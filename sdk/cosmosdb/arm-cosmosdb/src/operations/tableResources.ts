@@ -29,20 +29,20 @@ export class TableResources {
 
   /**
    * Lists the Tables under an existing Azure Cosmos DB database account.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param [options] The optional parameters
    * @returns Promise<Models.TableResourcesListTablesResponse>
    */
   listTables(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.TableResourcesListTablesResponse>;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param callback The callback
    */
   listTables(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.TableListResult>): void;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param options The optional parameters
    * @param callback The callback
@@ -61,7 +61,7 @@ export class TableResources {
 
   /**
    * Gets the Tables under an existing Azure Cosmos DB database account with the provided name.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param tableName Cosmos DB table name.
    * @param [options] The optional parameters
@@ -69,14 +69,14 @@ export class TableResources {
    */
   getTable(resourceGroupName: string, accountName: string, tableName: string, options?: msRest.RequestOptionsBase): Promise<Models.TableResourcesGetTableResponse>;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param tableName Cosmos DB table name.
    * @param callback The callback
    */
   getTable(resourceGroupName: string, accountName: string, tableName: string, callback: msRest.ServiceCallback<Models.TableGetResults>): void;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param tableName Cosmos DB table name.
    * @param options The optional parameters
@@ -97,7 +97,7 @@ export class TableResources {
 
   /**
    * Create or update an Azure Cosmos DB Table
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param tableName Cosmos DB table name.
    * @param createUpdateTableParameters The parameters to provide for the current Table.
@@ -111,7 +111,7 @@ export class TableResources {
 
   /**
    * Deletes an existing Azure Cosmos DB Table.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param tableName Cosmos DB table name.
    * @param [options] The optional parameters
@@ -125,7 +125,7 @@ export class TableResources {
   /**
    * Gets the RUs per second of the Table under an existing Azure Cosmos DB database account with the
    * provided name.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param tableName Cosmos DB table name.
    * @param [options] The optional parameters
@@ -133,14 +133,14 @@ export class TableResources {
    */
   getTableThroughput(resourceGroupName: string, accountName: string, tableName: string, options?: msRest.RequestOptionsBase): Promise<Models.TableResourcesGetTableThroughputResponse>;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param tableName Cosmos DB table name.
    * @param callback The callback
    */
   getTableThroughput(resourceGroupName: string, accountName: string, tableName: string, callback: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>): void;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param tableName Cosmos DB table name.
    * @param options The optional parameters
@@ -161,7 +161,7 @@ export class TableResources {
 
   /**
    * Update RUs per second of an Azure Cosmos DB Table
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param tableName Cosmos DB table name.
    * @param updateThroughputParameters The parameters to provide for the RUs per second of the
@@ -176,7 +176,7 @@ export class TableResources {
 
   /**
    * Create or update an Azure Cosmos DB Table
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param tableName Cosmos DB table name.
    * @param createUpdateTableParameters The parameters to provide for the current Table.
@@ -198,7 +198,7 @@ export class TableResources {
 
   /**
    * Deletes an existing Azure Cosmos DB Table.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param tableName Cosmos DB table name.
    * @param [options] The optional parameters
@@ -218,7 +218,7 @@ export class TableResources {
 
   /**
    * Update RUs per second of an Azure Cosmos DB Table
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param tableName Cosmos DB table name.
    * @param updateThroughputParameters The parameters to provide for the RUs per second of the
@@ -246,7 +246,7 @@ const listTablesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName
   ],
@@ -271,7 +271,7 @@ const getTableOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.tableName
@@ -297,7 +297,7 @@ const getTableThroughputOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}/throughputSettings/default",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.tableName
@@ -323,7 +323,7 @@ const beginCreateUpdateTableOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.tableName
@@ -357,7 +357,7 @@ const beginDeleteTableOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.tableName
@@ -382,7 +382,7 @@ const beginUpdateTableThroughputOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}/throughputSettings/default",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.tableName

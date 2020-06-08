@@ -14,7 +14,7 @@ import {
 import { MB } from "../../src/utils/constants";
 import { AbortController } from "@azure/abort-controller";
 
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("Highlevel browser only", () => {
   let fileSystemName: string;
@@ -38,8 +38,10 @@ describe("Highlevel browser only", () => {
   });
 
   afterEach(async function() {
-    await fileSystemClient.delete();
-    recorder.stop();
+    if (!this.currentTest?.isPending()) {
+      await fileSystemClient.delete();
+      recorder.stop();
+    }
   });
 
   before(async function() {

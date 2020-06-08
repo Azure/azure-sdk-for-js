@@ -1,12 +1,11 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
-import { parseConnectionString, ServiceBusConnectionStringModel } from "../util/utils";
+import { ServiceBusConnectionStringModel, parseConnectionString } from "../util/utils";
 import { WebSocketImpl } from "rhea-promise";
 
 /**
  * Describes the options that can be provided while creating a connection config.
- * @interface ConnectionConfigOptions
  */
 export interface ConnectionConfigOptions {
   /**
@@ -19,7 +18,6 @@ export interface ConnectionConfigOptions {
 /**
  * Describes the connection config object that is created after parsing an EventHub or ServiceBus
  * connection string.
- * @interface ConnectionConfig
  */
 export interface ConnectionConfig {
   /**
@@ -72,7 +70,7 @@ export interface ConnectionConfig {
  * Describes the ConnectionConfig module
  * @module ConnectionConfig
  */
-export namespace ConnectionConfig {
+export const ConnectionConfig = {
   /**
    * Creates the connection config.
    * @param {string} connectionString - The connection string for a given service like
@@ -82,7 +80,7 @@ export namespace ConnectionConfig {
    * if present.
    * @returns {ConnectionConfig} ConnectionConfig
    */
-  export function create(connectionString: string, path?: string): ConnectionConfig {
+  create(connectionString: string, path?: string): ConnectionConfig {
     connectionString = String(connectionString);
 
     const parsedCS = parseConnectionString<ServiceBusConnectionStringModel>(connectionString);
@@ -95,7 +93,7 @@ export namespace ConnectionConfig {
     const result: ConnectionConfig = {
       connectionString: connectionString,
       endpoint: parsedCS.Endpoint,
-      host: parsedCS && parsedCS.Endpoint ? (parsedCS.Endpoint.match("sb://([^/]*)") || [])[1] : "",
+      host: parsedCS && parsedCS.Endpoint ? (parsedCS.Endpoint.match(".*://([^/]*)") || [])[1] : "",
       sharedAccessKeyName: parsedCS.SharedAccessKeyName,
       sharedAccessKey: parsedCS.SharedAccessKey
     };
@@ -104,14 +102,14 @@ export namespace ConnectionConfig {
       result.entityPath = path || parsedCS.EntityPath;
     }
     return result;
-  }
+  },
 
   /**
    * Validates the properties of connection config.
    * @param {ConnectionConfig} config The connection config to be validated.
    * @returns {void} void
    */
-  export function validate(config: ConnectionConfig, options?: ConnectionConfigOptions): void {
+  validate(config: ConnectionConfig, options?: ConnectionConfigOptions): void {
     if (!options) options = {};
 
     if (!config) {
@@ -143,4 +141,4 @@ export namespace ConnectionConfig {
     }
     config.sharedAccessKey = String(config.sharedAccessKey);
   }
-}
+};

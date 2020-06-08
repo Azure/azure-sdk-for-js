@@ -123,54 +123,104 @@ describe("ServiceClient", function() {
     assert.strictEqual(JSON.stringify(response), "{}");
   });
 
-  it("should serialize collection:multi query parameters", async function() {
-    const expected = "?q=1&q=2&q=3";
+  it("should serialize collection:csv query parameters", async function() {
+    await testSendOperationRequest(["1", "2", "3"], QueryCollectionFormat.Csv, false, "?q=1,2,3");
+  });
 
-    let request: WebResource;
-    const client = new ServiceClient(undefined, {
-      httpClient: {
-        sendRequest: (req) => {
-          request = req;
-          return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
-        }
-      },
-      requestPolicyFactories: () => []
-    });
-
-    await client.sendOperationRequest(
-      {
-        q: [1, 2, 3]
-      },
-      {
-        httpMethod: "GET",
-        baseUrl: "httpbin.org",
-        serializer: new Serializer(),
-        queryParameters: [
-          {
-            collectionFormat: QueryCollectionFormat.Multi,
-            parameterPath: "q",
-            mapper: {
-              serializedName: "q",
-              type: {
-                name: "Sequence",
-                element: {
-                  type: {
-                    name: "Number"
-                  },
-                  serializedName: "q"
-                }
-              }
-            }
-          }
-        ],
-        responses: {
-          200: {}
-        }
-      }
+  it("should serialize collection:csv query parameters with commas & skipEncoding true", async function() {
+    await testSendOperationRequest(
+      ["1,2", "3,4", "5"],
+      QueryCollectionFormat.Csv,
+      true,
+      "?q=1,2,3,4,5"
     );
+  });
 
-    assert(request!);
-    assert(request!.url.endsWith(expected), `"${request!.url}" does not end with "${expected}"`);
+  it("should serialize collection:csv query parameters with commas", async function() {
+    await testSendOperationRequest(
+      ["1,2", "3,4", "5"],
+      QueryCollectionFormat.Csv,
+      false,
+      "?q=1%2C2,3%2C4,5"
+    );
+  });
+
+  it("should serialize collection:csv query parameters with undefined and null", async function() {
+    await testSendOperationRequest(
+      ["1,2", undefined, "5"],
+      QueryCollectionFormat.Csv,
+      false,
+      "?q=1%2C2,,5"
+    );
+    await testSendOperationRequest(
+      ["1,2", null, "5"],
+      QueryCollectionFormat.Csv,
+      false,
+      "?q=1%2C2,,5"
+    );
+  });
+
+  it("should serialize collection:tsv query parameters with undefined and null", async function() {
+    await testSendOperationRequest(
+      ["1,2", undefined, "5"],
+      QueryCollectionFormat.Tsv,
+      false,
+      "?q=1%2C2%09%095"
+    );
+    await testSendOperationRequest(
+      ["1,2", null, "5"],
+      QueryCollectionFormat.Tsv,
+      false,
+      "?q=1%2C2%09%095"
+    );
+    await testSendOperationRequest(
+      ["1,2", "3", "5"],
+      QueryCollectionFormat.Tsv,
+      false,
+      "?q=1%2C2%093%095"
+    );
+  });
+
+  it("should serialize collection:ssv query parameters with undefined and null", async function() {
+    await testSendOperationRequest(
+      ["1,2", undefined, "5"],
+      QueryCollectionFormat.Ssv,
+      false,
+      "?q=1%2C2%20%205"
+    );
+    await testSendOperationRequest(
+      ["1,2", null, "5"],
+      QueryCollectionFormat.Ssv,
+      false,
+      "?q=1%2C2%20%205"
+    );
+    await testSendOperationRequest(
+      ["1,2", "3", "5"],
+      QueryCollectionFormat.Ssv,
+      false,
+      "?q=1%2C2%203%205"
+    );
+  });
+
+  it("should serialize collection:multi query parameters", async function() {
+    await testSendOperationRequest(
+      ["1", "2", "3"],
+      QueryCollectionFormat.Multi,
+      false,
+      "?q=1&q=2&q=3"
+    );
+    await testSendOperationRequest(
+      ["1,2", "3,4", "5"],
+      QueryCollectionFormat.Multi,
+      false,
+      "?q=1%2C2&q=3%2C4&q=5"
+    );
+    await testSendOperationRequest(
+      ["1,2", "3,4", "5"],
+      QueryCollectionFormat.Multi,
+      true,
+      "?q=1,2&q=3,4&q=5"
+    );
   });
 
   it("should apply withCredentials to requests", async function() {
@@ -571,6 +621,62 @@ describe("ServiceClient", function() {
           responses: { 200: {} },
           serializer: new Serializer(),
           isXML: true
+        }
+      );
+      assert.strictEqual(httpRequest.body, "body value");
+    });
+
+    it("should serialize a string send to a text/plain endpoint as just a string", () => {
+      const httpRequest = new WebResource();
+      serializeRequestBody(
+        new ServiceClient(),
+        httpRequest,
+        {
+          bodyArg: "body value"
+        },
+        {
+          httpMethod: "POST",
+          contentType: "text/plain; charset=UTF-8",
+          requestBody: {
+            parameterPath: "bodyArg",
+            mapper: {
+              required: true,
+              serializedName: "bodyArg",
+              type: {
+                name: MapperType.String
+              }
+            }
+          },
+          responses: { 200: {} },
+          serializer: new Serializer()
+        }
+      );
+      assert.strictEqual(httpRequest.body, "body value");
+    });
+
+    it("should serialize a string send with the mediaType 'text' as just a string", () => {
+      const httpRequest = new WebResource();
+      serializeRequestBody(
+        new ServiceClient(),
+        httpRequest,
+        {
+          bodyArg: "body value"
+        },
+        {
+          httpMethod: "POST",
+          mediaType: "text",
+          requestBody: {
+            parameterPath: "bodyArg",
+            mapper: {
+              required: true,
+              serializedName: "bodyArg",
+              type: {
+                name: MapperType.String
+              }
+            }
+          },
+          responses: { 200: {} },
+          serializer: new Serializer()
         }
       );
       assert.strictEqual(httpRequest.body, "body value");
@@ -1053,4 +1159,58 @@ function stringToByteArray(str: string): Uint8Array {
   } else {
     return new TextEncoder().encode(str);
   }
+}
+
+async function testSendOperationRequest(
+  queryValue: any,
+  queryCollectionFormat: QueryCollectionFormat,
+  skipEncodingParameter: boolean,
+  expected: string
+) {
+  let request: WebResource;
+  const client = new ServiceClient(undefined, {
+    httpClient: {
+      sendRequest: (req) => {
+        request = req;
+        return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
+      }
+    },
+    requestPolicyFactories: () => []
+  });
+
+  await client.sendOperationRequest(
+    {
+      q: queryValue
+    },
+    {
+      httpMethod: "GET",
+      baseUrl: "httpbin.org",
+      serializer: new Serializer(),
+      queryParameters: [
+        {
+          collectionFormat: queryCollectionFormat,
+          skipEncoding: skipEncodingParameter,
+          parameterPath: "q",
+          mapper: {
+            serializedName: "q",
+            type: {
+              name: "Sequence",
+              element: {
+                type: {
+                  name: "String"
+                },
+                serializedName: "q"
+              }
+            }
+          }
+        }
+      ],
+      responses: {
+        200: {}
+      }
+    }
+  );
+
+  assert(request!);
+  assert(request!.url.endsWith(expected), `"${request!.url}" does not end with "${expected}"`);
 }

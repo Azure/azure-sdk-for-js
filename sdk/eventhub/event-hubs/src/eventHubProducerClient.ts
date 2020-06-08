@@ -1,19 +1,21 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
-import { isTokenCredential, TokenCredential } from "@azure/core-amqp";
-import { EventDataBatch } from "./eventDataBatch";
+import { TokenCredential, isTokenCredential } from "@azure/core-amqp";
+import { EventDataBatch, isEventDataBatch } from "./eventDataBatch";
 import { EventHubClient } from "./impl/eventHubClient";
 import { EventHubProperties, PartitionProperties } from "./managementClient";
 import { EventHubProducer } from "./sender";
 import {
-  SendBatchOptions,
+  CreateBatchOptions,
+  EventHubClientOptions,
   GetEventHubPropertiesOptions,
   GetPartitionIdsOptions,
   GetPartitionPropertiesOptions,
-  EventHubClientOptions,
-  CreateBatchOptions
+  SendBatchOptions
 } from "./models/public";
+import { EventData } from "./eventData";
+import { OperationOptions } from "./util/operationOptions";
 
 /**
  * The `EventHubProducerClient` class is used to send events to an Event Hub.
@@ -160,6 +162,22 @@ export class EventHubProducerClient {
   }
 
   /**
+   * Sends an array of events to the associated Event Hub.
+   *
+   * @param batch An array of {@link EventData}.
+   * @param options A set of options that can be specified to influence the way in which
+   * events are sent to the associated Event Hub.
+   * - `abortSignal`  : A signal the request to cancel the send operation.
+   * - `partitionId`  : The partition this batch will be sent to. If set, `partitionKey` can not be set.
+   * - `partitionKey` : A value that is hashed to produce a partition assignment. If set, `partitionId` can not be set.
+   *
+   * @returns Promise<void>
+   * @throws AbortError if the operation is cancelled via the abortSignal.
+   * @throws MessagingError if an error is encountered while sending a message.
+   * @throws Error if the underlying connection or sender has been closed.
+   */
+  async sendBatch(batch: EventData[], options?: SendBatchOptions): Promise<void>;
+  /**
    * Sends a batch of events to the associated Event Hub.
    *
    * @param batch A batch of events that you can create using the {@link createBatch} method.
@@ -172,11 +190,43 @@ export class EventHubProducerClient {
    * @throws MessagingError if an error is encountered while sending a message.
    * @throws Error if the underlying connection or sender has been closed.
    */
-  async sendBatch(batch: EventDataBatch, options?: SendBatchOptions): Promise<void> {
-    let partitionId = "";
-
-    if (batch.partitionId) {
+  async sendBatch(batch: EventDataBatch, options?: OperationOptions): Promise<void>;
+  async sendBatch(
+    batch: EventDataBatch | EventData[],
+    options: SendBatchOptions | OperationOptions = {}
+  ): Promise<void> {
+    let partitionId: string | undefined;
+    let partitionKey: string | undefined;
+    if (isEventDataBatch(batch)) {
+      // For batches, partitionId and partitionKey would be set on the batch.
       partitionId = batch.partitionId;
+      partitionKey = batch.partitionKey;
+      const unexpectedOptions = options as SendBatchOptions;
+      if (unexpectedOptions.partitionKey && partitionKey !== unexpectedOptions.partitionKey) {
+        throw new Error(
+          `The partitionKey (${unexpectedOptions.partitionKey}) set on sendBatch does not match the partitionKey (${partitionKey}) set when creating the batch.`
+        );
+      }
+      if (unexpectedOptions.partitionId && unexpectedOptions.partitionId !== partitionId) {
+        throw new Error(
+          `The partitionId (${unexpectedOptions.partitionId}) set on sendBatch does not match the partitionId (${partitionId}) set when creating the batch.`
+        );
+      }
+    } else {
+      // For arrays of events, partitionId and partitionKey would be set in the options.
+      const expectedOptions = options as SendBatchOptions;
+      partitionId = expectedOptions.partitionId;
+      partitionKey = expectedOptions.partitionKey;
+    }
+    if (partitionId && partitionKey) {
+      throw new Error(
+        `The partitionId (${partitionId}) and partitionKey (${partitionKey}) cannot both be specified.`
+      );
+    }
+
+    if (!partitionId) {
+      // The producer map requires that partitionId be a string.
+      partitionId = "";
     }
 
     let producer = this._producersMap.get(partitionId);

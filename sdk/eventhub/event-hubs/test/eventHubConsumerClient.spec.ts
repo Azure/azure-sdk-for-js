@@ -1,11 +1,11 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import {
+  CheckpointStore,
   EventHubProducerClient,
   Subscription,
   SubscriptionEventHandlers,
-  CheckpointStore,
   latestEventPosition,
   logger
 } from "../src";
@@ -16,7 +16,7 @@ import chai from "chai";
 import { ReceivedMessagesTester } from "./utils/receivedMessagesTester";
 import { LogTester } from "./utils/logHelpers";
 import { InMemoryCheckpointStore } from "../src/inMemoryCheckpointStore";
-import { FullEventProcessorOptions, EventProcessor } from "../src/eventProcessor";
+import { EventProcessor, FullEventProcessorOptions } from "../src/eventProcessor";
 import { SinonStubbedInstance, createStubInstance } from "sinon";
 
 const should = chai.should();
@@ -63,13 +63,13 @@ describe("EventHubConsumerClient", () => {
         fakeEventProcessor = createStubInstance(EventProcessor);
 
         client = new EventHubConsumerClient(
-          EventHubClient.defaultConsumerGroupName,
+          EventHubConsumerClient.defaultConsumerGroupName,
           service.connectionString!,
           service.path
         );
 
         clientWithCheckpointStore = new EventHubConsumerClient(
-          EventHubClient.defaultConsumerGroupName,
+          EventHubConsumerClient.defaultConsumerGroupName,
           service.connectionString!,
           service.path,
           // it doesn't actually matter _what_ checkpoint store gets passed in
@@ -88,7 +88,7 @@ describe("EventHubConsumerClient", () => {
           checkpointStore: CheckpointStore,
           options: FullEventProcessorOptions
         ) => {
-          consumerGroup.should.equal(EventHubClient.defaultConsumerGroupName);
+          consumerGroup.should.equal(EventHubConsumerClient.defaultConsumerGroupName);
           subscriptionEventHandlers.should.equal(subscriptionHandlers);
           (typeof eventHubClient.createConsumer).should.equal("function");
           isCheckpointStore(checkpointStore).should.be.ok;
@@ -199,7 +199,7 @@ describe("EventHubConsumerClient", () => {
     let clients: EventHubConsumerClient[];
     let producerClient: EventHubProducerClient;
     let partitionIds: string[];
-    let subscriptions: Subscription[] = [];
+    const subscriptions: Subscription[] = [];
 
     beforeEach(async () => {
       producerClient = new EventHubProducerClient(service.connectionString!, service.path!, {});
@@ -422,9 +422,7 @@ describe("EventHubConsumerClient", () => {
       });
     });
 
-    it("Receive from specific partitions, no coordination #RunnableInBrowser", async function(): Promise<
-      void
-    > {
+    it("Receive from specific partitions, no coordination", async function(): Promise<void> {
       const logTester = new LogTester(
         [
           "EventHubConsumerClient subscribing to specific partition (0), no checkpoint store.",
@@ -442,7 +440,7 @@ describe("EventHubConsumerClient", () => {
 
       clients.push(
         new EventHubConsumerClient(
-          EventHubClient.defaultConsumerGroupName,
+          EventHubConsumerClient.defaultConsumerGroupName,
           service.connectionString!,
           service.path
         )
@@ -460,9 +458,7 @@ describe("EventHubConsumerClient", () => {
       logTester.assert();
     });
 
-    it("Receive from all partitions, no coordination #RunnableInBrowser", async function(): Promise<
-      void
-    > {
+    it("Receive from all partitions, no coordination", async function(): Promise<void> {
       const logTester = new LogTester(
         [
           "EventHubConsumerClient subscribing to all partitions, no checkpoint store.",
@@ -479,7 +475,7 @@ describe("EventHubConsumerClient", () => {
 
       clients.push(
         new EventHubConsumerClient(
-          EventHubClient.defaultConsumerGroupName,
+          EventHubConsumerClient.defaultConsumerGroupName,
           service.connectionString!,
           service.path
         )
@@ -495,7 +491,7 @@ describe("EventHubConsumerClient", () => {
       logTester.assert();
     });
 
-    it("Receive from all partitions, no coordination but through multiple subscribe() calls #RunnableInBrowser", async function(): Promise<
+    it("Receive from all partitions, no coordination but through multiple subscribe() calls", async function(): Promise<
       void
     > {
       const logTester = new LogTester(
@@ -518,7 +514,7 @@ describe("EventHubConsumerClient", () => {
 
       clients.push(
         new EventHubConsumerClient(
-          EventHubClient.defaultConsumerGroupName,
+          EventHubConsumerClient.defaultConsumerGroupName,
           service.connectionString!,
           service.path
         )
@@ -536,7 +532,7 @@ describe("EventHubConsumerClient", () => {
       logTester.assert();
     });
 
-    it("Receive from all partitions, coordinating with the same partition manager and using the FairPartitionLoadBalancer #RunnableInBrowser", async function(): Promise<
+    it("Receive from all partitions, coordinating with the same partition manager and using the FairPartitionLoadBalancer", async function(): Promise<
       void
     > {
       // fast forward our partition manager so it starts reading from the latest offset
@@ -556,7 +552,7 @@ describe("EventHubConsumerClient", () => {
 
       clients.push(
         new EventHubConsumerClient(
-          EventHubClient.defaultConsumerGroupName,
+          EventHubConsumerClient.defaultConsumerGroupName,
           service.connectionString!,
           service.path,
           // specifying your own checkpoint store activates the "production ready" code path that
@@ -574,7 +570,7 @@ describe("EventHubConsumerClient", () => {
 
       clients.push(
         new EventHubConsumerClient(
-          EventHubClient.defaultConsumerGroupName,
+          EventHubConsumerClient.defaultConsumerGroupName,
           service.connectionString!,
           service.path,
           // specifying your own checkpoint store activates the "production ready" code path that
@@ -597,7 +593,7 @@ describe("EventHubConsumerClient", () => {
       logTester.assert();
     });
 
-    it("Stops receiving events if close is immediately called, single partition. #RunnableInBrowser", async function(): Promise<
+    it("Stops receiving events if close is immediately called, single partition.", async function(): Promise<
       void
     > {
       const partitionId = "0";
@@ -642,7 +638,7 @@ describe("EventHubConsumerClient", () => {
       );
     });
 
-    it("Stops receiving events if close is immediately called, multiple partitions. #RunnableInBrowser", async function(): Promise<
+    it("Stops receiving events if close is immediately called, multiple partitions.", async function(): Promise<
       void
     > {
       const client = new EventHubConsumerClient(

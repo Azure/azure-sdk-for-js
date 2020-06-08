@@ -1,34 +1,33 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
-import { logger, logErrorStackTrace } from "../log";
+import { logErrorStackTrace, logger } from "../log";
 import {
-  TokenCredential,
-  EventHubConnectionConfig,
-  SharedKeyCredential,
   ConnectionConfig,
-  isTokenCredential,
+  EventHubConnectionConfig,
+  EventHubConnectionStringModel,
   RetryOptions,
-  Constants,
-  parseConnectionString,
-  EventHubConnectionStringModel
+  SharedKeyCredential,
+  TokenCredential,
+  isTokenCredential,
+  parseConnectionString
 } from "@azure/core-amqp";
 
 import { ConnectionContext } from "../connectionContext";
-import { PartitionProperties, EventHubProperties } from "../managementClient";
+import { EventHubProperties, PartitionProperties } from "../managementClient";
 import { EventPosition } from "../eventPosition";
 import { EventHubProducer } from "../sender";
 import { EventHubConsumer } from "../receiver";
-import { throwTypeErrorIfParameterMissing, throwErrorIfConnectionClosed } from "../util/error";
+import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "../util/error";
 import { getTracer } from "@azure/core-tracing";
-import { SpanContext, Span, SpanKind, CanonicalCode } from "@opentelemetry/types";
+import { CanonicalCode, Span, SpanContext, SpanKind } from "@opentelemetry/api";
 import { getParentSpan } from "../util/operationOptions";
-import { OperationNames, EventHubProducerOptions } from "../models/private";
+import { EventHubProducerOptions, OperationNames } from "../models/private";
 import {
+  EventHubClientOptions,
   GetEventHubPropertiesOptions,
   GetPartitionIdsOptions,
-  GetPartitionPropertiesOptions,
-  EventHubClientOptions
+  GetPartitionPropertiesOptions
 } from "../models/public";
 
 /**
@@ -214,7 +213,7 @@ export class EventHubClient {
 
   private _createClientSpan(
     operationName: OperationNames,
-    parentSpan?: Span | SpanContext,
+    parentSpan?: Span | SpanContext | null,
     internal: boolean = false
   ): Span {
     const tracer = getTracer();
@@ -291,7 +290,12 @@ export class EventHubClient {
       options.retryOptions = this._clientOptions.retryOptions;
     }
     throwErrorIfConnectionClosed(this._context);
-    return new EventHubProducer(this.eventHubName, this.endpoint, this._context, options);
+    return new EventHubProducer(
+      this.eventHubName,
+      this.fullyQualifiedNamespace,
+      this._context,
+      options
+    );
   }
 
   /**
@@ -361,7 +365,10 @@ export class EventHubClient {
    */
   async getProperties(options: GetEventHubPropertiesOptions = {}): Promise<EventHubProperties> {
     throwErrorIfConnectionClosed(this._context);
-    const clientSpan = this._createClientSpan("getEventHubProperties", getParentSpan(options));
+    const clientSpan = this._createClientSpan(
+      "getEventHubProperties",
+      getParentSpan(options.tracingOptions)
+    );
     try {
       const result = await this._context.managementSession!.getHubRuntimeInformation({
         retryOptions: this._clientOptions.retryOptions,
@@ -391,13 +398,17 @@ export class EventHubClient {
    */
   async getPartitionIds(options: GetPartitionIdsOptions): Promise<Array<string>> {
     throwErrorIfConnectionClosed(this._context);
-    const clientSpan = this._createClientSpan("getPartitionIds", getParentSpan(options), true);
+    const clientSpan = this._createClientSpan(
+      "getPartitionIds",
+      getParentSpan(options.tracingOptions),
+      true
+    );
     try {
       const runtimeInfo = await this.getProperties({
         ...options,
         tracingOptions: {
           spanOptions: {
-            parent: clientSpan
+            parent: clientSpan.context()
           }
         }
       });
@@ -436,7 +447,10 @@ export class EventHubClient {
       partitionId
     );
     partitionId = String(partitionId);
-    const clientSpan = this._createClientSpan("getPartitionProperties", getParentSpan(options));
+    const clientSpan = this._createClientSpan(
+      "getPartitionProperties",
+      getParentSpan(options.tracingOptions)
+    );
     try {
       const result = await this._context.managementSession!.getPartitionProperties(partitionId, {
         retryOptions: this._clientOptions.retryOptions,
@@ -456,10 +470,4 @@ export class EventHubClient {
       clientSpan.end();
     }
   }
-
-  /**
-   * @property
-   * The name of the default consumer group in the Event Hubs service.
-   */
-  static defaultConsumerGroupName: string = Constants.defaultConsumerGroup;
 }

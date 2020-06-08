@@ -5,8 +5,8 @@ import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http"
 import { TokenCredentialOptions } from "../client/identityClient";
 import { ClientSecretCredential } from "./clientSecretCredential";
 import { createSpan } from "../util/tracing";
-import { AuthenticationError, AuthenticationErrorName } from "../client/errors";
-import { CanonicalCode } from "@opentelemetry/types";
+import { AuthenticationError, AuthenticationErrorName, CredentialUnavailable } from "../client/errors";
+import { CanonicalCode } from "@opentelemetry/api";
 import { logger } from "../util/logging";
 import { ClientCertificateCredential } from "./clientCertificateCredential";
 import { UsernamePasswordCredential } from "./usernamePasswordCredential";
@@ -141,10 +141,6 @@ export class EnvironmentCredential implements TokenCredential {
     // the user knows the credential was not configured appropriately
     span.setStatus({ code: CanonicalCode.UNAUTHENTICATED });
     span.end();
-    throw new AuthenticationError(400, {
-      error:
-        "EnvironmentCredential is unavailable. Environment variables are not fully configured.",
-      error_description: ""
-    });
+    throw new CredentialUnavailable("EnvironmentCredential is unavailable. Environment variables are not fully configured.");
   }
 }

@@ -4,12 +4,12 @@
 import {
   HttpOperationResponse,
   RestError,
-  stripRequest,
-  stripResponse,
+  ServiceClient,
   WebResource,
-  stringifyXML,
   parseXML,
-  ServiceClient
+  stringifyXML,
+  stripRequest,
+  stripResponse
 } from "@azure/core-http";
 
 import * as Constants from "./constants";
@@ -262,6 +262,12 @@ function parseFeedResult(feed: any): object[] {
   return result;
 }
 
+/**
+ * @internal
+ * @ignore
+ * @param {number} statusCode
+ * @returns {statusCode is keyof typeof Constants.HttpResponseCodes}
+ */
 function isKnownResponseCode(
   statusCode: number
 ): statusCode is keyof typeof Constants.HttpResponseCodes {

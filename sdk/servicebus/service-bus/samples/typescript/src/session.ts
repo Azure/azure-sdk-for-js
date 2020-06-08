@@ -2,7 +2,8 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
 
-  **NOTE**: If you are using version 1.1.x or lower, then please use the link below:
+  **NOTE**: This sample uses the preview of the next version of the @azure/service-bus package.
+  For samples using the current stable version of the package, please use the link below:
   https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples
   
   This sample demonstrates how to send/receive messages to/from session enabled queues/subscriptions
@@ -22,8 +23,7 @@ dotenv.config();
 
 // Define connection string and related Service Bus entity names here
 // Ensure on portal.azure.com that queue/topic has Sessions feature enabled
-const connectionString =
-  process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
+const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
 const queueName = process.env.QUEUE_NAME_WITH_SESSIONS || "<queue name>";
 
 const listOfScientists = [
@@ -62,13 +62,9 @@ export async function main() {
   }
 }
 
-async function sendMessage(
-  sbClient: ServiceBusClient,
-  scientist: any,
-  sessionId: string
-) {
-  // getSender() also works with topics
-  const sender = sbClient.getSender(queueName);
+async function sendMessage(sbClient: ServiceBusClient, scientist: any, sessionId: string) {
+  // createSender() also works with topics
+  const sender = sbClient.createSender(queueName);
 
   const message = {
     body: `${scientist.firstName} ${scientist.lastName}`,
@@ -83,15 +79,15 @@ async function sendMessage(
 }
 
 async function receiveMessages(sbClient: ServiceBusClient, sessionId: string) {
-  // If receiving from a subscription you can use the getSessionReceiver(topic, subscription) overload
-  const receiver = sbClient.getSessionReceiver(queueName, "peekLock", {
+  // If receiving from a subscription you can use the createSessionReceiver(topic, subscription) overload
+  const receiver = await sbClient.createSessionReceiver(queueName, "peekLock", {
     sessionId: sessionId
   });
 
   const processMessage = async (message: ServiceBusMessage) => {
     console.log(`Received: ${message.sessionId} - ${message.body} `);
   };
-  const processError = async err => {
+  const processError = async (err) => {
     console.log(">>>>> Error occurred: ", err);
   };
   receiver.subscribe({
@@ -104,6 +100,6 @@ async function receiveMessages(sbClient: ServiceBusClient, sessionId: string) {
   await receiver.close();
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.log("Error occurred: ", err);
 });

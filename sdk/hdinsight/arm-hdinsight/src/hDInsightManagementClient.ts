@@ -25,6 +25,7 @@ class HDInsightManagementClient extends HDInsightManagementClientContext {
   scriptActions: operations.ScriptActions;
   scriptExecutionHistory: operations.ScriptExecutionHistory;
   operations: operations.Operations;
+  virtualMachines: operations.VirtualMachines;
 
   /**
    * Initializes a new instance of the HDInsightManagementClient class.
@@ -43,6 +44,7 @@ class HDInsightManagementClient extends HDInsightManagementClientContext {
     this.scriptActions = new operations.ScriptActions(this);
     this.scriptExecutionHistory = new operations.ScriptExecutionHistory(this);
     this.operations = new operations.Operations(this);
+    this.virtualMachines = new operations.VirtualMachines(this);
   }
 }
 

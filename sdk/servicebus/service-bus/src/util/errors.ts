@@ -1,9 +1,8 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import * as log from "../log";
 import Long from "long";
-import { ClientType } from "../client";
 import { ConnectionContext } from "../connectionContext";
 
 /**
@@ -43,39 +42,12 @@ export function throwErrorIfClientOrConnectionClosed(
 
 /**
  * @internal
- * Gets the error message when an open sender exists, but a new one is asked for on the same client
- * @param clientType 'QueueClient' or 'TopicClient'
- * @param entityPath  Value of the `entityPath` property on the client which denotes its name
+ * Gets the error message when an open receiver exists for a session, but a new one is asked for on the same client
+ * @param entityPath Value of the `entityPath` property on the client which denotes its name
+ * @param sessionId id of the session
  */
-export function getOpenSenderErrorMsg(clientType: string, entityPath: string): string {
-  return (
-    `An open sender already exists on the ${clientType} for "${entityPath}". ` +
-    `Please close it and try again or use a new ${clientType} instance.`
-  );
-}
-
-/**
- * @internal
- * Gets the error message when an open receiver exists, but a new one is asked for on the same client
- * @param clientType 'QueueClient' or 'SubscriptionClient'
- * @param entityPath  Value of the `entityPath` property on the client which denotes its name
- * @param sessionId If using session receiver, then the id of the session
- */
-export function getOpenReceiverErrorMsg(
-  clientType: ClientType,
-  entityPath: string,
-  sessionId?: string
-): string {
-  if (!sessionId) {
-    return (
-      `An open receiver already exists on the ${clientType} for "${entityPath}". ` +
-      `Please close it and try again or use a new ${clientType} instance.`
-    );
-  }
-  return (
-    `An open receiver already exists for the session "${sessionId}" on the ${clientType} for ` +
-    `"${entityPath}". Please close it and try again or use a new ${clientType} instance.`
-  );
+export function getOpenSessionReceiverErrorMsg(entityPath: string, sessionId: string): string {
+  return `An open receiver already exists for the session "${sessionId}" for ` + `"${entityPath}".`;
 }
 
 /**
@@ -94,23 +66,11 @@ export function getClientClosedErrorMsg(entityPath: string): string {
  * @internal
  * Gets the error message when a sender is used when its already closed
  * @param entityPath Value of the `entityPath` property on the client which denotes its name
- * @param clientType One of "QueueClient", "TopicClient" or "SubscriptionClient", used for logging
- * @param isClientClosed Denotes if the close() was called on the client that created the sender
  */
-export function getSenderClosedErrorMsg(
-  entityPath: string,
-  clientType: ClientType,
-  isClientClosed: boolean
-): string {
-  if (isClientClosed) {
-    return (
-      `The client for "${entityPath}" has been closed. The sender created by it can no longer be used. ` +
-      `Please create a new client using an instance of ServiceBusClient.`
-    );
-  }
+export function getSenderClosedErrorMsg(entityPath: string): string {
   return (
     `The sender for "${entityPath}" has been closed and can no longer be used. ` +
-    `Please create a new sender using the "createSender" function on the ${clientType}.`
+    `Please create a new sender using the "getSender" method on the ServiceBusClient.`
   );
 }
 
@@ -118,13 +78,11 @@ export function getSenderClosedErrorMsg(
  * @internal
  * Gets the error message when a receiver is used when its already closed
  * @param entityPath Value of the `entityPath` property on the client which denotes its name
- * @param clientType One of "QueueClient", "TopicClient" or "SubscriptionClient", used for logging
  * @param isClientClosed Denotes if the close() was called on the client that created the sender
  * @param sessionId If using session receiver, then the id of the session
  */
 export function getReceiverClosedErrorMsg(
   entityPath: string,
-  clientType: ClientType,
   isClientClosed: boolean,
   sessionId?: string
 ): string {
@@ -137,12 +95,12 @@ export function getReceiverClosedErrorMsg(
   if (sessionId == undefined) {
     return (
       `The receiver for "${entityPath}" has been closed and can no longer be used. ` +
-      `Please create a new receiver using the "createReceiver" function on the ${clientType}.`
+      `Please create a new receiver using the "getReceiver" method on the ServiceBusClient.`
     );
   }
   return (
     `The receiver for session "${sessionId}" in "${entityPath}" has been closed and can no ` +
-    `longer be used. Please create a new receiver using the "createReceiver" function.`
+    `longer be used. Please create a new receiver using the "getSessionReceiver" method on the ServiceBusClient.`
   );
 }
 

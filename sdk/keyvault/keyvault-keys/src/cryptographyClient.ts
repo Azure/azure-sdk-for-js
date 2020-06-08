@@ -21,7 +21,7 @@ import {
 } from "@azure/core-http";
 
 import { getTracer } from "@azure/core-tracing";
-import { Span } from "@opentelemetry/types";
+import { Span } from "@opentelemetry/api";
 import { logger } from "./log";
 import { parseKeyvaultIdentifier } from "./core/utils";
 import { SDK_VERSION } from "./core/utils/constants";
@@ -92,7 +92,7 @@ export class CryptographyClient {
       if (typeof this.key !== "string") {
         switch (algorithm) {
           case "RSA1_5": {
-            if (this.key.kty != "RSA") {
+            if (this.key.kty !== "RSA") {
               span.end();
               throw new Error("Key type does not match algorithm");
             }
@@ -102,14 +102,14 @@ export class CryptographyClient {
               throw new Error("Key does not support the encrypt operation");
             }
 
-            let keyPEM = convertJWKtoPEM(this.key);
+            const keyPEM = convertJWKtoPEM(this.key);
 
-            let padded: any = { key: keyPEM, padding: constants.RSA_PKCS1_PADDING };
+            const padded: any = { key: keyPEM, padding: constants.RSA_PKCS1_PADDING };
             const encrypted = publicEncrypt(padded, Buffer.from(plaintext));
             return { result: encrypted, algorithm, keyID: this.key.kid };
           }
           case "RSA-OAEP": {
-            if (this.key.kty != "RSA") {
+            if (this.key.kty !== "RSA") {
               span.end();
               throw new Error("Key type does not match algorithm");
             }
@@ -119,7 +119,7 @@ export class CryptographyClient {
               throw new Error("Key does not support the encrypt operation");
             }
 
-            let keyPEM = convertJWKtoPEM(this.key);
+            const keyPEM = convertJWKtoPEM(this.key);
 
             const encrypted = publicEncrypt(keyPEM, Buffer.from(plaintext));
             return { result: encrypted, algorithm, keyID: this.key.kid };
@@ -210,7 +210,7 @@ export class CryptographyClient {
       if (typeof this.key !== "string") {
         switch (algorithm) {
           case "RSA1_5": {
-            if (this.key.kty != "RSA") {
+            if (this.key.kty !== "RSA") {
               span.end();
               throw new Error("Key type does not match algorithm");
             }
@@ -220,14 +220,14 @@ export class CryptographyClient {
               throw new Error("Key does not support the wrapKey operation");
             }
 
-            let keyPEM = convertJWKtoPEM(this.key);
+            const keyPEM = convertJWKtoPEM(this.key);
 
-            let padded: any = { key: keyPEM, padding: constants.RSA_PKCS1_PADDING };
+            const padded: any = { key: keyPEM, padding: constants.RSA_PKCS1_PADDING };
             const encrypted = publicEncrypt(padded, Buffer.from(key));
             return { result: encrypted, algorithm, keyID: this.getKeyID() };
           }
           case "RSA-OAEP": {
-            if (this.key.kty != "RSA") {
+            if (this.key.kty !== "RSA") {
               span.end();
               throw new Error("Key type does not match algorithm");
             }
@@ -237,7 +237,7 @@ export class CryptographyClient {
               throw new Error("Key does not support the wrapKey operation");
             }
 
-            let keyPEM = convertJWKtoPEM(this.key);
+            const keyPEM = convertJWKtoPEM(this.key);
 
             const encrypted = publicEncrypt(keyPEM, Buffer.from(key));
             return { result: encrypted, algorithm, keyID: this.getKeyID() };
@@ -472,7 +472,7 @@ export class CryptographyClient {
       if (typeof this.key !== "string") {
         switch (algorithm) {
           case "RS256": {
-            if (this.key.kty != "RSA") {
+            if (this.key.kty !== "RSA") {
               throw new Error("Key type does not match algorithm");
             }
 
@@ -480,7 +480,7 @@ export class CryptographyClient {
               throw new Error("Key does not support the verify operation");
             }
 
-            let keyPEM = convertJWKtoPEM(this.key);
+            const keyPEM = convertJWKtoPEM(this.key);
 
             const verifier = createVerify("SHA256");
             verifier.update(Buffer.from(data));
@@ -492,7 +492,7 @@ export class CryptographyClient {
             };
           }
           case "RS384": {
-            if (this.key.kty != "RSA") {
+            if (this.key.kty !== "RSA") {
               throw new Error("Key type does not match algorithm");
             }
 
@@ -500,7 +500,7 @@ export class CryptographyClient {
               throw new Error("Key does not support the verify operation");
             }
 
-            let keyPEM = convertJWKtoPEM(this.key);
+            const keyPEM = convertJWKtoPEM(this.key);
 
             const verifier = createVerify("SHA384");
             verifier.update(Buffer.from(data));
@@ -512,7 +512,7 @@ export class CryptographyClient {
             };
           }
           case "RS512": {
-            if (this.key.kty != "RSA") {
+            if (this.key.kty !== "RSA") {
               throw new Error("Key type does not match algorithm");
             }
 
@@ -520,7 +520,7 @@ export class CryptographyClient {
               throw new Error("Key does not support the verify operation");
             }
 
-            let keyPEM = convertJWKtoPEM(this.key);
+            const keyPEM = convertJWKtoPEM(this.key);
 
             const verifier = createVerify("SHA512");
             verifier.update(Buffer.from(data));
@@ -587,12 +587,13 @@ export class CryptographyClient {
    * @ignore
    * Attempts to fetch the key from the service.
    */
-  private async fetchFullKeyIfPossible() {
+  private async fetchFullKeyIfPossible(): Promise<void> {
     if (!this.hasTriedToGetKey) {
       try {
-        let result = await this.getKey();
-        this.key = result;
-      } catch {}
+        this.key = await this.getKey();
+      } catch {
+        // Nothing to do here.
+      }
       this.hasTriedToGetKey = true;
     }
   }
@@ -676,15 +677,16 @@ export class CryptographyClient {
     pipelineOptions: CryptographyClientOptions = {}
   ) {
     const libInfo = `azsdk-js-keyvault-keys/${SDK_VERSION}`;
-    if (pipelineOptions.userAgentOptions) {
-      pipelineOptions.userAgentOptions.userAgentPrefix !== undefined
-        ? `${pipelineOptions.userAgentOptions.userAgentPrefix} ${libInfo}`
-        : libInfo;
-    } else {
-      pipelineOptions.userAgentOptions = {
-        userAgentPrefix: libInfo
-      };
-    }
+
+    const userAgentOptions = pipelineOptions.userAgentOptions;
+
+    pipelineOptions.userAgentOptions = {
+      ...pipelineOptions.userAgentOptions,
+      userAgentPrefix:
+        userAgentOptions && userAgentOptions.userAgentPrefix
+          ? `${userAgentOptions.userAgentPrefix} ${libInfo}`
+          : libInfo
+    };
 
     const authPolicy = isTokenCredential(credential)
       ? challengeBasedAuthenticationPolicy(credential)
@@ -728,15 +730,15 @@ export class CryptographyClient {
       );
     }
 
-    if (parsed.name == "") {
+    if (parsed.name === "") {
       throw new Error("Could not find 'name' of key in key URL");
     }
 
-    if (!parsed.version || parsed.version == "") {
+    if (!parsed.version || parsed.version === "") {
       throw new Error("Could not find 'version' of key in key URL");
     }
 
-    if (!parsed.vaultUrl || parsed.vaultUrl == "") {
+    if (!parsed.vaultUrl || parsed.vaultUrl === "") {
       throw new Error("Could not find 'vaultUrl' of key in key URL");
     }
 
@@ -777,7 +779,7 @@ export class CryptographyClient {
         ...options,
         spanOptions: {
           ...spanOptions,
-          parent: span,
+          parent: span.context(),
           attributes: {
             ...spanOptions.attributes,
             "az.namespace": "Microsoft.KeyVault"
@@ -813,7 +815,7 @@ function encodeLength(length: number): Uint8Array {
  * Encodes a buffer for DER, as sets the id to the given id
  */
 function encodeBuffer(buffer: Uint8Array, bufferId: number): Uint8Array {
-  if (buffer.length == 0) {
+  if (buffer.length === 0) {
     return buffer;
   }
 
@@ -821,18 +823,18 @@ function encodeBuffer(buffer: Uint8Array, bufferId: number): Uint8Array {
 
   // If the high bit is set, prepend a 0
   if ((result[0] & 0x80) === 0x80) {
-    let array = new Uint8Array(result.length + 1);
+    const array = new Uint8Array(result.length + 1);
     array[0] = 0;
     array.set(result, 1);
     result = array;
   }
 
   // Prepend the DER header for this buffer
-  let encodedLength = encodeLength(result.length);
+  const encodedLength = encodeLength(result.length);
 
-  let totalLength = 1 + encodedLength.length + result.length;
+  const totalLength = 1 + encodedLength.length + result.length;
 
-  let outputBuffer = new Uint8Array(totalLength);
+  const outputBuffer = new Uint8Array(totalLength);
   outputBuffer[0] = bufferId;
   outputBuffer.set(encodedLength, 1);
   outputBuffer.set(result, 1 + encodedLength.length);
@@ -850,19 +852,19 @@ export function convertJWKtoPEM(key: JsonWebKey): string {
   if (!key.n || !key.e) {
     throw new Error("Unsupported key format for local operations");
   }
-  let encoded_n = encodeBuffer(key.n, 0x2); // INTEGER
-  let encoded_e = encodeBuffer(key.e, 0x2); // INTEGER
+  const encoded_n = encodeBuffer(key.n, 0x2); // INTEGER
+  const encoded_e = encodeBuffer(key.e, 0x2); // INTEGER
 
-  let encoded_ne = new Uint8Array(encoded_n.length + encoded_e.length);
+  const encoded_ne = new Uint8Array(encoded_n.length + encoded_e.length);
   encoded_ne.set(encoded_n, 0);
   encoded_ne.set(encoded_e, encoded_n.length);
 
-  let full_encoded = encodeBuffer(encoded_ne, 0x30); //SEQUENCE
+  const full_encoded = encodeBuffer(encoded_ne, 0x30); // SEQUENCE
 
-  let buffer = Buffer.from(full_encoded).toString("base64");
+  const buffer = Buffer.from(full_encoded).toString("base64");
 
-  let beginBanner = "-----BEGIN RSA PUBLIC KEY-----\n";
-  let endBanner = "-----END RSA PUBLIC KEY-----";
+  const beginBanner = "-----BEGIN RSA PUBLIC KEY-----\n";
+  const endBanner = "-----END RSA PUBLIC KEY-----";
 
   /*
    Fill in the PEM with 64 character lines as per RFC:
@@ -874,10 +876,10 @@ export function convertJWKtoPEM(key: JsonWebKey): string {
    printable characters."
   */
   let outputString = beginBanner;
-  let lines = buffer.match(/.{1,64}/g);
+  const lines = buffer.match(/.{1,64}/g);
 
   if (lines) {
-    for (let line of lines) {
+    for (const line of lines) {
       outputString += line;
       outputString += "\n";
     }
@@ -896,9 +898,9 @@ export function convertJWKtoPEM(key: JsonWebKey): string {
  */
 async function createHash(algorithm: string, data: Uint8Array): Promise<Buffer> {
   if (isNode) {
-    let hash = cryptoCreateHash(algorithm);
+    const hash = cryptoCreateHash(algorithm);
     hash.update(Buffer.from(data));
-    let digest = hash.digest();
+    const digest = hash.digest();
     return digest;
   } else {
     if (window && window.crypto && window.crypto.subtle) {

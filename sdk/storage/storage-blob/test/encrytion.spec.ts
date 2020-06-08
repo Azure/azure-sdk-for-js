@@ -5,7 +5,7 @@ import { record } from "@azure/test-utils-recorder";
 import { BlobServiceClient, BlobClient, BlockBlobClient, ContainerClient } from "../src";
 import { Test_CPK_INFO } from "./utils/constants";
 import { isNode } from "@azure/core-http";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("Encryption Scope", function() {
   let blobServiceClient: BlobServiceClient;
