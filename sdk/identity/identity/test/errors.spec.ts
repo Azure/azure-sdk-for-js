@@ -11,6 +11,6 @@ describe("AggregateAuthenticationError", function() {
       new Error("Boom again.")
     ]);
 
-    assert.strictEqual(aggregateError.message, "\n\nError: Boom.,Error: Boom again.");
+    assert(aggregateError.message.includes("Error: Boom.\nError: Boom again."));
   });
 });
