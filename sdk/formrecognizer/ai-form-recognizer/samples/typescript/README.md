@@ -10,7 +10,7 @@ urlFragment: ai-form-recognizer-typescript
 
 # Azure Form Recognizer client library samples for TypeScript
 
-These sample programs show how to use the TypeScript client libraries for Azure Cognitive Services Text Analytics in some common scenarios.
+These sample programs show how to use the TypeScript client libraries for Azure Cognitive Services Form Recognizer in some common scenarios.
 
 
 |**File Name**|**Description**|
@@ -88,8 +88,8 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [getBoundingBoxes]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/getBoundingBoxes.ts
 [differentiateLabeledUnlabeled]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/differentiateLabeledUnlabeled.ts
 [copyModel]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/copyModel.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/ai-text-analytics
+[apiref]: https://docs.microsoft.com/javascript/api/@azure/ai-form-recognizer
 [azcogsvc]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
 [freesub]: https://azure.microsoft.com/free/
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html
