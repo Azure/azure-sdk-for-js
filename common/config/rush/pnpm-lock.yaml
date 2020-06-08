@@ -7936,7 +7936,7 @@ packages:
     dev: false
     name: '@rush-temp/core-http'
     resolution:
-      integrity: sha512-HD7wTCJGKbLGCja6W3H/FS1Av/nGt35Bd8CRE7zXPwtsHJV0WJeYzc9VCNcBAfoTMV7aA4QC60KJdQk7ktRKrQ==
+      integrity: sha512-Aavb1OtBbj8OIGbhBBJjPIrb5jnfDrUUDpvd+Ojj2rOlgnNaFbaCuQI6ydOK5GTmn1WNmoEf9lYyFRSrNJNHDw==
       tarball: 'file:projects/core-http.tgz'
     version: 0.0.0
   'file:projects/core-https.tgz':
@@ -8171,7 +8171,7 @@ packages:
       '@types/bluebird': 3.5.32
       '@types/chai': 4.2.11
       '@types/eslint': 4.16.8
-      '@types/estree': 0.0.39
+      '@types/estree': 0.0.44
       '@types/glob': 7.1.1
       '@types/mocha': 7.0.2
       '@types/node': 8.10.61
@@ -8196,7 +8196,7 @@ packages:
     dev: false
     name: '@rush-temp/eslint-plugin-azure-sdk'
     resolution:
-      integrity: sha512-5JdwkfeuqYTyu2Plo+FHSRxHC9Ri6hxuXXSASbqaNnC6/jusoKXXf8rau+f2jdkrsXxj36uwZAo58n17by000Q==
+      integrity: sha512-vakSdwmLrR3PVw4RuCTE6fERAdy40jL4wuQP8oP+9Ucw7GJNFpsXvLaVaD13MlY1kQ0/tBP/aWvuR1b/c9fCrQ==
       tarball: 'file:projects/eslint-plugin-azure-sdk.tgz'
     version: 0.0.0
   'file:projects/event-hubs.tgz':
@@ -8274,7 +8274,7 @@ packages:
     dev: false
     name: '@rush-temp/event-hubs'
     resolution:
-      integrity: sha512-xbTUoiBl0HEj7vWxBV3xPQQqa22nagQobiVAKQUYVrtI/hreADQtCZYsyivcXYVooJaCOXnnLofTbFIYQAIMlA==
+      integrity: sha512-QI2JHGXrGYaynRz7GFX0V0tRSZgeJSgoP6tNtTwBXO+dY5bdo4eyKuuf3HDWiMPADgyZH7a+xvLsJJlQb1CE3w==
       tarball: 'file:projects/event-hubs.tgz'
     version: 0.0.0
   'file:projects/event-processor-host.tgz':
@@ -8839,7 +8839,7 @@ packages:
     dev: false
     name: '@rush-temp/service-bus'
     resolution:
-      integrity: sha512-bXMcdF+Bu/7/oHstS0Ppx0tAby8qfZmemqeboHF66xc23mSRDZ6OQC5zyN6FQSzLeTKK1ItWxsl7iWTukpH8XA==
+      integrity: sha512-W48NAAVhOpKsh4KcHtdPXs4dtS7NBjc2XmwBxHGObQU1dsbQ6ld7z4u3YAwd2Eb95LMbkcDa93bh7lw2LfpLEg==
       tarball: 'file:projects/service-bus.tgz'
     version: 0.0.0
   'file:projects/storage-blob.tgz':
