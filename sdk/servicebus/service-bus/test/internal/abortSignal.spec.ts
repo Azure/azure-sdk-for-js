@@ -231,11 +231,6 @@ describe("AbortSignal", () => {
       }
 
       assert.isFalse(sender.isConnecting);
-      assert.deepEqual(
-        createdSenders.map((sender) => sender.isOpen()),
-        [true]
-      );
-      assert.notExists(sender["_tokenRenewalTimer"]);
     });
   });
 });

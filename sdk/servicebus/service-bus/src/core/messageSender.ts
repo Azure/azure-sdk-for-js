@@ -454,16 +454,6 @@ export class MessageSender extends LinkEntity {
           this._ensureTokenRenewal();
         }
       } catch (err) {
-        if (this._tokenRenewalTimer) {
-          clearTimeout(this._tokenRenewalTimer);
-          this._tokenRenewalTimer = undefined;
-        }
-
-        if (this._sender) {
-          await this._sender.close();
-          this._sender = undefined;
-        }
-
         err = translate(err);
         log.error(
           "[%s] An error occurred while creating the sender %s",
