@@ -1,5 +1,8 @@
 # Release History
 
+## 3.7.1 (Unreleased)
+
+
 ## 3.7.0 (2020-6-08)
 
 - BUGFIX: Support crypto functions in Internet Explorer browser
