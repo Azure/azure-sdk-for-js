@@ -360,8 +360,6 @@ describe("Test ServiceBusClient creation", function(): void {
       await serviceBusClient.close();
 
       const sbClient = new ServiceBusClient(serviceBusEndpoint, tokenCreds);
-      sbClient.should.be.an.instanceof(ServiceBusClient);
-
       const sender = sbClient.createSender(entities.queue!);
       const receiver = sbClient.createReceiver(entities.queue!, "peekLock");
       const testMessages = TestMessage.getSample();
