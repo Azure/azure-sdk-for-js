@@ -378,4 +378,4 @@ If you'd like to contribute to this library, please read the [contributing guide
 [register_aad_app]: https://docs.microsoft.com/azure/cognitive-services/authentication#assign-a-role-to-a-service-principal
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity#defaultazurecredential
 [data_limits]: https://docs.microsoft.com/azure/cognitive-services/text-analytics/overview#data-limits
-```
+
