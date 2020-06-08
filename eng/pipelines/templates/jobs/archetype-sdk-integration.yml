@@ -120,25 +120,25 @@ jobs:
         displayName: "Build test assets"
         condition: and(succeededOrFailed(),eq(variables['DependencyVersion'],''))
       
-      - pwsh: |
+      - script: |
           npm install
           node index.js --artifact-name "${{parameters.PackageName}}" --version-type $(DependencyVersion) --source-dir "$(Build.SourcesDirectory)" --test-folder "test/public"
         displayName: "Convert tests to run against package references"
         workingDirectory: $(Build.SourcesDirectory)/eng/tools/dependency-testing
         condition: and(succeededOrFailed(),ne(variables['DependencyVersion'],''))
 
-      - pwsh: |
+      - script: |
           node common/scripts/install-run-rush.js update
         displayName: "Rush update"
         workingDirectory: $(Build.SourcesDirectory)
         condition: and(succeededOrFailed(),ne(variables['DependencyVersion'],''))
 
-      - pwsh: |
+      - script: |
           node $(Build.SourcesDirectory)/common/scripts/install-run-rushx.js build
         displayName: "Build test package"
         workingDirectory: $(PackageTestPath)
         condition: and(succeededOrFailed(),ne(variables['DependencyVersion'],''))
-      # - pwsh: |
+      # - script: |
       #     rush build -t $(PackageTest)
       #   displayName: "Build test package"
       #   workingDirectory: $(PackageTestPath)
@@ -147,7 +147,7 @@ jobs:
       - ${{if ne(parameters.PreIntegrationSteps, '')}}:
           - template: ../steps/${{parameters.PreIntegrationSteps}}.yml
 
-      - pwsh: |
+      - script: |
           npm install
           node getPackagePath.js --repo-root "$(Build.SourcesDirectory)" --package-name "${{parameters.PackageName}}"
         workingDirectory: $(Build.SourcesDirectory)/eng/tools/eng-package-utils
