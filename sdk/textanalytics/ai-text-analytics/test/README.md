@@ -6,7 +6,7 @@ You can use existing Azure resources for the live tests, or generate new ones by
 
 The Azure resource that is used by the tests in this project is:
 
-- An [Azure Cognitive Services](https://azure.microsoft.com/en-us/services/cognitive-services/) account of the Text Analytics type.
+- An [Azure Cognitive Services](https://azure.microsoft.com/services/cognitive-services/) account of the Text Analytics type.
 
 To run the live tests, you will also need to set the below environment variables:
 
@@ -23,7 +23,7 @@ In order to use Azure Active Directory to run the live tests, you will need to c
 
 ### Using an App Registration (Service Principal)
 
-- Follow [Documentation to register a new application](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app) in the Azure Active Directory (in the Azure portal).
+- Follow [Documentation to register a new application](https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app) in the Azure Active Directory (in the Azure portal).
 - Note the Client ID and Tenant ID.
 - In the "Certificates & Secrets" tab, create a secret and note that down.
 - Ensure the following environment variables are set:
