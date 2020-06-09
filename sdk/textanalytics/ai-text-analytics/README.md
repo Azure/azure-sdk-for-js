@@ -147,7 +147,7 @@ const results = await client.analyzeSentiment(documents);
 const onlySuccessful = results.filter((result) => result.error === undefined);
 ```
 
-**Note**: TypeScript users can benefit from better type-checking of result and error objects if `compilerOptions.strictNullChecks` is set to `true` in their `tsconfig.json` configuration. For example:
+**Note**: TypeScript users can benefit from better type-checking of result and error objects if `compilerOptions.strictNullChecks` is set to `true` in the `tsconfig.json` configuration. For example:
 
 ```typescript
 const [result] = await client.analyzeSentiment(["Hello world!"]);
@@ -158,6 +158,16 @@ if (result.error !== undefined) {
   // the tsconfig.json
 
   console.log(result.error);
+}
+```
+
+This feature was introduced in TypeScript 3.2, so users of TypeScript 3.1 **must** cast result values to their corresponding success variant as follows:
+
+```typescript
+const [result] = await client.detectLanguage(["Hello world!"]);
+
+if (result.error === undefined) {
+  const { primaryLanguage } = result as DetectLanguageSuccessResult;
 }
 ```
 
