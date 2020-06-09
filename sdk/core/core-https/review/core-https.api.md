@@ -231,6 +231,19 @@ export function setClientRequestIdPolicy(requestIdHeaderName?: string): Pipeline
 export const setClientRequestIdPolicyName = "setClientRequestIdPolicy";
 
 // @public
+export function systemErrorRetryPolicy(options?: SystemErrorRetryPolicyOptions): PipelinePolicy;
+
+// @public
+export const systemErrorRetryPolicyName = "systemErrorRetryPolicy";
+
+// @public
+export interface SystemErrorRetryPolicyOptions {
+    maxRetries?: number;
+    maxRetryDelayInMs?: number;
+    retryDelayInMs?: number;
+}
+
+// @public
 export type TransferProgressEvent = {
     loadedBytes: number;
 };

@@ -4,7 +4,7 @@
 import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
 import { logger } from "../log";
-import { delay } from "../util/helpers";
+import { delay, getRandomIntegerInclusive } from "../util/helpers";
 import { RestError } from "../restError";
 
 /**
@@ -103,13 +103,16 @@ export function exponentialRetryPolicy(
     // Adjust retry count
     retryData.retryCount++;
 
-    // Adjust retry interval
-    let incrementDelta = Math.pow(2, retryData.retryCount) - 1;
-    const boundedRandDelta =
-      retryInterval * 0.8 + Math.floor(Math.random() * (retryInterval * 1.2 - retryInterval * 0.8));
-    incrementDelta *= boundedRandDelta;
+    // Exponentially increase the delay each time
+    const exponentialDelay = retryInterval * Math.pow(2, retryData.retryCount);
+    // Don't let the delay exceed the maximum
+    const clampedExponentialDelay = Math.min(maxRetryInterval, exponentialDelay);
+    // Allow the final value to have some "jitter" (within 50% of the delay size) so
+    // that retries across multiple clients don't occur simultaneously.
+    const delayWithJitter =
+      clampedExponentialDelay / 2 + getRandomIntegerInclusive(0, clampedExponentialDelay / 2);
 
-    retryData.retryInterval = Math.min(incrementDelta, maxRetryInterval);
+    retryData.retryInterval = delayWithJitter;
 
     return retryData;
   }

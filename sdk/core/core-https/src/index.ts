@@ -51,3 +51,8 @@ export {
   redirectPolicyName,
   RedirectPolicyOptions
 } from "./policies/redirectPolicy";
+export {
+  systemErrorRetryPolicy,
+  SystemErrorRetryPolicyOptions,
+  systemErrorRetryPolicyName
+} from "./policies/systemErrorRetryPolicy";

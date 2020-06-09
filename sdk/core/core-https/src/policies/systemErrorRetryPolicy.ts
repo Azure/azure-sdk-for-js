@@ -4,7 +4,7 @@
 import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
 import { RestError } from "../restError";
-import { delay } from "../util/helpers";
+import { delay, getRandomIntegerInclusive } from "../util/helpers";
 
 const DEFAULT_CLIENT_RETRY_COUNT = 3;
 // intervals are in ms
@@ -51,6 +51,12 @@ export interface SystemErrorRetryPolicyOptions {
   maxRetryDelayInMs?: number;
 }
 
+/**
+ * A retry policy that specifically seeks to handle errors in the
+ * underlying transport layer (e.g. DNS lookup failures) rather than
+ * retryable error codes from the server itself.
+ * @param options Options that customize the policy.
+ */
 export function systemErrorRetryPolicy(
   options: SystemErrorRetryPolicyOptions = {}
 ): PipelinePolicy {
@@ -59,6 +65,9 @@ export function systemErrorRetryPolicy(
   const maxRetryInterval = options.maxRetryDelayInMs ?? DEFAULT_CLIENT_MAX_RETRY_INTERVAL;
 
   function shouldRetry(retryData: RetryData): boolean {
+    if (!isSystemError(retryData.error)) {
+      return false;
+    }
     const currentCount = retryData && retryData.retryCount;
     return currentCount < retryCount;
   }
@@ -75,13 +84,16 @@ export function systemErrorRetryPolicy(
     // Adjust retry count
     retryData.retryCount++;
 
-    // Adjust retry interval
-    let incrementDelta = Math.pow(2, retryData.retryCount) - 1;
-    const boundedRandDelta =
-      retryInterval * 0.8 + Math.floor(Math.random() * (retryInterval * 1.2 - retryInterval * 0.8));
-    incrementDelta *= boundedRandDelta;
+    // Exponentially increase the delay each time
+    const exponentialDelay = retryInterval * Math.pow(2, retryData.retryCount);
+    // Don't let the delay exceed the maximum
+    const clampedExponentialDelay = Math.min(maxRetryInterval, exponentialDelay);
+    // Allow the final value to have some "jitter" (within 50% of the delay size) so
+    // that retries across multiple clients don't occur simultaneously.
+    const delayWithJitter =
+      clampedExponentialDelay / 2 + getRandomIntegerInclusive(0, clampedExponentialDelay / 2);
 
-    retryData.retryInterval = Math.min(incrementDelta, maxRetryInterval);
+    retryData.retryInterval = delayWithJitter;
 
     return retryData;
   }
@@ -94,7 +106,7 @@ export function systemErrorRetryPolicy(
     requestError?: RetryError
   ): Promise<PipelineResponse> {
     retryData = updateRetryData(retryData, requestError);
-    if (isSystemError(requestError) && shouldRetry(retryData)) {
+    if (shouldRetry(retryData)) {
       try {
         await delay(retryData.retryInterval);
         const res = await next(request.clone());
