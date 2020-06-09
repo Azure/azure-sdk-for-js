@@ -53,7 +53,8 @@ import {
 import {
   setURLParameter,
   extractConnectionStringParts,
-  appendToURLPath
+  appendToURLPath,
+  toQuerySerialization
 } from "./utils/utils.common";
 import { fsStat, readStreamToLocalFile, streamToBuffer } from "./utils/utils.node";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
@@ -135,6 +136,7 @@ import { ETagNone } from "./utils/constants";
 import { truncatedISO8061Date } from "./utils/utils.common";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { BlobQueryResponse } from "./BlobQueryResponse";
 
 /**
  * Options to configure the {@link BlobClient.beginCopyFromURL} operation.
@@ -862,6 +864,7 @@ export class BlobClient extends StorageClient {
    * @memberof BlobClient
    */
   private blobContext: StorageBlob;
+
   private _name: string;
   private _containerName: string;
 
@@ -1237,7 +1240,7 @@ export class BlobClient extends StorageClient {
   }
 
   /**
-   * Returns true if the Azrue blob resource represented by this client exists; false otherwise.
+   * Returns true if the Azure blob resource represented by this client exists; false otherwise.
    *
    * NOTE: use this function with care since an existing blob might be deleted by other clients or
    * applications. Vice versa new blobs might be added by other clients or applications after this
@@ -2648,6 +2651,177 @@ export interface BlockBlobUploadOptions extends CommonOptions {
 }
 
 /**
+ * Blob query error type.
+ *
+ * @export
+ * @interface BlobQueryError
+ */
+export interface BlobQueryError {
+  /**
+   * Whether error is fatal. Fatal error will stop query.
+   *
+   * @type {boolean}
+   * @memberof BlobQueryError
+   */
+  isFatal: boolean;
+  /**
+   * Error name.
+   *
+   * @type {string}
+   * @memberof BlobQueryError
+   */
+  name: string;
+  /**
+   * Position in bytes of the query.
+   *
+   * @type {number}
+   * @memberof BlobQueryError
+   */
+  position: number;
+  /**
+   * Error description.
+   *
+   * @type {string}
+   * @memberof BlobQueryError
+   */
+  description: string;
+}
+
+/**
+ * Base type for options to query blob.
+ *
+ * @export
+ * @interface BlobQueryTextConfiguration
+ */
+export interface BlobQueryTextConfiguration {
+  /**
+   * Record separator.
+   *
+   * @type {string}
+   * @memberof BlobQueryTextConfiguration
+   */
+  recordSeparator: string;
+}
+
+/**
+ * Options to query blob with JSON format.
+ *
+ * @export
+ * @interface BlobQueryJsonTextConfiguration
+ */
+export interface BlobQueryJsonTextConfiguration extends BlobQueryTextConfiguration {
+  /**
+   * Query for a JSON format blob.
+   *
+   * @type {"json"}
+   * @memberof BlobQueryJsonTextConfiguration
+   */
+  kind: "json";
+}
+
+/**
+ * Options to query blob with CSV format.
+ *
+ * @export
+ * @interface BlobQueryCsvTextConfiguration
+ */
+export interface BlobQueryCsvTextConfiguration extends BlobQueryTextConfiguration {
+  /**
+   * Query for a CSV format blob.
+   *
+   * @type {"csv"}
+   * @memberof BlobQueryCsvTextConfiguration
+   */
+  kind: "csv";
+  /**
+   * Column separator.
+   *
+   * @type {string}
+   * @memberof BlobQueryCsvTextConfiguration
+   */
+  columnSeparator: string;
+  /**
+   * Field quote.
+   *
+   * @type {string}
+   * @memberof BlobQueryCsvTextConfiguration
+   */
+  fieldQuote?: string;
+  /**
+   * Escape character.
+   *
+   * @type {string}
+   * @memberof BlobQueryCsvTextConfiguration
+   */
+  escapeCharacter?: string;
+  /**
+   * Has headers.
+   *
+   * @type {boolean}
+   * @memberof BlobQueryCsvTextConfiguration
+   */
+  hasHeaders: boolean;
+}
+
+/**
+ * Options to configure {@link BlockBlobClient.query} operation.
+ *
+ * @export
+ * @interface BlockBlobQueryOptions
+ */
+export interface BlockBlobQueryOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof BlockBlobUploadOptions
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * Configurations for the query input.
+   *
+   * @type {BlobQueryJsonTextConfiguration | BlobQueryCsvTextConfiguration}
+   * @memberof BlockBlobQueryOptions
+   */
+  inputTextConfiguration?: BlobQueryJsonTextConfiguration | BlobQueryCsvTextConfiguration;
+  /**
+   * Configurations for the query output.
+   *
+   * @type {BlobQueryJsonTextConfiguration | BlobQueryCsvTextConfiguration}
+   * @memberof BlockBlobQueryOptions
+   */
+  outputTextConfiguration?: BlobQueryJsonTextConfiguration | BlobQueryCsvTextConfiguration;
+  /**
+   * Callback to receive events on the progress of query operation.
+   *
+   * @type {(progress: TransferProgressEvent) => void}
+   * @memberof BlockBlobUploadOptions
+   */
+  onProgress?: (progress: TransferProgressEvent) => void;
+  /**
+   * Callback to receive error events during the query operaiton.
+   *
+   * @memberof BlockBlobQueryOptions
+   */
+  onError?: (error: BlobQueryError) => void;
+  /**
+   * Conditions to meet when uploading to the block blob.
+   *
+   * @type {BlobRequestConditions}
+   * @memberof BlockBlobUploadOptions
+   */
+  conditions?: BlobRequestConditions;
+  /**
+   * Customer Provided Key Info.
+   *
+   * @type {CpkInfo}
+   * @memberof BlockBlobUploadOptions
+   */
+  customerProvidedKey?: CpkInfo;
+}
+
+/**
  * Options to configure {@link BlockBlobClient.stageBlock} operation.
  *
  * @export
@@ -3047,6 +3221,18 @@ export type BlobUploadCommonResponse = BlockBlobUploadHeaders & {
  */
 export class BlockBlobClient extends BlobClient {
   /**
+   * blobContext provided by protocol layer.
+   *
+   * Note. Ideally BlobClient should set BlobClient.blobContext to protected. However, API
+   * extractor has issue blocking that. Here we redecelare _blobContext in BlockBlobClient.
+   *
+   * @private
+   * @type {Blobs}
+   * @memberof BlobClient
+   */
+  private _blobContext: StorageBlob;
+
+  /**
    * blockBlobContext provided by protocol layer.
    *
    * @private
@@ -3200,6 +3386,7 @@ export class BlockBlobClient extends BlobClient {
     }
     super(url, pipeline);
     this.blockBlobContext = new BlockBlob(this.storageClientContext);
+    this._blobContext = new StorageBlob(this.storageClientContext);
   }
 
   /**
@@ -3220,6 +3407,72 @@ export class BlockBlobClient extends BlobClient {
       ),
       this.pipeline
     );
+  }
+
+  /**
+   * Quick query for a JSON or CSV formatted blob.
+   *
+   * Example usage (Node.js):
+   *
+   * ```js
+   * // Query and convert a blob to a string
+   * const queryBlockBlobResponse = await blockBlobClient.query("select * from BlobStorage");
+   * const downloaded = await streamToString(queryBlockBlobResponse.readableStreamBody);
+   * console.log("Query blob content:", downloaded);
+   *
+   * async function streamToString(readableStream) {
+   *   return new Promise((resolve, reject) => {
+   *     const chunks = [];
+   *     readableStream.on("data", (data) => {
+   *       chunks.push(data.toString());
+   *     });
+   *     readableStream.on("end", () => {
+   *       resolve(chunks.join(""));
+   *     });
+   *     readableStream.on("error", reject);
+   *   });
+   * }
+   * ```
+   *
+   * @param {string} query
+   * @param {BlockBlobQueryOptions} [options={}]
+   * @returns {Promise<BlobDownloadResponseModel>}
+   * @memberof BlockBlobClient
+   */
+  public async query(
+    query: string,
+    options: BlockBlobQueryOptions = {}
+  ): Promise<BlobDownloadResponseModel> {
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+
+    const { span, spanOptions } = createSpan("BlobClient-query", options.tracingOptions);
+
+    try {
+      const response = await this._blobContext.query({
+        abortSignal: options.abortSignal,
+        queryRequest: {
+          expression: query,
+          inputSerialization: toQuerySerialization(options.inputTextConfiguration),
+          outputSerialization: toQuerySerialization(options.outputTextConfiguration)
+        },
+        leaseAccessConditions: options.conditions,
+        modifiedAccessConditions: options.conditions,
+        spanOptions
+      });
+      return new BlobQueryResponse(response, {
+        abortSignal: options.abortSignal,
+        onProgress: options.onProgress,
+        onError: options.onError
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -5868,7 +6121,7 @@ export class ContainerClient extends StorageClient {
   }
 
   /**
-   * Returns true if the Azrue container resource represented by this client exists; false otherwise.
+   * Returns true if the Azure container resource represented by this client exists; false otherwise.
    *
    * NOTE: use this function with care since an existing container might be deleted by other clients or
    * applications. Vice versa new containers with the same name might be added by other clients or

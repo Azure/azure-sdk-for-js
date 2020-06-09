@@ -1,5 +1,9 @@
 # Release History
 
+## 12.2.0 (2020.06)
+
+- Supported quick query. Added a new API `BlockBlobClient.query()`.
+
 ## 12.1.2 (2020.05)
 
 - Fix data corruption failure error [issue #6411](https://github.com/Azure/azure-sdk-for-js/issues/6411) when downloading compressed files. [PR #7993](https://github.com/Azure/azure-sdk-for-js/pull/7993)
