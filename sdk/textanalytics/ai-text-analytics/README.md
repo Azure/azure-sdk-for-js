@@ -161,7 +161,7 @@ if (result.error !== undefined) {
 }
 ```
 
-This feature was introduced in TypeScript 3.2, so users of TypeScript 3.1 **must** cast result values to their corresponding success variant as follows:
+This capability was introduced in TypeScript 3.2, so users of TypeScript 3.1 must cast result values to their corresponding success variant as follows:
 
 ```typescript
 const [result] = await client.detectLanguage(["Hello world!"]);
