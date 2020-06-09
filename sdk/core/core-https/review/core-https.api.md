@@ -244,6 +244,12 @@ export interface SystemErrorRetryPolicyOptions {
 }
 
 // @public
+export function throttlingRetryPolicy(): PipelinePolicy;
+
+// @public
+export const throttlingRetryPolicyName = "throttlingRetryPolicy";
+
+// @public
 export type TransferProgressEvent = {
     loadedBytes: number;
 };
