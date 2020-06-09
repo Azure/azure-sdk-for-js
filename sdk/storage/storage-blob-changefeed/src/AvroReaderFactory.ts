@@ -7,7 +7,8 @@ export class AvroReaderFactory {
     dataStream: AvroReadable,
     headerStream: AvroReadable,
     blockOffset: number,
-    eventIndex: number): AvroReader;
+    eventIndex: number
+  ): AvroReader;
 
   public buildAvroReader(
     dataStream: AvroReadable,

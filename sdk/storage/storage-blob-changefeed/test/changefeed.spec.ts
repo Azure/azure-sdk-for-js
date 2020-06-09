@@ -59,7 +59,7 @@ describe("Change Feed", async () => {
     containerClientStub = sinon.createStubInstance(ContainerClient);
     const blobClientStub = sinon.createStubInstance(BlobClient);
     segmentFactoryStub = sinon.createStubInstance(SegmentFactory);
-    changeFeedFactory = new ChangeFeedFactory(segmentFactoryStub);
+    changeFeedFactory = new ChangeFeedFactory(segmentFactoryStub as any);
 
     serviceClientStub.getContainerClient.returns(containerClientStub as any);
     containerClientStub.exists.resolves(true);

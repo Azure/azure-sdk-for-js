@@ -4,7 +4,7 @@ export interface BlobChangeFeedEvent {
   topic: string;
   subject: string;
   eventType: BlobChangeFeedEventType;
-  eventTime: string;
+  eventTime: Date;
   id: string; // GUID
   data: BlobChangeFeedEventData;
   dataVersion?: string;
@@ -25,6 +25,7 @@ export interface BlobChangeFeedEventData {
   sequencer: string;
 
   // For HNS only.
+  contentOffset?: number;
   destinationUrl?: string;
   sourceUrl?: string;
   recursive?: string;

@@ -5,7 +5,7 @@ import { BlobChangeFeedClient, BlobChangeFeedEvent, BlobChangeFeedEventPage } fr
 import * as dotenv from "dotenv";
 dotenv.config();
 
-describe.only("BlobChangeFeedClient", async () => {
+describe("BlobChangeFeedClient", async () => {
   const account = process.env.ACCOUNT_NAME || "";
   const accountKey = process.env.ACCOUNT_KEY || "";
   const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
@@ -42,13 +42,13 @@ describe.only("BlobChangeFeedClient", async () => {
       if (i++ === 0) {
         assert.ok(event.eventType);
         assert.ok(event.data.blobType);
-        assert.ok(new Date(event.eventTime) >= startRounded);
+        assert.ok(event.eventTime >= startRounded);
       }
       lastEvent = event;
     }
 
     if (lastEvent) {
-      assert.ok(new Date(lastEvent.eventTime) < endRounded);
+      assert.ok(lastEvent.eventTime < endRounded);
     }
   });
 
@@ -99,7 +99,7 @@ describe.only("BlobChangeFeedClient", async () => {
 
     if (lastEventPage) {
       const lastEvent = lastEventPage.events[lastEventPage.events.length - 1];
-      assert.ok(new Date(lastEvent.eventTime) < endRounded);
+      assert.ok(lastEvent.eventTime < endRounded);
     }
   });
 });

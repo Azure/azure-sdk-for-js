@@ -5,7 +5,7 @@ import { CHANGE_FEED_CONTAINER_NAME, CHANGE_FEED_META_SEGMENT_PATH } from "./uti
 import {
   ceilToNearestHour,
   floorToNearestHour,
-  getURLPath,
+  getURI,
   hashString,
   getYearsPaths,
   getSegmentsInYear,
@@ -126,7 +126,7 @@ export class ChangeFeedFactory {
   }
 
   private static validateCursor(containerClient: ContainerClient, cursor: ChangeFeedCursor): void {
-    if (hashString(getURLPath(containerClient.url)!) !== cursor.urlHash) {
+    if (hashString(getURI(containerClient.url)!) !== cursor.urlHash) {
       throw new Error("Cursor URL does not match container URL.");
     }
   }
