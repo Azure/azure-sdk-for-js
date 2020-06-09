@@ -6,6 +6,7 @@
 
 import { AbortSignalLike } from '@azure/abort-controller';
 import { Debugger } from '@azure/logger';
+import { SpanOptions } from '@azure/core-tracing';
 
 // @public
 export interface AddPipelineOptions {
@@ -133,6 +134,7 @@ export interface PipelineRequest {
     proxySettings?: ProxySettings;
     requestId: string;
     skipDecompressResponse?: boolean;
+    spanOptions?: SpanOptions;
     streamResponseBody?: boolean;
     timeout: number;
     url: string;
@@ -248,6 +250,17 @@ export function throttlingRetryPolicy(): PipelinePolicy;
 
 // @public
 export const throttlingRetryPolicyName = "throttlingRetryPolicy";
+
+// @public
+export function tracingPolicy(options?: TracingPolicyOptions): PipelinePolicy;
+
+// @public
+export const tracingPolicyName = "tracingPolicy";
+
+// @public
+export interface TracingPolicyOptions {
+    userAgent?: string;
+}
 
 // @public
 export type TransferProgressEvent = {
