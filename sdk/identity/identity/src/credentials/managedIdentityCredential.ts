@@ -11,7 +11,7 @@ import {
 } from "@azure/core-http";
 import { IdentityClient, TokenCredentialOptions } from "../client/identityClient";
 import { createSpan } from "../util/tracing";
-import { AuthenticationErrorName, CredentialUnavailable } from "../client/errors";
+import { AuthenticationErrorName, AuthenticationError, CredentialUnavailable } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/api";
 import { logger } from "../util/logging";
 
@@ -337,15 +337,24 @@ export class ManagedIdentityCredential implements TokenCredential {
       } else {
         throw new CredentialUnavailable("The managed identity endpoint is not currently available");
       }
-
       return result;
     } catch (err) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
         message: err.message
       });
-      throw err;
+
+      if (err.code == "ENETUNREACH") {
+        throw new CredentialUnavailable("ManagedIdentityCredential is unavailable. No managed identity endpoint found.");
+      }
+      throw new AuthenticationError(400, {
+        error: "ManagedIdentityCredential authentication failed.",
+        error_description: err.message
+      });
     } finally {
+      if (this.isEndpointUnavailable) {
+        throw new CredentialUnavailable("ManagedIdentityCredential is unavailable. No managed identity endpoint found.");
+      }
       span.end();
     }
   }
