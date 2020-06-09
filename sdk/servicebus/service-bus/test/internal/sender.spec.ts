@@ -20,21 +20,23 @@ describe("sender unit tests", () => {
     assert.isFalse(isServiceBusMessageBatch(({} as any) as ServiceBusMessage));
   });
 
-  it("don't allow Sender.send(string)", async () => {
-    const sender = new SenderImpl(createClientEntityContextForTests());
+  ["hello", {}, null, undefined].forEach((invalidValue) => {
+    it(`don't allow Sender.send(${invalidValue})`, async () => {
+      const sender = new SenderImpl(createClientEntityContextForTests());
 
-    try {
-      await sender.send(
-        // @ts-expect-error
-        "hello"
-      );
-    } catch (err) {
-      assert.equal(err.name, "TypeError");
-      assert.equal(
-        err.message,
-        "Invalid type for message. Must be a ServiceBusMessage, an array of ServiceBusMessage or a ServiceBusMessageBatch"
-      );
-    }
+      try {
+        await sender.send(
+          // @ts-expect-error
+          invalidValue
+        );
+      } catch (err) {
+        assert.equal(err.name, "TypeError");
+        assert.equal(
+          err.message,
+          "Invalid type for message. Must be a ServiceBusMessage, an array of ServiceBusMessage or a ServiceBusMessageBatch"
+        );
+      }
+    });
   });
 });
 

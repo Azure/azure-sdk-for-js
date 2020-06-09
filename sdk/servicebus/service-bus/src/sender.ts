@@ -4,7 +4,7 @@
 import Long from "long";
 import * as log from "./log";
 import { MessageSender } from "./core/messageSender";
-import { ServiceBusMessage } from "./serviceBusMessage";
+import { ServiceBusMessage, isServiceBusMessage } from "./serviceBusMessage";
 import { ClientEntityContext } from "./clientEntityContext";
 import {
   getSenderClosedErrorMsg,
@@ -247,7 +247,7 @@ export class SenderImpl implements Sender {
       return this._sender.sendBatch(batch, options);
     } else if (isServiceBusMessageBatch(messageOrMessagesOrBatch)) {
       return this._sender.sendBatch(messageOrMessagesOrBatch, options);
-    } else if (messageOrMessagesOrBatch != null && typeof messageOrMessagesOrBatch === "object") {
+    } else if (isServiceBusMessage(messageOrMessagesOrBatch)) {
       return this._sender.send(messageOrMessagesOrBatch, options);
     } else {
       throw new TypeError(
