@@ -255,7 +255,7 @@
 - `downloadToFile()` is added to `BlobClient`.
 - Exported `HttpRequestBody` type to allow implementation of a customized HTTP client.
 
-For release notes and more information please visit https://aka.ms/azure-sdk-preview1-js
+For release notes and more information please visit https://aka.ms/azsdk/releases/july2019preview
 
 ## 10.5.0 (2019.09)
 

@@ -9,7 +9,7 @@ import { ConnectionConfig } from "./connectionConfig/connectionConfig";
 import { SharedKeyCredential } from "./auth/sas";
 
 import { Constants } from "./util/constants";
-import { getPlatformInfo, getFrameworkInfo } from "./util/runtimeInfo";
+import { getFrameworkInfo, getPlatformInfo } from "./util/runtimeInfo";
 import { isNode } from "./util/utils";
 
 /**
@@ -23,12 +23,12 @@ export interface ConnectionContextBase {
    */
   readonly config: ConnectionConfig;
   /**
-   * @property {string} connectionLock The unqiue lock name per connection that is used to
-   * acquire the lock for establishing an aqmp connection per client if one does not exist.
+   * @property {string} connectionLock The unique lock name per connection that is used to
+   * acquire the lock for establishing an amqp connection per client if one does not exist.
    */
   connectionLock: string;
   /**
-   * @property {string} negotiateClaimLock The unqiue lock name per connection that is used to
+   * @property {string} negotiateClaimLock The unique lock name per connection that is used to
    * acquire the lock for negotiating cbs claim by an entity on that connection.
    */
   negotiateClaimLock: string;

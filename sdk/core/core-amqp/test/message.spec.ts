@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { MessageHeader, AmqpMessageHeader, MessageProperties, AmqpMessageProperties } from "../src";
+import { AmqpMessageHeader, AmqpMessageProperties, MessageHeader, MessageProperties } from "../src";
 import * as chai from "chai";
 chai.should();
 
@@ -62,7 +62,7 @@ describe("message", function() {
     });
   });
 
-  describe("poperties", function() {
+  describe("properties", function() {
     it("should be able to convert empty MessageProperties to AmqpMessageProperties", function(done) {
       const msgProperties: MessageProperties = {};
       const amqpMsgProperties: AmqpMessageProperties = MessageProperties.toAmqpMessageProperties(

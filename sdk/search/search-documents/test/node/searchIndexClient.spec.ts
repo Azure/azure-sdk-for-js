@@ -43,7 +43,7 @@ describe("SearchClient", function() {
 
   describe("#count", function() {
     it("returns the correct document count", async function() {
-      const documentCount = await searchClient.countDocuments();
+      const documentCount = await searchClient.getDocumentsCount();
       assert.equal(documentCount, 10);
     });
   });

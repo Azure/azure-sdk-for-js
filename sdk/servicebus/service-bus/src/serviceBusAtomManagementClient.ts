@@ -1,69 +1,69 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { isTokenCredential, parseConnectionString, TokenCredential } from "@azure/core-amqp";
 import {
-  WebResource,
+  HttpOperationResponse,
+  proxyPolicy,
+  ProxySettings,
+  RequestPolicyFactory,
+  RestError,
   ServiceClient,
   ServiceClientOptions,
-  HttpOperationResponse,
   signingPolicy,
-  proxyPolicy,
-  RequestPolicyFactory,
-  URLBuilder,
-  ProxySettings,
   stripRequest,
   stripResponse,
-  RestError
+  URLBuilder,
+  WebResource,
+  bearerTokenAuthenticationPolicy
 } from "@azure/core-http";
-
-import { parseConnectionString, SharedKeyCredential } from "@azure/core-amqp";
-
-import { AtomXmlSerializer, executeAtomXmlOperation } from "./util/atomXmlHelper";
-
 import * as log from "./log";
-import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials";
-import * as Constants from "./util/constants";
-
 import {
-  QueueResourceSerializer,
-  InternalQueueOptions,
-  QueueOptions,
+  buildNamespace,
+  NamespaceProperties,
+  NamespaceResourceSerializer
+} from "./serializers/namespaceResourceSerializer";
+import {
+  buildQueue,
   buildQueueOptions,
-  QueueDetails,
-  buildQueue
+  buildQueueRuntimeInfo,
+  InternalQueueOptions,
+  QueueDescription,
+  QueueResourceSerializer,
+  QueueRuntimeInfo
 } from "./serializers/queueResourceSerializer";
 import {
-  TopicResourceSerializer,
-  InternalTopicOptions,
-  TopicOptions,
-  buildTopicOptions,
-  TopicDetails,
-  buildTopic
-} from "./serializers/topicResourceSerializer";
+  buildRule,
+  RuleDescription,
+  RuleResourceSerializer
+} from "./serializers/ruleResourceSerializer";
 import {
-  SubscriptionResourceSerializer,
-  InternalSubscriptionOptions,
-  SubscriptionOptions,
+  buildSubscription,
   buildSubscriptionOptions,
-  SubscriptionDetails,
-  buildSubscription
+  buildSubscriptionRuntimeInfo,
+  InternalSubscriptionOptions,
+  SubscriptionDescription,
+  SubscriptionResourceSerializer,
+  SubscriptionRuntimeInfo
 } from "./serializers/subscriptionResourceSerializer";
 import {
-  RuleResourceSerializer,
-  InternalRuleOptions,
-  RuleOptions,
-  buildRuleOptions,
-  RuleDetails,
-  buildRule
-} from "./serializers/ruleResourceSerializer";
-import { isJSONLikeObject, isAbsoluteUrl } from "./util/utils";
-
+  buildTopic,
+  buildTopicOptions,
+  buildTopicRuntimeInfo,
+  InternalTopicOptions,
+  TopicDescription,
+  TopicResourceSerializer,
+  TopicRuntimeInfo
+} from "./serializers/topicResourceSerializer";
+import { AtomXmlSerializer, executeAtomXmlOperation } from "./util/atomXmlHelper";
+import * as Constants from "./util/constants";
+import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials";
+import { isAbsoluteUrl, isJSONLikeObject } from "./util/utils";
+import { Constants as AMQPConstants } from "@azure/core-amqp";
 /**
- * @internal
- * @ignore
- * Options to use with ServiceBusAtomManagementClient creation
+ * Options to use with ServiceBusManagementClient creation
  */
-export interface ServiceBusAtomManagementClientOptions {
+export interface ServiceBusManagementClientOptions {
   /**
    * Proxy related settings
    */
@@ -71,8 +71,6 @@ export interface ServiceBusAtomManagementClientOptions {
 }
 
 /**
- * @internal
- * @ignore
  * Request options for list<entity-type>() operations
  */
 export interface ListRequestOptions {
@@ -86,13 +84,24 @@ export interface ListRequestOptions {
    */
   skip?: number;
 }
+/**
+ * Represents properties of the namespace.
+ */
+export interface NamespaceResponse extends NamespaceProperties {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
+/**
+ * Represents properties of the namespace.
+ */
+export type GetNamespaceResponse = NamespaceResponse;
 
 /**
- * @internal
- * @ignore
  * Represents result of create, get, update and delete operations on queue.
  */
-export interface QueueResponse extends QueueDetails {
+export interface GetQueueRuntimeInfoResponse extends QueueRuntimeInfo {
   /**
    * The underlying HTTP response.
    */
@@ -100,44 +109,41 @@ export interface QueueResponse extends QueueDetails {
 }
 
 /**
- * @internal
- * @ignore
+ * Represents result of create, get, update and delete operations on queue.
+ */
+export interface GetQueuesRuntimeInfoResponse extends Array<QueueRuntimeInfo> {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
+
+/**
+ * Represents result of create, get, update and delete operations on queue.
+ */
+export interface QueueResponse extends QueueDescription {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
+
+/**
  * Create Queue response
  */
-export interface CreateQueueResponse extends QueueDetails {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
+export type CreateQueueResponse = QueueResponse;
 
 /**
- * @internal
- * @ignore
  * Get Queue response
  */
-export interface GetQueueResponse extends QueueDetails {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
+export type GetQueueResponse = QueueResponse;
 
 /**
- * @internal
- * @ignore
  * Update Queue response
  */
-export interface UpdateQueueResponse extends QueueDetails {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
+export type UpdateQueueResponse = QueueResponse;
 
 /**
- * @internal
- * @ignore
  * Delete Queue response
  */
 export interface DeleteQueueResponse {
@@ -148,11 +154,9 @@ export interface DeleteQueueResponse {
 }
 
 /**
- * @internal
- * @ignore
  * Represents result of list operation on queues.
  */
-export interface ListQueuesResponse extends Array<QueueDetails> {
+export interface GetQueuesResponse extends Array<QueueDescription> {
   /**
    * The underlying HTTP response.
    */
@@ -160,11 +164,9 @@ export interface ListQueuesResponse extends Array<QueueDetails> {
 }
 
 /**
- * @internal
- * @ignore
  * Represents result of create, get, update and delete operations on topic.
  */
-export interface TopicResponse extends TopicDetails {
+export interface TopicResponse extends TopicDescription {
   /**
    * The underlying HTTP response.
    */
@@ -172,44 +174,20 @@ export interface TopicResponse extends TopicDetails {
 }
 
 /**
- * @internal
- * @ignore
  * Create Topic response
  */
-export interface CreateTopicResponse extends TopicDetails {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
+export type CreateTopicResponse = TopicResponse;
 
 /**
- * @internal
- * @ignore
  * Get Topic response
  */
-export interface GetTopicResponse extends TopicDetails {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
-
+export type GetTopicResponse = TopicResponse;
 /**
- * @internal
- * @ignore
  * Update Topic response
  */
-export interface UpdateTopicResponse extends TopicDetails {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
+export type UpdateTopicResponse = TopicResponse;
 
 /**
- * @internal
- * @ignore
  * Delete Topic response
  */
 export interface DeleteTopicResponse {
@@ -220,11 +198,9 @@ export interface DeleteTopicResponse {
 }
 
 /**
- * @internal
- * @ignore
  * Represents result of list operation on topics.
  */
-export interface ListTopicsResponse extends Array<TopicDetails> {
+export interface GetTopicsResponse extends Array<TopicDescription> {
   /**
    * The underlying HTTP response.
    */
@@ -232,11 +208,29 @@ export interface ListTopicsResponse extends Array<TopicDetails> {
 }
 
 /**
- * @internal
- * @ignore
+ * Represents result of create, get, update and delete operations on topic.
+ */
+export interface GetTopicRuntimeInfoResponse extends TopicRuntimeInfo {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
+
+/**
+ * Represents result of create, get, update and delete operations on topic.
+ */
+export interface GetTopicsRuntimeInfoResponse extends Array<TopicRuntimeInfo> {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
+
+/**
  * Represents result of create, get, update and delete operations on subscription.
  */
-export interface SubscriptionResponse extends SubscriptionDetails {
+export interface SubscriptionResponse extends SubscriptionDescription {
   /**
    * The underlying HTTP response.
    */
@@ -244,44 +238,21 @@ export interface SubscriptionResponse extends SubscriptionDetails {
 }
 
 /**
- * @internal
- * @ignore
  * Create Subscription response
  */
-export interface CreateSubscriptionResponse extends SubscriptionDetails {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
+export type CreateSubscriptionResponse = SubscriptionResponse;
 
 /**
- * @internal
- * @ignore
  * Get Subscription response
  */
-export interface GetSubscriptionResponse extends SubscriptionDetails {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
+export type GetSubscriptionResponse = SubscriptionResponse;
 
 /**
- * @internal
- * @ignore
  * Update Subscription response
  */
-export interface UpdateSubscriptionResponse extends SubscriptionDetails {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
+export type UpdateSubscriptionResponse = SubscriptionResponse;
 
 /**
- * @internal
- * @ignore
  * Delete Subscription response
  */
 export interface DeleteSubscriptionResponse {
@@ -292,11 +263,9 @@ export interface DeleteSubscriptionResponse {
 }
 
 /**
- * @internal
- * @ignore
  * Represents result of list operation on subscriptions.
  */
-export interface ListSubscriptionsResponse extends Array<SubscriptionDetails> {
+export interface GetSubscriptionsResponse extends Array<SubscriptionDescription> {
   /**
    * The underlying HTTP response.
    */
@@ -304,11 +273,29 @@ export interface ListSubscriptionsResponse extends Array<SubscriptionDetails> {
 }
 
 /**
- * @internal
- * @ignore
+ * Represents result of create, get, update and delete operations on topic.
+ */
+export interface GetSubscriptionRuntimeInfoResponse extends SubscriptionRuntimeInfo {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
+
+/**
+ * Represents result of create, get, update and delete operations on topic.
+ */
+export interface GetSubscriptionsRuntimeInfoResponse extends Array<SubscriptionRuntimeInfo> {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
+
+/**
  * Represents result of create, get, update and delete operations on rule.
  */
-export interface RuleResponse extends RuleDetails {
+export interface RuleResponse extends RuleDescription {
   /**
    * The underlying HTTP response.
    */
@@ -316,44 +303,20 @@ export interface RuleResponse extends RuleDetails {
 }
 
 /**
- * @internal
- * @ignore
  * Create Rule response
  */
-export interface CreateRuleResponse extends RuleDetails {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
-
+export type CreateRuleResponse = RuleResponse;
 /**
- * @internal
- * @ignore
  * Get Rule response
  */
-export interface GetRuleResponse extends RuleDetails {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
+export type GetRuleResponse = RuleResponse;
 
 /**
- * @internal
- * @ignore
  * Update Rule response
  */
-export interface UpdateRuleResponse extends RuleDetails {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
+export type UpdateRuleResponse = RuleResponse;
 
 /**
- * @internal
- * @ignore
  * Delete Rule response
  */
 export interface DeleteRuleResponse {
@@ -364,11 +327,9 @@ export interface DeleteRuleResponse {
 }
 
 /**
- * @internal
- * @ignore
  * Represents result of list operation on rules.
  */
-export interface ListRulesResponse extends Array<RuleDetails> {
+export interface GetRulesResponse extends Array<RuleDescription> {
   /**
    * The underlying HTTP response.
    */
@@ -376,13 +337,11 @@ export interface ListRulesResponse extends Array<RuleDetails> {
 }
 
 /**
- * @internal
- * @ignore
  * All operations return promises that resolve to an object that has the relevant output.
  * These objects also have a property called `_response` that you can use if you want to
  * access the direct response from the service.
  */
-export class ServiceBusAtomManagementClient extends ServiceClient {
+export class ServiceBusManagementClient extends ServiceClient {
   /**
    * Reference to the endpoint as extracted from input connection string.
    */
@@ -396,36 +355,73 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   /**
    * Singleton instances of serializers used across the various operations.
    */
+  private namespaceResourceSerializer: AtomXmlSerializer;
   private queueResourceSerializer: AtomXmlSerializer;
   private topicResourceSerializer: AtomXmlSerializer;
   private subscriptionResourceSerializer: AtomXmlSerializer;
   private ruleResourceSerializer: AtomXmlSerializer;
 
   /**
-   * SAS token provider used to generate tokens as required for the various operations.
+   * Credentials used to generate tokens as required for the various operations.
    */
-  private sasTokenProvider: SharedKeyCredential;
+  private credentials: SasServiceClientCredentials | TokenCredential;
 
   /**
    * Initializes a new instance of the ServiceBusManagementClient class.
    * @param connectionString The connection string needed for the client to connect to Azure.
-   * @param options ServiceBusAtomManagementClientOptions
+   * @param options ServiceBusManagementClientOptions
    */
-  constructor(connectionString: string, options?: ServiceBusAtomManagementClientOptions) {
-    const connectionStringObj: any = parseConnectionString(connectionString);
+  constructor(connectionString: string, options?: ServiceBusManagementClientOptions);
+  /**
+   *
+   * @param fullyQualifiedNamespace The fully qualified namespace of your Service Bus instance which is
+   * likely to be similar to <yournamespace>.servicebus.windows.net.
+   * @param credential A credential object used by the client to get the token to authenticate the connection
+   * with the Azure Service Bus. See &commat;azure/identity for creating the credentials.
+   * If you're using your own implementation of the `TokenCredential` interface against AAD, then set the "scopes" for service-bus
+   * to be `["https://servicebus.azure.net//user_impersonation"]` to get the appropriate token.
+   * @param options ServiceBusManagementClientOptions
+   */
+  constructor(
+    fullyQualifiedNamespace: string,
+    credential: TokenCredential,
+    options?: ServiceBusManagementClientOptions
+  );
 
-    if (connectionStringObj.Endpoint == undefined) {
-      throw new Error("Missing Endpoint in connection string.");
-    }
-
-    const credentials = new SasServiceClientCredentials(
-      connectionStringObj.SharedAccessKeyName,
-      connectionStringObj.SharedAccessKey
-    );
-
+  constructor(
+    fullyQualifiedNamespaceOrConnectionString1: string,
+    credentialOrOptions2?: TokenCredential | ServiceBusManagementClientOptions,
+    options3?: ServiceBusManagementClientOptions
+  ) {
     const requestPolicyFactories: RequestPolicyFactory[] = [];
-    requestPolicyFactories.push(signingPolicy(credentials));
-
+    let options: ServiceBusManagementClientOptions;
+    let fullyQualifiedNamespace: string;
+    let credentials: SasServiceClientCredentials | TokenCredential;
+    if (isTokenCredential(credentialOrOptions2)) {
+      fullyQualifiedNamespace = fullyQualifiedNamespaceOrConnectionString1;
+      options = options3 || {};
+      credentials = credentialOrOptions2;
+      requestPolicyFactories.push(
+        bearerTokenAuthenticationPolicy(credentials, AMQPConstants.aadServiceBusScope)
+      );
+    } else {
+      const connectionString = fullyQualifiedNamespaceOrConnectionString1;
+      options = credentialOrOptions2 || {};
+      const connectionStringObj: any = parseConnectionString(connectionString);
+      if (connectionStringObj.Endpoint == undefined) {
+        throw new Error("Missing Endpoint in connection string.");
+      }
+      try {
+        fullyQualifiedNamespace = connectionStringObj.Endpoint.match(".*://([^/]*)")[1];
+      } catch (error) {
+        throw new Error("Endpoint in the connection string is not valid.");
+      }
+      credentials = new SasServiceClientCredentials(
+        connectionStringObj.SharedAccessKeyName,
+        connectionStringObj.SharedAccessKey
+      );
+      requestPolicyFactories.push(signingPolicy(credentials));
+    }
     if (options && options.proxySettings) {
       requestPolicyFactories.push(proxyPolicy(options.proxySettings));
     }
@@ -434,23 +430,52 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     };
 
     super(credentials, serviceClientOptions);
+    this.endpoint = fullyQualifiedNamespace;
+    this.endpointWithProtocol = fullyQualifiedNamespace.endsWith("/")
+      ? "sb://" + fullyQualifiedNamespace
+      : "sb://" + fullyQualifiedNamespace + "/";
+    this.credentials = credentials;
+    this.namespaceResourceSerializer = new NamespaceResourceSerializer();
     this.queueResourceSerializer = new QueueResourceSerializer();
     this.topicResourceSerializer = new TopicResourceSerializer();
     this.subscriptionResourceSerializer = new SubscriptionResourceSerializer();
     this.ruleResourceSerializer = new RuleResourceSerializer();
-    this.endpoint = (connectionString.match("Endpoint=.*://(.*)/;") || "")[1];
-    this.endpointWithProtocol = connectionStringObj.Endpoint;
+  }
 
-    this.sasTokenProvider = new SharedKeyCredential(
-      connectionStringObj.SharedAccessKeyName,
-      connectionStringObj.SharedAccessKey
+  /**
+   * Returns an object representing the metadata related to a service bus namespace.
+   * @param queueName
+   *
+   */
+  async getNamespaceProperties(): Promise<GetNamespaceResponse> {
+    log.httpAtomXml(`Performing management operation - getNamespaceProperties()`);
+    const response: HttpOperationResponse = await this.getResource(
+      "$namespaceinfo",
+      this.namespaceResourceSerializer
     );
+
+    return this.buildNamespaceResponse(response);
   }
 
   /**
    * Creates a queue with given name, configured using the given options
    * @param queueName
-   * @param queueOptions Options to configure the Queue being created.
+   *
+   * Following are errors that can be expected from this operation
+   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
+   * @throws `RestError` with code `MessageEntityAlreadyExistsError` when requested messaging entity already exists,
+   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
+   * @throws `RestError` with code `QuotaExceededError` when requested operation fails due to quote limits exceeding from service side,
+   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
+   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
+   * bad requests or requests resulting in conflicting operation on the server,
+   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
+   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   */
+  async createQueue(queueName: string): Promise<CreateQueueResponse>;
+  /**
+   * Creates a queue configured using the given options
+   * @param queue Options to configure the Queue being created.
    * For example, you can configure a queue to support partitions or sessions.
    *
    * Following are errors that can be expected from this operation
@@ -464,13 +489,20 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async createQueue(queueName: string, queueOptions?: QueueOptions): Promise<CreateQueueResponse> {
+  async createQueue(queue: QueueDescription): Promise<CreateQueueResponse>;
+  async createQueue(queueNameOrOptions: string | QueueDescription): Promise<CreateQueueResponse> {
+    let queue: QueueDescription;
+    if (typeof queueNameOrOptions === "string") {
+      queue = { name: queueNameOrOptions };
+    } else {
+      queue = queueNameOrOptions;
+    }
     log.httpAtomXml(
-      `Performing management operation - createQueue() for "${queueName}" with options: ${queueOptions}`
+      `Performing management operation - createQueue() for "${queue.name}" with options: ${queue}`
     );
     const response: HttpOperationResponse = await this.putResource(
-      queueName,
-      buildQueueOptions(queueOptions || {}),
+      queue.name,
+      buildQueueOptions(queue),
       this.queueResourceSerializer,
       false
     );
@@ -479,7 +511,8 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   }
 
   /**
-   * Returns an object representing the Queue with the given name along with all its properties
+   * Returns an object representing the Queue and its properties.
+   * If you want to get the Queue runtime info like message count details, use `getQueueRuntimeInfo` API.
    * @param queueName
    *
    * Following are errors that can be expected from this operation
@@ -492,7 +525,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async getQueueDetails(queueName: string): Promise<GetQueueResponse> {
+  async getQueue(queueName: string): Promise<GetQueueResponse> {
     log.httpAtomXml(`Performing management operation - getQueue() for "${queueName}"`);
     const response: HttpOperationResponse = await this.getResource(
       queueName,
@@ -503,7 +536,32 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   }
 
   /**
-   * Lists existing queues.
+   * Returns an object representing the Queue runtime info like message count details.
+   * @param queueName
+   *
+   * Following are errors that can be expected from this operation
+   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
+   * @throws `RestError` with code `MessageEntityNotFoundError` when requested messaging entity does not exist,
+   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
+   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
+   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
+   * bad requests or requests resulting in conflicting operation on the server,
+   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
+   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   */
+  async getQueueRuntimeInfo(queueName: string): Promise<GetQueueRuntimeInfoResponse> {
+    log.httpAtomXml(`Performing management operation - getQueue() for "${queueName}"`);
+    const response: HttpOperationResponse = await this.getResource(
+      queueName,
+      this.queueResourceSerializer
+    );
+
+    return this.buildQueueRuntimeInfoResponse(response);
+  }
+
+  /**
+   * Returns a list of objects, each representing a Queue along with its properties.
+   * If you want to get the runtime info of the queues like message count, use `getQueuesRuntimeInfo` API instead.
    * @param listRequestOptions
    *
    * Following are errors that can be expected from this operation
@@ -515,7 +573,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async listQueues(listRequestOptions?: ListRequestOptions): Promise<ListQueuesResponse> {
+  async getQueues(listRequestOptions?: ListRequestOptions): Promise<GetQueuesResponse> {
     log.httpAtomXml(
       `Performing management operation - listQueues() with options: ${listRequestOptions}`
     );
@@ -529,9 +587,36 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   }
 
   /**
+   * Returns a list of objects, each representing a Queue's runtime info like message count details.
+   * @param listRequestOptions
+   *
+   * Following are errors that can be expected from this operation
+   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
+   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
+   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
+   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
+   * bad requests or requests resulting in conflicting operation on the server,
+   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
+   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   */
+  async getQueuesRuntimeInfo(
+    listRequestOptions?: ListRequestOptions
+  ): Promise<GetQueuesRuntimeInfoResponse> {
+    log.httpAtomXml(
+      `Performing management operation - listQueues() with options: ${listRequestOptions}`
+    );
+    const response: HttpOperationResponse = await this.listResources(
+      "$Resources/Queues",
+      listRequestOptions,
+      this.queueResourceSerializer
+    );
+
+    return this.buildListQueuesRuntimeInfoResponse(response);
+  }
+
+  /**
    * Updates properties on the Queue by the given name based on the given options
-   * @param queueName
-   * @param queueOptions Options to configure the Queue being updated.
+   * @param queue Options to configure the Queue being updated.
    * For example, you can configure a queue to support partitions or sessions.
    *
    * Following are errors that can be expected from this operation
@@ -544,23 +629,27 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async updateQueue(queueName: string, queueOptions: QueueOptions): Promise<UpdateQueueResponse> {
+  async updateQueue(queue: QueueDescription): Promise<UpdateQueueResponse> {
     log.httpAtomXml(
-      `Performing management operation - updateQueue() for "${queueName}" with options: ${queueOptions}`
+      `Performing management operation - updateQueue() for "${queue.name}" with options: ${queue}`
     );
 
-    if (!isJSONLikeObject(queueOptions) || queueOptions === null) {
+    if (!isJSONLikeObject(queue) || queue == null) {
       throw new TypeError(
-        `Parameter "queueOptions" must be an object of type "QueueOptions" and cannot be undefined or null.`
+        `Parameter "queue" must be an object of type "QueueDescription" and cannot be undefined or null.`
       );
     }
 
-    const finalQueueOptions: QueueOptions = {};
-    const getQueueResult = await this.getQueueDetails(queueName);
-    Object.assign(finalQueueOptions, getQueueResult, queueOptions);
+    if (!queue.name) {
+      throw new TypeError(`"name" attribute of the parameter "queue" cannot be undefined.`);
+    }
+
+    const finalQueueOptions: QueueDescription = { name: queue.name };
+    const getQueueResult = await this.getQueue(queue.name);
+    Object.assign(finalQueueOptions, getQueueResult, queue);
 
     const response: HttpOperationResponse = await this.putResource(
-      queueName,
+      queue.name,
       buildQueueOptions(finalQueueOptions),
       this.queueResourceSerializer,
       true
@@ -594,9 +683,41 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   }
 
   /**
+   * Checks whether a given queue exists or not.
+   * @param queueName
+   */
+  async queueExists(queueName: string): Promise<boolean> {
+    log.httpAtomXml(`Performing management operation - queueExists() for "${queueName}"`);
+    try {
+      await this.getQueue(queueName);
+    } catch (error) {
+      if (error.code == "MessageEntityNotFoundError") {
+        return false;
+      }
+      throw error;
+    }
+    return true;
+  }
+
+  /**
    * Creates a topic with given name, configured using the given options
    * @param topicName
-   * @param topicOptions Options to configure the Topic being created.
+   *
+   * Following are errors that can be expected from this operation
+   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
+   * @throws `RestError` with code `MessageEntityAlreadyExistsError` when requested messaging entity already exists,
+   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
+   * @throws `RestError` with code `QuotaExceededError` when requested operation fails due to quote limits exceeding from service side,
+   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
+   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
+   * bad requests or requests resulting in conflicting operation on the server,
+   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
+   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   */
+  async createTopic(topicName: string): Promise<CreateTopicResponse>;
+  /**
+   * Creates a topic with given name, configured using the given options
+   * @param topic Options to configure the Topic being created.
    * For example, you can configure a topic to support partitions or sessions.
    *
    * Following are errors that can be expected from this operation
@@ -610,13 +731,20 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async createTopic(topicName: string, topicOptions?: TopicOptions): Promise<CreateTopicResponse> {
+  async createTopic(topic: TopicDescription): Promise<CreateTopicResponse>;
+  async createTopic(topicNameOrOptions: string | TopicDescription): Promise<CreateTopicResponse> {
+    let topic: TopicDescription;
+    if (typeof topicNameOrOptions === "string") {
+      topic = { name: topicNameOrOptions };
+    } else {
+      topic = topicNameOrOptions;
+    }
     log.httpAtomXml(
-      `Performing management operation - createTopic() for "${topicName}" with options: ${topicOptions}`
+      `Performing management operation - createTopic() for "${topic.name}" with options: ${topic}`
     );
     const response: HttpOperationResponse = await this.putResource(
-      topicName,
-      buildTopicOptions(topicOptions || {}),
+      topic.name,
+      buildTopicOptions(topic),
       this.topicResourceSerializer,
       false
     );
@@ -625,7 +753,8 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   }
 
   /**
-   * Returns an object representing the Topic with the given name along with all its properties
+   * Returns an object representing the Topic and its properties.
+   * If you want to get the Topic runtime info like subscription count details, use `getTopicRuntimeInfo` API.
    * @param topicName
    *
    * Following are errors that can be expected from this operation
@@ -638,7 +767,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async getTopicDetails(topicName: string): Promise<GetTopicResponse> {
+  async getTopic(topicName: string): Promise<GetTopicResponse> {
     log.httpAtomXml(`Performing management operation - getTopic() for "${topicName}"`);
     const response: HttpOperationResponse = await this.getResource(
       topicName,
@@ -649,7 +778,32 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   }
 
   /**
-   * Lists existing topics.
+   * Returns an object representing the Topic runtime info like subscription count.
+   * @param topicName
+   *
+   * Following are errors that can be expected from this operation
+   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
+   * @throws `RestError` with code `MessageEntityNotFoundError` when requested messaging entity does not exist,
+   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
+   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
+   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
+   * bad requests or requests resulting in conflicting operation on the server,
+   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
+   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   */
+  async getTopicRuntimeInfo(topicName: string): Promise<GetTopicRuntimeInfoResponse> {
+    log.httpAtomXml(`Performing management operation - getTopicRuntimeInfo() for "${topicName}"`);
+    const response: HttpOperationResponse = await this.getResource(
+      topicName,
+      this.topicResourceSerializer
+    );
+
+    return this.buildTopicRuntimeInfoResponse(response);
+  }
+
+  /**
+   * Returns a list of objects, each representing a Topic along with its properties.
+   * If you want to get the runtime info of the topics like subscription count, use `getTopicsRuntimeInfo` API instead.
    * @param listRequestOptions
    *
    * Following are errors that can be expected from this operation
@@ -661,7 +815,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async listTopics(listRequestOptions?: ListRequestOptions): Promise<ListTopicsResponse> {
+  async getTopics(listRequestOptions?: ListRequestOptions): Promise<GetTopicsResponse> {
     log.httpAtomXml(
       `Performing management operation - listTopics() with options: ${listRequestOptions}`
     );
@@ -675,9 +829,36 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   }
 
   /**
+   * Returns a list of objects, each representing a Topic's runtime info like subscription count.
+   * @param listRequestOptions
+   *
+   * Following are errors that can be expected from this operation
+   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
+   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
+   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
+   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
+   * bad requests or requests resulting in conflicting operation on the server,
+   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
+   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   */
+  async getTopicsRuntimeInfo(
+    listRequestOptions?: ListRequestOptions
+  ): Promise<GetTopicsRuntimeInfoResponse> {
+    log.httpAtomXml(
+      `Performing management operation - listTopics() with options: ${listRequestOptions}`
+    );
+    const response: HttpOperationResponse = await this.listResources(
+      "$Resources/Topics",
+      listRequestOptions,
+      this.topicResourceSerializer
+    );
+
+    return this.buildListTopicsRuntimeInfoResponse(response);
+  }
+
+  /**
    * Updates properties on the Topic by the given name based on the given options
-   * @param topicName
-   * @param topicOptions Options to configure the Topic being updated.
+   * @param topic Options to configure the Topic being updated.
    * For example, you can configure a topic to support partitions or sessions.
    *
    * Following are errors that can be expected from this operation
@@ -690,23 +871,27 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async updateTopic(topicName: string, topicOptions: TopicOptions): Promise<UpdateTopicResponse> {
+  async updateTopic(topic: TopicDescription): Promise<UpdateTopicResponse> {
     log.httpAtomXml(
-      `Performing management operation - updateTopic() for "${topicName}" with options: ${topicOptions}`
+      `Performing management operation - updateTopic() for "${topic.name}" with options: ${topic}`
     );
 
-    if (!isJSONLikeObject(topicOptions) || topicOptions === null) {
+    if (!isJSONLikeObject(topic) || topic == null) {
       throw new TypeError(
-        `Parameter "topicOptions" must be an object of type "TopicOptions" and cannot be undefined or null.`
+        `Parameter "topic" must be an object of type "TopicDescription" and cannot be undefined or null.`
       );
     }
 
-    const finalTopicOptions: TopicOptions = {};
-    const getTopicResult = await this.getTopicDetails(topicName);
-    Object.assign(finalTopicOptions, getTopicResult, topicOptions);
+    if (!topic.name) {
+      throw new TypeError(`"name" attribute of the parameter "topic" cannot be undefined.`);
+    }
+
+    const finalTopicOptions: TopicDescription = { name: topic.name };
+    const getTopicResult = await this.getTopic(topic.name);
+    Object.assign(finalTopicOptions, getTopicResult, topic);
 
     const response: HttpOperationResponse = await this.putResource(
-      topicName,
+      topic.name,
       buildTopicOptions(finalTopicOptions),
       this.topicResourceSerializer,
       true
@@ -740,11 +925,26 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   }
 
   /**
+   * Checks whether a given topic exists or not.
+   * @param topicName
+   */
+  async topicExists(topicName: string): Promise<boolean> {
+    log.httpAtomXml(`Performing management operation - topicExists() for "${topicName}"`);
+    try {
+      await this.getTopic(topicName);
+    } catch (error) {
+      if (error.code == "MessageEntityNotFoundError") {
+        return false;
+      }
+      throw error;
+    }
+    return true;
+  }
+
+  /**
    * Creates a subscription with given name, configured using the given options
    * @param topicName
    * @param subscriptionName
-   * @param subscriptionOptions Options to configure the Subscription being created.
-   * For example, you can configure a Subscription to support partitions or sessions.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -759,16 +959,54 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    */
   async createSubscription(
     topicName: string,
-    subscriptionName: string,
-    subscriptionOptions?: SubscriptionOptions
+    subscriptionName: string
+  ): Promise<CreateSubscriptionResponse>;
+
+  /**
+   * Creates a subscription with given name, configured using the given options
+   * @param subscription Options to configure the Subscription being created.
+   * For example, you can configure a Subscription to support partitions or sessions.
+   *
+   * Following are errors that can be expected from this operation
+   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
+   * @throws `RestError` with code `MessageEntityAlreadyExistsError` when requested messaging entity already exists,
+   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
+   * @throws `RestError` with code `QuotaExceededError` when requested operation fails due to quote limits exceeding from service side,
+   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
+   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
+   * bad requests or requests resulting in conflicting operation on the server,
+   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
+   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   */
+  async createSubscription(
+    subscription: SubscriptionDescription
+  ): Promise<CreateSubscriptionResponse>;
+  async createSubscription(
+    topicNameOrSubscriptionOptions: string | SubscriptionDescription,
+    subscriptionName?: string
   ): Promise<CreateSubscriptionResponse> {
+    let subscription: SubscriptionDescription;
+    if (typeof topicNameOrSubscriptionOptions === "string") {
+      if (!subscriptionName) {
+        throw new Error("Subscription name is not provided");
+      }
+      subscription = {
+        topicName: topicNameOrSubscriptionOptions,
+        subscriptionName: subscriptionName
+      };
+    } else {
+      subscription = topicNameOrSubscriptionOptions;
+    }
     log.httpAtomXml(
-      `Performing management operation - createSubscription() for "${subscriptionName}" with options: ${subscriptionOptions}`
+      `Performing management operation - createSubscription() for "${subscription.subscriptionName}" with options: ${subscription}`
     );
-    const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
+    const fullPath = this.getSubscriptionPath(
+      subscription.topicName,
+      subscription.subscriptionName
+    );
     const response: HttpOperationResponse = await this.putResource(
       fullPath,
-      buildSubscriptionOptions(subscriptionOptions || {}),
+      buildSubscriptionOptions(subscription),
       this.subscriptionResourceSerializer,
       false
     );
@@ -777,7 +1015,8 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   }
 
   /**
-   * Returns an object representing the Subscription with the given name along with all its properties
+   * Returns an object representing the Subscription and its properties.
+   * If you want to get the Subscription runtime info like message count details, use `getSubscriptionRuntimeInfo` API.
    * @param topicName
    * @param subscriptionName
    *
@@ -791,7 +1030,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async getSubscriptionDetails(
+  async getSubscription(
     topicName: string,
     subscriptionName: string
   ): Promise<GetSubscriptionResponse> {
@@ -804,11 +1043,43 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       this.subscriptionResourceSerializer
     );
 
-    return this.buildSubscriptionResponse(response);
+    return this.buildSubscriptionRuntimeInfoResponse(response);
   }
 
   /**
-   * Lists existing subscriptions.
+   * Returns an object representing the Subscription runtime info like message count details.
+   * @param topicName
+   * @param subscriptionName
+   *
+   * Following are errors that can be expected from this operation
+   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
+   * @throws `RestError` with code `MessageEntityNotFoundError` when requested messaging entity does not exist,
+   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
+   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
+   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
+   * bad requests or requests resulting in conflicting operation on the server,
+   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
+   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   */
+  async getSubscriptionRuntimeInfo(
+    topicName: string,
+    subscriptionName: string
+  ): Promise<GetSubscriptionRuntimeInfoResponse> {
+    log.httpAtomXml(
+      `Performing management operation - getSubscription() for "${subscriptionName}"`
+    );
+    const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
+    const response: HttpOperationResponse = await this.getResource(
+      fullPath,
+      this.subscriptionResourceSerializer
+    );
+
+    return this.buildSubscriptionRuntimeInfoResponse(response);
+  }
+
+  /**
+   * Returns a list of objects, each representing a Subscription along with its properties.
+   * If you want to get the runtime info of the subscriptions like message count, use `getSubscriptionsRuntimeInfo` API instead.
    * @param topicName
    * @param listRequestOptions
    *
@@ -821,10 +1092,10 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async listSubscriptions(
+  async getSubscriptions(
     topicName: string,
     listRequestOptions?: ListRequestOptions
-  ): Promise<ListSubscriptionsResponse> {
+  ): Promise<GetSubscriptionsResponse> {
     log.httpAtomXml(
       `Performing management operation - listSubscriptions() with options: ${listRequestOptions}`
     );
@@ -838,10 +1109,38 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   }
 
   /**
-   * Updates properties on the Subscription by the given name based on the given options
+   * Returns a list of objects, each representing a Subscription's runtime info like message count details.
    * @param topicName
-   * @param subscriptionName
-   * @param subscriptionOptions Options to configure the Subscription being updated.
+   * @param listRequestOptions
+   *
+   * Following are errors that can be expected from this operation
+   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
+   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
+   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
+   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
+   * bad requests or requests resulting in conflicting operation on the server,
+   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
+   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   */
+  async getSubscriptionsRuntimeInfo(
+    topicName: string,
+    listRequestOptions?: ListRequestOptions
+  ): Promise<GetSubscriptionsRuntimeInfoResponse> {
+    log.httpAtomXml(
+      `Performing management operation - listSubscriptions() with options: ${listRequestOptions}`
+    );
+    const response: HttpOperationResponse = await this.listResources(
+      topicName + "/Subscriptions/",
+      listRequestOptions,
+      this.subscriptionResourceSerializer
+    );
+
+    return this.buildListSubscriptionsRuntimeInfoResponse(response);
+  }
+
+  /**
+   * Updates properties on the Subscription by the given name based on the given options
+   * @param subscription Options to configure the Subscription being updated.
    * For example, you can configure a Subscription to support partitions or sessions.
    *
    * Following are errors that can be expected from this operation
@@ -855,25 +1154,38 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async updateSubscription(
-    topicName: string,
-    subscriptionName: string,
-    subscriptionOptions: SubscriptionOptions
+    subscription: SubscriptionDescription
   ): Promise<UpdateSubscriptionResponse> {
     log.httpAtomXml(
-      `Performing management operation - updateSubscription() for "${subscriptionName}" with options: ${subscriptionOptions}`
+      `Performing management operation - updateSubscription() for "${subscription.subscriptionName}" with options: ${subscription}`
     );
 
-    if (!isJSONLikeObject(subscriptionOptions) || subscriptionOptions === null) {
+    if (!isJSONLikeObject(subscription) || subscription == null) {
       throw new TypeError(
-        `Parameter "subscriptionOptions" must be an object of type "SubscriptionOptions" and cannot be undefined or null.`
+        `Parameter "subscription" must be an object of type "SubscriptionDescription" and cannot be undefined or null.`
       );
     }
 
-    const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
+    if (!subscription.topicName || !subscription.subscriptionName) {
+      throw new TypeError(
+        `The attributes "topicName" and "subscriptionName" of the parameter "subscription" cannot be undefined.`
+      );
+    }
 
-    const finalSubscriptionOptions: SubscriptionOptions = {};
-    const getSubscriptionResult = await this.getSubscriptionDetails(topicName, subscriptionName);
-    Object.assign(finalSubscriptionOptions, getSubscriptionResult, subscriptionOptions);
+    const fullPath = this.getSubscriptionPath(
+      subscription.topicName,
+      subscription.subscriptionName
+    );
+
+    const finalSubscriptionOptions: SubscriptionDescription = {
+      topicName: subscription.topicName,
+      subscriptionName: subscription.subscriptionName
+    };
+    const getSubscriptionResult = await this.getSubscription(
+      subscription.topicName,
+      subscription.subscriptionName
+    );
+    Object.assign(finalSubscriptionOptions, getSubscriptionResult, subscription);
 
     const response: HttpOperationResponse = await this.putResource(
       fullPath,
@@ -917,11 +1229,31 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   }
 
   /**
+   * Checks whether a given subscription exists in the topic or not.
+   * @param topicName
+   * @param subscriptionName
+   *
+   */
+  async subscriptionExists(topicName: string, subscriptionName: string): Promise<boolean> {
+    log.httpAtomXml(
+      `Performing management operation - subscriptionExists() for "${topicName}" and "${subscriptionName}"`
+    );
+    try {
+      await this.getSubscription(topicName, subscriptionName);
+    } catch (error) {
+      if (error.code == "MessageEntityNotFoundError") {
+        return false;
+      }
+      throw error;
+    }
+    return true;
+  }
+
+  /**
    * Creates a rule with given name, configured using the given options.
    * @param topicName
    * @param subscriptionName
-   * @param ruleName
-   * @param ruleOptions
+   * @param rule
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -937,16 +1269,15 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   async createRule(
     topicName: string,
     subscriptionName: string,
-    ruleName: string,
-    ruleOptions?: RuleOptions
+    rule: RuleDescription
   ): Promise<CreateRuleResponse> {
     log.httpAtomXml(
-      `Performing management operation - createRule() for "${ruleName}" with options: "${ruleOptions}"`
+      `Performing management operation - createRule() for "${rule.name}" with options: "${rule}"`
     );
-    const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
+    const fullPath = this.getRulePath(topicName, subscriptionName, rule.name);
     const response: HttpOperationResponse = await this.putResource(
       fullPath,
-      buildRuleOptions(ruleName, ruleOptions),
+      rule,
       this.ruleResourceSerializer,
       false
     );
@@ -969,7 +1300,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async getRuleDetails(
+  async getRule(
     topicName: string,
     subscriptioName: string,
     ruleName: string
@@ -999,11 +1330,11 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async listRules(
+  async getRules(
     topicName: string,
     subscriptionName: string,
     listRequestOptions?: ListRequestOptions
-  ): Promise<ListRulesResponse> {
+  ): Promise<GetRulesResponse> {
     log.httpAtomXml(
       `Performing management operation - listRules() with options: ${listRequestOptions}`
     );
@@ -1038,23 +1369,26 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   async updateRule(
     topicName: string,
     subscriptionName: string,
-    ruleName: string,
-    ruleOptions: RuleOptions
+    rule: RuleDescription
   ): Promise<UpdateRuleResponse> {
     log.httpAtomXml(
-      `Performing management operation - updateRule() for "${ruleName}" with options: ${ruleOptions}`
+      `Performing management operation - updateRule() for "${rule.name}" with options: ${rule}`
     );
 
-    if (!isJSONLikeObject(ruleOptions) || ruleOptions === null) {
+    if (!isJSONLikeObject(rule) || rule === null) {
       throw new TypeError(
-        `Parameter "ruleOptions" must be an object of type "RuleOptions" and cannot be undefined or null.`
+        `Parameter "rule" must be an object of type "RuleDescription" and cannot be undefined or null.`
       );
     }
 
-    const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
+    if (!rule.name) {
+      throw new TypeError(`"name" attribute of the parameter "rule" cannot be undefined.`);
+    }
+
+    const fullPath = this.getRulePath(topicName, subscriptionName, rule.name);
     const response: HttpOperationResponse = await this.putResource(
       fullPath,
-      buildRuleOptions(ruleName, ruleOptions),
+      rule,
       this.ruleResourceSerializer,
       true
     );
@@ -1106,7 +1440,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       | InternalQueueOptions
       | InternalTopicOptions
       | InternalSubscriptionOptions
-      | InternalRuleOptions,
+      | RuleDescription,
     serializer: AtomXmlSerializer,
     isUpdate: boolean = false
   ): Promise<HttpOperationResponse> {
@@ -1123,7 +1457,11 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
       queueOrSubscriptionFields.ForwardTo ||
       queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo
     ) {
-      const token = (await this.sasTokenProvider.getToken(this.endpoint)).token;
+      const token =
+        this.credentials instanceof SasServiceClientCredentials
+          ? this.credentials.getToken(this.endpoint).token
+          : (await this.credentials.getToken([AMQPConstants.aadServiceBusScope]))!.token;
+
       if (queueOrSubscriptionFields.ForwardTo) {
         webResource.headers.set("ServiceBusSupplementaryAuthorization", token);
         if (!isAbsoluteUrl(queueOrSubscriptionFields.ForwardTo)) {
@@ -1237,9 +1575,28 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     return topicName + "/Subscriptions/" + subscriptionName + "/Rules/" + ruleName;
   }
 
-  private buildListQueuesResponse(response: HttpOperationResponse): ListQueuesResponse {
+  private buildNamespaceResponse(response: HttpOperationResponse): NamespaceResponse {
     try {
-      const queues: QueueDetails[] = [];
+      const namespace = buildNamespace(response.parsedBody);
+      const namespaceResponse: NamespaceResponse = Object.assign(namespace || {}, {
+        _response: response
+      });
+      return namespaceResponse;
+    } catch (err) {
+      log.warning("Failure parsing response from service - %0 ", err);
+      throw new RestError(
+        `Error occurred while parsing the response body - cannot form a namespace object using the response from the service.`,
+        RestError.PARSE_ERROR,
+        response.status,
+        stripRequest(response.request),
+        stripResponse(response)
+      );
+    }
+  }
+
+  private buildListQueuesResponse(response: HttpOperationResponse): GetQueuesResponse {
+    try {
+      const queues: QueueDescription[] = [];
       if (!Array.isArray(response.parsedBody)) {
         throw new TypeError(`${response.parsedBody} was expected to be of type Array`);
       }
@@ -1250,7 +1607,38 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
           queues.push(queue);
         }
       }
-      const listQueuesResponse: ListQueuesResponse = Object.assign(queues, {
+      const listQueuesResponse: GetQueuesResponse = Object.assign(queues, {
+        _response: response
+      });
+      return listQueuesResponse;
+    } catch (err) {
+      log.warning("Failure parsing response from service - %0 ", err);
+      throw new RestError(
+        `Error occurred while parsing the response body - cannot form a list of queues using the response from the service.`,
+        RestError.PARSE_ERROR,
+        response.status,
+        stripRequest(response.request),
+        stripResponse(response)
+      );
+    }
+  }
+
+  private buildListQueuesRuntimeInfoResponse(
+    response: HttpOperationResponse
+  ): GetQueuesRuntimeInfoResponse {
+    try {
+      const queues: QueueRuntimeInfo[] = [];
+      if (!Array.isArray(response.parsedBody)) {
+        throw new TypeError(`${response.parsedBody} was expected to be of type Array`);
+      }
+      const rawQueueArray: any = response.parsedBody;
+      for (let i = 0; i < rawQueueArray.length; i++) {
+        const queue = buildQueueRuntimeInfo(rawQueueArray[i]);
+        if (queue) {
+          queues.push(queue);
+        }
+      }
+      const listQueuesResponse: GetQueuesRuntimeInfoResponse = Object.assign(queues, {
         _response: response
       });
       return listQueuesResponse;
@@ -1285,9 +1673,30 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     }
   }
 
-  private buildListTopicsResponse(response: HttpOperationResponse): ListTopicsResponse {
+  private buildQueueRuntimeInfoResponse(
+    response: HttpOperationResponse
+  ): GetQueueRuntimeInfoResponse {
     try {
-      const topics: TopicDetails[] = [];
+      const queue = buildQueueRuntimeInfo(response.parsedBody);
+      const queueResponse: GetQueueRuntimeInfoResponse = Object.assign(queue || {}, {
+        _response: response
+      });
+      return queueResponse;
+    } catch (err) {
+      log.warning("Failure parsing response from service - %0 ", err);
+      throw new RestError(
+        `Error occurred while parsing the response body - cannot form a queue object using the response from the service.`,
+        RestError.PARSE_ERROR,
+        response.status,
+        stripRequest(response.request),
+        stripResponse(response)
+      );
+    }
+  }
+
+  private buildListTopicsResponse(response: HttpOperationResponse): GetTopicsResponse {
+    try {
+      const topics: TopicDescription[] = [];
       if (!Array.isArray(response.parsedBody)) {
         throw new TypeError(`${response.parsedBody} was expected to be of type Array`);
       }
@@ -1298,7 +1707,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
           topics.push(topic);
         }
       }
-      const listTopicsResponse: ListTopicsResponse = Object.assign(topics, {
+      const listTopicsResponse: GetTopicsResponse = Object.assign(topics, {
         _response: response
       });
       return listTopicsResponse;
@@ -1314,6 +1723,36 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     }
   }
 
+  private buildListTopicsRuntimeInfoResponse(
+    response: HttpOperationResponse
+  ): GetTopicsRuntimeInfoResponse {
+    try {
+      const topics: TopicRuntimeInfo[] = [];
+      if (!Array.isArray(response.parsedBody)) {
+        throw new TypeError(`${response.parsedBody} was expected to be of type Array`);
+      }
+      const rawTopicArray: any = response.parsedBody;
+      for (let i = 0; i < rawTopicArray.length; i++) {
+        const topic = buildTopicRuntimeInfo(rawTopicArray[i]);
+        if (topic) {
+          topics.push(topic);
+        }
+      }
+      const listTopicsResponse: GetTopicsRuntimeInfoResponse = Object.assign(topics, {
+        _response: response
+      });
+      return listTopicsResponse;
+    } catch (err) {
+      log.warning("Failure parsing response from service - %0 ", err);
+      throw new RestError(
+        `Error occurred while parsing the response body - cannot form a list of topics using the response from the service.`,
+        RestError.PARSE_ERROR,
+        response.status,
+        stripRequest(response.request),
+        stripResponse(response)
+      );
+    }
+  }
   private buildTopicResponse(response: HttpOperationResponse): TopicResponse {
     try {
       const topic = buildTopic(response.parsedBody);
@@ -1333,11 +1772,32 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     }
   }
 
+  private buildTopicRuntimeInfoResponse(
+    response: HttpOperationResponse
+  ): GetTopicRuntimeInfoResponse {
+    try {
+      const topic = buildTopicRuntimeInfo(response.parsedBody);
+      const topicResponse: GetTopicRuntimeInfoResponse = Object.assign(topic || {}, {
+        _response: response
+      });
+      return topicResponse;
+    } catch (err) {
+      log.warning("Failure parsing response from service - %0 ", err);
+      throw new RestError(
+        `Error occurred while parsing the response body - cannot form a topic object using the response from the service.`,
+        RestError.PARSE_ERROR,
+        response.status,
+        stripRequest(response.request),
+        stripResponse(response)
+      );
+    }
+  }
+
   private buildListSubscriptionsResponse(
     response: HttpOperationResponse
-  ): ListSubscriptionsResponse {
+  ): GetSubscriptionsResponse {
     try {
-      const subscriptions: SubscriptionDetails[] = [];
+      const subscriptions: SubscriptionDescription[] = [];
       if (!Array.isArray(response.parsedBody)) {
         throw new TypeError(`${response.parsedBody} was expected to be of type Array`);
       }
@@ -1348,9 +1808,43 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
           subscriptions.push(subscription);
         }
       }
-      const listSubscriptionsResponse: ListSubscriptionsResponse = Object.assign(subscriptions, {
+      const listSubscriptionsResponse: GetSubscriptionsResponse = Object.assign(subscriptions, {
         _response: response
       });
+      return listSubscriptionsResponse;
+    } catch (err) {
+      log.warning("Failure parsing response from service - %0 ", err);
+      throw new RestError(
+        `Error occurred while parsing the response body - cannot form a list of subscriptions using the response from the service.`,
+        RestError.PARSE_ERROR,
+        response.status,
+        stripRequest(response.request),
+        stripResponse(response)
+      );
+    }
+  }
+
+  private buildListSubscriptionsRuntimeInfoResponse(
+    response: HttpOperationResponse
+  ): GetSubscriptionsRuntimeInfoResponse {
+    try {
+      const subscriptions: SubscriptionRuntimeInfo[] = [];
+      if (!Array.isArray(response.parsedBody)) {
+        throw new TypeError(`${response.parsedBody} was expected to be of type Array`);
+      }
+      const rawSubscriptionArray: any = response.parsedBody;
+      for (let i = 0; i < rawSubscriptionArray.length; i++) {
+        const subscription = buildSubscriptionRuntimeInfo(rawSubscriptionArray[i]);
+        if (subscription) {
+          subscriptions.push(subscription);
+        }
+      }
+      const listSubscriptionsResponse: GetSubscriptionsRuntimeInfoResponse = Object.assign(
+        subscriptions,
+        {
+          _response: response
+        }
+      );
       return listSubscriptionsResponse;
     } catch (err) {
       log.warning("Failure parsing response from service - %0 ", err);
@@ -1383,9 +1877,33 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     }
   }
 
-  private buildListRulesResponse(response: HttpOperationResponse): ListRulesResponse {
+  private buildSubscriptionRuntimeInfoResponse(
+    response: HttpOperationResponse
+  ): GetSubscriptionRuntimeInfoResponse {
     try {
-      const rules: RuleDetails[] = [];
+      const subscription = buildSubscriptionRuntimeInfo(response.parsedBody);
+      const subscriptionResponse: GetSubscriptionRuntimeInfoResponse = Object.assign(
+        subscription || {},
+        {
+          _response: response
+        }
+      );
+      return subscriptionResponse;
+    } catch (err) {
+      log.warning("Failure parsing response from service - %0 ", err);
+      throw new RestError(
+        `Error occurred while parsing the response body - cannot form a subscription object using the response from the service.`,
+        RestError.PARSE_ERROR,
+        response.status,
+        stripRequest(response.request),
+        stripResponse(response)
+      );
+    }
+  }
+
+  private buildListRulesResponse(response: HttpOperationResponse): GetRulesResponse {
+    try {
+      const rules: RuleDescription[] = [];
       if (!Array.isArray(response.parsedBody)) {
         throw new TypeError(`${response.parsedBody} was expected to be of type Array`);
       }
@@ -1396,7 +1914,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
           rules.push(rule);
         }
       }
-      const listRulesResponse: ListRulesResponse = Object.assign(rules, {
+      const listRulesResponse: GetRulesResponse = Object.assign(rules, {
         _response: response
       });
       return listRulesResponse;

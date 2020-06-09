@@ -3,52 +3,60 @@
 
 import { OperationOptions } from "@azure/core-http";
 import {
-  AnalyzerUnion,
+  LexicalAnalyzerUnion,
   CognitiveServicesAccountKey,
   CognitiveServicesAccountUnion,
   DefaultCognitiveServicesAccount,
-  Field as GeneratedField,
-  Index as GeneratedIndex,
+  SearchField as GeneratedSearchField,
+  SearchIndex as GeneratedSearchIndex,
   RegexFlags,
-  Skillset as GeneratedSkillset,
-  SkillUnion,
-  TokenizerUnion,
+  SearchIndexerSkillset as GeneratedSearchIndexerSkillset,
+  SearchIndexerSkillUnion,
+  LexicalTokenizerUnion,
   SynonymMap as GeneratedSynonymMap,
-  DataSource as GeneratedDataSource,
+  SearchIndexerDataSource as GeneratedSearchIndexerDataSourceConnection,
   DataChangeDetectionPolicyUnion,
   HighWaterMarkChangeDetectionPolicy,
   SqlIntegratedChangeTrackingPolicy,
   DataDeletionDetectionPolicyUnion,
-  SoftDeleteColumnDeletionDetectionPolicy
+  SoftDeleteColumnDeletionDetectionPolicy,
+  LexicalAnalyzerName,
+  SimilarityUnion,
+  BM25Similarity,
+  ClassicSimilarity,
+  TokenFilterUnion,
+  SearchResourceEncryptionKey as GeneratedSearchResourceEncryptionKey
 } from "./generated/service/models";
 import {
-  Analyzer,
+  LexicalAnalyzer,
   CharFilter,
   CognitiveServicesAccount,
   ComplexField,
-  Field,
-  Index,
+  SearchField,
+  SearchIndex,
   isComplexField,
   ScoringProfile,
   SimpleField,
-  Skill,
-  Skillset,
+  SearchIndexerSkill,
+  SearchIndexerSkillset,
   TokenFilter,
-  Tokenizer,
+  LexicalTokenizer,
   SynonymMap,
-  DataSource,
+  SearchIndexerDataSourceConnection,
   DataChangeDetectionPolicy,
-  DataDeletionDetectionPolicy
+  DataDeletionDetectionPolicy,
+  SimilarityAlgorithm,
+  SearchResourceEncryptionKey
 } from "./serviceModels";
 
-export function convertSkillsToPublic(skills: SkillUnion[]): Skill[] {
+export function convertSkillsToPublic(skills: SearchIndexerSkillUnion[]): SearchIndexerSkill[] {
   if (!skills) {
     return skills;
   }
 
-  const result: Skill[] = [];
+  const result: SearchIndexerSkill[] = [];
   for (const skill of skills) {
-    if (skill.odatatype !== "Skill") {
+    if (skill.odatatype !== "SearchIndexerSkill") {
       result.push(skill);
     }
   }
@@ -79,12 +87,29 @@ export function convertCognitiveServicesAccountToPublic(
   }
 }
 
-export function convertAnalyzersToGenerated(analyzers?: Analyzer[]): AnalyzerUnion[] | undefined {
+export function convertTokenFiltersToGenerated(
+  tokenFilters?: TokenFilter[]
+): TokenFilterUnion[] | undefined {
+  if (!tokenFilters) {
+    return tokenFilters;
+  }
+
+  const result: TokenFilterUnion[] = [];
+  for (const filter of tokenFilters) {
+    result.push(filter);
+  }
+
+  return result;
+}
+
+export function convertAnalyzersToGenerated(
+  analyzers?: LexicalAnalyzer[]
+): LexicalAnalyzerUnion[] | undefined {
   if (!analyzers) {
     return analyzers;
   }
 
-  const result: AnalyzerUnion[] = [];
+  const result: LexicalAnalyzerUnion[] = [];
   for (const analyzer of analyzers) {
     switch (analyzer.odatatype) {
       case "#Microsoft.Azure.Search.CustomAnalyzer":
@@ -102,12 +127,14 @@ export function convertAnalyzersToGenerated(analyzers?: Analyzer[]): AnalyzerUni
   return result;
 }
 
-export function convertAnalyzersToPublic(analyzers?: AnalyzerUnion[]): Analyzer[] | undefined {
+export function convertAnalyzersToPublic(
+  analyzers?: LexicalAnalyzerUnion[]
+): LexicalAnalyzer[] | undefined {
   if (!analyzers) {
     return analyzers;
   }
 
-  const result: Analyzer[] = [];
+  const result: LexicalAnalyzer[] = [];
   for (const analyzer of analyzers) {
     switch (analyzer.odatatype) {
       case "#Microsoft.Azure.Search.CustomAnalyzer":
@@ -125,29 +152,39 @@ export function convertAnalyzersToPublic(analyzers?: AnalyzerUnion[]): Analyzer[
   return result;
 }
 
-export function convertFieldsToPublic(fields: GeneratedField[]): Field[] {
+export function convertFieldsToPublic(fields: GeneratedSearchField[]): SearchField[] {
   if (!fields) {
     return fields;
   }
 
-  return fields.map<Field>((field) => {
-    let result: Field;
+  return fields.map<SearchField>((field) => {
+    let result: SearchField;
     if (field.type === "Collection(Edm.ComplexType)" || field.type === "Edm.ComplexType") {
       result = field as ComplexField;
     } else {
+      const anayzerName: LexicalAnalyzerName | undefined = field.analyzer;
+      const searchAnalyzerName: LexicalAnalyzerName | undefined = field.searchAnalyzer;
+      const indexAnalyzerName: LexicalAnalyzerName | undefined = field.indexAnalyzer;
+      const synonymMapNames: string[] | undefined = field.synonymMaps;
+
       const { retrievable, ...restField } = field;
       const hidden = typeof retrievable === "boolean" ? !retrievable : retrievable;
+
       result = {
         ...restField,
-        hidden
+        hidden,
+        anayzerName,
+        searchAnalyzerName,
+        indexAnalyzerName,
+        synonymMapNames
       } as SimpleField;
     }
     return result;
   });
 }
 
-export function convertFieldsToGenerated(fields: Field[]): GeneratedField[] {
-  return fields.map<GeneratedField>((field) => {
+export function convertFieldsToGenerated(fields: SearchField[]): GeneratedSearchField[] {
+  return fields.map<GeneratedSearchField>((field) => {
     if (isComplexField(field)) {
       return field;
     } else {
@@ -160,20 +197,24 @@ export function convertFieldsToGenerated(fields: Field[]): GeneratedField[] {
         searchable: field.searchable ?? false,
         filterable: field.filterable ?? false,
         facetable: field.facetable ?? false,
-        sortable: field.sortable ?? false
+        sortable: field.sortable ?? false,
+        analyzer: field.analyzerName,
+        searchAnalyzer: field.searchAnalyzerName,
+        indexAnalyzer: field.indexAnalyzerName,
+        synonymMaps: field.synonymMapNames
       };
     }
   });
 }
 
 export function convertTokenizersToGenerated(
-  tokenizers?: Tokenizer[]
-): TokenizerUnion[] | undefined {
+  tokenizers?: LexicalTokenizer[]
+): LexicalTokenizerUnion[] | undefined {
   if (!tokenizers) {
     return tokenizers;
   }
 
-  const result: TokenizerUnion[] = [];
+  const result: LexicalTokenizerUnion[] = [];
   for (const tokenizer of tokenizers) {
     if (tokenizer.odatatype === "#Microsoft.Azure.Search.PatternTokenizer") {
       result.push({
@@ -187,23 +228,49 @@ export function convertTokenizersToGenerated(
   return result;
 }
 
-export function convertTokenizersToPublic(tokenizers?: TokenizerUnion[]): Tokenizer[] | undefined {
+export function convertTokenizersToPublic(
+  tokenizers?: LexicalTokenizerUnion[]
+): LexicalTokenizer[] | undefined {
   if (!tokenizers) {
     return tokenizers;
   }
 
-  const result: Tokenizer[] = [];
+  const result: LexicalTokenizer[] = [];
   for (const tokenizer of tokenizers) {
     if (tokenizer.odatatype === "#Microsoft.Azure.Search.PatternTokenizer") {
       result.push({
         ...tokenizer,
         flags: tokenizer.flags ? (tokenizer.flags.split("|") as RegexFlags[]) : undefined
       });
-    } else if (tokenizer.odatatype !== "Tokenizer") {
+    } else if (tokenizer.odatatype !== "LexicalTokenizer") {
       result.push(tokenizer);
     }
   }
   return result;
+}
+
+export function convertSimilarityToGenerated(
+  similarity?: SimilarityAlgorithm
+): SimilarityUnion | undefined {
+  if (!similarity) {
+    return similarity;
+  }
+
+  return similarity as SimilarityUnion;
+}
+
+export function convertSimilarityToPublic(
+  similarity?: SimilarityUnion
+): SimilarityAlgorithm | undefined {
+  if (!similarity) {
+    return similarity;
+  }
+
+  if (similarity.odatatype == "#Microsoft.Azure.Search.ClassicSimilarity") {
+    return similarity as ClassicSimilarity;
+  } else {
+    return similarity as BM25Similarity;
+  }
 }
 
 export function extractOperationOptions<T extends OperationOptions>(
@@ -224,41 +291,89 @@ export function extractOperationOptions<T extends OperationOptions>(
   };
 }
 
-export function generatedIndexToPublicIndex(generatedIndex: GeneratedIndex): Index {
+export function convertEncryptionKeyToPublic(
+  encryptionKey?: GeneratedSearchResourceEncryptionKey
+): SearchResourceEncryptionKey | undefined {
+  if (!encryptionKey) {
+    return encryptionKey;
+  }
+
+  const result: SearchResourceEncryptionKey = {
+    keyName: encryptionKey.keyName,
+    keyVersion: encryptionKey.keyVersion,
+    vaultUrl: encryptionKey.vaultUri
+  };
+
+  if (encryptionKey.accessCredentials) {
+    result.applicationId = encryptionKey.accessCredentials.applicationId;
+    result.applicationSecret = encryptionKey.accessCredentials.applicationSecret;
+  }
+
+  return result;
+}
+
+export function convertEncryptionKeyToGenerated(
+  encryptionKey?: SearchResourceEncryptionKey
+): GeneratedSearchResourceEncryptionKey | undefined {
+  if (!encryptionKey) {
+    return encryptionKey;
+  }
+
+  const result: GeneratedSearchResourceEncryptionKey = {
+    keyName: encryptionKey.keyName,
+    keyVersion: encryptionKey.keyVersion,
+    vaultUri: encryptionKey.vaultUrl
+  };
+
+  if (encryptionKey.applicationId) {
+    result.accessCredentials = {
+      applicationId: encryptionKey.applicationId,
+      applicationSecret: encryptionKey.applicationSecret
+    };
+  }
+
+  return result;
+}
+
+export function generatedIndexToPublicIndex(generatedIndex: GeneratedSearchIndex): SearchIndex {
   return {
     name: generatedIndex.name,
     defaultScoringProfile: generatedIndex.defaultScoringProfile,
     corsOptions: generatedIndex.corsOptions,
     suggesters: generatedIndex.suggesters,
-    encryptionKey: generatedIndex.encryptionKey,
+    encryptionKey: convertEncryptionKeyToPublic(generatedIndex.encryptionKey),
     etag: generatedIndex.etag,
     analyzers: convertAnalyzersToPublic(generatedIndex.analyzers),
     tokenizers: convertTokenizersToPublic(generatedIndex.tokenizers),
     tokenFilters: generatedIndex.tokenFilters as TokenFilter[],
     charFilters: generatedIndex.charFilters as CharFilter[],
     scoringProfiles: generatedIndex.scoringProfiles as ScoringProfile[],
-    fields: convertFieldsToPublic(generatedIndex.fields)
+    fields: convertFieldsToPublic(generatedIndex.fields),
+    similarity: convertSimilarityToPublic(generatedIndex.similarity)
   };
 }
 
-export function publicIndexToGeneratedIndex(index: Index): GeneratedIndex {
+export function publicIndexToGeneratedIndex(index: SearchIndex): GeneratedSearchIndex {
   return {
     name: index.name,
     defaultScoringProfile: index.defaultScoringProfile,
     corsOptions: index.corsOptions,
     suggesters: index.suggesters,
-    encryptionKey: index.encryptionKey,
+    encryptionKey: convertEncryptionKeyToGenerated(index.encryptionKey),
     etag: index.etag,
-    tokenFilters: index.tokenFilters,
+    tokenFilters: convertTokenFiltersToGenerated(index.tokenFilters),
     charFilters: index.charFilters,
     scoringProfiles: index.scoringProfiles,
     analyzers: convertAnalyzersToGenerated(index.analyzers),
     tokenizers: convertTokenizersToGenerated(index.tokenizers),
-    fields: convertFieldsToGenerated(index.fields)
+    fields: convertFieldsToGenerated(index.fields),
+    similarity: convertSimilarityToGenerated(index.similarity)
   };
 }
 
-export function generatedSkillsetToPublicSkillset(generatedSkillset: GeneratedSkillset): Skillset {
+export function generatedSkillsetToPublicSkillset(
+  generatedSkillset: GeneratedSearchIndexerSkillset
+): SearchIndexerSkillset {
   return {
     name: generatedSkillset.name,
     description: generatedSkillset.description,
@@ -270,7 +385,9 @@ export function generatedSkillsetToPublicSkillset(generatedSkillset: GeneratedSk
   };
 }
 
-export function publicSkillsetToGeneratedSkillset(skillset: Skillset): GeneratedSkillset {
+export function publicSkillsetToGeneratedSkillset(
+  skillset: SearchIndexerSkillset
+): GeneratedSearchIndexerSkillset {
   return {
     name: skillset.name,
     description: skillset.description,
@@ -285,7 +402,7 @@ export function publicSkillsetToGeneratedSkillset(skillset: Skillset): Generated
 export function generatedSynonymMapToPublicSynonymMap(synonymMap: GeneratedSynonymMap): SynonymMap {
   const result: SynonymMap = {
     name: synonymMap.name,
-    encryptionKey: synonymMap.encryptionKey,
+    encryptionKey: convertEncryptionKeyToPublic(synonymMap.encryptionKey),
     etag: synonymMap.etag,
     synonyms: []
   };
@@ -298,20 +415,26 @@ export function generatedSynonymMapToPublicSynonymMap(synonymMap: GeneratedSynon
 }
 
 export function publicSynonymMapToGeneratedSynonymMap(synonymMap: SynonymMap): GeneratedSynonymMap {
-  return {
+  const result: GeneratedSynonymMap = {
     name: synonymMap.name,
-    encryptionKey: synonymMap.encryptionKey,
+    encryptionKey: convertEncryptionKeyToGenerated(synonymMap.encryptionKey),
     etag: synonymMap.etag,
     synonyms: synonymMap.synonyms.join("\n")
   };
+
+  result.encryptionKey = convertEncryptionKeyToGenerated(synonymMap.encryptionKey);
+
+  return result;
 }
 
-export function generatedDataSourceToPublicDataSource(dataSource: GeneratedDataSource): DataSource {
+export function generatedDataSourceToPublicDataSource(
+  dataSource: GeneratedSearchIndexerDataSourceConnection
+): SearchIndexerDataSourceConnection {
   return {
     name: dataSource.name,
     description: dataSource.name,
     type: dataSource.type,
-    credentials: dataSource.credentials,
+    connectionString: dataSource.credentials.connectionString,
     container: dataSource.container,
     etag: dataSource.etag,
     dataChangeDetectionPolicy: convertDataChangeDetectionPolicyToPublic(

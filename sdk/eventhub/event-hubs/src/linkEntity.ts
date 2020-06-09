@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import uuid from "uuid/v4";
+import { v4 as uuid } from "uuid";
 import {
-  defaultLock,
-  SharedKeyCredential,
   AccessToken,
   Constants,
-  TokenType
+  SharedKeyCredential,
+  TokenType,
+  defaultLock
 } from "@azure/core-amqp";
 import { ConnectionContext } from "./connectionContext";
 import { AwaitableSender, Receiver } from "rhea-promise";

@@ -1,23 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortSignalLike, AbortError } from "@azure/abort-controller";
+import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { Constants } from "./util/constants";
 import {
-  Session,
-  Connection,
-  Sender,
-  Receiver,
-  Message as AmqpMessage,
-  EventContext,
   AmqpError,
-  SenderOptions,
-  ReceiverOptions,
+  Message as AmqpMessage,
+  Connection,
+  EventContext,
+  Receiver,
   ReceiverEvents,
-  ReqResLink
+  ReceiverOptions,
+  ReqResLink,
+  Sender,
+  SenderOptions,
+  Session
 } from "rhea-promise";
-import { translate, ConditionStatusMapper } from "./errors";
-import { logger, logErrorStackTrace } from "./log";
+import { ConditionStatusMapper, translate } from "./errors";
+import { logErrorStackTrace, logger } from "./log";
 
 /**
  * Describes the options that can be specified while sending a request.
@@ -157,7 +157,7 @@ export class RequestResponseLink implements ReqResLink {
           request.correlation_id !== responseCorrelationId
         ) {
           // do not remove message listener.
-          // parallel requests listen on the same receiver, so continue waiting until respose that matches
+          // parallel requests listen on the same receiver, so continue waiting until response that matches
           // request via correlationId is found.
           logger.verbose(
             "[%s] request-messageId | '%s' != '%s' | response-correlationId. " +
@@ -219,7 +219,7 @@ export class RequestResponseLink implements ReqResLink {
       logger.verbose(
         "[%s] %s request sent: %O",
         this.connection.id,
-        request.to || "$managment",
+        request.to || "$management",
         request
       );
       this.sender.send(request);

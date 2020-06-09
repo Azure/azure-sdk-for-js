@@ -136,6 +136,54 @@ describe("Certificates client - create, read, update and delete", () => {
     await testClient.flushCertificate(certificateName);
   });
 
+  it("can disable a certificate", async function() {
+    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+
+    const poller = await client.beginCreateCertificate(
+      certificateName,
+      basicCertificatePolicy,
+      testPollerProperties
+    );
+
+    let result = await poller.pollUntilDone();
+    assert.equal(result.properties.enabled, true);
+
+    result = await client.updateCertificateProperties(certificateName, "", {
+      enabled: false
+    });
+    assert.equal(result.properties.enabled, false);
+
+    result = await client.getCertificate(certificateName);
+    assert.equal(result.properties.enabled, false);
+
+    await testClient.flushCertificate(certificateName);
+  });
+
+  it("can disable a certificate version", async function() {
+    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+
+    const poller = await client.beginCreateCertificate(
+      certificateName,
+      basicCertificatePolicy,
+      testPollerProperties
+    );
+
+    let result = await poller.pollUntilDone();
+
+    const version = result.properties.version!;
+    assert.equal(result.properties.enabled, true);
+
+    result = await client.updateCertificateProperties(certificateName, version, {
+      enabled: false
+    });
+    assert.equal(result.properties.enabled, false);
+
+    result = await client.getCertificateVersion(certificateName, version);
+    assert.equal(result.properties.enabled, false);
+
+    await testClient.flushCertificate(certificateName);
+  });
+
   // On playback mode, the tests happen too fast for the timeout to work
   it("can update certificate with requestOptions timeout", async function() {
     recorder.skip(undefined, "Timeout tests don't work on playback mode.");

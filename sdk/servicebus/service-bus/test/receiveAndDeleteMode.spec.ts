@@ -6,17 +6,17 @@ const should = chai.should();
 const expect = chai.expect;
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { ServiceBusMessage, ReceivedMessage, Receiver } from "../src";
+import { ReceivedMessage, Receiver, ServiceBusMessage } from "../src";
 
-import { TestMessage, TestClientType, checkWithTimeout } from "./utils/testUtils";
+import { TestClientType, TestMessage, checkWithTimeout } from "./utils/testUtils";
 
 import { getErrorMessageNotSupportedInReceiveAndDeleteMode } from "../src/util/errors";
 import { Sender } from "../src/sender";
 import {
+  EntityName,
   ServiceBusClientForTests,
   createServiceBusClientForTests,
-  testPeekMsgsLength,
-  EntityName
+  testPeekMsgsLength
 } from "./utils/testutils2";
 import { DispositionType, ReceivedMessageWithLock } from "../src/serviceBusMessage";
 
@@ -42,7 +42,7 @@ describe("receive and delete", () => {
     const entityNames = await serviceBusClient.test.createTestEntities(entityType);
 
     sender = serviceBusClient.test.addToCleanup(
-      await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
     if (receiveMode === "peekLock") {
       receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);

@@ -56,7 +56,7 @@
 ## 12.0.0-preview.5 (2019.10)
 
 - [Breaking] Major API changes for the `@azure/storage-queue` package.
-  - Flattened Client Hierarchy - `QueueClient` is flattened into `QueueServiceClient`, `MesagesClient` is renamed to `QueueClient`, `MessageIdClient` is flattened into the new `QueueClient`. [PR #5579](https://github.com/Azure/azure-sdk-for-js/pull/5579)
+  - Flattened Client Hierarchy - `QueueClient` is flattened into `QueueServiceClient`, `MessagesClient` is renamed to `QueueClient`, `MessageIdClient` is flattened into the new `QueueClient`. [PR #5579](https://github.com/Azure/azure-sdk-for-js/pull/5579)
     - `enqueueMessage` is renamed as `sendMessage`, `dequeueMessages` is renamed to `receiveMessages`
     - The new `QueueServiceClient` has `createQueue` and `deleteQueue` helper methods.
     - Names of `Options` and `Responses` as per the new hierarchy of clients. [PR #5617](https://github.com/Azure/azure-sdk-for-js/pull/5617)
@@ -129,7 +129,7 @@
 ## 12.0.0-preview.2 (2019.08)
 
 - [Breaking] Aborter class is no longer exposed from the package. Use the package [@azure/abort-controller](https://www.npmjs.com/package/@azure/abort-controller) to pass an abort signal to any of the async operations.
-  `AbortController.timeout(<milliseconds>)` can be utitlized as an abort signal.
+  `AbortController.timeout(<milliseconds>)` can be utilized as an abort signal.
 - Generalized the credential parameter in client constructors to support `{SharedKeyCredential | AnonymousCredential | TokenCredential}` credentials as a union type.
 - Storage service allows SAS connection string with SAS string and endpoints along with the Account connection string(account name, key and endpoint).
   In this preview, SAS connection string support is added to the existing connection string client constructors and static methods.
@@ -143,7 +143,7 @@
 - [Breaking] Client types are renamed from *URL to *Client.
   - QueueURL, MessagesURL, MessageIdURL, ServiceURL, StorageURL to QueueClient, MessagesClient, MessageIdClient, QueueServiceClient, StorageClient respectively.
 - [Breaking] Aborter parameters are now moved into option bags.
-  - `abortSignal` attrubute(optional) in the option-bag of respective module has to be utitlized for the `Aborter.timeout(<milliseconds>)` functionality.
+  - `abortSignal` attribute(optional) in the option-bag of respective module has to be utilized for the `Aborter.timeout(<milliseconds>)` functionality.
   - `Aborter.none` is the default value.
 - [Breaking] I- prefixes are removed from interface names
   - Example- `IQueueCreateOptions` is updated to `QueueCreateOptions`, the new names must to be used.
@@ -167,7 +167,7 @@
   - Please refer to the `proxyAuth.ts` sample in the `samples/typescript` folder.
 - Request and response headers are now logged at INFO level, with sensitive data redacted.
 
-For release notes and more information please visit https://aka.ms/azure-sdk-preview1-js
+For release notes and more information please visit https://aka.ms/azsdk/releases/july2019preview
 
 ## 10.3.0 (2019.09)
 

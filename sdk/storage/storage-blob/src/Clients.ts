@@ -1384,12 +1384,12 @@ export class BlobClient extends StorageClient {
   /**
    * Sets system properties on the blob.
    *
-   * If no value provided, or no value provided for the specificed blob HTTP headers,
+   * If no value provided, or no value provided for the specified blob HTTP headers,
    * these blob HTTP headers without a value will be cleared.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-properties
    *
    * @param {BlobHTTPHeaders} [blobHTTPHeaders] If no value provided, or no value provided for
-   *                                                   the specificed blob HTTP headers, these blob HTTP
+   *                                                   the specified blob HTTP headers, these blob HTTP
    *                                                   headers without a value will be cleared.
    * @param {BlobSetHTTPHeadersOptions} [options] Optional options to Blob Set HTTP Headers operation.
    * @returns {Promise<BlobSetHTTPHeadersResponse>}
@@ -4471,7 +4471,7 @@ export interface PageBlobStartCopyIncrementalOptions extends CommonOptions {
    */
   abortSignal?: AbortSignalLike;
   /**
-   * Conditions to meet when startting copy incremental operation.
+   * Conditions to meet when starting a copy incremental operation.
    *
    * @type {ModifiedAccessConditions}
    * @memberof PageBlobStartCopyIncrementalOptions
@@ -4959,7 +4959,7 @@ export class PageBlobClient extends BlobClient {
    *
    * @param {number} offset Starting byte position of the page blob
    * @param {number} count Number of bytes to get ranges diff.
-   * @param {string} prevSnapshot Timestamp of snapshot to retrive the difference.
+   * @param {string} prevSnapshot Timestamp of snapshot to retrieve the difference.
    * @param {PageBlobGetPageRangesDiffOptions} [options] Options to the Page Blob Get Page Ranges Diff operation.
    * @returns {Promise<PageBlobGetPageRangesDiffResponse>} Response data for the Page Blob Get Page Range Diff operation.
    * @memberof PageBlobClient
@@ -5004,7 +5004,7 @@ export class PageBlobClient extends BlobClient {
    *
    * @param {number} offset Starting byte position of the page blob
    * @param {number} count Number of bytes to get ranges diff.
-   * @param {string} prevSnapshotUrl URL of snapshot to retrive the difference.
+   * @param {string} prevSnapshotUrl URL of snapshot to retrieve the difference.
    * @param {PageBlobGetPageRangesDiffOptions} [options] Options to the Page Blob Get Page Ranges Diff operation.
    * @returns {Promise<PageBlobGetPageRangesDiffResponse>} Response data for the Page Blob Get Page Range Diff operation.
    * @memberof PageBlobClient
@@ -6648,7 +6648,7 @@ export class ContainerClient extends StorageClient {
    * again (passing the the previously-returned Marker) to get the next segment.
    * @see https://docs.microsoft.com/rest/api/storageservices/list-blobs
    *
-   * @param {string} delimiter The charactor or string used to define the virtual hierarchy
+   * @param {string} delimiter The character or string used to define the virtual hierarchy
    * @param {string} [marker] A string value that identifies the portion of the list to be returned with the next list operation.
    * @param {ContainerListBlobsSegmentOptions} [options] Options to Container List Blob Hierarchy Segment operation.
    * @returns {Promise<ContainerListBlobHierarchySegmentResponse>}
@@ -6856,7 +6856,7 @@ export class ContainerClient extends StorageClient {
    * Returns an AsyncIterableIterator for ContainerListBlobHierarchySegmentResponse
    *
    * @private
-   * @param {string} delimiter The charactor or string used to define the virtual hierarchy
+   * @param {string} delimiter The character or string used to define the virtual hierarchy
    * @param {string} [marker] A string value that identifies the portion of
    *                          the list of blobs to be returned with the next listing operation. The
    *                          operation returns the ContinuationToken value within the response body if the
@@ -6890,7 +6890,7 @@ export class ContainerClient extends StorageClient {
    * Returns an AsyncIterableIterator for {@link BlobPrefix} and {@link BlobItem} objects.
    *
    * @private
-   * @param {string} delimiter The charactor or string used to define the virtual hierarchy
+   * @param {string} delimiter The character or string used to define the virtual hierarchy
    * @param {ContainerListBlobsSegmentOptions} [options] Options to list blobs operation.
    * @returns {AsyncIterableIterator<{ kind: "prefix" } & BlobPrefix | { kind: "blob" } & BlobItem>}
    * @memberof ContainerClient
@@ -6990,7 +6990,7 @@ export class ContainerClient extends StorageClient {
    * }
    * ```
    *
-   * @param {string} delimiter The charactor or string used to define the virtual hierarchy
+   * @param {string} delimiter The character or string used to define the virtual hierarchy
    * @param {ContainerListBlobsOptions} [options={}] Options to list blobs operation.
    * @returns {(PagedAsyncIterableIterator<
    *   { kind: "prefix" } & BlobPrefix | { kind: "blob" } & BlobItem,

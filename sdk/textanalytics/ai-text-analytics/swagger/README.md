@@ -12,7 +12,7 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/cognitiveservices/data-plane/TextAnalytics/preview/v3.0-preview.1/TextAnalytics.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/cognitiveservices/data-plane/TextAnalytics/stable/v3.0/TextAnalytics.json
 add-credentials: true
 use-extension:
   "@microsoft.azure/autorest.typescript": "5.0.1"
@@ -30,7 +30,7 @@ directive:
   - from: swagger-document
     where: $.definitions.DocumentStatistics.properties.charactersCount
     transform: >
-      $["x-ms-client-name"] = "graphemeCount";
+      $["x-ms-client-name"] = "characterCount";
 ```
 
 ```yaml
@@ -121,27 +121,12 @@ directive:
       if ($.name === "showStats") {
         $["x-ms-client-name"] = "includeStatistics";
       }
-```
-
-### Rename type, subtype -> category, subCategory
-
-```yaml
-directive:
   - from: swagger-document
-    where: $.definitions.Entity.properties
+    where: $.definitions[*]
     transform: >
-      $.type["x-ms-client-name"] = "category";
-      $.subtype["x-ms-client-name"] = "subCategory";
-```
-
-### Rename sentenceScores -> confidenceScores
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $.definitions.SentenceSentiment.properties.sentenceScores
-    transform: >
-      $["x-ms-client-name"] = "confidenceScores";
+      if ($.description && $.description.includes("showStats")) {
+        $.description = $.description.replace("showStats", "includeStatistics");
+      }
 ```
 
 ### Rename {Document,Sentence}SentimentValue -> Label 
@@ -178,20 +163,17 @@ directive:
       $["x-ms-client-name"] = "dataSourceEntityId";
 ```
 
-### Rename Entity/Match offset -> graphemeOffset
+### Remove Entity/Match offset/length
 
 ```yaml
 directive:
   - from: swagger-document
-    where: $.definitions..properties.offset
+    where: $.definitions..properties
     transform: >
-      $["x-ms-client-name"] = "graphemeOffset";
-      $.description = $.description.replace("Unicode characters", "Unicode graphemes");
-  - from: swagger-document
-    where: $.definitions..properties.length
-    transform: >
-      $["x-ms-client-name"] = "graphemeLength";
-      $.description = $.description.replace("Unicode characters", "Unicode graphemes");
+      if ($.length !== undefined && $.offset !== undefined) {
+        $.length = undefined;
+        $.offset = undefined;
+      }
 ```
 
 ### Rename SentimentConfidenceScorePerLabel -> SentimentConfidenceScores
@@ -211,5 +193,101 @@ directive:
       if ($["$ref"] && $["$ref"] === "#/definitions/SentimentConfidenceScorePerLabel") {
           $["$ref"] = "#/definitions/SentimentConfidenceScores";
       }
+```
+
+### Change some casing to use camelCase
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.Entity.properties.subcategory
+    transform: >
+      $["x-ms-client-name"] = "subCategory";
+  - from: swagger-document
+    where: $.definitions.TextAnalyticsError.properties.innererror
+    transform: >
+      $["x-ms-client-name"] = "innerError";
+  - from: swagger-document
+    where: $.definitions.InnerError.properties.innererror
+    transform: >
+      $["x-ms-client-name"] = "innerError";
+```
+
+### WarningCodeValue => WarningCode
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.TextAnalyticsWarning.properties.code
+    transform: >
+      $["x-ms-enum"].name = "WarningCode";
+```
+
+### Remove targetRef
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.TextAnalyticsWarning.properties
+    transform: >
+      delete $["targetRef"];
+```
+
+### Rename text input objects to avoid "export as"
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions
+    transform: >
+      if (!$.TextDocumentInput) {
+          $.TextDocumentInput = $.MultiLanguageInput;
+          delete $.MultiLanguageInput;
+      }
+  - from: swagger-document
+    where: $.definitions.MultiLanguageBatchInput.properties.documents.items
+    transform: >
+      $["$ref"] = "#/definitions/TextDocumentInput";
+  - from: swagger-document
+    where: $.definitions
+    transform: >
+      if (!$.DetectLanguageInput) {
+          $.DetectLanguageInput = $.LanguageInput;
+          delete $.LanguageInput;
+      }
+  - from: swagger-document
+    where: $.definitions.LanguageBatchInput.properties.documents.items
+    transform: >
+      $["$ref"] = "#/definitions/DetectLanguageInput";
+```
+
+### Enhance documentation strings for some exported swagger types
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.TextAnalyticsWarning
+    transform: $.description = "Represents a warning encountered while processing a document."
+  - from: swagger-document
+    where: $.definitions.SentenceSentiment
+    transform: $.description = "The predicted sentiment for a given span of text. For more information regarding text sentiment, see https://docs.microsoft.com/en-us/azure/cognitive-services/Text-Analytics/how-tos/text-analytics-how-to-sentiment-analysis."
+  - from: swagger-document
+    where: $.definitions.Match
+    transform: $.description = "Details about the specific substring in a document that refers to a linked entity identified by the Text Analytics model."
+  - from: swagger-document
+    where: $.definitions.Entity
+    transform: $.description = "A word or phrase identified as an entity that is categorized within a taxonomy of types. The set of categories recognized by the Text Analytics service is described at https://docs.microsoft.com/en-us/azure/cognitive-services/Text-Analytics/named-entity-types ."
+  - from: swagger-document
+    where: $.definitions.LinkedEntity
+    transform: $.description = "A word or phrase identified as a well-known entity within a database, including its formal (disambiguated) name and a link to the entity information within the source database."
+  - from: swagger-document
+    where: $.definitions.DetectLanguageInput
+    transform: $.description = "An input to the language detection operation. This object specifies a unique document id, as well as the full text of a document and a hint indicating the document's country of origin to assist the text analytics predictive model in detecting the document's language."
+  - from: swagger-document
+    where: $.definitions.TextDocumentInput
+    transform: $.description = "An object representing an individual text document to be analyzed by the Text Analytics service. The document contains a unique document ID, the full text of the document, and the language of the document's text."
+  - from: swagger-document
+    where: $.definitions.DetectedLanguage
+    transform: $.description = "Information about the language of a document as identified by the Text Analytics service."
 ```
 

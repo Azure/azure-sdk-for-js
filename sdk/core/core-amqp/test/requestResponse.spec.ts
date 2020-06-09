@@ -3,9 +3,9 @@
 
 import { assert } from "chai";
 import {
-  RequestResponseLink,
   AmqpMessage,
   ErrorNameConditionMapper,
+  RequestResponseLink,
   RetryConfig,
   RetryOperationType,
   retry
@@ -60,7 +60,7 @@ describe("RequestResponseLink", function() {
     assert.equal(response.correlation_id, req.message_id);
   });
 
-  it("should send parellel requests and receive responses correctly", async function() {
+  it("should send parallel requests and receive responses correctly", async function() {
     const connectionStub = stub(new Connection());
     const rcvr = new EventEmitter();
     const reqs: AmqpMessage[] = [];
@@ -126,7 +126,7 @@ describe("RequestResponseLink", function() {
     assert.equal(responses[1].correlation_id, reqs[1].message_id);
   });
 
-  it("should send parellel requests and receive responses correctly (one failure)", async function() {
+  it("should send parallel requests and receive responses correctly (one failure)", async function() {
     const connectionStub = stub(new Connection());
     const rcvr = new EventEmitter();
     const reqs: AmqpMessage[] = [];
