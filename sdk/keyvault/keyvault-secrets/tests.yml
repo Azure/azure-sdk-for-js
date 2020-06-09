@@ -17,3 +17,19 @@ jobs:
         AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
         AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
         AZURE_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)
+      Matrix: 
+        MaxVersion_Node:
+          OSVmImage: "ubuntu-18.04"
+          TestType: "node"
+          DependencyVersion: max
+          NodeTestVersion: "12.x"
+        SameVersion_Node:
+          OSVmImage: "ubuntu-18.04"
+          TestType: "node"
+          DependencyVersion: same
+          NodeTestVersion: "12.x"
+        MinVersion_Node:
+          OSVmImage: "ubuntu-18.04"
+          TestType: "node"
+          DependencyVersion: min
+          NodeTestVersion: "12.x"
