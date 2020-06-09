@@ -9,30 +9,8 @@ parameters:
   PublishCodeCoverage: false
   TestBrowser: true
   TestSamples: true
+  TestMinMax: false
   Matrix:
-    MaxVersion_Node:
-      OSVmImage: "ubuntu-18.04"
-      TestType: "node"
-      DependencyVersion: max
-      NodeTestVersion: "12.x"
-    SameVersion_Node:
-      OSVmImage: "ubuntu-18.04"
-      TestType: "node"
-      DependencyVersion: same
-      NodeTestVersion: "12.x"
-    MinVersion_Node:
-      OSVmImage: "ubuntu-18.04"
-      TestType: "node"
-      DependencyVersion: min
-      NodeTestVersion: "12.x"
-    # MaxVersion_Browser:
-    #   OSVmImage: "ubuntu-18.04"
-    #   TestType: "browser"
-    #   DependencyVersion: max
-    # MinVersion_Browser:
-    #   OSVmImage: "ubuntu-18.04"
-    #   TestType: "browser"
-    #   DependencyVersion: min
     Linux Node 8:
       OSVmImage: "ubuntu-18.04"
       TestType: "node"
@@ -88,6 +66,23 @@ jobs:
             TestType: "sample"
             NodeTestVersion: "10.x"
             SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
+        
+        # Add matrix entry for min-max testing
+        ${{ if eq(parameters.TestMinMax, 'true') }}:
+          MaxVersion_Node:
+            OSVmImage: "ubuntu-18.04"
+            TestType: "node"
+            DependencyVersion: max
+            NodeTestVersion: "12.x"
+            TestResultsFiles: "**/test-results.xml"
+            SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
+          MinVersion_Node:
+            OSVmImage: "ubuntu-18.04"
+            TestType: "node"
+            DependencyVersion: min
+            NodeTestVersion: "12.x"
+            TestResultsFiles: "**/test-results.xml"
+            SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)      
 
     pool:
       vmImage: "$(OSVmImage)"
