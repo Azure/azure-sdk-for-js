@@ -57,7 +57,7 @@
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "karma start --single-run",
-    "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 5000000 --full-trace dist-esm/test/**/*.spec.js",
+    "integration-test:node": "nyc --use-spawn-wrap mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 5000000 --full-trace dist-esm/test/**/*.spec.js",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint \"src/**/*.ts\" --fix --fix-type [problem,suggestion]",
     "lint": "eslint src --ext .ts -f html -o textAnalytics-lintReport.html",
