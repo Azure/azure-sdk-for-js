@@ -3,7 +3,7 @@ resources:
     - repository: azure-sdk-tools
       type: github
       name: azure/azure-sdk-tools
-      ref: refs/heads/master
+      ref: refs/tags/azure-sdk-tools_20200514.1
       endpoint: azure
 
 jobs:
@@ -18,7 +18,7 @@ jobs:
         inputs:
           versionSpec: "3.6"
 
-      - template: eng/pipelines/templates/scripts/replace-relative-links.yml@azure-sdk-tools
+      - template: /eng/common/pipelines/templates/steps/replace-relative-links.yml
         parameters:
           TargetFolder: .
           RootFolder: .
@@ -35,7 +35,7 @@ jobs:
           $(Build.SourcesDirectory)/eng/tools/generate-static-index/Generate-DocIndex.ps1 -RepoRoot $(Build.SourcesDirectory) -verbose
         displayName: 'Generate Doc Index'
 
-      - template: eng/pipelines/templates/scripts/mashup-doc-index.yml@azure-sdk-tools
+      - template: /eng/common/pipelines/templates/steps/mashup-doc-index.yml
         parameters:
           SourceDirectory: $(Build.SourcesDirectory)
 
