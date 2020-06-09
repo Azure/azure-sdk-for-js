@@ -18,6 +18,7 @@ require("dotenv").config();
 
 // Define connection string for your Service Bus instance here
 const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
+const queueName = process.env.QUEUE_NAME || "<queue name>";
 
 async function main() {
   const proxyInfo = process.env.HTTP_PROXY || process.env.HTTPS_PROXY;
@@ -36,14 +37,18 @@ async function main() {
       // No need to pass the `WebSocket` from "ws" package if you're in the browser
       // in which case the `window.WebSocket` is used by the library.
       webSocket: WebSocket,
-      webSocketConstructorOptions: { agent: proxyAgent }
-    }
+      webSocketConstructorOptions: { agent: proxyAgent },
+    },
   });
 
-  /*
-     Refer to other samples, and place your code here
-     to create queue clients, and to send/receive messages
-    */
+  const sender = sbClient.createSender(queueName);
+
+  console.log(`Sending message using proxy server ${proxyInfo}`);
+
+  await sender.send({
+    body: "sample message",
+  });
+
   await sbClient.close();
 }
 
