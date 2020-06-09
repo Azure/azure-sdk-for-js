@@ -6,6 +6,7 @@ parameters:
   EnvVars: {}
   MaxParallel: 0
   TimeoutInMinutes: 60
+  Location: ""
   PublishCodeCoverage: false
   TestBrowser: true
   TestSamples: true
@@ -77,6 +78,7 @@ jobs:
           parameters:
             ServiceDirectory: "${{ parameters.ResourceServiceDirectory }}"
             SubscriptionConfiguration: $(SubscriptionConfiguration)
+            Location: "${{ parameters.Location }}"
 
       - script: |
           node common/scripts/install-run-rush.js install
