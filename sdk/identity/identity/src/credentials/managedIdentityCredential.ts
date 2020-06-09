@@ -120,12 +120,12 @@ export class ManagedIdentityCredential implements TokenCredential {
     }
 
     return {
-      url: process.env.MSI_ENDPOINT,
+      url: process.env.MSI_ENDPOINT || process.env.IDENTITY_ENDPOINT,
       method: "GET",
       queryParameters,
       headers: {
         Accept: "application/json",
-        secret: process.env.MSI_SECRET
+        secret: process.env.MSI_SECRET || process.env.IDENTITY_SECRET
       }
     };
   }
@@ -143,7 +143,7 @@ export class ManagedIdentityCredential implements TokenCredential {
     }
 
     return {
-      url: process.env.MSI_ENDPOINT,
+      url: process.env.MSI_ENDPOINT || process.env.IDENTITY_ENDPOINT,
       method: "POST",
       body: qs.stringify(body),
       headers: {
@@ -231,8 +231,8 @@ export class ManagedIdentityCredential implements TokenCredential {
 
     try {
       // Detect which type of environment we are running in
-      if (process.env.MSI_ENDPOINT) {
-        if (process.env.MSI_SECRET) {
+      if (process.env.MSI_ENDPOINT || process.env.IDENTITY_ENDPOINT) {
+        if (process.env.MSI_SECRET || process.env.IDENTITY_SECRET) {
           // Running in App Service
           authRequestOptions = this.createAppServiceMsiAuthRequest(resource, clientId);
           expiresInParser = (requestBody: any) => {

@@ -2,6 +2,8 @@
 
 ## 1.1.0-preview.4 (Unreleased)
 
+- Added support for the `IDENTITY_ENDPOINT` and `IDENTITY_SECRET` environment variables.
+
 ## 1.1.0-preview.3 (2020-05-05)
 
 - Add ability to read AZURE_AUTHORITY_HOST from environment ([PR #8226](https://github.com/Azure/azure-sdk-for-js/pull/8226) [PR #8343](https://github.com/Azure/azure-sdk-for-js/pull/8343))
