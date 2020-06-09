@@ -2,7 +2,7 @@
 
 ## 1.1.0-preview.4 (Unreleased)
 
-- Added support for the `IDENTITY_ENDPOINT` and `IDENTITY_SECRET` environment variables.
+- Added support for the `IDENTITY_ENDPOINT` and `IDENTITY_SECRET` environment variables on the `ManagedIdentityCredential`.
 
 ## 1.1.0-preview.3 (2020-05-05)
 
