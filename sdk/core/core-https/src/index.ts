@@ -58,3 +58,8 @@ export {
 } from "./policies/systemErrorRetryPolicy";
 export { throttlingRetryPolicy, throttlingRetryPolicyName } from "./policies/throttlingRetryPolicy";
 export { tracingPolicy, tracingPolicyName, TracingPolicyOptions } from "./policies/tracingPolicy";
+export {
+  userAgentPolicy,
+  userAgentPolicyName,
+  UserAgentPolicyOptions
+} from "./policies/userAgentPolicy";

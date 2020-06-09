@@ -267,6 +267,17 @@ export type TransferProgressEvent = {
     loadedBytes: number;
 };
 
+// @public
+export function userAgentPolicy(options?: UserAgentPolicyOptions): PipelinePolicy;
+
+// @public
+export const userAgentPolicyName = "userAgentPolicy";
+
+// @public
+export interface UserAgentPolicyOptions {
+    userAgentPrefix?: string;
+}
+
 
 // (No @packageDocumentation comment for this package)
 

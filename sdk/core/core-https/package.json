@@ -11,7 +11,8 @@
     "./dist-esm/src/policies/disableResponseDecompressionPolicy.js": "./dist-esm/src/policies/disableResponseDecompressionPolicy.browser.js",
     "./dist-esm/src/policies/proxyPolicy.js": "./dist-esm/src/policies/proxyPolicy.browser.js",
     "./dist-esm/src/util/inspect.js": "./dist-esm/src/util/inspect.browser.js",
-    "./dist-esm/src/util/url.js": "./dist-esm/src/util/url.browser.js"
+    "./dist-esm/src/util/url.js": "./dist-esm/src/util/url.browser.js",
+    "./dist-esm/src/util/userAgent.js": "./dist-esm/src/util/userAgent.browser.js"
   },
   "types": "types/latest/coreHttps.d.ts",
   "typesVersions": {
@@ -78,6 +79,14 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-https/",
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/constants.ts",
+        "prefix": "SDK_VERSION"
+      }
+    ]
+  },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-tracing": "1.0.0-preview.8",
