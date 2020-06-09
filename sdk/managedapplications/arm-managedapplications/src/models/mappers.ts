@@ -135,11 +135,11 @@ export const GenericResource: msRest.CompositeMapper = {
   }
 };
 
-export const Appliance: msRest.CompositeMapper = {
-  serializedName: "Appliance",
+export const Application: msRest.CompositeMapper = {
+  serializedName: "Application",
   type: {
     name: "Composite",
-    className: "Appliance",
+    className: "Application",
     modelProperties: {
       ...GenericResource.type.modelProperties,
       managedResourceGroupId: {
@@ -149,8 +149,8 @@ export const Appliance: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      applianceDefinitionId: {
-        serializedName: "properties.applianceDefinitionId",
+      applicationDefinitionId: {
+        serializedName: "properties.applicationDefinitionId",
         type: {
           name: "String"
         }
@@ -175,12 +175,6 @@ export const Appliance: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      uiDefinitionUri: {
-        serializedName: "properties.uiDefinitionUri",
-        type: {
-          name: "String"
-        }
-      },
       plan: {
         serializedName: "plan",
         type: {
@@ -189,6 +183,7 @@ export const Appliance: msRest.CompositeMapper = {
         }
       },
       kind: {
+        required: true,
         serializedName: "kind",
         constraints: {
           Pattern: /^[-\w\._,\(\)]+$/
@@ -241,11 +236,11 @@ export const PlanPatchable: msRest.CompositeMapper = {
   }
 };
 
-export const AppliancePatchable: msRest.CompositeMapper = {
-  serializedName: "AppliancePatchable",
+export const ApplicationPatchable: msRest.CompositeMapper = {
+  serializedName: "ApplicationPatchable",
   type: {
     name: "Composite",
-    className: "AppliancePatchable",
+    className: "ApplicationPatchable",
     modelProperties: {
       ...GenericResource.type.modelProperties,
       managedResourceGroupId: {
@@ -254,8 +249,8 @@ export const AppliancePatchable: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      applianceDefinitionId: {
-        serializedName: "properties.applianceDefinitionId",
+      applicationDefinitionId: {
+        serializedName: "properties.applicationDefinitionId",
         type: {
           name: "String"
         }
@@ -280,12 +275,6 @@ export const AppliancePatchable: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      uiDefinitionUri: {
-        serializedName: "properties.uiDefinitionUri",
-        type: {
-          name: "String"
-        }
-      },
       plan: {
         serializedName: "plan",
         type: {
@@ -306,11 +295,11 @@ export const AppliancePatchable: msRest.CompositeMapper = {
   }
 };
 
-export const ApplianceProviderAuthorization: msRest.CompositeMapper = {
-  serializedName: "ApplianceProviderAuthorization",
+export const ApplicationProviderAuthorization: msRest.CompositeMapper = {
+  serializedName: "ApplicationProviderAuthorization",
   type: {
     name: "Composite",
-    className: "ApplianceProviderAuthorization",
+    className: "ApplicationProviderAuthorization",
     modelProperties: {
       principalId: {
         required: true,
@@ -330,11 +319,11 @@ export const ApplianceProviderAuthorization: msRest.CompositeMapper = {
   }
 };
 
-export const ApplianceArtifact: msRest.CompositeMapper = {
-  serializedName: "ApplianceArtifact",
+export const ApplicationArtifact: msRest.CompositeMapper = {
+  serializedName: "ApplicationArtifact",
   type: {
     name: "Composite",
-    className: "ApplianceArtifact",
+    className: "ApplicationArtifact",
     modelProperties: {
       name: {
         serializedName: "name",
@@ -362,11 +351,11 @@ export const ApplianceArtifact: msRest.CompositeMapper = {
   }
 };
 
-export const ApplianceDefinition: msRest.CompositeMapper = {
-  serializedName: "ApplianceDefinition",
+export const ApplicationDefinition: msRest.CompositeMapper = {
+  serializedName: "ApplicationDefinition",
   type: {
     name: "Composite",
-    className: "ApplianceDefinition",
+    className: "ApplicationDefinition",
     modelProperties: {
       ...GenericResource.type.modelProperties,
       lockLevel: {
@@ -387,6 +376,12 @@ export const ApplianceDefinition: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      isEnabled: {
+        serializedName: "properties.isEnabled",
+        type: {
+          name: "String"
+        }
+      },
       authorizations: {
         required: true,
         serializedName: "properties.authorizations",
@@ -395,7 +390,7 @@ export const ApplianceDefinition: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ApplianceProviderAuthorization"
+              className: "ApplicationProviderAuthorization"
             }
           }
         }
@@ -407,7 +402,7 @@ export const ApplianceDefinition: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ApplianceArtifact"
+              className: "ApplicationArtifact"
             }
           }
         }
@@ -419,10 +414,21 @@ export const ApplianceDefinition: msRest.CompositeMapper = {
         }
       },
       packageFileUri: {
-        required: true,
         serializedName: "properties.packageFileUri",
         type: {
           name: "String"
+        }
+      },
+      mainTemplate: {
+        serializedName: "properties.mainTemplate",
+        type: {
+          name: "Object"
+        }
+      },
+      createUiDefinition: {
+        serializedName: "properties.createUiDefinition",
+        type: {
+          name: "Object"
         }
       }
     }
@@ -537,62 +543,11 @@ export const ErrorResponse: msRest.CompositeMapper = {
   }
 };
 
-export const OperationDisplay: msRest.CompositeMapper = {
-  serializedName: "Operation_display",
+export const ApplicationListResult: msRest.CompositeMapper = {
+  serializedName: "ApplicationListResult",
   type: {
     name: "Composite",
-    className: "OperationDisplay",
-    modelProperties: {
-      provider: {
-        serializedName: "provider",
-        type: {
-          name: "String"
-        }
-      },
-      resource: {
-        serializedName: "resource",
-        type: {
-          name: "String"
-        }
-      },
-      operation: {
-        serializedName: "operation",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const Operation: msRest.CompositeMapper = {
-  serializedName: "Operation",
-  type: {
-    name: "Composite",
-    className: "Operation",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      display: {
-        serializedName: "display",
-        type: {
-          name: "Composite",
-          className: "OperationDisplay"
-        }
-      }
-    }
-  }
-};
-
-export const OperationListResult: msRest.CompositeMapper = {
-  serializedName: "OperationListResult",
-  type: {
-    name: "Composite",
-    className: "OperationListResult",
+    className: "ApplicationListResult",
     modelProperties: {
       value: {
         serializedName: "",
@@ -601,7 +556,7 @@ export const OperationListResult: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Operation"
+              className: "Application"
             }
           }
         }
@@ -616,11 +571,11 @@ export const OperationListResult: msRest.CompositeMapper = {
   }
 };
 
-export const ApplianceListResult: msRest.CompositeMapper = {
-  serializedName: "ApplianceListResult",
+export const ApplicationDefinitionListResult: msRest.CompositeMapper = {
+  serializedName: "ApplicationDefinitionListResult",
   type: {
     name: "Composite",
-    className: "ApplianceListResult",
+    className: "ApplicationDefinitionListResult",
     modelProperties: {
       value: {
         serializedName: "",
@@ -629,35 +584,7 @@ export const ApplianceListResult: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Appliance"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ApplianceDefinitionListResult: msRest.CompositeMapper = {
-  serializedName: "ApplianceDefinitionListResult",
-  type: {
-    name: "Composite",
-    className: "ApplianceDefinitionListResult",
-    modelProperties: {
-      value: {
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ApplianceDefinition"
+              className: "ApplicationDefinition"
             }
           }
         }
