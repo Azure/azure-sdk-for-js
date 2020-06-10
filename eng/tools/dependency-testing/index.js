@@ -52,18 +52,12 @@ function outputTestPath(projectFolderPath, sourceDir, testFolder) {
 async function insertPackageJson(repoRoot, packageJsonContents, targetPackagePath, targetPackageName, versionType, testFolder) {
   const testPath = path.join(targetPackagePath, testFolder);
   var templateJson = await packageUtils.readFileJson("./templates/package.json");
-  //console.log(templateJson);
   var testPackageJson = templateJson;
   testPackageJson.name = packageJsonContents.name.replace("@azure/", "azure-") + "-test";
   testPackageJson.devDependencies = {};
   depList = {};
   var projectFolder = path.basename(targetPackagePath);
   var projectDir = path.basename(path.dirname(targetPackagePath));
-  // console.log(projectFolder);
-  // console.log(projectDir);
-  //depList[targetPackageName] = "..";//works
-  //depList[targetPackageName] = "../../../" + projectDir + "/" + projectFolder;
-  //depList[targetPackageName] = "..";
   var allowedVersionList = {};
   depList[targetPackageName] = packageJsonContents.version;//works
   allowedVersionList[targetPackageName] = depList[targetPackageName];

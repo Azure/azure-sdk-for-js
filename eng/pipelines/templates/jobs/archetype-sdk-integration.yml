@@ -133,11 +133,6 @@ jobs:
         displayName: "Build test package"
         workingDirectory: $(PackageTestPath)
         condition: and(succeededOrFailed(),ne(variables['DependencyVersion'],''))
-      # - script: |
-      #     rush build -t $(PackageTest)
-      #   displayName: "Build test package"
-      #   workingDirectory: $(PackageTestPath)
-      #   condition: and(succeededOrFailed(),ne(variables['DependencyVersion'],''))
 
       - ${{if ne(parameters.PreIntegrationSteps, '')}}:
           - template: ../steps/${{parameters.PreIntegrationSteps}}.yml
