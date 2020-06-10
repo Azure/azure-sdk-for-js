@@ -1162,7 +1162,6 @@ export const IoTSecuritySolutionModel: msRest.CompositeMapper = {
         }
       },
       workspace: {
-        required: true,
         serializedName: "properties.workspace",
         type: {
           name: "String"
@@ -2440,46 +2439,6 @@ export const RegulatoryComplianceAssessment: msRest.CompositeMapper = {
   }
 };
 
-export const ServerVulnerabilityAssessment: msRest.CompositeMapper = {
-  serializedName: "ServerVulnerabilityAssessment",
-  type: {
-    name: "Composite",
-    className: "ServerVulnerabilityAssessment",
-    modelProperties: {
-      ...Resource.type.modelProperties,
-      provisioningState: {
-        readOnly: true,
-        serializedName: "properties.provisioningState",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ServerVulnerabilityAssessmentsList: msRest.CompositeMapper = {
-  serializedName: "ServerVulnerabilityAssessmentsList",
-  type: {
-    name: "Composite",
-    className: "ServerVulnerabilityAssessmentsList",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ServerVulnerabilityAssessment"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const SubAssessmentStatus: msRest.CompositeMapper = {
   serializedName: "SubAssessmentStatus",
   type: {
@@ -3354,6 +3313,46 @@ export const AlertsSuppressionRule: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SuppressionAlertsScope"
+        }
+      }
+    }
+  }
+};
+
+export const ServerVulnerabilityAssessment: msRest.CompositeMapper = {
+  serializedName: "ServerVulnerabilityAssessment",
+  type: {
+    name: "Composite",
+    className: "ServerVulnerabilityAssessment",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      provisioningState: {
+        readOnly: true,
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ServerVulnerabilityAssessmentsList: msRest.CompositeMapper = {
+  serializedName: "ServerVulnerabilityAssessmentsList",
+  type: {
+    name: "Composite",
+    className: "ServerVulnerabilityAssessmentsList",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ServerVulnerabilityAssessment"
+            }
+          }
         }
       }
     }

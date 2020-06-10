@@ -466,7 +466,8 @@ export const resourceId: msRest.OperationURLParameter = {
     type: {
       name: "String"
     }
-  }
+  },
+  skipEncoding: true
 };
 export const resourceName: msRest.OperationURLParameter = {
   parameterPath: "resourceName",
@@ -506,7 +507,8 @@ export const scope: msRest.OperationURLParameter = {
     type: {
       name: "String"
     }
-  }
+  },
+  skipEncoding: true
 };
 export const secureScoreName: msRest.OperationURLParameter = {
   parameterPath: "secureScoreName",
