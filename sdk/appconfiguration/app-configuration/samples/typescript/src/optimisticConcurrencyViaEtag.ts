@@ -47,11 +47,9 @@ export async function main() {
   // they'll have to coordinate this. This is when they use the etag.
 
   // For our example we'll have Beta update first
+  betaSetting.value = "Beta has updated the value"
   const betaUpdatedSetting = await client.setConfigurationSetting(
-    {
-      key: key,
-      value: "Beta has updated the value"
-    },
+    betaSetting,
     {
       // onlyIfUnchanged allows Beta to say "only update the setting if the _current_ etag matches my etag"
       // which is true for Beta since nobody has modified it since Beta got it.
@@ -68,11 +66,9 @@ export async function main() {
   );
 
   try {
+    alphaSetting.value = "Alpha is attempting to update the value but will fail";
     await client.setConfigurationSetting(
-      {
-        key: key,
-        value: "Alpha is attempting to update the value but will fail"
-      },
+      alphaSetting,
       {
         // in this case Alpha's etag is out of date - there's no way to update it
         // without retrieving the setting again. This allows Alpha a chance to
