@@ -245,16 +245,11 @@ export function getIntegerOrUndefined(value: any): number | undefined {
 /**
  * @internal
  * @ignore
- * Helper utility to convert ISO-8601 time into Date type,
- * or undefined for invalid values.
+ * Helper utility to convert ISO-8601 time into Date type.
  * @param value
  */
-export function getDateOrUndefined(value: string): Date | undefined {
-  try {
-    return new Date(value);
-  } catch (error) {
-    return undefined;
-  }
+export function getDate(value: string, nameOfProperty: string): Date {
+  return new Date(getString(value, nameOfProperty));
 }
 
 /**

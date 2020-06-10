@@ -16,7 +16,7 @@ import {
   getString,
   getStringOrUndefined,
   MessageCountDetails,
-  getDateOrUndefined
+  getDate
 } from "../util/utils";
 
 /**
@@ -109,9 +109,9 @@ export function buildSubscriptionRuntimeInfo(rawSubscription: any): Subscription
     topicName: getString(rawSubscription[Constants.TOPIC_NAME], "topicName"),
     messageCount: getInteger(rawSubscription[Constants.MESSAGE_COUNT], "messageCount"),
     messageCountDetails: getCountDetailsOrUndefined(rawSubscription[Constants.COUNT_DETAILS]),
-    createdAt: getDateOrUndefined(getString(rawSubscription[Constants.CREATED_AT], "createdOn")),
-    updatedAt: getDateOrUndefined(getString(rawSubscription[Constants.UPDATED_AT], "updatedOn")),
-    accessedAt: getDateOrUndefined(rawSubscription[Constants.ACCESSED_AT])
+    createdAt: getDate(rawSubscription[Constants.CREATED_AT], "createdAt"),
+    updatedAt: getDate(rawSubscription[Constants.UPDATED_AT], "updatedAt"),
+    accessedAt: getDate(rawSubscription[Constants.ACCESSED_AT], "accessedAt")
   };
 }
 
@@ -345,17 +345,17 @@ export interface SubscriptionRuntimeInfo {
   /**
    * Created at timestamp
    */
-  createdAt?: Date;
+  createdAt: Date;
 
   /**
    * Updated at timestamp
    */
-  updatedAt?: Date;
+  updatedAt: Date;
 
   /**
    * Accessed at timestamp
    */
-  accessedAt?: Date;
+  accessedAt: Date;
 }
 
 /**

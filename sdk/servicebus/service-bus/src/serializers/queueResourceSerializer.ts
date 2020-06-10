@@ -20,7 +20,7 @@ import {
   getString,
   getStringOrUndefined,
   MessageCountDetails,
-  getDateOrUndefined
+  getDate
 } from "../util/utils";
 
 /**
@@ -119,9 +119,9 @@ export function buildQueueRuntimeInfo(rawQueue: any): QueueRuntimeInfo {
     sizeInBytes: getIntegerOrUndefined(rawQueue[Constants.SIZE_IN_BYTES]),
     messageCount: getIntegerOrUndefined(rawQueue[Constants.MESSAGE_COUNT]),
     messageCountDetails: getCountDetailsOrUndefined(rawQueue[Constants.COUNT_DETAILS]),
-    createdAt: getDateOrUndefined(rawQueue[Constants.CREATED_AT]),
-    updatedAt: getDateOrUndefined(rawQueue[Constants.UPDATED_AT]),
-    accessedAt: getDateOrUndefined(rawQueue[Constants.ACCESSED_AT])
+    createdAt: getDate(rawQueue[Constants.CREATED_AT], "createdAt"),
+    updatedAt: getDate(rawQueue[Constants.UPDATED_AT], "updatedAt"),
+    accessedAt: getDate(rawQueue[Constants.ACCESSED_AT], "accessedAt")
   };
 }
 
@@ -379,17 +379,17 @@ export interface QueueRuntimeInfo {
   /**
    * Created at timestamp
    */
-  createdAt?: Date;
+  createdAt: Date;
 
   /**
    * Updated at timestamp
    */
-  updatedAt?: Date;
+  updatedAt: Date;
 
   /**
    * Accessed at timestamp
    */
-  accessedAt?: Date;
+  accessedAt: Date;
 
   /**
    * The entity's message count.
