@@ -93,15 +93,11 @@ export interface NamespaceResponse extends NamespaceProperties {
    */
   _response: HttpOperationResponse;
 }
-/**
- * Represents properties of the namespace.
- */
-export type GetNamespaceResponse = NamespaceResponse;
 
 /**
  * Represents result of create, get, update and delete operations on queue.
  */
-export interface GetQueueRuntimeInfoResponse extends QueueRuntimeInfo {
+export interface QueueRuntimeInfoResponse extends QueueRuntimeInfo {
   /**
    * The underlying HTTP response.
    */
@@ -109,9 +105,9 @@ export interface GetQueueRuntimeInfoResponse extends QueueRuntimeInfo {
 }
 
 /**
- * Represents result of create, get, update and delete operations on queue.
+ * Represents runtime info of a queue.
  */
-export interface GetQueuesRuntimeInfoResponse extends Array<QueueRuntimeInfo> {
+export interface QueuesRuntimeInfoResponse extends Array<QueueRuntimeInfo> {
   /**
    * The underlying HTTP response.
    */
@@ -129,24 +125,9 @@ export interface QueueResponse extends QueueDescription {
 }
 
 /**
- * Create Queue response
+ * Delete response
  */
-export type CreateQueueResponse = QueueResponse;
-
-/**
- * Get Queue response
- */
-export type GetQueueResponse = QueueResponse;
-
-/**
- * Update Queue response
- */
-export type UpdateQueueResponse = QueueResponse;
-
-/**
- * Delete Queue response
- */
-export interface DeleteQueueResponse {
+export interface Response {
   /**
    * The underlying HTTP response.
    */
@@ -156,7 +137,7 @@ export interface DeleteQueueResponse {
 /**
  * Represents result of list operation on queues.
  */
-export interface GetQueuesResponse extends Array<QueueDescription> {
+export interface QueuesResponse extends Array<QueueDescription> {
   /**
    * The underlying HTTP response.
    */
@@ -174,33 +155,19 @@ export interface TopicResponse extends TopicDescription {
 }
 
 /**
- * Create Topic response
- */
-export type CreateTopicResponse = TopicResponse;
-
-/**
- * Get Topic response
- */
-export type GetTopicResponse = TopicResponse;
-/**
- * Update Topic response
- */
-export type UpdateTopicResponse = TopicResponse;
-
-/**
- * Delete Topic response
- */
-export interface DeleteTopicResponse {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
-
-/**
  * Represents result of list operation on topics.
  */
-export interface GetTopicsResponse extends Array<TopicDescription> {
+export interface TopicsResponse extends Array<TopicDescription> {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
+
+/**
+ * Represents runtime info of a topic.
+ */
+export interface TopicRuntimeInfoResponse extends TopicRuntimeInfo {
   /**
    * The underlying HTTP response.
    */
@@ -210,7 +177,7 @@ export interface GetTopicsResponse extends Array<TopicDescription> {
 /**
  * Represents result of create, get, update and delete operations on topic.
  */
-export interface GetTopicRuntimeInfoResponse extends TopicRuntimeInfo {
+export interface TopicsRuntimeInfoResponse extends Array<TopicRuntimeInfo> {
   /**
    * The underlying HTTP response.
    */
@@ -218,17 +185,7 @@ export interface GetTopicRuntimeInfoResponse extends TopicRuntimeInfo {
 }
 
 /**
- * Represents result of create, get, update and delete operations on topic.
- */
-export interface GetTopicsRuntimeInfoResponse extends Array<TopicRuntimeInfo> {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
-
-/**
- * Represents result of create, get, update and delete operations on subscription.
+ * Represents runtime info of a subscription.
  */
 export interface SubscriptionResponse extends SubscriptionDescription {
   /**
@@ -238,34 +195,9 @@ export interface SubscriptionResponse extends SubscriptionDescription {
 }
 
 /**
- * Create Subscription response
- */
-export type CreateSubscriptionResponse = SubscriptionResponse;
-
-/**
- * Get Subscription response
- */
-export type GetSubscriptionResponse = SubscriptionResponse;
-
-/**
- * Update Subscription response
- */
-export type UpdateSubscriptionResponse = SubscriptionResponse;
-
-/**
- * Delete Subscription response
- */
-export interface DeleteSubscriptionResponse {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
-
-/**
  * Represents result of list operation on subscriptions.
  */
-export interface GetSubscriptionsResponse extends Array<SubscriptionDescription> {
+export interface SubscriptionsResponse extends Array<SubscriptionDescription> {
   /**
    * The underlying HTTP response.
    */
@@ -275,7 +207,7 @@ export interface GetSubscriptionsResponse extends Array<SubscriptionDescription>
 /**
  * Represents result of create, get, update and delete operations on topic.
  */
-export interface GetSubscriptionRuntimeInfoResponse extends SubscriptionRuntimeInfo {
+export interface SubscriptionRuntimeInfoResponse extends SubscriptionRuntimeInfo {
   /**
    * The underlying HTTP response.
    */
@@ -285,7 +217,7 @@ export interface GetSubscriptionRuntimeInfoResponse extends SubscriptionRuntimeI
 /**
  * Represents result of create, get, update and delete operations on topic.
  */
-export interface GetSubscriptionsRuntimeInfoResponse extends Array<SubscriptionRuntimeInfo> {
+export interface SubscriptionsRuntimeInfoResponse extends Array<SubscriptionRuntimeInfo> {
   /**
    * The underlying HTTP response.
    */
@@ -303,33 +235,9 @@ export interface RuleResponse extends RuleDescription {
 }
 
 /**
- * Create Rule response
- */
-export type CreateRuleResponse = RuleResponse;
-/**
- * Get Rule response
- */
-export type GetRuleResponse = RuleResponse;
-
-/**
- * Update Rule response
- */
-export type UpdateRuleResponse = RuleResponse;
-
-/**
- * Delete Rule response
- */
-export interface DeleteRuleResponse {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
-
-/**
  * Represents result of list operation on rules.
  */
-export interface GetRulesResponse extends Array<RuleDescription> {
+export interface RulesResponse extends Array<RuleDescription> {
   /**
    * The underlying HTTP response.
    */
@@ -447,7 +355,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @param queueName
    *
    */
-  async getNamespaceProperties(): Promise<GetNamespaceResponse> {
+  async getNamespaceProperties(): Promise<NamespaceResponse> {
     log.httpAtomXml(`Performing management operation - getNamespaceProperties()`);
     const response: HttpOperationResponse = await this.getResource(
       "$namespaceinfo",
@@ -472,7 +380,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async createQueue(queueName: string): Promise<CreateQueueResponse>;
+  async createQueue(queueName: string): Promise<QueueResponse>;
   /**
    * Creates a queue configured using the given options
    * @param queue Options to configure the Queue being created.
@@ -489,8 +397,8 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async createQueue(queue: QueueDescription): Promise<CreateQueueResponse>;
-  async createQueue(queueNameOrOptions: string | QueueDescription): Promise<CreateQueueResponse> {
+  async createQueue(queue: QueueDescription): Promise<QueueResponse>;
+  async createQueue(queueNameOrOptions: string | QueueDescription): Promise<QueueResponse> {
     let queue: QueueDescription;
     if (typeof queueNameOrOptions === "string") {
       queue = { name: queueNameOrOptions };
@@ -525,7 +433,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async getQueue(queueName: string): Promise<GetQueueResponse> {
+  async getQueue(queueName: string): Promise<QueueResponse> {
     log.httpAtomXml(`Performing management operation - getQueue() for "${queueName}"`);
     const response: HttpOperationResponse = await this.getResource(
       queueName,
@@ -549,7 +457,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async getQueueRuntimeInfo(queueName: string): Promise<GetQueueRuntimeInfoResponse> {
+  async getQueueRuntimeInfo(queueName: string): Promise<QueueRuntimeInfoResponse> {
     log.httpAtomXml(`Performing management operation - getQueue() for "${queueName}"`);
     const response: HttpOperationResponse = await this.getResource(
       queueName,
@@ -573,7 +481,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async getQueues(listRequestOptions?: ListRequestOptions): Promise<GetQueuesResponse> {
+  async getQueues(listRequestOptions?: ListRequestOptions): Promise<QueuesResponse> {
     log.httpAtomXml(
       `Performing management operation - listQueues() with options: ${listRequestOptions}`
     );
@@ -601,7 +509,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    */
   async getQueuesRuntimeInfo(
     listRequestOptions?: ListRequestOptions
-  ): Promise<GetQueuesRuntimeInfoResponse> {
+  ): Promise<QueuesRuntimeInfoResponse> {
     log.httpAtomXml(
       `Performing management operation - listQueues() with options: ${listRequestOptions}`
     );
@@ -629,7 +537,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async updateQueue(queue: QueueDescription): Promise<UpdateQueueResponse> {
+  async updateQueue(queue: QueueDescription): Promise<QueueResponse> {
     log.httpAtomXml(
       `Performing management operation - updateQueue() for "${queue.name}" with options: ${queue}`
     );
@@ -672,7 +580,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async deleteQueue(queueName: string): Promise<DeleteQueueResponse> {
+  async deleteQueue(queueName: string): Promise<Response> {
     log.httpAtomXml(`Performing management operation - deleteQueue() for "${queueName}"`);
     const response: HttpOperationResponse = await this.deleteResource(
       queueName,
@@ -714,7 +622,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async createTopic(topicName: string): Promise<CreateTopicResponse>;
+  async createTopic(topicName: string): Promise<TopicResponse>;
   /**
    * Creates a topic with given name, configured using the given options
    * @param topic Options to configure the Topic being created.
@@ -731,8 +639,8 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async createTopic(topic: TopicDescription): Promise<CreateTopicResponse>;
-  async createTopic(topicNameOrOptions: string | TopicDescription): Promise<CreateTopicResponse> {
+  async createTopic(topic: TopicDescription): Promise<TopicResponse>;
+  async createTopic(topicNameOrOptions: string | TopicDescription): Promise<TopicResponse> {
     let topic: TopicDescription;
     if (typeof topicNameOrOptions === "string") {
       topic = { name: topicNameOrOptions };
@@ -767,7 +675,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async getTopic(topicName: string): Promise<GetTopicResponse> {
+  async getTopic(topicName: string): Promise<TopicResponse> {
     log.httpAtomXml(`Performing management operation - getTopic() for "${topicName}"`);
     const response: HttpOperationResponse = await this.getResource(
       topicName,
@@ -791,7 +699,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async getTopicRuntimeInfo(topicName: string): Promise<GetTopicRuntimeInfoResponse> {
+  async getTopicRuntimeInfo(topicName: string): Promise<TopicRuntimeInfoResponse> {
     log.httpAtomXml(`Performing management operation - getTopicRuntimeInfo() for "${topicName}"`);
     const response: HttpOperationResponse = await this.getResource(
       topicName,
@@ -815,7 +723,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async getTopics(listRequestOptions?: ListRequestOptions): Promise<GetTopicsResponse> {
+  async getTopics(listRequestOptions?: ListRequestOptions): Promise<TopicsResponse> {
     log.httpAtomXml(
       `Performing management operation - listTopics() with options: ${listRequestOptions}`
     );
@@ -843,7 +751,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    */
   async getTopicsRuntimeInfo(
     listRequestOptions?: ListRequestOptions
-  ): Promise<GetTopicsRuntimeInfoResponse> {
+  ): Promise<TopicsRuntimeInfoResponse> {
     log.httpAtomXml(
       `Performing management operation - listTopics() with options: ${listRequestOptions}`
     );
@@ -871,7 +779,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async updateTopic(topic: TopicDescription): Promise<UpdateTopicResponse> {
+  async updateTopic(topic: TopicDescription): Promise<TopicResponse> {
     log.httpAtomXml(
       `Performing management operation - updateTopic() for "${topic.name}" with options: ${topic}`
     );
@@ -914,7 +822,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async deleteTopic(topicName: string): Promise<DeleteTopicResponse> {
+  async deleteTopic(topicName: string): Promise<Response> {
     log.httpAtomXml(`Performing management operation - deleteTopic() for "${topicName}"`);
     const response: HttpOperationResponse = await this.deleteResource(
       topicName,
@@ -960,7 +868,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   async createSubscription(
     topicName: string,
     subscriptionName: string
-  ): Promise<CreateSubscriptionResponse>;
+  ): Promise<SubscriptionResponse>;
 
   /**
    * Creates a subscription with given name, configured using the given options
@@ -978,13 +886,11 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async createSubscription(
-    subscription: SubscriptionDescription
-  ): Promise<CreateSubscriptionResponse>;
+  async createSubscription(subscription: SubscriptionDescription): Promise<SubscriptionResponse>;
   async createSubscription(
     topicNameOrSubscriptionOptions: string | SubscriptionDescription,
     subscriptionName?: string
-  ): Promise<CreateSubscriptionResponse> {
+  ): Promise<SubscriptionResponse> {
     let subscription: SubscriptionDescription;
     if (typeof topicNameOrSubscriptionOptions === "string") {
       if (!subscriptionName) {
@@ -1033,7 +939,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   async getSubscription(
     topicName: string,
     subscriptionName: string
-  ): Promise<GetSubscriptionResponse> {
+  ): Promise<SubscriptionResponse> {
     log.httpAtomXml(
       `Performing management operation - getSubscription() for "${subscriptionName}"`
     );
@@ -1064,7 +970,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   async getSubscriptionRuntimeInfo(
     topicName: string,
     subscriptionName: string
-  ): Promise<GetSubscriptionRuntimeInfoResponse> {
+  ): Promise<SubscriptionRuntimeInfoResponse> {
     log.httpAtomXml(
       `Performing management operation - getSubscription() for "${subscriptionName}"`
     );
@@ -1095,7 +1001,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   async getSubscriptions(
     topicName: string,
     listRequestOptions?: ListRequestOptions
-  ): Promise<GetSubscriptionsResponse> {
+  ): Promise<SubscriptionsResponse> {
     log.httpAtomXml(
       `Performing management operation - listSubscriptions() with options: ${listRequestOptions}`
     );
@@ -1125,7 +1031,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   async getSubscriptionsRuntimeInfo(
     topicName: string,
     listRequestOptions?: ListRequestOptions
-  ): Promise<GetSubscriptionsRuntimeInfoResponse> {
+  ): Promise<SubscriptionsRuntimeInfoResponse> {
     log.httpAtomXml(
       `Performing management operation - listSubscriptions() with options: ${listRequestOptions}`
     );
@@ -1153,9 +1059,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async updateSubscription(
-    subscription: SubscriptionDescription
-  ): Promise<UpdateSubscriptionResponse> {
+  async updateSubscription(subscription: SubscriptionDescription): Promise<SubscriptionResponse> {
     log.httpAtomXml(
       `Performing management operation - updateSubscription() for "${subscription.subscriptionName}" with options: ${subscription}`
     );
@@ -1212,10 +1116,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async deleteSubscription(
-    topicName: string,
-    subscriptionName: string
-  ): Promise<DeleteSubscriptionResponse> {
+  async deleteSubscription(topicName: string, subscriptionName: string): Promise<Response> {
     log.httpAtomXml(
       `Performing management operation - deleteSubscription() for "${subscriptionName}"`
     );
@@ -1270,7 +1171,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     topicName: string,
     subscriptionName: string,
     rule: RuleDescription
-  ): Promise<CreateRuleResponse> {
+  ): Promise<RuleResponse> {
     log.httpAtomXml(
       `Performing management operation - createRule() for "${rule.name}" with options: "${rule}"`
     );
@@ -1304,7 +1205,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     topicName: string,
     subscriptioName: string,
     ruleName: string
-  ): Promise<GetRuleResponse> {
+  ): Promise<RuleResponse> {
     log.httpAtomXml(`Performing management operation - getRule() for "${ruleName}"`);
     const fullPath = this.getRulePath(topicName, subscriptioName, ruleName);
     const response: HttpOperationResponse = await this.getResource(
@@ -1334,7 +1235,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     topicName: string,
     subscriptionName: string,
     listRequestOptions?: ListRequestOptions
-  ): Promise<GetRulesResponse> {
+  ): Promise<RulesResponse> {
     log.httpAtomXml(
       `Performing management operation - listRules() with options: ${listRequestOptions}`
     );
@@ -1370,7 +1271,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     topicName: string,
     subscriptionName: string,
     rule: RuleDescription
-  ): Promise<UpdateRuleResponse> {
+  ): Promise<RuleResponse> {
     log.httpAtomXml(
       `Performing management operation - updateRule() for "${rule.name}" with options: ${rule}`
     );
@@ -1416,7 +1317,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     topicName: string,
     subscriptionName: string,
     ruleName: string
-  ): Promise<DeleteRuleResponse> {
+  ): Promise<Response> {
     log.httpAtomXml(`Performing management operation - deleteRule() for "${ruleName}"`);
     const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
     const response: HttpOperationResponse = await this.deleteResource(
@@ -1594,7 +1495,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     }
   }
 
-  private buildListQueuesResponse(response: HttpOperationResponse): GetQueuesResponse {
+  private buildListQueuesResponse(response: HttpOperationResponse): QueuesResponse {
     try {
       const queues: QueueDescription[] = [];
       if (!Array.isArray(response.parsedBody)) {
@@ -1607,7 +1508,7 @@ export class ServiceBusManagementClient extends ServiceClient {
           queues.push(queue);
         }
       }
-      const listQueuesResponse: GetQueuesResponse = Object.assign(queues, {
+      const listQueuesResponse: QueuesResponse = Object.assign(queues, {
         _response: response
       });
       return listQueuesResponse;
@@ -1625,7 +1526,7 @@ export class ServiceBusManagementClient extends ServiceClient {
 
   private buildListQueuesRuntimeInfoResponse(
     response: HttpOperationResponse
-  ): GetQueuesRuntimeInfoResponse {
+  ): QueuesRuntimeInfoResponse {
     try {
       const queues: QueueRuntimeInfo[] = [];
       if (!Array.isArray(response.parsedBody)) {
@@ -1638,7 +1539,7 @@ export class ServiceBusManagementClient extends ServiceClient {
           queues.push(queue);
         }
       }
-      const listQueuesResponse: GetQueuesRuntimeInfoResponse = Object.assign(queues, {
+      const listQueuesResponse: QueuesRuntimeInfoResponse = Object.assign(queues, {
         _response: response
       });
       return listQueuesResponse;
@@ -1675,10 +1576,10 @@ export class ServiceBusManagementClient extends ServiceClient {
 
   private buildQueueRuntimeInfoResponse(
     response: HttpOperationResponse
-  ): GetQueueRuntimeInfoResponse {
+  ): QueueRuntimeInfoResponse {
     try {
       const queue = buildQueueRuntimeInfo(response.parsedBody);
-      const queueResponse: GetQueueRuntimeInfoResponse = Object.assign(queue || {}, {
+      const queueResponse: QueueRuntimeInfoResponse = Object.assign(queue || {}, {
         _response: response
       });
       return queueResponse;
@@ -1694,7 +1595,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     }
   }
 
-  private buildListTopicsResponse(response: HttpOperationResponse): GetTopicsResponse {
+  private buildListTopicsResponse(response: HttpOperationResponse): TopicsResponse {
     try {
       const topics: TopicDescription[] = [];
       if (!Array.isArray(response.parsedBody)) {
@@ -1707,7 +1608,7 @@ export class ServiceBusManagementClient extends ServiceClient {
           topics.push(topic);
         }
       }
-      const listTopicsResponse: GetTopicsResponse = Object.assign(topics, {
+      const listTopicsResponse: TopicsResponse = Object.assign(topics, {
         _response: response
       });
       return listTopicsResponse;
@@ -1725,7 +1626,7 @@ export class ServiceBusManagementClient extends ServiceClient {
 
   private buildListTopicsRuntimeInfoResponse(
     response: HttpOperationResponse
-  ): GetTopicsRuntimeInfoResponse {
+  ): TopicsRuntimeInfoResponse {
     try {
       const topics: TopicRuntimeInfo[] = [];
       if (!Array.isArray(response.parsedBody)) {
@@ -1738,7 +1639,7 @@ export class ServiceBusManagementClient extends ServiceClient {
           topics.push(topic);
         }
       }
-      const listTopicsResponse: GetTopicsRuntimeInfoResponse = Object.assign(topics, {
+      const listTopicsResponse: TopicsRuntimeInfoResponse = Object.assign(topics, {
         _response: response
       });
       return listTopicsResponse;
@@ -1774,10 +1675,10 @@ export class ServiceBusManagementClient extends ServiceClient {
 
   private buildTopicRuntimeInfoResponse(
     response: HttpOperationResponse
-  ): GetTopicRuntimeInfoResponse {
+  ): TopicRuntimeInfoResponse {
     try {
       const topic = buildTopicRuntimeInfo(response.parsedBody);
-      const topicResponse: GetTopicRuntimeInfoResponse = Object.assign(topic || {}, {
+      const topicResponse: TopicRuntimeInfoResponse = Object.assign(topic || {}, {
         _response: response
       });
       return topicResponse;
@@ -1795,7 +1696,7 @@ export class ServiceBusManagementClient extends ServiceClient {
 
   private buildListSubscriptionsResponse(
     response: HttpOperationResponse
-  ): GetSubscriptionsResponse {
+  ): SubscriptionsResponse {
     try {
       const subscriptions: SubscriptionDescription[] = [];
       if (!Array.isArray(response.parsedBody)) {
@@ -1808,7 +1709,7 @@ export class ServiceBusManagementClient extends ServiceClient {
           subscriptions.push(subscription);
         }
       }
-      const listSubscriptionsResponse: GetSubscriptionsResponse = Object.assign(subscriptions, {
+      const listSubscriptionsResponse: SubscriptionsResponse = Object.assign(subscriptions, {
         _response: response
       });
       return listSubscriptionsResponse;
@@ -1826,7 +1727,7 @@ export class ServiceBusManagementClient extends ServiceClient {
 
   private buildListSubscriptionsRuntimeInfoResponse(
     response: HttpOperationResponse
-  ): GetSubscriptionsRuntimeInfoResponse {
+  ): SubscriptionsRuntimeInfoResponse {
     try {
       const subscriptions: SubscriptionRuntimeInfo[] = [];
       if (!Array.isArray(response.parsedBody)) {
@@ -1839,7 +1740,7 @@ export class ServiceBusManagementClient extends ServiceClient {
           subscriptions.push(subscription);
         }
       }
-      const listSubscriptionsResponse: GetSubscriptionsRuntimeInfoResponse = Object.assign(
+      const listSubscriptionsResponse: SubscriptionsRuntimeInfoResponse = Object.assign(
         subscriptions,
         {
           _response: response
@@ -1879,10 +1780,10 @@ export class ServiceBusManagementClient extends ServiceClient {
 
   private buildSubscriptionRuntimeInfoResponse(
     response: HttpOperationResponse
-  ): GetSubscriptionRuntimeInfoResponse {
+  ): SubscriptionRuntimeInfoResponse {
     try {
       const subscription = buildSubscriptionRuntimeInfo(response.parsedBody);
-      const subscriptionResponse: GetSubscriptionRuntimeInfoResponse = Object.assign(
+      const subscriptionResponse: SubscriptionRuntimeInfoResponse = Object.assign(
         subscription || {},
         {
           _response: response
@@ -1901,7 +1802,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     }
   }
 
-  private buildListRulesResponse(response: HttpOperationResponse): GetRulesResponse {
+  private buildListRulesResponse(response: HttpOperationResponse): RulesResponse {
     try {
       const rules: RuleDescription[] = [];
       if (!Array.isArray(response.parsedBody)) {
@@ -1914,7 +1815,7 @@ export class ServiceBusManagementClient extends ServiceClient {
           rules.push(rule);
         }
       }
-      const listRulesResponse: GetRulesResponse = Object.assign(rules, {
+      const listRulesResponse: RulesResponse = Object.assign(rules, {
         _response: response
       });
       return listRulesResponse;
