@@ -46,7 +46,7 @@ export {
 export { TopicDescription, TopicRuntimeInfo } from "./serializers/topicResourceSerializer";
 export {
   ListRequestOptions,
-  NamespaceResponse,
+  NamespacePropertiesResponse,
   QueueResponse,
   QueueRuntimeInfoResponse,
   QueuesResponse,

@@ -112,8 +112,7 @@ export interface NamespaceProperties {
 }
 
 // @public
-export interface NamespaceResponse extends NamespaceProperties {
-    _response: HttpOperationResponse;
+export interface NamespacePropertiesResponse extends NamespaceProperties, Response {
 }
 
 // @public
@@ -150,8 +149,7 @@ export interface QueueDescription {
 }
 
 // @public
-export interface QueueResponse extends QueueDescription {
-    _response: HttpOperationResponse;
+export interface QueueResponse extends QueueDescription, Response {
 }
 
 // @public
@@ -166,18 +164,15 @@ export interface QueueRuntimeInfo {
 }
 
 // @public
-export interface QueueRuntimeInfoResponse extends QueueRuntimeInfo {
-    _response: HttpOperationResponse;
+export interface QueueRuntimeInfoResponse extends QueueRuntimeInfo, Response {
 }
 
 // @public
-export interface QueuesResponse extends Array<QueueDescription> {
-    _response: HttpOperationResponse;
+export interface QueuesResponse extends Array<QueueDescription>, Response {
 }
 
 // @public
-export interface QueuesRuntimeInfoResponse extends Array<QueueRuntimeInfo> {
-    _response: HttpOperationResponse;
+export interface QueuesRuntimeInfoResponse extends Array<QueueRuntimeInfo>, Response {
 }
 
 // @public
@@ -242,13 +237,11 @@ export interface RuleDescription {
 }
 
 // @public
-export interface RuleResponse extends RuleDescription {
-    _response: HttpOperationResponse;
+export interface RuleResponse extends RuleDescription, Response {
 }
 
 // @public
-export interface RulesResponse extends Array<RuleDescription> {
-    _response: HttpOperationResponse;
+export interface RulesResponse extends Array<RuleDescription>, Response {
 }
 
 // @public
@@ -314,7 +307,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     deleteRule(topicName: string, subscriptionName: string, ruleName: string): Promise<Response>;
     deleteSubscription(topicName: string, subscriptionName: string): Promise<Response>;
     deleteTopic(topicName: string): Promise<Response>;
-    getNamespaceProperties(): Promise<NamespaceResponse>;
+    getNamespaceProperties(): Promise<NamespacePropertiesResponse>;
     getQueue(queueName: string): Promise<QueueResponse>;
     getQueueRuntimeInfo(queueName: string): Promise<QueueRuntimeInfoResponse>;
     getQueues(listRequestOptions?: ListRequestOptions): Promise<QueuesResponse>;
@@ -435,8 +428,7 @@ export interface SubscriptionDescription {
 }
 
 // @public
-export interface SubscriptionResponse extends SubscriptionDescription {
-    _response: HttpOperationResponse;
+export interface SubscriptionResponse extends SubscriptionDescription, Response {
 }
 
 // @public
@@ -451,18 +443,15 @@ export interface SubscriptionRuntimeInfo {
 }
 
 // @public
-export interface SubscriptionRuntimeInfoResponse extends SubscriptionRuntimeInfo {
-    _response: HttpOperationResponse;
+export interface SubscriptionRuntimeInfoResponse extends SubscriptionRuntimeInfo, Response {
 }
 
 // @public
-export interface SubscriptionsResponse extends Array<SubscriptionDescription> {
-    _response: HttpOperationResponse;
+export interface SubscriptionsResponse extends Array<SubscriptionDescription>, Response {
 }
 
 // @public
-export interface SubscriptionsRuntimeInfoResponse extends Array<SubscriptionRuntimeInfo> {
-    _response: HttpOperationResponse;
+export interface SubscriptionsRuntimeInfoResponse extends Array<SubscriptionRuntimeInfo>, Response {
 }
 
 export { TokenCredential }
@@ -486,8 +475,7 @@ export interface TopicDescription {
 }
 
 // @public
-export interface TopicResponse extends TopicDescription {
-    _response: HttpOperationResponse;
+export interface TopicResponse extends TopicDescription, Response {
 }
 
 // @public
@@ -501,18 +489,15 @@ export interface TopicRuntimeInfo {
 }
 
 // @public
-export interface TopicRuntimeInfoResponse extends TopicRuntimeInfo {
-    _response: HttpOperationResponse;
+export interface TopicRuntimeInfoResponse extends TopicRuntimeInfo, Response {
 }
 
 // @public
-export interface TopicsResponse extends Array<TopicDescription> {
-    _response: HttpOperationResponse;
+export interface TopicsResponse extends Array<TopicDescription>, Response {
 }
 
 // @public
-export interface TopicsRuntimeInfoResponse extends Array<TopicRuntimeInfo> {
-    _response: HttpOperationResponse;
+export interface TopicsRuntimeInfoResponse extends Array<TopicRuntimeInfo>, Response {
 }
 
 // @public
