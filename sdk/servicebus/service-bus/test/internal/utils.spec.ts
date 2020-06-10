@@ -3,7 +3,9 @@
 
 import {
   checkAndRegisterWithAbortSignal,
-  waitForTimeoutOrAbortOrResolve
+  waitForTimeoutOrAbortOrResolve,
+  getISO8601DurationInSeconds,
+  getISO8601DurationFromSeconds
 } from "../../src/util/utils";
 import { AbortController, AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { delay } from "rhea-promise";
@@ -11,8 +13,79 @@ import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
+chai.use(chaiAsPromised);
+const should = chai.should();
 
 describe("utils", () => {
+  describe("ISO-8601 Time and duration conversions", () => {
+    const timeDurationArray = [
+      {
+        iso8601TimeDuration: "P10D",
+        durationInSeconds: 10 * 24 * 60 * 60
+      },
+      {
+        iso8601TimeDuration: "PT0S",
+        durationInSeconds: 0
+      },
+      {
+        iso8601TimeDuration: "PT0.785S",
+        durationInSeconds: 0.785
+      },
+      {
+        iso8601TimeDuration: "PT3S",
+        durationInSeconds: 3
+      },
+      {
+        iso8601TimeDuration: "PT2H3S",
+        durationInSeconds: 2 * 60 * 60 + 3
+      },
+      {
+        iso8601TimeDuration: "P1DT2H",
+        durationInSeconds: 24 * 60 * 60 + 2 * 60 * 60
+      },
+      {
+        iso8601TimeDuration: "P1DT4S",
+        durationInSeconds: 24 * 60 * 60 + 4
+      },
+      {
+        iso8601TimeDuration: "P1DT3M4S",
+        durationInSeconds: 24 * 60 * 60 + 3 * 60 + 4
+      },
+      {
+        iso8601TimeDuration: "P1DT2H3M4S",
+        durationInSeconds: 24 * 60 * 60 + 2 * 60 * 60 + 3 * 60 + 4
+      },
+      {
+        iso8601TimeDuration: "P1DT2H3M4.65794S",
+        durationInSeconds: 24 * 60 * 60 + 2 * 60 * 60 + 3 * 60 + 4.65794
+      }
+    ];
+
+    describe("getISO8601DurationInSeconds", () => {
+      timeDurationArray.forEach((testCase) => {
+        it(`Input ISO-8601 time duration - "${testCase.iso8601TimeDuration}"`, () => {
+          should.equal(
+            getISO8601DurationInSeconds(testCase.iso8601TimeDuration),
+            testCase.durationInSeconds,
+            "Unexpected duration in seconds returned."
+          );
+        });
+      });
+    });
+
+    describe("getISO8601DurationFromSeconds", () => {
+      timeDurationArray.forEach((testCase) => {
+        it(`Input in seconds - "${testCase.durationInSeconds}"`, () => {
+          should.equal(
+            getISO8601DurationFromSeconds(testCase.durationInSeconds),
+            testCase.iso8601TimeDuration,
+            "Unexpected duration in seconds returned."
+          );
+        });
+      });
+    });
+  });
+
   describe("waitForTimeoutAbortOrResolve", () => {
     let abortController: AbortController;
     let abortSignal: ReturnType<typeof getAbortSignalWithTracking>;
