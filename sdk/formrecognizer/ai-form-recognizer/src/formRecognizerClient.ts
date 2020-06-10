@@ -299,10 +299,7 @@ export class FormRecognizerClient {
    * });
    *
    * await poller.pollUntilDone();
-   * const response = poller.getResult();
-   *
-   * console.log(response.status);
-   * console.log(response.pages);
+   * const pages = poller.getResult();
    * ```
    * @summary Recognizes content/layout information from a given document
    * @param {FormRecognizerRequestBody} form Input document
@@ -348,10 +345,7 @@ export class FormRecognizerClient {
    * });
    *
    * await poller.pollUntilDone();
-   * const response = poller.getResult();
-   *
-   * console.log(response.status);
-   * console.log(response.pages);
+   * const pages = poller.getResult();
    * ```
    * @summary Recognizes content/layout information from a url to a form document
    * @param {string} formUrl Url to an accessible form document
@@ -424,8 +418,7 @@ ng", and "image/tiff";
    *   onProgress: (state) => { console.log(`status: ${state.status}`); }
    * });
    * await poller.pollUntilDone();
-   * const response = poller.getResult();
-   * console.log(response.status);
+   * const forms = poller.getResult();
    * ```
    * @summary Recognizes form information from a given document using a custom form model.
    * @param {string} modelId Id of the custom form model to use
@@ -481,8 +474,7 @@ ng", and "image/tiff";
    *   onProgress: (state) => { console.log(`status: ${state.status}`); }
    * });
    * await poller.pollUntilDone();
-   * const response = poller.getResult();
-   * console.log(response.status);
+   * const forms = poller.getResult();
    * ```
    * @summary Recognizes form information from a url to a form document using a custom form model.
    * @param {string} modelId Id of the custom form model to use
@@ -576,7 +568,7 @@ ng", and "image/tiff";
    * });
    *
    * await poller.pollUntilDone();
-   * const response = poller.getResult();
+   * const receipts = poller.getResult();
    *  if (!receipts || receipts.length <= 0) {
    *    throw new Error("Expecting at lease one receipt in analysis result");
    *  }
@@ -658,7 +650,10 @@ ng", and "image/tiff";
    *     onProgress: (state) => { console.log(`analyzing status: ${state.status}`); }
    * });
    * await poller.pollUntilDone();
-   * const response = poller.getResult();
+   * const receipts = poller.getResult();
+   *  if (!receipts || receipts.length <= 0) {
+   *    throw new Error("Expecting at lease one receipt in analysis result");
+   *  }
    *
    * const receipt = receipts[0];
    * console.log("First receipt:");
