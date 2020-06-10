@@ -141,17 +141,17 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
 export class DataLakeFileClient extends DataLakePathClient {
     constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
-    append(body: HttpRequestBody, offset: number, length: number, options?: FileAppendOptions): Promise<PathUpdateResponse>;
+    append(body: HttpRequestBody, offset: number, length: number, options?: FileAppendOptions): Promise<FileAppendResponse>;
     create(resourceType: PathResourceType, options?: PathCreateOptions): Promise<PathCreateResponse>;
     create(options?: FileCreateOptions): Promise<FileCreateResponse>;
-    flush(position: number, options?: FileFlushOptions): Promise<PathUpdateResponse>;
+    flush(position: number, options?: FileFlushOptions): Promise<PathFlushDataResponse>;
     read(offset?: number, count?: number, options?: FileReadOptions): Promise<FileReadResponse>;
     readToBuffer(buffer: Buffer, offset?: number, count?: number, options?: FileReadToBufferOptions): Promise<Buffer>;
     readToBuffer(offset?: number, count?: number, options?: FileReadToBufferOptions): Promise<Buffer>;
     readToFile(filePath: string, offset?: number, count?: number, options?: FileReadOptions): Promise<FileReadResponse>;
-    upload(data: Buffer | Blob | ArrayBuffer | ArrayBufferView, options?: FileParallelUploadOptions): Promise<PathUpdateResponse>;
-    uploadFile(filePath: string, options?: FileParallelUploadOptions): Promise<PathUpdateResponse>;
-    uploadStream(stream: Readable, options?: FileParallelUploadOptions): Promise<PathUpdateResponse>;
+    upload(data: Buffer | Blob | ArrayBuffer | ArrayBufferView, options?: FileParallelUploadOptions): Promise<PathFlushDataResponse>;
+    uploadFile(filePath: string, options?: FileParallelUploadOptions): Promise<PathFlushDataResponse>;
+    uploadStream(stream: Readable, options?: FileParallelUploadOptions): Promise<PathFlushDataResponse>;
 }
 
 // Warning: (ae-forgotten-export) The symbol "StorageClient" needs to be exported by the entry point index.d.ts
@@ -279,6 +279,13 @@ export interface FileAppendOptions extends CommonOptions {
     // (undocumented)
     transactionalContentMD5?: Uint8Array;
 }
+
+// @public
+export type FileAppendResponse = PathAppendDataHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: PathAppendDataHeaders;
+    };
+};
 
 // @public (undocumented)
 export interface FileCreateOptions extends PathCreateOptions {
@@ -820,6 +827,14 @@ export interface PathAccessControlItem {
 }
 
 // @public
+export interface PathAppendDataHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface PathCreateHeaders {
     contentLength?: number;
     continuation?: string;
@@ -898,6 +913,28 @@ export type PathDeleteResponse = PathDeleteHeaders & {
 export interface PathExistsOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
+
+// @public
+export interface PathFlushDataHeaders {
+    clientRequestId?: string;
+    contentLength?: number;
+    date?: Date;
+    etag?: string;
+    lastModified?: Date;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
+type PathFlushDataResponse = PathFlushDataHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: PathFlushDataHeaders;
+    };
+};
+
+export { PathFlushDataResponse as FileFlushResponse }
+
+export { PathFlushDataResponse as FileUploadResponse }
 
 // @public (undocumented)
 export interface PathGetAccessControlHeaders {
@@ -1296,20 +1333,8 @@ export interface PathUpdateHeaders {
     properties?: string;
     requestId?: string;
     version?: string;
+    xMsContinuation?: string;
 }
-
-// @public
-type PathUpdateResponse = PathUpdateHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: PathUpdateHeaders;
-    };
-};
-
-export { PathUpdateResponse as FileAppendResponse }
-
-export { PathUpdateResponse as FileFlushResponse }
-
-export { PathUpdateResponse as FileUploadResponse }
 
 // @public
 export class Pipeline extends Pipeline_2 {

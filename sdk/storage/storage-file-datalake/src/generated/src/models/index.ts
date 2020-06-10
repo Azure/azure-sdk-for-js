@@ -10,6 +10,25 @@
 import * as coreHttp from "@azure/core-http";
 
 /**
+ * An interface representing AclFailedEntry.
+ */
+export interface AclFailedEntry {
+  name?: string;
+  type?: string;
+  errorMessage?: string;
+}
+
+/**
+ * An interface representing SetAccessControlRecursiveResponse.
+ */
+export interface SetAccessControlRecursiveResponse {
+  directoriesSuccessful?: number;
+  filesSuccessful?: number;
+  failureCount?: number;
+  failedEntries?: AclFailedEntry[];
+}
+
+/**
  * An interface representing Path.
  */
 export interface Path {
@@ -442,6 +461,20 @@ export interface PathCreateOptionalParams extends coreHttp.RequestOptionsBase {
  */
 export interface PathUpdateOptionalParams extends coreHttp.RequestOptionsBase {
   /**
+   * Optional. Valid for "SetAccessControlRecursive" operation. It specifies the maximum number of
+   * files or directories on which the acl change will be applied. If omitted or greater than
+   * 2,000, the request will process up to 2,000 items
+   */
+  maxRecords?: number;
+  /**
+   * Optional. The number of paths processed with each invocation is limited. If the number of
+   * paths to be processed exceeds this limit, a continuation token is returned in the response
+   * header x-ms-continuation. When a continuation token is  returned in the response, it must be
+   * percent-encoded and specified in a subsequent invocation of setAcessControlRecursive
+   * operation.
+   */
+  continuation?: string;
+  /**
    * This parameter allows the caller to upload data in parallel and control the order in which it
    * is appended to the file.  It is required when uploading data to be appended to the file and
    * when flushing previously uploaded data to the file.  The value must be the position where the
@@ -739,6 +772,42 @@ export interface PathSetAccessControlOptionalParams extends coreHttp.RequestOpti
 /**
  * Optional Parameters.
  */
+export interface PathSetAccessControlRecursiveOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * The timeout parameter is expressed in seconds. For more information, see <a
+   * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
+   * Timeouts for Blob Service Operations.</a>
+   */
+  timeoutParameter?: number;
+  /**
+   * Optional.  When deleting a directory, the number of paths that are deleted with each
+   * invocation is limited.  If the number of paths to be deleted exceeds this limit, a
+   * continuation token is returned in this response header.  When a continuation token is returned
+   * in the response, it must be specified in a subsequent invocation of the delete operation to
+   * continue deleting the directory.
+   */
+  continuation?: string;
+  /**
+   * Optional. It specifies the maximum number of files or directories on which the acl change will
+   * be applied. If omitted or greater than 2,000, the request will process up to 2,000 items
+   */
+  maxRecords?: number;
+  /**
+   * Sets POSIX access control rights on files and directories. The value is a comma-separated list
+   * of access control entries. Each access control entry (ACE) consists of a scope, a type, a user
+   * or group identifier, and permissions in the format "[scope:][type]:[id]:[permissions]".
+   */
+  acl?: string;
+  /**
+   * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
+   * analytics logs when storage analytics logging is enabled.
+   */
+  requestId?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
 export interface PathFlushDataOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * The timeout parameter is expressed in seconds. For more information, see <a
@@ -839,6 +908,27 @@ export interface PathAppendDataOptionalParams extends coreHttp.RequestOptionsBas
    * Additional parameters for the operation
    */
   leaseAccessConditions?: LeaseAccessConditions;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface PathSetExpiryOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * The timeout parameter is expressed in seconds. For more information, see <a
+   * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
+   * Timeouts for Blob Service Operations.</a>
+   */
+  timeoutParameter?: number;
+  /**
+   * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
+   * analytics logs when storage analytics logging is enabled.
+   */
+  requestId?: string;
+  /**
+   * The time to set the blob to expiry
+   */
+  expiresOn?: string;
 }
 
 /**
@@ -1146,6 +1236,15 @@ export interface PathUpdateHeaders {
    * character set.
    */
   properties?: string;
+  /**
+   * When performing setAccessControlRecursive on a directory, the number of paths that are
+   * processed with each invocation is limited.  If the number of paths to be processed exceeds
+   * this limit, a continuation token is returned in this response header.  When a continuation
+   * token is returned in the response, it must be specified in a subsequent invocation of the
+   * setAccessControlRecursive operation to continue the setAccessControlRecursive operation on the
+   * directory.
+   */
+  xMsContinuation?: string;
   /**
    * A server-generated UUID recorded in the analytics logs for troubleshooting and correlation.
    */
@@ -1478,6 +1577,39 @@ export interface PathSetAccessControlHeaders {
 }
 
 /**
+ * Defines headers for SetAccessControlRecursive operation.
+ */
+export interface PathSetAccessControlRecursiveHeaders {
+  /**
+   * A UTC date/time value generated by the service that indicates the time at which the response
+   * was initiated.
+   */
+  date?: Date;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
+  /**
+   * When performing setAccessControlRecursive on a directory, the number of paths that are
+   * processed with each invocation is limited.  If the number of paths to be processed exceeds
+   * this limit, a continuation token is returned in this response header.  When a continuation
+   * token is returned in the response, it must be specified in a subsequent invocation of the
+   * setAccessControlRecursive operation to continue the setAccessControlRecursive operation on the
+   * directory.
+   */
+  continuation?: string;
+  /**
+   * A server-generated UUID recorded in the analytics logs for troubleshooting and correlation.
+   */
+  requestId?: string;
+  /**
+   * The version of the REST protocol used to process the request.
+   */
+  version?: string;
+}
+
+/**
  * Defines headers for FlushData operation.
  */
 export interface PathFlushDataHeaders {
@@ -1539,6 +1671,69 @@ export interface PathAppendDataHeaders {
 }
 
 /**
+ * Defines headers for SetExpiry operation.
+ */
+export interface PathSetExpiryHeaders {
+  /**
+   * The ETag contains a value that you can use to perform operations conditionally. If the request
+   * version is 2011-08-18 or newer, the ETag value will be in quotes.
+   */
+  etag?: string;
+  /**
+   * Returns the date and time the container was last modified. Any operation that modifies the
+   * blob, including an update of the blob's metadata or properties, changes the last-modified time
+   * of the blob.
+   */
+  lastModified?: Date;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
+  /**
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
+   */
+  requestId?: string;
+  /**
+   * Indicates the version of the Blob service used to execute the request. This header is returned
+   * for requests made against version 2009-09-19 and above.
+   */
+  version?: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated.
+   */
+  date?: Date;
+  errorCode?: string;
+}
+
+/**
+ * Defines values for PathSetAccessControlRecursiveMode.
+ * Possible values include: 'set', 'modify', 'remove'
+ * @readonly
+ * @enum {string}
+ */
+export enum PathSetAccessControlRecursiveMode {
+  Set = 'set',
+  Modify = 'modify',
+  Remove = 'remove',
+}
+
+/**
+ * Defines values for PathExpiryOptions.
+ * Possible values include: 'NeverExpire', 'RelativeToCreation', 'RelativeToNow', 'Absolute'
+ * @readonly
+ * @enum {string}
+ */
+export enum PathExpiryOptions {
+  NeverExpire = 'NeverExpire',
+  RelativeToCreation = 'RelativeToCreation',
+  RelativeToNow = 'RelativeToNow',
+  Absolute = 'Absolute',
+}
+
+/**
  * Defines values for PathResourceType.
  * Possible values include: 'directory', 'file'
  * @readonly
@@ -1562,7 +1757,8 @@ export enum PathRenameMode {
 
 /**
  * Defines values for PathUpdateAction.
- * Possible values include: 'append', 'flush', 'setProperties', 'setAccessControl'
+ * Possible values include: 'append', 'flush', 'setProperties', 'setAccessControl',
+ * 'setAccessControlRecursive'
  * @readonly
  * @enum {string}
  */
@@ -1571,6 +1767,7 @@ export enum PathUpdateAction {
   Flush = 'flush',
   SetProperties = 'setProperties',
   SetAccessControl = 'setAccessControl',
+  SetAccessControlRecursive = 'setAccessControlRecursive',
 }
 
 /**
@@ -1726,7 +1923,7 @@ export type PathCreateResponse = PathCreateHeaders & {
 /**
  * Contains response data for the update operation.
  */
-export type PathUpdateResponse = PathUpdateHeaders & {
+export type PathUpdateResponse = SetAccessControlRecursiveResponse & PathUpdateHeaders & {
   /**
    * The underlying HTTP response.
    */
@@ -1735,6 +1932,16 @@ export type PathUpdateResponse = PathUpdateHeaders & {
        * The parsed HTTP response headers.
        */
       parsedHeaders: PathUpdateHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SetAccessControlRecursiveResponse;
     };
 };
 
@@ -1830,6 +2037,31 @@ export type PathSetAccessControlResponse = PathSetAccessControlHeaders & {
 };
 
 /**
+ * Contains response data for the setAccessControlRecursive operation.
+ */
+export type PathSetAccessControlRecursiveResponse = SetAccessControlRecursiveResponse & PathSetAccessControlRecursiveHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: PathSetAccessControlRecursiveHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SetAccessControlRecursiveResponse;
+    };
+};
+
+/**
  * Contains response data for the flushData operation.
  */
 export type PathFlushDataResponse = PathFlushDataHeaders & {
@@ -1856,5 +2088,20 @@ export type PathAppendDataResponse = PathAppendDataHeaders & {
        * The parsed HTTP response headers.
        */
       parsedHeaders: PathAppendDataHeaders;
+    };
+};
+
+/**
+ * Contains response data for the setExpiry operation.
+ */
+export type PathSetExpiryResponse = PathSetExpiryHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: PathSetExpiryHeaders;
     };
 };
