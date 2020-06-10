@@ -17,7 +17,8 @@ import {
   getIntegerOrUndefined,
   getRawAuthorizationRules,
   getString,
-  getStringOrUndefined
+  getStringOrUndefined,
+  getDateOrUndefined
 } from "../util/utils";
 
 /**
@@ -97,9 +98,9 @@ export function buildTopicRuntimeInfo(rawTopic: any): TopicRuntimeInfo {
     name: getString(rawTopic[Constants.TOPIC_NAME], "topicName"),
     sizeInBytes: getIntegerOrUndefined(rawTopic[Constants.SIZE_IN_BYTES]),
     subscriptionCount: getIntegerOrUndefined(rawTopic[Constants.SUBSCRIPTION_COUNT]),
-    createdOn: rawTopic[Constants.CREATED_AT],
-    updatedOn: rawTopic[Constants.UPDATED_AT],
-    accessedOn: rawTopic[Constants.ACCESSED_AT]
+    createdAt: getDateOrUndefined(rawTopic[Constants.CREATED_AT]),
+    updatedAt: getDateOrUndefined(rawTopic[Constants.UPDATED_AT]),
+    accessedAt: getDateOrUndefined(rawTopic[Constants.ACCESSED_AT])
   };
 }
 
@@ -292,17 +293,17 @@ export interface TopicRuntimeInfo {
   /**
    * Created at timestamp
    */
-  createdOn?: string;
+  createdAt?: Date;
 
   /**
    * Updated at timestamp
    */
-  updatedOn?: string;
+  updatedAt?: Date;
 
   /**
    * Accessed at timestamp
    */
-  accessedOn?: string;
+  accessedAt?: Date;
 }
 
 /**
