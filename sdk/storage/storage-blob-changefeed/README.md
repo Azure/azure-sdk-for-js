@@ -22,7 +22,7 @@ Use the client libararies in this package to:
 
 ### Install the package
 
-The preferred way to install the Azure Storage Blob client library for JavaScript is to use the npm package manager. Type the following into a terminal window:
+The preferred way to install the Azure Storage Blob Change Feed client library for JavaScript is to use the npm package manager. Type the following into a terminal window:
 
 ```bash
 npm install @azure/storage-blob-changefeed
