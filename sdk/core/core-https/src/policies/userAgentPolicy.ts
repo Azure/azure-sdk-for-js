@@ -3,8 +3,7 @@
 
 import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
-import { getUserAgentHeaderName, setPlatformSpecificData } from "../util/userAgent";
-import { SDK_VERSION } from "../constants";
+import { getUserAgentValue, getUserAgentHeaderName } from "../util/userAgent";
 
 const UserAgentHeaderName = getUserAgentHeaderName();
 
@@ -30,9 +29,7 @@ export interface UserAgentPolicyOptions {
  * @param options Options to customize the user agent value.
  */
 export function userAgentPolicy(options: UserAgentPolicyOptions = {}): PipelinePolicy {
-  const defaultAgent = getDefaultUserAgentValue();
-  const prefix = options.userAgentPrefix;
-  const userAgentValue = prefix ? `${prefix} ${defaultAgent}` : defaultAgent;
+  const userAgentValue = getUserAgentValue(options.userAgentPrefix);
   return {
     name: userAgentPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
@@ -42,21 +39,4 @@ export function userAgentPolicy(options: UserAgentPolicyOptions = {}): PipelineP
       return next(request);
     }
   };
-}
-
-function getUserAgentString(telemetryInfo: Map<string, string>): string {
-  const parts: string[] = [];
-  for (const [key, value] of telemetryInfo) {
-    const token = value ? `${key}/${value}` : key;
-    parts.push(token);
-  }
-  return parts.join(" ");
-}
-
-export function getDefaultUserAgentValue(): string {
-  const runtimeInfo = new Map<string, string>();
-  runtimeInfo.set("core-http", SDK_VERSION);
-  setPlatformSpecificData(runtimeInfo);
-  const userAgent = getUserAgentString(runtimeInfo);
-  return userAgent;
 }

@@ -6,6 +6,7 @@ import { SpanOptions, SpanKind } from "@opentelemetry/api";
 import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
 import { URL } from "../util/url";
+import { getUserAgentValue } from "../util/userAgent";
 
 /**
  * The programmatic identifier of the tracingPolicy.
@@ -17,9 +18,11 @@ export const tracingPolicyName = "tracingPolicy";
  */
 export interface TracingPolicyOptions {
   /**
-   * The user agent to log as metadata on the generated Span.
+   * String prefix to add to the user agent logged as metadata
+   * on the generated Span.
+   * Defaults to an empty string.
    */
-  userAgent?: string;
+  userAgentPrefix?: string;
 }
 
 /**
@@ -29,7 +32,7 @@ export interface TracingPolicyOptions {
  * @param options Options to configure the telemetry logged by the tracing policy.
  */
 export function tracingPolicy(options: TracingPolicyOptions = {}): PipelinePolicy {
-  const userAgent = options.userAgent;
+  const userAgent = getUserAgentValue(options.userAgentPrefix);
 
   return {
     name: tracingPolicyName,

@@ -23,6 +23,9 @@ export function createEmptyPipeline(): Pipeline;
 export function createHttpHeaders(rawHeaders?: RawHttpHeaders): HttpHeaders;
 
 // @public
+export function createPipelineFromOptions(options: InternalPipelineOptions): Pipeline;
+
+// @public
 export function createPipelineRequest(options: PipelineRequestOptions): PipelineRequest;
 
 // @public
@@ -76,6 +79,12 @@ export interface HttpsClient {
 }
 
 // @public
+export interface InternalPipelineOptions extends PipelineOptions {
+    decompressResponse?: boolean;
+    loggingOptions?: LogPolicyOptions;
+}
+
+// @public
 export function keepAlivePolicy(options?: KeepAlivePolicyOptions): PipelinePolicy;
 
 // @public
@@ -112,12 +121,27 @@ export interface Pipeline {
 }
 
 // @public
+export interface PipelineOptions {
+    httpClient?: HttpsClient;
+    keepAliveOptions?: KeepAlivePolicyOptions;
+    proxyOptions?: ProxySettings;
+    redirectOptions?: PipelineRedirectOptions;
+    retryOptions?: ExponentialRetryPolicyOptions;
+    userAgentOptions?: UserAgentPolicyOptions;
+}
+
+// @public
 export type PipelinePhase = "Serialize" | "Retry";
 
 // @public
 export interface PipelinePolicy {
     name: string;
     sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse>;
+}
+
+// @public
+export interface PipelineRedirectOptions extends RedirectPolicyOptions {
+    disable?: boolean;
 }
 
 // @public
@@ -259,7 +283,7 @@ export const tracingPolicyName = "tracingPolicy";
 
 // @public
 export interface TracingPolicyOptions {
-    userAgent?: string;
+    userAgentPrefix?: string;
 }
 
 // @public

@@ -12,7 +12,7 @@
     "./dist-esm/src/policies/proxyPolicy.js": "./dist-esm/src/policies/proxyPolicy.browser.js",
     "./dist-esm/src/util/inspect.js": "./dist-esm/src/util/inspect.browser.js",
     "./dist-esm/src/util/url.js": "./dist-esm/src/util/url.browser.js",
-    "./dist-esm/src/util/userAgent.js": "./dist-esm/src/util/userAgent.browser.js"
+    "./dist-esm/src/util/userAgentPlatform.js": "./dist-esm/src/util/userAgentPlatform.browser.js"
   },
   "types": "types/latest/coreHttps.d.ts",
   "typesVersions": {

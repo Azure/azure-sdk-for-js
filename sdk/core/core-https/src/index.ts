@@ -20,7 +20,11 @@ export {
   PipelinePhase,
   PipelinePolicy,
   Pipeline,
-  createEmptyPipeline
+  createEmptyPipeline,
+  InternalPipelineOptions,
+  PipelineOptions,
+  PipelineRedirectOptions,
+  createPipelineFromOptions
 } from "./pipeline";
 export { DefaultHttpsClient } from "./defaultHttpsClient";
 export { createHttpHeaders } from "./httpHeaders";

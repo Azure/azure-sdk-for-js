@@ -1,13 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as os from "os";
+import { setPlatformSpecificData, getHeaderName } from "./userAgentPlatform";
+import { SDK_VERSION } from "../constants";
 
-export function getUserAgentHeaderName(): string {
-  return "User-Agent";
+function getUserAgentString(telemetryInfo: Map<string, string>): string {
+  const parts: string[] = [];
+  for (const [key, value] of telemetryInfo) {
+    const token = value ? `${key}/${value}` : key;
+    parts.push(token);
+  }
+  return parts.join(" ");
 }
 
-export function setPlatformSpecificData(map: Map<string, string>): void {
-  map.set("Node", process.version);
-  map.set("OS", `(${os.arch()}-${os.type()}-${os.release()})`);
+export function getUserAgentHeaderName(): string {
+  return getHeaderName();
+}
+
+export function getUserAgentValue(prefix?: string): string {
+  const runtimeInfo = new Map<string, string>();
+  runtimeInfo.set("core-http", SDK_VERSION);
+  setPlatformSpecificData(runtimeInfo);
+  const defaultAgent = getUserAgentString(runtimeInfo);
+  const userAgentValue = prefix ? `${prefix} ${defaultAgent}` : defaultAgent;
+  return userAgentValue;
 }

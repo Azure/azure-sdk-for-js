@@ -2,6 +2,12 @@
 // Licensed under the MIT license.
 
 /**
+ * A constant that indicates whether the environment the code is running is Node.JS.
+ */
+export const isNode =
+  typeof process !== "undefined" && Boolean(process.version) && Boolean(process.versions?.node);
+
+/**
  * A wrapper for setTimeout that resolves a promise after t milliseconds.
  * @param {number} t The number of milliseconds to be delayed.
  * @param {T} value The value to be resolved with after a timeout of t milliseconds.

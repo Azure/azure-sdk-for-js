@@ -5,7 +5,7 @@
  * NOTE: When moving this file, please update "browser" section in package.json.
  */
 
-export function getUserAgentHeaderName(): string {
+export function getHeaderName(): string {
   return "x-ms-command-name";
 }
 
