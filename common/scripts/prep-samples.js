@@ -46,7 +46,7 @@ const fs =
  * @param {(fs.Entry) => boolean} matches Predicate that decides whether or not a file entry is included
  * @returns
  */
-async function findMatchingFiles(dir, matches) {
+async function* findMatchingFiles(dir, matches) {
   const initialFiles = await fs.readdir(dir, { withFileTypes: true });
 
   // BFS Queue and queue index
