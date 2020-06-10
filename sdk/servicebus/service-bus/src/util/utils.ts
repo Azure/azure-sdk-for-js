@@ -323,7 +323,7 @@ export function getCountDetailsOrUndefined(value: any): MessageCountDetails | un
 export function getISO8601DurationFromSeconds(
   timeInSeconds: number | undefined
 ): string | undefined {
-  if (!timeInSeconds) {
+  if (timeInSeconds == null) {
     return undefined;
   }
   const second = { label: "S", inSeconds: 1 };
@@ -335,15 +335,19 @@ export function getISO8601DurationFromSeconds(
   let remainder = timeInSeconds;
   let timeSeparatorAdded = false;
   for (const { label, inSeconds } of [day, hour, minute, second]) {
-    const value = Math.floor(remainder / inSeconds);
+    const value = label == second.label ? remainder : Math.floor(remainder / inSeconds);
     remainder = remainder % inSeconds;
-    if (value > 0 || (value >= 0 && label == second.label)) {
+    if (value > 0) {
       if (label != day.label && !timeSeparatorAdded) {
         iso8601Duration += "T";
         timeSeparatorAdded = true;
       }
       iso8601Duration += value + label;
     }
+  }
+
+  if (iso8601Duration === "P") {
+    iso8601Duration = "PT0S";
   }
 
   return iso8601Duration;
