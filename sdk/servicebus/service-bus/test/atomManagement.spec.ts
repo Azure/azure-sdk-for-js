@@ -1294,7 +1294,8 @@ describe("Atom management - Authentication", function(): void {
     input: undefined,
     output: {
       authorizationRules: undefined,
-      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
+      autoDeleteOnIdleInSeconds: 10675199 * 24 * 60 * 60 + 2 * 60 * 60 + 48 * 60 + 5.4775807,
+      // "P10675199DT2H48M5.4775807S",
       deadLetteringOnMessageExpiration: false,
       defaultMessageTtl: "P10675199DT2H48M5.4775807S",
       duplicateDetectionHistoryTimeWindow: "PT10M",
@@ -1323,7 +1324,8 @@ describe("Atom management - Authentication", function(): void {
       duplicateDetectionHistoryTimeWindow: "PT1M",
       maxDeliveryCount: 8,
       enableBatchedOperations: false,
-      autoDeleteOnIdle: "PT1H",
+      autoDeleteOnIdleInSeconds: 60 * 60,
+      //"PT1H",
       authorizationRules: [
         {
           claimType: "SharedAccessKey",
@@ -1359,7 +1361,8 @@ describe("Atom management - Authentication", function(): void {
       maxDeliveryCount: 8,
       requiresDuplicateDetection: true,
       requiresSession: true,
-      autoDeleteOnIdle: "PT1H",
+      autoDeleteOnIdleInSeconds: 60 * 60,
+      //"PT1H",
       authorizationRules: [
         {
           claimType: "SharedAccessKey",
@@ -1604,7 +1607,8 @@ describe("Atom management - Authentication", function(): void {
       duplicateDetectionHistoryTimeWindow: "PT2M",
       maxDeliveryCount: 5,
       enableBatchedOperations: false,
-      autoDeleteOnIdle: "PT2H",
+      autoDeleteOnIdleInSeconds: 2 * 60 * 60,
+      //"PT2H",
       authorizationRules: [
         {
           claimType: "SharedAccessKey",
@@ -1663,7 +1667,8 @@ describe("Atom management - Authentication", function(): void {
       ],
       maxDeliveryCount: 5,
       maxSizeInMegabytes: 16384,
-      autoDeleteOnIdle: "PT2H",
+      autoDeleteOnIdleInSeconds: 2 * 60 * 60,
+      //"PT2H",
       forwardDeadLetteredMessagesTo: undefined,
       forwardTo: undefined,
       userMetadata: "test metadata",
@@ -1684,7 +1689,8 @@ describe("Atom management - Authentication", function(): void {
         duplicateDetectionHistoryTimeWindow: "PT1M",
         maxDeliveryCount: 8,
         enableBatchedOperations: false,
-        autoDeleteOnIdle: "PT1H",
+        autoDeleteOnIdleInSeconds: 60 * 60,
+        //"PT1H",
         authorizationRules: [
           {
             claimType: "SharedAccessKey",
