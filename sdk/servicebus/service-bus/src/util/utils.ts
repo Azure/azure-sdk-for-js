@@ -330,13 +330,18 @@ export function getISO8601DurationFromSeconds(
   const minute = { label: "M", inSeconds: 60 };
   const hour = { label: "H", inSeconds: minute.inSeconds * 60 };
   const day = { label: "D", inSeconds: hour.inSeconds * 24 };
+  const countDecimals =
+    Math.floor(timeInSeconds) === timeInSeconds ? 0 : timeInSeconds.toString().split(".")[1].length;
 
   let iso8601Duration = "P";
   let remainder = timeInSeconds;
   let timeSeparatorAdded = false;
   for (const { label, inSeconds } of [day, hour, minute, second]) {
-    const value = label == second.label ? remainder : Math.floor(remainder / inSeconds);
-    remainder = remainder % inSeconds;
+    const value =
+      label == second.label
+        ? parseFloat(remainder.toFixed(countDecimals))
+        : Math.floor(remainder / inSeconds);
+    remainder = remainder - value * inSeconds;
     if (value > 0) {
       if (label != day.label && !timeSeparatorAdded) {
         iso8601Duration += "T";
