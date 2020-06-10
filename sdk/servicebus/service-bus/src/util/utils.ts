@@ -309,6 +309,81 @@ export function getCountDetailsOrUndefined(value: any): MessageCountDetails | un
 }
 
 /**
+ * Service expects the time duration in ISO-8601 time duration format.
+ * Example: PT10M, P106DT2H48M5.47S
+ *
+ * This helper method is to convert the duration in seconds to ISO-8601 duration format.
+ *
+ * https://www.digi.com/resources/documentation/digidocs/90001437-13/reference/r_iso_8601_duration_format.htm
+ *
+ * @export
+ * @param {(number | undefined)} timeInSeconds
+ * @returns {(string | undefined)}
+ */
+export function getISO8601DurationFromSeconds(
+  timeInSeconds: number | undefined
+): string | undefined {
+  if (!timeInSeconds) {
+    return undefined;
+  }
+  const second = { label: "S", inSeconds: 1 };
+  const minute = { label: "M", inSeconds: 60 };
+  const hour = { label: "H", inSeconds: minute.inSeconds * 60 };
+  const day = { label: "D", inSeconds: hour.inSeconds * 24 };
+
+  let iso8601Duration = "P";
+  let remainder = timeInSeconds;
+  for (const { label, inSeconds } of [day, hour, minute, second]) {
+    const value = Math.floor(remainder / inSeconds);
+    remainder = remainder % inSeconds;
+    if (value > 0) {
+      iso8601Duration += value + label;
+    }
+    if (label == "D") {
+      iso8601Duration += "T";
+    }
+  }
+
+  return iso8601Duration;
+}
+
+/**
+ * Service returns the time duration in ISO-8601 time duration format.
+ * Example: PT10M, P106DT2H48M5.47S
+ *
+ * This helper method is to convert the duration in ISO-8601 format into seconds.
+ *
+ * https://www.digi.com/resources/documentation/digidocs/90001437-13/reference/r_iso_8601_duration_format.htm
+ *
+ * @export
+ * @param {string} timeDurationInISO8601Format
+ * @returns {number}
+ */
+export function getISO8601DurationInSeconds(timeDurationInISO8601Format: string): number {
+  const regexToParseISO8601Duration = /P((\d+)D)?T((\d+)H)?((\d+)M)?((\d+(\.\d+)?)S)?$/;
+  let extractedParts;
+  let errorThrownWhileParsing = false;
+  try {
+    extractedParts = regexToParseISO8601Duration.exec(timeDurationInISO8601Format);
+  } catch (error) {
+    errorThrownWhileParsing = true;
+  }
+  if (errorThrownWhileParsing || extractedParts == null) {
+    throw new Error(`Unable to parse the ISO-8601 duration - ${timeDurationInISO8601Format}`);
+  }
+  const durationInSeconds =
+    // Days
+    (!extractedParts[2] ? 0 : parseInt(extractedParts[2]) * 24 * 60 * 60) +
+    // Hours
+    (!extractedParts[4] ? 0 : parseInt(extractedParts[4]) * 60 * 60) +
+    // Minutes
+    (!extractedParts[6] ? 0 : parseInt(extractedParts[6]) * 60) +
+    // Seconds
+    (!extractedParts[8] ? 0 : parseFloat(extractedParts[8]));
+  return durationInSeconds;
+}
+
+/**
  * Represents type of message count details in ATOM based management operations.
  */
 export type MessageCountDetails = {
