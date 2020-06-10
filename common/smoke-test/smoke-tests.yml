@@ -81,4 +81,7 @@ jobs:
 
       - script: npm run smoke-test
         displayName: Run smoke tests
-      # TODO: Remove resources
+
+      - template: /eng/common/TestResources/remove-test-resources.yml
+          ServiceDirectory: ''
+          SubscriptionConfiguration: $(SubscriptionConfiguration)
