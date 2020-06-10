@@ -308,7 +308,11 @@ describe("Retries - MessageSender", () => {
   it("Unpartitioned Queue: sendBatch", async function(): Promise<void> {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
     await mockInitAndVerifyRetries(async () => {
-      await sender.send(1 as any);
+      const batch = await sender.createBatch();
+      batch.tryAdd({
+        body: "hello"
+      });
+      await sender.send(batch);
     });
   });
 
@@ -329,7 +333,11 @@ describe("Retries - MessageSender", () => {
   it("Unpartitioned Queue with Sessions: sendBatch", async function(): Promise<void> {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
     await mockInitAndVerifyRetries(async () => {
-      await sender.send(1 as any);
+      const batch = await sender.createBatch();
+      batch.tryAdd({
+        body: "hello"
+      });
+      await sender.send(batch);
     });
   });
 });
