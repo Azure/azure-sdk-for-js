@@ -30,7 +30,7 @@ npm install @azure/storage-blob-changefeed
 
 ### Authenticate the client
 
-This library use a `BlobServiceClient` to initialize, refer to [storage-blob](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob#authenticate-the-client) for how to authenticate a `BlobServiceClient`.
+This library uses an authenticated `BlobServiceClient` to initialize. Refer to [storage-blob](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob#authenticate-the-client) for how to authenticate a `BlobServiceClient`.
 
 ### Compatibility
 
