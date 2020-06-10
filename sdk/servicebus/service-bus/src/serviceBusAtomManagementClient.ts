@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isTokenCredential, parseConnectionString, TokenCredential } from "@azure/core-amqp";
+import { Constants as AMQPConstants, isTokenCredential, parseConnectionString, TokenCredential } from "@azure/core-amqp";
 import {
-  HttpOperationResponse,
+  bearerTokenAuthenticationPolicy, HttpOperationResponse,
   proxyPolicy,
   ProxySettings,
   RequestPolicyFactory,
@@ -14,8 +14,7 @@ import {
   stripRequest,
   stripResponse,
   URLBuilder,
-  WebResource,
-  bearerTokenAuthenticationPolicy
+  WebResource
 } from "@azure/core-http";
 import * as log from "./log";
 import {
@@ -59,7 +58,6 @@ import { AtomXmlSerializer, executeAtomXmlOperation } from "./util/atomXmlHelper
 import * as Constants from "./util/constants";
 import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials";
 import { isAbsoluteUrl, isJSONLikeObject } from "./util/utils";
-import { Constants as AMQPConstants } from "@azure/core-amqp";
 /**
  * Options to use with ServiceBusManagementClient creation
  */
@@ -84,28 +82,29 @@ export interface ListRequestOptions {
    */
   skip?: number;
 }
+
+/**
+ * The underlying HTTP response.
+ */
+export interface Response {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpOperationResponse;
+}
+
 /**
  * Represents properties of the namespace.
  */
-export interface NamespaceResponse extends NamespaceProperties {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
-
-/**
- * Represents result of create, get, update and delete operations on queue.
- */
-export interface QueueRuntimeInfoResponse extends QueueRuntimeInfo {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
+export interface NamespaceResponse extends NamespaceProperties, Response {}
 
 /**
  * Represents runtime info of a queue.
+ */
+export interface QueueRuntimeInfoResponse extends QueueRuntimeInfo, Response {}
+
+/**
+ * Array of objects representing runtime info for multiple queues.
  */
 export interface QueuesRuntimeInfoResponse extends Array<QueueRuntimeInfo> {
   /**
@@ -117,132 +116,64 @@ export interface QueuesRuntimeInfoResponse extends Array<QueueRuntimeInfo> {
 /**
  * Represents result of create, get, update and delete operations on queue.
  */
-export interface QueueResponse extends QueueDescription {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
-
-/**
- * Delete response
- */
-export interface Response {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
+export interface QueueResponse extends QueueDescription, Response {}
 
 /**
  * Represents result of list operation on queues.
  */
-export interface QueuesResponse extends Array<QueueDescription> {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
+export interface QueuesResponse extends Array<QueueDescription>, Response {}
 
 /**
  * Represents result of create, get, update and delete operations on topic.
  */
-export interface TopicResponse extends TopicDescription {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
+export interface TopicResponse extends TopicDescription, Response {}
 
 /**
  * Represents result of list operation on topics.
  */
-export interface TopicsResponse extends Array<TopicDescription> {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
+export interface TopicsResponse extends Array<TopicDescription>, Response {}
 
 /**
  * Represents runtime info of a topic.
  */
-export interface TopicRuntimeInfoResponse extends TopicRuntimeInfo {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
+export interface TopicRuntimeInfoResponse extends TopicRuntimeInfo, Response {}
 
 /**
- * Represents result of create, get, update and delete operations on topic.
+ * Array of objects representing runtime info for multiple topics.
  */
-export interface TopicsRuntimeInfoResponse extends Array<TopicRuntimeInfo> {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
+export interface TopicsRuntimeInfoResponse extends Array<TopicRuntimeInfo>, Response {}
 
 /**
- * Represents runtime info of a subscription.
+ * Represents result of create, get, update and delete operations on subscription.
  */
-export interface SubscriptionResponse extends SubscriptionDescription {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
+export interface SubscriptionResponse extends SubscriptionDescription, Response {}
 
 /**
  * Represents result of list operation on subscriptions.
  */
-export interface SubscriptionsResponse extends Array<SubscriptionDescription> {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
+export interface SubscriptionsResponse extends Array<SubscriptionDescription>, Response {}
 
 /**
- * Represents result of create, get, update and delete operations on topic.
+ * Represents runtime info of a subscription.
  */
-export interface SubscriptionRuntimeInfoResponse extends SubscriptionRuntimeInfo {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
+export interface SubscriptionRuntimeInfoResponse extends SubscriptionRuntimeInfo, Response {}
 
 /**
- * Represents result of create, get, update and delete operations on topic.
+ * Array of objects representing runtime info for multiple subscriptions.
  */
-export interface SubscriptionsRuntimeInfoResponse extends Array<SubscriptionRuntimeInfo> {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
+export interface SubscriptionsRuntimeInfoResponse
+  extends Array<SubscriptionRuntimeInfo>,
+    Response {}
 
 /**
  * Represents result of create, get, update and delete operations on rule.
  */
-export interface RuleResponse extends RuleDescription {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
+export interface RuleResponse extends RuleDescription, Response {}
 
 /**
  * Represents result of list operation on rules.
  */
-export interface RulesResponse extends Array<RuleDescription> {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
+export interface RulesResponse extends Array<RuleDescription>, Response {}
 
 /**
  * All operations return promises that resolve to an object that has the relevant output.
@@ -1574,9 +1505,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     }
   }
 
-  private buildQueueRuntimeInfoResponse(
-    response: HttpOperationResponse
-  ): QueueRuntimeInfoResponse {
+  private buildQueueRuntimeInfoResponse(response: HttpOperationResponse): QueueRuntimeInfoResponse {
     try {
       const queue = buildQueueRuntimeInfo(response.parsedBody);
       const queueResponse: QueueRuntimeInfoResponse = Object.assign(queue || {}, {
@@ -1673,9 +1602,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     }
   }
 
-  private buildTopicRuntimeInfoResponse(
-    response: HttpOperationResponse
-  ): TopicRuntimeInfoResponse {
+  private buildTopicRuntimeInfoResponse(response: HttpOperationResponse): TopicRuntimeInfoResponse {
     try {
       const topic = buildTopicRuntimeInfo(response.parsedBody);
       const topicResponse: TopicRuntimeInfoResponse = Object.assign(topic || {}, {
@@ -1694,9 +1621,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     }
   }
 
-  private buildListSubscriptionsResponse(
-    response: HttpOperationResponse
-  ): SubscriptionsResponse {
+  private buildListSubscriptionsResponse(response: HttpOperationResponse): SubscriptionsResponse {
     try {
       const subscriptions: SubscriptionDescription[] = [];
       if (!Array.isArray(response.parsedBody)) {
