@@ -3,7 +3,14 @@
 
 import * as log from "../log";
 import { Constants, MessagingError, translate } from "@azure/core-amqp";
-import { AmqpError, EventContext, OnAmqpEvent, ReceiverEvents, SessionEvents } from "rhea-promise";
+import {
+  AmqpError,
+  EventContext,
+  OnAmqpEvent,
+  ReceiverEvents,
+  SessionEvents,
+  Receiver
+} from "rhea-promise";
 import { ReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
 import {
   MessageReceiver,
@@ -14,6 +21,8 @@ import {
 } from "./messageReceiver";
 import { ClientEntityContext } from "../clientEntityContext";
 import { throwErrorIfConnectionClosed } from "../util/errors";
+import { AbortSignalLike } from "@azure/core-http";
+import { checkAndRegisterWithAbortSignal } from "../util/utils";
 
 /**
  * Describes the batching receiver where the user can receive a specified number of messages for
@@ -84,7 +93,8 @@ export class BatchingReceiver extends MessageReceiver {
    */
   async receive(
     maxMessageCount: number,
-    maxWaitTimeInMs?: number
+    maxWaitTimeInMs?: number,
+    abortSignal?: AbortSignalLike
   ): Promise<ServiceBusMessageImpl[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
 
@@ -95,7 +105,7 @@ export class BatchingReceiver extends MessageReceiver {
     this.isReceivingMessages = true;
 
     try {
-      return await this._receiveImpl(maxMessageCount, maxWaitTimeInMs);
+      return await this._receiveImpl(maxMessageCount, maxWaitTimeInMs, abortSignal);
     } catch (error) {
       log.error(
         "[%s] Receiver '%s': Rejecting receiveMessages() with error %O: ",
@@ -112,7 +122,8 @@ export class BatchingReceiver extends MessageReceiver {
 
   private _receiveImpl(
     maxMessageCount: number,
-    maxWaitTimeInMs: number
+    maxWaitTimeInMs: number,
+    abortSignal?: AbortSignalLike
   ): Promise<ServiceBusMessageImpl[]> {
     const brokeredMessages: ServiceBusMessageImpl[] = [];
 
@@ -179,6 +190,8 @@ export class BatchingReceiver extends MessageReceiver {
         reject(translate(error));
       };
 
+      let cleanupAbortSignalFn: (() => void) | undefined = undefined;
+
       // Final action to be performed after
       // - maxMessageCount is reached or
       // - maxWaitTime is passed or
@@ -189,6 +202,11 @@ export class BatchingReceiver extends MessageReceiver {
         }
         if (totalWaitTimer) {
           clearTimeout(totalWaitTimer);
+        }
+
+        if (cleanupAbortSignalFn) {
+          cleanupAbortSignalFn();
+          cleanupAbortSignalFn = undefined;
         }
 
         // Removing listeners, so that the next receiveMessages() call can set them again.
@@ -312,13 +330,29 @@ export class BatchingReceiver extends MessageReceiver {
         }
       };
 
+      const cleanupBeforeReject = (
+        receiver: Receiver | undefined,
+        onReceiveErrorHandlerToRemove: OnAmqpEvent
+      ): void => {
+        if (receiver != null) {
+          receiver.removeListener(ReceiverEvents.receiverError, onReceiveErrorHandlerToRemove);
+          receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
+          receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
+          receiver.session.removeListener(SessionEvents.sessionError, onSessionError);
+        }
+
+        if (totalWaitTimer) {
+          clearTimeout(totalWaitTimer);
+        }
+        if (this._newMessageReceivedTimer) {
+          clearTimeout(this._newMessageReceivedTimer);
+        }
+      };
+
       // Action to be taken when an error is received.
-      const onReceiveError: OnAmqpEvent = (context: EventContext) => {
+      const onReceiveError: OnAmqpEvent = (context: Pick<EventContext, "receiver">) => {
         const receiver = this._receiver || context.receiver!;
-        receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
-        receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
-        receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
-        receiver.session.removeListener(SessionEvents.sessionError, onSessionError);
+        cleanupBeforeReject(receiver, onReceiveError);
 
         const receiverError = context.receiver && context.receiver.error;
         let error: Error | MessagingError;
@@ -333,14 +367,13 @@ export class BatchingReceiver extends MessageReceiver {
         } else {
           error = new MessagingError("An error occurred while receiving messages.");
         }
-        if (totalWaitTimer) {
-          clearTimeout(totalWaitTimer);
-        }
-        if (this._newMessageReceivedTimer) {
-          clearTimeout(this._newMessageReceivedTimer);
-        }
         reject(error);
       };
+
+      cleanupAbortSignalFn = checkAndRegisterWithAbortSignal((err) => {
+        cleanupBeforeReject(this._receiver, onReceiveError);
+        reject(err);
+      }, abortSignal);
 
       // Use new message wait timer only in peekLock mode
       if (this.receiveMode === ReceiveMode.peekLock) {
@@ -462,7 +495,7 @@ export class BatchingReceiver extends MessageReceiver {
           onClose: onReceiveClose,
           onSessionClose: onSessionClose
         });
-        this._init(rcvrOptions)
+        this._init(rcvrOptions, abortSignal)
           .then(() => {
             if (!this._receiver) {
               // there's a really small window here where the receiver can be closed
@@ -470,8 +503,12 @@ export class BatchingReceiver extends MessageReceiver {
               return resolve([]);
             }
 
-            this._receiver.on(ReceiverEvents.receiverDrained, onReceiveDrain);
-            addCreditAndSetTimer();
+            // TODO: long-term we probably need to split the code in this promise. This check
+            // is just a band-aid for now.
+            if (!abortSignal?.aborted) {
+              this._receiver.on(ReceiverEvents.receiverDrained, onReceiveDrain);
+              addCreditAndSetTimer();
+            }
             return;
           })
           .catch(reject);
