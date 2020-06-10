@@ -83,5 +83,6 @@ jobs:
         displayName: Run smoke tests
 
       - template: /eng/common/TestResources/remove-test-resources.yml
-          ServiceDirectory: ''
+        parameters:
+          ServiceDirectory: ""
           SubscriptionConfiguration: $(SubscriptionConfiguration)
