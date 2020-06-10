@@ -142,7 +142,7 @@ async function enableLocalRun(fileName, baseDir, pkgName, usePackages) {
   );
 
   console.log("[prep-samples] Updating imports in", fileName);
-  return fs.writeFile(fileName, updatedContents, { encoding: "utf-8" });
+  return fs.writeFile(fileName, outputContent, { encoding: "utf-8" });
 }
 
 async function main() {
