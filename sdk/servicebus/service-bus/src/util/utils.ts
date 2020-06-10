@@ -333,14 +333,16 @@ export function getISO8601DurationFromSeconds(
 
   let iso8601Duration = "P";
   let remainder = timeInSeconds;
+  let timeSeparatorAdded = false;
   for (const { label, inSeconds } of [day, hour, minute, second]) {
     const value = Math.floor(remainder / inSeconds);
     remainder = remainder % inSeconds;
     if (value > 0) {
+      if (label != day.label && !timeSeparatorAdded) {
+        iso8601Duration += "T";
+        timeSeparatorAdded = true;
+      }
       iso8601Duration += value + label;
-    }
-    if (label == "D") {
-      iso8601Duration += "T";
     }
   }
 
@@ -361,6 +363,10 @@ export function getISO8601DurationFromSeconds(
  */
 export function getISO8601DurationInSeconds(timeDurationInISO8601Format: string): number {
   const regexToParseISO8601Duration = /^P(?:(\d+)D)?(?:T(?:(\d+)H)?(?:(\d+)M)?(?:(\d+(?:\.\d+)?)S)?)?$/;
+  // ISO-8601 duration examples the above regex matches:
+  // P1D, PT3S, PT2H3S, P1DT2H, P1DT4S, P1DT3M4S, P1DT2H3M4S, P1DT2H3M4.6S
+  // Y(year), M(month) and W(week) are ignored in the regex since the highest unit
+  //   in the time durations received from the service is D(day)
   let extractedParts;
   let errorThrownWhileParsing = false;
   try {
