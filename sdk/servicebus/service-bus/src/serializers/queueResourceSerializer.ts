@@ -19,7 +19,9 @@ import {
   getRawAuthorizationRules,
   getString,
   getStringOrUndefined,
-  MessageCountDetails
+  MessageCountDetails,
+  getISO8601DurationFromSeconds,
+  getISO8601DurationInSeconds
 } from "../util/utils";
 
 /**
@@ -43,7 +45,7 @@ export function buildQueueOptions(queue: QueueDescription): InternalQueueOptions
     EnableBatchedOperations: getStringOrUndefined(queue.enableBatchedOperations),
     AuthorizationRules: getRawAuthorizationRules(queue.authorizationRules),
     Status: getStringOrUndefined(queue.status),
-    AutoDeleteOnIdle: getStringOrUndefined(queue.autoDeleteOnIdle),
+    AutoDeleteOnIdle: getISO8601DurationFromSeconds(queue.autoDeleteOnIdleInSeconds),
     EnablePartitioning: getStringOrUndefined(queue.enablePartitioning),
     ForwardDeadLetteredMessagesTo: getStringOrUndefined(queue.forwardDeadLetteredMessagesTo),
     ForwardTo: getStringOrUndefined(queue.forwardTo),
@@ -81,7 +83,7 @@ export function buildQueue(rawQueue: any): QueueDescription {
       rawQueue[Constants.DEFAULT_MESSAGE_TIME_TO_LIVE],
       "defaultMessageTtl"
     ),
-    autoDeleteOnIdle: rawQueue[Constants.AUTO_DELETE_ON_IDLE],
+    autoDeleteOnIdleInSeconds: getISO8601DurationInSeconds(rawQueue[Constants.AUTO_DELETE_ON_IDLE]),
 
     requiresDuplicateDetection: getBoolean(
       rawQueue[Constants.REQUIRES_DUPLICATE_DETECTION],
@@ -227,10 +229,8 @@ export interface QueueDescription {
 
   /**
    * Max idle time before entity is deleted.
-   * This is to be specified in ISO-8601 duration format
-   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
-  autoDeleteOnIdle?: string;
+  autoDeleteOnIdleInSeconds?: number;
 
   /**
    * Specifies whether the queue should be partitioned.
