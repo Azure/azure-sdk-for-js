@@ -103,36 +103,36 @@ async function enableLocalRun(fileName, baseDir, pkgName, usePackages) {
       new RegExp(`import\\s+(.*)\\s+from\\s+"${pkgName}";?\\s?`, "s") :
       new RegExp(`const\\s+(.*)\\s*=\\s*require\\("${pkgName}"\\);?\\s?`, "s");
 
-  if (!importRegex.exec(fileContents)) {
-    // With the newer methods of using helper files and batch running, this
-    // should be a warning
-    console.warn(
-      `[prep-samples] skipping ${fileName} because it did not contain a matching import/require`
+    if (!importRegex.exec(fileContents)) {
+      // With the newer methods of using helper files and batch running, this
+      // should be a warning
+      console.warn(
+        `[prep-samples] skipping ${fileName} because it did not contain a matching import/require`
+      );
+      return;
+    }
+
+    const relativeDir = path.dirname(fileName.replace(baseDir, ""));
+
+    // `string.length - string.split(path.sep).join("").length` is a dirty but well-supported way to
+    // count the depth of a path and that avoids the difficulty of creating a regexp constructor
+    // that can escape both linux and windows path separators
+    const depth =
+      relativeDir.length - relativeDir.split(path.sep).join("").length;
+
+    let relativePath = new Array(depth).fill("..").join("/");
+
+    if (isTs) {
+      // TypeScript imports should use src directly
+      relativePath += "/src";
+    }
+
+      outputContent = fileContents.replace(
+      importRegex,
+      isTs
+        ? `import $1 from "${relativePath}";`
+        : `const $1 = require("${relativePath}");`
     );
-    return;
-  }
-
-  const relativeDir = path.dirname(fileName.replace(baseDir, ""));
-
-  // `string.length - string.split(path.sep).join("").length` is a dirty but well-supported way to
-  // count the depth of a path and that avoids the difficulty of creating a regexp constructor
-  // that can escape both linux and windows path separators
-  const depth =
-    relativeDir.length - relativeDir.split(path.sep).join("").length;
-
-  let relativePath = new Array(depth).fill("..").join("/");
-
-  if (isTs) {
-    // TypeScript imports should use src directly
-    relativePath += "/src";
-  }
-
-    outputContent = fileContents.replace(
-    importRegex,
-    isTs
-      ? `import $1 from "${relativePath}";`
-      : `const $1 = require("${relativePath}");`
-  );
   }
 
   // Remove trailing call to main()
