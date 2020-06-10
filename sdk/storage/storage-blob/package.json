@@ -106,7 +106,7 @@
     "@azure/logger": "^1.0.0",
     "@opentelemetry/api": "^0.6.1",
     "events": "^3.0.0",
-    "tslib": "^1.10.0"
+    "tslib": "^2.0.0"
   },
   "devDependencies": {
     "@azure/identity": "^1.1.0-preview",

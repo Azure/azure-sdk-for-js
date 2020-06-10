@@ -72,7 +72,7 @@
     "azure-storage": "^2.10.2",
     "debug": "^4.1.1",
     "path-browserify": "^1.0.0",
-    "tslib": "^1.10.0",
+    "tslib": "^2.0.0",
     "uuid": "^8.1.0"
   },
   "devDependencies": {
