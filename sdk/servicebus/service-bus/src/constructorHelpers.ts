@@ -3,11 +3,11 @@
 
 import { ReceiveMode } from "./serviceBusMessage";
 import {
-  TokenCredential,
   ConnectionConfig,
+  RetryOptions,
   SharedKeyCredential,
-  WebSocketOptions,
-  RetryOptions
+  TokenCredential,
+  WebSocketOptions
 } from "@azure/core-amqp";
 import { ConnectionContext } from "./connectionContext";
 

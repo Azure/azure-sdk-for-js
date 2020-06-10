@@ -20,7 +20,7 @@ export interface Spannable {
  * @ignore
  */
 export class Spanner<TClient> {
-  constructor(private baseOperationName: string, private componentName: string) {}
+  constructor(private baseOperationName: string) {}
 
   /**
    * Traces an operation and properly handles reporting start, end and errors for a given span

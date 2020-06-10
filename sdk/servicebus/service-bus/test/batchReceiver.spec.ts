@@ -4,19 +4,20 @@
 import chai from "chai";
 import Long from "long";
 import chaiAsPromised from "chai-as-promised";
-import { delay, ServiceBusMessage } from "../src";
+import { ServiceBusMessage, delay } from "../src";
 import { getAlreadyReceivingErrorMsg } from "../src/util/errors";
 import { TestClientType, TestMessage } from "./utils/testUtils";
-import { Receiver } from "../src/receivers/receiver";
+import { Receiver, ReceiverImpl } from "../src/receivers/receiver";
 import { Sender } from "../src/sender";
 import {
-  createServiceBusClientForTests,
   ServiceBusClientForTests,
+  createServiceBusClientForTests,
   testPeekMsgsLength
 } from "./utils/testutils2";
-import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
+import { ReceivedMessage, ReceivedMessageWithLock } from "../src/serviceBusMessage";
 import { AbortController } from "@azure/abort-controller";
 import { isNode } from "@azure/core-amqp";
+import { ReceiverEvents } from "rhea-promise";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -25,9 +26,9 @@ describe("batchReceiver", () => {
   let serviceBusClient: ServiceBusClientForTests;
   let errorWasThrown: boolean;
 
-  let senderClient: Sender;
-  let receiverClient: Receiver<ReceivedMessageWithLock>;
-  let deadLetterClient: Receiver<ReceivedMessageWithLock>;
+  let sender: Sender;
+  let receiver: Receiver<ReceivedMessageWithLock>;
+  let deadLetterReceiver: Receiver<ReceivedMessageWithLock>;
   const maxDeliveryCount = 10;
 
   before(() => {
@@ -40,13 +41,13 @@ describe("batchReceiver", () => {
 
   async function beforeEachTest(entityType: TestClientType): Promise<void> {
     const entityNames = await serviceBusClient.test.createTestEntities(entityType);
-    receiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
 
-    senderClient = serviceBusClient.test.addToCleanup(
-      await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+    sender = serviceBusClient.test.addToCleanup(
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
 
-    deadLetterClient = serviceBusClient.test.createDeadLetterReceiver(entityNames);
+    deadLetterReceiver = serviceBusClient.test.createDeadLetterReceiver(entityNames);
   }
 
   function afterEachTest(): Promise<void> {
@@ -61,8 +62,8 @@ describe("batchReceiver", () => {
     async function sendReceiveMsg(
       testMessages: ServiceBusMessage
     ): Promise<ReceivedMessageWithLock> {
-      await senderClient.send(testMessages);
-      const msgs = await receiverClient.receiveBatch(1);
+      await sender.send(testMessages);
+      const msgs = await receiver.receiveBatch(1);
 
       should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
       should.equal(msgs.length, 1, "Unexpected number of messages");
@@ -83,7 +84,7 @@ describe("batchReceiver", () => {
 
       await msg.complete();
 
-      await testPeekMsgsLength(receiverClient, 0);
+      await testPeekMsgsLength(receiver, 0);
     }
 
     it("Partitioned Queue: complete() removes message", async function(): Promise<void> {
@@ -139,9 +140,9 @@ describe("batchReceiver", () => {
       const msg = await sendReceiveMsg(testMessages);
       await msg.abandon();
 
-      await testPeekMsgsLength(receiverClient, 1);
+      await testPeekMsgsLength(receiver, 1);
 
-      const messageBatch = await receiverClient.receiveBatch(1);
+      const messageBatch = await receiver.receiveBatch(1);
 
       should.equal(messageBatch.length, 1, "Unexpected number of messages");
       should.equal(messageBatch[0].deliveryCount, 1, "DeliveryCount is different than expected");
@@ -153,7 +154,7 @@ describe("batchReceiver", () => {
 
       await messageBatch[0].complete();
 
-      await testPeekMsgsLength(receiverClient, 0);
+      await testPeekMsgsLength(receiver, 0);
     }
 
     it("Partitioned Queue: abandon() retains message with incremented deliveryCount", async function(): Promise<
@@ -214,11 +215,11 @@ describe("batchReceiver", () => {
 
     async function testAbandonMsgsTillMaxDeliveryCount(useSessions?: boolean): Promise<void> {
       const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
-      await senderClient.send(testMessages);
+      await sender.send(testMessages);
       let abandonMsgCount = 0;
 
       while (abandonMsgCount < maxDeliveryCount) {
-        const batch = await receiverClient.receiveBatch(1);
+        const batch = await receiver.receiveBatch(1);
 
         should.equal(batch.length, 1, "Unexpected number of messages");
         should.equal(
@@ -236,9 +237,9 @@ describe("batchReceiver", () => {
         await batch[0].abandon();
       }
 
-      await testPeekMsgsLength(receiverClient, 0);
+      await testPeekMsgsLength(receiver, 0);
 
-      const deadLetterMsgsBatch = await deadLetterClient.receiveBatch(1);
+      const deadLetterMsgsBatch = await deadLetterReceiver.receiveBatch(1);
 
       should.equal(
         Array.isArray(deadLetterMsgsBatch),
@@ -259,7 +260,7 @@ describe("batchReceiver", () => {
 
       await deadLetterMsgsBatch[0].complete();
 
-      await testPeekMsgsLength(deadLetterClient, 0);
+      await testPeekMsgsLength(deadLetterReceiver, 0);
     }
 
     it("Partitioned Queue: Multiple abandons until maxDeliveryCount.", async function(): Promise<
@@ -328,7 +329,7 @@ describe("batchReceiver", () => {
       const sequenceNumber = msg.sequenceNumber;
       await msg.defer();
 
-      const deferredMsgs = await receiverClient.receiveDeferredMessage(sequenceNumber);
+      const deferredMsgs = await receiver.receiveDeferredMessage(sequenceNumber);
       if (!deferredMsgs) {
         throw "No message received for sequence number";
       }
@@ -342,7 +343,7 @@ describe("batchReceiver", () => {
 
       await deferredMsgs.complete();
 
-      await testPeekMsgsLength(receiverClient, 0);
+      await testPeekMsgsLength(receiver, 0);
     }
 
     it("Partitioned Queue: defer() moves message to deferred queue", async function(): Promise<
@@ -406,9 +407,9 @@ describe("batchReceiver", () => {
       const msg = await sendReceiveMsg(testMessages);
       await msg.deadLetter();
 
-      await testPeekMsgsLength(receiverClient, 0);
+      await testPeekMsgsLength(receiver, 0);
 
-      const deadLetterMsgsBatch = await deadLetterClient.receiveBatch(1);
+      const deadLetterMsgsBatch = await deadLetterReceiver.receiveBatch(1);
 
       should.equal(
         Array.isArray(deadLetterMsgsBatch),
@@ -429,7 +430,7 @@ describe("batchReceiver", () => {
 
       await deadLetterMsgsBatch[0].complete();
 
-      await testPeekMsgsLength(deadLetterClient, 0);
+      await testPeekMsgsLength(deadLetterReceiver, 0);
     }
 
     it("Partitioned Queue: deadLetter() moves message to deadletter queue", async function(): Promise<
@@ -497,8 +498,8 @@ describe("batchReceiver", () => {
     async function deadLetterMessage(
       testMessage: ServiceBusMessage
     ): Promise<ReceivedMessageWithLock> {
-      await senderClient.send(testMessage);
-      const batch = await receiverClient.receiveBatch(1);
+      await sender.send(testMessage);
+      const batch = await receiver.receiveBatch(1);
 
       should.equal(batch.length, 1, "Unexpected number of messages");
       should.equal(batch[0].body, testMessage.body, "MessageBody is different than expected");
@@ -511,9 +512,9 @@ describe("batchReceiver", () => {
 
       await batch[0].deadLetter();
 
-      await testPeekMsgsLength(receiverClient, 0);
+      await testPeekMsgsLength(receiver, 0);
 
-      const deadLetterMsgsBatch = await deadLetterClient.receiveBatch(1);
+      const deadLetterMsgsBatch = await deadLetterReceiver.receiveBatch(1);
 
       should.equal(deadLetterMsgsBatch.length, 1, "Unexpected number of messages");
       should.equal(
@@ -540,7 +541,7 @@ describe("batchReceiver", () => {
       deadletterClient: Receiver<ReceivedMessageWithLock>,
       expectedDeliverCount: number
     ): Promise<void> {
-      const deadLetterMsgsBatch = await deadLetterClient.receiveBatch(1);
+      const deadLetterMsgsBatch = await deadLetterReceiver.receiveBatch(1);
 
       should.equal(deadLetterMsgsBatch.length, 1, "Unexpected number of messages");
       should.equal(
@@ -573,7 +574,7 @@ describe("batchReceiver", () => {
 
       should.equal(errorWasThrown, true, "Error thrown flag must be true");
 
-      await completeDeadLetteredMessage(testMessage, deadLetterClient, 0);
+      await completeDeadLetteredMessage(testMessage, deadLetterReceiver, 0);
     }
 
     it("Partitioned Queue: Throws error when dead lettering a dead lettered message", async function(): Promise<
@@ -609,7 +610,7 @@ describe("batchReceiver", () => {
 
       await deadLetterMsg.abandon();
 
-      await completeDeadLetteredMessage(testMessage, deadLetterClient, 0);
+      await completeDeadLetteredMessage(testMessage, deadLetterReceiver, 0);
     }
 
     it("Partitioned Queue: Abandon a message received from dead letter queue", async function(): Promise<
@@ -650,7 +651,7 @@ describe("batchReceiver", () => {
       const sequenceNumber = deadLetterMsg.sequenceNumber;
       await deadLetterMsg.defer();
 
-      const deferredMsgs = await deadLetterClient.receiveDeferredMessage(sequenceNumber);
+      const deferredMsgs = await deadLetterReceiver.receiveDeferredMessage(sequenceNumber);
       if (!deferredMsgs) {
         throw "No message received for sequence number";
       }
@@ -663,9 +664,9 @@ describe("batchReceiver", () => {
 
       await deferredMsgs.complete();
 
-      await testPeekMsgsLength(receiverClient, 0);
+      await testPeekMsgsLength(receiver, 0);
 
-      await testPeekMsgsLength(deadLetterClient, 0);
+      await testPeekMsgsLength(deadLetterReceiver, 0);
     }
 
     it("Partitioned Queue: Defer a message received from dead letter queue", async function(): Promise<
@@ -704,17 +705,17 @@ describe("batchReceiver", () => {
 
     // We use an empty queue/topic here so that the first receiveMessages call takes time to return
     async function testParallelReceiveCalls(useSessions?: boolean): Promise<void> {
-      const firstBatchPromise = receiverClient.receiveBatch(1, { maxWaitTimeInMs: 10000 });
+      const firstBatchPromise = receiver.receiveBatch(1, { maxWaitTimeInMs: 10000 });
       await delay(5000);
 
       let errorMessage;
       const expectedErrorMessage = getAlreadyReceivingErrorMsg(
-        receiverClient.entityPath,
+        receiver.entityPath,
         useSessions ? TestMessage.sessionId : undefined
       );
 
       try {
-        await receiverClient.receiveBatch(1);
+        await receiver.receiveBatch(1);
       } catch (err) {
         errorMessage = err && err.message;
       }
@@ -726,7 +727,7 @@ describe("batchReceiver", () => {
 
       let unexpectedError;
       try {
-        receiverClient.subscribe({
+        receiver.subscribe({
           async processMessage(): Promise<void> {
             // process message here - it's basically a ServiceBusMessage minus any settlement related methods
           },
@@ -794,13 +795,13 @@ describe("batchReceiver", () => {
     // See https://github.com/Azure/azure-service-bus-node/issues/31
     async function testSequentialReceiveBatchCalls(useSessions?: boolean): Promise<void> {
       const testMessages = useSessions ? messageWithSessions : messages;
-      const batchMessageToSend = await senderClient.createBatch();
+      const batchMessageToSend = await sender.createBatch();
       for (const message of testMessages) {
         batchMessageToSend.tryAdd(message);
       }
-      await senderClient.send(batchMessageToSend);
-      const msgs1 = await receiverClient.receiveBatch(1);
-      const msgs2 = await receiverClient.receiveBatch(1);
+      await sender.send(batchMessageToSend);
+      const msgs1 = await receiver.receiveBatch(1);
+      const msgs2 = await receiver.receiveBatch(1);
 
       // Results are checked after both receiveMessages are done to ensure that the second call doesnt
       // affect the result from the first one.
@@ -847,9 +848,9 @@ describe("batchReceiver", () => {
 
     async function testNoSettlement(useSessions?: boolean): Promise<void> {
       const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
-      await senderClient.send(testMessages);
+      await sender.send(testMessages);
 
-      let batch = await receiverClient.receiveBatch(1);
+      let batch = await receiver.receiveBatch(1);
 
       should.equal(batch.length, 1, "Unexpected number of messages");
       should.equal(batch[0].deliveryCount, 0, "DeliveryCount is different than expected");
@@ -859,9 +860,9 @@ describe("batchReceiver", () => {
         "MessageId is different than expected"
       );
 
-      await testPeekMsgsLength(receiverClient, 1);
+      await testPeekMsgsLength(receiver, 1);
 
-      batch = await receiverClient.receiveBatch(1);
+      batch = await receiver.receiveBatch(1);
 
       should.equal(batch.length, 1, "Unexpected number of messages");
       should.equal(batch[0].deliveryCount, 1, "DeliveryCount is different than expected");
@@ -904,8 +905,8 @@ describe("batchReceiver", () => {
 
     async function testAskForMore(useSessions?: boolean): Promise<void> {
       const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
-      await senderClient.send(testMessages);
-      const batch = await receiverClient.receiveBatch(2);
+      await sender.send(testMessages);
+      const batch = await receiver.receiveBatch(2);
 
       should.equal(batch.length, 1, "Unexpected number of messages");
       should.equal(batch[0].body, testMessages.body, "MessageBody is different than expected");
@@ -917,7 +918,7 @@ describe("batchReceiver", () => {
 
       await batch[0].complete();
 
-      await testPeekMsgsLength(receiverClient, 0);
+      await testPeekMsgsLength(receiver, 0);
     }
 
     it("Partitioned Queue: Receive n messages but queue only has m messages, where m < n", async function(): Promise<
@@ -987,7 +988,7 @@ describe("batchReceiver", () => {
       const controller = new AbortController();
       setTimeout(() => controller.abort(), 1);
       try {
-        await receiverClient.receiveDeferredMessage(Long.ZERO, { abortSignal: controller.signal });
+        await receiver.receiveDeferredMessage(Long.ZERO, { abortSignal: controller.signal });
         throw new Error(`Test failure`);
       } catch (err) {
         err.message.should.equal(
@@ -1001,7 +1002,7 @@ describe("batchReceiver", () => {
       const controller = new AbortController();
       setTimeout(() => controller.abort(), 1);
       try {
-        await receiverClient.receiveDeferredMessages([Long.ZERO], {
+        await receiver.receiveDeferredMessages([Long.ZERO], {
           abortSignal: controller.signal
         });
         throw new Error(`Test failure`);
@@ -1016,24 +1017,25 @@ describe("batchReceiver", () => {
 
 describe("Batching - disconnects", function(): void {
   let serviceBusClient: ServiceBusClientForTests;
-  let senderClient: Sender;
-  let receiverClient: Receiver<ReceivedMessageWithLock>;
+  let sender: Sender;
+  let receiver: Receiver<ReceivedMessageWithLock> | Receiver<ReceivedMessage>;
 
-  async function beforeEachTest(entityType: TestClientType): Promise<void> {
+  async function beforeEachTest(
+    entityType: TestClientType,
+    receiveMode: "peekLock" | "receiveAndDelete" = "peekLock"
+  ): Promise<void> {
+    serviceBusClient = createServiceBusClientForTests();
     const entityNames = await serviceBusClient.test.createTestEntities(entityType);
-    receiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+    if (receiveMode == "receiveAndDelete") {
+      receiver = await serviceBusClient.test.getReceiveAndDeleteReceiver(entityNames);
+    } else {
+      receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+    }
 
-    senderClient = serviceBusClient.test.addToCleanup(
-      await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+    sender = serviceBusClient.test.addToCleanup(
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
   }
-  before(() => {
-    serviceBusClient = createServiceBusClientForTests();
-  });
-
-  after(() => {
-    return serviceBusClient.test.after();
-  });
 
   beforeEach(function() {
     if (!isNode) {
@@ -1042,11 +1044,12 @@ describe("Batching - disconnects", function(): void {
       this.skip();
     }
   });
-  function afterEachTest(): Promise<void> {
-    return serviceBusClient.test.afterEach();
-  }
+
   afterEach(async () => {
-    await afterEachTest();
+    if (serviceBusClient) {
+      await serviceBusClient.test.afterEach();
+      await serviceBusClient.test.after();
+    }
   });
 
   it("can receive and settle messages after a disconnect", async function(): Promise<void> {
@@ -1054,11 +1057,13 @@ describe("Batching - disconnects", function(): void {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
 
     // Send a message so we can be sure when the receiver is open and active.
-    await senderClient.send(TestMessage.getSample());
+    await sender.send(TestMessage.getSample());
 
     let settledMessageCount = 0;
 
-    const messages1 = await receiverClient.receiveBatch(1, { maxWaitTimeInMs: 5000 });
+    const messages1 = await (receiver as Receiver<ReceivedMessageWithLock>).receiveBatch(1, {
+      maxWaitTimeInMs: 5000
+    });
     for (const message of messages1) {
       await message.complete();
       settledMessageCount++;
@@ -1066,7 +1071,7 @@ describe("Batching - disconnects", function(): void {
 
     settledMessageCount.should.equal(1, "Unexpected number of settled messages.");
 
-    const connectionContext = (receiverClient as any)["_context"].namespace;
+    const connectionContext = (receiver as any)["_context"].namespace;
     const refreshConnection = connectionContext.refreshConnection;
     let refreshConnectionCalled = 0;
     connectionContext.refreshConnection = function(...args: any) {
@@ -1075,21 +1080,235 @@ describe("Batching - disconnects", function(): void {
     };
 
     // Simulate a disconnect being called with a non-retryable error.
-    (receiverClient as any)["_context"].namespace.connection["_connection"].idle();
+    (receiver as any)["_context"].namespace.connection["_connection"].idle();
 
     // Allow rhea to clear internal setTimeouts (since we're triggering idle manually).
     // Otherwise, it will get into a bad internal state with uncaught exceptions.
     await delay(2000);
     // send a second message to trigger the message handler again.
-    await senderClient.send(TestMessage.getSample());
+    await sender.send(TestMessage.getSample());
 
     // wait for the 2nd message to be received.
-    const messages2 = await receiverClient.receiveBatch(1, { maxWaitTimeInMs: 5000 });
+    const messages2 = await (receiver as Receiver<ReceivedMessageWithLock>).receiveBatch(1, {
+      maxWaitTimeInMs: 5000
+    });
     for (const message of messages2) {
       await message.complete();
       settledMessageCount++;
     }
     settledMessageCount.should.equal(2, "Unexpected number of settled messages.");
     refreshConnectionCalled.should.be.greaterThan(0, "refreshConnection was not called.");
+  });
+
+  it("returns messages if drain is in progress (receiveAndDelete)", async function(): Promise<
+    void
+  > {
+    // Create the sender and receiver.
+    await beforeEachTest(TestClientType.UnpartitionedQueue, "receiveAndDelete");
+
+    // The first time `receiveMessages` is called the receiver link is created.
+    // The `receiver_drained` handler is only added after the link is created,
+    // which is a non-blocking task.
+    await receiver.receiveBatch(1, { maxWaitTimeInMs: 1000 });
+    const receiverContext = (receiver as ReceiverImpl<ReceivedMessage>)["_context"];
+    if (!receiverContext.batchingReceiver!.isOpen()) {
+      throw new Error(`Unable to initialize receiver link.`);
+    }
+
+    // Send a message so we have something to receive.
+    await sender.send(TestMessage.getSample());
+
+    // Since the receiver has already been initialized,
+    // the `receiver_drained` handler is attached as soon
+    // as receiveMessages is invoked.
+    // We remove the `receiver_drained` timeout after `receiveMessages`
+    // does it's initial setup by wrapping it in a `setTimeout`.
+    // This triggers the `receiver_drained` handler removal on the next
+    // tick of the event loop; after the handler has been attached.
+    setTimeout(() => {
+      // remove `receiver_drained` event
+      receiverContext.batchingReceiver!["_receiver"]!.removeAllListeners(
+        ReceiverEvents.receiverDrained
+      );
+    }, 0);
+
+    // We want to simulate a disconnect once the batching receiver is draining.
+    // We can detect when the receiver enters a draining state when `addCredit` is
+    // called while `drain` is set to true.
+    let didRequestDrain = false;
+    const addCredit = receiverContext.batchingReceiver!["_receiver"]!.addCredit;
+    receiverContext.batchingReceiver!["_receiver"]!.addCredit = function(credits) {
+      addCredit.call(this, credits);
+      if (receiverContext.batchingReceiver!["_receiver"]!.drain) {
+        didRequestDrain = true;
+        // Simulate a disconnect being called with a non-retryable error.
+        receiverContext.namespace.connection["_connection"].idle();
+      }
+    };
+
+    // Purposefully request more messages than what's available
+    // so that the receiver will have to drain.
+    const messages1 = await receiver.receiveBatch(10, { maxWaitTimeInMs: 1000 });
+
+    didRequestDrain.should.equal(true, "Drain was not requested.");
+    messages1.length.should.equal(1, "Unexpected number of messages received.");
+
+    // Make sure that a 2nd receiveMessages call still works
+    // by sending and receiving a single message again.
+    await sender.send(TestMessage.getSample());
+
+    // wait for the 2nd message to be received.
+    const messages2 = await receiver.receiveBatch(1, { maxWaitTimeInMs: 5000 });
+
+    messages2.length.should.equal(1, "Unexpected number of messages received.");
+  });
+
+  it("throws an error if drain is in progress (peekLock)", async function(): Promise<void> {
+    // Create the sender and receiver.
+    await beforeEachTest(TestClientType.UnpartitionedQueue);
+
+    // The first time `receiveMessages` is called the receiver link is created.
+    // The `receiver_drained` handler is only added after the link is created,
+    // which is a non-blocking task.
+    await receiver.receiveBatch(1, { maxWaitTimeInMs: 1000 });
+    const receiverContext = (receiver as ReceiverImpl<ReceivedMessageWithLock>)["_context"];
+
+    if (!receiverContext.batchingReceiver!.isOpen()) {
+      throw new Error(`Unable to initialize receiver link.`);
+    }
+
+    // Send a message so we have something to receive.
+    await sender.send(TestMessage.getSample());
+
+    // Since the receiver has already been initialized,
+    // the `receiver_drained` handler is attached as soon
+    // as receiveMessages is invoked.
+    // We remove the `receiver_drained` timeout after `receiveMessages`
+    // does it's initial setup by wrapping it in a `setTimeout`.
+    // This triggers the `receiver_drained` handler removal on the next
+    // tick of the event loop; after the handler has been attached.
+    setTimeout(() => {
+      // remove `receiver_drained` event
+      receiverContext.batchingReceiver!["_receiver"]!.removeAllListeners(
+        ReceiverEvents.receiverDrained
+      );
+    }, 0);
+
+    // We want to simulate a disconnect once the batching receiver is draining.
+    // We can detect when the receiver enters a draining state when `addCredit` is
+    // called while `drain` is set to true.
+    let didRequestDrain = false;
+    const addCredit = receiverContext.batchingReceiver!["_receiver"]!.addCredit;
+    receiverContext.batchingReceiver!["_receiver"]!.addCredit = function(credits) {
+      didRequestDrain = true;
+      addCredit.call(this, credits);
+      if (receiverContext.batchingReceiver!["_receiver"]!.drain) {
+        // Simulate a disconnect being called with a non-retryable error.
+        receiverContext.namespace.connection["_connection"].idle();
+      }
+    };
+
+    // Purposefully request more messages than what's available
+    // so that the receiver will have to drain.
+    const testFailureMessage = "Test failure";
+    try {
+      await receiver.receiveBatch(10, { maxWaitTimeInMs: 1000 });
+      throw new Error(testFailureMessage);
+    } catch (err) {
+      err.message.should.not.equal(testFailureMessage);
+    }
+
+    didRequestDrain.should.equal(true, "Drain was not requested.");
+
+    // Make sure that a 2nd receiveMessages call still works
+    // by sending and receiving a single message again.
+    await sender.send(TestMessage.getSample());
+
+    // wait for the 2nd message to be received.
+    const messages = await receiver.receiveBatch(1, { maxWaitTimeInMs: 5000 });
+
+    messages.length.should.equal(1, "Unexpected number of messages received.");
+  });
+
+  it("returns messages if receive in progress (receiveAndDelete)", async function(): Promise<void> {
+    // Create the sender and receiver.
+    await beforeEachTest(TestClientType.UnpartitionedQueue, "receiveAndDelete");
+
+    // The first time `receiveMessages` is called the receiver link is created.
+    // The `receiver_drained` handler is only added after the link is created,
+    // which is a non-blocking task.
+    await receiver.receiveBatch(1, { maxWaitTimeInMs: 1000 });
+    const receiverContext = (receiver as ReceiverImpl<ReceivedMessage>)["_context"];
+
+    if (!receiverContext.batchingReceiver!.isOpen()) {
+      throw new Error(`Unable to initialize receiver link.`);
+    }
+
+    // Send a message so we have something to receive.
+    await sender.send(TestMessage.getSample());
+
+    // Simulate a disconnect after a message has been received.
+    receiverContext.batchingReceiver!["_receiver"]!.once("message", function() {
+      setTimeout(() => {
+        // Simulate a disconnect being called with a non-retryable error.
+        receiverContext.namespace.connection["_connection"].idle();
+      }, 0);
+    });
+
+    // Purposefully request more messages than what's available
+    // so that the receiver will have to drain.
+    const messages1 = await receiver.receiveBatch(10, { maxWaitTimeInMs: 10000 });
+
+    messages1.length.should.equal(1, "Unexpected number of messages received.");
+
+    // Make sure that a 2nd receiveMessages call still works
+    // by sending and receiving a single message again.
+    await sender.send(TestMessage.getSample());
+
+    // wait for the 2nd message to be received.
+    const messages2 = await receiver.receiveBatch(1, { maxWaitTimeInMs: 5000 });
+
+    messages2.length.should.equal(1, "Unexpected number of messages received.");
+  });
+
+  it("throws an error if receive is in progress (peekLock)", async function(): Promise<void> {
+    // Create the sender and receiver.
+    await beforeEachTest(TestClientType.UnpartitionedQueue);
+
+    // The first time `receiveMessages` is called the receiver link is created.
+    // The `receiver_drained` handler is only added after the link is created,
+    // which is a non-blocking task.
+    await receiver.receiveBatch(1, { maxWaitTimeInMs: 1000 });
+    const receiverContext = (receiver as ReceiverImpl<ReceivedMessageWithLock>)["_context"];
+
+    if (!receiverContext.batchingReceiver!.isOpen()) {
+      throw new Error(`Unable to initialize receiver link.`);
+    }
+
+    // Simulate a disconnect
+    setTimeout(() => {
+      // Simulate a disconnect being called with a non-retryable error.
+      receiverContext.namespace.connection["_connection"].idle();
+    }, 0);
+
+    // Purposefully request more messages than what's available
+    // so that the receiver will have to drain.
+    const testFailureMessage = "Test failure";
+    try {
+      const msgs = await receiver.receiveBatch(10, { maxWaitTimeInMs: 10000 });
+      console.log(msgs.length);
+      throw new Error(testFailureMessage);
+    } catch (err) {
+      err.message.should.not.equal(testFailureMessage);
+    }
+
+    // Make sure that a 2nd receiveMessages call still works
+    // by sending and receiving a single message again.
+    await sender.send(TestMessage.getSample());
+
+    // wait for the 2nd message to be received.
+    const messages = await receiver.receiveBatch(1, { maxWaitTimeInMs: 5000 });
+
+    messages.length.should.equal(1, "Unexpected number of messages received.");
   });
 });

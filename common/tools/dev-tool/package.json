@@ -37,7 +37,7 @@
     "fs-extra": "^8.1.0",
     "minimist": "~1.2.5",
     "ts-node": "^8.3.0",
-    "typescript": "~3.8.3"
+    "typescript": "~3.9.3"
   },
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",

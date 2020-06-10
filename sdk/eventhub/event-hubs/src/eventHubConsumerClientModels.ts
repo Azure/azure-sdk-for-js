@@ -117,6 +117,12 @@ export interface SubscriptionEventHandlers {
    * The `updateCheckpoint()` method on the context can be used to update checkpoints in the `CheckpointStore`
    * (if one was provided to the client). Use this in frequent intervals to mark events that have been processed
    * so that the client can restart from such checkpoints in the event of a restart or error recovery.
+   * 
+   * Note: It is possible for received events to be an empty array.
+   * This can happen if there are no new events to receive
+   * in the `maxWaitTimeInSeconds`, which is defaulted to 60 seconds.
+   * The `maxWaitTimeInSeconds` can be changed by setting
+   * it in the `options` passed to `subscribe()`.
    */
   processEvents: ProcessEventsHandler;
   /**

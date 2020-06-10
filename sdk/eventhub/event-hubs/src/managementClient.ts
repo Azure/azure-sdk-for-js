@@ -1,33 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import uuid from "uuid/v4";
+import { v4 as uuid } from "uuid";
 import {
-  RequestResponseLink,
-  defaultLock,
-  translate,
   Constants,
-  SendRequestOptions,
-  retry,
+  RequestResponseLink,
   RetryConfig,
-  RetryOptions,
   RetryOperationType,
-  SharedKeyCredential
+  RetryOptions,
+  SendRequestOptions,
+  SharedKeyCredential,
+  defaultLock,
+  retry,
+  translate
 } from "@azure/core-amqp";
 import {
-  Message,
   EventContext,
-  SenderEvents,
+  Message,
   ReceiverEvents,
-  SenderOptions,
   ReceiverOptions,
+  SenderEvents,
+  SenderOptions,
   generate_uuid
 } from "rhea-promise";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
-import { logger, logErrorStackTrace } from "./log";
+import { logErrorStackTrace, logger } from "./log";
 import { getRetryAttemptTimeoutInMs } from "./util/retries";
-import { AbortSignalLike, AbortError } from "@azure/abort-controller";
+import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 /**
  * Describes the runtime information of an Event Hub.
  */
@@ -255,10 +255,12 @@ export class ManagementClient extends LinkEntity {
    */
   async close(): Promise<void> {
     try {
+      // Always clear the timeout, as the isOpen check may report
+      // false without ever having cleared the timeout otherwise.
+      clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
       if (this._isMgmtRequestResponseLinkOpen()) {
         const mgmtLink = this._mgmtReqResLink;
         this._mgmtReqResLink = undefined;
-        clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
         await mgmtLink!.close();
         logger.info("Successfully closed the management session.");
       }
@@ -273,6 +275,8 @@ export class ManagementClient extends LinkEntity {
   private async _init(): Promise<void> {
     try {
       if (!this._isMgmtRequestResponseLinkOpen()) {
+        // Wait for the connectionContext to be ready to open the link.
+        await this._context.readyToOpenLink();
         await this._negotiateClaim();
         const rxopt: ReceiverOptions = {
           source: { address: this.address },
@@ -289,7 +293,9 @@ export class ManagementClient extends LinkEntity {
             );
           }
         };
-        const sropt: SenderOptions = { target: { address: this.address } };
+        const sropt: SenderOptions = {
+          target: { address: this.address }
+        };
         logger.verbose(
           "[%s] Creating sender/receiver links on a session for $management endpoint with " +
             "srOpts: %o, receiverOpts: %O.",

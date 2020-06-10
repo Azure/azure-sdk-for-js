@@ -12,3 +12,18 @@ export const LIB_INFO = `azsdk-js-ai-formrecognizer/${SDK_VERSION}`;
  * @internal
  */
 export const MAX_INPUT_DOCUMENT_SIZE = 50 * 1024 * 1024; // 50 MB
+
+export const FormRecognizerLoggingAllowedHeaderNames = [
+  "apim-request-id",
+  "Location",
+  "Operation-Location",
+  "Strict-Transport-Security",
+  "X-Content-Type-Options",
+  "x-envoy-upstream-service-time"
+];
+
+export const FormRecognizerLoggingAllowedQueryParameters = [
+  "includeTextDetails",
+  "includeKeys",
+  "op"
+];

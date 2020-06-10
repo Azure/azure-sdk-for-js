@@ -13,7 +13,7 @@ export { AccessToken }
 
 // @public
 export class AggregateAuthenticationError extends Error {
-    constructor(errors: any[]);
+    constructor(errors: any[], errMsg?: string);
     errors: any[];
 }
 
@@ -38,13 +38,21 @@ export class AuthorizationCodeCredential implements TokenCredential {
     }
 
 // @public
+export class AzureCliCredential implements TokenCredential {
+    constructor();
+    protected getAzureCliAccessToken(resource: string): Promise<unknown>;
+    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
+}
+
+// @public
 export type BrowserLoginStyle = "redirect" | "popup";
 
 // @public
 export class ChainedTokenCredential implements TokenCredential {
     constructor(...sources: TokenCredential[]);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
-    }
+    protected UnavailableMessage: string;
+}
 
 // @public
 export class ClientCertificateCredential implements TokenCredential {
@@ -59,8 +67,13 @@ export class ClientSecretCredential implements TokenCredential {
     }
 
 // @public
+export class CredentialUnavailable extends Error {
+}
+
+// @public
 export class DefaultAzureCredential extends ChainedTokenCredential {
     constructor(tokenCredentialOptions?: TokenCredentialOptions);
+    static credentials(tokenCredentialOptions?: TokenCredentialOptions): TokenCredential[];
 }
 
 // @public
@@ -147,6 +160,12 @@ export interface TokenCredentialOptions extends PipelineOptions {
 // @public
 export class UsernamePasswordCredential implements TokenCredential {
     constructor(tenantIdOrName: string, clientId: string, username: string, password: string, options?: TokenCredentialOptions);
+    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
+    }
+
+// @public
+export class VSCodeCredential implements TokenCredential {
+    constructor(options?: TokenCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
     }
 

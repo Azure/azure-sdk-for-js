@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isTokenCredential, TokenCredential } from "@azure/core-amqp";
+import { TokenCredential, isTokenCredential } from "@azure/core-amqp";
 import { EventDataBatch, isEventDataBatch } from "./eventDataBatch";
 import { EventHubClient } from "./impl/eventHubClient";
 import { EventHubProperties, PartitionProperties } from "./managementClient";
 import { EventHubProducer } from "./sender";
 import {
-  SendBatchOptions,
+  CreateBatchOptions,
+  EventHubClientOptions,
   GetEventHubPropertiesOptions,
   GetPartitionIdsOptions,
   GetPartitionPropertiesOptions,
-  EventHubClientOptions,
-  CreateBatchOptions
+  SendBatchOptions
 } from "./models/public";
 import { EventData } from "./eventData";
 import { OperationOptions } from "./util/operationOptions";

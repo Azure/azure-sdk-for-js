@@ -7,6 +7,7 @@
  */
 
 export {
+  discriminators,
   CloudError,
   UsageModel,
   UsageModelDisplay,

@@ -3,9 +3,9 @@
 
 import {
   MessageReceiver,
-  ReceiveOptions,
-  OnMessage,
   OnError,
+  OnMessage,
+  ReceiveOptions,
   ReceiverType
 } from "./messageReceiver";
 
@@ -13,7 +13,7 @@ import { ClientEntityContext } from "../clientEntityContext";
 
 import * as log from "../log";
 import { throwErrorIfConnectionClosed } from "../util/errors";
-import { RetryOperationType, RetryConfig, retry } from "@azure/core-amqp";
+import { RetryConfig, RetryOperationType, retry } from "@azure/core-amqp";
 
 /**
  * @internal

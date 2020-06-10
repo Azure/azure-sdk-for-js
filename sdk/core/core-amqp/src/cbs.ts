@@ -1,20 +1,20 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { TokenType } from "./auth/token";
 import { AccessToken } from "@azure/core-auth";
 import {
-  EventContext,
-  ReceiverOptions,
   Message as AmqpMessage,
-  SenderEvents,
-  ReceiverEvents,
   Connection,
+  EventContext,
+  ReceiverEvents,
+  ReceiverOptions,
+  SenderEvents,
   SenderOptions,
   generate_uuid
 } from "rhea-promise";
 import { Constants } from "./util/constants";
-import { logger, logErrorStackTrace } from "./log";
+import { logErrorStackTrace, logger } from "./log";
 import { translate } from "./errors";
 import { defaultLock } from "./util/utils";
 import { RequestResponseLink } from "./requestResponseLink";
@@ -30,7 +30,7 @@ export interface CbsResponse {
 
 /**
  * @class CbsClient
- * Describes the EventHub/ServiceBus Cbs client that talks to the $cbs endopint over AMQP connection.
+ * Describes the EventHub/ServiceBus Cbs client that talks to the $cbs endpoint over AMQP connection.
  */
 export class CbsClient {
   /**
@@ -38,16 +38,16 @@ export class CbsClient {
    */
   readonly endpoint: string = Constants.cbsEndpoint;
   /**
-   * @property {string} replyTo CBS replyTo - The reciever link name that the service should reply to.
+   * @property {string} replyTo CBS replyTo - The receiver link name that the service should reply to.
    */
   readonly replyTo: string = `${Constants.cbsReplyTo}-${generate_uuid()}`;
   /**
-   * @property {string} cbsLock The unqiue lock name per $cbs session per connection that is used to
-   * acquire the lock for establishing a cbs session if one does not exist for an aqmp connection.
+   * @property {string} cbsLock The unique lock name per $cbs session per connection that is used to
+   * acquire the lock for establishing a cbs session if one does not exist for an amqp connection.
    */
   readonly cbsLock: string = `${Constants.negotiateCbsKey}-${generate_uuid()}`;
   /**
-   * @property {string} connectionLock The unqiue lock name per connection that is used to
+   * @property {string} connectionLock The unique lock name per connection that is used to
    * acquire the lock for establishing an amqp connection if one does not exist.
    */
   readonly connectionLock: string;
@@ -63,7 +63,7 @@ export class CbsClient {
 
   /**
    * @constructor
-   * @param {Connection} connection The AMQP conection.
+   * @param {Connection} connection The AMQP connection.
    * @param {string} connectionLock A unique string (usually a guid) per connection.
    */
   constructor(connection: Connection, connectionLock: string) {
@@ -142,14 +142,14 @@ export class CbsClient {
         );
       }
     } catch (err) {
-      err = translate(err);
+      const translatedError = translate(err);
       logger.warning(
-        "[%s] An error occured while establishing the cbs links: %O",
+        "[%s] An error occurred while establishing the cbs links: %O",
         this.connection.id,
-        err
+        translatedError
       );
-      logErrorStackTrace(err);
-      throw err;
+      logErrorStackTrace(translatedError);
+      throw translatedError;
     }
   }
 

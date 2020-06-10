@@ -6,16 +6,16 @@ import Long from "long";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { delay, ReceivedMessage } from "../src";
+import { ReceivedMessage, delay } from "../src";
 
-import { TestMessage, TestClientType, checkWithTimeout } from "./utils/testUtils";
+import { TestClientType, TestMessage, checkWithTimeout } from "./utils/testUtils";
 import { Sender } from "../src/sender";
 import { SessionReceiver } from "../src/receivers/sessionReceiver";
 import {
-  testPeekMsgsLength,
+  EntityName,
   ServiceBusClientForTests,
   createServiceBusClientForTests,
-  EntityName
+  testPeekMsgsLength
 } from "./utils/testutils2";
 import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
 import { AbortController } from "@azure/abort-controller";
@@ -42,7 +42,7 @@ describe("session tests", () => {
     });
 
     sender = serviceBusClient.test.addToCleanup(
-      await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
 
     // Observation -
@@ -54,10 +54,10 @@ describe("session tests", () => {
     // getSenderReceiverClients creates brand new queues/topic-subscriptions.
     // Hence, commenting the following code since there is no need to purge/peek into a freshly created entity
 
-    // await purge(receiverClient);
-    // const browsedMsgs = await receiverClient.browseMessages();
-    // const receiverEntityType = receiverClient.entityType;
-    // if (browsedMsgs.length) {
+    // await purge(receiver);
+    // const peekedMsgs = await receiver.peekMessages();
+    // const receiverEntityType = receiver.entityType;
+    // if (peekedMsgs.length) {
     //   chai.assert.fail(`Please use an empty ${receiverEntityType} for integration testing`);
     // }
   }
@@ -405,7 +405,7 @@ describe.skip("SessionReceiver - disconnects", function(): void {
       sessionId: testMessage.sessionId,
       autoRenewLockDurationInMs: 10000 // Lower this value so that test can complete in time.
     });
-    const sender = await serviceBusClient.createSender(entityName.queue!);
+    const sender = serviceBusClient.createSender(entityName.queue!);
     // Send a message so we can be sure when the receiver is open and active.
     await sender.send(testMessage);
     const receivedErrors: any[] = [];

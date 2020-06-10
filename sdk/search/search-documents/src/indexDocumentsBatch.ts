@@ -65,18 +65,41 @@ export class IndexDocumentsBatch<T> {
   }
 
   /**
-   * Delete a set of documents by their primary key.
+   * Delete a set of documents.
    * @param keyName The name of their primary key in the index.
    * @param keyValues The primary key values of documents to delete.
    */
-  public delete(keyName: keyof T, keyValues: string[]): void {
-    const batch = keyValues.map<IndexDocumentsAction<T>>((keyValue) => {
-      return {
-        __actionType: "delete",
-        [keyName]: keyValue
-      } as IndexDocumentsAction<T>;
-    });
+  public delete(keyName: keyof T, keyValues: string[]): void;
 
-    this.actions.push(...batch);
+  /**
+   * Delete a set of documents.
+   * @param documents Documents to be deleted.
+   */
+  public delete(documents: T[]): void;
+
+  public delete(keyNameOrDocuments: keyof T | T[], keyValues?: string[]): void {
+    if (keyValues) {
+      const keyName = keyNameOrDocuments as keyof T;
+
+      const batch = keyValues.map<IndexDocumentsAction<T>>((keyValue) => {
+        return {
+          __actionType: "delete",
+          [keyName]: keyValue
+        } as IndexDocumentsAction<T>;
+      });
+
+      this.actions.push(...batch);
+    } else {
+      const documents = keyNameOrDocuments as T[];
+
+      const batch = documents.map<IndexDocumentsAction<T>>((document) => {
+        return {
+          __actionType: "delete",
+          ...document
+        } as IndexDocumentsAction<T>;
+      });
+
+      this.actions.push(...batch);
+    }
   }
 }

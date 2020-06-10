@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CloseReason, ReceivedEventData, EventHubProducerClient } from "../../src/";
+import { CloseReason, EventHubProducerClient, ReceivedEventData } from "../../src/";
 import {
-  SubscriptionEventHandlers,
-  PartitionContext
+  PartitionContext,
+  SubscriptionEventHandlers
 } from "../../src/eventHubConsumerClientModels";
 import chai from "chai";
 import { delay } from "@azure/core-amqp";

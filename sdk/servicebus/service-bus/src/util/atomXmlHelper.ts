@@ -1,18 +1,15 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 import {
   HttpOperationResponse,
   RestError,
-  stripRequest,
-  stripResponse,
+  ServiceClient,
   WebResource,
-  stringifyXML,
   parseXML,
-  ServiceClient
+  stringifyXML,
+  stripRequest,
+  stripResponse
 } from "@azure/core-http";
 
 import * as Constants from "./constants";

@@ -10,9 +10,11 @@
 import * as coreHttp from "@azure/core-http";
 
 /**
- * Contains an input document to be analyzed by the service.
+ * An object representing an individual text document to be analyzed by the Text Analytics service.
+ * The document contains a unique document ID, the full text of the document, and the language of
+ * the document's text.
  */
-export interface MultiLanguageInput {
+export interface TextDocumentInput {
   /**
    * A unique, non-empty document identifier.
    */
@@ -35,7 +37,7 @@ export interface MultiLanguageBatchInput {
   /**
    * The set of documents to process as part of this batch.
    */
-  documents: MultiLanguageInput[];
+  documents: TextDocumentInput[];
 }
 
 /**
@@ -108,14 +110,28 @@ export interface DocumentError {
 }
 
 /**
- * if showStats=true was specified in the request this field will contain information about the
- * document payload.
+ * Represents a warning encountered while processing a document.
+ */
+export interface TextAnalyticsWarning {
+  /**
+   * Error code. Possible values include: 'LongWordsInDocument', 'DocumentTruncated'
+   */
+  code: WarningCode;
+  /**
+   * Warning message.
+   */
+  message: string;
+}
+
+/**
+ * if includeStatistics=true was specified in the request this field will contain information about
+ * the document payload.
  */
 export interface TextDocumentStatistics {
   /**
    * Number of text elements recognized in the document.
    */
-  graphemeCount: number;
+  characterCount: number;
   /**
    * Number of transactions for the document.
    */
@@ -133,9 +149,15 @@ export interface SentimentConfidenceScores {
 }
 
 /**
- * An interface representing SentenceSentiment.
+ * The predicted sentiment for a given span of text. For more information regarding text sentiment,
+ * see
+ * https://docs.microsoft.com/azure/cognitive-services/Text-Analytics/how-tos/text-analytics-how-to-sentiment-analysis.
  */
 export interface SentenceSentiment {
+  /**
+   * The sentence text.
+   */
+  text?: string;
   /**
    * The predicted Sentiment for the sentence. Possible values include: 'positive', 'neutral',
    * 'negative'
@@ -145,18 +167,6 @@ export interface SentenceSentiment {
    * The sentiment confidence score between 0 and 1 for the sentence for all classes.
    */
   confidenceScores: SentimentConfidenceScores;
-  /**
-   * The sentence offset from the start of the document.
-   */
-  graphemeOffset: number;
-  /**
-   * The length of the sentence by Unicode standard.
-   */
-  graphemeLength: number;
-  /**
-   * The warnings generated for the sentence.
-   */
-  warnings?: string[];
 }
 
 /**
@@ -176,16 +186,20 @@ export interface DocumentSentiment {
   /**
    * Document level sentiment confidence scores between 0 and 1 for each sentiment class.
    */
-  documentScores: SentimentConfidenceScores;
+  confidenceScores: SentimentConfidenceScores;
   /**
    * Sentence level sentiment analysis.
    */
   sentenceSentiments: SentenceSentiment[];
+  /**
+   * Warnings encountered while processing document.
+   */
+  warnings: TextAnalyticsWarning[];
 }
 
 /**
- * if showStats=true was specified in the request this field will contain information about the
- * request payload.
+ * if includeStatistics=true was specified in the request this field will contain information about
+ * the request payload.
  */
 export interface TextDocumentBatchStatistics {
   /**
@@ -228,7 +242,9 @@ export interface SentimentResponse {
 }
 
 /**
- * An interface representing Entity.
+ * A word or phrase identified as an entity that is categorized within a taxonomy of types. The set
+ * of categories recognized by the Text Analytics service is described at
+ * https://docs.microsoft.com/azure/cognitive-services/Text-Analytics/named-entity-types .
  */
 export interface Entity {
   /**
@@ -244,17 +260,9 @@ export interface Entity {
    */
   subCategory?: string;
   /**
-   * Start position (in Unicode graphemes) for the entity text.
-   */
-  graphemeOffset: number;
-  /**
-   * Length (in Unicode graphemes) for the entity text.
-   */
-  graphemeLength: number;
-  /**
    * Confidence score between 0 and 1 of the extracted entity.
    */
-  score: number;
+  confidenceScore: number;
 }
 
 /**
@@ -269,6 +277,10 @@ export interface DocumentEntities {
    * Recognized entities in the document.
    */
   entities: Entity[];
+  /**
+   * Warnings encountered while processing document.
+   */
+  warnings: TextAnalyticsWarning[];
   /**
    * if showStats=true was specified in the request this field will contain information about the
    * document payload.
@@ -296,30 +308,24 @@ export interface EntitiesResult {
 }
 
 /**
- * An interface representing Match.
+ * Details about the specific substring in a document that refers to a linked entity identified by
+ * the Text Analytics model.
  */
 export interface Match {
   /**
    * If a well-known item is recognized, a decimal number denoting the confidence level between 0
    * and 1 will be returned.
    */
-  score: number;
+  confidenceScore: number;
   /**
    * Entity text as appears in the request.
    */
   text: string;
-  /**
-   * Start position (in Unicode graphemes) for the entity match text.
-   */
-  graphemeOffset: number;
-  /**
-   * Length (in Unicode graphemes) for the entity match text.
-   */
-  graphemeLength: number;
 }
 
 /**
- * An interface representing LinkedEntity.
+ * A word or phrase identified as a well-known entity within a database, including its formal
+ * (disambiguated) name and a link to the entity information within the source database.
  */
 export interface LinkedEntity {
   /**
@@ -361,6 +367,10 @@ export interface DocumentLinkedEntities {
    */
   entities: LinkedEntity[];
   /**
+   * Warnings encountered while processing document.
+   */
+  warnings: TextAnalyticsWarning[];
+  /**
    * if showStats=true was specified in the request this field will contain information about the
    * document payload.
    */
@@ -400,6 +410,10 @@ export interface DocumentKeyPhrases {
    */
   keyPhrases: string[];
   /**
+   * Warnings encountered while processing document.
+   */
+  warnings: TextAnalyticsWarning[];
+  /**
    * if showStats=true was specified in the request this field will contain information about the
    * document payload.
    */
@@ -426,9 +440,11 @@ export interface KeyPhraseResult {
 }
 
 /**
- * An interface representing LanguageInput.
+ * An input to the language detection operation. This object specifies a unique document id, as
+ * well as the full text of a document and a hint indicating the document's country of origin to
+ * assist the text analytics predictive model in detecting the document's language.
  */
-export interface LanguageInput {
+export interface DetectLanguageInput {
   /**
    * Unique, non-empty document identifier.
    */
@@ -441,11 +457,11 @@ export interface LanguageInput {
  * An interface representing LanguageBatchInput.
  */
 export interface LanguageBatchInput {
-  documents: LanguageInput[];
+  documents: DetectLanguageInput[];
 }
 
 /**
- * An interface representing DetectedLanguage.
+ * Information about the language of a document as identified by the Text Analytics service.
  */
 export interface DetectedLanguage {
   /**
@@ -461,7 +477,7 @@ export interface DetectedLanguage {
    * A confidence score between 0 and 1. Scores close to 1 indicate 100% certainty that the
    * identified language is true.
    */
-  score: number;
+  confidenceScore: number;
 }
 
 /**
@@ -473,9 +489,13 @@ export interface DocumentLanguage {
    */
   id: string;
   /**
-   * A list of extracted languages.
+   * Detected Language.
    */
-  detectedLanguages: DetectedLanguage[];
+  detectedLanguage: DetectedLanguage;
+  /**
+   * Warnings encountered while processing document.
+   */
+  warnings: TextAnalyticsWarning[];
   /**
    * if showStats=true was specified in the request this field will contain information about the
    * document payload.
@@ -506,21 +526,6 @@ export interface LanguageResult {
  * Optional Parameters.
  */
 export interface GeneratedClientEntitiesRecognitionGeneralOptionalParams extends coreHttp.RequestOptionsBase {
-  /**
-   * (Optional) This value indicates which model will be used for scoring. If a model-version is
-   * not specified, the API should default to the latest, non-preview version.
-   */
-  modelVersion?: string;
-  /**
-   * (Optional) if set to true, response will contain input and document level statistics.
-   */
-  includeStatistics?: boolean;
-}
-
-/**
- * Optional Parameters.
- */
-export interface GeneratedClientEntitiesRecognitionPiiOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * (Optional) This value indicates which model will be used for scoring. If a model-version is
    * not specified, the API should default to the latest, non-preview version.
@@ -612,6 +617,14 @@ export type ErrorCodeValue = 'InvalidRequest' | 'InvalidArgument' | 'InternalSer
 export type InnerErrorCodeValue = 'InvalidParameterValue' | 'InvalidRequestBodyFormat' | 'EmptyRequest' | 'MissingInputRecords' | 'InvalidDocument' | 'ModelVersionIncorrect' | 'InvalidDocumentBatch' | 'UnsupportedLanguageCode' | 'InvalidCountryHint';
 
 /**
+ * Defines values for WarningCode.
+ * Possible values include: 'LongWordsInDocument', 'DocumentTruncated'
+ * @readonly
+ * @enum {string}
+ */
+export type WarningCode = 'LongWordsInDocument' | 'DocumentTruncated';
+
+/**
  * Defines values for DocumentSentimentLabel.
  * Possible values include: 'positive', 'neutral', 'negative', 'mixed'
  * @readonly
@@ -631,26 +644,6 @@ export type SentenceSentimentLabel = 'positive' | 'neutral' | 'negative';
  * Contains response data for the entitiesRecognitionGeneral operation.
  */
 export type EntitiesRecognitionGeneralResponse = EntitiesResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EntitiesResult;
-    };
-};
-
-/**
- * Contains response data for the entitiesRecognitionPii operation.
- */
-export type EntitiesRecognitionPiiResponse = EntitiesResult & {
   /**
    * The underlying HTTP response.
    */

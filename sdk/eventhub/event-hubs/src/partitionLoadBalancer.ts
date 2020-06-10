@@ -49,8 +49,8 @@ export class GreedyPartitionLoadBalancer implements PartitionLoadBalancer {
   }
 
   loadBalance(
-    ownerId: string,
-    partitionOwnershipMap: Map<string, PartitionOwnership>,
+    _ownerId: string,
+    _partitionOwnershipMap: Map<string, PartitionOwnership>,
     partitionsToAdd: string[]
   ): string[] {
     let potential: string[] = partitionsToAdd;

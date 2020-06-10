@@ -4,8 +4,8 @@
     "target": "ES2015",
     "moduleResolution": "node",
 
-    "allowSyntheticDefaultImports": true,
-
+    "esModuleInterop": true,
+    "lib": ["ESNext.AsyncIterable"],
     "outDir": "dist",
     "rootDir": "src"
   },
