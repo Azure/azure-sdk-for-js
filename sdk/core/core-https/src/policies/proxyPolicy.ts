@@ -31,7 +31,13 @@ function loadEnvironmentProxyValue(): string | undefined {
   return undefined;
 }
 
-function getDefaultProxySettings(proxyUrl?: string): ProxySettings | undefined {
+/**
+ * This method converts a proxy url into `ProxySettings` for use with ProxyPolicy.
+ * If no argument is given, it attempts to parse a proxy URL from the environment
+ * variables `HTTPS_PROXY` or `HTTP_PROXY`.
+ * @param proxyUrl The url of the proxy to use. May contain authentication information.
+ */
+export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | undefined {
   if (!proxyUrl) {
     proxyUrl = loadEnvironmentProxyValue();
     if (!proxyUrl) {
@@ -42,7 +48,7 @@ function getDefaultProxySettings(proxyUrl?: string): ProxySettings | undefined {
   const parsedUrl = new URL(proxyUrl);
   const schema = parsedUrl.protocol ? parsedUrl.protocol + "//" : "";
   return {
-    host: schema + parsedUrl.host,
+    host: schema + parsedUrl.hostname,
     port: Number.parseInt(parsedUrl.port || "80"),
     username: parsedUrl.username,
     password: parsedUrl.password

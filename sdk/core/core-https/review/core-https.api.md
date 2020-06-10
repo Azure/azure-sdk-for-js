@@ -67,6 +67,9 @@ export const formDataPolicyName = "formDataPolicy";
 export type FormDataValue = string | Blob;
 
 // @public
+export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | undefined;
+
+// @public
 export interface HttpHeaders extends Iterable<[string, string]> {
     clone(): HttpHeaders;
     delete(name: string): void;

@@ -49,7 +49,7 @@ export {
   KeepAlivePolicyOptions
 } from "./policies/keepAlivePolicy";
 export { logPolicy, logPolicyName, LogPolicyOptions } from "./policies/logPolicy";
-export { proxyPolicy, proxyPolicyName } from "./policies/proxyPolicy";
+export { proxyPolicy, proxyPolicyName, getDefaultProxySettings } from "./policies/proxyPolicy";
 export {
   redirectPolicy,
   redirectPolicyName,

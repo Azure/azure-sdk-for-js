@@ -9,6 +9,10 @@ const NotSupported = new Error("proxyPolicy is not supported in browser environm
 
 export const proxyPolicyName = "proxyPolicy";
 
+export function getDefaultProxySettings(): never {
+  throw NotSupported;
+}
+
 /**
  * proxyPolicy is not supported in browser and attempting
  * to use it will results in error being thrown.
