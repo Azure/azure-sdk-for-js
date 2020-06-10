@@ -67,6 +67,9 @@ $runManifest = @()
 $dependencies = New-Object 'system.collections.generic.dictionary[string,string]'
 $baseName = 't' + (New-Guid).ToString('n').Substring(0, 16)
 
+# Use the same resource group name that New-TestResources.ps1 generates
+SetEnvironmentVariable -Name 'AZURE_RESOURCEGROUP_NAME' -Value "rg-$baseName"
+
 foreach ($entry in $manifest) {
   try {
     Write-Verbose "Deploying resources for $($entry.name)..."

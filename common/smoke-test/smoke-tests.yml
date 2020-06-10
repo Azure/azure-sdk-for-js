@@ -83,8 +83,10 @@ jobs:
           workingDir: common/smoke-test/
         displayName: List packages installed from the feed
 
-      - script: node run.js
-        workingDirectory: $(Build.SourcesDirectory)/common/smoke-test
+      - script: |
+          ls
+          node run.js
+        workingDirectory: common/smoke-test/
         displayName: Run smoke tests
 
       - template: /eng/common/TestResources/remove-test-resources.yml
