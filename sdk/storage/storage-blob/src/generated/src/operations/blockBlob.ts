@@ -251,7 +251,8 @@ const uploadOperationSpec: coreHttp.OperationSpec = {
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
     Parameters.ifMatch,
-    Parameters.ifNoneMatch
+    Parameters.ifNoneMatch,
+    Parameters.ifTags
   ],
   requestBody: {
     parameterPath: "body",
@@ -398,7 +399,8 @@ const commitBlockListOperationSpec: coreHttp.OperationSpec = {
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
     Parameters.ifMatch,
-    Parameters.ifNoneMatch
+    Parameters.ifNoneMatch,
+    Parameters.ifTags
   ],
   requestBody: {
     parameterPath: "blocks",
@@ -436,7 +438,8 @@ const getBlockListOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [
     Parameters.version,
     Parameters.requestId,
-    Parameters.leaseId0
+    Parameters.leaseId0,
+    Parameters.ifTags
   ],
   responses: {
     200: {

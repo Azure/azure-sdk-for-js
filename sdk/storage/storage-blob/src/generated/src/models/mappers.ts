@@ -148,7 +148,7 @@ export const DataLakeStorageError: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "DataLakeStorageError",
     modelProperties: {
-      error: {
+      dataLakeStorageErrorDetails: {
         xmlName: "error",
         serializedName: "error",
         type: {
@@ -603,16 +603,9 @@ export const BlobItemInternal: coreHttp.CompositeMapper = {
           className: "BlobTags"
         }
       },
-      objectReplicationPolicyId: {
-        xmlName: "ObjectReplicationPolicyId",
-        serializedName: "ObjectReplicationPolicyId",
-        type: {
-          name: "String"
-        }
-      },
-      objectReplicationRules: {
-        xmlName: "BlobObjectReplicationRules",
-        serializedName: "ObjectReplicationRules",
+      objectReplicationMetadata: {
+        xmlName: "OrMetadata",
+        serializedName: "ObjectReplicationMetadata",
         type: {
           name: "Dictionary",
           value: {
@@ -1954,6 +1947,12 @@ export const ModifiedAccessConditions: coreHttp.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      ifTags: {
+        xmlName: "ifTags",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -2025,6 +2024,12 @@ export const SourceModifiedAccessConditions: coreHttp.CompositeMapper = {
       },
       sourceIfNoneMatch: {
         xmlName: "sourceIfNoneMatch",
+        type: {
+          name: "String"
+        }
+      },
+      sourceIfTags: {
+        xmlName: "sourceIfTags",
         type: {
           name: "String"
         }

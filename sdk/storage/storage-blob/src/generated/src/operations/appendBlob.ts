@@ -181,7 +181,8 @@ const createOperationSpec: coreHttp.OperationSpec = {
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
     Parameters.ifMatch,
-    Parameters.ifNoneMatch
+    Parameters.ifNoneMatch,
+    Parameters.ifTags
   ],
   responses: {
     201: {
@@ -222,7 +223,8 @@ const appendBlockOperationSpec: coreHttp.OperationSpec = {
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
     Parameters.ifMatch,
-    Parameters.ifNoneMatch
+    Parameters.ifNoneMatch,
+    Parameters.ifTags
   ],
   requestBody: {
     parameterPath: "body",
@@ -278,6 +280,7 @@ const appendBlockFromUrlOperationSpec: coreHttp.OperationSpec = {
     Parameters.ifUnmodifiedSince,
     Parameters.ifMatch,
     Parameters.ifNoneMatch,
+    Parameters.ifTags,
     Parameters.sourceIfModifiedSince,
     Parameters.sourceIfUnmodifiedSince,
     Parameters.sourceIfMatch,

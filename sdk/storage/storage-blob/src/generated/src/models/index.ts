@@ -89,7 +89,7 @@ export interface DataLakeStorageError {
   /**
    * The service error response object.
    */
-  error?: DataLakeStorageErrorError;
+  dataLakeStorageErrorDetails?: DataLakeStorageErrorError;
 }
 
 /**
@@ -210,8 +210,7 @@ export interface BlobItemInternal {
   properties: BlobPropertiesInternal;
   metadata?: { [propertyName: string]: string };
   blobTags?: BlobTags;
-  objectReplicationPolicyId?: string;
-  objectReplicationRules?: { [propertyName: string]: string };
+  objectReplicationMetadata?: { [propertyName: string]: string };
 }
 
 /**
@@ -670,6 +669,10 @@ export interface ModifiedAccessConditions {
    * Specify an ETag value to operate only on blobs without a matching value.
    */
   ifNoneMatch?: string;
+  /**
+   * Specify a SQL where clause on blob tags to operate only on blobs with a matching value.
+   */
+  ifTags?: string;
 }
 
 /**
@@ -721,6 +724,10 @@ export interface SourceModifiedAccessConditions {
    * Specify an ETag value to operate only on blobs without a matching value.
    */
   sourceIfNoneMatch?: string;
+  /**
+   * Specify a SQL where clause on blob tags to operate only on blobs with a matching value.
+   */
+  sourceIfTags?: string;
 }
 
 /**
@@ -1501,7 +1508,7 @@ export interface DirectoryRenameOptionalParams extends coreHttp.RequestOptionsBa
   posixUmask?: string;
   /**
    * A lease ID for the source path. If specified, the source path must have an active lease and
-   * the leaase ID must match.
+   * the lease ID must match.
    */
   sourceLeaseId?: string;
   /**
@@ -1893,7 +1900,7 @@ export interface BlobRenameOptionalParams extends coreHttp.RequestOptionsBase {
   posixUmask?: string;
   /**
    * A lease ID for the source path. If specified, the source path must have an active lease and
-   * the leaase ID must match.
+   * the lease ID must match.
    */
   sourceLeaseId?: string;
   /**
@@ -2444,6 +2451,10 @@ export interface BlobGetTagsOptionalParams extends coreHttp.RequestOptionsBase {
    * of the blob to operate on. It's for service version 2019-10-10 and newer.
    */
   versionId?: string;
+  /**
+   * Additional parameters for the operation
+   */
+  modifiedAccessConditions?: ModifiedAccessConditions;
 }
 
 /**
@@ -2478,6 +2489,10 @@ export interface BlobSetTagsOptionalParams extends coreHttp.RequestOptionsBase {
    * Blob tags
    */
   tags?: BlobTags;
+  /**
+   * Additional parameters for the operation
+   */
+  modifiedAccessConditions?: ModifiedAccessConditions;
 }
 
 /**
@@ -3303,6 +3318,10 @@ export interface BlockBlobGetBlockListOptionalParams extends coreHttp.RequestOpt
    * Additional parameters for the operation
    */
   leaseAccessConditions?: LeaseAccessConditions;
+  /**
+   * Additional parameters for the operation
+   */
+  modifiedAccessConditions?: ModifiedAccessConditions;
 }
 
 /**

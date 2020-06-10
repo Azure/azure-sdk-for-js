@@ -673,9 +673,7 @@ export interface BlobItem {
     // (undocumented)
     name: string;
     // (undocumented)
-    objectReplicationPolicyId?: string;
-    // (undocumented)
-    objectReplicationRules?: {
+    objectReplicationMetadata?: {
         [propertyName: string]: string;
     };
     // (undocumented)
@@ -1852,6 +1850,7 @@ export interface ModifiedAccessConditions {
     ifMatch?: string;
     ifModifiedSince?: Date;
     ifNoneMatch?: string;
+    ifTags?: string;
     ifUnmodifiedSince?: Date;
 }
 

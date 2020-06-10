@@ -738,7 +738,8 @@ const downloadOperationSpec: coreHttp.OperationSpec = {
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
     Parameters.ifMatch,
-    Parameters.ifNoneMatch
+    Parameters.ifNoneMatch,
+    Parameters.ifTags
   ],
   responses: {
     200: {
@@ -789,7 +790,8 @@ const getPropertiesOperationSpec: coreHttp.OperationSpec = {
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
     Parameters.ifMatch,
-    Parameters.ifNoneMatch
+    Parameters.ifNoneMatch,
+    Parameters.ifTags
   ],
   responses: {
     200: {
@@ -823,7 +825,8 @@ const deleteMethodOperationSpec: coreHttp.OperationSpec = {
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
     Parameters.ifMatch,
-    Parameters.ifNoneMatch
+    Parameters.ifNoneMatch,
+    Parameters.ifTags
   ],
   responses: {
     202: {
@@ -1032,7 +1035,8 @@ const setHTTPHeadersOperationSpec: coreHttp.OperationSpec = {
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
     Parameters.ifMatch,
-    Parameters.ifNoneMatch
+    Parameters.ifNoneMatch,
+    Parameters.ifTags
   ],
   responses: {
     200: {
@@ -1069,7 +1073,8 @@ const setMetadataOperationSpec: coreHttp.OperationSpec = {
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
     Parameters.ifMatch,
-    Parameters.ifNoneMatch
+    Parameters.ifNoneMatch,
+    Parameters.ifTags
   ],
   responses: {
     200: {
@@ -1103,7 +1108,8 @@ const acquireLeaseOperationSpec: coreHttp.OperationSpec = {
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
     Parameters.ifMatch,
-    Parameters.ifNoneMatch
+    Parameters.ifNoneMatch,
+    Parameters.ifTags
   ],
   responses: {
     201: {
@@ -1136,7 +1142,8 @@ const releaseLeaseOperationSpec: coreHttp.OperationSpec = {
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
     Parameters.ifMatch,
-    Parameters.ifNoneMatch
+    Parameters.ifNoneMatch,
+    Parameters.ifTags
   ],
   responses: {
     200: {
@@ -1169,7 +1176,8 @@ const renewLeaseOperationSpec: coreHttp.OperationSpec = {
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
     Parameters.ifMatch,
-    Parameters.ifNoneMatch
+    Parameters.ifNoneMatch,
+    Parameters.ifTags
   ],
   responses: {
     200: {
@@ -1203,7 +1211,8 @@ const changeLeaseOperationSpec: coreHttp.OperationSpec = {
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
     Parameters.ifMatch,
-    Parameters.ifNoneMatch
+    Parameters.ifNoneMatch,
+    Parameters.ifTags
   ],
   responses: {
     200: {
@@ -1236,7 +1245,8 @@ const breakLeaseOperationSpec: coreHttp.OperationSpec = {
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
     Parameters.ifMatch,
-    Parameters.ifNoneMatch
+    Parameters.ifNoneMatch,
+    Parameters.ifTags
   ],
   responses: {
     202: {
@@ -1273,6 +1283,7 @@ const createSnapshotOperationSpec: coreHttp.OperationSpec = {
     Parameters.ifUnmodifiedSince,
     Parameters.ifMatch,
     Parameters.ifNoneMatch,
+    Parameters.ifTags,
     Parameters.leaseId0
   ],
   responses: {
@@ -1310,10 +1321,12 @@ const startCopyFromURLOperationSpec: coreHttp.OperationSpec = {
     Parameters.sourceIfUnmodifiedSince,
     Parameters.sourceIfMatch,
     Parameters.sourceIfNoneMatch,
+    Parameters.sourceIfTags,
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
     Parameters.ifMatch,
     Parameters.ifNoneMatch,
+    Parameters.ifTags,
     Parameters.leaseId0
   ],
   responses: {
@@ -1356,6 +1369,7 @@ const copyFromURLOperationSpec: coreHttp.OperationSpec = {
     Parameters.ifUnmodifiedSince,
     Parameters.ifMatch,
     Parameters.ifNoneMatch,
+    Parameters.ifTags,
     Parameters.leaseId0
   ],
   responses: {
@@ -1535,7 +1549,8 @@ const getTagsOperationSpec: coreHttp.OperationSpec = {
   ],
   headerParameters: [
     Parameters.version,
-    Parameters.requestId
+    Parameters.requestId,
+    Parameters.ifTags
   ],
   responses: {
     200: {
@@ -1566,7 +1581,8 @@ const setTagsOperationSpec: coreHttp.OperationSpec = {
     Parameters.version,
     Parameters.transactionalContentMD5,
     Parameters.transactionalContentCrc64,
-    Parameters.requestId
+    Parameters.requestId,
+    Parameters.ifTags
   ],
   requestBody: {
     parameterPath: [

@@ -926,6 +926,19 @@ export const ifSequenceNumberLessThanOrEqualTo: coreHttp.OperationParameter = {
     }
   }
 };
+export const ifTags: coreHttp.OperationParameter = {
+  parameterPath: [
+    "options",
+    "modifiedAccessConditions",
+    "ifTags"
+  ],
+  mapper: {
+    serializedName: "x-ms-if-tags",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const ifUnmodifiedSince: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
@@ -1501,6 +1514,19 @@ export const sourceIfNoneMatch: coreHttp.OperationParameter = {
   ],
   mapper: {
     serializedName: "x-ms-source-if-none-match",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const sourceIfTags: coreHttp.OperationParameter = {
+  parameterPath: [
+    "options",
+    "sourceModifiedAccessConditions",
+    "sourceIfTags"
+  ],
+  mapper: {
+    serializedName: "x-ms-source-if-tags",
     type: {
       name: "String"
     }
