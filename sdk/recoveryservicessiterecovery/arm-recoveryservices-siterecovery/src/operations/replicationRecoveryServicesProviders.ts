@@ -90,6 +90,20 @@ export class ReplicationRecoveryServicesProviders {
   }
 
   /**
+   * The operation to add a recovery services provider.
+   * @summary Adds a recovery services provider.
+   * @param fabricName Fabric name.
+   * @param providerName Recovery services provider name.
+   * @param addProviderInput Add provider input.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ReplicationRecoveryServicesProvidersCreateResponse>
+   */
+  create(fabricName: string, providerName: string, addProviderInput: Models.AddRecoveryServicesProviderInput, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationRecoveryServicesProvidersCreateResponse> {
+    return this.beginCreate(fabricName,providerName,addProviderInput,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ReplicationRecoveryServicesProvidersCreateResponse>;
+  }
+
+  /**
    * The operation to purge(force delete) a recovery services provider from the vault.
    * @summary Purges recovery service provider from fabric
    * @param fabricName Fabric name.
@@ -155,6 +169,27 @@ export class ReplicationRecoveryServicesProviders {
       },
       listOperationSpec,
       callback) as Promise<Models.ReplicationRecoveryServicesProvidersListResponse>;
+  }
+
+  /**
+   * The operation to add a recovery services provider.
+   * @summary Adds a recovery services provider.
+   * @param fabricName Fabric name.
+   * @param providerName Recovery services provider name.
+   * @param addProviderInput Add provider input.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginCreate(fabricName: string, providerName: string, addProviderInput: Models.AddRecoveryServicesProviderInput, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        fabricName,
+        providerName,
+        addProviderInput,
+        options
+      },
+      beginCreateOperationSpec,
+      options);
   }
 
   /**
@@ -351,6 +386,41 @@ const listOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.RecoveryServicesProviderCollection
     },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginCreateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationRecoveryServicesProviders/{providerName}",
+  urlParameters: [
+    Parameters.resourceName,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.fabricName,
+    Parameters.providerName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "addProviderInput",
+    mapper: {
+      ...Mappers.AddRecoveryServicesProviderInput,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.RecoveryServicesProvider
+    },
+    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
