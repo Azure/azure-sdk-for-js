@@ -337,7 +337,7 @@ export function getISO8601DurationFromSeconds(
   for (const { label, inSeconds } of [day, hour, minute, second]) {
     const value = Math.floor(remainder / inSeconds);
     remainder = remainder % inSeconds;
-    if (value > 0) {
+    if (value > 0 || (value >= 0 && label == second.label)) {
       if (label != day.label && !timeSeparatorAdded) {
         iso8601Duration += "T";
         timeSeparatorAdded = true;
