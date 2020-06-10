@@ -470,12 +470,11 @@ export class FormTrainingClient {
    * const trainingFilesUrl = "<url to the blob container storing training documents>";
    * const trainingClient = new FormTrainingClient(endpoint, new AzureKeyCredential(apiKey));
    *
-   * const poller = await trainingClient.beginTraining(trainingFilesUrl, {
+   * const poller = await trainingClient.beginTraining(trainingFilesUrl, false, {
    *   onProgress: (state) => { console.log("training status: "); console.log(state); }
    * });
    * await poller.pollUntilDone();
    * const response = poller.getResult();
-   * console.log(response)
    * ```
    * @summary Creates and trains a model
    * @param {string} trainingFilesUrl Accessible url to an Azure Storage Blob container storing the training documents
