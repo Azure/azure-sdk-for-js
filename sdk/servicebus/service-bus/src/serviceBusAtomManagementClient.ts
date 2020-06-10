@@ -1,9 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Constants as AMQPConstants, isTokenCredential, parseConnectionString, TokenCredential } from "@azure/core-amqp";
 import {
-  bearerTokenAuthenticationPolicy, HttpOperationResponse,
+  Constants as AMQPConstants,
+  isTokenCredential,
+  parseConnectionString,
+  TokenCredential
+} from "@azure/core-amqp";
+import {
+  bearerTokenAuthenticationPolicy,
+  HttpOperationResponse,
   proxyPolicy,
   ProxySettings,
   RequestPolicyFactory,
@@ -96,7 +102,7 @@ export interface Response {
 /**
  * Represents properties of the namespace.
  */
-export interface NamespaceResponse extends NamespaceProperties, Response {}
+export interface NamespacePropertiesResponse extends NamespaceProperties, Response {}
 
 /**
  * Represents runtime info of a queue.
@@ -106,13 +112,7 @@ export interface QueueRuntimeInfoResponse extends QueueRuntimeInfo, Response {}
 /**
  * Array of objects representing runtime info for multiple queues.
  */
-export interface QueuesRuntimeInfoResponse extends Array<QueueRuntimeInfo> {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpOperationResponse;
-}
-
+export interface QueuesRuntimeInfoResponse extends Array<QueueRuntimeInfo>, Response {}
 /**
  * Represents result of create, get, update and delete operations on queue.
  */
@@ -286,14 +286,14 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @param queueName
    *
    */
-  async getNamespaceProperties(): Promise<NamespaceResponse> {
+  async getNamespaceProperties(): Promise<NamespacePropertiesResponse> {
     log.httpAtomXml(`Performing management operation - getNamespaceProperties()`);
     const response: HttpOperationResponse = await this.getResource(
       "$namespaceinfo",
       this.namespaceResourceSerializer
     );
 
-    return this.buildNamespaceResponse(response);
+    return this.buildNamespacePropertiesResponse(response);
   }
 
   /**
@@ -1407,10 +1407,12 @@ export class ServiceBusManagementClient extends ServiceClient {
     return topicName + "/Subscriptions/" + subscriptionName + "/Rules/" + ruleName;
   }
 
-  private buildNamespaceResponse(response: HttpOperationResponse): NamespaceResponse {
+  private buildNamespacePropertiesResponse(
+    response: HttpOperationResponse
+  ): NamespacePropertiesResponse {
     try {
       const namespace = buildNamespace(response.parsedBody);
-      const namespaceResponse: NamespaceResponse = Object.assign(namespace || {}, {
+      const namespaceResponse: NamespacePropertiesResponse = Object.assign(namespace || {}, {
         _response: response
       });
       return namespaceResponse;
