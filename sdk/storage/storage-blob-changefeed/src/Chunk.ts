@@ -38,9 +38,13 @@ export class Chunk {
     if (next.done) {
       return undefined;
     } else {
-      let eventRaw = next.value as BlobChangeFeedEvent;
+      let eventRaw = next.value as any;
       if (eventRaw.eventTime) {
         eventRaw.eventTime = new Date(eventRaw.eventTime);
+      }
+      if (eventRaw.eTag) {
+        eventRaw.etag = eventRaw.eTag;
+        delete eventRaw.eTag;
       }
       return eventRaw;
     }

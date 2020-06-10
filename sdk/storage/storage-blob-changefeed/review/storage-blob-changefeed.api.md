@@ -51,7 +51,7 @@ export interface BlobChangeFeedEventData {
     // (undocumented)
     destinationUrl?: string;
     // (undocumented)
-    eTag: string;
+    etag: string;
     // (undocumented)
     recursive?: string;
     // (undocumented)

@@ -17,7 +17,7 @@ export interface BlobChangeFeedEventData {
   api: string;
   clientRequestId: string; // GUID
   requestId: string; // GUID
-  eTag: string;
+  etag: string;
   contentType: string;
   contentLength: number;
   blobType: BlobType;
