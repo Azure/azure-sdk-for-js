@@ -51,20 +51,8 @@ export interface CreateBatchOptions extends OperationOptions {
 }
 
 // @public
-export type CreateQueueResponse = QueueResponse;
-
-// @public
-export type CreateRuleResponse = RuleResponse;
-
-// @public
 export interface CreateSessionReceiverOptions extends SessionReceiverOptions, OperationOptions {
 }
-
-// @public
-export type CreateSubscriptionResponse = SubscriptionResponse;
-
-// @public
-export type CreateTopicResponse = TopicResponse;
 
 // @public
 export interface DeadLetterOptions {
@@ -74,26 +62,6 @@ export interface DeadLetterOptions {
 
 export { delay }
 
-// @public
-export interface DeleteQueueResponse {
-    _response: HttpOperationResponse;
-}
-
-// @public
-export interface DeleteRuleResponse {
-    _response: HttpOperationResponse;
-}
-
-// @public
-export interface DeleteSubscriptionResponse {
-    _response: HttpOperationResponse;
-}
-
-// @public
-export interface DeleteTopicResponse {
-    _response: HttpOperationResponse;
-}
-
 export { Delivery }
 
 // @public
@@ -101,71 +69,6 @@ export type EntityStatus = "Active" | "Creating" | "Deleting" | "ReceiveDisabled
 
 // @public
 export interface GetMessageIteratorOptions extends OperationOptions, WaitTimeOptions {
-}
-
-// @public
-export type GetNamespaceResponse = NamespaceResponse;
-
-// @public
-export type GetQueueResponse = QueueResponse;
-
-// @public
-export interface GetQueueRuntimeInfoResponse extends QueueRuntimeInfo {
-    _response: HttpOperationResponse;
-}
-
-// @public
-export interface GetQueuesResponse extends Array<QueueDescription> {
-    _response: HttpOperationResponse;
-}
-
-// @public
-export interface GetQueuesRuntimeInfoResponse extends Array<QueueRuntimeInfo> {
-    _response: HttpOperationResponse;
-}
-
-// @public
-export type GetRuleResponse = RuleResponse;
-
-// @public
-export interface GetRulesResponse extends Array<RuleDescription> {
-    _response: HttpOperationResponse;
-}
-
-// @public
-export type GetSubscriptionResponse = SubscriptionResponse;
-
-// @public
-export interface GetSubscriptionRuntimeInfoResponse extends SubscriptionRuntimeInfo {
-    _response: HttpOperationResponse;
-}
-
-// @public
-export interface GetSubscriptionsResponse extends Array<SubscriptionDescription> {
-    _response: HttpOperationResponse;
-}
-
-// @public
-export interface GetSubscriptionsRuntimeInfoResponse extends Array<SubscriptionRuntimeInfo> {
-    _response: HttpOperationResponse;
-}
-
-// @public
-export type GetTopicResponse = TopicResponse;
-
-// @public
-export interface GetTopicRuntimeInfoResponse extends TopicRuntimeInfo {
-    _response: HttpOperationResponse;
-}
-
-// @public
-export interface GetTopicsResponse extends Array<TopicDescription> {
-    _response: HttpOperationResponse;
-}
-
-// @public
-export interface GetTopicsRuntimeInfoResponse extends Array<TopicRuntimeInfo> {
-    _response: HttpOperationResponse;
 }
 
 // @public
@@ -263,6 +166,21 @@ export interface QueueRuntimeInfo {
 }
 
 // @public
+export interface QueueRuntimeInfoResponse extends QueueRuntimeInfo {
+    _response: HttpOperationResponse;
+}
+
+// @public
+export interface QueuesResponse extends Array<QueueDescription> {
+    _response: HttpOperationResponse;
+}
+
+// @public
+export interface QueuesRuntimeInfoResponse extends Array<QueueRuntimeInfo> {
+    _response: HttpOperationResponse;
+}
+
+// @public
 export interface ReceiveBatchOptions extends OperationOptions, WaitTimeOptions {
 }
 
@@ -309,6 +227,11 @@ export interface Receiver<ReceivedMessageT> {
     subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SubscribeOptions): void;
 }
 
+// @public
+export interface Response {
+    _response: HttpOperationResponse;
+}
+
 export { RetryOptions }
 
 // @public
@@ -320,6 +243,11 @@ export interface RuleDescription {
 
 // @public
 export interface RuleResponse extends RuleDescription {
+    _response: HttpOperationResponse;
+}
+
+// @public
+export interface RulesResponse extends Array<RuleDescription> {
     _response: HttpOperationResponse;
 }
 
@@ -375,39 +303,39 @@ export interface ServiceBusClientOptions {
 export class ServiceBusManagementClient extends ServiceClient {
     constructor(connectionString: string, options?: ServiceBusManagementClientOptions);
     constructor(fullyQualifiedNamespace: string, credential: TokenCredential, options?: ServiceBusManagementClientOptions);
-    createQueue(queueName: string): Promise<CreateQueueResponse>;
-    createQueue(queue: QueueDescription): Promise<CreateQueueResponse>;
-    createRule(topicName: string, subscriptionName: string, rule: RuleDescription): Promise<CreateRuleResponse>;
-    createSubscription(topicName: string, subscriptionName: string): Promise<CreateSubscriptionResponse>;
-    createSubscription(subscription: SubscriptionDescription): Promise<CreateSubscriptionResponse>;
-    createTopic(topicName: string): Promise<CreateTopicResponse>;
-    createTopic(topic: TopicDescription): Promise<CreateTopicResponse>;
-    deleteQueue(queueName: string): Promise<DeleteQueueResponse>;
-    deleteRule(topicName: string, subscriptionName: string, ruleName: string): Promise<DeleteRuleResponse>;
-    deleteSubscription(topicName: string, subscriptionName: string): Promise<DeleteSubscriptionResponse>;
-    deleteTopic(topicName: string): Promise<DeleteTopicResponse>;
-    getNamespaceProperties(): Promise<GetNamespaceResponse>;
-    getQueue(queueName: string): Promise<GetQueueResponse>;
-    getQueueRuntimeInfo(queueName: string): Promise<GetQueueRuntimeInfoResponse>;
-    getQueues(listRequestOptions?: ListRequestOptions): Promise<GetQueuesResponse>;
-    getQueuesRuntimeInfo(listRequestOptions?: ListRequestOptions): Promise<GetQueuesRuntimeInfoResponse>;
-    getRule(topicName: string, subscriptioName: string, ruleName: string): Promise<GetRuleResponse>;
-    getRules(topicName: string, subscriptionName: string, listRequestOptions?: ListRequestOptions): Promise<GetRulesResponse>;
-    getSubscription(topicName: string, subscriptionName: string): Promise<GetSubscriptionResponse>;
-    getSubscriptionRuntimeInfo(topicName: string, subscriptionName: string): Promise<GetSubscriptionRuntimeInfoResponse>;
-    getSubscriptions(topicName: string, listRequestOptions?: ListRequestOptions): Promise<GetSubscriptionsResponse>;
-    getSubscriptionsRuntimeInfo(topicName: string, listRequestOptions?: ListRequestOptions): Promise<GetSubscriptionsRuntimeInfoResponse>;
-    getTopic(topicName: string): Promise<GetTopicResponse>;
-    getTopicRuntimeInfo(topicName: string): Promise<GetTopicRuntimeInfoResponse>;
-    getTopics(listRequestOptions?: ListRequestOptions): Promise<GetTopicsResponse>;
-    getTopicsRuntimeInfo(listRequestOptions?: ListRequestOptions): Promise<GetTopicsRuntimeInfoResponse>;
+    createQueue(queueName: string): Promise<QueueResponse>;
+    createQueue(queue: QueueDescription): Promise<QueueResponse>;
+    createRule(topicName: string, subscriptionName: string, rule: RuleDescription): Promise<RuleResponse>;
+    createSubscription(topicName: string, subscriptionName: string): Promise<SubscriptionResponse>;
+    createSubscription(subscription: SubscriptionDescription): Promise<SubscriptionResponse>;
+    createTopic(topicName: string): Promise<TopicResponse>;
+    createTopic(topic: TopicDescription): Promise<TopicResponse>;
+    deleteQueue(queueName: string): Promise<Response>;
+    deleteRule(topicName: string, subscriptionName: string, ruleName: string): Promise<Response>;
+    deleteSubscription(topicName: string, subscriptionName: string): Promise<Response>;
+    deleteTopic(topicName: string): Promise<Response>;
+    getNamespaceProperties(): Promise<NamespaceResponse>;
+    getQueue(queueName: string): Promise<QueueResponse>;
+    getQueueRuntimeInfo(queueName: string): Promise<QueueRuntimeInfoResponse>;
+    getQueues(listRequestOptions?: ListRequestOptions): Promise<QueuesResponse>;
+    getQueuesRuntimeInfo(listRequestOptions?: ListRequestOptions): Promise<QueuesRuntimeInfoResponse>;
+    getRule(topicName: string, subscriptioName: string, ruleName: string): Promise<RuleResponse>;
+    getRules(topicName: string, subscriptionName: string, listRequestOptions?: ListRequestOptions): Promise<RulesResponse>;
+    getSubscription(topicName: string, subscriptionName: string): Promise<SubscriptionResponse>;
+    getSubscriptionRuntimeInfo(topicName: string, subscriptionName: string): Promise<SubscriptionRuntimeInfoResponse>;
+    getSubscriptions(topicName: string, listRequestOptions?: ListRequestOptions): Promise<SubscriptionsResponse>;
+    getSubscriptionsRuntimeInfo(topicName: string, listRequestOptions?: ListRequestOptions): Promise<SubscriptionsRuntimeInfoResponse>;
+    getTopic(topicName: string): Promise<TopicResponse>;
+    getTopicRuntimeInfo(topicName: string): Promise<TopicRuntimeInfoResponse>;
+    getTopics(listRequestOptions?: ListRequestOptions): Promise<TopicsResponse>;
+    getTopicsRuntimeInfo(listRequestOptions?: ListRequestOptions): Promise<TopicsRuntimeInfoResponse>;
     queueExists(queueName: string): Promise<boolean>;
     subscriptionExists(topicName: string, subscriptionName: string): Promise<boolean>;
     topicExists(topicName: string): Promise<boolean>;
-    updateQueue(queue: QueueDescription): Promise<UpdateQueueResponse>;
-    updateRule(topicName: string, subscriptionName: string, rule: RuleDescription): Promise<UpdateRuleResponse>;
-    updateSubscription(subscription: SubscriptionDescription): Promise<UpdateSubscriptionResponse>;
-    updateTopic(topic: TopicDescription): Promise<UpdateTopicResponse>;
+    updateQueue(queue: QueueDescription): Promise<QueueResponse>;
+    updateRule(topicName: string, subscriptionName: string, rule: RuleDescription): Promise<RuleResponse>;
+    updateSubscription(subscription: SubscriptionDescription): Promise<SubscriptionResponse>;
+    updateTopic(topic: TopicDescription): Promise<TopicResponse>;
 }
 
 // @public
@@ -522,6 +450,21 @@ export interface SubscriptionRuntimeInfo {
     updatedOn: string;
 }
 
+// @public
+export interface SubscriptionRuntimeInfoResponse extends SubscriptionRuntimeInfo {
+    _response: HttpOperationResponse;
+}
+
+// @public
+export interface SubscriptionsResponse extends Array<SubscriptionDescription> {
+    _response: HttpOperationResponse;
+}
+
+// @public
+export interface SubscriptionsRuntimeInfoResponse extends Array<SubscriptionRuntimeInfo> {
+    _response: HttpOperationResponse;
+}
+
 export { TokenCredential }
 
 export { TokenType }
@@ -558,16 +501,19 @@ export interface TopicRuntimeInfo {
 }
 
 // @public
-export type UpdateQueueResponse = QueueResponse;
+export interface TopicRuntimeInfoResponse extends TopicRuntimeInfo {
+    _response: HttpOperationResponse;
+}
 
 // @public
-export type UpdateRuleResponse = RuleResponse;
+export interface TopicsResponse extends Array<TopicDescription> {
+    _response: HttpOperationResponse;
+}
 
 // @public
-export type UpdateSubscriptionResponse = SubscriptionResponse;
-
-// @public
-export type UpdateTopicResponse = TopicResponse;
+export interface TopicsRuntimeInfoResponse extends Array<TopicRuntimeInfo> {
+    _response: HttpOperationResponse;
+}
 
 // @public
 export interface WaitTimeOptions {
