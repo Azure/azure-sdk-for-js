@@ -1087,7 +1087,7 @@ export interface ListHandlesResponse {
 }
 
 // @public
-export type ListSharesIncludeType = 'snapshots' | 'metadata';
+export type ListSharesIncludeType = 'snapshots' | 'metadata' | 'deleted';
 
 // @public
 export interface ListSharesResponse {
@@ -1586,6 +1586,8 @@ export type ShareGetStatisticsResponseModel = ShareStats & ShareGetStatisticsHea
 // @public
 export interface ShareItem {
     // (undocumented)
+    deleted?: boolean;
+    // (undocumented)
     metadata?: {
         [propertyName: string]: string;
     };
@@ -1595,6 +1597,8 @@ export interface ShareItem {
     properties: ShareProperties;
     // (undocumented)
     snapshot?: string;
+    // (undocumented)
+    version?: string;
 }
 
 // @public
@@ -1616,6 +1620,8 @@ export interface SharePermission {
 // @public
 export interface ShareProperties {
     // (undocumented)
+    deletedTime?: Date;
+    // (undocumented)
     etag: string;
     // (undocumented)
     lastModified: Date;
@@ -1629,6 +1635,8 @@ export interface ShareProperties {
     provisionedIops?: number;
     // (undocumented)
     quota: number;
+    // (undocumented)
+    remainingRetentionDays?: number;
 }
 
 // @public

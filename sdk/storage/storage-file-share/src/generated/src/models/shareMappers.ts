@@ -17,6 +17,7 @@ export {
   ShareGetPropertiesHeaders,
   ShareGetStatisticsHeaders,
   SharePermission,
+  ShareRestoreHeaders,
   ShareSetAccessPolicyHeaders,
   ShareSetMetadataHeaders,
   ShareSetQuotaHeaders,

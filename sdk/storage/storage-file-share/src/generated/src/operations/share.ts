@@ -300,6 +300,30 @@ export class Share {
       getStatisticsOperationSpec,
       callback) as Promise<Models.ShareGetStatisticsResponse>;
   }
+
+  /**
+   * Restores a previously deleted Share.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ShareRestoreResponse>
+   */
+  restore(options?: Models.ShareRestoreOptionalParams): Promise<Models.ShareRestoreResponse>;
+  /**
+   * @param callback The callback
+   */
+  restore(callback: coreHttp.ServiceCallback<void>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  restore(options: Models.ShareRestoreOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  restore(options?: Models.ShareRestoreOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ShareRestoreResponse> {
+    return this.client.sendOperationRequest(
+      {
+        options
+      },
+      restoreOperationSpec,
+      callback) as Promise<Models.ShareRestoreResponse>;
+  }
 }
 
 // Operation Specifications
@@ -645,6 +669,36 @@ const getStatisticsOperationSpec: coreHttp.OperationSpec = {
     default: {
       bodyMapper: Mappers.StorageError,
       headersMapper: Mappers.ShareGetStatisticsHeaders
+    }
+  },
+  isXML: true,
+  serializer
+};
+
+const restoreOperationSpec: coreHttp.OperationSpec = {
+  httpMethod: "PUT",
+  path: "{shareName}",
+  urlParameters: [
+    Parameters.url
+  ],
+  queryParameters: [
+    Parameters.timeoutInSeconds,
+    Parameters.restype1,
+    Parameters.comp7
+  ],
+  headerParameters: [
+    Parameters.version,
+    Parameters.requestId,
+    Parameters.deletedShareName,
+    Parameters.deletedShareVersion
+  ],
+  responses: {
+    201: {
+      headersMapper: Mappers.ShareRestoreHeaders
+    },
+    default: {
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ShareRestoreHeaders
     }
   },
   isXML: true,

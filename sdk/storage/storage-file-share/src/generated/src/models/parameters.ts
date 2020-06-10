@@ -88,7 +88,7 @@ export const comp10: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'range',
+    defaultValue: 'lease',
     type: {
       name: "String"
     }
@@ -100,13 +100,25 @@ export const comp11: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'rangelist',
+    defaultValue: 'range',
     type: {
       name: "String"
     }
   }
 };
 export const comp12: coreHttp.OperationQueryParameter = {
+  parameterPath: "comp",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "comp",
+    defaultValue: 'rangelist',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const comp13: coreHttp.OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -184,7 +196,7 @@ export const comp7: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'listhandles',
+    defaultValue: 'undelete',
     type: {
       name: "String"
     }
@@ -196,7 +208,7 @@ export const comp8: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'forceclosehandles',
+    defaultValue: 'listhandles',
     type: {
       name: "String"
     }
@@ -208,7 +220,7 @@ export const comp9: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'lease',
+    defaultValue: 'forceclosehandles',
     type: {
       name: "String"
     }
@@ -263,6 +275,30 @@ export const copySource: coreHttp.OperationParameter = {
   mapper: {
     required: true,
     serializedName: "x-ms-copy-source",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const deletedShareName: coreHttp.OperationParameter = {
+  parameterPath: [
+    "options",
+    "deletedShareName"
+  ],
+  mapper: {
+    serializedName: "x-ms-deleted-share-name",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const deletedShareVersion: coreHttp.OperationParameter = {
+  parameterPath: [
+    "options",
+    "deletedShareVersion"
+  ],
+  mapper: {
+    serializedName: "x-ms-deleted-share-version",
     type: {
       name: "String"
     }
@@ -591,7 +627,8 @@ export const include: coreHttp.OperationQueryParameter = {
           name: "Enum",
           allowedValues: [
             "snapshots",
-            "metadata"
+            "metadata",
+            "deleted"
           ]
         }
       }
