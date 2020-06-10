@@ -128,7 +128,7 @@ for await (const eventPage of changeFeedClient.getChanges().byPage({continuation
 
 Pass start time and end time to `BlobChangeFeedClient.getChanges()` to fetch events within a time range.
 
-Note that for preview release, the change feed client will round start time down to the nearest hour, and round endTime up to the next hour.
+Note that for this preview release, the change feed client will round start time down to the nearest hour, and round end time up to the next hour.
 
 ```javascript
 const { BlobChangeFeedEvent } = require("@azure/storage-blob-changefeed");
