@@ -23,6 +23,7 @@ import { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
 import { disableResponseDecompressionPolicy } from "./policies/disableResponseDecompressionPolicy";
 import { proxyPolicy } from "./policies/proxyPolicy";
 import { isNode } from "./util/helpers";
+import { formDataPolicy } from "./policies/formDataPolicy";
 
 /**
  * Policies are executed in phases.
@@ -444,6 +445,7 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
     }
   }
 
+  pipeline.addPolicy(formDataPolicy());
   pipeline.addPolicy(tracingPolicy(options.userAgentOptions));
   pipeline.addPolicy(keepAlivePolicy(options.keepAliveOptions));
   pipeline.addPolicy(userAgentPolicy(options.userAgentOptions));

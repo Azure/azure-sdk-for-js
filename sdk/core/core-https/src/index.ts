@@ -67,3 +67,4 @@ export {
   userAgentPolicyName,
   UserAgentPolicyOptions
 } from "./policies/userAgentPolicy";
+export { formDataPolicy, formDataPolicyName } from "./policies/formDataPolicy";

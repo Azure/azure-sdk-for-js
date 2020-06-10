@@ -4,7 +4,6 @@
 import * as https from "https";
 import * as zlib from "zlib";
 import { Transform } from "stream";
-import FormData from "form-data";
 import { HttpsProxyAgent, HttpsProxyAgentOptions } from "https-proxy-agent";
 import { AbortController, AbortError } from "@azure/abort-controller";
 import {
@@ -13,7 +12,6 @@ import {
   PipelineResponse,
   TransferProgressEvent,
   HttpHeaders,
-  FormDataMap,
   RequestBodyType
 } from "./interfaces";
 import { createHttpHeaders } from "./httpHeaders";
@@ -80,10 +78,6 @@ export class NodeHttpsClient implements HttpsClient {
       setTimeout(() => {
         abortController.abort();
       }, request.timeout);
-    }
-
-    if (request.formData) {
-      prepareFormData(request.formData, request);
     }
 
     if (!request.skipDecompressResponse) {
@@ -211,44 +205,6 @@ export class NodeHttpsClient implements HttpsClient {
       headers: request.headers.toJSON()
     };
     return options;
-  }
-}
-
-async function prepareFormData(formData: FormDataMap, request: PipelineRequest): Promise<void> {
-  const requestForm = new FormData();
-  for (const formKey of Object.keys(formData)) {
-    const formValue = formData[formKey];
-    if (Array.isArray(formValue)) {
-      for (const subValue of formValue) {
-        requestForm.append(formKey, subValue);
-      }
-    } else {
-      requestForm.append(formKey, formValue);
-    }
-  }
-
-  request.body = requestForm;
-  request.formData = undefined;
-  const contentType = request.headers.get("Content-Type");
-  if (contentType && contentType.indexOf("multipart/form-data") !== -1) {
-    request.headers.set(
-      "Content-Type",
-      `multipart/form-data; boundary=${requestForm.getBoundary()}`
-    );
-  }
-  try {
-    const contentLength = await new Promise<number>((resolve, reject) => {
-      requestForm.getLength((err, length) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(length);
-        }
-      });
-    });
-    request.headers.set("Content-Length", contentLength);
-  } catch (e) {
-    // ignore setting the length if this fails
   }
 }
 

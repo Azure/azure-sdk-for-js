@@ -58,6 +58,12 @@ export type FormDataMap = {
 };
 
 // @public
+export function formDataPolicy(): PipelinePolicy;
+
+// @public
+export const formDataPolicyName = "formDataPolicy";
+
+// @public
 export type FormDataValue = string | Blob;
 
 // @public
