@@ -228,7 +228,7 @@ export interface PeekMessagesOptions extends OperationOptions {
 // @public
 export interface QueueDescription {
     authorizationRules?: AuthorizationRule[];
-    autoDeleteOnIdle?: string;
+    autoDeleteOnIdleInSeconds?: number;
     deadLetteringOnMessageExpiration?: boolean;
     defaultMessageTtl?: string;
     duplicateDetectionHistoryTimeWindow?: string;
