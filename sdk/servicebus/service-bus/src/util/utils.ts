@@ -360,7 +360,7 @@ export function getISO8601DurationFromSeconds(
  * @returns {number}
  */
 export function getISO8601DurationInSeconds(timeDurationInISO8601Format: string): number {
-  const regexToParseISO8601Duration = /P((\d+)D)?T((\d+)H)?((\d+)M)?((\d+(\.\d+)?)S)?$/;
+  const regexToParseISO8601Duration = /^P(?:(\d+)D)?T(?:(\d+)H)?(?:(\d+)M)?(?:(\d+(\.\d+)?)S)?$/;
   let extractedParts;
   let errorThrownWhileParsing = false;
   try {
