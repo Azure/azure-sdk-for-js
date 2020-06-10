@@ -200,12 +200,12 @@ export { MessagingError }
 
 // @public
 export interface NamespaceProperties {
-    createdOn: string;
+    createdAt?: Date;
     messagingSku: string;
     messagingUnits: number | undefined;
     name: string;
     namespaceType: string;
-    updatedOn: string;
+    updatedAt?: Date;
 }
 
 // @public
@@ -253,13 +253,13 @@ export interface QueueResponse extends QueueDescription {
 
 // @public
 export interface QueueRuntimeInfo {
-    accessedOn?: string;
-    createdOn?: string;
+    accessedAt?: Date;
+    createdAt?: Date;
     messageCount?: number;
     messageCountDetails?: MessageCountDetails;
     name: string;
     sizeInBytes?: number;
-    updatedOn?: string;
+    updatedAt?: Date;
 }
 
 // @public
@@ -513,13 +513,13 @@ export interface SubscriptionResponse extends SubscriptionDescription {
 
 // @public
 export interface SubscriptionRuntimeInfo {
-    accessedOn?: string;
-    createdOn: string;
+    accessedAt?: Date;
+    createdAt?: Date;
     messageCount: number;
     messageCountDetails?: MessageCountDetails;
     subscriptionName: string;
     topicName: string;
-    updatedOn: string;
+    updatedAt?: Date;
 }
 
 export { TokenCredential }
@@ -549,12 +549,12 @@ export interface TopicResponse extends TopicDescription {
 
 // @public
 export interface TopicRuntimeInfo {
-    accessedOn?: string;
-    createdOn?: string;
+    accessedAt?: Date;
+    createdAt?: Date;
     name: string;
     sizeInBytes?: number;
     subscriptionCount?: number;
-    updatedOn?: string;
+    updatedAt?: Date;
 }
 
 // @public
