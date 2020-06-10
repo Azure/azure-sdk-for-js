@@ -48,6 +48,11 @@ jobs:
     steps:
       - template: ../../eng/pipelines/templates/steps/common.yml
 
+      - task: NodeTool@0
+        displayName: Use Node $(NodeVersion)
+        inputs:
+          versionSpec: $(NodeVersion)
+
       # New-TestResources command requires Az module
       - pwsh: Install-Module -Name Az -Scope CurrentUser -AllowClobber -Force -Verbose
         displayName: Install Azure PowerShell module
@@ -64,11 +69,6 @@ jobs:
             @subscriptionConfiguration
         workingDirectory: $(Build.SourcesDirectory)/common/smoke-test
         displayName: Deploy Smoke Test resources and prepare samples
-
-      - task: NodeTool@0
-        displayName: Use Node $(NodeVersion)
-        inputs:
-          versionSpec: $(NodeVersion)
 
       - task: Npm@1
         inputs:
