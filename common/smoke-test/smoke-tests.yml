@@ -48,6 +48,10 @@ jobs:
     steps:
       - template: ../../eng/pipelines/templates/steps/common.yml
 
+      # New-TestResources command requires Az module
+      - pwsh: Install-Module -Name Az -Scope CurrentUser -AllowClobber -Force -Verbose
+        displayName: Install Azure PowerShell module
+
       - pwsh: |
           $subscriptionConfiguration = @"
             $(SubscriptionConfiguration)
@@ -80,6 +84,7 @@ jobs:
         displayName: List packages installed from the feed
 
       - script: npm run smoke-test
+        workingDirectory: $(Build.SourcesDirectory)/common/smoke-test
         displayName: Run smoke tests
 
       - template: /eng/common/TestResources/remove-test-resources.yml
