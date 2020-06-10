@@ -38,7 +38,7 @@ export class ChangeFeedFactory {
     }
   }
 
-  public async buildChangeFeed(
+  public async create(
     blobServiceClient: BlobServiceClient,
     continuationToken?: string,
     startTime?: Date,
@@ -107,7 +107,7 @@ export class ChangeFeedFactory {
     if (segments.length === 0) {
       return new ChangeFeed();
     }
-    const currentSegment: Segment = await this._segmentFactory.buildSegment(
+    const currentSegment: Segment = await this._segmentFactory.create(
       containerClient,
       segments.shift()!,
       cursor?.currentSegmentCursor
@@ -126,7 +126,7 @@ export class ChangeFeedFactory {
   }
 
   private static validateCursor(containerClient: ContainerClient, cursor: ChangeFeedCursor): void {
-    if (hashString(getURI(containerClient.url)!) !== cursor.urlHash) {
+    if (hashString(getURI(containerClient.url)) !== cursor.urlHash) {
       throw new Error("Cursor URL does not match container URL.");
     }
   }

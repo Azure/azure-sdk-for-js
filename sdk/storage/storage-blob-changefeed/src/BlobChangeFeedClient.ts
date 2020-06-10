@@ -3,7 +3,7 @@ import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { BlobChangeFeedEvent } from "./models/BlobChangeFeedEvent";
 import { ChangeFeedFactory } from "./ChangeFeedFactory";
 import { ChangeFeed } from "./ChangeFeed";
-import { CHANGE_FEED_DEFAULT_PAGE_SIZE } from "./utils/constants";
+import { CHANGE_FEED_MAX_PAGE_SIZE } from "./utils/constants";
 
 export interface ChangeFeedGetChangesOptions {
   start?: Date;
@@ -65,7 +65,7 @@ export class BlobChangeFeedClient {
   private async *getChange(
     options: ChangeFeedGetChangesOptions = {}
   ): AsyncIterableIterator<BlobChangeFeedEvent> {
-    const changeFeed: ChangeFeed = await this._changeFeedFactory.buildChangeFeed(
+    const changeFeed: ChangeFeed = await this._changeFeedFactory.create(
       this._blobServiceClient,
       undefined,
       options.start,
@@ -88,15 +88,15 @@ export class BlobChangeFeedClient {
     maxPageSize?: number,
     options: ChangeFeedGetChangesOptions = {}
   ): AsyncIterableIterator<BlobChangeFeedEventPage> {
-    const changeFeed: ChangeFeed = await this._changeFeedFactory.buildChangeFeed(
+    const changeFeed: ChangeFeed = await this._changeFeedFactory.create(
       this._blobServiceClient,
       continuationToken,
       options.start,
       options.end
     );
 
-    if (!maxPageSize || maxPageSize > CHANGE_FEED_DEFAULT_PAGE_SIZE) {
-      maxPageSize = CHANGE_FEED_DEFAULT_PAGE_SIZE;
+    if (!maxPageSize || maxPageSize > CHANGE_FEED_MAX_PAGE_SIZE) {
+      maxPageSize = CHANGE_FEED_MAX_PAGE_SIZE;
     }
     while (changeFeed.hasNext()) {
       let eventPage = new BlobChangeFeedEventPage();

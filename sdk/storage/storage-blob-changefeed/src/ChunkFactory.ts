@@ -11,7 +11,7 @@ export class ChunkFactory {
     this._avroReaderFactory = avroReaderFactory;
   }
 
-  public async buildChunk(
+  public async create(
     containerClient: ContainerClient,
     chunkPath: string,
     blockOffset?: number,
@@ -28,14 +28,14 @@ export class ChunkFactory {
     if (blockOffset !== 0) {
       const headerDownloadRes = await blobClient.download(0);
       const headerStream = bodyToAvroReadable(headerDownloadRes);
-      avroReader = this._avroReaderFactory.buildAvroReader(
+      avroReader = this._avroReaderFactory.create(
         dataStream,
         headerStream,
         blockOffset,
         eventIndex
       );
     } else {
-      avroReader = this._avroReaderFactory.buildAvroReader(dataStream);
+      avroReader = this._avroReaderFactory.create(dataStream);
     }
 
     return new Chunk(avroReader, blockOffset, eventIndex);

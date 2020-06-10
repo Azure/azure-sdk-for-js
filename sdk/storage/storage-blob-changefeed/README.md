@@ -6,7 +6,7 @@ The purpose of the change feed is to provide transaction logs of all the changes
 
 This project provides a client library in JavaScript that makes it easy to consume the change feed.
 
-Use the client libararies in this package to:
+Use the client libraries in this package to:
   - Reading change feed events, all or within a time range
   - Resuming reading events from a saved position
 
@@ -34,19 +34,7 @@ This library uses an authenticated `BlobServiceClient` to initialize. Refer to [
 
 ### Compatibility
 
-For this perview, this library is only compatible with Node.js.
-
-### CORS
-
-You need to set up [Cross-Origin Resource Sharing (CORS)](https://docs.microsoft.com/rest/api/storageservices/cross-origin-resource-sharing--cors--support-for-the-azure-storage-services) rules for your storage account if you need to develop for browsers. Go to Azure portal and Azure Storage Explorer, find your storage account, create new CORS rules for blob/queue/file/table service(s).
-
-For example, you can create following CORS settings for debugging. But please customize the settings carefully according to your requirements in production environment.
-
-- Allowed origins: \*
-- Allowed verbs: DELETE,GET,HEAD,MERGE,POST,OPTIONS,PUT
-- Allowed headers: \*
-- Exposed headers: \*
-- Maximum age (seconds): 86400
+For this preview, this library is only compatible with Node.js.
 
 ## Key concepts
 
@@ -69,7 +57,7 @@ The `BlobChangeFeedClient` requires a `BlobServiceClient` to initialize. Refer t
   const account = "<account>";
   const accountKey = "<accountkey>";
   // Use StorageSharedKeyCredential with storage account and account key
-  // StorageSharedKeyCredential is only avaiable in Node.js runtime, not in browsers
+  // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
   const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
   const blobServiceClient = new BlobServiceClient(
     `https://${account}.blob.core.windows.net`,
@@ -157,9 +145,9 @@ setLogLevel("info");
 
 More code samples:
 
-- [Blob Storage Samples (JavaScript)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob-changefeed/samples/javascript)
-- [Blob Storage Samples (TypeScript)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob-changefeed/samples/typescript)
-- [Blob Storage Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob-changefeed/test/)
+- [Blob Storage Change Feed Samples (JavaScript)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob-changefeed/samples/javascript)
+- [Blob Storage Change Feed Samples (TypeScript)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob-changefeed/samples/typescript)
+- [Blob Storage Change Feed Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob-changefeed/test/)
 
 ## Contributing
 

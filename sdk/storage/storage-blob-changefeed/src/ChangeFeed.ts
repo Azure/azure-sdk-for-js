@@ -99,7 +99,7 @@ export class ChangeFeed {
 
     return {
       cursorVersion: 1,
-      urlHash: hashString(getURI(this._containerClient!.url)!),
+      urlHash: hashString(getURI(this._containerClient!.url)),
       endTime: this._endTime?.toJSON(),
       currentSegmentCursor: this._currentSegment!.getCursor()
     };
@@ -117,7 +117,7 @@ export class ChangeFeed {
 
     // If the current segment is completed, remove it
     if (this._segments.length > 0) {
-      this._currentSegment = await this._segmentFactory!.buildSegment(
+      this._currentSegment = await this._segmentFactory!.create(
         this._containerClient!,
         this._segments.shift()!
       );
@@ -133,7 +133,7 @@ export class ChangeFeed {
       );
 
       if (this._segments.length > 0) {
-        this._currentSegment = await this._segmentFactory!.buildSegment(
+        this._currentSegment = await this._segmentFactory!.create(
           this._containerClient!,
           this._segments.shift()!
         );

@@ -23,7 +23,7 @@ export class SegmentFactory {
     this._shardFactory = shardFactory;
   }
 
-  public async buildSegment(
+  public async create(
     containerClient: ContainerClient,
     manifestPath: string,
     cursor?: SegmentCursor
@@ -44,7 +44,7 @@ export class SegmentFactory {
 
       const containerPrefixLength = CHANGE_FEED_CONTAINER_NAME.length + 1; // "$blobchangefeed/"
       for (const shardPath of segmentManifest.chunkFilePaths) {
-        const shard: Shard = await this._shardFactory.buildShard(
+        const shard: Shard = await this._shardFactory.create(
           containerClient,
           shardPath.substring(containerPrefixLength),
           cursor?.shardCursors[i++]

@@ -10,7 +10,7 @@ export class ShardFactory {
     this._chunkFactory = chunkFactory;
   }
 
-  public async buildShard(
+  public async create(
     containerClient: ContainerClient,
     shardPath: string,
     shardCursor?: ShardCursor
@@ -37,7 +37,7 @@ export class ShardFactory {
       chunks.splice(0, chunkIndex);
     }
 
-    const currentChunk = await this._chunkFactory.buildChunk(
+    const currentChunk = await this._chunkFactory.create(
       containerClient,
       chunks.shift()!,
       blockOffset,

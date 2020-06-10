@@ -1,16 +1,16 @@
 import { AvroReadable, AvroReader } from "../../storage-internal-avro/src";
 
 export class AvroReaderFactory {
-  public buildAvroReader(headerAndDataStream: AvroReadable): AvroReader;
+  public create(headerAndDataStream: AvroReadable): AvroReader;
 
-  public buildAvroReader(
+  public create(
     dataStream: AvroReadable,
     headerStream: AvroReadable,
     blockOffset: number,
     eventIndex: number
   ): AvroReader;
 
-  public buildAvroReader(
+  public create(
     dataStream: AvroReadable,
     headerStream?: AvroReadable,
     blockOffset?: number,

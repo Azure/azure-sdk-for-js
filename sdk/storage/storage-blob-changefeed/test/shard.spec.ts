@@ -22,7 +22,7 @@ describe("Shard", async () => {
     containerClientSub = sinon.createStubInstance(ContainerClient);
     containerClientSub.listBlobsFlat.callsFake(fakeListBlobsFlat);
     chunkFactoryStub = sinon.createStubInstance(ChunkFactory);
-    chunkFactoryStub.buildChunk.returns(chunkStub);
+    chunkFactoryStub.create.returns(chunkStub);
   });
 
   afterEach(() => {
@@ -40,9 +40,9 @@ describe("Shard", async () => {
 
     // build shard correctly
     const shardFactory = new ShardFactory(chunkFactoryStub as any);
-    const shard = await shardFactory.buildShard(containerClientSub as any, shardPath, shardCursor);
+    const shard = await shardFactory.create(containerClientSub as any, shardPath, shardCursor);
     assert.ok(
-      chunkFactoryStub.buildChunk.calledWith(
+      chunkFactoryStub.create.calledWith(
         containerClientSub,
         `${shardPath}000${chunkIndex}.avro`
       )
@@ -56,11 +56,11 @@ describe("Shard", async () => {
     nextChunkStub.hasNext.returns(true);
     const event = { id: "a" };
     nextChunkStub.getChange.resolves(event as any);
-    chunkFactoryStub.buildChunk.returns(nextChunkStub);
+    chunkFactoryStub.create.returns(nextChunkStub);
 
     const change = await shard.getChange();
     assert.ok(
-      chunkFactoryStub.buildChunk.calledWith(
+      chunkFactoryStub.create.calledWith(
         containerClientSub,
         `${shardPath}000${chunkIndex + 1}.avro`
       )
@@ -74,11 +74,11 @@ describe("Shard", async () => {
     nextChunkStub.getChange.resolves(undefined);
     const lastChunkStub = sinon.createStubInstance(Chunk);
     lastChunkStub.hasNext.returns(false);
-    chunkFactoryStub.buildChunk.returns(lastChunkStub);
+    chunkFactoryStub.create.returns(lastChunkStub);
 
     const change2 = await shard.getChange();
     assert.ok(
-      chunkFactoryStub.buildChunk.calledWith(
+      chunkFactoryStub.create.calledWith(
         containerClientSub,
         `${shardPath}000${chunkIndex + 2}.avro`
       )

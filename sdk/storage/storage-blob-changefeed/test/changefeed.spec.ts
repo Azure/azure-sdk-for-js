@@ -84,7 +84,7 @@ describe("Change Feed", async () => {
     const segmentIter = listTwoArray(segmentsIn2019, segmentsIn2020);
     for (let i = 0; i < segmentCount; i++) {
       segmentStubs.push(sinon.createStubInstance(Segment));
-      segmentFactoryStub.buildSegment
+      segmentFactoryStub.create
         .withArgs(sinon.match.any, (await segmentIter.next()).value.name)
         .resolves(segmentStubs[i] as any);
     }
@@ -103,7 +103,7 @@ describe("Change Feed", async () => {
   it("no valid years in change feed container", async () => {
     const yearPaths = [{ kind: "prefix", name: "idx/segments/1601/" }];
     containerClientStub.listBlobsByHierarchy.withArgs("/").returns(fakeList(yearPaths) as any);
-    const changeFeed = await changeFeedFactory.buildChangeFeed(serviceClientStub as any);
+    const changeFeed = await changeFeedFactory.create(serviceClientStub as any);
     assert.ok(!changeFeed.hasNext());
   });
 
@@ -113,7 +113,7 @@ describe("Change Feed", async () => {
       { kind: "prefix", name: "idx/segments/2019/" }
     ];
     containerClientStub.listBlobsByHierarchy.withArgs("/").returns(fakeList(yearPaths) as any);
-    const changeFeed = await changeFeedFactory.buildChangeFeed(
+    const changeFeed = await changeFeedFactory.create(
       serviceClientStub as any,
       undefined,
       new Date(Date.UTC(2020, 0))
@@ -134,7 +134,7 @@ describe("Change Feed", async () => {
     ];
     containerClientStub.listBlobsFlat.returns(fakeList(segments) as any);
 
-    const changeFeed = await changeFeedFactory.buildChangeFeed(
+    const changeFeed = await changeFeedFactory.create(
       serviceClientStub as any,
       undefined,
       new Date(Date.UTC(2019, 5))
@@ -143,7 +143,7 @@ describe("Change Feed", async () => {
   });
 
   it("getChange", async () => {
-    const changeFeed = await changeFeedFactory.buildChangeFeed(
+    const changeFeed = await changeFeedFactory.create(
       serviceClientStub as any,
       undefined,
       new Date(Date.UTC(2019, 0))
@@ -179,7 +179,7 @@ describe("Change Feed", async () => {
 
   it("with start and end time", async () => {
     // no valid segment between start and end
-    const changeFeed = await changeFeedFactory.buildChangeFeed(
+    const changeFeed = await changeFeedFactory.create(
       serviceClientStub as any,
       undefined,
       new Date(Date.UTC(2019, 2, 2, 21)),
@@ -188,7 +188,7 @@ describe("Change Feed", async () => {
     assert.ok(!changeFeed.hasNext());
 
     // end earlier than lastConsumable
-    const changeFeed2 = await changeFeedFactory.buildChangeFeed(
+    const changeFeed2 = await changeFeedFactory.create(
       serviceClientStub as any,
       undefined,
       new Date(Date.UTC(2019, 3, 3, 22)),
@@ -204,7 +204,7 @@ describe("Change Feed", async () => {
     assert.equal(event2, undefined);
 
     //end later than lastConsumable
-    const changeFeed3 = await changeFeedFactory.buildChangeFeed(
+    const changeFeed3 = await changeFeedFactory.create(
       serviceClientStub as any,
       undefined,
       lastConsumable,
@@ -214,7 +214,7 @@ describe("Change Feed", async () => {
   });
 
   it("with continuation token", async () => {
-    const changeFeed = await changeFeedFactory.buildChangeFeed(
+    const changeFeed = await changeFeedFactory.create(
       serviceClientStub as any,
       undefined,
       new Date(Date.UTC(2020, 2, 2, 20))
@@ -224,7 +224,7 @@ describe("Change Feed", async () => {
     const containerUri = "https://account.blob.core.windows.net/$blobchangefeed";
     (containerClientStub as any).url = containerUri;
     const cursor = changeFeed.getCursor();
-    assert.deepStrictEqual(cursor.urlHash, hashString(getURI(containerUri)!));
+    assert.deepStrictEqual(cursor.urlHash, hashString(getURI(containerUri)));
 
     segmentStubs[3].getCursor.returns({
       shardCursors: [],
@@ -232,7 +232,7 @@ describe("Change Feed", async () => {
       segmentTime: new Date(Date.UTC(2020, 2, 2, 20)).toJSON()
     });
     const continuation = JSON.stringify(changeFeed.getCursor());
-    const changeFeed2 = await changeFeedFactory.buildChangeFeed(
+    const changeFeed2 = await changeFeedFactory.create(
       serviceClientStub as any,
       continuation
     );
@@ -244,7 +244,7 @@ describe("Change Feed", async () => {
     sinon.stub(segmentStubs[4], "finalized").value(true);
     segmentStubs[3].hasNext.returns(false);
     segmentStubs[3].getChange.resolves(undefined);
-    const changeFeed3 = await changeFeedFactory.buildChangeFeed(
+    const changeFeed3 = await changeFeedFactory.create(
       serviceClientStub as any,
       continuation
     );

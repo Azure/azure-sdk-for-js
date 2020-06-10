@@ -29,7 +29,7 @@ describe("Shard", async () => {
     shardStubs = [];
     for (let i = 0; i < shardCount; i++) {
       shardStubs.push(sinon.createStubInstance(Shard));
-      shardFactoryStub.buildShard.onCall(i).returns(shardStubs[i]);
+      shardFactoryStub.create.onCall(i).returns(shardStubs[i]);
 
       shardStubs[i].hasNext.returns(true);
       shardStubs[i].getChange.returns(i);
@@ -42,7 +42,7 @@ describe("Shard", async () => {
 
   it("getChange round robin in shards", async () => {
     const segmentFactory = new SegmentFactory(shardFactoryStub);
-    const segment = await segmentFactory.buildSegment(containerClientStub, manifestPath);
+    const segment = await segmentFactory.create(containerClientStub, manifestPath);
     assert.ok(segment.hasNext());
     assert.equal(segment.dateTime.getTime(), dateTime.getTime());
     assert.ok(segment.finalized);
@@ -80,7 +80,7 @@ describe("Shard", async () => {
   it("init with non-zero shardIndex", async () => {
     const shardIndex = 1;
     const segmentFactory = new SegmentFactory(shardFactoryStub);
-    const segment = await segmentFactory.buildSegment(containerClientStub, manifestPath, {
+    const segment = await segmentFactory.create(containerClientStub, manifestPath, {
       shardIndex,
       shardCursors: []
     } as any);

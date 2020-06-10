@@ -40,7 +40,7 @@ export class Shard {
 
       // Remove currentChunk if it doesn't have more events.
       if (!this._currentChunk.hasNext() && this._chunks.length > 0) {
-        this._currentChunk = await this._chunkFactory.buildChunk(
+        this._currentChunk = await this._chunkFactory.create(
           this._containerClient,
           this._chunks.shift()!
         );
