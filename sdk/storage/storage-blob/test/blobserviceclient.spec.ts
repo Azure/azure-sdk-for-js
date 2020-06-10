@@ -7,7 +7,8 @@ import {
   getBSU,
   getSASConnectionStringFromEnvironment,
   getTokenBSU,
-  recorderEnvSetup
+  recorderEnvSetup,
+  sleep
 } from "./utils";
 import { record, delay, Recorder } from "@azure/test-utils-recorder";
 dotenv.config();
@@ -465,5 +466,83 @@ describe("BlobServiceClient", () => {
     assert.notDeepStrictEqual(response.signedService, undefined);
     assert.notDeepStrictEqual(response.signedObjectId, undefined);
     assert.notDeepStrictEqual(response.signedExpiresOn, undefined);
+  });
+
+  it.only("Find blob by tags should work", async () => {
+    const blobServiceClient = getBSU();
+
+    const containerName = recorder.getUniqueName("container1");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+
+    const key1 = recorder.getUniqueName("key");
+    const key2 = recorder.getUniqueName("key2");
+
+    const blobName1 = recorder.getUniqueName("blobname1");
+    const appendBlobClient1 = containerClient.getAppendBlobClient(blobName1);
+    const tags1 = {
+      blobTagSet: [
+        { key: key1, value: recorder.getUniqueName("val1") },
+        { key: key2, value: "default" }
+      ]
+    };
+    await appendBlobClient1.create({ tags: tags1 });
+
+    const blobName2 = recorder.getUniqueName("blobname2");
+    const appendBlobClient2 = containerClient.getAppendBlobClient(blobName2);
+    const tags2 = {
+      blobTagSet: [
+        { key: key1, value: recorder.getUniqueName("val2") },
+        { key: key2, value: "default" }
+      ]
+    };
+    await appendBlobClient2.create({ tags: tags2 });
+
+    const blobName3 = recorder.getUniqueName("blobname3");
+    const appendBlobClient3 = containerClient.getAppendBlobClient(blobName3);
+    const tags3 = {
+      blobTagSet: [
+        { key: key1, value: recorder.getUniqueName("val3") },
+        { key: key2, value: "default" }
+      ]
+    };
+    await appendBlobClient3.create({ tags: tags3 });
+
+    // Wait for indexing tags
+    await sleep(2);
+
+    for await (const blob of blobServiceClient.findBlobsByTags(
+      `${tags1.blobTagSet[0].key}='${tags1.blobTagSet[0].value}'`
+    )) {
+      assert.deepStrictEqual(blob.containerName, containerName);
+      assert.deepStrictEqual(blob.name, blobName1);
+      assert.deepStrictEqual(blob.tagValue, tags1.blobTagSet[0].value);
+    }
+
+    const blobs = [];
+    for await (const segment of blobServiceClient
+      .findBlobsByTags(`${tags2.blobTagSet[0].key}='${tags2.blobTagSet[0].value}'`)
+      .byPage()) {
+      for (const blob of segment.blobs) {
+        blobs.push(blob);
+      }
+    }
+    assert.deepStrictEqual(blobs.length, 1);
+    assert.deepStrictEqual(blobs[0].containerName, containerName);
+    assert.deepStrictEqual(blobs[0].name, blobName2);
+    assert.deepStrictEqual(blobs[0].tagValue, tags2.blobTagSet[0].value);
+
+    const blobsWithTag2 = [];
+    for await (const segment of blobServiceClient.findBlobsByTags(`${key2}='default'`).byPage({
+      maxPageSize: 1
+    })) {
+      assert.ok(segment.blobs.length <= 1);
+      for (const blob of segment.blobs) {
+        blobsWithTag2.push(blob);
+      }
+    }
+    assert.deepStrictEqual(blobsWithTag2.length, 3);
+
+    await containerClient.delete();
   });
 });

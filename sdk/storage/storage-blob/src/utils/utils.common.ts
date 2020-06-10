@@ -5,7 +5,7 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { HttpHeaders, isNode, URLBuilder } from "@azure/core-http";
 
 import { BlobQueryCsvTextConfiguration, BlobQueryJsonTextConfiguration } from "../Clients";
-import { QuerySerialization } from "../generated/src/models";
+import { QuerySerialization, BlobTags } from "../generated/src/models";
 import { DevelopmentConnectionString, HeaderConstants, URLConstants } from "./constants";
 
 /**
@@ -554,6 +554,26 @@ export function getAccountNameFromUrl(url: string): string {
   } catch (error) {
     throw new Error("Unable to extract accountName with provided information.");
   }
+}
+
+/**
+ * Convert BlobTags to encoded string.
+ *
+ * @export
+ * @param {BlobTags} tags
+ * @returns {string | undefined}
+ */
+export function toBlobTagsString(tags?: BlobTags): string | undefined {
+  if (tags === undefined || tags.blobTagSet.length === 0) {
+    return undefined;
+  }
+
+  const tagParis = [];
+  for (const blobTag of tags.blobTagSet) {
+    tagParis.push(`${encodeURIComponent(blobTag.key)}=${encodeURIComponent(blobTag.value)}`);
+  }
+
+  return tagParis.join("&");
 }
 
 /**

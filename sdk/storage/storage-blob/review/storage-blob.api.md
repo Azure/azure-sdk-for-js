@@ -208,6 +208,7 @@ export interface AppendBlobCreateOptions extends CommonOptions {
     customerProvidedKey?: CpkInfo;
     encryptionScope?: string;
     metadata?: Metadata;
+    tags?: BlobTags;
 }
 
 // @public
@@ -373,10 +374,12 @@ export class BlobClient extends StorageClient {
     getBlockBlobClient(): BlockBlobClient;
     getPageBlobClient(): PageBlobClient;
     getProperties(options?: BlobGetPropertiesOptions): Promise<BlobGetPropertiesResponse>;
+    getTags(options?: BlobGetTagsOptions): Promise<BlobGetTagsResponse>;
     get name(): string;
     setAccessTier(tier: BlockBlobTier | PremiumPageBlobTier | string, options?: BlobSetTierOptions): Promise<BlobSetTierResponse>;
     setHTTPHeaders(blobHTTPHeaders?: BlobHTTPHeaders, options?: BlobSetHTTPHeadersOptions): Promise<BlobSetHTTPHeadersResponse>;
     setMetadata(metadata?: Metadata, options?: BlobSetMetadataOptions): Promise<BlobSetMetadataResponse>;
+    setTags(tags: BlobTags, options?: BlobSetTagsOptions): Promise<BlobSetTagsResponse>;
     syncCopyFromURL(copySource: string, options?: BlobSyncCopyFromURLOptions): Promise<BlobCopyFromURLResponse>;
     undelete(options?: BlobUndeleteOptions): Promise<BlobUndeleteResponse>;
     withSnapshot(snapshot: string): BlobClient;
@@ -643,6 +646,30 @@ export type BlobGetPropertiesResponse = BlobGetPropertiesHeaders & {
 };
 
 // @public
+export interface BlobGetTagsHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
+export interface BlobGetTagsOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+}
+
+// @public
+export type BlobGetTagsResponse = BlobTags & BlobGetTagsHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: BlobGetTagsHeaders;
+        bodyAsText: string;
+        parsedBody: BlobTags;
+    };
+};
+
+// @public
 export interface BlobHierarchyListSegment {
     // (undocumented)
     blobItems: BlobItem[];
@@ -662,8 +689,6 @@ export interface BlobHTTPHeaders {
 
 // @public
 export interface BlobItem {
-    // Warning: (ae-forgotten-export) The symbol "BlobTags" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     blobTags?: BlobTags;
     // (undocumented)
@@ -833,6 +858,7 @@ export class BlobSASPermissions {
     deleteVersion: boolean;
     static parse(permissions: string): BlobSASPermissions;
     read: boolean;
+    tag: boolean;
     toString(): string;
     write: boolean;
 }
@@ -866,6 +892,7 @@ export class BlobServiceClient extends StorageClient {
         containerCreateResponse: ContainerCreateResponse;
     }>;
     deleteContainer(containerName: string, options?: ContainerDeleteMethodOptions): Promise<ContainerDeleteResponse>;
+    findBlobsByTags(tagFilterSqlExpression: string, options?: ServiceFindBlobByTagsOptions): PagedAsyncIterableIterator<FilterBlobItem, ServiceFindBlobsByTagsSegmentResponse>;
     static fromConnectionString(connectionString: string, options?: StoragePipelineOptions): BlobServiceClient;
     getAccountInfo(options?: ServiceGetAccountInfoOptions): Promise<ServiceGetAccountInfoResponse>;
     getBlobBatchClient(): BlobBatchClient;
@@ -958,6 +985,28 @@ export type BlobSetMetadataResponse = BlobSetMetadataHeaders & {
 };
 
 // @public
+export interface BlobSetTagsHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
+export interface BlobSetTagsOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+}
+
+// @public
+export type BlobSetTagsResponse = BlobSetTagsHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: BlobSetTagsHeaders;
+    };
+};
+
+// @public
 export interface BlobSetTierHeaders {
     clientRequestId?: string;
     // (undocumented)
@@ -1002,6 +1051,7 @@ export interface BlobStartCopyFromURLOptions extends CommonOptions {
     metadata?: Metadata;
     rehydratePriority?: RehydratePriority;
     sourceConditions?: ModifiedAccessConditions;
+    tags?: BlobTags;
     tier?: BlockBlobTier | PremiumPageBlobTier | string;
 }
 
@@ -1019,6 +1069,21 @@ export interface BlobSyncCopyFromURLOptions extends CommonOptions {
     metadata?: Metadata;
     sourceConditions?: ModifiedAccessConditions;
     sourceContentMD5?: Uint8Array;
+    tags?: BlobTags;
+}
+
+// @public
+export interface BlobTag {
+    // (undocumented)
+    key: string;
+    // (undocumented)
+    value: string;
+}
+
+// @public
+export interface BlobTags {
+    // (undocumented)
+    blobTagSet: BlobTag[];
 }
 
 // @public
@@ -1101,6 +1166,7 @@ export interface BlockBlobCommitBlockListOptions extends CommonOptions {
     customerProvidedKey?: CpkInfo;
     encryptionScope?: string;
     metadata?: Metadata;
+    tags?: BlobTags;
     tier?: BlockBlobTier | string;
 }
 
@@ -1153,6 +1219,7 @@ export interface BlockBlobParallelUploadOptions extends CommonOptions {
         [propertyName: string]: string;
     };
     onProgress?: (progress: TransferProgressEvent) => void;
+    tags?: BlobTags;
 }
 
 // @public
@@ -1265,6 +1332,7 @@ export interface BlockBlobUploadOptions extends CommonOptions {
     encryptionScope?: string;
     metadata?: Metadata;
     onProgress?: (progress: TransferProgressEvent) => void;
+    tags?: BlobTags;
     tier?: BlockBlobTier | string;
 }
 
@@ -1285,6 +1353,7 @@ export interface BlockBlobUploadStreamOptions extends CommonOptions {
         [propertyName: string]: string;
     };
     onProgress?: (progress: TransferProgressEvent) => void;
+    tags?: BlobTags;
 }
 
 // @public
@@ -1556,6 +1625,7 @@ export interface ContainerListBlobsOptions extends CommonOptions {
     includeDeleted?: boolean;
     includeMetadata?: boolean;
     includeSnapshots?: boolean;
+    includeTags?: boolean;
     includeUncommitedBlobs?: boolean;
     includeVersions?: boolean;
     prefix?: string;
@@ -1605,6 +1675,7 @@ export class ContainerSASPermissions {
     list: boolean;
     static parse(permissions: string): ContainerSASPermissions;
     read: boolean;
+    tag: boolean;
     toString(): string;
     write: boolean;
 }
@@ -1704,6 +1775,28 @@ export { deserializationPolicy }
 
 // @public
 export type EncryptionAlgorithmType = 'AES256';
+
+// @public
+export interface FilterBlobItem {
+    // (undocumented)
+    containerName: string;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    tagValue: string;
+}
+
+// @public
+export interface FilterBlobSegment {
+    // (undocumented)
+    blobs: FilterBlobItem[];
+    // (undocumented)
+    continuationToken?: string;
+    // (undocumented)
+    serviceEndpoint: string;
+    // (undocumented)
+    where: string;
+}
 
 // @public
 export function generateAccountSASQueryParameters(accountSASSignatureValues: AccountSASSignatureValues, sharedKeyCredential: StorageSharedKeyCredential): SASQueryParameters;
@@ -1964,6 +2057,7 @@ export interface PageBlobCreateOptions extends CommonOptions {
     customerProvidedKey?: CpkInfo;
     encryptionScope?: string;
     metadata?: Metadata;
+    tags?: BlobTags;
     tier?: PremiumPageBlobTier | string;
 }
 
@@ -2279,6 +2373,30 @@ export interface SequenceNumberAccessConditions {
 
 // @public
 export type SequenceNumberActionType = 'max' | 'update' | 'increment';
+
+// @public
+export interface ServiceFilterBlobsHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
+export interface ServiceFindBlobByTagsOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+}
+
+// @public
+export type ServiceFindBlobsByTagsSegmentResponse = FilterBlobSegment & ServiceFilterBlobsHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: ServiceFilterBlobsHeaders;
+        bodyAsText: string;
+        parsedBody: FilterBlobSegment;
+    };
+};
 
 // @public
 export interface ServiceGetAccountInfoHeaders {

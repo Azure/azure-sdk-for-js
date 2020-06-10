@@ -99,6 +99,26 @@ describe("Highlevel", () => {
     assert.ok(downloadedData.equals(uploadedData));
   }).timeout(timeoutForLargeFileUploadingTest);
 
+  it.only("uploadFile should work with tags", async () => {
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
+
+    const tags = {
+      blobTagSet: [
+        { key: "tag1", value: "val1" },
+        { key: "tag2", value: "val2" }
+      ]
+    };
+
+    await blockBlobClient.uploadFile(tempFileSmall, {
+      blockSize: 4 * 1024 * 1024,
+      concurrency: 20,
+      tags
+    });
+
+    const response = await blockBlobClient.getTags();
+    assert.deepStrictEqual(response.blobTagSet, tags.blobTagSet);
+  });
+
   it("uploadFile should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     await blockBlobClient.uploadFile(tempFileSmall, {
@@ -260,6 +280,26 @@ describe("Highlevel", () => {
     assert.ok(buf.equals(downloadedBuffer));
 
     fs.unlinkSync(downloadFilePath);
+  });
+
+  it.only("uploadStream should work with tags", async () => {
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
+
+    const buf = Buffer.from([0x62, 0x75, 0x66, 0x66, 0x65, 0x72]);
+    const bufferStream = new PassThrough();
+    bufferStream.end(buf);
+
+    const tags = {
+      blobTagSet: [
+        { key: "tag1", value: "val1" },
+        { key: "tag2", value: "val2" }
+      ]
+    };
+
+    await blockBlobClient.uploadStream(bufferStream, 4 * 1024 * 1024, 20, { tags });
+
+    const response = await blockBlobClient.getTags();
+    assert.deepStrictEqual(response.blobTagSet, tags.blobTagSet);
   });
 
   it("uploadStream should abort", async () => {

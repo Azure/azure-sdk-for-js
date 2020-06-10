@@ -323,6 +323,17 @@ export class BlobDownloadResponse implements BlobDownloadResponseModel {
   }
 
   /**
+   * The number of tags associated with the blob
+   *
+   * @readonly
+   * @type {(number | undefined)}
+   * @memberof BlobDownloadResponse
+   */
+  public get tagCount(): number | undefined {
+    return this.originalResponse.tagCount;
+  }
+
+  /**
    * The error code.
    *
    * @readonly

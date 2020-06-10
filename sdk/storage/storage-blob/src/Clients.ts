@@ -1,142 +1,141 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+import "@azure/core-paging";
+
+import * as fs from "fs";
+import { Readable } from "stream";
+
+import { AbortSignalLike } from "@azure/abort-controller";
 import {
-  isNode,
-  TransferProgressEvent,
-  TokenCredential,
-  isTokenCredential,
+  generateUuid,
   getDefaultProxySettings,
+  HttpRequestBody,
+  HttpResponse,
+  isNode,
+  isTokenCredential,
+  TokenCredential,
+  TransferProgressEvent,
   URLBuilder
 } from "@azure/core-http";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 import { CanonicalCode } from "@opentelemetry/api";
+
+import { BlobDownloadResponse } from "./BlobDownloadResponse";
+import { BlobQueryResponse } from "./BlobQueryResponse";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import {
-  BlobDownloadResponseModel,
-  CpkInfo,
-  DeleteSnapshotsOptionType,
-  ModifiedAccessConditions,
-  RehydratePriority,
-  LeaseAccessConditions,
-  BlobDownloadOptionalParams,
-  BlobGetPropertiesResponse,
-  BlobDeleteResponse,
-  BlobUndeleteResponse,
-  BlobHTTPHeaders,
-  BlobSetHTTPHeadersResponse,
-  BlobSetMetadataResponse,
-  BlobCreateSnapshotResponse,
-  BlobStartCopyFromURLResponse,
+  AppendBlob,
+  Blob as StorageBlob,
+  BlockBlob,
+  Container,
+  PageBlob
+} from "./generated/src/operations";
+import { StorageClientContext } from "./generated/src/storageClient";
+import {
+  AppendBlobAppendBlockFromUrlResponse,
+  AppendBlobAppendBlockResponse,
+  AppendBlobCreateResponse,
   BlobAbortCopyFromURLResponse,
   BlobCopyFromURLResponse,
+  BlobCreateSnapshotResponse,
+  BlobDeleteResponse,
+  BlobDownloadOptionalParams,
+  BlobDownloadResponseModel,
+  BlobGetPropertiesResponse,
+  BlobHTTPHeaders,
+  BlobItem,
+  BlobPrefix,
+  BlobSetHTTPHeadersResponse,
+  BlobSetMetadataResponse,
+  BlobSetTagsResponse,
   BlobSetTierResponse,
-  ContainerEncryptionScope
+  BlobStartCopyFromURLResponse,
+  BlobTags,
+  BlobUndeleteResponse,
+  BlockBlobCommitBlockListResponse,
+  BlockBlobGetBlockListResponse,
+  BlockBlobStageBlockFromURLResponse,
+  BlockBlobStageBlockResponse,
+  BlockBlobUploadHeaders,
+  BlockBlobUploadResponse,
+  BlockListType,
+  ContainerBreakLeaseOptionalParams,
+  ContainerCreateResponse,
+  ContainerDeleteResponse,
+  ContainerEncryptionScope,
+  ContainerGetAccessPolicyHeaders,
+  ContainerGetPropertiesResponse,
+  ContainerListBlobFlatSegmentResponse,
+  ContainerListBlobHierarchySegmentResponse,
+  ContainerSetAccessPolicyResponse,
+  ContainerSetMetadataResponse,
+  CpkInfo,
+  DeleteSnapshotsOptionType,
+  LeaseAccessConditions,
+  ListBlobsIncludeItem,
+  ModifiedAccessConditions,
+  PageBlobClearPagesResponse,
+  PageBlobCopyIncrementalResponse,
+  PageBlobCreateResponse,
+  PageBlobResizeResponse,
+  PageBlobUpdateSequenceNumberResponse,
+  PageBlobUploadPagesFromURLResponse,
+  PageBlobUploadPagesResponse,
+  PublicAccessType,
+  RehydratePriority,
+  SequenceNumberActionType,
+  SignedIdentifierModel,
+  BlobGetTagsResponse
 } from "./generatedModels";
-import { AbortSignalLike } from "@azure/abort-controller";
-import { BlobDownloadResponse } from "./BlobDownloadResponse";
-import { Blob as StorageBlob } from "./generated/src/operations";
-import { rangeToString } from "./Range";
 import {
+  AppendBlobRequestConditions,
   BlobRequestConditions,
-  Metadata,
-  ensureCpkIfSpecified,
   BlockBlobTier,
+  ensureCpkIfSpecified,
+  Metadata,
+  PageBlobRequestConditions,
   PremiumPageBlobTier,
   toAccessTier
 } from "./models";
-import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
-import {
-  DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS,
-  URLConstants,
-  DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES,
-  DEFAULT_BLOCK_BUFFER_SIZE_BYTES
-} from "./utils/constants";
-import {
-  setURLParameter,
-  extractConnectionStringParts,
-  appendToURLPath,
-  toQuerySerialization
-} from "./utils/utils.common";
-import { fsStat, readStreamToLocalFile, streamToBuffer } from "./utils/utils.node";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
-import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import { Batch } from "./utils/Batch";
-import { createSpan } from "./utils/tracing";
-import { HttpRequestBody } from "@azure/core-http";
-import {
-  AppendBlobCreateResponse,
-  AppendBlobAppendBlockFromUrlResponse,
-  AppendBlobAppendBlockResponse
-} from "./generatedModels";
-import { AppendBlob } from "./generated/src/operations";
-import { AppendBlobRequestConditions } from "./models";
-import { CommonOptions, StorageClient } from "./StorageClient";
-import * as fs from "fs";
-import { generateUuid, HttpResponse } from "@azure/core-http";
-import {
-  BlockBlobUploadHeaders,
-  BlockBlobUploadResponse,
-  BlockBlobStageBlockResponse,
-  BlockBlobStageBlockFromURLResponse,
-  BlockBlobCommitBlockListResponse,
-  BlockBlobGetBlockListResponse,
-  BlockListType
-} from "./generatedModels";
-import { BlockBlob } from "./generated/src/operations";
-import { Range } from "./Range";
-import { generateBlockID } from "./utils/utils.common";
-import {
-  BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES,
-  BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES,
-  BLOCK_BLOB_MAX_BLOCKS
-} from "./utils/constants";
-import { BufferScheduler } from "./utils/BufferScheduler";
-import { Readable } from "stream";
-import {
-  PageBlobCreateResponse,
-  PageBlobUploadPagesResponse,
-  PageBlobUploadPagesFromURLResponse,
-  PageBlobClearPagesResponse,
-  PageBlobResizeResponse,
-  SequenceNumberActionType,
-  PageBlobUpdateSequenceNumberResponse,
-  PageBlobCopyIncrementalResponse
-} from "./generatedModels";
-import { PageBlob } from "./generated/src/operations";
-import { PageBlobRequestConditions } from "./models";
 import {
   PageBlobGetPageRangesDiffResponse,
   PageBlobGetPageRangesResponse,
   rangeResponseFromModel
 } from "./PageBlobRangeResponse";
+import { newPipeline, Pipeline, StoragePipelineOptions } from "./Pipeline";
 import {
   BlobBeginCopyFromUrlPoller,
   BlobBeginCopyFromUrlPollState,
   CopyPollerBlobClient
 } from "./pollers/BlobStartCopyFromUrlPoller";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
-import { ContainerBreakLeaseOptionalParams } from "./generatedModels";
-import { StorageClientContext } from "./generated/src/storageClient";
+import { Range, rangeToString } from "./Range";
+import { CommonOptions, StorageClient } from "./StorageClient";
+import { Batch } from "./utils/Batch";
+import { BufferScheduler } from "./utils/BufferScheduler";
 import {
-  ContainerGetAccessPolicyHeaders,
-  SignedIdentifierModel,
-  PublicAccessType,
-  ListBlobsIncludeItem,
-  ContainerCreateResponse,
-  ContainerGetPropertiesResponse,
-  ContainerDeleteResponse,
-  ContainerSetMetadataResponse,
-  ContainerSetAccessPolicyResponse,
-  ContainerListBlobFlatSegmentResponse,
-  ContainerListBlobHierarchySegmentResponse,
-  BlobItem,
-  BlobPrefix
-} from "./generatedModels";
-import { Container } from "./generated/src/operations";
-import { ETagNone } from "./utils/constants";
-import { truncatedISO8061Date } from "./utils/utils.common";
-import "@azure/core-paging";
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { BlobQueryResponse } from "./BlobQueryResponse";
+  BLOCK_BLOB_MAX_BLOCKS,
+  BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES,
+  BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES,
+  DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES,
+  DEFAULT_BLOCK_BUFFER_SIZE_BYTES,
+  DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS,
+  ETagNone,
+  URLConstants
+} from "./utils/constants";
+import { createSpan } from "./utils/tracing";
+import {
+  appendToURLPath,
+  extractConnectionStringParts,
+  generateBlockID,
+  setURLParameter,
+  toBlobTagsString,
+  toQuerySerialization,
+  truncatedISO8061Date
+} from "./utils/utils.common";
+import { fsStat, readStreamToLocalFile, streamToBuffer } from "./utils/utils.node";
+import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /**
  * Options to configure the {@link BlobClient.beginCopyFromURL} operation.
@@ -462,6 +461,40 @@ export interface BlobSetMetadataOptions extends CommonOptions {
 }
 
 /**
+ * Options to configure the {@link BlobClient.setTags} operation.
+ *
+ * @export
+ * @interface BlobSetTagsOptions
+ */
+export interface BlobSetTagsOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof BlobSetTagsOptions
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
+ * Options to configure the {@link BlobClient.getTags} operation.
+ *
+ * @export
+ * @interface BlobGetTagsOptions
+ */
+export interface BlobGetTagsOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof BlobGetTagsOptions
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
  * Options to configure Blob - Acquire Lease operation.
  *
  * @export
@@ -681,6 +714,13 @@ export interface BlobStartCopyFromURLOptions extends CommonOptions {
    * @memberof BlobStartCopyFromURLOptions
    */
   rehydratePriority?: RehydratePriority;
+  /**
+   * Blob tags.
+   *
+   * @type {BlobTags}
+   * @memberof BlobStartCopyFromURLOptions
+   */
+  tags?: BlobTags;
 }
 
 /**
@@ -751,6 +791,13 @@ export interface BlobSyncCopyFromURLOptions extends CommonOptions {
    * @memberof BlobSyncCopyFromURLOptions
    */
   sourceContentMD5?: Uint8Array;
+  /**
+   * Blob tags.
+   *
+   * @type {BlobTags}
+   * @memberof BlobSyncCopyFromURLOptions
+   */
+  tags?: BlobTags;
 }
 
 /**
@@ -1498,6 +1545,64 @@ export class BlobClient extends StorageClient {
   }
 
   /**
+   * Sets tags on the underlying blob.
+   * A blob can have up to 10 tags. Tag keys must be between 1 and 128 characters.  Tag values must be between 0 and 256 characters.
+   * Valid tag key and value characters include lower and upper case letters, digits (0-9),
+   * space (' '), plus ('+'), minus ('-'), period ('.'), foward slash ('/'), colon (':'), equals ('='), and underscore ('_').
+   *
+   * @param {BlobTags} tags
+   * @param {BlobSetTagsOptions} [options={}]
+   * @returns {Promise<BlobSetTagsResponse>}
+   * @memberof BlobClient
+   */
+  public async setTags(
+    tags: BlobTags,
+    options: BlobSetTagsOptions = {}
+  ): Promise<BlobSetTagsResponse> {
+    const { span, spanOptions } = createSpan("BlobClient-setTags", options.tracingOptions);
+    try {
+      return await this.blobContext.setTags({
+        abortSignal: options.abortSignal,
+        spanOptions,
+        tags
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Gets the tags associated with the underlying blob.
+   *
+   * @param {BlobGetTagsOptions} [options={}]
+   * @returns {Promise<BlobGetTagsResponse>}
+   * @memberof BlobClient
+   */
+  public async getTags(options: BlobGetTagsOptions = {}): Promise<BlobGetTagsResponse> {
+    const { span, spanOptions } = createSpan("BlobClient-getTags", options.tracingOptions);
+    try {
+      return await this.blobContext.getTags({
+        abortSignal: options.abortSignal,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
    * Get a {@link BlobLeaseClient} that manages leases on the blob.
    *
    * @param {string} [proposeLeaseId] Initial proposed lease Id.
@@ -1705,6 +1810,7 @@ export class BlobClient extends StorageClient {
           sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince
         },
         sourceContentMD5: options.sourceContentMD5,
+        blobTagsString: toBlobTagsString(options.tags),
         spanOptions
       });
     } catch (e) {
@@ -2059,6 +2165,7 @@ export class BlobClient extends StorageClient {
         },
         rehydratePriority: options.rehydratePriority,
         tier: toAccessTier(options.tier),
+        blobTagsString: toBlobTagsString(options.tags),
         spanOptions
       });
     } catch (e) {
@@ -2127,6 +2234,13 @@ export interface AppendBlobCreateOptions extends CommonOptions {
    * @memberof AppendBlobCreateOptions
    */
   encryptionScope?: string;
+  /**
+   * Blob tags.
+   *
+   * @type {BlobTags}
+   * @memberof AppendBlobCreateOptions
+   */
+  tags?: BlobTags;
 }
 
 /**
@@ -2480,6 +2594,7 @@ export class AppendBlobClient extends BlobClient {
         modifiedAccessConditions: options.conditions,
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
+        blobTagsString: toBlobTagsString(options.tags),
         spanOptions
       });
     } catch (e) {
@@ -2683,6 +2798,13 @@ export interface BlockBlobUploadOptions extends CommonOptions {
    * @memberof BlockBlobUploadOptions
    */
   tier?: BlockBlobTier | string;
+  /**
+   * Blob tags.
+   *
+   * @type {BlobTags}
+   * @memberof BlockBlobUploadOptions
+   */
+  tags?: BlobTags;
 }
 
 /**
@@ -3058,6 +3180,14 @@ export interface BlockBlobCommitBlockListOptions extends CommonOptions {
    * @memberof BlockBlobCommitBlockListOptions
    */
   tier?: BlockBlobTier | string;
+
+  /**
+   * Blob tags.
+   *
+   * @type {BlobTags}
+   * @memberof BlockBlobCommitBlockListOptions
+   */
+  tags?: BlobTags;
 }
 
 /**
@@ -3143,6 +3273,14 @@ export interface BlockBlobUploadStreamOptions extends CommonOptions {
    * @memberof BlockBlobUploadStreamOptions
    */
   encryptionScope?: string;
+
+  /**
+   * Blob tags.
+   *
+   * @type {BlobTags}
+   * @memberof BlockBlobUploadStreamOptions
+   */
+  tags?: BlobTags;
 }
 /**
  * Option interface for {@link BlockBlobClient.uploadFile} and {@link BlockBlobClient.uploadSeekableStream}.
@@ -3229,6 +3367,14 @@ export interface BlockBlobParallelUploadOptions extends CommonOptions {
    * @memberof BlockBlobParallelUploadOptions
    */
   encryptionScope?: string;
+
+  /**
+   * Blob tags.
+   *
+   * @type {BlobTags}
+   * @memberof BlockBlobParallelUploadOptions
+   */
+  tags?: BlobTags;
 }
 
 /**
@@ -3557,6 +3703,7 @@ export class BlockBlobClient extends BlobClient {
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
         tier: toAccessTier(options.tier),
+        blobTagsString: toBlobTagsString(options.tags),
         spanOptions
       });
     } catch (e) {
@@ -3703,6 +3850,7 @@ export class BlockBlobClient extends BlobClient {
           cpkInfo: options.customerProvidedKey,
           encryptionScope: options.encryptionScope,
           tier: toAccessTier(options.tier),
+          blobTagsString: toBlobTagsString(options.tags),
           spanOptions
         }
       );
@@ -4266,6 +4414,13 @@ export interface PageBlobCreateOptions extends CommonOptions {
    * @memberof PageBlobCreateOptions
    */
   tier?: PremiumPageBlobTier | string;
+  /**
+   * Blob tags.
+   *
+   * @type {BlobTags}
+   * @memberof PageBlobCreateOptions
+   */
+  tags?: BlobTags;
 }
 
 /**
@@ -4788,6 +4943,7 @@ export class PageBlobClient extends BlobClient {
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
         tier: toAccessTier(options.tier),
+        blobTagsString: toBlobTagsString(options.tags),
         spanOptions
       });
     } catch (e) {
@@ -5983,6 +6139,10 @@ export interface ContainerListBlobsOptions extends CommonOptions {
    * Specifies whether blobs for which blocks have been uploaded, but which have not been committed using Put Block List, be included in the response.
    */
   includeUncommitedBlobs?: boolean;
+  /**
+   * Specifies whether blob tags be returned in the response.
+   */
+  includeTags?: boolean;
 }
 
 /**
@@ -6878,6 +7038,9 @@ export class ContainerClient extends StorageClient {
     if (options.includeUncommitedBlobs) {
       include.push("uncommittedblobs");
     }
+    if (options.includeTags) {
+      include.push("tags");
+    }
     if (options.prefix === "") {
       options.prefix = undefined;
     }
@@ -6929,7 +7092,8 @@ export class ContainerClient extends StorageClient {
    * @param {ContainerListBlobsSegmentOptions} [options] Options to list blobs operation.
    * @returns {AsyncIterableIterator<ContainerListBlobHierarchySegmentResponse>}
    * @memberof ContainerClient
-   */ private async *listHierarchySegments(
+   */
+  private async *listHierarchySegments(
     delimiter: string,
     marker?: string,
     options: ContainerListBlobsSegmentOptions = {}
@@ -7085,6 +7249,9 @@ export class ContainerClient extends StorageClient {
     }
     if (options.includeUncommitedBlobs) {
       include.push("uncommittedblobs");
+    }
+    if (options.includeTags) {
+      include.push("tags");
     }
     if (options.prefix === "") {
       options.prefix = undefined;
