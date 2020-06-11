@@ -681,5 +681,64 @@ describe("EventHubConsumerClient", () => {
         "processClose was not called the same number of times as processInitialize."
       );
     });
+
+    describe("processError", function(): void {
+      it("supports awaiting subscription.close on non partition-specific errors", async function(): Promise<
+        void
+      > {
+        // Use an invalid Event Hub name to trigger a non partition-specific error.
+        const client = new EventHubConsumerClient(
+          EventHubConsumerClient.defaultConsumerGroupName,
+          service.connectionString,
+          "Fake-Hub"
+        );
+
+        let subscription: Subscription;
+        const caughtErr: Error = await new Promise((resolve) => {
+          subscription = client.subscribe({
+            processEvents: async () => {},
+            processError: async (err, context) => {
+              if (!context.partitionId) {
+                await subscription.close();
+                resolve(err);
+              }
+            }
+          });
+        });
+
+        should.exist(caughtErr);
+
+        await client.close();
+      });
+
+      it("supports awaiting subscription.close on partition-specific errors", async function(): Promise<
+        void
+      > {
+        // Use an invalid Event Hub name to trigger a non partition-specific error.
+        const client = new EventHubConsumerClient(
+          EventHubConsumerClient.defaultConsumerGroupName,
+          service.connectionString,
+          service.path
+        );
+
+        let subscription: Subscription;
+        const caughtErr: Error = await new Promise((resolve) => {
+          // Subscribe to an invalid partition id to trigger a partition-specific error.
+          subscription = client.subscribe("-1", {
+            processEvents: async () => {},
+            processError: async (err, context) => {
+              if (context.partitionId) {
+                await subscription.close();
+                resolve(err);
+              }
+            }
+          });
+        });
+
+        should.exist(caughtErr);
+
+        await client.close();
+      });
+    });
   });
 });
