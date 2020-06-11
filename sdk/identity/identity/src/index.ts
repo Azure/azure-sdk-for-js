@@ -32,7 +32,8 @@ export {
   ErrorResponse,
   AggregateAuthenticationError,
   AuthenticationErrorName,
-  AggregateAuthenticationErrorName
+  AggregateAuthenticationErrorName,
+  CredentialUnavailable
 } from "./client/errors";
 
 export { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";

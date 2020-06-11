@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { parseConnectionString, SharedKeyCredential } from "@azure/core-amqp";
+import { isTokenCredential, parseConnectionString, TokenCredential } from "@azure/core-amqp";
 import {
   HttpOperationResponse,
   proxyPolicy,
@@ -14,7 +14,8 @@ import {
   stripRequest,
   stripResponse,
   URLBuilder,
-  WebResource
+  WebResource,
+  bearerTokenAuthenticationPolicy
 } from "@azure/core-http";
 import * as log from "./log";
 import {
@@ -58,7 +59,7 @@ import { AtomXmlSerializer, executeAtomXmlOperation } from "./util/atomXmlHelper
 import * as Constants from "./util/constants";
 import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials";
 import { isAbsoluteUrl, isJSONLikeObject } from "./util/utils";
-
+import { Constants as AMQPConstants } from "@azure/core-amqp";
 /**
  * Options to use with ServiceBusManagementClient creation
  */
@@ -361,30 +362,66 @@ export class ServiceBusManagementClient extends ServiceClient {
   private ruleResourceSerializer: AtomXmlSerializer;
 
   /**
-   * SAS token provider used to generate tokens as required for the various operations.
+   * Credentials used to generate tokens as required for the various operations.
    */
-  private sasTokenProvider: SharedKeyCredential;
+  private credentials: SasServiceClientCredentials | TokenCredential;
 
   /**
    * Initializes a new instance of the ServiceBusManagementClient class.
    * @param connectionString The connection string needed for the client to connect to Azure.
    * @param options ServiceBusManagementClientOptions
    */
-  constructor(connectionString: string, options?: ServiceBusManagementClientOptions) {
-    const connectionStringObj: any = parseConnectionString(connectionString);
+  constructor(connectionString: string, options?: ServiceBusManagementClientOptions);
+  /**
+   *
+   * @param fullyQualifiedNamespace The fully qualified namespace of your Service Bus instance which is
+   * likely to be similar to <yournamespace>.servicebus.windows.net.
+   * @param credential A credential object used by the client to get the token to authenticate the connection
+   * with the Azure Service Bus. See &commat;azure/identity for creating the credentials.
+   * If you're using your own implementation of the `TokenCredential` interface against AAD, then set the "scopes" for service-bus
+   * to be `["https://servicebus.azure.net//user_impersonation"]` to get the appropriate token.
+   * @param options ServiceBusManagementClientOptions
+   */
+  constructor(
+    fullyQualifiedNamespace: string,
+    credential: TokenCredential,
+    options?: ServiceBusManagementClientOptions
+  );
 
-    if (connectionStringObj.Endpoint == undefined) {
-      throw new Error("Missing Endpoint in connection string.");
-    }
-
-    const credentials = new SasServiceClientCredentials(
-      connectionStringObj.SharedAccessKeyName,
-      connectionStringObj.SharedAccessKey
-    );
-
+  constructor(
+    fullyQualifiedNamespaceOrConnectionString1: string,
+    credentialOrOptions2?: TokenCredential | ServiceBusManagementClientOptions,
+    options3?: ServiceBusManagementClientOptions
+  ) {
     const requestPolicyFactories: RequestPolicyFactory[] = [];
-    requestPolicyFactories.push(signingPolicy(credentials));
-
+    let options: ServiceBusManagementClientOptions;
+    let fullyQualifiedNamespace: string;
+    let credentials: SasServiceClientCredentials | TokenCredential;
+    if (isTokenCredential(credentialOrOptions2)) {
+      fullyQualifiedNamespace = fullyQualifiedNamespaceOrConnectionString1;
+      options = options3 || {};
+      credentials = credentialOrOptions2;
+      requestPolicyFactories.push(
+        bearerTokenAuthenticationPolicy(credentials, AMQPConstants.aadServiceBusScope)
+      );
+    } else {
+      const connectionString = fullyQualifiedNamespaceOrConnectionString1;
+      options = credentialOrOptions2 || {};
+      const connectionStringObj: any = parseConnectionString(connectionString);
+      if (connectionStringObj.Endpoint == undefined) {
+        throw new Error("Missing Endpoint in connection string.");
+      }
+      try {
+        fullyQualifiedNamespace = connectionStringObj.Endpoint.match(".*://([^/]*)")[1];
+      } catch (error) {
+        throw new Error("Endpoint in the connection string is not valid.");
+      }
+      credentials = new SasServiceClientCredentials(
+        connectionStringObj.SharedAccessKeyName,
+        connectionStringObj.SharedAccessKey
+      );
+      requestPolicyFactories.push(signingPolicy(credentials));
+    }
     if (options && options.proxySettings) {
       requestPolicyFactories.push(proxyPolicy(options.proxySettings));
     }
@@ -393,14 +430,11 @@ export class ServiceBusManagementClient extends ServiceClient {
     };
 
     super(credentials, serviceClientOptions);
-    this.endpoint = (connectionString.match("Endpoint=.*://(.*)/;") || "")[1];
-    this.endpointWithProtocol = connectionStringObj.Endpoint;
-
-    this.sasTokenProvider = new SharedKeyCredential(
-      connectionStringObj.SharedAccessKeyName,
-      connectionStringObj.SharedAccessKey
-    );
-
+    this.endpoint = fullyQualifiedNamespace;
+    this.endpointWithProtocol = fullyQualifiedNamespace.endsWith("/")
+      ? "sb://" + fullyQualifiedNamespace
+      : "sb://" + fullyQualifiedNamespace + "/";
+    this.credentials = credentials;
     this.namespaceResourceSerializer = new NamespaceResourceSerializer();
     this.queueResourceSerializer = new QueueResourceSerializer();
     this.topicResourceSerializer = new TopicResourceSerializer();
@@ -1423,7 +1457,11 @@ export class ServiceBusManagementClient extends ServiceClient {
       queueOrSubscriptionFields.ForwardTo ||
       queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo
     ) {
-      const token = (await this.sasTokenProvider.getToken(this.endpoint))!.token;
+      const token =
+        this.credentials instanceof SasServiceClientCredentials
+          ? this.credentials.getToken(this.endpoint).token
+          : (await this.credentials.getToken([AMQPConstants.aadServiceBusScope]))!.token;
+
       if (queueOrSubscriptionFields.ForwardTo) {
         webResource.headers.set("ServiceBusSupplementaryAuthorization", token);
         if (!isAbsoluteUrl(queueOrSubscriptionFields.ForwardTo)) {

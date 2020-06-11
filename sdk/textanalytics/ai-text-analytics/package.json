@@ -3,7 +3,7 @@
   "sdk-type": "client",
   "author": "Microsoft Corporation",
   "description": "An isomorphic client library for the Azure Text Analytics service.",
-  "version": "1.0.0-preview.5",
+  "version": "1.0.0",
   "keywords": [
     "node",
     "azure",
@@ -78,7 +78,7 @@
     "@azure/core-tracing": "1.0.0-preview.8",
     "@azure/logger": "^1.0.0",
     "@opentelemetry/api": "^0.6.1",
-    "tslib": "^1.10.0"
+    "tslib": "^2.0.0"
   },
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
@@ -128,7 +128,7 @@
     "rollup-plugin-shim": "^1.0.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-terser": "^5.1.1",
-    "rollup-plugin-visualizer": "^3.1.1",
+    "rollup-plugin-visualizer": "^4.0.4",
     "sinon": "^9.0.2",
     "source-map-support": "^0.5.9",
     "typescript": "~3.9.3"

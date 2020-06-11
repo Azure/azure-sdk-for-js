@@ -19,8 +19,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 // Define connection string and related Service Bus entity names here
-const connectionString =
-  process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
+const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
 export async function main() {
@@ -31,11 +30,11 @@ export async function main() {
   // - See session.ts for how to receive using sessions.
   const receiver = sbClient.createReceiver(queueName, "peekLock");
 
-  const processMessage = async brokeredMessage => {
+  const processMessage = async (brokeredMessage) => {
     console.log(`Received message: ${brokeredMessage.body}`);
     await brokeredMessage.complete();
   };
-  const processError = async err => {
+  const processError = async (err) => {
     console.log("Error occurred: ", err);
   };
 
@@ -59,6 +58,6 @@ export async function main() {
   }
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.log("Error occurred: ", err);
 });

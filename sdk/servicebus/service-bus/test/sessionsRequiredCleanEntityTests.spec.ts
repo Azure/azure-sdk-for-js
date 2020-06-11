@@ -29,7 +29,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
     const entityNames = await serviceBusClient.test.createTestEntities(testClientType);
 
     sender = serviceBusClient.test.addToCleanup(
-      await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
 
     // Observation -

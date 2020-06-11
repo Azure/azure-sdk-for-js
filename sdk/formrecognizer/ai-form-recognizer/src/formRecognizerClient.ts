@@ -12,7 +12,12 @@ import {
 } from "@azure/core-http";
 import { TokenCredential } from "@azure/identity";
 import { KeyCredential } from "@azure/core-auth";
-import { SDK_VERSION, DEFAULT_COGNITIVE_SCOPE } from "./constants";
+import {
+  SDK_VERSION,
+  DEFAULT_COGNITIVE_SCOPE,
+  FormRecognizerLoggingAllowedHeaderNames,
+  FormRecognizerLoggingAllowedQueryParameters
+} from "./constants";
 import { logger } from "./logger";
 import { createSpan } from "./tracing";
 import {
@@ -253,7 +258,8 @@ export class FormRecognizerClient {
       ...{
         loggingOptions: {
           logger: logger.info,
-          allowedHeaderNames: ["x-ms-correlation-request-id", "x-ms-request-id"]
+          allowedHeaderNames: FormRecognizerLoggingAllowedHeaderNames,
+          allowedQueryParameters: FormRecognizerLoggingAllowedQueryParameters
         }
       }
     };
@@ -293,10 +299,7 @@ export class FormRecognizerClient {
    * });
    *
    * await poller.pollUntilDone();
-   * const response = poller.getResult();
-   *
-   * console.log(response.status);
-   * console.log(response.pages);
+   * const pages = poller.getResult();
    * ```
    * @summary Recognizes content/layout information from a given document
    * @param {FormRecognizerRequestBody} form Input document
@@ -342,10 +345,7 @@ export class FormRecognizerClient {
    * });
    *
    * await poller.pollUntilDone();
-   * const response = poller.getResult();
-   *
-   * console.log(response.status);
-   * console.log(response.pages);
+   * const pages = poller.getResult();
    * ```
    * @summary Recognizes content/layout information from a url to a form document
    * @param {string} formUrl Url to an accessible form document
@@ -418,8 +418,7 @@ ng", and "image/tiff";
    *   onProgress: (state) => { console.log(`status: ${state.status}`); }
    * });
    * await poller.pollUntilDone();
-   * const response = poller.getResult();
-   * console.log(response.status);
+   * const forms = poller.getResult();
    * ```
    * @summary Recognizes form information from a given document using a custom form model.
    * @param {string} modelId Id of the custom form model to use
@@ -439,9 +438,9 @@ ng", and "image/tiff";
     const analyzePollerClient: RecognizeCustomFormPollerClient = {
       beginRecognize: (
         body: FormRecognizerRequestBody | string,
+        modelId: string,
         contentType?: FormContentType,
-        analyzeOptions: RecognizeFormsOptions = {},
-        modelId?: string
+        analyzeOptions: RecognizeFormsOptions = {}
       ) => recognizeCustomFormInternal(this.client, body, contentType, analyzeOptions, modelId!),
       getRecognizeResult: (resultId: string, options: { abortSignal?: AbortSignalLike }) =>
         this.getRecognizedForm(modelId, resultId, options)
@@ -475,8 +474,7 @@ ng", and "image/tiff";
    *   onProgress: (state) => { console.log(`status: ${state.status}`); }
    * });
    * await poller.pollUntilDone();
-   * const response = poller.getResult();
-   * console.log(response.status);
+   * const forms = poller.getResult();
    * ```
    * @summary Recognizes form information from a url to a form document using a custom form model.
    * @param {string} modelId Id of the custom form model to use
@@ -495,9 +493,9 @@ ng", and "image/tiff";
     const analyzePollerClient: RecognizeCustomFormPollerClient = {
       beginRecognize: (
         body: FormRecognizerRequestBody | string,
+        modelId: string,
         contentType?: FormContentType,
-        analyzeOptions: RecognizeFormsOptions = {},
-        modelId?: string
+        analyzeOptions: RecognizeFormsOptions = {}
       ) => recognizeCustomFormInternal(this.client, body, contentType, analyzeOptions, modelId!),
       getRecognizeResult: (resultId: string, options: { abortSignal?: AbortSignalLike }) =>
         this.getRecognizedForm(modelId, resultId, options)
@@ -552,6 +550,8 @@ ng", and "image/tiff";
    * Recognizes data from receipts using pre-built receipt model, enabling you to extract structure data
    * from receipts such as merchant name, merchant phone number, transaction date, and more.
    *
+   * For supported fields recognized by the service, please refer to https://westus2.dev.cognitive.microsoft.com/docs/services/form-recognizer-api-v2-preview/operations/GetAnalyzeReceiptResult.
+   *
    * This method returns a long running operation poller that allows you to wait
    * indefinitely until the operation is completed.
    * Note that the onProgress callback will not be invoked if the operation completes in the first
@@ -568,16 +568,40 @@ ng", and "image/tiff";
    * });
    *
    * await poller.pollUntilDone();
-   * const response = poller.getResult();
+   * const receipts = poller.getResult();
+   *  if (!receipts || receipts.length <= 0) {
+   *    throw new Error("Expecting at lease one receipt in analysis result");
+   *  }
    *
-   * console.log(`Response status ${response.status}`);
-   * console.log("First receipt:")
-   * console.log(response.receipts[0]);
-   * console.log("Items:")
-   * const usReceipt = toUSReceipt(response.receipts[0]);
-   * console.table(usReceipt.items, ["name", "quantity", "price", "totalPrice"]);
-   * console.log("Raw 'MerchantAddress' fields:");
-   * console.log(usReceipt.recognizedForm.fields["MerchantAddress"]);
+   * const receipt = receipts[0];
+   * console.log("First receipt:");
+   * const receiptTypeField = receipt.recognizedForm.fields["ReceiptType"];
+   * if (receiptTypeField.valueType === "string") {
+   *   console.log(`  Receipt Type: '${receiptTypeField.value || "<missing>"}', with confidence of ${receiptTypeField.confidence}`);
+   * }
+   * const merchantNameField = receipt.recognizedForm.fields["MerchantName"];
+   * if (merchantNameField.valueType === "string") {
+   *   console.log(`  Merchant Name: '${merchantNameField.value || "<missing>"}', with confidence of ${merchantNameField.confidence}`);
+   * }
+   * const transactionDate = receipt.recognizedForm.fields["TransactionDate"];
+   * if (transactionDate.valueType === "date") {
+   *   console.log(`  Transaction Date: '${transactionDate.value || "<missing>"}', with confidence of ${transactionDate.confidence}`);
+   * }
+   * const itemsField = receipt.recognizedForm.fields["Items"];
+   * if (itemsField.valueType === "array") {
+   *   for (const itemField of itemsField.value || []) {
+   *     if (itemField.valueType === "object") {
+   *       const itemNameField = itemField.value!["Name"];
+   *       if (itemNameField.valueType === "string") {
+   *         console.log(`    Item Name: '${itemNameField.value || "<missing>"}', with confidence of ${itemNameField.confidence}`);
+   *       }
+   *     }
+   *  }
+   * }
+   * const totalField = receipt.recognizedForm.fields["Total"];
+   * if (totalField.valueType === "number") {
+   *   console.log(`  Total: '${totalField.value || "<missing>"}', with confidence of ${totalField.confidence}`);
+   * }
    * ```
    * @summary Recognizes receipt information from a given document
    * @param {FormRecognizerRequestBody} receipt Input document
@@ -609,6 +633,8 @@ ng", and "image/tiff";
    * Recognizes receipt information from a url using pre-built receipt model, enabling you to extract structure data
    * from receipts such as merchant name, merchant phone number, transaction date, and more.
    *
+   * For supported fields recognized by the service, please refer to https://westus2.dev.cognitive.microsoft.com/docs/services/form-recognizer-api-v2-preview/operations/GetAnalyzeReceiptResult.
+   *
    * This method returns a long running operation poller that allows you to wait
    * indefinitely until the operation is completed.
    * Note that the onProgress callback will not be invoked if the operation completes in the first
@@ -624,16 +650,40 @@ ng", and "image/tiff";
    *     onProgress: (state) => { console.log(`analyzing status: ${state.status}`); }
    * });
    * await poller.pollUntilDone();
-   * const response = poller.getResult();
+   * const receipts = poller.getResult();
+   *  if (!receipts || receipts.length <= 0) {
+   *    throw new Error("Expecting at lease one receipt in analysis result");
+   *  }
    *
-   * console.log(`Response status ${response.status}`);
-   * console.log("First receipt:")
-   * console.log(response.receipts[0]);
-   * console.log("Items:")
-   * const usReceipt = toUSReceipt(response.receipts[0]);
-   * console.table(usReceipt.items, ["name", "quantity", "price", "totalPrice"]);
-   * console.log("Raw 'MerchantAddress' fields:");
-   * console.log(usReceipt.recognizedForm.fields["MerchantAddress"]);
+   * const receipt = receipts[0];
+   * console.log("First receipt:");
+   * const receiptTypeField = receipt.recognizedForm.fields["ReceiptType"];
+   * if (receiptTypeField.valueType === "string") {
+   *   console.log(`  Receipt Type: '${receiptTypeField.value || "<missing>"}', with confidence of ${receiptTypeField.confidence}`);
+   * }
+   * const merchantNameField = receipt.recognizedForm.fields["MerchantName"];
+   * if (merchantNameField.valueType === "string") {
+   *   console.log(`  Merchant Name: '${merchantNameField.value || "<missing>"}', with confidence of ${merchantNameField.confidence}`);
+   * }
+   * const transactionDate = receipt.recognizedForm.fields["TransactionDate"];
+   * if (transactionDate.valueType === "date") {
+   *   console.log(`  Transaction Date: '${transactionDate.value || "<missing>"}', with confidence of ${transactionDate.confidence}`);
+   * }
+   * const itemsField = receipt.recognizedForm.fields["Items"];
+   * if (itemsField.valueType === "array") {
+   *   for (const itemField of itemsField.value || []) {
+   *     if (itemField.valueType === "object") {
+   *       const itemNameField = itemField.value!["Name"];
+   *       if (itemNameField.valueType === "string") {
+   *         console.log(`    Item Name: '${itemNameField.value || "<missing>"}', with confidence of ${itemNameField.confidence}`);
+   *       }
+   *     }
+   *  }
+   * }
+   * const totalField = receipt.recognizedForm.fields["Total"];
+   * if (totalField.valueType === "number") {
+   *   console.log(`  Total: '${totalField.value || "<missing>"}', with confidence of ${totalField.confidence}`);
+   * }
    * ```
    * @summary Recognizes receipt information from a given accessible url to input document
    * @param {string} receiptUrl url to the input receipt document

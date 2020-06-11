@@ -14,7 +14,7 @@ import {
   throwTypeErrorIfParameterNotLongArray
 } from "./util/errors";
 import { ServiceBusMessageBatch } from "./serviceBusMessageBatch";
-import { CreateBatchOptions, CreateSenderOptions } from "./models";
+import { CreateBatchOptions, SenderOpenOptions } from "./models";
 import {
   MessagingError,
   RetryConfig,
@@ -23,6 +23,7 @@ import {
   retry
 } from "@azure/core-amqp";
 import { OperationOptions } from "./modelsToBeSharedWithEventHubs";
+import { AbortError } from "@azure/abort-controller";
 
 /**
  * A Sender can be used to send messages, schedule messages to be sent at a later time
@@ -89,6 +90,17 @@ export interface Sender {
    * @throws Error if the underlying connection or sender has been closed.
    */
   createBatch(options?: CreateBatchOptions): Promise<ServiceBusMessageBatch>;
+
+  /**
+   * Opens the AMQP link to Azure Service Bus from the sender.
+   *
+   * It is not necessary to call this method in order to use the sender. It is
+   * recommended to call this before your first send() or sendBatch() call if you
+   * want to front load the work of setting up the AMQP link to the service.
+   *
+   * @param options - Options bag to pass an abort signal.
+   */
+  open(options?: SenderOpenOptions): Promise<void>;
 
   /**
    * @property Returns `true` if either the sender or the client that created it has been closed
@@ -248,7 +260,15 @@ export class SenderImpl implements Sender {
 
   async createBatch(options?: CreateBatchOptions): Promise<ServiceBusMessageBatch> {
     this._throwIfSenderOrConnectionClosed();
-    return this._sender.createBatch(options);
+    try {
+      return await this._sender.createBatch(options);
+    } catch (err) {
+      if (err.name === "AbortError") {
+        throw new AbortError("The createBatch operation has been cancelled by the user.");
+      }
+
+      throw err;
+    }
   }
 
   /**
@@ -402,11 +422,11 @@ export class SenderImpl implements Sender {
     return retry<void>(config);
   }
 
-  async open(options?: CreateSenderOptions): Promise<void> {
+  async open(options?: SenderOpenOptions): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
 
     const config: RetryConfig<void> = {
-      operation: () => this._sender.open(),
+      operation: () => this._sender.open(undefined, options?.abortSignal),
       connectionId: this._context.namespace.connectionId,
       operationType: RetryOperationType.senderLink,
       retryOptions: this._retryOptions,

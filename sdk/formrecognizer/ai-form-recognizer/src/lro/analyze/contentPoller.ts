@@ -40,8 +40,7 @@ export type RecognizeContentPollerClient = {
   beginRecognize: (
     source: FormRecognizerRequestBody | string,
     contentType?: FormContentType,
-    analyzeOptions?: RecognizeContentOptions,
-    modelId?: string
+    analyzeOptions?: RecognizeContentOptions
   ) => Promise<AnalyzeLayoutAsyncResponseModel>;
   // retrieves analyze result
   getRecognizeResult: (resultId: string, options: { abortSignal?: AbortSignalLike }) => Promise<RecognizeContentResultResponse>;
@@ -51,7 +50,6 @@ export interface BeginRecognizeContentPollState extends PollOperationState<FormP
   readonly client: RecognizeContentPollerClient;
   source?: FormRecognizerRequestBody | string;
   contentType?: FormContentType;
-  modelId?: string;
   resultId?: string;
   status: OperationStatus;
   readonly analyzeOptions?: RecognizeContentOptions;
@@ -67,7 +65,6 @@ export type BeginRecognizeContentPollerOptions = {
   client: RecognizeContentPollerClient;
   source: FormRecognizerRequestBody | string;
   contentType?: FormContentType;
-  modelId?: string;
   updateIntervalInMs?: number;
   resultId?: string;
   onProgress?: (state: BeginRecognizeContentPollState) => void;
@@ -90,7 +87,6 @@ export class BeginRecognizeContentPoller extends Poller<
       contentType,
       updateIntervalInMs = 5000,
       resultId,
-      modelId,
       onProgress,
       resumeFrom
     } = options;
@@ -107,7 +103,6 @@ export class BeginRecognizeContentPoller extends Poller<
       source,
       contentType,
       resultId,
-      modelId,
       status: "notStarted",
       analyzeOptions: options
     });
@@ -141,7 +136,7 @@ function makeBeginRecognizePollOperation(
 
     async update(options = {}): Promise<BeginRecognizeContentPollerOperation> {
       const state = this.state;
-      const { client, source, contentType, analyzeOptions, modelId } = state;
+      const { client, source, contentType, analyzeOptions } = state;
 
       if (!state.isStarted) {
         if (!source) {
@@ -152,8 +147,7 @@ function makeBeginRecognizePollOperation(
         const result = await client.beginRecognize(
           source,
           contentType,
-          analyzeOptions || {},
-          modelId
+          analyzeOptions || {}
         );
         if (!result.operationLocation) {
           throw new Error("Expect a valid 'operationLocation' to retrieve analyze results");
@@ -180,7 +174,12 @@ function makeBeginRecognizePollOperation(
           state.result = response.pages;
           state.isCompleted = true;
         } else if (response.status === "failed") {
-          throw new Error(`Recognition failed ${response._response.bodyAsText}`);
+          const errors = response.errors?.map((e) => `  code ${e.code}, message: '${e.message}'`).join("\n");
+          const message = `Content recognition failed.
+Error(s):
+${errors || ""}
+`;
+          throw new Error(message);
         }
       }
 
