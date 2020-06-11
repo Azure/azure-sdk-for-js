@@ -332,6 +332,8 @@ export class BatchingReceiver extends MessageReceiver {
 
       const cleanupBeforeReject = (
         receiver: Receiver | undefined,
+        // fixing an eslint warning about using a variable before it's defined (note that we're called _within_ onReceiveError below)
+        // this is not circular since we don't call onReceiveError, we just need it so we can remove it from the listeners of the receiver.
         onReceiveErrorHandlerToRemove: OnAmqpEvent
       ): void => {
         if (receiver != null) {
