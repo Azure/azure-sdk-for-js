@@ -14,7 +14,8 @@ import {
   ReqResLink,
   Sender,
   SenderOptions,
-  Session
+  Session,
+  generate_uuid
 } from "rhea-promise";
 import { ConditionStatusMapper, translate } from "./errors";
 import { logErrorStackTrace, logger } from "./log";
@@ -83,6 +84,11 @@ export class RequestResponseLink implements ReqResLink {
     const timeoutInMs = options.timeoutInMs || Constants.defaultOperationTimeoutInMs;
 
     const aborter: AbortSignalLike | undefined = options.abortSignal;
+    if (!request.message_id) {
+      // Adding a backup message_id in case it is `undefined`,
+      // helps in differentiating the responses inside `messageCallback` defined a few lines below.
+      request.message_id = generate_uuid();
+    }
 
     return new Promise<AmqpMessage>((resolve: any, reject: any) => {
       let waitTimer: any = null;
