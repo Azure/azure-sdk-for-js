@@ -10,16 +10,16 @@
 
 import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
-import * as Mappers from "../models/tagsOperationsMappers";
+import * as Mappers from "../models/tagsOperationMappers";
 import * as Parameters from "../models/parameters";
 import { ResourceManagementClientContext } from "../resourceManagementClientContext";
 
-/** Class representing a TagsOperations. */
-export class TagsOperations {
+/** Class representing a TagsOperation. */
+export class TagsOperation {
   private readonly client: ResourceManagementClientContext;
 
   /**
-   * Create a TagsOperations.
+   * Create a TagsOperation.
    * @param {ResourceManagementClientContext} client Reference to the service client.
    */
   constructor(client: ResourceManagementClientContext) {
@@ -68,9 +68,9 @@ export class TagsOperations {
    * @param tagName The name of the tag.
    * @param tagValue The value of the tag to create.
    * @param [options] The optional parameters
-   * @returns Promise<Models.TagsCreateOrUpdateValueResponse>
+   * @returns Promise<Models.TagsOperationCreateOrUpdateValueResponse>
    */
-  createOrUpdateValue(tagName: string, tagValue: string, options?: msRest.RequestOptionsBase): Promise<Models.TagsCreateOrUpdateValueResponse>;
+  createOrUpdateValue(tagName: string, tagValue: string, options?: msRest.RequestOptionsBase): Promise<Models.TagsOperationCreateOrUpdateValueResponse>;
   /**
    * @param tagName The name of the tag.
    * @param tagValue The value of the tag to create.
@@ -84,7 +84,7 @@ export class TagsOperations {
    * @param callback The callback
    */
   createOrUpdateValue(tagName: string, tagValue: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagValue>): void;
-  createOrUpdateValue(tagName: string, tagValue: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagValue>, callback?: msRest.ServiceCallback<Models.TagValue>): Promise<Models.TagsCreateOrUpdateValueResponse> {
+  createOrUpdateValue(tagName: string, tagValue: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagValue>, callback?: msRest.ServiceCallback<Models.TagValue>): Promise<Models.TagsOperationCreateOrUpdateValueResponse> {
     return this.client.sendOperationRequest(
       {
         tagName,
@@ -92,7 +92,7 @@ export class TagsOperations {
         options
       },
       createOrUpdateValueOperationSpec,
-      callback) as Promise<Models.TagsCreateOrUpdateValueResponse>;
+      callback) as Promise<Models.TagsOperationCreateOrUpdateValueResponse>;
   }
 
   /**
@@ -103,9 +103,9 @@ export class TagsOperations {
    * @summary Creates a predefined tag name.
    * @param tagName The name of the tag to create.
    * @param [options] The optional parameters
-   * @returns Promise<Models.TagsCreateOrUpdateResponse>
+   * @returns Promise<Models.TagsOperationCreateOrUpdateResponse>
    */
-  createOrUpdate(tagName: string, options?: msRest.RequestOptionsBase): Promise<Models.TagsCreateOrUpdateResponse>;
+  createOrUpdate(tagName: string, options?: msRest.RequestOptionsBase): Promise<Models.TagsOperationCreateOrUpdateResponse>;
   /**
    * @param tagName The name of the tag to create.
    * @param callback The callback
@@ -117,14 +117,14 @@ export class TagsOperations {
    * @param callback The callback
    */
   createOrUpdate(tagName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagDetails>): void;
-  createOrUpdate(tagName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagDetails>, callback?: msRest.ServiceCallback<Models.TagDetails>): Promise<Models.TagsCreateOrUpdateResponse> {
+  createOrUpdate(tagName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagDetails>, callback?: msRest.ServiceCallback<Models.TagDetails>): Promise<Models.TagsOperationCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         tagName,
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.TagsCreateOrUpdateResponse>;
+      callback) as Promise<Models.TagsOperationCreateOrUpdateResponse>;
   }
 
   /**
@@ -165,9 +165,9 @@ export class TagsOperations {
    * result.
    * @summary Gets a summary of tag usage under the subscription.
    * @param [options] The optional parameters
-   * @returns Promise<Models.TagsListResponse>
+   * @returns Promise<Models.TagsOperationListResponse>
    */
-  list(options?: msRest.RequestOptionsBase): Promise<Models.TagsListResponse>;
+  list(options?: msRest.RequestOptionsBase): Promise<Models.TagsOperationListResponse>;
   /**
    * @param callback The callback
    */
@@ -177,13 +177,13 @@ export class TagsOperations {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagsListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagsListResult>, callback?: msRest.ServiceCallback<Models.TagsListResult>): Promise<Models.TagsListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagsListResult>, callback?: msRest.ServiceCallback<Models.TagsListResult>): Promise<Models.TagsOperationListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.TagsListResponse>;
+      callback) as Promise<Models.TagsOperationListResponse>;
   }
 
   /**
@@ -193,9 +193,9 @@ export class TagsOperations {
    * @param scope The resource scope.
    * @param parameters
    * @param [options] The optional parameters
-   * @returns Promise<Models.TagsCreateOrUpdateAtScopeResponse>
+   * @returns Promise<Models.TagsOperationCreateOrUpdateAtScopeResponse>
    */
-  createOrUpdateAtScope(scope: string, parameters: Models.TagsResource, options?: msRest.RequestOptionsBase): Promise<Models.TagsCreateOrUpdateAtScopeResponse>;
+  createOrUpdateAtScope(scope: string, parameters: Models.TagsResource, options?: msRest.RequestOptionsBase): Promise<Models.TagsOperationCreateOrUpdateAtScopeResponse>;
   /**
    * @param scope The resource scope.
    * @param parameters
@@ -209,7 +209,7 @@ export class TagsOperations {
    * @param callback The callback
    */
   createOrUpdateAtScope(scope: string, parameters: Models.TagsResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagsResource>): void;
-  createOrUpdateAtScope(scope: string, parameters: Models.TagsResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagsResource>, callback?: msRest.ServiceCallback<Models.TagsResource>): Promise<Models.TagsCreateOrUpdateAtScopeResponse> {
+  createOrUpdateAtScope(scope: string, parameters: Models.TagsResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagsResource>, callback?: msRest.ServiceCallback<Models.TagsResource>): Promise<Models.TagsOperationCreateOrUpdateAtScopeResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
@@ -217,7 +217,7 @@ export class TagsOperations {
         options
       },
       createOrUpdateAtScopeOperationSpec,
-      callback) as Promise<Models.TagsCreateOrUpdateAtScopeResponse>;
+      callback) as Promise<Models.TagsOperationCreateOrUpdateAtScopeResponse>;
   }
 
   /**
@@ -230,9 +230,9 @@ export class TagsOperations {
    * @param scope The resource scope.
    * @param parameters
    * @param [options] The optional parameters
-   * @returns Promise<Models.TagsUpdateAtScopeResponse>
+   * @returns Promise<Models.TagsOperationUpdateAtScopeResponse>
    */
-  updateAtScope(scope: string, parameters: Models.TagsPatchResource, options?: msRest.RequestOptionsBase): Promise<Models.TagsUpdateAtScopeResponse>;
+  updateAtScope(scope: string, parameters: Models.TagsPatchResource, options?: msRest.RequestOptionsBase): Promise<Models.TagsOperationUpdateAtScopeResponse>;
   /**
    * @param scope The resource scope.
    * @param parameters
@@ -246,7 +246,7 @@ export class TagsOperations {
    * @param callback The callback
    */
   updateAtScope(scope: string, parameters: Models.TagsPatchResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagsResource>): void;
-  updateAtScope(scope: string, parameters: Models.TagsPatchResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagsResource>, callback?: msRest.ServiceCallback<Models.TagsResource>): Promise<Models.TagsUpdateAtScopeResponse> {
+  updateAtScope(scope: string, parameters: Models.TagsPatchResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagsResource>, callback?: msRest.ServiceCallback<Models.TagsResource>): Promise<Models.TagsOperationUpdateAtScopeResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
@@ -254,16 +254,16 @@ export class TagsOperations {
         options
       },
       updateAtScopeOperationSpec,
-      callback) as Promise<Models.TagsUpdateAtScopeResponse>;
+      callback) as Promise<Models.TagsOperationUpdateAtScopeResponse>;
   }
 
   /**
    * @summary Gets the entire set of tags on a resource or subscription.
    * @param scope The resource scope.
    * @param [options] The optional parameters
-   * @returns Promise<Models.TagsGetAtScopeResponse>
+   * @returns Promise<Models.TagsOperationGetAtScopeResponse>
    */
-  getAtScope(scope: string, options?: msRest.RequestOptionsBase): Promise<Models.TagsGetAtScopeResponse>;
+  getAtScope(scope: string, options?: msRest.RequestOptionsBase): Promise<Models.TagsOperationGetAtScopeResponse>;
   /**
    * @param scope The resource scope.
    * @param callback The callback
@@ -275,14 +275,14 @@ export class TagsOperations {
    * @param callback The callback
    */
   getAtScope(scope: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagsResource>): void;
-  getAtScope(scope: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagsResource>, callback?: msRest.ServiceCallback<Models.TagsResource>): Promise<Models.TagsGetAtScopeResponse> {
+  getAtScope(scope: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagsResource>, callback?: msRest.ServiceCallback<Models.TagsResource>): Promise<Models.TagsOperationGetAtScopeResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
         options
       },
       getAtScopeOperationSpec,
-      callback) as Promise<Models.TagsGetAtScopeResponse>;
+      callback) as Promise<Models.TagsOperationGetAtScopeResponse>;
   }
 
   /**
@@ -321,9 +321,9 @@ export class TagsOperations {
    * @summary Gets a summary of tag usage under the subscription.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
-   * @returns Promise<Models.TagsListNextResponse>
+   * @returns Promise<Models.TagsOperationListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.TagsListNextResponse>;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.TagsOperationListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -335,14 +335,14 @@ export class TagsOperations {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagsListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagsListResult>, callback?: msRest.ServiceCallback<Models.TagsListResult>): Promise<Models.TagsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagsListResult>, callback?: msRest.ServiceCallback<Models.TagsListResult>): Promise<Models.TagsOperationListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.TagsListNextResponse>;
+      callback) as Promise<Models.TagsOperationListNextResponse>;
   }
 }
 
