@@ -3,6 +3,7 @@
 ## 12.2.0 (2020.06)
 
 - Supported quick query. Added a new API `BlockBlobClient.query()`.
+- Increased the maximum block size for Block Blob from 100MiB to 4000MiB(~4GB). And thereby supporting ~200TB maximum size for Block Blob.
 
 ## 12.1.2 (2020.05)
 

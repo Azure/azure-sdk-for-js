@@ -1111,12 +1111,18 @@ export class DataLakeFileClient extends DataLakePathClient {
   ): Promise<FileUploadResponse> {
     const { span, spanOptions } = createSpan("DataLakeFileClient-upload", options.tracingOptions);
     try {
-      if (isNode && data instanceof Buffer) {
+      if (isNode) {
+        let length = 0;
+        if (data instanceof ArrayBuffer) {
+          length = data.byteLength;
+        } else {
+          length = (data as any).length;
+        }
         return this.uploadData(
           (offset: number, size: number): Buffer => {
-            return data.slice(offset, offset + size);
+            return (data as any).slice(offset, offset + size);
           },
-          data.length,
+          length,
           { ...options, tracingOptions: { ...options!.tracingOptions, spanOptions } }
         );
       } else {
@@ -1142,6 +1148,7 @@ export class DataLakeFileClient extends DataLakePathClient {
 
   private async uploadData(
     contentFactory:
+      | ((offset: number, size: number) => ArrayBuffer)
       | ((offset: number, size: number) => Buffer)
       | ((offset: number, size: number) => Blob)
       | ((offset: number, size: number) => () => NodeJS.ReadableStream),
