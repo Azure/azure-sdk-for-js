@@ -27,18 +27,19 @@ async function main() {
       exitCode = 1;
       failures.push({
         sample,
-        result
+        result,
       });
     }
   }
 
+  console.log("SMOKE TEST FAILURES");
   if (failures.length > 0) {
     for (let failure of failures) {
-      console.log(`Test: ${failure.sample.name}`);
-      console.log(`Exception: ${failure.exception}`)
+      console.error(
+        `Test Failed: ${failure.sample.name}\nException: ${failure.exception}`
+      );
     }
   }
-
 
   // TODO: Don't do it this way if possible?
   process.exit(exitCode);
@@ -50,7 +51,7 @@ async function executeSample(sample) {
   console.log(`Sample File: ${sample.sampleFile}`);
 
   let result = {
-    success: true
+    success: true,
   };
 
   try {
@@ -59,14 +60,24 @@ async function executeSample(sample) {
     console.log("FAILURE");
     result = {
       success: false,
-      exception
+      exception,
     };
   }
 
   console.log("=========================================");
 
   return result;
+}
 
+// If command line parameter `--devops-logging` is set, then have console.error
+// logs error messages.
+if (process.argv[2] == "--devops-logging") {
+  const oldConsoleError = console.error;
+  console.error = function() {
+    // Mutate arguments to use new warning format
+    arguments[0] = `##vso[task.logissue type=error]${arguments[0]}`;
+    oldConsoleError.call(this, ...arguments);
+  };
 }
 
 main().catch((err) => {
