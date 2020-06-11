@@ -10,7 +10,7 @@
       "editor.detectIndentation": false
     },
     "[json]": {
-      "editor.formatOnSave": true,
+      "editor.formatOnSave": false,
       "editor.tabSize": 2,
       "editor.detectIndentation": false
     },

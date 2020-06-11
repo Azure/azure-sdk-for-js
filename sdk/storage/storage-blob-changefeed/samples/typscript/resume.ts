@@ -23,13 +23,17 @@ export async function main() {
   );
 
   const changeFeedClient = new BlobChangeFeedClient(blobServiceClient);
-
-  const start = new Date(Date.UTC(2020, 1, 21, 22, 30, 0)); // will be floor to 22:00
-  const end = new Date(Date.UTC(2020, 4, 8, 21, 10, 0)); // will be ceil to 22:00
   let changeFeedEvents: BlobChangeFeedEvent[] = [];
-  // You can also provide just a start or end time.
-  for await (const event of changeFeedClient.getChanges({ start, end })) {
+  const firstPage = await changeFeedClient.getChanges().byPage({ maxPageSize: 10 }).next();
+  for (const event of firstPage) {
     changeFeedEvents.push(event);
+  }
+
+  // Resume iterating from the pervious position with the continuationToken.
+  for await (const eventPage of changeFeedClient.getChanges().byPage({ continuationToken: firstPage.continuationToken })) {
+    for (const event of eventPage) {
+      changeFeedEvents.push(event);
+    }
   }
 }
 

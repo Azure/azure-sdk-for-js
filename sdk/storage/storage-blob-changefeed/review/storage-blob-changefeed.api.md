@@ -45,21 +45,13 @@ export interface BlobChangeFeedEventData {
     // (undocumented)
     contentLength: number;
     // (undocumented)
-    contentOffset?: number;
-    // (undocumented)
     contentType: string;
     // (undocumented)
-    destinationUrl?: string;
-    // (undocumented)
     etag: string;
-    // (undocumented)
-    recursive?: string;
     // (undocumented)
     requestId: string;
     // (undocumented)
     sequencer: string;
-    // (undocumented)
-    sourceUrl?: string;
     // (undocumented)
     url: string;
 }
@@ -74,7 +66,7 @@ export class BlobChangeFeedEventPage {
 }
 
 // @public (undocumented)
-export type BlobChangeFeedEventType = "BlobCreate" | "BlobDeleted";
+export type BlobChangeFeedEventType = "UnspecifiedEventType" | "BlobCreated" | "BlobDeleted" | "BlobPropertiesUpdated" | "BlobSnapshotCreated" | "Control" | "BlobTierChanged" | "BlobAsyncOperationInitiated" | "BlobMetadataUpdated";
 
 // @public (undocumented)
 export type BlobType = "BlockBlob" | "AppendBlob" | "PageBlob";
