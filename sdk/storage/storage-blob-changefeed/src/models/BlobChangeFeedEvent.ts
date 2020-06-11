@@ -1,4 +1,6 @@
-export type BlobChangeFeedEventType = "BlobCreate" | "BlobDeleted";
+// https://msazure.visualstudio.com/One/_git/Storage-XStore?path=%2Fsrc%2FXTable%2FNotifications%2Flib%2FBlobChangeEventv4.json&version=GBmaster
+
+export type BlobChangeFeedEventType = "UnspecifiedEventType" | "BlobCreated" | "BlobDeleted" | "BlobPropertiesUpdated" | "BlobSnapshotCreated" | "Control" | "BlobTierChanged" | "BlobAsyncOperationInitiated" | "BlobMetadataUpdated";
 
 export interface BlobChangeFeedEvent {
   topic: string;
@@ -23,10 +25,4 @@ export interface BlobChangeFeedEventData {
   blobType: BlobType;
   url: string;
   sequencer: string;
-
-  // For HNS only.
-  contentOffset?: number;
-  destinationUrl?: string;
-  sourceUrl?: string;
-  recursive?: string;
 }
