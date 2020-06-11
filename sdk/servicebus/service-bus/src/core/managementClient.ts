@@ -578,6 +578,7 @@ export class ManagementClient extends LinkEntity {
       const request: AmqpMessage = {
         body: messageBody,
         reply_to: this.replyTo,
+        message_id: generate_uuid(),
         application_properties: {
           operation: Constants.operations.renewLock
         }
@@ -669,6 +670,7 @@ export class ManagementClient extends LinkEntity {
       const request: AmqpMessage = {
         body: { messages: messageBody },
         reply_to: this.replyTo,
+        message_id: generate_uuid(),
         application_properties: {
           operation: Constants.operations.scheduleMessage
         }
@@ -958,6 +960,7 @@ export class ManagementClient extends LinkEntity {
       const request: AmqpMessage = {
         body: messageBody,
         reply_to: this.replyTo,
+        message_id: generate_uuid(),
         application_properties: {
           operation: Constants.operations.renewSessionLock
         }
@@ -1011,6 +1014,7 @@ export class ManagementClient extends LinkEntity {
       const request: AmqpMessage = {
         body: messageBody,
         reply_to: this.replyTo,
+        message_id: generate_uuid(),
         application_properties: {
           operation: Constants.operations.setSessionState
         }
@@ -1052,6 +1056,7 @@ export class ManagementClient extends LinkEntity {
       const request: AmqpMessage = {
         body: messageBody,
         reply_to: this.replyTo,
+        message_id: generate_uuid(),
         application_properties: {
           operation: Constants.operations.getSessionState
         }
@@ -1115,6 +1120,7 @@ export class ManagementClient extends LinkEntity {
       const request: AmqpMessage = {
         body: messageBody,
         reply_to: this.replyTo,
+        message_id: generate_uuid(),
         application_properties: {
           operation: Constants.operations.enumerateSessions
         }
@@ -1153,6 +1159,7 @@ export class ManagementClient extends LinkEntity {
           skip: types.wrap_int(0)
         },
         reply_to: this.replyTo,
+        message_id: generate_uuid(),
         application_properties: {
           operation: Constants.operations.enumerateRules
         }
@@ -1271,6 +1278,7 @@ export class ManagementClient extends LinkEntity {
           "rule-name": types.wrap_string(ruleName)
         },
         reply_to: this.replyTo,
+        message_id: generate_uuid(),
         application_properties: {
           operation: Constants.operations.removeRule
         }
@@ -1365,6 +1373,7 @@ export class ManagementClient extends LinkEntity {
           "rule-description": types.wrap_map(ruleDescription)
         },
         reply_to: this.replyTo,
+        message_id: generate_uuid(),
         application_properties: {
           operation: Constants.operations.addRule
         }
