@@ -104,7 +104,7 @@ describe("tracingPolicy", function() {
     };
     const policy = tracingPolicy();
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.returns(Promise.resolve(response));
+    next.resolves(response);
     await policy.sendRequest(request, next);
 
     assert.isFalse(mockTracer.startSpanCalled());
@@ -129,7 +129,7 @@ describe("tracingPolicy", function() {
     };
     const policy = tracingPolicy();
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.returns(Promise.resolve(response));
+    next.resolves(response);
     await policy.sendRequest(request, next);
 
     assert.isTrue(mockTracer.startSpanCalled());
@@ -166,7 +166,7 @@ describe("tracingPolicy", function() {
     };
     const policy = tracingPolicy();
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.returns(Promise.resolve(response));
+    next.resolves(response);
     await policy.sendRequest(request, next);
 
     assert.isTrue(mockTracer.startSpanCalled());
@@ -203,7 +203,7 @@ describe("tracingPolicy", function() {
     };
     const policy = tracingPolicy();
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.returns(Promise.resolve(response));
+    next.resolves(response);
     await policy.sendRequest(request, next);
 
     assert.isTrue(mockTracer.startSpanCalled());
@@ -278,7 +278,7 @@ describe("tracingPolicy", function() {
     };
     const policy = tracingPolicy();
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.returns(Promise.resolve(response));
+    next.resolves(response);
     await policy.sendRequest(request, next);
 
     assert.notExists(request.headers.get("traceparent"));

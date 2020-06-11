@@ -35,8 +35,8 @@ describe("throttlingRetryPolicy", function() {
 
     const policy = throttlingRetryPolicy();
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.onFirstCall().returns(Promise.resolve(retryResponse));
-    next.onSecondCall().returns(Promise.resolve(successResponse));
+    next.onFirstCall().resolves(retryResponse);
+    next.onSecondCall().resolves(successResponse);
 
     const clock = sinon.useFakeTimers();
 
@@ -73,8 +73,8 @@ describe("throttlingRetryPolicy", function() {
 
     const policy = throttlingRetryPolicy();
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.onFirstCall().returns(Promise.resolve(retryResponse));
-    next.onSecondCall().returns(Promise.resolve(successResponse));
+    next.onFirstCall().resolves(retryResponse);
+    next.onSecondCall().resolves(successResponse);
 
     const clock = sinon.useFakeTimers(new Date("Wed, 21 Oct 2015 07:20:00 GMT"));
 

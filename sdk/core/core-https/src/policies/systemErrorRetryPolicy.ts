@@ -64,12 +64,12 @@ export function systemErrorRetryPolicy(
   const retryInterval = options.retryDelayInMs ?? DEFAULT_CLIENT_RETRY_INTERVAL;
   const maxRetryInterval = options.maxRetryDelayInMs ?? DEFAULT_CLIENT_MAX_RETRY_INTERVAL;
 
-  function shouldRetry(retryData: RetryData): boolean {
-    if (!isSystemError(retryData.error)) {
+  function shouldRetry(retryData: RetryData, err?: RetryError): boolean {
+    if (!isSystemError(err)) {
       return false;
     }
-    const currentCount = retryData && retryData.retryCount;
-    return currentCount < retryCount;
+    const currentCount = retryData.retryCount;
+    return currentCount <= retryCount;
   }
 
   function updateRetryData(retryData: RetryData, err?: RetryError): RetryData {
@@ -106,7 +106,7 @@ export function systemErrorRetryPolicy(
     requestError?: RetryError
   ): Promise<PipelineResponse> {
     retryData = updateRetryData(retryData, requestError);
-    if (shouldRetry(retryData)) {
+    if (shouldRetry(retryData, requestError)) {
       try {
         await delay(retryData.retryInterval);
         const res = await next(request.clone());
