@@ -13,6 +13,7 @@ import {
 import { createHttpHeaders } from "./httpHeaders";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { generateUuid } from "./util/uuid";
+import { SpanOptions } from "@azure/core-tracing";
 
 /**
  * Settings to initialize a request.
@@ -88,6 +89,11 @@ export interface PipelineRequestOptions {
   abortSignal?: AbortSignalLike;
 
   /**
+   * Options used to create a span when tracing is enabled.
+   */
+  spanOptions?: SpanOptions;
+
+  /**
    * Callback which fires upon upload progress.
    */
   onUploadProgress?: (progress: TransferProgressEvent) => void;
@@ -110,6 +116,7 @@ class PipelineRequestImpl implements PipelineRequest {
   public skipDecompressResponse: boolean;
   public abortSignal?: AbortSignalLike;
   public requestId: string;
+  public spanOptions?: SpanOptions;
   public onUploadProgress?: (progress: TransferProgressEvent) => void;
   public onDownloadProgress?: (progress: TransferProgressEvent) => void;
 
@@ -126,6 +133,7 @@ class PipelineRequestImpl implements PipelineRequest {
     this.streamResponseBody = options.streamResponseBody ?? false;
     this.withCredentials = options.withCredentials ?? false;
     this.abortSignal = options.abortSignal;
+    this.spanOptions = options.spanOptions;
     this.onUploadProgress = options.onUploadProgress;
     this.onDownloadProgress = options.onDownloadProgress;
     this.requestId = options.requestId || generateUuid();
@@ -146,7 +154,8 @@ class PipelineRequestImpl implements PipelineRequest {
       skipDecompressResponse: this.skipDecompressResponse,
       streamResponseBody: this.streamResponseBody,
       timeout: this.timeout,
-      withCredentials: this.withCredentials
+      withCredentials: this.withCredentials,
+      spanOptions: this.spanOptions
     });
   }
 }

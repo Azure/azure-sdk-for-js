@@ -187,6 +187,7 @@ export interface PipelineRequestOptions {
     proxySettings?: ProxySettings;
     requestId?: string;
     skipDecompressResponse?: boolean;
+    spanOptions?: SpanOptions;
     streamResponseBody?: boolean;
     timeout?: number;
     url: string;
