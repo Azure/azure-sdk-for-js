@@ -110,8 +110,8 @@ describe("BatchingReceiver unit tests", () => {
       assert.deepEqual(listenersBeingRemoved, [
         "receiver_error",
         "message",
-        "receiver_drained",
-        "session_error"
+        "session_error",
+        "receiver_drained"
       ]);
       assert.isEmpty(callsDoneAfterAbort);
     });

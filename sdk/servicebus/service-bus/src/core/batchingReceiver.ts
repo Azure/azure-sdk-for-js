@@ -131,12 +131,14 @@ export class BatchingReceiver extends MessageReceiver {
     return new Promise<ServiceBusMessageImpl[]>((resolve, reject) => {
       let totalWaitTimer: NodeJS.Timer | undefined;
 
+      // eslint-disable-next-line prefer-const
+      let cleanupBeforeResolveOrReject: (
+        receiver: Receiver | undefined,
+        shouldRemoveDrain: "removeDrainHandler" | "leaveDrainHandler"
+      ) => void;
+
       const onSessionError: OnAmqpEvent = (context: EventContext) => {
-        const receiver = this._receiver || context.receiver!;
-        receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
-        receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
-        receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
-        receiver.session.removeListener(SessionEvents.sessionError, onSessionError);
+        cleanupBeforeResolveOrReject(this._receiver || context.receiver!, "removeDrainHandler");
 
         const sessionError = context.session && context.session.error;
         let error: Error | MessagingError;
@@ -151,30 +153,11 @@ export class BatchingReceiver extends MessageReceiver {
         } else {
           error = new MessagingError("An error occurred while receiving messages.");
         }
-        if (totalWaitTimer) {
-          clearTimeout(totalWaitTimer);
-        }
-        if (this._newMessageReceivedTimer) {
-          clearTimeout(this._newMessageReceivedTimer);
-        }
         reject(error);
       };
 
       this._connectionErrorHandler = (error: AmqpError | Error): void => {
-        if (totalWaitTimer) {
-          clearTimeout(totalWaitTimer);
-        }
-        if (this._newMessageReceivedTimer) {
-          clearTimeout(this._newMessageReceivedTimer);
-        }
-
-        // Removing listeners, so that the next receiveMessages() call can set them again.
-        if (this._receiver) {
-          this._receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
-          this._receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
-          this._receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
-          this._receiver.session.removeListener(SessionEvents.sessionError, onSessionError);
-        }
+        cleanupBeforeResolveOrReject(this._receiver, "removeDrainHandler");
 
         // Return the collected messages if in ReceiveAndDelete mode because otherwise they are lost forever
         if (this.receiveMode === ReceiveMode.receiveAndDelete && brokeredMessages.length) {
@@ -197,25 +180,7 @@ export class BatchingReceiver extends MessageReceiver {
       // - maxWaitTime is passed or
       // - newMessageWaitTimeoutInSeconds is passed since the last message was received
       const finalAction = (): void => {
-        if (this._newMessageReceivedTimer) {
-          clearTimeout(this._newMessageReceivedTimer);
-        }
-        if (totalWaitTimer) {
-          clearTimeout(totalWaitTimer);
-        }
-
-        if (removeAbortSignalListenersFn) {
-          removeAbortSignalListenersFn();
-          removeAbortSignalListenersFn = undefined;
-        }
-
-        // Removing listeners, so that the next receiveMessages() call can set them again.
-        // Listener for drain is removed when it is determined we dont need to drain or when drain is completed
-        if (this._receiver) {
-          this._receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
-          this._receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
-          this._receiver.session.removeListener(SessionEvents.sessionError, onSessionError);
-        }
+        cleanupBeforeResolveOrReject(this._receiver, "leaveDrainHandler");
 
         // Drain any pending credits.
         if (this._receiver && this._receiver.isOpen() && this._receiver.credit > 0) {
@@ -330,31 +295,10 @@ export class BatchingReceiver extends MessageReceiver {
         }
       };
 
-      const cleanupBeforeReject = (
-        receiver: Receiver | undefined,
-        // fixing an eslint warning about using a variable before it's defined (note that we're called _within_ onReceiveError below)
-        // this is not circular since we don't call onReceiveError, we just need it so we can remove it from the listeners of the receiver.
-        onReceiveErrorHandlerToRemove: OnAmqpEvent
-      ): void => {
-        if (receiver != null) {
-          receiver.removeListener(ReceiverEvents.receiverError, onReceiveErrorHandlerToRemove);
-          receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
-          receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
-          receiver.session.removeListener(SessionEvents.sessionError, onSessionError);
-        }
-
-        if (totalWaitTimer) {
-          clearTimeout(totalWaitTimer);
-        }
-        if (this._newMessageReceivedTimer) {
-          clearTimeout(this._newMessageReceivedTimer);
-        }
-      };
-
       // Action to be taken when an error is received.
       const onReceiveError: OnAmqpEvent = (context: Pick<EventContext, "receiver">) => {
         const receiver = this._receiver || context.receiver!;
-        cleanupBeforeReject(receiver, onReceiveError);
+        cleanupBeforeResolveOrReject(receiver, "removeDrainHandler");
 
         const receiverError = context.receiver && context.receiver.error;
         let error: Error | MessagingError;
@@ -372,8 +316,37 @@ export class BatchingReceiver extends MessageReceiver {
         reject(error);
       };
 
+      cleanupBeforeResolveOrReject = (
+        receiver: Receiver | undefined,
+        shouldRemoveDrain:
+          | "removeDrainHandler" // remove drain handler (not waiting or initiating a drain)
+          | "leaveDrainHandler" // listener for drain is removed when it is determined we dont need to drain or when drain is completed
+      ): void => {
+        if (receiver != null) {
+          receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
+          receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
+          receiver.session.removeListener(SessionEvents.sessionError, onSessionError);
+
+          if (shouldRemoveDrain === "removeDrainHandler") {
+            receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
+          }
+        }
+
+        if (totalWaitTimer) {
+          clearTimeout(totalWaitTimer);
+        }
+        if (this._newMessageReceivedTimer) {
+          clearTimeout(this._newMessageReceivedTimer);
+        }
+
+        if (removeAbortSignalListenersFn) {
+          removeAbortSignalListenersFn();
+          removeAbortSignalListenersFn = undefined;
+        }
+      };
+
       removeAbortSignalListenersFn = checkAndRegisterWithAbortSignal((err) => {
-        cleanupBeforeReject(this._receiver, onReceiveError);
+        cleanupBeforeResolveOrReject(this._receiver, "removeDrainHandler");
         reject(err);
       }, abortSignal);
 
