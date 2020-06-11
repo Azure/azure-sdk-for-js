@@ -5,7 +5,7 @@
  * This sample demonstrates how to recognize US sales receipts from a URL.
  */
 
-import { FormRecognizerClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
+import { FormRecognizerClient, AzureKeyCredential, BeginRecognizeReceiptPollState } from "@azure/ai-form-recognizer";
 
 // Load the .env file if it exists
 require("dotenv").config();
@@ -21,12 +21,11 @@ export async function main() {
 
   const poller = await client.beginRecognizeReceiptsFromUrl(url, {
     includeTextDetails: true,
-    onProgress: (state) => {
+    onProgress: (state: BeginRecognizeReceiptPollState) => {
       console.log(`analyzing status: ${state.status}`);
     }
   });
-  await poller.pollUntilDone();
-  const receipts = poller.getResult();
+  const receipts = await poller.pollUntilDone();
 
   if (!receipts || receipts.length <= 0) {
     throw new Error("Expecting at lease one receipt in analysis result");

@@ -29,8 +29,7 @@ describe("FormRecognizerClient NodeJS only", () => {
     const stream = fs.createReadStream(filePath);
 
     const poller = await client.beginRecognizeContent(stream, "application/pdf");
-    await poller.pollUntilDone();
-    const pages = poller.getResult();
+    const pages = await poller.pollUntilDone();
 
     assert.ok(
       pages && pages.length > 0,
@@ -45,8 +44,7 @@ describe("FormRecognizerClient NodeJS only", () => {
     const stream = fs.createReadStream(filePath);
 
     const poller = await client.beginRecognizeContent(stream, "image/png");
-    await poller.pollUntilDone();
-    const pages = poller.getResult();
+    const pages = await poller.pollUntilDone();
 
     assert.ok(
       pages && pages.length > 0,
@@ -59,8 +57,7 @@ describe("FormRecognizerClient NodeJS only", () => {
     const stream = fs.createReadStream(filePath);
 
     const poller = await client.beginRecognizeContent(stream, "image/jpeg");
-    await poller.pollUntilDone();
-    const pages = poller.getResult();
+    const pages = await poller.pollUntilDone();
 
     assert.ok(
       pages && pages.length > 0,
@@ -73,8 +70,7 @@ describe("FormRecognizerClient NodeJS only", () => {
     const stream = fs.createReadStream(filePath);
 
     const poller = await client.beginRecognizeContent(stream, "image/tiff");
-    await poller.pollUntilDone();
-    const pages = poller.getResult();
+    const pages = await poller.pollUntilDone();
 
     assert.ok(
       pages && pages.length > 0,
@@ -87,8 +83,7 @@ describe("FormRecognizerClient NodeJS only", () => {
     const stream = fs.createReadStream(filePath);
 
     const poller = await client.beginRecognizeContent(stream);
-    await poller.pollUntilDone();
-    const pages = poller.getResult();
+    const pages = await poller.pollUntilDone();
 
     assert.ok(
       pages && pages.length > 0,
@@ -102,8 +97,7 @@ describe("FormRecognizerClient NodeJS only", () => {
     const url = `${urlParts[0]}/Invoice_1.pdf?${urlParts[1]}`;
 
     const poller = await client.beginRecognizeContentFromUrl(url);
-    await poller.pollUntilDone();
-    const pages = poller.getResult();
+    const pages = await poller.pollUntilDone();
 
     assert.ok(
       pages && pages.length > 0,
@@ -116,8 +110,7 @@ describe("FormRecognizerClient NodeJS only", () => {
     const stream = fs.createReadStream(filePath);
 
     const poller = await client.beginRecognizeReceipts(stream, "image/png");
-    await poller.pollUntilDone();
-    const receipts = poller.getResult();
+    const receipts = await poller.pollUntilDone();
 
     assert.ok(
       receipts && receipts.length > 0,
@@ -140,8 +133,7 @@ describe("FormRecognizerClient NodeJS only", () => {
     const stream = fs.createReadStream(filePath);
 
     const poller = await client.beginRecognizeReceipts(stream, "image/jpeg");
-    await poller.pollUntilDone();
-    const receipts = poller.getResult();
+    const receipts = await poller.pollUntilDone();
 
     assert.ok(
       receipts && receipts.length > 0,
@@ -157,8 +149,7 @@ describe("FormRecognizerClient NodeJS only", () => {
     const url = `${urlParts[0]}/contoso-allinone.jpg?${urlParts[1]}`;
 
     const poller = await client.beginRecognizeReceiptsFromUrl(url);
-    await poller.pollUntilDone();
-    const receipts = poller.getResult();
+    const receipts = await poller.pollUntilDone();
 
     assert.ok(
       receipts && receipts.length > 0,
@@ -175,8 +166,7 @@ describe("FormRecognizerClient NodeJS only", () => {
     const poller = await client.beginRecognizeReceipts(stream, "application/pdf", {
       includeTextDetails: true
     });
-    await poller.pollUntilDone();
-    const receipts = poller.getResult();
+    const receipts = await poller.pollUntilDone();
 
     assert.ok(
       receipts && receipts.length > 0,

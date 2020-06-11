@@ -8,7 +8,7 @@
  * trainUnlabeledModel.ts or trainLabeledModel.ts
  */
 
-import { FormRecognizerClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
+import { FormRecognizerClient, AzureKeyCredential, BeginRecognizeCustomFormPollState } from "@azure/ai-form-recognizer";
 import * as fs from "fs";
 
 // Load the .env file if it exists
@@ -30,12 +30,11 @@ export async function main() {
 
   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
   const poller = await client.beginRecognizeCustomForms(modelId, readStream, "application/pdf", {
-    onProgress: (state) => {
+    onProgress: (state: BeginRecognizeCustomFormPollState) => {
       console.log(`status: ${state.status}`);
     }
   });
-  await poller.pollUntilDone();
-  const forms = poller.getResult();
+  const forms = await poller.pollUntilDone();
 
   console.log("Forms:");
   for (const form of forms || []) {

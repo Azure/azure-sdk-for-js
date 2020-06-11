@@ -32,8 +32,7 @@ export async function main() {
       console.log(`Copy model status: ${state.status}`);
     }
   });
-  await poller.pollUntilDone();
-  const result = poller.getResult();
+  const result = await poller.pollUntilDone();
 
   if (!result) {
       throw new Error("Expecting valid result from copy model operation");

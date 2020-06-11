@@ -44,7 +44,7 @@ export async function main() {
       // the label was directly provided to it.
       const field = form.fields[fieldName];
       console.log(
-        `\tField ${fieldName} has value '${field.value}' with a confidence score of ${field.confidence}`
+        `  Field ${fieldName} has value '${field.value}' with a confidence score of ${field.confidence}`
       );
     }
   }
@@ -55,10 +55,10 @@ export async function main() {
       // The recognized form fields with an unlabeled custom model will also include data about recognized labels.
       const field = form.fields[fieldName];
       console.log(
-        `\tField ${fieldName} has label '${field.labelText?.text}' with a confidence score of ${field.confidence}`
+        `  Field ${fieldName} has label '${field.labelText?.text}' with a confidence score of ${field.confidence}`
       );
       console.log(
-        `\tField ${fieldName} has value '${field.value}' with a confidence score of ${field.confidence}`
+        `  Field ${fieldName} has value '${field.value}' with a confidence score of ${field.confidence}`
       );
     }
   }
@@ -75,11 +75,10 @@ async function recognizeCustomForm(
   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
   const poller = await client.beginRecognizeCustomForms(labeledModelId, readStream, "application/pdf", {
     onProgress: (state) => {
-      console.log(`\tstatus: ${state.status}`);
+      console.log(`  status: ${state.status}`);
     }
   });
-  await poller.pollUntilDone();
-  const forms = poller.getResult();
+  const forms = await poller.pollUntilDone();
   if (!forms || forms?.length <= 0) {
     throw new Error("Expecting valid response!");
   }
