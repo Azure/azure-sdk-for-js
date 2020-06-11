@@ -31,11 +31,7 @@ describe("Encryption Scope", function() {
 
   let recorder: any;
 
-<<<<<<< HEAD
-  before(function() {
-=======
-  before(async function () {
->>>>>>> support 'bv' SAS
+  before(async function() {
     if (!encryptionScopeName1 || !encryptionScopeName2) {
       this.skip();
     }

@@ -3830,12 +3830,6 @@ export const BlobDownloadHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      versionId: {
-        serializedName: "x-ms-version-id",
-        type: {
-          name: "String"
-        }
-      },
       acceptRanges: {
         serializedName: "accept-ranges",
         type: {
@@ -4808,12 +4802,6 @@ export const BlobSetHTTPHeadersHeaders: coreHttp.CompositeMapper = {
       },
       version: {
         serializedName: "x-ms-version",
-        type: {
-          name: "String"
-        }
-      },
-      versionId: {
-        serializedName: "x-ms-version-id",
         type: {
           name: "String"
         }

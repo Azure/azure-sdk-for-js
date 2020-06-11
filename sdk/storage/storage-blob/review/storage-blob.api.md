@@ -1478,7 +1478,6 @@ export interface ContainerGetPropertiesHeaders {
     };
     requestId?: string;
     version?: string;
-    versionId?: string;
 }
 
 // @public
@@ -1803,7 +1802,7 @@ export interface ListBlobsHierarchySegmentResponse {
     maxPageSize?: number;
     // (undocumented)
     prefix?: string;
-    // (undocumented)`
+    // (undocumented)
     segment: BlobHierarchyListSegment;
     // (undocumented)
     serviceEndpoint: string;

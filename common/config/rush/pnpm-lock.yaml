@@ -69,6 +69,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-ZRPkQuzFuT3H/XK81dHVSjCfmfgiPMpJWBZWCEkZAogysZEtO3ydwzIXn95KsRWLJzfoT9m9TYwccSB5Brs+bg==
+  /@azure/core-asynciterator-polyfill/1.0.0:
+    dev: false
+    resolution:
+      integrity: sha512-kmv8CGrPfN9SwMwrkiBK9VTQYxdFQEGe0BmQk+M8io56P9KNzpAxcWE/1fxJj7uouwN4kXF0BHW8DNlgx+wtCg==
   /@azure/core-auth/1.1.1:
     dependencies:
       '@azure/abort-controller': 1.0.1
@@ -78,6 +82,15 @@ packages:
     dev: false
     resolution:
       integrity: sha512-9Sgl5tFu9s1UKghJUx1VK72CiShSeHbubaaE1xkK/xRc6CU11nU3aEFZBJxWNqBQoR1KmOk53mOQEz4haVLo6w==
+  /@azure/core-auth/1.1.2:
+    dependencies:
+      '@azure/abort-controller': 1.0.1
+      '@azure/core-tracing': 1.0.0-preview.8
+      '@opentelemetry/api': 0.6.1
+      tslib: 1.11.1
+    dev: false
+    resolution:
+      integrity: sha512-IUbP/f3v96dpHgXUwsAjUwDzjlUjawyUhWhGKKB6Qxy+iqppC/pVBPyc6kdpyTe7H30HN+4H3f0lar7Wp9Hx6A==
   /@azure/core-http/1.1.0:
     dependencies:
       '@azure/abort-controller': 1.0.1
@@ -99,6 +112,41 @@ packages:
     dev: false
     resolution:
       integrity: sha512-2H9AU5PxOSpRggWvOwDOSjJ6+Vym7r8nkdm0PQVGXPiyHjhrR/pvYqi5fHKPYDQQL4hm0eQy7LsT0dRIfdeztw==
+  /@azure/core-http/1.1.3:
+    dependencies:
+      '@azure/abort-controller': 1.0.1
+      '@azure/core-auth': 1.1.2
+      '@azure/core-tracing': 1.0.0-preview.8
+      '@azure/logger': 1.0.0
+      '@opentelemetry/api': 0.6.1
+      '@types/node-fetch': 2.5.5
+      '@types/tunnel': 0.0.1
+      form-data: 3.0.0
+      node-fetch: 2.6.0
+      process: 0.11.10
+      tough-cookie: 4.0.0
+      tslib: 1.11.1
+      tunnel: 0.0.6
+      uuid: 8.1.0
+      xml2js: 0.4.23
+    dev: false
+    resolution:
+      integrity: sha512-GysW3+BRVV4L9cs3GsuCbnlyibrQU6hh5mcJ7hlnk7tdUBzWybUvJ8/P/nHX49PgwRmi81pD5v1ht2jF0IzxAQ==
+  /@azure/core-lro/1.0.2:
+    dependencies:
+      '@azure/abort-controller': 1.0.1
+      '@azure/core-http': 1.1.3
+      events: 3.1.0
+      tslib: 1.11.1
+    dev: false
+    resolution:
+      integrity: sha512-Yr0JD7GKryOmbcb5wHCQoQ4KCcH5QJWRNorofid+UvudLaxnbCfvKh/cUfQsGUqRjO9L/Bw4X7FP824DcHdMxw==
+  /@azure/core-paging/1.1.1:
+    dependencies:
+      '@azure/core-asynciterator-polyfill': 1.0.0
+    dev: false
+    resolution:
+      integrity: sha512-hqEJBEGKan4YdOaL9ZG/GRG6PXaFd/Wb3SSjQW4LWotZzgl6xqG00h6wmkrpd2NNkbBkD1erLHBO3lPHApv+iQ==
   /@azure/core-tracing/1.0.0-preview.7:
     dependencies:
       '@opencensus/web-types': 0.0.7
@@ -182,6 +230,20 @@ packages:
     dev: false
     resolution:
       integrity: sha512-aFHRw/IHhg3I9ZJW+Va4L+sCirFHMVIu6B7lFdL5mGLfG3xC5vDIdd957LRXFgy2OiKFRUC0QaKknd0YCsQIqA==
+  /@azure/storage-blob/12.1.2:
+    dependencies:
+      '@azure/abort-controller': 1.0.1
+      '@azure/core-http': 1.1.3
+      '@azure/core-lro': 1.0.2
+      '@azure/core-paging': 1.1.1
+      '@azure/core-tracing': 1.0.0-preview.8
+      '@azure/logger': 1.0.0
+      '@opentelemetry/api': 0.6.1
+      events: 3.1.0
+      tslib: 1.11.1
+    dev: false
+    resolution:
+      integrity: sha512-PCHgG4r3xLt5FaFj+uiMqrRpuzD3TD17cvxCeA1JKK2bJEf8b07H3QRLQVf0DM1MmvYY8FgQagkWZTp+jr9yew==
   /@babel/code-frame/7.8.3:
     dependencies:
       '@babel/highlight': 7.9.0
@@ -6741,14 +6803,14 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha1-WIeWa7WCpFA6QetST301ARgVphM=
-  /ts-loader/6.2.2_typescript@3.8.3:
+  /ts-loader/6.2.2_typescript@3.9.5:
     dependencies:
       chalk: 2.4.2
       enhanced-resolve: 4.1.1
       loader-utils: 1.4.0
       micromatch: 4.0.2
       semver: 6.3.0
-      typescript: 3.8.3
+      typescript: 3.9.5
     dev: false
     engines:
       node: '>=8.6'
@@ -7838,7 +7900,7 @@ packages:
       shx: 0.3.2
       sinon: 9.0.2
       tough-cookie: 4.0.0
-      ts-loader: 6.2.2_typescript@3.8.3
+      ts-loader: 6.2.2_typescript@3.9.5
       ts-node: 8.8.2_typescript@3.9.5
       tslib: 2.0.0
       tunnel: 0.0.6
@@ -8257,6 +8319,7 @@ packages:
     version: 0.0.0
   'file:projects/eventhubs-checkpointstore-blob.tgz':
     dependencies:
+      '@azure/storage-blob': 12.1.2
       '@microsoft/api-extractor': 7.7.11
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-inject': 4.0.1_rollup@1.32.1
@@ -8316,7 +8379,7 @@ packages:
     dev: false
     name: '@rush-temp/eventhubs-checkpointstore-blob'
     resolution:
-      integrity: sha512-WeR08au7K0lgwkV/nQjy3NP/6dOrJ9YBd2C4fPnaW01kDV65CeAwtbNbDRR0gqfzGZYi62Q3gFEdfzsuJjL2Wg==
+      integrity: sha512-a2VkvB0VXuppKkDffruxfSgqSFzDSxaY0eIrKr6mLVXE2dhmttnQUqt/v8Rhfam0e9YQZ78STghOi9eyO3/oKg==
       tarball: 'file:projects/eventhubs-checkpointstore-blob.tgz'
     version: 0.0.0
   'file:projects/identity.tgz':
@@ -8838,6 +8901,7 @@ packages:
   'file:projects/storage-file-datalake.tgz':
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.8
+      '@azure/storage-blob': 12.1.2
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.6.1
       '@opentelemetry/types': 0.2.0
@@ -8902,7 +8966,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-file-datalake'
     resolution:
-      integrity: sha512-+5A/p1Sz5BnPMXppQ+6CGY6vD+UtG0X93WoPzcmUjX4zlbtPZ1GGut1tEMMqoVtVO6DrbTWAfG1RqcZeQ4NnWw==
+      integrity: sha512-9YgvSq/ORVPAudkZMd4jODocqIlewuS9my9J33Ewh3ShqucfhS0LkQ7F4j06Fdd+G6q33n9/olBm8YiBV1i2BQ==
       tarball: 'file:projects/storage-file-datalake.tgz'
     version: 0.0.0
   'file:projects/storage-file-share.tgz':
