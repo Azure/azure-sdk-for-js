@@ -190,7 +190,7 @@ export class BatchingReceiver extends MessageReceiver {
         reject(translate(error));
       };
 
-      let cleanupAbortSignalFn: (() => void) | undefined = undefined;
+      let removeAbortSignalListenersFn: (() => void) | undefined = undefined;
 
       // Final action to be performed after
       // - maxMessageCount is reached or
@@ -204,9 +204,9 @@ export class BatchingReceiver extends MessageReceiver {
           clearTimeout(totalWaitTimer);
         }
 
-        if (cleanupAbortSignalFn) {
-          cleanupAbortSignalFn();
-          cleanupAbortSignalFn = undefined;
+        if (removeAbortSignalListenersFn) {
+          removeAbortSignalListenersFn();
+          removeAbortSignalListenersFn = undefined;
         }
 
         // Removing listeners, so that the next receiveMessages() call can set them again.
@@ -372,7 +372,7 @@ export class BatchingReceiver extends MessageReceiver {
         reject(error);
       };
 
-      cleanupAbortSignalFn = checkAndRegisterWithAbortSignal((err) => {
+      removeAbortSignalListenersFn = checkAndRegisterWithAbortSignal((err) => {
         cleanupBeforeReject(this._receiver, onReceiveError);
         reject(err);
       }, abortSignal);
