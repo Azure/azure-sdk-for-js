@@ -18,6 +18,7 @@ import { AzureStackManagementClientContext } from "./azureStackManagementClientC
 class AzureStackManagementClient extends AzureStackManagementClientContext {
   // Operation groups
   operations: operations.Operations;
+  cloudManifestFile: operations.CloudManifestFile;
   products: operations.Products;
   registrations: operations.Registrations;
   customerSubscriptions: operations.CustomerSubscriptions;
@@ -32,6 +33,7 @@ class AzureStackManagementClient extends AzureStackManagementClientContext {
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.AzureStackManagementClientOptions) {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
+    this.cloudManifestFile = new operations.CloudManifestFile(this);
     this.products = new operations.Products(this);
     this.registrations = new operations.Registrations(this);
     this.customerSubscriptions = new operations.CustomerSubscriptions(this);

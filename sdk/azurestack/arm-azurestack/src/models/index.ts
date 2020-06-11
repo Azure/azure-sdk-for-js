@@ -108,6 +108,52 @@ export interface Operation {
 }
 
 /**
+ * Cloud specific manifest data for AzureStack deployment.
+ */
+export interface CloudManifestFileDeploymentData {
+  /**
+   * Dsms external certificates.
+   */
+  externalDsmsCertificates?: string;
+  /**
+   * Signing verification public key.
+   */
+  customCloudVerificationKey?: string;
+  /**
+   * ARM endpoint.
+   */
+  customCloudArmEndpoint?: string;
+  /**
+   * Dsms endpoint.
+   */
+  externalDsmsEndpoint?: string;
+}
+
+/**
+ * Cloud specific manifest JSON properties.
+ */
+export interface CloudManifestFileProperties {
+  /**
+   * Cloud specific manifest data.
+   */
+  deploymentData?: CloudManifestFileDeploymentData;
+  /**
+   * Signature of the cloud specific manifest data.
+   */
+  signature?: string;
+}
+
+/**
+ * Cloud specific manifest GET response.
+ */
+export interface CloudManifestFileResponse extends Resource {
+  /**
+   * Cloud specific manifest data.
+   */
+  properties?: CloudManifestFileProperties;
+}
+
+/**
  * The details of the error.
  */
 export interface ErrorDetails {
@@ -588,10 +634,6 @@ export interface RegistrationParameter {
    * The token identifying registered Azure Stack
    */
   registrationToken: string;
-  /**
-   * Location of the resource. Possible values include: 'global'
-   */
-  location?: Location;
 }
 
 /**
@@ -602,6 +644,16 @@ export interface CustomerSubscription extends Resource {
    * Tenant Id.
    */
   tenantId?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface CloudManifestFileGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Signing verification key version creation date.
+   */
+  versionCreationDate?: string;
 }
 
 /**
@@ -704,14 +756,6 @@ export type CompatibilityIssue = 'HigherDeviceVersionRequired' | 'LowerDeviceVer
 export type Category = 'AzureAD' | 'ADFS';
 
 /**
- * Defines values for Location.
- * Possible values include: 'global'
- * @readonly
- * @enum {string}
- */
-export type Location = 'global';
-
-/**
  * Contains response data for the list operation.
  */
 export type OperationsListResponse = OperationList & {
@@ -748,6 +792,46 @@ export type OperationsListNextResponse = OperationList & {
        * The response body as parsed JSON or XML
        */
       parsedBody: OperationList;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type CloudManifestFileListResponse = CloudManifestFileResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CloudManifestFileResponse;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type CloudManifestFileGetResponse = CloudManifestFileResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CloudManifestFileResponse;
     };
 };
 

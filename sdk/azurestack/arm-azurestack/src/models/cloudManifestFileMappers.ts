@@ -8,13 +8,11 @@
 
 export {
   BaseResource,
-  CloudError,
   CloudManifestFileDeploymentData,
   CloudManifestFileProperties,
   CloudManifestFileResponse,
   Compatibility,
   CustomerSubscription,
-  CustomerSubscriptionList,
   ErrorDetails,
   ErrorResponse,
   IconUris,

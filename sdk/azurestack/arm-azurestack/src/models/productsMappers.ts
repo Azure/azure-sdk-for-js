@@ -9,6 +9,9 @@
 export {
   BaseResource,
   CloudError,
+  CloudManifestFileDeploymentData,
+  CloudManifestFileProperties,
+  CloudManifestFileResponse,
   Compatibility,
   CustomerSubscription,
   DataDiskImage,

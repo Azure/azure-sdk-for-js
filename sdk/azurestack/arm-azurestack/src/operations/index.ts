@@ -9,6 +9,7 @@
  */
 
 export * from "./operations";
+export * from "./cloudManifestFile";
 export * from "./products";
 export * from "./registrations";
 export * from "./customerSubscriptions";

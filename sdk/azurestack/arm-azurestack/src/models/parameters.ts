@@ -92,3 +92,25 @@ export const subscriptionId: msRest.OperationURLParameter = {
     }
   }
 };
+export const verificationVersion: msRest.OperationURLParameter = {
+  parameterPath: "verificationVersion",
+  mapper: {
+    required: true,
+    serializedName: "verificationVersion",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const versionCreationDate: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "versionCreationDate"
+  ],
+  mapper: {
+    serializedName: "versionCreationDate",
+    type: {
+      name: "String"
+    }
+  }
+};

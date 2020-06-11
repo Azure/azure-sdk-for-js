@@ -169,6 +169,81 @@ export const Operation: msRest.CompositeMapper = {
   }
 };
 
+export const CloudManifestFileDeploymentData: msRest.CompositeMapper = {
+  serializedName: "CloudManifestFileDeploymentData",
+  type: {
+    name: "Composite",
+    className: "CloudManifestFileDeploymentData",
+    modelProperties: {
+      externalDsmsCertificates: {
+        serializedName: "externalDsmsCertificates",
+        type: {
+          name: "String"
+        }
+      },
+      customCloudVerificationKey: {
+        serializedName: "customCloudVerificationKey",
+        type: {
+          name: "String"
+        }
+      },
+      customCloudArmEndpoint: {
+        serializedName: "customEnvironmentEndpoints.customCloudArmEndpoint",
+        type: {
+          name: "String"
+        }
+      },
+      externalDsmsEndpoint: {
+        serializedName: "customEnvironmentEndpoints.externalDsmsEndpoint",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CloudManifestFileProperties: msRest.CompositeMapper = {
+  serializedName: "CloudManifestFileProperties",
+  type: {
+    name: "Composite",
+    className: "CloudManifestFileProperties",
+    modelProperties: {
+      deploymentData: {
+        serializedName: "deploymentData",
+        type: {
+          name: "Composite",
+          className: "CloudManifestFileDeploymentData"
+        }
+      },
+      signature: {
+        serializedName: "signature",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CloudManifestFileResponse: msRest.CompositeMapper = {
+  serializedName: "CloudManifestFileResponse",
+  type: {
+    name: "Composite",
+    className: "CloudManifestFileResponse",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "CloudManifestFileProperties"
+        }
+      }
+    }
+  }
+};
+
 export const ErrorDetails: msRest.CompositeMapper = {
   serializedName: "ErrorDetails",
   type: {
@@ -909,7 +984,10 @@ export const RegistrationParameter: msRest.CompositeMapper = {
         }
       },
       location: {
+        required: true,
+        isConstant: true,
         serializedName: "location",
+        defaultValue: 'global',
         type: {
           name: "String"
         }
