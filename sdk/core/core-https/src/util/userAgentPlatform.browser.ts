@@ -6,7 +6,7 @@
  */
 
 export function getHeaderName(): string {
-  return "x-ms-command-name";
+  return "x-ms-useragent";
 }
 
 interface NavigatorEx extends Navigator {
