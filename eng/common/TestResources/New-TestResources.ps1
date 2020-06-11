@@ -15,6 +15,9 @@ param (
     [ValidatePattern('^[-a-zA-Z0-9\.\(\)_]{0,80}(?<=[a-zA-Z0-9\(\)])$')]
     [string] $BaseName,
 
+    [ValidatePattern('^[-\w\._\(\)]+$')]
+    [string] $ResourceGroupName,
+
     [Parameter(Mandatory = $true)]
     [string] $ServiceDirectory,
 
@@ -195,14 +198,18 @@ $serviceName = if (Split-Path -IsAbsolute  $ServiceDirectory) {
     $ServiceDirectory
 }
 
-# Format the resource group name based on resource group naming recommendations and limitations.
-$resourceGroupName = if ($CI) {
-    $BaseName = 't' + (New-Guid).ToString('n').Substring(0, 16)
-    Write-Verbose "Generated base name '$BaseName' for CI build"
+if ($CI) { 
+  $BaseName = 't' + (New-Guid).ToString('n').Substring(0, 16)
+  Write-Verbose "Generated base name '$BaseName' for CI build"
+}
 
-    "rg-{0}-$BaseName" -f ($serviceName -replace '[\\\/:]', '-').Substring(0, [Math]::Min($serviceName.Length, 90 - $BaseName.Length - 4)).Trim('-')
+$rgName = if ($ResourceGroupName -ne '') { 
+  $ResourceGroupName
+} elseif ($CI) {
+  # Format the resource group name based on resource group naming recommendations and limitations.
+  "rg-{0}-$BaseName" -f ($serviceName -replace '[\\\/:]', '-').Substring(0, [Math]::Min($serviceName.Length, 90 - $BaseName.Length - 4)).Trim('-')
 } else {
-    "rg-$BaseName"
+  "rg-$BaseName"
 }
 
 # Tag the resource group to be deleted after a certain number of hours if specified.
@@ -226,14 +233,14 @@ if ($CI) {
     }
 
     # Set the resource group name variable.
-    Write-Host "Setting variable 'AZURE_RESOURCEGROUP_NAME': $resourceGroupName"
-    Write-Host "##vso[task.setvariable variable=AZURE_RESOURCEGROUP_NAME;]$resourceGroupName"
-    $environmentVariables['AZURE_RESOURCEGROUP_NAME'] = $resourceGroupName
+    Write-Host "Setting variable 'AZURE_RESOURCEGROUP_NAME': $rgName"
+    Write-Host "##vso[task.setvariable variable=AZURE_RESOURCEGROUP_NAME;]$rgName"
+    $environmentVariables['AZURE_RESOURCEGROUP_NAME'] = $rgName
 }
 
-Log "Creating resource group '$resourceGroupName' in location '$Location'"
+Log "Creating resource group '$rgName' in location '$Location'"
 $resourceGroup = Retry {
-    New-AzResourceGroup -Name "$resourceGroupName" -Location $Location -Tag $tags -Force:$Force
+    New-AzResourceGroup -Name "$rgName" -Location $Location -Tag $tags -Force:$Force
 }
 
 if ($resourceGroup.ProvisioningState -eq 'Succeeded') {
@@ -297,7 +304,7 @@ foreach ($templateFile in $templateFiles) {
     $preDeploymentScript = $templateFile | Split-Path | Join-Path -ChildPath 'test-resources-pre.ps1'
     if (Test-Path $preDeploymentScript) {
         Log "Invoking pre-deployment script '$preDeploymentScript'"
-        &$preDeploymentScript -ResourceGroupName $resourceGroupName @PSBoundParameters
+        &$preDeploymentScript -ResourceGroupName $rgName @PSBoundParameters
     }
 
     Log "Deploying template '$templateFile' to resource group '$($resourceGroup.ResourceGroupName)'"
@@ -389,7 +396,7 @@ foreach ($templateFile in $templateFiles) {
     $postDeploymentScript = $templateFile | Split-Path | Join-Path -ChildPath 'test-resources-post.ps1'
     if (Test-Path $postDeploymentScript) {
         Log "Invoking post-deployment script '$postDeploymentScript'"
-        &$postDeploymentScript -ResourceGroupName $resourceGroupName -DeploymentOutputs $deploymentOutputs @PSBoundParameters
+        &$postDeploymentScript -ResourceGroupName $rgName -DeploymentOutputs $deploymentOutputs @PSBoundParameters
     }
 }
 

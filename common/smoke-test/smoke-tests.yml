@@ -83,9 +83,7 @@ jobs:
           workingDir: common/smoke-test/
         displayName: List packages installed from the feed
 
-      - script: |
-          ls
-          node run.js
+      - script: node run.js
         workingDirectory: common/smoke-test/
         displayName: Run smoke tests
 

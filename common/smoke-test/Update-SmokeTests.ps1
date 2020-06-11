@@ -41,11 +41,30 @@ param (
   [Parameter(ValueFromRemainingArguments = $true)]
   $RemainingArguments
 )
+
+function OutputWarning {
+  param([string] $Output)
+
+  if ($CI) {
+    Write-Host "##vso[task.logissue type=warning]$Output"
+  }
+  else {
+    Write-Warning $Output
+  }
+
+}
+
+$previousEnvironmentVariables = @{ }
+
 function SetEnvironmentVariable {
   param(
     [string] $Name,
     [string] $Value
   )
+
+  if ($previousEnvironmentVariables.ContainsKey($Name) -and $previousEnvironmentVariables[$Name] -ne $Value) {
+    OutputWarning "Environment variable already set: $Name with different value"
+  }
 
   if ($CI) {
     Write-Host "##vso[task.setvariable variable=_$Name;issecret=true;]$($Value)"
@@ -57,6 +76,7 @@ function SetEnvironmentVariable {
   }
 }
 
+# TODO: Use the script file's location instead of pushd/popd
 pushd ../../
 
 Write-Verbose "Reading manifest..."
@@ -66,9 +86,10 @@ $deployedServiceDirectories = @{ }
 $runManifest = @()
 $dependencies = New-Object 'system.collections.generic.dictionary[string,string]'
 $baseName = 't' + (New-Guid).ToString('n').Substring(0, 16)
+$resourceGroupName = "rg-smoke-$baseName"
 
 # Use the same resource group name that New-TestResources.ps1 generates
-SetEnvironmentVariable -Name 'AZURE_RESOURCEGROUP_NAME' -Value "rg-$baseName"
+SetEnvironmentVariable -Name 'AZURE_RESOURCEGROUP_NAME' -Value $resourceGroupName
 
 foreach ($entry in $manifest) {
   try {
@@ -81,6 +102,7 @@ foreach ($entry in $manifest) {
       # to $deployOutput so they can be set in the user's context or in CI.
       $deployOutput = eng/common/TestResources/New-TestResources.ps1 `
         -BaseName  $baseName `
+        -ResourceGroupName $resourceGroupName `
         -ServiceDirectory $entry.resourcesDirectory `
         -TestApplicationId $TestApplicationId `
         -TestApplicationSecret $TestApplicationSecret `
@@ -94,7 +116,7 @@ foreach ($entry in $manifest) {
         -AdditionalParameters $AdditionalParameters `
         -Force `
         -Verbose `
-        -CI:$false
+        -CI:$CI
 
       $deployedServiceDirectories[$entry.resourcesDirectory] = $true;
 
@@ -142,7 +164,7 @@ $runnerPackageSpec.dependencies = $dependencies
 
 SetEnvironmentVariable -Name "NODE_PATH" -Value "$PSScriptRoot/node_modules"
 
-
+# TODO: use current script location instead of changing directories
 popd
 
 <#
