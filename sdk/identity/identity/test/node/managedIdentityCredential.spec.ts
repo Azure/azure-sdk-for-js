@@ -20,6 +20,8 @@ interface AuthRequestDetails {
 
 describe("ManagedIdentityCredential", function() {
   afterEach(() => {
+    delete process.env.IDENTITY_ENDPOINT;
+    delete process.env.IDENTITY_SECRET;
     delete process.env.MSI_ENDPOINT;
     delete process.env.MSI_SECRET;
   });
@@ -185,6 +187,65 @@ describe("ManagedIdentityCredential", function() {
       assert.equal(decodeURIComponent(bodyParams.resource as string), "https://service");
       assert.ok(
         authRequest.url.startsWith(process.env.MSI_ENDPOINT),
+        "URL does not start with expected host and path"
+      );
+      assert.equal(authRequest.headers.get("secret"), undefined);
+    }
+  });
+
+  it("sends an authorization request correctly in an App Service environment", async () => {
+    // Trigger App Service behavior by setting environment variables
+    process.env.IDENTITY_ENDPOINT = "https://endpoint";
+    process.env.IDENTITY_SECRET = "secret";
+
+    const authDetails = await getMsiTokenAuthRequest(["https://service/.default"], "client", {
+      authResponse: {
+        status: 200,
+        parsedBody: {
+          token: "token",
+          expires_on: "06/20/2019 02:57:58 +00:00"
+        }
+      }
+    });
+
+    const authRequest = authDetails.requests[0];
+    assert.ok(authRequest.query, "No query string parameters on request");
+    if (authRequest.query) {
+      assert.equal(authRequest.method, "GET");
+      assert.equal(authRequest.query["clientid"], "client");
+      assert.equal(decodeURIComponent(authRequest.query["resource"]), "https://service");
+      assert.ok(
+        authRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
+        "URL does not start with expected host and path"
+      );
+      assert.equal(authRequest.headers.get("secret"), process.env.IDENTITY_SECRET);
+      assert.ok(
+        authRequest.url.indexOf(`api-version=${AppServiceMsiApiVersion}`) > -1,
+        "URL does not have expected version"
+      );
+      if (authDetails.token) {
+        assert.equal(authDetails.token.expiresOnTimestamp, 1560999478000);
+      } else {
+        assert.fail("No token was returned!");
+      }
+    }
+  });
+
+  it("sends an authorization request correctly in an Cloud Shell environment", async () => {
+    // Trigger Cloud Shell behavior by setting environment variables
+    process.env.IDENTITY_ENDPOINT = "https://endpoint";
+
+    const authDetails = await getMsiTokenAuthRequest(["https://service/.default"], "client");
+    const authRequest = authDetails.requests[0];
+
+    assert.ok(authRequest.body !== undefined, "No body on request");
+    if (authRequest.body) {
+      const bodyParams = qs.parse(authRequest.body);
+      assert.equal(authRequest.method, "POST");
+      assert.equal(bodyParams.client_id, "client");
+      assert.equal(decodeURIComponent(bodyParams.resource as string), "https://service");
+      assert.ok(
+        authRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
         "URL does not start with expected host and path"
       );
       assert.equal(authRequest.headers.get("secret"), undefined);
