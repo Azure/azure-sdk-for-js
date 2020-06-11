@@ -7,6 +7,7 @@ import { HttpHeaders, isNode, URLBuilder } from "@azure/core-http";
 import { BlobQueryCsvTextConfiguration, BlobQueryJsonTextConfiguration } from "../Clients";
 import { QuerySerialization, BlobTags } from "../generated/src/models";
 import { DevelopmentConnectionString, HeaderConstants, URLConstants } from "./constants";
+import { Tags } from "../models";
 
 /**
  * Reserved URL characters must be properly escaped for Storage services like Blob or File.
@@ -557,23 +558,73 @@ export function getAccountNameFromUrl(url: string): string {
 }
 
 /**
- * Convert BlobTags to encoded string.
+ * Convert Tags to encoded string.
  *
  * @export
- * @param {BlobTags} tags
+ * @param {Tags} tags
  * @returns {string | undefined}
  */
-export function toBlobTagsString(tags?: BlobTags): string | undefined {
-  if (tags === undefined || tags.blobTagSet.length === 0) {
+export function toBlobTagsString(tags?: Tags): string | undefined {
+  if (tags === undefined) {
     return undefined;
   }
 
-  const tagParis = [];
-  for (const blobTag of tags.blobTagSet) {
-    tagParis.push(`${encodeURIComponent(blobTag.key)}=${encodeURIComponent(blobTag.value)}`);
+  const tagPairs = [];
+  for (const key in tags) {
+    if (tags.hasOwnProperty(key)) {
+      const value = tags[key];
+      tagPairs.push(`${encodeURIComponent(key)}=${encodeURIComponent(value)}`);
+    }
   }
 
-  return tagParis.join("&");
+  return tagPairs.join("&");
+}
+
+/**
+ * Convert Tags type to BlobTags.
+ *
+ * @export
+ * @param {Tags} [tags]
+ * @returns {(BlobTags | undefined)}
+ */
+export function toBlobTags(tags?: Tags): BlobTags | undefined {
+  if (tags === undefined) {
+    return undefined;
+  }
+
+  const res: BlobTags = {
+    blobTagSet: []
+  };
+
+  for (const key in tags) {
+    if (tags.hasOwnProperty(key)) {
+      const value = tags[key];
+      res.blobTagSet.push({
+        key,
+        value
+      });
+    }
+  }
+  return res;
+}
+
+/**
+ * Covert BlobTags to Tags type.
+ *
+ * @export
+ * @param {BlobTags} [tags]
+ * @returns {(Tags | undefined)}
+ */
+export function toTags(tags?: BlobTags): Tags | undefined {
+  if (tags === undefined) {
+    return undefined;
+  }
+
+  const res: Tags = {};
+  for (const blobTag of tags.blobTagSet) {
+    res[blobTag.key] = blobTag.value;
+  }
+  return res;
 }
 
 /**

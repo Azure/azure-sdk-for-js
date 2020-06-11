@@ -54,15 +54,13 @@ describe("BlobClient", () => {
 
   it.only("Set blob tags should work", async () => {
     const tags = {
-      blobTagSet: [
-        { key: "tag1", value: "val1" },
-        { key: "tag2", value: "val2" }
-      ]
+      tag1: "val1",
+      tag2: "val2"
     };
     await blockBlobClient.setTags(tags);
 
     const response = await blockBlobClient.getTags();
-    assert.deepStrictEqual(response.blobTagSet, tags.blobTagSet);
+    assert.deepStrictEqual(response.tags, tags);
 
     const properties = await blockBlobClient.getProperties();
     assert.deepStrictEqual(properties.tagCount, 2);
@@ -76,15 +74,13 @@ describe("BlobClient", () => {
     const segment = await iter.next();
 
     // TODO: Make blob tag type consistency cross all request or response
-    assert.deepStrictEqual(segment.value.segment.blobItems[0].blobTags.blobTagSet, tags.blobTagSet);
+    assert.deepStrictEqual(segment.value.segment.blobItems[0].tags, tags);
   });
 
   it.only("Get blob tags should work with a snapshot", async () => {
     const tags = {
-      blobTagSet: [
-        { key: "tag1", value: "val1" },
-        { key: "tag2", value: "val2" }
-      ]
+      tag1: "val1",
+      tag2: "val2"
     };
     await blockBlobClient.setTags(tags);
 
@@ -92,56 +88,50 @@ describe("BlobClient", () => {
     const blockBlobClientSnapshot = blockBlobClient.withSnapshot(snapshotResponse.snapshot!);
 
     const response = await blockBlobClientSnapshot.getTags();
-    assert.deepStrictEqual(response.blobTagSet, tags.blobTagSet);
+    assert.deepStrictEqual(response.tags, tags);
   });
 
   it.only("Create block blob blob should work with tags", async () => {
     await blockBlobClient.delete();
 
     const tags = {
-      blobTagSet: [
-        { key: "tag1", value: "val1" },
-        { key: "tag2", value: "val2" }
-      ]
+      tag1: "val1",
+      tag2: "val2"
     };
     await blockBlobClient.upload("hello", 5, { tags });
 
     const response = await blockBlobClient.getTags();
-    assert.deepStrictEqual(response.blobTagSet, tags.blobTagSet);
+    assert.deepStrictEqual(response.tags, tags);
   });
 
   it.only("Create append blob should work with tags", async () => {
     await blockBlobClient.delete();
 
     const tags = {
-      blobTagSet: [
-        { key: "tag1", value: "val1" },
-        { key: "tag2", value: "val2" }
-      ]
+      tag1: "val1",
+      tag2: "val2"
     };
 
     const appendBlobClient = blobClient.getAppendBlobClient();
     await appendBlobClient.create({ tags });
 
     const response = await appendBlobClient.getTags();
-    assert.deepStrictEqual(response.blobTagSet, tags.blobTagSet);
+    assert.deepStrictEqual(response.tags, tags);
   });
 
   it.only("Create page blob should work with tags", async () => {
     await blockBlobClient.delete();
 
     const tags = {
-      blobTagSet: [
-        { key: "tag1", value: "val1" },
-        { key: "tag2", value: "val2" }
-      ]
+      tag1: "val1",
+      tag2: "val2"
     };
 
     const pageBlobClient = blobClient.getPageBlobClient();
     await pageBlobClient.create(512, { tags });
 
     const response = await pageBlobClient.getTags();
-    assert.deepStrictEqual(response.blobTagSet, tags.blobTagSet);
+    assert.deepStrictEqual(response.tags, tags);
   });
 
   it("download with with default parameters", async () => {

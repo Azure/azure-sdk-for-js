@@ -369,10 +369,8 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const blobClientWithSAS = new PageBlobClient(sasURL, newPipeline(new AnonymousCredential()));
 
     const tags = {
-      blobTagSet: [
-        { key: "tag1", value: "val1" },
-        { key: "tag2", value: "val2" }
-      ]
+      tag1: "val1",
+      tag2: "val2"
     };
     await blobClientWithSAS.setTags(tags);
 

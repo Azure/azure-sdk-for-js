@@ -158,10 +158,8 @@ describe("Highlevel", () => {
     recorder.skip("browser", "Temp file - recorder doesn't support saving the file");
 
     const tags = {
-      blobTagSet: [
-        { key: "tag1", value: "val1" },
-        { key: "tag2", value: "val2" }
-      ]
+      tag1: "val1",
+      tag2: "val2"
     };
 
     await blockBlobClient.uploadBrowserData(tempFile2, {
@@ -171,7 +169,7 @@ describe("Highlevel", () => {
     });
 
     const response = await blockBlobClient.getTags();
-    assert.deepStrictEqual(response.blobTagSet, tags.blobTagSet);
+    assert.deepStrictEqual(response.tags, tags);
   });
 
   it("uploadBrowserDataToBlockBlob should success when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async function() {
