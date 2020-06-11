@@ -521,7 +521,7 @@ export interface RecognizedReceiptArray extends Array<RecognizedReceipt> {
 
 // @public
 export type RecognizeFormsOptions = FormRecognizerOperationOptions & {
-    includeTextDetails?: boolean;
+    includeTextContent?: boolean;
 };
 
 // @public
@@ -534,7 +534,7 @@ export type RecognizeReceiptPollerClient = {
 
 // @public
 export type RecognizeReceiptsOptions = FormRecognizerOperationOptions & {
-    includeTextDetails?: boolean;
+    includeTextContent?: boolean;
 };
 
 export { RestResponse }
