@@ -817,7 +817,7 @@ export class MessageReceiver extends LinkEntity {
         } else if (this.receiverType === ReceiverType.batching && !this._context.batchingReceiver) {
           this._context.batchingReceiver = this as any;
         }
-        await this._ensureTokenRenewal();
+        this._ensureTokenRenewal();
       } else {
         log.error(
           "[%s] The receiver '%s' with address '%s' is open -> %s and is connecting " +

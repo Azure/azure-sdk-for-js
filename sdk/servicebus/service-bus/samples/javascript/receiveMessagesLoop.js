@@ -14,8 +14,7 @@ const { ServiceBusClient } = require("@azure/service-bus");
 // Load the .env file if it exists
 require("dotenv").config();
 // Define connection string and related Service Bus entity names here
-const connectionString =
-  process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
+const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 async function main() {
   const sbClient = new ServiceBusClient(connectionString);
@@ -45,6 +44,6 @@ async function main() {
   }
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.log("Error occurred: ", err);
 });

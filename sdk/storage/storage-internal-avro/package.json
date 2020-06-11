@@ -24,7 +24,7 @@
     "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\""
   },
   "dependencies": {
-    "tslib": "^1.10.0"
+    "tslib": "^2.0.0"
   },
   "devDependencies": {
     "@azure/identity": "^1.1.0-preview",
@@ -65,7 +65,7 @@
     "mocha-junit-reporter": "^1.18.0",
     "nyc": "^14.0.0",
     "prettier": "^1.16.4",
-    "puppeteer": "^2.0.0",
+    "puppeteer": "^3.3.0",
     "rimraf": "^3.0.0",
     "rollup": "^1.16.3",
     "@rollup/plugin-commonjs": "11.0.2",
@@ -73,7 +73,7 @@
     "rollup-plugin-shim": "^1.0.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-terser": "^5.1.1",
-    "rollup-plugin-visualizer": "^3.1.1",
+    "rollup-plugin-visualizer": "^4.0.4",
     "source-map-support": "^0.5.9",
     "ts-node": "^8.3.0",
     "typescript": "~3.9.3",

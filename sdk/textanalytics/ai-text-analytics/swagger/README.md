@@ -270,13 +270,13 @@ directive:
     transform: $.description = "Represents a warning encountered while processing a document."
   - from: swagger-document
     where: $.definitions.SentenceSentiment
-    transform: $.description = "The predicted sentiment for a given span of text. For more information regarding text sentiment, see https://docs.microsoft.com/en-us/azure/cognitive-services/Text-Analytics/how-tos/text-analytics-how-to-sentiment-analysis."
+    transform: $.description = "The predicted sentiment for a given span of text. For more information regarding text sentiment, see https://docs.microsoft.com/azure/cognitive-services/Text-Analytics/how-tos/text-analytics-how-to-sentiment-analysis."
   - from: swagger-document
     where: $.definitions.Match
     transform: $.description = "Details about the specific substring in a document that refers to a linked entity identified by the Text Analytics model."
   - from: swagger-document
     where: $.definitions.Entity
-    transform: $.description = "A word or phrase identified as an entity that is categorized within a taxonomy of types. The set of categories recognized by the Text Analytics service is described at https://docs.microsoft.com/en-us/azure/cognitive-services/Text-Analytics/named-entity-types ."
+    transform: $.description = "A word or phrase identified as an entity that is categorized within a taxonomy of types. The set of categories recognized by the Text Analytics service is described at https://docs.microsoft.com/azure/cognitive-services/Text-Analytics/named-entity-types ."
   - from: swagger-document
     where: $.definitions.LinkedEntity
     transform: $.description = "A word or phrase identified as a well-known entity within a database, including its formal (disambiguated) name and a link to the entity information within the source database."

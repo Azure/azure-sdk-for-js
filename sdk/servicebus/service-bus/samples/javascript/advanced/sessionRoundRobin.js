@@ -15,7 +15,7 @@ const { AbortController } = require("@azure/abort-controller");
 dotenv.config();
 
 const serviceBusConnectionString =
-process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
+  process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
 
 // NOTE: this sample uses a queue but would also work a session enabled subscription.
 const queueName = process.env.QUEUE_NAME || "<queue name>";
