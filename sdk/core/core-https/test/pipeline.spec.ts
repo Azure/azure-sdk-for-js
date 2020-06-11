@@ -7,7 +7,8 @@ import {
   PipelinePolicy,
   HttpsClient,
   createPipelineRequest,
-  createHttpHeaders
+  createHttpHeaders,
+  createPipelineFromOptions
 } from "../src";
 
 describe("HttpsPipeline", function() {
@@ -337,5 +338,25 @@ describe("HttpsPipeline", function() {
     );
     assert.strictEqual(response.request.url, "afterTest3");
     assert.strictEqual(response.status, 200);
+  });
+
+  describe("createPipelineFromOptions", function() {
+    it("can issue successful requests", async function() {
+      const testHttpsClient: HttpsClient = {
+        sendRequest: async (request) => {
+          assert.strictEqual(request.url, "https://example.com");
+          return {
+            request,
+            headers: createHttpHeaders(),
+            status: 200
+          };
+        }
+      };
+
+      const pipeline = createPipelineFromOptions({});
+      const request = createPipelineRequest({ url: "https://example.com" });
+      const response = await pipeline.sendRequest(testHttpsClient, request);
+      assert.strictEqual(response.status, 200);
+    });
   });
 });
