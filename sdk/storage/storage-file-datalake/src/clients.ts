@@ -1142,7 +1142,6 @@ export class DataLakeFileClient extends DataLakePathClient {
 
   private async uploadData(
     contentFactory:
-      | ((offset: number, size: number) => ArrayBuffer)
       | ((offset: number, size: number) => Buffer)
       | ((offset: number, size: number) => Blob)
       | ((offset: number, size: number) => () => NodeJS.ReadableStream),
