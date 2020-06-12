@@ -531,6 +531,49 @@ describe("send scheduled messages", () => {
     });
   });
 
+  describe("Miscellaneous", function(): void {
+    afterEach(async () => {
+      await afterEachTest();
+    });
+
+    it("Schedule messages in parallel", async () => {
+      await beforeEachTest(TestClientType.UnpartitionedQueue);
+      const date = new Date();
+      let sequenceNumber1: Long.Long;
+      let sequenceNumber2: Long.Long;
+      let sequenceNumber3: Long.Long;
+
+      [sequenceNumber1, sequenceNumber2, sequenceNumber3] = await Promise.all([
+        // Schedule messages in parallel
+        sender.scheduleMessage(date, { body: "random-1" }),
+        sender.scheduleMessage(date, { body: "random-2" }),
+        sender.scheduleMessage(date, { body: "random-3" })
+      ]);
+
+      compareSequenceNumbers(sequenceNumber1, sequenceNumber2);
+      compareSequenceNumbers(sequenceNumber1, sequenceNumber3);
+      compareSequenceNumbers(sequenceNumber2, sequenceNumber3);
+
+      function compareSequenceNumbers(sequenceNumber1: Long.Long, sequenceNumber2: Long.Long) {
+        should.equal(
+          sequenceNumber1.compare(sequenceNumber2) != 0,
+          true,
+          "Returned sequence numbers for parallel requests are the same"
+        );
+      }
+
+      const msgs = await receiver.receiveBatch(3);
+      should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+      should.equal(msgs.length, 3, "Unexpected number of messages");
+
+      await msgs[0].complete();
+      await msgs[1].complete();
+      await msgs[2].complete();
+
+      await testPeekMsgsLength(receiver, 0);
+    });
+  });
+
   describe("ServiceBusMessage validations", function(): void {
     const longString =
       "A very very very very very very very very very very very very very very very very very very very very very very very very very long string.";
