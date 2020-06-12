@@ -458,6 +458,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/storage-blob-changefeed",
+      "projectFolder": "sdk/storage/storage-blob-changefeed",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/storage-file-share",
       "projectFolder": "sdk/storage/storage-file-share",
       "versionPolicyName": "client"
