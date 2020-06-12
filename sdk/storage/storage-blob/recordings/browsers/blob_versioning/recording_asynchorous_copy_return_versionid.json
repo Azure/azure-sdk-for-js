@@ -1,0 +1,124 @@
+{
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container158459881615108136",
+   "query": {
+    "sip": "0.0.0.0-255.255.255.255",
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Thu, 19 Mar 2020 06:20:15 GMT",
+    "etag": "\"0x8D7CBCD976713A6\"",
+    "last-modified": "Thu, 19 Mar 2020 06:20:16 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-client-request-id": "58b39517-753d-4506-8d6e-69d01f624de1",
+    "x-ms-request-id": "30564bfa-d01e-0037-36b6-fd086e000000",
+    "x-ms-version": "2019-12-12"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container158459881615108136/blob158459881663707143",
+   "query": {
+    "sip": "0.0.0.0-255.255.255.255"
+   },
+   "requestBody": "Hello World",
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "content-md5": "sQqNsWTgdUEFt6mb5y4/5Q==",
+    "date": "Thu, 19 Mar 2020 06:20:16 GMT",
+    "etag": "\"0x8D7CBCD97B15B2A\"",
+    "last-modified": "Thu, 19 Mar 2020 06:20:16 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-client-request-id": "deb01af6-44d6-4843-b20d-38bdcb47b783",
+    "x-ms-content-crc64": "YeJLfssylmU=",
+    "x-ms-request-id": "30564c9f-d01e-0037-51b6-fd086e000000",
+    "x-ms-request-server-encrypted": "true",
+    "x-ms-version": "2019-12-12",
+    "x-ms-version-id": "2020-03-19T06:20:16.9931562Z"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container158459881615108136/blob158459881663707143",
+   "query": {
+    "sip": "0.0.0.0-255.255.255.255"
+   },
+   "requestBody": "",
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "content-md5": "1B2M2Y8AsgTpgAmY7PhCfg==",
+    "date": "Thu, 19 Mar 2020 06:20:16 GMT",
+    "etag": "\"0x8D7CBCD97D760AA\"",
+    "last-modified": "Thu, 19 Mar 2020 06:20:17 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-client-request-id": "729b19ce-6243-4800-b95f-8138cc233cb7",
+    "x-ms-content-crc64": "AAAAAAAAAAA=",
+    "x-ms-request-id": "30564d14-d01e-0037-39b6-fd086e000000",
+    "x-ms-request-server-encrypted": "true",
+    "x-ms-version": "2019-12-12",
+    "x-ms-version-id": "2020-03-19T06:20:17.2433338Z"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container158459881615108136/copiedblob158459881736905963",
+   "query": {
+    "sip": "0.0.0.0-255.255.255.255"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Thu, 19 Mar 2020 06:20:16 GMT",
+    "etag": "\"0x8D7CBCD9822F660\"",
+    "last-modified": "Thu, 19 Mar 2020 06:20:17 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-client-request-id": "bbbdb833-5f2d-4cd7-9839-bdddd2f8e143",
+    "x-ms-copy-id": "ae72f090-1922-4a3d-a29d-6fabfef52e3b",
+    "x-ms-copy-status": "success",
+    "x-ms-request-id": "30564dda-d01e-0037-6eb6-fd086e000000",
+    "x-ms-version": "2019-12-12",
+    "x-ms-version-id": "2020-03-19T06:20:17.7386873Z"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container158459881615108136",
+   "query": {
+    "sip": "0.0.0.0-255.255.255.255",
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Thu, 19 Mar 2020 06:20:17 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-client-request-id": "4fa4ff2d-cac3-4679-b968-c36c1c88f304",
+    "x-ms-request-id": "30564e93-d01e-0037-19b6-fd086e000000",
+    "x-ms-version": "2019-12-12"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {
+   "container": "container158459881615108136",
+   "blob": "blob158459881663707143",
+   "copiedblob": "copiedblob158459881736905963"
+  },
+  "newDate": {}
+ },
+ "hash": "3e5c80ac78e807a57279f678364a502a"
+}

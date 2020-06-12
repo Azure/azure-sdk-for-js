@@ -65,7 +65,8 @@ module.exports = function(config) {
       "MD_ACCOUNT_NAME",
       "MD_ACCOUNT_SAS",
       "ENCRYPTION_SCOPE_1",
-      "ENCRYPTION_SCOPE_2"
+      "ENCRYPTION_SCOPE_2",
+      "BLOB_VERSIONING_ENABLED",
     ],
 
     // test results reporter to use

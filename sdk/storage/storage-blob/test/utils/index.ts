@@ -232,3 +232,7 @@ export function getSASConnectionStringFromEnvironment(): string {
     ".file."
   )}/;TableEndpoint=${blobEndpoint.replace(".queue.", ".table.")}/;SharedAccessSignature=${sas}`;
 }
+
+export function isBlobVersioningDisabled(): boolean {
+  return !process.env.BLOB_VERSIONING_ENABLED;
+}

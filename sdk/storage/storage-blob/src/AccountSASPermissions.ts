@@ -36,6 +36,9 @@ export class AccountSASPermissions {
         case "d":
           accountSASPermissions.delete = true;
           break;
+        case "x":
+          accountSASPermissions.deleteVersion = true;
+          break;
         case "l":
           accountSASPermissions.list = true;
           break;
@@ -82,6 +85,14 @@ export class AccountSASPermissions {
    * @memberof AccountSASPermissions
    */
   public delete: boolean = false;
+
+  /**
+   * Permission to delete versions granted.
+   *
+   * @type {boolean}
+   * @memberof AccountSASPermissions
+   */
+  public deleteVersion: boolean = false;
 
   /**
    * Permission to list blob containers, blobs, shares, directories, and files granted.
@@ -148,6 +159,9 @@ export class AccountSASPermissions {
     }
     if (this.delete) {
       permissions.push("d");
+    }
+    if (this.deleteVersion) {
+      permissions.push("x");
     }
     if (this.list) {
       permissions.push("l");

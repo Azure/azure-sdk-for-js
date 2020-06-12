@@ -48,6 +48,7 @@ export class AccountSASPermissions {
     add: boolean;
     create: boolean;
     delete: boolean;
+    deleteVersion: boolean;
     list: boolean;
     static parse(permissions: string): AccountSASPermissions;
     process: boolean;
@@ -379,6 +380,7 @@ export class BlobClient extends StorageClient {
     syncCopyFromURL(copySource: string, options?: BlobSyncCopyFromURLOptions): Promise<BlobCopyFromURLResponse>;
     undelete(options?: BlobUndeleteOptions): Promise<BlobUndeleteResponse>;
     withSnapshot(snapshot: string): BlobClient;
+    withVersion(versionId: string): BlobClient;
 }
 
 // @public
@@ -552,6 +554,7 @@ export interface BlobDownloadToBufferOptions extends CommonOptions {
     blockSize?: number;
     concurrency?: number;
     conditions?: BlobRequestConditions;
+    customerProvidedKey?: CpkInfo;
     maxRetryRequestsPerBlock?: number;
     onProgress?: (progress: TransferProgressEvent) => void;
 }
@@ -559,6 +562,7 @@ export interface BlobDownloadToBufferOptions extends CommonOptions {
 // @public
 export interface BlobExistsOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    conditions?: BlobRequestConditions;
     customerProvidedKey?: CpkInfo;
 }
 
@@ -769,10 +773,10 @@ export interface BlobProperties {
 
 // @public
 export interface BlobQueryCsvTextConfiguration extends BlobQueryTextConfiguration {
-    columnSeparator: string;
+    columnSeparator?: string;
     escapeCharacter?: string;
     fieldQuote?: string;
-    hasHeaders: boolean;
+    hasHeaders?: boolean;
     kind: "csv";
 }
 
@@ -826,6 +830,7 @@ export class BlobSASPermissions {
     add: boolean;
     create: boolean;
     delete: boolean;
+    deleteVersion: boolean;
     static parse(permissions: string): BlobSASPermissions;
     read: boolean;
     toString(): string;
@@ -844,11 +849,12 @@ export interface BlobSASSignatureValues {
     expiresOn?: Date;
     identifier?: string;
     ipRange?: SasIPRange;
-    permissions?: BlobSASPermissions;
+    permissions?: BlobSASPermissions | ContainerSASPermissions;
     protocol?: SASProtocol;
     snapshotTime?: string;
     startsOn?: Date;
     version?: string;
+    versionId?: string;
 }
 
 // @public
@@ -1331,7 +1337,7 @@ export class ContainerClient extends StorageClient {
     get containerName(): string;
     create(options?: ContainerCreateOptions): Promise<ContainerCreateResponse>;
     delete(options?: ContainerDeleteMethodOptions): Promise<ContainerDeleteResponse>;
-    deleteBlob(blobName: string, options?: BlobDeleteOptions): Promise<BlobDeleteResponse>;
+    deleteBlob(blobName: string, options?: ContainerDeleteBlobOptions): Promise<BlobDeleteResponse>;
     exists(options?: ContainerExistsOptions): Promise<boolean>;
     getAccessPolicy(options?: ContainerGetAccessPolicyOptions): Promise<ContainerGetAccessPolicyResponse>;
     getAppendBlobClient(blobName: string): AppendBlobClient;
@@ -1380,6 +1386,11 @@ export type ContainerCreateResponse = ContainerCreateHeaders & {
         parsedHeaders: ContainerCreateHeaders;
     };
 };
+
+// @public
+export interface ContainerDeleteBlobOptions extends BlobDeleteOptions {
+    versionId?: string;
+}
 
 // @public
 export interface ContainerDeleteHeaders {
@@ -1546,6 +1557,7 @@ export interface ContainerListBlobsOptions extends CommonOptions {
     includeMetadata?: boolean;
     includeSnapshots?: boolean;
     includeUncommitedBlobs?: boolean;
+    includeVersions?: boolean;
     prefix?: string;
 }
 

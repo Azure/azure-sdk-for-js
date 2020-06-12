@@ -576,11 +576,11 @@ export function toQuerySerialization(
         format: {
           type: "delimited",
           delimitedTextConfiguration: {
-            columnSeparator: textConfiguration.columnSeparator,
+            columnSeparator: textConfiguration.columnSeparator || ",",
             fieldQuote: textConfiguration.fieldQuote || "",
             recordSeparator: textConfiguration.recordSeparator,
             escapeChar: textConfiguration.escapeCharacter || "",
-            headersPresent: textConfiguration.hasHeaders
+            headersPresent: textConfiguration.hasHeaders || false
           }
         }
       };

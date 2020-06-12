@@ -59,10 +59,10 @@ export interface BlobSASSignatureValues {
    * Please refer to either {@link ContainerSASPermissions} or {@link BlobSASPermissions} depending on the resource
    * being accessed for help constructing the permissions string.
    *
-   * @type {BlobSASPermissions}
+   * @type {BlobSASPermissions | ContainerSASPermissions}
    * @memberof BlobSASSignatureValues
    */
-  permissions?: BlobSASPermissions;
+  permissions?: BlobSASPermissions | ContainerSASPermissions;
 
   /**
    * Optional. IP ranges allowed in this SAS.
@@ -81,7 +81,7 @@ export interface BlobSASSignatureValues {
   containerName: string;
 
   /**
-   * Optional. The blob name of the SAS user may access. Required if snapshotTime is provided.
+   * Optional. The blob name of the SAS user may access. Required if snapshotTime or versionId is provided.
    *
    * @type {string}
    * @memberof BlobSASSignatureValues
@@ -92,9 +92,17 @@ export interface BlobSASSignatureValues {
    * Optional. Snapshot timestamp string the SAS user may access. Only supported from API version 2018-11-09.
    *
    * @type {string}
-   * @memberof IBlobSASSignatureValues
+   * @memberof BlobSASSignatureValues
    */
   snapshotTime?: string;
+
+  /**
+   * Optional. VersionId of the blob version the SAS user may access. Only supported from API version 2019-10-10.
+   *
+   * @type {string}
+   * @memberof BlobSASSignatureValues
+   */
+  versionId?: string;
 
   /**
    * Optional. The name of the access policy on the container this SAS references if any.
@@ -362,6 +370,10 @@ function generateBlobSASQueryParameters20150405(
     throw RangeError("'version' must be >= '2018-11-09' when provided 'snapshotTime'.");
   }
 
+  if (blobSASSignatureValues.versionId) {
+    throw RangeError("'version' must be >= '2019-10-10' when provided 'versionId'.");
+  }
+
   if (blobSASSignatureValues.blobName) {
     resource = "b";
   }
@@ -464,10 +476,18 @@ function generateBlobSASQueryParameters20181109(
     throw RangeError("Must provide 'blobName' when provided 'snapshotTime'.");
   }
 
+  if (blobSASSignatureValues.blobName === undefined && blobSASSignatureValues.versionId) {
+    throw RangeError("Must provide 'blobName' when provided 'versionId'.");
+  }
+
+  let timestamp = blobSASSignatureValues.snapshotTime;
   if (blobSASSignatureValues.blobName) {
     resource = "b";
     if (blobSASSignatureValues.snapshotTime) {
       resource = "bs";
+    } else if (blobSASSignatureValues.versionId) {
+      resource = "bv";
+      timestamp = blobSASSignatureValues.versionId;
     }
   }
 
@@ -503,7 +523,7 @@ function generateBlobSASQueryParameters20181109(
     blobSASSignatureValues.protocol ? blobSASSignatureValues.protocol : "",
     version,
     resource,
-    blobSASSignatureValues.snapshotTime,
+    timestamp,
     blobSASSignatureValues.cacheControl ? blobSASSignatureValues.cacheControl : "",
     blobSASSignatureValues.contentDisposition ? blobSASSignatureValues.contentDisposition : "",
     blobSASSignatureValues.contentEncoding ? blobSASSignatureValues.contentEncoding : "",
@@ -566,10 +586,18 @@ function generateBlobSASQueryParametersUDK20181109(
     throw RangeError("Must provide 'blobName' when provided 'snapshotTime'.");
   }
 
+  if (blobSASSignatureValues.blobName === undefined && blobSASSignatureValues.versionId) {
+    throw RangeError("Must provide 'blobName' when provided 'versionId'.");
+  }
+
+  let timestamp = blobSASSignatureValues.snapshotTime;
   if (blobSASSignatureValues.blobName) {
     resource = "b";
     if (blobSASSignatureValues.snapshotTime) {
       resource = "bs";
+    } else if (blobSASSignatureValues.versionId) {
+      resource = "bv";
+      timestamp = blobSASSignatureValues.versionId;
     }
   }
 
@@ -614,7 +642,7 @@ function generateBlobSASQueryParametersUDK20181109(
     blobSASSignatureValues.protocol ? blobSASSignatureValues.protocol : "",
     version,
     resource,
-    blobSASSignatureValues.snapshotTime,
+    timestamp,
     blobSASSignatureValues.cacheControl,
     blobSASSignatureValues.contentDisposition,
     blobSASSignatureValues.contentEncoding,
