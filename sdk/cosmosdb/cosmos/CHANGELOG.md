@@ -1,7 +1,9 @@
 # Release History
 
-## 3.7.1 (Unreleased)
+## 3.7.1 (2020-6-12)
 
+- BUGFIX: Typo in globalCrypto.js causing errors in IE browser
+- BUGFIX: Resource tokens not matching for item delete operations (#9110)
 
 ## 3.7.0 (2020-6-08)
 
