@@ -104,7 +104,7 @@ for (const event of firstPage) {
     changeFeedEvents.push(event);
 }
 
-// Resume iterating from the pervious position with the continuationToken.
+// Resume iterating from the previous position with the continuationToken.
 for await (const eventPage of changeFeedClient.getChanges().byPage({continuationToken: firstPage.continuationToken})) {
     for (const event of eventPage) {
         changeFeedEvents.push(event);
