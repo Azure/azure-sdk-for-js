@@ -85,7 +85,7 @@ export class QuotaByCounterKeys {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  update(resourceGroupName: string, serviceName: string, quotaCounterKey: string, parameters: Models.QuotaCounterValueContractProperties, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  update(resourceGroupName: string, serviceName: string, quotaCounterKey: string, parameters: Models.QuotaCounterValueUpdateContract, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -96,7 +96,7 @@ export class QuotaByCounterKeys {
    * @param parameters The value of the quota counter to be applied to all quota counter periods.
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, quotaCounterKey: string, parameters: Models.QuotaCounterValueContractProperties, callback: msRest.ServiceCallback<void>): void;
+  update(resourceGroupName: string, serviceName: string, quotaCounterKey: string, parameters: Models.QuotaCounterValueUpdateContract, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -108,8 +108,8 @@ export class QuotaByCounterKeys {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, quotaCounterKey: string, parameters: Models.QuotaCounterValueContractProperties, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, serviceName: string, quotaCounterKey: string, parameters: Models.QuotaCounterValueContractProperties, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(resourceGroupName: string, serviceName: string, quotaCounterKey: string, parameters: Models.QuotaCounterValueUpdateContract, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  update(resourceGroupName: string, serviceName: string, quotaCounterKey: string, parameters: Models.QuotaCounterValueUpdateContract, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -169,7 +169,7 @@ const updateOperationSpec: msRest.OperationSpec = {
   requestBody: {
     parameterPath: "parameters",
     mapper: {
-      ...Mappers.QuotaCounterValueContractProperties,
+      ...Mappers.QuotaCounterValueUpdateContract,
       required: true
     }
   },

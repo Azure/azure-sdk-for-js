@@ -4118,6 +4118,20 @@ export interface QuotaCounterValueContractProperties {
 }
 
 /**
+ * Quota counter value details.
+ */
+export interface QuotaCounterValueUpdateContract {
+  /**
+   * Number of times Counter was called.
+   */
+  callsCount?: number;
+  /**
+   * Data Transferred in KiloBytes.
+   */
+  kbTransferred?: number;
+}
+
+/**
  * Quota counter details.
  */
 export interface QuotaCounterContract {
