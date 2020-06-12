@@ -14,7 +14,8 @@ import {
   MB,
   GB,
   FILE_MAX_SINGLE_UPLOAD_THRESHOLD,
-  BLOCK_BLOB_MAX_BLOCKS
+  BLOCK_BLOB_MAX_BLOCKS,
+  FILE_UPLOAD_MAX_CHUNK_SIZE
 } from "../../src/utils/constants";
 import { readStreamToLocalFileWithLogs } from "../../test/utils/testutils.node";
 const { Readable } = require("stream");
@@ -35,7 +36,7 @@ describe("Highlevel Node.js only", () => {
 
   let recorder: any;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     recorder = record(this, recorderEnvSetup);
     const serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("filesystem");
@@ -45,14 +46,14 @@ describe("Highlevel Node.js only", () => {
     fileClient = fileSystemClient.getFileClient(fileName);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     if (!this.currentTest?.isPending()) {
       await fileSystemClient.delete();
       recorder.stop();
     }
   });
 
-  before(async function() {
+  before(async function () {
     recorder = record(this, recorderEnvSetup);
     if (!fs.existsSync(tempFolderPath)) {
       fs.mkdirSync(tempFolderPath);
@@ -65,7 +66,7 @@ describe("Highlevel Node.js only", () => {
     recorder.stop();
   });
 
-  after(async function() {
+  after(async function () {
     recorder = record(this, recorderEnvSetup);
     fs.unlinkSync(tempFileLarge);
     fs.unlinkSync(tempFileSmall);
@@ -483,6 +484,36 @@ describe("Highlevel Node.js only", () => {
     assert.deepStrictEqual(await bodyToString(response), "");
     fs.unlinkSync(tempFileEmpty);
   });
+
+  it("uploadFile with chunkSize = FILE_UPLOAD_MAX_CHUNK_SIZE should succeed", async () => {
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
+    const fileSize = FILE_UPLOAD_MAX_CHUNK_SIZE * 2 + MB;
+    const tempFile = await createRandomLocalFile(tempFolderPath, fileSize / MB, MB);
+    try {
+      await fileClient.uploadFile(tempFile, {
+        chunkSize: FILE_UPLOAD_MAX_CHUNK_SIZE,
+        abortSignal: AbortController.timeout(20 * 1000) // takes too long to upload the file
+      });
+    } catch (err) {
+      assert.equal(err.name, 'AbortError');
+    }
+
+    fs.unlinkSync(tempFile);
+  }).timeout(timeoutForLargeFileUploadingTest);
+
+  // Skipped because it throw "invalid typed array length" error. Probably due to bugs underlying.
+  it.skip("upload with chunkSize = FILE_UPLOAD_MAX_CHUNK_SIZE should succeed", async () => {
+    const fileSize = FILE_UPLOAD_MAX_CHUNK_SIZE * 2 + MB;
+    const arrayBuf = new ArrayBuffer(fileSize);
+    try {
+      await fileClient.upload(arrayBuf, {
+        chunkSize: FILE_UPLOAD_MAX_CHUNK_SIZE,
+        abortSignal: AbortController.timeout(20 * 1000) // takes too long to upload the file
+      });
+    } catch (err) {
+      assert.equal(err.name, 'AbortError');
+    }
+  }).timeout(timeoutForLargeFileUploadingTest);
 
   it("readToBuffer should work", async () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");

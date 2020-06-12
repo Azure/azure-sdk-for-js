@@ -9,6 +9,7 @@ import { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadabl
 import { record, Recorder } from "@azure/test-utils-recorder";
 import { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../../src";
 import { readStreamToLocalFileWithLogs } from "../utils/testutils.node";
+import { BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES } from "../../src/utils/constants";
 
 // tslint:disable:no-empty
 describe("Highlevel", () => {
@@ -38,7 +39,7 @@ describe("Highlevel", () => {
     blockBlobClient = blobClient.getBlockBlobClient();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     if (!this.currentTest?.isPending()) {
       await containerClient.delete();
       recorder.stop();
@@ -63,6 +64,22 @@ describe("Highlevel", () => {
     fs.unlinkSync(tempFileSmall);
     recorder.stop();
   });
+
+  it("put blob with maximum size", async () => {
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
+    const MB = 1024 * 1024
+    const maxPutBlobSizeLimitInMB = 5000;
+    const tempFile = await createRandomLocalFile(tempFolderPath, maxPutBlobSizeLimitInMB, MB);
+    const inputStream = fs.createReadStream(tempFile);
+
+    try {
+      await blockBlobClient.upload(() => inputStream, maxPutBlobSizeLimitInMB * MB, {
+        abortSignal: AbortController.timeout(20 * 1000) // takes too long to upload the file
+      });
+    } catch (err) {
+      assert.equal(err.name, 'AbortError');
+    }
+  }).timeout(timeoutForLargeFileUploadingTest);
 
   it("uploadFile should success when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
@@ -192,6 +209,21 @@ describe("Highlevel", () => {
     } catch (err) { }
     assert.ok(eventTriggered);
   });
+
+  it("uploadFile should succeed with blockSize = BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES", async () => {
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
+    const tempFile = await createRandomLocalFile(tempFolderPath, BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES / (1024 * 1024) + 1, 1024 * 1024);
+    try {
+      await blockBlobClient.uploadFile(tempFile, {
+        blockSize: BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES,
+        abortSignal: AbortController.timeout(20 * 1000) // takes too long to upload the file
+      });
+    } catch (err) {
+      assert.equal(err.name, 'AbortError');
+    }
+
+    fs.unlinkSync(tempFile);
+  }).timeout(timeoutForLargeFileUploadingTest);
 
   it("uploadStream should success", async () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
