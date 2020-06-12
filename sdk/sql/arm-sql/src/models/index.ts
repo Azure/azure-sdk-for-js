@@ -130,43 +130,6 @@ export interface TrackedResource extends Resource {
 }
 
 /**
- * A request to check whether the specified name for a resource is available.
- */
-export interface CheckNameAvailabilityRequest {
-  /**
-   * The name whose availability is to be checked.
-   */
-  name: string;
-}
-
-/**
- * A response indicating whether the specified name for a resource is available.
- */
-export interface CheckNameAvailabilityResponse {
-  /**
-   * True if the name is available, otherwise false.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly available?: boolean;
-  /**
-   * A message explaining why the name is unavailable. Will be null if the name is available.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly message?: string;
-  /**
-   * The name whose availability was checked.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The reason code explaining why the name is unavailable. Will be null if the name is available.
-   * Possible values include: 'Invalid', 'AlreadyExists'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly reason?: CheckNameAvailabilityReason;
-}
-
-/**
  * A server secure connection policy.
  */
 export interface ServerConnectionPolicy extends ProxyResource {
@@ -850,21 +813,13 @@ export interface ReplicationLink extends ProxyResource {
 }
 
 /**
- * An server Active Directory Administrator.
+ * Represents the parameters for Unlink Replication Link request.
  */
-export interface ServerAzureADAdministrator extends ProxyResource {
+export interface UnlinkParameters {
   /**
-   * The server administrator login value.
+   * Determines whether link will be terminated in a forced or a friendly way.
    */
-  login: string;
-  /**
-   * The server administrator Sid (Secure ID).
-   */
-  sid: string;
-  /**
-   * The server Active Directory Administrator tenant id.
-   */
-  tenantId: string;
+  forcedTermination?: boolean;
 }
 
 /**
@@ -1753,96 +1708,6 @@ export interface ServerKey extends ProxyResource {
 }
 
 /**
- * Azure Active Directory identity configuration for a resource.
- */
-export interface ResourceIdentity {
-  /**
-   * The Azure Active Directory principal id.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly principalId?: string;
-  /**
-   * The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an
-   * Azure Active Directory principal for the resource. Possible values include: 'SystemAssigned'
-   */
-  type?: IdentityType;
-  /**
-   * The Azure Active Directory tenant id.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly tenantId?: string;
-}
-
-/**
- * An Azure SQL Database server.
- */
-export interface Server extends TrackedResource {
-  /**
-   * The Azure Active Directory identity of the server.
-   */
-  identity?: ResourceIdentity;
-  /**
-   * Kind of sql server. This is metadata used for the Azure portal experience.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly kind?: string;
-  /**
-   * Administrator username for the server. Once created it cannot be changed.
-   */
-  administratorLogin?: string;
-  /**
-   * The administrator login password (required for server creation).
-   */
-  administratorLoginPassword?: string;
-  /**
-   * The version of the server.
-   */
-  version?: string;
-  /**
-   * The state of the server.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly state?: string;
-  /**
-   * The fully qualified domain name of the server.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly fullyQualifiedDomainName?: string;
-}
-
-/**
- * An update request for an Azure SQL Database server.
- */
-export interface ServerUpdate {
-  /**
-   * Administrator username for the server. Once created it cannot be changed.
-   */
-  administratorLogin?: string;
-  /**
-   * The administrator login password (required for server creation).
-   */
-  administratorLoginPassword?: string;
-  /**
-   * The version of the server.
-   */
-  version?: string;
-  /**
-   * The state of the server.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly state?: string;
-  /**
-   * The fully qualified domain name of the server.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly fullyQualifiedDomainName?: string;
-  /**
-   * Resource tags.
-   */
-  tags?: { [propertyName: string]: string };
-}
-
-/**
  * An Azure SQL Database sync agent.
  */
 export interface SyncAgent extends ProxyResource {
@@ -1928,277 +1793,6 @@ export interface SyncAgentLinkedDatabase extends ProxyResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly userName?: string;
-}
-
-/**
- * Properties of the sync database id.
- */
-export interface SyncDatabaseIdProperties {
-  /**
-   * ARM resource id of sync database.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-}
-
-/**
- * Properties of the column in the table of database full schema.
- */
-export interface SyncFullSchemaTableColumn {
-  /**
-   * Data size of the column.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly dataSize?: string;
-  /**
-   * Data type of the column.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly dataType?: string;
-  /**
-   * Error id of the column.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly errorId?: string;
-  /**
-   * If there is error in the table.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly hasError?: boolean;
-  /**
-   * If it is the primary key of the table.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly isPrimaryKey?: boolean;
-  /**
-   * Name of the column.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * Quoted name of the column.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly quotedName?: string;
-}
-
-/**
- * Properties of the table in the database full schema.
- */
-export interface SyncFullSchemaTable {
-  /**
-   * List of columns in the table of database full schema.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly columns?: SyncFullSchemaTableColumn[];
-  /**
-   * Error id of the table.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly errorId?: string;
-  /**
-   * If there is error in the table.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly hasError?: boolean;
-  /**
-   * Name of the table.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * Quoted name of the table.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly quotedName?: string;
-}
-
-/**
- * Properties of the database full schema.
- */
-export interface SyncFullSchemaProperties {
-  /**
-   * List of tables in the database full schema.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly tables?: SyncFullSchemaTable[];
-  /**
-   * Last update time of the database schema.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly lastUpdateTime?: Date;
-}
-
-/**
- * Properties of an Azure SQL Database sync group log.
- */
-export interface SyncGroupLogProperties {
-  /**
-   * Timestamp of the sync group log.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly timestamp?: Date;
-  /**
-   * Type of the sync group log. Possible values include: 'All', 'Error', 'Warning', 'Success'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: SyncGroupLogType;
-  /**
-   * Source of the sync group log.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly source?: string;
-  /**
-   * Details of the sync group log.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly details?: string;
-  /**
-   * TracingId of the sync group log.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly tracingId?: string;
-  /**
-   * OperationStatus of the sync group log.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly operationStatus?: string;
-}
-
-/**
- * Properties of column in sync group table.
- */
-export interface SyncGroupSchemaTableColumn {
-  /**
-   * Quoted name of sync group table column.
-   */
-  quotedName?: string;
-  /**
-   * Data size of the column.
-   */
-  dataSize?: string;
-  /**
-   * Data type of the column.
-   */
-  dataType?: string;
-}
-
-/**
- * Properties of table in sync group schema.
- */
-export interface SyncGroupSchemaTable {
-  /**
-   * List of columns in sync group schema.
-   */
-  columns?: SyncGroupSchemaTableColumn[];
-  /**
-   * Quoted name of sync group schema table.
-   */
-  quotedName?: string;
-}
-
-/**
- * Properties of sync group schema.
- */
-export interface SyncGroupSchema {
-  /**
-   * List of tables in sync group schema.
-   */
-  tables?: SyncGroupSchemaTable[];
-  /**
-   * Name of master sync member where the schema is from.
-   */
-  masterSyncMemberName?: string;
-}
-
-/**
- * An Azure SQL Database sync group.
- */
-export interface SyncGroup extends ProxyResource {
-  /**
-   * Sync interval of the sync group.
-   */
-  interval?: number;
-  /**
-   * Last sync time of the sync group.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly lastSyncTime?: Date;
-  /**
-   * Conflict resolution policy of the sync group. Possible values include: 'HubWin', 'MemberWin'
-   */
-  conflictResolutionPolicy?: SyncConflictResolutionPolicy;
-  /**
-   * ARM resource id of the sync database in the sync group.
-   */
-  syncDatabaseId?: string;
-  /**
-   * User name for the sync group hub database credential.
-   */
-  hubDatabaseUserName?: string;
-  /**
-   * Password for the sync group hub database credential.
-   */
-  hubDatabasePassword?: string;
-  /**
-   * Sync state of the sync group. Possible values include: 'NotReady', 'Error', 'Warning',
-   * 'Progressing', 'Good'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly syncState?: SyncGroupState;
-  /**
-   * Sync schema of the sync group.
-   */
-  schema?: SyncGroupSchema;
-}
-
-/**
- * An Azure SQL Database sync member.
- */
-export interface SyncMember extends ProxyResource {
-  /**
-   * Database type of the sync member. Possible values include: 'AzureSqlDatabase',
-   * 'SqlServerDatabase'
-   */
-  databaseType?: SyncMemberDbType;
-  /**
-   * ARM resource id of the sync agent in the sync member.
-   */
-  syncAgentId?: string;
-  /**
-   * SQL Server database id of the sync member.
-   */
-  sqlServerDatabaseId?: string;
-  /**
-   * Server name of the member database in the sync member
-   */
-  serverName?: string;
-  /**
-   * Database name of the member database in the sync member.
-   */
-  databaseName?: string;
-  /**
-   * User name of the member database in the sync member.
-   */
-  userName?: string;
-  /**
-   * Password of the member database in the sync member.
-   */
-  password?: string;
-  /**
-   * Sync direction of the sync member. Possible values include: 'Bidirectional',
-   * 'OneWayMemberToHub', 'OneWayHubToMember'
-   */
-  syncDirection?: SyncDirection;
-  /**
-   * Sync state of the sync member. Possible values include: 'SyncInProgress', 'SyncSucceeded',
-   * 'SyncFailed', 'DisabledTombstoneCleanup', 'DisabledBackupRestore',
-   * 'SyncSucceededWithWarnings', 'SyncCancelling', 'SyncCancelled', 'UnProvisioned',
-   * 'Provisioning', 'Provisioned', 'ProvisionFailed', 'DeProvisioning', 'DeProvisioned',
-   * 'DeProvisionFailed', 'Reprovisioning', 'ReprovisionFailed', 'UnReprovisioned'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly syncState?: SyncMemberState;
 }
 
 /**
@@ -2308,12 +1902,20 @@ export interface ExtendedDatabaseBlobAuditingPolicy extends ProxyResource {
   state: BlobAuditingPolicyState;
   /**
    * Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). If state
-   * is Enabled, storageEndpoint is required.
+   * is Enabled, storageEndpoint or isAzureMonitorTargetEnabled is required.
    */
   storageEndpoint?: string;
   /**
-   * Specifies the identifier key of the auditing storage account. If state is Enabled and
-   * storageEndpoint is specified, storageAccountAccessKey is required.
+   * Specifies the identifier key of the auditing storage account.
+   * If state is Enabled and storageEndpoint is specified, not specifying the
+   * storageAccountAccessKey will use SQL server system-assigned managed identity to access the
+   * storage.
+   * Prerequisites for using managed identity authentication:
+   * 1. Assign SQL Server a system-assigned managed identity in Azure Active Directory (AAD).
+   * 2. Grant SQL Server identity access to the storage account by adding 'Storage Blob Data
+   * Contributor' RBAC role to the server identity.
+   * For more information, see [Auditing to storage using Managed Identity
+   * authentication](https://go.microsoft.com/fwlink/?linkid=2114355)
    */
   storageAccountAccessKey?: string;
   /**
@@ -2418,6 +2020,12 @@ export interface ExtendedDatabaseBlobAuditingPolicy extends ProxyResource {
    * or [Diagnostic Settings PowerShell](https://go.microsoft.com/fwlink/?linkid=2033043)
    */
   isAzureMonitorTargetEnabled?: boolean;
+  /**
+   * Specifies the amount of time in milliseconds that can elapse before audit actions are forced
+   * to be processed.
+   * The default minimum value is 1000 (1 second). The maximum is 2,147,483,647.
+   */
+  queueDelayMs?: number;
 }
 
 /**
@@ -2435,12 +2043,20 @@ export interface ExtendedServerBlobAuditingPolicy extends ProxyResource {
   state: BlobAuditingPolicyState;
   /**
    * Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). If state
-   * is Enabled, storageEndpoint is required.
+   * is Enabled, storageEndpoint or isAzureMonitorTargetEnabled is required.
    */
   storageEndpoint?: string;
   /**
-   * Specifies the identifier key of the auditing storage account. If state is Enabled and
-   * storageEndpoint is specified, storageAccountAccessKey is required.
+   * Specifies the identifier key of the auditing storage account.
+   * If state is Enabled and storageEndpoint is specified, not specifying the
+   * storageAccountAccessKey will use SQL server system-assigned managed identity to access the
+   * storage.
+   * Prerequisites for using managed identity authentication:
+   * 1. Assign SQL Server a system-assigned managed identity in Azure Active Directory (AAD).
+   * 2. Grant SQL Server identity access to the storage account by adding 'Storage Blob Data
+   * Contributor' RBAC role to the server identity.
+   * For more information, see [Auditing to storage using Managed Identity
+   * authentication](https://go.microsoft.com/fwlink/?linkid=2114355)
    */
   storageAccountAccessKey?: string;
   /**
@@ -2545,6 +2161,12 @@ export interface ExtendedServerBlobAuditingPolicy extends ProxyResource {
    * or [Diagnostic Settings PowerShell](https://go.microsoft.com/fwlink/?linkid=2033043)
    */
   isAzureMonitorTargetEnabled?: boolean;
+  /**
+   * Specifies the amount of time in milliseconds that can elapse before audit actions are forced
+   * to be processed.
+   * The default minimum value is 1000 (1 second). The maximum is 2,147,483,647.
+   */
+  queueDelayMs?: number;
 }
 
 /**
@@ -2558,12 +2180,20 @@ export interface ServerBlobAuditingPolicy extends ProxyResource {
   state: BlobAuditingPolicyState;
   /**
    * Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). If state
-   * is Enabled, storageEndpoint is required.
+   * is Enabled, storageEndpoint or isAzureMonitorTargetEnabled is required.
    */
   storageEndpoint?: string;
   /**
-   * Specifies the identifier key of the auditing storage account. If state is Enabled and
-   * storageEndpoint is specified, storageAccountAccessKey is required.
+   * Specifies the identifier key of the auditing storage account.
+   * If state is Enabled and storageEndpoint is specified, not specifying the
+   * storageAccountAccessKey will use SQL server system-assigned managed identity to access the
+   * storage.
+   * Prerequisites for using managed identity authentication:
+   * 1. Assign SQL Server a system-assigned managed identity in Azure Active Directory (AAD).
+   * 2. Grant SQL Server identity access to the storage account by adding 'Storage Blob Data
+   * Contributor' RBAC role to the server identity.
+   * For more information, see [Auditing to storage using Managed Identity
+   * authentication](https://go.microsoft.com/fwlink/?linkid=2114355)
    */
   storageAccountAccessKey?: string;
   /**
@@ -2668,6 +2298,12 @@ export interface ServerBlobAuditingPolicy extends ProxyResource {
    * or [Diagnostic Settings PowerShell](https://go.microsoft.com/fwlink/?linkid=2033043)
    */
   isAzureMonitorTargetEnabled?: boolean;
+  /**
+   * Specifies the amount of time in milliseconds that can elapse before audit actions are forced
+   * to be processed.
+   * The default minimum value is 1000 (1 second). The maximum is 2,147,483,647.
+   */
+  queueDelayMs?: number;
 }
 
 /**
@@ -2686,12 +2322,20 @@ export interface DatabaseBlobAuditingPolicy extends ProxyResource {
   state: BlobAuditingPolicyState;
   /**
    * Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). If state
-   * is Enabled, storageEndpoint is required.
+   * is Enabled, storageEndpoint or isAzureMonitorTargetEnabled is required.
    */
   storageEndpoint?: string;
   /**
-   * Specifies the identifier key of the auditing storage account. If state is Enabled and
-   * storageEndpoint is specified, storageAccountAccessKey is required.
+   * Specifies the identifier key of the auditing storage account.
+   * If state is Enabled and storageEndpoint is specified, not specifying the
+   * storageAccountAccessKey will use SQL server system-assigned managed identity to access the
+   * storage.
+   * Prerequisites for using managed identity authentication:
+   * 1. Assign SQL Server a system-assigned managed identity in Azure Active Directory (AAD).
+   * 2. Grant SQL Server identity access to the storage account by adding 'Storage Blob Data
+   * Contributor' RBAC role to the server identity.
+   * For more information, see [Auditing to storage using Managed Identity
+   * authentication](https://go.microsoft.com/fwlink/?linkid=2114355)
    */
   storageAccountAccessKey?: string;
   /**
@@ -2796,6 +2440,12 @@ export interface DatabaseBlobAuditingPolicy extends ProxyResource {
    * or [Diagnostic Settings PowerShell](https://go.microsoft.com/fwlink/?linkid=2033043)
    */
   isAzureMonitorTargetEnabled?: boolean;
+  /**
+   * Specifies the amount of time in milliseconds that can elapse before audit actions are forced
+   * to be processed.
+   * The default minimum value is 1000 (1 second). The maximum is 2,147,483,647.
+   */
+  queueDelayMs?: number;
 }
 
 /**
@@ -3603,6 +3253,10 @@ export interface SensitivityLabel extends ProxyResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly isDisabled?: boolean;
+  /**
+   * Possible values include: 'None', 'Low', 'Medium', 'High', 'Critical'
+   */
+  rank?: SensitivityLabelRank;
 }
 
 /**
@@ -3777,525 +3431,6 @@ export interface ElasticPoolOperation extends ProxyResource {
 }
 
 /**
- * The maximum size capability.
- */
-export interface MaxSizeCapability {
-  /**
-   * The maximum size limit (see 'unit' for the units).
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly limit?: number;
-  /**
-   * The units that the limit is expressed in. Possible values include: 'Megabytes', 'Gigabytes',
-   * 'Terabytes', 'Petabytes'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly unit?: MaxSizeUnit;
-}
-
-/**
- * The log size capability.
- */
-export interface LogSizeCapability {
-  /**
-   * The log size limit (see 'unit' for the units).
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly limit?: number;
-  /**
-   * The units that the limit is expressed in. Possible values include: 'Megabytes', 'Gigabytes',
-   * 'Terabytes', 'Petabytes', 'Percent'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly unit?: LogSizeUnit;
-}
-
-/**
- * The maximum size range capability.
- */
-export interface MaxSizeRangeCapability {
-  /**
-   * Minimum value.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly minValue?: MaxSizeCapability;
-  /**
-   * Maximum value.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly maxValue?: MaxSizeCapability;
-  /**
-   * Scale/step size for discrete values between the minimum value and the maximum value.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly scaleSize?: MaxSizeCapability;
-  /**
-   * Size of transaction log.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly logSize?: LogSizeCapability;
-  /**
-   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
-   * 'Disabled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly status?: CapabilityStatus;
-  /**
-   * The reason for the capability not being available.
-   */
-  reason?: string;
-}
-
-/**
- * The performance level capability.
- */
-export interface PerformanceLevelCapability {
-  /**
-   * Performance level value.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly value?: number;
-  /**
-   * Unit type used to measure performance level. Possible values include: 'DTU', 'VCores'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly unit?: PerformanceLevelUnit;
-}
-
-/**
- * The license type capability
- */
-export interface LicenseTypeCapability {
-  /**
-   * License type identifier.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
-   * 'Disabled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly status?: CapabilityStatus;
-  /**
-   * The reason for the capability not being available.
-   */
-  reason?: string;
-}
-
-/**
- * The service objectives capability.
- */
-export interface ServiceObjectiveCapability {
-  /**
-   * The unique ID of the service objective.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * The service objective name.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The list of supported maximum database sizes.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly supportedMaxSizes?: MaxSizeRangeCapability[];
-  /**
-   * The performance level.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly performanceLevel?: PerformanceLevelCapability;
-  /**
-   * The sku.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly sku?: Sku;
-  /**
-   * List of supported license types.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly supportedLicenseTypes?: LicenseTypeCapability[];
-  /**
-   * The included (free) max size.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly includedMaxSize?: MaxSizeCapability;
-  /**
-   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
-   * 'Disabled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly status?: CapabilityStatus;
-  /**
-   * The reason for the capability not being available.
-   */
-  reason?: string;
-}
-
-/**
- * The edition capability.
- */
-export interface EditionCapability {
-  /**
-   * The database edition name.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The list of supported service objectives for the edition.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly supportedServiceLevelObjectives?: ServiceObjectiveCapability[];
-  /**
-   * Whether or not zone redundancy is supported for the edition.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly zoneRedundant?: boolean;
-  /**
-   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
-   * 'Disabled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly status?: CapabilityStatus;
-  /**
-   * The reason for the capability not being available.
-   */
-  reason?: string;
-}
-
-/**
- * The minimum per-database performance level capability.
- */
-export interface ElasticPoolPerDatabaseMinPerformanceLevelCapability {
-  /**
-   * The minimum performance level per database.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly limit?: number;
-  /**
-   * Unit type used to measure performance level. Possible values include: 'DTU', 'VCores'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly unit?: PerformanceLevelUnit;
-  /**
-   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
-   * 'Disabled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly status?: CapabilityStatus;
-  /**
-   * The reason for the capability not being available.
-   */
-  reason?: string;
-}
-
-/**
- * The max per-database performance level capability.
- */
-export interface ElasticPoolPerDatabaseMaxPerformanceLevelCapability {
-  /**
-   * The maximum performance level per database.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly limit?: number;
-  /**
-   * Unit type used to measure performance level. Possible values include: 'DTU', 'VCores'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly unit?: PerformanceLevelUnit;
-  /**
-   * The list of supported min database performance levels.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly supportedPerDatabaseMinPerformanceLevels?: ElasticPoolPerDatabaseMinPerformanceLevelCapability[];
-  /**
-   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
-   * 'Disabled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly status?: CapabilityStatus;
-  /**
-   * The reason for the capability not being available.
-   */
-  reason?: string;
-}
-
-/**
- * The Elastic Pool performance level capability.
- */
-export interface ElasticPoolPerformanceLevelCapability {
-  /**
-   * The performance level for the pool.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly performanceLevel?: PerformanceLevelCapability;
-  /**
-   * The sku.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly sku?: Sku;
-  /**
-   * List of supported license types.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly supportedLicenseTypes?: LicenseTypeCapability[];
-  /**
-   * The maximum number of databases supported.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly maxDatabaseCount?: number;
-  /**
-   * The included (free) max size for this performance level.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly includedMaxSize?: MaxSizeCapability;
-  /**
-   * The list of supported max sizes.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly supportedMaxSizes?: MaxSizeRangeCapability[];
-  /**
-   * The list of supported per database max sizes.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly supportedPerDatabaseMaxSizes?: MaxSizeRangeCapability[];
-  /**
-   * The list of supported per database max performance levels.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly supportedPerDatabaseMaxPerformanceLevels?: ElasticPoolPerDatabaseMaxPerformanceLevelCapability[];
-  /**
-   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
-   * 'Disabled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly status?: CapabilityStatus;
-  /**
-   * The reason for the capability not being available.
-   */
-  reason?: string;
-}
-
-/**
- * The elastic pool edition capability.
- */
-export interface ElasticPoolEditionCapability {
-  /**
-   * The elastic pool edition name.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The list of supported elastic pool DTU levels for the edition.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly supportedElasticPoolPerformanceLevels?: ElasticPoolPerformanceLevelCapability[];
-  /**
-   * Whether or not zone redundancy is supported for the edition.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly zoneRedundant?: boolean;
-  /**
-   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
-   * 'Disabled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly status?: CapabilityStatus;
-  /**
-   * The reason for the capability not being available.
-   */
-  reason?: string;
-}
-
-/**
- * The server capability
- */
-export interface ServerVersionCapability {
-  /**
-   * The server version name.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The list of supported database editions.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly supportedEditions?: EditionCapability[];
-  /**
-   * The list of supported elastic pool editions.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly supportedElasticPoolEditions?: ElasticPoolEditionCapability[];
-  /**
-   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
-   * 'Disabled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly status?: CapabilityStatus;
-  /**
-   * The reason for the capability not being available.
-   */
-  reason?: string;
-}
-
-/**
- * The managed instance virtual cores capability.
- */
-export interface ManagedInstanceVcoresCapability {
-  /**
-   * The virtual cores identifier.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The virtual cores value.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly value?: number;
-  /**
-   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
-   * 'Disabled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly status?: CapabilityStatus;
-  /**
-   * The reason for the capability not being available.
-   */
-  reason?: string;
-}
-
-/**
- * The managed server family capability.
- */
-export interface ManagedInstanceFamilyCapability {
-  /**
-   * Family name.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * SKU name.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly sku?: string;
-  /**
-   * List of supported license types.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly supportedLicenseTypes?: LicenseTypeCapability[];
-  /**
-   * List of supported virtual cores values.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly supportedVcoresValues?: ManagedInstanceVcoresCapability[];
-  /**
-   * Included size.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly includedMaxSize?: MaxSizeCapability;
-  /**
-   * Storage size ranges.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly supportedStorageSizes?: MaxSizeRangeCapability[];
-  /**
-   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
-   * 'Disabled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly status?: CapabilityStatus;
-  /**
-   * The reason for the capability not being available.
-   */
-  reason?: string;
-}
-
-/**
- * The managed server capability
- */
-export interface ManagedInstanceEditionCapability {
-  /**
-   * The managed server version name.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The supported families.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly supportedFamilies?: ManagedInstanceFamilyCapability[];
-  /**
-   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
-   * 'Disabled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly status?: CapabilityStatus;
-  /**
-   * The reason for the capability not being available.
-   */
-  reason?: string;
-}
-
-/**
- * The managed instance capability
- */
-export interface ManagedInstanceVersionCapability {
-  /**
-   * The server version name.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The list of supported managed instance editions.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly supportedEditions?: ManagedInstanceEditionCapability[];
-  /**
-   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
-   * 'Disabled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly status?: CapabilityStatus;
-  /**
-   * The reason for the capability not being available.
-   */
-  reason?: string;
-}
-
-/**
- * The location capability.
- */
-export interface LocationCapabilities {
-  /**
-   * The location name.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The list of supported server versions.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly supportedServerVersions?: ServerVersionCapability[];
-  /**
-   * The list of supported managed instance versions.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly supportedManagedInstanceVersions?: ManagedInstanceVersionCapability[];
-  /**
-   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
-   * 'Disabled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly status?: CapabilityStatus;
-  /**
-   * The reason for the capability not being available.
-   */
-  reason?: string;
-}
-
-/**
  * A database resource.
  */
 export interface Database extends TrackedResource {
@@ -4459,8 +3594,9 @@ export interface Database extends TrackedResource {
    */
   zoneRedundant?: boolean;
   /**
-   * The license type to apply for this database. Possible values include: 'LicenseIncluded',
-   * 'BasePrice'
+   * The license type to apply for this database. `LicenseIncluded` if you need a license, or
+   * `BasePrice` if you have a license and are eligible for the Azure Hybrid Benefit. Possible
+   * values include: 'LicenseIncluded', 'BasePrice'
    */
   licenseType?: DatabaseLicenseType;
   /**
@@ -4656,8 +3792,9 @@ export interface DatabaseUpdate {
    */
   zoneRedundant?: boolean;
   /**
-   * The license type to apply for this database. Possible values include: 'LicenseIncluded',
-   * 'BasePrice'
+   * The license type to apply for this database. `LicenseIncluded` if you need a license, or
+   * `BasePrice` if you have a license and are eligible for the Azure Hybrid Benefit. Possible
+   * values include: 'LicenseIncluded', 'BasePrice'
    */
   licenseType?: DatabaseLicenseType;
   /**
@@ -5222,6 +4359,27 @@ export interface Usage {
 }
 
 /**
+ * Azure Active Directory identity configuration for a resource.
+ */
+export interface ResourceIdentity {
+  /**
+   * The Azure Active Directory principal id.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an
+   * Azure Active Directory principal for the resource. Possible values include: 'SystemAssigned'
+   */
+  type?: IdentityType;
+  /**
+   * The Azure Active Directory tenant id.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tenantId?: string;
+}
+
+/**
  * An Azure SQL managed instance.
  */
 export interface ManagedInstance extends TrackedResource {
@@ -5328,6 +4486,14 @@ export interface ManagedInstance extends TrackedResource {
    * The Id of the instance pool this managed server belongs to.
    */
   instancePoolId?: string;
+  /**
+   * Specifies maintenance configuration id to apply to this managed instance.
+   */
+  maintenanceConfigurationId?: string;
+  /**
+   * Minimal TLS version. Allowed values: 'None', '1.0', '1.1', '1.2'
+   */
+  minimalTlsVersion?: string;
 }
 
 /**
@@ -5434,9 +4600,1136 @@ export interface ManagedInstanceUpdate {
    */
   instancePoolId?: string;
   /**
+   * Specifies maintenance configuration id to apply to this managed instance.
+   */
+  maintenanceConfigurationId?: string;
+  /**
+   * Minimal TLS version. Allowed values: 'None', '1.0', '1.1', '1.2'
+   */
+  minimalTlsVersion?: string;
+  /**
    * Resource tags.
    */
   tags?: { [propertyName: string]: string };
+}
+
+/**
+ * An interface representing PrivateEndpointProperty.
+ */
+export interface PrivateEndpointProperty extends BaseResource {
+  /**
+   * Resource id of the private endpoint.
+   */
+  id?: string;
+}
+
+/**
+ * An interface representing PrivateLinkServiceConnectionStateProperty.
+ */
+export interface PrivateLinkServiceConnectionStateProperty {
+  /**
+   * The private link service connection status. Possible values include: 'Approved', 'Pending',
+   * 'Rejected', 'Disconnected'
+   */
+  status: PrivateLinkServiceConnectionStateStatus;
+  /**
+   * The private link service connection description.
+   */
+  description: string;
+  /**
+   * The actions required for private link service connection. Possible values include: 'None'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly actionsRequired?: PrivateLinkServiceConnectionStateActionsRequire;
+}
+
+/**
+ * Properties of a private endpoint connection.
+ */
+export interface PrivateEndpointConnectionProperties {
+  /**
+   * Private endpoint which the connection belongs to.
+   */
+  privateEndpoint?: PrivateEndpointProperty;
+  /**
+   * Connection state of the private endpoint connection.
+   */
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStateProperty;
+  /**
+   * State of the private endpoint connection. Possible values include: 'Approving', 'Ready',
+   * 'Dropping', 'Failed', 'Rejecting'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: PrivateEndpointProvisioningState;
+}
+
+/**
+ * A private endpoint connection
+ */
+export interface PrivateEndpointConnection extends ProxyResource {
+  /**
+   * Private endpoint which the connection belongs to.
+   */
+  privateEndpoint?: PrivateEndpointProperty;
+  /**
+   * Connection state of the private endpoint connection.
+   */
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStateProperty;
+  /**
+   * State of the private endpoint connection. Possible values include: 'Approving', 'Ready',
+   * 'Dropping', 'Failed', 'Rejecting'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: PrivateEndpointProvisioningState;
+}
+
+/**
+ * Properties of a private link resource.
+ */
+export interface PrivateLinkResourceProperties {
+  /**
+   * The private link resource group id.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly groupId?: string;
+  /**
+   * The private link resource required member names.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly requiredMembers?: string[];
+}
+
+/**
+ * A private link resource
+ */
+export interface PrivateLinkResource extends ProxyResource {
+  /**
+   * The private link resource group id.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly properties?: PrivateLinkResourceProperties;
+}
+
+/**
+ * A private endpoint connection under a server
+ */
+export interface ServerPrivateEndpointConnection {
+  /**
+   * Resource ID.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Private endpoint connection properties
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly properties?: PrivateEndpointConnectionProperties;
+}
+
+/**
+ * An Azure SQL Database server.
+ */
+export interface Server extends TrackedResource {
+  /**
+   * The Azure Active Directory identity of the server.
+   */
+  identity?: ResourceIdentity;
+  /**
+   * Kind of sql server. This is metadata used for the Azure portal experience.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly kind?: string;
+  /**
+   * Administrator username for the server. Once created it cannot be changed.
+   */
+  administratorLogin?: string;
+  /**
+   * The administrator login password (required for server creation).
+   */
+  administratorLoginPassword?: string;
+  /**
+   * The version of the server.
+   */
+  version?: string;
+  /**
+   * The state of the server.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly state?: string;
+  /**
+   * The fully qualified domain name of the server.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly fullyQualifiedDomainName?: string;
+  /**
+   * List of private endpoint connections on a server
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly privateEndpointConnections?: ServerPrivateEndpointConnection[];
+  /**
+   * Minimal TLS version. Allowed values: '1.0', '1.1', '1.2'
+   */
+  minimalTlsVersion?: string;
+  /**
+   * Whether or not public endpoint access is allowed for this server.  Value is optional but if
+   * passed in, must be 'Enabled' or 'Disabled'. Possible values include: 'Enabled', 'Disabled'
+   */
+  publicNetworkAccess?: ServerPublicNetworkAccess;
+}
+
+/**
+ * An update request for an Azure SQL Database server.
+ */
+export interface ServerUpdate {
+  /**
+   * Administrator username for the server. Once created it cannot be changed.
+   */
+  administratorLogin?: string;
+  /**
+   * The administrator login password (required for server creation).
+   */
+  administratorLoginPassword?: string;
+  /**
+   * The version of the server.
+   */
+  version?: string;
+  /**
+   * The state of the server.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly state?: string;
+  /**
+   * The fully qualified domain name of the server.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly fullyQualifiedDomainName?: string;
+  /**
+   * List of private endpoint connections on a server
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly privateEndpointConnections?: ServerPrivateEndpointConnection[];
+  /**
+   * Minimal TLS version. Allowed values: '1.0', '1.1', '1.2'
+   */
+  minimalTlsVersion?: string;
+  /**
+   * Whether or not public endpoint access is allowed for this server.  Value is optional but if
+   * passed in, must be 'Enabled' or 'Disabled'. Possible values include: 'Enabled', 'Disabled'
+   */
+  publicNetworkAccess?: ServerPublicNetworkAccess;
+  /**
+   * Resource tags.
+   */
+  tags?: { [propertyName: string]: string };
+}
+
+/**
+ * A request to check whether the specified name for a resource is available.
+ */
+export interface CheckNameAvailabilityRequest {
+  name: string;
+}
+
+/**
+ * The result of a name availability check.
+ */
+export interface CheckNameAvailabilityResponse {
+  /**
+   * The name whose availability was checked.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * True if the name is available, otherwise false.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly available?: boolean;
+  /**
+   * The reason code explaining why the name is unavailable. Will be undefined if the name is
+   * available. Possible values include: 'Invalid', 'AlreadyExists'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly reason?: CheckNameAvailabilityReason;
+  /**
+   * A message explaining why the name is unavailable. Will be undefined if the name is available.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly message?: string;
+}
+
+/**
+ * The maximum size capability.
+ */
+export interface MaxSizeCapability {
+  /**
+   * The maximum size limit (see 'unit' for the units).
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly limit?: number;
+  /**
+   * The units that the limit is expressed in. Possible values include: 'Megabytes', 'Gigabytes',
+   * 'Terabytes', 'Petabytes'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly unit?: MaxSizeUnit;
+}
+
+/**
+ * The log size capability.
+ */
+export interface LogSizeCapability {
+  /**
+   * The log size limit (see 'unit' for the units).
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly limit?: number;
+  /**
+   * The units that the limit is expressed in. Possible values include: 'Megabytes', 'Gigabytes',
+   * 'Terabytes', 'Petabytes', 'Percent'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly unit?: LogSizeUnit;
+}
+
+/**
+ * The maximum size range capability.
+ */
+export interface MaxSizeRangeCapability {
+  /**
+   * Minimum value.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly minValue?: MaxSizeCapability;
+  /**
+   * Maximum value.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly maxValue?: MaxSizeCapability;
+  /**
+   * Scale/step size for discrete values between the minimum value and the maximum value.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly scaleSize?: MaxSizeCapability;
+  /**
+   * Size of transaction log.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly logSize?: LogSizeCapability;
+  /**
+   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
+   * 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: CapabilityStatus;
+  /**
+   * The reason for the capability not being available.
+   */
+  reason?: string;
+}
+
+/**
+ * The performance level capability.
+ */
+export interface PerformanceLevelCapability {
+  /**
+   * Performance level value.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: number;
+  /**
+   * Unit type used to measure performance level. Possible values include: 'DTU', 'VCores'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly unit?: PerformanceLevelUnit;
+}
+
+/**
+ * The license type capability
+ */
+export interface LicenseTypeCapability {
+  /**
+   * License type identifier.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
+   * 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: CapabilityStatus;
+  /**
+   * The reason for the capability not being available.
+   */
+  reason?: string;
+}
+
+/**
+ * Supported auto pause delay time range
+ */
+export interface AutoPauseDelayTimeRange {
+  /**
+   * Minimum value
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly minValue?: number;
+  /**
+   * Maximum value
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly maxValue?: number;
+  /**
+   * Step value for discrete values between the minimum value and the maximum value.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly stepSize?: number;
+  /**
+   * Default value is no value is provided
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly default?: number;
+  /**
+   * Unit of time that delay is expressed in. Possible values include: 'Minutes'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly unit?: PauseDelayTimeUnit;
+  /**
+   * Value that is used to not pause (infinite delay before pause)
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly doNotPauseValue?: number;
+}
+
+/**
+ * The min capacity capability
+ */
+export interface MinCapacityCapability {
+  /**
+   * Min capacity value
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: number;
+  /**
+   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
+   * 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: CapabilityStatus;
+  /**
+   * The reason for the capability not being available.
+   */
+  reason?: string;
+}
+
+/**
+ * The service objectives capability.
+ */
+export interface ServiceObjectiveCapability {
+  /**
+   * The unique ID of the service objective.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The service objective name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The list of supported maximum database sizes.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedMaxSizes?: MaxSizeRangeCapability[];
+  /**
+   * The performance level.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly performanceLevel?: PerformanceLevelCapability;
+  /**
+   * The sku.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly sku?: Sku;
+  /**
+   * List of supported license types.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedLicenseTypes?: LicenseTypeCapability[];
+  /**
+   * The included (free) max size.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly includedMaxSize?: MaxSizeCapability;
+  /**
+   * Whether or not zone redundancy is supported for the service objective.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly zoneRedundant?: boolean;
+  /**
+   * Supported time range for auto pause delay
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedAutoPauseDelay?: AutoPauseDelayTimeRange;
+  /**
+   * List of supported min capacities
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedMinCapacities?: MinCapacityCapability[];
+  /**
+   * The compute model
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly computeModel?: string;
+  /**
+   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
+   * 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: CapabilityStatus;
+  /**
+   * The reason for the capability not being available.
+   */
+  reason?: string;
+}
+
+/**
+ * The read scale capability.
+ */
+export interface ReadScaleCapability {
+  /**
+   * The maximum number of read scale replicas.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly maxNumberOfReplicas?: number;
+  /**
+   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
+   * 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: CapabilityStatus;
+  /**
+   * The reason for the capability not being available.
+   */
+  reason?: string;
+}
+
+/**
+ * The storage account type capability.
+ */
+export interface StorageCapability {
+  /**
+   * The storage account type for the database's backups. Possible values include: 'GRS', 'LRS',
+   * 'ZRS'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly storageAccountType?: StorageAccountType;
+  /**
+   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
+   * 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: CapabilityStatus;
+  /**
+   * The reason for the capability not being available.
+   */
+  reason?: string;
+}
+
+/**
+ * The edition capability.
+ */
+export interface EditionCapability {
+  /**
+   * The database edition name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The list of supported service objectives for the edition.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedServiceLevelObjectives?: ServiceObjectiveCapability[];
+  /**
+   * Whether or not zone redundancy is supported for the edition.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly zoneRedundant?: boolean;
+  /**
+   * The read scale capability for the edition.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly readScale?: ReadScaleCapability;
+  /**
+   * The list of supported storage capabilities for this edition
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedStorageCapabilities?: StorageCapability[];
+  /**
+   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
+   * 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: CapabilityStatus;
+  /**
+   * The reason for the capability not being available.
+   */
+  reason?: string;
+}
+
+/**
+ * The minimum per-database performance level capability.
+ */
+export interface ElasticPoolPerDatabaseMinPerformanceLevelCapability {
+  /**
+   * The minimum performance level per database.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly limit?: number;
+  /**
+   * Unit type used to measure performance level. Possible values include: 'DTU', 'VCores'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly unit?: PerformanceLevelUnit;
+  /**
+   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
+   * 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: CapabilityStatus;
+  /**
+   * The reason for the capability not being available.
+   */
+  reason?: string;
+}
+
+/**
+ * The max per-database performance level capability.
+ */
+export interface ElasticPoolPerDatabaseMaxPerformanceLevelCapability {
+  /**
+   * The maximum performance level per database.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly limit?: number;
+  /**
+   * Unit type used to measure performance level. Possible values include: 'DTU', 'VCores'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly unit?: PerformanceLevelUnit;
+  /**
+   * The list of supported min database performance levels.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedPerDatabaseMinPerformanceLevels?: ElasticPoolPerDatabaseMinPerformanceLevelCapability[];
+  /**
+   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
+   * 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: CapabilityStatus;
+  /**
+   * The reason for the capability not being available.
+   */
+  reason?: string;
+}
+
+/**
+ * The Elastic Pool performance level capability.
+ */
+export interface ElasticPoolPerformanceLevelCapability {
+  /**
+   * The performance level for the pool.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly performanceLevel?: PerformanceLevelCapability;
+  /**
+   * The sku.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly sku?: Sku;
+  /**
+   * List of supported license types.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedLicenseTypes?: LicenseTypeCapability[];
+  /**
+   * The maximum number of databases supported.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly maxDatabaseCount?: number;
+  /**
+   * The included (free) max size for this performance level.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly includedMaxSize?: MaxSizeCapability;
+  /**
+   * The list of supported max sizes.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedMaxSizes?: MaxSizeRangeCapability[];
+  /**
+   * The list of supported per database max sizes.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedPerDatabaseMaxSizes?: MaxSizeRangeCapability[];
+  /**
+   * The list of supported per database max performance levels.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedPerDatabaseMaxPerformanceLevels?: ElasticPoolPerDatabaseMaxPerformanceLevelCapability[];
+  /**
+   * Whether or not zone redundancy is supported for the performance level.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly zoneRedundant?: boolean;
+  /**
+   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
+   * 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: CapabilityStatus;
+  /**
+   * The reason for the capability not being available.
+   */
+  reason?: string;
+}
+
+/**
+ * The elastic pool edition capability.
+ */
+export interface ElasticPoolEditionCapability {
+  /**
+   * The elastic pool edition name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The list of supported elastic pool DTU levels for the edition.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedElasticPoolPerformanceLevels?: ElasticPoolPerformanceLevelCapability[];
+  /**
+   * Whether or not zone redundancy is supported for the edition.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly zoneRedundant?: boolean;
+  /**
+   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
+   * 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: CapabilityStatus;
+  /**
+   * The reason for the capability not being available.
+   */
+  reason?: string;
+}
+
+/**
+ * The server capability
+ */
+export interface ServerVersionCapability {
+  /**
+   * The server version name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The list of supported database editions.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedEditions?: EditionCapability[];
+  /**
+   * The list of supported elastic pool editions.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedElasticPoolEditions?: ElasticPoolEditionCapability[];
+  /**
+   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
+   * 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: CapabilityStatus;
+  /**
+   * The reason for the capability not being available.
+   */
+  reason?: string;
+}
+
+/**
+ * The managed instance virtual cores capability.
+ */
+export interface ManagedInstanceVcoresCapability {
+  /**
+   * The virtual cores identifier.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The virtual cores value.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: number;
+  /**
+   * Included size.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly includedMaxSize?: MaxSizeCapability;
+  /**
+   * Storage size ranges.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedStorageSizes?: MaxSizeRangeCapability[];
+  /**
+   * True if this service objective is supported for managed instances in an instance pool.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly instancePoolSupported?: boolean;
+  /**
+   * True if this service objective is supported for standalone managed instances.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly standaloneSupported?: boolean;
+  /**
+   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
+   * 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: CapabilityStatus;
+  /**
+   * The reason for the capability not being available.
+   */
+  reason?: string;
+}
+
+/**
+ * The managed server family capability.
+ */
+export interface ManagedInstanceFamilyCapability {
+  /**
+   * Family name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * SKU name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly sku?: string;
+  /**
+   * List of supported license types.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedLicenseTypes?: LicenseTypeCapability[];
+  /**
+   * List of supported virtual cores values.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedVcoresValues?: ManagedInstanceVcoresCapability[];
+  /**
+   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
+   * 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: CapabilityStatus;
+  /**
+   * The reason for the capability not being available.
+   */
+  reason?: string;
+}
+
+/**
+ * The managed server capability
+ */
+export interface ManagedInstanceEditionCapability {
+  /**
+   * The managed server version name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The supported families.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedFamilies?: ManagedInstanceFamilyCapability[];
+  /**
+   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
+   * 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: CapabilityStatus;
+  /**
+   * The reason for the capability not being available.
+   */
+  reason?: string;
+}
+
+/**
+ * The managed instance virtual cores capability.
+ */
+export interface InstancePoolVcoresCapability {
+  /**
+   * The virtual cores identifier.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The virtual cores value.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: number;
+  /**
+   * Storage limit.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly storageLimit?: MaxSizeCapability;
+  /**
+   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
+   * 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: CapabilityStatus;
+  /**
+   * The reason for the capability not being available.
+   */
+  reason?: string;
+}
+
+/**
+ * The instance pool family capability.
+ */
+export interface InstancePoolFamilyCapability {
+  /**
+   * Family name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * List of supported license types.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedLicenseTypes?: LicenseTypeCapability[];
+  /**
+   * List of supported virtual cores values.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedVcoresValues?: InstancePoolVcoresCapability[];
+  /**
+   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
+   * 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: CapabilityStatus;
+  /**
+   * The reason for the capability not being available.
+   */
+  reason?: string;
+}
+
+/**
+ * The instance pool capability
+ */
+export interface InstancePoolEditionCapability {
+  /**
+   * The instance pool version name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The supported families.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedFamilies?: InstancePoolFamilyCapability[];
+  /**
+   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
+   * 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: CapabilityStatus;
+  /**
+   * The reason for the capability not being available.
+   */
+  reason?: string;
+}
+
+/**
+ * The managed instance capability
+ */
+export interface ManagedInstanceVersionCapability {
+  /**
+   * The server version name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The list of supported managed instance editions.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedEditions?: ManagedInstanceEditionCapability[];
+  /**
+   * The list of supported instance pool editions.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedInstancePoolEditions?: InstancePoolEditionCapability[];
+  /**
+   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
+   * 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: CapabilityStatus;
+  /**
+   * The reason for the capability not being available.
+   */
+  reason?: string;
+}
+
+/**
+ * The location capability.
+ */
+export interface LocationCapabilities {
+  /**
+   * The location name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The list of supported server versions.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedServerVersions?: ServerVersionCapability[];
+  /**
+   * The list of supported managed instance versions.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedManagedInstanceVersions?: ManagedInstanceVersionCapability[];
+  /**
+   * The status of the capability. Possible values include: 'Visible', 'Available', 'Default',
+   * 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: CapabilityStatus;
+  /**
+   * The reason for the capability not being available.
+   */
+  reason?: string;
+}
+
+/**
+ * A long term retention backup for a managed database.
+ */
+export interface ManagedInstanceLongTermRetentionBackup extends ProxyResource {
+  /**
+   * The managed instance that the backup database belongs to.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly managedInstanceName?: string;
+  /**
+   * The create time of the instance.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly managedInstanceCreateTime?: Date;
+  /**
+   * The name of the database the backup belong to
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly databaseName?: string;
+  /**
+   * The delete time of the database
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly databaseDeletionTime?: Date;
+  /**
+   * The time the backup was taken
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly backupTime?: Date;
+  /**
+   * The time the long term retention backup will expire.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly backupExpirationTime?: Date;
+}
+
+/**
+ * A long term retention policy.
+ */
+export interface ManagedInstanceLongTermRetentionPolicy extends ProxyResource {
+  /**
+   * The weekly retention policy for an LTR backup in an ISO 8601 format.
+   */
+  weeklyRetention?: string;
+  /**
+   * The monthly retention policy for an LTR backup in an ISO 8601 format.
+   */
+  monthlyRetention?: string;
+  /**
+   * The yearly retention policy for an LTR backup in an ISO 8601 format.
+   */
+  yearlyRetention?: string;
+  /**
+   * The week of year to take the yearly backup in an ISO 8601 format.
+   */
+  weekOfYear?: number;
+}
+
+/**
+ * Workload group operations for a data warehouse
+ */
+export interface WorkloadGroup extends ProxyResource {
+  /**
+   * The workload group minimum percentage resource.
+   */
+  minResourcePercent: number;
+  /**
+   * The workload group cap percentage resource.
+   */
+  maxResourcePercent: number;
+  /**
+   * The workload group request minimum grant percentage.
+   */
+  minResourcePercentPerRequest: number;
+  /**
+   * The workload group request maximum grant percentage.
+   */
+  maxResourcePercentPerRequest?: number;
+  /**
+   * The workload group importance level.
+   */
+  importance?: string;
+  /**
+   * The workload group query execution timeout.
+   */
+  queryExecutionTimeout?: number;
+}
+
+/**
+ * Workload classifier operations for a data warehouse
+ */
+export interface WorkloadClassifier extends ProxyResource {
+  /**
+   * The workload classifier member name.
+   */
+  memberName: string;
+  /**
+   * The workload classifier label.
+   */
+  label?: string;
+  /**
+   * The workload classifier context.
+   */
+  context?: string;
+  /**
+   * The workload classifier start time for classification.
+   */
+  startTime?: string;
+  /**
+   * The workload classifier end time for classification.
+   */
+  endTime?: string;
+  /**
+   * The workload classifier importance.
+   */
+  importance?: string;
 }
 
 /**
@@ -5542,7 +5835,9 @@ export interface ManagedDatabase extends TrackedResource {
    * external backup files. Collation, StorageContainerUri and StorageContainerSasToken must be
    * specified. Recovery: Creates a database by restoring a geo-replicated backup.
    * RecoverableDatabaseId must be specified as the recoverable database resource ID to restore.
-   * Possible values include: 'Default', 'RestoreExternalBackup', 'PointInTimeRestore', 'Recovery'
+   * RestoreLongTermRetentionBackup: Create a database by restoring from a long term retention
+   * backup (longTermRetentionBackupResourceId required). Possible values include: 'Default',
+   * 'RestoreExternalBackup', 'PointInTimeRestore', 'Recovery', 'RestoreLongTermRetentionBackup'
    */
   createMode?: ManagedDatabaseCreateMode;
   /**
@@ -5574,6 +5869,10 @@ export interface ManagedDatabase extends TrackedResource {
    * database.
    */
   recoverableDatabaseId?: string;
+  /**
+   * The name of the Long Term Retention backup to be used for restore of this managed database.
+   */
+  longTermRetentionBackupResourceId?: string;
 }
 
 /**
@@ -5623,7 +5922,9 @@ export interface ManagedDatabaseUpdate {
    * external backup files. Collation, StorageContainerUri and StorageContainerSasToken must be
    * specified. Recovery: Creates a database by restoring a geo-replicated backup.
    * RecoverableDatabaseId must be specified as the recoverable database resource ID to restore.
-   * Possible values include: 'Default', 'RestoreExternalBackup', 'PointInTimeRestore', 'Recovery'
+   * RestoreLongTermRetentionBackup: Create a database by restoring from a long term retention
+   * backup (longTermRetentionBackupResourceId required). Possible values include: 'Default',
+   * 'RestoreExternalBackup', 'PointInTimeRestore', 'Recovery', 'RestoreLongTermRetentionBackup'
    */
   createMode?: ManagedDatabaseCreateMode;
   /**
@@ -5656,6 +5957,10 @@ export interface ManagedDatabaseUpdate {
    */
   recoverableDatabaseId?: string;
   /**
+   * The name of the Long Term Retention backup to be used for restore of this managed database.
+   */
+  longTermRetentionBackupResourceId?: string;
+  /**
    * Resource tags.
    */
   tags?: { [propertyName: string]: string };
@@ -5672,78 +5977,380 @@ export interface CompleteDatabaseRestoreDefinition {
 }
 
 /**
- * An interface representing PrivateEndpointProperty.
+ * Azure Active Directory administrator.
  */
-export interface PrivateEndpointProperty extends BaseResource {
+export interface ServerAzureADAdministrator extends ProxyResource {
   /**
-   * Resource id of the private endpoint.
+   * Login name of the server administrator.
    */
-  id?: string;
+  login: string;
+  /**
+   * SID (object ID) of the server administrator.
+   */
+  sid: string;
+  /**
+   * Tenant ID of the administrator.
+   */
+  tenantId?: string;
+  /**
+   * Azure Active Directory only Authentication enabled.
+   */
+  azureADOnlyAuthentication?: boolean;
 }
 
 /**
- * An interface representing PrivateLinkServiceConnectionStateProperty.
+ * A managed instance operation.
  */
-export interface PrivateLinkServiceConnectionStateProperty {
+export interface ManagedInstanceOperation extends ProxyResource {
   /**
-   * The private link service connection status.
-   */
-  status: string;
-  /**
-   * The private link service connection description.
-   */
-  description: string;
-  /**
-   * The actions required for private link service connection.
+   * The name of the managed instance the operation is being performed on.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly actionsRequired?: string;
+  readonly managedInstanceName?: string;
+  /**
+   * The name of operation.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly operation?: string;
+  /**
+   * The friendly name of operation.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly operationFriendlyName?: string;
+  /**
+   * The percentage of the operation completed.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly percentComplete?: number;
+  /**
+   * The operation start time.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly startTime?: Date;
+  /**
+   * The operation state. Possible values include: 'Pending', 'InProgress', 'Succeeded', 'Failed',
+   * 'CancelInProgress', 'Cancelled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly state?: ManagementOperationState;
+  /**
+   * The operation error code.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly errorCode?: number;
+  /**
+   * The operation error description.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly errorDescription?: string;
+  /**
+   * The operation error severity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly errorSeverity?: number;
+  /**
+   * Whether or not the error is a user error.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isUserError?: boolean;
+  /**
+   * The estimated completion time of the operation.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly estimatedCompletionTime?: Date;
+  /**
+   * The operation description.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly description?: string;
+  /**
+   * Whether the operation can be cancelled.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isCancellable?: boolean;
 }
 
 /**
- * A private endpoint connection
+ * Properties of the sync database id.
  */
-export interface PrivateEndpointConnection extends ProxyResource {
+export interface SyncDatabaseIdProperties {
   /**
-   * Private endpoint which the connection belongs to.
-   */
-  privateEndpoint?: PrivateEndpointProperty;
-  /**
-   * Connection state of the private endpoint connection.
-   */
-  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStateProperty;
-  /**
-   * State of the private endpoint connection.
+   * ARM resource id of sync database.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly provisioningState?: string;
+  readonly id?: string;
 }
 
 /**
- * Properties of a private link resource.
+ * Properties of the column in the table of database full schema.
  */
-export interface PrivateLinkResourceProperties {
+export interface SyncFullSchemaTableColumn {
   /**
-   * The private link resource group id.
+   * Data size of the column.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly groupId?: string;
+  readonly dataSize?: string;
   /**
-   * The private link resource required member names.
+   * Data type of the column.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly requiredMembers?: string[];
+  readonly dataType?: string;
+  /**
+   * Error id of the column.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly errorId?: string;
+  /**
+   * If there is error in the table.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly hasError?: boolean;
+  /**
+   * If it is the primary key of the table.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isPrimaryKey?: boolean;
+  /**
+   * Name of the column.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Quoted name of the column.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly quotedName?: string;
 }
 
 /**
- * A private link resource
+ * Properties of the table in the database full schema.
  */
-export interface PrivateLinkResource extends ProxyResource {
+export interface SyncFullSchemaTable {
   /**
-   * The private link resource group id.
+   * List of columns in the table of database full schema.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly properties?: PrivateLinkResourceProperties;
+  readonly columns?: SyncFullSchemaTableColumn[];
+  /**
+   * Error id of the table.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly errorId?: string;
+  /**
+   * If there is error in the table.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly hasError?: boolean;
+  /**
+   * Name of the table.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Quoted name of the table.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly quotedName?: string;
+}
+
+/**
+ * Properties of the database full schema.
+ */
+export interface SyncFullSchemaProperties {
+  /**
+   * List of tables in the database full schema.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tables?: SyncFullSchemaTable[];
+  /**
+   * Last update time of the database schema.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lastUpdateTime?: Date;
+}
+
+/**
+ * Properties of an Azure SQL Database sync group log.
+ */
+export interface SyncGroupLogProperties {
+  /**
+   * Timestamp of the sync group log.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly timestamp?: Date;
+  /**
+   * Type of the sync group log. Possible values include: 'All', 'Error', 'Warning', 'Success'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: SyncGroupLogType;
+  /**
+   * Source of the sync group log.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly source?: string;
+  /**
+   * Details of the sync group log.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly details?: string;
+  /**
+   * TracingId of the sync group log.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tracingId?: string;
+  /**
+   * OperationStatus of the sync group log.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly operationStatus?: string;
+}
+
+/**
+ * Properties of column in sync group table.
+ */
+export interface SyncGroupSchemaTableColumn {
+  /**
+   * Quoted name of sync group table column.
+   */
+  quotedName?: string;
+  /**
+   * Data size of the column.
+   */
+  dataSize?: string;
+  /**
+   * Data type of the column.
+   */
+  dataType?: string;
+}
+
+/**
+ * Properties of table in sync group schema.
+ */
+export interface SyncGroupSchemaTable {
+  /**
+   * List of columns in sync group schema.
+   */
+  columns?: SyncGroupSchemaTableColumn[];
+  /**
+   * Quoted name of sync group schema table.
+   */
+  quotedName?: string;
+}
+
+/**
+ * Properties of sync group schema.
+ */
+export interface SyncGroupSchema {
+  /**
+   * List of tables in sync group schema.
+   */
+  tables?: SyncGroupSchemaTable[];
+  /**
+   * Name of master sync member where the schema is from.
+   */
+  masterSyncMemberName?: string;
+}
+
+/**
+ * An Azure SQL Database sync group.
+ */
+export interface SyncGroup extends ProxyResource {
+  /**
+   * Sync interval of the sync group.
+   */
+  interval?: number;
+  /**
+   * Last sync time of the sync group.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lastSyncTime?: Date;
+  /**
+   * Conflict resolution policy of the sync group. Possible values include: 'HubWin', 'MemberWin'
+   */
+  conflictResolutionPolicy?: SyncConflictResolutionPolicy;
+  /**
+   * ARM resource id of the sync database in the sync group.
+   */
+  syncDatabaseId?: string;
+  /**
+   * User name for the sync group hub database credential.
+   */
+  hubDatabaseUserName?: string;
+  /**
+   * Password for the sync group hub database credential.
+   */
+  hubDatabasePassword?: string;
+  /**
+   * Sync state of the sync group. Possible values include: 'NotReady', 'Error', 'Warning',
+   * 'Progressing', 'Good'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly syncState?: SyncGroupState;
+  /**
+   * Sync schema of the sync group.
+   */
+  schema?: SyncGroupSchema;
+  /**
+   * If use private link connection is enabled.
+   */
+  usePrivateLinkConnection?: boolean;
+}
+
+/**
+ * An Azure SQL Database sync member.
+ */
+export interface SyncMember extends ProxyResource {
+  /**
+   * Database type of the sync member. Possible values include: 'AzureSqlDatabase',
+   * 'SqlServerDatabase'
+   */
+  databaseType?: SyncMemberDbType;
+  /**
+   * ARM resource id of the sync agent in the sync member.
+   */
+  syncAgentId?: string;
+  /**
+   * SQL Server database id of the sync member.
+   */
+  sqlServerDatabaseId?: string;
+  /**
+   * ARM resource id of the sync member logical database, for sync members in Azure.
+   */
+  syncMemberAzureDatabaseResourceId?: string;
+  /**
+   * Whether to use private link connection.
+   */
+  usePrivateLinkConnection?: boolean;
+  /**
+   * Server name of the member database in the sync member
+   */
+  serverName?: string;
+  /**
+   * Database name of the member database in the sync member.
+   */
+  databaseName?: string;
+  /**
+   * User name of the member database in the sync member.
+   */
+  userName?: string;
+  /**
+   * Password of the member database in the sync member.
+   */
+  password?: string;
+  /**
+   * Sync direction of the sync member. Possible values include: 'Bidirectional',
+   * 'OneWayMemberToHub', 'OneWayHubToMember'
+   */
+  syncDirection?: SyncDirection;
+  /**
+   * Sync state of the sync member. Possible values include: 'SyncInProgress', 'SyncSucceeded',
+   * 'SyncFailed', 'DisabledTombstoneCleanup', 'DisabledBackupRestore',
+   * 'SyncSucceededWithWarnings', 'SyncCancelling', 'SyncCancelled', 'UnProvisioned',
+   * 'Provisioning', 'Provisioned', 'ProvisionFailed', 'DeProvisioning', 'DeProvisioned',
+   * 'DeProvisionFailed', 'Reprovisioning', 'ReprovisionFailed', 'UnReprovisioned'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly syncState?: SyncMemberState;
 }
 
 /**
@@ -5774,16 +6381,6 @@ export interface ElasticPoolsListByServerOptionalParams extends msRest.RequestOp
    * The number of elements in the collection to skip.
    */
   skip?: number;
-}
-
-/**
- * Optional Parameters.
- */
-export interface SyncGroupsListLogsOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The continuation token for this operation.
-   */
-  continuationToken?: string;
 }
 
 /**
@@ -6074,18 +6671,6 @@ export interface SensitivityLabelsListRecommendedByDatabaseOptionalParams extend
 /**
  * Optional Parameters.
  */
-export interface CapabilitiesListByLocationOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * If specified, restricts the response to only include the selected item. Possible values
-   * include: 'supportedEditions', 'supportedElasticPoolEditions',
-   * 'supportedManagedInstanceVersions'
-   */
-  include?: CapabilityGroup;
-}
-
-/**
- * Optional Parameters.
- */
 export interface ManagedInstanceKeysListByInstanceOptionalParams extends msRest.RequestOptionsBase {
   /**
    * An OData filter expression that filters elements in the collection.
@@ -6129,6 +6714,139 @@ export interface UsagesListByInstancePoolOptionalParams extends msRest.RequestOp
 }
 
 /**
+ * Optional Parameters.
+ */
+export interface ManagedInstancesFailoverOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The type of replica to be failed over. Possible values include: 'Primary', 'ReadableSecondary'
+   */
+  replicaType?: ReplicaType;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ManagedInstancesBeginFailoverOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The type of replica to be failed over. Possible values include: 'Primary', 'ReadableSecondary'
+   */
+  replicaType?: ReplicaType;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface CapabilitiesListByLocationOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * If specified, restricts the response to only include the selected item. Possible values
+   * include: 'supportedEditions', 'supportedElasticPoolEditions',
+   * 'supportedManagedInstanceVersions', 'supportedInstancePoolEditions',
+   * 'supportedManagedInstanceEditions'
+   */
+  include?: CapabilityGroup;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface LongTermRetentionManagedInstanceBackupsListByDatabaseOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Whether or not to only get the latest backup for each database.
+   */
+  onlyLatestPerDatabase?: boolean;
+  /**
+   * Whether to query against just live databases, just deleted databases, or all databases.
+   * Possible values include: 'All', 'Live', 'Deleted'
+   */
+  databaseState?: DatabaseState1;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface LongTermRetentionManagedInstanceBackupsListByInstanceOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Whether or not to only get the latest backup for each database.
+   */
+  onlyLatestPerDatabase?: boolean;
+  /**
+   * Whether to query against just live databases, just deleted databases, or all databases.
+   * Possible values include: 'All', 'Live', 'Deleted'
+   */
+  databaseState?: DatabaseState2;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface LongTermRetentionManagedInstanceBackupsListByLocationOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Whether or not to only get the latest backup for each database.
+   */
+  onlyLatestPerDatabase?: boolean;
+  /**
+   * Whether to query against just live databases, just deleted databases, or all databases.
+   * Possible values include: 'All', 'Live', 'Deleted'
+   */
+  databaseState?: DatabaseState3;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface LongTermRetentionManagedInstanceBackupsListByResourceGroupDatabaseOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Whether or not to only get the latest backup for each database.
+   */
+  onlyLatestPerDatabase?: boolean;
+  /**
+   * Whether to query against just live databases, just deleted databases, or all databases.
+   * Possible values include: 'All', 'Live', 'Deleted'
+   */
+  databaseState?: DatabaseState4;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface LongTermRetentionManagedInstanceBackupsListByResourceGroupInstanceOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Whether or not to only get the latest backup for each database.
+   */
+  onlyLatestPerDatabase?: boolean;
+  /**
+   * Whether to query against just live databases, just deleted databases, or all databases.
+   * Possible values include: 'All', 'Live', 'Deleted'
+   */
+  databaseState?: DatabaseState5;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface LongTermRetentionManagedInstanceBackupsListByResourceGroupLocationOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Whether or not to only get the latest backup for each database.
+   */
+  onlyLatestPerDatabase?: boolean;
+  /**
+   * Whether to query against just live databases, just deleted databases, or all databases.
+   * Possible values include: 'All', 'Live', 'Deleted'
+   */
+  databaseState?: DatabaseState6;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface SyncGroupsListLogsOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The continuation token for this operation.
+   */
+  continuationToken?: string;
+}
+
+/**
  * An interface representing SqlManagementClientOptions.
  */
 export interface SqlManagementClientOptions extends AzureServiceClientOptions {
@@ -6149,19 +6867,6 @@ export interface RecoverableDatabaseListResult extends Array<RecoverableDatabase
  * @extends Array<RestorableDroppedDatabase>
  */
 export interface RestorableDroppedDatabaseListResult extends Array<RestorableDroppedDatabase> {
-}
-
-/**
- * @interface
- * A list of servers.
- * @extends Array<Server>
- */
-export interface ServerListResult extends Array<Server> {
-  /**
-   * Link to retrieve next page of results.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
 }
 
 /**
@@ -6252,14 +6957,6 @@ export interface RecommendedElasticPoolListMetricsResult extends Array<Recommend
  * @extends Array<ReplicationLink>
  */
 export interface ReplicationLinkListResult extends Array<ReplicationLink> {
-}
-
-/**
- * @interface
- * The response to a list Active Directory Administrators request.
- * @extends Array<ServerAzureADAdministrator>
- */
-export interface ServerAdministratorListResult extends Array<ServerAzureADAdministrator> {
 }
 
 /**
@@ -6406,71 +7103,6 @@ export interface SyncAgentLinkedDatabaseListResult extends Array<SyncAgentLinked
 
 /**
  * @interface
- * A list of sync database ID properties.
- * @extends Array<SyncDatabaseIdProperties>
- */
-export interface SyncDatabaseIdListResult extends Array<SyncDatabaseIdProperties> {
-  /**
-   * Link to retrieve next page of results.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * A list of sync schema properties.
- * @extends Array<SyncFullSchemaProperties>
- */
-export interface SyncFullSchemaPropertiesListResult extends Array<SyncFullSchemaProperties> {
-  /**
-   * Link to retrieve next page of results.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * A list of sync group log properties.
- * @extends Array<SyncGroupLogProperties>
- */
-export interface SyncGroupLogListResult extends Array<SyncGroupLogProperties> {
-  /**
-   * Link to retrieve next page of results.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * A list of sync groups.
- * @extends Array<SyncGroup>
- */
-export interface SyncGroupListResult extends Array<SyncGroup> {
-  /**
-   * Link to retrieve next page of results.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * A list of Azure SQL Database sync members.
- * @extends Array<SyncMember>
- */
-export interface SyncMemberListResult extends Array<SyncMember> {
-  /**
-   * Link to retrieve next page of results.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
  * A list of subscription usage metrics in a location.
  * @extends Array<SubscriptionUsage>
  */
@@ -6501,6 +7133,32 @@ export interface VirtualClusterListResult extends Array<VirtualCluster> {
  * @extends Array<VirtualNetworkRule>
  */
 export interface VirtualNetworkRuleListResult extends Array<VirtualNetworkRule> {
+  /**
+   * Link to retrieve next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * A list of database extended auditing settings.
+ * @extends Array<ExtendedDatabaseBlobAuditingPolicy>
+ */
+export interface ExtendedDatabaseBlobAuditingPolicyListResult extends Array<ExtendedDatabaseBlobAuditingPolicy> {
+  /**
+   * Link to retrieve next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * A list of server extended auditing settings.
+ * @extends Array<ExtendedServerBlobAuditingPolicy>
+ */
+export interface ExtendedServerBlobAuditingPolicyListResult extends Array<ExtendedServerBlobAuditingPolicy> {
   /**
    * Link to retrieve next page of results.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -6939,19 +7597,6 @@ export interface ManagedInstanceListResult extends Array<ManagedInstance> {
 
 /**
  * @interface
- * A list of managed databases.
- * @extends Array<ManagedDatabase>
- */
-export interface ManagedDatabaseListResult extends Array<ManagedDatabase> {
-  /**
-   * Link to retrieve next page of results.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
  * A list of private endpoint connections.
  * @extends Array<PrivateEndpointConnection>
  */
@@ -6977,12 +7622,173 @@ export interface PrivateLinkResourceListResult extends Array<PrivateLinkResource
 }
 
 /**
- * Defines values for CheckNameAvailabilityReason.
- * Possible values include: 'Invalid', 'AlreadyExists'
- * @readonly
- * @enum {string}
+ * @interface
+ * A list of servers.
+ * @extends Array<Server>
  */
-export type CheckNameAvailabilityReason = 'Invalid' | 'AlreadyExists';
+export interface ServerListResult extends Array<Server> {
+  /**
+   * Link to retrieve next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * A list of long term retention backups for managed database(s).
+ * @extends Array<ManagedInstanceLongTermRetentionBackup>
+ */
+export interface ManagedInstanceLongTermRetentionBackupListResult extends Array<ManagedInstanceLongTermRetentionBackup> {
+  /**
+   * Link to retrieve next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * A list of long term retention policies.
+ * @extends Array<ManagedInstanceLongTermRetentionPolicy>
+ */
+export interface ManagedInstanceLongTermRetentionPolicyListResult extends Array<ManagedInstanceLongTermRetentionPolicy> {
+  /**
+   * Link to retrieve next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * A list of workload groups.
+ * @extends Array<WorkloadGroup>
+ */
+export interface WorkloadGroupListResult extends Array<WorkloadGroup> {
+  /**
+   * Link to retrieve next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * A list of workload classifiers for a workload group.
+ * @extends Array<WorkloadClassifier>
+ */
+export interface WorkloadClassifierListResult extends Array<WorkloadClassifier> {
+  /**
+   * Link to retrieve next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * A list of managed databases.
+ * @extends Array<ManagedDatabase>
+ */
+export interface ManagedDatabaseListResult extends Array<ManagedDatabase> {
+  /**
+   * Link to retrieve next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * A list of active directory administrators.
+ * @extends Array<ServerAzureADAdministrator>
+ */
+export interface AdministratorListResult extends Array<ServerAzureADAdministrator> {
+  /**
+   * Link to retrieve next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * The response to a list managed instance operations request
+ * @extends Array<ManagedInstanceOperation>
+ */
+export interface ManagedInstanceOperationListResult extends Array<ManagedInstanceOperation> {
+  /**
+   * Link to retrieve next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * A list of sync database ID properties.
+ * @extends Array<SyncDatabaseIdProperties>
+ */
+export interface SyncDatabaseIdListResult extends Array<SyncDatabaseIdProperties> {
+  /**
+   * Link to retrieve next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * A list of sync schema properties.
+ * @extends Array<SyncFullSchemaProperties>
+ */
+export interface SyncFullSchemaPropertiesListResult extends Array<SyncFullSchemaProperties> {
+  /**
+   * Link to retrieve next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * A list of sync group log properties.
+ * @extends Array<SyncGroupLogProperties>
+ */
+export interface SyncGroupLogListResult extends Array<SyncGroupLogProperties> {
+  /**
+   * Link to retrieve next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * A list of sync groups.
+ * @extends Array<SyncGroup>
+ */
+export interface SyncGroupListResult extends Array<SyncGroup> {
+  /**
+   * Link to retrieve next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * A list of Azure SQL Database sync members.
+ * @extends Array<SyncMember>
+ */
+export interface SyncMemberListResult extends Array<SyncMember> {
+  /**
+   * Link to retrieve next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
 
 /**
  * Defines values for ServerConnectionType.
@@ -7253,14 +8059,6 @@ export type FailoverGroupReplicationRole = 'Primary' | 'Secondary';
 export type OperationOrigin = 'user' | 'system';
 
 /**
- * Defines values for IdentityType.
- * Possible values include: 'SystemAssigned'
- * @readonly
- * @enum {string}
- */
-export type IdentityType = 'SystemAssigned';
-
-/**
  * Defines values for SyncAgentState.
  * Possible values include: 'Online', 'Offline', 'NeverConnected'
  * @readonly
@@ -7275,50 +8073,6 @@ export type SyncAgentState = 'Online' | 'Offline' | 'NeverConnected';
  * @enum {string}
  */
 export type SyncMemberDbType = 'AzureSqlDatabase' | 'SqlServerDatabase';
-
-/**
- * Defines values for SyncGroupLogType.
- * Possible values include: 'All', 'Error', 'Warning', 'Success'
- * @readonly
- * @enum {string}
- */
-export type SyncGroupLogType = 'All' | 'Error' | 'Warning' | 'Success';
-
-/**
- * Defines values for SyncConflictResolutionPolicy.
- * Possible values include: 'HubWin', 'MemberWin'
- * @readonly
- * @enum {string}
- */
-export type SyncConflictResolutionPolicy = 'HubWin' | 'MemberWin';
-
-/**
- * Defines values for SyncGroupState.
- * Possible values include: 'NotReady', 'Error', 'Warning', 'Progressing', 'Good'
- * @readonly
- * @enum {string}
- */
-export type SyncGroupState = 'NotReady' | 'Error' | 'Warning' | 'Progressing' | 'Good';
-
-/**
- * Defines values for SyncDirection.
- * Possible values include: 'Bidirectional', 'OneWayMemberToHub', 'OneWayHubToMember'
- * @readonly
- * @enum {string}
- */
-export type SyncDirection = 'Bidirectional' | 'OneWayMemberToHub' | 'OneWayHubToMember';
-
-/**
- * Defines values for SyncMemberState.
- * Possible values include: 'SyncInProgress', 'SyncSucceeded', 'SyncFailed',
- * 'DisabledTombstoneCleanup', 'DisabledBackupRestore', 'SyncSucceededWithWarnings',
- * 'SyncCancelling', 'SyncCancelled', 'UnProvisioned', 'Provisioning', 'Provisioned',
- * 'ProvisionFailed', 'DeProvisioning', 'DeProvisioned', 'DeProvisionFailed', 'Reprovisioning',
- * 'ReprovisionFailed', 'UnReprovisioned'
- * @readonly
- * @enum {string}
- */
-export type SyncMemberState = 'SyncInProgress' | 'SyncSucceeded' | 'SyncFailed' | 'DisabledTombstoneCleanup' | 'DisabledBackupRestore' | 'SyncSucceededWithWarnings' | 'SyncCancelling' | 'SyncCancelled' | 'UnProvisioned' | 'Provisioning' | 'Provisioned' | 'ProvisionFailed' | 'DeProvisioning' | 'DeProvisioned' | 'DeProvisionFailed' | 'Reprovisioning' | 'ReprovisionFailed' | 'UnReprovisioned';
 
 /**
  * Defines values for VirtualNetworkRuleState.
@@ -7436,6 +8190,14 @@ export type AutomaticTuningServerReason = 'Default' | 'Disabled' | 'AutoConfigur
 export type RestorePointType = 'CONTINUOUS' | 'DISCRETE';
 
 /**
+ * Defines values for SensitivityLabelRank.
+ * Possible values include: 'None', 'Low', 'Medium', 'High', 'Critical'
+ * @readonly
+ * @enum {string}
+ */
+export type SensitivityLabelRank = 'None' | 'Low' | 'Medium' | 'High' | 'Critical';
+
+/**
  * Defines values for ManagementOperationState.
  * Possible values include: 'Pending', 'InProgress', 'Succeeded', 'Failed', 'CancelInProgress',
  * 'Cancelled'
@@ -7443,38 +8205,6 @@ export type RestorePointType = 'CONTINUOUS' | 'DISCRETE';
  * @enum {string}
  */
 export type ManagementOperationState = 'Pending' | 'InProgress' | 'Succeeded' | 'Failed' | 'CancelInProgress' | 'Cancelled';
-
-/**
- * Defines values for MaxSizeUnit.
- * Possible values include: 'Megabytes', 'Gigabytes', 'Terabytes', 'Petabytes'
- * @readonly
- * @enum {string}
- */
-export type MaxSizeUnit = 'Megabytes' | 'Gigabytes' | 'Terabytes' | 'Petabytes';
-
-/**
- * Defines values for LogSizeUnit.
- * Possible values include: 'Megabytes', 'Gigabytes', 'Terabytes', 'Petabytes', 'Percent'
- * @readonly
- * @enum {string}
- */
-export type LogSizeUnit = 'Megabytes' | 'Gigabytes' | 'Terabytes' | 'Petabytes' | 'Percent';
-
-/**
- * Defines values for CapabilityStatus.
- * Possible values include: 'Visible', 'Available', 'Default', 'Disabled'
- * @readonly
- * @enum {string}
- */
-export type CapabilityStatus = 'Visible' | 'Available' | 'Default' | 'Disabled';
-
-/**
- * Defines values for PerformanceLevelUnit.
- * Possible values include: 'DTU', 'VCores'
- * @readonly
- * @enum {string}
- */
-export type PerformanceLevelUnit = 'DTU' | 'VCores';
 
 /**
  * Defines values for CreateMode.
@@ -7578,6 +8308,14 @@ export type InstanceFailoverGroupReplicationRole = 'Primary' | 'Secondary';
 export type InstancePoolLicenseType = 'LicenseIncluded' | 'BasePrice';
 
 /**
+ * Defines values for IdentityType.
+ * Possible values include: 'SystemAssigned'
+ * @readonly
+ * @enum {string}
+ */
+export type IdentityType = 'SystemAssigned';
+
+/**
  * Defines values for ManagedServerCreateMode.
  * Possible values include: 'Default', 'PointInTimeRestore'
  * @readonly
@@ -7602,6 +8340,86 @@ export type ManagedInstanceLicenseType = 'LicenseIncluded' | 'BasePrice';
 export type ManagedInstanceProxyOverride = 'Proxy' | 'Redirect' | 'Default';
 
 /**
+ * Defines values for PrivateLinkServiceConnectionStateStatus.
+ * Possible values include: 'Approved', 'Pending', 'Rejected', 'Disconnected'
+ * @readonly
+ * @enum {string}
+ */
+export type PrivateLinkServiceConnectionStateStatus = 'Approved' | 'Pending' | 'Rejected' | 'Disconnected';
+
+/**
+ * Defines values for PrivateLinkServiceConnectionStateActionsRequire.
+ * Possible values include: 'None'
+ * @readonly
+ * @enum {string}
+ */
+export type PrivateLinkServiceConnectionStateActionsRequire = 'None';
+
+/**
+ * Defines values for PrivateEndpointProvisioningState.
+ * Possible values include: 'Approving', 'Ready', 'Dropping', 'Failed', 'Rejecting'
+ * @readonly
+ * @enum {string}
+ */
+export type PrivateEndpointProvisioningState = 'Approving' | 'Ready' | 'Dropping' | 'Failed' | 'Rejecting';
+
+/**
+ * Defines values for ServerPublicNetworkAccess.
+ * Possible values include: 'Enabled', 'Disabled'
+ * @readonly
+ * @enum {string}
+ */
+export type ServerPublicNetworkAccess = 'Enabled' | 'Disabled';
+
+/**
+ * Defines values for CheckNameAvailabilityReason.
+ * Possible values include: 'Invalid', 'AlreadyExists'
+ * @readonly
+ * @enum {string}
+ */
+export type CheckNameAvailabilityReason = 'Invalid' | 'AlreadyExists';
+
+/**
+ * Defines values for MaxSizeUnit.
+ * Possible values include: 'Megabytes', 'Gigabytes', 'Terabytes', 'Petabytes'
+ * @readonly
+ * @enum {string}
+ */
+export type MaxSizeUnit = 'Megabytes' | 'Gigabytes' | 'Terabytes' | 'Petabytes';
+
+/**
+ * Defines values for LogSizeUnit.
+ * Possible values include: 'Megabytes', 'Gigabytes', 'Terabytes', 'Petabytes', 'Percent'
+ * @readonly
+ * @enum {string}
+ */
+export type LogSizeUnit = 'Megabytes' | 'Gigabytes' | 'Terabytes' | 'Petabytes' | 'Percent';
+
+/**
+ * Defines values for CapabilityStatus.
+ * Possible values include: 'Visible', 'Available', 'Default', 'Disabled'
+ * @readonly
+ * @enum {string}
+ */
+export type CapabilityStatus = 'Visible' | 'Available' | 'Default' | 'Disabled';
+
+/**
+ * Defines values for PerformanceLevelUnit.
+ * Possible values include: 'DTU', 'VCores'
+ * @readonly
+ * @enum {string}
+ */
+export type PerformanceLevelUnit = 'DTU' | 'VCores';
+
+/**
+ * Defines values for PauseDelayTimeUnit.
+ * Possible values include: 'Minutes'
+ * @readonly
+ * @enum {string}
+ */
+export type PauseDelayTimeUnit = 'Minutes';
+
+/**
  * Defines values for ManagedDatabaseStatus.
  * Possible values include: 'Online', 'Offline', 'Shutdown', 'Creating', 'Inaccessible',
  * 'Restoring', 'Updating'
@@ -7612,11 +8430,56 @@ export type ManagedDatabaseStatus = 'Online' | 'Offline' | 'Shutdown' | 'Creatin
 
 /**
  * Defines values for ManagedDatabaseCreateMode.
- * Possible values include: 'Default', 'RestoreExternalBackup', 'PointInTimeRestore', 'Recovery'
+ * Possible values include: 'Default', 'RestoreExternalBackup', 'PointInTimeRestore', 'Recovery',
+ * 'RestoreLongTermRetentionBackup'
  * @readonly
  * @enum {string}
  */
-export type ManagedDatabaseCreateMode = 'Default' | 'RestoreExternalBackup' | 'PointInTimeRestore' | 'Recovery';
+export type ManagedDatabaseCreateMode = 'Default' | 'RestoreExternalBackup' | 'PointInTimeRestore' | 'Recovery' | 'RestoreLongTermRetentionBackup';
+
+/**
+ * Defines values for SyncGroupLogType.
+ * Possible values include: 'All', 'Error', 'Warning', 'Success'
+ * @readonly
+ * @enum {string}
+ */
+export type SyncGroupLogType = 'All' | 'Error' | 'Warning' | 'Success';
+
+/**
+ * Defines values for SyncConflictResolutionPolicy.
+ * Possible values include: 'HubWin', 'MemberWin'
+ * @readonly
+ * @enum {string}
+ */
+export type SyncConflictResolutionPolicy = 'HubWin' | 'MemberWin';
+
+/**
+ * Defines values for SyncGroupState.
+ * Possible values include: 'NotReady', 'Error', 'Warning', 'Progressing', 'Good'
+ * @readonly
+ * @enum {string}
+ */
+export type SyncGroupState = 'NotReady' | 'Error' | 'Warning' | 'Progressing' | 'Good';
+
+/**
+ * Defines values for SyncDirection.
+ * Possible values include: 'Bidirectional', 'OneWayMemberToHub', 'OneWayHubToMember'
+ * @readonly
+ * @enum {string}
+ */
+export type SyncDirection = 'Bidirectional' | 'OneWayMemberToHub' | 'OneWayHubToMember';
+
+/**
+ * Defines values for SyncMemberState.
+ * Possible values include: 'SyncInProgress', 'SyncSucceeded', 'SyncFailed',
+ * 'DisabledTombstoneCleanup', 'DisabledBackupRestore', 'SyncSucceededWithWarnings',
+ * 'SyncCancelling', 'SyncCancelled', 'UnProvisioned', 'Provisioning', 'Provisioned',
+ * 'ProvisionFailed', 'DeProvisioning', 'DeProvisioned', 'DeProvisionFailed', 'Reprovisioning',
+ * 'ReprovisionFailed', 'UnReprovisioned'
+ * @readonly
+ * @enum {string}
+ */
+export type SyncMemberState = 'SyncInProgress' | 'SyncSucceeded' | 'SyncFailed' | 'DisabledTombstoneCleanup' | 'DisabledBackupRestore' | 'SyncSucceededWithWarnings' | 'SyncCancelling' | 'SyncCancelled' | 'UnProvisioned' | 'Provisioning' | 'Provisioned' | 'ProvisionFailed' | 'DeProvisioning' | 'DeProvisioned' | 'DeProvisionFailed' | 'Reprovisioning' | 'ReprovisionFailed' | 'UnReprovisioned';
 
 /**
  * Defines values for LongTermRetentionDatabaseState.
@@ -7643,21 +8506,78 @@ export type VulnerabilityAssessmentPolicyBaselineName = 'master' | 'default';
 export type SensitivityLabelSource = 'current' | 'recommended';
 
 /**
- * Defines values for CapabilityGroup.
- * Possible values include: 'supportedEditions', 'supportedElasticPoolEditions',
- * 'supportedManagedInstanceVersions'
- * @readonly
- * @enum {string}
- */
-export type CapabilityGroup = 'supportedEditions' | 'supportedElasticPoolEditions' | 'supportedManagedInstanceVersions';
-
-/**
  * Defines values for ReplicaType.
  * Possible values include: 'Primary', 'ReadableSecondary'
  * @readonly
  * @enum {string}
  */
 export type ReplicaType = 'Primary' | 'ReadableSecondary';
+
+/**
+ * Defines values for CapabilityGroup.
+ * Possible values include: 'supportedEditions', 'supportedElasticPoolEditions',
+ * 'supportedManagedInstanceVersions', 'supportedInstancePoolEditions',
+ * 'supportedManagedInstanceEditions'
+ * @readonly
+ * @enum {string}
+ */
+export type CapabilityGroup = 'supportedEditions' | 'supportedElasticPoolEditions' | 'supportedManagedInstanceVersions' | 'supportedInstancePoolEditions' | 'supportedManagedInstanceEditions';
+
+/**
+ * Defines values for DatabaseState1.
+ * Possible values include: 'All', 'Live', 'Deleted'
+ * @readonly
+ * @enum {string}
+ */
+export type DatabaseState1 = 'All' | 'Live' | 'Deleted';
+
+/**
+ * Defines values for DatabaseState2.
+ * Possible values include: 'All', 'Live', 'Deleted'
+ * @readonly
+ * @enum {string}
+ */
+export type DatabaseState2 = 'All' | 'Live' | 'Deleted';
+
+/**
+ * Defines values for DatabaseState3.
+ * Possible values include: 'All', 'Live', 'Deleted'
+ * @readonly
+ * @enum {string}
+ */
+export type DatabaseState3 = 'All' | 'Live' | 'Deleted';
+
+/**
+ * Defines values for DatabaseState4.
+ * Possible values include: 'All', 'Live', 'Deleted'
+ * @readonly
+ * @enum {string}
+ */
+export type DatabaseState4 = 'All' | 'Live' | 'Deleted';
+
+/**
+ * Defines values for DatabaseState5.
+ * Possible values include: 'All', 'Live', 'Deleted'
+ * @readonly
+ * @enum {string}
+ */
+export type DatabaseState5 = 'All' | 'Live' | 'Deleted';
+
+/**
+ * Defines values for DatabaseState6.
+ * Possible values include: 'All', 'Live', 'Deleted'
+ * @readonly
+ * @enum {string}
+ */
+export type DatabaseState6 = 'All' | 'Live' | 'Deleted';
+
+/**
+ * Defines values for StorageAccountType.
+ * Possible values include: 'GRS', 'LRS', 'ZRS'
+ * @readonly
+ * @enum {string}
+ */
+export type StorageAccountType = 'GRS' | 'LRS' | 'ZRS';
 
 /**
  * Defines values for Type.
@@ -7744,206 +8664,6 @@ export type RestorableDroppedDatabasesListByServerResponse = RestorableDroppedDa
        * The response body as parsed JSON or XML
        */
       parsedBody: RestorableDroppedDatabaseListResult;
-    };
-};
-
-/**
- * Contains response data for the checkNameAvailability operation.
- */
-export type ServersCheckNameAvailabilityResponse = CheckNameAvailabilityResponse & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CheckNameAvailabilityResponse;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type ServersListResponse = ServerListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerListResult;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroup operation.
- */
-export type ServersListByResourceGroupResponse = ServerListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type ServersGetResponse = Server & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Server;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type ServersCreateOrUpdateResponse = Server & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Server;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type ServersUpdateResponse = Server & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Server;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type ServersBeginCreateOrUpdateResponse = Server & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Server;
-    };
-};
-
-/**
- * Contains response data for the beginUpdate operation.
- */
-export type ServersBeginUpdateResponse = Server & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Server;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type ServersListNextResponse = ServerListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerListResult;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroupNext operation.
- */
-export type ServersListByResourceGroupNextResponse = ServerListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerListResult;
     };
 };
 
@@ -8928,126 +9648,6 @@ export type ReplicationLinksListByDatabaseResponse = ReplicationLinkListResult &
 };
 
 /**
- * Contains response data for the createOrUpdate operation.
- */
-export type ServerAzureADAdministratorsCreateOrUpdateResponse = ServerAzureADAdministrator & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerAzureADAdministrator;
-    };
-};
-
-/**
- * Contains response data for the deleteMethod operation.
- */
-export type ServerAzureADAdministratorsDeleteMethodResponse = ServerAzureADAdministrator & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerAzureADAdministrator;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type ServerAzureADAdministratorsGetResponse = ServerAzureADAdministrator & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerAzureADAdministrator;
-    };
-};
-
-/**
- * Contains response data for the listByServer operation.
- */
-export type ServerAzureADAdministratorsListByServerResponse = ServerAdministratorListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerAdministratorListResult;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type ServerAzureADAdministratorsBeginCreateOrUpdateResponse = ServerAzureADAdministrator & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerAzureADAdministrator;
-    };
-};
-
-/**
- * Contains response data for the beginDeleteMethod operation.
- */
-export type ServerAzureADAdministratorsBeginDeleteMethodResponse = ServerAzureADAdministrator & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerAzureADAdministrator;
-    };
-};
-
-/**
  * Contains response data for the get operation.
  */
 export type ServerCommunicationLinksGetResponse = ServerCommunicationLink & {
@@ -10008,446 +10608,6 @@ export type SyncAgentsListLinkedDatabasesNextResponse = SyncAgentLinkedDatabaseL
 };
 
 /**
- * Contains response data for the listSyncDatabaseIds operation.
- */
-export type SyncGroupsListSyncDatabaseIdsResponse = SyncDatabaseIdListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SyncDatabaseIdListResult;
-    };
-};
-
-/**
- * Contains response data for the listHubSchemas operation.
- */
-export type SyncGroupsListHubSchemasResponse = SyncFullSchemaPropertiesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SyncFullSchemaPropertiesListResult;
-    };
-};
-
-/**
- * Contains response data for the listLogs operation.
- */
-export type SyncGroupsListLogsResponse = SyncGroupLogListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SyncGroupLogListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type SyncGroupsGetResponse = SyncGroup & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SyncGroup;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type SyncGroupsCreateOrUpdateResponse = SyncGroup & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SyncGroup;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type SyncGroupsUpdateResponse = SyncGroup & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SyncGroup;
-    };
-};
-
-/**
- * Contains response data for the listByDatabase operation.
- */
-export type SyncGroupsListByDatabaseResponse = SyncGroupListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SyncGroupListResult;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type SyncGroupsBeginCreateOrUpdateResponse = SyncGroup & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SyncGroup;
-    };
-};
-
-/**
- * Contains response data for the beginUpdate operation.
- */
-export type SyncGroupsBeginUpdateResponse = SyncGroup & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SyncGroup;
-    };
-};
-
-/**
- * Contains response data for the listSyncDatabaseIdsNext operation.
- */
-export type SyncGroupsListSyncDatabaseIdsNextResponse = SyncDatabaseIdListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SyncDatabaseIdListResult;
-    };
-};
-
-/**
- * Contains response data for the listHubSchemasNext operation.
- */
-export type SyncGroupsListHubSchemasNextResponse = SyncFullSchemaPropertiesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SyncFullSchemaPropertiesListResult;
-    };
-};
-
-/**
- * Contains response data for the listLogsNext operation.
- */
-export type SyncGroupsListLogsNextResponse = SyncGroupLogListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SyncGroupLogListResult;
-    };
-};
-
-/**
- * Contains response data for the listByDatabaseNext operation.
- */
-export type SyncGroupsListByDatabaseNextResponse = SyncGroupListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SyncGroupListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type SyncMembersGetResponse = SyncMember & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SyncMember;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type SyncMembersCreateOrUpdateResponse = SyncMember & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SyncMember;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type SyncMembersUpdateResponse = SyncMember & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SyncMember;
-    };
-};
-
-/**
- * Contains response data for the listBySyncGroup operation.
- */
-export type SyncMembersListBySyncGroupResponse = SyncMemberListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SyncMemberListResult;
-    };
-};
-
-/**
- * Contains response data for the listMemberSchemas operation.
- */
-export type SyncMembersListMemberSchemasResponse = SyncFullSchemaPropertiesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SyncFullSchemaPropertiesListResult;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type SyncMembersBeginCreateOrUpdateResponse = SyncMember & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SyncMember;
-    };
-};
-
-/**
- * Contains response data for the beginUpdate operation.
- */
-export type SyncMembersBeginUpdateResponse = SyncMember & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SyncMember;
-    };
-};
-
-/**
- * Contains response data for the listBySyncGroupNext operation.
- */
-export type SyncMembersListBySyncGroupNextResponse = SyncMemberListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SyncMemberListResult;
-    };
-};
-
-/**
- * Contains response data for the listMemberSchemasNext operation.
- */
-export type SyncMembersListMemberSchemasNextResponse = SyncFullSchemaPropertiesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SyncFullSchemaPropertiesListResult;
-    };
-};
-
-/**
  * Contains response data for the listByLocation operation.
  */
 export type SubscriptionUsagesListByLocationResponse = SubscriptionUsageListResult & {
@@ -10788,6 +10948,46 @@ export type ExtendedDatabaseBlobAuditingPoliciesCreateOrUpdateResponse = Extende
 };
 
 /**
+ * Contains response data for the listByDatabase operation.
+ */
+export type ExtendedDatabaseBlobAuditingPoliciesListByDatabaseResponse = ExtendedDatabaseBlobAuditingPolicyListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExtendedDatabaseBlobAuditingPolicyListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByDatabaseNext operation.
+ */
+export type ExtendedDatabaseBlobAuditingPoliciesListByDatabaseNextResponse = ExtendedDatabaseBlobAuditingPolicyListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExtendedDatabaseBlobAuditingPolicyListResult;
+    };
+};
+
+/**
  * Contains response data for the get operation.
  */
 export type ExtendedServerBlobAuditingPoliciesGetResponse = ExtendedServerBlobAuditingPolicy & {
@@ -10828,6 +11028,26 @@ export type ExtendedServerBlobAuditingPoliciesCreateOrUpdateResponse = ExtendedS
 };
 
 /**
+ * Contains response data for the listByServer operation.
+ */
+export type ExtendedServerBlobAuditingPoliciesListByServerResponse = ExtendedServerBlobAuditingPolicyListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExtendedServerBlobAuditingPolicyListResult;
+    };
+};
+
+/**
  * Contains response data for the beginCreateOrUpdate operation.
  */
 export type ExtendedServerBlobAuditingPoliciesBeginCreateOrUpdateResponse = ExtendedServerBlobAuditingPolicy & {
@@ -10844,6 +11064,26 @@ export type ExtendedServerBlobAuditingPoliciesBeginCreateOrUpdateResponse = Exte
        * The response body as parsed JSON or XML
        */
       parsedBody: ExtendedServerBlobAuditingPolicy;
+    };
+};
+
+/**
+ * Contains response data for the listByServerNext operation.
+ */
+export type ExtendedServerBlobAuditingPoliciesListByServerNextResponse = ExtendedServerBlobAuditingPolicyListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExtendedServerBlobAuditingPolicyListResult;
     };
 };
 
@@ -13568,26 +13808,6 @@ export type ElasticPoolOperationsListByElasticPoolNextResponse = ElasticPoolOper
 };
 
 /**
- * Contains response data for the listByLocation operation.
- */
-export type CapabilitiesListByLocationResponse = LocationCapabilities & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LocationCapabilities;
-    };
-};
-
-/**
  * Contains response data for the listByDatabase operation.
  */
 export type DatabaseVulnerabilityAssessmentScansListByDatabaseResponse = VulnerabilityAssessmentScanRecordListResult & {
@@ -15170,166 +15390,6 @@ export type ManagedInstancesListNextResponse = ManagedInstanceListResult & {
 /**
  * Contains response data for the get operation.
  */
-export type ManagedDatabaseRestoreDetailsGetResponse = ManagedDatabaseRestoreDetailsResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagedDatabaseRestoreDetailsResult;
-    };
-};
-
-/**
- * Contains response data for the listByInstance operation.
- */
-export type ManagedDatabasesListByInstanceResponse = ManagedDatabaseListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagedDatabaseListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type ManagedDatabasesGetResponse = ManagedDatabase & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagedDatabase;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type ManagedDatabasesCreateOrUpdateResponse = ManagedDatabase & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagedDatabase;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type ManagedDatabasesUpdateResponse = ManagedDatabase & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagedDatabase;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type ManagedDatabasesBeginCreateOrUpdateResponse = ManagedDatabase & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagedDatabase;
-    };
-};
-
-/**
- * Contains response data for the beginUpdate operation.
- */
-export type ManagedDatabasesBeginUpdateResponse = ManagedDatabase & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagedDatabase;
-    };
-};
-
-/**
- * Contains response data for the listByInstanceNext operation.
- */
-export type ManagedDatabasesListByInstanceNextResponse = ManagedDatabaseListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagedDatabaseListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
 export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection & {
   /**
    * The underlying HTTP response.
@@ -15484,5 +15544,1645 @@ export type PrivateLinkResourcesListByServerNextResponse = PrivateLinkResourceLi
        * The response body as parsed JSON or XML
        */
       parsedBody: PrivateLinkResourceListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroup operation.
+ */
+export type ServersListByResourceGroupResponse = ServerListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ServersGetResponse = Server & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Server;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ServersCreateOrUpdateResponse = Server & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Server;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type ServersUpdateResponse = Server & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Server;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type ServersListResponse = ServerListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerListResult;
+    };
+};
+
+/**
+ * Contains response data for the checkNameAvailability operation.
+ */
+export type ServersCheckNameAvailabilityResponse = CheckNameAvailabilityResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CheckNameAvailabilityResponse;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type ServersBeginCreateOrUpdateResponse = Server & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Server;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type ServersBeginUpdateResponse = Server & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Server;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroupNext operation.
+ */
+export type ServersListByResourceGroupNextResponse = ServerListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type ServersListNextResponse = ServerListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByLocation operation.
+ */
+export type CapabilitiesListByLocationResponse = LocationCapabilities & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: LocationCapabilities;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type LongTermRetentionManagedInstanceBackupsGetResponse = ManagedInstanceLongTermRetentionBackup & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedInstanceLongTermRetentionBackup;
+    };
+};
+
+/**
+ * Contains response data for the listByDatabase operation.
+ */
+export type LongTermRetentionManagedInstanceBackupsListByDatabaseResponse = ManagedInstanceLongTermRetentionBackupListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedInstanceLongTermRetentionBackupListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByInstance operation.
+ */
+export type LongTermRetentionManagedInstanceBackupsListByInstanceResponse = ManagedInstanceLongTermRetentionBackupListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedInstanceLongTermRetentionBackupListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByLocation operation.
+ */
+export type LongTermRetentionManagedInstanceBackupsListByLocationResponse = ManagedInstanceLongTermRetentionBackupListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedInstanceLongTermRetentionBackupListResult;
+    };
+};
+
+/**
+ * Contains response data for the getByResourceGroup operation.
+ */
+export type LongTermRetentionManagedInstanceBackupsGetByResourceGroupResponse = ManagedInstanceLongTermRetentionBackup & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedInstanceLongTermRetentionBackup;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroupDatabase operation.
+ */
+export type LongTermRetentionManagedInstanceBackupsListByResourceGroupDatabaseResponse = ManagedInstanceLongTermRetentionBackupListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedInstanceLongTermRetentionBackupListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroupInstance operation.
+ */
+export type LongTermRetentionManagedInstanceBackupsListByResourceGroupInstanceResponse = ManagedInstanceLongTermRetentionBackupListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedInstanceLongTermRetentionBackupListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroupLocation operation.
+ */
+export type LongTermRetentionManagedInstanceBackupsListByResourceGroupLocationResponse = ManagedInstanceLongTermRetentionBackupListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedInstanceLongTermRetentionBackupListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByDatabaseNext operation.
+ */
+export type LongTermRetentionManagedInstanceBackupsListByDatabaseNextResponse = ManagedInstanceLongTermRetentionBackupListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedInstanceLongTermRetentionBackupListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByInstanceNext operation.
+ */
+export type LongTermRetentionManagedInstanceBackupsListByInstanceNextResponse = ManagedInstanceLongTermRetentionBackupListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedInstanceLongTermRetentionBackupListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByLocationNext operation.
+ */
+export type LongTermRetentionManagedInstanceBackupsListByLocationNextResponse = ManagedInstanceLongTermRetentionBackupListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedInstanceLongTermRetentionBackupListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroupDatabaseNext operation.
+ */
+export type LongTermRetentionManagedInstanceBackupsListByResourceGroupDatabaseNextResponse = ManagedInstanceLongTermRetentionBackupListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedInstanceLongTermRetentionBackupListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroupInstanceNext operation.
+ */
+export type LongTermRetentionManagedInstanceBackupsListByResourceGroupInstanceNextResponse = ManagedInstanceLongTermRetentionBackupListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedInstanceLongTermRetentionBackupListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroupLocationNext operation.
+ */
+export type LongTermRetentionManagedInstanceBackupsListByResourceGroupLocationNextResponse = ManagedInstanceLongTermRetentionBackupListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedInstanceLongTermRetentionBackupListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ManagedInstanceLongTermRetentionPoliciesGetResponse = ManagedInstanceLongTermRetentionPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedInstanceLongTermRetentionPolicy;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ManagedInstanceLongTermRetentionPoliciesCreateOrUpdateResponse = ManagedInstanceLongTermRetentionPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedInstanceLongTermRetentionPolicy;
+    };
+};
+
+/**
+ * Contains response data for the listByDatabase operation.
+ */
+export type ManagedInstanceLongTermRetentionPoliciesListByDatabaseResponse = ManagedInstanceLongTermRetentionPolicyListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedInstanceLongTermRetentionPolicyListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type ManagedInstanceLongTermRetentionPoliciesBeginCreateOrUpdateResponse = ManagedInstanceLongTermRetentionPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedInstanceLongTermRetentionPolicy;
+    };
+};
+
+/**
+ * Contains response data for the listByDatabaseNext operation.
+ */
+export type ManagedInstanceLongTermRetentionPoliciesListByDatabaseNextResponse = ManagedInstanceLongTermRetentionPolicyListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedInstanceLongTermRetentionPolicyListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type WorkloadGroupsGetResponse = WorkloadGroup & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: WorkloadGroup;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type WorkloadGroupsCreateOrUpdateResponse = WorkloadGroup & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: WorkloadGroup;
+    };
+};
+
+/**
+ * Contains response data for the listByDatabase operation.
+ */
+export type WorkloadGroupsListByDatabaseResponse = WorkloadGroupListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: WorkloadGroupListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type WorkloadGroupsBeginCreateOrUpdateResponse = WorkloadGroup & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: WorkloadGroup;
+    };
+};
+
+/**
+ * Contains response data for the listByDatabaseNext operation.
+ */
+export type WorkloadGroupsListByDatabaseNextResponse = WorkloadGroupListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: WorkloadGroupListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type WorkloadClassifiersGetResponse = WorkloadClassifier & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: WorkloadClassifier;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type WorkloadClassifiersCreateOrUpdateResponse = WorkloadClassifier & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: WorkloadClassifier;
+    };
+};
+
+/**
+ * Contains response data for the listByWorkloadGroup operation.
+ */
+export type WorkloadClassifiersListByWorkloadGroupResponse = WorkloadClassifierListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: WorkloadClassifierListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type WorkloadClassifiersBeginCreateOrUpdateResponse = WorkloadClassifier & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: WorkloadClassifier;
+    };
+};
+
+/**
+ * Contains response data for the listByWorkloadGroupNext operation.
+ */
+export type WorkloadClassifiersListByWorkloadGroupNextResponse = WorkloadClassifierListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: WorkloadClassifierListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ManagedDatabaseRestoreDetailsGetResponse = ManagedDatabaseRestoreDetailsResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedDatabaseRestoreDetailsResult;
+    };
+};
+
+/**
+ * Contains response data for the listByInstance operation.
+ */
+export type ManagedDatabasesListByInstanceResponse = ManagedDatabaseListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedDatabaseListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ManagedDatabasesGetResponse = ManagedDatabase & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedDatabase;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ManagedDatabasesCreateOrUpdateResponse = ManagedDatabase & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedDatabase;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type ManagedDatabasesUpdateResponse = ManagedDatabase & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedDatabase;
+    };
+};
+
+/**
+ * Contains response data for the listInaccessibleByInstance operation.
+ */
+export type ManagedDatabasesListInaccessibleByInstanceResponse = ManagedDatabaseListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedDatabaseListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type ManagedDatabasesBeginCreateOrUpdateResponse = ManagedDatabase & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedDatabase;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type ManagedDatabasesBeginUpdateResponse = ManagedDatabase & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedDatabase;
+    };
+};
+
+/**
+ * Contains response data for the listByInstanceNext operation.
+ */
+export type ManagedDatabasesListByInstanceNextResponse = ManagedDatabaseListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedDatabaseListResult;
+    };
+};
+
+/**
+ * Contains response data for the listInaccessibleByInstanceNext operation.
+ */
+export type ManagedDatabasesListInaccessibleByInstanceNextResponse = ManagedDatabaseListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedDatabaseListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ServerAzureADAdministratorsGetResponse = ServerAzureADAdministrator & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerAzureADAdministrator;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ServerAzureADAdministratorsCreateOrUpdateResponse = ServerAzureADAdministrator & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerAzureADAdministrator;
+    };
+};
+
+/**
+ * Contains response data for the listByServer operation.
+ */
+export type ServerAzureADAdministratorsListByServerResponse = AdministratorListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AdministratorListResult;
+    };
+};
+
+/**
+ * Contains response data for the disableAzureADOnlyAuthentication operation.
+ */
+export type ServerAzureADAdministratorsDisableAzureADOnlyAuthenticationResponse = ServerAzureADAdministrator & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerAzureADAdministrator;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type ServerAzureADAdministratorsBeginCreateOrUpdateResponse = ServerAzureADAdministrator & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerAzureADAdministrator;
+    };
+};
+
+/**
+ * Contains response data for the beginDisableAzureADOnlyAuthentication operation.
+ */
+export type ServerAzureADAdministratorsBeginDisableAzureADOnlyAuthenticationResponse = ServerAzureADAdministrator & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerAzureADAdministrator;
+    };
+};
+
+/**
+ * Contains response data for the listByServerNext operation.
+ */
+export type ServerAzureADAdministratorsListByServerNextResponse = AdministratorListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AdministratorListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByManagedInstance operation.
+ */
+export type ManagedInstanceOperationsListByManagedInstanceResponse = ManagedInstanceOperationListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedInstanceOperationListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ManagedInstanceOperationsGetResponse = ManagedInstanceOperation & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedInstanceOperation;
+    };
+};
+
+/**
+ * Contains response data for the listByManagedInstanceNext operation.
+ */
+export type ManagedInstanceOperationsListByManagedInstanceNextResponse = ManagedInstanceOperationListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedInstanceOperationListResult;
+    };
+};
+
+/**
+ * Contains response data for the listSyncDatabaseIds operation.
+ */
+export type SyncGroupsListSyncDatabaseIdsResponse = SyncDatabaseIdListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SyncDatabaseIdListResult;
+    };
+};
+
+/**
+ * Contains response data for the listHubSchemas operation.
+ */
+export type SyncGroupsListHubSchemasResponse = SyncFullSchemaPropertiesListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SyncFullSchemaPropertiesListResult;
+    };
+};
+
+/**
+ * Contains response data for the listLogs operation.
+ */
+export type SyncGroupsListLogsResponse = SyncGroupLogListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SyncGroupLogListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type SyncGroupsGetResponse = SyncGroup & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SyncGroup;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type SyncGroupsCreateOrUpdateResponse = SyncGroup & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SyncGroup;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type SyncGroupsUpdateResponse = SyncGroup & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SyncGroup;
+    };
+};
+
+/**
+ * Contains response data for the listByDatabase operation.
+ */
+export type SyncGroupsListByDatabaseResponse = SyncGroupListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SyncGroupListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type SyncGroupsBeginCreateOrUpdateResponse = SyncGroup & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SyncGroup;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type SyncGroupsBeginUpdateResponse = SyncGroup & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SyncGroup;
+    };
+};
+
+/**
+ * Contains response data for the listSyncDatabaseIdsNext operation.
+ */
+export type SyncGroupsListSyncDatabaseIdsNextResponse = SyncDatabaseIdListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SyncDatabaseIdListResult;
+    };
+};
+
+/**
+ * Contains response data for the listHubSchemasNext operation.
+ */
+export type SyncGroupsListHubSchemasNextResponse = SyncFullSchemaPropertiesListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SyncFullSchemaPropertiesListResult;
+    };
+};
+
+/**
+ * Contains response data for the listLogsNext operation.
+ */
+export type SyncGroupsListLogsNextResponse = SyncGroupLogListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SyncGroupLogListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByDatabaseNext operation.
+ */
+export type SyncGroupsListByDatabaseNextResponse = SyncGroupListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SyncGroupListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type SyncMembersGetResponse = SyncMember & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SyncMember;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type SyncMembersCreateOrUpdateResponse = SyncMember & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SyncMember;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type SyncMembersUpdateResponse = SyncMember & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SyncMember;
+    };
+};
+
+/**
+ * Contains response data for the listBySyncGroup operation.
+ */
+export type SyncMembersListBySyncGroupResponse = SyncMemberListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SyncMemberListResult;
+    };
+};
+
+/**
+ * Contains response data for the listMemberSchemas operation.
+ */
+export type SyncMembersListMemberSchemasResponse = SyncFullSchemaPropertiesListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SyncFullSchemaPropertiesListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type SyncMembersBeginCreateOrUpdateResponse = SyncMember & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SyncMember;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type SyncMembersBeginUpdateResponse = SyncMember & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SyncMember;
+    };
+};
+
+/**
+ * Contains response data for the listBySyncGroupNext operation.
+ */
+export type SyncMembersListBySyncGroupNextResponse = SyncMemberListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SyncMemberListResult;
+    };
+};
+
+/**
+ * Contains response data for the listMemberSchemasNext operation.
+ */
+export type SyncMembersListMemberSchemasNextResponse = SyncFullSchemaPropertiesListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SyncFullSchemaPropertiesListResult;
     };
 };
