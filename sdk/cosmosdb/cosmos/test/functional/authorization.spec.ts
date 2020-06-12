@@ -256,7 +256,7 @@ describe("NodeJS CRUD Tests", function() {
       await authorizationCRUDOverMultiplePartitionsTest();
     });
 
-    it.only("should allow deletion of a doc with container token", async function() {
+    it("should allow deletion of a doc with container token", async function() {
       const container = await getTestContainer("Validate Authorization container");
 
       const { resource: item } = await container.items.create({
