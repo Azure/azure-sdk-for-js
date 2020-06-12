@@ -5,7 +5,7 @@ import { ChangeFeedFactory } from "./ChangeFeedFactory";
 import { ChangeFeed } from "./ChangeFeed";
 import { CHANGE_FEED_MAX_PAGE_SIZE } from "./utils/constants";
 
-export interface ChangeFeedGetChangesOptions {
+export interface BlobChangeFeedGetChangesOptions {
   start?: Date;
   end?: Date;
 }
@@ -37,7 +37,7 @@ export class BlobChangeFeedClient {
   }
 
   public getChanges(
-    options: ChangeFeedGetChangesOptions = {}
+    options: BlobChangeFeedGetChangesOptions = {}
   ): PagedAsyncIterableIterator<BlobChangeFeedEvent, BlobChangeFeedEventPage> {
     const iter = this.getChange(options);
     return {
@@ -63,7 +63,7 @@ export class BlobChangeFeedClient {
   }
 
   private async *getChange(
-    options: ChangeFeedGetChangesOptions = {}
+    options: BlobChangeFeedGetChangesOptions = {}
   ): AsyncIterableIterator<BlobChangeFeedEvent> {
     const changeFeed: ChangeFeed = await this._changeFeedFactory.create(
       this._blobServiceClient,
@@ -86,7 +86,7 @@ export class BlobChangeFeedClient {
   private async *getPage(
     continuationToken?: string,
     maxPageSize?: number,
-    options: ChangeFeedGetChangesOptions = {}
+    options: BlobChangeFeedGetChangesOptions = {}
   ): AsyncIterableIterator<BlobChangeFeedEventPage> {
     const changeFeed: ChangeFeed = await this._changeFeedFactory.create(
       this._blobServiceClient,

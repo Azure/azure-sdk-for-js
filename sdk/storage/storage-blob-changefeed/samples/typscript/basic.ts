@@ -24,8 +24,8 @@ export async function main() {
 
   const changeFeedClient = new BlobChangeFeedClient(blobServiceClient);
 
-  const start = new Date(Date.UTC(2020, 1, 21, 22, 30, 0)); // will be floor to 22:00
-  const end = new Date(Date.UTC(2020, 4, 8, 21, 10, 0)); // will be ceil to 22:00
+  const start = new Date(Date.UTC(2020, 1, 21, 22, 30, 0)); // will be rounded down to 22:00
+  const end = new Date(Date.UTC(2020, 4, 8, 21, 10, 0)); // will be rounded up to 22:00
   let changeFeedEvents: BlobChangeFeedEvent[] = [];
   // You can also provide just a start or end time.
   for await (const event of changeFeedClient.getChanges({ start, end })) {

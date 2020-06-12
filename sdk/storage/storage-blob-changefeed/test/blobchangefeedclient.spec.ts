@@ -15,7 +15,7 @@ describe("BlobChangeFeedClient", async () => {
   );
   const changeFeedClient = new BlobChangeFeedClient(blobServiceClient);
 
-  before(async function() {
+  before(async function () {
     if (process.env.CHANGE_FEED_ENABLED !== "1") {
       this.skip();
     }
@@ -34,9 +34,9 @@ describe("BlobChangeFeedClient", async () => {
   it("next(): with start and end time", async () => {
     let i = 0;
     let lastEvent: BlobChangeFeedEvent | undefined;
-    const start = new Date(Date.UTC(2020, 1, 21, 22, 30, 0)); // will be rounded to 22:00
+    const start = new Date(Date.UTC(2020, 1, 21, 22, 30, 0)); // will be rounded down to 22:00
     const startRounded = new Date(Date.UTC(2020, 1, 21, 22, 0, 0));
-    const end = new Date(Date.UTC(2020, 4, 8, 21, 10, 0)); // will be rounded to 22:00
+    const end = new Date(Date.UTC(2020, 4, 8, 21, 10, 0)); // will be rounded up to 22:00
     const endRounded = new Date(Date.UTC(2020, 4, 8, 22, 0, 0));
     for await (const event of changeFeedClient.getChanges({ start, end })) {
       if (i++ === 0) {
@@ -114,7 +114,7 @@ describe("BlobChangeFeedClient: Change Feed not configured", async () => {
   );
   const changeFeedClient = new BlobChangeFeedClient(blobServiceClient);
 
-  before(async function() {
+  before(async function () {
     if (process.env.CHANGE_FEED_ENABLED === "1") {
       this.skip();
     }
