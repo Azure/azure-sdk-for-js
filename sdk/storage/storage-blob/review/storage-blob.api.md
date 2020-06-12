@@ -2706,10 +2706,7 @@ export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
 export type SyncCopyStatusType = 'success';
 
 // @public
-export interface Tags {
-    // (undocumented)
-    [propertyName: string]: string;
-}
+export type Tags = Record<string, string>;
 
 // @public
 export interface UserDelegationKey {

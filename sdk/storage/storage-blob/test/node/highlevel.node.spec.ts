@@ -4,7 +4,12 @@ import * as path from "path";
 import { PassThrough } from "stream";
 
 import { AbortController } from "@azure/abort-controller";
-import { createRandomLocalFile, getBSU, recorderEnvSetup, isBlobVersioningDisabled } from "../utils";
+import {
+  createRandomLocalFile,
+  getBSU,
+  recorderEnvSetup,
+  isBlobVersioningDisabled
+} from "../utils";
 import { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../../src";
@@ -28,7 +33,7 @@ describe("Highlevel", () => {
   let recorder: Recorder;
 
   let blobServiceClient: BlobServiceClient;
-  beforeEach(async function () {
+  beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
     blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
@@ -39,14 +44,14 @@ describe("Highlevel", () => {
     blockBlobClient = blobClient.getBlockBlobClient();
   });
 
-  afterEach(async function () {
+  afterEach(async function() {
     if (!this.currentTest?.isPending()) {
       await containerClient.delete();
       recorder.stop();
     }
   });
 
-  before(async function () {
+  before(async function() {
     recorder = record(this, recorderEnvSetup);
     if (!fs.existsSync(tempFolderPath)) {
       fs.mkdirSync(tempFolderPath);
@@ -58,7 +63,7 @@ describe("Highlevel", () => {
     recorder.stop();
   });
 
-  after(async function () {
+  after(async function() {
     recorder = record(this, recorderEnvSetup);
     fs.unlinkSync(tempFileLarge);
     fs.unlinkSync(tempFileSmall);
@@ -67,7 +72,7 @@ describe("Highlevel", () => {
 
   it("put blob with maximum size", async () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
-    const MB = 1024 * 1024
+    const MB = 1024 * 1024;
     const maxPutBlobSizeLimitInMB = 5000;
     const tempFile = await createRandomLocalFile(tempFolderPath, maxPutBlobSizeLimitInMB, MB);
     const inputStream = fs.createReadStream(tempFile);
@@ -77,7 +82,7 @@ describe("Highlevel", () => {
         abortSignal: AbortController.timeout(20 * 1000) // takes too long to upload the file
       });
     } catch (err) {
-      assert.equal(err.name, 'AbortError');
+      assert.equal(err.name, "AbortError");
     }
   }).timeout(timeoutForLargeFileUploadingTest);
 
@@ -99,7 +104,7 @@ describe("Highlevel", () => {
     assert.ok(downloadedData.equals(uploadedData));
   }).timeout(timeoutForLargeFileUploadingTest);
 
-  it.only("uploadFile should work with tags", async () => {
+  it("uploadFile should work with tags", async () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
 
     const tags = {
@@ -201,7 +206,7 @@ describe("Highlevel", () => {
           aborter.abort();
         }
       });
-    } catch (err) { }
+    } catch (err) {}
     assert.ok(eventTriggered);
   });
 
@@ -224,20 +229,24 @@ describe("Highlevel", () => {
           aborter.abort();
         }
       });
-    } catch (err) { }
+    } catch (err) {}
     assert.ok(eventTriggered);
   });
 
   it("uploadFile should succeed with blockSize = BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES", async () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
-    const tempFile = await createRandomLocalFile(tempFolderPath, BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES / (1024 * 1024) + 1, 1024 * 1024);
+    const tempFile = await createRandomLocalFile(
+      tempFolderPath,
+      BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES / (1024 * 1024) + 1,
+      1024 * 1024
+    );
     try {
       await blockBlobClient.uploadFile(tempFile, {
         blockSize: BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES,
         abortSignal: AbortController.timeout(20 * 1000) // takes too long to upload the file
       });
     } catch (err) {
-      assert.equal(err.name, 'AbortError');
+      assert.equal(err.name, "AbortError");
     }
 
     fs.unlinkSync(tempFile);
@@ -280,7 +289,7 @@ describe("Highlevel", () => {
     fs.unlinkSync(downloadFilePath);
   });
 
-  it.only("uploadStream should work with tags", async () => {
+  it("uploadStream should work with tags", async () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
 
     const buf = Buffer.from([0x62, 0x75, 0x66, 0x66, 0x65, 0x72]);
@@ -442,7 +451,7 @@ describe("Highlevel", () => {
           aborter.abort();
         }
       });
-    } catch (err) { }
+    } catch (err) {}
     assert.ok(eventTriggered);
   });
 

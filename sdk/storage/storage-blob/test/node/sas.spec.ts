@@ -324,7 +324,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
-  it.only("generateBlobSASQueryParameters should work for blob tags", async () => {
+  it("generateBlobSASQueryParameters should work for blob tags", async () => {
     const now = recorder.newDate("now");
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
@@ -862,8 +862,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
-  it("generateAccountSASQueryParameters should work for blob version delete", async function () {
-    if (isBlobVersioningDisabled()) { this.skip(); }
+  it("generateAccountSASQueryParameters should work for blob version delete", async function() {
+    if (isBlobVersioningDisabled()) {
+      this.skip();
+    }
 
     // create versions
     const containerName = recorder.getUniqueName("container");
@@ -906,8 +908,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClientwithSAS.delete();
   });
 
-  it("generateBlobSASQueryParameters should work for blob version delete", async function () {
-    if (isBlobVersioningDisabled()) { this.skip(); }
+  it("generateBlobSASQueryParameters should work for blob version delete", async function() {
+    if (isBlobVersioningDisabled()) {
+      this.skip();
+    }
 
     // create versions
     const containerName = recorder.getUniqueName("container");
@@ -939,7 +943,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: BlobSASPermissions.parse("racwdx"),
         protocol: SASProtocol.HttpsAndHttp,
-        versionId: uploadRes.versionId,
+        versionId: uploadRes.versionId
       },
       sharedKeyCredential as StorageSharedKeyCredential
     );
@@ -953,15 +957,17 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   // TODO: prepare ACCOUNT_TOKEN for the test account
-  it.skip("GenerateUserDelegationSAS should work for blob version delete", async function () {
-    if (isBlobVersioningDisabled()) { this.skip(); }
+  it.skip("GenerateUserDelegationSAS should work for blob version delete", async function() {
+    if (isBlobVersioningDisabled()) {
+      this.skip();
+    }
 
     // Try to get blobServiceClient object with TokenCredential
     // when ACCOUNT_TOKEN environment variable is set
     let blobServiceClientWithToken: BlobServiceClient | undefined;
     try {
       blobServiceClientWithToken = getTokenBSU();
-    } catch { }
+    } catch {}
 
     // Requires bearer token for this case which cannot be generated in the runtime
     // Make sure this case passed in sanity test
@@ -1001,7 +1007,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: BlobSASPermissions.parse("racwdx"),
         protocol: SASProtocol.HttpsAndHttp,
-        versionId: uploadRes.versionId,
+        versionId: uploadRes.versionId
       },
       userDelegationKey,
       accountName

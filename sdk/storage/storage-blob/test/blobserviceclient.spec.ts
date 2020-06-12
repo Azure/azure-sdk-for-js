@@ -469,7 +469,7 @@ describe("BlobServiceClient", () => {
     assert.notDeepStrictEqual(response.signedExpiresOn, undefined);
   });
 
-  it.only("Find blob by tags should work", async () => {
+  it("Find blob by tags should work", async () => {
     const blobServiceClient = getBSU();
 
     const containerName = recorder.getUniqueName("container1");

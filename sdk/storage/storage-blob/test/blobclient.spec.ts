@@ -9,7 +9,7 @@ import {
   getBSU,
   getSASConnectionStringFromEnvironment,
   recorderEnvSetup,
-  isBlobVersioningDisabled,
+  isBlobVersioningDisabled
 } from "./utils";
 import { record, delay } from "@azure/test-utils-recorder";
 import {
@@ -52,7 +52,7 @@ describe("BlobClient", () => {
     }
   });
 
-  it.only("Set blob tags should work", async () => {
+  it("Set blob tags should work", async () => {
     const tags = {
       tag1: "val1",
       tag2: "val2"
@@ -77,7 +77,7 @@ describe("BlobClient", () => {
     assert.deepStrictEqual(segment.value.segment.blobItems[0].tags, tags);
   });
 
-  it.only("Get blob tags should work with a snapshot", async () => {
+  it("Get blob tags should work with a snapshot", async () => {
     const tags = {
       tag1: "val1",
       tag2: "val2"
@@ -91,7 +91,7 @@ describe("BlobClient", () => {
     assert.deepStrictEqual(response.tags, tags);
   });
 
-  it.only("Create block blob blob should work with tags", async () => {
+  it("Create block blob blob should work with tags", async () => {
     await blockBlobClient.delete();
 
     const tags = {
@@ -104,7 +104,7 @@ describe("BlobClient", () => {
     assert.deepStrictEqual(response.tags, tags);
   });
 
-  it.only("Create append blob should work with tags", async () => {
+  it("Create append blob should work with tags", async () => {
     await blockBlobClient.delete();
 
     const tags = {
@@ -119,7 +119,7 @@ describe("BlobClient", () => {
     assert.deepStrictEqual(response.tags, tags);
   });
 
-  it.only("Create page blob should work with tags", async () => {
+  it("Create page blob should work with tags", async () => {
     await blockBlobClient.delete();
 
     const tags = {
@@ -336,7 +336,7 @@ describe("BlobClient", () => {
     const iter = containerClient
       .listBlobsFlat({
         includeDeleted: true,
-        includeVersions: true, // Need this when blob versioning is turned on.
+        includeVersions: true // Need this when blob versioning is turned on.
       })
       .byPage({ maxPageSize: 1 });
 
@@ -375,7 +375,10 @@ describe("BlobClient", () => {
     );
 
     if (isBlobVersioningDisabled()) {
-      assert.ok(result.segment.blobItems![0].deleted, "Expect that the blob is marked for deletion");
+      assert.ok(
+        result.segment.blobItems![0].deleted,
+        "Expect that the blob is marked for deletion"
+      );
     }
 
     await blobClient.undelete();
@@ -383,7 +386,7 @@ describe("BlobClient", () => {
     const iter2 = containerClient
       .listBlobsFlat({
         includeDeleted: true,
-        includeVersions: true, // Need this when blob versioning is turned on.
+        includeVersions: true // Need this when blob versioning is turned on.
       })
       .byPage();
 

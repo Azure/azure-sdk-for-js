@@ -834,6 +834,8 @@ export class BlobServiceClient extends StorageClient {
    *
    * .byPage() returns an async iterable iterator to list the blobs in pages.
    *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob-service-properties
+   *
    * Example using `for await` syntax:
    *
    * ```js

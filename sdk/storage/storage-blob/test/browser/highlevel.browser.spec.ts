@@ -154,7 +154,7 @@ describe("Highlevel", () => {
     assert.equal(uploadedString, downloadedString);
   });
 
-  it.only("uploadBrowserDataToBlockBlob should work with tags", async () => {
+  it("uploadBrowserDataToBlockBlob should work with tags", async () => {
     recorder.skip("browser", "Temp file - recorder doesn't support saving the file");
 
     const tags = {

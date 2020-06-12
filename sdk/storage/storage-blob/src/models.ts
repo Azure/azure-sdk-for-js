@@ -13,13 +13,8 @@ import { EncryptionAlgorithmAES25 } from "./utils/constants";
 
 /**
  * Blob tags.
- *
- * @export
- * @interface Tags
  */
-export interface Tags {
-  [propertyName: string]: string;
-}
+export type Tags = Record<string, string>;
 
 /**
  * A map of name-value pairs to associate with the resource.
