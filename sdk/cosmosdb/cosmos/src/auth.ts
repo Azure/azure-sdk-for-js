@@ -139,7 +139,6 @@ export function getAuthorizationTokenUsingResourceTokens(
     }
   }
 
-  throw new Error("Could not find token");
   // TODO: This should throw an error
   return null;
 }
