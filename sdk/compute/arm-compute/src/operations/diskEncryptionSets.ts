@@ -385,7 +385,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.DiskEncryptionSet
     },
-    201: {
+    202: {
       bodyMapper: Mappers.DiskEncryptionSet
     },
     default: {
