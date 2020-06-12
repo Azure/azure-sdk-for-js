@@ -2861,6 +2861,12 @@ export const RunGetLogResult: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      logArtifactLink: {
+        serializedName: "logArtifactLink",
+        type: {
+          name: "String"
+        }
       }
     }
   }

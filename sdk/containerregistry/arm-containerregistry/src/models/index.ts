@@ -1746,6 +1746,10 @@ export interface RunGetLogResult {
    * The link to logs for a run on a azure container registry.
    */
   logLink?: string;
+  /**
+   * The link to logs in registry for a run on a azure container registry.
+   */
+  logArtifactLink?: string;
 }
 
 /**
