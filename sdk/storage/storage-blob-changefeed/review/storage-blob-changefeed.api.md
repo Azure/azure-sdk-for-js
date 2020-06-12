@@ -11,7 +11,7 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 export class BlobChangeFeedClient {
     constructor(blobServiceClient: BlobServiceClient);
     // (undocumented)
-    getChanges(options?: ChangeFeedGetChangesOptions): PagedAsyncIterableIterator<BlobChangeFeedEvent, BlobChangeFeedEventPage>;
+    getChanges(options?: BlobChangeFeedGetChangesOptions): PagedAsyncIterableIterator<BlobChangeFeedEvent, BlobChangeFeedEventPage>;
     }
 
 // @public (undocumented)
@@ -69,15 +69,15 @@ export class BlobChangeFeedEventPage {
 export type BlobChangeFeedEventType = "UnspecifiedEventType" | "BlobCreated" | "BlobDeleted" | "BlobPropertiesUpdated" | "BlobSnapshotCreated" | "Control" | "BlobTierChanged" | "BlobAsyncOperationInitiated" | "BlobMetadataUpdated";
 
 // @public (undocumented)
-export type BlobType = "BlockBlob" | "AppendBlob" | "PageBlob";
-
-// @public (undocumented)
-export interface ChangeFeedGetChangesOptions {
+export interface BlobChangeFeedGetChangesOptions {
     // (undocumented)
     end?: Date;
     // (undocumented)
     start?: Date;
 }
+
+// @public (undocumented)
+export type BlobType = "BlockBlob" | "AppendBlob" | "PageBlob";
 
 
 // (No @packageDocumentation comment for this package)
