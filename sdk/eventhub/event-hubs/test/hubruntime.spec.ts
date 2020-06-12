@@ -12,7 +12,7 @@ const env = getEnvVars();
 
 import { AbortController } from "@azure/abort-controller";
 import { SpanGraph } from "@azure/core-tracing";
-import { EventHubProducerClient, EventHubConsumerClient } from "../src";
+import { EventHubProducerClient, EventHubConsumerClient, MessagingError } from "../src";
 
 describe("RuntimeInformation", function(): void {
   let producerClient: EventHubProducerClient;
@@ -384,6 +384,32 @@ describe("RuntimeInformation", function(): void {
       partitionRuntimeInfo.lastEnqueuedOnUtc.should.be.instanceof(Date);
       should.exist(partitionRuntimeInfo.lastEnqueuedSequenceNumber);
       should.exist(partitionRuntimeInfo.lastEnqueuedOffset);
+    });
+
+    it("EventHubProducerClient bubbles up error from service for invalid partitionId", async function(): Promise<
+      void
+    > {
+      try {
+        await producerClient.getPartitionProperties("boo");
+        throw new Error("Test failure");
+      } catch (err) {
+        debug(`>>>> Received error - `, err);
+        should.exist(err);
+        should.equal((err as MessagingError).code, "ArgumentOutOfRangeError");
+      }
+    });
+
+    it("EventHubConsumerClient bubbles up error from service for invalid partitionId", async function(): Promise<
+      void
+    > {
+      try {
+        await consumerClient.getPartitionProperties("boo");
+        throw new Error("Test failure");
+      } catch (err) {
+        debug(`>>>> Received error - `, err);
+        should.exist(err);
+        should.equal((err as MessagingError).code, "ArgumentOutOfRangeError");
+      }
     });
 
     it("EventHubProducerClient can cancel a request for getPartitionInformation", async function(): Promise<
