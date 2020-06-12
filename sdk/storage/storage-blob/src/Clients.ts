@@ -285,6 +285,13 @@ export interface BlobExistsOptions extends CommonOptions {
    * @memberof BlobExistsOptions
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * Conditions to meet.
+   *
+   * @type {BlobRequestConditions}
+   * @memberof BlobExistsOptions
+   */
+  conditions?: BlobRequestConditions;
 }
 
 /**
@@ -846,6 +853,13 @@ export interface BlobDownloadToBufferOptions extends CommonOptions {
    * @memberof BlobDownloadToBufferOptions
    */
   concurrency?: number;
+  /**
+   * Customer Provided Key Info.
+   *
+   * @type {CpkInfo}
+   * @memberof BlobDownloadToBufferOptions
+   */
+  customerProvidedKey?: CpkInfo;
 }
 
 /**
@@ -1042,6 +1056,25 @@ export class BlobClient extends StorageClient {
         this.url,
         URLConstants.Parameters.SNAPSHOT,
         snapshot.length === 0 ? undefined : snapshot
+      ),
+      this.pipeline
+    );
+  }
+
+  /**
+   * Creates a new BlobClient object pointing to a version of this blob.
+   * Provide "" will remove the versionId and return a Client to the base blob.
+   *
+   * @param {string} versionId The versionId.
+   * @returns {BlobClient} A new BlobClient object pointing to the version of this blob.
+   * @memberof BlobClient
+   */
+  public withVersion(versionId: string): BlobClient {
+    return new BlobClient(
+      setURLParameter(
+        this.url,
+        URLConstants.Parameters.VERSIONID,
+        versionId.length === 0 ? undefined : versionId
       ),
       this.pipeline
     );
@@ -1257,6 +1290,7 @@ export class BlobClient extends StorageClient {
       await this.getProperties({
         abortSignal: options.abortSignal,
         customerProvidedKey: options.customerProvidedKey,
+        conditions: options.conditions,
         tracingOptions: {
           ...options.tracingOptions,
           spanOptions
@@ -1859,6 +1893,7 @@ export class BlobClient extends StorageClient {
             abortSignal: options.abortSignal,
             conditions: options.conditions,
             maxRetryRequests: options.maxRetryRequestsPerBlock,
+            customerProvidedKey: options.customerProvidedKey,
             tracingOptions: {
               ...options.tracingOptions,
               spanOptions
@@ -5840,6 +5875,23 @@ export interface ContainerChangeLeaseOptions extends CommonOptions {
 }
 
 /**
+ * Options to configure the {@link ContainerClient.deleteBlob} operation.
+ *
+ * @export
+ * @interface ContainerDeleteBlobOptions
+ */
+export interface ContainerDeleteBlobOptions extends BlobDeleteOptions {
+  /**
+   * An opaque DateTime value that, when present, specifies the version
+   * of the blob to delete. It's for service version 2019-10-10 and newer.
+   * 
+   * @type {string}
+   * @memberof ContainerDeleteBlobOptions
+   */
+  versionId?: string;
+}
+
+/**
  * Options to configure Container - List Segment operations.
  *
  * See:
@@ -5920,9 +5972,13 @@ export interface ContainerListBlobsOptions extends CommonOptions {
    */
   includeMetadata?: boolean;
   /**
-   * Specifies whether snapshots should be included in the enumeration. Snapshots are listed from oldest to newest in the response
+   * Specifies whether snapshots should be included in the enumeration. Snapshots are listed from oldest to newest in the response.
    */
   includeSnapshots?: boolean;
+  /**
+   * Specifies whether versions should be included in the enumeration. Versions are listed from oldest to newest in the response.
+   */
+  includeVersions?: boolean;
   /**
    * Specifies whether blobs for which blocks have been uploaded, but which have not been committed using Put Block List, be included in the response.
    */
@@ -6578,17 +6634,20 @@ export class ContainerClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-blob
    *
    * @param {string} blobName
-   * @param {BlobDeleteOptions} [options] Options to Blob Delete operation.
+   * @param {ContainerDeleteBlobOptions} [options] Options to Blob Delete operation.
    * @returns {Promise<BlobDeleteResponse>} Block blob deletion response data.
    * @memberof ContainerClient
    */
   public async deleteBlob(
     blobName: string,
-    options: BlobDeleteOptions = {}
+    options: ContainerDeleteBlobOptions = {}
   ): Promise<BlobDeleteResponse> {
     const { span, spanOptions } = createSpan("ContainerClient-deleteBlob", options.tracingOptions);
     try {
-      const blobClient = this.getBlobClient(blobName);
+      let blobClient = this.getBlobClient(blobName);
+      if (options.versionId) {
+        blobClient = blobClient.withVersion(options.versionId);
+      }
       return await blobClient.delete({
         ...options,
         tracingOptions: { ...options!.tracingOptions, spanOptions }
@@ -6813,6 +6872,9 @@ export class ContainerClient extends StorageClient {
     if (options.includeSnapshots) {
       include.push("snapshots");
     }
+    if (options.includeVersions) {
+      include.push("versions");
+    }
     if (options.includeUncommitedBlobs) {
       include.push("uncommittedblobs");
     }
@@ -7017,6 +7079,9 @@ export class ContainerClient extends StorageClient {
     }
     if (options.includeSnapshots) {
       include.push("snapshots");
+    }
+    if (options.includeVersions) {
+      include.push("versions");
     }
     if (options.includeUncommitedBlobs) {
       include.push("uncommittedblobs");

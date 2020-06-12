@@ -413,7 +413,7 @@ export class BlobDownloadResponse implements BlobDownloadResponseModel {
   }
 
   /**
-   * Indicates the version of the File service used
+   * Indicates the version of the Blob service used
    * to execute the request.
    *
    * @readonly
@@ -422,6 +422,17 @@ export class BlobDownloadResponse implements BlobDownloadResponseModel {
    */
   public get version(): string | undefined {
     return this.originalResponse.version;
+  }
+
+  /**
+   * Indicates the versionId of the downloaded blob version.
+   *
+   * @readonly
+   * @type {(string | undefined)}
+   * @memberof BlobDownloadResponse
+   */
+  public get versionId(): string | undefined {
+    return this.originalResponse.versionId;
   }
 
   /**

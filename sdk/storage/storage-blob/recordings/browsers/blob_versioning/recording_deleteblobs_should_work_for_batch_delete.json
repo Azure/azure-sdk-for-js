@@ -1,0 +1,81 @@
+{
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container158459879319605712",
+   "query": {
+    "sip": "0.0.0.0-255.255.255.255",
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Thu, 19 Mar 2020 06:19:53 GMT",
+    "etag": "\"0x8D7CBCD89B6BF7C\"",
+    "last-modified": "Thu, 19 Mar 2020 06:19:53 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-client-request-id": "d5a4e550-f76d-4eaa-a4ef-cf53f1d2597f",
+    "x-ms-request-id": "d85c79fe-201e-0041-39b6-fd8226000000",
+    "x-ms-version": "2019-12-12"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container158459879319605712/blob158459879366602194",
+   "query": {
+    "sip": "0.0.0.0-255.255.255.255"
+   },
+   "requestBody": "Hello World",
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "content-md5": "sQqNsWTgdUEFt6mb5y4/5Q==",
+    "date": "Thu, 19 Mar 2020 06:19:53 GMT",
+    "etag": "\"0x8D7CBCD8A000DD9\"",
+    "last-modified": "Thu, 19 Mar 2020 06:19:54 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-client-request-id": "5dd4d0b8-94fa-4a33-a28b-0adaab37b73b",
+    "x-ms-content-crc64": "YeJLfssylmU=",
+    "x-ms-request-id": "d85c7b50-201e-0041-78b6-fd8226000000",
+    "x-ms-request-server-encrypted": "true",
+    "x-ms-version": "2019-12-12",
+    "x-ms-version-id": "2020-03-19T06:19:54.0218098Z"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container158459879319605712/blob158459879366602194",
+   "query": {
+    "sip": "0.0.0.0-255.255.255.255"
+   },
+   "requestBody": "",
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "content-md5": "1B2M2Y8AsgTpgAmY7PhCfg==",
+    "date": "Thu, 19 Mar 2020 06:19:53 GMT",
+    "etag": "\"0x8D7CBCD8A246559\"",
+    "last-modified": "Thu, 19 Mar 2020 06:19:54 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-client-request-id": "6aca827b-5864-4f3c-a5d7-a59940c02af2",
+    "x-ms-content-crc64": "AAAAAAAAAAA=",
+    "x-ms-request-id": "d85c7c0a-201e-0041-21b6-fd8226000000",
+    "x-ms-request-server-encrypted": "true",
+    "x-ms-version": "2019-12-12",
+    "x-ms-version-id": "2020-03-19T06:19:54.2609794Z"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {
+   "container": "container158459879319605712",
+   "blob": "blob158459879366602194"
+  },
+  "newDate": {}
+ },
+ "hash": "af27cae29f2417e05856465e122ed57d"
+}

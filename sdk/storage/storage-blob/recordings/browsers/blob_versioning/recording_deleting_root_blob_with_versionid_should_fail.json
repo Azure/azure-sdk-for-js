@@ -1,0 +1,121 @@
+{
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container158459879439802511",
+   "query": {
+    "sip": "0.0.0.0-255.255.255.255",
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Thu, 19 Mar 2020 06:19:54 GMT",
+    "etag": "\"0x8D7CBCD8A6F348C\"",
+    "last-modified": "Thu, 19 Mar 2020 06:19:54 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-client-request-id": "f520e22b-8d7e-4a1f-b98a-066256f19959",
+    "x-ms-request-id": "d85c7cd6-201e-0041-55b6-fd8226000000",
+    "x-ms-version": "2019-12-12"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container158459879439802511/blob158459879487700392",
+   "query": {
+    "sip": "0.0.0.0-255.255.255.255"
+   },
+   "requestBody": "Hello World",
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "content-md5": "sQqNsWTgdUEFt6mb5y4/5Q==",
+    "date": "Thu, 19 Mar 2020 06:19:54 GMT",
+    "etag": "\"0x8D7CBCD8AB96D84\"",
+    "last-modified": "Thu, 19 Mar 2020 06:19:55 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-client-request-id": "d71385b6-4a68-4d0e-ac02-b1938685f782",
+    "x-ms-content-crc64": "YeJLfssylmU=",
+    "x-ms-request-id": "d85c7ddd-201e-0041-35b6-fd8226000000",
+    "x-ms-request-server-encrypted": "true",
+    "x-ms-version": "2019-12-12",
+    "x-ms-version-id": "2020-03-19T06:19:55.2366750Z"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container158459879439802511/blob158459879487700392",
+   "query": {
+    "sip": "0.0.0.0-255.255.255.255"
+   },
+   "requestBody": "",
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "content-md5": "1B2M2Y8AsgTpgAmY7PhCfg==",
+    "date": "Thu, 19 Mar 2020 06:19:55 GMT",
+    "etag": "\"0x8D7CBCD8ADF24D7\"",
+    "last-modified": "Thu, 19 Mar 2020 06:19:55 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-client-request-id": "b777caf1-cae0-421c-a694-f5e22b697b6e",
+    "x-ms-content-crc64": "AAAAAAAAAAA=",
+    "x-ms-request-id": "d85c7e71-201e-0041-39b6-fd8226000000",
+    "x-ms-request-server-encrypted": "true",
+    "x-ms-version": "2019-12-12",
+    "x-ms-version-id": "2020-03-19T06:19:55.4848508Z"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container158459879439802511/blob158459879487700392",
+   "query": {
+    "sip": "0.0.0.0-255.255.255.255",
+    "versionid": "2020-03-19T06:19:55.2366750Z"
+   },
+   "requestBody": null,
+   "status": 403,
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>OperationNotAllowedOnAutomaticSnapshot</Code><Message>The specified operation is not allowed on version.\nRequestId:d85c7f59-201e-0041-7bb6-fd8226000000\nTime:2020-03-19T06:19:55.9751208Z</Message></Error>",
+   "responseHeaders": {
+    "content-length": "257",
+    "content-type": "application/xml",
+    "date": "Thu, 19 Mar 2020 06:19:55 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-client-request-id": "d8ff42df-638e-4b77-ae36-59dc977355fb",
+    "x-ms-error-code": "OperationNotAllowedOnAutomaticSnapshot",
+    "x-ms-request-id": "d85c7f59-201e-0041-7bb6-fd8226000000",
+    "x-ms-version": "2019-12-12"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container158459879439802511",
+   "query": {
+    "sip": "0.0.0.0-255.255.255.255",
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Thu, 19 Mar 2020 06:19:56 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-client-request-id": "3c77946d-01bf-4ddc-9e86-3523ae903be9",
+    "x-ms-request-id": "d85c8048-201e-0041-2db6-fd8226000000",
+    "x-ms-version": "2019-12-12"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {
+   "container": "container158459879439802511",
+   "blob": "blob158459879487700392"
+  },
+  "newDate": {}
+ },
+ "hash": "8c6ce79a5f98d1097bf341c30058f4ca"
+}

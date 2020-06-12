@@ -8,7 +8,8 @@ import {
   bodyToString,
   getBSU,
   getSASConnectionStringFromEnvironment,
-  recorderEnvSetup
+  recorderEnvSetup,
+  isBlobVersioningDisabled,
 } from "./utils";
 import { record, delay } from "@azure/test-utils-recorder";
 import {
@@ -252,7 +253,8 @@ describe("BlobClient", () => {
 
     const iter = containerClient
       .listBlobsFlat({
-        includeDeleted: true
+        includeDeleted: true,
+        includeVersions: true, // Need this when blob versioning is turned on.
       })
       .byPage({ maxPageSize: 1 });
 
@@ -276,7 +278,7 @@ describe("BlobClient", () => {
 
     assert.ok(
       result.segment.blobItems,
-      "Expect non empty result from list blobs({ includeDeleted: true }) with page size of 1."
+      "Expect non empty result from list blobs({ includeDeleted: true, includeVersions: true }) with page size of 1."
     );
 
     assert.equal(
@@ -290,13 +292,16 @@ describe("BlobClient", () => {
       "Expect a valid element in result array from list blobs({ includeDeleted: true }) with page size of 1."
     );
 
-    assert.ok(result.segment.blobItems![0].deleted, "Expect that the blob is marked for deletion");
+    if (isBlobVersioningDisabled()) {
+      assert.ok(result.segment.blobItems![0].deleted, "Expect that the blob is marked for deletion");
+    }
 
     await blobClient.undelete();
 
     const iter2 = containerClient
       .listBlobsFlat({
-        includeDeleted: true
+        includeDeleted: true,
+        includeVersions: true, // Need this when blob versioning is turned on.
       })
       .byPage();
 

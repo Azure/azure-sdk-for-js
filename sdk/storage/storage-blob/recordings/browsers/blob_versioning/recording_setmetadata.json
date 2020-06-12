@@ -1,0 +1,123 @@
+{
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container158459881838601962",
+   "query": {
+    "sip": "0.0.0.0-255.255.255.255",
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Thu, 19 Mar 2020 06:20:17 GMT",
+    "etag": "\"0x8D7CBCD98BB2091\"",
+    "last-modified": "Thu, 19 Mar 2020 06:20:18 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-client-request-id": "254a5406-549d-4b79-9ef6-9f6c45d5bf59",
+    "x-ms-request-id": "30564f34-d01e-0037-2bb6-fd086e000000",
+    "x-ms-version": "2019-12-12"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container158459881838601962/blob158459881886105715",
+   "query": {
+    "sip": "0.0.0.0-255.255.255.255"
+   },
+   "requestBody": "Hello World",
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "content-md5": "sQqNsWTgdUEFt6mb5y4/5Q==",
+    "date": "Thu, 19 Mar 2020 06:20:18 GMT",
+    "etag": "\"0x8D7CBCD9903BB5A\"",
+    "last-modified": "Thu, 19 Mar 2020 06:20:19 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-client-request-id": "0c24c0c8-b77f-412c-a1de-b37f6ddcaaa0",
+    "x-ms-content-crc64": "YeJLfssylmU=",
+    "x-ms-request-id": "30564ff0-d01e-0037-55b6-fd086e000000",
+    "x-ms-request-server-encrypted": "true",
+    "x-ms-version": "2019-12-12",
+    "x-ms-version-id": "2020-03-19T06:20:19.2107354Z"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container158459881838601962/blob158459881886105715",
+   "query": {
+    "sip": "0.0.0.0-255.255.255.255"
+   },
+   "requestBody": "",
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "content-md5": "1B2M2Y8AsgTpgAmY7PhCfg==",
+    "date": "Thu, 19 Mar 2020 06:20:18 GMT",
+    "etag": "\"0x8D7CBCD992999C2\"",
+    "last-modified": "Thu, 19 Mar 2020 06:20:19 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-client-request-id": "e040398f-32a5-490c-bd3b-cb9f75faeb25",
+    "x-ms-content-crc64": "AAAAAAAAAAA=",
+    "x-ms-request-id": "3056505b-d01e-0037-36b6-fd086e000000",
+    "x-ms-request-server-encrypted": "true",
+    "x-ms-version": "2019-12-12",
+    "x-ms-version-id": "2020-03-19T06:20:19.4609131Z"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container158459881838601962/blob158459881886105715",
+   "query": {
+    "sip": "0.0.0.0-255.255.255.255",
+    "comp": "metadata"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Thu, 19 Mar 2020 06:20:19 GMT",
+    "etag": "\"0x8D7CBCD9972E51E\"",
+    "last-modified": "Thu, 19 Mar 2020 06:20:19 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-client-request-id": "c12c9c26-0ed0-4f4e-bd91-edcbeda84636",
+    "x-ms-request-id": "30565129-d01e-0037-7ab6-fd086e000000",
+    "x-ms-request-server-encrypted": "true",
+    "x-ms-version": "2019-12-12",
+    "x-ms-version-id": "2020-03-19T06:20:19.9402542Z"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container158459881838601962",
+   "query": {
+    "sip": "0.0.0.0-255.255.255.255",
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Thu, 19 Mar 2020 06:20:19 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-client-request-id": "6cfb6192-5ce5-4e07-b66f-29b3a6a1c5ff",
+    "x-ms-request-id": "30565236-d01e-0037-6eb6-fd086e000000",
+    "x-ms-version": "2019-12-12"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {
+   "container": "container158459881838601962",
+   "blob": "blob158459881886105715"
+  },
+  "newDate": {}
+ },
+ "hash": "707b5201201727b785455ac69d6a0da0"
+}
