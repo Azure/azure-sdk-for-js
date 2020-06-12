@@ -467,7 +467,7 @@ describe("RequestResponseLink", function() {
         await link.sendRequest(request, { timeoutInMs: 120000, requestName: "foo" });
         throw new Error(testFailureMessage);
       } catch (err) {
-        assert.notEqual(err.message, "Test failure");
+        assert.notEqual(err.message, testFailureMessage);
       }
       assert.isTrue(wasClearTimeoutCalled, "clearTimeout wasn't called.");
     });
