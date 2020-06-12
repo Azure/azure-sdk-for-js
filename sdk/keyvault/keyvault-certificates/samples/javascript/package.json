@@ -31,5 +31,12 @@
   },
   "devDependencies": {
     "rimraf": "^3.0.0"
+  },
+  "//smokeTestConfiguration": {
+    "skip": [
+      "backupAndRestore.js",
+      "listCertificates.js",
+      "mergeCertificate.js"
+    ]
   }
 }
