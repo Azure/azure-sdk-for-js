@@ -256,7 +256,7 @@ describe("NodeJS CRUD Tests", function() {
       await authorizationCRUDOverMultiplePartitionsTest();
     });
 
-    it("should allow deletion of a doc with container token", async function() {
+    it.only("should allow deletion of a doc with container token", async function() {
       const container = await getTestContainer("Validate Authorization container");
 
       const { resource: item } = await container.items.create({
@@ -292,11 +292,13 @@ describe("NodeJS CRUD Tests", function() {
         }
       });
 
-      await client
+      const { statusCode } = await client
         .database(container.database.id)
         .container(container.id)
         .item(item.id)
         .delete();
+
+      assert.equal(statusCode, 204);
     });
   });
 });
