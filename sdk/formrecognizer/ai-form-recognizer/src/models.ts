@@ -152,7 +152,7 @@ export interface FormTableCell {
    */
   confidence: number;
   /**
-   * When includeTextDetails is set to true, a list of references to the text elements constituting this table cell.
+   * When includeTextContent is set to true, a list of references to the text elements constituting this table cell.
    */
   textContent?: FormContent[];
   /**
@@ -208,7 +208,7 @@ export interface FieldText {
    */
   boundingBox?: Point2D[];
   /**
-   * When includeTextDetails is set to true, a list of references to the text elements constituting this name or value.
+   * When includeTextContent is set to true, a list of references to the text elements constituting this name or value.
    */
   textContent?: FormContent[];
   /**
@@ -294,7 +294,7 @@ export interface FormPage {
    */
   // language?: Language;
   /**
-   * When includeTextDetails is set to true, a list of recognized text lines. The maximum number of
+   * When includeTextContent is set to true, a list of recognized text lines. The maximum number of
    * lines returned is 300 per page. The lines are sorted top to bottom, left to right, although in
    * certain cases proximity is treated with higher priority. As the sorting order depends on the
    * detected text, it may change across images and OCR version updates. Thus, business logic
@@ -356,7 +356,7 @@ export interface CommonFieldValue {
    */
   confidence?: number;
   /**
-   * When includeTextDetails is set to true, a list of references to the text elements constituting
+   * When includeTextContent is set to true, a list of references to the text elements constituting
    * this field.
    */
   textContent?: FormContent[];

@@ -386,6 +386,18 @@ export class EventProcessor {
     loadBalancer: PartitionLoadBalancer,
     abortSignal: AbortSignalLike
   ): Promise<void> {
+    let cancelLoopResolver;
+    // This provides a mechanism for exiting the loop early
+    // if the subscription has had `close` called.
+    const cancelLoopPromise = new Promise((resolve) => {
+      cancelLoopResolver = resolve;
+      if (abortSignal.aborted) {
+        return resolve();
+      }
+
+      abortSignal.addEventListener("abort", resolve);
+    });
+
     // periodically check if there is any partition not being processed and process it
     while (!abortSignal.aborted) {
       try {
@@ -444,7 +456,8 @@ export class EventProcessor {
       } catch (err) {
         logger.warning(`[${this._id}] An error occured within the EventProcessor loop: ${err}`);
         logErrorStackTrace(err);
-        await this._handleSubscriptionError(err);
+        // Protect against the scenario where the user awaits on subscription.close() from inside processError.
+        await Promise.race([this._handleSubscriptionError(err), cancelLoopPromise]);
       } finally {
         // sleep for some time, then continue the loop again.
         logger.verbose(
@@ -453,6 +466,10 @@ export class EventProcessor {
         // swallow the error since it's fine to exit early from delay
         await delayWithoutThrow(this._loopIntervalInMs, abortSignal);
       }
+    }
+
+    if (cancelLoopResolver) {
+      abortSignal.removeEventListener("abort", cancelLoopResolver);
     }
     this._isRunning = false;
   }

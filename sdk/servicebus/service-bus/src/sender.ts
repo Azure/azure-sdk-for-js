@@ -4,7 +4,7 @@
 import Long from "long";
 import * as log from "./log";
 import { MessageSender } from "./core/messageSender";
-import { ServiceBusMessage } from "./serviceBusMessage";
+import { ServiceBusMessage, isServiceBusMessage } from "./serviceBusMessage";
 import { ClientEntityContext } from "./clientEntityContext";
 import {
   getSenderClosedErrorMsg,
@@ -23,7 +23,6 @@ import {
   retry
 } from "@azure/core-amqp";
 import { OperationOptions } from "./modelsToBeSharedWithEventHubs";
-import { AbortError } from "@azure/abort-controller";
 
 /**
  * A Sender can be used to send messages, schedule messages to be sent at a later time
@@ -248,27 +247,18 @@ export class SenderImpl implements Sender {
       return this._sender.sendBatch(batch, options);
     } else if (isServiceBusMessageBatch(messageOrMessagesOrBatch)) {
       return this._sender.sendBatch(messageOrMessagesOrBatch, options);
-    } else {
-      throwTypeErrorIfParameterMissing(
-        this._context.namespace.connectionId,
-        "message, messages or messageBatch",
-        messageOrMessagesOrBatch
-      );
+    } else if (isServiceBusMessage(messageOrMessagesOrBatch)) {
       return this._sender.send(messageOrMessagesOrBatch, options);
+    } else {
+      throw new TypeError(
+        "Invalid type for message. Must be a ServiceBusMessage, an array of ServiceBusMessage or a ServiceBusMessageBatch"
+      );
     }
   }
 
   async createBatch(options?: CreateBatchOptions): Promise<ServiceBusMessageBatch> {
     this._throwIfSenderOrConnectionClosed();
-    try {
-      return await this._sender.createBatch(options);
-    } catch (err) {
-      if (err.name === "AbortError") {
-        throw new AbortError("The createBatch operation has been cancelled by the user.");
-      }
-
-      throw err;
-    }
+    return this._sender.createBatch(options);
   }
 
   /**
