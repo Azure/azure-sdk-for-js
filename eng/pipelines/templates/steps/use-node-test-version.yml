@@ -2,7 +2,7 @@ parameters:
   NodeTestVersion: $(NodeTestVersion)
 
 steps:
-  - template: use-node-version
+  - template: use-node-version.yml
     parameters:
       NodeVersion: $(NodeTestVersion)
 
