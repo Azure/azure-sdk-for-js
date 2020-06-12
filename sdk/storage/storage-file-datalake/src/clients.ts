@@ -1111,18 +1111,12 @@ export class DataLakeFileClient extends DataLakePathClient {
   ): Promise<FileUploadResponse> {
     const { span, spanOptions } = createSpan("DataLakeFileClient-upload", options.tracingOptions);
     try {
-      if (isNode) {
-        let length = 0;
-        if (data instanceof ArrayBuffer) {
-          length = data.byteLength;
-        } else {
-          length = (data as any).length;
-        }
+      if (isNode && data instanceof Buffer) {
         return this.uploadData(
           (offset: number, size: number): Buffer => {
-            return (data as any).slice(offset, offset + size);
+            return data.slice(offset, offset + size);
           },
-          length,
+          data.length,
           { ...options, tracingOptions: { ...options!.tracingOptions, spanOptions } }
         );
       } else {
@@ -1235,7 +1229,7 @@ export class DataLakeFileClient extends DataLakePathClient {
       if (numBlocks > BLOCK_BLOB_MAX_BLOCKS) {
         throw new RangeError(
           `The data's size is too big or the chunkSize is too small;` +
-            `the number of chunks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`
+          `the number of chunks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`
         );
       }
 
