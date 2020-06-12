@@ -151,7 +151,7 @@ export interface SentimentConfidenceScores {
 /**
  * The predicted sentiment for a given span of text. For more information regarding text sentiment,
  * see
- * https://docs.microsoft.com/en-us/azure/cognitive-services/Text-Analytics/how-tos/text-analytics-how-to-sentiment-analysis.
+ * https://docs.microsoft.com/azure/cognitive-services/Text-Analytics/how-tos/text-analytics-how-to-sentiment-analysis.
  */
 export interface SentenceSentiment {
   /**
@@ -244,7 +244,7 @@ export interface SentimentResponse {
 /**
  * A word or phrase identified as an entity that is categorized within a taxonomy of types. The set
  * of categories recognized by the Text Analytics service is described at
- * https://docs.microsoft.com/en-us/azure/cognitive-services/Text-Analytics/named-entity-types .
+ * https://docs.microsoft.com/azure/cognitive-services/Text-Analytics/named-entity-types .
  */
 export interface Entity {
   /**

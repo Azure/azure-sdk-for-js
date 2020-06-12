@@ -147,7 +147,7 @@ const results = await client.analyzeSentiment(documents);
 const onlySuccessful = results.filter((result) => result.error === undefined);
 ```
 
-**Note**: TypeScript users can benefit from better type-checking of result and error objects if `compilerOptions.strictNullChecks` is set to `true` in their `tsconfig.json` configuration. For example:
+**Note**: TypeScript users can benefit from better type-checking of result and error objects if `compilerOptions.strictNullChecks` is set to `true` in the `tsconfig.json` configuration. For example:
 
 ```typescript
 const [result] = await client.analyzeSentiment(["Hello world!"]);
@@ -158,6 +158,16 @@ if (result.error !== undefined) {
   // the tsconfig.json
 
   console.log(result.error);
+}
+```
+
+This capability was introduced in TypeScript 3.2, so users of TypeScript 3.1 must cast result values to their corresponding success variant as follows:
+
+```typescript
+const [result] = await client.detectLanguage(["Hello world!"]);
+
+if (result.error === undefined) {
+  const { primaryLanguage } = result as DetectLanguageSuccessResult;
 }
 ```
 
@@ -371,11 +381,11 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 [azure_cli]: https://docs.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/
-[cognitive_resource]: https://docs.microsoft.com/en-us/azure/cognitive-services/cognitive-services-apis-create-account
+[cognitive_resource]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
 [azure_portal]: https://portal.azure.com
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity
 [cognitive_auth]: https://docs.microsoft.com/azure/cognitive-services/authentication
 [register_aad_app]: https://docs.microsoft.com/azure/cognitive-services/authentication#assign-a-role-to-a-service-principal
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity#defaultazurecredential
 [data_limits]: https://docs.microsoft.com/azure/cognitive-services/text-analytics/overview#data-limits
-```
+

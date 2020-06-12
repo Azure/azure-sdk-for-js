@@ -1,12 +1,10 @@
-steps:
-  - task: NodeTool@0
-    inputs:
-      versionSpec: $(NodeTestVersion)
-    displayName: "Use NodeJS $(NodeTestVersion)"
+parameters:
+  NodeTestVersion: $(NodeTestVersion)
 
-  - script: |
-      node --version && npm --version
-    displayName: Node versions
+steps:
+  - template: use-node-version.yml
+    parameters:
+      NodeVersion: $(NodeTestVersion)
 
   # Packages with native dependencies must be reinstalled after changing Node versions
   - pwsh: |

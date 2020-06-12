@@ -11,7 +11,7 @@ import {
   assertRejects
 } from "../authTestUtils";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
-import { AllSupportedEnvironmentVariables } from "../../src/credentials/environmentCredential";
+import { OAuthErrorResponse } from "../../src/client/errors";
 
 describe("EnvironmentCredential", function() {
   it("finds and uses client credential environment variables", async () => {
@@ -143,8 +143,9 @@ describe("EnvironmentCredential", function() {
     await assertRejects(
       credential.getToken("scope"),
       (error: CredentialUnavailable) =>
-        error.message.indexOf(AllSupportedEnvironmentVariables.join("\n")) >
-        -1
+        error.message.indexOf(
+          "EnvironmentCredential is unavailable. Environment variables are not fully configured."
+        ) > -1
     );
 
     process.env.AZURE_TENANT_ID = "It me";
@@ -153,9 +154,33 @@ describe("EnvironmentCredential", function() {
     await assertRejects(
       credentialDeux.getToken("scope"),
       (error: CredentialUnavailable) =>
-        error.message.match(/^AZURE_TENANT_ID/gm) === null
+        error.message.indexOf(
+          "EnvironmentCredential is unavailable. Environment variables are not fully configured."
+        ) > -1
     );
 
     delete process.env.AZURE_TENANT_ID;
+  });
+
+  it("throws an AuthenticationError when getToken is called and EnvironmentCredential authentication failed", async () => {
+    process.env.AZURE_TENANT_ID = "tenant";
+    process.env.AZURE_CLIENT_ID = "errclient";
+    process.env.AZURE_CLIENT_SECRET = "secret";
+
+    const errResponse: OAuthErrorResponse = {
+      error: "EnvironmentCredential authentication failed.",
+      error_description: ""
+    };
+
+    const mockHttpClient = new MockAuthHttpClient({
+      authResponse: [{ status: 400, parsedBody: errResponse }]
+    });
+
+    const credential = new EnvironmentCredential(mockHttpClient.tokenCredentialOptions);
+    await assertRejects(
+      credential.getToken("scope"),
+      (error: AuthenticationError) =>
+        error.errorResponse.error.indexOf("EnvironmentCredential authentication failed.") > -1
+    );
   });
 });

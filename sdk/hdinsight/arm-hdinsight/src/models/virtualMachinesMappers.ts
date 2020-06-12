@@ -8,6 +8,5 @@
 
 export {
   ErrorResponse,
-  HostInfo,
-  HostInfoListResult
+  HostInfo
 } from "../models/mappers";
