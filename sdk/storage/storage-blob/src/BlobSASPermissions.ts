@@ -46,6 +46,9 @@ export class BlobSASPermissions {
         case "x":
           blobSASPermissions.deleteVersion = true;
           break;
+        case "t":
+          blobSASPermissions.tag = true;
+          break;
         default:
           throw new RangeError(`Invalid permission: ${char}`);
       }
@@ -103,6 +106,14 @@ export class BlobSASPermissions {
   public deleteVersion: boolean = false;
 
   /**
+   * Specfies Tag access granted.
+   *
+   * @type {boolean}
+   * @memberof BlobSASPermissions
+   */
+  public tag: boolean = false;
+
+  /**
    * Converts the given permissions to a string. Using this method will guarantee the permissions are in an
    * order accepted by the service.
    *
@@ -128,6 +139,9 @@ export class BlobSASPermissions {
     }
     if (this.deleteVersion) {
       permissions.push("x");
+    }
+    if (this.tag) {
+      permissions.push("t");
     }
     return permissions.join("");
   }

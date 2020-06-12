@@ -324,6 +324,66 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
+  it("generateBlobSASQueryParameters should work for blob tags", async () => {
+    const now = recorder.newDate("now");
+    now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
+
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+
+    // By default, credential is always the last element of pipeline factories
+    const factories = (blobServiceClient as any).pipeline.factories;
+    const sharedKeyCredential = factories[factories.length - 1];
+
+    const containerName = recorder.getUniqueName("container");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+
+    const blobName = recorder.getUniqueName("blob");
+    const blobClient = containerClient.getPageBlobClient(blobName);
+    await blobClient.create(1024, {
+      blobHTTPHeaders: {
+        blobContentType: "content-type-original"
+      }
+    });
+
+    const blobSAS = generateBlobSASQueryParameters(
+      {
+        blobName: blobClient.name,
+        cacheControl: "cache-control-override",
+        containerName: blobClient.containerName,
+        contentDisposition: "content-disposition-override",
+        contentEncoding: "content-encoding-override",
+        contentLanguage: "content-language-override",
+        contentType: "content-type-override",
+        expiresOn: tmr,
+        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        permissions: BlobSASPermissions.parse("racwdt"),
+        protocol: SASProtocol.HttpsAndHttp,
+        startsOn: now
+      },
+      sharedKeyCredential as StorageSharedKeyCredential
+    );
+
+    const sasURL = `${blobClient.url}?${blobSAS}`;
+    const blobClientWithSAS = new PageBlobClient(sasURL, newPipeline(new AnonymousCredential()));
+
+    const tags = {
+      tag1: "val1",
+      tag2: "val2"
+    };
+    await blobClientWithSAS.setTags(tags);
+
+    const properties = await blobClientWithSAS.getProperties();
+    assert.equal(properties.cacheControl, "cache-control-override");
+    assert.equal(properties.contentDisposition, "content-disposition-override");
+    assert.equal(properties.contentEncoding, "content-encoding-override");
+    assert.equal(properties.contentLanguage, "content-language-override");
+    assert.equal(properties.contentType, "content-type-override");
+
+    await containerClient.delete();
+  });
+
   it("generateBlobSASQueryParameters should work for blob snapshot", async () => {
     const now = recorder.newDate("now");
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
@@ -802,8 +862,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
-  it("generateAccountSASQueryParameters should work for blob version delete", async function () {
-    if (isBlobVersioningDisabled()) { this.skip(); }
+  it("generateAccountSASQueryParameters should work for blob version delete", async function() {
+    if (isBlobVersioningDisabled()) {
+      this.skip();
+    }
 
     // create versions
     const containerName = recorder.getUniqueName("container");
@@ -846,8 +908,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClientwithSAS.delete();
   });
 
-  it("generateBlobSASQueryParameters should work for blob version delete", async function () {
-    if (isBlobVersioningDisabled()) { this.skip(); }
+  it("generateBlobSASQueryParameters should work for blob version delete", async function() {
+    if (isBlobVersioningDisabled()) {
+      this.skip();
+    }
 
     // create versions
     const containerName = recorder.getUniqueName("container");
@@ -879,7 +943,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: BlobSASPermissions.parse("racwdx"),
         protocol: SASProtocol.HttpsAndHttp,
-        versionId: uploadRes.versionId,
+        versionId: uploadRes.versionId
       },
       sharedKeyCredential as StorageSharedKeyCredential
     );
@@ -893,15 +957,17 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   // TODO: prepare ACCOUNT_TOKEN for the test account
-  it.skip("GenerateUserDelegationSAS should work for blob version delete", async function () {
-    if (isBlobVersioningDisabled()) { this.skip(); }
+  it.skip("GenerateUserDelegationSAS should work for blob version delete", async function() {
+    if (isBlobVersioningDisabled()) {
+      this.skip();
+    }
 
     // Try to get blobServiceClient object with TokenCredential
     // when ACCOUNT_TOKEN environment variable is set
     let blobServiceClientWithToken: BlobServiceClient | undefined;
     try {
       blobServiceClientWithToken = getTokenBSU();
-    } catch { }
+    } catch {}
 
     // Requires bearer token for this case which cannot be generated in the runtime
     // Make sure this case passed in sanity test
@@ -941,7 +1007,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: BlobSASPermissions.parse("racwdx"),
         protocol: SASProtocol.HttpsAndHttp,
-        versionId: uploadRes.versionId,
+        versionId: uploadRes.versionId
       },
       userDelegationKey,
       accountName

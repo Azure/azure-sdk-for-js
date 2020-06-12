@@ -9,7 +9,7 @@ import {
   getBSU,
   getSASConnectionStringFromEnvironment,
   recorderEnvSetup,
-  isBlobVersioningDisabled,
+  isBlobVersioningDisabled
 } from "./utils";
 import { record, delay } from "@azure/test-utils-recorder";
 import {
@@ -50,6 +50,88 @@ describe("BlobClient", () => {
       await containerClient.delete();
       recorder.stop();
     }
+  });
+
+  it("Set blob tags should work", async () => {
+    const tags = {
+      tag1: "val1",
+      tag2: "val2"
+    };
+    await blockBlobClient.setTags(tags);
+
+    const response = await blockBlobClient.getTags();
+    assert.deepStrictEqual(response.tags, tags);
+
+    const properties = await blockBlobClient.getProperties();
+    assert.deepStrictEqual(properties.tagCount, 2);
+
+    const download = await blockBlobClient.download();
+    assert.deepStrictEqual(download.tagCount, 2);
+
+    const listblob = containerClient.listBlobsFlat({ includeTags: true });
+
+    const iter = listblob.byPage();
+    const segment = await iter.next();
+
+    // TODO: Make blob tag type consistency cross all request or response
+    assert.deepStrictEqual(segment.value.segment.blobItems[0].tags, tags);
+  });
+
+  it("Get blob tags should work with a snapshot", async () => {
+    const tags = {
+      tag1: "val1",
+      tag2: "val2"
+    };
+    await blockBlobClient.setTags(tags);
+
+    const snapshotResponse = await blockBlobClient.createSnapshot();
+    const blockBlobClientSnapshot = blockBlobClient.withSnapshot(snapshotResponse.snapshot!);
+
+    const response = await blockBlobClientSnapshot.getTags();
+    assert.deepStrictEqual(response.tags, tags);
+  });
+
+  it("Create block blob blob should work with tags", async () => {
+    await blockBlobClient.delete();
+
+    const tags = {
+      tag1: "val1",
+      tag2: "val2"
+    };
+    await blockBlobClient.upload("hello", 5, { tags });
+
+    const response = await blockBlobClient.getTags();
+    assert.deepStrictEqual(response.tags, tags);
+  });
+
+  it("Create append blob should work with tags", async () => {
+    await blockBlobClient.delete();
+
+    const tags = {
+      tag1: "val1",
+      tag2: "val2"
+    };
+
+    const appendBlobClient = blobClient.getAppendBlobClient();
+    await appendBlobClient.create({ tags });
+
+    const response = await appendBlobClient.getTags();
+    assert.deepStrictEqual(response.tags, tags);
+  });
+
+  it("Create page blob should work with tags", async () => {
+    await blockBlobClient.delete();
+
+    const tags = {
+      tag1: "val1",
+      tag2: "val2"
+    };
+
+    const pageBlobClient = blobClient.getPageBlobClient();
+    await pageBlobClient.create(512, { tags });
+
+    const response = await pageBlobClient.getTags();
+    assert.deepStrictEqual(response.tags, tags);
   });
 
   it("download with with default parameters", async () => {
@@ -254,7 +336,7 @@ describe("BlobClient", () => {
     const iter = containerClient
       .listBlobsFlat({
         includeDeleted: true,
-        includeVersions: true, // Need this when blob versioning is turned on.
+        includeVersions: true // Need this when blob versioning is turned on.
       })
       .byPage({ maxPageSize: 1 });
 
@@ -293,7 +375,10 @@ describe("BlobClient", () => {
     );
 
     if (isBlobVersioningDisabled()) {
-      assert.ok(result.segment.blobItems![0].deleted, "Expect that the blob is marked for deletion");
+      assert.ok(
+        result.segment.blobItems![0].deleted,
+        "Expect that the blob is marked for deletion"
+      );
     }
 
     await blobClient.undelete();
@@ -301,7 +386,7 @@ describe("BlobClient", () => {
     const iter2 = containerClient
       .listBlobsFlat({
         includeDeleted: true,
-        includeVersions: true, // Need this when blob versioning is turned on.
+        includeVersions: true // Need this when blob versioning is turned on.
       })
       .byPage();
 

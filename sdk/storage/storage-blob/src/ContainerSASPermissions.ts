@@ -44,6 +44,9 @@ export class ContainerSASPermissions {
         case "l":
           containerSASPermissions.list = true;
           break;
+        case "t":
+          containerSASPermissions.tag = true;
+          break;
         default:
           throw new RangeError(`Invalid permission ${char}`);
       }
@@ -101,6 +104,14 @@ export class ContainerSASPermissions {
   public list: boolean = false;
 
   /**
+   * Specfies Tag access granted.
+   *
+   * @type {boolean}
+   * @memberof BlobSASPermissions
+   */
+  public tag: boolean = false;
+
+  /**
    * Converts the given permissions to a string. Using this method will guarantee the permissions are in an
    * order accepted by the service.
    *
@@ -129,6 +140,9 @@ export class ContainerSASPermissions {
     }
     if (this.list) {
       permissions.push("l");
+    }
+    if (this.tag) {
+      permissions.push("t");
     }
     return permissions.join("");
   }

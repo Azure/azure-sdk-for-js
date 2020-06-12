@@ -154,6 +154,24 @@ describe("Highlevel", () => {
     assert.equal(uploadedString, downloadedString);
   });
 
+  it("uploadBrowserDataToBlockBlob should work with tags", async () => {
+    recorder.skip("browser", "Temp file - recorder doesn't support saving the file");
+
+    const tags = {
+      tag1: "val1",
+      tag2: "val2"
+    };
+
+    await blockBlobClient.uploadBrowserData(tempFile2, {
+      blockSize: 512 * 1024,
+      maxSingleShotSize: 0,
+      tags
+    });
+
+    const response = await blockBlobClient.getTags();
+    assert.deepStrictEqual(response.tags, tags);
+  });
+
   it("uploadBrowserDataToBlockBlob should success when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async function() {
     recorder.skip("browser", "Temp file - recorder doesn't support saving the file");
     if (isIE()) {

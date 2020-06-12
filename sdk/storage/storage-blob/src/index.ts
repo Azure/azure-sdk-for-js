@@ -22,7 +22,7 @@ export * from "./credentials/Credential";
 export * from "./credentials/StorageSharedKeyCredential";
 export { SasIPRange } from "./SasIPRange";
 export { Range } from "./Range";
-export { BlockBlobTier, PremiumPageBlobTier } from "./models";
+export { BlockBlobTier, PremiumPageBlobTier, Tags } from "./models";
 export * from "./Pipeline";
 export * from "./policies/AnonymousCredentialPolicy";
 export * from "./policies/CredentialPolicy";
