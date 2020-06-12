@@ -413,16 +413,21 @@ describe("RequestResponseLink", function() {
   describe("sendRequest clears timeout", () => {
     const _global = getGlobal();
     const originalClearTimeout = clearTimeout;
+    let clearTimeoutCalledCount = 0;
+
+    beforeEach(() => {
+      clearTimeoutCalledCount = 0;
+      _global.clearTimeout = (tid) => {
+        clearTimeoutCalledCount++;
+        return originalClearTimeout(tid);
+      };
+    });
+
     afterEach(() => {
       _global.clearTimeout = originalClearTimeout;
     });
 
     it("sendRequest clears timeout after error message", async function() {
-      let wasClearTimeoutCalled = false;
-      _global.clearTimeout = (tid) => {
-        wasClearTimeoutCalled = true;
-        return originalClearTimeout(tid);
-      };
       const connectionStub = stub(new Connection());
       const rcvr = new EventEmitter();
       let req: any = {};
@@ -469,15 +474,10 @@ describe("RequestResponseLink", function() {
       } catch (err) {
         assert.notEqual(err.message, testFailureMessage);
       }
-      assert.isTrue(wasClearTimeoutCalled, "clearTimeout wasn't called.");
+      assert.equal(clearTimeoutCalledCount, 1, "Expected clearTimeout to be called once.");
     });
 
     it("sendRequest clears timeout after successful message", async function() {
-      let wasClearTimeoutCalled = false;
-      _global.clearTimeout = (tid) => {
-        wasClearTimeoutCalled = true;
-        return originalClearTimeout(tid);
-      };
       const connectionStub = stub(new Connection());
       const rcvr = new EventEmitter();
       let req: any = {};
@@ -519,7 +519,7 @@ describe("RequestResponseLink", function() {
       }, 0);
 
       await link.sendRequest(request, { timeoutInMs: 120000, requestName: "foo" });
-      assert.isTrue(wasClearTimeoutCalled, "clearTimeout wasn't called.");
+      assert.equal(clearTimeoutCalledCount, 1, "Expected clearTimeout to be called once.");
     });
   });
 });
