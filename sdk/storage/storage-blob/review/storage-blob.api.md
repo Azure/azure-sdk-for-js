@@ -769,10 +769,10 @@ export interface BlobProperties {
 
 // @public
 export interface BlobQueryCsvTextConfiguration extends BlobQueryTextConfiguration {
-    columnSeparator: string;
+    columnSeparator?: string;
     escapeCharacter?: string;
     fieldQuote?: string;
-    hasHeaders: boolean;
+    hasHeaders?: boolean;
     kind: "csv";
 }
 

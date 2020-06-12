@@ -2734,12 +2734,12 @@ export interface BlobQueryCsvTextConfiguration extends BlobQueryTextConfiguratio
    */
   kind: "csv";
   /**
-   * Column separator.
+   * Column separator. Default is ",".
    *
    * @type {string}
    * @memberof BlobQueryCsvTextConfiguration
    */
-  columnSeparator: string;
+  columnSeparator?: string;
   /**
    * Field quote.
    *
@@ -2755,12 +2755,12 @@ export interface BlobQueryCsvTextConfiguration extends BlobQueryTextConfiguratio
    */
   escapeCharacter?: string;
   /**
-   * Has headers.
+   * Has headers. Default is false.
    *
    * @type {boolean}
    * @memberof BlobQueryCsvTextConfiguration
    */
-  hasHeaders: boolean;
+  hasHeaders?: boolean;
 }
 
 /**
@@ -3445,7 +3445,7 @@ export class BlockBlobClient extends BlobClient {
   ): Promise<BlobDownloadResponseModel> {
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
 
-    const { span, spanOptions } = createSpan("BlobClient-query", options.tracingOptions);
+    const { span, spanOptions } = createSpan("BlockBlobClient-query", options.tracingOptions);
 
     try {
       const response = await this._blobContext.query({
