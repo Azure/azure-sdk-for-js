@@ -137,6 +137,18 @@ export function getAuthorizationTokenUsingResourceTokens(
         return resourceTokens[containerPath];
       }
     }
+
+    // TODO remove in v4: This is legacy behavior that lets someone use a resource token pointing ONLY at an ID
+    // It was used when _rid was exposed by the SDK, but now that we are using user provided ids it is not needed
+    // However removing it now would be a breaking change
+    // if it's an incomplete path like /dbs/db1/colls/, start from the parent resource
+    let index = pathSegments.length % 2 === 0 ? pathSegments.length - 1 : pathSegments.length - 2;
+    for (; index > 0; index -= 2) {
+      const id = decodeURI(pathSegments[index]);
+      if (resourceTokens[id]) {
+        return resourceTokens[id];
+      }
+    }
   }
 
   // TODO: This should throw an error
